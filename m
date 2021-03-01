@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE57E3288EB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:49:30 +0100 (CET)
-Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3899328A1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 19:14:54 +0100 (CET)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGmfg-0007mc-Rl
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:49:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47042)
+	id 1lGn4H-0007Pm-CV
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 13:14:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lGmef-0007MQ-CO
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:48:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51104)
+ id 1lGn2v-0006YR-K6
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:13:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lGmeb-0000iI-Ms
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:48:24 -0500
+ id 1lGn2r-0000VW-Ks
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:13:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614620900;
+ s=mimecast20190719; t=1614622404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8PS1UBHm7kdpG76VmouLZO2eri439g/lUh+CW0ZVORI=;
- b=A1In7qi4VLToRuPDrBCjyhfMe14Q1AFFmlmMBof1o9zlSU0fpSyZhk+q4B0+Ms3dppjBKI
- zUq18fB69BEZ8dA+Nb/K26q0C4mWHscXQl0/FuyVuqcKDWfpeAWSnVSBbG4ilJQVwPFKNE
- Mt8KR6tlXnzteHFnrsL7xc8rbI2LBcE=
+ bh=tz5zUEQVEF+tzS0ohi9rvFnQopXcquEyqrElgUHVQvo=;
+ b=im+N67CViZVlStA0qYsZ+xDMWf54OGTdYWSgRic6gTeZoFY6y/wDofooPk4UoACbBkOKGI
+ 3DwUVAt5KVscyLRfq4Ag+lEo2KI3Gm6gML3gjgo4OpgKfwwEgq6mX7QF5+0N4TBQN3MbQB
+ cJYPtS+0JEaOOlaQM2fBZO6EoNl0a7s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-ErL2pmFWNCubwJ7hWFD4WA-1; Mon, 01 Mar 2021 12:47:50 -0500
-X-MC-Unique: ErL2pmFWNCubwJ7hWFD4WA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-465-E3wacpgcMvaj4MDQTWRC1A-1; Mon, 01 Mar 2021 13:13:20 -0500
+X-MC-Unique: E3wacpgcMvaj4MDQTWRC1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A707186840D;
- Mon,  1 Mar 2021 17:47:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17034E4962;
+ Mon,  1 Mar 2021 18:13:19 +0000 (UTC)
 Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E08215D6CF;
- Mon,  1 Mar 2021 17:47:48 +0000 (UTC)
-Date: Mon, 1 Mar 2021 17:47:41 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F6AD60DA1;
+ Mon,  1 Mar 2021 18:13:18 +0000 (UTC)
+Date: Mon, 1 Mar 2021 18:13:17 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Afanasova <eafanasova@gmail.com>
-Subject: Re: [PATCH RFC] hw/misc/pc-testdev: add support for ioregionfd testing
-Message-ID: <YD0ovavIuThCSS5J@stefanha-x1.localdomain>
-References: <20210301131628.5211-1-eafanasova@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH v2 3/3] hw/block/pflash: use
+ memory_region_init_rom_device_from_file()
+Message-ID: <YD0uvW+vzfQjBecY@stefanha-x1.localdomain>
+References: <20210301115329.411762-1-philmd@redhat.com>
+ <20210301115329.411762-4-philmd@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210301115329.411762-4-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zele8yAvao3CFGfa"
+ protocol="application/pgp-signature"; boundary="3+ejPJmY+VTp9d7l"
 Content-Disposition: inline
-In-Reply-To: <20210301131628.5211-1-eafanasova@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -74,276 +80,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, jag.raman@oracle.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Xu Yandong <xuyandong2@huawei.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, David Edmondson <david.edmondson@oracle.com>,
+ haibinzhang <haibinzhang@tencent.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Zele8yAvao3CFGfa
-Content-Type: text/plain; charset=us-ascii
+--3+ejPJmY+VTp9d7l
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 01, 2021 at 04:16:28PM +0300, Elena Afanasova wrote:
-
-Thanks for posting this piece of the ioregionfd testing infrastructure!
-
-Please include a commit description even if it's just an RFC patch.
-People on qemu-devel may not be aware of ioregionfd or the purpose of
-this patch.
-
-Something like:
-
-  Add ioregionfd support to pc-testdev for use with kvm-unit-tests that
-  exercise the new KVM ioregionfd API. ioregionfd is a new MMIO/PIO
-  dispatch mechanism for KVM. The kernel patches implementing ioregionfd
-  are available here:
-
-    https://patchwork.kernel.org/project/kvm/list/?series=3D436083
-
-  The kvm-unit-test will create one read FIFO and one write FIFO and
-  then invoke QEMU like this:
-
-    --device pc-testdev,addr=3D0x100000000,size=3D4096,rfifo=3Dpath/to/rfif=
-o,wfifo=3Dpath/to/wfifo
-
-  QEMU does not actually process the read FIFO or write FIFO. It simply
-  registers an ioregionfd with KVM. From then on KVM will communicate
-  directly with the kvm-unit-test via the read FIFO and write FIFO that
-  were provided. This allows test cases to handle MMIO/PIO accesses.
-
-Elena and I discussed the long-term QEMU API for ioregionfd on IRC.
-Eventually this test device could use it instead of directly calling
-kvm_vm_ioctl(). The new QEMU API would be
-memory_region_set_aio_context(AioContext *aio_context).
-
-When ioregionfd is available an ioregion would be registered with KVM
-and AioContext will have a read fd to handle MMIO/PIO accesses for any
-of its ioregions. This way device emulation can run outside the vcpu
-thread.
-
-When ioregionfd is not available QEMU can emulate it by writing a struct
-ioregionfd_cmd to the write fd from the vcpu thread. The relevant
-AioContext will handle the read fd as normal and dispatch the MMIO/PIO
-access to the MemoryRegion.
-
-> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
-> ---
->  hw/misc/pc-testdev.c      | 74 +++++++++++++++++++++++++++++++++++++++
->  include/sysemu/kvm.h      |  4 +--
->  linux-headers/linux/kvm.h | 24 +++++++++++++
->  3 files changed, 100 insertions(+), 2 deletions(-)
+On Mon, Mar 01, 2021 at 12:53:29PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> If the block drive is read-only we will model a "protected" flash
+> device. We can thus use memory_region_init_rom_device_from_file()
+> which mmap the backing file when creating the MemoryRegion.
+> If the same backing file is used by multiple QEMU instances, this
+> reduces the memory footprint (this is often the case with the
+> CODE flash image from OVMF and AAVMF).
 >=20
-> diff --git a/hw/misc/pc-testdev.c b/hw/misc/pc-testdev.c
-> index e389651869..38355923ca 100644
-> --- a/hw/misc/pc-testdev.c
-> +++ b/hw/misc/pc-testdev.c
-> @@ -40,6 +40,9 @@
->  #include "hw/irq.h"
->  #include "hw/isa/isa.h"
->  #include "qom/object.h"
-> +#include "sysemu/kvm.h"
-> +#include <linux/kvm.h>
-> +#include "hw/qdev-properties.h"
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  hw/block/pflash_cfi01.c | 39 +++++++++++++++++++++++++++++++--------
+>  1 file changed, 31 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index a5fa8d8b74a..ec290636298 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -702,6 +702,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+>      int ret;
+>      uint64_t blocks_per_device, sector_len_per_device, device_len;
+>      int num_devices;
+> +    bool romd_mr_shared_mapped;
 > =20
->  #define IOMEM_LEN    0x10000
+>      if (pfl->sector_len =3D=3D 0) {
+>          error_setg(errp, "attribute \"sector-length\" not specified or z=
+ero.");
+> @@ -743,19 +744,41 @@ static void pflash_cfi01_realize(DeviceState *dev, =
+Error **errp)
+>          pfl->ro =3D 0;
+>      }
 > =20
-> @@ -53,6 +56,15 @@ struct PCTestdev {
->      MemoryRegion iomem;
->      uint32_t ioport_data;
->      char iomem_buf[IOMEM_LEN];
+> -    memory_region_init_rom_device(
+> -        &pfl->mem, OBJECT(dev),
+> -        &pflash_cfi01_ops,
+> -        pfl,
+> -        pfl->name, total_len, errp);
+> -    if (*errp) {
+> -        return;
+> +    if (pfl->ro && pfl->blk) {
+> +        BlockDriverState *bs =3D blk_bs(pfl->blk);
 > +
-> +    uint64_t guest_paddr;
-> +    uint64_t memory_size;
-> +    char *read_fifo;
-> +    char *write_fifo;
-> +    bool posted_writes;
-> +    bool pio;
-> +    int rfd;
-> +    int wfd;
->  };
-> =20
->  #define TYPE_TESTDEV "pc-testdev"
-> @@ -169,6 +181,9 @@ static const MemoryRegionOps test_iomem_ops =3D {
-> =20
->  static void testdev_realizefn(DeviceState *d, Error **errp)
->  {
-> +    struct kvm_ioregion ioreg;
+> +        /* If "raw" driver used, try to mmap the backing file as RAM_SHA=
+RED */
+> +        if (bs->drv =3D=3D &bdrv_raw) { /* FIXME check offset=3D0 ? */
 
-Zero this so that user_data is always 0 instead of undefined data from
-the stack?
+Bypassing the block layer is tricky because there are a lot of features
+that conflict (you already pointed out the offset=3D option). Checking
+bdrv_raw is not enough because the underlying protocol driver could be
+GlusterFS, iSCSI, etc.
 
-> +    int flags =3D 0;
+I think the goal here is to avoid changing the command-line/QMP so that
+users don't need to modify their guests. Therefore changing the pflash
+qdev properties is not desirable (we could have added a separate code
+path that bypasses the block layer cleanly). This seems like a
+worthwhile optimization that the block layer should support. I suggest
+adding a new API like:
+
+  /* Returns a filename string if @blk supports read-only mmap */
+  char *blk_get_read_only_mmap_filename(BlockBackend *blk, Error **errp);
+
+Then block/raw-format.c would forward the call to bs->file and
+block/raw-posix.c would implement it by returning a new filename string
+when bs->read_only is true.
+
+FWIW this API isn't perfect because the file could be reopened with QMP
+and the existing mmap would remain in place.
+
+> +            Error *local_err =3D NULL;
 > +
->      ISADevice *isa =3D ISA_DEVICE(d);
->      PCTestdev *dev =3D TESTDEV(d);
->      MemoryRegion *mem =3D isa_address_space(isa);
-> @@ -191,14 +206,73 @@ static void testdev_realizefn(DeviceState *d, Error=
- **errp)
->      memory_region_add_subregion(io,  0xe8,       &dev->ioport_byte);
->      memory_region_add_subregion(io,  0x2000,     &dev->irq);
->      memory_region_add_subregion(mem, 0xff000000, &dev->iomem);
-> +
-> +    if (!dev->guest_paddr || !dev->write_fifo) {
-> +        return;
-> +    }
-> +
-> +    dev->wfd =3D open(dev->write_fifo, O_WRONLY);
-> +    if (dev->wfd < 0) {
-> +        error_report("failed to open write fifo %s", dev->write_fifo);
-> +        return;
-> +    }
-> +
-> +    if (dev->read_fifo) {
-> +        dev->rfd =3D open(dev->read_fifo, O_RDONLY);
-> +        if (dev->rfd < 0) {
-> +            error_report("failed to open read fifo %s", dev->read_fifo);
-> +            close(dev->wfd);
-> +            return;
+> +            memory_region_init_rom_device_from_file(&pfl->mem, OBJECT(de=
+v),
+> +                                                    &pflash_cfi01_ops, p=
+fl,
+> +                                                    pfl->name, total_len=
+,
+> +                                                    qemu_real_host_page_=
+size,
+> +                                                    RAM_SHARED,
+> +                                                    bs->exact_filename,
+> +                                                    true, &local_err);
+> +            if (local_err) {
+> +                error_report_err(local_err);
+> +                /* fall back to memory_region_init_rom_device() */
+> +            } else {
+> +                romd_mr_shared_mapped =3D true;
+> +            }
 > +        }
 > +    }
-> +
-> +    flags |=3D dev->pio ? KVM_IOREGION_PIO : 0;
-> +    flags |=3D dev->posted_writes ? KVM_IOREGION_POSTED_WRITES : 0;
-> +    ioreg.guest_paddr =3D dev->guest_paddr;
-> +    ioreg.memory_size =3D dev->memory_size;
-> +    ioreg.write_fd =3D dev->wfd;
-> +    ioreg.read_fd =3D dev->rfd;
-> +    ioreg.flags =3D flags;
-> +    kvm_vm_ioctl(kvm_state, KVM_SET_IOREGION, &ioreg);
-
-Printing an error message would be useful when this fails (e.g. when the
-region overlaps with an existing ioeventfd/ioregionfd).=20
-
-> +}
-> +
-> +static void testdev_unrealizefn(DeviceState *d)
-> +{
-> +    struct kvm_ioregion ioreg;
-> +    PCTestdev *dev =3D TESTDEV(d);
-> +
-> +    if (!dev->guest_paddr || !dev->write_fifo) {
-> +        return;
-> +    }
-> +
-> +    ioreg.guest_paddr =3D dev->guest_paddr;
-> +    ioreg.memory_size =3D dev->memory_size;
-> +    ioreg.flags =3D KVM_IOREGION_DEASSIGN;
-> +    kvm_vm_ioctl(kvm_state, KVM_SET_IOREGION, &ioreg);
-> +    close(dev->wfd);
-> +    if (dev->rfd > 0) {
-> +        close(dev->rfd);
-> +    }
->  }
+> +    if (!romd_mr_shared_mapped) {
+> +        memory_region_init_rom_device(&pfl->mem, OBJECT(dev),
+> +                                      &pflash_cfi01_ops, pfl,
+> +                                      pfl->name, total_len, errp);
+> +        if (*errp) {
+> +            return;
+> +        }
+>      }
 > =20
-> +static Property ioregionfd_properties[] =3D {
-> +    DEFINE_PROP_UINT64("addr", PCTestdev, guest_paddr, 0),
-> +    DEFINE_PROP_UINT64("size", PCTestdev, memory_size, 0),
-> +    DEFINE_PROP_STRING("rfifo", PCTestdev, read_fifo),
-> +    DEFINE_PROP_STRING("wfifo", PCTestdev, write_fifo),
-> +    DEFINE_PROP_BOOL("pio", PCTestdev, pio, false),
-> +    DEFINE_PROP_BOOL("pw", PCTestdev, posted_writes, false),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->  static void testdev_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>      pfl->storage =3D memory_region_get_ram_ptr(&pfl->mem);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
 > =20
->      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->      dc->realize =3D testdev_realizefn;
-> +    dc->unrealize =3D testdev_unrealizefn;
-> +    device_class_set_props(dc, ioregionfd_properties);
->  }
-> =20
->  static const TypeInfo testdev_info =3D {
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 687c598be9..d68728764a 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -234,6 +234,8 @@ int kvm_has_intx_set_mask(void);
->  bool kvm_arm_supports_user_irq(void);
-> =20
-> =20
-> +int kvm_vm_ioctl(KVMState *s, int type, ...);
-> +
->  #ifdef NEED_CPU_H
->  #include "cpu.h"
-> =20
-> @@ -257,8 +259,6 @@ void phys_mem_set_alloc(void *(*alloc)(size_t, uint64=
-_t *align, bool shared));
-> =20
->  int kvm_ioctl(KVMState *s, int type, ...);
-> =20
-> -int kvm_vm_ioctl(KVMState *s, int type, ...);
-> -
->  int kvm_vcpu_ioctl(CPUState *cpu, int type, ...);
-> =20
->  /**
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index 020b62a619..c426fa1e56 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -733,6 +733,29 @@ struct kvm_ioeventfd {
->  	__u8  pad[36];
->  };
-> =20
-> +enum {
-> +	kvm_ioregion_flag_nr_pio,
-> +	kvm_ioregion_flag_nr_posted_writes,
-> +	kvm_ioregion_flag_nr_deassign,
-> +	kvm_ioregion_flag_nr_max,
-> +};
-> +
-> +#define KVM_IOREGION_PIO (1 << kvm_ioregion_flag_nr_pio)
-> +#define KVM_IOREGION_POSTED_WRITES (1 << kvm_ioregion_flag_nr_posted_wri=
-tes)
-> +#define KVM_IOREGION_DEASSIGN (1 << kvm_ioregion_flag_nr_deassign)
-> +
-> +#define KVM_IOREGION_VALID_FLAG_MASK ((1 << kvm_ioregion_flag_nr_max) - =
-1)
-> +
-> +struct kvm_ioregion {
-> +	__u64 guest_paddr; /* guest physical address */
-> +	__u64 memory_size; /* bytes */
-> +	__u64 user_data;
-> +	__s32 read_fd;
-> +	__s32 write_fd;
-> +	__u32 flags;
-> +	__u8  pad[28];
-> +};
-> +
->  #define KVM_X86_DISABLE_EXITS_MWAIT          (1 << 0)
->  #define KVM_X86_DISABLE_EXITS_HLT            (1 << 1)
->  #define KVM_X86_DISABLE_EXITS_PAUSE          (1 << 2)
-> @@ -1311,6 +1334,7 @@ struct kvm_vfio_spapr_tce {
->  					struct kvm_userspace_memory_region)
->  #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
->  #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
-> +#define KVM_SET_IOREGION          _IOW(KVMIO,  0x49, struct kvm_ioregion)
-> =20
->  /* enable ucontrol for s390 */
->  struct kvm_s390_ucas_mapping {
+> -    if (pfl->blk) {
+> +    if (pfl->blk && !romd_mr_shared_mapped) {
+>          if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, total_l=
+en,
+>                                           errp)) {
+>              vmstate_unregister_ram(&pfl->mem, DEVICE(pfl));
 > --=20
-> 2.25.1
+> 2.26.2
 >=20
 
---Zele8yAvao3CFGfa
+--3+ejPJmY+VTp9d7l
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA9KL0ACgkQnKSrs4Gr
-c8i93Af+MWXbS3Km3jjUS7rZtX6TSmAc4cXmI6Ls1rJ2TU3O0FT9PMYi+IeHs1vr
-C/dAUSUppo5j/qHll4YJLSoEFe0CHojT2OUmfZD5AFqXhYQ42VFsPQssB+O0Qiec
-8NbrWPuwwEnf0UfEt7J47+EkbHlL1NOyh4n+hcey0berimExqhEmRCbYxs2sN9Yy
-dEPnKm9wAJWDhTe/Fzce+C9fzkrp28lSa++uMutSSh8cKjlt1du2lAMgGDW35Hdp
-lVC8xByKA/R5e87j+dMWV30XB+QVrBDxxkk7VpYLx9TwaNzO1+t4LG6S231jB/1d
-+CmEGHAf2mi3f+FNdPXXYFYoJ7tBJQ==
-=qGgi
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA9Lr0ACgkQnKSrs4Gr
+c8j8lgf+IOmDPt2ENAVAGgNpLcOZW6ZLBxJusZ8P720J5GjOE72rRf2GneIvjVSd
+TzA+EGyYCh6YtfR/GKompJCoh/r8LcXqt0OuWZP2TpwYhnLnkQ8r8hbPWPGbvob1
+i19qLWwN70W4pKWv4fjsyMOyMn9tgmmRW/4jfSUBfBsLNhCF8kpY547xNPDj0mEm
+V9Wm/kVfPKFaHOGeDKGjg3ySHmMKWlvNn9UfMbMu1BYewhDkVeP+buCn4h1we5+U
+MC3n+e1yyPddHnbDrXpx+qEKSldxZ7pDP854yqvaOLbwKFQmkhHRiKTReOMZ6n67
+4xKXZO+fKLuNguDknWATwgZI3VgG4g==
+=s4yN
 -----END PGP SIGNATURE-----
 
---Zele8yAvao3CFGfa--
+--3+ejPJmY+VTp9d7l--
 
 
