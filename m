@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73301327F7D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:30:17 +0100 (CET)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23C0327F58
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:23:30 +0100 (CET)
+Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGico-0002pE-ME
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:30:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
+	id 1lGiWG-00053Y-5i
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:23:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1lGiWD-0005va-3Y
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:23:25 -0500
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:46284)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lGiTK-0003Ob-Fq; Mon, 01 Mar 2021 08:20:26 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:34272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1lGiW9-0004PS-Ez
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:23:24 -0500
-Received: by mail-lf1-x129.google.com with SMTP id v5so25426975lft.13
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 05:23:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lGiTI-0003EZ-OK; Mon, 01 Mar 2021 08:20:26 -0500
+Received: by mail-pg1-x535.google.com with SMTP id l2so11567481pgb.1;
+ Mon, 01 Mar 2021 05:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KbNn16NW2voIZnb30QSq1tkvME8A5PE6xaA6lY++9bM=;
- b=Mcb9Sel/Cij671Jq3Mp6O1ajs8csB043sivwyFBDKNS4fY2ti2iYcoe/poPnGqaCbn
- +xyG86Jebl+2OR2EJgCHyxZllJuZgWi9ZiJY21LNajSuUlpwsDNpCQ5Q9QAFYv0sEjpr
- c4HBLuTtsJAZGJUlPTWSF9ki/ekzTIkvvQwL6N1NFTgEnLNXC1hm6BC4Vy3TguUsXvJH
- Ubi9/0DNbGe4lDqGfnp7Rau7IqjryIrr1EcqOhHIUUEDONibp5zBaNctPQGwgGYJp9oQ
- s6LxzN+jN9Cyg2ygWqlsV32MZF1Aiz4dK8nx1boFp0PzPob9rzKpVvd8AYajXxwtqKSy
- BG4A==
+ bh=5Xb7q0QxWQ8W18mQurok1Q/VxL/osNBdJ6hcw2EYGUY=;
+ b=bDbTxsz1ZFD8M1ORHK21iU+gcvZou4+b47W+EbEEPG8WW3UzqrQWCgoIunam9UWlLQ
+ +udGh6BEjMUqJbzmQE98aqod2zAml7uuAGu+GZ/Cu1wVuGcdZDwasr5ARjNAOTlbSYvg
+ 1CwEmvL/A9d20kb3L5Jk1Qy4Nb1yNGZceHLbV9oql9nryJsmECETPGxAWGy5phr7poQs
+ WCgcwF+2jJqfz0RGaB2QoWCr3c+IXIzIhWkq7wgqUsHB3VV/DYUHibe4msyChzuO6PnP
+ +0Pj5Ai9xhJX+c/dtOcybIya0aizQOzOuKHp+pw/icUfaGD6t/s9yfq6gS9RJK+wcOX7
+ pcGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KbNn16NW2voIZnb30QSq1tkvME8A5PE6xaA6lY++9bM=;
- b=E7D1sUSWLL8RDm7QRmq9QhJwf/pmxIAExYKO8OpoVmPwl93A0khu70sEFyyXm457+K
- UB6DhWf9DgzAiqZ08NA87tKHDFyfLxbKvgwyWwcY+qJjcYErXSV6aA0rXfz8njEgNlYg
- 7S9cGCEDFeD5nib+4wVs26A5CiPhixfuTNIRz/9ScZiHZRgvaOFduvkUTa9pku7YDQcr
- I/aWrXpRvMzYL40DMc/5kyM7CHNVmOo7nizRdd39nKS9eFzG1+fOCMDWMr/vcxZCGpD3
- em/TPH3jS7YgWlPFjrc7Iji5fJdcx382HAvuZEdm02HblprcUDlDip2DH1uUmXVk/geT
- hjMA==
-X-Gm-Message-State: AOAM532iyvSHboSSCLFIaE+A0R0GovNXV9Ng9FSzivMhpWLqXEwAXSF+
- zVHsNw1+oLa5Y/clCdOGyitayqtyOKgJrQ==
-X-Google-Smtp-Source: ABdhPJy5AUaM9OlJQciR8h4OFDb96hBCTYCCzbhLuie3Bf1IQqD3idGVjViOAwhytBIVbXlTFy8lgQ==
-X-Received: by 2002:ac2:420b:: with SMTP id y11mr9462077lfh.215.1614604997409; 
- Mon, 01 Mar 2021 05:23:17 -0800 (PST)
-Received: from localhost.localdomain (37-145-186-126.broadband.corbina.ru.
- [37.145.186.126])
- by smtp.gmail.com with ESMTPSA id w26sm2291420lfr.186.2021.03.01.05.23.16
+ bh=5Xb7q0QxWQ8W18mQurok1Q/VxL/osNBdJ6hcw2EYGUY=;
+ b=IlrEP3O6P9fvomodNIWH/BL7JMVsFYIUB6Ppt5hBvdboGXt6qzUuLWG28KPgJujXN2
+ DDLSNh0NRkU52otlICXcU10kN+QkAOx/sFpCVdKjCFq0gnciWDnwbdjOQ1PKNm8aW3L/
+ K/6XZsSHiYnVW47bQrCHi4L3DSNqYEJ6sfkcP1ilRZ0Nh/sBOjxcMvIMjBD+6ctlT+6c
+ N2i0tneOSuW8Rn31jsuLoLeBsoUCw+EfUjrZ0HKOA404f1bR7XW3vZLQaKlwMg2Payvy
+ SIijBk+oJIPYUVqXqwgB/OKiqhdAVR3Q1R7eIoNg7k40jjaI1uZDdzsD9tVe+94K6WRn
+ FxOQ==
+X-Gm-Message-State: AOAM531fzAWvuGY0DXlv5bWpATGDRrQMSQJCcrvvYT6tHHGRAoZA4KM2
+ bP4F/KdcZOiIHRax5clFXT0=
+X-Google-Smtp-Source: ABdhPJwZ2M7h34ddUiQdpUEI3UXf0U4fcd1r7sc9eLUmAo/LFYz1ZRw5Mwo+lDYrBZXQbCmU//LnWQ==
+X-Received: by 2002:aa7:91d2:0:b029:1ed:b10b:5a7 with SMTP id
+ z18-20020aa791d20000b02901edb10b05a7mr15326299pfa.2.1614604822433; 
+ Mon, 01 Mar 2021 05:20:22 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id q2sm17748793pfl.158.2021.03.01.05.20.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 05:23:17 -0800 (PST)
-From: Elena Afanasova <eafanasova@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC] hw/misc/pc-testdev: add support for ioregionfd testing
-Date: Mon,  1 Mar 2021 16:16:28 +0300
-Message-Id: <20210301131628.5211-1-eafanasova@gmail.com>
+ Mon, 01 Mar 2021 05:20:22 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v6 0/5] hw/arm: zynqmp: Implement a CSU DMA model and connect
+ it with GQSPI
+Date: Mon,  1 Mar 2021 21:20:06 +0800
+Message-Id: <20210301132011.8494-1-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=eafanasova@gmail.com; helo=mail-lf1-x129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,196 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, Elena Afanasova <eafanasova@gmail.com>,
- jag.raman@oracle.com, stefanha@redhat.com, kvm@vger.kernel.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
----
- hw/misc/pc-testdev.c      | 74 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/kvm.h      |  4 +--
- linux-headers/linux/kvm.h | 24 +++++++++++++
- 3 files changed, 100 insertions(+), 2 deletions(-)
+From: Bin Meng <bin.meng@windriver.com>
 
-diff --git a/hw/misc/pc-testdev.c b/hw/misc/pc-testdev.c
-index e389651869..38355923ca 100644
---- a/hw/misc/pc-testdev.c
-+++ b/hw/misc/pc-testdev.c
-@@ -40,6 +40,9 @@
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
- #include "qom/object.h"
-+#include "sysemu/kvm.h"
-+#include <linux/kvm.h>
-+#include "hw/qdev-properties.h"
- 
- #define IOMEM_LEN    0x10000
- 
-@@ -53,6 +56,15 @@ struct PCTestdev {
-     MemoryRegion iomem;
-     uint32_t ioport_data;
-     char iomem_buf[IOMEM_LEN];
-+
-+    uint64_t guest_paddr;
-+    uint64_t memory_size;
-+    char *read_fifo;
-+    char *write_fifo;
-+    bool posted_writes;
-+    bool pio;
-+    int rfd;
-+    int wfd;
- };
- 
- #define TYPE_TESTDEV "pc-testdev"
-@@ -169,6 +181,9 @@ static const MemoryRegionOps test_iomem_ops = {
- 
- static void testdev_realizefn(DeviceState *d, Error **errp)
- {
-+    struct kvm_ioregion ioreg;
-+    int flags = 0;
-+
-     ISADevice *isa = ISA_DEVICE(d);
-     PCTestdev *dev = TESTDEV(d);
-     MemoryRegion *mem = isa_address_space(isa);
-@@ -191,14 +206,73 @@ static void testdev_realizefn(DeviceState *d, Error **errp)
-     memory_region_add_subregion(io,  0xe8,       &dev->ioport_byte);
-     memory_region_add_subregion(io,  0x2000,     &dev->irq);
-     memory_region_add_subregion(mem, 0xff000000, &dev->iomem);
-+
-+    if (!dev->guest_paddr || !dev->write_fifo) {
-+        return;
-+    }
-+
-+    dev->wfd = open(dev->write_fifo, O_WRONLY);
-+    if (dev->wfd < 0) {
-+        error_report("failed to open write fifo %s", dev->write_fifo);
-+        return;
-+    }
-+
-+    if (dev->read_fifo) {
-+        dev->rfd = open(dev->read_fifo, O_RDONLY);
-+        if (dev->rfd < 0) {
-+            error_report("failed to open read fifo %s", dev->read_fifo);
-+            close(dev->wfd);
-+            return;
-+        }
-+    }
-+
-+    flags |= dev->pio ? KVM_IOREGION_PIO : 0;
-+    flags |= dev->posted_writes ? KVM_IOREGION_POSTED_WRITES : 0;
-+    ioreg.guest_paddr = dev->guest_paddr;
-+    ioreg.memory_size = dev->memory_size;
-+    ioreg.write_fd = dev->wfd;
-+    ioreg.read_fd = dev->rfd;
-+    ioreg.flags = flags;
-+    kvm_vm_ioctl(kvm_state, KVM_SET_IOREGION, &ioreg);
-+}
-+
-+static void testdev_unrealizefn(DeviceState *d)
-+{
-+    struct kvm_ioregion ioreg;
-+    PCTestdev *dev = TESTDEV(d);
-+
-+    if (!dev->guest_paddr || !dev->write_fifo) {
-+        return;
-+    }
-+
-+    ioreg.guest_paddr = dev->guest_paddr;
-+    ioreg.memory_size = dev->memory_size;
-+    ioreg.flags = KVM_IOREGION_DEASSIGN;
-+    kvm_vm_ioctl(kvm_state, KVM_SET_IOREGION, &ioreg);
-+    close(dev->wfd);
-+    if (dev->rfd > 0) {
-+        close(dev->rfd);
-+    }
- }
- 
-+static Property ioregionfd_properties[] = {
-+    DEFINE_PROP_UINT64("addr", PCTestdev, guest_paddr, 0),
-+    DEFINE_PROP_UINT64("size", PCTestdev, memory_size, 0),
-+    DEFINE_PROP_STRING("rfifo", PCTestdev, read_fifo),
-+    DEFINE_PROP_STRING("wfifo", PCTestdev, write_fifo),
-+    DEFINE_PROP_BOOL("pio", PCTestdev, pio, false),
-+    DEFINE_PROP_BOOL("pw", PCTestdev, posted_writes, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void testdev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     dc->realize = testdev_realizefn;
-+    dc->unrealize = testdev_unrealizefn;
-+    device_class_set_props(dc, ioregionfd_properties);
- }
- 
- static const TypeInfo testdev_info = {
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 687c598be9..d68728764a 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -234,6 +234,8 @@ int kvm_has_intx_set_mask(void);
- bool kvm_arm_supports_user_irq(void);
- 
- 
-+int kvm_vm_ioctl(KVMState *s, int type, ...);
-+
- #ifdef NEED_CPU_H
- #include "cpu.h"
- 
-@@ -257,8 +259,6 @@ void phys_mem_set_alloc(void *(*alloc)(size_t, uint64_t *align, bool shared));
- 
- int kvm_ioctl(KVMState *s, int type, ...);
- 
--int kvm_vm_ioctl(KVMState *s, int type, ...);
--
- int kvm_vcpu_ioctl(CPUState *cpu, int type, ...);
- 
- /**
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 020b62a619..c426fa1e56 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -733,6 +733,29 @@ struct kvm_ioeventfd {
- 	__u8  pad[36];
- };
- 
-+enum {
-+	kvm_ioregion_flag_nr_pio,
-+	kvm_ioregion_flag_nr_posted_writes,
-+	kvm_ioregion_flag_nr_deassign,
-+	kvm_ioregion_flag_nr_max,
-+};
-+
-+#define KVM_IOREGION_PIO (1 << kvm_ioregion_flag_nr_pio)
-+#define KVM_IOREGION_POSTED_WRITES (1 << kvm_ioregion_flag_nr_posted_writes)
-+#define KVM_IOREGION_DEASSIGN (1 << kvm_ioregion_flag_nr_deassign)
-+
-+#define KVM_IOREGION_VALID_FLAG_MASK ((1 << kvm_ioregion_flag_nr_max) - 1)
-+
-+struct kvm_ioregion {
-+	__u64 guest_paddr; /* guest physical address */
-+	__u64 memory_size; /* bytes */
-+	__u64 user_data;
-+	__s32 read_fd;
-+	__s32 write_fd;
-+	__u32 flags;
-+	__u8  pad[28];
-+};
-+
- #define KVM_X86_DISABLE_EXITS_MWAIT          (1 << 0)
- #define KVM_X86_DISABLE_EXITS_HLT            (1 << 1)
- #define KVM_X86_DISABLE_EXITS_PAUSE          (1 << 2)
-@@ -1311,6 +1334,7 @@ struct kvm_vfio_spapr_tce {
- 					struct kvm_userspace_memory_region)
- #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
- #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
-+#define KVM_SET_IOREGION          _IOW(KVMIO,  0x49, struct kvm_ioregion)
- 
- /* enable ucontrol for s390 */
- struct kvm_s390_ucas_mapping {
+ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+crash. This is observed when testing VxWorks 7.
+
+We added a Xilinx CSU DMA model and the implementation is based on
+https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+and the one in Edgar's branch.
+
+The DST part of the model is verified along with ZynqMP GQSPI model.
+
+Changes in v6:
+- int_enable and int_disable do not have its own state
+- return 0 in int_enable_pre_write() and int_disable_pre_write()
+- remove XLNX_CSU_DMA_INT_R_MASK in int_status_pre_write()
+
+Changes in v5:
+- int_enable and int_disable do not affect each other
+- do not modify int_status int_disable_pre_write
+- set MEM_DONE in xlnx_csu_dma_done if it's SRC
+
+Changes in v4:
+- Add complete CSU DMA model based on Edgar's branch
+- Differences with Edgar's branch:
+  1. Match the registers' FIELD to UG1807.
+  2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+     must be word aligned.
+  3. Make the values of int_enable and int_disable mutually exclusive
+     otherwise IRQ cannot be delivered.
+  4. Clear int_status after int_disable is set.
+  5. Coding convention issues clean-up
+- remove one change that is not a checkpatch warning
+- Rename "csu_dma" to "qspi_dma"
+- Modify XLNX_ZYNQMP_SPIPS_R_MAX
+
+Changes in v3:
+- Implement DMA as a separate CSU DMA model
+- new patch: xlnx-zynqmp: Add XLNX CSU DMA module
+- new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
+
+Changes in v2:
+- Remove unconnected TYPE_STREAM_SINK link property
+- Add a TYPE_MEMORY_REGION link property, to allow board codes to tell
+  the device what its view of the world that it is doing DMA to is
+- Replace cpu_physical_memory_write() with address_space_write()
+
+Xuzhou Cheng (5):
+  hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA model
+  hw/arm: xlnx-zynqmp: Clean up coding convention issues
+  hw/arm: xlnx-zynqmp: Connect a Xilinx CSU DMA module for QSPI
+  hw/ssi: xilinx_spips: Clean up coding convention issues
+  hw/ssi: xilinx_spips: Remove DMA related dead codes from zynqmp_spips
+
+ include/hw/arm/xlnx-zynqmp.h  |   5 +-
+ include/hw/dma/xlnx_csu_dma.h |  52 +++
+ include/hw/ssi/xilinx_spips.h |   2 +-
+ hw/arm/xlnx-zynqmp.c          |  21 +-
+ hw/dma/xlnx_csu_dma.c         | 743 ++++++++++++++++++++++++++++++++++
+ hw/ssi/xilinx_spips.c         |  33 +-
+ hw/arm/Kconfig                |   1 +
+ hw/dma/Kconfig                |   4 +
+ hw/dma/meson.build            |   1 +
+ 9 files changed, 838 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/dma/xlnx_csu_dma.h
+ create mode 100644 hw/dma/xlnx_csu_dma.c
+
 -- 
 2.25.1
 
