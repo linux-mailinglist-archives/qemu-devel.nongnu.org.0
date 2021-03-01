@@ -2,84 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980713280D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:30:20 +0100 (CET)
-Received: from localhost ([::1]:57040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90899328080
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:17:01 +0100 (CET)
+Received: from localhost ([::1]:38222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjYx-00071s-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:30:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36364)
+	id 1lGjM4-0006Xb-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:17:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6k-0002J5-Ky; Mon, 01 Mar 2021 09:01:10 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:55401)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lGjIl-0004o2-T5
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:13:35 -0500
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:43758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6i-00043a-Mx; Mon, 01 Mar 2021 09:01:10 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5B3B95803FE;
- Mon,  1 Mar 2021 09:01:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 01 Mar 2021 09:01:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=kzp4i1H3PqadZ
- htKe8BmrDAR/nyWc5T9IycWWacZ2q8=; b=gKQNasdmUpf92Q3xOTcAhWgyZBFVS
- UojaU+W0pclfwEb1taIsX0uVcAOmdC55VmxoiM1/g45npLE7JGnIl7dgnAMRHKY7
- DaO4SOHacooRZyLrg+fiRYrTZQoDY+bYFAKN/918PRYi8ufj0rKVP6OA1WfT1RZX
- xPzfSz8jeQXC64Nv8is0lHwfGhEk2CxGVLQ14w2FlymvDw3mBndfLZAx1TmxTgZ8
- slC/eYGyDVTJfdA/TWgEp+6Ww3Pj4dD34gEo2c+7c6898AxBS9IfbHiEvKPd2wu2
- TywOh7ncyjIZx19QIcCVaFA1jHMJ/yGWirNtyM4ouVallhYjvL+ZtXhrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=kzp4i1H3PqadZhtKe8BmrDAR/nyWc5T9IycWWacZ2q8=; b=Y0ngbmih
- yeS3wTwZWuijIp/ELBPGjpJUgFHBCzYZqC1fHqTVmeoVLCuXcVGM91sZWmgl5O0X
- sr2q/0gmwMPb7irb5tTrPUBHKKMxzikmvEKQGosnjN7TbPAZhgEB802W6V258D9k
- pwxUVIX4BgLxi0SMUef6tUjO80MwA4YLkWSOEQSA29ZAUIUyV2Sw6cQChyG5eeaQ
- CMYEVnlqs4rC5wGBpgQc8TT7Dm5yoEJgcHb2APPd2iCTO9D2pkUDhgulXvDnvNns
- cDg3RNEZ88+7xXJxzUuwaqtcLJ7SZcQrMrrx/zBpfr/j4YTj1f0SFBJh2xBEPuC+
- cynMgo8aRAUbDQ==
-X-ME-Sender: <xms:o_M8YKlsd6wERoge5RyLSNQy-Nrg-eSmUWs-5Z3H9ng6jvwBduvRlA>
- <xme:o_M8YNRn28LvethJCBrioLoyHF0EkUJB8a2Sbi77P9HrjgWs8GDQH_oR62Mz5rH3G
- KeUVlaUpDaGE1nAwzo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdehjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepheenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:o_M8YMLADi5tMdaP96jTqrRd9lNH2Hbq5XwbO2rGBa7bg2yjDpMcPA>
- <xmx:o_M8YDBFe-fmzIfDP5mHV7T_K59mo2J0gpXpKtb8XW_HiaaSf3RSAA>
- <xmx:o_M8YFAo-FrmHZZUrC4Ki-LVO-u0uiN8iq2k-ZQl1KTBjDfJvsfkaw>
- <xmx:o_M8YEFA7ASHk-Lf8pK7-LqCbR4ce9BgzPXpu-vG5ou6_62UwL_VkQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id D41A11080067;
- Mon,  1 Mar 2021 09:01:05 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/12] hw/block/nvme: support multiple lba formats
-Date: Mon,  1 Mar 2021 15:00:46 +0100
-Message-Id: <20210301140047.106261-12-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210301140047.106261-1-its@irrelevant.dk>
-References: <20210301140047.106261-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lGjIe-0000UV-04
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:13:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id B344524691F;
+ Mon,  1 Mar 2021 15:13:25 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
+ 15:13:25 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004dc091803-810c-4e6a-b76a-248a406b0601,
+ 479CA1392526D135F52AAC0E93683906E8F354F3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 1 Mar 2021 15:13:24 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 2/5] spapr.c: check unplug_request flag in
+ spapr_memory_unplug_request()
+Message-ID: <20210301151324.3003e6a4@bahia.lan>
+In-Reply-To: <20210226163301.419727-3-danielhb413@gmail.com>
+References: <20210226163301.419727-1-danielhb413@gmail.com>
+ <20210226163301.419727-3-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 2e19bfc0-46a4-4a30-ae95-974b7b870eae
+X-Ovh-Tracer-Id: 17763604307183835616
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,136 +68,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im@samsung.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Minwoo Im <minwoo.im@samsung.com>
+On Fri, 26 Feb 2021 13:32:58 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-This patch introduces multiple LBA formats supported with the typical
-logical block sizes of 512 bytes and 4096 bytes as well as metadata
-sizes of 0, 8, 16 and 64 bytes. The format will be chosed based on the
-lbads and ms parameters of the nvme-ns device.
+> Now that we're asserting the first DRC LMB earlier, use it to query if
+> the DRC is already pending unplug and, in this case, issue the same
+> error we already do.
+> 
+> The previous check was introduced in commit 2a129767ebb1 and it works,
+> but it's easier to check the unplug_requested  flag instead of looking
+> for the existence of the sPAPRDIMMState. It's also compliant with what
+> is already done in other unplug_request functions for other devices.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
-Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
-[k.jensen: resurrected and rebased]
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.c | 60 +++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 52 insertions(+), 8 deletions(-)
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index f50e094c3d98..9aa9de335348 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -36,13 +36,15 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
- {
-     BlockDriverInfo bdi;
-     NvmeIdNs *id_ns = &ns->id_ns;
--    int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-     int npdg, nlbas;
-+    uint8_t ds;
-+    uint16_t ms;
-+    int i;
- 
-     ns->id_ns.dlfeat = 0x1;
- 
--    id_ns->lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
--    id_ns->lbaf[lba_index].ms = ns->params.ms;
-+    ds = 31 - clz32(ns->blkconf.logical_block_size);
-+    ms = ns->params.ms;
- 
-     if (ns->params.ms) {
-         id_ns->mc = 0x3;
-@@ -53,8 +55,47 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
- 
-         id_ns->dpc = 0x1f;
-         id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
-+
-+        NvmeLBAF lbaf[16] = {
-+            [0] = { .ds =  9           },
-+            [1] = { .ds =  9, .ms =  8 },
-+            [2] = { .ds =  9, .ms = 16 },
-+            [3] = { .ds =  9, .ms = 64 },
-+            [4] = { .ds = 12           },
-+            [5] = { .ds = 12, .ms =  8 },
-+            [6] = { .ds = 12, .ms = 16 },
-+            [7] = { .ds = 12, .ms = 64 },
-+        };
-+
-+        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
-+        id_ns->nlbaf = 7;
-+    } else {
-+        NvmeLBAF lbaf[16] = {
-+            [0] = { .ds =  9 },
-+            [1] = { .ds = 12 },
-+        };
-+
-+        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
-+        id_ns->nlbaf = 1;
-     }
- 
-+    for (i = 0; i <= id_ns->nlbaf; i++) {
-+        NvmeLBAF *lbaf = &id_ns->lbaf[i];
-+        if (lbaf->ds == ds) {
-+            if (lbaf->ms == ms) {
-+                id_ns->flbas |= i;
-+                goto lbaf_found;
-+            }
-+        }
-+    }
-+
-+    /* add non-standard lba format */
-+    id_ns->nlbaf++;
-+    id_ns->lbaf[id_ns->nlbaf].ds = ds;
-+    id_ns->lbaf[id_ns->nlbaf].ms = ms;
-+    id_ns->flbas |= id_ns->nlbaf;
-+
-+lbaf_found:
-     nlbas = nvme_ns_nlbas(ns);
- 
-     id_ns->nsze = cpu_to_le64(nlbas);
-@@ -244,9 +285,10 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
-     }
- }
- 
--static void nvme_ns_init_zoned(NvmeNamespace *ns, int lba_index)
-+static void nvme_ns_init_zoned(NvmeNamespace *ns)
- {
-     NvmeIdNsZoned *id_ns_z;
-+    int i;
- 
-     nvme_ns_zoned_init_state(ns);
- 
-@@ -258,9 +300,11 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns, int lba_index)
-     id_ns_z->zoc = 0;
-     id_ns_z->ozcs = ns->params.cross_zone_read ? 0x01 : 0x00;
- 
--    id_ns_z->lbafe[lba_index].zsze = cpu_to_le64(ns->zone_size);
--    id_ns_z->lbafe[lba_index].zdes =
--        ns->params.zd_extension_size >> 6; /* Units of 64B */
-+    for (i = 0; i <= ns->id_ns.nlbaf; i++) {
-+        id_ns_z->lbafe[i].zsze = cpu_to_le64(ns->zone_size);
-+        id_ns_z->lbafe[i].zdes =
-+            ns->params.zd_extension_size >> 6; /* Units of 64B */
-+    }
- 
-     ns->csi = NVME_CSI_ZONED;
-     ns->id_ns.nsze = cpu_to_le64(ns->num_zones * ns->zone_size);
-@@ -367,7 +411,7 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
-         if (nvme_ns_zoned_check_calc_geometry(ns, errp) != 0) {
-             return -1;
-         }
--        nvme_ns_init_zoned(ns, 0);
-+        nvme_ns_init_zoned(ns);
-     }
- 
-     return 0;
--- 
-2.30.1
+>  hw/ppc/spapr.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 74e046b522..149dc2113f 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3681,13 +3681,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+>                                  addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+>      g_assert(drc_start);
+>  
+> -    /*
+> -     * An existing pending dimm state for this DIMM means that there is an
+> -     * unplug operation in progress, waiting for the spapr_lmb_release
+> -     * callback to complete the job (BQL can't cover that far). In this case,
+> -     * bail out to avoid detaching DRCs that were already released.
+> -     */
+> -    if (spapr_pending_dimm_unplugs_find(spapr, dimm)) {
+> +    if (spapr_drc_unplug_requested(drc_start)) {
+>          error_setg(errp, "Memory unplug already in progress for device %s",
+>                     dev->id);
+>          return;
 
 
