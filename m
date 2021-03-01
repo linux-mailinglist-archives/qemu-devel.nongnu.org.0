@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1657E327C74
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:43:46 +0100 (CET)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA66327C7D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:45:12 +0100 (CET)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGg1h-0001ps-3a
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:43:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
+	id 1lGg35-0002rx-0q
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lGg0n-0001Jb-3R
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:42:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28966)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGg1j-0002FF-SA
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:43:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lGg0j-0006fq-Gm
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:42:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGg1g-0007G0-Gc
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:43:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614595363;
+ s=mimecast20190719; t=1614595423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=P3X6PoqG8NM2A7dCHZxprfx325/QKWSjCtCD5CsCL/w=;
- b=CjVl71FZEWH6JLWN8h3IaoVjVy2O9epzSkgKTOGfg5YCc7eASOPDkzdj4NO4N+hbXrZY3k
- M6ycMeMPo4VyPcKSTEh5VS3OPpzGtPdRPASyIOB4Ry47AUeuYeVBl3opVLzOHAYtHMva8y
- OouCFfYH9g0KqDLXFi3chTdHKnalkwk=
+ bh=ZoFlrrh77wy1v/q/7lFeXU28svqBJN0e7/cV6sfwzpM=;
+ b=YmCkmgkS72pSysGRu2go4KNWgtdn9HxhSgjodqV4FatcTlnQQSa+8Sw1SafWVJSxl1EL/i
+ uWNY9ObcLn2QFSuP8eFrtsjHjNwRRjvSQRcrD/qhKeUq4gfE/9vHWvJsdyam6gyPRYj7Pt
+ SykAeA3EX/i7kTnSQQOmDx8rNle6hVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-PtftwJhAPUyCM8qNIYBugQ-1; Mon, 01 Mar 2021 05:42:42 -0500
-X-MC-Unique: PtftwJhAPUyCM8qNIYBugQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-203-qD4W9ir_NAi22hhlsJyZjw-1; Mon, 01 Mar 2021 05:43:41 -0500
+X-MC-Unique: qD4W9ir_NAi22hhlsJyZjw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFF8F1009617;
- Mon,  1 Mar 2021 10:42:38 +0000 (UTC)
-Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C0266EF51;
- Mon,  1 Mar 2021 10:42:28 +0000 (UTC)
-Date: Mon, 1 Mar 2021 10:42:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v3 12/21] sd: emmc: add CMD21 tuning sequence
-Message-ID: <YDzFEZvgF5aj4qrw@work-vm>
-References: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1614540807-30686-13-git-send-email-sai.pavan.boddu@xilinx.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24E5186DD21
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 10:43:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FF4F60C04;
+ Mon,  1 Mar 2021 10:43:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CE735113860F; Mon,  1 Mar 2021 11:43:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 08/25] hmp: replace "O" parser with keyval
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-9-pbonzini@redhat.com>
+ <87zh0xo0fw.fsf@dusky.pond.sub.org>
+Date: Mon, 01 Mar 2021 11:43:38 +0100
+In-Reply-To: <87zh0xo0fw.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Mon, 25 Jan 2021 10:00:51 +0100")
+Message-ID: <87k0qrjgrp.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1614540807-30686-13-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,110 +81,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vincent Palatin <vpalatin@chromium.org>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, saipava@xilinx.com,
- Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Sai Pavan Boddu (sai.pavan.boddu@xilinx.com) wrote:
-> eMMC cards support tuning sequence for entering HS200 mode.
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
->  hw/sd/sd.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index bf963ec..174c28e 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1386,6 +1386,14 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          }
->          break;
->  
-> +    case 21:    /* CMD21: mmc SEND TUNING_BLOCK */
-> +        if (sd->emmc && (sd->state == sd_transfer_state)) {
-> +            sd->state = sd_sendingdata_state;
-> +            sd->data_offset = 0;
-> +            return sd_r1;
-> +        }
-> +        break;
-> +
->      case 23:    /* CMD23: SET_BLOCK_COUNT */
->          if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
->              break;
-> @@ -2120,6 +2128,30 @@ static const uint8_t sd_tuning_block_pattern[SD_TUNING_BLOCK_SIZE] = {
->      0xbb, 0xff, 0xf7, 0xff,         0xf7, 0x7f, 0x7b, 0xde,
->  };
->  
-> +#define EXCSD_BUS_WIDTH_OFFSET 183
-> +#define BUS_WIDTH_8_MASK    0x4
-> +#define BUS_WIDTH_4_MASK    0x2
-> +#define MMC_TUNING_BLOCK_SIZE   128
-> +
-> +static const uint8_t mmc_tunning_block_pattern[128] = {
-> +       0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00,
-> +       0xff, 0xff, 0xcc, 0xcc, 0xcc, 0x33, 0xcc, 0xcc,
-> +       0xcc, 0x33, 0x33, 0xcc, 0xcc, 0xcc, 0xff, 0xff,
-> +       0xff, 0xee, 0xff, 0xff, 0xff, 0xee, 0xee, 0xff,
-> +       0xff, 0xff, 0xdd, 0xff, 0xff, 0xff, 0xdd, 0xdd,
-> +       0xff, 0xff, 0xff, 0xbb, 0xff, 0xff, 0xff, 0xbb,
-> +       0xbb, 0xff, 0xff, 0xff, 0x77, 0xff, 0xff, 0xff,
-> +       0x77, 0x77, 0xff, 0x77, 0xbb, 0xdd, 0xee, 0xff,
-> +       0xff, 0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0x00,
-> +       0x00, 0xff, 0xff, 0xcc, 0xcc, 0xcc, 0x33, 0xcc,
-> +       0xcc, 0xcc, 0x33, 0x33, 0xcc, 0xcc, 0xcc, 0xff,
-> +       0xff, 0xff, 0xee, 0xff, 0xff, 0xff, 0xee, 0xee,
-> +       0xff, 0xff, 0xff, 0xdd, 0xff, 0xff, 0xff, 0xdd,
-> +       0xdd, 0xff, 0xff, 0xff, 0xbb, 0xff, 0xff, 0xff,
-> +       0xbb, 0xbb, 0xff, 0xff, 0xff, 0x77, 0xff, 0xff,
-> +       0xff, 0x77, 0x77, 0xff, 0x77, 0xbb, 0xdd, 0xee,
+Markus Armbruster <armbru@redhat.com> writes:
 
-Where does this magic pattern come from?  Is it part of some spec?
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>
+>> HMP is using QemuOpts to parse free-form commands device_add,
+>> netdev_add and object_add.  However, none of these need QemuOpts
+>> for validation (these three QemuOptsLists are all of the catch-all
+>> kind), and keyval is already able to parse into QDict.  So use
+>> keyval directly, avoiding the detour from
+>> string to QemuOpts to QDict.
+>>
+>> The args_type now stores the implied key.  This arguably makes more
+>> sense than storing the QemuOptsList name; at least, it _is_ a key
+>> that might end up in the arguments QDict.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> Switching from QemuOpts to keyval changes the accepted language.  We may
+> change it, because HMP is not a stable interface.  The commit message
+> should point out the change, though.  Maybe even release notes, not
+> sure.
+>
+> Let's recap the differences briefly:
+>
+> * Boolean sugar: deprecated in QemuOpts, nonexistent in keyval
+>
+> * QemuOpts accepts a number of more or less crazy corner cases keyval
+>   rejects: invalid key, long key (silently truncated), first rather than
+>   last id= wins (unlike other keys), implied key with empty value.
+>
+> * QemuOpts rejects anti-social ID such as id=666, keyval leaves this to
+>   the caller, because key "id" is not special in keyval.
+>
+>   Are these still rejected with your patch?
+>
+>> ---
+>>  hmp-commands.hx |  6 +++---
+>>  monitor/hmp.c   | 20 +++++++++-----------
+>>  2 files changed, 12 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index 73e0832ea1..6ee746b53e 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -669,7 +669,7 @@ ERST
+>>  
+>>      {
+>>          .name       = "device_add",
+>> -        .args_type  = "device:O",
+>> +        .args_type  = "driver:O",
+>>          .params     = "driver[,prop=value][,...]",
+>>          .help       = "add device, like -device on the command line",
+>>          .cmd        = hmp_device_add,
+>> @@ -1315,7 +1315,7 @@ ERST
+>>  
+>>      {
+>>          .name       = "netdev_add",
+>> -        .args_type  = "netdev:O",
+>> +        .args_type  = "type:O",
+>>          .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
+>>          .help       = "add host network device",
+>>          .cmd        = hmp_netdev_add,
+>> @@ -1343,7 +1343,7 @@ ERST
+>>  
+>>      {
+>>          .name       = "object_add",
+>> -        .args_type  = "object:O",
+>> +        .args_type  = "qom-type:O",
+>>          .params     = "[qom-type=]type,id=str[,prop=value][,...]",
+>>          .help       = "create QOM object",
+>>          .cmd        = hmp_object_add,
+>> diff --git a/monitor/hmp.c b/monitor/hmp.c
+>> index 6c0b33a0b1..d2cb886da5 100644
+>> --- a/monitor/hmp.c
+>> +++ b/monitor/hmp.c
+>> @@ -744,13 +744,9 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>>              break;
+>>          case 'O':
+>>              {
+>> -                QemuOptsList *opts_list;
+>> -                QemuOpts *opts;
+>> +                Error *errp;
 
-Dave
+Missing initializer.  This is what causes the assertion failure reported
+below.
 
-> +};
-> +
->  uint8_t sd_read_byte(SDState *sd)
->  {
->      /* TODO: Append CRCs */
-> @@ -2213,6 +2245,21 @@ uint8_t sd_read_byte(SDState *sd)
->          ret = sd_tuning_block_pattern[sd->data_offset++];
->          break;
->  
-> +    case 21:    /* CMD21: SEND_TUNNING_BLOCK (MMC) */
-> +        if (sd->data_offset >= MMC_TUNING_BLOCK_SIZE - 1) {
-> +            sd->state = sd_transfer_state;
-> +        }
-> +        if (sd->ext_csd[EXCSD_BUS_WIDTH_OFFSET] & BUS_WIDTH_8_MASK) {
-> +            ret = mmc_tunning_block_pattern[sd->data_offset++];
-> +        } else {
-> +            /* Return LSB Nibbles of two byte from the 8bit tuning block
-> +             * for 4bit mode
-> +             */
-> +            ret = mmc_tunning_block_pattern[sd->data_offset++] & 0x0F;
-> +            ret |= (mmc_tunning_block_pattern[sd->data_offset++] & 0x0F) << 4;
-> +        }
-> +        break;
-> +
->      case 22:    /* ACMD22: SEND_NUM_WR_BLOCKS */
->          ret = sd->data[sd->data_offset ++];
->  
-> -- 
-> 2.7.4
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>> +                bool help;
+>>  
+>> -                opts_list = qemu_find_opts(key);
+>> -                if (!opts_list || opts_list->desc->name) {
+>> -                    goto bad_type;
+>> -                }
+>>                  while (qemu_isspace(*p)) {
+>>                      p++;
+>>                  }
+>> @@ -760,12 +756,14 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>>                  if (get_str(buf, sizeof(buf), &p) < 0) {
+>>                      goto fail;
+>>                  }
+>> -                opts = qemu_opts_parse_noisily(opts_list, buf, true);
+>> -                if (!opts) {
+>> -                    goto fail;
+>> +                keyval_parse_into(qdict, buf, key, &help, &errp);
+>> +                if (help) {
+>
+> Uh...
+>
+>> +                    if (qdict_haskey(qdict, key)) {
+>
+> If we parsed a value for the implied key (sugared or not),
+>
+>> +                        qdict_put_bool(qdict, "help", true);
+>
+> then encode the help request by mapping key "help" to true,
+>
+>> +                    } else {
+>> +                        qdict_put_str(qdict, key, "help");
+>
+> else by mapping the implied key to "help".
+>
+>> +                    }
+>
+> Test cases:
+>
+> * device_add help
+>
+>   @qdict before the patch:
+>
+>     {
+>         "driver": "help"
+>     }
+>
+>   No change.
+>
+> * device_add e1000,help
+>
+>   @qdict before the patch:
+>
+>     {
+>         "driver": "e1000",
+>         "help": "on"
+>     }
+>
+>   Afterwards:
+>
+>     {
+>         "driver": "e1000",
+>         "help": true
+>     }
+>
+>   If this is okay, the commit message should explain it.
+>
+> * device_add help,e1000
+>
+>     {
+>         "e1000": "on",
+>         "driver": "help"
+>     }
+>
+>   Afterwards:
+>   upstream-qemu: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+
+Optimization masks this crash for me.
+
+With proper initialization, I get
+
+    {
+        "driver": "help"
+    }
+
+instead.  If this change is okay, the commit message should explain it.
+
+>
+>>                  }
+>> -                qemu_opts_to_qdict(opts, qdict);
+>> -                qemu_opts_del(opts);
+>>              }
+>>              break;
+>>          case '/':
 
 
