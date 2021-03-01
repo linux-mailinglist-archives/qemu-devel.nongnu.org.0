@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11316327D23
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:25:51 +0100 (CET)
-Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31E4327D2A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:27:42 +0100 (CET)
+Received: from localhost ([::1]:51796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGggQ-0006o8-2n
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:25:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
+	id 1lGgiD-0007lv-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lGgYP-0001fk-9Z
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:17:33 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lGgYN-0002W1-Gu
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:17:32 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- y22-20020a1c4b160000b029010b2094f5deso2797818wma.0
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 03:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rz+BlZ1jCNDHOdzOOV3X5750OfsXEdMI5Nlv6I3/0MY=;
- b=SabdyuO7yLecf8pEtXhCAput0wiCA+GCMqYZRlDQXk7H2nERWdSri8WsVOceVSDJVv
- MVjTp8HDLIoAjS7r05eQHMbGhWbZC3iCajaqTAdKp5v+JyfqblA6kxhETot5iIeA5MyM
- 3GK4sio5OLJ2vGSCjvcjUyYw2tHVfYEY7pFf4UX1E1hEwBQb4RllvVFpNosx+67SoyM6
- v6EEjUFGPsdNLlqJ5rZThKoadFuR4wXNhiSomW9kNB88E0dGf0BrpCgd+xodLPLU0x1C
- mbdX1TXmutJPF7CdyoJNfQc+0p7eHPrXSBwZDWkj3oKEtXhE0Q9cScEarbo1trOKSyD0
- jgyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=rz+BlZ1jCNDHOdzOOV3X5750OfsXEdMI5Nlv6I3/0MY=;
- b=I3KhnvvdvJD+28oyZWY/W0KqWVc120ZMvsriIJlmSWC4cMunyHc/xwqtUH2rIijrTj
- Nz9T2P2MsCt92KDReYQjUfdcbtiTsNJ42eNeYmZnv+UJEBxR0QU8uKtaWRRivk0UIFXy
- Zo6S+9ZTgLy4hLFeSwO7LWEcG2ALjafA0yCZT0jsmR2mHZrv83rMmdAfdepW1p27nLeR
- Jd8fwMADlxSZ5ztkTR93wofQfY7xeELBsLc0jUP2XRnp1z5rIz5MoTIUDcNlYPgQXXFL
- 6kLhdBdiYFLHdPjrSdqhaCcBgnxg4Y9BCRooDgXneofoyDyZBcMIPNeLuODqRAetjxWr
- 2H7Q==
-X-Gm-Message-State: AOAM533gmdrRXec7iieZ/M4v4eWuqgapiDmqM13GmihfR+lV1JgAp8jr
- AKGBGDx1a4OB4R+x87z8lHSabiVeYOw=
-X-Google-Smtp-Source: ABdhPJzwCbZmOvbMQ5pW8J7JRyz1D7wUgR6Az395O3wPeuEn7+/yEA765rGXJiWUqSC4oDoAaOFpNw==
-X-Received: by 2002:a1c:7fc6:: with SMTP id
- a189mr15318334wmd.169.1614597447889; 
- Mon, 01 Mar 2021 03:17:27 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id
- r9sm20551660wmq.26.2021.03.01.03.17.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 03:17:27 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] KVM: x86: deprecate -M kernel-irqchip=off except for -M isapc
-Date: Mon,  1 Mar 2021 12:17:25 +0100
-Message-Id: <20210301111725.18434-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lGgf2-0006eh-Iy
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:24:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lGgez-0006Oz-Hp
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:24:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614597860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+GgYK4ixDan5pmx5gm9c+eM//WfHQDV7uWEEMEL9mUY=;
+ b=dqLobaIxPKNRA6p45eDlbXXmFbZiH4wugSNRZN9WedsgC5+AfTX9IxzTVaF94ewc8ZiqX6
+ K216sDxBJXe1aBdpDmP9FRq0u6tSmH8YHg+kCf5wcRvZgOHp5xqn8TFBOQdtgURGs8QYZL
+ gpjHwQFZw+RqmDFl/yXYJnIHqXpwcfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-EwFfX5wZM_-tm0NDY2Eptg-1; Mon, 01 Mar 2021 06:24:15 -0500
+X-MC-Unique: EwFfX5wZM_-tm0NDY2Eptg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E62C107ACE8;
+ Mon,  1 Mar 2021 11:24:14 +0000 (UTC)
+Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A15FF5D9FC;
+ Mon,  1 Mar 2021 11:24:12 +0000 (UTC)
+Date: Mon, 1 Mar 2021 11:24:11 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] multiprocess: move feature to meson_options.txt
+Message-ID: <YDzO23tOmZGNZxMt@stefanha-x1.localdomain>
+References: <20210224122306.451764-1-pbonzini@redhat.com>
+ <72fc7d76-f8e3-2c0f-e890-99509bb6230d@redhat.com>
+ <e89873e7-d996-0161-8c4f-587aadd2208f@redhat.com>
+ <YDfRz3zhkoTiyoKt@stefanha-x1.localdomain>
+ <C3EAD382-8A3B-4DC7-9982-CC1DDAEEF4B7@oracle.com>
+ <cd96210d-58bc-2978-02bc-b7ca794f7274@redhat.com>
+ <08381101-fde1-dc5c-8156-32e90b21fee3@redhat.com>
+ <a9cf5d49-f30c-0b21-4c76-de454e1c9583@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <a9cf5d49-f30c-0b21-4c76-de454e1c9583@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bw8L+pDKk61UkxQD"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,60 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mlevitsk@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jag Raman <jag.raman@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The userspace local APIC is basically untested and does not support many
-features such as TSC deadline timer, x2APIC or PV spinlocks.  On the
-other hand, the PIT and IOAPIC are okay as they are not tied to
-the processor and are tested with -M kernel-irqchip=split.
+--bw8L+pDKk61UkxQD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Therefore, deprecate the local APIC and, with it, limit
--M kernel-irqchip=off to the ISA PC machine type, which does not
-have a local APIC at all.
+On Fri, Feb 26, 2021 at 09:50:59AM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> On 2/26/21 8:48 AM, Paolo Bonzini wrote:
+> > On 26/02/21 00:16, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>> I personally don=E2=80=99t have any preference for the name.
+> >> Great.
+> >>
+> >> So with the summary/description updated as:
+> >>
+> >> summary_info +=3D {'Multiprocess QEMU (vfio-user device backends)':
+> >> multiprocess_allowed}
+> >>
+> >> option('multiprocess', type: 'feature', value: 'auto',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 description: 'Multiprocess =
+QEMU (vfio-user device backends)
+> >> support')
+> >>
+> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9<philmd@redhat.com>
+> >>
+> >=20
+> > It's not yet vfio-user.=C2=A0 For now I can put "out of process device
+> > emulation";
+>=20
+> OK.
+>=20
+> > however, if the protocol is going to change, I wonder if it
+> > should be disabled by default.
+>=20
+> Sounds safer indeed. We need to add --enable-multiprocess in CI to
+> keep testing the feature.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/system/deprecated.rst | 7 +++++++
- hw/intc/apic.c             | 5 +++++
- 2 files changed, 12 insertions(+)
+Package maintainers tend to disable optional features explicitly, while
+developers and CIs may not notice new features that are disabled by
+default.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 561c916da2..ae180dc887 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -153,6 +153,13 @@ The ``-writeconfig`` option is not able to serialize the entire contents
- of the QEMU command line.  It is thus considered a failed experiment
- and deprecated, with no current replacement.
- 
-+Userspace local APIC with KVM (x86, since 6.0)
-+'''''''''''''''''''''''''''''''''''''''''
-+
-+Using ``-M kernel-irqchip=off`` with x86 machine types that include a local
-+APIC is deprecated.  The ``split`` setting is supported, as is using
-+``-M kernel-irqchip=off`` with the ISA PC machine type.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index 3ada22f427..7e9601b89d 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -875,6 +875,11 @@ static void apic_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    if (kvm_enabled()) {
-+        warn_report("Userspace local APIC is deprecated for KVM.");
-+        warn_report("Do not use kernel-irqchip except for the -M isapc machine type.");
-+    }
-+
-     memory_region_init_io(&s->io_memory, OBJECT(s), &apic_io_ops, s, "apic-msi",
-                           APIC_SPACE_SIZE);
- 
--- 
-2.29.2
+In the interest of preventing bitrot and catching failures early (before
+CI!), I suggest leaving it enabled for maximum build coverage.
+
+Stefan
+
+--bw8L+pDKk61UkxQD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA8ztsACgkQnKSrs4Gr
+c8j0XAgAjvMJ/uiedh4wVD0t+DjNVZBWBLjINV87DkWeT/inpzCIIMO/axWmfs74
+KyJQSyiI9V6Nk7nmsoKDr3eC1Wj3R5w3j049VHtmcPTQX0sGGWm4mk4BDli9Drfp
+vFSZTv1bSednqJPOebO60XEZgKdwtuTiOROT1U9ZlOKjc+7RIJyAQ0ZNoZx0VPYR
+iGkbW38WHg5FHp6nqFZpMdfHLgOhp7zgat2BHObXGXbXs+1LXjKBguxCMDaXbpkn
+f9K6VjRY10BSJoRg8uuyrSk1qm6D23vSir4zgH5lA6ZsmLG0YdsbE8se+JZ5EI06
+/jf6FoBH6VncmuguVfo6eAdpM+Mi/w==
+=U33y
+-----END PGP SIGNATURE-----
+
+--bw8L+pDKk61UkxQD--
 
 
