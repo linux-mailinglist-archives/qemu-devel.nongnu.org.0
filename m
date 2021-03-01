@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EF6328E1F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:26:20 +0100 (CET)
-Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3095328E20
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:26:21 +0100 (CET)
+Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGoBL-0007Zm-94
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:26:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43668)
+	id 1lGoBQ-0007aj-5q
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
- id 1lGo9o-0006hV-OC
+ id 1lGo9o-0006hU-No
  for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:24:40 -0500
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:38525)
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:36004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
- id 1lGo9j-0006HD-Mo
+ id 1lGo9j-0006HM-Ms
  for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:24:38 -0500
-Received: by mail-lj1-x229.google.com with SMTP id 2so16325348ljr.5
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 11:24:34 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id f1so27363898lfu.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 11:24:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datacom-wien.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tlz6CxAmZLLbQwqwL076+yfRWNT1vjynohCWAaB7Xlo=;
- b=0Xs5aoYJrQSEYPdtSVK2PiXFSE+eyvAzjxVqL8PZzfimSaBkcxm6vUbEhZWyRqgMym
- TIz1hW3N5YhTA3ksLKNKWU2c3cPieR/hn4jTATFnUeNJKPxUGx+Y0JrkPXRABevnSZxW
- y6D0NXH3c4rh69BSCWI+0jSuCsWBfwTOJZocql26OSGnHPnfmdAA4WSNI53qnd7KgKmS
- nk3Adta6PN3ECiktOVAIrNGZEVtvVLaLdaf2fMd4dYKlnY86d5lEkUZe0ogO386t09Yj
- 3GGIkgJAg9vYcK4DRjFM9liHtQ+mvAysox3J/if2Cb1psRD+Z8WLmmxtlrAzagBDaqdW
- 5Ldg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VEo9Eiy8vjye84vTRLFgEJdqewoF5w7bpdIfR33P/zI=;
+ b=if8Km4cHBGoJ7ed8ALj7i3ptenSWemuCWApKuPcIwlkiOIv1yrzegN9Ly5/RDGPMOJ
+ YMX2Nx5GtLXiPim+Rr4XAiT1iT6oQJWy2v1oMDEutq67EUe8rmvW1ghTDAxuBg0o9B9F
+ MkymFLV4DLY1Hhv8SKtSCGx0gOpt81b6qp5fM/gBzoEMMyBbwbyUvqxhK+eIfx1HgPmI
+ GYEcN9GAhXb3EoTacmzdo8gWUJm6MkmLFngN6ayvWnMeoRC0CbUYQ/4X44jrhnML5F+3
+ GbRFGS01ghJHlcsJ+nC9QCFy7HgsZW+SA1fXZGIzVTAHtPNQCK4OxyR7OEqz6FF/7+4a
+ EeEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tlz6CxAmZLLbQwqwL076+yfRWNT1vjynohCWAaB7Xlo=;
- b=b+eSfY0fDcP0bniTuf6KrthMABEAjLTNM3xzDzSL8sRekKpJRF1vlFGToauec5lKp4
- e5n5IgZ2+/BMJtcOKcElYI31Wfe7/eeLzqc5bItDxusYlXbLbLtIGDLcUVQC0W08IhQn
- IMBrXFC2NqByrHOgukVwEp5nA96RaOPi88mbbu2eQyM9F3Uj72GPv1dTp462ibHwBpRx
- GUA83HHLAYkjJb+oaJx+hwUDOkkCnxk3/KiJJr5yW3zA60oXUKkOyrvRYsvlKxJ6CNUw
- ZmYMI/zWbrgbyRmNED+xxH7JfYYXBWg49Xv5tB52wuQl83lhjNw3saMGXpng2bGWmIq3
- D5Ag==
-X-Gm-Message-State: AOAM5310tBGr3Ucll2vhhqBUM811UH6lxnxmS49gECQ2g7q9Yj1JMVpj
- jmKXvSysQneL93NTdCuwKscK7hOyTUtYfw==
-X-Google-Smtp-Source: ABdhPJwOpYgcY/frtsuTvckbU0TaLcpWXvxdswGSpwmguTkCnBy84wmXLlMeO49JwsxChfLoemrhjQ==
-X-Received: by 2002:a2e:544d:: with SMTP id y13mr9691175ljd.95.1614626672423; 
- Mon, 01 Mar 2021 11:24:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VEo9Eiy8vjye84vTRLFgEJdqewoF5w7bpdIfR33P/zI=;
+ b=JZj7xRWWX+9y9fBtAdVJl9QF8tAuN6vrPP/omlhOHj8/LDWpaCMXaJzuQGV7RcEl00
+ A55jTxeOFPzauWvhN1UsBqsjFU1JUWSB7dutUAE0a1L/s9iod3W2NU/EIQ4fFyWD9zst
+ WswC0S4/EcphcKGMnyZdLV111bLpqXRUTBWwq/9/XV24Hv3UuXAzLTcRuBGiiSkGBKkD
+ jk23oQdYIsnAvNWeMI+kpvcUuBClmq6tWmN3WHR7kS+VxfKXuWDD/naKanOn7d36j1Qc
+ PkRUaNWX+MoAJ/DYVYXECLSVmDHwzPiaxJ07D/Qc0qJYcwJD1V0PQw24nH2lHRJ7bzlZ
+ 0k1w==
+X-Gm-Message-State: AOAM530i09QKuDeFSxy1CfQlzPdp4AUeeRfyg7jPdOCmuJHSIQUchM6i
+ Lf8V1hvuaWH0L4ZrW7vXcYwZl4GSIDOV7g==
+X-Google-Smtp-Source: ABdhPJx6G6lEfixVcGK8yObX71f/dxr1XLrjANj9Ns7c5m1ZrO6v+0CDBKhtr0xqjdBhksxf8O0AXw==
+X-Received: by 2002:a05:6512:208b:: with SMTP id
+ t11mr6480248lfr.131.1614626673515; 
+ Mon, 01 Mar 2021 11:24:33 -0800 (PST)
 Received: from dayas.lan
  (2a02-8388-0281-94f0-b958-b6e3-fc53-344d.cable.dynamic.v6.surfer.at.
  [2a02:8388:281:94f0:b958:b6e3:fc53:344d])
- by smtp.gmail.com with ESMTPSA id z28sm1181170ljm.44.2021.03.01.11.24.31
+ by smtp.gmail.com with ESMTPSA id z28sm1181170ljm.44.2021.03.01.11.24.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 11:24:31 -0800 (PST)
+ Mon, 01 Mar 2021 11:24:33 -0800 (PST)
 From: Danny Milosavljevic <danny.milo@datacom.wien>
 To: qemu-devel@nongnu.org,
 	rminnich@google.com
-Subject: [PATCH v2 0/1] Add support for AMD new-style boot mechanism.
-Date: Mon,  1 Mar 2021 20:24:22 +0100
-Message-Id: <20210301192423.32396-1-danny.milo@datacom.wien>
+Subject: [PATCH v2 1/1] i386: Add support for AMD new-style boot mechanism.
+Date: Mon,  1 Mar 2021 20:24:23 +0100
+Message-Id: <20210301192423.32396-2-danny.milo@datacom.wien>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210301192423.32396-1-danny.milo@datacom.wien>
+References: <20210301192423.32396-1-danny.milo@datacom.wien>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=danny.milo@datacom.wien; helo=mail-lj1-x229.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=danny.milo@datacom.wien; helo=mail-lf1-x135.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,53 +90,101 @@ Cc: Danny Milosavljevic <danny.milo@datacom.wien>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A lot of AMD CPUs boot the bootstrap processor using a new mechanism.
+This introduces a new generic-loader setting "csbaseaddr" that
+allows you to set the segment base address of CS.
 
-According to https://doc.coreboot.org/soc/amd/family17h.html [1] that means
-that the flash header specifies a destination and size in RAM (!), and the
-bootstrap processor will start using a CS segment descriptor set up in such
-a way that from the CPU's point of view, 0xf000:0xffff is the last byte of
-the loaded blob (i.e. of the BIOS).
-
-See <https://doc.coreboot.org/soc/amd/family17h.html>, which says:
-
->Picasso Reset Vector and First Instructions
-[example]
->Flash BIOS Directory Table
->destination = 0x9b00000
->size  = 0x300000
-
->... then the BIOS image is placed at the topmost position the region
->0x9b00000-0x9dfffff and
-
->reset_vector = 0x9dffff0
->CS_shdw_base = 0x9df0000
->CS:IP  = 0xf000:0xfff0
-
-The patch below allows the user to set up CS_shdw_base.
-
-In order to test, try
-
-qemu-system-x86_64 \
-   -m 1G \
-   -device loader,file=BIOS.fd,csbaseaddr=0x9df0000,addr=$0x9b00000,cpu-num=0,force-raw=on \
-   -device loader,addr=0xfff0,cpu-num=0 \
-   -bios BIOS.fd
-
-The "-bios BIOS.fd" at the end is optional--but customary.
-
-This has been used successfully for more than a year in BIOS development.
-
-Danny Milosavljevic (1):
-  i386: Add support for AMD new-style boot mechanism.
-
+Signed-off-by: Danny Milosavljevic <danny.milo@datacom.wien>
+---
  hw/core/generic-loader.c         |  6 +++++-
  include/hw/core/cpu.h            |  1 +
  include/hw/core/generic-loader.h |  1 +
  target/i386/cpu.c                | 11 +++++++++++
  4 files changed, 18 insertions(+), 1 deletion(-)
 
-[1] http://web.archive.org/web/20201125131718/https://doc.coreboot.org/soc/amd/family17h.html
+diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+index 2b2a7b5e9a..1770ee0229 100644
+--- a/hw/core/generic-loader.c
++++ b/hw/core/generic-loader.c
+@@ -53,6 +53,9 @@ static void generic_loader_reset(void *opaque)
+         cpu_reset(s->cpu);
+         if (cc) {
+             cc->set_pc(s->cpu, s->addr);
++            if (cc->set_csbase) {
++                cc->set_csbase(s->cpu, s->csbaseaddr);
++            }
+         }
+     }
+ 
+@@ -103,7 +106,7 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
+         if (s->cpu_num != CPU_NONE) {
+             s->set_pc = true;
+         }
+-    } else if (s->addr) {
++    } else if (s->addr || s->csbaseaddr) {
+         /* User is setting the PC */
+         if (s->data || s->data_len || s->data_be) {
+             error_setg(errp, "data can not be specified when setting a "
+@@ -180,6 +183,7 @@ static void generic_loader_unrealize(DeviceState *dev)
+ }
+ 
+ static Property generic_loader_props[] = {
++    DEFINE_PROP_UINT64("csbaseaddr", GenericLoaderState, csbaseaddr, 0xffff0000),
+     DEFINE_PROP_UINT64("addr", GenericLoaderState, addr, 0),
+     DEFINE_PROP_UINT64("data", GenericLoaderState, data, 0),
+     DEFINE_PROP_UINT8("data-len", GenericLoaderState, data_len, 0),
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index c005d3dc2d..9998b6b986 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -161,6 +161,7 @@ struct CPUClass {
+     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+                                Error **errp);
+     void (*set_pc)(CPUState *cpu, vaddr value);
++    void (*set_csbase)(CPUState *cpu, vaddr value);
+     hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
+     hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
+                                         MemTxAttrs *attrs);
+diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-loader.h
+index 19d87b39c8..b407d8e8e9 100644
+--- a/include/hw/core/generic-loader.h
++++ b/include/hw/core/generic-loader.h
+@@ -29,6 +29,7 @@ struct GenericLoaderState {
+     /* <public> */
+     CPUState *cpu;
+ 
++    uint64_t csbaseaddr;
+     uint64_t addr;
+     uint64_t data;
+     uint8_t data_len;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6a53446e6a..7cb4634e18 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -7171,6 +7171,16 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.eip = value;
+ }
+ 
++static void x86_cpu_set_csbase(CPUState *cs, vaddr value)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++
++    cpu_x86_load_seg_cache(env, R_CS, 0xf000, value, 0xffff,
++                            DESC_P_MASK | DESC_S_MASK | DESC_CS_MASK |
++                            DESC_R_MASK | DESC_A_MASK);
++}
++
+ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+@@ -7412,6 +7422,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+ 
+     cc->dump_state = x86_cpu_dump_state;
+     cc->set_pc = x86_cpu_set_pc;
++    cc->set_csbase = x86_cpu_set_csbase;
+     cc->gdb_read_register = x86_cpu_gdb_read_register;
+     cc->gdb_write_register = x86_cpu_gdb_write_register;
+     cc->get_arch_id = x86_cpu_get_arch_id;
 -- 
 2.29.2
 
