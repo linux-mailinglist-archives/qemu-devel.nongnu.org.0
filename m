@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0581132803D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:07:02 +0100 (CET)
-Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B3A32804B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:09:15 +0100 (CET)
+Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjCP-0005hu-25
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33160)
+	id 1lGjEY-00088F-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lGixf-0006uM-9s
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33952)
+ id 1lGixi-00071Y-FT
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lGixd-0008Uj-8g
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:47 -0500
+ id 1lGixe-0008Uv-FC
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614606704;
+ s=mimecast20190719; t=1614606705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b8bIwmfTIMcTXViwqHfwsf2z/AAHcupjBkRSyHakUM4=;
- b=hQKttINSClmGwKBj15Q5n7vpPq4JhN46mI2T9FSJ1A1co9TvuKpwkr6x7Dh1xVk7aHtTHD
- mSjEnEtskpFMqpz+Sls2qOHuXGVyjs1fjeaZQDXhrlAticwHS6MVPdb05WFBXSkqXUogwN
- vpxzBYclcwu79vFYKPJhmJtP2JHKc6M=
+ bh=P9pZ7wjQBUw+dawFA27I6LH4bMwfs72CHr1Yo2wFCAc=;
+ b=EgKZ2XIjXUOfP0Wnde/LxBxcaM68a8tuU1+1lOX7r66+2AZSekO6CMctvf857PTWrsVNhN
+ myBW7OCwIqu/esoCfL6tmcBa0QoWV8mA/61in+AsLv3eoOpDB1zqvgSHoCjos3RwS4qRKI
+ PYuYlEboQ2QGFdTdB6y1JBUTZfosGwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-IIf0PHbwMlSqxnzYwZYXqA-1; Mon, 01 Mar 2021 08:51:43 -0500
-X-MC-Unique: IIf0PHbwMlSqxnzYwZYXqA-1
+ us-mta-480-1JLORJt0Osuld-CkUYG6fw-1; Mon, 01 Mar 2021 08:51:44 -0500
+X-MC-Unique: 1JLORJt0Osuld-CkUYG6fw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EFC985B6C1
- for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 13:51:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2627F801990
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 13:51:43 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5898862465;
- Mon,  1 Mar 2021 13:51:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D171772E0;
+ Mon,  1 Mar 2021 13:51:41 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/17] i386: provide simple 'hv-default=on' option
-Date: Mon,  1 Mar 2021 14:51:02 +0100
-Message-Id: <20210301135103.306003-17-vkuznets@redhat.com>
+Subject: [PATCH v5 17/17] qtest/hyperv: Introduce a simple hyper-v test
+Date: Mon,  1 Mar 2021 14:51:03 +0100
+Message-Id: <20210301135103.306003-18-vkuznets@redhat.com>
 In-Reply-To: <20210301135103.306003-1-vkuznets@redhat.com>
 References: <20210301135103.306003-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -57,14 +57,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,159 +83,321 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-requires listing all currently supported enlightenments ("hv-*" CPU
-features) explicitly. We do have 'hv-passthrough' mode enabling
-everything but it can't be used in production as it prevents migration.
-
-Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-Hyper-V enlightenments. Later, when new enlightenments get implemented,
-compat_props mechanism will be used to disable them for legacy machine types,
-this will keep 'hv-default=on' configurations migratable.
+For the beginning, just test 'hv-default', 'hv-passthrough' and a couple
+of custom Hyper-V enlightenments configurations through QMP. Later, it
+would be great to complement this by checking CPUID values from within the
+guest.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- docs/hyperv.txt   | 18 ++++++++++++++---
- target/i386/cpu.c | 50 +++++++++++++++++++++++++++++++++++++++++++++--
- target/i386/cpu.h |  3 +++
- 3 files changed, 66 insertions(+), 5 deletions(-)
+ MAINTAINERS               |   1 +
+ tests/qtest/hyperv-test.c | 270 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build   |   3 +-
+ 3 files changed, 273 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/hyperv-test.c
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5df00da54fc4..0a15cf026017 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -17,10 +17,22 @@ compatible hypervisor and use Hyper-V specific features.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b2aa18e1fe3..9c4152588f3e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1517,6 +1517,7 @@ F: hw/isa/apm.c
+ F: include/hw/isa/apm.h
+ F: tests/test-x86-cpuid.c
+ F: tests/qtest/test-x86-cpuid-compat.c
++F: tests/qtest/hyperv-test.c
  
- 2. Setup
- =========
--No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
--QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-+The default set of currently supported Hyper-V enlightenments (consisting of all
-+currently supported enlightenments except for 'hv-evmcs' which can only be
-+enabled on VMX enabled guests) can be enabled by specifying 'hv-default=on' CPU
-+flag:
- 
--  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
+ PC Chipset
+ M: Michael S. Tsirkin <mst@redhat.com>
+diff --git a/tests/qtest/hyperv-test.c b/tests/qtest/hyperv-test.c
+new file mode 100644
+index 000000000000..707fce80c5a0
+--- /dev/null
++++ b/tests/qtest/hyperv-test.c
+@@ -0,0 +1,270 @@
++/*
++ * Hyper-V emulation CPU feature test cases
++ *
++ * Copyright (c) 2021 Red Hat Inc.
++ * Authors:
++ *  Vitaly Kuznetsov <vkuznets@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include <linux/kvm.h>
++#include <sys/ioctl.h>
 +
-+Alternatively, it is possible to do fine-grained enablement through CPU flags,
-+e.g:
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
 +
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
++#define MACHINE_KVM "-machine pc-q35-5.2 -accel kvm "
++#define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
++                    "  'arguments': { 'type': 'full', "
++#define QUERY_TAIL  "}}"
 +
-+It is also possible to disable individual enlightenments from the default list,
-+this can be used for debugging purposes:
-+
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
- 
- Sometimes there are dependencies between enlightenments, QEMU is supposed to
- check that the supplied configuration is sane.
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index dd639dd06784..14f566cfde57 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4658,6 +4658,25 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
-     cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
- }
- 
-+static bool x86_hv_default_get(Object *obj, Error **errp)
++static bool kvm_enabled(QTestState *qts)
 +{
-+    X86CPU *cpu = X86_CPU(obj);
++    QDict *resp, *qdict;
++    bool enabled;
 +
-+    return cpu->hyperv_default;
++    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
++    g_assert(qdict_haskey(resp, "return"));
++    qdict = qdict_get_qdict(resp, "return");
++    g_assert(qdict_haskey(qdict, "enabled"));
++    enabled = qdict_get_bool(qdict, "enabled");
++    qobject_unref(resp);
++
++    return enabled;
 +}
 +
-+static void x86_hv_default_set(Object *obj, bool value, Error **errp)
++static bool kvm_has_sys_hyperv_cpuid(void)
 +{
-+    X86CPU *cpu = X86_CPU(obj);
++    int fd = open("/dev/kvm", O_RDWR);
++    int ret;
 +
-+    cpu->hyperv_default = value;
++    g_assert(fd > 0);
 +
-+    /* hv-default overrides everything with the default set */
-+    if (value) {
-+        cpu->hyperv_features = cpu->hyperv_default_features;
++    ret = ioctl(fd, KVM_CHECK_EXTENSION, KVM_CAP_SYS_HYPERV_CPUID);
++
++    close(fd);
++
++    return ret > 0;
++}
++
++static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
++{
++    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
++                          QUERY_TAIL, cpu_type);
++}
++
++static bool resp_has_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++
++    if (!qdict_haskey(resp, "return")) {
++        return false;
 +    }
++    qdict = qdict_get_qdict(resp, "return");
++
++    if (!qdict_haskey(qdict, "model")) {
++        return false;
++    }
++    qdict = qdict_get_qdict(qdict, "model");
++
++    return qdict_haskey(qdict, "props");
 +}
 +
- /* Generic getter for "feature-words" and "filtered-features" properties */
- static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-@@ -6563,10 +6582,16 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     }
- }
- 
--static void x86_cpu_hyperv_realize(X86CPU *cpu)
-+static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
- {
-     size_t len;
- 
-+    if (cpu->hyperv_passthrough && cpu->hyperv_default) {
-+        error_setg(errp,
-+                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
++static QDict *resp_get_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
++
++    qdict = qdict_get_qdict(resp, "return");
++    qdict = qdict_get_qdict(qdict, "model");
++    qdict = qdict_get_qdict(qdict, "props");
++
++    return qdict;
++}
++
++static bool resp_get_feature(QDict *resp, const char *feature)
++{
++    QDict *props;
++
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
++    props = resp_get_props(resp);
++    g_assert(qdict_get(props, feature));
++    return qdict_get_bool(props, feature);
++}
++
++#define assert_has_feature(qts, cpu_type, feature)                     \
++({                                                                     \
++    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    g_assert(qdict_get(resp_get_props(_resp), feature));               \
++    qobject_unref(_resp);                                              \
++})
++
++#define resp_assert_feature(resp, feature, expected_value)             \
++({                                                                     \
++    QDict *_props;                                                     \
++                                                                       \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    _props = resp_get_props(_resp);                                    \
++    g_assert(qdict_get(_props, feature));                              \
++    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
++})
++
++#define assert_feature(qts, cpu_type, feature, expected_value)         \
++({                                                                     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query_no_props(qts, cpu_type);                          \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, expected_value);               \
++    qobject_unref(_resp);                                              \
++})
++
++#define assert_has_feature_enabled(qts, cpu_type, feature)             \
++    assert_feature(qts, cpu_type, feature, true)
++
++#define assert_has_feature_disabled(qts, cpu_type, feature)            \
++    assert_feature(qts, cpu_type, feature, false)
++
++static void test_assert_hyperv_all_but_evmcs(QTestState *qts)
++{
++    assert_has_feature_enabled(qts, "host", "hv-relaxed");
++    assert_has_feature_enabled(qts, "host", "hv-vapic");
++    assert_has_feature_enabled(qts, "host", "hv-vpindex");
++    assert_has_feature_enabled(qts, "host", "hv-runtime");
++    assert_has_feature_enabled(qts, "host", "hv-crash");
++    assert_has_feature_enabled(qts, "host", "hv-time");
++    assert_has_feature_enabled(qts, "host", "hv-synic");
++    assert_has_feature_enabled(qts, "host", "hv-stimer");
++    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
++    assert_has_feature_enabled(qts, "host", "hv-ipi");
++    assert_has_feature_enabled(qts, "host", "hv-reset");
++    assert_has_feature_enabled(qts, "host", "hv-frequencies");
++    assert_has_feature_enabled(qts, "host", "hv-reenlightenment");
++    assert_has_feature_enabled(qts, "host", "hv-stimer-direct");
++}
++
++static void test_query_cpu_hv_all_but_evmcs(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-relaxed,hv-vapic,hv-vpindex,"
++                     "hv-runtime,hv-crash,hv-time,hv-synic,hv-stimer,"
++                     "hv-tlbflush,hv-ipi,hv-reset,hv-frequencies,"
++                     "hv-reenlightenment,hv-stimer-direct");
++
++    test_assert_hyperv_all_but_evmcs(qts);
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_default(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-default");
++
++    test_assert_hyperv_all_but_evmcs(qts);
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_default_minus(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-default,hv_ipi=off");
++
++    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
++    assert_has_feature_disabled(qts, "host", "hv-ipi");
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_custom(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-vpindex");
++
++    assert_has_feature_enabled(qts, "host", "hv-vpindex");
++    assert_has_feature_disabled(qts, "host", "hv-synic");
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_passthrough(const void *data)
++{
++    QTestState *qts;
++    QDict *resp;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-passthrough");
++    if (!kvm_enabled(qts)) {
++        qtest_quit(qts);
 +        return;
 +    }
 +
-     /* Hyper-V vendor id */
-     if (!cpu->hyperv_vendor) {
-         object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
-@@ -6768,7 +6793,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
-+    x86_cpu_hyperv_realize(cpu, &local_err);
-+    if (local_err) {
-+        goto out;
++    test_assert_hyperv_all_but_evmcs(qts);
++
++    resp = do_query_no_props(qts, "host");
++    if (resp_get_feature(resp, "vmx")) {
++        assert_has_feature_enabled(qts, "host", "hv-evmcs");
++    } else {
++        assert_has_feature_disabled(qts, "host", "hv-evmcs");
 +    }
- 
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-@@ -7063,6 +7091,20 @@ static void x86_cpu_initfn(Object *obj)
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-     }
 +
-+    /*
-+     * Hyper-V features enabled with 'hv-default=on'
-+     * TODO: add 'HYPERV_FEAT_EVMCS' to the list. Enlightened VMCS can only
-+     * be enabled for VMX enabled guests but here it can't be checked.
-+     */
-+    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
-+        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-+        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-+        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-+        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-+        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-+        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
-+        BIT(HYPERV_FEAT_STIMER_DIRECT);
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
-@@ -7389,6 +7431,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-                               x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
- #endif
- 
-+    object_class_property_add_bool(oc, "hv-default",
-+                              x86_hv_default_get,
-+                              x86_hv_default_set);
++    qtest_quit(qts);
++}
 +
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
-         for (bitnr = 0; bitnr < 64; bitnr++) {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 265e552746e7..f014f1a89f89 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1673,6 +1673,9 @@ struct X86CPU {
-     bool hyperv_synic_kvm_only;
-     uint64_t hyperv_features;
-     bool hyperv_passthrough;
-+    /* 'hv-default' enablement */
-+    uint64_t hyperv_default_features;
-+    bool hyperv_default;
-     OnOffAuto hyperv_no_nonarch_cs;
-     uint32_t hyperv_vendor_id[3];
-     uint32_t hyperv_interface_id[4];
++static void test_query_cpu_hv_evmcs_novmx_default(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,-vmx,hv-default");
++    if (!kvm_enabled(qts)) {
++        qtest_quit(qts);
++        return;
++    }
++
++    assert_has_feature_disabled(qts, "host", "vmx");
++    assert_has_feature_disabled(qts, "host", "hv-evmcs");
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    const char *arch = qtest_get_arch();
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
++        qtest_add_data_func("/hyperv/hv-all-but-evmcs",
++                            NULL, test_query_cpu_hv_all_but_evmcs);
++        qtest_add_data_func("/hyperv/hv-default",
++                            NULL, test_query_cpu_hv_default);
++        qtest_add_data_func("/hyperv/hv-default-minus",
++                            NULL, test_query_cpu_hv_default_minus);
++        qtest_add_data_func("/hyperv/hv-custom",
++                            NULL, test_query_cpu_hv_custom);
++        if (kvm_has_sys_hyperv_cpuid()) {
++            qtest_add_data_func("/hyperv/hv-passthrough",
++                                NULL, test_query_cpu_hv_passthrough);
++            qtest_add_data_func("/hyperv/hv-evmcs-novmx-default", NULL,
++                                test_query_cpu_hv_evmcs_novmx_default);
++       }
++    }
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index ba6ecaed3256..c65f2098defc 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -65,7 +65,8 @@ qtests_i386 = \
+    'vmgenid-test',
+    'migration-test',
+    'test-x86-cpuid-compat',
+-   'numa-test']
++   'numa-test',
++   'hyperv-test']
+ 
+ dbus_daemon = find_program('dbus-daemon', required: false)
+ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
 -- 
 2.29.2
 
