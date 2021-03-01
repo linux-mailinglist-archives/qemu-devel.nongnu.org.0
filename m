@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E248329430
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:52:00 +0100 (CET)
-Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004C9329431
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:53:07 +0100 (CET)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGqSN-0000IK-CT
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47606)
+	id 1lGqTS-0001r1-TB
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:53:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqR5-000815-73
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:50:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:36497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqR3-0004IE-2C
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:50:38 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MUpCz-1lPGUu3OTJ-00QlGV; Mon, 01 Mar 2021 22:50:30 +0100
-Subject: Re: [PATCH v2 13/42] esp: remove dma_left from ESPState
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b9a04919-3027-ac15-d73e-041d0965f222@vivier.eu>
-Date: Mon, 1 Mar 2021 22:50:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lGqRl-00006P-H1; Mon, 01 Mar 2021 16:51:21 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:42024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lGqRj-0004gv-Gc; Mon, 01 Mar 2021 16:51:20 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id c10so4654206ejx.9;
+ Mon, 01 Mar 2021 13:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgU9g7sxuuToYY0NcbUASWLJoXAYrOMW28gUzw0UYX4=;
+ b=MjUxIOyJmZt42YG/WnmTH7i+XkiKjXJtVBoVDF2uqpZcPx2bE7UBkt7K7Xedpifgzv
+ uVVHZqkiYkq150I/IyLhHiXcxwzqKtlclERrTdetQmrEYTFL1BSksR3cbcneP6ahc2QV
+ SX8sivvauRZ8ONUZ+XUgWH2tZgkg+myHwS+hDLUPq/+D/1ac2xGspba+rzN/nb0ewWNk
+ j5bj1RWR3jN7JTF7d2edAziBcMKc8ifpqx2OYepTR8hChcOmRVTi+QY7tsbfpkiqBc/P
+ 6H9fuOiffS4CqoX46+gkBwwKbfx0drAAKzKSXgHmrdPS4lVPtOgFBmz6+OBod0RTqrMP
+ +6lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=TgU9g7sxuuToYY0NcbUASWLJoXAYrOMW28gUzw0UYX4=;
+ b=HYlz/U3BtaoaCOgnjqteDC1Co3RLS9eNM+5Km/rYK1EwPJiGIsVugyHIwV6jyHbAw8
+ LgItuktg5Y42Y1nsM7vdV1VjDzcBFCN7CoW4Lf0JDnx2z2K/WVt57ka9F2PeqJdI61+G
+ zOc/hxAAh5mHAK+LxdQLa6xEksFahQTxNVhSD/ylNm5Ka23LJsHDrkZgVW706mAywCTh
+ EKZOoo387PoQlh5inMFiOifTMtPyeMJynKNGpKeRrG1ihw7L8n5RzJns0yGKx3wpQ+aO
+ MdJD9WOFlVqKmbJLDggsT8nKe6O4RIQbiOfXLXfXsOq/rBmIW25HSWtynBEtb9smkKcP
+ VjSw==
+X-Gm-Message-State: AOAM533Wc3xA4fwbWSDM9oiVHWmpx2S+mIHMVj9DZivytnZwfU7Q69wx
+ /Eh/U3LNj0A7af8EiqPDyex6O3FsERA=
+X-Google-Smtp-Source: ABdhPJyOMhDtue9R8x/eGIqKv9n/57r+82/Iadqsps0DpOp6wVPi0IcDaksBuDT2wcEJ+AivKY7uxA==
+X-Received: by 2002:a17:906:cecc:: with SMTP id
+ si12mr17899227ejb.461.1614635474708; 
+ Mon, 01 Mar 2021 13:51:14 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id m7sm15710201ejk.52.2021.03.01.13.51.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 13:51:14 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/17] cpu: Introduce SysemuCPUOps structure
+Date: Mon,  1 Mar 2021 22:50:53 +0100
+Message-Id: <20210301215110.772346-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sz9EF+LlPu13HkhfAuwhDIUTcLEYdmeKCsbPPxjB8dCBEUPp2vo
- N/D4RJa7scAlVgQ6gH909sRIzfBTmO12lODjUh5eco5WBFEYy0MCqwORy5F1QS9qUZXP++5
- FzgIzQr3vuvtc6pz9C9s4FKbkCxKXc5JX4vUWSl+QxWzknw1buKCyY2b7T3QnezYokgHhAp
- DBXlYjRqxyuai8ELqZS8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EFQRSfLKhKo=:3h6KHhjJjbtkWqhAgBCM+C
- XUVRdR+4xawFs4uDURetBEihx3IRJ10PpJRsalqebDzE8c+IlB6maA93IfFg2t+kRDjJAtbWE
- oP1KF3hWHMiqe47SA3JGAT9RGkFW0CHT4sNLrdZH2XeyUR8FoUMALx56R5CH7+KTJAOWxBRxC
- tZj9UalSBQ10hSDMLefPtj8AKhy6r/3+4qYp0USHYP3XuAYxALkSyeYQ6zn1fBprfdxiguUK8
- FOCgHCDH1+cOHaqo/J36VZVzb4piuklmZOsAN/GfeaK/rI6+MDojKBn5Z9Ggy0OwKswGLsBuZ
- esOgdTrtYD4ckFvLnfm6dC9zxxPvbYpHdt9be3+x64TqwUm6/imDl8iZdg82AUFc0YX+mgnL2
- g52dUR5olessLC4mTCxCx7QA4+UcmeT7xEgcBBe1xWEFGQBBBvMagXyA0zsL68R1nL4iWJoe5
- OhtIBqMRXw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,231 +82,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
-> The ESP device already keeps track of the remaining bytes left to transfer via
-> its TC (transfer counter) register which is decremented for each byte that
-> is transferred across the SCSI bus.
-> 
-> Switch the transfer logic to use the value of TC instead of dma_left and then
-> remove dma_left completely, adding logic to the vmstate_esp post_load() function
-> to transfer the old dma_left value to the TC register during migration from
-> older versions.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c         | 47 ++++++++++++++++++++++++++++---------------
->  include/hw/scsi/esp.h |  5 +++--
->  2 files changed, 34 insertions(+), 18 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 6c495b29c0..fcc99f5fe4 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -228,7 +228,7 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
->      s->ti_size = datalen;
->      if (datalen != 0) {
->          s->rregs[ESP_RSTAT] = STAT_TC;
-> -        s->dma_left = 0;
-> +        esp_set_tc(s, 0);
->          if (datalen > 0) {
->              s->rregs[ESP_RSTAT] |= STAT_DI;
->          } else {
-> @@ -382,6 +382,7 @@ static void do_dma_pdma_cb(ESPState *s)
->  {
->      int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
->      int len = s->pdma_cur - s->pdma_start;
-> +
->      if (s->do_cmd) {
->          s->ti_size = 0;
->          s->cmdlen = 0;
-> @@ -389,7 +390,6 @@ static void do_dma_pdma_cb(ESPState *s)
->          do_cmd(s, s->cmdbuf);
->          return;
->      }
-> -    s->dma_left -= len;
->      s->async_buf += len;
->      s->async_len -= len;
->      if (to_device) {
-> @@ -404,7 +404,7 @@ static void do_dma_pdma_cb(ESPState *s)
->           * complete the DMA operation immediately.  Otherwise defer
->           * until the scsi layer has completed.
->           */
-> -        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
-> +        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
->              return;
->          }
->      }
-> @@ -418,7 +418,7 @@ static void esp_do_dma(ESPState *s)
->      uint32_t len;
->      int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
->  
-> -    len = s->dma_left;
-> +    len = esp_get_tc(s);
->      if (s->do_cmd) {
->          /*
->           * handle_ti_cmd() case: esp_do_dma() is called only from
-> @@ -468,7 +468,7 @@ static void esp_do_dma(ESPState *s)
->              return;
->          }
->      }
-> -    s->dma_left -= len;
-> +    esp_set_tc(s, esp_get_tc(s) - len);
->      s->async_buf += len;
->      s->async_len -= len;
->      if (to_device) {
-> @@ -483,7 +483,7 @@ static void esp_do_dma(ESPState *s)
->           * complete the DMA operation immediately.  Otherwise defer
->           * until the scsi layer has completed.
->           */
-> -        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
-> +        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
->              return;
->          }
->      }
-> @@ -499,7 +499,6 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
->          trace_esp_command_complete_unexpected();
->      }
->      s->ti_size = 0;
-> -    s->dma_left = 0;
->      s->async_len = 0;
->      if (status) {
->          trace_esp_command_complete_fail();
-> @@ -535,12 +534,13 @@ void esp_command_complete(SCSIRequest *req, uint32_t status,
->  void esp_transfer_data(SCSIRequest *req, uint32_t len)
->  {
->      ESPState *s = req->hba_private;
-> +    uint32_t dmalen = esp_get_tc(s);
->  
->      assert(!s->do_cmd);
-> -    trace_esp_transfer_data(s->dma_left, s->ti_size);
-> +    trace_esp_transfer_data(dmalen, s->ti_size);
->      s->async_len = len;
->      s->async_buf = scsi_req_get_buf(req);
-> -    if (s->dma_left) {
-> +    if (dmalen) {
->          esp_do_dma(s);
->      } else if (s->ti_size <= 0) {
->          /*
-> @@ -571,7 +571,6 @@ static void handle_ti(ESPState *s)
->      }
->      trace_esp_handle_ti(minlen);
->      if (s->dma) {
-> -        s->dma_left = minlen;
->          s->rregs[ESP_RSTAT] &= ~STAT_TC;
->          esp_do_dma(s);
->      } else if (s->do_cmd) {
-> @@ -824,6 +823,14 @@ static const VMStateDescription vmstate_esp_pdma = {
->      }
->  };
->  
-> +static bool esp_is_before_version_5(void *opaque, int version_id)
-> +{
-> +    ESPState *s = ESP(opaque);
-> +
-> +    version_id = MIN(version_id, s->mig_version_id);
-> +    return version_id < 5;
-> +}
-> +
->  static int esp_pre_save(void *opaque)
->  {
->      ESPState *s = ESP(opaque);
-> @@ -836,6 +843,12 @@ static int esp_post_load(void *opaque, int version_id)
->  {
->      ESPState *s = ESP(opaque);
->  
-> +    version_id = MIN(version_id, s->mig_version_id);
-> +
-> +    if (version_id < 5) {
-> +        esp_set_tc(s, s->mig_dma_left);
-> +    }
-> +
->      s->mig_version_id = vmstate_esp.version_id;
->      return 0;
->  }
-> @@ -861,7 +874,7 @@ const VMStateDescription vmstate_esp = {
->          VMSTATE_BUFFER_START_MIDDLE_V(cmdbuf, ESPState, 16, 4),
->          VMSTATE_UINT32(cmdlen, ESPState),
->          VMSTATE_UINT32(do_cmd, ESPState),
-> -        VMSTATE_UINT32(dma_left, ESPState),
-> +        VMSTATE_UINT32_TEST(mig_dma_left, ESPState, esp_is_before_version_5),
->          VMSTATE_END_OF_LIST()
->      },
->      .subsections = (const VMStateDescription * []) {
-> @@ -904,12 +917,11 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->  {
->      SysBusESPState *sysbus = opaque;
->      ESPState *s = ESP(&sysbus->esp);
-> -    uint32_t dmalen;
-> +    uint32_t dmalen = esp_get_tc(s);
->      uint8_t *buf = get_pdma_buf(s);
->  
->      trace_esp_pdma_write(size);
->  
-> -    dmalen = esp_get_tc(s);
->      if (dmalen == 0 || s->pdma_len == 0) {
->          return;
->      }
-> @@ -939,27 +951,30 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
->  {
->      SysBusESPState *sysbus = opaque;
->      ESPState *s = ESP(&sysbus->esp);
-> +    uint32_t dmalen = esp_get_tc(s);
->      uint8_t *buf = get_pdma_buf(s);
->      uint64_t val = 0;
->  
->      trace_esp_pdma_read(size);
->  
-> -    if (s->pdma_len == 0) {
-> +    if (dmalen == 0 || s->pdma_len == 0) {
->          return 0;
->      }
->      switch (size) {
->      case 1:
->          val = buf[s->pdma_cur++];
->          s->pdma_len--;
-> +        dmalen--;
->          break;
->      case 2:
->          val = buf[s->pdma_cur++];
->          val = (val << 8) | buf[s->pdma_cur++];
->          s->pdma_len -= 2;
-> +        dmalen -= 2;
->          break;
->      }
-> -
-> -    if (s->pdma_len == 0 && s->pdma_cb) {
-> +    esp_set_tc(s, dmalen);
-> +    if (dmalen == 0 || (s->pdma_len == 0 && s->pdma_cb)) {
->          esp_lower_drq(s);
->          s->pdma_cb(s);
->          s->pdma_cb = NULL;
-> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-> index b313ef27f2..9fad320513 100644
-> --- a/include/hw/scsi/esp.h
-> +++ b/include/hw/scsi/esp.h
-> @@ -48,8 +48,6 @@ struct ESPState {
->      uint32_t cmdlen;
->      uint32_t do_cmd;
->  
-> -    /* The amount of data left in the current DMA transfer.  */
-> -    uint32_t dma_left;
->      int dma_enabled;
->  
->      uint32_t async_len;
-> @@ -67,6 +65,9 @@ struct ESPState {
->      void (*pdma_cb)(ESPState *s);
->  
->      uint8_t mig_version_id;
-> +
-> +    /* Legacy fields for vmstate_esp version < 5 */
-> +    uint32_t mig_dma_left;
->  };
->  
->  #define TYPE_SYSBUS_ESP "sysbus-esp"
-> 
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Hi,=0D
+=0D
+This series is inspired on Claudio TCG work.=0D
+=0D
+Instead of separate TCG from other accelerators, here we=0D
+separate sysemu operations (system VS user).=0D
+=0D
+Patches 1-6 are generic cleanups.=0D
+Patches 7-15 move from CPUClass to SysemuCPUOps=0D
+Patches 16-17 restrict SysemuCPUOps to sysemu=0D
+=0D
+Since v1:=0D
+- Name 'sysemu' (Claudio)=0D
+- change each field progressively (Richard)=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Supersedes: <20210226163227.4097950-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (17):=0D
+  target: Set CPUClass::vmsd instead of DeviceClass::vmsd=0D
+  cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs=0D
+  cpu: Introduce cpu_virtio_is_big_endian()=0D
+  cpu: Directly use cpu_write_elf*() fallback handlers in place=0D
+  cpu: Directly use get_paging_enabled() fallback handlers in place=0D
+  cpu: Directly use get_memory_mapping() fallback handlers in place=0D
+  cpu: Introduce SysemuCPUOps structure=0D
+  cpu: Move CPUClass::vmsd to SysemuCPUOps=0D
+  cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_crash_info to SysemuCPUOps=0D
+  cpu: Move CPUClass::write_elf* to SysemuCPUOps=0D
+  cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps=0D
+  cpu: Restrict cpu_paging_enabled / cpu_get_memory_mapping to sysemu=0D
+  cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c=0D
+=0D
+ include/hw/core/cpu.h            |  91 ++++++-------------------=0D
+ include/hw/core/sysemu-cpu-ops.h |  89 ++++++++++++++++++++++++=0D
+ cpu.c                            |  19 +++---=0D
+ hw/core/cpu.c                    | 113 +++++++++++++++++--------------=0D
+ hw/virtio/virtio.c               |   4 +-=0D
+ target/alpha/cpu.c               |  11 ++-=0D
+ target/arm/cpu.c                 |  19 ++++--=0D
+ target/avr/cpu.c                 |   9 ++-=0D
+ target/cris/cpu.c                |  11 ++-=0D
+ target/hppa/cpu.c                |  11 ++-=0D
+ target/i386/cpu.c                |  29 +++++---=0D
+ target/lm32/cpu.c                |  10 ++-=0D
+ target/m68k/cpu.c                |  11 ++-=0D
+ target/microblaze/cpu.c          |  11 ++-=0D
+ target/mips/cpu.c                |  11 ++-=0D
+ target/moxie/cpu.c               |  11 +--=0D
+ target/nios2/cpu.c               |  16 ++++-=0D
+ target/openrisc/cpu.c            |  11 ++-=0D
+ target/riscv/cpu.c               |  13 +++-=0D
+ target/rx/cpu.c                  |  17 ++++-=0D
+ target/s390x/cpu.c               |  15 ++--=0D
+ target/sh4/cpu.c                 |  11 ++-=0D
+ target/sparc/cpu.c               |  11 ++-=0D
+ target/tricore/cpu.c             |  14 +++-=0D
+ target/unicore32/cpu.c           |   8 ++-=0D
+ target/xtensa/cpu.c              |  11 ++-=0D
+ target/ppc/translate_init.c.inc  |  21 +++---=0D
+ 27 files changed, 409 insertions(+), 199 deletions(-)=0D
+ create mode 100644 include/hw/core/sysemu-cpu-ops.h=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
