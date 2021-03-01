@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64613327A6E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:07:52 +0100 (CET)
-Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86A5327A87
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:14:24 +0100 (CET)
+Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGeWt-0002Pz-Dc
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:07:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49708)
+	id 1lGedD-0007pL-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:14:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKq-0004y5-DO
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57868)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKv-0005BS-PC
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:58240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKj-0000Hh-07
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:24 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKm-0000JI-0k
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:29 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1D4ADB007;
- Mon,  1 Mar 2021 08:55:04 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 553BCB039;
+ Mon,  1 Mar 2021 08:55:06 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,9 +28,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v26 12/20] i386: move TCG bpt_helper into sysemu/
-Date: Mon,  1 Mar 2021 09:54:42 +0100
-Message-Id: <20210301085450.1732-13-cfontana@suse.de>
+Subject: [PATCH v26 14/20] i386: separate fpu_helper sysemu-only parts
+Date: Mon,  1 Mar 2021 09:54:44 +0100
+Message-Id: <20210301085450.1732-15-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210301085450.1732-1-cfontana@suse.de>
 References: <20210301085450.1732-1-cfontana@suse.de>
@@ -62,370 +62,114 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for user-mode, assert that the hidden IOBPT flags are not set
-while attempting to generate io_bpt helpers.
+create a separate tcg/sysemu/fpu_helper.c for the sysemu-only parts.
+
+For user mode, some small #ifdefs remain in tcg/fpu_helper.c
+which do not seem worth splitting into their own user-mode module.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h                |   7 +
- target/i386/tcg/helper-tcg.h        |   3 +
- target/i386/tcg/bpt_helper.c        | 276 --------------------------
- target/i386/tcg/sysemu/bpt_helper.c | 293 ++++++++++++++++++++++++++++
- target/i386/tcg/translate.c         |   8 +-
- target/i386/tcg/sysemu/meson.build  |   1 +
- 6 files changed, 311 insertions(+), 277 deletions(-)
- create mode 100644 target/i386/tcg/sysemu/bpt_helper.c
+ target/i386/cpu.h                   |  3 ++
+ target/i386/tcg/fpu_helper.c        | 41 +--------------------
+ target/i386/tcg/sysemu/fpu_helper.c | 57 +++++++++++++++++++++++++++++
+ target/i386/tcg/sysemu/meson.build  |  1 +
+ 4 files changed, 63 insertions(+), 39 deletions(-)
+ create mode 100644 target/i386/tcg/sysemu/fpu_helper.c
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 8ffda4cdc6..095520f81f 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -46,7 +46,11 @@ DEF_HELPER_2(read_crN, tl, env, int)
- DEF_HELPER_3(write_crN, void, env, int, tl)
- DEF_HELPER_2(lmsw, void, env, tl)
- DEF_HELPER_1(clts, void, env)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index c8a84a9033..3797789dc2 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1816,7 +1816,10 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
+ int cpu_get_pic_interrupt(CPUX86State *s);
+ /* MSDOS compatibility mode FPU exception support */
+ void x86_register_ferr_irq(qemu_irq irq);
++void fpu_check_raise_ferr_irq(CPUX86State *s);
+ void cpu_set_ignne(void);
++void cpu_clear_ignne(void);
 +
-+#ifndef CONFIG_USER_ONLY
- DEF_HELPER_FLAGS_3(set_dr, TCG_CALL_NO_WG, void, env, int, tl)
-+#endif /* !CONFIG_USER_ONLY */
-+
- DEF_HELPER_FLAGS_2(get_dr, TCG_CALL_NO_WG, tl, env, int)
- DEF_HELPER_2(invlpg, void, env, tl)
+ /* mpx_helper.c */
+ void cpu_sync_bndcs_hflags(CPUX86State *env);
  
-@@ -100,7 +104,10 @@ DEF_HELPER_3(outw, void, env, i32, i32)
- DEF_HELPER_2(inw, tl, env, i32)
- DEF_HELPER_3(outl, void, env, i32, i32)
- DEF_HELPER_2(inl, tl, env, i32)
-+
-+#ifndef CONFIG_USER_ONLY
- DEF_HELPER_FLAGS_4(bpt_io, TCG_CALL_NO_WG, void, env, i32, i32, tl)
-+#endif /* !CONFIG_USER_ONLY */
- 
- DEF_HELPER_3(svm_check_intercept_param, void, env, i32, i64)
- DEF_HELPER_4(svm_check_io, void, env, i32, i32, i32)
-diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
-index c133c63555..b420b3356d 100644
---- a/target/i386/tcg/helper-tcg.h
-+++ b/target/i386/tcg/helper-tcg.h
-@@ -92,4 +92,7 @@ void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
- /* smm_helper.c */
- void do_smm_enter(X86CPU *cpu);
- 
-+/* bpt_helper.c */
-+bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update);
-+
- #endif /* I386_HELPER_TCG_H */
-diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
-index 979230ac12..fb2a65ac9c 100644
---- a/target/i386/tcg/bpt_helper.c
-+++ b/target/i386/tcg/bpt_helper.c
-@@ -19,223 +19,9 @@
- 
- #include "qemu/osdep.h"
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 20e4d2e715..1b30f1bb73 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -21,17 +21,10 @@
+ #include <math.h>
  #include "cpu.h"
--#include "exec/exec-all.h"
  #include "exec/helper-proto.h"
+-#include "qemu/host-utils.h"
+-#include "exec/exec-all.h"
+-#include "exec/cpu_ldst.h"
+ #include "fpu/softfloat.h"
+ #include "fpu/softfloat-macros.h"
  #include "helper-tcg.h"
  
--
--#ifndef CONFIG_USER_ONLY
--static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int index)
--{
--    return (dr7 >> (index * 2)) & 1;
--}
--
--static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int index)
--{
--    return (dr7 >> (index * 2)) & 2;
--
--}
--static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
--{
--    return hw_global_breakpoint_enabled(dr7, index) ||
--           hw_local_breakpoint_enabled(dr7, index);
--}
--
--static inline int hw_breakpoint_type(unsigned long dr7, int index)
--{
--    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
--}
--
--static inline int hw_breakpoint_len(unsigned long dr7, int index)
--{
--    int len = ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
--    return (len == 2) ? 8 : len + 1;
--}
--
--static int hw_breakpoint_insert(CPUX86State *env, int index)
--{
--    CPUState *cs = env_cpu(env);
--    target_ulong dr7 = env->dr[7];
--    target_ulong drN = env->dr[index];
--    int err = 0;
--
--    switch (hw_breakpoint_type(dr7, index)) {
--    case DR7_TYPE_BP_INST:
--        if (hw_breakpoint_enabled(dr7, index)) {
--            err = cpu_breakpoint_insert(cs, drN, BP_CPU,
--                                        &env->cpu_breakpoint[index]);
--        }
--        break;
--
--    case DR7_TYPE_IO_RW:
--        /* Notice when we should enable calls to bpt_io.  */
--        return hw_breakpoint_enabled(env->dr[7], index)
--               ? HF_IOBPT_MASK : 0;
--
--    case DR7_TYPE_DATA_WR:
--        if (hw_breakpoint_enabled(dr7, index)) {
--            err = cpu_watchpoint_insert(cs, drN,
--                                        hw_breakpoint_len(dr7, index),
--                                        BP_CPU | BP_MEM_WRITE,
--                                        &env->cpu_watchpoint[index]);
--        }
--        break;
--
--    case DR7_TYPE_DATA_RW:
--        if (hw_breakpoint_enabled(dr7, index)) {
--            err = cpu_watchpoint_insert(cs, drN,
--                                        hw_breakpoint_len(dr7, index),
--                                        BP_CPU | BP_MEM_ACCESS,
--                                        &env->cpu_watchpoint[index]);
--        }
--        break;
--    }
--    if (err) {
--        env->cpu_breakpoint[index] = NULL;
--    }
--    return 0;
--}
--
--static void hw_breakpoint_remove(CPUX86State *env, int index)
--{
--    CPUState *cs = env_cpu(env);
--
--    switch (hw_breakpoint_type(env->dr[7], index)) {
--    case DR7_TYPE_BP_INST:
--        if (env->cpu_breakpoint[index]) {
--            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
--            env->cpu_breakpoint[index] = NULL;
--        }
--        break;
--
--    case DR7_TYPE_DATA_WR:
--    case DR7_TYPE_DATA_RW:
--        if (env->cpu_breakpoint[index]) {
--            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
--            env->cpu_breakpoint[index] = NULL;
--        }
--        break;
--
--    case DR7_TYPE_IO_RW:
--        /* HF_IOBPT_MASK cleared elsewhere.  */
--        break;
--    }
--}
--
--void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
--{
--    target_ulong old_dr7 = env->dr[7];
--    int iobpt = 0;
--    int i;
--
--    new_dr7 |= DR7_FIXED_1;
--
--    /* If nothing is changing except the global/local enable bits,
--       then we can make the change more efficient.  */
--    if (((old_dr7 ^ new_dr7) & ~0xff) == 0) {
--        /* Fold the global and local enable bits together into the
--           global fields, then xor to show which registers have
--           changed collective enable state.  */
--        int mod = ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) & 0xff;
--
--        for (i = 0; i < DR7_MAX_BP; i++) {
--            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, i)) {
--                hw_breakpoint_remove(env, i);
--            }
--        }
--        env->dr[7] = new_dr7;
--        for (i = 0; i < DR7_MAX_BP; i++) {
--            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i)) {
--                iobpt |= hw_breakpoint_insert(env, i);
--            } else if (hw_breakpoint_type(new_dr7, i) == DR7_TYPE_IO_RW
--                       && hw_breakpoint_enabled(new_dr7, i)) {
--                iobpt |= HF_IOBPT_MASK;
--            }
--        }
--    } else {
--        for (i = 0; i < DR7_MAX_BP; i++) {
--            hw_breakpoint_remove(env, i);
--        }
--        env->dr[7] = new_dr7;
--        for (i = 0; i < DR7_MAX_BP; i++) {
--            iobpt |= hw_breakpoint_insert(env, i);
--        }
--    }
--
--    env->hflags = (env->hflags & ~HF_IOBPT_MASK) | iobpt;
--}
--
--static bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
--{
--    target_ulong dr6;
--    int reg;
--    bool hit_enabled = false;
--
--    dr6 = env->dr[6] & ~0xf;
--    for (reg = 0; reg < DR7_MAX_BP; reg++) {
--        bool bp_match = false;
--        bool wp_match = false;
--
--        switch (hw_breakpoint_type(env->dr[7], reg)) {
--        case DR7_TYPE_BP_INST:
--            if (env->dr[reg] == env->eip) {
--                bp_match = true;
--            }
--            break;
--        case DR7_TYPE_DATA_WR:
--        case DR7_TYPE_DATA_RW:
--            if (env->cpu_watchpoint[reg] &&
--                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
--                wp_match = true;
--            }
--            break;
--        case DR7_TYPE_IO_RW:
--            break;
--        }
--        if (bp_match || wp_match) {
--            dr6 |= 1 << reg;
--            if (hw_breakpoint_enabled(env->dr[7], reg)) {
--                hit_enabled = true;
--            }
--        }
--    }
--
--    if (hit_enabled || force_dr6_update) {
--        env->dr[6] = dr6;
--    }
--
--    return hit_enabled;
--}
--
--void breakpoint_handler(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--    CPUBreakpoint *bp;
--
--    if (cs->watchpoint_hit) {
--        if (cs->watchpoint_hit->flags & BP_CPU) {
--            cs->watchpoint_hit = NULL;
--            if (check_hw_breakpoints(env, false)) {
--                raise_exception(env, EXCP01_DB);
--            } else {
--                cpu_loop_exit_noexc(cs);
--            }
--        }
--    } else {
--        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
--            if (bp->pc == env->eip) {
--                if (bp->flags & BP_CPU) {
--                    check_hw_breakpoints(env, true);
--                    raise_exception(env, EXCP01_DB);
--                }
--                break;
--            }
--        }
--    }
--}
+-#ifdef CONFIG_SOFTMMU
+-#include "hw/irq.h"
 -#endif
 -
- void helper_single_step(CPUX86State *env)
- {
- #ifndef CONFIG_USER_ONLY
-@@ -252,41 +38,6 @@ void helper_rechecking_single_step(CPUX86State *env)
-     }
- }
+ /* float macros */
+ #define FT0    (env->ft0)
+ #define ST0    (env->fpregs[env->fpstt].d)
+@@ -75,36 +68,6 @@
+ #define floatx80_ln2_d make_floatx80(0x3ffe, 0xb17217f7d1cf79abLL)
+ #define floatx80_pi_d make_floatx80(0x4000, 0xc90fdaa22168c234LL)
  
--void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
+-#if !defined(CONFIG_USER_ONLY)
+-static qemu_irq ferr_irq;
+-
+-void x86_register_ferr_irq(qemu_irq irq)
 -{
--#ifndef CONFIG_USER_ONLY
--    switch (reg) {
--    case 0: case 1: case 2: case 3:
--        if (hw_breakpoint_enabled(env->dr[7], reg)
--            && hw_breakpoint_type(env->dr[7], reg) != DR7_TYPE_IO_RW) {
--            hw_breakpoint_remove(env, reg);
--            env->dr[reg] = t0;
--            hw_breakpoint_insert(env, reg);
--        } else {
--            env->dr[reg] = t0;
--        }
--        return;
--    case 4:
--        if (env->cr[4] & CR4_DE_MASK) {
--            break;
--        }
--        /* fallthru */
--    case 6:
--        env->dr[6] = t0 | DR6_FIXED_1;
--        return;
--    case 5:
--        if (env->cr[4] & CR4_DE_MASK) {
--            break;
--        }
--        /* fallthru */
--    case 7:
--        cpu_x86_update_dr7(env, t0);
--        return;
--    }
--    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
--#endif
+-    ferr_irq = irq;
 -}
 -
- target_ulong helper_get_dr(CPUX86State *env, int reg)
+-static void cpu_clear_ignne(void)
+-{
+-    CPUX86State *env = &X86_CPU(first_cpu)->env;
+-    env->hflags2 &= ~HF2_IGNNE_MASK;
+-}
+-
+-void cpu_set_ignne(void)
+-{
+-    CPUX86State *env = &X86_CPU(first_cpu)->env;
+-    env->hflags2 |= HF2_IGNNE_MASK;
+-    /*
+-     * We get here in response to a write to port F0h.  The chipset should
+-     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
+-     * cleared, because FERR# and FP_IRQ are two separate pins on real
+-     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
+-     * do directly what the chipset would do, i.e. deassert FP_IRQ.
+-     */
+-    qemu_irq_lower(ferr_irq);
+-}
+-#endif
+-
+-
+ static inline void fpush(CPUX86State *env)
  {
-     switch (reg) {
-@@ -307,30 +58,3 @@ target_ulong helper_get_dr(CPUX86State *env, int reg)
+     env->fpstt = (env->fpstt - 1) & 7;
+@@ -202,8 +165,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
+         raise_exception_ra(env, EXCP10_COPR, retaddr);
      }
-     raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
+ #if !defined(CONFIG_USER_ONLY)
+-    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
+-        qemu_irq_raise(ferr_irq);
++    else {
++        fpu_check_raise_ferr_irq(env);
+     }
+ #endif
  }
--
--/* Check if Port I/O is trapped by a breakpoint.  */
--void helper_bpt_io(CPUX86State *env, uint32_t port,
--                   uint32_t size, target_ulong next_eip)
--{
--#ifndef CONFIG_USER_ONLY
--    target_ulong dr7 = env->dr[7];
--    int i, hit = 0;
--
--    for (i = 0; i < DR7_MAX_BP; ++i) {
--        if (hw_breakpoint_type(dr7, i) == DR7_TYPE_IO_RW
--            && hw_breakpoint_enabled(dr7, i)) {
--            int bpt_len = hw_breakpoint_len(dr7, i);
--            if (port + size - 1 >= env->dr[i]
--                && port <= env->dr[i] + bpt_len - 1) {
--                hit |= 1 << i;
--            }
--        }
--    }
--
--    if (hit) {
--        env->dr[6] = (env->dr[6] & ~0xf) | hit;
--        env->eip = next_eip;
--        raise_exception(env, EXCP01_DB);
--    }
--#endif
--}
-diff --git a/target/i386/tcg/sysemu/bpt_helper.c b/target/i386/tcg/sysemu/bpt_helper.c
+diff --git a/target/i386/tcg/sysemu/fpu_helper.c b/target/i386/tcg/sysemu/fpu_helper.c
 new file mode 100644
-index 0000000000..9bdf7e170b
+index 0000000000..1c3610da3b
 --- /dev/null
-+++ b/target/i386/tcg/sysemu/bpt_helper.c
-@@ -0,0 +1,293 @@
++++ b/target/i386/tcg/sysemu/fpu_helper.c
+@@ -0,0 +1,57 @@
 +/*
-+ *  i386 breakpoint helpers - sysemu code
++ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (sysemu code)
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -445,329 +189,51 @@ index 0000000000..9bdf7e170b
 +
 +#include "qemu/osdep.h"
 +#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+#include "tcg/helper-tcg.h"
++#include "hw/irq.h"
 +
++static qemu_irq ferr_irq;
 +
-+static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int index)
++void x86_register_ferr_irq(qemu_irq irq)
 +{
-+    return (dr7 >> (index * 2)) & 1;
++    ferr_irq = irq;
 +}
 +
-+static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int index)
++void fpu_check_raise_ferr_irq(CPUX86State *env)
 +{
-+    return (dr7 >> (index * 2)) & 2;
-+
-+}
-+static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
-+{
-+    return hw_global_breakpoint_enabled(dr7, index) ||
-+           hw_local_breakpoint_enabled(dr7, index);
-+}
-+
-+static inline int hw_breakpoint_type(unsigned long dr7, int index)
-+{
-+    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
-+}
-+
-+static inline int hw_breakpoint_len(unsigned long dr7, int index)
-+{
-+    int len = ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
-+    return (len == 2) ? 8 : len + 1;
-+}
-+
-+static int hw_breakpoint_insert(CPUX86State *env, int index)
-+{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong dr7 = env->dr[7];
-+    target_ulong drN = env->dr[index];
-+    int err = 0;
-+
-+    switch (hw_breakpoint_type(dr7, index)) {
-+    case DR7_TYPE_BP_INST:
-+        if (hw_breakpoint_enabled(dr7, index)) {
-+            err = cpu_breakpoint_insert(cs, drN, BP_CPU,
-+                                        &env->cpu_breakpoint[index]);
-+        }
-+        break;
-+
-+    case DR7_TYPE_IO_RW:
-+        /* Notice when we should enable calls to bpt_io.  */
-+        return hw_breakpoint_enabled(env->dr[7], index)
-+               ? HF_IOBPT_MASK : 0;
-+
-+    case DR7_TYPE_DATA_WR:
-+        if (hw_breakpoint_enabled(dr7, index)) {
-+            err = cpu_watchpoint_insert(cs, drN,
-+                                        hw_breakpoint_len(dr7, index),
-+                                        BP_CPU | BP_MEM_WRITE,
-+                                        &env->cpu_watchpoint[index]);
-+        }
-+        break;
-+
-+    case DR7_TYPE_DATA_RW:
-+        if (hw_breakpoint_enabled(dr7, index)) {
-+            err = cpu_watchpoint_insert(cs, drN,
-+                                        hw_breakpoint_len(dr7, index),
-+                                        BP_CPU | BP_MEM_ACCESS,
-+                                        &env->cpu_watchpoint[index]);
-+        }
-+        break;
-+    }
-+    if (err) {
-+        env->cpu_breakpoint[index] = NULL;
-+    }
-+    return 0;
-+}
-+
-+static void hw_breakpoint_remove(CPUX86State *env, int index)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    switch (hw_breakpoint_type(env->dr[7], index)) {
-+    case DR7_TYPE_BP_INST:
-+        if (env->cpu_breakpoint[index]) {
-+            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
-+            env->cpu_breakpoint[index] = NULL;
-+        }
-+        break;
-+
-+    case DR7_TYPE_DATA_WR:
-+    case DR7_TYPE_DATA_RW:
-+        if (env->cpu_breakpoint[index]) {
-+            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
-+            env->cpu_breakpoint[index] = NULL;
-+        }
-+        break;
-+
-+    case DR7_TYPE_IO_RW:
-+        /* HF_IOBPT_MASK cleared elsewhere.  */
-+        break;
-+    }
-+}
-+
-+void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
-+{
-+    target_ulong old_dr7 = env->dr[7];
-+    int iobpt = 0;
-+    int i;
-+
-+    new_dr7 |= DR7_FIXED_1;
-+
-+    /* If nothing is changing except the global/local enable bits,
-+       then we can make the change more efficient.  */
-+    if (((old_dr7 ^ new_dr7) & ~0xff) == 0) {
-+        /* Fold the global and local enable bits together into the
-+           global fields, then xor to show which registers have
-+           changed collective enable state.  */
-+        int mod = ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) & 0xff;
-+
-+        for (i = 0; i < DR7_MAX_BP; i++) {
-+            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, i)) {
-+                hw_breakpoint_remove(env, i);
-+            }
-+        }
-+        env->dr[7] = new_dr7;
-+        for (i = 0; i < DR7_MAX_BP; i++) {
-+            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i)) {
-+                iobpt |= hw_breakpoint_insert(env, i);
-+            } else if (hw_breakpoint_type(new_dr7, i) == DR7_TYPE_IO_RW
-+                       && hw_breakpoint_enabled(new_dr7, i)) {
-+                iobpt |= HF_IOBPT_MASK;
-+            }
-+        }
-+    } else {
-+        for (i = 0; i < DR7_MAX_BP; i++) {
-+            hw_breakpoint_remove(env, i);
-+        }
-+        env->dr[7] = new_dr7;
-+        for (i = 0; i < DR7_MAX_BP; i++) {
-+            iobpt |= hw_breakpoint_insert(env, i);
-+        }
-+    }
-+
-+    env->hflags = (env->hflags & ~HF_IOBPT_MASK) | iobpt;
-+}
-+
-+bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
-+{
-+    target_ulong dr6;
-+    int reg;
-+    bool hit_enabled = false;
-+
-+    dr6 = env->dr[6] & ~0xf;
-+    for (reg = 0; reg < DR7_MAX_BP; reg++) {
-+        bool bp_match = false;
-+        bool wp_match = false;
-+
-+        switch (hw_breakpoint_type(env->dr[7], reg)) {
-+        case DR7_TYPE_BP_INST:
-+            if (env->dr[reg] == env->eip) {
-+                bp_match = true;
-+            }
-+            break;
-+        case DR7_TYPE_DATA_WR:
-+        case DR7_TYPE_DATA_RW:
-+            if (env->cpu_watchpoint[reg] &&
-+                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
-+                wp_match = true;
-+            }
-+            break;
-+        case DR7_TYPE_IO_RW:
-+            break;
-+        }
-+        if (bp_match || wp_match) {
-+            dr6 |= 1 << reg;
-+            if (hw_breakpoint_enabled(env->dr[7], reg)) {
-+                hit_enabled = true;
-+            }
-+        }
-+    }
-+
-+    if (hit_enabled || force_dr6_update) {
-+        env->dr[6] = dr6;
-+    }
-+
-+    return hit_enabled;
-+}
-+
-+void breakpoint_handler(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+    CPUBreakpoint *bp;
-+
-+    if (cs->watchpoint_hit) {
-+        if (cs->watchpoint_hit->flags & BP_CPU) {
-+            cs->watchpoint_hit = NULL;
-+            if (check_hw_breakpoints(env, false)) {
-+                raise_exception(env, EXCP01_DB);
-+            } else {
-+                cpu_loop_exit_noexc(cs);
-+            }
-+        }
-+    } else {
-+        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
-+            if (bp->pc == env->eip) {
-+                if (bp->flags & BP_CPU) {
-+                    check_hw_breakpoints(env, true);
-+                    raise_exception(env, EXCP01_DB);
-+                }
-+                break;
-+            }
-+        }
-+    }
-+}
-+
-+void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
-+{
-+    switch (reg) {
-+    case 0: case 1: case 2: case 3:
-+        if (hw_breakpoint_enabled(env->dr[7], reg)
-+            && hw_breakpoint_type(env->dr[7], reg) != DR7_TYPE_IO_RW) {
-+            hw_breakpoint_remove(env, reg);
-+            env->dr[reg] = t0;
-+            hw_breakpoint_insert(env, reg);
-+        } else {
-+            env->dr[reg] = t0;
-+        }
-+        return;
-+    case 4:
-+        if (env->cr[4] & CR4_DE_MASK) {
-+            break;
-+        }
-+        /* fallthru */
-+    case 6:
-+        env->dr[6] = t0 | DR6_FIXED_1;
-+        return;
-+    case 5:
-+        if (env->cr[4] & CR4_DE_MASK) {
-+            break;
-+        }
-+        /* fallthru */
-+    case 7:
-+        cpu_x86_update_dr7(env, t0);
++    if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
++        qemu_irq_raise(ferr_irq);
 +        return;
 +    }
-+    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
 +}
 +
-+/* Check if Port I/O is trapped by a breakpoint.  */
-+void helper_bpt_io(CPUX86State *env, uint32_t port,
-+                   uint32_t size, target_ulong next_eip)
++void cpu_clear_ignne(void)
 +{
-+    target_ulong dr7 = env->dr[7];
-+    int i, hit = 0;
-+
-+    for (i = 0; i < DR7_MAX_BP; ++i) {
-+        if (hw_breakpoint_type(dr7, i) == DR7_TYPE_IO_RW
-+            && hw_breakpoint_enabled(dr7, i)) {
-+            int bpt_len = hw_breakpoint_len(dr7, i);
-+            if (port + size - 1 >= env->dr[i]
-+                && port <= env->dr[i] + bpt_len - 1) {
-+                hit |= 1 << i;
-+            }
-+        }
-+    }
-+
-+    if (hit) {
-+        env->dr[6] = (env->dr[6] & ~0xf) | hit;
-+        env->eip = next_eip;
-+        raise_exception(env, EXCP01_DB);
-+    }
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 &= ~HF2_IGNNE_MASK;
 +}
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index b882041ef0..6ecbbfa6c1 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -1117,16 +1117,20 @@ static inline void gen_cmps(DisasContext *s, MemOp ot)
- static void gen_bpt_io(DisasContext *s, TCGv_i32 t_port, int ot)
- {
-     if (s->flags & HF_IOBPT_MASK) {
-+#ifdef CONFIG_USER_ONLY
-+        /* user-mode cpu should not be in IOBPT mode */
-+        g_assert_not_reached();
-+#else
-         TCGv_i32 t_size = tcg_const_i32(1 << ot);
-         TCGv t_next = tcg_const_tl(s->pc - s->cs_base);
- 
-         gen_helper_bpt_io(cpu_env, t_port, t_size, t_next);
-         tcg_temp_free_i32(t_size);
-         tcg_temp_free(t_next);
-+#endif /* CONFIG_USER_ONLY */
-     }
- }
- 
--
- static inline void gen_ins(DisasContext *s, MemOp ot)
- {
-     gen_string_movl_A0_EDI(s);
-@@ -8055,6 +8059,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         if (s->cpl != 0) {
-             gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
-         } else {
-+#ifndef CONFIG_USER_ONLY
-             modrm = x86_ldub_code(env, s);
-             /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
-              * AMD documentation (24594.pdf) and testing of
-@@ -8083,6 +8088,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-                 gen_helper_get_dr(s->T0, cpu_env, s->tmp2_i32);
-                 gen_op_mov_reg_v(s, ot, rm, s->T0);
-             }
-+#endif /* !CONFIG_USER_ONLY */
-         }
-         break;
-     case 0x106: /* clts */
++
++void cpu_set_ignne(void)
++{
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 |= HF2_IGNNE_MASK;
++    /*
++     * We get here in response to a write to port F0h.  The chipset should
++     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
++     * cleared, because FERR# and FP_IRQ are two separate pins on real
++     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
++     * do directly what the chipset would do, i.e. deassert FP_IRQ.
++     */
++    qemu_irq_lower(ferr_irq);
++}
 diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-index 6d0a0a0fee..1580950141 100644
+index b2aaab6eef..f84519a213 100644
 --- a/target/i386/tcg/sysemu/meson.build
 +++ b/target/i386/tcg/sysemu/meson.build
-@@ -2,4 +2,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'tcg-cpu.c',
-   'smm_helper.c',
+@@ -4,4 +4,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
    'excp_helper.c',
-+  'bpt_helper.c',
+   'bpt_helper.c',
+   'misc_helper.c',
++  'fpu_helper.c',
  ))
 -- 
 2.26.2
