@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57E0327FD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:46:04 +0100 (CET)
-Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DB432800B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:53:02 +0100 (CET)
+Received: from localhost ([::1]:39044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGis7-0005IQ-Qo
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:46:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
+	id 1lGiyr-0007hW-5e
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:53:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGirE-0004q1-V7
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:45:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31967)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lGix6-0006Ju-LU
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGirC-0005X1-Oo
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:45:08 -0500
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lGix4-00089Z-TT
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:51:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614606305;
+ s=mimecast20190719; t=1614606669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qBkEvHxE0hdCL0m4Znb06UBIQE5UTE85fF1PySmco5o=;
- b=XyXOmAMEq6VOa4zD7FDnkHXY9hGNTwMTz5QQea/qFHDMPEss4LgV8ARx9FbLGjU1c03rux
- oD/fH2dDOadKIcxOEePybAx0wLZIVNSr0z/Q6/gXnW7M6ACBkShyHEVM+uqe2ClNhyU6gh
- 3FwEd7YvFINsp+seWVYfaGl+BbhtHlg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-1AD7UnTdP_GAABeKPFl8BA-1; Mon, 01 Mar 2021 08:45:04 -0500
-X-MC-Unique: 1AD7UnTdP_GAABeKPFl8BA-1
-Received: by mail-wr1-f72.google.com with SMTP id z6so689765wrh.11
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 05:45:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qBkEvHxE0hdCL0m4Znb06UBIQE5UTE85fF1PySmco5o=;
- b=ZEltAkMFSosA4h5woOXiCJ2D2g4B6S7pgifxvVkqoQCF7P0mNvEk667O0cB+pDTapj
- j8nvKzdTK3DyjcCF+8545/afPTYNZAHuF2h+fVpHWJVSKB8OhMy3L7yNvOZeFqilCKrJ
- e0CD4CgnwNAMlLgTWn8KaiGhNqt5H2J6Ai7JrMneg0e3TwCTMNxyZqV2ohAAWExRXpyc
- JP9SAMmS1SMFF2A3GnfriRPvkUTwE7qFgjX3yyqG1BXmfT6BgawNK2osRAAr6GS1p+gw
- AP9MUz/wY8yHUzOpl/exI6GgQda76yLAtkJCN6EiZJMU3ISL+OcwIcyw/IvZNUuCZ28D
- z0/Q==
-X-Gm-Message-State: AOAM5313fmsnIWsY7+La9BuQVldFZ42FAmr5a7XZH4L9U2DK6PdFO4JJ
- yK0/txggzw2bP4EZ+p872Htljywq3L8pjtAzCmR039WL2KFJ/k+RCfLN9aTVDUhCPrPsJ1+rexm
- c5weYczPswK5BrwlFstH59caA0+WorDJQp3595s0vXklDKgAS3T4f3Nq2vhSsjY1eI3E=
-X-Received: by 2002:a1c:2403:: with SMTP id k3mr16123273wmk.130.1614606301609; 
- Mon, 01 Mar 2021 05:45:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYjPr1bPuxGHO27ZUc2OpH2AcIWpuew+qRjPp24qL9Fl+5W9elaMaNofapG+K0eR8Jl444ew==
-X-Received: by 2002:a1c:2403:: with SMTP id k3mr16123245wmk.130.1614606301337; 
- Mon, 01 Mar 2021 05:45:01 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id j12sm12651795wrt.27.2021.03.01.05.45.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 05:45:00 -0800 (PST)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210226080526.651705-1-pbonzini@redhat.com>
- <20210226080526.651705-28-pbonzini@redhat.com>
- <87r1kzl2vy.fsf@dusky.pond.sub.org>
- <94db680f-a43f-7f94-a897-5512ceef6b98@redhat.com>
- <878s77hunk.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 27/29] vl: deprecate -writeconfig
-Message-ID: <51d463b8-29ec-b0b9-fece-d8a7594f7dbe@redhat.com>
-Date: Mon, 1 Mar 2021 14:45:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iP5lgEpyNdwYtc6WjmOFjCLil9lqVbdp418Dx+Qs8aI=;
+ b=gLWKcz24Tm3LP7Z4Z9uEQ+U0IicJtKuGP03HEPfPmgTx7+kiEvdFxViIZyNgsEU3zOMAOV
+ CBfzT2umHNIWWLB9RNlMzpU4OBn9oxz47GixmbBy/1LYWcf4FYrf1vax7JIz93lWG1lm+d
+ ls8fiqXOUUMWtG7Jo7FuAK03uycBoQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-BumbC1B5O32T1Pf9hau4OA-1; Mon, 01 Mar 2021 08:51:07 -0500
+X-MC-Unique: BumbC1B5O32T1Pf9hau4OA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3789802B45
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 13:51:06 +0000 (UTC)
+Received: from vitty.brq.redhat.com (unknown [10.40.195.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1030D5D71F;
+ Mon,  1 Mar 2021 13:51:04 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/17] i386: KVM: expand Hyper-V features early and provide
+ simple 'hv-default=on' option
+Date: Mon,  1 Mar 2021 14:50:46 +0100
+Message-Id: <20210301135103.306003-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <878s77hunk.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,73 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/21 14:26, Markus Armbruster wrote:
->> Didn't really forget; being pretty sure that there's no usage in the
->> wild and having good reasons to remove the code, giving a firm removal
->> date should encourage people to speak up sooner rather than later.
-> Second thoughts after agreeing to change something are okay.  Keeping
-> them for yourself not so much, because it deprives your reviewers of a
-> chance to raise further points.
+Changes since v4:
+- Temporary drop 'hv-evmcs' from the 'hv-default' set as handling it
+ properly requires custom options parsers (we need to e.g distinguish
+ between 'hv-default,-vmx' and 'hv-default,hv-evmcs,-vmx') but custom
+ parsers are called evil. I'm not giving up on the idea, I just want
+ to get things moving here. I'll be sending patches to add 'hv-evmcs'
+ back separately.
+- Patch to support 'hv-passthrough,hv-feature=off' is also dropped
+ for now, we'll get back to it later (with either custom option
+ parsers or 'scratch CPUs' depending on 'hv-evmcs' discussion 
+ outcome).
+- Null-terminate hv-vendor string in 'hv-passthrough' mode (bug in
+  PATCH1).
 
-Sorry about that.
+Original description:
 
-> In this case, the point I didn't make because I wanted to reach
-> agreement on contents before nitpicking form: you're not using
-> warn_report() the way it wants to be used:
-> 
->      /*
->       * Print a warning message to current monitor if we have one, else to stderr.
->       * Format arguments like sprintf(). The resulting message should be a
-> ---> * single phrase, with no newline or trailing punctuation.
->       * Prepend the current location and append a newline.
->       */
->      void warn_report(const char *fmt, ...)
+Upper layer tools like libvirt want to figure out which Hyper-V features are
+supported by the underlying stack (QEMU/KVM) but currently they are unable to
+do so. We have a nice 'hv_passthrough' CPU flag supported by QEMU but it has
+no effect on e.g. QMP's 
 
-I knew about the rules for no newline or trailing punctuation, but I 
-didn't remember the other.  I can certainly respin, that said:
+query-cpu-model-expansion type=full model={"name":"host","props":{"hv-passthrough":true}}
 
-- the comment should say "sentence", not "phrase".  For example "a 
-single phrase" is a single phrase, while "the resulting message should 
-be a single phrase" is a single sentence.
+command as we parse Hyper-V features after creating KVM vCPUs and not at
+feature expansion time. To support the use-case we first need to make 
+KVM_GET_SUPPORTED_HV_CPUID ioctl a system-wide ioctl as the existing
+vCPU version can't be used that early. This is what KVM part does. With
+that done, we can make early Hyper-V feature expansion (this series).
 
-- I'm not sure how to interpret the rule above.  First of all, the 
-sentence mixes part that are mandatory part ("no newline", checked by 
-checkpatch.pl) is mixed with the style guide ("no trailing punctuation" 
-and "a single sentence").  Second, whether a single sentence is better 
-often depends on the case.  For example, comparing these four:
+In addition, provide a simple 'hv-default' option which enables (and
+requires from KVM) all currently supported Hyper-V enlightenments except
+for 'hv-evmcs' (for now). Unlike 'hv-passthrough' mode, this is going to be
+migratable.
 
-WARNING: -writeconfig foo: -writeconfig is deprecated.  It will go away 
-in QEMU 6.2 with no replacement
+Vitaly Kuznetsov (17):
+  i386: keep hyperv_vendor string up-to-date
+  i386: invert hyperv_spinlock_attempts setting logic with
+    hv_passthrough
+  i386: always fill Hyper-V CPUID feature leaves from X86CPU data
+  i386: stop using env->features[] for filling Hyper-V CPUIDs
+  i386: introduce hyperv_feature_supported()
+  i386: introduce hv_cpuid_get_host()
+  i386: drop FEAT_HYPERV feature leaves
+  i386: introduce hv_cpuid_cache
+  i386: split hyperv_handle_properties() into
+    hyperv_expand_features()/hyperv_fill_cpuids()
+  i386: move eVMCS enablement to hyperv_init_vcpu()
+  i386: switch hyperv_expand_features() to using error_setg()
+  i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
+  i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
+  i386: use global kvm_state in hyperv_enabled() check
+  i386: expand Hyper-V features during CPU feature expansion time
+  i386: provide simple 'hv-default=on' option
+  qtest/hyperv: Introduce a simple hyper-v test
 
-WARNING: -writeconfig foo: -writeconfig is deprecated and will go away 
-in QEMU 6.2 with no replacement
+ MAINTAINERS                |   1 +
+ docs/hyperv.txt            |  18 +-
+ target/i386/cpu.c          | 163 +++++-------
+ target/i386/cpu.h          |   9 +-
+ target/i386/kvm/kvm-stub.c |   5 +
+ target/i386/kvm/kvm.c      | 517 ++++++++++++++++++++-----------------
+ target/i386/kvm/kvm_i386.h |   1 +
+ tests/qtest/hyperv-test.c  | 270 +++++++++++++++++++
+ tests/qtest/meson.build    |   3 +-
+ 9 files changed, 645 insertions(+), 342 deletions(-)
+ create mode 100644 tests/qtest/hyperv-test.c
 
-WARNING: -writeconfig foo: -writeconfig is deprecated; it will go away 
-in QEMU 6.2 with no replacement
-
-WARNING: -writeconfig foo: -writeconfig is deprecated
-WARNING: -writeconfig foo: it will go away in QEMU 6.2 with no replacement
-
-The first one is what was in this patch.
-
-The second does sound fine to me and it's probably what I'll use in v2, 
-with or without the "in QEMU 6.2" part.  However some could consider it 
-to be worse style due to the longer sentence.
-
-The third one is playing with the rules; a semicolon would be separating 
-two sentences.  However usage of the semicolon is quite common in error 
-messages, so maybe it would be good too?
-
-The last one also complies, but it is not clear what "it" refers to so 
-it seems to be the worst in this case.  In other cases it's the obvious 
-choice, and we even have an API for it (error_append_hint... however it 
-doesn't play well with error_fatal which I'm otherwise a big fan of). 
-In this case, not so much.
-
-Paolo
+-- 
+2.29.2
 
 
