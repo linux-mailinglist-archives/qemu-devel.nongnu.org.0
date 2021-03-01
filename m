@@ -2,59 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCE032939C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:30:52 +0100 (CET)
-Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257ED3293E6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:42:57 +0100 (CET)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGq7v-0005XJ-6b
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:30:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43178)
+	id 1lGqJb-00033h-NO
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGq6F-000567-BV
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:29:07 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:60413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGq6D-00038E-0U
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:29:07 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N2Dks-1lwB9T3nsk-013aVx; Mon, 01 Mar 2021 22:28:58 +0100
-Subject: Re: [PATCH v2 10/42] esp: introduce esp_get_stc()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-11-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <be8fd517-b941-8927-5923-319cae2391fb@vivier.eu>
-Date: Mon, 1 Mar 2021 22:28:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <cheptsov@ispras.ru>)
+ id 1lGok5-00017a-U3; Mon, 01 Mar 2021 15:02:09 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:60680)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cheptsov@ispras.ru>)
+ id 1lGok2-0006ao-Lx; Mon, 01 Mar 2021 15:02:09 -0500
+Received: from localhost.localdomain (unknown [77.232.9.83])
+ by mail.ispras.ru (Postfix) with ESMTPSA id E215F40755ED;
+ Mon,  1 Mar 2021 20:01:56 +0000 (UTC)
+From: Vitaly Cheptsov <cheptsov@ispras.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
+Date: Mon,  1 Mar 2021 22:59:18 +0300
+Message-Id: <20210301195919.9333-1-cheptsov@ispras.ru>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-11-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GmSXmSZRxjOXSZzTvnW0GKaGIVNuPMMSr7BVs/sknMSjtxQBkL+
- sp+g1Hi0MdSmPZwj7/2d8labPtTW3qvXyzZUDnWm7uXVfGUTed/yRmrdNsYPT4JaosZIrzu
- kyAHoLQ6ffJol4dVLoaZD8USPo7tipyGA2jLn6QomwLVycQ7147awn0DxzliRu8jZDrVNfo
- bIObPAxK5ePxoo/yxc0Kw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FK1z1ZgF4PM=:lijMxhW6ZPQxBVteJZxZSL
- Vm+DmkSpHUjZm2KxZdWcrPW33qh96ivPQUU6scn5hUIVcoEtSxsDvFkczuclMMe7JY43i6Ry3
- P470b9GINhin+PnMkuCGGAvAfhnKkmkjIUMH+/fuc5sYKdE5WCiDsHj6N7DJBLe76cTY7sjxk
- lPhjGLL/ADAH4AXemVgzXdAuO5jqdI0KSa924bGPRRaFCnjEuv21277r6SK5caVtvFjs8/MUb
- ArZly4NwY30JyG0hz2oddXrCBtWufkd4b6aeCfyh5YSG8m24ZGns6fIHC37S0nkV8CJEJP3Nl
- xBoe5D5cdOEMB7lFEArHpvHb8fWUcwLYWk73ac6qKwuek6WbGH2OgNr1E7BNRibQHVKDjzgEa
- J2qddmBHPIqwiez8ixyNjhEMaudk3sjlUyHT6Lx4lennk0AmMBbGu0wI3Cali
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Received-SPF: pass client-ip=83.149.199.84; envelope-from=cheptsov@ispras.ru;
+ helo=mail.ispras.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 01 Mar 2021 16:41:25 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,52 +48,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vitaly Cheptsov <cheptsov@ispras.ru>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
-> This simplifies reading the STC register value without having to manually shift
-> each individual 8-bit value.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 3a39450930..a1acc2c9bd 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -116,6 +116,17 @@ static void esp_set_tc(ESPState *s, uint32_t dmalen)
->      s->rregs[ESP_TCHI] = dmalen >> 16;
->  }
->  
-> +static uint32_t esp_get_stc(ESPState *s)
-> +{
-> +    uint32_t dmalen;
-> +
-> +    dmalen = s->wregs[ESP_TCLO];
-> +    dmalen |= s->wregs[ESP_TCMID] << 8;
-> +    dmalen |= s->wregs[ESP_TCHI] << 16;
-> +
-> +    return dmalen;
-> +}
-> +
->  static void set_pdma(ESPState *s, enum pdma_origin_id origin,
->                       uint32_t index, uint32_t len)
->  {
-> @@ -688,9 +699,7 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
->          if (val & CMD_DMA) {
->              s->dma = 1;
->              /* Reload DMA counter.  */
-> -            s->rregs[ESP_TCLO] = s->wregs[ESP_TCLO];
-> -            s->rregs[ESP_TCMID] = s->wregs[ESP_TCMID];
-> -            s->rregs[ESP_TCHI] = s->wregs[ESP_TCHI];
-> +            esp_set_tc(s, esp_get_stc(s));
->          } else {
->              s->dma = 0;
->          }
-> 
+After fixing the _UID value for the primary PCI root bridge in
+af1b80ae it was discovered that this change updates Windows
+configuration in an incompatible way causing network configuration
+failure unless DHCP is used. More details provided on the list:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
+
+This change reverts the _UID update from 1 to 0 for q35 and i440fx
+VMs before version 5.2 to maintain the original behaviour when
+upgrading.
+
+Cc: qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org
+Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+---
+ hw/i386/acpi-build.c | 4 ++--
+ hw/i386/pc_piix.c    | 2 ++
+ hw/i386/pc_q35.c     | 2 ++
+ include/hw/i386/pc.h | 1 +
+ 4 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 31a5f6f4a5..442b4629a9 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1277,7 +1277,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         dev = aml_device("PCI0");
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+-        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+         aml_append(sb_scope, dev);
+         aml_append(dsdt, sb_scope);
+ 
+@@ -1296,7 +1296,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+         aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+-        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+         aml_append(dev, build_q35_osc_method());
+         aml_append(sb_scope, dev);
+         if (mcfg_valid) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2904b40163..46cc951073 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -405,6 +405,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pcmc->default_nic_model = "e1000";
++    pcmc->pci_root_uid = 0;
+ 
+     m->family = "pc_piix";
+     m->desc = "Standard PC (i440FX + PIIX, 1996)";
+@@ -448,6 +449,7 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
+     compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+     compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+     pcmc->kvmclock_create_always = false;
++    pcmc->pci_root_uid = 1;
+ }
+ 
+ DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 0a212443aa..53450190f5 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -329,6 +329,7 @@ static void pc_q35_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pcmc->default_nic_model = "e1000e";
++    pcmc->pci_root_uid = 0;
+ 
+     m->family = "pc_q35";
+     m->desc = "Standard PC (Q35 + ICH9, 2009)";
+@@ -375,6 +376,7 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
+     compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+     compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+     pcmc->kvmclock_create_always = false;
++    pcmc->pci_root_uid = 1;
+ }
+ 
+ DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index c9d194a5e7..d4c3d73c11 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -105,6 +105,7 @@ struct PCMachineClass {
+     int legacy_acpi_table_size;
+     unsigned acpi_data_size;
+     bool do_not_add_smb_acpi;
++    int pci_root_uid;
+ 
+     /* SMBIOS compat: */
+     bool smbios_defaults;
+-- 
+2.24.3 (Apple Git-128)
+
 
