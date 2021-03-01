@@ -2,68 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC68328190
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:58:18 +0100 (CET)
-Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28013281C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:05:52 +0100 (CET)
+Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGk01-0002ou-FA
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:58:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51840)
+	id 1lGk7L-0004yb-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:05:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGjyr-0002Gj-9s
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:57:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGjyp-0003HG-0T
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:57:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614610621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7t4wOn1anX7FI4iB3hYxxVAUpkYFSv+cqCRq+WFxCIg=;
- b=REuf+03xrYGFcLITQZ34s5BCcAssiiLW3vzGyx6OcuJURJAv0LFbUxRIhPvRkQHpCMvM/5
- 6Vd6BEyc32Za162hpsIcnzs2d7UhdywEf5H+EvmOpRBguJn83YSjWndmntP6ZqZvWKzgQJ
- +MN1sL2R7j9WjbNAr+SRO3gnxmZoYww=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-QF4csbT1MZilg1VooVuibA-1; Mon, 01 Mar 2021 09:57:00 -0500
-X-MC-Unique: QF4csbT1MZilg1VooVuibA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74B98107ACC7
- for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 14:56:59 +0000 (UTC)
-Received: from virtlab511.virt.lab.eng.bos.redhat.com
- (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B79510013DB;
- Mon,  1 Mar 2021 14:56:58 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] net: validate that ids are well formed
-Date: Mon,  1 Mar 2021 09:56:58 -0500
-Message-Id: <20210301145658.286342-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lGk65-0004H4-BP
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:04:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lGk63-0006Zg-7k
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:04:33 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 121EYWVE138068
+ for <qemu-devel@nongnu.org>; Mon, 1 Mar 2021 09:59:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=YCc8ubzS+JZ24eqgbDU6q3IKaABj42IPb+AXy7zMkZ8=;
+ b=k9fN3jEa7JgtsQxhqC2JUX4zZnea1zFB6p+24oMP7/J3EIcAfOgDRus3pcAmgXUoOw5T
+ NY00Ir3Wsupb+uaaL7+6bV54bmC8Vt9YYNn8c0yrHOYDSu0b7XIWXODUa7dY69DCvsJm
+ zYTbRxU/aK4Iw9CJbT8rbpxg1cdqs7KEplZ4fO/TqFgQ6ldj+ScAb0lTclYKy3yHGrdK
+ NXoOL+Ms3AkG6g/R2lhAyJnHG4BNbHCQNv46rhu/OJW0mVbbKJSH5ooFkAKMdECNHjph
+ Pa1jME88fgQ+xGbsyf6xZRsbdZF8iplaUpfkMNSsmrSgW5D/RTzLxzDqe9wydpvQxPSF 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 370sg4jmqs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 09:59:26 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 121EYp3A139466
+ for <qemu-devel@nongnu.org>; Mon, 1 Mar 2021 09:59:25 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 370sg4jmqj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Mar 2021 09:59:25 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 121EwJbR007644;
+ Mon, 1 Mar 2021 14:59:25 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 36ydq8uuwu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Mar 2021 14:59:25 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 121ExOh737487000
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Mar 2021 14:59:24 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07F5A6A047;
+ Mon,  1 Mar 2021 14:59:24 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95ED86A051;
+ Mon,  1 Mar 2021 14:59:23 +0000 (GMT)
+Received: from [9.211.86.147] (unknown [9.211.86.147])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Mar 2021 14:59:23 +0000 (GMT)
+Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
+ <YDy8qsRRR3FmWr1D@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
+Date: Mon, 1 Mar 2021 09:59:22 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <YDy8qsRRR3FmWr1D@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-01_08:2021-03-01,
+ 2021-03-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103010123
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,72 +113,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, armbru@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a network or network device is created from the command line or HMP,
-QemuOpts ensures that the id passes the id_wellformed check.  However,
-QMP skips this:
+Hi Daniel,
 
-   $ qemu-system-x86_64 -qmp stdio -S -nic user,id=123/456
-   qemu-system-x86_64: -nic user,id=123/456: Parameter id expects an identifier
-   Identifiers consist of letters, digits, -, ., _, starting with a letter.
+On 3/1/2021 5:06 AM, Daniel P. Berrangé wrote:
+> On Fri, Feb 26, 2021 at 10:21:06AM -0500, Daniele Buono wrote:
+>> Build jobs are on the longer side (about 2h and 20m), but I thought it
+>> would be better to just have 6 large jobs than tens of smaller ones.
+> 
+> IMHO that is a not viable.
+> 
+> Our longest job today is approx 60 minutes, and that is already
+> painfully long when developers are repeatedly testing their
+> patch series to find and fix bugs before posting them for review.
+> I can perhaps get through 5-6 test cycles in a day. If we have a
+> 2 hour 20 min job, then I'll get 2-3 test cycles a day.
+> 
+> I don't want to see any new jobs added which increase the longest
+> job execution time. We want to reduce our max job time if anything.
+> 
+> 
 
-   $ qemu-system-x86_64 -qmp stdio -S
-   {"execute":"qmp_capabilities"}
-   {"return": {}}
-   {"execute":"netdev_add", "arguments": {"type": "user", "id": "123/456"}}
-   {"return": {}}
+I totally understand the argument.
 
-After:
+We could build two targets per job. That would create build jobs that
+take 40 to 60-ish minutes. If that's the case, however, I would not
+recommend testing all the possible targets but limit them to what
+is considered a set of most common targets. I have an example of the
+resulting pipeline here:
 
-   $ qemu-system-x86_64 -qmp stdio -S
-   {"execute":"qmp_capabilities"}
-   {"return": {}}
-   {"execute":"netdev_add", "arguments": {"type": "user", "id": "123/456"}}
-   {"error": {"class": "GenericError", "desc": "Parameter "id" expects an identifier"}}
+https://gitlab.com/dbuono/qemu/-/pipelines/258983262
 
-Validity checks should be performed always at the bottom of the call chain,
-because QMP skips all the steps above.  Do this for the network subsystem.
+I selected intel, power, arm and s390 as "common" targets. Would
+something like this be a viable alternative? Perhaps after
+due thinking of what targets should be tested?
 
-Cc: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- net/net.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/net/net.c b/net/net.c
-index fb7b7dcc25..f7835aa0a8 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -43,6 +43,7 @@
- #include "qemu/cutils.h"
- #include "qemu/config-file.h"
- #include "qemu/ctype.h"
-+#include "qemu/id.h"
- #include "qemu/iov.h"
- #include "qemu/qemu-print.h"
- #include "qemu/main-loop.h"
-@@ -1011,6 +1012,17 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
-         }
-     }
- 
-+    /*
-+     * The id for -net has already been checked by QemuOpts and
-+     * could be automatically generated, in which case it is not
-+     * well-formed by design.  HMP and QMP only call us with
-+     * is_netdev == true.
-+     */
-+    if (is_netdev && !id_wellformed(netdev->id)) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "id", "an identifier");
-+        return -1;
-+    }
-+
-     nc = qemu_find_netdev(netdev->id);
-     if (nc) {
-         error_setg(errp, "Duplicate ID '%s'", netdev->id);
--- 
-2.26.2
-
+> Regards,
+> Daniel
+> 
 
