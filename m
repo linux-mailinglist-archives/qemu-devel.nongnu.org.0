@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EE232763F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 03:58:03 +0100 (CET)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0C1327644
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 03:59:46 +0100 (CET)
+Received: from localhost ([::1]:39220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGYl1-00089D-1m
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 21:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
+	id 1lGYmf-0000m0-7c
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 21:59:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lGYkG-0007jU-BM
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 21:57:16 -0500
-Received: from mga14.intel.com ([192.55.52.115]:25480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lGYkE-0008A3-06
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 21:57:16 -0500
-IronPort-SDR: IxQMRBw1704hqpP3HsAFsTihjL5/ThOW00B4RdQDMX0Rq3DgBasXIjuHzzNo3JOUK4FB0FoZuc
- sGX5Owz6sZXw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="185661460"
-X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="185661460"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2021 18:57:11 -0800
-IronPort-SDR: MsHAr2uqg0BPQuUWwpdiUL+tE2Bh4TaW+PQ0D6gzBKx+zgvI5E0IUZAzDlSyqsVqcbPf8SYMbA
- J7vsNCSZhlbw==
-X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="397267607"
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.238.4.93])
- ([10.238.4.93])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2021 18:57:10 -0800
-Subject: Re: [PATCH v2 1/2] target/i386: add "-cpu, lbr-fmt=*" support to
- enable guest LBR
-From: Like Xu <like.xu@linux.intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20210201045453.240258-1-like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <3d325921-24f6-265d-fdb6-836039f9432e@linux.intel.com>
-Date: Mon, 1 Mar 2021 10:57:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lGYl4-0008VZ-Uz
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 21:58:07 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:53562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lGYl2-0008WQ-Ey
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 21:58:06 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id c19so10106807pjq.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 18:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kigezuw/F7NkpHDCq9bpNuoxlo9Bbv+Ehe6b92SAjjw=;
+ b=pZ3xZry1O4F2UIhKp1R1a4F4yI/z5G5/jOLzIFbrm3hJ0L/h+4eexp2qZK+3vvtnfK
+ gPtGksOdXmaZS3SZPLaE8W18K3eq8XNQk+kEwDBLW1tgap2UXGvaAbZY49qt2pgECnmD
+ +9e0qoCMkBPZVSmWgqwQ5TtovJUUXA0a7yZGIZxl7K/ijpAVAH+dzEBTSB0S3Q0dpCB9
+ LJgThXrqlgX4DDl//a9Z4VKtvE1O/G2iTmp0InC1+wvOa1F1zZtTlgzuK/40v4ngTXKd
+ eK83OYwWv4wCh55Sizs5ZIXKBtzBdCiPxTM3PM9hM4jStvc4YL2dZO0K1+nrNKSEP0IG
+ TeSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kigezuw/F7NkpHDCq9bpNuoxlo9Bbv+Ehe6b92SAjjw=;
+ b=rCyx/FNgTCfVfRCYKcdtX1KXWIVfv5HyaoaZOA+SZKn2MZLLgJTe1g3iJzseL/7Lkb
+ jmJy0/Z5EToasHjZQcJWXXhtQPXdsKwx8Eb/2npsOHvTvR3gE+OiUi6hQiVPew4yKJFS
+ fHfmQWxYkFPDwTxpcoUHXhr1NwVc6JVQxtoVuxD45o3U7B4jKcBzHjjNBwwNMezCP7qZ
+ OCkfNamQdBnAypbWme3H3HLf6SkGPtf/NnZOOjLf4GKguja+Y3DF3bPVTOmb68Ox+KA+
+ eiHSycfyl6jvVs4O/pJuQ1GDmXDGJx5nGX7gCQn+JL/hSlmuDOA60IYpLBJxa/jQsPRx
+ xbYQ==
+X-Gm-Message-State: AOAM531T+eRJvgUt7E0fyH8xUThu5GCmdELteTkV5kxLuMDP6sbW13oI
+ Nasl7oLI2z34KIzZu/YwMIDuyQ==
+X-Google-Smtp-Source: ABdhPJzJxEvczf2r/OrN6P+4RGvgddLwcgOopt7VkiqAfrUZPVESFCK5f/5lJeJ1SVo3fzF0gM+tMA==
+X-Received: by 2002:a17:902:bd97:b029:e4:b5f2:ef02 with SMTP id
+ q23-20020a170902bd97b02900e4b5f2ef02mr1902753pls.68.1614567482983; 
+ Sun, 28 Feb 2021 18:58:02 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id y12sm1329640pgs.71.2021.02.28.18.58.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Feb 2021 18:58:02 -0800 (PST)
+Subject: Re: [PATCH v2 04/24] hw/arm/mps2-tz: Make the OSCCLK settings be
+ configurable per-board
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210215115138.20465-1-peter.maydell@linaro.org>
+ <20210215115138.20465-5-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6d88dfb4-5d94-eedd-cf13-16c3a2469046@linaro.org>
+Date: Sun, 28 Feb 2021 18:58:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210201045453.240258-1-like.xu@linux.intel.com>
+In-Reply-To: <20210215115138.20465-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=like.xu@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,124 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo & Eduardo,
+On 2/15/21 3:51 AM, Peter Maydell wrote:
+> +    uint32_t len_oscclk;
+...
+> +    int i;
+...
+> +    for (i = 0; i < mmc->len_oscclk; i++) {
 
-Do we have any comment for the QEMU LBR enabling patches?
+Shouldn't mix types.  I'm surprised you didn't see a warning.
 
-https://lore.kernel.org/qemu-devel/20210201045453.240258-1-like.xu@linux.intel.com/
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On 2021/2/1 12:54, Like Xu wrote:
-> The last branch recording (LBR) is a performance monitor unit (PMU)
-> feature on Intel processors that records a running trace of the most
-> recent branches taken by the processor in the LBR stack. The QEMU
-> could configure whether it's enabled or not for each guest via CLI.
-> 
-> The LBR feature would be enabled on the guest if:
-> - the KVM is enabled and the PMU is enabled and,
-> - the msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM and,
-> - the supported returned value for lbr_fmt from this msr is not zero and,
-> - the requested guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM,
-> - the configured lbr-fmt value is the same as the host lbr_fmt value
->    or use the QEMU option "-cpu host,migratable=no".
-> 
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> ---
->   target/i386/cpu.c     | 16 ++++++++++++++++
->   target/i386/cpu.h     | 10 ++++++++++
->   target/i386/kvm/kvm.c |  5 +++--
->   3 files changed, 29 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index ae89024d36..80a5d3f0c2 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6504,6 +6504,13 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->               x86_cpu_get_supported_feature_word(w, false);
->           uint64_t requested_features = env->features[w];
->           uint64_t unavailable_features = requested_features & ~host_feat;
-> +        if (kvm_enabled() && w == FEAT_PERF_CAPABILITIES &&
-> +            (requested_features & PERF_CAP_LBR_FMT)) {
-> +            if ((host_feat & PERF_CAP_LBR_FMT) !=
-> +                (requested_features & PERF_CAP_LBR_FMT)) {
-> +                unavailable_features |= PERF_CAP_LBR_FMT;
-> +            }
-> +        }
->           mark_unavailable_features(cpu, w, unavailable_features, prefix);
->       }
->   
-> @@ -6611,6 +6618,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->           }
->       }
->   
-> +    if (cpu->lbr_fmt) {
-> +        if (!cpu->enable_pmu) {
-> +            error_setg(errp, "LBR is unsupported since guest PMU is disabled.");
-> +            return;
-> +        }
-> +        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-> +    }
-> +
->       /* mwait extended info: needed for Core compatibility */
->       /* We always wake on interrupt even if host does not have the capability */
->       cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
-> @@ -7184,6 +7199,7 @@ static Property x86_cpu_properties[] = {
->   #endif
->       DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
->       DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
-> +    DEFINE_PROP_UINT8("lbr-fmt", X86CPU, lbr_fmt, 0),
->   
->       DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
->                          HYPERV_SPINLOCK_NEVER_NOTIFY),
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index d23a5b340a..64320bced2 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -354,6 +354,7 @@ typedef enum X86Seg {
->   #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
->   
->   #define MSR_IA32_PERF_CAPABILITIES      0x345
-> +#define PERF_CAP_LBR_FMT      0x3f
->   
->   #define MSR_IA32_TSX_CTRL		0x122
->   #define MSR_IA32_TSCDEADLINE            0x6e0
-> @@ -1709,6 +1710,15 @@ struct X86CPU {
->        */
->       bool enable_pmu;
->   
-> +    /*
-> +     * Configure LBR_FMT bits on IA32_PERF_CAPABILITIES MSR.
-> +     * This can't be enabled by default yet because it doesn't have
-> +     * ABI stability guarantees, as it is only allowed to pass all
-> +     * LBR_FMT bits returned by kvm_arch_get_supported_msr_feature()
-> +     * (that depends on host CPU and kernel capabilities) to the guest.
-> +     */
-> +    uint8_t lbr_fmt;
-> +
->       /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
->        * disabled by default to avoid breaking migration between QEMU with
->        * different LMCE configurations.
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 6dc1ee052d..49745efb78 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -2705,8 +2705,9 @@ static void kvm_msr_entry_add_perf(X86CPU *cpu, FeatureWordArray f)
->                                              MSR_IA32_PERF_CAPABILITIES);
->   
->       if (kvm_perf_cap) {
-> -        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES,
-> -                        kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]);
-> +        kvm_perf_cap = cpu->migratable ?
-> +            (kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]) : kvm_perf_cap;
-> +        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES, kvm_perf_cap);
->       }
->   }
->   
-> 
-
+r~
 
