@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AA932841C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:30:44 +0100 (CET)
-Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883A6328433
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:32:02 +0100 (CET)
+Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGlRT-0003wg-BZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:30:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
+	id 1lGlSh-0005EI-7D
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:31:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGlQ3-0002d0-Ux
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:29:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGlQ2-0000ha-Cl
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:29:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614616153;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d4mxF17IM2/EegLQb8qJBhH5x8BCrvUOToNGOKn4xvg=;
- b=OX21yyA1CjhGxB5L7sCjRItFJHa3wLpfPHMRkApnxGbVWI/f44lgT0ZJ76Pc38r9Bc/qpp
- j2LTH7ZxEamegIVtB7V/2ZkD6ouC1++uhtc1MPPebbFCEX+edrDaCBeSWRPwP1lwwU7ys2
- vjreO3CAd/vlF3A3GC6B5RfHuWB2FQI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-1R9OPbONNue8qLXNIW-ySA-1; Mon, 01 Mar 2021 11:29:11 -0500
-X-MC-Unique: 1R9OPbONNue8qLXNIW-ySA-1
-Received: by mail-wr1-f72.google.com with SMTP id g2so2824244wrx.20
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 08:29:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d4mxF17IM2/EegLQb8qJBhH5x8BCrvUOToNGOKn4xvg=;
- b=Crlqgi/LJY9Dn6rNKqQ/Ejcc/S6lqNAgQxWiD7bHHmaV8FxLxrZDQf2V5ivn1fXGJz
- kW3DEMWZptqm3VLxErPprpH3k/JB7IvvniPQukyZAT9q0jXA9wt5plZSbJXs9bVIbrKS
- a02MdnuNNYqiGehwDknlxOH8Tve5Y8yE+pckWJdFTjUdBRZNsEi4e9vvmyDlft1EqbIm
- tqHF26U4ZXZzctMjQL71QrSUHZFL2bGC11NxlJCFmsr1tRW3qG2s/7TRANhh9JoRFV5Z
- 4+WSYuO4gMTa9TwAVb5EDkrcVg1sgwB3F1vBimKockOT9SBJfrBZqKqFyk3bqGk2igJS
- Vm2g==
-X-Gm-Message-State: AOAM530up8px4FLobYhMLC+B5UQRTmRHHTQsQWMHRaWMbeBEjqo+2UNx
- ADsrfMekatoCF6bABnnP5vVi1Y0xyFjGFn8AY4lbKqlLKuCnd3/mBtSkDzr+qndLYPi5KyCMoJ5
- R1q8U5vu0cTheHRg=
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr16529144wmk.27.1614616150718; 
- Mon, 01 Mar 2021 08:29:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyHEpTwiziTwswU6w2yo+CqgyN9LMcMWb+F9cfD8PR/1QvEvfEgCpuYFebKjWpXAyqaaLCYuw==
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr16529129wmk.27.1614616150559; 
- Mon, 01 Mar 2021 08:29:10 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p18sm16741384wro.18.2021.03.01.08.29.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 08:29:09 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] storage-daemon: report unexpected arguments on the
- fly
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210301152844.291799-1-pbonzini@redhat.com>
- <20210301152844.291799-2-pbonzini@redhat.com>
- <b7b29e6a-4fe6-ab6a-87d9-e2e794b2b5d0@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <23373c2e-e6f1-cbff-ffa7-b79cf6d2b97d@redhat.com>
-Date: Mon, 1 Mar 2021 17:29:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlOj-00012p-8O
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:27:53 -0500
+Received: from hera.aquilenet.fr ([185.233.100.1]:52740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlOh-0000FY-L2
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:27:53 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id BDEE61F6;
+ Mon,  1 Mar 2021 17:27:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id obgVPyg0iJdY; Mon,  1 Mar 2021 17:27:49 +0100 (CET)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id AB7B31F4;
+ Mon,  1 Mar 2021 17:27:48 +0100 (CET)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlOd-003Sa2-W0; Mon, 01 Mar 2021 17:27:47 +0100
+Date: Mon, 1 Mar 2021 17:27:47 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Doug Evans <dje@google.com>
+Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
+ of inet_parse
+Message-ID: <20210301162747.dmsaqzni6mrmkx4a@begin>
+References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
+ <YDN73SqaDQDtwlgZ@redhat.com>
+ <20210228213957.xkc4cceh5o6rgd5n@begin>
+ <CADPb22RY3kT1U69M71+V2-azCwiLn=wm382KHswr2OZXDmZehA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b7b29e6a-4fe6-ab6a-87d9-e2e794b2b5d0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADPb22RY3kT1U69M71+V2-azCwiLn=wm382KHswr2OZXDmZehA@mail.gmail.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: BDEE61F6
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[5];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ TO_DN_ALL(0.00)[]; RCVD_NO_TLS_LAST(0.10)[];
+ FROM_EQ_ENVFROM(0.00)[]; MID_RHS_NOT_FQDN(0.50)[];
+ BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,45 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/21 16:38, Eric Blake wrote:
-> On 3/1/21 9:28 AM, Paolo Bonzini wrote:
->> If the first character of optstring is '-', then each nonoption argv
->> element is handled as if it were the argument of an option with character
->> code 1.  This removes the reordering of the argv array, and enables usage
->> of loc_set_cmdline to provide better error messages.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   storage-daemon/qemu-storage-daemon.c | 9 ++++-----
->>   1 file changed, 4 insertions(+), 5 deletions(-)
+Doug Evans, le lun. 01 mars 2021 08:23:03 -0800, a ecrit:
+> On Sun, Feb 28, 2021 at 1:40 PM Samuel Thibault <[1]samuel.thibault@gnu.org>
+> wrote:
 > 
-> Nice.  The man page for 'getopt_long' is unclear whether setting
-> POSIXLY_CORRECT in the environment would break this
+>     [...]
+>     > Note that one issue I am leaving for later (i.e., I don't want to drag
+>     this
+>     > patch series out to include it), is whether and how to support
+>     ipv4-host->
+>     > ipv6-guest forwarding and vice versa. Can libslirp support this?
+> 
+>     That would be feasible yes: since the data flow is completely rebuilt
+>     between the host and the guest, there is no remnant of the IP version.
+>     It was simpler to have e.g. udp_listen and udp6_listen separate to keep
+>     uint32_t / in6_addr parameters, but there is no strict reason for this:
+>     the haddr is only passed to the bind() call, and the laddr is only
+>     recorded in the so. Put another way, a refactoring patch could be to
+>     just hand udp_listen two sockaddrs, and it will just work fine. We'd
+>     then introduce a slirp_add_hostfwd that takes two sockaddr instead of
+>     host/port.
+> 
+> 
+> 
+> I guess I'm not familiar enough with this code.
+> Help me understand how passing two addresses to udp_listen is simpler.
+> That feels confusing from an API viewpoint.
 
-It doesn't.  In fact, with this patch the behavior is the same as for 
-POSIXLY_CORRECT, though for unrelated reasons, and interestingly enough 
-I think the POSIXLY_CORRECT behavior is an improvement for 
-qemu-storage-daemon.
+? udp_listen already takes two addresses + two ports. I just mean
+replacing that with two sockaddr, which contains both, but also contains
+the address family. I submitted this to 
 
-Unpatched:
+https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/74
 
-$ qemu-storage-daemon foo --object iothread
-qemu-storage-daemon: Parameter 'id' is missing
-
-$ POSIXLY_CORRECT=1 qemu-storage-daemon foo --object iothread
-qemu-storage-daemon: Unexpected argument: foo
-
-Patched:
-
-$ storage-daemon/qemu-storage-daemon foo --object iothread
-qemu-storage-daemon: foo: Unexpected argument
-$ POSIXLY_CORRECT=1 storage-daemon/qemu-storage-daemon foo --object iothread
-qemu-storage-daemon: foo: Unexpected argument
-
-Paolo
-
+Samuel
 
