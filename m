@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D6F3282F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:04:15 +0100 (CET)
-Received: from localhost ([::1]:53860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C9C328306
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:06:26 +0100 (CET)
+Received: from localhost ([::1]:56348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGl1q-0002p8-7w
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:04:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
+	id 1lGl3x-0004Qz-45
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:06:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lGl0K-0001zX-3t
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:02:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57280)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lGl2Y-0003ee-SC
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:04:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lGl0G-0007hn-WE
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:02:38 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lGl2X-0000Qa-6l
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:04:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614614554;
+ s=mimecast20190719; t=1614614695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=W2RJfsA23A4gpMl/6pL7vfPWnAklr3TJrlZkrk/t++M=;
- b=h4V0clGNk2mQxja/KOXqeM2/YiR4L3YtI7VoZ02Py+osDpwqXUPO3BQFlP5Z2yLNydnajV
- QZrLo8iMk302XJfrUXjTRExETfSNtDM8R2wbLQSnSI0OMhHaIVXHFtc9s63VMqPd6muSpy
- FCPU6OxHpsU9e0bPLtntZH5ZhHJsgQU=
+ bh=FqF210RpOISiYiswT5DqkHx/UEebQ6auEtzH9FW8kNg=;
+ b=MM1mFQeGCa5GNjliBigJyGnT4FQAE/ZJjRYtEIcA2gCdrIJwoxzaHovVLiIf5HAuWR+vpX
+ 7GmtQLs/owIHUA5DHWTfjzOaLhFUHY7VyvcUAXrLwKrQPvy+zMpf9PnM3QrnB9Iu5Fq9rO
+ Vtl2qWZ9X8JBCvZbsTWIZZhSWWGhqEE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-7YxPxqyaMraW3Wav7HA6WA-1; Mon, 01 Mar 2021 11:02:33 -0500
-X-MC-Unique: 7YxPxqyaMraW3Wav7HA6WA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-340--8YEtCSLMT-_KolW1PUojg-1; Mon, 01 Mar 2021 11:03:38 -0500
+X-MC-Unique: -8YEtCSLMT-_KolW1PUojg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39491107ACC7;
- Mon,  1 Mar 2021 16:02:31 +0000 (UTC)
-Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D524219C45;
- Mon,  1 Mar 2021 16:02:25 +0000 (UTC)
-Date: Mon, 1 Mar 2021 16:02:23 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Wangxin (Alexander)" <wangxinxin.wang@huawei.com>, mst@redhat.com
-Subject: Re: [RFC]migration: stop/start device at the end of live migration
- concurrently
-Message-ID: <YD0QD+6IZ2LkNnRN@work-vm>
-References: <c716d92c659149f6bdb00c9aa642abf9@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3E8F427C1
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 16:03:37 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-114-174.ams2.redhat.com
+ [10.36.114.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 898075D9E3;
+ Mon,  1 Mar 2021 16:03:37 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id A0AD03E0499; Mon,  1 Mar 2021 17:03:35 +0100 (CET)
+Date: Mon, 1 Mar 2021 17:03:35 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: About '-readconfig' [Was: Re: [PULL 27/29] vl: deprecate -writeconfig]
+Message-ID: <20210301160335.GA86420@paraplu.home>
+References: <20210226080526.651705-1-pbonzini@redhat.com>
+ <20210226080526.651705-28-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c716d92c659149f6bdb00c9aa642abf9@huawei.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210226080526.651705-28-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,98 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wuchenye \(karot,
- Cloud Infrastructure Service Product Dept\)" <wuchenye@huawei.com>,
- "Zhoujian \(jay\)" <jianjay.zhou@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wangxin (Alexander) (wangxinxin.wang@huawei.com) wrote:
-> Hi all,
-
-(copying in Michael for vhost user maintainer).
-
-> We found that the downtime of migration will reach a few seconds when live
-> migrating a huge VM with 224vCPU/180GiB/16 vhost-user nics (x32 queues)/
-> 24 vhost-user-blk disks(x4 queues), most of the time is spent in the
-> position of stopping the device at src and starting device at dst.
-
-I suspect that's more vhost-user devices than anyone else has run on a
-single VM!
-
-> Our idea is to stop the device through multiple threads during the end of
-> migration. To be more specific, we create thread pool at the beginning of live
-> migraion, when migration thread call virtio_vmstate_change callback to stop or
-> start device in vm_state_notify, it will submits request to thread pool to
-> handle the callback concurrently.
+On Fri, Feb 26, 2021 at 09:05:24AM +0100, Paolo Bonzini wrote:
+> The functionality of -writeconfig is limited and the code
+> does not even try to detect cases where it prints incorrect
+> syntax (for example if values have a quote in them, since
+> qemu_config_parse does not support any kind of escaping)
+> so remove it.
 > 
-> We live migrate the vm and count the cost time at different stages of
-> stopping/starting devices.
-> 
->   -       -     -                 Cost: Original    With state change concurrently
->                 get vring base             36ms          18ms
->         disk    disable guest notify       48ms          32ms
->                 disable host notify        300ms         120ms
-> Src             get vring base             1376ms        294ms
->         net     disable host notify        1011ms        116ms
->                 disable guest notify       59ms          40ms
->  -       -      -
->                 enable guest notify        310ms         97ms
->         net     set memtable               48ms          20ms
->                 enable host notify         2022ms        114ms 
-> Dst             enable host notify         312ms         78ms
->         disk    enable guest notify        32ms          23ms
->                 set memTable               16ms          10ms
-> Total Downtime                             5600ms        962ms
-> 
-> However, there are some side effects:
-> 1. When disable host notify or guest notify concurrently, the vm will be crashed
-> due to disabling same notify at the different threads, we now add two different lock
-> to solve this problem, it is hacking to do so and may be resulting in other problems.
-> 
-> 2. As the QEMU BQL will be held by migration thread before stopping device in
-> migration_completion, there will be deadlock in the following scene:
-> migration_thread                              [thread 1]
->   set_up_multithread
->   ...
->   migration_completion()# get QEMU BQL
->     qemu_mutex_lock_iothread()
->     vm_stop_force_state()
->     ...
->       submit stopping device request
->       to thread pool
->                                            virtio_vmstate_change
->                                              virtio_set_status
->                                              ...
->                                                memory_region_transaction_begin
->                                                ...
->                                                  prepare_mmio_access
->                                                    qemu_mutex_iothread_locked()# N
->                                                    qemu_mutex_lock_iothread()# deadlock
-> 
-> Now we add another lock to replace the BQL in this scene to solve the problem,
-> but we think this is not reliable enough and has potential risk that other
-> processes will also use the QEMU BQL during the process of stopping device. My
-> question is: how to deal with the conflict with QEMU BQL properly.
-> 
-> Any advice will be appreciated, thanks.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  docs/system/deprecated.rst | 7 +++++++
+>  qemu-options.hx            | 7 +------
+>  softmmu/vl.c               | 1 +
+>  3 files changed, 9 insertions(+), 6 deletions(-)
 
-To me it feels like the other way here would be to explicitly split
-each of these stages into two; one where it sends the request to the
-vhost device and the other it waits for the response from the vhost-user
-device;  (i.e. in the vhost_user case after the vhost_user_write but
-before the vhost_user_read) - so instead of parallelising everything in
-threads, you'd parallelise all of the corresponding operations;
-so all of the get_vring_base's happen at the same time.
+[...]
 
-Michael: Would this make sense as a thing to change VhostOps
-get_vring_base and many of the others into two part operations?
-(or maybe coroutines with a yield in???)
+Hi,
 
-Dave
+Sorry, I'm coming very late[1] to the discussion.  Will there be a
+replacement for '-readconfig'?
+
+I agree with Gerd's comment[2] in the last year's thread (I missed to
+notice at that time) about '-readconfig' being useful.  I'm familiar
+with least one hosting provider who uses[3] '-readconfig'.  And I've
+also used it for small snippets myself.  I understand, these simple
+use-cases doesn't make it right to keep it. :-)
+
+I'm not saying "don't deprecate '-readconfig'", but just noting its
+usefulness, even in its current form.  So I'm just curious if there's
+be a suggested replacement.  Even if it means: "use libvirt; or use your
+own bespoke scripts".
+
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg03681.html
+    "proposal: deprecate -readconfig/-writeconfig"
+[2] https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg03681.html
+[3] https://github.com/flyingcircusio/fc.qemu/blob/f789e57f605969a0/src/fc/qemu/agent.py#L1153
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+/kashyap
 
 
