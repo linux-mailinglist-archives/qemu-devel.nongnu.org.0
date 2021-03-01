@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F18D328070
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:14:32 +0100 (CET)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0998832809B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:22:46 +0100 (CET)
+Received: from localhost ([::1]:42470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjJe-0003Xe-WC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:14:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
+	id 1lGjRc-0000KJ-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:22:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6X-00028C-IA; Mon, 01 Mar 2021 09:01:00 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57813)
+ id 1lGj6b-00029h-LQ; Mon, 01 Mar 2021 09:01:02 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:49875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6T-0003xE-6K; Mon, 01 Mar 2021 09:00:57 -0500
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 5179E5C0124;
- Mon,  1 Mar 2021 09:00:51 -0500 (EST)
+ id 1lGj6U-0003xt-Ot; Mon, 01 Mar 2021 09:01:01 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id AA941580430;
+ Mon,  1 Mar 2021 09:00:52 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Mon, 01 Mar 2021 09:00:51 -0500
+ by compute1.internal (MEProxy); Mon, 01 Mar 2021 09:00:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=iTzJdZfhmwp76ut9UrmrJAo/WL
- RBYCclCTFUVLoRX/o=; b=X+zK8sLC+NEpiZPb5QmTDvQSNJyF5sjmwzodLl6vRE
- ifUA59dTQfIJoOLsKBTjtjtIfaLIaGG3DHaP0zfySxkUFYg9qCkuYVGth86VR9te
- 6oEXwYDAEjbOKWP5qYAR56X3O5F2fCK7zBqgzuSuepvCr0T03uJgaQYKI14agDMH
- AJpIMMs96s1AfsXw3smIeLbzzlORBzE1V++bAoWTH5WOHz9XFT+le26OUzustCkB
- tBXSuxtlvUuYlomLNbBusfUH35+b2MJA2yOqSs51oE+/5nzOceNOnQlXazAAV43c
- KkdM2+Z6QfoyS/pI9IJ1k5LXAM+695pBlXRvRMoxxu9A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=BKqC5nB4lrKxF
+ WeGqV6vxzP+/JjW3X3UsPxYJmBXNBc=; b=BbvET98HZm7BfKmvZ7XYJudAG5At4
+ wfp1F2iqEXaRjikJNnwoEEFyVlokftKV5hYv3njbExIYJ60dBXxoOWtJ1NuTuJud
+ g1OMerxj3NKnB9CPJXDtgQhKeSA4+jDHWcDRqV8716EuxdFXieVnwR8VEZxkVRPR
+ yixz4FDaaovLJT7XkqDnEa3I5YKagNA336CjqcIKX+Q7iAdYEr6SZxPWWUKXhUXA
+ N7qPaXzWys+/6L/mBYo45ecdkqCgMcA1abP0ayGMa2W6Yju/mQIjLGtw3GzXzV2P
+ yE9U73owlphP1wjLIcy0u3aR8VZ7uJtI1zTYC41K3Z8it52/WWXEEyZCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=iTzJdZ
- fhmwp76ut9UrmrJAo/WLRBYCclCTFUVLoRX/o=; b=KlcfM83Krb6rK5RM1V2UwB
- QeXJrFB1QHRlt+0ASRbwpq1HP09o9yJsGVHiv8LNFuXj4v4nH2Oj6Ra/eJESd/h7
- pvZGV9omPvifHLFy8fcYnRDVv6DbIuiNIl4mWlyGk4qj4EWCNhFBt6zdRCVzseVv
- 22SexUz9yN692O4gTmejuveMjMo/hGKdI1e+F40CJ/BEJWC+CXbUcqcSNOYod1KM
- DS2Ocd0kDJ+9doCd0eTqMma7XlQ0lSj5qFeh42t60zKaUhDRlf5HgAEKbWFhmbyO
- 3+5FZgjKDlRts4jzbzawsNyZyLwB4odxo6h0LCv3EW65SjhFFypKpudsGXXnj6vQ
- ==
-X-ME-Sender: <xms:kvM8YAQroRCBdLhofM1AvtjhZuYBiH8hIwEtXxEaWYqwNyfdlfAucA>
- <xme:kvM8YPXk-8mJsM5ZaJH-x_92ScyHozn5r1sOgSiuVEhNmen1HSPCzyGkIJn8L-Qz2
- L6OfwcjeDIt9fk819c>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=BKqC5nB4lrKxFWeGqV6vxzP+/JjW3X3UsPxYJmBXNBc=; b=dLMvB8yK
+ 18i+JUktVZ/4VxqUvRGPsrm0s5O87yxlRAg35iyBKux/0Eh8fcm4+ncL+Nqiv7CR
+ So4gZv+LhsedCUlgO+q1FDGqM7kjEuaRyv/6uiuj1mH6MCCuMpzy0F08C6qQUQ0u
+ 3flpULx4jJuRhiZyyKYVBgykUZSUSBs8Kzw/svPg4d+hHPLL3DbvA7nZx3H7Vshe
+ 3o+hUkQXe70VL9uZuBm4MNRqlU49U31fpASJU2BH67EBduNv7IPkmGCdqXIDBPfv
+ 7KuxBvwv6poO23NjApWiPxu6qx084Yuow1D8N0OrtFaWE1E/vAKaya3VF95Cp6vB
+ 4xOCUPdKbI9UqA==
+X-ME-Sender: <xms:lPM8YB8AbCD9KOz3WpVqy25EDMIXEkRXMizIpfyxD1DtECfRQ94IGw>
+ <xme:lPM8YNVChkhfzDEgrTyvK2nSWeopXpZ__jlb4Z6_f2Ye6jfUEfizCILwhNwZuhLjO
+ DJbJRQ88lZ5YP1U5fA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdehkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
- vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
- hnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeghfen
- ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:kvM8YEKBnE8rMsAyr66sFafcZZTJfvafbvDbPuepy6WUHJ_m3uyfsw>
- <xmx:kvM8YP2NQloPjYmKSj2OIkhOxr08WaNqEm9-05HH8MgOzs59Rx2h_A>
- <xmx:kvM8YBLEmLUcSpMTwgn0t91eGSItC6FXsv9JD6NNP8c7eLdEgz_5qw>
- <xmx:k_M8YJsKujlUriET_XYkQcdc-a_clUxyLQDa2vPeu0PIe8BAlGB9XQ>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:lPM8YMrN-mFX-zwacEVNdqfqMSWmPTKqqElMRxeQX9hVaKLYDO4EXQ>
+ <xmx:lPM8YPnYcYKLJLzIZE13caUifWkpJBUOnyCRucI3uu5I8J6Lhv4knQ>
+ <xmx:lPM8YM013juJDaQfxvppf1wBBehgUyBVKTHZ5zL5fLrCsbK-tBfSgw>
+ <xmx:lPM8YOtJEXKKdxjvSsMtX2ccAtSzJOFxkFsuaaPbnNtUsMKNZwrjtg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 221381080067;
- Mon,  1 Mar 2021 09:00:49 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9D0A9108006B;
+ Mon,  1 Mar 2021 09:00:50 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/12] hw/block/nvme: metadata and end-to-end data
- protection support
-Date: Mon,  1 Mar 2021 15:00:35 +0100
-Message-Id: <20210301140047.106261-1-its@irrelevant.dk>
+Subject: [PATCH v4 01/12] hw/block/nvme: remove redundant len member in
+ compare context
+Date: Mon,  1 Mar 2021 15:00:36 +0100
+Message-Id: <20210301140047.106261-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210301140047.106261-1-its@irrelevant.dk>
+References: <20210301140047.106261-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,82 +96,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+ Klaus Jensen <its@irrelevant.dk>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This is v4 (RFC removed) of a series that adds support for metadata and=0D
-end-to-end data protection.=0D
-=0D
-First, on the subject of metadata, in v1, support was restricted to=0D
-extended logical blocks, which was pretty trivial to implement, but=0D
-required special initialization and broke DULBE. In v2, metadata is=0D
-always stored continuously at the end of the underlying block device.=0D
-This has the advantage of not breaking DULBE since the data blocks=0D
-remains aligned and allows bdrv_block_status to be used to determinate=0D
-allocation status. It comes at the expense of complicating the extended=0D
-LBA emulation, but on the other hand it also gains support for metadata=0D
-transfered as a separate buffer.=0D
-=0D
-The end-to-end data protection support blew up in terms of required=0D
-changes. This is due to the fact that a bunch of new commands has been=0D
-added to the device since v1 (zone append, compare, copy), and they all=0D
-require various special handling for protection information. If=0D
-potential reviewers would like it split up into multiple patches, each=0D
-adding pi support to one command, shout out.=0D
-=0D
-The core of the series (metadata and eedp) is preceeded by a set of=0D
-patches that refactors mapping (yes, again) and tries to deal with the=0D
-qsg/iov duality mess (maybe also again?).=0D
-=0D
-Support fro metadata and end-to-end data protection is all joint work=0D
-with Gollu Appalanaidu.=0D
-=0D
-v4:=0D
-  * promoted from RFC=0D
-  * moved most eedp additions to nvme-dif.{c,h}. (Keith)=0D
-=0D
-v3:=0D
-=0D
-  * added patch with Verify command=0D
-  * added patches for multiple LBA formats and Format NVM=0D
-  * changed NvmeSG to be a union (Keith)=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add verify command=0D
-=0D
-Klaus Jensen (9):=0D
-  hw/block/nvme: remove redundant len member in compare context=0D
-  hw/block/nvme: remove block accounting for write zeroes=0D
-  hw/block/nvme: fix strerror printing=0D
-  hw/block/nvme: try to deal with the iov/qsg duality=0D
-  hw/block/nvme: remove the req dependency in map functions=0D
-  hw/block/nvme: refactor nvme_dma=0D
-  hw/block/nvme: add metadata support=0D
-  hw/block/nvme: end-to-end data protection=0D
-  hw/block/nvme: add non-mdts command size limit for verify=0D
-=0D
-Minwoo Im (2):=0D
-  hw/block/nvme: support multiple lba formats=0D
-  hw/block/nvme: add support for the format nvm command=0D
-=0D
- hw/block/nvme-dif.h   |   53 ++=0D
- hw/block/nvme-ns.h    |   49 +-=0D
- hw/block/nvme.h       |   51 +-=0D
- include/block/nvme.h  |   34 +-=0D
- hw/block/nvme-dif.c   |  513 ++++++++++++++=0D
- hw/block/nvme-ns.c    |   90 ++-=0D
- hw/block/nvme.c       | 1548 ++++++++++++++++++++++++++++++++++-------=0D
- hw/block/meson.build  |    2 +-=0D
- hw/block/trace-events |   25 +-=0D
- 9 files changed, 2071 insertions(+), 294 deletions(-)=0D
- create mode 100644 hw/block/nvme-dif.h=0D
- create mode 100644 hw/block/nvme-dif.c=0D
-=0D
--- =0D
-2.30.1=0D
-=0D
+The 'len' member of the nvme_compare_ctx struct is redundant since the
+same information is available in the 'iov' member.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ hw/block/nvme.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index edd0b85c10ce..baa69a4a6859 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1697,7 +1697,6 @@ static void nvme_aio_copy_in_cb(void *opaque, int ret)
+ struct nvme_compare_ctx {
+     QEMUIOVector iov;
+     uint8_t *bounce;
+-    size_t len;
+ };
+ 
+ static void nvme_compare_cb(void *opaque, int ret)
+@@ -1718,16 +1717,16 @@ static void nvme_compare_cb(void *opaque, int ret)
+         goto out;
+     }
+ 
+-    buf = g_malloc(ctx->len);
++    buf = g_malloc(ctx->iov.size);
+ 
+-    status = nvme_dma(nvme_ctrl(req), buf, ctx->len, DMA_DIRECTION_TO_DEVICE,
+-                      req);
++    status = nvme_dma(nvme_ctrl(req), buf, ctx->iov.size,
++                      DMA_DIRECTION_TO_DEVICE, req);
+     if (status) {
+         req->status = status;
+         goto out;
+     }
+ 
+-    if (memcmp(buf, ctx->bounce, ctx->len)) {
++    if (memcmp(buf, ctx->bounce, ctx->iov.size)) {
+         req->status = NVME_CMP_FAILURE;
+     }
+ 
+@@ -1964,7 +1963,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+ 
+     ctx = g_new(struct nvme_compare_ctx, 1);
+     ctx->bounce = bounce;
+-    ctx->len = len;
+ 
+     req->opaque = ctx;
+ 
+-- 
+2.30.1
+
 
