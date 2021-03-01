@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03583283B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:26:07 +0100 (CET)
-Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB613283F6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:29:35 +0100 (CET)
+Received: from localhost ([::1]:49780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGlN0-0007NF-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47734)
+	id 1lGlQM-00028x-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:29:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGlLM-00063e-Dx
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:24:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGlLK-0007U2-Mh
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:24:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614615861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xBe9/7eI6zhUsqxLc0YnWF1IvLGcvh13UBQze4VzE4I=;
- b=CyblsC/gZlWQwvCs0uLBha1TnckFAnq2M8KtLBJI1UJ3KZmqYyPEwLwUOFZfEALdeuSKma
- niUqgfcH1r5gdL1Jr5CgbNbPHY3teQGFPX79JuKjoEXM6ht2nuXGLXet7h9IY++iJI1tcT
- +wK96vHIXEc8TPFko3zLj0tccH836+g=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-GVzkOax-MfuckiPgLnij_w-1; Mon, 01 Mar 2021 11:24:13 -0500
-X-MC-Unique: GVzkOax-MfuckiPgLnij_w-1
-Received: by mail-ej1-f69.google.com with SMTP id ml13so6867116ejb.2
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 08:24:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xBe9/7eI6zhUsqxLc0YnWF1IvLGcvh13UBQze4VzE4I=;
- b=Nvoxm8wj2BKNKvOV1hYURFs3qNh2Y/HUq77j7MZhD5JijDCqhodnbFceXL919j0nc2
- oQVNQOPb3ci575soiZPXKz7GyTwIDqyE5onsrq6RY1RiPtdGjnAJC8hGWpez3Ck6Ik7+
- BvSpvgEUJuwQ7LmfEIGHVOoKytOQ34fsa/5k6nIflk4DkwGNCQUBzEU3ij6JdjJzJyx8
- XAPClgkxBR/mXDSfhhESLITLvnjWr9IQfGwxJ7Fa6sT6cHW6NnPSrsNbkeGi5dKYRubT
- 8uDn7qdm2ZVVpXIoYSzZPuAWVa9sJpNG6y6PIr7kCfxp648Z6/7d8VRPGgsI2WjTlRDc
- WIig==
-X-Gm-Message-State: AOAM533vCEfTBDitTwBVs0Ori3pT17ERxstPwrNikDh4wk6cDj1N/E37
- 0LV/w6K4SCuuDL7a1O60S2SkKORir+i5jOxgOYhYJ1whPPAUxdckvtDSD0faRxGSBPd784McUjY
- iMWgfcxACJm968M9/vZXpev/TyJq4tOLFXnKr0FYXRUesMMNNSaT/Jd4YJheZkL/iUj4=
-X-Received: by 2002:a17:906:af91:: with SMTP id
- mj17mr16125424ejb.230.1614615851680; 
- Mon, 01 Mar 2021 08:24:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxAcLkHaojyEK5VCurS+AHhCPly8qVJbwoUCC+qNvtvP0+qGwjZD60OhWwbNFkE74qXb7nvqg==
-X-Received: by 2002:a17:906:af91:: with SMTP id
- mj17mr16125412ejb.230.1614615851509; 
- Mon, 01 Mar 2021 08:24:11 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f9sm2898802eds.41.2021.03.01.08.24.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 08:24:11 -0800 (PST)
-Subject: Re: About '-readconfig' [Was: Re: [PULL 27/29] vl: deprecate
- -writeconfig]
-To: Kashyap Chamarthy <kchamart@redhat.com>
-References: <20210226080526.651705-1-pbonzini@redhat.com>
- <20210226080526.651705-28-pbonzini@redhat.com>
- <20210301160335.GA86420@paraplu.home>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1294a3c2-352b-c9ba-7b29-71cc48227091@redhat.com>
-Date: Mon, 1 Mar 2021 17:24:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlNN-0007rY-Ov
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:26:29 -0500
+Received: from hera.aquilenet.fr ([185.233.100.1]:52718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlNM-0008Ek-6t
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:26:29 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 9064C1F6;
+ Mon,  1 Mar 2021 17:26:25 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id L2jlOlbMRfEw; Mon,  1 Mar 2021 17:26:24 +0100 (CET)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id A17631F4;
+ Mon,  1 Mar 2021 17:26:24 +0100 (CET)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1lGlNH-003S1y-GH; Mon, 01 Mar 2021 17:26:23 +0100
+Date: Mon, 1 Mar 2021 17:26:23 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Doug Evans <dje@google.com>
+Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
+ of inet_parse
+Message-ID: <20210301162623.grhyejdwnshdv7t5@begin>
+References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
+ <YDN73SqaDQDtwlgZ@redhat.com>
+ <20210228213957.xkc4cceh5o6rgd5n@begin>
+ <CADPb22RMRfRAe1Wto1dH8WaCFuMXwkWVEsNo-kXCY607=v4J_w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301160335.GA86420@paraplu.home>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADPb22RMRfRAe1Wto1dH8WaCFuMXwkWVEsNo-kXCY607=v4J_w@mail.gmail.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 9064C1F6
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[5];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ TO_DN_ALL(0.00)[]; RCVD_NO_TLS_LAST(0.10)[];
+ FROM_EQ_ENVFROM(0.00)[]; MID_RHS_NOT_FQDN(0.50)[];
+ BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,52 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/21 17:03, Kashyap Chamarthy wrote:
-> On Fri, Feb 26, 2021 at 09:05:24AM +0100, Paolo Bonzini wrote:
->> The functionality of -writeconfig is limited and the code
->> does not even try to detect cases where it prints incorrect
->> syntax (for example if values have a quote in them, since
->> qemu_config_parse does not support any kind of escaping)
->> so remove it.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   docs/system/deprecated.rst | 7 +++++++
->>   qemu-options.hx            | 7 +------
->>   softmmu/vl.c               | 1 +
->>   3 files changed, 9 insertions(+), 6 deletions(-)
-> 
-> [...]
-> 
-> Hi,
-> 
-> Sorry, I'm coming very late[1] to the discussion.  Will there be a
-> replacement for '-readconfig'?
+Doug Evans, le lun. 01 mars 2021 08:07:19 -0800, a ecrit:
+> Are there any users that this functional change would break?
+> [Previously the empty address meant qemu would only listen on ipv4 addr-any.]
 
--readconfig is not being deprecated, there will be some code new to 
-integrate it with the changes I'm planning to option parsing.
+One case that could be broken would be a user having already another
+service listening on ipv6-only along qemu listening on ipv4-only. But I
+find this very little probable.
 
-Paolo
+> What if a user wants only ipv4 addr-any (or only ipv6 addr-any) ?
 
-> I agree with Gerd's comment[2] in the last year's thread (I missed to
-> notice at that time) about '-readconfig' being useful.  I'm familiar
-> with least one hosting provider who uses[3] '-readconfig'.  And I've
-> also used it for small snippets myself.  I understand, these simple
-> use-cases doesn't make it right to keep it. :-)
-> 
-> I'm not saying "don't deprecate '-readconfig'", but just noting its
-> usefulness, even in its current form.  So I'm just curious if there's
-> be a suggested replacement.  Even if it means: "use libvirt; or use your
-> own bespoke scripts".
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg03681.html
->      "proposal: deprecate -readconfig/-writeconfig"
-> [2] https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg03681.html
-> [3] https://github.com/flyingcircusio/fc.qemu/blob/f789e57f605969a0/src/fc/qemu/agent.py#L1153
-> 
+"0.0.0.0" would get ipv4 addr-any.
 
+Without anything done in particular, "::" would get both ipv6 and
+ipv4. We could make libslirp enable the IPV6ONLY flag to avoid that, and
+make qemu pass an AF_UNSPEC address for the ipv4+ipv6 case, in which
+case libslirp wouldn't set IPV6ONLY.
+
+make that ipv6-only through a flag passed to 
+
+> What does hostfwd "::12345-6.7.8.9:10" mean?
+> Does the presence of the empty host address mean forward both ipv4 and ipv6 to
+> guest ipv4 6.7.8.9?
+
+I'd say so, yes.
+
+Samuel
 
