@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC483280F4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:34:25 +0100 (CET)
-Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9932432811C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:42:12 +0100 (CET)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjcu-0002oO-QL
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:34:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
+	id 1lGjkR-0002ey-LL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lGjGk-0003I2-4K; Mon, 01 Mar 2021 09:11:30 -0500
-Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:45502)
+ id 1lGjJY-0005B8-9f; Mon, 01 Mar 2021 09:14:28 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:53679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lGjGi-00082v-7N; Mon, 01 Mar 2021 09:11:29 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 51FFC246659;
- Mon,  1 Mar 2021 15:11:24 +0100 (CET)
-Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ id 1lGjJS-0000te-1Q; Mon, 01 Mar 2021 09:14:24 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 1252E92C203D;
+ Mon,  1 Mar 2021 15:14:13 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
- 15:11:23 +0100
+ 15:14:12 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00296d8af2e-fe0a-42b3-8b4c-334a91d6c693,
+ (GARM-104R005416610b5-93ef-4e4c-aec2-6bce2c16a77a,
  479CA1392526D135F52AAC0E93683906E8F354F3) smtp.auth=groug@kaod.org
 X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 1 Mar 2021 15:11:22 +0100
+Date: Mon, 1 Mar 2021 15:14:11 +0100
 From: Greg Kurz <groug@kaod.org>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/5] spapr.c: assert first DRC LMB earlier in
- spapr_memory_unplug_request()
-Message-ID: <20210301151122.6d17d3da@bahia.lan>
-In-Reply-To: <20210226163301.419727-2-danielhb413@gmail.com>
+Subject: Re: [PATCH 3/5] spapr.c: add 'unplug already in progress' message
+ for PHB unplug
+Message-ID: <20210301151411.3adaa9d3@bahia.lan>
+In-Reply-To: <20210226163301.419727-4-danielhb413@gmail.com>
 References: <20210226163301.419727-1-danielhb413@gmail.com>
- <20210226163301.419727-2-danielhb413@gmail.com>
+ <20210226163301.419727-4-danielhb413@gmail.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: fb5fc366-b46f-4699-90ab-c93fc2a35f40
-X-Ovh-Tracer-Id: 17729545833287490016
+X-Ovh-Tracer-GUID: 8efefa4a-1912-40b9-9822-a0ca6f6905c5
+X-Ovh-Tracer-Id: 17776833631729129952
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
- helo=4.mo52.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,61 +73,37 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Feb 2021 13:32:57 -0300
+On Fri, 26 Feb 2021 13:32:59 -0300
 Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> We are asserting the existence of the first DRC LMB after sending unplug
-> requests to all LMBs of the DIMM, where every DRC is being asserted
-> inside the loop. This means that the first DRC is being asserted twice.
+> Both CPU hotunplug and PC_DIMM unplug reports an user warning,
+> mentioning that the hotunplug is in progress, if consecutive
+> 'device_del' are issued in quick succession.
 > 
-> We will use the first DRC to simplify the code a bit in the next patch,
-> so instead of removing the duplicated assert, let's do it earlier.
+> Do the same for PHBs in spapr_phb_unplug_request().
 > 
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/ppc/spapr.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+>  hw/ppc/spapr.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6eaddb12cb..74e046b522 100644
+> index 149dc2113f..6ef72ee7bd 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -3664,7 +3664,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
->      uint32_t nr_lmbs;
->      uint64_t size, addr_start, addr;
->      int i;
-> -    SpaprDrc *drc;
-> +    SpaprDrc *drc, *drc_start;
->  
->      if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
->          error_setg(errp, "nvdimm device hot unplug is not supported yet.");
-> @@ -3677,6 +3677,10 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
->      addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
->                                            &error_abort);
->  
-> +    drc_start = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-> +                                addr_start / SPAPR_MEMORY_BLOCK_SIZE);
-> +    g_assert(drc_start);
-> +
->      /*
->       * An existing pending dimm state for this DIMM means that there is an
->       * unplug operation in progress, waiting for the spapr_lmb_release
-> @@ -3701,11 +3705,9 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
->          addr += SPAPR_MEMORY_BLOCK_SIZE;
+> @@ -4030,6 +4030,10 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
+>      if (!spapr_drc_unplug_requested(drc)) {
+>          spapr_drc_unplug_request(drc);
+>          spapr_hotplug_req_remove_by_index(drc);
+> +    } else {
+> +        error_setg(errp,
+> +                   "PCI Host Bridge unplug already in progress for device %s",
+> +                   dev->id);
 >      }
->  
-> -    drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-> -                          addr_start / SPAPR_MEMORY_BLOCK_SIZE);
-> -    g_assert(drc);
->      spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
-> -                                              nr_lmbs, spapr_drc_index(drc));
-> +                                              nr_lmbs,
-> +                                              spapr_drc_index(drc_start));
 >  }
 >  
->  /* Callback to be called during DRC release. */
 
 
