@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3095328E20
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:26:21 +0100 (CET)
-Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB0A328E77
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:35:10 +0100 (CET)
+Received: from localhost ([::1]:42406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGoBQ-0007aj-5q
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:26:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
+	id 1lGoJx-000259-Dt
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:35:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
- id 1lGo9o-0006hU-No
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:24:40 -0500
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:36004)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGoFu-00017G-OT
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:31:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
- id 1lGo9j-0006HM-Ms
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:24:38 -0500
-Received: by mail-lf1-x135.google.com with SMTP id f1so27363898lfu.3
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 11:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=datacom-wien.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VEo9Eiy8vjye84vTRLFgEJdqewoF5w7bpdIfR33P/zI=;
- b=if8Km4cHBGoJ7ed8ALj7i3ptenSWemuCWApKuPcIwlkiOIv1yrzegN9Ly5/RDGPMOJ
- YMX2Nx5GtLXiPim+Rr4XAiT1iT6oQJWy2v1oMDEutq67EUe8rmvW1ghTDAxuBg0o9B9F
- MkymFLV4DLY1Hhv8SKtSCGx0gOpt81b6qp5fM/gBzoEMMyBbwbyUvqxhK+eIfx1HgPmI
- GYEcN9GAhXb3EoTacmzdo8gWUJm6MkmLFngN6ayvWnMeoRC0CbUYQ/4X44jrhnML5F+3
- GbRFGS01ghJHlcsJ+nC9QCFy7HgsZW+SA1fXZGIzVTAHtPNQCK4OxyR7OEqz6FF/7+4a
- EeEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VEo9Eiy8vjye84vTRLFgEJdqewoF5w7bpdIfR33P/zI=;
- b=JZj7xRWWX+9y9fBtAdVJl9QF8tAuN6vrPP/omlhOHj8/LDWpaCMXaJzuQGV7RcEl00
- A55jTxeOFPzauWvhN1UsBqsjFU1JUWSB7dutUAE0a1L/s9iod3W2NU/EIQ4fFyWD9zst
- WswC0S4/EcphcKGMnyZdLV111bLpqXRUTBWwq/9/XV24Hv3UuXAzLTcRuBGiiSkGBKkD
- jk23oQdYIsnAvNWeMI+kpvcUuBClmq6tWmN3WHR7kS+VxfKXuWDD/naKanOn7d36j1Qc
- PkRUaNWX+MoAJ/DYVYXECLSVmDHwzPiaxJ07D/Qc0qJYcwJD1V0PQw24nH2lHRJ7bzlZ
- 0k1w==
-X-Gm-Message-State: AOAM530i09QKuDeFSxy1CfQlzPdp4AUeeRfyg7jPdOCmuJHSIQUchM6i
- Lf8V1hvuaWH0L4ZrW7vXcYwZl4GSIDOV7g==
-X-Google-Smtp-Source: ABdhPJx6G6lEfixVcGK8yObX71f/dxr1XLrjANj9Ns7c5m1ZrO6v+0CDBKhtr0xqjdBhksxf8O0AXw==
-X-Received: by 2002:a05:6512:208b:: with SMTP id
- t11mr6480248lfr.131.1614626673515; 
- Mon, 01 Mar 2021 11:24:33 -0800 (PST)
-Received: from dayas.lan
- (2a02-8388-0281-94f0-b958-b6e3-fc53-344d.cable.dynamic.v6.surfer.at.
- [2a02:8388:281:94f0:b958:b6e3:fc53:344d])
- by smtp.gmail.com with ESMTPSA id z28sm1181170ljm.44.2021.03.01.11.24.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 11:24:33 -0800 (PST)
-From: Danny Milosavljevic <danny.milo@datacom.wien>
-To: qemu-devel@nongnu.org,
-	rminnich@google.com
-Subject: [PATCH v2 1/1] i386: Add support for AMD new-style boot mechanism.
-Date: Mon,  1 Mar 2021 20:24:23 +0100
-Message-Id: <20210301192423.32396-2-danny.milo@datacom.wien>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210301192423.32396-1-danny.milo@datacom.wien>
-References: <20210301192423.32396-1-danny.milo@datacom.wien>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGoFl-0000dG-4t
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:30:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lGoFi-0002eB-In
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 19:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8C2562E8156
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 19:30:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=danny.milo@datacom.wien; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Mar 2021 19:23:14 -0000
+From: Chris Pinnock <1914117@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chrispinnock th-huth
+X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
+X-Launchpad-Bug-Modifier: Chris Pinnock (chrispinnock)
+References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161462659413.25323.4014691158521325877.malone@gac.canonical.com>
+Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
+ architectures and OSes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
+X-Launchpad-Hash: 2ba251b745e9961642bb73fcfcb161b3bbdc4e2d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,106 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Danny Milosavljevic <danny.milo@datacom.wien>
+Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This introduces a new generic-loader setting "csbaseaddr" that
-allows you to set the segment base address of CS.
+libslirp now has a workaround for this in slirp.c.
 
-Signed-off-by: Danny Milosavljevic <danny.milo@datacom.wien>
----
- hw/core/generic-loader.c         |  6 +++++-
- include/hw/core/cpu.h            |  1 +
- include/hw/core/generic-loader.h |  1 +
- target/i386/cpu.c                | 11 +++++++++++
- 4 files changed, 18 insertions(+), 1 deletion(-)
+-- =
 
-diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-index 2b2a7b5e9a..1770ee0229 100644
---- a/hw/core/generic-loader.c
-+++ b/hw/core/generic-loader.c
-@@ -53,6 +53,9 @@ static void generic_loader_reset(void *opaque)
-         cpu_reset(s->cpu);
-         if (cc) {
-             cc->set_pc(s->cpu, s->addr);
-+            if (cc->set_csbase) {
-+                cc->set_csbase(s->cpu, s->csbaseaddr);
-+            }
-         }
-     }
- 
-@@ -103,7 +106,7 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
-         if (s->cpu_num != CPU_NONE) {
-             s->set_pc = true;
-         }
--    } else if (s->addr) {
-+    } else if (s->addr || s->csbaseaddr) {
-         /* User is setting the PC */
-         if (s->data || s->data_len || s->data_be) {
-             error_setg(errp, "data can not be specified when setting a "
-@@ -180,6 +183,7 @@ static void generic_loader_unrealize(DeviceState *dev)
- }
- 
- static Property generic_loader_props[] = {
-+    DEFINE_PROP_UINT64("csbaseaddr", GenericLoaderState, csbaseaddr, 0xffff0000),
-     DEFINE_PROP_UINT64("addr", GenericLoaderState, addr, 0),
-     DEFINE_PROP_UINT64("data", GenericLoaderState, data, 0),
-     DEFINE_PROP_UINT8("data-len", GenericLoaderState, data_len, 0),
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c005d3dc2d..9998b6b986 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -161,6 +161,7 @@ struct CPUClass {
-     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
-                                Error **errp);
-     void (*set_pc)(CPUState *cpu, vaddr value);
-+    void (*set_csbase)(CPUState *cpu, vaddr value);
-     hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
-     hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
-diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-loader.h
-index 19d87b39c8..b407d8e8e9 100644
---- a/include/hw/core/generic-loader.h
-+++ b/include/hw/core/generic-loader.h
-@@ -29,6 +29,7 @@ struct GenericLoaderState {
-     /* <public> */
-     CPUState *cpu;
- 
-+    uint64_t csbaseaddr;
-     uint64_t addr;
-     uint64_t data;
-     uint8_t data_len;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6a53446e6a..7cb4634e18 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7171,6 +7171,16 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.eip = value;
- }
- 
-+static void x86_cpu_set_csbase(CPUState *cs, vaddr value)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    cpu_x86_load_seg_cache(env, R_CS, 0xf000, value, 0xffff,
-+                            DESC_P_MASK | DESC_S_MASK | DESC_CS_MASK |
-+                            DESC_R_MASK | DESC_A_MASK);
-+}
-+
- int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -7412,6 +7422,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
- 
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
-+    cc->set_csbase = x86_cpu_set_csbase;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-     cc->gdb_write_register = x86_cpu_gdb_write_register;
-     cc->get_arch_id = x86_cpu_get_arch_id;
--- 
-2.29.2
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914117
 
+Title:
+  Short files returned via FTP on Qemu with various architectures and
+  OSes
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  Qemu 5.2 on Mac OS X Big Sur.
+
+  I originally thought that it might be caused by the home-brew version of =
+Qemu, but this evening I have removed the brew edition and compiled from sc=
+ratch (using Ninja & Xcode compiler). =
+
+  Still getting the same problem,.
+
+  On the following architectures: =
+
+  arm64, amd64 and sometimes i386 running NetBSD host OS; =
+
+  i386 running OpenBSD host OS:
+
+  I have seen a consistent problem with FTP returning short files. The
+  file will be a couple of bytes too short. I do not believe this is a
+  problem with the OS. Downloading the perl source code from CPAN does
+  not work properly, nor does downloading bind from isc. I've tried this
+  on different architectures as above.
+
+  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
+  gut feel is there is something not right on the Mac OS version of Qemu
+  or a bug in 5.2 - obviously in the network layer somewhere. If you
+  have anything you want me to try, please let me know - happy to help
+  get a resolution.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
 
