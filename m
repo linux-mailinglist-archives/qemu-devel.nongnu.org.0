@@ -2,87 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D901327831
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:21:25 +0100 (CET)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CBC327849
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:35:41 +0100 (CET)
+Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGcrs-0004KW-6P
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:21:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
+	id 1lGd5f-0006E8-ST
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:35:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGcqv-0003oE-T1
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:20:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGcqu-0001yo-9G
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:20:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614583223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zZtpH/VwXUeiGGuvHWVWOWekngO75gAT4pEa7bprv4A=;
- b=dlNz+xjChtYtaK4HykVTol9qJkfLjQgYkx+Wwx3gH7FAJ7+d+Jkshx2hRjhpOLkgwRgvzW
- DwJf7Kw+MrGfCAZFp1EVSLKmVmjZVOqnQmoP8I7mnw/Sg5IneuNwRALdzrHx/hcvnoGSsa
- YGGnYiNqb/YESaR01Nbmls4kN4Q8Dj0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-excGpglJMN-xjLBiANwL_A-1; Mon, 01 Mar 2021 02:20:08 -0500
-X-MC-Unique: excGpglJMN-xjLBiANwL_A-1
-Received: by mail-ed1-f69.google.com with SMTP id q1so8285323edv.5
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 23:20:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zZtpH/VwXUeiGGuvHWVWOWekngO75gAT4pEa7bprv4A=;
- b=s5Zqfp/tTHWT+gKscQRFbCeJp9bcQ1hN/QKAHebu9rB0rL90rveuqYYK8xaf0QQWCD
- +ZaBfOcohz09FQ/efZQRJFO85QkxmkNl/RaEcVZaKCLQU8N8mMX9RNq0xJcD7335zNA3
- Eh3CuT3jCOae1MhKJFOaqswOmUZdEOPcFDIyPE2M5TVK+qFIrvjq7/Msys/qxchpa2jL
- IvK0iIuPRmk7iVw393N4w0FdAPszShJOx+iltl1sWG0dub5rx+AiJ/y9xB49sYSHgG9t
- tZgSw1KpUTQcVR1WTchX0MIrPd5PfyVgskMpzfooPh1NCU+HUXaBVUr0dr3nYxu9WCOh
- /s5w==
-X-Gm-Message-State: AOAM532X6Ee5fyEavA/BYQPHU5L1e3FjdFex/ROkzHRxG0LaaIgcZzpV
- 79EQaWVH+bL7fKFbb5zSWMzkh6ArWXjIy+dj5up0nGauY0Yq/Du555RAJ6zJ//+Uz6rtf7PagmS
- Hwi027Rpr6MgYAMM=
-X-Received: by 2002:a05:6402:35d0:: with SMTP id
- z16mr4728266edc.151.1614583207104; 
- Sun, 28 Feb 2021 23:20:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxaWWFfCFOlF99AagT0387Cw5cq80FJPyKfuuQJQImeHhbdz19vQco8pbyt56RYm3grFJjuGw==
-X-Received: by 2002:a05:6402:35d0:: with SMTP id
- z16mr4728253edc.151.1614583206940; 
- Sun, 28 Feb 2021 23:20:06 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id de17sm5925107ejc.16.2021.02.28.23.20.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 23:20:05 -0800 (PST)
-Date: Mon, 1 Mar 2021 02:20:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-Message-ID: <20210301021449-mutt-send-email-mst@kernel.org>
-References: <20200730155755.188845-1-mst@redhat.com>
- <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
- <20210228154208-mutt-send-email-mst@kernel.org>
- <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lGd3x-0005mc-7Y
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:33:53 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lGd3u-00020g-52
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:33:52 -0500
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DpsQB5qJdz56d8;
+ Mon,  1 Mar 2021 15:31:30 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 1 Mar 2021 15:33:36 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Mon, 1 Mar 2021 15:33:36 +0800
+Subject: Re: [PATCH 3/3] migration/ram: Optimize ram_save_host_page()
+To: David Edmondson <dme@dme.org>, Juan Quintela <quintela@redhat.com>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20210223021646.500-1-jiangkunkun@huawei.com>
+ <20210223021646.500-4-jiangkunkun@huawei.com> <cuna6rs48l2.fsf@dme.org>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <5438e9c9-2eee-5a2b-8a30-24c0d707e125@huawei.com>
+Date: Mon, 1 Mar 2021 15:33:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cuna6rs48l2.fsf@dme.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,55 +69,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Laszlo Ersek <lersek@redhat.com>, vit9696 <vit9696@protonmail.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com, Keqian
+ Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 01, 2021 at 08:12:35AM +0100, Thomas Lamprecht wrote:
-> On 28.02.21 21:43, Michael S. Tsirkin wrote:
-> > Sure. The way to do that is to tie old behaviour to old machine
-> > versions. We'll need it in stable too ...
-> 
-> Yeah, using machine types is how its meant to be with solving migration
-> breakage, sure.
-> But that means we have to permanently pin the VM, and any backup restored from
-> that to that machine type *forever*. That'd be new for us as we always could
-> allow a newer machine type for a fresh start (i.e., non migration or the like)
-> here, and mean that lots of other improvements guarded by a newer machine type
-> for those VMs will.
+On 2021/2/25 20:48, David Edmondson wrote:
+> On Tuesday, 2021-02-23 at 10:16:45 +08, Kunkun Jiang wrote:
+>
+>> Starting from pss->page, ram_save_host_page() will check every page
+>> and send the dirty pages up to the end of the current host page or
+>> the boundary of used_length of the block. If the host page size is
+>> a huge page, the step "check" will take a lot of time.
+>>
+>> This will improve performance to use migration_bitmap_find_dirty().
+>>
+>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>> ---
+>>   migration/ram.c | 14 ++++++++------
+>>   1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index c7e18dc2fc..c7a2350198 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -1994,6 +1994,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>       int tmppages, pages = 0;
+>>       size_t pagesize_bits =
+>>           qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+>> +    unsigned long hostpage_boundary =
+>> +        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
+>>       unsigned long start_page = pss->page;
+>>       int res;
+>>   
+>> @@ -2005,8 +2007,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>       do {
+>>           /* Check the pages is dirty and if it is send it */
+>>           if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+>> -            pss->page++;
+>> -            continue;
+>> +            goto find_next;
+>>           }
+>>   
+>>           tmppages = ram_save_target_page(rs, pss, last_stage);
+>> @@ -2015,16 +2016,17 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>           }
+>>   
+>>           pages += tmppages;
+>> -        pss->page++;
+>>           /* Allow rate limiting to happen in the middle of huge pages */
+>>           if (pagesize_bits > 1) {
+>>               migration_rate_limit();
+>>           }
+>> -    } while ((pss->page & (pagesize_bits - 1)) &&
+>> +find_next:
+>> +        pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+>> +    } while ((pss->page < hostpage_boundary) &&
+>>                offset_in_ramblock(pss->block,
+>>                                   ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
+> This ends up looking very messy, with a goto inside the loop.
+>
+> Wouldn't it be cleaner to invert the sense of the
+> migration_bitmap_clear_dirty() test, such that
+> migration_bitmap_find_dirty() is called after the body of the test?
+Sorry for the late reply.
+Thanks for your advice.  I will post a v2 as soon as possible.
 
-If you don't do that, that is a bug as any virtual hardware
-can change across machine types.
+Best Regards.
 
-> Why not a switch + machine type, solves migration and any special cases of it
-> but also allows machine updates but also to keep the old behavior?
+Kunkun Jiang
 
-I am not really sure what you mean here, sound like a new feature -
-at a guess it will take a while to formulate and is unlikely
-to be backported to stable and so help with historical
-releases.
+>> -    /* The offset we leave with is the last one we looked at */
+>> -    pss->page--;
+>> +    /* The offset we leave with is the min boundary of host page and block */
+>> +    pss->page = MIN(pss->page, hostpage_boundary) - 1;
+>>   
+>>       res = ram_save_release_protection(rs, pss, start_page);
+>>       return (res < 0 ? res : pages);
+>> -- 
+>> 2.23.0
+> dme.
 
-> And yeah, stable is wanted, but extrapolating from the current stable releases
-> frequency, where normally there's maximal one after 5-6 months from the .0
-> release, means that this will probably still hit all those distributions I
-> mentioned or is there something more soon planned?
-> 
-> Also, is there any regression testing infrastructure around to avoid such
-> changes in the future? This change got undetected for 7 months, which can be
-> pretty the norm for QEMU releases, so some earlier safety net would be good? Is
-> there anything which dumps various default machine HW layouts and uses them for
-> an ABI check of some sorts?
-
-There are various testing efforts the reason this got undetected is
-because it does not affect linux guests, and even for windows
-they kind of recover, there's just some boot slowdown around reconfiguration.
-Not easy to detect automatically given windows has lots of random
-downtime during boot around updates etc etc.
-
--- 
-MST
 
 
