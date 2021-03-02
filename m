@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C641D3295D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 05:05:07 +0100 (CET)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293903295D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 05:08:56 +0100 (CET)
+Received: from localhost ([::1]:52822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGwHS-0001Ux-9w
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 23:05:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
+	id 1lGwL8-0003TW-Lf
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 23:08:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGwEs-0000kg-Cx
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 23:02:26 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:44240)
+ id 1lGwJd-0002vA-FZ
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 23:07:21 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGwEp-0000e9-3d
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 23:02:26 -0500
-Received: by mail-pl1-x633.google.com with SMTP id a24so11229317plm.11
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 20:02:22 -0800 (PST)
+ id 1lGwJa-0002g4-Hw
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 23:07:21 -0500
+Received: by mail-pg1-x533.google.com with SMTP id g4so13035593pgj.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 20:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=55oOaZdwm2IvS877B5wgwNLbN64hL1/8rXW71KDwe7A=;
- b=MxUMSRJ4hQxUYRfKBlFTfuqeFmQqqOsGOHydjtLn3GHTdHdp7aNhWEV25ZUk6dqd/u
- nktkBH8DhcaG/js+R9kOufzd6o1DpqKg+rWwBXFayHvEXczVUmWCkEcJlnR4DvLMqou7
- mF3LQ4Gz15/ufbUGQmUNzp3OwunnznH3FA49Zg7SyVJg8CitvPnLbvypgJfJ97N3BNFX
- 8dKDpaiR+C4oF2KMQdhYM1PGX2J+u4gEVvFMrvhwIhToiTN4stTmWOBcpZKzSqp1v2L6
- rLYVKFwaT9AKUwJM6h9WPvWTH08a5z5MA7oqDxWt0pnkhrlQTcVsspqqqX7Okj14x+V9
- RSFQ==
+ bh=pD1DNpw6nUQYKTwFVp1TaLgL/JWvTyJgnVfJpRG5PPU=;
+ b=NVCvWPRA8HIrJfdCoOcrDbXS72xPU4x1QmIkw6zWIdFdMMKFWFrz4eV+W26F6n29EE
+ wgzBqDhDzvvbZAoTrcVUtWplKDjRIZrJvhayg//fbLPCIoHjNUPfMoDgVxG9t3vMsZnp
+ s3e+8a7tQvZOrIlnIFlY4kU3E1iulV65HO4C8Ea3Ui5yivYvBssnkrMSid+Pmm/1RnKw
+ EPSVsPfhz2bAIwKjmu0x+2LML3fS2Cycn2yjniB0JyHSGsJH5Y//0qidofP2/nlH/xhw
+ Og6TA8naGvYyJFrtSKjDAynGsXlLiOJGorLg0H8AN7fJTbu3CF6fh3tJkLQzWq5IF5uo
+ Ww/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=55oOaZdwm2IvS877B5wgwNLbN64hL1/8rXW71KDwe7A=;
- b=cZsHIQYNgQONpM7JvEKY2DVAWM27EMnRHQ9RFQCNwgCD2NVYLxKY8ryHZeRiuOgr3m
- gPDsVUVk48NZpYAGy0FLCAwPiuOX4OOO/CNoG7AVGTwHP7IuR2XcFgv8WHVAw92Isevh
- EtL5V5IbVoU9fsxvJHXh8BU9uQGvrc0eXNwawm9PyRdP199hAWlOHNSEJCTlDKvcd0S+
- TQhLdROgRlyeI7n4ML/QxYkUrbKej8Vxl6wyuqKxVP67NgT8BdZ1F6dcb6aTuwt2nIEY
- niNWRi0AJbhRLv4V8i/M37b+eTtX7fHg6QcBIX8V55VI41YYW1vZCEDS+ndOR53IHNz/
- OPLQ==
-X-Gm-Message-State: AOAM533t9kByYwhim6+Yh1ADDvAKKNPsFYWoV+W0VDGuZlxHUWJrBZ0+
- 5IzrhX2XZsXTaw8E2T6cGXWf8+sZt1ashw==
-X-Google-Smtp-Source: ABdhPJxnauIPtC53LexIM90/oclsR41hrzkoV7JAFB0aA9mjgszmPIKvMbLMdVSRY5AbpaW6Hu6+VQ==
-X-Received: by 2002:a17:90a:29a3:: with SMTP id
- h32mr2315930pjd.209.1614657741227; 
- Mon, 01 Mar 2021 20:02:21 -0800 (PST)
+ bh=pD1DNpw6nUQYKTwFVp1TaLgL/JWvTyJgnVfJpRG5PPU=;
+ b=B7v31rNKFUClCVum/dipRBbW6JwDxMzWsqgOkOLrPz53gj3C8QtxbT9cGPITyOTVK2
+ 3VI2hRWeroKfB9PYPaODE6yfuyPku2qEK8pRPCZ7OI50vyURHywj7NbulJZyiveEDu/n
+ Y/+lYkMlvP9mAco3ZuxmiSLOmOpaKVuqfoYmbhoTeUYFGGqvIa76SatImkHvaVNEXAHZ
+ hoxZ7WRS6o9YR6sA5/G9P8SDdPmPue4jllLJBVghbLtbgt5PGaVwX3MqgY5eWzq4UTbu
+ GJpe+QNNG3Asq4Y4QuKBSXEFmcbIHGUUeyV33upD92Ux+MAnbFiwPu1zZIi59PT0caZw
+ +ixA==
+X-Gm-Message-State: AOAM533g3c02t4xcWdr0Z+Pf0F1X5mjq7/9k5/g0TaATPbOs5GT58ffx
+ GcfFjKVNnuFeUiz/SvRT7hQRdKIN4W5ong==
+X-Google-Smtp-Source: ABdhPJxHxy/Vyh8pd+2FajQwS9YfLoEohrA6Zvl+7rVvKQ6dgoMeRLgMIRJUkG/ZmX87kG+ofPZiHQ==
+X-Received: by 2002:a63:515a:: with SMTP id r26mr16704670pgl.257.1614658036899; 
+ Mon, 01 Mar 2021 20:07:16 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d16sm1023546pjd.25.2021.03.01.20.02.20
+ by smtp.gmail.com with ESMTPSA id ga17sm1052923pjb.7.2021.03.01.20.07.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 20:02:20 -0800 (PST)
-Subject: Re: [RFC v2 12/24] target/arm: move cpsr_read, cpsr_write to
- cpu_common
+ Mon, 01 Mar 2021 20:07:16 -0800 (PST)
+Subject: Re: [RFC v2 13/24] target/arm: add temporary stub for
+ arm_rebuild_hflags
 To: Claudio Fontana <cfontana@suse.de>
 References: <20210301164936.19446-1-cfontana@suse.de>
- <20210301164936.19446-13-cfontana@suse.de>
+ <20210301164936.19446-14-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <de4d984f-031c-b5c7-095c-86fc5d2ff338@linaro.org>
-Date: Mon, 1 Mar 2021 20:02:18 -0800
+Message-ID: <685aff47-f469-73c9-15cb-d4e717b9f427@linaro.org>
+Date: Mon, 1 Mar 2021 20:07:14 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210301164936.19446-13-cfontana@suse.de>
+In-Reply-To: <20210301164936.19446-14-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,22 +93,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/1/21 8:49 AM, Claudio Fontana wrote:
-> we need as a result to move switch_mode too,
-> so we put an implementation into cpu_user and cpu_sysemu.
+> +#ifdef CONFIG_TCG
+>       /* CP15 update requires rebuilding hflags */
+>       arm_rebuild_hflags(&target_cpu->env);
+> +#endif /* CONFIG_TCG */
+...
+> +/* XXX this is used all over in hw/arm, needs Philippe's work to remove */
+> +void arm_rebuild_hflags(CPUARMState *env)
+> +{
+> +    g_assert_not_reached();
+> +}
 > 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/cpu.h        |   2 +
->   target/arm/cpu-common.c | 182 +++++++++++++++++++++++++++++++++
->   target/arm/cpu-sysemu.c |  29 ++++++
->   target/arm/cpu-user.c   |  24 +++++
->   target/arm/tcg/helper.c | 221 ----------------------------------------
->   target/arm/meson.build  |   3 +
->   6 files changed, 240 insertions(+), 221 deletions(-)
->   create mode 100644 target/arm/cpu-user.c
 
-Some commentary about what cpu-common.c is meant to be would be helpful.  So 
-far it looks like helper.c under a different name.
+If you have the stub, you can use tcg_enabled(), not an ifdef.
 
 r~
 
