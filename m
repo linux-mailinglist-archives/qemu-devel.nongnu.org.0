@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971C632ABFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:01:12 +0100 (CET)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEAD32AC1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:11:59 +0100 (CET)
+Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHC8l-0006vy-K3
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:01:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
+	id 1lHCJC-0001ge-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:11:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwe-0001Qg-2s
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36240)
+ id 1lHBwh-0001bD-T2
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:44 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwc-00085g-5Q
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:39 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1lHBwc-000860-NQ
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:43 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122KiCZJ092135; Tue, 2 Mar 2021 15:48:35 -0500
+ 122KhCLd154864; Tue, 2 Mar 2021 15:48:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=cadysZuPx8vVG+UCWHCyjS7plfrBRgsJd08921TQ8hA=;
- b=BRl76bPHJpZaFTM1Fx/NpU1bNqkBm9RIHRw5Rn3pW4Cc/Ykd9KEoOLoia2khoNM4Wxw3
- AhjHtEbAA9DDAFKb4mO4Ba8fvW27A97FUwT44cGMlog6ocdYrogJEenAUCdPh5/tUiTT
- 7jsNZYVfd9H/P+ld5LTSGk7UL4RDYiX2YsKojCdojG0cWDlCj1GK3wXq6fQ8zBwRapYy
- UOJZ0zeJ56GAinoZWPQml6LCtNSOTkv3V9A3Mx+vr+NKI/W97gcFpWTstLmeHzbWy63/
- wGcg8cxnx6wG1jX5fgrMvGAR0ClEXwKVFQrQERFkF55le8a/e+nj1DHiLlhvqRBw/8nW hQ== 
+ bh=J2RxgLr7JRwgCZoLLrGN0Mxfw0E2qRB7yyRuPjyEZjc=;
+ b=LxKNC5AeTgsjNtepnt9VzW+we7L5Sivr2h/c4XEmlUQlKCKU6BoCf6AkJzaJOa5OEsMU
+ JkEbNlBIURjKxRVrTgvuojc9dFwMA3nJC8mrrfgxnH/37Xd9VpBko4G+jV9eUBJTweL8
+ /mwy8z5dl5BMhlwUFDLoLhgR8gM36f/mAhJZ+ZaKv7O+pczuZFuMMRwCVfG3rfSBXZtV
+ WKG/mWl9bh3rVxp0+0kh3KtgYeDf4UdMO0ebx+r9aKTz9N2XTUlfafONLjNJ7XX3zvtE
+ +36+OG7yJ4333+UlPlzNl5jwD3y4tSEZoMNcLYBxN7xDBEy4LdQvuWFJE8879hMmF85W HA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnf0657-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vn4r8w2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 15:48:34 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122KkeTc112164;
+ Tue, 02 Mar 2021 15:48:35 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122KhP7H159450;
  Tue, 2 Mar 2021 15:48:34 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnf064e-1
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vn4r8v9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 02 Mar 2021 15:48:34 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122Km3td009935;
- Tue, 2 Mar 2021 20:48:32 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 3712phhu85-1
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KmRMl008437;
+ Tue, 2 Mar 2021 20:48:33 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 36ydq988kb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 20:48:32 +0000
+ Tue, 02 Mar 2021 20:48:33 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 122KmVwd15073740
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122KmWsq43909560
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 2 Mar 2021 20:48:32 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7E2B28059;
- Tue,  2 Mar 2021 20:48:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5D5942805E;
+ Tue,  2 Mar 2021 20:48:32 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AD2B328058;
- Tue,  2 Mar 2021 20:48:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 32AA828058;
+ Tue,  2 Mar 2021 20:48:32 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  2 Mar 2021 20:48:31 +0000 (GMT)
+ Tue,  2 Mar 2021 20:48:32 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 13/26] migration: Add helpers to load confidential RAM
-Date: Tue,  2 Mar 2021 15:48:09 -0500
-Message-Id: <20210302204822.81901-14-dovmurik@linux.vnet.ibm.com>
+Subject: [RFC PATCH 15/26] migration: Save confidential guest RAM using
+ migration helper
+Date: Tue,  2 Mar 2021 15:48:11 -0500
+Message-Id: <20210302204822.81901-16-dovmurik@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
 References: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
@@ -81,11 +82,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-03-02_08:2021-03-01,
  2021-03-02 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
- mlxscore=0 suspectscore=0 priorityscore=1501 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103020156
+ lowpriorityscore=0
+ mlxlogscore=999 clxscore=1015 suspectscore=0 impostorscore=0
+ malwarescore=0 adultscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103020156
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
@@ -118,92 +119,170 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU cannot write directly to the memory of memory-encrypted guests;
-this breaks normal RAM-load in the migration target.  Instead, QEMU
-asks a migration helper running on an auxiliary vcpu in the guest to
-restore encrypted pages as they were received from the source to a
-specific GPA.
+When saving RAM pages of a confidential guest, check whether a page is
+encrypted.  If it is, ask the in-guest migration helper to encrypt the
+page for transmission.
 
-The migration helper running inside the guest can safely decrypt the
-pages arrived from the source and load them into their proper location
-in the guest's memory.
-
-Loading pages uses the same shared (unencrypted) pages which both QEMU
-and the guest can read from and write to.
+This relies on ability to track the encryption status of each page
+according to guest's reports, and thus requires the relevant patches in
+the guest OS and OVMF and the host KVM and QEMU.  This is all
+encapsulated in is_page_encrypted; the implementation can be modified
+according to the underlying implementation of page encryption status
+tracking (bitmap / KVM shared regions list / user-side list)
 
 Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
 ---
- migration/confidential-ram.h |  2 ++
- migration/confidential-ram.c | 37 ++++++++++++++++++++++++++++++++++++
- migration/trace-events       |  1 +
- 3 files changed, 40 insertions(+)
+ migration/ram.c | 91 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/migration/confidential-ram.h b/migration/confidential-ram.h
-index 0d49718d31..ebe4073bce 100644
---- a/migration/confidential-ram.h
-+++ b/migration/confidential-ram.h
-@@ -14,4 +14,6 @@ void cgs_mh_cleanup(void);
- int cgs_mh_save_encrypted_page(QEMUFile *f, ram_addr_t src_gpa, uint32_t size,
-                                uint64_t *bytes_sent);
+diff --git a/migration/ram.c b/migration/ram.c
+index 997f90cc5b..8e55ed49fd 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -53,10 +53,13 @@
+ #include "block.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-throttle.h"
++#include "sysemu/kvm.h"
+ #include "savevm.h"
+ #include "qemu/iov.h"
+ #include "multifd.h"
+ #include "sysemu/runstate.h"
++#include "hw/boards.h"
++#include "confidential-ram.h"
  
-+int cgs_mh_load_encrypted_page(QEMUFile *f, ram_addr_t dest_gpa);
-+
- #endif
-diff --git a/migration/confidential-ram.c b/migration/confidential-ram.c
-index 65a588e7f6..fe317ee74b 100644
---- a/migration/confidential-ram.c
-+++ b/migration/confidential-ram.c
-@@ -182,3 +182,40 @@ int cgs_mh_save_encrypted_page(QEMUFile *f, ram_addr_t src_gpa, uint32_t size,
+ #if defined(__linux__)
+ #include "qemu/userfaultfd.h"
+@@ -81,6 +84,7 @@
+ #define RAM_SAVE_FLAG_XBZRLE   0x40
+ /* 0x80 is reserved in migration.h start with 0x100 next */
+ #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
++#define RAM_SAVE_FLAG_GUEST_ENCRYPTED_PAGE    0x200
  
-     return ret;
+ static inline bool memcrypt_enabled(void)
+ {
+@@ -94,6 +98,13 @@ static inline bool is_zero_range(uint8_t *p, uint64_t size)
+     return buffer_is_zero(p, size);
  }
-+
-+int cgs_mh_load_encrypted_page(QEMUFile *f, ram_addr_t dest_gpa)
-+{
-+    int ret = 1;
-+    uint32_t page_hdr_len, enc_page_len;
-+
-+    init_cgs_mig_helper_if_needed();
-+
-+    assert((dest_gpa & TARGET_PAGE_MASK) == dest_gpa);
-+
-+    /* Read page header */
-+    page_hdr_len = qemu_get_be32(f);
-+    if (page_hdr_len > 1024) {
-+        error_report("confidential-ram: page header is too large (%d bytes) "
-+                     "when loading gpa %" PRIu64, page_hdr_len, dest_gpa);
-+        return -EINVAL;
-+    }
-+    cmhs.io_page_hdr->len = page_hdr_len;
-+    qemu_get_buffer(f, cmhs.io_page_hdr->data, page_hdr_len);
-+
-+    /* Read encrypted page */
-+    enc_page_len = qemu_get_be32(f);
-+    if (enc_page_len != TARGET_PAGE_SIZE) {
-+        error_report("confidential-ram: encrypted page is too large (%d bytes) "
-+                     "when loading gpa %" PRIu64, enc_page_len, dest_gpa);
-+        return -EINVAL;
-+    }
-+    qemu_get_buffer(f, cmhs.io_page, enc_page_len);
-+
-+    trace_encrypted_ram_load_page(page_hdr_len, enc_page_len, dest_gpa);
-+    ret = send_command_to_cgs_mig_helper(CGS_MIG_HELPER_CMD_DECRYPT, dest_gpa);
-+    if (ret) {
-+        error_report("confidential-ram: failed loading page at dest_gpa "
-+                     "%" PRIu64 ": ret=%d", dest_gpa, ret);
-+    }
-+    return ret;
-+}
-diff --git a/migration/trace-events b/migration/trace-events
-index 929de4ca98..ef31cf78cb 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -345,4 +345,5 @@ migration_pagecache_init(int64_t max_num_items) "Setting cache buckets to %" PRI
- migration_pagecache_insert(void) "Error allocating page"
  
- # confidential-ram.c
-+encrypted_ram_load_page(uint32_t hdr_len, uint32_t trans_len, uint64_t gpa) "hdr_len: %u, trans_len: %u, gpa: 0x%" PRIx64
- encrypted_ram_save_page(uint32_t size, uint64_t gpa) "size: %u, gpa: 0x%" PRIx64
++static inline bool confidential_guest(void)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    return ms->cgs;
++}
++
+ XBZRLECacheStats xbzrle_counters;
+ 
+ /* struct contains XBZRLE cache and a static page
+@@ -660,6 +671,23 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+     }
+ }
+ 
++/**
++ * is_page_encrypted: check if the page is encrypted
++ *
++ * Returns a bool indicating whether the page is encrypted.
++ */
++static bool is_page_encrypted(RAMState *rs, RAMBlock *block, unsigned long page)
++{
++    /* ROM devices contain unencrypted data */
++    if (memory_region_is_romd(block->mr) ||
++        memory_region_is_rom(block->mr) ||
++        !memory_region_is_ram(block->mr)) {
++        return false;
++    }
++
++    return test_bit(page, block->encbmap);
++}
++
+ /**
+  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
+  *
+@@ -1928,6 +1956,45 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+     return false;
+ }
+ 
++/**
++ * ram_save_encrypted_page - send the given encrypted page to the stream
++ *
++ * Return the number of pages written (=1).
++ */
++static int ram_save_encrypted_page(RAMState *rs, PageSearchStatus *pss,
++                                   bool last_stage)
++{
++    int ret;
++    uint8_t *p;
++    RAMBlock *block = pss->block;
++    ram_addr_t offset = pss->page << TARGET_PAGE_BITS;
++    ram_addr_t gpa;
++    uint64_t bytes_sent;
++
++    p = block->host + offset;
++
++    /* Find the GPA of the page */
++    if (!kvm_physical_memory_addr_from_host(kvm_state, p, &gpa)) {
++        error_report("%s failed to get gpa for offset %" PRIu64 " block %s",
++                     __func__, offset, memory_region_name(block->mr));
++        return -1;
++    }
++
++    ram_counters.transferred +=
++        save_page_header(rs, rs->f, block,
++                    offset | RAM_SAVE_FLAG_GUEST_ENCRYPTED_PAGE);
++
++    ret = cgs_mh_save_encrypted_page(rs->f, gpa, TARGET_PAGE_SIZE, &bytes_sent);
++    if (ret) {
++        return -1;
++    }
++
++    ram_counters.transferred += bytes_sent;
++    ram_counters.normal++;
++
++    return 1;
++}
++
+ /**
+  * ram_save_target_page: save one target page
+  *
+@@ -1948,6 +2015,26 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+         return res;
+     }
+ 
++    /*
++     * If memory encryption is enabled then skip saving the data pages used by
++     * the migration handler.
++     */
++    if (confidential_guest() &&
++        gpa_inside_migration_helper_shared_area(offset)) {
++        return 0;
++    }
++
++    /*
++     * If memory encryption is enabled then use memory encryption APIs
++     * to write the outgoing buffer to the wire. The encryption APIs
++     * will take care of accessing the guest memory and re-encrypt it
++     * for the transport purposes.
++     */
++    if (confidential_guest() &&
++        is_page_encrypted(rs, pss->block, pss->page)) {
++        return ram_save_encrypted_page(rs, pss, last_stage);
++    }
++
+     if (save_compress_page(rs, block, offset)) {
+         return 1;
+     }
+@@ -2776,6 +2863,10 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+         return -1;
+     }
+ 
++    if (confidential_guest()) {
++        cgs_mh_init();
++    }
++
+     /* migration has already setup the bitmap, reuse it. */
+     if (!migration_in_colo_state()) {
+         if (ram_init_all(rsp) != 0) {
 -- 
 2.20.1
 
