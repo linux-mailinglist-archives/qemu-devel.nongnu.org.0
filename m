@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91983329F88
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 13:54:03 +0100 (CET)
-Received: from localhost ([::1]:45670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342D6329F9F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 13:56:41 +0100 (CET)
+Received: from localhost ([::1]:51986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH4XK-00076Y-Ko
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 07:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
+	id 1lH4Zs-0001NT-7u
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 07:56:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1lH4K8-0007hV-L2
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:24 -0500
+ id 1lH4KB-0007jp-VL
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:28 -0500
 Received: from mga05.intel.com ([192.55.52.43]:62468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1lH4K6-0002nT-7O
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:24 -0500
-IronPort-SDR: 12qEz89+YD9RqX4f9Ewru3x/RJYlHkCHBu1lwwleOTbH2oywIhi6gnLaNuMJUsEVzyV13IFJpi
- bX+HCB+uIr0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="271803059"
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="271803059"
+ id 1lH4KA-0002nT-2P
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:27 -0500
+IronPort-SDR: SGIqMdRTmlIyO1dy71edT40ugJ3qJ7iY02v0f8t+FurgzkEojTbJnLJo2roc+AAEeSlhKYA5r9
+ fpHxgs996rOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="271803101"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="271803101"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2021 04:40:20 -0800
-IronPort-SDR: Z2ydfC+vTLoozXz6uRkgrWtTwdhKWlHy4iGxy4tQ0HdPy+TZ5NUyM1AhipSdDqSwxjw5+CDmtm
- W4TLz/IcxWSw==
+ 02 Mar 2021 04:40:25 -0800
+IronPort-SDR: 3m2tH7iTtFMEWJ1fNEtLOwW5jsZf0m2Tm6vYxUwFZllkkL72c4tFJWJLN3nHDOWSdjpTDEyAty
+ eT6FiT3EfZxA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427472895"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427472924"
 Received: from yiliu-dev.bj.intel.com (HELO dual-ub.bj.intel.com)
  ([10.238.156.135])
- by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:40:13 -0800
+ by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:40:20 -0800
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v11 11/25] intel_iommu: add set/unset_iommu_context callback
-Date: Wed,  3 Mar 2021 04:38:13 +0800
-Message-Id: <20210302203827.437645-12-yi.l.liu@intel.com>
+Subject: [RFC v11 12/25] vfio: add HostIOMMUContext support
+Date: Wed,  3 Mar 2021 04:38:14 +0800
+Message-Id: <20210302203827.437645-13-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210302203827.437645-1-yi.l.liu@intel.com>
 References: <20210302203827.437645-1-yi.l.liu@intel.com>
@@ -65,189 +65,151 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, eric.auger@redhat.com, yi.y.sun@intel.com,
  Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- Lingshan.Zhu@intel.com, hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+ Lingshan.Zhu@intel.com, hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds set/unset_iommu_context() impelementation in Intel
-vIOMMU. PCIe devices (VFIO case) sets HostIOMMUContext to vIOMMU as
-an ack of vIOMMU's "want_nested" attribute. Thus vIOMMU could build
-DMA protection based on nested paging of host IOMMU.
+This patch adds support for HostIOMMUContext, implements bind_stage1_pgtbl()
+and unbind_stage1_pgtbl() for vIOMMU to setup dual stage DMA translation for
+passthru devices on hardware.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/i386/intel_iommu.c         | 71 ++++++++++++++++++++++++++++++++---
- include/hw/i386/intel_iommu.h | 21 +++++++++--
- 2 files changed, 83 insertions(+), 9 deletions(-)
+ hw/vfio/common.c                      | 70 +++++++++++++++++++++++++++
+ include/hw/iommu/host_iommu_context.h |  3 ++
+ include/hw/vfio/vfio-common.h         |  3 ++
+ 3 files changed, 76 insertions(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index d89d6d7dd5..8419fd2818 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3380,23 +3380,33 @@ static const MemoryRegionOps vtd_mem_ir_ops = {
-     },
- };
- 
--VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
-+/**
-+ * Fetch a VTDBus instance for given PCIBus. If no existing instance,
-+ * allocate one.
-+ */
-+static VTDBus *vtd_find_add_bus(IntelIOMMUState *s, PCIBus *bus)
- {
-     uintptr_t key = (uintptr_t)bus;
-     VTDBus *vtd_bus = g_hash_table_lookup(s->vtd_as_by_busptr, &key);
--    VTDAddressSpace *vtd_dev_as;
--    char name[128];
- 
-     if (!vtd_bus) {
-         uintptr_t *new_key = g_malloc(sizeof(*new_key));
-         *new_key = (uintptr_t)bus;
-         /* No corresponding free() */
--        vtd_bus = g_malloc0(sizeof(VTDBus) + sizeof(VTDAddressSpace *) * \
--                            PCI_DEVFN_MAX);
-+        vtd_bus = g_malloc0(sizeof(VTDBus));
-         vtd_bus->bus = bus;
-         g_hash_table_insert(s->vtd_as_by_busptr, new_key, vtd_bus);
-     }
-+    return vtd_bus;
-+}
- 
-+VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
-+{
-+    VTDBus *vtd_bus;
-+    VTDAddressSpace *vtd_dev_as;
-+    char name[128];
-+
-+    vtd_bus = vtd_find_add_bus(s, bus);
-     vtd_dev_as = vtd_bus->dev_as[devfn];
- 
-     if (!vtd_dev_as) {
-@@ -3484,6 +3494,55 @@ static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 883815d5b0..433938c245 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1575,6 +1575,54 @@ static int vfio_get_iommu_type(VFIOContainer *container,
      return ret;
  }
  
-+static int vtd_dev_set_iommu_context(PCIBus *bus, void *opaque,
-+                                     int devfn,
-+                                     HostIOMMUContext *iommu_ctx)
++static int vfio_host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                         struct iommu_gpasid_bind_data *bind)
 +{
-+    IntelIOMMUState *s = opaque;
-+    VTDBus *vtd_bus;
-+    VTDHostIOMMUContext *vtd_dev_icx;
++    VFIOContainer *container = container_of(iommu_ctx,
++                                            VFIOContainer, iommu_ctx);
++    struct vfio_iommu_type1_nesting_op *op;
++    unsigned long argsz;
++    int ret = 0;
 +
-+    assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
++    argsz = sizeof(*op) + sizeof(*bind);
++    op = g_malloc0(argsz);
++    op->argsz = argsz;
++    op->flags = VFIO_IOMMU_NESTING_OP_BIND_PGTBL;
++    memcpy(&op->data, bind, sizeof(*bind));
 +
-+    vtd_bus = vtd_find_add_bus(s, bus);
-+
-+    vtd_iommu_lock(s);
-+
-+    vtd_dev_icx = vtd_bus->dev_icx[devfn];
-+
-+    assert(!vtd_dev_icx);
-+
-+    vtd_bus->dev_icx[devfn] = vtd_dev_icx =
-+                    g_malloc0(sizeof(VTDHostIOMMUContext));
-+    vtd_dev_icx->vtd_bus = vtd_bus;
-+    vtd_dev_icx->devfn = (uint8_t)devfn;
-+    vtd_dev_icx->iommu_state = s;
-+    vtd_dev_icx->iommu_ctx = iommu_ctx;
-+
-+    vtd_iommu_unlock(s);
-+
-+    return 0;
++    if (ioctl(container->fd, VFIO_IOMMU_NESTING_OP, op)) {
++        ret = -errno;
++        error_report("%s: pasid (%llu) bind failed: %m",
++                      __func__, bind->hpasid);
++    }
++    g_free(op);
++    return ret;
 +}
 +
-+static void vtd_dev_unset_iommu_context(PCIBus *bus, void *opaque, int devfn)
++static int vfio_host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                         struct iommu_gpasid_bind_data *unbind)
 +{
-+    IntelIOMMUState *s = opaque;
-+    VTDBus *vtd_bus;
-+    VTDHostIOMMUContext *vtd_dev_icx;
++    VFIOContainer *container = container_of(iommu_ctx,
++                                            VFIOContainer, iommu_ctx);
++    struct vfio_iommu_type1_nesting_op *op;
++    unsigned long argsz;
++    int ret = 0;
 +
-+    assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
++    argsz = sizeof(*op) + sizeof(*unbind);
++    op = g_malloc0(argsz);
++    op->argsz = argsz;
++    op->flags = VFIO_IOMMU_NESTING_OP_UNBIND_PGTBL;
++    memcpy(&op->data, unbind, sizeof(*unbind));
 +
-+    vtd_bus = vtd_find_add_bus(s, bus);
-+
-+    vtd_iommu_lock(s);
-+
-+    vtd_dev_icx = vtd_bus->dev_icx[devfn];
-+    g_free(vtd_dev_icx);
-+    vtd_bus->dev_icx[devfn] = NULL;
-+
-+    vtd_iommu_unlock(s);
++    if (ioctl(container->fd, VFIO_IOMMU_NESTING_OP, op)) {
++        ret = -errno;
++        error_report("%s: pasid (%llu) unbind failed: %m",
++                      __func__, unbind->hpasid);
++    }
++    g_free(op);
++    return ret;
 +}
 +
- static uint64_t get_naturally_aligned_size(uint64_t start,
-                                            uint64_t size, int gaw)
+ static int vfio_init_container(VFIOContainer *container, int group_fd,
+                                bool want_nested, Error **errp)
  {
-@@ -3781,6 +3840,8 @@ static AddressSpace *vtd_host_dma_iommu(PCIBus *bus, void *opaque, int devfn)
- static PCIIOMMUOps vtd_iommu_ops = {
-     .get_address_space = vtd_host_dma_iommu,
-     .get_iommu_attr = vtd_dev_get_iommu_attr,
-+    .set_iommu_context = vtd_dev_set_iommu_context,
-+    .unset_iommu_context = vtd_dev_unset_iommu_context,
- };
- 
- static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 41783ee46d..28396675ef 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -63,6 +63,7 @@ typedef union VTD_IR_TableEntry VTD_IR_TableEntry;
- typedef union VTD_IR_MSIAddress VTD_IR_MSIAddress;
- typedef struct VTDPASIDDirEntry VTDPASIDDirEntry;
- typedef struct VTDPASIDEntry VTDPASIDEntry;
-+typedef struct VTDHostIOMMUContext VTDHostIOMMUContext;
- 
- /* Context-Entry */
- struct VTDContextEntry {
-@@ -111,10 +112,20 @@ struct VTDAddressSpace {
-     IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
- };
- 
-+struct VTDHostIOMMUContext {
-+    VTDBus *vtd_bus;
-+    uint8_t devfn;
-+    HostIOMMUContext *iommu_ctx;
-+    IntelIOMMUState *iommu_state;
+@@ -2268,3 +2316,25 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
+     }
+     return vfio_eeh_container_op(container, op);
+ }
++
++static void vfio_host_iommu_context_class_init(ObjectClass *klass,
++                                                       void *data)
++{
++    HostIOMMUContextClass *hicxc = HOST_IOMMU_CONTEXT_CLASS(klass);
++
++    hicxc->bind_stage1_pgtbl = vfio_host_iommu_ctx_bind_stage1_pgtbl;
++    hicxc->unbind_stage1_pgtbl = vfio_host_iommu_ctx_unbind_stage1_pgtbl;
++}
++
++static const TypeInfo vfio_host_iommu_context_info = {
++    .parent = TYPE_HOST_IOMMU_CONTEXT,
++    .name = TYPE_VFIO_HOST_IOMMU_CONTEXT,
++    .class_init = vfio_host_iommu_context_class_init,
 +};
 +
- struct VTDBus {
--    PCIBus* bus;		/* A reference to the bus to provide translation for */
-+    /* A reference to the bus to provide translation for */
-+    PCIBus *bus;
-     /* A table of VTDAddressSpace objects indexed by devfn */
--    VTDAddressSpace *dev_as[];
-+    VTDAddressSpace *dev_as[PCI_DEVFN_MAX];
-+    /* A table of VTDHostIOMMUContext objects indexed by devfn */
-+    VTDHostIOMMUContext *dev_icx[PCI_DEVFN_MAX];
- };
++static void vfio_register_types(void)
++{
++    type_register_static(&vfio_host_iommu_context_info);
++}
++
++type_init(vfio_register_types)
+diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
+index 41c4176c15..3498a3e25d 100644
+--- a/include/hw/iommu/host_iommu_context.h
++++ b/include/hw/iommu/host_iommu_context.h
+@@ -33,6 +33,9 @@
+ #define TYPE_HOST_IOMMU_CONTEXT "qemu:host-iommu-context"
+ #define HOST_IOMMU_CONTEXT(obj) \
+         OBJECT_CHECK(HostIOMMUContext, (obj), TYPE_HOST_IOMMU_CONTEXT)
++#define HOST_IOMMU_CONTEXT_CLASS(klass) \
++        OBJECT_CLASS_CHECK(HostIOMMUContextClass, (klass), \
++                         TYPE_HOST_IOMMU_CONTEXT)
+ #define HOST_IOMMU_CONTEXT_GET_CLASS(obj) \
+         OBJECT_GET_CLASS(HostIOMMUContextClass, (obj), \
+                          TYPE_HOST_IOMMU_CONTEXT)
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 293d3785f3..55241ee270 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -26,6 +26,7 @@
+ #include "qemu/notify.h"
+ #include "ui/console.h"
+ #include "hw/display/ramfb.h"
++#include "hw/iommu/host_iommu_context.h"
+ #ifdef CONFIG_LINUX
+ #include <linux/vfio.h>
+ #endif
+@@ -33,6 +34,8 @@
  
- struct VTDIOTLBEntry {
-@@ -268,8 +279,10 @@ struct IntelIOMMUState {
-     bool dma_drain;                 /* Whether DMA r/w draining enabled */
+ #define VFIO_MSG_PREFIX "vfio %s: "
  
-     /*
--     * Protects IOMMU states in general.  Currently it protects the
--     * per-IOMMU IOTLB cache, and context entry cache in VTDAddressSpace.
-+     * iommu_lock protects below:
-+     * - per-IOMMU IOTLB caches
-+     * - context entry cache in VTDAddressSpace
-+     * - HostIOMMUContext pointer cached in vIOMMU
-      */
-     QemuMutex iommu_lock;
- };
++#define TYPE_VFIO_HOST_IOMMU_CONTEXT "qemu:vfio-host-iommu-context"
++
+ enum {
+     VFIO_DEVICE_TYPE_PCI = 0,
+     VFIO_DEVICE_TYPE_PLATFORM = 1,
 -- 
 2.25.1
 
