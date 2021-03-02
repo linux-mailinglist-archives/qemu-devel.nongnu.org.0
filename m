@@ -2,48 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A3E3296CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:12:54 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3A23296D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:15:52 +0100 (CET)
+Received: from localhost ([::1]:48010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH09E-0002jO-Ql
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:12:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42640)
+	id 1lH0C7-0003zl-HX
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:15:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH07z-0002ET-MH
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:11:35 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH07x-0007ZR-E4
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:11:35 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E7C62AE3C;
- Tue,  2 Mar 2021 08:11:31 +0000 (UTC)
-Subject: Re: [RFC v2 12/24] target/arm: move cpsr_read, cpsr_write to
- cpu_common
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20210301164936.19446-1-cfontana@suse.de>
- <20210301164936.19446-13-cfontana@suse.de>
- <de4d984f-031c-b5c7-095c-86fc5d2ff338@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <cf654296-0b8a-3d6f-b285-7e34809287e8@suse.de>
-Date: Tue, 2 Mar 2021 09:11:31 +0100
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lH0Ab-0003Jn-6z
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:14:17 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:59914)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lH0AY-0000h4-Df
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:14:16 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id B90E440755DD;
+ Tue,  2 Mar 2021 08:14:06 +0000 (UTC)
+Subject: Re: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
+To: qemu-devel@nongnu.org
+References: <161417359262.2250859.14712052392728549075.stgit@pasha-ThinkPad-X280>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <c12c2e77-09ce-e6b6-bc42-e213c08e5f6f@ispras.ru>
+Date: Tue, 2 Mar 2021 11:14:06 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <de4d984f-031c-b5c7-095c-86fc5d2ff338@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <161417359262.2250859.14712052392728549075.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,47 +54,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 5:02 AM, Richard Henderson wrote:
-> On 3/1/21 8:49 AM, Claudio Fontana wrote:
->> we need as a result to move switch_mode too,
->> so we put an implementation into cpu_user and cpu_sysemu.
->>
->> Signed-off-by: Claudio Fontana<cfontana@suse.de>
->> ---
->>   target/arm/cpu.h        |   2 +
->>   target/arm/cpu-common.c | 182 +++++++++++++++++++++++++++++++++
->>   target/arm/cpu-sysemu.c |  29 ++++++
->>   target/arm/cpu-user.c   |  24 +++++
->>   target/arm/tcg/helper.c | 221 ----------------------------------------
->>   target/arm/meson.build  |   3 +
->>   6 files changed, 240 insertions(+), 221 deletions(-)
->>   create mode 100644 target/arm/cpu-user.c
+ping
+
+On 24.02.2021 16:33, Pavel Dovgalyuk wrote:
+> This patch adds ioeventfd flag for virtio-mmio configuration.
+> It allows switching ioeventfd on and off.
 > 
-> Some commentary about what cpu-common.c is meant to be would be helpful.  So 
-> far it looks like helper.c under a different name.
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>   hw/virtio/virtio-mmio.c         |   11 ++++++++++-
+>   include/hw/virtio/virtio-mmio.h |    5 +++++
+>   2 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> r~
+> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+> index 610661d6a5..551f831562 100644
+> --- a/hw/virtio/virtio-mmio.c
+> +++ b/hw/virtio/virtio-mmio.c
+> @@ -36,7 +36,9 @@
+>   
+>   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
+>   {
+> -    return kvm_eventfds_enabled();
+> +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
+> +
+> +    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
+>   }
+>   
+>   static int virtio_mmio_ioeventfd_assign(DeviceState *d,
+> @@ -690,6 +692,8 @@ static Property virtio_mmio_properties[] = {
+>       DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
+>                        format_transport_address, true),
+>       DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
+> +    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
+> +                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> @@ -701,6 +705,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
+>       qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
+>                           d, NULL);
+>       sysbus_init_irq(sbd, &proxy->irq);
+> +
+> +    if (!kvm_eventfds_enabled()) {
+> +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
+> +    }
+> +
+>       if (proxy->legacy) {
+>           memory_region_init_io(&proxy->iomem, OBJECT(d),
+>                                 &virtio_legacy_mem_ops, proxy,
+> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
+> index d4c4c386ab..090f7730e7 100644
+> --- a/include/hw/virtio/virtio-mmio.h
+> +++ b/include/hw/virtio/virtio-mmio.h
+> @@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
+>       uint32_t used[2];
+>   } VirtIOMMIOQueue;
+>   
+> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
+> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
+> +        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
+> +
+>   struct VirtIOMMIOProxy {
+>       /* Generic */
+>       SysBusDevice parent_obj;
+>       MemoryRegion iomem;
+>       qemu_irq irq;
+>       bool legacy;
+> +    uint32_t flags;
+>       /* Guest accessible state needing migration and reset */
+>       uint32_t host_features_sel;
+>       uint32_t guest_features_sel;
 > 
-
-In the intention,
-
-cpu-common.c, cpu-sysemu.c, cpu-user.c
-
-cpu-common.c: cpu class definitions and functions common between sysemu and user
-cpu-sysemu.c: sysemu-only cpu class definitions and functions
-cpu-user.c: user-only
-
-I agree that things need improving to get there, 
-will take a good look,
-
-thanks,
-
-C
-
-
 
 
