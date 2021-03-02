@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA1232AC23
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:15:02 +0100 (CET)
-Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A448232AC0B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:07:09 +0100 (CET)
+Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCM9-0005dF-Kk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:15:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
+	id 1lHCEW-0004XN-MW
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:07:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBx3-00020Y-U8
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50282)
+ id 1lHBxm-000345-5g
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:50 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwo-00086p-9d
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:04 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ id 1lHBxj-0008F3-GL
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:49 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122KirAB125853; Tue, 2 Mar 2021 15:48:37 -0500
+ 122KhgkS168494; Tue, 2 Mar 2021 15:49:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=Fkv7qZFnMwolkrKf1/i5ogOSZd8zqMCoqz78cB/X9s8=;
- b=ryV1QKf2vYy2Y+KVgXT931Wc93pcxeHRcO0upSn0RbRI9XeqkAJSkWSM/gMGS6b2rqR5
- 9l3TtEfNe7zb1fXacdNRNPz7gI8CZHL650vuTqMtcK9ja9CRbLM/UUrweuo2b4DkvAfn
- /hHXfhs/JReSgtqtmUlMKiaK/Tt8ziMaKD3jRAy0pt6ZZfkTZ0zxQ2HnzhQ6qPIvQWSd
- jnJ/aS/jnmx0MpC+1wFHs4rvhJttHNvcO+zeDNCYrFHif6bB8zMk7/7/oy8XyF6T8J9w
- Lm0wLCV6MZlwfPIZjHmPYlvN0ecQSeu+udWQQnYk/TMVeuUErquNCs0Zj/SyIfL8cv19 ww== 
+ bh=OaogKjzFLHSuOOIg+JgiSxMTnobul8jWMSZ5b0j5Hno=;
+ b=c5txgLbU35IXdba7WRleSbLKL1ZU4x+2mUF+U54ZYoveEnf9pkFJBgMyGGi6QpRnzfrn
+ d6zKVVwdGR87huQMKtLjN1Gnr+0e7R7+C4Dgle5RF3arRmwrun/IBrQmo49NauHmTxX0
+ jjYUGsKJIbIv6u23nZtazsNppmExe3v/pApNUBGTIYkJW+bkKQDRG26Hn9/qaCVmP8UM
+ onL6TSk/6HU6d6ZVR2OQdodC4nZnlBWNJQjqkouqe0t8+nvUTdOO+JhGl0xs6+QqHD4O
+ knee8BMgSURQbBmOnibc/COledD2BKVI1H/Wwdm3a/F9ozdy1YJILkK847p0uZUA2uLX /w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnt0590-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd06pb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 15:48:37 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Kjkt9132749;
- Tue, 2 Mar 2021 15:48:36 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnt0572-1
+ Tue, 02 Mar 2021 15:49:38 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Khna5168816;
+ Tue, 2 Mar 2021 15:49:38 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd06jg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 15:48:36 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KmXVN025958;
+ Tue, 02 Mar 2021 15:49:35 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KX2h1018076;
  Tue, 2 Mar 2021 20:48:34 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 37128ga1w5-1
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3711dwtf76-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 02 Mar 2021 20:48:34 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 122KmX1o19988972
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122KmY6U6488698
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Mar 2021 20:48:33 GMT
+ Tue, 2 Mar 2021 20:48:34 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B38E02805C;
- Tue,  2 Mar 2021 20:48:33 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 03F6528058;
+ Tue,  2 Mar 2021 20:48:34 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F8C628060;
+ by IMSVA (Postfix) with ESMTP id C436E28064;
  Tue,  2 Mar 2021 20:48:33 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  2 Mar 2021 20:48:33 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 20/26] migration: When starting target,
- don't sync auxiliary vcpus
-Date: Tue,  2 Mar 2021 15:48:16 -0500
-Message-Id: <20210302204822.81901-21-dovmurik@linux.vnet.ibm.com>
+Subject: [RFC PATCH 21/26] migration: Call migration handler cleanup routines
+Date: Tue,  2 Mar 2021 15:48:17 -0500
+Message-Id: <20210302204822.81901-22-dovmurik@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
 References: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
@@ -82,10 +81,10 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-03-02_08:2021-03-01,
  2021-03-02 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- suspectscore=0 mlxlogscore=868 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 adultscore=0 spamscore=0 phishscore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 impostorscore=0
+ spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 mlxlogscore=973
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2103020156
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
@@ -119,31 +118,40 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If auxiliary vcpus are defined, they are used for running the migration
-helper inside the guest.  We want to keep them running and not sync
-their state.
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
 
-This behaves exactly like cpu_synchronize_all_post_init() when there are
-no auxiliary vcpus.
-
+Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
 Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
 ---
- migration/savevm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/ram.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index c5252612c3..c6af1f7bba 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2754,7 +2754,7 @@ int qemu_loadvm_state(QEMUFile *f)
+diff --git a/migration/ram.c b/migration/ram.c
+index 82a1d13f5f..ce551c1d2f 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3054,6 +3054,10 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
      }
  
-     qemu_loadvm_state_cleanup();
--    cpu_synchronize_all_post_init();
-+    cpu_synchronize_without_aux_post_init();
++    if (confidential_guest()) {
++        cgs_mh_cleanup();
++    }
++
+     if (ret >= 0) {
+         multifd_send_sync_main(rs->f);
+         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+@@ -3549,6 +3553,10 @@ static int ram_load_cleanup(void *opaque)
+         rb->receivedmap = NULL;
+     }
  
-     return ret;
++    if (confidential_guest()) {
++        cgs_mh_cleanup();
++    }
++
+     return 0;
  }
+ 
 -- 
 2.20.1
 
