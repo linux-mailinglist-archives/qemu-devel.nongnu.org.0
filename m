@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FB832AC0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:08:11 +0100 (CET)
-Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D160232AC27
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:18:44 +0100 (CET)
+Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCFV-0006LM-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:08:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
+	id 1lHCPj-0000eC-TX
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwg-0001WV-Bq
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33836)
+ id 1lHBx3-00020b-Ue
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:07 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwe-00086k-8L
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:42 -0500
+ id 1lHBwo-00086s-Hx
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:04 -0500
 Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122KhgMk168465; Tue, 2 Mar 2021 15:48:36 -0500
+ 122Khgbm168482; Tue, 2 Mar 2021 15:48:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=8hyH56LRkpvTv0mf4DTpS+OO6A4Mif12MqDVQqWX1jA=;
- b=BTQbiMYVbYG2ccAG1kS3FDFrbC44AusTVTtg21H0ibbNzSLg6qvLPioXcCTJtfEW+kSv
- keAqWtBHw907aHfZ+ncG/wVEis2WvyoXT7fypQ94Ajmmv2WWCjASS/H7umL302i2O1YB
- 6P+ZDQPrReEBAffxZTlH9hhAwNBFwNlBRtciIq0jZzJfCbZBdmac/TkmJVZK8acQ41MT
- j7ZV37set/qIF2Hl16VVv3SdBy65iQuTd3vb3bWmBx4UACB/RG3VtpT8BRlAX2rveGaD
- PIsCsdGzVd4JlBg0Hpg5tkTJzD3oKfgyD5gZr7BZo9BKGRMCm0P0VkXSWx1WqMSZbRz/ Sw== 
+ bh=VupSK9vxmDvSP6JLi0c6Yu9Pi+xtlZZyF6WflQwMfxs=;
+ b=mik5DVqt6+15FtUzTJh+B8IMxC6Erkzl5npE8GplPfggh2RLXfnv16DFu1fQp+hYNVNT
+ +trSzluFO8Eqxn/FNXjvQa12o0FQJuDUP+k9u3ZF8MN72U/OTlHuALvbTLMhK+hvSrIs
+ 3hqNj+aYs5kU6SEvhql+ZLcVpktT4cZUat/u80LNhPOPH17eGGSaUxe32R7AfFYjHQBF
+ +Md4CxwNtGV+bZ/yz5mdlobfK8pwFOPLcfva/f/ihurKyEuPzxQa0AmMdOcmbdleFKAW
+ zCyuZ5FBTNBrITa+mWkkhLCVYnsUBwGlB/vCAz0NaD6dOH/i/w402oU1G1b0IwP/QKKz ug== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05j4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05jd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 15:48:35 -0500
+ Tue, 02 Mar 2021 15:48:36 -0500
 Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Khis3168579;
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122KhnZW168816;
  Tue, 2 Mar 2021 15:48:33 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05h9-1
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05hr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 02 Mar 2021 15:48:33 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122Kgw7l019511;
- Tue, 2 Mar 2021 20:48:31 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02dal.us.ibm.com with ESMTP id 3710sqncda-1
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KkqnI028108;
+ Tue, 2 Mar 2021 20:48:32 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 371qmuagu8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 20:48:31 +0000
+ Tue, 02 Mar 2021 20:48:32 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 122KmUX440042850
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122KmVDV25887066
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Mar 2021 20:48:30 GMT
+ Tue, 2 Mar 2021 20:48:31 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 728292805C;
- Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 04D9028058;
+ Tue,  2 Mar 2021 20:48:31 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C50728065;
+ by IMSVA (Postfix) with ESMTP id CCD072805E;
  Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 08/26] hw/i386: Set CPUState.aux=true for auxiliary vcpus
-Date: Tue,  2 Mar 2021 15:48:04 -0500
-Message-Id: <20210302204822.81901-9-dovmurik@linux.vnet.ibm.com>
+Subject: [RFC PATCH 10/26] softmmu: Add cpu_synchronize_without_aux_post_init
+Date: Tue,  2 Mar 2021 15:48:06 -0500
+Message-Id: <20210302204822.81901-11-dovmurik@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
 References: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
@@ -108,8 +108,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  James Bottomley <jejb@linux.ibm.com>, Jon Grimm <jon.grimm@amd.com>,
  Tobin Feldman-Fitzthum <tobin@ibm.com>,
@@ -119,60 +118,48 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On x86 machines, when initializing the CPUState structs, set the aux
-flag to true for auxiliary vcpus.
+This will be used during migration on the target.
 
 Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
 ---
- include/hw/i386/x86.h | 2 +-
- hw/i386/x86.c         | 8 ++++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ include/sysemu/cpus.h |  1 +
+ softmmu/cpus.c        | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 56080bd1fb..f9ec6af9b7 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -85,7 +85,7 @@ void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
- uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
-                                     unsigned int cpu_index);
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index 868f1192de..dc24e38254 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -46,6 +46,7 @@ bool cpus_are_resettable(void);
+ void cpu_synchronize_all_states(void);
+ void cpu_synchronize_all_post_reset(void);
+ void cpu_synchronize_all_post_init(void);
++void cpu_synchronize_without_aux_post_init(void);
+ void cpu_synchronize_all_pre_loadvm(void);
  
--void x86_cpu_new(X86MachineState *pcms, int64_t apic_id, Error **errp);
-+void x86_cpu_new(X86MachineState *pcms, int64_t apic_id, bool aux, Error **errp);
- void x86_cpus_init(X86MachineState *pcms, int default_cpu_version);
- CpuInstanceProperties x86_cpu_index_to_props(MachineState *ms,
-                                              unsigned cpu_index);
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index be23fad650..bc17b53180 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -101,13 +101,16 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+ #ifndef CONFIG_USER_ONLY
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 878cf2a421..68fa4639a7 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -157,6 +157,17 @@ void cpu_synchronize_all_post_init(void)
+     }
  }
  
- 
--void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
-+void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, bool aux, Error **errp)
- {
-     Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
- 
-     if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
-         goto out;
-     }
-+    if (!object_property_set_bool(cpu, "aux", aux, errp)) {
-+        goto out;
++void cpu_synchronize_without_aux_post_init(void)
++{
++    CPUState *cpu;
++
++    CPU_FOREACH(cpu) {
++        if (!cpu->aux) {
++            cpu_synchronize_post_init(cpu);
++        }
 +    }
-     qdev_realize(DEVICE(cpu), NULL, errp);
- 
- out:
-@@ -135,7 +138,8 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
-                                                       ms->smp.max_cpus - 1) + 1;
-     possible_cpus = mc->possible_cpu_arch_ids(ms);
-     for (i = 0; i < ms->smp.cpus; i++) {
--        x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-+        x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id,
-+                    possible_cpus->cpus[i].aux, &error_fatal);
-     }
- }
- 
++}
++
+ void cpu_synchronize_all_pre_loadvm(void)
+ {
+     CPUState *cpu;
 -- 
 2.20.1
 
