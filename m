@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A4932AA33
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:20:07 +0100 (CET)
-Received: from localhost ([::1]:42594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD1F32AA3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:22:28 +0100 (CET)
+Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHAYp-0006Lg-N3
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:20:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44044)
+	id 1lHAbD-000138-FU
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:22:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH9zw-0000DZ-W5
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:43:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33424)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHA5i-0000AR-TW
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:49:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH9zr-0005rI-5q
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:43:56 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHA5g-0006j4-Qh
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:49:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614710629;
+ s=mimecast20190719; t=1614710991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NVQGmL/16f94pS0RJPhCoYBQeygPqfazEIpwXZiq+WM=;
- b=AQrIXWUgSfC+dAnO+VxQ0rGFvz9cKprh7wPNYws4HaIo5ZgnOsKU7ZjzCgDw0obdrZRjdc
- 9KE5rv9WBj1ZPVmTfYAm45dY8iZLSurghclPHDqaE3x7lLcJlOUFkdrPmH09yPWn/jjb0v
- C7vmJF4SjKPeIxGNR/X0xHjeEYJqp/Q=
+ bh=IR1YAVeJ202fVrs/8ViqUhFw7rZvCOQ+z8TsDd76k1g=;
+ b=Kc/2Zn4Dah2KGHEdcPE+lyL1+skatziQMpnRv0yRYUfSc/Aw3Bb95Kt5kuGNdKL+bX+noQ
+ k/x3zYmMzw021NxWdvAv/7Zig9VHzY1pcpSGnVH7Q0jWdpMxC6ftHExWJoJjwYVCCWKYtI
+ 0a0N12g7NDtUJA8LpFRs82IYXPQyhFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-xsfWOJQXMG-Vb4HWclq7Tg-1; Tue, 02 Mar 2021 13:43:47 -0500
-X-MC-Unique: xsfWOJQXMG-Vb4HWclq7Tg-1
+ us-mta-162-pxWDeOI1Poej7F2iQZNPaQ-1; Tue, 02 Mar 2021 13:49:50 -0500
+X-MC-Unique: pxWDeOI1Poej7F2iQZNPaQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7820BC289;
- Tue,  2 Mar 2021 18:43:46 +0000 (UTC)
-Received: from [10.36.114.189] (ovpn-114-189.ams2.redhat.com [10.36.114.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4481F60BFA;
- Tue,  2 Mar 2021 18:43:41 +0000 (UTC)
-To: Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20210301104833.45580-1-david@redhat.com>
- <20210302172323.6cac394a@MiWiFi-RA69-srv>
- <09fbdaa9-2882-2056-a5a2-2ca0da8c12cf@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v1] acpi: increase maximum size for "etc/table-loader" blob
-Message-ID: <7d8281a8-0479-ac81-c602-ed87c71ce3e2@redhat.com>
-Date: Tue, 2 Mar 2021 19:43:40 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8427B107ACC7
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 18:49:49 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-57.ams2.redhat.com [10.36.112.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0B566026B;
+ Tue,  2 Mar 2021 18:49:48 +0000 (UTC)
+Subject: Re: [PATCH v3] vl: deprecate -writeconfig
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210302180023.54555-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <00b49052-0338-8753-114f-a8eca9bbb11f@redhat.com>
+Date: Tue, 2 Mar 2021 19:49:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <09fbdaa9-2882-2056-a5a2-2ca0da8c12cf@redhat.com>
+In-Reply-To: <20210302180023.54555-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,196 +80,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@xilinx.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> The resizeable memory region that is created for the cmd blob has a maximum
->>> size of ACPI_BUILD_ALIGN_SIZE - 4k. This used to be sufficient, however,
+On 02/03/2021 19.00, Paolo Bonzini wrote:
+> The functionality of -writeconfig is limited and the code
+> does not even try to detect cases where it prints incorrect
+> syntax (for example if values have a quote in them, since
+> qemu_config_parse does not support any kind of escaping)
+> so remove it.
 > 
-> The expression "ACPI_BUILD_ALIGN_SIZE - 4k" makes no sense to me.
-> ACPI_BUILD_ALIGN_SIZE is #defined in "hw/i386/acpi-build.c" as 0x1000,
-> so the difference (ACPI_BUILD_ALIGN_SIZE - 4k) is zero.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   docs/system/deprecated.rst | 7 +++++++
+>   qemu-options.hx            | 7 +------
+>   softmmu/vl.c               | 1 +
+>   3 files changed, 9 insertions(+), 6 deletions(-)
 > 
-> (1) Did you mean "ACPI_BUILD_ALIGN_SIZE -- 4k"? IOW, did you mean to
-> quote the value of the macro?
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 2fcac7861e..561c916da2 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -146,6 +146,13 @@ library enabled as a cryptography provider.
+>   Neither the ``nettle`` library, or the built-in cryptography provider are
+>   supported on FIPS enabled hosts.
+>   
+> +``-writeconfig`` (since 6.0)
+> +'''''''''''''''''''''''''''''
+> +
+> +The ``-writeconfig`` option is not able to serialize the entire contents
+> +of the QEMU command line.  It is thus considered a failed experiment
+> +and deprecated, with no current replacement.
+> +
+>   QEMU Machine Protocol (QMP) commands
+>   ------------------------------------
+>   
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 34be5a7a2d..252db9357c 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4335,13 +4335,8 @@ SRST
+>   ERST
+>   DEF("writeconfig", HAS_ARG, QEMU_OPTION_writeconfig,
+>       "-writeconfig <file>\n"
+> -    "                read/write config file\n", QEMU_ARCH_ALL)
+> +    "                read/write config file (deprecated)\n", QEMU_ARCH_ALL)
+>   SRST
+> -``-writeconfig file``
+> -    Write device configuration to file. The file can be either filename
+> -    to save command line and device configuration into file or dash
+> -    ``-``) character to print the output to stdout. This can be later
+> -    used as input file for ``-readconfig`` option.
+>   ERST
+>   
+>   DEF("no-user-config", 0, QEMU_OPTION_nouserconfig,
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index b219ce1f35..10bd8a10a3 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -3356,6 +3356,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>               case QEMU_OPTION_writeconfig:
+>                   {
+>                       FILE *fp;
+> +                    warn_report("-writeconfig is deprecated and will go away without a replacement");
+>                       if (strcmp(optarg, "-") == 0) {
+>                           fp = stdout;
+>                       } else {
 > 
-> If you mean an em dash, then please use an em dash, not a hyphen (or
-> please use parens).
 
-Yes, or rather use ACPI_BUILD_ALIGN_SIZE (4k).
-
-> 
-> 
->>> as we try fitting in additional data (e.g., vmgenid, nvdimm, intel-iommu),
->>> we require more than 4k and can crash QEMU when trying to resize the
->>> resizeable memory region beyond its maximum size:
->>>    $ build/qemu-system-x86_64 --enable-kvm \
->>>        -machine q35,nvdimm=on \
->>>        -smp 1 \
->>>        -cpu host \
->>>        -m size=2G,slots=8,maxmem=4G \
->>>        -object memory-backend-file,id=mem0,mem-path=/tmp/nvdimm,size=256M \
->>>        -device nvdimm,label-size=131072,memdev=mem0,id=nvdimm0,slot=1 \
->>>        -nodefaults \
->>>        -device vmgenid \
->>>        -device intel-iommu
->>>
->>> Results in:
->>>    Unexpected error in qemu_ram_resize() at ../softmmu/physmem.c:1850:
->>>    qemu-system-x86_64: Size too large: /rom@etc/table-loader:
->>>      0x2000 > 0x1000: Invalid argument
->>>
->>> We try growing the resizeable memory region (resizeable RAMBlock) beyond
->>> its maximum size. Let's increase the maximum size from 4k to 64k, which
->>> should be good enough for the near future.
-> 
-> The existent code calls acpi_align_size(), for resizing the ACPI blobs
-> (the GArray objects).
-> 
-> (Unfortunately, the acpi_align_size() function is duplicated between
-> "hw/i386/acpi-build.c" and "hw/arm/virt-acpi-build.c", which seems
-> unjustified -- but anyway, I digress.)
-> 
-> This seems to come from commit 868270f23d8d ("acpi-build: tweak acpi
-> migration limits", 2014-07-29) and commit 451b157041d2 ("acpi: Align the
-> size to 128k", 2020-12-08).
-> 
-> (2) Why is the logic added in those commits insufficient?
-
-We are dealing with different blobs here (tables_blob vs. cmd_blob).
-
-> 
-> What is the exact call tree that triggers the above error?
-
-[...]
-
-acpi_build_update()->acpi_build_update()->memory_region_ram_resize()->qemu_ram_resize()
-
-A longer calltrace can be found in https://bugzilla.redhat.com/show_bug.cgi?id=1927159.
-
->>> +++ b/hw/i386/acpi-microvm.c
->>> @@ -255,7 +255,8 @@ void acpi_setup_microvm(MicrovmMachineState *mms)
->>>                         ACPI_BUILD_TABLE_MAX_SIZE);
->>>       acpi_add_rom_blob(acpi_build_no_update, NULL,
->>>                         tables.linker->cmd_blob,
->>> -                      "etc/table-loader", 0);
->>> +                      ACPI_BUILD_LOADER_FILE,
->>> +                      ACPI_BUILD_LOADER_MAX_SIZE);
->>>       acpi_add_rom_blob(acpi_build_no_update, NULL,
->>>                         tables.rsdp,
->>>                         ACPI_BUILD_RSDP_FILE, 0);
-> 
-> (3) Why are we using a different "tool" here, from the previous
-> approach? We're no longer setting the GArray sizes; instead, we make the
-> "rom->romsize" fields diverge from -- put differently, grow beyond --
-> "rom->datasize". Why is that useful? What are the consequences?
-
-See ACPI_BUILD_TABLE_MAX_SIZE handling just in the acpi_add_rom_blob() above.
-
-> 
-> Where is it ensured that data between "rom->datasize" and "rom->romsize"
-> reads as zeroes?
-We only expose the current memory_region_size() to our guest, which is
-always multiples of 4k pages.
-
-rom->datasize and rom->romsize will be multiple of 4k AFAIKs.
-
-acpi_align_size()-> g_array_set_size() will take care of zeroing out
-any unused parts within a single 4k page.
-
-So all unused, guest-visible part should always be 0 I think.
-
-> 
-> 
->>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->>> index 380d3e3924..93cdfd4006 100644
->>> --- a/include/hw/acpi/aml-build.h
->>> +++ b/include/hw/acpi/aml-build.h
->>> @@ -6,6 +6,7 @@
->>>
->>>   /* Reserve RAM space for tables: add another order of magnitude. */
->>>   #define ACPI_BUILD_TABLE_MAX_SIZE         0x200000
->>> +#define ACPI_BUILD_LOADER_MAX_SIZE        0x40000
->>>
->>>   #define ACPI_BUILD_APPNAME6 "BOCHS "
->>>   #define ACPI_BUILD_APPNAME8 "BXPC    "
->>
-> 
-> The commit message says "Let's increase the maximum size from 4k to
-> 64k", and I have two problems with that:
-> 
-> (4a) I have no idea where the current "4k" size comes from. (In case the
-> 4k refers to ACPI_BUILD_ALIGN_SIZE, then why are we not changing that
-> macro?)
-
-Changing ACPI_BUILD_ALIGN_SIZE would affect the legacy_table_size in
-acpi_build() - so that can't be right.
-
-What would also work is something like (to be improved)
-
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 45ad2f9533..49cfedddc8 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -81,6 +81,8 @@
-  #define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
-  #define ACPI_BUILD_ALIGN_SIZE             0x1000
-  
-+#define ACPI_BUILD_LOADER_ALIGN_SIZE      0x2000
-+
-  #define ACPI_BUILD_TABLE_SIZE             0x20000
-  
-  /* #define DEBUG_ACPI_BUILD */
-@@ -2613,10 +2615,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-              error_printf("Try removing CPUs, NUMA nodes, memory slots"
-                           " or PCI bridges.");
-          }
--        acpi_align_size(tables_blob, ACPI_BUILD_TABLE_SIZE);
-+        acpi_align_size(tables_blob, ACPI_BUILD_ALIGN_SIZE);
-      }
-  
--    acpi_align_size(tables->linker->cmd_blob, ACPI_BUILD_ALIGN_SIZE);
-+    acpi_align_size(tables->linker->cmd_blob, ACPI_BUILD_LOADER_ALIGN_SIZE);
-
-
-At least for hw/i386/acpi-build.c.
-
-We will end up creating the resizeable memory region/RAMBlock always with
-a size=maximum_size=8k. (could also go for 64k here)
-
-The only downside is that we might expose a bigger area to the
-guest than necessary (e.g., 8k instead of 4k) and will e.g., migrate
-8k instead of 4k (not that we care).
-
-
-On incoming migration from older QEMU versions, we should be able to just
-shrink back from 8k to 4k - so migration from older QEMY versions should
-continue working just fine.
-
-> 
-> (4b) The new macro ACPI_BUILD_LOADER_MAX_SIZE does not express 64KB,
-> contrary to the commit message: it expresses 256KB.
-
-Indeed, thanks for noticing that - not that it wouldn't really
-affect your testing in case the maximum size is bigger than necessary ;)
-
-> 
-> ... The code is really difficult to understand; consider the following
-> macros:
-
-Yes, it is.
-
-Thanks!
-
--- 
-Thanks,
-
-David / dhildenb
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
