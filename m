@@ -2,76 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF3632AB03
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 21:06:11 +0100 (CET)
-Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7C732ABD1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 21:51:08 +0100 (CET)
+Received: from localhost ([::1]:34610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHBHV-0001Ct-Se
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 15:06:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
+	id 1lHBz1-00036y-5w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 15:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lHBFa-0000cY-DV
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:04:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lHBFW-0001a8-Ha
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:04:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614715445;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BlTrMdAMe4qjxypncbMkcnLLBKQg4JgEwe2Z+fA16kM=;
- b=Qb5S5fsP7I4gF1WCwjPtvHPziGnj6pERgLwXntenBQyNRC6gViQLQEnhcbJYGWOkxcoNQ0
- APrQcNSSJRqVnHSswYFX9uJ4cO6ViffCES8e0rWu9o4nauKpJ2EeifKpfEoONzE+QdIRB8
- DMTw/u/Djqw0aadaLDrrjEsF/BUpzqw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-Jaw3Zk6GNXGAa57jVoTU2A-1; Tue, 02 Mar 2021 15:03:59 -0500
-X-MC-Unique: Jaw3Zk6GNXGAa57jVoTU2A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 086661E59C;
- Tue,  2 Mar 2021 20:03:57 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE36910023BF;
- Tue,  2 Mar 2021 20:03:55 +0000 (UTC)
-Subject: Re: [PATCH v2 12/31] qapi/qom: Add ObjectOptions for can-*
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-13-kwolf@redhat.com>
- <0250da61-515d-cd41-d680-25431da87373@redhat.com>
- <20210302183200.GI5527@merkur.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <49de7436-7488-7756-819f-4f941cf79d33@redhat.com>
-Date: Tue, 2 Mar 2021 14:03:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1lHBwa-0001Mr-M4
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:36 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5850
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1lHBwY-00084s-QU
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:36 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 122Kiva0019704; Tue, 2 Mar 2021 15:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=1FijDBwr/EkYnd5r4iVjvrLE8UHpNR8E6i0Rhewa7Rs=;
+ b=nPEV3BLITGntiKJtJIBeLkJBpU2tE/iafk/E6MyGpCdI7/ZEFZOkqO0go1nU7GqhUt6I
+ 81bl1F/MW47NfaiV2y2IU4d0SvsSnq/a6f0eWkWfofnZmQ6bjh+Xcz2XtLxbYXUkPvqj
+ KqURtmjeVM5s51Ar1GXfbXqzRKgWXvSyifYqWAW9Q88hRjk7bMfOYYJaIxiWZrDsSEIg
+ fzHvbn9kA3E+3dKJYOa+NjQ5YQusGF9EGxpRJN+ZOCUv2x0pRwoFI00OZzH8HBaKM4GJ
+ CSXa1pviayw39AjvvIsbdUhMq124RZmSK/Vdc6OOukag6uK44rqtnFH+GMVXRSIHFZ+i 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 371vnsr4mk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Mar 2021 15:48:30 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Kj3aU020951;
+ Tue, 2 Mar 2021 15:48:30 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 371vnsr4mc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Mar 2021 15:48:30 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KmRQP008408;
+ Tue, 2 Mar 2021 20:48:29 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma04dal.us.ibm.com with ESMTP id 36ydq988jj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Mar 2021 20:48:29 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122KmSdw25755970
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 Mar 2021 20:48:28 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D4D128064;
+ Tue,  2 Mar 2021 20:48:28 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0CC6428059;
+ Tue,  2 Mar 2021 20:48:28 +0000 (GMT)
+Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  2 Mar 2021 20:48:28 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 01/26] linux-headers: Add definitions of KVM page
+ encryption bitmap ioctls
+Date: Tue,  2 Mar 2021 15:47:57 -0500
+Message-Id: <20210302204822.81901-2-dovmurik@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
+References: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210302183200.GI5527@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-02_08:2021-03-01,
+ 2021-03-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 clxscore=1015 mlxscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2103020156
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +109,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, dgilbert@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Cornelia Huck <cohuck@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Jon Grimm <jon.grimm@amd.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ Dov Murik <dovmurik@linux.vnet.ibm.com>, Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 12:32 PM, Kevin Wolf wrote:
-> Am 26.02.2021 um 20:42 hat Eric Blake geschrieben:
->> On 2/24/21 7:52 AM, Kevin Wolf wrote:
->>> This adds a QAPI schema for the properties of the can-* objects.
->>>
->>> can-bus doesn't have any properties, so it only needs to be added to the
->>> ObjectType enum without adding a new branch to ObjectOptions.
->>
->> I somewhat prefer
->>
->> 'can-bus': {},
->>
->> to make it explicit that we thought about it, but since we allow
->> defaulted union branches, your approach works too.
-> 
-> The QAPI generator disagrees:
-> 
-> ../qapi/qom.json: In union 'ObjectOptions':
-> ../qapi/qom.json:492: 'data' member 'can-bus' misses key 'type'
-> 
-> It seems we can't use inline definitions of struct types because we
-> already use that for the extended description of branch types. And
-> adding a whole named struct without content is probably a bit too much?
+Add support for two ioctls KVM_GET_PAGE_ENC_BITMAP and
+KVM_SET_PAGE_ENC_BITMAP used to record the encryption state of each
+guest page.
 
-Oh, maybe I'm remembering an experiment I did with a patch to add that
-once, but it never went anywhere, since in the meantime we added the
-'any enum not listed is acceptable as adding no additional members'.  So
-my preference stems from (faulty?) memory on my part, and your patch is
-fine as is.
+This patch will be replaced by a new implementation based on shared
+regions list, or by user-space handling of the regions list.  However,
+these changes do not affect the use of the page encryption indication in
+confidential guest migration flow.
 
+Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+---
+ linux-headers/linux/kvm.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 020b62a619..836c3776c0 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -532,6 +532,16 @@ struct kvm_dirty_log {
+ 	};
+ };
+ 
++/* for KVM_GET_PAGE_ENC_BITMAP */
++struct kvm_page_enc_bitmap {
++	__u64 start_gfn;
++	__u64 num_pages;
++	union {
++		void *enc_bitmap; /* one bit per page */
++		__u64 padding2;
++	};
++};
++
+ /* for KVM_CLEAR_DIRTY_LOG */
+ struct kvm_clear_dirty_log {
+ 	__u32 slot;
+@@ -1557,6 +1567,9 @@ struct kvm_pv_cmd {
+ /* Available with KVM_CAP_S390_PROTECTED */
+ #define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
+ 
++#define KVM_GET_PAGE_ENC_BITMAP	_IOW(KVMIO, 0xc6, struct kvm_page_enc_bitmap)
++#define KVM_SET_PAGE_ENC_BITMAP	_IOW(KVMIO, 0xc7, struct kvm_page_enc_bitmap)
++
+ /* Available with KVM_CAP_X86_MSR_FILTER */
+ #define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
+ 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
