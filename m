@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28D932AC1B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:10:27 +0100 (CET)
-Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FB832AC0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:08:11 +0100 (CET)
+Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCHi-0008VD-Sl
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:10:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45994)
+	id 1lHCFV-0006LM-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:08:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBx6-000218-07
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59058)
+ id 1lHBwg-0001WV-Bq
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:42 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1lHBwp-00087M-DQ
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:49:07 -0500
+ id 1lHBwe-00086k-8L
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 15:48:42 -0500
 Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122Khgbn168482; Tue, 2 Mar 2021 15:48:38 -0500
+ 122KhgMk168465; Tue, 2 Mar 2021 15:48:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=0so7zAwdW56R4/Dmy2Bc0nTNU8ztVfE08VdYrOnCcNU=;
- b=sHnVbnD6mbvCoV2qIc1E1vTm9036MZ6rRX3vcrBcq3UuP0KSEm5s71GyDtwa4hXoKu1C
- iunGT9yAzD7/OlJhJcYZ4LLSpcPbKw43z8bRZ+8HbHVPNqg7UZ7ed04sKhfdxwKkwJ4D
- 7pObT2I+YXQHjub+boddCFSGAb5l6Anh1l67mLL6GMpNEe5fbdeutkZo660p2gZbN3V6
- f96BEivVOlEOtFp8tglMCZHc1ZXq5uvDnCVQa9eTPbZecpEREBqBe/3Wqjv7ecFCPCjJ
- xh0egTo0p25+vl+qARvr3rPdfZx1S8ExCRDsA7RV5p1QJVoH/D51txYB+tUNYIEQ4Vlr Tw== 
+ bh=8hyH56LRkpvTv0mf4DTpS+OO6A4Mif12MqDVQqWX1jA=;
+ b=BTQbiMYVbYG2ccAG1kS3FDFrbC44AusTVTtg21H0ibbNzSLg6qvLPioXcCTJtfEW+kSv
+ keAqWtBHw907aHfZ+ncG/wVEis2WvyoXT7fypQ94Ajmmv2WWCjASS/H7umL302i2O1YB
+ 6P+ZDQPrReEBAffxZTlH9hhAwNBFwNlBRtciIq0jZzJfCbZBdmac/TkmJVZK8acQ41MT
+ j7ZV37set/qIF2Hl16VVv3SdBy65iQuTd3vb3bWmBx4UACB/RG3VtpT8BRlAX2rveGaD
+ PIsCsdGzVd4JlBg0Hpg5tkTJzD3oKfgyD5gZr7BZo9BKGRMCm0P0VkXSWx1WqMSZbRz/ Sw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05jj-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05j4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 15:48:37 -0500
+ Tue, 02 Mar 2021 15:48:35 -0500
 Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Kht9g171154;
- Tue, 2 Mar 2021 15:48:34 -0500
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122Khis3168579;
+ Tue, 2 Mar 2021 15:48:33 -0500
 Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05gt-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 371vnd05h9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 02 Mar 2021 15:48:33 -0500
 Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122KhDhj019585;
- Tue, 2 Mar 2021 20:48:30 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3710sqncd2-1
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122Kgw7l019511;
+ Tue, 2 Mar 2021 20:48:31 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02dal.us.ibm.com with ESMTP id 3710sqncda-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 20:48:30 +0000
+ Tue, 02 Mar 2021 20:48:31 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 122KmThL29426060
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122KmUX440042850
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Mar 2021 20:48:29 GMT
+ Tue, 2 Mar 2021 20:48:30 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 841C52805E;
- Tue,  2 Mar 2021 20:48:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 728292805C;
+ Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 47DAD2805A;
- Tue,  2 Mar 2021 20:48:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3C50728065;
+ Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  2 Mar 2021 20:48:29 +0000 (GMT)
+ Tue,  2 Mar 2021 20:48:30 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/26] hw/i386: Mark auxiliary vcpus in possible_cpus
-Date: Tue,  2 Mar 2021 15:48:01 -0500
-Message-Id: <20210302204822.81901-6-dovmurik@linux.vnet.ibm.com>
+Subject: [RFC PATCH 08/26] hw/i386: Set CPUState.aux=true for auxiliary vcpus
+Date: Tue,  2 Mar 2021 15:48:04 -0500
+Message-Id: <20210302204822.81901-9-dovmurik@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
 References: <20210302204822.81901-1-dovmurik@linux.vnet.ibm.com>
@@ -119,34 +119,60 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark the last aux_cpus vcpus in the machine state's possible_cpus as
-auxiliary.
+On x86 machines, when initializing the CPUState structs, set the aux
+flag to true for auxiliary vcpus.
 
 Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
 ---
- hw/i386/x86.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/i386/x86.h | 2 +-
+ hw/i386/x86.c         | 8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 56080bd1fb..f9ec6af9b7 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -85,7 +85,7 @@ void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
+ uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
+                                     unsigned int cpu_index);
+ 
+-void x86_cpu_new(X86MachineState *pcms, int64_t apic_id, Error **errp);
++void x86_cpu_new(X86MachineState *pcms, int64_t apic_id, bool aux, Error **errp);
+ void x86_cpus_init(X86MachineState *pcms, int default_cpu_version);
+ CpuInstanceProperties x86_cpu_index_to_props(MachineState *ms,
+                                              unsigned cpu_index);
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6329f90ef9..be23fad650 100644
+index be23fad650..bc17b53180 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -448,6 +448,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
- {
-     X86MachineState *x86ms = X86_MACHINE(ms);
-     unsigned int max_cpus = ms->smp.max_cpus;
-+    unsigned int aux_cpus_start_at = max_cpus - ms->smp.aux_cpus;
-     X86CPUTopoInfo topo_info;
-     int i;
+@@ -101,13 +101,16 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+ }
  
-@@ -475,6 +476,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
-             x86_cpu_apic_id_from_index(x86ms, i);
-         x86_topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
-                                  &topo_info, &topo_ids);
-+        ms->possible_cpus->cpus[i].aux = i >= aux_cpus_start_at;
-         ms->possible_cpus->cpus[i].props.has_socket_id = true;
-         ms->possible_cpus->cpus[i].props.socket_id = topo_ids.pkg_id;
-         if (x86ms->smp_dies > 1) {
+ 
+-void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
++void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, bool aux, Error **errp)
+ {
+     Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
+ 
+     if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+         goto out;
+     }
++    if (!object_property_set_bool(cpu, "aux", aux, errp)) {
++        goto out;
++    }
+     qdev_realize(DEVICE(cpu), NULL, errp);
+ 
+ out:
+@@ -135,7 +138,8 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+                                                       ms->smp.max_cpus - 1) + 1;
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+     for (i = 0; i < ms->smp.cpus; i++) {
+-        x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
++        x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id,
++                    possible_cpus->cpus[i].aux, &error_fatal);
+     }
+ }
+ 
 -- 
 2.20.1
 
