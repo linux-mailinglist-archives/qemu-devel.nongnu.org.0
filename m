@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA10632A1A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:56:47 +0100 (CET)
-Received: from localhost ([::1]:45572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869D132A1B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:59:28 +0100 (CET)
+Received: from localhost ([::1]:49754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5W2-0004zK-WE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54980)
+	id 1lH5Yd-0006wt-KP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:59:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lH5UO-0003wA-1v
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:55:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21325)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5XD-0005zG-8s
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:57:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lH5UM-0005HW-Cg
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:55:03 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5XB-0005jt-Ij
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:57:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614693301;
+ s=mimecast20190719; t=1614693476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=T49AvpVkcwscP9E51Qkrm7RFm2oIDmDwc1lF5scwqdU=;
- b=PcA5UINDqWGZ5DMmwq9+ptmfFqiHV4z2CRu+/ll+kYsnk5gYQG3Vozf+RViOSqrlMfogKq
- xTPEOmfsSuGZEIgcd5mGaRP2/SHlvpXKVHTo8O1ZhkWDlfG9ZTm4LMIUVc+nWrgre7m47Y
- EJC4F7fyQVOltFekJeBWewdkXw9e8T8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-NK3vW1BdOo6-C8wQtPpyzw-1; Tue, 02 Mar 2021 08:54:58 -0500
-X-MC-Unique: NK3vW1BdOo6-C8wQtPpyzw-1
-Received: by mail-wm1-f69.google.com with SMTP id q24so1217029wmc.1
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 05:54:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T49AvpVkcwscP9E51Qkrm7RFm2oIDmDwc1lF5scwqdU=;
- b=HAJFF6ayPM3U6yOeGeWbwj7/PdCs5ihihdVbmCZioavwaBBpO+SySEGBoqgCU1BHkI
- gV42Vzxb1tcAxur93KK+X6uGlBP0Hlv5lVBvorkSs3PBTxirMqwEQVV96xfyWAY8wkZh
- pWgCCpumt4m+JGGdfF3SJOSkBGPpAxqd1KNUC5HGgSv8mQ1qAMuzO/64j9NRnJnUTshW
- 97Zk4f/vQQSoTXsKdlVDgliw3WRa54TwWqkYdZSslJgeVNyHVOycsCN/1Cs/p4hyOoVw
- b73HRDX+VRct4Y6w2rGYkkJHU6K4bOEnkgtbtZBlsve0UbPfeJmHuQYf+7NWv5ux+tMn
- iCCA==
-X-Gm-Message-State: AOAM533yAJAGqYSpLSYRC4Kwbc4FOtnCW9LHuvHaii/4ZN29t63y4gWX
- 2jJAy4+oYOKloKZvwvgSoiIZdAYOdo1Euks1tsV6YfId4jIwTC6/8EsbKCGBL/AB2M2Psi6/Kq1
- e32rtetuX0+C1iK4=
-X-Received: by 2002:adf:fa8d:: with SMTP id h13mr13044840wrr.331.1614693296487; 
- Tue, 02 Mar 2021 05:54:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztGsfeBj96AOOsZRKkUtbg2QiFEdg3gj3EDCrYn62/5CItBoGrFaWkRzujswdgdor/UOH+sg==
-X-Received: by 2002:adf:fa8d:: with SMTP id h13mr13044819wrr.331.1614693296275; 
- Tue, 02 Mar 2021 05:54:56 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id g11sm16996482wrw.89.2021.03.02.05.54.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 05:54:55 -0800 (PST)
-Date: Tue, 2 Mar 2021 14:54:53 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH 2/2] x86/pvh: extract only 4 bytes of start address for
- 32 bit kernels
-Message-ID: <20210302135453.5ijlf3idwxn2q3rd@steredhat>
-References: <20210302090315.3031492-1-david.edmondson@oracle.com>
- <20210302090315.3031492-3-david.edmondson@oracle.com>
+ bh=HPnxp1WmnhfvoTjdu79PJomx2iLiifRL03nYSI3Rwy4=;
+ b=V6WL9k0MJV0ecNx2x4ap9ZMS3xLC8pZs9jonXQ8E+pLmrl2xC5g1r0YGm0Lt1taVG0eAWD
+ R7agi45/rvgt+noDSWU7Igc8oU6+t2rWBj4l41txZx18LrBdhoNaUr+HXjEMybfIPDjiYT
+ KUWxcGjMY16uxzBnmNG1CMxa7P/4q8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154--y1TtAyCMaSugZ-ykxi7bg-1; Tue, 02 Mar 2021 08:57:54 -0500
+X-MC-Unique: -y1TtAyCMaSugZ-ykxi7bg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FDE81005501;
+ Tue,  2 Mar 2021 13:57:53 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-197.ams2.redhat.com [10.36.113.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AD1F5D723;
+ Tue,  2 Mar 2021 13:57:49 +0000 (UTC)
+Date: Tue, 2 Mar 2021 14:57:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] qemu-storage-daemon: add --pidfile option
+Message-ID: <20210302135747.GA5527@merkur.fritz.box>
+References: <20210302092926.163080-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210302090315.3031492-3-david.edmondson@oracle.com>
+In-Reply-To: <20210302092926.163080-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,52 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: afrosi@redhat.com, Daniel Berrange <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 09:03:15AM +0000, David Edmondson wrote:
->When loading the PVH start address from a 32 bit ELF note, extract
->only the appropriate number of bytes.
->
->Fixes: ab969087da65 ("pvh: Boot uncompressed kernel using direct boot ABI")
->Signed-off-by: David Edmondson <david.edmondson@oracle.com>
->---
-> hw/i386/x86.c | 6 ++++--
-> 1 file changed, 4 insertions(+), 2 deletions(-)
->
->diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->index 6329f90ef9..7865660e2c 100644
->--- a/hw/i386/x86.c
->+++ b/hw/i386/x86.c
->@@ -690,6 +690,8 @@ static uint64_t read_pvh_start_addr(void *arg1, void *arg2, bool is64)
->         elf_note_data_addr =
->             ((void *)nhdr64) + nhdr_size64 +
->             QEMU_ALIGN_UP(nhdr_namesz, phdr_align);
->+
->+        pvh_start_addr = *elf_note_data_addr;
->     } else {
->         struct elf32_note *nhdr32 = (struct elf32_note *)arg1;
->         uint32_t nhdr_size32 = sizeof(struct elf32_note);
->@@ -699,9 +701,9 @@ static uint64_t read_pvh_start_addr(void *arg1, void *arg2, bool is64)
->         elf_note_data_addr =
->             ((void *)nhdr32) + nhdr_size32 +
->             QEMU_ALIGN_UP(nhdr_namesz, phdr_align);
->-    }
->
->-    pvh_start_addr = *elf_note_data_addr;
->+        pvh_start_addr = *(uint32_t *)elf_note_data_addr;
->+    }
->
->     return pvh_start_addr;
-> }
->-- 
->2.30.0
->
->
+Am 02.03.2021 um 10:29 hat Stefan Hajnoczi geschrieben:
+> Daemons often have a --pidfile option where the pid is written to a file
+> so that scripts can stop the daemon by sending a signal.
+> 
+> The pid file also acts as a lock to prevent multiple instances of the
+> daemon from launching for a given pid file.
+> 
+> QEMU, qemu-nbd, qemu-ga, virtiofsd, and qemu-pr-helper all support the
+> --pidfile option. Add it to qemu-storage-daemon too.
+> 
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+I think we should also mention --pidfile in the --help output.
+
+Kevin
 
 
