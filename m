@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D2532A1CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:12:05 +0100 (CET)
-Received: from localhost ([::1]:59724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0507C32A1D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:12:06 +0100 (CET)
+Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5km-0003Kg-7W
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:12:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1lH5kr-0003W3-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:12:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH5ix-00020f-On
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56750)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5jG-0002C0-BO
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH5it-00073H-LB
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:07 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5jE-00079c-62
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614694202;
+ s=mimecast20190719; t=1614694223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jWv9boeHBhSLaMl9G4iMxBxvsyXJRxH5VMkvkkRkdFI=;
- b=jQBLRs9s9rsmVy2ZXxGvtgfg4GgA+MlzcCLy2HaE9kWCFnYIqnBuH0oDmoNgYvTz28cn0u
- aJdBjHumz0ZbnV5txl3e7A+JoetxaB7kUjCTjGeXYMqnT8MDdRGuQhDlxR+lJcWWjTbre6
- WC8MitapbK/lglOCU1OBSbHi7H7ePOc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-I7SOkxYYMpWYJT3L0lTdJw-1; Tue, 02 Mar 2021 09:09:59 -0500
-X-MC-Unique: I7SOkxYYMpWYJT3L0lTdJw-1
-Received: by mail-wr1-f70.google.com with SMTP id h30so11170120wrh.10
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 06:09:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jWv9boeHBhSLaMl9G4iMxBxvsyXJRxH5VMkvkkRkdFI=;
- b=FPeiSgPw2rKKC1UvNFpJco2Fh96CcmMIu1E4onb33TrAZIIOF7f0NPJXlgwhORYbeT
- HGVXO0Y+TtcWIipBiU5fpBrci1hyzF7i0dE2xtBO4e/X7TSlvP7oYk6O81CjjXc/PHHj
- j6JILfSxVuFtiILGcQRVaDdwaYsV77nN24J1Ca8nWJ/mRwC8Fq/Q5HmVlVfosMqe9j6S
- NPEpxcGa+YzhTnS1q6fWoJNvWOk4gAguyb8/nW1uJ/yhBEDFFexj+CmkFchCTrraSSmH
- DPQmUIizciyNmG4qb6appT5q4MqI5S31zGJh1D5DsWdH9wqXsWEcXPRu2UmeCfPyZ9FJ
- g71g==
-X-Gm-Message-State: AOAM533Tgl58tw4fymUGIsJGPYAAz2BKDEpVQfQd5iuFzZCIDVgrBP01
- VHB+K56mQhnWcPB5L5x4SMPe7IvgpFbfc5jb1FdRowgo+kd66Q2EpWX+oZSmbn21US3JIa2lC2a
- pA/eef2dPdQvzu58=
-X-Received: by 2002:a7b:c410:: with SMTP id k16mr4124990wmi.121.1614694198016; 
- Tue, 02 Mar 2021 06:09:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyibQlysJNwedUKZ5fKFUs28kJSJ6b+v3XuCrfKbQ6TG04lgMLpD7xUDMCyLXmK4s7Q4+UOTA==
-X-Received: by 2002:a7b:c410:: with SMTP id k16mr4124973wmi.121.1614694197789; 
- Tue, 02 Mar 2021 06:09:57 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z2sm10064374wrm.0.2021.03.02.06.09.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 06:09:57 -0800 (PST)
-Subject: Re: [PATCH] lsilogic: Use PCIDevice::exit instead of
- DeviceState::unrealize
-To: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org
-References: <20210302133016.1221081-1-liangpeng10@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <81b96fc9-8368-66ad-5d98-868695d75920@redhat.com>
-Date: Tue, 2 Mar 2021 15:09:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=MMPDpEtRzZIIp8wU3iBS8g/Ees6i8qACNdnmvYOw68Y=;
+ b=W4TsZkXZ8G4QE1FdoxuMRjvicygCcM/uPMHv15iPxJoUGMJvlOuvaFkAHbv24a23Tfw2s9
+ 6mCnjC6lbzgyC5CFCE2qwTa2olm/vqsV2hIB85vfI/sIZRfY/0X1ZeLVJpDpCHrIV3djFT
+ YkGvkJ7DUFRQI/lxX3exu9XOsZ3ebpA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-O_4Qzh6mMMWhZjwvHEJ5Zw-1; Tue, 02 Mar 2021 09:10:20 -0500
+X-MC-Unique: O_4Qzh6mMMWhZjwvHEJ5Zw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748BC801979;
+ Tue,  2 Mar 2021 14:10:19 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-197.ams2.redhat.com [10.36.113.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BF94608BA;
+ Tue,  2 Mar 2021 14:10:16 +0000 (UTC)
+Date: Tue, 2 Mar 2021 15:10:15 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: ChangLimin <changlm@chinatelecom.cn>
+Subject: Re: [PATCH] file-posix: allow -EBUSY errors during write zeros on
+ block
+Message-ID: <20210302141015.GB5527@merkur.fritz.box>
+References: <2021030209564214018344@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210302133016.1221081-1-liangpeng10@huawei.com>
+In-Reply-To: <2021030209564214018344@chinatelecom.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,59 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, qemu-stable@nongnu.org, xiexiangyou@huawei.com,
- mst@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ mreitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/21 14:30, Peng Liang wrote:
-> PCI_DEVICE has overwritten DeviceState::unrealize (pci_qdev_unrealize).
-> However, LSI53C895A, which is a subclass of PCI_DEVICE, overwrites it
-> again and doesn't save the parent's implementation so the PCI_DEVICE's
-> implementation of DeviceState::unrealize will never be called when
-> unrealize a LSI53C895A device.  And it will lead to memory leak and
-> unplug failure.
+Am 02.03.2021 um 02:56 hat ChangLimin geschrieben:
+> After Linux 5.10, write zeros to a multipath device using
+> ioctl(fd, BLKZEROOUT, range) with cache none or directsync will return EBUSY.
 > 
-> For a PCI device, it's better to implement PCIDevice::exit instead of
-> DeviceState::unrealize.  So let's change to use PCIDevice::exit.
+> Similar to handle_aiocb_write_zeroes_unmap, handle_aiocb_write_zeroes_block
+> allow -EBUSY errors during ioctl(fd, BLKZEROOUT, range).
 > 
-> Fixes: a8632434c7e9 ("lsi: implement I/O memory space for Memory Move instructions")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+> Reference commit in Linux 5.10:
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02
+> 
+> Signed-off-by: ChangLimin <changlm@chinatelecom.cn>
 > ---
->   hw/scsi/lsi53c895a.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  block/file-posix.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index 7d13c7dc1c46..af46c62f0d78 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -2312,7 +2312,7 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
->       scsi_bus_new(&s->bus, sizeof(s->bus), d, &lsi_scsi_info, NULL);
->   }
->   
-> -static void lsi_scsi_unrealize(DeviceState *dev)
-> +static void lsi_scsi_exit(PCIDevice *dev)
->   {
->       LSIState *s = LSI53C895A(dev);
->   
-> @@ -2325,11 +2325,11 @@ static void lsi_class_init(ObjectClass *klass, void *data)
->       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->   
->       k->realize = lsi_scsi_realize;
-> +    k->exit = lsi_scsi_exit;
->       k->vendor_id = PCI_VENDOR_ID_LSI_LOGIC;
->       k->device_id = PCI_DEVICE_ID_LSI_53C895A;
->       k->class_id = PCI_CLASS_STORAGE_SCSI;
->       k->subsystem_id = 0x1000;
-> -    dc->unrealize = lsi_scsi_unrealize;
->       dc->reset = lsi_scsi_reset;
->       dc->vmsd = &vmstate_lsi_scsi;
->       set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 05079b40ca..3e60c96214 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1629,8 +1629,13 @@ static ssize_t handle_aiocb_write_zeroes_block(RawPosixAIOData *aiocb)
+>          } while (errno == EINTR);
 > 
+>          ret = translate_err(-errno);
+> -        if (ret == -ENOTSUP) {
+> +        switch (ret) {
+> +        case -ENOTSUP:
+> +        case -EINVAL:
+> +        case -EBUSY:
+>              s->has_write_zeroes = false;
 
-Queued, thanks.
+Do we actually want -EINVAL and -EBUSY to completely stop us from trying
+again in future requests? -ENOTSUP will never change in future calls,
+but can't -EINVAL and -EBUSY?
 
-Paolo
+By the way, the commit message only explains -EBUSY. Why do we want to
+cover -EINVAL here, too?
+
+> +            return -ENOTSUP;
+
+I suppose this is the important change: We convert the error codes to
+-ENOTSUP now so that block.c will emulate the operation instead of
+failing.  This should be explained in the commit message.
+
+> +            break;
+>          }
+>      }
+>  #endif
+
+Kevin
 
 
