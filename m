@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C72332AC26
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:18:02 +0100 (CET)
-Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B29332AC28
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:18:49 +0100 (CET)
+Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCP3-0007sb-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:18:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
+	id 1lHCPo-0000ue-CP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:18:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHC9g-0000Ua-Oz
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHC9f-0001QH-9Y
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:02:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614718926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2aj6vrArQbKQ0qBxFPlrD7E8t70Px4bxQ/EmWWtj4ZQ=;
- b=h6/E776JOhZEj2Ga5KnCci4MophsqjcUiiyDMEcXdc9eXoKxLmLqcNi1vvbo/Ua2iEPp5w
- YQchONKr2XkdEv2S3vDy3xvxy8cKL8Np53pvum2TCVu2AARBBjVuXP5+xVoX7gTby0oJBv
- BjXnBh882D76yGcNnbsxFoGSTyqb8dU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-Vkd0rz-HO0uVvCWpWUcWyA-1; Tue, 02 Mar 2021 16:02:05 -0500
-X-MC-Unique: Vkd0rz-HO0uVvCWpWUcWyA-1
-Received: by mail-ed1-f69.google.com with SMTP id a2so3001244edx.0
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:02:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2aj6vrArQbKQ0qBxFPlrD7E8t70Px4bxQ/EmWWtj4ZQ=;
- b=eF8jJmMCyShGrT+wlRg+GSqgH25whEJiP9sWQQ9abzqzE6WYlL1y8rVQsIbV2hUT6p
- tJ6KdmPr6Y90hPoqH416mDT3pICYvPpk8yPmw880a9sAhuS8DnlawaFcZibVpf5Nbfii
- ygnHLe9Sy9F27RiDdro9m5R5fJQKAVWLKlq9ZcVnJkrybMQ2sPJ/pV7eRw2gqPFSwkRg
- q0aHYqdD148HEU6c102MYxwG6nvMmyYKnf3VHgQ1HYBKdUt/AlUsH0pEP7dCCasRhFRQ
- iXLYr51pLZB/5wukZqLyHPZw2zrPP1TP+mj+2+P6xrZ1SPaGlONMENyHBpTJsSDZVREt
- Bo8A==
-X-Gm-Message-State: AOAM5314lpPbeurgt/SDSlliHew41RKPgNi3NITsR8G6SRyROxARXgv2
- 3SbI+n/JMdD4/7wRgYU4zAcan8KG+JKx4e9AjJm+YaiBKmDRtKnFTz/HB88SA8t5QzNS/tTVVKs
- bUWPugXCrnVJnmNA=
-X-Received: by 2002:a05:6402:12cf:: with SMTP id
- k15mr4142916edx.192.1614718923893; 
- Tue, 02 Mar 2021 13:02:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBCJzr7ev9mZH1IApTfeoue8BfMGFDSMWxgz4mnCzhsvDnzt2m9RqoG3HLb52sfdUyyGHp6Q==
-X-Received: by 2002:a05:6402:12cf:: with SMTP id
- k15mr4142895edx.192.1614718923742; 
- Tue, 02 Mar 2021 13:02:03 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id kz4sm19194975ejc.38.2021.03.02.13.02.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 13:02:02 -0800 (PST)
-Subject: Re: [PATCH 3/3] qapi: provide a friendly string representation of
- QAPI classes
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210302175524.1290840-1-berrange@redhat.com>
- <20210302175524.1290840-4-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0e60ba89-76ce-0895-ee7c-a718ee53de45@redhat.com>
-Date: Tue, 2 Mar 2021 22:02:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lHC9z-0000cx-Qp; Tue, 02 Mar 2021 16:02:28 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lHC9w-0001R7-W7; Tue, 02 Mar 2021 16:02:27 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BFF937462D3;
+ Tue,  2 Mar 2021 22:02:20 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9C87E74581E; Tue,  2 Mar 2021 22:02:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9B5FE7456B7;
+ Tue,  2 Mar 2021 22:02:20 +0100 (CET)
+Date: Tue, 2 Mar 2021 22:02:20 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4 5/6] hw/pci-host: Add emulation of Marvell MV64361
+ PPC system controller
+In-Reply-To: <8b46f28a-f08c-28fd-d323-604ab1e231bb@amsat.org>
+Message-ID: <e0124583-3ab1-34cd-e6ca-e105e449fde@eik.bme.hu>
+References: <cover.1614282456.git.balaton@eik.bme.hu>
+ <bdcd7aaf18dfe93267d7a02ac4fa451cb5749dbd.1614282456.git.balaton@eik.bme.hu>
+ <8b46f28a-f08c-28fd-d323-604ab1e231bb@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210302175524.1290840-4-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1639703897-1614718940=:41756"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,21 +58,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 6:55 PM, Daniel P. Berrangé wrote:
-> If printing a QAPI schema object for debugging we get the classname and
-> a hex value for the instance. With this change we instead get the
-> classname and the human friendly name of the QAPI type instance.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  scripts/qapi/schema.py | 3 +++
->  1 file changed, 3 insertions(+)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--3866299591-1639703897-1614718940=:41756
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Tue, 2 Mar 2021, Philippe Mathieu-Daudé wrote:
+> On 2/25/21 8:47 PM, BALATON Zoltan wrote:
+>> The Marvell Discovery II aka. MV64361 is a PowerPC system controller
+>> chip that is used on the pegasos2 PPC board. This adds emulation of it
+>> that models the device enough to boot guests on this board. The
+>> mv643xx.h header with register definitions is taken from Linux 4.15.10
+>> only fixing end of line white space errors and removing not needed
+>> parts, it's otherwise keeps Linux formatting.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/pci-host/Kconfig           |   3 +
+>>  hw/pci-host/meson.build       |   2 +
+>>  hw/pci-host/mv64361.c         | 966 ++++++++++++++++++++++++++++++++++
+>>  hw/pci-host/mv643xx.h         | 919 ++++++++++++++++++++++++++++++++
+>
+> Maybe name this one mv643xx_regs.h?
+
+This comes originally from Linux where it had this name so to make it 
+simpler to find where it comes from I've kept the name for now. If we 
+ever change the contents beyond just formatting it could be renamed too.
+
+Regards,
+BALATON Zoltan
+
+>>  hw/pci-host/trace-events      |   6 +
+>>  include/hw/pci-host/mv64361.h |   8 +
+>>  include/hw/pci/pci_ids.h      |   1 +
+>>  7 files changed, 1905 insertions(+)
+>>  create mode 100644 hw/pci-host/mv64361.c
+>>  create mode 100644 hw/pci-host/mv643xx.h
+>>  create mode 100644 include/hw/pci-host/mv64361.h
+>
+>>
+>> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+>> index 8b8c763c28..65a983d6fd 100644
+>> --- a/hw/pci-host/Kconfig
+>> +++ b/hw/pci-host/Kconfig
+>> @@ -68,3 +68,6 @@ config PCI_POWERNV
+>>
+>>  config REMOTE_PCIHOST
+>>      bool
+>> +
+>> +config MV64361
+>> +    bool
+>
+> Missing:
+>
+>       select PCI
+>
+>
+--3866299591-1639703897-1614718940=:41756--
 
