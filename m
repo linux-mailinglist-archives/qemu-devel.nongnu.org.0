@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017AC32A8B2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:03:10 +0100 (CET)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E9A32A8C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:06:40 +0100 (CET)
+Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH9MS-0000DP-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:03:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59188)
+	id 1lH9Pr-0006M6-HZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:06:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH9HL-0002Sx-GH
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:51 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34894)
+ id 1lH9HM-0002WB-LD
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:52 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH9HJ-0007Xu-Rl
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:51 -0500
-Received: by mail-pg1-x530.google.com with SMTP id t25so14354701pga.2
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 09:57:49 -0800 (PST)
+ id 1lH9HK-0007Y6-UL
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:52 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id r5so14293109pfh.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 09:57:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=myPurBGQOJ9HRp/gWQglk2sYpbZ88UPxyO7dwBmpmMU=;
- b=fmZkbOnYawAdkOF7sk7wzSQGcR0VRtmZsALiro0upU06EGlblkw8nLvWpOVvNQuCg2
- d/j1fAdat4CjP6fC2Uwo2pP9iVF5a16xxa//D4xg4Vt8GgA5z3qKhW9LznWGw7lgsVMg
- 39QbrVtpTMEmQH1cZ9hLvy+LuRqWr9zjt2rQUKEoeCbd7DNFDPvUq2lib1e2iIoCIWC+
- tIKq32UtdriFXXAiETczRmcR5bXr8tUtjFLVUHMbmYG1/UENd9HxrOzmprnBkV9eT24n
- +geMWoIHLjREmMhXn4puS5twr/MbcRP4C1//sjUzvY2gL8Nyu2JZNv9o01l9BvHn6raJ
- C1TQ==
+ bh=vXWtOAbqO0IiL4x1PJ+ry/MmusWHvhWYDh4bY00za1s=;
+ b=Cc3LBM8V8Ek1Q8YhY1+KbK+WNzMUFUqih7/YcAGAeltZ7/z9FvYcrbWQfwO6dUQZfN
+ jHtZKQ5QlvulfDkvpI0EbJ0E2XOtQ9bHuY+YBMNsDIg1u43pF+tpENC/WBWSElCvUUvp
+ SKrYx1h3GAv3vJdo3kGuV0T1NaBylSwCD2ZOvzSfBYXKXOSwHlYSUsPi7nuQ1AXHiM47
+ F8sEpQItRAWJBaE568lCqvBaeKKF690DAqpkQvWvLuGuIlQsvm2EUILWuWNCqof9aTBv
+ o4J99jYnOCwcQ9KfLLEY1DL4qkFA2oyBUCzNw8zjnMRbHQmVrFCUw2wgJelVcEH38PDH
+ iODA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=myPurBGQOJ9HRp/gWQglk2sYpbZ88UPxyO7dwBmpmMU=;
- b=fccjRN0f4wdqq/hHJZR9OyjnKIknq31d7VeJDN6drFeysGhsi15jrFLngKksFQjiIE
- 55BVtBPWi4VzhA/pKqreV5wDfj4lcXXA0UfTNEolLi1DbHpN/1Ad8DF52geR6hNpp3yu
- KVFclF79PQ/r9Qx0+dS1OuLSr7Uxhu/pCVe0ihcKqqCcDZ1+FV/dhpa+h6g03fEfoETB
- WWSc23ASYbhOLgQzOu9zcwPH/FZeZpm8/SFPV2CSBpMyUrVb1fsqHlraDJ3f4vPhKzYm
- BSGq6xGyW0xumiyHyA9AEb0EnVtqnRSKX9yQmpoD/ozh5YpHcvNM/GwoF5UcVbBN/Z0Z
- yaTQ==
-X-Gm-Message-State: AOAM532DxdGs5mMXWDYaEX14gZoMEsgqwQDsMskvQ63ogOzPjw9eAVhn
- qTocqQP4Omngn9QwODrOelvbbOFtXeoMNg==
-X-Google-Smtp-Source: ABdhPJxaijNWBp/8edIbKm4kgqgiP3xRaUA8ajxueqizdScqGtEbzOjIKW5LlsDrybdieLFdqx92Sg==
-X-Received: by 2002:a62:1b48:0:b029:1ed:a400:9c52 with SMTP id
- b69-20020a621b480000b02901eda4009c52mr4316540pfb.14.1614707868509; 
- Tue, 02 Mar 2021 09:57:48 -0800 (PST)
+ bh=vXWtOAbqO0IiL4x1PJ+ry/MmusWHvhWYDh4bY00za1s=;
+ b=rI/p9u6Z3/5BBXIiP5uA9aiDKHCpFOG8h8QhbwUgxJDoYU/xB/d+ww3Vf9sKendeUJ
+ I2wIrbog2+JzOa9s+DmVIWv61XX9M8vCXdBDPAwrCBoB3F3SKAhpKlqb59oni4Rs26Hl
+ 0LD8m6kWcmZmCQu6qr+cOywVl7/5Y6vfzytu9TbTWZ2VOLGITLdTB2KmTXKa7Kn4wltP
+ NFwEFbnJWTo9heCw0Xgvg2a0emcY6EeB6siJxsqO+P+SGW7Z5RSBAkq/vux0Xk//HxYP
+ +N1zsQXHZPDkAl5KbE8Y0R6MZG0iWeX2HDzUkM6uUDhx2KoqCcbEP6A1PdWmZM8ZDQPs
+ +CvA==
+X-Gm-Message-State: AOAM530FIRnisa99wWlW0Is6idKCqgGN5BjPPQfhIjpKD7jTGLUYY4ix
+ JgLwUsrY5aHLygYQgMqALx13fT7o6TyP9w==
+X-Google-Smtp-Source: ABdhPJz78bsB1cvbHL/p1k2R3jX60hg+l9KVd2mryUQeSRfmXOcyWoJxb7HSD4l/RuTrL8aR3ZIihw==
+X-Received: by 2002:a05:6a00:886:b029:1ed:b546:6d1f with SMTP id
+ q6-20020a056a000886b02901edb5466d1fmr4363215pfj.22.1614707869514; 
+ Tue, 02 Mar 2021 09:57:49 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id gf20sm4232234pjb.39.2021.03.02.09.57.47
+ by smtp.gmail.com with ESMTPSA id gf20sm4232234pjb.39.2021.03.02.09.57.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 09:57:48 -0800 (PST)
+ Tue, 02 Mar 2021 09:57:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/27] tcg: Split out tcg_raise_tb_overflow
-Date: Tue,  2 Mar 2021 09:57:19 -0800
-Message-Id: <20210302175741.1079851-6-richard.henderson@linaro.org>
+Subject: [PATCH 06/27] tcg: Manage splitwx in tc_ptr_to_region_tree by hand
+Date: Tue,  2 Mar 2021 09:57:20 -0800
+Message-Id: <20210302175741.1079851-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210302175741.1079851-1-richard.henderson@linaro.org>
 References: <20210302175741.1079851-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,46 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow other places in tcg to restart with a smaller tb.
+The use in tcg_tb_lookup is given a random pc that comes from the pc
+of a signal handler.  Do not assert that the pointer is already within
+the code gen buffer at all, much less the writable mirror of it.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: db0c51a3803
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ tcg/tcg.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 63a12b197b..bbe3dcee03 100644
+index bbe3dcee03..2991112829 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -346,6 +346,12 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
-     s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
- }
- 
-+/* Signal overflow, starting over with fewer guest insns. */
-+static void QEMU_NORETURN tcg_raise_tb_overflow(TCGContext *s)
-+{
-+    siglongjmp(s->jmp_trans, -2);
-+}
-+
- #define C_PFX1(P, A)                    P##A
- #define C_PFX2(P, A, B)                 P##A##_##B
- #define C_PFX3(P, A, B, C)              P##A##_##B##_##C
-@@ -1310,8 +1316,7 @@ static TCGTemp *tcg_temp_alloc(TCGContext *s)
-     int n = s->nb_temps++;
- 
-     if (n >= TCG_MAX_TEMPS) {
--        /* Signal overflow, starting over with fewer guest insns. */
--        siglongjmp(s->jmp_trans, -2);
-+        tcg_raise_tb_overflow(s);
+@@ -513,11 +513,21 @@ static void tcg_region_trees_init(void)
      }
-     return memset(&s->temps[n], 0, sizeof(TCGTemp));
  }
+ 
+-static struct tcg_region_tree *tc_ptr_to_region_tree(const void *cp)
++static struct tcg_region_tree *tc_ptr_to_region_tree(const void *p)
+ {
+-    void *p = tcg_splitwx_to_rw(cp);
+     size_t region_idx;
+ 
++    /*
++     * Like tcg_splitwx_to_rw, with no assert.  The pc may come from
++     * a signal handler over which the caller has no control.
++     */
++    if (!in_code_gen_buffer(p)) {
++        p -= tcg_splitwx_diff;
++        if (!in_code_gen_buffer(p)) {
++            return NULL;
++        }
++    }
++
+     if (p < region.start_aligned) {
+         region_idx = 0;
+     } else {
+@@ -536,6 +546,7 @@ void tcg_tb_insert(TranslationBlock *tb)
+ {
+     struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
+ 
++    g_assert(rt != NULL);
+     qemu_mutex_lock(&rt->lock);
+     g_tree_insert(rt->tree, &tb->tc, tb);
+     qemu_mutex_unlock(&rt->lock);
+@@ -545,6 +556,7 @@ void tcg_tb_remove(TranslationBlock *tb)
+ {
+     struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
+ 
++    g_assert(rt != NULL);
+     qemu_mutex_lock(&rt->lock);
+     g_tree_remove(rt->tree, &tb->tc);
+     qemu_mutex_unlock(&rt->lock);
+@@ -561,6 +573,10 @@ TranslationBlock *tcg_tb_lookup(uintptr_t tc_ptr)
+     TranslationBlock *tb;
+     struct tb_tc s = { .ptr = (void *)tc_ptr };
+ 
++    if (rt == NULL) {
++        return NULL;
++    }
++
+     qemu_mutex_lock(&rt->lock);
+     tb = g_tree_lookup(rt->tree, &s);
+     qemu_mutex_unlock(&rt->lock);
 -- 
 2.25.1
 
