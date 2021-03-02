@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E21329871
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:45:45 +0100 (CET)
-Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F532988D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:53:37 +0100 (CET)
+Received: from localhost ([::1]:46248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH1b5-0002Mh-I8
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:45:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43092)
+	id 1lH1ih-0004Vi-VI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:53:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH1Zb-0001fB-6f
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:44:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH1ZX-0006y5-E1
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:44:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614678245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5J4TUPfuppElJI3IQaByRHJaXBhkc7sXODOqUnDwDOM=;
- b=hUYYmgu2AeDCRa6NVP/51//OEQQm9Ifk1lpBBODD9fxJhbI714aHKYoW5Kz3ajG+X5RwYe
- oCCXyS2FziNc3wNC48tXWa9yyhHBTg0cfD4oiQp6z195bJRXeRWH9TI1tZ0kqkeH5jkb6+
- kM5pKWterMVx/SVEVk64QWBrAMLxUJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-P7NpXCIaMIqapczGD6W_8A-1; Tue, 02 Mar 2021 04:44:03 -0500
-X-MC-Unique: P7NpXCIaMIqapczGD6W_8A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27391835E20;
- Tue,  2 Mar 2021 09:44:02 +0000 (UTC)
-Received: from [10.36.114.189] (ovpn-114-189.ams2.redhat.com [10.36.114.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80DDA1724C;
- Tue,  2 Mar 2021 09:43:56 +0000 (UTC)
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20210301104833.45580-1-david@redhat.com>
- <20210302100614.42acfe68@MiWiFi-RA69-srv>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v1] acpi: increase maximum size for "etc/table-loader" blob
-Message-ID: <cedb0323-ac0a-2eb5-497d-eb66a0dfefb6@redhat.com>
-Date: Tue, 2 Mar 2021 10:43:55 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lH1ht-00040N-6W; Tue, 02 Mar 2021 04:52:45 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:59871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lH1hr-00043F-7c; Tue, 02 Mar 2021 04:52:44 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 626588C46C98;
+ Tue,  2 Mar 2021 10:52:38 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Mar 2021
+ 10:52:37 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00242b04459-82aa-45bf-8416-f0443c9f31cf,
+ EADD5358444B4E8CC3FCA0863879143292018689) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v3 00/21] eMMC support
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Markus Armbruster
+ <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Max Reitz
+ <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
+ Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>, Vincent
+ Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Alistair
+ Francis <alistair.francis@wdc.com>, "Edgar E. Iglesias"
+ <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Bin Meng <bin.meng@windriver.com>
+References: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <d6a5132a-6158-b7ee-b1cb-c7ae5e5fdd6a@kaod.org>
+Date: Tue, 2 Mar 2021 10:52:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210302100614.42acfe68@MiWiFi-RA69-srv>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 59dfe598-80d1-498f-9cdb-c86dff296651
+X-Ovh-Tracer-Id: 785315187835636691
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddttddgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepshgrihdrphgrvhgrnhdrsghougguuhesgihilhhinhigrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,178 +79,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@xilinx.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.03.21 10:06, Igor Mammedov wrote:
-> On Mon,  1 Mar 2021 11:48:33 +0100
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> The resizeable memory region that is created for the cmd blob has a maximum
->> size of ACPI_BUILD_ALIGN_SIZE - 4k. This used to be sufficient, however,
->> as we try fitting in additional data (e.g., vmgenid, nvdimm, intel-iommu),
->> we require more than 4k and can crash QEMU when trying to resize the
->> resizeable memory region beyond its maximum size:
->>    $ build/qemu-system-x86_64 --enable-kvm \
->>        -machine q35,nvdimm=on \
->>        -smp 1 \
->>        -cpu host \
->>        -m size=2G,slots=8,maxmem=4G \
->>        -object memory-backend-file,id=mem0,mem-path=/tmp/nvdimm,size=256M \
->>        -device nvdimm,label-size=131072,memdev=mem0,id=nvdimm0,slot=1 \
->>        -nodefaults \
->>        -device vmgenid \
->>        -device intel-iommu
-> 
-> I don't see what's here that would make cmd_blob go above 4k.
-> can you try identify what actually fills it up (perhaps we have a hidden bug elsewhere)?
+Hello,
 
-VM initialization:
+Adding the SD maintainers for more feedback. 
 
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/tables'
-  -> new table size: 128
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 64 - 9659
-  -> new table size: 256
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 384
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 512
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 640
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 9659 - 9903
-  -> new table size: 768
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 9903 - 10023
-  -> new table size: 896
-bios_linker_loader_alloc: allocating memory for 'etc/vmgenid_guid'
-  -> new table size: 1024
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/vmgenid_guid'
-  -> new table size: 1280
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10023 - 10225
-  -> new table size: 1408
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10225 - 10281
-  -> new table size: 1536
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10281 - 10505
-  -> new table size: 1664
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10505 - 10577
-  -> new table size: 1792
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/nvdimm-mem'
-  -> new table size: 1920
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/nvdimm-mem'
-  -> new table size: 2048
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10577 - 11471
-  -> new table size: 2176
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11471 - 11695
-  -> new table size: 2304
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11695 - 11735
-  -> new table size: 2432
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2560
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2688
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2816
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2944
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3072
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3200
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3328
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3456
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3584
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11735 - 11807
-  -> new table size: 3712
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/rsdp'
-  -> new table size: 3840
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/rsdp' to 'etc/acpi/tables'
-  -> new table size: 3968
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/rsdp' for range 0 - 20
-  -> new table size: 4096
-
-
-When the bios/guest boots up:
-
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/tables'
-  -> new table size: 128
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 64 - 9769
-  -> new table size: 256
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 384
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 512
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 640
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 9769 - 10013
-  -> new table size: 768
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10013 - 10133
-  -> new table size: 896
-bios_linker_loader_alloc: allocating memory for 'etc/vmgenid_guid'
-  -> new table size: 1024
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/vmgenid_guid'
-  -> new table size: 1280
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10133 - 10335
-  -> new table size: 1408
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10335 - 10391
-  -> new table size: 1536
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10391 - 10615
-  -> new table size: 1664
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10615 - 10675
-  -> new table size: 1792
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10675 - 10747
-  -> new table size: 1920
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/nvdimm-mem'
-  -> new table size: 2048
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/nvdimm-mem'
-  -> new table size: 2176
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 10747 - 11641
-  -> new table size: 2304
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11641 - 11865
-  -> new table size: 2432
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11865 - 11905
-  -> new table size: 2560
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2688
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2816
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 2944
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3072
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3200
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3328
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3456
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3584
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3712
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/tables' to 'etc/acpi/tables'
-  -> new table size: 3840
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/tables' for range 11905 - 11981
-  -> new table size: 3968
-bios_linker_loader_alloc: allocating memory for 'etc/acpi/rsdp'
-  -> new table size: 4096
-bios_linker_loader_add_pointer: adding pointer in 'etc/acpi/rsdp' to 'etc/acpi/tables'
-  -> new table size: 4224
-bios_linker_loader_add_checksum: Adding checksum for 'etc/acpi/rsdp' for range 0 - 20
-  -> new table size: 4352
-
-
-
--- 
 Thanks,
 
-David / dhildenb
+C.
+
+On 2/28/21 8:33 PM, Sai Pavan Boddu wrote:
+> Hi,
+> 
+> This patch series add support for eMMC cards. This work was previosly
+> submitted by Vincent, rebased few changes on top.
+> 
+> Cedric & Joel has helped to added boot partition access support. I
+> expect them to make a follow-up series to use it with aspeed machines.> 
+> Present series adds eMMC support to Versal SOC.
+> 
+> Initial patch series version is RFC
+> Changes for V2:
+> 	Split Patch 1
+> 	Add comments for eMMC Erase commands
+> 	Added documentation about eMMC and Versal-virt board.
+> 	Make eMMC optional for xlnx-versal-virt machines
+> Changes for V3:
+> 	Revome addition of EMMC drive flag
+> 	Add TYPE_EMMC device
+> 	Add id strings for shci instances
+> 	Update versal doc with eMMC example
+> 	Fix signed-off-by lines for few patches
+> 
+> Cédric Le Goater (1):
+>   sd: sdmmc-internal: Add command string for SEND_OP_CMD
+> 
+> Joel Stanley (2):
+>   sd: emmc: Support boot area in emmc image
+>   sd: emmc: Subtract bootarea size from blk
+> 
+> Sai Pavan Boddu (14):
+>   sd: sd: Remove usage of tabs in the file
+>   sd: emmc: Add support for eMMC cards
+>   sd: emmc: Dont not update CARD_CAPACITY for eMMC cards
+>   sd: emmc: Update CMD1 definition for eMMC
+>   sd: emmc: support idle state in CMD2
+>   sd: emmc: Add mmc switch function support
+>   sd: emmc: add CMD21 tuning sequence
+>   sd: emmc: Make ACMD41 illegal for mmc
+>   sd: emmc: Add support for emmc erase
+>   sd: emmc: Update CID structure for eMMC
+>   sd: sdhci: Support eMMC devices
+>   arm: xlnx-versal: Add emmc to versal
+>   docs: devel: emmc: Add a doc for emmc card emulation
+>   docs: arm: xlnx-versal-virt: Add eMMC support documentation
+> 
+> Vincent Palatin (4):
+>   sd: emmc: Update SET_RELATIVE_ADDR command
+>   sd: emmc: update OCR fields for eMMC
+>   sd: emmc: Add support for EXT_CSD & CSD for eMMC
+>   sd: emmc: Update CMD8 to send EXT_CSD register
+> 
+>  docs/devel/emmc.txt                  |  16 +
+>  docs/system/arm/xlnx-versal-virt.rst |  14 +
+>  hw/sd/sdmmc-internal.h               |  97 ++++++
+>  include/hw/arm/xlnx-versal.h         |   1 +
+>  include/hw/sd/sd.h                   |   2 +
+>  hw/arm/xlnx-versal-virt.c            |  29 +-
+>  hw/arm/xlnx-versal.c                 |  14 +-
+>  hw/sd/sd.c                           | 563 ++++++++++++++++++++++++++---------
+>  hw/sd/sdhci.c                        |   4 -
+>  hw/sd/sdmmc-internal.c               |   2 +-
+>  10 files changed, 594 insertions(+), 148 deletions(-)
+>  create mode 100644 docs/devel/emmc.txt
+> 
 
 
