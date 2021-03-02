@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC9B3295A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 03:33:50 +0100 (CET)
-Received: from localhost ([::1]:40404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE903295B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 04:13:16 +0100 (CET)
+Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGur7-0005AA-H9
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 21:33:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49162)
+	id 1lGvTH-0004AU-8R
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 22:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lGupR-00048K-CW; Mon, 01 Mar 2021 21:32:05 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58319 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lGupN-0005ov-GH; Mon, 01 Mar 2021 21:32:05 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DqLk446Bkz9sVw; Tue,  2 Mar 2021 13:31:56 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1614652316;
- bh=sJZ+OjR/YCBp0DAcGkc+mnCMi2BPT9KabQYiiKAjr7A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Zxe4SeV4kHUvs3uaQurwi8r+gVwD2V/YkhggjO7r0P8Y/+23suaYDbdZcpE6xkY0v
- YqQTJkqEKcxQ8YtN4T/PhfXbPhjs9s3DHso3SPsUlgMG1azSR+u7ZtQP4hIQ45/zyW
- K15T457hBSIN8t5XewRXPrCtNhC6s+RHaCtZA94M=
-Date: Tue, 2 Mar 2021 13:31:21 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v13] spapr: Implement Open Firmware client interface
-Message-ID: <YD2jeWRfmI8eMdRg@yekko.fritz.box>
-References: <20210209110252.110107-1-aik@ozlabs.ru>
- <YDRxdIIiX9gCLEFM@yekko.fritz.box>
- <e303c1ff-e5a9-2d65-5063-d49182bdb67f@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <gcf1129@gmail.com>) id 1lGvRJ-0003A5-Sq
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 22:11:13 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <gcf1129@gmail.com>) id 1lGvQe-0002Pt-V2
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 22:11:13 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id i14so949725pjz.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 19:10:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=IOSuV67hNxL+aja19JFx5SrOq2Hwy+vHkDwRdfk0kmk=;
+ b=EU4wj+DHmEFztNsNv0FkycmG3X41Yp4FxX01okJBRGWOh4gALI2DjQpOKxFkOvtDK3
+ KoNPgFPx9JDoliDEipFQj5yKp3f6CwUrfRsKqywY+Erc7Ww97CH17x3tQHDIBOAgFaEA
+ 7tJ+Uk8wWnG/BekrM0yf8DGywWAXS9PVRGYLmZyismXvwl67nVDEZdoIs79LiQNkh1SP
+ i6Jg7HcIuP856BV8em/ye98YxB7vzK62WT8fRrxHge8ftAMN/HX+whKaoBq6Xj6k1cup
+ m4woY3fv6D7hNngpcqjmt2SUBsND33mfBLCQ4UVdgqjuCxn9sdnyZU081yKIaCykh4a6
+ 17RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=IOSuV67hNxL+aja19JFx5SrOq2Hwy+vHkDwRdfk0kmk=;
+ b=eaISwLBAQIBAoZRo9Tz1t+tWMo+0SLflEpayYLI51gBMZnNM6DsmT/0XgosrPFz7Ty
+ EJUVVuq/4DcUAmP1vd6KaU+69YjYcKRtpZ0fDzFOpSNcAfpJGGocBT+K9WM++gEyDosC
+ IMoiqBJWnFqDih32iqmSZFSa4GW3/T6EzjP+rEDyb7QheuXmlJGgaHkIE+M0ikawx+XA
+ WYCTG6TL7PaELG6Pm587WuejsruWUGIBBoNKUAwXHUUHkx3cYgZy/q4BeFFfqmTSyG5+
+ cMpIEbp+B885XxsjgREhNjj+2WAatDQ7qPIK7zA6vimCMUtfAYaEv3cOHBs7hxjOyUGy
+ 7h8w==
+X-Gm-Message-State: AOAM530g7CnCFLes1IZsEHA6lgNwHnxeu9gWcV/nHuunEWVt8Klxd9W6
+ MLLOklz58feCx1Zgi+zLj+rP4xsQJQthUjRcUagxTyWYE9A16WP6
+X-Google-Smtp-Source: ABdhPJw8khzUT1xklIlaPsrnWjLgQ5a8H3gU9p0f5nnFh1ZQFhSGWXVD4EbODxho9F2hrGxYb3dhCmEzswYCVSBXF4A=
+X-Received: by 2002:a17:902:b711:b029:e3:71f1:e08e with SMTP id
+ d17-20020a170902b711b02900e371f1e08emr1808419pls.18.1614654630871; Mon, 01
+ Mar 2021 19:10:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+gyyR3C0zXi45PDo"
-Content-Disposition: inline
-In-Reply-To: <e303c1ff-e5a9-2d65-5063-d49182bdb67f@ozlabs.ru>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+From: Sean Kuo <gcf1129@gmail.com>
+Date: Tue, 2 Mar 2021 11:10:19 +0800
+Message-ID: <CAFkVRJKUaHbMGSVAFpE4ETrLZTH0ShbTGtRGG38EvhfkmpKaXA@mail.gmail.com>
+Subject: mst@redhat.com
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b5460e05bc8513a2"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=gcf1129@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,120 +73,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000b5460e05bc8513a2
+Content-Type: text/plain; charset="UTF-8"
 
---+gyyR3C0zXi45PDo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Team,
+
+Sorry for the disturbance.  I have to ask for your help since I can't
+solve the problem by googling.
+
+*Below is the problem:*
+
+I met a problem when I tried to use IVSHMEM. Command lspci does not show
+the IVSHMEM device.
+Below is the configuration from my side:
+
+*1.  guest vm xml configuration.*
+  <shmem name='ivshmem'>
+      <model type='ivshmem-plain'/>
+      <size unit='M'>2</size>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x10'
+function='0x0'/>
+    </shmem>
+
+*2. after the booting up and I found the qemu commandline ideedly  have the
+device option:*
+ps aux | grep ivshmem
+ /usr/bin/qemu-system-x86_64
+      .......(ignore other options)
+-object
+memory-backend-file,id=shmmem-shmem0,mem-path=/dev/shm/hostmem,size=4194304,share=yes
+-device ivshmem-plain,id=shmem0,memdev=shmmem-shmem0,bus=pcie.0,addr=0x10
+
+*3. lspci command  not shown the device.*
+
+*4. lshw command indeedly show the device:*
+
+*-memory UNCLAIMED
+             description: RAM memory
+             product: Inter-VM shared memory
+             vendor: Red Hat, Inc.
+             physical id: 10
+             bus info: pci@0000:00:10.0
+             version: 01
+             width: 64 bits
+             clock: 33MHz (30.3ns)
+             configuration: latency=0
+             resources: memory:fcc1c000-fcc1c0ff memory:fdc00000-fdffffff
+
+My host and vm os is ubuntu 20.04 and version is:
+#49~20.04.1-Ubuntu SMP Fri Feb 5 09:57:56 UTC 2021 x86_64 x86_64 x86_64
+GNU/Linux
+
+Also I have asked a question on stackoverflow website, I provide the link
+for your reference:
+https://stackoverflow.com/questions/66432392/comand-lspci-does-not-show-the-the-ivshmem-device
+
+Thanks in advance.
+
+Best regards,
+Sean
+
+--000000000000b5460e05bc8513a2
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 23, 2021 at 11:19:38PM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 23/02/2021 14:07, David Gibson wrote:
-> > On Tue, Feb 09, 2021 at 10:02:52PM +1100, Alexey Kardashevskiy wrote:
-> > > The PAPR platform which describes an OS environment that's presented =
-by
-> > > a combination of a hypervisor and firmware. The features it specifies
-> > > require collaboration between the firmware and the hypervisor.
-> > >=20
->=20
-> [...]
->=20
-> > > +target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState *=
-spapr,
-> > > +                                target_ulong opcode, target_ulong *a=
-rgs)
-> > > +{
-> > > +    target_ulong of_client_args =3D ppc64_phys_to_real(args[0]);
-> > > +    struct prom_args pargs =3D { 0 };
-> > > +    char service[64];
-> > > +    unsigned nargs, nret, i;
-> > > +
-> > > +    cpu_physical_memory_read(of_client_args, &pargs, sizeof(pargs));
-> >=20
-> > Need to check for read errors in case an out of bounds address is passe=
-d.
->=20
->=20
-> cpu_physical_memory_read() returns void and so does
-> cpu_physical_memory_rw()
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Team,</div><div dir=3D"ltr"><div><br><=
+/div><div>Sorry for the disturbance.=C2=A0 I have to ask for your help sinc=
+e I can&#39;t solve=C2=A0the problem=C2=A0by googling.</div><div><span styl=
+e=3D"color:rgb(36,41,46);font-family:-apple-system,BlinkMacSystemFont,&quot=
+;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&q=
+uot;Segoe UI Emoji&quot;"><b><i><br></i></b></span></div><div><span style=
+=3D"color:rgb(36,41,46);font-family:-apple-system,BlinkMacSystemFont,&quot;=
+Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&qu=
+ot;Segoe UI Emoji&quot;"><b><i>Below is the problem:</i></b></span></div><d=
+iv><span style=3D"color:rgb(36,41,46);font-family:-apple-system,BlinkMacSys=
+temFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color E=
+moji&quot;,&quot;Segoe UI Emoji&quot;"><b><i><br></i></b></span></div><div>=
+I met a problem when I tried to use IVSHMEM. Command lspci does not show th=
+e IVSHMEM device.</div><div>Below=C2=A0is the configuration from my side:</=
+div><div><br></div><div><b>1.=C2=A0 guest vm xml configuration.</b></div><d=
+iv>=C2=A0<font color=3D"#ff0000">=C2=A0&lt;shmem name=3D&#39;ivshmem&#39;&g=
+t;<br>=C2=A0 =C2=A0 =C2=A0 &lt;model type=3D&#39;ivshmem-plain&#39;/&gt;<br=
+>=C2=A0 =C2=A0 =C2=A0 &lt;size unit=3D&#39;M&#39;&gt;2&lt;/size&gt;<br>=C2=
+=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#39; domain=3D&#39;0x0000&#39=
+; bus=3D&#39;0x00&#39; slot=3D&#39;0x10&#39; function=3D&#39;0x0&#39;/&gt;<=
+br>=C2=A0 =C2=A0 &lt;/shmem&gt;<br></font></div><div><br></div><div><b>2. a=
+fter the booting up and I found the qemu commandline ideedly=C2=A0 have the=
+ device option:</b></div><div>ps aux | grep ivshmem</div><div>=C2=A0/usr/bi=
+n/qemu-system-x86_64=C2=A0<br></div><div>=C2=A0 =C2=A0 =C2=A0 .......(ignor=
+e other options)</div><div><font color=3D"#ff0000">-object memory-backend-f=
+ile,id=3Dshmmem-shmem0,mem-path=3D/dev/shm/hostmem,size=3D4194304,share=3Dy=
+es -device ivshmem-plain,id=3Dshmem0,memdev=3Dshmmem-shmem0,bus=3Dpcie.0,ad=
+dr=3D0x10</font><br></div><div><br></div><div><b>3. lspci command=C2=A0 not=
+ shown=C2=A0the device.</b></div><div><br></div><div><b>4. lshw command ind=
+eedly show the device:</b></div><div><br></div><div>*-memory UNCLAIMED<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0description: RAM memory<br>=
+<font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pro=
+duct: Inter-VM shared memory<br></font>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0vendor: Red Hat, Inc.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0physical id: 10<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0bus info: pci@0000:00:10.0<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0version: 01<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wi=
+dth: 64 bits<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clock: 33MH=
+z (30.3ns)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0configuration=
+: latency=3D0<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0resources:=
+ memory:fcc1c000-fcc1c0ff memory:fdc00000-fdffffff<br></div><div><br></div>=
+<div>My host and vm os is ubuntu 20.04 and version is:</div>#49~20.04.1-Ubu=
+ntu SMP Fri Feb 5 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux<br><div>=
+<br></div><div>Also I have asked a question on stackoverflow website, I pro=
+vide the link for your reference:=C2=A0</div><div><a href=3D"https://stacko=
+verflow.com/questions/66432392/comand-lspci-does-not-show-the-the-ivshmem-d=
+evice" target=3D"_blank">https://stackoverflow.com/questions/66432392/coman=
+d-lspci-does-not-show-the-the-ivshmem-device</a></div><div><br></div><div>T=
+hanks in advance.</div><div><br></div><div>Best regards,=C2=A0</div><font c=
+olor=3D"#888888"><div>Sean</div></font></div></div>
 
-Sorry, I'd forgotten that was the case.
-
-> but eventually called address_space_rw() returns an error code, should I
-> switch to it?
-
-Yes, I think that would be best.
-
-> > > +    nargs =3D be32_to_cpu(pargs.nargs);
-> > > +    if (nargs >=3D ARRAY_SIZE(pargs.args)) {
-> > > +        return H_PARAMETER;
-> > > +    }
-> > > +
-> > > +    cpu_physical_memory_read(be32_to_cpu(pargs.service), service,
-> > > +                             sizeof(service));
-> > > +    if (strnlen(service, sizeof(service)) =3D=3D sizeof(service)) {
-> > > +        /* Too long service name */
-> > > +        return H_PARAMETER;
-> > > +    }
-> > > +
-> > > +    for (i =3D 0; i < nargs; ++i) {
-> > > +        pargs.args[i] =3D be32_to_cpu(pargs.args[i]);
-> >=20
-> > In general I dislike in-place endian conversion of structs, since I
-> > think it's less confusing to think of the endianness as a property of
-> > the type.
->=20
-> The type is uint32_t and there is no be32 in QEMU. I can have 2 copies of
-> pargs if this makes reviewing easier, should I?
-
-Even having 2 copies of the struct I don't really like.  Encoding the
-endianness down to the individual field level is great when the tools
-are available, but as you note qemu doesn't really have that.
-
-But even without that, I like the endianness of structs to be fixed by
-convention.  Otherwise when you see a struct instance it's not very
-easy to tell if it's a pre-conversion or post-conversion version at
-any point in the code.  That means later changes - even just simple
-looking code motions can become very fragile, because they move things
-to a point where the struct doesn't have the previously expected
-endianness.
-
-By preferred solution here when using a struct which needs to map
-directly onto in-memory information with a specific endianness is to
-*always* leave the struct in that endianness, and only convert when we
-actually take things in or out of the struct to use them in
-calculations.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---+gyyR3C0zXi45PDo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA9o3cACgkQbDjKyiDZ
-s5LZUg/+Mc4fsji6bPJ0y4UjxOcIhcgTfE9OqoKn0WseDV49IO7tkn8qbOyJZWVG
-REIn4z0oIs1GQbNTOJDrq7ovB4OMZfVsaQwQxm4/ieP6bK8oYFlsTyLz4NmRmQh1
-vVWalGq1SuiiwatuuYY6QbiOyCvX2Gz7NDCo2cvp1KDbuvMuSDA1Dh8UaZ0zBgnU
-VmVS59e9LzHa8SsZVyeXqc8PHVsYWk6WLQQBRfc/pnx/7u6HYmNuqPCYxrS0CYRh
-q11OZrXIt2vPsnn0UED9jEH0qZr6kNASUG6Yxs4diW18LBxpiJHKbHjzCQbDfQlv
-vKlI3YglXrQQHEYpaDJUCjE4cHTQ1OiUosZxIlqkORJI2vGh9ZD6KvIHBdcNlrVp
-PVgsqI36ZLBbRMjjN2I5Z3d7y/c44QDrcXbjPTnhiFcdkq7fO7sX16v9Kpb8gO9w
-+fLMQbAmoZlpARg0MJDR0pEkGyWwcC/QW89rxDOE+8UMOsqr5i62pLt3QyzF1Ard
-CB6CvDmJMdVRtYkSLlfqASMtWMwpZNVuIJvPTsgObElRuoHBw2E6NLmcDWfRvi0V
-nousKtyEAYknZweiNcyX0HMbQFOhtk6/BLtxOOrGV2hGGm+MKwCcSAzY4JPk5mCa
-go5Eh5gfo0IvUe7HYki6pTBzWjDkL9lR71qG+/OEIXObJML0VKQ=
-=Nyf7
------END PGP SIGNATURE-----
-
---+gyyR3C0zXi45PDo--
+--000000000000b5460e05bc8513a2--
 
