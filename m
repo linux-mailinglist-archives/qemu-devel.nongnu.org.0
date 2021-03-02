@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4993297AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:16:56 +0100 (CET)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1203297B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:19:59 +0100 (CET)
+Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH19D-00063S-9e
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:16:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35496)
+	id 1lH1CA-0008Hb-7A
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:19:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lH17D-0005Nd-C4
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:14:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lH17B-0005gx-Ir
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:14:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614676488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=maIR51eXT9zTBMqj9UDl5+Si8M5/OCp9VNi7b66H+UI=;
- b=hWQRKru1nRY/uU2Upa4FzWfwY8f0hSmcm8OYcFHoLSKP4S7i6YyPS26bH1lAeOMsC5yhPQ
- xsGova5hh9rqX7cejCZ2QjKhJU1ZgAamULpRZizSJiwrZQvVQ3HFJHnRwJqi3NpR0sXubt
- AR18nZTuNklbIfNalmhqIZvJI8aJZn8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-ctcLRAq8OoyJmLyzaDB2UA-1; Tue, 02 Mar 2021 04:14:46 -0500
-X-MC-Unique: ctcLRAq8OoyJmLyzaDB2UA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 480DF1966323;
- Tue,  2 Mar 2021 09:14:45 +0000 (UTC)
-Received: from localhost (ovpn-114-138.ams2.redhat.com [10.36.114.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD90A5945F;
- Tue,  2 Mar 2021 09:14:44 +0000 (UTC)
-Date: Tue, 2 Mar 2021 09:14:43 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH] qemu-storage-daemon: add --pidfile option
-Message-ID: <YD4CAwKFj0lMotRt@stefanha-x1.localdomain>
-References: <20210301160857.130478-1-stefanha@redhat.com>
- <YD0TM9/myXkdobPf@redhat.com> <20210301162409.GA30079@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lH1BF-0007qI-8e
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:19:01 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lH1BD-0008OS-BH
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:19:00 -0500
+Received: by mail-wr1-x430.google.com with SMTP id u16so1043181wrt.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 01:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fHQ6H9YiDadnO8c3kLr1KWN7BLqgV4fqLTqBWP1xhLY=;
+ b=ycfSGQS77MG1peqirFzGfTeGFCUNaxgOYLke0KigGvVg7CKwdVSxWH3mJZAreZKOJy
+ 8S0gqK9M/d2K1F9paOcYwx+4D8oK+NhMlQ/3xZDAg1UFfYI57LVvInx7EU8DBGWNa8uG
+ T10s0f1ljUylii43MeVwrzrmo8NHP0NVbg/BznqGKH0xaNz05oAWFdUg/FdhxYHnvQss
+ OZ0PRTOdw2YkIF4Jh+xpMIuo4TB3T+yhDbHXQj9SGQaO51XasaOs4/Y9uyyYyKVIwWwp
+ huUEjS84lDp9ntYRHt7dWTZ2V0ZXpxwC+R2SjPcGu/PLj4y1xwmBdMbpNlDQbLkiH/Fe
+ bPvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=fHQ6H9YiDadnO8c3kLr1KWN7BLqgV4fqLTqBWP1xhLY=;
+ b=h6aVjzFlqFMOWBnjvMYUbDweskRyNTzs1TTcQU7u/F3bdyDkhDL+I2/0t/jbCVtmho
+ TX2tSRx5fH+NLRMwR1Mrs4UKeqkkXUPqGh8NepJYjanh1lHLmz5ne9OJvt4D/L9eToo/
+ 9dvL9zL+rBoqys9VZdND2g+W8+h5qqmC/KH56iPan46KqJp40FIsg1aDOI/GbVXeFfJ5
+ WAYx7eyX0Pi9cssF/kuabXtt/mCiDQbBa0Qv9BXIo4+gJwOw9Tkn0gM/vRkutE08BbqA
+ HmT6kWaW2PsOQxKIGzyd1b1OARinqgpflvaGgHuicxrt/piiQ6aRVb2C/rG3a3IXzHG9
+ U2dA==
+X-Gm-Message-State: AOAM5304TpNNhlfnhFerV6Br4D50h5/R2JtuKnKFKkRlvw62Q5y5xFu0
+ vw+U+VvJCsfgm7BypjrtLjOVoBNZZNTfiw==
+X-Google-Smtp-Source: ABdhPJyWN9KMj1/AE4M4yE+BjY1clQCNDEkRIxU3Fj2IA88MSlysrXrj9E+bLx7o6YZHJ97gMgucIg==
+X-Received: by 2002:a05:6000:114b:: with SMTP id
+ d11mr20526992wrx.318.1614676737149; 
+ Tue, 02 Mar 2021 01:18:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l8sm13078519wrx.83.2021.03.02.01.18.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 01:18:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 67F641FF7E;
+ Tue,  2 Mar 2021 09:18:55 +0000 (GMT)
+References: <877dmrge9c.fsf@dusky.pond.sub.org>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: CI with --enable-debug?
+Date: Tue, 02 Mar 2021 09:17:16 +0000
+In-reply-to: <877dmrge9c.fsf@dusky.pond.sub.org>
+Message-ID: <877dmpkj5s.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210301162409.GA30079@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XBD7ZkubCiaTkqCk"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,114 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: afrosi@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---XBD7ZkubCiaTkqCk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 01, 2021 at 04:24:09PM +0000, Richard W.M. Jones wrote:
-> On Mon, Mar 01, 2021 at 04:15:47PM +0000, Daniel P. Berrang=E9 wrote:
-> > On Mon, Mar 01, 2021 at 04:08:57PM +0000, Stefan Hajnoczi wrote:
-> > > Daemons often have a --pidfile option where the pid is written to a f=
-ile
-> > > so that scripts can stop the daemon by sending a signal.
-> > >=20
-> > > The pid file also acts as a lock to prevent multiple instances of the
-> > > daemon from launching for a given pid file.
-> > >=20
-> > > QEMU, qemu-nbd, qemu-ga, virtiofsd, and qemu-pr-helper all support th=
-e
-> > > --pidfile option. Add it to qemu-storage-daemon too.
-> > >=20
-> > > Reported-by: Richard W.M. Jones <rjones@redhat.com>
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  docs/tools/qemu-storage-daemon.rst   | 10 ++++++++++
-> > >  storage-daemon/qemu-storage-daemon.c | 29 ++++++++++++++++++++++++++=
-++
-> > >  2 files changed, 39 insertions(+)
-> > >=20
-> > > diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-sto=
-rage-daemon.rst
-> > > index f63627eaf6..8f4ab16ffc 100644
-> > > --- a/docs/tools/qemu-storage-daemon.rst
-> > > +++ b/docs/tools/qemu-storage-daemon.rst
-> > > @@ -118,6 +118,16 @@ Standard options:
-> > >    List object properties with ``<type>,help``. See the :manpage:`qem=
-u(1)`
-> > >    manual page for a description of the object properties.
-> > > =20
-> > > +.. option:: --pidfile PATH
-> > > +
-> > > +  is the path to a file where the daemon writes its pid. This allows=
- scripts to
-> > > +  stop the daemon by sending a signal::
-> > > +
-> > > +    $ kill -SIGTERM $(<path/to/qsd.pid)
-> > > +
-> > > +  A file lock is applied to the file so only one instance of the dae=
-mon can run
-> > > +  with a given pid file path. The daemon unlinks its pid file when t=
-erminating.
-> >=20
-> > Usually a pidfile wants to have some explicit synchronization rules
-> > defined. AFAICS, qsd doesn't have a --daemonize option to sync against.
-> > If we're using the FD passing trick for the monitor, however, we want
-> > a guarantee that the pidfile is written before the monitor accepts the
-> > first client.
-> >=20
-> > IOW, the parent process needs to know that once it has done the QMP
-> > handshake, there is guaranteed tobe a pidfile present, or if the
-> > QMP handshake fails, then the app is guaranteed to have quit.
-> >=20
-> > IIUC, this impl should be ok in this respect, because we won't process
-> > the QMP handdshake until the main loop runs, at which point the pidfile
-> > is present. So we just need to document that the pidfile is guaranteed
-> > to be written by the time QMP is active.
->=20
-> I'm not sure if I follow this exactly, but from my point of view I'd
-> like to know that:
->=20
-> (1) If we're using --nbd-server addr.type=3Dinet|unix then the PID file
-> must not be created until the socket has been created and is
-> listening.  Here I mean the NBD socket, but the same would apply to
-> the QMP socket or any other listening socket.  This allows you to do
-> scripting sanely (qemu-storage-daemon ... &) without arbitrary sleeps.
+Markus Armbruster <armbru@redhat.com> writes:
 
-Okay. This is guaranteed by the code (--chardev creates the character
-device and listens before the pid file is written).
+> Today I debugged why Paolo couldn't reproduce an assertion failure I
+> found in review.  Turns out compiling with optimization masks it for
+> both of us.
+>
+> This made me wonder whether our CI tests with and without optimization.
+> I quick grep finds --enable-debug in .travis.yml, but not in .gitlab*.
+> Is this a gap?
 
-> (2) If we're using the FD passing trick instead, we don't care and
-> would probably not use the --pidfile option anyway (since we have the
-> PID from calling fork).
+Yes - certainly for check-tcg tests it's worth having --enable-debug
+because it also enables --enable-tcg-debug which turns on a bunch of
+additional sanity checking in the TCG code.
 
-Yep.
-
-I will document the things that you and Dan mentioned.
-
-Stefan
-
---XBD7ZkubCiaTkqCk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA+AgMACgkQnKSrs4Gr
-c8g5cwgAsM3eJAIcJdLc2ZatDaalMXgLuuff42lj6VUagWG96B0NwgzEejSgKAsP
-b8AaWMX3V0Kg8YyZZaGQ55N/eJRc7M5zu6Dcj6mqtl94Ui+U8vpSKLVQKKwv5egJ
-kfPtzHL0fyvnyZaCOa7597LEh6uAPFF7fIA20Na0Dxpdq5BbdcY8NOQA9xetTIi2
-tcO9Ag4NqtE8If/hysDVqLGxHqu9VIPhiKJcd3/MqiyqsjvOkpZhTXlDulcvDgC0
-NjFAzhmqccCyv3uJlhtN51JsyiBLrGtfnw4RRDt6PyTfCNadi05xV2nMZuTRshGH
-eS6pUDTbGPM1iwJeqepJOuJ+fGkNrw==
-=gNlm
------END PGP SIGNATURE-----
-
---XBD7ZkubCiaTkqCk--
-
+--=20
+Alex Benn=C3=A9e
 
