@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B8832AA73
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:35:12 +0100 (CET)
-Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB9832AA74
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:36:25 +0100 (CET)
+Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHAnX-0003bq-Vj
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:35:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
+	id 1lHAoi-0005JL-L2
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:36:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lHAQD-00017U-7Q
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 14:11:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38357)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHARv-0002oW-7I
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 14:12:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lHAQ7-0001d7-6p
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 14:11:04 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHARs-0001rp-BT
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 14:12:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614712257;
+ s=mimecast20190719; t=1614712366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1rJjCS8SfMd6EiWy+oL4Wkvtu28oL1WJmN+YYr+9Ai4=;
- b=RdNtJ6/CYxenIux0XlbojS6q3sBapviqNSFwfm909t7SRm84xa6ydB1nV4JuLfk+GECMuh
- StLEvx9cSiTqEk4Z5vO1mY0KC0tQGKvPIuLzB9qRSBXu4NEMZFgD67Joq7NgVs2Bp7tSPk
- px7Nk/0XwfUAipWwZdXJaxfAFm2Gaos=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FQbxM2Klg1c2IH4+aDaVIkZg6X5ktIoD7GNQ1tTtZ84=;
+ b=jIJWTXLHDnSfPPG8LFRIBZVRPpFjzjIq24ZmjZWcPrpXe2Lr4bt1A/+M0QsAF5sS50ZYSQ
+ oMHDM+qJPNnhkyV8Yjn/OaVmRxqc7E+spslVE+GnpakxrFGJfk0xffsASv6KlgrxF0y9ZU
+ 1x8h2EFvRGVrBXUVBtLRFu+zIZ1NyHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-VIkJaDvLNzODWURBvDbnGg-1; Tue, 02 Mar 2021 14:10:55 -0500
-X-MC-Unique: VIkJaDvLNzODWURBvDbnGg-1
+ us-mta-328-fbxwbw6tOo27eMb6tGmpSg-1; Tue, 02 Mar 2021 14:12:32 -0500
+X-MC-Unique: fbxwbw6tOo27eMb6tGmpSg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E349819611A0;
- Tue,  2 Mar 2021 19:10:52 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 313B46F447;
- Tue,  2 Mar 2021 19:10:47 +0000 (UTC)
-Subject: Re: [PATCH v6 1/5] qapi: net: Add query-netdev command
-To: Alexey Kirillov <lekiravi@yandex-team.ru>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20210302180205.5009-1-lekiravi@yandex-team.ru>
- <20210302180205.5009-2-lekiravi@yandex-team.ru>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <79930db1-80fa-c810-7f72-131ec4671a71@redhat.com>
-Date: Tue, 2 Mar 2021 13:10:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C36580196E;
+ Tue,  2 Mar 2021 19:12:31 +0000 (UTC)
+Received: from thuth.com (ovpn-112-57.ams2.redhat.com [10.36.112.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B566D19C93;
+ Tue,  2 Mar 2021 19:12:26 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	David Hildenbrand <david@redhat.com>
+Subject: [PATCH] target/s390x: Implement the MVPG condition-code-option bit
+Date: Tue,  2 Mar 2021 20:12:24 +0100
+Message-Id: <20210302191224.380963-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210302180205.5009-2-lekiravi@yandex-team.ru>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,107 +74,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Stefan Weil <sw@weilnetz.de>,
- xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, Vincenzo Maffione <v.maffione@gmail.com>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 12:02 PM, Alexey Kirillov wrote:
-> The query-netdev command is used to get the configuration of the current
-> network device backends (netdevs).
-> This is the QMP analog of the HMP command "info network" but only for netdevs
-> (i.e. excluding NIC and hubports).
-> 
-> The query-netdev command returns an array of objects of the NetdevInfo type,
-> which are an extension of Netdev type. It means that response can be used for
-> netdev-add after small modification. This can be useful for recreate the same
-> netdev configuration.
-> 
-> Information about the network device is filled in when it is created or
-> modified and is available through the NetClientState->stored_config.
-> 
-> Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> ---
+If the CCO bit is set, MVPG should not generate an exception
+but report page translation faults via a CC code, so we have
+to check the translation in this case before calling the
+access_prepare() function.
 
-> +++ b/net/net.c
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ This patch is required to get Claudio's new kvm-unit-tests patches
+ working with TCG: https://www.spinics.net/lists/kvm/msg236784.html
 
->  
-> +NetdevInfoList *qmp_query_netdev(Error **errp)
-> +{
-> +    NetdevInfoList *list = NULL;
-> +    NetClientState *nc;
-> +
-> +    QTAILQ_FOREACH(nc, &net_clients, next) {
-> +        /*
-> +         * Only look at netdevs (backend network devices), not for each queue
-> +         * or NIC / hubport
-> +         */
-> +        if (nc->stored_config) {
-> +            NetdevInfoList *node = g_new0(NetdevInfoList, 1);
+ target/s390x/cpu.h         | 14 ++++++++++++++
+ target/s390x/excp_helper.c | 14 --------------
+ target/s390x/mem_helper.c  | 23 ++++++++++++++++++++++-
+ 3 files changed, 36 insertions(+), 15 deletions(-)
 
-Please use QAPI_LIST_PREPEND instead of open-coding it.
-
-> +
-> +            node->value = QAPI_CLONE(NetdevInfo, nc->stored_config);
-> +            g_free(node->value->id); /* Need to dealloc default empty id */
-> +            node->value->id = g_strdup(nc->name);
-> +
-> +            node->value->has_peer_id = nc->peer != NULL;
-> +            if (node->value->has_peer_id) {
-> +                node->value->peer_id = g_strdup(nc->peer->name);
-> +            }
-> +
-> +            node->next = list;
-> +            list = node;
-> +        }
-> +    }
-> +
-
-> +++ b/net/slirp.c
-> @@ -345,6 +345,14 @@ static SaveVMHandlers savevm_slirp_state = {
->      .load_state = net_slirp_state_load,
->  };
->  
-> +#define APPEND_STRINGLIST(tail, new_val) \
-> +    do { \
-> +        *(tail) = g_new0(StringList, 1); \
-> +        (*(tail))->value = g_new0(String, 1); \
-> +        (*(tail))->value->str = g_strdup((new_val)); \
-> +        (tail) = &((*(tail))->next); \
-> +    } while (0)
-
-Please use QAPI_LIST_APPEND instead of re-coding it.
-
-> +++ b/qapi/net.json
-> @@ -714,3 +714,83 @@
->  ##
->  { 'event': 'FAILOVER_NEGOTIATED',
->    'data': {'device-id': 'str'} }
-> +
-> +##
-> +# @NetBackend:
-> +#
-> +# Available netdev backend drivers.
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'enum': 'NetBackend',
-> +  'data': [ 'user', 'tap', 'l2tpv3', 'socket', 'vde', 'bridge', 'netmap',
-> +            'vhost-user', 'vhost-vdpa' ] }
-
-Is it worth alphabetizing this list?
-
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 60d434d5ed..731e2c6452 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -366,6 +366,20 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
+ #endif
+ }
+ 
++static inline uint64_t cpu_mmu_idx_to_asc(int mmu_idx)
++{
++    switch (mmu_idx) {
++    case MMU_PRIMARY_IDX:
++        return PSW_ASC_PRIMARY;
++    case MMU_SECONDARY_IDX:
++        return PSW_ASC_SECONDARY;
++    case MMU_HOME_IDX:
++        return PSW_ASC_HOME;
++    default:
++        abort();
++    }
++}
++
+ static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index ce16af394b..44bff27f8f 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -105,20 +105,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+ #else /* !CONFIG_USER_ONLY */
+ 
+-static inline uint64_t cpu_mmu_idx_to_asc(int mmu_idx)
+-{
+-    switch (mmu_idx) {
+-    case MMU_PRIMARY_IDX:
+-        return PSW_ASC_PRIMARY;
+-    case MMU_SECONDARY_IDX:
+-        return PSW_ASC_SECONDARY;
+-    case MMU_HOME_IDX:
+-        return PSW_ASC_HOME;
+-    default:
+-        abort();
+-    }
+-}
+-
+ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr)
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 25cfede806..c7037adf2c 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -855,10 +855,31 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+     r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
+     r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
+ 
++    /*
++     * If the condition-code-option (CCO) bit is set and DAT is enabled,
++     * we have to check for page table translation faults first:
++     */
++#ifndef CONFIG_USER_ONLY
++    if (extract64(r0, 8, 1) && mmu_idx != MMU_REAL_IDX) {
++        uint64_t asc = cpu_mmu_idx_to_asc(mmu_idx);
++        uint64_t raddr, tec;
++        int flags, exc;
++
++        exc = mmu_translate(env, r2, MMU_DATA_LOAD, asc, &raddr, &flags, &tec);
++        if (exc) {
++            return 2;
++        }
++
++        exc = mmu_translate(env, r1, MMU_DATA_STORE, asc, &raddr, &flags, &tec);
++        if (exc && exc != PGM_PROTECTION) {
++            return 1;
++        }
++    }
++#endif
++
+     /*
+      * TODO:
+      * - Access key handling
+-     * - CC-option with surpression of page-translation exceptions
+      * - Store r1/r2 register identifiers at real location 162
+      */
+     srca = access_prepare(env, r2, TARGET_PAGE_SIZE, MMU_DATA_LOAD, mmu_idx,
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.27.0
 
 
