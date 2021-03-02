@@ -2,84 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BF832A611
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:32:10 +0100 (CET)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D0E32A613
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:33:23 +0100 (CET)
+Received: from localhost ([::1]:48352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH7wO-0005nr-TY
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:32:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
+	id 1lH7xa-0006kz-Br
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:33:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lH7v9-0005JE-Ni
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:30:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lH7v6-0001nO-H8
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:30:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614702647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KW92w+CvXgyn4rn0B7cVZK/3hl3UP57YomfCHhAVIJg=;
- b=PeueYANXQNcBRyeNow1F05ld8ans0l3rrk4gSGZqzMf5T+WNZYwdDPC6ZiWtoX7wgHYPwg
- m+AI6Pco50FuZ8nwV+pVwxmVgKAMKpb9aBj/x/kFoftRn9P4c9jKtt1T/M/LCkF+aZs7aT
- SGxMM3TAgjuc8eRQ4Xrodd7NBGGEqvs=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-CBgUUq0wNgKPwVQxhA8aSQ-1; Tue, 02 Mar 2021 11:30:45 -0500
-X-MC-Unique: CBgUUq0wNgKPwVQxhA8aSQ-1
-Received: by mail-qk1-f197.google.com with SMTP id o8so17320902qkl.3
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:30:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KW92w+CvXgyn4rn0B7cVZK/3hl3UP57YomfCHhAVIJg=;
- b=CnRq6foZrtjxraLiCfDVwkg37G3FW/0ln8U8Z5WpjjtcwNZVGf81FVYYd332Qra0gR
- eaoe2HzBpS86/9bc1IeeuKMPJHBKWnAK3IXeJqfRRbyjhsKgOrzsqJJ7tsBTZjqwR4GC
- 5zE5RjCOIQTE+VojlIzbaDlBgcqZyBVh5T+GOnwwyxckVdh7aHcnIBYencYhJxpsimmo
- l7zp17eXrbaOVKXZ6wneSFhp/4CV4n6C0JkHsOj63PQ+Sw2vWtaq7SrZaQ1kNJ/rTEfr
- Yfsvh3aAL9jTFrc7mQx4eLAfkelW/J4XlS6rLfLZDScepjtonWit5VL5vMHPVgodmQpU
- DLOQ==
-X-Gm-Message-State: AOAM531bwzrrQUSoiCRHYFoPO2QTiUIKibpoO356qDP0ohqV1f/bBO7B
- 0Ad/iVUovbGRy/xoGqqVhg2STbu0czsmqKLW3iobYYiHKt6jymOG6IXGzgOjA6oeTSj8iNoH7IA
- x+e309S7oCjNggde8s/QoMJvF+BczQKU=
-X-Received: by 2002:ac8:5503:: with SMTP id j3mr7385745qtq.19.1614702645093;
- Tue, 02 Mar 2021 08:30:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYjrMldFgefGYQL0bYgyX3ixvUG9hcsRsBXQigkZ64/1xHPKNwEwBkhDDM33PCePYeb25O3rTgBN5r6WgV++Q=
-X-Received: by 2002:ac8:5503:: with SMTP id j3mr7385708qtq.19.1614702644805;
- Tue, 02 Mar 2021 08:30:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lH7wO-00069L-PM
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:32:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51446
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lH7wH-00023d-DK
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:32:08 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 122G3qEa087133
+ for <qemu-devel@nongnu.org>; Tue, 2 Mar 2021 11:31:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=NI8W298TWQH6Sliq/2cp11Qt+rK5Rg6rgWUR2veL+Og=;
+ b=MnILS1lHQOt3E52eVPtfkfILP3u1+ehOSkI5vCky/o5cXGGPNLAZn1IX6MMGqwhc9G6F
+ I3Blagg+wD8tOvcjFaVhGXsg/EN8+EgxeXP1ihUmfaqk9/5RRoDb6MK/dC+epHzYwKwn
+ YrNxKpWRx01WNGQz+S7wt8XAHpV218SO88l7cLadyemeeG8IQhKFCUe0HnwJWPZ+GgOr
+ LF9DR7M2wHVOdV90FZgmL1RMp2AYSkLS/3Ve/BlgocoLP1SmbKdA6g6yGLV/fWo3bEY4
+ 9KgPiwmcdXagn9CXvb4gqPX0SE0/LOiCMWE7NBZNQNt8KZEIPxKiaNFfhUrqgV3/R9+U TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 371pgcx797-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 11:31:58 -0500
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122G4FwR089882
+ for <qemu-devel@nongnu.org>; Tue, 2 Mar 2021 11:31:58 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 371pgcx78s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Mar 2021 11:31:57 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122GQpAw022704;
+ Tue, 2 Mar 2021 16:31:57 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01dal.us.ibm.com with ESMTP id 371qmu8qus-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Mar 2021 16:31:57 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 122GVujD50528556
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 Mar 2021 16:31:56 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 18F766A054;
+ Tue,  2 Mar 2021 16:31:56 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF2C96A047;
+ Tue,  2 Mar 2021 16:31:55 +0000 (GMT)
+Received: from [9.211.86.147] (unknown [9.211.86.147])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  2 Mar 2021 16:31:55 +0000 (GMT)
+Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
+ <YDy8qsRRR3FmWr1D@redhat.com>
+ <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
+ <YD0Day/wGawuWdpi@redhat.com>
+ <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
+ <YD4T1nVIEdL7/IoG@redhat.com>
+ <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
+ <YD5b74uynDvWUySy@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <a4f78c9c-3a42-13dc-f095-16144d09ca6b@linux.vnet.ibm.com>
+Date: Tue, 2 Mar 2021 11:31:54 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210209153757.1653598-1-eperezma@redhat.com>
- <20210209153757.1653598-8-eperezma@redhat.com>
- <3df92e05-95c5-536e-150a-b5be8d6e149e@redhat.com>
-In-Reply-To: <3df92e05-95c5-536e-150a-b5be8d6e149e@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 2 Mar 2021 17:30:08 +0100
-Message-ID: <CAJaqyWdFhp4kdFNTKT-+KnS-7q7Ktyb2haFc87v9FfMppU0BqQ@mail.gmail.com>
-Subject: Re: [RFC v2 7/7] vhost: Route host->guest notification through shadow
- virtqueue
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <YD5b74uynDvWUySy@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-02_06:2021-03-01,
+ 2021-03-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1015 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2103020127
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,226 +120,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, virtualization@lists.linux-foundation.org,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Michael Lilja <ml@napatech.com>,
- Jim Harford <jim.harford@broadcom.com>, Rob Miller <rob.miller@broadcom.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 1, 2021 at 7:24 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/2/9 11:37 =E4=B8=8B=E5=8D=88, Eugenio P=C3=A9rez wrote:
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h |  2 ++
-> >   hw/virtio/vhost-shadow-virtqueue.c | 49 +++++++++++++++++++++++++++++=
-+
-> >   hw/virtio/vhost.c                  |  5 ++-
-> >   3 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index c45035c4b7..210133434c 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -17,6 +17,8 @@
-> >
-> >   typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> >
-> > +EventNotifier *vhost_shadow_vq_get_call_notifier(VhostShadowVirtqueue =
-*vq);
-> > +
-> >   bool vhost_shadow_vq_start_rcu(struct vhost_dev *dev,
-> >                                  unsigned idx,
-> >                                  VhostShadowVirtqueue *svq);
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 01f282d434..61d98ae652 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -24,6 +24,8 @@ typedef struct VhostShadowVirtqueue {
-> >
-> >       /* Borrowed virtqueue's guest to host notifier. */
-> >       EventNotifier host_notifier;
-> > +    /* Host to guest notifier */
-> > +    EventNotifier *guest_notifier;
-> >
-> >       /* Virtio queue shadowing */
-> >       VirtQueue *vq;
-> > @@ -40,6 +42,26 @@ static void vhost_handle_guest_kick(EventNotifier *n=
-)
-> >       }
-> >   }
-> >
-> > +/* Forward vhost notifications */
-> > +static void vhost_handle_call(EventNotifier *n)
-> > +{
-> > +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueue=
-,
-> > +                                             call_notifier);
-> > +
-> > +    if (event_notifier_test_and_clear(n)) {
-> > +        event_notifier_set(svq->guest_notifier);
-> > +    }
-> > +}
->
->
-> So I wonder how this is synchonized with virtqueue mask/unmask. Or the
-> masking is totally transparent to shadow virtqueue?
->
 
-Hi Jason.
+On 3/2/2021 10:38 AM, Daniel P. Berrangé wrote:
+> Is this scenario going to upset  CFI, or is it happy that 'void *'
+> is compatible with 'mytype *', and ok with the intermediate casts
+> to/from GCallback ?
 
-Thanks for pointing it out. Actually, the design proposed in this
-series is wrong.
+This is a valid scenario. LLVM does offer the ability of considering all 
+pointer types compatible, and it is being enabled in QEMU. So void* is 
+compatible to any type* and that would not be considered a fault.
 
-In this series, when the guest masks a virtqueue, qemu still sends the
-masked notifier as call fd to the vhost device. While that ioctl acts
-as a synchronization point, it disables shadow vq polling and used
-buffers forwarding entirely. The guest could be actively polling the
-virtqueue used ring and waiting for used buffers before unmasking:
-This is valid as far as I can tell.
-
-At unmasking, either guest's notifier or shadow virtqueue call
-notifier is set, and masked is checked as usual. Again this is
-transparent for the dataplane (vhost_handle_call in this series).
-
-We could have a race in vhost_shadow_vq_stop_rcu, since mask/unmask
-status is set by vcpu thread and these are called by QMP here [1]. As
-Stefan pointed out, vhost_shadow_vq_start_rcu is bad because it
-unmasks unconditionally.
-
-In the next revision the masked status will be also tracked by the
-shadow virtqueue, but will only affect qemu->guest used notifications.
-
-> Thanks
->
->
-> > +
-> > +/*
-> > + * Get the vhost call notifier of the shadow vq
-> > + * @vq Shadow virtqueue
-> > + */
-> > +EventNotifier *vhost_shadow_vq_get_call_notifier(VhostShadowVirtqueue =
-*vq)
-> > +{
-> > +    return &vq->call_notifier;
-> > +}
-> > +
-> >   /*
-> >    * Start shadow virtqueue operation.
-> >    * @dev vhost device
-> > @@ -57,6 +79,10 @@ bool vhost_shadow_vq_start_rcu(struct vhost_dev *dev=
-,
-> >           .index =3D idx,
-> >           .fd =3D event_notifier_get_fd(&svq->kick_notifier),
-> >       };
-> > +    struct vhost_vring_file call_file =3D {
-> > +        .index =3D idx,
-> > +        .fd =3D event_notifier_get_fd(&svq->call_notifier),
-> > +    };
-> >       int r;
-> >
-> >       /* Check that notifications are still going directly to vhost dev=
- */
-> > @@ -66,6 +92,7 @@ bool vhost_shadow_vq_start_rcu(struct vhost_dev *dev,
-> >                              event_notifier_get_fd(vq_host_notifier));
-> >       event_notifier_set_handler(&svq->host_notifier, vhost_handle_gues=
-t_kick);
-> >
-> > +    svq->guest_notifier =3D virtio_queue_get_guest_notifier(svq->vq);
-> >       r =3D dev->vhost_ops->vhost_set_vring_kick(dev, &kick_file);
-> >       if (unlikely(r !=3D 0)) {
-> >           error_report("Couldn't set kick fd: %s", strerror(errno));
-> > @@ -75,8 +102,19 @@ bool vhost_shadow_vq_start_rcu(struct vhost_dev *de=
-v,
-> >       /* Check for pending notifications from the guest */
-> >       vhost_handle_guest_kick(&svq->host_notifier);
-> >
-> > +    r =3D dev->vhost_ops->vhost_set_vring_call(dev, &call_file);
-> > +    if (r !=3D 0) {
-> > +        error_report("Couldn't set call fd: %s", strerror(errno));
-> > +        goto err_set_vring_call;
-> > +    }
-> > +
-> >       return true;
-> >
-> > +err_set_vring_call:
-> > +    kick_file.fd =3D event_notifier_get_fd(vq_host_notifier);
-> > +    r =3D dev->vhost_ops->vhost_set_vring_kick(dev, &kick_file);
-> > +    assert(r =3D=3D 0);
-> > +
-> >   err_set_vring_kick:
-> >       event_notifier_set_handler(&svq->host_notifier, NULL);
-> >
-> > @@ -108,6 +146,16 @@ void vhost_shadow_vq_stop_rcu(struct vhost_dev *de=
-v,
-> >       assert(r =3D=3D 0);
-> >
-> >       event_notifier_set_handler(&svq->host_notifier, NULL);
-> > +
-> > +    if (!dev->vqs[idx].notifier_is_masked) {
-> > +        EventNotifier *e =3D vhost_shadow_vq_get_call_notifier(svq);
- > > +
-> > +        /* Restore vhost call */
-> > +        vhost_virtqueue_mask(dev, dev->vdev, dev->vq_index + idx, fals=
-e);
-> > +
-> > +        /* Check for pending calls */
-> > +        vhost_handle_call(e);
-> > +    }
-
-[1] We could have a race condition if vcpu mask/unmask just between
-reading it and calling vhost_virtqueue_mask: vhost_shadow_vq_stop_rcu
-would override whatever guest set. It will be fixed in the next
-revision.
-
-> >   }
-> >
-> >   /*
-> > @@ -136,6 +184,7 @@ VhostShadowVirtqueue *vhost_shadow_vq_new(struct vh=
-ost_dev *dev, int idx)
-> >           goto err_init_call_notifier;
-> >       }
-> >
-> > +    event_notifier_set_handler(&svq->call_notifier, vhost_handle_call)=
-;
-> >       return g_steal_pointer(&svq);
-> >
-> >   err_init_call_notifier:
-> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > index 9d4728e545..0dc95679e9 100644
-> > --- a/hw/virtio/vhost.c
-> > +++ b/hw/virtio/vhost.c
-> > @@ -975,7 +975,6 @@ static int vhost_sw_live_migration_start(struct vho=
-st_dev *dev)
-> >           for (idx =3D 0; idx < dev->nvqs; ++idx) {
-> >               bool ok =3D vhost_shadow_vq_start_rcu(dev, idx,
-> >                                                   dev->shadow_vqs[idx])=
-;
-> > -
-> >               if (!ok) {
-> >                   int stop_idx =3D idx;
-> >
-> > @@ -1608,6 +1607,10 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev=
-, VirtIODevice *vdev, int n,
-> >       if (mask) {
-> >           assert(vdev->use_guest_notifier_mask);
-> >           file.fd =3D event_notifier_get_fd(&hdev->vqs[index].masked_no=
-tifier);
-> > +    } else if (hdev->sw_lm_enabled) {
-> > +        VhostShadowVirtqueue *svq =3D hdev->shadow_vqs[n];
-> > +        EventNotifier *e =3D vhost_shadow_vq_get_call_notifier(svq);
-> > +        file.fd =3D event_notifier_get_fd(e);
-> >       } else {
-> >           file.fd =3D event_notifier_get_fd(virtio_queue_get_guest_noti=
-fier(vvq));
-> >       }
->
-
+Intermediate casts are also fine since you are just passing the pointer 
+but not using it. The check will happen only when the function is 
+called, at which point it was cast back to something compatible.
 
