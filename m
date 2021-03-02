@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0507C32A1D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:12:06 +0100 (CET)
-Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE72C32A1E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:13:25 +0100 (CET)
+Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5kr-0003W3-2Z
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
+	id 1lH5m8-00062e-R5
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:13:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5jG-0002C0-BO
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH5jE-00079c-62
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:10:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614694223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MMPDpEtRzZIIp8wU3iBS8g/Ees6i8qACNdnmvYOw68Y=;
- b=W4TsZkXZ8G4QE1FdoxuMRjvicygCcM/uPMHv15iPxJoUGMJvlOuvaFkAHbv24a23Tfw2s9
- 6mCnjC6lbzgyC5CFCE2qwTa2olm/vqsV2hIB85vfI/sIZRfY/0X1ZeLVJpDpCHrIV3djFT
- YkGvkJ7DUFRQI/lxX3exu9XOsZ3ebpA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-O_4Qzh6mMMWhZjwvHEJ5Zw-1; Tue, 02 Mar 2021 09:10:20 -0500
-X-MC-Unique: O_4Qzh6mMMWhZjwvHEJ5Zw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748BC801979;
- Tue,  2 Mar 2021 14:10:19 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BF94608BA;
- Tue,  2 Mar 2021 14:10:16 +0000 (UTC)
-Date: Tue, 2 Mar 2021 15:10:15 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: ChangLimin <changlm@chinatelecom.cn>
-Subject: Re: [PATCH] file-posix: allow -EBUSY errors during write zeros on
- block
-Message-ID: <20210302141015.GB5527@merkur.fritz.box>
-References: <2021030209564214018344@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lH5jO-0002QN-2z; Tue, 02 Mar 2021 09:10:34 -0500
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lH5jM-0007AJ-Gc; Tue, 02 Mar 2021 09:10:33 -0500
+Received: by mail-qk1-x730.google.com with SMTP id g185so966129qkf.6;
+ Tue, 02 Mar 2021 06:10:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bayDl/27X9t8BzGIMK8tEPYhwocOYB9bxe2uCjWhGCE=;
+ b=nGwAEBY7o8DyATgdLOvytRll6ONaSfz1Ae5UPY77GvCb2VlK0Y+svIEPyWylroTsoy
+ 8I9HqkrE+Cdof61JSyg9DIT83OXxV9la1x5BKfvor+aJu8uW5M74+2PQOVPn8Z9aC2bC
+ Aq/XzIVZIherDKU67NR7sq2HCcm9d25EUFQRLF7RIxSCqx/xUiKkPo7E9ZmqUtsXGV1h
+ A3+yH4r3Mmb9I/w+ImCbRtV4JCkZMg87F52LnjRDJHXYBbsFbah/CmmFE609gej+ZxMG
+ MCDgTS9ZNOUCrubn2bPwqmehkPRuOJlZhoIXmXWnhkcLt4ISt2RhkTvf2pWgxXymncaH
+ EraQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bayDl/27X9t8BzGIMK8tEPYhwocOYB9bxe2uCjWhGCE=;
+ b=qzCUpl4NneRU/XEA5z1TWexV5pYP1mHHD+5xoKxqtBWa12+OT2OznfphWGnppYqlLU
+ wTuMCRORPy5sPxnYUDxHookFHVZdJnti8tAeg6/jmI/Arg8xaZOJXgVuK0k+c8j1dB9k
+ Cxxx5ZLDWzUdLMt9AHtEuE/5bjwJTOb8+kIlHpw4Nmyksub3Jq5whRWbuEj2vuaqIYjE
+ /ph9XgFFFCcg1QwDUDL17TKHP28ThgCmu3O7AgU7krKW1iv78tXJkaDZdUorCaTbsh/t
+ IL2DkMeWZ+x+/k6Meoo2i9sI+6P7mTLHzaQo3QUaylWGh2rvsptChJX2bFZZwKaT3/rI
+ 7v2Q==
+X-Gm-Message-State: AOAM530ysUGuPYiLX263TCD47hHkZMUakUA3/6pUjKBBQLlaLvFWHGM1
+ lG9cft89stUB3evoyT+Rl3aadZqE68S9jQ==
+X-Google-Smtp-Source: ABdhPJyU2eCY8YC60HpL+LdzsGMrfStu+YPbTXW614XMzyIQhfZtrHZjALjEzqc3p4Wcx24I3szK1g==
+X-Received: by 2002:a05:620a:1410:: with SMTP id
+ d16mr18810951qkj.465.1614694229651; 
+ Tue, 02 Mar 2021 06:10:29 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:1670:7849:4614:f4b6:4112])
+ by smtp.gmail.com with ESMTPSA id n5sm9376504qkp.133.2021.03.02.06.10.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 06:10:29 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] send QAPI_EVENT_MEM_UNPLUG_ERROR for ppc64 unplugs
+Date: Tue,  2 Mar 2021 11:10:17 -0300
+Message-Id: <20210302141019.153729-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <2021030209564214018344@chinatelecom.cn>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- mreitz <mreitz@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.03.2021 um 02:56 hat ChangLimin geschrieben:
-> After Linux 5.10, write zeros to a multipath device using
-> ioctl(fd, BLKZEROOUT, range) with cache none or directsync will return EBUSY.
-> 
-> Similar to handle_aiocb_write_zeroes_unmap, handle_aiocb_write_zeroes_block
-> allow -EBUSY errors during ioctl(fd, BLKZEROOUT, range).
-> 
-> Reference commit in Linux 5.10:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02
-> 
-> Signed-off-by: ChangLimin <changlm@chinatelecom.cn>
-> ---
->  block/file-posix.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 05079b40ca..3e60c96214 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1629,8 +1629,13 @@ static ssize_t handle_aiocb_write_zeroes_block(RawPosixAIOData *aiocb)
->          } while (errno == EINTR);
-> 
->          ret = translate_err(-errno);
-> -        if (ret == -ENOTSUP) {
-> +        switch (ret) {
-> +        case -ENOTSUP:
-> +        case -EINVAL:
-> +        case -EBUSY:
->              s->has_write_zeroes = false;
+Changes from v1:
+- patches 3 and 4: pushed to David's ppc-for-6.0
+- patch 1: changed to just remove the duplicated assert of the first DRC
+- patch 2: dropped
+- patch 2 (former 5):
+    * changed the error message to mention that the memory unplug
+      failed because the guest refused it
+   * added Greg's R-b
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08378.html 
 
-Do we actually want -EINVAL and -EBUSY to completely stop us from trying
-again in future requests? -ENOTSUP will never change in future calls,
-but can't -EINVAL and -EBUSY?
 
-By the way, the commit message only explains -EBUSY. Why do we want to
-cover -EINVAL here, too?
+Daniel Henrique Barboza (2):
+  spapr.c: remove duplicated assert in spapr_memory_unplug_request()
+  spapr.c: send QAPI event when memory hotunplug fails
 
-> +            return -ENOTSUP;
+ hw/ppc/spapr.c         | 14 +++++++++++---
+ hw/ppc/spapr_drc.c     |  5 ++---
+ include/hw/ppc/spapr.h |  3 +--
+ 3 files changed, 14 insertions(+), 8 deletions(-)
 
-I suppose this is the important change: We convert the error codes to
--ENOTSUP now so that block.c will emulate the operation instead of
-failing.  This should be explained in the commit message.
-
-> +            break;
->          }
->      }
->  #endif
-
-Kevin
+-- 
+2.29.2
 
 
