@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFD032A9EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:01:51 +0100 (CET)
-Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4432AA31
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 20:19:54 +0100 (CET)
+Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHAHF-0006xj-W9
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36668)
+	id 1lHAYj-0006FG-Ig
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 14:19:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH9VX-0000PW-6T
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:12:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40264)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lH9XC-00031B-A6
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:14:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lH9VS-0001Tn-Li
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:12:30 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lH9XA-0001dx-FC
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:14:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614708745;
+ s=mimecast20190719; t=1614708851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFEPs+euacg8bcpqwm1s3jWMQqDjlVFO10SuwV35Ax4=;
- b=fQpbZE126Dzhhm5pqK+4l4g5us//NFxHTy4XClCVeMoXL35maifq/lpKjM6gwQ11x6Yha5
- 0oEh6qd7XEVN2FFlP+6f6k8NitthOpxzC+P7DOq0FN42Eq2dRH6SqrsGWfFhRCe+9wdMpb
- ie9LeY7v2OgRrjZ6adtyNMI9gj/WxZs=
+ bh=GGZ+V4BuMUjN/dyzBouw6tuQ4nBWV+cZH0uyaasrD7c=;
+ b=HAT9LgzuJTjYdPV5j7I2h8099f5kvSl8L0YmrKKLTriIZZeMOJ8ftn+IK4FQGLxbkI4iqT
+ UP54LYrlTngMCvXoshg4m4s+pVyE1IKxwPBOvDNmuDivedvGsvrYL0JQ70bH4pLosSLKn4
+ 2QXkXbJmymoV0fHlbfj5B+iyANbRLQs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-obDg8Kt9Pse_5k-eTFqS-g-1; Tue, 02 Mar 2021 13:12:23 -0500
-X-MC-Unique: obDg8Kt9Pse_5k-eTFqS-g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-411-XHotEw4dNaWznIMyNuqAmg-1; Tue, 02 Mar 2021 13:14:07 -0500
+X-MC-Unique: XHotEw4dNaWznIMyNuqAmg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49C72102CC3D;
- Tue,  2 Mar 2021 18:12:11 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15E2C6889F;
- Tue,  2 Mar 2021 18:11:28 +0000 (UTC)
-Date: Tue, 2 Mar 2021 19:11:27 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 07/31] qapi/qom: Add ObjectOptions for memory-backend-*
-Message-ID: <20210302181127.GE5527@merkur.fritz.box>
-References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-8-kwolf@redhat.com>
- <cbb010a0-0d41-7a21-0130-d56d18942b5e@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80BFC8799F3;
+ Tue,  2 Mar 2021 18:14:06 +0000 (UTC)
+Received: from gondolin (ovpn-113-150.ams2.redhat.com [10.36.113.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BE3F10013C1;
+ Tue,  2 Mar 2021 18:14:05 +0000 (UTC)
+Date: Tue, 2 Mar 2021 19:14:02 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [PATCH] vfio-ccw: Do not read region ret_code after write
+Message-ID: <20210302191402.7bce604b.cohuck@redhat.com>
+In-Reply-To: <20210301195143.4106604-1-farman@linux.ibm.com>
+References: <20210301195143.4106604-1-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <cbb010a0-0d41-7a21-0130-d56d18942b5e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,247 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, dgilbert@redhat.com
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.02.2021 um 17:23 hat Eric Blake geschrieben:
-> On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> > This adds a QAPI schema for the properties of the memory-backend-*
-> > objects.
-> > 
-> > HostMemPolicy has to be moved to an include file that can be used by the
-> > storage daemon, too, because ObjectOptions must be the same in all
-> > binaries if we don't want to compile the whole code multiple times.
-> > 
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  qapi/common.json  |  20 ++++++++
-> >  qapi/machine.json |  22 +--------
-> >  qapi/qom.json     | 118 +++++++++++++++++++++++++++++++++++++++++++++-
-> >  3 files changed, 138 insertions(+), 22 deletions(-)
-> > 
-> 
-> > +++ b/qapi/qom.json
-> 
-> > +##
-> > +# @MemoryBackendProperties:
-> > +#
-> > +# Properties for objects of classes derived from memory-backend.
-> > +#
-> > +# @merge: if true, mark the memory as mergeable (default depends on the machine
-> > +#         type)
-> > +#
-> > +# @dump: if true, include the memory in core dumps (default depends on the
-> > +#        machine type)
-> 
-> Interesting choice to flip the description text from its previous
-> wording, but fine by me:
->     object_class_property_set_description(oc, "dump",
->         "Set to 'off' to exclude from core dump");
+On Mon,  1 Mar 2021 20:51:43 +0100
+Eric Farman <farman@linux.ibm.com> wrote:
 
-I feel that for booleans, describing what happens if they are false
-often turns out a bit confusing with double negatives etc. But if you
-think that in some cases, describing the negative is actually better,
-I'm open for that.
-
-> > +#
-> > +# @host-nodes: the list of NUMA host nodes to bind the memory to
-> > +#
-> > +# @policy: the NUMA policy (default: 'default')
-> > +#
-> > +# @prealloc: if true, preallocate memory (default: false)
+> A pwrite() call returns the number of bytes written (or -1 on error),
+> and vfio-ccw compares this number with the size of the region to
+> determine if an error had occurred or not. If they are equal, the
+> code reads the ret_code field from the region. However, while the
+> kernel sets the ret_code field as necessary, the region and thus
+> this field is not "written back" to the user. So the value can only
+> be what it was initialized to, which is zero.
 > 
-> Not quite in the same order as
-> backends/hostmem.c:host_memory_backend_class_init() (alphabetic here
-> instead of matching the C code declaration order), but that doesn't
-> impact QMP semantics, and I was able to match everything up in the end.
+> Not harming anything, but it's a puzzle. Let's avoid the confusion
+> and just set the return code to zero for this case.
+
+Yes, ret_code seems to be pretty much useless for us: we don't even
+look at it when we read the region for interrupt handling. Thankfully,
+we don't seem to really need it, as we can rely on errno. (Probably
+worth double checking that this is indeed the case.)
+
+I don't suppose we need to handle a hypothetical broken kernel that
+returns the wrong size with errno==0?
+
 > 
-> > +#
-> > +# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
-> > +#
-> > +# @share: if false, the memory is private to QEMU; if true, it is shared
-> > +#         (default: false)
-> > +#
-> > +# @size: size of the memory region in bytes
-> > +#
-> > +# @x-use-canonical-path-for-ramblock-id: if true, the canoncial path is used
-> > +#                                        for ramblock-id. Disable this for 4.0
-> > +#                                        machine types or older to allow
-> > +#                                        migration with newer QEMU versions.
-> > +#                                        (default: false generally, but true
-> > +#                                        for machine types <= 4.0)
+> Suggested-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+>  hw/vfio/ccw.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> The comment in the C code mentions that in spite of the x- prefix, we
-> have to treat this as a stable interface until 4.0 machines disappear.
-> Do we need any of that sentiment in the documentation here?
-
-"This option is considered stable despite the x- prefix."
-
-Does this work or should I be more verbose? (The indentation makes me
-want to keep it terse... :-))
-
-> > +#
-> > +# Since: 2.1
-> > +##
-> > +{ 'struct': 'MemoryBackendProperties',
-> > +  'data': { '*dump': 'bool',
-> > +            '*host-nodes': ['uint16'],
-> > +            '*merge': 'bool',
-> > +            '*policy': 'HostMemPolicy',
-> > +            '*prealloc': 'bool',
-> > +            '*prealloc-threads': 'uint32',
-> > +            '*share': 'bool',
-> > +            'size': 'size',
-> > +            '*x-use-canonical-path-for-ramblock-id': 'bool' } }
-> > +
-> > +##
-> > +# @MemoryBackendFileProperties:
-> > +#
-> > +# Properties for memory-backend-file objects.
-> > +#
-> > +# @align: the base address alignment when QEMU mmap(2) @mem-path. Some
-> > +#         backend store specified by @mem-path requires an alignment different
-> 
-> Grammar feels off.  Would it read better as
-> 
-> ...when QEMU mmap(2)s @mem-path.  Some backend stores specified by
-> @mem-path require an...
-
-This description is stolen from qemu-options.hx (I actually tried to
-copy existing documentation whenever it seemed to explain things well),
-but that's no reason not to improve it.
-
-> > +#         than the default one used by QEMU, e.g. the device DAX /dev/dax0.0
-> > +#         requires 2M alignment rather than 4K. In such cases, users can
-> > +#         specify the required alignment via this option.
-> > +#         0 selects a default alignment (currently the page size). (default: 0)
-> 
-> Again, not in the same order as
-> backends/hostmem-file.c:file_backend_class_init(), but it matches up.
-> 
-> > +#
-> > +# @discard-data: if true, the file contents can be destroyed when QEMU exits,
-> > +#                to avoid unnecessarily flushing data to the backing file. Note
-> > +#                that ``discard-data`` is only an optimization, and QEMU might
-> > +#                not discard file contents if it aborts unexpectedly or is
-> > +#                terminated using SIGKILL. (default: false)
-> > +#
-> > +# @mem-path: the path to either a shared memory or huge page filesystem mount
-> > +#
-> > +# @pmem: specifies whether the backing file specified by @mem-path is in
-> > +#        host persistent memory that can be accessed using the SNIA NVM
-> > +#        programming model (e.g. Intel NVDIMM).
-> > +#
-> > +# @readonly: if true, the backing file is opened read-only; if false, it is
-> > +#            opened read-write. (default: false)
-> > +#
-> > +# Since: 2.1
-> > +##
-> > +{ 'struct': 'MemoryBackendFileProperties',
-> > +  'base': 'MemoryBackendProperties',
-> > +  'data': { '*align': 'size',
-> > +            '*discard-data': 'bool',
-> > +            'mem-path': 'str',
-> > +            '*pmem': 'bool',
-> 
-> To match the C code, this should be
->  '*pmem': { 'type':'bool', 'if':'defined(CONFIG_LIBPMEM)' },
-
-Good catch, will fix.
-
-> > +            '*readonly': 'bool' } }
-> > +
-> > +##
-> > +# @MemoryBackendMemfdProperties:
-> > +#
-> > +# Properties for memory-backend-memfd objects.
-> > +#
-> > +# The @share boolean option is true by default with memfd.
-> > +#
-> > +# @hugetlb: if true, the file to be created resides in the hugetlbfs filesystem
-> > +#           (default: false)
-> > +#
-> > +# @hugetlbsize: the hugetlb page size on systems that support multiple hugetlb
-> > +#               page sizes (it must be a power of 2 value supported by the
-> > +#               system). 0 selects a default page size. This option is ignored
-> > +#               if @hugetlb is false. (default: 0)
-> > +#
-> > +# @seal: if true, create a sealed-file, which will block further resizing of
-> > +#        the memory (default: true)
-> > +#
-> > +# Since: 2.12
-> > +##
-> > +{ 'struct': 'MemoryBackendMemfdProperties',
-> > +  'base': 'MemoryBackendProperties',
-> > +  'data': { '*hugetlb': 'bool',
-> > +            '*hugetlbsize': 'size',
-> > +            '*seal': 'bool' } }
-> 
-> backends/hostmem-memfd.c makes 'hugetlb' and 'hugetlbsize' conditional
-> on qemu_memfd_check(MFD_HUGETLB), and only registers the overal type
-> based on qemu_memfd_check(MFD_ALLOW_SEALING).  In turn, qemu_memfd_check
-> returns false except for CONFIG_LINUX,...
-> 
-> > +
-> >  ##
-> >  # @ObjectType:
-> >  #
-> > @@ -287,7 +395,10 @@
-> >      'cryptodev-backend-builtin',
-> >      'cryptodev-vhost-user',
-> >      'dbus-vmstate',
-> > -    'iothread'
-> > +    'iothread',
-> > +    'memory-backend-file',
-> > +    'memory-backend-memfd',
-> > +    'memory-backend-ram'
-> >    ] }
-> >  
-> >  ##
-> > @@ -314,7 +425,10 @@
-> >        'cryptodev-backend-builtin':  'CryptodevBackendProperties',
-> >        'cryptodev-vhost-user':       'CryptodevVhostUserProperties',
-> >        'dbus-vmstate':               'DBusVMStateProperties',
-> > -      'iothread':                   'IothreadProperties'
-> > +      'iothread':                   'IothreadProperties',
-> > +      'memory-backend-file':        'MemoryBackendFileProperties',
-> > +      'memory-backend-memfd':       'MemoryBackendMemfdProperties',
-> 
-> ...so I'm wondering if this branch should be:
-> 
-> 'memory-backend-memfd', { 'type':'MemoryBackendMemfdProperties',
->   'if': 'defined(CONFIG_LINUX)' },
-> 
-> and whether we are risking problems by always having the 'hugetlb*'
-> fields even when the runtime does not register them.
-
-I don't think that's necessarily a problem.
-
-Later in the series we'll have some more object types in here that don't
-actually work: Some of them are target dependent, but the code generated
-from the schema is compiled only once. So if you configured multiple
-targets, you'll get all of them in the schema for all system emulators,
-even those that emulate a different target.
-
-I'm hesitant to change this one because it feels a bit indirect. It
-would be a much clearer case if we only compiled the source file for
-CONFIG_LINUX instead of deciding at runtime.
-
-*checks meson.build*
-
-Wait, scratch that... We already do that in addition, so you can get
-your 'if'. :-)
-
-And while I'm at it, cryptodev-vhost-user is conditional on
-CONFIG_VIRTIO_CRYPTO and CONFIG_VHOST_CRYPTO. The QAPI schema language
-doesn't have a way to split strings across multiple lines? Because I'll
-need more than 80 characters for this line then...
-
-Kevin
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index bc78a0ad76..bfd5fd07a5 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -106,7 +106,7 @@ again:
+>          error_report("vfio-ccw: write I/O region failed with errno=%d", errno);
+>          ret = -errno;
+>      } else {
+> -        ret = region->ret_code;
+> +        ret = 0;
+>      }
+>      switch (ret) {
+>      case 0:
+> @@ -194,7 +194,7 @@ again:
+>          error_report("vfio-ccw: write cmd region failed with errno=%d", errno);
+>          ret = -errno;
+>      } else {
+> -        ret = region->ret_code;
+> +        ret = 0;
+>      }
+>      switch (ret) {
+>      case 0:
+> @@ -234,7 +234,7 @@ again:
+>          error_report("vfio-ccw: write cmd region failed with errno=%d", errno);
+>          ret = -errno;
+>      } else {
+> -        ret = region->ret_code;
+> +        ret = 0;
+>      }
+>      switch (ret) {
+>      case 0:
 
 
