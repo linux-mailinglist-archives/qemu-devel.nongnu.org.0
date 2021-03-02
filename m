@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6848332AC62
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:49:56 +0100 (CET)
-Received: from localhost ([::1]:33508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714D632AC64
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:53:07 +0100 (CET)
+Received: from localhost ([::1]:40380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCtv-0002kl-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:49:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
+	id 1lHCx0-0005t8-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:53:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHCr1-0001Ed-EE
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:46:55 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHCqz-000833-0B
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:46:55 -0500
-Received: by mail-pf1-x433.google.com with SMTP id 201so14706304pfw.5
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:46:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=74hUWkBdl/Y+i0+FcmCUJjnAS4zDT9zxrR/V5NLfOjg=;
- b=OWn0qtzqbZPoxs6fyM31lXQ55S9iaytX1HZqGQIUKqrgn6/hv+iYSzJb9zu16UhWBd
- 0rGel7cjfxQqYOXBgOOkyqU35D4440CNttu6RB4LN3ZPjQt2lCHKDmCdos4dvhh3KjSX
- bqa/ycWRgd+nUfeKzPy+CgU0NUzsjMJH/YoV24zCzGpJlVQUtsc2KfLshWA+oXvg9d+3
- qJeYeNU2qssDH2zNUg3rITNqQgJwDp85LRpMCSrv8SKWSkPLAjPUUKQBtRDB0Qroi41m
- 4oi63M3+bIXyna2p2VeYaeBUiYWFr7ikBKLhmNKjgsJNrk+PPpehti5ckJVFaypdQqcR
- 7lNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=74hUWkBdl/Y+i0+FcmCUJjnAS4zDT9zxrR/V5NLfOjg=;
- b=oLyaqG8QGFzht35uOk/1L9vuszwEHlzx0qATgWGQYKuyPIaiU0FKIYI2yZrk3hNYyF
- CtK1BB1MYqjN1I/rigtF4PlSSz65fz14As+24zKlk3pYw39k2NAB200mWKBmTnDYayGV
- uM11MN8DcdcMzNk5GUf8xZ+INNxgR6GqNZydIERupplPIzILXbuAcR2Vvn8jLTOhpaXo
- +J/Cz2IRxS4RETsZLX08r3aMk0H5l7uxZAUvBJn6IbinstrqPZTa54Yt0c8/6p4ZbK5c
- fhR9HMWvahoiW2TPZdO4uecRxq3izLy2ASokt8yJJkvDB0qQM7eoiKWmIUdBn/pUvh+m
- PEzg==
-X-Gm-Message-State: AOAM531vJlZxeP96k7O+6Q7gJFDndysc/oH1rYhM2h6swwKuWUS6DJIi
- IufpmkwSYvIdpGNnzVXsxpR8Zw==
-X-Google-Smtp-Source: ABdhPJxWyI5IJMjw28unjvaR2Qphs/7Gr0yP4rH02/7KvH/m+lTX+bNY4InX5OtTuKsF11VqEyiecQ==
-X-Received: by 2002:aa7:96a4:0:b029:1ed:94a3:2cf5 with SMTP id
- g4-20020aa796a40000b02901ed94a32cf5mr124391pfk.68.1614721611424; 
- Tue, 02 Mar 2021 13:46:51 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id k8sm4316431pjj.31.2021.03.02.13.46.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 13:46:51 -0800 (PST)
-Subject: Re: [PATCH] target/s390x: Implement the MVPG condition-code-option bit
-To: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210302191224.380963-1-thuth@redhat.com>
- <f48a59bb-b981-dd77-54cb-f4a0826b0418@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e71f6b5e-ff83-ee5d-8dcf-446c2c1a165e@linaro.org>
-Date: Tue, 2 Mar 2021 13:46:48 -0800
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCrc-0001mf-Ib
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:47:32 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:46721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCra-00086V-PC
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:47:32 -0500
+Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MLi4W-1lYsEm2diC-00HhVX; Tue, 02 Mar 2021 22:47:24 +0100
+Subject: Re: [PATCH v2 23/42] esp: use ti_wptr/ti_rptr to manage the current
+ FIFO position for PDMA
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-24-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <f8ba17b1-dfd6-4fd0-af1d-609fb3555c2d@vivier.eu>
+Date: Tue, 2 Mar 2021 22:47:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <f48a59bb-b981-dd77-54cb-f4a0826b0418@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210209193018.31339-24-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:ySwN7myhkpVZjSI8B1kEDL72beLYO+VOYXlC/Ig00OWqBr3JWUL
+ lM0GMfeZKmOjXQRJBD+3tEWoDOkBR+PbGYds/wtFqPjN0BCJ9dUAgQmjWGDECYMvliUbcKh
+ 1J8LrkVju+zIWTI7j1IuPHzXAqBAYD2XHimXVfmuvmeGbHy9leBXMKT8NTfg3G4gks3J6mT
+ 2UaYwSKhTP2M3LkzQktRw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3T8wdfC5d4M=:0NermTZhW7YxgaiakwTjmT
+ x2OFzYUToQv5LciAivaI+sxvzjwIXj1YRApOsRYNUdNEXug6jk6CC1EvyBEJefog492OGXKPm
+ nHAQ+pKS7HiBGpoafLIBFW5RlJMd/5VxG/AtBEyJ9MQYPWlwOEEGJubYQEKtwTmhNvv2Emui+
+ TY/CDoD39Wl3JsdEYlIRUok+MGFVmC6mrRxdydcGYsrDYL/DBe9hByIHnh9H01f3h0UEzLIEz
+ eg4dzjK+iCXLWZKmhP+D3OA0n0GFxQ8JjOLYvBR3WU9v3B8vRTARG8fMkrHBQiOabHmAfjkMa
+ tny9r8cq4d5491zGLXhKb6IxuSg6GowYgOJwGVeRgsCQKRxm1/vLKazQvNKYtiufC+nmbDBNv
+ ljoq49U7YkHsBfazNbAsHr89HWRuqLnBjwXymsdX02Dls/gIuZ6gC10nuDNIXKANgWBwlxn3M
+ Bz6QmQg67g==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,121 +68,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 11:25 AM, David Hildenbrand wrote:
-> On 02.03.21 20:12, Thomas Huth wrote:
->> If the CCO bit is set, MVPG should not generate an exception
->> but report page translation faults via a CC code, so we have
->> to check the translation in this case before calling the
->> access_prepare() function.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   This patch is required to get Claudio's new kvm-unit-tests patches
->>   working with TCG: https://www.spinics.net/lists/kvm/msg236784.html
->>
->>   target/s390x/cpu.h         | 14 ++++++++++++++
->>   target/s390x/excp_helper.c | 14 --------------
->>   target/s390x/mem_helper.c  | 23 ++++++++++++++++++++++-
->>   3 files changed, 36 insertions(+), 15 deletions(-)
->>
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index 60d434d5ed..731e2c6452 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -366,6 +366,20 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool 
->> ifetch)
->>   #endif
->>   }
->> +static inline uint64_t cpu_mmu_idx_to_asc(int mmu_idx)
->> +{
->> +    switch (mmu_idx) {
->> +    case MMU_PRIMARY_IDX:
->> +        return PSW_ASC_PRIMARY;
->> +    case MMU_SECONDARY_IDX:
->> +        return PSW_ASC_SECONDARY;
->> +    case MMU_HOME_IDX:
->> +        return PSW_ASC_HOME;
->> +    default:
->> +        abort();
->> +    }
->> +}
->> +
->>   static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
->>                                           target_ulong *cs_base, uint32_t 
->> *flags)
->>   {
->> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
->> index ce16af394b..44bff27f8f 100644
->> --- a/target/s390x/excp_helper.c
->> +++ b/target/s390x/excp_helper.c
->> @@ -105,20 +105,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int 
->> size,
->>   #else /* !CONFIG_USER_ONLY */
->> -static inline uint64_t cpu_mmu_idx_to_asc(int mmu_idx)
->> -{
->> -    switch (mmu_idx) {
->> -    case MMU_PRIMARY_IDX:
->> -        return PSW_ASC_PRIMARY;
->> -    case MMU_SECONDARY_IDX:
->> -        return PSW_ASC_SECONDARY;
->> -    case MMU_HOME_IDX:
->> -        return PSW_ASC_HOME;
->> -    default:
->> -        abort();
->> -    }
->> -}
->> -
->>   bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->>                          MMUAccessType access_type, int mmu_idx,
->>                          bool probe, uintptr_t retaddr)
->> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
->> index 25cfede806..c7037adf2c 100644
->> --- a/target/s390x/mem_helper.c
->> +++ b/target/s390x/mem_helper.c
->> @@ -855,10 +855,31 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, 
->> uint64_t r1, uint64_t r2)
->>       r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
->>       r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
->> +    /*
->> +     * If the condition-code-option (CCO) bit is set and DAT is enabled,
->> +     * we have to check for page table translation faults first:
->> +     */
->> +#ifndef CONFIG_USER_ONLY
->> +    if (extract64(r0, 8, 1) && mmu_idx != MMU_REAL_IDX) {
->> +        uint64_t asc = cpu_mmu_idx_to_asc(mmu_idx);
->> +        uint64_t raddr, tec;
->> +        int flags, exc;
->> +
->> +        exc = mmu_translate(env, r2, MMU_DATA_LOAD, asc, &raddr, &flags, &tec);
->> +        if (exc) {
->> +            return 2;
->> +        }
->> +
->> +        exc = mmu_translate(env, r1, MMU_DATA_STORE, asc, &raddr, &flags, 
->> &tec);
->> +        if (exc && exc != PGM_PROTECTION) {
->> +            return 1;
->> +        }
->> +    }
->> +#endif
->> +
+Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
+> This eliminates the last user of the PDMA-specific pdma_cur variable which can
+> now be removed.
 > 
-> This way you always need two additional translations and don't even check if we 
-> have something in the TLB. While this works, it's quite inefficient.
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c         | 23 ++++++++---------------
+>  include/hw/scsi/esp.h |  1 -
+>  2 files changed, 8 insertions(+), 16 deletions(-)
 > 
-> Using probe_access_flags() we can actually lookup the tlb/fill the tlb but get 
-> an error instead of a fault. We could e.g., extent probe_access() to allow 
-> specifying whether we want a fault or not.
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index 691a2f4bdc..50503a6f53 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -127,11 +127,9 @@ static uint32_t esp_get_stc(ESPState *s)
+>      return dmalen;
+>  }
+>  
+> -static void set_pdma(ESPState *s, enum pdma_origin_id origin,
+> -                     uint32_t index, uint32_t len)
+> +static void set_pdma(ESPState *s, enum pdma_origin_id origin, uint32_t len)
+>  {
+>      s->pdma_origin = origin;
+> -    s->pdma_cur = index;
+>      s->pdma_len = len;
+>  }
+>  
+> @@ -146,11 +144,10 @@ static uint8_t esp_pdma_read(ESPState *s)
+>  
+>      switch (s->pdma_origin) {
+>      case TI:
+> -        val = s->ti_buf[s->pdma_cur++];
+> +        val = s->ti_buf[s->ti_rptr++];
+>          break;
+>      case CMD:
+>          val = s->cmdbuf[s->cmdlen++];
+> -        s->pdma_cur++;
+>          break;
+>      case ASYNC:
+>          val = s->async_buf[0];
+> @@ -158,7 +155,6 @@ static uint8_t esp_pdma_read(ESPState *s)
+>              s->async_len--;
+>              s->async_buf++;
+>          }
+> -        s->pdma_cur++;
+>          break;
+>      default:
+>          g_assert_not_reached();
+> @@ -182,11 +178,10 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+>  
+>      switch (s->pdma_origin) {
+>      case TI:
+> -        s->ti_buf[s->pdma_cur++] = val;
+> +        s->ti_buf[s->ti_wptr++] = val;
+>          break;
+>      case CMD:
+>          s->cmdbuf[s->cmdlen++] = val;
+> -        s->pdma_cur++;
+>          break;
+>      case ASYNC:
+>          s->async_buf[0] = val;
+> @@ -194,7 +189,6 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+>              s->async_len--;
+>              s->async_buf++;
+>          }
+> -        s->pdma_cur++;
+>          break;
+>      default:
+>          g_assert_not_reached();
+> @@ -249,7 +243,7 @@ static uint32_t get_cmd(ESPState *s)
+>          if (s->dma_memory_read) {
+>              s->dma_memory_read(s->dma_opaque, buf, dmalen);
+>          } else {
+> -            set_pdma(s, CMD, 0, dmalen);
+> +            set_pdma(s, CMD, dmalen);
+>              esp_raise_drq(s);
+>              return 0;
+>          }
+> @@ -412,7 +406,7 @@ static void write_response(ESPState *s)
+>              s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+>              s->rregs[ESP_RSEQ] = SEQ_CD;
+>          } else {
+> -            set_pdma(s, TI, 0, 2);
+> +            set_pdma(s, TI, 2);
+>              s->pdma_cb = write_response_pdma_cb;
+>              esp_raise_drq(s);
+>              return;
+> @@ -480,7 +474,7 @@ static void esp_do_dma(ESPState *s)
+>          if (s->dma_memory_read) {
+>              s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
+>          } else {
+> -            set_pdma(s, CMD, s->cmdlen, len);
+> +            set_pdma(s, CMD, len);
+>              s->pdma_cb = do_dma_pdma_cb;
+>              esp_raise_drq(s);
+>              return;
+> @@ -503,7 +497,7 @@ static void esp_do_dma(ESPState *s)
+>          if (s->dma_memory_read) {
+>              s->dma_memory_read(s->dma_opaque, s->async_buf, len);
+>          } else {
+> -            set_pdma(s, ASYNC, 0, len);
+> +            set_pdma(s, ASYNC, len);
+>              s->pdma_cb = do_dma_pdma_cb;
+>              esp_raise_drq(s);
+>              return;
+> @@ -512,7 +506,7 @@ static void esp_do_dma(ESPState *s)
+>          if (s->dma_memory_write) {
+>              s->dma_memory_write(s->dma_opaque, s->async_buf, len);
+>          } else {
+> -            set_pdma(s, ASYNC, 0, len);
+> +            set_pdma(s, ASYNC, len);
+>              s->pdma_cb = do_dma_pdma_cb;
+>              esp_raise_drq(s);
+>              return;
+> @@ -858,7 +852,6 @@ static const VMStateDescription vmstate_esp_pdma = {
+>      .fields = (VMStateField[]) {
+>          VMSTATE_INT32(pdma_origin, ESPState),
+>          VMSTATE_UINT32(pdma_len, ESPState),
+> -        VMSTATE_UINT32(pdma_cur, ESPState),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+> index 578d936214..5908d59a0a 100644
+> --- a/include/hw/scsi/esp.h
+> +++ b/include/hw/scsi/esp.h
+> @@ -58,7 +58,6 @@ struct ESPState {
+>      void (*dma_cb)(ESPState *s);
+>      int pdma_origin;
+>      uint32_t pdma_len;
+> -    uint32_t pdma_cur;
+>      void (*pdma_cb)(ESPState *s);
+>  
+>      uint8_t mig_version_id;
+> 
 
-I think probe_access_flags() will do all that you need; no further extension to 
-probe_access() required.  I presume you meant access_prepare() is what you 
-meant to extend?
-
-
-r~
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
