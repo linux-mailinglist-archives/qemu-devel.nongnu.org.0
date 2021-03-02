@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC16832A44C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:39:19 +0100 (CET)
-Received: from localhost ([::1]:44960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E2532A457
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:39:56 +0100 (CET)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH77G-0004oB-Ux
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:39:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52312)
+	id 1lH77r-0005Zp-Ht
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:39:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lH76O-0004ML-16
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45716)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lH76k-0004iT-La
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lH76L-0001pX-PB
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:23 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lH76i-0001qS-SE
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614699500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1614699523;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cbcYB1CXPQAwoO3yGxHAoP6KCeBIQgUN+9jz69hFSwA=;
- b=PPWpwS+idB5B3xm57Y3TkCtdpqnW8eERmsb527Vdzr8PAOchFV3+mv5FdBlSLMWYTYkmqw
- 4XpH6+Sf2+KPDOfgQA2ejP4Th645o+n4a5hCdRZZSN5oXCUx/N+ruehx/tgMzaPwdJkyjP
- WtiLkvM9HeGZMFlzSixj/1GKWbPUJiM=
+ bh=EIiXkajfsKyYWi8Y2M3v3pb6gspLlLv7V7MW6i9eHCw=;
+ b=E0nS7ltGXo3M6xZ/Q5ghE3zBZLUi92n9P5pOxIJB022onbdVKUFATfGyvE20M3K+sGdxOz
+ obNFeKfy/T8eMSR44fH366iTsDI0Y7E8qO+jrrAX5AF+jsQdxOtsYsBx7VuDQxIExpmYsn
+ 3sQYqrLeYrFboSEi1IorD4lijN1PJVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-gVMHllDJOgGplOHQSPziKQ-1; Tue, 02 Mar 2021 10:38:18 -0500
-X-MC-Unique: gVMHllDJOgGplOHQSPziKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-98-CZvzfSeXO7a694sPxXpm_g-1; Tue, 02 Mar 2021 10:38:28 -0500
+X-MC-Unique: CZvzfSeXO7a694sPxXpm_g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8E5A80196C;
- Tue,  2 Mar 2021 15:38:17 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DE3919D6C;
- Tue,  2 Mar 2021 15:38:05 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] avocado_qemu: add exec_command function
-To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
-References: <20210225205907.223995-1-willianr@redhat.com>
- <20210225205907.223995-2-willianr@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <73aeddc8-7b60-a935-b58d-faf5354247b1@redhat.com>
-Date: Tue, 2 Mar 2021 12:38:03 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA1385B664;
+ Tue,  2 Mar 2021 15:38:27 +0000 (UTC)
+Received: from redhat.com (ovpn-113-132.ams2.redhat.com [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E40360BFA;
+ Tue,  2 Mar 2021 15:38:26 +0000 (UTC)
+Date: Tue, 2 Mar 2021 15:38:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
+Message-ID: <YD5b74uynDvWUySy@redhat.com>
+References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
+ <YDy8qsRRR3FmWr1D@redhat.com>
+ <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
+ <YD0Day/wGawuWdpi@redhat.com>
+ <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
+ <YD4T1nVIEdL7/IoG@redhat.com>
+ <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210225205907.223995-2-willianr@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,65 +87,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Tue, Mar 02, 2021 at 08:18:03AM -0500, Daniele Buono wrote:
+> On 3/2/2021 5:30 AM, Daniel P. Berrangé wrote:
+> > On Mon, Mar 01, 2021 at 03:39:42PM -0500, Daniele Buono wrote:
+> > > Hi Daniel,
+> > > 
+> > > On 3/1/2021 10:08 AM, Daniel P. Berrangé wrote:
+> > > > What are the unique failure scenarios for CFI that these jobs are
+> > > > likely to expose ? Is it likely that we'll have cases where
+> > > > CFI succeeds in say, x86_64 target, but fails in aarch64 target ?
+> > > For CFI to fail (even if it shouldn't) you'll need code that is calling a
+> > > function pointer that was not well defined at compile time. Although
+> > > unlikely, that could happen everywhere in the code.
+> > What does "was not well defined" mean here ?
+> > 
+> 
+> At high level, the compiler creates metadata for every function. Before
+> jumping to a function pointer, it makes sure that the pointer and the
+> pointee have matching types.
+> Not well defined means one of these two cases:
+> 1. The function has a different type than the pointer -> Most likely an
+> error
 
-On 2/25/21 5:59 PM, Willian Rampazzo wrote:
-> Sometimes a test needs to send a command to a console without waiting
-> for a pattern as a result, or the command issued do not produce any kind
-> of output, like, for example, a `mount` command.
->
-> This introduces the `exec_command` function to the avocado_qemu,
-> allowing the test to send a command to the console without the need to
-> match a pattern produced as a result.
->
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->   tests/acceptance/avocado_qemu/__init__.py | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index df167b142c..6ea94cc721 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -93,7 +93,7 @@ def _console_interaction(test, success_message, failure_message,
->           if not msg:
->               continue
->           console_logger.debug(msg)
-> -        if success_message in msg:
-> +        if success_message is None or success_message in msg:
->               break
->           if failure_message and failure_message in msg:
->               console.close()
-> @@ -139,6 +139,17 @@ def wait_for_console_pattern(test, success_message, failure_message=None,
->       """
->       _console_interaction(test, success_message, failure_message, None, vm=vm)
->   
-> +def exec_command(test, command):
-> +    """
-> +    Send a command to a console (appending CRLF characters), while logging
-> +    the content.
-> +
-> +    :param test: an Avocado test containing a VM.
-> +    :type test: :class:`avocado_qemu.Test`
-> +    :param command: the command to send
+How strictly is this checked ?  With GLib function prototype mismatch
+is not uncommon. For example GLib might need to invoke a callback with
+a signature:
 
-It's missing the command type. With that:
+   int foo(int somearg, void *opaque);
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+The API though will often declare the callback signature to be
+generic
 
-> +    """
-> +    _console_interaction(test, None, None, command + '\r')
-> +
->   def exec_command_and_wait_for_pattern(test, command,
->                                         success_message, failure_message=None):
->       """
+   void (*GCallback) (void);
+
+The caller will implement a callback with
+
+   int foo(int somearg, mytype *mydata);
+
+and will use  G_CALLBACK() to do an intentional bad cast to GCallback
+
+Before it invokes the callback, GLib would cast from GCallback back
+to    int foo(int somearg, void *opaque);
+
+Notice this last arg doesn't match the type of the actual implemented
+callback.
+
+Is this scenario going to upset  CFI, or is it happy that 'void *'
+is compatible with 'mytype *', and ok with the intermediate casts
+to/from GCallback ?
+
+> 2. The function was not available at compile time so the compiler could
+> not create the related metadata -> Most likely a false positive.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
