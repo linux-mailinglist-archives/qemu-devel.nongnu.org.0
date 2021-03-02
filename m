@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ACC32A0E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:29:33 +0100 (CET)
-Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EF732A0E0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:29:32 +0100 (CET)
+Received: from localhost ([::1]:34242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH55g-0003fn-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:29:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47612)
+	id 1lH55f-0003aY-2W
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:29:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lH52i-0001aW-VM; Tue, 02 Mar 2021 08:26:28 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35346)
+ id 1lH52r-0001hz-5z; Tue, 02 Mar 2021 08:26:37 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:43769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lH52h-0001an-FE; Tue, 02 Mar 2021 08:26:28 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id t25so13822283pga.2;
- Tue, 02 Mar 2021 05:26:26 -0800 (PST)
+ id 1lH52p-0001bG-Ii; Tue, 02 Mar 2021 08:26:36 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id d8so1614015plg.10;
+ Tue, 02 Mar 2021 05:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UnFrFUxkrm8ifQ/YJRFM4cazuOSYeHnmhMFpysUYja8=;
- b=FZJF++J5rULq03pBtUuuZF5DBJRbOHZ/k4NNgBSUlhO/sQI/Q07r5mJsvMWbEJbBN9
- 17fIgBfWKORpJwLRlC+VYN/4Z/S1xyO9tEA4lpaG86QQn82Ll0q98MTWH4h+PtbUNkGZ
- /eCM1BxhvnerBmcrIlbpTw8oB6wTsyCXvjsZ7uoLrZefPteRfAmRintvr5gYFEFdFVan
- g3a+WKkoYLa6WPD8CBmpAjePSomOSDqV8184L03qkcZosymtEf5O0qkUEBtIRCJ8lw1F
- JD81VEymMT65pQjSRm0pFCAVioJyHPjO5ZjH7WL4VOmF8L7MpVOnPymBBS7EFf1aAuBY
- yzUA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0jcyFk/i/Huu0o8b2yWuUb8P4dKbG9cu75HLZDA4x9s=;
+ b=WqqUA4KbaJF24AmCor1pZHfdbaVrgExCyZR51jE7NPIuMjLJAH+CH8NSdxNc/O0sda
+ WYZDp9It8nttjvFZD3jLXI/fCYh/O+JQW9zBiHBl2H2etaGFEHJ6tJAj5MLIb9Puwn4Y
+ 9KctJul7Yd5G1L6uZagLTA/87ruD51dDNEvYAh7JXgRRrhgVA4lTZm4HfeKJMIrroyV8
+ m9gKEMSW8EPHgFpPzG9V39NVt1htLRGdYyKt8/K87jtY7JxOpZhzQj18Ey73lwt1nG45
+ N+2UpR+oOe//jIqFi5Pe0G2KHz5889NrCBzQbMmjgxL5S+1AuazCUOBfx/kWzDTR3XO4
+ +7EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UnFrFUxkrm8ifQ/YJRFM4cazuOSYeHnmhMFpysUYja8=;
- b=WMJxw0s2AR9XCiSd8mzYCDCs0y3D9JZifqNzqlomzxtFEJiY58026Eek0x6ySE2wVf
- ReSTQl/hRxZldjcLloEfcvvJxGBeVAMZcco1ZVZVlznwJ2ESys0//SQ2KhZqc5De0aa4
- PKMRc4ZbHv8ohAaQbDekd0rDMmgwO5fEFZcKsM2hghH/DD3FeL72jI2tyZut3wgfTeSY
- pcGsOH9Fq06zVeRt3vdJbXLGa17Pd5/Y2f8v65pMCQ1FiP+wUae6VagzWsw3XPEN+pJX
- OQdshuqxNVQyFt5ofYpq2YT8hnoOyCuEPXoCTT67/r8E4pVrXP8glSM3PaPi7/kUAiCO
- CPNw==
-X-Gm-Message-State: AOAM533RIk8gioNJfWpz/QVnGp0xJdpPidSPRUHzoN/fD7W9t2Ffwm2Z
- sNkfvN4cmhmvFndO/LdV1VzW17UTvwmlrA==
-X-Google-Smtp-Source: ABdhPJz1kOSx1zPMNp77kAUmR1NSGIuuNc+bmghBuyM2EmRi+VyLYtExIQUie7ZRCSA86VhG9jkinw==
-X-Received: by 2002:aa7:8a46:0:b029:1ed:cefd:7f7 with SMTP id
- n6-20020aa78a460000b02901edcefd07f7mr3279773pfa.46.1614691585522; 
- Tue, 02 Mar 2021 05:26:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0jcyFk/i/Huu0o8b2yWuUb8P4dKbG9cu75HLZDA4x9s=;
+ b=ouOsRWVlH7PZ2sgjQ6RNnp3d+ANA0RP8JRHvyy/GGDISEfMBuuEIvdH1mLeC/ReYQQ
+ tF08kguxXAj6f3I++JwEogbMVgeD3GXo3SNYb7Kt1GW8AvZZpqPA5K5taq//5FidFI7/
+ 8eVlMtbsPizn0CdFTHn0t+hMWRktTdN310FD/jwZrfkYd5izZKDYYk1r82NHPDS/rsYb
+ HEVxWijTShVjmXQ9RKEFXvK0iYsKX7F3OZ+WsfZcorhaktwl1lcbeaQoClzj+PfwwFwj
+ QAB/JKIT7TtNaGcVi5kzu1GKbSvBNWJZFZlFl1r5zQnhdlvqlzd+tIAQnExsuxhApsCF
+ 4pPQ==
+X-Gm-Message-State: AOAM531QhXKomfqSld0yLqihKEcEVfnhuPCFSDRSjPqKvfT7Xjh/T/dX
+ /vDBHU9sNEBgeRfy3d7VU4pt4OiiPaHgqw==
+X-Google-Smtp-Source: ABdhPJwyFBjVs3cfrpPHkfafx6aETfC8ANJTn87AGfXFjDblBazasofTXGBEywF38GfjpghEUP0IVw==
+X-Received: by 2002:a17:902:e8d3:b029:e3:cb77:2dde with SMTP id
+ v19-20020a170902e8d3b02900e3cb772ddemr3632445plg.78.1614691590388; 
+ Tue, 02 Mar 2021 05:26:30 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id u7sm20166956pfh.150.2021.03.02.05.26.22
+ by smtp.gmail.com with ESMTPSA id u7sm20166956pfh.150.2021.03.02.05.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 05:26:24 -0800 (PST)
+ Tue, 02 Mar 2021 05:26:30 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH V4 0/8] hw/block/nvme: support namespace attachment
-Date: Tue,  2 Mar 2021 22:26:09 +0900
-Message-Id: <20210302132617.18495-1-minwoo.im.dev@gmail.com>
+Subject: [PATCH V4 2/8] hw/block/nvme: fix namespaces array to 1-based
+Date: Tue,  2 Mar 2021 22:26:11 +0900
+Message-Id: <20210302132617.18495-3-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210302132617.18495-1-minwoo.im.dev@gmail.com>
+References: <20210302132617.18495-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,60 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+subsys->namespaces array used to be sized to NVME_SUBSYS_MAX_NAMESPACES.
+But subsys->namespaces are being accessed with 1-based namespace id
+which means the very first array entry will always be empty(NULL).
 
-This series supports namespace attachment: attach and detach.  This is
-the fourth version of series with replacing changed namespace list to
-bitmap to indicate changed namespace IDs.
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Tested-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme-subsys.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please review.
-
-Thanks,
-
-Since V3:
-  - Replace changed ns list to bitmap to not only represent relationship
-    between controller and namespace, but also avoid duplications of
-    nsids in the list.  (Klaus)
-
-Since V2:
-  - Added command effects (namespace inventory changed) for namespace
-    attach command.  (Keith)
-  - Added [7/8] patch to support asynchronus event when namespace
-    inventory is updated.  (Keith)
-  - Added review and tested tag from Klaus to all the patches, but [6/8]
-    and [7/8].
-
-Since V1:
-  - Fix to take 'ctrl' which is given from the command rather than 'n'.
-    (Klaus)
-  - Add a [7/7] patch to support CNS 12h Identify command (Namespace
-    Attached Controller list).
-
-Minwoo Im (8):
-  hw/block/nvme: support namespace detach
-  hw/block/nvme: fix namespaces array to 1-based
-  hw/block/nvme: fix allocated namespace list to 256
-  hw/block/nvme: support allocated namespace type
-  hw/block/nvme: refactor nvme_select_ns_iocs
-  hw/block/nvme: support namespace attachment command
-  hw/block/nvme: support changed namespace asyncrohous event
-  hw/block/nvme: support Identify NS Attached Controller List
-
- hw/block/nvme-ns.c     |   1 +
- hw/block/nvme-ns.h     |   2 +
- hw/block/nvme-subsys.h |  28 +++-
- hw/block/nvme.c        | 300 ++++++++++++++++++++++++++++++++++++-----
- hw/block/nvme.h        |  37 +++++
- hw/block/trace-events  |   3 +
- include/block/nvme.h   |  14 ++
- 7 files changed, 349 insertions(+), 36 deletions(-)
-
+diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
+index 890d118117dc..574774390c4c 100644
+--- a/hw/block/nvme-subsys.h
++++ b/hw/block/nvme-subsys.h
+@@ -24,7 +24,7 @@ typedef struct NvmeSubsystem {
+ 
+     NvmeCtrl    *ctrls[NVME_SUBSYS_MAX_CTRLS];
+     /* Allocated namespaces for this subsystem */
+-    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES];
++    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES + 1];
+ } NvmeSubsystem;
+ 
+ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
 -- 
 2.27.0
 
