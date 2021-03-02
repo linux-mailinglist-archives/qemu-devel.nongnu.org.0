@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51A532A27C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:35:24 +0100 (CET)
-Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCD632A28B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:47:52 +0100 (CET)
+Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH67P-0006Nh-IR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:35:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1lH6JT-0000y9-DP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:47:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lH66L-0005rc-Qq
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:34:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lH66I-0001uw-Fn
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:34:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614695652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OpCjEKCiUq0UfjElv5Meixzc3hIIhh/LgX0u9UvRcfM=;
- b=KJQyxlfrBkyu7AP7m2PPIsds0Sah+18B/0c23AzP4Ofgo+4MbYYhGhBLl870/o8BatqSQU
- nuY89s2lyEhlyqddQiqOP9OQApdihybGFEyUi0XBpPH6pTEY74LASozO7152RVW5dkic1y
- xLFpOCN1y7UB2EVn2FGcQl56L++1IGw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-PYBF1RXMMymwPQnvEU5kxA-1; Tue, 02 Mar 2021 09:34:06 -0500
-X-MC-Unique: PYBF1RXMMymwPQnvEU5kxA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D79F21E563;
- Tue,  2 Mar 2021 14:34:05 +0000 (UTC)
-Received: from localhost (ovpn-112-87.ams2.redhat.com [10.36.112.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8353519C93;
- Tue,  2 Mar 2021 14:34:02 +0000 (UTC)
-Date: Tue, 2 Mar 2021 14:34:01 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3] qemu-storage-daemon: add --pidfile option
-Message-ID: <20210302143401.GD26415@redhat.com>
-References: <20210302142746.170535-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH6I4-00007j-Dm
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:46:24 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH6I0-0003fD-AG
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:46:24 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D5837AC54
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 14:46:08 +0000 (UTC)
+Subject: Re: [PATCH 0/2] semihosting: Move it out of hw/
+To: qemu-devel@nongnu.org
+References: <20210226131356.3964782-1-f4bug@amsat.org>
+ <463befd2-c384-553b-9a78-bb033d92638e@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <0cec0b74-cac0-d35d-eaaa-3ce96507a922@suse.de>
+Date: Tue, 2 Mar 2021 15:46:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210302142746.170535-1-stefanha@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <463befd2-c384-553b-9a78-bb033d92638e@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,159 +55,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, afrosi@redhat.com,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 02:27:46PM +0000, Stefan Hajnoczi wrote:
-> Daemons often have a --pidfile option where the pid is written to a file
-> so that scripts can stop the daemon by sending a signal.
-> 
-> The pid file also acts as a lock to prevent multiple instances of the
-> daemon from launching for a given pid file.
-> 
-> QEMU, qemu-nbd, qemu-ga, virtiofsd, and qemu-pr-helper all support the
-> --pidfile option. Add it to qemu-storage-daemon too.
-> 
-> Reported-by: Richard W.M. Jones <rjones@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> v3:
->  * Add --pidfile help output [Kevin]
-> 
->  docs/tools/qemu-storage-daemon.rst   | 14 +++++++++++
->  storage-daemon/qemu-storage-daemon.c | 36 ++++++++++++++++++++++++++++
->  2 files changed, 50 insertions(+)
-> 
-> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-> index f63627eaf6..3d9704d835 100644
-> --- a/docs/tools/qemu-storage-daemon.rst
-> +++ b/docs/tools/qemu-storage-daemon.rst
-> @@ -118,6 +118,20 @@ Standard options:
->    List object properties with ``<type>,help``. See the :manpage:`qemu(1)`
->    manual page for a description of the object properties.
->  
-> +.. option:: --pidfile PATH
-> +
-> +  is the path to a file where the daemon writes its pid. This allows scripts to
-> +  stop the daemon by sending a signal::
-> +
-> +    $ kill -SIGTERM $(<path/to/qsd.pid)
-> +
-> +  A file lock is applied to the file so only one instance of the daemon can run
-> +  with a given pid file path. The daemon unlinks its pid file when terminating.
-> +
-> +  The pid file is written after chardevs, exports, and NBD servers have been
-> +  created but before accepting connections. The daemon has started successfully
-> +  when the pid file is written and clients may begin connecting.
-> +
->  Examples
->  --------
->  Launch the daemon with QMP monitor socket ``qmp.sock`` so clients can execute
-> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-> index 9021a46b3a..4672145df5 100644
-> --- a/storage-daemon/qemu-storage-daemon.c
-> +++ b/storage-daemon/qemu-storage-daemon.c
-> @@ -59,6 +59,7 @@
->  #include "sysemu/runstate.h"
->  #include "trace/control.h"
->  
-> +static const char *pid_file;
->  static volatile bool exit_requested = false;
->  
->  void qemu_system_killed(int signal, pid_t pid)
-> @@ -115,6 +116,8 @@ static void help(void)
->  "                         See the qemu(1) man page for documentation of the\n"
->  "                         objects that can be added.\n"
->  "\n"
-> +"  --pidfile <path>       write process ID to a file after startup\n"
-> +"\n"
->  QEMU_HELP_BOTTOM "\n",
->      error_get_progname());
->  }
-> @@ -126,6 +129,7 @@ enum {
->      OPTION_MONITOR,
->      OPTION_NBD_SERVER,
->      OPTION_OBJECT,
-> +    OPTION_PIDFILE,
->  };
->  
->  extern QemuOptsList qemu_chardev_opts;
-> @@ -164,6 +168,7 @@ static void process_options(int argc, char *argv[])
->          {"monitor", required_argument, NULL, OPTION_MONITOR},
->          {"nbd-server", required_argument, NULL, OPTION_NBD_SERVER},
->          {"object", required_argument, NULL, OPTION_OBJECT},
-> +        {"pidfile", required_argument, NULL, OPTION_PIDFILE},
->          {"trace", required_argument, NULL, 'T'},
->          {"version", no_argument, NULL, 'V'},
->          {0, 0, 0, 0}
-> @@ -275,6 +280,9 @@ static void process_options(int argc, char *argv[])
->                  qobject_unref(args);
->                  break;
->              }
-> +        case OPTION_PIDFILE:
-> +            pid_file = optarg;
-> +            break;
->          default:
->              g_assert_not_reached();
->          }
-> @@ -285,6 +293,27 @@ static void process_options(int argc, char *argv[])
->      }
->  }
->  
-> +static void pid_file_cleanup(void)
-> +{
-> +    unlink(pid_file);
-> +}
-> +
-> +static void pid_file_init(void)
-> +{
-> +    Error *err = NULL;
-> +
-> +    if (!pid_file) {
-> +        return;
-> +    }
-> +
-> +    if (!qemu_write_pidfile(pid_file, &err)) {
-> +        error_reportf_err(err, "cannot create PID file: ");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    atexit(pid_file_cleanup);
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->  #ifdef CONFIG_POSIX
-> @@ -312,6 +341,13 @@ int main(int argc, char *argv[])
->      qemu_init_main_loop(&error_fatal);
->      process_options(argc, argv);
->  
-> +    /*
-> +     * Write the pid file after creating chardevs, exports, and NBD servers but
-> +     * before accepting connections. This ordering is documented. Do not change
-> +     * it.
-> +     */
-> +    pid_file_init();
-> +
->      while (!exit_requested) {
->          main_loop_wait(false);
->      }
-> -- 
-> 2.29.2
-> 
+Hi Philippe,
 
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+On 3/2/21 3:10 PM, Philippe Mathieu-Daudé wrote:
+> Cc'ing Claudio.
+> 
+> On 2/26/21 2:13 PM, Philippe Mathieu-Daudé wrote:
+>> In order to reduce CONFIG_USER_ONLY uses in hw/, move
+>> semihosting out of it, being a generic feature.
 
-Rich.
+I have nothing against it, just what does this buy us?
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
+Maybe I am just missing the point..
+
+Ciao,
+
+Claudio
+
+>>
+>> Philippe Mathieu-Daudé (2):
+>>   semihosting: Move include/hw/semihosting/ -> include/semihosting/
+>>   semihosting: Move hw/semihosting/ -> semihosting/
+>>
+>>  meson.build                                       | 1 +
+>>  include/{hw => }/semihosting/console.h            | 0
+>>  include/{hw => }/semihosting/semihost.h           | 0
+>>  {hw/semihosting => semihosting}/common-semi.h     | 0
+>>  gdbstub.c                                         | 2 +-
+>>  hw/mips/malta.c                                   | 2 +-
+>>  linux-user/aarch64/cpu_loop.c                     | 2 +-
+>>  linux-user/arm/cpu_loop.c                         | 2 +-
+>>  linux-user/riscv/cpu_loop.c                       | 2 +-
+>>  linux-user/semihost.c                             | 2 +-
+>>  {hw/semihosting => semihosting}/arm-compat-semi.c | 6 +++---
+>>  {hw/semihosting => semihosting}/config.c          | 2 +-
+>>  {hw/semihosting => semihosting}/console.c         | 4 ++--
+>>  softmmu/vl.c                                      | 2 +-
+>>  stubs/semihost.c                                  | 2 +-
+>>  target/arm/helper.c                               | 4 ++--
+>>  target/arm/m_helper.c                             | 4 ++--
+>>  target/arm/translate-a64.c                        | 2 +-
+>>  target/arm/translate.c                            | 2 +-
+>>  target/lm32/helper.c                              | 2 +-
+>>  target/m68k/op_helper.c                           | 2 +-
+>>  target/mips/cpu.c                                 | 2 +-
+>>  target/mips/mips-semi.c                           | 4 ++--
+>>  target/mips/translate.c                           | 2 +-
+>>  target/nios2/helper.c                             | 2 +-
+>>  target/riscv/cpu_helper.c                         | 2 +-
+>>  target/unicore32/helper.c                         | 2 +-
+>>  target/xtensa/translate.c                         | 2 +-
+>>  target/xtensa/xtensa-semi.c                       | 2 +-
+>>  Kconfig                                           | 1 +
+>>  MAINTAINERS                                       | 4 ++--
+>>  hw/Kconfig                                        | 1 -
+>>  hw/meson.build                                    | 1 -
+>>  {hw/semihosting => semihosting}/Kconfig           | 0
+>>  {hw/semihosting => semihosting}/meson.build       | 0
+>>  35 files changed, 35 insertions(+), 35 deletions(-)
+>>  rename include/{hw => }/semihosting/console.h (100%)
+>>  rename include/{hw => }/semihosting/semihost.h (100%)
+>>  rename {hw/semihosting => semihosting}/common-semi.h (100%)
+>>  rename {hw/semihosting => semihosting}/arm-compat-semi.c (99%)
+>>  rename {hw/semihosting => semihosting}/config.c (99%)
+>>  rename {hw/semihosting => semihosting}/console.c (98%)
+>>  rename {hw/semihosting => semihosting}/Kconfig (100%)
+>>  rename {hw/semihosting => semihosting}/meson.build (100%)
+>>
+> 
+> 
 
 
