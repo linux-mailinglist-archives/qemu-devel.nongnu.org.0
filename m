@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4047C32993D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 11:15:53 +0100 (CET)
-Received: from localhost ([::1]:38794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A52A32998D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 11:23:56 +0100 (CET)
+Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH24G-0006Iv-3N
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 05:15:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51760)
+	id 1lH2C2-0000H5-LU
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 05:23:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lH22n-0005HT-SS
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 05:14:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46142)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lH2BI-0008Hc-AP
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 05:23:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lH22k-0000Ps-5r
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 05:14:20 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lH2BF-0005qN-Hp
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 05:23:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614680056;
+ s=mimecast20190719; t=1614680583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7gOHina5LvZTtIqAfV06C4dXH91jtkd7S5D3wR8Vrqk=;
- b=SdmUZa96zsf8bMR1gZfZxdAe2XUyn7o3NXV9ojsDuSqaripevi6oDzvoDUPZ2RZey4oTQy
- zjEHX4xz5wdOsvUExf4XV4OcK6t6159ySCLrLbjuCPNaQ9D9965+JEASzGEJBSdS6wjnyf
- Ysfz6VeJaJEHarJBElkHJEUinloW8hM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-BKks2kNsOqyLtUh2pb9KHw-1; Tue, 02 Mar 2021 05:14:14 -0500
-X-MC-Unique: BKks2kNsOqyLtUh2pb9KHw-1
-Received: by mail-ed1-f70.google.com with SMTP id i4so10155101edt.11
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 02:14:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7gOHina5LvZTtIqAfV06C4dXH91jtkd7S5D3wR8Vrqk=;
- b=cB8jqZFgPMtVrNZrrtOK+8gE9iTm1y4y3DDndKzI/u3gQAwfDrtTNDg8vClleLCUnG
- GmUATw23Th+xfjyAex+Zt4IBhNKDBCLPli7y8V0DJeFUL4kJZsCt5eeA5HQHKRUkPwpG
- 9nRxDmINTdl3SEZHwjCQxLqUueMBYs9kUg+g7vylaIk5cf/JVjjR0ihDw2Jqx4QJFsPQ
- IAdWDAUda4FQ+DeGNJTziDyYb70L5j2XCDGxQk+SnhxyUNvLSny7Xf/1KVjQkr1wgI68
- 3vr0bc5/VJNL+JcmAm3cy19GKqZvXf8QEZJtWxazzp+rRV4fqtNguOCbTmEBCCDAsAkg
- M0Pw==
-X-Gm-Message-State: AOAM533+ixzUtc4xkWlQqa8WEfBzXWa8ycgUQrqrdTG7sHS4WcTBRWXV
- /un+uB0i0ixd4w8CDvDKKqTHo7lLSpsqfuvS2OHF9RBJpABkYqn42WF31m8And0VlV89ATK0duF
- KF7Pux0Y7y5qivgM=
-X-Received: by 2002:a17:906:a896:: with SMTP id
- ha22mr20041715ejb.503.1614680053279; 
- Tue, 02 Mar 2021 02:14:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+AwAB4NnWPBp4CTT2nlqsdH+6Qu6UO6P5scv2gcREtDTBVy7kXMhWggRk6A4XJCbwDVduLQ==
-X-Received: by 2002:a17:906:a896:: with SMTP id
- ha22mr20041702ejb.503.1614680053082; 
- Tue, 02 Mar 2021 02:14:13 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id u15sm4856881eds.6.2021.03.02.02.14.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 02:14:12 -0800 (PST)
-Date: Tue, 2 Mar 2021 05:14:10 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Vitaly Cheptsov <cheptsov@ispras.ru>
-Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
-Message-ID: <20210302051119-mutt-send-email-mst@kernel.org>
-References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ bh=2F8uc0XVg4EnGqO/DtN9i8uCo3x30KV9SlWUsIEC4b8=;
+ b=jRNlAYKDD+MclSYKPqVWutALHTVhBA6gUOGMdkYMirl+TGnxicaM7j/cmke27BdbAAxRSc
+ AtROg0uykKUgL0Sy5OvuHWkH4kIb+SWMksrLxpNwl5phYJy0RTIV0ZG2H8WqusZa0tcv4r
+ vK0+QuB+nic1ciRchzyLSqGEGb5c314=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-05yH86EnMKaSObFZ1sLuyg-1; Tue, 02 Mar 2021 05:23:00 -0500
+X-MC-Unique: 05yH86EnMKaSObFZ1sLuyg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 758ED801983;
+ Tue,  2 Mar 2021 10:22:59 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-57.ams2.redhat.com [10.36.112.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75C2F5D9E2;
+ Tue,  2 Mar 2021 10:22:58 +0000 (UTC)
+Subject: Re: [PATCH] meson: add tests option
+To: Romain Naour <romain.naour@gmail.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210226220715.3103110-1-romain.naour@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <eabd866e-71c5-3ac3-7688-0318fc758f94@redhat.com>
+Date: Tue, 2 Mar 2021 11:22:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210301195919.9333-1-cheptsov@ispras.ru>
+In-Reply-To: <20210226220715.3103110-1-romain.naour@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,117 +81,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 01, 2021 at 10:59:18PM +0300, Vitaly Cheptsov wrote:
-> After fixing the _UID value for the primary PCI root bridge in
-> af1b80ae it was discovered that this change updates Windows
-> configuration in an incompatible way causing network configuration
-> failure unless DHCP is used. More details provided on the list:
+On 26/02/2021 23.07, Romain Naour wrote:
+> tests/fp/fp-bench.c use fenv.h that is not always provided
+> by the libc (uClibc).
+
+For such  problem it might be better to check for the availability of the 
+header and then to only disable the single test that depends on it if the 
+header is not available.
+
+Anyway, a switch to disable the tests completely could still be handy in 
+some cases, so FWIW:
+
+Acked-by: Thomas Huth <thuth@redhat.com>
+
+> To workaround this issue, add an new meson option to
+> disable tests while building Qemu.
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
+> Fixes:
+> http://autobuild.buildroot.net/results/53f5d8baa994d599b9da013ee643b82353366ec3/build-end.log
 > 
-> This change reverts the _UID update from 1 to 0 for q35 and i440fx
-> VMs before version 5.2 to maintain the original behaviour when
-> upgrading.
-> 
-> Cc: qemu-stable@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
-
-Fixes: af1b80ae56c9 ("i386/acpi: fix inconsistent QEMU/OVMF device paths")
-
-I'll pick it up now.
-
-
+> Signed-off-by: Romain Naour <romain.naour@gmail.com>
 > ---
->  hw/i386/acpi-build.c | 4 ++--
->  hw/i386/pc_piix.c    | 2 ++
->  hw/i386/pc_q35.c     | 2 ++
->  include/hw/i386/pc.h | 1 +
->  4 files changed, 7 insertions(+), 2 deletions(-)
+>   configure         | 7 +++++++
+>   meson.build       | 6 +++++-
+>   meson_options.txt | 3 +++
+>   3 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 31a5f6f4a5..442b4629a9 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1277,7 +1277,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          dev = aml_device("PCI0");
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
->          aml_append(sb_scope, dev);
->          aml_append(dsdt, sb_scope);
->  
-> @@ -1296,7 +1296,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
->          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
->          aml_append(dev, build_q35_osc_method());
->          aml_append(sb_scope, dev);
->          if (mcfg_valid) {
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 2904b40163..46cc951073 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -405,6 +405,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pcmc->default_nic_model = "e1000";
-> +    pcmc->pci_root_uid = 0;
->  
->      m->family = "pc_piix";
->      m->desc = "Standard PC (i440FX + PIIX, 1996)";
-> @@ -448,6 +449,7 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
->      pcmc->kvmclock_create_always = false;
-> +    pcmc->pci_root_uid = 1;
->  }
->  
->  DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 0a212443aa..53450190f5 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -329,6 +329,7 @@ static void pc_q35_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pcmc->default_nic_model = "e1000e";
-> +    pcmc->pci_root_uid = 0;
->  
->      m->family = "pc_q35";
->      m->desc = "Standard PC (Q35 + ICH9, 2009)";
-> @@ -375,6 +376,7 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
->      pcmc->kvmclock_create_always = false;
-> +    pcmc->pci_root_uid = 1;
->  }
->  
->  DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index c9d194a5e7..d4c3d73c11 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -105,6 +105,7 @@ struct PCMachineClass {
->      int legacy_acpi_table_size;
->      unsigned acpi_data_size;
->      bool do_not_add_smb_acpi;
-> +    int pci_root_uid;
->  
->      /* SMBIOS compat: */
->      bool smbios_defaults;
-> -- 
-> 2.24.3 (Apple Git-128)
+> diff --git a/configure b/configure
+> index a79b3746d4..cd114f4b9e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -464,6 +464,7 @@ gettext="auto"
+>   fuse="auto"
+>   fuse_lseek="auto"
+>   multiprocess="no"
+> +tests="auto"
+>   
+>   malloc_trim="auto"
+>   
+> @@ -1562,6 +1563,10 @@ for opt do
+>     ;;
+>     --disable-multiprocess) multiprocess="no"
+>     ;;
+> +  --disable-tests) tests="disabled"
+> +  ;;
+> +  --enable-tests) tests="enabled"
+> +  ;;
+>     *)
+>         echo "ERROR: unknown option $opt"
+>         echo "Try '$0 --help' for more information"
+> @@ -1915,6 +1920,7 @@ disabled with --disable-FEATURE, default is enabled if available
+>     fuse            FUSE block device export
+>     fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+>     multiprocess    Multiprocess QEMU support
+> +  tests           build tests
+>   
+>   NOTE: The object files are built at the place where configure is launched
+>   EOF
+> @@ -6428,6 +6434,7 @@ NINJA=$ninja $meson setup \
+>           -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
+>           $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
+>   	-Dtcg_interpreter=$tcg_interpreter \
+> +        -Dtests=$tests \
+>           $cross_arg \
+>           "$PWD" "$source_path"
+>   
+> diff --git a/meson.build b/meson.build
+> index 05a67c20d9..2d7cbc0fbd 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2341,7 +2341,11 @@ subdir('scripts')
+>   subdir('tools')
+>   subdir('pc-bios')
+>   subdir('docs')
+> -subdir('tests')
+> +
+> +if get_option('tests').enabled()
+> +  subdir('tests')
+> +endif
+> +
+>   if gtk.found()
+>     subdir('po')
+>   endif
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 675a9c500a..be30ad5450 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -114,6 +114,9 @@ option('virtfs', type: 'feature', value: 'auto',
+>   option('virtiofsd', type: 'feature', value: 'auto',
+>          description: 'build virtiofs daemon (virtiofsd)')
+>   
+> +option('tests', type : 'feature', value : 'auto',
+> +       description: 'Tests build support')
+> +
+>   option('capstone', type: 'combo', value: 'auto',
+>          choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+>          description: 'Whether and how to find the capstone library')
+> 
 
 
