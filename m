@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1E6329B46
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:09:46 +0100 (CET)
-Received: from localhost ([::1]:53390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2E2329B5E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:11:05 +0100 (CET)
+Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH2uP-0004nO-5h
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:09:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
+	id 1lH2vg-0006Is-F9
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:11:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH2tD-0004LP-P1
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 06:08:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH2tC-0006zS-4y
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 06:08:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614683308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AAMtj+sR2ob+m/QoqYSs0xF3Sx5qfO8EzY+TBz0v/BM=;
- b=J1GoDTDhCytBrshcKDV/J+vz008tDzN9O2GWCPcAc4aEou2kOA6QkoExUykHjjPLc91Qqx
- rBUmz4HetvWAwHLOAlFrCltffPrjgE5Dp8eEsdfXnb/tL8c4J7ckMjH2ZND2j4luOjxcFb
- 44xU+azz7q0//dRIpqI+BzS5dyc+wHg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-c1X4tG9XNPeYbMv0n22wng-1; Tue, 02 Mar 2021 06:08:24 -0500
-X-MC-Unique: c1X4tG9XNPeYbMv0n22wng-1
-Received: by mail-wm1-f69.google.com with SMTP id n17so306145wmi.2
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 03:08:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1lH2uf-0005Gp-5M; Tue, 02 Mar 2021 06:10:01 -0500
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:38116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1lH2ud-000776-GP; Tue, 02 Mar 2021 06:10:00 -0500
+Received: by mail-lj1-x22c.google.com with SMTP id 2so18870359ljr.5;
+ Tue, 02 Mar 2021 03:09:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=htFR9uzoLLfGusEJYM4mB0hYq4gMTy1rfpWgY7BIFjw=;
+ b=a8mvA+v6Yg3pI+chsmAO9PtAu99DW8MZXjdDKpV6pqP0XFHfU9h3VwRyBbgjeaVV7r
+ 4jCEsjyCqPVJlDLpGlD03uBgcml9KEAGtfNjWLpWzTjArN3rwShJ3hFUOfQB6bC8UIMX
+ AqJ3+dJvFFwhQB4inp0O62xXElzDbWhJLf1LmlJ5YOP/wZNa5ntRBBe+MzT75ZBAEGJ6
+ 791Q+G4n8ZuwHywtk9z63C8dhjidpMK5NMRSSbm4KPZkoBEAd20DdKwKHhtNLY+wzLB9
+ QnY4OO9R+XlmvbS/erwMWt7l/TeyIj6aSQEH3pK4vcrEGppLhZalwbdvxS224SaxAOlZ
+ XfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=AAMtj+sR2ob+m/QoqYSs0xF3Sx5qfO8EzY+TBz0v/BM=;
- b=DQiSGNjNazQRmhKmYnQVljfctrv02iF/q/s06+orkGtlNEQJsV8GoSu0QOMFAHitIl
- x43c9ShXv2CJN9zj5Iz3p5mybjk1tB+zc8CLAA3iO973jClFiFeangw2Zcy0Zb3cVJma
- j1lWxxep1YvdeMLQ6/RxZIAafFd2OaXG4VAc0/d6NqUGFoP/qcoAaCfEQMvsUcr3mJKT
- zg5R4P+6wJeWI+B6hR//1K59LO3MhWywjJnQMxb677njV+rjNWi0RQX2YT0tTAiM7kJQ
- GO9w/ENDDnywhDS/jIU/pjKfGFvxl1gnGT6LpBZz6lwUS8QluTfXPzNhIxzCJXBK2LKd
- r22A==
-X-Gm-Message-State: AOAM532qXBiHhVDrXR13C1UkdmZ6E5oNN855Ffdbb8WcFOH1xQYEoGAR
- R7Bijd0dEP1ASslifnaFo0eyo9q0rNiHQgxhEDEoLBrr4Y1M2oZaICHRAgDbfRWp5ayIsyKE+gR
- 4mvJwtJhXRrpCLzGp06oTFGWFehGcSqGAlWkjnHMAY+dpmRxn1Uw6sBss6ZR1F8GYuPI=
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr3539294wmi.64.1614683302866; 
- Tue, 02 Mar 2021 03:08:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBsWT70arEpCMFP8aQfNgbE/C4Tw2ncW4tKt4MdzPIXdGp4Lq7ZvP+Z0a/oOPQAbUacDPOlg==
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr3539280wmi.64.1614683302679; 
- Tue, 02 Mar 2021 03:08:22 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h10sm26713616wrp.22.2021.03.02.03.08.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 03:08:22 -0800 (PST)
-Subject: Re: [PATCH] meson: add tests option
-To: Thomas Huth <thuth@redhat.com>, Romain Naour <romain.naour@gmail.com>,
- qemu-devel@nongnu.org
-References: <20210226220715.3103110-1-romain.naour@gmail.com>
- <eabd866e-71c5-3ac3-7688-0318fc758f94@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <14d34883-5e97-972d-87d1-49b47324cac5@redhat.com>
-Date: Tue, 2 Mar 2021 12:08:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=htFR9uzoLLfGusEJYM4mB0hYq4gMTy1rfpWgY7BIFjw=;
+ b=XIgnSUTmeVTHNR7uvCqQsdEk1rZ5B0chjOtivIuVw+GmzRPBnhOLKBKOL++CHHFr/l
+ o0HwytipcEEjcCKXuP0AJEbeN5Ut47YKsZKE7TTLdXLVNv/iYgZ1E3ymN1N4CG7K2HaN
+ P+cy74aUgjjlF2RJGaXNeBFkGzm7bKkco6qFs017E6a6ZTgKqMGPnpuCxLxObUb5D1dq
+ jBAkHL67Hyje6pGTO+il8ZFXBuqPd0mzxNVWw+47262hDYTkiO+vyoCKvy/WexpxBVmh
+ 6VIBeEtZL0VoRNmZiRd3B4cIUMC7e4LA1LVCev/hN/HqRw7XBGz9cmZY+ryBOJp8VATw
+ mk2A==
+X-Gm-Message-State: AOAM530n8f4sIkpXIW1edotgaGzyB3XfhSrS7Q09uRS7V3hJuBGp/FoL
+ Jt8j5x2o03+hTNVvmGKKFr8UC6vKyWO56Ez5
+X-Google-Smtp-Source: ABdhPJyhMdMZzK0lshyA7gpRTRkSsngD9QqE7vs/5I8E+Et0Psnt5OcqrbIpA6XGQ2QJIg//Rv/AJw==
+X-Received: by 2002:a2e:330d:: with SMTP id d13mr11650405ljc.361.1614683396763; 
+ Tue, 02 Mar 2021 03:09:56 -0800 (PST)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id v9sm180601lfd.195.2021.03.02.03.09.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 03:09:56 -0800 (PST)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/2] hw/arm: versal: Add support for the XRAMs
+Date: Tue,  2 Mar 2021 12:09:53 +0100
+Message-Id: <20210302110955.1810487-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <eabd866e-71c5-3ac3-7688-0318fc758f94@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,41 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ joe.komlodi@xilinx.com, sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, richard.henderson@linaro.org,
+ francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org, philmd@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/21 11:22, Thomas Huth wrote:
-> On 26/02/2021 23.07, Romain Naour wrote:
->> tests/fp/fp-bench.c use fenv.h that is not always provided
->> by the libc (uClibc).
-> 
-> For such  problem it might be better to check for the availability of 
-> the header and then to only disable the single test that depends on it 
-> if the header is not available.
-> 
-> Anyway, a switch to disable the tests completely could still be handy in 
-> some cases, so FWIW:
-> 
-> Acked-by: Thomas Huth <thuth@redhat.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-I disagree, without a use case the right thing to do is to check for 
-fenv.h.  It's as easy as this:
+This series adds support for the 4x1MB Versal Accelerator RAMs (XRAMs).
+Most of the controller is dummy, but it's got enough to make firmware
+and some of our test SW happy.
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 0c939f89f7..3b9b2f0483 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -281,7 +281,7 @@ test('decodetree', sh,
-       workdir: meson.current_source_dir() / 'decode',
-       suite: 'decodetree')
+Cheers,
+Edgar
 
--if 'CONFIG_TCG' in config_all
-+if 'CONFIG_TCG' in config_all and cc.has_header('fenv.h')
-    subdir('fp')
-  endif
+Edgar E. Iglesias (2):
+  hw/misc: versal: Add a model of the XRAM controller
+  hw/arm: versal: Add support for the XRAMs
 
-Thanks,
+ docs/system/arm/xlnx-versal-virt.rst |   1 +
+ include/hw/arm/xlnx-versal.h         |  13 ++
+ include/hw/misc/xlnx-versal-xramc.h  | 102 +++++++++++
+ hw/arm/xlnx-versal.c                 |  36 ++++
+ hw/misc/xlnx-versal-xramc.c          | 253 +++++++++++++++++++++++++++
+ hw/misc/meson.build                  |   1 +
+ 6 files changed, 406 insertions(+)
+ create mode 100644 include/hw/misc/xlnx-versal-xramc.h
+ create mode 100644 hw/misc/xlnx-versal-xramc.c
 
-Paolo
+-- 
+2.25.1
 
 
