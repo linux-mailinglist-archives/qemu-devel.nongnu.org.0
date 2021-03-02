@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E60A32A63C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:42:03 +0100 (CET)
-Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B448132A644
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:43:23 +0100 (CET)
+Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH85y-0002h8-Kk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:42:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
+	id 1lH87G-0003g6-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:43:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lH84g-0002F8-Gq
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:40:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22423)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lH85H-0002bL-6A
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:41:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lH84e-0003Rv-HB
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:40:42 -0500
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lH85E-0003Vk-NP
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:41:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614703239;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1614703275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=t9HdqjuEw6Pku+NFRACvWTU8y0d79dVdlnXFSiZXHGE=;
- b=FHwa+QV66iLfQW+0Fk2YkZ/aBsvcXYTmMDGK0xKU+o5j+sJAkctOtUkyJuox/kf5rmoLT4
- HCEAGV+073qICsCnJTUeDNs0GNyjaN2DYXAzNCanszR6bXBr1Xq4tnm7+Spezpz0LCMexB
- lh5jxBZOTIx24A4BGS/BslfB8oOeG6s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-3fm9rqDfO96vG7g1dvW8hA-1; Tue, 02 Mar 2021 11:40:25 -0500
-X-MC-Unique: 3fm9rqDfO96vG7g1dvW8hA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6F591020C21;
- Tue,  2 Mar 2021 16:40:24 +0000 (UTC)
-Received: from redhat.com (ovpn-113-132.ams2.redhat.com [10.36.113.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94DBA2C01E;
- Tue,  2 Mar 2021 16:40:23 +0000 (UTC)
-Date: Tue, 2 Mar 2021 16:40:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
-Message-ID: <YD5qdKLNZwg6XB7T@redhat.com>
-References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
- <YDy8qsRRR3FmWr1D@redhat.com>
- <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
- <YD0Day/wGawuWdpi@redhat.com>
- <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
- <YD4T1nVIEdL7/IoG@redhat.com>
- <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
- <YD5b74uynDvWUySy@redhat.com>
- <a4f78c9c-3a42-13dc-f095-16144d09ca6b@linux.vnet.ibm.com>
+ bh=PUs1PSOekVtKcNJe5uFfWl0mgL8FAh001/WLF77A0mQ=;
+ b=RHeo1MAEw2ekQAo+rh9hUySbWyFwsq14ZcPEjBoGj70lS7lvKR2jnO4AMKfmY4loQw5NcA
+ YP8QTYaGgwPdiXz1uNHtrLEprSbTWviCuyVX1xUNJo8mzJuHQ9UgSJG5tvWXPaoCOBkLMZ
+ EAxsb+fbMG5x8n1n0q4exj4dNa8EOT4=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-9NTtyZ4gOk-mubFFjxXlhQ-1; Tue, 02 Mar 2021 11:41:13 -0500
+X-MC-Unique: 9NTtyZ4gOk-mubFFjxXlhQ-1
+Received: by mail-oi1-f197.google.com with SMTP id n141so11205181oig.16
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:41:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PUs1PSOekVtKcNJe5uFfWl0mgL8FAh001/WLF77A0mQ=;
+ b=SgzMbmy+c/McMZqtXb2zUy+WcZJ/fcyNUIPkV1aIRA+ib4HJqsq/LgWEcFoDhKWNlj
+ jeyG6/teWXo1h6cbkFjqjFGWShFAY3YQuz23wXU7b7qNBv6Y1xCGcQu0fqo2dpPZmfWE
+ o4xQiscnSWnQCHi6ndt5tArRNZVt9W7lAmfLo+QfzHEyePz3h0SWP2HFmB2xSAR0cbJV
+ 6c5ys2aidXJneDLWRY8LtF6XuamcZJQIRMaQYgWnx+L0E0VJNXGbPmE91rrUIZ7MPFeZ
+ e4Ic+6jDFQopQMYaH82jTVz80MIS/OGKwMT5yGWnBMqvNugoFkWoU9eeRaV5eEktvWuP
+ tcdw==
+X-Gm-Message-State: AOAM531Qk/wIGLGDfcEgXVYqEv/yo9AUWZ3xUzxs05YXpgQZQTuKtjiT
+ 05OMQG/utIxAHsP/LYmerUn8wnCLqh4YrPNzBi1mHkW2byzWWZka++u33BQslb+JDhZ5z96zvwW
+ 5EFprNRq48w18k5pB9BVFbvAwNLCTXxI=
+X-Received: by 2002:aca:4947:: with SMTP id w68mr3862717oia.41.1614703272934; 
+ Tue, 02 Mar 2021 08:41:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRIAldDzEZgKiQFicyDB/DTmTueMc0qPFEq7BznY3IOSuLTEePyWEopSWtLH3PhfRIJ4bqHwD5gSc0dQK/2X0=
+X-Received: by 2002:aca:4947:: with SMTP id w68mr3862696oia.41.1614703272712; 
+ Tue, 02 Mar 2021 08:41:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a4f78c9c-3a42-13dc-f095-16144d09ca6b@linux.vnet.ibm.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <2021030209564214018344@chinatelecom.cn>
+In-Reply-To: <2021030209564214018344@chinatelecom.cn>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 2 Mar 2021 18:40:56 +0200
+Message-ID: <CAMRbyyu7CLz8ia5yS6WqA542adkJRmvv-Hj-ZPc8xwvr0-QyWA@mail.gmail.com>
+Subject: Re: [PATCH] file-posix: allow -EBUSY errors during write zeros on
+ block
+To: ChangLimin <changlm@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,58 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>, mreitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 11:31:54AM -0500, Daniele Buono wrote:
-> 
-> On 3/2/2021 10:38 AM, Daniel P. Berrangé wrote:
-> > Is this scenario going to upset  CFI, or is it happy that 'void *'
-> > is compatible with 'mytype *', and ok with the intermediate casts
-> > to/from GCallback ?
-> 
-> This is a valid scenario. LLVM does offer the ability of considering all
-> pointer types compatible, and it is being enabled in QEMU. So void* is
-> compatible to any type* and that would not be considered a fault.
+On Tue, Mar 2, 2021 at 4:08 AM ChangLimin <changlm@chinatelecom.cn> wrote:
+>
+> After Linux 5.10, write zeros to a multipath device using
+> ioctl(fd, BLKZEROOUT, range) with cache none or directsync will return EBUSY.
+>
+> Similar to handle_aiocb_write_zeroes_unmap, handle_aiocb_write_zeroes_block
+> allow -EBUSY errors during ioctl(fd, BLKZEROOUT, range).
+>
+> Reference commit in Linux 5.10:
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02
 
-Ok that's good.
+But this can happen only when the block device is used by a file system or
+maybe someone else. In qemu we assume that we are the only user of the
+block device, so EBUSY is a fatal error that should never happen, no?
 
-> Intermediate casts are also fine since you are just passing the pointer but
-> not using it. The check will happen only when the function is called, at
-> which point it was cast back to something compatible.
+Can you explain a real world use case when we get EBUSY?
 
-Makes sense.
+Nir
 
-So in general, it sounds like breadth of test coverage is fairly important
-for the CFI jobs, at least if we're exercising different areas of
-functionality.  So I think we do need to be testing more than just one
-architecture target.
-
-The CFI protection is something I'd say is relevant to virtualization
-use cases, not to emulation use cases
-
-   https://qemu-project.gitlab.io/qemu/system/security.html
-
-IOW, the targets that are important to test are the ones where KVM
-is available.
-
-So that's  s390x, ppc, x86, mips, and arm.
-
-I think we can probably ignore mips as that's fairly niche.
-We can also reasonably limit ourselves to only test the 64-bit
-variants of the target, on the basis that 32-bit is increasingly
-legacy/niche too.
-
-So that gives us  ppc64le, x86_64, aarch64 and s390x as the
-targets we should get CI coverage for CFI.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Signed-off-by: ChangLimin <changlm@chinatelecom.cn>
+> ---
+>  block/file-posix.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 05079b40ca..3e60c96214 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1629,8 +1629,13 @@ static ssize_t handle_aiocb_write_zeroes_block(RawPosixAIOData *aiocb)
+>          } while (errno == EINTR);
+>
+>          ret = translate_err(-errno);
+> -        if (ret == -ENOTSUP) {
+> +        switch (ret) {
+> +        case -ENOTSUP:
+> +        case -EINVAL:
+> +        case -EBUSY:
+>              s->has_write_zeroes = false;
+> +            return -ENOTSUP;
+> +            break;
+>          }
+>      }
+>  #endif
+> --
+> 2.27.0
+>
 
 
