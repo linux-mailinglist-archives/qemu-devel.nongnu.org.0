@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5515D32A6C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:58:04 +0100 (CET)
-Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A000A32A6CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:59:04 +0100 (CET)
+Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH8LS-0007h5-3O
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43654)
+	id 1lH8MR-0000Ee-My
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:59:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH8K0-0007BP-A0
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:56:32 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35298)
+ id 1lH8Lh-0008Dn-C8
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:58:17 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:42345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH8Jx-0005d3-5w
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:56:31 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id e9so2426976pjj.0
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:56:28 -0800 (PST)
+ id 1lH8Le-0005uR-Lr
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:58:17 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id o38so14194594pgm.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:58:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IJ/pMye/WX/XrPFBKvJJgwi44ozFN6bYzyWNqFjK42I=;
- b=h5IhgCpI1EJEircAKq2EYQ81JDlh48G7qfCjEi54iaacz/2oqHIDgjPD8Hmu46gwEJ
- pvvC+9EmgaDwns3a9PJDJhNdODxySNQUiNNqnnPwQmDzIIKxzJr4QGh2b+RYvftXcmYw
- DownPjP9ohdt+3OvTeO/iSg2sT8J7lAe0i2HVY0kXG1jciKYPGeTSarnu3uET/blqOzq
- kttfqyRaSeR7dUgQOcXDBh68ztZYZQWvPYDE8hQD2qCExbQ3/ct/fbk9HvpiBmEU94kX
- pN+QkDAL2sQnCc4b3RaBqlhKQdmVHOYN0VW8VU09usVpI0rluNwePfRKMs/v4Kw2Uq4f
- CpbA==
+ bh=DPNNSFXnxoCc2lptsMJfu2XONSjFsCEZGEv+SmVhx1w=;
+ b=hNC2ALIrBW85ehxCebze7OhcJk9lLBNGq4E6hNhTu5WHse9Gb9cRHzm1IQX2+g7QKh
+ I1OnHapXEIdZBrMPSQxjDit2Oj/VSerrzSlR76thvgajh1Lf/F5z87yMOv8i5cp3AGir
+ xA8U+9R1WweljTXD6KgGjUCdnsEXxcxC1gAfZ5amiWVVkqJ53BJeLwNas/zI/mj3e+g2
+ aTRVOxwjoMSTb2rEzAQMlvfDk7+JqWKFzVZxTF1nnItFwF0W1NOT2Z2OW+p4Tb2pamMx
+ U5faJAV0VPffk/g49we3cw5jkfsIlcLx+OT32rS7KrspusLOlYiTWYpFEAhCp30GbMQa
+ erUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IJ/pMye/WX/XrPFBKvJJgwi44ozFN6bYzyWNqFjK42I=;
- b=Aew4QSBfitozX2pMreIJuKOg4LuijGHMwkdbedY317HApnkH7xuRQTgRqV9Okx94cI
- vetmmJh49MA0pcqUf0gR85e/XzMr5HcC4Ze3k3zsK7PJNP6dJFc3r7dZrGFxe0/tnfQr
- 5qz3WFVuFuaAMbod9YRlR2qJ0sQASkM5FMOY6wj8IkFzcjQMC3wOAzurcO2BBIqM/lmO
- NF6FCaxw7ML8Fzl6FdvYYjyrTu2EcPT8T+JYg94SLrydOVR2zQbfntN57i3btkVcOWrS
- emNo1+clcgWU1cCcB4gQKwBTh1kCns9VaFtkatw4KvngLzDEBukKnNDykqzrSguuKKua
- o50w==
-X-Gm-Message-State: AOAM533jMn0vqkq2EEN3hHwVi8scw4ivoEoR//2NTTJ8TKBvtN4lQzPg
- JCenTBxxRxhcdQ1HRfZp6tNvzaUP9KV/gg==
-X-Google-Smtp-Source: ABdhPJxiCf3dGcw0py0uOm1xd/b/UZkdmfH5NACfXmCEIcBoR2UZWm7aeKNAnstKD9oJhFSj2p5qDA==
-X-Received: by 2002:a17:90b:e18:: with SMTP id
- ge24mr5385992pjb.199.1614704187531; 
- Tue, 02 Mar 2021 08:56:27 -0800 (PST)
+ bh=DPNNSFXnxoCc2lptsMJfu2XONSjFsCEZGEv+SmVhx1w=;
+ b=La5o9ewfOfiXjh1UVVbvzE4F9XbEFIACBvt33CgbQUjwTyeK/bmIGLMHVvBPksRNoZ
+ T6Y5BEJWfwp/UnA6t0WamPUZneNcJXYjjc8bTjBzP0YRebN+ZNn9Gxhgqg2gxmfLfGXd
+ v//OuAR7mg4/bTZNsWZA7RTRFphOImUbWovf1PhO/1bWpEpWTq42XfgufThfLXEPfc5J
+ vsb+MWuYQ1sqjkqFJHhqD5REGlZURLOyyeZ+3O0PeXDaWwvW/MaNAUqsBtgibP8/rDo1
+ 7fgFZPiqLNjnDVaRS3RKn39ptseTfM7OukskuWQzdDZu6ctIaX3VbFH91Wwe5qPDkClk
+ 6z0A==
+X-Gm-Message-State: AOAM532o5U/jT92+jcqm0r+FsjZhdtKZxtIC1Xh0tyUsl7yyKAPgLwRw
+ Ajw3E2G4hzCDrBiul/O1j5C0xXkyJFGRdA==
+X-Google-Smtp-Source: ABdhPJwUWKK5Qt+ZU1nL60LvbFpDiJBmGAcmSDjCNhj/5GvUSOhm9aYwAK6ZXEllpTcMVxhBxqv0WA==
+X-Received: by 2002:a65:524b:: with SMTP id q11mr18478484pgp.207.1614704292881; 
+ Tue, 02 Mar 2021 08:58:12 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d75sm18827630pfd.20.2021.03.02.08.56.26
+ by smtp.gmail.com with ESMTPSA id b9sm19966183pgn.42.2021.03.02.08.58.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 08:56:27 -0800 (PST)
-Subject: Re: [RFC v2 21/24] target/arm: cpu64: wrap TCG-only parts of
- aarch64_cpu_dump_state
+ Tue, 02 Mar 2021 08:58:12 -0800 (PST)
+Subject: Re: [RFC v2 22/24] target/arm: cpu64: wrap arm cpregs with CONFIG_TCG
 To: Claudio Fontana <cfontana@suse.de>
 References: <20210301164936.19446-1-cfontana@suse.de>
- <20210301164936.19446-22-cfontana@suse.de>
+ <20210301164936.19446-23-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6d8ff697-aff9-0f56-6f68-1deb428e0ee5@linaro.org>
-Date: Tue, 2 Mar 2021 08:56:24 -0800
+Message-ID: <d85fe6a2-1288-8c15-f723-3e7f7550a19d@linaro.org>
+Date: Tue, 2 Mar 2021 08:58:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210301164936.19446-22-cfontana@suse.de>
+In-Reply-To: <20210301164936.19446-23-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,11 +92,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/1/21 8:49 AM, Claudio Fontana wrote:
-> -    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
-> +    if (tcg_enabled() &&
-> +        cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
+> these cpregs should be moved to tcg/ later on.
+> 
+> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> ---
+>   target/arm/cpu64.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 
-There's nothing tcg-only about this -- kvm supports sve.
+What is this in aid of?  It's certainly wrong.
 
 r~
 
