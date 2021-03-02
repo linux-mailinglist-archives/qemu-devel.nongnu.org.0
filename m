@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D1E32966C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 07:35:49 +0100 (CET)
-Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7304C329688
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 07:51:32 +0100 (CET)
+Received: from localhost ([::1]:52476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGydI-0002gI-Gs
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 01:35:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
+	id 1lGysV-00085w-IJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 01:51:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGybY-000272-Uv
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:34:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGybU-0000lU-Qn
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:33:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614666835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bSdHrBM9btsosNJ9OOMzn2BJfSGWVztz+uplvxYk5/U=;
- b=iaUKPWMAclgV7IqkIbBdRDr/hamp2+X37HCd/fWlwbAZayKAvd7AcwiWIj/pvomSRFPWFH
- N8ywBZ+U+ejJDE+D7XoR7DzNjiu7OHikIDMtpAbErWl1Lio43L7M9HAc8lSoWuI0vUxULO
- ap6OMoyQJjg3rVxiTeOLcm9p5fQFRFY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-SBJLV3t1PIy96Bt_C52WSQ-1; Tue, 02 Mar 2021 01:33:52 -0500
-X-MC-Unique: SBJLV3t1PIy96Bt_C52WSQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5487801965;
- Tue,  2 Mar 2021 06:33:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B5BA10013C1;
- Tue,  2 Mar 2021 06:33:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0CC8D113860F; Tue,  2 Mar 2021 07:33:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 1/2] storage-daemon: report unexpected arguments on
- the fly
-References: <20210301152844.291799-1-pbonzini@redhat.com>
- <20210301152844.291799-2-pbonzini@redhat.com>
- <b7b29e6a-4fe6-ab6a-87d9-e2e794b2b5d0@redhat.com>
-Date: Tue, 02 Mar 2021 07:33:49 +0100
-In-Reply-To: <b7b29e6a-4fe6-ab6a-87d9-e2e794b2b5d0@redhat.com> (Eric Blake's
- message of "Mon, 1 Mar 2021 09:38:11 -0600")
-Message-ID: <87k0qqm5de.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGyrl-0007g8-D6
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:50:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGyrj-0001to-NJ
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:50:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lGyrg-00016y-Q8
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 06:50:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A85FF2E8154
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 06:50:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Mar 2021 06:37:44 -0000
+From: Thomas Huth <1917161@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: programmingkidx th-huth
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161444687583.24678.13238506356231835061.malonedeb@wampee.canonical.com>
+Message-Id: <161466706443.24730.17819384228094224450.malone@wampee.canonical.com>
+Subject: [Bug 1917161] Re: Parameter 'type' expects a netdev backend type
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
+X-Launchpad-Hash: 5f3694fe6930ed9816b08e8dac1c27cc38f09dbc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,54 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Bug 1917161 <1917161@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Yes, QEMU should come with the libslirp sources. Are you using git? Then
+maybe something went wrong with the checkout of the submodule. Is there
+something in your "slirp" folder? What do you get when you run "git
+submodule" ?
 
-> On 3/1/21 9:28 AM, Paolo Bonzini wrote:
->> If the first character of optstring is '-', then each nonoption argv
->> element is handled as if it were the argument of an option with character
->> code 1.  This removes the reordering of the argv array, and enables usage
->> of loc_set_cmdline to provide better error messages.
->> 
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  storage-daemon/qemu-storage-daemon.c | 9 ++++-----
->>  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> Nice.  The man page for 'getopt_long' is unclear whether setting
-> POSIXLY_CORRECT in the environment would break this (that is, setting
-> POSIXLY_CORRECT has the same effect as a leading '+'; but you can't have
-> both leading '+' and leading '-' and when both are set, it is not clear
-> which one wins).  But that's a corner case that I don't think will ever
-> bite us in real life.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+-- =
 
-I'd consider environment overruling the programmer's express intent a
-bug.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917161
 
-GLibc's _getopt_initialize():
+Title:
+  Parameter 'type' expects a netdev backend type
 
-  /* Determine how to handle the ordering of options and nonoptions.  */
-  if (optstring[0] == '-')
-    {
-      d->__ordering = RETURN_IN_ORDER;
-      ++optstring;
-    }
-  else if (optstring[0] == '+')
-    {
-      d->__ordering = REQUIRE_ORDER;
-      ++optstring;
-    }
-  else if (posixly_correct || !!getenv ("POSIXLY_CORRECT"))
-    d->__ordering = REQUIRE_ORDER;
-  else
-    d->__ordering = PERMUTE;
+Status in QEMU:
+  Incomplete
 
-No surprises here.
+Bug description:
+  When using QEMU on an M1 Mac with Mac OS 11.1, I see this error
+  message when trying to enable networking for a guest:
 
+  Parameter 'type' expects a netdev backend type
+
+  Example command:
+  qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -d=
+evice rtl8139,netdev=3Dn0
+
+  What should happen is networking should work when issuing the above
+  command. What actually happens is QEMU exits immediately.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917161/+subscriptions
 
