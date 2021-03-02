@@ -2,45 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98BA329696
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 08:08:03 +0100 (CET)
-Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288CD32969A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 08:15:58 +0100 (CET)
+Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGz8T-0000ks-6i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 02:08:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56282)
+	id 1lGzG8-0003jL-LB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 02:15:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1lGz5r-0008FS-OE; Tue, 02 Mar 2021 02:05:19 -0500
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:13778)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lGzDv-0003Co-2R; Tue, 02 Mar 2021 02:13:39 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43294
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1lGz5k-0002CQ-SG; Tue, 02 Mar 2021 02:05:19 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 6BF2B418FD;
- Tue,  2 Mar 2021 08:05:08 +0100 (CET)
-Message-ID: <f90f6a34-0c8b-c620-6906-18c12f2332d0@proxmox.com>
-Date: Tue, 2 Mar 2021 08:05:06 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lGzDt-00077K-5H; Tue, 02 Mar 2021 02:13:38 -0500
+Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lGzDp-0005Fg-1d; Tue, 02 Mar 2021 07:13:36 +0000
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20210302055500.51954-1-jasowang@redhat.com>
+ <20210302055500.51954-6-jasowang@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <a5ce1369-9122-c154-88b0-6029a801e823@ilande.co.uk>
+Date: Tue, 2 Mar 2021 07:13:29 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101
- Thunderbird/87.0
+In-Reply-To: <20210302055500.51954-6-jasowang@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Vitaly Cheptsov <cheptsov@ispras.ru>, qemu-devel@nongnu.org
-References: <20210301195919.9333-1-cheptsov@ispras.ru>
-From: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
-In-Reply-To: <20210301195919.9333-1-cheptsov@ispras.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.148.34.47
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH V3 05/10] sungem: switch to use qemu_receive_packet() for
+ loopback
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,32 +62,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: alxndr@bu.edu, philmd@redhat.com, qemu-security@nongnu.org,
+ ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.03.21 20:59, Vitaly Cheptsov wrote:
-> After fixing the _UID value for the primary PCI root bridge in
-> af1b80ae it was discovered that this change updates Windows
-> configuration in an incompatible way causing network configuration
-> failure unless DHCP is used. More details provided on the list:
+On 02/03/2021 05:54, Jason Wang wrote:
+
+> This patch switches to use qemu_receive_packet() which can detect
+> reentrancy and return early.
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>   hw/net/sungem.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This change reverts the _UID update from 1 to 0 for q35 and i440fx
-> VMs before version 5.2 to maintain the original behaviour when
-> upgrading.
-> 
-> Cc: qemu-stable@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+> diff --git a/hw/net/sungem.c b/hw/net/sungem.c
+> index 33c3722df6..3684a4d733 100644
+> --- a/hw/net/sungem.c
+> +++ b/hw/net/sungem.c
+> @@ -306,7 +306,7 @@ static void sungem_send_packet(SunGEMState *s, const uint8_t *buf,
+>       NetClientState *nc = qemu_get_queue(s->nic);
+>   
+>       if (s->macregs[MAC_XIFCFG >> 2] & MAC_XIFCFG_LBCK) {
+> -        nc->info->receive(nc, buf, size);
+> +        qemu_receive_packet(nc, buf, size);
+>       } else {
+>           qemu_send_packet(nc, buf, size);
+>       }
 
-Thanks for sending this! Works as advertised and can be cleanly cherry-picked
-on top of the v5.2.0 tag.
-
-Tested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
+ATB,
+
+Mark.
 
