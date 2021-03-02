@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D42932AC4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:34:45 +0100 (CET)
-Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442D732AC60
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:48:44 +0100 (CET)
+Received: from localhost ([::1]:58780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCfE-0004hF-A9
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
+	id 1lHCsj-0001Ng-W6
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:48:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lHCXa-00038N-OA
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:26:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lHCXY-00053V-2o
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:26:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614720406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SN+pYTFwW0AI998xEFeXLntBCHMnJo3GWrA7byw4bEg=;
- b=b0sFBspro6n6gz2XBknfcv+3JhbvjyGX1vpoD/jBrAesaz/Etb8r9W2mPkltgVGvPO5bQ8
- Qm+osyiH7S1M+8tXkmA0Z4zlrcQOiydiZARh7yhMhOAcF6ycP6nebwCqpxAxm6dqUtpTDi
- roM1x1ckAmXl3VsBQqfHvHKNlQI+8U8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-2AWfUDhjNgm-LMY-ffS8Bg-1; Tue, 02 Mar 2021 16:26:42 -0500
-X-MC-Unique: 2AWfUDhjNgm-LMY-ffS8Bg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E40585EE60;
- Tue,  2 Mar 2021 21:26:40 +0000 (UTC)
-Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
- [10.3.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 192246F7E6;
- Tue,  2 Mar 2021 21:26:28 +0000 (UTC)
-Date: Tue, 2 Mar 2021 14:26:28 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Shenming Lu <lushenming@huawei.com>, <mst@redhat.com>,
- marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH v3 3/3] vfio: Avoid disabling and enabling vectors
- repeatedly in VFIO migration
-Message-ID: <20210302142628.60e0ab6f@omen.home.shazbot.org>
-In-Reply-To: <20210223022225.50-4-lushenming@huawei.com>
-References: <20210223022225.50-1-lushenming@huawei.com>
- <20210223022225.50-4-lushenming@huawei.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHCpo-00006L-DB
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:45:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHCpm-0007od-7P
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:45:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lHCpk-0004EV-Da
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 21:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 593D42E806E
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 21:45:36 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Mar 2021 21:39:35 -0000
+From: Samuel thibault <1917442@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: samuel-thibault zamaudio
+X-Launchpad-Bug-Reporter: Damien Zammit (zamaudio)
+X-Launchpad-Bug-Modifier: Samuel thibault (samuel-thibault)
+References: <161468357129.13457.5152619588582197595.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161472117597.7756.2263776124033389146.malone@gac.canonical.com>
+Subject: [Bug 1917442] Re: [AHCI] crash when running a GNU/Hurd guest
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
+X-Launchpad-Hash: 77c785d3d58e59fc6a38933683f12be86c60b8db
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,104 +69,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- Marc Zyngier <maz@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Reply-To: Bug 1917442 <1917442@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Note: this is using the rump ahci driver.
 
-MST/Marcel,
+-- =
 
-Do you have an Ack or objection to exporting msix_masked() as below?
-Thanks,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917442
 
-Alex
+Title:
+  [AHCI] crash when running a GNU/Hurd guest
 
-On Tue, 23 Feb 2021 10:22:25 +0800
-Shenming Lu <lushenming@huawei.com> wrote:
+Status in QEMU:
+  New
 
-> In VFIO migration resume phase and some guest startups, there are
-> already unmasked vectors in the vector table when calling
-> vfio_msix_enable(). So in order to avoid inefficiently disabling
-> and enabling vectors repeatedly, let's allocate all needed vectors
-> first and then enable these unmasked vectors one by one without
-> disabling.
-> 
-> Signed-off-by: Shenming Lu <lushenming@huawei.com>
-> ---
->  hw/pci/msix.c         |  2 +-
->  hw/vfio/pci.c         | 20 +++++++++++++++++---
->  include/hw/pci/msix.h |  1 +
->  3 files changed, 19 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-> index ae9331cd0b..e057958fcd 100644
-> --- a/hw/pci/msix.c
-> +++ b/hw/pci/msix.c
-> @@ -131,7 +131,7 @@ static void msix_handle_mask_update(PCIDevice *dev, int vector, bool was_masked)
->      }
->  }
->  
-> -static bool msix_masked(PCIDevice *dev)
-> +bool msix_masked(PCIDevice *dev)
->  {
->      return dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] & MSIX_MASKALL_MASK;
->  }
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index f74be78209..088fd41926 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -569,6 +569,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
->  
->  static void vfio_msix_enable(VFIOPCIDevice *vdev)
->  {
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    unsigned int nr, max_vec = 0;
-> +
->      vfio_disable_interrupts(vdev);
->  
->      vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
-> @@ -587,11 +590,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->       * triggering to userspace, then immediately release the vector, leaving
->       * the physical device with no vectors enabled, but MSI-X enabled, just
->       * like the guest view.
-> +     * If there are already unmasked vectors (in migration resume phase and
-> +     * some guest startups) which will be enabled soon, we can allocate all
-> +     * of them here to avoid inefficiently disabling and enabling vectors
-> +     * repeatedly later.
->       */
-> -    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
-> -    vfio_msix_vector_release(&vdev->pdev, 0);
-> +    if (!msix_masked(pdev)) {
-> +        for (nr = 0; nr < msix_nr_vectors_allocated(pdev); nr++) {
-> +            if (!msix_is_masked(pdev, nr)) {
-> +                max_vec = nr;
-> +            }
-> +        }
-> +    }
-> +    vfio_msix_vector_do_use(pdev, max_vec, NULL, NULL);
-> +    vfio_msix_vector_release(pdev, max_vec);
->  
-> -    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
-> +    if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
->                                    vfio_msix_vector_release, NULL)) {
->          error_report("vfio: msix_set_vector_notifiers failed");
->      }
-> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-> index 4c4a60c739..b3cd88e262 100644
-> --- a/include/hw/pci/msix.h
-> +++ b/include/hw/pci/msix.h
-> @@ -28,6 +28,7 @@ void msix_load(PCIDevice *dev, QEMUFile *f);
->  
->  int msix_enabled(PCIDevice *dev);
->  int msix_present(PCIDevice *dev);
-> +bool msix_masked(PCIDevice *dev);
->  
->  bool msix_is_masked(PCIDevice *dev, unsigned vector);
->  void msix_set_pending(PCIDevice *dev, unsigned vector);
+Bug description:
+  QEMU git hash =3D 51db2d7cf2
 
+  Running guest OS using:
+
+  $ gdb --args /extra/qemu/bin/qemu-system-i386 -M q35,accel=3Dkvm -m 4096
+  -net user,hostfwd=3Dtcp::8888-:22 -net nic -drive
+  id=3Dudisk,file=3D/dev/sdd,format=3Draw,if=3Dnone -device ide-
+  drive,drive=3Dudisk,bootindex=3D1 -curses
+
+  ...
+
+  root@zamhurd:~# .ahcisata0 channel 5: setting WDCTL_RST failed for
+  drive 0
+
+  =
+
+  Thread 1 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
+                                                                         [S=
+witching to Thread 0x7ffff4f7bf00 (LWP 590666)]
+  ahci_commit_buf (dma=3D0x555557335870, tx_bytes=3D2048) at ../hw/ide/ahci=
+.c:1462
+  1462        tx_bytes +=3D le32_to_cpu(ad->cur_cmd->status);
+  (gdb) bt full
+  #0  ahci_commit_buf (dma=3D0x555557335870, tx_bytes=3D2048)
+      at ../hw/ide/ahci.c:1462
+          ad =3D 0x555557335870
+  #1  0x0000555555893171 in dma_buf_commit (s=3D0x555557335930, tx_bytes=3D=
+2048)
+      at ../hw/ide/core.c:805
+  #2  0x00005555558934f8 in ide_dma_cb (opaque=3D0x555557335930, ret=3D0)
+      at ../hw/ide/core.c:887
+          s =3D 0x555557335930
+          n =3D 4
+          sector_num =3D 4491160
+          offset =3D 140732794753312
+          stay_active =3D false
+          prep_size =3D 0
+          __PRETTY_FUNCTION__ =3D "ide_dma_cb"
+  #3  0x0000555555830720 in dma_complete (dbs=3D0x7ffee83d5120, ret=3D0)
+      at ../softmmu/dma-helpers.c:121
+          __PRETTY_FUNCTION__ =3D "dma_complete"
+  #4  0x00005555558307cd in dma_blk_cb (opaque=3D0x7ffee83d5120, ret=3D0)
+      at ../softmmu/dma-helpers.c:139
+          dbs =3D 0x7ffee83d5120
+          cur_addr =3D 140732794753408
+          cur_len =3D 93825013280880
+          mem =3D 0x7ffeeccfef00
+          __PRETTY_FUNCTION__ =3D "dma_blk_cb"
+  #5  0x0000555555d92bce in blk_aio_complete (acb=3D0x7ffee847bbe0)
+      at ../block/block-backend.c:1412
+  #6  0x0000555555d92df0 in blk_aio_read_entry (opaque=3D0x7ffee847bbe0)
+      at ../block/block-backend.c:1466
+          acb =3D 0x7ffee847bbe0
+          rwco =3D 0x7ffee847bc08
+          qiov =3D 0x7ffee83d5180
+          __PRETTY_FUNCTION__ =3D "blk_aio_read_entry"
+  #7  0x0000555555e85580 in coroutine_trampoline (i0=3D-398117056, i1=3D327=
+66)
+      at ../util/coroutine-ucontext.c:173
+          arg =3D {p =3D 0x7ffee8453740, i =3D {-398117056, 32766}}
+          self =3D 0x7ffee8453740
+          co =3D 0x7ffee8453740
+          fake_stack_save =3D 0x0
+  #8  0x00007ffff6544020 in __start_context () at /lib64/libc.so.6
+  #9  0x00007ffeefdfd680 in  ()
+  #10 0x0000000000000000 in  ()
+  (gdb)
+  (gdb) l
+  1457	 */
+  1458	static void ahci_commit_buf(const IDEDMA *dma, uint32_t tx_bytes)
+  1459	{
+  1460	    AHCIDevice *ad =3D DO_UPCAST(AHCIDevice, dma, dma);
+  1461	=
+
+  1462	    tx_bytes +=3D le32_to_cpu(ad->cur_cmd->status);
+  1463	    ad->cur_cmd->status =3D cpu_to_le32(tx_bytes);
+  1464	}
+  1465	=
+
+  1466	static int ahci_dma_rw_buf(const IDEDMA *dma, bool is_write)
+  (gdb) p ad
+  $1 =3D (AHCIDevice *) 0x555557335870
+  (gdb) p ad->cur_cmd
+  $2 =3D (AHCICmdHdr *) 0x0
+  (gdb)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917442/+subscriptions
 
