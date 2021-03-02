@@ -2,93 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9368932AC2F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:25:29 +0100 (CET)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559D732AC3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:29:59 +0100 (CET)
+Received: from localhost ([::1]:51784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCWG-0000fS-HL
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:25:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50880)
+	id 1lHCac-0005ce-Bs
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHCIM-00021o-TP
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:11:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHCIJ-0002Y9-1H
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:11:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614719461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HXO8EOv/gLMM/VLaeOYlikmEyg7vQIlzGyo6NDqfVM8=;
- b=KGzu9yv6GZBl9GILfjudK21NPtBgm/0UbhYVPvsOY0G7+VQGFAFb85a065pqvb5mEqizpO
- xojcPEwQrqvnuWFXDc9oCQPL9f0RH6qUGsirMpaN7y8pUpeKqD1RzkmJzC2dOI54aJJU2e
- qsxX/zTQphfX8y09AQAo3ieg/er4yxg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-nDhocMAUPtqF3Pkw31Jfaw-1; Tue, 02 Mar 2021 16:10:59 -0500
-X-MC-Unique: nDhocMAUPtqF3Pkw31Jfaw-1
-Received: by mail-ej1-f69.google.com with SMTP id v19so1140093ejc.12
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:10:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HXO8EOv/gLMM/VLaeOYlikmEyg7vQIlzGyo6NDqfVM8=;
- b=ZP3rF/szFHkc16iegnB6HBftV3sqo7R4KUDiaPv+naSJCbTLWFrMSYtkvyOJcRQwVH
- 5gTv3+IswfKI1HMUslrkgp0Jr2zzKLc6qRGh5vpkjvT1oZRLAlcAFez7swUKpJkpF2PE
- 8U/X/M74nIq+/IcS4L3FxyfM+Tql+0fos5Wzqo7w55c5P+1mra72k+Q1V6x2cJwVEZ3O
- fnIKIP8eA26LmuO+x6JwosyZWn5///77j0cw0zCPL1g3jCIOBWPQ2KFOrLtb4+JttPsI
- 55IdLRXrPHBkYVWHSeyxxa4aV6O6fhFr4VorimDW24SV3VAFzEpxjjz7OI48aqKPc25T
- 214A==
-X-Gm-Message-State: AOAM5302s7g56cvuBZ4H3mVjyp+d8wjw5HXbdsaTncelNbsGPiVYNOe1
- V7/cHZvTYD8IQwZWJ12n0NaiO2zGCSCFMPbxUi0bkYXdxu31uN2vCJpLeDMVoB9Q2r+uaCevhL2
- rOgUlk9MqDhtmUs8=
-X-Received: by 2002:a17:906:cecc:: with SMTP id
- si12mr22890936ejb.461.1614719458751; 
- Tue, 02 Mar 2021 13:10:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytEIK5CeHYZX05i53yH8pWO7zKuCaB0DA9emNtoPCeQRNfmJvG9rh2Stv+Dsdu9jns9Mf1Fw==
-X-Received: by 2002:a17:906:cecc:: with SMTP id
- si12mr22890918ejb.461.1614719458586; 
- Tue, 02 Mar 2021 13:10:58 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id gj13sm226679ejb.118.2021.03.02.13.10.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 13:10:58 -0800 (PST)
-Subject: Re: [PATCH 1/3] qapi, audio: add query-audiodev command
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210302175524.1290840-1-berrange@redhat.com>
- <20210302175524.1290840-2-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6ed46b74-c426-0c85-61eb-668f49a31795@redhat.com>
-Date: Tue, 2 Mar 2021 22:10:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lHCXo-0003Pp-Eq; Tue, 02 Mar 2021 16:27:04 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:16492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lHCXk-000547-9h; Tue, 02 Mar 2021 16:27:04 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C2B8174639C;
+ Tue,  2 Mar 2021 22:26:57 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3F6DA7462E1; Tue,  2 Mar 2021 22:26:57 +0100 (CET)
+Message-Id: <b3ab72b7756d26a48a8b0001e70c4221b77d55a3.1614719482.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1614719482.git.balaton@eik.bme.hu>
+References: <cover.1614719482.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v5 1/8] vt82c686: Implement control of serial port io ranges
+ via config regs
+Date: Tue, 02 Mar 2021 22:11:22 +0100
 MIME-Version: 1.0
-In-Reply-To: <20210302175524.1290840-2-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,45 +54,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 6:55 PM, Daniel P. Berrangé wrote:
-> Way back in QEMU 4.0, the -audiodev command line option was introduced
-> for configuring audio backends. This CLI option does not use QemuOpts
-> so it is not visible for introspection in 'query-command-line-options',
-> instead using the QAPI Audiodev type.  Unfortunately there is also no
-> QMP command that uses the Audiodev type, so it is not introspectable
-> with 'query-qmp-schema' either.
-> 
-> This introduces a 'query-audiodev' command that simply reflects back
-> the list of configured -audiodev command line options. This in turn
-> makes Audiodev introspectable via 'query-qmp-schema'.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  audio/audio.c   | 19 +++++++++++++++++++
->  qapi/audio.json | 13 +++++++++++++
->  2 files changed, 32 insertions(+)
+In VIA super south bridge the io ranges of superio components
+(parallel and serial ports and FDC) can be controlled by superio
+config registers to set their base address and enable/disable them.
+This is not easy to implement in QEMU because ISA emulation is only
+designed to set io base address once on creating the device and io
+ranges are registered at creation and cannot easily be disabled or
+moved later.
 
-> +
-> +##
-> +# @query-audiodevs:
-> +#
-> +# Returns information about audiodev configuration
-> +#
-> +# Returns: array of @Audiodev
-> +#
-> +# Since: 6.0
-> +#
-> +##
-> +{ 'command': 'query-audiodevs',
-> +  'returns': ['Audiodev'] }
-> 
+In this patch we hack around that but only for serial ports because
+those have a single io range at port base that's relatively easy to
+handle and it's what guests actually use and set address different
+than the default.
 
-Can we use 'query-audiodev-backends' similarly to
-'query-chardev-backends'?
+We do not attempt to handle controlling the parallel and FDC regions
+because those have multiple io ranges so handling them would be messy
+and guests either don't change their deafult or don't care. We could
+even get away with disabling and not emulating them, but since they
+are already there, this patch leaves them mapped at their default
+address just in case this could be useful for a guest in the future.
+
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 82 insertions(+), 2 deletions(-)
+
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 05d084f698..a3353ec5db 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
+ typedef struct SuperIOConfig {
+     uint8_t regs[0x100];
+     MemoryRegion io;
++    ISASuperIODevice *superio;
++    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+ } SuperIOConfig;
+ 
++static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
++                                    int offs)
++{
++    MemoryRegion *subregion, *mr = NULL;
++
++    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
++        if (subregion->addr == offs) {
++            mr = subregion;
++            break;
++        }
++    }
++    return mr;
++}
++
+ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+                               unsigned size)
+ {
+@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+     case 0xfd ... 0xff:
+         /* ignore write to read only registers */
+         return;
+-    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
++    case 0xe2:
++    {
++        data &= 0x1f;
++        if (data & BIT(2)) { /* Serial port 1 enable */
++            ISADevice *dev = sc->superio->serial[0];
++            if (!memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[0]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
++            if (memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_del_subregion(io, sc->serial_io[0]);
++            }
++        }
++        if (data & BIT(3)) { /* Serial port 2 enable */
++            ISADevice *dev = sc->superio->serial[1];
++            if (!memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[1]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
++            if (memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_del_subregion(io, sc->serial_io[1]);
++            }
++        }
++        break;
++    }
++    case 0xe7: /* Serial port 1 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[0]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[0])) {
++            memory_region_set_address(sc->serial_io[0], data << 2);
++        }
++        break;
++    }
++    case 0xe8: /* Serial port 2 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[1]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[1])) {
++            memory_region_set_address(sc->serial_io[1], data << 2);
++        }
++        break;
++    }
+     default:
+         qemu_log_mask(LOG_UNIMP,
+                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
+@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
++    ISASuperIOClass *ic;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
++    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
++                                                      TYPE_VT82C686B_SUPERIO));
++    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+      */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+                                 &s->superio_cfg.io);
++
++    /* Grab io regions of serial devices so we can control them */
++    for (i = 0; i < ic->serial.count; i++) {
++        ISADevice *sd = s->superio_cfg.superio->serial[i];
++        MemoryRegion *io = isa_address_space_io(sd);
++        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
++        if (!mr) {
++            error_setg(errp, "Could not get io region for serial %d", i);
++            return;
++        }
++        s->superio_cfg.serial_io[i] = mr;
++        if (memory_region_is_mapped(mr)) {
++            memory_region_del_subregion(io, mr);
++        }
++    }
+ }
+ 
+ static void via_class_init(ObjectClass *klass, void *data)
+-- 
+2.21.3
 
 
