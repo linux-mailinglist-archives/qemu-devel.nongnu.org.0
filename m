@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D5932A10A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:37:45 +0100 (CET)
-Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C9D32A14B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:47:08 +0100 (CET)
+Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5Db-0004eQ-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:37:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50226)
+	id 1lH5Mh-00079D-HR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lH5Ce-0004C0-Hm
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:36:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40672)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lH5Ks-0006KE-55
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:45:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lH5Cb-0002zi-Bn
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:36:43 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lH5Kq-0003yk-M5
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:45:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614692198;
+ s=mimecast20190719; t=1614692712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CPcY/JvP08en1kSuwR+KjydWV7u2XTQCdgdGCv98oz0=;
- b=Z7by+ybCwHB/L/+U1Zzt1DncrBJWIIIN3A6DOX1HNWihPgarjEqUmmhXFzbHxgBb+ixpq1
- g0G+W7qDKuXysXKK2SGPq/hprx5x9AOMPvTN5g1dkCcXkMPgX3bZ018sd0JlLOJ5c9m9PG
- KxEv2JGyfYh0/VWIUgGl1NGSdPPLe7s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-tmbBSUeGPwegiW8DXXrrnA-1; Tue, 02 Mar 2021 08:36:36 -0500
-X-MC-Unique: tmbBSUeGPwegiW8DXXrrnA-1
-Received: by mail-wm1-f72.google.com with SMTP id s192so1176378wme.6
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 05:36:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CPcY/JvP08en1kSuwR+KjydWV7u2XTQCdgdGCv98oz0=;
- b=ihxQXgy9BA1C6ideS4+u4HNdycwADz0r1fnW3jUaOA/m+gzXJxNeY+bKsM25e870Zz
- m8oCAIkKfyksA1oWO5SlJL/cEDRYkX3dk314TG1bx6SxsYe0U2QKdSbSIuHIcRdaS9Ga
- g1EPq2Ht5UAaV5vQ5F/lad21694QethG1MrAe94Cp1krvBUQZLex7QPfXBuMBBYv/faA
- 7T34nqOnWwJlRMvNWNdrJeBxUq1+KRc5wYAcdn6ppkH6+83q0mPnwxR57ND8zEJtLhdv
- q8EX7NEEdg+6sG47AwusLLsrDxwceQdcPquG6Flt9yvHZaAzFi/FWnA6k+vns9OUGPHS
- 7aXA==
-X-Gm-Message-State: AOAM5333YtjX0bgPb940ZCW9d85MF+1fzgZD/FoLiJWjSaF9l0jNMI3H
- m3u1NiHcTJg6glNpRpaHicZwfwzInxCog0JMyLegeVMVOuCG3pCcSZPufl9R/hsoZldOSxEvP4z
- s75gC11vLomfltD0=
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr4131026wmi.117.1614692195223; 
- Tue, 02 Mar 2021 05:36:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxCLrw8pNpjtIFysn5hMCnBQ4EuvmhQkucNNEJtb/MXhSrrS0wRxq/jq0Iu7OMc4eHA2012Og==
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr4130997wmi.117.1614692194930; 
- Tue, 02 Mar 2021 05:36:34 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id r7sm28832936wre.25.2021.03.02.05.36.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 05:36:34 -0800 (PST)
-Date: Tue, 2 Mar 2021 14:36:31 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH 1/2] elf_ops: correct loading of 32 bit PVH kernel
-Message-ID: <20210302133631.xcs66agqx3y3irci@steredhat>
-References: <20210302090315.3031492-1-david.edmondson@oracle.com>
- <20210302090315.3031492-2-david.edmondson@oracle.com>
+ bh=bKEwB1CmfF22iX+IqxueG5DUHDthWRPwedJQFcZB8BA=;
+ b=IhwkAb9o3EVU21wmzVD+n+FKRw7wknC5SkHL9TbX9VzMTC/33QZmbq8yrpSq5gmi062sB2
+ IGMsgPIyex4rLMeNA7q9khb0broyEfvu7nPIUbOILYjM0jfcZb+l/wCnSf0sBrlu15sGRc
+ hggKYwhJBcMhU61KsSzU4l8UND15nvk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-u7naIcKhM4-fYkDNhskqtA-1; Tue, 02 Mar 2021 08:45:08 -0500
+X-MC-Unique: u7naIcKhM4-fYkDNhskqtA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41AD2C297;
+ Tue,  2 Mar 2021 13:45:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A001210013C1;
+ Tue,  2 Mar 2021 13:45:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 36193113860F; Tue,  2 Mar 2021 14:45:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrey Shinkevich via <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v3 1/5] monitor: change function obsolete name in comments
+References: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1606484146-913540-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Tue, 02 Mar 2021 14:45:04 +0100
+In-Reply-To: <1606484146-913540-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ (Andrey Shinkevich via's message of "Fri, 27 Nov 2020 16:35:42 +0300")
+Message-ID: <87mtvlllen.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210302090315.3031492-2-david.edmondson@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,47 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ vsementsov@virtuozzo.com, qemu-block@nongnu.org, den@openvz.org,
+ mdroth@linux.vnet.ibm.com, mreitz@redhat.com, pbonzini@redhat.com,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 09:03:14AM +0000, David Edmondson wrote:
->Because sizeof(struct elf64_note) == sizeof(struct elf32_note),
->attempting to use the size of the currently defined struct elf_note as
->a discriminator for whether the object being loaded is 64 bit in
->load_elf() fails.
->
->Instead, take advantage of the existing glue parameter SZ, which is
->defined as 32 or 64 in the respective variants of load_elf().
->
->Fixes: 696aa04c84c6 ("elf-ops.h: Add get_elf_note_type()")
->Signed-off-by: David Edmondson <david.edmondson@oracle.com>
->---
-> include/hw/elf_ops.h | 4 +---
-> 1 file changed, 1 insertion(+), 3 deletions(-)
->
->diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
->index 8e8436831d..78409ab34a 100644
->--- a/include/hw/elf_ops.h
->+++ b/include/hw/elf_ops.h
->@@ -598,9 +598,7 @@ static int glue(load_elf, SZ)(const char *name, int fd,
->             nhdr = glue(get_elf_note_type, SZ)(nhdr, file_size, ph->p_align,
->                                                *(uint64_t *)translate_opaque);
->             if (nhdr != NULL) {
->-                bool is64 =
->-                    sizeof(struct elf_note) == sizeof(struct elf64_note);
->-                elf_note_fn((void *)nhdr, (void *)&ph->p_align, is64);
->+                elf_note_fn((void *)nhdr, (void *)&ph->p_align, SZ == 64);
->             }
->             data = NULL;
->         }
->-- 
->2.30.0
->
->
+Andrey Shinkevich via <qemu-devel@nongnu.org> writes:
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> The function name monitor_qmp_bh_dispatcher() has been changed to
+> monitor_qmp_dispatcher_co() since the commit 9ce44e2c. Let's amend the
+> comments.
+>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>  monitor/qmp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index b42f8c6..7169366 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -80,7 +80,7 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
+>      qemu_mutex_lock(&mon->qmp_queue_lock);
+>  
+>      /*
+> -     * Same condition as in monitor_qmp_bh_dispatcher(), but before
+> +     * Same condition as in monitor_qmp_dispatcher_co(), but before
+>       * removing an element from the queue (hence no `- 1`).
+>       * Also, the queue should not be empty either, otherwise the
+>       * monitor hasn't been suspended yet (or was already resumed).
+> @@ -343,7 +343,7 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
+>  
+>      /*
+>       * Suspend the monitor when we can't queue more requests after
+> -     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
+> +     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
+>       * monitor_qmp_cleanup_queue_and_resume() will resume it.
+>       * Note that when OOB is disabled, we queue at most one command,
+>       * for backward compatibility.
+
+The same change has since made it to master as commit 395a95080a "qmp:
+Fix up comments after commit 9ce44e2ce2".  I should have picked your
+patch instead, but I wasn't aware of it then, because I had put your
+series in my review queue without looking closely.
+
+It's been stuck in my queue for way too long.  Reviewing non-trivial
+monitor patches is slow and exhausting work for me, and other,
+non-monitor patches have kept crowding out your work.  My apologies!
 
 
