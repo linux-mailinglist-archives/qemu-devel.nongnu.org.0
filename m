@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F3B329EE9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 13:43:31 +0100 (CET)
-Received: from localhost ([::1]:40922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6204329EEA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 13:43:33 +0100 (CET)
+Received: from localhost ([::1]:41090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH4N8-0001Em-OA
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 07:43:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60908)
+	id 1lH4NA-0001Jq-IR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 07:43:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1lH4Jd-0007H6-1w
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:39:53 -0500
-Received: from mga09.intel.com ([134.134.136.24]:30217)
+ id 1lH4Jk-0007KP-HG
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:01 -0500
+Received: from mga09.intel.com ([134.134.136.24]:30230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1lH4Ja-0002cX-FQ
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:39:52 -0500
-IronPort-SDR: +M2b2G4R81+aIfyacrHvPFtCOgPk0lUMO6B03zuQ8hMp4U5VsVkCpz86AhLNleDJOmtIuLr2NH
- eCEgLHCcnPSA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="186914677"
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="186914677"
+ id 1lH4Jf-0002gL-QP
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 07:40:00 -0500
+IronPort-SDR: 6WcUqk7U1TGuzxwjvUu2J4TCsSuYRqtOFKwgSxx0xhnU4i9k2St4iqIfEj95i73XGT1skY6FAC
+ I2HDik+u7j6Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="186914690"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="186914690"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2021 04:39:49 -0800
-IronPort-SDR: kM17WPcU1rDLUcKBqP29NCQv69tGvu1ojdMAzsCbJIX9/DWxCpfNETG1swiSkDjtXA4gXh9IMa
- uy8qvj6rEm9w==
+ 02 Mar 2021 04:39:54 -0800
+IronPort-SDR: 7FTvWOJkC8bPt30nBvexOxahXLmfFnZEm9hZcL04uKbYV83qoJTsfdV7ZZvgE4kntC/dZHZNmF
+ nKAVOEi9m6SA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427472720"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427472732"
 Received: from yiliu-dev.bj.intel.com (HELO dual-ub.bj.intel.com)
  ([10.238.156.135])
- by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:39:45 -0800
+ by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:39:49 -0800
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v11 05/25] hw/pci: introduce pci_device_get_iommu_attr()
-Date: Wed,  3 Mar 2021 04:38:07 +0800
-Message-Id: <20210302203827.437645-6-yi.l.liu@intel.com>
+Subject: [RFC v11 06/25] intel_iommu: add get_iommu_attr() callback
+Date: Wed,  3 Mar 2021 04:38:08 +0800
+Message-Id: <20210302203827.437645-7-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210302203827.437645-1-yi.l.liu@intel.com>
 References: <20210302203827.437645-1-yi.l.liu@intel.com>
@@ -65,111 +65,70 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
- jun.j.tian@intel.com, eric.auger@redhat.com, yi.y.sun@intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
+ eric.auger@redhat.com, yi.y.sun@intel.com,
  Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- Lingshan.Zhu@intel.com, hao.wu@intel.com, david@gibson.dropbear.id.au
+ Lingshan.Zhu@intel.com, hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds pci_device_get_iommu_attr() to get vIOMMU attributes.
-e.g. if nesting IOMMU wanted.
+Return vIOMMU attribute to caller. e.g. VFIO call via PCI layer.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/pci/pci.c         | 35 ++++++++++++++++++++++++++++++-----
- include/hw/pci/pci.h |  7 +++++++
- 2 files changed, 37 insertions(+), 5 deletions(-)
+ hw/i386/intel_iommu.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 61f115d742..19365e2799 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2665,7 +2665,8 @@ static void pci_device_class_base_init(ObjectClass *klass, void *data)
-     }
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index dd11248b6b..d89d6d7dd5 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3462,6 +3462,28 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
+     return vtd_dev_as;
  }
  
--AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
-+static void pci_device_get_iommu_bus_devfn(PCIDevice *dev,
-+                              PCIBus **pbus, uint8_t *pdevfn)
- {
-     PCIBus *bus = pci_get_bus(dev);
-     PCIBus *iommu_bus = bus;
-@@ -2716,14 +2717,38 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
- 
-         iommu_bus = parent_bus;
-     }
--    if (iommu_bus && iommu_bus->iommu_ops &&
--                     iommu_bus->iommu_ops->get_address_space) {
--        return iommu_bus->iommu_ops->get_address_space(bus,
--                                 iommu_bus->iommu_opaque, devfn);
-+    *pbus = iommu_bus;
-+    *pdevfn = devfn;
-+}
-+
-+AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
++static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
++                                   IOMMUAttr attr, void *data)
 +{
-+    PCIBus *bus;
-+    uint8_t devfn;
++    int ret = 0;
 +
-+    pci_device_get_iommu_bus_devfn(dev, &bus, &devfn);
-+    if (bus && bus->iommu_ops &&
-+        bus->iommu_ops->get_address_space) {
-+        return bus->iommu_ops->get_address_space(bus,
-+                                bus->iommu_opaque, devfn);
-     }
-     return &address_space_memory;
- }
- 
-+int pci_device_get_iommu_attr(PCIDevice *dev, IOMMUAttr attr, void *data)
-+{
-+    PCIBus *bus;
-+    uint8_t devfn;
++    assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
 +
-+    pci_device_get_iommu_bus_devfn(dev, &bus, &devfn);
-+    if (bus && bus->iommu_ops &&
-+        bus->iommu_ops->get_iommu_attr) {
-+        return bus->iommu_ops->get_iommu_attr(bus, bus->iommu_opaque,
-+                                               devfn, attr, data);
++    switch (attr) {
++    case IOMMU_WANT_NESTING:
++    {
++        bool *pdata = data;
++
++        /* return false until vSVA is ready */
++        *pdata = false;
++        break;
 +    }
-+    return -ENOENT;
++    default:
++        ret = -ENOENT;
++    }
++    return ret;
 +}
 +
- void pci_setup_iommu(PCIBus *bus, const PCIIOMMUOps *ops, void *opaque)
+ static uint64_t get_naturally_aligned_size(uint64_t start,
+                                            uint64_t size, int gaw)
  {
-     bus->iommu_ops = ops;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index d6b962f646..b99e05c81e 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -485,13 +485,20 @@ void pci_bus_get_w64_range(PCIBus *bus, Range *range);
+@@ -3758,6 +3780,7 @@ static AddressSpace *vtd_host_dma_iommu(PCIBus *bus, void *opaque, int devfn)
  
- void pci_device_deassert_intx(PCIDevice *dev);
- 
-+typedef enum IOMMUAttr {
-+    IOMMU_WANT_NESTING,
-+} IOMMUAttr;
-+
- typedef struct PCIIOMMUOps PCIIOMMUOps;
- struct PCIIOMMUOps {
-     AddressSpace * (*get_address_space)(PCIBus *bus,
-                                 void *opaque, int32_t devfn);
-+    int (*get_iommu_attr)(PCIBus *bus, void *opaque, int32_t devfn,
-+                           IOMMUAttr attr, void *data);
+ static PCIIOMMUOps vtd_iommu_ops = {
+     .get_address_space = vtd_host_dma_iommu,
++    .get_iommu_attr = vtd_dev_get_iommu_attr,
  };
  
- AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
-+int pci_device_get_iommu_attr(PCIDevice *dev, IOMMUAttr attr, void *data);
- void pci_setup_iommu(PCIBus *bus, const PCIIOMMUOps *iommu_ops, void *opaque);
- 
- static inline void
+ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
 -- 
 2.25.1
 
