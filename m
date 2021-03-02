@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE51332AC2A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:22:18 +0100 (CET)
-Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9368932AC2F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:25:29 +0100 (CET)
+Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCTB-0005FP-NW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:22:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49582)
+	id 1lHCWG-0000fS-HL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:25:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHCDP-0004te-9b
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:05:59 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHCDN-0001wM-6w
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:05:59 -0500
-Received: by mail-wm1-x334.google.com with SMTP id w7so3371407wmb.5
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:05:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=P8sesIi1LIIC93ukixvpuvKcps6CZw8enMnFjTtmtIw=;
- b=rh4riaLW0pFbOI0M6F19aWwcix2NaVsiqaJhKPNcC3i3OaWOxO5tHgD9hPtHXJe28o
- PBoJTM6icd0t+1/rIu28SqUWlOFB2jPPiJ8CuXmvRp9iiEZvgKV3KwxNl5DsUjZUBHi5
- B/jczQBNhKsvlTVh+60qbZE/ECVsMGccnMENEtTZzqUG+K1ITDu3x96cIItMlG5QdHis
- Nq10DJJfavj6b140F0RbBGRWV9FmtJzoPcnBTU2ZATbrPueH2ms/jstqVkWkRAoDDMwh
- jPtzIoiClHw0B9RBmtsvgIW1j3+Rvy1ybSWqfSJ+kOVFDu51lHRTglWSXD1C1aieSZMB
- TNXA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHCIM-00021o-TP
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:11:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHCIJ-0002Y9-1H
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:11:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614719461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HXO8EOv/gLMM/VLaeOYlikmEyg7vQIlzGyo6NDqfVM8=;
+ b=KGzu9yv6GZBl9GILfjudK21NPtBgm/0UbhYVPvsOY0G7+VQGFAFb85a065pqvb5mEqizpO
+ xojcPEwQrqvnuWFXDc9oCQPL9f0RH6qUGsirMpaN7y8pUpeKqD1RzkmJzC2dOI54aJJU2e
+ qsxX/zTQphfX8y09AQAo3ieg/er4yxg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-nDhocMAUPtqF3Pkw31Jfaw-1; Tue, 02 Mar 2021 16:10:59 -0500
+X-MC-Unique: nDhocMAUPtqF3Pkw31Jfaw-1
+Received: by mail-ej1-f69.google.com with SMTP id v19so1140093ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:10:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=P8sesIi1LIIC93ukixvpuvKcps6CZw8enMnFjTtmtIw=;
- b=GdsLbyzL9CYx8UKR9D+4GvE+mZ8E2z9THHPprez10TIzA2Tovb5wuLfnrb1yhwZ+rR
- uNE4vedOSUp/Lka34t8V1kFXDXUZ4y2lod+/GaaRRp//UW4ci2f7MfZPY6lyvLDiqtM5
- m2pa8g4qbk6pWAs6uQl9x0lIeNyp0GDOw60LRUGRmAhdKFshFPT5V4PGverAC9iZCOlp
- pRr7GArVW84sDHbQQT71C+9AJkQsQRlxY7XVViqvaD/FRp7TEsNiDaLIYiYwUKxAYIiw
- keEeo7zRFHYkYphSyUBDfgsSQtfgkc8ZFy5RSFS3XeOW48f6lpX8SZqGRfdrTgwE2EF1
- 8iYA==
-X-Gm-Message-State: AOAM531c7IB2/NzqYEJ0/wHi5lZglgnTVeJnbRvqBnkRJHxexG6KPn7y
- +j/9VPie1sNCcFEnWhaRVEQM3Q==
-X-Google-Smtp-Source: ABdhPJy868Wafl6rAmGrF2QPCzmE/qUCmwReJXc7yWcp+9zzqAIEy4dknlqmh2dLhtNcz+oYqWpmFg==
-X-Received: by 2002:a1c:3286:: with SMTP id y128mr5778892wmy.104.1614719155697; 
- Tue, 02 Mar 2021 13:05:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k4sm38399844wrd.9.2021.03.02.13.05.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 13:05:54 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E0931FF7E;
- Tue,  2 Mar 2021 21:05:53 +0000 (GMT)
-References: <YDPk08PCwhD7Nm2+@strawberry.localdomain>
- <8735xn6fy7.fsf@linaro.org> <YDQYrptOxAjs0Pf0@strawberry.localdomain>
- <YDVrYk9O2gBPwxe4@strawberry.localdomain>
- <YD5atyGBcnxG8+ZK@strawberry.localdomain> <87sg5dilp7.fsf@linaro.org>
- <YD6U2dC1dWbixriR@strawberry.localdomain>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: Plugin Address Translations Inconsistent/Incorrect?
-Date: Tue, 02 Mar 2021 21:04:48 +0000
-In-reply-to: <YD6U2dC1dWbixriR@strawberry.localdomain>
-Message-ID: <87pn0hi7v2.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HXO8EOv/gLMM/VLaeOYlikmEyg7vQIlzGyo6NDqfVM8=;
+ b=ZP3rF/szFHkc16iegnB6HBftV3sqo7R4KUDiaPv+naSJCbTLWFrMSYtkvyOJcRQwVH
+ 5gTv3+IswfKI1HMUslrkgp0Jr2zzKLc6qRGh5vpkjvT1oZRLAlcAFez7swUKpJkpF2PE
+ 8U/X/M74nIq+/IcS4L3FxyfM+Tql+0fos5Wzqo7w55c5P+1mra72k+Q1V6x2cJwVEZ3O
+ fnIKIP8eA26LmuO+x6JwosyZWn5///77j0cw0zCPL1g3jCIOBWPQ2KFOrLtb4+JttPsI
+ 55IdLRXrPHBkYVWHSeyxxa4aV6O6fhFr4VorimDW24SV3VAFzEpxjjz7OI48aqKPc25T
+ 214A==
+X-Gm-Message-State: AOAM5302s7g56cvuBZ4H3mVjyp+d8wjw5HXbdsaTncelNbsGPiVYNOe1
+ V7/cHZvTYD8IQwZWJ12n0NaiO2zGCSCFMPbxUi0bkYXdxu31uN2vCJpLeDMVoB9Q2r+uaCevhL2
+ rOgUlk9MqDhtmUs8=
+X-Received: by 2002:a17:906:cecc:: with SMTP id
+ si12mr22890936ejb.461.1614719458751; 
+ Tue, 02 Mar 2021 13:10:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytEIK5CeHYZX05i53yH8pWO7zKuCaB0DA9emNtoPCeQRNfmJvG9rh2Stv+Dsdu9jns9Mf1Fw==
+X-Received: by 2002:a17:906:cecc:: with SMTP id
+ si12mr22890918ejb.461.1614719458586; 
+ Tue, 02 Mar 2021 13:10:58 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id gj13sm226679ejb.118.2021.03.02.13.10.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Mar 2021 13:10:58 -0800 (PST)
+Subject: Re: [PATCH 1/3] qapi, audio: add query-audiodev command
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210302175524.1290840-1-berrange@redhat.com>
+ <20210302175524.1290840-2-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6ed46b74-c426-0c85-61eb-668f49a31795@redhat.com>
+Date: Tue, 2 Mar 2021 22:10:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210302175524.1290840-2-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,86 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/2/21 6:55 PM, Daniel P. Berrangé wrote:
+> Way back in QEMU 4.0, the -audiodev command line option was introduced
+> for configuring audio backends. This CLI option does not use QemuOpts
+> so it is not visible for introspection in 'query-command-line-options',
+> instead using the QAPI Audiodev type.  Unfortunately there is also no
+> QMP command that uses the Audiodev type, so it is not introspectable
+> with 'query-qmp-schema' either.
+> 
+> This introduces a 'query-audiodev' command that simply reflects back
+> the list of configured -audiodev command line options. This in turn
+> makes Audiodev introspectable via 'query-qmp-schema'.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  audio/audio.c   | 19 +++++++++++++++++++
+>  qapi/audio.json | 13 +++++++++++++
+>  2 files changed, 32 insertions(+)
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+> +
+> +##
+> +# @query-audiodevs:
+> +#
+> +# Returns information about audiodev configuration
+> +#
+> +# Returns: array of @Audiodev
+> +#
+> +# Since: 6.0
+> +#
+> +##
+> +{ 'command': 'query-audiodevs',
+> +  'returns': ['Audiodev'] }
+> 
 
-> On Mar 02 16:06, Alex Benn=C3=A9e wrote:
->>=20
->> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->>=20
->> > On Feb 23 15:53, Aaron Lindsay wrote:
->> >> On Feb 22 15:48, Aaron Lindsay wrote:
->> >> > On Feb 22 19:30, Alex Benn=C3=A9e wrote:
->> >> > > Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->> >> > > That said I think we could add an additional helper to translate a
->> >> > > hwaddr to a global address space address. I'm open to suggestions=
- of the
->> >> > > best way to structure this.
->> >> >=20
->> >> > Haven't put a ton of thought into it, but what about something like=
- this
->> >> > (untested):
->> >> >=20
->> >> > uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwad=
-dr *haddr)
->> >> > {
->> >> > #ifdef CONFIG_SOFTMMU
->> >> >     if (haddr) {
->> >> >         if (!haddr->is_io) {
->> >> >             RAMBlock *block;
->> >> >             ram_addr_t offset;
->> >> >=20
->> >> >             block =3D qemu_ram_block_from_host((void *) haddr->v.ra=
-m.hostaddr, false, &offset);
->> >> >             if (!block) {
->> >> >                 error_report("Bad ram pointer %"PRIx64"", haddr->v.=
-ram.hostaddr);
->> >> >                 abort();
->> >> >             }
->> >> >=20
->> >> >             return block->offset + offset + block->mr->addr;
->> >> >         } else {
->> >> >             MemoryRegionSection *mrs =3D haddr->v.io.section;
->> >> >             return haddr->v.io.offset + mrs->mr->addr;
->> >> >         }
->> >> >     }
->> >> > #endif
->> >> >     return 0;
->> >> > }
->> >>=20
->> >> This appears to successfully return correct physical addresses for RAM
->> >> at least, though I've not tested it thoroughly for MMIO yet.
->> >>=20
->> >> If it ends up being desirable based on the discussion elsewhere on th=
-is
->> >> thread I am willing to perform more complete testing, turn this into a
->> >> patch, and submit it.
->> >
->> > Ping - Is this something worth me pursuing?
->>=20
->> Yes please.=20
->
-> Okay, I'll work on it. Is your thinking that this would this be a
-> separate call as shown above, or a replacement of the existing
-> qemu_plugin_hwaddr_device_offset function? And, if a replacement, should
-> we keep the name similar to retain compatibility, or make a clean break?
->
-> It seemed like Peter may have been saying the device offset shouldn't be
-> exposed at all (leading me to consider full replacement), but I also
-> don't see a definitive resolution of that conversation.
+Can we use 'query-audiodev-backends' similarly to
+'query-chardev-backends'?
 
-I think a full replacement and an increment of the minimum API version.
-That way people will at least query why the plugin failed to load and
-hopefully will read the release notes ;-)
-
->
-> -Aaron
-
-
---=20
-Alex Benn=C3=A9e
 
