@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210B032968A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 07:54:11 +0100 (CET)
-Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E689329690
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 08:01:41 +0100 (CET)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGyv4-0001to-6X
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 01:54:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50798)
+	id 1lGz2K-0004mO-5S
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 02:01:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lGyu0-0001Md-S1
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:53:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47379)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGz0I-00049d-7s
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:59:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lGytx-0003If-2t
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:53:04 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGz0F-0007h3-8j
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614667979;
+ s=mimecast20190719; t=1614668370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pq/NAGAQpu/ZUotcDLCHMX/rECdayQfdHwIKWKG8XEY=;
- b=Py4jZkcXDGFZli8VtOtSOUBTLYcKmlvG/Kr5gEyX4rQbiO+Oasbv8pbPsSulfVv2imgH7z
- SqhJJEoOVX8D9HJfxh+mGLyz5ITpeOa7eiqOcx81h0BG+Z535L9e+FRUkmKgeae1OZqLnJ
- F7UYGr2qQi2TDXMdw8Ji9mfIwxYnuYc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-evBpENT-Pc2_fKaui-34CQ-1; Tue, 02 Mar 2021 01:52:54 -0500
-X-MC-Unique: evBpENT-Pc2_fKaui-34CQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CB2E1935780;
- Tue,  2 Mar 2021 06:52:53 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-133.pek2.redhat.com
- [10.72.12.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 509115D71F;
- Tue,  2 Mar 2021 06:52:51 +0000 (UTC)
-Subject: Re: [PATCH V2 7/7] rtl8193: switch to use qemu_receive_packet() for
+ bh=yy+8ocjUokBnP4UjG9QSEfX4nmhTBc+g2kdnkdwlPk4=;
+ b=JIOss5j3Do7Lg5xtTuuQMLpGy4mJcvwNFR4VPDjLHBnP3cLgcCimQw/gpRfQ/UNyMAeRgC
+ XaXSAeEJ5sm/fRXX/Nq0wsHduXKDHirplLZT5CgTRD1eCekBfSYaY9A0sDFu99BqxnnpIO
+ lwEOVwED/eKVijGOVMTNlHvjnf+JwrA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-TLd7NzhbMDmdi9u_PtI-5Q-1; Tue, 02 Mar 2021 01:59:27 -0500
+X-MC-Unique: TLd7NzhbMDmdi9u_PtI-5Q-1
+Received: by mail-ed1-f72.google.com with SMTP id p12so9914602edw.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 22:59:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yy+8ocjUokBnP4UjG9QSEfX4nmhTBc+g2kdnkdwlPk4=;
+ b=YkWEjaPoflS+VBadVVSHXgHfxM3nfvpxMfdEf0s7IZg3DZVeOuIqrDMnlsqpaIJbRQ
+ KBcBgREW/SKgmkjkxD+BMZv0RwDIL0tLsciVinbF6cvqekBOlUHjfe/Ct/XMcY8ipxVr
+ xcpEAH4g9CP8OiRghcBh6OcrxFVWoY4dOsvb9gvLEXZusPUHsfbxjgp2AUdEEHUyswU1
+ QjAmVqDGgWs6T9FJNY3dQ6u74BgAqpT3P8rVGWzSXcV+XFQd+M2bywkYkpqbSeiqIFij
+ PlQl98mwsBWspqkz7vpLvd0ZFWcDlUwIgjoxiNMFJFXSx3N9TCE5vLLyBUGgR/8KB0Id
+ UaHA==
+X-Gm-Message-State: AOAM5326eUUOS6n5qWisEDPHMWczxmsnnL24xJ3WdpVrd2nodZt2HDkJ
+ XXHkmg18+xvZR8JF5/pFoWRxHE0slkXg8kcmrKERm/Rdns7Hd5ZLe1LXW1jsQ8FoVLnPbh49OlL
+ PA4vjs1wOTjMW1po=
+X-Received: by 2002:a17:906:2344:: with SMTP id
+ m4mr18932125eja.327.1614668366398; 
+ Mon, 01 Mar 2021 22:59:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfHJJAEerkx05dgWg8DIR2HjhgkpXoflmwehyYx8v0h9LemKJk4BhhbfGn8K8UMGm3F/3x4Q==
+X-Received: by 2002:a17:906:2344:: with SMTP id
+ m4mr18932114eja.327.1614668366205; 
+ Mon, 01 Mar 2021 22:59:26 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id ck9sm17171172edb.36.2021.03.01.22.59.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Mar 2021 22:59:25 -0800 (PST)
+Subject: Re: [PATCH V3 07/10] rtl8139: switch to use qemu_receive_packet() for
  loopback
-To: P J P <ppandit@redhat.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 References: <20210302055500.51954-1-jasowang@redhat.com>
- <20210302055500.51954-9-jasowang@redhat.com>
- <42np32r6-nr45-psnq-n61r-8on26spo4rp0@erqung.pbz>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <380cd877-d841-2471-b97e-45788f4c9c54@redhat.com>
-Date: Tue, 2 Mar 2021 14:52:49 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ <20210302055500.51954-8-jasowang@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a930d57a-e36a-757b-49d5-cfad0a71f943@redhat.com>
+Date: Tue, 2 Mar 2021 07:59:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <42np32r6-nr45-psnq-n61r-8on26spo4rp0@erqung.pbz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210302055500.51954-8-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,35 +101,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, philmd@redhat.com, qemu-devel@nongnu.org,
- qemu-security@nongnu.org
+Cc: alxndr@bu.edu, qemu-security@nongnu.org, ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/2/21 6:54 AM, Jason Wang wrote:
+> From: Alexander Bulekov <alxndr@bu.edu>
+> 
+> This patch switches to use qemu_receive_packet() which can detect
+> reentrancy and return early.
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1910826
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-On 2021/3/2 2:39 下午, P J P wrote:
-> +-- On Tue, 2 Mar 2021, Jason Wang wrote --+
-> |          DPRINTF("+++ transmit loopback mode\n");
-> | -        rtl8139_do_receive(qemu_get_queue(s->nic), buf, size, do_interrupt);
-> | +        qemu_receive_packet(qemu_get_queue(s->nic), buf, size);
-> |
-> ...
-> |[PATCH V2 7/7] rtl8193: switch to use qemu_receive_packet() for loopback
->
-> * Patch 'V2' need not be here.
->
-> Thank you.
+Missing your S-o-b?
 
+> ---
+>  hw/net/rtl8139.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Right, looks like a stale patch in the directory.
-
-Will not apply this one when mergeing the series.
-
-Thanks
-
-
-> --
->   - P J P
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
