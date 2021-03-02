@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE72C32A1E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:13:25 +0100 (CET)
-Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FBE32A200
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:15:13 +0100 (CET)
+Received: from localhost ([::1]:42576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5m8-00062e-R5
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:13:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
+	id 1lH5ns-0007yA-4F
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:15:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lH5jO-0002QN-2z; Tue, 02 Mar 2021 09:10:34 -0500
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39870)
+ id 1lH5jP-0002SM-6c; Tue, 02 Mar 2021 09:10:35 -0500
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:35346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lH5jM-0007AJ-Gc; Tue, 02 Mar 2021 09:10:33 -0500
-Received: by mail-qk1-x730.google.com with SMTP id g185so966129qkf.6;
- Tue, 02 Mar 2021 06:10:30 -0800 (PST)
+ id 1lH5jN-0007AQ-Mv; Tue, 02 Mar 2021 09:10:34 -0500
+Received: by mail-qk1-x72a.google.com with SMTP id d20so19276467qkc.2;
+ Tue, 02 Mar 2021 06:10:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bayDl/27X9t8BzGIMK8tEPYhwocOYB9bxe2uCjWhGCE=;
- b=nGwAEBY7o8DyATgdLOvytRll6ONaSfz1Ae5UPY77GvCb2VlK0Y+svIEPyWylroTsoy
- 8I9HqkrE+Cdof61JSyg9DIT83OXxV9la1x5BKfvor+aJu8uW5M74+2PQOVPn8Z9aC2bC
- Aq/XzIVZIherDKU67NR7sq2HCcm9d25EUFQRLF7RIxSCqx/xUiKkPo7E9ZmqUtsXGV1h
- A3+yH4r3Mmb9I/w+ImCbRtV4JCkZMg87F52LnjRDJHXYBbsFbah/CmmFE609gej+ZxMG
- MCDgTS9ZNOUCrubn2bPwqmehkPRuOJlZhoIXmXWnhkcLt4ISt2RhkTvf2pWgxXymncaH
- EraQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uOA/dEAG3MBKjUMll/cJjGDnuaqcJUMuLLC8SsN07EU=;
+ b=pduWghJqTsbBZvg7PvHCh9A59AWbc6/H43DdLxHmdkASjD18/RqWF4R+9mfZ4TGanJ
+ JvLOGz0Gsi7ZS7ZDffUN6RcO3liFqcuVI+ZpJNebQDgBpwY9X8k2Ru04ws7/GkQ4GOHp
+ 4O5VW7obJ44n3N0FWZhokaAKXDy2TCqr54yJnRsGeb5jg94PdJNlE/XA+mykQs0gdwI5
+ 89Hj0+9Ehx76EDhLwgI5mqxZyEmGrkvH3gZXDY5bwULWMoh4lWcK/gLqwKeHcXbu8bWV
+ SwgCwfKSJd3PMoanyM8qZVbP9bGWzMlE6JpQxUyTD1l9psSfwchSvVf4+4vdr1326qpI
+ kyoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bayDl/27X9t8BzGIMK8tEPYhwocOYB9bxe2uCjWhGCE=;
- b=qzCUpl4NneRU/XEA5z1TWexV5pYP1mHHD+5xoKxqtBWa12+OT2OznfphWGnppYqlLU
- wTuMCRORPy5sPxnYUDxHookFHVZdJnti8tAeg6/jmI/Arg8xaZOJXgVuK0k+c8j1dB9k
- Cxxx5ZLDWzUdLMt9AHtEuE/5bjwJTOb8+kIlHpw4Nmyksub3Jq5whRWbuEj2vuaqIYjE
- /ph9XgFFFCcg1QwDUDL17TKHP28ThgCmu3O7AgU7krKW1iv78tXJkaDZdUorCaTbsh/t
- IL2DkMeWZ+x+/k6Meoo2i9sI+6P7mTLHzaQo3QUaylWGh2rvsptChJX2bFZZwKaT3/rI
- 7v2Q==
-X-Gm-Message-State: AOAM530ysUGuPYiLX263TCD47hHkZMUakUA3/6pUjKBBQLlaLvFWHGM1
- lG9cft89stUB3evoyT+Rl3aadZqE68S9jQ==
-X-Google-Smtp-Source: ABdhPJyU2eCY8YC60HpL+LdzsGMrfStu+YPbTXW614XMzyIQhfZtrHZjALjEzqc3p4Wcx24I3szK1g==
-X-Received: by 2002:a05:620a:1410:: with SMTP id
- d16mr18810951qkj.465.1614694229651; 
- Tue, 02 Mar 2021 06:10:29 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uOA/dEAG3MBKjUMll/cJjGDnuaqcJUMuLLC8SsN07EU=;
+ b=no/x18uC/DuALvUfhrbx5urjACzxtuqI6EtV4aPaa1qvp6UrtAXi3pxatmxn2RKwv1
+ 4L2/AFYOFYjMxhHyM57wWVBIRp+TkXKI03yr3PU35LoWtqtNJpbbvtCThuAsacd+F0he
+ Ude9lxG8/hdVea7RFIGvZlOxcNnbo/CSfzDiAtF/kpc8qSe7xF44dhjzB54kecKwOn5Z
+ ktjWzc4eLMVjcy7Hlous9I3CuBGQHQH+hNQidIXqA0mJGgAPrAutkkAclsBCG2xWcceN
+ ckM+gI0DAwqSMIQYOVyouUTyX/CCRdzs7BISlygSJsfAwoSpU4q8pbYoOxpVDzv7bC77
+ TNOA==
+X-Gm-Message-State: AOAM530oR4zZfFp1zTN2ulzBMNazsL77a2P143hso2JY9rQvFg6XN878
+ HilzIkwI/JenSZ7z9pgS2Lgv3NLgTyldBw==
+X-Google-Smtp-Source: ABdhPJyBFg208XaqlV7/qwo9JUwxcazY6CLSr3XsxgHhtAxa909Mf8D4TondB54nIF6hLdxHJ6fGqA==
+X-Received: by 2002:a05:620a:12ae:: with SMTP id
+ x14mr20028939qki.25.1614694232027; 
+ Tue, 02 Mar 2021 06:10:32 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:1670:7849:4614:f4b6:4112])
- by smtp.gmail.com with ESMTPSA id n5sm9376504qkp.133.2021.03.02.06.10.27
+ by smtp.gmail.com with ESMTPSA id n5sm9376504qkp.133.2021.03.02.06.10.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 06:10:29 -0800 (PST)
+ Tue, 02 Mar 2021 06:10:31 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] send QAPI_EVENT_MEM_UNPLUG_ERROR for ppc64 unplugs
-Date: Tue,  2 Mar 2021 11:10:17 -0300
-Message-Id: <20210302141019.153729-1-danielhb413@gmail.com>
+Subject: [PATCH v2 1/2] spapr.c: remove duplicated assert in
+ spapr_memory_unplug_request()
+Date: Tue,  2 Mar 2021 11:10:18 -0300
+Message-Id: <20210302141019.153729-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210302141019.153729-1-danielhb413@gmail.com>
+References: <20210302141019.153729-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,26 +88,29 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from v1:
-- patches 3 and 4: pushed to David's ppc-for-6.0
-- patch 1: changed to just remove the duplicated assert of the first DRC
-- patch 2: dropped
-- patch 2 (former 5):
-    * changed the error message to mention that the memory unplug
-      failed because the guest refused it
-   * added Greg's R-b
-- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08378.html 
+We are asserting the existence of the first DRC LMB after sending unplug
+requests to all LMBs of the DIMM, where every DRC is being asserted
+inside the loop. This means that the first DRC is being asserted twice.
 
+Remove the duplicated assert.
 
-Daniel Henrique Barboza (2):
-  spapr.c: remove duplicated assert in spapr_memory_unplug_request()
-  spapr.c: send QAPI event when memory hotunplug fails
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- hw/ppc/spapr.c         | 14 +++++++++++---
- hw/ppc/spapr_drc.c     |  5 ++---
- include/hw/ppc/spapr.h |  3 +--
- 3 files changed, 14 insertions(+), 8 deletions(-)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index aca3ef9d58..b579830832 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3703,7 +3703,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+ 
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+-    g_assert(drc);
+     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                               nr_lmbs, spapr_drc_index(drc));
+ }
 -- 
 2.29.2
 
