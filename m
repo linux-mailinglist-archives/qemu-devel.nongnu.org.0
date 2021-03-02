@@ -2,132 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF28C32AC59
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:39:08 +0100 (CET)
-Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D42932AC4D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:34:45 +0100 (CET)
+Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCjT-0004OZ-Tq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:39:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
+	id 1lHCfE-0004hF-A9
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:34:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1lHCfr-0006pM-1J
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:35:24 -0500
-Received: from mail-bn8nam12on2060.outbound.protection.outlook.com
- ([40.107.237.60]:21601 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1lHCff-0006LD-G3
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:35:22 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fQ48H+6nnmL/sXyx35FwyeGWXNoHh+pr/OTwJ4s02UPQg5eirEM4hjV8KMUSpdjfZiMnS/UdiHxhNJ0m/2fBYPhnKEeqUPYof0ZIZNPwZTvyf4D30iAYro7lsbfOwV+GGFGnKEU0hyTexRmVmm0cfYsL5mi91Qs8xHUTHEGKbqdalM9eNBefZWy1+5T0ll7oIeUNnx4KIBuoh0X5aVTXEbppxfD7jaqNEiK/Rp/Uh8cRM/WnyOn66vvMpq6ObPom3f+Rtd+XbXTzXiGggs24RRPaH8COSJci0cOahQIEr5V6G/g2ZkH7z5xe/HQVL+b/2Vu4bY1bxfOcYzB6wU7Lsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Adi73RJkMCV7SJOealvpmjblVIiE3HTBkKd54DrzR5A=;
- b=a4XFgeJXs9931Cg4vLGxxMMvg+wsEoUZSu5Pi160syJzgE/CqzZXjwcKqp/PX44B6S6WMPKOkqkK27HTSNs7le1e6UosagNjmx3xXAoAB9Sw5VU1tYnDXtXu6t6pCm0qDWIrvhM+3m9dtK7KWjYH4b0iyQXD3sr9AN5KkfIJ1vaPXDcLjkb6En0JXftaLw29+zt3smLpNZ+YInbKl6hgZHmFyzQowO70opWlG9Iuicmxd2SBEuRVRspFb6Eel+Wi2neCUqaZ0HJpJ6QKELNkf4rD2TpBnvWwQsrv3hHzkNT7QDOaoujLtTBaIg+mwQlKqW+78B5i5mO0lUdgJjRsRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Adi73RJkMCV7SJOealvpmjblVIiE3HTBkKd54DrzR5A=;
- b=WC1A1gzlCNXXEokbTF21hLfgW7kHBGcZMdLW6KwMHY68QEtSnP4a5KKch7s8NHIJRQ0tS2OarggUIJ+sNMb/0OpfnccDc2twv8fSvOMMkFXLTWEiCx36wrNkZxNZGBZ2fohzE+NCOw4Uy/f6M9VmAC0LzACpkCuR/w5cPNB8LyE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN6PR12MB2605.namprd12.prod.outlook.com (2603:10b6:805:6a::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Tue, 2 Mar
- 2021 21:20:02 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::8c0e:9a64:673b:4fff]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::8c0e:9a64:673b:4fff%5]) with mapi id 15.20.3825.040; Tue, 2 Mar 2021
- 21:20:02 +0000
-Subject: [PATCH] i386: Add missing cpu feature bits in EPYC-Rome model
-From: Babu Moger <babu.moger@amd.com>
-To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com
-Date: Tue, 02 Mar 2021 15:20:00 -0600
-Message-ID: <161472000062.17527.13517059335871466534.stgit@bmoger-ubuntu>
-User-Agent: StGit/0.17.1-dirty
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SA9PR13CA0004.namprd13.prod.outlook.com
- (2603:10b6:806:21::9) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lHCXa-00038N-OA
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lHCXY-00053V-2o
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:26:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614720406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SN+pYTFwW0AI998xEFeXLntBCHMnJo3GWrA7byw4bEg=;
+ b=b0sFBspro6n6gz2XBknfcv+3JhbvjyGX1vpoD/jBrAesaz/Etb8r9W2mPkltgVGvPO5bQ8
+ Qm+osyiH7S1M+8tXkmA0Z4zlrcQOiydiZARh7yhMhOAcF6ycP6nebwCqpxAxm6dqUtpTDi
+ roM1x1ckAmXl3VsBQqfHvHKNlQI+8U8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-2AWfUDhjNgm-LMY-ffS8Bg-1; Tue, 02 Mar 2021 16:26:42 -0500
+X-MC-Unique: 2AWfUDhjNgm-LMY-ffS8Bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E40585EE60;
+ Tue,  2 Mar 2021 21:26:40 +0000 (UTC)
+Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
+ [10.3.112.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 192246F7E6;
+ Tue,  2 Mar 2021 21:26:28 +0000 (UTC)
+Date: Tue, 2 Mar 2021 14:26:28 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Shenming Lu <lushenming@huawei.com>, <mst@redhat.com>,
+ marcel.apfelbaum@gmail.com
+Subject: Re: [PATCH v3 3/3] vfio: Avoid disabling and enabling vectors
+ repeatedly in VFIO migration
+Message-ID: <20210302142628.60e0ab6f@omen.home.shazbot.org>
+In-Reply-To: <20210223022225.50-4-lushenming@huawei.com>
+References: <20210223022225.50-1-lushenming@huawei.com>
+ <20210223022225.50-4-lushenming@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [127.0.1.1] (165.204.77.1) by
- SA9PR13CA0004.namprd13.prod.outlook.com (2603:10b6:806:21::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.11 via Frontend Transport; Tue, 2 Mar 2021 21:20:01 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: a0427e42-5fc0-4fed-c505-08d8ddc0f10b
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2605:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2605CFBF3E753011CD4738D495999@SN6PR12MB2605.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WqLHuzCiL31ecGHJe1HhJKIVBJK47Xi9kefJYblNICndz10uC+mt8ZHPvQJVKNpouL5Px/1WvIUm1YjDgtXMotSgIUkCkNpPSjvoMW0A+QeakzinGY7o3gckXVITqhvt4qaS14x/gPQXfGS4Xci3vUpzTGexW7C5e42wdImA8iPzilnMoaZG0amIqmhklgTjKnDZfhAwqBXl4jj+enMVAaxw1VAob3Qt6jnSklsY3AsJOdUl4z4Bun9WUu9ZulgUSbvGwcfDMdMEA7wiK2vokD7mUuRdGDRAEHuohHS5vcMPV8TS/dlUduhx1fqlvyc0fG4J0sCARVBmgAdb+VkJXboFssQ+3IBCRzqDpe8NPvi7+uY8IoZ/m3gAAt4sTjuiWtwlG8xW6aLEzHDbEHMkwlu+OMYJQ0iGHe+kBCZ9o6TvrBmIsfJtIB8zn5A/+vlHZNq6w4ub73tpZM09IHvYWQxfpkWO9lw8og+w0CJJoQwx+VLWbjwVaBfjLq8wVyFmd+cYCgWfhMThaaUERSnfYw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(346002)(136003)(39860400002)(366004)(376002)(396003)(4326008)(9686003)(5660300002)(86362001)(16576012)(44832011)(52116002)(956004)(8676002)(478600001)(6486002)(8936002)(66556008)(103116003)(26005)(2906002)(66476007)(186003)(16526019)(316002)(66946007)(33716001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dktWbFRGdm5YTGF2MXBMYkIyanorZjVWaERvc3FZamM3V01Tbys0aUxQTUtN?=
- =?utf-8?B?UkI2K0tCdGpGbmxVdGMyVnBDNDZBQThoVlJIUVdMYkNOUU1UbzM5SHg3YXJG?=
- =?utf-8?B?MWFjWEtyQXNRU0RaNkR4NGVObklBbHVzcmt2RFdiSmR3S0c2NGlzZS81NEJn?=
- =?utf-8?B?YjBLT3VrdW1NT0RoU083azR6aThLMGVKaHNVTCtEVkJ6Lzl3cHc0a3NHMzFU?=
- =?utf-8?B?SFllNnkzL1R6VXFYSzV6TEhmZnBFMXlEbzNRQXIzNEpjUFhJbU51aVlqbDFm?=
- =?utf-8?B?VWh0WDhGKzBjdlNxZ3RkbmQrVzVZV2doZnkzbDUxUG45S3BVUlh5OWI4N2dx?=
- =?utf-8?B?U3I5dndkU1FrSHI3MWRpSUN0TXRrWlBUa0s5b2NlTE9OVVdPZEpBMzlEYS9G?=
- =?utf-8?B?SWR0enkxUis1VU9vMzhSeThwczJhSHFTTEJWZDdFVlpvZ1VMYVZub2VZRUV0?=
- =?utf-8?B?MzBLSlRuWG8zeTdralVwMG1Ib2lkVXVJNk0rUE9XN2ZGOGdhaXU3Q1pBdGhJ?=
- =?utf-8?B?WXp3YnIrMyt0SFRLWDRRdGFnRTZ0OGdhUE05MmhGOWlxNjVKeXNDL1JVdlB4?=
- =?utf-8?B?aG1XR1VUK285aW5JRXdvY2tHdGk2dWlIbWY4QXNFK0xRdUVCWDZLY1Avdzcz?=
- =?utf-8?B?UE52d0JVMG52V2xPcG1Yb1JQNkFHRTZYeThoMWpxRW5oS3hOWmViTlZTd3Rt?=
- =?utf-8?B?ZTFERDBiTjR6M1FxeHhFQ3JzUkVac0I0a0pRS0J5Z01SOGxZSG9sMGVGSHVi?=
- =?utf-8?B?MmI1ZFlkV0RMc1BWdlBDK083dXE4YWw3UmMyc1Q1Umx6azJ2UmM1bnZlcGV0?=
- =?utf-8?B?eDh5MnRYL0lyd05vSyszQjlCbC9SMmptR2MyT0YxQ1RUa2dKSCtiZnJlZnRa?=
- =?utf-8?B?cHBRWUtGZVFLWEFvNkNyM3E0YnVvT093NzV6NnNyWmd6ellTNVVMODdUbjg0?=
- =?utf-8?B?MXhldnRKQ0hrTlBid2dOci8xcjNJMUF1M0Z3TXBFRGpxbTRYSFBHRWJwOFNu?=
- =?utf-8?B?TDJJRElScGxwbmc1d0xrbDN0OHVQNkJhUzYrKys5MXFYS2F6SXdqdFNMT0dX?=
- =?utf-8?B?Vm9QaWE0RWM5dDFldnpvc21zZ3BZRGFvNlNNN05yRDdRd002NUMwOVRFcy9j?=
- =?utf-8?B?dFZrbUtnWDJTWTdCd2lxbzZtYmJyNVkyK3h5TTBaQ3RNK2FMT2gybTd3Wjcx?=
- =?utf-8?B?S3c0S3NiSTBVMnFrcVNGWmV0Q0wzSUV0enNweDdDbDN0RUJIZDdkZ1FBTmFZ?=
- =?utf-8?B?YzVMZ0JMTkFVdFo5cWc4YXNtNjhKU1hKYzJkOEFrWEVmTU04KzdIUHNjdEhq?=
- =?utf-8?B?aWtNRXc1N1FOWVpQWmxFWkRXTklyeDJKY1JZenhNVFRRQVpVSXUvNGpnVjR4?=
- =?utf-8?B?aGF0b1JDNld0ZmtiMUFTS2Q0SjdyK24rTU4xbU42RTVoQXRNRTkzdCtIa0Zj?=
- =?utf-8?B?SGZGS3BiK1ZrKzZyd1d1Q0VQYVZsSVUySDUzQVkxcHpYWjhwTHdqcUtISkp6?=
- =?utf-8?B?UkpyOGhaQTh6ZTgyK1QxeXNjU1dmeERQSHk2VnZHdXVjbWZ3K0plajZSb0ZL?=
- =?utf-8?B?a3FNRHJ5QlRlNEZXODZzUDY3U09LVWlxUGx0V3pjdC9Nbkx5NVVkcDJyVTZ5?=
- =?utf-8?B?dnpFSldKZW1vbVpkN1JUT2VYemlYM1YvRFAyam5hSjFCZkdkWll0TXVNZWo2?=
- =?utf-8?B?cTZWNmYva1Y4UDM5T2dtOE9BMzFWZlIreEJNQVNkVU5XaWhHOWp0Ti9OK01a?=
- =?utf-8?Q?aCegXWWJU9B+u5PgajGgjhdRxGo6Z6TSxGxU/o2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0427e42-5fc0-4fed-c505-08d8ddc0f10b
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 21:20:02.1854 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uRa+LR6CGZqgcdxBR/Z0/RIFyDyE9fuAiywiH9FGIFv9pwV0DhWy7GsMDDdB9Jup
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2605
-Received-SPF: softfail client-ip=40.107.237.60;
- envelope-from=Babu.Moger@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,52 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babu.moger@amd.com, pankaj.gupta@cloud.ionos.com, qemu-devel@nongnu.org
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ Marc Zyngier <maz@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Found the following cpu feature bits missing from EPYC-Rome model.
-ibrs    : Indirect Branch Restricted Speculation
-ssbd    : Speculative Store Bypass Disable
 
-These new features will be added in EPYC-Rome-v2. The -cpu help output
-after the change.
+MST/Marcel,
 
-x86 EPYC-Rome             (alias configured by machine type)
-x86 EPYC-Rome-v1          AMD EPYC-Rome Processor
-x86 EPYC-Rome-v2          AMD EPYC-Rome Processor
+Do you have an Ack or objection to exporting msix_masked() as below?
+Thanks,
 
-Reported-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Signed-off-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
----
- target/i386/cpu.c |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Alex
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6a53446e6a..9b5a31783d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4179,6 +4179,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x8000001E,
-         .model_id = "AMD EPYC-Rome Processor",
-         .cache_info = &epyc_rome_cache_info,
-+        .versions = (X86CPUVersionDefinition[]) {
-+            { .version = 1 },
-+            {
-+                .version = 2,
-+                .props = (PropValue[]) {
-+                    { "ibrs", "on" },
-+                    { "amd-ssbd", "on" },
-+                    { "model-id",
-+                      "AMD EPYC-Rome Processor" },
-+                    { /* end of list */ }
-+                }
-+            },
-+            { /* end of list */ }
-+        }
-     },
-     {
-         .name = "EPYC-Milan",
+On Tue, 23 Feb 2021 10:22:25 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
+
+> In VFIO migration resume phase and some guest startups, there are
+> already unmasked vectors in the vector table when calling
+> vfio_msix_enable(). So in order to avoid inefficiently disabling
+> and enabling vectors repeatedly, let's allocate all needed vectors
+> first and then enable these unmasked vectors one by one without
+> disabling.
+> 
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> ---
+>  hw/pci/msix.c         |  2 +-
+>  hw/vfio/pci.c         | 20 +++++++++++++++++---
+>  include/hw/pci/msix.h |  1 +
+>  3 files changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+> index ae9331cd0b..e057958fcd 100644
+> --- a/hw/pci/msix.c
+> +++ b/hw/pci/msix.c
+> @@ -131,7 +131,7 @@ static void msix_handle_mask_update(PCIDevice *dev, int vector, bool was_masked)
+>      }
+>  }
+>  
+> -static bool msix_masked(PCIDevice *dev)
+> +bool msix_masked(PCIDevice *dev)
+>  {
+>      return dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] & MSIX_MASKALL_MASK;
+>  }
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index f74be78209..088fd41926 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -569,6 +569,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+>  
+>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
+>  {
+> +    PCIDevice *pdev = &vdev->pdev;
+> +    unsigned int nr, max_vec = 0;
+> +
+>      vfio_disable_interrupts(vdev);
+>  
+>      vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
+> @@ -587,11 +590,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+>       * triggering to userspace, then immediately release the vector, leaving
+>       * the physical device with no vectors enabled, but MSI-X enabled, just
+>       * like the guest view.
+> +     * If there are already unmasked vectors (in migration resume phase and
+> +     * some guest startups) which will be enabled soon, we can allocate all
+> +     * of them here to avoid inefficiently disabling and enabling vectors
+> +     * repeatedly later.
+>       */
+> -    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
+> -    vfio_msix_vector_release(&vdev->pdev, 0);
+> +    if (!msix_masked(pdev)) {
+> +        for (nr = 0; nr < msix_nr_vectors_allocated(pdev); nr++) {
+> +            if (!msix_is_masked(pdev, nr)) {
+> +                max_vec = nr;
+> +            }
+> +        }
+> +    }
+> +    vfio_msix_vector_do_use(pdev, max_vec, NULL, NULL);
+> +    vfio_msix_vector_release(pdev, max_vec);
+>  
+> -    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
+> +    if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
+>                                    vfio_msix_vector_release, NULL)) {
+>          error_report("vfio: msix_set_vector_notifiers failed");
+>      }
+> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+> index 4c4a60c739..b3cd88e262 100644
+> --- a/include/hw/pci/msix.h
+> +++ b/include/hw/pci/msix.h
+> @@ -28,6 +28,7 @@ void msix_load(PCIDevice *dev, QEMUFile *f);
+>  
+>  int msix_enabled(PCIDevice *dev);
+>  int msix_present(PCIDevice *dev);
+> +bool msix_masked(PCIDevice *dev);
+>  
+>  bool msix_is_masked(PCIDevice *dev, unsigned vector);
+>  void msix_set_pending(PCIDevice *dev, unsigned vector);
 
 
