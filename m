@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0EB32A23F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:17:36 +0100 (CET)
-Received: from localhost ([::1]:46746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FE032A264
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:23:30 +0100 (CET)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5qB-0001NS-KM
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:17:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58836)
+	id 1lH5vn-0004rk-Qn
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH5kG-0003Mi-N0
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:11:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55764)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lH5tr-00043j-8u
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:21:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lH5kF-0007H8-3G
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:11:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lH5tj-0000D8-Gu
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:21:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614694286;
+ s=mimecast20190719; t=1614694873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OC0fjYanS6d9LTKXWSROqSOVhhQ7Ro5iP9VvdR0IxZo=;
- b=HCfceX6JWRqvuw+PPUTeT77OWQ46kf4hZ9f2Clb39bag7KQqaYUqjLCDvCtjLU6z7O/mdt
- vT3EudYQ77gjE7eGjJ31HT2dVkjgBbaaAXqYIjYgK4FAL1fMF621PK1xIbkLLvzsEDINpm
- 6oPTYVTsAOiMqy22JDfR0014YTyNhtQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-YzFRVnQHMdWGTVJHRab40Q-1; Tue, 02 Mar 2021 09:11:24 -0500
-X-MC-Unique: YzFRVnQHMdWGTVJHRab40Q-1
-Received: by mail-wr1-f69.google.com with SMTP id i5so9574528wrp.8
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 06:11:24 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pdVn3myZhshxQpHcWOHKi3FVRpL4aQk8ONf/aJbDPYc=;
+ b=JYp1nu4geZJW2wnw/ekmbhGNDuP+LdGOdemj9Itgur2+1n+HSaBRRtJnIjRmcVBIFEN8Ip
+ jk2JTgH+WAHPP7OGcYOLL+A+C7UUZxzwNe7DEO97oFvO4PlQFhgwQDTWeGg9lGxHg5/LM/
+ IE9yMwxNREw+LQJB23pXed0zEFtqYWw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-ghoMSjkcNq-_s634ZFRRZg-1; Tue, 02 Mar 2021 09:21:12 -0500
+X-MC-Unique: ghoMSjkcNq-_s634ZFRRZg-1
+Received: by mail-ej1-f69.google.com with SMTP id di5so32781ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 06:21:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OC0fjYanS6d9LTKXWSROqSOVhhQ7Ro5iP9VvdR0IxZo=;
- b=WnL2mxTznh990H7T//8CoyT274r+lAavXAgRWt61eecdOAzDYXaVuRR7SwEwFbphHm
- fbgT3/KUDAEMXoHvhdOfbOiAMueojG+TCuA/Ba/ov5REX7iwG+uHWLIMcPKnWIRzXWcd
- THghVUOTU3ImHGzQXZ/HF0BhAkbsjPu3VGf3IdoxkkSQLKKZEwOFcir2D8sdzEwSTLKP
- ksMKS3sklTplxMlgC2rtkpilUOUayfDNp8UrvY8onFJF9NbrA55M6Tx7y5USFSfJqOL3
- oB30XejFozlGKU2Grb8X8C5HWzjMnwBCE0r/2Lqz3Um/AaQ+cYYo6uoN5YNeUQ1RYjDp
- 2iQg==
-X-Gm-Message-State: AOAM531j+JNSl0L+rpWgYw6fohaAUit5OLTwaRoXR9BnB29/FAyd4p+N
- SKCfAfyPnEFr82hSI41A3yPBa+5zVPmaMgIBIGohlC9pJNKbB/CW3/OWmEN7vR3LDkUW7JZ+lf2
- sFx69YKI2pDOipYo=
-X-Received: by 2002:a5d:550b:: with SMTP id b11mr18422005wrv.313.1614694283454; 
- Tue, 02 Mar 2021 06:11:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxNyZq3zjaaMV0D6ENdYLmuiIcoveBJ6a0srSYLecWDlieBChsHw8hk9oeThJizHyri41afYQ==
-X-Received: by 2002:a5d:550b:: with SMTP id b11mr18421974wrv.313.1614694283291; 
- Tue, 02 Mar 2021 06:11:23 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p6sm14850174wru.2.2021.03.02.06.11.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 06:11:22 -0800 (PST)
-Subject: Re: [PATCH 0/2] improve loading of 32 bit PVH kernels
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20210302090315.3031492-1-david.edmondson@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <21983cdb-e124-3242-6867-b97e9c4ff454@redhat.com>
-Date: Tue, 2 Mar 2021 15:11:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=pdVn3myZhshxQpHcWOHKi3FVRpL4aQk8ONf/aJbDPYc=;
+ b=FmXU4DZF6HZtc/8VOReP9ZB/+FRpBkMULrJQ77FBZZHVRR59zAwwMgCIbZRknckBUV
+ S9LX1HoYpbcc83/xUbybFeB78HznL7gFvkgr/VckVO3Ao/loZpeJadfp7MjO+bANyTxs
+ VCqjTeAWS/EN7sOQ0b/h/K4/ydzUxw+/ol5PplJEhqgXPv1F3zOXS/D6gaN9pf+PLr4F
+ 3L5SxGIHcpg26wmF7pce/9I5qoF08ox06GN0jQ7SAmlSN68HwrSAZnhLD5qcGi617nRU
+ k5G+yeOqitBZq1mRni7Q8NFGUNn2UHW5vOkzpaW4rASL140FRVlxECbyuz9Bd8sy7S6x
+ J8dw==
+X-Gm-Message-State: AOAM533X+W2JEOiIGP+rM/Ixd0ccH47oF3L/jHyN8vwMtBzd9jBrPtVS
+ MHvdupE/oy5AcuMkbIbylVihADq5XpxTSs61jMGNGPhiVFfIOb824F3d4bD13AgFSfeKoTV/MbP
+ F4v09j2FI7owdREJNqL8vA2PXClFcxTNXA7iS5QtyKGLK+rsMq/VlxF0ZRul0
+X-Received: by 2002:a17:907:9863:: with SMTP id
+ ko3mr10920949ejc.543.1614694870766; 
+ Tue, 02 Mar 2021 06:21:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKUxlXO7KH3oEvvjAXZo+lJ2Jd08BCoyHXsw7T/Y2MefrZ5ING0DIXlBBT4e9prU863H5xGg==
+X-Received: by 2002:a17:907:9863:: with SMTP id
+ ko3mr10920927ejc.543.1614694870547; 
+ Tue, 02 Mar 2021 06:21:10 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id yk8sm13877632ejb.123.2021.03.02.06.21.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 06:21:09 -0800 (PST)
+Date: Tue, 2 Mar 2021 09:21:08 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] pc,virtio,pci: bug fixes
+Message-ID: <20210302142014.141135-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210302090315.3031492-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,34 +93,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/21 10:03, David Edmondson wrote:
-> While testing a non-Linux 32 bit PVH "kernel" (it's really just a
-> bunch of test code), I ran into some problems with the current PVH
-> loader in QEMU, which seems to work somewhat by accident for 32 bit
-> kernels today, having been fortunate in the layout of the object files
-> it typically encounters.
-> 
-> Non-PAE 32 bit Linux kernels still don't appear to work even with this
-> change, but I think that problem is somewhere else (the kernel is
-> loaded and starts, but the VM resets when it attempts to enable PG/PE)
-> and I haven't tracked it down yet.
-> 
-> David Edmondson (2):
->    elf_ops: correct loading of 32 bit PVH kernel
->    x86/pvh: extract only 4 bytes of start address for 32 bit kernels
-> 
->   hw/i386/x86.c        | 6 ++++--
->   include/hw/elf_ops.h | 4 +---
->   2 files changed, 5 insertions(+), 5 deletions(-)
-> 
+A very small pull but there are a couple of fixes here for
+bugs that have been biting us in the field.
 
-Queued, thanks.
+The following changes since commit 51db2d7cf26d05a961ec0ee0eb773594b32cc4a1:
 
-Paolo
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-02-25 14:02:16 +0000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 1d8d014e936a49795de95a35a2a1ab8000ab2e5b:
+
+  vhost: simplify vhost_dev_init() fail_busyloop label (2021-03-02 09:16:18 -0500)
+
+----------------------------------------------------------------
+pc,virtio,pci: bug fixes
+
+Fixes all over the place. Specifically this fixes
+a bug which made windows guests lose device config
+(such as the configured fixed IP) after upgrading
+to the new QEMU.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Cindy Lu (1):
+      virtio-net: handle zero mac for a vdpa peer
+
+Philippe Mathieu-Daudé (1):
+      hw/pci: Have safer pcie_bus_realize() by checking error path
+
+Stefan Hajnoczi (1):
+      vhost: simplify vhost_dev_init() fail_busyloop label
+
+Vitaly Cheptsov (1):
+      i386/acpi: restore device paths for pre-5.1 vms
+
+ include/hw/i386/pc.h |  1 +
+ hw/i386/acpi-build.c |  4 ++--
+ hw/i386/pc_piix.c    |  2 ++
+ hw/i386/pc_q35.c     |  2 ++
+ hw/net/virtio-net.c  | 12 ++++++++++++
+ hw/pci/pci.c         |  7 ++++++-
+ hw/virtio/vhost.c    | 12 +++++-------
+ 7 files changed, 30 insertions(+), 10 deletions(-)
 
 
