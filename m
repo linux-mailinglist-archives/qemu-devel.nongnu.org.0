@@ -2,67 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA3A32A07E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:22:23 +0100 (CET)
-Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911C732A04E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:17:12 +0100 (CET)
+Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH4yk-0000UN-5u
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:22:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46182)
+	id 1lH4tj-0004px-5w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:17:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lH4xB-0007re-6o
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:20:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lH4x8-0000rr-Rc
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:20:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lH4x5-00074k-IY
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 13:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 728CF2E8085
- for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 13:20:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lH4rA-00048e-BM
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:14:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34076)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lH4r0-00086p-5w
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:14:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614690860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6uft5RuB5hvJEn3VDjDKLac7psIfy8piU8dMk5AtdqU=;
+ b=D1vRv+0xgBl4ukIWoGGaP45Zl7xTFwl1Vpp5pgTfwL3SoP0DFYXNdotSa4Ci4Ixi20xEwD
+ T/SYN39julZ0l1WGxXqbUCUgx3Ie1JTE3y57e2hdvZ0q03X94Wrq+Cbl47S4Izcwjys6/f
+ irbiyKu6SG/DNOn4JxVwrmjlp8DHC2Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-s9FgzkGcOXCRcduVsUb8bw-1; Tue, 02 Mar 2021 08:14:18 -0500
+X-MC-Unique: s9FgzkGcOXCRcduVsUb8bw-1
+Received: by mail-wm1-f72.google.com with SMTP id r21so536265wmq.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 05:14:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6uft5RuB5hvJEn3VDjDKLac7psIfy8piU8dMk5AtdqU=;
+ b=fTvZzpbk58NjR0PkLSUTbIjAtVL4o/ET+ZRtAB9O8Voca78mwXH799IrIatUrIrdw4
+ 9PDgyht8tZMQA/QKoOHyAEeilPjRAcX3QAqmkISb4OwV9EvHjCOpgToP/eVcVg4OzIjf
+ hQLodFS0h2vgi4yKDHy497WyAsB1EwezdtLUuu+3rZi60JLySSJX5GZqb0g0fUsevSb8
+ y1gcyxUBydN95tG9nETBo6OtT0xem6LW84cUWTZUqVsItDDRtKVAWUz2GxehjfFN/vhQ
+ 2oAqZ/oXlDiJTbkgVfufY+PZAfCW903b+R5n6Ho0Zf7RF8Zo7SqDRxr4O6I3y435iTy2
+ oc0g==
+X-Gm-Message-State: AOAM532D4coxKXDzhsGickAabjuFEfk9S5Rc5C1erM4zJp2LxBfgLmvz
+ fRA4hbf6xGLcx1g/O7AkdSIO23RQM7YI3AqkY005wBVJbincxk2LrRK34dzw9u8pdctJL88sC2i
+ AzR0srfFw9ZmnFFo=
+X-Received: by 2002:a5d:6a81:: with SMTP id s1mr22267212wru.401.1614690857389; 
+ Tue, 02 Mar 2021 05:14:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxISHDTV4IRRU7IgdTQop/E3dbkmXzIWaFrr9uUGOqhmRSbZTsUoZWr0LZMvLokWZ3JHZ9jjw==
+X-Received: by 2002:a5d:6a81:: with SMTP id s1mr22267177wru.401.1614690857080; 
+ Tue, 02 Mar 2021 05:14:17 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u63sm2569835wmg.24.2021.03.02.05.14.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Mar 2021 05:14:16 -0800 (PST)
+Subject: Re: [PING] accel: kvm: Some bugfixes for kvm dirty log
+To: Keqian Zhu <zhukeqian1@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20201217014941.22872-1-zhukeqian1@huawei.com>
+ <a67939bc-7fd2-092b-c36a-c130b1321c37@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d9a1e3b4-6dd6-df85-f882-460d35f888e1@redhat.com>
+Date: Tue, 2 Mar 2021 14:14:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Mar 2021 13:13:07 -0000
-From: John Arbuckle <1917161@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx th-huth
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <161444687583.24678.13238506356231835061.malonedeb@wampee.canonical.com>
- <161466706443.24730.17819384228094224450.malone@wampee.canonical.com>
-Message-Id: <23D98F73-E92D-49B0-88F3-383C1A287E39@gmail.com>
-Subject: Re: [Bug 1917161] Parameter 'type' expects a netdev backend type
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
-X-Launchpad-Hash: b9580fec8ec567e2d985fc33b50a234c6a15444a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a67939bc-7fd2-092b-c36a-c130b1321c37@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,117 +103,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917161 <1917161@bugs.launchpad.net>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ qemu-arm@nongnu.org, jiangkunkun@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I see 14 files in the src folder in the slirp folder.
-I am using git.
-This is what I see when I run git submodule:
+On 02/03/21 12:43, Keqian Zhu wrote:
+> Hi,
+> 
+> This patch is still not queued. Who can help to do this? Thanks :)
+> 
+> Keqian
+> 
+> On 2020/12/17 9:49, Keqian Zhu wrote:
+>> Hi all,
+>>
+>> This series fixes memory waste and adds alignment check for unmatched
+>> qemu_real_host_page_size and TARGET_PAGE_SIZE.
+>>
+>> Thanks.
+>>
+>> Keqian Zhu (2):
+>>    accel: kvm: Fix memory waste under mismatch page size
+>>    accel: kvm: Add aligment assert for kvm_log_clear_one_slot
+>>
+>>   accel/kvm/kvm-all.c | 13 ++++++++++++-
+>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+> 
 
-objc[1854]: Class AMSupportURLConnectionDelegate is implemented in both ?? =
-(0x203eaf8f0) and ?? (0x1147702b8). One of the two will be used. Which one =
-is undefined.
-objc[1854]: Class AMSupportURLSession is implemented in both ?? (0x203eaf94=
-0) and ?? (0x114770308). One of the two will be used. Which one is undefine=
-d.
- f8b1b833015a4ae47110ed068e0deb7106ced66d capstone (4.0.1-548-gf8b1b833)
- 85e5d839847af54efab170f2b1331b2a6421e647 dtc (v1.6.0-4-g85e5d83)
- 776acd2a805c9b42b4f0375150977df42130317f meson (0.55.3)
--90c488d5f4a407342247b9ea869df1c2d9c8e266 roms/QemuMacDrivers
--e18ddad8516ff2cfe36ec130200318f7251aa78c roms/SLOF
--06dc822d045c2bb42e497487935485302486e151 roms/edk2
--4bd064de239dab2426b31c9789a1f4d78087dc63 roms/ipxe
--7f28286f5cb1ca682e3ba0a8706d8884f12bc49e roms/openbios
--a98258d0b537a295f517bbc8d813007336731fa9 roms/opensbi
--a5300c4949b8d4de2d34bedfaed66793f48ec948 roms/qboot
--bf0e13698872450164fa7040da36a95d2d4b326f roms/qemu-palcode
--155821a1990b6de78dde5f98fa5ab90e802021e0 roms/seabios
--73b740f77190643b2ada5ee97a9a108c6ef2a37b roms/seabios-hppa
--cbaee52287e5f32373181cff50a00b6c4ac9015a roms/sgabios
--3a6fdede6ce117facec0108afe716cf5d0472c3f roms/skiboot
--d3689267f92c5956e09cc7d1baa4700141662bff roms/u-boot
--60b3916f33e617a815973c5a6df77055b2e3a588 roms/u-boot-sam460ex
--0c37a43527f0ee2b9584e7fb2fdc805e902635ac roms/vbootrom
- 8f43a99191afb47ca3f3c6972f6306209f367ece slirp (v4.2.0-26-g8f43a99)
- b64af41c3276f97f0e181920400ee056b9c88037 tests/fp/berkeley-softfloat-3 (he=
-ads/master)
- 5a59dcec19327396a011a17fd924aed4fec416b3 tests/fp/berkeley-testfloat-3 (re=
-motes/origin/HEAD)
- 6119e6e19a050df847418de7babe5166779955e4 ui/keycodemapdb (remotes/origin/H=
-EAD)
+Queued, thanks.
 
+Paolo
 
-> On Mar 2, 2021, at 1:37 AM, Thomas Huth <1917161@bugs.launchpad.net> wrot=
-e:
-> =
-
-> Yes, QEMU should come with the libslirp sources. Are you using git? Then
-> maybe something went wrong with the checkout of the submodule. Is there
-> something in your "slirp" folder? What do you get when you run "git
-> submodule" ?
-> =
-
-> -- =
-
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1917161
-> =
-
-> Title:
->  Parameter 'type' expects a netdev backend type
-> =
-
-> Status in QEMU:
->  Incomplete
-> =
-
-> Bug description:
->  When using QEMU on an M1 Mac with Mac OS 11.1, I see this error
->  message when trying to enable networking for a guest:
-> =
-
->  Parameter 'type' expects a netdev backend type
-> =
-
->  Example command:
->  qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -=
-device rtl8139,netdev=3Dn0
-> =
-
->  What should happen is networking should work when issuing the above
->  command. What actually happens is QEMU exits immediately.
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1917161/+subscriptions
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917161
-
-Title:
-  Parameter 'type' expects a netdev backend type
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When using QEMU on an M1 Mac with Mac OS 11.1, I see this error
-  message when trying to enable networking for a guest:
-
-  Parameter 'type' expects a netdev backend type
-
-  Example command:
-  qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -d=
-evice rtl8139,netdev=3Dn0
-
-  What should happen is networking should work when issuing the above
-  command. What actually happens is QEMU exits immediately.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917161/+subscriptions
 
