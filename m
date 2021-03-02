@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C56832A91F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:14:37 +0100 (CET)
-Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6A332A981
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:33:40 +0100 (CET)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH9XY-0002bP-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:14:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
+	id 1lH9pz-0003NP-LH
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:33:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1lH9MT-0001pL-1k
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:03:09 -0500
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:50982)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lH9JZ-0006FQ-TZ
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:09 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:57471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1lH9MF-0008KO-Ru
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:03:08 -0500
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id D2EC22E147C;
- Tue,  2 Mar 2021 21:02:50 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- TDVQdUt8yK-2nxSlevm; Tue, 02 Mar 2021 21:02:50 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1614708170; bh=zwxRihApiUbG7mGl+navjv9Er7L50EpwkWcV1QK+m9Q=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=yJWCVTOdWu9BmJReGKKTJT/SAdTSV9fCDWxKx9ZqMUW9OLADANxuNIGnEf1Zl/i6/
- nDneQCFqz4pdhkyxzEgLBvrOeRJWTDqy1syBkJRXuupELD+A3h3+yhaND3oUz/EN48
- 8zd2KJg0by/dz99bVtHW91783zWoHlm1Xy2Kgod4=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b080:8002::1:1a])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- onVeXhLyoo-2mo0IAZV; Tue, 02 Mar 2021 21:02:49 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Alexey Kirillov <lekiravi@yandex-team.ru>
-To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v6 4/5] hmp: Use QAPI NetdevInfo in hmp_info_network
-Date: Tue,  2 Mar 2021 21:02:04 +0300
-Message-Id: <20210302180205.5009-5-lekiravi@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210302180205.5009-1-lekiravi@yandex-team.ru>
-References: <20210302180205.5009-1-lekiravi@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lH9JW-0007q5-Tz
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:09 -0500
+Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MT9zD-1lMG8b1a7r-00Ucf2; Tue, 02 Mar 2021 18:59:54 +0100
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-19-mark.cave-ayland@ilande.co.uk>
+ <99d86cc8-ec8d-049d-1252-92d50f0f8eaa@vivier.eu>
+ <564185f7-0346-0d28-c9cf-f083af9cde50@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2 18/42] esp: accumulate SCSI commands for PDMA transfers
+ in cmdbuf instead of pdma_buf
+Message-ID: <68838f99-f2fa-5eb3-683c-85b39b155ab4@vivier.eu>
+Date: Tue, 2 Mar 2021 18:59:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <564185f7-0346-0d28-c9cf-f083af9cde50@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:q5QrTH/ewZUW/3u9wllKISj5UsDIrHUIBrWPyhKxnIrKOUjY/38
+ q7Av40jGu297wPOlKdW+5QMvpw+9JhdbMvBaIG9AmNUqyBfAfl3cEGav2U8OiURUTN/0YY6
+ Tls1Mc2HlmbVVW3vfLnoQC03rtJZrSuQB4e+PmrfV5QjyFZuvW+HO5dIIkGiBq8DgOuH6Le
+ aFYjlBQvx5VqMFqm+zI3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6hyaxYA3pLY=:HBscyvFXNCf3iF+r2uob6v
+ cu3cAIHHLjXsQLpx0SJ0U89vS4PFAtUBF8v8U7lCo72FBLoRLcrLqId6+sl6mMM9IPnH/L0KN
+ mmh4fM5sV2/F5oGtkxD2N0dyodeJn1S5b/dweAtIpdMCWdChfyScKrqchxy+fSPPCDoIYD52Y
+ CixkWVUvhv6jilddWy2/p+Ym3nYVe5qx2wh/TsrnckLMCmUoBl0kN8I9pqfdocTe4cyAhR3Hm
+ SboLOChmZSZgNshWtXl2+hkKxT+cEnCff4ER5PA024kCjJZCLhfVsQosmuLzb7wX16/d8kdUl
+ wJj44Y+2eZUS6Oji5gtgb7x2uNeZwfNjnAf4oGcqnzzljb44ugr+0om+oVHcZnHIEXD4konoA
+ bS4ZdBITkEZi4laYQv9sedwqcYhzjNoALaz5Ly7wA/IAjVKeseb9mHbgGPcBZp2yfa/xPHItV
+ /E0mVg1pPg==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,341 +70,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Stefan Weil <sw@weilnetz.de>,
- xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, Vincenzo Maffione <v.maffione@gmail.com>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace usage of legacy field info_str of NetClientState for backend
-network devices with QAPI NetdevInfo stored_config that already used
-in QMP query-netdev.
+Le 02/03/2021 à 18:34, Mark Cave-Ayland a écrit :
+> On 02/03/2021 17:02, Laurent Vivier wrote:
+> 
+>> Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
+>>> ESP SCSI commands are already accumulated in cmdbuf and so there is no need to
+>>> keep a separate pdma_buf buffer. Accumulate SCSI commands for PDMA transfers in
+>>> cmdbuf instead of pdma_buf so update cmdlen accordingly and change pdma_origin
+>>> for PDMA transfers to CMD which allows the PDMA origin to be removed.
+>>>
+>>> This commit also removes a stray memcpy() from get_cmd() which is a no-op because
+>>> cmdlen is always zero at the start of a command.
+>>>
+>>> Notionally the removal of pdma_buf from vmstate_esp_pdma also breaks migration
+>>> compatibility for the PDMA subsection until its complete removal by the end of
+>>> the series.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/scsi/esp.c         | 56 +++++++++++++++++++------------------------
+>>>   include/hw/scsi/esp.h |  2 --
+>>>   2 files changed, 25 insertions(+), 33 deletions(-)
+>>>
+>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+>>> index 7134c0aff4..b846f022fb 100644
+>>> --- a/hw/scsi/esp.c
+>>> +++ b/hw/scsi/esp.c
+>>> @@ -139,8 +139,6 @@ static void set_pdma(ESPState *s, enum pdma_origin_id origin,
+>>>   static uint8_t *get_pdma_buf(ESPState *s)
+>>>   {
+>>>       switch (s->pdma_origin) {
+>>> -    case PDMA:
+>>> -        return s->pdma_buf;
+>>>       case TI:
+>>>           return s->ti_buf;
+>>>       case CMD:
+>>> @@ -161,14 +159,12 @@ static uint8_t esp_pdma_read(ESPState *s)
+>>>       }
+>>>         switch (s->pdma_origin) {
+>>> -    case PDMA:
+>>> -        val = s->pdma_buf[s->pdma_cur++];
+>>> -        break;
+>>>       case TI:
+>>>           val = s->ti_buf[s->pdma_cur++];
+>>>           break;
+>>>       case CMD:
+>>> -        val = s->cmdbuf[s->pdma_cur++];
+>>> +        val = s->cmdbuf[s->cmdlen++];
+>>> +        s->pdma_cur++;
+>>>           break;
+>>>       case ASYNC:
+>>>           val = s->async_buf[s->pdma_cur++];
+>>> @@ -193,14 +189,12 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+>>>       }
+>>>         switch (s->pdma_origin) {
+>>> -    case PDMA:
+>>> -        s->pdma_buf[s->pdma_cur++] = val;
+>>> -        break;
+>>>       case TI:
+>>>           s->ti_buf[s->pdma_cur++] = val;
+>>>           break;
+>>>       case CMD:
+>>> -        s->cmdbuf[s->pdma_cur++] = val;
+>>> +        s->cmdbuf[s->cmdlen++] = val;
+>>> +        s->pdma_cur++;
+>>>           break;
+>>>       case ASYNC:
+>>>           s->async_buf[s->pdma_cur++] = val;
+>>> @@ -256,8 +250,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+>>>           if (s->dma_memory_read) {
+>>>               s->dma_memory_read(s->dma_opaque, buf, dmalen);
+>>>           } else {
+>>> -            memcpy(s->pdma_buf, buf, dmalen);
+>>> -            set_pdma(s, PDMA, 0, dmalen);
+>>> +            set_pdma(s, CMD, 0, dmalen);
+>>>               esp_raise_drq(s);
+>>>               return 0;
+>>>           }
+>>> @@ -316,24 +309,24 @@ static void satn_pdma_cb(ESPState *s)
+>>>       if (get_cmd_cb(s) < 0) {
+>>>           return;
+>>>       }
+>>> -    if (s->pdma_cur != s->pdma_start) {
+>>> -        do_cmd(s, get_pdma_buf(s) + s->pdma_start);
+>>> +    s->do_cmd = 0;
+>>> +    if (s->cmdlen) {
+>>> +        do_cmd(s, s->cmdbuf);
+>>
+>> I don't understant how you can remove the pdma_start: normally it is here to keep track of the
+>> position in the pDMA if the migration is occuraing while a pDMA transfer.
+> 
+> Hi Laurent,
+> 
+> I was going to follow up on your reviews later this evening, however this one caught my eye: as per
+> the cover letter, this patchset is a migration break for the q800 machine. As there are likely more
+> incompatible changes for the q800 machine coming up soon, it didn't seem worth the effort (and
+> indeed I don't think it's possible to recreate the new internal state with 100% accuracy from the
+> old state).
+> 
+> Migration for ESP devices that don't use PDMA is still supported, and I've tested this during
+> development with qemu-system-sparc.
+> 
 
-This change increases the detail of the "info network" output and takes
-a more general approach to composing the output.
+I don't mean we can't migrate from a previous version to the new one, I mean the migration between
+two machines of the current version is not possible anymore as we don't keep track of the position
+of the pDMA index inside the buffer.
 
-NIC and hubports still use legacy info_str field.
+With a DMA, the migration cannot happen in the middle of the DMA, while with pDMA it can (as it's a
+processor loop).
 
-Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
----
- include/qapi/hmp-output-visitor.h |  30 +++++
- net/net.c                         |  31 ++++-
- qapi/hmp-output-visitor.c         | 193 ++++++++++++++++++++++++++++++
- qapi/meson.build                  |   1 +
- 4 files changed, 254 insertions(+), 1 deletion(-)
- create mode 100644 include/qapi/hmp-output-visitor.h
- create mode 100644 qapi/hmp-output-visitor.c
+The whole purpose of get_pdma() and set_pdma() was for the migration.
 
-diff --git a/include/qapi/hmp-output-visitor.h b/include/qapi/hmp-output-visitor.h
-new file mode 100644
-index 0000000000..541e4002e3
---- /dev/null
-+++ b/include/qapi/hmp-output-visitor.h
-@@ -0,0 +1,30 @@
-+/*
-+ * HMP string output Visitor
-+ *
-+ * Copyright Yandex N.V., 2021
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef HMP_OUTPUT_VISITOR_H
-+#define HMP_OUTPUT_VISITOR_H
-+
-+#include "qapi/visitor.h"
-+
-+typedef struct HMPOutputVisitor HMPOutputVisitor;
-+
-+/**
-+ * Create a HMP string output visitor for @obj
-+ *
-+ * Flattens dicts/structures, only shows arrays borders.
-+ *
-+ * Errors are not expected to happen.
-+ *
-+ * The caller is responsible for freeing the visitor with
-+ * visit_free().
-+ */
-+Visitor *hmp_output_visitor_new(char **result);
-+
-+#endif
-diff --git a/net/net.c b/net/net.c
-index cc83918d80..65b92bbdab 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -54,6 +54,7 @@
- #include "sysemu/sysemu.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "qapi/hmp-output-visitor.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1192,14 +1193,42 @@ static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
-     monitor_printf(mon, "\n");
- }
- 
-+static char *generate_info_str(NetClientState *nc)
-+{
-+    NetdevInfo *ni = nc->stored_config;
-+    char *ret_out = NULL;
-+    Visitor *v;
-+
-+    /* Use legacy field info_str for NIC and hubports */
-+    if ((nc->info->type == NET_CLIENT_DRIVER_NIC) ||
-+        (nc->info->type == NET_CLIENT_DRIVER_HUBPORT)) {
-+        return g_strdup(nc->info_str ? nc->info_str : "");
-+    }
-+
-+    if (!ni) {
-+        return g_malloc0(1);
-+    }
-+
-+    v = hmp_output_visitor_new(&ret_out);
-+    if (visit_type_NetdevInfo(v, "", &ni, NULL)) {
-+        visit_complete(v, &ret_out);
-+    }
-+    visit_free(v);
-+
-+    return ret_out;
-+}
-+
- void print_net_client(Monitor *mon, NetClientState *nc)
- {
-     NetFilterState *nf;
-+    char *info_str = generate_info_str(nc);
- 
-     monitor_printf(mon, "%s: index=%d,type=%s,%s\n", nc->name,
-                    nc->queue_index,
-                    NetClientDriver_str(nc->info->type),
--                   nc->info_str ? nc->info_str : "");
-+                   info_str);
-+    g_free(info_str);
-+
-     if (!QTAILQ_EMPTY(&nc->filters)) {
-         monitor_printf(mon, "filters:\n");
-     }
-diff --git a/qapi/hmp-output-visitor.c b/qapi/hmp-output-visitor.c
-new file mode 100644
-index 0000000000..8036605f97
---- /dev/null
-+++ b/qapi/hmp-output-visitor.c
-@@ -0,0 +1,193 @@
-+/*
-+ * HMP string output Visitor
-+ *
-+ * Copyright Yandex N.V., 2021
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/cutils.h"
-+#include "qapi/hmp-output-visitor.h"
-+#include "qapi/visitor-impl.h"
-+
-+struct HMPOutputVisitor {
-+    Visitor visitor;
-+    char **result;
-+    GString *buffer;
-+    bool is_continue;
-+};
-+
-+static HMPOutputVisitor *to_hov(Visitor *v)
-+{
-+    return container_of(v, HMPOutputVisitor, visitor);
-+}
-+
-+static void hmp_output_append_formatted(Visitor *v, const char *fmt, ...)
-+{
-+    HMPOutputVisitor *ov = to_hov(v);
-+    va_list args;
-+
-+    if (ov->is_continue) {
-+        g_string_append(ov->buffer, ",");
-+    } else {
-+        ov->is_continue = true;
-+    }
-+
-+    va_start(args, fmt);
-+    g_string_append_vprintf(ov->buffer, fmt, args);
-+    va_end(args);
-+}
-+
-+static void hmp_output_skip_comma(Visitor *v)
-+{
-+    HMPOutputVisitor *ov = to_hov(v);
-+
-+    ov->is_continue = false;
-+}
-+
-+static bool hmp_output_start_struct(Visitor *v, const char *name,
-+                                    void **obj, size_t unused, Error **errp)
-+{
-+    return true;
-+}
-+
-+static void hmp_output_end_struct(Visitor *v, void **obj) {}
-+
-+static bool hmp_output_start_list(Visitor *v, const char *name,
-+                                  GenericList **listp, size_t size,
-+                                  Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=[", name);
-+    /* First element in array without comma before it */
-+    hmp_output_skip_comma(v);
-+
-+    return true;
-+}
-+
-+static GenericList *hmp_output_next_list(Visitor *v, GenericList *tail,
-+                                         size_t size)
-+{
-+    return tail->next;
-+}
-+
-+static void hmp_output_end_list(Visitor *v, void **obj)
-+{
-+    /* Don't need comma after last array element */
-+    hmp_output_skip_comma(v);
-+    hmp_output_append_formatted(v, "]");
-+}
-+
-+static bool hmp_output_type_int64(Visitor *v, const char *name,
-+                                  int64_t *obj, Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=%" PRId64, name, *obj);
-+
-+    return true;
-+}
-+
-+static bool hmp_output_type_uint64(Visitor *v, const char *name,
-+                                   uint64_t *obj, Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=%" PRIu64, name, *obj);
-+
-+    return true;
-+}
-+
-+static bool hmp_output_type_bool(Visitor *v, const char *name, bool *obj,
-+                                 Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=%s", name, *obj ? "true" : "false");
-+
-+    return true;
-+}
-+
-+static bool hmp_output_type_str(Visitor *v, const char *name, char **obj,
-+                                Error **errp)
-+{
-+    /* Skip already printed or unused fields */
-+    if (!*obj || g_str_equal(name, "id") || g_str_equal(name, "type")) {
-+        return true;
-+    }
-+
-+    /* Do not print stub name for StringList elements */
-+    if (g_str_equal(name, "str")) {
-+        hmp_output_append_formatted(v, "%s", *obj);
-+    } else {
-+        hmp_output_append_formatted(v, "%s=%s", name, *obj);
-+    }
-+
-+    return true;
-+}
-+
-+static bool hmp_output_type_number(Visitor *v, const char *name,
-+                                   double *obj, Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=%.17g", name, *obj);
-+
-+    return true;
-+}
-+
-+/* TODO: remove this function? */
-+static bool hmp_output_type_any(Visitor *v, const char *name,
-+                                QObject **obj, Error **errp)
-+{
-+    return true;
-+}
-+
-+static bool hmp_output_type_null(Visitor *v, const char *name,
-+                                 QNull **obj, Error **errp)
-+{
-+    hmp_output_append_formatted(v, "%s=NULL", name);
-+
-+    return true;
-+}
-+
-+static void hmp_output_complete(Visitor *v, void *opaque)
-+{
-+    HMPOutputVisitor *ov = to_hov(v);
-+
-+    *ov->result = g_string_free(ov->buffer, false);
-+    ov->buffer = NULL;
-+}
-+
-+static void hmp_output_free(Visitor *v)
-+{
-+    HMPOutputVisitor *ov = to_hov(v);
-+
-+    if (ov->buffer) {
-+        g_string_free(ov->buffer, true);
-+    }
-+    g_free(v);
-+}
-+
-+Visitor *hmp_output_visitor_new(char **result)
-+{
-+    HMPOutputVisitor *v;
-+
-+    v = g_malloc0(sizeof(*v));
-+
-+    v->visitor.type = VISITOR_OUTPUT;
-+    v->visitor.start_struct = hmp_output_start_struct;
-+    v->visitor.end_struct = hmp_output_end_struct;
-+    v->visitor.start_list = hmp_output_start_list;
-+    v->visitor.next_list = hmp_output_next_list;
-+    v->visitor.end_list = hmp_output_end_list;
-+    v->visitor.type_int64 = hmp_output_type_int64;
-+    v->visitor.type_uint64 = hmp_output_type_uint64;
-+    v->visitor.type_bool = hmp_output_type_bool;
-+    v->visitor.type_str = hmp_output_type_str;
-+    v->visitor.type_number = hmp_output_type_number;
-+    v->visitor.type_any = hmp_output_type_any;
-+    v->visitor.type_null = hmp_output_type_null;
-+    v->visitor.complete = hmp_output_complete;
-+    v->visitor.free = hmp_output_free;
-+
-+    v->result = result;
-+    v->buffer = g_string_new("");
-+    v->is_continue = false;
-+
-+    return &v->visitor;
-+}
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 0652569bc4..94effbc052 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -8,6 +8,7 @@ util_ss.add(files(
-   'qobject-output-visitor.c',
-   'string-input-visitor.c',
-   'string-output-visitor.c',
-+  'hmp-output-visitor.c',
- ))
- if have_system or have_tools
-   util_ss.add(files(
--- 
-2.25.1
+https://patchew.org/QEMU/20190910113323.17324-1-laurent@vivier.eu/diff/20190910193347.16000-1-laurent@vivier.eu/
 
+Previously the Q800 was not migratable also because the CPU was not migratable, but I added recently
+the VMSTATE for the CPU.
+
+Thanks,
+Laurent
 
