@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FBE32A200
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:15:13 +0100 (CET)
-Received: from localhost ([::1]:42576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BA932A1EA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:13:46 +0100 (CET)
+Received: from localhost ([::1]:38308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH5ns-0007yA-4F
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:15:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
+	id 1lH5mT-0006C5-O7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:13:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lH5jP-0002SM-6c; Tue, 02 Mar 2021 09:10:35 -0500
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:35346)
+ id 1lH5jR-0002XL-Na; Tue, 02 Mar 2021 09:10:37 -0500
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:42581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lH5jN-0007AQ-Mv; Tue, 02 Mar 2021 09:10:34 -0500
-Received: by mail-qk1-x72a.google.com with SMTP id d20so19276467qkc.2;
- Tue, 02 Mar 2021 06:10:33 -0800 (PST)
+ id 1lH5jQ-0007Ar-1e; Tue, 02 Mar 2021 09:10:37 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id d11so14062587qtx.9;
+ Tue, 02 Mar 2021 06:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uOA/dEAG3MBKjUMll/cJjGDnuaqcJUMuLLC8SsN07EU=;
- b=pduWghJqTsbBZvg7PvHCh9A59AWbc6/H43DdLxHmdkASjD18/RqWF4R+9mfZ4TGanJ
- JvLOGz0Gsi7ZS7ZDffUN6RcO3liFqcuVI+ZpJNebQDgBpwY9X8k2Ru04ws7/GkQ4GOHp
- 4O5VW7obJ44n3N0FWZhokaAKXDy2TCqr54yJnRsGeb5jg94PdJNlE/XA+mykQs0gdwI5
- 89Hj0+9Ehx76EDhLwgI5mqxZyEmGrkvH3gZXDY5bwULWMoh4lWcK/gLqwKeHcXbu8bWV
- SwgCwfKSJd3PMoanyM8qZVbP9bGWzMlE6JpQxUyTD1l9psSfwchSvVf4+4vdr1326qpI
- kyoA==
+ bh=P9fwOsf4h4Zxs4SDJYLpTerj4S9PMfTXqWrjqx6FH30=;
+ b=hGVeu3tx6NcID/A2LZD79wD+UAReMncjHsHVq8Yzis9cNxjnbs9yiO+YHWLiPmFpuG
+ ZEEKO+UNxsy49hCqdoFv/+KVdar8rEBLs+a4rSSVozlENU6abYUUmHLfpsMujVLllak9
+ iFhE/D4jh5BVDHdwuWBhWqb7Ffn+ZKj5at0z+FzZnp6S8TIaA7KNtxN9Btb1QPrDHaj8
+ 5mSA+syEo/XA8zk31Cdq1MwpQZ1f9dU8Au5ux+X7zca24VDXGjdgqtMXzrQa+J4gY+fi
+ Ja1H7Dlx44HV1OLKQ63AYTq3IxR//ERbq0PqPYfuESj2QM3iqW/I4ZssAjxHEz7LIWXe
+ PBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uOA/dEAG3MBKjUMll/cJjGDnuaqcJUMuLLC8SsN07EU=;
- b=no/x18uC/DuALvUfhrbx5urjACzxtuqI6EtV4aPaa1qvp6UrtAXi3pxatmxn2RKwv1
- 4L2/AFYOFYjMxhHyM57wWVBIRp+TkXKI03yr3PU35LoWtqtNJpbbvtCThuAsacd+F0he
- Ude9lxG8/hdVea7RFIGvZlOxcNnbo/CSfzDiAtF/kpc8qSe7xF44dhjzB54kecKwOn5Z
- ktjWzc4eLMVjcy7Hlous9I3CuBGQHQH+hNQidIXqA0mJGgAPrAutkkAclsBCG2xWcceN
- ckM+gI0DAwqSMIQYOVyouUTyX/CCRdzs7BISlygSJsfAwoSpU4q8pbYoOxpVDzv7bC77
- TNOA==
-X-Gm-Message-State: AOAM530oR4zZfFp1zTN2ulzBMNazsL77a2P143hso2JY9rQvFg6XN878
- HilzIkwI/JenSZ7z9pgS2Lgv3NLgTyldBw==
-X-Google-Smtp-Source: ABdhPJyBFg208XaqlV7/qwo9JUwxcazY6CLSr3XsxgHhtAxa909Mf8D4TondB54nIF6hLdxHJ6fGqA==
-X-Received: by 2002:a05:620a:12ae:: with SMTP id
- x14mr20028939qki.25.1614694232027; 
- Tue, 02 Mar 2021 06:10:32 -0800 (PST)
+ bh=P9fwOsf4h4Zxs4SDJYLpTerj4S9PMfTXqWrjqx6FH30=;
+ b=HGZo+np45SJezYJXP3ZaXv8kZLCvz+moiJfXgjpFcYaIGdzQB63DtbI73DEfstoFLt
+ r48JfTsOAYVz4uIQGV63hwCXR7zDtBjg++voSfFxqarwAb5FruoDDCg9dAmK+4PUGVnl
+ 4uGTnzuoeuS5le+pHX5nydxs834KGeaztuWdmWiXeWHRPEUcY1cBRdAJayJ2Qteuj1gO
+ Xm/CNpJgpJ4o4XOxYu4q0ahElc4ZCGV9kix4jU81MqY8tHtSnszbT4DrAzGTlvxM3rQ5
+ JJYXJicwiT0JRrHSaVKJNkpyUyVlgbiawLqdz4QVqI61gfuEzN9M8RpwQK+oDf70MzrJ
+ wcig==
+X-Gm-Message-State: AOAM530oYdV3fyFU5QIFyEYtk4Dd/J9D6DBsLkKH2Yc6TD8yye0ewcI2
+ n7rVemldEqY5h4dWVhdnWmc7f5QguGmmnw==
+X-Google-Smtp-Source: ABdhPJyKFepowodl5tYqpApRuxL5TS7a6aI1Ul27KxR57b1exdTdKQz6H+tjcwD2luVWbZWCl7nNag==
+X-Received: by 2002:ac8:5a86:: with SMTP id c6mr9476620qtc.88.1614694234335;
+ Tue, 02 Mar 2021 06:10:34 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:1670:7849:4614:f4b6:4112])
- by smtp.gmail.com with ESMTPSA id n5sm9376504qkp.133.2021.03.02.06.10.29
+ by smtp.gmail.com with ESMTPSA id n5sm9376504qkp.133.2021.03.02.06.10.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 06:10:31 -0800 (PST)
+ Tue, 02 Mar 2021 06:10:33 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] spapr.c: remove duplicated assert in
- spapr_memory_unplug_request()
-Date: Tue,  2 Mar 2021 11:10:18 -0300
-Message-Id: <20210302141019.153729-2-danielhb413@gmail.com>
+Subject: [PATCH v2 2/2] spapr.c: send QAPI event when memory hotunplug fails
+Date: Tue,  2 Mar 2021 11:10:19 -0300
+Message-Id: <20210302141019.153729-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210302141019.153729-1-danielhb413@gmail.com>
 References: <20210302141019.153729-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,29 +86,113 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are asserting the existence of the first DRC LMB after sending unplug
-requests to all LMBs of the DIMM, where every DRC is being asserted
-inside the loop. This means that the first DRC is being asserted twice.
+Recent changes allowed the pSeries machine to rollback the hotunplug
+process for the DIMM when the guest kernel signals, via a
+reconfiguration of the DR connector, that it's not going to release the
+LMBs.
 
-Remove the duplicated assert.
+Let's also warn QAPI listerners about it. One place to do it would be
+right after the unplug state is cleaned up,
+spapr_clear_pending_dimm_unplug_state(). This would mean that the
+function is now doing more than cleaning up the pending dimm state
+though.
 
+This patch does the following changes in spapr.c:
+
+- send a QAPI event to inform that we experienced a failure in the
+  hotunplug of the DIMM;
+
+- rename spapr_clear_pending_dimm_unplug_state() to
+  spapr_memory_unplug_rollback(). This is a better fit for what the
+  function is now doing, and it makes callers care more about what the
+  function goal is and less about spapr.c internals such as clearing
+  the pending dimm unplug state.
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/ppc/spapr.c         | 13 +++++++++++--
+ hw/ppc/spapr_drc.c     |  5 ++---
+ include/hw/ppc/spapr.h |  3 +--
+ 3 files changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index aca3ef9d58..b579830832 100644
+index b579830832..d56418ca29 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3703,7 +3703,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
- 
-     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
--    g_assert(drc);
-     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
-                                               nr_lmbs, spapr_drc_index(drc));
+@@ -28,6 +28,7 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-events-machine.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/hostmem.h"
+@@ -3575,14 +3576,14 @@ static SpaprDimmState *spapr_recover_pending_dimm_state(SpaprMachineState *ms,
+     return spapr_pending_dimm_unplugs_add(ms, avail_lmbs, dimm);
  }
+ 
+-void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+-                                           DeviceState *dev)
++void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
+ {
+     SpaprDimmState *ds;
+     PCDIMMDevice *dimm;
+     SpaprDrc *drc;
+     uint32_t nr_lmbs;
+     uint64_t size, addr_start, addr;
++    g_autofree char *qapi_error = NULL;
+     int i;
+ 
+     if (!dev) {
+@@ -3616,6 +3617,14 @@ void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+         drc->unplug_requested = false;
+         addr += SPAPR_MEMORY_BLOCK_SIZE;
+     }
++
++    /*
++     * Tell QAPI that something happened and the memory
++     * hotunplug wasn't successful.
++     */
++    qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
++                                 "for device %s", dev->id);
++    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
+ }
+ 
+ /* Callback to be called during DRC release. */
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 98b626acf9..8a71b03800 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -1231,12 +1231,11 @@ static void rtas_ibm_configure_connector(PowerPCCPU *cpu,
+ 
+     /*
+      * This indicates that the kernel is reconfiguring a LMB due to
+-     * a failed hotunplug. Clear the pending unplug state for the whole
+-     * DIMM.
++     * a failed hotunplug. Rollback the DIMM unplug process.
+      */
+     if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB &&
+         drc->unplug_requested) {
+-        spapr_clear_pending_dimm_unplug_state(spapr, drc->dev);
++        spapr_memory_unplug_rollback(spapr, drc->dev);
+     }
+ 
+     if (!drc->fdt) {
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index d6edeaaaff..47cebaf3ac 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -847,8 +847,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+ int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp);
+ void spapr_clear_pending_events(SpaprMachineState *spapr);
+ void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+-void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+-                                           DeviceState *dev);
++void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev);
+ int spapr_max_server_number(SpaprMachineState *spapr);
+ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+                       uint64_t pte0, uint64_t pte1);
 -- 
 2.29.2
 
