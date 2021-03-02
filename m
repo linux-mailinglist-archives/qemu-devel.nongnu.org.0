@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FA132AC63
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:50:48 +0100 (CET)
-Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4857732AC66
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 22:54:48 +0100 (CET)
+Received: from localhost ([::1]:44922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHCul-0003zr-I0
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:50:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1lHCyd-00082v-CV
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 16:54:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCsl-0002Tz-Sk
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:48:43 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:53797)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCu0-00043I-3m
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:50:00 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:57337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCsj-0008BE-U8
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:48:43 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHCty-0008K7-EI
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 16:49:59 -0500
 Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MzTCy-1m3W8h43OK-00vSts; Tue, 02 Mar 2021 22:48:36 +0100
-Subject: Re: [PATCH v2 24/42] esp: use in-built TC to determine PDMA transfer
- length
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N9dkD-1ltrbe0KVZ-015cTA; Tue, 02 Mar 2021 22:49:51 +0100
+Subject: Re: [PATCH v2 25/42] esp: remove CMD pdma_origin
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  pbonzini@redhat.com, fam@euphon.net
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-25-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-26-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <7dec3d87-08bf-b949-d475-b87152509a29@vivier.eu>
-Date: Tue, 2 Mar 2021 22:48:34 +0100
+Message-ID: <53788221-594b-792b-7dfc-16c6e6aded61@vivier.eu>
+Date: Tue, 2 Mar 2021 22:49:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-25-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210209193018.31339-26-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PMjPb9UoNytegyBTJei+Y+FWGR64y+F3cZ9cjVfQ9jTTsH300py
- t+FeYXJdUUuC65/CX1l5+I0OuuzCAoSx4GwkgvBkGIDUGv7AhmfAgwu/Tz6blTy0OIUfqUO
- OvQXx1voii84SfsZXn9bgbTE9GxJtHslc51pxezHGHX6NPj9inZxVYw8RuuLhonf/Byuwi3
- 5ygC9co+l8W1yFblsZ2/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C/r4hFFlgiY=:AV8eoyfmwvyHwIlzAGDoap
- h6pKtsH+hcMvp8usFWHyVVf7+SIVieP/noDAyK/V66GGFhDXdH+trSCEnduCmI8DR7OEY6Vt4
- FJnR6B/lJx/gJjhrwJrZl507kr1w9MS9/gyfV9n9Vcs7Febx9nqDg7QRNTOX8uS0VIvxBx48y
- Xix9wXT9E0yNHZ5DAv/GpFJqIxcUhoLerir2w9mrZVB2CitFR0jWpUEzsd1I/EKY6A+q4igcQ
- 7SZhDNrqUhgolMgJinJWmAoTt5H/sA2NWNN0XP+tnT8cS4Z4jHAkqjA98jQ8twsQQx7kFR1yC
- XWeyFEFHT6oAJsqOqMlkqeA4rslqx6G/1ruxMk+AkDo5Nl8nTuvMSe7u7fyeZEU0k9XP2I/82
- /8pK+zdSH8zfLLMh14tjKMzpKUmvmtJ5JpJZnzKD1Tc9E0rGDlw0Zaosn6YpG
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:iblyYPDHfbM8ZdAO53IaGDe2NVgNn759pyVhQz7lgRWekY7yKYA
+ nh+5pPyc51o87up6uNAAt01OQh6cOzThlYHhT4AyRwYJjDyfhwWM1wmuVwIBIygr1CvWNS2
+ O0ilg7DFvLR9bCY7WLBPE22H3KCIxFcNRaL3ZjMqBf/ewSE8GtC8Vt+dOrqlu+eKEESUQNr
+ JRSZt2l89cyGNCgawaiFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dATAAMUlJ2M=:LpmwKXBY8p8PWcKImoEUrG
+ iS/6QJ2ikuraKfVmdVtluSuJJu0QntPoibSu5tVTfzaR47IcwSKqMZ++XWgRC6eTbRKUwY/z9
+ 0as7SeZ+0sEZGjlpZ5U6MRI6xAzCfvrf9/a/37ZWVJK21cu8uHYgkL6fBNVNY+0GTCZwAQewh
+ N+3uPIjefyJgQr8ocde4HYcLBqb+4ejtDpCdS35mFIZorn1MoQpNCn/m8+OuNVxJTS7932syX
+ RtKvZ/y2cfYGau8fyL8LULpu8OREaulS0koQZSoBxvhL/lliwqDSwv7DpTFG4c0+FvpkvaqD+
+ ly9oGo5jjyvNJGHnbeYtSFoapAzg0Uqmb9B8zPoLlW8Y3YVR/T/rnA1kMnA2nwgZT+u9pQ4jq
+ JnVJTYwNAl9f9Dg/z5jRas4ofkDMIByT1x9WGOC8IfRiV3t8juEiNb5ct1v9P
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,167 +70,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 09/02/2021 à 20:30, Mark Cave-Ayland a écrit :
-> Real hardware simply counts down using the in-built TC to determine when the
-> the PDMA request is complete. Use the TC to determine the PDMA transfer length
-> which then enables us to remove the redundant pdma_len variable.
+> The cmdbuf is really just a copy of FIFO data (including extra message phase
+> bytes) so its pdma_origin is effectively TI. Fortunately we already know when
+> we are receiving a SCSI command since do_cmd == 1 which enables us to
+> distinguish between the two cases in esp_pdma_read()/esp_pdma_write().
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c         | 28 +++++++++++++---------------
+>  hw/scsi/esp.c         | 22 ++++++++++++----------
 >  include/hw/scsi/esp.h |  1 -
->  2 files changed, 13 insertions(+), 16 deletions(-)
+>  2 files changed, 12 insertions(+), 11 deletions(-)
 > 
 > diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 50503a6f53..bff330733f 100644
+> index bff330733f..921f79ae89 100644
 > --- a/hw/scsi/esp.c
 > +++ b/hw/scsi/esp.c
-> @@ -127,10 +127,9 @@ static uint32_t esp_get_stc(ESPState *s)
->      return dmalen;
->  }
+> @@ -143,10 +143,11 @@ static uint8_t esp_pdma_read(ESPState *s)
 >  
-> -static void set_pdma(ESPState *s, enum pdma_origin_id origin, uint32_t len)
-> +static void set_pdma(ESPState *s, enum pdma_origin_id origin)
->  {
->      s->pdma_origin = origin;
-> -    s->pdma_len = len;
->  }
+>      switch (s->pdma_origin) {
+>      case TI:
+> -        val = s->ti_buf[s->ti_rptr++];
+> -        break;
+> -    case CMD:
+> -        val = s->cmdbuf[s->cmdlen++];
+> +        if (s->do_cmd) {
+> +            val = s->cmdbuf[s->cmdlen++];
+> +        } else {
+> +            val = s->ti_buf[s->ti_rptr++];
+> +        }
+>          break;
+>      case ASYNC:
+>          val = s->async_buf[0];
+> @@ -176,10 +177,11 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
 >  
->  static uint8_t esp_pdma_read(ESPState *s)
-> @@ -138,7 +137,7 @@ static uint8_t esp_pdma_read(ESPState *s)
->      uint32_t dmalen = esp_get_tc(s);
->      uint8_t val;
->  
-> -    if (dmalen == 0 || s->pdma_len == 0) {
-> +    if (dmalen == 0) {
->          return 0;
->      }
->  
-> @@ -161,7 +160,6 @@ static uint8_t esp_pdma_read(ESPState *s)
->      }
->  
->      s->ti_size--;
-> -    s->pdma_len--;
->      dmalen--;
->      esp_set_tc(s, dmalen);
->  
-> @@ -172,7 +170,7 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
->  {
->      uint32_t dmalen = esp_get_tc(s);
->  
-> -    if (dmalen == 0 || s->pdma_len == 0) {
-> +    if (dmalen == 0) {
->          return;
->      }
->  
-> @@ -195,7 +193,6 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
->      }
->  
->      s->ti_size++;
-> -    s->pdma_len--;
->      dmalen--;
->      esp_set_tc(s, dmalen);
->  }
-> @@ -243,7 +240,7 @@ static uint32_t get_cmd(ESPState *s)
+>      switch (s->pdma_origin) {
+>      case TI:
+> -        s->ti_buf[s->ti_wptr++] = val;
+> -        break;
+> -    case CMD:
+> -        s->cmdbuf[s->cmdlen++] = val;
+> +        if (s->do_cmd) {
+> +            s->cmdbuf[s->cmdlen++] = val;
+> +        } else {
+> +            s->ti_buf[s->ti_wptr++] = val;
+> +        }
+>          break;
+>      case ASYNC:
+>          s->async_buf[0] = val;
+> @@ -240,7 +242,7 @@ static uint32_t get_cmd(ESPState *s)
 >          if (s->dma_memory_read) {
 >              s->dma_memory_read(s->dma_opaque, buf, dmalen);
 >          } else {
-> -            set_pdma(s, CMD, dmalen);
-> +            set_pdma(s, CMD);
+> -            set_pdma(s, CMD);
+> +            set_pdma(s, TI);
 >              esp_raise_drq(s);
 >              return 0;
 >          }
-> @@ -406,7 +403,7 @@ static void write_response(ESPState *s)
->              s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
->              s->rregs[ESP_RSEQ] = SEQ_CD;
->          } else {
-> -            set_pdma(s, TI, 2);
-> +            set_pdma(s, TI);
->              s->pdma_cb = write_response_pdma_cb;
->              esp_raise_drq(s);
->              return;
-> @@ -474,7 +471,7 @@ static void esp_do_dma(ESPState *s)
+> @@ -471,7 +473,7 @@ static void esp_do_dma(ESPState *s)
 >          if (s->dma_memory_read) {
 >              s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
 >          } else {
-> -            set_pdma(s, CMD, len);
-> +            set_pdma(s, CMD);
+> -            set_pdma(s, CMD);
+> +            set_pdma(s, TI);
 >              s->pdma_cb = do_dma_pdma_cb;
 >              esp_raise_drq(s);
 >              return;
-> @@ -497,7 +494,7 @@ static void esp_do_dma(ESPState *s)
->          if (s->dma_memory_read) {
->              s->dma_memory_read(s->dma_opaque, s->async_buf, len);
->          } else {
-> -            set_pdma(s, ASYNC, len);
-> +            set_pdma(s, ASYNC);
->              s->pdma_cb = do_dma_pdma_cb;
->              esp_raise_drq(s);
->              return;
-> @@ -506,7 +503,7 @@ static void esp_do_dma(ESPState *s)
->          if (s->dma_memory_write) {
->              s->dma_memory_write(s->dma_opaque, s->async_buf, len);
->          } else {
-> -            set_pdma(s, ASYNC, len);
-> +            set_pdma(s, ASYNC);
->              s->pdma_cb = do_dma_pdma_cb;
->              esp_raise_drq(s);
->              return;
-> @@ -851,7 +848,6 @@ static const VMStateDescription vmstate_esp_pdma = {
->      .needed = esp_pdma_needed,
->      .fields = (VMStateField[]) {
->          VMSTATE_INT32(pdma_origin, ESPState),
-> -        VMSTATE_UINT32(pdma_len, ESPState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> @@ -950,6 +946,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->  {
->      SysBusESPState *sysbus = opaque;
->      ESPState *s = ESP(&sysbus->esp);
-> +    uint32_t dmalen;
->  
->      trace_esp_pdma_write(size);
->  
-> @@ -962,7 +959,8 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->          esp_pdma_write(s, val);
->          break;
->      }
-> -    if (s->pdma_len == 0 && s->pdma_cb) {
-> +    dmalen = esp_get_tc(s);
-> +    if (dmalen == 0 && s->pdma_cb) {
->          esp_lower_drq(s);
->          s->pdma_cb(s);
->          s->pdma_cb = NULL;
-> @@ -979,7 +977,7 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
->  
->      trace_esp_pdma_read(size);
->  
-> -    if (dmalen == 0 || s->pdma_len == 0) {
-> +    if (dmalen == 0) {
->          return 0;
->      }
->      switch (size) {
-> @@ -992,7 +990,7 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
->          break;
->      }
->      dmalen = esp_get_tc(s);
-> -    if (dmalen == 0 || (s->pdma_len == 0 && s->pdma_cb)) {
-> +    if (dmalen == 0 && s->pdma_cb) {
->          esp_lower_drq(s);
->          s->pdma_cb(s);
->          s->pdma_cb = NULL;
 > diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-> index 5908d59a0a..1e84b7bfb0 100644
+> index 1e84b7bfb0..a8d5bf8a63 100644
 > --- a/include/hw/scsi/esp.h
 > +++ b/include/hw/scsi/esp.h
-> @@ -57,7 +57,6 @@ struct ESPState {
->      void *dma_opaque;
->      void (*dma_cb)(ESPState *s);
->      int pdma_origin;
-> -    uint32_t pdma_len;
->      void (*pdma_cb)(ESPState *s);
+> @@ -17,7 +17,6 @@ typedef struct ESPState ESPState;
 >  
->      uint8_t mig_version_id;
+>  enum pdma_origin_id {
+>      TI,
+> -    CMD,
+>      ASYNC,
+>  };
+>  
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
