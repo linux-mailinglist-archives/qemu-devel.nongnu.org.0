@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB5132A558
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:08:50 +0100 (CET)
-Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B71F32A5B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 17:22:48 +0100 (CET)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH7Zo-0006LA-VG
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:08:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59440)
+	id 1lH7nK-0002VV-LG
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 11:22:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lH7Y9-0005rU-Sd
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:07:05 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lH7Y8-0006UB-AX
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:07:05 -0500
-Received: by mail-wm1-x333.google.com with SMTP id k66so3302646wmf.1
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=s4EBrK9Q9gaAcrDFzRaihdvD47LWi8q8RNS6ZStMe2o=;
- b=TJoBasqnANiol8UtZvkkL7R+5UJUCCqqTM2kmQNcsGhI4Mq+ygp4j0a9CTwpAd+H/7
- 7FHQwIanwoOuNtzjktV8JJoaNr7ErqiLQs8+egNdIYzZfiFEE02jacGBlCt4uoNBzf9p
- I7lxUIiUSATephFf0rhQfLwLy7hnyrGQa4n6eipy8Xhow0VSudKPPAT+fKjanA8zERfY
- obELJ32ywIOyHGJf7tcDw8MILh5J18EnYu0xy8wOVuY9yBNQXyov5AQjQhn4Zd74Qsvy
- nV5qz5PAAXBcg1eCTW/rF27OCPIARDyt4rukYIJepBYYv+mkZRf2d7P7AhPCQ52PNfpo
- 5HIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s4EBrK9Q9gaAcrDFzRaihdvD47LWi8q8RNS6ZStMe2o=;
- b=tc5bGNDipB5r2tYJLUBFabppc+GdcmIPWWe8tjzs0blwaVN8Qlx0BYCYB9ge4IOG07
- N39Tjx939X2dsYzwOvTmDrzvUeZhpQbTXNh5gfAxGQ/yIriteNMojcGtgANXgkSzPxh0
- VcFZ8Dv70J4eCu1tw5mOYeExE7IXC/jbSvHcQdJwJRcF2qGQTugG2MAO/4yyXAocOgT8
- Q9FOIH4Hbm0pcrJffdqvTjbpWiNCwGHCo3cZBRZX2L40jWX7joSoMnrq7usV8ARpt21K
- dctVQcgzXn/0dExAje5dfmmlpO5nifNBV9aMlz86OCmNtFhiHpkRwDHgXw72WZ/0uj3u
- XO5w==
-X-Gm-Message-State: AOAM532C9KaypXRIS/JesScbI4yww38bc64FpgGx+nctO14VbYvVOMQO
- fjsY4+v6mesNHxZP9Tv5Gs69Vg==
-X-Google-Smtp-Source: ABdhPJyv4qxVkodXrAPcpy8Y5odttfa2T1k7L+inXWtf6PhmGrXvlWCjBx9w6/HSJ9sN5lqtaaCpig==
-X-Received: by 2002:a7b:c4d7:: with SMTP id g23mr4813784wmk.106.1614701222071; 
- Tue, 02 Mar 2021 08:07:02 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i8sm33707257wry.90.2021.03.02.08.07.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 08:07:01 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 53ECC1FF7E;
- Tue,  2 Mar 2021 16:07:00 +0000 (GMT)
-References: <YDPk08PCwhD7Nm2+@strawberry.localdomain>
- <8735xn6fy7.fsf@linaro.org> <YDQYrptOxAjs0Pf0@strawberry.localdomain>
- <YDVrYk9O2gBPwxe4@strawberry.localdomain>
- <YD5atyGBcnxG8+ZK@strawberry.localdomain>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: Plugin Address Translations Inconsistent/Incorrect?
-Date: Tue, 02 Mar 2021 16:06:46 +0000
-In-reply-to: <YD5atyGBcnxG8+ZK@strawberry.localdomain>
-Message-ID: <87sg5dilp7.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH7mP-00020M-Sd
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:21:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lH7mN-0000jI-E0
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 11:21:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614702106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lCixjWvBHCGvMqpyREzWDiX2gmEDYj6mB/wyHquz0pc=;
+ b=NlGKejv6YuDnvQywenxMQVhawensSquBaU++1/1pEn2ZVrTDNBx55muZ/0E6e7LoEwz+Rk
+ tN3gQmeZkAzhLsmgQ27AtaaTbbF+KzJI7iCEFURAdnwkIOHsImYobPfBazvtQ/yu3Y9tbf
+ q3Lgzr/pz1MQXAiCC9yQVLDag92NZxc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-dzn3_yD7O02TSBulbJieYA-1; Tue, 02 Mar 2021 11:21:42 -0500
+X-MC-Unique: dzn3_yD7O02TSBulbJieYA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F23385B667
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 16:21:41 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-189.ams2.redhat.com [10.36.114.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A1E15DEF8;
+ Tue,  2 Mar 2021 16:21:29 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] vhost-vdpa: Set discarding of RAM broken when initializing
+ the backend
+Date: Tue,  2 Mar 2021 17:21:29 +0100
+Message-Id: <20210302162129.52912-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,64 +74,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Similar to VFIO, vDPA will go ahead an map+pin all guest memory. Memory
+that used to be discarded will get re-populated and if we
+discard+re-access memory after mapping+pinning, the pages mapped into the
+vDPA IOMMU will go out of sync with the actual pages mapped into the user
+space page tables.
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+Set discarding of RAM broken such that:
+- virtio-mem and vhost-vdpa run mutually exclusive
+- virtio-balloon is inhibited and no memory discards will get issued
 
-> On Feb 23 15:53, Aaron Lindsay wrote:
->> On Feb 22 15:48, Aaron Lindsay wrote:
->> > On Feb 22 19:30, Alex Benn=C3=A9e wrote:
->> > > Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->> > > That said I think we could add an additional helper to translate a
->> > > hwaddr to a global address space address. I'm open to suggestions of=
- the
->> > > best way to structure this.
->> >=20
->> > Haven't put a ton of thought into it, but what about something like th=
-is
->> > (untested):
->> >=20
->> > uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr =
-*haddr)
->> > {
->> > #ifdef CONFIG_SOFTMMU
->> >     if (haddr) {
->> >         if (!haddr->is_io) {
->> >             RAMBlock *block;
->> >             ram_addr_t offset;
->> >=20
->> >             block =3D qemu_ram_block_from_host((void *) haddr->v.ram.h=
-ostaddr, false, &offset);
->> >             if (!block) {
->> >                 error_report("Bad ram pointer %"PRIx64"", haddr->v.ram=
-.hostaddr);
->> >                 abort();
->> >             }
->> >=20
->> >             return block->offset + offset + block->mr->addr;
->> >         } else {
->> >             MemoryRegionSection *mrs =3D haddr->v.io.section;
->> >             return haddr->v.io.offset + mrs->mr->addr;
->> >         }
->> >     }
->> > #endif
->> >     return 0;
->> > }
->>=20
->> This appears to successfully return correct physical addresses for RAM
->> at least, though I've not tested it thoroughly for MMIO yet.
->>=20
->> If it ends up being desirable based on the discussion elsewhere on this
->> thread I am willing to perform more complete testing, turn this into a
->> patch, and submit it.
->
-> Ping - Is this something worth me pursuing?
+In the future, we might be able to support coordinated discarding of RAM
+as used by virtio-mem and as planned for VFIO.
 
-Yes please.=20
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
 
---=20
-Alex Benn=C3=A9e
+Note: I was not actually able to reproduce/test as I fail to get the
+vdpa_sim/vdpa_sim_net running on upstream Linux (whetever vdpa, vhost_vdpa,
+vdpa_sim, vdpa_sim_net modules I probe, and in which order, no vdpa devices
+appear under /sys/bus/vdpa/devices/ or /dev/).
+
+---
+ hw/virtio/vhost-vdpa.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 01d2101d09..86058d4041 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -278,6 +278,17 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+     uint64_t features;
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+     trace_vhost_vdpa_init(dev, opaque);
++    int ret;
++
++    /*
++     * Similar to VFIO, we end up pinning all guest memory and have to
++     * disable discarding of RAM.
++     */
++    ret = ram_block_discard_disable(true);
++    if (ret) {
++        error_report("Cannot set discarding of RAM broken");
++        return ret;
++    }
+ 
+     v = opaque;
+     v->dev = dev;
+@@ -302,6 +313,8 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+     memory_listener_unregister(&v->listener);
+ 
+     dev->opaque = NULL;
++    ram_block_discard_disable(false);
++
+     return 0;
+ }
+ 
+-- 
+2.29.2
+
 
