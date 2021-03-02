@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC5B32A3F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:25:40 +0100 (CET)
-Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F3732A3F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:26:26 +0100 (CET)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH6u2-0004PD-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:25:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
+	id 1lH6un-00053k-RT
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:26:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lH6oY-0006bv-AW; Tue, 02 Mar 2021 10:19:58 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:38938)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lH6pr-00086P-5v; Tue, 02 Mar 2021 10:21:19 -0500
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:40424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lH6oW-0007zV-Qq; Tue, 02 Mar 2021 10:19:58 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id u4so24391912ljh.6;
- Tue, 02 Mar 2021 07:19:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lH6po-0008FN-Kf; Tue, 02 Mar 2021 10:21:18 -0500
+Received: by mail-yb1-xb2f.google.com with SMTP id c131so21027664ybf.7;
+ Tue, 02 Mar 2021 07:21:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5qBR6nAlg2de3V4VtZKmdXZn/o6EWE+GCWP3kLKcir8=;
- b=t79/b9ffHOD6JceI39MNNYC61SAPzhhnMn87BWeC3n9cDgEGssXa831gB/ioqE2tgl
- FMW2KtEP4vV5bQQdbOjCHD7E+6xjTjgNZ7zhC4cUlXeayC1a2oULpbSEGvXZLobeZyOE
- iJ6CUFNSxl0EBUEi+ZG95vxY24JVlI694yattcpnLQ9Lrda9I3+66VuzDjf9D+mcIAEN
- g9ERKSC9ZBfBmrIKUbYt9dofySy4+DKB5qV5PitoG5ou4w2VIcbEuwhA4oZ1TJcMcVWr
- ylIbHst6nYIED7kRnmCIeokpxYyhKII75m7amReyCZ6Mbtai0+FRpJp844SoKAd0l/EP
- 2/Hw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iyvcHqy4TZ9zgvUdxxp5oLfO86c3VXIenFu+vWz3md4=;
+ b=WU1a3yDq9i0k5l+zA6mlMi2mXUJoYNE2gC3yxD0n0Jkf2Re5/TwWn9msMUfi1PZl/d
+ RcyvRv4KydMZX1I+jMgrAJnq01i4FfFI7eD9hwm9QENQozsRu7Me52O1p3YcgXn86XRj
+ 16VToHZPQdVC3jBkgJu/ZOWWJcdiXTd5dovjan/fE/0QTrVOjcPfGavM5+GPHEb57Koh
+ Nd22gDfmlVrcvtxaoMO4TK5E2mx5GpuyyIQx3drJvlvWK4U0YpPQsGxtHZmyUGQc2S98
+ X4KIKXg7YqqMIuhrnG5DArg5S+HJbLHNUWf/TyIXEU0oihLdw1x1NrYYUmd016IGArIF
+ Sujw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5qBR6nAlg2de3V4VtZKmdXZn/o6EWE+GCWP3kLKcir8=;
- b=JWfCECMatk0ffY26Yodz0L7A/7yg4scWbeTcYbzGxZPgKw7cAmJ+sgmKq7c5ywHEkQ
- V7KF7iB4t6Yz/zvL2URRWFtRHux1x9zqwv24pRAO/n4GhSk4tolkEIAWkDWGTUxeoTJA
- SXuMs9Yb2cFuN5rtPM8uew3gHqZzVgrcy79q4C/+aCJgkrifXxpBv26jHoOMc9jIMUsE
- zrH//dTkiUiN61Y1XHp0uJF58YJT3BNOLUW8+nw9E3DPQCMkrOM6ws+GVSmqrmNK+icN
- BVucMDJfp3KNE2p93NHmV7LqLxNn/2t6I2T71iFU8BgxW81oCDDTAcuSriEfdv8WrVFE
- 9BSg==
-X-Gm-Message-State: AOAM530Dvh/ben4FmTh4aypiRs0FBsjH4ounGAVPVLY0NPBc51i6l2zP
- l+nBjc1EDX2QMTa7Rgp3n7o=
-X-Google-Smtp-Source: ABdhPJyJcQXAh+0UKwjOWm1NvkNmXv7klQf2mm2gm5QNAJdiMMlln6FLj0yrOHX1xnIXqt5K8AFiEA==
-X-Received: by 2002:a05:651c:2108:: with SMTP id
- a8mr12177466ljq.329.1614698394799; 
- Tue, 02 Mar 2021 07:19:54 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id v22sm742287lfr.277.2021.03.02.07.19.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 07:19:54 -0800 (PST)
-Date: Tue, 2 Mar 2021 16:19:53 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v6 1/5] hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA
- model
-Message-ID: <20210302151953.GA477672@toto>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iyvcHqy4TZ9zgvUdxxp5oLfO86c3VXIenFu+vWz3md4=;
+ b=XDd5y2xsouAaYVk8EYG1sLGGP8yfTrn5x5Dn8Xc9gZLWlbzYKvSIjrzmFeWIGfqJb3
+ nrH3bCiH4aP+Xw1CtvIaS1t9htrvgBBW1gQ7F8gG0G0u2IAKzkeTeQ/7R3Wq1TDaDOIt
+ AaTI3fFwiHxGxPE2u9LFo88qHrhLCw0yDnImclBDyXpOWMjOBfesaZm61I0PwCW9stFy
+ GhveVhXfdYdGVsMv5uB4YJ1uVMkv+FTi6uZe9qu9rQJMXH/Th4lOxj+5Nna7MGD9t7Al
+ +Gvf3BzFiDj1bJph0EE/NAr3LKrp2tRiN+jhSSbm3AzKfVA0/ykUa2+1ALzuHYkm0aIa
+ voIg==
+X-Gm-Message-State: AOAM531SA3VZkXiw2YBrh7/Gm7umGYN5glBGthvAxRSzsKsPnrd1k1Wl
+ yaimHxMr9M+qpslVDsR6c++ZQRQH+Ssf/3mvW7s=
+X-Google-Smtp-Source: ABdhPJz09wVbWRupSU+k5l4/EzcD9SsRRClWhhs1CSUS0XDbwiUqhWSDVjYJjVy9rq7po9Wq3WyPN7jBijrwyiI2XMY=
+X-Received: by 2002:a25:2d1f:: with SMTP id t31mr33212759ybt.239.1614698474501; 
+ Tue, 02 Mar 2021 07:21:14 -0800 (PST)
+MIME-Version: 1.0
 References: <20210301132011.8494-1-bmeng.cn@gmail.com>
  <20210301132011.8494-2-bmeng.cn@gmail.com>
  <20210302150348.GZ477672@toto>
  <CAEUhbmVeha7EOjz-q-y+cihL_TG1Afz-M4Go9eBTD0g4JcDgOw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmVeha7EOjz-q-y+cihL_TG1Afz-M4Go9eBTD0g4JcDgOw@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x22b.google.com
+ <20210302151953.GA477672@toto>
+In-Reply-To: <20210302151953.GA477672@toto>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 2 Mar 2021 23:21:02 +0800
+Message-ID: <CAEUhbmWDqq8tW2_WWZsP39OJt3F8uxgioWCneREjqKDf_K1qkw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA
+ model
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,41 +87,48 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 11:16:10PM +0800, Bin Meng wrote:
-> Hi Edgar,
+Hi Edgar,
 
-Hi Bin,
-
-
-> 
-> On Tue, Mar 2, 2021 at 11:03 PM Edgar E. Iglesias
-> <edgar.iglesias@gmail.com> wrote:
+On Tue, Mar 2, 2021 at 11:19 PM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> On Tue, Mar 02, 2021 at 11:16:10PM +0800, Bin Meng wrote:
+> > Hi Edgar,
+>
+> Hi Bin,
+>
+>
 > >
-> > On Mon, Mar 01, 2021 at 09:20:07PM +0800, Bin Meng wrote:
-> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > On Tue, Mar 2, 2021 at 11:03 PM Edgar E. Iglesias
+> > <edgar.iglesias@gmail.com> wrote:
 > > >
-> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-
-....
-
-> > The 3 DONE_CNT bits in R_STATUS need to be w1c so that SW can clear the counter.
+> > > On Mon, Mar 01, 2021 at 09:20:07PM +0800, Bin Meng wrote:
+> > > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > > >
+> > > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+>
+> ....
+>
+> > > The 3 DONE_CNT bits in R_STATUS need to be w1c so that SW can clear the counter.
+> > >
+> > >             .w1c = R_STATUS_DONE_CNT_MASK,                                    \
+> > >
+> > >
+> > > For reference, I'm attaching the complete diff I used to pass the testsuite:
+> > >
 > >
-> >             .w1c = R_STATUS_DONE_CNT_MASK,                                    \
+> > Thanks for the review and testing. We will incorporate your diff, test
+> > and send v7.
 > >
-> >
-> > For reference, I'm attaching the complete diff I used to pass the testsuite:
-> >
-> 
-> Thanks for the review and testing. We will incorporate your diff, test
-> and send v7.
-> 
-> Should we include your SoB tag for the diff?
+> > Should we include your SoB tag for the diff?
+>
+> If you take the changes as from my example, you can include:
+>
+> Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-If you take the changes as from my example, you can include:
+Great, thank you!
 
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Thanks & Best regards,
-Edgar
+Regards,
+Bin
 
