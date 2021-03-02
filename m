@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E2532A457
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:39:56 +0100 (CET)
-Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1CF32A4BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 16:46:42 +0100 (CET)
+Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH77r-0005Zp-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:39:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
+	id 1lH7EP-00085m-7W
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 10:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lH76k-0004iT-La
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52680)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lH7Cz-0007Dq-FO
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:45:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lH76i-0001qS-SE
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:38:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lH7Cx-0002cz-2H
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 10:45:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614699523;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1614699910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EIiXkajfsKyYWi8Y2M3v3pb6gspLlLv7V7MW6i9eHCw=;
- b=E0nS7ltGXo3M6xZ/Q5ghE3zBZLUi92n9P5pOxIJB022onbdVKUFATfGyvE20M3K+sGdxOz
- obNFeKfy/T8eMSR44fH366iTsDI0Y7E8qO+jrrAX5AF+jsQdxOtsYsBx7VuDQxIExpmYsn
- 3sQYqrLeYrFboSEi1IorD4lijN1PJVc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-CZvzfSeXO7a694sPxXpm_g-1; Tue, 02 Mar 2021 10:38:28 -0500
-X-MC-Unique: CZvzfSeXO7a694sPxXpm_g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA1385B664;
- Tue,  2 Mar 2021 15:38:27 +0000 (UTC)
-Received: from redhat.com (ovpn-113-132.ams2.redhat.com [10.36.113.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E40360BFA;
- Tue,  2 Mar 2021 15:38:26 +0000 (UTC)
-Date: Tue, 2 Mar 2021 15:38:23 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
-Message-ID: <YD5b74uynDvWUySy@redhat.com>
-References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
- <YDy8qsRRR3FmWr1D@redhat.com>
- <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
- <YD0Day/wGawuWdpi@redhat.com>
- <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
- <YD4T1nVIEdL7/IoG@redhat.com>
- <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
+ bh=dRYci0YTJg1XRUYrcoUCR8JjlQP5V6DMrPCPNNEFioA=;
+ b=fsFwrnwX2+K9eTEcUzV73/p9cHhCr1f6NcijV7TlJB/5S0vWkpVfBThnn80h9/7U2Q+ykB
+ vKymDCRk8UWvSlMTJsapQaziZorN1F/xghD67vhyDuEAOTtD7BmrUXweJCyoyjxDhchywV
+ oa7fWowzxh7NZIzNU4x3bec4eRIkk1o=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-WhuCaQNvMUu1lJ0e1hLuMQ-1; Tue, 02 Mar 2021 10:45:06 -0500
+X-MC-Unique: WhuCaQNvMUu1lJ0e1hLuMQ-1
+Received: by mail-ej1-f72.google.com with SMTP id au15so3263301ejc.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 07:45:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dRYci0YTJg1XRUYrcoUCR8JjlQP5V6DMrPCPNNEFioA=;
+ b=a9i7k/Dr3ZasZzOhI2kxCHPLSbhnpk63OPyZ8ms6D9+ClcACBNSmQsvOAhVjchoNIe
+ 7XMfiSztggwAFHUUYOy129pmE7sh7ycwKxQF+WLQv15bum6lnqhUXsYJInkaA91udrjn
+ YIDVYXq/BSNNoi6OMAW2cv5fqQpvpHdK6SqnfQYYXjgMoRdioDE2LDtqa8SGArtQAqn3
+ qNGY7/S/KwcYOrAIZqQcBamJn4nydvMVSplJliYYDALU/lPzjSrIkP9J9T8quGb4KYHC
+ QGqM459hMmS9OqBQhz44n+72d3ARpTjAmAVLCwai6CuZTewHVVqGGxlFTTwrGJYvOxn0
+ b2oA==
+X-Gm-Message-State: AOAM5302+gtB+jRscdzvfYd+1Ay/tGnyaRP+ljAyCfzLMP0z7UqiiCB5
+ 7PLxq9b1cFpTM2qX2jesn+gwHh9OItlJXNHntESaj5kRUk4J4IT+isFPCdcxibO5ONgApj4wmux
+ 2kQPbPGzGKufQ0oA=
+X-Received: by 2002:a17:907:2112:: with SMTP id
+ qn18mr12712374ejb.220.1614699904660; 
+ Tue, 02 Mar 2021 07:45:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPag/o5OQN8ZRgFHLMDaXdjAPGaC0uqY6ZtYpLr+kqWWAmjxnXCUYkkWaFbExPLwqxYSi35g==
+X-Received: by 2002:a17:907:2112:: with SMTP id
+ qn18mr12712288ejb.220.1614699903396; 
+ Tue, 02 Mar 2021 07:45:03 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id b18sm17757667ejb.77.2021.03.02.07.45.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Mar 2021 07:45:02 -0800 (PST)
+Subject: Re: [PATCH] tests/acceptance: Use imgtec.com URL for Fedora 22
+ artifacts
+To: Willian Rampazzo <wrampazz@redhat.com>
+References: <20210228224343.310677-1-f4bug@amsat.org>
+ <c11afdea-2faf-b445-cb35-05fed0c99a35@redhat.com>
+ <b0dc999b-ddd1-fc4b-cd7d-56905c85616b@amsat.org>
+ <CAKJDGDZzWKYrDiBPmDFBihEH=hOCymHuXZ8cNP4ZTSdLisAefA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f48c7cd7-27e5-da53-adbf-849c094a88f5@redhat.com>
+Date: Tue, 2 Mar 2021 16:45:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAKJDGDZzWKYrDiBPmDFBihEH=hOCymHuXZ8cNP4ZTSdLisAefA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,68 +103,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 02, 2021 at 08:18:03AM -0500, Daniele Buono wrote:
-> On 3/2/2021 5:30 AM, Daniel P. Berrangé wrote:
-> > On Mon, Mar 01, 2021 at 03:39:42PM -0500, Daniele Buono wrote:
-> > > Hi Daniel,
-> > > 
-> > > On 3/1/2021 10:08 AM, Daniel P. Berrangé wrote:
-> > > > What are the unique failure scenarios for CFI that these jobs are
-> > > > likely to expose ? Is it likely that we'll have cases where
-> > > > CFI succeeds in say, x86_64 target, but fails in aarch64 target ?
-> > > For CFI to fail (even if it shouldn't) you'll need code that is calling a
-> > > function pointer that was not well defined at compile time. Although
-> > > unlikely, that could happen everywhere in the code.
-> > What does "was not well defined" mean here ?
-> > 
+On 3/2/21 4:27 PM, Willian Rampazzo wrote:
+> Hi Phil,
 > 
-> At high level, the compiler creates metadata for every function. Before
-> jumping to a function pointer, it makes sure that the pointer and the
-> pointee have matching types.
-> Not well defined means one of these two cases:
-> 1. The function has a different type than the pointer -> Most likely an
-> error
+> On Mon, Mar 1, 2021 at 11:11 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 3/1/21 2:30 PM, Wainer dos Santos Moschetta wrote:
+>>> Hi,
+>>>
+>>> On 2/28/21 7:43 PM, Philippe Mathieu-Daudé wrote:
+>>>> Having artifacts stored in personal namespace is not ideal,
+>>>> as these might get closed and disappear. Use the original URL
+>>>> where these artifacts could be found.
+>>>>
+>>>> For more references:
+>>>> https://fedoraproject.org/wiki/Architectures/MIPS/2015Bootstrap/mips64el
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>   tests/acceptance/boot_linux_console.py | 4 ++--
+>>>>   tests/acceptance/replay_kernel.py      | 4 ++--
+>>>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/tests/acceptance/boot_linux_console.py
+>>>> b/tests/acceptance/boot_linux_console.py
+>>>> index eb012867997..138bd8cb7d3 100644
+>>>> --- a/tests/acceptance/boot_linux_console.py
+>>>> +++ b/tests/acceptance/boot_linux_console.py
+>>>> @@ -239,8 +239,8 @@ def test_mips64el_malta_5KEc_cpio(self):
+>>>>           :avocado: tags=machine:malta
+>>>>           :avocado: tags=endian:little
+>>>>           """
+>>>> -        kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+>>>> -                      'raw/9ad2df38/mips/malta/mips64el/'
+>>>> +        kernel_url = ('http://mipsfedora.imgtec.com/development/22/'
+>>>> +                      'mips64el/images/20150601/'
+>>>>                         'vmlinux-3.19.3.mtoman.20150408')
+>>>
+>>> http://mipsfedora.imgtec.com/development/22/mips64el/images/20150601/vmlinux-3.19.3.mtoman.20150408
+>>> did not get resolve here. Could you please double-check the url is correct?
+>>
+>> Yes it is correct, the domain is dead. It was working when I wrote
+>> the test. Should I remove the test instead?
+>>
+> 
+> This test is already skipped by default because of the
+> AVOCADO_ALLOW_UNTRUSTED_CODE flag.
 
-How strictly is this checked ?  With GLib function prototype mismatch
-is not uncommon. For example GLib might need to invoke a callback with
-a signature:
+QEMU's .gitlab-ci.yml does (see acceptance_definition):
 
-   int foo(int somearg, void *opaque);
+  before_script:
+    - mkdir -p ~/.config/avocado
+    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
+    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
+           >> ~/.config/avocado/avocado.conf
+    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL", "INTERRUPT"]'
+           >> ~/.config/avocado/avocado.conf
+    - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
+        du -chs ${CI_PROJECT_DIR}/avocado-cache ;
+      fi
+    - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
 
-The API though will often declare the callback signature to be
-generic
+> Even if the flag is set to allow
+> the test to run, it will be skipped because the cache lacks the asset.
 
-   void (*GCallback) (void);
+Same file, we save the cache between runs:
 
-The caller will implement a callback with
+  cache:
+    key: "${CI_JOB_NAME}-cache"
+    paths:
+      - ${CI_PROJECT_DIR}/avocado-cache
 
-   int foo(int somearg, mytype *mydata);
+> Instead of removing the test, my suggestion is to add information to
+> allow people to run it locally, like:
+> 
+> diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> index eb01286799..23efc18a99 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -239,11 +239,13 @@ def test_mips64el_malta_5KEc_cpio(self):
+>          :avocado: tags=machine:malta
+>          :avocado: tags=endian:little
+>          """
+> -        kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+> -                      'raw/9ad2df38/mips/malta/mips64el/'
+> -                      'vmlinux-3.19.3.mtoman.20150408')
+> +        # to run this test locally, download the following asset and register
+> +        # it manually to the avocado cache with:
+> +        #   $(BUILD_DIR)/tests/venv/bin/avocado assets register \
+> +        #   vmlinux-3.19.3.mtoman.20150408 <path to the file>
+> +        kernel_name = 'vmlinux-3.19.3.mtoman.20150408'
 
-and will use  G_CALLBACK() to do an intentional bad cast to GCallback
+In this particular case it could work because the name is not generic,
+but what about the generic names ("vmlinux" for example)?
 
-Before it invokes the callback, GLib would cast from GCallback back
-to    int foo(int somearg, void *opaque);
+Can't we register assets using any string to hash?
 
-Notice this last arg doesn't match the type of the actual implemented
-callback.
-
-Is this scenario going to upset  CFI, or is it happy that 'void *'
-is compatible with 'mytype *', and ok with the intermediate casts
-to/from GCallback ?
-
-> 2. The function was not available at compile time so the compiler could
-> not create the related metadata -> Most likely a false positive.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>          kernel_hash = '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
+> -        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +        kernel_path = self.fetch_asset(kernel_name, asset_hash=kernel_hash)
+>          initrd_url = ('https://github.com/groeck/linux-build-test/'
+>                        'raw/8584a59e/rootfs/'
+>                        'mipsel64/rootfs.mipsel64r1.cpio.gz')
+> diff --git a/tests/acceptance/replay_kernel.py
+> b/tests/acceptance/replay_kernel.py
+> index c1cb862468..180e915264 100644
+> --- a/tests/acceptance/replay_kernel.py
+> +++ b/tests/acceptance/replay_kernel.py
+> @@ -397,11 +397,13 @@ def test_mips64el_malta_5KEc_cpio(self):
+>          :avocado: tags=endian:little
+>          :avocado: tags=slowness:high
+>          """
+> -        kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+> -                      'raw/9ad2df38/mips/malta/mips64el/'
+> -                      'vmlinux-3.19.3.mtoman.20150408')
+> +        # to run this test locally, download the following asset and register
+> +        # it manually to the avocado cache with:
+> +        #   $(BUILD_DIR)/tests/venv/bin/avocado assets register \
+> +        #   vmlinux-3.19.3.mtoman.20150408 <path to the file>
+> +        kernel_name = 'vmlinux-3.19.3.mtoman.20150408'
+>          kernel_hash = '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
+> -        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +        kernel_path = self.fetch_asset(kernel_name, asset_hash=kernel_hash)
+>          initrd_url = ('https://github.com/groeck/linux-build-test/'
+>                        'raw/8584a59e/rootfs/'
+>                        'mipsel64/rootfs.mipsel64r1.cpio.gz')
+> 
+> What do you think?
+> 
+> ps. WARNING, above code not tested.
+> 
+>>>>           kernel_hash = '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
+>>>>           kernel_path = self.fetch_asset(kernel_url,
+>>>> asset_hash=kernel_hash)
+>>>> diff --git a/tests/acceptance/replay_kernel.py
+>>>> b/tests/acceptance/replay_kernel.py
+>>>> index c1cb8624683..efdd4233bc2 100644
+>>>> --- a/tests/acceptance/replay_kernel.py
+>>>> +++ b/tests/acceptance/replay_kernel.py
+>>>> @@ -397,8 +397,8 @@ def test_mips64el_malta_5KEc_cpio(self):
+>>>>           :avocado: tags=endian:little
+>>>>           :avocado: tags=slowness:high
+>>>>           """
+>>>> -        kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+>>>> -                      'raw/9ad2df38/mips/malta/mips64el/'
+>>>> +        kernel_url = ('http://mipsfedora.imgtec.com/development/22/'
+>>>> +                      'mips64el/images/20150601/'
+>>>>                         'vmlinux-3.19.3.mtoman.20150408')
+>>>>           kernel_hash = '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
+>>>>           kernel_path = self.fetch_asset(kernel_url,
+>>>> asset_hash=kernel_hash)
+>>>
+>>
+> 
 
 
