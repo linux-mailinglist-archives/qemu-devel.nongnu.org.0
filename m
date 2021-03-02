@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F68F32A05A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:20:59 +0100 (CET)
-Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ACC32A0E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 14:29:33 +0100 (CET)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH4xO-0007Ro-9f
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:20:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
+	id 1lH55g-0003fn-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 08:29:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lH4uh-0006Pk-HQ
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:18:11 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lH4uf-0000Hz-BM
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 08:18:11 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122D9RXq123814
- for <qemu-devel@nongnu.org>; Tue, 2 Mar 2021 08:18:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=FaNYNgJNUMl7u/eTLNXlkRF99SrBGSlJCSZbu+LA7+c=;
- b=kKNlXTR5TtV3Yc2v1qPsYM8+EmGVDkMlIqC+dW6GY8yerbjE8C7HpXzp1Gaeo3V5ULOC
- +L+R8w7JIObCzpEnyz6BLUnv0mhObSuzO/je0JejRG3Red3MVS9LQvjjD0cxm1eyweqZ
- KeQYsDLKiNKmUofqHc2Exmekti/I4wtRvUdAJ0KgkN5qzUx7bpYFzGBRsMyxoH8KIrjZ
- fHbSSCSRklP8GpE9J8XdAkMvsRlrXa0pnKz8OhfHg4zPGIlGkCpfkj+shKt3qqGE8+ld
- l/gCksJPKChKv4HFb+5/W7/A2+JFJbTBWeoRCuYk8IZEZy5j9ROPcO4KaalB942VB6uk hA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371n8v1je6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:18:07 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 122D9YkW124324
- for <qemu-devel@nongnu.org>; Tue, 2 Mar 2021 08:18:07 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 371n8v1jdk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 08:18:06 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 122DGXgA021183;
- Tue, 2 Mar 2021 13:18:06 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02dal.us.ibm.com with ESMTP id 3710sqj4ek-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 13:18:06 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 122DI4Su26542560
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Mar 2021 13:18:04 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D24BF6A04D;
- Tue,  2 Mar 2021 13:18:04 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8A1C66A04F;
- Tue,  2 Mar 2021 13:18:04 +0000 (GMT)
-Received: from [9.211.86.147] (unknown [9.211.86.147])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  2 Mar 2021 13:18:04 +0000 (GMT)
-Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210226152108.7848-1-dbuono@linux.vnet.ibm.com>
- <YDy8qsRRR3FmWr1D@redhat.com>
- <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
- <YD0Day/wGawuWdpi@redhat.com>
- <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
- <YD4T1nVIEdL7/IoG@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
-Date: Tue, 2 Mar 2021 08:18:03 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lH52i-0001aW-VM; Tue, 02 Mar 2021 08:26:28 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lH52h-0001an-FE; Tue, 02 Mar 2021 08:26:28 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id t25so13822283pga.2;
+ Tue, 02 Mar 2021 05:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UnFrFUxkrm8ifQ/YJRFM4cazuOSYeHnmhMFpysUYja8=;
+ b=FZJF++J5rULq03pBtUuuZF5DBJRbOHZ/k4NNgBSUlhO/sQI/Q07r5mJsvMWbEJbBN9
+ 17fIgBfWKORpJwLRlC+VYN/4Z/S1xyO9tEA4lpaG86QQn82Ll0q98MTWH4h+PtbUNkGZ
+ /eCM1BxhvnerBmcrIlbpTw8oB6wTsyCXvjsZ7uoLrZefPteRfAmRintvr5gYFEFdFVan
+ g3a+WKkoYLa6WPD8CBmpAjePSomOSDqV8184L03qkcZosymtEf5O0qkUEBtIRCJ8lw1F
+ JD81VEymMT65pQjSRm0pFCAVioJyHPjO5ZjH7WL4VOmF8L7MpVOnPymBBS7EFf1aAuBY
+ yzUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UnFrFUxkrm8ifQ/YJRFM4cazuOSYeHnmhMFpysUYja8=;
+ b=WMJxw0s2AR9XCiSd8mzYCDCs0y3D9JZifqNzqlomzxtFEJiY58026Eek0x6ySE2wVf
+ ReSTQl/hRxZldjcLloEfcvvJxGBeVAMZcco1ZVZVlznwJ2ESys0//SQ2KhZqc5De0aa4
+ PKMRc4ZbHv8ohAaQbDekd0rDMmgwO5fEFZcKsM2hghH/DD3FeL72jI2tyZut3wgfTeSY
+ pcGsOH9Fq06zVeRt3vdJbXLGa17Pd5/Y2f8v65pMCQ1FiP+wUae6VagzWsw3XPEN+pJX
+ OQdshuqxNVQyFt5ofYpq2YT8hnoOyCuEPXoCTT67/r8E4pVrXP8glSM3PaPi7/kUAiCO
+ CPNw==
+X-Gm-Message-State: AOAM533RIk8gioNJfWpz/QVnGp0xJdpPidSPRUHzoN/fD7W9t2Ffwm2Z
+ sNkfvN4cmhmvFndO/LdV1VzW17UTvwmlrA==
+X-Google-Smtp-Source: ABdhPJz1kOSx1zPMNp77kAUmR1NSGIuuNc+bmghBuyM2EmRi+VyLYtExIQUie7ZRCSA86VhG9jkinw==
+X-Received: by 2002:aa7:8a46:0:b029:1ed:cefd:7f7 with SMTP id
+ n6-20020aa78a460000b02901edcefd07f7mr3279773pfa.46.1614691585522; 
+ Tue, 02 Mar 2021 05:26:25 -0800 (PST)
+Received: from localhost.localdomain ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id u7sm20166956pfh.150.2021.03.02.05.26.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 05:26:24 -0800 (PST)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH V4 0/8] hw/block/nvme: support namespace attachment
+Date: Tue,  2 Mar 2021 22:26:09 +0900
+Message-Id: <20210302132617.18495-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <YD4T1nVIEdL7/IoG@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-02_06:2021-03-01,
- 2021-03-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 malwarescore=0 mlxscore=0 phishscore=0 spamscore=0
- mlxlogscore=999 impostorscore=0 priorityscore=1501 adultscore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2103020107
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,33 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/2021 5:30 AM, Daniel P. Berrangé wrote:
-> On Mon, Mar 01, 2021 at 03:39:42PM -0500, Daniele Buono wrote:
->> Hi Daniel,
->>
->> On 3/1/2021 10:08 AM, Daniel P. Berrangé wrote:
->>> What are the unique failure scenarios for CFI that these jobs are
->>> likely to expose ? Is it likely that we'll have cases where
->>> CFI succeeds in say, x86_64 target, but fails in aarch64 target ?
->> For CFI to fail (even if it shouldn't) you'll need code that is calling a
->> function pointer that was not well defined at compile time. Although
->> unlikely, that could happen everywhere in the code.
-> What does "was not well defined" mean here ?
-> 
+Hello,
 
-At high level, the compiler creates metadata for every function. Before
-jumping to a function pointer, it makes sure that the pointer and the
-pointee have matching types.
-Not well defined means one of these two cases:
-1. The function has a different type than the pointer -> Most likely an
-error
-2. The function was not available at compile time so the compiler could
-not create the related metadata -> Most likely a false positive.
+This series supports namespace attachment: attach and detach.  This is
+the fourth version of series with replacing changed namespace list to
+bitmap to indicate changed namespace IDs.
+
+Please review.
 
 Thanks,
-Daniele
+
+Since V3:
+  - Replace changed ns list to bitmap to not only represent relationship
+    between controller and namespace, but also avoid duplications of
+    nsids in the list.  (Klaus)
+
+Since V2:
+  - Added command effects (namespace inventory changed) for namespace
+    attach command.  (Keith)
+  - Added [7/8] patch to support asynchronus event when namespace
+    inventory is updated.  (Keith)
+  - Added review and tested tag from Klaus to all the patches, but [6/8]
+    and [7/8].
+
+Since V1:
+  - Fix to take 'ctrl' which is given from the command rather than 'n'.
+    (Klaus)
+  - Add a [7/7] patch to support CNS 12h Identify command (Namespace
+    Attached Controller list).
+
+Minwoo Im (8):
+  hw/block/nvme: support namespace detach
+  hw/block/nvme: fix namespaces array to 1-based
+  hw/block/nvme: fix allocated namespace list to 256
+  hw/block/nvme: support allocated namespace type
+  hw/block/nvme: refactor nvme_select_ns_iocs
+  hw/block/nvme: support namespace attachment command
+  hw/block/nvme: support changed namespace asyncrohous event
+  hw/block/nvme: support Identify NS Attached Controller List
+
+ hw/block/nvme-ns.c     |   1 +
+ hw/block/nvme-ns.h     |   2 +
+ hw/block/nvme-subsys.h |  28 +++-
+ hw/block/nvme.c        | 300 ++++++++++++++++++++++++++++++++++++-----
+ hw/block/nvme.h        |  37 +++++
+ hw/block/trace-events  |   3 +
+ include/block/nvme.h   |  14 ++
+ 7 files changed, 349 insertions(+), 36 deletions(-)
+
+-- 
+2.27.0
+
 
