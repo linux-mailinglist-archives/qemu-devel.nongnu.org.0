@@ -2,94 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A74329695
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 08:07:57 +0100 (CET)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98BA329696
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 08:08:03 +0100 (CET)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGz8O-0000bW-Rm
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 02:07:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56006)
+	id 1lGz8T-0000ks-6i
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 02:08:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGz5U-0007wJ-Q6
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 02:04:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGz5R-00025w-GU
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 02:04:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614668692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p2+pGBmjBmynjX4fIEzeFpHq+AI2WMuimDZ8nZ0FDp4=;
- b=QTCNYNM+GNosOAMTH15io9C4VGq/4lXm+0/QL8a7svHixkyAEqa9uma5i4E1QJqAgM8+Xr
- 7XENdTkTdBOGiY7EpUOe2m9WwWu76Tqnbt3hwN9IJVLyhQ1QolKTHWVGdQOMaDB/rGDAgG
- psjpT3hDoaqfpE9KmCoCGpyUoHI8BfY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-tvFqdKsnMLioBhBBtfn01A-1; Tue, 02 Mar 2021 02:04:49 -0500
-X-MC-Unique: tvFqdKsnMLioBhBBtfn01A-1
-Received: by mail-ej1-f71.google.com with SMTP id h8so7427308ejx.12
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 23:04:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p2+pGBmjBmynjX4fIEzeFpHq+AI2WMuimDZ8nZ0FDp4=;
- b=Bu6cYP+LPwLKdh4I7QqsydbeYFXM8lJfZERm3Hy1apMZjYIiVilLAH01wwJLtskK7K
- H9Ki1pBl2Xyxz07xReBUKYLF6a6V/eXo5ywY8K9JIQovDDvOusseEj/CKbeoKKEidCsV
- dgi2F5yRaqLrblPXRp2GNPqjxQbofojew9cdypkyiebboVbsfOFn6v8Ft420/Lq/Nzh2
- OCRVMNhOvPvj3I2MVDbEJ0OyT2rkUZOdkQP4nY5wb+rKdQ4+9Wfa9g6sGYgve6OH+S02
- eWt85xT7KE/wuNsVK0C995g65U93S10vrEMCFelqEohBzvABkeC180X2Ib3XWKTPxFX3
- yCxw==
-X-Gm-Message-State: AOAM533WUcbOmzVyB4a00/bp+9FysrB2SZlp9mZxV+YBlBJ91Jef/d9d
- gmY8g661gWQAAF4xGHIgUTwCJkUkjpKuQdGqZSYdVQ6G8nTHsYhseNIf6g8Nicw7Z/mMiWemlVT
- qMUPYLJokmt/oyiA=
-X-Received: by 2002:a17:906:6817:: with SMTP id
- k23mr18928988ejr.6.1614668688510; 
- Mon, 01 Mar 2021 23:04:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwNWMmqwh7aYSXAHFhRcE68MxZHWYc/I+Pd8ViuRswICxej7+nynhY+VKByKOhZNcMHosTZsg==
-X-Received: by 2002:a17:906:6817:: with SMTP id
- k23mr18928964ejr.6.1614668688337; 
- Mon, 01 Mar 2021 23:04:48 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r10sm15745592edd.49.2021.03.01.23.04.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 23:04:47 -0800 (PST)
-Subject: Re: [RFC PATCH v2 3/3] hw/block/pflash: use
- memory_region_init_rom_device_from_file()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210301115329.411762-1-philmd@redhat.com>
- <20210301115329.411762-4-philmd@redhat.com>
- <YD0uvW+vzfQjBecY@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bc4b3dee-4af4-7ce2-aeaa-70c0cfde679f@redhat.com>
-Date: Tue, 2 Mar 2021 08:04:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1lGz5r-0008FS-OE; Tue, 02 Mar 2021 02:05:19 -0500
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:13778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1lGz5k-0002CQ-SG; Tue, 02 Mar 2021 02:05:19 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 6BF2B418FD;
+ Tue,  2 Mar 2021 08:05:08 +0100 (CET)
+Message-ID: <f90f6a34-0c8b-c620-6906-18c12f2332d0@proxmox.com>
+Date: Tue, 2 Mar 2021 08:05:06 +0100
 MIME-Version: 1.0
-In-Reply-To: <YD0uvW+vzfQjBecY@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101
+ Thunderbird/87.0
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Vitaly Cheptsov <cheptsov@ispras.ru>, qemu-devel@nongnu.org
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+From: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
+In-Reply-To: <20210301195919.9333-1-cheptsov@ispras.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,94 +53,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Xu Yandong <xuyandong2@huawei.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, David Edmondson <david.edmondson@oracle.com>,
- haibinzhang <haibinzhang@tencent.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-stable@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 7:13 PM, Stefan Hajnoczi wrote:
-> On Mon, Mar 01, 2021 at 12:53:29PM +0100, Philippe Mathieu-Daudé wrote:
->> If the block drive is read-only we will model a "protected" flash
->> device. We can thus use memory_region_init_rom_device_from_file()
->> which mmap the backing file when creating the MemoryRegion.
->> If the same backing file is used by multiple QEMU instances, this
->> reduces the memory footprint (this is often the case with the
->> CODE flash image from OVMF and AAVMF).
->>
->> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/block/pflash_cfi01.c | 39 +++++++++++++++++++++++++++++++--------
->>  1 file changed, 31 insertions(+), 8 deletions(-)
->>
->> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
->> index a5fa8d8b74a..ec290636298 100644
->> --- a/hw/block/pflash_cfi01.c
->> +++ b/hw/block/pflash_cfi01.c
->> @@ -702,6 +702,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
->>      int ret;
->>      uint64_t blocks_per_device, sector_len_per_device, device_len;
->>      int num_devices;
->> +    bool romd_mr_shared_mapped;
->>  
->>      if (pfl->sector_len == 0) {
->>          error_setg(errp, "attribute \"sector-length\" not specified or zero.");
->> @@ -743,19 +744,41 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
->>          pfl->ro = 0;
->>      }
->>  
->> -    memory_region_init_rom_device(
->> -        &pfl->mem, OBJECT(dev),
->> -        &pflash_cfi01_ops,
->> -        pfl,
->> -        pfl->name, total_len, errp);
->> -    if (*errp) {
->> -        return;
->> +    if (pfl->ro && pfl->blk) {
->> +        BlockDriverState *bs = blk_bs(pfl->blk);
->> +
->> +        /* If "raw" driver used, try to mmap the backing file as RAM_SHARED */
->> +        if (bs->drv == &bdrv_raw) { /* FIXME check offset=0 ? */
+On 01.03.21 20:59, Vitaly Cheptsov wrote:
+> After fixing the _UID value for the primary PCI root bridge in
+> af1b80ae it was discovered that this change updates Windows
+> configuration in an incompatible way causing network configuration
+> failure unless DHCP is used. More details provided on the list:
 > 
-> Bypassing the block layer is tricky because there are a lot of features
-> that conflict (you already pointed out the offset= option). Checking
-> bdrv_raw is not enough because the underlying protocol driver could be
-> GlusterFS, iSCSI, etc.
-
-OK.
-
-> I think the goal here is to avoid changing the command-line/QMP so that
-> users don't need to modify their guests. Therefore changing the pflash
-> qdev properties is not desirable (we could have added a separate code
-> path that bypasses the block layer cleanly).
-
-Yes, this is the limitation.
-
-> This seems like a
-> worthwhile optimization that the block layer should support. I suggest
-> adding a new API like:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
 > 
->   /* Returns a filename string if @blk supports read-only mmap */
->   char *blk_get_read_only_mmap_filename(BlockBackend *blk, Error **errp);
+> This change reverts the _UID update from 1 to 0 for q35 and i440fx
+> VMs before version 5.2 to maintain the original behaviour when
+> upgrading.
 > 
-> Then block/raw-format.c would forward the call to bs->file and
-> block/raw-posix.c would implement it by returning a new filename string
-> when bs->read_only is true.
+> Cc: qemu-stable@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
 
-Thanks :) Kevin suggested something similar too.
+Thanks for sending this! Works as advertised and can be cleanly cherry-picked
+on top of the v5.2.0 tag.
 
-> 
-> FWIW this API isn't perfect because the file could be reopened with QMP
-> and the existing mmap would remain in place.
+Tested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 
-Can you show me a QMP example or point me at the command?
-This shouldn't happen with the pflash.
-
-Thanks for reviewing,
-
-Phil.
 
 
