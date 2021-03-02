@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796413296FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:42:43 +0100 (CET)
-Received: from localhost ([::1]:48766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5158329703
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:51:05 +0100 (CET)
+Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH0c6-0001BH-2W
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:42:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55042)
+	id 1lH0kC-0003Rd-3y
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:51:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lH0ak-0000hv-HS
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:41:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23732)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lH0iJ-0002ph-Vq
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:49:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lH0ah-00026s-24
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:41:17 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lH0iD-0006gm-FE
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:49:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614674473;
+ s=mimecast20190719; t=1614674940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pQm+CDv9mXM9U2rY83Z74WpJTY59iKljmUcmEdMRA7A=;
- b=R60ic8kKTM1eFV5IeGDeSEl56DwvLdivjF8m9gyVXYAjwex14UhW2WwPN832Cp0RlTcrcI
- GdyX16pxm02qFOk6XhLiEWMGzynpbmo6FlOACUDt2QJlmWcBJgkI5p59DusK6NnxWijRIw
- UMWK9ToUoj3uoB/fyGLU7B7blhuqC2I=
+ bh=ytyQVv4GnNNE6mkgOp6ZQwF9sShM3g1kSkIOJznsfqM=;
+ b=BlyUV3+AjAPSoqGtNIqolL1ub8HeMQomtdeKGYpq0sFlLcvq2EzVUEg4G/b4kVLsVMJZpd
+ itLK6JFokktLyrAeS/qeGLQdbwiBR1MvXgXI1JbUzCVjLdckNW7HnKfFA6NCsMUwwCnAtn
+ J1x8f/DF9IkyhmuzOw3BkdGuJbwKDcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-apD4-tbZMTCU8kKZW_yPUg-1; Tue, 02 Mar 2021 03:41:09 -0500
-X-MC-Unique: apD4-tbZMTCU8kKZW_yPUg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-108-3O2li4iCN0C44EEBeImdwQ-1; Tue, 02 Mar 2021 03:48:56 -0500
+X-MC-Unique: 3O2li4iCN0C44EEBeImdwQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1BDE193578E;
- Tue,  2 Mar 2021 08:41:06 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-150.ams2.redhat.com
- [10.36.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74E3D5D9E2;
- Tue,  2 Mar 2021 08:41:00 +0000 (UTC)
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200730155755.188845-1-mst@redhat.com>
- <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
- <20210228154208-mutt-send-email-mst@kernel.org>
- <20210301142819.66b94a4e@redhat.com>
- <20210301111254-mutt-send-email-mst@kernel.org>
- <14c5dafe-ac7c-d1c9-ba51-325a3a0252a7@redhat.com>
- <20210301200834.2def369a@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <b510d646-6e9e-ac1a-0d9f-df89fc00d1f0@redhat.com>
-Date: Tue, 2 Mar 2021 09:40:59 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1420C100A8FD;
+ Tue,  2 Mar 2021 08:48:55 +0000 (UTC)
+Received: from MiWiFi-RA69-srv (unknown [10.40.208.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BA5962665;
+ Tue,  2 Mar 2021 08:48:49 +0000 (UTC)
+Date: Tue, 2 Mar 2021 09:48:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Cheptsov <cheptsov@ispras.ru>
+Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
+Message-ID: <20210302094847.4baf87ad@MiWiFi-RA69-srv>
+In-Reply-To: <20210301195919.9333-1-cheptsov@ispras.ru>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
 MIME-Version: 1.0
-In-Reply-To: <20210301200834.2def369a@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,33 +78,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vit9696 <vit9696@protonmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-stable@nongnu.org, Thomas Lamprecht <t.lamprecht@proxmox.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/01/21 20:08, Igor Mammedov wrote:
-> On Mon, 1 Mar 2021 17:28:05 +0100
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
->> On 03/01/21 17:14, Michael S. Tsirkin wrote:
->>> On Mon, Mar 01, 2021 at 02:28:19PM +0100, Igor Mammedov wrote:  
->>
->>>> How about:
->>>>  * buggy ACPI for 5.1 machine types and older
->>>>  * fixed ACPI for 5.2 and newer?  
->>>
->>> Exactly.  
->>
->> Sounds OK to me as well (even though it's quite unfortunate that this is
->> one of those exceptions that require us to version the ACPI generator).
-> it is unfortunate, and I do resist to such changes usually.
-> in this case, I fill avoiding complaints/bug reports justifies such exception.
+On Mon,  1 Mar 2021 22:59:18 +0300
+Vitaly Cheptsov <cheptsov@ispras.ru> wrote:
 
-Right, thanks.
-Laszlo
+> After fixing the _UID value for the primary PCI root bridge in
+> af1b80ae it was discovered that this change updates Windows
+> configuration in an incompatible way causing network configuration
+> failure unless DHCP is used. More details provided on the list:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
+> 
+> This change reverts the _UID update from 1 to 0 for q35 and i440fx
+> VMs before version 5.2 to maintain the original behaviour when
+> upgrading.
+> 
+> Cc: qemu-stable@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/i386/acpi-build.c | 4 ++--
+>  hw/i386/pc_piix.c    | 2 ++
+>  hw/i386/pc_q35.c     | 2 ++
+>  include/hw/i386/pc.h | 1 +
+>  4 files changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 31a5f6f4a5..442b4629a9 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1277,7 +1277,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+>          aml_append(sb_scope, dev);
+>          aml_append(dsdt, sb_scope);
+>  
+> @@ -1296,7 +1296,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+>          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+>          aml_append(dev, build_q35_osc_method());
+>          aml_append(sb_scope, dev);
+>          if (mcfg_valid) {
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 2904b40163..46cc951073 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -405,6 +405,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pcmc->default_nic_model = "e1000";
+> +    pcmc->pci_root_uid = 0;
+>  
+>      m->family = "pc_piix";
+>      m->desc = "Standard PC (i440FX + PIIX, 1996)";
+> @@ -448,6 +449,7 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
+>      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+>      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+>      pcmc->kvmclock_create_always = false;
+> +    pcmc->pci_root_uid = 1;
+>  }
+>  
+>  DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 0a212443aa..53450190f5 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -329,6 +329,7 @@ static void pc_q35_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pcmc->default_nic_model = "e1000e";
+> +    pcmc->pci_root_uid = 0;
+>  
+>      m->family = "pc_q35";
+>      m->desc = "Standard PC (Q35 + ICH9, 2009)";
+> @@ -375,6 +376,7 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
+>      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+>      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+>      pcmc->kvmclock_create_always = false;
+> +    pcmc->pci_root_uid = 1;
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index c9d194a5e7..d4c3d73c11 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -105,6 +105,7 @@ struct PCMachineClass {
+>      int legacy_acpi_table_size;
+>      unsigned acpi_data_size;
+>      bool do_not_add_smb_acpi;
+> +    int pci_root_uid;
+>  
+>      /* SMBIOS compat: */
+>      bool smbios_defaults;
 
 
