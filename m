@@ -2,70 +2,166 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5158329703
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:51:05 +0100 (CET)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F76329795
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:06:23 +0100 (CET)
+Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH0kC-0003Rd-3y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:51:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
+	id 1lH0z0-0008AP-2S
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:06:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lH0iJ-0002ph-Vq
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:49:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lH0iD-0006gm-FE
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:49:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614674940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ytyQVv4GnNNE6mkgOp6ZQwF9sShM3g1kSkIOJznsfqM=;
- b=BlyUV3+AjAPSoqGtNIqolL1ub8HeMQomtdeKGYpq0sFlLcvq2EzVUEg4G/b4kVLsVMJZpd
- itLK6JFokktLyrAeS/qeGLQdbwiBR1MvXgXI1JbUzCVjLdckNW7HnKfFA6NCsMUwwCnAtn
- J1x8f/DF9IkyhmuzOw3BkdGuJbwKDcU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-3O2li4iCN0C44EEBeImdwQ-1; Tue, 02 Mar 2021 03:48:56 -0500
-X-MC-Unique: 3O2li4iCN0C44EEBeImdwQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1420C100A8FD;
- Tue,  2 Mar 2021 08:48:55 +0000 (UTC)
-Received: from MiWiFi-RA69-srv (unknown [10.40.208.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BA5962665;
- Tue,  2 Mar 2021 08:48:49 +0000 (UTC)
-Date: Tue, 2 Mar 2021 09:48:47 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Cheptsov <cheptsov@ispras.ru>
-Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
-Message-ID: <20210302094847.4baf87ad@MiWiFi-RA69-srv>
-In-Reply-To: <20210301195919.9333-1-cheptsov@ispras.ru>
-References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lH0wH-0006ep-DJ
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:03:36 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:45490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lH0wE-0007FV-QI
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:03:32 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1228x221162672;
+ Tue, 2 Mar 2021 09:03:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=mp+E44qAGRXjt0y5OzUHNFl2wFJVo3zoS2peoW8YsFM=;
+ b=RRft2l1/ki034rr1Xn78OR+WASBMsppjgnu+i9/427wxavCu+3Hpnh1IxxBnXH1fyyMJ
+ 7114XuGvrD+ZHL/hU+QK4C6pIXfatIyNj2X8FqarxTgIOVLY3vgYQRQoCq+RHz/LJ5UL
+ QqPg/zBWHrOPy3hDoZFK8WcPYdk4d5/aMSYvlJ+ZoxOel5SMhVAEhEDuI+qG+F/kU9JF
+ Z6fTYhZ9yS7Fn9TzklBz9lCDk0o8UAEQLK1xjkEkOMvsN4Q8Blpxf1qvTG75j97uzb19
+ 9lPktOOIKdwfLrzJVSz3bAZkyQpP5diB45doeMTwzbB+V2NhXJ6NnzQ02GWyiZYfudjO PQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 36ybkb6u8j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 02 Mar 2021 09:03:24 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12290wRU007522;
+ Tue, 2 Mar 2021 09:03:23 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+ by userp3030.oracle.com with ESMTP id 37000wpt3r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 02 Mar 2021 09:03:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YkZBBld4Y1MuIXBkWVA6LaSRzJYKbKqxSPDJsHlBaZ3V/UAGi5M2Xq6Hbt8jU5+r6kyAxO65ZfJxF1ePrKnKBEYSwN2Kg6hQhnGIrN1VRRtLWonVJ9P8NKwoLJFB+DOLezkgWIwa3R8WK/KOnciM9GotFZSxd3B6f3KEgCQ/VX5zT6WMjAfVpspD1KsMIW2i0AF7HtVcZdYZET1HuFLvBg0EJblEke7hKVTvCaOhGf8pYIG6Kt0AQ9hm6KbuR/YHDE/zwtJ9ivAiCJv5WefHvuUQDfpF8FLVxcvGEpOtVECYUoIpaoHYqZtqzM0aLNN4fRIvIsNE/KKSBLb5uFUZaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mp+E44qAGRXjt0y5OzUHNFl2wFJVo3zoS2peoW8YsFM=;
+ b=aPGKzxKzKBeYDnlez70LVtas+HDaERATRJyI9bOWwsdUvYAMAh3yAj5qoY5AO9okh/5Jze+LEB95lknMgr1lNsGz7sc8qnhMTsxshJOoU9f942/sJAWrlzLXiuQV+szEerLM7PxvlP/6IA3xo/VjndOeU7ysajAtyjaWnGkkTTfj14NAaKrPGYYQosEuc6md22BG8ScAbtxtp1vi+FUJGw3rAJGSqx6XvbdnsmV8qKDLZHp3ZsN1i/6C/ZxihPN5xR4W6TN1uP3Yqn9Im+wDbsooSIun61A5SlGIKEw+mWasdit1w/Xs0z4+cPHc6No2so4SgIeZ505nqc+qC8aT6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mp+E44qAGRXjt0y5OzUHNFl2wFJVo3zoS2peoW8YsFM=;
+ b=pU0Nr7NURtwW6OPw+SclOuZuRbeitf+F8GiNFRdIPEtrLe2A+qR4r6nbWfUPv85+u9q3vpuTkfIGAMiX+tEge96T9LM7XJix0OQENyH7HghYvTrt0z2oO8M9AaV1n7ClLk6+vj5jerGyrOHe6S9IwDG9X3mTf4v3svJHYDikHVw=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
+ by DM6PR10MB4396.namprd10.prod.outlook.com (2603:10b6:5:21e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Tue, 2 Mar
+ 2021 09:03:22 +0000
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934]) by DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934%5]) with mapi id 15.20.3890.029; Tue, 2 Mar 2021
+ 09:03:22 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] improve loading of 32 bit PVH kernels
+Date: Tue,  2 Mar 2021 09:03:13 +0000
+Message-Id: <20210302090315.3031492-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.30.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [2001:8b0:bb71:7140:64::1]
+X-ClientProxiedBy: LO2P265CA0159.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9::27) To DM6PR10MB3148.namprd10.prod.outlook.com
+ (2603:10b6:5:1a4::21)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from disaster-area.hh.sledj.net (2001:8b0:bb71:7140:64::1) by
+ LO2P265CA0159.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.20 via Frontend Transport; Tue, 2 Mar 2021 09:03:20 +0000
+Received: from localhost (disaster-area.hh.sledj.net [local])	by
+ disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id b924fe4a;
+ Tue, 2 Mar 2021 09:03:16 +0000 (UTC)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 072b66df-a2ae-4673-d854-08d8dd5a07af
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4396:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR10MB4396D8AC1C44D66D44698FE888999@DM6PR10MB4396.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m2JAHNbqnJ/Vn/aDCeGbut7RvXspw5H5yn0HHpV2xdwB1B50E+5edTtKl5FoBDs81cryrDKsivHETAU6BGsHDk+E/+N7VNivh5OpqJRFUTNEIBQ6I0NZBMhvKSyX09OOjaItl3S4wDVA3vTpuFjvt5a6eQIMO2kQ8zsrSuas2ST6Ua5KojUfzi+RqQ2a9kuBPi64rYSSy8EUCx/CzJHX0kjxyk5sJ0So3DTqiB/UFZoJS/7dTQ8P7gSWXwDJfHbzslbuLoV/Azyddp5np9xWZ5nx973ywBKmpi7wkJymAU31kocwG93kKaZaLtjmd1BQ7qMDP6Hx1IREgQ35igb6UZ1DAht49sO/GRkb0w2nL1ztO6S+7zfYi9s5ejKaFAf7CkiEAxcHq1dzb1nlRnmpfmMbdbpTG/ivDuTWmkrcU9SgnEMutoFK8Vy2VaBJdKKa21veSfy4YygkIalWEuhowxq0jGbkRj9RUAJbXKavgKREUgk3IeENykvDWzmZAvK4l+Wds9Fp9xZLXAge/YGivg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(346002)(376002)(136003)(39860400002)(396003)(6916009)(44832011)(66556008)(2906002)(4326008)(5660300002)(66476007)(52116002)(66946007)(83380400001)(6666004)(2616005)(36756003)(107886003)(8936002)(4744005)(8676002)(478600001)(186003)(1076003)(54906003)(86362001)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?+JZzLSi6niigZ+chb0Hn28HCWJtGSCD/G+krJaglYuu165OCY2McLQRDTTin?=
+ =?us-ascii?Q?KUKWDzJ4oTnpppnxN/vgfpnNF0HkZdr83thE+Y97sNHqfmI27y/IqnzCA9Yd?=
+ =?us-ascii?Q?s4DnF71gvDPwslPIci0c3EDcvOyIJjUoghKFOHa3RUKX6pYcfBw18KyZAZvB?=
+ =?us-ascii?Q?canLWzeTPavZdVSZ/bklPqaN6cowmYFGYkMKlSH0k8JSu/H8awrwu0ArbSO4?=
+ =?us-ascii?Q?g1t6rJp98rvfjOULBgyxoJnuGApg0QKcSOElXwkv16PMXWJ5Rp/eHDelVtDe?=
+ =?us-ascii?Q?9HSiDFlh14ldkCOmUyECWCQ832bjawHE6PR7r0sGNfP5CZmI93dWlhxJ+hxL?=
+ =?us-ascii?Q?u3f7q/PONPQQ5j32ZlBFuWN30CU8g4Ge8sLnYmaf1Rh9AYVXNJkMJv+nFz/X?=
+ =?us-ascii?Q?64LJajxvXL/MJ2sz3BnBKy9W1d4yez+Y46xPX/f7WPCCO1MGBkHPzXx+p3S8?=
+ =?us-ascii?Q?3SiKHu2/7abqFRf9wMXU4fWifanmzcWnxnnQtliD0cZkhyPWeNNaJpO/gFTJ?=
+ =?us-ascii?Q?shHz3WfIOQtjQeO0cfRu0PTr656DsELbAQMT/CGI7e0VKtr7Tsz5Er1KnhMj?=
+ =?us-ascii?Q?cuvk7hl7wOiSuFS7d2U2ccUkxBDK46HvZKAgkwTS4ecnNd/yuWHa7fn1IFQm?=
+ =?us-ascii?Q?WEsM180sz1o0FSABHnylMMr+S3AjHrGrXG3tU1T9RWsrf/veNqrxxW/QJMG5?=
+ =?us-ascii?Q?55/o8Q5CnhZ6aViMle1drwWsEKOGNg9QXNiIp4D7yUjOdPjVarytM9MgZFyQ?=
+ =?us-ascii?Q?JXxwGNN+IJ+ujeV9H57LrOtJzcNXYrjJA9CD+hB6nc4xr5UlOCW2BNiIngQ9?=
+ =?us-ascii?Q?te7EI/hRa46UUxbzKJQud0unBAReHeXLDivqj59uk1M6yUwCF/Yk7b7CMTow?=
+ =?us-ascii?Q?iR4ol02hpZYUIcG/7B3hRDuSaa1Wj89lrXnlT/BPSJIE+1D8VQOWyEcU3QSW?=
+ =?us-ascii?Q?IEBL23xbn0NVECISLya3X1mTHX9ZZrTA2I4cnNvIz3HW9nS5pr/0QlrlXBfj?=
+ =?us-ascii?Q?sDyK0BUnjkQWBFozLcXd+yLEU1e57fIRY1u3rWGAT+WZGgwfZ5gzfUWTnXDS?=
+ =?us-ascii?Q?CFdziRgFfSY+pL22IPZ/oB58FGuBCUzziLST8XRWbO5p7MCzHiCeGTnqtt1P?=
+ =?us-ascii?Q?wvL9tTWeeKUX9LrTXxtbbYNpgjHWtaf9gAk5+Y6iscboO3QszPYHYmAU1mdD?=
+ =?us-ascii?Q?I5fSswRJFP8uXR1gcyXffiWXRWPrvICgtxSnmK3sbSrjuie1GwVyXv17LjgD?=
+ =?us-ascii?Q?i1K2zS9Qe3gr3GrQzTLQ5XKmb5oFlzi2tQeeVHsy/lC0V9gPmm+eRtqHnKDZ?=
+ =?us-ascii?Q?omw1pIjnxkl0FdCpEbk9kld7DLwKQRMa4Bkqp8pEE0Hn0g=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 072b66df-a2ae-4673-d854-08d8dd5a07af
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 09:03:22.1193 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h6rY1dw8mLhGni+Bae88ymtom/sEQYeM7hwK4YE0jntAnCk9SV05yAnzRdzurvW5lcn78qEmhCP/IL7hjsdjcmgcFpdPfQSjleG+wbLaX7o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4396
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9910
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0 phishscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103020075
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9910
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 mlxlogscore=999 adultscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103020075
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=david.edmondson@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,113 +174,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Thomas Lamprecht <t.lamprecht@proxmox.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  1 Mar 2021 22:59:18 +0300
-Vitaly Cheptsov <cheptsov@ispras.ru> wrote:
+While testing a non-Linux 32 bit PVH "kernel" (it's really just a
+bunch of test code), I ran into some problems with the current PVH
+loader in QEMU, which seems to work somewhat by accident for 32 bit
+kernels today, having been fortunate in the layout of the object files
+it typically encounters.
 
-> After fixing the _UID value for the primary PCI root bridge in
-> af1b80ae it was discovered that this change updates Windows
-> configuration in an incompatible way causing network configuration
-> failure unless DHCP is used. More details provided on the list:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08484.html
-> 
-> This change reverts the _UID update from 1 to 0 for q35 and i440fx
-> VMs before version 5.2 to maintain the original behaviour when
-> upgrading.
-> 
-> Cc: qemu-stable@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> Reported-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+Non-PAE 32 bit Linux kernels still don't appear to work even with this
+change, but I think that problem is somewhere else (the kernel is
+loaded and starts, but the VM resets when it attempts to enable PG/PE)
+and I haven't tracked it down yet.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+David Edmondson (2):
+  elf_ops: correct loading of 32 bit PVH kernel
+  x86/pvh: extract only 4 bytes of start address for 32 bit kernels
 
-> ---
->  hw/i386/acpi-build.c | 4 ++--
->  hw/i386/pc_piix.c    | 2 ++
->  hw/i386/pc_q35.c     | 2 ++
->  include/hw/i386/pc.h | 1 +
->  4 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 31a5f6f4a5..442b4629a9 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1277,7 +1277,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          dev = aml_device("PCI0");
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
->          aml_append(sb_scope, dev);
->          aml_append(dsdt, sb_scope);
->  
-> @@ -1296,7 +1296,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
->          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
->          aml_append(dev, build_q35_osc_method());
->          aml_append(sb_scope, dev);
->          if (mcfg_valid) {
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 2904b40163..46cc951073 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -405,6 +405,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pcmc->default_nic_model = "e1000";
-> +    pcmc->pci_root_uid = 0;
->  
->      m->family = "pc_piix";
->      m->desc = "Standard PC (i440FX + PIIX, 1996)";
-> @@ -448,6 +449,7 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
->      pcmc->kvmclock_create_always = false;
-> +    pcmc->pci_root_uid = 1;
->  }
->  
->  DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 0a212443aa..53450190f5 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -329,6 +329,7 @@ static void pc_q35_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pcmc->default_nic_model = "e1000e";
-> +    pcmc->pci_root_uid = 0;
->  
->      m->family = "pc_q35";
->      m->desc = "Standard PC (Q35 + ICH9, 2009)";
-> @@ -375,6 +376,7 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
->      pcmc->kvmclock_create_always = false;
-> +    pcmc->pci_root_uid = 1;
->  }
->  
->  DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index c9d194a5e7..d4c3d73c11 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -105,6 +105,7 @@ struct PCMachineClass {
->      int legacy_acpi_table_size;
->      unsigned acpi_data_size;
->      bool do_not_add_smb_acpi;
-> +    int pci_root_uid;
->  
->      /* SMBIOS compat: */
->      bool smbios_defaults;
+ hw/i386/x86.c        | 6 ++++--
+ include/hw/elf_ops.h | 4 +---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+-- 
+2.30.0
 
 
