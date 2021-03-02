@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C62329675
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 07:42:46 +0100 (CET)
-Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E409132967D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 07:46:17 +0100 (CET)
+Received: from localhost ([::1]:50176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGyk1-0005Uz-EK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 01:42:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
+	id 1lGynQ-0006q9-Vc
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 01:46:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1lGyh8-0004WY-9g
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:39:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20536)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGylt-0006Hi-Tw
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:44:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1lGyh5-0003p8-94
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:39:46 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGyls-0006fh-FI
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 01:44:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614667182;
+ s=mimecast20190719; t=1614667478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E14yV2I+WYGMptq66Qo1RRFNyULGJiEBqJIhP22mE24=;
- b=SgKyNcPydCht2l0BVHZ5CCmf12qL1x2f5WDahQF7CFQIyyV1HsxUpnjPoCAmuozv7D9qGi
- zg5f70hzEGF3Fa+35AOsHyvPr5lM0lz8E/Js1YwbbM3HgiKa9L6IHUJAAOEIrAvYuWgCUG
- HjJ8ESPJrIT9pzAry1qNfTzz6Sdoowg=
+ bh=VvbLPaucSaD7dhPewvCbGUHKPU9bcPRKTGBcftKM9gA=;
+ b=ZHBYVvIIVMAFRTI8L4u6WZsWr6KaEuT6cl+NPkjL59VdkkDbCvAkDrBFOgrkKNDV8En1oN
+ ZSy7QmZ2QM1oTo46Qpznnt8abDCErFptmG6of5b/JSciQsdn0oEpaQskWCXY92kpc6Cxjm
+ d735G2OuXJbo3gGPY6/kTQkGlxMJ0iw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-e_eMY4faPlGcisWBS6omkg-1; Tue, 02 Mar 2021 01:39:38 -0500
-X-MC-Unique: e_eMY4faPlGcisWBS6omkg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-190-s_JUFdOhMge24jrAkIzzgg-1; Tue, 02 Mar 2021 01:44:36 -0500
+X-MC-Unique: s_JUFdOhMge24jrAkIzzgg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44BA0803F47;
- Tue,  2 Mar 2021 06:39:37 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7C775B4B0;
- Tue,  2 Mar 2021 06:39:34 +0000 (UTC)
-Date: Tue, 2 Mar 2021 12:09:31 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V2 7/7] rtl8193: switch to use qemu_receive_packet() for
- loopback
-In-Reply-To: <20210302055500.51954-9-jasowang@redhat.com>
-Message-ID: <42np32r6-nr45-psnq-n61r-8on26spo4rp0@erqung.pbz>
-References: <20210302055500.51954-1-jasowang@redhat.com>
- <20210302055500.51954-9-jasowang@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F41CC835E35;
+ Tue,  2 Mar 2021 06:44:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85B405C8A7;
+ Tue,  2 Mar 2021 06:44:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 12784113860F; Tue,  2 Mar 2021 07:44:30 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: CI with --enable-debug?
+References: <877dmrge9c.fsf@dusky.pond.sub.org>
+ <6eed43d5-9ced-0b39-8528-b272930a706f@redhat.com>
+Date: Tue, 02 Mar 2021 07:44:27 +0100
+In-Reply-To: <6eed43d5-9ced-0b39-8528-b272930a706f@redhat.com> (Thomas Huth's
+ message of "Tue, 2 Mar 2021 06:14:41 +0100")
+Message-ID: <8735xem4vo.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ppandit@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -65,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, philmd@redhat.com, qemu-devel@nongnu.org,
- qemu-security@nongnu.org
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thomas Huth <thuth@redhat.com> writes:
 
-+-- On Tue, 2 Mar 2021, Jason Wang wrote --+
-|          DPRINTF("+++ transmit loopback mode\n");
-| -        rtl8139_do_receive(qemu_get_queue(s->nic), buf, size, do_interrupt);
-| +        qemu_receive_packet(qemu_get_queue(s->nic), buf, size);
-|  
-...
-|[PATCH V2 7/7] rtl8193: switch to use qemu_receive_packet() for loopback
+> On 01/03/2021 15.06, Markus Armbruster wrote:
+>> Today I debugged why Paolo couldn't reproduce an assertion failure I
+>> found in review.  Turns out compiling with optimization masks it for
+>> both of us.
+>> This made me wonder whether our CI tests with and without
+>> optimization.
+>> I quick grep finds --enable-debug in .travis.yml, but not in .gitlab*.
+>> Is this a gap?
+>
+> When did you update your local repo the last time? There should be at
+> least one --enable-debug in the gitlab CI now, see commit
+> ac6d7074c0751f6.
 
-* Patch 'V2' need not be here.
+I figure I had switched to an elderly review branch, and forgot to grep
+master instead of HEAD, so I missed this change.  Sorry for the noise!
 
-Thank you.
---
- - P J P
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+[...]
 
 
