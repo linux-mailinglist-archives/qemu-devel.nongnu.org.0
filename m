@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608B332964A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 06:51:44 +0100 (CET)
-Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C4D32964B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 06:57:47 +0100 (CET)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGxwc-0001vF-T7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 00:51:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
+	id 1lGy2U-0004RC-7m
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 00:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGxvD-0001Os-Ez
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 00:50:15 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:34185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGxv8-0006sY-Bb
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 00:50:13 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id m6so13137115pfk.1
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 21:50:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nw9UwE7Kr5hd1qsqDxvYTxw2lrsnohNjwyP40weQaus=;
- b=wsttqTcO/bkm0sAdxAMRZGhft47gaA4i0fEmz3luXtAAl3JlUuwL+Xl74J9/8vM9ZJ
- NIZHYgNnnU1suT5eKNleq17s83MuZbypgC9fTlI7RMTpL4F5+RZHbyMmFuiDDWWXCrz7
- SfzQeLbAvcfcm3iqlLoRBRjsfZBbGqvoQNz1jxj36SVN9BXr4b3715GyHPgECxpdLbOU
- G4EJ3+GOaVq8NZQ757H9GXg5WkaXBCWcgB7M2vUYGu4HmNRaCXQk20Kmd65uT+FMAi68
- w0ppjrejZztfDFoJ2AOkzqPXUilLbmIRL+IAOQZGpTK9gtA+GXmA1GH/LIBp+2oNeBWb
- Snow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nw9UwE7Kr5hd1qsqDxvYTxw2lrsnohNjwyP40weQaus=;
- b=QYMg6TeadN5hejrsNcsasmOsF2+3f4jSvWQDyI3Ut870BLofwBk+dU8ISJ2nBRuUnG
- lrbxAOnp0Z30MeF5dQaFMxHgXPaZHMZ1pGVerffhIBxe3Mdc67IiQGE3iT/0OY1CVq/D
- 4+m7fnJrT8eeu92gbEPhMal5aZQjaqUMt1t7BvJZVdgK/iFPo/uUj3qvQKzyEi4YOzmP
- mm6UgpAvtmLYDcovE1KrzRPcsVx2mLiazHJ0dzDk8giLBkNv2BOSuMi4sdeTXlMLAG7I
- 6J16eze/CiVVOIrwbOrZgxEzDnMZXNfFAVFQqZi4lj6uIJ1Y2/PT7MbPNro/Rh7v3y6L
- o30A==
-X-Gm-Message-State: AOAM531gTZIh0yqa4tROLnkUe6ATt9gV8zlNYxh+q/o1xRc2GhMHJ6lY
- Ev2wTSvTBm//wXdrhIRoiRwdwPdo8/9xXA==
-X-Google-Smtp-Source: ABdhPJzn2/Gb77EUHbir8hl6dl7L83N9J/agJGb0G3QQ/pj++lvoadBcCBykYpZinM0GGVNq4hZSwg==
-X-Received: by 2002:a63:5a0c:: with SMTP id o12mr16689783pgb.76.1614664208531; 
- Mon, 01 Mar 2021 21:50:08 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id o129sm17999776pgo.27.2021.03.01.21.50.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 21:50:08 -0800 (PST)
-Subject: Re: [RFC v2 05/24] target/arm: wrap arm_cpu_exec_interrupt in
- CONFIG_TCG
-To: Claudio Fontana <cfontana@suse.de>
-References: <20210301164936.19446-1-cfontana@suse.de>
- <20210301164936.19446-6-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a0d82589-e36e-d5b6-4d39-5a6c543a2e04@linaro.org>
-Date: Mon, 1 Mar 2021 21:50:06 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lGy06-0002kt-QT
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 00:55:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lGy02-0001bn-1a
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 00:55:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614664512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cn2KP0HQL+TyI7k2t75zqpbJnq/6Qkfrvd3KWbSqLqw=;
+ b=T/BF+t/ZKM4fpchQ81L27qmUqzXz9kdk//LbX+r0IQrvUHLz8pzmTISzg5h75Ag+xmZlZ/
+ Lm9KsXMeGMaejU0TzGxXxuSO5qBAwFCVy+sEyiWrm4QRUCmnHsTmuaapnKh6BUtQ0Ho1mg
+ LnW3O0GQRFpVxdgIOCcypChWmLSBQVo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-6CkQy-hlOgO048Y2bpKXgA-1; Tue, 02 Mar 2021 00:55:07 -0500
+X-MC-Unique: 6CkQy-hlOgO048Y2bpKXgA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98FB5801965;
+ Tue,  2 Mar 2021 05:55:06 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-133.pek2.redhat.com
+ [10.72.12.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F205C5C224;
+ Tue,  2 Mar 2021 05:55:03 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V3 00/10] Detect reentrant RX casued by loopback
+Date: Tue,  2 Mar 2021 13:54:49 +0800
+Message-Id: <20210302055500.51954-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301164936.19446-6-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,24 +76,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: alxndr@bu.edu, Jason Wang <jasowang@redhat.com>, philmd@redhat.com,
+ qemu-security@nongnu.org, ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 8:49 AM, Claudio Fontana wrote:
-> +#ifdef CONFIG_TCG
->   bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->   {
->       CPUClass *cc = CPU_GET_CLASS(cs);
-> @@ -607,6 +608,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->       cc->tcg_ops->do_interrupt(cs);
->       return true;
->   }
-> +#endif /* CONFIG_TCG */
+Hi All:
 
-Drop this and just wait for the move to tcg/tcg-cpu.c.
+Followed by commit 22dc8663d9 ("net: forbid the reentrant RX"), we
+still need to fix the issues casued by loopback mode where the NIC
+usually it via calling nc->info->receive() directly.
 
+The fix is to introduce new network helper and check the
+queue->delivering.
 
-r~
+Thanks
+
+Changes since V2:
+- add more fixes from Alexander
+
+Changes since V1:
+
+- Fix dp8393x compiling
+- Add rtl8139 fix
+- Tweak the commit log
+- Silent patchew warning
+
+Alexander Bulekov (4):
+  rtl8139: switch to use qemu_receive_packet() for loopback
+  pcnet: switch to use qemu_receive_packet() for loopback
+  cadence_gem: switch to use qemu_receive_packet() for loopback
+  lan9118: switch to use qemu_receive_packet() for loopback
+
+Jason Wang (6):
+  net: introduce qemu_receive_packet()
+  e1000: switch to use qemu_receive_packet() for loopback
+  dp8393x: switch to use qemu_receive_packet() for loopback packet
+  msf2-mac: switch to use qemu_receive_packet() for loopback
+  sungem: switch to use qemu_receive_packet() for loopback
+  tx_pkt: switch to use qemu_receive_packet_iov() for loopback
+
+ hw/net/cadence_gem.c |  2 +-
+ hw/net/dp8393x.c     |  2 +-
+ hw/net/e1000.c       |  2 +-
+ hw/net/lan9118.c     |  2 +-
+ hw/net/msf2-emac.c   |  2 +-
+ hw/net/net_tx_pkt.c  |  2 +-
+ hw/net/pcnet.c       |  2 +-
+ hw/net/rtl8139.c     |  2 +-
+ hw/net/sungem.c      |  2 +-
+ include/net/net.h    |  5 +++++
+ include/net/queue.h  |  8 ++++++++
+ net/net.c            | 38 +++++++++++++++++++++++++++++++-------
+ net/queue.c          | 22 ++++++++++++++++++++++
+ 13 files changed, 75 insertions(+), 16 deletions(-)
+
+-- 
+2.24.3 (Apple Git-128)
 
 
