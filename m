@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FADD329D31
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:45:07 +0100 (CET)
-Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59094329D4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:51:27 +0100 (CET)
+Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH3Sb-0002fL-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:45:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
+	id 1lH3Yk-0004KJ-Ex
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:51:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lH3RZ-00020Q-Ro; Tue, 02 Mar 2021 06:44:01 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lH3RX-0003OO-AS; Tue, 02 Mar 2021 06:44:01 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DqZwM2jRyzlRYk;
- Tue,  2 Mar 2021 19:41:39 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 2 Mar 2021 19:43:39 +0800
-Subject: [PING] accel: kvm: Some bugfixes for kvm dirty log
-To: Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <a67939bc-7fd2-092b-c36a-c130b1321c37@huawei.com>
-Date: Tue, 2 Mar 2021 19:43:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lH3Xb-0003oa-5U
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 06:50:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lH3XZ-0004Gc-9M
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 06:50:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614685812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hWH6B1E8aeXw62cuzDb3ACloUfCCiFynj2ChxfrugPk=;
+ b=Jjmtyegpo6pCFP7VUwrJ2inkS8ukB98bqq3vNYuUrUBDPt4M/KgacWqx1BCZOzhwzevYXZ
+ 8JqfVb8O+KfLCoZYdgZQCIALg+dMMl/SP+ikCReYq7m1njfyQQWLXuJFl4hFoWK3DOpZiH
+ /4x5yH8fJfqDCST3D06JaB2nm5CPvKU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-AYYu1zI0OPynaTHO0MwIUg-1; Tue, 02 Mar 2021 06:49:48 -0500
+X-MC-Unique: AYYu1zI0OPynaTHO0MwIUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C46F18C35BA;
+ Tue,  2 Mar 2021 11:49:46 +0000 (UTC)
+Received: from localhost (ovpn-112-87.ams2.redhat.com [10.36.112.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31ABF19C46;
+ Tue,  2 Mar 2021 11:49:42 +0000 (UTC)
+Date: Tue, 2 Mar 2021 11:49:42 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] qemu-storage-daemon: add --pidfile option
+Message-ID: <20210302114942.GC26415@redhat.com>
+References: <20210302092926.163080-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201217014941.22872-1-zhukeqian1@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210302092926.163080-1-stefanha@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,30 +76,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- qemu-arm@nongnu.org, jiangkunkun@huawei.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, afrosi@redhat.com,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Tue, Mar 02, 2021 at 09:29:26AM +0000, Stefan Hajnoczi wrote:
+> Daemons often have a --pidfile option where the pid is written to a file
+> so that scripts can stop the daemon by sending a signal.
+> 
+> The pid file also acts as a lock to prevent multiple instances of the
+> daemon from launching for a given pid file.
+> 
+> QEMU, qemu-nbd, qemu-ga, virtiofsd, and qemu-pr-helper all support the
+> --pidfile option. Add it to qemu-storage-daemon too.
+> 
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v2:
+>  * Add documentation about startup order [Rich, Daniel]
+> 
+>  docs/tools/qemu-storage-daemon.rst   | 14 ++++++++++++
+>  storage-daemon/qemu-storage-daemon.c | 34 ++++++++++++++++++++++++++++
+>  2 files changed, 48 insertions(+)
+> 
+> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
+> index f63627eaf6..3d9704d835 100644
+> --- a/docs/tools/qemu-storage-daemon.rst
+> +++ b/docs/tools/qemu-storage-daemon.rst
+> @@ -118,6 +118,20 @@ Standard options:
+>    List object properties with ``<type>,help``. See the :manpage:`qemu(1)`
+>    manual page for a description of the object properties.
+>  
+> +.. option:: --pidfile PATH
+> +
+> +  is the path to a file where the daemon writes its pid. This allows scripts to
+> +  stop the daemon by sending a signal::
+> +
+> +    $ kill -SIGTERM $(<path/to/qsd.pid)
+> +
+> +  A file lock is applied to the file so only one instance of the daemon can run
+> +  with a given pid file path. The daemon unlinks its pid file when terminating.
+> +
+> +  The pid file is written after chardevs, exports, and NBD servers have been
+> +  created but before accepting connections. The daemon has started successfully
+> +  when the pid file is written and clients may begin connecting.
+> +
+>  Examples
+>  --------
+>  Launch the daemon with QMP monitor socket ``qmp.sock`` so clients can execute
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+> index 9021a46b3a..86cf6a1f08 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -59,6 +59,7 @@
+>  #include "sysemu/runstate.h"
+>  #include "trace/control.h"
+>  
+> +static const char *pid_file;
+>  static volatile bool exit_requested = false;
+>  
+>  void qemu_system_killed(int signal, pid_t pid)
+> @@ -126,6 +127,7 @@ enum {
+>      OPTION_MONITOR,
+>      OPTION_NBD_SERVER,
+>      OPTION_OBJECT,
+> +    OPTION_PIDFILE,
+>  };
+>  
+>  extern QemuOptsList qemu_chardev_opts;
+> @@ -164,6 +166,7 @@ static void process_options(int argc, char *argv[])
+>          {"monitor", required_argument, NULL, OPTION_MONITOR},
+>          {"nbd-server", required_argument, NULL, OPTION_NBD_SERVER},
+>          {"object", required_argument, NULL, OPTION_OBJECT},
+> +        {"pidfile", required_argument, NULL, OPTION_PIDFILE},
+>          {"trace", required_argument, NULL, 'T'},
+>          {"version", no_argument, NULL, 'V'},
+>          {0, 0, 0, 0}
+> @@ -275,6 +278,9 @@ static void process_options(int argc, char *argv[])
+>                  qobject_unref(args);
+>                  break;
+>              }
+> +        case OPTION_PIDFILE:
+> +            pid_file = optarg;
+> +            break;
+>          default:
+>              g_assert_not_reached();
+>          }
+> @@ -285,6 +291,27 @@ static void process_options(int argc, char *argv[])
+>      }
+>  }
+>  
+> +static void pid_file_cleanup(void)
+> +{
+> +    unlink(pid_file);
+> +}
+> +
+> +static void pid_file_init(void)
+> +{
+> +    Error *err = NULL;
+> +
+> +    if (!pid_file) {
+> +        return;
+> +    }
+> +
+> +    if (!qemu_write_pidfile(pid_file, &err)) {
+> +        error_reportf_err(err, "cannot create PID file: ");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    atexit(pid_file_cleanup);
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>  #ifdef CONFIG_POSIX
+> @@ -312,6 +339,13 @@ int main(int argc, char *argv[])
+>      qemu_init_main_loop(&error_fatal);
+>      process_options(argc, argv);
+>  
+> +    /*
+> +     * Write the pid file after creating chardevs, exports, and NBD servers but
+> +     * before accepting connections. This ordering is documented. Do not change
+> +     * it.
+> +     */
+> +    pid_file_init();
+> +
+>      while (!exit_requested) {
+>          main_loop_wait(false);
+>      }
+> -- 
 
-This patch is still not queued. Who can help to do this? Thanks :)
+Looks good:
 
-Keqian
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
 
-On 2020/12/17 9:49, Keqian Zhu wrote:
-> Hi all,
-> 
-> This series fixes memory waste and adds alignment check for unmatched
-> qemu_real_host_page_size and TARGET_PAGE_SIZE.
-> 
-> Thanks.
-> 
-> Keqian Zhu (2):
->   accel: kvm: Fix memory waste under mismatch page size
->   accel: kvm: Add aligment assert for kvm_log_clear_one_slot
-> 
->  accel/kvm/kvm-all.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
+
 
