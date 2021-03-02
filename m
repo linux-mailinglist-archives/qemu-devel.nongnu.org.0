@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B849132A8AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:00:07 +0100 (CET)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161C332A8AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:01:57 +0100 (CET)
+Received: from localhost ([::1]:36158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH9JW-0004v5-PJ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:00:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
+	id 1lH9LI-0006i5-3E
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:01:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH9HP-0002fB-W4
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:56 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:38771)
+ id 1lH9HH-0002Gw-7i
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:47 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lH9HO-0007ZA-AA
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:55 -0500
-Received: by mail-pf1-x432.google.com with SMTP id 201so14330035pfw.5
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 09:57:53 -0800 (PST)
+ id 1lH9HE-0007Vy-Vc
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 12:57:46 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id a24so12449468plm.11
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 09:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yoPJEjHaD9Y/eQNAtgp4CmM0ipXsKYPy7ttmPn2mZ+I=;
- b=ldB3JEcLNusjsvRHdtM+mPXQ89YHosARLBEjfJ4QF+qrNzohCV0kXulhNtPj7irx+F
- czztwZQV8swiOXYsbLG5QD3egxH18oLokkLdTidayPDHIpRSqDZq2m+jv1b1P0/KcWza
- 2zbkTUTfN8FeSvjZ3HloKay0e5UOJtX0E8vi8VOraNj//ybC9ygLHIW4J2XKayCCNTx5
- 8J3uiXRwLAcIg+qJDqASHihsWCG3MFhH6cutPF8U4rzEl3rMPpF6coJivl9Eoo08uXcz
- G996kY5VD6rzV1T/5Nq19lHLfxY/RYnhGKhUv7eHGObcB9B2MBstDpbF0F7CBntTasor
- eT7g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zDASf8p/eBjd0f8aBbOjr7ESZUyWpkVJF8rrOidqvGA=;
+ b=loGEpozVNYM3WbDIxBp9vXpElDtpQboqcxaIhrdKnoLJL0vV204DqTd1ZvobWUpIHL
+ zomn3bMQoLb5AFzr8ctnOo8enQ41HikM4OiBwUZ/KmTrKO3Qi5Sonilk2NxRYdctkoeQ
+ Bmno9Wy2ExyWpR5ADvTfu1oJdZshYhhd+Qe7hkN3x/7R5huOiQi/0gCVpNE//Xz1Btci
+ TseSmWFQQZ7JPzlHaL0i0OMNU4md6aTTt2SpzFh3nvaxSKe3cB+MPdFqoUSs6eYkmon6
+ +A7kzXddpnA1/lQi5rpxhOoDzGjpBi56eY/SkVsChxiGHplQq4cDfrm7Vrt66yimyuY1
+ IGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yoPJEjHaD9Y/eQNAtgp4CmM0ipXsKYPy7ttmPn2mZ+I=;
- b=sDnAMKbBAgI2XWZq0n6tm6/kvhpYr07nzY0v5faMMOZLtbcq32I6aKGcC4DfqX74BD
- iTHaqkAq5SeQjhg4C6hM3tckUSK+4Cz72xR3xtCiszzF1FPF2921JYjJOEJ3AF2dW5Ne
- pBq3StSZxRevBBsM+biZ4vxItTJTkYI+5OBhsPuNWahS9HQ9/NaA6pbqOfuNe3LFWmrn
- 3t4jJ2sBELwFSO6+U03vcirDhozUbMowI8TaIb6/KO9eKR6QaThoWy7BDAv2UsKCffhK
- i9TS04CMoH2Yisp6GdaofOB1i0YWIQx1ofRFAE6js4hwpGZsNZlJzH0BDNID5k65UmYg
- 8F+A==
-X-Gm-Message-State: AOAM531hjtjodk2Nzn20S+3qPRkEDMfSywL8JpUWNuZaTmc21hojyU+K
- 31geEluDpYsZS0DQLv9Md47FdRThcWrSfQ==
-X-Google-Smtp-Source: ABdhPJxg32iN36d1+3O0mmfKuH7WgMsWzjv+uCOvGnoiHG+qBhe9jjnduzQh/id1brztn7UGrGwQKw==
-X-Received: by 2002:a62:fc45:0:b029:1ed:bdd2:a07d with SMTP id
- e66-20020a62fc450000b02901edbdd2a07dmr4413982pfh.0.1614707873016; 
- Tue, 02 Mar 2021 09:57:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zDASf8p/eBjd0f8aBbOjr7ESZUyWpkVJF8rrOidqvGA=;
+ b=JJdCsUoIn/tVBMm4VM3k+c4pafmOoI+oy72pTPcE+obVGWpVCOjc/NuCfcRdpVwBUW
+ /6WegnjDUoaQLVJp+r/0aB/PgiyUv7xGOyVZn6fZzLdtI2uFlcJa5ogQe0JQt2bg210s
+ lJZLImmDPxzCBEvP3e5ElcgpN5efaUPCWzj3FJz4bots9tN3vLmDANJk6Sam9MjghsHx
+ qZerKZOVMTKNxqJbiYrYDJitk40yYsdFLSUTOj/Uh2CIeO/yLNQgrALiFklAjmZIHY0t
+ GJ5kQKCS1uvHuShvGOfb9jjPr+nimzwa4o4hc0qOmtWf326q/taax7ACdKT+eBzkow1e
+ f40g==
+X-Gm-Message-State: AOAM531mInLK48nId5dEyWM2rtk3B/baYCIw9/+fDxAefTHnifXRWTdX
+ cEnwJRLhe1nBzR9652GZV+UYwsGqUD0aFw==
+X-Google-Smtp-Source: ABdhPJy+AuTFV8Rw+tMYogX5A2+klmL4h9L0RXPCLCwmrFlohDF1FiTSl8HL8M04rWOMWR5o6/hcaQ==
+X-Received: by 2002:a17:902:9b91:b029:e2:898c:d721 with SMTP id
+ y17-20020a1709029b91b02900e2898cd721mr4461427plp.32.1614707863210; 
+ Tue, 02 Mar 2021 09:57:43 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id gf20sm4232234pjb.39.2021.03.02.09.57.52
+ by smtp.gmail.com with ESMTPSA id gf20sm4232234pjb.39.2021.03.02.09.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 09:57:52 -0800 (PST)
+ Tue, 02 Mar 2021 09:57:42 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/27] tcg/tci: Merge identical cases in generation (deposit
- opcode)
-Date: Tue,  2 Mar 2021 09:57:23 -0800
-Message-Id: <20210302175741.1079851-10-richard.henderson@linaro.org>
+Subject: [PATCH 00/27] tcg patch queue
+Date: Tue,  2 Mar 2021 09:57:14 -0800
+Message-Id: <20210302175741.1079851-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210302175741.1079851-1-richard.henderson@linaro.org>
-References: <20210302175741.1079851-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,55 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use CASE_32_64 and CASE_64 to reduce ifdefs and merge
-cases that are identical between 32-bit and 64-bit hosts.
+Pulling together some cleanups, fixes, and prepatory tci stuff.
+Most of this has been reviewed, but not all.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210217202036.1724901-5-richard.henderson@linaro.org>
-[PMD: Split patch as 3/5]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210218232840.1760806-4-f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tci/tcg-target.c.inc | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+Those lacking review:
 
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 1896efd100..4a86a3bb46 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -494,7 +494,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         break;
--    case INDEX_op_deposit_i32:  /* Optional (TCG_TARGET_HAS_deposit_i32). */
-+
-+    CASE_32_64(deposit)  /* Optional (TCG_TARGET_HAS_deposit_*). */
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-@@ -505,15 +506,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-         break;
- 
- #if TCG_TARGET_REG_BITS == 64
--    case INDEX_op_deposit_i64:  /* Optional (TCG_TARGET_HAS_deposit_i64). */
--        tcg_out_r(s, args[0]);
--        tcg_out_r(s, args[1]);
--        tcg_out_r(s, args[2]);
--        tcg_debug_assert(args[3] <= UINT8_MAX);
--        tcg_out8(s, args[3]);
--        tcg_debug_assert(args[4] <= UINT8_MAX);
--        tcg_out8(s, args[4]);
--        break;
-     case INDEX_op_brcond_i64:
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
+01-tcg-aarch64-Fix-constant-subtraction-in-tcg_out_adds.patch
+02-tcg-aarch64-Fix-I3617_CMLE0.patch
+03-tcg-aarch64-Fix-generation-of-scalar-vector-operatio.patch
+04-tcg-tci-Use-exec-cpu_ldst.h-interfaces.patch
+06-tcg-Manage-splitwx-in-tc_ptr_to_region_tree-by-hand.patch
+23-accel-tcg-rename-tb_lookup__cpu_state-and-hoist-stat.patch
+24-accel-tcg-move-CF_CLUSTER-calculation-to-curr_cflags.patch
+25-accel-tcg-drop-the-use-of-CF_HASH_MASK-and-rename-pa.patch
+26-include-exec-lightly-re-arrange-TranslationBlock.patch
+27-accel-tcg-Precompute-curr_cflags-into-cpu-tcg_cflags.patch
+
+Alex, the last patch is a re-write and extension of one that
+you did review.
+
+
+r~
+
+
+Alex Bennée (4):
+  accel/tcg: rename tb_lookup__cpu_state and hoist state extraction
+  accel/tcg: move CF_CLUSTER calculation to curr_cflags
+  accel/tcg: drop the use of CF_HASH_MASK and rename params
+  include/exec: lightly re-arrange TranslationBlock
+
+Richard Henderson (23):
+  tcg/aarch64: Fix constant subtraction in tcg_out_addsub2
+  tcg/aarch64: Fix I3617_CMLE0
+  tcg/aarch64: Fix generation of "scalar" vector operations
+  tcg/tci: Use exec/cpu_ldst.h interfaces
+  tcg: Split out tcg_raise_tb_overflow
+  tcg: Manage splitwx in tc_ptr_to_region_tree by hand
+  tcg/tci: Merge identical cases in generation (arithmetic opcodes)
+  tcg/tci: Merge identical cases in generation (exchange opcodes)
+  tcg/tci: Merge identical cases in generation (deposit opcode)
+  tcg/tci: Merge identical cases in generation (conditional opcodes)
+  tcg/tci: Merge identical cases in generation (load/store opcodes)
+  tcg/tci: Remove tci_read_r8
+  tcg/tci: Remove tci_read_r8s
+  tcg/tci: Remove tci_read_r16
+  tcg/tci: Remove tci_read_r16s
+  tcg/tci: Remove tci_read_r32
+  tcg/tci: Remove tci_read_r32s
+  tcg/tci: Reduce use of tci_read_r64
+  tcg/tci: Merge basic arithmetic operations
+  tcg/tci: Merge extension operations
+  tcg/tci: Merge bswap operations
+  tcg/tci: Merge mov, not and neg operations
+  accel/tcg: Precompute curr_cflags into cpu->tcg_cflags
+
+ accel/tcg/tcg-accel-ops.h       |   1 +
+ include/exec/exec-all.h         |  19 +-
+ include/exec/tb-lookup.h        |  26 +-
+ include/hw/core/cpu.h           |   2 +
+ accel/tcg/cpu-exec.c            |  34 ++-
+ accel/tcg/tcg-accel-ops-mttcg.c |   3 +-
+ accel/tcg/tcg-accel-ops-rr.c    |   2 +-
+ accel/tcg/tcg-accel-ops.c       |   8 +
+ accel/tcg/tcg-runtime.c         |   6 +-
+ accel/tcg/translate-all.c       |  18 +-
+ linux-user/main.c               |   1 +
+ linux-user/sh4/signal.c         |   8 +-
+ linux-user/syscall.c            |  18 +-
+ softmmu/physmem.c               |   2 +-
+ tcg/tcg.c                       |  29 +-
+ tcg/tci.c                       | 526 ++++++++++----------------------
+ tcg/aarch64/tcg-target.c.inc    | 229 +++++++++++---
+ tcg/tci/tcg-target.c.inc        | 204 +++++--------
+ 18 files changed, 526 insertions(+), 610 deletions(-)
+
 -- 
 2.25.1
 
