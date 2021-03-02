@@ -2,74 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5569B3296C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:07:34 +0100 (CET)
-Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024163296C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:08:42 +0100 (CET)
+Received: from localhost ([::1]:40792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH045-0007h1-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:07:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
+	id 1lH056-0000RP-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:08:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lH02D-00075H-AG; Tue, 02 Mar 2021 03:05:37 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lH02B-00046T-RG; Tue, 02 Mar 2021 03:05:37 -0500
-Received: by mail-ej1-x635.google.com with SMTP id dx17so5901909ejb.2;
- Tue, 02 Mar 2021 00:05:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nm2moPnpz/dAK8p3yLwcugrMA1iGHP07uLqzqW3wl7g=;
- b=aO8cd+03I/FNSXZlU8+yqZ5IDi5fHTmpwpIcw6eWnoy/z/pA26V1KTrYb87Fg3jLLL
- ARaCAoISXHa3d8wQcwMlzARArlmFycSz04Fb6NDKg566zSi9DyaAlfM65uPkdqfvSfly
- lkjSEMp14tVxWc/ItAlXd30z7KZkRAKN120Zo8w8VEEwG1XWGa/CDSRpLL2PFqGxQ8uU
- yetTicITnMURw0T+8wudvzdnJxWLsRr8Mlrowy4/cPbNMAzBUseilS+Me2oBTqhOZLjV
- WCvlsUslXclgEMzv5OyWUt6mV5o01Qph8EbTwCJdzaiAwvpweM1ew4VzPXx9ZZ17/EDz
- WVdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=nm2moPnpz/dAK8p3yLwcugrMA1iGHP07uLqzqW3wl7g=;
- b=C06pC29qL6J/VFEkyI/t6uMqNTD9Byg7XqcCc6c/92caNOWsRL48EPd9eVNCIGW2lv
- 0YTY7ZacZfNNaxwxTa4vzVryg9+Dpl0gIQxyhQnwJANRRVYC29l9BON+y4TEYksA2xvw
- OxSLKpJtXT6oh+FUQpNlS/EKvcJqkI+vdq1y7nDguel6eRo2ABlfY9mzYafn3f5hEA5x
- eyi85HySLQuoXeCsYyEep/mHKA6bj6ASDBVcArUVxLTAkZhfdKNVjO8GRzoeIZX5KJX8
- EexkiGdEx1yRTof2R+MnsWBPogykYYhnQFRedq/1YgUY/tfnr7PFN5/SvSts+3WrW20w
- 0ddw==
-X-Gm-Message-State: AOAM532113OT611laiC5Ls/oYvmHW1Aq0fb3vjWCDxkRMOcLqeDq46oc
- o3JYEFh6aeJG5ZODbRvKsZm2WAwynHA=
-X-Google-Smtp-Source: ABdhPJxsn7jvh9bvbXsJ75dnGnTeNxE2w2wXwbMEwm3U+wFfuqTqM6YJTLjze8paLslQNP2wqhnJbg==
-X-Received: by 2002:a17:906:d8c6:: with SMTP id
- re6mr8317413ejb.311.1614672333371; 
- Tue, 02 Mar 2021 00:05:33 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q1sm16642158ejt.65.2021.03.02.00.05.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 00:05:32 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
-Date: Tue,  2 Mar 2021 09:05:31 +0100
-Message-Id: <20210302080531.913802-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH037-0007eO-Lx
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:06:33 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lH035-0004hN-Sy
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:06:33 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5920EAC24;
+ Tue,  2 Mar 2021 08:06:30 +0000 (UTC)
+Subject: Re: [RFC v2 06/24] target/arm: split off cpu-sysemu.c
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210301164936.19446-1-cfontana@suse.de>
+ <20210301164936.19446-7-cfontana@suse.de>
+ <4b776b96-7d5c-da73-9372-2b657a43f4e7@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b86c8fbd-1953-ef9c-7c54-696617040c40@suse.de>
+Date: Tue, 2 Mar 2021 09:06:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <4b776b96-7d5c-da73-9372-2b657a43f4e7@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,33 +56,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_VIA_PM calls apm_init() in via_pm_realize(), so
-requires APM to be selected.
+On 3/2/21 7:17 AM, Richard Henderson wrote:
+> On 3/1/21 8:49 AM, Claudio Fontana wrote:
+>> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+>> ---
+>>   target/arm/internals.h  |   8 ++-
+>>   target/arm/cpu-sysemu.c | 105 ++++++++++++++++++++++++++++++++++++++++
+>>   target/arm/cpu.c        |  83 -------------------------------
+>>   target/arm/meson.build  |   1 +
+>>   4 files changed, 113 insertions(+), 84 deletions(-)
+>>   create mode 100644 target/arm/cpu-sysemu.c
+> 
+> It'd be nice to rearrange this into tcg/ and kvm/.
 
-Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/isa/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Yes.
 
-diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index c7f07854f7e..9c026d0c510 100644
---- a/hw/isa/Kconfig
-+++ b/hw/isa/Kconfig
-@@ -47,6 +47,7 @@ config VT82C686
-     select ACPI_SMBUS
-     select SERIAL_ISA
-     select FDC
-+    select APM
- 
- config SMC37C669
-     bool
--- 
-2.26.2
+This would be the objective of the next series,
 
+basically the objective of this series is to make the kvm-only build succeed after moving helpers to tcg/ and picking stuff we need from helper.c .
+
+configure --enable-kvm --disable-tcg
+
+The objective of the next one would be to properly place the code in kvm-only and tcg-only sections,
+and then add the classes that specialize the cpu, just like for i386.
+
+But I can continue this series as a whole if preferrable.
+
+> 
+> I think we could do with some macros like
+> 
+> #ifndef CONFIG_KVM
+> #define KVM_ERROR  QEMU_ERROR("kvm is disabled")
+> #endif
+> #ifndef CONFIG_TCG
+> #define TCG_ERROR  QEMU_ERROR("tcg is disabled")
+> #endif
+> 
+> Not sure where to put these, but certainly not arm specific.
+> 
+> Then,
+> 
+> void arm_cpu_tcg_set_irq(void *opaque, int irq, int level)
+>      TCG_ERROR;
+> void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
+>      KVM_ERROR;
+> 
+>      if (kvm_enabled()) {
+>          qdev_init_gpio_in(DEVICE(cpu), arm_cpu_kvm_set_irq, 4);
+>      } else if (tcg_enabled()) {
+>          qdev_init_gpio_in(DEVICE(cpu), arm_cpu_tcg_set_irq, 4);
+>      } else {
+>          g_assert_not_reached();
+>      }
+> 
+> So arm_cpu_kvm_set_irq can go in kvm/ and needs no ifdef.
+> 
+> I'll let folks interested in xen and hvf figure our what needs doing with the 
+> above.
+> 
+> 
+> r~
+> 
+
+Thanks,
+
+Claudio
 
