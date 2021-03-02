@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6A332A981
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:33:40 +0100 (CET)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6989432A987
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 19:36:06 +0100 (CET)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH9pz-0003NP-LH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
+	id 1lH9sL-0006k2-Ck
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 13:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lH9JZ-0006FQ-TZ
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:09 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:57471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lH9JW-0007q5-Tz
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:09 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MT9zD-1lMG8b1a7r-00Ucf2; Tue, 02 Mar 2021 18:59:54 +0100
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-19-mark.cave-ayland@ilande.co.uk>
- <99d86cc8-ec8d-049d-1252-92d50f0f8eaa@vivier.eu>
- <564185f7-0346-0d28-c9cf-f083af9cde50@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2 18/42] esp: accumulate SCSI commands for PDMA transfers
- in cmdbuf instead of pdma_buf
-Message-ID: <68838f99-f2fa-5eb3-683c-85b39b155ab4@vivier.eu>
-Date: Tue, 2 Mar 2021 18:59:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lH9Js-0006VC-Pv
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:28 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lH9Jq-0007vy-VO
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 13:00:28 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id p1so21907562edy.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 10:00:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RS4z4CliqNFXcrkm+yUYwPeRoFg4GG6y/KETvIYpm3E=;
+ b=HBTlPowyWAjUakVgvp+ROTdM7lm2h+WdSADyscyZfXFMXskW8i50Xinh06ahKyXk68
+ lRIRJ6glbprwqIU3SZ/a1yiFNTEF1vOatgUh+3/NX8LmO6ufYSKsKpJVQBJy0chWbk1X
+ wUVtKhIstAJZZQNWMHwS3ipBlNZNAjXYVwxJQfsgpetXtbqAic6w1Ssld9PZFYOaFCBb
+ oZ4JTXd1fi5JPjWNBnGs6hyNEwoTrAnMPcustWQxa/U7bl1aCzvGoLCVY6yXpYKuiarW
+ gzUjMpK7/w2fSNA2RxTR/RmEow2MxiVz+UoN7Vb74PnhM7hiaNz+lUAUzTErR29wcptj
+ /yRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=RS4z4CliqNFXcrkm+yUYwPeRoFg4GG6y/KETvIYpm3E=;
+ b=fYgeM1egIRrPQp5iNG6OIpYMTFwO+zi5GVckjrLIv8n4VXetM7Q1vngIYw8p8Yrf77
+ Wo19pDoAa94ehJ4T8zQnWo58LIFYoUanI4UrV4HmD9Ykp6ABV/wMh72eMHMxQGygktLp
+ iJYyTmLo2DmFab+hD9DKUe9MZQWCOG/m6fAIzN/SiF9tWQOoVN9097eOP8POs5W5z9ea
+ R/HPhc9ecZvSvJvYaa0OmDB1I79sH+RSl0xMDInrX2BYYuQS8YXzZFBq5+WnRwMM/gyc
+ 2NHWAuZD8lWxSiHltppT7Kz2lA4bFUKW+uTBnk2HznqCOWcGzh5y/Yw0R6sUAYK4Kq+Q
+ KUAw==
+X-Gm-Message-State: AOAM532bkCsOC0kOW+V/PgFUBpER6BW0qm5ZmNLeniA4xtio2uvLvnHI
+ WEJY16segbGd0ImH9SE3EWUXy/xBZ6A=
+X-Google-Smtp-Source: ABdhPJyDs90P/bFQTdphVOLp3dMduSYx938ea/lA/GWI+MziU8n1rEDd3Vb8vI8wdEcOK8gUNAKLYA==
+X-Received: by 2002:a50:bf42:: with SMTP id g2mr21698394edk.101.1614708024742; 
+ Tue, 02 Mar 2021 10:00:24 -0800 (PST)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ q20sm9060267ejs.41.2021.03.02.10.00.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 10:00:24 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] vl: deprecate -writeconfig
+Date: Tue,  2 Mar 2021 19:00:23 +0100
+Message-Id: <20210302180023.54555-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <564185f7-0346-0d28-c9cf-f083af9cde50@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q5QrTH/ewZUW/3u9wllKISj5UsDIrHUIBrWPyhKxnIrKOUjY/38
- q7Av40jGu297wPOlKdW+5QMvpw+9JhdbMvBaIG9AmNUqyBfAfl3cEGav2U8OiURUTN/0YY6
- Tls1Mc2HlmbVVW3vfLnoQC03rtJZrSuQB4e+PmrfV5QjyFZuvW+HO5dIIkGiBq8DgOuH6Le
- aFYjlBQvx5VqMFqm+zI3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6hyaxYA3pLY=:HBscyvFXNCf3iF+r2uob6v
- cu3cAIHHLjXsQLpx0SJ0U89vS4PFAtUBF8v8U7lCo72FBLoRLcrLqId6+sl6mMM9IPnH/L0KN
- mmh4fM5sV2/F5oGtkxD2N0dyodeJn1S5b/dweAtIpdMCWdChfyScKrqchxy+fSPPCDoIYD52Y
- CixkWVUvhv6jilddWy2/p+Ym3nYVe5qx2wh/TsrnckLMCmUoBl0kN8I9pqfdocTe4cyAhR3Hm
- SboLOChmZSZgNshWtXl2+hkKxT+cEnCff4ER5PA024kCjJZCLhfVsQosmuLzb7wX16/d8kdUl
- wJj44Y+2eZUS6Oji5gtgb7x2uNeZwfNjnAf4oGcqnzzljb44ugr+0om+oVHcZnHIEXD4konoA
- bS4ZdBITkEZi4laYQv9sedwqcYhzjNoALaz5Ly7wA/IAjVKeseb9mHbgGPcBZp2yfa/xPHItV
- /E0mVg1pPg==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,125 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/03/2021 à 18:34, Mark Cave-Ayland a écrit :
-> On 02/03/2021 17:02, Laurent Vivier wrote:
-> 
->> Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
->>> ESP SCSI commands are already accumulated in cmdbuf and so there is no need to
->>> keep a separate pdma_buf buffer. Accumulate SCSI commands for PDMA transfers in
->>> cmdbuf instead of pdma_buf so update cmdlen accordingly and change pdma_origin
->>> for PDMA transfers to CMD which allows the PDMA origin to be removed.
->>>
->>> This commit also removes a stray memcpy() from get_cmd() which is a no-op because
->>> cmdlen is always zero at the start of a command.
->>>
->>> Notionally the removal of pdma_buf from vmstate_esp_pdma also breaks migration
->>> compatibility for the PDMA subsection until its complete removal by the end of
->>> the series.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>   hw/scsi/esp.c         | 56 +++++++++++++++++++------------------------
->>>   include/hw/scsi/esp.h |  2 --
->>>   2 files changed, 25 insertions(+), 33 deletions(-)
->>>
->>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->>> index 7134c0aff4..b846f022fb 100644
->>> --- a/hw/scsi/esp.c
->>> +++ b/hw/scsi/esp.c
->>> @@ -139,8 +139,6 @@ static void set_pdma(ESPState *s, enum pdma_origin_id origin,
->>>   static uint8_t *get_pdma_buf(ESPState *s)
->>>   {
->>>       switch (s->pdma_origin) {
->>> -    case PDMA:
->>> -        return s->pdma_buf;
->>>       case TI:
->>>           return s->ti_buf;
->>>       case CMD:
->>> @@ -161,14 +159,12 @@ static uint8_t esp_pdma_read(ESPState *s)
->>>       }
->>>         switch (s->pdma_origin) {
->>> -    case PDMA:
->>> -        val = s->pdma_buf[s->pdma_cur++];
->>> -        break;
->>>       case TI:
->>>           val = s->ti_buf[s->pdma_cur++];
->>>           break;
->>>       case CMD:
->>> -        val = s->cmdbuf[s->pdma_cur++];
->>> +        val = s->cmdbuf[s->cmdlen++];
->>> +        s->pdma_cur++;
->>>           break;
->>>       case ASYNC:
->>>           val = s->async_buf[s->pdma_cur++];
->>> @@ -193,14 +189,12 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
->>>       }
->>>         switch (s->pdma_origin) {
->>> -    case PDMA:
->>> -        s->pdma_buf[s->pdma_cur++] = val;
->>> -        break;
->>>       case TI:
->>>           s->ti_buf[s->pdma_cur++] = val;
->>>           break;
->>>       case CMD:
->>> -        s->cmdbuf[s->pdma_cur++] = val;
->>> +        s->cmdbuf[s->cmdlen++] = val;
->>> +        s->pdma_cur++;
->>>           break;
->>>       case ASYNC:
->>>           s->async_buf[s->pdma_cur++] = val;
->>> @@ -256,8 +250,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
->>>           if (s->dma_memory_read) {
->>>               s->dma_memory_read(s->dma_opaque, buf, dmalen);
->>>           } else {
->>> -            memcpy(s->pdma_buf, buf, dmalen);
->>> -            set_pdma(s, PDMA, 0, dmalen);
->>> +            set_pdma(s, CMD, 0, dmalen);
->>>               esp_raise_drq(s);
->>>               return 0;
->>>           }
->>> @@ -316,24 +309,24 @@ static void satn_pdma_cb(ESPState *s)
->>>       if (get_cmd_cb(s) < 0) {
->>>           return;
->>>       }
->>> -    if (s->pdma_cur != s->pdma_start) {
->>> -        do_cmd(s, get_pdma_buf(s) + s->pdma_start);
->>> +    s->do_cmd = 0;
->>> +    if (s->cmdlen) {
->>> +        do_cmd(s, s->cmdbuf);
->>
->> I don't understant how you can remove the pdma_start: normally it is here to keep track of the
->> position in the pDMA if the migration is occuraing while a pDMA transfer.
-> 
-> Hi Laurent,
-> 
-> I was going to follow up on your reviews later this evening, however this one caught my eye: as per
-> the cover letter, this patchset is a migration break for the q800 machine. As there are likely more
-> incompatible changes for the q800 machine coming up soon, it didn't seem worth the effort (and
-> indeed I don't think it's possible to recreate the new internal state with 100% accuracy from the
-> old state).
-> 
-> Migration for ESP devices that don't use PDMA is still supported, and I've tested this during
-> development with qemu-system-sparc.
-> 
+The functionality of -writeconfig is limited and the code
+does not even try to detect cases where it prints incorrect
+syntax (for example if values have a quote in them, since
+qemu_config_parse does not support any kind of escaping)
+so remove it.
 
-I don't mean we can't migrate from a previous version to the new one, I mean the migration between
-two machines of the current version is not possible anymore as we don't keep track of the position
-of the pDMA index inside the buffer.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ docs/system/deprecated.rst | 7 +++++++
+ qemu-options.hx            | 7 +------
+ softmmu/vl.c               | 1 +
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-With a DMA, the migration cannot happen in the middle of the DMA, while with pDMA it can (as it's a
-processor loop).
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 2fcac7861e..561c916da2 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -146,6 +146,13 @@ library enabled as a cryptography provider.
+ Neither the ``nettle`` library, or the built-in cryptography provider are
+ supported on FIPS enabled hosts.
+ 
++``-writeconfig`` (since 6.0)
++'''''''''''''''''''''''''''''
++
++The ``-writeconfig`` option is not able to serialize the entire contents
++of the QEMU command line.  It is thus considered a failed experiment
++and deprecated, with no current replacement.
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 34be5a7a2d..252db9357c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4335,13 +4335,8 @@ SRST
+ ERST
+ DEF("writeconfig", HAS_ARG, QEMU_OPTION_writeconfig,
+     "-writeconfig <file>\n"
+-    "                read/write config file\n", QEMU_ARCH_ALL)
++    "                read/write config file (deprecated)\n", QEMU_ARCH_ALL)
+ SRST
+-``-writeconfig file``
+-    Write device configuration to file. The file can be either filename
+-    to save command line and device configuration into file or dash
+-    ``-``) character to print the output to stdout. This can be later
+-    used as input file for ``-readconfig`` option.
+ ERST
+ 
+ DEF("no-user-config", 0, QEMU_OPTION_nouserconfig,
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b219ce1f35..10bd8a10a3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3356,6 +3356,7 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_writeconfig:
+                 {
+                     FILE *fp;
++                    warn_report("-writeconfig is deprecated and will go away without a replacement");
+                     if (strcmp(optarg, "-") == 0) {
+                         fp = stdout;
+                     } else {
+-- 
+2.29.2
 
-The whole purpose of get_pdma() and set_pdma() was for the migration.
-
-https://patchew.org/QEMU/20190910113323.17324-1-laurent@vivier.eu/diff/20190910193347.16000-1-laurent@vivier.eu/
-
-Previously the Q800 was not migratable also because the CPU was not migratable, but I added recently
-the VMSTATE for the CPU.
-
-Thanks,
-Laurent
 
