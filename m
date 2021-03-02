@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1998E32979B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:10:30 +0100 (CET)
-Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841D53297A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 10:14:59 +0100 (CET)
+Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH12z-0003U3-5O
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:10:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
+	id 1lH17K-00054z-JS
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 04:14:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lH125-00032T-IY
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:09:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lH124-0002LM-4k
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 04:09:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614676171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pr7lP0725GJES9PxSb0YrMN/5OhYrZXt7zpF5MXBzEI=;
- b=LjSRS7JNzbHJLWB911+w0/szMmXVADccapQhYa5SpZHMZe505pKvsiiFAJb902Iysa9IYX
- zC4ofvIsA1ewLRrEJW26gIJpgmVkSYx307drkqf2X8L3xwPEBot0Kv+UGu+s4IMigMAlkE
- 5ust8tTcYp08RXl2UA6cOqGMlgSTfwg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-dcopR7fTPLKwZ-2B6f0AKg-1; Tue, 02 Mar 2021 04:09:29 -0500
-X-MC-Unique: dcopR7fTPLKwZ-2B6f0AKg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 432B2803648;
- Tue,  2 Mar 2021 09:09:28 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-124.pek2.redhat.com
- [10.72.13.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD73E5945F;
- Tue,  2 Mar 2021 09:09:26 +0000 (UTC)
-Subject: Re: [PATCH] net: Fix build error when DEBUG_NET is on
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-References: <20210228050218.24517-1-bmeng.cn@gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <400f2fa1-24d4-f83d-d23e-ae65411a57d3@redhat.com>
-Date: Tue, 2 Mar 2021 17:09:24 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lH15s-0004Ub-Va; Tue, 02 Mar 2021 04:13:29 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:63550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lH15p-0004o9-9e; Tue, 02 Mar 2021 04:13:27 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6544F746346;
+ Tue,  2 Mar 2021 10:13:19 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0C4D774632F; Tue,  2 Mar 2021 10:13:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0A3687462E1;
+ Tue,  2 Mar 2021 10:13:19 +0100 (CET)
+Date: Tue, 2 Mar 2021 10:13:19 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4 6/6] hw/ppc: Add emulation of Genesi/bPlan Pegasos
+ II
+In-Reply-To: <97399e18-3217-40db-5021-702371d196bc@amsat.org>
+Message-ID: <c0403b8b-fee1-11e2-a8d0-2af36f66c9@eik.bme.hu>
+References: <cover.1614282456.git.balaton@eik.bme.hu>
+ <848089b1c91e0c28eb7c52ccdc55dc870eb49dc0.1614282457.git.balaton@eik.bme.hu>
+ <97399e18-3217-40db-5021-702371d196bc@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210228050218.24517-1-bmeng.cn@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-484493238-1614676399=:44057"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,47 +58,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 2021/2/28 1:02 下午, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+--3866299591-484493238-1614676399=:44057
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 2 Mar 2021, Philippe Mathieu-Daudé wrote:
+> On 2/25/21 8:47 PM, BALATON Zoltan wrote:
+>> Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
+>> a PowerPC board based on the Marvell MV64361 system controller and the
+>> VIA VT8231 integrated south bridge/superio chips. It can run Linux,
+>> AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
+>> image is needed to boot and only MorphOS has a video driver to produce
+>> graphics output. Linux could work too but distros that supported this
+>> machine don't include usual video drivers so those only run with
+>> serial console for now.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  MAINTAINERS                             |  10 ++
+>>  default-configs/devices/ppc-softmmu.mak |   2 +
+>>  hw/ppc/Kconfig                          |  10 ++
+>>  hw/ppc/meson.build                      |   2 +
+>>  hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++++
+>>  5 files changed, 168 insertions(+)
+>>  create mode 100644 hw/ppc/pegasos2.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 9b2aa18e1f..a023217702 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1345,6 +1345,16 @@ F: pc-bios/canyonlands.dt[sb]
+>>  F: pc-bios/u-boot-sam460ex-20100605.bin
+>>  F: roms/u-boot-sam460ex
+>>
+>> +pegasos2
+>> +M: BALATON Zoltan <balaton@eik.bme.hu>
+>> +R: David Gibson <david@gibson.dropbear.id.au>
 >
-> "qemu-common.h" should be included to provide the forward declaration
-> of qemu_hexdump() when DEBUG_NET is on.
+> :)
+
+He's also listed as reviewer for the sam460ex and I think as the PPC 
+maintainer probably should be notified about changes that's why this is 
+here. I guess he can complain or submit a patch later if he wants to be 
+removed.
+
+>> +L: qemu-ppc@nongnu.org
+>> +S: Maintained
+>> +F: hw/ppc/pegasos2.c
+>> +F: hw/pci-host/mv64361.c
+>> +F: hw/pci-host/mv643xx.h
+>> +F: include/hw/pci-host/mv64361.h
+>> +
+>>  RISC-V Machines
+>>  ---------------
+>>  OpenTitan
+>> diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
+>> index 61b78b844d..4535993d8d 100644
+>> --- a/default-configs/devices/ppc-softmmu.mak
+>> +++ b/default-configs/devices/ppc-softmmu.mak
+>> @@ -14,5 +14,7 @@ CONFIG_SAM460EX=y
+>>  CONFIG_MAC_OLDWORLD=y
+>>  CONFIG_MAC_NEWWORLD=y
+>>
+>> +CONFIG_PEGASOS2=y
+>> +
+>>  # For PReP
+>>  CONFIG_PREP=y
+>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+>> index d11dc30509..98d8dd1a84 100644
+>> --- a/hw/ppc/Kconfig
+>> +++ b/hw/ppc/Kconfig
+>> @@ -68,6 +68,16 @@ config SAM460EX
+>>      select USB_OHCI
+>>      select FDT_PPC
+>>
+>> +config PEGASOS2
+>> +    bool
+>> +    select MV64361
+>> +    select VT82C686
+>> +    select IDE_VIA
+>> +    select SMBUS_EEPROM
+>> +# These should come with VT82C686
+>> +    select APM
+>> +    select ACPI_X86
+>> +
+>>  config PREP
+>>      bool
+>>      imply PCI_DEVICES
+>> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+>> index 218631c883..86d6f379d1 100644
+>> --- a/hw/ppc/meson.build
+>> +++ b/hw/ppc/meson.build
+>> @@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
+>>  ))
+>>  # PowerPC 440 Xilinx ML507 reference board.
+>>  ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
+>> +# Pegasos2
+>> +ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
+>>
+>>  hw_arch += {'ppc': ppc_ss}
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> new file mode 100644
+>> index 0000000000..427e884fbf
+>> --- /dev/null
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -0,0 +1,144 @@
+>> +/*
+>> + * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
+>> + *
+>> + * Copyright (c) 2018-2020 BALATON Zoltan
 >
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 2018-2021
 
+Not really. I've done this between Christmas of 2018 and 2020. This year 
+were only changes for upstreaming and review comments so I preserved the 
+dates to record when the actual code was written.
 
-Applied.
-
-Thanks
-
-
+>> + *
+>> + * This work is licensed under the GNU GPL license version 2 or later.
+>> + *
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu-common.h"
+>> +#include "qemu/units.h"
+>> +#include "qapi/error.h"
+>> +#include "hw/hw.h"
+>> +#include "hw/ppc/ppc.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/pci/pci_host.h"
+>> +#include "hw/irq.h"
+>> +#include "hw/pci-host/mv64361.h"
+>> +#include "hw/isa/vt82c686.h"
+>> +#include "hw/ide/pci.h"
+>> +#include "hw/i2c/smbus_eeprom.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "sysemu/reset.h"
+>> +#include "hw/boards.h"
+>> +#include "hw/loader.h"
+>> +#include "hw/fw-path-provider.h"
+>> +#include "elf.h"
+>> +#include "qemu/log.h"
+>> +#include "qemu/error-report.h"
+>> +#include "sysemu/kvm.h"
+>> +#include "kvm_ppc.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "trace.h"
+>> +#include "qemu/datadir.h"
+>> +#include "sysemu/device_tree.h"
+>> +
+>> +#define PROM_FILENAME "pegasos2.rom"
+>> +#define PROM_ADDR     0xfff00000
+>> +#define PROM_SIZE     0x80000
+>> +
+>> +#define BUS_FREQ 133333333
 >
-> ---
+> Can you rename as BUS_FREQ_HZ?
 >
-> Changes in v2:
-> - add "Reviewed-By" tag
+>> +
+>> +static void pegasos2_cpu_reset(void *opaque)
+>> +{
+>> +    PowerPCCPU *cpu = opaque;
+>> +
+>> +    cpu_reset(CPU(cpu));
+>> +    cpu->env.spr[SPR_HID1] = 7ULL << 28;
+>> +}
+>> +
+>> +static void pegasos2_init(MachineState *machine)
+>> +{
+>> +    PowerPCCPU *cpu = NULL;
+>> +    MemoryRegion *rom = g_new(MemoryRegion, 1);
+>> +    DeviceState *mv;
+>> +    PCIBus *pci_bus;
+>> +    PCIDevice *dev;
+>> +    I2CBus *i2c_bus;
+>> +    const char *fwname = machine->firmware ?: PROM_FILENAME;
+>> +    char *filename;
+>> +    int sz;
+>> +    uint8_t *spd_data;
+>> +
+>> +    /* init CPU */
+>> +    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+>> +    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
+>> +        error_report("Incompatible CPU, only 6xx bus supported");
+>> +        exit(1);
+>> +    }
+>> +
+>> +    /* Set time-base frequency */
+>> +    cpu_ppc_tb_init(&cpu->env, BUS_FREQ / 4);
+>> +    qemu_register_reset(pegasos2_cpu_reset, cpu);
+>> +
+>> +    /* RAM */
+>> +    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+>> +
+>> +    /* allocate and load firmware */
+>> +    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
+>> +    if (!filename) {
+>> +        error_report("Could not find firmware '%s'", fwname);
+>> +        exit(1);
+>> +    }
+>> +    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &error_fatal);
+>> +    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
+>> +    sz = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1,
+>> +                  PPC_ELF_MACHINE, 0, 0);
+>> +    if (sz <= 0) {
+>> +        sz = load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
+>> +    }
+>> +    if (sz <= 0 || sz > PROM_SIZE) {
+>> +        error_report("Could not load firmware '%s'", filename);
+>> +        exit(1);
+>> +    }
+>> +    g_free(filename);
+>> +
+>> +    /* Marvell Discovery II system controller */
+>> +    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+>> +                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
 >
->   net/net.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/net/net.c b/net/net.c
-> index fb7b7dcc25..32d71c1172 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -23,6 +23,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu-common.h"
->   
->   #include "net/net.h"
->   #include "clients.h"
+> Indent off.
 
+There's no other way to fit in the 80 chars line length limit in a 
+sensible way. (Aligning to DEVICE( would be confusing as last arg belongs 
+to sysbus_create_simple().)
+
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Thanks, I'll do the other changes you've recommended.
+
+Regards,
+BALATON Zoltan
+--3866299591-484493238-1614676399=:44057--
 
