@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447CB329BAC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:16:52 +0100 (CET)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0905329C67
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 12:24:52 +0100 (CET)
+Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH31H-0001Kx-4i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:16:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36856)
+	id 1lH391-0008WB-U5
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 06:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lH2vS-0006aY-WD; Tue, 02 Mar 2021 06:10:51 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:56799)
+ id 1lH2vU-0006de-GK; Tue, 02 Mar 2021 06:10:52 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:51181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lH2vR-0007Ib-67; Tue, 02 Mar 2021 06:10:50 -0500
+ id 1lH2vS-0007In-D6; Tue, 02 Mar 2021 06:10:52 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 672C55C015B;
- Tue,  2 Mar 2021 06:10:48 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id A127B5C0176;
+ Tue,  2 Mar 2021 06:10:49 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 02 Mar 2021 06:10:48 -0500
+ by compute4.internal (MEProxy); Tue, 02 Mar 2021 06:10:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=PNZmbtZdEl/mF
- rCUEeQ2F7hb4v6l/Eu6Q3cp/qGLdZ0=; b=rcjP5MCz/2oq/1K4CT8sBzhAs5f4r
- FseT+AzKiZ5CLcWAIrSSn5uflSx07UeS3G4j4uME0v+EbfG3MflNlY0m8GVMYvq6
- VK7x2NrvLfiZMWuQkOv7D7Q+tpe5KOrckdk+LO+jS2tX60caKpUW9mv7IakfIse8
- bW8GUhHpEYywrqxzOIpm7d/HiQ2mTUMBFXP/8/G/EwgnfmfJQ2pBzYZE8en/rBC9
- BMFMRn1S8aYd+V9gj628NWGYT0mYiMVYtHWqxlNmKUsN8APgkbqt5E3l/PannceE
- gu61rw9l8C3FaZTTkceIajCzcCRuqeK0vCAf8hJ/St3A0yu4UM3SjCQZQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=MOwPSj56kJY4y
+ s0jgX8/bepqCln2LFFecpGG7QyJacw=; b=miO3ik6RtQIY+cKHMNBzZ+D8ldLvG
+ VBQ0my2U8mDGmXJHviS/4hw4fIEugVxfKzzPujA6EljKuucO75+I6T1S2Z3b5Mv+
+ olhGwvtJ0EovDKFj405AarXehFgQIpYOXl9YC7bBSFlV2v7CE0TK25W8Lk7VIIwm
+ DotlXi/FNuwlM984vSo5Eta1qrj/20pgxUxdZTe1YNnYqHmM1/cnQyiZZvZ1MOEQ
+ K0ALD8j8AJgGkI4vBtWHQeNibhj/U+n/YP8WmFijUjXCnRz5fCsz/OABsReCM77S
+ GkCzQBhpAzWAHc1kL0rERzzNB0fcBdDX7ldp/hIiuPz8jDZ4/03gPHiQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=PNZmbtZdEl/mFrCUEeQ2F7hb4v6l/Eu6Q3cp/qGLdZ0=; b=LOtzC93H
- sMzI5ZilyWEqtFmqOivEH+XCfhSRb1bdjR07oyrL1N2xBWT5Wrxykw5pYfn6SBqe
- es6SD6FTMLl/uWc5Upao7vJhSXtemluCjV6/EjRRXHD9FvXm8FK9wryK+0uxlfda
- 2I5BLJ0k64C+K83/TjMOb3aHMVRJ1O8fNl2GflJl/6vhGGACGFSF/2l/oJNSRUgE
- UYJRntlQc7vv4SqbSmCBTXdf16/UXZUVQrNpL06tzYw9cXW1jf38y4BQyeyI1Lpc
- VszM4uD5qVBHAKcnB/STc6MJE5Uv8HzUqP+dmaAqCEGcnbYZLUQtALxtdH8h+MMj
- cJXx6SVnvmPfXg==
-X-ME-Sender: <xms:OB0-YPMh8_q8musXRwPKSuveJRKljRg7PVdEs8HccMQ0EDRn1zoUXQ>
- <xme:OB0-YJ_i_5e9Ql0OgFEH4qKGf0QYsoQfWqFlaP9au_oqPRDgNMoMv_MrWD6bqzFj0
- l5QiowCQAyRDUz7TjM>
+ fm2; bh=MOwPSj56kJY4ys0jgX8/bepqCln2LFFecpGG7QyJacw=; b=TuqzpyzV
+ q/MEfCMK0mwUOgBydEUHh0fVWDH3ARbunV0XBPYF7GjlFpjEJDCP7M5WROB6E9PO
+ GhAIq6+nKTTBSaoiUvXWCxBzYwQfcvuu8v4AcAK1auyuUv+FfPXws20jVZKihUzK
+ HLHCDa5SCYI3OPkZntwtYJDeBwNwtFInIPnZ1/vBOkMt3CSCSbFZhasL6ohBJAhX
+ zUJ7xB0m4y6Dq6HnWW3OA6IIKjcHivbh19RiqBU7UMvKetrlKbyo593+HrKAJOv3
+ LEc9fhnTw9gYNwNp9kSSWe+qPMycWQcJYLZoNPckCuQ1XvcXxZCj3zymAT3J31HU
+ sKtfYmhIU9vJKw==
+X-ME-Sender: <xms:OR0-YEgbc5GgnErL58zKBmreXZeCzYTWA9-9rOH3do4O7vn8fCNgzg>
+ <xme:OR0-YNBp2zZjW-vcXLEJymKWfP7kHxwhKU_oF2u43hDm3plNIv_4g5T1FHmuo_Mor
+ _8PgcnUl6tLzHbV5cA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddttddgvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddttddgvdefucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:OB0-YOSvgmHJ_XWK_mzksR2XyyNnRvjr1WqghFvsh8XnhXKr2Tg-kA>
- <xmx:OB0-YDsovxEkleeXwSy1I7gqU5xUg3dTEbS7TtXQDQga-PpV1FSrZg>
- <xmx:OB0-YHfnMMmkjy0AD9J6vd4NKyDkAUnz4n9EgUXQ07sQi1lUkQsRUg>
- <xmx:OB0-YIEUxmROxjPAXOYcxOloCzbOc-oeyU533PYuXBc8eIt1BgvwdQ>
+X-ME-Proxy: <xmx:OR0-YMFFnV9gytOjcwU-YYZU_qXhGE_hN6EpLYfC5Mz1-fAqiOYUtg>
+ <xmx:OR0-YFSFcfM4lA1P2mpFB465UneknYNtt0cANXaOzJ1Ycbi7cq2CqQ>
+ <xmx:OR0-YBwB06KrX1uBSR9TGcMe9dJD1xlId6gcVpOTsa16IkTFHz9q-Q>
+ <xmx:OR0-YEo2BlkUVQ8oXBiMtWrsCWlgcxIgVhFXYmb8qWV3unV7ECtjSA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3A37F1080054;
- Tue,  2 Mar 2021 06:10:47 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 78A1C1080054;
+ Tue,  2 Mar 2021 06:10:48 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 3/4] hw/block/nvme: convert flush to aiocb
-Date: Tue,  2 Mar 2021 12:10:39 +0100
-Message-Id: <20210302111040.289244-4-its@irrelevant.dk>
+Subject: [PATCH RFC 4/4] hw/block/nvme: convert zone reset to aiocb
+Date: Tue,  2 Mar 2021 12:10:40 +0100
+Message-Id: <20210302111040.289244-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210302111040.289244-1-its@irrelevant.dk>
 References: <20210302111040.289244-1-its@irrelevant.dk>
@@ -101,80 +101,171 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Convert flush from ad-hoc multi aio tracking to use standard QEMU AIOCB
-processing.
+Convert zone reset from ad-hoc multi aio tracking to use standard QEMU
+AIOCB processing.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 143 +++++++++++++++++++++++++-----------------------
- 1 file changed, 74 insertions(+), 69 deletions(-)
+ hw/block/nvme.c | 233 +++++++++++++++++++++++++++++-------------------
+ 1 file changed, 139 insertions(+), 94 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 48a1abe52787..773b41527c79 100644
+index 773b41527c79..0d067f186ed7 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1459,41 +1459,6 @@ static void nvme_rw_cb(void *opaque, int ret)
+@@ -1325,6 +1325,29 @@ static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
+     }
+ }
+ 
++static uint16_t nvme_zrm_reset(NvmeNamespace *ns, NvmeZone *zone)
++{
++    switch (nvme_get_zone_state(zone)) {
++    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
++    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
++        nvme_aor_dec_open(ns);
++        /* fallthrough */
++    case NVME_ZONE_STATE_CLOSED:
++        nvme_aor_dec_active(ns);
++        /* fallthrough */
++    case NVME_ZONE_STATE_FULL:
++        zone->w_ptr = zone->d.zslba;
++        zone->d.wp = zone->w_ptr;
++        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EMPTY);
++        /* fallthrough */
++    case NVME_ZONE_STATE_EMPTY:
++        return NVME_SUCCESS;
++
++    default:
++        return NVME_ZONE_INVAL_TRANSITION;
++    }
++}
++
+ static void nvme_zrm_auto_transition_zone(NvmeNamespace *ns)
+ {
+     NvmeZone *zone;
+@@ -1472,53 +1495,6 @@ static void nvme_misc_cb(void *opaque, int ret)
      nvme_enqueue_req_completion(nvme_cq(req), req);
  }
  
--struct nvme_aio_flush_ctx {
--    NvmeRequest     *req;
--    NvmeNamespace   *ns;
--    BlockAcctCookie acct;
+-struct nvme_zone_reset_ctx {
+-    NvmeRequest *req;
+-    NvmeZone    *zone;
 -};
 -
--static void nvme_aio_flush_cb(void *opaque, int ret)
+-static void nvme_aio_zone_reset_cb(void *opaque, int ret)
 -{
--    struct nvme_aio_flush_ctx *ctx = opaque;
+-    struct nvme_zone_reset_ctx *ctx = opaque;
 -    NvmeRequest *req = ctx->req;
--    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
+-    NvmeNamespace *ns = req->ns;
+-    NvmeZone *zone = ctx->zone;
+-    uintptr_t *resets = (uintptr_t *)&req->opaque;
 -
--    BlockBackend *blk = ctx->ns->blkconf.blk;
--    BlockAcctCookie *acct = &ctx->acct;
--    BlockAcctStats *stats = blk_get_stats(blk);
+-    g_free(ctx);
 -
--    trace_pci_nvme_aio_flush_cb(nvme_cid(req), blk_name(blk));
+-    trace_pci_nvme_aio_zone_reset_cb(nvme_cid(req), zone->d.zslba);
 -
 -    if (!ret) {
--        block_acct_done(stats, acct);
+-        switch (nvme_get_zone_state(zone)) {
+-        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+-        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+-            nvme_aor_dec_open(ns);
+-            /* fall through */
+-        case NVME_ZONE_STATE_CLOSED:
+-            nvme_aor_dec_active(ns);
+-            /* fall through */
+-        case NVME_ZONE_STATE_FULL:
+-            zone->w_ptr = zone->d.zslba;
+-            zone->d.wp = zone->w_ptr;
+-            nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EMPTY);
+-            /* fall through */
+-        default:
+-            break;
+-        }
 -    } else {
--        block_acct_failed(stats, acct);
 -        nvme_aio_err(req, ret);
 -    }
 -
--    (*num_flushes)--;
--    g_free(ctx);
+-    (*resets)--;
 -
--    if (*num_flushes) {
+-    if (*resets) {
 -        return;
 -    }
 -
 -    nvme_enqueue_req_completion(nvme_cq(req), req);
 -}
 -
- static void nvme_misc_cb(void *opaque, int ret)
- {
-     NvmeRequest *req = opaque;
-@@ -2055,13 +2020,74 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_NO_COMPLETE;
+ struct nvme_compare_ctx {
+     QEMUIOVector iov;
+     uint8_t *bounce;
+@@ -2336,41 +2312,6 @@ static uint16_t nvme_finish_zone(NvmeNamespace *ns, NvmeZone *zone,
+     return nvme_zrm_finish(ns, zone);
  }
  
-+typedef struct NvmeFlushAIOCB {
+-static uint16_t nvme_reset_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                NvmeZoneState state, NvmeRequest *req)
+-{
+-    uintptr_t *resets = (uintptr_t *)&req->opaque;
+-    struct nvme_zone_reset_ctx *ctx;
+-
+-    switch (state) {
+-    case NVME_ZONE_STATE_EMPTY:
+-        return NVME_SUCCESS;
+-    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+-    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+-    case NVME_ZONE_STATE_CLOSED:
+-    case NVME_ZONE_STATE_FULL:
+-        break;
+-    default:
+-        return NVME_ZONE_INVAL_TRANSITION;
+-    }
+-
+-    /*
+-     * The zone reset aio callback needs to know the zone that is being reset
+-     * in order to transition the zone on completion.
+-     */
+-    ctx = g_new(struct nvme_zone_reset_ctx, 1);
+-    ctx->req = req;
+-    ctx->zone = zone;
+-
+-    (*resets)++;
+-
+-    blk_aio_pwrite_zeroes(ns->blkconf.blk, nvme_l2b(ns, zone->d.zslba),
+-                          nvme_l2b(ns, ns->zone_size), BDRV_REQ_MAY_UNMAP,
+-                          nvme_aio_zone_reset_cb, ctx);
+-
+-    return NVME_NO_COMPLETE;
+-}
+-
+ static uint16_t nvme_offline_zone(NvmeNamespace *ns, NvmeZone *zone,
+                                   NvmeZoneState state, NvmeRequest *req)
+ {
+@@ -2499,12 +2440,115 @@ out:
+     return status;
+ }
+ 
++typedef struct NvmeZoneResetAIOCB {
 +    BlockAIOCB common;
 +    BlockAIOCB *aiocb;
 +    NvmeRequest *req;
 +    QEMUBH *bh;
 +    int ret;
 +
-+    int nsid;
-+} NvmeFlushAIOCB;
++    bool all;
 +
-+static void nvme_flush_cancel(BlockAIOCB *acb)
++    struct {
++        int idx;
++        NvmeZone *zone;
++    } curr;
++} NvmeZoneResetAIOCB;
++
++static void nvme_zone_reset_cancel(BlockAIOCB *aiocb)
 +{
-+    NvmeFlushAIOCB *iocb = container_of(acb, NvmeFlushAIOCB, common);
-+    NvmeCtrl *n = nvme_ctrl(iocb->req);
++    NvmeZoneResetAIOCB *iocb = container_of(aiocb, NvmeZoneResetAIOCB, common);
++    NvmeRequest *req = iocb->req;
++    NvmeNamespace *ns = req->ns;
 +
-+    iocb->nsid = n->num_namespaces + 1;
++    iocb->curr.idx = ns->num_zones;
++
 +    iocb->ret = -ECANCELED;
 +
 +    if (iocb->aiocb) {
@@ -183,109 +274,130 @@ index 48a1abe52787..773b41527c79 100644
 +    }
 +}
 +
-+static const AIOCBInfo nvme_flush_aiocb_info = {
-+    .aiocb_size = sizeof(NvmeFlushAIOCB),
-+    .cancel_async = nvme_flush_cancel,
++static const AIOCBInfo nvme_zone_reset_aiocb_info = {
++    .aiocb_size = sizeof(NvmeZoneResetAIOCB),
++    .cancel_async = nvme_zone_reset_cancel,
 +};
 +
-+static void nvme_flush_bh(void *opaque)
++static void nvme_zone_reset_bh(void *opaque)
 +{
-+    NvmeFlushAIOCB *iocb = opaque;
++    NvmeZoneResetAIOCB *iocb = opaque;
 +
 +    iocb->common.cb(iocb->common.opaque, iocb->ret);
++
 +    qemu_bh_delete(iocb->bh);
 +    iocb->bh = NULL;
 +    qemu_aio_unref(iocb);
 +}
 +
-+static void nvme_flush_aio_cb(void *opaque, int ret)
++static void nvme_zone_reset_aio_cb(void *opaque, int ret)
 +{
-+    NvmeFlushAIOCB *iocb = opaque;
++    NvmeZoneResetAIOCB *iocb = opaque;
 +    NvmeRequest *req = iocb->req;
-+    NvmeCtrl *n = nvme_ctrl(req);
++    NvmeNamespace *ns = req->ns;
 +
 +    if (ret < 0) {
 +        iocb->ret = ret;
 +        goto done;
 +    }
 +
-+    while (iocb->nsid <= n->num_namespaces) {
-+        NvmeNamespace *ns = nvme_ns(n, iocb->nsid++);
-+        if (ns) {
-+            iocb->aiocb = blk_aio_flush(ns->blkconf.blk, nvme_flush_aio_cb,
-+                                        iocb);
-+            return;
++    if (iocb->curr.zone) {
++        nvme_zrm_reset(ns, iocb->curr.zone);
++
++        if (!iocb->all) {
++            goto done;
 +        }
++    }
++
++    while (iocb->curr.idx < ns->num_zones) {
++        NvmeZone *zone = &ns->zone_array[iocb->curr.idx++];
++
++        switch (nvme_get_zone_state(zone)) {
++        case NVME_ZONE_STATE_EMPTY:
++            if (!iocb->all) {
++                goto done;
++            }
++
++            continue;
++
++        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
++        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
++        case NVME_ZONE_STATE_CLOSED:
++        case NVME_ZONE_STATE_FULL:
++            iocb->curr.zone = zone;
++            break;
++
++        default:
++            continue;
++        }
++
++        iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk,
++                                            nvme_l2b(ns, zone->d.zslba),
++                                            nvme_l2b(ns, ns->zone_size),
++                                            BDRV_REQ_MAY_UNMAP,
++                                            nvme_zone_reset_aio_cb, iocb);
++        return;
 +    }
 +
 +done:
 +    iocb->aiocb = NULL;
-+    qemu_bh_schedule(iocb->bh);
++    if (iocb->bh) {
++        qemu_bh_schedule(iocb->bh);
++    }
 +}
 +
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
  {
-+    NvmeFlushAIOCB *iocb;
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
--    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
--    uint16_t status;
--    struct nvme_aio_flush_ctx *ctx;
--    NvmeNamespace *ns;
+     NvmeCmd *cmd = (NvmeCmd *)&req->cmd;
+     NvmeNamespace *ns = req->ns;
+     NvmeZone *zone;
+-    uintptr_t *resets;
++    NvmeZoneResetAIOCB *iocb;
+     uint8_t *zd_ext;
+     uint32_t dw13 = le32_to_cpu(cmd->cdw13);
+     uint64_t slba = 0;
+@@ -2515,7 +2559,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+     enum NvmeZoneProcessingMask proc_mask = NVME_PROC_CURRENT_ZONE;
  
-     trace_pci_nvme_flush(nvme_cid(req), nsid);
+     action = dw13 & 0xff;
+-    all = dw13 & 0x100;
++    all = !!(dw13 & 0x100);
  
-@@ -2071,42 +2097,21 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_INVALID_FIELD | NVME_DNR;
-         }
+     req->status = NVME_SUCCESS;
  
--        block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
--                         BLOCK_ACCT_FLUSH);
--        req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_rw_cb, req);
-+        req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_misc_cb, req);
-         return NVME_NO_COMPLETE;
-     }
+@@ -2559,21 +2603,22 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+         break;
  
--    /* 1-initialize; see comment in nvme_dsm */
--    *num_flushes = 1;
-+    iocb = qemu_aio_get(&nvme_flush_aiocb_info, NULL, nvme_misc_cb, req);
- 
--    for (int i = 1; i <= n->num_namespaces; i++) {
--        ns = nvme_ns(n, i);
--        if (!ns) {
--            continue;
+     case NVME_ZONE_ACTION_RESET:
+-        resets = (uintptr_t *)&req->opaque;
+-
+-        if (all) {
+-            proc_mask = NVME_PROC_OPENED_ZONES | NVME_PROC_CLOSED_ZONES |
+-                NVME_PROC_FULL_ZONES;
 -        }
-+    iocb->req = req;
-+    iocb->bh = qemu_bh_new(nvme_flush_bh, iocb);
-+    iocb->ret = 0;
-+    iocb->nsid = 1;
+         trace_pci_nvme_reset_zone(slba, zone_idx, all);
  
--        ctx = g_new(struct nvme_aio_flush_ctx, 1);
--        ctx->req = req;
--        ctx->ns = ns;
-+    nvme_flush_aio_cb(iocb, 0);
-+    req->aiocb = &iocb->common;
+-        *resets = 1;
++        iocb = blk_aio_get(&nvme_zone_reset_aiocb_info, ns->blkconf.blk,
++                           nvme_misc_cb, req);
  
--        (*num_flushes)++;
--
--        block_acct_start(blk_get_stats(ns->blkconf.blk), &ctx->acct, 0,
--                         BLOCK_ACCT_FLUSH);
--        blk_aio_flush(ns->blkconf.blk, nvme_aio_flush_cb, ctx);
--    }
--
--    /* account for the 1-initialization */
--    (*num_flushes)--;
--
--    if (*num_flushes) {
--        status = NVME_NO_COMPLETE;
--    } else {
--        status = req->status;
--    }
--
--    return status;
-+    return NVME_NO_COMPLETE;
- }
+-        status = nvme_do_zone_op(ns, zone, proc_mask, nvme_reset_zone, req);
++        iocb->req = req;
++        iocb->bh = qemu_bh_new(nvme_zone_reset_bh, iocb);
++        iocb->ret = 0;
++        iocb->all = all;
++        iocb->curr.idx = zone_idx;
++        iocb->curr.zone = NULL;
  
- static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+-        (*resets)--;
++        nvme_zone_reset_aio_cb(iocb, 0);
++        req->aiocb = &iocb->common;
+ 
+-        return *resets ? NVME_NO_COMPLETE : req->status;
++        return NVME_NO_COMPLETE;
+ 
+     case NVME_ZONE_ACTION_OFFLINE:
+         if (all) {
 -- 
 2.30.1
 
