@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8932C32A2B2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:57:27 +0100 (CET)
-Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAD932A2D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 15:59:52 +0100 (CET)
+Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lH6Sk-0004YQ-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:57:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42210)
+	id 1lH6V5-0006qC-T1
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 09:59:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lH6Rh-00048p-QP
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lH6Rg-0004xo-8l
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 09:56:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614696979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XIe4BEKtubSuPFSW/qHdMRd7fcHz2Y0FN/lH3yw2AHo=;
- b=XO8mVpvFd/rC7uqYtUh+8S7ofWcL8qis7L2DQ3ho54B+01QXTP/3flHPFds6AbBgWhRX/G
- KLiEx5WQCHcUQcK/kRhNX0Sx9jqIFMoSELNZqs/Nda12Yyd/z2HxnoWieWKdJoPaqJBNJP
- lQI4ds81q0bCm+rBOOJ2dAsQTmpHM4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-fcb3AAwCOiqTidaECDCqXw-1; Tue, 02 Mar 2021 09:56:17 -0500
-X-MC-Unique: fcb3AAwCOiqTidaECDCqXw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABAED107ACE4;
- Tue,  2 Mar 2021 14:56:15 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 498B85C626;
- Tue,  2 Mar 2021 14:56:03 +0000 (UTC)
-Subject: Re: [PATCH 1/2] Acceptance Tests: restore downloading of VM images
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210225232122.1254879-1-crosa@redhat.com>
- <20210225232122.1254879-2-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <a4a5afa4-6c15-3d52-34b4-85e223dfbd3d@redhat.com>
-Date: Tue, 2 Mar 2021 11:56:00 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lH6Tk-00059D-Ky; Tue, 02 Mar 2021 09:58:28 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37579)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lH6Ti-00057S-D4; Tue, 02 Mar 2021 09:58:28 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id bm21so16954421ejb.4;
+ Tue, 02 Mar 2021 06:58:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X7BSvPakL4puIi0CoiqZyLCwJwNfOFS64YEG3c6fEa0=;
+ b=plXVyHI7caz75vzYsoJ9jZDStp1Wud9Me/ydz371qOx8PEfPy13tRp7gEH+kVipbeI
+ n+A35A06Z2Kovp1+Fu6E5O4kp6z5ARoDCH1xFO7Qcrx6FPR9SF1+OVHsKEPtT6HJASnr
+ jvH4Om4MhxrCMbnUge8WWb/Z1ejhuHpUtP1MZAcqYd2AJS+Dpxv3y3n/BKQydp9ZQXt1
+ N1Rjcbuk/VU5rIaw+FBozPG6GZRhsUjQ6F56S3e0hXXWkyQ+hMk9y0xXnGXH5roXab/U
+ Hs23c4hIncOaWLIAhVvsb5kB6mRZbp2DoJBeZAHboMbTLBSY9ni0odlUAoOk94Oxm58/
+ +urw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=X7BSvPakL4puIi0CoiqZyLCwJwNfOFS64YEG3c6fEa0=;
+ b=PbUeK4OSHxSXy8lT4Qg9H0d9cZCUd5ezSysy6SaBNcTYt1v0nPhRhM6NlS6QekYqFo
+ 4vZ9ONWtjc2J0W86UwlYf5diHJCK+DfNgcWef9PoCbaWNzlXfLfzTAD+FNdZxvI6ax0v
+ SHYOA3dB4dRkXyTsj1i9x85T1zJMNb0iMsatmgaJNX8fzjFZEA0rSguj5ktkpMcB4VJB
+ nA+emHq3eLmFgCHm97bjk/ZddYtpRi78dI6uKCijrbwxk0G5amdR+eLFsErkWiEbHKa8
+ ZcxDyuPKE8WtFS/jS+i6lHxJLdCGdPsmcPKUug0kgRr/M/P/RRM5w0SIuQwarKLgHf2B
+ Cdrw==
+X-Gm-Message-State: AOAM531y0un9Z8OS9oKfGOH/hB2dYtkjP62TJHIajkyI1OCM4EXGzkf4
+ TB4O+wzN+b6ChQSmIYVNQlkGCOZSho8=
+X-Google-Smtp-Source: ABdhPJzc7ubKtC8GMptM7LM23zeMLtGm2caABUmtzRPLsK4gbQIaJ6ve8TTz6c/m6WxaPse5/2noQA==
+X-Received: by 2002:a17:907:7684:: with SMTP id
+ jv4mr1748700ejc.231.1614697102704; 
+ Tue, 02 Mar 2021 06:58:22 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id y11sm18000261ejd.72.2021.03.02.06.58.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 06:58:22 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/27] cpu: Introduce SysemuCPUOps structure, remove
+ watchpoints from usermode
+Date: Tue,  2 Mar 2021 15:57:51 +0100
+Message-Id: <20210302145818.1161461-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210225232122.1254879-2-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +83,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2/25/21 8:21 PM, Cleber Rosa wrote:
-> The "get-vm-images" target defined in tests/Makefile.include is a
-> prerequisite for "check-acceptance", so that those files get
-> downloaded before the Avocado job even starts.
->
-> It looks like on c401c058a1c a TARGETS variable was introduced with a
-> different content than it was previously coming from the main
-> Makefile.  From that point on, the "get-vm-images" succeed without
-> doing anything because there was no matching architecture to download.
->
-> This restores the download of images (that match targets to be built)
-> before the job starts, eliminating downloads and their associated
-> failures during the tests.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   tests/Makefile.include | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
->
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index d34254fb29..dbd53a9de6 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -109,7 +109,8 @@ $(TESTS_RESULTS_DIR):
->   
->   check-venv: $(TESTS_VENV_DIR)
->   
-> -FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(TARGETS))
-> +FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
-> +FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
->   FEDORA_31_ARCHES := x86_64 aarch64 ppc64le s390x
->   FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
->   
-
+Hi,=0D
+=0D
+This series is inspired on Claudio TCG work.=0D
+=0D
+Instead of separate TCG from other accelerators, here we=0D
+separate sysemu operations (system VS user).=0D
+=0D
+Patches 1-6 are generic cleanups.=0D
+Patches 7-15 move from CPUClass to SysemuCPUOps=0D
+Patch   16 restricts SysemuCPUOps to sysemu=0D
+Patches 17-25 remove watchpoint code from user emulation=0D
+Patches 26-27 remove USER_ONLY #ifdef'ry from "cpu.h"=0D
+=0D
+Since v2:=0D
+- fixed lm32/unicore32=0D
+- remove USER_ONLY ifdef'ry from "cpu.h" (Claudio)=0D
+=0D
+Since v1:=0D
+- Name 'sysemu' (Claudio)=0D
+- change each field progressively (Richard)=0D
+=0D
+$ git backport-diff -u v2=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/27:[----] [--] 'target: Set CPUClass::vmsd instead of DeviceClass::vmsd=
+'=0D
+002/27:[----] [--] 'cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_fr=
+om=3D=0D
+_attrs'=0D
+003/27:[----] [--] 'cpu: Introduce cpu_virtio_is_big_endian()'=0D
+004/27:[----] [--] 'cpu: Directly use cpu_write_elf*() fallback handlers in=
+ p=3D=0D
+lace'=0D
+005/27:[----] [--] 'cpu: Directly use get_paging_enabled() fallback handler=
+s =3D=0D
+in place'=0D
+006/27:[----] [--] 'cpu: Directly use get_memory_mapping() fallback handler=
+s =3D=0D
+in place'=0D
+007/27:[----] [--] 'cpu: Introduce SysemuCPUOps structure'=0D
+008/27:[----] [--] 'cpu: Move CPUClass::vmsd to SysemuCPUOps'=0D
+009/27:[----] [--] 'cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOp=
+s'=0D
+010/27:[----] [--] 'cpu: Move CPUClass::get_crash_info to SysemuCPUOps'=0D
+011/27:[----] [--] 'cpu: Move CPUClass::write_elf* to SysemuCPUOps'=0D
+012/27:[----] [--] 'cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps'=0D
+013/27:[----] [--] 'cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=
+'=0D
+014/27:[----] [--] 'cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps'=
+=0D
+015/27:[----] [--] 'cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps'=
+=0D
+016/27:[0084] [FC] 'cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.=
+c'=0D
+017/27:[down] 'linux-user: Remove dead code'=0D
+018/27:[down] 'gdbstub: Remove watchpoint dead code in gdbserver_fork()'=0D
+019/27:[down] 'target/arm/internals: Fix code style for checkpatch.pl'=0D
+020/27:[down] 'target/arm: Move code blocks around'=0D
+021/27:[down] 'target/arm: Refactor some function bodies'=0D
+022/27:[down] 'target/arm: Restrict watchpoint code to system emulation'=0D
+023/27:[down] 'target/i386: Restrict watchpoint code to system emulation'=0D
+024/27:[down] 'accel/tcg/cpu-exec: Restrict watchpoint code to system emula=
+ti=3D=0D
+on'=0D
+025/27:[down] 'cpu: Remove watchpoint stubs for user emulation'=0D
+026/27:[down] 'cpu: Fix code style for checkpatch.pl'=0D
+027/27:[down] 'cpu: Move sysemu specific declarations to 'sysemu-cpu-ops.h'=
+'=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Supersedes: <20210301215110.772346-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (27):=0D
+  target: Set CPUClass::vmsd instead of DeviceClass::vmsd=0D
+  cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs=0D
+  cpu: Introduce cpu_virtio_is_big_endian()=0D
+  cpu: Directly use cpu_write_elf*() fallback handlers in place=0D
+  cpu: Directly use get_paging_enabled() fallback handlers in place=0D
+  cpu: Directly use get_memory_mapping() fallback handlers in place=0D
+  cpu: Introduce SysemuCPUOps structure=0D
+  cpu: Move CPUClass::vmsd to SysemuCPUOps=0D
+  cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_crash_info to SysemuCPUOps=0D
+  cpu: Move CPUClass::write_elf* to SysemuCPUOps=0D
+  cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps=0D
+  cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c=0D
+  linux-user: Remove dead code=0D
+  gdbstub: Remove watchpoint dead code in gdbserver_fork()=0D
+  target/arm/internals: Fix code style for checkpatch.pl=0D
+  target/arm: Move code blocks around=0D
+  target/arm: Refactor some function bodies=0D
+  target/arm: Restrict watchpoint code to system emulation=0D
+  target/i386: Restrict watchpoint code to system emulation=0D
+  accel/tcg/cpu-exec: Restrict watchpoint code to system emulation=0D
+  cpu: Remove watchpoint stubs for user emulation=0D
+  cpu: Fix code style for checkpatch.pl=0D
+  cpu: Move sysemu specific declarations to 'sysemu-cpu-ops.h'=0D
+=0D
+ include/hw/core/cpu.h            | 258 +------------------------------=0D
+ include/hw/core/sysemu-cpu-ops.h | 244 +++++++++++++++++++++++++++++=0D
+ target/alpha/cpu.h               |   3 +=0D
+ target/arm/cpu.h                 |   3 +=0D
+ target/arm/internals.h           |  34 ++--=0D
+ target/avr/cpu.h                 |   1 +=0D
+ target/cris/cpu.h                |   3 +=0D
+ target/hexagon/cpu.h             |   3 +=0D
+ target/hppa/cpu.h                |   3 +=0D
+ target/i386/cpu.h                |   3 +=0D
+ target/lm32/cpu.h                |   3 +=0D
+ target/m68k/cpu.h                |   3 +=0D
+ target/microblaze/cpu.h          |   1 +=0D
+ target/mips/cpu.h                |   3 +=0D
+ target/moxie/cpu.h               |   3 +=0D
+ target/nios2/cpu.h               |   1 +=0D
+ target/openrisc/cpu.h            |   3 +=0D
+ target/ppc/cpu.h                 |   3 +=0D
+ target/riscv/cpu.h               |   3 +=0D
+ target/rx/cpu.h                  |   1 +=0D
+ target/s390x/cpu.h               |   3 +=0D
+ target/sh4/cpu.h                 |   3 +=0D
+ target/sparc/cpu.h               |   3 +=0D
+ target/tilegx/cpu.h              |   3 +=0D
+ target/tricore/cpu.h             |   3 +=0D
+ target/unicore32/cpu.h           |   3 +=0D
+ target/xtensa/cpu.h              |   3 +=0D
+ accel/tcg/cpu-exec.c             |   5 +-=0D
+ cpu.c                            |  19 ++-=0D
+ gdbstub.c                        |   2 +-=0D
+ hw/core/cpu.c                    | 113 ++++++++------=0D
+ hw/virtio/virtio.c               |   4 +-=0D
+ linux-user/main.c                |   5 -=0D
+ softmmu/physmem.c                |   1 +=0D
+ target/alpha/cpu.c               |  10 +-=0D
+ target/arm/cpu.c                 |  22 ++-=0D
+ target/arm/debug_helper.c        | 102 ++++++------=0D
+ target/arm/helper.c              |   9 +-=0D
+ target/avr/cpu.c                 |   8 +-=0D
+ target/cris/cpu.c                |  10 +-=0D
+ target/hppa/cpu.c                |  10 +-=0D
+ target/i386/cpu.c                |  31 ++--=0D
+ target/lm32/cpu.c                |  10 +-=0D
+ target/m68k/cpu.c                |  10 +-=0D
+ target/microblaze/cpu.c          |  10 +-=0D
+ target/mips/cpu.c                |  10 +-=0D
+ target/moxie/cpu.c               |  10 +-=0D
+ target/nios2/cpu.c               |  15 +-=0D
+ target/openrisc/cpu.c            |  10 +-=0D
+ target/riscv/cpu.c               |  12 +-=0D
+ target/rx/cpu.c                  |  16 +-=0D
+ target/s390x/cpu.c               |  14 +-=0D
+ target/sh4/cpu.c                 |  10 +-=0D
+ target/sparc/cpu.c               |  10 +-=0D
+ target/tricore/cpu.c             |  13 +-=0D
+ target/unicore32/cpu.c           |   8 +-=0D
+ target/xtensa/cpu.c              |  10 +-=0D
+ target/ppc/translate_init.c.inc  |  20 +--=0D
+ 58 files changed, 686 insertions(+), 453 deletions(-)=0D
+ create mode 100644 include/hw/core/sysemu-cpu-ops.h=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
