@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDEE3296BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:01:07 +0100 (CET)
-Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89F83296C6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Mar 2021 09:08:29 +0100 (CET)
+Received: from localhost ([::1]:40010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGzxq-00047b-RK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:01:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39766)
+	id 1lH04z-00006g-16
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 03:08:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lGzw3-0002sD-T6; Tue, 02 Mar 2021 02:59:15 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42592)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lH02a-0007PI-SD
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:06:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lGzw2-0000Hi-Ab; Tue, 02 Mar 2021 02:59:15 -0500
-Received: by mail-ej1-x629.google.com with SMTP id c10so6916852ejx.9;
- Mon, 01 Mar 2021 23:59:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xzAlio/kE6zk7ZS2LsQAKCOZGJ5EHPCNaBD5AbsreGA=;
- b=vN0NqxQ5K+vlP6mehP8YfAqzTf8ZZW4RvnDWTLRdSJBeZe1rCQ1eQmu3vh+5jHcBrS
- JUww8Xh6vC3LkavJmJxXSmGw/7WuYW3rpAcK6ZNA12DT7kRnCHPTVELGKNNxJhWwtJ18
- 5o1bhkHKdwLqEsS+t9soKsDTraXZkPYjTO85T951tlw20/1/NZSuDaaCRLNXPrHq8bMQ
- p05cAzC1BNzkBNce6ySnFUb78qHkmwXzdS0iGljdTVj+oYl46wNpizIG4aPtVVhIXp8w
- pyL8qiLc6g9q0kk8y34/G0fnOT+qQrqv/Hx9cwSqpPlFRbpATuzQo2rL+70Sh+aG/tXi
- If4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xzAlio/kE6zk7ZS2LsQAKCOZGJ5EHPCNaBD5AbsreGA=;
- b=ElqQ6iAowjspDPrUno4OhiS4hrXd3t4Tf72TmBG++l/Vvinuxa1wK3Lf/DvqD1H/8+
- MepiH8Zx53w2Vw2aN8cGX/oCgyQB87Y3TvQyg/r6clYFPKW7RzprvCXc8YvO7hSuByD5
- hzrEeGIGh3YvTpcxHAgVQEtkx6VXGeNM9dr3lFlFE0iu4mz3JyvwYDaCP/lahyDMU33R
- R9VN9B+B5I3VDXBV1MI4obuvajTJY/NypkzIo6DEmOqnm0U0rLUn2BfssLAIIIgf3YnU
- ByfH3YHlcMDPlkxcn8JmgkF/LdR6v3VWeurkq1Adb4Ug713PIoIu26d0Xy9c1pnSqCMG
- 19AA==
-X-Gm-Message-State: AOAM532fjHRsCanAjMz2EDdroaXydMIlxd59m0rXeTmUdefxO6BfSN+4
- BVJyLpG/W466Vd3mUlqZkrw=
-X-Google-Smtp-Source: ABdhPJxzVJo4sde85YhgCHQ/XerfCg1ZRWlQhtc1tZMn1Db1dluDZM5G0aQ/OSs5ZZMz3J23uU7eog==
-X-Received: by 2002:a17:906:7f84:: with SMTP id
- f4mr4656229ejr.525.1614671952494; 
- Mon, 01 Mar 2021 23:59:12 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s2sm8946673ejn.112.2021.03.01.23.59.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 23:59:11 -0800 (PST)
-Subject: Re: [PATCH v4 5/6] hw/pci-host: Add emulation of Marvell MV64361 PPC
- system controller
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1614282456.git.balaton@eik.bme.hu>
- <bdcd7aaf18dfe93267d7a02ac4fa451cb5749dbd.1614282456.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8b46f28a-f08c-28fd-d323-604ab1e231bb@amsat.org>
-Date: Tue, 2 Mar 2021 08:59:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lH02X-0004M8-13
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 03:06:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lH02V-0006WQ-7K
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 08:05:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 350DF2E804A
+ for <qemu-devel@nongnu.org>; Tue,  2 Mar 2021 08:05:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <bdcd7aaf18dfe93267d7a02ac4fa451cb5749dbd.1614282456.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Mar 2021 07:59:18 -0000
+From: sean kuo <1917394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: seannnnk
+X-Launchpad-Bug-Reporter: sean kuo (seannnnk)
+X-Launchpad-Bug-Modifier: sean kuo (seannnnk)
+References: <161465544550.24578.14846009621606228644.malonedeb@wampee.canonical.com>
+Message-Id: <CAFkVRJKbRqjEnF_K2RXYTb+ZF0KnFO+J05f1ETEaumxc=CVvaA@mail.gmail.com>
+Subject: Re: [Bug 1917394] [NEW] command lspci does not show the IVSHMEM device
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
+X-Launchpad-Hash: 174e94d3be22ecbda22d7f898719edda4b496466
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,51 +69,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1917394 <1917394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/21 8:47 PM, BALATON Zoltan wrote:
-> The Marvell Discovery II aka. MV64361 is a PowerPC system controller
-> chip that is used on the pegasos2 PPC board. This adds emulation of it
-> that models the device enough to boot guests on this board. The
-> mv643xx.h header with register definitions is taken from Linux 4.15.10
-> only fixing end of line white space errors and removing not needed
-> parts, it's otherwise keeps Linux formatting.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/pci-host/Kconfig           |   3 +
->  hw/pci-host/meson.build       |   2 +
->  hw/pci-host/mv64361.c         | 966 ++++++++++++++++++++++++++++++++++
->  hw/pci-host/mv643xx.h         | 919 ++++++++++++++++++++++++++++++++
+Hi ChangLimin,
 
-Maybe name this one mv643xx_regs.h?
+Thanks for your reply. I checked again to find the device... I thought the
+name was ivshmem.
+I don't find any driver code for IVSHMEM in the linux and qemu repo. Can
+you give me some help?
 
->  hw/pci-host/trace-events      |   6 +
->  include/hw/pci-host/mv64361.h |   8 +
->  include/hw/pci/pci_ids.h      |   1 +
->  7 files changed, 1905 insertions(+)
->  create mode 100644 hw/pci-host/mv64361.c
->  create mode 100644 hw/pci-host/mv643xx.h
->  create mode 100644 include/hw/pci-host/mv64361.h
+00:10.0 RAM memory: Red Hat, Inc. Inter-VM shared memory (rev 01)
+Subsystem: Red Hat, Inc. QEMU Virtual Machine
+Flags: fast devsel
+Memory at fcc1c000 (32-bit, non-prefetchable) [size=3D256]
+Memory at fdc00000 (64-bit, prefetchable) [size=3D4M]
 
-> 
-> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-> index 8b8c763c28..65a983d6fd 100644
-> --- a/hw/pci-host/Kconfig
-> +++ b/hw/pci-host/Kconfig
-> @@ -68,3 +68,6 @@ config PCI_POWERNV
->  
->  config REMOTE_PCIHOST
->      bool
-> +
-> +config MV64361
-> +    bool
+Thanks,
+Sean
 
-Missing:
 
-       select PCI
+
+
+On Tue, Mar 2, 2021 at 3:31 PM ChangLimin <changlm@chinatelecom.cn> wrote:
+
+> Can you give the lspci messages? The below is my output.  There is a RAM
+> memory device.
+>
+> $ lspci
+> 00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev
+> 02)
+> 00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
+> 00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton
+> II]
+> 00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton
+> II] (rev 01)
+> 00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
+> 00:02.0 VGA compatible controller: Device 1234:1111 (rev 02)
+> 00:03.0 PCI bridge: Red Hat, Inc. QEMU PCI-PCI bridge
+> 00:04.0 Ethernet controller: Red Hat, Inc. Virtio network device
+> 00:05.0 SCSI storage controller: Red Hat, Inc. Virtio SCSI
+> 00:06.0 Communication controller: Red Hat, Inc. Virtio console
+> 00:10.0 RAM memory: Red Hat, Inc. Inter-VM shared memory (rev 01)
+> 01:07.0 PCI bridge: Red Hat, Inc. QEMU PCI-PCI bridge
+>
+>
+> *From:* sean kuo <1917394@bugs.launchpad.net>
+> *Date:* 2021-03-02 11:24
+> *To:* qemu-devel <qemu-devel@nongnu.org>
+> *Subject:* [Bug 1917394] [NEW] command lspci does not show the IVSHMEM
+> device
+> Public bug reported:
+>
+> qeum version:
+> QEMU emulator version 4.2.1
+>
+> I met a problem when I tried to use IVSHMEM. Command lspci does not show
+> the IVSHMEM device.
+> Below is the configuration from my side:
+>
+> 1.  guest vm xml configuration.
+>   <shmem name=3D'ivshmem'>
+>       <model type=3D'ivshmem-plain'/>
+>       <size unit=3D'M'>2</size>
+>       <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x10'
+> function=3D'0x0'/>
+>     </shmem>
+>
+> 2. after the booting up and I found the qemu commandline ideedly  have the
+> device option:
+> ps aux | grep ivshmem
+> /usr/bin/qemu-system-x86_64
+>       .......(ignore other options)
+> -object
+> memory-backend-file,id=3Dshmmem-shmem0,mem-path=3D/dev/shm/hostmem,size=
+=3D4194304,share=3Dyes
+> -device ivshmem-plain,id=3Dshmem0,memdev=3Dshmmem-shmem0,bus=3Dpcie.0,add=
+r=3D0x10
+>
+> 3. lspci command  not shown the device.
+>
+> 4. lshw command indeedly show the device:
+>
+> *-memory UNCLAIMED
+>              description: RAM memory
+>              product: Inter-VM shared memory
+>              vendor: Red Hat, Inc.
+>              physical id: 10
+>              bus info: pci@0000:00:10.0
+>              version: 01
+>              width: 64 bits
+>              clock: 33MHz (30.3ns)
+>              configuration: latency=3D0
+>              resources: memory:fcc1c000-fcc1c0ff memory:fdc00000-fdffffff
+>
+> My host and vm os is ubuntu 20.04 and version is:
+> #49~20.04.1-Ubuntu SMP Fri Feb 5 09:57:56 UTC 2021 x86_64 x86_64 x86_64
+> GNU/Linux
+>
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+>
+> --
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1917394
+>
+> Title:
+>   command lspci does not show the IVSHMEM device
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   qeum version:
+>   QEMU emulator version 4.2.1
+>
+>   I met a problem when I tried to use IVSHMEM. Command lspci does not show
+> the IVSHMEM device.
+>   Below is the configuration from my side:
+>
+>   1.  guest vm xml configuration.
+>     <shmem name=3D'ivshmem'>
+>         <model type=3D'ivshmem-plain'/>
+>         <size unit=3D'M'>2</size>
+>         <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x10'
+> function=3D'0x0'/>
+>       </shmem>
+>
+>   2. after the booting up and I found the qemu commandline ideedly  have
+> the device option:
+>   ps aux | grep ivshmem
+>    /usr/bin/qemu-system-x86_64
+>         .......(ignore other options)
+>   -object
+> memory-backend-file,id=3Dshmmem-shmem0,mem-path=3D/dev/shm/hostmem,size=
+=3D4194304,share=3Dyes
+> -device ivshmem-plain,id=3Dshmem0,memdev=3Dshmmem-shmem0,bus=3Dpcie.0,add=
+r=3D0x10
+>
+>   3. lspci command  not shown the device.
+>
+>   4. lshw command indeedly show the device:
+>
+>   *-memory UNCLAIMED
+>                description: RAM memory
+>                product: Inter-VM shared memory
+>                vendor: Red Hat, Inc.
+>                physical id: 10
+>                bus info: pci@0000:00:10.0
+>                version: 01
+>                width: 64 bits
+>                clock: 33MHz (30.3ns)
+>                configuration: latency=3D0
+>                resources: memory:fcc1c000-fcc1c0ff memory:fdc00000-fdffff=
+ff
+>
+>   My host and vm os is ubuntu 20.04 and version is:
+>   #49~20.04.1-Ubuntu SMP Fri Feb 5 09:57:56 UTC 2021 x86_64 x86_64 x86_64
+> GNU/Linux
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1917394/+subscriptions
+>
+>
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917394
+
+Title:
+  command lspci does not show the IVSHMEM device
+
+Status in QEMU:
+  New
+
+Bug description:
+  qeum version:
+  QEMU emulator version 4.2.1
+
+  I met a problem when I tried to use IVSHMEM. Command lspci does not show =
+the IVSHMEM device.
+  Below is the configuration from my side:
+
+  1.  guest vm xml configuration.
+    <shmem name=3D'ivshmem'>
+        <model type=3D'ivshmem-plain'/>
+        <size unit=3D'M'>2</size>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x10' =
+function=3D'0x0'/>
+      </shmem>
+
+  2. after the booting up and I found the qemu commandline ideedly  have th=
+e device option:
+  ps aux | grep ivshmem
+   /usr/bin/qemu-system-x86_64 =
+
+        .......(ignore other options)
+  -object memory-backend-file,id=3Dshmmem-shmem0,mem-path=3D/dev/shm/hostme=
+m,size=3D4194304,share=3Dyes -device ivshmem-plain,id=3Dshmem0,memdev=3Dshm=
+mem-shmem0,bus=3Dpcie.0,addr=3D0x10
+
+  3. lspci command  not shown the device.
+
+  4. lshw command indeedly show the device:
+
+  *-memory UNCLAIMED
+               description: RAM memory
+               product: Inter-VM shared memory
+               vendor: Red Hat, Inc.
+               physical id: 10
+               bus info: pci@0000:00:10.0
+               version: 01
+               width: 64 bits
+               clock: 33MHz (30.3ns)
+               configuration: latency=3D0
+               resources: memory:fcc1c000-fcc1c0ff memory:fdc00000-fdffffff
+
+  My host and vm os is ubuntu 20.04 and version is:
+  #49~20.04.1-Ubuntu SMP Fri Feb 5 09:57:56 UTC 2021 x86_64 x86_64 x86_64 G=
+NU/Linux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917394/+subscriptions
 
