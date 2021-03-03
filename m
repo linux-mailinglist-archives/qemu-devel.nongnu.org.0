@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888AD32BA5C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 21:24:06 +0100 (CET)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754EF32BA62
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 21:36:12 +0100 (CET)
+Received: from localhost ([::1]:58048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHY2P-00044S-L1
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 15:24:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
+	id 1lHYE7-0001Fy-1C
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 15:36:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHY1K-0003Mj-Mi
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:22:58 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:40611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHY1I-0002x7-UG
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:22:58 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N6bPS-1lr3NU3DOI-01840N; Wed, 03 Mar 2021 21:22:50 +0100
-Subject: Re: [PATCH v2 42/42] esp: add support for unaligned accesses
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-43-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c17238fc-df51-ee2d-91ce-04f559bebf1d@vivier.eu>
-Date: Wed, 3 Mar 2021 21:22:49 +0100
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lHYBO-0007Dx-Pc
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:33:24 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lHYBM-00061n-Hj
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:33:22 -0500
+Received: by mail-wr1-x434.google.com with SMTP id u14so25178900wri.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 12:33:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MVSwh+Xusvo5kNnlZiAYV0nY5+h/9ef41h95QX9GlTQ=;
+ b=kp6OjeicOHNxqwMpIevlGtQZg8J/fDDUhw1Ji/Fkj3c6WRkPANMz1m+n0DshXh2ddd
+ /gw3GMUyE/NOuNivRyN6P5yTapZWJ7UgyA+ZEicNoIy2fP0CGDEskUj7ONjhnQM4IK1R
+ nKyY9AC6bS0JFo687u1SAO9C/YWM/bHp15tFpeBz3Qtdw6Of0fSOf8ZeKhfz4Y0KHEZy
+ nDSaWT9F3k6L+fM8lWv4K905zH5T+LnrbvlghVM9dbrOSM0LOeIU7y0Z2wGdtjs4RKfr
+ ltpxRHrd8e7whw0o50gxnPti1Dt8V4CUZb/rVyirlqvrVo3Ll2cgdeLV7olMYL80unAv
+ 3LkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=MVSwh+Xusvo5kNnlZiAYV0nY5+h/9ef41h95QX9GlTQ=;
+ b=XK0r8x/y7NWFdehRIc5zLPU8U1zBzP79k7s9P2KjL7q9zpIYwNVZc2u/sQFTJuZTHf
+ jYUG3IWD8TRKhIvc9/gRt+soKThgsoPncFD0k1xuP/+RKscJOxvM5qJUh5R27ksBFZ4a
+ b2xXfjY5BVcw2/3gusThFT+nRniMP1j0C7mgT4AC433RzQkey5Gse39QDgZzRj2xhRFY
+ L1MlQr0Bt+TATMh2Fk/t2zZWxZTiNF1lrrswDiiTBtIEl2WxeoOob9tyX8QERovId2m6
+ l5Y0A75oTBUxqh7usPgplVP9w7HRo/mov3+qxngCRlXhX3s5xciEmdysjRRNQ1g3u5f3
+ rO+w==
+X-Gm-Message-State: AOAM533MxzbO4Lq99s8Zr8/qNIYyM5OqMQMvGGu+YGpefVSGPAKCAERT
+ cCWWOvv9CJoPK/3T8boo/gidFah1mKliYg==
+X-Google-Smtp-Source: ABdhPJyjJe84c0y3vxqQPEsFHPyQXFI13ad9+H7e47v4o2/rvOO8vt0RUnQsZdAlarUjFJHFxgRb/g==
+X-Received: by 2002:a5d:6610:: with SMTP id n16mr390473wru.399.1614803598513; 
+ Wed, 03 Mar 2021 12:33:18 -0800 (PST)
+Received: from puchatek.local (89-67-26-161.dynamic.chello.pl. [89.67.26.161])
+ by smtp.gmail.com with ESMTPSA id
+ p18sm27358033wro.18.2021.03.03.12.33.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 12:33:17 -0800 (PST)
+Subject: Re: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
+To: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>
+References: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
+ <20210303174849.GF1664@vanye>
+ <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+Message-ID: <95e5a34b-1325-8eb3-25ca-b3e63b4e67a1@linaro.org>
+Date: Wed, 3 Mar 2021 21:33:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-43-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8uwFm46xwZaPFSA54Emd9G84eEptV2ztYE4opQYAwDk8dNvhEMw
- OhYvqCXJYheaw8U68VSIEcV6fqi9kup0K6yoq/G6NDZZvlta95NLmgH+osB6EObgQoLXwQy
- G7/SyoTI+FtfIYEaWbaTnPL7ec5B/sM8zD3NnqjDmMhgS1WT1T0Dggc/lMYQVnSHGUIivV+
- xLhbwoOuZ1IkaPaPbf3wQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bpakrh7ZVgA=:qadbdEBNFK5eWJ8dlexM4x
- vW/1oh0JarbEJaxz+3xiJhn2qjuk0Sup1HE0izVHhv191WWZFdF+ge2Hi22JUkK+jp+xALadd
- Qrtdn4TD1ebqZrjP7z7GxwLCSAsUjByjnwmgO60n9sw0VYMchkczQa1W639wBkhE1lqhXWR2u
- PgC/poIPOTi/D5+R8TTMizVN+00JYAeSFHSeNZAljFlB2ntnAg2CPmfWIiLyXOTGmyGNMskvy
- Vco+3q1xsagL9/mTgb429HifQwAPROmVwL2FTaZyxDF+SQEXOzwIriCH4EI/rADPnVtRk4Dsm
- MxMxsI+gxR8pL62XFpm1oy12+qY+gborZDu9gICEtg3HLES17xEP8mbkJgCenilIMKfJIxXNd
- ZlgnIdhHCJZWyiaypH7yzQgR0GpkmuXRGi/eim+HM7Y874si1UOUSWWJd9ne59Jwtme8MGWxl
- dcA/V0VC5w==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,124 +91,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/02/2021 à 20:30, Mark Cave-Ayland a écrit :
-> When the MacOS toolbox ROM transfers data from a target device to an unaligned
-> memory address, the first/last byte of a 16-bit transfer needs to be handled
-> separately. This means that the first byte is preloaded into the FIFO before
-> the transfer, or the last byte remains in the FIFO after the transfer.
+W dniu 03.03.2021 o 19:06, Peter Maydell pisze:
+> On Wed, 3 Mar 2021 at 17:48, Leif Lindholm <leif@nuviainc.com> wrote:
+>> It would be good if we could get 6.0 closer to SBSA compliance.
 > 
-> The result of this is that the PDMA routines must be updated so that the FIFO
-> is loaded/unloaded if the last 16-bit word is used (rather than the last byte)
-> and any remaining byte from a FIFO wraparound is handled correctly.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c | 48 +++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 41 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index ae9e265a5d..d2d6366525 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -498,11 +498,22 @@ static void do_dma_pdma_cb(ESPState *s)
->  
->      if (to_device) {
->          /* Copy FIFO data to device */
-> -        len = MIN(fifo8_num_used(&s->fifo), ESP_FIFO_SZ);
-> +        len = MIN(s->async_len, ESP_FIFO_SZ);
-> +        len = MIN(len, fifo8_num_used(&s->fifo));
->          memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
-> -        s->async_buf += len;
-> -        s->async_len -= len;
-> -        s->ti_size += len;
-> +        s->async_buf += n;
-> +        s->async_len -= n;
-> +        s->ti_size += n;
-> +
-> +        if (n < len) {
-> +            /* Unaligned accesses can cause FIFO wraparound */
-> +            len = len - n;
-> +            memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
-> +            s->async_buf += n;
-> +            s->async_len -= n;
-> +            s->ti_size += n;
-> +        }
-> +
->          if (s->async_len == 0) {
->              scsi_req_continue(s->current_req);
->              return;
-> @@ -532,12 +543,18 @@ static void do_dma_pdma_cb(ESPState *s)
->  
->          if (esp_get_tc(s) != 0) {
->              /* Copy device data to FIFO */
-> -            len = MIN(s->async_len, fifo8_num_free(&s->fifo));
-> +            len = MIN(s->async_len, esp_get_tc(s));
-> +            len = MIN(len, fifo8_num_free(&s->fifo));
->              fifo8_push_all(&s->fifo, s->async_buf, len);
->              s->async_buf += len;
->              s->async_len -= len;
->              s->ti_size -= len;
->              esp_set_tc(s, esp_get_tc(s) - len);
-> +
-> +            if (esp_get_tc(s) == 0) {
-> +                /* Indicate transfer to FIFO is complete */
-> +                 s->rregs[ESP_RSTAT] |= STAT_TC;
-> +            }
->              return;
->          }
->  
-> @@ -612,12 +629,29 @@ static void esp_do_dma(ESPState *s)
->          if (s->dma_memory_write) {
->              s->dma_memory_write(s->dma_opaque, s->async_buf, len);
->          } else {
-> +            /* Adjust TC for any leftover data in the FIFO */
-> +            if (!fifo8_is_empty(&s->fifo)) {
-> +                esp_set_tc(s, esp_get_tc(s) - fifo8_num_used(&s->fifo));
-> +            }
-> +
->              /* Copy device data to FIFO */
->              len = MIN(len, fifo8_num_free(&s->fifo));
->              fifo8_push_all(&s->fifo, s->async_buf, len);
->              s->async_buf += len;
->              s->async_len -= len;
->              s->ti_size -= len;
-> +
-> +            /*
-> +             * MacOS toolbox uses a TI length of 16 bytes for all commands, so
-> +             * commands shorter than this must be padded accordingly
-> +             */
-> +            if (len < esp_get_tc(s) && esp_get_tc(s) <= ESP_FIFO_SZ) {
-> +                while (fifo8_num_used(&s->fifo) < ESP_FIFO_SZ) {
-> +                    esp_fifo_push(s, 0);
-> +                    len++;
-> +                }
-> +            }
-> +
->              esp_set_tc(s, esp_get_tc(s) - len);
->              s->pdma_cb = do_dma_pdma_cb;
->              esp_raise_drq(s);
-> @@ -1168,7 +1202,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->          break;
->      }
->      dmalen = esp_get_tc(s);
-> -    if (dmalen == 0 || fifo8_is_full(&s->fifo)) {
-> +    if (dmalen == 0 || fifo8_num_free(&s->fifo) < 2) {
->          s->pdma_cb(s);
->      }
->  }
-> @@ -1191,7 +1225,7 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
->          val = (val << 8) | esp_pdma_read(s);
->          break;
->      }
-> -    if (fifo8_is_empty(&s->fifo)) {
-> +    if (fifo8_num_used(&s->fifo) < 2) {
->          s->pdma_cb(s);
->      }
->      return val;
-> 
+> How far away are we at the moment ?
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Hard to tell me how many of those things are missing in QEMU and how 
+many in EDK2 we use as firmware.
+
+SBSA-ACS failures:
+
+GIC ITS is missing (Shashi Mallela works on it):
+
+  102 : If PCIe, then GIC implements ITS  : Result:  --FAIL-- 1
+  104 : GIC Maintenance Interrupt         : Result:  --FAIL-- 1
+
+
+System timers are not present in GTDT so few more tests are not run:
+
+  206 : SYS Timer if PE Timer not ON      : Result:  --FAIL-- 1
+        PE Timers are not always-on.
+  207 : CNTCTLBase & CNTBaseN access      : Result:  -SKIPPED- 1
+        No System timers are defined
+  505 : Wake from System Timer Interrupt  : Result:  -SKIPPED- 1
+        No system timers implemented
+
+
+There is no SMMU present so SMMU and IO virtualization tests are not 
+run. This one is probably related:
+
+  605 : Memory Access to Un-Populated addr: Result:  --FAIL-- 1
+        Memory access check fails at address = 0x104C0000
+
 
