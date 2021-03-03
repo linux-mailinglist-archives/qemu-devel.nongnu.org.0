@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81A732B6CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:46:08 +0100 (CET)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4640132B6E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:54:53 +0100 (CET)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHP15-0001JF-Uo
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:46:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1lHP9Y-0007G3-Ba
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:54:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHOxU-0006Qy-Og; Wed, 03 Mar 2021 05:42:24 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:45640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHOxL-0001IT-Qj; Wed, 03 Mar 2021 05:42:24 -0500
-Received: by mail-ed1-x529.google.com with SMTP id dm26so5687008edb.12;
- Wed, 03 Mar 2021 02:42:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UMLMbcPvRuScsv3aJbFKZOOHoEcVHNziE1l+xZ4aQhM=;
- b=B1kPv28YDhxQFA6Sy/CSJ9kfygWrH+sWBxN1trVxKTJIq6D883Zd4841j4eLQYcvX+
- 0cOgls3DLcrDCATCqo6gTIaMDe/ZyvG5orQRJLu6P7WtNIMHUJuPfts3yMU3iLokGPgH
- LEtQxDAl4hLAmSaeL6iYmEWePOenN0LPEUT5Ru6jjdHsboq4dZlVeU7XlopOEqhlcmmg
- OlwLr3CV4b790DyTRrU+ICUMZgP2AI7Qxr960EI4BmIEBXRH3DN2DT6J937b7epV1ud/
- MVqiF2q6HdYZZY50NIMWOGRn0Ni02+2W3nQCz/d34J+8h0VZZ0fw35qxoknSmFRdT/7I
- /Jdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UMLMbcPvRuScsv3aJbFKZOOHoEcVHNziE1l+xZ4aQhM=;
- b=f8zUV6QLG9ut7qtnO5q1x6wSC3xh1Xd23ixC7a1wVbdwQ9Yzv9b0mtwSKHoknDWLZb
- 2/HrAkG9Ri7N55PnwkAgbER+6F1wnjtfg5p5HJ+cV4fUcaAEzlL2mtEaKdwVJKP+TgUK
- UnVAQ12bVsQDGfpl/pTpJTgtpkwparxzMtJvKbUGv3TvGO9CS/8hl77yh6O1BGzLUAqJ
- DtyH4Vnavusk0uQCWHgX1kb1w5h6qzQlJk+HFN5nfaNalHxCd8aiooDTpLupPwhVGq+2
- NeSIkAowWETtkOByTxGxWbIu6XLFlXafzCwdozW8EwkIJNlrElD+HhPOOOYDNkcQQ5C3
- NLCA==
-X-Gm-Message-State: AOAM5323zhpfmf3nE/7JtuAZXSWn0ocyTdy7xhTkzwXzJVFL+F0gyddp
- cVhsj94U4Sb4WcxarKpmR8A=
-X-Google-Smtp-Source: ABdhPJxv3OJDxYVr2RjBcHagFfMcHLepj51MJSqJJifimhTU/Ae1g+04QM1tKS8ohI8oeWnTuoKTFg==
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr14167895edr.146.1614768132379; 
- Wed, 03 Mar 2021 02:42:12 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id jx22sm19029811ejc.105.2021.03.03.02.42.06
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Mar 2021 02:42:11 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-Subject: [PATCH v3 5/5] hw/sd: sdhci: Reset the data pointer of
- s->fifo_buffer[] when a different block size is programmed
-Date: Wed,  3 Mar 2021 18:41:28 +0800
-Message-Id: <1614768088-20534-6-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1614768088-20534-1-git-send-email-bmeng.cn@gmail.com>
-References: <1614768088-20534-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lHP8M-0006np-TX
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:53:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lHP8K-0004wf-0y
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:53:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614768814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=hNAS9DYHpHiECKOLz94PWZLlUWT+U14j71aSHsQ99K8=;
+ b=Mvqd6KovbiY1bkPzhjtbrLCp3gUqvJteXXhJagi+dAgDok0sh/gBnyoxK8faN1a7f4inqY
+ 9BFl5sBeQStI94595DMP3FiMgQyUFwnHr7NQN6jjPjj9wri3DLzl2FYUn9/YCNSg5bGZwV
+ hBPE3+6a6P+wRPcUTWqbnmILFbmyS04=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-AKurWPXKNAqRa8if9-6jBQ-1; Wed, 03 Mar 2021 05:53:30 -0500
+X-MC-Unique: AKurWPXKNAqRa8if9-6jBQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E72F187667F
+ for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 10:53:29 +0000 (UTC)
+Received: from localhost (ovpn-114-24.ams2.redhat.com [10.36.114.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53A236F98F;
+ Wed,  3 Mar 2021 10:53:15 +0000 (UTC)
+Date: Wed, 3 Mar 2021 10:53:14 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: jasowang@redhat.com
+Subject: Inconsistent virtio-net-pci MSI vector count
+Message-ID: <YD9qmto5pHys+jEm@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sevZRqctcZwJHcuj"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,101 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the block size is programmed to a different value from the
-previous one, reset the data pointer of s->fifo_buffer[] so that
-s->fifo_buffer[] can be filled in using the new block size in
-the next transfer.
+--sevZRqctcZwJHcuj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-With this fix, the following reproducer:
+Hi Jason,
+I stumbled across something strange with virtio-net multi-queue today.
+It doesn't seem to be a bug in practice, just an inconsistency. Here are
+the details in case you think something needs to be changed:
 
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0xe000002c 0x1 0x05
-write 0xe0000005 0x1 0x02
-write 0xe0000007 0x1 0x01
-write 0xe0000028 0x1 0x10
-write 0x0 0x1 0x23
-write 0x2 0x1 0x08
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0xe000000c 0x1 0x32
-write 0xe0000004 0x2 0x0200
-write 0xe0000028 0x1 0x00
-write 0xe0000003 0x1 0x40
+libvirt uses the vectors = 2 * N + 2 formula from
+https://www.linux-kvm.org/page/Multiqueue to calculate the number of PCI
+MSI vectors, where N is the number of rx/tx queue pairs.
 
-cannot be reproduced with the following QEMU command line:
+QEMU's virtio-net-pci device has 3 MSI vectors by default. This is
+inconsistent with the formula that libvirt uses (should be 4 instead of
+3).
 
-$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-      -nodefaults -device sdhci-pci,sd-spec-version=3 \
-      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-      -device sd-card,drive=mydrive -qtest stdio
+Luckily, the Linux virtio_net.ko driver does not configure a callback
+function for the control virtqueue. Therefore it can still use MSI with
+only 3 vectors (config, rx, tx) instead of 4 (config, rx, tx, ctrl).
 
-Cc: qemu-stable@nongnu.org
-Fixes: CVE-2020-17380
-Fixes: CVE-2020-25085
-Fixes: CVE-2021-3409
-Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Reported-by: Cornelius Aschermann (Ruhr-University Bochum)
-Reported-by: Muhammad Ramdhan
-Reported-by: Sergej Schumilo (Ruhr-University Bochum)
-Reported-by: Simon Wrner (Ruhr-University Bochum)
-Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
+But other driver implementations might need the ctrl vq vector and would
+not have enough MSI vectors.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+Perhaps new QEMU machine types should set vectors to 4 by default?
 
-(no changes since v2)
+Stefan
 
-Changes in v2:
-- new patch: sdhci: Reset the data pointer of s->fifo_buffer[] when a different block size is programmed
+--sevZRqctcZwJHcuj
+Content-Type: application/pgp-signature; name="signature.asc"
 
- hw/sd/sdhci.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index d0c8e29..5b86781 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1140,6 +1140,8 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-         break;
-     case SDHC_BLKSIZE:
-         if (!TRANSFERRING_DATA(s->prnsts)) {
-+            uint16_t blksize = s->blksize;
-+
-             MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
-             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
- 
-@@ -1151,6 +1153,16 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
- 
-                 s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
-             }
-+
-+            /*
-+             * If the block size is programmed to a different value from
-+             * the previous one, reset the data pointer of s->fifo_buffer[]
-+             * so that s->fifo_buffer[] can be filled in using the new block
-+             * size in the next transfer.
-+             */
-+            if (blksize != s->blksize) {
-+                s->data_count = 0;
-+            }
-         }
- 
-         break;
--- 
-2.7.4
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA/apoACgkQnKSrs4Gr
+c8ikggf+KRfQhaEWHGzumUivnCAHZHsm1+on98/tw/vkM9Q2ZMfNWw+8ZsSp75iO
+/dYC/MisLvh4r0/K6ecanVxlDNjglJVitGIg8eNf7vlkGwRKsfSYPP2w72y/+TZy
+U76KT/qDevErNkC5dtUtI4NWWURfBeH/qk0JnhIc+6agAEFDmZVRbrh0cwUkeLeF
+fcAsu0zEN7v932ya8C7VaT0eGVgIn2hzWflZZ3ETU4bKEtXMAf+SksZkgubxqhTj
+cmNXB2HIfBpfKPEy30SDhXkLQPoK43SXOAk29PsTtzDNHZIPjxGxdcI7FOHgyWot
+ojcezccv4j2Mc8fE9NPuSGCjDhq25g==
+=oPXj
+-----END PGP SIGNATURE-----
+
+--sevZRqctcZwJHcuj--
 
 
