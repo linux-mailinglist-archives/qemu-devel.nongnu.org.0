@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF0C32BA4D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 21:01:48 +0100 (CET)
-Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207B832BA4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 21:05:40 +0100 (CET)
+Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHXgp-0006N8-3M
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 15:01:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51136)
+	id 1lHXkZ-0008Ox-6S
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 15:05:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXew-0005aK-Ig
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:59:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:52367)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXjM-0007n9-C0
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:04:24 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:57021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXet-00046V-Bg
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:59:50 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXjJ-0005dX-BJ
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:04:24 -0500
 Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MMH2M-1lXQNg3Mne-00JNZn; Wed, 03 Mar 2021 20:59:38 +0100
-Subject: Re: [PATCH v2 35/42] esp: raise interrupt after every non-DMA byte
- transferred to the FIFO
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MhUDj-1llOMW00El-00eZas; Wed, 03 Mar 2021 21:04:15 +0100
+Subject: Re: [PATCH v2 36/42] esp: add maxlen parameter to get_cmd()
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  pbonzini@redhat.com, fam@euphon.net
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-36-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-37-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <24469f4c-e794-f703-019d-64f31e801dcc@vivier.eu>
-Date: Wed, 3 Mar 2021 20:59:37 +0100
+Message-ID: <b9614c56-43fa-40d8-d07b-01a5b3b2498f@vivier.eu>
+Date: Wed, 3 Mar 2021 21:04:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-36-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210209193018.31339-37-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3v4bi2nAn5vAXEHblvknjynIT64h1KHm2plc25+KpkvjeMUsFxE
- LrLSJ0VXjUaV+TseTeGeK3pNlP/yfho+cx+/7SCVQfhgqYSaEhg81KxcDtPhDI5xhs4yyU9
- Fd18yrSbN1u+GfJi/w+zi+TFEwBq403xfIAsmG2hen7e7ud0hqNkehOKv4IE38zT1tMnevb
- 4mYE/IwpLFrJrVwHlyw+g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fnYNplv+ISQ=:kuhKW+rW98JcApIn4NYmSN
- vTWz7W/CRiMcFJEJ/erBaKJnjL99H6pVSE1FI5I34BRPD8L7AAgXifJRW8CBb8Pz1sQ91pDen
- mM8occRfJMBrmK0wob5YTHs7XT1XpYg1GtaPJH3HpfJ0/Bg9Fjh9WO0tW1EtXb00iBAaynxVl
- K4PbFU+wGLqf6IqXGD8jqfBiyIkcLxNFjcWZj6RAxG0i/nFJ7tppIAZr1xq5QUVWzDX7BpeVa
- WesPyISF4vcLc6knRYjesT7QL0QTuyaJXwmpnjUVo5DwGNim/at8GJvf0GEaxKSl3uHMhS6Pa
- MC8FM5zXilFY+/ymgvtclL5uXeGbqQzqxFxkrvoh/XWBmImXhqXyT3s5dVDA+rx2ap252FB2i
- YuZ0+huQHPOvcMYD7n3MAPTFuzrzlFZ7LwU1dVNa+3AnxTEse7PPK/N9ht7Be+i+vAbqFPOp6
- WfgQkxWGhg==
+X-Provags-ID: V03:K1:AfuLQJGTp6DXnzxmlKz4m+KXuy40ljUo3TcEu2tLtccK+KD/NaZ
+ G/8tgDvkeEZTadIgubBnnFk6TnU7IVri3TELLchZ6ncpDwX14VWgu1dRL80VOMoYwMi85eu
+ /hRxI1BJbRSeeZcGMO+Z2yrPMs3Vx3sE8e3QKpqCRXERjF4kl0e2MpYLSsdGNoF2ftXXew6
+ j4a7kDEAoGcLpxQfW408g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y+lnxJFk/eY=:IEGw6QMpY8Du+et/sjgMLz
+ nUA91pHXMk0o6B/xgsnzNO9tuO4AWMeXsWUxrYO6AvRfEJGuvZ3mqbjPv5tFrG+fjUu6PVPl3
+ 9Tct5NMJbJ/ySj9M6pBelnjPY9ePheXQYRrfoofJck7KdHnTwG3QlHxAc1GIQ3cVcImrvXxlT
+ FhIsNa+AtmPuAqkcFUf95kw+pgvWEXA7GxO+vJj1ohyBKAEhF/H7u5ELlDtdw+EEM4wb/aJKG
+ 7O8ZbPJJtZ4ygnsvx3tIn+b9xm4t2eKVU+U6gncElHP8yTDKjrLRlh0G3FPFt/56po+DbaX+u
+ f7VG7VogtuVHx3csJ0x7BmhriDXa4riPP5gi+huL0dVYQpH17MphT4tkA5UN4x7dEty7tJjgs
+ HNnwFthac4cM52S3egnVycITe/khO7EcdhAycxi5jf0i7BSN2IeoT213cEdxETOarMkHcaq7P
+ fqJRPSr9yQ==
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -72,31 +71,85 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 09/02/2021 à 20:30, Mark Cave-Ayland a écrit :
-> This matches the description in the datasheet and is required as support for
-> non-DMA transfers is added.
+> Some guests use a mixture of DMA and non-DMA transfers in combination with the
+> SATN and stop command to transfer message out phase and command phase bytes to
+> the target. Prepare for the next commit by adding a maxlen parameter to
+> get_cmd() to allow partial transfers.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  hw/scsi/esp.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
 > 
 > diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 8b856155d1..617fdcb3ed 100644
+> index 617fdcb3ed..058b482fda 100644
 > --- a/hw/scsi/esp.c
 > +++ b/hw/scsi/esp.c
-> @@ -767,6 +767,12 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
->              s->ti_size++;
->              s->ti_buf[s->ti_wptr++] = val & 0xff;
+> @@ -194,7 +194,7 @@ static int esp_select(ESPState *s)
+>      return 0;
+>  }
+>  
+> -static uint32_t get_cmd(ESPState *s)
+> +static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+>  {
+>      uint8_t *buf = s->cmdbuf;
+>      uint32_t dmalen;
+> @@ -202,8 +202,8 @@ static uint32_t get_cmd(ESPState *s)
+>  
+>      target = s->wregs[ESP_WBUSID] & BUSID_DID;
+>      if (s->dma) {
+> -        dmalen = esp_get_tc(s);
+> -        if (dmalen > ESP_CMDBUF_SZ) {
+> +        dmalen = MIN(esp_get_tc(s), maxlen);
+> +        if (dmalen == 0) {
+>              return 0;
 >          }
-> +
-> +        /* Non-DMA transfers raise an interrupt after every byte */
-> +        if (s->rregs[ESP_CMD] == CMD_TI) {
-> +            s->rregs[ESP_RINTR] |= INTR_FC | INTR_BS;
-> +            esp_raise_irq(s);
+>          if (s->dma_memory_read) {
+> @@ -216,12 +216,14 @@ static uint32_t get_cmd(ESPState *s)
+>              return 0;
+>          }
+>      } else {
+> -        dmalen = s->ti_size;
+> -        if (dmalen > TI_BUFSZ) {
+> +        dmalen = MIN(s->ti_size, maxlen);
+> +        if (dmalen == 0) {
+>              return 0;
+>          }
+>          memcpy(buf, s->ti_buf, dmalen);
+> -        buf[0] = buf[2] >> 5;
+> +        if (dmalen >= 3) {
+> +            buf[0] = buf[2] >> 5;
 > +        }
->          break;
->      case ESP_CMD:
->          s->rregs[saddr] = val;
+>      }
+>      trace_esp_get_cmd(dmalen, target);
+>  
+> @@ -290,7 +292,7 @@ static void handle_satn(ESPState *s)
+>          return;
+>      }
+>      s->pdma_cb = satn_pdma_cb;
+> -    cmdlen = get_cmd(s);
+> +    cmdlen = get_cmd(s, ESP_CMDBUF_SZ);
+>      if (cmdlen > 0) {
+>          s->cmdlen = cmdlen;
+>          do_cmd(s);
+> @@ -320,7 +322,7 @@ static void handle_s_without_atn(ESPState *s)
+>          return;
+>      }
+>      s->pdma_cb = s_without_satn_pdma_cb;
+> -    cmdlen = get_cmd(s);
+> +    cmdlen = get_cmd(s, ESP_CMDBUF_SZ);
+>      if (cmdlen > 0) {
+>          s->cmdlen = cmdlen;
+>          do_busid_cmd(s, s->cmdbuf, 0);
+> @@ -355,7 +357,7 @@ static void handle_satn_stop(ESPState *s)
+>          return;
+>      }
+>      s->pdma_cb = satn_stop_pdma_cb;
+> -    cmdlen = get_cmd(s);
+> +    cmdlen = get_cmd(s, ESP_CMDBUF_SZ);
+>      if (cmdlen > 0) {
+>          trace_esp_handle_satn_stop(s->cmdlen);
+>          s->cmdlen = cmdlen;
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
