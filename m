@@ -2,46 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B98532B8DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 16:18:11 +0100 (CET)
-Received: from localhost ([::1]:49874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA6D32B8E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 16:19:27 +0100 (CET)
+Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHTGM-0005d2-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 10:18:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48990)
+	id 1lHTHa-0007PQ-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 10:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1lHTF4-0004lY-0N; Wed, 03 Mar 2021 10:16:50 -0500
-Received: from muminek.juszkiewicz.com.pl ([213.251.184.221]:55822)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lHTGf-0006OR-Mo; Wed, 03 Mar 2021 10:18:29 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:51707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1lHTF2-0003pP-6B; Wed, 03 Mar 2021 10:16:49 -0500
-Received: from localhost (localhost [127.0.0.1])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 28278260AD8;
- Wed,  3 Mar 2021 16:16:44 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
-Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
- by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yqQziC_f4iEX; Wed,  3 Mar 2021 16:16:42 +0100 (CET)
-Received: from puchatek.lan (89-67-26-161.dynamic.chello.pl [89.67.26.161])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id A366B2606A7;
- Wed,  3 Mar 2021 16:16:41 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
-Date: Wed,  3 Mar 2021 16:16:34 +0100
-Message-Id: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lHTGc-0004JZ-T1; Wed, 03 Mar 2021 10:18:29 -0500
+Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N7QM9-1lrP7u2sg9-017mYC; Wed, 03 Mar 2021 16:17:31 +0100
+Subject: Re: [PATCH v3 17/27] linux-user: Remove dead code
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210302145818.1161461-1-f4bug@amsat.org>
+ <20210302145818.1161461-18-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0872e9eb-3fe1-8f93-d863-c5f39129b03e@vivier.eu>
+Date: Wed, 3 Mar 2021 16:17:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210302145818.1161461-18-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=213.251.184.221;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Provags-ID: V03:K1:2JXp+7ZoES5GqgV5w23yqcdKYFTwl4HOJCG7+RWaa2UvqiZtXob
+ 5rrmjdhCzcLXd2SVSxizLUI0RS3eKTaJ2P05JEl54+oLCgdMfspNGaD9m3PFQSbMyU8MzKv
+ JmxCz6d5KvA1Jym5MA6TsQkwIMhMgntEJgFHklsLszBExX6yWYjOjVU01PWUe+XVgjUqoIY
+ LWjTYX9wlaqhklCgsChqA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iLRh7jT9iQM=:Emy5oafqFNjrK4s5qDN/qw
+ sTTSzMwBeTDgE2DACpIdVYpiyDNTwBDPBeJI6Xufjunb10nrMrTbMz1peEfd3hMqpaV9oCsXV
+ R3GP/pejjpjobaXsKR7EAPOuTh/6YC1/UkppcCZMQUB38fyhtWZEVPq22BdVe1pCUPszGIP4A
+ 4sxp2MpO/YgCBALDo2+rhZIarlp7/r/bBEPM2ZdC37XVGqm6l6F50omL5WqzJUtqirSymvPbl
+ DJfY22ECIuALwXCbRl4zd8uXCxoUe8hGUt0eLRQqaF5tv1d/a0mNtDy/ijjUp7z3Z4C/80WST
+ p2NyQO43NQEU8c60gnGjUETHmSkzE3AP9ab4n700APSKyORsfHPGg8HD4V0taEfh2QTyuk/ez
+ QpiWqNvVDrTlPhv6RbqdewunI0OaEc8ivOPJ7DVuMrFcn52LalKC+BrrulCJqKH1G/Bs4li+R
+ PUFEDgt0nA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,51 +67,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm BSA (Base System Architecture) specification says:
+Le 02/03/2021 à 15:58, Philippe Mathieu-Daudé a écrit :
+> We can not use watchpoints in user-mode emulation because we
+> need the softmmu slow path to detect accesses to watchpointed
+> memory. This code is expanded as empty stub in "hw/core/cpu.h"
+> anyway, so we can drop it.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  linux-user/main.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 81f48ff54ed..d7af3ffbc22 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -200,7 +200,6 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>      CPUState *new_cpu = cpu_create(cpu_type);
+>      CPUArchState *new_env = new_cpu->env_ptr;
+>      CPUBreakpoint *bp;
+> -    CPUWatchpoint *wp;
+>  
+>      /* Reset non arch specific state */
+>      cpu_reset(new_cpu);
+> @@ -211,13 +210,9 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>         Note: Once we support ptrace with hw-debug register access, make sure
+>         BP_CPU break/watchpoints are handled correctly on clone. */
+>      QTAILQ_INIT(&new_cpu->breakpoints);
+> -    QTAILQ_INIT(&new_cpu->watchpoints);
+>      QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
+>          cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
+>      }
+> -    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> -        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, wp->flags, NULL);
+> -    }
+>  
+>      return new_env;
+>  }
+> 
 
-B_PE_09: PEs must implement the FEAT_PMUv3p1 extension, and the base
-system must expose a minimum of four programmable PMU counters to the
-operating system.
-
-B_PE_21: The base system must expose a minimum of two programmable PMU
-counters to a hypervisor.
-
-It is then repeated in SBSA (Server Base System Architecture)
-specification in level 3 requirements:
-
-Each PE must implement a minimum of six programmable PMU counters.
-
-So let make QEMU provide those 6 PMU counters.
-
-SBSA-ACS says now:
-
-  12 : Check number of PMU counters      : Result:  PASS
-
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0e1a3b9421..02e25b5c22 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -38,7 +38,7 @@
- #endif
- 
- #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
--#define PMCR_NUM_COUNTERS 4 /* QEMU IMPDEF choice */
-+#define PMCR_NUM_COUNTERS 6 /* QEMU IMPDEF choice */
- 
- #ifndef CONFIG_USER_ONLY
- 
--- 
-2.29.2
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
