@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DA132B926
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:20:15 +0100 (CET)
-Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 241A332B929
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:22:54 +0100 (CET)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHUEQ-0006qg-M2
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:20:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35986)
+	id 1lHUGz-0000C4-7a
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:22:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lHUDO-0005iM-8H
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:19:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22573)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHUG3-00085n-GX
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:21:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lHUDM-00070t-5V
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:19:09 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHUFz-0008GF-Hi
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:21:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614788346;
+ s=mimecast20190719; t=1614788509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZZNr5bceBUM/gk+WOJoUFQhb4V6dpeoGZW+3Tl4Vl7k=;
- b=Q/Iwr/GKRZ2pTpfnHJRxsKteyB2lMYwnmLnQcA4eC4DJMgILoM4V9gPP4SehEnkFBqgivH
- LmfaQeC4FYbaXlWcQ8hjLPgVu3xA9JAfkUFurlpQ8ip9dQqoKVYYxon5XSXyXq0sdBlRju
- te0faKAyb3FkiroBqqdCX1MDyGn6QQY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-RAejwn62MKiYt1g9lDimRQ-1; Wed, 03 Mar 2021 11:18:21 -0500
-X-MC-Unique: RAejwn62MKiYt1g9lDimRQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E09E7106BB23;
- Wed,  3 Mar 2021 16:18:19 +0000 (UTC)
-Received: from MiWiFi-RA69-srv (unknown [10.40.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5ABD663B8C;
- Wed,  3 Mar 2021 16:18:09 +0000 (UTC)
-Date: Wed, 3 Mar 2021 17:18:08 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 2/2] exec: Get rid of phys_mem_set_alloc()
-Message-ID: <20210303171808.4822e880@MiWiFi-RA69-srv>
-In-Reply-To: <20210303130916.22553-3-david@redhat.com>
-References: <20210303130916.22553-1-david@redhat.com>
- <20210303130916.22553-3-david@redhat.com>
+ bh=vQsTQGk2QtM+nVJbYOEW9fwjuW5q8x8CI5FMIDApGbU=;
+ b=B7Dp2Y34cF/UBRMdMCkmdEBpFXojaEydVcn99twtdJB32oYMaRAzXgs/EjomXOpVYVHuaj
+ Fh93XEUP2CVhGjjoVf/CRKH4Tp36Z6ScJXHXvCUI9dAA6FXZrfx6ebRI/Ln/A6ISKvFjIj
+ W0U/GgIDKqpgS+ORyL84nPrrZ/XxJ7U=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-z1HRDpWYMOSIDyzPNjIH3A-1; Wed, 03 Mar 2021 11:21:47 -0500
+X-MC-Unique: z1HRDpWYMOSIDyzPNjIH3A-1
+Received: by mail-ej1-f69.google.com with SMTP id h14so6786563ejg.7
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 08:21:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vQsTQGk2QtM+nVJbYOEW9fwjuW5q8x8CI5FMIDApGbU=;
+ b=SXXLceyski3NMNeIeCVMqnk20Th1CbpR3oFVoiP84Rmo/nE2hBJ2CNGm+PIwOVNZqQ
+ kHFgzeDs878xl+ujUwrgQ7gFoHNMfdMm/Cu6X+yrwTl7XQE9Kr3kiUeaUgJT2rg2hChV
+ UQ6IGTkzmY9ZtG11ee6u/J4NGk2X9lkypr+iDYCbs5hjRQ1NdRKpJU9oP0OulJqcmKJ5
+ UVjAVcpyRGdAD+D3CAJKb1f2WFd9eZ3L5XQZ5c9ObxUQB+JciD6rvC9i0HHV8yF/6ycx
+ FejKBOasqgFA3076k3XFUiCpbxlCeNkkt6aEGHr1P4OBVc2B+5NGd6qYdB2+3D57x47t
+ vK7A==
+X-Gm-Message-State: AOAM530PJhY2J1C0iG5TwBUQ9t6tdTaawVcbli23gYDgp2tgqeCPhF8/
+ jow9930bS1yRwhNSP/cmbHNCjMeTLn0flT9myeQtwt9eEAMHZzCsTnYGingEsHz2jyIXode4EoG
+ 3BsF1dQr1HDSgYm8=
+X-Received: by 2002:a17:906:af91:: with SMTP id
+ mj17mr25512594ejb.230.1614788506122; 
+ Wed, 03 Mar 2021 08:21:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdneVl4nxma8GQDS8IUh7aRSo9EQSQsFSywiQ7cJxG96/kOP2TKS1ut4Y4HhPn2fTWxYzrbA==
+X-Received: by 2002:a17:906:af91:: with SMTP id
+ mj17mr25512566ejb.230.1614788505826; 
+ Wed, 03 Mar 2021 08:21:45 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id m10sm3890297ejx.10.2021.03.03.08.21.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 08:21:44 -0800 (PST)
+Date: Wed, 3 Mar 2021 11:21:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v1] acpi: increase maximum size for "etc/table-loader" blob
+Message-ID: <20210303111731-mutt-send-email-mst@kernel.org>
+References: <20210301104833.45580-1-david@redhat.com>
+ <20210302172323.6cac394a@MiWiFi-RA69-srv>
+ <09fbdaa9-2882-2056-a5a2-2ca0da8c12cf@redhat.com>
+ <7d8281a8-0479-ac81-c602-ed87c71ce3e2@redhat.com>
+ <4bc8c306-48d2-8122-c096-dcac15170791@redhat.com>
+ <20210303170916.278cdcc2@MiWiFi-RA69-srv>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+In-Reply-To: <20210303170916.278cdcc2@MiWiFi-RA69-srv>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,119 +97,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@xilinx.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  3 Mar 2021 14:09:16 +0100
-David Hildenbrand <david@redhat.com> wrote:
-
-> As the last user is gone, we can get rid of phys_mem_set_alloc() and
-> simplify.
+On Wed, Mar 03, 2021 at 05:09:16PM +0100, Igor Mammedov wrote:
+> On Wed, 3 Mar 2021 16:03:36 +0100
+> Laszlo Ersek <lersek@redhat.com> wrote:
 > 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  include/sysemu/kvm.h |  4 ----
->  softmmu/physmem.c    | 36 +++---------------------------------
->  2 files changed, 3 insertions(+), 37 deletions(-)
+> > On 03/02/21 19:43, David Hildenbrand wrote:
+> > 
+> > > We are dealing with different blobs here (tables_blob vs. cmd_blob).  
+> > 
+> > OK, thanks -- this was the important bit I was missing. Over time I've
+> > lost track of the actual set of fw_cfg blobs that QEMU exposes, for the
+> > purposes of the ACPI linker/loader.
+> > 
+> > I've looked up the acpi_add_rom_blob() calls in "hw/i386/acpi-build.c"
+> > and "hw/arm/virt-acpi-build.c":
+> > 
+> >   hw       name                                         max_size                              notes
+> >   -------  -------------------------------------------  ------------------------------------  ------
+> > 
+> >   virt     ACPI_BUILD_TABLE_FILE ("etc/acpi/tables")    ACPI_BUILD_TABLE_MAX_SIZE (0x200000)  n/a
+> >   virt     ACPI_BUILD_LOADER_FILE ("etc/table-loader")  0                                     n/a
+> >   virt     ACPI_BUILD_RSDP_FILE ("etc/acpi/rsdp")       0                                     simply modeled on i386 (below)
+> > 
+> >   i386     ACPI_BUILD_TABLE_FILE ("etc/acpi/tables")    ACPI_BUILD_TABLE_MAX_SIZE (0x200000)  n/a
+> >   i386     ACPI_BUILD_LOADER_FILE ("etc/table-loader")  0                                     n/a
+> >   i386     ACPI_BUILD_RSDP_FILE ("etc/acpi/rsdp")       0                                     d70414a5788c, 358774d780ee8
+> > 
+> >   microvm  ACPI_BUILD_TABLE_FILE ("etc/acpi/tables")    ACPI_BUILD_TABLE_MAX_SIZE (0x200000)  n/a
+> >   microvm  "etc/table-loader"                           0                                     no macro for name???
+> >   microvm  ACPI_BUILD_RSDP_FILE ("etc/acpi/rsdp")       0                                     simply modeled on i386 (above)
+> > 
+> > (I notice there are some other (optional) fw_cfg blobs too, related TPM,
+> > vmgenid, nvdimm etc, using fw_cfg_add_file() rather than
+> > acpi_add_rom_blob() -- so those are immutable (never regenerated). I
+> > definitely needed this reminder...)
 > 
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 687c598be9..a1ab1ee12d 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -249,10 +249,6 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap);
->  int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
->  int kvm_on_sigbus(int code, void *addr);
->  
-> -/* interface with exec.c */
-> -
-> -void phys_mem_set_alloc(void *(*alloc)(size_t, uint64_t *align, bool shared));
-> -
->  /* internal API */
->  
->  int kvm_ioctl(KVMState *s, int type, ...);
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 19e0aa9836..141fce79e8 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1144,19 +1144,6 @@ static int subpage_register(subpage_t *mmio, uint32_t start, uint32_t end,
->                              uint16_t section);
->  static subpage_t *subpage_init(FlatView *fv, hwaddr base);
->  
-> -static void *(*phys_mem_alloc)(size_t size, uint64_t *align, bool shared) =
-> -                               qemu_anon_ram_alloc;
-> -
-> -/*
-> - * Set a custom physical guest memory alloator.
-> - * Accelerators with unusual needs may need this.  Hopefully, we can
-> - * get rid of it eventually.
-> - */
-> -void phys_mem_set_alloc(void *(*alloc)(size_t, uint64_t *align, bool shared))
-> -{
-> -    phys_mem_alloc = alloc;
-> -}
-> -
->  static uint16_t phys_section_add(PhysPageMap *map,
->                                   MemoryRegionSection *section)
->  {
-> @@ -1962,8 +1949,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
->                  return;
->              }
->          } else {
-> -            new_block->host = phys_mem_alloc(new_block->max_length,
-> -                                             &new_block->mr->align, shared);
-> +            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
-> +                                                  &new_block->mr->align,
-> +                                                  shared);
->              if (!new_block->host) {
->                  error_setg_errno(errp, errno,
->                                   "cannot set up guest memory '%s'",
-> @@ -2047,17 +2035,6 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
->          return NULL;
->      }
->  
-> -    if (phys_mem_alloc != qemu_anon_ram_alloc) {
-> -        /*
-> -         * file_ram_alloc() needs to allocate just like
-> -         * phys_mem_alloc, but we haven't bothered to provide
-> -         * a hook there.
-> -         */
-> -        error_setg(errp,
-> -                   "-mem-path not supported with this accelerator");
-> -        return NULL;
-> -    }
-> -
->      size = HOST_PAGE_ALIGN(size);
->      file_size = get_file_size(fd);
->      if (file_size > 0 && file_size < size) {
-> @@ -2247,13 +2224,6 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
->                      area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
->                                  flags, block->fd, offset);
->                  } else {
-> -                    /*
-> -                     * Remap needs to match alloc.  Accelerators that
-> -                     * set phys_mem_alloc never remap.  If they did,
-> -                     * we'd need a remap hook here.
-> -                     */
-> -                    assert(phys_mem_alloc == qemu_anon_ram_alloc);
-> -
->                      flags |= MAP_PRIVATE | MAP_ANONYMOUS;
->                      area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
->                                  flags, -1, 0);
+> most of them are just guest RAM reservations (guest/hose exchange buffer)
+> and "etc/tpm/config" seems to immutable for specific configuration
+> 
+> 
+> > So, my observations:
+> > 
+> > (1) microvm open-codes "etc/table-loader", rather than using the macro
+> > ACPI_BUILD_LOADER_FILE.
+> > 
+> > The proposed patch corrects it, which I welcome per se. However, it
+> > should arguably be a separate patch. I found it distracting, in spite of
+> > the commit message highlighting it. I don't insist though, I'm
+> > admittedly rusty on this code.
+> > 
+> > 
+> > (2) The proposed patch sets "max_size" to ACPI_BUILD_LOADER_MAX_SIZE for
+> > each ACPI_BUILD_LOADER_FILE. Makes sense, upon constructing / reviewing
+> > the above table.
+> > 
+> > (I'm no longer sure if tweaking the alignment were the preferable path
+> > forward.)
+> > 
+> > Either way, I'd request including the above table in the commit message.
+> > (Maybe drop the "notes" column.)
+> > 
+> > 
+> > (3) The above 9 invocations are *all* of the acpi_add_rom_blob()
+> > invocations. I find the interface brittle. It's not helpful to have so
+> > many macros for the names and the max sizes. We should have a table with
+> > three entries and -- minimally -- two columns, specifying name and
+> > max_size -- possibly some more call arguments, if such can be extracted.
+> > We should also have an enum type for selecting a row in this table, and
+> > then acpi_add_rom_blob() should be called with an enum constant.
+> > 
+> > Of course, talk is cheap. :)
+> > 
+> > 
+> > (4) When do we plan to introduce a nonzero "max_size" for
+> > ACPI_BUILD_RSDP_FILE ("etc/acpi/rsdp")?
+> > 
+> > Is the current zero value a time bomb?
+> 
+> it's not likely to go over 4k, but if we enforce max_size!=0 we may set it 4k,
+> which it's aligned to anyways.
+
+Right. BTW there is an alternative I did not think of earlier.
+
+Lots of tables are actually fixed. We currently let guest calculate
+the checksum for all tables but that is not a must. We could prefill the
+checksum for most of them and cut the size by almost half.
+
+This fixes the issues in a way that seems cleaner to me as
+it migrates both ways for all configs and saves some resources.
+I'm not against making it resizeable too though.
+
+
+> 
+> > Put differently: acpi_add_rom_blob() should be *impossible* to call with
+> > "max_size=0", arguably. *Whenever* we call acpi_add_rom_blob(), we do
+> > that because the blob is resizable (mutable) -- but that also means we
+> > should have a safety margin, does it not? So calling acpi_add_rom_blob()
+> > with "max_size=0" looks self-contradictory.
+> 
+> main use-case for using acpi_add_rom_blob() is for mutable blobs,
+> so that all these blobs were transferred during migration to the destination,
+> to ensure that guest sees consistent data set (from source instead of mix of
+> source/dst blobs).
+> 
+> Resize came later on, when we got sick of ad-hock (align)/size bumping of
+> "etc/acpi/tables" in configurations where size was on verge of crossing
+> border to the next aligned size and related knobs to keep that mess
+> migratable.
+> 
+> > 
+> > FWIW, this could be covered by the table proposed in point (3).
+> > 
+> > 
+> > In total, I don't disagree with the patch (beyond the fact that the new
+> > macro's value doesn't match the commit message), functionally speaking.
+> > However, wrt. readability, I think the patch further complicates the
+> > code. I'd suggest five patches:
+> > 
+> > #1 -- use "etc/table-loader" via the proper macro name in "microvm",
+> > 
+> > #2 -- rework acpi_add_rom_blob() for using a table of constants + an
+> >       enum type,
+> > 
+> > #3 -- bump the "max_size" field for ACPI_BUILD_LOADER_FILE, for the
+> >       current symptom,
+> > 
+> > #4 -- set a nonzero "max_size" for the remaining ACPI_BUILD_RSDP_FILE,
+> >       for "future-proofing",
+> > 
+> > #5 -- in the new acpi_add_rom_blob() implementation, taking the enum,
+> >       assert(max_size != 0).
+> > 
+> > (I haven't thought through what this would mean for migration, forward
+> > or backward; I'm just brain-storming.)
+> > 
+> > Thanks
+> > Laszlo
 
 
