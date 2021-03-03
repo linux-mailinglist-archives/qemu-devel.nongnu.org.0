@@ -2,93 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D10432B9F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:42:25 +0100 (CET)
-Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B1B32B9FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:45:41 +0100 (CET)
+Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHWS0-0006qb-Ht
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
+	id 1lHWVA-00037I-KC
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:45:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWNw-0004OY-Ov
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:38:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWNu-0005Hc-Ho
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:38:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614796689;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Azs7r5hzq+oJhnDSjjywtW9vxKYDAae858wPljQ2F1w=;
- b=CrfhmtRRjqAIXhdPjcvQGMMJJr/We1eGMbi0Hzh2B4a5Fa3v+0uxF9CTRk5ptAyKZh2i8k
- nADLdDktZDrPtZsmLXVl2NorWdaNKtBSJR/YBw8yS52YP3BbK+84j/Sc5TdYSW0vnX0ElD
- Kf02PP9+BZmwVY0LtBllDAAFnMnp2aQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-3i6y9rekM-iyahs-LKn4JA-1; Wed, 03 Mar 2021 13:38:08 -0500
-X-MC-Unique: 3i6y9rekM-iyahs-LKn4JA-1
-Received: by mail-wm1-f70.google.com with SMTP id v5so3402553wml.9
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:38:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Azs7r5hzq+oJhnDSjjywtW9vxKYDAae858wPljQ2F1w=;
- b=aqZdNqogD2NYgDotAlMQxmQ1GDmuRpkjl6SHXsVBDlNlm38JZ52eFBbOMChDIi0t9G
- 5HQHt8F7DFIHGjHSrJMuGZn8GQo1vkUsSAv3w5J//wYumBeu8Lt1G1rwWCjqn35r9UYq
- 22ff/RXwc6JZvCEA/HoW9rpOy1hreUtHpUa+wyWoVzVn0HDiqR6/vySZdbU5w3c61Dch
- NjYExUnfd9jFtumIletUe09oq25O4/Q6iL28S7J4JUvAZNBezUc2Kme1VsDnRW1fklSF
- fe7png1YIM/29Td8HWuGQUl7UXjsmGwKll+fk9J22nGVcTdM+1k2xrLIlJfHgA26L9/f
- pn6g==
-X-Gm-Message-State: AOAM533XsMsWWgZOFWbIIPT8ETEgZ6OJ8A9qXQalYd/ukRUzl9DqSfnG
- PPc7Slzvfk+FVi2lebJYEj/dj7PUEu0xFnsF6H4fviiPrBrBohWgZwqAIB/AcRcV+rvSIwyujJU
- rzV6RJKWuL3ue768=
-X-Received: by 2002:adf:828e:: with SMTP id 14mr27636557wrc.123.1614796687173; 
- Wed, 03 Mar 2021 10:38:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwH/Hw0IbejeS6DgJJnJUnpPbEdOJiVBVsy5hA87NNUcL1xbXFsMP09GxNLjcIFhY0X+cBFOA==
-X-Received: by 2002:adf:828e:: with SMTP id 14mr27636541wrc.123.1614796687008; 
- Wed, 03 Mar 2021 10:38:07 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r10sm8601151wmh.45.2021.03.03.10.38.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 10:38:06 -0800 (PST)
-Subject: Re: [PATCH v3 4/7] hw/core: implement a guest-loader to support
- static hypervisor guests
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210303173642.3805-1-alex.bennee@linaro.org>
- <20210303173642.3805-5-alex.bennee@linaro.org>
- <224e4bad-6185-a457-ddb5-f04d5c16e2dc@redhat.com>
-Message-ID: <a44ccf9e-9971-b1d1-7de9-4c2be5dbd5e9@redhat.com>
-Date: Wed, 3 Mar 2021 19:38:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHWOj-0004no-6u
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:39:01 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHWOf-0005R3-Un
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:39:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5C65DACBC;
+ Wed,  3 Mar 2021 18:38:56 +0000 (UTC)
+Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
+ <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de> <87a6rmkffo.fsf@linaro.org>
+ <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
+ <25bce8e9-2fad-6568-66a5-278a04817f63@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <57a2c344-e54e-a4f9-64b6-df810f3c3c35@suse.de>
+Date: Wed, 3 Mar 2021 19:38:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <224e4bad-6185-a457-ddb5-f04d5c16e2dc@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <25bce8e9-2fad-6568-66a5-278a04817f63@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,41 +59,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, andre.przywara@arm.com, stefano.stabellini@linaro.org,
- xen-devel@lists.xenproject.org, stefano.stabellini@xilinx.com,
- stratos-dev@op-lists.linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/21 7:37 PM, Philippe Mathieu-Daudé wrote:
-> On 3/3/21 6:36 PM, Alex Bennée wrote:
->> Hypervisors, especially type-1 ones, need the firmware/bootcode to put
->> their initial guest somewhere in memory and pass the information to it
->> via platform data. The guest-loader is modelled after the generic
->> loader for exactly this sort of purpose:
+On 3/3/21 7:34 PM, Philippe Mathieu-Daudé wrote:
+> On 3/3/21 6:57 PM, Claudio Fontana wrote:
+>> On 3/1/21 5:23 PM, Alex Bennée wrote:
+>>>
+>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>
+>>>> On 2/23/21 10:18 AM, Philippe Mathieu-Daudé wrote:
+>>>>> On 2/22/21 8:00 PM, Alex Bennée wrote:
+>>>>>>
+>>>>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>>>>
+>>>>>>> Hi all,
+>>>>>>>
+>>>>>>> this is an experiment, a cleanup based on and requiring the series
+>>>>>>> "i386 cleanup PART 2":
+>>>>>>>
+>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
+>>>>>>>
+>>>>>>> The goal is to split the code between TCG-only and non-TCG code,
+>>>>>>> fixing the KVM-only build (configure --disable-tcg),
+>>>>>>>
+>>>>>>> and laying the ground for further cleanups and the use of the
+>>>>>>> new accel objects in the hierarchy to specialize the cpu
+>>>>>>> according to the accelerator.
+>>>>>>>
+>>>>>>> This is known to be an early state, with probably a lot of work
+>>>>>>> still needed.
+>>>>>>
+>>>>>> Well early work is looking pretty good:
+>>>>>>
+>>>>>>   18:59:22 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh qemu-system-aarch64
+>>>>>>   -rwxr-xr-x 1 alex alex 107M Feb 22 18:08 qemu-system-aarch64*
+>>>>>>   18:59:29 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh ../disable.tcg/qemu-system-aarch64
+>>>>>>   -rwxr-xr-x 1 alex alex 76M Feb 22 17:47 ../disable.tcg/qemu-system-aarch64*
+>>>>>
+>>>>> :~)
+>>>>>
+>>>>>>
+>>>>>> and I've tested the KVM side works well enough with a basic image.
+>>>>>
+>>>>>
+>>>>
+>>>> I am working on the next version, one thing I noticed among others as I get close to the v2,
+>>>> is the fact that tests/ for arm require tcg in many cases.
+>>>
+>>> I think in a lot of cases they are historical because developers
+>>> generally weren't running on native hardware. That said off the top of
+>>> my head:
+>>>
+>>>   tests/tcg - linux-user, so implies TCG
+>>>   tests/tcg/system - use semihosting (at least for arm/aarch64) - which implies TCG
+>>>   tests/acceptance/[replay_kernel/reverse_debugging/tcg_plugins] - all need TCG features
+>>>
+>>> I don't think there is any reason the others can't run with KVM - and
+>>> probably should on real hardware.
 >>
->>   $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
->>     -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
->>     -device guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen" \
->>     -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
 >>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Message-Id: <20201105175153.30489-5-alex.bennee@linaro.org>
->> Message-Id: <20210211171945.18313-5-alex.bennee@linaro.org>
->> ---
->>  hw/core/guest-loader.h |  34 ++++++++++
->>  hw/core/guest-loader.c | 145 +++++++++++++++++++++++++++++++++++++++++
->>  MAINTAINERS            |   5 ++
->>  hw/core/meson.build    |   2 +
->>  4 files changed, 186 insertions(+)
->>  create mode 100644 hw/core/guest-loader.h
->>  create mode 100644 hw/core/guest-loader.c
+>> One thing I noticed is that tests try to run qemu-system-aarch64 with accel "qtest" and machine "virt",
+>> and the thing tries to create a cortex-a15 cpu model for some unknown reason.
+>>
+>> Digging and sweating..
 > 
-> Missing documentation, 
-
-And I now see the following patches...
-
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> I already sent a series to fix that, feel free to reuse
+> some patches:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg80440.html
 > 
 
+Ah yes I took already something from here, will look some more thanks!
+
+Ciao,
+
+Claudio
 
