@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A05432BB7C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:23:42 +0100 (CET)
-Received: from localhost ([::1]:57952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B187132BBA2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:28:06 +0100 (CET)
+Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHYy5-0000xt-Ds
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:23:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
+	id 1lHZ2L-0002Os-P7
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:28:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHYxH-0000Hz-Sf
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:22:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHYxF-0003WF-N7
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:22:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614806568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iwrq41dTazKUVPFNrSguchjSjBcA2apWKPMn82Y7U0w=;
- b=dJbqGtxuIN9MzJSdti68Kq9fuFtMI/WABRQaxl+QHiNbhb0pyfOnVURu7DtfyfOW9+tupD
- pPQY+k+9vLCX4g4Jr+9TcMN/xtfL9X23+Jtq4f2QJgQHLrbdStIA20jp+XQPHGVSRXC8bQ
- xfiKZL99tBCPjj5NNv/9DjAZO9xBJ00=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-ZdLg0k-BNjegkTCf7G7GQQ-1; Wed, 03 Mar 2021 16:22:46 -0500
-X-MC-Unique: ZdLg0k-BNjegkTCf7G7GQQ-1
-Received: by mail-wr1-f70.google.com with SMTP id i5so11817971wrp.8
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 13:22:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=7DXFiOheQqxP+PpnEhHXXmQ4nfzJ8pWSHtczdztowj0=;
- b=MzcPLXc9dRlF0F+kwhjm4Uv3aEtk7hrz3audg+OqRxF4RwNQDQmNC8VUV+rxiiIZQ1
- R3Y4ohRlnMfABpzO76jkFY8rtLu06H2HsEo7G3aJW5Fkjl1jKM7iA7Uha71UfBvKTHWs
- cXZ0/uoxW/TUQRdHNxm6M5mXYtoYUmKJWrWesvoCqKigs6V+YSAIiCoV8QfpEVl3j4pi
- hcLpp6by9F3yc4D4eYTbQeiTt2CsJpw07LwHtq2xeiWxz9cVfIRbyocrf+vmXWOz9aZ9
- wUhqOz9cc6BDsJl7Pks7Yzs4hazXBGpOxlGoiBSjzaV5ROwZ+gbmq+OIDRGq9HLbF048
- ql8g==
-X-Gm-Message-State: AOAM532eoTr9fbmNTUFCQbS9XNmWOO0J/7dUlR3te4xYKJNhWvmfgqeS
- mTGAhD9Mk7OJQLI/sTf0ER9KsElzX6vOCQn5Ck5Y1rpJm/YoMZ/lWcGV51VEsar5DMbp5+8CFMX
- lfAp01kR1phPYWU0=
-X-Received: by 2002:a1c:b48a:: with SMTP id d132mr772563wmf.108.1614806565443; 
- Wed, 03 Mar 2021 13:22:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyjVANp0Hrn10k5sAWtW/62BdvTI1TeUsyL+dI0CZmF4QYeePtcAcDCwlNBMCjD3A2tc8vs2A==
-X-Received: by 2002:a1c:b48a:: with SMTP id d132mr772548wmf.108.1614806565261; 
- Wed, 03 Mar 2021 13:22:45 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c6975.dip0.t-ipconnect.de. [91.12.105.117])
- by smtp.gmail.com with ESMTPSA id v9sm33754301wrn.86.2021.03.03.13.22.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 13:22:45 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v4] target/s390x: Implement the MVPG condition-code-option
- bit
-Date: Wed, 3 Mar 2021 22:22:44 +0100
-Message-Id: <42016B7B-A144-4319-9F48-92C029083274@redhat.com>
-References: <1e13f11b-4c4f-83c6-5c83-8c8accc4f6cc@linaro.org>
-In-Reply-To: <1e13f11b-4c4f-83c6-5c83-8c8accc4f6cc@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-Mailer: iPhone Mail (18D52)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lHZ0o-0001rg-I0
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:26:30 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:40902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lHZ0j-0004SP-TP
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:26:30 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Wed, 3 Mar 2021 22:26:07 +0100
+Received: (qmail 11052 invoked from network); 3 Mar 2021 21:26:13 -0000
+Received: from ac19.vpn.kamp-intra.net (HELO ?172.20.250.19?)
+ (pl@kamp.de@::ffff:172.20.250.19)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 3 Mar 2021 21:26:13 -0000
+Subject: Re: QEMU RBD is slow with QCOW2 images
+To: dillaman@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
+References: <20210303174058.sdy5ygdfu75xy4rr@steredhat>
+ <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <f1ba8a4c-94b6-fc94-131d-fd41ce96e6de@kamp.de>
+Date: Wed, 3 Mar 2021 22:26:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,26 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 03.03.21 um 19:47 schrieb Jason Dillaman:
+> On Wed, Mar 3, 2021 at 12:41 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>> Hi Jason,
+>> as reported in this BZ [1], when qemu-img creates a QCOW2 image on RBD
+>> writing data is very slow compared to a raw file.
+>>
+>> Comparing raw vs QCOW2 image creation with RBD I found that we use a
+>> different object size, for the raw file I see '4 MiB objects', for QCOW2
+>> I see '64 KiB objects' as reported on comment 14 [2].
+>> This should be the main issue of slowness, indeed forcing in the code 4
+>> MiB object size also for QCOW2 increased the speed a lot.
+>>
+>> Looking better I discovered that for raw files, we call rbd_create()
+>> with obj_order = 0 (if 'cluster_size' options is not defined), so the
+>> default object size is used.
+>> Instead for QCOW2, we use obj_order = 16, since the default
+>> 'cluster_size' defined for QCOW2, is 64 KiB.
+>>
+>> Using '-o cluster_size=2M' with qemu-img changed only the qcow2 cluster
+>> size, since in qcow2_co_create_opts() we remove the 'cluster_size' from
+>> QemuOpts calling qemu_opts_to_qdict_filtered().
+>> For some reason that I have yet to understand, after this deletion,
+>> however remains in QemuOpts the default value of 'cluster_size' for
+>> qcow2 (64 KiB), that it's used in qemu_rbd_co_create_opts()
+>>
+>> At this point my doubts are:
+>> Does it make sense to use the same cluster_size as qcow2 as object_size
+>> in RBD?
+> No, not really. But it also doesn't really make any sense to put a
+> QCOW2 image within an RBD image. To clarify from the BZ, OpenStack
+> does not put QCOW2 images on RBD, it converts QCOW2 images into raw
+> images to store in RBD.
 
-> Am 03.03.2021 um 22:19 schrieb Richard Henderson <richard.henderson@linar=
-o.org>:
->=20
-> =EF=BB=BFOn 3/3/21 1:11 PM, David Hildenbrand wrote:
->> MMIO on s390x? :)
->=20
-> hw/s390x/s390-pci-bus.c, memory_region_init_io*().
->=20
 
-... part of system address space where a CPU could stumble over it?
+As discussed earlier the only reasonable format for rbd image is raw.
 
-> r~
->=20
+What is the idea behind putting a qcow2 on an rbd pool?
+
+Jason and I even discussed shortly durign the review of the rbd driver rewrite I posted
+
+earlier if it was ok to drop support for writing past the end of file.
+
+
+Anyway the reason why it is so slow is that write requests serialize if the
+
+qcow2 file grows. If there is a sane reason why we need qcow2 on rbd
+
+we need to implement at least preallocation mode = full to overcome
+
+the serialization.
+
+
+Peter
+
 
 
