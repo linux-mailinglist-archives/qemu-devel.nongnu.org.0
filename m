@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73CC32B698
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:31:38 +0100 (CET)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F9032B6A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:32:55 +0100 (CET)
+Received: from localhost ([::1]:41216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHOn3-00016M-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:31:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
+	id 1lHOoI-00026L-4y
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:32:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHOly-0000Af-E9
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:30:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHOlw-0005rb-Pw
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:30:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614767428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yBa1/4EcCarKUVBt1NUymXi6rS3yHrCuTpax9oeU97A=;
- b=OCFjudjcRSkejD5eTP6iAU6f1SG6mt+/sMCvOrEcPyoDhMHEyPGhTgGYIlxhn8Tz9kXNrd
- fYGwWL0zViqI1ui5vKEm/85QWjGNIwHWgir2tXbO2yrICv/v11ODcjGrJxKF+NOEhZAEbp
- Gq+fYk5o250mKbNUttsbCwKRK7lXNUQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-6AtuLbKANZCXP6LmZADfyg-1; Wed, 03 Mar 2021 05:30:25 -0500
-X-MC-Unique: 6AtuLbKANZCXP6LmZADfyg-1
-Received: by mail-ed1-f69.google.com with SMTP id h5so2082961edf.17
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 02:30:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lHOnB-0001Xr-FU
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:31:45 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:45272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lHOn9-0006GW-Ld
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:31:45 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id l8so23938567ybe.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 02:31:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u222WvhyDizBU5ZC0pUWCXzryBMpwoY3VEG3uvgGMNs=;
+ b=HjKJw63OpRvfVO00RwnWsT3YgChaqhv7PQNXCWe1RhauSp8FEE8iqp1lCyBE6BgF4K
+ 3/ChqnPvswbzQK2utTqIo8QtfjO5hioYm4iSrKEZh+eYHEkkVW+yl6Wv7hpeJ2iJR1eS
+ GtT6OcFJnMIC269tu2pFIEPdSRQVtHUcZmxax3A2MtwgzkPKIeKV9m9zvGlbFN1gMD7y
+ YzHTv6+u1aIL1/lHpx4vKPWvAvwqpBINKl0cYlBXkjaZCnBOIcH9c+xc1WqoVyXFTK7H
+ L7qoqgcVQhFRV++9OO0xg0j3vH1Gc/bDADgtfwhHFiU/hZm+u88+qbUt2Yjk6a/Q1CBm
+ g2Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yBa1/4EcCarKUVBt1NUymXi6rS3yHrCuTpax9oeU97A=;
- b=k8MOlHNc65tkx4Si8KA5UehgeiFXbnXSuKfcWJD/MRu01REm/Uth7FAPR+XQqiBPI8
- Wc0OqgckCSb8tATDgaHI7eW9iIWq3SsE5/QTPqTyTToQnBzs8LGqnfgetkKNAyXnaThp
- +x+km+yqw4c3zn/h1DVasQabRPUcnQP7FSbKsY/ssD2dkWj5QkU11xqnUs4hOQIJzeWZ
- i239L6cX9xiqUC9kmwc1FTw40EXLQZoVL0R2DcfmM0cc7kglDkMa3Iu8V5iyFKc+oed7
- /35p5c8TmlTVSGT27dbDu8V5PNL4n3SyRWWY9vf77Vz+voAVb4WlotsC8V9BARh781vy
- VzSg==
-X-Gm-Message-State: AOAM532zmYqL5NCm4OK99NNPMQsbgVeTxWtR0g/EEmJBZfX8nOmlM+Dk
- R2OnD0+8kV6wSKdHxHUx/yLs2VlD4khm8gBo/BFEwZrbTjdURIYDy6rPxBKythZgp7hkNDxLR93
- neJqVpaGuIvKXdyc=
-X-Received: by 2002:a17:906:1754:: with SMTP id
- d20mr24771233eje.221.1614767424536; 
- Wed, 03 Mar 2021 02:30:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwSEL5vY4aj2jtim4LY5F0lOjq8oHtgdKDpxU+mAT960ic012x9vTW5nCfrTzP/VqA/nslYtQ==
-X-Received: by 2002:a17:906:1754:: with SMTP id
- d20mr24771219eje.221.1614767424409; 
- Wed, 03 Mar 2021 02:30:24 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g2sm20957837ejk.108.2021.03.03.02.30.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 02:30:23 -0800 (PST)
-Subject: Re: [PATCH v2 0/8] misc: Replace the words 'blacklist/whitelist'
-To: qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210205171817.2108907-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0200b600-b683-b939-4c46-eeaf9356243a@redhat.com>
-Date: Wed, 3 Mar 2021 11:30:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u222WvhyDizBU5ZC0pUWCXzryBMpwoY3VEG3uvgGMNs=;
+ b=JyE3DCnOzBTWnxx3a40r/kGhYv+cYLgqHYtQMc1zve4I5ww292K+Rrc/ILFMAnaxp5
+ umVMVyBDN5mJXc8EjbidraMAw26vW1qo5I5T9EHNKjF5NkMmhvHn/GgwEq8Tse5b84pP
+ +xhxFMK1ejMY+zv58UX+psSmFBlH21ZMgdWaInsF+/pCteDXYtb+KdxkZ8fyICZjwkO4
+ 1U5038TsDCqHchhGE4JlQ9dLzLcWWE9C0K5QZvEhXEsk4ZGIPwGpUoh8t3neeNX9V8ps
+ 3NwV/D7C410QRsA3M90K3uf4GSEIsFgY309qHw++TSK9bliTjd4ndHsLhdKN0sJf7lVq
+ fang==
+X-Gm-Message-State: AOAM532LZFFLFr9wfWiXzLXdEwOPgWhr8di1wS/igRycESEbsFRjh4Bf
+ tjbN5wlqNJLdy539Tk7kAPajJqEAUoDwechkdZ0=
+X-Google-Smtp-Source: ABdhPJzw1wA7BghhGfMF0MxV3BbdUDfO8BJ55AL0TPSxEIsmSFMKhWVKHepU9fLjaTKf/cUGXmcPrhBznQIHrMKzaD0=
+X-Received: by 2002:a25:abce:: with SMTP id v72mr39328199ybi.152.1614767502548; 
+ Wed, 03 Mar 2021 02:31:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205171817.2108907-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <1614763306-18026-1-git-send-email-bmeng.cn@gmail.com>
+ <1614763306-18026-2-git-send-email-bmeng.cn@gmail.com>
+ <39d86853-45aa-2231-b9d5-e38985747b5d@redhat.com>
+In-Reply-To: <39d86853-45aa-2231-b9d5-e38985747b5d@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 3 Mar 2021 18:31:31 +0800
+Message-ID: <CAEUhbmUqVgKb3juSWQorvZj_6aqrqF_O0k6CMy3EkAugLK8uQQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/9] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,39 +81,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Michael Roth <michael.roth@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Laurent,
+Hi Philippe,
 
-On 2/5/21 6:18 PM, Philippe Mathieu-Daudé wrote:
-> Follow the inclusive terminology from the "Conscious Language in your
-> Open Source Projects" guidelines [*] and replace the words "blacklist"
-> and "whitelist" appropriately.
-> 
+On Wed, Mar 3, 2021 at 6:15 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> On 3/3/21 10:21 AM, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > The minimum Ethernet frame length is 60 bytes. For short frames with
+> > smaller length like ARP packets (only 42 bytes), on a real world NIC
+> > it can choose either padding its length to the minimum required 60
+> > bytes, or sending it out directly to the wire. Such behavior can be
+> > hardcoded or controled by a register bit. Similarly on the receive
+> > path, NICs can choose either dropping such short frames directly or
+> > handing them over to software to handle.
+> >
+> > On the other hand, for the network backends SLiRP/TAP, they don't
+> > expose a way to control the short frame behavior. As of today they
+> > just send/receive data from/to the other end connected to them,
+> > which means any sized packet is acceptable. So they can send and
+> > receive short frames without any problem. It is observed that ARP
+> > packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+> > these ARP packets to the other end which might be a NIC model that
+> > does not allow short frames to pass through.
+> >
+> > To provide better compatibility, for packets sent from SLiRP/TAP, we
+> > change to pad short frames before sending it out to the other end.
+> > This ensures SLiRP/TAP as an Ethernet sender do not violate the spec.
+> > But with this change, the behavior of dropping short frames in the
+> > NIC model cannot be emulated because it always receives a packet that
+> > is spec complaint. The capability of sending short frames from NIC
+> > models are still supported and short frames can still pass through
+> > SLiRP/TAP interfaces.
+> >
+> > This commit should be able to fix the issue as reported with some
+> > NIC models before, that ARP requests get dropped, preventing the
+> > guest from becoming visible on the network. It was workarounded in
+> > these NIC models on the receive path, that when a short frame is
+> > received, it is padded up to 60 bytes.
+> >
+> > The following 2 commits seem to be the one to workaround this issue
+> > in e1000 and vmxenet3 before, and should probably be reverted.
+> >
+> >   commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 byt=
+es)")
+> >   commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 b=
+ytes)")
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> > ---
+> >
+> > Changes in v2:
+> > - only pad short frames for SLiRP/TAP interfaces
+> >
+> >  include/net/eth.h |  1 +
+> >  net/net.c         | 12 ++++++++++++
+> >  2 files changed, 13 insertions(+)
+> >
+> > diff --git a/include/net/eth.h b/include/net/eth.h
+> > index 0671be6..7c825ec 100644
+> > --- a/include/net/eth.h
+> > +++ b/include/net/eth.h
+> > @@ -31,6 +31,7 @@
+> >
+> >  #define ETH_ALEN 6
+> >  #define ETH_HLEN 14
+> > +#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+> >
+> >  struct eth_header {
+> >      uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
+> > diff --git a/net/net.c b/net/net.c
+> > index 32d71c1..27c3b25 100644
+> > --- a/net/net.c
+> > +++ b/net/net.c
+> > @@ -638,6 +638,7 @@ static ssize_t qemu_send_packet_async_with_flags(Ne=
+tClientState *sender,
+> >                                                   NetPacketSent *sent_c=
+b)
+> >  {
+> >      NetQueue *queue;
+> > +    uint8_t min_buf[ETH_ZLEN];
+> >      int ret;
+> >
+> >  #ifdef DEBUG_NET
+> > @@ -649,6 +650,17 @@ static ssize_t qemu_send_packet_async_with_flags(N=
+etClientState *sender,
+> >          return size;
+> >      }
+> >
+> > +    /* Pad to minimum Ethernet frame length for SLiRP and TAP */
+> > +    if (sender->info->type =3D=3D NET_CLIENT_DRIVER_USER ||
+> > +        sender->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
+> > +        if (size < ETH_ZLEN) {
+> > +            memcpy(min_buf, buf, size);
+> > +            memset(&min_buf[size], 0, ETH_ZLEN - size);
+> > +            buf =3D min_buf;
+> > +            size =3D ETH_ZLEN;
+> > +        }
+>
+> We can have zero-copy by using a static zeroed buf and rewrite
+> this function to call the _iov() equivalents with a pair of
+> struct iovec.
 
-> Series expected to go via the qemu-trivial@ tree.
+Do you have an example of doing zero-copy using _iov() equivalents?
 
-I forgot to Cc qemu-trivial@ :/ The series is now fully reviewed :)
+Also I am not sure whether it's worth doing zero-copy given this is
+only a 60 bytes copy.
 
-> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
-> 
-> Philippe Mathieu-Daudé (8):
->   ui: Replace the word 'whitelist'
->   tools/virtiofsd: Replace the word 'whitelist'
->   scripts/tracetool: Replace the word 'whitelist'
->   scripts/device-crash-test: Replace the word 'whitelist'
->   seccomp: Replace the word 'blacklist'
->   qemu-options: Replace the word 'blacklist'
->   tests/fp/fp-test: Replace the word 'blacklist'
->   hw/vfio/pci-quirks: Replace the word 'blacklist'
+>
+> > +    }
+> > +
+> >      /* Let filters handle the packet first */
+> >      ret =3D filter_receive(sender, NET_FILTER_DIRECTION_TX,
+> >                           sender, flags, buf, size, sent_cb);
+> >
+>
 
+Regards,
+Bin
 
