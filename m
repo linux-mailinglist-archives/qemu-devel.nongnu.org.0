@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A663D32B6CC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:45:09 +0100 (CET)
-Received: from localhost ([::1]:54282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E98D32B6D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:48:37 +0100 (CET)
+Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHP08-0000ds-KD
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:45:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41380)
+	id 1lHP3U-0002wq-FF
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:48:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHOx0-00061Q-I0; Wed, 03 Mar 2021 05:41:54 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42875)
+ id 1lHOx6-00064d-5K; Wed, 03 Mar 2021 05:42:00 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHOww-00017o-5w; Wed, 03 Mar 2021 05:41:54 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id v13so12814758edw.9;
- Wed, 03 Mar 2021 02:41:49 -0800 (PST)
+ id 1lHOx2-0001B9-Qf; Wed, 03 Mar 2021 05:41:59 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id c10so14720159ejx.9;
+ Wed, 03 Mar 2021 02:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y/nyi8An80ek+P1n9KALG11eHTIo9X/dg63n9CXHSx4=;
- b=nQlIdfbGlCdvg2KJiJihql/BVfKZXieDm5mJxBvZu/4T3KR0BekNhrmyYI4s1+URtu
- 2LwKPRYR6ElVo5LvYBAHm0Key6LUtpG+YD9nRfqG2dkZVEfFYUHkxLNTYbhjcU69TmDV
- S6mK1Z8pl0IQsng7yxH/3YjErs+Y8fDe50mmTgvvViWNYCehoa5hKYJ/tz66ylqytIuO
- fNs0fM5KslcXB5U7Jfe7tX11qVjqh594kEDhY+U7OYdPzjxqKX//ZXRxUT7fdoNUlmLj
- uG6K9kcjyPE1Q00RW6DlZ7bEAWuCOo/ntBMT5hZLToiZk7yJLvP/3WkPhPxd7gVFKNty
- CuRw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=dU67z5mmiD/4zu7Zyv2gAWcs8YiHNtEyoZ8NTNJ6tkQ=;
+ b=SKBW+WHp7Knhb+VTsSr3DGRL9S2MWg0qNqE1+UyPv79+afBYNd3bSY6Qz+Cr0O3SKR
+ uLV8r/9jNcBVDOEPtSc2lNlthr6sjiNCoQz6qRUwW+ZrrWgM26AX1KGXw36C40jVqWiB
+ 1WE0JXcvfzuV0KD8phbZ3JrHP46CxcU7sJyQP0jVEewb57a3DUyDWS3TQmUvH1Ty37AP
+ fkDDV1B7IzYhNmfGS5jZ4zqZ8ap8h2C1rHSVEtTx1+N1vHFq+AWdswY+YGZRHdW1fMU8
+ 8GiDkXd+A7+hdMBUw09mvvbJMY6WqxdmtT0KpaPY3NeCeCwz5e4IJXbrOjvuOud/W/q8
+ 0AAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y/nyi8An80ek+P1n9KALG11eHTIo9X/dg63n9CXHSx4=;
- b=hsK8YyMS9Bh1K4pqA5rjBzc1q1bYRg4rLD2gJYmwTazpFW1+GF8Fqdv7iP8J3awQcT
- 21f9i9jLST+8YVdNHjIxxBSSh4ykJvmCh4jzeViRsfjPFvDbHRaljw7C7z17sYs3pm1M
- qr8UXXG6isZlL37rGQn246bED7hLAQbDaRMYy928pHMyADSb+PNvOVKaO+5Bl3d6qEIh
- M6bD8oAsNhlrHX7PYc3KtVG1HZIwC8idDZf2rR6nDIzXBXcM9fTBqYGYirQioU4r+Wu3
- XcYqsdv7oSskkMDPdeZFRoph50H/k6q2w4ZzIFRAAm+85mADNlQG8rkAt6vF2nmCnZzI
- VMzg==
-X-Gm-Message-State: AOAM533AeFnctfZQCcGVwYjlvhSVjxO0sRPi+r8DUwZFA/Aps0EvTAon
- 43A76XF5wIdWM812MnVVbFo=
-X-Google-Smtp-Source: ABdhPJzPYjSxWEyuYJ7HlN8+hP6cpX6IM+az5MFPVKEPaihcQVXF5Aw0jTXKTJHdWTvxHfK+x9o0Qw==
-X-Received: by 2002:aa7:c1d5:: with SMTP id d21mr11013881edp.167.1614768108126; 
- Wed, 03 Mar 2021 02:41:48 -0800 (PST)
+ :references;
+ bh=dU67z5mmiD/4zu7Zyv2gAWcs8YiHNtEyoZ8NTNJ6tkQ=;
+ b=AynnBGkWlAuMcYNFxhAjD6k/VZtEGMptwJp+DFtklsE9uGARcS9031OT0Rc31lPpGP
+ OYxakbMdfUwqMhS2fEUT0QdU0jHzgtEzUkGJZqoq8ZsB041T3ulT5lDoTmAOPPMDTKoV
+ jhSop1IS8hwSjrLQHMi/mN4p275uXlH5LxmHhibFWuvVTABl5MORItfSlHu6z96Y5PVZ
+ ZK+umPPglzfZvznMW6PB6gxq0nNdBAlXBKDezOdRItALPD11pfpGXcqgas7ZBy8mZq2j
+ PBpsvUQvO4Za9524SJnk7V7i15v6LO5xZMY7kNaeiaRSpFv+qCmROiJ2kosBvT9aZHuW
+ km2A==
+X-Gm-Message-State: AOAM531Z7n6XAeJNNMVF9GZtyatLtWKNH5JZ0dLsG9QsBlsDN09IA0ba
+ /2VW6g8XLUJnusZXlIYelEI=
+X-Google-Smtp-Source: ABdhPJwVKobKI4Usd3MjNq+iDo5g1tz4AuCzGv0Jt3Kg7+xOQT5xXc7fLBwlVHep9DQam0Sq6AvDYg==
+X-Received: by 2002:a17:906:1907:: with SMTP id
+ a7mr25263190eje.142.1614768114300; 
+ Wed, 03 Mar 2021 02:41:54 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id jx22sm19029811ejc.105.2021.03.03.02.41.41
+ by smtp.gmail.com with ESMTPSA id jx22sm19029811ejc.105.2021.03.03.02.41.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Mar 2021 02:41:47 -0800 (PST)
+ Wed, 03 Mar 2021 02:41:53 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
  Alexander Bulekov <alxndr@bu.edu>,
  Alistair Francis <alistair.francis@wdc.com>,
  Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-Subject: [PATCH v3 1/5] hw/sd: sdhci: Don't transfer any data when command
- time out
-Date: Wed,  3 Mar 2021 18:41:24 +0800
-Message-Id: <1614768088-20534-2-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH v3 2/5] hw/sd: sdhci: Don't write to SDHC_SYSAD register when
+ transfer is in progress
+Date: Wed,  3 Mar 2021 18:41:25 +0800
+Message-Id: <1614768088-20534-3-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614768088-20534-1-git-send-email-bmeng.cn@gmail.com>
 References: <1614768088-20534-1-git-send-email-bmeng.cn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,29 +89,46 @@ Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the end of sdhci_send_command(), it starts a data transfer if the
-command register indicates data is associated. But the data transfer
-should only be initiated when the command execution has succeeded.
+Per "SD Host Controller Standard Specification Version 7.00"
+chapter 2.2.1 SDMA System Address Register:
+
+This register can be accessed only if no transaction is executing
+(i.e., after a transaction has stopped).
 
 With this fix, the following reproducer:
 
-outl 0xcf8 0x80001810
-outl 0xcfc 0xe1068000
-outl 0xcf8 0x80001804
-outw 0xcfc 0x7
-write 0xe106802c 0x1 0x0f
-write 0xe1068004 0xc 0x2801d10101fffffbff28a384
-write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
-write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
-write 0xe1068003 0x1 0xfe
+outl 0xcf8 0x80001010
+outl 0xcfc 0xfbefff00
+outl 0xcf8 0x80001001
+outl 0xcfc 0x06000000
+write 0xfbefff2c 0x1 0x05
+write 0xfbefff0f 0x1 0x37
+write 0xfbefff0a 0x1 0x01
+write 0xfbefff0f 0x1 0x29
+write 0xfbefff0f 0x1 0x02
+write 0xfbefff0f 0x1 0x03
+write 0xfbefff04 0x1 0x01
+write 0xfbefff05 0x1 0x01
+write 0xfbefff07 0x1 0x02
+write 0xfbefff0c 0x1 0x33
+write 0xfbefff0e 0x1 0x20
+write 0xfbefff0f 0x1 0x00
+write 0xfbefff2a 0x1 0x01
+write 0xfbefff0c 0x1 0x00
+write 0xfbefff03 0x1 0x00
+write 0xfbefff05 0x1 0x00
+write 0xfbefff2a 0x1 0x02
+write 0xfbefff0c 0x1 0x32
+write 0xfbefff01 0x1 0x01
+write 0xfbefff02 0x1 0x01
+write 0xfbefff03 0x1 0x01
 
 cannot be reproduced with the following QEMU command line:
 
-$ qemu-system-x86_64 -nographic -M pc-q35-5.0 \
-      -device sdhci-pci,sd-spec-version=3 \
-      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-      -device sd-card,drive=mydrive \
-      -monitor none -serial none -qtest stdio
+$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
+       -nodefaults -device sdhci-pci,sd-spec-version=3 \
+       -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+       -device sd-card,drive=mydrive -qtest stdio
 
 Cc: qemu-stable@nongnu.org
 Fixes: CVE-2020-17380
@@ -130,46 +144,48 @@ Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
 Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
 Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
-(no changes since v1)
+Changes in v3:
+- Embed the reproducer in the commit message
 
- hw/sd/sdhci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/sd/sdhci.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 9acf446..f72d76c 100644
+index f72d76c..3feb6c3 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -326,6 +326,7 @@ static void sdhci_send_command(SDHCIState *s)
-     SDRequest request;
-     uint8_t response[16];
-     int rlen;
-+    bool timeout = false;
+@@ -1121,15 +1121,17 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
  
-     s->errintsts = 0;
-     s->acmd12errsts = 0;
-@@ -349,6 +350,7 @@ static void sdhci_send_command(SDHCIState *s)
-             trace_sdhci_response16(s->rspreg[3], s->rspreg[2],
-                                    s->rspreg[1], s->rspreg[0]);
-         } else {
-+            timeout = true;
-             trace_sdhci_error("timeout waiting for command response");
-             if (s->errintstsen & SDHC_EISEN_CMDTIMEOUT) {
-                 s->errintsts |= SDHC_EIS_CMDTIMEOUT;
-@@ -369,7 +371,7 @@ static void sdhci_send_command(SDHCIState *s)
- 
-     sdhci_update_irq(s);
- 
--    if (s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
-+    if (!timeout && s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
-         s->data_count = 0;
-         sdhci_data_transfer(s);
-     }
+     switch (offset & ~0x3) {
+     case SDHC_SYSAD:
+-        s->sdmasysad = (s->sdmasysad & mask) | value;
+-        MASKED_WRITE(s->sdmasysad, mask, value);
+-        /* Writing to last byte of sdmasysad might trigger transfer */
+-        if (!(mask & 0xFF000000) && TRANSFERRING_DATA(s->prnsts) && s->blkcnt &&
+-                s->blksize && SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
+-            if (s->trnmod & SDHC_TRNS_MULTI) {
+-                sdhci_sdma_transfer_multi_blocks(s);
+-            } else {
+-                sdhci_sdma_transfer_single_block(s);
++        if (!TRANSFERRING_DATA(s->prnsts)) {
++            s->sdmasysad = (s->sdmasysad & mask) | value;
++            MASKED_WRITE(s->sdmasysad, mask, value);
++            /* Writing to last byte of sdmasysad might trigger transfer */
++            if (!(mask & 0xFF000000) && s->blkcnt && s->blksize &&
++                SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
++                if (s->trnmod & SDHC_TRNS_MULTI) {
++                    sdhci_sdma_transfer_multi_blocks(s);
++                } else {
++                    sdhci_sdma_transfer_single_block(s);
++                }
+             }
+         }
+         break;
 -- 
 2.7.4
 
