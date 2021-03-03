@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E5C32B9D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:24:26 +0100 (CET)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6736932B9D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:26:50 +0100 (CET)
+Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHWAb-0006UJ-F3
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:24:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55372)
+	id 1lHWCv-0002ft-FS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHW8i-0004S8-Ni
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:22:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46447)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHW8o-0004Y0-4I
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:22:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHW8g-0000KS-Ic
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:22:28 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHW8m-0000NR-70
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:22:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614795745;
+ s=mimecast20190719; t=1614795751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c2RVdSAhN19HCcvNMcEKCSeQlJ0pBYd+9LH4EI/CKB0=;
- b=JaRwa39MfemudpofpVZoUtEzWJe5YQbBio0bPmEjqgIUoS9qTqZvY+fPQ7fDlSY3H4CAQN
- kn51fAchHBKFg8el2uayAj1QB2HD4hu4D6DTqMZ7smtYbWvmCi9eje13/jDOhXUmCF6xu7
- FYj6Bt3RT0DRPIs+cr65O95N2BOSZpg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-C2gPXK33NlCE1y-N69HXJA-1; Wed, 03 Mar 2021 13:22:24 -0500
-X-MC-Unique: C2gPXK33NlCE1y-N69HXJA-1
-Received: by mail-wr1-f70.google.com with SMTP id h30so13180585wrh.10
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:22:23 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bQjkhbMoK/p110+ezCXx6XyhC9yOCxnNoBGV8HeX/9Y=;
+ b=f7Qvt0ELbIKR8nvOAxiMNxmjPdQQ7L/7Yp4LutznWVTOAJv4iK3upBFgZLBS+T78kYE5MM
+ DbBg6UJT7bUBOxFmklN8l5TTFEiqUlqfORq5KTGlFslrWAlhcDqkLVeD2uhMTw089HVjDE
+ MRD8VVqnR9AGglh1+SCZK8pXDv4Bao0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-AqXmcZt6Pt-I-WkvLaq9Hw-1; Wed, 03 Mar 2021 13:22:29 -0500
+X-MC-Unique: AqXmcZt6Pt-I-WkvLaq9Hw-1
+Received: by mail-wr1-f69.google.com with SMTP id i5so11572301wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:22:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pU0d9Mw8PQdbgfBbP+KMCl6F0o1+MOAeJgm+3OD11Xs=;
- b=Gt3IaA7DpjHILrooPF2Tq+YADIS8Pn3rvvrl1voTjlw+qYH4ic3TRm11Mw2FUOzej3
- 79m8auo5EmIPYlQHZ1cr7pjFBmhHFbavGqsPK8o9OC3LItq4ztq/dueKId3DHJQbDfb2
- +LRPLQQjiqtQ/CYg6vbBbpfog92PLF1OD3J1dM3bVTd7+46KowZ6lziWJWn0zLOizOsr
- Co4VPlm0dGhVkL/jBx2ceL2Opmdua8SHi4nyAnfAqiZflgyFhcvqLr4EyBuXWQ1yP/F4
- OOE0POeIL5DjREeroGXA7wrrLBp4Loa1TFufU9lwtNFSKXVAj7I0Tg8NrguHXznSK0Rt
- sTww==
-X-Gm-Message-State: AOAM533EunWYhsA6dsQCzaYy33zet3hNQDAGLDkSnvmp/oX43aisFAPG
- oq/vKyGtbtHdAf5DXFR119MTfl5DWqnvhf9ArfemotMB+NpIOaGNtXj9QFSa+ZS7xGigVNnSQid
- IuXPjvf/NirUVdAhbkBX9j+IxF85UcPmtIwprrUZv5VtT0kU+2WLBtQm97Uah9scW
-X-Received: by 2002:a5d:430a:: with SMTP id h10mr19981wrq.162.1614795742576;
- Wed, 03 Mar 2021 10:22:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwUTywIC+KwxYJXuUyDhzg8Nuj7gHjGLk6CPjSdHmohYvyP+QZLu8kIXtLnUufcrNeJRgTWfQ==
-X-Received: by 2002:a5d:430a:: with SMTP id h10mr19929wrq.162.1614795742181;
- Wed, 03 Mar 2021 10:22:22 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bQjkhbMoK/p110+ezCXx6XyhC9yOCxnNoBGV8HeX/9Y=;
+ b=oBs9ORWYP8Zj3zcuWokHgYy46Xs3T8V6XynEZ8xBXOcE9okZL9FKfcwuAkaVZQRraL
+ qWTKzNZR1MmJBbgNRy4CUIOHQgOkuGlInBZL0+nlGfCcZpoYUA/Iok74EXCa1APz2k+q
+ rZHvCqdrTDjAtSgQDaI1S7aYpx9qZj0wjxMuP2F4lIP/V3RtsvZTDte0R5kYASFTOxuH
+ iPhEzDyeNiiK2szNj5pSwaQw7FfvEOLWUd9LyaVis/hS+LL9zgGmugI+IAptz7rROLgq
+ mcH1PyfvRcYkpDu4IkaG9S5tqpHK/1/o/+edKTaBSOp+vE3zlxjqq+C7liHD1AfkSMAY
+ f1Mg==
+X-Gm-Message-State: AOAM530jqb3GBJnzsHe1Z0aVmuKctsr8F01eNClsWyz0JQIsaSwpzdVv
+ qNtJpbX9H2sRJMrst/62QSVYby9muHFWBZzsYjIPud7CGvvOVwUMQMaJL0ONjbMMAH0XEWNCy4s
+ Dxf/MKZPPrBHBQqUGJkJCkzm2w5QDkuHDcecrPMF2oMM8CWPvNZgv++4hj5cUGCZE
+X-Received: by 2002:adf:a219:: with SMTP id p25mr28636312wra.400.1614795747957; 
+ Wed, 03 Mar 2021 10:22:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyfbZpBv9k7hXSgga18Q2U7X80Yx3nYLyWQWxwQRzBihlp/Au8nBqtr9CXYtuKzZpEM6c4XtA==
+X-Received: by 2002:adf:a219:: with SMTP id p25mr28636276wra.400.1614795747724; 
+ Wed, 03 Mar 2021 10:22:27 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i3sm35148487wra.66.2021.03.03.10.22.20
+ by smtp.gmail.com with ESMTPSA id q15sm33044035wrr.58.2021.03.03.10.22.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 10:22:21 -0800 (PST)
+ Wed, 03 Mar 2021 10:22:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/19] accel: Introduce AccelvCPUState opaque structure
-Date: Wed,  3 Mar 2021 19:22:00 +0100
-Message-Id: <20210303182219.1631042-1-philmd@redhat.com>
+Subject: [PATCH 01/19] target/i386/hvf: Use boolean value for vcpu_dirty
+Date: Wed,  3 Mar 2021 19:22:01 +0100
+Message-Id: <20210303182219.1631042-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210303182219.1631042-1-philmd@redhat.com>
+References: <20210303182219.1631042-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,81 +110,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series introduces the 'AccelvCPUState' which is forward=0D
-declared opaque in "cpu.h", then each accelerator define it.=0D
-=0D
-The opaque CPUState::accel_vcpu pointer is shared by all=0D
-accelerators (not a problem because there can be at most=0D
-one accelerator per vCPU).=0D
-=0D
-Series is organized as:=0D
-- preliminary trivial cleanups=0D
-- introduce AccelvCPUState=0D
-- move WHPX fields (build-tested)=0D
-- move HAX fields (not tested)=0D
-- move KVM fields (build-tested)=0D
-- move HVF fields (not tested)=0D
-=0D
-For now vcpu_dirty is still shared in CPUState.=0D
-=0D
-Sending as RFC to see if it is worthwhile.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (19):=0D
-  target/i386/hvf: Use boolean value for vcpu_dirty=0D
-  target/s390x/kvm: Simplify debug code=0D
-  target/s390x/kvm: Reduce deref by declaring 'struct kvm_run' on stack=0D
-  cpu: Croup accelerator-specific fields altogether=0D
-  cpu: Introduce AccelvCPUState opaque structure=0D
-  accel/whpx: Add typedef for 'struct whpx_vcpu'=0D
-  accel/whpx: Rename struct whpx_vcpu -> AccelvCPUState=0D
-  accel/whpx: Use 'accel_vcpu' generic pointer=0D
-  accel/hax: Add typedef for 'struct hax_vcpu_state'=0D
-  accel/hax: Use 'accel_vcpu' generic pointer=0D
-  accel/kvm: Introduce kvm_vcpu_state() helper=0D
-  accel/kvm: Use kvm_vcpu_state() when possible=0D
-  accel/kvm: Declare and allocate AccelvCPUState struct=0D
-  accel/kvm: Move the 'kvm_fd' field to AccelvCPUState=0D
-  accel/kvm: Move the 'kvm_state' field to AccelvCPUState=0D
-  accel/kvm: Move the 'kvm_run' field to AccelvCPUState=0D
-  accel/hvf: Reduce deref by declaring 'hv_vcpuid_t hvf_fd' on stack=0D
-  accel/hvf: Declare and allocate AccelvCPUState struct=0D
-  accel/hvf: Move the 'hvf_fd' field to AccelvCPUState=0D
-=0D
- include/hw/core/cpu.h         |  17 +--=0D
- include/sysemu/kvm.h          |   2 +=0D
- include/sysemu/kvm_int.h      |   9 ++=0D
- target/i386/hax/hax-i386.h    |  10 +-=0D
- target/i386/hvf/hvf-i386.h    |   4 +=0D
- target/i386/hvf/vmx.h         |  28 +++--=0D
- accel/kvm/kvm-all.c           |  44 ++++---=0D
- hw/s390x/pv.c                 |   3 +-=0D
- target/arm/kvm.c              |   2 +-=0D
- target/arm/kvm64.c            |  12 +-=0D
- target/i386/cpu.c             |   4 +-=0D
- target/i386/hax/hax-all.c     |  22 ++--=0D
- target/i386/hax/hax-posix.c   |   4 +-=0D
- target/i386/hax/hax-windows.c |   4 +-=0D
- target/i386/hvf/hvf.c         | 118 +++++++++---------=0D
- target/i386/hvf/x86.c         |  28 ++---=0D
- target/i386/hvf/x86_descr.c   |  32 +++--=0D
- target/i386/hvf/x86_emu.c     |  62 +++++-----=0D
- target/i386/hvf/x86_mmu.c     |   4 +-=0D
- target/i386/hvf/x86_task.c    |  14 ++-=0D
- target/i386/hvf/x86hvf.c      | 227 +++++++++++++++++-----------------=0D
- target/i386/kvm/kvm.c         |  36 +++---=0D
- target/i386/whpx/whpx-all.c   |  34 ++---=0D
- target/ppc/kvm.c              |  16 +--=0D
- target/s390x/kvm.c            | 148 +++++++++++-----------=0D
- 25 files changed, 466 insertions(+), 418 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+CPUState::vcpu_dirty is of type 'bool', not 'integer'.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ target/i386/hvf/hvf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 15f14ac69e7..3c5c9c8197e 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -533,7 +533,7 @@ int hvf_init_vcpu(CPUState *cpu)
+     }
+ 
+     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+-    cpu->vcpu_dirty = 1;
++    cpu->vcpu_dirty = true;
+     assert_hvf_ok(r);
+ 
+     if (hv_vmx_read_capability(HV_VMX_CAP_PINBASED,
+-- 
+2.26.2
 
 
