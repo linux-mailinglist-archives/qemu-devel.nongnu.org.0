@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BD432ACC0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:37:04 +0100 (CET)
-Received: from localhost ([::1]:37518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BACF32ACBF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:33:13 +0100 (CET)
+Received: from localhost ([::1]:33314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHGRj-0006mm-8N
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:37:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
+	id 1lHGO0-0004sJ-7k
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lHGOK-0005dh-Ff; Tue, 02 Mar 2021 20:33:32 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:44433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lHGOG-0004rP-QM; Tue, 02 Mar 2021 20:33:32 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DqxN23j7nz9sVS; Wed,  3 Mar 2021 12:33:22 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1614735202;
- bh=jco5Xm2vksaKpo3OJEPUWmdKoJ7MBnKbhUp7+HBdTao=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kV4kIHG99Dm0COspfvYm2O+BWAJaaMqbnfxV5u5eEMAbhU2qwA5IBywuSUXIb1GPC
- HETxaJuk6rLLmu4Q+xGhOwMiGumYoUdStKNoi1L+/5VUFtQ1oYXWyk0RI9+4FxQJfP
- NZhBt4YI6HLtbTrDR+sTYpU7hSF2SpaPsayRnoFo=
-Date: Wed, 3 Mar 2021 11:21:43 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v4 6/6] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
-Message-ID: <YD7Wl/21vn7Dkizg@yekko.fritz.box>
-References: <cover.1614282456.git.balaton@eik.bme.hu>
- <848089b1c91e0c28eb7c52ccdc55dc870eb49dc0.1614282457.git.balaton@eik.bme.hu>
- <97399e18-3217-40db-5021-702371d196bc@amsat.org>
- <c0403b8b-fee1-11e2-a8d0-2af36f66c9@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHGGr-0001V9-VA
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:25:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHGGo-0003r4-HH
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:25:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lHGGm-00062m-KS
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 01:25:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 989DE2E805B
+ for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 01:25:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u1I/ed05Bq2TGgCB"
-Content-Disposition: inline
-In-Reply-To: <c0403b8b-fee1-11e2-a8d0-2af36f66c9@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Mar 2021 01:16:54 -0000
+From: Changhee Oh <1917542@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: och.ubuntu
+X-Launchpad-Bug-Reporter: Changhee Oh (och.ubuntu)
+X-Launchpad-Bug-Modifier: Changhee Oh (och.ubuntu)
+Message-Id: <161473421480.8403.16223338106260004167.malonedeb@gac.canonical.com>
+Subject: [Bug 1917542] [NEW] qemu-img crash on M1 Mac
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
+X-Launchpad-Hash: ecca3c5280b521af4480b79e01f9777207ab7465
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,292 +68,429 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1917542 <1917542@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
---u1I/ed05Bq2TGgCB
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+1. Symptom
+$ qemu-img create -f qcow2 disk.qcow2 10G
+[1] 72373 killed qemu-img create -f qcow2 disk.qcow2 10G
 
-On Tue, Mar 02, 2021 at 10:13:19AM +0100, BALATON Zoltan wrote:
-> On Tue, 2 Mar 2021, Philippe Mathieu-Daud=E9 wrote:
-> > On 2/25/21 8:47 PM, BALATON Zoltan wrote:
-> > > Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
-> > > a PowerPC board based on the Marvell MV64361 system controller and the
-> > > VIA VT8231 integrated south bridge/superio chips. It can run Linux,
-> > > AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
-> > > image is needed to boot and only MorphOS has a video driver to produce
-> > > graphics output. Linux could work too but distros that supported this
-> > > machine don't include usual video drivers so those only run with
-> > > serial console for now.
-> > >=20
-> > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > ---
-> > >  MAINTAINERS                             |  10 ++
-> > >  default-configs/devices/ppc-softmmu.mak |   2 +
-> > >  hw/ppc/Kconfig                          |  10 ++
-> > >  hw/ppc/meson.build                      |   2 +
-> > >  hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++=
-++
-> > >  5 files changed, 168 insertions(+)
-> > >  create mode 100644 hw/ppc/pegasos2.c
-> > >=20
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 9b2aa18e1f..a023217702 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -1345,6 +1345,16 @@ F: pc-bios/canyonlands.dt[sb]
-> > >  F: pc-bios/u-boot-sam460ex-20100605.bin
-> > >  F: roms/u-boot-sam460ex
-> > >=20
-> > > +pegasos2
-> > > +M: BALATON Zoltan <balaton@eik.bme.hu>
-> > > +R: David Gibson <david@gibson.dropbear.id.au>
-> >=20
-> > :)
->=20
-> He's also listed as reviewer for the sam460ex and I think as the PPC
-> maintainer probably should be notified about changes that's why this is
-> here. I guess he can complain or submit a patch later if he wants to be
-> removed.
+2. System environment
+CPU: Apple M1
+OS: Big Sur 11.2.2
+qemu:  stable 5.2.0 (Binary installed by homebrew)
 
-Including me as reviewer is fine for now.
+3. Kernel logs
+$ sudo log show --predicate =E2=80=98eventMessage LIKE =E2=80=9Cqemu=E2=80=
+=9D=E2=80=99 --debug
+ntID Dirty: 1 Event: com.apple.stability.crash {=E2=80=9CappVersion=E2=80=
+=9D:"???",=E2=80=9CexceptionType=E2=80=9D:1,=E2=80=9Clogwritten=E2=80=9D:1,=
+=E2=80=9Cprocess=E2=80=9D:=E2=80=9Cqemu-img=E2=80=9D,=E2=80=9CresponsibleAp=
+p=E2=80=9D:=E2=80=9CiTerm2=E2=80=9D,=E2=80=9Ctimestamp=E2=80=9D:16146668759=
+93238}
+2021-03-02 15:36:52.728210+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGNIN=
+G: cs_invalid_page(0x102930000): p=3D72373[qemu-img] final status 0x2300020=
+0, denying page sending SIGKILL
+2021-03-02 15:36:52.728222+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGNIN=
+G: process 72373[qemu-img]: rejecting invalid page at address 0x102930000 f=
+rom offset 0x0 in file =E2=80=9C/opt/homebrew/Cellar/libssh/0.9.5_1/lib/lib=
+ssh.4.8.6.dylib=E2=80=9D (cs_mtime:1614297740.413435328 =3D=3D mtime:161429=
+7740.413435328) (signed:1 validated:1 tainted:1 nx:0 wpmapped:0 dirty:0 dep=
+th:0)
+2021-03-02 15:36:52.728477+0900 0xfab09 Default 0x0 919 0 ReportCrash: Pars=
+ing corpse data for process qemu-img [pid 72373]
+2021-03-02 15:36:52.884736+0900 0xfab09 Default 0x0 919 0 ReportCrash: (Cra=
+shReporterSupport) Saved crash report for qemu-img[72373] version 0 to qemu=
+-img_2021-03-02-153652_.crash
 
->=20
-> > > +L: qemu-ppc@nongnu.org
-> > > +S: Maintained
-> > > +F: hw/ppc/pegasos2.c
-> > > +F: hw/pci-host/mv64361.c
-> > > +F: hw/pci-host/mv643xx.h
-> > > +F: include/hw/pci-host/mv64361.h
-> > > +
-> > >  RISC-V Machines
-> > >  ---------------
-> > >  OpenTitan
-> > > diff --git a/default-configs/devices/ppc-softmmu.mak b/default-config=
-s/devices/ppc-softmmu.mak
-> > > index 61b78b844d..4535993d8d 100644
-> > > --- a/default-configs/devices/ppc-softmmu.mak
-> > > +++ b/default-configs/devices/ppc-softmmu.mak
-> > > @@ -14,5 +14,7 @@ CONFIG_SAM460EX=3Dy
-> > >  CONFIG_MAC_OLDWORLD=3Dy
-> > >  CONFIG_MAC_NEWWORLD=3Dy
-> > >=20
-> > > +CONFIG_PEGASOS2=3Dy
-> > > +
-> > >  # For PReP
-> > >  CONFIG_PREP=3Dy
-> > > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> > > index d11dc30509..98d8dd1a84 100644
-> > > --- a/hw/ppc/Kconfig
-> > > +++ b/hw/ppc/Kconfig
-> > > @@ -68,6 +68,16 @@ config SAM460EX
-> > >      select USB_OHCI
-> > >      select FDT_PPC
-> > >=20
-> > > +config PEGASOS2
-> > > +    bool
-> > > +    select MV64361
-> > > +    select VT82C686
-> > > +    select IDE_VIA
-> > > +    select SMBUS_EEPROM
-> > > +# These should come with VT82C686
-> > > +    select APM
-> > > +    select ACPI_X86
-> > > +
-> > >  config PREP
-> > >      bool
-> > >      imply PCI_DEVICES
-> > > diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> > > index 218631c883..86d6f379d1 100644
-> > > --- a/hw/ppc/meson.build
-> > > +++ b/hw/ppc/meson.build
-> > > @@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
-> > >  ))
-> > >  # PowerPC 440 Xilinx ML507 reference board.
-> > >  ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
-> > > +# Pegasos2
-> > > +ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
-> > >=20
-> > >  hw_arch +=3D {'ppc': ppc_ss}
-> > > diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> > > new file mode 100644
-> > > index 0000000000..427e884fbf
-> > > --- /dev/null
-> > > +++ b/hw/ppc/pegasos2.c
-> > > @@ -0,0 +1,144 @@
-> > > +/*
-> > > + * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emula=
-tor
-> > > + *
-> > > + * Copyright (c) 2018-2020 BALATON Zoltan
-> >=20
-> > 2018-2021
->=20
-> Not really. I've done this between Christmas of 2018 and 2020. This year
-> were only changes for upstreaming and review comments so I preserved the
-> dates to record when the actual code was written.
+4. Crash logs
+$ sudo cat /Users//Library/Logs/DiagnosticReports/qemu-img_2021-03-02-15365=
+2_.crash
+Process: qemu-img [72373]
+Path: /opt/homebrew/*/qemu-img
+Identifier: qemu-img
+Version: 0
+Code Type: ARM-64 (Native)
+Parent Process: zsh [67484]
+Responsible: iTerm2 [556]
+User ID: 501
 
-Fwiw, Red Hat's internal guidelines have the opinion that the years
-don't matter that much and are usually out of date, so they suggest
-simply "Copyright Red Hat." for contributions from us. IANAL.
+Date/Time: 2021-03-02 15:36:52.710 +0900
+OS Version: macOS 11.2.2 (20D80)
+Report Version: 12
+Anonymous UUID: AF87D5F0-2BED-EB72-1DC8-26F63A24DA7C
 
-> > > + *
-> > > + * This work is licensed under the GNU GPL license version 2 or late=
-r.
-> > > + *
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "qemu-common.h"
-> > > +#include "qemu/units.h"
-> > > +#include "qapi/error.h"
-> > > +#include "hw/hw.h"
-> > > +#include "hw/ppc/ppc.h"
-> > > +#include "hw/sysbus.h"
-> > > +#include "hw/pci/pci_host.h"
-> > > +#include "hw/irq.h"
-> > > +#include "hw/pci-host/mv64361.h"
-> > > +#include "hw/isa/vt82c686.h"
-> > > +#include "hw/ide/pci.h"
-> > > +#include "hw/i2c/smbus_eeprom.h"
-> > > +#include "hw/qdev-properties.h"
-> > > +#include "sysemu/reset.h"
-> > > +#include "hw/boards.h"
-> > > +#include "hw/loader.h"
-> > > +#include "hw/fw-path-provider.h"
-> > > +#include "elf.h"
-> > > +#include "qemu/log.h"
-> > > +#include "qemu/error-report.h"
-> > > +#include "sysemu/kvm.h"
-> > > +#include "kvm_ppc.h"
-> > > +#include "exec/address-spaces.h"
-> > > +#include "trace.h"
-> > > +#include "qemu/datadir.h"
-> > > +#include "sysemu/device_tree.h"
-> > > +
-> > > +#define PROM_FILENAME "pegasos2.rom"
-> > > +#define PROM_ADDR     0xfff00000
-> > > +#define PROM_SIZE     0x80000
-> > > +
-> > > +#define BUS_FREQ 133333333
-> >=20
-> > Can you rename as BUS_FREQ_HZ?
-> >=20
-> > > +
-> > > +static void pegasos2_cpu_reset(void *opaque)
-> > > +{
-> > > +    PowerPCCPU *cpu =3D opaque;
-> > > +
-> > > +    cpu_reset(CPU(cpu));
-> > > +    cpu->env.spr[SPR_HID1] =3D 7ULL << 28;
-> > > +}
-> > > +
-> > > +static void pegasos2_init(MachineState *machine)
-> > > +{
-> > > +    PowerPCCPU *cpu =3D NULL;
-> > > +    MemoryRegion *rom =3D g_new(MemoryRegion, 1);
-> > > +    DeviceState *mv;
-> > > +    PCIBus *pci_bus;
-> > > +    PCIDevice *dev;
-> > > +    I2CBus *i2c_bus;
-> > > +    const char *fwname =3D machine->firmware ?: PROM_FILENAME;
-> > > +    char *filename;
-> > > +    int sz;
-> > > +    uint8_t *spd_data;
-> > > +
-> > > +    /* init CPU */
-> > > +    cpu =3D POWERPC_CPU(cpu_create(machine->cpu_type));
-> > > +    if (PPC_INPUT(&cpu->env) !=3D PPC_FLAGS_INPUT_6xx) {
-> > > +        error_report("Incompatible CPU, only 6xx bus supported");
-> > > +        exit(1);
-> > > +    }
-> > > +
-> > > +    /* Set time-base frequency */
-> > > +    cpu_ppc_tb_init(&cpu->env, BUS_FREQ / 4);
-> > > +    qemu_register_reset(pegasos2_cpu_reset, cpu);
-> > > +
-> > > +    /* RAM */
-> > > +    memory_region_add_subregion(get_system_memory(), 0, machine->ram=
-);
-> > > +
-> > > +    /* allocate and load firmware */
-> > > +    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
-> > > +    if (!filename) {
-> > > +        error_report("Could not find firmware '%s'", fwname);
-> > > +        exit(1);
-> > > +    }
-> > > +    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &er=
-ror_fatal);
-> > > +    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
-> > > +    sz =3D load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NU=
-LL, 1,
-> > > +                  PPC_ELF_MACHINE, 0, 0);
-> > > +    if (sz <=3D 0) {
-> > > +        sz =3D load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
-> > > +    }
-> > > +    if (sz <=3D 0 || sz > PROM_SIZE) {
-> > > +        error_report("Could not load firmware '%s'", filename);
-> > > +        exit(1);
-> > > +    }
-> > > +    g_free(filename);
-> > > +
-> > > +    /* Marvell Discovery II system controller */
-> > > +    mv =3D DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-> > > +                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INP=
-UT_INT]));
-> >=20
-> > Indent off.
->=20
-> There's no other way to fit in the 80 chars line length limit in a sensib=
-le
-> way. (Aligning to DEVICE( would be confusing as last arg belongs to
-> sysbus_create_simple().)
+Sleep/Wake UUID: 3862EA39-132E-42BD-A4BB-5A36F36607F1
 
-You could declare a temporary variable with the complex irq_inputs expressi=
-on.
+Time Awake Since Boot: 89000 seconds
+Time Since Wake: 520 seconds
 
->=20
-> > Otherwise:
-> > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
->=20
-> Thanks, I'll do the other changes you've recommended.
->=20
-> Regards,
-> BALATON Zoltan
+System Integrity Protection: enabled
 
+Crashed Thread: 0
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Exception Type: EXC_BAD_ACCESS (Code Signature Invalid)
+Exception Codes: 0x0000000000000032, 0x0000000102930000
+Exception Note: EXC_CORPSE_NOTIFY
 
---u1I/ed05Bq2TGgCB
-Content-Type: application/pgp-signature; name="signature.asc"
+Termination Reason: Namespace CODESIGNING, Code 0x2
 
------BEGIN PGP SIGNATURE-----
+kernel messages:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA+1pUACgkQbDjKyiDZ
-s5JF6BAA33AF2UEx5Ermo8MrY0QCYJkLhq36epYW3R9Dp3/Ln9KFGp/fBj4syHCu
-YW3wWPRjyCX1fGjwEMTvjY+j99YQOLmUVzULKnHRtetPSAKvq8BYzW+lX5zYiH/l
-NB7F5habCoujDKBw0c4O9mUr29z7qhOYAcq/xS7cSF5IfkMJH9smyf7aFulbS3hQ
-6EF+AdLOg1fQyO0HKgVm3WIuHNvmiOKfen+UNFvcwPtOy1J///X+1fEPytv/7Pdb
-EZIg7uO7UKQSjAbrS1J2WgJE7/tgw976bqHWXiXsLKOm2EsjfqnLpXaWrlpmjP7E
-WopGhbRqkzPDnvH9tijgva9U6So43LJIeknTvF10Hps8uKek6B46+H3xPYEwn9ql
-HcWUm9CxsMvNJOwQPcbT4uVkpMPpYak9l2vp+npBYGZ64VsFmwccLaWaIbKj6T8S
-PuTC6CV1cNyRNIy6DqKtHyLNhXonf3uvsVEVFNezOebCFwTyrxPPXQpPys6d/WCY
-SnvUpD+o+I7Ci7orve4Pj33TSkzE+wrZ+A/aDTkIZioO0sJ/RgP4kanmbsxC8Rxi
-1Aeceu9z5dwP7GufogKHaExBGMdnygbylc2H0mcc1XNxlQdF/CVww66BhOzrA+9D
-Vdot0gMK0thG7dCbyfENCUQ73o0YJ6M0PrEkYBIonXDjUtTuZFs=
-=uWeH
------END PGP SIGNATURE-----
+VM Regions Near 0x102930000:
+__LINKEDIT 102908000-102930000 [ 160K] r=E2=80=93/r-- SM=3DCOW /opt/homebre=
+w/*
+=E2=86=92 mapped file 102930000-102934000 [ 16K] r=E2=80=93/r-x SM=3DPRV Ob=
+ject_id=3Dfc8cc3db
+__TEXT 1029bc000-102a38000 [ 496K] r-x/r-x SM=3DCOW /usr/lib/dyld
 
---u1I/ed05Bq2TGgCB--
+Application Specific Information:
+dyld: launch, loading dependent libraries
+/opt/homebrew/opt/libssh/lib/libssh.4.dylib
+
+Thread 0 Crashed:
+0 dyld 0x0000000102a18780 bcmp + 16
+1 dyld 0x00000001029d9408 ImageLoaderMachO::validateFirstPages(linkedit_dat=
+a_command const*, int, unsigned char const*, unsigned long, long long, Imag=
+eLoader::LinkContext const&) + 136
+2 dyld 0x00000001029e03b8 ImageLoaderMachOCompressed::instantiateFromFile(c=
+har const*, int, unsigned char const*, unsigned long, unsigned long long, u=
+nsigned long long, stat const&, unsigned int, unsigned int, linkedit_data_c=
+ommand const*, encryption_info_command const*, ImageLoader::LinkContext con=
+st&) + 268
+3 dyld 0x00000001029d7ffc ImageLoaderMachO::instantiateFromFile(char const*=
+, int, unsigned char const*, unsigned long, unsigned long long, unsigned lo=
+ng long, stat const&, ImageLoader::LinkContext const&) + 172
+4 dyld 0x00000001029c0290 dyld::loadPhase6(int, stat const&, char const*, d=
+yld::LoadContext const&) + 668
+5 dyld 0x00000001029c8dd8 dyld::loadPhase5(char const*, char const*, dyld::=
+LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::=
+allocator<char const*> >) + 1328
+6 dyld 0x00000001029c8824 dyld::loadPhase4(char const, char const*, dyld::L=
+oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
+llocator<char const*> >) + 208
+7 dyld 0x00000001029c8530 dyld::loadPhase3(char const, char const*, dyld::L=
+oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
+llocator<char const*> >) + 1100
+8 dyld 0x00000001029c7cf0 dyld::loadPhase1(char const, char const*, dyld::L=
+oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
+llocator<char const*> >) + 212
+9 dyld 0x00000001029bfe0c dyld::loadPhase0(char const, char const*, dyld::L=
+oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
+llocator<char const*> >) + 468
+10 dyld 0x00000001029bf9b0 dyld::load(char const, dyld::LoadContext const&,=
+ unsigned int&) + 196
+11 dyld 0x00000001029c977c dyld::libraryLocator(char const*, bool, char con=
+st*, ImageLoader::RPathChain const*, unsigned int&) + 56
+12 dyld 0x00000001029d39d4 ImageLoader::recursiveLoadLibraries(ImageLoader:=
+:LinkContext const&, bool, ImageLoader::RPathChain const&, char const*) + 3=
+44
+13 dyld 0x00000001029d21ac ImageLoader::link(ImageLoader::LinkContext const=
+&, bool, bool, bool, ImageLoader::RPathChain const&, char const*) + 160
+14 dyld 0x00000001029c25f4 dyld::link(ImageLoader*, bool, bool, ImageLoader=
+::RPathChain const&, unsigned int) + 328
+15 dyld 0x00000001029c4928 dyld::_main(macho_header const*, unsigned long, =
+int, char const**, char const**, char const**, unsigned long*) + 6764
+16 dyld 0x00000001029bd258 dyldbootstrap::start(dyld3::MachOLoaded const*, =
+int, char const**, dyld3::MachOLoaded const*, unsigned long*) + 476
+17 dyld 0x00000001029bd038 _dyld_start + 56
+
+Thread 0 crashed with ARM Thread State (64-bit):
+x0: 0x0000000102930000 x1: 0x000000016d6297c0 x2: 0x0000000000000850 x3: 0x=
+0000000000040001
+x4: 0x0000000000000003 x5: 0x0000000000000000 x6: 0x0000000102a40280 x7: 0x=
+0000000000000000
+x8: 0x0000000000000000 x9: 0x000000016d629ea8 x10: 0x0000000000000001 x11: =
+0x0001803000000000
+x12: 0x0000000000000032 x13: 0x0004000000000000 x14: 0x0000000000062530 x15=
+: 0x000000016d629e28
+x16: 0x00000000000000c5 x17: 0x0000000000000000 x18: 0x0000000000000000 x19=
+: 0x0000000102a45cc0
+x20: 0x0000000000000860 x21: 0x000000016d6297c0 x22: 0x0000000102930000 x23=
+: 0x0000000000000003
+x24: 0x000000016d62a010 x25: 0x000000016d6318d8 x26: 0x00000001027cc970 x27=
+: 0x000000016d6297c0
+x28: 0x0000000000000004 fp: 0x000000016d6291c0 lr: 0x00000001029d9408
+sp: 0x000000016d629180 pc: 0x0000000102a18780 cpsr: 0x20000000
+far: 0x0000000102930000 esr: 0x92000007
+
+Binary Images:
+0x1027cc000 - 0x1028ebfff +qemu-img (0) /opt/homebrew//qemu-img
+0x1029bc000 - 0x102a37fff dyld (832.7.3) <4AB185B3-DC20-3C03-A193-67C0E6C58=
+9D7> /usr/lib/dyld
+0x102ac0000 - 0x102bbffff +libglib-2.0.0.dylib (0) /opt/homebrew//libglib-2=
+.0.0.dylib
+0x102bf4000 - 0x102d1bfff +libgnutls.30.dylib (0) <74A67886-3907-3E35-B0A3-=
+8A5798F97283> /opt/homebrew/*/libgnutls.30.dylib
+0x191db9000 - 0x192262fff com.apple.CoreFoundation (6.9 - 1774.101) /System=
+/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+0x1944af000 - 0x194579fff com.apple.framework.IOKit (2.0.2 - 1845.81.1) <51=
+6911DA-18D7-3D17-8646-BBF7C75CD070> /System/Library/Frameworks/IOKit.framew=
+ork/Versions/A/IOKit
+0x19b3b6000 - 0x19b3b7fff libSystem.B.dylib (1292.60.1) /usr/lib/libSystem.=
+B.dylib
+0x19b635000 - 0x19b639fff libpam.2.dylib (28.40.1) /usr/lib/libpam.2.dylib
+
+External Modification Summary:
+Calls made by other processes targeting this process:
+task_for_pid: 0
+thread_create: 0
+thread_set_state: 0
+Calls made by this process:
+task_for_pid: 0
+thread_create: 0
+thread_set_state: 0
+Calls made by all processes on this machine:
+task_for_pid: 81731
+thread_create: 0
+thread_set_state: 8
+
+VM Region Summary:
+ReadOnly portion of Libraries: Total=3D489.5M resident=3D0K(0%) swapped_out=
+_or_unallocated=3D489.5M(100%)
+Writable regions: Total=3D8400K written=3D0K(0%) resident=3D0K(0%) swapped_=
+out=3D0K(0%) unallocated=3D8400K(100%)
+
+                            VIRTUAL   REGION
+REGION TYPE SIZE COUNT (non-coalesced)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
+=3D
+STACK GUARD 56.0M 1
+Stack 8176K 1
+__AUTH 7K 2
+__AUTH_CONST 926K 4
+__DATA 371K 10
+__DATA_CONST 2209K 7
+__DATA_DIRTY 32K 2
+__LINKEDIT 480.3M 6
+__OBJC_CONST 28K 2
+__TEXT 9472K 8
+__UNICODE 588K 1
+mapped file 16K 1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
+=3D
+TOTAL 557.6M 45
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917542
+
+Title:
+  qemu-img crash on M1 Mac
+
+Status in QEMU:
+  New
+
+Bug description:
+  1. Symptom
+  $ qemu-img create -f qcow2 disk.qcow2 10G
+  [1] 72373 killed qemu-img create -f qcow2 disk.qcow2 10G
+
+  2. System environment
+  CPU: Apple M1
+  OS: Big Sur 11.2.2
+  qemu:  stable 5.2.0 (Binary installed by homebrew)
+
+  3. Kernel logs
+  $ sudo log show --predicate =E2=80=98eventMessage LIKE =E2=80=9Cqemu=E2=
+=80=9D=E2=80=99 --debug
+  ntID Dirty: 1 Event: com.apple.stability.crash {=E2=80=9CappVersion=E2=80=
+=9D:"???",=E2=80=9CexceptionType=E2=80=9D:1,=E2=80=9Clogwritten=E2=80=9D:1,=
+=E2=80=9Cprocess=E2=80=9D:=E2=80=9Cqemu-img=E2=80=9D,=E2=80=9CresponsibleAp=
+p=E2=80=9D:=E2=80=9CiTerm2=E2=80=9D,=E2=80=9Ctimestamp=E2=80=9D:16146668759=
+93238}
+  2021-03-02 15:36:52.728210+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGN=
+ING: cs_invalid_page(0x102930000): p=3D72373[qemu-img] final status 0x23000=
+200, denying page sending SIGKILL
+  2021-03-02 15:36:52.728222+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGN=
+ING: process 72373[qemu-img]: rejecting invalid page at address 0x102930000=
+ from offset 0x0 in file =E2=80=9C/opt/homebrew/Cellar/libssh/0.9.5_1/lib/l=
+ibssh.4.8.6.dylib=E2=80=9D (cs_mtime:1614297740.413435328 =3D=3D mtime:1614=
+297740.413435328) (signed:1 validated:1 tainted:1 nx:0 wpmapped:0 dirty:0 d=
+epth:0)
+  2021-03-02 15:36:52.728477+0900 0xfab09 Default 0x0 919 0 ReportCrash: Pa=
+rsing corpse data for process qemu-img [pid 72373]
+  2021-03-02 15:36:52.884736+0900 0xfab09 Default 0x0 919 0 ReportCrash: (C=
+rashReporterSupport) Saved crash report for qemu-img[72373] version 0 to qe=
+mu-img_2021-03-02-153652_.crash
+
+  4. Crash logs
+  $ sudo cat /Users//Library/Logs/DiagnosticReports/qemu-img_2021-03-02-153=
+652_.crash
+  Process: qemu-img [72373]
+  Path: /opt/homebrew/*/qemu-img
+  Identifier: qemu-img
+  Version: 0
+  Code Type: ARM-64 (Native)
+  Parent Process: zsh [67484]
+  Responsible: iTerm2 [556]
+  User ID: 501
+
+  Date/Time: 2021-03-02 15:36:52.710 +0900
+  OS Version: macOS 11.2.2 (20D80)
+  Report Version: 12
+  Anonymous UUID: AF87D5F0-2BED-EB72-1DC8-26F63A24DA7C
+
+  Sleep/Wake UUID: 3862EA39-132E-42BD-A4BB-5A36F36607F1
+
+  Time Awake Since Boot: 89000 seconds
+  Time Since Wake: 520 seconds
+
+  System Integrity Protection: enabled
+
+  Crashed Thread: 0
+
+  Exception Type: EXC_BAD_ACCESS (Code Signature Invalid)
+  Exception Codes: 0x0000000000000032, 0x0000000102930000
+  Exception Note: EXC_CORPSE_NOTIFY
+
+  Termination Reason: Namespace CODESIGNING, Code 0x2
+
+  kernel messages:
+
+  VM Regions Near 0x102930000:
+  __LINKEDIT 102908000-102930000 [ 160K] r=E2=80=93/r-- SM=3DCOW /opt/homeb=
+rew/*
+  =E2=86=92 mapped file 102930000-102934000 [ 16K] r=E2=80=93/r-x SM=3DPRV =
+Object_id=3Dfc8cc3db
+  __TEXT 1029bc000-102a38000 [ 496K] r-x/r-x SM=3DCOW /usr/lib/dyld
+
+  Application Specific Information:
+  dyld: launch, loading dependent libraries
+  /opt/homebrew/opt/libssh/lib/libssh.4.dylib
+
+  Thread 0 Crashed:
+  0 dyld 0x0000000102a18780 bcmp + 16
+  1 dyld 0x00000001029d9408 ImageLoaderMachO::validateFirstPages(linkedit_d=
+ata_command const*, int, unsigned char const*, unsigned long, long long, Im=
+ageLoader::LinkContext const&) + 136
+  2 dyld 0x00000001029e03b8 ImageLoaderMachOCompressed::instantiateFromFile=
+(char const*, int, unsigned char const*, unsigned long, unsigned long long,=
+ unsigned long long, stat const&, unsigned int, unsigned int, linkedit_data=
+_command const*, encryption_info_command const*, ImageLoader::LinkContext c=
+onst&) + 268
+  3 dyld 0x00000001029d7ffc ImageLoaderMachO::instantiateFromFile(char cons=
+t*, int, unsigned char const*, unsigned long, unsigned long long, unsigned =
+long long, stat const&, ImageLoader::LinkContext const&) + 172
+  4 dyld 0x00000001029c0290 dyld::loadPhase6(int, stat const&, char const*,=
+ dyld::LoadContext const&) + 668
+  5 dyld 0x00000001029c8dd8 dyld::loadPhase5(char const*, char const*, dyld=
+::LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1=
+::allocator<char const*> >) + 1328
+  6 dyld 0x00000001029c8824 dyld::loadPhase4(char const, char const*, dyld:=
+:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
+:allocator<char const*> >) + 208
+  7 dyld 0x00000001029c8530 dyld::loadPhase3(char const, char const*, dyld:=
+:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
+:allocator<char const*> >) + 1100
+  8 dyld 0x00000001029c7cf0 dyld::loadPhase1(char const, char const*, dyld:=
+:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
+:allocator<char const*> >) + 212
+  9 dyld 0x00000001029bfe0c dyld::loadPhase0(char const, char const*, dyld:=
+:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
+:allocator<char const*> >) + 468
+  10 dyld 0x00000001029bf9b0 dyld::load(char const, dyld::LoadContext const=
+&, unsigned int&) + 196
+  11 dyld 0x00000001029c977c dyld::libraryLocator(char const*, bool, char c=
+onst*, ImageLoader::RPathChain const*, unsigned int&) + 56
+  12 dyld 0x00000001029d39d4 ImageLoader::recursiveLoadLibraries(ImageLoade=
+r::LinkContext const&, bool, ImageLoader::RPathChain const&, char const*) +=
+ 344
+  13 dyld 0x00000001029d21ac ImageLoader::link(ImageLoader::LinkContext con=
+st&, bool, bool, bool, ImageLoader::RPathChain const&, char const*) + 160
+  14 dyld 0x00000001029c25f4 dyld::link(ImageLoader*, bool, bool, ImageLoad=
+er::RPathChain const&, unsigned int) + 328
+  15 dyld 0x00000001029c4928 dyld::_main(macho_header const*, unsigned long=
+, int, char const**, char const**, char const**, unsigned long*) + 6764
+  16 dyld 0x00000001029bd258 dyldbootstrap::start(dyld3::MachOLoaded const*=
+, int, char const**, dyld3::MachOLoaded const*, unsigned long*) + 476
+  17 dyld 0x00000001029bd038 _dyld_start + 56
+
+  Thread 0 crashed with ARM Thread State (64-bit):
+  x0: 0x0000000102930000 x1: 0x000000016d6297c0 x2: 0x0000000000000850 x3: =
+0x0000000000040001
+  x4: 0x0000000000000003 x5: 0x0000000000000000 x6: 0x0000000102a40280 x7: =
+0x0000000000000000
+  x8: 0x0000000000000000 x9: 0x000000016d629ea8 x10: 0x0000000000000001 x11=
+: 0x0001803000000000
+  x12: 0x0000000000000032 x13: 0x0004000000000000 x14: 0x0000000000062530 x=
+15: 0x000000016d629e28
+  x16: 0x00000000000000c5 x17: 0x0000000000000000 x18: 0x0000000000000000 x=
+19: 0x0000000102a45cc0
+  x20: 0x0000000000000860 x21: 0x000000016d6297c0 x22: 0x0000000102930000 x=
+23: 0x0000000000000003
+  x24: 0x000000016d62a010 x25: 0x000000016d6318d8 x26: 0x00000001027cc970 x=
+27: 0x000000016d6297c0
+  x28: 0x0000000000000004 fp: 0x000000016d6291c0 lr: 0x00000001029d9408
+  sp: 0x000000016d629180 pc: 0x0000000102a18780 cpsr: 0x20000000
+  far: 0x0000000102930000 esr: 0x92000007
+
+  Binary Images:
+  0x1027cc000 - 0x1028ebfff +qemu-img (0) /opt/homebrew//qemu-img
+  0x1029bc000 - 0x102a37fff dyld (832.7.3) <4AB185B3-DC20-3C03-A193-67C0E6C=
+589D7> /usr/lib/dyld
+  0x102ac0000 - 0x102bbffff +libglib-2.0.0.dylib (0) /opt/homebrew//libglib=
+-2.0.0.dylib
+  0x102bf4000 - 0x102d1bfff +libgnutls.30.dylib (0) <74A67886-3907-3E35-B0A=
+3-8A5798F97283> /opt/homebrew/*/libgnutls.30.dylib
+  0x191db9000 - 0x192262fff com.apple.CoreFoundation (6.9 - 1774.101) /Syst=
+em/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+  0x1944af000 - 0x194579fff com.apple.framework.IOKit (2.0.2 - 1845.81.1) <=
+516911DA-18D7-3D17-8646-BBF7C75CD070> /System/Library/Frameworks/IOKit.fram=
+ework/Versions/A/IOKit
+  0x19b3b6000 - 0x19b3b7fff libSystem.B.dylib (1292.60.1) /usr/lib/libSyste=
+m.B.dylib
+  0x19b635000 - 0x19b639fff libpam.2.dylib (28.40.1) /usr/lib/libpam.2.dylib
+
+  External Modification Summary:
+  Calls made by other processes targeting this process:
+  task_for_pid: 0
+  thread_create: 0
+  thread_set_state: 0
+  Calls made by this process:
+  task_for_pid: 0
+  thread_create: 0
+  thread_set_state: 0
+  Calls made by all processes on this machine:
+  task_for_pid: 81731
+  thread_create: 0
+  thread_set_state: 8
+
+  VM Region Summary:
+  ReadOnly portion of Libraries: Total=3D489.5M resident=3D0K(0%) swapped_o=
+ut_or_unallocated=3D489.5M(100%)
+  Writable regions: Total=3D8400K written=3D0K(0%) resident=3D0K(0%) swappe=
+d_out=3D0K(0%) unallocated=3D8400K(100%)
+
+                              VIRTUAL   REGION
+  REGION TYPE SIZE COUNT (non-coalesced)
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
+=3D=3D
+  STACK GUARD 56.0M 1
+  Stack 8176K 1
+  __AUTH 7K 2
+  __AUTH_CONST 926K 4
+  __DATA 371K 10
+  __DATA_CONST 2209K 7
+  __DATA_DIRTY 32K 2
+  __LINKEDIT 480.3M 6
+  __OBJC_CONST 28K 2
+  __TEXT 9472K 8
+  __UNICODE 588K 1
+  mapped file 16K 1
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
+=3D=3D
+  TOTAL 557.6M 45
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917542/+subscriptions
 
