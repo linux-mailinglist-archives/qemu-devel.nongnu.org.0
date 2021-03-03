@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19B732B682
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:16:49 +0100 (CET)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCE032B686
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:18:45 +0100 (CET)
+Received: from localhost ([::1]:52668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHOYi-0008Ex-UC
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:16:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
+	id 1lHOaa-000278-7Z
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:18:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHOWV-0006Wj-52
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:14:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50542)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHOXK-0007jr-Vs
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:15:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHOWS-0000kS-U2
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:14:30 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHOXH-00013n-KC
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:15:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614766467;
+ s=mimecast20190719; t=1614766518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OESzptaRqbE1jKveQ5srZb442UEfvyzi0BcyGAu/d/s=;
- b=RqYN+WLpYEmyugQhfWDbsmIDt14QOkNNJFmRAtmfJhSaJzNDsKMvg0zqFD+Y4I97C4Qmsb
- P/DT2sk1MtGCoBFCGi3xUcWHRzjys5MJvRs416wCd1u16ntsVut8UIOOJBcXYtkCd7ErpI
- 1CfsP/mPKL77eb4xH+nJNI5U4mt8KH0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-MyixBcQyP2GOtHYnoH2vCg-1; Wed, 03 Mar 2021 05:14:26 -0500
-X-MC-Unique: MyixBcQyP2GOtHYnoH2vCg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFE3C801979;
- Wed,  3 Mar 2021 10:14:24 +0000 (UTC)
-Received: from [10.36.112.28] (ovpn-112-28.ams2.redhat.com [10.36.112.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B4E16F989;
- Wed,  3 Mar 2021 10:14:11 +0000 (UTC)
-To: Peter Xu <peterx@redhat.com>
-References: <20210209134939.13083-1-david@redhat.com>
- <20210209134939.13083-9-david@redhat.com> <20210302175112.GN397383@xz-x1>
- <522c672e-9c16-48ef-24a8-3687b5332b2a@redhat.com>
- <20210302214444.GQ397383@xz-x1>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v1 8/9] util/mmap-alloc: support RAM_NORESERVE via
- MAP_NORESERVE
-Message-ID: <bdc5819e-726a-ed68-6159-f8cfe219d8bc@redhat.com>
-Date: Wed, 3 Mar 2021 11:14:10 +0100
+ bh=6wckYGbhafAB1TP/C1A2eIMP1BYuYxJ34YK3xGy/UaY=;
+ b=RcC0BgJEUc+qs1XzREgKQ56pOONWKyb4QMkqBx+r8G9BVjRBbVzA93+rmQEhTucKE4bolt
+ mPesmY+imp6+njLfxCTlDJZ/+57dKcxv56JcS1k8Ubhn/TofFlkMQ3OE2gF9i2jRfbi2Of
+ 6uHMpIG8CBtNw6KxLnfG2P0/wCtngqw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-ZROSX2-eMAihks-DOAkXVg-1; Wed, 03 Mar 2021 05:15:17 -0500
+X-MC-Unique: ZROSX2-eMAihks-DOAkXVg-1
+Received: by mail-ej1-f72.google.com with SMTP id fy8so5102671ejb.19
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 02:15:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6wckYGbhafAB1TP/C1A2eIMP1BYuYxJ34YK3xGy/UaY=;
+ b=F5l3JLdxkk/gYiZ5Rbcl3X08Z2IFieZPMXRjoAnrG4y9iF9Tt3la8MUJTPNmSK6ke2
+ Goc7oT94RRBpo2/vErio1gXqeQznW/Hhik9ilabHUcapBhXsxtwkzQCiqG+/sU9i5Y3n
+ 79j0j4mEBStfXqWVBPyTe9x5MXO9py6BvfNS0r+9UEJwAM60cDAdikXr3N9SNTaMkd7f
+ plxL4GJCuyAgvjKWzyeJKZfoE3GmYSfVlA6nEdr10D2R3xiJ9Dml2QYsAFvo1J9I3Va+
+ 9xdKm6V/XjKcj+7qm6YIY6H/4YoTTVLH5sO/wQKTCrcWM9PQ7Kp8Z643g89SHQk1EzzN
+ TV7w==
+X-Gm-Message-State: AOAM533xHr60v0ifdXI0alD9blhPkM8HBnHbeV2KMy47AWO2dulCk13D
+ 5mYxU3PNoa67oaMdSdx5EgSLwV6a9n6L4gZhTAfcgUFvyAW/JyM+g9QYg57xk6d3G4CkvU0TILU
+ euvUim/t7RkB1XWs=
+X-Received: by 2002:a17:907:7692:: with SMTP id
+ jv18mr9822446ejc.475.1614766515924; 
+ Wed, 03 Mar 2021 02:15:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1cSC2wb+v4EQCfDK16/wcJvnsuPGbae1iGLxalPRUhQUhd6YPX4VctUOD/R7w0MI2K0UG2A==
+X-Received: by 2002:a17:907:7692:: with SMTP id
+ jv18mr9822407ejc.475.1614766515737; 
+ Wed, 03 Mar 2021 02:15:15 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u18sm20212490ejc.76.2021.03.03.02.15.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 02:15:15 -0800 (PST)
+Subject: Re: [RFC PATCH v2 1/9] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: Bin Meng <bmeng.cn@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <1614763306-18026-1-git-send-email-bmeng.cn@gmail.com>
+ <1614763306-18026-2-git-send-email-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <39d86853-45aa-2231-b9d5-e38985747b5d@redhat.com>
+Date: Wed, 3 Mar 2021 11:15:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210302214444.GQ397383@xz-x1>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <1614763306-18026-2-git-send-email-bmeng.cn@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,222 +102,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.03.21 22:44, Peter Xu wrote:
-> On Tue, Mar 02, 2021 at 08:01:11PM +0100, David Hildenbrand wrote:
->> On 02.03.21 18:51, Peter Xu wrote:
->>> On Tue, Feb 09, 2021 at 02:49:38PM +0100, David Hildenbrand wrote:
->>>> +#define OVERCOMMIT_MEMORY_PATH "/proc/sys/vm/overcommit_memory"
->>>> +static bool map_noreserve_effective(int fd, bool shared)
->>>> +{
->>>> +#if defined(__linux__)
->>>> +    gchar *content = NULL;
->>>> +    const char *endptr;
->>>> +    unsigned int tmp;
->>>> +
->>>> +    /* hugetlbfs behaves differently */
->>>> +    if (qemu_fd_getpagesize(fd) != qemu_real_host_page_size) {
->>>> +        return true;
->>>> +    }
->>>> +
->>>> +    /* only private shared mappings are accounted (ignoring /dev/zero) */
->>>> +    if (fd != -1 && shared) {
->>>> +        return true;
->>>> +    }
+On 3/3/21 10:21 AM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> [1]
+> The minimum Ethernet frame length is 60 bytes. For short frames with
+> smaller length like ARP packets (only 42 bytes), on a real world NIC
+> it can choose either padding its length to the minimum required 60
+> bytes, or sending it out directly to the wire. Such behavior can be
+> hardcoded or controled by a register bit. Similarly on the receive
+> path, NICs can choose either dropping such short frames directly or
+> handing them over to software to handle.
 > 
->>>> +
->>>> +    if (g_file_get_contents(OVERCOMMIT_MEMORY_PATH, &content, NULL, NULL) &&
->>>> +        !qemu_strtoui(content, &endptr, 0, &tmp) &&
->>>> +        (!endptr || *endptr == '\n')) {
->>>> +        if (tmp == 2) {
->>>> +            error_report("Skipping reservation of swap space is not supported: "
->>>> +                         " \"" OVERCOMMIT_MEMORY_PATH "\" is \"2\"");
->>>> +            return false;
->>>> +        }
->>>> +        return true;
->>>> +    }
->>>> +    /* this interface has been around since Linux 2.6 */
->>>> +    error_report("Skipping reservation of swap space is not supported: "
->>>> +                 " Could not read: \"" OVERCOMMIT_MEMORY_PATH "\"");
->>>> +    return false;
->>>> +#else
->>>> +    return true;
->>>> +#endif
->>>> +}
->>>
->>> I feel like this helper wants to fail gracefully for some conditions.  Could
->>> you elaborate one example and attach to the commit log?
->>
->> Sure. The case is "/proc/sys/vm/overcommit_memory == 2" (never overcommit)
->>
->> MAP_NORESERVE is without effect and sparse memory regions are somewhat
->> impossible.
->>
->>>
->>> I'm also wondering whether it would worth to check the global value.  Even if
->>> overcommit is globally disabled, do we (as an application process) need to care
->>> about it?  I think the MAP_NORESERVE would simply be silently ignored by the
->>> kernel and that seems to be design of it, otherwise would all apps who uses > MAP_NORESERVE would need to do similar things too?
->>
->> Right, I want to catch the "gets silently ignored" part, because someone
->> requested "reserved=off" (!default) but does not actually get what he asked
->> for.
->>
->> As one example, glibc manages heaps via:
->>
->> a) Creating a new heap: mmap(PROT_NONE, MAP_NORESERVE) the maximum size,
->> then mprotect(PROT_READ|PROT_WRITE) the initial heap size. Even if
->> MAP_NORESERVE is ignored, only !PROT_NONE memory ever gets committed
->> ("reserve swap space") in Linux.
->>
->> b) Growing the heap via mprotect(PROT_READ|PROT_WRITE) within the existing
->> mmap. This will commit memory in case MAP_NORESERVE got ignored.
->>
->> c) Shrinking the heap ("discard memory") via MADV_DONTNEED *unless*
->> "/proc/sys/vm/overcommit_memory == 2" - the only way to undo
->> mprotect(PROT_READ|PROT_WRITE) and to un-commit memory is by doing a
->> mmap(PROT_NONE, MAP_FIXED) over the problematic region.
->>
->> If you're interested, you can take a look at:
->>
->> malloc/arena.c
->> sysdeps/unix/sysv/linux/malloc-sysdep.h:check_may_shrink_heap()
+> On the other hand, for the network backends SLiRP/TAP, they don't
+> expose a way to control the short frame behavior. As of today they
+> just send/receive data from/to the other end connected to them,
+> which means any sized packet is acceptable. So they can send and
+> receive short frames without any problem. It is observed that ARP
+> packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+> these ARP packets to the other end which might be a NIC model that
+> does not allow short frames to pass through.
 > 
-> Thanks for the context.  It's interesting to know libc has such special heap
-> operations.
+> To provide better compatibility, for packets sent from SLiRP/TAP, we
+> change to pad short frames before sending it out to the other end.
+> This ensures SLiRP/TAP as an Ethernet sender do not violate the spec.
+> But with this change, the behavior of dropping short frames in the
+> NIC model cannot be emulated because it always receives a packet that
+> is spec complaint. The capability of sending short frames from NIC
+> models are still supported and short frames can still pass through
+> SLiRP/TAP interfaces.
 > 
-> Glibc shrinks heap to save memory for the no-over-commit case, however in our
-> case currently we'd like to fail some users using global_overcommit=2 but
-> reserve=off - it means even if we don't fail the user, mmap() could also fail
-> if it's overcommitted. Even if this mmap() didn't fail, it'll fail very easily
-> later on iiuc, right?
-
-Here is the issue I want to catch.
-
-Assume you create a VM with a virtio-mem device that can grow big in the 
-future. You specify reserved=off. mmap() succeeds and you assume the 
-very sparse memory region does not actually commit memory. But it 
-commits all memory in the sparse mmap.
-
-Assume you want to create another VM. It just fails although you still 
-have plenty of free memory - because the previous MAP_NORESERVE got 
-ignored.
-
-I want to warn the user right away that the configuration is messed up 
-and that "reserved=off" is not effective.
-
-For anonymous memory, "reserved=off" will start really being useful when 
-having a way to dynamically reserve swap space.
-
+> This commit should be able to fix the issue as reported with some
+> NIC models before, that ARP requests get dropped, preventing the
+> guest from becoming visible on the network. It was workarounded in
+> these NIC models on the receive path, that when a short frame is
+> received, it is padded up to 60 bytes.
 > 
-> I think it's fine to have that early failure, it just seems less helpful than
-> what glibc was doing which shrinks active memory for real, meanwhile there
-> seems to encode some very detailed OS information into this helper, so just
-> less charming.
-
-It's not nice, but the messed-up Linux implementation is to blame. Just 
-read the Linux man page of the mmap where there is an explicit link to 
-"/proc/sys/vm/overcommit_memory" for this very reason.
-
+> The following 2 commits seem to be the one to workaround this issue
+> in e1000 and vmxenet3 before, and should probably be reverted.
 > 
-> Btw above [1] "fd != -1 && shared" looks weird to me.
-
-As we never have shared anonymous memory (and that's good, because it is 
-super weird) in QEMU, we can simplify to
-
-"if (shared) { return true; }"
-
+>   commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+>   commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
 > 
-> Firstly it'll bypass overcommit_memory==2 check and return true directly, is
-> that right?  I thought the global will be meaningful for all memories except
-> hugetlbfs (in do_mmap() of Linux).
-
-See the description in the patch. On basically all (except anonymous 
-shared) shared memory we don't ever reserve swap space.
-
-See mmap_region():
-
-if (accountable_mapping(file, vm_flags)) {
-	charged = len >> PAGE_SHIFT;
-	if (security_vm_enough_memory_mm(mm, charged))
-		return -ENOMEM;
-	vm_flags |= VM_ACCOUNT;
-}
-
-whereby
-
-accountable_mapping():
-
-if (file && is_file_hugepages(file))
-	return 0;
-return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
-
-
-in do_mmap(), we only affect if VM_NORESERVE is set or not.
-
-
-And this makes perfect sense: Most* shared mappings don't need swap 
-space because they can just be written back to the original backing 
-storage (file). This is different to private mappings, which cannot be 
-written back to the file - so we need swap space.
-
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > 
-> Meanwhile, I don't see why file-backed share memories is so special too..  From
+> ---
+> 
+> Changes in v2:
+> - only pad short frames for SLiRP/TAP interfaces
+> 
+>  include/net/eth.h |  1 +
+>  net/net.c         | 12 ++++++++++++
+>  2 files changed, 13 insertions(+)
+> 
+> diff --git a/include/net/eth.h b/include/net/eth.h
+> index 0671be6..7c825ec 100644
+> --- a/include/net/eth.h
+> +++ b/include/net/eth.h
+> @@ -31,6 +31,7 @@
+>  
+>  #define ETH_ALEN 6
+>  #define ETH_HLEN 14
+> +#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+>  
+>  struct eth_header {
+>      uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
+> diff --git a/net/net.c b/net/net.c
+> index 32d71c1..27c3b25 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -638,6 +638,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>                                                   NetPacketSent *sent_cb)
+>  {
+>      NetQueue *queue;
+> +    uint8_t min_buf[ETH_ZLEN];
+>      int ret;
+>  
+>  #ifdef DEBUG_NET
+> @@ -649,6 +650,17 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>          return size;
+>      }
+>  
+> +    /* Pad to minimum Ethernet frame length for SLiRP and TAP */
+> +    if (sender->info->type == NET_CLIENT_DRIVER_USER ||
+> +        sender->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        if (size < ETH_ZLEN) {
+> +            memcpy(min_buf, buf, size);
+> +            memset(&min_buf[size], 0, ETH_ZLEN - size);
+> +            buf = min_buf;
+> +            size = ETH_ZLEN;
+> +        }
 
-Just think about 100000 processes mapping the same file shared. Would 
-you want to reserve 100000 the same swap space for the same file?
+We can have zero-copy by using a static zeroed buf and rewrite
+this function to call the _iov() equivalents with a pair of
+struct iovec.
 
-Although you never* ever really need swap space because you can just 
-writeback to the file instead of swapping.
-
-> your commit message, I'm not sure whether you wanted to return false instead,
-> however that's still not the case IIUC, since e.g. /dev/shmem still does
-> accounting iiuc, while MAP_NORESERVE will skip it.
-
-*except /dev/shmem. It actually needs swap space because the actual file 
-resides in tmpfs->RAM but Linux will never ever commit that memory.
-
-Main reason is: because you don't know when/how much to commit.
-
-a) When creating/truncating the file we don't know if it's going to be
-    sparse. So how much should we commit?
-b) When mapping the file, the same comment as above applies: you don't
-    want to reserve per-mapper but instead per-file.
-
-You can create and map gigantic memfd/shmem files even with 
-"/proc/sys/vm/overcommit_memory == 2", because we will never ever commit 
-any of that memory. Yes, shmem is dangerous.
-
-Shared mappings behave like always having MAP_NORESERVE, thus the 
-"return true;"
-
-It's interesting that you also raise this point: I also want to propose 
-dynamic reservation of swap space for shmem in the future. Instead of 
-being per process, this would have to be per file and similar allow to 
-coordinate with the kernel how much memory we are actually intending to 
-use (->commit) such that the kernel can properly account and reject if 
-it wouldn't be possible. If only a single day would have more than 24 
-hours :)
-
--- 
-Thanks,
-
-David / dhildenb
+> +    }
+> +
+>      /* Let filters handle the packet first */
+>      ret = filter_receive(sender, NET_FILTER_DIRECTION_TX,
+>                           sender, flags, buf, size, sent_cb);
+> 
 
 
