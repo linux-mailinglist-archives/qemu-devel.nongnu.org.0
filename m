@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B187132BBA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:28:06 +0100 (CET)
-Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838C032BBBD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:37:53 +0100 (CET)
+Received: from localhost ([::1]:42740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZ2L-0002Os-P7
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
+	id 1lHZBo-0007Pn-1p
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:37:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lHZ0o-0001rg-I0
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:26:30 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:40902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lHZ0j-0004SP-TP
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:26:30 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Wed, 3 Mar 2021 22:26:07 +0100
-Received: (qmail 11052 invoked from network); 3 Mar 2021 21:26:13 -0000
-Received: from ac19.vpn.kamp-intra.net (HELO ?172.20.250.19?)
- (pl@kamp.de@::ffff:172.20.250.19)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 3 Mar 2021 21:26:13 -0000
-Subject: Re: QEMU RBD is slow with QCOW2 images
-To: dillaman@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
-References: <20210303174058.sdy5ygdfu75xy4rr@steredhat>
- <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <f1ba8a4c-94b6-fc94-131d-fd41ce96e6de@kamp.de>
-Date: Wed, 3 Mar 2021 22:26:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHZAn-0006xd-EV
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:36:49 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHZAg-0007OO-NG
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:36:49 -0500
+Received: by mail-pg1-x529.google.com with SMTP id e6so17351398pgk.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 13:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jUZzcY6eBy7Z6eKyJXjT0BT0XCYxsL5AfUdd2WTGiUY=;
+ b=gtSxgr1M4aB+JUcuAMrbTF/aXVV5DGcRTBYaSmyo4oewC5KkwBTrPCjoKEOd9Fsv0A
+ 62gnnzBLXAtXacb4jjabhzhrrenxIKtzl7g5rJHTbDjZdbke93IOpgsnWzDuvyBhVoEV
+ jqInTVFJRVqKXHaFbmfBraP7yHlvNdrkbXPgtg0k9dzjxaZdCHZKzE067qyddHAnYrYp
+ l57UsnCULXXikpCH2iQZx7b9pV/dbTZWFbUb4C5SyeG4GHHpemttSQCBv8hERGyfpT4p
+ O6/CL+qW1nvUvAxGeHC1sKEv9NyjECOaPyAUeELQZE8sT0RlibQEGX4zEMUvTnW2w/2X
+ efLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jUZzcY6eBy7Z6eKyJXjT0BT0XCYxsL5AfUdd2WTGiUY=;
+ b=Pp93Jg8JhYFzszNEPCcEU1xdFKGkD+Lf+5Jm1OS1CpDpBNA9A6BdOupRs9sORiURQL
+ 4UYrW90dS6VThdlZNJtvWAN95soA8hRNKcCZPTM3EYHAwUk/buI4fQLsT+478vF2k9HF
+ yeN/KfvqoAMlQxypBHnNMbBkVvs8Mjt97fdY7ft78CyGsr5GLP0kGHaxV32XcxaxHGpO
+ P12NDOUW/o/upN9h0Sm2A/qfZW5OXNi+QkbCeWs18GU9E965MBFFU++ijPsPUBtwzFuO
+ y/ILIRY5qCvrZH0QbZ3pHuB37ny2Fo4nZgL1yyHzFed3Qfw9oQTgjOJ+hEN93IYUHJKN
+ +VgQ==
+X-Gm-Message-State: AOAM530WwChkv5Resi+YU5PgJ2RvsaJ1XLPyPCmSapyLQIr8OeJwqR1H
+ dNXW3hv8HHeckSsTnr8pNk23DQ==
+X-Google-Smtp-Source: ABdhPJy+zN20NRQqw16UhkCYIVjq9cTfwry2dwhxnaNcRn0mK/HPrDL8YsRk0Ilm/Uw6pH9YAXih8g==
+X-Received: by 2002:a63:4084:: with SMTP id n126mr862043pga.80.1614807401016; 
+ Wed, 03 Mar 2021 13:36:41 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id v15sm23882201pgl.44.2021.03.03.13.36.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 13:36:40 -0800 (PST)
+Subject: Re: [PATCH v4] target/s390x: Implement the MVPG condition-code-option
+ bit
+To: David Hildenbrand <david@redhat.com>
+References: <1e13f11b-4c4f-83c6-5c83-8c8accc4f6cc@linaro.org>
+ <42016B7B-A144-4319-9F48-92C029083274@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0ac4007e-001b-73b5-8023-fbfc9ef94eed@linaro.org>
+Date: Wed, 3 Mar 2021 13:36:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <42016B7B-A144-4319-9F48-92C029083274@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,63 +88,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.03.21 um 19:47 schrieb Jason Dillaman:
-> On Wed, Mar 3, 2021 at 12:41 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->> Hi Jason,
->> as reported in this BZ [1], when qemu-img creates a QCOW2 image on RBD
->> writing data is very slow compared to a raw file.
+On 3/3/21 1:22 PM, David Hildenbrand wrote:
+> 
+>> Am 03.03.2021 um 22:19 schrieb Richard Henderson <richard.henderson@linaro.org>:
 >>
->> Comparing raw vs QCOW2 image creation with RBD I found that we use a
->> different object size, for the raw file I see '4 MiB objects', for QCOW2
->> I see '64 KiB objects' as reported on comment 14 [2].
->> This should be the main issue of slowness, indeed forcing in the code 4
->> MiB object size also for QCOW2 increased the speed a lot.
+>> ﻿On 3/3/21 1:11 PM, David Hildenbrand wrote:
+>>> MMIO on s390x? :)
 >>
->> Looking better I discovered that for raw files, we call rbd_create()
->> with obj_order = 0 (if 'cluster_size' options is not defined), so the
->> default object size is used.
->> Instead for QCOW2, we use obj_order = 16, since the default
->> 'cluster_size' defined for QCOW2, is 64 KiB.
+>> hw/s390x/s390-pci-bus.c, memory_region_init_io*().
 >>
->> Using '-o cluster_size=2M' with qemu-img changed only the qcow2 cluster
->> size, since in qcow2_co_create_opts() we remove the 'cluster_size' from
->> QemuOpts calling qemu_opts_to_qdict_filtered().
->> For some reason that I have yet to understand, after this deletion,
->> however remains in QemuOpts the default value of 'cluster_size' for
->> qcow2 (64 KiB), that it's used in qemu_rbd_co_create_opts()
->>
->> At this point my doubts are:
->> Does it make sense to use the same cluster_size as qcow2 as object_size
->> in RBD?
-> No, not really. But it also doesn't really make any sense to put a
-> QCOW2 image within an RBD image. To clarify from the BZ, OpenStack
-> does not put QCOW2 images on RBD, it converts QCOW2 images into raw
-> images to store in RBD.
+> 
+> ... part of system address space where a CPU could stumble over it?
 
+Impossible to tell within 3 layers of object wrappers.  :-(
+I suppose I have no idea how "pci" was hacked onto s390x.
 
-As discussed earlier the only reasonable format for rbd image is raw.
-
-What is the idea behind putting a qcow2 on an rbd pool?
-
-Jason and I even discussed shortly durign the review of the rbd driver rewrite I posted
-
-earlier if it was ok to drop support for writing past the end of file.
-
-
-Anyway the reason why it is so slow is that write requests serialize if the
-
-qcow2 file grows. If there is a sane reason why we need qcow2 on rbd
-
-we need to implement at least preallocation mode = full to overcome
-
-the serialization.
-
-
-Peter
-
-
+r~
 
