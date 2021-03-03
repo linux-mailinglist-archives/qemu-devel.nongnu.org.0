@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011EF32B7E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 13:57:29 +0100 (CET)
-Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE08F32B7EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:08:01 +0100 (CET)
+Received: from localhost ([::1]:38616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHR4C-00015a-FF
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 07:57:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
+	id 1lHREO-0004ST-Gw
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:08:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHR2c-0000Ok-Mr
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:55:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHR2Z-0000yn-32
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:55:50 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lHR2X-00013K-IX
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 12:55:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 847BC2E80FF
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 12:55:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDK-0003kF-Oj
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:06:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDH-0004u6-VP
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:06:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614776811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iB6wAF7ro8yDEg0bBfnswVSFq3oQor08TIq1ffEMKGk=;
+ b=hn6zrhsyqWKZMUmWHsWuIogSRqZkx7hjd/IhpsOwyhIiqBMQ7SzbaMissSkmub8dUmr9St
+ 7oBneY0Nx9Ef9RDRClPK4nlrTwFovArIhUKJEd+6ic53FM2SxqtaGDkiCAr/e7IYdM9mfC
+ /LbLSZmh/MPhk5ITDHne0Cp8oNRBwgg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-8nlT3ho2O7C4CpFPild2Jw-1; Wed, 03 Mar 2021 08:06:49 -0500
+X-MC-Unique: 8nlT3ho2O7C4CpFPild2Jw-1
+Received: by mail-wr1-f71.google.com with SMTP id z6so3943420wrh.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 05:06:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n3rcxXwJNSuNr4Blajtp7IbddC9DRxz8a45XKlM7vy0=;
+ b=J5LD1Cj2FHOi5b9i7LquXpYBjpEjEV0yHU+6fQaITHYdT5E/aXQ4oLMmL/pygigZgM
+ bBROXK5SL3j0Cqa/zK87uRtFOnb2oMMsP9sV0onPepG46AsDCLOGE3DkeHFTmUwldNS8
+ L4KdLS6JoshVpy8o9OjrFu0lDAfJ87/HaA7lkiRh4KMJnA9H/UC3i/nQzCdXRBtqNRYc
+ FMIb+IzCyKMQToHzjCx+Vr6L3XhxwKYWtAVmyALEj/Mad4LPFZI9hNwN/BHKgkvyB7iE
+ Iudy+dZtwJnwRFT03g4OPqGtOMObkeid+BR5HK6dpm01iROBI+XReD61tkoIiLQAN4Dm
+ 69dQ==
+X-Gm-Message-State: AOAM533qOiMSF3F8QxDfMtIbFyGcA4R6h1gE6dqZyd964hJvhU+nvsgK
+ Sb6g14pJeeA9R0EHoxvkyTlAWnODgaClMvHHwHcopyF8oiNFLfrhGpMNzmEBjcbs2JbSA2WpsO+
+ CzNadaz/4hTKCGcw=
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr26792030wrp.383.1614776808807; 
+ Wed, 03 Mar 2021 05:06:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJykjDQ1yhLYjaQPXB8ZY7WKNlIUwpoOf4y94nRN+/pJ/hlUiOZCAKwN/8ixtMs9oZSIu84uyQ==
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr26792005wrp.383.1614776808644; 
+ Wed, 03 Mar 2021 05:06:48 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id o13sm36602779wro.15.2021.03.03.05.06.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 05:06:48 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: "Daniel P . Berrange" <berrange@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/3] gitlab: Add missing job -> container dependencies
+Date: Wed,  3 Mar 2021 14:06:43 +0100
+Message-Id: <20210303130646.1494015-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Mar 2021 12:48:25 -0000
-From: Max Reitz <1916501@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jcfaracco mrashish xanclic
-X-Launchpad-Bug-Reporter: Maya (mrashish)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <161400808000.28728.8511381080583624216.malonedeb@soybean.canonical.com>
-Message-Id: <161477570523.14181.17810590748257542125.malone@chaenomeles.canonical.com>
-Subject: [Bug 1916501] Re: qemu-img convert segfaults with specific URL
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
-X-Launchpad-Hash: 2a184b1e5d70f186fa6ba700575640db988f1e94
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,97 +91,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916501 <1916501@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, as I wrote in comment 1, curl reports CURLMSG_DONE, the socket is
-freed, but then curl_multi_do() is called again for that socket (despite
-the CURLMSG_DONE).
+Following up Daniel's "fix build failures from incorrectly=0D
+skipped container build jobs" effort (merged).=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  docker: Alpine build job depends on Alpine container=0D
+  docker: EDK2 build job depends on EDK2 container=0D
+  docker: OpenSBI build job depends on OpenSBI container=0D
+=0D
+ .gitlab-ci.d/edk2.yml    | 1 +=0D
+ .gitlab-ci.d/opensbi.yml | 1 +=0D
+ .gitlab-ci.yml           | 2 ++=0D
+ 3 files changed, 4 insertions(+)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-I suspect that qemu has interpreted the curl interface differently than
-curl itself (i.e., qemu has probably understood something wrong), which
-led to some change in curl breaking qemu=E2=80=99s curl module.   (Because I
-can=E2=80=99t find an old qemu version that doesn=E2=80=99t break, and so c=
-an=E2=80=99t find a
-change in qemu that broke it.)
-
-So if indeed a change to the curl library is what causes this segfault,
-or at least made the underlying issue visible, I=E2=80=99d like to know whi=
-ch
-change that is, so we can try to infer what qemu does wrong.  But I
-can=E2=80=99t find that change, because if I compile libcurl myself, I don=
-=E2=80=99t get
-a segfault (nor valgrind errors in curl).
-
-Perhaps there=E2=80=99s something special about the server serving the image
-(although it just looks like AWS to me), i.e. it was always broken and
-we=E2=80=99ve just never seen it with other servers.  If so, debugging will=
- be
-more difficult because we=E2=80=99d really need to take a detailed look int=
-o all
-our curl driver does.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916501
-
-Title:
-  qemu-img convert segfaults with specific URL
-
-Status in QEMU:
-  New
-
-Bug description:
-  Using what is currently the latest git: (commit
-  00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
-  2021 +0000)
-
-  $ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.=
-net/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
-  Segmentation fault (core dumped)
-
-  =
-
-  Backtrace for convenience:
-  qemu: qemu_mutex_lock_impl: Invalid argument
-
-  Thread 1 "qemu-img" received signal SIGABRT, Aborted.
-  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
-  (gdb) bt
-  #0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
-  #1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
-  #2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@en=
-try=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-=
-thread-posix.c:37
-  #3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, f=
-ile=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-=
-posix.c:81
-  #4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../bloc=
-k/curl.c:406
-  #5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x55555=
-5737790, node=3D0x555555b14150) at ../util/aio-posix.c:329
-  #6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at=
- ../util/aio-posix.c:372
-  #7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
-  #8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, cal=
-lback=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
-  #9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-=
-2.0.so.0
-  #10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
-  #11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:=
-255
-  #12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
-loop.c:531
-  #13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu=
--img.c:2139
-  #14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qe=
-mu-img.c:2738
-  #15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../q=
-emu-img.c:5536
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916501/+subscriptions
 
