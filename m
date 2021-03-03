@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F18D32BA0E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:56:12 +0100 (CET)
-Received: from localhost ([::1]:47660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B579532BA17
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 20:07:31 +0100 (CET)
+Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHWfL-0002D2-7c
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:56:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
+	id 1lHWqI-00060y-9f
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 14:07:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHWdU-0000UP-Rm
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:54:16 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38376)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lHWpW-0005Uc-6X; Wed, 03 Mar 2021 14:06:42 -0500
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:45849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHWdS-0001Xg-Vi
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:54:16 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id l18so4932661pji.3
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GJjdykjgWP5Z0N3zU5sSqtR9hgI1ZKnP21fDPf7Z0Xs=;
- b=Z+8rDj4y8Xsz7Ybg1cmPW/jJZH7rp/rrn9QBaGLMCI9/uK3dXIIFhKYoIYYJL7Aguw
- SMy3MPwnT50UUPQnP/xfyenQ8mIcn8U+ZSsJ676vaHzDpGy0VHMH0W+SnO5kNCZ6ZDB7
- rIR47aF2ZA23T8IqwTH86zPQMYRQc2LX0Fl8PC4ArnTRw8Pr35z6LuH2VSxeslot/9HZ
- KT4wi8LsA4WIDBuoiK43AkeU0otXbEK4dddxCKUlG7OcJIEvqZYSp3fwwScuheKiEttn
- yQRyAUR9JsCvKzPK1gOIbE3taaW2U7gqKGPONRypfdl1JX8H86ulkEI4Wt0Ru99aE6D7
- xyUw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lHWpU-00057M-Em; Wed, 03 Mar 2021 14:06:41 -0500
+Received: by mail-il1-x129.google.com with SMTP id v8so18774650ilh.12;
+ Wed, 03 Mar 2021 11:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=huawIfv5HVBTz4uGeG8LvUGBBH/OA9LdQbt0ooD0fEI=;
+ b=FAEqIsgOOx6zsZX4qpBzDTliWwcvACBgDAyW+6mnFCcCcbPZlbQnvgjotHloxp2iA4
+ G1rz++F9xEgogbU6ANyg2YgbFp9NgeSvQSHLbCMRQdiyHlonOBKDjKb4V0dEx/z3Td8X
+ Zs+HyRhNVlYyI2fgNRiGZkTY/2mUMbEhxoyfUkCmxZeQocI4MBe/lLOIOkIgV0X1vQO7
+ SNdBKgurq9g7fT+x9MlF6fjXu5JmW+EoXajI6UfSKqRdoSZKTbiMjMSXMYJj9UZ3VdzG
+ 1Do0GJZvx+E9hotzyos9eiqa2YPGFNnhwQ/2Jdah7t0rnHnoi6/GWjpg5jPHCnx4K55R
+ A5ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GJjdykjgWP5Z0N3zU5sSqtR9hgI1ZKnP21fDPf7Z0Xs=;
- b=UsAX9SL7LfcQL6Nd2nspPyWatn89bNX77HoT1ySG0CVpTjLelqJTf4R12P4vcqA9//
- 71gXby8ftYVPNzTKt2bYHohFK8jtzCH//UkgTmT74fdst8KQU9bZX17K3nGglUpgBDJ7
- y7YnhXoIqY8pWqOjHqPk0EtM2AGcA96KGxHgQjhTzYoPe94O98a8CxzJ1KdrqNw1EPN8
- VdhKEgCyEgiTDRPIuOoIkV0jgAcbOXhD04c6fponjOT5w6m+Ueaxcc1+ErZUzYiPgWmR
- NIC1IrI1DYCJUr7m1mgPICX24Rk7fXVDDZIMtro9AI9Uj8uvH1zq7RZNJJTbClHzBLHL
- NrHA==
-X-Gm-Message-State: AOAM533ymcHvosryzXLqgeg/9PI5emhOMaG66IjvEtpYcPs5Jg8ySfo9
- xg6dSG1P+T+9eMEAcwrX05yUMg==
-X-Google-Smtp-Source: ABdhPJySebXVXZwHr+dzJkEa2D1HH7lKSU51Q6MEj0LuzFDSpOkNIJK5y35xVaixe8SK8x3vxn1ASg==
-X-Received: by 2002:a17:90a:4104:: with SMTP id u4mr477158pjf.81.1614797653409; 
- Wed, 03 Mar 2021 10:54:13 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id na8sm6786318pjb.2.2021.03.03.10.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 10:54:13 -0800 (PST)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
- <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de> <87a6rmkffo.fsf@linaro.org>
- <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
- <CAFEAcA_eWrgo9CcLF3ZpAPeK08_PmKNLjqKAzuBPcSGh+1SFCA@mail.gmail.com>
- <5fb3cf49-fc09-7e7c-d34e-299f04e9842a@suse.de>
- <335966c3-9f31-5868-54e5-edb28a37c50c@suse.de>
- <a9190376-ba0b-02d5-124d-a336c586ad5d@linaro.org>
- <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b92cbea-8abf-40b9-337a-15f34ef40f61@linaro.org>
-Date: Wed, 3 Mar 2021 10:54:11 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=huawIfv5HVBTz4uGeG8LvUGBBH/OA9LdQbt0ooD0fEI=;
+ b=nbitxBuOc1h9qnkHlRU3Nkcm4CNYiZa34O7c/DjvxTocAnxYYJYnXMPrYr9PbcQEcm
+ ori2GnLv62UK9sAsf8IqqRz3IaOs0FaslbwcWL6s4DyW/jccfoe5viPkko3YuF+Aq2JK
+ t5vTs+yJ2FPmMPhK7FiAJhdzUcMXgO3vWOph9EWDXxsP87/1rJKoINTNjV6CbXISR0K8
+ We7EKtp9TZbcn2ggCRnIBRgeBjotiqh/94K1NVhxiQBRI25EifYRJGNGwTBFxxm2jQau
+ q+kN+elMptnPwmfWPu3tbW8VtdwPSGT32E2n0SSHwzCI5FTU6hhiBvchsNB/HuFFdvRF
+ k/Fg==
+X-Gm-Message-State: AOAM530X18PFvIZblBzezDtHY6G1JEnw/4K11QRM30fqfqHhXe9zTmNY
+ sC04S0Q69E4UVcQ7gZcZZuexDzkMyUlzmyHyoTI=
+X-Google-Smtp-Source: ABdhPJxgk7RAcFykTEoUe+Oodl/qGpubdPAKLFs7ctG4HbQXLEYzx1ZolupZo6keZp1b2Xy00lf4Dv24SEEwlm90zV0=
+X-Received: by 2002:a92:c102:: with SMTP id p2mr672329ile.227.1614798398470;
+ Wed, 03 Mar 2021 11:06:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210220144807.819-1-bmeng.cn@gmail.com>
+ <20210220144807.819-4-bmeng.cn@gmail.com>
+In-Reply-To: <20210220144807.819-4-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 3 Mar 2021 14:05:22 -0500
+Message-ID: <CAKmqyKOPR0Nb+vkmMzLW0C-seJ_z0sgp4f1tbKNs=e8J-HnWFQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] hw/riscv: virt: Limit RAM size in a 32-bit system
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,25 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/21 10:45 AM, Claudio Fontana wrote:
-> It is a bit weird that qemu-system-aarch64 runs with a cortex-a15 model tbh, as cortex-a15 is not capable of aarch64.
+On Sat, Feb 20, 2021 at 9:52 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> RV32 supports 34-bit physical address hence the maximum RAM size
+> should be limited. Limit the RAM size to 10 GiB, which leaves
+> some room for PCIe high mmio space.
+>
+> For 32-bit host, this is not needed as machine->ram_size cannot
+> represent a RAM size that big. Use a #if size test to only do
+> the size limitation for the 64-bit host.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-No, but qemu-system-aarch64 is capable of 32-bit emulation (because most 64-bit 
-cpus retain 32-bit mode).  It takes no extra effort to run cortex-a15 than it 
-does a cortex-a57.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-I have wondered if we should have just one qemu-system-arm that does it all and 
-drop the separate qemu-system-aarch64 -- or vice versa.  But we've had the 
-separation around so long I'm sure someone would be confused.
+Alistair
 
-
-r~
+>
+> ---
+>
+> Changes in v3:
+> - Fix the typo (limit) in the commit message and codes
+>
+> Changes in v2:
+> - Use a #if size test to only do the size limitation for the 64-bit host
+>
+>  hw/riscv/virt.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 1d05bb3ef9..c4b8f455f8 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -590,6 +590,16 @@ static void virt_machine_init(MachineState *machine)
+>          }
+>      }
+>
+> +    if (riscv_is_32bit(&s->soc[0])) {
+> +#if HOST_LONG_BITS == 64
+> +        /* limit RAM size in a 32-bit system */
+> +        if (machine->ram_size > 10 * GiB) {
+> +            machine->ram_size = 10 * GiB;
+> +            error_report("Limiting RAM size to 10 GiB");
+> +        }
+> +#endif
+> +    }
+> +
+>      /* register system main memory (actual RAM) */
+>      memory_region_init_ram(main_mem, NULL, "riscv_virt_board.ram",
+>                             machine->ram_size, &error_fatal);
+> --
+> 2.25.1
+>
+>
 
