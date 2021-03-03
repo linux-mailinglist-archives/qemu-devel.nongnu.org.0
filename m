@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9459A32B8BB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 15:52:23 +0100 (CET)
-Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8190832B8C3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 15:56:51 +0100 (CET)
+Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHSrO-0001Ri-Jz
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 09:52:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41636)
+	id 1lHSvi-0006EF-I7
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 09:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHSqC-0000ZT-Qg
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:51:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHSqB-0003q5-9O
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:51:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614783066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NSMkY7fjnp+ttodWCm0YErVZu7YRlsswoIEOe16lMAM=;
- b=BozUe5KEpmkybIKWyNAUH4mw0GbgU26hP9yWPyJ65opg6jdvodM0ioUK9N6648LJJDPLta
- go80H08Mdtc9IsyLG3IWa77DllxpOab6sx+RLJgK8tIZ91WYaVTyI4cMPmiJp7mkfIugBY
- ivEiFn04u/NZEUps4T9vMacE1ZlZ2+8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-tN3_65LQOMOlufERkkcBbQ-1; Wed, 03 Mar 2021 09:51:04 -0500
-X-MC-Unique: tN3_65LQOMOlufERkkcBbQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 112A2107ACE3
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 14:51:04 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-146.ams2.redhat.com [10.36.115.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A28910016FD
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 14:51:03 +0000 (UTC)
-To: qemu-devel@nongnu.org
-References: <20210114130245.1654081-1-berrange@redhat.com>
- <20210114130245.1654081-14-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 13/25] tests/docker: expand centos7 package list
-Message-ID: <3baf6615-f5d9-396f-98aa-ebe8d0414f46@redhat.com>
-Date: Wed, 3 Mar 2021 15:51:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lHSuX-0005EK-Cm
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:55:37 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lHSuV-00058B-Et
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:55:37 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ o7-20020a05600c4fc7b029010a0247d5f0so2988467wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 06:55:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=yoAR+L0Tj4yAFYS358tNA4EJPbFhu9En+l+UkzqdpTo=;
+ b=IOibCOcsnSeJ/008U/XXIH/DQVFdTtDjqb0qWyTNhC/pNQySEhGRWIRlak74Jmin31
+ gRVlV3HgG/nlfNHF4VmFZUnpTaQlYOX2jga9IsDPuP/OMYKjWT14r4JbXHebgsgfDH7z
+ t5fPtGruDzbnSZTUABj85VNaLt/xaUyJA2f7ya5eUxuuVDk3RadouJcNOFr8MCRFWUlp
+ y0f7Zj4SJz3L9hC/+6yExXOjcZh/4pSCtVojZMvGSzdx1130MeLl51MltfWjKNKlPvyo
+ UbequpLVCRd0fWCyFgLj2eOKZLp9KgBHVoNuhfOvuE+03lW+89hzCPVeh9R0qX9rvKJp
+ OruA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yoAR+L0Tj4yAFYS358tNA4EJPbFhu9En+l+UkzqdpTo=;
+ b=guSZ0Xlj8dGlPnNcniaHuhM8ri0TGfb9UziotjSXADLxlVQZCmrQdk1NqLC6II7xmq
+ zJN9JLcXqa2OwHRfQmr2QgKz0M7N93Q8yuDjWtExuONNjY49ibNfZzaPW0cbzjWhis0L
+ S2+nfIjyeuhLUJBJ4v5aNhdLRI3IT3L7QQF/SsGBxcbW89N36Aqv7grTVW8wsPfpUkvl
+ N7rJdhZWaW4I8uMBpZVUTNMi1iLe0ry9HeHzbWskTlYWnAHioXtGlfs9jQ83oc1sOldN
+ c8FncxGbpRo9BinRwJlpicPbbOK7Bgi49B7kJzS6w9giiyJLyfLjpHON1arif8TC3r+u
+ 9zhw==
+X-Gm-Message-State: AOAM533Pu4evQR7g5M2a4/PU5U6qmkL2OtFUrs08Ur/P7qNzmNGlMwa7
+ 6tA1iPqrysf5jIOYfHC9+xeeRg==
+X-Google-Smtp-Source: ABdhPJyMWS0SbXw/peentuTh34Uz3GCKCXDU80FHGTVoCaU5wQOAHhRHx0RMqVnFUU9G1Cy2UWliFA==
+X-Received: by 2002:a05:600c:3590:: with SMTP id
+ p16mr9249086wmq.108.1614783333502; 
+ Wed, 03 Mar 2021 06:55:33 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id l6sm15915553wrm.71.2021.03.03.06.55.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 06:55:32 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 31fd932e;
+ Wed, 3 Mar 2021 14:55:32 +0000 (UTC)
+To: Kunkun Jiang <jiangkunkun@huawei.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 3/3] migration/ram: Optimize ram_save_host_page()
+In-Reply-To: <1e7cda11-7189-491b-9d2c-bfc1926f2b69@huawei.com>
+References: <20210301082132.1107-1-jiangkunkun@huawei.com>
+ <20210301082132.1107-4-jiangkunkun@huawei.com> <m2k0qoliok.fsf@dme.org>
+ <1e7cda11-7189-491b-9d2c-bfc1926f2b69@huawei.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 03 Mar 2021 14:55:31 +0000
+Message-ID: <m2eegwl21o.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <20210114130245.1654081-14-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::329;
+ envelope-from=dme@dme.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,136 +92,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/01/2021 14.02, Daniel P. Berrangé wrote:
-> This is the fully expanded list of build pre-requisites QEMU can
-> conceivably use in any scenario.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/docker/dockerfiles/centos7.docker | 58 +++++++++++++++++++++++++
->   1 file changed, 58 insertions(+)
-> 
-> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-> index 1eb3455144..d2daaae25b 100644
-> --- a/tests/docker/dockerfiles/centos7.docker
-> +++ b/tests/docker/dockerfiles/centos7.docker
-> @@ -6,37 +6,95 @@ RUN yum -y update
->   # Please keep this list sorted alphabetically
->   ENV PACKAGES \
->       SDL2-devel \
-> +    alsa-lib-devel \
-> +    bc \
+On Wednesday, 2021-03-03 at 19:47:20 +08, Kunkun Jiang wrote:
 
-Why is bc suddenly required now?
+> On 2021/3/3 16:56, David Edmondson wrote:
+>> On Monday, 2021-03-01 at 16:21:32 +08, Kunkun Jiang wrote:
+>>
+>>> Starting from pss->page, ram_save_host_page() will check every page
+>>> and send the dirty pages up to the end of the current host page or
+>>> the boundary of used_length of the block. If the host page size is
+>>> a huge page, the step "check" will take a lot of time.
+>>>
+>>> This will improve performance to use migration_bitmap_find_dirty().
+>> This is cleaner, thank you.
+>>
+>> I was hoping to just invert the body of the loop - something like
+>> (completely untested):
+> Sorry for my misunderstanding.
 
-> +    brlapi-devel \
->       bzip2 \
->       bzip2-devel \
-> +    ca-certificates \
-> +    capstone-devel \
+No, I explained myself poorly.
 
-capstone in Centos 7 is definitely too old - we need >= 4.0 now, and Centos 
-7 still uses 3.0 if I've got that right.
+> I will improve it in the next version.
+>> do {
+>>    int pages_this_iteration =3D 0;
+>>
+>>    /* Check if the page is dirty and, if so, send it. */
+>>    if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+>>      pages_this_iteration =3D ram_save_target_page(rs, pss, last_stage);
+>>      if (pages_this_iteration < 0) {
+>>        return pages_this_iteration;
+>>      }
+>>
+>>      pages +=3D pages_this_iteration;
+>>
+>>      /*
+>>       * Allow rate limiting to happen in the middle of huge pages if
+>>       * the current iteration sent something.
+>>       */
+>>      if (pagesize_bits > 1 && pages_this_iteration > 0) {
+>>        migration_rate_limit();
+>>      }
+> I missed the case that the value of pages_this_iteration is 0. =F0=9F=98=
+=85
 
->       ccache \
-> +    clang \
-> +    cyrus-sasl-devel \
-> +    daxctl-devel \
->       dbus \
-> +    device-mapper-multipath-devel \
-> +    diffutils \
-> +    findutils \
->       gcc \
->       gcc-c++ \
-> +    genisoimage \
->       gettext \
->       git \
->       glib2-devel \
-> +    glibc-common \
-> +    glusterfs-api-devel \
->       gnutls-devel \
-> +    gtk3-devel \
-> +    hostname \
->       libaio-devel \
-> +    libasan \
-> +    libattr-devel \
->       libcacard-devel \
-> +    libcap-ng-devel \
-> +    libcurl-devel \
-> +    libdrm-devel \
->       libepoxy-devel \
->       libfdt-devel \
->       libgcrypt-devel \
-> +    libiscsi-devel \
-> +    libjpeg-devel \
-> +    libnfs-devel \
-> +    libpmem-devel \
-> +    libpng-devel \
-> +    librbd1-devel \
-> +    libseccomp-devel \
-> +    libssh-devel \
-> +    libtasn1-devel \
-> +    libudev-devel \
-> +    libusbx-devel \
-> +    libxml2-devel \
->       libzstd-devel \
->       lzo-devel \
->       make \
->       mesa-libgbm-devel \
-> +    ncurses-devel \
->       nettle-devel \
->       ninja-build \
-> +    nmap-ncat \
-> +    numactl-devel \
-> +    openssh-clients \
-> +    pam-devel \
-> +    perl \
->       perl-Test-Harness \
->       pixman-devel \
-> +    pkgconfig \
-> +    pulseaudio-libs-devel \
->       python3 \
-> +    python3-PyYAML \
-> +    python3-numpy \
-> +    python3-pillow \
-> +    python3-pip \
-> +    python3-setuptools \
-> +    python3-sphinx \
-> +    python3-virtualenv \
-> +    python3-wheel \
->       rdma-core-devel \
-> +    rpm \
+I don't think that your version was wrong, because it returned early
+from the loop if there were no candidate pages.
 
-Why rpm ?
+>>    }
+>>    pss->page =3D migration_bitmap_find_dirty(rs, pss->block, pss->page);
+>>   } while ((pss->page < hostpage_boundary) &&
+>>            offset_in_ramblock(pss->block,
+>>                               ((ram_addr_t)pss->page) << TARGET_PAGE_BIT=
+S));
+>> /* The offset we leave with is the min boundary of host page and block */
+>> pss->page =3D MIN(pss->page, hostpage_boundary) - 1;
+>
+> Best Regards.
+>
+> Kunkun Jiang
+>
+>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>>> ---
+>>>   migration/ram.c | 12 +++++++-----
+>>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/migration/ram.c b/migration/ram.c
+>>> index 3a9115b6dc..a1374db356 100644
+>>> --- a/migration/ram.c
+>>> +++ b/migration/ram.c
+>>> @@ -1991,6 +1991,8 @@ static int ram_save_host_page(RAMState *rs, PageS=
+earchStatus *pss,
+>>>       int tmppages, pages =3D 0;
+>>>       size_t pagesize_bits =3D
+>>>           qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+>>> +    unsigned long hostpage_boundary =3D
+>>> +        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
+>>>       unsigned long start_page =3D pss->page;
+>>>       int res;
+>>>=20=20=20
+>>> @@ -2002,7 +2004,7 @@ static int ram_save_host_page(RAMState *rs, PageS=
+earchStatus *pss,
+>>>       do {
+>>>           /* Check the pages is dirty and if it is send it */
+>>>           if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page))=
+ {
+>>> -            pss->page++;
+>>> +            pss->page =3D migration_bitmap_find_dirty(rs, pss->block, =
+pss->page);
+>>>               continue;
+>>>           }
+>>>=20=20=20
+>>> @@ -2012,16 +2014,16 @@ static int ram_save_host_page(RAMState *rs, Pag=
+eSearchStatus *pss,
+>>>           }
+>>>=20=20=20
+>>>           pages +=3D tmppages;
+>>> -        pss->page++;
+>>> +        pss->page =3D migration_bitmap_find_dirty(rs, pss->block, pss-=
+>page);
+>>>           /* Allow rate limiting to happen in the middle of huge pages =
+*/
+>>>           if (pagesize_bits > 1) {
+>>>               migration_rate_limit();
+>>>           }
+>>> -    } while ((pss->page & (pagesize_bits - 1)) &&
+>>> +    } while ((pss->page < hostpage_boundary) &&
+>>>                offset_in_ramblock(pss->block,
+>>>                                   ((ram_addr_t)pss->page) << TARGET_PAG=
+E_BITS));
+>>> -    /* The offset we leave with is the last one we looked at */
+>>> -    pss->page--;
+>>> +    /* The offset we leave with is the min boundary of host page and b=
+lock */
+>>> +    pss->page =3D MIN(pss->page, hostpage_boundary) - 1;
+>>>=20=20=20
+>>>       res =3D ram_save_release_protection(rs, pss, start_page);
+>>>       return (res < 0 ? res : pages);
+>>> --=20
+>>> 2.23.0
+>> dme.
 
-> +    sed \
-
-Do we really need to specify sed separately?
-
->       snappy-devel \
->       spice-protocol \
->       spice-server-devel \
-> +    systemd-devel \
-> +    systemtap-sdt-devel \
->       tar \
-> +    texinfo \
-> +    usbredir-devel \
-> +    vim-minimal \
-
-vim? Why that?
-
->       vte291-devel \
-> +    which \
->       xen-devel \
-> +    xfsprogs-devel \
->       zlib-devel
->   RUN yum install -y $PACKAGES
->   RUN rpm -q $PACKAGES | sort > /packages.txt
-> 
-
-  Thomas
-
+dme.
+--=20
+Too much information, running through my brain.
 
