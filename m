@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984C532B80B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:34:02 +0100 (CET)
-Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27E532B80A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:33:51 +0100 (CET)
+Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHRdZ-0005LA-L1
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:34:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
+	id 1lHRdP-0004uE-18
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lHRax-0003CY-G5
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:31:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42016)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHRb7-0003Lv-8P
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:31:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lHRav-0003kx-V7
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:31:19 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHRb5-0003qQ-Jj
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:31:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614778276;
+ s=mimecast20190719; t=1614778286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OsiM6RECw6fCHMOqi+udaNQVjNRaqfuH5bcahhvTeaA=;
- b=FBmzc9ez2KOBleJ5wl9ghz2wPOnDcxu3UkzjgxgKE9SOfFlQA1VjilA8W+dL2/+JlYoOlj
- Y2bZaz673Q4Vbt7AoMW9ORk1/H4esHVngFI7hWIuC0ahdxDN30XiuyaqY9gaKXtYuGwBds
- FIQhsszqA5pl7xwQBHiWZpJK7X8Prs4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-2RYSO-1KOuO05LcGr8mmXA-1; Wed, 03 Mar 2021 08:31:12 -0500
-X-MC-Unique: 2RYSO-1KOuO05LcGr8mmXA-1
-Received: by mail-wm1-f70.google.com with SMTP id 73so2932618wma.3
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 05:31:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OsiM6RECw6fCHMOqi+udaNQVjNRaqfuH5bcahhvTeaA=;
- b=InKWW8IEYWaya9JUo0weOCQ7muD9dG2ym6TWARCLghnQkEiWxqRFuMQycg5nge8da9
- jzivVZnBVoseyFnD9h0+6EDC2UJ3YRNMDw5MLQjivEzsYvnJkSxriAztwSVeTmZNc/Cg
- KaLEhV0/Mns3s5QcaOkp8NzzB8fEfrE6TR9sK6dolTU8dqn6GA+Sd0QLARhYu8VJv3jk
- HYYDWf48J3wlgeo51v1MLNe8vx/fypMe7Ap9Ofe5ZTqGu9P258Pafy2RAcz9mn8RmAzA
- TY1BbVgCh+7jQtyXnhxidxnrpU3XkmjXrUwv3Q4VXpVLs/rmP5LPHaE2KqMSYNOTP7/b
- BTuw==
-X-Gm-Message-State: AOAM5336lWB/e8ScvBkiw1kLm31dcg3Qx+yc64HCTLPrINDnySQB7H8v
- SzXYXMPIdLkxsnJcCuyKBLF+MHRgU71CO7BJgt5bjS+udEc6yL2Qd+znT3oltZckVWDIngxK7Vi
- OwI00B4FtEa28Oow+rU87IsiCZI6DUHowXjQi1Wk8HB/d/jdZXLmy/I+3CnotGaZxAwM=
-X-Received: by 2002:a1c:4986:: with SMTP id w128mr9106214wma.37.1614778271151; 
- Wed, 03 Mar 2021 05:31:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxxWta/SV7h5OP1oHV4mqbAB5hVrHpdr4/zdIVg4+prikkzSO3HpnhA4ju2jl9Oj7W/wLyYmQ==
-X-Received: by 2002:a1c:4986:: with SMTP id w128mr9106188wma.37.1614778270734; 
- Wed, 03 Mar 2021 05:31:10 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p11sm19576460wrs.80.2021.03.03.05.31.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 05:31:10 -0800 (PST)
-Subject: Re: [PATCH v2] chardev: add nodelay option
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210303123235.63171-1-pbonzini@redhat.com>
- <87mtvkjrpe.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f8514ec5-76e0-e602-4dee-8a28d29a0aa3@redhat.com>
-Date: Wed, 3 Mar 2021 14:31:09 +0100
+ bh=dhKqxKBFkaOlQ3sPGBNWkfrkyTGxOiVdwNieGuR7XW0=;
+ b=fk3h1b06/EKuxzUoKff+6cSZvXJ7F/SvujjJLBjkOvA58tYrYog7E58USlyUFkl5FA6lPN
+ fb9zYcPDEHSvbROEVoP0/H7ymUPppZaQOuVQCHgYPxhA1A5N2eGVwxTH9KzBCILg98Io6N
+ K5tUkKtesMPmSTrM18dUIQEtlDdczXw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-GknLCEs9PLKymz4cClIhpQ-1; Wed, 03 Mar 2021 08:31:25 -0500
+X-MC-Unique: GknLCEs9PLKymz4cClIhpQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7438800D53;
+ Wed,  3 Mar 2021 13:31:23 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-146.ams2.redhat.com [10.36.115.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7D085D9DD;
+ Wed,  3 Mar 2021 13:31:14 +0000 (UTC)
+Subject: Re: [PATCH v1 1/2] s390x/kvm: Get rid of legacy_s390_alloc()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210303130916.22553-1-david@redhat.com>
+ <20210303130916.22553-2-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <93a30708-e893-208b-3dd3-c8b617272966@redhat.com>
+Date: Wed, 3 Mar 2021 14:31:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <87mtvkjrpe.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210303130916.22553-2-david@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,33 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/03/21 14:24, Markus Armbruster wrote:
-> $ qemu-system-x86_64 -chardev socket,id=chr0,path=sock,nodelay=on
-> qemu-system-x86_64: -chardev socket,id=chr0,path=sock,nodelay=on: Invalid parameter 'nodelay'
+On 03/03/2021 14.09, David Hildenbrand wrote:
+> legacy_s390_alloc() was required for dealing with the absence of the ESOP
+> feature -- on old HW (< gen 10) and old z/VM versions (< 6.3).
 > 
-> You forgot to update qemu_chardev_opts:
+> As z/VM v6.2 (and even v6.3) is no longer supported since 2017 [1]
+> and we don't expect to have real users on such old hardware, let's drop
+> legacy_s390_alloc().
 > 
->     diff --git a/chardev/char.c b/chardev/char.c
->     index 288efebd12..e6128c046f 100644
->     --- a/chardev/char.c
->     +++ b/chardev/char.c
->     @@ -864,6 +864,9 @@ QemuOptsList qemu_chardev_opts = {
->              },{
->                  .name = "server",
->                  .type = QEMU_OPT_BOOL,
->     +        },{
->     +            .name = "nodelay",
->     +            .type = QEMU_OPT_BOOL,
->              },{
->                  .name = "delay",
->                  .type = QEMU_OPT_BOOL,
+> Still check+report an error just in case someone still runs on
+> such old z/VM environments, or someone runs under weird nested KVM
+> setups (where we can manually disable ESOP via the CPU model).
+> 
+> No need to check for KVM_CAP_GMAP - that should always be around on
+> kernels that also have KVM_CAP_DEVICE_CTRL (>= v3.15).
 
-Well, I forgot to commit it.  But the outcome is the same.  Thanks. :(
-
-Paolo
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
