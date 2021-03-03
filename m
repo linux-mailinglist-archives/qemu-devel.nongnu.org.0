@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE15532B963
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 18:11:03 +0100 (CET)
-Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4088D32B97E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 18:38:32 +0100 (CET)
+Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHV1a-0002jF-Rj
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 12:11:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
+	id 1lHVSA-0001VH-NU
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 12:38:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lHV0R-0001ts-08
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:09:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lHV0L-0001nv-OJ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:09:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614791382;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=02sIltQ7ZSDRvqE7Le+iq9JbxBBWQYk716wPoncrfro=;
- b=XSYk4yb1eLmW9Ou29S7v5gZnMRLnIq/ntgv/MIuw8e3n+9SBBeKHZWz9drc0/26EQY0X0Z
- 6apLzFcmmN6E94OJ9gto7V68aXDgphrqZJhRkoqc5OKw4+43jLKHfELR+mrBGBrFrDMntu
- 2K6lpA+3h++xpp7nxa2d8jp6LQQXqBU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-lTKS-MjKPYSFMy8V13XMRA-1; Wed, 03 Mar 2021 12:09:39 -0500
-X-MC-Unique: lTKS-MjKPYSFMy8V13XMRA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B624107ACC7
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 17:09:38 +0000 (UTC)
-Received: from localhost (ovpn-114-24.ams2.redhat.com [10.36.114.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C58425D9C6;
- Wed,  3 Mar 2021 17:09:34 +0000 (UTC)
-Date: Wed, 3 Mar 2021 17:09:33 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: Inconsistent virtio-net-pci MSI vector count
-Message-ID: <YD/CzbQj6vDmcafO@stefanha-x1.localdomain>
-References: <YD9qmto5pHys+jEm@stefanha-x1.localdomain>
- <e8c8874f-6b1a-ac0e-5ab6-826611cd3ef3@redhat.com>
- <20210303111216-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lHVQW-0008MW-5s
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:36:48 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lHVQU-0002na-E8
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:36:47 -0500
+Received: by mail-wr1-x430.google.com with SMTP id f12so20800625wrx.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 09:36:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tycmjp6CJiWbZvVw6Aok39MbRvYMS6RtER+7yrB8OAA=;
+ b=YULpRfZUogvoBjS7IKX4NXSjOLdIbt0oqgCZlNxkM4Vg3XZlaR8yKSykZ2svwrC2gK
+ cZBzTdpvGE/LjH2vM3J0GbKWBh+3LS1PpoVSLRkDHmg9jF4ZA1UCKSjacxnVFfSi51v5
+ gFPktTEhl0kutYJSB5N2NU7vOTwPFMaLkm9zAM2yeR9xYVRhHWgRBrjFDB/jK+CLp4Gr
+ HUiKolu2a9Oenj/glmKfavTIH+5Ge+nNJkq5/p/6y6Ih1Yyi/jJqRKrMkSLJ54Mz5u7F
+ D8vVuB4geNcKyf98IjwqUKtmF+Gczsg0MPQtPyBHX1mJg2ZjNO24hj92ccgOELiWToY1
+ yotg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tycmjp6CJiWbZvVw6Aok39MbRvYMS6RtER+7yrB8OAA=;
+ b=mn8de+/6wD3ItHJsR3MXe0+ZoaoWek3Iohp+U+ehYLrz+W1b+d1rQxkixQuXHK43es
+ GcY13sIzhAWGQLdz5tkjB/qHy85AI5Zcx6SqTBYLE1FNjXEif6qljAzQSHPBFjk2Yjiw
+ IDdorrdyjtpBpMPiGQSthnKGl5ZY+2J81/Po6ey9c2RpvgJ7PxptBhSvgE/NavW2Hgxh
+ t4vyQ+/Wc/QcOq4xrY2CynjlLb0Cne3pIhbNlgKrnDVyzegumzHAR8i7s+FNGRq7jhQE
+ MH8hmQrXDsWY6BOUydN5CNhtdqdCZmMmmAszKJ5bMaHTzFTqILNncxLoWOn3bv0mFhXe
+ 0B1g==
+X-Gm-Message-State: AOAM532w/smkG8SDZ8Du0XKE+GbmXdfd1IB+ouGsJo4YVALIkPsjdIjr
+ db/lanO4HEpCVTo3w/MWbbRDXw==
+X-Google-Smtp-Source: ABdhPJxRUCcHeBftPQjidg5ANnhVVk7OaZCMfovO8zD1hlzAWv4XeFe4Or+MxE+8iGqAwrh754sPJA==
+X-Received: by 2002:adf:ed46:: with SMTP id u6mr28044204wro.350.1614793004070; 
+ Wed, 03 Mar 2021 09:36:44 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f14sm6528499wmf.7.2021.03.03.09.36.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 09:36:43 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4253E1FF7E;
+ Wed,  3 Mar 2021 17:36:42 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 0/7] Xen guest-loader support, pre-PR
+Date: Wed,  3 Mar 2021 17:36:35 +0000
+Message-Id: <20210303173642.3805-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210303111216-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WIokzSLGX9qtclEE"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,81 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: julien@xen.org, andre.przywara@arm.com, stefano.stabellini@linaro.org,
+ xen-devel@lists.xenproject.org, stefano.stabellini@xilinx.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WIokzSLGX9qtclEE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, Mar 03, 2021 at 11:12:51AM -0500, Michael S. Tsirkin wrote:
-> On Wed, Mar 03, 2021 at 09:08:27PM +0800, Jason Wang wrote:
-> >=20
-> > On 2021/3/3 6:53 =E4=B8=8B=E5=8D=88, Stefan Hajnoczi wrote:
-> > > Hi Jason,
-> > > I stumbled across something strange with virtio-net multi-queue today=
-.
-> > > It doesn't seem to be a bug in practice, just an inconsistency. Here =
-are
-> > > the details in case you think something needs to be changed:
-> > >=20
-> > > libvirt uses the vectors =3D 2 * N + 2 formula from
-> > > https://www.linux-kvm.org/page/Multiqueue to calculate the number of =
-PCI
-> > > MSI vectors, where N is the number of rx/tx queue pairs.
-> > >=20
-> > > QEMU's virtio-net-pci device has 3 MSI vectors by default. This is
-> > > inconsistent with the formula that libvirt uses (should be 4 instead =
-of
-> > > 3).
-> >=20
-> >=20
-> > Yes.
-> >=20
-> >=20
-> > >=20
-> > > Luckily, the Linux virtio_net.ko driver does not configure a callback
-> > > function for the control virtqueue. Therefore it can still use MSI wi=
-th
-> > > only 3 vectors (config, rx, tx) instead of 4 (config, rx, tx, ctrl).
-> > >=20
-> > > But other driver implementations might need the ctrl vq vector and wo=
-uld
-> > > not have enough MSI vectors.
-> > >=20
-> > > Perhaps new QEMU machine types should set vectors to 4 by default?
-> >=20
-> >=20
-> > Or it's time to accept this:
-> >=20
-> > https://lists.gnu.org/archive/html/qemu-devel/2014-03/msg01330.html
-> >=20
-> > Thanks
->=20
-> okay, please repost. If possible please add code comments
-> explaining the math.
+Trying to get my ducks in a row for a merge of this before softfreeze
+so this is my pre-PR posting of the Xen guest-loader support.
+Everything apart from the loader itself is reviewed and given it's
+been tested in other patches and I'm going to maintain it I don't see
+a reason to hold it up from going in. However if you would like to
+review it please do ;-)
 
-Nice!
+The only real change is a tweak to the final patch where I've added a
+stable archive URL for the Debian Xen packages.
 
-Stefan
+Alex Bennée (7):
+  hw/board: promote fdt from ARM VirtMachineState to MachineState
+  hw/riscv: migrate fdt field to generic MachineState
+  device_tree: add qemu_fdt_setprop_string_array helper
+  hw/core: implement a guest-loader to support static hypervisor guests
+  docs: move generic-loader documentation into the main manual
+  docs: add some documentation for the guest-loader
+  tests/avocado: add boot_xen tests
 
---WIokzSLGX9qtclEE
-Content-Type: application/pgp-signature; name="signature.asc"
+ docs/generic-loader.txt        |  92 ---------
+ docs/system/generic-loader.rst | 117 +++++++++++
+ docs/system/guest-loader.rst   |  54 +++++
+ docs/system/index.rst          |   2 +
+ hw/core/guest-loader.h         |  34 ++++
+ include/hw/arm/virt.h          |   1 -
+ include/hw/boards.h            |   1 +
+ include/hw/riscv/virt.h        |   1 -
+ include/sysemu/device_tree.h   |  17 ++
+ hw/arm/virt.c                  | 356 +++++++++++++++++----------------
+ hw/core/guest-loader.c         | 145 ++++++++++++++
+ hw/riscv/virt.c                |  20 +-
+ softmmu/device_tree.c          |  26 +++
+ MAINTAINERS                    |   9 +-
+ hw/core/meson.build            |   2 +
+ tests/acceptance/boot_xen.py   | 118 +++++++++++
+ 16 files changed, 719 insertions(+), 276 deletions(-)
+ delete mode 100644 docs/generic-loader.txt
+ create mode 100644 docs/system/generic-loader.rst
+ create mode 100644 docs/system/guest-loader.rst
+ create mode 100644 hw/core/guest-loader.h
+ create mode 100644 hw/core/guest-loader.c
+ create mode 100644 tests/acceptance/boot_xen.py
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA/ws0ACgkQnKSrs4Gr
-c8hSZAgAuWPHT39YlrEWdn96EQpJ1lueF7b1GrP87hgDS0oR67xW7LRJm9y/NoDN
-HXg7E82O2z0n0hx4LfMJrzMF7//NqOt30/WJZgnVwTE1xjIbMIZT75PeA/4pPnlb
-CjoEur9k1DZPoFQikspevRCX8X6H0o+wyZhHleSFDg43qLDeCzT+sKCO2qiKZXFa
-vaXZ2FSA2b1tTQCPeLzNR8lLwSexJGtg4qQBqav0j22npyNyhjkqAiPcvCBh22T+
-abnOXREmyvXTMq04raCCKe5qWp0fDa+6S5lGC6PNptPEzC2JulmD8EBpz6dL/XaE
-1Tbp4q9IUdmVrYi5R/gf1yYdAZmAbA==
-=BbzI
------END PGP SIGNATURE-----
-
---WIokzSLGX9qtclEE--
+-- 
+2.20.1
 
 
