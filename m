@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F58232B7ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:09:49 +0100 (CET)
-Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E5932B7F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:12:02 +0100 (CET)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHRG8-000665-JX
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
+	id 1lHRIH-00008Q-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:12:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDU-0003tJ-DB
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:07:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35595)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDY-00040r-Pa
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:07:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDS-0004y4-Ve
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:07:04 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHRDX-0004yr-93
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:07:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614776822;
+ s=mimecast20190719; t=1614776826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VqH3zdA9PALnmMVf2BjuYnUewuE2RUcKR6tHZ9TNmeg=;
- b=clrxsrZnzTDDDa7hA+IwKMGLxHHEwrGyTT+SbIx14uyDmEh2FkiZYZO5fXa4eaxAhIoEA8
- bTRngre12QqYEsqQ/mfsiRA7zohuY6sluu5lCgMmehV1uppH7GINxMJeOtEpQ+TvCQ2uBQ
- pfL8yl7mTCyPMP9T1oRg15Z1gpQGlZE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-40Xf3lXUNliHVinN3ehbMg-1; Wed, 03 Mar 2021 08:07:00 -0500
-X-MC-Unique: 40Xf3lXUNliHVinN3ehbMg-1
-Received: by mail-wm1-f72.google.com with SMTP id c7so1221915wml.8
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 05:07:00 -0800 (PST)
+ bh=jtVEBb8KqqGwFb+BAHh+Nm5Kj6eNLFMWBhKJpmGhd8w=;
+ b=HRWGD4IR0c+IKAMCwwU3L85jZAkNV21PjtCsBQv0qkxnnn00iTzkDpTLe+ildBtb03NCqI
+ Ayv4oLfk5is50ePdrsYPaiNpvTpGN/+QDG/TeoengY3MvsOR4KZbQKE1dtd7HaoGY4E/5c
+ Km+7El5LjWmFjqbYBWKgCFePDFQzWsE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-wFdM2sEnOB6nWzoRA_zqOQ-1; Wed, 03 Mar 2021 08:07:05 -0500
+X-MC-Unique: wFdM2sEnOB6nWzoRA_zqOQ-1
+Received: by mail-wr1-f71.google.com with SMTP id y5so2205943wrp.2
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 05:07:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VqH3zdA9PALnmMVf2BjuYnUewuE2RUcKR6tHZ9TNmeg=;
- b=IeZxz0WcddxahgKLSBsy/CQlTwIg9MrfFncx49QU7vV3JgYRVyS+MhxPoEHCj3C6Dt
- bmH28gjVoaQ8n0qwxVePFBybCOCGm5pCLMr0ArxlG0AdSF1pcHtprb29zTaieAz8E1a2
- M5kmLG/ZXwe6lkzcy7TrlWwxJ6c5OmsS4SJ55csaiRw5fOnBfIu55fiaxwbKrd8x8NLd
- +yWtC+P6QXUWIqrUTuyjLn3dEetpel2jkqhQUkaZMwe2F243y5NpgF2+Hlz3cgVPeCVd
- pDaJwA5Ix6bm/yzfQgbdQ4uoV62nUE0HSbJOuT0BAyXKbdlb86k19UprdcJWEvqx+NZU
- zp5Q==
-X-Gm-Message-State: AOAM531XiwDe9DSSelzZRIAv1jpWLrXO1DZVRvyEgJho8+u2C2fYsKGV
- eBBdEeWBvZdXSdm3ovKgZMwefMvjhPCe3BF6aPFHbQ+xGXy788bhVTx6Md3A1RcNz8hlLgZz4cW
- ryEsxIbkoRWbv/SQ=
-X-Received: by 2002:adf:fbce:: with SMTP id d14mr26185831wrs.44.1614776819147; 
- Wed, 03 Mar 2021 05:06:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzR8pYj1lmCRN9HBWd02yo6C4ILsfyBqlRVq0FRvYjiNLH+ks/lbOzeWUr+PiPB3bDtLHhFnw==
-X-Received: by 2002:adf:fbce:: with SMTP id d14mr26185805wrs.44.1614776818937; 
- Wed, 03 Mar 2021 05:06:58 -0800 (PST)
+ bh=jtVEBb8KqqGwFb+BAHh+Nm5Kj6eNLFMWBhKJpmGhd8w=;
+ b=hHjCAkdbaOIAe56CREvT9q5fMdnwDvdRIMDypXxAUbFVxUEsF1/aR14D5OPxRmRA9y
+ 2lJMI6XG0HxSHt4NHC4OMtMUJBQgb8fAYpv9joI6LRosPbs0SMoWGykLWnqxWTCr2b7r
+ +wmC/m4oUFHS9Eh1jrocY6LEnpZP50JPmlFrMWBJ9pmNeP3Gd9arlbhe8ER6l0bzb56h
+ 0yaQ0CiFczg/02Kvw7tzOj27aAZv+yD7+YgCeUudl+tD/X95ahj4NG1lGr+f1StOM37+
+ IWNOqyg+IPuAzovUnQcTTJn0x3hrSlTyfPoNYHjKgSfrDqPFYtDBcdxXM3tm7uksukbJ
+ +FaA==
+X-Gm-Message-State: AOAM531eu2ngi+lmjr7CseftMfhdx90tbt+vyUBtV10X7mHfiO+uGc/w
+ NH0+oKmdPnZOlez3zA78rmZ/OfbP+9oMyUBNf/FLiYBhMAZ1BwfJLkkzTgXJ4I3IPubPzKAt2Pf
+ CyZusyahQCN7LfmU=
+X-Received: by 2002:a7b:ce06:: with SMTP id m6mr8852000wmc.38.1614776823999;
+ Wed, 03 Mar 2021 05:07:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxLnE2wVGnWClVZHpw2M5ylVu7il98PYW9t/wpXte2ctk0HPAxMMEM4z2k90EgJoI1tvy2Rkw==
+X-Received: by 2002:a7b:ce06:: with SMTP id m6mr8851993wmc.38.1614776823825;
+ Wed, 03 Mar 2021 05:07:03 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y18sm31388797wrq.61.2021.03.03.05.06.57
+ by smtp.gmail.com with ESMTPSA id l6sm15564425wrm.71.2021.03.03.05.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:06:58 -0800 (PST)
+ Wed, 03 Mar 2021 05:07:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: "Daniel P . Berrange" <berrange@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/3] docker: EDK2 build job depends on EDK2 container
-Date: Wed,  3 Mar 2021 14:06:45 +0100
-Message-Id: <20210303130646.1494015-3-philmd@redhat.com>
+Subject: [PATCH 3/3] docker: OpenSBI build job depends on OpenSBI container
+Date: Wed,  3 Mar 2021 14:06:46 +0100
+Message-Id: <20210303130646.1494015-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303130646.1494015-1-philmd@redhat.com>
 References: <20210303130646.1494015-1-philmd@redhat.com>
@@ -73,14 +73,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,25 +103,25 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add missing dependency build-edk2 -> docker-edk2.
+Add missing dependency build-opensbi -> docker-opensbi.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/edk2.yml | 1 +
+ .gitlab-ci.d/opensbi.yml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index e1e04524166..ba7280605c4 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -25,6 +25,7 @@ docker-edk2:
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index 5b13047e2ab..f66cd1d9089 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -25,6 +25,7 @@ docker-opensbi:
  
- build-edk2:
+ build-opensbi:
   stage: build
-+ needs: ['docker-edk2']
++ needs: ['docker-opensbi']
   rules: # Only run this job when ...
-  - changes: # ... roms/edk2/ is modified (submodule updated)
-    - roms/edk2/*
+  - changes: # ... roms/opensbi/ is modified (submodule updated)
+    - roms/opensbi/*
 -- 
 2.26.2
 
