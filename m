@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D046132BA87
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 21:56:17 +0100 (CET)
-Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8631C32BB0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:06:51 +0100 (CET)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHYXY-0000kl-UR
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 15:56:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34330)
+	id 1lHYhm-00039J-4S
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:06:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1lHYV9-0007C2-IC
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:53:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23855)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1lHYV7-0003j6-On
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 15:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614804825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iSsFL0mSoxuU0L2Nc4slpBU7x3GuS3vF0ixTSXznRz0=;
- b=I+YkC2AdttGIKGycTr3H6rX7Uqx8lFwlcrkfg4i9/wD3g1bvZH4ZM/m6kPVRum5hDbeSpT
- rsGLjOKR6wP4lew19ZCdmnIDAo4Q9PbRJpdqIsDIjNixIJ0LG+9bxiLXsykk6N1msp7i83
- aLQ3sV3QBZ5FU/c7VluwpLZBi+LGQS8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-4xJKxpwHPfqkWoKO9v10lQ-1; Wed, 03 Mar 2021 15:53:41 -0500
-X-MC-Unique: 4xJKxpwHPfqkWoKO9v10lQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D6D107ACC7;
- Wed,  3 Mar 2021 20:53:40 +0000 (UTC)
-Received: from wrampazz.redhat.com (ovpn-112-215.rdu2.redhat.com
- [10.10.112.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E4D25C6B8;
- Wed,  3 Mar 2021 20:53:34 +0000 (UTC)
-From: Willian Rampazzo <willianr@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] tests: Add functional test for out-of-process device
- emulation
-Date: Wed,  3 Mar 2021 17:53:20 -0300
-Message-Id: <20210303205320.146047-3-willianr@redhat.com>
-In-Reply-To: <20210303205320.146047-1-willianr@redhat.com>
-References: <20210303205320.146047-1-willianr@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHYg9-0002QC-L9
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:05:09 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39102)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHYg7-0006uM-0i
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:05:09 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id d2so5175335pjs.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 13:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aZzZ3+0LVr+pANQk24sVt/1s6xzmB8WIjMkHRhqLvp4=;
+ b=OMZxYg7Rahf8TVAuvl90BnoJTRE1Wwkw1UZOwjsbXy47EbpCk4zS6WK5ju310d8hML
+ 1Bp3Hl2RdARcwmpUQ8Hg+V8OM+splznkYb4aAFjqHOPwIHD8BKowMbUfQS3bgfNT2JTe
+ 3dd2jnTAFkx7PSKLlN+8Dd5hG+TrMbwxLfv6gbnvKxg+uLzscLOVcRSBTzYqd82XoT0A
+ RqYR00mRsh8icguoNgapHTYtpbK77HEMSdHs6mYar8thh4cAU4s3TvGUD2wPpgUyyxvu
+ jUZBSMBxPwgyx9o891O1uw39FEg7q0+lLzG/c8a1HqWXlOLbNQqleUpmgHhDXHQK88+T
+ 7cNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aZzZ3+0LVr+pANQk24sVt/1s6xzmB8WIjMkHRhqLvp4=;
+ b=WESnl3//MAVTE1h0bLYwrCvVk55YaekDsretgFsxkbZPM5LekOZRc8l/dmyZxU4XBl
+ r9FERqrDE/HnfxbzLWZm7VGKbylJ7z/xs5Z8Xhu0HVABLf2ffo6MBLx/LidYXI8gjYsx
+ VnvreaLP5A/T3rE5eGhqBZWAEUQUMOm0cCPTGgBPSGB3NOR0u2YVcbMViqLgWYm/q223
+ ewgmb8Xe0AWKrCgPxFMqOB75AxbsYEOTGYFGB/RPtqSNyskuFLcFHINjO5cicOJDkXtc
+ thNprRkAXcAoIZPrXvRO/QwDEb815lye+eBtSYqDEeF7mRSgWjk5pO0EtLZLXPssCDov
+ OKQg==
+X-Gm-Message-State: AOAM531YW6zEwDNoVy2/SUDISneHbHRAONEGS29IHCZzFIxR3dlzCgub
+ 42VY3GWPlXzB7OdZkamdPvTwBw==
+X-Google-Smtp-Source: ABdhPJzJbnG1STmejpk3tHpcgz0Su5YpradyaazhnBOsIgdt7rOjNONE/Prg1LzK0f11Zuidq3nsrA==
+X-Received: by 2002:a17:902:fe96:b029:e4:2f39:9083 with SMTP id
+ x22-20020a170902fe96b02900e42f399083mr933646plm.47.1614805505527; 
+ Wed, 03 Mar 2021 13:05:05 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id w1sm17433524pgs.15.2021.03.03.13.05.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 13:05:04 -0800 (PST)
+Subject: Re: [PATCH v4] target/s390x: Implement the MVPG condition-code-option
+ bit
+To: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210303132850.459687-1-thuth@redhat.com>
+ <c938bfb6-7322-1738-8492-972b83cb7c99@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ae902e23-08e4-303f-3eee-9e196987aeea@linaro.org>
+Date: Wed, 3 Mar 2021 13:05:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <c938bfb6-7322-1738-8492-972b83cb7c99@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,136 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+On 3/3/21 11:39 AM, David Hildenbrand wrote:
+> Should we start wrapping that stuff into #ifdef CONFIG_TCG ?
+> 
+>> +    uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
+>> +    int tlb_fill_exc;        /* exception number seen during tlb_fill */
 
-Runs the Avocado acceptance test to check if a
-remote lsi53c895a device gets identified by the guest.
+Eh, probably not.  At least not until we elide the softmmu tlb, which is 
+fantastically larger.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-[WR: Refactored code]
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- tests/acceptance/multiprocess.py | 95 ++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
- create mode 100644 tests/acceptance/multiprocess.py
+>> +    if (unlikely(flags & TLB_INVALID_MASK)) {
+>> +        return false;
+> 
+> ^ I recall PAGE_WRITE_INV handling where we immediately set TLB_INVALID_MASK 
+> again on write access (to handle low-address protection cleanly). I suspect 
+> that TLB_INVALID_MASK will be set in that case (I could be wrong, though).
+> 
+> What certainly would work is checking for "haddr != NULL".
+> 
+> /* Don't rely on TLB_INVALID_MASK - see PAGE_WRITE_INV handling. */
+> if (unlikely(!haddr1)) {
+>      return false;
+> }
 
-diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
-new file mode 100644
-index 0000000000..96627f022a
---- /dev/null
-+++ b/tests/acceptance/multiprocess.py
-@@ -0,0 +1,95 @@
-+# Test for multiprocess qemu
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+
-+import os
-+import socket
-+
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+
-+class Multiprocess(Test):
-+    """
-+    :avocado: tags=multiprocess
-+    """
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-+
-+    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        """Main test method"""
-+        self.require_accelerator('kvm')
-+
-+        # Create socketpair to connect proxy and remote processes
-+        proxy_sock, remote_sock = socket.socketpair(socket.AF_UNIX,
-+                                                    socket.SOCK_STREAM)
-+        os.set_inheritable(proxy_sock.fileno(), True)
-+        os.set_inheritable(remote_sock.fileno(), True)
-+
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
-+
-+        # Create remote process
-+        remote_vm = self.get_vm()
-+        remote_vm.add_args('-machine', 'x-remote')
-+        remote_vm.add_args('-nodefaults')
-+        remote_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-+        remote_vm.add_args('-object', 'x-remote-object,id=robj1,'
-+                           'devid=lsi1,fd='+str(remote_sock.fileno()))
-+        remote_vm.launch()
-+
-+        # Create proxy process
-+        self.vm.set_console()
-+        self.vm.add_args('-machine', machine_type)
-+        self.vm.add_args('-accel', 'kvm')
-+        self.vm.add_args('-cpu', 'host')
-+        self.vm.add_args('-object',
-+                         'memory-backend-memfd,id=sysmem-file,size=2G')
-+        self.vm.add_args('--numa', 'node,memdev=sysmem-file')
-+        self.vm.add_args('-m', '2048')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_command_line)
-+        self.vm.add_args('-device',
-+                         'x-pci-proxy-dev,'
-+                         'id=lsi1,fd='+str(proxy_sock.fileno()))
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'as init process',
-+                                 'Kernel panic - not syncing')
-+        exec_command(self, 'mount -t sysfs sysfs /sys')
-+        exec_command_and_wait_for_pattern(self,
-+                                          'cat /sys/bus/pci/devices/*/uevent',
-+                                          'PCI_ID=1000:0012')
-+
-+    def test_multiprocess_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine_type = 'pc'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
-+
-+    def test_multiprocess_aarch64(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'rdinit=/bin/bash console=ttyAMA0')
-+        machine_type = 'virt,gic-version=3'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
--- 
-2.29.2
+Ah, right.  I consider TLB_INVALID_MASK being set in the return from 
+probe_access_flags for PAGE_WRITE_INV a bug.  I'm not sure how to fix that 
+right away.
 
+Well, !haddr1 is also false for TLB_MMIO, so you'd need to check for that as well.
+
+
+r~
 
