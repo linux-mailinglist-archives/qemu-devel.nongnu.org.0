@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B1032BA0A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:55:02 +0100 (CET)
-Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F18D32BA0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:56:12 +0100 (CET)
+Received: from localhost ([::1]:47660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHWeD-0000Bm-Sb
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:55:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35204)
+	id 1lHWfL-0002D2-7c
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:56:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lHWcR-0006ys-Ck
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:53:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lHWcP-0001HB-9o
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:53:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614797588;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PCUi0M6FlbMswoFAQUdFwG6TUqXX8Jk+CnOm8CIbFGs=;
- b=SaZqxhXWID5stZThL04aEkK1EO3SVNxU7M9meA27xpRvGSlN7VoQs7OnzuV5HSvRM6tNvI
- X0+BY3rHY5+nxHq2dqaIrs0JPEIhuP7brbEGyVfSx2q4wtKLRc4BsCIYj0Y1FCl56amQSc
- +rA2Gk5kfgLe0Qs0T2xRIHRhoLZ422c=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-IVXxhPynP3m3A0P_zWrd7w-1; Wed, 03 Mar 2021 13:53:05 -0500
-X-MC-Unique: IVXxhPynP3m3A0P_zWrd7w-1
-Received: by mail-vk1-f198.google.com with SMTP id r63so5231519vkg.6
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:53:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHWdU-0000UP-Rm
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:54:16 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHWdS-0001Xg-Vi
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:54:16 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id l18so4932661pji.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GJjdykjgWP5Z0N3zU5sSqtR9hgI1ZKnP21fDPf7Z0Xs=;
+ b=Z+8rDj4y8Xsz7Ybg1cmPW/jJZH7rp/rrn9QBaGLMCI9/uK3dXIIFhKYoIYYJL7Aguw
+ SMy3MPwnT50UUPQnP/xfyenQ8mIcn8U+ZSsJ676vaHzDpGy0VHMH0W+SnO5kNCZ6ZDB7
+ rIR47aF2ZA23T8IqwTH86zPQMYRQc2LX0Fl8PC4ArnTRw8Pr35z6LuH2VSxeslot/9HZ
+ KT4wi8LsA4WIDBuoiK43AkeU0otXbEK4dddxCKUlG7OcJIEvqZYSp3fwwScuheKiEttn
+ yQRyAUR9JsCvKzPK1gOIbE3taaW2U7gqKGPONRypfdl1JX8H86ulkEI4Wt0Ru99aE6D7
+ xyUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PCUi0M6FlbMswoFAQUdFwG6TUqXX8Jk+CnOm8CIbFGs=;
- b=V2cnbDiBY24KcOq377danyDVHZPmBOIfpszzTBlvXzU4Fkkw/5pRpUHXrbyjCAm2gd
- D7nr8IJ1iuQEZUNkzPUQncfrcswSVsik/DzuaoT0IO0lKgopewbl0xjlc3ao+qYwuk6M
- WqMwMy23EB7T701WY8Dcc9a+3gR7NZRtxFCfTSmzHfCbpYVWn6qQ8/ajru1yCMBXpAXl
- X55rWoZJRttlUtCUeifVEI22hDaLqQ2DLkOPNT6rCPqduKh75mCh+3uksI/TQGZVZgf3
- /9MbNQqmjRYQ9vtFGHbQ7tTV5JsG5RDrWjE4ZQif3JUWZ7vDyqUvKM3rBLaskMSG5Cr7
- y6Og==
-X-Gm-Message-State: AOAM530yR90jI0Uc9LjmitK5RguzFVEl4Jx5E80NEy1my4Hjg80FssPw
- IKOyTfFj5m49Ch8kzaH01X3AE8dt2SAZekL4GuXKMKHgldutLVTcLhLJqb3471/SfPk8oqpOJmU
- 6gYdpfzXYNdPCBtLSK0kW8YFaFpQgf0s=
-X-Received: by 2002:a67:ed86:: with SMTP id d6mr220241vsp.50.1614797584030;
- Wed, 03 Mar 2021 10:53:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz/HWITySvkK4n7Iia0OR/vK9COASRvZCJ2PLCpmtKIYG1HTMsqWg8w3HOfHoKXwhIV16b5NbWJt2lWbkkdFDo=
-X-Received: by 2002:a67:ed86:: with SMTP id d6mr220228vsp.50.1614797583709;
- Wed, 03 Mar 2021 10:53:03 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GJjdykjgWP5Z0N3zU5sSqtR9hgI1ZKnP21fDPf7Z0Xs=;
+ b=UsAX9SL7LfcQL6Nd2nspPyWatn89bNX77HoT1ySG0CVpTjLelqJTf4R12P4vcqA9//
+ 71gXby8ftYVPNzTKt2bYHohFK8jtzCH//UkgTmT74fdst8KQU9bZX17K3nGglUpgBDJ7
+ y7YnhXoIqY8pWqOjHqPk0EtM2AGcA96KGxHgQjhTzYoPe94O98a8CxzJ1KdrqNw1EPN8
+ VdhKEgCyEgiTDRPIuOoIkV0jgAcbOXhD04c6fponjOT5w6m+Ueaxcc1+ErZUzYiPgWmR
+ NIC1IrI1DYCJUr7m1mgPICX24Rk7fXVDDZIMtro9AI9Uj8uvH1zq7RZNJJTbClHzBLHL
+ NrHA==
+X-Gm-Message-State: AOAM533ymcHvosryzXLqgeg/9PI5emhOMaG66IjvEtpYcPs5Jg8ySfo9
+ xg6dSG1P+T+9eMEAcwrX05yUMg==
+X-Google-Smtp-Source: ABdhPJySebXVXZwHr+dzJkEa2D1HH7lKSU51Q6MEj0LuzFDSpOkNIJK5y35xVaixe8SK8x3vxn1ASg==
+X-Received: by 2002:a17:90a:4104:: with SMTP id u4mr477158pjf.81.1614797653409; 
+ Wed, 03 Mar 2021 10:54:13 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id na8sm6786318pjb.2.2021.03.03.10.54.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 10:54:13 -0800 (PST)
+Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
+ <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de> <87a6rmkffo.fsf@linaro.org>
+ <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
+ <CAFEAcA_eWrgo9CcLF3ZpAPeK08_PmKNLjqKAzuBPcSGh+1SFCA@mail.gmail.com>
+ <5fb3cf49-fc09-7e7c-d34e-299f04e9842a@suse.de>
+ <335966c3-9f31-5868-54e5-edb28a37c50c@suse.de>
+ <a9190376-ba0b-02d5-124d-a336c586ad5d@linaro.org>
+ <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1b92cbea-8abf-40b9-337a-15f34ef40f61@linaro.org>
+Date: Wed, 3 Mar 2021 10:54:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210228224343.310677-1-f4bug@amsat.org>
- <c11afdea-2faf-b445-cb35-05fed0c99a35@redhat.com>
- <b0dc999b-ddd1-fc4b-cd7d-56905c85616b@amsat.org>
- <CAKJDGDZzWKYrDiBPmDFBihEH=hOCymHuXZ8cNP4ZTSdLisAefA@mail.gmail.com>
- <f48c7cd7-27e5-da53-adbf-849c094a88f5@redhat.com>
-In-Reply-To: <f48c7cd7-27e5-da53-adbf-849c094a88f5@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 3 Mar 2021 15:52:37 -0300
-Message-ID: <CAKJDGDYxN=GKm-pmpfhoO2t8WLU6K4Vfki7Rbtfz3bU+g=_6jA@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Use imgtec.com URL for Fedora 22
- artifacts
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,209 +95,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
+On 3/3/21 10:45 AM, Claudio Fontana wrote:
+> It is a bit weird that qemu-system-aarch64 runs with a cortex-a15 model tbh, as cortex-a15 is not capable of aarch64.
 
-On Tue, Mar 2, 2021 at 12:45 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 3/2/21 4:27 PM, Willian Rampazzo wrote:
-> > Hi Phil,
-> >
-> > On Mon, Mar 1, 2021 at 11:11 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 3/1/21 2:30 PM, Wainer dos Santos Moschetta wrote:
-> >>> Hi,
-> >>>
-> >>> On 2/28/21 7:43 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>>> Having artifacts stored in personal namespace is not ideal,
-> >>>> as these might get closed and disappear. Use the original URL
-> >>>> where these artifacts could be found.
-> >>>>
-> >>>> For more references:
-> >>>> https://fedoraproject.org/wiki/Architectures/MIPS/2015Bootstrap/mips=
-64el
-> >>>>
-> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>>> ---
-> >>>>   tests/acceptance/boot_linux_console.py | 4 ++--
-> >>>>   tests/acceptance/replay_kernel.py      | 4 ++--
-> >>>>   2 files changed, 4 insertions(+), 4 deletions(-)
-> >>>>
-> >>>> diff --git a/tests/acceptance/boot_linux_console.py
-> >>>> b/tests/acceptance/boot_linux_console.py
-> >>>> index eb012867997..138bd8cb7d3 100644
-> >>>> --- a/tests/acceptance/boot_linux_console.py
-> >>>> +++ b/tests/acceptance/boot_linux_console.py
-> >>>> @@ -239,8 +239,8 @@ def test_mips64el_malta_5KEc_cpio(self):
-> >>>>           :avocado: tags=3Dmachine:malta
-> >>>>           :avocado: tags=3Dendian:little
-> >>>>           """
-> >>>> -        kernel_url =3D ('https://github.com/philmd/qemu-testing-blo=
-b/'
-> >>>> -                      'raw/9ad2df38/mips/malta/mips64el/'
-> >>>> +        kernel_url =3D ('http://mipsfedora.imgtec.com/development/2=
-2/'
-> >>>> +                      'mips64el/images/20150601/'
-> >>>>                         'vmlinux-3.19.3.mtoman.20150408')
-> >>>
-> >>> http://mipsfedora.imgtec.com/development/22/mips64el/images/20150601/=
-vmlinux-3.19.3.mtoman.20150408
-> >>> did not get resolve here. Could you please double-check the url is co=
-rrect?
-> >>
-> >> Yes it is correct, the domain is dead. It was working when I wrote
-> >> the test. Should I remove the test instead?
-> >>
-> >
-> > This test is already skipped by default because of the
-> > AVOCADO_ALLOW_UNTRUSTED_CODE flag.
->
-> QEMU's .gitlab-ci.yml does (see acceptance_definition):
->
->   before_script:
->     - mkdir -p ~/.config/avocado
->     - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
->     - echo "cache_dirs =3D ['${CI_PROJECT_DIR}/avocado-cache']"
->            >> ~/.config/avocado/avocado.conf
->     - echo -e '[job.output.testlogs]\nstatuses =3D ["FAIL", "INTERRUPT"]'
->            >> ~/.config/avocado/avocado.conf
->     - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
->         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
->       fi
->     - export AVOCADO_ALLOW_UNTRUSTED_CODE=3D1
->
+No, but qemu-system-aarch64 is capable of 32-bit emulation (because most 64-bit 
+cpus retain 32-bit mode).  It takes no extra effort to run cortex-a15 than it 
+does a cortex-a57.
 
-This is true when running the test in the CI. What happens if I try to
-run this test locally? It will be skipped unless I set
-AVOCADO_ALLOW_UNTRUSTED_CODE=3D1.
+I have wondered if we should have just one qemu-system-arm that does it all and 
+drop the separate qemu-system-aarch64 -- or vice versa.  But we've had the 
+separation around so long I'm sure someone would be confused.
 
-> > Even if the flag is set to allow
-> > the test to run, it will be skipped because the cache lacks the asset.
->
-> Same file, we save the cache between runs:
->
->   cache:
->     key: "${CI_JOB_NAME}-cache"
->     paths:
->       - ${CI_PROJECT_DIR}/avocado-cache
->
 
-In the CI environment, the test will execute because the asset is
-already cached. Again, what happens if we merge this code and I try to
-run it locally? the test will be skipped because I don't have the
-asset.
-
-The QEMU GitLab CI won't be affected by an invalid URL and will run
-the test until the cache is cleared. If someone tries to run the
-pipeline on a new instance of a GitLab CI, the test will be skipped.
-
-With my suggestion, developers will have the chance to run the test
-locally if they have the correct file and register it to their local
-cache manually.
-
-> > Instead of removing the test, my suggestion is to add information to
-> > allow people to run it locally, like:
-> >
-> > diff --git a/tests/acceptance/boot_linux_console.py
-> > b/tests/acceptance/boot_linux_console.py
-> > index eb01286799..23efc18a99 100644
-> > --- a/tests/acceptance/boot_linux_console.py
-> > +++ b/tests/acceptance/boot_linux_console.py
-> > @@ -239,11 +239,13 @@ def test_mips64el_malta_5KEc_cpio(self):
-> >          :avocado: tags=3Dmachine:malta
-> >          :avocado: tags=3Dendian:little
-> >          """
-> > -        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/'
-> > -                      'raw/9ad2df38/mips/malta/mips64el/'
-> > -                      'vmlinux-3.19.3.mtoman.20150408')
-> > +        # to run this test locally, download the following asset and r=
-egister
-> > +        # it manually to the avocado cache with:
-> > +        #   $(BUILD_DIR)/tests/venv/bin/avocado assets register \
-> > +        #   vmlinux-3.19.3.mtoman.20150408 <path to the file>
-> > +        kernel_name =3D 'vmlinux-3.19.3.mtoman.20150408'
->
-> In this particular case it could work because the name is not generic,
-> but what about the generic names ("vmlinux" for example)?
->
-> Can't we register assets using any string to hash?
->
-
-Right now it is not supported, but I opened an issue to discuss it
-here: https://github.com/avocado-framework/avocado/issues/4435
-
-> >          kernel_hash =3D '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
-> > -        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkern=
-el_hash)
-> > +        kernel_path =3D self.fetch_asset(kernel_name, asset_hash=3Dker=
-nel_hash)
-> >          initrd_url =3D ('https://github.com/groeck/linux-build-test/'
-> >                        'raw/8584a59e/rootfs/'
-> >                        'mipsel64/rootfs.mipsel64r1.cpio.gz')
-> > diff --git a/tests/acceptance/replay_kernel.py
-> > b/tests/acceptance/replay_kernel.py
-> > index c1cb862468..180e915264 100644
-> > --- a/tests/acceptance/replay_kernel.py
-> > +++ b/tests/acceptance/replay_kernel.py
-> > @@ -397,11 +397,13 @@ def test_mips64el_malta_5KEc_cpio(self):
-> >          :avocado: tags=3Dendian:little
-> >          :avocado: tags=3Dslowness:high
-> >          """
-> > -        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/'
-> > -                      'raw/9ad2df38/mips/malta/mips64el/'
-> > -                      'vmlinux-3.19.3.mtoman.20150408')
-> > +        # to run this test locally, download the following asset and r=
-egister
-> > +        # it manually to the avocado cache with:
-> > +        #   $(BUILD_DIR)/tests/venv/bin/avocado assets register \
-> > +        #   vmlinux-3.19.3.mtoman.20150408 <path to the file>
-> > +        kernel_name =3D 'vmlinux-3.19.3.mtoman.20150408'
-> >          kernel_hash =3D '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
-> > -        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkern=
-el_hash)
-> > +        kernel_path =3D self.fetch_asset(kernel_name, asset_hash=3Dker=
-nel_hash)
-> >          initrd_url =3D ('https://github.com/groeck/linux-build-test/'
-> >                        'raw/8584a59e/rootfs/'
-> >                        'mipsel64/rootfs.mipsel64r1.cpio.gz')
-> >
-> > What do you think?
-> >
-> > ps. WARNING, above code not tested.
-> >
-> >>>>           kernel_hash =3D '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
-> >>>>           kernel_path =3D self.fetch_asset(kernel_url,
-> >>>> asset_hash=3Dkernel_hash)
-> >>>> diff --git a/tests/acceptance/replay_kernel.py
-> >>>> b/tests/acceptance/replay_kernel.py
-> >>>> index c1cb8624683..efdd4233bc2 100644
-> >>>> --- a/tests/acceptance/replay_kernel.py
-> >>>> +++ b/tests/acceptance/replay_kernel.py
-> >>>> @@ -397,8 +397,8 @@ def test_mips64el_malta_5KEc_cpio(self):
-> >>>>           :avocado: tags=3Dendian:little
-> >>>>           :avocado: tags=3Dslowness:high
-> >>>>           """
-> >>>> -        kernel_url =3D ('https://github.com/philmd/qemu-testing-blo=
-b/'
-> >>>> -                      'raw/9ad2df38/mips/malta/mips64el/'
-> >>>> +        kernel_url =3D ('http://mipsfedora.imgtec.com/development/2=
-2/'
-> >>>> +                      'mips64el/images/20150601/'
-> >>>>                         'vmlinux-3.19.3.mtoman.20150408')
-> >>>>           kernel_hash =3D '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
-> >>>>           kernel_path =3D self.fetch_asset(kernel_url,
-> >>>> asset_hash=3Dkernel_hash)
-> >>>
-> >>
-> >
->
-
+r~
 
