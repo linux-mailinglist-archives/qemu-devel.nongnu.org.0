@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEFA32B9C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:13:07 +0100 (CET)
-Received: from localhost ([::1]:40306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903A532B9CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:23:28 +0100 (CET)
+Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHVze-0008TY-U8
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
+	id 1lHW9f-0004Xn-As
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHVyY-0007iS-M7
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:11:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHVyV-0005X3-QZ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:11:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614795115;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LRDGv0lc35KuNxRZKgidrWzcRgfvxC+rC/ZoMzeQGto=;
- b=VCtO9r+9ty4jljBtcYeCWPO7lDLAqv9Zc/n1iiUwQik024Ao70Wr/ST91sMLH3DvXjFqXR
- t2/v3QczYKQXmKIWPTgBHEbn1bKbAVK7K7xsBdX8lnYjcLS1d4OBek+Im8lQprQJJYyvBC
- N5afLTwq33gK42jDObRWqo4/ARiI+Sk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-2NvlZLHDMQOY5859R_R9AQ-1; Wed, 03 Mar 2021 13:11:47 -0500
-X-MC-Unique: 2NvlZLHDMQOY5859R_R9AQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5985107ACF4;
- Wed,  3 Mar 2021 18:11:46 +0000 (UTC)
-Received: from redhat.com (ovpn-115-145.ams2.redhat.com [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2068660BFA;
- Wed,  3 Mar 2021 18:11:44 +0000 (UTC)
-Date: Wed, 3 Mar 2021 18:11:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
- of inet_parse
-Message-ID: <YD/RXfECJ4TshqsT@redhat.com>
-References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
- <YDN73SqaDQDtwlgZ@redhat.com>
- <20210228213957.xkc4cceh5o6rgd5n@begin>
- <CADPb22RAxehwfRRBdsRm1exU2D38FCcRv23XcS5VKdZfvDp+pQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHW7A-00039B-Nc
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:20:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lHW77-0008De-18
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:20:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lHW73-0001OT-4t
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 18:20:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F32D2E8171
+ for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 18:20:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CADPb22RAxehwfRRBdsRm1exU2D38FCcRv23XcS5VKdZfvDp+pQ@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Mar 2021 18:14:13 -0000
+From: Nick <1917565@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: 10 boot device inaccessible windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imammedo nick-kvmhv
+X-Launchpad-Bug-Reporter: Nick (nick-kvmhv)
+X-Launchpad-Bug-Modifier: Nick (nick-kvmhv)
+References: <161474788220.8516.15014999465847517073.malonedeb@gac.canonical.com>
+Message-Id: <161479525351.23571.7359680467150433686.malone@soybean.canonical.com>
+Subject: [Bug 1917565] Re: Windows 10 fails with "Boot device inaccessible"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
+X-Launchpad-Hash: e8d3bd4fecc499d187622987f6e423caabf6f163
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,48 +70,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Samuel Thibault <samuel.thibault@gnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1917565 <1917565@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 03, 2021 at 10:06:50AM -0800, Doug Evans wrote:
-> On Sun, Feb 28, 2021 at 1:40 PM Samuel Thibault <samuel.thibault@gnu.org>
-> wrote:
-> 
-> > [...]
-> >
-> > > +  Examples:
-> > > +  hostfwd_add net0 tcp:127.0.0.1:10022-:22
-> > > +  hostfwd_add net0 tcp:[::1]:10022-[fe80::1:2:3:4]:22
-> >
-> > Yep, that looks good to me.
-> >
-> >
-> 
-> Daniel, you wanted me to use inet_parse().
-> Is the above syntax ok with you?
-> You must have had some expectation that at least some of
-> the various flags that inet_parse() recognizes would be needed here.
+I haven't tried a new install. Also, Michael asked to check =
 
-It feels like the ,ipv4=on|off,ipv6=on|off flags are relevant here,
-especially in the empty address case. eg
+ git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+The code in question is changed there and it works fine for that existing i=
+mage.
 
-   tcp::10022          - attempt to listen on both ipv4 + ipv6
-   tcp::10022,ipv4=off - listen on default address, but only for ipv6
-   tcp::10022,ipv6=off - listen on default address, but only for ipv4
+-- =
 
-Basically this ends up bringing the hostfwd stuff into alignment with
-the way other backends deal with this
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917565
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  Windows 10 fails with "Boot device inaccessible"
 
+Status in QEMU:
+  New
+
+Bug description:
+  The issue is happening on all versions I tried after the following
+  commit. I can also remove this individual change from master and it
+  starts to work.
+
+  OVMF_CODE.fd is what comes with Ubuntu 20.04 through package manager.
+
+  =
+
+  git diff af1b80ae56c9495999e8ccf7b70ef894378de642~ af1b80ae56c9495999e8cc=
+f7b70ef894378de642
+  diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+  index b7bcbbbb2a..7a5a8b3521 100644
+  --- a/hw/i386/acpi-build.c
+  +++ b/hw/i386/acpi-build.c
+  @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev =3D aml_device(=
+"PCI0");
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_HID", aml_eisaid("PNP0A03")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_ADR", aml_int(0)));
+  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
+, dev);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
+_scope);
+
+  @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_HID", aml_eisaid("PNP0A08")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_CID", aml_eisaid("PNP0A03")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_ADR", aml_int(0)));
+  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, bui=
+ld_q35_osc_method());
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
+, dev);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
+_scope);
+
+  The virtual machine start command:
+  x86_64-softmmu/qemu-system-x86_64 -name guest=3Dwin10-dev,debug-threads=
+=3Don -blockdev '{"driver":"file","filename":"/usr/share/OVMF/OVMF_CODE.fd"=
+,"node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unm=
+ap"}' -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"dr=
+iver":"raw","file":"libvirt-pflash0-storage"}' -blockdev '{"driver":"file",=
+"filename":"/var/lib/libvirt/qemu/nvram/win10-dev_VARS.fd","node-name":"lib=
+virt-pflash1-storage","auto-read-only":true,"discard":"unmap"}' -blockdev '=
+{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","fil=
+e":"libvirt-pflash1-storage"}' -machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vm=
+port=3Doff,dump-guest-core=3Doff,pflash0=3Dlibvirt-pflash0-format,pflash1=
+=3Dlibvirt-pflash1-format -cpu Skylake-Client-IBRS,ss=3Don,vmx=3Don,pdcm=3D=
+on,hypervisor=3Don,tsc-adjust=3Don,clflushopt=3Don,umip=3Don,md-clear=3Don,=
+stibp=3Don,arch-capabilities=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don,ibpb=
+=3Don,amd-ssbd=3Don,skip-l1dfl-vmentry=3Don,pschange-mc-no=3Don,hv-time,hv-=
+relaxed,hv-vapic,hv-spinlocks=3D0x1fff -m 6144 -overcommit mem-lock=3Doff -=
+smp 4,sockets=3D4,cores=3D1,threads=3D1 -uuid 5646e540-5022-4ace-8d6a-d7c4b=
+61a6d3d -no-user-config -nodefaults -rtc base=3Dlocaltime,driftfix=3Dslew -=
+global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -global ICH9-LPC.disable_s=
+3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device pcie-root-p=
+ort,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,addr=
+=3D0x2 -device pcie-root-port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie=
+.0,addr=3D0x2.0x1 -device pcie-root-port,port=3D0x12,chassis=3D3,id=3Dpci.3=
+,bus=3Dpcie.0,addr=3D0x2.0x2 -device pcie-root-port,port=3D0x13,chassis=3D4=
+,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x3 -device pcie-root-port,port=3D0x14,=
+chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2.0x4 -device qemu-xhci,p2=3D1=
+5,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device virtio-serial-pci,id=3Dvi=
+rtio-serial0,bus=3Dpci.3,addr=3D0x0 -blockdev '{"driver":"host_device","fil=
+ename":"/dev/disk/by-id/scsi-1SanDisk_Extreme_SSD_20072F404043","aio":"nati=
+ve","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false=
+},"auto-read-only":true,"discard":"unmap"}' -blockdev '{"node-name":"libvir=
+t-2-format","read-only":false,"cache":{"direct":true,"no-flush":false},"dri=
+ver":"raw","file":"libvirt-2-storage"}' -device ide-hd,bus=3Dide.0,drive=3D=
+libvirt-2-format,id=3Dsata0-0-0,bootindex=3D1,write-cache=3Don -device ide-=
+cd,bus=3Dide.1,id=3Dsata0-0-1 -netdev user,id=3Dhostnet0 -device e1000e,net=
+dev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:10:5b:55,bus=3Dpci.1,addr=3D0x0 -ch=
+ardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dse=
+rial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserial=
+port,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,nam=
+e=3Dcom.redhat.spice.0 -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 =
+-spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don,image-compressio=
+n=3Doff,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6710=
+8864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1=
+,bus=3Dpcie.0,addr=3D0x1 -device ich9-intel-hda,id=3Dsound0,bus=3Dpcie.0,ad=
+dr=3D0x1b -device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -cha=
+rdev spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-redir,chardev=3Dc=
+harredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev spicevmc,id=3Dcharredir=
+1,name=3Dusbredir -device usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3D=
+usb.0,port=3D3 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D=
+0x0 -msg timestamp=3Don -D ./log.txt -monitor stdio -d
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917565/+subscriptions
 
