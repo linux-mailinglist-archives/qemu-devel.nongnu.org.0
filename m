@@ -2,57 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE3232B5F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 09:37:22 +0100 (CET)
-Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B480932B5F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 09:38:49 +0100 (CET)
+Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHN0T-00060f-6F
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 03:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41382)
+	id 1lHN1s-0007Bh-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 03:38:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHMyg-00054a-Pk
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 03:35:30 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45360
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lHN0w-0006lh-1g
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 03:37:50 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:60192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHMye-0003Tl-M5
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 03:35:30 -0500
-Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHMya-0002O5-MO; Wed, 03 Mar 2021 08:35:27 +0000
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-10-mark.cave-ayland@ilande.co.uk>
- <464b5903-412a-50be-1811-f906d896779a@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <17ac8fd1-b0ae-02d0-9eb9-6b5a9c071fdf@ilande.co.uk>
-Date: Wed, 3 Mar 2021 08:35:20 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lHN0t-00046i-Dj
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 03:37:49 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1238ZWHY152243;
+ Wed, 3 Mar 2021 08:37:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ in-reply-to : references : date : message-id : content-type : from :
+ mime-version; s=corp-2020-01-29;
+ bh=d++5tmPOn5v6XbYxMYwqZ3i2anPHtWQ9r2HznAZtu6Q=;
+ b=c8Zi1fVfHJ9qDwgbuBMoa+vzhA13WBhmkXoAlqX4PwFHMK6XD3+Edh1khpaIECKY9VYS
+ dCF52KVjBWCg48nFtuj9RbEPbbs03z9nWxv4ei1Hqp7V8ALZHjsPWbOridG4PjQ85MCZ
+ T9ZdQIHOWqaUQTVDtjYxnd+psLY8VvnF6U8oaqU6YPuxZk92dXJgtcTb2ss1EJGvlb57
+ tOhpv/bZYRQJgUfrpvv3ckZU743niFSW4A9FLyYbcsdojFufPBcS8oA33TjJWsU28Dvg
+ CIZyvGIXogtvOUKEMxuPia0vUm9kr8tB6X4wNTxDp8NL7sBy2OyQQCXyQeMngX5FEf90 5A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 36ybkbam7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 03 Mar 2021 08:37:37 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1238V14r120474;
+ Wed, 3 Mar 2021 08:37:37 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+ by aserp3030.oracle.com with ESMTP id 36yynq8n2u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 03 Mar 2021 08:37:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q3X64vemJ3zhL6ZQd+KfxLkGdzqYMWGQzhwdFNibD0MiI+wj9yqz8fodJRu8bZTUazQU2yLd+i/7k4w+d+Wz0uobU+ifr14Fi1Z0EtmIU8bZuvHYKy9yt3N51EKTqvY3PgyjJOuuSb/RHriFYzPNQ/N/3tub4Dy8rmRee1jHCQJOKlgoYcijtQPFkUzVsJ0mr+9m41xlUsgklqyvJIRPuZVsCi4WdkoUH/CKGoVun/ROZB2OJlZHCdD/wEOnIvhQZ9LUmOp40y9MKI3Zj/bncFUtuJroVILvoGtx7HpH3vnW7pwqvLAhAGzizGYa7MhlcC7rwXHJaxwZIBHDbPDhWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d++5tmPOn5v6XbYxMYwqZ3i2anPHtWQ9r2HznAZtu6Q=;
+ b=oK3jKepcRR5uXD7g1epVXxjfUhChjAzz0ZC73dwFC2Vvkq2c3GVuUqg0KZKc9KhpRkTtGrMHP9ftVYhV4zyMKnUwzkM71URQ5XXksue+9y+JS2vwPxQl8FGKZAih4/fzQYQhsqgrJIloaJb2EW/09TXfWaHKp42X+w+ue8r8YGzgzbtTFqubVMXmqkjp4IL8HDkuN6OxlEvx6SagFuvXB7Wosd7JhVtkCyxhoJLpIbn28UdIVOOkXo2pqaxh49SDnS7gXhI+qTiaRc/8lAawReA+nuwVbDeSh/6CkiYAvTQiwuiqZ/SLvdTo7Y29KmcMQU4u20+g2tipCvOFOVG59w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d++5tmPOn5v6XbYxMYwqZ3i2anPHtWQ9r2HznAZtu6Q=;
+ b=cn1UL2Ppd/QRSY6y0f3GtsRosk3RJWCKH46zKISBSiBgQ1m0BWUg0aCG8r6/h92u2HSSLGLu+O4jwnPUTjLmgsBU/OAohUnpLG2GpbLUBW4NCeZRQXkRpLg72edOitrm7ym0iJRJ8MJZdMINPPGZli4J7NyB7RxMp8AR4JsXnEM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
+ by DM5PR10MB1593.namprd10.prod.outlook.com (2603:10b6:3:e::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.28; Wed, 3 Mar 2021 08:37:34 +0000
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934]) by DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934%5]) with mapi id 15.20.3890.029; Wed, 3 Mar 2021
+ 08:37:34 +0000
+To: Kunkun Jiang <jiangkunkun@huawei.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 2/3] migration/ram: Modify ram_save_host_page() to
+ match the comment
+In-Reply-To: <20210301082132.1107-3-jiangkunkun@huawei.com>
+References: <20210301082132.1107-1-jiangkunkun@huawei.com>
+ <20210301082132.1107-3-jiangkunkun@huawei.com>
+X-HGTTG: heart-of-gold
+Date: Wed, 03 Mar 2021 08:37:27 +0000
+Message-ID: <m2pn0gljjs.fsf@oracle.com>
+Content-Type: text/plain
+From: <david.edmondson@oracle.com>
+X-Originating-IP: [2001:8b0:bb71:7140:64::1]
+X-ClientProxiedBy: LO2P265CA0304.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a5::28) To DM6PR10MB3148.namprd10.prod.outlook.com
+ (2603:10b6:5:1a4::21)
 MIME-Version: 1.0
-In-Reply-To: <464b5903-412a-50be-1811-f906d896779a@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.34.47
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 09/42] esp: introduce esp_get_tc() and esp_set_tc()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from disaster-area.hh.sledj.net (2001:8b0:bb71:7140:64::1) by
+ LO2P265CA0304.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a5::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.24 via Frontend Transport; Wed, 3 Mar 2021 08:37:32 +0000
+Received: from localhost (disaster-area.hh.sledj.net [local])	by
+ disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 3daaa643;
+ Wed, 3 Mar 2021 08:37:27 +0000 (UTC)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e2a870a-eadc-484e-c9b6-08d8de1f974c
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1593:
+X-Microsoft-Antispam-PRVS: <DM5PR10MB1593B2970FA7C1EC19FC7A2588989@DM5PR10MB1593.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xnmTYs5w8rRguehsP66wjf53XCHwkkR9MimmaKKNGLFE/lVOCT3Vzh041fxCt2Osi6B7w3IOYrrlX064FUmo5g+plQmAqMC0APbfrj52VmEkSacBTPbQVEmKWimuqrCpOY88tMjeN7zsuE/ZDdvzsVtQ+Z/0SuyrjwyxUg7ggx512Stco2CJ6gdNYeh1l7nu/Zw93wZMxNKTRrvq94GYWJKvy5oLs60eIuED6jZJpMg3lCCdkKYk9+rMV3K4suz9LUelTrs9xxnFIvm2z+65RV6eBkGDRK4faPURW7vUMpaK/YVByh96zwj/9fOZsJPif1HnbK6dmwEXmCWs61uS87EKc0675Q7bQqRkgZ2WLOLQU0Gky3nu0Wb/R8Z/cB83iS5TcX/UNHv1dQNi5dNoq5+6IyOzDTmaTPZShOS0/U7DeKRMVyEKQYgSCNSeFJFjaxt1zGeMR5CuioAfRpiY4g+R+vfoD5A5yfb8v7KZ4z89/v+cV5cFp0lD//OcxfrBQDXE7VWuwAkarRclJ1+a2w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(39850400004)(136003)(346002)(376002)(366004)(52116002)(36756003)(66556008)(66946007)(2876002)(110136005)(86362001)(66476007)(54906003)(2616005)(8676002)(5660300002)(316002)(478600001)(186003)(4326008)(2906002)(8936002)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Fc1I78YuCNqFsGRGJRCZ984jQLGLx/Cn0PHGUciI/M14EVfVHB/7srwnqs0I?=
+ =?us-ascii?Q?cY1V+pYLgp1CAGitrBNHJz7cXIh6IEPC2/RpnwVceZi60uQIZT61sTkYbJFU?=
+ =?us-ascii?Q?IGcxlDm2oro8UJLfPCAL+dY93o1dLAToQsKDU5TKf5LUa8Sk/JVqfPVxn0z1?=
+ =?us-ascii?Q?kB+QfuEINgpMzFJGqFwVr5mlJEG1UIveLiw0DzVH/0zpkanGBUS1Qo+g9vr5?=
+ =?us-ascii?Q?5putDapF6XrnJFUWOaOuldlvAR1N7T4TyhgIRsN3Gn1vO0CtlsaPvzv4l7JS?=
+ =?us-ascii?Q?yIfynVAGBwnEC0crB+G71QLxPlDUmEeZjcYFjXJkt98Jr/jvGH8/JiOENK05?=
+ =?us-ascii?Q?lL9vjDaflw0X7NCrx8SwjWDcYjAnc5u6iHnSYv26vCe/HN7l0Bqwtk2kHNZS?=
+ =?us-ascii?Q?rFmTGWGKqEIRpNsclRxM3emSLxMz/Y89MGqekgkIaoPJNK4e+nyomnZmQkUu?=
+ =?us-ascii?Q?y7NW67/V88mTFqJOfnUPur2xqSPe+3/wZccT39iD/RKex9WP1BesUPrpz/VL?=
+ =?us-ascii?Q?NJh6rw7S/KlklO8Y3A7G3WzUEy3c1Dr1IuZv++X7cQ3LYwpGeVDfHi1BdtlJ?=
+ =?us-ascii?Q?+yPisd0X7oEfGOXEetflyY4FlQv/j8E8RDYrT74YjY2b6pXRNX59P7M6V9HC?=
+ =?us-ascii?Q?Jy5cOqLq8CihfnaG5+OAcOK89aiBSvF7plkJBT/dmT3S/BG01+q/oGIDtoei?=
+ =?us-ascii?Q?dFVrInlQDvmYnRn6s0RM5X+mui6RtXHdy2WYN6tqVR5oSxCk4UgEcm2I18ZS?=
+ =?us-ascii?Q?UmeW4m2l1vaXKj3lr7jswVQ1WF/ZELhC/Diz8MaJ2TkBi+Ay26KOqq3iWfu6?=
+ =?us-ascii?Q?AnF9f7cVJNMe98d6qHDWM9crPHXK9xiH+YvjTdDcM1jteN5t8er0fUUvN7oD?=
+ =?us-ascii?Q?LKSAWiUDzfx1QBaCyzWanzAVpyrguMcwqd9nY3BCSkf+sl9DQVSggQpbq2oj?=
+ =?us-ascii?Q?D9DPIn2FdUK0Ze1bYLjLSMZ0Bh/oOYGkz1h6HLCXb3xRmsmmdnpzL987rmFO?=
+ =?us-ascii?Q?Mh+t9qPVLEu2rd5tsofFhzGqgh4pD8RLFtMjdNB+WrE0mSJmahEGZQsn2nE+?=
+ =?us-ascii?Q?E1s06HH+wsIgVX4XMB4YP9PB0exY2jLOpXhREJ9v/fL+/Klf8CqGdw9F/2Pr?=
+ =?us-ascii?Q?RJCmaP5uJxfon/LejjmFqUpD3iayobi/ItDjp75zLPuRtekDkS2CVUINYop8?=
+ =?us-ascii?Q?GAGNSGkDfkVX62v/OJwk7LJz0Oof5IgS1KP/2r96k0X1JxD52LbmTBnmBAND?=
+ =?us-ascii?Q?PdDPWeOsOBnYCGGcwsE6iwKX5MKMSb7FLAlNT4/G18EhhWVTG/DgzDvbD7Bl?=
+ =?us-ascii?Q?k1ilQuGor5rf2bO2JKZ9B9hYfE0aN6eKBqTlmAqb1OclhQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2a870a-eadc-484e-c9b6-08d8de1f974c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2021 08:37:34.5944 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fTTr7goCGkn4Y27HCYDFnNUiZmJIBDJAFlaqTu/jXw+hArx0RJ7EHLImOa0u+qKAN9mjLE70LAbDSc/t9EZM9MYPuAZZDU9SVRlF66PwCsY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1593
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9911
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103030065
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9911
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 mlxlogscore=999 adultscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103030065
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=david.edmondson@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,117 +177,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/2021 21:24, Laurent Vivier wrote:
+On Monday, 2021-03-01 at 16:21:31 +08, Kunkun Jiang wrote:
 
-> Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
->> This simplifies reading and writing the TC register value without having to
->> manually shift each individual 8-bit value.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/scsi/esp.c | 38 +++++++++++++++++++++++---------------
->>   1 file changed, 23 insertions(+), 15 deletions(-)
->>
->> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->> index e82e75d490..3a39450930 100644
->> --- a/hw/scsi/esp.c
->> +++ b/hw/scsi/esp.c
->> @@ -98,6 +98,24 @@ void esp_request_cancelled(SCSIRequest *req)
->>       }
->>   }
->>   
->> +static uint32_t esp_get_tc(ESPState *s)
->> +{
->> +    uint32_t dmalen;
->> +
->> +    dmalen = s->rregs[ESP_TCLO];
->> +    dmalen |= s->rregs[ESP_TCMID] << 8;
->> +    dmalen |= s->rregs[ESP_TCHI] << 16;
->> +
->> +    return dmalen;
->> +}
->> +
->> +static void esp_set_tc(ESPState *s, uint32_t dmalen)
->> +{
->> +    s->rregs[ESP_TCLO] = dmalen & 0xff;
-> 
-> The "& 0xff" is not needed as rregs is uint8_t.
+> According to the comment, when the host page is a huge page, the
+> migration_rate_limit() should be executed. If not, this function
+> can be omitted to save time.
+>
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 
-That's true - I think it's just done that way since that was how it was originally 
-written in the section below where I copied it from. I'll remove it in the next version.
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
->> +    s->rregs[ESP_TCMID] = dmalen >> 8;
->> +    s->rregs[ESP_TCHI] = dmalen >> 16;
->> +}
->> +
->>   static void set_pdma(ESPState *s, enum pdma_origin_id origin,
->>                        uint32_t index, uint32_t len)
->>   {
->> @@ -157,9 +175,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
->>   
->>       target = s->wregs[ESP_WBUSID] & BUSID_DID;
->>       if (s->dma) {
->> -        dmalen = s->rregs[ESP_TCLO];
->> -        dmalen |= s->rregs[ESP_TCMID] << 8;
->> -        dmalen |= s->rregs[ESP_TCHI] << 16;
->> +        dmalen = esp_get_tc(s);
->>           if (dmalen > buflen) {
->>               return 0;
->>           }
->> @@ -348,9 +364,7 @@ static void esp_dma_done(ESPState *s)
->>       s->rregs[ESP_RINTR] = INTR_BS;
->>       s->rregs[ESP_RSEQ] = 0;
->>       s->rregs[ESP_RFLAGS] = 0;
->> -    s->rregs[ESP_TCLO] = 0;
->> -    s->rregs[ESP_TCMID] = 0;
->> -    s->rregs[ESP_TCHI] = 0;
->> +    esp_set_tc(s, 0);
->>       esp_raise_irq(s);
->>   }
->>   
->> @@ -536,9 +550,7 @@ static void handle_ti(ESPState *s)
->>           return;
->>       }
->>   
->> -    dmalen = s->rregs[ESP_TCLO];
->> -    dmalen |= s->rregs[ESP_TCMID] << 8;
->> -    dmalen |= s->rregs[ESP_TCHI] << 16;
->> +    dmalen = esp_get_tc(s);
->>       if (dmalen == 0) {
->>           dmalen = 0x10000;
->>       }
->> @@ -889,9 +901,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->>   
->>       trace_esp_pdma_write(size);
->>   
->> -    dmalen = s->rregs[ESP_TCLO];
->> -    dmalen |= s->rregs[ESP_TCMID] << 8;
->> -    dmalen |= s->rregs[ESP_TCHI] << 16;
->> +    dmalen = esp_get_tc(s);
->>       if (dmalen == 0 || s->pdma_len == 0) {
->>           return;
->>       }
->> @@ -908,9 +918,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
->>           dmalen -= 2;
->>           break;
->>       }
->> -    s->rregs[ESP_TCLO] = dmalen & 0xff;
->> -    s->rregs[ESP_TCMID] = dmalen >> 8;
->> -    s->rregs[ESP_TCHI] = dmalen >> 16;
->> +    esp_set_tc(s, dmalen);
->>       if (s->pdma_len == 0 && s->pdma_cb) {
->>           esp_lower_drq(s);
->>           s->pdma_cb(s);
->>
-> 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  migration/ram.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 24967cb970..3a9115b6dc 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2014,7 +2014,9 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>          pages += tmppages;
+>          pss->page++;
+>          /* Allow rate limiting to happen in the middle of huge pages */
+> -        migration_rate_limit();
+> +        if (pagesize_bits > 1) {
+> +            migration_rate_limit();
+> +        }
+>      } while ((pss->page & (pagesize_bits - 1)) &&
+>               offset_in_ramblock(pss->block,
+>                                  ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
+> -- 
+> 2.23.0
 
-
-ATB,
-
-Mark.
+dme.
+-- 
+Please don't stand so close to me.
 
