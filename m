@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47BB32B7F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:13:33 +0100 (CET)
-Received: from localhost ([::1]:51880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4817732B7F3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:13:55 +0100 (CET)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHRJk-0001aF-OK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46946)
+	id 1lHRK6-00022O-CV
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHRFu-0006i1-TM
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:09:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39385)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHRFx-0006jI-Ai
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:09:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHRFt-0005cR-5X
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:09:34 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHRFv-0005dA-Na
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:09:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614776972;
+ s=mimecast20190719; t=1614776975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kjwfGYFMDthCpViXHcPvQAxOlLkrIVsnB+USfHIfAQU=;
- b=cmbHvkbSO0nMuN9HYlDRODFODmkoI3Ugs5zzCQ1aJElRStPZkYoGSfAUcJUG3z2IpLHzft
- GuBPsAcU/jtQNPdVAwJT4PBmKHfzAC5qyzz6lnoUlOxQINfZl9/DhvHa5uWZ87U6p0GQOq
- fV4qT4aE0I2nQzEgxG8A07pdwEYY0kE=
+ bh=6o2+E2BUPKP6kKhfuCvRH5DKgGqm/6fupzoCnbubwEA=;
+ b=dQ1QDp4kKtlizVj47I/r7fDNr8rdBZY7xIxZpVfJJ4lVWQTxA0pvbC5zgwbJ8pVQoJzcvu
+ OL4PwTiX4l4O6eJUpeFKTOspWPnFCGebnEW477uY9S6d3xJb+hIxF1dObPCHwOcw4m5m7X
+ 4F8srltTzQznK3iObNUpdrq15T5O8RY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-3Q8pOU-XMDam6ia90MPz2g-1; Wed, 03 Mar 2021 08:09:31 -0500
-X-MC-Unique: 3Q8pOU-XMDam6ia90MPz2g-1
+ us-mta-246-gcrjp9bGPkah14ORd7l0XQ-1; Wed, 03 Mar 2021 08:09:33 -0500
+X-MC-Unique: gcrjp9bGPkah14ORd7l0XQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA7A6801962;
- Wed,  3 Mar 2021 13:09:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54759195D561;
+ Wed,  3 Mar 2021 13:09:32 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-28.ams2.redhat.com [10.36.112.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 583FE60BFA;
- Wed,  3 Mar 2021 13:09:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 065D360BFA;
+ Wed,  3 Mar 2021 13:09:29 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/2] s390x/kvm: Get rid of legacy_s390_alloc()
-Date: Wed,  3 Mar 2021 14:09:15 +0100
-Message-Id: <20210303130916.22553-2-david@redhat.com>
+Subject: [PATCH v1 2/2] exec: Get rid of phys_mem_set_alloc()
+Date: Wed,  3 Mar 2021 14:09:16 +0100
+Message-Id: <20210303130916.22553-3-david@redhat.com>
 In-Reply-To: <20210303130916.22553-1-david@redhat.com>
 References: <20210303130916.22553-1-david@redhat.com>
 MIME-Version: 1.0
@@ -80,24 +80,9 @@ Cc: Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-legacy_s390_alloc() was required for dealing with the absence of the ESOP
-feature -- on old HW (< gen 10) and old z/VM versions (< 6.3).
+As the last user is gone, we can get rid of phys_mem_set_alloc() and
+simplify.
 
-As z/VM v6.2 (and even v6.3) is no longer supported since 2017 [1]
-and we don't expect to have real users on such old hardware, let's drop
-legacy_s390_alloc().
-
-Still check+report an error just in case someone still runs on
-such old z/VM environments, or someone runs under weird nested KVM
-setups (where we can manually disable ESOP via the CPU model).
-
-No need to check for KVM_CAP_GMAP - that should always be around on
-kernels that also have KVM_CAP_DEVICE_CTRL (>= v3.15).
-
-[1] https://www.ibm.com/support/lifecycle/search?q=z%2FVM
-
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
-Suggested-by: Thomas Huth <thuth@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Halil Pasic <pasic@linux.ibm.com>
@@ -108,84 +93,93 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/kvm.c | 43 +++++--------------------------------------
- 1 file changed, 5 insertions(+), 38 deletions(-)
+ include/sysemu/kvm.h |  4 ----
+ softmmu/physmem.c    | 36 +++---------------------------------
+ 2 files changed, 3 insertions(+), 37 deletions(-)
 
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 7a892d663d..84b40572f2 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -161,8 +161,6 @@ static int cap_protected;
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 687c598be9..a1ab1ee12d 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -249,10 +249,6 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap);
+ int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
+ int kvm_on_sigbus(int code, void *addr);
  
- static int active_cmma;
- 
--static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared);
+-/* interface with exec.c */
 -
- static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
- {
-     struct kvm_device_attr attr = {
-@@ -349,6 +347,11 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-                      "please use kernel 3.15 or newer");
-         return -1;
-     }
-+    if (!kvm_check_extension(s, KVM_CAP_S390_COW)) {
-+        error_report("KVM is missing capability KVM_CAP_S390_COW - "
-+                     "unsupported environment");
-+        return -1;
-+    }
- 
-     cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
-     cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
-@@ -357,11 +360,6 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
-     cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
- 
--    if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
--        || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
--        phys_mem_set_alloc(legacy_s390_alloc);
--    }
+-void phys_mem_set_alloc(void *(*alloc)(size_t, uint64_t *align, bool shared));
 -
-     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
-     kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
-     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
-@@ -889,37 +887,6 @@ int kvm_s390_mem_op_pv(S390CPU *cpu, uint64_t offset, void *hostbuf,
-     return ret;
- }
+ /* internal API */
  
+ int kvm_ioctl(KVMState *s, int type, ...);
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 19e0aa9836..141fce79e8 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1144,19 +1144,6 @@ static int subpage_register(subpage_t *mmio, uint32_t start, uint32_t end,
+                             uint16_t section);
+ static subpage_t *subpage_init(FlatView *fv, hwaddr base);
+ 
+-static void *(*phys_mem_alloc)(size_t size, uint64_t *align, bool shared) =
+-                               qemu_anon_ram_alloc;
+-
 -/*
-- * Legacy layout for s390:
-- * Older S390 KVM requires the topmost vma of the RAM to be
-- * smaller than an system defined value, which is at least 256GB.
-- * Larger systems have larger values. We put the guest between
-- * the end of data segment (system break) and this value. We
-- * use 32GB as a base to have enough room for the system break
-- * to grow. We also have to use MAP parameters that avoid
-- * read-only mapping of guest pages.
+- * Set a custom physical guest memory alloator.
+- * Accelerators with unusual needs may need this.  Hopefully, we can
+- * get rid of it eventually.
 - */
--static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared)
+-void phys_mem_set_alloc(void *(*alloc)(size_t, uint64_t *align, bool shared))
 -{
--    static void *mem;
+-    phys_mem_alloc = alloc;
+-}
 -
--    if (mem) {
--        /* we only support one allocation, which is enough for initial ram */
+ static uint16_t phys_section_add(PhysPageMap *map,
+                                  MemoryRegionSection *section)
+ {
+@@ -1962,8 +1949,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+                 return;
+             }
+         } else {
+-            new_block->host = phys_mem_alloc(new_block->max_length,
+-                                             &new_block->mr->align, shared);
++            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
++                                                  &new_block->mr->align,
++                                                  shared);
+             if (!new_block->host) {
+                 error_setg_errno(errp, errno,
+                                  "cannot set up guest memory '%s'",
+@@ -2047,17 +2035,6 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    if (phys_mem_alloc != qemu_anon_ram_alloc) {
+-        /*
+-         * file_ram_alloc() needs to allocate just like
+-         * phys_mem_alloc, but we haven't bothered to provide
+-         * a hook there.
+-         */
+-        error_setg(errp,
+-                   "-mem-path not supported with this accelerator");
 -        return NULL;
 -    }
 -
--    mem = mmap((void *) 0x800000000ULL, size,
--               PROT_EXEC|PROT_READ|PROT_WRITE,
--               MAP_SHARED | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
--    if (mem == MAP_FAILED) {
--        mem = NULL;
--    }
--    if (mem && align) {
--        *align = QEMU_VMALLOC_ALIGN;
--    }
--    return mem;
--}
+     size = HOST_PAGE_ALIGN(size);
+     file_size = get_file_size(fd);
+     if (file_size > 0 && file_size < size) {
+@@ -2247,13 +2224,6 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
+                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
+                                 flags, block->fd, offset);
+                 } else {
+-                    /*
+-                     * Remap needs to match alloc.  Accelerators that
+-                     * set phys_mem_alloc never remap.  If they did,
+-                     * we'd need a remap hook here.
+-                     */
+-                    assert(phys_mem_alloc == qemu_anon_ram_alloc);
 -
- static uint8_t const *sw_bp_inst;
- static uint8_t sw_bp_ilen;
- 
+                     flags |= MAP_PRIVATE | MAP_ANONYMOUS;
+                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
+                                 flags, -1, 0);
 -- 
 2.29.2
 
