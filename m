@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9C332AC94
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 00:32:57 +0100 (CET)
-Received: from localhost ([::1]:49500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C5432ACB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:09:13 +0100 (CET)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHEVb-0006vs-5r
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 18:32:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49766)
+	id 1lHG0l-0003pY-AO
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:09:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHEUa-0006PC-Nf
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 18:31:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHEUX-0004k2-FY
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 18:31:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614727907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kQ3oj/ka+Fcyqv63yU6ePd8HB4PIFFLZQhHCvIoZZp0=;
- b=OVeTr0Wxy2zDY8ioEr2fKO8fo0joSFvWd+PJv3l68uz7JzROe307Q1o9YCa9erCCVoqTaU
- K3ubE6++59lRn3AXfdhD1l1eBzUumPHa5tmdKjKYD0RzkAH88rgtK10uNbgtZFqH7ASnkU
- OrFD0cA7WHMadLK79T+pn+1qoNhbRLQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-CnkRLCkNPbCGaVTFD1JkVA-1; Tue, 02 Mar 2021 18:31:45 -0500
-X-MC-Unique: CnkRLCkNPbCGaVTFD1JkVA-1
-Received: by mail-ed1-f72.google.com with SMTP id k8so2844617edn.19
- for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 15:31:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lHFx2-00034F-Dg; Tue, 02 Mar 2021 20:05:20 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:39067)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lHFx0-0001Cx-7W; Tue, 02 Mar 2021 20:05:20 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id x29so6845834pgk.6;
+ Tue, 02 Mar 2021 17:05:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jd5GvI+CUtHO9kj/+hMuYljebVOyggSX2d6N90WNDsE=;
+ b=Y2ZFOXX8igsaPBTNz1Qoeo5XiB9i2pCPLLGQEvqNyhr4CUytoXe5e2Whd+ya9F5CGT
+ 7QdKpBJklHkVmygs0cGrmhA1W1Lgto/prZHZBBX/Z64yJo/OMkK8Pdy9G9XIUn+YUq7p
+ XJJhW/U9uwNYP9l39lRY9INFhc8DCj2DA+NZfXZzyNnw3wwqBVy9kxGycJg9uiHo3ZLX
+ 3b09ZtuurtT0J2wOhkvus7ouHk9SLejzmbpVDnuAjtD0hPs0dBd6ULuUohA1rr5h8CLl
+ ltS+bxbsTvzrFzXpTwjXpJVC01A6w/7aCRTSa+Izsn48VBPZ6IbdZwaKSkXsAJu928kh
+ 7zMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kQ3oj/ka+Fcyqv63yU6ePd8HB4PIFFLZQhHCvIoZZp0=;
- b=PG+WTBlM86rFrlO9XdYSal+TNnSyQiBxhVay/edjXnxndeXpqyNH8mj68kSN2+tKGA
- QpAw3oDQ33UnZEniklilQmfYBWG7ZhAYNhXLH747pFKWTIvA7xDQOIMqz4w1q3XXlNCz
- sp7jiLgDNg1RfEqaHCXvCSbsZVN3DT/Qlz925TQFLV6voJkvQSfO6htKjFbWKLl6TTc4
- 5XOBYERsN3BawVwQcSgysXC2i4SAPMmzA3cfJC3RCW4HODtoMjznDVdFPuBfV0cpq4t+
- 16TzvtgiNoz3dfq7w5K7gEZrZNoPJN0DuZfJ2Xzlcf57z1nq4QdA3KvFfhgNLcjZx6+A
- 11eA==
-X-Gm-Message-State: AOAM530KOcJWzRIIwQG8QfRmn9MKM6HKILuqI9OTvz3z1YG/GiImZUkK
- iAMLGmqzW2biJwEQ5LQBWrH6VRch1no1V86YaboXrsCvCcW4sS5VD20qFcHGJc/qk6xbqWnqnta
- xokei6Pimg7qWie0=
-X-Received: by 2002:a17:906:5295:: with SMTP id
- c21mr14627988ejm.67.1614727904354; 
- Tue, 02 Mar 2021 15:31:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzk4wIaxO0XpJOSGJz1sPagauAa3c1yxAJ1AUDir/tPIsS/v8RJPaU/MNWJWWfEhgLqL1kZSg==
-X-Received: by 2002:a17:906:5295:: with SMTP id
- c21mr14627967ejm.67.1614727904204; 
- Tue, 02 Mar 2021 15:31:44 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id jj15sm15028272ejc.99.2021.03.02.15.31.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Mar 2021 15:31:43 -0800 (PST)
-Subject: Re: [PATCH v2 8/8] hw/vfio/pci-quirks: Replace the word 'blacklist'
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20210205171817.2108907-1-philmd@redhat.com>
- <20210205171817.2108907-9-philmd@redhat.com>
- <20210302145523.0c694e4d@omen.home.shazbot.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <01fb6834-ed0c-96e1-53c4-09e0f096c848@redhat.com>
-Date: Wed, 3 Mar 2021 00:31:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jd5GvI+CUtHO9kj/+hMuYljebVOyggSX2d6N90WNDsE=;
+ b=aNkXbn1IAl7+Tg+juoQIWWmJ5M27LIU2sfp15RM2P7tn2wtUtifa0tVgPv3uWgnbNa
+ ZiEkVa0ZHhO2xnT6j79UZnqFHHqpgr7FC7vg4xI57pIDU12r5i3vdCpmefB+dBwSfbLy
+ HSx0uE0uXIsHwyx/PBI21V5r1DqLnKL0DnmnTa6TIEAq+zHA5TOzY9dGXnM0XNyoL718
+ yemzvXHGEM6FqQKmvlJFcS9qJNJbzgCSzJnqpIjebFXeSSC+pnUPz+q4CTtl1/RiRN3t
+ LDaUYhGGxxGmLPYIbg4pE0SVCRKe8Cl6KL2jX8b3xwKoUbtBRom8gIBYN7tJlYK/nFva
+ Jwdw==
+X-Gm-Message-State: AOAM530FqJ9uRB0v9APHCB0f3p9gGD0d3jCeVGS7plHgFXZThaAl6GD3
+ hjeEZjLkfJPk3V5b+asHeTc=
+X-Google-Smtp-Source: ABdhPJz+qreqwymAumvXK+GDZ/GOZZ7G0lZTJwgvxm04rjL5q4IyPdCBE/3ga4hBOREHSwNO58iA7Q==
+X-Received: by 2002:a63:e608:: with SMTP id g8mr9968522pgh.433.1614733515892; 
+ Tue, 02 Mar 2021 17:05:15 -0800 (PST)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id q21sm54197pfh.189.2021.03.02.17.05.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 17:05:14 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH] arm/ast2600: Fix SMP booting with -kernel
+Date: Wed,  3 Mar 2021 11:35:05 +1030
+Message-Id: <20210303010505.635621-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210302145523.0c694e4d@omen.home.shazbot.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=joel.stan@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,41 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/21 10:55 PM, Alex Williamson wrote:
-> On Fri,  5 Feb 2021 18:18:17 +0100
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->> Follow the inclusive terminology from the "Conscious Language in your
->> Open Source Projects" guidelines [*] and replace the word "blacklist"
->> appropriately.
->>
->> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
->>
->> Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
->> Acked-by: Alex Williamson <alex.williamson@redhat.com>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/vfio/pci.h        |  2 +-
->>  hw/vfio/pci-quirks.c | 14 +++++++-------
->>  hw/vfio/pci.c        |  4 ++--
->>  hw/vfio/trace-events |  2 +-
->>  4 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> I thought someone might grab the whole series, but since that hasn't
-> happened yet, I've queued this one.  Thanks,
+The ast2600 machines do not have PSCI firmware, so this property should
+have never been set. Removing this node fixes SMP booting Linux kernels
+that have PSCI enabled, as Linux fails to find PSCI in the device tree
+and falls back to the soc-specific method for enabling secondary CPUs.
 
-Thanks :)
+The comment is out of date as Qemu has supported -kernel booting since
+9bb6d14081ce ("aspeed: Add boot stub for smp booting"), in v5.1.
+
+Fixes: f25c0ae1079d ("aspeed/soc: Add AST2600 support")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ hw/arm/aspeed_ast2600.c | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index bf31ca351feb..49b00763864c 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -241,8 +241,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+ 
+     /* CPU */
+     for (i = 0; i < sc->num_cpus; i++) {
+-        object_property_set_int(OBJECT(&s->cpu[i]), "psci-conduit",
+-                                QEMU_PSCI_CONDUIT_SMC, &error_abort);
+         if (sc->num_cpus > 1) {
+             object_property_set_int(OBJECT(&s->cpu[i]), "reset-cbar",
+                                     ASPEED_A7MPCORE_ADDR, &error_abort);
+@@ -253,11 +251,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+         object_property_set_int(OBJECT(&s->cpu[i]), "cntfrq", 1125000000,
+                                 &error_abort);
+ 
+-        /*
+-         * TODO: the secondary CPUs are started and a boot helper
+-         * is needed when using -kernel
+-         */
+-
+         if (!qdev_realize(DEVICE(&s->cpu[i]), NULL, errp)) {
+             return;
+         }
+-- 
+2.30.1
 
 
