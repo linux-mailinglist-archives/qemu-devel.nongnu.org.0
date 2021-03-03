@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E652D32B528
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 07:17:42 +0100 (CET)
-Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B1532B52C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 07:26:50 +0100 (CET)
+Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHKpJ-0005MQ-0q
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 01:17:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36656)
+	id 1lHKy9-0000OM-1l
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 01:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHKnO-0004At-6I
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 01:15:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHKnL-0000KZ-GP
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 01:15:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lHKnJ-00068U-EE
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 06:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3B5542E8085
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 06:15:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHKxA-0007xV-Bv
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 01:25:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHKx8-0003V1-8x
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 01:25:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614752745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LWZIYDG3u5hcFXgxOyLR1EhPIFEfMiOhLEmkUUxiwRk=;
+ b=LTEQHVzFpKjZdp9jkrY5pZTQxkSTLoAXrBx0XMHsiiKoo35rwrvAhuKfE6+18R5eofGnHI
+ BbUjEnxYj8e51PT6BpiuYoZNt+NZUWmNWmOfRe5CdlADFxIj2tEfsXLXeURU7g4WIrOMWh
+ trsYO80LvmSq2cQp9G+NjMC2Bycg+NI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-gmwcCU3-Mjic68D_u9ulsw-1; Wed, 03 Mar 2021 01:25:41 -0500
+X-MC-Unique: gmwcCU3-Mjic68D_u9ulsw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 386BA84A60E;
+ Wed,  3 Mar 2021 06:25:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D0AA19C48;
+ Wed,  3 Mar 2021 06:25:35 +0000 (UTC)
+Subject: Re: [PATCH v3] target/s390x: Implement the MVPG condition-code-option
+ bit
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210303024423.3125722-1-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <82ea6a14-af12-818c-622b-4ecf06905967@redhat.com>
+Date: Wed, 3 Mar 2021 07:25:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Mar 2021 06:01:57 -0000
-From: Nick <1917565@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: 10 boot device inaccessible windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nick-kvmhv
-X-Launchpad-Bug-Reporter: Nick (nick-kvmhv)
-X-Launchpad-Bug-Modifier: Nick (nick-kvmhv)
-References: <161474788220.8516.15014999465847517073.malonedeb@gac.canonical.com>
-Message-Id: <161475131757.13938.9961620758352829418.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1917565] Re: Windows 10 fails with "Boot device inaccessible"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
-X-Launchpad-Hash: 94c53a6cad8b7df4a962ad153fd6f7f9ee4a71d0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210303024423.3125722-1-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,219 +81,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917565 <1917565@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On 03/03/2021 03.44, Richard Henderson wrote:
+> If the CCO bit is set, MVPG should not generate an exception but
+> report page translation faults via a CC code.
+> 
+> Create a new helper, access_prepare_nf, which can use probe_access_flags
+> in non-faulting mode, and then handle watchpoints.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/s390x/mem_helper.c | 87 ++++++++++++++++++++++++++++-----------
+>   1 file changed, 64 insertions(+), 23 deletions(-)
+> 
+> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+> index 25cfede806..b397333c0b 100644
+> --- a/target/s390x/mem_helper.c
+> +++ b/target/s390x/mem_helper.c
+> @@ -130,28 +130,62 @@ typedef struct S390Access {
+>       int mmu_idx;
+>   } S390Access;
+>   
+> +static bool access_prepare_nf(S390Access *access, CPUS390XState *env,
+> +                              bool nofault, vaddr vaddr1, int size,
+> +                              MMUAccessType access_type,
+> +                              int mmu_idx, uintptr_t ra)
+> +{
+> +    void *haddr1, *haddr2 = NULL;
+> +    int size1, size2;
+> +    vaddr vaddr2 = 0;
+> +    int flags;
+> +
+> +    assert(size > 0 && size <= 4096);
+> +
+> +    size1 = MIN(size, -(vaddr1 | TARGET_PAGE_MASK)),
+> +    size2 = size - size1;
+> +
+> +    flags = probe_access_flags(env, vaddr1, access_type, mmu_idx,
+> +                               nofault, &haddr1, ra);
+> +    if (unlikely(size2)) {
+> +        /* The access crosses page boundaries. */
+> +        vaddr2 = wrap_address(env, vaddr1 + size1);
+> +        flags |= probe_access_flags(env, vaddr2, access_type, mmu_idx,
+> +                                    nofault, &haddr2, ra);
+> +    }
+> +
+> +    if (unlikely(flags & TLB_INVALID_MASK)) {
+> +        return false;
+> +    }
+> +    if (unlikely(flags & TLB_WATCHPOINT)) {
+> +        /* S390 does not presently use transaction attributes. */
+> +        cpu_check_watchpoint(env_cpu(env), vaddr1, size,
+> +                             MEMTXATTRS_UNSPECIFIED,
+> +                             (access_type == MMU_DATA_STORE
+> +                              ? BP_MEM_WRITE : BP_MEM_READ), ra);
+> +    }
+> +
+> +    *access = (S390Access) {
+> +        .vaddr1 = vaddr1,
+> +        .vaddr2 = vaddr2,
+> +        .haddr1 = haddr1,
+> +        .haddr2 = haddr2,
+> +        .size1 = size1,
+> +        .size2 = size2,
+> +        .mmu_idx = mmu_idx
+> +    };
+> +    return true;
+> +}
+> +
+>   static S390Access access_prepare(CPUS390XState *env, vaddr vaddr, int size,
+>                                    MMUAccessType access_type, int mmu_idx,
+>                                    uintptr_t ra)
+>   {
+> -    S390Access access = {
+> -        .vaddr1 = vaddr,
+> -        .size1 = MIN(size, -(vaddr | TARGET_PAGE_MASK)),
+> -        .mmu_idx = mmu_idx,
+> -    };
+> -
+> -    g_assert(size > 0 && size <= 4096);
+> -    access.haddr1 = probe_access(env, access.vaddr1, access.size1, access_type,
+> -                                 mmu_idx, ra);
+> -
+> -    if (unlikely(access.size1 != size)) {
+> -        /* The access crosses page boundaries. */
+> -        access.vaddr2 = wrap_address(env, vaddr + access.size1);
+> -        access.size2 = size - access.size1;
+> -        access.haddr2 = probe_access(env, access.vaddr2, access.size2,
+> -                                     access_type, mmu_idx, ra);
+> -    }
+> -    return access;
+> +    S390Access ret;
+> +    bool ok = access_prepare_nf(&ret, env, false, vaddr, size,
+> +                                access_type, mmu_idx, ra);
+> +    assert(ok);
+> +    return ret;
+>   }
+>   
+>   /* Helper to handle memset on a single page. */
+> @@ -845,8 +879,10 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+>       const int mmu_idx = cpu_mmu_index(env, false);
+>       const bool f = extract64(r0, 11, 1);
+>       const bool s = extract64(r0, 10, 1);
+> +    const bool cco = extract64(r0, 8, 1);
+>       uintptr_t ra = GETPC();
+>       S390Access srca, desta;
+> +    bool ok;
+>   
+>       if ((f && s) || extract64(r0, 12, 4)) {
+>           tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
+> @@ -858,13 +894,18 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+>       /*
+>        * TODO:
+>        * - Access key handling
+> -     * - CC-option with surpression of page-translation exceptions
+>        * - Store r1/r2 register identifiers at real location 162
+>        */
+> -    srca = access_prepare(env, r2, TARGET_PAGE_SIZE, MMU_DATA_LOAD, mmu_idx,
+> -                          ra);
+> -    desta = access_prepare(env, r1, TARGET_PAGE_SIZE, MMU_DATA_STORE, mmu_idx,
+> -                           ra);
+> +    ok = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
+> +                           MMU_DATA_LOAD, mmu_idx, ra);
+> +    if (!ok) {
+> +        return 2;
+> +    }
+> +    ok = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
+> +                           MMU_DATA_STORE, mmu_idx, ra);
+> +    if (!ok) {
+> +        return 1;
+> +    }
 
-  The issue is happening on all versions I tried after the following
-  commit. I can also remove this individual change from master and it
-  starts to work.
-+ =
+Thanks, this looks promising, but one of the MVPG kvm-unit-tests is still 
+failing with this patch - the one that checks for an exception if the 
+destination page is marked as read-only. MVPG only returns CC1 for invalid 
+page table entries - but if the page is write-protected, it still causes a 
+protection exception. That's why I've been checking "if (exc && exc != 
+PGM_PROTECTION)" in my version of the patch.
 
-+ OVMF_CODE.fd is what comes with Ubuntu 20.04 through package manager.
-+ =
+  Thomas
 
-  =
-
-  git diff af1b80ae56c9495999e8ccf7b70ef894378de642~ af1b80ae56c9495999e8cc=
-f7b70ef894378de642
-  diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-  index b7bcbbbb2a..7a5a8b3521 100644
-  --- a/hw/i386/acpi-build.c
-  +++ b/hw/i386/acpi-build.c
-  @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev =3D aml_device(=
-"PCI0");
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_HID", aml_eisaid("PNP0A03")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_ADR", aml_int(0)));
-  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
-, dev);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
-_scope);
-  =
-
-  @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_HID", aml_eisaid("PNP0A08")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_CID", aml_eisaid("PNP0A03")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_ADR", aml_int(0)));
-  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, bui=
-ld_q35_osc_method());
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
-, dev);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
-_scope);
-  =
-
-  The virtual machine start command:
-  x86_64-softmmu/qemu-system-x86_64 -name guest=3Dwin10-dev,debug-threads=
-=3Don -blockdev '{"driver":"file","filename":"/usr/share/OVMF/OVMF_CODE.fd"=
-,"node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unm=
-ap"}' -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"dr=
-iver":"raw","file":"libvirt-pflash0-storage"}' -blockdev '{"driver":"file",=
-"filename":"/var/lib/libvirt/qemu/nvram/win10-dev_VARS.fd","node-name":"lib=
-virt-pflash1-storage","auto-read-only":true,"discard":"unmap"}' -blockdev '=
-{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","fil=
-e":"libvirt-pflash1-storage"}' -machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vm=
-port=3Doff,dump-guest-core=3Doff,pflash0=3Dlibvirt-pflash0-format,pflash1=
-=3Dlibvirt-pflash1-format -cpu Skylake-Client-IBRS,ss=3Don,vmx=3Don,pdcm=3D=
-on,hypervisor=3Don,tsc-adjust=3Don,clflushopt=3Don,umip=3Don,md-clear=3Don,=
-stibp=3Don,arch-capabilities=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don,ibpb=
-=3Don,amd-ssbd=3Don,skip-l1dfl-vmentry=3Don,pschange-mc-no=3Don,hv-time,hv-=
-relaxed,hv-vapic,hv-spinlocks=3D0x1fff -m 6144 -overcommit mem-lock=3Doff -=
-smp 4,sockets=3D4,cores=3D1,threads=3D1 -uuid 5646e540-5022-4ace-8d6a-d7c4b=
-61a6d3d -no-user-config -nodefaults -rtc base=3Dlocaltime,driftfix=3Dslew -=
-global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -global ICH9-LPC.disable_s=
-3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device pcie-root-p=
-ort,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,addr=
-=3D0x2 -device pcie-root-port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie=
-.0,addr=3D0x2.0x1 -device pcie-root-port,port=3D0x12,chassis=3D3,id=3Dpci.3=
-,bus=3Dpcie.0,addr=3D0x2.0x2 -device pcie-root-port,port=3D0x13,chassis=3D4=
-,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x3 -device pcie-root-port,port=3D0x14,=
-chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2.0x4 -device qemu-xhci,p2=3D1=
-5,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device virtio-serial-pci,id=3Dvi=
-rtio-serial0,bus=3Dpci.3,addr=3D0x0 -blockdev '{"driver":"host_device","fil=
-ename":"/dev/disk/by-id/scsi-1SanDisk_Extreme_SSD_20072F404043","aio":"nati=
-ve","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false=
-},"auto-read-only":true,"discard":"unmap"}' -blockdev '{"node-name":"libvir=
-t-2-format","read-only":false,"cache":{"direct":true,"no-flush":false},"dri=
-ver":"raw","file":"libvirt-2-storage"}' -device ide-hd,bus=3Dide.0,drive=3D=
-libvirt-2-format,id=3Dsata0-0-0,bootindex=3D1,write-cache=3Don -device ide-=
-cd,bus=3Dide.1,id=3Dsata0-0-1 -netdev user,id=3Dhostnet0 -device e1000e,net=
-dev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:10:5b:55,bus=3Dpci.1,addr=3D0x0 -ch=
-ardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dse=
-rial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserial=
-port,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,nam=
-e=3Dcom.redhat.spice.0 -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 =
--spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don,image-compressio=
-n=3Doff,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6710=
-8864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1=
-,bus=3Dpcie.0,addr=3D0x1 -device ich9-intel-hda,id=3Dsound0,bus=3Dpcie.0,ad=
-dr=3D0x1b -device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -cha=
-rdev spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-redir,chardev=3Dc=
-harredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev spicevmc,id=3Dcharredir=
-1,name=3Dusbredir -device usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3D=
-usb.0,port=3D3 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D=
-0x0 -msg timestamp=3Don -D ./log.txt -monitor stdio -d
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917565
-
-Title:
-  Windows 10 fails with "Boot device inaccessible"
-
-Status in QEMU:
-  New
-
-Bug description:
-  The issue is happening on all versions I tried after the following
-  commit. I can also remove this individual change from master and it
-  starts to work.
-
-  OVMF_CODE.fd is what comes with Ubuntu 20.04 through package manager.
-
-  =
-
-  git diff af1b80ae56c9495999e8ccf7b70ef894378de642~ af1b80ae56c9495999e8cc=
-f7b70ef894378de642
-  diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-  index b7bcbbbb2a..7a5a8b3521 100644
-  --- a/hw/i386/acpi-build.c
-  +++ b/hw/i386/acpi-build.c
-  @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev =3D aml_device(=
-"PCI0");
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_HID", aml_eisaid("PNP0A03")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_ADR", aml_int(0)));
-  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
-, dev);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
-_scope);
-
-  @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_HID", aml_eisaid("PNP0A08")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_CID", aml_eisaid("PNP0A03")));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
-_name_decl("_ADR", aml_int(0)));
-  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, bui=
-ld_q35_osc_method());
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
-, dev);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
-_scope);
-
-  The virtual machine start command:
-  x86_64-softmmu/qemu-system-x86_64 -name guest=3Dwin10-dev,debug-threads=
-=3Don -blockdev '{"driver":"file","filename":"/usr/share/OVMF/OVMF_CODE.fd"=
-,"node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unm=
-ap"}' -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"dr=
-iver":"raw","file":"libvirt-pflash0-storage"}' -blockdev '{"driver":"file",=
-"filename":"/var/lib/libvirt/qemu/nvram/win10-dev_VARS.fd","node-name":"lib=
-virt-pflash1-storage","auto-read-only":true,"discard":"unmap"}' -blockdev '=
-{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","fil=
-e":"libvirt-pflash1-storage"}' -machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vm=
-port=3Doff,dump-guest-core=3Doff,pflash0=3Dlibvirt-pflash0-format,pflash1=
-=3Dlibvirt-pflash1-format -cpu Skylake-Client-IBRS,ss=3Don,vmx=3Don,pdcm=3D=
-on,hypervisor=3Don,tsc-adjust=3Don,clflushopt=3Don,umip=3Don,md-clear=3Don,=
-stibp=3Don,arch-capabilities=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don,ibpb=
-=3Don,amd-ssbd=3Don,skip-l1dfl-vmentry=3Don,pschange-mc-no=3Don,hv-time,hv-=
-relaxed,hv-vapic,hv-spinlocks=3D0x1fff -m 6144 -overcommit mem-lock=3Doff -=
-smp 4,sockets=3D4,cores=3D1,threads=3D1 -uuid 5646e540-5022-4ace-8d6a-d7c4b=
-61a6d3d -no-user-config -nodefaults -rtc base=3Dlocaltime,driftfix=3Dslew -=
-global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -global ICH9-LPC.disable_s=
-3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device pcie-root-p=
-ort,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,addr=
-=3D0x2 -device pcie-root-port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie=
-.0,addr=3D0x2.0x1 -device pcie-root-port,port=3D0x12,chassis=3D3,id=3Dpci.3=
-,bus=3Dpcie.0,addr=3D0x2.0x2 -device pcie-root-port,port=3D0x13,chassis=3D4=
-,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x3 -device pcie-root-port,port=3D0x14,=
-chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2.0x4 -device qemu-xhci,p2=3D1=
-5,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device virtio-serial-pci,id=3Dvi=
-rtio-serial0,bus=3Dpci.3,addr=3D0x0 -blockdev '{"driver":"host_device","fil=
-ename":"/dev/disk/by-id/scsi-1SanDisk_Extreme_SSD_20072F404043","aio":"nati=
-ve","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false=
-},"auto-read-only":true,"discard":"unmap"}' -blockdev '{"node-name":"libvir=
-t-2-format","read-only":false,"cache":{"direct":true,"no-flush":false},"dri=
-ver":"raw","file":"libvirt-2-storage"}' -device ide-hd,bus=3Dide.0,drive=3D=
-libvirt-2-format,id=3Dsata0-0-0,bootindex=3D1,write-cache=3Don -device ide-=
-cd,bus=3Dide.1,id=3Dsata0-0-1 -netdev user,id=3Dhostnet0 -device e1000e,net=
-dev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:10:5b:55,bus=3Dpci.1,addr=3D0x0 -ch=
-ardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dse=
-rial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserial=
-port,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,nam=
-e=3Dcom.redhat.spice.0 -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 =
--spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don,image-compressio=
-n=3Doff,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6710=
-8864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1=
-,bus=3Dpcie.0,addr=3D0x1 -device ich9-intel-hda,id=3Dsound0,bus=3Dpcie.0,ad=
-dr=3D0x1b -device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -cha=
-rdev spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-redir,chardev=3Dc=
-harredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev spicevmc,id=3Dcharredir=
-1,name=3Dusbredir -device usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3D=
-usb.0,port=3D3 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D=
-0x0 -msg timestamp=3Don -D ./log.txt -monitor stdio -d
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917565/+subscriptions
 
