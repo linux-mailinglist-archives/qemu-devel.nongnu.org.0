@@ -2,45 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42FF332B6B3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:36:15 +0100 (CET)
-Received: from localhost ([::1]:43394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E46832B6B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:38:57 +0100 (CET)
+Received: from localhost ([::1]:46010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHOrW-0003Ci-BK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:36:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39354)
+	id 1lHOu8-0004ZL-72
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:38:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lHOqL-0002lc-VK
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:35:02 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:33786)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lHOqJ-0007Eq-FD
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:35:01 -0500
-Received: from [192.168.0.92] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 90F2B4076263;
- Wed,  3 Mar 2021 10:34:50 +0000 (UTC)
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: kvmvapic post_load
-To: QEMU Developers <qemu-devel@nongnu.org>, pbonzini@redhat.com,
- richard.henderson@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- marcel.apfelbaum@gmail.com
-Message-ID: <af069743-501d-2915-cac8-9ec07a318289@ispras.ru>
-Date: Wed, 3 Mar 2021 13:34:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHOt6-000487-V0
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:37:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lHOt4-0008BF-Qh
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:37:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614767869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WFxysC1GPNkeSufoyNXz35wgGu2xS+sVZ1+vtbr7msg=;
+ b=TsOVbNIpPUwCmNmlhWFWNwddbxLoTye5O8Jb9xwRaR2WsOtK/PSwXK3q+2N/D0JoJbQM5k
+ JWkKrTLoQmV79b8MjrTxVjog+/jPsNI33zFv5GS7Ov4sNh8RTdtAIsrhvNqLTww53QHTa5
+ Q+GAVhxQbn9+ucZbiBjb+RRniQvHWTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-OM5yhWPlPziOh8u_2ja9eg-1; Wed, 03 Mar 2021 05:37:47 -0500
+X-MC-Unique: OM5yhWPlPziOh8u_2ja9eg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C840804043;
+ Wed,  3 Mar 2021 10:37:46 +0000 (UTC)
+Received: from [10.36.112.28] (ovpn-112-28.ams2.redhat.com [10.36.112.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 440E019CBE;
+ Wed,  3 Mar 2021 10:37:41 +0000 (UTC)
+Subject: Re: [PATCH v1] vhost-vdpa: Set discarding of RAM broken when
+ initializing the backend
+From: David Hildenbrand <david@redhat.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Xie Yongji <xieyongji@bytedance.com>
+References: <20210302162129.52912-1-david@redhat.com>
+ <81c675cd-1573-7555-7d20-07b0ed950ebb@redhat.com>
+ <886ed3b7-e48c-7200-e5e6-ce8b0adc589c@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <d6e8c353-72af-25ae-a18d-7a1ab7be5775@redhat.com>
+Date: Wed, 3 Mar 2021 11:37:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <886ed3b7-e48c-7200-e5e6-ce8b0adc589c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,102 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cindy Lu <lulu@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've got the following issue while testing reverse debugging functions.
+On 03.03.21 11:26, David Hildenbrand wrote:
+> On 03.03.21 03:53, Jason Wang wrote:
+>>
+>> On 2021/3/3 12:21 上午, David Hildenbrand wrote:
+>>> Similar to VFIO, vDPA will go ahead an map+pin all guest memory. Memory
+>>> that used to be discarded will get re-populated and if we
+>>> discard+re-access memory after mapping+pinning, the pages mapped into the
+>>> vDPA IOMMU will go out of sync with the actual pages mapped into the user
+>>> space page tables.
+>>>
+>>> Set discarding of RAM broken such that:
+>>> - virtio-mem and vhost-vdpa run mutually exclusive
+>>> - virtio-balloon is inhibited and no memory discards will get issued
+>>>
+>>> In the future, we might be able to support coordinated discarding of RAM
+>>> as used by virtio-mem and as planned for VFIO.
+>>>
+>>> Cc: Jason Wang <jasowang@redhat.com>
+>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>>> Cc: Cindy Lu <lulu@redhat.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>
+>>
+>> Acked-by: Jason Wang <jasowang@redhat.com>
+>>
+>>
+>>> ---
+>>>
+>>> Note: I was not actually able to reproduce/test as I fail to get the
+>>> vdpa_sim/vdpa_sim_net running on upstream Linux (whetever vdpa, vhost_vdpa,
+>>> vdpa_sim, vdpa_sim_net modules I probe, and in which order, no vdpa devices
+>>> appear under /sys/bus/vdpa/devices/ or /dev/).
+>>
+>>
+>> The device creation was switched to use vdpa tool that is integrated
+>> with iproue2[1].
+>>
+>> [1]
+>> https://git.kernel.org/pub/scm/network/iproute2/iproute2-next.git/commit/?id=143610383da51e1f868c6d5a2a5e2fb552293d18
+> 
+> It would be great to document that somewhere if not already done. I only
+> found older RH documentations that were not aware of that. I'll give it
+> a try - thanks!
 
-kvmvapic stalls in vapic_enable_tpr_reporting function, which is called 
-at post_load phase.
-
-Does anyone have an idea how to fix this issue?
-
-
-
-
-Here is the backtrace for main thread, which loadvm and post_load functions.
-
-#0  futex_wait_cancelable (private=<optimized out>, expected=0, 
-futex_word=0x55e7c9c3ce48 <qemu_work_cond+40>) at 
-../sysdeps/nptl/futex-internal.h:183
-#1  __pthread_cond_wait_common (abstime=0x0, clockid=0, 
-mutex=0x55e7c9c59040 <qemu_global_mutex>, cond=0x55e7c9c3ce20 
-<qemu_work_cond>) at pthread_cond_wait.c:508
-#2  __pthread_cond_wait (cond=cond@entry=0x55e7c9c3ce20 
-<qemu_work_cond>, mutex=mutex@entry=0x55e7c9c59040 <qemu_global_mutex>) 
-at pthread_cond_wait.c:638
-#3  0x000055e7c973c6b2 in qemu_cond_wait_impl (cond=0x55e7c9c3ce20 
-<qemu_work_cond>, mutex=0x55e7c9c59040 <qemu_global_mutex>, 
-file=0x55e7c97d0571 "../cpus-common.c", line=154)
-     at ../util/qemu-thread-posix.c:174
-#4  0x000055e7c9428f04 in do_run_on_cpu (cpu=cpu@entry=0x55e7cba9fa70, 
-func=func@entry=0x55e7c948a7f0 <vapic_do_enable_tpr_reporting>, 
-data=..., mutex=mutex@entry=0x55e7c9c59040 <qemu_global_mutex>)
-     at ../cpus-common.c:154
-#5  0x000055e7c95a5880 in run_on_cpu (cpu=cpu@entry=0x55e7cba9fa70, 
-func=func@entry=0x55e7c948a7f0 <vapic_do_enable_tpr_reporting>, 
-data=..., data@entry=...) at ../softmmu/cpus.c:385
-#6  0x000055e7c948a77b in vapic_enable_tpr_reporting 
-(enable=enable@entry=true) at ../hw/i386/kvmvapic.c:512
-#7  0x000055e7c948ab9a in vapic_prepare (s=s@entry=0x55e7cb85ec00) at 
-../hw/i386/kvmvapic.c:634
-#8  0x000055e7c948ac10 in vapic_post_load (opaque=0x55e7cb85ec00, 
-version_id=<optimized out>) at ../hw/i386/kvmvapic.c:790
-#9  0x000055e7c933387f in vmstate_load_state (f=f@entry=0x55e7cbcbc000, 
-vmsd=0x55e7c9b24c00 <vmstate_vapic>, opaque=<optimized out>, 
-version_id=1) at ../migration/vmstate.c:168
-#10 0x000055e7c9318ea5 in vmstate_load (f=0x55e7cbcbc000, 
-se=0x55e7cb9154a0) at ../migration/savevm.c:910
-#11 0x000055e7c931913b in qemu_loadvm_section_start_full 
-(f=f@entry=0x55e7cbcbc000, mis=0x55e7cb897400) at ../migration/savevm.c:2433
-#12 0x000055e7c931c958 in qemu_loadvm_state_main 
-(f=f@entry=0x55e7cbcbc000, mis=mis@entry=0x55e7cb897400) at 
-../migration/savevm.c:2619
-#13 0x000055e7c931df5d in qemu_loadvm_state (f=f@entry=0x55e7cbcbc000) 
-at ../migration/savevm.c:2698
-#14 0x000055e7c931e81a in load_snapshot (name=name@entry=0x55e7ccfd9630 
-"tm8", vmstate=vmstate@entry=0x0, has_devices=has_devices@entry=false, 
-devices=devices@entry=0x0, errp=errp@entry=0x7fff716272a0)
-     at ../migration/savevm.c:3056
-#15 0x000055e7c934d65c in replay_seek (errp=0x7fff716272a0, 
-callback=0x55e7c934d6e0 <replay_continue_stop>, icount=12282095933) at 
-../replay/replay-debugging.c:199
-#16 replay_seek (icount=12282095933, callback=0x55e7c934d6e0 
-<replay_continue_stop>, errp=0x7fff716272a0) at 
-../replay/replay-debugging.c:184
-#17 0x000055e7c934dc00 in replay_reverse_continue () at 
-../replay/replay-debugging.c:301
-#18 0x000055e7c95a328d in handle_backward (gdb_ctx=0x7fff71627340, 
-user_ctx=0x0) at ../gdbstub.c:1911
-#19 handle_backward (gdb_ctx=gdb_ctx@entry=0x7fff71627340, 
-user_ctx=user_ctx@entry=0x0) at ../gdbstub.c:1896
-#20 0x000055e7c95a075f in process_string_cmd 
-(data=data@entry=0x55e7c9c57e04 <gdbserver_state+36> "bc", 
-cmds=cmds@entry=0x55e7c9b31680 <backward_cmd_desc>, 
-num_cmds=num_cmds@entry=1, user_ctx=0x0)
-     at ../gdbstub.c:1509
-#21 0x000055e7c95a4870 in run_cmd_parser (data=0x55e7c9c57e04 
-<gdbserver_state+36> "bc", cmd=0x55e7c9b31680 <backward_cmd_desc>) at 
-../gdbstub.c:1527
-#22 gdb_handle_packet (line_buf=0x55e7c9c57e04 <gdbserver_state+36> 
-"bc") at ../gdbstub.c:2734
-#23 gdb_read_byte (ch=53 '5') at ../gdbstub.c:3070
-#24 gdb_chr_receive (opaque=<optimized out>, buf=<optimized out>, 
-size=<optimized out>) at ../gdbstub.c:3367
-#25 0x000055e7c9612e07 in tcp_chr_read (chan=<optimized out>, 
-cond=<optimized out>, opaque=<optimized out>) at 
-../chardev/char-socket.c:557
-#26 0x00007f22af018e6e in g_main_context_dispatch () at 
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#27 0x000055e7c972d4b8 in glib_pollfds_poll () at ../util/main-loop.c:232
-#28 os_host_main_loop_wait (timeout=<optimized out>) at 
-../util/main-loop.c:255
-#29 main_loop_wait (nonblocking=nonblocking@entry=0) at 
-../util/main-loop.c:531
-#30 0x000055e7c95d3e01 in qemu_main_loop () at ../softmmu/runstate.c:725
-#31 0x000055e7c926f0e2 in main (argc=<optimized out>, argv=<optimized 
-out>, envp=<optimized out>) at ../softmmu/main.c:50
+Seems to work just fine:
 
 
-Pavel Dovgalyuk
+$ sudo ./build/qemu-system-x86_64 -m 2G,maxmem=4G --enable-kvm -object memory-backend-ram,id=mem0,size=2G  -device virtio-mem-pci,id=vmem0,memdev=mem0,node=0,requested-size=0G  -netdev type=vhost-vdpa,vhostdev=/dev/vhost-vdpa-0,id=vhost-vdpa1 -device virtio-net-pci,netdev=vhost-vdpa1,mac=00:e8:ca:33:ba:05,disable-modern=off,page-per-vq=on -nographic
+qemu-system-x86_64: -device virtio-mem-pci,id=vmem0,memdev=mem0,node=0,requested-size=0G: Discarding RAM is disabled
+
+I think the -netdev is always processed/initialized before the
+"-device virtio-mem-pci", which is why we always fail from virtio-mem code
+right now and not from vhost-vdpa code.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
