@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BACF32ACBF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:33:13 +0100 (CET)
-Received: from localhost ([::1]:33314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8C032ACC3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:40:52 +0100 (CET)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHGO0-0004sJ-7k
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47342)
+	id 1lHGVP-0000K9-9w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:40:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHGGr-0001V9-VA
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:25:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58116)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHGTw-0008C7-GI
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:39:20 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:37501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHGGo-0003r4-HH
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:25:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lHGGm-00062m-KS
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 01:25:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 989DE2E805B
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 01:25:44 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Mar 2021 01:16:54 -0000
-From: Changhee Oh <1917542@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHGTu-0005a2-N9
+ for qemu-devel@nongnu.org; Tue, 02 Mar 2021 20:39:20 -0500
+Received: by mail-pl1-x630.google.com with SMTP id p5so13136659plo.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Mar 2021 17:39:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eZ97uMunfAGCnWu1sil3Tpn+4Vo2orqUvsENooULL8c=;
+ b=Woxe402HfL+SD+GkSbIDaf1eggbY+Nzinaft4HjoEd4nhdt+b53UWXxILocoAsj6jL
+ +j38KHYvlLxczFat59ZLwl7E7jFvT2L+X6MQFrRw1gZ/VZCypBzcmM4CydHV7g3WnChb
+ weQIfYwb50KjOQti869exStMVnG6HL0bXijdpA05+bRp5CodzQw/eKQXz502eEI7+6gK
+ ee/0zbn5p/OB+5x0rttBwLEFpL2IrgKKWi6osvmr1nee+dJG00vD9kQ7d14oKf3DF9O4
+ xhvc5hyYpJ+5Fg6JzZPxjIkgVPRtJuaT8naafiH/1S2yA1ObGaNoMjaUK1SGpZGw0Ir6
+ +ZiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eZ97uMunfAGCnWu1sil3Tpn+4Vo2orqUvsENooULL8c=;
+ b=ARhTMrrY4yqHDDVtgub9/Me9aFTloiIdx97WWdMgideDPiHDKYkO+U59wECsUAma6D
+ Uu2100xOiFMaN48kuZSqK0Rm3r0MjyiM8gdcKpWRNRFv70CyVbq+uHyS0l0Lcq45mvq0
+ pntT7+Rx+BQCX64d0ANZ4ZcRfPrrK6dtZjQ6uRvZa5kr6No4+9wPW3prtoKr7kvstnE2
+ ZHh+SIqAvUrjgVDO8RTxMQouptcQrvs4AvbONZYLhaTIVrFjgQ6nV5GnukI4oMgRStgj
+ DtP072NdO2rEMvcrcB/xuwn2cG2STnjn2k2i7dzhdqaY8B3wVZ2K7ILXu/Y5cE6/lRIm
+ frdg==
+X-Gm-Message-State: AOAM531tE9q7jIIt8Ranx1rFbrx0tJDMDyteN8+gZKPMguBDz+4M4U1e
+ G0VfbtBwsTNa4gEKq/8JYuXm643YFP6Hwg==
+X-Google-Smtp-Source: ABdhPJzjROK4UqWer07KBqnmNdk5ABb3u5E6BKU6G76bjKUe9tmjssH6SHjLiLjqu7NvBEX/Zu+yqw==
+X-Received: by 2002:a17:90a:2ec6:: with SMTP id
+ h6mr7177633pjs.103.1614735556729; 
+ Tue, 02 Mar 2021 17:39:16 -0800 (PST)
+Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
+ [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id q128sm22643671pfb.51.2021.03.02.17.39.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 17:39:16 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: och.ubuntu
-X-Launchpad-Bug-Reporter: Changhee Oh (och.ubuntu)
-X-Launchpad-Bug-Modifier: Changhee Oh (och.ubuntu)
-Message-Id: <161473421480.8403.16223338106260004167.malonedeb@gac.canonical.com>
-Subject: [Bug 1917542] [NEW] qemu-img crash on M1 Mac
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
-X-Launchpad-Hash: ecca3c5280b521af4480b79e01f9777207ab7465
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2] target/s390x: Implement the MVPG condition-code-option bit
+Date: Tue,  2 Mar 2021 17:39:15 -0800
+Message-Id: <20210303013915.3122076-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,429 +82,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917542 <1917542@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+If the CCO bit is set, MVPG should not generate an exception
+but report page translation faults via a CC code.  Create a new
+helper, access_prepare_nf, which can use probe_access_flags in
+non-faulting mode.
 
-1. Symptom
-$ qemu-img create -f qcow2 disk.qcow2 10G
-[1] 72373 killed qemu-img create -f qcow2 disk.qcow2 10G
+Cc: David Hildenbrand <david@redhat.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/s390x/mem_helper.c | 76 +++++++++++++++++++++++++++------------
+ 1 file changed, 53 insertions(+), 23 deletions(-)
 
-2. System environment
-CPU: Apple M1
-OS: Big Sur 11.2.2
-qemu:  stable 5.2.0 (Binary installed by homebrew)
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 25cfede806..9e359b0d19 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -130,28 +130,51 @@ typedef struct S390Access {
+     int mmu_idx;
+ } S390Access;
+ 
++static bool access_prepare_nf(S390Access *access, CPUS390XState *env,
++                              bool nofault, vaddr vaddr1, int size,
++                              MMUAccessType access_type,
++                              int mmu_idx, uintptr_t ra)
++{
++    void *haddr1, *haddr2 = NULL;
++    int size1, size2;
++    vaddr vaddr2 = 0;
++    bool ok;
++
++    g_assert(size > 0 && size <= 4096);
++
++    size1 = MIN(size, -(vaddr1 | TARGET_PAGE_MASK)),
++    size2 = size - size1;
++
++    ok = probe_access_flags(env, vaddr1, access_type, mmu_idx,
++                            nofault, &haddr1, ra);
++    if (likely(ok) && unlikely(size2)) {
++        /* The access crosses page boundaries. */
++        vaddr2 = wrap_address(env, vaddr1 + size1);
++        ok = probe_access_flags(env, vaddr2, access_type, mmu_idx,
++                                nofault, &haddr2, ra);
++    }
++
++    *access = (S390Access) {
++        .vaddr1 = vaddr1,
++        .vaddr2 = vaddr2,
++        .haddr1 = haddr1,
++        .haddr2 = haddr2,
++        .size1 = size1,
++        .size2 = size2,
++        .mmu_idx = mmu_idx
++    };
++    return ok;
++}
++
+ static S390Access access_prepare(CPUS390XState *env, vaddr vaddr, int size,
+                                  MMUAccessType access_type, int mmu_idx,
+                                  uintptr_t ra)
+ {
+-    S390Access access = {
+-        .vaddr1 = vaddr,
+-        .size1 = MIN(size, -(vaddr | TARGET_PAGE_MASK)),
+-        .mmu_idx = mmu_idx,
+-    };
+-
+-    g_assert(size > 0 && size <= 4096);
+-    access.haddr1 = probe_access(env, access.vaddr1, access.size1, access_type,
+-                                 mmu_idx, ra);
+-
+-    if (unlikely(access.size1 != size)) {
+-        /* The access crosses page boundaries. */
+-        access.vaddr2 = wrap_address(env, vaddr + access.size1);
+-        access.size2 = size - access.size1;
+-        access.haddr2 = probe_access(env, access.vaddr2, access.size2,
+-                                     access_type, mmu_idx, ra);
+-    }
+-    return access;
++    S390Access ret;
++    bool ok = access_prepare_nf(&ret, env, false, vaddr, size,
++                                access_type, mmu_idx, ra);
++    g_assert(ok);
++    return ret;
+ }
+ 
+ /* Helper to handle memset on a single page. */
+@@ -845,8 +868,10 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+     const int mmu_idx = cpu_mmu_index(env, false);
+     const bool f = extract64(r0, 11, 1);
+     const bool s = extract64(r0, 10, 1);
++    const bool cco = extract64(r0, 8, 1);
+     uintptr_t ra = GETPC();
+     S390Access srca, desta;
++    bool ok;
+ 
+     if ((f && s) || extract64(r0, 12, 4)) {
+         tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
+@@ -858,13 +883,18 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+     /*
+      * TODO:
+      * - Access key handling
+-     * - CC-option with surpression of page-translation exceptions
+      * - Store r1/r2 register identifiers at real location 162
+      */
+-    srca = access_prepare(env, r2, TARGET_PAGE_SIZE, MMU_DATA_LOAD, mmu_idx,
+-                          ra);
+-    desta = access_prepare(env, r1, TARGET_PAGE_SIZE, MMU_DATA_STORE, mmu_idx,
+-                           ra);
++    ok = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
++                           MMU_DATA_LOAD, mmu_idx, ra);
++    if (!ok) {
++        return 2;
++    }
++    ok = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
++                           MMU_DATA_STORE, mmu_idx, ra);
++    if (!ok) {
++        return 1;
++    }
+     access_memmove(env, &desta, &srca, ra);
+     return 0; /* data moved */
+ }
+-- 
+2.25.1
 
-3. Kernel logs
-$ sudo log show --predicate =E2=80=98eventMessage LIKE =E2=80=9Cqemu=E2=80=
-=9D=E2=80=99 --debug
-ntID Dirty: 1 Event: com.apple.stability.crash {=E2=80=9CappVersion=E2=80=
-=9D:"???",=E2=80=9CexceptionType=E2=80=9D:1,=E2=80=9Clogwritten=E2=80=9D:1,=
-=E2=80=9Cprocess=E2=80=9D:=E2=80=9Cqemu-img=E2=80=9D,=E2=80=9CresponsibleAp=
-p=E2=80=9D:=E2=80=9CiTerm2=E2=80=9D,=E2=80=9Ctimestamp=E2=80=9D:16146668759=
-93238}
-2021-03-02 15:36:52.728210+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGNIN=
-G: cs_invalid_page(0x102930000): p=3D72373[qemu-img] final status 0x2300020=
-0, denying page sending SIGKILL
-2021-03-02 15:36:52.728222+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGNIN=
-G: process 72373[qemu-img]: rejecting invalid page at address 0x102930000 f=
-rom offset 0x0 in file =E2=80=9C/opt/homebrew/Cellar/libssh/0.9.5_1/lib/lib=
-ssh.4.8.6.dylib=E2=80=9D (cs_mtime:1614297740.413435328 =3D=3D mtime:161429=
-7740.413435328) (signed:1 validated:1 tainted:1 nx:0 wpmapped:0 dirty:0 dep=
-th:0)
-2021-03-02 15:36:52.728477+0900 0xfab09 Default 0x0 919 0 ReportCrash: Pars=
-ing corpse data for process qemu-img [pid 72373]
-2021-03-02 15:36:52.884736+0900 0xfab09 Default 0x0 919 0 ReportCrash: (Cra=
-shReporterSupport) Saved crash report for qemu-img[72373] version 0 to qemu=
--img_2021-03-02-153652_.crash
-
-4. Crash logs
-$ sudo cat /Users//Library/Logs/DiagnosticReports/qemu-img_2021-03-02-15365=
-2_.crash
-Process: qemu-img [72373]
-Path: /opt/homebrew/*/qemu-img
-Identifier: qemu-img
-Version: 0
-Code Type: ARM-64 (Native)
-Parent Process: zsh [67484]
-Responsible: iTerm2 [556]
-User ID: 501
-
-Date/Time: 2021-03-02 15:36:52.710 +0900
-OS Version: macOS 11.2.2 (20D80)
-Report Version: 12
-Anonymous UUID: AF87D5F0-2BED-EB72-1DC8-26F63A24DA7C
-
-Sleep/Wake UUID: 3862EA39-132E-42BD-A4BB-5A36F36607F1
-
-Time Awake Since Boot: 89000 seconds
-Time Since Wake: 520 seconds
-
-System Integrity Protection: enabled
-
-Crashed Thread: 0
-
-Exception Type: EXC_BAD_ACCESS (Code Signature Invalid)
-Exception Codes: 0x0000000000000032, 0x0000000102930000
-Exception Note: EXC_CORPSE_NOTIFY
-
-Termination Reason: Namespace CODESIGNING, Code 0x2
-
-kernel messages:
-
-VM Regions Near 0x102930000:
-__LINKEDIT 102908000-102930000 [ 160K] r=E2=80=93/r-- SM=3DCOW /opt/homebre=
-w/*
-=E2=86=92 mapped file 102930000-102934000 [ 16K] r=E2=80=93/r-x SM=3DPRV Ob=
-ject_id=3Dfc8cc3db
-__TEXT 1029bc000-102a38000 [ 496K] r-x/r-x SM=3DCOW /usr/lib/dyld
-
-Application Specific Information:
-dyld: launch, loading dependent libraries
-/opt/homebrew/opt/libssh/lib/libssh.4.dylib
-
-Thread 0 Crashed:
-0 dyld 0x0000000102a18780 bcmp + 16
-1 dyld 0x00000001029d9408 ImageLoaderMachO::validateFirstPages(linkedit_dat=
-a_command const*, int, unsigned char const*, unsigned long, long long, Imag=
-eLoader::LinkContext const&) + 136
-2 dyld 0x00000001029e03b8 ImageLoaderMachOCompressed::instantiateFromFile(c=
-har const*, int, unsigned char const*, unsigned long, unsigned long long, u=
-nsigned long long, stat const&, unsigned int, unsigned int, linkedit_data_c=
-ommand const*, encryption_info_command const*, ImageLoader::LinkContext con=
-st&) + 268
-3 dyld 0x00000001029d7ffc ImageLoaderMachO::instantiateFromFile(char const*=
-, int, unsigned char const*, unsigned long, unsigned long long, unsigned lo=
-ng long, stat const&, ImageLoader::LinkContext const&) + 172
-4 dyld 0x00000001029c0290 dyld::loadPhase6(int, stat const&, char const*, d=
-yld::LoadContext const&) + 668
-5 dyld 0x00000001029c8dd8 dyld::loadPhase5(char const*, char const*, dyld::=
-LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::=
-allocator<char const*> >) + 1328
-6 dyld 0x00000001029c8824 dyld::loadPhase4(char const, char const*, dyld::L=
-oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
-llocator<char const*> >) + 208
-7 dyld 0x00000001029c8530 dyld::loadPhase3(char const, char const*, dyld::L=
-oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
-llocator<char const*> >) + 1100
-8 dyld 0x00000001029c7cf0 dyld::loadPhase1(char const, char const*, dyld::L=
-oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
-llocator<char const*> >) + 212
-9 dyld 0x00000001029bfe0c dyld::loadPhase0(char const, char const*, dyld::L=
-oadContext const&, unsigned int&, std::__1::vector<char const*, std::__1::a=
-llocator<char const*> >) + 468
-10 dyld 0x00000001029bf9b0 dyld::load(char const, dyld::LoadContext const&,=
- unsigned int&) + 196
-11 dyld 0x00000001029c977c dyld::libraryLocator(char const*, bool, char con=
-st*, ImageLoader::RPathChain const*, unsigned int&) + 56
-12 dyld 0x00000001029d39d4 ImageLoader::recursiveLoadLibraries(ImageLoader:=
-:LinkContext const&, bool, ImageLoader::RPathChain const&, char const*) + 3=
-44
-13 dyld 0x00000001029d21ac ImageLoader::link(ImageLoader::LinkContext const=
-&, bool, bool, bool, ImageLoader::RPathChain const&, char const*) + 160
-14 dyld 0x00000001029c25f4 dyld::link(ImageLoader*, bool, bool, ImageLoader=
-::RPathChain const&, unsigned int) + 328
-15 dyld 0x00000001029c4928 dyld::_main(macho_header const*, unsigned long, =
-int, char const**, char const**, char const**, unsigned long*) + 6764
-16 dyld 0x00000001029bd258 dyldbootstrap::start(dyld3::MachOLoaded const*, =
-int, char const**, dyld3::MachOLoaded const*, unsigned long*) + 476
-17 dyld 0x00000001029bd038 _dyld_start + 56
-
-Thread 0 crashed with ARM Thread State (64-bit):
-x0: 0x0000000102930000 x1: 0x000000016d6297c0 x2: 0x0000000000000850 x3: 0x=
-0000000000040001
-x4: 0x0000000000000003 x5: 0x0000000000000000 x6: 0x0000000102a40280 x7: 0x=
-0000000000000000
-x8: 0x0000000000000000 x9: 0x000000016d629ea8 x10: 0x0000000000000001 x11: =
-0x0001803000000000
-x12: 0x0000000000000032 x13: 0x0004000000000000 x14: 0x0000000000062530 x15=
-: 0x000000016d629e28
-x16: 0x00000000000000c5 x17: 0x0000000000000000 x18: 0x0000000000000000 x19=
-: 0x0000000102a45cc0
-x20: 0x0000000000000860 x21: 0x000000016d6297c0 x22: 0x0000000102930000 x23=
-: 0x0000000000000003
-x24: 0x000000016d62a010 x25: 0x000000016d6318d8 x26: 0x00000001027cc970 x27=
-: 0x000000016d6297c0
-x28: 0x0000000000000004 fp: 0x000000016d6291c0 lr: 0x00000001029d9408
-sp: 0x000000016d629180 pc: 0x0000000102a18780 cpsr: 0x20000000
-far: 0x0000000102930000 esr: 0x92000007
-
-Binary Images:
-0x1027cc000 - 0x1028ebfff +qemu-img (0) /opt/homebrew//qemu-img
-0x1029bc000 - 0x102a37fff dyld (832.7.3) <4AB185B3-DC20-3C03-A193-67C0E6C58=
-9D7> /usr/lib/dyld
-0x102ac0000 - 0x102bbffff +libglib-2.0.0.dylib (0) /opt/homebrew//libglib-2=
-.0.0.dylib
-0x102bf4000 - 0x102d1bfff +libgnutls.30.dylib (0) <74A67886-3907-3E35-B0A3-=
-8A5798F97283> /opt/homebrew/*/libgnutls.30.dylib
-0x191db9000 - 0x192262fff com.apple.CoreFoundation (6.9 - 1774.101) /System=
-/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-0x1944af000 - 0x194579fff com.apple.framework.IOKit (2.0.2 - 1845.81.1) <51=
-6911DA-18D7-3D17-8646-BBF7C75CD070> /System/Library/Frameworks/IOKit.framew=
-ork/Versions/A/IOKit
-0x19b3b6000 - 0x19b3b7fff libSystem.B.dylib (1292.60.1) /usr/lib/libSystem.=
-B.dylib
-0x19b635000 - 0x19b639fff libpam.2.dylib (28.40.1) /usr/lib/libpam.2.dylib
-
-External Modification Summary:
-Calls made by other processes targeting this process:
-task_for_pid: 0
-thread_create: 0
-thread_set_state: 0
-Calls made by this process:
-task_for_pid: 0
-thread_create: 0
-thread_set_state: 0
-Calls made by all processes on this machine:
-task_for_pid: 81731
-thread_create: 0
-thread_set_state: 8
-
-VM Region Summary:
-ReadOnly portion of Libraries: Total=3D489.5M resident=3D0K(0%) swapped_out=
-_or_unallocated=3D489.5M(100%)
-Writable regions: Total=3D8400K written=3D0K(0%) resident=3D0K(0%) swapped_=
-out=3D0K(0%) unallocated=3D8400K(100%)
-
-                            VIRTUAL   REGION
-REGION TYPE SIZE COUNT (non-coalesced)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
-=3D
-STACK GUARD 56.0M 1
-Stack 8176K 1
-__AUTH 7K 2
-__AUTH_CONST 926K 4
-__DATA 371K 10
-__DATA_CONST 2209K 7
-__DATA_DIRTY 32K 2
-__LINKEDIT 480.3M 6
-__OBJC_CONST 28K 2
-__TEXT 9472K 8
-__UNICODE 588K 1
-mapped file 16K 1
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
-=3D
-TOTAL 557.6M 45
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917542
-
-Title:
-  qemu-img crash on M1 Mac
-
-Status in QEMU:
-  New
-
-Bug description:
-  1. Symptom
-  $ qemu-img create -f qcow2 disk.qcow2 10G
-  [1] 72373 killed qemu-img create -f qcow2 disk.qcow2 10G
-
-  2. System environment
-  CPU: Apple M1
-  OS: Big Sur 11.2.2
-  qemu:  stable 5.2.0 (Binary installed by homebrew)
-
-  3. Kernel logs
-  $ sudo log show --predicate =E2=80=98eventMessage LIKE =E2=80=9Cqemu=E2=
-=80=9D=E2=80=99 --debug
-  ntID Dirty: 1 Event: com.apple.stability.crash {=E2=80=9CappVersion=E2=80=
-=9D:"???",=E2=80=9CexceptionType=E2=80=9D:1,=E2=80=9Clogwritten=E2=80=9D:1,=
-=E2=80=9Cprocess=E2=80=9D:=E2=80=9Cqemu-img=E2=80=9D,=E2=80=9CresponsibleAp=
-p=E2=80=9D:=E2=80=9CiTerm2=E2=80=9D,=E2=80=9Ctimestamp=E2=80=9D:16146668759=
-93238}
-  2021-03-02 15:36:52.728210+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGN=
-ING: cs_invalid_page(0x102930000): p=3D72373[qemu-img] final status 0x23000=
-200, denying page sending SIGKILL
-  2021-03-02 15:36:52.728222+0900 0xfb308 Default 0x0 0 0 kernel: CODE SIGN=
-ING: process 72373[qemu-img]: rejecting invalid page at address 0x102930000=
- from offset 0x0 in file =E2=80=9C/opt/homebrew/Cellar/libssh/0.9.5_1/lib/l=
-ibssh.4.8.6.dylib=E2=80=9D (cs_mtime:1614297740.413435328 =3D=3D mtime:1614=
-297740.413435328) (signed:1 validated:1 tainted:1 nx:0 wpmapped:0 dirty:0 d=
-epth:0)
-  2021-03-02 15:36:52.728477+0900 0xfab09 Default 0x0 919 0 ReportCrash: Pa=
-rsing corpse data for process qemu-img [pid 72373]
-  2021-03-02 15:36:52.884736+0900 0xfab09 Default 0x0 919 0 ReportCrash: (C=
-rashReporterSupport) Saved crash report for qemu-img[72373] version 0 to qe=
-mu-img_2021-03-02-153652_.crash
-
-  4. Crash logs
-  $ sudo cat /Users//Library/Logs/DiagnosticReports/qemu-img_2021-03-02-153=
-652_.crash
-  Process: qemu-img [72373]
-  Path: /opt/homebrew/*/qemu-img
-  Identifier: qemu-img
-  Version: 0
-  Code Type: ARM-64 (Native)
-  Parent Process: zsh [67484]
-  Responsible: iTerm2 [556]
-  User ID: 501
-
-  Date/Time: 2021-03-02 15:36:52.710 +0900
-  OS Version: macOS 11.2.2 (20D80)
-  Report Version: 12
-  Anonymous UUID: AF87D5F0-2BED-EB72-1DC8-26F63A24DA7C
-
-  Sleep/Wake UUID: 3862EA39-132E-42BD-A4BB-5A36F36607F1
-
-  Time Awake Since Boot: 89000 seconds
-  Time Since Wake: 520 seconds
-
-  System Integrity Protection: enabled
-
-  Crashed Thread: 0
-
-  Exception Type: EXC_BAD_ACCESS (Code Signature Invalid)
-  Exception Codes: 0x0000000000000032, 0x0000000102930000
-  Exception Note: EXC_CORPSE_NOTIFY
-
-  Termination Reason: Namespace CODESIGNING, Code 0x2
-
-  kernel messages:
-
-  VM Regions Near 0x102930000:
-  __LINKEDIT 102908000-102930000 [ 160K] r=E2=80=93/r-- SM=3DCOW /opt/homeb=
-rew/*
-  =E2=86=92 mapped file 102930000-102934000 [ 16K] r=E2=80=93/r-x SM=3DPRV =
-Object_id=3Dfc8cc3db
-  __TEXT 1029bc000-102a38000 [ 496K] r-x/r-x SM=3DCOW /usr/lib/dyld
-
-  Application Specific Information:
-  dyld: launch, loading dependent libraries
-  /opt/homebrew/opt/libssh/lib/libssh.4.dylib
-
-  Thread 0 Crashed:
-  0 dyld 0x0000000102a18780 bcmp + 16
-  1 dyld 0x00000001029d9408 ImageLoaderMachO::validateFirstPages(linkedit_d=
-ata_command const*, int, unsigned char const*, unsigned long, long long, Im=
-ageLoader::LinkContext const&) + 136
-  2 dyld 0x00000001029e03b8 ImageLoaderMachOCompressed::instantiateFromFile=
-(char const*, int, unsigned char const*, unsigned long, unsigned long long,=
- unsigned long long, stat const&, unsigned int, unsigned int, linkedit_data=
-_command const*, encryption_info_command const*, ImageLoader::LinkContext c=
-onst&) + 268
-  3 dyld 0x00000001029d7ffc ImageLoaderMachO::instantiateFromFile(char cons=
-t*, int, unsigned char const*, unsigned long, unsigned long long, unsigned =
-long long, stat const&, ImageLoader::LinkContext const&) + 172
-  4 dyld 0x00000001029c0290 dyld::loadPhase6(int, stat const&, char const*,=
- dyld::LoadContext const&) + 668
-  5 dyld 0x00000001029c8dd8 dyld::loadPhase5(char const*, char const*, dyld=
-::LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1=
-::allocator<char const*> >) + 1328
-  6 dyld 0x00000001029c8824 dyld::loadPhase4(char const, char const*, dyld:=
-:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
-:allocator<char const*> >) + 208
-  7 dyld 0x00000001029c8530 dyld::loadPhase3(char const, char const*, dyld:=
-:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
-:allocator<char const*> >) + 1100
-  8 dyld 0x00000001029c7cf0 dyld::loadPhase1(char const, char const*, dyld:=
-:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
-:allocator<char const*> >) + 212
-  9 dyld 0x00000001029bfe0c dyld::loadPhase0(char const, char const*, dyld:=
-:LoadContext const&, unsigned int&, std::__1::vector<char const*, std::__1:=
-:allocator<char const*> >) + 468
-  10 dyld 0x00000001029bf9b0 dyld::load(char const, dyld::LoadContext const=
-&, unsigned int&) + 196
-  11 dyld 0x00000001029c977c dyld::libraryLocator(char const*, bool, char c=
-onst*, ImageLoader::RPathChain const*, unsigned int&) + 56
-  12 dyld 0x00000001029d39d4 ImageLoader::recursiveLoadLibraries(ImageLoade=
-r::LinkContext const&, bool, ImageLoader::RPathChain const&, char const*) +=
- 344
-  13 dyld 0x00000001029d21ac ImageLoader::link(ImageLoader::LinkContext con=
-st&, bool, bool, bool, ImageLoader::RPathChain const&, char const*) + 160
-  14 dyld 0x00000001029c25f4 dyld::link(ImageLoader*, bool, bool, ImageLoad=
-er::RPathChain const&, unsigned int) + 328
-  15 dyld 0x00000001029c4928 dyld::_main(macho_header const*, unsigned long=
-, int, char const**, char const**, char const**, unsigned long*) + 6764
-  16 dyld 0x00000001029bd258 dyldbootstrap::start(dyld3::MachOLoaded const*=
-, int, char const**, dyld3::MachOLoaded const*, unsigned long*) + 476
-  17 dyld 0x00000001029bd038 _dyld_start + 56
-
-  Thread 0 crashed with ARM Thread State (64-bit):
-  x0: 0x0000000102930000 x1: 0x000000016d6297c0 x2: 0x0000000000000850 x3: =
-0x0000000000040001
-  x4: 0x0000000000000003 x5: 0x0000000000000000 x6: 0x0000000102a40280 x7: =
-0x0000000000000000
-  x8: 0x0000000000000000 x9: 0x000000016d629ea8 x10: 0x0000000000000001 x11=
-: 0x0001803000000000
-  x12: 0x0000000000000032 x13: 0x0004000000000000 x14: 0x0000000000062530 x=
-15: 0x000000016d629e28
-  x16: 0x00000000000000c5 x17: 0x0000000000000000 x18: 0x0000000000000000 x=
-19: 0x0000000102a45cc0
-  x20: 0x0000000000000860 x21: 0x000000016d6297c0 x22: 0x0000000102930000 x=
-23: 0x0000000000000003
-  x24: 0x000000016d62a010 x25: 0x000000016d6318d8 x26: 0x00000001027cc970 x=
-27: 0x000000016d6297c0
-  x28: 0x0000000000000004 fp: 0x000000016d6291c0 lr: 0x00000001029d9408
-  sp: 0x000000016d629180 pc: 0x0000000102a18780 cpsr: 0x20000000
-  far: 0x0000000102930000 esr: 0x92000007
-
-  Binary Images:
-  0x1027cc000 - 0x1028ebfff +qemu-img (0) /opt/homebrew//qemu-img
-  0x1029bc000 - 0x102a37fff dyld (832.7.3) <4AB185B3-DC20-3C03-A193-67C0E6C=
-589D7> /usr/lib/dyld
-  0x102ac0000 - 0x102bbffff +libglib-2.0.0.dylib (0) /opt/homebrew//libglib=
--2.0.0.dylib
-  0x102bf4000 - 0x102d1bfff +libgnutls.30.dylib (0) <74A67886-3907-3E35-B0A=
-3-8A5798F97283> /opt/homebrew/*/libgnutls.30.dylib
-  0x191db9000 - 0x192262fff com.apple.CoreFoundation (6.9 - 1774.101) /Syst=
-em/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-  0x1944af000 - 0x194579fff com.apple.framework.IOKit (2.0.2 - 1845.81.1) <=
-516911DA-18D7-3D17-8646-BBF7C75CD070> /System/Library/Frameworks/IOKit.fram=
-ework/Versions/A/IOKit
-  0x19b3b6000 - 0x19b3b7fff libSystem.B.dylib (1292.60.1) /usr/lib/libSyste=
-m.B.dylib
-  0x19b635000 - 0x19b639fff libpam.2.dylib (28.40.1) /usr/lib/libpam.2.dylib
-
-  External Modification Summary:
-  Calls made by other processes targeting this process:
-  task_for_pid: 0
-  thread_create: 0
-  thread_set_state: 0
-  Calls made by this process:
-  task_for_pid: 0
-  thread_create: 0
-  thread_set_state: 0
-  Calls made by all processes on this machine:
-  task_for_pid: 81731
-  thread_create: 0
-  thread_set_state: 8
-
-  VM Region Summary:
-  ReadOnly portion of Libraries: Total=3D489.5M resident=3D0K(0%) swapped_o=
-ut_or_unallocated=3D489.5M(100%)
-  Writable regions: Total=3D8400K written=3D0K(0%) resident=3D0K(0%) swappe=
-d_out=3D0K(0%) unallocated=3D8400K(100%)
-
-                              VIRTUAL   REGION
-  REGION TYPE SIZE COUNT (non-coalesced)
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D
-  STACK GUARD 56.0M 1
-  Stack 8176K 1
-  __AUTH 7K 2
-  __AUTH_CONST 926K 4
-  __DATA 371K 10
-  __DATA_CONST 2209K 7
-  __DATA_DIRTY 32K 2
-  __LINKEDIT 480.3M 6
-  __OBJC_CONST 28K 2
-  __TEXT 9472K 8
-  __UNICODE 588K 1
-  mapped file 16K 1
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D
-  TOTAL 557.6M 45
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917542/+subscriptions
 
