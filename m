@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B45D32BA36
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 20:29:26 +0100 (CET)
-Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3854432BA39
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 20:33:55 +0100 (CET)
+Received: from localhost ([::1]:41714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHXBV-000780-J6
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 14:29:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44036)
+	id 1lHXFq-0000dC-0K
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 14:33:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHX7o-0003z3-Fz
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:25:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHX7k-0002Gt-UQ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:25:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lHX7j-0008Af-Bd
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 19:25:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 557802E815B
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 19:25:31 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXF4-0000Cd-KH
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:33:06 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:46889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lHXF2-0004fV-KZ
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:33:06 -0500
+Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mw9Dg-1m71Oa1J24-00s6E6; Wed, 03 Mar 2021 20:32:52 +0100
+Subject: Re: [PATCH v2 31/42] esp: implement FIFO flush command
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-32-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <d764e7e2-2171-4fe9-b73e-197f892c148b@vivier.eu>
+Date: Wed, 3 Mar 2021 20:32:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Mar 2021 19:17:47 -0000
-From: BogDan <1917661@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bog-dan-ro
-X-Launchpad-Bug-Reporter: BogDan (bog-dan-ro)
-X-Launchpad-Bug-Modifier: BogDan (bog-dan-ro)
-References: <161479886143.24350.9355670718334050866.malonedeb@soybean.canonical.com>
-Message-Id: <161479906717.24490.2799253337107087197.malone@soybean.canonical.com>
-Subject: [Bug 1917661] Re: qemu gdb wrong registers group for riscv64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
-X-Launchpad-Hash: f3b37ae18a095e6e63843a399f1306e4855a9de5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210209193018.31339-32-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2/ZLqzx5mscDQUwUey2ilqf7rhAyhwk5RIQH1bUsUf35P7bac7M
+ 0jNldYYObGf+rVWgBlfCrbq8f0VPQw5lng8RmOHBYkkPVK41fNVjIghlA6pO5Yovn40ukMT
+ eB+0XTeoml6QpQXNlLFSHFaYJlT9wUreJ2ObmaxmnpwwuQKdKiluiOlQDsnlhtJmB1FP9JK
+ 2bjEJd7wFCtwmNgnnu56g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ahBavYN7/jI=:J0Ps0eq9W67oCNMuYxVoy3
+ MEB1jMr1bzRDwH3Goz/jcM5dIbSw3JxKvEKiuG1TRy/t5D3n4F48/keQzWANZ+PnsKJh8PdDv
+ 9HOzajUWjeMgSgkQInBn1KtjjFCTnme0l0m8zCJchJvhae6895eQMqfBZPtk2rYRaeXva3/Pr
+ elXL91hLobQLw8FN8gstxFn96LCCqkyCXRdqkMZy72bhQL10VOpm+8YT2ldFD8cmPhA5yWhCC
+ KHNvhiq1+yKQHO7/+I3S99ejwJkPE9a3z9LtZisaIkqxAyhHITsjkj5PnrKWAq8p6zgydqomJ
+ qnJ10zQ/vK2K9mBGCp9GPb0/nzTRSKgC1EV8qFqzJFt9FTtCZ4WbI5Z1Pl7gYJ8OsVbz41etS
+ kUbn+80jG51Xj0brFXH2NOqG6LZjyZOiiF6gZxQzLGaKe6v8dptSwq99OUTk+8EVZW+RoEdh0
+ YB57cL5/9Q==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,44 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917661 <1917661@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I forgot to specify the version, I built qemu sha
-c40ae5a3ee387b13116948cbfe7824f03311db7e
+Le 09/02/2021 à 20:30, Mark Cave-Ayland a écrit :
+> At this point it is now possible to properly implement the FIFO flush command
+> without causing guest errors.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index 1d56c99527..0994673ff8 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -770,6 +770,8 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
+>          case CMD_FLUSH:
+>              trace_esp_mem_writeb_cmd_flush(val);
+>              /*s->ti_size = 0;*/
+> +            s->ti_wptr = 0;
+> +            s->ti_rptr = 0;
+>              s->rregs[ESP_RINTR] = INTR_FC;
+>              s->rregs[ESP_RSEQ] = 0;
+>              s->rregs[ESP_RFLAGS] = 0;
+> 
 
-$ qemu-system-riscv64 --version
-QEMU emulator version 5.2.50 (v5.2.0-2392-gc40ae5a3ee-dirty)
+Why don't  you set aso ti_size to 0?
 
--- =
+Anyway:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917661
+Reviwed-by: Laurent Vivier <laurent@vivier.eu>
 
-Title:
-  qemu gdb wrong registers group for riscv64
-
-Status in QEMU:
-  New
-
-Bug description:
-  Step to reproduce:
-  1. run qemu-system-riscv64 in gdb mode
-  2. attach gdb
-  3. set a breakpoint and run
-  4. print register-groups using "maintenance print register-groups" command
-
-  ...
-   sbadaddr   4162 4162   1628       8 long            all,general
-   msounteren 4163 4163   1636       8 long            all,general
-   mbadaddr   4164 4164   1644       8 long            all,general
-   htimedeltah 4165 4165   1652       8 long            all,general
-
-  These registers don't belong to general group, instead they belong to
-  all, system and csr groups.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917661/+subscriptions
+Thanks,
+Laurent
 
