@@ -2,63 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E21132B86F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 15:06:38 +0100 (CET)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979FD32B872
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 15:08:20 +0100 (CET)
+Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHS96-0000tL-Tg
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 09:06:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59108)
+	id 1lHSAl-00025c-N6
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 09:08:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lHS7b-0008N5-PQ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:05:03 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:49401)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lHS9s-0001eQ-OV; Wed, 03 Mar 2021 09:07:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lHS7V-0005ce-BK
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 09:05:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=vK60LVqZ1MizhW17MFO70pzqiivCnOEjbQpiOY4eEnQ=; b=BhoDwYUpxPKYsSIrcxOSQn0Ye6
- xoEKDA3F5AjYG7a9vuosWfQ1ARAEAW9NNdLjYixzHzr+D4Z+HZg6IbJJfQIiFb+bL/OsDOhDSVBDA
- AaDkbzoOI0fnWcjmRSgUe8FLsG/OulyKqeVxfmsrMxu8OdLFuAP3+WcOGqnElUgIT+xpcMusNi/U9
- //eG3/gOV9KS24Rb0WC/sj5o6g87YXj61vnyQl4y8SedEaLIJlZjsUkLtyL55NRZE4vCQEcbvNkGO
- mRvGKFSUmRkrIZVxLbHFvXsEoB/ARjYsElLg85/T4XuLFbDmWQLIw7wmZyC3911oZGBD4rcvnFrBj
- cSWQM5D3QeV6HJR1K6LbdcMXQsjoKX3U5/l/7uleEtRUGypRNOKvA24C8/W3ifZUJEpCRpdDTM9Yd
- gBYeoViKxA46gY0p+vZ91Hrm6Wgn2mukuiNHhJnmh4+P/web1yFRWebDz12CkEfyRIH9VudNUkUeM
- XkY7Mmg3Zgn6fZn+PXrhnXGLHzDs2asduD9CxWabIMJZ5x2rMlsOAUV5Bos12jL7ywEzmosyQ13y+
- hQ53SkdqgBeK2qlXnSdc0VfjVyjkoVgBujQt8iFI3QWrdxbSdb9U6yVyp51f0cHfhz6rXJWdYJYyB
- 981BUHDc4hgb3Xj9DoGVRGstUdoSbv1GwcGtoo6B4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Dominique Martinet <asmadeus@codewreck.org>, "Shinde,
- Archana M" <archana.m.shinde@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Venegas Munoz, Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- Greg Kurz <groug@kaod.org>, virtio-fs-list <virtio-fs@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, v9fs-developer@lists.sourceforge.net,
- "cdupontd@redhat.com" <cdupontd@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
- performance)
-Date: Wed, 03 Mar 2021 15:04:21 +0100
-Message-ID: <1805660.C9YIKG4Ep7@silver>
-In-Reply-To: <YDmMXCxxOqo1xKgq@odin>
-References: <20200918213436.GA3520@redhat.com> <1918692.k70u9Ml6kK@silver>
- <YDmMXCxxOqo1xKgq@odin>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lHS9q-0006UO-LV; Wed, 03 Mar 2021 09:07:24 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 123E38Jd021322; Wed, 3 Mar 2021 09:07:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=b1Eil9MDUxhdYNA6OorS+IFTSjRbNFBSRjLKeiOk0KE=;
+ b=rw5abHo3xhuNsc5IT00HVzzlmjjaR4uoNHmJ/itP40bigjgAgVPNCEedDf6nyCGXh8XD
+ Y1iD+obRUlP0Z3iUKEGgqAel/OsC4J4/cBMBXEEd2JeBLwMMqed+8XwBbUw76EgBEV95
+ mBqhbKw6gpiG0qmnlxXXQQkQiRphfIsqcEF26FBJpMcmMbN7KFZgH2qhtx0OQfj6Uayu
+ M/n1IITerLX01AMSqz9OLXthbZ+MVIPTAPBvMLgOSIxzhgX36HFHrjVydvlAjE/wL9Rb
+ fFE4qrpGrzw+E1l785XvquJBoO6aMT3XciCHNpoymQympwOxsbzXmJbqYd1vOx3pWYG7 KQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 372ap3bda5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Mar 2021 09:07:18 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 123E3Emb021993;
+ Wed, 3 Mar 2021 09:07:18 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 372ap3bd4b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Mar 2021 09:07:18 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 123E4kIF028060;
+ Wed, 3 Mar 2021 14:07:13 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 371162hw15-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Mar 2021 14:07:13 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 123E7B9R39649696
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 3 Mar 2021 14:07:11 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 23E254C046;
+ Wed,  3 Mar 2021 14:07:11 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 58BC94C04A;
+ Wed,  3 Mar 2021 14:07:10 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.85.32])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  3 Mar 2021 14:07:10 +0000 (GMT)
+Subject: Re: [PATCH v1 1/2] s390x/kvm: Get rid of legacy_s390_alloc()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210303130916.22553-1-david@redhat.com>
+ <20210303130916.22553-2-david@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <ffb3c5f5-03bc-c8f8-b414-0556cbdbc101@de.ibm.com>
+Date: Wed, 3 Mar 2021 15:07:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210303130916.22553-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-03_04:2021-03-03,
+ 2021-03-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ clxscore=1011 impostorscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103030107
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,153 +110,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Samstag, 27. Februar 2021 01:03:40 CET Dominique Martinet wrote:
-> Christian Schoenebeck wrote on Fri, Feb 26, 2021 at 02:49:12PM +0100:
-> > Right now the client uses a hard coded amount of 128 elements. So what
-> > about replacing VIRTQUEUE_NUM by a variable which is initialized with a
-> > value according to the user's requested 'msize' option at init time?
-> > 
-> > According to the virtio specs the max. amount of elements in a virtqueue
-> > is
-> > 32768. So 32768 * 4k = 128M as new upper limit would already be a
-> > significant improvement and would not require too many changes to the
-> > client code, right?
-> The current code inits the chan->sg at probe time (when driver is
-> loader) and not mount time, and it is currently embedded in the chan
-> struct, so that would need allocating at mount time (p9_client_create ;
-> either resizing if required or not sharing) but it doesn't sound too
-> intrusive yes.
+
+
+On 03.03.21 14:09, David Hildenbrand wrote:
+> legacy_s390_alloc() was required for dealing with the absence of the ESOP
+> feature -- on old HW (< gen 10) and old z/VM versions (< 6.3).
 > 
-> I don't see more adherenences to VIRTQUEUE_NUM that would hurt trying.
-
-Ok, then I will look into changing this when I hopefully have some time in few 
-weeks.
-
-> > > On the 9p side itself, unrelated to virtio, we don't want to make it
-> > > *too* big as the client code doesn't use any scatter-gather and will
-> > > want to allocate upfront contiguous buffers of the size that got
-> > > negotiated -- that can get ugly quite fast, but we can leave it up to
-> > > users to decide.
-> > 
-> > With ugly you just mean that it's occupying this memory for good as long
-> > as
-> > the driver is loaded, or is there some runtime performance penalty as well
-> > to be aware of?
+> As z/VM v6.2 (and even v6.3) is no longer supported since 2017 [1]
+> and we don't expect to have real users on such old hardware, let's drop
+> legacy_s390_alloc().
 > 
-> The main problem is memory fragmentation, see /proc/buddyinfo on various
-> systems.
-> After a fresh boot memory is quite clean and there is no problem
-> allocating 2MB contiguous buffers, but after a while depending on the
-> workload it can be hard to even allocate large buffers.
-> I've had that problem at work in the past with a RDMA driver that wanted
-> to allocate 256KB and could get that to fail quite reliably with our
-> workload, so it really depends on what the client does.
+> Still check+report an error just in case someone still runs on
+> such old z/VM environments, or someone runs under weird nested KVM
+> setups (where we can manually disable ESOP via the CPU model).
 > 
-> In the 9p case, the memory used to be allocated for good and per client
-> (= mountpoint), so if you had 15 9p mounts that could do e.g. 32
-> requests in parallel with 1MB buffers you could lock 500MB of idling
-> ram. I changed that to a dedicated slab a while ago, so that should no
-> longer be so much of a problem -- the slab will keep the buffers around
-> as well if used frequently so the performance hit wasn't bad even for
-> larger msizes
-
-Ah ok, good to know.
-
-BTW qemu now handles multiple filesystems below one 9p share correctly by 
-(optionally) remapping inode numbers from host side -> guest side 
-appropriately to prevent potential file ID collisions. This might reduce the 
-need to have a large amount of 9p mount points on guest side.
-
-For instance I am running entire guest systems entirely on one 9p mount point 
-as root fs that is. The guest system is divided into multiple filesystems on 
-host side (e.g. multiple zfs datasets), not on guest side.
-
-> > > One of my very-long-term goal would be to tend to that, if someone has
-> > > cycles to work on it I'd gladly review any patch in that area.
-> > > A possible implementation path would be to have transport define
-> > > themselves if they support it or not and handle it accordingly until all
-> > > transports migrated, so one wouldn't need to care about e.g. rdma or xen
-> > > if you don't have hardware to test in the short term.
-> > 
-> > Sounds like something that Greg suggested before for a slightly different,
-> > even though related issue: right now the default 'msize' on Linux client
-> > side is 8k, which really hurts performance wise as virtually all 9p
-> > messages have to be split into a huge number of request and response
-> > messages. OTOH you don't want to set this default value too high. So Greg
-> > noted that virtio could suggest a default msize, i.e. a value that would
-> > suit host's storage hardware appropriately.
+> No need to check for KVM_CAP_GMAP - that should always be around on
+> kernels that also have KVM_CAP_DEVICE_CTRL (>= v3.15).
 > 
-> We can definitely increase the default, for all transports in my
-> opinion.
-> As a first step, 64 or 128k?
-
-Just to throw some numbers first; when linearly reading a 12 GB file on guest 
-(i.e. "time cat test.dat > /dev/null") on a test machine, these are the 
-results that I get (cache=mmap):
-
-msize=16k: 2min7s (95 MB/s)
-msize=64k: 17s (706 MB/s)
-msize=128k: 12s (1000 MB/s)
-msize=256k: 8s (1500 MB/s)
-msize=512k: 6.5s (1846 MB/s)
-
-Personally I would raise the default msize value at least to 128k.
-
-> > > The next best thing would be David's netfs helpers and sending
-> > > concurrent requests if you use cache, but that's not merged yet either
-> > > so it'll be a few cycles as well.
-> > 
-> > So right now the Linux client is always just handling one request at a
-> > time; it sends a 9p request and waits for its response before processing
-> > the next request?
+> [1] https://www.ibm.com/support/lifecycle/search?q=z%2FVM
 > 
-> Requests are handled concurrently just fine - if you have multiple
-> processes all doing their things it will all go out in parallel.
+> Suggested-by: Cornelia Huck <cohuck@redhat.com>
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+I agree, this should now be a corner case that we do not necessarily have to care about.
+
+> ---
+>   target/s390x/kvm.c | 43 +++++--------------------------------------
+>   1 file changed, 5 insertions(+), 38 deletions(-)
 > 
-> The bottleneck people generally complain about (and where things hurt)
-> is if you have a single process reading then there is currently no
-> readahead as far as I know, so reads are really sent one at a time,
-> waiting for reply and sending next.
-
-So that also means if you are running a multi-threaded app (in one process) on 
-guest side, then none of its I/O requests are handled in parallel right now. 
-It would be desirable to have parallel requests for multi-threaded apps as 
-well.
-
-Personally I don't find raw I/O the worst performance issue right now. As you 
-can see from the numbers above, if 'msize' is raised and I/O being performed 
-with large chunk sizes (e.g. 'cat' automatically uses a chunk size according 
-to the iounit advertised by stat) then the I/O results are okay.
-
-What hurts IMO the most in practice is the sluggish behaviour regarding 
-dentries ATM. The following is with cache=mmap (on guest side):
-
-$ time ls /etc/ > /dev/null
-real    0m0.091s
-user    0m0.000s
-sys     0m0.044s
-$ time ls -l /etc/ > /dev/null
-real    0m0.259s
-user    0m0.008s
-sys     0m0.016s
-$ ls -l /etc/ | wc -l
-113
-$
-
-With cache=loose there is some improvement; on the first "ls" run (when its 
-not in the dentry cache I assume) the results are similar. The subsequent runs 
-then improve to around 50ms for "ls" and around 70ms for "ls -l". But that's 
-still far from numbers I would expect.
-
-Keep in mind, even when you just open() & read() a file, then directory 
-components have to be walked for checking ownership and permissions. I have 
-seen huge slowdowns in deep directory structures for that reason.
-
-Best regards,
-Christian Schoenebeck
-
-
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 7a892d663d..84b40572f2 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -161,8 +161,6 @@ static int cap_protected;
+>   
+>   static int active_cmma;
+>   
+> -static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared);
+> -
+>   static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
+>   {
+>       struct kvm_device_attr attr = {
+> @@ -349,6 +347,11 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>                        "please use kernel 3.15 or newer");
+>           return -1;
+>       }
+> +    if (!kvm_check_extension(s, KVM_CAP_S390_COW)) {
+> +        error_report("KVM is missing capability KVM_CAP_S390_COW - "
+> +                     "unsupported environment");
+> +        return -1;
+> +    }
+>   
+>       cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
+>       cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
+> @@ -357,11 +360,6 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>       cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
+>       cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
+>   
+> -    if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
+> -        || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
+> -        phys_mem_set_alloc(legacy_s390_alloc);
+> -    }
+> -
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
+> @@ -889,37 +887,6 @@ int kvm_s390_mem_op_pv(S390CPU *cpu, uint64_t offset, void *hostbuf,
+>       return ret;
+>   }
+>   
+> -/*
+> - * Legacy layout for s390:
+> - * Older S390 KVM requires the topmost vma of the RAM to be
+> - * smaller than an system defined value, which is at least 256GB.
+> - * Larger systems have larger values. We put the guest between
+> - * the end of data segment (system break) and this value. We
+> - * use 32GB as a base to have enough room for the system break
+> - * to grow. We also have to use MAP parameters that avoid
+> - * read-only mapping of guest pages.
+> - */
+> -static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared)
+> -{
+> -    static void *mem;
+> -
+> -    if (mem) {
+> -        /* we only support one allocation, which is enough for initial ram */
+> -        return NULL;
+> -    }
+> -
+> -    mem = mmap((void *) 0x800000000ULL, size,
+> -               PROT_EXEC|PROT_READ|PROT_WRITE,
+> -               MAP_SHARED | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
+> -    if (mem == MAP_FAILED) {
+> -        mem = NULL;
+> -    }
+> -    if (mem && align) {
+> -        *align = QEMU_VMALLOC_ALIGN;
+> -    }
+> -    return mem;
+> -}
+> -
+>   static uint8_t const *sw_bp_inst;
+>   static uint8_t sw_bp_ilen;
+>   
+> 
 
