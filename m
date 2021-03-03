@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3043D32B7C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 13:14:52 +0100 (CET)
-Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3400332B7C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 13:16:11 +0100 (CET)
+Received: from localhost ([::1]:36870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHQOx-0005Dw-7p
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 07:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
+	id 1lHQQE-0006TJ-8t
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 07:16:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHQNX-0004jU-7x
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:13:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41513)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHQNa-0004kB-7f
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:13:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHQNQ-0004uv-Cn
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:13:22 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHQNX-0004wT-2S
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:13:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614773593;
+ s=mimecast20190719; t=1614773600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ovfuL5Nywao9rC/wTSQYpk9NXU2+8oNH722G6npEfBY=;
- b=PE11UkR6TZFJzLU3VNiOWHQt4AYHKwAwfPh5wPBSB/PyxRZYfhr/EBwWJ6JOs9oGRFWtjT
- TqJPPFEQ7c8pmcloumFMz7bjL5Ysme8sHn5SmFa3Tp33imcH3+3h+htEgzDA5nTvatLABW
- 6aiejRr/rHJGPyoA3vquhBq7F1Ey00s=
+ bh=6wNSDQSRbRhwYO1Yjsa+zant8X/ImztjFC85yIRuAvk=;
+ b=eOxW9rhX70lew/ZE2xekwYm22a5jVin/Ics7Mny92Hoi58DK6yWxd8k4HVtLI33FExCmbz
+ IDLOX2WNr4X+q88liaVIePpW718lc0m8kQT/JcEnDS0yzF9VnTyKc+MQl/BTp4vo/Ak2rD
+ 1xzvASHdjInzIEDz1zMuw9YnfYFWWhc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-7CcZYIzuPMO7xIhrDEd_ag-1; Wed, 03 Mar 2021 07:13:12 -0500
-X-MC-Unique: 7CcZYIzuPMO7xIhrDEd_ag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-467-nI_bjK_hOEinVFru0-D69w-1; Wed, 03 Mar 2021 07:13:18 -0500
+X-MC-Unique: nI_bjK_hOEinVFru0-D69w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 440D68030B7;
- Wed,  3 Mar 2021 12:13:10 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-146.ams2.redhat.com [10.36.115.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56E255C261;
- Wed,  3 Mar 2021 12:12:50 +0000 (UTC)
-Subject: Re: [PATCH v1 7/9] memory: introduce RAM_NORESERVE and wire it up in
- qemu_ram_mmap()
-To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20210209134939.13083-1-david@redhat.com>
- <20210209134939.13083-8-david@redhat.com> <20210302173243.GM397383@xz-x1>
- <91613148-9ade-c192-4b73-0cb5a54ada98@redhat.com>
- <20210303123517.04729c1e.cohuck@redhat.com>
- <656d4494-ea36-39c2-2d47-bbb044a67f11@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <104f9788-dee2-29ba-5b53-d358f2252cf8@redhat.com>
-Date: Wed, 3 Mar 2021 13:12:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5131F107ACE3;
+ Wed,  3 Mar 2021 12:13:17 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-154.ams2.redhat.com
+ [10.36.112.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15D6619C48;
+ Wed,  3 Mar 2021 12:13:17 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 035A2180086F; Wed,  3 Mar 2021 13:13:15 +0100 (CET)
+Date: Wed, 3 Mar 2021 13:13:14 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 5/7] ui/vnc: clipboard support
+Message-ID: <20210303121314.2ql3yj6ju4i3wvmx@sirius.home.kraxel.org>
+References: <20210219131349.3993192-1-kraxel@redhat.com>
+ <20210219131349.3993192-6-kraxel@redhat.com>
+ <CAJ+F1CLLgnKcr-jRG=2sVnNGjsGjovm+e0bbeTTwHU=CRg1w+Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <656d4494-ea36-39c2-2d47-bbb044a67f11@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <CAJ+F1CLLgnKcr-jRG=2sVnNGjsGjovm+e0bbeTTwHU=CRg1w+Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,74 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-s390x@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/03/2021 12.37, David Hildenbrand wrote:
-> On 03.03.21 12:35, Cornelia Huck wrote:
->> On Tue, 2 Mar 2021 20:02:34 +0100
->> David Hildenbrand <david@redhat.com> wrote:
->>
->>> On 02.03.21 18:32, Peter Xu wrote:
->>>> On Tue, Feb 09, 2021 at 02:49:37PM +0100, David Hildenbrand wrote:
->>>>> @@ -899,13 +899,17 @@ int kvm_s390_mem_op_pv(S390CPU *cpu, uint64_t 
->>>>> offset, void *hostbuf,
->>>>>     * to grow. We also have to use MAP parameters that avoid
->>>>>     * read-only mapping of guest pages.
->>>>>     */
->>>>> -static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared)
->>>>> +static void *legacy_s390_alloc(size_t size, uint64_t *align, bool shared,
->>>>> +                               bool noreserve)
->>>>>    {
->>>>>        static void *mem;
->>>>>        if (mem) {
->>>>>            /* we only support one allocation, which is enough for 
->>>>> initial ram */
->>>>>            return NULL;
->>>>> +    } else if (noreserve) {
->>>>> +        error_report("Skipping reservation of swap space is not 
->>>>> supported.");
->>>>> +        return NULL
->>>>
->>>> Semicolon missing.
->>>
->>> Thanks for catching that!
->>
->> Regardless of that (and this patch set), can we finally get rid of
->> legacy_s390_alloc? We already fence off running with a kernel prior to
->> 3.15, and KVM_CAP_S390_COW depends on ESOP -- are non-ESOP kvm hosts
->> still relevant? This seems to be a generation 10 feature; do we
->> realistically expect anyone running this on e.g. a z/VM host that
->> doesn't provide ESOP?
+  Hi,
+
+> > +        case Z_BUF_ERROR:
+> > +            out_len <<= 1;
+> > +            if (out_len > (1 << 20)) {
+> >
 > 
-> Good question - last time I asked that question (~2 years ago) I was told 
-> that such z/VM environemnts are still relevant.
+> 1Mb isn't that much, is it? Well, since it handles only text for now it's
+> probably enough. Would it make sense to make this a #define for clarity ?
 
-Now that you've mentioned it ... I've even wrote a blog post about z/VM and 
-ESOP some years ago:
+Yep.  While talking about sizes:  How does vdagent handles large
+clipboard chunks?  There is ...
 
- 
-http://people.redhat.com/~thuth/blog/qemu/2017/04/05/s390x-selinux-problem.html
+#define VD_AGENT_MAX_DATA_SIZE 2048
 
-So if I've got that right again, the z/VM ESOP problem only exists on 
-versions older than 6.3. And according to 
-https://www.ibm.com/support/lifecycle/search?q=z%2FVM those old versions are 
-now unsupported since June 2017 ... thus I guess it's valid to assume that 
-nobody is running such an old z/VM version anymore (at least not to use it 
-as an environment to run nested KVM guests).
+... but I suspect clipboard content isn't limited to that ...
 
-  Thomas
+thanks,
+  Gerd
 
 
