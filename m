@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E8E32B914
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:08:56 +0100 (CET)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5562E32B916
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:10:02 +0100 (CET)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHU3S-0005CA-JI
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:08:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
+	id 1lHU4X-0006QN-Cz
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:10:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lHU2U-0004ZS-6a; Wed, 03 Mar 2021 11:07:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lHU2Q-0003sY-Di; Wed, 03 Mar 2021 11:07:53 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 123G3qC6179913; Wed, 3 Mar 2021 11:07:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=kA/LcFPCM/nVgIlcuRQp5qRSfo63xfC3htARS0aWN5g=;
- b=o964Dx/prIfI7JVNOHjA9V6k8Ys2yExh5x1TvJ0zyRI42WQhRmUuOChOePH0epVQcq43
- U9HqaW0PoJAufULCbOjwPLFCAG52tRud793bUkhIWCApGCPu7lSR9c8c6Q9OrQvIp4nq
- EC9Cr8jt4ea3gsm6AkMXAnFbdgWPEUtnAcrWhmrizvuT3duOG3229ikOlK/0sLbsDoeY
- 3bT2USKHhrLKNEcyl6PfLUsp6g9Z6kYR/b2lwfQpUp1WIo3ImdjKcOi9CNzle2voXMQo
- dwDg7Sz0WebDWfjWdI+QcdX+MMF9t24irpX+ko3t6Ytej0oDivqUNPKnTm0628SrWPKb eA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 372cmfjsnj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 Mar 2021 11:07:47 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 123G4Q0h188046;
- Wed, 3 Mar 2021 11:07:47 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 372cmfjskj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 Mar 2021 11:07:47 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 123FvXmY022614;
- Wed, 3 Mar 2021 16:07:45 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 371162j08f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 Mar 2021 16:07:44 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 123G7g3M41156936
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 3 Mar 2021 16:07:42 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0DAFA4C044;
- Wed,  3 Mar 2021 16:07:42 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0523B4C052;
- Wed,  3 Mar 2021 16:07:42 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed,  3 Mar 2021 16:07:41 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id AD8DFE1BF9; Wed,  3 Mar 2021 17:07:41 +0100 (CET)
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v2] vfio-ccw: Do not read region ret_code after write
-Date: Wed,  3 Mar 2021 17:07:39 +0100
-Message-Id: <20210303160739.2179378-1-farman@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHU3i-0005k5-Sh
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:09:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHU3d-000430-68
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:09:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614787742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=R+lu4V4XtgYs7fGf9p8u12VDpZiTIZSy1nj6/BSQ4ek=;
+ b=XNPKtO98sX7M6fk6t5DmVTDdJOowitdq0MbqsaCy5t3h4IwfbhcHVEGYUvmxQ08sfzI/y6
+ LNLmahyXU7qBM3WkkJVfjID40H65aZxk2oz/xBN4cOydtFZ+y6/Hs/tDpQ7U7aD8OvbAcC
+ KKgFCfX9+iM18zdDkuyQXyQDZ2HVhyM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-_QT0ZEESM_CHjcgekjTtAg-1; Wed, 03 Mar 2021 11:08:58 -0500
+X-MC-Unique: _QT0ZEESM_CHjcgekjTtAg-1
+Received: by mail-ed1-f70.google.com with SMTP id a2so4469057edx.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 08:08:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=R+lu4V4XtgYs7fGf9p8u12VDpZiTIZSy1nj6/BSQ4ek=;
+ b=E8FSt4NP7Dg7/rYv+xb7P0/QuAxLuivQ4DmDINIH8R51Ba+cJngvfop8wuCYZPtNak
+ 3ofo5AUuG1wbrElWnqy3b8TdraZIRaxnc1JAvKcLGT0oWBTyK/0p9GAUre2Kkic3sPHR
+ uwEej2jMPTipDCFKHKQ5QVEvFeZ+lBLtOPmD+fEmBAYoETEY2K5yR5fy5tAZo1zuajH2
+ iNtwvergvDIVrhCVH0d3vlxgHpnt1bO+idWxx8KH0fqTJn6tKPICDNiwJhVCAROs6CpF
+ 5bzfEigd81TRxlN5eh1tSQzTH/COvCaeN1i9GU6P0J4lGG/e/fX6Jbjl/8K14pgI0uh2
+ bNRQ==
+X-Gm-Message-State: AOAM533kmy57ZrhP+eA3KSGXmy5sjkytv2/JzDFK4nAhDCe1nsjTWi6L
+ wB8t6/6jFss9AqZtdYexQAjQFKTZ/8nxvySkE60MWfe5x89D0/+ZcEST1V8x4KrRIXBX9UPkkz9
+ 3fX8Bv0ENYWbSWBI=
+X-Received: by 2002:a17:906:5498:: with SMTP id
+ r24mr26703567ejo.29.1614787734327; 
+ Wed, 03 Mar 2021 08:08:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzx25I6AlZlksC7YYcnVypTFtezjUUFHKlqp73KXhhQNcPhlOSFrEobRDSiepf/W4SpIYPDZA==
+X-Received: by 2002:a17:906:5498:: with SMTP id
+ r24mr26703433ejo.29.1614787732551; 
+ Wed, 03 Mar 2021 08:08:52 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id r17sm1849894edt.70.2021.03.03.08.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 08:08:52 -0800 (PST)
+Date: Wed, 3 Mar 2021 11:08:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Inconsistent virtio-net-pci MSI vector count
+Message-ID: <20210303110742-mutt-send-email-mst@kernel.org>
+References: <YD9qmto5pHys+jEm@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-03_05:2021-03-03,
- 2021-03-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 impostorscore=0 bulkscore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103030120
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <YD9qmto5pHys+jEm@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,85 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A pwrite() call returns the number of bytes written (or -1 on error),
-and vfio-ccw compares this number with the size of the region to
-determine if an error had occurred or not.
+On Wed, Mar 03, 2021 at 10:53:14AM +0000, Stefan Hajnoczi wrote:
+> Hi Jason,
+> I stumbled across something strange with virtio-net multi-queue today.
+> It doesn't seem to be a bug in practice, just an inconsistency. Here are
+> the details in case you think something needs to be changed:
+> 
+> libvirt uses the vectors = 2 * N + 2 formula from
+> https://www.linux-kvm.org/page/Multiqueue to calculate the number of PCI
+> MSI vectors, where N is the number of rx/tx queue pairs.
+> 
+> QEMU's virtio-net-pci device has 3 MSI vectors by default. This is
+> inconsistent with the formula that libvirt uses (should be 4 instead of
+> 3).
+> 
+> Luckily, the Linux virtio_net.ko driver does not configure a callback
+> function for the control virtqueue. Therefore it can still use MSI with
+> only 3 vectors (config, rx, tx) instead of 4 (config, rx, tx, ctrl).
+> 
+> But other driver implementations might need the ctrl vq vector and would
+> not have enough MSI vectors.
 
-If they are not equal, this is a failure and the errno is used to
-determine exactly how things failed. An errno of zero is possible
-(though unlikely) in this situation and would be translated to a
-successful operation.
+At a guess control vq can share a vector with config.
+Linux is not clever enough to do it yet but it's possible.
 
-If they ARE equal, the ret_code field is read from the region to
-determine how to proceed. While the kernel sets the ret_code field
-as necessary, the region and thus this field is not "written back"
-to the user. So the value can only be what it was initialized to,
-which is zero.
+> Perhaps new QEMU machine types should set vectors to 4 by default?
+> 
+> Stefan
 
-So, let's convert an unexpected length with errno of zero to a
-return code of -EFAULT, and explicitly set an expected length to
-a return code of zero. This will be a little safer and clearer.
-
-Suggested-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
-
-Notes:
-    Changes v1->v2:
-     - Add code to handle an unexpected length being returned,
-       but errno is not set. [CH]
-    
-    v1: https://lore.kernel.org/qemu-devel/cc440ee8-28c5-3208-19db-ebb48ea60e9d@linux.ibm.com/
-
- hw/vfio/ccw.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index bc78a0ad76..b2df708e4b 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -104,9 +104,9 @@ again:
-             goto again;
-         }
-         error_report("vfio-ccw: write I/O region failed with errno=%d", errno);
--        ret = -errno;
-+        ret = errno ? -errno : -EFAULT;
-     } else {
--        ret = region->ret_code;
-+        ret = 0;
-     }
-     switch (ret) {
-     case 0:
-@@ -192,9 +192,9 @@ again:
-             goto again;
-         }
-         error_report("vfio-ccw: write cmd region failed with errno=%d", errno);
--        ret = -errno;
-+        ret = errno ? -errno : -EFAULT;
-     } else {
--        ret = region->ret_code;
-+        ret = 0;
-     }
-     switch (ret) {
-     case 0:
-@@ -232,9 +232,9 @@ again:
-             goto again;
-         }
-         error_report("vfio-ccw: write cmd region failed with errno=%d", errno);
--        ret = -errno;
-+        ret = errno ? -errno : -EFAULT;
-     } else {
--        ret = region->ret_code;
-+        ret = 0;
-     }
-     switch (ret) {
-     case 0:
--- 
-2.25.1
 
 
