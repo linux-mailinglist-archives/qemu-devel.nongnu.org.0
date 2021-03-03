@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D4E32ACBC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:27:43 +0100 (CET)
-Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D303232ACBD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 02:29:18 +0100 (CET)
+Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHGIg-0001FG-44
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:27:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47030)
+	id 1lHGKD-00021u-8C
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 20:29:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lHGDk-00088q-Gu; Tue, 02 Mar 2021 20:22:36 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39143)
+ id 1lHGDp-0008Cw-Jk; Tue, 02 Mar 2021 20:22:41 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lHGDi-0003bN-Vh; Tue, 02 Mar 2021 20:22:36 -0500
-Received: by mail-pg1-x532.google.com with SMTP id x29so6870800pgk.6;
- Tue, 02 Mar 2021 17:22:34 -0800 (PST)
+ id 1lHGDo-0003bn-2G; Tue, 02 Mar 2021 20:22:41 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id q20so15077620pfu.8;
+ Tue, 02 Mar 2021 17:22:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uM/kLAy3pF3zoZCkKG6MBBFV1LbwtvhEjhGFlqs5Mcg=;
- b=UeHpv40FFU5Gyr9jspIA2JDTRqHI1TeBOtM6NsM/fYsbE+JrV8bZ8YG/4G3zDqCU3R
- mQYqRAtaWB3tEfLgIiU5OHwpa0FtJz+r+CbtrIdaqwXgL6h5XCkeNOkCaxcDK0bq8Wm2
- dLngNfHQ1S6ZYVf1IeKzae3oZWl0HDKkxN+n1JpGwIu5G2nTlEcTzV8pZsiXNJGt/8sp
- VvW3jMnrwwubCmOXkuza0Rc0C96xMJmBOHLpZFMZ9cgyaUATo0dvO2QEEY70IlYomsou
- eKJbZJRpiWb55INNjA06Bkbu9gliqNW4+VAEvYLxqZ8+q1/RWeH9ZZdQr5JaDAQUzMvs
- L+PQ==
+ bh=VWS+hvZZd+PyjeXy42iVXkbp4JG+ZMxRgGlpplATrRU=;
+ b=iJJH0QPafqgD0/2C6xh04yLm8ByALcroBMPT1wJOuLyXqI9oZTRfANlG4ubn0hASCQ
+ g4WwwO+ff7YPrtI2F3gW8oMHazLs3pdMGD3nw15Kz8H2hkVsyPOALvyltkZG0HDjnYzj
+ 2yXGXgJ0LVPK9EQHd7umlJtwW77Zlk+ToyTkvypdRS1eupLr9OSCXEnAZ+gZtm+clm5Q
+ DyLIUotZ7x1Fe8NAZLXQxXAYYNXJlF7DcefruS9qzJ+xMJ7FvDshK5geLtyenO0HJZAl
+ XfZkIkA0YM0LUbUnAdLilz3JLxxHV3oxmWHs4Qf2GLvcQF9AodXfvwWRL87fZ6henNKg
+ GUEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uM/kLAy3pF3zoZCkKG6MBBFV1LbwtvhEjhGFlqs5Mcg=;
- b=TRc2Nh+OotGAtqhnVe+g9yXt3RqkrxP+KB4oiIwE2g7RxgqNwk2l5TYx91owI2DLY+
- BElICAgy+kCWZ+O4/tK/bkOHG2hm8dRUwZt6QQ/LDN1hpQ0KRpzbSTUTxC9KceLxIUQm
- cGAlxa2RmmAVtnsoZ2fEaKtXQKaysNIyK/W9Gus1FaInHqCAb0VR44D9t2Qs06xoeoqX
- r3ASVKFOvYRcQD5H2rfo0IsZP4rEherZtifTReX9CaadnFVi843WSK2B1WQ/zTe0sCvV
- Uvp2MjY/iuknCYy1V8hNgEcWF0sS4ZgBiEocd0aO+j7VrUbDKtY+jUnKxRwmhjtXxREA
- V4cw==
-X-Gm-Message-State: AOAM530zVpj2ANWtYZtyEAJxq3B9+0ewPGUTMs+iXt1H4BiBlrSvzHqD
- KNryp5mhCJVoKzTPtwbhrZI=
-X-Google-Smtp-Source: ABdhPJw1HDUU7OUBKmNp+LiRJKxirxVF8kNZ7RjEn/hJf5cIXO7dngbf255GHWv1P2yOHxfh1HmikA==
-X-Received: by 2002:a62:7d17:0:b029:1ee:3bbe:fa5f with SMTP id
- y23-20020a627d170000b02901ee3bbefa5fmr830685pfc.67.1614734553153; 
- Tue, 02 Mar 2021 17:22:33 -0800 (PST)
+ bh=VWS+hvZZd+PyjeXy42iVXkbp4JG+ZMxRgGlpplATrRU=;
+ b=JAWcs/wQcWqTI8Rf365HWEc+ItjXfWahwVB41CM8pPXqtXuEmrbbwtnGNU40ck//nY
+ A9PPzc6l48+RtAqkImNCilHEi1afJHFvppXYZcX4lLP04h1G/21pcw9cuprLlwf10ZMr
+ pwSSO+u9Akn7CU0OuVTtThe7Bv/adTsgUwCSsnYqTTLU2URlg1aGpNN6cPyx3a1bGirM
+ UCIPcuF4FnyHi99lC72veBehQyZcKx+368XiNRqXI3IiaqEVU1HvhOGM9O5l3wuCBhuK
+ 3XDoZ9mf68y8DowxWLnWj5jeWSVCMYvvw9Wi77Rq7+wlkRfBEl4qwBTdeJgo0Om85GsL
+ mthA==
+X-Gm-Message-State: AOAM531Yz4Dg20g2M63cx2Kghio85jShBSl/aHJ6Hzhzthnzb/G9DLOn
+ q4dDaDq0HCDsgL3mDNlQOug=
+X-Google-Smtp-Source: ABdhPJwkTLPinOtgYT2e/A+lS3m57eqjfvJEqfdDWMAbuQ/AaUfXa+jWKxQYo39tB133xv3VQN4fBQ==
+X-Received: by 2002:a63:e109:: with SMTP id z9mr20493678pgh.5.1614734558250;
+ Tue, 02 Mar 2021 17:22:38 -0800 (PST)
 Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id t19sm14135427pgj.8.2021.03.02.17.22.28
+ by smtp.gmail.com with ESMTPSA id t19sm14135427pgj.8.2021.03.02.17.22.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 17:22:32 -0800 (PST)
+ Tue, 02 Mar 2021 17:22:37 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 1/2] tests/acceptance: Test ast2400 and ast2500 machines
-Date: Wed,  3 Mar 2021 11:52:16 +1030
-Message-Id: <20210303012217.637737-2-joel@jms.id.au>
+Subject: [PATCH 2/2] tests/acceptance: Test ast2600 machine
+Date: Wed,  3 Mar 2021 11:52:17 +1030
+Message-Id: <20210303012217.637737-3-joel@jms.id.au>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210303012217.637737-1-joel@jms.id.au>
 References: <20210303012217.637737-1-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=joel.stan@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,69 +89,49 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test MTD images from the OpenBMC project on AST2400 and AST2500 SoCs
-from ASPEED, by booting Palmetto and Romulus BMC machines.
+This tests a Debian multi-soc arm32 Linux kernel on the AST2600 based
+Tacoma BMC machine.
 
-The images are fetched from OpenBMC's release directory on github.
+There is no root file system so the test terminates when boot reaches
+the stage where it attempts and fails to mount something.
 
-Co-developed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index eb012867997f..2f46a08fdc10 100644
+index 2f46a08fdc10..6b7d7f5df984 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -1048,6 +1048,52 @@ def test_arm_vexpressa9(self):
-         self.vm.add_args('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb')
-         self.do_test_advcal_2018('16', tar_hash, 'winter.zImage')
+@@ -1094,6 +1094,32 @@ def do_test_arm_aspeed(self, image):
+         # self.wait_for_console_pattern("login:")
+         self.vm.shutdown()
  
-+    def test_arm_ast2400_palmetto_openbmc_v2_9_0(self):
++    def test_arm_ast2600_debian(self):
 +        """
 +        :avocado: tags=arch:arm
-+        :avocado: tags=machine:palmetto-bmc
++        :avocado: tags=machine:tacoma-bmc
 +        """
++        deb_url = ('http://snapshot.debian.org/archive/debian/'
++                   '20210302T203551Z/'
++                   'pool/main/l/linux/'
++                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
++        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
++                                    algorithm='sha256')
++        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
++        dtb_path = self.extract_from_deb(deb_path,
++                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
 +
-+        image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
-+                     'obmc-phosphor-image-palmetto.static.mtd')
-+        image_hash = ('3e13bbbc28e424865dc42f35ad672b10f2e82cdb11846bb28fa625b48beafd0d')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+
-+        self.do_test_arm_aspeed(image_path)
-+
-+    def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:romulus-bmc
-+        """
-+
-+        image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
-+                     'obmc-phosphor-image-romulus.static.mtd')
-+        image_hash = ('820341076803f1955bc31e647a512c79f9add4f5233d0697678bab4604c7bb25')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+
-+        self.do_test_arm_aspeed(image_path)
-+
-+    def do_test_arm_aspeed(self, image):
 +        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-+                         '-net', 'nic')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path)
 +        self.vm.launch()
-+
-+        self.wait_for_console_pattern("U-Boot 2016.07")
-+        self.wait_for_console_pattern("## Loading kernel from FIT Image at 20080000")
-+        self.wait_for_console_pattern("Starting kernel ...")
-+        self.wait_for_console_pattern("Booting Linux on physical CPU 0x0")
-+        self.wait_for_console_pattern(
-+                "aspeed-smc 1e620000.spi: read control register: 203b0641")
-+        self.wait_for_console_pattern("ftgmac100 1e660000.ethernet eth0: irq ")
-+        self.wait_for_console_pattern("systemd[1]: Set hostname to")
-+        # This often takes longer than the 90s timeout
-+        # self.wait_for_console_pattern("login:")
++        self.wait_for_console_pattern("Booting Linux on physical CPU 0xf00")
++        self.wait_for_console_pattern("SMP: Total of 2 processors activated")
++        self.wait_for_console_pattern("ftgmac100 1e670000.ftgmac eth0: irq")
++        self.wait_for_console_pattern("VFS: Cannot open root device")
 +        self.vm.shutdown()
 +
      def test_m68k_mcf5208evb(self):
