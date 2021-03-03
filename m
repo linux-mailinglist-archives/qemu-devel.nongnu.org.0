@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724E532AE8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 03:55:01 +0100 (CET)
-Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991B832AF59
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 04:25:47 +0100 (CET)
+Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHHfA-0001Pl-9D
-	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 21:55:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38418)
+	id 1lHI8w-0007dH-4p
+	for lists+qemu-devel@lfdr.de; Tue, 02 Mar 2021 22:25:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lHHe0-0000zB-H6
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 21:53:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lHHdx-00084I-KG
- for qemu-devel@nongnu.org; Tue, 02 Mar 2021 21:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614740024;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V+7ZcOrrEnDK9h6LFRWi3kzifcI13AT7pW+Ot6VN230=;
- b=ZJlhO1b5eazJioribtyIUWe9DyJ8GG4xubKI2py+Dg8V1oag8RA3b7EEaxKsD5dBouAxKj
- MxLJ/C6FuS23jYKmx+1Cf9leV75SF+6CC3nau0GbZoXctY8egG1MURbk0cXfdhxZAi54AM
- NMgBHbBRD7DyMmaRYjXn7kQOTUxxpnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-jAOxuQ36OKuVdgA52nXEEg-1; Tue, 02 Mar 2021 21:53:40 -0500
-X-MC-Unique: jAOxuQ36OKuVdgA52nXEEg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE78B10066F1;
- Wed,  3 Mar 2021 02:53:38 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-128.pek2.redhat.com
- [10.72.12.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 963A719C48;
- Wed,  3 Mar 2021 02:53:30 +0000 (UTC)
-Subject: Re: [PATCH v1] vhost-vdpa: Set discarding of RAM broken when
- initializing the backend
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Xie Yongji <xieyongji@bytedance.com>
-References: <20210302162129.52912-1-david@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <81c675cd-1573-7555-7d20-07b0ed950ebb@redhat.com>
-Date: Wed, 3 Mar 2021 10:53:28 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210302162129.52912-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <changlm@chinatelecom.cn>)
+ id 1lHI7y-00076P-U0; Tue, 02 Mar 2021 22:24:46 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:54677
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <changlm@chinatelecom.cn>)
+ id 1lHI7w-0004aF-EH; Tue, 02 Mar 2021 22:24:46 -0500
+HMM_SOURCE_IP: 172.18.0.48:5054.1008649981
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-106.120.101.58?logid-1539d8b0fdd04a199f5c16d18ac4fd80
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id F3F8D2800ED;
+ Wed,  3 Mar 2021 11:24:26 +0800 (CST)
+X-189-SAVE-TO-SEND: 71112636@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by App0024 with ESMTP id 1539d8b0fdd04a199f5c16d18ac4fd80 for
+ qemu-block@nongnu.org; Wed Mar  3 11:24:34 2021
+X-Transaction-ID: 1539d8b0fdd04a199f5c16d18ac4fd80
+X-filter-score: filter<0>
+X-Real-From: changlm@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Date: Wed, 3 Mar 2021 11:24:19 +0800
+From: ChangLimin <changlm@chinatelecom.cn>
+To: qemu-block <qemu-block@nongnu.org>
+Subject: [PATCH V2] file-posix: allow -EBUSY -EINVAL errors during write zeros
+ on block
+References: <2021030209564214018344@chinatelecom.cn>
+X-Priority: 3
+X-GUID: 412A8D7D-1B20-4009-A1F4-255767C0AFAE
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.17.58[cn]
+Mime-Version: 1.0
+Message-ID: <2021030311241928103058@chinatelecom.cn>
+Content-Type: multipart/alternative;
+ boundary="----=_001_NextPart156846856287_=----"
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=changlm@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_KAM_HTML_FONT_INVALID=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,95 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: kwolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ mreitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
 
-On 2021/3/3 12:21 上午, David Hildenbrand wrote:
-> Similar to VFIO, vDPA will go ahead an map+pin all guest memory. Memory
-> that used to be discarded will get re-populated and if we
-> discard+re-access memory after mapping+pinning, the pages mapped into the
-> vDPA IOMMU will go out of sync with the actual pages mapped into the user
-> space page tables.
->
-> Set discarding of RAM broken such that:
-> - virtio-mem and vhost-vdpa run mutually exclusive
-> - virtio-balloon is inhibited and no memory discards will get issued
->
-> In the future, we might be able to support coordinated discarding of RAM
-> as used by virtio-mem and as planned for VFIO.
->
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Cindy Lu <lulu@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+------=_001_NextPart156846856287_=----
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
+U2luY2UgTGludXggNS4xMCwgd3JpdGUgemVyb3MgdG8gYSBtdWx0aXBhdGggZGV2aWNlIHVzaW5n
+DQppb2N0bChmZCwgQkxLWkVST09VVCwgcmFuZ2UpIHdpdGggY2FjaGUgbm9uZSBvciBkaXJlY3Rz
+eW5jIHJldHVybiAtRUJVU1kNCnBlcm1hbmVudGx5Lg0KDQpTaW1pbGFyIHRvIGhhbmRsZV9haW9j
+Yl93cml0ZV96ZXJvZXNfdW5tYXAsIGhhbmRsZV9haW9jYl93cml0ZV96ZXJvZXNfYmxvY2sNCmFs
+bG93IC1FQlVTWSBhbmQgLUVJTlZBTCBlcnJvcnMgZHVyaW5nIGlvY3RsKGZkLCBCTEtaRVJPT1VU
+LCByYW5nZSkuDQoNClJlZmVyZW5jZSBjb21taXQgaW4gTGludXggNS4xMDoNCmh0dHBzOi8vZ2l0
+Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3N0YWJsZS9saW51eC5naXQvY29t
+bWl0Lz9pZD0zODRkODdlZjJjOTU0ZmM1OGU2YzVmZDgyNTNlNGExOTg0ZjVmZTAyDQoNClNpZ25l
+ZC1vZmYtYnk6IENoYW5nTGltaW4gPGNoYW5nbG1AY2hpbmF0ZWxlY29tLmNuPg0KLS0tDQogYmxv
+Y2svZmlsZS1wb3NpeC5jIHwgOSArKysrKysrLS0NCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvYmxvY2svZmlsZS1wb3NpeC5j
+IGIvYmxvY2svZmlsZS1wb3NpeC5jDQppbmRleCAwNTA3OWI0MGNhLi40ZTEzMmRiOTI5IDEwMDY0
+NA0KLS0tIGEvYmxvY2svZmlsZS1wb3NpeC5jDQorKysgYi9ibG9jay9maWxlLXBvc2l4LmMNCkBA
+IC0xNjI5LDggKzE2MjksMTMgQEAgc3RhdGljIHNzaXplX3QgaGFuZGxlX2Fpb2NiX3dyaXRlX3pl
+cm9lc19ibG9jayhSYXdQb3NpeEFJT0RhdGEgKmFpb2NiKQ0KICAgICAgICAgfSB3aGlsZSAoZXJy
+bm8gPT0gRUlOVFIpOw0KDQogICAgICAgICByZXQgPSB0cmFuc2xhdGVfZXJyKC1lcnJubyk7DQot
+ICAgICAgICBpZiAocmV0ID09IC1FTk9UU1VQKSB7DQotICAgICAgICAgICAgcy0+aGFzX3dyaXRl
+X3plcm9lcyA9IGZhbHNlOw0KKyAgICAgICAgc3dpdGNoIChyZXQpIHsNCisgICAgICAgIGNhc2Ug
+LUVOT1RTVVA6DQorICAgICAgICAgICAgcy0+aGFzX3dyaXRlX3plcm9lcyA9IGZhbHNlOyAvKiBm
+YWxsIHRocm91Z2ggKi8NCisgICAgICAgIGNhc2UgLUVJTlZBTDoNCisgICAgICAgIGNhc2UgLUVC
+VVNZOg0KKyAgICAgICAgICAgIHJldHVybiAtRU5PVFNVUDsNCisgICAgICAgICAgICBicmVhazsN
+CiAgICAgICAgIH0NCiAgICAgfQ0KICNlbmRpZg0KLS0NCjIuMjcuMA0KDQo=
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+------=_001_NextPart156846856287_=----
+Content-Type: text/html;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-> ---
->
-> Note: I was not actually able to reproduce/test as I fail to get the
-> vdpa_sim/vdpa_sim_net running on upstream Linux (whetever vdpa, vhost_vdpa,
-> vdpa_sim, vdpa_sim_net modules I probe, and in which order, no vdpa devices
-> appear under /sys/bus/vdpa/devices/ or /dev/).
-
-
-The device creation was switched to use vdpa tool that is integrated 
-with iproue2[1].
-
-[1] 
-https://git.kernel.org/pub/scm/network/iproute2/iproute2-next.git/commit/?id=143610383da51e1f868c6d5a2a5e2fb552293d18
-
-
->
-> ---
->   hw/virtio/vhost-vdpa.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 01d2101d09..86058d4041 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -278,6 +278,17 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
->       uint64_t features;
->       assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->       trace_vhost_vdpa_init(dev, opaque);
-> +    int ret;
-> +
-> +    /*
-> +     * Similar to VFIO, we end up pinning all guest memory and have to
-> +     * disable discarding of RAM.
-> +     */
-> +    ret = ram_block_discard_disable(true);
-> +    if (ret) {
-> +        error_report("Cannot set discarding of RAM broken");
-> +        return ret;
-> +    }
-
-
-vDPA will support non pinning (shared VM) backend soon[2]. So I guess we 
-need a flag to be advertised to usersapce then we can conditionly enable 
-the discard here.
-
-[2] https://www.spinics.net/lists/netdev/msg723944.html
-
-Thanks
-
-
->   
->       v = opaque;
->       v->dev = dev;
-> @@ -302,6 +313,8 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->       memory_listener_unregister(&v->listener);
->   
->       dev->opaque = NULL;
-> +    ram_block_discard_disable(false);
-> +
->       return 0;
->   }
->   
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charse=
+t=3DUTF-8"><style>body { line-height: 1.5; }blockquote { margin-top: 0px; =
+margin-bottom: 0px; margin-left: 0.5em; }body { font-size: 14px; font-fami=
+ly: 'Microsoft YaHei UI'; color: rgb(0, 0, 0); line-height: 1.5; }</style>=
+</head><body>=0A<div><span></span><div><span style=3D"line-height: 1.5; ba=
+ckground-color: transparent;">Since Linux 5.10, write zeros to a multipath=
+ device using</span></div><div>ioctl(fd, BLKZEROOUT, range) with cache non=
+e or directsync return -EBUSY</div><div>permanently.</div><div><br></div><=
+div>Similar to handle_aiocb_write_zeroes_unmap, handle_aiocb_write_zeroes_=
+block</div><div>allow -EBUSY and -EINVAL errors during ioctl(fd, BLKZEROOU=
+T, range).</div><div><br></div><div>Reference commit in Linux 5.10:</div><=
+div>https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commi=
+t/?id=3D384d87ef2c954fc58e6c5fd8253e4a1984f5fe02</div><div><br></div><div>=
+Signed-off-by: ChangLimin &lt;changlm@chinatelecom.cn&gt;</div><div>---</d=
+iv><div>&nbsp;block/file-posix.c | 9 +++++++--</div><div>&nbsp;1 file chan=
+ged, 7 insertions(+), 2 deletions(-)</div><div><br></div><div>diff --git a=
+/block/file-posix.c b/block/file-posix.c</div><div>index 05079b40ca..4e132=
+db929 100644</div><div>--- a/block/file-posix.c</div><div>+++ b/block/file=
+-posix.c</div><div>@@ -1629,8 +1629,13 @@ static ssize_t handle_aiocb_writ=
+e_zeroes_block(RawPosixAIOData *aiocb)</div><div>&nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp;} while (errno =3D=3D EINTR);</div><div><br></div><div>&nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp;ret =3D translate_err(-errno);</div><div>- &nbsp; =
+&nbsp; &nbsp; &nbsp;if (ret =3D=3D -ENOTSUP) {</div><div>- &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp;s-&gt;has_write_zeroes =3D false;</div><div>+ &n=
+bsp; &nbsp; &nbsp; &nbsp;switch (ret) {</div><div>+ &nbsp; &nbsp; &nbsp; &=
+nbsp;case -ENOTSUP:</div><div>+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;s=
+-&gt;has_write_zeroes =3D false; /* fall through */</div><div>+ &nbsp; &nb=
+sp; &nbsp; &nbsp;case -EINVAL:</div><div>+ &nbsp; &nbsp; &nbsp; &nbsp;case=
+ -EBUSY:</div><div>+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -ENOT=
+SUP;</div><div>+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;break;</div><div=
+>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</div><div>&nbsp; &nbsp; &nbsp;}</div>=
+<div>&nbsp;#endif</div><div>--</div><div>2.27.0</div></div><div><br></div>=
+<blockquote style=3D"margin-Top: 0px; margin-Bottom: 0px; margin-Left: 0.5=
+em; margin-Right: inherit"><div>=0A</div></blockquote>=0A</body></html>
+------=_001_NextPart156846856287_=------
 
 
