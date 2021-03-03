@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9A132BCFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:10:11 +0100 (CET)
-Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148DF32BD17
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:13:48 +0100 (CET)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZh4-0002WO-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:10:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1lHZkZ-0008Qd-4B
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:13:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHZYn-000844-PA
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 17:01:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46142)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHZff-0001RU-Bs
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 17:08:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHZYj-00060A-Q7
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 17:01:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lHZfc-0007pH-LV
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 17:08:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614808891;
+ s=mimecast20190719; t=1614809319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PfOy0QGn+lT44t+vLUH3l9KhufeZmy8TTjG3ucL9lTk=;
- b=AUmNiyJrYOIk/5fslfV9iTSiR+eer5lcFrHDttJNdNnFl7kRvHpTGhEFcbZEd22cUYCxT2
- x7mVQ/6JubodSVVF0wRlIKLpOiY+fkvwB9dtQWvq/MA8G+B/ELZ2K7P0Un9iRPZEcAxYyv
- KeZrlguibkWRuNCDxx4pZUKyDrGdNCM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-rrXqoCpcPiiUylRj1E2T5w-1; Wed, 03 Mar 2021 17:01:29 -0500
-X-MC-Unique: rrXqoCpcPiiUylRj1E2T5w-1
-Received: by mail-ed1-f71.google.com with SMTP id i4so13166873edt.11
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 14:01:12 -0800 (PST)
+ bh=Ta2T9uz1JFQzlu06+K/2lLMfo+o2zkn/sy8USwwlayc=;
+ b=airnfAApNx1aj1I1cGzaYrLtImNCNEhmlyW+4Oh6OVCC7KDc61n7jJIOZZSp59ffzTu1BT
+ r+J8bcfNGA9NXCPOa8FNo4xI8wMErLCGAJm1TXVwRkXKmM0uMBhtcdstSRA1lIbH1ptYON
+ FfcGS0BGSSvge+IEKce2U1sQYa3YFG0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-SnVKmNsRMIOasRuLdIfTpQ-1; Wed, 03 Mar 2021 17:08:38 -0500
+X-MC-Unique: SnVKmNsRMIOasRuLdIfTpQ-1
+Received: by mail-ej1-f72.google.com with SMTP id di5so2629670ejc.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 14:08:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=PfOy0QGn+lT44t+vLUH3l9KhufeZmy8TTjG3ucL9lTk=;
- b=k6Revw/vN6NABcEndWdDUhzu+LsdC/NBrORbgnNOTK1YddPgjd7PbyQyMyjgK1NLGg
- Np92oq4Xol0kuzqk0GdrQmsjIThypbBI2roGd4923ueRJWLVDj/LkIxO/JO4pQf1bvoG
- 3TV4aFKCGtjCNoyXDIW4hVUStfpJuP5Y17NWSWqeywyE6GTc9ddYNRGdfInJ2gYs1ZtI
- 8I4XoN+fV7Ev349PhcA6YZ1cfHeO39Ey/bwSAGsHXLnGCmLu7S/UGqYsJeBwsn+XOeWl
- XZyGut1/YZxHeMJxqgubj5c10jFkCTkVO3jpMeB/dcd87rUK6LqRJk0GMxmy0gEyK2RZ
- G3UA==
-X-Gm-Message-State: AOAM5312K/exH2OQFJx633UWAlUmobar6B87xqPh9C5PLWlxwJ8BOxFm
- IY+FsRUCVdkafRnPDkMLJGPOIHlfYCiTFwnNUezZSVwamE63O7GFzT7utFvEwRm1Zi4fMkTWvS/
- t+9eu+zisA0m/1Zk=
-X-Received: by 2002:a17:906:2312:: with SMTP id
- l18mr819945eja.468.1614808869542; 
- Wed, 03 Mar 2021 14:01:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwuvG1F8GR4TM0qpjEQzqi16vF51TT3cDWmE7vF3XT+5BmK5Ox3d40YndT4v/Mb19cG2dzsCg==
-X-Received: by 2002:a17:906:2312:: with SMTP id
- l18mr819934eja.468.1614808869377; 
- Wed, 03 Mar 2021 14:01:09 -0800 (PST)
+ bh=Ta2T9uz1JFQzlu06+K/2lLMfo+o2zkn/sy8USwwlayc=;
+ b=h8txQ1VahgcY5xGVNg39xp1UKjeYapOevtC7Bv6S2verg3Ls9I+XkCEqc1cjDhURxZ
+ fzTlvY9TK6B1xybJV5PMvZaPRWEUWJV3SfrK1OIOUCEK94GZZmXo9QjaZXq0+XVAaKdc
+ CTe5a5FpfgqmQGQI0kCz51UUW0XBswfCXgN/cKKHQmojwiRage11m/7Zl5EvaogTLixC
+ 9phL53yDlx7vgDBvOjBjbsBT5HIJF4pmPSjiFyq0bSdeTnZkKyZRelNILmIkBaIE0Psb
+ KtA/melf+3IsOmW2FCqnhxEMpkTsE8PWMkJbEerbADVjwQ5LtKDHlVk7jlGmZ0As+eqk
+ hs1w==
+X-Gm-Message-State: AOAM532XiU4E9oxQPHizYMsshUg9AxOAISTc0iZqF04cNgvmo3T3R0/l
+ 9KTVAQJiDmlKOBfGRvGDjdGNPbTvKwFszvhE5WIefbQeDiauJeeeSPFOdJLekOL0buSFpHyYrvJ
+ 2wuqleK1+nJaIgUE=
+X-Received: by 2002:a17:906:a443:: with SMTP id
+ cb3mr802794ejb.542.1614809316926; 
+ Wed, 03 Mar 2021 14:08:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz56sT0NW8EjqxYz0A+fknbgl38ITC5jaTDGAMR0f5pUGqo4P8Tz8N/VIS/NfySqFVb3G/Aqw==
+X-Received: by 2002:a17:906:a443:: with SMTP id
+ cb3mr802778ejb.542.1614809316782; 
+ Wed, 03 Mar 2021 14:08:36 -0800 (PST)
 Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id n2sm22521110ejl.1.2021.03.03.14.01.07
+ by smtp.gmail.com with ESMTPSA id m14sm15763480edd.63.2021.03.03.14.08.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 14:01:08 -0800 (PST)
-Date: Wed, 3 Mar 2021 17:01:05 -0500
+ Wed, 03 Mar 2021 14:08:36 -0800 (PST)
+Date: Wed, 3 Mar 2021 17:08:32 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2] vhost-user.rst: add clarifying language about
- protocol negotiation
-Message-ID: <20210303165554-mutt-send-email-mst@kernel.org>
-References: <20210303145011.14547-1-alex.bennee@linaro.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4 03/28] cpu: Introduce cpu_virtio_is_big_endian()
+Message-ID: <20210303170743-mutt-send-email-mst@kernel.org>
+References: <20210303214708.1727801-1-f4bug@amsat.org>
+ <20210303214708.1727801-4-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210303145011.14547-1-alex.bennee@linaro.org>
+In-Reply-To: <20210303214708.1727801-4-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,94 +96,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiang Liu <gerry@linux.alibaba.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 03, 2021 at 02:50:11PM +0000, Alex Bennée wrote:
-> Make the language about feature negotiation explicitly clear about the
-> handling of the VHOST_USER_F_PROTOCOL_FEATURES feature bit. Try and
-> avoid the sort of bug introduced in vhost.rs REPLY_ACK processing:
+On Wed, Mar 03, 2021 at 10:46:43PM +0100, Philippe Mathieu-Daudé wrote:
+> Introduce the cpu_virtio_is_big_endian() generic helper to avoid
+> calling CPUClass internal virtio_is_big_endian() one.
 > 
->   https://github.com/rust-vmm/vhost/pull/24
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Jiang Liu <gerry@linux.alibaba.com>
-> Message-Id: <20210226111619.21178-1-alex.bennee@linaro.org>
-> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Using virtio in the name here probably because virtio wants this?
+That doesn't sound like a good naming strategy, name should
+tell us what function does not how it's used.
+
 > ---
-> v2
->   - use Stefan's suggested wording
->   - Be super explicit in the message descriptions
-> ---
->  docs/interop/vhost-user.rst | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
+>  include/hw/core/cpu.h | 9 +++++++++
+>  hw/core/cpu.c         | 8 ++++++--
+>  hw/virtio/virtio.c    | 4 +---
+>  3 files changed, 16 insertions(+), 5 deletions(-)
 > 
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index 2918d7c757..7c1fb8c209 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -307,6 +307,18 @@ bit was dedicated for this purpose::
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 2d43f78819f..b12028c3c03 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -602,6 +602,15 @@ hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>   */
+>  int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs);
 >  
->    #define VHOST_USER_F_PROTOCOL_FEATURES 30
->  
-> +Note that VHOST_USER_F_PROTOCOL_FEATURES is the UNUSED (30) feature
-> +bit defined in `VIRTIO 1.1 6.3 Legacy Interface: Reserved Feature Bits
-> +<https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-4130003>`_.
-> +VIRTIO devices do not advertise this feature bit and therefore VIRTIO
-> +drivers cannot negotiate it.
+> +/**
+> + * cpu_virtio_is_big_endian:
+> + * @cpu: CPU
 > +
-> +This reserved feature bit was reused by the vhost-user protocol to add
-> +vhost-user protocol feature negotiation in a backwards compatible
-> +fashion. Old vhost-user master and slave implementations continue to
-> +work even though they are not aware of vhost-user protocol feature
-> +negotiation.
+> + * Returns %true if a CPU which supports runtime configurable endianness
+> + * is currently big-endian.
+> + */
+> +bool cpu_virtio_is_big_endian(CPUState *cpu);
 > +
->  Ring states
->  -----------
+>  #endif /* CONFIG_USER_ONLY */
 >  
-> @@ -865,7 +877,8 @@ Front-end message types
->    Get the protocol feature bitmask from the underlying vhost
->    implementation.  Only legal if feature bit
->    ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
-> -  ``VHOST_USER_GET_FEATURES``.
-> +  ``VHOST_USER_GET_FEATURES``.  It does not need to be acknowledged by
-> +  ``VHOST_USER_SET_FEATURES``.
+>  /**
+> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+> index 4dce35f832f..daaff56a79e 100644
+> --- a/hw/core/cpu.c
+> +++ b/hw/core/cpu.c
+> @@ -218,8 +218,13 @@ static int cpu_common_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg)
+>      return 0;
+>  }
 >  
->  .. Note::
->     Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must
-> @@ -881,7 +894,8 @@ Front-end message types
->    Enable protocol features in the underlying vhost implementation.
+> -static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
+> +bool cpu_virtio_is_big_endian(CPUState *cpu)
+>  {
+> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +
+> +    if (cc->virtio_is_big_endian) {
+> +        return cc->virtio_is_big_endian(cpu);
+> +    }
+>      return target_words_bigendian();
+>  }
 >  
->    Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
-> -  ``VHOST_USER_GET_FEATURES``.
-> +  ``VHOST_USER_GET_FEATURES``.  It does not need to be acknowledged by
-> +  ``VHOST_USER_SET_FEATURES``.
+> @@ -438,7 +443,6 @@ static void cpu_class_init(ObjectClass *klass, void *data)
+>      k->write_elf64_note = cpu_common_write_elf64_note;
+>      k->gdb_read_register = cpu_common_gdb_read_register;
+>      k->gdb_write_register = cpu_common_gdb_write_register;
+> -    k->virtio_is_big_endian = cpu_common_virtio_is_big_endian;
+>      set_bit(DEVICE_CATEGORY_CPU, dc->categories);
+>      dc->realize = cpu_common_realizefn;
+>      dc->unrealize = cpu_common_unrealizefn;
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 1fd1917ca0f..fe6a4be99e4 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -1973,9 +1973,7 @@ static enum virtio_device_endian virtio_default_endian(void)
 >  
->  .. Note::
->     Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
-
-
-Not really clear what does "It" refer to here.
-Also, are we sure it's ok to send the messages and then send
-VHOST_USER_SET_FEATURES with VHOST_USER_F_PROTOCOL_FEATURES clear?
-Looks more like a violation to me ...
-
-
-How about: It -> this bit
-does not need to be -> before ... has been
-
-so:
-
-    Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
- -  ``VHOST_USER_GET_FEATURES``, and even before this bit has been
-	acknowledged by VHOST_USER_SET_FEATURES.
-
-
-
-
+>  static enum virtio_device_endian virtio_current_cpu_endian(void)
+>  {
+> -    CPUClass *cc = CPU_GET_CLASS(current_cpu);
+> -
+> -    if (cc->virtio_is_big_endian(current_cpu)) {
+> +    if (cpu_virtio_is_big_endian(current_cpu)) {
+>          return VIRTIO_DEVICE_ENDIAN_BIG;
+>      } else {
+>          return VIRTIO_DEVICE_ENDIAN_LITTLE;
 > -- 
-> 2.20.1
+> 2.26.2
 
 
