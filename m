@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D6D32B672
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:08:02 +0100 (CET)
-Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A1432B66D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 11:06:11 +0100 (CET)
+Received: from localhost ([::1]:49622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHOQD-0006s8-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:08:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
+	id 1lHOOQ-0004Sj-B0
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 05:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1lHOI1-0007Yj-VY
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:59:35 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:50942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1lHOHz-0004Jf-I8
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:59:33 -0500
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 9C0592E14C6;
- Wed,  3 Mar 2021 12:59:26 +0300 (MSK)
-Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
- (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 75vXZVylHd-xQxmaOHu; Wed, 03 Mar 2021 12:59:26 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1614765566; bh=n9oFPL9OFWeJlaeULAx/nFzDl5X6l0o+RbDsoPiDwA8=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=UAUNLgnZriZKGRK85M7zFCyv9d4AAuwbFhNOc6ovPv/2y1bLP6O3Je+7lGyLvs4gW
- CN46OFG91U3TkAiFAVK+jJCU/55Z4GGL2xvkyY8npnRIDDS/qnW7x8xm73ZgwBhtPo
- GuwkGH/zjHVyvFLRd604KCe6CnHJY7wk2bKiN0cY=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
- [2a02:6b8:0:107:880d:3c89:fcd8:ca75])
- by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- w0BjtEeJGw-xQnKju6j; Wed, 03 Mar 2021 12:59:26 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Alexey Kirillov <lekiravi@yandex-team.ru>
-To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v7 5/5] net: Do not fill legacy info_str for backends
-Date: Wed,  3 Mar 2021 12:59:10 +0300
-Message-Id: <20210303095910.78277-6-lekiravi@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210303095910.78277-1-lekiravi@yandex-team.ru>
-References: <20210303095910.78277-1-lekiravi@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHOMY-00039A-9s
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:04:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50287)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHOMW-0005h7-FR
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 05:04:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614765851;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nYemywl9aB5aBUN/flCqdbkS8tkkUiOv/kh7PudpcaY=;
+ b=KoR+4in9Aw4gukvKGyZri5Hvi9w/pALY8K/UG4s3ImMJmc9iKSWK7U1PWg5t4LcjDWOc93
+ 2XyFjwr+bzKz0iuQ+ULtED3lGb4cOhtaAKa6kgrQkaNAyVuiAaqDFt/PtSzr5HLOLkUJZ8
+ 7sYHeReLRIKV9ZkYowe/sZuhN1I/Jtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87--tMPlnO1NxOYzhcaXutvyg-1; Wed, 03 Mar 2021 05:04:08 -0500
+X-MC-Unique: -tMPlnO1NxOYzhcaXutvyg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C57AE195D562;
+ Wed,  3 Mar 2021 10:04:07 +0000 (UTC)
+Received: from redhat.com (ovpn-115-145.ams2.redhat.com [10.36.115.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BEB4C189CE;
+ Wed,  3 Mar 2021 10:04:06 +0000 (UTC)
+Date: Wed, 3 Mar 2021 10:04:03 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 0/2] gitlab-ci.yml: Add jobs to test CFI
+Message-ID: <YD9fE623LlgncsVw@redhat.com>
+References: <YDy8qsRRR3FmWr1D@redhat.com>
+ <56d3d1a6-00af-1cc9-e980-748548191202@linux.vnet.ibm.com>
+ <YD0Day/wGawuWdpi@redhat.com>
+ <950b36a4-ec19-84df-9292-c88c390ce5fc@linux.vnet.ibm.com>
+ <YD4T1nVIEdL7/IoG@redhat.com>
+ <50a8e650-841f-cac4-8a14-8c659ef274ca@linux.vnet.ibm.com>
+ <YD5b74uynDvWUySy@redhat.com>
+ <a4f78c9c-3a42-13dc-f095-16144d09ca6b@linux.vnet.ibm.com>
+ <YD5qdKLNZwg6XB7T@redhat.com>
+ <4c72d19e-9df6-d9fa-e8c8-f199307e9454@linux.vnet.ibm.com>
 MIME-Version: 1.0
+In-Reply-To: <4c72d19e-9df6-d9fa-e8c8-f199307e9454@linux.vnet.ibm.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,242 +90,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Stefan Weil <sw@weilnetz.de>,
- xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, Vincenzo Maffione <v.maffione@gmail.com>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we use QAPI NetClientState->stored_config to store and get information
-about backend network devices, we can drop fill of legacy field info_str
-for them.
+On Tue, Mar 02, 2021 at 04:01:17PM -0500, Daniele Buono wrote:
+> On 3/2/2021 11:40 AM, Daniel P. Berrangé wrote:
+> > The CFI protection is something I'd say is relevant to virtualization
+> > use cases, not to emulation use cases
+> > 
+> >     https://qemu-project.gitlab.io/qemu/system/security.html
+> > 
+> > IOW, the targets that are important to test are the ones where KVM
+> > is available.
+> > 
+> > So that's  s390x, ppc, x86, mips, and arm.
+> > 
+> > I think we can probably ignore mips as that's fairly niche.
+> > We can also reasonably limit ourselves to only test the 64-bit
+> > variants of the target, on the basis that 32-bit is increasingly
+> > legacy/niche too.
+> > 
+> > So that gives us  ppc64le, x86_64, aarch64 and s390x as the
+> > targets we should get CI coverage for CFI.
+> 
+> Thanks Daniel,
+> I'll start working on a V3 that only contains those 4 targets, probably in
+> two sets of build/check/acceptance to maintain the jobs below the hour mark.
+> 
+> These would still be x86 binaries that are not testing KVM, however,
+> because of the capabilities of the shared gitlab runners.
 
-We still use info_str field for NIC and hubports, so we can not completely
-remove it.
+Yes, that's fine.
 
-Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
----
- net/l2tpv3.c     |  2 --
- net/slirp.c      |  3 ---
- net/socket.c     | 28 ----------------------------
- net/tap-win32.c  |  2 --
- net/tap.c        |  9 ---------
- net/vde.c        |  2 --
- net/vhost-user.c |  1 -
- net/vhost-vdpa.c |  1 -
- 8 files changed, 48 deletions(-)
+> I see that there's some work from Cleber Rosa to allow running custom jobs
+> on aarch64 and s390x systems. I think that, when the infrastructure is
+> ready, having a KVM-based CFI test there would help a lot in terms of
+> coverage for those architectures.
 
-diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-index 96611cb4af..b7e1d84674 100644
---- a/net/l2tpv3.c
-+++ b/net/l2tpv3.c
-@@ -729,8 +729,6 @@ int net_init_l2tpv3(const Netdev *netdev,
- 
-     QAPI_CLONE_MEMBERS(NetdevL2TPv3Options,
-                        &nc->stored_config->u.l2tpv3, l2tpv3);
--
--    s->nc.info_str = g_strdup_printf("l2tpv3: connected");
-     return 0;
- outerr:
-     qemu_del_net_client(nc);
-diff --git a/net/slirp.c b/net/slirp.c
-index bfa07e3432..9454a673d6 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -664,9 +664,6 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         stored->tftp_server_name = g_strdup(tftp_server_name);
-     }
- 
--    nc->info_str = g_strdup_printf("net=%s,restrict=%s", inet_ntoa(net),
--                                   restricted ? "on" : "off");
--
-     s = DO_UPCAST(SlirpState, nc, nc);
- 
-     s->slirp = slirp_init(restricted, ipv4, net, mask, host,
-diff --git a/net/socket.c b/net/socket.c
-index 98172347d7..c0de10c0c0 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -180,8 +180,6 @@ static void net_socket_send(void *opaque)
-         s->fd = -1;
-         net_socket_rs_init(&s->rs, net_socket_rs_finalize, false);
-         s->nc.link_down = true;
--        g_free(s->nc.info_str);
--        s->nc.info_str = g_new0(char, 1);
- 
-         return;
-     }
-@@ -401,16 +399,10 @@ static NetSocketState *net_socket_fd_init_dgram(NetClientState *peer,
-         stored->mcast = g_strdup(mcast);
- 
-         s->dgram_dst = saddr;
--        nc->info_str = g_strdup_printf("socket: fd=%d (cloned mcast=%s:%d)",
--                                       fd, inet_ntoa(saddr.sin_addr),
--                                       ntohs(saddr.sin_port));
-     } else {
-         if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
-             s->dgram_dst.sin_family = AF_UNIX;
-         }
--
--        nc->info_str = g_strdup_printf("socket: fd=%d %s",
--                                       fd, SocketAddressType_str(sa_type));
-     }
- 
-     return s;
-@@ -445,8 +437,6 @@ static NetSocketState *net_socket_fd_init_stream(NetClientState *peer,
- 
-     nc = qemu_new_net_client(&net_socket_info, peer, model, name);
- 
--    nc->info_str = g_strdup_printf("socket: fd=%d", fd);
--
-     s = DO_UPCAST(NetSocketState, nc, nc);
- 
-     s->fd = fd;
-@@ -528,11 +518,6 @@ static void net_socket_accept(void *opaque)
- 
-     stored->has_fd = true;
-     stored->fd = g_strdup_printf("%d", fd);
--
--    g_free(s->nc.info_str);
--    s->nc.info_str = g_strdup_printf("socket: connection from %s:%d",
--                                     inet_ntoa(saddr.sin_addr),
--                                     ntohs(saddr.sin_port));
- }
- 
- static int net_socket_listen_init(NetClientState *peer,
-@@ -647,10 +632,6 @@ static int net_socket_connect_init(NetClientState *peer,
-     stored->has_connect = true;
-     stored->connect = g_strdup(host_str);
- 
--    g_free(s->nc.info_str);
--    s->nc.info_str = g_strdup_printf("socket: connect to %s:%d",
--                                     inet_ntoa(saddr.sin_addr),
--                                     ntohs(saddr.sin_port));
-     return 0;
- }
- 
-@@ -707,12 +688,7 @@ static int net_socket_mcast_init(NetClientState *peer,
-         stored->localaddr = g_strdup(localaddr_str);
-     }
- 
--    g_free(s->nc.info_str);
--    s->nc.info_str = g_strdup_printf("socket: mcast=%s:%d",
--                                     inet_ntoa(saddr.sin_addr),
--                                     ntohs(saddr.sin_port));
-     return 0;
--
- }
- 
- static int net_socket_udp_init(NetClientState *peer,
-@@ -773,10 +749,6 @@ static int net_socket_udp_init(NetClientState *peer,
-     stored->has_udp = true;
-     stored->udp = g_strdup(rhost);
- 
--    g_free(s->nc.info_str);
--    s->nc.info_str = g_strdup_printf("socket: udp=%s:%d",
--                                     inet_ntoa(raddr.sin_addr),
--                                     ntohs(raddr.sin_port));
-     return 0;
- }
- 
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 0888db8cce..21e451107b 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -787,8 +787,6 @@ static int tap_win32_init(NetClientState *peer, const char *model,
-     stored->has_ifname = true;
-     stored->ifname = g_strdup(ifname);
- 
--    s->nc.info_str = g_strdup_printf("tap: ifname=%s", ifname);
--
-     s->handle = handle;
- 
-     qemu_add_wait_object(s->handle->tap_semaphore, tap_win32_send, s);
-diff --git a/net/tap.c b/net/tap.c
-index f864f434b2..12a08d54fe 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -625,8 +625,6 @@ int net_init_bridge(const Netdev *netdev, const char *name,
-         stored->helper = g_strdup(helper);
-     }
- 
--    s->nc.info_str = g_strdup_printf("helper=%s,br=%s", helper, br);
--
-     return 0;
- }
- 
-@@ -712,8 +710,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->fds = g_strdup_printf("%s:%d", stored->fds, fd);
-             g_free(tmp_s);
-         }
--
--        s->nc.info_str = g_strdup_printf("fd=%d", fd);
-     } else if (tap->has_helper) {
-         if (!stored->has_helper) {
-             stored->has_helper = true;
-@@ -725,8 +721,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->br = tap->has_br ? g_strdup(tap->br) :
-                                        g_strdup(DEFAULT_BRIDGE_INTERFACE);
-         }
--
--        s->nc.info_str = g_strdup_printf("helper=%s", tap->helper);
-     } else {
-         if (ifname && !stored->has_ifname) {
-             stored->has_ifname = true;
-@@ -743,9 +737,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->downscript = g_strdup(downscript);
-         }
- 
--        s->nc.info_str = g_strdup_printf("ifname=%s,script=%s,downscript=%s",
--                                         ifname, script, downscript);
--
-         if (strcmp(downscript, "no") != 0) {
-             snprintf(s->down_script, sizeof(s->down_script), "%s", downscript);
-             snprintf(s->down_script_arg, sizeof(s->down_script_arg),
-diff --git a/net/vde.c b/net/vde.c
-index 67de6eb0c5..64bdb937ca 100644
---- a/net/vde.c
-+++ b/net/vde.c
-@@ -100,8 +100,6 @@ static int net_vde_init(NetClientState *peer, const char *model,
- 
-     nc = qemu_new_net_client(&net_vde_info, peer, model, name);
- 
--    nc->info_str = g_strdup_printf("sock=%s,fd=%d", sock, vde_datafd(vde));
--
-     s = DO_UPCAST(VDEState, nc, nc);
- 
-     s->vde = vde;
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index 49c9a740c2..e443c4b2b5 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -327,7 +327,6 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
-     user = g_new0(struct VhostUserState, 1);
-     for (i = 0; i < queues; i++) {
-         nc = qemu_new_net_client(&net_vhost_user_info, peer, device, name);
--        nc->info_str = g_strdup_printf("vhost-user%d to %s", i, chr->label);
-         nc->queue_index = i;
-         if (!nc0) {
-             nc0 = nc;
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 423d71770d..5a28bbcd7b 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -200,7 +200,6 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-     stored->has_queues = true;
-     stored->queues = 1; /* TODO: change when support multiqueue */
- 
--    nc->info_str = g_strdup_printf(TYPE_VHOST_VDPA);
-     nc->queue_index = 0;
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-     vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
+Yep, that should be possible.
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
