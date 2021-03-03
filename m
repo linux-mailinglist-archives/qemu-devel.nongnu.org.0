@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0832E32B7D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 13:33:40 +0100 (CET)
-Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8240132B7D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 13:34:14 +0100 (CET)
+Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHQh9-0002hk-32
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 07:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38476)
+	id 1lHQhh-0003LW-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 07:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lHQgC-00026I-Co
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:32:40 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lHQgA-0002QW-JJ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:32:40 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id m1so6188473wml.2
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 04:32:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HmpKRSDi8hV0X5C5VVHvdXceZLCh/ZRMUUfDHEBLHbI=;
- b=QoZOJabyJ5C7knde06th5Sz/IDOb0yKhHzpCQEVlVFYnafU9/R9e2uUH5JI//hAJ0X
- AKGkgvJ3ETcnRMF1MgoTMHjmEyj0zR2gsgJD2HbfPq6bsnBdte4o1+7YE3jwR4DCjeCj
- DEK8QeAs+kPJijl+yFxd5LI9cXzqzk3l7FsgNDGMoqKuU1zlu3h8xHCUfdGeg/poyRZ2
- uS5XDFhWdiICFynr4dG5njnl5//fjiNsmnpZ9ItjJ/ffLxkq/UtPAbVIA2es1UbXvTXm
- OtAJGl9nFDpTKLvbKseIHJQ3YhQb3hxuT5nk242diJSjsflSPiMPJG6+mqEIOQBUuM8g
- b0gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=HmpKRSDi8hV0X5C5VVHvdXceZLCh/ZRMUUfDHEBLHbI=;
- b=CkL+sggooWspqKV1TbVP8RgAH6k1mv3TZ3hvW5p8qQAn8yhLvP44IqtOVY/X+tplCM
- Of1GGMnTu2ojFY5nxLz8whmeT8h0M8LehvRkZZ/iOPgV+ORNxlUCMZ3TLcUK3+e2NH6s
- sGno0REgno1ukdShUaG7qYsyFiysSToxE2cCXbRqb7NUevD5vXGS+qiT1YfrC0EA5dY/
- 9W0EVduMXs6gJDfKy2om4qMvRqfdaToik8OjWQna1TI565vGH664q9VbN3LOst/7Hn0E
- 3T2mnJkwBlAs55u7DfC3qPhpzhmvexatl9Jn8XNbBu3KpAam3HK/ezbMGX6NLR0CVK0K
- 4SGA==
-X-Gm-Message-State: AOAM532BhwiJumOvbiUDuVIhjqM3eBSayaDnvY9m6GRABbAXsOVzlFra
- GgkQIJJn8VVzFT8jjH/GX5HGnmncwuY=
-X-Google-Smtp-Source: ABdhPJweyE7KEtmnWGKxe8026gaG9yUaCuFKKBHNHCRP1hPQ9EKxdliPZOT2qkxQAW5QoFS02oxjwQ==
-X-Received: by 2002:a1c:4986:: with SMTP id w128mr8897970wma.37.1614774757029; 
- Wed, 03 Mar 2021 04:32:37 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c3sm31422532wrr.29.2021.03.03.04.32.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 04:32:36 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] chardev: add nodelay option
-Date: Wed,  3 Mar 2021 13:32:35 +0100
-Message-Id: <20210303123235.63171-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHQgY-0002Td-FY
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:33:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHQgW-0002bZ-I7
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 07:33:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614774779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7r0dC6rmq5ShMk4kjDxq96wDQSZvt7T2zFiuFKHdJUo=;
+ b=MHboa7iE1NDJ9YYNreaCRtQelhMTdfljqWIsdrJSRtp2x1H3G0QCn1zQ/OTnpwZAK6d1lD
+ InY6FsaomcXr0Yf2RI8llWs3uyRkwP/wQzLfCpgp6g2VLYTGhVmBI1GEP1LNRA/8JtQ8/F
+ hxB+h3UGRyZTiPnT3ksXt07BlD5Xtgw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-pJ_RZQDCO2i4hDoB2baWTw-1; Wed, 03 Mar 2021 07:32:55 -0500
+X-MC-Unique: pJ_RZQDCO2i4hDoB2baWTw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED82107ACF4;
+ Wed,  3 Mar 2021 12:32:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-146.ams2.redhat.com [10.36.115.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 472025D9C2;
+ Wed,  3 Mar 2021 12:32:50 +0000 (UTC)
+Subject: Re: [PATCH v3] target/s390x: Implement the MVPG condition-code-option
+ bit
+To: David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210303024423.3125722-1-richard.henderson@linaro.org>
+ <82ea6a14-af12-818c-622b-4ecf06905967@redhat.com>
+ <fb6b66d2-1764-174f-138b-d26b4a3bb64f@redhat.com>
+ <115731a3-e128-2cbe-fd55-0a6f003eaac3@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <f06832b5-8161-3663-8923-88f691443874@redhat.com>
+Date: Wed, 3 Mar 2021 13:32:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <115731a3-e128-2cbe-fd55-0a6f003eaac3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,129 +85,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "delay" option was introduced as a way to enable Nagle's algorithm
-with ",nodelay".  Since the short form for boolean options has now been
-deprecated, introduce a more properly named "nodelay" option.  The "delay"
-option remains as an undocumented option.
+On 03/03/2021 12.40, David Hildenbrand wrote:
+> On 03.03.21 12:36, Thomas Huth wrote:
+>> On 03/03/2021 07.25, Thomas Huth wrote:
+>>> On 03/03/2021 03.44, Richard Henderson wrote:
+>>>> If the CCO bit is set, MVPG should not generate an exception but
+>>>> report page translation faults via a CC code.
+>>>>
+>>>> Create a new helper, access_prepare_nf, which can use probe_access_flags
+>>>> in non-faulting mode, and then handle watchpoints.
+>>>>
+>>>> Cc: David Hildenbrand <david@redhat.com>
+>>>> Reported-by: Thomas Huth <thuth@redhat.com>
+>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> ---
+>>>>    target/s390x/mem_helper.c | 87 ++++++++++++++++++++++++++++-----------
+>>>>    1 file changed, 64 insertions(+), 23 deletions(-)
+>>>>
+>>>> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+>>>> index 25cfede806..b397333c0b 100644
+>>>> --- a/target/s390x/mem_helper.c
+>>>> +++ b/target/s390x/mem_helper.c
+>>>> @@ -130,28 +130,62 @@ typedef struct S390Access {
+>>>>        int mmu_idx;
+>>>>    } S390Access;
+>>>> +static bool access_prepare_nf(S390Access *access, CPUS390XState *env,
+>>>> +                              bool nofault, vaddr vaddr1, int size,
+>>>> +                              MMUAccessType access_type,
+>>>> +                              int mmu_idx, uintptr_t ra)
+>>>> +{
+>>>> +    void *haddr1, *haddr2 = NULL;
+>>>> +    int size1, size2;
+>>>> +    vaddr vaddr2 = 0;
+>>>> +    int flags;
+>>>> +
+>>>> +    assert(size > 0 && size <= 4096);
+>>>> +
+>>>> +    size1 = MIN(size, -(vaddr1 | TARGET_PAGE_MASK)),
+>>>> +    size2 = size - size1;
+>>>> +
+>>>> +    flags = probe_access_flags(env, vaddr1, access_type, mmu_idx,
+>>>> +                               nofault, &haddr1, ra);
+>>>> +    if (unlikely(size2)) {
+>>>> +        /* The access crosses page boundaries. */
+>>>> +        vaddr2 = wrap_address(env, vaddr1 + size1);
+>>>> +        flags |= probe_access_flags(env, vaddr2, access_type, mmu_idx,
+>>>> +                                    nofault, &haddr2, ra);
+>>>> +    }
+>>>> +
+>>>> +    if (unlikely(flags & TLB_INVALID_MASK)) {
+>>>> +        return false;
+>>>> +    }
+>>>> +    if (unlikely(flags & TLB_WATCHPOINT)) {
+>>>> +        /* S390 does not presently use transaction attributes. */
+>>>> +        cpu_check_watchpoint(env_cpu(env), vaddr1, size,
+>>>> +                             MEMTXATTRS_UNSPECIFIED,
+>>>> +                             (access_type == MMU_DATA_STORE
+>>>> +                              ? BP_MEM_WRITE : BP_MEM_READ), ra);
+>>>> +    }
+>>>> +
+>>>> +    *access = (S390Access) {
+>>>> +        .vaddr1 = vaddr1,
+>>>> +        .vaddr2 = vaddr2,
+>>>> +        .haddr1 = haddr1,
+>>>> +        .haddr2 = haddr2,
+>>>> +        .size1 = size1,
+>>>> +        .size2 = size2,
+>>>> +        .mmu_idx = mmu_idx
+>>>> +    };
+>>>> +    return true;
+>>>> +}
+>>>> +
+>>>>    static S390Access access_prepare(CPUS390XState *env, vaddr vaddr, int 
+>>>> size,
+>>>>                                     MMUAccessType access_type, int mmu_idx,
+>>>>                                     uintptr_t ra)
+>>>>    {
+>>>> -    S390Access access = {
+>>>> -        .vaddr1 = vaddr,
+>>>> -        .size1 = MIN(size, -(vaddr | TARGET_PAGE_MASK)),
+>>>> -        .mmu_idx = mmu_idx,
+>>>> -    };
+>>>> -
+>>>> -    g_assert(size > 0 && size <= 4096);
+>>>> -    access.haddr1 = probe_access(env, access.vaddr1, access.size1,
+>>>> access_type,
+>>>> -                                 mmu_idx, ra);
+>>>> -
+>>>> -    if (unlikely(access.size1 != size)) {
+>>>> -        /* The access crosses page boundaries. */
+>>>> -        access.vaddr2 = wrap_address(env, vaddr + access.size1);
+>>>> -        access.size2 = size - access.size1;
+>>>> -        access.haddr2 = probe_access(env, access.vaddr2, access.size2,
+>>>> -                                     access_type, mmu_idx, ra);
+>>>> -    }
+>>>> -    return access;
+>>>> +    S390Access ret;
+>>>> +    bool ok = access_prepare_nf(&ret, env, false, vaddr, size,
+>>>> +                                access_type, mmu_idx, ra);
+>>>> +    assert(ok);
+>>>> +    return ret;
+>>>>    }
+>>>>    /* Helper to handle memset on a single page. */
+>>>> @@ -845,8 +879,10 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t
+>>>> r0, uint64_t r1, uint64_t r2)
+>>>>        const int mmu_idx = cpu_mmu_index(env, false);
+>>>>        const bool f = extract64(r0, 11, 1);
+>>>>        const bool s = extract64(r0, 10, 1);
+>>>> +    const bool cco = extract64(r0, 8, 1);
+>>>>        uintptr_t ra = GETPC();
+>>>>        S390Access srca, desta;
+>>>> +    bool ok;
+>>>>        if ((f && s) || extract64(r0, 12, 4)) {
+>>>>            tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
+>>>> @@ -858,13 +894,18 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t
+>>>> r0, uint64_t r1, uint64_t r2)
+>>>>        /*
+>>>>         * TODO:
+>>>>         * - Access key handling
+>>>> -     * - CC-option with surpression of page-translation exceptions
+>>>>         * - Store r1/r2 register identifiers at real location 162
+>>>>         */
+>>>> -    srca = access_prepare(env, r2, TARGET_PAGE_SIZE, MMU_DATA_LOAD, 
+>>>> mmu_idx,
+>>>> -                          ra);
+>>>> -    desta = access_prepare(env, r1, TARGET_PAGE_SIZE, MMU_DATA_STORE,
+>>>> mmu_idx,
+>>>> -                           ra);
+>>>> +    ok = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
+>>>> +                           MMU_DATA_LOAD, mmu_idx, ra);
+>>>> +    if (!ok) {
+>>>> +        return 2;
+>>>> +    }
+>>>> +    ok = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
+>>>> +                           MMU_DATA_STORE, mmu_idx, ra);
+>>>> +    if (!ok) {
+>>>> +        return 1;
+>>>> +    }
+>>>
+>>> Thanks, this looks promising, but one of the MVPG kvm-unit-tests is still
+>>> failing with this patch - the one that checks for an exception if the
+>>> destination page is marked as read-only. MVPG only returns CC1 for invalid
+>>> page table entries - but if the page is write-protected, it still causes a
+>>> protection exception. That's why I've been checking "if (exc && exc !=
+>>> PGM_PROTECTION)" in my version of the patch.
+>>
+>> FWIW, I can get the MVPG kvm-unit-test working with your patch if I add
+>> this on top:
+>>
+>> diff a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+>> --- a/target/s390x/mem_helper.c
+>> +++ b/target/s390x/mem_helper.c
+>> @@ -904,7 +904,14 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t 
+>> r0, uint64_t r1, uint64_t r2)
+>>        ok = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
+>>                               MMU_DATA_STORE, mmu_idx, ra);
+>>        if (!ok) {
+>> -        return 1;
+>> +        ok = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
+>> +                               MMU_DATA_LOAD, mmu_idx, ra);
+>> +        if (!ok) {
+>> +            return 1;
+>> +        }
+>> +        /* If reading was ok, then the page must be protected. */
+>> +        /* TODO: Set a translation exception code in lowcore? */
+>> +        tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
+>>        }
+>>        access_memmove(env, &desta, &srca, ra);
+>>        return 0; /* data moved */
+>>
+>> ... yeah, it's ugly to call access_prepare_nf() again with MMU_DATA_LOAD,
+>> and it's still missing the translation exception code ... but at least
+>> the kvm-unit-test is happy that way...
+> 
+> As I said, can't we store the last exception we had during tlb_fill and use 
+> that in case returns access_prepare_nf() returns an error to identify the 
+> actual exception?
 
-"delay" and "nodelay" are mutually exclusive.  Because the check is
-done at consumption time, the code also rejects them if one of the
-two is specified via -set.
+Ah, right, thanks. That's likely the best way to do it. I just gave it a try 
+and it seems to work ... I'll send out that modified versions as a v4...
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- chardev/char-socket.c | 13 +++++++++++--
- gdbstub.c             |  2 +-
- qemu-options.hx       | 14 +++++++-------
- 3 files changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 06a37c0cc8..c8bced76b7 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1472,8 +1472,17 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-     sock = backend->u.socket.data = g_new0(ChardevSocket, 1);
-     qemu_chr_parse_common(opts, qapi_ChardevSocket_base(sock));
- 
--    sock->has_nodelay = qemu_opt_get(opts, "delay");
--    sock->nodelay = !qemu_opt_get_bool(opts, "delay", true);
-+    if (qemu_opt_get(opts, "delay") && qemu_opt_get(opts, "nodelay")) {
-+        error_setg(errp, "'delay' and 'nodelay' are mutually exclusive");
-+        return;
-+    }
-+    sock->has_nodelay =
-+        qemu_opt_get(opts, "delay") ||
-+        qemu_opt_get(opts, "nodelay");
-+    sock->nodelay =
-+        !qemu_opt_get_bool(opts, "delay", true) ||
-+        qemu_opt_get_bool(opts, "nodelay", false);
-+
-     /*
-      * We have different default to QMP for 'server', hence
-      * we can't just check for existence of 'server'
-diff --git a/gdbstub.c b/gdbstub.c
-index 3ee40479b6..16d7c8f534 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3505,7 +3505,7 @@ int gdbserver_start(const char *device)
-         if (strstart(device, "tcp:", NULL)) {
-             /* enforce required TCP attributes */
-             snprintf(gdbstub_device_name, sizeof(gdbstub_device_name),
--                     "%s,wait=off,delay=off,server=on", device);
-+                     "%s,wait=off,nodelay=on,server=on", device);
-             device = gdbstub_device_name;
-         }
- #ifndef _WIN32
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 252db9357c..90801286c6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3033,7 +3033,7 @@ DEFHEADING(Character device options:)
- DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev help\n"
-     "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
--    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,delay=on|off][,reconnect=seconds]\n"
-+    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off][,reconnect=seconds]\n"
-     "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
-     "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
-     "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
-@@ -3184,7 +3184,7 @@ The available backends are:
- 
-     TCP and unix socket options are given below:
- 
--    ``TCP options: port=port[,host=host][,to=to][,ipv4=on|off][,ipv6=on|off][,delay=on|off]``
-+    ``TCP options: port=port[,host=host][,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off]``
-         ``host`` for a listening socket specifies the local address to
-         be bound. For a connecting socket species the remote host to
-         connect to. ``host`` is optional for listening sockets. If not
-@@ -3204,7 +3204,7 @@ The available backends are:
-         or IPv6 must be used. If neither is specified the socket may
-         use either protocol.
- 
--        ``delay=on|off`` disables the Nagle algorithm.
-+        ``nodelay=on|off`` disables the Nagle algorithm.
- 
-     ``unix options: path=path[,abstract=on|off][,tight=on|off]``
-         ``path`` specifies the local path of the unix socket. ``path``
-@@ -3593,13 +3593,13 @@ SRST
-         ``telnet options:``
-             localhost 5555
- 
--    ``tcp:[host]:port[,server=on|off][,wait=on|off][,delay=on|off][,reconnect=seconds]``
-+    ``tcp:[host]:port[,server=on|off][,wait=on|off][,nodelay=on|off][,reconnect=seconds]``
-         The TCP Net Console has two modes of operation. It can send the
-         serial I/O to a location or wait for a connection from a
-         location. By default the TCP Net Console is sent to host at the
-         port. If you use the ``server=on`` option QEMU will wait for a client
-         socket application to connect to the port before continuing,
--        unless the ``wait=on|off`` option was specified. The ``delay=on|off``
-+        unless the ``wait=on|off`` option was specified. The ``nodelay=on|off``
-         option disables the Nagle buffering algorithm. The ``reconnect=on``
-         option only applies if ``server=no`` is set, if the connection goes
-         down it will attempt to reconnect at the given interval. If host
-@@ -3616,7 +3616,7 @@ SRST
-         ``Example to not wait and listen on ip 192.168.0.100 port 4444``
-             -serial tcp:192.168.0.100:4444,server=on,wait=off
- 
--    ``telnet:host:port[,server=on|off][,wait=on|off][,delay=on|off]``
-+    ``telnet:host:port[,server=on|off][,wait=on|off][,nodelay=on|off]``
-         The telnet protocol is used instead of raw tcp sockets. The
-         options work the same as if you had specified ``-serial tcp``.
-         The difference is that the port acts like a telnet server or
-@@ -3626,7 +3626,7 @@ SRST
-         you do it with Control-] and then type "send break" followed by
-         pressing the enter key.
- 
--    ``websocket:host:port,server=on[,wait=on|off][,delay=on|off]``
-+    ``websocket:host:port,server=on[,wait=on|off][,nodelay=on|off]``
-         The WebSocket protocol is used instead of raw tcp socket. The
-         port acts as a WebSocket server. Client mode is not supported.
- 
--- 
-2.29.2
+  Thomas
 
 
