@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C32B32BC07
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:47:02 +0100 (CET)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E7B32BC43
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:49:03 +0100 (CET)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZKe-0002Gj-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:47:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
+	id 1lHZMc-0004d8-QL
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lHZJW-0001gZ-6U
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:45:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lHZJQ-0001cS-7d
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 16:45:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614807942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SjB5ucXMVp2uHdzO/yU5zs3qewkziBVY/noRHBw47X0=;
- b=Lf0IUSLDFBKHitqNhoC+wq2WyrmaC4jfppt5+U4GA5ZsIqsjWYUYnFk1WqfIKAsq/MTkbF
- XOpSQG2xvWJk2jeIpbKf7hA/+L3zc1SjLqyuOigl0D1cKboj4/9ptUCQq+uXKhIi7Raf6o
- jZ99E6hLTZENoEUUvYhlnRaK6sfJJEU=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50--qHNIHoCNbi_aCDBBkqz4g-1; Wed, 03 Mar 2021 16:45:37 -0500
-X-MC-Unique: -qHNIHoCNbi_aCDBBkqz4g-1
-Received: by mail-oo1-f70.google.com with SMTP id y16so6340706oou.0
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 13:45:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHZKv-0002ln-Vz; Wed, 03 Mar 2021 16:47:18 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHZKs-00023G-NH; Wed, 03 Mar 2021 16:47:16 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w11so25340443wrr.10;
+ Wed, 03 Mar 2021 13:47:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1BaoAdExj6YRv7tms7y+nWAE3grOuJDNl0g6v2cn370=;
+ b=CTbMElCNFd3kzKfBoNZ9l2kkocibYVYTec9Yj3YpR7xU91uwqq9ZX4wkhuhO8R4GUD
+ ygaWFXW2MeSmbIRlS2zUzQJGQU+Jv6Y28jmSFi47cD25c5/ePw53WNhbdKsNR4CsSH6y
+ yj3S36vnGOnnlwAmgYcwE+BHif60Bl34I4XhuDe0odU93yP3sdDQc/CbIwlL1JknhC8V
+ rwckDWevZ9jhdUTk7la/44Dd+MZn5azyrf4ZieECWiAeuJOQBD2BEMCUSe7ZSmB5dxRl
+ asTGMSy3NH3+unc9G2905YP9hNk+vv7KZ38s+eAM1ZTggwHbJKS9etUgRuyQnsW5D2jB
+ aWhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SjB5ucXMVp2uHdzO/yU5zs3qewkziBVY/noRHBw47X0=;
- b=Ccl/X7XGTATlHpMvIMeFItu5d6YB6oWZNlnnLbb3N2/1xa2f5xgHaobVnLGpN2mQa1
- u7k86s07yrAG3CVusipf5OdnwMJg2/WRgkEvyHDCTItWDABDCNaa+Q6xyXgBUpqBLYXz
- aNsyIND2WpxUy4tPDgP9nSb07VRcL0F/taYL+KA0fNo9uq8jsHTn+wtx+kR9E51hRM7m
- voQ1LVHaAwb1vvMfdiCl9s6LyOXKSi8A6e0hC0favLctmyT4SkwMenFdVp4vQuPBn6W4
- IVEsyTXzoWyEiB63uOge96mggAunUzBglhy5LKN5GiIWKW5ZXTX1hHiP1MCFeITRxB0s
- tyPg==
-X-Gm-Message-State: AOAM532rTW1kDlWv49ZLDmYYvWJuDLZXWqnmL+iZX2gggx922uCgAUnU
- HaLguzMbLkqhu7Ibq8lKGo2uaM1ZHKuztKb6m0BlrnkgGmy5IwqxOH4pRYrzmGvqh4fm+sXOQo0
- WTf495Cdwj0M+aTkVxJts+wft1tYDuuY=
-X-Received: by 2002:aca:4947:: with SMTP id w68mr726173oia.41.1614807936660;
- Wed, 03 Mar 2021 13:45:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyDSI1DGO2/8khGyUUnLDvChX3Xfpu7QTuqeUzLJ+VcfvVoKq2G+9XYP9Pzc/tZEOkm2VPME4Tj6JiFRkYyvUg=
-X-Received: by 2002:aca:4947:: with SMTP id w68mr726155oia.41.1614807936436;
- Wed, 03 Mar 2021 13:45:36 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=1BaoAdExj6YRv7tms7y+nWAE3grOuJDNl0g6v2cn370=;
+ b=EhV2sidd8g+jZFHdt4E57uSHLnHoCaVhV7+ASzszzQX7Pq1+XebrXl53wqLseKbpCA
+ l/hqPenplOny1GGq2iu6eYLsEtaZYPJU6gBZkG4UVC9vzVzflmcfZzTVRM8F1EgO+A08
+ 8HSSohL6uUMacqXCDldtVDP1FAE1/oTD1r09L+u1/HNqG5WKSGueIFUHoKJCogkHsRkF
+ rieoq5IM7vYtFKqzvr0iNkKRuiqfyPVWPDtaAolsZ6bOzg5+gfuqznLk661C1yQZFhy2
+ 7FxKOCk08TteZ4ictRFNb4wye+t0/yqgI1CD+WWKfFF70w/P4hl+QMXIEWfSJWn1pXeF
+ Z22A==
+X-Gm-Message-State: AOAM530Cot9UkkK/6EI/t91f/TUKUqRdq24awt9oeXN/HKbzIkpz01WL
+ L+OwW6KFjoBdOJWOgzav+95klLT8q5g=
+X-Google-Smtp-Source: ABdhPJwD3Hdi9EbcVkN4LjMz1QFpr5AoWtN2XMirdefd0SY1etAbXF56toM1YzNZhSnBdVIw7P2fIw==
+X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr789229wrt.168.1614808030644; 
+ Wed, 03 Mar 2021 13:47:10 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id 21sm7280767wme.6.2021.03.03.13.47.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 13:47:09 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/28] cpu: Introduce SysemuCPUOps structure, remove
+ watchpoints from usermode
+Date: Wed,  3 Mar 2021 22:46:40 +0100
+Message-Id: <20210303214708.1727801-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210219160752.1826830-1-nsoffer@redhat.com>
- <f136b2e8-3510-a150-27f9-e69ba14e39aa@redhat.com>
- <81464e3d-c0ee-ac12-c43b-d0f7180db482@redhat.com>
- <6a714e21-0da5-7eb1-1350-277a25e23be4@virtuozzo.com>
-In-Reply-To: <6a714e21-0da5-7eb1-1350-277a25e23be4@virtuozzo.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Wed, 3 Mar 2021 23:45:20 +0200
-Message-ID: <CAMRbyysiNe1J54a1nQ0UOJGU26nTZQ6yqVGLVeUd4LV-n-LJ_Q@mail.gmail.com>
-Subject: Re: [PATCH] nbd: server: Report holes for raw images
-To: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006eac8e05bca8c570"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,187 +82,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006eac8e05bca8c570
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Feb 25, 2021 at 8:51 PM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
-
-> 19.02.2021 19:58, Eric Blake wrote:
-> > On 2/19/21 10:42 AM, Eric Blake wrote:
-> >
-> >>> To me, data=false looks compatible with NBD_STATE_HOLE. From user point
-> >>> of view, getting same results from qemu-nbd and qemu-img is more
-> >>> important than being more correct about allocation status.
-> >>
-> >> More to the point, here is our inconsistency:
-> >>
-> >> In nbd/server.c, we turn !BDRV_BLOCK_ALLOCATED into NBD_STATE_HOLE
-> >>
-> >> In block/nbd.c, we turn !NBD_STATE_HOLE into BDRV_BLOCK_DATA
-> >>
-> >> The fact that we are not doing a round-trip conversion means that one of
-> >> the two places is wrong.  And your argument that the server side is
-> >> wrong makes sense to me.
-> >
-> > In fact, when I went back and researched when this was introduced (see
-> > commit e7b1948d51 in 2018), we may have been aware of the inconsistency
-> > between client and server, but didn't make up our minds at the time:
-> > https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg03465.html
-> > "? Hm, don't remember, what we decided about DATA/HOLE flags mapping.."
-> >
-> >>
-> >> I'll wait a few days for any other reviewer commentary before taking
-> >> this through my NBD tree.
-> >>
-> >
->
->
-> I can add the following.
->
-> First, link to my research of block_status in Qemu:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg05136.html
->
-> And about HOLE and ZERO..
->
-> As I've noted in the research above, SCSI may return HOLE & !ZERO:
->
-> from SCSI:
-> Logical Block Provisioning Read Zeros (LBPRZ) bit
-> 1     If the logical block provisioning read zeros (LBPRZ) bit is set to
-> one, then, for an unmapped LBA specified by a read operation, the
-> deviceserver shall send user data with all bits set to zero to the data-in
-> buffer.
-> 0     If the TPRZ bit is set to zero, then, for an unmapped LBA specified
-> by a read operation, the device server may send user data with all bitsset
-> to any value to the data-in buffer.
->
-> So we can have an unmapped area that can be read as any random data. Same
-> thing can be said about null-co driver with read-zeroes=false
->
-> Also, qcow2 support ALLOCATED ZERO clusters which reads as zero but data
-> is allocated - they are reasonable to report as ZERO & !HOLE
->
-> And of-course UNALLOCATED ZERO clusters in qcow2 and lseek-holes are
-> reasonable to report as ZERO & HOLE,  because they reads as zero and
-> "future writes to that area may cause fragmentation or encounter an
-> NBD_ENOSPC"..
->
-> So, all combination are reasonable, we just need to fix Qemu NBD server to
-> report correct statuses in all these cases.
->
-> It seems that ZERO/HOLE specification is a lot more reasonable than what
-> we have with ZERO/DATA/ALLOCATED in Qemu, and may be true way is move
-> internal block_status to use NBD terms.
->
->
-> And thanks for CCing me. Hmm, maybe, I'll suggest myself as co-maintainer
-> for NBD?
-
-
-Kevin, Max, are you ok with this change?
-
---0000000000006eac8e05bca8c570
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Feb 25, 2021 at 8:51 PM Vladimir =
-Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsement=
-sov@virtuozzo.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">19.02.2021 19:58, Eric Blake wr=
-ote:<br>
-&gt; On 2/19/21 10:42 AM, Eric Blake wrote:<br>
-&gt; <br>
-&gt;&gt;&gt; To me, data=3Dfalse looks compatible with NBD_STATE_HOLE. From=
- user point<br>
-&gt;&gt;&gt; of view, getting same results from qemu-nbd and qemu-img is mo=
-re<br>
-&gt;&gt;&gt; important than being more correct about allocation status.<br>
-&gt;&gt;<br>
-&gt;&gt; More to the point, here is our inconsistency:<br>
-&gt;&gt;<br>
-&gt;&gt; In nbd/server.c, we turn !BDRV_BLOCK_ALLOCATED into NBD_STATE_HOLE=
-<br>
-&gt;&gt;<br>
-&gt;&gt; In block/nbd.c, we turn !NBD_STATE_HOLE into BDRV_BLOCK_DATA<br>
-&gt;&gt;<br>
-&gt;&gt; The fact that we are not doing a round-trip conversion means that =
-one of<br>
-&gt;&gt; the two places is wrong.=C2=A0 And your argument that the server s=
-ide is<br>
-&gt;&gt; wrong makes sense to me.<br>
-&gt; <br>
-&gt; In fact, when I went back and researched when this was introduced (see=
-<br>
-&gt; commit e7b1948d51 in 2018), we may have been aware of the inconsistenc=
-y<br>
-&gt; between client and server, but didn&#39;t make up our minds at the tim=
-e:<br>
-&gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg03=
-465.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archiv=
-e/html/qemu-devel/2018-03/msg03465.html</a><br>
-&gt; &quot;? Hm, don&#39;t remember, what we decided about DATA/HOLE flags =
-mapping..&quot;<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;ll wait a few days for any other reviewer commentary before =
-taking<br>
-&gt;&gt; this through my NBD tree.<br>
-&gt;&gt;<br>
-&gt; <br>
-<br>
-<br>
-I can add the following.<br>
-<br>
-First, link to my research of block_status in Qemu: <a href=3D"https://list=
-s.gnu.org/archive/html/qemu-devel/2020-04/msg05136.html" rel=3D"noreferrer"=
- target=3D"_blank">https://lists.gnu.org/archive/html/qemu-devel/2020-04/ms=
-g05136.html</a><br>
-<br>
-And about HOLE and ZERO..<br>
-<br>
-As I&#39;ve noted in the research above, SCSI may return HOLE &amp; !ZERO:<=
-br>
-<br>
-from SCSI:<br>
-Logical Block Provisioning Read Zeros (LBPRZ) bit<br>
-1=C2=A0 =C2=A0 =C2=A0If the logical block provisioning read zeros (LBPRZ) b=
-it is set to one, then, for an unmapped LBA specified by a read operation, =
-the deviceserver shall send user data with all bits set to zero to the data=
--in buffer.<br>
-0=C2=A0 =C2=A0 =C2=A0If the TPRZ bit is set to zero, then, for an unmapped =
-LBA specified by a read operation, the device server may send user data wit=
-h all bitsset to any value to the data-in buffer.<br>
-<br>
-So we can have an unmapped area that can be read as any random data. Same t=
-hing can be said about null-co driver with read-zeroes=3Dfalse<br>
-<br>
-Also, qcow2 support ALLOCATED ZERO clusters which reads as zero but data is=
- allocated - they are reasonable to report as ZERO &amp; !HOLE<br>
-<br>
-And of-course UNALLOCATED ZERO clusters in qcow2 and lseek-holes are reason=
-able to report as ZERO &amp; HOLE,=C2=A0 because they reads as zero and &qu=
-ot;future writes to that area may cause fragmentation or encounter an NBD_E=
-NOSPC&quot;..<br>
-<br>
-So, all combination are reasonable, we just need to fix Qemu NBD server to =
-report correct statuses in all these cases.<br>
-<br>
-It seems that ZERO/HOLE specification is a lot more reasonable than what we=
- have with ZERO/DATA/ALLOCATED in Qemu, and may be true way is move interna=
-l block_status to use NBD terms.<br>
-<br>
-<br>
-And thanks for CCing me. Hmm, maybe, I&#39;ll suggest myself as co-maintain=
-er for NBD?</blockquote><div><br></div><div>Kevin, Max, are you ok with thi=
-s change?</div></div></div>
-
---0000000000006eac8e05bca8c570--
-
+Hi,=0D
+=0D
+This series is inspired on Claudio TCG work.=0D
+=0D
+Instead of separate TCG from other accelerators, here we=0D
+separate sysemu operations (system VS user).=0D
+=0D
+Patches 1-6 are generic cleanups.=0D
+Patches 7-15 move from CPUClass to SysemuCPUOps=0D
+Patch   16 restricts SysemuCPUOps to sysemu=0D
+Patches 17-26 remove watchpoint code from user emulation=0D
+Patches 27-28 remove USER_ONLY #ifdef'ry from "cpu.h"=0D
+=0D
+Since v3:=0D
+- SysemuCPUOps const (Richard)=0D
+- added missing xtensa #ifdef'ry=0D
+- added missing aa64/sve #ifdef'ry=0D
+- added Laurent R-b=0D
+=0D
+Since v2:=0D
+- fixed lm32/unicore32=0D
+- remove USER_ONLY ifdef'ry from "cpu.h" (Claudio)=0D
+=0D
+Since v1:=0D
+- Name 'sysemu' (Claudio)=0D
+- change each field progressively (Richard)=0D
+=0D
+$ git backport-diff -u v3=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/28:[----] [--] 'target: Set CPUClass::vmsd instead of DeviceClass::vmsd=
+'=0D
+002/28:[----] [--] 'cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_fr=
+om=3D=0D
+_attrs'=0D
+003/28:[----] [--] 'cpu: Introduce cpu_virtio_is_big_endian()'=0D
+004/28:[----] [--] 'cpu: Directly use cpu_write_elf*() fallback handlers in=
+ p=3D=0D
+lace'=0D
+005/28:[----] [--] 'cpu: Directly use get_paging_enabled() fallback handler=
+s =3D=0D
+in place'=0D
+006/28:[----] [--] 'cpu: Directly use get_memory_mapping() fallback handler=
+s =3D=0D
+in place'=0D
+007/28:[0044] [FC] 'cpu: Introduce SysemuCPUOps structure'=0D
+008/28:[----] [-C] 'cpu: Move CPUClass::vmsd to SysemuCPUOps'=0D
+009/28:[----] [-C] 'cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOp=
+s'=0D
+010/28:[----] [-C] 'cpu: Move CPUClass::get_crash_info to SysemuCPUOps'=0D
+011/28:[----] [-C] 'cpu: Move CPUClass::write_elf* to SysemuCPUOps'=0D
+012/28:[----] [-C] 'cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps'=0D
+013/28:[----] [-C] 'cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=
+'=0D
+014/28:[----] [-C] 'cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps'=
+=0D
+015/28:[----] [-C] 'cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps'=
+=0D
+016/28:[----] [--] 'cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.=
+c'=0D
+017/28:[----] [--] 'linux-user: Remove dead code'=0D
+018/28:[----] [--] 'gdbstub: Remove watchpoint dead code in gdbserver_fork(=
+)'=0D
+019/28:[----] [--] 'target/arm/internals: Fix code style for checkpatch.pl'=
+=0D
+020/28:[----] [--] 'target/arm: Move code blocks around'=0D
+021/28:[----] [--] 'target/arm: Refactor some function bodies'=0D
+022/28:[0012] [FC] 'target/arm: Restrict watchpoint code to system emulatio=
+n'=0D
+023/28:[----] [--] 'target/i386: Restrict watchpoint code to system emulati=
+on'=0D
+024/28:[down] 'target/xtensa: Restrict watchpoint code to system emulation'=
+=0D
+025/28:[----] [--] 'accel/tcg/cpu-exec: Restrict watchpoint code to system =
+em=3D=0D
+ulation'=0D
+026/28:[----] [--] 'cpu: Remove watchpoint stubs for user emulation'=0D
+027/28:[----] [--] 'cpu: Fix code style for checkpatch.pl'=0D
+028/28:[----] [--] 'cpu: Move sysemu specific declarations to 'sysemu-cpu-o=
+ps=3D=0D
+.h''=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (28):=0D
+  target: Set CPUClass::vmsd instead of DeviceClass::vmsd=0D
+  cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs=0D
+  cpu: Introduce cpu_virtio_is_big_endian()=0D
+  cpu: Directly use cpu_write_elf*() fallback handlers in place=0D
+  cpu: Directly use get_paging_enabled() fallback handlers in place=0D
+  cpu: Directly use get_memory_mapping() fallback handlers in place=0D
+  cpu: Introduce SysemuCPUOps structure=0D
+  cpu: Move CPUClass::vmsd to SysemuCPUOps=0D
+  cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_crash_info to SysemuCPUOps=0D
+  cpu: Move CPUClass::write_elf* to SysemuCPUOps=0D
+  cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps=0D
+  cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c=0D
+  linux-user: Remove dead code=0D
+  gdbstub: Remove watchpoint dead code in gdbserver_fork()=0D
+  target/arm/internals: Fix code style for checkpatch.pl=0D
+  target/arm: Move code blocks around=0D
+  target/arm: Refactor some function bodies=0D
+  target/arm: Restrict watchpoint code to system emulation=0D
+  target/i386: Restrict watchpoint code to system emulation=0D
+  target/xtensa: Restrict watchpoint code to system emulation=0D
+  accel/tcg/cpu-exec: Restrict watchpoint code to system emulation=0D
+  cpu: Remove watchpoint stubs for user emulation=0D
+  cpu: Fix code style for checkpatch.pl=0D
+  cpu: Move sysemu specific declarations to 'sysemu-cpu-ops.h'=0D
+=0D
+ include/hw/core/cpu.h            | 258 +------------------------------=0D
+ include/hw/core/sysemu-cpu-ops.h | 244 +++++++++++++++++++++++++++++=0D
+ target/alpha/cpu.h               |   3 +=0D
+ target/arm/cpu.h                 |   3 +=0D
+ target/arm/internals.h           |  34 ++--=0D
+ target/avr/cpu.h                 |   1 +=0D
+ target/cris/cpu.h                |   3 +=0D
+ target/hexagon/cpu.h             |   3 +=0D
+ target/hppa/cpu.h                |   3 +=0D
+ target/i386/cpu.h                |   3 +=0D
+ target/lm32/cpu.h                |   3 +=0D
+ target/m68k/cpu.h                |   3 +=0D
+ target/microblaze/cpu.h          |   1 +=0D
+ target/mips/cpu.h                |   3 +=0D
+ target/moxie/cpu.h               |   3 +=0D
+ target/nios2/cpu.h               |   1 +=0D
+ target/openrisc/cpu.h            |   3 +=0D
+ target/ppc/cpu.h                 |   3 +=0D
+ target/riscv/cpu.h               |   3 +=0D
+ target/rx/cpu.h                  |   1 +=0D
+ target/s390x/cpu.h               |   3 +=0D
+ target/sh4/cpu.h                 |   3 +=0D
+ target/sparc/cpu.h               |   3 +=0D
+ target/tilegx/cpu.h              |   3 +=0D
+ target/tricore/cpu.h             |   3 +=0D
+ target/unicore32/cpu.h           |   3 +=0D
+ target/xtensa/cpu.h              |   3 +=0D
+ accel/tcg/cpu-exec.c             |   5 +-=0D
+ cpu.c                            |  19 ++-=0D
+ gdbstub.c                        |   2 +-=0D
+ hw/core/cpu.c                    | 113 ++++++++------=0D
+ hw/virtio/virtio.c               |   4 +-=0D
+ linux-user/main.c                |   5 -=0D
+ softmmu/physmem.c                |   1 +=0D
+ target/alpha/cpu.c               |  10 +-=0D
+ target/arm/cpu.c                 |  22 ++-=0D
+ target/arm/debug_helper.c        | 102 ++++++------=0D
+ target/arm/helper.c              |   9 +-=0D
+ target/arm/sve_helper.c          |  12 ++=0D
+ target/avr/cpu.c                 |   8 +-=0D
+ target/cris/cpu.c                |  10 +-=0D
+ target/hppa/cpu.c                |  10 +-=0D
+ target/i386/cpu.c                |  31 ++--=0D
+ target/lm32/cpu.c                |  10 +-=0D
+ target/m68k/cpu.c                |  10 +-=0D
+ target/microblaze/cpu.c          |  10 +-=0D
+ target/mips/cpu.c                |  10 +-=0D
+ target/moxie/cpu.c               |  10 +-=0D
+ target/nios2/cpu.c               |  15 +-=0D
+ target/openrisc/cpu.c            |  10 +-=0D
+ target/riscv/cpu.c               |  12 +-=0D
+ target/rx/cpu.c                  |  16 +-=0D
+ target/s390x/cpu.c               |  14 +-=0D
+ target/sh4/cpu.c                 |  10 +-=0D
+ target/sparc/cpu.c               |  10 +-=0D
+ target/tricore/cpu.c             |  13 +-=0D
+ target/unicore32/cpu.c           |   8 +-=0D
+ target/xtensa/cpu.c              |  10 +-=0D
+ target/xtensa/helper.c           |   4 +=0D
+ target/ppc/translate_init.c.inc  |  20 +--=0D
+ 60 files changed, 702 insertions(+), 453 deletions(-)=0D
+ create mode 100644 include/hw/core/sysemu-cpu-ops.h=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
