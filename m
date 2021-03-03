@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A940F32BC79
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:04:07 +0100 (CET)
-Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2678A32BC6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:01:23 +0100 (CET)
+Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZbC-0001vF-NO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:04:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1lHZYY-0006RE-5U
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:01:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMZ-0005v9-Hi; Wed, 03 Mar 2021 16:48:59 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40427)
+ id 1lHZMe-000695-RC; Wed, 03 Mar 2021 16:49:04 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMX-0002Wb-Vc; Wed, 03 Mar 2021 16:48:59 -0500
-Received: by mail-wm1-x329.google.com with SMTP id o2so7155414wme.5;
- Wed, 03 Mar 2021 13:48:56 -0800 (PST)
+ id 1lHZMd-0002Z2-2M; Wed, 03 Mar 2021 16:49:04 -0500
+Received: by mail-wr1-x436.google.com with SMTP id j2so12517380wrx.9;
+ Wed, 03 Mar 2021 13:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YsyyPNDoTwAkeJjoy+M+xRx5h1vPHUVYHrANL4+RWD0=;
- b=V/SuZJ8SpGBxAstY6hDc0Qslhzv+bxiUGIKZv11yfSVv7Oxd7fKaGon1PaSAP2m3cl
- 5IIZaFPA/PVQXdFegc9eeUxYDN3lmW/xaGkEK0XXE7dKas2ciX2wixCe4HtcyPuD+mp8
- nCiX14pCTeT/e8JakRCTYzembpCE31pZZwbB4kluwZfCdbYhw51dKrY48iV3pp9v1ZFC
- /fe8ThcxwPjexlTiPuuRltaw9TAQ4v7ft7Df1777KNAaM8BOXgLWCrRer+SPoqexmpJu
- L8MBJnoT9Q+6C1o7pXYwGGWjtzl+miEnSnLz5ois7+0QKF75aMlomznLo5pC3b61AnvJ
- NJfQ==
+ bh=3OqS7UcP206wRkOojyBF7HLEMqlrEg0K8qjlNSdHuN0=;
+ b=hU7xL3jg+s6l7qGQ1ugo7clEuznfIYKCNPA6so5H4ANvAZEdef67E+IBrjWvumF8mr
+ dRaunXw3yBmkFeXwznR6lnXEqeWW10oOtoH2DPV195giWlfdKoyRDNfM6yqFRly64ifM
+ fvCYb8C6uHL0CBnsCOwK/+tfU4AJjzk3WEauKBuyGtHsNy4P1aaKon77h8q2qbBl2skk
+ hixzKIqFxRydwPqWGXpdLc+/74/J0ToRIPbXRP7V3aiG7gOHgluV4PWATbJNzuIh9931
+ /v6xe4YWJopUeMrC6S63Dqz9EjeQoz5nbfVE61Ytobk18UpAmG6Ce9X4PaZBonK2zCNP
+ q7Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YsyyPNDoTwAkeJjoy+M+xRx5h1vPHUVYHrANL4+RWD0=;
- b=IxrtmKHki1JCIK6a4knDsGzrqnGU4X7jVtyY44AQ/t4/ySZjSHH1ieLZ2y0w0Bc5ks
- ffjqf4rwRQoUzjgaehR4mU9pEgtT8Eao1B+sZYvgialj2bsqyQnnYwahVFtWAo9hBwCa
- MK31TMpv7yuai5MZXEN/k5vByAiLX1w6KF5IbPtdXdK6iq5dxJxQFUw5IoyOjA5FV2fA
- dAt7meEOukjH7Xk/T9F0U92L1ANG409cpwuMM7ctkh4P11l+BZKOJ+HTliwq4jFKNGbO
- 5kj6+JlZOBGpOB1FQq5TmYmNr8AIXja3EvXlcSFyhyAwkWc0A4I32LhSQKTJsLR62MEw
- Am4A==
-X-Gm-Message-State: AOAM530cVYWl9Dw//sBkNWoBqY48My+YkbnXjCU6N3U9JQW0VY7hjYRo
- WlglaMuY0L51SFfKT8Bnylw390yn7hY=
-X-Google-Smtp-Source: ABdhPJxZiYOlxTknALOe29KozWDyUp8ZjfKR71R0FW3hcWVdTXcU0Psr2cH26dTTPkD9n+nyIs/Kig==
-X-Received: by 2002:a05:600c:203:: with SMTP id 3mr852297wmi.88.1614808135219; 
- Wed, 03 Mar 2021 13:48:55 -0800 (PST)
+ bh=3OqS7UcP206wRkOojyBF7HLEMqlrEg0K8qjlNSdHuN0=;
+ b=D6XyExKKRaVS/nhsL0CnqMa+9VVddyJU/TThf5+JeerfpygHnaa8UGul9JYYMt+g1p
+ 8eFJIv+F4w+NCvX6nih92EjmzPH8UzkiXS4IWvoqqDTqrr4iXo3ut8b0IomjRb+4L9y1
+ 9sE3VBOQMqMjdFafT0xWDLUIi/+HyFiLZNLxgUtTrfDizwJ1vQzFTci9MHkUwoarlai4
+ iLBBkywGcxjbrrN57ybypAPS96kFfCkSVmbMi/DwaKZHvDbUQDPB3/FM1Sn9DIxtvf8T
+ 6eRej0+zomvXKq+lcPZhT/qoC06ueY9k8q0v7DvvX9vK8OvhSECdTOQT9mYLs3tl+tFd
+ H53A==
+X-Gm-Message-State: AOAM533Q6Aoa13ENAfEBpiAwmK6Kn1z30Ap6/5Wd26VuVte1gkscrmIL
+ 5COXAJjv8uKvBVql3ROBXLS6QJ/YGbc=
+X-Google-Smtp-Source: ABdhPJz4gRG2A32sGzAfcHZ66PB3N78cOzrpsqLmQPbStAAohyvMC5U0xEoflplH77GEmL2Zf9PVIw==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr816978wrk.146.1614808140459; 
+ Wed, 03 Mar 2021 13:49:00 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z13sm33854690wrh.65.2021.03.03.13.48.54
+ by smtp.gmail.com with ESMTPSA id l8sm18988768wrx.83.2021.03.03.13.48.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 13:48:54 -0800 (PST)
+ Wed, 03 Mar 2021 13:48:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/28] target/arm/internals: Fix code style for
- checkpatch.pl
-Date: Wed,  3 Mar 2021 22:46:59 +0100
-Message-Id: <20210303214708.1727801-20-f4bug@amsat.org>
+Subject: [PATCH v4 20/28] target/arm: Move code blocks around
+Date: Wed,  3 Mar 2021 22:47:00 +0100
+Message-Id: <20210303214708.1727801-21-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303214708.1727801-1-f4bug@amsat.org>
 References: <20210303214708.1727801-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,66 +94,88 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to move this code, fix its style first.
+To simplify later #ifdef'ry, move some code around.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/internals.h | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ target/arm/internals.h    | 16 ++++++++--------
+ target/arm/debug_helper.c | 22 +++++++++++-----------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 05cebc8597c..d6ace004855 100644
+index d6ace004855..3fb295431ae 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -251,7 +251,8 @@ static inline unsigned int arm_pamax(ARMCPU *cpu)
-     return pamax_map[parange];
- }
- 
--/* Return true if extended addresses are enabled.
-+/*
-+ * Return true if extended addresses are enabled.
-  * This is always the case if our translation regime is 64 bit,
-  * but depends on TTBCR.EAE for 32 bit.
-  */
-@@ -262,20 +263,24 @@ static inline bool extended_addresses_enabled(CPUARMState *env)
-            (arm_feature(env, ARM_FEATURE_LPAE) && (tcr->raw_tcr & TTBCR_EAE));
- }
- 
--/* Update a QEMU watchpoint based on the information the guest has set in the
-+/*
-+ * Update a QEMU watchpoint based on the information the guest has set in the
-  * DBGWCR<n>_EL1 and DBGWVR<n>_EL1 registers.
-  */
- void hw_watchpoint_update(ARMCPU *cpu, int n);
--/* Update the QEMU watchpoints for every guest watchpoint. This does a
-+/*
-+ * Update the QEMU watchpoints for every guest watchpoint. This does a
-  * complete delete-and-reinstate of the QEMU watchpoint list and so is
-  * suitable for use after migration or on reset.
-  */
- void hw_watchpoint_update_all(ARMCPU *cpu);
--/* Update a QEMU breakpoint based on the information the guest has set in the
-+/*
-+ * Update a QEMU breakpoint based on the information the guest has set in the
+@@ -278,14 +278,6 @@ void hw_watchpoint_update_all(ARMCPU *cpu);
+  * Update a QEMU breakpoint based on the information the guest has set in the
   * DBGBCR<n>_EL1 and DBGBVR<n>_EL1 registers.
   */
- void hw_breakpoint_update(ARMCPU *cpu, int n);
--/* Update the QEMU breakpoints for every guest breakpoint. This does a
-+/*
-+ * Update the QEMU breakpoints for every guest breakpoint. This does a
-  * complete delete-and-reinstate of the QEMU breakpoint list and so is
-  * suitable for use after migration or on reset.
-  */
-@@ -284,7 +289,8 @@ void hw_breakpoint_update_all(ARMCPU *cpu);
+-void hw_breakpoint_update(ARMCPU *cpu, int n);
+-/*
+- * Update the QEMU breakpoints for every guest breakpoint. This does a
+- * complete delete-and-reinstate of the QEMU breakpoint list and so is
+- * suitable for use after migration or on reset.
+- */
+-void hw_breakpoint_update_all(ARMCPU *cpu);
+-
  /* Callback function for checking if a watchpoint should trigger. */
  bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
  
--/* Adjust addresses (in BE32 mode) before testing against watchpoint
-+/*
-+ * Adjust addresses (in BE32 mode) before testing against watchpoint
-  * addresses.
+@@ -295,6 +287,14 @@ bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
   */
  vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len);
+ 
++void hw_breakpoint_update(ARMCPU *cpu, int n);
++/*
++ * Update the QEMU breakpoints for every guest breakpoint. This does a
++ * complete delete-and-reinstate of the QEMU breakpoint list and so is
++ * suitable for use after migration or on reset.
++ */
++void hw_breakpoint_update_all(ARMCPU *cpu);
++
+ /* Callback function for when a watchpoint or breakpoint triggers. */
+ void arm_debug_excp_handler(CPUState *cs);
+ 
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index 2ff72d47d19..c01d8524443 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -216,6 +216,17 @@ static bool check_watchpoints(ARMCPU *cpu)
+     return false;
+ }
+ 
++bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
++{
++    /*
++     * Called by core code when a CPU watchpoint fires; need to check if this
++     * is also an architectural watchpoint match.
++     */
++    ARMCPU *cpu = ARM_CPU(cs);
++
++    return check_watchpoints(cpu);
++}
++
+ static bool check_breakpoints(ARMCPU *cpu)
+ {
+     CPUARMState *env = &cpu->env;
+@@ -247,17 +258,6 @@ void HELPER(check_breakpoints)(CPUARMState *env)
+     }
+ }
+ 
+-bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+-{
+-    /*
+-     * Called by core code when a CPU watchpoint fires; need to check if this
+-     * is also an architectural watchpoint match.
+-     */
+-    ARMCPU *cpu = ARM_CPU(cs);
+-
+-    return check_watchpoints(cpu);
+-}
+-
+ void arm_debug_excp_handler(CPUState *cs)
+ {
+     /*
 -- 
 2.26.2
 
