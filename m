@@ -2,50 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49E832B853
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:49:48 +0100 (CET)
-Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA67432B854
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 14:50:40 +0100 (CET)
+Received: from localhost ([::1]:32794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHRsp-00020F-7R
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:49:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1lHRtf-00036J-OK
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 08:50:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
- id 1lHRra-0001Xl-DG
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:48:30 -0500
-Received: from oxygen.pond.sub.org ([94.130.129.15]:38254)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
- id 1lHRrX-0000YZ-Q7
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:48:29 -0500
-Received: from blackfin.pond.sub.org
- (p200300d36f3cab00dacb8afffee0c842.dip0.t-ipconnect.de
- [IPv6:2003:d3:6f3c:ab00:dacb:8aff:fee0:c842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id B07DB2029D
- for <qemu-devel@nongnu.org>; Wed,  3 Mar 2021 14:48:21 +0100 (CET)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 356C8113860F; Wed,  3 Mar 2021 14:48:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] qemu-config: add error propagation to qemu_config_parse
-References: <20210226170816.231173-1-pbonzini@redhat.com>
-Date: Wed, 03 Mar 2021 14:48:20 +0100
-Message-ID: <871rcwjql7.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lHRs2-00021p-Ax
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:48:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lHRs0-0000iM-L2
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 08:48:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614779335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b/ll/5VFj1jysr3umm4EoOm9jqaM6+ow1NmVxoQAEw4=;
+ b=BCCCyMK4pANCdGorzOCPxrsKtnDKUR0cFMDmIgsBm2y+NehiKhXSv2m87CLEr6umbSDB/F
+ 91ycesi+iUeLkUoyJ0VGXHGit1NxjvOI4Q2Fd2UqJ2zGRiqt3Nbou7UPcV+/5mz4/41eSD
+ twO7eKD6x1b6i7kFCO7z/NbCGkPZSAQ=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-Fn0KC2g6M4KYu2SBx0WvcQ-1; Wed, 03 Mar 2021 08:48:52 -0500
+X-MC-Unique: Fn0KC2g6M4KYu2SBx0WvcQ-1
+Received: by mail-oo1-f71.google.com with SMTP id o15so5557040oov.22
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 05:48:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b/ll/5VFj1jysr3umm4EoOm9jqaM6+ow1NmVxoQAEw4=;
+ b=iDAatqPaqTdxhBdlBKxmIVuQSnEcq3MY5PcjqE66KVFSDekrH2HtFkikeIh8iyxkeT
+ kbu8fEziLos/fuMt0N/TwssiKlVkgijX8PGXl91prO1w7Fgf63ZCqy+WnmVzzXDvpGGc
+ 97bSf2J0in1JcNpkb/wb9JDLsKTmJARmRbctBc2yrR5G/SylSbbSzzaFUXvUdOKlOpxw
+ CxRgzrdT+XIR4YGyToitg0NY8xBtbT4n3TUcSyLCDNEMkXyB0HORRMRPZOKYrM19JfZf
+ uR7ElGdtMjgLvOiEPzOevwcvgOxogoCAkj5BWuc3oFYYJ8L8MuZz5z9I8zFMoPjqSMTZ
+ zfug==
+X-Gm-Message-State: AOAM532wpIQtFa0MtUgnWDkxRAG2uqyz/5yNQW/ZKUQOtYr4eChM0SZg
+ XCgJZtGsuDy716NzRp0qUhNRNorJhzjXilLG3nEaC3z6AT3oUNz2UaToGEKF+U63AdijB/XpiFv
+ viIuKVAQ4QOHvaf8=
+X-Received: by 2002:aca:acc2:: with SMTP id v185mr5410269oie.28.1614779331395; 
+ Wed, 03 Mar 2021 05:48:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxxXJNYqkLSVHQLU7Q6HHSzLHeoDltFzI55hwQGl06TJut8RjGV9tJX0RyUekA+5GY7nIiuHQ==
+X-Received: by 2002:aca:acc2:: with SMTP id v185mr5410255oie.28.1614779331172; 
+ Wed, 03 Mar 2021 05:48:51 -0800 (PST)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ f13sm4704836ooo.45.2021.03.03.05.48.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 05:48:50 -0800 (PST)
+Subject: Re: [PATCH 0/2] Clarify error messages pertaining to 'node-name'
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210301233607.748412-1-ckuehl@redhat.com>
+ <20210303095320.GC5254@merkur.fritz.box>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <5e7f48f6-0558-76a7-6e8d-a214d9d46fa5@redhat.com>
+Date: Wed, 3 Mar 2021 07:48:49 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=94.130.129.15; envelope-from=armbru@pond.sub.org;
- helo=oxygen.pond.sub.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210303095320.GC5254@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,249 +98,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: armbru@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 3/3/21 3:53 AM, Kevin Wolf wrote:
+> Am 02.03.2021 um 00:36 hat Connor Kuehl geschrieben:
+>> Some error messages contain ambiguous representations of the 'node-name'
+>> parameter. This can be particularly confusing when exchanging QMP
+>> messages (C = client, S = server):
+>>
+>> C: {"execute": "block_resize", "arguments": { "device": "my_file", "size": 26843545600 }}
+>> S: {"error": {"class": "GenericError", "desc": "Cannot find device=my_file nor node_name="}}
+>>                                                                                 ^^^^^^^^^
+> 
+> Arguably, this error message isn't great anyway because of the empty
+> string node name. We didn't even look for a node name, so why mention it
+> in the error message?
+> 
+> But your patches are certainly a good improvement already. I would have
+> merged them, but git grep 'nor node_name=' shows that you missed to
+> update a few tests, so they fail after the series. I suppose you only
+> caught the ones that are run by default in 'make check' and missed the
+> ones that require running the qemu-iotests 'check' script manually.
 
-> This enables some simplification of vl.c via error_fatal, and improves
-> error messages.  Before:
->
-> Before:
->   $ ./qemu-system-x86_64 -readconfig .
->   qemu-system-x86_64: error reading file
->   qemu-system-x86_64: -readconfig .: read config .: Invalid argument
->   $ /usr/libexec/qemu-kvm -readconfig foo
->   qemu-kvm: -readconfig foo: read config foo: No such file or directory
->
-> After:
->
->   $ ./qemu-system-x86_64 -readconfig .
->   qemu-system-x86_64: -readconfig .: error reading file: Is a directory
->   $ ./qemu-system-x86_64 -readconfig foo
->   qemu-system-x86_64: -readconfig foo: Cannot read config file foo: No su=
-ch file or directory
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Ah, good catch! Yes, I was only using `make check`, I'll use the `check` 
+script to uncover the other failures and fix them accordingly.
 
-Lovely :)
+>> [..]
+> 
+> This is a good explanation for the change you're making. I think it
+> deserves being committed to the repository in the commit message for
+> patch 1.
 
-> ---
->  block/blkdebug.c           |  3 +--
->  include/qemu/config-file.h |  5 +++--
->  softmmu/vl.c               | 29 +++++++++++------------------
->  util/qemu-config.c         | 23 ++++++++++++-----------
->  4 files changed, 27 insertions(+), 33 deletions(-)
->
-> diff --git a/block/blkdebug.c b/block/blkdebug.c
-> index 5fe6172da9..7eaa8a28bf 100644
-> --- a/block/blkdebug.c
-> +++ b/block/blkdebug.c
-> @@ -279,9 +279,8 @@ static int read_config(BDRVBlkdebugState *s, const ch=
-ar *filename,
->              return -errno;
->          }
->=20=20
-> -        ret =3D qemu_config_parse(f, config_groups, filename);
-> +        ret =3D qemu_config_parse(f, config_groups, filename, errp);
->          if (ret < 0) {
-> -            error_setg(errp, "Could not parse blkdebug config file");
->              goto fail;
->          }
->      }
-> diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
-> index 29226107bd..8d3e53ae4d 100644
-> --- a/include/qemu/config-file.h
-> +++ b/include/qemu/config-file.h
-> @@ -11,9 +11,10 @@ void qemu_add_drive_opts(QemuOptsList *list);
->  int qemu_global_option(const char *str);
->=20=20
->  void qemu_config_write(FILE *fp);
-> -int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname);
-> +int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname,
-> +                      Error **errp);
->=20=20
-> -int qemu_read_config_file(const char *filename);
-> +int qemu_read_config_file(const char *filename, Error **errp);
->=20=20
->  /* Parse QDict options as a replacement for a config file (allowing mult=
-iple
->     enumerated (0..(n-1)) configuration "sections") */
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index e67f91dd37..e80859c40d 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2062,17 +2062,19 @@ static int global_init_func(void *opaque, QemuOpt=
-s *opts, Error **errp)
->      return 0;
->  }
->=20=20
-> -static int qemu_read_default_config_file(void)
-> +static void qemu_read_default_config_file(Error **errp)
->  {
-> +    ERRP_GUARD();
->      int ret;
->      g_autofree char *file =3D get_relocated_path(CONFIG_QEMU_CONFDIR "/q=
-emu.conf");
->=20=20
-> -    ret =3D qemu_read_config_file(file);
-> -    if (ret < 0 && ret !=3D -ENOENT) {
-> -        return ret;
-> +    ret =3D qemu_read_config_file(file, errp);
-> +    if (ret < 0) {
-> +        if (ret =3D=3D -ENOENT) {
-> +            error_free(*errp);
-> +            *errp =3D NULL;
-> +        }
->      }
-> -
-> -    return 0;
->  }
+I'll move this to patch #1 in the next revision of this series.
 
-This change to return void goes against advice in error.h:
+Thank you!
 
- * - Whenever practical, also return a value that indicates success /
- *   failure.  This can make the error checking more concise, and can
- *   avoid useless error object creation and destruction.  Note that
- *   we still have many functions returning void.  We recommend
- *   =E2=80=A2 bool-valued functions return true on success / false on fail=
-ure,
- *   =E2=80=A2 pointer-valued functions return non-null / null pointer, and
- *   =E2=80=A2 integer-valued functions return non-negative / negative.
+Connor
 
-Tolerable.  The only caller wouldn't profit from a return value (it
-passes &error_fatal), and more callers seem quite unlikely.
-
->=20=20
->  static int qemu_set_option(const char *str)
-> @@ -2640,9 +2642,7 @@ void qemu_init(int argc, char **argv, char **envp)
->      }
->=20=20
->      if (userconfig) {
-> -        if (qemu_read_default_config_file() < 0) {
-> -            exit(1);
-> -        }
-> +        qemu_read_default_config_file(&error_fatal);
->      }
->=20=20
->      /* second pass of option parsing */
-> @@ -3330,15 +3330,8 @@ void qemu_init(int argc, char **argv, char **envp)
->                  qemu_plugin_opt_parse(optarg, &plugin_list);
->                  break;
->              case QEMU_OPTION_readconfig:
-> -                {
-> -                    int ret =3D qemu_read_config_file(optarg);
-> -                    if (ret < 0) {
-> -                        error_report("read config %s: %s", optarg,
-> -                                     strerror(-ret));
-> -                        exit(1);
-> -                    }
-> -                    break;
-> -                }
-> +                qemu_read_config_file(optarg, &error_fatal);
-> +                break;
->              case QEMU_OPTION_spice:
->                  olist =3D qemu_find_opts_err("spice", NULL);
->                  if (!olist) {
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index e2a700b284..af89df109d 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -350,7 +350,7 @@ void qemu_config_write(FILE *fp)
->  }
->=20=20
->  /* Returns number of config groups on success, -errno on error */
-> -int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname)
-> +int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname,=
- Error **errp)
->  {
->      char line[1024], group[64], id[64], arg[64], value[1024];
->      Location loc;
-> @@ -375,7 +375,7 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists,=
- const char *fname)
->              /* group with id */
->              list =3D find_list(lists, group, &local_err);
->              if (local_err) {
-> -                error_report_err(local_err);
-> +                error_propagate(errp, local_err);
->                  goto out;
->              }
-
-Please avoid error_propagate() where possible:
-
-               list =3D find_list(lists, group, errp);
-               if (!list) {
-                   goto out;
-               }
-
->              opts =3D qemu_opts_create(list, id, 1, NULL);
-> @@ -386,7 +386,7 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists,=
- const char *fname)
->              /* group without id */
->              list =3D find_list(lists, group, &local_err);
->              if (local_err) {
-> -                error_report_err(local_err);
-> +                error_propagate(errp, local_err);
->                  goto out;
->              }
-
-Likewise.
-
->              opts =3D qemu_opts_create(list, NULL, 0, &error_abort);
-> @@ -398,21 +398,21 @@ int qemu_config_parse(FILE *fp, QemuOptsList **list=
-s, const char *fname)
->              sscanf(line, " %63s =3D \"\"", arg) =3D=3D 1) {
->              /* arg =3D value */
->              if (opts =3D=3D NULL) {
-> -                error_report("no group defined");
-> +                error_setg(errp, "no group defined");
->                  goto out;
->              }
-> -            if (!qemu_opt_set(opts, arg, value, &local_err)) {
-> -                error_report_err(local_err);
-> +            if (!qemu_opt_set(opts, arg, value, errp)) {
->                  goto out;
->              }
->              continue;
->          }
-> -        error_report("parse error");
-> +        error_setg(errp, "parse error");
->          goto out;
->      }
->      if (ferror(fp)) {
-> -        error_report("error reading file");
-> -        goto out;
-> +        loc_pop(&loc);
-> +        error_setg_errno(errp, errno, "error reading file");
-> +        return res;
->      }
->      res =3D count;
->  out:
-> @@ -420,16 +420,17 @@ out:
->      return res;
->  }
->=20=20
-> -int qemu_read_config_file(const char *filename)
-> +int qemu_read_config_file(const char *filename, Error **errp)
->  {
->      FILE *f =3D fopen(filename, "r");
->      int ret;
->=20=20
->      if (f =3D=3D NULL) {
-> +        error_setg_errno(errp, errno, "Cannot read config file %s", file=
-name);
->          return -errno;
->      }
->=20=20
-> -    ret =3D qemu_config_parse(f, vm_config_groups, filename);
-> +    ret =3D qemu_config_parse(f, vm_config_groups, filename, errp);
->      fclose(f);
->      return ret;
->  }
-
-Not avoiding error_propagate() isn't wrong, so
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-But please consider avoiding it anyway.
 
