@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4BA32B5B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 08:44:34 +0100 (CET)
-Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1E032B5CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 08:45:17 +0100 (CET)
+Received: from localhost ([::1]:50028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHMBN-0006rj-7r
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 02:44:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58546)
+	id 1lHMC4-00089H-J8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 02:45:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lHM72-0005Yj-29; Wed, 03 Mar 2021 02:40:04 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:46023)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lHMAa-0007Ne-ND; Wed, 03 Mar 2021 02:43:44 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lHM6z-0002Si-TM; Wed, 03 Mar 2021 02:40:03 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DAABC5C0178;
- Wed,  3 Mar 2021 02:39:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 03 Mar 2021 02:39:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=OE5J2gP2pCwymOdNVfZJwTUsIh9
- Xkimm/SN6cj68HOk=; b=ktcAC1KI+oFWwXXV2wGFhqV+Zxf54Sa+2YSsSTgU4Tw
- Rk1f3aK4A68js+cykrkXUuSvHpma6NQoDnF8+KziXNK21PRQnAmF+cahmV/oR7qo
- JxcnjNLB6T/HsQivq8qTwRtc1JPbUSbvi91FHgH9Ch7vg1w9HMvNJEQsbwFLuQ6U
- IgqL1b3qHHlmVbLN3hP6R7fufpf5wR4+w2DAAG0DAZ6J+MeYFXFlIATrxlSu3sXj
- BMDGdF5jlXwpeuy+IS9jkDtW1u0xzEyq0AC9amhlzHojEjAy6z2HuEJnmKRNviZ7
- j8Ky/mOr024xTVqlrxOMxvjFobvJBnmqESL9DLxkeaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OE5J2g
- P2pCwymOdNVfZJwTUsIh9Xkimm/SN6cj68HOk=; b=mVii23dmjSQpOgmMFeT776
- 8/RsjSIQZ0poU56aG2hvky8XBAGwhu7TheacpFSyuIuEM//QWoZVkTqBAL6jCgfM
- w5Xmv2FbfQwnZLanSgm5fhhaC+nao533lVL5CRmN3Cj0N/wdL2fLrOQxTBCa3aDm
- 4l8PzHVpXndu2S/Y3wmSTXE/13wRKS3gBGp3aCnrbKcNJzY8RWwrV8WaQK2wtuHi
- VAW1BPSeGZo9guNsJAfBCdYwuOUjBZsIxFcFGHX8/Ro8x+SdGO9PxHkWD9pQM3cm
- brh09ZXMsA/pkFef7c4W/VsFbpPoZh5jpAx3RRl830vW26Jq0Kj+bO9Uu7zb1kiQ
- ==
-X-ME-Sender: <xms:Tj0_YBHFHuMHk9o5gAR7zJDfY5RpYcY4jCshzI6vvxr3glEPFrTW6w>
- <xme:Tj0_YGVKyQrx5INBWs_OQHhCu4UhuiGs31qyje8cVwm_aNuEMzGLQqH7ZrLu4JFtV
- 7GFH_ShS2U4x4xvLLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtuddguddtfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Tj0_YDLDB5MTCOvs_bAXKrTgzoYrb_rpYsrma0ew2qqwtkkkCeOR0Q>
- <xmx:Tj0_YHF0qCYB2xyj929FjWvVig7QZ3OHB2iPsNc4Y8C957aN8lfwzw>
- <xmx:Tj0_YHXexmAsq26h-Lwvq6aSfglPT6bTy_-nOvqEEk-oF9fcVqXR-w>
- <xmx:Tj0_YNxrB-5iEnB5NRa7Rb37_FDWBRV-Oe2PXd-I5FwFtZxZNdYiVA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 144A4240065;
- Wed,  3 Mar 2021 02:39:56 -0500 (EST)
-Date: Wed, 3 Mar 2021 08:39:55 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH V2 1/1] hw/block/nvme: support command retry delay
-Message-ID: <YD89S/2EFGUooBTI@apples.localdomain>
-References: <20210214142805.21534-1-minwoo.im.dev@gmail.com>
- <20210214142805.21534-2-minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lHMAY-0003aM-21; Wed, 03 Mar 2021 02:43:44 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 20ABC8C81075;
+ Wed,  3 Mar 2021 08:43:37 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Mar 2021
+ 08:43:36 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00607c5ebc4-632e-43b8-aee2-e58fbf912014,
+ 24CAEE7A76C7E725A9866EAA9907F8E378F99BC5) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/2] tests/acceptance: Test ast2600 machine
+To: Joel Stanley <joel@jms.id.au>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>
+References: <20210303012217.637737-1-joel@jms.id.au>
+ <20210303012217.637737-3-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <bacc0fb1-1030-c3a3-6b59-079b858698bd@kaod.org>
+Date: Wed, 3 Mar 2021 08:43:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HnXnoafOoBP1CQwh"
-Content-Disposition: inline
-In-Reply-To: <20210214142805.21534-2-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210303012217.637737-3-joel@jms.id.au>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 198366f3-9368-44df-94e9-f48306d979b7
+X-Ovh-Tracer-Id: 4479111307813817196
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtuddguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffheelffejkeegleeviedufedtlefffeeivdfgjedufeektdffffffhfduueeftdenucffohhmrghinhepuggvsghirghnrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,50 +72,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/3/21 2:22 AM, Joel Stanley wrote:
+> This tests a Debian multi-soc arm32 Linux kernel on the AST2600 based
+> Tacoma BMC machine.
+> 
+> There is no root file system so the test terminates when boot reaches
+> the stage where it attempts and fails to mount something.
 
---HnXnoafOoBP1CQwh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+because of that, the test always fails  :
 
-On Feb 14 23:28, Minwoo Im wrote:
-> Set CRDT1(Command Retry Delay Time 1) in the Identify controller data
-> structure to milliseconds units of 100ms by the given value of
-> 'cmd-retry-delay' parameter which is newly added.  If
-> cmd-retry-delay=3D1000, it will be set CRDT1 to 10.  This patch only
-> considers the CRDT1 without CRDT2 and 3 for the simplicity.
->=20
-> This patch also introduced set/get feature command handler for Host
-> Behavior feature (16h).  In this feature, ACRE(Advanced Command Retry
-> Enable) will be set by the host based on the Identify controller data
-> structure, especially by CRDTs.
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+console: [    3.615193] No filesystem could mount root, tried:
+console: [    3.615269]
+console: [    3.615688] Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)
+FAIL: Failure message found in console: Kernel panic - not syncing (22.45 s)
+RESULTS    : PASS 0 | ERROR 0 | FAIL 1 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+
+
+Is there a way around this problem ? 
+
+C. 
+
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
+>  tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 2f46a08fdc10..6b7d7f5df984 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -1094,6 +1094,32 @@ def do_test_arm_aspeed(self, image):
+>          # self.wait_for_console_pattern("login:")
+>          self.vm.shutdown()
+>  
+> +    def test_arm_ast2600_debian(self):
+> +        """
+> +        :avocado: tags=arch:arm
+> +        :avocado: tags=machine:tacoma-bmc
+> +        """
+> +        deb_url = ('http://snapshot.debian.org/archive/debian/'
+> +                   '20210302T203551Z/'
+> +                   'pool/main/l/linux/'
+> +                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
+> +        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
+> +        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
+> +                                    algorithm='sha256')
+> +        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
+> +        dtb_path = self.extract_from_deb(deb_path,
+> +                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
+> +
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-dtb', dtb_path)
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern("Booting Linux on physical CPU 0xf00")
+> +        self.wait_for_console_pattern("SMP: Total of 2 processors activated")
+> +        self.wait_for_console_pattern("ftgmac100 1e670000.ftgmac eth0: irq")
+> +        self.wait_for_console_pattern("VFS: Cannot open root device")
+> +        self.vm.shutdown()
+> +
+>      def test_m68k_mcf5208evb(self):
+>          """
+>          :avocado: tags=arch:m68k
+> 
 
-LGTM.
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---HnXnoafOoBP1CQwh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA/PUcACgkQTeGvMW1P
-DekUjgf/WMf32DmKj3sID441dqpu7jZmk5rmjbDEwGn0omXNTklnBdKv7PNqLgGc
-u4SnnzBmBFUT2S3O5pcC11HxDejcTvkkGsIBO8GOitiBxG+BCMAUQ0cpYWYL09+H
-/kuFfuaYOEkv+0rPjzZXCPlGrY7GzLvRlu1lZo+F/Hgbv4XKZZz/8Foq4VfYpQMT
-V2zUlaAdOcMU5gXSNZ3i7MvY/w8w8i1jiVB0yaSLedQUZMMwQ+8z7S47XOR7pCPl
-h6mFMJEgeX2aSLydO0X6+esp4PU8Lm71vxfhOJ/82alQJNjFQStmAJLZtQcxDj+G
-H8yQFtFN+3WyuE6RebHi5dkkQcLfRw==
-=3fmK
------END PGP SIGNATURE-----
-
---HnXnoafOoBP1CQwh--
 
