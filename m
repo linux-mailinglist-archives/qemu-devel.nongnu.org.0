@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2678A32BC6E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:01:23 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA1432BD00
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 23:11:20 +0100 (CET)
+Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZYY-0006RE-5U
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:01:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44562)
+	id 1lHZiB-0003wt-9P
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 17:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMe-000695-RC; Wed, 03 Mar 2021 16:49:04 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42028)
+ id 1lHZMp-0006bF-CC; Wed, 03 Mar 2021 16:49:15 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMd-0002Z2-2M; Wed, 03 Mar 2021 16:49:04 -0500
-Received: by mail-wr1-x436.google.com with SMTP id j2so12517380wrx.9;
- Wed, 03 Mar 2021 13:49:01 -0800 (PST)
+ id 1lHZMn-0002bV-GO; Wed, 03 Mar 2021 16:49:15 -0500
+Received: by mail-wm1-x329.google.com with SMTP id n22so6339041wmc.2;
+ Wed, 03 Mar 2021 13:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3OqS7UcP206wRkOojyBF7HLEMqlrEg0K8qjlNSdHuN0=;
- b=hU7xL3jg+s6l7qGQ1ugo7clEuznfIYKCNPA6so5H4ANvAZEdef67E+IBrjWvumF8mr
- dRaunXw3yBmkFeXwznR6lnXEqeWW10oOtoH2DPV195giWlfdKoyRDNfM6yqFRly64ifM
- fvCYb8C6uHL0CBnsCOwK/+tfU4AJjzk3WEauKBuyGtHsNy4P1aaKon77h8q2qbBl2skk
- hixzKIqFxRydwPqWGXpdLc+/74/J0ToRIPbXRP7V3aiG7gOHgluV4PWATbJNzuIh9931
- /v6xe4YWJopUeMrC6S63Dqz9EjeQoz5nbfVE61Ytobk18UpAmG6Ce9X4PaZBonK2zCNP
- q7Pw==
+ bh=S715M+675Z0PbXHD9I+O0NRlMeoHb9x2yw8235n4aD4=;
+ b=DNtWkruqQxMBHcQBamIrB4xsS7MiGaAHrAuEuSs5YOzzpdCnZZm7sKSNOXBWI5liGW
+ H2lDY0QTTk+AyiIejw1ZHVZJlLHGPtQ9o/o3k8LwkPNwIO4cVZZSDE519gmSckUlxsDf
+ tr53Ze5OuSq4JewiMuHpFs6rIGKIXGCNLIgcsQLwQkXIxRRkjsxmnXR7wKfByBpXIlfw
+ z5Y01cxTBhYxiYtpta2UG4LMabBcIGwunB56wdmrFy3qOypaepMshPs4m8+mE/Gws6XD
+ 1lVReeu3obRyPgms1cnCdr7zV+MSK37qVJ2U1H/Dp66kQYwD6/8D3VTXjZnqD2vCALbS
+ nSYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3OqS7UcP206wRkOojyBF7HLEMqlrEg0K8qjlNSdHuN0=;
- b=D6XyExKKRaVS/nhsL0CnqMa+9VVddyJU/TThf5+JeerfpygHnaa8UGul9JYYMt+g1p
- 8eFJIv+F4w+NCvX6nih92EjmzPH8UzkiXS4IWvoqqDTqrr4iXo3ut8b0IomjRb+4L9y1
- 9sE3VBOQMqMjdFafT0xWDLUIi/+HyFiLZNLxgUtTrfDizwJ1vQzFTci9MHkUwoarlai4
- iLBBkywGcxjbrrN57ybypAPS96kFfCkSVmbMi/DwaKZHvDbUQDPB3/FM1Sn9DIxtvf8T
- 6eRej0+zomvXKq+lcPZhT/qoC06ueY9k8q0v7DvvX9vK8OvhSECdTOQT9mYLs3tl+tFd
- H53A==
-X-Gm-Message-State: AOAM533Q6Aoa13ENAfEBpiAwmK6Kn1z30Ap6/5Wd26VuVte1gkscrmIL
- 5COXAJjv8uKvBVql3ROBXLS6QJ/YGbc=
-X-Google-Smtp-Source: ABdhPJz4gRG2A32sGzAfcHZ66PB3N78cOzrpsqLmQPbStAAohyvMC5U0xEoflplH77GEmL2Zf9PVIw==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr816978wrk.146.1614808140459; 
- Wed, 03 Mar 2021 13:49:00 -0800 (PST)
+ bh=S715M+675Z0PbXHD9I+O0NRlMeoHb9x2yw8235n4aD4=;
+ b=mBdn21ouYfNzrWKGG7m2eXxTEhptPwOL8jLY/jt8dFF5JSXMcBEHpejDS2MMzZCmZ0
+ Q+w3ZI/QU1TNUe8PeB92wMsjxXuOSXIzJQDNaomWryRPc+UYnkyTUb9KAIBtVovfH6Gc
+ NOTQHdUAD/JfQ4xAMzZP/QKRDm6z2iXM1/C7gqJs1Zd3/q5+dcX2HvZDsdpLF2QRU38u
+ kkM84enVW/IzIBrmVLswqaM1YjJhB7q7nCmJH3Pw7DpippuWeaem1CkGislh+CdCAF7v
+ Kt0e6fSeo+BWtFJIcHThL768nqtCWMCL4noPAD8ICdY6m3pTp1NKBvdR/QIXlIskvE42
+ JOSQ==
+X-Gm-Message-State: AOAM532DfsOXuKp/3DEQBUaWrQNs10fXBMOrogvpR9S33xBsBczdRla1
+ vvshGe/N/OQfttoTBQdGKLNcSZq2GgM=
+X-Google-Smtp-Source: ABdhPJyzq/395EXQ7e4rc/g9RXP3aHnx4RSP9K994E5vIztFHzllmbAJ3xzDwYr2hRTxnQ8Y/iALCg==
+X-Received: by 2002:a05:600c:2254:: with SMTP id
+ a20mr852186wmm.115.1614808150922; 
+ Wed, 03 Mar 2021 13:49:10 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l8sm18988768wrx.83.2021.03.03.13.48.59
+ by smtp.gmail.com with ESMTPSA id i8sm39345178wry.90.2021.03.03.13.49.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 13:48:59 -0800 (PST)
+ Wed, 03 Mar 2021 13:49:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/28] target/arm: Move code blocks around
-Date: Wed,  3 Mar 2021 22:47:00 +0100
-Message-Id: <20210303214708.1727801-21-f4bug@amsat.org>
+Subject: [PATCH v4 22/28] target/arm: Restrict watchpoint code to system
+ emulation
+Date: Wed,  3 Mar 2021 22:47:02 +0100
+Message-Id: <20210303214708.1727801-23-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303214708.1727801-1-f4bug@amsat.org>
 References: <20210303214708.1727801-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,88 +96,233 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To simplify later #ifdef'ry, move some code around.
+We can not use watchpoints in user-mode emulation because we
+need the softmmu slow path to detect accesses to watchpointed
+memory. Add #ifdef'ry around it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/internals.h    | 16 ++++++++--------
- target/arm/debug_helper.c | 22 +++++++++++-----------
- 2 files changed, 19 insertions(+), 19 deletions(-)
+ target/arm/internals.h    |  2 ++
+ target/arm/cpu.c          |  4 ++--
+ target/arm/debug_helper.c |  8 ++++++++
+ target/arm/helper.c       |  4 ++++
+ target/arm/sve_helper.c   | 12 ++++++++++++
+ 5 files changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index d6ace004855..3fb295431ae 100644
+index 3fb295431ae..8fa0a244d59 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -278,14 +278,6 @@ void hw_watchpoint_update_all(ARMCPU *cpu);
-  * Update a QEMU breakpoint based on the information the guest has set in the
-  * DBGBCR<n>_EL1 and DBGBVR<n>_EL1 registers.
-  */
--void hw_breakpoint_update(ARMCPU *cpu, int n);
--/*
-- * Update the QEMU breakpoints for every guest breakpoint. This does a
-- * complete delete-and-reinstate of the QEMU breakpoint list and so is
-- * suitable for use after migration or on reset.
-- */
--void hw_breakpoint_update_all(ARMCPU *cpu);
--
- /* Callback function for checking if a watchpoint should trigger. */
- bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
- 
-@@ -295,6 +287,14 @@ bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
-  */
- vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len);
- 
-+void hw_breakpoint_update(ARMCPU *cpu, int n);
-+/*
-+ * Update the QEMU breakpoints for every guest breakpoint. This does a
-+ * complete delete-and-reinstate of the QEMU breakpoint list and so is
-+ * suitable for use after migration or on reset.
-+ */
-+void hw_breakpoint_update_all(ARMCPU *cpu);
-+
- /* Callback function for when a watchpoint or breakpoint triggers. */
- void arm_debug_excp_handler(CPUState *cs);
- 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 2ff72d47d19..c01d8524443 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -216,6 +216,17 @@ static bool check_watchpoints(ARMCPU *cpu)
-     return false;
+@@ -263,6 +263,7 @@ static inline bool extended_addresses_enabled(CPUARMState *env)
+            (arm_feature(env, ARM_FEATURE_LPAE) && (tcr->raw_tcr & TTBCR_EAE));
  }
  
-+bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
-+{
-+    /*
-+     * Called by core code when a CPU watchpoint fires; need to check if this
-+     * is also an architectural watchpoint match.
-+     */
-+    ARMCPU *cpu = ARM_CPU(cs);
++#ifndef CONFIG_USER_ONLY
+ /*
+  * Update a QEMU watchpoint based on the information the guest has set in the
+  * DBGWCR<n>_EL1 and DBGWVR<n>_EL1 registers.
+@@ -286,6 +287,7 @@ bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
+  * addresses.
+  */
+ vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len);
++#endif /* !CONFIG_USER_ONLY */
+ 
+ void hw_breakpoint_update(ARMCPU *cpu, int n);
+ /*
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 09566a535e5..efc338b24eb 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -432,10 +432,10 @@ static void arm_cpu_reset(DeviceState *dev)
+     if (kvm_enabled()) {
+         kvm_arm_reset_vcpu(cpu);
+     }
+-#endif
+ 
+-    hw_breakpoint_update_all(cpu);
+     hw_watchpoint_update_all(cpu);
++#endif
++    hw_breakpoint_update_all(cpu);
+     arm_rebuild_hflags(env);
+ }
+ 
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index 980110e1328..b8b7d81762d 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -11,6 +11,8 @@
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
+ 
++#ifndef CONFIG_USER_ONLY
 +
-+    return check_watchpoints(cpu);
-+}
+ /* Return true if the linked breakpoint entry lbn passes its checks */
+ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
+ {
+@@ -227,6 +229,8 @@ bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+     return check_watchpoints(cpu);
+ }
+ 
++#endif /* !CONFIG_USER_ONLY */
 +
  static bool check_breakpoints(ARMCPU *cpu)
  {
      CPUARMState *env = &cpu->env;
-@@ -247,17 +258,6 @@ void HELPER(check_breakpoints)(CPUARMState *env)
+@@ -240,11 +244,13 @@ static bool check_breakpoints(ARMCPU *cpu)
+         return false;
      }
+ 
++#ifndef CONFIG_USER_ONLY
+     for (int n = 0; n < ARRAY_SIZE(env->cpu_breakpoint); n++) {
+         if (bp_wp_matches(cpu, n, false)) {
+             return true;
+         }
+     }
++#endif /* !CONFIG_USER_ONLY */
+     return false;
  }
  
--bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
--{
--    /*
--     * Called by core code when a CPU watchpoint fires; need to check if this
--     * is also an architectural watchpoint match.
--     */
--    ARMCPU *cpu = ARM_CPU(cs);
--
--    return check_watchpoints(cpu);
--}
--
- void arm_debug_excp_handler(CPUState *cs)
+@@ -267,6 +273,7 @@ void arm_debug_excp_handler(CPUState *cs)
+     CPUARMState *env = &cpu->env;
+     uint64_t pc;
+     bool same_el;
++#ifndef CONFIG_USER_ONLY
+     CPUWatchpoint *wp_hit = cs->watchpoint_hit;
+ 
+     if (wp_hit && (wp_hit->flags & BP_CPU)) {
+@@ -282,6 +289,7 @@ void arm_debug_excp_handler(CPUState *cs)
+                         arm_debug_target_el(env));
+         return;
+     }
++#endif /* !CONFIG_USER_ONLY */
+ 
+     pc = is_a64(env) ? env->pc : env->regs[15];
+     same_el = (arm_debug_target_el(env) == arm_current_el(env));
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 54648c7fbb6..2e7a6356ae3 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6345,6 +6345,7 @@ static const ARMCPRegInfo zcr_el3_reginfo = {
+     .writefn = zcr_write, .raw_writefn = raw_write
+ };
+ 
++#ifndef CONFIG_USER_ONLY
+ void hw_watchpoint_update(ARMCPU *cpu, int n)
  {
-     /*
+     CPUARMState *env = &cpu->env;
+@@ -6470,6 +6471,7 @@ static void dbgwcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     raw_write(env, ri, value);
+     hw_watchpoint_update(cpu, i);
+ }
++#endif /* !CONFIG_USER_ONLY */
+ 
+ void hw_breakpoint_update(ARMCPU *cpu, int n)
+ {
+@@ -6643,6 +6645,7 @@ static void define_debug_regs(ARMCPU *cpu)
+         define_arm_cp_regs(cpu, dbgregs);
+     }
+ 
++#ifndef CONFIG_USER_ONLY
+     for (i = 0; i < arm_num_wrps(cpu); i++) {
+         ARMCPRegInfo dbgregs[] = {
+             { .name = "DBGWVR", .state = ARM_CP_STATE_BOTH,
+@@ -6661,6 +6664,7 @@ static void define_debug_regs(ARMCPU *cpu)
+         };
+         define_arm_cp_regs(cpu, dbgregs);
+     }
++#endif /* !CONFIG_USER_ONLY */
+ }
+ 
+ static void define_pmu_regs(ARMCPU *cpu)
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 844db08bd57..ed3f22d78a5 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -4849,6 +4849,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+                 /* Some page is MMIO, see below. */
+                 goto do_fault;
+             }
++#ifndef CONFIG_USER_ONLY
+             if (unlikely(flags & TLB_WATCHPOINT) &&
+                 (cpu_watchpoint_address_matches
+                  (env_cpu(env), addr + mem_off, 1 << msz)
+@@ -4856,6 +4857,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+                 /* Watchpoint hit, see below. */
+                 goto do_fault;
+             }
++#endif
+             if (mtedesc && !mte_probe1(env, mtedesc, addr + mem_off)) {
+                 goto do_fault;
+             }
+@@ -4900,12 +4902,14 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+         uint64_t pg = *(uint64_t *)(vg + (reg_off >> 3));
+         do {
+             if ((pg >> (reg_off & 63)) & 1) {
++#ifndef CONFIG_USER_ONLY
+                 if (unlikely(flags & TLB_WATCHPOINT) &&
+                     (cpu_watchpoint_address_matches
+                      (env_cpu(env), addr + mem_off, 1 << msz)
+                      & BP_MEM_READ)) {
+                     goto do_fault;
+                 }
++#endif
+                 if (mtedesc && !mte_probe1(env, mtedesc, addr + mem_off)) {
+                     goto do_fault;
+                 }
+@@ -5355,10 +5359,12 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                                mmu_idx, retaddr);
+ 
+                 if (likely(in_page >= msize)) {
++#ifndef CONFIG_USER_ONLY
+                     if (unlikely(info.flags & TLB_WATCHPOINT)) {
+                         cpu_check_watchpoint(env_cpu(env), addr, msize,
+                                              info.attrs, BP_MEM_READ, retaddr);
+                     }
++#endif
+                     if (mtedesc && arm_tlb_mte_tagged(&info.attrs)) {
+                         mte_check1(env, mtedesc, addr, retaddr);
+                     }
+@@ -5367,11 +5373,13 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                     /* Element crosses the page boundary. */
+                     sve_probe_page(&info2, false, env, addr + in_page, 0,
+                                    MMU_DATA_LOAD, mmu_idx, retaddr);
++#ifndef CONFIG_USER_ONLY
+                     if (unlikely((info.flags | info2.flags) & TLB_WATCHPOINT)) {
+                         cpu_check_watchpoint(env_cpu(env), addr,
+                                              msize, info.attrs,
+                                              BP_MEM_READ, retaddr);
+                     }
++#endif
+                     if (mtedesc && arm_tlb_mte_tagged(&info.attrs)) {
+                         mte_check1(env, mtedesc, addr, retaddr);
+                     }
+@@ -5568,11 +5576,13 @@ void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                 if (unlikely(info.flags & (TLB_INVALID_MASK | TLB_MMIO))) {
+                     goto fault;
+                 }
++#ifndef CONFIG_USER_ONLY
+                 if (unlikely(info.flags & TLB_WATCHPOINT) &&
+                     (cpu_watchpoint_address_matches
+                      (env_cpu(env), addr, msize) & BP_MEM_READ)) {
+                     goto fault;
+                 }
++#endif
+                 if (mtedesc &&
+                     arm_tlb_mte_tagged(&info.attrs) &&
+                     !mte_probe1(env, mtedesc, addr)) {
+@@ -5754,10 +5764,12 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                     info.flags |= info2.flags;
+                 }
+ 
++#ifndef CONFIG_USER_ONLY
+                 if (unlikely(info.flags & TLB_WATCHPOINT)) {
+                     cpu_check_watchpoint(env_cpu(env), addr, msize,
+                                          info.attrs, BP_MEM_WRITE, retaddr);
+                 }
++#endif
+ 
+                 if (mtedesc && arm_tlb_mte_tagged(&info.attrs)) {
+                     mte_check1(env, mtedesc, addr, retaddr);
 -- 
 2.26.2
 
