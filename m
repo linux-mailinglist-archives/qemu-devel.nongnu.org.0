@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A7F32B629
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 10:27:36 +0100 (CET)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D48D32B623
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 10:25:32 +0100 (CET)
+Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHNn5-0003L5-1O
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 04:27:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
+	id 1lHNl4-0000pa-4q
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 04:25:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHNi3-0005Dd-Se
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:22:23 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43053)
+ id 1lHNi7-0005LU-LB
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:22:27 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lHNi2-0001Ha-AH
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:22:23 -0500
-Received: by mail-ej1-x635.google.com with SMTP id p8so14456283ejb.10
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 01:22:21 -0800 (PST)
+ id 1lHNi6-0001IW-4R
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 04:22:27 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id p8so14456652ejb.10
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 01:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IE0qfuFnzVIK6DZCDqQ7WbPvxJH1wtTUaIMLDrAARCM=;
- b=siHaRYiiplNh3AUV31jT3ytO2Qo+bokilsI6NL8oadSYEfYpP57/23bpAiMmWzPYuz
- c9BgNGmKML9xslxcQZRRvEhrQFypj/9y05VcPfp4rBDoSbFUNPVOEusngWZQLdoZisuZ
- pnCVC/FbfDWy3k585FqbcUgSBi6J9XWUrCXiPOF1h57bRsj1LeWSODxZ3NDQ35D4M17w
- 9E6swDMpFHiwAj7y32+lQi3a/XMBiXfhay6esI0BTOltVcijUKyilNzPepygt6cxeI4x
- QYPfXcKUqSFDHDtVYklUnQbSEJ7j3pd/wpIhkcEPr8OAQU4D0c4oKqcVwSYoZtoMob/u
- cB7Q==
+ bh=CNwg80BJ3VhdZvmEZy6PuVx6Js+7N8Qb8ukEX4lRJGI=;
+ b=hn0XoO+CozBIQuCXj2obdftmOgaYGCoFTOF5pOF//ICgHhvYo2ttueHnhqlu+PdJin
+ UIWFLrNAluUCdLpfbKaFM+qpldAyHs3wwH+w6QPoh/uXS4QiZHrDVpa0m9ZqGUcG5Vnx
+ UlG8NrQzeHYVl2LHat3X1xd4QCo+uxfw3FPz1xyoAZM/GpiKrkLcpEQn3v/jguJvZC//
+ oMl6BartjBRbsfcFIajp1WWtwXLcpfpfieOXaoDRBedjx4HS7BlK25lLMoj+wTjd9CnS
+ qrZU5MDIZwfc0egmA/etEj0lGAMg+TLpPssXZJHq2SIrzbXEWF2j4m3pJpFzqNMenfJ/
+ rALg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=IE0qfuFnzVIK6DZCDqQ7WbPvxJH1wtTUaIMLDrAARCM=;
- b=qQu2L3KufUeeb+jdVWtkPSKy95c1sOqLnCJt4YeHbaKwUDffsw8lWUWs9YNwdxI8MJ
- xfBPGG8cvo9eWQ4wbxEE6WewpsGkALYSAt5qXt/87hAHlyfrrb7bcfCnhWV+Zpt5VrJC
- FWBTvltudhiK4LFQrlWbtr9T4d05fPzDZThgbCjtoOj5gtMOiDdYsIH1Uxz891+BC4RK
- cxTQ2pveCTUb271zw+T990/WVWgSHNWvkrlknQw7c36ujzrGL8yXdqN7cXjMgM0hyQ4e
- yRzbaKhzUzuInruZf2DAHcRAQxRotAfX8zXN0gAs72zMqGf5GTLm+H20AKBta5OGSAB6
- dRIw==
-X-Gm-Message-State: AOAM530adn1Au1DxaS/DA9E0QzFSvYZ/x2GCQR3T0ZIoBWlW2ouDI2K0
- gtR100pYPYG2CY+GxhqCyYg=
-X-Google-Smtp-Source: ABdhPJyNIgVG/q3xAbHFI93W5Kl+A1oV42x5zb0VowUnW74tLupRDQMo9z7XgcOIABz74JGVPwNbsg==
-X-Received: by 2002:a17:906:a0d3:: with SMTP id
- bh19mr25402126ejb.199.1614763341113; 
- Wed, 03 Mar 2021 01:22:21 -0800 (PST)
+ bh=CNwg80BJ3VhdZvmEZy6PuVx6Js+7N8Qb8ukEX4lRJGI=;
+ b=tHAOoEHX/MrFVqcTG/hvAqzfBMFZ3MSAlbnkLScyNLLwY/NE/2Jalamz2mU655w7DH
+ +0bgqcZrluDm2Xo/Aw1fyvkQOrowLGfM7NKOXPjz2F4klo9oCVwdSnBKgv2XhED7cHxh
+ gXPmma7nnKT1u0mjSKI8Klz9AI5pk43yzjye20Zvz5WsGc8v/bdlMwTFJEHenAjlvaQZ
+ Q4IuajpaupakTosr6+RSwcBqfUOj32eTdZuqpwbQaJD3mK8RCxiLYyJfVSUBviW4qYXD
+ Dud4CIGSXawQiwH/Pkc3b0FCiQLP4EqQgT2UvFPXA/nXSSDL5ySj+oLJ60hirkf/vfMJ
+ 8CDA==
+X-Gm-Message-State: AOAM53174OPkKh01/Kc9o1j/4MkW6UQKkUHYHhexLDqzI4F9CSprvH0L
+ e0qcMUTaxw36nyQjzZLNC1I=
+X-Google-Smtp-Source: ABdhPJxxCZ1SEaDxfIW2zTg2q6Kzrs1tf6tsUuLi9kcyI0e9ENb26bWdtzvDjQ2jAIISnWf1AEMKXQ==
+X-Received: by 2002:a17:906:d1d5:: with SMTP id
+ bs21mr24997039ejb.242.1614763344892; 
+ Wed, 03 Mar 2021 01:22:24 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id i6sm16614865ejz.95.2021.03.03.01.22.17
+ by smtp.gmail.com with ESMTPSA id i6sm16614865ejz.95.2021.03.03.01.22.21
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Mar 2021 01:22:20 -0800 (PST)
+ Wed, 03 Mar 2021 01:22:24 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 6/9] hw/net: pcnet: Remove the logic of padding short
+Subject: [RFC PATCH v2 7/9] hw/net: rtl8139: Remove the logic of padding short
  frames in the receive path
-Date: Wed,  3 Mar 2021 17:21:43 +0800
-Message-Id: <1614763306-18026-7-git-send-email-bmeng.cn@gmail.com>
+Date: Wed,  3 Mar 2021 17:21:44 +0800
+Message-Id: <1614763306-18026-8-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614763306-18026-1-git-send-email-bmeng.cn@gmail.com>
 References: <1614763306-18026-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,36 +98,39 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 (no changes since v1)
 
- hw/net/pcnet.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ hw/net/rtl8139.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
-index f3f18d8..1633033 100644
---- a/hw/net/pcnet.c
-+++ b/hw/net/pcnet.c
-@@ -987,7 +987,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
- {
-     PCNetState *s = qemu_get_nic_opaque(nc);
-     int is_padr = 0, is_bcast = 0, is_ladr = 0;
--    uint8_t buf1[60];
-     int remaining;
-     int crc_err = 0;
-     size_t size = size_;
-@@ -1000,14 +999,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-     printf("pcnet_receive size=%zu\n", size);
- #endif
+diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+index 4675ac8..cbfe29a 100644
+--- a/hw/net/rtl8139.c
++++ b/hw/net/rtl8139.c
+@@ -827,7 +827,6 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
  
--    /* if too small buffer, then expand it */
--    if (size < MIN_BUF_SIZE) {
+     uint32_t packet_header = 0;
+ 
+-    uint8_t buf1[MIN_BUF_SIZE + VLAN_HLEN];
+     static const uint8_t broadcast_macaddr[6] =
+         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+ 
+@@ -939,17 +938,6 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
+         }
+     }
+ 
+-    /* if too small buffer, then expand it
+-     * Include some tailroom in case a vlan tag is later removed. */
+-    if (size < MIN_BUF_SIZE + VLAN_HLEN) {
 -        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
+-        memset(buf1 + size, 0, MIN_BUF_SIZE + VLAN_HLEN - size);
 -        buf = buf1;
--        size = MIN_BUF_SIZE;
+-        if (size < MIN_BUF_SIZE) {
+-            size = MIN_BUF_SIZE;
+-        }
 -    }
 -
-     if (CSR_PROM(s)
-         || (is_padr=padr_match(s, buf, size))
-         || (is_bcast=padr_bcast(s, buf, size))
+     if (rtl8139_cp_receiver_enabled(s))
+     {
+         if (!rtl8139_cp_rx_valid(s)) {
 -- 
 2.7.4
 
