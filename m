@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEACA32B94F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:51:08 +0100 (CET)
-Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E98732B957
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 17:57:26 +0100 (CET)
+Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHUiJ-0007Ht-T2
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:51:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55710)
+	id 1lHUoO-0001Rt-I3
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 11:57:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHUgv-0006Ya-4l
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:49:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHUgt-0002m6-Go
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:49:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614790178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hyVm1r5DjCLydFJiTMAsO7huugRPaWPKcpKE3GGh3do=;
- b=fxsb3u++ctPlsCLItv/mvfg/f+v8RrmN8HqmGEYQ4+r/na77DQo1Opqvdr6IC7MNWCpeEh
- 5t10HQlDnNpccoBwyFBKIIrZTDY/x0bqcWJfH+M7Foo8NcTN742u7ISazH8VjgPl6zpOqX
- Dxjn/BgTaLUT+1b7IW7NgMUXjN923OE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-dH4nBf5oMsGpvW0dR26DIg-1; Wed, 03 Mar 2021 11:49:36 -0500
-X-MC-Unique: dH4nBf5oMsGpvW0dR26DIg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10025107ACC7;
- Wed,  3 Mar 2021 16:49:35 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-146.ams2.redhat.com [10.36.115.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0118510013D6;
- Wed,  3 Mar 2021 16:49:32 +0000 (UTC)
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20210226081414.205946-1-kuhn.chenqun@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] qtest: delete superfluous inclusions of qtest.h
-Message-ID: <f007c0fe-1d9c-ec63-5e92-1f788e87970a@redhat.com>
-Date: Wed, 3 Mar 2021 17:49:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHUmM-0000jj-HY
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:55:18 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHUmF-0004ly-Hh
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 11:55:14 -0500
+Received: by mail-ej1-x630.google.com with SMTP id do6so43607532ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 08:55:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rG/ppX9Z4Hdh8a2G1CmtKwvPBHDpzP6FwfM7rJYZqrU=;
+ b=wSGt+nvLFbwNwm3byd7UuMC6X91ooIkrJO0OgtwCE9L8J5nQRlxd0jylMDd3/TsDb3
+ AvgW63q627it4HFZtYf6UA5jxHdv+WUt1un56j9x2ClEHalYun2r9m5TrP9sM01TCqR3
+ veSHGIrNs5FkpULJjeOsJwVSXvdWdaFRHSrzaZKdY7RfI5amQfmTzBc598uRcFALnv5b
+ xUufzosTydWFKQj6hOBWreh4lB9AN0ph3B/wd59ebQ2cfodzKR1SB/XXwMSBGL/tP/9x
+ jD/Q98Aw6nv+9Jb/ikTGE5SRTYkoWdb7zA94GPqCtR4OODZcwBtKh1VU3aLiyiGrA7kH
+ TFnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rG/ppX9Z4Hdh8a2G1CmtKwvPBHDpzP6FwfM7rJYZqrU=;
+ b=EgjeouNvRsAqVA8DRpGsiX5fETV8zqqqmyxJum8OS+9+hQ0oVqX3HrEtXmdNVJKM8H
+ O+xIlXL90HmOSDX+jzXEKaikmgfhSpjnksZfm1196wZm9N3Y7GqyERhGRESzjHWyo9vh
+ yMu8T7YQPXaWjpYVRhkx4awZAtYJ9b1Yh8y2J10ApJ6r+WwX/NCLIfL/Q6vDFJzgukgZ
+ 4P3IMav6P+1F0jB2gq2fG/b70eURH4kORCFZq61r/hi3uocu9JtwPIt+2lvlH/GdUOQ8
+ SVg559UdGe1TbckABzCZTmTjZNsKoEzvDJEVM24o/mN7wRpM1KEnyhgNDxsWFTGXd/H4
+ LpOg==
+X-Gm-Message-State: AOAM533JvQNbNE0z6fnUhqPRfxwy7vKLXiB0pNdYmDNbUEhcs/LJA3WH
+ c+IXuw9MNLAZ8fna6hECexL2dx4jO2n/cDEGU2V03A==
+X-Google-Smtp-Source: ABdhPJzsWl/DHOKCeM3rxby7ferMHr5R5ZMeoCkKpVKNeljpqEYf1K85g0gMr5zust7Jxo/oW9vRQkQ8SnJ+JRnFBvk=
+X-Received: by 2002:a17:906:bd2:: with SMTP id
+ y18mr6421082ejg.482.1614790507730; 
+ Wed, 03 Mar 2021 08:55:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210226081414.205946-1-kuhn.chenqun@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210226080526.651705-1-pbonzini@redhat.com>
+In-Reply-To: <20210226080526.651705-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 3 Mar 2021 16:54:52 +0000
+Message-ID: <CAFEAcA-TU4z13w=Afz4=q9rN1KARWyvu-x-vU5mwFxuU09DKBA@mail.gmail.com>
+Subject: Re: [PULL 00/29] Misc patches for 2021-02-25
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,26 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, ganqixin@huawei.com,
- Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/02/2021 09.14, Chen Qun wrote:
-> There are 23 files that include the "sysemu/qtest.h",
-> but they do not use any qtest functions.
-> 
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> 
-> ---
-> v1->v2: Change the subject base on Markus's suggestion.
-> Cc: Markus Armbruster <armbru@redhat.com>
-> ---
+On Fri, 26 Feb 2021 at 08:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-20210221' into staging (2021-02-21 19:52:58 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to b7ea7d82903f125e393b7957d1add25cf6b522dd:
+>
+>   tcg/i386: rdpmc: fix the the condtions (2021-02-25 14:49:01 +0100)
+>
+> ----------------------------------------------------------------
+> * fix --enable-fuzzing linker failures (Alexander)
+> * target/i386: Add bus lock debug exception support (Chenyi)
+> * update documentation for preferred boolean option syntax (Daniel)
+> * make SCSI io_timeout configurable (Hannes)
+> * fix handling of guest recoverable SCSI errors (myself)
+> * misc fixes (Pavel, Zheng Zhan Liang, Zihao)
+> * fix installation of binaries with entitlements (Akihiko)
 
-Thanks, queued to my testing-next branch:
 
-https://gitlab.com/thuth/qemu/-/commits/testing-next/
+Applied, thanks.
 
-  Thomas
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
