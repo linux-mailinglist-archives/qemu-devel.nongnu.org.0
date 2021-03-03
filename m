@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607A332BC68
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:59:35 +0100 (CET)
-Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B586C32BC64
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:57:01 +0100 (CET)
+Received: from localhost ([::1]:54918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZWo-0004rk-EB
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:59:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44502)
+	id 1lHZUK-00005u-M2
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:57:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMO-0005Vo-RY; Wed, 03 Mar 2021 16:48:49 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38601)
+ id 1lHZMT-0005fh-Tc; Wed, 03 Mar 2021 16:48:53 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZMN-0002U1-C4; Wed, 03 Mar 2021 16:48:48 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d15so10139085wrv.5;
- Wed, 03 Mar 2021 13:48:45 -0800 (PST)
+ id 1lHZMS-0002VW-G3; Wed, 03 Mar 2021 16:48:53 -0500
+Received: by mail-wr1-x430.google.com with SMTP id h98so25341516wrh.11;
+ Wed, 03 Mar 2021 13:48:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UwRUo7hC4h9vgJMC9crYDnluKvk2tzZcvKCkSEg/uSc=;
- b=VGl8wx3paFjSVhst0xwZVNTJfVvVPedOVkbRO5IhEaTM4nkJ/u9cZtz2AN+I70neKU
- lVME3Kx+VPZ9mGv50Y+tBC4C5r4qNzzhoaQFGcodwEeAldpOMcMbfrP5gUyJu4h9u6aN
- xicgkHdiuYUG6j3WSFVJtK+N+xCh20qXDBLgTlznxNLwp60/InFosxGANfxgjR6pzOdF
- Gl4lwdzUO9LhZ2w9HjlXhA4vSGyxRmaA8QGgL9Ir/qNWTlLSFo9NJWLWol/XdORkK22a
- 3oy8CU9AXspmg3aHVsQuriCMzeWA4ha9tKBEqTdB+ZxlH2qPdm9Kk3IlaMjbvjrdLg73
- ZKZg==
+ bh=kUl/TkScTas4U6LyrmMWcrV1B+r956Btg0Xp2UUszDg=;
+ b=qInQaYFsgsE69kLZN8Q0oTBi4JLGigTuAdCDOGlOkRUemirQGKUfhX9Pj8PC4uUvOY
+ t88ghIacqaz2h0fwh9VbeOOOA44AWZ8O1H6BxbhYX/Qocj/GqBvR0tugFD/qlPvaCtYs
+ s3bJFoCvS4S+9FvE9WV+PBiKVXDaEfbOFTbiDKnr8d2KZEJ8ZFoN7rKEXDRWVlm1COeO
+ I4K7tzXcd9paZ0L5tbFEnJ1QUlimRuBh2lQgGI//cMLR469o/3detg+i+YJPevuQA7rp
+ 4tj5UIKf38In16T2tGimCGGv5kdFEbIYLnGRnSaedNXc9dEifVo3xXRJ5ilbMN4+XSU7
+ whOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UwRUo7hC4h9vgJMC9crYDnluKvk2tzZcvKCkSEg/uSc=;
- b=aO/RtSVuldG9pBcLWkqEJipbDZgzDvV/wC0kQ3jW2VP+9MrCq5FOe73o8yZFcvWZCP
- jNTF4qRJS59enoJ2VTo848jdVTauMBMMuCnGugRsW2FkDvoD6BxozpQIJ5cg4saN/G6R
- SyhvvJT+UM2jTaibopbWtSwJc2xZUnG6xEdSBKNZbD1fwVE/UWcYFDNJpUYKn5JlXWeA
- OVMSiQh7Yl4XjkASzdXDDA5gunX+b5++zKGVo2aNlbZpz918eWtVA/OJVOC2bFs8wNtf
- WaKTO1Mf6M0LLMdqyc+n881vsSiZ6mlYGRlGyA/VML47jQ28AsRZItbAKD+PT6ahZNfi
- +SXw==
-X-Gm-Message-State: AOAM5338DuseGLC4a1go1iJORNTHWF/ivVFAVd7/yQmimEnN4EOnvDuJ
- 9YApTv3o73JXIiQ8ZySYH0nh6YXRYSo=
-X-Google-Smtp-Source: ABdhPJxlz6DIchAGvKj7W4FAU5GQPu71/RTvZT2TVu4N9FvUNDg2Ns2Csov7QXRiPjgQP7q5Xx0Sjg==
-X-Received: by 2002:adf:ce0a:: with SMTP id p10mr671741wrn.255.1614808124862; 
- Wed, 03 Mar 2021 13:48:44 -0800 (PST)
+ bh=kUl/TkScTas4U6LyrmMWcrV1B+r956Btg0Xp2UUszDg=;
+ b=fxjUUjC95z2yRE8vCPmtcVHj5ayeZeNFv9FebaJT4b6+ITCeZkQvyOXoDsQEMBzt8M
+ ukeTZ1K6nNbXDavzP5IFtB6Kncv5oY0ZGvnsoOGtVV3VhxGNEaNX81Mq09C46ZtVoVWF
+ Dth1xsyP8yP/74Wf1qfOIx/GXyBn/3VsbUa4VCv9MfIOHWHd9x6N8D8N4ewDpnFMiX0a
+ s2Qi60V0yG6bjYxA0ZQh50Fp0Azd4+1MlCD22CTK/HkpYe2gFXOSMDjzSW+UEQ4PzqLH
+ IzwEAph3uMR0ZWL4DaBA58Fl8/kJPwdoNbQBndhjrddSWIme8ga+svqQO1yJP4vdAHiT
+ yB8Q==
+X-Gm-Message-State: AOAM531BCHQ/USFayupCFK8we+1yTqfGhAxT16/N4IrUhIhvfgYAsO2o
+ 0mXbeV6c4WLpFoLhrYz+xlM2jLAzvek=
+X-Google-Smtp-Source: ABdhPJyY4HgQ86PsHHmKaXEniS0UUWIyAYBaegUuvR3TasK7FrH16cvXpoFJEK/WJ9eL6FDQt/11LQ==
+X-Received: by 2002:a5d:698e:: with SMTP id g14mr666134wru.127.1614808130141; 
+ Wed, 03 Mar 2021 13:48:50 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s3sm14468228wrt.93.2021.03.03.13.48.43
+ by smtp.gmail.com with ESMTPSA id g63sm7463370wma.40.2021.03.03.13.48.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 13:48:44 -0800 (PST)
+ Wed, 03 Mar 2021 13:48:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 17/28] linux-user: Remove dead code
-Date: Wed,  3 Mar 2021 22:46:57 +0100
-Message-Id: <20210303214708.1727801-18-f4bug@amsat.org>
+Subject: [PATCH v4 18/28] gdbstub: Remove watchpoint dead code in
+ gdbserver_fork()
+Date: Wed,  3 Mar 2021 22:46:58 +0100
+Message-Id: <20210303214708.1727801-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303214708.1727801-1-f4bug@amsat.org>
 References: <20210303214708.1727801-1-f4bug@amsat.org>
@@ -84,6 +85,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
@@ -94,43 +96,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can not use watchpoints in user-mode emulation because we
-need the softmmu slow path to detect accesses to watchpointed
-memory. This code is expanded as empty stub in "hw/core/cpu.h"
-anyway, so we can drop it.
+gdbserver_fork() is only used in user emulation where we can not
+use watchpoints because we need the softmmu slow path to detect
+accesses to watchpointed memory. This code doesn't do anything as
+declared as stubs in "hw/core/cpu.h". Drop it.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/main.c | 5 -----
- 1 file changed, 5 deletions(-)
+ gdbstub.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 81f48ff54ed..d7af3ffbc22 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -200,7 +200,6 @@ CPUArchState *cpu_copy(CPUArchState *env)
-     CPUState *new_cpu = cpu_create(cpu_type);
-     CPUArchState *new_env = new_cpu->env_ptr;
-     CPUBreakpoint *bp;
--    CPUWatchpoint *wp;
- 
-     /* Reset non arch specific state */
-     cpu_reset(new_cpu);
-@@ -211,13 +210,9 @@ CPUArchState *cpu_copy(CPUArchState *env)
-        Note: Once we support ptrace with hw-debug register access, make sure
-        BP_CPU break/watchpoints are handled correctly on clone. */
-     QTAILQ_INIT(&new_cpu->breakpoints);
--    QTAILQ_INIT(&new_cpu->watchpoints);
-     QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
-         cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
-     }
--    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
--        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, wp->flags, NULL);
--    }
- 
-     return new_env;
+diff --git a/gdbstub.c b/gdbstub.c
+index 3ee40479b69..f3614ebcc7a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3349,7 +3349,6 @@ void gdbserver_fork(CPUState *cpu)
+     close(gdbserver_state.fd);
+     gdbserver_state.fd = -1;
+     cpu_breakpoint_remove_all(cpu, BP_GDB);
+-    cpu_watchpoint_remove_all(cpu, BP_GDB);
  }
+ #else
+ static int gdb_chr_can_receive(void *opaque)
 -- 
 2.26.2
 
