@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E9432BC47
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:51:42 +0100 (CET)
-Received: from localhost ([::1]:34424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A658E32BC4B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 22:51:55 +0100 (CET)
+Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHZPB-0000H8-GM
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:51:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43722)
+	id 1lHZPO-0000se-NU
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 16:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZL3-00031p-ND; Wed, 03 Mar 2021 16:47:25 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56279)
+ id 1lHZL8-0003FI-R3; Wed, 03 Mar 2021 16:47:30 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHZL2-000264-4C; Wed, 03 Mar 2021 16:47:25 -0500
-Received: by mail-wm1-x330.google.com with SMTP id w7so6320481wmb.5;
- Wed, 03 Mar 2021 13:47:22 -0800 (PST)
+ id 1lHZL7-00027A-6R; Wed, 03 Mar 2021 16:47:30 -0500
+Received: by mail-wr1-x429.google.com with SMTP id u14so25378319wri.3;
+ Wed, 03 Mar 2021 13:47:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UQM81mur+9UHjxbQN0Zv4wGjBmPMsrfz+L5iL9ZySpM=;
- b=HuJJwRmQm/WNOwG0i0A956QWH6H100m0JkDutpdpBZXuu/7RBFufc96trr+qP0h/i7
- szkhInTF9ujPv4lnxTuYB/vn4oniSp09pr6ETBqkqrWm+0EK3Fxl71k2J7trHUiWTW9p
- lwFMy4VhPTnjVy9GyZGlZGRPh/+OBf1LcV0XONqrpc8HyyTFgYx+cPot7b6rGACmbK/W
- dS8GiTIl0slZmoPXWKMsw2UHEG/YlF9EVjBbwsORGh8uDuAq74258iuj9aIVG82OZ2VS
- JGU8QKblTOFSquBrtbwhKIAF7piCIyibLMQoy+/ysvpRZflRnTAuQznhb8L4001AtFqB
- 7eiw==
+ bh=alNnX6GeE8sTwFbIWBvN2VrnGh2+v4nR5yjKLFDEoAw=;
+ b=Sw8DnTnEunZLoUFkAq5ehEtw5KzHSFE8RcKZI0xIwI3y4kkr8vtPH5KdYIM2dMB0tM
+ dDKvIkpk2pdhYAVsGqo2WPtvup+Oahey4/henkaku+823S6hlg5lEU0yAdNwt304jwm8
+ qD6y3lPn8HeKUbJVYmzT84mJ/ZqsStb1cuhSxlMzJql8kDgTX0mLXDnIWEatwlmW+oRU
+ 3zW6wNtP1nIIDl0HQ+cLV0Da0nZ1xwTVRMOGYf1Usa1vsDdeK0mZ0vfoheHGFDfD2izu
+ nMJQOO2Fydg0nrqrQkuHNYqO4abCf+/o2JQvSOVK4GlTFgCSmcQPDDmsf0BHjlTkr87B
+ Suew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UQM81mur+9UHjxbQN0Zv4wGjBmPMsrfz+L5iL9ZySpM=;
- b=O2A7dZlkQn4N80y6qjgaAaWfzi9K/UxFGVTCA/uxwq9CWPYEEqCgANQ4hPy6S809AX
- HQQ+MdPpVY45KcfNXtMpy7BLgmZrs6RiR83Cxo+Aek7xtzlbMmRZ6F5WF91yvzQ6zG8i
- gCpV2vL2JpqlK19GjbiUIQbTXnEObelLYQYhUrqRWXGP6OMZxvEEWWAoxKw9bqoE78Fj
- gIh2kelU7mkrB3xXq3g6JplTZ/4twVwjEVFzNTu28mzY5S7tbxDIw74/t2UW+0qUaDMR
- UK+EpNmsm5On14rhun+GCQWmhG3/y3yTsCdYsTLcQelVM33QoZ5evWH09wSOVM7B+T4B
- 3mGw==
-X-Gm-Message-State: AOAM530iBUE46zNg6uyhSPoFe6mIIulNeeaMIhXfD8ROTJ/gtrDRZsXJ
- fzz5L5g16iwc7nQ8jQ0iEfRPa95bfJg=
-X-Google-Smtp-Source: ABdhPJzxS2VzZOvh/vxiv32QSoXBqRD0SUS3vVBgJQmaWmg7PAPBa+svtupAyEDVFXt/BahNUtcokQ==
-X-Received: by 2002:a1c:4182:: with SMTP id o124mr848914wma.61.1614808041190; 
- Wed, 03 Mar 2021 13:47:21 -0800 (PST)
+ bh=alNnX6GeE8sTwFbIWBvN2VrnGh2+v4nR5yjKLFDEoAw=;
+ b=qVt4XUUDX/4I1Ir70aJYOEstEWm9bofxhv2Ziz6wE6hPNjFpRLrNtAuld4Id53lL72
+ nFEWVeGCrzDuVOX9wOAByvRcuxK8IGgeVP29i+94ZnZarICIFSnX+BV5GU+uhC8oiYig
+ sO/+IIwSuYqDm9braVE/TBNNCT6Bjrd1lv8a1VyKnfrT6DdBLVtUJNJlOAXc4s2rRTv2
+ uuojjqtHOzcIivgrb4lKh0Ph8iplzeB14zdVMbIWZy2tbT9wSBuKl7eW7GaaVmCcMGpB
+ VWIvQyTNK0fHBp+kh8O4hE1axx1TukQ4TRKtQtp+XoYv1Pd7wstpZmvKNuZD/YfggoIj
+ XVVA==
+X-Gm-Message-State: AOAM531d9H9AXV7eMbDTCoz/bbfnLz5jMP3YqVD5uhjeuNHnJWsFkDKr
+ xqmYLxqWNo8rJyQiBK9hy+rxufW7FY0=
+X-Google-Smtp-Source: ABdhPJyu4L3Uv9xjofCNQfzlxl0Bmhv5Ay1kX/ZVhDrO7OpMVdGJBxmvbyNGuTAv2BHequ5z9sR6nA==
+X-Received: by 2002:a5d:4e0e:: with SMTP id p14mr795983wrt.64.1614808046419;
+ Wed, 03 Mar 2021 13:47:26 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i1sm6516207wmq.12.2021.03.03.13.47.20
+ by smtp.gmail.com with ESMTPSA id g16sm15070689wrs.76.2021.03.03.13.47.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 13:47:20 -0800 (PST)
+ Wed, 03 Mar 2021 13:47:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/28] cpu: Un-inline cpu_get_phys_page_debug and
- cpu_asidx_from_attrs
-Date: Wed,  3 Mar 2021 22:46:42 +0100
-Message-Id: <20210303214708.1727801-3-f4bug@amsat.org>
+Subject: [PATCH v4 03/28] cpu: Introduce cpu_virtio_is_big_endian()
+Date: Wed,  3 Mar 2021 22:46:43 +0100
+Message-Id: <20210303214708.1727801-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303214708.1727801-1-f4bug@amsat.org>
 References: <20210303214708.1727801-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,7 +84,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -95,117 +95,78 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to later extract the cpu_get_phys_page_debug() and
-cpu_asidx_from_attrs() handlers from CPUClass, un-inline them
-from "hw/core/cpu.h".
+Introduce the cpu_virtio_is_big_endian() generic helper to avoid
+calling CPUClass internal virtio_is_big_endian() one.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h | 33 ++++-----------------------------
- hw/core/cpu.c         | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 29 deletions(-)
+ include/hw/core/cpu.h | 9 +++++++++
+ hw/core/cpu.c         | 8 ++++++--
+ hw/virtio/virtio.c    | 4 +---
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c005d3dc2d8..2d43f78819f 100644
+index 2d43f78819f..b12028c3c03 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -578,18 +578,8 @@ void cpu_dump_statistics(CPUState *cpu, int flags);
-  *
-  * Returns: Corresponding physical page address or -1 if no page found.
+@@ -602,6 +602,15 @@ hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
   */
--static inline hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
--                                                   MemTxAttrs *attrs)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--
--    if (cc->get_phys_page_attrs_debug) {
--        return cc->get_phys_page_attrs_debug(cpu, addr, attrs);
--    }
--    /* Fallback for CPUs which don't implement the _attrs_ hook */
--    *attrs = MEMTXATTRS_UNSPECIFIED;
--    return cc->get_phys_page_debug(cpu, addr);
--}
-+hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-+                                     MemTxAttrs *attrs);
+ int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs);
  
- /**
-  * cpu_get_phys_page_debug:
-@@ -601,12 +591,7 @@ static inline hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-  *
-  * Returns: Corresponding physical page address or -1 if no page found.
-  */
--static inline hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr)
--{
--    MemTxAttrs attrs = {};
--
--    return cpu_get_phys_page_attrs_debug(cpu, addr, &attrs);
--}
-+hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- 
- /** cpu_asidx_from_attrs:
-  * @cpu: CPU
-@@ -615,17 +600,7 @@ static inline hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr)
-  * Returns the address space index specifying the CPU AddressSpace
-  * to use for a memory access with the given transaction attributes.
-  */
--static inline int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--    int ret = 0;
--
--    if (cc->asidx_from_attrs) {
--        ret = cc->asidx_from_attrs(cpu, attrs);
--        assert(ret < cpu->num_ases && ret >= 0);
--    }
--    return ret;
--}
-+int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs);
- 
++/**
++ * cpu_virtio_is_big_endian:
++ * @cpu: CPU
++
++ * Returns %true if a CPU which supports runtime configurable endianness
++ * is currently big-endian.
++ */
++bool cpu_virtio_is_big_endian(CPUState *cpu);
++
  #endif /* CONFIG_USER_ONLY */
  
+ /**
 diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 00330ba07de..4dce35f832f 100644
+index 4dce35f832f..daaff56a79e 100644
 --- a/hw/core/cpu.c
 +++ b/hw/core/cpu.c
-@@ -94,6 +94,38 @@ static void cpu_common_get_memory_mapping(CPUState *cpu,
-     error_setg(errp, "Obtaining memory mappings is unsupported on this CPU.");
+@@ -218,8 +218,13 @@ static int cpu_common_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg)
+     return 0;
  }
  
-+hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-+                                                   MemTxAttrs *attrs)
-+{
+-static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
++bool cpu_virtio_is_big_endian(CPUState *cpu)
+ {
 +    CPUClass *cc = CPU_GET_CLASS(cpu);
 +
-+    if (cc->get_phys_page_attrs_debug) {
-+        return cc->get_phys_page_attrs_debug(cpu, addr, attrs);
++    if (cc->virtio_is_big_endian) {
++        return cc->virtio_is_big_endian(cpu);
 +    }
-+    /* Fallback for CPUs which don't implement the _attrs_ hook */
-+    *attrs = MEMTXATTRS_UNSPECIFIED;
-+    return cc->get_phys_page_debug(cpu, addr);
-+}
-+
-+hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr)
-+{
-+    MemTxAttrs attrs = {};
-+
-+    return cpu_get_phys_page_attrs_debug(cpu, addr, &attrs);
-+}
-+
-+int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    int ret = 0;
-+
-+    if (cc->asidx_from_attrs) {
-+        ret = cc->asidx_from_attrs(cpu, attrs);
-+        assert(ret < cpu->num_ases && ret >= 0);
-+    }
-+    return ret;
-+}
-+
- /* Resetting the IRQ comes from across the code base so we take the
-  * BQL here if we need to.  cpu_interrupt assumes it is held.*/
- void cpu_reset_interrupt(CPUState *cpu, int mask)
+     return target_words_bigendian();
+ }
+ 
+@@ -438,7 +443,6 @@ static void cpu_class_init(ObjectClass *klass, void *data)
+     k->write_elf64_note = cpu_common_write_elf64_note;
+     k->gdb_read_register = cpu_common_gdb_read_register;
+     k->gdb_write_register = cpu_common_gdb_write_register;
+-    k->virtio_is_big_endian = cpu_common_virtio_is_big_endian;
+     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
+     dc->realize = cpu_common_realizefn;
+     dc->unrealize = cpu_common_unrealizefn;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 1fd1917ca0f..fe6a4be99e4 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1973,9 +1973,7 @@ static enum virtio_device_endian virtio_default_endian(void)
+ 
+ static enum virtio_device_endian virtio_current_cpu_endian(void)
+ {
+-    CPUClass *cc = CPU_GET_CLASS(current_cpu);
+-
+-    if (cc->virtio_is_big_endian(current_cpu)) {
++    if (cpu_virtio_is_big_endian(current_cpu)) {
+         return VIRTIO_DEVICE_ENDIAN_BIG;
+     } else {
+         return VIRTIO_DEVICE_ENDIAN_LITTLE;
 -- 
 2.26.2
 
