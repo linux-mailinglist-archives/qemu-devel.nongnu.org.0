@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E3732B9AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 18:58:58 +0100 (CET)
-Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE3532B9B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 19:08:37 +0100 (CET)
+Received: from localhost ([::1]:58140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHVlx-0000B4-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 12:58:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48950)
+	id 1lHVvI-0003iD-G8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 13:08:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHVkU-0007Qy-0X
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:57:27 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHVkR-0001FZ-LZ
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 12:57:25 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 32D98ACBC;
- Wed,  3 Mar 2021 17:57:20 +0000 (UTC)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
- <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de> <87a6rmkffo.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
-Date: Wed, 3 Mar 2021 18:57:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHVtp-0002c0-MO
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:07:05 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:41945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHVtn-00048b-Az
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 13:07:05 -0500
+Received: by mail-ej1-x634.google.com with SMTP id lr13so43975349ejb.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 10:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eMACN5yRfbLSuOyxb0PX8KlL9UJOfHAZvGi1RWpi124=;
+ b=rBRoieBjuzmUoI+Sv7GP9HBNxHIuHNETdd53xQnL4kayOfSLGhAWvTwE+8ih5LomtX
+ R5MDgShpM5VFJ5dOE9Bt3loA+vYqZm4vITmFLyeVuxYE6NrxAO6BJrQNTB9Y3YH6kIFc
+ TPPnNpe+3sMAQQBT92NKiwmHKjpSDhm7cG7dHOi6oZ9leKa6UF8bQ9JC7Qa+PIMDn0b3
+ /YwYha4UTJzs/r7iNt/IdmTbOBpSsFrdxRwAYLa4993oGtxfaPWYs2VwZl6SbLTRtn1Z
+ L+AotTUl/vgboMm/i5GxeN5rTedE7vnl4RUwDugFMaX+jQvyjgxsktNSpXlVMhMpnliq
+ tg+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eMACN5yRfbLSuOyxb0PX8KlL9UJOfHAZvGi1RWpi124=;
+ b=WUmex7vo4hd3woDbOYCmgE9TJRsY9DXfkENA2qtZ3w9TzmnTc1zc8p1knoULm4cvhB
+ PMOU86VgEDlpqejpVikXU36xyx57hYB5hiLRMZ/i/SLOWG8tdF4qojNQ8OzBTEiiFl63
+ RJ/4b7hYDghEr4uLtpEb9rZD0hj/+oRqWp8mvR1uIkzZN4vx1G/I7OcNPSol5MofNDOw
+ XKV9GPe9orj8sC5KYS5un7pzV21lSdoGYr+J/nAvaCUUs1V37J69Kn4Hvp+U7CsrOsDn
+ o7psDKqpIIIt2W0yEbA/ZN2V11zd4TZic4fMNekd/MYVLUDqAyQauQjvsjo65qWz9ru6
+ xclg==
+X-Gm-Message-State: AOAM531ZvOyhbkkJpifZ0rm7u7G8V+/KfPVVYwAcMFN8A8GnZhDQXVEt
+ bYDySC+Rw0v+5sWZu1xxY3UboDa/Gfc12A2X87KOGQ==
+X-Google-Smtp-Source: ABdhPJwySVrvCYLo2PvYEIvZ2B5iw3WlcRHmDC7+40QIHjmPDsWaUkQRUjp4GxBWtdzNOpRgAkW35rpQvGcoPXmSVIk=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr81051ejc.250.1614794821376; 
+ Wed, 03 Mar 2021 10:07:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87a6rmkffo.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
+ <20210303174849.GF1664@vanye>
+In-Reply-To: <20210303174849.GF1664@vanye>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 3 Mar 2021 18:06:46 +0000
+Message-ID: <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
+Subject: Re: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
+To: Leif Lindholm <leif@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,86 +78,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 5:23 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> On 2/23/21 10:18 AM, Philippe Mathieu-Daudé wrote:
->>> On 2/22/21 8:00 PM, Alex Bennée wrote:
->>>>
->>>> Claudio Fontana <cfontana@suse.de> writes:
->>>>
->>>>> Hi all,
->>>>>
->>>>> this is an experiment, a cleanup based on and requiring the series
->>>>> "i386 cleanup PART 2":
->>>>>
->>>>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
->>>>>
->>>>> The goal is to split the code between TCG-only and non-TCG code,
->>>>> fixing the KVM-only build (configure --disable-tcg),
->>>>>
->>>>> and laying the ground for further cleanups and the use of the
->>>>> new accel objects in the hierarchy to specialize the cpu
->>>>> according to the accelerator.
->>>>>
->>>>> This is known to be an early state, with probably a lot of work
->>>>> still needed.
->>>>
->>>> Well early work is looking pretty good:
->>>>
->>>>   18:59:22 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh qemu-system-aarch64
->>>>   -rwxr-xr-x 1 alex alex 107M Feb 22 18:08 qemu-system-aarch64*
->>>>   18:59:29 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh ../disable.tcg/qemu-system-aarch64
->>>>   -rwxr-xr-x 1 alex alex 76M Feb 22 17:47 ../disable.tcg/qemu-system-aarch64*
->>>
->>> :~)
->>>
->>>>
->>>> and I've tested the KVM side works well enough with a basic image.
->>>
->>>
->>
->> I am working on the next version, one thing I noticed among others as I get close to the v2,
->> is the fact that tests/ for arm require tcg in many cases.
-> 
-> I think in a lot of cases they are historical because developers
-> generally weren't running on native hardware. That said off the top of
-> my head:
-> 
->   tests/tcg - linux-user, so implies TCG
->   tests/tcg/system - use semihosting (at least for arm/aarch64) - which implies TCG
->   tests/acceptance/[replay_kernel/reverse_debugging/tcg_plugins] - all need TCG features
-> 
-> I don't think there is any reason the others can't run with KVM - and
-> probably should on real hardware.
+On Wed, 3 Mar 2021 at 17:48, Leif Lindholm <leif@nuviainc.com> wrote:
+> It would be good if we could get 6.0 closer to SBSA compliance.
 
+How far away are we at the moment ?
 
-One thing I noticed is that tests try to run qemu-system-aarch64 with accel "qtest" and machine "virt",
-and the thing tries to create a cortex-a15 cpu model for some unknown reason.
+> Would it be worth the effort to make this controllable per cpu model?
 
-Digging and sweating..
+I don't have a strong opinion on whether we should, but if we do then the
+right way to implement that would be to have the PMCR reset value
+as a reset_pmcr_el0 field in struct ARMCPU (like the existing reset_fpsid,
+reset_sctlr, etc) that gets set per-CPU to whatever the CPU's value for
+it is; and then instead of using a PMCR_NUM_COUNTERS value,
+extract the PMCR.N field when needed. The hardest part would be
+going through all the CPU TRMs to find out the correct reset value.
 
-Ciao,
-
-Claudio
-
-> 
->>
->> So there is even more cleanup needed to discern which are actually tcg-only, and how to tweak the others into working also with only kvm available..
->>
->> Ciao,
->>
->> Claudio
-> 
-> 
-
+thanks
+-- PMM
 
