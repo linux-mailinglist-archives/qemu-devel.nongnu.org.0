@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AFB32BA27
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 20:16:01 +0100 (CET)
-Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B7032BA2C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Mar 2021 20:19:14 +0100 (CET)
+Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHWyW-00024v-Ui
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 14:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
+	id 1lHX1d-0005nZ-Nn
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 14:19:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWvR-0000BQ-NC
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:12:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60128)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWvS-0000DU-Qw
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:12:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWvN-0006uy-2w
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:12:49 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHWvP-0006wJ-Cz
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 14:12:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614798761;
+ s=mimecast20190719; t=1614798766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rXFV9G0MJ4FvY42CmYEG0oMTNhQmH249ONzv0QeRcyQ=;
- b=Cy56EltcrPG+LDMBgLd1tkl5gDd3PztVgb8BZpfkonySZVYsRLqIwsdi1pmL+JikrbBd3G
- Lp9ML1GNIZIiseVfznStFbBOsxkm5hVlCCbY5LgE/74/Ozt9X8KODdsRZw0TL7ziu6gjWY
- 1dFh28PLpbRB0qa54gq64b9X5sWnjHU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-mZIPPWBGNmq1xAbnBEUdbg-1; Wed, 03 Mar 2021 14:12:40 -0500
-X-MC-Unique: mZIPPWBGNmq1xAbnBEUdbg-1
-Received: by mail-wr1-f71.google.com with SMTP id e29so13196263wra.12
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 11:12:39 -0800 (PST)
+ bh=CouKFTwLkgo/uu4gqqm3VLXBNVa87X4zwN26JBMF5/w=;
+ b=bXVu90Lr4EjjQQFkZAnEuCclZzbwE3jcy+EDJbtcMJxSQCVhYIDIQbURL4BZeDf21N3m6D
+ Xg6unmp4QQUiSpSJAQ+xZ8SVzp8QQClliXA+9q+A4qPVgqW3iRl/sp5ra8JxFC3A2Z2Dez
+ 9gnYdceJQNJd4/PmoH7yTmW8QmaKe4g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-JZk-2UlRM6ihVtK-uGrTDQ-1; Wed, 03 Mar 2021 14:12:45 -0500
+X-MC-Unique: JZk-2UlRM6ihVtK-uGrTDQ-1
+Received: by mail-wm1-f72.google.com with SMTP id 73so3402360wma.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 11:12:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rXFV9G0MJ4FvY42CmYEG0oMTNhQmH249ONzv0QeRcyQ=;
- b=Vp+CmtXLYmFwr44IqSmPK1mjPw6gZxNDNVHuVO5DwqsISdX/0HwV9MR5k7EX5gvXnJ
- lx9dkVwrNvtpt7E+nWIsA7cyZ7D+haxtx9d0mhsfHEN7oIcAA69umN2UEcKBhKKCRCzf
- NHXEN6rZw2OIf3hbh/FKw+XNQUGGOJDKnupz7Q9TEGbVve5lo4GgNfsynF7KdV0xr8Dl
- 9OM43HU/0bx9G6T9bQtcMcJWVZREhOmskoZh7E+XnLhUfDs4tVgOQ5N+ACXVyTcwZ0/A
- nLGs4Qf2X5dpH0tXotHjsGjJhqRzkRYxvHo/QwlQ4gf28d21JgGhW4RLP4ZNis2y1l9K
- 4lDA==
-X-Gm-Message-State: AOAM532DHl4m2oQfZDOrN5mZnT+HOJdhEHgb0SecCxfjGI059MhW46/v
- LBqqtQMS3/ng7l4mtbKFoq2IsBIzqkkHPXb9U8gyVjmPnZSDC0EH6ZylbcwEl6hAORjjHcl2eUu
- E0rAF8bQEJJdiwr8QOcLpxcCWxijtzMEDszuXm8DTjxSzBLKpUAlHmNHPL+3NGDRP
-X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr441371wmd.40.1614798758643; 
- Wed, 03 Mar 2021 11:12:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwUlGR3AFf6/QS6ZZh+/wUME62yJZIX+H+tEgqvi46UMWQqbq4iaUNQm6UKm+TWUtbuYK9G+g==
-X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr441341wmd.40.1614798758390; 
- Wed, 03 Mar 2021 11:12:38 -0800 (PST)
+ bh=CouKFTwLkgo/uu4gqqm3VLXBNVa87X4zwN26JBMF5/w=;
+ b=tYQ+dN2d6gblnrWHqohPI6Ab3W5Db5wAJwO2kaGeHDY0BnrpYHxDpMNd1hMvC4oEcM
+ 5Ajzwf83swieM48zySkz0dHHBLAqxRiuIZM2csWXsFROc04019nZOa2bBAWMiqHIuaqM
+ M0iiaEinVFAVvPsb4mwh+IvjdVcBinlwnlTaeT8uVRm+SIzxlYtggOsCfSCFgDK5cGR+
+ TfUa3y5bfgw7AdMzW5m0cpOt5Yxkvyo2sUIjo7e8maklWKTqClp6V/T4luQl5ziPe2dX
+ jeg2ST2R8pZSzF5cOWo3pV3gHT+rDqaGRvtiE9xsuRKjj51r7qiNxXKfHhIWCccP0s4L
+ LwMg==
+X-Gm-Message-State: AOAM532yq0HGT0h+iQSRXkpVyPlDOyqj0GNzIH4wy5y4bvALaME+kceu
+ UmuPhr549FcYIYU1/sZreY4cSBL6xZnpvPnjdBX/vjUf6VRTUa0iqhWsdzeg7JrjXjG6dYpArMQ
+ ku6dpyIsNlCRhSxriuulFfmPKA27f+dwVz7aqSOMYqi3Lg9z4l2q7e/itCLzJU7lS
+X-Received: by 2002:a05:600c:190a:: with SMTP id
+ j10mr434498wmq.140.1614798763900; 
+ Wed, 03 Mar 2021 11:12:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx7KjNPYS7LmJ1FqpfG69PqrQf7LLPtRfa5i5RiOdU8sfsXXZsOLrYJYu5YQg7rrpKBCWEYcQ==
+X-Received: by 2002:a05:600c:190a:: with SMTP id
+ j10mr434483wmq.140.1614798763615; 
+ Wed, 03 Mar 2021 11:12:43 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p6sm19301832wru.2.2021.03.03.11.12.37
+ by smtp.gmail.com with ESMTPSA id c184sm5706813wmf.28.2021.03.03.11.12.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 11:12:37 -0800 (PST)
+ Wed, 03 Mar 2021 11:12:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 06/10] hw/net: ne2000: Remove the logic of padding
- short frames in the receive path
-Date: Wed,  3 Mar 2021 20:12:01 +0100
-Message-Id: <20210303191205.1656980-7-philmd@redhat.com>
+Subject: [RFC PATCH v3 07/10] hw/net: pcnet: Remove the logic of padding short
+ frames in the receive path
+Date: Wed,  3 Mar 2021 20:12:02 +0100
+Message-Id: <20210303191205.1656980-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210303191205.1656980-1-philmd@redhat.com>
 References: <20210303191205.1656980-1-philmd@redhat.com>
@@ -73,14 +75,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,37 +111,28 @@ Now that we have implemented unified short frames padding in the
 QEMU networking codes, remove the same logic in the NIC codes.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <1614763306-18026-6-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1614763306-18026-7-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/net/ne2000.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ hw/net/pcnet.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/hw/net/ne2000.c b/hw/net/ne2000.c
-index 6c17ee1ae21..b0a120ece63 100644
---- a/hw/net/ne2000.c
-+++ b/hw/net/ne2000.c
-@@ -167,15 +167,12 @@ static int ne2000_buffer_full(NE2000State *s)
-     return 0;
- }
- 
--#define MIN_BUF_SIZE 60
--
- ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
+diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
+index f3f18d8598c..16330335cd2 100644
+--- a/hw/net/pcnet.c
++++ b/hw/net/pcnet.c
+@@ -987,7 +987,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
  {
-     NE2000State *s = qemu_get_nic_opaque(nc);
-     size_t size = size_;
-     uint8_t *p;
-     unsigned int total_len, next, avail, len, index, mcast_idx;
+     PCNetState *s = qemu_get_nic_opaque(nc);
+     int is_padr = 0, is_bcast = 0, is_ladr = 0;
 -    uint8_t buf1[60];
-     static const uint8_t broadcast_macaddr[6] =
-         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+     int remaining;
+     int crc_err = 0;
+     size_t size = size_;
+@@ -1000,14 +999,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
+     printf("pcnet_receive size=%zu\n", size);
+ #endif
  
-@@ -213,15 +210,6 @@ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-         }
-     }
- 
--
 -    /* if too small buffer, then expand it */
 -    if (size < MIN_BUF_SIZE) {
 -        memcpy(buf1, buf, size);
@@ -148,9 +141,9 @@ index 6c17ee1ae21..b0a120ece63 100644
 -        size = MIN_BUF_SIZE;
 -    }
 -
-     index = s->curpag << 8;
-     if (index >= NE2000_PMEM_END) {
-         index = s->start;
+     if (CSR_PROM(s)
+         || (is_padr=padr_match(s, buf, size))
+         || (is_bcast=padr_bcast(s, buf, size))
 -- 
 2.26.2
 
