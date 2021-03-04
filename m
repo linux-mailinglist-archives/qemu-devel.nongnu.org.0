@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974FF32D87F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 18:21:16 +0100 (CET)
-Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586C632D886
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 18:24:37 +0100 (CET)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHrf1-0000hm-4y
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 12:21:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48404)
+	id 1lHriG-0002ig-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 12:24:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHrdg-0008Sh-04
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:19:52 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lHrde-0002gd-Fn
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:19:51 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E23C1AEBE;
- Thu,  4 Mar 2021 17:19:48 +0000 (UTC)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
- <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de> <87a6rmkffo.fsf@linaro.org>
- <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
- <CAFEAcA_eWrgo9CcLF3ZpAPeK08_PmKNLjqKAzuBPcSGh+1SFCA@mail.gmail.com>
- <5fb3cf49-fc09-7e7c-d34e-299f04e9842a@suse.de>
- <335966c3-9f31-5868-54e5-edb28a37c50c@suse.de>
- <a9190376-ba0b-02d5-124d-a336c586ad5d@linaro.org>
- <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
- <1b92cbea-8abf-40b9-337a-15f34ef40f61@linaro.org>
- <38f0a65d-b5e4-3795-03a3-d6b1b3346816@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <c3417aa6-22f6-7d4c-07a5-dceacd598b41@suse.de>
-Date: Thu, 4 Mar 2021 18:19:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lHrhC-0002GI-JY
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:23:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lHrh8-0004f7-JM
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:23:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614878604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mKTS01T7IGVOlS5bEae77wFej2ma5mPKqJrMpoFQp1s=;
+ b=WrpS7Eqf5teXua534nTDle1CgfSajEwWKPyYXW41C9kxnR2cmjZwAAHbUwBHq7D4t6nYGf
+ su1Vi8cR2rfrrsbwiEweGSkiWh3j0JR7K4cWQ9Ln7VCNyH+axylxZh3b5hxmZVwU6+vWM2
+ wDJVcwp5nZvSDfNivN8iSI8AzTqXPcg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-1GAy0MEnPzCjOsSzZD4zlA-1; Thu, 04 Mar 2021 12:23:22 -0500
+X-MC-Unique: 1GAy0MEnPzCjOsSzZD4zlA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E8EE57;
+ Thu,  4 Mar 2021 17:23:21 +0000 (UTC)
+Received: from localhost (ovpn-114-199.ams2.redhat.com [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA54139A70;
+ Thu,  4 Mar 2021 17:23:17 +0000 (UTC)
+Date: Thu, 4 Mar 2021 17:23:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2] vhost-user.rst: add clarifying language about
+ protocol negotiation
+Message-ID: <YEEXhBClR6GRLDu6@stefanha-x1.localdomain>
+References: <20210303145011.14547-1-alex.bennee@linaro.org>
+ <20210303165554-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <38f0a65d-b5e4-3795-03a3-d6b1b3346816@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210303165554-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ttxplPPTaMgzWM3o"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,41 +80,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jiang Liu <gerry@linux.alibaba.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/21 5:39 PM, Philippe Mathieu-Daudé wrote:
-> On 3/3/21 7:54 PM, Richard Henderson wrote:
->> On 3/3/21 10:45 AM, Claudio Fontana wrote:
->>> It is a bit weird that qemu-system-aarch64 runs with a cortex-a15
->>> model tbh, as cortex-a15 is not capable of aarch64.
->>
->> No, but qemu-system-aarch64 is capable of 32-bit emulation (because most
->> 64-bit cpus retain 32-bit mode).  It takes no extra effort to run
->> cortex-a15 than it does a cortex-a57.
-> 
-> IIRC qemu-system-arm starts the aa64 cores in 32-bit mode, while
-> qemu-system-aarch64 in 64-bit (this gave me trouble because the
-> kernels for the raspi 64-bit SoCs are in 32-bit mode -- because
-> the GPU starts them in this mode).
-> 
->> I have wondered if we should have just one qemu-system-arm that does it
->> all and drop the separate qemu-system-aarch64 -- or vice versa.  But
->> we've had the separation around so long I'm sure someone would be confused.
-> 
-> That would be great cleanup IMHO.
-> 
+--ttxplPPTaMgzWM3o
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Would we still be able to configure a lean AARCH64-only qemu that only contains the cpu models we want,
-(via board configuration / KConfig?),
+On Wed, Mar 03, 2021 at 05:01:05PM -0500, Michael S. Tsirkin wrote:
+> On Wed, Mar 03, 2021 at 02:50:11PM +0000, Alex Benn=E9e wrote:
+> Also, are we sure it's ok to send the messages and then send
+> VHOST_USER_SET_FEATURES with VHOST_USER_F_PROTOCOL_FEATURES clear?
+> Looks more like a violation to me ...
 
-for example, a kvm-only build that only has a few 64-bit cpu models in it, plus max/host and removes all the rest?
+Looking again I agree it would be a violation to omit
+VHOST_USER_F_PROTOCOL_FEATURES in VHOST_USER_SET_FEATURES.
 
-Ciao,
+Previously I only looked at VHOST_USER_SET_PROTOCOL_FEATURES where the
+spec says:
 
-CLaudio
+  Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present i=
+n
+  ``VHOST_USER_GET_FEATURES``.
+
+So negotiation is *not* necessary for sending
+VHOST_USER_SET_PROTOCOL_FEATURES.
+
+However, I missed that other features *do* require negotiation of
+VHOST_USER_F_PROTOCOL_FEATURES according to the spec. For example:
+
+  If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+  ring is initialized in an enabled state.
+
+Now I think:
+
+1. VHOST_USER_F_PROTOCOL_FEATURES *must* be included
+   VHOST_USER_SET_FEATURES if the master supports it.
+
+2. VHOST_USER_SET_PROTOCOL_FEATURES does not require negotiation,
+   instead the master just needs to check that
+   VHOST_USER_F_PROTOCOL_FEATURES is included in the
+   VHOST_USER_GET_FEATURES reply. It's an exception.
+
+Stefan
+
+--ttxplPPTaMgzWM3o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBBF4QACgkQnKSrs4Gr
+c8gLiAf+PyPbgr/EFXtuh84TjLmXYqmHrJHX3Tyk8G/6qX7pmAEMAdGod9rjslUa
+OHWHK2QgsfsO88V+/MypCR8BkJjWlza0a/0xOeo+r6ggHxBNbN3H1OswGRQB13dl
+Y8aVJ5R8HYCR3hism1ptT8+yVMW5y2MKzoi5LQtR3QzDF8DeywzAiftSWSpMPvF2
+FCHvIk7ZnKp3PATPMevZoG+1I/dRxBGOgAn6WAlfWWRPnKw092Ky5IRGYSDZJyFy
+0isNGx8ttpMv7tADXi27t5+xCLd2fNP3V2KbHWzJKt5ukKm8pVce8QgbXP6KDpPk
+UyzV0y0MurxQtoqq3WJ6Q9Un/XbIwQ==
+=6w/N
+-----END PGP SIGNATURE-----
+
+--ttxplPPTaMgzWM3o--
+
 
