@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBB832CB26
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 04:47:02 +0100 (CET)
-Received: from localhost ([::1]:40266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766DE32CC0D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 06:35:49 +0100 (CET)
+Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHex2-00006q-LE
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 22:47:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1lHgeK-0003VL-0L
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 00:35:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lHevs-000831-Kc
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 22:45:48 -0500
-Received: from mail-ej1-f52.google.com ([209.85.218.52]:40542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lHevq-0000GC-NB
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 22:45:48 -0500
-Received: by mail-ej1-f52.google.com with SMTP id ci14so27606151ejc.7
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 19:45:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=hTDnoB80bOsp3j+ZuJXH6CJtqKO0pOlxQ9UsKOK9q6M=;
- b=t6f0Gt+2pbJqSLumDU9QZckwOPwhV00es7pDp26n7dPR6PssqpqaULoreuK6rzRKRT
- 9T3MKr3T72TYMi5m6svdmNXPq1+ylQYm77ruUajl554316bWEMaavENEoPDOZLAvXHP4
- 66/keb8D7Pk2Z801UrC6kTFE80dnvhg3wiHRwYNOm+lAANbC0m67Qre+9uUKX0FtmDJS
- K/CbL4trLOEQutbBhAJnl5CwufA3JnD7ophJlM2MRz1Wfs0xYovJ5+TXyN5WGbD8OIcD
- A6nrHP1ttANb7tYM39JqLgYCy1XTcctfHLsHEqPXXp7vJRXkkqh8GQP22V4h3AcNBP0W
- gz4Q==
-X-Gm-Message-State: AOAM530lQy5tv+JfrQJXlbJ6kLgX1aOXkdGqGUgsGhkN2dR3ddWdm4RE
- 4JG7J10E1U+QjGZLec+4q8TNd2sPitPuQbFz8TgkMwAZ3v884w==
-X-Google-Smtp-Source: ABdhPJzrFiuc5ZO1NBqAC/NJT8k7ol/0tGkIMWLfnD4Ybr7cLjCpGQ4KL913NLVw4Dam319Dzmc6rQkojLD6kUxPTLM=
-X-Received: by 2002:a17:906:a101:: with SMTP id
- t1mr2110993ejy.182.1614829544173; 
- Wed, 03 Mar 2021 19:45:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgcq-0002fV-Si
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:34:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgcn-00086U-Fm
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:34:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614836052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V1cI1K6+5ruRoZ1BJOBD/YB0HseDqL915QQ8vQ0doDc=;
+ b=ddnn7qX4/pvvdMsRF9uDmIfzALypv7G4ULpl4evW+X+XTLUc6Z1+RVoNB6ClaavsfD8MHu
+ MxOPO+gbSkYLtqvy7i9HF3UrOF9nDyLTl3WW1UdOZvRQKenIW/4mFDYPWyzgFEQpjnSjDj
+ SWZJHwFt8rvsRRtdnQ6AFxav97IUlEo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-KClGj9yPPTygMYTEq9P1Ug-1; Thu, 04 Mar 2021 00:34:08 -0500
+X-MC-Unique: KClGj9yPPTygMYTEq9P1Ug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80AF0803F4A;
+ Thu,  4 Mar 2021 05:34:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-31.ams2.redhat.com [10.36.112.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 762686F7E7;
+ Thu,  4 Mar 2021 05:33:51 +0000 (UTC)
+Subject: Re: [PATCH v3 3/5] seccomp: Replace the word 'blacklist'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
+ Eduardo Otubo <otubo@redhat.com>
+References: <20210303184644.1639691-1-philmd@redhat.com>
+ <20210303184644.1639691-4-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <d13b1ca5-6bc1-ce10-6da1-22a524a76867@redhat.com>
+Date: Thu, 4 Mar 2021 06:33:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-From: Ben Leslie <benno@benno.id.au>
-Date: Thu, 4 Mar 2021 14:45:32 +1100
-Message-ID: <CABZ0LtBrGynOoYr=xbT3zNGe3UQg=Dr39_8d9V6+XgGzpnQrsw@mail.gmail.com>
-Subject: USB port claiming / set configuration problems
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005a72f105bcadcdab"
-Received-SPF: pass client-ip=209.85.218.52; envelope-from=ben.leslie@gmail.com;
- helo=mail-ej1-f52.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210303184644.1639691-4-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,139 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005a72f105bcadcdab
-Content-Type: text/plain; charset="UTF-8"
+On 03/03/2021 19.46, Philippe Mathieu-Daudé wrote:
+> Follow the inclusive terminology from the "Conscious Language in your
+> Open Source Projects" guidelines [*] and replace the word "blacklist"
+> appropriately.
+> 
+> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Acked-by: Eduardo Otubo <otubo@redhat.com>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v3: Reworded comment (thuth)
+> ---
+>   softmmu/qemu-seccomp.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
+> index 377ef6937ca..9c29d9cf007 100644
+> --- a/softmmu/qemu-seccomp.c
+> +++ b/softmmu/qemu-seccomp.c
+> @@ -45,8 +45,8 @@ const struct scmp_arg_cmp sched_setscheduler_arg[] = {
+>       { .arg = 1, .op = SCMP_CMP_NE, .datum_a = SCHED_IDLE }
+>   };
+>   
+> -static const struct QemuSeccompSyscall blacklist[] = {
+> -    /* default set of syscalls to blacklist */
+> +static const struct QemuSeccompSyscall denylist[] = {
+> +    /* default set of syscalls that should get blocked */
+>       { SCMP_SYS(reboot),                 QEMU_SECCOMP_SET_DEFAULT },
+>       { SCMP_SYS(swapon),                 QEMU_SECCOMP_SET_DEFAULT },
+>       { SCMP_SYS(swapoff),                QEMU_SECCOMP_SET_DEFAULT },
+> @@ -175,18 +175,18 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
+>           goto seccomp_return;
+>       }
+>   
+> -    for (i = 0; i < ARRAY_SIZE(blacklist); i++) {
+> +    for (i = 0; i < ARRAY_SIZE(denylist); i++) {
+>           uint32_t action;
+> -        if (!(seccomp_opts & blacklist[i].set)) {
+> +        if (!(seccomp_opts & denylist[i].set)) {
+>               continue;
+>           }
+>   
+> -        action = qemu_seccomp_get_action(blacklist[i].set);
+> -        rc = seccomp_rule_add_array(ctx, action, blacklist[i].num,
+> -                                    blacklist[i].narg, blacklist[i].arg_cmp);
+> +        action = qemu_seccomp_get_action(denylist[i].set);
+> +        rc = seccomp_rule_add_array(ctx, action, denylist[i].num,
+> +                                    denylist[i].narg, denylist[i].arg_cmp);
+>           if (rc < 0) {
+>               error_setg_errno(errp, -rc,
+> -                             "failed to add seccomp blacklist rules");
+> +                             "failed to add seccomp denylist rules");
+>               goto seccomp_return;
+>           }
+>       }
+> 
 
-I have encountered a number of devices (mostly mobile phones) which seem to
-get very confused if a "SET CONFIGURATION" control transfer (for the same
-interface) is performed twice.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Specifically, after receiving a 2nd SET CONFIGURATION (for the same
-interface) the device times out on future bulk output transfers. (Sometimes
-PING-NAK continues until the overall transfer times out, in other cases the
-PING itself timeouts after ~200 PING-NAKs).
-
-While I'm fairly confident in saying that the USB firmware on these devices
-is broken they seem to work enough to be operable when running a native
-operating system.
-
-Unfortunately when running the same operating system virtualized under Qemu
-we are able to trigger this bug.
-
-This was originally found using an older (4.2) version of Qemu. It seems
-like that the patch bfe44898848614cfcb3a269bc965afbe1f0f331c was able to
-solve the issue for some of the devices we see. Specifically, this avoids
-actually performing a SET CONFIGURATION control transfer if there is only a
-single configuration. The commit message "Seems some devices become
-confused when we call libusb_set_configuration()." seems to confirm some of
-the behaviour we have been seeing.
-
-Unfortunately, while this appears to have solved the issue for devices with
-a single configuration we still appear to have problems when hitting
-devices with multiple configurations (which is not surprising given that
-the commit only changed behaviour for single-configuration devices).
-
-To attempt a work-around and validate the theory I change the
-`usb_host_set_config` function (in host-libusb.c) such that it first checks
-if the current active configuration matches the request configuration, and
-if so skips performing the actual SET CONFIGURATION control transfer.
-
-Would a patch of this nature be the right approach?
-Perhaps this check could replace the number of configurations check?
-
-Taking a step back here, the larger problem is that Linux host performs
-various control transfers prior to qemu (and therefore the guest operating
-system) gaining control of the device.
-This means the sequence of control transfers with the device is inherently
-going to be different when the guest OS is virtualized as compared to
-running natively. For well behaving devices this really shouldn't matter,
-but not all devices are well behaving!
-
-USBDEVFS has support for `USBDEVFS_CLAIM_PORT` (and
-`USBDEVFS_RELEASE_PORT`) ioctls. From the definition this seem designed to
-limit the interaction that Linux kernel might have with a device on a
-claimed port, which seems perfect for this use case. This in fact used in
-previous version of qemu if we go back to the host-linux.c days, but with
-the change over to host-libusb.c this functionality was lost.
-
-Was this intentional? Would adding support to host-libusb to use these
-ioctl to claim the port be beneficial? Based on a simple test program and
-hardware USB traces for a device connected to a 'claimed' port the kernel
-does indeed leave the device in an unconfigured state. (Although it still
-performs some basic control transfers to gather descriptor, and strangely
-seems to in this case make an explicit SET CONFIGURATION transfer, but sets
-configuration to zero, rather than an actual configuration, which, at least
-for the devices I was able to test with, avoided the problems of calling
-SET CONFIGURATION (1) twice). Integrating this support back into
-host-libusb.c is a little more involved than the work around described
-above, so I'd appreciate any feedback before going down that path.
-
-Thanks,
-
-Ben
-
---0000000000005a72f105bcadcdab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I have encountered a number of devices (mostly mobile=
- phones) which seem to get very confused if a &quot;SET CONFIGURATION&quot;=
- control transfer (for the same interface) is performed twice. <br></div><d=
-iv><br></div><div>Specifically, after receiving a 2nd SET CONFIGURATION (fo=
-r the same interface) the device times out on future bulk output transfers.=
- (Sometimes PING-NAK continues until the overall transfer times out, in oth=
-er cases the PING itself timeouts after ~200 PING-NAKs).</div><div><br></di=
-v><div>While I&#39;m fairly confident in saying that the USB firmware on th=
-ese devices is broken they seem to work enough to be operable when running =
-a native operating system.</div><div><br></div><div>Unfortunately when runn=
-ing the same operating system virtualized under Qemu we are able to trigger=
- this bug.</div><div><br></div><div>This was originally found using an olde=
-r (4.2) version of Qemu. It seems like that the patch bfe44898848614cfcb3a2=
-69bc965afbe1f0f331c was able to solve the issue for some of the devices we =
-see. Specifically, this avoids actually performing a SET CONFIGURATION cont=
-rol transfer if there is only a single configuration. The commit message &q=
-uot;Seems some devices become confused when we call libusb_set_configuratio=
-n().&quot; seems to confirm some of the behaviour we have been seeing.</div=
-><div><br></div><div>Unfortunately, while this appears to have solved the i=
-ssue for devices with a single configuration we still appear to have proble=
-ms when hitting devices with multiple configurations (which is not surprisi=
-ng given that the commit only changed behaviour for single-configuration de=
-vices).</div><div><br></div><div>To attempt a work-around and validate the =
-theory I change the `usb_host_set_config` function (in host-libusb.c) such =
-that it first checks if the current active configuration matches the reques=
-t configuration, and if so skips performing the actual SET CONFIGURATION co=
-ntrol transfer.</div><div><br></div><div>Would a patch of this nature be th=
-e right approach?<br></div><div>Perhaps this check could replace the number=
- of configurations check?</div><div><br></div><div>Taking a step back here,=
- the larger problem is that Linux host performs various control transfers p=
-rior to qemu (and therefore the guest operating system) gaining control of =
-the device.</div><div>This means the sequence of control transfers with the=
- device is inherently going to be different when the guest OS is virtualize=
-d as compared to running natively. For well behaving devices this really sh=
-ouldn&#39;t matter, but not all devices are well behaving!</div><div><br></=
-div><div>USBDEVFS has support for `USBDEVFS_CLAIM_PORT` (and `USBDEVFS_RELE=
-ASE_PORT`) ioctls. From the definition this seem designed to limit the inte=
-raction that Linux kernel might have with a device on a claimed port, which=
- seems perfect for this use case. This in fact used in previous version of =
-qemu if we go back to the host-linux.c days, but with the change over to ho=
-st-libusb.c this functionality was lost.</div><div><br></div><div>Was this =
-intentional? Would adding support to host-libusb to use these ioctl to clai=
-m the port be beneficial? Based on a simple test program and hardware USB t=
-races for a device connected to a &#39;claimed&#39; port the kernel does in=
-deed leave the device in an unconfigured state. (Although it still performs=
- some basic control transfers to gather descriptor, and strangely seems to =
-in this case make an explicit SET CONFIGURATION transfer, but sets configur=
-ation to zero, rather than an actual configuration, which, at least for the=
- devices I was able to test with, avoided the problems of calling SET CONFI=
-GURATION (1) twice). Integrating this support back into host-libusb.c is a =
-little more involved than the work around described above, so I&#39;d appre=
-ciate any feedback before going down that path.<br></div><div><br></div><di=
-v>Thanks,</div><div><br></div><div>Ben<br></div><div><br></div><div><br></d=
-iv><div><br></div><div><br></div><div><br></div><div><br></div><div><br></d=
-iv><div><br></div><br></div>
-
---0000000000005a72f105bcadcdab--
 
