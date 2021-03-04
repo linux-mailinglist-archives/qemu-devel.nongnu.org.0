@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB78C32DACB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:05:25 +0100 (CET)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CA432DADC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:09:20 +0100 (CET)
+Received: from localhost ([::1]:47724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHuDs-0005vC-Ob
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:05:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53016)
+	id 1lHuHf-00006g-R3
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:09:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuCd-0004rf-Pu
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:04:08 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35847)
+ id 1lHuDN-0005tu-Su
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:04:53 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:33563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuCb-0008N8-4Q
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:04:07 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id s23so7883616pji.1
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 12:04:04 -0800 (PST)
+ id 1lHuDJ-0000Hv-Cb
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:04:53 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 192so12730588pfv.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 12:04:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=CFyjadUX52xsaKeCj2l7sa79PHzsXYymmx+G8QE78J8=;
- b=KR9eTL2iXER/tMIrh42oc10/WHtQgAUDoPgfEv6Y4CgQe3g74JjtRGKp97sEF0SgAe
- L36L8ohVc14WXn3L2jna5KJmnSqnkGCKs3QViK+LmAfavpqXKQ9vFQnllGdyRhub8CeF
- 1XWhF78cUqgchLGXBwhMVzr69xw9/gVN0GQqKgbGd9la/stOnnPBLrAbGAIrvAirs7lF
- l78J7pC7alcq3yTAb3E1w9B9op9HibMGQm+AuXLRVor0InC2hAYsg9b71t387ZXvzQdN
- kKSbQMbi+p3LI/lsYO/2OnnT/pehFFKsEa8BfHDOjvhpXOn6Twh3Fb+K5A/nqYqXsppa
- Yr9g==
+ bh=k9p9CBlxkeT7UOqovLbboAwo48ySz/XZI0CgrUXyVxg=;
+ b=ACpEK7LUWw/mZwlhheI1qNjkVnR4B34xFmbw31vil9GV78jVWdQ2jIXR0z6zXBcKu0
+ C0CTOJf7uHr1WiPXfDctfClCAZT11/n2friG3UlyfRk98rpyF4K/h97kEGC1AIth3v9C
+ GfwkEIHyZx5c36JEFjn4pzyLZdolNW6wJnKaB9+WQwLzL1YxUGoITELVQPbBguNvGk3d
+ lgw4GDJ3M5zCeXrRiVqaskIg/bMZzpTFwf50i5AYa7IdA6IvEraO3f1c6XgdfURlISPE
+ wc1uugx1h8zdIp0iEkqU0WntXx5qHGl6dLYkXOlpM2zo6toGbI1ibs/sjlR+R7x2s/5F
+ AZkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CFyjadUX52xsaKeCj2l7sa79PHzsXYymmx+G8QE78J8=;
- b=kYluzG/DFV+IBppzh/PrEvBF/iRjyA3eb0ja6tzUQVbILZ0uYmnclla8KTpYBOjVCR
- uJPNoW5eBvN/ugnyee0tMbVd8JhdPZTlezYiLtjJfMqk7u3Eurn0O+xxv/J0RQveIj9t
- NWZflI3T4SEpmPb6WbekyhiwvvTHheJ54CcoTHLVVo4nXFKM2X/gMHRBUwvjML9A8GRm
- oD998vE3i4Nx0IBOVA+drKmpyMomK1PFjYXR79PXb9RTAUtsUVPvwQHfN5Ta3B/g+FJw
- ju99IZm9Ve6OWCDZIjOLTgCxlQX2YEJ3h9um6LThkZtRfReUXdOdQdGM88nFEL3vMnsq
- lboA==
-X-Gm-Message-State: AOAM531vagRkLfUUxlUV8Ul26T8CrmDvzPGagfDH4qoDQmR8JeSwIpVy
- z9NGVnZAPmbL6PbckYD6gmLw7WyS3X54Ew==
-X-Google-Smtp-Source: ABdhPJyGb5OvX3hvb/piDGlkTSYNlqLyNOt0iI0SeCVzYBYZPUH4hcymKu9iTDWDJgKjpqGiLNw6NA==
-X-Received: by 2002:a17:90a:e644:: with SMTP id
- ep4mr6134799pjb.218.1614888243660; 
- Thu, 04 Mar 2021 12:04:03 -0800 (PST)
+ bh=k9p9CBlxkeT7UOqovLbboAwo48ySz/XZI0CgrUXyVxg=;
+ b=HXiKb48xaVB24xs4NUF2gcPHOqaABtFRNkCmx5cQ64sq54zJhx0z3slECPbUcMsBeR
+ kDDTL0nxhsA0nEZ9psiH8bDyGXfvdrrfULNtlMNmzWrVleSgv/y28zZLhf3bu8Ilsba3
+ HgXOM80YtHgobs3qrtaBCBUaAnVt/27lYLbifeGzUEv/uhAi3gbErg5r0gJnYAlqfVap
+ nYthJt3u6ZrWw2PdecUI7I9MTu2fNmwijMX0zp33g1ZB6YiVbVL64ttZUIxm8aeoQQg/
+ 2rO6FsxVb9gjD2dVTx26xig6YUHLripOH/2zHayP4xRSlklSCqRViun+epZA73Lt6fha
+ RC3Q==
+X-Gm-Message-State: AOAM531BsrLs3AaUYMhUtfGvJ7nagWP9Cl2MgAxtV5dSFFvEwzgqmYjl
+ e+8vT8QUCzuM6kv/i5SwMMD9CGVy8SDcEQ==
+X-Google-Smtp-Source: ABdhPJz9nGtQ89Zv8xtuogyRbpgzaCgUoZNImH6NknjqivWypZlt0ubI/q5p04bKUGzuDW0yauw7PA==
+X-Received: by 2002:a63:4f59:: with SMTP id p25mr5001131pgl.335.1614888287978; 
+ Thu, 04 Mar 2021 12:04:47 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id z8sm105575pjd.0.2021.03.04.12.04.02
+ by smtp.gmail.com with ESMTPSA id i11sm230936pfo.29.2021.03.04.12.04.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 12:04:03 -0800 (PST)
-Subject: Re: [PATCH 21/44] hw/arm/armsse: Use an array for apb_ppc fields in
- the state structure
+ Thu, 04 Mar 2021 12:04:47 -0800 (PST)
+Subject: Re: [PATCH 22/44] hw/arm/armsse: Add a define for number of IRQs used
+ by the SSE itself
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-22-peter.maydell@linaro.org>
+ <20210219144617.4782-23-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <40d696b4-3c72-1db5-ba12-6be803fa8ffd@linaro.org>
-Date: Thu, 4 Mar 2021 12:04:01 -0800
+Message-ID: <f27f0f65-d384-4bca-282c-bf13ff455c9f@linaro.org>
+Date: Thu, 4 Mar 2021 12:04:45 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-22-peter.maydell@linaro.org>
+In-Reply-To: <20210219144617.4782-23-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,10 +93,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/19/21 6:45 AM, Peter Maydell wrote:
-> Convert the apb_ppc0 and apb_ppc1 fields in the ARMSSE state struct
-> to use an array instead of two separate fields.  We already had one
-> place in the code that wanted to be able to refer to the PPC by
-> index, and we're about to add more code like that.
+> The SSE uses 32 interrupts for its own devices, and then passes through
+> its expansion IRQ inputs to the CPU's interrupts 33 and upward.
+> Add a define for the number of IRQs the SSE uses for itself, instead
+> of hardcoding 32.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
