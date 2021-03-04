@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6581732D0AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:29:00 +0100 (CET)
-Received: from localhost ([::1]:59536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ADB32D0AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:30:29 +0100 (CET)
+Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHlE3-0001DR-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:28:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
+	id 1lHlFU-000262-OL
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:30:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lHlAF-0006zF-Jz
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:25:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55784)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHlAz-0007Ok-MB
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:25:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lHlAD-0005Ok-5i
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:25:02 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHlAv-0005n6-EF
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:25:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614853499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dhJnHEMUbA/gFGRds5Kz7ihWFbobZqDoQ9kWt0GQy1g=;
- b=WSpd8mUiDhxkC9OdU+kG9iA96SQo4GVvGJ2c9LMn1CZVQXW68XnnVdgxISeyHvoUaPGasH
- Z5WHU74x2OsLgdgmi0vFLeWj4dA/lgiuu8V5RX9O+Aj6Xr8vmtZG5f0fc+8pvLggPYxbZV
- PmA1MaIPtHH2BwGat+sC6RJh7/PQ1Nk=
+ s=mimecast20190719; t=1614853544;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=4bhod+7WhIRCc7cv4pxr/w4RpKamjO2bMYSrLgi0pXc=;
+ b=TSYf7FDVnANLmoAxKDorvGIzYBijrf8bFaWyqQi7o4MFr/9nkY53PLR46Q1iWW11lXpdwX
+ 8K5/a0Z3z/aHeO2YBOVaKqTiXEuxgAXP1O0XcaU9viDAVm1xhWiqvsLfGGcmxH/a+n8bGs
+ 2nb1csCDRREAs3FjP7fdsrVGMRn8QoI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-PKtNAi5VOd2urTKRETlxbg-1; Thu, 04 Mar 2021 05:24:57 -0500
-X-MC-Unique: PKtNAi5VOd2urTKRETlxbg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-164-wez1hNQ_Ne6P4Pr7HH0A0Q-1; Thu, 04 Mar 2021 05:25:42 -0500
+X-MC-Unique: wez1hNQ_Ne6P4Pr7HH0A0Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AE88108BD06
- for <qemu-devel@nongnu.org>; Thu,  4 Mar 2021 10:24:56 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-208.ams2.redhat.com
- [10.36.114.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E9F110023B0;
- Thu,  4 Mar 2021 10:24:48 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	vgoyal@redhat.com,
-	stefanha@redhat.com
-Subject: [PATCH] virtiofs: drop remapped security.capability xattr as needed
-Date: Thu,  4 Mar 2021 10:24:45 +0000
-Message-Id: <20210304102445.22475-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04139108BD09;
+ Thu,  4 Mar 2021 10:25:41 +0000 (UTC)
+Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 121665FCC8;
+ Thu,  4 Mar 2021 10:25:35 +0000 (UTC)
+Date: Thu, 4 Mar 2021 10:25:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: QEMU RBD is slow with QCOW2 images
+Message-ID: <YEC1nQPYf4e5o8/j@redhat.com>
+References: <20210303174058.sdy5ygdfu75xy4rr@steredhat>
+ <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
+ <20210304085540.ivknwqwrvhko3vxg@steredhat>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210304085540.ivknwqwrvhko3vxg@steredhat>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,213 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Lieven <pl@kamp.de>, dillaman@redhat.com,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Thu, Mar 04, 2021 at 09:55:40AM +0100, Stefano Garzarella wrote:
+> On Wed, Mar 03, 2021 at 01:47:06PM -0500, Jason Dillaman wrote:
+> > On Wed, Mar 3, 2021 at 12:41 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> > > 
+> > > Hi Jason,
+> > > as reported in this BZ [1], when qemu-img creates a QCOW2 image on RBD
+> > > writing data is very slow compared to a raw file.
+> > > 
+> > > Comparing raw vs QCOW2 image creation with RBD I found that we use a
+> > > different object size, for the raw file I see '4 MiB objects', for QCOW2
+> > > I see '64 KiB objects' as reported on comment 14 [2].
+> > > This should be the main issue of slowness, indeed forcing in the code 4
+> > > MiB object size also for QCOW2 increased the speed a lot.
+> > > 
+> > > Looking better I discovered that for raw files, we call rbd_create()
+> > > with obj_order = 0 (if 'cluster_size' options is not defined), so the
+> > > default object size is used.
+> > > Instead for QCOW2, we use obj_order = 16, since the default
+> > > 'cluster_size' defined for QCOW2, is 64 KiB.
+> > > 
+> > > Using '-o cluster_size=2M' with qemu-img changed only the qcow2 cluster
+> > > size, since in qcow2_co_create_opts() we remove the 'cluster_size' from
+> > > QemuOpts calling qemu_opts_to_qdict_filtered().
+> > > For some reason that I have yet to understand, after this deletion,
+> > > however remains in QemuOpts the default value of 'cluster_size' for
+> > > qcow2 (64 KiB), that it's used in qemu_rbd_co_create_opts()
+> > > 
+> > > At this point my doubts are:
+> > > Does it make sense to use the same cluster_size as qcow2 as object_size
+> > > in RBD?
+> > 
+> > No, not really. But it also doesn't really make any sense to put a
+> > QCOW2 image within an RBD image. To clarify from the BZ, OpenStack
+> > does not put QCOW2 images on RBD, it converts QCOW2 images into raw
+> > images to store in RBD.
+> 
+> Yes, that was my doubt, thanks for the confirmation.
+> 
+> Also Daniel (+CC) confirmed me the same thing, but just to be complete he
+> added that there is a case where OpenStack could use qcow2 on RBD, but in
+> this case using in-kernel RBD, so the QEMU RBD is not involved.
+> 
+> > 
+> > > If we want to keep the 2 options separated, how can it be done? Should
+> > > we rename the option in block/rbd.c?
+> > 
+> > You can already pass overrides to the RBD block driver by just
+> > appending them after the
+> > "rbd:<filename>[:option1=value1[:option2=value2]]" portion, perhaps
+> > that could be re-used.
+> 
+> I see, we should extend qemu_rbd_parse_filename() to suppurt it.
 
-On Linux, the 'security.capability' xattr holds a set of
-capabilities that can change when an executable is run, giving
-a limited form of privilege escalation to those programs that
-the writer of the file deemed worthy.
+We shouldn't really be extending the legacy filename syntax.
+If we need extra options we want them in the QAPI schema for
+blockdev.
 
-Any write causes the 'security.capability' xattr to be dropped,
-stopping anyone from gaining privilege by modifying a blessed
-file.
+> Maybe if we don't want to support this configuration, we should print some
+> warning messages.
 
-Fuse relies on the daemon to do this dropping, and in turn the
-daemon relies on the host kernel to drop the xattr for it.  However,
-with the addition of -o xattrmap, the xattr that the guest
-stores its capabilities in is now not the same as the one that
-the host kernel automatically clears.
+Note these are separate layers in QEMU block layer. qcow2 is a format
+driver, while RBD is a protocol driver. QEMU lets any format driver be
+run on top of any protocol driver in general. In practice there are
+certain combinations that are more sane and commonly used than others,
+but QEMU doesn't document this or assign support level to pairing
+right now.
 
-Where the mapping changes 'security.capability', explicitly clear
-the remapped name to preserve the same behaviour.
 
-This bug is assigned CVE-2021-20263.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
----
- docs/tools/virtiofsd.rst         |  4 ++
- tools/virtiofsd/passthrough_ll.c | 77 +++++++++++++++++++++++++++++++-
- 2 files changed, 80 insertions(+), 1 deletion(-)
-
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 866b7db3ee..00554c75bd 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -228,6 +228,10 @@ The 'map' type adds a number of separate rules to add **prepend** as a prefix
- to the matched **key** (or all attributes if **key** is empty).
- There may be at most one 'map' rule and it must be the last rule in the set.
- 
-+Note: When the 'security.capability' xattr is remapped, the daemon has to do
-+extra work to remove it during many operations, which the host kernel normally
-+does itself.
-+
- xattr-mapping Examples
- ----------------------
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 58d24c0010..fc7e1b1e8e 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -148,6 +148,7 @@ struct lo_data {
-     int posix_lock;
-     int xattr;
-     char *xattrmap;
-+    char *xattr_security_capability;
-     char *source;
-     char *modcaps;
-     double timeout;
-@@ -217,6 +218,8 @@ static __thread bool cap_loaded = 0;
- 
- static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-                                 uint64_t mnt_id);
-+static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-+                            char **out_name);
- 
- static int is_dot_or_dotdot(const char *name)
- {
-@@ -356,6 +359,37 @@ out:
-     return ret;
- }
- 
-+/*
-+ * The host kernel normally drops security.capability xattr's on
-+ * any write, however if we're remapping xattr names we need to drop
-+ * whatever the clients security.capability is actually stored as.
-+ */
-+static int drop_security_capability(const struct lo_data *lo, int fd)
-+{
-+    if (!lo->xattr_security_capability) {
-+        /* We didn't remap the name, let the host kernel do it */
-+        return 0;
-+    }
-+    if (!fremovexattr(fd, lo->xattr_security_capability)) {
-+        /* All good */
-+        return 0;
-+    }
-+
-+    switch (errno) {
-+    case ENODATA:
-+        /* Attribute didn't exist, that's fine */
-+        return 0;
-+
-+    case ENOTSUP:
-+        /* FS didn't support attribute anyway, also fine */
-+        return 0;
-+
-+    default:
-+        /* Hmm other error */
-+        return errno;
-+    }
-+}
-+
- static void lo_map_init(struct lo_map *map)
- {
-     map->elems = NULL;
-@@ -737,6 +771,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-         uid_t uid = (valid & FUSE_SET_ATTR_UID) ? attr->st_uid : (uid_t)-1;
-         gid_t gid = (valid & FUSE_SET_ATTR_GID) ? attr->st_gid : (gid_t)-1;
- 
-+        saverr = drop_security_capability(lo, ifd);
-+        if (saverr) {
-+            goto out_err;
-+        }
-+
-         res = fchownat(ifd, "", uid, gid, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-         if (res == -1) {
-             saverr = errno;
-@@ -759,6 +798,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-             }
-         }
- 
-+        saverr = drop_security_capability(lo, truncfd);
-+        if (saverr) {
-+            if (!fi) {
-+                close(truncfd);
-+            }
-+            goto out_err;
-+        }
-+
-         if (kill_suidgid) {
-             res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
-             if (res != 0) {
-@@ -1784,6 +1831,13 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-         if (fd < 0) {
-             return -fd;
-         }
-+        if (fi->flags & (O_TRUNC)) {
-+            int err = drop_security_capability(lo, fd);
-+            if (err) {
-+                close(fd);
-+                return err;
-+            }
-+        }
-     }
- 
-     pthread_mutex_lock(&lo->mutex);
-@@ -2191,6 +2245,12 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-              "lo_write_buf(ino=%" PRIu64 ", size=%zd, off=%lu kill_priv=%d)\n",
-              ino, out_buf.buf[0].size, (unsigned long)off, fi->kill_priv);
- 
-+    res = drop_security_capability(lo_data(req), out_buf.buf[0].fd);
-+    if (res) {
-+        fuse_reply_err(req, res);
-+        return;
-+    }
-+
-     /*
-      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
-      * clearing setuid/setgid on file. Note, for WRITE, we need to do
-@@ -2432,6 +2492,7 @@ static void parse_xattrmap(struct lo_data *lo)
- {
-     const char *map = lo->xattrmap;
-     const char *tmp;
-+    int ret;
- 
-     lo->xattr_map_nentries = 0;
-     while (*map) {
-@@ -2462,7 +2523,7 @@ static void parse_xattrmap(struct lo_data *lo)
-              * the last entry.
-              */
-             parse_xattrmap_map(lo, map, sep);
--            return;
-+            break;
-         } else {
-             fuse_log(FUSE_LOG_ERR,
-                      "%s: Unexpected type;"
-@@ -2531,6 +2592,19 @@ static void parse_xattrmap(struct lo_data *lo)
-         fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
-         exit(1);
-     }
-+
-+    ret = xattr_map_client(lo, "security.capability",
-+                           &lo->xattr_security_capability);
-+    if (ret) {
-+        fuse_log(FUSE_LOG_ERR, "Failed to map security.capability: %s\n",
-+                strerror(ret));
-+        exit(1);
-+    }
-+    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
-+        /* 1-1 mapping, don't need to do anything */
-+        free(lo->xattr_security_capability);
-+        lo->xattr_security_capability = NULL;
-+    }
- }
- 
- /*
-@@ -3588,6 +3662,7 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
- 
-     free(lo->xattrmap);
-     free_xattrmap(lo);
-+    free(lo->xattr_security_capability);
-     free(lo->source);
- }
- 
+Regards,
+Daniel
 -- 
-2.29.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
