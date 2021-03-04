@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BCE32DD01
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:29:43 +0100 (CET)
-Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA77032DCF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:27:07 +0100 (CET)
+Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwTV-0005re-Va
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:29:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
+	id 1lHwR0-0001Dv-Me
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:27:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwES-0000gV-JH
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:08 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40196
+ id 1lHwEn-0001Mm-EI
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:29 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40240
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEQ-0006Y3-Rb
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:08 -0500
+ id 1lHwEk-0006g4-Ig
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:29 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEB-0008MJ-Nh; Thu, 04 Mar 2021 22:13:55 +0000
+ id 1lHwEU-0008MJ-8k; Thu, 04 Mar 2021 22:14:15 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:51 +0000
-Message-Id: <20210304221103.6369-31-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:10:55 +0000
+Message-Id: <20210304221103.6369-35-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 30/42] esp: add 4 byte PDMA read and write transfers
+Subject: [PATCH v3 34/42] esp: remove old deferred command completion mechanism
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,41 +63,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS toolbox ROM performs 4 byte reads/writes when transferring data to
-and from the target. Since the SCSI bus is 16-bits wide, use the memory API
-to split a 4 byte access into 2 x 2 byte accesses.
+Commit ea84a44250 "scsi: esp: Defer command completion until previous interrupts
+have been handled" provided a mechanism to delay the command completion interrupt
+until ESP_RINTR is read after the command has completed.
+
+With the previous fixes for latching the ESP_RINTR bits and deferring the setting
+of the command completion interrupt for incoming data to the SCSI callback, this
+workaround is no longer required and can be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/scsi/esp.c         | 35 +++++++++--------------------------
+ include/hw/scsi/esp.h |  4 ++--
+ 2 files changed, 11 insertions(+), 28 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 79b84e31d3..2dded90be6 100644
+index 0eecc1d05c..eb6681ca66 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -1002,7 +1002,9 @@ static const MemoryRegionOps sysbus_esp_pdma_ops = {
-     .write = sysbus_esp_pdma_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid.min_access_size = 1,
--    .valid.max_access_size = 2,
-+    .valid.max_access_size = 4,
-+    .impl.min_access_size = 1,
-+    .impl.max_access_size = 2,
+@@ -568,18 +568,20 @@ static void esp_do_dma(ESPState *s)
+     esp_lower_drq(s);
+ }
+ 
+-static void esp_report_command_complete(ESPState *s, uint32_t status)
++void esp_command_complete(SCSIRequest *req, size_t resid)
+ {
++    ESPState *s = req->hba_private;
++
+     trace_esp_command_complete();
+     if (s->ti_size != 0) {
+         trace_esp_command_complete_unexpected();
+     }
+     s->ti_size = 0;
+     s->async_len = 0;
+-    if (status) {
++    if (req->status) {
+         trace_esp_command_complete_fail();
+     }
+-    s->status = status;
++    s->status = req->status;
+     s->rregs[ESP_RSTAT] = STAT_ST;
+     esp_dma_done(s);
+     esp_lower_drq(s);
+@@ -590,23 +592,6 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
+     }
+ }
+ 
+-void esp_command_complete(SCSIRequest *req, size_t resid)
+-{
+-    ESPState *s = req->hba_private;
+-
+-    if (s->rregs[ESP_RSTAT] & STAT_INT) {
+-        /*
+-         * Defer handling command complete until the previous
+-         * interrupt has been handled.
+-         */
+-        trace_esp_command_complete_deferred();
+-        s->deferred_status = req->status;
+-        s->deferred_complete = true;
+-        return;
+-    }
+-    esp_report_command_complete(s, req->status);
+-}
+-
+ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+ {
+     ESPState *s = req->hba_private;
+@@ -733,10 +718,6 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+         s->rregs[ESP_RSEQ] = SEQ_0;
+         esp_lower_irq(s);
+-        if (s->deferred_complete) {
+-            esp_report_command_complete(s, s->deferred_status);
+-            s->deferred_complete = false;
+-        }
+         break;
+     case ESP_TCHI:
+         /* Return the unique id if the value has never been written */
+@@ -944,8 +925,10 @@ const VMStateDescription vmstate_esp = {
+         VMSTATE_UINT32(ti_wptr, ESPState),
+         VMSTATE_BUFFER(ti_buf, ESPState),
+         VMSTATE_UINT32(status, ESPState),
+-        VMSTATE_UINT32(deferred_status, ESPState),
+-        VMSTATE_BOOL(deferred_complete, ESPState),
++        VMSTATE_UINT32_TEST(mig_deferred_status, ESPState,
++                            esp_is_before_version_5),
++        VMSTATE_BOOL_TEST(mig_deferred_complete, ESPState,
++                          esp_is_before_version_5),
+         VMSTATE_UINT32(dma, ESPState),
+         VMSTATE_PARTIAL_BUFFER(cmdbuf, ESPState, 16),
+         VMSTATE_BUFFER_START_MIDDLE_V(cmdbuf, ESPState, 16, 4),
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index 61bc317a4c..7d88fa0f92 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -30,8 +30,6 @@ struct ESPState {
+     int32_t ti_size;
+     uint32_t ti_rptr, ti_wptr;
+     uint32_t status;
+-    uint32_t deferred_status;
+-    bool deferred_complete;
+     uint32_t dma;
+     uint8_t ti_buf[TI_BUFSZ];
+     SCSIBus bus;
+@@ -57,6 +55,8 @@ struct ESPState {
+ 
+     /* Legacy fields for vmstate_esp version < 5 */
+     uint32_t mig_dma_left;
++    uint32_t mig_deferred_status;
++    bool mig_deferred_complete;
  };
  
- static const struct SCSIBusInfo esp_scsi_info = {
-@@ -1049,7 +1051,7 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
-                           sysbus, "esp-regs", ESP_REGS << sysbus->it_shift);
-     sysbus_init_mmio(sbd, &sysbus->iomem);
-     memory_region_init_io(&sysbus->pdma, OBJECT(sysbus), &sysbus_esp_pdma_ops,
--                          sysbus, "esp-pdma", 2);
-+                          sysbus, "esp-pdma", 4);
-     sysbus_init_mmio(sbd, &sysbus->pdma);
- 
-     qdev_init_gpio_in(dev, sysbus_esp_gpio_demux, 2);
+ #define TYPE_SYSBUS_ESP "sysbus-esp"
 -- 
 2.20.1
 
