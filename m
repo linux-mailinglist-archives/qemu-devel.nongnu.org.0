@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A4632CF7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 10:19:28 +0100 (CET)
-Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878EF32CFB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 10:33:32 +0100 (CET)
+Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHk8l-0007wh-2a
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 04:19:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
+	id 1lHkMM-0002On-92
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 04:33:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lHk81-0007P4-DT; Thu, 04 Mar 2021 04:18:41 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lHk7y-0000R5-7z; Thu, 04 Mar 2021 04:18:40 -0500
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Drlbp4SLgz5Rhx;
- Thu,  4 Mar 2021 17:16:22 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Thu, 4 Mar 2021 17:18:31 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Thu, 4 Mar 2021 17:18:31 +0800
-Subject: Re: [RFC v8 03/28] header update against 5.11-rc2 and IOMMU/VFIO
- nested stage APIs
-To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
- <mst@redhat.com>, <alex.williamson@redhat.com>,
- <jacob.jun.pan@linux.intel.com>, <yi.l.liu@intel.com>
-References: <20210225105233.650545-1-eric.auger@redhat.com>
- <20210225105233.650545-4-eric.auger@redhat.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <86012513-a748-1d1f-a6f7-a2faafc3119e@huawei.com>
-Date: Thu, 4 Mar 2021 17:18:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lHkLP-0001yV-0I
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 04:32:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lHkLL-00077Y-Kf
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 04:32:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614850345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xw44eYHvOwXx4IiaQTEVJiukTO8yhHkPjbFFfx+28Cw=;
+ b=YNwTPkAqcYNumG+ZD4o4iD1h+u8UkJWkdbsSJvg4sYNS2QfCyvV7GQjRDvYWRGQKozMb6F
+ pGxQNrfKTEpsxXQRdNHEyEgsSkfp7TTP9jA3P6KIGfShc8Frdb+QNM5ij+8+321XEvtCPC
+ jKWwsFG1hCMbntyBvUV8ner2/c+DDrM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-ND75OaX6MrGqp1JA0ifUCg-1; Thu, 04 Mar 2021 04:32:23 -0500
+X-MC-Unique: ND75OaX6MrGqp1JA0ifUCg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9310B83DD20;
+ Thu,  4 Mar 2021 09:32:22 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-64.pek2.redhat.com
+ [10.72.12.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4708019C48;
+ Thu,  4 Mar 2021 09:32:11 +0000 (UTC)
+Subject: Re: [PATCH v1] vhost-vdpa: Set discarding of RAM broken when
+ initializing the backend
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Xie Yongji <xieyongji@bytedance.com>
+References: <20210302162129.52912-1-david@redhat.com>
+ <81c675cd-1573-7555-7d20-07b0ed950ebb@redhat.com>
+ <886ed3b7-e48c-7200-e5e6-ce8b0adc589c@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <e8916626-4dfd-f8a1-0028-771f27882632@redhat.com>
+Date: Thu, 4 Mar 2021 17:32:09 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210225105233.650545-4-eric.auger@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+In-Reply-To: <886ed3b7-e48c-7200-e5e6-ce8b0adc589c@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,85 +87,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
- Keqian Zhu <zhukeqian1@huawei.com>, zhangfei.gao@foxmail.com,
- peterx@redhat.com, shameerali.kolothum.thodi@huawei.com,
- wanghaibin.wang@huawei.com, yuzenghui@huawei.com, zhangfei.gao@linaro.org,
- will@kernel.org
+Cc: Cindy Lu <lulu@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/2/25 18:52, Eric Auger wrote:
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->   .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    |  14 +-
->   linux-headers/linux/iommu.h                   | 395 ++++++++++++++++++
->   linux-headers/linux/vfio.h                    | 141 ++++++-
->   3 files changed, 542 insertions(+), 8 deletions(-)
->   create mode 100644 linux-headers/linux/iommu.h
+
+On 2021/3/3 6:26 下午, David Hildenbrand wrote:
+> On 03.03.21 03:53, Jason Wang wrote:
+>>
+>> On 2021/3/3 12:21 上午, David Hildenbrand wrote:
+>>> Similar to VFIO, vDPA will go ahead an map+pin all guest memory. Memory
+>>> that used to be discarded will get re-populated and if we
+>>> discard+re-access memory after mapping+pinning, the pages mapped 
+>>> into the
+>>> vDPA IOMMU will go out of sync with the actual pages mapped into the 
+>>> user
+>>> space page tables.
+>>>
+>>> Set discarding of RAM broken such that:
+>>> - virtio-mem and vhost-vdpa run mutually exclusive
+>>> - virtio-balloon is inhibited and no memory discards will get issued
+>>>
+>>> In the future, we might be able to support coordinated discarding of 
+>>> RAM
+>>> as used by virtio-mem and as planned for VFIO.
+>>>
+>>> Cc: Jason Wang <jasowang@redhat.com>
+>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>>> Cc: Cindy Lu <lulu@redhat.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>
+>>
+>> Acked-by: Jason Wang <jasowang@redhat.com>
+>>
+>>
+>>> ---
+>>>
+>>> Note: I was not actually able to reproduce/test as I fail to get the
+>>> vdpa_sim/vdpa_sim_net running on upstream Linux (whetever vdpa, 
+>>> vhost_vdpa,
+>>> vdpa_sim, vdpa_sim_net modules I probe, and in which order, no vdpa 
+>>> devices
+>>> appear under /sys/bus/vdpa/devices/ or /dev/).
+>>
+>>
+>> The device creation was switched to use vdpa tool that is integrated
+>> with iproue2[1].
+>>
+>> [1]
+>> https://git.kernel.org/pub/scm/network/iproute2/iproute2-next.git/commit/?id=143610383da51e1f868c6d5a2a5e2fb552293d18 
+>>
 >
-> diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> index 7b4062a1a1..acd4c8346d 100644
-> --- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> +++ b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> @@ -68,7 +68,7 @@ static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
->   
->   static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
->   {
-> -	const unsigned int idx = qatomic_read(var);
-> +	const unsigned int idx = atomic_read(var);
->   
->   	if (pvrdma_idx_valid(idx, max_elems))
->   		return idx & (max_elems - 1);
-> @@ -77,17 +77,17 @@ static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
->   
->   static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
->   {
-> -	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
-> +	uint32_t idx = atomic_read(var) + 1;	/* Increment. */
->   
->   	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
-> -	qatomic_set(var, idx);
-> +	atomic_set(var, idx);
->   }
->   
->   static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
->   					      uint32_t max_elems, uint32_t *out_tail)
->   {
-> -	const uint32_t tail = qatomic_read(&r->prod_tail);
-> -	const uint32_t head = qatomic_read(&r->cons_head);
-> +	const uint32_t tail = atomic_read(&r->prod_tail);
-> +	const uint32_t head = atomic_read(&r->cons_head);
->   
->   	if (pvrdma_idx_valid(tail, max_elems) &&
->   	    pvrdma_idx_valid(head, max_elems)) {
-> @@ -100,8 +100,8 @@ static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
->   static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
->   					     uint32_t max_elems, uint32_t *out_head)
->   {
-> -	const uint32_t tail = qatomic_read(&r->prod_tail);
-> -	const uint32_t head = qatomic_read(&r->cons_head);
-> +	const uint32_t tail = atomic_read(&r->prod_tail);
-> +	const uint32_t head = atomic_read(&r->cons_head);
->   
->   	if (pvrdma_idx_valid(tail, max_elems) &&
->   	    pvrdma_idx_valid(head, max_elems)) {
-The atomic_ has been renamed to qatomic_ in the patch d73415a3154.
-It seems that the pvrdma_ring.h doesn't need to be updated.
+> It would be great to document that somewhere if not already done. I 
+> only found older RH documentations that were not aware of that. I'll 
+> give it a try - thanks!
 
-Best Regards.
 
-Kunkun Jiang
+Will think about this. Which RH doc do you refer here? Is this the 
+redhat blog?
 
-> diff --git a/linux-headers/linux/iommu.h b/linux-headers/linux/iommu.h
-> new file mode 100644
-> index 0000000000..0a6326bd36
-> --- /dev/null
-> +++ b/linux-headers/linux/iommu.h
-[...]
->   /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
->   
->   /*
+
+>
+>>
+>>
+>>>
+>>> ---
+>>>    hw/virtio/vhost-vdpa.c | 13 +++++++++++++
+>>>    1 file changed, 13 insertions(+)
+>>>
+>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>> index 01d2101d09..86058d4041 100644
+>>> --- a/hw/virtio/vhost-vdpa.c
+>>> +++ b/hw/virtio/vhost-vdpa.c
+>>> @@ -278,6 +278,17 @@ static int vhost_vdpa_init(struct vhost_dev 
+>>> *dev, void *opaque)
+>>>        uint64_t features;
+>>>        assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+>>>        trace_vhost_vdpa_init(dev, opaque);
+>>> +    int ret;
+>>> +
+>>> +    /*
+>>> +     * Similar to VFIO, we end up pinning all guest memory and have to
+>>> +     * disable discarding of RAM.
+>>> +     */
+>>> +    ret = ram_block_discard_disable(true);
+>>> +    if (ret) {
+>>> +        error_report("Cannot set discarding of RAM broken");
+>>> +        return ret;
+>>> +    }
+>>
+>>
+>> vDPA will support non pinning (shared VM) backend soon[2]. So I guess we
+>> need a flag to be advertised to usersapce then we can conditionly enable
+>> the discard here.
+>
+> I thought that was already the default (because I stumbled over 
+> enforcing guest IOMMU) but was surprised when I had a look at the 
+> implementation.
+>
+> Having a flag sounds good.
+>
+> BTW: I assume iommu support is not fully working yet, right? I don't 
+> see special casing for iommu regions, including registering the 
+> listener and updating the mapping.
+
+
+It's not yet implemented. Yes, it's something like what VFIO did right 
+now, e.g to use IOMMU notifiers.
+
+Thanks
 
 
 
