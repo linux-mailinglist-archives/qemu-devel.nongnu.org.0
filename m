@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA65F32DCD3
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:16:40 +0100 (CET)
-Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0154C32DCDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:18:15 +0100 (CET)
+Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwGs-0002bO-FX
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:16:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
+	id 1lHwIP-00050w-Tf
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:18:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwCK-0005Jl-I4
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:56 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39962
+ id 1lHwCL-0005Mn-U2
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:57 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39970
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwCG-0005iU-QJ
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:56 -0500
+ id 1lHwCK-0005kI-Ee
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:57 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwCA-0008MJ-TJ; Thu, 04 Mar 2021 22:11:51 +0000
+ id 1lHwCF-0008MJ-F0; Thu, 04 Mar 2021 22:11:55 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:28 +0000
-Message-Id: <20210304221103.6369-8-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:10:29 +0000
+Message-Id: <20210304221103.6369-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 07/42] esp: add PDMA trace events
+Subject: [PATCH v3 08/42] esp: determine transfer direction directly from SCSI
+ phase
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,70 +65,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will become more useful later when trying to debug mixed FIFO and PDMA
-requests.
+The transfer direction is currently determined by checking the sign of ti_size
+but as this series progresses ti_size can be zero at the end of the transfer.
+
+Use the SCSI phase to determine the transfer direction as used in other SCSI
+controller implementations.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c        | 6 ++++++
- hw/scsi/trace-events | 4 ++++
- 2 files changed, 10 insertions(+)
+ hw/scsi/esp.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 16c1853577..e0676ae790 100644
+index e0676ae790..5365523f6b 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -63,11 +63,13 @@ static void esp_lower_irq(ESPState *s)
- static void esp_raise_drq(ESPState *s)
+@@ -356,7 +356,7 @@ static void esp_dma_done(ESPState *s)
+ 
+ static void do_dma_pdma_cb(ESPState *s)
  {
-     qemu_irq_raise(s->irq_data);
-+    trace_esp_raise_drq();
- }
- 
- static void esp_lower_drq(ESPState *s)
+-    int to_device = (s->ti_size < 0);
++    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
+     int len = s->pdma_cur - s->pdma_start;
+     if (s->do_cmd) {
+         s->ti_size = 0;
+@@ -392,7 +392,7 @@ static void do_dma_pdma_cb(ESPState *s)
+ static void esp_do_dma(ESPState *s)
  {
-     qemu_irq_lower(s->irq_data);
-+    trace_esp_lower_drq();
- }
+     uint32_t len;
+-    int to_device;
++    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
  
- void esp_dma_enable(ESPState *s, int irq, int level)
-@@ -885,6 +887,8 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-     uint32_t dmalen;
-     uint8_t *buf = get_pdma_buf(s);
- 
-+    trace_esp_pdma_write(size);
-+
-     dmalen = s->rregs[ESP_TCLO];
-     dmalen |= s->rregs[ESP_TCMID] << 8;
-     dmalen |= s->rregs[ESP_TCHI] << 16;
-@@ -922,6 +926,8 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-     uint8_t *buf = get_pdma_buf(s);
-     uint64_t val = 0;
- 
-+    trace_esp_pdma_read(size);
-+
-     if (s->pdma_len == 0) {
-         return 0;
+     len = s->dma_left;
+     if (s->do_cmd) {
+@@ -425,7 +425,6 @@ static void esp_do_dma(ESPState *s)
+     if (len > s->async_len) {
+         len = s->async_len;
      }
-diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-index 6269547266..1c331fb189 100644
---- a/hw/scsi/trace-events
-+++ b/hw/scsi/trace-events
-@@ -159,8 +159,12 @@ esp_error_unhandled_command(uint32_t val) "unhandled command (0x%2.2x)"
- esp_error_invalid_write(uint32_t val, uint32_t addr) "invalid write of 0x%02x at [0x%x]"
- esp_raise_irq(void) "Raise IRQ"
- esp_lower_irq(void) "Lower IRQ"
-+esp_raise_drq(void) "Raise DREQ"
-+esp_lower_drq(void) "Lower DREQ"
- esp_dma_enable(void) "Raise enable"
- esp_dma_disable(void) "Lower enable"
-+esp_pdma_read(int size) "pDMA read %u bytes"
-+esp_pdma_write(int size) "pDMA write %u bytes"
- esp_get_cmd(uint32_t dmalen, int target) "len %d target %d"
- esp_do_busid_cmd(uint8_t busid) "busid 0x%x"
- esp_handle_satn_stop(uint32_t cmdlen) "cmdlen %d"
+-    to_device = (s->ti_size < 0);
+     if (to_device) {
+         if (s->dma_memory_read) {
+             s->dma_memory_read(s->dma_opaque, s->async_buf, len);
 -- 
 2.20.1
 
