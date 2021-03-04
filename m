@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD2C32D5D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:04:07 +0100 (CET)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92D832D5FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:07:37 +0100 (CET)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHpWI-0007uj-5U
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:04:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60512)
+	id 1lHpZg-00038G-PI
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:07:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=690dc056c=alistair.francis@wdc.com>)
- id 1lHpHe-0002PJ-VB
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:48:58 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:44459)
+ id 1lHpHg-0002Sy-98
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:49:00 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:44463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=690dc056c=alistair.francis@wdc.com>)
- id 1lHpHd-0007sK-8d
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:48:58 -0500
+ id 1lHpHe-0007up-Ht
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:48:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1614869337; x=1646405337;
+ t=1614869338; x=1646405338;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ws7/YnKOyQ3gfRMjK/cpAOID7eR8r2Z1YDvYuCmlKfc=;
- b=UbRYG0PEtobrxnUMoJJSOs6cl1/42oR7RSGCI1jMYVYjw+d0jfT9ynx2
- DdwtrkisdUNegtVf7cbiilD8FEPObpYbpo8dHUTN9aBF1bNuN0HLHKvQH
- mopsjTWv12CNvo6PXlfRAtLHpuJ//jDvzkT1eHpOc0bkcl85ulk+6wX5+
- Wyid5wPtgrJUQlWH3Az+8mCHmiMBth3ilqpeMCUZe0/GRhKRGAMptPPlw
- xqvBfUw2YLPIXDOyT2TFKtTX+lEXgSMUAaVippI8nSXK6lboaoBtGmKGZ
- K8lF+b7muMt+A9kXB3gOSBWJSpp+NASWTmDr2jmgZK87HkWFn3UZ7IGVU w==;
-IronPort-SDR: FKbjEa7BXKdT2vnKC0uCK6kgnEeMXfGVQWTuwnOKqp15YBLze6asrapl5Y6r1fSigo/0OznGv1
- WUsvHfJfEFS37+/JI6/vLdArIEB65wD/74rlgXbCFvl6b/1SM/XjeaF/bHqyCuBqex38Kx6vDv
- Lgrte638Pla1f+7xItUIDqld0h9E4q+jaKOa83RBEEg59CSJvkVskKOm2HgFvbvas434TqYu2R
- MUXDAcjpXUFYoxz1D3YVjAFqcIi5DftyUG8ciCtxuKBYuOqCj31iMhC4nDtMhNC5ugBPWa7CXD
- KRM=
-X-IronPort-AV: E=Sophos;i="5.81,222,1610380800"; d="scan'208";a="271984433"
+ bh=IP2HN1eQBL39bp3vkwJRHZffXjaUEFOkfWY03vX1wLE=;
+ b=gGKfrbSTljaH3lzulgsp+pZSshKw+DDCfm4GkuODDJlOXX9/RRsSucvi
+ rbwpa80hqshuP/rMyt4sHnOh0AKOO4JRv1SD8CLxU7z+ey/qLvmphIiti
+ OBjfiAWINouHPlU1pkSEKnxYk8j2rJaNrPQ42dbSJR0IpoY6ITg0IVI3E
+ XugOT0PngngJhQxkVU890gNp8Be0B6DlbgQcuZsNnpNOSsELtETMKHi0o
+ vVfvnM7Pmp0mRFD27pCrST6hOYaZ+xdhNuqaHqLz/nMOngwXGqOW0DqwS
+ YDEqaozFwWuEwOZ3RUvaoSTyz+GSWa+0FTZdXiZRanEHBX1Nbvi5dOVgM w==;
+IronPort-SDR: xNrB2GaY9TshXkWbC/uwKtPc0XqJlb1QjYg8S1dJT8XQ7thaXqhYfKce3OiD2dwGN+hyhALbZg
+ 02vMUmZfjP790S9OdaJqbauFWf2msSW2J5Fythb/rgYJC1bAq8qaYNbH3SRibtZUFVrHU3rvCm
+ 25hDBcDJasg56d73NlnJlonjPgXhqo+DumuEwJftRl7AcXufLZC2U60mXvjw8r1g8xj1ibjDLp
+ qfN7I5+gGBiJDu7kxHix3qD2liv0E9c/fFOZTDAIqga4yLMYJwxAV/YiAWWuG+XggJrZN/Edm8
+ TQE=
+X-IronPort-AV: E=Sophos;i="5.81,222,1610380800"; d="scan'208";a="271984434"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Mar 2021 22:48:26 +0800
-IronPort-SDR: W25N4xG/fYT2QtHewt7A5TFWAgkPvwFqvogYkipmlZnVd8R63+cRfgbcU38+asfOZWPUxquQ8x
- 6Jb4nLInUTzfYRnEetncSSqhA0aNMNYrN9wi6NoEfiEaC9VTZ6jsD5bnoPJFhj+VdvNm9S1AgF
- AO2m0lfxog47nJyML2RP38haOC8B24PGZbu6ORhnOUnL2YJ/an/G4IbQniO/EEk56rExkzhmS8
- YDLxDviwFgBsqmjGbNN0X30lLKDu4zLaeMY3XStMLObD2KANtq0CQmXIz+b2kJKRUTxZ0k0OTL
- rGDBvMztzkgDsh0Riz9umvG5
+ by ob1.hgst.iphmx.com with ESMTP; 04 Mar 2021 22:48:27 +0800
+IronPort-SDR: jTRuk3WEc935SAYBIHabaFYcQSbEHP2DDlrBPfNcexylOTmlnPfaZjrgjIwMvhRIwtBnQPDhV1
+ 0r/rUXOYPd6+ZYxpvQNbdkdEG6Zk5KrY4qA5fsvtfVGAGz0PIZCYfa9seHd6zAL8Pd3QRILuj6
+ kESgVGxxmDo0PcZV/g9KHbhjjFilymJrri8roTdT5Kxv9YcQJcH7O2y5dz+6qNg/9U3FGdbfHU
+ 22NsNORI7WVA18AG5/y4X+TUXEeaeqVfTDSCWhLr2sFWvW87SWmuuZmjsWUNhhwZE+SS+XX/ra
+ yqZqiR1eqbAZfYG/OWpedUeW
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2021 06:29:39 -0800
-IronPort-SDR: ilEIZ4/DD9UdUFqbL1Ibu/vdy6F1rESX/3BEGswAsBAPy8oAsCnFjAjyCpcSIQAQU0IoLanIYk
- QJSC8wNQ/X9s538+a0AwIjfc2GZijsZ2xXQ5ioUyIUT1EiaPPJY+Cp8TMtu6ZcCZCrp5UESvYx
- W+nGZVx5OTLxY6EvZxYNK7pybyoRjlKq35SwxPl2hhBpBdN7Kc4w6Flx9MgqvNG10XlXV/shTi
- 3DXNeiQjH5JgsQZVd4A8dDRnIzGpViZpmKqkcmL1JtkdJYjyB8jP8M4G9xP6niYgZR66EaHKY+
- Gto=
+ 04 Mar 2021 06:29:41 -0800
+IronPort-SDR: 71LL6ckqlHL5EpqfUTzEj/Akua2z/Baj4MKkvlMePbJhjoDd7FN93/G4j/O6VAAHRgoda0/sy7
+ OiX6Sfo+o3489vkSc+vTAYRrBqqiRCU/bx4jHKw5WO8yDQEe8LlvqIVbAX5KG0ndQAJvRjFo+U
+ jDDgvZE26V2Y5+SIIKlBvTXrKQADP6eNh3Uyk+yIkxto5AxUYP5YcMwuFfzgQ55tIcJYAzsdw8
+ PmM4iOxjHk886gn83ssAvglifUnSwvU/dkGHkESx+Kl5Cw7wTLtMGynLu/PgagG7KR74gWXxcT
+ 6LQ=
 WDCIronportException: Internal
 Received: from cnf008142.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.109])
- by uls-op-cesaip01.wdc.com with ESMTP; 04 Mar 2021 06:48:26 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 04 Mar 2021 06:48:27 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 17/19] hw/riscv: virt: Drop the 'link_up' parameter of
- gpex_pcie_init()
-Date: Thu,  4 Mar 2021 09:46:49 -0500
-Message-Id: <20210304144651.310037-18-alistair.francis@wdc.com>
+Subject: [PULL v2 18/19] hw/riscv: virt: Limit RAM size in a 32-bit system
+Date: Thu,  4 Mar 2021 09:46:50 -0500
+Message-Id: <20210304144651.310037-19-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210304144651.310037-1-alistair.francis@wdc.com>
 References: <20210304144651.310037-1-alistair.francis@wdc.com>
@@ -99,48 +98,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-`link_up` is never used in gpex_pcie_init(). Drop it.
+RV32 supports 34-bit physical address hence the maximum RAM size
+should be limited. Limit the RAM size to 10 GiB, which leaves
+some room for PCIe high mmio space.
+
+For 32-bit host, this is not needed as machine->ram_size cannot
+represent a RAM size that big. Use a #if size test to only do
+the size limitation for the 64-bit host.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210220144807.819-3-bmeng.cn@gmail.com
+Message-id: 20210220144807.819-4-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/riscv/virt.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index cfd52bc59b..1d05bb3ef9 100644
+index 1d05bb3ef9..c4b8f455f8 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -449,7 +449,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                                           hwaddr ecam_base, hwaddr ecam_size,
-                                           hwaddr mmio_base, hwaddr mmio_size,
-                                           hwaddr pio_base,
--                                          DeviceState *plic, bool link_up)
-+                                          DeviceState *plic)
- {
-     DeviceState *dev;
-     MemoryRegion *ecam_alias, *ecam_reg;
-@@ -669,12 +669,12 @@ static void virt_machine_init(MachineState *machine)
+@@ -590,6 +590,16 @@ static void virt_machine_init(MachineState *machine)
+         }
      }
  
-     gpex_pcie_init(system_memory,
--                         memmap[VIRT_PCIE_ECAM].base,
--                         memmap[VIRT_PCIE_ECAM].size,
--                         memmap[VIRT_PCIE_MMIO].base,
--                         memmap[VIRT_PCIE_MMIO].size,
--                         memmap[VIRT_PCIE_PIO].base,
--                         DEVICE(pcie_plic), true);
-+                   memmap[VIRT_PCIE_ECAM].base,
-+                   memmap[VIRT_PCIE_ECAM].size,
-+                   memmap[VIRT_PCIE_MMIO].base,
-+                   memmap[VIRT_PCIE_MMIO].size,
-+                   memmap[VIRT_PCIE_PIO].base,
-+                   DEVICE(pcie_plic));
- 
-     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
-         0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
++    if (riscv_is_32bit(&s->soc[0])) {
++#if HOST_LONG_BITS == 64
++        /* limit RAM size in a 32-bit system */
++        if (machine->ram_size > 10 * GiB) {
++            machine->ram_size = 10 * GiB;
++            error_report("Limiting RAM size to 10 GiB");
++        }
++#endif
++    }
++
+     /* register system main memory (actual RAM) */
+     memory_region_init_ram(main_mem, NULL, "riscv_virt_board.ram",
+                            machine->ram_size, &error_fatal);
 -- 
 2.30.1
 
