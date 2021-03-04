@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDA332DB39
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:33:31 +0100 (CET)
-Received: from localhost ([::1]:47096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EDB32DB3E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:37:29 +0100 (CET)
+Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHuf4-0007J6-Up
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:33:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
+	id 1lHuiu-0001qO-34
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:37:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuYa-00024d-JX
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:26:49 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42530)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHuZZ-0003dx-V2; Thu, 04 Mar 2021 15:27:49 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuYX-0001HB-TI
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:26:48 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id o38so19639807pgm.9
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 12:26:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=dadidNNwg6C4uwntvqv8rWVDz4L5aFgOmUZdv8nJOQs=;
- b=U6Dkm4WOSeON8E0+ZvwvUjVWuGhWG5IRbveKawkgNLAfNdzm+YZvt2Re9HuDdVn+6a
- Y2eyqZPDwNepY1YN2ujynlIeQNunLa1mFigG/bvLf56E0uD1/6beClmGHZndSQo9hKzU
- FrOdqcm3IG29tDZwZkD2hX7klhXsCyb7HOnTjlV22PjwxuTVs0RCcKrKK6K8ruP18gFk
- 4oU+FVdEGOENh5NNV2QVVriH9rlx71Wzr4x6k2UKFGS4tt4XlovIFYyNGOIZUYXcRuIz
- OMMrNMZsFTXYLJpBxGS5vpaVqQmaUShR3uCc8//pejYSuz9O4JcNM42i5CkU1Bu7Wr9X
- PaUw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHuZY-0001ix-17; Thu, 04 Mar 2021 15:27:49 -0500
+Received: by mail-wm1-x336.google.com with SMTP id m1so10936261wml.2;
+ Thu, 04 Mar 2021 12:27:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Sc7t1qfwYs9nhEVsjbIblSWqBYzD08FF17LKGQ95SSo=;
+ b=e5Pea3luIoHrjbUbIcyMlu1CIxn/gHnuSpX29XSCFRaaELJyYFx/2cczdpP4Ab1JHl
+ /m9b3kWNx27cFdfuXrkTGzEjsW+Q/41iRBmlHrv6b9E9oGIA3Z2g855X9u3UWff1L7FV
+ 0vYjansH3LrpFbdeZA/UxIOyipf+3oR4klhfTSJhBBTZZDVihLwtyTTIfzBPH4J8adZG
+ zpoq9DUBHT1IKM69gbMwpgYZf5KSof3o4YGxUzjdAqtZusgq5o/4sRMH6w8Nyafp0S2J
+ EBJsnCwoiL3fApZBYe1dn+Utj7nNwqgB2IgtZgDMjM7pmcXUAjUQv6B2QDkwpyypAjFm
+ S6aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dadidNNwg6C4uwntvqv8rWVDz4L5aFgOmUZdv8nJOQs=;
- b=BZVNanq2byU8BnjoGag0BUl/8KptoZmKbX8CztRWtlD/zrwZ+fmqsZDLG7c6VBl+jj
- ao+q/oFyn1WNHP+MhrASPNngX3FupKwB49WwsTv2/ekVCVrc72i49PRoIlqDd3LBmK5u
- aqXiPOWNAlf6SK2efE+wYKmtcwPEOk2OeURtgBJtQmGfDDn3/r7L8t6fSqMF604z+w4c
- pKaPZqp+BPDXaKJztb7Pxl7APj5FMJ/E2zDkLxXDDxw7Iq+ZIckiWLMOkZ2i0TpukH5H
- 0M8gBGAGpu7P0QPI+/oltEqouSJD4yQJCGNgnDbkZgzUX8zZl2irhJ3z/ZL3YyYwWxgU
- c9Tg==
-X-Gm-Message-State: AOAM533mixGqXMR6E84Lu5/knGKZjLbEn8mPwCAAP//0JLmRSfsF+D0S
- Xq3rXHpgzsns2sUIJtuIQReBKoZnLpLRrw==
-X-Google-Smtp-Source: ABdhPJxx8qPcDfPeb8EgkKuW8PSWo6Z4JT5nfc0xZB4IKD70KhXpeVI6M4hm/q2f9thlHpJaVpq76Q==
-X-Received: by 2002:a62:2acf:0:b029:1ed:5dbb:717a with SMTP id
- q198-20020a622acf0000b02901ed5dbb717amr5239950pfq.39.1614889604400; 
- Thu, 04 Mar 2021 12:26:44 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id y202sm224201pfb.153.2021.03.04.12.26.43
+ bh=Sc7t1qfwYs9nhEVsjbIblSWqBYzD08FF17LKGQ95SSo=;
+ b=IYlzo7IJm6L/0k39vp34CqUbYFINGGnv64+k5SPv9AYskndfFGnpD3lRoXmeqkKdXd
+ 3QQN+VyTqUv20bOp4kJfg3TFADviEx7QsKD6APiheeyUeTmLZmYVJhW+0+sJxeojRtlN
+ bURs/RPWHk+dCcpKZMV+feN3sO2jf11E7GxjdDM2BWtfQEQhCzrqbRDaLB8pvzzs2HEm
+ UZDUnEj3CjU1quAyfdfXYiyT/SzboKfb624a8CfBJPuRBWO3pNISckVkoLOqo6Pa+INZ
+ c7vKzAl8PZWcw07dwHmxo0y2nk2Iy+HzD2tB3ZAV3MO5aj2XhIiB30bQLFM9WZvpS+ru
+ KlzQ==
+X-Gm-Message-State: AOAM530LrFG7FxV2fnMNLpSRsTT9aBRf6B7LsXfIAvlpVLDpSSAVkIBK
+ Rjh7ga+SV+PWM4NSDRa/ggQkipu5/b4=
+X-Google-Smtp-Source: ABdhPJxkHjYSF8oZ/bItZz69g9JtHpwttzE2XfTuISkVssvrEUPKiHjuH02dmM07qlRcuA0i4w9pLA==
+X-Received: by 2002:a05:600c:6d4:: with SMTP id
+ b20mr5685624wmn.142.1614889666014; 
+ Thu, 04 Mar 2021 12:27:46 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id j20sm804044wmp.30.2021.03.04.12.27.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 12:26:43 -0800 (PST)
-Subject: Re: [PATCH 31/44] hw/arm/armsse: Indirect irq_is_common[] through
- ARMSSEInfo
+ Thu, 04 Mar 2021 12:27:45 -0800 (PST)
+Subject: Re: [PATCH 40/44] hw/arm/mps2-tz: Support running APB peripherals on
+ different clock
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-32-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <64d49b5e-3c0d-cc56-a498-a346c7766851@linaro.org>
-Date: Thu, 4 Mar 2021 12:26:41 -0800
+ <20210219144617.4782-41-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d896c237-0f70-ac33-e884-e6548db5b9c5@amsat.org>
+Date: Thu, 4 Mar 2021 21:27:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-32-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210219144617.4782-41-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,14 +93,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 6:46 AM, Peter Maydell wrote:
-> The SSE-300 has a slightly different set of shared-per-CPU interrupts,
-> allow the irq_is_common[] array to be different per SSE variant.
+On 2/19/21 3:46 PM, Peter Maydell wrote:
+> The AN547 runs the APB peripherals outside the SSE-300 on a different
+> and slightly slower clock than it runs the SSE-300 with.  Support
+> making the APB peripheral clock frequency board-specific.  (For our
+> implementation only the UARTs actually take a clock.)
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+>  hw/arm/mps2-tz.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
