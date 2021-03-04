@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B0632DD6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:56:02 +0100 (CET)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF4832DD6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:55:36 +0100 (CET)
+Received: from localhost ([::1]:49212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwsz-0005Hd-Fp
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:56:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1lHwsZ-0004Ux-BY
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lHwTi-0007fC-Eu; Thu, 04 Mar 2021 17:29:54 -0500
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:39026)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lHwTg-00057W-TF; Thu, 04 Mar 2021 17:29:54 -0500
-Received: by mail-il1-x12d.google.com with SMTP id d5so173011iln.6;
- Thu, 04 Mar 2021 14:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Hf00AHbHIMiNm64Y8lGK3pPtMES+J1oh7Yn7Ca/ioxA=;
- b=YrmWf0MS22tSe+BM7zdzsAa+mftFKYsTFEhv3to2Uinqh93TiBQZYHXKv1on3REajc
- xwEY4A5UghxgUfoYrXxvZCGIAycXNRbHJxDDgS2+QrDTjBfyEAt/1jr2YxyvzUbAc5xa
- FdSM9Mfo7WhXL6RT/bVWD2G4V5FocNZ65BWiKjYt9nmpwybZki0hhIX5OgUUVabKt+4j
- vh6CvAFgaPq5eTUpDjHqkZXhHJaiBzz+hECMb0jRU6lpFUHVUhoPJJsBbB+/4ZoNaptZ
- HAE9VqIFMWim+1hOokDtfBfEtpHrVPw+JOVpKyMP7A3DVB0FVrrB5t9mqvyzXzNvGYKO
- Fp+g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwUu-0000zF-I8
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:31:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwUs-0005ql-GJ
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:31:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614897064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1Yq38rH+APgXZN+1DTn4PcnrpUxOi5wJBsCVN4Br9N8=;
+ b=g2D0LslORqo6qPh92wmx45qGEgz8XspR+I3zt8OPif31la64ycit2YD4Xmt+6PXTyA7GBy
+ Zp3etKxlfLS5dhD7Sqc1jyma0Pkq4fac3QxdxFl8JG8PlyYHHSseSUgo2CAhF4R7F1OFet
+ wwrwh+u9r0SRnGp1C273OCMo+Ld0MJo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-qOMXBINkNCWaUYuwUulDUQ-1; Thu, 04 Mar 2021 17:31:01 -0500
+X-MC-Unique: qOMXBINkNCWaUYuwUulDUQ-1
+Received: by mail-wr1-f70.google.com with SMTP id l10so124850wry.16
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 14:31:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hf00AHbHIMiNm64Y8lGK3pPtMES+J1oh7Yn7Ca/ioxA=;
- b=SGZR5dMMff+OTXds9+bp+8Or74Q6oLwHfCSQ8KE4C3vzOqoyQLDXa3vBC2jWYD0uiu
- ZdXQTEeiZQsPqZvsnWVKh6YYHEEfu0tqcfBmZI/U0Ztym5hVCFp6S0NmLSKgjn67lOTb
- YnUdEvtywndC+NysrkWT3BQ4MoNecP/sclsyevDKBXScg03mnHzNC/n4pRMQ4lthqjHX
- FG1xo8bLIz8TnXqN9PjfE4y+0pt0aApI0uzcFUFLS6A+3KoTVar1NPi9QssMkfOuZWj+
- RLu1CnQUs/UwsEEeh+MuuwtfxZUxwVrHT6IN3T125Hw8V7j/178z2PrWo3z5buWpEmSY
- Y2uQ==
-X-Gm-Message-State: AOAM530rsQXECMf5sQzTzfvRDyWFwxZYsqViNug7Us+FcbAB+yYSGOWU
- ANMXmdutJyTtoj41ck4t06GdT+qHQ9ZFV6Wnv3s=
-X-Google-Smtp-Source: ABdhPJwUVO+yeK6V9fI/ic75sFUPWKsvu5iFup+wuuDL7/3dT0wSZSK4yHRcEgxXMQOmU3DuNMAA2eNbernztswPYe0=
-X-Received: by 2002:a05:6e02:218f:: with SMTP id
- j15mr5854594ila.40.1614896990539; 
- Thu, 04 Mar 2021 14:29:50 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1Yq38rH+APgXZN+1DTn4PcnrpUxOi5wJBsCVN4Br9N8=;
+ b=ClOD8mP9gu3eDmmgCJSq9YhKMma+G0lLuWWs/t7yOIE42+zOoryp99J2TrHS8DZeUf
+ RWyWKDwMMwHRgiJLkTuTwf6RNz2L1fdz5nG3waOs0oRdgHDTdu9MO7A7uXGsI0xRTYQR
+ xLzJP1P+kiIrr/U5pbX5AbRTJV9anXajSucJeYV3lyw/571Nal7KpY3qex5CNpLKUzXu
+ g4wDUrrTnV/WY1nNFc8kIFoApauNBm6U/3eRMHEaq5ceZR1U9F6MqJjYX5Csq3F+qzkL
+ /fWh+ONXE/+rStuS0dtMYa8HtacGVA9Yi6CDuSyNIqwcc0VWEQuBEA7lCwUNvXZLvpU3
+ 0nUg==
+X-Gm-Message-State: AOAM532vzyYWu3fpGMWFbAe12UkaqP9gmGD1dTAQ0gQwMsEReDC6KamU
+ Miyxere+vDMBfoBKIf0T6vLYz3vNDv+zJZJeQgNE1jH4ZeW4D14IGule/v4Os+NWmOiq1gugku/
+ Hfmzj7az11OPOQpw=
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr6595454wrr.198.1614897060090; 
+ Thu, 04 Mar 2021 14:31:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgGVz3B2wuxwqQrlcAm8mWaUsXaEQkg5UoJRvGOb/qGmXO8Zso32/WjEBGlhmI8UPTC7gLyw==
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr6595439wrr.198.1614897059936; 
+ Thu, 04 Mar 2021 14:30:59 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id z13sm1005614wrh.65.2021.03.04.14.30.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 14:30:59 -0800 (PST)
+Subject: Re: [PATCH v3 3/5] tests/acceptance/boot_linux_console: change URL
+ for test_arm_orangepi_bionic_20_08
+To: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-devel@nongnu.org
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-4-nieklinnenbank@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <447b9116-f035-70cc-6f0f-40276b22ea2c@redhat.com>
+Date: Thu, 4 Mar 2021 23:30:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210304140229.575481-1-armbru@redhat.com>
- <20210304140229.575481-3-armbru@redhat.com>
-In-Reply-To: <20210304140229.575481-3-armbru@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 4 Mar 2021 17:28:33 -0500
-Message-ID: <CAKmqyKOTzdSB48KpOS9ovz3K+yvGa0jC5WEhZs9_MsrxGhgYPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] memory: Drop "qemu:" prefix from QOM memory region
- type names
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210304203540.41614-4-nieklinnenbank@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,63 +99,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Edgar Iglesias <edgar.iglesias@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
+ f4bug@amsat.org, b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel.Dovgaluk@ispras.ru, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 4, 2021 at 9:03 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Almost all QOM type names consist only of letters, digits, '-', '_',
-> and '.'.  Just two contain ':': "qemu:memory-region" and
-> "qemu:iommu-memory-region".  Neither can be plugged with -object.
-> Rename them to "memory-region" and "iommu-memory-region".
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 3/4/21 9:35 PM, Niek Linnenbank wrote:
+> Update the download URL of the Armbian 20.08 Bionic image for
+> test_arm_orangepi_bionic_20_08 of the orangepi-pc machine.
+> 
+> The archive.armbian.com URL contains more images and should keep stable
+> for a longer period of time than dl.armbian.com.
+> 
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 > ---
->  include/exec/memory.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index c6fb714e49..3c95d7831a 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -33,11 +33,11 @@
->  #define MAX_PHYS_ADDR_SPACE_BITS 62
->  #define MAX_PHYS_ADDR            (((hwaddr)1 << MAX_PHYS_ADDR_SPACE_BITS) - 1)
->
-> -#define TYPE_MEMORY_REGION "qemu:memory-region"
-> +#define TYPE_MEMORY_REGION "memory-region"
->  DECLARE_INSTANCE_CHECKER(MemoryRegion, MEMORY_REGION,
->                           TYPE_MEMORY_REGION)
->
-> -#define TYPE_IOMMU_MEMORY_REGION "qemu:iommu-memory-region"
-> +#define TYPE_IOMMU_MEMORY_REGION "iommu-memory-region"
->  typedef struct IOMMUMemoryRegionClass IOMMUMemoryRegionClass;
->  DECLARE_OBJ_CHECKERS(IOMMUMemoryRegion, IOMMUMemoryRegionClass,
->                       IOMMU_MEMORY_REGION, TYPE_IOMMU_MEMORY_REGION)
-> --
-> 2.26.2
->
->
+>  tests/acceptance/boot_linux_console.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 
