@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F97932D1F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:42:10 +0100 (CET)
-Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9E732D211
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:56:25 +0100 (CET)
+Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHmMr-0002HM-7b
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:42:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
+	id 1lHmad-0007A7-Tk
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:56:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lHmLf-0001CZ-DW
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:40:55 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lHmLb-0006PT-Iw
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:40:55 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id h10so34298852edl.6
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 03:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pc5OZ/q6ft25WXrEaV90BsKQ6D6IusnYR/G4yIr/FJc=;
- b=tCZDG4v3bbQ5Hyf2dA6Cg2aBK3qcoMLP8e4Hsm4W8T4ry7NuHDZNjaW4c/sDLiD8Zv
- QaSFu9PXDV+v1sjIViRY6ejjvGAtvlu5pt/fRufD2nqNHHCK6cDgAXlVw0NWrJ6bQZkY
- tPzRnnZFWtmbmXXoACAUEIzcucj6e5imCJJfQDmsZp1KZoD8MxdTMy6E7MwpST93uebF
- KVFxVgzqG6GMu9ORRqk+qAm/M+EGYnGpXpFkpSiOUCdNrqUk4d6V4LhZ9eOcfDfUJJhC
- E/hitOrH7mRDR43wekTF5ldg2Uf1AjaS8mNcAczG12GiiWdVHXA0C8+My5kco+6BlQY3
- LJCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pc5OZ/q6ft25WXrEaV90BsKQ6D6IusnYR/G4yIr/FJc=;
- b=JTnT5OeAPZ9eND6TT4D6AGTDiVTVENJc+9Wn8u8k1DyKHHFWl8XFEm34RDffQwgz4F
- 7cg66xmg11f9QagMtJCWIjGOiZsM1wh+JRWLGUtPgznC6yJ/UeLi/dXGPw/XG6DSGSCa
- Cketwk6v0OW5B7sigDfYzBkMXYDG6QtfTHITwSM7uJ7xrTfaW1K0DOYJONaYnYFKFGvM
- Rp4LmxPwHUMhc2dsjZ6tgX4trmCw4ISq0REuM1FZG93BlWXIb1uhPv+otvDJ0TZGOviU
- nJGeDgGQriXbHFmBNgKOHqruQ12hyJqy2uyugNlO/NwB/l6kviVMSJgQah8ua8/FNnw7
- eIJQ==
-X-Gm-Message-State: AOAM530RUAe8Q2nPUv4e+TA1ysMHbhpwP/LI8gRXz2G+tAqt8/z4YiLV
- rtlkrU54+AXEU0M0swdn5Y2Sh5NPDFEoNXmvCdDsug==
-X-Google-Smtp-Source: ABdhPJwxqgOxQ0cCXDU0worHBd6j4/7XkQI97XLP6u/rsTZrF4fPB9Ve5idSLsYcgisE3K9w874G6iSOgMbVn1VrLk4=
-X-Received: by 2002:a50:d307:: with SMTP id g7mr3824082edh.204.1614858050044; 
- Thu, 04 Mar 2021 03:40:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lHmZe-0006WG-Tp; Thu, 04 Mar 2021 06:55:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54380)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lHmZd-0004uO-7C; Thu, 04 Mar 2021 06:55:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 37A87AF87;
+ Thu,  4 Mar 2021 11:55:17 +0000 (UTC)
+Subject: Re: [PATCH v6 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210131115022.242570-1-f4bug@amsat.org>
+ <20210131115022.242570-4-f4bug@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <1f571396-c225-0372-12f2-1a366ad181c7@suse.de>
+Date: Thu, 4 Mar 2021 12:55:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20210205144345.2068758-1-f4bug@amsat.org>
- <20210205144345.2068758-9-f4bug@amsat.org>
-In-Reply-To: <20210205144345.2068758-9-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Mar 2021 11:40:34 +0000
-Message-ID: <CAFEAcA9TxOuA=PkD=0zUfHBEdDpYT=EUsgCUjuM5_=b-xK8sZQ@mail.gmail.com>
-Subject: Re: [PATCH 8/9] hw/arm/virt: Restrict 32-bit CPUs to TCG
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210131115022.242570-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +56,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Andrew Jones <drjones@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 14:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> Support for ARMv7 has been dropped in commit 82bf7ae84ce
-> ("target/arm: Remove KVM support for 32-bit Arm hosts").
-> Restrict the 32-bit CPUs to --enable-tcg builds.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Hi,
+
+I am trying to take these patches,
+in the hope that they help with some of the test issues I am having with the kvm-only build,
+
+but they fail with:
+
+target/arm/Kconfig: does not exist in index
+
+so I guess I need the "target/arm/Kconfig" series right, how can I find that one?
+
+Thanks,
+
+Claudio
+
+
+
+On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
+> KVM requires the target cpu to be at least ARMv8 architecture
+> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
+> "target/arm: Remove KVM support for 32-bit Arm hosts").
+> 
+> Only enable the following ARMv4 CPUs when TCG is available:
+> 
+>   - StrongARM (SA1100/1110)
+>   - OMAP1510 (TI925T)
+> 
+> The following machines are no more built when TCG is disabled:
+> 
+>   - cheetah              Palm Tungsten|E aka. Cheetah PDA (OMAP310)
+>   - sx1                  Siemens SX1 (OMAP310) V2
+>   - sx1-v1               Siemens SX1 (OMAP310) V1
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/arm/virt.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f5e4a6ec914..ab6300650f9 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -197,8 +197,10 @@ static const int a15irqmap[] =3D {
->  };
->
->  static const char *valid_cpus[] =3D {
-> +#ifdef CONFIG_TCG
->      ARM_CPU_TYPE_NAME("cortex-a7"),
->      ARM_CPU_TYPE_NAME("cortex-a15"),
-> +#endif /* CONFIG_TCG */
->  #ifdef TARGET_AARCH64
->      ARM_CPU_TYPE_NAME("cortex-a53"),
->      ARM_CPU_TYPE_NAME("cortex-a57"),
+>  default-configs/devices/arm-softmmu.mak | 2 --
+>  hw/arm/Kconfig                          | 4 ++++
+>  target/arm/Kconfig                      | 4 ++++
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
+> index 0824e9be795..6ae964c14fd 100644
+> --- a/default-configs/devices/arm-softmmu.mak
+> +++ b/default-configs/devices/arm-softmmu.mak
+> @@ -14,8 +14,6 @@ CONFIG_INTEGRATOR=y
+>  CONFIG_FSL_IMX31=y
+>  CONFIG_MUSICPAL=y
+>  CONFIG_MUSCA=y
+> -CONFIG_CHEETAH=y
+> -CONFIG_SX1=y
+>  CONFIG_NSERIES=y
+>  CONFIG_STELLARIS=y
+>  CONFIG_REALVIEW=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index f3ecb73a3d8..f2957b33bee 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -31,6 +31,8 @@ config ARM_VIRT
+>  
+>  config CHEETAH
+>      bool
+> +    default y if TCG && ARM
+> +    select ARM_V4
+>      select OMAP
+>      select TSC210X
+>  
+> @@ -249,6 +251,8 @@ config COLLIE
+>  
+>  config SX1
+>      bool
+> +    default y if TCG && ARM
+> +    select ARM_V4
+>      select OMAP
+>  
+>  config VERSATILE
+> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+> index ae89d05c7e5..811e1e81652 100644
+> --- a/target/arm/Kconfig
+> +++ b/target/arm/Kconfig
+> @@ -6,6 +6,10 @@ config AARCH64
+>      bool
+>      select ARM
+>  
+> +config ARM_V4
+> +    bool
+> +    depends on TCG && ARM
+> +
+>  config ARM_V7M
+>      bool
+>      select PTIMER
+> 
 
-How painful would it be to just have it check whether the
-CPU type is present in the executable, rather than hard-coding an ifdef ?
-
-I think that if you try to run the virt board with command line
-arguments that (implicitly or explicitly) mean you've asked for
-a CPU which isn't present in the QEMU executable, it should give
-an error rather than silently selecting something else.
-
-thanks
--- PMM
 
