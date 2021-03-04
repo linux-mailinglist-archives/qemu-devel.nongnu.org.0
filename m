@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41D032D18E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:05:52 +0100 (CET)
-Received: from localhost ([::1]:55326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234AD32D198
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:14:50 +0100 (CET)
+Received: from localhost ([::1]:60352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHlnk-0008Kl-0f
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:05:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60408)
+	id 1lHlwO-0002xQ-MS
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:14:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHlm7-0007ol-7z
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:04:11 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHlly-000673-Qq
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:04:10 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a18so18941365wrc.13
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 03:04:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3lIKl753loFLprtczW+qIQRngMwOgyHdoVooKAjg1TA=;
- b=GDgXJ/O5OzLy5SAxqaN98Q6vLr/lC/vChvoafo+lQ68hSiRVW8ohHI840UAkyy+6Rw
- QppGqGA801hSZy2Xza7dsnhFv8ujop9f1yenJS6vyH3XfFzZLuqv6OA6U/I7VXOUet3t
- eZ0slOvIGoME4uMFaPdSsgVsIc7QIvf8hjaOKFJE64ogFPglW7rxBp/qJr2rHkIMA50g
- tuwfRThpdStclj5KKB8kjfKrxgQ2KnKngZd114OY28qLZZQEn3jgv6uYI8F6eJmOwob2
- CIhhwAqDh2kOLYxw/CFH3bG++GuPW3DEZF/ZyWxTHhtZUjRW1LeQAqaHtPqihswK/UDk
- yGSg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lHluf-0002HL-Fl
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:13:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lHluc-0001rw-Ha
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:13:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614856376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K5z99cqChomCBbWU5Ld2feA12LGd8mkCISByNodlalc=;
+ b=Q9VMi59EZRA+Hqcffxievg737IveExXHhVKWeAc0rzMOaCY2a7mpkWW88lc6NO3926KT12
+ iGOUCkG+7BXluIFaKWrjrJ4FgAE27O41x8Ap3RFh4JTt0IFnB7SioV8KyFNgs2XmZS8Isy
+ a1IAF590jljtx3RWZJjZfldIbkmS424=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-PC83B8AdO-m8tz87lQWJOw-1; Thu, 04 Mar 2021 06:12:55 -0500
+X-MC-Unique: PC83B8AdO-m8tz87lQWJOw-1
+Received: by mail-ej1-f70.google.com with SMTP id sa29so2134135ejb.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 03:12:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3lIKl753loFLprtczW+qIQRngMwOgyHdoVooKAjg1TA=;
- b=ih3RVEg1ljQZk2cu4NQDdpOi0Dclt/6+meLwO+JC/1P7XZbBhe6eYwvLllgP6Cy9Kx
- QYSwBVOwVhpF9ufzKeA4E8OsuBnyTSbygODpuHEFu8BSZvsJBrmvb8Ggx1fAke0htjvU
- M2aCn90sQ9whhn/uPgZ66QDlpProRac9HGRSnruMjNsJ0zLkphNVgVVD7EmeY+sr4vRh
- wLqrhLwkmt5LbcxZ6dm2/DG44G/9Sq823/Fz58LEojlsW2Z5b+7sKfAAMjuDw4WiOvpd
- fubKX4GfHbbnVHi8zZzKJdnjptZrJC7+V6VTwTpd6cX4kW3a9ZqVvWt45uzllSkPMWba
- dEVQ==
-X-Gm-Message-State: AOAM530iAfVYl0dpOb4CnvhfuCKbaRmcS0McNBvslcrchRVu2DgcutUn
- NJueK2lG/YHs+d0VQx017msugg==
-X-Google-Smtp-Source: ABdhPJyzZOuy1b0pPpDR0rcO6Zyy11amGnIaOvjVWEAxd7btJxuNzJ2bBmMxrEJOxvxPNUTn3WdlyA==
-X-Received: by 2002:a5d:6ccb:: with SMTP id c11mr3552383wrc.122.1614855840909; 
- Thu, 04 Mar 2021 03:04:00 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p14sm9171006wmc.30.2021.03.04.03.03.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=K5z99cqChomCBbWU5Ld2feA12LGd8mkCISByNodlalc=;
+ b=ob4MPhvp/PO5oh3k+e7TaNAzfWlBVTdjzvhGlNW96NysVHqLxp1IBpVGGNARlz0Ncl
+ 4F5RxTMQDIeHyggK14LtzQM7U5tvvqcO+fZk8n5dnhB1Lp+2xKb6YzUnb3O9N+TKOEo/
+ HS/GRKXsQ2J5pK9zGGnl1Y4VHdiH8o4S6wBxZfWLbOFxYgxIbJSj2Zp2vYmpHV+HCtIU
+ W7Lj8UXhFldSuACGmYDYwqdEaG+2c90aNW43t5x0omLgOKppyodZHdmBODWsqiiC7ZlF
+ XhW5zV6UCBlWT3wcf7yF641dywZqLuILgq9WU7h3Z5xA2alF5F47stApA28086/AzXHA
+ 3B0Q==
+X-Gm-Message-State: AOAM531kXjt7gblN9ugcD3192YVqOhuhg8L6Cv9leX0N5AN/3fIxsTLi
+ /U+kP8/enUx++4rXeL8ncusTMiOdbbkTMWlwPAHN0V1NtHjxKhtT5YkyzE2MsQ+QXDN+phrIPEH
+ vHgUBjeRqYa+EyIk=
+X-Received: by 2002:a17:906:8043:: with SMTP id
+ x3mr3557798ejw.149.1614856374169; 
+ Thu, 04 Mar 2021 03:12:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzROdWAffNXZfI75qSbDhjsgTARfvj6fU9NG3rLrnNUzETOT7ZH3J/ffj5H4iZoJsHDCoX39A==
+X-Received: by 2002:a17:906:8043:: with SMTP id
+ x3mr3557783ejw.149.1614856373913; 
+ Thu, 04 Mar 2021 03:12:53 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id e22sm24061390edu.61.2021.03.04.03.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 03:04:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1736C1FF7E;
- Thu,  4 Mar 2021 11:03:59 +0000 (GMT)
-References: <20210303145011.14547-1-alex.bennee@linaro.org>
- <20210303165554-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2] vhost-user.rst: add clarifying language about
- protocol negotiation
-Date: Thu, 04 Mar 2021 11:00:08 +0000
-In-reply-to: <20210303165554-mutt-send-email-mst@kernel.org>
-Message-ID: <87blbzgoyo.fsf@linaro.org>
+ Thu, 04 Mar 2021 03:12:53 -0800 (PST)
+Date: Thu, 4 Mar 2021 12:12:51 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: QEMU RBD is slow with QCOW2 images
+Message-ID: <20210304111251.2ernxss627lllwqa@steredhat>
+References: <20210303174058.sdy5ygdfu75xy4rr@steredhat>
+ <CA+aFP1CXWaZ4a7pB2EGhyf1CWt5k884qwgvwKxSRrZKTn=f3wg@mail.gmail.com>
+ <20210304085540.ivknwqwrvhko3vxg@steredhat>
+ <YEC1nQPYf4e5o8/j@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YEC1nQPYf4e5o8/j@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,117 +101,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiang Liu <gerry@linux.alibaba.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Peter Lieven <pl@kamp.de>, dillaman@redhat.com,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Michael S. Tsirkin <mst@redhat.com> writes:
-
-> On Wed, Mar 03, 2021 at 02:50:11PM +0000, Alex Benn=C3=A9e wrote:
->> Make the language about feature negotiation explicitly clear about the
->> handling of the VHOST_USER_F_PROTOCOL_FEATURES feature bit. Try and
->> avoid the sort of bug introduced in vhost.rs REPLY_ACK processing:
->>=20
->>   https://github.com/rust-vmm/vhost/pull/24
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Jiang Liu <gerry@linux.alibaba.com>
->> Message-Id: <20210226111619.21178-1-alex.bennee@linaro.org>
->>=20
->> ---
->> v2
->>   - use Stefan's suggested wording
->>   - Be super explicit in the message descriptions
->> ---
->>  docs/interop/vhost-user.rst | 18 ++++++++++++++++--
->>  1 file changed, 16 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
->> index 2918d7c757..7c1fb8c209 100644
->> --- a/docs/interop/vhost-user.rst
->> +++ b/docs/interop/vhost-user.rst
->> @@ -307,6 +307,18 @@ bit was dedicated for this purpose::
->>=20=20
->>    #define VHOST_USER_F_PROTOCOL_FEATURES 30
->>=20=20
->> +Note that VHOST_USER_F_PROTOCOL_FEATURES is the UNUSED (30) feature
->> +bit defined in `VIRTIO 1.1 6.3 Legacy Interface: Reserved Feature Bits
->> +<https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.h=
-tml#x1-4130003>`_.
->> +VIRTIO devices do not advertise this feature bit and therefore VIRTIO
->> +drivers cannot negotiate it.
->> +
->> +This reserved feature bit was reused by the vhost-user protocol to add
->> +vhost-user protocol feature negotiation in a backwards compatible
->> +fashion. Old vhost-user master and slave implementations continue to
->> +work even though they are not aware of vhost-user protocol feature
->> +negotiation.
->> +
->>  Ring states
->>  -----------
->>=20=20
->> @@ -865,7 +877,8 @@ Front-end message types
->>    Get the protocol feature bitmask from the underlying vhost
->>    implementation.  Only legal if feature bit
->>    ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
->> -  ``VHOST_USER_GET_FEATURES``.
->> +  ``VHOST_USER_GET_FEATURES``.  It does not need to be acknowledged by
->> +  ``VHOST_USER_SET_FEATURES``.
->>=20=20
->>  .. Note::
->>     Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must
->> @@ -881,7 +894,8 @@ Front-end message types
->>    Enable protocol features in the underlying vhost implementation.
->>=20=20
->>    Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is prese=
-nt in
->> -  ``VHOST_USER_GET_FEATURES``.
->> +  ``VHOST_USER_GET_FEATURES``.  It does not need to be acknowledged by
->> +  ``VHOST_USER_SET_FEATURES``.
->>=20=20
->>  .. Note::
->>     Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
+On Thu, Mar 04, 2021 at 10:25:33AM +0000, Daniel P. Berrangé wrote:
+>On Thu, Mar 04, 2021 at 09:55:40AM +0100, Stefano Garzarella wrote:
+>> On Wed, Mar 03, 2021 at 01:47:06PM -0500, Jason Dillaman wrote:
+>> > On Wed, Mar 3, 2021 at 12:41 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>> > >
+>> > > Hi Jason,
+>> > > as reported in this BZ [1], when qemu-img creates a QCOW2 image on RBD
+>> > > writing data is very slow compared to a raw file.
+>> > >
+>> > > Comparing raw vs QCOW2 image creation with RBD I found that we use a
+>> > > different object size, for the raw file I see '4 MiB objects', for QCOW2
+>> > > I see '64 KiB objects' as reported on comment 14 [2].
+>> > > This should be the main issue of slowness, indeed forcing in the code 4
+>> > > MiB object size also for QCOW2 increased the speed a lot.
+>> > >
+>> > > Looking better I discovered that for raw files, we call rbd_create()
+>> > > with obj_order = 0 (if 'cluster_size' options is not defined), so the
+>> > > default object size is used.
+>> > > Instead for QCOW2, we use obj_order = 16, since the default
+>> > > 'cluster_size' defined for QCOW2, is 64 KiB.
+>> > >
+>> > > Using '-o cluster_size=2M' with qemu-img changed only the qcow2 cluster
+>> > > size, since in qcow2_co_create_opts() we remove the 'cluster_size' from
+>> > > QemuOpts calling qemu_opts_to_qdict_filtered().
+>> > > For some reason that I have yet to understand, after this deletion,
+>> > > however remains in QemuOpts the default value of 'cluster_size' for
+>> > > qcow2 (64 KiB), that it's used in qemu_rbd_co_create_opts()
+>> > >
+>> > > At this point my doubts are:
+>> > > Does it make sense to use the same cluster_size as qcow2 as object_size
+>> > > in RBD?
+>> >
+>> > No, not really. But it also doesn't really make any sense to put a
+>> > QCOW2 image within an RBD image. To clarify from the BZ, OpenStack
+>> > does not put QCOW2 images on RBD, it converts QCOW2 images into raw
+>> > images to store in RBD.
+>>
+>> Yes, that was my doubt, thanks for the confirmation.
+>>
+>> Also Daniel (+CC) confirmed me the same thing, but just to be complete he
+>> added that there is a case where OpenStack could use qcow2 on RBD, but in
+>> this case using in-kernel RBD, so the QEMU RBD is not involved.
+>>
+>> >
+>> > > If we want to keep the 2 options separated, how can it be done? Should
+>> > > we rename the option in block/rbd.c?
+>> >
+>> > You can already pass overrides to the RBD block driver by just
+>> > appending them after the
+>> > "rbd:<filename>[:option1=value1[:option2=value2]]" portion, perhaps
+>> > that could be re-used.
+>>
+>> I see, we should extend qemu_rbd_parse_filename() to suppurt it.
 >
->
-> Not really clear what does "It" refer to here.
-> Also, are we sure it's ok to send the messages and then send
-> VHOST_USER_SET_FEATURES with VHOST_USER_F_PROTOCOL_FEATURES clear?
-> Looks more like a violation to me ...
+>We shouldn't really be extending the legacy filename syntax.
+>If we need extra options we want them in the QAPI schema for
+>blockdev.
 
-So what behaviour are we looking for here? Should the vhost-user sender
-re-apply the VHOST_USER_F_PROTOCOL_FEATURES bit to the features when the
-guest does it SET_FEATURES during the negotiation?
+Got it.
 
-We will have already gone through the
-VHOST_USER_GET_PROTOCOL_FEATURES/VHOST_USER_SET_PROTOCOL_FEATURES dance
-at this point and have started passing messages. Should we stop at the
-point we finally process SET_FEATURES?
+I'm still a bit confused about how QemuOpts are handled between format 
+and protocol drivers.
+
+It seems that in this case the protocol tries to access some information 
+from the format (BLOCK_OPT_CLUSTER_SIZE).
+
+Since the format removes this information from the QemuOpts passed to 
+the protocol, this takes the default value of the format, even if a 
+different value is specified.
+
+Is it correct for a protocol to access BLOCK_OPT_CLUSTER_SIZE?
 
 >
+>> Maybe if we don't want to support this configuration, we should print some
+>> warning messages.
 >
-> How about: It -> this bit
-> does not need to be -> before ... has been
->
-> so:
->
->     Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is prese=
-nt in
->  -  ``VHOST_USER_GET_FEATURES``, and even before this bit has been
-> 	acknowledged by VHOST_USER_SET_FEATURES.
+>Note these are separate layers in QEMU block layer. qcow2 is a format
+>driver, while RBD is a protocol driver. QEMU lets any format driver be
+>run on top of any protocol driver in general. In practice there are
+>certain combinations that are more sane and commonly used than others,
+>but QEMU doesn't document this or assign support level to pairing
+>right now.
 
-That leaves open to interpretation what happens if SET_FEATURES clears
-the bit?
+Thanks for the clarification,
+Stefano
 
->
->
->
->
->> --=20
->> 2.20.1
-
-
---=20
-Alex Benn=C3=A9e
 
