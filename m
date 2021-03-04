@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86A432D67F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:25:59 +0100 (CET)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95E532D682
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:26:25 +0100 (CET)
+Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHprS-00030t-Ny
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
+	id 1lHprs-0003nW-OQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:26:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHpq5-0001vH-5u
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:24:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHpq2-0006yO-A9
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:24:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614871468;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NZCcYgxtsnTZ3qQa/d/yIIPlPJvPoXkPiDQ91sWV09k=;
- b=IacB3N7pmK1B3vXyJgtnMG1XNUy/lIsyEBNGicaeoMOCvNtpAcr5fneaWlBHiu66kr7gTS
- IZG8Muzk8XsnIJdgwksoPfVo2RnQ9Do8s+X2sZFyh7god8MdCSrV39wSSr45fMVWS9viir
- DHOerdzGgvyNjyEH6pqcvEked24cXNg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-J8_thn97PA-ylq1VBOJo8w-1; Thu, 04 Mar 2021 10:24:23 -0500
-X-MC-Unique: J8_thn97PA-ylq1VBOJo8w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91BBF87504F;
- Thu,  4 Mar 2021 15:24:22 +0000 (UTC)
-Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A898B6A8E4;
- Thu,  4 Mar 2021 15:24:17 +0000 (UTC)
-Date: Thu, 4 Mar 2021 15:24:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Programmingkid <programmingkidx@gmail.com>
-Subject: Re: Qemu-devel Digest, Vol 216, Issue 57
-Message-ID: <YED7nkvAHVj3PZMW@redhat.com>
-References: <mailman.5018.1614765575.30242.qemu-devel@nongnu.org>
- <BE1A7AC3-5C89-4D23-A83A-1FA8ABED1562@gmail.com>
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lHpqq-0002ea-5Q
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:25:21 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lHpqm-0007H4-KH
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:25:19 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id k66so10092040wmf.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 07:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Ut2SA0p9uR1qJAjAx9Z1dx1mv5c1+44ZOBhw6veCFwY=;
+ b=FZKhfJknxVm1swdVCbrW0MmBd4/VyP7QiX8ejcoo7kuxezenhLjubfaJzbboQbrMkI
+ kHOqUB/c1FIcf5OpqT8ZEZL3qAppEYPdiwD3kICWj44oJqW8T6jAUcBJpUh8JgGXn8QE
+ 76a+23aDW76K3vN1OInKTSonysZe0k21wMP5ErStRKgzxaLMd/VdZQPU5q9vbNQQ62QV
+ KOZpovyMIi7VLCQbdNwMxHS/C1/urVr+LYQ0QJBmvdzayOoPIKLhKiRLxf1WyETNMlqK
+ MKkfl3DoATaOaTkQflQKgETKFKdSReHGl2C5VaoW4EwZxOKeEFX2v1MijHlcc9beCkDF
+ NiIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Ut2SA0p9uR1qJAjAx9Z1dx1mv5c1+44ZOBhw6veCFwY=;
+ b=pW8dqUlh24NqXRGEjNxtcQqtn8npT8FiYG0Yr5DQV230JD24rOeRnR68CxcOMdqFN+
+ eEMsBh770L0XNDgkNoWby5EhSXWwej1QrJ2HmGhp6l2R2m0pquDLtZapzHyOIjM9nSsP
+ kTJMC4LFeDtjoE/m+UKGhb8SoFARJISkXYi4UzOxt5mvwsISEmSCq5RQGBv8F8fapdMt
+ QxPMOUVIXA529j5EeKfS1gNQVLZq6JzDKUGUHO7kcjwPBFxVMdDfLtB9RfriEANAacEl
+ Wgddd0AQV9fndrF96NlhR1BuDWVMKA5LXBJN6X5+rDOw8EAKruHHAlHBsVidNw/mBiN/
+ KIDQ==
+X-Gm-Message-State: AOAM531kyEL+dDiKXPQoFufSlb7OOXYEAQCQVSGzWTkgfN3GDGvOA+4d
+ 2tWtpJP6tPtjs0QnQUk4IQl2VQ==
+X-Google-Smtp-Source: ABdhPJzrJdhVVcrid5gZyjpy8J7AQlU8fu34xchx0/ymR8U7wt8EDtqb0iVkqx064kkfMCB7qIs++w==
+X-Received: by 2002:a1c:a958:: with SMTP id s85mr4682189wme.4.1614871514387;
+ Thu, 04 Mar 2021 07:25:14 -0800 (PST)
+Received: from vanye (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
+ [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id v7sm3850384wme.47.2021.03.04.07.25.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Mar 2021 07:25:14 -0800 (PST)
+Date: Thu, 4 Mar 2021 15:25:12 +0000
+From: Leif Lindholm <leif@nuviainc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
+Message-ID: <20210304152512.GJ1664@vanye>
+References: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
+ <20210303174849.GF1664@vanye>
+ <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
+ <20210304135304.GI1664@vanye>
+ <CAFEAcA8OsnjfyZUEVB=mmwftVnF2-bBv4da-_gqjaetoBiK3dQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <BE1A7AC3-5C89-4D23-A83A-1FA8ABED1562@gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8OsnjfyZUEVB=mmwftVnF2-bBv4da-_gqjaetoBiK3dQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=leif@nuviainc.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,74 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU devel list <qemu-devel@nongnu.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 04, 2021 at 10:07:16AM -0500, Programmingkid wrote:
+On Thu, Mar 04, 2021 at 15:14:36 +0000, Peter Maydell wrote:
+> On Thu, 4 Mar 2021 at 13:53, Leif Lindholm <leif@nuviainc.com> wrote:
+> >
+> > On Wed, Mar 03, 2021 at 18:06:46 +0000, Peter Maydell wrote:
+> > > On Wed, 3 Mar 2021 at 17:48, Leif Lindholm <leif@nuviainc.com> wrote:
+> > > > It would be good if we could get 6.0 closer to SBSA compliance.
+> > >
+> > > How far away are we at the moment ?
+> > >
+> > > > Would it be worth the effort to make this controllable per cpu model?
+> > >
+> > > I don't have a strong opinion on whether we should, but if we do then the
+> > > right way to implement that would be to have the PMCR reset value
+> > > as a reset_pmcr_el0 field in struct ARMCPU (like the existing reset_fpsid,
+> > > reset_sctlr, etc) that gets set per-CPU to whatever the CPU's value for
+> > > it is; and then instead of using a PMCR_NUM_COUNTERS value,
+> > > extract the PMCR.N field when needed. The hardest part would be
+> > > going through all the CPU TRMs to find out the correct reset value.
+> >
+> > That makes sense.
+> >
+> > I guess we could also phase the transition by using the default value
+> > if zero?
 > 
-> 
-> > On Mar 3, 2021, at 4:59 AM, qemu-devel-request@nongnu.org wrote:
-> > 
-> > Message: 1
-> > Date: Wed, 3 Mar 2021 10:22:50 +0100
-> > From: Gerd Hoffmann <kraxel@redhat.com>
-> > To: Akihiko Odaki <akihiko.odaki@gmail.com>
-> > Cc: qemu-devel@nongnu.org
-> > Subject: Re: [PATCH 1/2] coreaudio: Drop support for macOS older than
-> > 	10.6
-> > Message-ID: <20210303092250.x7j6kcyrv3qjghrl@sirius.home.kraxel.org>
-> > Content-Type: text/plain; charset=us-ascii
-> > 
-> > On Mon, Mar 01, 2021 at 08:45:53PM +0900, Akihiko Odaki wrote:
-> >> Mac OS X 10.6 was released in 2009.
-> > 
-> > Also minimum version required my qemu is 10.13 (I think),
-> > so any code for older macos versions is dead anyway.
-> > 
-> > take care,
-> >  Gerd
-> 
-> This stinks. Older versions of Mac OS X were perfectly fine for
-> running QEMU on. All my intel Macs run  Mac OS X versions before
-> 10.13. I'm thinking we should at least support Mac OS 10.10 and higher.
+> I tend to prefer to avoid that kind of transitional thing, because
+> as a project we have a tendency to never complete transitions. The
+> PMU stuff only applies to the v7 and v8 cores, and we don't implement
+> that many of them, so it's better to just make the effort to find out
+> the correct PMCR reset value for them and be done with it.
 
-QEMU has to draw a line about how far back we attempt to support OS
-platforms. There is a tradeoff between the maintainer burden of old
-platforms, and how many users actually benefit from it. The older
-the OS platform, the fewer users care about new QEMU, and thus the
-benefit ceases to outweigh the costs to maintainers. IOW, we want
-to spend maintainer resources in areas where we maximise the user
-benefit.
+Understood.
 
-QEMU aims to support the currently shipping major version at all
-times, and the previous shippin major version for an additional
-two years:
+I'll throw this on my never-shrinking pile of things I hope to get
+around to at some point.
 
-  https://qemu-project.gitlab.io/qemu/system/build-platforms.html
-
-So from a macOS pov our support platform only guarantees that
-we'll target macOS 11, and macOS 10.15 until Nov 2022 (2 years
-after macOS 11 release date).  Earlier macOS versions may happen
-to work too, but we're not going to guarantee that or go out of
-our way to ensure it continues to be the cast.
-
-This will certainly make some people unhappy if they're using old
-OS platforms, but we believe this is ultimately better for the
-QEMU userbase as a whole to focus on platforms where we benefit
-the largest set of people.
-
-Since this is open source, users of old platforms always have the
-choice of using many existing releases of QEMU, even once latest
-QEMU release drops a platform.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+/
+    Leif
 
