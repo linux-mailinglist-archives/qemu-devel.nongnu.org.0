@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95E532D682
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:26:25 +0100 (CET)
-Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858A332D68D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:27:39 +0100 (CET)
+Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHprs-0003nW-OQ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:26:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
+	id 1lHpt4-0005Fa-H0
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:27:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lHpqq-0002ea-5Q
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:25:21 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36493)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHprh-0004A8-4I
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:26:13 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lHpqm-0007H4-KH
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:25:19 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id k66so10092040wmf.1
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 07:25:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Ut2SA0p9uR1qJAjAx9Z1dx1mv5c1+44ZOBhw6veCFwY=;
- b=FZKhfJknxVm1swdVCbrW0MmBd4/VyP7QiX8ejcoo7kuxezenhLjubfaJzbboQbrMkI
- kHOqUB/c1FIcf5OpqT8ZEZL3qAppEYPdiwD3kICWj44oJqW8T6jAUcBJpUh8JgGXn8QE
- 76a+23aDW76K3vN1OInKTSonysZe0k21wMP5ErStRKgzxaLMd/VdZQPU5q9vbNQQ62QV
- KOZpovyMIi7VLCQbdNwMxHS/C1/urVr+LYQ0QJBmvdzayOoPIKLhKiRLxf1WyETNMlqK
- MKkfl3DoATaOaTkQflQKgETKFKdSReHGl2C5VaoW4EwZxOKeEFX2v1MijHlcc9beCkDF
- NiIA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHprf-0007kK-Hs
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:26:12 -0500
+Received: by mail-wr1-x431.google.com with SMTP id j2so15233276wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 07:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QHyn0mTSKUS6MzbmGf3CaB9BjtG74ZWlsMOn+Jjze3M=;
+ b=DOimdXeFVx0wH51bD9ph7WtemZKIOSYcynv4jZnAX4puiJyEwq77v/DVmJYcLwfPXW
+ 1YTqmIZlybjHazT10Md1L187ifmTSwv0DvIAgpdqi5fP3GwqAp9+oUOI7D+JxBzHUlIB
+ lApHZ1UFoh+K0y/ttm5meFNpK/SyQsQv5ks6whhB1uDkk+GhPfpZA6Ps0O3uZpgf6rmN
+ 8EOWaxyLkXAW+1kl3AFMQXEqZrZz0qmZ7hY3CNklGRoW/7fzBEnUjVGKKITOP/Dh8pvD
+ TCDeEb45CYo0RhZgU649QigWKGq8uUdxHR1uc+NJ0a0cXYWhrhGOzzXNXMBus0ql3Wur
+ m8cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Ut2SA0p9uR1qJAjAx9Z1dx1mv5c1+44ZOBhw6veCFwY=;
- b=pW8dqUlh24NqXRGEjNxtcQqtn8npT8FiYG0Yr5DQV230JD24rOeRnR68CxcOMdqFN+
- eEMsBh770L0XNDgkNoWby5EhSXWwej1QrJ2HmGhp6l2R2m0pquDLtZapzHyOIjM9nSsP
- kTJMC4LFeDtjoE/m+UKGhb8SoFARJISkXYi4UzOxt5mvwsISEmSCq5RQGBv8F8fapdMt
- QxPMOUVIXA529j5EeKfS1gNQVLZq6JzDKUGUHO7kcjwPBFxVMdDfLtB9RfriEANAacEl
- Wgddd0AQV9fndrF96NlhR1BuDWVMKA5LXBJN6X5+rDOw8EAKruHHAlHBsVidNw/mBiN/
- KIDQ==
-X-Gm-Message-State: AOAM531kyEL+dDiKXPQoFufSlb7OOXYEAQCQVSGzWTkgfN3GDGvOA+4d
- 2tWtpJP6tPtjs0QnQUk4IQl2VQ==
-X-Google-Smtp-Source: ABdhPJzrJdhVVcrid5gZyjpy8J7AQlU8fu34xchx0/ymR8U7wt8EDtqb0iVkqx064kkfMCB7qIs++w==
-X-Received: by 2002:a1c:a958:: with SMTP id s85mr4682189wme.4.1614871514387;
- Thu, 04 Mar 2021 07:25:14 -0800 (PST)
-Received: from vanye (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
- [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id v7sm3850384wme.47.2021.03.04.07.25.13
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QHyn0mTSKUS6MzbmGf3CaB9BjtG74ZWlsMOn+Jjze3M=;
+ b=qnAhrQWKqjC0mxWDikqTepxpzWMKD4B6Git2LN7+qaXYvcLag+Oh77HC9+IP8QC0xD
+ WeLJXEnsDqZFPQ4U/adUXbrASQTuu1MTbzYcKnyx+e+D8tkWHF0/QUMrwoPJHklCWwLr
+ 7U/W5RN3zou4pu1f6L8nTgvDOwuL2CbyEKgOQN9tTN9nMtKrhWqirnDaamm0lRZyYvfU
+ ePTB+eHt5y/a+yZly8z1NmyTKhri0SBPSzhrPuwiev/h+PKKALg3YwZYFAQi8oimm3wR
+ ke1XQNpvRxluwIBXLPprS00mh0De8uWS7y80uAXTHkIgSPLGPkzwJg9EDuMpkeTcDoTd
+ Et8g==
+X-Gm-Message-State: AOAM532OhJNq6vJhjKl+4S5OaFcq8QD6w+Efhca4BRL2fEEpCp+CfWP6
+ sB4FKckxMEBizapu+iyiFM1kll7Oc1U=
+X-Google-Smtp-Source: ABdhPJylyZ7q4XIZIrlZDvIYnvI0h3qvV8+QJXnurvCaLEcq+g9Xy1GStPsKuJDkGoC+cE43rAB+Dw==
+X-Received: by 2002:a5d:61c9:: with SMTP id q9mr4484661wrv.219.1614871569459; 
+ Thu, 04 Mar 2021 07:26:09 -0800 (PST)
+Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h10sm35430288wrp.22.2021.03.04.07.26.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 07:25:14 -0800 (PST)
-Date: Thu, 4 Mar 2021 15:25:12 +0000
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
-Message-ID: <20210304152512.GJ1664@vanye>
-References: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
- <20210303174849.GF1664@vanye>
- <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
- <20210304135304.GI1664@vanye>
- <CAFEAcA8OsnjfyZUEVB=mmwftVnF2-bBv4da-_gqjaetoBiK3dQ@mail.gmail.com>
+ Thu, 04 Mar 2021 07:26:08 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH 0/3] user-mode: Rename CPUState::opaque as CPUState::task_state
+Date: Thu,  4 Mar 2021 16:26:04 +0100
+Message-Id: <20210304152607.1817648-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8OsnjfyZUEVB=mmwftVnF2-bBv4da-_gqjaetoBiK3dQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=leif@nuviainc.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,46 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 04, 2021 at 15:14:36 +0000, Peter Maydell wrote:
-> On Thu, 4 Mar 2021 at 13:53, Leif Lindholm <leif@nuviainc.com> wrote:
-> >
-> > On Wed, Mar 03, 2021 at 18:06:46 +0000, Peter Maydell wrote:
-> > > On Wed, 3 Mar 2021 at 17:48, Leif Lindholm <leif@nuviainc.com> wrote:
-> > > > It would be good if we could get 6.0 closer to SBSA compliance.
-> > >
-> > > How far away are we at the moment ?
-> > >
-> > > > Would it be worth the effort to make this controllable per cpu model?
-> > >
-> > > I don't have a strong opinion on whether we should, but if we do then the
-> > > right way to implement that would be to have the PMCR reset value
-> > > as a reset_pmcr_el0 field in struct ARMCPU (like the existing reset_fpsid,
-> > > reset_sctlr, etc) that gets set per-CPU to whatever the CPU's value for
-> > > it is; and then instead of using a PMCR_NUM_COUNTERS value,
-> > > extract the PMCR.N field when needed. The hardest part would be
-> > > going through all the CPU TRMs to find out the correct reset value.
-> >
-> > That makes sense.
-> >
-> > I guess we could also phase the transition by using the default value
-> > if zero?
-> 
-> I tend to prefer to avoid that kind of transitional thing, because
-> as a project we have a tendency to never complete transitions. The
-> PMU stuff only applies to the v7 and v8 cores, and we don't implement
-> that many of them, so it's better to just make the effort to find out
-> the correct PMCR reset value for them and be done with it.
-
-Understood.
-
-I'll throw this on my never-shrinking pile of things I hope to get
-around to at some point.
-
-/
-    Leif
+Yet another series trying to clarify CPUState fields.=0D
+Here we change 'void *opaque' by 'TaskState *task_state'=0D
+to remove confusion regarding when this 'opaque' field=0D
+can be used.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  user-mode: Use QEMU_ALIGNED() on TaskState structure=0D
+  cpu: Forward-declare user-mode TaskState structure=0D
+  user-mode: Rename CPUState::opaque as CPUState::task_state=0D
+=0D
+ bsd-user/qemu.h                  |  4 ++--=0D
+ include/hw/core/cpu.h            |  7 ++++--=0D
+ linux-user/m68k/target_cpu.h     |  3 +--=0D
+ linux-user/qemu.h                |  6 ++---=0D
+ bsd-user/main.c                  |  2 +-=0D
+ gdbstub.c                        | 13 ++++------=0D
+ hw/semihosting/arm-compat-semi.c | 12 ++++------=0D
+ linux-user/aarch64/cpu_loop.c    |  2 +-=0D
+ linux-user/arm/cpu_loop.c        |  4 ++--=0D
+ linux-user/arm/signal.c          |  2 +-=0D
+ linux-user/cris/cpu_loop.c       |  3 +--=0D
+ linux-user/elfload.c             |  8 +++----=0D
+ linux-user/hppa/signal.c         |  3 +--=0D
+ linux-user/linuxload.c           |  2 +-=0D
+ linux-user/m68k/cpu_loop.c       |  2 +-=0D
+ linux-user/main.c                |  2 +-=0D
+ linux-user/mips/cpu_loop.c       |  3 +--=0D
+ linux-user/ppc/signal.c          |  7 +++---=0D
+ linux-user/riscv/cpu_loop.c      |  3 +--=0D
+ linux-user/signal.c              | 34 ++++++++++++--------------=0D
+ linux-user/syscall.c             | 41 +++++++++++++-------------------=0D
+ linux-user/vm86.c                | 19 +++++++--------=0D
+ target/m68k/m68k-semi.c          |  2 +-=0D
+ 23 files changed, 80 insertions(+), 104 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
