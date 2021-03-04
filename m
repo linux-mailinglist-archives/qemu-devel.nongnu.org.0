@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B051032D0B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:32:57 +0100 (CET)
-Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACACD32D0DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:34:58 +0100 (CET)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHlHs-0003HY-OM
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:32:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51788)
+	id 1lHlJp-0004SP-Po
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:34:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lHlDc-000172-7p
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:28:32 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lHlDa-00072o-IT
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:28:31 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- w203-20020a1c49d40000b029010c706d0642so4267093wma.0
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 02:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uT53odMmH0OuSfN5jrN9VScapjAxXUSAk46g1pzI/eY=;
- b=RasIiW0LVKwaAxNingCHXas5PI60s77+bDfGsotZByL2m/1eec57z36GsX+VPxMXcP
- 6PI8zMszWiobuR6atmE9DFgGD/+Z3Zf6JU50KBsXridIMW4TBbTk0uxWVpi6ItR5p7mD
- PATt8Zgq4u46ku+ZQ+6GxCHxs4+Zvvj5q65qRYbPxiujGp1el6Yz6tI7zBlSC3cr2ext
- GkdCrMt0jSmZw+3XixGeLAgdDymuYmGpVl7rqvD6scyxrxZdlS7kiin8JewDEwzApUXW
- px376E40V5XNQoY6Veh+V/8K4bn1fB4nJ3zbVbdWDYLvrYhxeRvcZw+OOtV3Am7JIAf6
- GoAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=uT53odMmH0OuSfN5jrN9VScapjAxXUSAk46g1pzI/eY=;
- b=phaBtONTtJUgZaCKhmYr+4VGMMH4BQowsLdefZTWuEpoHdPqUhn1STYsSDERKy/L8Q
- GKW9cVft0HDITJhS8VlaFl24geuqUMpAHJGNS4I0P5/I9fVPTaaV0KjgGUNjDapETO3c
- AAR1cyZhXbjVlPnIQAE0bKBNlXob9MqQCe6CHil2uZYu0qwOFrOdyT9ACyfNpY+QRhpO
- EcgrF0eFKN0sZJfPRjx2kcq2joHB2TZrIViy/iQ1JO/jJCCQMOESwKPy4sgbD1rjYDT2
- Kr7PawWlRPLFtpqUHSPmYUxHZtv/BC9fdQMMoRXgHSGVR7AKMtb+B4iUd5Hct/fVAd5Z
- v5XQ==
-X-Gm-Message-State: AOAM533Uj3xxCFN2wQk2kjFZXASlCit+KrYH36S+6NVuSFK0OzMidbl8
- +FEESrdtP3Q67Av2phW4x1rpganHg5Y=
-X-Google-Smtp-Source: ABdhPJy7KG/tySFTXmNRxgwYFV8khM53pk3qoeEhBVqf4lypwL82c+lJGn8oeH4BNNMqdpoTGV/9UA==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id
- r1mr3238990wmq.143.1614853708486; 
- Thu, 04 Mar 2021 02:28:28 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f9sm29436294wro.77.2021.03.04.02.28.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 02:28:28 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-option: do not suggest using the delay option
-Date: Thu,  4 Mar 2021 11:28:27 +0100
-Message-Id: <20210304102827.106522-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lHlIv-00041C-4X
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:34:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lHlIp-0000un-RV
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:34:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614854031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qtWh4CFZZCby8tfYLMpYnECykynhob8pBA5hDjy2y2c=;
+ b=KMgE1Bu9mF8PWvf79g+erlbDlE2CnKasZNkDTJxV8CcOhJRCEjd9Cwava2iLJyXf0z8VhZ
+ llgUGQnj9s8TdCN4Ajr3Qfnv7P+7PL4EAtbTm0mH/0V1H0j4Y7COHudtlc2flW5XvHsBqR
+ lVIL62uYdjYOQR7dNcSe0J3MiVrmlPY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-tSLFNIkWPzSZY1yxHIpPnA-1; Thu, 04 Mar 2021 05:33:49 -0500
+X-MC-Unique: tSLFNIkWPzSZY1yxHIpPnA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E56071923761
+ for <qemu-devel@nongnu.org>; Thu,  4 Mar 2021 10:33:48 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-115-105.ams2.redhat.com
+ [10.36.115.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D992516917;
+ Thu,  4 Mar 2021 10:33:47 +0000 (UTC)
+Subject: Re: [PATCH v2] libqos/qgraph: format qgraph comments for sphinx
+ documentation
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210225122228.106305-1-eesposit@redhat.com>
+ <251214bd-9676-b4fd-5592-d8efcb21a8e3@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <f227053a-0db2-e179-be52-6eedfb0a18a4@redhat.com>
+Date: Thu, 4 Mar 2021 11:33:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <251214bd-9676-b4fd-5592-d8efcb21a8e3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, armbru@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "delay" option was a hack that was introduced to allow writing "nodelay".
-We are adding a "nodelay" option to be used as "nodelay=on", so recommend it
-instead of "delay".
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
-        This is quite ugly, so I am posting it as RFC in case others
-        have better idea.  Nevertheless, a proper deprecation of "delay"
-        cannot be done if QEMU starts suggesting it, and since it's the
-        only case I opted for this very much ad-hoc patch.
----
- docs/system/deprecated.rst | 6 ++++++
- util/qemu-option.c         | 7 ++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index fcf0ca4068..cfabe69846 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -134,6 +134,12 @@ Boolean options such as ``share=on``/``share=off`` could be written
- in short form as ``share`` and ``noshare``.  This is now deprecated
- and will cause a warning.
- 
-+``delay`` option for socket character devices (since 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The replacement for the ``nodelay`` short-form boolean option is ``nodelay=on``
-+rather than ``delay=off``.
-+
- ``--enable-fips`` (since 6.0)
- '''''''''''''''''''''''''''''
- 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 40564a12eb..3057942a5c 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -785,7 +785,12 @@ static const char *get_opt_name_value(const char *params,
-             }
-             if (!is_help && warn_on_flag) {
-                 warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
--                error_printf("Please use %s=%s instead\n", *name, *value);
-+                if (g_str_equal(name, "delay")) {
-+                    error_printf("Please use nodelay=%s instead\n", *name,
-+                                 prefix[0] ? "on" : "off");
-+                } else {
-+                    error_printf("Please use %s=%s instead\n", *name, *value);
-+                }
-             }
-         }
-     } else {
--- 
-2.29.2
+On 03/03/2021 17:43, Thomas Huth wrote:
+> On 25/02/2021 13.22, Emanuele Giuseppe Esposito wrote:
+>> Change documentation style and fix minor typos in 
+>> tests/qtest/libqos/qgraph.h
+>> to automatically generate sphinx documentation in docs/devel/qgraph.rst
+>>
+>> The mechanism explanation that once was in qgraph.h is now moved to 
+>> qgraph.rst
+>>
+>> There is no functional change intended.
+>>
+>> v2:
+>> - qgraph link visible in docs/devel/index but not in docs/index, since 
+>> it is
+>> a subsection of qtest.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   MAINTAINERS                 |   1 +
+>>   docs/devel/index.rst        |   1 +
+>>   docs/devel/qgraph.rst       | 261 ++++++++++++++++++++++++++++++
+>>   docs/devel/qtest.rst        |   8 +
+>>   tests/qtest/libqos/qgraph.h | 308 ++++++------------------------------
+>>   5 files changed, 320 insertions(+), 259 deletions(-)
+>>   create mode 100644 docs/devel/qgraph.rst
+> 
+> I'm getting a bunch of warnings after applying this patch:
+
+Apparently this does not appear with "make sphixdocs", only when doing a 
+full build.
+
+> 
+> ../tests/qtest/libqos/qgraph.h:53: warning: cannot understand function 
+> prototype: 'struct QOSGraphEdgeOptions '
+> ../tests/qtest/libqos/qgraph.h:93: warning: cannot understand function 
+> prototype: 'struct QOSGraphTestOptions '
+> ../tests/qtest/libqos/qgraph.h:138: warning: cannot understand function 
+> prototype: 'struct QOSGraphObject 
+> ../tests/qtest/libqos/qgraph.h:218: warning: Function parameter or 
+> member 'opts' not described in 'qos_node_create_machine_args'
+> ../tests/qtest/libqos/qgraph.h:218: warning: Excess function parameter 
+> 'pts' description in 'qos_node_create_machine_args
+> 
+> Any chance to fix them first?
+> 
+
+Thank you for spotting this. Will fix in v3.
+
+Thank you,
+Emanuele
 
 
