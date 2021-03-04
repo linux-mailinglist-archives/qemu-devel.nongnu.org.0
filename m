@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46C732D766
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 17:07:24 +0100 (CET)
-Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3742732D781
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 17:17:57 +0100 (CET)
+Received: from localhost ([::1]:55544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHqVX-0003u0-8a
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 11:07:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55240)
+	id 1lHqfj-0007l9-Iz
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 11:17:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lHqTu-0002vQ-8G
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 11:05:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lHqTr-00016I-DI
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 11:05:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614873938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qY1DlRsij3cTrbhkPV5OgPfiBwcs7doGA1y8LRt1/t0=;
- b=dKy2V+R9kAFBizb9Di6FdXSbEzcsazFozefRcJ/RAYJ0wd959h6N3iTH3GzBMq7m6qlNrk
- 6gNFC3GNP3RNFJSEWnbtD6KpsCgOLmvSFyzbfnO/YwGIXeNnJw4ceuBTIFROYgxoSr6gQn
- Qp+fY68OOjFEQdIALUMR0WTxQElc50E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-no-0lgYdN2q0sICV6b5Euw-1; Thu, 04 Mar 2021 11:05:36 -0500
-X-MC-Unique: no-0lgYdN2q0sICV6b5Euw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B14E38030D1;
- Thu,  4 Mar 2021 16:05:33 +0000 (UTC)
-Received: from gondolin (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 305F6179B3;
- Thu,  4 Mar 2021 16:05:24 +0000 (UTC)
-Date: Thu, 4 Mar 2021 17:05:21 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 02/19] target/s390x/kvm: Simplify debug code
-Message-ID: <20210304170521.78c61998.cohuck@redhat.com>
-In-Reply-To: <20210303182219.1631042-3-philmd@redhat.com>
-References: <20210303182219.1631042-1-philmd@redhat.com>
- <20210303182219.1631042-3-philmd@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lHqdR-0006sh-9s; Thu, 04 Mar 2021 11:15:33 -0500
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:23448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lHqdP-0006JN-2b; Thu, 04 Mar 2021 11:15:33 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id C108E462C8;
+ Thu,  4 Mar 2021 17:07:17 +0100 (CET)
+Subject: Re: Potential regression in 'qemu-img convert' to LVM
+To: Nir Soffer <nsoffer@redhat.com>
+References: <1b7b5aa0-2ab0-75a5-68f4-01eb4684dbcb@proxmox.com>
+ <CAMRbyyuLboa+XWAmboC5Q6ZQ2KoVXMKJC=r+fGiHPTMEJR8JnA@mail.gmail.com>
+ <c00f320b-4d8b-d345-acc5-ba43202a05e3@proxmox.com>
+ <CAMRbyyuAxb+qKSUAH_4XSzWYQz3+agAbEv+X93WTKG+1+kifRQ@mail.gmail.com>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Message-ID: <94b3a174-224a-a21a-08d5-1f5d93c339f5@proxmox.com>
+Date: Thu, 4 Mar 2021 17:07:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAMRbyyuAxb+qKSUAH_4XSzWYQz3+agAbEv+X93WTKG+1+kifRQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,49 +56,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Sunil Muthuswamy <sunilmut@microsoft.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  3 Mar 2021 19:22:02 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On 07/01/2021 21:03, Nir Soffer wrote:
+> On Tue, Sep 15, 2020 at 2:51 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
+>>
+>> On 9/15/20 11:08 AM, Nir Soffer wrote:
+>>> On Mon, Sep 14, 2020 at 3:25 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
+>>>>
+>>>> Hi list,
+>>>>
+>>>> following command fails since 5.1 (tested on kernel 5.4.60):
+>>>>
+>>>> # qemu-img convert -p -f raw -O raw /dev/zvol/pool/disk-1 /dev/vg/disk-1
+>>>> qemu-img: error while writing at byte 2157968896: Device or resource busy
+>>>>
+>>>> (source is ZFS here, but doesn't matter in practice, it always fails the
+>>>> same; offset changes slightly but consistently hovers around 2^31)
+>>>>
+>>>> strace shows the following:
+>>>> fallocate(13, FALLOC_FL_KEEP_SIZE|FALLOC_FL_PUNCH_HOLE, 2157968896,
+>>>> 4608) = -1 EBUSY (Device or resource busy)
+>>>
+>>> What is the size of the LV?
+>>>
+>>
+>> Same as the source, 5GB in my test case. Created with:
+>>
+>> # lvcreate -ay --size 5242880k --name disk-1 vg
+>>
+>>> Does it happen if you change sparse minimum size (-S)?
+>>>
+>>> For example: -S 64k
+>>>
+>>>       qemu-img convert -p -f raw -O raw -S 64k /dev/zvol/pool/disk-1
+>>> /dev/vg/disk-1
+>>>
+>>
+>> Tried a few different values, always the same result: EBUSY at byte
+>> 2157968896.
+>>
+>>>> Other fallocate calls leading up to this work fine.
+>>>>
+>>>> This happens since commit edafc70c0c "qemu-img convert: Don't pre-zero
+>>>> images", before that all fallocates happened at the start. Reverting the
+>>>> commit and calling qemu-img exactly the same way on the same data works
+>>>> fine.
+>>>
+>>> But slowly, doing up to 100% more work for fully allocated images.
+>>>
+>>
+>> Of course, I'm not saying the patch is wrong, reverting it just avoids
+>> triggering the bug.
+>>
+>>>> Simply retrying the syscall on EBUSY (like EINTR) does *not* work,
+>>>> once it fails it keeps failing with the same error.
+>>>>
+>>>> I couldn't find anything related to EBUSY on fallocate, and it only
+>>>> happens on LVM targets... Any idea or pointers where to look?
+>>>
+>>> Is this thin LV?
+>>>
+>>
+>> No, regular LV. See command above.
+>>
+>>> This works for us using regular LVs.
+>>>
+>>> Which kernel? which distro?
+>>>
+>>
+>> Reproducible on:
+>> * PVE w/ kernel 5.4.60 (Ubuntu based)
+>> * Manjaro w/ kernel 5.8.6
+>>
+>> I found that it does not happen with all images, I suppose there must be
+>> a certain number of smaller holes for it to happen. I am using a VM
+>> image with a bare-bones Alpine Linux installation, but it's not an
+>> isolated case, we've had two people report the issue on our bug tracker:
+>> https://bugzilla.proxmox.com/show_bug.cgi?id=3002
+> 
+> I think that this issue may be fixed by
+> https://lists.nongnu.org/archive/html/qemu-block/2020-11/msg00358.html
+> 
+> Nir
+> 
+> 
 
-> We already have the 'run' variable holding 'cs->kvm_run' value.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  target/s390x/kvm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index 7a892d663df..73f816a7222 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -1785,8 +1785,7 @@ static int handle_intercept(S390CPU *cpu)
->      int icpt_code =3D run->s390_sieic.icptcode;
->      int r =3D 0;
-> =20
-> -    DPRINTF("intercept: 0x%x (at 0x%lx)\n", icpt_code,
-> -            (long)cs->kvm_run->psw_addr);
-> +    DPRINTF("intercept: 0x%x (at 0x%lx)\n", icpt_code, (long)run->psw_ad=
-dr);
->      switch (icpt_code) {
->          case ICPT_INSTRUCTION:
->          case ICPT_PV_INSTR:
+Sorry for the late reply, but yes, I can confirm this fixes the issue.
 
-Thanks, queued this one to s390-next.
+~
 
 
