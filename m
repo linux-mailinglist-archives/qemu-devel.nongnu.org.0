@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3102232DB30
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:27:27 +0100 (CET)
-Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18F832DB1F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:25:04 +0100 (CET)
+Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHuZC-0001ob-90
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:27:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1lHuWt-0007eu-RO
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:25:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuS6-0003mL-1u
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:20:09 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46453)
+ id 1lHuTI-0004U7-3h
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:21:20 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHuS1-0006mN-Qf
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:20:05 -0500
-Received: by mail-pf1-x436.google.com with SMTP id r5so19749146pfh.13
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 12:19:59 -0800 (PST)
+ id 1lHuTG-0007Iq-Eh
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:21:19 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id bj7so557616pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 12:21:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=zOKHIlvMDN79VWQN1n9O8Pn5AFWbwZ3gbEuk3cdOSEE=;
- b=HAawGYkEiVzfDxXkHXQOGKkcYLv5UCqZq0fMQxyAJ91qTuKqtVD0/CMDMolaTtchd8
- IIcs5bogy6nLnpDKaBdelxkLld5AA3YZBflsQ6OojJNVrOYshJPMCUnANgyTDP1ivRiW
- /oEQ3ifcpYLm1CWKdegL1Kxn0MSRbR4mqObtH9MiE+Iobblzuc0HbB66+GHn5R6Kj+wN
- iG97M7kdDMxTcloL+37BywK4raOiLM9Y3HQcs5ZStK9Oe1csbwZ1IaLGpsj54RpgwMwZ
- EP+QTNkKENhw0GvP+RBxMdGHXr90plbm1X3DJNeSBd1tTL12rl+zoc0ICW4PWqh/M8eb
- Sc7g==
+ bh=PctSybfesLKpuj5qGDN2y55SE16+Uk5oaDYZE0wbIg0=;
+ b=sk87s9PkbIs5Qlisie7/YZ4cR3QSTE/UGcNenpvhQFDkLhzHmxILoT++uqk7YYvJuW
+ q6QOwzfzGF34aw7BO6uUY0E5SH0NdTP6LFqWnRZ5tLEjSBONPRAvQ+Hey9O1spoDihUJ
+ dK/GcbpAfPE7mc55Ijh+qxtjdbWmVwkZP8XqDPPt1qNYChbBe4NN+Hh8AzuLMA9A6ivY
+ WNRF3cVK+7cTL3bUSDOK7iaJNNth65nOber8iwYBXmT+cCPzMonrE02CAbMh3q5MR0ZP
+ 0+AK6tFYMNjEzOvIQZN7n7PK1xNp/2tl0jF3DRlzz54NODteLIMVYY2W+l21e2V3xrPe
+ wMRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zOKHIlvMDN79VWQN1n9O8Pn5AFWbwZ3gbEuk3cdOSEE=;
- b=Qezr2o/Bnoj7oL4tyAtfAD5BpSAV1OfP6TXZtpWGYu3HyWiRtVUW/+2dKNRpwh1w7v
- 4tEbfGN9riqFf1jiPEYjn/iLqhAATq8++azWXVdAtlD0F5Ypsikz7FnpPvI1cTsQVUHc
- fcbtbhgzsKrkkMzB1tMdnykBsO/NM3Nj3qFFWxlT1m8GmdfkxRjssaE+elZWrI1yOYcU
- I27/eSC2+AcRkl/c+m1nxTif2f7lSM0+3mk69zek7ort9CiR6LSjD99VBe3DaJNsG7vG
- VTVWWAOUXOTbwncoRN0KdrJZd0yF3wOXD71zZv9WFDHW8PKnuJPizySQKzfllMyUSMqC
- /0/Q==
-X-Gm-Message-State: AOAM530qWXEDBjNzT8Uw1iWq2p9g2Fh/N6k6h0w31VlDHSYeTk8qci4e
- V9A4txA9AytFocjgUw4Dmt2g/W7Nffx49Q==
-X-Google-Smtp-Source: ABdhPJyxu7lCmIHe6/qKZ7mQHTf6BeArNVtye+icnsANuiIeCqHixxPoVLpZ9RpBeFha/7FOb9c7Cw==
-X-Received: by 2002:aa7:947d:0:b029:1ed:a78c:59ea with SMTP id
- t29-20020aa7947d0000b02901eda78c59eamr5331699pfq.36.1614889198424; 
- Thu, 04 Mar 2021 12:19:58 -0800 (PST)
+ bh=PctSybfesLKpuj5qGDN2y55SE16+Uk5oaDYZE0wbIg0=;
+ b=lsjW2yxUjYIVl2seRXftGuqsUCPnEqgYAYBCN6b/H0riX7tzMy+9fo1a4a/hIH+W9/
+ GjgJjY6W+KDUlTsQCBWMfSbG0Ei4/V1VF/RnbC+S6DzROUXhwERNpTMNjSz4zlL3VD+I
+ n6M1Qn/0Wmas7QkIm3af0SyNYElrASpeEDrLrn7I0/2WsbAZd+SqoB9xpXsL3ApN7zsd
+ VDHhLVF2YEIki5ymqV05FgSMl3PQHlWoxTxujKafXUIRhnosbwLfsl6LHnvQDQ49M0T5
+ T0KoJ21hvwIrL02h2lFR+ZwgpIDYYGNLriwxpwIuyISsAZr+2Xohxl46qKizhDWCT35j
+ WUmw==
+X-Gm-Message-State: AOAM533tfwclkFmesWHTfQyD7kLBXFIPVUBhIOQHpH0D+qBxsaKOm75s
+ rK9LvEEhwLBQrER9fuGgTNJzwSx1ADGUxA==
+X-Google-Smtp-Source: ABdhPJytDE6dllqno1CfsxYB9Pluv0X3ySn+84utet43yiv8Q6swsUU82YX+ZkVPbh3MrxMED5kj7Q==
+X-Received: by 2002:a17:90a:8981:: with SMTP id
+ v1mr6477259pjn.230.1614889277102; 
+ Thu, 04 Mar 2021 12:21:17 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id g141sm234517pfb.67.2021.03.04.12.19.57
+ by smtp.gmail.com with ESMTPSA id d6sm220308pfq.109.2021.03.04.12.21.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 12:19:57 -0800 (PST)
-Subject: Re: [PATCH 27/44] hw/arm/armsse: Move sysinfo register block into
+ Thu, 04 Mar 2021 12:21:16 -0800 (PST)
+Subject: Re: [PATCH 28/44] hw/arm/armsse: Move sysctl register block into
  data-driven framework
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-28-peter.maydell@linaro.org>
+ <20210219144617.4782-29-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c63b08e8-b955-3631-36fa-1e8480d36d9e@linaro.org>
-Date: Thu, 4 Mar 2021 12:19:56 -0800
+Message-ID: <879f0eef-b2a9-92b4-20af-9a577aec4816@linaro.org>
+Date: Thu, 4 Mar 2021 12:21:14 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-28-peter.maydell@linaro.org>
+In-Reply-To: <20210219144617.4782-29-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,12 +94,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/19/21 6:46 AM, Peter Maydell wrote:
-> Move the sysinfo register block into the data-driven framework.
-> 
-> While we are moving the code for configuring this device around,
-> regularize on using &error_abortw when setting the integer
-> properties: they are all simple DEFINE_PROP_UINT32 properties so the
-> setting can never fail.
+> Move the sysctl register block into the data-driven device placement
+> framework.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
