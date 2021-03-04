@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3731832D64B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:19:03 +0100 (CET)
-Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BC832D672
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:22:00 +0100 (CET)
+Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHpkk-0003Nw-5s
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:19:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
+	id 1lHpnb-0007RL-2n
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:21:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lHpdp-0002Ij-LO
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:11:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lHpdo-00013C-5p
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:11:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614870711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=giwaHCUYp1Nd1/Dl1EyNyPa8urGFm9fTSEcvtfPt+sU=;
- b=iztJl5c6zcj80GMthPpIgF0Zyja/agwZqLI9BbkkJuyrrRYYV6YXYBSYsWIx0oY0EvF1bO
- 4zjLGVX6I3jPMZeyXv1xylC5tUIAT8Hs5Caqb5qsyblmDemoa7LNw2UXXtzcbiaeT1vQRH
- yWhodZoR7BpQOzx4Vc7m9Dn5Wu1ohqI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-WOU1JLwlOJifYJgJJSCUrQ-1; Thu, 04 Mar 2021 10:11:49 -0500
-X-MC-Unique: WOU1JLwlOJifYJgJJSCUrQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BEFC19200DD;
- Thu,  4 Mar 2021 15:11:48 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-64.ams2.redhat.com [10.36.113.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0221260C43;
- Thu,  4 Mar 2021 15:11:42 +0000 (UTC)
-Date: Thu, 4 Mar 2021 16:11:41 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Subject: Re: [PATCH v2 3/6] block/parallels: BDRVParallelsState: add
- cluster_size field
-Message-ID: <20210304151141.GG9607@merkur.fritz.box>
-References: <20210224104707.88430-1-vsementsov@virtuozzo.com>
- <20210224104707.88430-4-vsementsov@virtuozzo.com>
- <20210304142450.GD9607@merkur.fritz.box>
- <1891d7fb-a7fa-73fa-e6df-e3f281fa759c@openvz.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHpgm-0008T9-Ef
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:14:56 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHpgj-0002Rl-Te
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:14:55 -0500
+Received: by mail-ed1-x532.google.com with SMTP id w9so1732392edc.11
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 07:14:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fmMFlEDgIjjW4Yl6hj5BNVlr0m4nH8q+YwpS90Fw338=;
+ b=brHVZX95xRZodztEdilsvjWibxkkERtctzuxul/4LAQ4fPG0icd+2mdUw89KRzCc6H
+ /u8CMSY1NnuC9XL9llh/GnvmeUj800rKbiHz0QOYLtUiiRdoabpjIjbIx3+Zx2gmmp5L
+ 4CpGaRBGER2MYe31b8qSmm6mc6VVHbS/GoX7TvTA4QK1mzzVWMomoLeEPHOaSHVmPowk
+ PHmIv7n0zo3FH+S9aqwsfl7DUEvSkJtYnvJSsb5uHn7jFPwSDSxxo9xGOGjxghATn4oL
+ bBNnPsEKyNKCiMK851h5kXJq/eZENHxCFo600tzLH4iHwhXUhgdYYs+cIC0e6EznVHAT
+ Q9gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fmMFlEDgIjjW4Yl6hj5BNVlr0m4nH8q+YwpS90Fw338=;
+ b=PmpRZlikwaNcx08pZnEUiM3d7ZD0OUxbLKeIKyKWKYqyZKRp58mHRs/3za3ZP36cdo
+ dMDsurZsb7DOEt+h5XkDe642XAma3FUPZDziOLxz6TikLTB3LYH2idihSW7qoQ0rD2jd
+ v1XWhGfrdYrwT4neH8ZK9uuETeb9d3fT5TMpcc4McDW+QIJCkgxur0uEfqKHkMlhBSpu
+ PdmIaAYL84sCwpvAPJVxic2PCNXbAYLqwP2k0smYxCccdglZhY675eyO/SjG2Kf+lJVk
+ o9L/czJbryT6oeEG6M+T7LUV53WsAUf7e/C+J7H8wBPSrK2CPbH+cpqAm7ochPLcZ+NH
+ sWsQ==
+X-Gm-Message-State: AOAM5302qNOlHlkj1/2PgnMNsAIVm7sSBGcbKDHKacYS8S6C6EnlypgQ
+ O3mXu39QAnI31hHewwHF6H0xAGO9VGN5HVcSkxERMw==
+X-Google-Smtp-Source: ABdhPJyU4QJgH4Wby8vcfB6IJ6j7mXAMqrWjo2OFMVCyxZa8Mtoq0wIxr9IOnQ4pMRwiZ4chXoifF/jTri+IxYC1fY0=
+X-Received: by 2002:a05:6402:40b:: with SMTP id
+ q11mr4890921edv.36.1614870892036; 
+ Thu, 04 Mar 2021 07:14:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1891d7fb-a7fa-73fa-e6df-e3f281fa759c@openvz.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210303151634.3421880-1-marcin.juszkiewicz@linaro.org>
+ <20210303174849.GF1664@vanye>
+ <CAFEAcA-KFF_An50h8JKy68_Y3J4j=kQCOFyGoySKyh53E7KGYg@mail.gmail.com>
+ <20210304135304.GI1664@vanye>
+In-Reply-To: <20210304135304.GI1664@vanye>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Mar 2021 15:14:36 +0000
+Message-ID: <CAFEAcA8OsnjfyZUEVB=mmwftVnF2-bBv4da-_gqjaetoBiK3dQ@mail.gmail.com>
+Subject: Re: [PATCH] arm: bump amount of PMU counters to pass SBSA ACS
+To: Leif Lindholm <leif@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,74 +80,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.03.2021 um 15:57 hat Denis V. Lunev geschrieben:
-> On 3/4/21 5:24 PM, Kevin Wolf wrote:
-> > Am 24.02.2021 um 11:47 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> >> We are going to use it in more places, calculating
-> >> "s->tracks << BDRV_SECTOR_BITS" doesn't look good.
-> >>
-> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >> @@ -771,6 +770,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-> >>          ret = -EFBIG;
-> >>          goto fail;
-> >>      }
-> >> +    s->cluster_size = s->tracks << BDRV_SECTOR_BITS;
-> >>  
-> >>      s->bat_size = le32_to_cpu(ph.bat_entries);
-> >>      if (s->bat_size > INT_MAX / sizeof(uint32_t)) {
-> > Checking the context, I saw this a few lines above:
+On Thu, 4 Mar 2021 at 13:53, Leif Lindholm <leif@nuviainc.com> wrote:
+>
+> On Wed, Mar 03, 2021 at 18:06:46 +0000, Peter Maydell wrote:
+> > On Wed, 3 Mar 2021 at 17:48, Leif Lindholm <leif@nuviainc.com> wrote:
+> > > It would be good if we could get 6.0 closer to SBSA compliance.
 > >
-> >     if (s->tracks > INT32_MAX/513) {
+> > How far away are we at the moment ?
 > >
-> > Is the 513 intentional?
+> > > Would it be worth the effort to make this controllable per cpu model?
 > >
-> > Kevin
-> >
-> I can not remember why I have written this at that time,
-> but original comment for the commit was
-> 
-> commit d25d59802021a747812472780d80a0e792078f40
-> Author: Denis V. Lunev <den@openvz.org>
-> Date:   Mon Jul 28 20:23:55 2014 +0400
-> 
->     parallels: 2TB+ parallels images support
->    
->     Parallels has released in the recent updates of Parallels Server 5/6
->     new addition to his image format. Images with signature WithouFreSpacExt
->     have offsets in the catalog coded not as offsets in sectors (multiple
->     of 512 bytes) but offsets coded in blocks (i.e. header->tracks * 512)
->    
->     In this case all 64 bits of header->nb_sectors are used for image size.
->    
->     This patch implements support of this for qemu-img and also adds
-> specific
->     check for an incorrect image. Images with block size greater than
->     INT_MAX/513 are not supported. The biggest available Parallels image
->     cluster size in the field is 1 Mb. Thus this limit will not hurt
->     anyone.
->    
->     Signed-off-by: Denis V. Lunev <den@openvz.org>
->     CC: Jeff Cody <jcody@redhat.com>
->     CC: Kevin Wolf <kwolf@redhat.com>
->     CC: Stefan Hajnoczi <stefanha@redhat.com>
->     Reviewed-by: Jeff Cody <jcody@redhat.com>
->     Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> 
-> Thus I believe that this is intentional.
+> > I don't have a strong opinion on whether we should, but if we do then the
+> > right way to implement that would be to have the PMCR reset value
+> > as a reset_pmcr_el0 field in struct ARMCPU (like the existing reset_fpsid,
+> > reset_sctlr, etc) that gets set per-CPU to whatever the CPU's value for
+> > it is; and then instead of using a PMCR_NUM_COUNTERS value,
+> > extract the PMCR.N field when needed. The hardest part would be
+> > going through all the CPU TRMs to find out the correct reset value.
+>
+> That makes sense.
+>
+> I guess we could also phase the transition by using the default value
+> if zero?
 
-Hm, fair. It's a weird number. I would have guessed a typo, but if it's
-in the commit message as well, it might be intentional. Or just a typo
-combined with copy & paste.
+I tend to prefer to avoid that kind of transitional thing, because
+as a project we have a tendency to never complete transitions. The
+PMU stuff only applies to the v7 and v8 cores, and we don't implement
+that many of them, so it's better to just make the effort to find out
+the correct PMCR reset value for them and be done with it.
 
-If we ever remember or find a new reason why it has to be 513 rather
-than 512, adding a comment would be nice.
-
-Kevin
-
+-- PMM
 
