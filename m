@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E8532DD60
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:51:52 +0100 (CET)
-Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B0632DD6F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:56:02 +0100 (CET)
+Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwox-0008Ky-A2
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:51:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55644)
+	id 1lHwsz-0005Hd-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:56:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHwOC-0007wL-61; Thu, 04 Mar 2021 17:24:12 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36738)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lHwTi-0007fC-Eu; Thu, 04 Mar 2021 17:29:54 -0500
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:39026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lHwOA-0002eR-K7; Thu, 04 Mar 2021 17:24:11 -0500
-Received: by mail-wm1-x334.google.com with SMTP id k66so11160338wmf.1;
- Thu, 04 Mar 2021 14:24:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lHwTg-00057W-TF; Thu, 04 Mar 2021 17:29:54 -0500
+Received: by mail-il1-x12d.google.com with SMTP id d5so173011iln.6;
+ Thu, 04 Mar 2021 14:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fX6hEXkHOn0EDIH5ppgTAZxEG1tZNK4v7KhIUlmGx5M=;
- b=NmsARctxdUkxORvwpGrzrQBVLeNzc5ZUXeZNDaRJMDGsGYiiepheAAeenQx8XJkWG0
- V6DQv6qOlw9kCHbaM40nZ95uRgDrFEM74p3NtTXaUFxeYzPtYEY+/8buH8VD1g6Z64z9
- Y1/j5YnIRV8TWYzbnM/G+CHCU0nnPlfO6OYaqxsPrCdpPwwHEJOD8EWrxWcxdemXwK9D
- JnXOiRmTvl6H4cteMVFBQ3+TLc0ueTbXcQSZKsK/wQALoWndsvwOe4023JDnq+Lioxxk
- W94rxO+oT/+zmHb+qDgrOD8V6m0EzWs6IeHb8lETIoqONVLMTDwHxelhMvZjiMlKN24u
- XLlg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Hf00AHbHIMiNm64Y8lGK3pPtMES+J1oh7Yn7Ca/ioxA=;
+ b=YrmWf0MS22tSe+BM7zdzsAa+mftFKYsTFEhv3to2Uinqh93TiBQZYHXKv1on3REajc
+ xwEY4A5UghxgUfoYrXxvZCGIAycXNRbHJxDDgS2+QrDTjBfyEAt/1jr2YxyvzUbAc5xa
+ FdSM9Mfo7WhXL6RT/bVWD2G4V5FocNZ65BWiKjYt9nmpwybZki0hhIX5OgUUVabKt+4j
+ vh6CvAFgaPq5eTUpDjHqkZXhHJaiBzz+hECMb0jRU6lpFUHVUhoPJJsBbB+/4ZoNaptZ
+ HAE9VqIFMWim+1hOokDtfBfEtpHrVPw+JOVpKyMP7A3DVB0FVrrB5t9mqvyzXzNvGYKO
+ Fp+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fX6hEXkHOn0EDIH5ppgTAZxEG1tZNK4v7KhIUlmGx5M=;
- b=tjCpmOptBw+P7gP+iKY8nolbZFbIdxfvqO8YL86JBHXRH2+UJahEUa7OULBOvY+Xvv
- TqfkmGcVu8DO7DMivKBeEM7rv9TDhrcXazKTwzoJTikeOiLHhiRI/7nDEE3trL5oncNg
- J3FAtXn6x5DCgJKjgFP25zitQKiyi87qwg+P7bQIACKEJ3m1q/lfHRun66eTmYhAKMfT
- AEy0Yof283c8gFkt8RxPDFZ1dmDRZ3pB4DToaPmE8FokrtWN+6P7GjCzDFOcSgqfu4YE
- cpwPUgX5gFgpzaNA0BtXqwfCz/pYuvCV6JrVn/uFIZxmrN5BS9MU39YLdf91ksTWKxCw
- Zi7w==
-X-Gm-Message-State: AOAM533VrFtl1trLUZdZ6m7/eNBd0qDrPDwRBzdIFNz10al4P01n1o7U
- 8DYr8wPySsBSq3u3OwZfbx4V4se1w9E=
-X-Google-Smtp-Source: ABdhPJzosXqnrg30Glb/e8pVNWp2DurBv7xYuCw8ER1o1ANc+KLu/D+uVw2qnceBEynPCG5A6WFV0A==
-X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr5768799wmk.123.1614896647799; 
- Thu, 04 Mar 2021 14:24:07 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id n66sm1250102wmn.25.2021.03.04.14.24.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 14:24:07 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 8/8] target/arm: Restrict arm_cpu_has_work() to TCG
-Date: Thu,  4 Mar 2021 23:23:23 +0100
-Message-Id: <20210304222323.1954755-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210304222323.1954755-1-f4bug@amsat.org>
-References: <20210304222323.1954755-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Hf00AHbHIMiNm64Y8lGK3pPtMES+J1oh7Yn7Ca/ioxA=;
+ b=SGZR5dMMff+OTXds9+bp+8Or74Q6oLwHfCSQ8KE4C3vzOqoyQLDXa3vBC2jWYD0uiu
+ ZdXQTEeiZQsPqZvsnWVKh6YYHEEfu0tqcfBmZI/U0Ztym5hVCFp6S0NmLSKgjn67lOTb
+ YnUdEvtywndC+NysrkWT3BQ4MoNecP/sclsyevDKBXScg03mnHzNC/n4pRMQ4lthqjHX
+ FG1xo8bLIz8TnXqN9PjfE4y+0pt0aApI0uzcFUFLS6A+3KoTVar1NPi9QssMkfOuZWj+
+ RLu1CnQUs/UwsEEeh+MuuwtfxZUxwVrHT6IN3T125Hw8V7j/178z2PrWo3z5buWpEmSY
+ Y2uQ==
+X-Gm-Message-State: AOAM530rsQXECMf5sQzTzfvRDyWFwxZYsqViNug7Us+FcbAB+yYSGOWU
+ ANMXmdutJyTtoj41ck4t06GdT+qHQ9ZFV6Wnv3s=
+X-Google-Smtp-Source: ABdhPJwUVO+yeK6V9fI/ic75sFUPWKsvu5iFup+wuuDL7/3dT0wSZSK4yHRcEgxXMQOmU3DuNMAA2eNbernztswPYe0=
+X-Received: by 2002:a05:6e02:218f:: with SMTP id
+ j15mr5854594ila.40.1614896990539; 
+ Thu, 04 Mar 2021 14:29:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210304140229.575481-1-armbru@redhat.com>
+ <20210304140229.575481-3-armbru@redhat.com>
+In-Reply-To: <20210304140229.575481-3-armbru@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 4 Mar 2021 17:28:33 -0500
+Message-ID: <CAKmqyKOTzdSB48KpOS9ovz3K+yvGa0jC5WEhZs9_MsrxGhgYPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] memory: Drop "qemu:" prefix from QOM memory region
+ type names
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,62 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Edgar Iglesias <edgar.iglesias@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-arm_cpu_has_work() is only used from TCG.
+On Thu, Mar 4, 2021 at 9:03 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Almost all QOM type names consist only of letters, digits, '-', '_',
+> and '.'.  Just two contain ':': "qemu:memory-region" and
+> "qemu:iommu-memory-region".  Neither can be plugged with -object.
+> Rename them to "memory-region" and "iommu-memory-region".
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/arm/internals.h | 2 +-
- target/arm/cpu.c       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 1930be08828..db81db9bf57 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -172,8 +172,8 @@ static inline int r14_bank_number(int mode)
- void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu);
- void arm_translate_init(void);
- 
--bool arm_cpu_has_work(CPUState *cs);
- #ifdef CONFIG_TCG
-+bool arm_cpu_has_work(CPUState *cs);
- void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
- #endif /* CONFIG_TCG */
- 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 7181deee84a..02db969c00f 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -74,7 +74,6 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
-         env->regs[15] = tb->pc;
-     }
- }
--#endif /* CONFIG_TCG */
- 
- bool arm_cpu_has_work(CPUState *cs)
- {
-@@ -86,6 +85,7 @@ bool arm_cpu_has_work(CPUState *cs)
-          | CPU_INTERRUPT_VFIQ | CPU_INTERRUPT_VIRQ
-          | CPU_INTERRUPT_EXITTB);
- }
-+#endif /* CONFIG_TCG */
- 
- void arm_register_pre_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
-                                  void *opaque)
--- 
-2.26.2
+Alistair
 
+> ---
+>  include/exec/memory.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index c6fb714e49..3c95d7831a 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -33,11 +33,11 @@
+>  #define MAX_PHYS_ADDR_SPACE_BITS 62
+>  #define MAX_PHYS_ADDR            (((hwaddr)1 << MAX_PHYS_ADDR_SPACE_BITS) - 1)
+>
+> -#define TYPE_MEMORY_REGION "qemu:memory-region"
+> +#define TYPE_MEMORY_REGION "memory-region"
+>  DECLARE_INSTANCE_CHECKER(MemoryRegion, MEMORY_REGION,
+>                           TYPE_MEMORY_REGION)
+>
+> -#define TYPE_IOMMU_MEMORY_REGION "qemu:iommu-memory-region"
+> +#define TYPE_IOMMU_MEMORY_REGION "iommu-memory-region"
+>  typedef struct IOMMUMemoryRegionClass IOMMUMemoryRegionClass;
+>  DECLARE_OBJ_CHECKERS(IOMMUMemoryRegion, IOMMUMemoryRegionClass,
+>                       IOMMU_MEMORY_REGION, TYPE_IOMMU_MEMORY_REGION)
+> --
+> 2.26.2
+>
+>
 
