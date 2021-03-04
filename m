@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645F732DD8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 00:02:48 +0100 (CET)
-Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F006C32DD8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 00:04:09 +0100 (CET)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwzX-0005Mn-Fw
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 18:02:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33266)
+	id 1lHx0r-0006YG-1q
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 18:04:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwwn-0003pK-Lh
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:59:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24069)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwxo-0004qu-Tx
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 18:01:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwwk-00018G-KN
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:59:56 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHwxk-0001fc-GG
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 18:00:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614898793;
+ s=mimecast20190719; t=1614898854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M1rpLv8KxYbBtMob/ezV18yLDXZopUTxKIYkf3/raeI=;
- b=bMOuW3RkAXRepJ20QCNC/0e6D5woQuzGSbk4KoNlKjRz8SOTr+rligd7ThAxI2snHsjZJM
- XvmKlW200hjZCY1Hg54xQ4r9tTNBxyBhzlpE5H7rEs+c0thWJFkMI1C8rYojWyf6ow6sVc
- 6GJmqQwRMphIeME9nU2+nDwbiSfflBs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-siZl8EL6O_KipXvYFCY4_w-1; Thu, 04 Mar 2021 17:59:51 -0500
-X-MC-Unique: siZl8EL6O_KipXvYFCY4_w-1
-Received: by mail-wr1-f69.google.com with SMTP id h21so152797wrc.19
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 14:59:51 -0800 (PST)
+ bh=CyNSzgGnR6dpuiMOOqx547GSjf0UyHB2EEND6GGGj6Y=;
+ b=TDUyGKkwRkkrFum9xWaPLSSgUVhbC1qEVL7yMqDsx9Ssx5kPpa3kRCkC+Ue6tJvUhOHm8G
+ p8KuwrSlUWS/mgBEAvtQExWrBn5yUFN8v0NW4Um+/kKfjKhbr5ur2fRHBOLVCOdtV9ISMg
+ MpApdFGJNFbDGWDDEi/FHvFG2/36bUo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-OtgsX192PTSYLDKvbUcTPQ-1; Thu, 04 Mar 2021 18:00:52 -0500
+X-MC-Unique: OtgsX192PTSYLDKvbUcTPQ-1
+Received: by mail-wm1-f71.google.com with SMTP id l16so33165wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 15:00:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=M1rpLv8KxYbBtMob/ezV18yLDXZopUTxKIYkf3/raeI=;
- b=lxLLkBS7UMf0Das9ZZySsQnwEH9IPqN7x3cHntfb6P1q09zmyCEeUN0VR0RIJYUGDt
- FkQEPNQUc18b1eOe2UYKJZHzODus2WKfVmJ9TvXX+sUlntJHZJ1lC686anuPapEaY6J7
- /lMh8KKMe0IDjzvns3RefP31Ay/We/+fOQyZGpCb6yoZWixBCv2hXJ24IKzCFtndV4oM
- WBwxloaTNecBtZYYP9ObAOINeT5BXVc43N2J4kWs4mMCdpeNznoupAQ7hZ/oMkgnNhda
- PPeQGjwmFVS6jKjd0TExxhyKFpFKCTEGtICkq3l2GUEj1X2QnvX+xWvseg5pA8uAXTmF
- 4c1A==
-X-Gm-Message-State: AOAM530yff/iWpiCUWeuffvdOsYI1955tJMkUy2EdRbr66sZoQz21HNn
- M9MjRQWEhcQinmj3D9YYZEvCjQqAAihLXByZHHyPmT9QdVqagqlQDRB3/mr+VhGuR2ZFxedGSzF
- fKTMFY+YRDOevCYxUplC580zl4sClimIf0iDZZp+zWI0v1p+KBS+LNmLgk9/czxBi
-X-Received: by 2002:adf:f303:: with SMTP id i3mr6130988wro.67.1614898790204;
- Thu, 04 Mar 2021 14:59:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3/zrEM2Tj1hMKOHGGzWJMfWROaOI56zRcY0YRswlLv3Whgb0VEB2ED8buxRKLBj3qrhnIlw==
-X-Received: by 2002:adf:f303:: with SMTP id i3mr6130964wro.67.1614898789901;
- Thu, 04 Mar 2021 14:59:49 -0800 (PST)
+ bh=CyNSzgGnR6dpuiMOOqx547GSjf0UyHB2EEND6GGGj6Y=;
+ b=oQ1JVvH2mfDPghHOcpkdI/0IFSmGFefWlVtQF1smELhguEkhGXZ1C6xayyFad3IDQb
+ 5GOndqCjzr8zXxN80aX2fOpqkq4x+cfm8ioJnQLnXkqRjbT+fTaT7ToJWptz1EXOS4Zd
+ t9T7PYWR4QW/ZACdSjz4CCfbC8sBKEisWOpgcAc3SFqkb//6SKKlVZQ/4vah4jF5uJcg
+ xtf3/c9mFxnc2sPMk4BE4fx7t3S2xmd8YA68pZubbqgOhe2f/zppjclv58kTyUnvd1bQ
+ hjsNs+dMmLNDgwH67E33Qm2KWq8rQCBK/gH5LEN6yNTq/uFjD8NnHfw1ygezkNFg8r6q
+ X4oQ==
+X-Gm-Message-State: AOAM530MWpsEs/bOfoDtlK5KupEqdBtJwURuCDY8hzlE2ER8cQPdbTvB
+ rmvhoAc4+x2qFXNFMDWJZhk6YFu7qLRNDlVWmYXDHey9ONyLDtQNj3xH11RtRFc1fF8E8Rp51ye
+ 1jAd952j1uMRIy4bd51ffl+YNaGe0QuZdTPfzD1oJIKHyKmKjyQwd0to+5MMhqOHs
+X-Received: by 2002:a1c:4903:: with SMTP id w3mr6004065wma.143.1614898851449; 
+ Thu, 04 Mar 2021 15:00:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwkSEamCtqInPf7rTVBuQYVVYujh3/TpDoFcBRbug+keKOrTAWjXqSQUMSkSIjorqLOhn/rhg==
+X-Received: by 2002:a1c:4903:: with SMTP id w3mr6004043wma.143.1614898851252; 
+ Thu, 04 Mar 2021 15:00:51 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e1sm1278906wrd.44.2021.03.04.14.59.48
+ by smtp.gmail.com with ESMTPSA id y16sm1184815wrh.3.2021.03.04.15.00.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 14:59:49 -0800 (PST)
+ Thu, 04 Mar 2021 15:00:50 -0800 (PST)
 Subject: Re: [PATCH v2] multi-process: Initialize variables declared with
  g_auto*
 To: Zenghui Yu <yuzenghui@huawei.com>, elena.ufimtseva@oracle.com,
  jag.raman@oracle.com, john.g.johnson@oracle.com
 References: <20210304021621.579-1-yuzenghui@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3f87a28e-5608-0b6e-5583-ba2acbacacf2@redhat.com>
-Date: Thu, 4 Mar 2021 23:59:48 +0100
+Message-ID: <5d848d2e-0521-25ef-97b5-2dcf25ef6a1a@redhat.com>
+Date: Fri, 5 Mar 2021 00:00:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -110,6 +110,9 @@ On 3/4/21 3:16 AM, Zenghui Yu wrote:
 >   otherwise the cleanup function will use uninitialized stack memory
 > 
 > Initialize @name properly to get rid of the compilation error:
+
+Maybe worth adding "(using gcc-7.3.0 on CentOS):"
+
 > 
 > ../hw/remote/proxy.c: In function 'pci_proxy_dev_realize':
 > /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: 'name' may be used uninitialized in this function [-Werror=maybe-uninitialized]
@@ -129,7 +132,43 @@ On 3/4/21 3:16 AM, Zenghui Yu wrote:
 >  hw/remote/memory.c | 5 ++---
 >  hw/remote/proxy.c  | 3 +--
 >  2 files changed, 3 insertions(+), 5 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> index 32085b1e05..d97947d4b8 100644
+> --- a/hw/remote/memory.c
+> +++ b/hw/remote/memory.c
+> @@ -42,10 +42,9 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+>  
+>      remote_sysmem_reset();
+>  
+> -    for (region = 0; region < msg->num_fds; region++) {
+> -        g_autofree char *name;
+> +    for (region = 0; region < msg->num_fds; region++, suffix++) {
+> +        g_autofree char *name = g_strdup_printf("remote-mem-%u", suffix);
+>          subregion = g_new(MemoryRegion, 1);
+> -        name = g_strdup_printf("remote-mem-%u", suffix++);
+>          memory_region_init_ram_from_fd(subregion, NULL,
+>                                         name, sysmem_info->sizes[region],
+>                                         true, msg->fds[region],
+> diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
+> index 4fa4be079d..6dda705fc2 100644
+> --- a/hw/remote/proxy.c
+> +++ b/hw/remote/proxy.c
+> @@ -347,13 +347,12 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
+>                     PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
+>  
+>          if (size) {
+> -            g_autofree char *name;
+> +            g_autofree char *name = g_strdup_printf("bar-region-%d", i);
+>              pdev->region[i].dev = pdev;
+>              pdev->region[i].present = true;
+>              if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
+>                  pdev->region[i].memory = true;
+>              }
+> -            name = g_strdup_printf("bar-region-%d", i);
+>              memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
+>                                    &proxy_mr_ops, &pdev->region[i],
+>                                    name, size);
+> 
 
 
