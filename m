@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4154F32DD08
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:30:29 +0100 (CET)
-Received: from localhost ([::1]:32848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC0932DCF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:28:04 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwUG-00076E-45
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:30:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
+	id 1lHwRv-0002N8-JW
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:28:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEE-0008SQ-6m
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:13:54 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40178
+ id 1lHwEO-0000VZ-Pr
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:04 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40184
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwE9-0006VR-PU
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:13:53 -0500
+ id 1lHwEM-0006Wj-VH
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:04 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwE1-0008MJ-Jd; Thu, 04 Mar 2021 22:13:47 +0000
+ id 1lHwE8-0008MJ-8M; Thu, 04 Mar 2021 22:13:51 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:49 +0000
-Message-Id: <20210304221103.6369-29-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:10:50 +0000
+Message-Id: <20210304221103.6369-30-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 28/42] esp: use FIFO for PDMA transfers between initiator
- and device
+Subject: [PATCH v3 29/42] esp: remove pdma_origin from ESPState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,242 +63,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PDMA as implemented on the Quadra 800 uses DREQ to load data into the FIFO
-up to a maximum of 16 bytes at a time. The MacOS toolbox ROM requires this
-because it mixes FIFO and PDMA transfers whilst checking the FIFO status
-and counter registers to ensure success.
+Now that all data is transferred via the FIFO (ti_buf) there is no need to track
+the source buffer being used for the data transfer. This also eliminates the
+need for a separate subsection for PDMA state migration.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 109 ++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 75 insertions(+), 34 deletions(-)
+ hw/scsi/esp.c         | 74 +++++--------------------------------------
+ include/hw/scsi/esp.h |  6 ----
+ 2 files changed, 8 insertions(+), 72 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 10e63d1f62..aa897a4ebd 100644
+index aa897a4ebd..79b84e31d3 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -134,13 +134,8 @@ static void set_pdma(ESPState *s, enum pdma_origin_id origin)
+@@ -127,32 +127,14 @@ static uint32_t esp_get_stc(ESPState *s)
+     return dmalen;
+ }
  
+-static void set_pdma(ESPState *s, enum pdma_origin_id origin)
+-{
+-    s->pdma_origin = origin;
+-}
+-
  static uint8_t esp_pdma_read(ESPState *s)
  {
--    uint32_t dmalen = esp_get_tc(s);
      uint8_t val;
  
--    if (dmalen == 0) {
--        return 0;
--    }
--
-     switch (s->pdma_origin) {
-     case TI:
-         if (s->do_cmd) {
-@@ -160,10 +155,6 @@ static uint8_t esp_pdma_read(ESPState *s)
-         g_assert_not_reached();
+-    switch (s->pdma_origin) {
+-    case TI:
+-        if (s->do_cmd) {
+-            val = s->cmdbuf[s->cmdlen++];
+-        } else {
+-            val = s->ti_buf[s->ti_rptr++];
+-        }
+-        break;
+-    case ASYNC:
+-        val = s->async_buf[0];
+-        if (s->async_len > 0) {
+-            s->async_len--;
+-            s->async_buf++;
+-        }
+-        break;
+-    default:
+-        g_assert_not_reached();
++    if (s->do_cmd) {
++        val = s->cmdbuf[s->cmdlen++];
++    } else {
++        val = s->ti_buf[s->ti_rptr++];
      }
  
--    s->ti_size--;
--    dmalen--;
--    esp_set_tc(s, dmalen);
--
      return val;
- }
- 
-@@ -194,7 +185,6 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
-         g_assert_not_reached();
-     }
- 
--    s->ti_size++;
-     dmalen--;
-     esp_set_tc(s, dmalen);
- }
-@@ -290,6 +280,7 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
-     s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
-     s->rregs[ESP_RSEQ] = SEQ_CD;
-     esp_raise_irq(s);
-+    esp_lower_drq(s);
- }
- 
- static void do_cmd(ESPState *s)
-@@ -447,28 +438,71 @@ static void esp_dma_done(ESPState *s)
- static void do_dma_pdma_cb(ESPState *s)
- {
-     int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
-+    int len;
- 
-     if (s->do_cmd) {
-         s->ti_size = 0;
-         s->cmdlen = 0;
-         s->do_cmd = 0;
-         do_cmd(s);
-+        esp_lower_drq(s);
+@@ -166,23 +148,10 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
          return;
      }
--    if (s->async_len == 0) {
--        scsi_req_continue(s->current_req);
--        /*
--         * If there is still data to be read from the device then
--         * complete the DMA operation immediately.  Otherwise defer
--         * until the scsi layer has completed.
--         */
--        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
-+
-+    if (to_device) {
-+        /* Copy FIFO data to device */
-+        len = MIN(s->ti_wptr, TI_BUFSZ);
-+        memcpy(s->async_buf, s->ti_buf, len);
-+        s->ti_wptr = 0;
-+        s->ti_rptr = 0;
-+        s->async_buf += len;
-+        s->async_len -= len;
-+        s->ti_size += len;
-+        if (s->async_len == 0) {
-+            scsi_req_continue(s->current_req);
-             return;
-         }
--    }
  
--    /* Partially filled a scsi buffer. Complete immediately.  */
--    esp_dma_done(s);
-+        if (esp_get_tc(s) == 0) {
-+            esp_lower_drq(s);
-+            esp_dma_done(s);
-+        }
-+
-+        return;
+-    switch (s->pdma_origin) {
+-    case TI:
+-        if (s->do_cmd) {
+-            s->cmdbuf[s->cmdlen++] = val;
+-        } else {
+-            s->ti_buf[s->ti_wptr++] = val;
+-        }
+-        break;
+-    case ASYNC:
+-        s->async_buf[0] = val;
+-        if (s->async_len > 0) {
+-            s->async_len--;
+-            s->async_buf++;
+-        }
+-        break;
+-    default:
+-        g_assert_not_reached();
++    if (s->do_cmd) {
++        s->cmdbuf[s->cmdlen++] = val;
 +    } else {
-+        if (s->async_len == 0) {
-+            if (s->current_req) {
-+                scsi_req_continue(s->current_req);
-+            }
-+
-+            /*
-+             * If there is still data to be read from the device then
-+             * complete the DMA operation immediately.  Otherwise defer
-+             * until the scsi layer has completed.
-+             */
-+            if (esp_get_tc(s) != 0 || s->ti_size == 0) {
-+                return;
-+            }
-+        }
-+
-+        if (esp_get_tc(s) != 0) {
-+            /* Copy device data to FIFO */
-+            s->ti_wptr = 0;
-+            s->ti_rptr = 0;
-+            len = MIN(s->async_len, TI_BUFSZ);
-+            memcpy(s->ti_buf, s->async_buf, len);
-+            s->ti_wptr += len;
-+            s->async_buf += len;
-+            s->async_len -= len;
-+            s->ti_size -= len;
-+            esp_set_tc(s, esp_get_tc(s) - len);
-+            return;
-+        }
-+
-+        /* Partially filled a scsi buffer. Complete immediately.  */
-+        esp_lower_drq(s);
-+        esp_dma_done(s);
-+    }
- }
++        s->ti_buf[s->ti_wptr++] = val;
+     }
  
- static void esp_do_dma(ESPState *s)
-@@ -511,7 +545,7 @@ static void esp_do_dma(ESPState *s)
+     dmalen--;
+@@ -232,7 +201,6 @@ static uint32_t get_cmd(ESPState *s)
+         if (s->dma_memory_read) {
+             s->dma_memory_read(s->dma_opaque, buf, dmalen);
+         } else {
+-            set_pdma(s, TI);
+             if (esp_select(s) < 0) {
+                 return -1;
+             }
+@@ -411,7 +379,6 @@ static void write_response(ESPState *s)
+             s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+             s->rregs[ESP_RSEQ] = SEQ_CD;
+         } else {
+-            set_pdma(s, TI);
+             s->pdma_cb = write_response_pdma_cb;
+             esp_raise_drq(s);
+             return;
+@@ -522,7 +489,6 @@ static void esp_do_dma(ESPState *s)
+         if (s->dma_memory_read) {
+             s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
+         } else {
+-            set_pdma(s, TI);
+             s->pdma_cb = do_dma_pdma_cb;
+             esp_raise_drq(s);
+             return;
+@@ -545,7 +511,6 @@ static void esp_do_dma(ESPState *s)
          if (s->dma_memory_read) {
              s->dma_memory_read(s->dma_opaque, s->async_buf, len);
          } else {
--            set_pdma(s, ASYNC);
-+            set_pdma(s, TI);
+-            set_pdma(s, TI);
              s->pdma_cb = do_dma_pdma_cb;
              esp_raise_drq(s);
              return;
-@@ -520,9 +554,20 @@ static void esp_do_dma(ESPState *s)
-         if (s->dma_memory_write) {
-             s->dma_memory_write(s->dma_opaque, s->async_buf, len);
-         } else {
--            set_pdma(s, ASYNC);
-+            /* Copy device data to FIFO */
-+            len = MIN(len, TI_BUFSZ - s->ti_wptr);
-+            memcpy(&s->ti_buf[s->ti_wptr], s->async_buf, len);
-+            s->ti_wptr += len;
-+            s->async_buf += len;
-+            s->async_len -= len;
-+            s->ti_size -= len;
-+            esp_set_tc(s, esp_get_tc(s) - len);
-+            set_pdma(s, TI);
+@@ -562,7 +527,6 @@ static void esp_do_dma(ESPState *s)
+             s->async_len -= len;
+             s->ti_size -= len;
+             esp_set_tc(s, esp_get_tc(s) - len);
+-            set_pdma(s, TI);
              s->pdma_cb = do_dma_pdma_cb;
              esp_raise_drq(s);
-+
-+            /* Indicate transfer to FIFO is complete */
-+            s->rregs[ESP_RSTAT] |= STAT_TC;
-             return;
-         }
-     }
-@@ -548,6 +593,7 @@ static void esp_do_dma(ESPState *s)
  
-     /* Partially filled a scsi buffer. Complete immediately.  */
-     esp_dma_done(s);
-+    esp_lower_drq(s);
+@@ -898,24 +862,6 @@ static bool esp_mem_accepts(void *opaque, hwaddr addr,
+     return (size == 1) || (is_write && size == 4);
  }
  
- static void esp_report_command_complete(ESPState *s, uint32_t status)
-@@ -564,6 +610,7 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
-     s->status = status;
-     s->rregs[ESP_RSTAT] = STAT_ST;
-     esp_dma_done(s);
-+    esp_lower_drq(s);
-     if (s->current_req) {
-         scsi_req_unref(s->current_req);
-         s->current_req = NULL;
-@@ -605,6 +652,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
-          * completion interrupt is deferred to here.
-          */
-         esp_dma_done(s);
-+        esp_lower_drq(s);
-     }
- }
- 
-@@ -976,10 +1024,8 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-         break;
-     }
-     dmalen = esp_get_tc(s);
--    if (dmalen == 0 && s->pdma_cb) {
--        esp_lower_drq(s);
-+    if (dmalen == 0 || (s->ti_wptr == TI_BUFSZ)) {
-         s->pdma_cb(s);
--        s->pdma_cb = NULL;
-     }
- }
- 
-@@ -988,14 +1034,10 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
- {
-     SysBusESPState *sysbus = opaque;
-     ESPState *s = ESP(&sysbus->esp);
--    uint32_t dmalen = esp_get_tc(s);
-     uint64_t val = 0;
- 
-     trace_esp_pdma_read(size);
- 
--    if (dmalen == 0) {
--        return 0;
+-static bool esp_pdma_needed(void *opaque)
+-{
+-    ESPState *s = opaque;
+-    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
+-           s->dma_enabled;
+-}
+-
+-static const VMStateDescription vmstate_esp_pdma = {
+-    .name = "esp/pdma",
+-    .version_id = 2,
+-    .minimum_version_id = 2,
+-    .needed = esp_pdma_needed,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_INT32(pdma_origin, ESPState),
+-        VMSTATE_END_OF_LIST()
 -    }
-     switch (size) {
-     case 1:
-         val = esp_pdma_read(s);
-@@ -1005,11 +1047,10 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-         val = (val << 8) | esp_pdma_read(s);
-         break;
-     }
--    dmalen = esp_get_tc(s);
--    if (dmalen == 0 && s->pdma_cb) {
--        esp_lower_drq(s);
-+    if (s->ti_rptr == s->ti_wptr) {
-+        s->ti_wptr = 0;
-+        s->ti_rptr = 0;
-         s->pdma_cb(s);
--        s->pdma_cb = NULL;
-     }
-     return val;
- }
+-};
+-
+ static bool esp_is_before_version_5(void *opaque, int version_id)
+ {
+     ESPState *s = ESP(opaque);
+@@ -970,10 +916,6 @@ const VMStateDescription vmstate_esp = {
+         VMSTATE_UINT32_TEST(mig_dma_left, ESPState, esp_is_before_version_5),
+         VMSTATE_END_OF_LIST()
+     },
+-    .subsections = (const VMStateDescription * []) {
+-        &vmstate_esp_pdma,
+-        NULL
+-    }
+ };
+ 
+ static void sysbus_esp_mem_write(void *opaque, hwaddr addr,
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index dbbbb3fc52..91f8ffd6c8 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -15,11 +15,6 @@ typedef void (*ESPDMAMemoryReadWriteFunc)(void *opaque, uint8_t *buf, int len);
+ 
+ typedef struct ESPState ESPState;
+ 
+-enum pdma_origin_id {
+-    TI,
+-    ASYNC,
+-};
+-
+ #define TYPE_ESP "esp"
+ OBJECT_DECLARE_SIMPLE_TYPE(ESPState, ESP)
+ 
+@@ -55,7 +50,6 @@ struct ESPState {
+     ESPDMAMemoryReadWriteFunc dma_memory_write;
+     void *dma_opaque;
+     void (*dma_cb)(ESPState *s);
+-    int pdma_origin;
+     void (*pdma_cb)(ESPState *s);
+ 
+     uint8_t mig_version_id;
 -- 
 2.20.1
 
