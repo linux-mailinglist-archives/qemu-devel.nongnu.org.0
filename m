@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E7632CA4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 03:03:17 +0100 (CET)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A6A32CA50
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 03:04:59 +0100 (CET)
+Received: from localhost ([::1]:43528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHdKe-00023E-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 21:03:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
+	id 1lHdMI-0003FG-Oy
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 21:04:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHdIq-0001Se-DN
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:01:24 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33315)
+ id 1lHdKy-0002hM-C9
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:03:36 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:38903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHdIo-0002TZ-KE
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:01:24 -0500
-Received: by mail-pf1-x433.google.com with SMTP id 192so10727190pfv.0
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 18:01:22 -0800 (PST)
+ id 1lHdKw-00038l-VT
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:03:36 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id l18so5712155pji.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 18:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YO0QtM/0DfLNQFg+ef16B4+fbBIxtq201AO9nj2bxd4=;
- b=at1SDy5of4SfGtowEbzAnZSx9K5WOI7yC4ZJK2FPQXIpS4cZ9hPoqdn97v8/taP5AL
- QrkReRIz/pdeLpHa5EsJPXFKD2NAwvh5Myd14cqMd5UAAufi/c334ZKLgJ+QB7wWNiIu
- Vw5H8dwJp023goGZjZpRoottbtyf5T74FGVOfpRagm0dCtm0JeVvJ1VquojxlGbX2+G0
- VhNj3Fv4StHci7qR+z/pfbFUtXIkd9W6/iicgXdg/+KISB+RBL0nrG5e/G/JldHKuXr+
- w6pM1/Wo1djyQB0iRKKOp4FdP7n0drIaHQ7lCIE6YuzSrqx5KF/5cGWrDbNEvlRMsdeo
- BRPQ==
+ bh=rkwh4s7pQAfsSrIJ3AM64jjb5p8K54Y0GIiVSIhs1Uk=;
+ b=NeICh5seTvs0+h3eCoToV0G9Ifi85ocdik/ICpg7alVPtMV8vPqL73Gb/dfhRpOV1r
+ vfeQrsKMIT5ByVxw74LeBq/e/06sLSvsBYXF7aGXAEZ/poVojaqoEq2Rku9MNNeSqE9e
+ ZvQKqaiXKmDcFFt6Zitaba5KsJcpwGo2DueClrIcW5OI4+VYbp2FqDUiyAaMf+Dk+TJm
+ peyD7oourvQbymzRq70RcRI7/RSNglIG5qSG+NwfbzBZSjdwLGQgKSFAtv2U1EaRhU85
+ 1oettoSrH31RmY6D4+3/tq3G9QP+10FT4zUDvUTT0aNBEwctl9Fv+NvYw6/v2aiBUVEB
+ QGcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YO0QtM/0DfLNQFg+ef16B4+fbBIxtq201AO9nj2bxd4=;
- b=Be/PD5aBL/nqUG4IHACILw8MAXFedIY25bnkwzu5NIHrf5483lNp2QMOE5td8MUEZT
- XnTnLCH15bnhdLHs9Z3oYoO30wnD89I4yV5rbOXbAxxMFLZFI0wbuVNE346Zx7dyliKv
- nBv8VDdleIa3GDkn/C6NHOyuO3pCCB3EsuLZLPy+LbaYXAgnkSLX+GJR5KP7jEuJxlYU
- dpOSOUPbM6P2y5nB3r4gGVticsLhc5FBCUmPXrrwzrj6rrqtgUffjBk/NZrw/cvijWuX
- Otz0e09NRNMZsO2f3H1/qg97ugS2vk7CsH9cUtJryMjyZX8j2gCwskN606GMXZGiefTl
- l6tQ==
-X-Gm-Message-State: AOAM531CqsJM7V14YlyH4weGGzU9cOgzCsRI1WmAq6JJ07bOyJLtSQbT
- VTqiMRcyk1ENVa7/ls6ZOw2B7g==
-X-Google-Smtp-Source: ABdhPJxYWTIOSBVYzYTYueXOAaFdbrLewZ79NJijtX3V/iASIbpcNkgTmOW1cQ1CIzda53/a6odycQ==
-X-Received: by 2002:a62:5344:0:b029:1df:c7d:3c3e with SMTP id
- h65-20020a6253440000b02901df0c7d3c3emr1637408pfb.11.1614823281175; 
- Wed, 03 Mar 2021 18:01:21 -0800 (PST)
+ bh=rkwh4s7pQAfsSrIJ3AM64jjb5p8K54Y0GIiVSIhs1Uk=;
+ b=m+wwWlPFyh1H4NQRm9TwLmVBvVg4WD01OI4cM/I+BiiuPwnhbesLacvSerOD1MLzlU
+ 9PsbQ+DDeZd6JUbPoeXFxmaCsBMuzDt4o45Li+1KIBXgcjNKVU1QGSw27eYdgZu0hSK0
+ IbH3S271S0n46Yo4wsHFh+B2C+dJddKRmG3T42y+iYW6UAOVT3aHPWi/4kz2iewvSEfu
+ vR2+dyKzdZTtDREk5XtelU9St1Xlwxe6s1F9FWI4JkHBdvfQ3ywYxmbA4maGrDJwwgFh
+ D4kBgXR+ekYdbw1Vg90oruKwKGJLXejSw+L8Ppv0azdPU7IacAd2c/CUk2aTa3BkjtSJ
+ 4aHA==
+X-Gm-Message-State: AOAM532xzZrkIxq69EtE/vcWn99LyCdV86IRmqzvDR/T8X+pFhUv+uvQ
+ 7NVxGrIefS3lG29Fn5W2p4g0XA==
+X-Google-Smtp-Source: ABdhPJwt++++YmarTAxwYlyl2mt9Ql5F9jmiKyCfmKZUzlK33xdkJR3recxX4bwU4gllqznzn5Qdmw==
+X-Received: by 2002:a17:902:c14c:b029:e5:cd82:a0b with SMTP id
+ 12-20020a170902c14cb02900e5cd820a0bmr1908458plj.34.1614823413459; 
+ Wed, 03 Mar 2021 18:03:33 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id y63sm18409404pfy.68.2021.03.03.18.01.20
+ by smtp.gmail.com with ESMTPSA id v126sm24408673pfv.163.2021.03.03.18.03.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 18:01:20 -0800 (PST)
-Subject: Re: [PATCH v2 08/24] hw/arm/mps2-tz: Condition IRQ splitting on
- number of CPUs, not board type
+ Wed, 03 Mar 2021 18:03:33 -0800 (PST)
+Subject: Re: [PATCH v2 20/24] hw/arm/mps2-tz: Add new mps3-an524 board
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210215115138.20465-1-peter.maydell@linaro.org>
- <20210215115138.20465-9-peter.maydell@linaro.org>
+ <20210215115138.20465-21-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <343647f5-8b2e-6e98-944c-d6cb47f668ac@linaro.org>
-Date: Wed, 3 Mar 2021 18:01:18 -0800
+Message-ID: <ccd5a3e6-247e-9d2e-e1ee-c2171c5752fe@linaro.org>
+Date: Wed, 3 Mar 2021 18:03:31 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210215115138.20465-9-peter.maydell@linaro.org>
+In-Reply-To: <20210215115138.20465-21-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,18 +94,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/21 3:51 AM, Peter Maydell wrote:
-> In the mps2-tz board code, we handle devices whose interrupt lines
-> must be wired to all CPUs by creating IRQ splitter devices for the
-> AN521, because it has 2 CPUs, but wiring the device IRQ directly to
-> the SSE/IoTKit input for the AN505, which has only 1 CPU.
+> Add support for the mps3-an524 board; this is an SSE-200 based FPGA
+> image, like the existing mps2-an521.  It has a usefully larger amount
+> of RAM, and a PL031 RTC, as well as some more minor differences.
 > 
-> We can avoid making an explicit check on the board type constant by
-> instead creating and using the IRQ splitters for any board with more
-> than 1 CPU.  This avoids having to add extra cases to the
-> conditionals every time we add new boards.
+> In real hardware this image runs on a newer generation of the FPGA
+> board, the MPS3 rather than the older MPS2.  Architecturally the two
+> boards are similar, so we implement the MPS3 boards in the mps2-tz.c
+> file as variations of the existing MPS2 boards.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
+>   hw/arm/mps2-tz.c | 139 +++++++++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 135 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
