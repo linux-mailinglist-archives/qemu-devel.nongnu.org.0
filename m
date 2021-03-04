@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B01232CC4C
+	by mail.lfdr.de (Postfix) with ESMTPS id 012DB32CC4B
 	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 07:03:39 +0100 (CET)
-Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHh5F-0002k4-Ll
+	id 1lHh5F-0002k9-Gu
 	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 01:03:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHh2l-0001dX-Ks
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 01:01:03 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53316)
+ id 1lHh2k-0001d5-Do
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 01:01:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lHh2i-00046Q-5D
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 01:01:03 -0500
+ id 1lHh2i-00047I-4i
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 01:01:01 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lHh2f-0002Io-Ds
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 06:00:57 +0000
+ id 1lHh2g-0002JU-4M
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 06:00:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5C3722E8024
- for <qemu-devel@nongnu.org>; Thu,  4 Mar 2021 06:00:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1AE732E8024
+ for <qemu-devel@nongnu.org>; Thu,  4 Mar 2021 06:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Mar 2021 05:53:07 -0000
+Date: Thu, 04 Mar 2021 05:55:47 -0000
 From: briancain <1916394@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: brian-cain fredb74
 X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
 X-Launchpad-Bug-Modifier: briancain (brian-cain)
 References: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
-Message-Id: <161483718806.23960.15142937219299779425.malone@soybean.canonical.com>
+Message-Id: <161483734790.8205.17790636394952447794.malone@gac.canonical.com>
 Subject: [Bug 1916394] Re: [git] Cannot build qemu: FAILED:
  target/hexagon/semantics_generated.pyinc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="cc773b502c7eaaa848fbc2be1565e01aee62f701"; Instance="production"
-X-Launchpad-Hash: 4e2accd43339b57ccb314b060cd777722e1529d7
+X-Launchpad-Hash: 8497ab0ec008eb1bef1ec3264bfe15d5082787a6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,19 +75,12 @@ Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still having trouble reproducing the issue.
+docker_arch_qemu_build.log.xz shows the output from the docker build via
+arch linux
 
-I don't have an arch system so I used Docker.  Would you be willing to
-check whether the Dockerfile represents a close enough match to your
-build process?
-
-Also, if you can think of anything particularly unique about your
-configuration, maybe I can try to come closer to reproducing this with
-some of those critical factors.
-
-** Attachment added: "Dockerfile"
-   https://bugs.launchpad.net/qemu/+bug/1916394/+attachment/5472325/+files/=
-Dockerfile
+** Attachment added: "docker_arch_qemu_build.log.xz"
+   https://bugs.launchpad.net/qemu/+bug/1916394/+attachment/5472326/+files/=
+docker_arch_qemu_build.log.xz
 
 -- =
 
