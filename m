@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E701B32DB41
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:38:50 +0100 (CET)
-Received: from localhost ([::1]:57472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCFA32DB45
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:41:28 +0100 (CET)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHukD-0003Qu-TY
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:38:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32814)
+	id 1lHuml-00066z-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:41:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lHuhR-0001eW-Q0; Thu, 04 Mar 2021 15:35:59 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:40217)
+ id 1lHuhW-0001g1-6X; Thu, 04 Mar 2021 15:36:03 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:40222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lHuhQ-0005Jg-1p; Thu, 04 Mar 2021 15:35:57 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ci14so32985658ejc.7;
- Thu, 04 Mar 2021 12:35:54 -0800 (PST)
+ id 1lHuhQ-0005Jl-8i; Thu, 04 Mar 2021 15:36:01 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ci14so32985748ejc.7;
+ Thu, 04 Mar 2021 12:35:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nTmBRecbgq7cn3kHeKQ6l9ze/qGvDgWNraw7SS97UQU=;
- b=rtaYZ9NZXHbrY132dK/qAgdCV7DbROChBMp1P6dOCSlgDbFfMaQKgvuakrCO6VTuZ6
- 3S4LGUrSk/E60wXlrEgMbZqKQ03Ssg75r19yqFcMbcm8900agRNJ2oVeA3jDV//3y81R
- HR+RYrEZFLqk9V1/TK47ut6fkhYbnISFE9utIqyJPdlDLIVmWd6ecOUtwMFJ9ZQYXLYh
- q+b9DEGQSl0iPQ8mPjjLO+baW2RPWeLBVkcxV/MOB6M5AhpivKhStJ4X8QSvy2fSQg/F
- lCN7AxmCq6X8QcDG0Vqdr2thukgdNdzteJPB9SVfo49xrZvaK55PyRTRy5BZCZ6j8NIU
- jtsA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kFj03blwbcM66TuxYye9XnlpLa3NkLZCnKGhAwTXsCo=;
+ b=ZPNU1XIveNLCQj0m/Hv+rSR2fxKvOhEBf9TpxLzoTgeWfhh/iEUTuGmr4IdNBW56KH
+ ZtEAkXGB5X5x0yDOEXIYpdnBQUCgiyR4bRzrSbc3jMsNVdxe4T+AspNbavIXOaggwOOC
+ yrZqFGNFFy1ayd8hQUwayCLSTV7rT4XonFBsYgJ7o26R8GwfnAOXG1obmdYiPWaSNreu
+ 7n71stLpGfZvXrtgcgxUADR4iH0qGJCrZX1CsiW2bRr0epGjSgF87S9JRSm/NddtUziw
+ EMbMgG5bAXhcb1JcRTVzQlMOo5hfkRlK7CK1YI8Ey7c5gNdU/xWZrMEFPnYQU/LwzeYp
+ DKrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nTmBRecbgq7cn3kHeKQ6l9ze/qGvDgWNraw7SS97UQU=;
- b=f0f7k32m3Jmsq1DtxLLoTHJiJDVxf64jeB3FeYzOMCTAxqrR+a7L6XlE1nsAtXFNC5
- l9XP+s8pr3fnNt0tfdsWmEc9SfdY5OIdiYcOFV5+/jUNMHL8LXidwfDgvsOF0rMkEFw+
- UvKVZJ7MwXq69mgNEU3+7Dqk4kqL+N3FZ7a+5SNXSm7EUCO/hIa5vwVD3vz5lFNIsOlq
- XATUKHiygjrClj1D291pY621XZL/ELLuQQ9N/NloL2yhoyC8WZSIO0SeeXwC3Ah/CQhF
- 8YlT6BSn8cynIwycttPUX80eOf60cV95TJRQXMi9D3utLreWJJ4LRbPboTVgONDnLLn5
- 2EsQ==
-X-Gm-Message-State: AOAM530jC5fhATuX1UXl5mto8Umzp9njB42zq0By0VI9LeYAB7TobgLm
- 42nyNTsscrprKRa2g9HeZ/fa5AzDvcI=
-X-Google-Smtp-Source: ABdhPJwVROMDK2VJmGCEkHa9sR0VcUIqkYT02JU7NeR/2ud9MqAjDmt1BWoBbelx0aiHE5tfQl9CmQ==
-X-Received: by 2002:a17:907:7014:: with SMTP id
- wr20mr6372939ejb.179.1614890153239; 
- Thu, 04 Mar 2021 12:35:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kFj03blwbcM66TuxYye9XnlpLa3NkLZCnKGhAwTXsCo=;
+ b=eHVJfYe/kRWgZ5iFxUBPGA8MsAZ9mI+BkY97+BfebD1H6JG1x8+pvfygHl628Y0bvU
+ MBp9CawVWbVDzpVyFvOiMpIQdEeaL/G8715lcjoBXspQF6zoKzK2lY/Q0t/EhXjYIimc
+ LbcbMz8nUs5DmHReizdLdGghPYD4TNb+ebINfkkL8rUxSZLucf1hy12ACgzgUs+t/fe8
+ 4vZmPVMveMreD5cl4178MR+8UTibRIkYM9JNxqX9dcloAEWvuhMQyVxg18oZdBX/Fasd
+ Ll7vqnj4vurcfSid32Cv30rHww7p4vfHH/hq711cF0p8ditQF4GACXUldQxNHAADWzRg
+ JqVQ==
+X-Gm-Message-State: AOAM530z6468y2Pz0FJANTFxno3Xb1MJI/++KG2ZqPLAn2mzAQ9rzu6e
+ E+EHDBNHsZDxwvQwueCqEZqhVO91VAsX3w==
+X-Google-Smtp-Source: ABdhPJx1u2pOp5Hm9SEKoNfc+tVXeqm+9U8M/A23G9McmeWk0f/aZNhH3j6/Zp0GCwgCc55gqhOImw==
+X-Received: by 2002:a17:906:32da:: with SMTP id
+ k26mr4740008ejk.483.1614890154363; 
+ Thu, 04 Mar 2021 12:35:54 -0800 (PST)
 Received: from tuf.home (2a02-a456-6be8-1-ebf2-7b2-6f3d-5954.fixed6.kpn.net.
  [2a02:a456:6be8:1:ebf2:7b2:6f3d:5954])
- by smtp.gmail.com with ESMTPSA id t8sm289956edv.16.2021.03.04.12.35.52
+ by smtp.gmail.com with ESMTPSA id t8sm289956edv.16.2021.03.04.12.35.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 12:35:52 -0800 (PST)
+ Thu, 04 Mar 2021 12:35:53 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] Allwinner H3 fixes for EMAC and acceptance tests
-Date: Thu,  4 Mar 2021 21:35:35 +0100
-Message-Id: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+Subject: [PATCH v3 1/5] hw/net/allwinner-sun8i-emac: traverse transmit queue
+ using TX_CUR_DESC register value
+Date: Thu,  4 Mar 2021 21:35:36 +0100
+Message-Id: <20210304203540.41614-2-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,40 +91,142 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following are maintenance patches for the Allwinner H3. The first patch
-resolves artifact download errors by updating the URLs to the armbian.com server.
+Currently the emulated EMAC for sun8i always traverses the transmit queue
+from the head when transferring packets. It searches for a list of consecutive
+descriptors whichs are flagged as ready for processing and transmits their payloads
+accordingly. The controller stops processing once it finds a descriptor that is not
+marked ready.
 
-The second patch is a fix for the EMAC that is used by the Allwinner H3 / Orange Pi PC machine.
+While the above behaviour works in most situations, it is not the same as the actual
+EMAC in hardware. Actual hardware uses the TX_CUR_DESC register value to keep track
+of the last position in the transmit queue and continues processing from that position
+when software triggers the start of DMA processing. The currently emulated behaviour can
+lead to packet loss on transmit when software fills the transmit queue with ready
+descriptors that overlap the tail of the circular list.
 
-ChangeLog:
+This commit modifies the emulated EMAC for sun8i such that it processes
+the transmit queue using the TX_CUR_DESC register in the same way as hardware.
 
-v3:
- - fixed the acceptance tests by using up-to-date armbian.com URLs
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/net/allwinner-sun8i-emac.c | 58 +++++++++++++++++++----------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
 
-v2:
- - added Reviewed-By tags
- - changed URL for artifacts to github.com/nieklinnenbank/QemuArtifacts
-
-Kind regards,
-
-Niek
-
-Niek Linnenbank (5):
-  hw/net/allwinner-sun8i-emac: traverse transmit queue using TX_CUR_DESC
-    register value
-  tests/acceptance/boot_linux_console: remove Armbian 19.11.3 bionic
-    test for orangepi-pc machine
-  tests/acceptance/boot_linux_console: change URL for
-    test_arm_orangepi_bionic_20_08
-  tests/acceptance: update sunxi kernel from armbian to 5.10.16
-  tests/acceptance: drop ARMBIAN_ARTIFACTS_CACHED condition for
-    orangepi-pc, cubieboard tests
-
- hw/net/allwinner-sun8i-emac.c          |  58 ++++++------
- tests/acceptance/boot_linux_console.py | 120 +++++++++----------------
- tests/acceptance/replay_kernel.py      |  10 +--
- 3 files changed, 77 insertions(+), 111 deletions(-)
-
+diff --git a/hw/net/allwinner-sun8i-emac.c b/hw/net/allwinner-sun8i-emac.c
+index 042768922c..e586c147e5 100644
+--- a/hw/net/allwinner-sun8i-emac.c
++++ b/hw/net/allwinner-sun8i-emac.c
+@@ -339,35 +339,40 @@ static void allwinner_sun8i_emac_update_irq(AwSun8iEmacState *s)
+     qemu_set_irq(s->irq, (s->int_sta & s->int_en) != 0);
+ }
+ 
+-static uint32_t allwinner_sun8i_emac_next_desc(AwSun8iEmacState *s,
+-                                               FrameDescriptor *desc,
+-                                               size_t min_size)
++static bool allwinner_sun8i_emac_desc_owned(FrameDescriptor *desc,
++                                            size_t min_buf_size)
+ {
+-    uint32_t paddr = desc->next;
++    return (desc->status & DESC_STATUS_CTL) && (min_buf_size == 0 ||
++           (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_buf_size);
++}
+ 
+-    dma_memory_read(&s->dma_as, paddr, desc, sizeof(*desc));
++static void allwinner_sun8i_emac_get_desc(AwSun8iEmacState *s,
++                                          FrameDescriptor *desc,
++                                          uint32_t phys_addr)
++{
++    dma_memory_read(&s->dma_as, phys_addr, desc, sizeof(*desc));
++}
+ 
+-    if ((desc->status & DESC_STATUS_CTL) &&
+-        (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
+-        return paddr;
+-    } else {
+-        return 0;
+-    }
++static uint32_t allwinner_sun8i_emac_next_desc(AwSun8iEmacState *s,
++                                               FrameDescriptor *desc)
++{
++    const uint32_t nxt = desc->next;
++    allwinner_sun8i_emac_get_desc(s, desc, nxt);
++    return nxt;
+ }
+ 
+-static uint32_t allwinner_sun8i_emac_get_desc(AwSun8iEmacState *s,
+-                                              FrameDescriptor *desc,
+-                                              uint32_t start_addr,
+-                                              size_t min_size)
++static uint32_t allwinner_sun8i_emac_find_desc(AwSun8iEmacState *s,
++                                               FrameDescriptor *desc,
++                                               uint32_t start_addr,
++                                               size_t min_size)
+ {
+     uint32_t desc_addr = start_addr;
+ 
+     /* Note that the list is a cycle. Last entry points back to the head. */
+     while (desc_addr != 0) {
+-        dma_memory_read(&s->dma_as, desc_addr, desc, sizeof(*desc));
++        allwinner_sun8i_emac_get_desc(s, desc, desc_addr);
+ 
+-        if ((desc->status & DESC_STATUS_CTL) &&
+-            (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
++        if (allwinner_sun8i_emac_desc_owned(desc, min_size)) {
+             return desc_addr;
+         } else if (desc->next == start_addr) {
+             break;
+@@ -383,14 +388,14 @@ static uint32_t allwinner_sun8i_emac_rx_desc(AwSun8iEmacState *s,
+                                              FrameDescriptor *desc,
+                                              size_t min_size)
+ {
+-    return allwinner_sun8i_emac_get_desc(s, desc, s->rx_desc_curr, min_size);
++    return allwinner_sun8i_emac_find_desc(s, desc, s->rx_desc_curr, min_size);
+ }
+ 
+ static uint32_t allwinner_sun8i_emac_tx_desc(AwSun8iEmacState *s,
+-                                             FrameDescriptor *desc,
+-                                             size_t min_size)
++                                             FrameDescriptor *desc)
+ {
+-    return allwinner_sun8i_emac_get_desc(s, desc, s->tx_desc_head, min_size);
++    allwinner_sun8i_emac_get_desc(s, desc, s->tx_desc_curr);
++    return s->tx_desc_curr;
+ }
+ 
+ static void allwinner_sun8i_emac_flush_desc(AwSun8iEmacState *s,
+@@ -470,7 +475,8 @@ static ssize_t allwinner_sun8i_emac_receive(NetClientState *nc,
+         bytes_left -= desc_bytes;
+ 
+         /* Move to the next descriptor */
+-        s->rx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc, 64);
++        s->rx_desc_curr = allwinner_sun8i_emac_find_desc(s, &desc, desc.next,
++                                                         AW_SUN8I_EMAC_MIN_PKT_SZ);
+         if (!s->rx_desc_curr) {
+             /* Not enough buffer space available */
+             s->int_sta |= INT_STA_RX_BUF_UA;
+@@ -495,10 +501,10 @@ static void allwinner_sun8i_emac_transmit(AwSun8iEmacState *s)
+     size_t transmitted = 0;
+     static uint8_t packet_buf[2048];
+ 
+-    s->tx_desc_curr = allwinner_sun8i_emac_tx_desc(s, &desc, 0);
++    s->tx_desc_curr = allwinner_sun8i_emac_tx_desc(s, &desc);
+ 
+     /* Read all transmit descriptors */
+-    while (s->tx_desc_curr != 0) {
++    while (allwinner_sun8i_emac_desc_owned(&desc, 0)) {
+ 
+         /* Read from physical memory into packet buffer */
+         bytes = desc.status2 & DESC_STATUS2_BUF_SIZE_MASK;
+@@ -524,7 +530,7 @@ static void allwinner_sun8i_emac_transmit(AwSun8iEmacState *s)
+             packet_bytes = 0;
+             transmitted++;
+         }
+-        s->tx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc, 0);
++        s->tx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc);
+     }
+ 
+     /* Raise transmit completed interrupt */
 -- 
 2.25.1
 
