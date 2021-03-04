@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C7F32D0FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:41:17 +0100 (CET)
-Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7659532D104
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:42:24 +0100 (CET)
+Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHlPv-0000gy-SN
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
+	id 1lHlR1-0002of-IX
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:42:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lHlNw-0007lf-6W
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:39:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50823)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHlOo-0000MW-5h
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:40:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lHlNt-0003Ki-06
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:39:11 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lHlOl-0003ga-Ug
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:40:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614854347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dhJnHEMUbA/gFGRds5Kz7ihWFbobZqDoQ9kWt0GQy1g=;
- b=LpCamMMpMTTjhbm3miiGiaPEuiGT38pV2NxMkRd1dHT/9aN7t8Bt9DVl7C+9H2aXAE63Ig
- A7Lq3Wc07rN3/y8jutRWFiss5R9MVual6pqggO/aw7vOTr94E0jz81pxTAzgh15HpOv/Ko
- WNupCqJMKHl0rawe87VoE8xwAXswYcY=
+ s=mimecast20190719; t=1614854403;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=YWhgcPErSn9U32dhXOTbQ3kHtPT63bh5Clv7bxbsX+Y=;
+ b=ee6OpPd3p+g8MtStvtRGRmUve6Kt1xHzi1juLmcwWj6OaoFYAmvSzezQHqOBzWRwIDIEwu
+ QXPzUpNgWWedRkrvAiwNsR6nxDMp9Ie1pqCBFGpaKqSOow6KNs8ImLdVsnnyDSmJ9QXd5J
+ wrBxJB8RVreGNmoZByWY6VKyZDLgYVM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-enNtq1f-NjuWYMHs83BGVA-1; Thu, 04 Mar 2021 05:39:06 -0500
-X-MC-Unique: enNtq1f-NjuWYMHs83BGVA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-386-u0I8FGjAPOabn0SfRSDyrQ-1; Thu, 04 Mar 2021 05:40:01 -0500
+X-MC-Unique: u0I8FGjAPOabn0SfRSDyrQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 436351B18BC1
- for <qemu-devel@nongnu.org>; Thu,  4 Mar 2021 10:39:05 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-208.ams2.redhat.com
- [10.36.114.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4361739A71;
- Thu,  4 Mar 2021 10:39:04 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] virtiofs: drop remapped security.capability xattr as needed
-Date: Thu,  4 Mar 2021 10:38:58 +0000
-Message-Id: <20210304103858.38400-2-dgilbert@redhat.com>
-In-Reply-To: <20210304103858.38400-1-dgilbert@redhat.com>
-References: <20210304103858.38400-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29971108BD0E;
+ Thu,  4 Mar 2021 10:40:00 +0000 (UTC)
+Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22181175BB;
+ Thu,  4 Mar 2021 10:39:44 +0000 (UTC)
+Date: Thu, 4 Mar 2021 10:39:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH v3 2/2] gitlab-ci.yml: Add jobs to test CFI flags
+Message-ID: <YEC47lN4Xt3LUsP6@redhat.com>
+References: <20210304030948.9367-1-dbuono@linux.vnet.ibm.com>
+ <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,213 +79,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, stefanha@redhat.com, vgoyal@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Wed, Mar 03, 2021 at 10:09:48PM -0500, Daniele Buono wrote:
+> QEMU has had options to enable control-flow integrity features
+> for a few months now. Add two sets of build/check/acceptance
+> jobs to ensure the binary produced is working fine.
+> 
+> The three sets allow testing of x86_64 binaries for x86_64, s390x,
+> ppc64 and aarch64 targets
+> 
+> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> ---
+>  .gitlab-ci.yml | 119 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 119 insertions(+)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 814f51873f..7b1f25c92e 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -483,6 +483,125 @@ clang-user:
+>        --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+>      MAKE_CHECK_ARGS: check-unit check-tcg
+>  
+> +# Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
+> +# On gitlab runners, default value sometimes end up calling 2 lds concurrently and
+> +# triggers an Out-Of-Memory error
+> +#
+> +# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
+> +# with QEMU and linked as a static library to avoid false positives in CFI checks.
+> +# This can be accomplished by using -enable-slirp=git, which avoids the use of
+> +# a system-wide version of the library
+> +#
+> +# Split in three sets of build/check/acceptance to limit the execution time of each
+> +# job
+> +build-cfi-arm:
 
-On Linux, the 'security.capability' xattr holds a set of
-capabilities that can change when an executable is run, giving
-a limited form of privilege escalation to those programs that
-the writer of the file deemed worthy.
+s/arm/aarch64/
 
-Any write causes the 'security.capability' xattr to be dropped,
-stopping anyone from gaining privilege by modifying a blessed
-file.
+> +  <<: *native_build_job_definition
+> +  needs:
+> +  - job: amd64-fedora-container
+> +  variables:
+> +    LD_JOBS: 1
+> +    AR: llvm-ar
+> +    IMAGE: fedora
+> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
+> +      --enable-safe-stack --enable-slirp=git
+> +    TARGETS: aarch64-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +
+> +check-cfi-arm:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-arm
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check
+> +
+> +acceptance-cfi-arm:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-arm
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check-acceptance
+> +  <<: *acceptance_definition
+> +
+> +build-cfi-ibm:
 
-Fuse relies on the daemon to do this dropping, and in turn the
-daemon relies on the host kernel to drop the xattr for it.  However,
-with the addition of -o xattrmap, the xattr that the guest
-stores its capabilities in is now not the same as the one that
-the host kernel automatically clears.
+Lets not use vendor names here - keep the target names. ie
 
-Where the mapping changes 'security.capability', explicitly clear
-the remapped name to preserve the same behaviour.
+  build-cfi-s390x-ppc64
 
-This bug is assigned CVE-2021-20263.
+and equivalent for the rest of the jobs below....
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
----
- docs/tools/virtiofsd.rst         |  4 ++
- tools/virtiofsd/passthrough_ll.c | 77 +++++++++++++++++++++++++++++++-
- 2 files changed, 80 insertions(+), 1 deletion(-)
+> +  <<: *native_build_job_definition
+> +  needs:
+> +  - job: amd64-fedora-container
+> +  variables:
+> +    LD_JOBS: 1
+> +    AR: llvm-ar
+> +    IMAGE: fedora
+> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
+> +      --enable-safe-stack --enable-slirp=git
+> +    TARGETS: ppc64-softmmu s390x-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +
+> +check-cfi-ibm:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-ibm
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check
+> +
+> +acceptance-cfi-ibm:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-ibm
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check-acceptance
+> +  <<: *acceptance_definition
+> +
+> +build-cfi-intel:
+> +  <<: *native_build_job_definition
+> +  needs:
+> +  - job: amd64-fedora-container
+> +  variables:
+> +    LD_JOBS: 1
+> +    AR: llvm-ar
+> +    IMAGE: fedora
+> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
+> +      --enable-safe-stack --enable-slirp=git
+> +    TARGETS: x86_64-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +
+> +check-cfi-intel:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-intel
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check
+> +
+> +acceptance-cfi-intel:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-cfi-intel
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +    MAKE_CHECK_ARGS: check-acceptance
+> +  <<: *acceptance_definition
+> +
+>  tsan-build:
+>    <<: *native_build_job_definition
+>    variables:
+> -- 
+> 2.30.0
+> 
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 866b7db3ee..00554c75bd 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -228,6 +228,10 @@ The 'map' type adds a number of separate rules to add **prepend** as a prefix
- to the matched **key** (or all attributes if **key** is empty).
- There may be at most one 'map' rule and it must be the last rule in the set.
- 
-+Note: When the 'security.capability' xattr is remapped, the daemon has to do
-+extra work to remove it during many operations, which the host kernel normally
-+does itself.
-+
- xattr-mapping Examples
- ----------------------
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 58d24c0010..fc7e1b1e8e 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -148,6 +148,7 @@ struct lo_data {
-     int posix_lock;
-     int xattr;
-     char *xattrmap;
-+    char *xattr_security_capability;
-     char *source;
-     char *modcaps;
-     double timeout;
-@@ -217,6 +218,8 @@ static __thread bool cap_loaded = 0;
- 
- static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-                                 uint64_t mnt_id);
-+static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-+                            char **out_name);
- 
- static int is_dot_or_dotdot(const char *name)
- {
-@@ -356,6 +359,37 @@ out:
-     return ret;
- }
- 
-+/*
-+ * The host kernel normally drops security.capability xattr's on
-+ * any write, however if we're remapping xattr names we need to drop
-+ * whatever the clients security.capability is actually stored as.
-+ */
-+static int drop_security_capability(const struct lo_data *lo, int fd)
-+{
-+    if (!lo->xattr_security_capability) {
-+        /* We didn't remap the name, let the host kernel do it */
-+        return 0;
-+    }
-+    if (!fremovexattr(fd, lo->xattr_security_capability)) {
-+        /* All good */
-+        return 0;
-+    }
-+
-+    switch (errno) {
-+    case ENODATA:
-+        /* Attribute didn't exist, that's fine */
-+        return 0;
-+
-+    case ENOTSUP:
-+        /* FS didn't support attribute anyway, also fine */
-+        return 0;
-+
-+    default:
-+        /* Hmm other error */
-+        return errno;
-+    }
-+}
-+
- static void lo_map_init(struct lo_map *map)
- {
-     map->elems = NULL;
-@@ -737,6 +771,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-         uid_t uid = (valid & FUSE_SET_ATTR_UID) ? attr->st_uid : (uid_t)-1;
-         gid_t gid = (valid & FUSE_SET_ATTR_GID) ? attr->st_gid : (gid_t)-1;
- 
-+        saverr = drop_security_capability(lo, ifd);
-+        if (saverr) {
-+            goto out_err;
-+        }
-+
-         res = fchownat(ifd, "", uid, gid, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-         if (res == -1) {
-             saverr = errno;
-@@ -759,6 +798,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-             }
-         }
- 
-+        saverr = drop_security_capability(lo, truncfd);
-+        if (saverr) {
-+            if (!fi) {
-+                close(truncfd);
-+            }
-+            goto out_err;
-+        }
-+
-         if (kill_suidgid) {
-             res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
-             if (res != 0) {
-@@ -1784,6 +1831,13 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-         if (fd < 0) {
-             return -fd;
-         }
-+        if (fi->flags & (O_TRUNC)) {
-+            int err = drop_security_capability(lo, fd);
-+            if (err) {
-+                close(fd);
-+                return err;
-+            }
-+        }
-     }
- 
-     pthread_mutex_lock(&lo->mutex);
-@@ -2191,6 +2245,12 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-              "lo_write_buf(ino=%" PRIu64 ", size=%zd, off=%lu kill_priv=%d)\n",
-              ino, out_buf.buf[0].size, (unsigned long)off, fi->kill_priv);
- 
-+    res = drop_security_capability(lo_data(req), out_buf.buf[0].fd);
-+    if (res) {
-+        fuse_reply_err(req, res);
-+        return;
-+    }
-+
-     /*
-      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
-      * clearing setuid/setgid on file. Note, for WRITE, we need to do
-@@ -2432,6 +2492,7 @@ static void parse_xattrmap(struct lo_data *lo)
- {
-     const char *map = lo->xattrmap;
-     const char *tmp;
-+    int ret;
- 
-     lo->xattr_map_nentries = 0;
-     while (*map) {
-@@ -2462,7 +2523,7 @@ static void parse_xattrmap(struct lo_data *lo)
-              * the last entry.
-              */
-             parse_xattrmap_map(lo, map, sep);
--            return;
-+            break;
-         } else {
-             fuse_log(FUSE_LOG_ERR,
-                      "%s: Unexpected type;"
-@@ -2531,6 +2592,19 @@ static void parse_xattrmap(struct lo_data *lo)
-         fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
-         exit(1);
-     }
-+
-+    ret = xattr_map_client(lo, "security.capability",
-+                           &lo->xattr_security_capability);
-+    if (ret) {
-+        fuse_log(FUSE_LOG_ERR, "Failed to map security.capability: %s\n",
-+                strerror(ret));
-+        exit(1);
-+    }
-+    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
-+        /* 1-1 mapping, don't need to do anything */
-+        free(lo->xattr_security_capability);
-+        lo->xattr_security_capability = NULL;
-+    }
- }
- 
- /*
-@@ -3588,6 +3662,7 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
- 
-     free(lo->xattrmap);
-     free_xattrmap(lo);
-+    free(lo->xattr_security_capability);
-     free(lo->source);
- }
- 
+Regards,
+Daniel
 -- 
-2.29.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
