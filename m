@@ -2,64 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163DC32D638
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:14:44 +0100 (CET)
-Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5807932D639
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 16:16:24 +0100 (CET)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHpgZ-00070p-2L
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:14:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37438)
+	id 1lHpiB-0000Ho-AT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 10:16:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lHpas-0005z9-28
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:08:50 -0500
-Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:43755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lHpap-0007u9-Hl
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:08:49 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 121B5267AD2;
- Thu,  4 Mar 2021 16:08:33 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 4 Mar 2021
- 16:08:32 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001660c3978-5b56-4c97-bfb2-624837788f5d,
- 861F461AB2AA5C3E7706B0F94E1142FCD934DD5A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 86.201.91.229
-Subject: Re: [PATCH v2 2/2] tests/acceptance: Test ast2600 machine
-To: Joel Stanley <joel@jms.id.au>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Wainer dos
- Santos Moschetta <wainersm@redhat.com>
-References: <20210304123951.163411-1-joel@jms.id.au>
- <20210304123951.163411-3-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <70780675-45ed-f68f-4220-39147d2d69ef@kaod.org>
-Date: Thu, 4 Mar 2021 16:08:31 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHpdU-0001cu-Rt
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:11:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lHpdR-0000or-HG
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 10:11:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614870687;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qlaQE99YW0c+cTmPRSFwIFZEM5J9sJwFfPgwDvIEPec=;
+ b=f4fCVYJ0vpFP63ah9ikohBq+ULQTLlwhU4TOBgs6nf2r8a8AhtLogVdADhEAXf8yYrSF/N
+ vZpkKdCBW8ZmQpZLfIMgTiBnQTySRnfVF5Bg23/xif8FTAG093nTeOy/1ZJnS9H8880g58
+ 8HmYW7dPWpU2cWHl6kJqn8vcmkWi6ys=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-l5brPDG7NO6gertGwpQl6w-1; Thu, 04 Mar 2021 10:11:25 -0500
+X-MC-Unique: l5brPDG7NO6gertGwpQl6w-1
+Received: by mail-wr1-f71.google.com with SMTP id e7so7679959wrw.18
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 07:11:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qlaQE99YW0c+cTmPRSFwIFZEM5J9sJwFfPgwDvIEPec=;
+ b=C+S3nJT4LYzXUNkayZC9QgCtH3iCsEfZOE7nmyID9qnFSn2FTG6QTavPCX8vfbAxPR
+ Py/6/1aQYs2jYGwuE03fEfPQAEJpt913TXoVc8EKB2N9NGi0lHOBqi1egP4J8B7W1iOa
+ ++3AVPCsENXCG90z5f1AYUiM0dTXUkE+3MUAoGiTHmVREz1GskeL/1KEC32Eal+JXVTN
+ 4g6N7b24IjK6UD+pTpvA0ry63hmTeoF+yNib6LaAgZWCOeMhbklIpQI92fJRBhgNZWZ7
+ aW11fKXbm3rYyo0BD9QvD0SXljPTSIa8DlwUQBjS+iGuK25vl5wcPt3cdHSNwF52gX6h
+ GOBg==
+X-Gm-Message-State: AOAM530pXrFR1PvyiYKXrdnqY8TDn3W0HxD/dyH4b8YY0KeEUUMAaDo5
+ 1fFPie6tU1xVelM6RpUwXMtYk3HJGdcrI+GXQk9TwEhU7vVHh92qLPkk14rmdFQpXWWibJ2fIHA
+ M0LeP3ANrlnGP0Yo=
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr4528169wrn.315.1614870684470; 
+ Thu, 04 Mar 2021 07:11:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzLRf7s1BkU1I0xpz1oVK+gBlCbqVr1uxNRSwH/QEreyrwjwEHOM5+Y+PwqXBWfmEgu0e5A5w==
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr4528143wrn.315.1614870684275; 
+ Thu, 04 Mar 2021 07:11:24 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id l15sm10384651wmh.21.2021.03.04.07.11.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 07:11:23 -0800 (PST)
+Subject: Re: [PATCH] docker: Base Fedora MinGW cross containers on the base
+ Fedora image
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210303124222.1485332-1-philmd@redhat.com>
+ <YD+FJarhR1yTWI0G@redhat.com>
+ <138832dc-9340-2a9f-1dc8-b20cc0637c5e@redhat.com>
+ <YEDsJUKudKJvZA7K@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <42ca9d3d-f3d2-68ed-f586-c833cbe3484b@redhat.com>
+Date: Thu, 4 Mar 2021 16:11:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210304123951.163411-3-joel@jms.id.au>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <YEDsJUKudKJvZA7K@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 72339887-924f-440a-b714-c41f6b6ddf4b
-X-Ovh-Tracer-Id: 17866061197691947884
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtgedgieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhgffgueevtdejffeikeelfedtteduieehueeiiefhgfevteevffejkefgfefhnecuffhomhgrihhnpeguvggsihgrnhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,66 +101,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/21 1:39 PM, Joel Stanley wrote:
-> This tests a Debian multi-soc arm32 Linux kernel on the AST2600 based
-> Tacoma BMC machine.
+On 3/4/21 3:18 PM, Daniel P. Berrangé wrote:
+> On Thu, Mar 04, 2021 at 03:00:04PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 3/3/21 1:46 PM, Daniel P. Berrangé wrote:
+>>> On Wed, Mar 03, 2021 at 01:42:22PM +0100, Philippe Mathieu-Daudé wrote:
+>>>> The only difference between fedora-winXX-cross.docker and
+>>>> fedora.docker is the specific QEMU_CONFIGURE_OPTS environment
+>>>> variable. All the rest can be inherited from the generic Fedora
+>>>> image.
+>>>
+>>> This is relying on the base Fedora image already having the
+>>> mingw packages installed. My series to automate creation of
+>>> the container dockerfiles removes those entirely, so we have
+>>> strictly separate native and mingw images for Fedora:
+>>>
+>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg03123.html
+>>
+>> I'm a bit confused. So instead of having one single big image,
+>> you prefer to have multiple ones.
+>>
+>> I stopped using the fedora-winXX-cross because they lacks ccache,
+>> and the "big" fedora image contains the mingwXX toolchains.
+>>
+>> I'll wait you respin your series and test the new created containers
+>> to see if they fit my needs.
 > 
-> There is no root file system so the test terminates when boot reaches
-> the stage where it attempts and fails to mount something.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ccache will be present in any of the containers I auto-generate for
+> QEMU using lcitool, as I agree its a very useful part o fthe toolchain.
+> So when i convert the winXXX-cross containers, they'll gain ccache
+> (and alot of other missing mingw pieces)
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
-
-> ---
-> v2: Update expected strings so test passes
-> ---
->  tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 2f46a08fdc10..4f1df69bc75c 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -1094,6 +1094,32 @@ def do_test_arm_aspeed(self, image):
->          # self.wait_for_console_pattern("login:")
->          self.vm.shutdown()
->  
-> +    def test_arm_ast2600_debian(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:tacoma-bmc
-> +        """
-> +        deb_url = ('http://snapshot.debian.org/archive/debian/'
-> +                   '20210302T203551Z/'
-> +                   'pool/main/l/linux/'
-> +                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
-> +        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
-> +        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
-> +                                    algorithm='sha256')
-> +        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
-> +        dtb_path = self.extract_from_deb(deb_path,
-> +                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-dtb', dtb_path,
-> +                         '-net', 'nic')
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern("Booting Linux on physical CPU 0xf00")
-> +        self.wait_for_console_pattern("SMP: Total of 2 processors activated")
-> +        self.wait_for_console_pattern("No filesystem could mount root")
-> +        self.vm.shutdown()
-> +
->      def test_m68k_mcf5208evb(self):
->          """
->          :avocado: tags=arch:m68k
-> 
+Cool, looking forward to QEMU using lcitool :)
 
 
