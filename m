@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA77032DCF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:27:07 +0100 (CET)
-Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DFA32DCFD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:29:11 +0100 (CET)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwR0-0001Dv-Me
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:27:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
+	id 1lHwT0-0004uy-DU
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:29:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEn-0001Mm-EI
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:29 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40240
+ id 1lHwFN-0002Xy-7l
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:15:05 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40310
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEk-0006g4-Ig
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:14:29 -0500
+ id 1lHwFL-0006yU-0W
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:15:04 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwEU-0008MJ-8k; Thu, 04 Mar 2021 22:14:15 +0000
+ id 1lHwF4-0008MJ-Qa; Thu, 04 Mar 2021 22:14:51 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:55 +0000
-Message-Id: <20210304221103.6369-35-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:11:02 +0000
+Message-Id: <20210304221103.6369-42-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 34/42] esp: remove old deferred command completion mechanism
+Subject: [PATCH v3 41/42] esp: implement non-DMA transfers in PDMA mode
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,119 +63,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit ea84a44250 "scsi: esp: Defer command completion until previous interrupts
-have been handled" provided a mechanism to delay the command completion interrupt
-until ESP_RINTR is read after the command has completed.
-
-With the previous fixes for latching the ESP_RINTR bits and deferring the setting
-of the command completion interrupt for incoming data to the SCSI callback, this
-workaround is no longer required and can be removed.
+The MacOS toolbox ROM uses non-DMA TI commands to handle the first/last byte
+of an unaligned 16-bit transfer to memory.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c         | 35 +++++++++--------------------------
- include/hw/scsi/esp.h |  4 ++--
- 2 files changed, 11 insertions(+), 28 deletions(-)
+ hw/scsi/esp.c         | 133 ++++++++++++++++++++++++++++++------------
+ include/hw/scsi/esp.h |   1 +
+ 2 files changed, 98 insertions(+), 36 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 0eecc1d05c..eb6681ca66 100644
+index 8a9b1500de..f828e70865 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -568,18 +568,20 @@ static void esp_do_dma(ESPState *s)
+@@ -296,6 +296,7 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
+     if (datalen != 0) {
+         s->rregs[ESP_RSTAT] = STAT_TC;
+         s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->ti_cmd = 0;
+         esp_set_tc(s, 0);
+         if (datalen > 0) {
+             /*
+@@ -645,6 +646,71 @@ static void esp_do_dma(ESPState *s)
      esp_lower_drq(s);
  }
  
--static void esp_report_command_complete(ESPState *s, uint32_t status)
-+void esp_command_complete(SCSIRequest *req, size_t resid)
- {
-+    ESPState *s = req->hba_private;
++static void esp_do_nodma(ESPState *s)
++{
++    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
++    uint32_t cmdlen, n;
++    int len;
 +
-     trace_esp_command_complete();
-     if (s->ti_size != 0) {
-         trace_esp_command_complete_unexpected();
-     }
-     s->ti_size = 0;
-     s->async_len = 0;
--    if (status) {
-+    if (req->status) {
-         trace_esp_command_complete_fail();
-     }
--    s->status = status;
-+    s->status = req->status;
-     s->rregs[ESP_RSTAT] = STAT_ST;
-     esp_dma_done(s);
-     esp_lower_drq(s);
-@@ -590,23 +592,6 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
-     }
- }
- 
--void esp_command_complete(SCSIRequest *req, size_t resid)
--{
--    ESPState *s = req->hba_private;
--
--    if (s->rregs[ESP_RSTAT] & STAT_INT) {
--        /*
--         * Defer handling command complete until the previous
--         * interrupt has been handled.
--         */
--        trace_esp_command_complete_deferred();
--        s->deferred_status = req->status;
--        s->deferred_complete = true;
--        return;
--    }
--    esp_report_command_complete(s, req->status);
--}
--
- void esp_transfer_data(SCSIRequest *req, uint32_t len)
++    if (s->do_cmd) {
++        cmdlen = fifo8_num_used(&s->cmdfifo);
++        trace_esp_handle_ti_cmd(cmdlen);
++        s->ti_size = 0;
++        if ((s->rregs[ESP_RSTAT] & 7) == STAT_CD) {
++            /* No command received */
++            if (s->cmdfifo_cdb_offset == fifo8_num_used(&s->cmdfifo)) {
++                return;
++            }
++
++            /* Command has been received */
++            s->do_cmd = 0;
++            do_cmd(s);
++        } else {
++            /*
++             * Extra message out bytes received: update cmdfifo_cdb_offset
++             * and then switch to commmand phase
++             */
++            s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
++            s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
++            s->rregs[ESP_RSEQ] = SEQ_CD;
++            s->rregs[ESP_RINTR] |= INTR_BS;
++            esp_raise_irq(s);
++        }
++        return;
++    }
++
++    if (s->async_len == 0) {
++        /* Defer until data is available.  */
++        return;
++    }
++
++    if (to_device) {
++        len = MIN(fifo8_num_used(&s->fifo), ESP_FIFO_SZ);
++        memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
++        s->async_buf += len;
++        s->async_len -= len;
++        s->ti_size += len;
++    } else {
++        len = MIN(s->ti_size, s->async_len);
++        len = MIN(len, fifo8_num_free(&s->fifo));
++        fifo8_push_all(&s->fifo, s->async_buf, len);
++        s->async_buf += len;
++        s->async_len -= len;
++        s->ti_size -= len;
++    }
++
++    if (s->async_len == 0) {
++        scsi_req_continue(s->current_req);
++
++        if (to_device || s->ti_size == 0) {
++            return;
++        }
++    }
++
++    s->rregs[ESP_RINTR] |= INTR_BS;
++    esp_raise_irq(s);
++}
++
+ void esp_command_complete(SCSIRequest *req, size_t resid)
  {
      ESPState *s = req->hba_private;
-@@ -733,10 +718,6 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+@@ -701,56 +767,51 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+         return;
+     }
+ 
+-    if (dmalen) {
+-        esp_do_dma(s);
+-    } else if (s->ti_size <= 0) {
++    if (s->ti_cmd == 0) {
+         /*
+-         * If this was the last part of a DMA transfer then the
+-         * completion interrupt is deferred to here.
++         * Always perform the initial transfer upon reception of the next TI
++         * command to ensure the DMA/non-DMA status of the command is correct.
++         * It is not possible to use s->dma directly in the section below as
++         * some OSs send non-DMA NOP commands after a DMA transfer. Hence if the
++         * async data transfer is delayed then s->dma is set incorrectly.
+          */
+-        esp_dma_done(s);
+-        esp_lower_drq(s);
++        return;
++    }
++
++    if (s->ti_cmd & CMD_DMA) {
++        if (dmalen) {
++            esp_do_dma(s);
++        } else if (s->ti_size <= 0) {
++            /*
++             * If this was the last part of a DMA transfer then the
++             * completion interrupt is deferred to here.
++             */
++            esp_dma_done(s);
++            esp_lower_drq(s);
++        }
++    } else {
++        esp_do_nodma(s);
+     }
+ }
+ 
+ static void handle_ti(ESPState *s)
+ {
+-    uint32_t dmalen, cmdlen;
++    uint32_t dmalen;
+ 
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_ti;
+         return;
+     }
+ 
+-    dmalen = esp_get_tc(s);
++    s->ti_cmd = s->rregs[ESP_CMD];
+     if (s->dma) {
++        dmalen = esp_get_tc(s);
+         trace_esp_handle_ti(dmalen);
          s->rregs[ESP_RSTAT] &= ~STAT_TC;
-         s->rregs[ESP_RSEQ] = SEQ_0;
-         esp_lower_irq(s);
--        if (s->deferred_complete) {
--            esp_report_command_complete(s, s->deferred_status);
--            s->deferred_complete = false;
+         esp_do_dma(s);
+-    } else if (s->do_cmd) {
+-        cmdlen = fifo8_num_used(&s->cmdfifo);
+-        trace_esp_handle_ti_cmd(cmdlen);
+-        s->ti_size = 0;
+-        if ((s->rregs[ESP_RSTAT] & 7) == STAT_CD) {
+-            /* No command received */
+-            if (s->cmdfifo_cdb_offset == fifo8_num_used(&s->cmdfifo)) {
+-                return;
+-            }
+-
+-            /* Command has been received */
+-            s->do_cmd = 0;
+-            do_cmd(s);
+-        } else {
+-            /*
+-             * Extra message out bytes received: update cmdfifo_cdb_offset
+-             * and then switch to commmand phase
+-             */
+-            s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
+-            s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
+-            s->rregs[ESP_RSEQ] = SEQ_CD;
+-            s->rregs[ESP_RINTR] |= INTR_BS;
+-            esp_raise_irq(s);
 -        }
-         break;
-     case ESP_TCHI:
-         /* Return the unique id if the value has never been written */
-@@ -944,8 +925,10 @@ const VMStateDescription vmstate_esp = {
-         VMSTATE_UINT32(ti_wptr, ESPState),
-         VMSTATE_BUFFER(ti_buf, ESPState),
-         VMSTATE_UINT32(status, ESPState),
--        VMSTATE_UINT32(deferred_status, ESPState),
--        VMSTATE_BOOL(deferred_complete, ESPState),
-+        VMSTATE_UINT32_TEST(mig_deferred_status, ESPState,
-+                            esp_is_before_version_5),
-+        VMSTATE_BOOL_TEST(mig_deferred_complete, ESPState,
-+                          esp_is_before_version_5),
-         VMSTATE_UINT32(dma, ESPState),
-         VMSTATE_PARTIAL_BUFFER(cmdbuf, ESPState, 16),
-         VMSTATE_BUFFER_START_MIDDLE_V(cmdbuf, ESPState, 16, 4),
++    } else {
++        trace_esp_handle_ti(s->ti_size);
++        esp_do_nodma(s);
+     }
+ }
+ 
+@@ -789,12 +850,12 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+ 
+     switch (saddr) {
+     case ESP_FIFO:
+-        if ((s->rregs[ESP_RSTAT] & STAT_PIO_MASK) == 0) {
++        if (s->dma_memory_read && s->dma_memory_write &&
++                (s->rregs[ESP_RSTAT] & STAT_PIO_MASK) == 0) {
+             /* Data out.  */
+             qemu_log_mask(LOG_UNIMP, "esp: PIO data read not implemented\n");
+             s->rregs[ESP_FIFO] = 0;
+         } else {
+-            s->ti_size--;
+             s->rregs[ESP_FIFO] = esp_fifo_pop(s);
+         }
+         val = s->rregs[ESP_FIFO];
+@@ -846,7 +907,6 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
+         if (s->do_cmd) {
+             esp_cmdfifo_push(s, val);
+         } else {
+-            s->ti_size++;
+             esp_fifo_push(s, val);
+         }
+ 
+@@ -1047,6 +1107,7 @@ const VMStateDescription vmstate_esp = {
+         VMSTATE_UINT8_TEST(cmdfifo_cdb_offset, ESPState, esp_is_version_5),
+         VMSTATE_FIFO8_TEST(fifo, ESPState, esp_is_version_5),
+         VMSTATE_FIFO8_TEST(cmdfifo, ESPState, esp_is_version_5),
++        VMSTATE_UINT8_TEST(ti_cmd, ESPState, esp_is_version_5),
+         VMSTATE_END_OF_LIST()
+     },
+ };
 diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index 61bc317a4c..7d88fa0f92 100644
+index 2fe8d20ab5..95088490aa 100644
 --- a/include/hw/scsi/esp.h
 +++ b/include/hw/scsi/esp.h
-@@ -30,8 +30,6 @@ struct ESPState {
-     int32_t ti_size;
-     uint32_t ti_rptr, ti_wptr;
-     uint32_t status;
--    uint32_t deferred_status;
--    bool deferred_complete;
-     uint32_t dma;
-     uint8_t ti_buf[TI_BUFSZ];
-     SCSIBus bus;
-@@ -57,6 +55,8 @@ struct ESPState {
+@@ -40,6 +40,7 @@ struct ESPState {
+     uint32_t do_cmd;
  
-     /* Legacy fields for vmstate_esp version < 5 */
-     uint32_t mig_dma_left;
-+    uint32_t mig_deferred_status;
-+    bool mig_deferred_complete;
- };
+     bool data_in_ready;
++    uint8_t ti_cmd;
+     int dma_enabled;
  
- #define TYPE_SYSBUS_ESP "sysbus-esp"
+     uint32_t async_len;
 -- 
 2.20.1
 
