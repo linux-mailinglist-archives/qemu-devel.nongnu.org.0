@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766DE32CC0D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 06:35:49 +0100 (CET)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E832CC10
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 06:38:09 +0100 (CET)
+Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHgeK-0003VL-0L
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 00:35:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50790)
+	id 1lHgga-0004uO-89
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 00:38:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgcq-0002fV-Si
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:34:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57787)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgfK-0004BS-3Y
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:36:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgcn-00086U-Fm
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:34:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lHgfH-0001MR-6A
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 00:36:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614836052;
+ s=mimecast20190719; t=1614836206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V1cI1K6+5ruRoZ1BJOBD/YB0HseDqL915QQ8vQ0doDc=;
- b=ddnn7qX4/pvvdMsRF9uDmIfzALypv7G4ULpl4evW+X+XTLUc6Z1+RVoNB6ClaavsfD8MHu
- MxOPO+gbSkYLtqvy7i9HF3UrOF9nDyLTl3WW1UdOZvRQKenIW/4mFDYPWyzgFEQpjnSjDj
- SWZJHwFt8rvsRRtdnQ6AFxav97IUlEo=
+ bh=qVnIxoln5A3jbAOoeJlhytTMjeR1GSgtbbc8y/OSwic=;
+ b=KGOALMIngwRfjldmziFHpQppdYo63zIb2BTAPQ6mMKRkFttNGwmkjMCSroUS+PbjgDgqnE
+ 4pE+VxAdNn96O6f5FUhfi2HbNHyyFAdNyQF0HBJBL5Y4UoNiH/WxUD/jRCf94avdAFH8iT
+ kZ5iLNV1GKErq54uw1o3v1YbwzFE9CI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-KClGj9yPPTygMYTEq9P1Ug-1; Thu, 04 Mar 2021 00:34:08 -0500
-X-MC-Unique: KClGj9yPPTygMYTEq9P1Ug-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-151-4h1ok6LIPK22e2gPkWeGUA-1; Thu, 04 Mar 2021 00:36:44 -0500
+X-MC-Unique: 4h1ok6LIPK22e2gPkWeGUA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80AF0803F4A;
- Thu,  4 Mar 2021 05:34:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BFDE80196E;
+ Thu,  4 Mar 2021 05:36:43 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 762686F7E7;
- Thu,  4 Mar 2021 05:33:51 +0000 (UTC)
-Subject: Re: [PATCH v3 3/5] seccomp: Replace the word 'blacklist'
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E79C10013D6;
+ Thu,  4 Mar 2021 05:36:24 +0000 (UTC)
+Subject: Re: [PATCH v3 4/5] qemu-options: Replace the word 'blacklist'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>,
  Eduardo Otubo <otubo@redhat.com>
 References: <20210303184644.1639691-1-philmd@redhat.com>
- <20210303184644.1639691-4-philmd@redhat.com>
+ <20210303184644.1639691-5-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d13b1ca5-6bc1-ce10-6da1-22a524a76867@redhat.com>
-Date: Thu, 4 Mar 2021 06:33:50 +0100
+Message-ID: <f4d59c51-d40e-6d51-851a-82984fd43151@redhat.com>
+Date: Thu, 4 Mar 2021 06:36:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210303184644.1639691-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210303184644.1639691-5-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,14 +61,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -103,55 +103,31 @@ On 03/03/2021 19.46, Philippe Mathieu-Daudé wrote:
 > [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
 > 
 > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Acked-by: Eduardo Otubo <otubo@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> v3: Reworded comment (thuth)
-> ---
->   softmmu/qemu-seccomp.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   qemu-options.hx | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-> index 377ef6937ca..9c29d9cf007 100644
-> --- a/softmmu/qemu-seccomp.c
-> +++ b/softmmu/qemu-seccomp.c
-> @@ -45,8 +45,8 @@ const struct scmp_arg_cmp sched_setscheduler_arg[] = {
->       { .arg = 1, .op = SCMP_CMP_NE, .datum_a = SCHED_IDLE }
->   };
->   
-> -static const struct QemuSeccompSyscall blacklist[] = {
-> -    /* default set of syscalls to blacklist */
-> +static const struct QemuSeccompSyscall denylist[] = {
-> +    /* default set of syscalls that should get blocked */
->       { SCMP_SYS(reboot),                 QEMU_SECCOMP_SET_DEFAULT },
->       { SCMP_SYS(swapon),                 QEMU_SECCOMP_SET_DEFAULT },
->       { SCMP_SYS(swapoff),                QEMU_SECCOMP_SET_DEFAULT },
-> @@ -175,18 +175,18 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
->           goto seccomp_return;
->       }
->   
-> -    for (i = 0; i < ARRAY_SIZE(blacklist); i++) {
-> +    for (i = 0; i < ARRAY_SIZE(denylist); i++) {
->           uint32_t action;
-> -        if (!(seccomp_opts & blacklist[i].set)) {
-> +        if (!(seccomp_opts & denylist[i].set)) {
->               continue;
->           }
->   
-> -        action = qemu_seccomp_get_action(blacklist[i].set);
-> -        rc = seccomp_rule_add_array(ctx, action, blacklist[i].num,
-> -                                    blacklist[i].narg, blacklist[i].arg_cmp);
-> +        action = qemu_seccomp_get_action(denylist[i].set);
-> +        rc = seccomp_rule_add_array(ctx, action, denylist[i].num,
-> +                                    denylist[i].narg, denylist[i].arg_cmp);
->           if (rc < 0) {
->               error_setg_errno(errp, -rc,
-> -                             "failed to add seccomp blacklist rules");
-> +                             "failed to add seccomp denylist rules");
->               goto seccomp_return;
->           }
->       }
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 252db9357ca..8462dc5f158 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4299,12 +4299,12 @@ DEF("sandbox", HAS_ARG, QEMU_OPTION_sandbox, \
+>       "                use 'obsolete' to allow obsolete system calls that are provided\n" \
+>       "                    by the kernel, but typically no longer used by modern\n" \
+>       "                    C library implementations.\n" \
+> -    "                use 'elevateprivileges' to allow or deny QEMU process to elevate\n" \
+> -    "                    its privileges by blacklisting all set*uid|gid system calls.\n" \
+> +    "                use 'elevateprivileges' to allow or deny the QEMU process ability\n" \
+> +    "                    to elevate privileges using set*uid|gid system calls.\n" \
+>       "                    The value 'children' will deny set*uid|gid system calls for\n" \
+>       "                    main QEMU process but will allow forks and execves to run unprivileged\n" \
+>       "                use 'spawn' to avoid QEMU to spawn new threads or processes by\n" \
+> -    "                     blacklisting *fork and execve\n" \
+> +    "                     blocking *fork and execve\n" \
+>       "                use 'resourcecontrol' to disable process affinity and schedular priority\n",
+>       QEMU_ARCH_ALL)
+>   SRST
 > 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
