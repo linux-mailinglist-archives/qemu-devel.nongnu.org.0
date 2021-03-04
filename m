@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD1A32DB31
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:28:16 +0100 (CET)
-Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709F032DB37
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 21:31:56 +0100 (CET)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHuZz-00031D-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:28:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57922)
+	id 1lHudX-0005MS-AL
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 15:31:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lHuUu-0006GZ-PO
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:23:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lHuUs-00084h-K3
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 15:23:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614889377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ctHBaiWmVMXY2dhpMNylgQi+2H3HFa+ZzDgg2Gv9ZB4=;
- b=OuqmIQOuaS6/XHMveMZGGhwf3q80ILpkZdoqueDy5aBBQpvwmHC1/LncODJ5qyj7Ap1qhI
- OUQl0ANE7RkH814yA3HvjBx9p7yheZPoSx5FhiTPoVOR2t2OrZdVkuCkBIBW8DJCMOPx2f
- obSm9RQd2dZfhPkJDCws+vvrFrjsxEQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-8t23iNwUMvq2cZaRNSO7Wg-1; Thu, 04 Mar 2021 15:22:54 -0500
-X-MC-Unique: 8t23iNwUMvq2cZaRNSO7Wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0BCB1018F64;
- Thu,  4 Mar 2021 20:22:52 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-76.ams2.redhat.com
- [10.36.112.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D11260C0F;
- Thu,  4 Mar 2021 20:22:43 +0000 (UTC)
-Subject: Re: [PATCH v3 0/4] acpi: Set proper maximum size for
- "etc/table-loader" blob
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210304105554.121674-1-david@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <978fd3a9-88cd-f132-4234-084667e83bcf@redhat.com>
-Date: Thu, 4 Mar 2021 21:22:41 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHuUm-0005w0-3T; Thu, 04 Mar 2021 15:22:52 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHuUk-00080j-4U; Thu, 04 Mar 2021 15:22:51 -0500
+Received: by mail-wm1-x330.google.com with SMTP id k66so10928500wmf.1;
+ Thu, 04 Mar 2021 12:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QLLUoZUDXAVz+xqcLApBhYjtsuVSgvIE9lsUXIfKtWM=;
+ b=OJNAVsrYu81xM/eFu+er1GGHhjoSoYIPrEaRYNwds1Is1SpBUjPS5VBxGBJDO/YMTk
+ vhIP9czvVUXkQpjB91mg3Wk+IqlTppEfE9QfJlyunWauqL1e+5WAAA5eKpAYvvDf9E/P
+ g4Qj9Z207k1qmFubwJ6+0bT9hk78zMw0MJhLhuaDN+n/vSe+AZRJUpfTJ/ZUun35Kk84
+ 1EpY2D1+yD9WLx/Gm8ipdXKNHnYqCusWipqBo7J2CmBHj2izNPJMSBKh+8SqLDXMI5gS
+ WxFrY95rMWWt+01g8GePP55nHvU18UKmQ8C5+lsWm0jpOEtOIWo+5c0jKVAIOsuZGXaP
+ 5cmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QLLUoZUDXAVz+xqcLApBhYjtsuVSgvIE9lsUXIfKtWM=;
+ b=LYQc/ZcFY5TIS1dD/M8CgHrg6X4dru+nt38V9Qih4UpK85QcSjTFpDWISMxxyl++S9
+ 0w4aeXsUBGwBT9LUr5kT2DgprNcuV/rJ1V3JwYXzDL8jjMjDs/HEdRC1Yd1Ws+IF0kvZ
+ HULK+sJ3oLlDgV/+DtaqRdmwDB0PyTx0qNUmji701kv00hMb0i9Et15mzFujoSQMVJBj
+ SwnhAPcNeR/ys8E0DPHMBl2pFosv3kHRn9LsKBZ/gY+VfXXCnC/okRbbXH1S/Cgpdf+9
+ cUrO6++ECznMo1A/3mt8etf+LAqQt2K6jiQ9H4fhYhDwmY+BgPYfS+pacG+Pp9USK8s0
+ 8pLw==
+X-Gm-Message-State: AOAM533WYM1OnxJc4WZt43qes6QOFKAfDx8/dSKJaNZ6hWhPfUQ/3vYi
+ e729VJXgpgjycUIX+C4wNzp2kGWFcQs=
+X-Google-Smtp-Source: ABdhPJyiyAgSdruSYXGKiCInlw0oaRW4BIqLCcmQ1qCzB0foo3qiKWHcXBK5z7CoRloCN13U9iq/Cw==
+X-Received: by 2002:a1c:a916:: with SMTP id s22mr5735355wme.82.1614889367574; 
+ Thu, 04 Mar 2021 12:22:47 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id m3sm768349wmc.48.2021.03.04.12.22.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 12:22:47 -0800 (PST)
+Subject: Re: [PATCH 33/44] hw/arm/armsse: Add support for TYPE_SSE_TIMER in
+ ARMSSEDeviceInfo
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210219144617.4782-1-peter.maydell@linaro.org>
+ <20210219144617.4782-34-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <70537fcc-1d8b-eacc-890b-e010fb80ab86@amsat.org>
+Date: Thu, 4 Mar 2021 21:22:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210304105554.121674-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210219144617.4782-34-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,43 +89,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@xilinx.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/04/21 11:55, David Hildenbrand wrote:
-> Fix and cleanup initializing the maximum size of mutable ACPI blobs.
+On 2/19/21 3:46 PM, Peter Maydell wrote:
+> The SSE-300 has four timers of type TYPE_SSE_TIMER; add support in
+> the code for having these in an ARMSSEDeviceInfo array.
 > 
-> v1/v2 -> v3:
-> - 'acpi: Set proper maximum size for "etc/table-loader" blob'
-> -- Move "etc/table-loader" change to separate patch
-> -- Extend description
-> -- Fixup maximum size (now really use 64k)
-> - Add some patches to cleanup/refactor the code. I avoided using a new
->   enum for the different tables for now, using the table names should be
->   good enough and is simple.
-> 
-> David Hildenbrand (4):
->   acpi: Set proper maximum size for "etc/table-loader" blob
->   microvm: Don't open-code "etc/table-loader"
->   acpi: Move maximum size logic into acpi_add_rom_blob()
->   acpi: Set proper maximum size for "etc/acpi/rsdp" blob
-> 
->  hw/acpi/utils.c             | 17 +++++++++++++++--
->  hw/arm/virt-acpi-build.c    | 12 ++++++------
->  hw/i386/acpi-build.c        |  7 +++----
->  hw/i386/acpi-microvm.c      | 16 ++++++----------
->  include/hw/acpi/aml-build.h |  3 ---
->  include/hw/acpi/utils.h     |  3 +--
->  6 files changed, 31 insertions(+), 27 deletions(-)
-> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/hw/arm/armsse.h |  2 ++
+>  hw/arm/armsse.c         | 15 +++++++++++++++
+>  2 files changed, 17 insertions(+)
 
-series
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
