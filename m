@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE07532D4C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 15:03:57 +0100 (CET)
-Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A60B32D4E1
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 15:06:54 +0100 (CET)
+Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHoa4-0008NG-F9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 09:03:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46820)
+	id 1lHocv-0003ox-3x
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 09:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lHoYp-0006n5-PK
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:02:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35459)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lHoZ4-00070s-CP
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:02:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lHoYn-0003RK-Qr
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:02:39 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lHoZ1-0003Xc-Cv
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 09:02:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614866556;
+ s=mimecast20190719; t=1614866570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dlTP7SMfSPTaLqLxVH64lGt1EJEDbtzvES80lnPNhcs=;
- b=SxFUE0295pAwIjvN8fHj1LCHe2mJobesulavy3QHDequUxmLR8DmmP50GUDV/eOFtbuRwr
- n7EOnifg5Io1ERfRt7UwU0OwO+YA245zLX4TWaP3RJzd8JOuFe0aAFjK8g8Xz6RINh4c9z
- jiOM4hmkVfL9a85NOW3tWUgIN3R/G1s=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lj7jqgiHC4maBglEwv7iGpahb/h9WdbyoTs4ehQVGuU=;
+ b=Ae1YXtVOvPxWkTLgx4eXMImSV3sH2bu/BlEFktOEDADAV0oKodmd+W6PWhIfnoYh6DWDj1
+ W/LUA96QgUaEgKxQ/HOYgjpNVKj2PUxooCZdBIpVtkEJ6VxLeelEXjYL2L2l6ahCrpib7V
+ jQCK5cw6ye7DuOMMPYQ+babCGcZadKA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-CObCQUUsOfGUFxZtKeJd9A-1; Thu, 04 Mar 2021 09:02:34 -0500
-X-MC-Unique: CObCQUUsOfGUFxZtKeJd9A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-549-P9kNWzW7N7C38gF6m-b-Ug-1; Thu, 04 Mar 2021 09:02:49 -0500
+X-MC-Unique: P9kNWzW7N7C38gF6m-b-Ug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78B9EE4971;
- Thu,  4 Mar 2021 14:02:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C351019623;
+ Thu,  4 Mar 2021 14:02:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-73.ams2.redhat.com
  [10.36.112.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3E15104C52C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F358D19701;
  Thu,  4 Mar 2021 14:02:30 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D1701132C12; Thu,  4 Mar 2021 15:02:29 +0100 (CET)
+ id 70D291132C13; Thu,  4 Mar 2021 15:02:29 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] QOM type names and QAPI
-Date: Thu,  4 Mar 2021 15:02:27 +0100
-Message-Id: <20210304140229.575481-1-armbru@redhat.com>
+Subject: [PATCH v2 1/2] hw: Replace anti-social QOM type names
+Date: Thu,  4 Mar 2021 15:02:28 +0100
+Message-Id: <20210304140229.575481-2-armbru@redhat.com>
+In-Reply-To: <20210304140229.575481-1-armbru@redhat.com>
+References: <20210304140229.575481-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, BIGNUM_EMAILS=1,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,153 +90,56 @@ Cc: peter.maydell@linaro.org, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20210304100059.157158-1-armbru@redhat.com>
+Several QOM type names contain ',':
 
-Note: to apply it on master instead, replace one more "SUNW,fdtwo" by
-"sun-fdtwo" in hw/block/fdc.c.
+    ARM,bitband-memory
+    etraxfs,pic
+    etraxfs,serial
+    etraxfs,timer
+    fsl,imx25
+    fsl,imx31
+    fsl,imx6
+    fsl,imx6ul
+    fsl,imx7
+    grlib,ahbpnp
+    grlib,apbpnp
+    grlib,apbuart
+    grlib,gptimer
+    grlib,irqmp
+    qemu,register
+    SUNW,bpp
+    SUNW,CS4231
+    SUNW,DBRI
+    SUNW,DBRI.prom
+    SUNW,fdtwo
+    SUNW,sx
+    SUNW,tcx
+    xilinx,zynq_slcr
+    xlnx,zynqmp
+    xlnx,zynqmp-pmu-soc
+    xlnx,zynq-xadc
 
+These are all device types.  They can't be plugged with -device /
+device_add, except for xlnx,zynqmp-pmu-soc, and I doubt that one
+actually works.
 
-QAPI has naming rules.  docs/devel/qapi-code-gen.txt:
+They *can* be used with -device / device_add to request help.
+Usability is poor, though: you have to double the comma, like this:
 
-    === Naming rules and reserved names ===
+    $ qemu-system-x86_64 -device SUNW,,fdtwo,help
 
-    All names must begin with a letter, and contain only ASCII letters,
-    digits, hyphen, and underscore.  There are two exceptions: enum values
-    may start with a digit, and names that are downstream extensions (see
-    section Downstream extensions) start with underscore.
+Trap for the unwary.  The fact that this was broken in
+device-introspect-test for more than six years until commit e27bd49876
+fixed it demonstrates that "the unwary" includes seasoned developers.
 
-    [More on reserved names, upper vs. lower case, '-' vs. '_'...]
+One QOM type name contains ' ': "ICH9 SMB".  Because having to
+remember just one way to quote would be too easy.
 
-The generator enforces the rules.
+Rename the "SUNW,FOO types to "sun-FOO".  Summarily replace ',' and '
+' by '-' in the other type names.
 
-Naming rules help in at least three ways:
-
-1. They help with keeping names in interfaces consistent and
-   predictable.
-
-2. They make avoiding collisions with the users' names in the
-   generator simpler.
-
-3. They enable quote-less, evolvable syntax.
-
-   For instance, keyval_parse() syntax consists of names, values, and
-   special characters ',', '=', '.'
-
-   Since names cannot contain special characters, there is no need for
-   quoting[*].  Simple.
-
-   Values are unrestricted, but only ',' is special there.  We quote
-   it by doubling.
-
-   Together, we get exactly the same quoting as in QemuOpts.  This is
-   a feature.
-
-   If we ever decice to extend key syntax, we have plenty of special
-   characters to choose from.  This is also a feature.
-
-   Both features rely on naming rules.
-
-QOM has no naming rules whatsoever.  Actual names aren't nearly as bad
-as they could be.  Still, there are plenty of "funny" names.  This may
-become a problem when we
-
-* Switch from QemuOpts to keyval_parse()
-
-  Compared to QemuOpts, keyval_parse() restricts *keys*, but not
-  *values*.
-
-  "Funny" type names occuring as values are no worse than before:
-  quoting issues, described below.
-
-  Type names occuring in keys must be valid QAPI names.  Should be
-  avoidable.
-
-* QAPIfy (the compile-time static parts of) QOM
-
-  QOM type names become QAPI enum values.  They must conform to QAPI
-  enum naming rules.
-
-Let's review the existing offenders in the qemu-system-FOO:
-
-1. We have a few type names containing ',', and one containing ' '.
-   The former require QemuOpts / keyval quoting (double the comma),
-   the latter requires shell quoting.  There is no excuse for making
-   our users remember and do such crap.  PATCH 1 eliminates it.
-
-2. We have six type names containing '+', and two containing ':':
-
-    Sun-UltraSparc-IIIi+-sparc64-cpu
-    Sun-UltraSparc-IV+-sparc64-cpu
-    power5+_v2.1-powerpc64-cpu
-    power5+_v2.1-spapr-cpu-core
-    power7+_v2.1-powerpc64-cpu
-    power7+_v2.1-spapr-cpu-core
-    qemu:iommu-memory-region
-    qemu:memory-region
-
-   Naming rules could be relaxed to accept '+' and ':'.  I'm doubt
-   this is worthwhile.
-
-   PATCH 2 renames the ones with ':'.
-
-   I'm leaving the ones with '+' alone for now.
-
-3. We have some 550 type names containing '.'.
-
-   QAPI's (enum) naming rules could be relaxed to accept '.'.
-
-   keyval_parse()'s can't.  Irrelevant, as long as type names only
-   occur as values, not as keys.
-
-4. We have some 450 names starting with a digit.  Roughly half of them
-   also contain '.'.
-
-   Leading digit is okay as QAPI enum, not okay as keyval_parse() key
-   fragment.  Irrelevant, as long as type names only occur as
-   *values*, not as *keys*.
-
-5. We generate type names of the form T::I, where T is a type name,
-   and I is the name of one of its interfaces.
-
-   I hope these are just for internal use.
-
-One more thing on relaxing QAPI naming rules.  QAPI names get mapped
-to (parts of) C identifiers.  These mappings are not injective.  The
-basic mapping is simple: replace characters other than letters and
-digits by '_'.
-
-This means names distinct QAPI names can clash in C.  Fairly harmless
-when the only "other" characters are '-' and '_'.  The more "others" we
-permit, the more likely confusing clashes become.  Not a show stopper,
-"merely" an issue of ergonomics.
-
-v2:
-* No longer RFC
-* Cover letter:
-  - Consider difference between between keys and values in
-    keyval_parse()
-  - Differentiate more clearly between general QAPI naming rules and
-    QAPI enum naming rules
-  - List the types containing '+'
-  - Cover types containing ':'
-  - Drop "Can we get rid of '.'?" [Peter Maydell]
-  - Drop the idea to rename types starting with digits
-  - Cover "T::I" types generated for interfaces
-  - Cover ergonomics of relaxing QAPI naming rules
-* PATCH 1: Rename SUNW,FOO to sun-FOO [Mark Cave-Ayland]
-* PATCH 2: New
-
-
-[*] Paolo's "[PATCH 04/25] keyval: accept escaped commas in implied
-option" provides for comma-quoting.  I'm ignoring it here for brevity.
-I assure you it doesn't weaken my argument.
-
-
-Markus Armbruster (2):
-  hw: Replace anti-social QOM type names
-  memory: Drop "qemu:" prefix from QOM memory region type names
-
- include/exec/memory.h                        |  4 ++--
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
  include/hw/arm/armv7m.h                      |  2 +-
  include/hw/arm/fsl-imx25.h                   |  2 +-
  include/hw/arm/fsl-imx31.h                   |  2 +-
@@ -262,8 +167,433 @@ Markus Armbruster (2):
  softmmu/vl.c                                 |  2 +-
  tests/vmstate-static-checker-data/dump1.json |  4 ++--
  tests/vmstate-static-checker-data/dump2.json |  4 ++--
- 28 files changed, 42 insertions(+), 42 deletions(-)
+ 27 files changed, 40 insertions(+), 40 deletions(-)
 
+diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
+index 0791dcb68a..189b23a8ce 100644
+--- a/include/hw/arm/armv7m.h
++++ b/include/hw/arm/armv7m.h
+@@ -15,7 +15,7 @@
+ #include "target/arm/idau.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_BITBAND "ARM,bitband-memory"
++#define TYPE_BITBAND "ARM-bitband-memory"
+ OBJECT_DECLARE_SIMPLE_TYPE(BitBandState, BITBAND)
+ 
+ struct BitBandState {
+diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
+index c1603b2ac2..1b1086e945 100644
+--- a/include/hw/arm/fsl-imx25.h
++++ b/include/hw/arm/fsl-imx25.h
+@@ -34,7 +34,7 @@
+ #include "target/arm/cpu.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_FSL_IMX25 "fsl,imx25"
++#define TYPE_FSL_IMX25 "fsl-imx25"
+ OBJECT_DECLARE_SIMPLE_TYPE(FslIMX25State, FSL_IMX25)
+ 
+ #define FSL_IMX25_NUM_UARTS 5
+diff --git a/include/hw/arm/fsl-imx31.h b/include/hw/arm/fsl-imx31.h
+index b9792d58ae..c116a73e0b 100644
+--- a/include/hw/arm/fsl-imx31.h
++++ b/include/hw/arm/fsl-imx31.h
+@@ -30,7 +30,7 @@
+ #include "target/arm/cpu.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_FSL_IMX31 "fsl,imx31"
++#define TYPE_FSL_IMX31 "fsl-imx31"
+ OBJECT_DECLARE_SIMPLE_TYPE(FslIMX31State, FSL_IMX31)
+ 
+ #define FSL_IMX31_NUM_UARTS 2
+diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
+index 29cc425acc..83291457cf 100644
+--- a/include/hw/arm/fsl-imx6.h
++++ b/include/hw/arm/fsl-imx6.h
+@@ -36,7 +36,7 @@
+ #include "cpu.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_FSL_IMX6 "fsl,imx6"
++#define TYPE_FSL_IMX6 "fsl-imx6"
+ OBJECT_DECLARE_SIMPLE_TYPE(FslIMX6State, FSL_IMX6)
+ 
+ #define FSL_IMX6_NUM_CPUS 4
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index f8ebfba4f9..7812e516a5 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -40,7 +40,7 @@
+ #include "cpu.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_FSL_IMX6UL "fsl,imx6ul"
++#define TYPE_FSL_IMX6UL "fsl-imx6ul"
+ OBJECT_DECLARE_SIMPLE_TYPE(FslIMX6ULState, FSL_IMX6UL)
+ 
+ enum FslIMX6ULConfiguration {
+diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+index 161fdc36da..f5d527a490 100644
+--- a/include/hw/arm/fsl-imx7.h
++++ b/include/hw/arm/fsl-imx7.h
+@@ -41,7 +41,7 @@
+ #include "cpu.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_FSL_IMX7 "fsl,imx7"
++#define TYPE_FSL_IMX7 "fsl-imx7"
+ OBJECT_DECLARE_SIMPLE_TYPE(FslIMX7State, FSL_IMX7)
+ 
+ enum FslIMX7Configuration {
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index 6f45387a17..7941e29c29 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -36,7 +36,7 @@
+ #include "qom/object.h"
+ #include "net/can_emu.h"
+ 
+-#define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
++#define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+ 
+ #define XLNX_ZYNQMP_NUM_APU_CPUS 4
+diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
+index 9e99380e0c..8b01ed67d3 100644
+--- a/include/hw/cris/etraxfs.h
++++ b/include/hw/cris/etraxfs.h
+@@ -41,7 +41,7 @@ static inline DeviceState *etraxfs_ser_create(hwaddr addr,
+     DeviceState *dev;
+     SysBusDevice *s;
+ 
+-    dev = qdev_new("etraxfs,serial");
++    dev = qdev_new("etraxfs-serial");
+     s = SYS_BUS_DEVICE(dev);
+     qdev_prop_set_chr(dev, "chardev", chr);
+     sysbus_realize_and_unref(s, &error_fatal);
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index d1ea000d3d..23ee8e371b 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -216,7 +216,7 @@ struct ICH9LPCState {
+ 
+ 
+ /* D31:F3 SMBus controller */
+-#define TYPE_ICH9_SMB_DEVICE "ICH9 SMB"
++#define TYPE_ICH9_SMB_DEVICE "ICH9-SMB"
+ 
+ #define ICH9_A2_SMB_REVISION                    0x02
+ #define ICH9_SMB_PI                             0x00
+diff --git a/include/hw/misc/grlib_ahb_apb_pnp.h b/include/hw/misc/grlib_ahb_apb_pnp.h
+index 341451bff6..bab0b5f47f 100644
+--- a/include/hw/misc/grlib_ahb_apb_pnp.h
++++ b/include/hw/misc/grlib_ahb_apb_pnp.h
+@@ -25,10 +25,10 @@
+ #define GRLIB_AHB_APB_PNP_H
+ #include "qom/object.h"
+ 
+-#define TYPE_GRLIB_AHB_PNP "grlib,ahbpnp"
++#define TYPE_GRLIB_AHB_PNP "grlib-ahbpnp"
+ OBJECT_DECLARE_SIMPLE_TYPE(AHBPnp, GRLIB_AHB_PNP)
+ 
+-#define TYPE_GRLIB_APB_PNP "grlib,apbpnp"
++#define TYPE_GRLIB_APB_PNP "grlib-apbpnp"
+ OBJECT_DECLARE_SIMPLE_TYPE(APBPnp, GRLIB_APB_PNP)
+ 
+ void grlib_ahb_pnp_add_entry(AHBPnp *dev, uint32_t address, uint32_t mask,
+diff --git a/include/hw/misc/zynq-xadc.h b/include/hw/misc/zynq-xadc.h
+index 602bfb4ab1..2017b7a803 100644
+--- a/include/hw/misc/zynq-xadc.h
++++ b/include/hw/misc/zynq-xadc.h
+@@ -23,7 +23,7 @@
+ #define ZYNQ_XADC_NUM_ADC_REGS  128
+ #define ZYNQ_XADC_FIFO_DEPTH    15
+ 
+-#define TYPE_ZYNQ_XADC          "xlnx,zynq-xadc"
++#define TYPE_ZYNQ_XADC          "xlnx-zynq-xadc"
+ OBJECT_DECLARE_SIMPLE_TYPE(ZynqXADCState, ZYNQ_XADC)
+ 
+ struct ZynqXADCState {
+diff --git a/include/hw/register.h b/include/hw/register.h
+index 03c8926d27..b480e3882c 100644
+--- a/include/hw/register.h
++++ b/include/hw/register.h
+@@ -87,7 +87,7 @@ struct RegisterInfo {
+     void *opaque;
+ };
+ 
+-#define TYPE_REGISTER "qemu,register"
++#define TYPE_REGISTER "qemu-register"
+ DECLARE_INSTANCE_CHECKER(RegisterInfo, REGISTER,
+                          TYPE_REGISTER)
+ 
+diff --git a/include/hw/sparc/grlib.h b/include/hw/sparc/grlib.h
+index 2104f493f3..ef1946c7f8 100644
+--- a/include/hw/sparc/grlib.h
++++ b/include/hw/sparc/grlib.h
+@@ -32,14 +32,14 @@
+  */
+ 
+ /* IRQMP */
+-#define TYPE_GRLIB_IRQMP "grlib,irqmp"
++#define TYPE_GRLIB_IRQMP "grlib-irqmp"
+ 
+ void grlib_irqmp_ack(DeviceState *dev, int intno);
+ 
+ /* GPTimer */
+-#define TYPE_GRLIB_GPTIMER "grlib,gptimer"
++#define TYPE_GRLIB_GPTIMER "grlib-gptimer"
+ 
+ /* APB UART */
+-#define TYPE_GRLIB_APB_UART "grlib,apbuart"
++#define TYPE_GRLIB_APB_UART "grlib-apbuart"
+ 
+ #endif /* GRLIB_H */
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index b72772bc82..8db6cfd47f 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -231,7 +231,7 @@ static void zynq_init(MachineState *machine)
+     clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
+ 
+     /* Create slcr, keep a pointer to connect clocks */
+-    slcr = qdev_new("xilinx,zynq_slcr");
++    slcr = qdev_new("xilinx-zynq_slcr");
+     qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
+diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
+index 209c05a0a0..aefc3edea1 100644
+--- a/hw/audio/cs4231.c
++++ b/hw/audio/cs4231.c
+@@ -37,7 +37,7 @@
+ #define CS_DREGS 32
+ #define CS_MAXDREG (CS_DREGS - 1)
+ 
+-#define TYPE_CS4231 "SUNW,CS4231"
++#define TYPE_CS4231 "sun-CS4231"
+ typedef struct CSState CSState;
+ DECLARE_INSTANCE_CHECKER(CSState, CS4231,
+                          TYPE_CS4231)
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 32701c2bc5..82afda7f3a 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2537,7 +2537,7 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+     DeviceState *dev;
+     FDCtrlSysBus *sys;
+ 
+-    dev = qdev_new("SUNW,fdtwo");
++    dev = qdev_new("sun-fdtwo");
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     sys = SYSBUS_FDC(dev);
+     sysbus_connect_irq(SYS_BUS_DEVICE(sys), 0, irq);
+@@ -2933,7 +2933,7 @@ static void sun4m_fdc_class_init(ObjectClass *klass, void *data)
+ }
+ 
+ static const TypeInfo sun4m_fdc_info = {
+-    .name          = "SUNW,fdtwo",
++    .name          = "sun-fdtwo",
+     .parent        = TYPE_SYSBUS_FDC,
+     .instance_init = sun4m_fdc_initfn,
+     .class_init    = sun4m_fdc_class_init,
+diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
+index 6bee3ee18e..e8c3017724 100644
+--- a/hw/char/etraxfs_ser.c
++++ b/hw/char/etraxfs_ser.c
+@@ -50,7 +50,7 @@
+ #define STAT_TR_IDLE 22
+ #define STAT_TR_RDY  24
+ 
+-#define TYPE_ETRAX_FS_SERIAL "etraxfs,serial"
++#define TYPE_ETRAX_FS_SERIAL "etraxfs-serial"
+ typedef struct ETRAXSerial ETRAXSerial;
+ DECLARE_INSTANCE_CHECKER(ETRAXSerial, ETRAX_SERIAL,
+                          TYPE_ETRAX_FS_SERIAL)
+diff --git a/hw/cris/axis_dev88.c b/hw/cris/axis_dev88.c
+index b0cb6d84af..af5a0e3517 100644
+--- a/hw/cris/axis_dev88.c
++++ b/hw/cris/axis_dev88.c
+@@ -289,7 +289,7 @@ void axisdev88_init(MachineState *machine)
+                                 &gpio_state.iomem);
+ 
+ 
+-    dev = qdev_new("etraxfs,pic");
++    dev = qdev_new("etraxfs-pic");
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+     sysbus_mmio_map(s, 0, 0x3001c000);
+@@ -323,8 +323,8 @@ void axisdev88_init(MachineState *machine)
+     }
+ 
+     /* 2 timers.  */
+-    sysbus_create_varargs("etraxfs,timer", 0x3001e000, irq[0x1b], nmi[1], NULL);
+-    sysbus_create_varargs("etraxfs,timer", 0x3005e000, irq[0x1b], nmi[1], NULL);
++    sysbus_create_varargs("etraxfs-timer", 0x3001e000, irq[0x1b], nmi[1], NULL);
++    sysbus_create_varargs("etraxfs-timer", 0x3005e000, irq[0x1b], nmi[1], NULL);
+ 
+     for (i = 0; i < 4; i++) {
+         etraxfs_ser_create(0x30026000 + i * 0x2000, irq[0x14 + i], serial_hd(i));
+diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+index 965f92ff6b..60d76af0fe 100644
+--- a/hw/display/tcx.c
++++ b/hw/display/tcx.c
+@@ -56,7 +56,7 @@
+ #define TCX_THC_CURSMASK 0x900
+ #define TCX_THC_CURSBITS 0x980
+ 
+-#define TYPE_TCX "SUNW,tcx"
++#define TYPE_TCX "sun-tcx"
+ OBJECT_DECLARE_SIMPLE_TYPE(TCXState, TCX)
+ 
+ struct TCXState {
+diff --git a/hw/intc/etraxfs_pic.c b/hw/intc/etraxfs_pic.c
+index 54ed4c77f7..bd37d1cca0 100644
+--- a/hw/intc/etraxfs_pic.c
++++ b/hw/intc/etraxfs_pic.c
+@@ -38,7 +38,7 @@
+ #define R_R_GURU    4
+ #define R_MAX       5
+ 
+-#define TYPE_ETRAX_FS_PIC "etraxfs,pic"
++#define TYPE_ETRAX_FS_PIC "etraxfs-pic"
+ DECLARE_INSTANCE_CHECKER(struct etrax_pic, ETRAX_FS_PIC,
+                          TYPE_ETRAX_FS_PIC)
+ 
+diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
+index 1d1b4b5c19..5a2016672a 100644
+--- a/hw/microblaze/xlnx-zynqmp-pmu.c
++++ b/hw/microblaze/xlnx-zynqmp-pmu.c
+@@ -28,7 +28,7 @@
+ 
+ /* Define the PMU device */
+ 
+-#define TYPE_XLNX_ZYNQMP_PMU_SOC "xlnx,zynqmp-pmu-soc"
++#define TYPE_XLNX_ZYNQMP_PMU_SOC "xlnx-zynqmp-pmu-soc"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPPMUSoCState, XLNX_ZYNQMP_PMU_SOC)
+ 
+ #define XLNX_ZYNQMP_PMU_ROM_SIZE    0x8000
+diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+index 66504a9d3a..12290ab8f6 100644
+--- a/hw/misc/zynq_slcr.c
++++ b/hw/misc/zynq_slcr.c
+@@ -182,7 +182,7 @@ REG32(DDRIOB, 0xb40)
+ #define ZYNQ_SLCR_MMIO_SIZE     0x1000
+ #define ZYNQ_SLCR_NUM_REGS      (ZYNQ_SLCR_MMIO_SIZE / 4)
+ 
+-#define TYPE_ZYNQ_SLCR "xilinx,zynq_slcr"
++#define TYPE_ZYNQ_SLCR "xilinx-zynq_slcr"
+ OBJECT_DECLARE_SIMPLE_TYPE(ZynqSLCRState, ZYNQ_SLCR)
+ 
+ struct ZynqSLCRState {
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 38ca1e33c7..faa225b442 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -496,7 +496,7 @@ static void tcx_init(hwaddr addr, qemu_irq irq, int vram_size, int width,
+     DeviceState *dev;
+     SysBusDevice *s;
+ 
+-    dev = qdev_new("SUNW,tcx");
++    dev = qdev_new("sun-tcx");
+     qdev_prop_set_uint32(dev, "vram_size", vram_size);
+     qdev_prop_set_uint16(dev, "width", width);
+     qdev_prop_set_uint16(dev, "height", height);
+@@ -970,7 +970,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+     }
+ 
+     if (hwdef->sx_base) {
+-        create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
++        create_unimplemented_device("sun-sx", hwdef->sx_base, 0x2000);
+     }
+ 
+     dev = qdev_new("sysbus-m48t08");
+@@ -1045,23 +1045,23 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+                      slavio_irq[30], fdc_tc);
+ 
+     if (hwdef->cs_base) {
+-        sysbus_create_simple("SUNW,CS4231", hwdef->cs_base,
++        sysbus_create_simple("sun-CS4231", hwdef->cs_base,
+                              slavio_irq[5]);
+     }
+ 
+     if (hwdef->dbri_base) {
+         /* ISDN chip with attached CS4215 audio codec */
+         /* prom space */
+-        create_unimplemented_device("SUNW,DBRI.prom",
++        create_unimplemented_device("sun-DBRI.prom",
+                                     hwdef->dbri_base + 0x1000, 0x30);
+         /* reg space */
+-        create_unimplemented_device("SUNW,DBRI",
++        create_unimplemented_device("sun-DBRI",
+                                     hwdef->dbri_base + 0x10000, 0x100);
+     }
+ 
+     if (hwdef->bpp_base) {
+         /* parallel port */
+-        create_unimplemented_device("SUNW,bpp", hwdef->bpp_base, 0x20);
++        create_unimplemented_device("sun-bpp", hwdef->bpp_base, 0x20);
+     }
+ 
+     initrd_size = 0;
+diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
+index 48f2e3ade2..5379006086 100644
+--- a/hw/timer/etraxfs_timer.c
++++ b/hw/timer/etraxfs_timer.c
+@@ -48,7 +48,7 @@
+ #define R_INTR        0x50
+ #define R_MASKED_INTR 0x54
+ 
+-#define TYPE_ETRAX_FS_TIMER "etraxfs,timer"
++#define TYPE_ETRAX_FS_TIMER "etraxfs-timer"
+ typedef struct ETRAXTimerState ETRAXTimerState;
+ DECLARE_INSTANCE_CHECKER(ETRAXTimerState, ETRAX_TIMER,
+                          TYPE_ETRAX_FS_TIMER)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 8097a7b5fb..295df3927f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -918,7 +918,7 @@ static const VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX] = {
+     [VGA_TCX] = {
+         .opt_name = "tcx",
+         .name = "TCX framebuffer",
+-        .class_names = { "SUNW,tcx" },
++        .class_names = { "sun-tcx" },
+     },
+     [VGA_CG3] = {
+         .opt_name = "cg3",
+diff --git a/tests/vmstate-static-checker-data/dump1.json b/tests/vmstate-static-checker-data/dump1.json
+index 786ca0b484..334ec07963 100644
+--- a/tests/vmstate-static-checker-data/dump1.json
++++ b/tests/vmstate-static-checker-data/dump1.json
+@@ -823,8 +823,8 @@
+       ]
+     }
+   },
+-  "SUNW,fdtwo": {
+-    "Name": "SUNW,fdtwo",
++  "sun-fdtwo": {
++    "Name": "sun-fdtwo",
+     "version_id": 2,
+     "minimum_version_id": 2,
+     "Description": {
+diff --git a/tests/vmstate-static-checker-data/dump2.json b/tests/vmstate-static-checker-data/dump2.json
+index 75719f5ec9..7184e9ccbb 100644
+--- a/tests/vmstate-static-checker-data/dump2.json
++++ b/tests/vmstate-static-checker-data/dump2.json
+@@ -628,8 +628,8 @@
+       ]
+     }
+   },
+-  "SUNW,fdtwo": {
+-    "Name": "SUNW,fdtwo",
++  "sun-fdtwo": {
++    "Name": "sun-fdtwo",
+     "version_id": 2,
+     "minimum_version_id": 2,
+     "Description": {
 -- 
 2.26.2
 
