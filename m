@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8AD32DA7C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:41:05 +0100 (CET)
-Received: from localhost ([::1]:42212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A5E32DA8F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:49:15 +0100 (CET)
+Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHtqK-00019C-1a
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:41:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
+	id 1lHtyD-0003Zj-VO
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:49:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHtnb-00089I-MX
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:38:17 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:38414)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHtvp-0002ln-5R; Thu, 04 Mar 2021 14:46:45 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHtnZ-00066Q-Af
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:38:15 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id x24so2453890pfn.5
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 11:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=8/KbsUQXoQujQBGoJrpx+Q/5JMYqfSMq2kqKgBgTlkE=;
- b=utqeVOqbf7IIjhRNcaREU+Cga9w4KGpnDcVWyjRut+753kwPIG/jGbEecmKhzVuP7f
- kKnGB5NFeE9KeV6lHfdlCBtnhhPP70eTSzrTvNh9m3SIssAQpRAK8YKT442lilnT+Rjg
- SXXPK5jVFxUsrs+o2FMfmPB7LeRXW35o2xZfh5bnbRvIo5QfOtIHv4l/djB8g9YNszRj
- n1vuVfw1SIt8xAKaI18UxQ5wHnl8C5Xbhbf0Ig0rBXoOCgbJLkm3MBAbY7exhzRySYVB
- 1pChUKLTUr3qXXvtQYcudwhKZSlm45V77jAnhq/orzJ3yriGJJcbpTGsXjgVy38Dee5F
- 8Ldw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lHtvm-0001HV-It; Thu, 04 Mar 2021 14:46:43 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id j2so16121347wrx.9;
+ Thu, 04 Mar 2021 11:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=t276LUinFqdo3UZ05DHKy95/FXYpuFynT6Qlz+DIzoA=;
+ b=IBM3qGDjAp6Y43GT8RuOPXswxLMlTX13skt/D9AqMo9eI/Mx1S8Ksjl4nFHRfFSL86
+ i06NIzE0f25e2X1JurUZwWmvWVseSi4XXG314vY7aWS+wdnrXHEM8/SxkthOZ5YTme+U
+ fYlOjnf3bxJ72q+izvXbW4Q/haIaYoDX1PlR2WUoBjMhq3KFtEg/K/yovK15pPP98nFb
+ WUYf1h11coSybMRF1/InwkY6H0s1DI60LV/bx1TdDS04FbuJnP13bo2emwtdlbSTKTJe
+ NOQTY/KwP6I2VBscAmyzXkDt6L1gkhSprvBe9Lp7QPKsIGMwUQIQXzlfkakOH63QjfFf
+ k1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8/KbsUQXoQujQBGoJrpx+Q/5JMYqfSMq2kqKgBgTlkE=;
- b=IzjrskBIeR6+YRpPsianUyhj8oqiA8eiN5Swhw6qxsZ+Hpx5eCTDbImIuXp9bedTh3
- sUYar/jLuqHA5YuJDVluPpNpTFKlK3E38j1Cigy4RhIfSg+PhLGK9mrvaAThts+cRXgA
- 8Px6kTPhlpxya8ABew3Lbo1LfojcNFkc0ivglUR9u7VDH9TChxKwVuNN+9BTbTJZTSup
- 6CCqkjKz059+/9EEK4KE6yiiAM0D0gK19zxxZqaWjthNgwKEflfXoglWUWuppFAIdy2R
- A5cBAKOypSvZEdNZ305B1jBGUSwjUUxnT7txSVPMkXuU8lSHAFx6RTWB/jJR3bFH2TVa
- Y7/Q==
-X-Gm-Message-State: AOAM532da4Nzf9Lpi75IIhOf89aTvQwiPROqyQrACQI3waVaXq70txD1
- i0mhNn/IQ5zc2392lykT4p6mCqMBEKkxtg==
-X-Google-Smtp-Source: ABdhPJwmEkSNd04q+BdmQ42PN4wmsTLvX1Hfoiqm6qTRk73DdbLVTD93OwClDLntxZMkCVi7s8Fdig==
-X-Received: by 2002:a05:6a00:1693:b029:1ec:b0af:d1d with SMTP id
- k19-20020a056a001693b02901ecb0af0d1dmr5166543pfc.42.1614886691962; 
- Thu, 04 Mar 2021 11:38:11 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id q15sm165853pfk.181.2021.03.04.11.38.11
+ bh=t276LUinFqdo3UZ05DHKy95/FXYpuFynT6Qlz+DIzoA=;
+ b=oBOOE2V/JSc831HeaNLWpxQhvZcyS0iqHgl6QQpmF8tIr5epSKcXvpdL9YQUmmx/Yk
+ GBLDXQkYxj3CANfBlirMMsp9iXI6jjUSBEeq1E87TNb0bYfim7sRm37TwCxoqt6hhEpS
+ ychMiTqBVLaRpfpirojM4gymcIO8kx8Bw5rANqgucVrhEkifJpsysC89gdzvXoX1D9L4
+ yKl0iZ/W5mbY5ZhEMetSh87nqJ7kn7qCcp/W2ORLB/htjGk1UrH/V9xryBKx464dtTC0
+ HpTFA8c0syygQzyS17+je8CLryp656lKnVYZaWTPS1qHwqHVIuRKnNj74mB0knGqKYz9
+ ms4A==
+X-Gm-Message-State: AOAM531Qerl+QcU/6wVd3WPrZAjQOcAhza8F1gIEa1NQmJOMKMMvx0/z
+ GtF/zQ4PHJX+xGhOqdke6Bw=
+X-Google-Smtp-Source: ABdhPJzuOv+iV476B/IIsEpBxciH11svCwJSOzkl+9CGn1Dkqq5TPLk4DqUoVzEOr5EG4TYAXEcREg==
+X-Received: by 2002:a05:6000:1081:: with SMTP id
+ y1mr5532805wrw.347.1614887199500; 
+ Thu, 04 Mar 2021 11:46:39 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id f22sm740189wmc.33.2021.03.04.11.46.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 11:38:11 -0800 (PST)
-Subject: Re: [PATCH 15/44] hw/misc/iotkit-sysctl: Handle INITSVTOR* for SSE-300
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-16-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <77c90abe-bcfb-b563-3af8-859656f4543d@linaro.org>
-Date: Thu, 4 Mar 2021 11:38:09 -0800
+ Thu, 04 Mar 2021 11:46:38 -0800 (PST)
+Subject: Re: [RFC PATCH 6/7] cpu: Move CPUClass::has_work() to TCGCPUOps
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210302102737.1031287-1-f4bug@amsat.org>
+ <20210302102737.1031287-7-f4bug@amsat.org>
+ <dfda927b-8937-afe2-f853-5c9817499c4a@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <421b6c9e-9128-bf09-bf3e-b04101b6f11d@amsat.org>
+Date: Thu, 4 Mar 2021 20:46:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-16-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <dfda927b-8937-afe2-f853-5c9817499c4a@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,17 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Claudio Fontana <cfontana@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 6:45 AM, Peter Maydell wrote:
-> +            s->initsvtor0 = value;
-> +            set_init_vtor(0, s->initsvtor0 & ~R_INITSVTOR0_LOCK_MASK);
+On 3/4/21 7:15 AM, Thomas Huth wrote:
+> On 02/03/2021 11.27, Philippe Mathieu-Daudé wrote:
+>> We can only check if a vCPU has work with TCG.
+>> Restrict the has_work() handler to TCG by moving it to
+>> the TCGCPUOps structure, and adapt all the targets.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> RFC: PPC target incomplete
+>> ---
+> [...]
+>> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+>> index 00330ba07de..3110867c3a3 100644
+>> --- a/hw/core/cpu.c
+>> +++ b/hw/core/cpu.c
+>> @@ -261,11 +261,6 @@ static void cpu_common_reset(DeviceState *dev)
+>>       }
+>>   }
+>>   -static bool cpu_common_has_work(CPUState *cs)
+>> -{
+>> -    return false;
+>> -}
+>> -
+>>   ObjectClass *cpu_class_by_name(const char *typename, const char
+>> *cpu_model)
+>>   {
+>>       CPUClass *cc = CPU_CLASS(object_class_by_name(typename));
+>> @@ -397,7 +392,6 @@ static void cpu_class_init(ObjectClass *klass,
+>> void *data)
+>>         k->parse_features = cpu_common_parse_features;
+>>       k->get_arch_id = cpu_common_get_arch_id;
+>> -    k->has_work = cpu_common_has_work;
+>>       k->get_paging_enabled = cpu_common_get_paging_enabled;
+>>       k->get_memory_mapping = cpu_common_get_memory_mapping;
+>>       k->write_elf32_qemunote = cpu_common_write_elf32_qemunote;
+> 
+> cpu_common_has_work() is gone without replacement? Can you be sure that
+> the pointer in tcg_ops is always initialized?
 
-As long as you're clearing bits, initsvtor0 begins at bit 7.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Oops... Good catch :)
 
