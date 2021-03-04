@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B89C32D2A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 13:11:33 +0100 (CET)
-Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEB232D29F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 13:10:14 +0100 (CET)
+Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHmpI-0005Em-DS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 07:11:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46952)
+	id 1lHmo1-0004CI-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 07:10:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHmns-0004S3-Sb
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:10:04 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHmnq-000354-Pw
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:10:04 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id j2so14520619wrx.9
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 04:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=kHcAuYSAM8TP6PRzbgSDZMQAcj23wtRSgtlX/M1ArFw=;
- b=LfCoG1LV16wzPtvq9RkgtRT27ijJ4aQ1Xkw7E4yjUTDPngI5bnf19KRUpPmRfz7qKO
- yjzWnw3afwL5LHl2RXIivxN9wz1chGruOzDGtPaDDKSTGwW+PKXxxawEmn6qARyTyl4d
- clXunjQfo+hSkZHe2oIhoz4RLmUsWcYOfujbqndogoZD4hdrLgvGa3z36wie/DSFVe/l
- Ozbb6XONMeaJ799fpuchhwftXjNsEbRy/VJEw/zG0QXYbntLVQAPedABoNlrSGB54dpI
- 2tamLjGZjYkLMk5VXH7in62XAzrnj0Uv3KKN7t+oM8aofEI+eWUGX4hJ53nqQ/1dVN5e
- IyJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=kHcAuYSAM8TP6PRzbgSDZMQAcj23wtRSgtlX/M1ArFw=;
- b=Rp8kZ1A/PQTDLuCA1zYtqg4Nd1WyN9UZnEvmCqIDTFnZRZW8kT2vH8CUldoISmabZ8
- 0tCJ28h6+kwhEAjb5XZ5Bae5N8/nLhbXFTfdJJ0G1Hw2Zog6iikL7mu5fLipqIhO0QT7
- Z53sEpmL3fZdgb0IvSarGhR6LD0ATRnbcfAM1RAFIltSH3nd7rznB6oPMadSDb5Wx1pT
- PRPaFMAgTO+p6Tz0ALg8u7mGFonAWomqKQWoNeBK//R+jdS/dLjoZJCdVZ/c3xiImaz8
- 5c/YDQBzjqB2oh4PqWTTJDEjW7wWuxlncmKLVPsuk4dIo3f6q7m1GyPgj3vLaNFiG/xH
- Y/rQ==
-X-Gm-Message-State: AOAM533qr7rAY8KNDR6IGwj7ozkK1XUqoxPDfeNBMx/nPezwnZduKxwa
- Iiw0jOiVWtZYqmbHcmKgNIUKsw==
-X-Google-Smtp-Source: ABdhPJzk6K6xx25e1YqG7Ow4Dg8vo91byCwIQTprfwDgr0u4956sCG9RGXewwoovZ4coWJujeLGRYw==
-X-Received: by 2002:a5d:6610:: with SMTP id n16mr3578179wru.399.1614859800886; 
- Thu, 04 Mar 2021 04:10:00 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j16sm11230747wmi.2.2021.03.04.04.10.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 04:10:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 414801FF7E;
- Thu,  4 Mar 2021 12:09:59 +0000 (GMT)
-References: <20210228222314.304787-1-f4bug@amsat.org>
- <20210228222314.304787-4-f4bug@amsat.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/4] gitlab-ci: Build Hexagon cross-toolchain
-Date: Thu, 04 Mar 2021 12:08:43 +0000
-In-reply-to: <20210228222314.304787-4-f4bug@amsat.org>
-Message-ID: <875z27glwo.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lHmnB-0003kZ-Ha
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:09:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lHmn9-0002n8-Td
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:09:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614859759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tw3Lcnvl0lchmFd/VPGyyWwcZdmJxU9aRsbOFpEqh1E=;
+ b=bqst4WUyH1v+qYBxfWcqsb0OnBPA521DSuDp7BMJIyCfjXNjLpZt6BBYppOgpSpQnWMt/o
+ 5NCXykbtSCYksaEgQW/9Pdc3qkh/P1QbPEyXPQ6XKB1SCISTAEFDeOTsj0mN7piSc6A1Pc
+ 4vtv6SrmnMnqGnUR0Wc4YbqDoK7u7EI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-ICrkf4vsNE-aC3n1Gsc7Vw-1; Thu, 04 Mar 2021 07:09:17 -0500
+X-MC-Unique: ICrkf4vsNE-aC3n1Gsc7Vw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58FD5804333;
+ Thu,  4 Mar 2021 12:09:16 +0000 (UTC)
+Received: from gondolin (ovpn-114-163.ams2.redhat.com [10.36.114.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FE945D705;
+ Thu,  4 Mar 2021 12:09:15 +0000 (UTC)
+Date: Thu, 4 Mar 2021 13:09:13 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [PATCH v2] vfio-ccw: Do not read region ret_code after write
+Message-ID: <20210304130913.115724dd.cohuck@redhat.com>
+In-Reply-To: <20210303160739.2179378-1-farman@linux.ibm.com>
+References: <20210303160739.2179378-1-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,59 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Brian Cain <bcain@quicinc.com>,
- qemu-devel@nongnu.org, Alessandro Di Federico <ale.qemu@rev.ng>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed,  3 Mar 2021 17:07:39 +0100
+Eric Farman <farman@linux.ibm.com> wrote:
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> Add a job to build the Debian based Hexagon cross-toolchain image.
->
-> This image requires a lot of compute time, too much for the common
-> shared runners. To avoid having the job to timeout, it has to be
-> built with custom unlimited runner. For this reason we restrict this
-> job to manual runs.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> A pwrite() call returns the number of bytes written (or -1 on error),
+> and vfio-ccw compares this number with the size of the region to
+> determine if an error had occurred or not.
+> 
+> If they are not equal, this is a failure and the errno is used to
+> determine exactly how things failed. An errno of zero is possible
+> (though unlikely) in this situation and would be translated to a
+> successful operation.
+> 
+> If they ARE equal, the ret_code field is read from the region to
+> determine how to proceed. While the kernel sets the ret_code field
+> as necessary, the region and thus this field is not "written back"
+> to the user. So the value can only be what it was initialized to,
+> which is zero.
+> 
+> So, let's convert an unexpected length with errno of zero to a
+> return code of -EFAULT, and explicitly set an expected length to
+> a return code of zero. This will be a little safer and clearer.
+> 
+> Suggested-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
 > ---
->  .gitlab-ci.d/containers.yml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-> index 7137cc4184d..ed57e02e769 100644
-> --- a/.gitlab-ci.d/containers.yml
-> +++ b/.gitlab-ci.d/containers.yml
-> @@ -103,6 +103,16 @@ armhf-debian-cross-container:
->    variables:
->      NAME: debian-armhf-cross
->=20=20
-> +hexagon-debian-cross-container:
-> +  <<: *container_job_definition
-> +  stage: containers-layer2
-> +  needs: ['amd64-debian10-container']
-> +  when: manual
-> +  timeout: 3h
-> +  variables:
-> +    NAME: debian-hexagon-cross
-> +    EXTRA_FILES: tests/docker/dockerfiles/debian-hexagon-cross.docker.d/=
-build-toolchain.sh
-> +
+> 
+> Notes:
+>     Changes v1->v2:
+>      - Add code to handle an unexpected length being returned,
+>        but errno is not set. [CH]
+>     
+>     v1: https://lore.kernel.org/qemu-devel/cc440ee8-28c5-3208-19db-ebb48ea60e9d@linux.ibm.com/
+> 
+>  hw/vfio/ccw.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-We don't really want this - what we need is the ability to run the tests
-for hexagon when the registry contains a built container that we have
-manually pushed from a build machine:
+Thanks, applied.
 
-  https://gitlab.com/qemu-project/qemu/container_registry/1759846
-
->  hppa-debian-cross-container:
->    <<: *container_job_definition
->    stage: containers-layer2
-
-
---=20
-Alex Benn=C3=A9e
 
