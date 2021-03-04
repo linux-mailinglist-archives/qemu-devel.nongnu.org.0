@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06C832DA92
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:50:46 +0100 (CET)
-Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD6F32DAA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:55:38 +0100 (CET)
+Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHtzh-0004cV-Ou
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:50:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1lHu4P-00075H-1H
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:55:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHty7-0003pe-H2
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:49:07 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:37792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHty5-0002Bx-4i
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:49:07 -0500
-Received: by mail-pg1-x531.google.com with SMTP id o10so19604665pgg.4
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 11:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Zi1PB3ue2D1l/bFagYQyHyEOo+RinjYI3uWBgOKVZps=;
- b=ZIgMLSoWG1B75dBsBWD9d0JGypd0l+72tBdPZ5IXxqfu9XcaVGehJ/5R0HMyWylqlN
- GecBQX2yF9yzi6Ww8f3H3eCW5knDdSGDxUq8zd+kO13YEpx6h1CQGITkJ8MkptIOj2SA
- JnPNYi6dOSDHleCOn3wVDqXMrETsMf9U14tFRMBkuPAb8IKrV1tTF5svXurJZSK8uchw
- HLzCkJlLKTsJWKmhJg3ZvL/CZj51mX81KDSksPi6WvCBS2Av7kWHi5UWnMf/1E8OCSTz
- Alj3UbkcWbfYIA4A3TznYMJ+fcI3+uIhl0QLQ6zJT3wfRrUuCpUuEDgWWxdLV90lNygC
- hzvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zi1PB3ue2D1l/bFagYQyHyEOo+RinjYI3uWBgOKVZps=;
- b=pWIabusEq7Nvq5uXMC6koARdw0dBU+MR1DDmvTi0rwnZVv39cAQ4Ju5XO2v1T6UOGD
- i4ZHv/q+x/rCWcL/tVGzbnANAMqBfl3pUP796+L1jiSqSxrUiuem/4etf8OjrGnx+BHU
- TyR+NPIVOdKCAG/5vf1dohAhQKimQ5OfAOE5hanl8nzeRTNiuTb9KFir49hczE4+OGrA
- Upbi8lrE8QMjUkGKuqdHkSX0FvO2kwbTZEccEjKP6svXdjfJdOlWqIUFhXGJemQfk+rj
- OSNDxJB5/u8xw0oj5u8JsM3XFBuz+M7IH/xxSq5E9w1QvMCg7BojIZILHK+A42ql4yAY
- /DDA==
-X-Gm-Message-State: AOAM533B+FWsga/J5VWjFXCLuzYL9K47vKh0ga2LsOkm87x4glG6E4vx
- Etzt7zeNKvGNTQYb4b02hT7WLuQ6WPpAvQ==
-X-Google-Smtp-Source: ABdhPJzhLASzga+8KnQ3DI2UymXIh9aMihw1mz+K96dO3Bg7yV3QTEN7GmyDigaX84e5qZNKJJ018w==
-X-Received: by 2002:a05:6a00:2345:b029:1ee:481d:4179 with SMTP id
- j5-20020a056a002345b02901ee481d4179mr5326631pfj.42.1614887342985; 
- Thu, 04 Mar 2021 11:49:02 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id z29sm193551pfr.114.2021.03.04.11.49.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 11:49:02 -0800 (PST)
-Subject: Re: [PATCH 16/44] hw/misc/iotkit-sysctl: Implement dummy version of
- SSE-300 PWRCTRL register
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-17-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2d46c632-6c37-0a2f-3807-116c435052c5@linaro.org>
-Date: Thu, 4 Mar 2021 11:49:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-17-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cbrowy@avery-design.com>)
+ id 1lHu1x-0006De-BA
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:53:05 -0500
+Received: from server.avery-design.com ([198.57.169.184]:55112)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cbrowy@avery-design.com>)
+ id 1lHu1q-0003ls-Lg
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:53:03 -0500
+Received: from ool-44c0a99c.dyn.optonline.net ([68.192.169.156]:52191
+ helo=[192.168.1.180])
+ by server.avery-design.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <cbrowy@avery-design.com>)
+ id 1lHtzD-00008B-PE; Thu, 04 Mar 2021 19:50:15 +0000
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [RFC PATCH v2 1/2] Basic PCIe DOE support
+From: Chris Browy <cbrowy@avery-design.com>
+In-Reply-To: <20210304192158.00004296@Huawei.com>
+Date: Thu, 4 Mar 2021 14:50:14 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E4FC0C46-FAED-4F9B-BC7B-B770DA517F6F@avery-design.com>
+References: <1612900760-7361-1-git-send-email-cbrowy@avery-design.com>
+ <1612902949-9992-1-git-send-email-cbrowy@avery-design.com>
+ <20210304192158.00004296@Huawei.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.avery-design.com
+X-AntiAbuse: Original Domain - nongnu.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - avery-design.com
+X-Get-Message-Sender-Via: server.avery-design.com: authenticated_id:
+ cbrowy@avery-design.com
+X-Authenticated-Sender: server.avery-design.com: cbrowy@avery-design.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Received-SPF: pass client-ip=198.57.169.184;
+ envelope-from=cbrowy@avery-design.com; helo=server.avery-design.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +70,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: "20210304192158.00004296@huawei.com"
+ <20210304192158.00004296@Huawei.com>
+Cc: Ben Widawsky <ben.widawsky@intel.com>, david@redhat.com,
+ qemu-devel@nongnu.org, vishal.l.verma@intel.com, jgroves@micron.com,
+ armbru@redhat.com, linux-cxl@vger.kernel.org, f4bug@amsat.org, mst@redhat.com,
+ Huai-Cheng <hchkuo@avery-design.com.tw>, imammedo@redhat.com,
+ dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 6:45 AM, Peter Maydell wrote:
-> The SSE-300 has a new PWRCTRL register at offset 0x1fc (previously
-> reserved). This register controls accessibility of some registers
-> in the Power Policy Units (PPUs). Since QEMU doesn't implement
-> the PPUs, we don't need to implement any real behaviour for this
-> register, so we just handle the UNLOCK bit which controls whether
-> writes to the register itself are permitted and otherwise make it
-> be reads-as-written.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+> On Mar 4, 2021, at 2:21 PM, Jonathan Cameron =
+<jonathan.cameron@huawei.com> wrote:
+>=20
+> On Tue, 9 Feb 2021 15:35:49 -0500
+> Chris Browy <cbrowy@avery-design.com> wrote:
+>=20
+> Hi Chris,
+>=20
+> One more thing hit whilst debugging linux side of this.
+>=20
+>> +static void pcie_doe_irq_assert(DOECap *doe_cap)
+>> +{
+>> +    PCIDevice *dev =3D doe_cap->doe->pdev;
+>> +
+>> +    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
+>=20
+>=20
+> need something like
+>=20
+> doe_cap->status.intr =3D 1;
+>=20
+> I think or anyone checking the status register is going to think
+> this interrupt is spurious.
+
+You=E2=80=99re absolutely right, good catch!
+
+>=20
+> Otherwise all seems to work. I need to do a bit of tidying up on
+> kernel code but should be able to send out early next week.
+>=20
+
+We=E2=80=99re putting out the v3 by end of this week.  We=E2=80=99re =
+spent a bit longer
+tidying up on our end but sounds like coming together real soon in 5.12=20=
+
+release!
+
+>> +        /* Interrupt notify */
+>> +        if (msix_enabled(dev)) {
+>> +            msix_notify(dev, doe_cap->cap.vec);
+>> +        } else if (msi_enabled(dev)) {
+>> +            msi_notify(dev, doe_cap->cap.vec);
+>> +        }
+>> +        /* Not support legacy IRQ */
+>> +    }
+>> +}
+
 
