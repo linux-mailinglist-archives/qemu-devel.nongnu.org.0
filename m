@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473B932D1AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:23:52 +0100 (CET)
-Received: from localhost ([::1]:45694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604D832D1BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 12:27:16 +0100 (CET)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHm59-0000tW-CC
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:23:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
+	id 1lHm8O-0002IA-Fj
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 06:27:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lHm3L-0008Aq-Gk
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:21:59 -0500
-Resent-Date: Thu, 04 Mar 2021 06:21:59 -0500
-Resent-Message-Id: <E1lHm3L-0008Aq-Gk@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21312)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lHm6G-0001X0-6z
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:25:00 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:40619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lHm3I-0005t0-Lv
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:21:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1614856908; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VPI894Dff6rGeFt6JeQEWGI21/bTce+LXHvRygXEDeVS6nmXZUgzTeWja3gzqa6MZRCKlfUVx5b/gbCoqjxgGTYyX6SUiZ3iyBOJcG508Puw21rk53SXrso+Htp3PTH70k7h+FGR6jbYoqm61EJZkgI20D96WsZqFkeHA6gmheI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1614856908;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=VGjeXUKCYpShrT13hm4+VgURu925yDaiPEmhcnydn1A=; 
- b=ebfCztsZfgOUZ+sGiV8wZi2LVhJsTTmU4OgJ12HrBWLJpfg5XWFNQmrmDKx1ITnZYf8cxBxJSALHw4kwNfc1f6siXlg8dlBTXwI53/Ktoc7xyVnhT5jiYploQ36oi7N1uc8pJBdyOSZNRuWdZ5vKC1OxWOQHxiN0/fT+f4jWv3k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1614856905343194.59501609810673;
- Thu, 4 Mar 2021 03:21:45 -0800 (PST)
-In-Reply-To: <20210304111743.118752-1-pbonzini@redhat.com>
-Subject: Re: [PATCH v2] qemu-option: do not suggest using the delay option
-Message-ID: <161485690411.4891.2947257602905666657@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lHm6D-0007GL-Uu
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 06:24:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=bAQNIe/ZzNTbV0pl21LonJp0B8BlMBD48OcZX4L4Nww=; b=swsr5T+1q78IITI/mCXc6EWsBV
+ oTKSSe+PKr54fJqdmGBAMQ3srxjPWU12Ci1vpputJ01Gd5Mk2uV4Uo6afmJErVu5APpey9m1qzZVV
+ OpQfsI/hwzPHrZjQkBT5eQLJszcLEtK+NHNXJuO2fYhwUE7cWrfJGLqRSJAuj18oFjtv3sbCP708A
+ VLB8zzVljxFYl8WCKWZzfHr7Xwvy2/LrBZZK/0SJBRminWNRGAYoohCjO1MsP/fLDf1NCibpo0m+e
+ GMifPtDM0iUAoit/hOwi2WNknq3Udt9QjMhqHam0psv9Txzk0YesATz3g+pKx8SccCyOIbAP2sDmF
+ gt1FX65mx9GcDpIvo64sKhdfhwXvBorSfULV/MAHWCIrRLwRLf0OfRIt/ct0a0I+/MaOpZ0D2PeEc
+ zKtoezhCQ/be/CySnxNRSeGHTA17WkcsqtnTT8B3pRkKbdDPh1yziZNn9qZk14OQzWg9aLcgGlNlv
+ qAgYfJIFykT5ACbfBDNGRM+shbBKQvBEJCTAKFwmiML8jGskDp16xl7rja1IqbFaoRUVwUW19nFBS
+ Thjn+q0ZW95F3sig+b8wdg780a2DKldZqy7JrO0hifCdgmQZ6lob4MEF2zpZaG7UwhvLhvy/rjS46
+ netK8fDiYN2qprto1LP58uj8trI0cZmzn+7vdo0xo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Geoffrey McRae <geoff@hostfission.com>,
+ =?ISO-8859-1?Q?Jos=E9?= Pekkarinen <koalinux@gmail.com>
+Subject: Re: [PATCH v2] Autoconnect jack ports by default
+Date: Thu, 04 Mar 2021 12:24:44 +0100
+Message-ID: <1992957.OTMv4WkKIP@silver>
+In-Reply-To: <20210303071306.h6nmeoau447w4j4b@sirius.home.kraxel.org>
+References: <20210224191927.19271-1-koalinux@gmail.com>
+ <5436901.4e4U2xeZI5@silver>
+ <20210303071306.h6nmeoau447w4j4b@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 4 Mar 2021 03:21:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,39 +67,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwNDExMTc0My4xMTg3
-NTItMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMDQxMTE3NDMuMTE4
-NzUyLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIHFlbXUtb3B0aW9u
-OiBkbyBub3Qgc3VnZ2VzdCB1c2luZyB0aGUgZGVsYXkgb3B0aW9uCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBl
-eGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGht
-IGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0g
-VEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdm
-NDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
-dQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMzA0MTExNzQzLjExODc1Mi0xLXBi
-b256aW5pQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDMwNDExMTc0My4xMTg3NTItMS1wYm9u
-emluaUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNDk1YzliMCBx
-ZW11LW9wdGlvbjogZG8gbm90IHN1Z2dlc3QgdXNpbmcgdGhlIGRlbGF5IG9wdGlvbgoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM1MDogRklMRTog
-dXRpbC9xZW11LW9wdGlvbi5jOjc4OToKKyAgICAgICAgICAgICAgICAgICAgZXJyb3JfcHJpbnRm
-KCJQbGVhc2UgdXNlIG5vZGVsYXk9JXMgaW5zdGVhZFxuIiwgcHJlZml4WzBdID8gIm9uIiA6ICJv
-ZmYiKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjQgbGluZXMgY2hlY2tlZAoKQ29t
-bWl0IDQ5NWM5YjA5NzMyYSAocWVtdS1vcHRpb246IGRvIG5vdCBzdWdnZXN0IHVzaW5nIHRoZSBk
-ZWxheSBvcHRpb24pIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09
-PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzA0MTExNzQzLjExODc1Mi0x
-LXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+On Mittwoch, 3. M=E4rz 2021 08:13:06 CET Gerd Hoffmann wrote:
+>   Hi,
+>=20
+> > JACK clients with consumer purpose often auto connect to system ports by
+> > default because their users mostly use JACK just as a consumer desktop
+> > sound server. And I assume this applies to Jos=E9 as well.
+>=20
+> Hmm, ok.  I'd suggest to simply change the default for connect-ports
+> then, that'll allow the user to easily change the behavior by setting
+> connect-ports to something else (including the empty string to disable
+> autoconnect).
+>=20
+> take care,
+>   Gerd
+
+Geoffrey, any chance to make you happy as well? E.g. either reserving "none=
+"=20
+as special value for "connect-ports" or an additional CL argument
+"no-connect-ports" to make it appear less hackish?
+
+Best regards,
+Christian Schoenebeck
+
+
 
