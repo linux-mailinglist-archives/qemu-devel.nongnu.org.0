@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288FA32DA53
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:25:21 +0100 (CET)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A119632DA58
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 20:26:29 +0100 (CET)
+Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHtb5-0001HA-Os
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:25:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
+	id 1lHtcC-0002Gz-N2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 14:26:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lHtZF-0000hF-3L
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:23:25 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lHtZB-0007gg-Le
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:23:24 -0500
-Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ds0z143pvz67rtL;
- Fri,  5 Mar 2021 03:18:53 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Thu, 4 Mar 2021 20:23:08 +0100
-Received: from localhost (10.47.94.223) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 4 Mar 2021
- 19:23:08 +0000
-Date: Thu, 4 Mar 2021 19:21:58 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Chris Browy <cbrowy@avery-design.com>
-Subject: Re: [RFC PATCH v2 1/2] Basic PCIe DOE support
-Message-ID: <20210304192158.00004296@Huawei.com>
-In-Reply-To: <1612902949-9992-1-git-send-email-cbrowy@avery-design.com>
-References: <1612900760-7361-1-git-send-email-cbrowy@avery-design.com>
- <1612902949-9992-1-git-send-email-cbrowy@avery-design.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHtaT-0001Ix-T7
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:24:41 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lHtaS-0008J9-8M
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 14:24:41 -0500
+Received: by mail-ej1-x635.google.com with SMTP id mj10so31562384ejb.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 11:24:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VxmZWaot6jky7XYV+t1x4MjYFtIKfyCSO02WZtlnG9c=;
+ b=S5Mnc5hnmJuT5l+K9tywhMQjl4Ae+hNDXxfLctBLRpVoAKHCF6HkE1YXz+Trmu2jhb
+ SBK5/BrJuBq9I9zff4gcaXC6i4PY/jerzozTQLLOgcCZDi9FVMq5+b05nnxF1SVIWJ1c
+ lo4gciYIfBDRzfpBv7bBZsidhEFlNaNiX+k7XTwJ5QHbLJXmZON4ZzYiaenir/2pvOMK
+ IJpL8+RlNBGUOE4pt8qiKUZ0EWjcrCHAjb/OQ5Y3kBVAgXhWnxHD/g01lM0EfHeT3AVa
+ WcLGUkyUbTCknMQg95CQg/BTq8txlBwUBUCuwFJjhQI6rR0ayBU5BrNyYQIq7LhL5SHl
+ JCKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VxmZWaot6jky7XYV+t1x4MjYFtIKfyCSO02WZtlnG9c=;
+ b=gSPHiNJPNrEndoPqyKhvxpa62SEcWLcXYOBn50nN8EhmDWZXCSs7QLoq/uWzXLP+gT
+ 3i5I7TXcbcBTPTXaQqsxLp6x83fx9oGzPFbFDK9g86+NnN/6CkYlc5w+XRX/FAfu1g2N
+ UYaUQIw9Wr7ynCqMKB3Af7rygUYQIBSMK75n/w/WhI0Tw7vtqQLocdCaFrfIhtu3E1T7
+ e7TBRTkngMeTTBOO3T8jFZz0m6McbSrc6W741wa8f5I1J2gxe9P4B0Zv/J9bzIJ/niaF
+ tGQ8WOGmYsoZ06KzssKW4s5JsNZY+AFJv2q9SvlOGljnm842vs457tp+M0+aU7qD9D/c
+ 6CJw==
+X-Gm-Message-State: AOAM531Y7B9L1DbTPNUb1gwSeXwrOeqb+N+PDVsPIzxDgYmvSzLbrjpc
+ IdAJ4CGM+A+dNsXg/S4w5jTLrWF5vv+AUObeBTho6w==
+X-Google-Smtp-Source: ABdhPJwIUiATIlk1JInfTccjRDaFs3DEsvXiPCRpxMT/t2dWP1wWcszKaSRrLUD8A4kbYMXJ2yfAMMYAiB5ONK5Rbio=
+X-Received: by 2002:a17:906:b14d:: with SMTP id
+ bt13mr5957746ejb.407.1614885878595; 
+ Thu, 04 Mar 2021 11:24:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.94.223]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <875z2k53mn.fsf@linaro.org>
+ <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
+ <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de>
+ <87a6rmkffo.fsf@linaro.org> <8d4a427a-94dd-7472-e8ae-98c4efa44ce0@suse.de>
+ <CAFEAcA_eWrgo9CcLF3ZpAPeK08_PmKNLjqKAzuBPcSGh+1SFCA@mail.gmail.com>
+ <5fb3cf49-fc09-7e7c-d34e-299f04e9842a@suse.de>
+ <335966c3-9f31-5868-54e5-edb28a37c50c@suse.de>
+ <a9190376-ba0b-02d5-124d-a336c586ad5d@linaro.org>
+ <dabd15eb-109a-802a-6abc-3831d7b1c203@suse.de>
+ <1b92cbea-8abf-40b9-337a-15f34ef40f61@linaro.org>
+ <38f0a65d-b5e4-3795-03a3-d6b1b3346816@amsat.org>
+In-Reply-To: <38f0a65d-b5e4-3795-03a3-d6b1b3346816@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Mar 2021 19:24:22 +0000
+Message-ID: <CAFEAcA9q4vbyi85ZAYAfW-F-SCDNt=XScDkb78TN8MEO7VvbAA@mail.gmail.com>
+Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,44 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com, armbru@redhat.com,
- linux-cxl@vger.kernel.org, f4bug@amsat.org, mst@redhat.com,
- imammedo@redhat.com, dan.j.williams@intel.com, ira.weiny@intel.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Feb 2021 15:35:49 -0500
-Chris Browy <cbrowy@avery-design.com> wrote:
+On Thu, 4 Mar 2021 at 16:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 3/3/21 7:54 PM, Richard Henderson wrote:
+> > On 3/3/21 10:45 AM, Claudio Fontana wrote:
+> >> It is a bit weird that qemu-system-aarch64 runs with a cortex-a15
+> >> model tbh, as cortex-a15 is not capable of aarch64.
+> >
+> > No, but qemu-system-aarch64 is capable of 32-bit emulation (because mos=
+t
+> > 64-bit cpus retain 32-bit mode).  It takes no extra effort to run
+> > cortex-a15 than it does a cortex-a57.
+>
+> IIRC qemu-system-arm starts the aa64 cores in 32-bit mode, while
 
-Hi Chris,
+...no, it simply doesn't have them at all; it only has
+the 32-bit-only cores. We only support '64-bit core that
+starts in 32-bit mode' for KVM; it would be nice to have the
+TCG support for that but nobody's ever written it.
 
-One more thing hit whilst debugging linux side of this.
+> qemu-system-aarch64 in 64-bit (this gave me trouble because the
+> kernels for the raspi 64-bit SoCs are in 32-bit mode -- because
+> the GPU starts them in this mode).
+>
+> > I have wondered if we should have just one qemu-system-arm that does it
+> > all and drop the separate qemu-system-aarch64 -- or vice versa.  But
+> > we've had the separation around so long I'm sure someone would be confu=
+sed.
+>
+> That would be great cleanup IMHO.
 
-> +static void pcie_doe_irq_assert(DOECap *doe_cap)
-> +{
-> +    PCIDevice *dev = doe_cap->doe->pdev;
-> +
-> +    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
+I figure it's not really worth the bother until/unless we ever
+some day get to the holy grail of "one binary that supports
+multiple target architectures", at which point we could have
+one qemu-system for everything...
 
-
-need something like
-
-doe_cap->status.intr = 1;
-
-I think or anyone checking the status register is going to think
-this interrupt is spurious.
-
-Otherwise all seems to work. I need to do a bit of tidying up on
-kernel code but should be able to send out early next week.
-
-> +        /* Interrupt notify */
-> +        if (msix_enabled(dev)) {
-> +            msix_notify(dev, doe_cap->cap.vec);
-> +        } else if (msi_enabled(dev)) {
-> +            msi_notify(dev, doe_cap->cap.vec);
-> +        }
-> +        /* Not support legacy IRQ */
-> +    }
-> +}
+-- PMM
 
