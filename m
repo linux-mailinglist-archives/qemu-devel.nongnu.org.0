@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C80B32D904
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 18:53:53 +0100 (CET)
-Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8995732D914
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 18:56:01 +0100 (CET)
+Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHsAZ-0008NU-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 12:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1lHsCe-0001D8-L8
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 12:56:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHs8e-0007i7-II
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:51:54 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:50916)
+ id 1lHsB4-0000bO-Fu
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:54:22 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHs8c-0000mn-MR
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:51:52 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id b15so7063824pjb.0
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 09:51:50 -0800 (PST)
+ id 1lHsAz-0001jw-1K
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 12:54:22 -0500
+Received: by mail-pl1-x634.google.com with SMTP id j6so3011591plx.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 09:54:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=vP/YVgzNN7yI3OKek0IlM1rfspFbvtx8CGK6bZLk76U=;
- b=SUE/tzsnqEzFFIduUxrouJqAeKokCjnYHsAl037VK1x9sIyMpWL630c/30wBCq7jwV
- kfP4y38ipV80ydrjv9KbHGu9gYO+Pbh6hvqP9VBu0pBX1mUDpZSIFx0c6kvULInYsBFz
- ODWsQsobrjvx5l3AxFQ+5VCTKqwmCUqohOqcsleKReTzZnKstub1yw10VxpJJFfjvpxg
- i2u3LVidEhikDkHJ1FdTOMkxN+2d4QurDjW/9LD5aQAyqmEKx15j/KUqNUvO66iIgoqc
- PB2dScVhCa054dOueoRY1K1fKHQY3rNmca5Z9PAPeecpZxSRh97kePaCAnsbU25IWRgw
- bieQ==
+ bh=uo/PFc/+t5LfIOm1CBanoBkXHmi9lYlCT8NTA/FCKWA=;
+ b=UeEUSoluu/6KkqM1DLnlF6g5Flp42KhHtssVn68/f4bFS+SDK0XJQPoQU85zH73d8O
+ 7EWtq3mhJRhyxeIsjq5ILEI8oWneZ0F+pRSVmsnM5DPFIVrXYGcHsRpGKkpBXcZXZFZ8
+ FM05GdawfGe+VcSWT5oLkOBXgVpY3XvOvMKNOO3a4egYLmCpnCopnqXrAbbbjfN60IAb
+ Oumky7e5r7X3rPV/mqlaxV69FxYrZ2N7Ld8c+bq5IcVN5FbxN329gVSYsVdROYVwLXDO
+ CcoBvzTk9nGNk/FNVeR1edEPgG+u8zJtPdcmMKpHbatNiVvSaXNYArWKMq3Tln2tba1b
+ 9MVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vP/YVgzNN7yI3OKek0IlM1rfspFbvtx8CGK6bZLk76U=;
- b=N2wV451fnUrhjX/f7wKW6Avj1e6uwBZp0c1rFl3GGyOvDSbzh2LTmMGrdqQnF4WPbk
- UD+HGq1dOXeCvuqx3PcWZeQ4zda4o7HAy6QoZ1020rqwzZMYwg3yfuqwWI/p+xWw8TZx
- pIybVP+XbLTIy7fGJsrUVwr8WecslbEDSKssJ5c0G8IXyeb8MXMJeDl2dVwiydMXhVtf
- Ni4dJVbwtH3ZYnssN1WQTdzNMjhCJcb0zEZQtvz36BaGnOuJY1uVZ9BY4KN5VEoRFnIe
- VBu5ux5Wy9l6rVFDEBS4e9JyqZAyKgp2MBYHvRbiAS5exzrnhMaVdhT5clByW5g6WVd7
- 3JHQ==
-X-Gm-Message-State: AOAM531Y/MiXGUc/1/xGULOMcJvzo2/n7qoHug/kO9jiCaVxdfwQagBk
- kZP6Z3NH0qHQEVSVSPjxqU2TflZtbEkMpA==
-X-Google-Smtp-Source: ABdhPJy+Bw5F6SB0Ss/D//K92lvgAI6xo0jCmnRghh+VvzxysXSzELS0aRNZuLDuk7WQAA26CBm7jg==
-X-Received: by 2002:a17:90a:7c0c:: with SMTP id
- v12mr5584200pjf.63.1614880309091; 
- Thu, 04 Mar 2021 09:51:49 -0800 (PST)
+ bh=uo/PFc/+t5LfIOm1CBanoBkXHmi9lYlCT8NTA/FCKWA=;
+ b=P+9wyDJt2wSrFbik5h2wJzU+OOkaifsB9u6gyMzq060NHr2O8FB9YSckcgVOMODuJc
+ qJedCGLU9wKtV44HOPYr67CQ33PuyeXUM39zkQNmOxfygLrL7MkRJ0pAf2mIBqXbwnzk
+ TNqhF1zomSO+adBgr9l+YjWFJYSQajKeY+IUIP3fOr7/12NQEcFkFZV3r2VJNH/dVh44
+ wC3+sGHQQoR3tdW9MG2li57wR4qcmYWE8bM2esIJu2oE22jF6s6lMdyxeRGiYTos39vr
+ yS8a2hEplGIBNSSZlibj4qQYH0R+VrbdqcEMLf5XYsAiv8uyaGbbwriWjc3abK7GByaC
+ NCwQ==
+X-Gm-Message-State: AOAM530iD30coAIb34DD84e27rQiVzyBYaHLX06CcKDfD237S4GZ/hUA
+ elYG5TPhA5ki3JziXUyiFEue6krC1ngAWg==
+X-Google-Smtp-Source: ABdhPJypI2JE6unoHCrKKwauBlOOH3BYZu1UrEZSUcd3rQvY5TEqG0YWXA/iDkdBQELfjQP64vjwbg==
+X-Received: by 2002:a17:902:7407:b029:e4:9645:fdf6 with SMTP id
+ g7-20020a1709027407b02900e49645fdf6mr4845013pll.19.1614880455373; 
+ Thu, 04 Mar 2021 09:54:15 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id g3sm59339pfo.120.2021.03.04.09.51.48
+ by smtp.gmail.com with ESMTPSA id mm12sm10389402pjb.49.2021.03.04.09.54.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 09:51:48 -0800 (PST)
-Subject: Re: [PATCH 07/44] hw/misc/iotkit-secctl.c: Implement SSE-300 PID
- register values
-From: Richard Henderson <richard.henderson@linaro.org>
+ Thu, 04 Mar 2021 09:54:14 -0800 (PST)
+Subject: Re: [PATCH 10/44] hw/misc/iotkit-sysinfo.c: Implement SYS_CONFIG1 and
+ IIDR
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-8-peter.maydell@linaro.org>
- <0f167565-0af3-ee18-4f16-ec0a8aab12f9@linaro.org>
-Message-ID: <68619933-adfd-2240-8910-2d8e6e0ef6f9@linaro.org>
-Date: Thu, 4 Mar 2021 09:51:46 -0800
+ <20210219144617.4782-11-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5b88bf72-7317-73c4-dedd-30e7e3c1f208@linaro.org>
+Date: Thu, 4 Mar 2021 09:54:13 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <0f167565-0af3-ee18-4f16-ec0a8aab12f9@linaro.org>
+In-Reply-To: <20210219144617.4782-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,27 +93,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/21 9:29 AM, Richard Henderson wrote:
-> On 2/19/21 6:45 AM, Peter Maydell wrote:
->> The versions of the Secure Access Configuration Register Block
->> and Non-secure Access Configuration Register Block in the SSE-300
->> are the same as those in the SSE-200, but the CIDR/PIDR ID
->> register values are different.
->>
->> Plumb through the sse-version property and use it to select
->> the correct ID register values.
->>
->> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
->> ---
->>   include/hw/misc/iotkit-secctl.h |  2 ++
->>   hw/arm/armsse.c                 |  2 ++
->>   hw/misc/iotkit-secctl.c         | 50 +++++++++++++++++++++++++++++++--
->>   3 files changed, 52 insertions(+), 2 deletions(-)
+On 2/19/21 6:45 AM, Peter Maydell wrote:
+> For SSE-300, the SYSINFO register block has two new registers:
 > 
-> Which document am I looking for here?  I found DAI 0547B "Application Note 
-> AN547", but I don't see these register definitions.
+>   * SYS_CONFIG1 indicates the config for a potential CPU2 and CPU3;
+>     since the SSE-300 can only be configured with a single CPU it
+>     is always zero
+> 
+>   * IIDR is the subsystem implementation identity register;
+>     its value is set by the SoC integrator, so we plumb this in from
+>     the armsse.c code as we do with SYS_VERSION and SYS_CONFIG
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   include/hw/misc/iotkit-sysinfo.h |  1 +
+>   hw/arm/armsse.c                  |  5 +++++
+>   hw/misc/iotkit-sysinfo.c         | 22 ++++++++++++++++++++++
+>   3 files changed, 28 insertions(+)
 
-I finally found the sse-300 subsystem trm: 101773_0000_02_en.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
