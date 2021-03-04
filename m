@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4317532CA5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 03:18:08 +0100 (CET)
-Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2812232CA60
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 03:18:34 +0100 (CET)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHdZ1-0008FE-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 21:18:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43596)
+	id 1lHdZR-000061-8N
+	for lists+qemu-devel@lfdr.de; Wed, 03 Mar 2021 21:18:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHdXK-0007Q1-DV
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:16:22 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:41607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lHdXI-0006ap-Rb
- for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:16:22 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id a23so8039412pga.8
- for <qemu-devel@nongnu.org>; Wed, 03 Mar 2021 18:16:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J1HqcBUztnKP7LpcnCgs1Y1m/Tm/ZANgeytrO8AsuEc=;
- b=yPplATN4hkZUZYpL+KBe/tSertGx43/PKAXYMbFxLu4V3PMkcYUnkUVtT/1XfC+/n7
- R3lPyBaeXkQ2LijdW7gb6hr1TgwEy5QiyMuDHFn8Is34qtXfgTiGGLIE9u5qfiNZrhbF
- Za2ow2lrWIA9Qj2d5TRqcnfgYyD5AJWMzWl9mrmSW3jn1oLVyJFFx5YKu40bQ/4gSxs3
- frqNyTGGJ++/Mv2gOtMVNTvweNjro8fKiUiTJy7BHj1ODAkm247J2HqP9eCNXAZORhyN
- Tuqr6xxX+zYXq2UUIrZWKRQxd19EngsQ6tHpmcEe0vbVA6fOyCdFsXtW4jz6BOwkt2jL
- wEww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J1HqcBUztnKP7LpcnCgs1Y1m/Tm/ZANgeytrO8AsuEc=;
- b=cuP0yylXmEmGg5BgfPErHtcoXMoFN2p2HUx4fXfyXfxh42iT2y7ITtta6yft0g9Q2A
- ZQwOOx/9hikxFxu9IYN2MLhKfxZVdeqD5VD6wvM3mhckGSbL0WnIJtBtE2sFfNiTIxsN
- aTjsujwQL4FZgCQZVXK8Yt0fHUFnGPHCXyuPpbid1/zbuMSk1qDWM942FGtfCkieogfC
- I+DGawBvyJ7P/1vpIrm+IgUatqPFOjX+woqSKVEu9Xc87bmSZUIK2jBKGTfnQVDj+r4i
- tiTUq9IGeYbpX5REmMxU0dkmwbqvN7F7Nd+kSjBYKJrK99+JHlh2KRa8tOuSxIWy1Ixm
- wtSw==
-X-Gm-Message-State: AOAM532TMYCDUlmr9uwBfhrXwQkjF4ZEmWH9MORpFGwxUQ4AC6u+qYgI
- P8rjym/NFiQM+gORQ57lcABWSQ==
-X-Google-Smtp-Source: ABdhPJzvTJPln2II5pes/BXK6cYCamDLZRm0ukw0F8URwWnw2u/EfcQvIxZsbtjcka5oBgj1tfX+kg==
-X-Received: by 2002:a62:8445:0:b029:1c1:c862:8fc4 with SMTP id
- k66-20020a6284450000b02901c1c8628fc4mr1585336pfd.77.1614824179205; 
- Wed, 03 Mar 2021 18:16:19 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id 68sm12386165pfd.75.2021.03.03.18.16.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 18:16:18 -0800 (PST)
-Subject: Re: [PATCH v2 21/24] hw/arm/mps2-tz: Stub out USB controller for
- mps3-an524
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210215115138.20465-1-peter.maydell@linaro.org>
- <20210215115138.20465-22-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7975259c-9fdf-0eb8-effd-c47028bb028b@linaro.org>
-Date: Wed, 3 Mar 2021 18:16:17 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lHdXu-0007ii-Ov
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:16:58 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lHdXr-0006mG-4K
+ for qemu-devel@nongnu.org; Wed, 03 Mar 2021 21:16:58 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DrZFn0Zcwz16G3N;
+ Thu,  4 Mar 2021 10:15:09 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 4 Mar 2021 10:16:44 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <elena.ufimtseva@oracle.com>, <jag.raman@oracle.com>,
+ <john.g.johnson@oracle.com>
+Subject: [PATCH v2] multi-process: Initialize variables declared with g_auto*
+Date: Thu, 4 Mar 2021 10:16:21 +0800
+Message-ID: <20210304021621.579-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20210215115138.20465-22-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=yuzenghui@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,28 +57,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, philmd@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 3:51 AM, Peter Maydell wrote:
-> The AN524 has a USB controller (an ISP1763); we don't have a model of
-> it but we should provide a stub "unimplemented-device" for it.  This
-> is slightly complicated because the USB controller shares a PPC port
-> with the ethernet controller.
-> 
-> Implement a make_* function which provides creates a container
-> MemoryRegion with both the ethernet controller and an
-> unimplemented-device stub for the USB controller.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   hw/arm/mps2-tz.c | 48 +++++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 47 insertions(+), 1 deletion(-)
+Quote docs/devel/style.rst (section "Automatic memory deallocation"):
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+* Variables declared with g_auto* MUST always be initialized,
+  otherwise the cleanup function will use uninitialized stack memory
 
-r~
+Initialize @name properly to get rid of the compilation error:
+
+../hw/remote/proxy.c: In function 'pci_proxy_dev_realize':
+/usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: 'name' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+   g_free (*pp);
+   ^~~~~~~~~~~~
+../hw/remote/proxy.c:350:30: note: 'name' was declared here
+             g_autofree char *name;
+                              ^~~~
+
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
+---
+* From v1:
+  - Move the suffix iteration out of the loop (Philippe)
+  - Add Jagannathan's R-b
+
+ hw/remote/memory.c | 5 ++---
+ hw/remote/proxy.c  | 3 +--
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+index 32085b1e05..d97947d4b8 100644
+--- a/hw/remote/memory.c
++++ b/hw/remote/memory.c
+@@ -42,10 +42,9 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+ 
+     remote_sysmem_reset();
+ 
+-    for (region = 0; region < msg->num_fds; region++) {
+-        g_autofree char *name;
++    for (region = 0; region < msg->num_fds; region++, suffix++) {
++        g_autofree char *name = g_strdup_printf("remote-mem-%u", suffix);
+         subregion = g_new(MemoryRegion, 1);
+-        name = g_strdup_printf("remote-mem-%u", suffix++);
+         memory_region_init_ram_from_fd(subregion, NULL,
+                                        name, sysmem_info->sizes[region],
+                                        true, msg->fds[region],
+diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
+index 4fa4be079d..6dda705fc2 100644
+--- a/hw/remote/proxy.c
++++ b/hw/remote/proxy.c
+@@ -347,13 +347,12 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
+                    PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
+ 
+         if (size) {
+-            g_autofree char *name;
++            g_autofree char *name = g_strdup_printf("bar-region-%d", i);
+             pdev->region[i].dev = pdev;
+             pdev->region[i].present = true;
+             if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
+                 pdev->region[i].memory = true;
+             }
+-            name = g_strdup_printf("bar-region-%d", i);
+             memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
+                                   &proxy_mr_ops, &pdev->region[i],
+                                   name, size);
+-- 
+2.19.1
 
 
