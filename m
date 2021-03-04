@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7AF32D947
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 19:10:51 +0100 (CET)
-Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764B932D951
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 19:16:21 +0100 (CET)
+Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHsQz-0007lX-Kh
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 13:10:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
+	id 1lHsWK-00016t-51
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 13:16:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHsPI-0007JH-RK
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 13:09:04 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:45615)
+ id 1lHsUX-0000f2-3j
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 13:14:29 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lHsPG-0008Re-TK
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 13:09:04 -0500
-Received: by mail-lj1-x230.google.com with SMTP id y12so21584464ljj.12
- for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 10:09:01 -0800 (PST)
+ id 1lHsUV-0002Tv-E4
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 13:14:28 -0500
+Received: by mail-wm1-x334.google.com with SMTP id m1so10584583wml.2
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 10:14:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2FHvWs9EXhNszpdPGUyo7QV+cbyAE/Jl10WmFDGjx6g=;
- b=XizCn+8MjWoDTtvwMBHI96+ELeyGFfeNCn/QRLoT+RVHIBG/6vzf3ZC9iqq9q6ATDa
- 7pmRgM+SMd4GTWHlCAORyMT33NERuSMMTSvKU42jnJ3Kq2YLktsT+1EPSwNCWCaQG+Ht
- QTUrGwqHB30r6ooyLXamK2Bp8I9hfotvXaJ2qHaZczWHfEFqQbNSSyOobiAn1iA+RFjk
- 8a78eYNqhlPR2fLxAKIayHO3Foy4gO0WyXL/i3hEpiXYBcVuycl5VTTi5jd18rLMbCIn
- eci8zcN6mVa+64/PlDFy1CyR67gpmJhYB5gObiLQrtFnSEFTtBNId7Ce4Hy+3tK4BXzs
- 7UHg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jShEF6OJ0qsdOkUPCDGFFmcNCDIowiZS6GkyTuYmo8o=;
+ b=xoEmCqJo9RmLQc1JLWOr0WfhftTRyJQjgqUN80t/cS5d79l9wHhJ/ZmhL2RIuPwxYc
+ igpz813/HcPuFljDR1qlGUTora88ZeLkAmxHPiQcjcIjJoIof1zn+1PF1TDSvfx5zHZS
+ w10Z4uR5uw2uHDcuLtedyqJS1tUTdRgtz49HxUv/79UIvM7+RGs3CJSEywPVnuWNq2A5
+ kwkGN/VMchZF+4qYN2Cs9XSdhwmdgjh5ONgCPB3R4MacqP5LxP2mcrBqTWdB6PyYNjY+
+ nj33CG6imjdwW8fmAMGrE76sf3UiwYBr/WLzfI0B3B7Skw6sn+thW1RVLWAaCjAhgV/1
+ t2Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2FHvWs9EXhNszpdPGUyo7QV+cbyAE/Jl10WmFDGjx6g=;
- b=rZLAQd1s0t8TmLPJIll8QzHQDcjhLkXjHbGIAr/tdYl8ugj9hqgnawRmWaIfvZh1IT
- wZDQF+ei8NALoJfMv24BzXb/kwANquux4AeUMXG9xQUMtbNmLCoMhEv5w6XTINO6Im6e
- vxk3NfsjGeUYZsYQtocTXIWhCa9QwdEt/2nwnyODhLpbOq+CaQUFD3oZ7JelkrH8ts6f
- Z6LusYHKMDmXw/hP/WWT7PjkMbdJyCNAqrXUhqDkKgm8V1U1dDS5YKmifYGY43h8uWEv
- xYOzPbdr/nE8HIU/TZIFSbFuk+z9KSaeg7E+YS0/WqkDtQ+vRFM7gkHiNCdaR6y6wsdS
- m20A==
-X-Gm-Message-State: AOAM532JgpGzN6GjkP7o/nk2whMqT4iRjX/s6W5ko2wbAhxRQNcC6cGZ
- pchIi1YUfojaKqVPxR6dJwVN14AZlFRH1yUnL0L3wg==
-X-Google-Smtp-Source: ABdhPJwbmDn7d90WDe6c9B8alFI7tnovbKrYr8hs9TMgsVknh0O9+xToPqGYM5xQF75RampOyY2xCpzD4ffZ/Kkc9Lg=
-X-Received: by 2002:a2e:8151:: with SMTP id t17mr2821742ljg.163.1614881340401; 
- Thu, 04 Mar 2021 10:09:00 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jShEF6OJ0qsdOkUPCDGFFmcNCDIowiZS6GkyTuYmo8o=;
+ b=toro5wPlaED6F/rrhwf4oYY2A9KDfR3Iw195Xk6JDHSvlNwMBjCcEL9i1WN1yX9uMX
+ qy5e37Yol+AgnvjxY0iS2lfD/5eWzRQknafPI4vFplAG0aYso2GfL3O3nbX5RE0CA6N9
+ FBDrB1gpY7Aev0QdS/fea2XrrwdbP3aV2W5x1yneBA8fadg37a9Toi/Y4MG8VikAlndW
+ ftfx7ryQuQpQV6bEZKbiOizUJZ7s1cnAtOb4HFtruKsdKPrI2UO5IcZj/jtetzIoAqzt
+ YY8anRBxarZFOPhqAbVpdHIXIjNkdaWjtC0lmrb3xtNCIDOvcg/szNdQqIyYxUBXFpyF
+ kPxQ==
+X-Gm-Message-State: AOAM532osVPcnLgoOQtte3BIQ+azguiVM25CcGzYvvs6Ixd+i1AC2OuM
+ SP9UYtRG8bwwpP30QVdoicxu1g==
+X-Google-Smtp-Source: ABdhPJyH1tz8KW50odRf11yS+17ll3HqHSocjRcVqOmK36Mqg8F/xa8Jf4B1NOI17Cc/mHExWvt23Q==
+X-Received: by 2002:a1c:32ca:: with SMTP id y193mr2470994wmy.56.1614881665784; 
+ Thu, 04 Mar 2021 10:14:25 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g9sm106110wrp.14.2021.03.04.10.14.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Mar 2021 10:14:24 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 442AC1FF7E;
+ Thu,  4 Mar 2021 18:14:23 +0000 (GMT)
+References: <20210303145011.14547-1-alex.bennee@linaro.org>
+ <20210303165554-mutt-send-email-mst@kernel.org>
+ <YEEXhBClR6GRLDu6@stefanha-x1.localdomain>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] vhost-user.rst: add clarifying language about
+ protocol negotiation
+Date: Thu, 04 Mar 2021 18:11:26 +0000
+In-reply-to: <YEEXhBClR6GRLDu6@stefanha-x1.localdomain>
+Message-ID: <87tupqg51c.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210228222314.304787-1-f4bug@amsat.org>
- <20210228222314.304787-4-f4bug@amsat.org>
- <875z27glwo.fsf@linaro.org>
- <CALU5z=Ne_QkdVRbrsXX9RSKwup2ta=FboVrD3J--yOZUQptymg@mail.gmail.com>
-In-Reply-To: <CALU5z=Ne_QkdVRbrsXX9RSKwup2ta=FboVrD3J--yOZUQptymg@mail.gmail.com>
-From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Date: Thu, 4 Mar 2021 18:08:48 +0000
-Message-ID: <CAHDbmO1Q4q6FDuTac2epjT6iaou5Zt1g-G6ejjyPC52O7HiTug@mail.gmail.com>
-Subject: Re: [PATCH 3/4] gitlab-ci: Build Hexagon cross-toolchain
-To: Paolo Montesel <babush@rev.ng>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=alex.bennee@linaro.org; helo=mail-lj1-x230.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,79 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Brian Cain <bcain@quicinc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alessandro Di Federico <ale.qemu@rev.ng>,
- Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Jiang Liu <gerry@linux.alibaba.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, exactly. Already done:
 
-  https://gitlab.com/stsquad/qemu/-/jobs/1073206662
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-On Thu, 4 Mar 2021 at 17:43, Paolo Montesel <babush@rev.ng> wrote:
+> On Wed, Mar 03, 2021 at 05:01:05PM -0500, Michael S. Tsirkin wrote:
+>> On Wed, Mar 03, 2021 at 02:50:11PM +0000, Alex Benn=C3=A9e wrote:
+>> Also, are we sure it's ok to send the messages and then send
+>> VHOST_USER_SET_FEATURES with VHOST_USER_F_PROTOCOL_FEATURES clear?
+>> Looks more like a violation to me ...
 >
-> On Thu, Mar 4, 2021 at 1:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >
-> >
-> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-> >
-> > > Add a job to build the Debian based Hexagon cross-toolchain image.
-> > >
-> > > This image requires a lot of compute time, too much for the common
-> > > shared runners. To avoid having the job to timeout, it has to be
-> > > built with custom unlimited runner. For this reason we restrict this
-> > > job to manual runs.
-> > >
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > ---
-> > >  .gitlab-ci.d/containers.yml | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >
-> > > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.ym=
-l
-> > > index 7137cc4184d..ed57e02e769 100644
-> > > --- a/.gitlab-ci.d/containers.yml
-> > > +++ b/.gitlab-ci.d/containers.yml
-> > > @@ -103,6 +103,16 @@ armhf-debian-cross-container:
-> > >    variables:
-> > >      NAME: debian-armhf-cross
-> > >
-> > > +hexagon-debian-cross-container:
-> > > +  <<: *container_job_definition
-> > > +  stage: containers-layer2
-> > > +  needs: ['amd64-debian10-container']
-> > > +  when: manual
-> > > +  timeout: 3h
-> > > +  variables:
-> > > +    NAME: debian-hexagon-cross
-> > > +    EXTRA_FILES: tests/docker/dockerfiles/debian-hexagon-cross.docke=
-r.d/build-toolchain.sh
-> > > +
-> >
-> > We don't really want this - what we need is the ability to run the test=
-s
-> > for hexagon when the registry contains a built container that we have
-> > manually pushed from a build machine:
+> Looking again I agree it would be a violation to omit
+> VHOST_USER_F_PROTOCOL_FEATURES in VHOST_USER_SET_FEATURES.
 >
-> Ok, so, just to sync, should we submit a minimal patch that only
-> addresses the docker part of our stuff and then worry about the rest?
-> That way you can build & upload a container to the registry, and then
-> we can add a job to .gitlab-ci.yml with the rest of the patchset.
+> Previously I only looked at VHOST_USER_SET_PROTOCOL_FEATURES where the
+> spec says:
 >
-> Or, if you plan to mess with the CI yourself, please tell me so we can
-> avoid spending time on the same thing (should be 5 lines of yaml
-> anyway).
+>   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present=
+ in
+>   ``VHOST_USER_GET_FEATURES``.
 >
-> - Paolo
+> So negotiation is *not* necessary for sending
+> VHOST_USER_SET_PROTOCOL_FEATURES.
+>
+> However, I missed that other features *do* require negotiation of
+> VHOST_USER_F_PROTOCOL_FEATURES according to the spec. For example:
+>
+>   If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+>   ring is initialized in an enabled state.
+>
+> Now I think:
+>
+> 1. VHOST_USER_F_PROTOCOL_FEATURES *must* be included
+>    VHOST_USER_SET_FEATURES if the master supports it.
 
+So added by the master - still invisible to the guest?
 
+>
+> 2. VHOST_USER_SET_PROTOCOL_FEATURES does not require negotiation,
+>    instead the master just needs to check that
+>    VHOST_USER_F_PROTOCOL_FEATURES is included in the
+>    VHOST_USER_GET_FEATURES reply. It's an exception.
+
+OK I'm now thoroughly confused but I guess that's a good thing. However
+if we make the changes to QEMU to honour this won't we break with
+existing vhost-user receivers? We'll also need to track the state of a
+SET_FEATURES has happened and then gate the sending of things like
+reply_ack requests?
 
 --=20
 Alex Benn=C3=A9e
-KVM/QEMU Hacker for Linaro
 
