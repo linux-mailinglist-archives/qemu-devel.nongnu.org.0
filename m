@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6D332DCD8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:17:50 +0100 (CET)
-Received: from localhost ([::1]:44380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B2E32DCCC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:14:00 +0100 (CET)
+Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwI1-0004UD-C4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:17:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53252)
+	id 1lHwEJ-0007Gx-AS
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:13:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwC8-000587-Ku
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:44 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39942
+ id 1lHwCF-0005Gc-6S
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:51 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39954
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwC7-0005eS-3s
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:44 -0500
+ id 1lHwCD-0005h9-0I
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:50 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwC0-0008MJ-5U; Thu, 04 Mar 2021 22:11:41 +0000
+ id 1lHwC6-0008MJ-0A; Thu, 04 Mar 2021 22:11:46 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:26 +0000
-Message-Id: <20210304221103.6369-6-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:10:27 +0000
+Message-Id: <20210304221103.6369-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 05/42] esp: add trace event when receiving a TI command
+Subject: [PATCH v3 06/42] esp: fix esp_reg_read() trace event
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,41 +64,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This enables us to determine whether the command being issued is for a DMA or a
-non-DMA transfer.
+Move the trace event to the end of the function so that it correctly reports
+the returned value if it doesn't come directly from the rregs array.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c        | 1 +
- hw/scsi/trace-events | 1 +
- 2 files changed, 2 insertions(+)
+ hw/scsi/esp.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index f65c675872..73700550f2 100644
+index 73700550f2..16c1853577 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -697,6 +697,7 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
-             }
-             break;
-         case CMD_TI:
-+            trace_esp_mem_writeb_cmd_ti(val);
-             handle_ti(s);
-             break;
-         case CMD_ICCS:
-diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-index 9788661bfd..6269547266 100644
---- a/hw/scsi/trace-events
-+++ b/hw/scsi/trace-events
-@@ -189,6 +189,7 @@ esp_mem_writeb_cmd_selatn(uint32_t val) "Select with ATN (0x%2.2x)"
- esp_mem_writeb_cmd_selatns(uint32_t val) "Select with ATN & stop (0x%2.2x)"
- esp_mem_writeb_cmd_ensel(uint32_t val) "Enable selection (0x%2.2x)"
- esp_mem_writeb_cmd_dissel(uint32_t val) "Disable selection (0x%2.2x)"
-+esp_mem_writeb_cmd_ti(uint32_t val) "Transfer Information (0x%2.2x)"
+@@ -594,9 +594,8 @@ static void parent_esp_reset(ESPState *s, int irq, int level)
  
- # esp-pci.c
- esp_pci_error_invalid_dma_direction(void) "invalid DMA transfer direction"
+ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+ {
+-    uint32_t old_val;
++    uint32_t val;
+ 
+-    trace_esp_mem_readb(saddr, s->rregs[saddr]);
+     switch (saddr) {
+     case ESP_FIFO:
+         if ((s->rregs[ESP_RSTAT] & STAT_PIO_MASK) == 0) {
+@@ -611,13 +610,14 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+             s->ti_rptr = 0;
+             s->ti_wptr = 0;
+         }
++        val = s->rregs[ESP_FIFO];
+         break;
+     case ESP_RINTR:
+         /*
+          * Clear sequence step, interrupt register and all status bits
+          * except TC
+          */
+-        old_val = s->rregs[ESP_RINTR];
++        val = s->rregs[ESP_RINTR];
+         s->rregs[ESP_RINTR] = 0;
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+         s->rregs[ESP_RSEQ] = SEQ_CD;
+@@ -626,16 +626,22 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+             esp_report_command_complete(s, s->deferred_status);
+             s->deferred_complete = false;
+         }
+-        return old_val;
++        break;
+     case ESP_TCHI:
+         /* Return the unique id if the value has never been written */
+         if (!s->tchi_written) {
+-            return s->chip_id;
++            val = s->chip_id;
++        } else {
++            val = s->rregs[saddr];
+         }
++        break;
+     default:
++        val = s->rregs[saddr];
+         break;
+     }
+-    return s->rregs[saddr];
++
++    trace_esp_mem_readb(saddr, val);
++    return val;
+ }
+ 
+ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
 -- 
 2.20.1
 
