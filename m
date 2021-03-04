@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7659532D104
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:42:24 +0100 (CET)
-Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE2432D10C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 11:43:18 +0100 (CET)
+Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHlR1-0002of-IX
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:42:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
+	id 1lHlRt-0003iC-M8
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 05:43:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHlOo-0000MW-5h
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:40:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47727)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lHlQi-0002ro-6q
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:42:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lHlOl-0003ga-Ug
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:40:05 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lHlQg-0004ga-H2
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 05:42:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614854403;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=YWhgcPErSn9U32dhXOTbQ3kHtPT63bh5Clv7bxbsX+Y=;
- b=ee6OpPd3p+g8MtStvtRGRmUve6Kt1xHzi1juLmcwWj6OaoFYAmvSzezQHqOBzWRwIDIEwu
- QXPzUpNgWWedRkrvAiwNsR6nxDMp9Ie1pqCBFGpaKqSOow6KNs8ImLdVsnnyDSmJ9QXd5J
- wrBxJB8RVreGNmoZByWY6VKyZDLgYVM=
+ s=mimecast20190719; t=1614854521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m6fLkiYY8Vb/3Yt0Kqa4sF4V5w/0PIx4Xx7g2M474bo=;
+ b=Js2OJpKAt5iwQBwR8OMKj85FENjPh82QcJyFaWf1QZzPKS8Pg5auRnGyC2c/+rumrMFFNC
+ fgbCZ1GTCjxjPJPamlR5SD9gNRvdV3y3pwitT3+cy2KHBhVqGhjv2JaLuNbZKfr6oSF9vD
+ 90WmeeWE/4iN2pBQAm9sZVhgjmP7Bzg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-u0I8FGjAPOabn0SfRSDyrQ-1; Thu, 04 Mar 2021 05:40:01 -0500
-X-MC-Unique: u0I8FGjAPOabn0SfRSDyrQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-324-QbvHCrNQNTGuKOVOyF_-lg-1; Thu, 04 Mar 2021 05:41:59 -0500
+X-MC-Unique: QbvHCrNQNTGuKOVOyF_-lg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29971108BD0E;
- Thu,  4 Mar 2021 10:40:00 +0000 (UTC)
-Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22181175BB;
- Thu,  4 Mar 2021 10:39:44 +0000 (UTC)
-Date: Thu, 4 Mar 2021 10:39:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v3 2/2] gitlab-ci.yml: Add jobs to test CFI flags
-Message-ID: <YEC47lN4Xt3LUsP6@redhat.com>
-References: <20210304030948.9367-1-dbuono@linux.vnet.ibm.com>
- <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E303E1842142;
+ Thu,  4 Mar 2021 10:41:58 +0000 (UTC)
+Received: from work-vm (ovpn-114-208.ams2.redhat.com [10.36.114.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF05C1962E;
+ Thu,  4 Mar 2021 10:41:54 +0000 (UTC)
+Date: Thu, 4 Mar 2021 10:41:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Add qemu version and copyright info
+Message-ID: <YEC5cExBshLUKJ/a@work-vm>
+References: <20210303195339.GB3793@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
+In-Reply-To: <20210303195339.GB3793@redhat.com>
 User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,177 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ eric.g.ernst@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 03, 2021 at 10:09:48PM -0500, Daniele Buono wrote:
-> QEMU has had options to enable control-flow integrity features
-> for a few months now. Add two sets of build/check/acceptance
-> jobs to ensure the binary produced is working fine.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Option "-V" currently displays the fuse protocol version virtiofsd is
+> using. For example, I see this.
 > 
-> The three sets allow testing of x86_64 binaries for x86_64, s390x,
-> ppc64 and aarch64 targets
+> $ ./virtiofsd -V
+> "using FUSE kernel interface version 7.33"
 > 
-> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> People also want to know software version of virtiofsd so that they can
+> figure out if a certain fix is part of currently running virtiofsd or
+> not. Eric Ernst ran into this issue.
+> 
+> David Gilbert thinks that it probably is best that we simply carry the
+> qemu version and display that information given we are part of qemu
+> tree. 
+> 
+> So this patch enhances version information and also adds qemu version
+> and copyright info. Not sure if copyright information is supposed
+> to be displayed along with version info. Given qemu-storage-daemon
+> and other utilities are doing it, so I continued with same pattern.
+> This is how now output looks like.
+> 
+> $ ./virtiofsd -V
+> virtiofsd version 5.2.50 (v5.2.0-2357-gcbcf09872a-dirty)
+> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> using FUSE kernel interface version 7.33
+> 
+> Reported-by: Eric Ernst <eric.g.ernst@gmail.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  .gitlab-ci.yml | 119 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 119 insertions(+)
+>  tools/virtiofsd/passthrough_ll.c |    8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 814f51873f..7b1f25c92e 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -483,6 +483,125 @@ clang-user:
->        --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
->      MAKE_CHECK_ARGS: check-unit check-tcg
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:28:04.893672524 -0500
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:37:29.381712706 -0500
+> @@ -37,6 +37,8 @@
 >  
-> +# Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
-> +# On gitlab runners, default value sometimes end up calling 2 lds concurrently and
-> +# triggers an Out-Of-Memory error
-> +#
-> +# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
-> +# with QEMU and linked as a static library to avoid false positives in CFI checks.
-> +# This can be accomplished by using -enable-slirp=git, which avoids the use of
-> +# a system-wide version of the library
-> +#
-> +# Split in three sets of build/check/acceptance to limit the execution time of each
-> +# job
-> +build-cfi-arm:
-
-s/arm/aarch64/
-
-> +  <<: *native_build_job_definition
-> +  needs:
-> +  - job: amd64-fedora-container
-> +  variables:
-> +    LD_JOBS: 1
-> +    AR: llvm-ar
-> +    IMAGE: fedora
-> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-> +      --enable-safe-stack --enable-slirp=git
-> +    TARGETS: aarch64-softmmu
-> +    MAKE_CHECK_ARGS: check-build
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
+>  #include "qemu/osdep.h"
+>  #include "qemu/timer.h"
+> +#include "qemu-version.h"
+> +#include "qemu-common.h"
+>  #include "fuse_virtio.h"
+>  #include "fuse_log.h"
+>  #include "fuse_lowlevel.h"
+> @@ -3591,6 +3593,11 @@ static void fuse_lo_data_cleanup(struct
+>      free(lo->source);
+>  }
+>  
+> +static void qemu_version(void)
+> +{
+> +    printf("virtiofsd version " QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
+> +}
 > +
-> +check-cfi-arm:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-arm
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check
-> +
-> +acceptance-cfi-arm:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-arm
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check-acceptance
-> +  <<: *acceptance_definition
-> +
-> +build-cfi-ibm:
-
-Lets not use vendor names here - keep the target names. ie
-
-  build-cfi-s390x-ppc64
-
-and equivalent for the rest of the jobs below....
-
-> +  <<: *native_build_job_definition
-> +  needs:
-> +  - job: amd64-fedora-container
-> +  variables:
-> +    LD_JOBS: 1
-> +    AR: llvm-ar
-> +    IMAGE: fedora
-> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-> +      --enable-safe-stack --enable-slirp=git
-> +    TARGETS: ppc64-softmmu s390x-softmmu
-> +    MAKE_CHECK_ARGS: check-build
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
-> +
-> +check-cfi-ibm:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-ibm
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check
-> +
-> +acceptance-cfi-ibm:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-ibm
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check-acceptance
-> +  <<: *acceptance_definition
-> +
-> +build-cfi-intel:
-> +  <<: *native_build_job_definition
-> +  needs:
-> +  - job: amd64-fedora-container
-> +  variables:
-> +    LD_JOBS: 1
-> +    AR: llvm-ar
-> +    IMAGE: fedora
-> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-> +      --enable-safe-stack --enable-slirp=git
-> +    TARGETS: x86_64-softmmu
-> +    MAKE_CHECK_ARGS: check-build
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
-> +
-> +check-cfi-intel:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-intel
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check
-> +
-> +acceptance-cfi-intel:
-> +  <<: *native_test_job_definition
-> +  needs:
-> +    - job: build-cfi-intel
-> +      artifacts: true
-> +  variables:
-> +    IMAGE: fedora
-> +    MAKE_CHECK_ARGS: check-acceptance
-> +  <<: *acceptance_definition
-> +
->  tsan-build:
->    <<: *native_build_job_definition
->    variables:
-> -- 
-> 2.30.0
-> 
-
-Regards,
-Daniel
+>  int main(int argc, char *argv[])
+>  {
+>      struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+> @@ -3662,6 +3669,7 @@ int main(int argc, char *argv[])
+>          ret = 0;
+>          goto err_out1;
+>      } else if (opts.show_version) {
+> +        qemu_version();
+>          fuse_lowlevel_version();
+>          ret = 0;
+>          goto err_out1;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
