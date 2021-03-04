@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B2E32DCCC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:14:00 +0100 (CET)
-Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA65F32DCD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 23:16:40 +0100 (CET)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHwEJ-0007Gx-AS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:13:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
+	id 1lHwGs-0002bO-FX
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 17:16:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwCF-0005Gc-6S
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:51 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39954
+ id 1lHwCK-0005Jl-I4
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:56 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39962
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwCD-0005h9-0I
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:50 -0500
+ id 1lHwCG-0005iU-QJ
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 17:11:56 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lHwC6-0008MJ-0A; Thu, 04 Mar 2021 22:11:46 +0000
+ id 1lHwCA-0008MJ-TJ; Thu, 04 Mar 2021 22:11:51 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Thu,  4 Mar 2021 22:10:27 +0000
-Message-Id: <20210304221103.6369-7-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  4 Mar 2021 22:10:28 +0000
+Message-Id: <20210304221103.6369-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
 References: <20210304221103.6369-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 06/42] esp: fix esp_reg_read() trace event
+Subject: [PATCH v3 07/42] esp: add PDMA trace events
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,73 +64,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the trace event to the end of the function so that it correctly reports
-the returned value if it doesn't come directly from the rregs array.
+This will become more useful later when trying to debug mixed FIFO and PDMA
+requests.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ hw/scsi/esp.c        | 6 ++++++
+ hw/scsi/trace-events | 4 ++++
+ 2 files changed, 10 insertions(+)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 73700550f2..16c1853577 100644
+index 16c1853577..e0676ae790 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -594,9 +594,8 @@ static void parent_esp_reset(ESPState *s, int irq, int level)
- 
- uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+@@ -63,11 +63,13 @@ static void esp_lower_irq(ESPState *s)
+ static void esp_raise_drq(ESPState *s)
  {
--    uint32_t old_val;
-+    uint32_t val;
- 
--    trace_esp_mem_readb(saddr, s->rregs[saddr]);
-     switch (saddr) {
-     case ESP_FIFO:
-         if ((s->rregs[ESP_RSTAT] & STAT_PIO_MASK) == 0) {
-@@ -611,13 +610,14 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-             s->ti_rptr = 0;
-             s->ti_wptr = 0;
-         }
-+        val = s->rregs[ESP_FIFO];
-         break;
-     case ESP_RINTR:
-         /*
-          * Clear sequence step, interrupt register and all status bits
-          * except TC
-          */
--        old_val = s->rregs[ESP_RINTR];
-+        val = s->rregs[ESP_RINTR];
-         s->rregs[ESP_RINTR] = 0;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
-         s->rregs[ESP_RSEQ] = SEQ_CD;
-@@ -626,16 +626,22 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-             esp_report_command_complete(s, s->deferred_status);
-             s->deferred_complete = false;
-         }
--        return old_val;
-+        break;
-     case ESP_TCHI:
-         /* Return the unique id if the value has never been written */
-         if (!s->tchi_written) {
--            return s->chip_id;
-+            val = s->chip_id;
-+        } else {
-+            val = s->rregs[saddr];
-         }
-+        break;
-     default:
-+        val = s->rregs[saddr];
-         break;
-     }
--    return s->rregs[saddr];
-+
-+    trace_esp_mem_readb(saddr, val);
-+    return val;
+     qemu_irq_raise(s->irq_data);
++    trace_esp_raise_drq();
  }
  
- void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
+ static void esp_lower_drq(ESPState *s)
+ {
+     qemu_irq_lower(s->irq_data);
++    trace_esp_lower_drq();
+ }
+ 
+ void esp_dma_enable(ESPState *s, int irq, int level)
+@@ -885,6 +887,8 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+     uint32_t dmalen;
+     uint8_t *buf = get_pdma_buf(s);
+ 
++    trace_esp_pdma_write(size);
++
+     dmalen = s->rregs[ESP_TCLO];
+     dmalen |= s->rregs[ESP_TCMID] << 8;
+     dmalen |= s->rregs[ESP_TCHI] << 16;
+@@ -922,6 +926,8 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+     uint8_t *buf = get_pdma_buf(s);
+     uint64_t val = 0;
+ 
++    trace_esp_pdma_read(size);
++
+     if (s->pdma_len == 0) {
+         return 0;
+     }
+diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+index 6269547266..1c331fb189 100644
+--- a/hw/scsi/trace-events
++++ b/hw/scsi/trace-events
+@@ -159,8 +159,12 @@ esp_error_unhandled_command(uint32_t val) "unhandled command (0x%2.2x)"
+ esp_error_invalid_write(uint32_t val, uint32_t addr) "invalid write of 0x%02x at [0x%x]"
+ esp_raise_irq(void) "Raise IRQ"
+ esp_lower_irq(void) "Lower IRQ"
++esp_raise_drq(void) "Raise DREQ"
++esp_lower_drq(void) "Lower DREQ"
+ esp_dma_enable(void) "Raise enable"
+ esp_dma_disable(void) "Lower enable"
++esp_pdma_read(int size) "pDMA read %u bytes"
++esp_pdma_write(int size) "pDMA write %u bytes"
+ esp_get_cmd(uint32_t dmalen, int target) "len %d target %d"
+ esp_do_busid_cmd(uint8_t busid) "busid 0x%x"
+ esp_handle_satn_stop(uint32_t cmdlen) "cmdlen %d"
 -- 
 2.20.1
 
