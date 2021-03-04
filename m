@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E2132D3BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 13:58:07 +0100 (CET)
-Received: from localhost ([::1]:60250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3865932D365
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Mar 2021 13:42:03 +0100 (CET)
+Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHnYM-0004Ja-7n
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 07:58:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55866)
+	id 1lHnIn-0002nN-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 07:42:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHnSv-0007U4-BV
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:52:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37866)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHnGx-00021g-7g
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:40:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHnSu-000573-1O
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:52:29 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lHnGu-00082Z-8B
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 07:40:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614862347;
+ s=mimecast20190719; t=1614861602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J6LtdJMWisbnkqaR3pzLYC98c1cbhJuQsTdqSnfJRTY=;
- b=NmJFlr6QlikzhOXfWRZrrMGOAIm8xiv9eeuQq45mrJ1vYGKAK1zI/G1wjv0O2UkebJiY9W
- YWoX5Pd5Do5tHwOLN19lb2L11XYEvn4qziGvB/5cB4TU2nYo/E5crSroYX0MEnx04xSbO8
- w0b3HHA9tJNbrhTsau1Wqmle1dnVpWE=
+ bh=7DP9b4DgfQRkzHRoxIoT/2G5aSA1ovkOxJLoHCwE5T4=;
+ b=ObH1HaE490nrlosiGS9xVcPUSXwqLTQxGNvKRPLXYuB2cXIK0FQrNdrQn363tL+nP3QadY
+ sJ6xG1nifydfcYycGPEJSQbUjcm2oKIDOAMoVFGk6hA9UDy0mpoLJ5ocpFc3qZugnun1Oi
+ ZP501mgFoG3I5+MwZXNXXd1wTSQ9nh4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-2GMpV6mgOiC38-v5wLwHGQ-1; Thu, 04 Mar 2021 07:52:23 -0500
-X-MC-Unique: 2GMpV6mgOiC38-v5wLwHGQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-368-unY53evyPXuPSl4Iys6nRA-1; Thu, 04 Mar 2021 07:39:51 -0500
+X-MC-Unique: unY53evyPXuPSl4Iys6nRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBC46409B;
- Thu,  4 Mar 2021 12:52:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F14F108BD07;
+ Thu,  4 Mar 2021 12:39:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-129.ams2.redhat.com
  [10.36.115.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E72510190AA;
- Thu,  4 Mar 2021 12:52:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFEB95D9C6;
+ Thu,  4 Mar 2021 12:39:49 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E4FE0180063F; Thu,  4 Mar 2021 09:58:11 +0100 (CET)
-Date: Thu, 4 Mar 2021 09:58:11 +0100
+ id 13EC618007BE; Thu,  4 Mar 2021 10:04:32 +0100 (CET)
+Date: Thu, 4 Mar 2021 10:04:32 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH 5/7] ui/vnc: clipboard support
-Message-ID: <20210304085811.q2mdy5ok6tlqhdky@sirius.home.kraxel.org>
+Subject: Re: [PATCH 7/7] ui/gtk: add clipboard support
+Message-ID: <20210304090432.imh3eeylwtkknr4t@sirius.home.kraxel.org>
 References: <20210219131349.3993192-1-kraxel@redhat.com>
- <20210219131349.3993192-6-kraxel@redhat.com>
- <CAJ+F1CLLgnKcr-jRG=2sVnNGjsGjovm+e0bbeTTwHU=CRg1w+Q@mail.gmail.com>
- <20210303121314.2ql3yj6ju4i3wvmx@sirius.home.kraxel.org>
- <CAJ+F1CJxSfEa2Y2WDdOS-x3RmiM490GotgpwETweaH1h+MPt+A@mail.gmail.com>
+ <20210219131349.3993192-8-kraxel@redhat.com>
+ <CAJ+F1C+7aZyDOGB+CD2CubxzTexJ0kBkMx76Zk4zpHiQZuEx9Q@mail.gmail.com>
+ <20210303122014.gmgfgz462aa5vuya@sirius.home.kraxel.org>
+ <CAJ+F1CJV=BwYsZ70YVxQC+LXxzq_o3G3XCSa-nf=6V+MSqcQ4g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJxSfEa2Y2WDdOS-x3RmiM490GotgpwETweaH1h+MPt+A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAJ+F1CJV=BwYsZ70YVxQC+LXxzq_o3G3XCSa-nf=6V+MSqcQ4g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -11
@@ -90,41 +88,21 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 03, 2021 at 06:27:27PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Wed, Mar 3, 2021 at 4:13 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> 
-> >   Hi,
-> >
-> > > > +        case Z_BUF_ERROR:
-> > > > +            out_len <<= 1;
-> > > > +            if (out_len > (1 << 20)) {
-> > > >
-> > >
-> > > 1Mb isn't that much, is it? Well, since it handles only text for now it's
-> > > probably enough. Would it make sense to make this a #define for clarity ?
-> >
-> > Yep.  While talking about sizes:  How does vdagent handles large
-> > clipboard chunks?  There is ...
-> >
-> > #define VD_AGENT_MAX_DATA_SIZE 2048
-> >
-> > ... but I suspect clipboard content isn't limited to that ...
-> >
-> >
-> The client splits large data to send in many messages.
+  Hi,
 
-Ok.  Is it documented anywhere how that split happens?  I suspect it'll
-involve VDIChunkHeader somehow?
+> > Well, I want gtk deal with the compatibility stuff like all the
+> > different target names we have for text ("STRING", "text/plain", ...),
+> > and using gtk_clipboard_set_text() seems to be the only way to do that.
+> >
+> > I'm open to better ideas.
 
-> I don't see the
-> agent doing the same (I might be missing something).
+> Basically implement an async version of the Gtk function:
+> https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/gtkclipboard.c#L850
 
-Hmm, ok.  Guess I should better be prepared to receive messages larger
-than VD_AGENT_MAX_DATA_SIZE ...
+Ah, there is a nice gtk_target_list_add_text_targets() helper.
+That helps.
 
-take care,
+thanks,
   Gerd
 
 
