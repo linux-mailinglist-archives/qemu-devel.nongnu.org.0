@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F1C32F6FD
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 00:56:44 +0100 (CET)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73932F6FE
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 00:56:46 +0100 (CET)
+Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIKJG-0008Ky-V8
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 18:56:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
+	id 1lIKJJ-0008T2-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 18:56:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIKGy-0006mT-Qf
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:20 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53244)
+ id 1lIKH2-0006ms-K4
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:26 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIKGx-0005pt-8I
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:20 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id n22so2670087wmc.2
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 15:54:18 -0800 (PST)
+ id 1lIKH1-0005rg-BN
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:24 -0500
+Received: by mail-wr1-x431.google.com with SMTP id a18so3887775wrc.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 15:54:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hOhBYeXVbU9iDoe3oZ1EJaWHxisFx5ag98EkS9/ZKl8=;
- b=E30ch/iNSMgrdblpe+fTnsRsVbf4A6wvXLTlESsGAhG0c7E2BqujX/UOGxHZFfc0nv
- AbSRo3hMF86c2ADGAyoH1YJZvbR0bT7uWg8uZZ9F8tW/+LiPoSXo9YepqD2SXVxc91Tg
- CpugOzO3rmFFQTP+sViDLvQT9K2JQ58PNEFpN72keFyAV6D1RuBCpgb0VJbtWA4oeTP7
- oCDrPIjqIzftF6yp/LO4BPusPAN+Wq0ERN5Jwzhw5ggLb+GibfQlod0r20xJ/OrY7TTp
- ZPKkGwjpfbcOs0+2qQiaWDT+5DgGKD4bv9TsWx7yGgOnBeH4enTl2zaUD+0/0d4kp8/9
- Yugw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2yJZvfO9sIo/QVUNGf9LQHlm++XZyAwu6lIoAPys+a8=;
+ b=c7JTH2M0QrgF1ryBnhZU1bGyWEgtPFb2Wtjc3j4QrehofcbNpv//vK2VZHo0mSH77x
+ 4CfNuI/scI0fSwOszQ6Ix38FlFBswcBnOtz3ORd1y37duCRlHwgLx2uAjjJUIbt+idDP
+ IYtGJxxj8XZeHpDzmKjKARfBoa0NKDaNPZfrUr5djr2Oob0bJ6PcefhIk9cUilVT4dKh
+ ErWKtYDgkv33HuXaiwtUem9wyDUelkKND+U7gvLtTG1oviMD2Xx9YJXqLPWathv+S/az
+ XCt5mh/KTfbiEDcAFU+onCpNp6wFH+S4OIfIpYvHA6eFHWOSf7de/NZgYqndCTsxGoHK
+ vC2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hOhBYeXVbU9iDoe3oZ1EJaWHxisFx5ag98EkS9/ZKl8=;
- b=jO8tqL1B20SY1naPUpKIKmMY970TW4axl8SwYZC7IwOQIUxfu4DTtcXcujpNiwL1gC
- RC7v/dO0wmmPcS1uKsvMmiiEkCbyZ73wjGWIWwcelamYFPqRJjPhkUWtV1SjAbu2LExH
- ko3gs/fsH5LUmCMy0mwBLMY1XcrfHL/2ziAowdpF9XkMImtmKllra1G0W3sNgU9GN4gq
- iMPBQdU64IrFCHJLYPVmD9cg0sp+EsoBbw6P7Ao1QNLszNdjwNCyHvzxpdwlfhEtspp8
- 9NaKiPLHwy182jzV6WgNFu8rLiorYh1xV2/ocDcsDEDgoJJHcUNLGiqv6ZsEcAfgTtrw
- tcfw==
-X-Gm-Message-State: AOAM532hRvuRd3K63eioKVZ03B8AlQc/apoNBO8kZ7hgkifzOG95LNTb
- iiInB5mQFH2Q/viq3aJ6UhVztUO7ATE=
-X-Google-Smtp-Source: ABdhPJz3ZjoC2I5JIVp5OWhH6ReCn8Tsn5iCwlmzQhDjEH4BBxmoTDG39wcL3g9UgXamwq3tgYXGTQ==
-X-Received: by 2002:a05:600c:1553:: with SMTP id
- f19mr11079778wmg.33.1614988456713; 
- Fri, 05 Mar 2021 15:54:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=2yJZvfO9sIo/QVUNGf9LQHlm++XZyAwu6lIoAPys+a8=;
+ b=gzdVaBgzdmqXRx4YFjDv4ryuUALuu+CvYCBGStzptwpsXeCo7jOvgiWVQAQ02TVE/K
+ V5cQCLltUbOT+sOnJ6POqCnAj01/HZVB9fVB5AwE4XpWsDMsB6t2PzoflaqGc2Deo0+8
+ 1vK2clvD4iJIGgoAvgJ+32vPmY1c/ALyZzC2iB3UyIIEq49dQfqn4dg0gy4xa1wtrKcL
+ QZ8cQp0LAql7XqM6PcYVtsg6YBYf0QPHJsmsOjdRH4yvGPm/fnsSwkj2KRAdaM9Hu1ci
+ c78VJvTwtxsUCMsc7IveO9UJunnRgT/yPzfadQ0+BMkspmNqsBh2VXPmWT0sZqYn7vxo
+ 4Viw==
+X-Gm-Message-State: AOAM533pAoFcDM2vszoG6WVYrEWhy4cejp1bS2AyzPyL9jlFIiXUW1fe
+ zw5Vd0g7JO6E1Nzy2TI/ctk3zuMm3nU=
+X-Google-Smtp-Source: ABdhPJwf3mfNiMWi1Foi5fJPVGyL6v24fJPprwDvfmTyKXZV481NaShjzeyYL5GQpRizIna2UlHGbw==
+X-Received: by 2002:adf:e482:: with SMTP id i2mr11695759wrm.392.1614988461560; 
+ Fri, 05 Mar 2021 15:54:21 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s20sm6997103wmj.36.2021.03.05.15.54.15
+ by smtp.gmail.com with ESMTPSA id f7sm4213490wmq.11.2021.03.05.15.54.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 15:54:16 -0800 (PST)
+ Fri, 05 Mar 2021 15:54:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] memory: Display AddressSpace zero-based in 'info mtree'
-Date: Sat,  6 Mar 2021 00:54:11 +0100
-Message-Id: <20210305235414.2358144-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] memory: Better name 'offset' argument in mtree_print_mr()
+Date: Sat,  6 Mar 2021 00:54:12 +0100
+Message-Id: <20210305235414.2358144-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210305235414.2358144-1-f4bug@amsat.org>
+References: <20210305235414.2358144-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,30 +91,46 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-I have been confused for some years by AddressSpace being displayed=0D
-based on the physical address of their first MemoryRegion.=0D
-The actual fix is quite trivial for my needs, but I might not see=0D
-all the possible side effects. Altough the change are restricted=0D
-to mtree_info() which is only available on the monitor.=0D
-=0D
-Last patch is a minor cleanup. I ended not using it.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  memory: Better name 'offset' argument in mtree_print_mr()=0D
-  memory: Provide 'base address' argument to mtree_print_mr()=0D
-  memory: Make memory_region_to_absolute_addr() take a const=0D
-    MemoryRegion=0D
-=0D
- softmmu/memory.c | 22 ++++++++++++----------=0D
- 1 file changed, 12 insertions(+), 10 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The 'base' argument of mtree_print_mr() actually represents
+an offset, not a base address. Rename it as such.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ softmmu/memory.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 874a8fccdee..e4d93b2fd6f 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2925,7 +2925,7 @@ static void mtree_print_mr_owner(const MemoryRegion *mr)
+ }
+ 
+ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
+-                           hwaddr base,
++                           hwaddr offset,
+                            MemoryRegionListHead *alias_print_queue,
+                            bool owner, bool display_disabled)
+ {
+@@ -2939,7 +2939,7 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
+         return;
+     }
+ 
+-    cur_start = base + mr->addr;
++    cur_start = offset + mr->addr;
+     cur_end = cur_start + MR_SIZE(mr->size);
+ 
+     /*
+@@ -2947,7 +2947,7 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
+      * happen normally. When it happens, we dump something to warn the
+      * user who is observing this.
+      */
+-    if (cur_start < base || cur_end < cur_start) {
++    if (cur_start < offset || cur_end < cur_start) {
+         qemu_printf("[DETECTED OVERFLOW!] ");
+     }
+ 
+-- 
+2.26.2
+
 
