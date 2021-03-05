@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D5D32F1E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:53:44 +0100 (CET)
-Received: from localhost ([::1]:60688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B6F32F203
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:59:16 +0100 (CET)
+Received: from localhost ([::1]:51832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIEdz-0001fi-Nw
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:53:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1lIEjL-0001QW-HT
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:59:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3R-00073q-QL
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:57 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41024)
+ id 1lIE3T-00079g-Rk
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:59 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3B-0007ev-IA
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id f12so2877145wrx.8
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:38 -0800 (PST)
+ id 1lIE3B-0007fb-JC
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:59 -0500
+Received: by mail-wm1-x331.google.com with SMTP id m1so2110731wml.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pmtyp4YEm82FhXKcdDUENPsiBIPIDcSVA5UvXxaAEr0=;
- b=wYx+IfH/Dwtr8Fq73XK/QcQ1058nIBFxsuQW10h4TFsuBqIUl5FL6IWdfNR2uILUlZ
- n0HMCMgAasC1MNZm3hs6NIrFB225vHg5lJbjvlhm9aORCvzwjZ3xU8p5zk0bkvus2GVL
- lMifo/AJbkex1RfeiC2EAhaCWRTwmf6VyaEn9di+xwMo/KQLE0CKLJy8GfZz6VyOxM4/
- fserY25rHwnsABU5rDqDnUYpwsdCC49mF2+ukdFjvWwKmBiy+uNo5jUvB2Oc0zCC1kvb
- b8btpCL8fPJqpIggmtOK8lxx+qXAS9vKjIt+nyA4gacoQdq/KDKa0w2EiB8PsGE4M8hP
- 0/2Q==
+ bh=iowJEKOBN33+1rcKLKFC1h8QoZFtmtNQLiGPglcUyOY=;
+ b=cfGCq1PSLd+WDf34fUrWSQbw/iX9HtcZENWC/U0/Cqku4geXhT6p2mbBFm8icb7Y3N
+ dWUY374hW03aaw6jN9ZKathCegRQXTn6ha1nAGRF5irz0jgojuWSlGwhfSPzufvg3jfP
+ H4IiuaYRijuWkIjh6Z67dOwz7rXwp1x/jPvOtYcoS3eORd9Iwx3trRE5JKxBzC5px4mN
+ p61Nx/VMJsBY0dphNXbu6FEHPJZrFZfjvo+zUD5mxdmi42yeLd4B3dal7GRlbqeHdZea
+ YbLAR6/IlGQ3pX9cJo4DwJKGKXD8nYDLHP5MWfy0rVy/cwzBp8rH7ipLyGTRz1UN3DwC
+ 170Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pmtyp4YEm82FhXKcdDUENPsiBIPIDcSVA5UvXxaAEr0=;
- b=KqQoCVqbo2VGxz2E7iVcD4XyroUy2xeB8R8QJWmAFrryJC4Gzq7I2dxZQW/tzoBMKh
- VMjqhx9rajMVu1cFRJDuITyoIa6R+SKtrX4IVC405VtEkTcTl2EkuXuGiQ4Ga4b5FnoR
- R3m1pW+uSoyZDBf/Q7FvHcjn3e6ob/K5yFdzSwT45245tpkkfRGwt9E78Vl2UOLd510/
- 6hblz9koC0zxID0TTetr1iLYVTJWIA1co4YKpHiaFSZiFw4oqotBSTTwJaAkeGJu7HYV
- CYdftAsuhsRaT6fkR1Y6UtLU2lxbGeRYOcrlc9XK0ZbGO/9DijsQv4spPSzW4r8+KFLe
- 1yZw==
-X-Gm-Message-State: AOAM533aC1gDMMzey1M+F7CkGjmmMsNt33jvITdJ1ykyZ5LN5CWWnm9E
- flDO4rWBNcYV7Tn4chPE7m6LBjbPmK4xRA==
-X-Google-Smtp-Source: ABdhPJx/dxeFqG5k6BA1XAMPZWYGoHNecPLL1z4ISFTgvy7B9rFVAE0WzV9tZUbW+8SQKn4nv0GYVg==
-X-Received: by 2002:a5d:6c66:: with SMTP id r6mr10378774wrz.407.1614964537941; 
- Fri, 05 Mar 2021 09:15:37 -0800 (PST)
+ bh=iowJEKOBN33+1rcKLKFC1h8QoZFtmtNQLiGPglcUyOY=;
+ b=lwSN+WBvWYuaDJoAlblnq7OvEcmlmIvvq69W9B3u890cg4POH2+d2l+w9M89vWFziD
+ iX3LACWCxHvGTpL0mCM4JLDSl8DXYtWJvSFu8xKfDlIV0vQx2eNJ2s81AtBnrN3oXXjH
+ tPIlN2DqU37p1APQbOp61gkt9Nzfjv26sX/VhJT+Hgc8IIpPc+OkbWN3ldaZAQfta3Ab
+ 8153hjqcT3NfecF3oYmPMFkRbza9hjMAJBsVI8nniCfbc6KztsmWecXSJgTYaqtR+HWN
+ mgwrvK/yq2CPbu4GAI7PkU/vVOtbvWMSeZSCzfofNNy65Ef+33+M4rIvEFdj59cERDM7
+ JqYA==
+X-Gm-Message-State: AOAM530TR0BAV1GOQCwXBPJ0ta5QmuMr466+G/0lMsDoFWniOBUxiuwy
+ wphCPj7vmBCJy83QbpyGr/JJu4yf/DyRiA==
+X-Google-Smtp-Source: ABdhPJzQchPOKPUgvEElAjZww+HRPf8Nm3zLY9N0sZ933MxorTU5kYOUPuuB7+bJeVmmne0chl8xmw==
+X-Received: by 2002:a1c:7406:: with SMTP id p6mr9823851wmc.103.1614964539909; 
+ Fri, 05 Mar 2021 09:15:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.37
+ by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 09:15:37 -0800 (PST)
+ Fri, 05 Mar 2021 09:15:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/49] hw/arm/mps2-tz: Make the OSCCLK settings be configurable
+Subject: [PULL 32/49] hw/arm/mps2-tz: Make FPGAIO switch and LED config
  per-board
-Date: Fri,  5 Mar 2021 17:14:55 +0000
-Message-Id: <20210305171515.1038-30-peter.maydell@linaro.org>
+Date: Fri,  5 Mar 2021 17:14:58 +0000
+Message-Id: <20210305171515.1038-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,83 +88,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN505 and AN511 happen to share the same OSCCLK values, but the
-AN524 will have a different set (and more of them), so split the
-settings out to be per-board.
+Set the FPGAIO num-leds and have-switches properties explicitly
+per-board, rather than relying on the defaults.  The AN505 and AN521
+both have the same settings as the default values, but the AN524 will
+be different.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210215115138.20465-5-peter.maydell@linaro.org
+Message-id: 20210215115138.20465-8-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ hw/arm/mps2-tz.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 976f5f5c682..0fce4f9395c 100644
+index 0fce4f9395c..87a05d2c19d 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -77,6 +77,8 @@ struct MPS2TZMachineClass {
-     MPS2TZFPGAType fpga_type;
-     uint32_t scc_id;
+@@ -79,6 +79,8 @@ struct MPS2TZMachineClass {
      uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
-+    uint32_t len_oscclk;
-+    const uint32_t *oscclk;
+     uint32_t len_oscclk;
+     const uint32_t *oscclk;
++    uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
++    bool fpgaio_has_switches; /* Does FPGAIO have SWITCH register? */
      const char *armsse_type;
  };
  
-@@ -115,6 +117,12 @@ OBJECT_DECLARE_TYPE(MPS2TZMachineState, MPS2TZMachineClass, MPS2TZ_MACHINE)
- /* Slow 32Khz S32KCLK frequency in Hz */
- #define S32KCLK_FRQ (32 * 1000)
+@@ -241,8 +243,11 @@ static MemoryRegion *make_fpgaio(MPS2TZMachineState *mms, void *opaque,
+                                  const char *name, hwaddr size)
+ {
+     MPS2FPGAIO *fpgaio = opaque;
++    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
  
-+static const uint32_t an505_oscclk[] = {
-+    40000000,
-+    24580000,
-+    25000000,
-+};
-+
- /* Create an alias of an entire original MemoryRegion @orig
-  * located at @base in the memory map.
-  */
-@@ -213,17 +221,18 @@ static MemoryRegion *make_scc(MPS2TZMachineState *mms, void *opaque,
-     MPS2SCC *scc = opaque;
-     DeviceState *sccdev;
-     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
-+    uint32_t i;
- 
-     object_initialize_child(OBJECT(mms), "scc", scc, TYPE_MPS2_SCC);
-     sccdev = DEVICE(scc);
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
--    /* This will need to be per-FPGA image eventually */
--    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
--    qdev_prop_set_uint32(sccdev, "oscclk[0]", 40000000);
--    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24580000);
--    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
-+    qdev_prop_set_uint32(sccdev, "len-oscclk", mmc->len_oscclk);
-+    for (i = 0; i < mmc->len_oscclk; i++) {
-+        g_autofree char *propname = g_strdup_printf("oscclk[%u]", i);
-+        qdev_prop_set_uint32(sccdev, propname, mmc->oscclk[i]);
-+    }
-     sysbus_realize(SYS_BUS_DEVICE(scc), &error_fatal);
-     return sysbus_mmio_get_region(SYS_BUS_DEVICE(sccdev), 0);
+     object_initialize_child(OBJECT(mms), "fpgaio", fpgaio, TYPE_MPS2_FPGAIO);
++    qdev_prop_set_uint32(DEVICE(fpgaio), "num-leds", mmc->fpgaio_num_leds);
++    qdev_prop_set_bit(DEVICE(fpgaio), "has-switches", mmc->fpgaio_has_switches);
+     sysbus_realize(SYS_BUS_DEVICE(fpgaio), &error_fatal);
+     return sysbus_mmio_get_region(SYS_BUS_DEVICE(fpgaio), 0);
  }
-@@ -676,6 +685,8 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045050;
+@@ -687,6 +692,8 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
      mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-+    mmc->oscclk = an505_oscclk;
-+    mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->oscclk = an505_oscclk;
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
++    mmc->fpgaio_num_leds = 2;
++    mmc->fpgaio_has_switches = false;
      mmc->armsse_type = TYPE_IOTKIT;
  }
  
-@@ -692,6 +703,8 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045210;
+@@ -705,6 +712,8 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
      mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-+    mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
-+    mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
++    mmc->fpgaio_num_leds = 2;
++    mmc->fpgaio_has_switches = false;
      mmc->armsse_type = TYPE_SSE200;
  }
  
