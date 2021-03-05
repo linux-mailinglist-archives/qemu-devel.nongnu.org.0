@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D6932E4D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:30:54 +0100 (CET)
-Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B97432E4B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:25:51 +0100 (CET)
+Received: from localhost ([::1]:33038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI6nN-0007QO-SF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:30:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33750)
+	id 1lI6iU-0002KX-JX
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:25:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lI6gQ-00016R-IL
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:42 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35065)
+ id 1lI6gL-000136-7N
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:37 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lI6gG-0004HI-SR
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:42 -0500
-Received: by mail-wm1-x330.google.com with SMTP id m7so813676wmq.0
+ id 1lI6gG-0004GQ-Ro
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:35 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id 7so1301516wrz.0
  for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 01:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/kna9YDcKM70OLWROlrD38n/l654WznnsIfKi+4NsvI=;
- b=Yio1LWuHPsFSD9HK5hIwapcnWgTHVPyQhcpbN+cWqovpsgevJQe9DFM79al8XMPNnQ
- g3jKQXTa9xdCLUrVmtxA+zZrwUAnBLjdmgnIYsjuIRUD9gRqaXXc8MrHgKPTXiWsrVCA
- 1hXpbChB2RY2SmZq9irvTxg/3eevtrg7Rf3FAY7CPQ1eHg0ZvkaJDvANh0izxP7rP7hu
- 81Xnq2M32nnVgHvJAqgs3aeZNCQfOFsIW0AyW/GrT0ZNUAw6NCwK6oGuP9c6MT6CFafl
- tqkYLP7L8ARH1EFZ0eYukJ0dtrrQAdtCuy1PmB7ud7fiKPwq2W8hCyw8TUk/zbsSscMr
- CPMg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QEfIOEPful5NjNoG4+Pf/ZTRrzPfAxfv9TXcP60ZkCg=;
+ b=PCWLajtnZTQ6J9nFVfwFRFeQ7a+D2OX2q3uEh5exF/hBD5leWbJReuYHaonc/bjjJD
+ Gx0vY9nScDbKcDYU15pM7PhfUbEweaxnv4OhcEjSOxSlW/a3tTubQLP30/S2OsuACtd6
+ PzrvVHHbm1jJYSn/ci5nfSY174H+lfT1V9saiNSmY4OCCKxxcovqOihHluOzmkS94397
+ +o6FpPYEgp75vchPm9m4leBfKmCQLxPTSvNSapLd64crNlrsNJv09+BbO8C55yPrkGFa
+ 4PqqlMBkvf+8qE5Q2YOoeW71kN+JCL+nwImcdSrdbyEGiagbQx4/NHn0fuDLZLwQ0t/D
+ v/RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/kna9YDcKM70OLWROlrD38n/l654WznnsIfKi+4NsvI=;
- b=WpH++hj1J0FXSjHGjZ1+wDjq0MI1ec/HYkEzVNpOMZ9p9WeEITtlw3pZIDekIyt18a
- ovWSRbC7m48QBmlp/w2bwhGZnHrRTaGVTb31A/LwesOD9IZsewa2qB/WXaHWGpxGRLGC
- gnXGMrSkCQWFBM3LXMmcFBI3QzGFrRX+IVjO5azuumUwoxIGxvEvdYfmq5omzCHsw75K
- KuQ0wnBSiavysRxdi0OKxFnhGWoWinC+RHoOXdM1nmlRo0qMVnUGyW1IVj/zPEnkPNV6
- CEh8beuChg7ULU1Ty1XiVeGRJ2Ax9D3XXi/uxDkvv/SnujhruUJo4JXXQypJ8MI0j9vt
- 1A8Q==
-X-Gm-Message-State: AOAM533Rv0chMYzJjlUqRS9wAuJQJo0RZQG2xWNCKDwMnn0veRM7oOTi
- 9V8z4pfmu5soFunb0RWO9eSrrw==
-X-Google-Smtp-Source: ABdhPJwiQDk71VzTqaTPs3f4Kcv2gX6vEQyoqDe3pgoGTdIWRGMJjkg/w66NTa8b9SS3hSVxhksSIQ==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr7927497wmj.149.1614936211167; 
- Fri, 05 Mar 2021 01:23:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QEfIOEPful5NjNoG4+Pf/ZTRrzPfAxfv9TXcP60ZkCg=;
+ b=pzAIvASTv8ywJP+q07/iWG8N88IG8eNEKzCeHSe5pNlQNrwZ/Ge8EyMOwxKeVrUScB
+ VadaACmc4sadQTeN4pUfTN8zGWbZzhSzmypM3km0X+VKwVqyIrV60bzy0wZxl7ElGZYQ
+ C0i4697hYp/jJR7Uqk1JKXpZqkBqFnvSGjGDPzMbKhw2h1/H94OTTiskQVvIRbaejYau
+ AOruOnzcxgCwi2JiyFmb5nY+50wdD1WbIW5LnCNVNaaCZoLzAM9pFdYeNkqptbVwJpuw
+ PoVUYkYh3BesFkbACwKtuzNxrqMMdamCpLltV0zkD8YyZnCqbeDQ0ew6K6BkFIEUJfcm
+ eOBQ==
+X-Gm-Message-State: AOAM532JNMgt7LFBIsueMEBP3pmxjphaizIUtfsOytX2GEI4UDNOjYqF
+ d33zNidMHnnYi8//KrAtdY9INw==
+X-Google-Smtp-Source: ABdhPJyyLrbSje4BS1hVoTIiq7x+hV2niMKf7MH7fPs8vZ8mGggVmeZAXPozbnVrllWlbT6dJgpqzw==
+X-Received: by 2002:adf:e409:: with SMTP id g9mr8031007wrm.423.1614936210466; 
+ Fri, 05 Mar 2021 01:23:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a131sm3588031wmc.48.2021.03.05.01.23.29
+ by smtp.gmail.com with ESMTPSA id o10sm3332428wrx.5.2021.03.05.01.23.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 05 Mar 2021 01:23:29 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D610B1FF7E;
- Fri,  5 Mar 2021 09:23:28 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 083B31FF87;
+ Fri,  5 Mar 2021 09:23:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 0/9] testing/next (docs, hexagon, cfi, docker)
-Date: Fri,  5 Mar 2021 09:23:19 +0000
-Message-Id: <20210305092328.31792-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 1/9] docs/devel: re-organise the developers guide into
+ sections
+Date: Fri,  5 Mar 2021 09:23:20 +0000
+Message-Id: <20210305092328.31792-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210305092328.31792-1-alex.bennee@linaro.org>
+References: <20210305092328.31792-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,73 +93,259 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The list of sub-sections was getting a bit long and sporadically
+organised. Let's try and impose some order on this hairball of
+documentation.
 
-Another week another testing/next roll. The series includes a couple
-of my proposed documentation tweaks (including the re-org of the devel
-manual). We also enable testing for the hexagon linux-user target to
-avoid bitrot. I've documented the process for manually updating the
-registry at:
+[AJB: RFC because I wonder if we should make a more concerted effort
+to move bits of the wiki into a canonical maintained document. There
+is also probably a need for a quickbuild or tldr section of the
+build-system for users who just want to build something.]
 
- https://wiki.qemu.org/Testing/DockerBuild#The_GitLab_Registry
-
-There are also jobs for testing CFI and some other minor tweaks and
-clean-ups.
-
-The following still need review:
-
- - gitlab: add build-user-hexagon test
- - tests/docker: add a test-tcg for building then running check-tcg
- - docs/devel: re-organise the developers guide into sections
-
-Alessandro Di Federico (2):
-  docker: Add Hexagon image
-  tests/tcg: Use Hexagon Docker image
-
-Alex Bennée (4):
-  docs/devel: re-organise the developers guide into sections
-  docs/system: add a gentle prompt for the complexity to come
-  tests/docker: add a test-tcg for building then running check-tcg
-  gitlab: add build-user-hexagon test
-
-Daniele Buono (2):
-  gitlab-ci.yml: Allow custom # of parallel linkers
-  gitlab-ci.yml: Add jobs to test CFI flags
-
-Philippe Mathieu-Daudé (1):
-  tests/docker: Use --arch-only when building Debian cross image
-
- docs/devel/index.rst                          |  32 +---
- docs/devel/multi-thread-tcg.rst               |   5 +-
- docs/devel/section-apis.rst                   |  16 ++
- docs/devel/section-building.rst               |  13 ++
- docs/devel/section-concepts.rst               |  21 +++
- docs/devel/section-process.rst                |  11 ++
- docs/devel/section-tcg-emulation.rst          |  19 +++
- docs/devel/section-testing.rst                |  20 +++
- docs/devel/tcg-icount.rst                     |   6 +-
- docs/devel/testing.rst                        |   6 +-
- docs/system/quickstart.rst                    |   8 +
- docs/system/targets.rst                       |   2 +
- .gitlab-ci.yml                                | 134 +++++++++++++++++
- MAINTAINERS                                   |   2 +
- tests/docker/Makefile.include                 |   2 +
- .../dockerfiles/debian-hexagon-cross.docker   |  27 ++++
- .../build-toolchain.sh                        | 141 ++++++++++++++++++
- tests/docker/dockerfiles/debian10.docker      |   2 +-
- tests/docker/test-tcg                         |  22 +++
- tests/tcg/configure.sh                        |   4 +
- 20 files changed, 458 insertions(+), 35 deletions(-)
+Based-on: 20210223095931.16908-1-alex.bennee@linaro.org
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/devel/index.rst                 | 32 ++++++----------------------
+ docs/devel/multi-thread-tcg.rst      |  5 +++--
+ docs/devel/section-apis.rst          | 16 ++++++++++++++
+ docs/devel/section-building.rst      | 13 +++++++++++
+ docs/devel/section-concepts.rst      | 21 ++++++++++++++++++
+ docs/devel/section-process.rst       | 11 ++++++++++
+ docs/devel/section-tcg-emulation.rst | 19 +++++++++++++++++
+ docs/devel/section-testing.rst       | 20 +++++++++++++++++
+ docs/devel/tcg-icount.rst            |  6 +++---
+ docs/devel/testing.rst               |  6 +++---
+ 10 files changed, 115 insertions(+), 34 deletions(-)
  create mode 100644 docs/devel/section-apis.rst
  create mode 100644 docs/devel/section-building.rst
  create mode 100644 docs/devel/section-concepts.rst
  create mode 100644 docs/devel/section-process.rst
  create mode 100644 docs/devel/section-tcg-emulation.rst
  create mode 100644 docs/devel/section-testing.rst
- create mode 100644 tests/docker/dockerfiles/debian-hexagon-cross.docker
- create mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
- create mode 100755 tests/docker/test-tcg
 
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index ae664da00c..2af7bf8736 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -13,29 +13,9 @@ Contents:
+ .. toctree::
+    :maxdepth: 2
+ 
+-   build-system
+-   style
+-   kconfig
+-   testing
+-   fuzzing
+-   control-flow-integrity
+-   loads-stores
+-   memory
+-   migration
+-   atomics
+-   stable-process
+-   qtest
+-   decodetree
+-   secure-coding-practices
+-   tcg
+-   tcg-icount
+-   tracing
+-   multi-thread-tcg
+-   tcg-plugins
+-   bitops
+-   reset
+-   s390-dasd-ipl
+-   clocks
+-   qom
+-   block-coroutine-wrapper
+-   multi-process
++   section-building
++   section-testing
++   section-concepts
++   section-apis
++   section-tcg-emulation
++   section-process
+diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
+index 92a9eba13c..5b446ee08b 100644
+--- a/docs/devel/multi-thread-tcg.rst
++++ b/docs/devel/multi-thread-tcg.rst
+@@ -4,8 +4,9 @@
+   This work is licensed under the terms of the GNU GPL, version 2 or
+   later. See the COPYING file in the top-level directory.
+ 
+-Introduction
+-============
++==================
++Multi-threaded TCG
++==================
+ 
+ This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
+ system-mode emulation. user-mode emulation has always mirrored the
+diff --git a/docs/devel/section-apis.rst b/docs/devel/section-apis.rst
+new file mode 100644
+index 0000000000..ab1f6bed60
+--- /dev/null
++++ b/docs/devel/section-apis.rst
+@@ -0,0 +1,16 @@
++*********
++QEMU APIs
++*********
++
++There are a number of APIs in QEMU and the following sections document
++some of the most important ones. For tose that aren't documented here
++you can also find notes on usage in the header definitions.
++
++.. toctree::
++   :maxdepth: 2
++
++   atomics
++   bitops
++   loads-stores
++   memory
++   tracing
+diff --git a/docs/devel/section-building.rst b/docs/devel/section-building.rst
+new file mode 100644
+index 0000000000..e6e9fa1d6a
+--- /dev/null
++++ b/docs/devel/section-building.rst
+@@ -0,0 +1,13 @@
++*************
++Building QEMU
++*************
++
++The following sections deal with how the build system works, how it is
++configured and some basic guidance on how code should be written.
++
++.. toctree::
++   :maxdepth: 2
++
++   build-system
++   kconfig
++   style
+diff --git a/docs/devel/section-concepts.rst b/docs/devel/section-concepts.rst
+new file mode 100644
+index 0000000000..566c52e90a
+--- /dev/null
++++ b/docs/devel/section-concepts.rst
+@@ -0,0 +1,21 @@
++*************
++QEMU Concepts
++*************
++
++There are a number of high level concepts that are useful to
++understand when working with the code base. Perhaps the most pervasive
++is the QEMU Object Model (QOM) which underpins much of the flexibility
++and configurable of the project. The following sections document that
++as well as diving into other concepts that are useful to know if
++working on some areas of the code.
++
++.. toctree::
++   :maxdepth: 2
++
++   qom
++   clocks
++   reset
++   block-coroutine-wrapper
++   migration
++   multi-process
++   s390-dasd-ipl
+diff --git a/docs/devel/section-process.rst b/docs/devel/section-process.rst
+new file mode 100644
+index 0000000000..3b0ae4f19b
+--- /dev/null
++++ b/docs/devel/section-process.rst
+@@ -0,0 +1,11 @@
++===================
++Development Process
++===================
++
++The following sections detail aspects of the development process.
++
++.. toctree::
++   :maxdepth: 2
++
++   secure-coding-practices
++   stable-process
+diff --git a/docs/devel/section-tcg-emulation.rst b/docs/devel/section-tcg-emulation.rst
+new file mode 100644
+index 0000000000..81fa131de7
+--- /dev/null
++++ b/docs/devel/section-tcg-emulation.rst
+@@ -0,0 +1,19 @@
++*************
++TCG Emulation
++*************
++
++QEMU was originally built as an emulator capable of running binaries
++for one architecture on another. The following sections describe the
++internals of how the Just In Time (JIT) Tiny Code Generator (TCG)
++works. You only really need to read this if you are interested in
++adding new architectures or fixing existing architecture emulation.
++
++
++.. toctree::
++   :maxdepth: 2
++
++   tcg
++   multi-thread-tcg
++   tcg-icount
++   decodetree
++   tcg-plugins
+diff --git a/docs/devel/section-testing.rst b/docs/devel/section-testing.rst
+new file mode 100644
+index 0000000000..c93ff4c4dd
+--- /dev/null
++++ b/docs/devel/section-testing.rst
+@@ -0,0 +1,20 @@
++***************
++Testing in QEMU
++***************
++
++QEMU is a large and complex project which can be configured in a
++multitude of ways. As it's impossible for an individual developer to
++manually test all of these we rely on a whole suite of automated
++testing approaches to ensure regressions are kept to a minimum.
++
++The following sections give a broad overview of the testing
++infrastructure as well as some detailed introductions into more
++advanced testing topics.
++
++.. toctree::
++   :maxdepth: 2
++
++   testing
++   fuzzing
++   control-flow-integrity
++   qtest
+diff --git a/docs/devel/tcg-icount.rst b/docs/devel/tcg-icount.rst
+index 8d67b6c076..eb990b0976 100644
+--- a/docs/devel/tcg-icount.rst
++++ b/docs/devel/tcg-icount.rst
+@@ -3,9 +3,9 @@
+    Written by Alex Bennée
+ 
+ 
+-========================
+-TCG Instruction Counting
+-========================
++=================================
++TCG Instruction Counting (icount)
++=================================
+ 
+ TCG has long supported a feature known as icount which allows for
+ instruction counting during execution. This should not be confused
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 1434a50cc4..af98efec8c 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -1,6 +1,6 @@
+-===============
+-Testing in QEMU
+-===============
++=======
++Testing
++=======
+ 
+ This document describes the testing infrastructure in QEMU.
+ 
 -- 
 2.20.1
 
