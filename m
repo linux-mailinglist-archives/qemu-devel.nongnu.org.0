@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5AB32E33B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 08:54:58 +0100 (CET)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF75032E33D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 08:55:16 +0100 (CET)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI5IW-0002m6-O9
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 02:54:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41770)
+	id 1lI5Ip-0003BT-RP
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 02:55:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lI5Gu-00028Q-PM
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 02:53:16 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2947)
+ id 1lI5H5-0002JW-PW
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 02:53:27 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lI5Gs-0007nd-9N
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 02:53:16 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DsKfm29DFzMdld;
- Fri,  5 Mar 2021 15:50:56 +0800 (CST)
+ id 1lI5H4-0007xe-12
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 02:53:27 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DsKgZ6g5TzjW7y;
+ Fri,  5 Mar 2021 15:51:38 +0800 (CST)
 Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 5 Mar 2021 15:52:57 +0800
+ 14.3.498.0; Fri, 5 Mar 2021 15:53:14 +0800
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 To: David Edmondson <dme@dme.org>, Juan Quintela <quintela@redhat.com>, "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>, Andrey Gruzdev
  <andrey.gruzdev@virtuozzo.com>, Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Alexey Romko
  <nevilad@yahoo.com>, "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v3 0/3] Some modifications about ram_save_host_page()
-Date: Fri, 5 Mar 2021 15:50:32 +0800
-Message-ID: <20210305075035.1852-1-jiangkunkun@huawei.com>
+Subject: [PATCH v3 1/3] migration/ram: Modify the code comment of
+ ram_save_host_page()
+Date: Fri, 5 Mar 2021 15:50:33 +0800
+Message-ID: <20210305075035.1852-2-jiangkunkun@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20210305075035.1852-1-jiangkunkun@huawei.com>
+References: <20210305075035.1852-1-jiangkunkun@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -65,38 +68,51 @@ Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The ram_save_host_page() has been modified several times
+since its birth. But the comment hasn't been modified as it should
+be. It'd better to modify the comment to explain ram_save_host_page()
+more clearly.
 
-This series include patches as below:
-Patch 1:
-- modified the comment ram_save_host_page() to make them match each other
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+---
+ migration/ram.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-Patch 2:
-- reduce unnecessary rate limitting in ram_save_host_page()
-
-Patch 3:
-- optimized ram_save_host_page() by using migration_bitmap_find_dirty() to find
-dirty pages
-
-History:
-
-v2 -> v3:
-- Reduce unnecessary rate limitting if nothing is sent in the current iteration [David Edmondson]
-- Invert the body of the loop in ram_save_host_page() [David Edmondson]
-
-v1 -> v2:
-- Modify ram_save_host_page() comment [David Edmondson]
-- Remove 'goto' [David Edmondson]
-
-
-Kunkun Jiang (3):
-  migration/ram: Modify the code comment of ram_save_host_page()
-  migration/ram: Reduce unnecessary rate limiting
-  migration/ram: Optimize ram_save_host_page()
-
- migration/ram.c | 54 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 29 insertions(+), 25 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 72143da0ac..a168da5cdd 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1970,15 +1970,13 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+ }
+ 
+ /**
+- * ram_save_host_page: save a whole host page
++ * ram_save_host_page: save a whole host page or the rest of a RAMBlock
+  *
+- * Starting at *offset send pages up to the end of the current host
+- * page. It's valid for the initial offset to point into the middle of
+- * a host page in which case the remainder of the hostpage is sent.
+- * Only dirty target pages are sent. Note that the host page size may
+- * be a huge page for this block.
+- * The saving stops at the boundary of the used_length of the block
+- * if the RAMBlock isn't a multiple of the host page size.
++ * Send dirty pages between pss->page and either the end of that page
++ * or the used_length of the RAMBlock, whichever is smaller.
++ *
++ * Note that if the host page is a huge page, pss->page may be in the
++ * middle of that page.
+  *
+  * Returns the number of pages written or negative on error
+  *
+@@ -2002,7 +2000,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+     }
+ 
+     do {
+-        /* Check the pages is dirty and if it is send it */
++        /* Check if the page is dirty and send it if it is */
+         if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+             pss->page++;
+             continue;
 -- 
 2.23.0
 
