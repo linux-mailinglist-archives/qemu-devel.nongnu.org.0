@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE7A32F15D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:37:26 +0100 (CET)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798F032F191
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:42:54 +0100 (CET)
+Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIEOD-0005uz-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38188)
+	id 1lIETV-0004bo-A8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:42:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3F-0006nS-CG
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:45 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40797)
+ id 1lIE3N-0006sL-Bw
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:53 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE2y-0007Uf-Qn
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:45 -0500
-Received: by mail-wr1-x432.google.com with SMTP id d11so2892244wrj.7
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:28 -0800 (PST)
+ id 1lIE2z-0007Uk-Mt
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:53 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id 7so2919471wrz.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XnCiRihLFPgzorHTXQSOLQQgG3ArJOGpdaT1dNvEzEk=;
- b=dDJX8SbgStvTTpdUTbgqZLRrK5uJvhz9OGTysagzTmc7+DsShLjfq20m1vSH1x+4zH
- GDufI0ozW2mAtCxwzf3C5suwKaVG8phrTGUpIQ4fZPAIEZOAf/YgWCIjwbhshbE8Ofny
- RgeyGmz+xNI/U4cQ2ol7BgSyRovceT+0QB9iYXWaBoVgGzTJkWXS2QnVOytgIoHupeNm
- XPw7NoNwpZDZeqBxQc64wAEEo0I59FUdS+y6z6AypRIB+C3DBiHoG/LEEcVLZNufkf2m
- BUshvpZZv1VvWZTx/gaNkW03j/pP/Nit85xg82ahjzrkM5uCjc8h3aictXnk82rsiJxQ
- bKEA==
+ bh=2hhxDYI5vU3qXX2kxDdWzLG7EDIqI+CmWItPuBlZX/M=;
+ b=KD3WoDA9YGVsMlIc58jgQ7w+JCzSL4QIKWqaykUx0KzOQIfaAqjF2azZemu1tU5+8q
+ cA9sjflcVxFftervn/vOMKWRg3OH3TqTTRbz444zIZP+gJhKEHfMo/pybw9DJdS3vR95
+ efTPQtP+9y4oiZVe2W0gvvbj5RN7TGnJCIySOyY01GGhAXdIKJjTFsAGQ5v+zAPGP2RY
+ SrZZ2JR13DzrRoHQk7cOTVvwAXDfh6Lcl8ymynXg3q8ht9+Bm7wzj2/b3eacgxfTTlSG
+ /yltTcySJ5MG1AEKNz5+U0dpMI2LwPpbcF5idX90uNAAAJG0qlr/As/aC47HwProW5on
+ l/pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XnCiRihLFPgzorHTXQSOLQQgG3ArJOGpdaT1dNvEzEk=;
- b=rCRATbRkqJbiuCwsyelyw/ZnwPkYsLzW5E/tWYHFGscrrkzc+S+ljpS6FGofKJLAUR
- 69X1WQQGf1GSXhg5YihuBX02gmArIDjlUTONa50ai8GwE0usy8deDwbGsfnY5K414n2D
- 9JBW7NcxqgiDEWJGLVLx7mXqqsn0idplcaNe6uOp6GTqq3MP438nzlVIXohrvIRML2oW
- JSfMlQ+CPNwybV6wosxuw2ZAFRwQmzKk21Sdc/bPCxd8QeUFZS/M4n0s0ZwgpeCAjhCC
- mUDiPxA2YB64UF8KrvxdkgpDjIUYd0fHNPvYUZkOIxmPZrt/0gLyUP0Vk88w/8Cwv5uV
- heOw==
-X-Gm-Message-State: AOAM532YOBuO1I12jq68oyAjo8jdyRw/ZuF1v+G7t7qNjabu5ta+i6as
- gIWTj7Hzo27X0tq7mmznYwO4fBIqsTlR1g==
-X-Google-Smtp-Source: ABdhPJyIaTh+e2KnI79MDQ3+TyIhXuuHznc9Df3VTZWSpeVKILjJCYWgKRIGWrKCfOwu6Zl6BEOc5A==
-X-Received: by 2002:adf:ab52:: with SMTP id r18mr10432940wrc.65.1614964527442; 
- Fri, 05 Mar 2021 09:15:27 -0800 (PST)
+ bh=2hhxDYI5vU3qXX2kxDdWzLG7EDIqI+CmWItPuBlZX/M=;
+ b=Ay8CLTofr9yEcHEEDV/UgEZfBUMI0UqWidA/RKqtMW2N90pIJHtffRkWjVxVET1IS3
+ pgTJ1G0U/DOUxe3M15Dam20rTr9lDZyvEJhSrUCa6RuzVspLAU/apk1AZcBpJBK9IIlm
+ 1VsQdUn+JfvACuFEirTCJalccIgXzqxuUH1bt9LpDxJ8mt3ExSSAmGK+taR4o0Od8xrL
+ f1VKpVl8D+37W11YGaDdGhKMkLds5CLEOx8Eeqx5GGdo9jaELV0/avAMbd1Fv/TPioRm
+ +LHpEp51FAkxZ6TI7f1eSjXNV8T2716SUAVY6g38qRKmx7L66BBiV2sZ9stTSNdWyIfS
+ /GJA==
+X-Gm-Message-State: AOAM533p0eQtWoFdSnBVwGu58bzKA7tL/qWWKnb2DxHj0E4hhKBHOkgp
+ DL2ng/drMQF2MapCsCbMmw+owNf0d9BURQ==
+X-Google-Smtp-Source: ABdhPJwMe1IXvvpCmqDApRwsuijtGrnq4wfzr6JDLVxH3o0agEJWc0h2M/y7GNqb9Q9qC3w/35iGIA==
+X-Received: by 2002:a5d:4649:: with SMTP id j9mr10054362wrs.259.1614964528096; 
+ Fri, 05 Mar 2021 09:15:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.26
+ by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 05 Mar 2021 09:15:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/49] target/arm: Use TCF0 and TFSRE0 for unprivileged tag
- checks
-Date: Fri,  5 Mar 2021 17:14:39 +0000
-Message-Id: <20210305171515.1038-14-peter.maydell@linaro.org>
+Subject: [PULL 14/49] target/arm: Restrict v8M IDAU to TCG
+Date: Fri,  5 Mar 2021 17:14:40 +0000
+Message-Id: <20210305171515.1038-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,82 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Collingbourne <pcc@google.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Section D6.7 of the ARM ARM states:
+IDAU is specific to M-profile. KVM only supports A-profile.
+Restrict this interface to TCG, as it is pointless (and
+confusing) on a KVM-only build.
 
-For the purpose of determining Tag Check Fault handling, unprivileged
-load and store instructions are treated as if executed at EL0 when
-executed at either:
-- EL1, when the Effective value of PSTATE.UAO is 0.
-- EL2, when both the Effective value of HCR_EL2.{E2H, TGE} is {1, 1}
-  and the Effective value of PSTATE.UAO is 0.
-
-ARM has confirmed a defect in the pseudocode function
-AArch64.TagCheckFault that makes it inconsistent with the above
-wording. The remedy is to adjust references to PSTATE.EL in that
-function to instead refer to AArch64.AccessUsesEL(acctype), so
-that unprivileged instructions use SCTLR_EL1.TCF0 and TFSRE0_EL1.
-The exception type for synchronous tag check faults remains unchanged.
-
-This patch implements the described change by partially reverting
-commits 50244cc76abc and cc97b0019bb5.
-
-Signed-off-by: Peter Collingbourne <pcc@google.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219201820.2672077-1-pcc@google.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210221222617.2579610-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c     |  2 +-
- target/arm/mte_helper.c | 13 +++++++++----
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ target/arm/cpu.c     | 7 -------
+ target/arm/cpu_tcg.c | 8 ++++++++
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index fedcf2e739e..904b0927cd2 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -13170,7 +13170,7 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         if (FIELD_EX32(flags, TBFLAG_A64, UNPRIV)
-             && tbid
-             && !(env->pstate & PSTATE_TCO)
--            && (sctlr & SCTLR_TCF)
-+            && (sctlr & SCTLR_TCF0)
-             && allocation_tag_access_enabled(env, 0, sctlr)) {
-             flags = FIELD_DP32(flags, TBFLAG_A64, MTE0_ACTIVE, 1);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 058672c9776..2666d4363d0 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2384,12 +2384,6 @@ static const TypeInfo arm_cpu_type_info = {
+     .class_init = arm_cpu_class_init,
+ };
+ 
+-static const TypeInfo idau_interface_type_info = {
+-    .name = TYPE_IDAU_INTERFACE,
+-    .parent = TYPE_INTERFACE,
+-    .class_size = sizeof(IDAUInterfaceClass),
+-};
+-
+ static void arm_cpu_register_types(void)
+ {
+     const size_t cpu_count = ARRAY_SIZE(arm_cpus);
+@@ -2403,7 +2397,6 @@ static void arm_cpu_register_types(void)
+     if (cpu_count) {
+         size_t i;
+ 
+-        type_register_static(&idau_interface_type_info);
+         for (i = 0; i < cpu_count; ++i) {
+             arm_cpu_register(&arm_cpus[i]);
          }
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 1c569336eae..0bbb9ec3463 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -550,10 +550,14 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
-     reg_el = regime_el(env, arm_mmu_idx);
-     sctlr = env->cp15.sctlr_el[reg_el];
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index c29b434c60d..fb07a336939 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -14,6 +14,7 @@
+ #include "hw/core/tcg-cpu-ops.h"
+ #endif /* CONFIG_TCG */
+ #include "internals.h"
++#include "target/arm/idau.h"
  
--    el = arm_current_el(env);
--    if (el == 0) {
-+    switch (arm_mmu_idx) {
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E20_0:
-+        el = 0;
-         tcf = extract64(sctlr, 38, 2);
--    } else {
-+        break;
-+    default:
-+        el = reg_el;
-         tcf = extract64(sctlr, 40, 2);
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+@@ -739,10 +740,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+     { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
+ };
+ 
++static const TypeInfo idau_interface_type_info = {
++    .name = TYPE_IDAU_INTERFACE,
++    .parent = TYPE_INTERFACE,
++    .class_size = sizeof(IDAUInterfaceClass),
++};
++
+ static void arm_tcg_cpu_register_types(void)
+ {
+     size_t i;
+ 
++    type_register_static(&idau_interface_type_info);
+     for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
+         arm_cpu_register(&arm_tcg_cpus[i]);
      }
- 
-@@ -570,7 +574,8 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
-         env->exception.vaddress = dirty_ptr;
- 
-         is_write = FIELD_EX32(desc, MTEDESC, WRITE);
--        syn = syn_data_abort_no_iss(el != 0, 0, 0, 0, 0, is_write, 0x11);
-+        syn = syn_data_abort_no_iss(arm_current_el(env) != 0, 0, 0, 0, 0,
-+                                    is_write, 0x11);
-         raise_exception(env, EXCP_DATA_ABORT, syn, exception_target_el(env));
-         /* noreturn, but fall through to the assert anyway */
- 
 -- 
 2.20.1
 
