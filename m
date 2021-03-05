@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FE632F4A1
+	by mail.lfdr.de (Postfix) with ESMTPS id 407D632F4A0
 	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 21:32:38 +0100 (CET)
-Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIH7l-00040u-E9
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 15:32:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
+	id 1lIH7k-00040D-MJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 15:32:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIH62-00037b-PA
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 15:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38404)
+ id 1lIH61-00037C-Kr
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 15:30:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIH5v-0006fd-0z
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 15:30:50 -0500
+ id 1lIH5y-0006ff-RU
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 15:30:49 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lIH5t-0008T5-6x
+ id 1lIH5t-0008SP-Ua
  for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 20:30:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 301FA2E8041
+ by loganberry.canonical.com (Postfix) with ESMTP id E5DB32E8041
  for <qemu-devel@nongnu.org>; Fri,  5 Mar 2021 20:30:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Mar 2021 20:19:16 -0000
+Date: Fri, 05 Mar 2021 20:22:09 -0000
 From: Keith Packard <1915925@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,8 @@ X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
 X-Launchpad-Bug-Modifier: Keith Packard (keithp)
 References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
  <20210305135451.15427-4-alex.bennee@linaro.org>
-Message-Id: <87lfb1gxq3.fsf@keithp.com>
+ <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
+Message-Id: <87im65gxla.fsf@keithp.com>
 Subject: [Bug 1915925] Re: [PATCH v1 3/3] semihosting/arg-compat: fix up
  handling of SYS_HEAPINFO
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +53,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
-X-Launchpad-Hash: 1f92a15f0b8ba76a4d0b198f149de4e1377c18ab
+X-Launchpad-Hash: c0f3910d0d5d76b4c28ebe7103d44d5f40790286
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -77,18 +78,14 @@ Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> I'm not sure this every worked properly and it's certainly not
-> exercised by check-tcg or Peter's semihosting tests. Hoist it into
-> it's own helper function and attempt to validate the results in the
-> linux-user semihosting test at the least.
+> Also, you don't seem to have the correct "is the CPU in
+> 32-bit or 64-bit mode" test here: you cannot rely on target_ulong
+> being the right size, you must make a runtime check.
 
-The patch is mostly code motion, moving the existing heapinfo stuff into
-a separate function. That makes it really hard to see how you've
-changed the values being returned. I'd love to see a two patch series,
-one of which moves the code as-is and a second patch which fixes
-whatever bugs you've found.
+Do you mean whether a dual aarch64/arm core is in arm or aarch64 mode,
+or whether an aarch64 is running a 32-bit ABI?
 
 -- =
 
