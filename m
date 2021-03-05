@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3AE532F1F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:56:26 +0100 (CET)
-Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798C632F1E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:54:27 +0100 (CET)
+Received: from localhost ([::1]:34746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIEgb-0005KL-Ml
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:56:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38408)
+	id 1lIEeg-0002ah-6e
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:54:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3T-00077D-2h
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:59 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38181)
+ id 1lIE3P-0006yz-T0
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:55 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE33-0007Yn-Rd
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:58 -0500
-Received: by mail-wm1-x330.google.com with SMTP id h7so2106506wmf.3
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:33 -0800 (PST)
+ id 1lIE35-0007ZN-Mu
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v15so2900880wrx.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1YovYc2LIv645u50nIn6bkmgm6nXTMjECoAetz4WC4k=;
- b=F7d29E4RV5FcMvjMujP7jquhou2818LE1mRa1xPY2IzWJor9g1is5tArDrYYpMQ/vK
- jCIfCuZw/Ni8Ln8nnX8P02UnOC90zCYgdCBOtLJrfcwxwPTdDq/3S1rP7FI3MQVHtONJ
- 2IVcNqd1Am+ZbL1zXS6+QEmD+Le1cI3xivct3L1WVzr0fwmRSmyZ13JGmLfJ/EFmncSD
- Bfvc7ZdhLVkQDHzhcjRUX9z/euQFBpahXZSOZeMO7MW/T/KSqUUwzYrhL6dmbn6TuiO3
- JrYa7strUk2ocpVyycyZnVPii6hi7W3L81qUJwlvzO5S2pSCxvYt78kEsAG56/D3qMGq
- IRbA==
+ bh=Z1VRnBcGWOo455ms4VehMbMAOyZArRGSG/VL9ef6/SA=;
+ b=D8oCrvj3GSAzIihWOwFYZkrCOOqOrr4noIsCKKy1MSJXX01w3XuRCEIioMEO9oBX+/
+ D/HJFs0RlnqhDGm3rL4Qi+Uzb3A3hFcqnx80LytpG+pTSD1xVgfWmsqeFLDjrcOaE854
+ V5Yjy1hs36EP2OSmh9UBDA3uhKpVErilfax44/60lkp8Pt7n1o2Ba2t+JSh9QVPKuyDk
+ Mzgeyyvl25ioiCgfsouyebsckjuUO0j6/r9XdafwcJOX2JztOTl6gjNGTALuEm0PpYQ1
+ fRUtmcEliwTzkdfB+pCgJvkValGApEz7O5nXb190z8xYK9sZw1DgJe+umm95htAXHNJ1
+ VF4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1YovYc2LIv645u50nIn6bkmgm6nXTMjECoAetz4WC4k=;
- b=IWej22mxYe0JVshVA9/orKmptyo8gnkBP4fIxRdS3zUfE++brc2kOjVvw7Jn6Uhbks
- euDtRDGbvdROw/ZmgnxN0lDJstM2dtRCS3H8z8o+tkaASX5T0CVo5iVC+1gtcPvX/HLC
- 1pczdUQEb2LNdfrU8RQBUdpYmfipsS1ENmpZ0/CLDSy26ZPUDGrbI3IL6+8C44rJwYoG
- TAc9s5sebzZQPrVamzWE6EeDSBzIfni135VhgSFq2RWPiTPeEcZANU8pCl9nEAT++JMu
- QOKO5VSAXWcwwGeukDspk1o0R9Y6V5y9+zpSAeHcZxwUk5vTloZ8AKfStt+b9Xyeb1gO
- +l3g==
-X-Gm-Message-State: AOAM530sW0wBvRgSeRerBpIVcaPqglTDtB/ftENQN1vSzL5+OYtrJqvy
- PU9BBfsJWFN5Z+T2THnKT1tBL6EZw10WBw==
-X-Google-Smtp-Source: ABdhPJzGNxjrHBQr66p74OZ3pYifkBGw5VVOXIPFGdcYIfP0piO2fRkhoBrtHzqpp6VMmOatmRhbzg==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr9968387wmj.149.1614964532616; 
- Fri, 05 Mar 2021 09:15:32 -0800 (PST)
+ bh=Z1VRnBcGWOo455ms4VehMbMAOyZArRGSG/VL9ef6/SA=;
+ b=F7eEt4IFfZPqNP92ILHDUJ0gmLHkLSRuPTLHDOU/0yqw3iiQiNqTji+W8CWZxBQD6R
+ sIS42jjdptnRP58hOAfQL+SIz7Sv0/HGKuOvdOD+cASyEnElIzCySn8+AiJLrNmGTUe0
+ 1iMU8CpvHUAsWzfkG4acDOYbPHzYtSfvAUxx1ozr7uv31TyVrWVplm807QXIVr8UIevW
+ hc3ELZzBql/EM3LgTbGNjTInIIws7p/RbzKrCOtF4yfMFEvrLBooU0NBg1b/y+W99Fls
+ KFP9z2YKRO1cZt65MNgbAQQKeXko1Vuxe8I1xgDunvf1G+QBJummD/IRAXwdRcuQt+bz
+ dFNg==
+X-Gm-Message-State: AOAM531mM+yZYorRD7A+0q/NM0BkBwrBg3mRGTTiPiSIbnlLLenYUf2Y
+ 1fnGVQGigmAUrfQJfnxyp/dFNgV6SYiq0g==
+X-Google-Smtp-Source: ABdhPJzNai2hPKDSrm8ddobiCUJDxGd/WvhtMvaOGwr5jTie4A/RT72T+u/rQUwpA0uNL2ZGjfegmQ==
+X-Received: by 2002:adf:bbc2:: with SMTP id z2mr704139wrg.180.1614964533288;
+ Fri, 05 Mar 2021 09:15:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.32
  for <qemu-devel@nongnu.org>
@@ -54,17 +54,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Fri, 05 Mar 2021 09:15:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/49] hw/display/omap_lcdc: Drop broken bigendian ifdef
-Date: Fri,  5 Mar 2021 17:14:47 +0000
-Message-Id: <20210305171515.1038-22-peter.maydell@linaro.org>
+Subject: [PULL 22/49] hw/display/omap_lcdc: Fix coding style issues in
+ template header
+Date: Fri,  5 Mar 2021 17:14:48 +0000
+Message-Id: <20210305171515.1038-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,50 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The draw_line16_32() function in the omap_lcdc template header
-includes an ifdef for the case where HOST_WORDS_BIGENDIAN matches
-TARGET_WORDS_BIGENDIAN.  This is trying to optimise for "source
-bitmap and destination bitmap format match", but it is broken,
-because in this function the formats don't match: the source is
-16-bit colour and the destination is 32-bit colour, so a memcpy()
-will produce corrupted graphics output.  Drop the bogus ifdef.
+Fix some minor coding style issues in the template header,
+so checkpatch doesn't complain when we move the code.
 
-This bug was introduced in commit ea644cf343129, when we dropped
-support for DEPTH values other than 32 from the template header.
-The old #if line was
-  #if DEPTH == 16 && defined(HOST_WORDS_BIGENDIAN) == defined(TARGET_WORDS_BIGENDIAN)
-and this was mistakenly changed to
-  #if defined(HOST_WORDS_BIGENDIAN) == defined(TARGET_WORDS_BIGENDIAN)
-rather than deleting the #if as now having an always-false condition.
-
-Fixes: ea644cf343129
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210215103215.4944-7-peter.maydell@linaro.org
+Message-id: 20210215103215.4944-8-peter.maydell@linaro.org
 ---
- hw/display/omap_lcd_template.h | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/display/omap_lcd_template.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/display/omap_lcd_template.h b/hw/display/omap_lcd_template.h
-index c7c5025fb04..22e51d9bffb 100644
+index 22e51d9bffb..a2f86eee3c8 100644
 --- a/hw/display/omap_lcd_template.h
 +++ b/hw/display/omap_lcd_template.h
-@@ -139,9 +139,6 @@ static void draw_line12_32(void *opaque, uint8_t *d, const uint8_t *s,
- static void draw_line16_32(void *opaque, uint8_t *d, const uint8_t *s,
-                            int width, int deststep)
- {
--#if defined(HOST_WORDS_BIGENDIAN) == defined(TARGET_WORDS_BIGENDIAN)
--    memcpy(d, s, width * 2);
--#else
-     uint16_t v;
-     uint8_t r, g, b;
- 
-@@ -154,5 +151,4 @@ static void draw_line16_32(void *opaque, uint8_t *d, const uint8_t *s,
-         s += 2;
+@@ -61,7 +61,7 @@ static void draw_line2_32(void *opaque, uint8_t *d, const uint8_t *s,
+         b = (pal[v & 3] << 4) & 0xf0;
+         ((uint32_t *) d)[0] = rgb_to_pixel32(r, g, b);
+         d += 4;
+-        s ++;
++        s++;
+         width -= 4;
+     } while (width > 0);
+ }
+@@ -88,7 +88,7 @@ static void draw_line4_32(void *opaque, uint8_t *d, const uint8_t *s,
+         b = (pal[v & 0xf] << 4) & 0xf0;
+         ((uint32_t *) d)[0] = rgb_to_pixel32(r, g, b);
+         d += 4;
+-        s ++;
++        s++;
+         width -= 2;
+     } while (width > 0);
+ }
+@@ -108,7 +108,7 @@ static void draw_line8_32(void *opaque, uint8_t *d, const uint8_t *s,
+         g = pal[v] & 0xf0;
+         b = (pal[v] << 4) & 0xf0;
+         ((uint32_t *) d)[0] = rgb_to_pixel32(r, g, b);
+-        s ++;
++        s++;
          d += 4;
      } while (-- width != 0);
--#endif
  }
 -- 
 2.20.1
