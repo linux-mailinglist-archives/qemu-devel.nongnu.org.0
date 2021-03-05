@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A891132E7C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:19:28 +0100 (CET)
-Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B4B32E7CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:21:04 +0100 (CET)
+Received: from localhost ([::1]:37756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI9QV-0000rA-Of
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:19:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41832)
+	id 1lI9S3-0001x8-RC
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:21:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lI9P6-0000Bk-DU; Fri, 05 Mar 2021 07:18:00 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:38692)
+ id 1lI9QR-0001Fv-Lh
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:19:23 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lI9P4-0004Jf-Br; Fri, 05 Mar 2021 07:18:00 -0500
-Received: by mail-pl1-x635.google.com with SMTP id s7so1333452plg.5;
- Fri, 05 Mar 2021 04:17:57 -0800 (PST)
+ id 1lI9QP-0004mR-9b
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:19:23 -0500
+Received: by mail-pl1-x634.google.com with SMTP id c16so1351259ply.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 04:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Wg+mhNkNB4lUrMjlZW3lEf2FPRUUmtAYl68S49LJAb0=;
- b=fbMeq6BdHQWssd0sYWp7JnuREDaFsRlmil1dWIYcsxq4rU4oo1w5NjB7nRKl1aQilA
- PZiC5lmw3EukI6iawaHvD5hK4N9juDWmiWu750euE6WiPBfYY+BRLliPT1q8yRmJsEyH
- qN89p6vD1Qk5f0Qbdu/0xESSZYImFTWhvyaGedKySap98lZ2cpCipYiGERzbW1EFIXLH
- nmUBC2mIUD+BO0xjxKeAAOODoeLLsYDburVgMQsawSn+hgWcZzgyaNITjrR7eHx7qWMo
- TOSQ7a7cC0IpzPi5qjr3cO8+EKnCNMjeF7evJalfYNfepy1QWNXAxBrwVPo6Qij1c7BN
- UauQ==
+ bh=MS1YtIiFvnaMvZIN+/vfOaN3d8TXxwZx1s64ja1hh/g=;
+ b=h9+UbzftE1hV2Ug4pYxu0AufzB0In17/uby6rmlPq0VBKYouWZ6nGadoHOgTFeLZtX
+ psFMua0/CC0YZ1jtFUdwo/8XUOOC76MGz/hYwCIwybtIpK6YTpgl9b+xdh2OMHZ1qcfw
+ DeNQpqqawPrYYF7fDN0TPSyQSqV92q7Criyh4LKJOiEPZhegURWBWSIG/mZMRUgzrEWR
+ W09mvJ9KKPLKvNY93jfoZXPNd22bEAXegMZKAwHfPCdb99u3TfxBjxu+ZX5OugEP79n9
+ x7DptIrh9Dx+Eqs4NvUQZFQySjcg2biV5nzjDnr6fVzu20eKR2uALW6d5ASOB10jBqCw
+ AXog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Wg+mhNkNB4lUrMjlZW3lEf2FPRUUmtAYl68S49LJAb0=;
- b=dQoqMnTo131TpxboAyE1aF36ZaZ3f1nvmmrumN3YtgAXQ76cDR5rcKuDmJ+/tV6934
- m07hHhf18K8fEaUvMVXYEeSjgXzFNTrzZzuQr4GxRZZekXl8hg/ma0IHk9Do0yiZ9Lb/
- B8tFzW0gtzgZHXhGKMvvDKLeQIN/KGENNBClbGITKepVYP1Rw38j3AqkiB5PYp9EyrJM
- eVblpkM2XNknIh/Ean2fzonGsXzjVxP+qZ++WM5iQm9KkxU/5VthmJsPwcqPpOQ8usuc
- X0eKbAxxlng9Id0J+F/1ogn1RFMtMCchae9HeXJjLUJ4MI18SpbSM9Wy6bSFC3OQE2i1
- 20ZA==
-X-Gm-Message-State: AOAM533cO74iwbi/0dPSgN/eapxVlPA2IlplxTJ+ek2kNr0VC2CC/mc2
- IFU9wEfjZ4w7xt9nlLWaG/YU5fW4xDFTzA==
-X-Google-Smtp-Source: ABdhPJyNPTPP2cQdtnVqwE0nw01F/zu9oFWVKri/QlAZz+aOJjL5M5RtSOW/vJylrxmHxqKlXW4b6g==
-X-Received: by 2002:a17:90a:1a59:: with SMTP id
- 25mr10188789pjl.54.1614946676192; 
- Fri, 05 Mar 2021 04:17:56 -0800 (PST)
+ bh=MS1YtIiFvnaMvZIN+/vfOaN3d8TXxwZx1s64ja1hh/g=;
+ b=sz2GTa0m3C04zhAx3SNOe1ESN4vQy8x6ss6Q2fTIOe5JqTLPAZhYXF+w/fUCpFsHuF
+ rtHY08bylPnebWbZFWFHtGDoZSEH9d80sQzMZHWND2MbrU/N1CEJTEJ27B7zJNQYI/E0
+ VXYQWFmLqKB8uWLRvB93dbwHXS7UX04roVZEDN3vIKIweG9FQvo63Q5PUvNrUciCpdxD
+ sSCPBCic17UroKSnH8P9jzHRndOxOMNBAr+Is53voDITcYxjIFObXc9Sy5gHi6S9c5l2
+ qy8kabBK9uDpcZ08F4Ircj2J2oUUiYNWzzmm16yyAfIDKvUMI7BkUalLq+s2Sxe55iko
+ 8vSg==
+X-Gm-Message-State: AOAM532Li3SzvI+B8G++dDClHxUyNHcIqUhXmXvNrdAz6UFXOHZDIWe0
+ 6Bzydq/l+o3VuNoX5BcspGMf+sYPCGcLFQ==
+X-Google-Smtp-Source: ABdhPJzCMQWnVaPb1HkOTk7rukPNSEvE/r+XwOomiP/5/2Kxy6CNdCYxZsMVWNPv4qEYxcvJIR10qQ==
+X-Received: by 2002:a17:90a:e2ca:: with SMTP id
+ fr10mr9903108pjb.154.1614946756178; 
+ Fri, 05 Mar 2021 04:19:16 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:6076:fea8:b0ba:4fdb])
- by smtp.gmail.com with ESMTPSA id j26sm2426697pfa.35.2021.03.05.04.17.53
+ by smtp.gmail.com with ESMTPSA id q23sm2526049pfl.123.2021.03.05.04.19.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Mar 2021 04:17:55 -0800 (PST)
+ Fri, 05 Mar 2021 04:19:15 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2] block/file-posix: Optimize for macOS
-Date: Fri,  5 Mar 2021 21:17:48 +0900
-Message-Id: <20210305121748.65173-1-akihiko.odaki@gmail.com>
+Subject: [PATCH] ui/cocoa: Clear modifiers whenever possible
+Date: Fri,  5 Mar 2021 21:19:09 +0900
+Message-Id: <20210305121909.65249-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,213 +82,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- pkrempa@redhat.com, Akihiko Odaki <akihiko.odaki@gmail.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Konstantin Nazarov <mail@knazarov.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit introduces "punch hole" operation and optimizes transfer
-block size for macOS.
+ui/cocoa does not receive NSEventTypeFlagsChanged when it is not active,
+and the modifier state can be desynchronized in such a situation.
 
-This commit introduces two additional members,
-discard_granularity and opt_io to BlockSizes type in
-include/block/block.h. Also, the members of the type are now
-optional. Set -1 to discard_granularity and 0 to other members
-for the default values.
+[NSEvent -modifierFlags] tells whether a modifier is *not* pressed, so
+check it whenever receiving an event and clear the modifier if it is not
+pressed.
 
-Thanks to Konstantin Nazarov for detailed analysis of a flaw in an
-old version of this change:
-https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gistcomment-3654667
+Note that [NSEvent -modifierFlags] does not tell if a certain modifier
+*is* pressed because the documented mask for [NSEvent -modifierFlags]
+generalizes left shift and right shift, for example. CapsLock is the
+only exception. The pressed state is synchronized only with
+NSEventTypeFlagsChanged.
+
+This change also removes modifier keys from keycode map. If they
+are input with NSEventTypeKeyDown or NSEventTypeKeyUp, it leads to
+desynchronization. Although such a situation is not observed, they are
+removed just in case.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- block/file-posix.c    | 40 ++++++++++++++++++++++++++++++++++++++--
- block/nvme.c          |  2 ++
- block/raw-format.c    |  4 +++-
- hw/block/block.c      | 12 ++++++++++--
- include/block/block.h |  2 ++
- 5 files changed, 55 insertions(+), 5 deletions(-)
+ ui/cocoa.m | 142 ++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 86 insertions(+), 56 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 05079b40cae..21bdaf969c5 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -44,6 +44,7 @@
- #if defined(__APPLE__) && (__MACH__)
- #include <paths.h>
- #include <sys/param.h>
-+#include <sys/mount.h>
- #include <IOKit/IOKitLib.h>
- #include <IOKit/IOBSD.h>
- #include <IOKit/storage/IOMediaBSDClient.h>
-@@ -1292,6 +1293,8 @@ static int hdev_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
-     if (check_for_dasd(s->fd) < 0) {
-         return -ENOTSUP;
-     }
-+    bsz->opt_io = 0;
-+    bsz->discard_granularity = -1;
-     ret = probe_logical_blocksize(s->fd, &bsz->log);
-     if (ret < 0) {
-         return ret;
-@@ -1586,6 +1589,7 @@ out:
-     }
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index f27beb30e6e..940d8b83e31 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -189,14 +189,6 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+     [kVK_ANSI_Comma] = Q_KEY_CODE_COMMA,
+     [kVK_ANSI_Period] = Q_KEY_CODE_DOT,
+     [kVK_ANSI_Slash] = Q_KEY_CODE_SLASH,
+-    [kVK_Shift] = Q_KEY_CODE_SHIFT,
+-    [kVK_RightShift] = Q_KEY_CODE_SHIFT_R,
+-    [kVK_Control] = Q_KEY_CODE_CTRL,
+-    [kVK_RightControl] = Q_KEY_CODE_CTRL_R,
+-    [kVK_Option] = Q_KEY_CODE_ALT,
+-    [kVK_RightOption] = Q_KEY_CODE_ALT_R,
+-    [kVK_Command] = Q_KEY_CODE_META_L,
+-    [0x36] = Q_KEY_CODE_META_R, /* There is no kVK_RightCommand */
+     [kVK_Space] = Q_KEY_CODE_SPC,
+ 
+     [kVK_ANSI_Keypad0] = Q_KEY_CODE_KP_0,
+@@ -615,9 +607,24 @@ - (void) toggleModifier: (int)keycode {
+     qemu_input_event_send_key_qcode(dcl.con, keycode, modifiers_state[keycode]);
  }
  
-+G_GNUC_UNUSED
- static int translate_err(int err)
- {
-     if (err == -ENODEV || err == -ENOSYS || err == -EOPNOTSUPP ||
-@@ -1795,16 +1799,27 @@ static int handle_aiocb_discard(void *opaque)
-             }
-         } while (errno == EINTR);
- 
--        ret = -errno;
-+        ret = translate_err(-errno);
- #endif
-     } else {
- #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-         ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-                            aiocb->aio_offset, aiocb->aio_nbytes);
-+        ret = translate_err(-errno);
-+#elif defined(__APPLE__) && (__MACH__)
-+        fpunchhole_t fpunchhole;
-+        fpunchhole.fp_flags = 0;
-+        fpunchhole.reserved = 0;
-+        fpunchhole.fp_offset = aiocb->aio_offset;
-+        fpunchhole.fp_length = aiocb->aio_nbytes;
-+        if (fcntl(s->fd, F_PUNCHHOLE, &fpunchhole) == -1) {
-+            ret = errno == ENODEV ? -ENOTSUP : -errno;
-+        } else {
-+            ret = 0;
-+        }
- #endif
-     }
- 
--    ret = translate_err(ret);
-     if (ret == -ENOTSUP) {
-         s->has_discard = false;
-     }
-@@ -2113,6 +2128,26 @@ static int raw_co_flush_to_disk(BlockDriverState *bs)
-     return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
- }
- 
-+static int raw_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
-+{
-+#if defined(__APPLE__) && (__MACH__)
-+    BDRVRawState *s = bs->opaque;
-+    struct statfs buf;
-+
-+    if (!fstatfs(s->fd, &buf)) {
-+        bsz->phys = 0;
-+        bsz->log = 0;
-+        bsz->opt_io = buf.f_iosize;
-+        bsz->discard_granularity = buf.f_bsize;
-+        return 0;
+-- (void) toggleStatefulModifier: (int)keycode {
++- (void) clearModifier: (int)keycode {
++    if (!modifiers_state[keycode]) {
++        return;
 +    }
 +
-+    return -errno;
-+#else
-+    return -ENOTSUP;
-+#endif
++    // Clear the stored state.
++    modifiers_state[keycode] = NO;
++    // Send a keyup.
++    qemu_input_event_send_key_qcode(dcl.con, keycode, false);
 +}
 +
- static void raw_aio_attach_aio_context(BlockDriverState *bs,
-                                        AioContext *new_context)
- {
-@@ -3247,6 +3282,7 @@ BlockDriver bdrv_file = {
-     .bdrv_refresh_limits = raw_refresh_limits,
-     .bdrv_io_plug = raw_aio_plug,
-     .bdrv_io_unplug = raw_aio_unplug,
-+    .bdrv_probe_blocksizes = raw_probe_blocksizes,
-     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
++- (void) setStatefulModifier: (int)keycode down:(BOOL)down {
++    if (down == modifiers_state[keycode]) {
++        return;
++    }
++
+     // Toggle the stored state.
+-    modifiers_state[keycode] = !modifiers_state[keycode];
++    modifiers_state[keycode] = down;
+     // Generate keydown and keyup.
+     qemu_input_event_send_key_qcode(dcl.con, keycode, true);
+     qemu_input_event_send_key_qcode(dcl.con, keycode, false);
+@@ -714,57 +721,80 @@ - (bool) handleEventLocked:(NSEvent *)event
+     static bool switched_to_fullscreen = false;
+     // Location of event in virtual screen coordinates
+     NSPoint p = [self screenLocationOfEvent:event];
++    NSUInteger modifiers = [event modifierFlags];
  
-     .bdrv_co_truncate = raw_co_truncate,
-diff --git a/block/nvme.c b/block/nvme.c
-index 2b5421e7aa6..1845d07577b 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -989,6 +989,8 @@ static int nvme_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
-     uint32_t blocksize = nvme_get_blocksize(bs);
-     bsz->phys = blocksize;
-     bsz->log = blocksize;
-+    bsz->opt_io = 0;
-+    bsz->discard_granularity = -1;
-     return 0;
- }
+-    switch ([event type]) {
+-        case NSEventTypeFlagsChanged:
+-            if ([event keyCode] == 0) {
+-                // When the Cocoa keyCode is zero that means keys should be
+-                // synthesized based on the values in in the eventModifiers
+-                // bitmask.
+-
+-                if (qemu_console_is_graphic(NULL)) {
+-                    NSUInteger modifiers = [event modifierFlags];
++    // emulate caps lock keydown and keyup
++    [self setStatefulModifier:Q_KEY_CODE_CAPS_LOCK down:!!(modifiers & NSEventModifierFlagCapsLock)];
  
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 7717578ed6a..847df11f2ae 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -507,6 +507,7 @@ static int raw_probe(const uint8_t *buf, int buf_size, const char *filename)
- static int raw_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- {
-     BDRVRawState *s = bs->opaque;
-+    uint32_t size;
-     int ret;
- 
-     ret = bdrv_probe_blocksizes(bs->file->bs, bsz);
-@@ -514,7 +515,8 @@ static int raw_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
-         return ret;
-     }
- 
--    if (!QEMU_IS_ALIGNED(s->offset, MAX(bsz->log, bsz->phys))) {
-+    size = MAX(bsz->log, bsz->phys);
-+    if (size && !QEMU_IS_ALIGNED(s->offset, size)) {
-         return -ENOTSUP;
-     }
- 
-diff --git a/hw/block/block.c b/hw/block/block.c
-index 1e34573da71..c907e5a7722 100644
---- a/hw/block/block.c
-+++ b/hw/block/block.c
-@@ -70,19 +70,27 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
-     backend_ret = blk_probe_blocksizes(blk, &blocksizes);
-     /* fill in detected values if they are not defined via qemu command line */
-     if (!conf->physical_block_size) {
--        if (!backend_ret) {
-+        if (!backend_ret && blocksizes.phys) {
-            conf->physical_block_size = blocksizes.phys;
-         } else {
-             conf->physical_block_size = BDRV_SECTOR_SIZE;
-         }
-     }
-     if (!conf->logical_block_size) {
--        if (!backend_ret) {
-+        if (!backend_ret && blocksizes.log) {
-             conf->logical_block_size = blocksizes.log;
-         } else {
-             conf->logical_block_size = BDRV_SECTOR_SIZE;
-         }
-     }
-+    if (!backend_ret) {
-+        if (!conf->opt_io_size) {
-+            conf->opt_io_size = blocksizes.opt_io;
+-                    if (!!(modifiers & NSEventModifierFlagCapsLock) != !!modifiers_state[Q_KEY_CODE_CAPS_LOCK]) {
+-                        [self toggleStatefulModifier:Q_KEY_CODE_CAPS_LOCK];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagShift) != !!modifiers_state[Q_KEY_CODE_SHIFT]) {
+-                        [self toggleModifier:Q_KEY_CODE_SHIFT];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagControl) != !!modifiers_state[Q_KEY_CODE_CTRL]) {
+-                        [self toggleModifier:Q_KEY_CODE_CTRL];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagOption) != !!modifiers_state[Q_KEY_CODE_ALT]) {
+-                        [self toggleModifier:Q_KEY_CODE_ALT];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagCommand) != !!modifiers_state[Q_KEY_CODE_META_L]) {
+-                        [self toggleModifier:Q_KEY_CODE_META_L];
+-                    }
+-                }
+-            } else {
+-                keycode = cocoa_keycode_to_qemu([event keyCode]);
+-            }
+-
+-            if ((keycode == Q_KEY_CODE_META_L || keycode == Q_KEY_CODE_META_R)
+-               && !isMouseGrabbed) {
+-              /* Don't pass command key changes to guest unless mouse is grabbed */
+-              keycode = 0;
+-            }
++    if (qemu_console_is_graphic(NULL)) {
++        if (!(modifiers & NSEventModifierFlagShift)) {
++            [self clearModifier:Q_KEY_CODE_SHIFT];
++            [self clearModifier:Q_KEY_CODE_SHIFT_R];
 +        }
-+        if (conf->discard_granularity == -1) {
-+            conf->discard_granularity = blocksizes.discard_granularity;
++        if (!(modifiers & NSEventModifierFlagControl)) {
++            [self clearModifier:Q_KEY_CODE_CTRL];
++            [self clearModifier:Q_KEY_CODE_CTRL_R];
++        }
++        if (!(modifiers & NSEventModifierFlagOption)) {
++            [self clearModifier:Q_KEY_CODE_ALT];
++            [self clearModifier:Q_KEY_CODE_ALT_R];
++        }
++        if (!(modifiers & NSEventModifierFlagCommand)) {
++            [self clearModifier:Q_KEY_CODE_META_L];
++            [self clearModifier:Q_KEY_CODE_META_R];
 +        }
 +    }
  
-     if (conf->logical_block_size > conf->physical_block_size) {
-         error_setg(errp,
-diff --git a/include/block/block.h b/include/block/block.h
-index b3f6e509d49..d12471a6cc4 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -93,6 +93,8 @@ typedef enum {
- typedef struct BlockSizes {
-     uint32_t phys;
-     uint32_t log;
-+    uint32_t discard_granularity;
-+    uint32_t opt_io;
- } BlockSizes;
- 
- typedef struct HDGeometry {
+-            if (keycode) {
+-                // emulate caps lock and num lock keydown and keyup
+-                if (keycode == Q_KEY_CODE_CAPS_LOCK ||
+-                    keycode == Q_KEY_CODE_NUM_LOCK) {
+-                    [self toggleStatefulModifier:keycode];
+-                } else if (qemu_console_is_graphic(NULL)) {
+-                    if (switched_to_fullscreen) {
+-                        switched_to_fullscreen = false;
+-                    } else {
+-                        [self toggleModifier:keycode];
+-                    }
++    switch ([event type]) {
++        case NSEventTypeFlagsChanged:
++            if (qemu_console_is_graphic(NULL)) {
++                switch ([event keyCode]) {
++                    case kVK_Shift:
++                        if (!!(modifiers & NSEventModifierFlagShift)) {
++                            [self toggleModifier:Q_KEY_CODE_SHIFT];
++                        }
++                        break;
++
++                    case kVK_RightShift:
++                        if (!!(modifiers & NSEventModifierFlagShift)) {
++                            [self toggleModifier:Q_KEY_CODE_SHIFT_R];
++                        }
++                        break;
++
++                    case kVK_Control:
++                        if (!!(modifiers & NSEventModifierFlagControl)) {
++                            [self toggleModifier:Q_KEY_CODE_CTRL];
++                        }
++                        break;
++
++                    case kVK_Option:
++                        if (!!(modifiers & NSEventModifierFlagOption)) {
++                            [self toggleModifier:Q_KEY_CODE_ALT];
++                        }
++                        break;
++
++                    case kVK_RightOption:
++                        if (!!(modifiers & NSEventModifierFlagOption)) {
++                            [self toggleModifier:Q_KEY_CODE_ALT_R];
++                        }
++                        break;
++
++                    /* Don't pass command key changes to guest unless mouse is grabbed */
++                    case kVK_Command:
++                        if (isMouseGrabbed &&
++                            !!(modifiers & NSEventModifierFlagCommand)) {
++                            [self toggleModifier:Q_KEY_CODE_META_L];
++                        }
++                        break;
++
++                    case kVK_RightCommand:
++                        if (isMouseGrabbed &&
++                            !!(modifiers & NSEventModifierFlagCommand)) {
++                            [self toggleModifier:Q_KEY_CODE_META_R];
++                        }
++                        break;
+                 }
+             }
+-
+             break;
+         case NSEventTypeKeyDown:
+             keycode = cocoa_keycode_to_qemu([event keyCode]);
 -- 
 2.24.3 (Apple Git-128)
 
