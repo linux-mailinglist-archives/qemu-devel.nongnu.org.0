@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609B232F017
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:31:52 +0100 (CET)
-Received: from localhost ([::1]:38616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2C232F020
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:33:06 +0100 (CET)
+Received: from localhost ([::1]:42844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDMl-0000HU-AG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:31:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
+	id 1lIDNx-0002Fp-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:33:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIDKc-0007o9-66
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:29:38 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:39247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIDKa-0003IW-Eq
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:29:37 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id w17so4631751ejc.6
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 08:29:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=snU/usU3XU/boEb5Trf6h55LQUGffPIm8KWZn0l9OpU=;
- b=I7SZKM5OX+5yw7vXiwHAWDrL20IyUORx66PpyMEp+OUlBzoJr0chMaLkNsj6TXJuSG
- h9o2PGKRXkh9cCSHcNgGg42oiCzyOs9MMYmyfmbxyNrFoUsvqpi0j40qQkcylExX3BCK
- xt5i6E6LEDpVKdk8X7+2H0cVQY9J8ncmFKO3c8ri/1bPonmCR7jU413uCK/Oji5lJzGz
- qCj1giQ9Cgbo4xP/VEsf80dhxv//i8H1+g0PzDT94OSWWRKSG8FFwnWBudZTSRCh0q33
- 6t/LOqcZhJm2mLPQA/WPBkWTw3LZneeUrh2EFJW5x4UNh17Lk6sJilXa/m0olsUel2En
- /M0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=snU/usU3XU/boEb5Trf6h55LQUGffPIm8KWZn0l9OpU=;
- b=jgNfhuKmwcJ5SsnWtj8sdXL/CKfxt/uJbS0wTZVV0CSAFyGr/2hvobgimif8c2W4Ov
- f1cCkcqv8wMhTVZte0FkT1jyM5/PWtN8857ME2LS1yvioKO5RvM4ClXmFgeBoJxZedc7
- TYVPAVDIEAzofla5AGt+DR0qCC7wE+yfJMvy5LfXLwEVCzDqFkicpVGN+acAH+y+vwQs
- PpFvvc+vRIYWpgOhZUvZue93dzHOWJ2O8V+Am9VBSaxfUCVwL/jTk2l1eW1ahxj4Q0o/
- k5nXWdyVTQpFqmD3+k8hjxmkoBk/lLPQjDmge5BFNNoPpyRiiR1wC31CT56iXbQxiaag
- 86YQ==
-X-Gm-Message-State: AOAM531zwWYg6Ymw9hjgxN78M+4GzIWPBJ7ZyVtoTaSQbo+0dhzenJtP
- xVNMbWRl4bMVNQdq1CLaWOL/XA==
-X-Google-Smtp-Source: ABdhPJxohDX2tSj/nCOGWwx2ArOPMbjJmADCrBaw1P38LXd7zE/BOJL4Md6Rn5zCQtC/6Sa+jzejCg==
-X-Received: by 2002:a17:906:b042:: with SMTP id
- bj2mr2875913ejb.261.1614961773577; 
- Fri, 05 Mar 2021 08:29:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm1894180eds.96.2021.03.05.08.29.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 08:29:32 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D318B1FF7E;
- Fri,  5 Mar 2021 16:29:31 +0000 (GMT)
-References: <20210208023752.270606-1-richard.henderson@linaro.org>
- <20210208023752.270606-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 04/70] tcg/tci: Merge identical cases in generation
-Date: Fri, 05 Mar 2021 16:29:27 +0000
-In-reply-to: <20210208023752.270606-5-richard.henderson@linaro.org>
-Message-ID: <875z25ftsk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDLU-0000W3-Pe
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:30:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51227)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDLQ-0003sO-1q
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:30:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614961826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=13DDur8KN/JrFGRr7IWguOCDT07Az8FyrW7HuvJSVWk=;
+ b=TdY0YnaHX9XGK+aGbiuPcfRUohgOG6REZrEeLEyf9pqU/VyJzdr0HO1R60HAuN8SnXpP7c
+ z4IB7uWWNYS+EBzAo87nNvUyVa4kqHmgQri5B/Cz+pMEN9c53QSwndlBcbTEMqfHJap/wt
+ BqTb5PW+2hj2tW2Mrhg6xw1FKQEWIUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-qa94DwI7MzqhmhAnDYSrtg-1; Fri, 05 Mar 2021 11:30:24 -0500
+X-MC-Unique: qa94DwI7MzqhmhAnDYSrtg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D979D1B2C981;
+ Fri,  5 Mar 2021 16:30:22 +0000 (UTC)
+Received: from [10.10.117.80] (ovpn-117-80.rdu2.redhat.com [10.10.117.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E91760BF3;
+ Fri,  5 Mar 2021 16:30:22 +0000 (UTC)
+Subject: Re: [PATCH v2 8/8] simplebench/bench_block_job: drop caches before
+ test run
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210304101738.20248-1-vsementsov@virtuozzo.com>
+ <20210304101738.20248-9-vsementsov@virtuozzo.com>
+ <f7d24c40-eb01-4df6-52c7-5f48aa30656f@redhat.com>
+ <c3c9571b-5999-378e-1915-88eaaf93b2de@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <efe7e17b-1edd-7db7-174e-c0ed1bf80001@redhat.com>
+Date: Fri, 5 Mar 2021 11:30:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <c3c9571b-5999-378e-1915-88eaaf93b2de@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,20 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/5/21 4:11 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 05.03.2021 04:30, John Snow wrote:
+>> On 3/4/21 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> It probably may improve reliability of results when testing in cached
+>>> mode.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   scripts/simplebench/bench_block_job.py | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/scripts/simplebench/bench_block_job.py 
+>>> b/scripts/simplebench/bench_block_job.py
+>>> index 4f03c12169..fa45ad2655 100755
+>>> --- a/scripts/simplebench/bench_block_job.py
+>>> +++ b/scripts/simplebench/bench_block_job.py
+>>> @@ -53,6 +53,8 @@ def bench_block_job(cmd, cmd_args, qemu_args):
+>>>           return {'error': 'qemu failed: ' + str(vm.get_log())}
+>>>       try:
+>>> +        subprocess.run('sync; echo 3 > /proc/sys/vm/drop_caches', 
+>>> shell=True,
+>>> +                       check=True)
+>>>           res = vm.qmp(cmd, **cmd_args)
+>>>           if res != {'return': {}}:
+>>>               vm.shutdown()
+>>>
+>>
+>> Worth adding a conditional to allow "hot" or "cold" runs? nah?
+>>
+> 
+> You mean, make this addition optional? Make sense
+> 
+> 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I was thinking (along the lines of allowing both old and new behavior, 
+in case anyone except you used these scripts) of this sort of thing:
 
-> Use CASE_32_64 and CASE_64 to reduce ifdefs and merge
-> cases that are identical between 32-bit and 64-bit hosts.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+def bench_block_job(cmd, cmd_args, qemu_args, drop_cache=True): ...
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I don't insist on it; I was just earnestly wondering if it had any 
+utility. If it doesn't, don't respin on my account.
 
---=20
-Alex Benn=C3=A9e
+--js
+
 
