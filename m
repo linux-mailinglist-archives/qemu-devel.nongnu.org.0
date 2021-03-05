@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1E432E51B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:43:10 +0100 (CET)
-Received: from localhost ([::1]:37568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5AD32E51F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:44:52 +0100 (CET)
+Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI6zF-0008Sp-Mx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:43:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38212)
+	id 1lI70t-0002CL-VA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:44:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lI6xi-0007Dv-KT
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:41:34 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lI6xh-0005yu-51
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:41:34 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id k66so856396wmf.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 01:41:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uGtBGodopBi6PBU7sIM9ByLXre4d7jso6turWvrXCTQ=;
- b=hC+KyVOg8FjffCWQ1Y/eiIYUdN45ArONPRIZUnMteE8XH3UKadJ5eBRUwBeKfkI2tP
- LFIoW1gIA5c1Zf/sBTMqnhAqdE9m/q7SA4Fz8UqHQZCNTeI8grjlpsjRn4l8UGqyXixr
- InpkBmtf97JQMHdWIbHubs/5eEy7eJQVJJGTngPSVy8cnpBrCOUxKPPtK0It3mJRercj
- Yp+fSPPl2Z73NSnzfiBXgbMTbVHkze7ibnplAKEev04Y2P0pX6/PzwukdPah/uuSY46w
- USnsPPgJxjBSA5mdt4Dg6jfNlDyENrWzE44bxwOThU7JEBR2A9TEZ6jRWsPCAJLv97v1
- jBxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uGtBGodopBi6PBU7sIM9ByLXre4d7jso6turWvrXCTQ=;
- b=M3SV1LJBDWNP5a3EGr92rgpXg36ArU3KXQfDPVYROO0nEnawox3ly68K9mO+M4eeme
- 4IOceGDxmi65ozpO0M3cA+3NiXZzhOX7eoNxqqAgLUg8q/jO6M/p5clHtBTXcPXYKDDY
- RS7tIJhxazDauaL6dnBrAItaNcoY1FjCmqkpf0HK2RGb82fzV6WwG5LI41c/uZBkWdrR
- CgBssRmGPwd30+pAjz4/T05yjHmgUPDfaRmiPIieu4iDk+Kt1ZNG7VrO3paKfKY4hW4j
- 0aNI9AMieWbkUsgA8Xa48kpbDjj/ofqIlJmxMzjip72dIpxdN+dr3J7uEdPjIIYSKcni
- iw6g==
-X-Gm-Message-State: AOAM5309PL+1F6xzkmQIeaSgVgTbagmpuqqnls7cfTUtG2xUvKtaUEw5
- TGrQdzm0hN/108/nhfmDV/s=
-X-Google-Smtp-Source: ABdhPJwYNLJJb0hXASQnHGCGapk52TrEbxhgjxF/FqAktpPuUS3eutjCj8KmF+bBkD1j3iae0vx1fg==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr8103044wmi.34.1614937291788;
- Fri, 05 Mar 2021 01:41:31 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c11sm3767302wrm.67.2021.03.05.01.41.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 01:41:31 -0800 (PST)
-Subject: Re: [PATCH v1 3/9] tests/docker: add a test-tcg for building then
- running check-tcg
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210305092328.31792-1-alex.bennee@linaro.org>
- <20210305092328.31792-4-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ee696fc8-df6b-f8ea-1796-82617aaa70e0@amsat.org>
-Date: Fri, 5 Mar 2021 10:41:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lI6zn-0001BF-MG
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:43:43 -0500
+Resent-Date: Fri, 05 Mar 2021 04:43:43 -0500
+Resent-Message-Id: <E1lI6zn-0001BF-MG@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lI6zl-00077y-6V
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:43:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614937373; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=OpSq0GfGim/LyHJezUPbgOilKWGc9zHqJ4R+e9/pyRD3z9y48pQJrDRMtIxRX6XLeX962/xf4wMYRz6buncEtXrQUb8YilrO3Igal7z1UyFmnXBz1Gziep5P/ZsWUrdgTTm1yaylVv1Bmfkjy6QeiY4vENzhxSfvXpUWIMqT1z8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1614937373;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=atbBkO22Fv/fxBiCXHvK22dtG7XvKHP8xC2zRDYn3PQ=; 
+ b=UItmS6/bDlHiF1o5uGKKlQ/b27nIg0lPsfB3/KW6jdF3sE3EhNkMb06RVYMDe0IrVikF+F9uSS3vrcBnWa34+CN5UkgPH/fEQEMyhtbN+ZNitTQRKAmbrciH1SWmO1rjPnfsJJyRjai0kdE96x3b5UL1j3dx54co/uuxNLx2hWk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1614937368591554.2858608814275;
+ Fri, 5 Mar 2021 01:42:48 -0800 (PST)
+In-Reply-To: <20210305092328.31792-1-alex.bennee@linaro.org>
+Subject: Re: [PATCH  v1 0/9] testing/next (docs, hexagon, cfi, docker)
+Message-ID: <161493736686.6754.14815478211111589668@c667a6b167f6>
 MIME-Version: 1.0
-In-Reply-To: <20210305092328.31792-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Fri, 5 Mar 2021 01:42:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +67,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ alex.bennee@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/21 10:23 AM, Alex Bennée wrote:
-> This is mostly useful for verifying containers will work on the CI
-> setup.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/docker/test-tcg | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->  create mode 100755 tests/docker/test-tcg
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwNTA5MjMyOC4zMTc5
+Mi0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMwNTA5MjMyOC4z
+MTc5Mi0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENIICB2MSAwLzldIHRl
+c3RpbmcvbmV4dCAoZG9jcywgaGV4YWdvbiwgY2ZpLCBkb2NrZXIpCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBl
+eGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGht
+IGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0g
+VEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdm
+NDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
+dQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMzA1MDkyMzI4LjMxNzkyLTEtYWxl
+eC5iZW5uZWVAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzA1MDkyMzI4LjMxNzkyLTEtYWxl
+eC5iZW5uZWVAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjkxYTdl
+ZjEgdGVzdHMvZG9ja2VyOiBVc2UgLS1hcmNoLW9ubHkgd2hlbiBidWlsZGluZyBEZWJpYW4gY3Jv
+c3MgaW1hZ2UKZTBhOTVkYSBnaXRsYWItY2kueW1sOiBBZGQgam9icyB0byB0ZXN0IENGSSBmbGFn
+cwozNjBjNWVlIGdpdGxhYi1jaS55bWw6IEFsbG93IGN1c3RvbSAjIG9mIHBhcmFsbGVsIGxpbmtl
+cnMKMjIyYTI2OSBnaXRsYWI6IGFkZCBidWlsZC11c2VyLWhleGFnb24gdGVzdAplMjI2OTUzIHRl
+c3RzL3RjZzogVXNlIEhleGFnb24gRG9ja2VyIGltYWdlCmZmYTU5OWMgZG9ja2VyOiBBZGQgSGV4
+YWdvbiBpbWFnZQoxNGZmNjIxIHRlc3RzL2RvY2tlcjogYWRkIGEgdGVzdC10Y2cgZm9yIGJ1aWxk
+aW5nIHRoZW4gcnVubmluZyBjaGVjay10Y2cKYzU0MGVkOSBkb2NzL3N5c3RlbTogYWRkIGEgZ2Vu
+dGxlIHByb21wdCBmb3IgdGhlIGNvbXBsZXhpdHkgdG8gY29tZQphMTkwZjg0IGRvY3MvZGV2ZWw6
+IHJlLW9yZ2FuaXNlIHRoZSBkZXZlbG9wZXJzIGd1aWRlIGludG8gc2VjdGlvbnMKCj09PSBPVVRQ
+VVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgYTE5MGY4NGE3NjA3IChkb2NzL2RldmVs
+OiByZS1vcmdhbmlzZSB0aGUgZGV2ZWxvcGVycyBndWlkZSBpbnRvIHNlY3Rpb25zKQpVc2Ugb2Yg
+dW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5nIGVxIGF0IC4v
+c2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
+IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojODk6IApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNjcgbGlu
+ZXMgY2hlY2tlZAoKUGF0Y2ggMS85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvOSBDaGVj
+a2luZyBjb21taXQgYzU0MGVkOWM2MjIyIChkb2NzL3N5c3RlbTogYWRkIGEgZ2VudGxlIHByb21w
+dCBmb3IgdGhlIGNvbXBsZXhpdHkgdG8gY29tZSkKMy85IENoZWNraW5nIGNvbW1pdCAxNGZmNjIx
+NGFiZGYgKHRlc3RzL2RvY2tlcjogYWRkIGEgdGVzdC10Y2cgZm9yIGJ1aWxkaW5nIHRoZW4gcnVu
+bmluZyBjaGVjay10Y2cpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBl
+Y3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiMxNzogCm5ldyBmaWxlIG1vZGUgMTAwNzU1Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDIyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvOSBoYXMgc3R5bGUgcHJv
+YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
+b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
+IE1BSU5UQUlORVJTLgo0LzkgQ2hlY2tpbmcgY29tbWl0IGZmYTU5OWMzOTQ2ZiAoZG9ja2VyOiBB
+ZGQgSGV4YWdvbiBpbWFnZSkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1Mjog
+RklMRTogdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tl
+ci5kL2J1aWxkLXRvb2xjaGFpbi5zaDo2MzoKKyAgICAtRENNQUtFX0FTTV9GTEFHUz0iLUcwIC1t
+bG9uZy1jYWxscyAtZm5vLXBpYyAtLXRhcmdldD1oZXhhZ29uLXVua25vd24tbGludXgtbXVzbCAi
+IFwKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTc5OiBGSUxFOiB0ZXN0cy9kb2Nr
+ZXIvZG9ja2VyZmlsZXMvZGViaWFuLWhleGFnb24tY3Jvc3MuZG9ja2VyLmQvYnVpbGQtdG9vbGNo
+YWluLnNoOjkwOgorICAgIENST1NTX0NGTEFHUz0iLUcwIC1PMCAtbXY2NSAtZm5vLWJ1aWx0aW4g
+LWZuby1yb3VuZGluZy1tYXRoIC0tdGFyZ2V0PWhleGFnb24tdW5rbm93bi1saW51eC1tdXNsIiBc
+CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzIxNjogRklMRTogdGVzdHMvZG9ja2Vy
+L2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlci5kL2J1aWxkLXRvb2xjaGFp
+bi5zaDoxMjc6CisgICAgQ0ZMQUdTPSItRzAgLU8wIC1tdjY1IC1mbm8tYnVpbHRpbiAtZm5vLXJv
+dW5kaW5nLW1hdGggLS10YXJnZXQ9aGV4YWdvbi11bmtub3duLWxpbnV4LW11c2wiIFwKCnRvdGFs
+OiAyIGVycm9ycywgMSB3YXJuaW5ncywgMTg0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvOSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS85IENoZWNraW5nIGNvbW1pdCBlMjI2OTUzOWY3MTIg
+KHRlc3RzL3RjZzogVXNlIEhleGFnb24gRG9ja2VyIGltYWdlKQo2LzkgQ2hlY2tpbmcgY29tbWl0
+IDIyMmEyNjlhN2JmOSAoZ2l0bGFiOiBhZGQgYnVpbGQtdXNlci1oZXhhZ29uIHRlc3QpCjcvOSBD
+aGVja2luZyBjb21taXQgMzYwYzVlZTAxOTNkIChnaXRsYWItY2kueW1sOiBBbGxvdyBjdXN0b20g
+IyBvZiBwYXJhbGxlbCBsaW5rZXJzKQo4LzkgQ2hlY2tpbmcgY29tbWl0IGUwYTk1ZGFhMzRkOSAo
+Z2l0bGFiLWNpLnltbDogQWRkIGpvYnMgdG8gdGVzdCBDRkkgZmxhZ3MpCjkvOSBDaGVja2luZyBj
+b21taXQgOTFhN2VmMTljNmMxICh0ZXN0cy9kb2NrZXI6IFVzZSAtLWFyY2gtb25seSB3aGVuIGJ1
+aWxkaW5nIERlYmlhbiBjcm9zcyBpbWFnZSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMDUwOTIzMjguMzE3OTItMS1hbGV4LmJlbm5lZUBs
+aW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
+ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
+bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
