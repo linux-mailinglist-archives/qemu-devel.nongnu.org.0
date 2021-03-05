@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B4632EE0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:12:14 +0100 (CET)
-Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5B332EEAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:23:51 +0100 (CET)
+Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIC7h-0007uC-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:12:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56266)
+	id 1lICIw-0007rQ-T6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwN-00020c-6J
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59940)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwP-00023p-6d
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:33 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwI-00040G-4l
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:30 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwI-00042F-G8
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:32 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 57714AFF8;
+ by mx2.suse.de (Postfix) with ESMTP id C8BD1B008;
  Fri,  5 Mar 2021 14:59:56 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v4 26/33] target/arm: wrap call to aarch64_sve_change_el in
- tcg_enabled()
-Date: Fri,  5 Mar 2021 15:59:34 +0100
-Message-Id: <20210305145941.32020-27-cfontana@suse.de>
+Subject: [RFC v4 27/33] target/arm: remove kvm include file for PSCI and
+ arm-powerctl
+Date: Fri,  5 Mar 2021 15:59:35 +0100
+Message-Id: <20210305145941.32020-28-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210305145941.32020-1-cfontana@suse.de>
 References: <20210305145941.32020-1-cfontana@suse.de>
@@ -56,43 +56,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@centriq4.arch.suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After this patch it is possible to build only kvm:
+From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 
-./configure --disable-tcg --enable-kvm
+The QEMU PSCI implementation is not used for KVM,
+we do not need the kvm constants header.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Signed-off-by: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 ---
- target/arm/cpu-sysemu.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ target/arm/arm-powerctl.h | 2 --
+ target/arm/psci.c         | 1 -
+ 2 files changed, 3 deletions(-)
 
-diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
-index eb928832a9..05d6e79ad9 100644
---- a/target/arm/cpu-sysemu.c
-+++ b/target/arm/cpu-sysemu.c
-@@ -820,11 +820,13 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     unsigned int cur_el = arm_current_el(env);
-     int rt;
+diff --git a/target/arm/arm-powerctl.h b/target/arm/arm-powerctl.h
+index 37c8a04f0a..35e048ce14 100644
+--- a/target/arm/arm-powerctl.h
++++ b/target/arm/arm-powerctl.h
+@@ -11,8 +11,6 @@
+ #ifndef QEMU_ARM_POWERCTL_H
+ #define QEMU_ARM_POWERCTL_H
  
--    /*
--     * Note that new_el can never be 0.  If cur_el is 0, then
--     * el0_a64 is is_a64(), else el0_a64 is ignored.
--     */
--    aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
-+    if (tcg_enabled()) {
-+        /*
-+         * Note that new_el can never be 0.  If cur_el is 0, then
-+         * el0_a64 is is_a64(), else el0_a64 is ignored.
-+         */
-+        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
-+    }
- 
-     if (cur_el < new_el) {
-         /* Entry vector offset depends on whether the implemented EL
+-#include "kvm-consts.h"
+-
+ #define QEMU_ARM_POWERCTL_RET_SUCCESS QEMU_PSCI_RET_SUCCESS
+ #define QEMU_ARM_POWERCTL_INVALID_PARAM QEMU_PSCI_RET_INVALID_PARAMS
+ #define QEMU_ARM_POWERCTL_ALREADY_ON QEMU_PSCI_RET_ALREADY_ON
+diff --git a/target/arm/psci.c b/target/arm/psci.c
+index 6709e28013..800c4a55d8 100644
+--- a/target/arm/psci.c
++++ b/target/arm/psci.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+-#include "kvm-consts.h"
+ #include "qemu/main-loop.h"
+ #include "sysemu/runstate.h"
+ #include "internals.h"
 -- 
 2.26.2
 
