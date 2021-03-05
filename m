@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB1232EEC4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:26:24 +0100 (CET)
-Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B932EECF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:29:10 +0100 (CET)
+Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lICLP-0003Ep-Sf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:26:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
+	id 1lICO5-0006pF-Fh
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lICAu-0004KS-Hf
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:15:32 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:45239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lICAs-0001wQ-Nk
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:15:32 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id mm21so4087720ejb.12
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:15:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GSLgNrQVjw2IjLFlvKdTX78KML1nofsxp5fPAu6sdWU=;
- b=Wdhtix8g69AGpw8+g3Y4v/C9AYeJm5aJbK1g5eZHjNYtmNB8Dq6OfEmQfVL8rP4+6X
- 2k5Hx1nXWFojgnw+FsPcshiSaXSxDOt1rLAqUFCKi9onSU5fXwovQYyCD8a8SVcGnvr0
- tBLeHI9Eq0k4wEDHIi5tbSiFy14tvrzx46DB3WlegkJCGCkEihd+DP9ZOAbmrzmj3vE1
- yNNL/fDH+ttJ4F7j9DPp2/qSn2SedjnVUKZZRuBZaDQ74r1uGGh2cx8/FH8yBAiwRpim
- zjKTWpgByF1/Nyy/QHrUSFi/PCgtbUc8bEQWHGwPi8Ai14SoJccm3YJewZH4nD0s3IsV
- QJVg==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lICCF-0005zC-K6
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:16:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lICCD-0002bF-Um
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:16:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614957413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IMAUvqNGXNUP26qIooE+TI8ERGxpQYZlxXuohT5EjFw=;
+ b=JPOOX1xjFVsU0NE1RobcKeW8KFVUtUphLXWkNVHQjmXRbZ5o+WnbIJvZrKyfYvtDCftx+E
+ jLPqFYNTx3UBvFD4Z1t44pz3XTLvrsoB+XZwfHb1CR85yQ77S3gSkb7UQwro38OCpQJl51
+ nFOzRuCrR4tI3WfuW129WTPjS0R7QyU=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-mM4rq5o8NKaRiV_Jpi9kmA-1; Fri, 05 Mar 2021 10:16:51 -0500
+X-MC-Unique: mM4rq5o8NKaRiV_Jpi9kmA-1
+Received: by mail-vk1-f198.google.com with SMTP id l2so703191vkl.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:16:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GSLgNrQVjw2IjLFlvKdTX78KML1nofsxp5fPAu6sdWU=;
- b=CtxM1PhyIjXN3pCrwatGu8aHhKggnimUJoA+2Od1UsjwlexPEY7sGsP8ehnDcxvZ3/
- ZcJCGQSYnEfP6beTB3Dr1DRQ2ZlDI16tp70erAdUDB+bD0RIZW7yv8aexHPJ1R0pMCg6
- q4OQHkCEUaN6FrgNZ2cCQ1qQPo6OZUeYzLKOe0OTj79/iPiISX4JiHiOPGgo5Nc8YoMe
- xS2vaffuk8ESTQxzjCfmjjVFG3g1Lvl5r9NBr1fvJvFBDC5yQ2tL1Axcd0N/HDouYiUf
- J9M2952SpdZeJCMeID+vQd7m5ufvRczusAMgP+N2K8tlLsb1P0kKrEwlo52HHLlYwcQr
- hVJQ==
-X-Gm-Message-State: AOAM530yfoBGbDoi63auPpGMszKiyRzx57ggYIs6N14oJBPP06TKRYDW
- Zp1Wc3tDQSrxS9HB+gyRKhMn9nMRrzBE0MV10QAeXRCTXOY=
-X-Google-Smtp-Source: ABdhPJyeiyx1TzjcrIhpKdqYvzxwZ/o9TBgfv8CbuByofS+d7jWoXLFa5iKU3P3/OgBGu/RcX3HJCWE7kvnTov71Hu8=
-X-Received: by 2002:a17:907:10ce:: with SMTP id
- rv14mr2708260ejb.56.1614957328513; 
- Fri, 05 Mar 2021 07:15:28 -0800 (PST)
+ bh=IMAUvqNGXNUP26qIooE+TI8ERGxpQYZlxXuohT5EjFw=;
+ b=VJZuShWpHnHBK4X3a5aepkaeItyXlYA9QyW3CLUmSTx5SSls6NMwa8q4Bd8Jzr8U8C
+ 8nJ+irovXbZponE4tU67HnoIFb27xbRexr/RgvBmT3hAXpBHex1m9xR351kKbRcVIM/c
+ 9q90aOsigffUOpy/Ed5snv4NOJquW7ahUHV0wJ3yM0DX5YyqUVnPEBrbDAbmUTy1k4HC
+ t9bDiJDxTBVX4fjrWj3PLsCqMBMI0dlhnvdr2mxvCx5rmM4ZBExUtaCtKT+EFnDYWuGQ
+ gppl6IFZCdNR/3Gz5EGMxXaefP4K9ff6gl8n3UskLy+eQ9MojByNmA0Bh9uMAdiWYect
+ MuVg==
+X-Gm-Message-State: AOAM533u8fXncZgOvw1JW0pymMEbNGFVG01XvmO+j+D0VJl0D/a6VdCN
+ FfrFR6+06pvHhkBOYSZ7+jugPm31RdewLmaBV3/odH6oEk63TLHzoo2T/u8Maf8WU0eAVbEKBEp
+ uy+jyYMztOExB3R/OZaxG8/bwLe9usEM=
+X-Received: by 2002:a1f:8f17:: with SMTP id r23mr6899220vkd.2.1614957408856;
+ Fri, 05 Mar 2021 07:16:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKncamLRQ8leRN+TU43F+I122PDuuvK3R+SmpSeU12EakTcVL1yeX4HVu/vpIds3ElyU2Yp0VUgDf6PV7DN8c=
+X-Received: by 2002:a1f:8f17:: with SMTP id r23mr6899011vkd.2.1614957407194;
+ Fri, 05 Mar 2021 07:16:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20210304144651.310037-1-alistair.francis@wdc.com>
-In-Reply-To: <20210304144651.310037-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 15:15:12 +0000
-Message-ID: <CAFEAcA8bBzmaKmFTv-SZJa-wtPfcDh6a5uG7GwPxd_tOW_huhQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/19] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-3-nieklinnenbank@gmail.com>
+In-Reply-To: <20210304203540.41614-3-nieklinnenbank@gmail.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 5 Mar 2021 12:16:21 -0300
+Message-ID: <CAKJDGDZq_ioF91BUWRo_y0GKYGbjgZa46Pt83wp7t3b_ZC=ixw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] tests/acceptance/boot_linux_console: remove
+ Armbian 19.11.3 bionic test for orangepi-pc machine
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,43 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Mar 2021 at 14:47, Alistair Francis <alistair.francis@wdc.com> wrote:
+On Thu, Mar 4, 2021 at 5:44 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
 >
-> The following changes since commit cb90ecf9349198558569f6c86c4c27d215406095:
+> The image for Armbian 19.11.3 bionic has been removed from the armbian server.
+> Without the image as input the test arm_orangepi_bionic_19_11 cannot run.
 >
->   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210304' into staging (2021-03-04 10:42:46 +0000)
+> This commit removes the test completely and merges the code of the generic function
+> do_test_arm_orangepi_uboot_armbian back with the 20.08 test.
 >
-> are available in the Git repository at:
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>  tests/acceptance/boot_linux_console.py | 72 ++++++++------------------
+>  1 file changed, 23 insertions(+), 49 deletions(-)
 >
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210304
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index eb01286799..9fadea9958 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):
+>          # Wait for VM to shut down gracefully
+>          self.vm.wait()
 >
-> for you to fetch changes up to 19800265d407f09f333cf80dba3e975eb7bc1872:
->
->   hw/riscv: virt: Map high mmio for PCIe (2021-03-04 09:43:29 -0500)
->
-> ----------------------------------------------------------------
-> RISC-V PR for 6.0
->
-> This PR is a collection of RISC-V patches:
->  - Improvements to SiFive U OTP
->  - Upgrade OpenSBI to v0.9
->  - Support the QMP dump-guest-memory
->  - Add support for the SiFive SPI controller (sifive_u)
->  - Initial RISC-V system documentation
->  - A fix for the Goldfish RTC
->  - MAINTAINERS updates
->  - Support for high PCIe memory in the virt machine
+> -    def do_test_arm_orangepi_uboot_armbian(self, image_path):
+> +    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+> +                'Test artifacts fetched from unreliable apt.armbian.com')
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+> +    def test_arm_orangepi_bionic_20_08(self):
+> +        """
+> +        :avocado: tags=arch:arm
+> +        :avocado: tags=machine:orangepi-pc
+> +        :avocado: tags=device:sd
+> +        """
+> +
+> +        # This test download a 275 MiB compressed image and expand it
+> +        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
+> +        # As we expand it to 2 GiB we are safe.
+> +
+> +        image_url = ('https://dl.armbian.com/orangepipc/archive/'
+> +                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
 
+The Armbian 20 is not available on this link anymore. I can browse just 21.
 
-Applied, thanks.
+What if we change this test to use local assets, for people that have
+them and for CI that has the files cached. See
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00614.html
+for details.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
