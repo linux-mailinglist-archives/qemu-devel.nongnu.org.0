@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A629332DF2A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 02:37:56 +0100 (CET)
-Received: from localhost ([::1]:37722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B5D32DF31
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 02:45:22 +0100 (CET)
+Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHzPf-0002TN-N3
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 20:37:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
+	id 1lHzWr-00048P-Op
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 20:45:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzOu-0001y9-AN
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:37:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56640)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzVC-0003JO-HM
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:43:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzOs-00069q-NJ
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:37:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzV8-0000iH-10
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:43:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614908225;
+ s=mimecast20190719; t=1614908612;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+MCpJClpii5jLSVnkDw5NbhagtpiLnMIFFBBcF7ABog=;
- b=W7tZiNkUaQq9Bl5s5BSdKFW3U33L6TXo4HSrjsYLk6jWImmhKWTzcTIxCLCLtOg6dlH78C
- vrkSkHdpSnn1AAGXHYxMcnq3rfN8YNz+L5NvtSVmOvLWHJ5LkNx/eP8X2I+UVjLe1CNvMN
- Hr4fFz9b1IKqfAed1xQ9rst29fNgMDE=
+ bh=XttAGv6YvgBYV9c+jNszZDAQ4RKTvSeUFRT7lvBQg1w=;
+ b=B/kHM7J4Qve01uRzb7X3OD/eJNmMHSXtbcQUMwP0IGbl4oBzee+Jr5QBi/i0/CSwxltGHW
+ t0CoR1cp5qlS15F0QxQPMQYzgggv6aO+vqmqxGbdHAK08nNp/eKCWofQzr4nu7+TJ+oPDM
+ KH6nTav2DIuEHastGVJZB9xCtJvDy78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-cICpQhqzNgOUgp5xxf2VGQ-1; Thu, 04 Mar 2021 20:37:04 -0500
-X-MC-Unique: cICpQhqzNgOUgp5xxf2VGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-309-lnuIPhV2M1GwG5NWUaMIVw-1; Thu, 04 Mar 2021 20:43:31 -0500
+X-MC-Unique: lnuIPhV2M1GwG5NWUaMIVw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A699F1005D45;
- Fri,  5 Mar 2021 01:37:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF53D184214F;
+ Fri,  5 Mar 2021 01:43:29 +0000 (UTC)
 Received: from [10.10.118.103] (ovpn-118-103.rdu2.redhat.com [10.10.118.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 186B75D9C6;
- Fri,  5 Mar 2021 01:37:02 +0000 (UTC)
-Subject: Re: [PATCH v2 7/8] simplebench/bench-backup: add --count and
- --no-initial-run
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 104A450DD0;
+ Fri,  5 Mar 2021 01:43:28 +0000 (UTC)
+Subject: Re: [PATCH v2 6/8] simplebench/bench-backup: support qcow2 source
+ files
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210304101738.20248-1-vsementsov@virtuozzo.com>
- <20210304101738.20248-8-vsementsov@virtuozzo.com>
+ <20210304101738.20248-7-vsementsov@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <a105bef9-9f0d-6380-1b65-d93830408907@redhat.com>
-Date: Thu, 4 Mar 2021 20:37:01 -0500
+Message-ID: <64b9ca25-0bf4-fd80-c30b-6d95eea825fe@redhat.com>
+Date: Thu, 4 Mar 2021 20:43:28 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210304101738.20248-8-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210304101738.20248-7-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,48 +88,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/4/21 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Add arguments to set number of test runs per table cell and to disable
-> initial run that is not counted in results.
-> 
-> It's convenient to set --count 1 --no-initial-run to fast run test
-> onece, and to set --count to some large enough number for good
-> precision of the results.
+> Add support for qcow2 source. New option says to use test-source.qcow2
+> instead of test-source. Of course, test-source.qcow2 should be
+> precreated.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   scripts/simplebench/bench-backup.py | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
+>   scripts/simplebench/bench-backup.py    | 5 +++++
+>   scripts/simplebench/bench_block_job.py | 7 ++++++-
+>   2 files changed, 11 insertions(+), 1 deletion(-)
 > 
 > diff --git a/scripts/simplebench/bench-backup.py b/scripts/simplebench/bench-backup.py
-> index a2120fcbf0..519a985a7f 100755
+> index fbc85f266f..a2120fcbf0 100755
 > --- a/scripts/simplebench/bench-backup.py
 > +++ b/scripts/simplebench/bench-backup.py
-> @@ -155,7 +155,9 @@ def bench(args):
->                   'qemu-binary': path
->               })
+> @@ -58,6 +58,8 @@ def bench(args):
 >   
-> -    result = simplebench.bench(bench_func, test_envs, test_cases, count=3)
-> +    result = simplebench.bench(bench_func, test_envs, test_cases,
-> +                               count=args.count,
-> +                               initial_run = not args.no_initial_run)
-
-The double negative feels odd; "initial_run = args.initial_run" would 
-read better and avoid changing behavior, but maybe that's intentional.
-
->       with open('results.json', 'w') as f:
->           json.dump(result, f, indent=4)
->       print(results_to_text(result))
-> @@ -211,4 +213,10 @@ def __call__(self, parser, namespace, values, option_string=None):
->      both: generate two test cases for each src:dst pair''',
->                      default='direct', choices=('direct', 'cached', 'both'))
+>           if src == 'nbd':
+>               source = nbd_drv
+> +        elif args.qcow2_sources:
+> +            source = drv_qcow2(drv_file(dirs[src] + '/test-source.qcow2'))
+>           else:
+>               source = drv_file(dirs[src] + '/test-source')
 >   
-> +    p.add_argument('--count', type=int, default=3, help='''\
-> +Number of test runs per table cell''')
+> @@ -199,6 +201,9 @@ def __call__(self, parser, namespace, values, option_string=None):
+>   Use compressed backup. It automatically means
+>   automatically creating qcow2 target with
+>   lazy_refcounts for each test run''', action='store_true')
+> +    p.add_argument('--qcow2-sources', help='''\
+> +Use test-source.qcow2 images as sources instead of
+> +test-source raw images''', action='store_true')
+>       p.add_argument('--target-cache', help='''\
+>   Setup cache for target nodes. Options:
+>      direct: default, use O_DIRECT and aio=native
+> diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+> index 71d2e489c8..4f03c12169 100755
+> --- a/scripts/simplebench/bench_block_job.py
+> +++ b/scripts/simplebench/bench_block_job.py
+> @@ -88,6 +88,11 @@ def get_image_size(path):
+>       return json.loads(out)['virtual-size']
+>   
+>   
+> +def get_blockdev_size(obj):
+> +    img = obj['filename'] if 'filename' in obj else obj['file']['filename']
+> +    return get_image_size(img)
 > +
-> +    p.add_argument('--no-initial-run', action='store_true', help='''\
-> +Don't do initial run of test for each cell which doesn't count''')
+
+Well, as long as it works :)
+
 > +
->       bench(p.parse_args())
+>   # Bench backup or mirror
+>   def bench_block_copy(qemu_binary, cmd, cmd_options, source, target):
+>       """Helper to run bench_block_job() for mirror or backup"""
+> @@ -101,7 +106,7 @@ def bench_block_copy(qemu_binary, cmd, cmd_options, source, target):
+>   
+>           subprocess.run(['qemu-img', 'create', '-f', 'qcow2',
+>                           target['file']['filename'],
+> -                        str(get_image_size(source['filename']))],
+> +                        str(get_blockdev_size(source))],
+>                          stdout=subprocess.DEVNULL,
+>                          stderr=subprocess.DEVNULL, check=True)
+>   
 > 
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
