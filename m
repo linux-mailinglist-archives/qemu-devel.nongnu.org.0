@@ -2,64 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7305332ED8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 15:59:25 +0100 (CET)
-Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3AB32ED9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:03:11 +0100 (CET)
+Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIBvI-0001Hi-GN
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 09:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
+	id 1lIByw-0003gS-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lIBu7-0000r5-BA
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:58:11 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:41873)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBvl-0001lx-07
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:59:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:58006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lIBu4-00035f-R6
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:58:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=OCjB31jRrF5NsAhYCmtmSA4VIvxUrAeSy4dF2aX7weE=; b=sLqe1Pbih/jz/xyAuBvBPoFBsX
- Lqub8NbECl/fgrEO6t0p8MGw4E3LjqSvZr9JAECvlajv5y/Uo2kMqiwkQMD9wMqoUm5LdAL2/0+9W
- YAIvLJgUjywZYz8PZWHay/zlxE1hE78v82QKGq/6VbrIDwq/0Rvd6QgkjiG8wf86dbwR6/2lGnWsk
- ZNgu2d3QvoKVByDO9AODxqmXULSOnSD4t9XT5Fl65AClkz2JUzYurx86WwpGwpwrikgRar/swPShS
- A39YnSYDuiGwWrV5WHBIbEEylC9mV+KwbWlnYxxKRzGBJz+zVwZnJ4/IhLebDiHG3N4gaV/OSkHhS
- iuTL5m1jDcdUUOOc23ZV4myulZ8ZpYdD1nsYL/P2pGDkRw5/t2A6Lg4b6mcJIsbXVqsHVa37Ka1uG
- ksFQQH/IzYjpKrFWycZ1XViULV3wifpJ+gftrEeNrn4UlNmqjXHKh/593oAhcp1+gEKny7tLtqIbn
- 4FG66iZLGLUYu2V0yOMDeGkm9lY9R0qwQuBQpEdz2Y+bK5syOlCFmdnj4Ix88flGk/WN4Wd7rwN6X
- v6vx9zkwB+37l8LEnByiWzwFEW0aijr1Uzc250bspwl7JG8q3630cucZQZ/c7J2XjgvD0j3RkwFKc
- YeUIo62xMLePakdih9RxwtNQbQzqhGiEQ44BEdmA8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Dominique Martinet <asmadeus@codewreck.org>,
- "cdupontd@redhat.com" <cdupontd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>, Greg Kurz <groug@kaod.org>,
- virtio-fs-list <virtio-fs@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, v9fs-developer@lists.sourceforge.net,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
- performance)
-Date: Fri, 05 Mar 2021 15:57:17 +0100
-Message-ID: <32960057.KqypvAduHN@silver>
-In-Reply-To: <YD+iPTKnOlF/HwlV@codewreck.org>
-References: <20200918213436.GA3520@redhat.com> <1805660.C9YIKG4Ep7@silver>
- <YD+iPTKnOlF/HwlV@codewreck.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBve-0003s7-Eg
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:59:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9A3A8AEE7;
+ Fri,  5 Mar 2021 14:59:43 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC v4 00/33] arm cleanup experiment for kvm-only build
+Date: Fri,  5 Mar 2021 15:59:08 +0100
+Message-Id: <20210305145941.32020-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,155 +52,376 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 3. M=E4rz 2021 15:50:37 CET Dominique Martinet wrote:
-> Christian Schoenebeck wrote on Wed, Mar 03, 2021 at 03:04:21PM +0100:
-> > > We can definitely increase the default, for all transports in my
-> > > opinion.
-> > > As a first step, 64 or 128k?
-> >=20
-> > Just to throw some numbers first; when linearly reading a 12 GB file on
-> > guest (i.e. "time cat test.dat > /dev/null") on a test machine, these a=
-re
-> > the results that I get (cache=3Dmmap):
-> >=20
-> > msize=3D16k: 2min7s (95 MB/s)
-> > msize=3D64k: 17s (706 MB/s)
-> > msize=3D128k: 12s (1000 MB/s)
-> > msize=3D256k: 8s (1500 MB/s)
-> > msize=3D512k: 6.5s (1846 MB/s)
-> >=20
-> > Personally I would raise the default msize value at least to 128k.
->=20
-> Thanks for the numbers.
-> I'm still a bit worried about too large chunks, let's go with 128k for
-> now -- I'll send a couple of patches increasing the tcp max/default as
-> well next week-ish.
+Here a new version of the series that enables kvm-only builds.
+The goal here is to enable the KVM-only build.
 
-Ok, sounds good!
+The split of additional kvm code to kvm/ is planned for the next series,
+along with the splitting of the accelerator-specific extensions to the
+cpu class.
 
-> > Personally I don't find raw I/O the worst performance issue right now. =
-As
-> > you can see from the numbers above, if 'msize' is raised and I/O being
-> > performed with large chunk sizes (e.g. 'cat' automatically uses a chunk
-> > size according to the iounit advertised by stat) then the I/O results a=
-re
-> > okay.
-> >=20
-> > What hurts IMO the most in practice is the sluggish behaviour regarding
-> > dentries ATM. The following is with cache=3Dmmap (on guest side):
-> >=20
-> > $ time ls /etc/ > /dev/null
-> > real    0m0.091s
-> > user    0m0.000s
-> > sys     0m0.044s
-> > $ time ls -l /etc/ > /dev/null
-> > real    0m0.259s
-> > user    0m0.008s
-> > sys     0m0.016s
-> > $ ls -l /etc/ | wc -l
-> > 113
-> > $
->=20
-> Yes, that is slow indeed.. Unfortunately cache=3Dnone/mmap means only open
-> dentries are pinned, so that means a load of requests everytime.
->=20
-> I was going to suggest something like readdirplus or prefetching
-> directory entries attributes in parallel/background, but since we're not
-> keeping any entries around we can't even do that in that mode.
->=20
-> > With cache=3Dloose there is some improvement; on the first "ls" run (wh=
-en
-> > its
-> > not in the dentry cache I assume) the results are similar. The subseque=
-nt
-> > runs then improve to around 50ms for "ls" and around 70ms for "ls -l".
-> > But that's still far from numbers I would expect.
->=20
-> I'm surprised cached mode is that slow though, that is worth
-> investigating.
-> With that time range we are definitely sending more requests to the
-> server than I would expect for cache=3Dloose, some stat revalidation
-> perhaps? I thought there wasn't any.
+Last patches with XXX are not meant for applying, and are only there for
+reference. They allow a clean make check by disabling the tests that
+currently fail.
 
-Yes, it looks like more 9p requests are sent than actually required for=20
-readdir. But I haven't checked yet what's going on there in detail. That's=
-=20
-definitely on my todo list, because this readdir/stat/direntry issue ATM=20
-really hurts the most IMO.
+TEST FAILURES:
 
-> I don't like cache=3Dloose/fscache right now as the reclaim mechanism
-> doesn't work well as far as I'm aware (I've heard reports of 9p memory
-> usage growing ad nauseam in these modes), so while it's fine for
-> short-lived VMs it can't really be used for long periods of time as
-> is... That's been on my todo for a while too, but unfortunately no time
-> for that.
+The following tests fail, and I'd appreciate any help here:
 
-Ok, that's new to me. But I fear the opposite is currently worse; with=20
-cache=3Dmmap and running a VM for a longer time: 9p requests get slower and=
-=20
-slower, e.g. at a certain point you're waiting like 20s for one request. I=
-=20
-haven't investigated the cause here either yet. It may very well be an issu=
-e=20
-on QEMU side: I have some doubts in the fid reclaim algorithm on 9p server=
-=20
-side which is using just a linked list. Maybe that list is growing to=20
-ridiculous sizes and searching the list with O(n) starts to hurt after a=20
-while.
+test-crypto-tlscredsx509
+test-crypto-tlssession
+test-io-channel-tls
+arm-cpu-features
+device-introspect-test
+qom-test
+test-hmp
 
-With cache=3Dloose I don't see such tremendous slowdowns even on long runs,=
-=20
-which might indicate that this symptom might indeed be due to a problem on=
-=20
-QEMU side.
+The following tests fail, and probably they just need disabling:
 
-> Ideally if that gets fixed, it really should be the default with some
-> sort of cache revalidation like NFS does (if that hasn't changed, inode
-> stats have a lifetime after which they get revalidated on access, and
-> directory ctime changes lead to a fresh readdir) ; but we can't really
-> do that right now if it "leaks".
->=20
-> Some cap to the number of open fids could be appreciable as well
-> perhaps, to spare server resources and keep internal lists short.
+tpm-tis-device-test
+tpm-tis-device-swtpm-test
 
-I just reviewed the fid reclaim code on 9p servers side to some extent beca=
-use=20
-of a security issue on 9p server side in this area recently, but I haven't=
-=20
-really thought through nor captured the authors' original ideas behind it=20
-entirely yet. I still have some question marks here. Maybe Greg feels the=20
-same.
+v3 -> v4:
 
-Probably when support for macOS is added (also on my todo list), then the=20
-amount of open fids needs to be limited anyway. Because macOS is much more=
-=20
-conservative and does not allow a large number of open files by default.
+* added style cleanup patches
 
-> Anyway, there definitely is room for improvement; if you need ideas I
-> have plenty but my time is more than limited right now and for the
-> forseeable future... 9p work is purely on my freetime and there isn't
-> much at the moment :(
->=20
-> I'll make time as necessary for reviews & tests but that's about as much
-> as I can promise, sorry and good luck!
+* added header cleanup
 
-I fear that applies to all developers right now. To my knowledge there is n=
-ot=20
-a single developer either paid and/or able to spend reasonable large time=20
-slices on 9p issues.
+* added basic move of simple KVM-only code to kvm/
 
-=46rom my side: my plans are to hunt down the worst 9p performance issues i=
-n=20
-order of their impact, but like anybody else, when I find some free time=20
-slices for that.
+* fixed some qtest failures due to existing:
 
-#patience #optimistic
+  if (kvm_enabled) {
+  
+  } else {
 
-Best regards,
-Christian Schoenebeck
+  }
 
+  which needed explicit if qtest_enabled() in addition to tcg_enabled() check
+
+* include 32bit cpus for AArch64 too.
+
+v2 -> v3:
+
+* "target/arm: tcg: add sysemu and user subsirs"
+  - new standalone patch to create the empty tcg/sysemu and tcg/user subdirs.
+
+* "target/arm: only build psci for TCG"
+  - do not move psci inside tcg/ directory, because HVF might use it soon.
+    (Peter)
+
+* "target/arm: move physical address translation"
+  - change the module name from "get-phys-addr" to "cpu-mmu",
+    which includes aa64_va_parameter in this patch, and that
+    will also contain the get_mmu_idx* functions later in the series.
+    (Richard)
+
+* "target/arm: split cpregs from tcg/helper.c"
+  - moved raw_read and raw_write to cpregs.h (Richard)
+
+* "target/arm: only perform TCG cpu and machine inits if TCG enabled"
+  - add an explanatory comment before the kvm function for cpreg list init
+  - change the use of g_renew to g_new, since we do not do the double
+    initialization of cpreg list anymore.
+
+* "target/arm: add temporary stub for arm_rebuild_hflags"
+  - use a if (tcg_enabled()) instead of #ifdef (Richard)
+
+* "target/arm: split vfp state setting from tcg helpers"
+  - explain better what goes where in the commit (Richard)
+
+* "target/arm: move arm_mmu_idx*"
+  - move the functions to cpu-mmu instead of get-phys-addr (Richard)
+
+* "target/arm: move sve_zcr_len_for_el to common_cpu"
+
+ - add a comment about those functions being in theory
+   TARGET_AARCH64 specific, but making the change would spawn
+   a large number of additional #ifdefs. This state predates this
+   change (Richard).
+
+* "target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code"
+
+ - explain better why these functions are needed for KVM too (Richard)
+
+* "target/arm: move sve_exception_el out of TCG helpers"
+
+ - bring over the sve_exception_el code, making it available for KVM too.
+   (Richard)
+
+* "target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()"
+
+ - mention in the commit that this enables finally a build with
+   configure --enable-kvm --disable-tcg
+
+
+v1 -> v2: reworked of the whole series
+
+In this v2, only the first two patches remain, the rest is
+reworked.
+
+Main reasons for the rework were:
+
+1) moving out cpregs to its own module, leave the tcg-only part in tcg/
+
+2) split of arm cpu32, cpu64 and cpu models. This is still not perfect,
+   but I think it's an improvement.
+
+3) import less stuff, that is actually unused or can be stubbed on KVM
+   (thanks to the precious feedback on the previous RFCv1).
+
+...
+
+Main issues:
+
+1) basically needs the "configure only machines compatible with KVM" from Philippe,
+   so we can avoid some of the stubs.
+
+2) tests/ work fine building with tcg or with tcg + kvm,
+   but for making a kvm-only build pass the tests, more work is needed in tests/
+   figuring out which tests are TCG-only and which need to be tweaked.
+
+Thanks a lot for your comments!
+
+
+. / . / . / . / . / . /
+
+
+Hi all,
+
+this is an experiment, a cleanup based on and requiring the series
+"i386 cleanup PART 2":
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
+
+The goal is to split the code between TCG-only and non-TCG code,
+fixing the KVM-only build (configure --disable-tcg),
+
+and laying the ground for further cleanups and the use of the
+new accel objects in the hierarchy to specialize the cpu
+according to the accelerator.
+
+This is known to be an early state, with probably a lot of work
+still needed.
+
+I thought it could be useful to share early, especially in light
+of the combination of this with Philippe's work on building
+only the machines and devices compatible with KVM for arm.
+
+Comments welcome, thanks,
+
+Claudio
+
+
+Claudio Fontana (33):
+  target/arm: move translate modules to tcg/
+  target/arm: move helpers to tcg/
+  arm: tcg: only build under CONFIG_TCG
+  target/arm: tcg: add sysemu and user subsirs
+  target/arm: only build psci for TCG
+  target/arm: split off cpu-sysemu.c
+  target/arm: move physical address translation to cpu-mmu
+  target/arm: cpu-mmu: fix comment style
+  target/arm: split cpregs from tcg/helper.c
+  target/arm: cpregs: fix style (mostly just comments)
+  target/arm: move cpu definitions to common cpu module
+  target/arm: only perform TCG cpu and machine inits if TCG enabled
+  target/arm: kvm: add stubs for some helpers
+  target/arm: move cpsr_read, cpsr_write to cpu_common
+  target/arm: add temporary stub for arm_rebuild_hflags
+  target/arm: split vfp state setting from tcg helpers
+  target/arm: move arm_mmu_idx* to cpu-mmu
+  target/arm: move sve_zcr_len_for_el to common_cpu
+  target/arm: move arm_sctlr away from tcg helpers
+  target/arm: move arm_cpu_list to common_cpu
+  target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code
+  target/arm: split 32bit cpu models from cpu.c to cpu32.c
+  target/arm: move sve_exception_el out of TCG helpers
+  target/arm: move TCG cpu and models inside tcg/
+  target/arm: cpu: fix style
+  target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+  target/arm: remove kvm include file for PSCI and arm-powerctl
+  target/arm: move kvm-const.h, kvm.c, kvm64.c, kvm_arm.h to kvm/
+  target/arm: cleanup cpu includes
+  target/arm: remove broad "else" statements when checking accels
+  tests/qtest: skip bios-tables-test test_acpi_oem_fields_virt for KVM
+  XXX disable a bunch of tests that seem to use tcg cpus
+  XXX disable arm-cpu-features
+
+ meson.build                                   |    3 +-
+ target/arm/arm-powerctl.h                     |    2 -
+ target/arm/cpregs.h                           |  274 +
+ target/arm/cpu-mmu.h                          |  119 +
+ target/arm/cpu-qom.h                          |    3 -
+ target/arm/cpu-vfp.h                          |   29 +
+ target/arm/cpu.h                              |  246 +-
+ target/arm/cpu32.h                            |   27 +
+ target/arm/internals.h                        |   47 +-
+ target/arm/{ => kvm}/kvm-consts.h             |    0
+ target/arm/{ => kvm}/kvm_arm.h                |    0
+ target/arm/kvm/trace.h                        |    1 +
+ target/arm/{ => tcg}/op_addsub.h              |    0
+ target/arm/tcg/tcg-cpu.h                      |   37 +
+ target/arm/tcg/trace.h                        |    1 +
+ target/arm/{ => tcg}/translate-a64.h          |    0
+ target/arm/{ => tcg}/translate.h              |    0
+ target/arm/{ => tcg}/vec_internal.h           |    0
+ target/arm/trace.h                            |    1 -
+ target/arm/{ => tcg}/a32-uncond.decode        |    0
+ target/arm/{ => tcg}/a32.decode               |    0
+ target/arm/{ => tcg}/m-nocp.decode            |    0
+ target/arm/{ => tcg}/neon-dp.decode           |    0
+ target/arm/{ => tcg}/neon-ls.decode           |    0
+ target/arm/{ => tcg}/neon-shared.decode       |    0
+ target/arm/{ => tcg}/sve.decode               |    0
+ target/arm/{ => tcg}/t16.decode               |    0
+ target/arm/{ => tcg}/t32.decode               |    0
+ target/arm/{ => tcg}/vfp-uncond.decode        |    0
+ target/arm/{ => tcg}/vfp.decode               |    0
+ hw/arm/boot.c                                 |    5 +-
+ hw/arm/pxa2xx.c                               |    1 +
+ hw/arm/pxa2xx_pic.c                           |    1 +
+ hw/arm/sbsa-ref.c                             |    2 +-
+ hw/arm/virt-acpi-build.c                      |    2 +-
+ hw/arm/virt.c                                 |    2 +-
+ hw/arm/xlnx-versal.c                          |    2 +-
+ hw/arm/xlnx-zynqmp.c                          |    2 +-
+ hw/cpu/a15mpcore.c                            |    2 +-
+ hw/intc/arm_gic_kvm.c                         |    2 +-
+ hw/intc/arm_gicv3_cpuif.c                     |    1 +
+ hw/intc/arm_gicv3_its_kvm.c                   |    2 +-
+ hw/intc/arm_gicv3_kvm.c                       |    3 +-
+ target/arm/arm-powerctl.c                     |    8 +-
+ target/arm/cpregs.c                           |  377 +
+ target/arm/cpu-common.c                       |  329 +
+ target/arm/cpu-mmu-sysemu.c                   | 2307 +++++++
+ target/arm/cpu-mmu.c                          |  219 +
+ target/arm/cpu-sysemu.c                       | 1088 +++
+ target/arm/cpu-user.c                         |   40 +
+ target/arm/cpu-vfp.c                          |   92 +
+ target/arm/cpu.c                              |  950 +--
+ target/arm/cpu32.c                            |  502 ++
+ target/arm/cpu64.c                            |  154 +-
+ target/arm/cpustate-list.c                    |  146 +
+ target/arm/gdbstub.c                          |    5 +-
+ target/arm/kvm-stub.c                         |   24 -
+ target/arm/kvm/helper-stubs.c                 |   43 +
+ target/arm/{ => kvm}/kvm.c                    |   18 +-
+ target/arm/{ => kvm}/kvm64.c                  |    0
+ target/arm/machine.c                          |   40 +-
+ target/arm/monitor.c                          |    2 +-
+ target/arm/psci.c                             |    1 -
+ target/arm/{helper.c => tcg/cpregs.c}         | 6082 +----------------
+ target/arm/tcg/cpu-vfp.c                      |  146 +
+ target/arm/{ => tcg}/crypto_helper.c          |    0
+ target/arm/{ => tcg}/debug_helper.c           |    0
+ target/arm/{ => tcg}/helper-a64.c             |    0
+ target/arm/tcg/helper.c                       | 1521 +++++
+ target/arm/{ => tcg}/iwmmxt_helper.c          |    0
+ target/arm/{ => tcg}/m_helper.c               |    1 +
+ target/arm/{ => tcg}/mte_helper.c             |    0
+ target/arm/{ => tcg}/neon_helper.c            |    0
+ target/arm/{ => tcg}/op_helper.c              |    1 +
+ target/arm/{ => tcg}/pauth_helper.c           |    2 +-
+ target/arm/{ => tcg}/sve_helper.c             |    0
+ target/arm/tcg/sysemu/tcg-cpu.c               |   52 +
+ .../arm/{cpu_tcg.c => tcg/tcg-cpu-models.c}   |   16 +-
+ target/arm/tcg/tcg-cpu.c                      |  229 +
+ target/arm/{ => tcg}/tlb_helper.c             |    1 +
+ target/arm/{ => tcg}/translate-a64.c          |    1 +
+ target/arm/{ => tcg}/translate-sve.c          |    0
+ target/arm/{ => tcg}/translate.c              |    1 +
+ target/arm/{ => tcg}/vec_helper.c             |    0
+ target/arm/{ => tcg}/vfp_helper.c             |  210 +-
+ tests/qtest/bios-tables-test.c                |    7 +
+ target/arm/{ => tcg}/translate-neon.c.inc     |    0
+ target/arm/{ => tcg}/translate-vfp.c.inc      |    0
+ MAINTAINERS                                   |    2 +-
+ target/arm/kvm/meson.build                    |    8 +
+ target/arm/kvm/trace-events                   |    4 +
+ target/arm/meson.build                        |   53 +-
+ target/arm/tcg/meson.build                    |   45 +
+ target/arm/tcg/sysemu/meson.build             |    4 +
+ target/arm/{ => tcg}/trace-events             |    3 -
+ target/arm/tcg/user/meson.build               |    3 +
+ tests/meson.build                             |    6 +-
+ tests/qtest/meson.build                       |   14 +-
+ 98 files changed, 8107 insertions(+), 7467 deletions(-)
+ create mode 100644 target/arm/cpregs.h
+ create mode 100644 target/arm/cpu-mmu.h
+ create mode 100644 target/arm/cpu-vfp.h
+ create mode 100644 target/arm/cpu32.h
+ rename target/arm/{ => kvm}/kvm-consts.h (100%)
+ rename target/arm/{ => kvm}/kvm_arm.h (100%)
+ create mode 100644 target/arm/kvm/trace.h
+ rename target/arm/{ => tcg}/op_addsub.h (100%)
+ create mode 100644 target/arm/tcg/tcg-cpu.h
+ create mode 100644 target/arm/tcg/trace.h
+ rename target/arm/{ => tcg}/translate-a64.h (100%)
+ rename target/arm/{ => tcg}/translate.h (100%)
+ rename target/arm/{ => tcg}/vec_internal.h (100%)
+ delete mode 100644 target/arm/trace.h
+ rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+ rename target/arm/{ => tcg}/a32.decode (100%)
+ rename target/arm/{ => tcg}/m-nocp.decode (100%)
+ rename target/arm/{ => tcg}/neon-dp.decode (100%)
+ rename target/arm/{ => tcg}/neon-ls.decode (100%)
+ rename target/arm/{ => tcg}/neon-shared.decode (100%)
+ rename target/arm/{ => tcg}/sve.decode (100%)
+ rename target/arm/{ => tcg}/t16.decode (100%)
+ rename target/arm/{ => tcg}/t32.decode (100%)
+ rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+ rename target/arm/{ => tcg}/vfp.decode (100%)
+ create mode 100644 target/arm/cpregs.c
+ create mode 100644 target/arm/cpu-common.c
+ create mode 100644 target/arm/cpu-mmu-sysemu.c
+ create mode 100644 target/arm/cpu-mmu.c
+ create mode 100644 target/arm/cpu-sysemu.c
+ create mode 100644 target/arm/cpu-user.c
+ create mode 100644 target/arm/cpu-vfp.c
+ create mode 100644 target/arm/cpu32.c
+ create mode 100644 target/arm/cpustate-list.c
+ delete mode 100644 target/arm/kvm-stub.c
+ create mode 100644 target/arm/kvm/helper-stubs.c
+ rename target/arm/{ => kvm}/kvm.c (98%)
+ rename target/arm/{ => kvm}/kvm64.c (100%)
+ rename target/arm/{helper.c => tcg/cpregs.c} (59%)
+ create mode 100644 target/arm/tcg/cpu-vfp.c
+ rename target/arm/{ => tcg}/crypto_helper.c (100%)
+ rename target/arm/{ => tcg}/debug_helper.c (100%)
+ rename target/arm/{ => tcg}/helper-a64.c (100%)
+ create mode 100644 target/arm/tcg/helper.c
+ rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+ rename target/arm/{ => tcg}/m_helper.c (99%)
+ rename target/arm/{ => tcg}/mte_helper.c (100%)
+ rename target/arm/{ => tcg}/neon_helper.c (100%)
+ rename target/arm/{ => tcg}/op_helper.c (99%)
+ rename target/arm/{ => tcg}/pauth_helper.c (99%)
+ rename target/arm/{ => tcg}/sve_helper.c (100%)
+ create mode 100644 target/arm/tcg/sysemu/tcg-cpu.c
+ rename target/arm/{cpu_tcg.c => tcg/tcg-cpu-models.c} (99%)
+ create mode 100644 target/arm/tcg/tcg-cpu.c
+ rename target/arm/{ => tcg}/tlb_helper.c (99%)
+ rename target/arm/{ => tcg}/translate-a64.c (99%)
+ rename target/arm/{ => tcg}/translate-sve.c (100%)
+ rename target/arm/{ => tcg}/translate.c (99%)
+ rename target/arm/{ => tcg}/vec_helper.c (100%)
+ rename target/arm/{ => tcg}/vfp_helper.c (84%)
+ rename target/arm/{ => tcg}/translate-neon.c.inc (100%)
+ rename target/arm/{ => tcg}/translate-vfp.c.inc (100%)
+ create mode 100644 target/arm/kvm/meson.build
+ create mode 100644 target/arm/kvm/trace-events
+ create mode 100644 target/arm/tcg/meson.build
+ create mode 100644 target/arm/tcg/sysemu/meson.build
+ rename target/arm/{ => tcg}/trace-events (85%)
+ create mode 100644 target/arm/tcg/user/meson.build
+
+-- 
+2.26.2
 
 
