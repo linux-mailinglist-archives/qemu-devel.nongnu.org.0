@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1352E32F28D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:30:40 +0100 (CET)
-Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C915A32F29E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:32:38 +0100 (CET)
+Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFDi-00016j-TP
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:30:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1lIFFd-0003DF-Rx
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIEcR-0000w3-RY
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:52:07 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36095)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lIE41-0007Sk-Se
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:33 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIEcQ-00023t-9N
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:52:07 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id k66so2202552wmf.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:52:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lIE3M-0007io-F3
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:33 -0500
+Received: by mail-wr1-x430.google.com with SMTP id e10so2862301wro.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=uUSSFo3k8yEBRzLSq2DbSr3tCwdNh3N8jwMz7Nxi+DU=;
- b=hsKoCCKiX5CiNFFmaDKSnYmoKK8h35KeB5NdtZo8AY2Ram8R10aK3l3+lHsdLiY23w
- c+0AXJn/IQwzy+wez6HEIZeJo6y4ys28pIy8fnCvLdyPhGsiVrQF9XpqHExS/5QlXiix
- Nt4TpQVvWk/nimhnqZxriPMm6nAft3+ocJtJhQbrlZvICiFtUxiV/9odZ75n1sLEdD34
- AzzS3jCNWIZkhx6gOlcWvZC96sWdgvOr0TVpVsI9TxFmOg1gICb0utoJVWH5hbHAHoPG
- NKKvC3KlpqEXbBpNJxRqT3sBwAlTgEVq5K0XJAM0HTjMW2nRrza0Zbto69N3fue5oGCY
- EMxQ==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=sSQp2d6jwLb6DcuGgX9lcMaIg2ApAQ9naMb0a9sdWEA=;
+ b=fMG96CrpnLNsEwDfbyYlUf9l4ZS/JTKcPypHOrTtjgQEJ25pICPvoX/vMHcbTj8W7M
+ Op2GOBbzSEhjR1xCnUjMqezPL/56q/25VClRdBa/dmilwlb2zDBobO5Ij9YSXHKMA6zy
+ pb6r6svAl7cYEFnfdN+eWw3zAEvXRzcHwKkdo8I4z6NxuNvp7hUS0WfbiEnv26YZujdb
+ ZIdwYGsEDUlAMTeWBIuDM03FUfmNx3pUW1rVlFW9MbSDaJKZPVaeO55DXNhBwRFQ6d7+
+ YYS8rVUmInmZr10aqZoSVThMkTcfqRobsK9NC9ECPttANYDpggTiKuW2ydkJsYUfToI0
+ cUQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=uUSSFo3k8yEBRzLSq2DbSr3tCwdNh3N8jwMz7Nxi+DU=;
- b=sHc2CnOK2ReXGX1wK5nAmqFmaSOF53vhFzicS+K/Iaqti0wU3nO5s8Qqfqsj1vSCJ5
- LasHVlZkFxAxKJp8C76Kigl5R81cqaBQ2/NEJyfdieaz2xdLNDg9uRBi8LWlv1RskWGE
- SoS++ZeaH/4tcre14hdB3/kxjs86iVue0BmCbOUJPfvux7BSMxkzxdkcsXws6uJnaSoF
- 2mUx2QGVCTAy8EZvsG/9TOfpoTq3SqILD9m59G/iQYzuFrtDA9OAeN8pDufZlNCYRg9E
- hYINri037IJYk8+J+hWQBRKsoBzexj1seAZBfTS49GTa/1iZwfofyvCQO67g5V5hU6na
- g7kg==
-X-Gm-Message-State: AOAM530SWw684PHprlwMt1k9Cz11o9tQCn/6oJavtlhu17FEGFmstD+c
- +6jkjDhBQchGZUMMocsQwWzSUA==
-X-Google-Smtp-Source: ABdhPJz8ElKr4QWzQ+4D64Ka6vmzyhcklGxNSLU6//KM8PHTtvskr7BCKjZ9vtPIh4XXUq3ImavcDA==
-X-Received: by 2002:a1c:9a47:: with SMTP id c68mr9828597wme.63.1614966724502; 
- Fri, 05 Mar 2021 09:52:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x11sm5672622wme.9.2021.03.05.09.51.57
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sSQp2d6jwLb6DcuGgX9lcMaIg2ApAQ9naMb0a9sdWEA=;
+ b=sTk5NiDiaxqGfJTK4qICix/x3fpv8SQYQJPOHLJNEfFVe/pdWfMAi/yyq8h7b+qYou
+ z2d3ltSF6V/NbMjzbV05z9oDpsCMf3qq4bEvLoRQQptK/Bi/yR3V+t+lPTwKRRo+rT1E
+ btUyAefHhcStx9+IEMGwForXEPZOJIx1dwcY3OX8ibnWMX7JNTaiFKMLSXLVlfuz1aYW
+ 8BG5fFjojEfMZk5Ehc5Wi3e+SYeWe5rrKej885mlMzrZLX2MtouY+nALYZhDlONcQHPa
+ X8AFyFMC2rV7LBiqUQWycgvzhp5X6+3PY6I6YxYINDD6hRASFX3gFa6lAy77tI7xzBZL
+ MesQ==
+X-Gm-Message-State: AOAM531WN1ATYBgGrKNWUcmazSQY4eIcir92idfwi2LN3ovzWqw4Geso
+ lBTx7oNUqi33xmVIY+NhyrWRVVVflFlgTA==
+X-Google-Smtp-Source: ABdhPJzNnfAfZDNC+/tcpwuKQRZ6pI0cCYrSc7eMkA9EApPznXYtUSdBeYra9e6l23FB4cJaX09Kvg==
+X-Received: by 2002:a5d:620d:: with SMTP id y13mr10613456wru.88.1614964546606; 
+ Fri, 05 Mar 2021 09:15:46 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.46
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 09:52:02 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 809B51FF92;
- Fri,  5 Mar 2021 17:51:56 +0000 (GMT)
-References: <20210302175741.1079851-1-richard.henderson@linaro.org>
- <20210302175741.1079851-18-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 17/27] tcg/tci: Remove tci_read_r32s
-Date: Fri, 05 Mar 2021 17:51:51 +0000
-In-reply-to: <20210302175741.1079851-18-richard.henderson@linaro.org>
-Message-ID: <87y2f1cwub.fsf@linaro.org>
+ Fri, 05 Mar 2021 09:15:46 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 42/49] hw/arm/mps2-tz: Set MachineClass default_ram info from
+ RAMInfo data
+Date: Fri,  5 Mar 2021 17:15:08 +0000
+Message-Id: <20210305171515.1038-43-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
+References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,21 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Instead of hardcoding the MachineClass default_ram_size and
+default_ram_id fields, set them on class creation by finding the
+entry in the RAMInfo array which is marked as being the QEMU system
+RAM.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210215115138.20465-18-peter.maydell@linaro.org
+---
+ hw/arm/mps2-tz.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-> Use explicit casts for ext32s opcodes.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 26a52b72eec..eaa430e9537 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -811,8 +811,26 @@ static void mps2tz_class_init(ObjectClass *oc, void *data)
+ 
+     mc->init = mps2tz_common_init;
+     iic->check = mps2_tz_idau_check;
+-    mc->default_ram_size = 16 * MiB;
+-    mc->default_ram_id = "mps.ram";
++}
++
++static void mps2tz_set_default_ram_info(MPS2TZMachineClass *mmc)
++{
++    /*
++     * Set mc->default_ram_size and default_ram_id from the
++     * information in mmc->raminfo.
++     */
++    MachineClass *mc = MACHINE_CLASS(mmc);
++    const RAMInfo *p;
++
++    for (p = mmc->raminfo; p->name; p++) {
++        if (p->mrindex < 0) {
++            /* Found the entry for "system memory" */
++            mc->default_ram_size = p->size;
++            mc->default_ram_id = p->name;
++            return;
++        }
++    }
++    g_assert_not_reached();
+ }
+ 
+ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+@@ -835,6 +853,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 92;
+     mmc->raminfo = an505_raminfo;
+     mmc->armsse_type = TYPE_IOTKIT;
++    mps2tz_set_default_ram_info(mmc);
+ }
+ 
+ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+@@ -857,6 +876,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mmc->numirq = 92;
+     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
+     mmc->armsse_type = TYPE_SSE200;
++    mps2tz_set_default_ram_info(mmc);
+ }
+ 
+ static const TypeInfo mps2tz_info = {
+-- 
+2.20.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
