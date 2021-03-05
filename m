@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E84032E731
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:27:05 +0100 (CET)
-Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB9C32E735
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:27:50 +0100 (CET)
+Received: from localhost ([::1]:34610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI8bo-0006y1-5w
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:27:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
+	id 1lI8cX-0007XA-WE
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:27:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI8Zo-0006Av-3i
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:25:00 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42114)
+ id 1lI8ah-0006dK-HO
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:25:55 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI8Zi-0005lO-OV
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:24:59 -0500
-Received: by mail-ej1-x629.google.com with SMTP id c10so2704493ejx.9
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 03:24:52 -0800 (PST)
+ id 1lI8ag-0006Nb-40
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:25:55 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id m9so2079000edd.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 03:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s7vGvqzRy8b/gJxm87b/S+KkzlxIVTgYDsci1M179E8=;
- b=v3GSKXjMNp3IsxUYpDqgdbWnHJELhSvbg7JTFgtkm0p8FDTpdw/H2UMkLvSfjOvPRt
- Bdjr30w3ZdZjTmJMZEHkFNRbRY+y+4GdyqLbHM/kYmB3Yg2fyQFfULeVesmFepNMHTiJ
- dpDwfBabX2oohVWywo5tBBVxSSnsv5D0g9CgHlVqHn+f2MTbd71jRcEDxReXgcisbIE7
- Il590wtuYV1Wtrn0hGpFcj00wk2Xd2Xyd5CtMcdS08orpWCr/6N/mq+NO09uSsSlIDdu
- eKUlA3FMHVu24L/G42vMHXe0puvU46LF0FJ6WLVquMhhMFiPBNXLn8zP2RxpNpVtEmye
- KILA==
+ :cc:content-transfer-encoding;
+ bh=WUjXvSUF/znig9w8SEUZ4Zlrm5t3ShQE7zZ8M/JJwRQ=;
+ b=FPGYH+xwTyinYIYHLkR8e6ezZ9IaCx2i6OvW49/cJSYpfN+VR+ZBCdcY87vA2VDDvm
+ PS32W4pOQo2DicNTO7YPeLWUVlb7r1j/Sna3k6oCZ6Lu8JQxnmgN/53Nse+EAvT4hFNe
+ nsMg/BcKKTEA4/usCIVB1thkBlIqKexvnEjDii3OQkQurSszy6SJrRmMQeawKjHZFfu/
+ 2Z4v5dUclomz1jsCZLHHb2CmULw6oNdjlfi6TaLKOSXapWE3eNQXJkGYTXWvHrYax0pk
+ WYIiQAyvcTbFD6f0DHrj7lqw4NsLR5RnvJW8KGOdkxIw7Wd90bE5WtPhRsmfYQT537oI
+ yxWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s7vGvqzRy8b/gJxm87b/S+KkzlxIVTgYDsci1M179E8=;
- b=LztPDAK5+NkFhYQ5nHQ4oRKpGgzKGjnmDKpGprPt2XoOgb6pS09bxNONoBR+jtrDCg
- Rx20gPuT6JSsVUy2O/gM0/j+4dMk+O7Z/Gvb/nx9mzetjtObnqNbRILy8Tq+ubcJ59Iu
- oujyWCc3bwNQUVxULmP5+TFvirdCNXnKK5fgsLWu2HFiQo4lVpQRbAX3PIUzgNkBzNo8
- v0H6LM+HoRC9xtfEzsGIVzY+BR04MY156791ym/eNEpsnVstCGNz0i2eT7W5GTrBzXJe
- Seq6vAErbSpODajuOAw22fc9GqH9rGw8vJmlpbwmd8MG5x7q0+a+hVZfOLwQtcYCjU6/
- R+oA==
-X-Gm-Message-State: AOAM532+sxnb0ImP6gZnFkNQEpzZM46UReS3IlaXQYCXdBrIFUq6QY01
- Bwd07hSx+r+xqj5JdEoyh7DGYMhzgLQwivtBWZcYhw==
-X-Google-Smtp-Source: ABdhPJzhAndITV7dLyZ5iFBAhnMcUpp5Ofj8j9gzBK/KK5NDzOu9aFgXRpcIsXuDI9sCZhw8plsKZNYsgvYZTMxmvP4=
-X-Received: by 2002:a17:906:b14d:: with SMTP id
- bt13mr1778444ejb.407.1614943491709; 
- Fri, 05 Mar 2021 03:24:51 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WUjXvSUF/znig9w8SEUZ4Zlrm5t3ShQE7zZ8M/JJwRQ=;
+ b=sfLAlL/yywcZp64py48QOsfwBSPqe3hJsJNcvMWw3qYha8F12Oy5dtO60PMW+WbUkW
+ FSBl7BVOEm7LbaavQt4e9ASxvc7EXkGHEi1gveTejm6wy1/mPFytTKiUruGH0trVmxkT
+ beGTe92GO6NmwQ3JyhQBKKHIgO3FjBoQ/lbB18Je+rdMzkB5+/YVSeuZMsIsSjUvSsLV
+ 5SPKMNTNUk3V/N5jf3j+0t6GJwvwcEctv522YHFMTx/rN2tZvJ/4cwNXTuufP7s2pG/2
+ JJ+fZQhGb3Lf9ZNPoHGkn73u5YZ0imXMeqVl5jz/VhGd3KDQ64/KqNmOrk5KTePwY2qq
+ 89qw==
+X-Gm-Message-State: AOAM532r7qw6wtsJZeBPOHbnoQwWvE8NZb+raCB/ZoBT+sHAJdCpp24C
+ Auvr9BrAsiWeznyX4TJIbS1UZeWFiUEuRDpBa+DW8g==
+X-Google-Smtp-Source: ABdhPJwwVjzfKpGU8TtUir98i6YCFiADWwRI592inM8fmbABt0RVIecuS4RhwcPHc6UzfuO6yDsbfbW8GZImRKDX2Yo=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr8487445edu.100.1614943552697; 
+ Fri, 05 Mar 2021 03:25:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20210218212453.831406-1-dje@google.com>
-In-Reply-To: <20210218212453.831406-1-dje@google.com>
+References: <20210219144350.1979905-1-f4bug@amsat.org>
+In-Reply-To: <20210219144350.1979905-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 11:24:36 +0000
-Message-ID: <CAFEAcA_xt4VsqhPuMpsJKxQsEW1p9cWFjme-AXMH7zFSygD1ew@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] Add npcm7xx emc model
-To: Doug Evans <dje@google.com>
+Date: Fri, 5 Mar 2021 11:25:37 +0000
+Message-ID: <CAFEAcA97DRcw_2ARFmuMbhkcYO_Jin+_=Vsizk+6Sy8jtZoxCA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/xlnx-zynqmp: Remove obsolete 'has_rpu' property
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,21 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 at 21:24, Doug Evans <dje@google.com> wrote:
+On Fri, 19 Feb 2021 at 14:43, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> This is a 10/100 ethernet device that has several features.
-> Only the ones needed by the Linux driver have been implemented.
-> See npcm7xx_emc.c for a list of unimplemented features.
+> We hint the 'has_rpu' property is no longer required since commit
+> 6908ec448b4 ("xlnx-zynqmp: Properly support the smp command line
+> option") which was released in QEMU v2.11.0.
 >
-> Doug Evans (3):
->   hw/net: Add npcm7xx emc model
->   hw/arm: Add npcm7xx emc model
->   tests/qtests: Add npcm7xx emc model test
+> Beside, this device is marked 'user_creatable =3D false', so the
+> only thing that could be setting the property is the board code
+> that creates the device.
+>
+> Since the property is not user-facing, we can remove it without
+> going through the deprecation process.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v2: Reworded per Peter suggestion
 
 
 
