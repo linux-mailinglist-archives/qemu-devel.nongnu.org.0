@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDED32E496
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:18:58 +0100 (CET)
-Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D6932E4D0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 10:30:54 +0100 (CET)
+Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI6bp-0006sc-DI
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:18:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1lI6nN-0007QO-SF
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 04:30:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lI6Zr-0006He-W5
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:16:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lI6Zo-000055-CC
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:16:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614935811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=R5QfAeXtbi014W8uzzNNRwtU1aw+nQfnv8rpCYVyrB0=;
- b=DkbQ2rJ/ooxSRL7P1bABvYF5yZfE36vGtpR0y4P2Qmm6XTBc1FbbLrSqtcdOZPC5eilJv3
- 5eXcizjw8I1VH1C8Nfh3ePonxmkB4NH9LhK0umDAFFXwxdqaSexudswiBb4g/fEXH7TVVD
- 2hbF8EcYaQALcSfFZi1PHkworwM5U1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-RfkdVVANMcGFoX-LEhgH6A-1; Fri, 05 Mar 2021 04:16:49 -0500
-X-MC-Unique: RfkdVVANMcGFoX-LEhgH6A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CE37108BD06;
- Fri,  5 Mar 2021 09:16:48 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B79E1002393;
- Fri,  5 Mar 2021 09:16:42 +0000 (UTC)
-Date: Fri, 5 Mar 2021 10:16:41 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: QEMU RBD is slow with QCOW2 images
-Message-ID: <20210305091641.GA5155@merkur.fritz.box>
-References: <20210303174058.sdy5ygdfu75xy4rr@steredhat>
- <20210304120502.GA9607@merkur.fritz.box>
- <20210304140829.4tfdrd2mhqa4o76h@steredhat>
- <20210304145917.GF9607@merkur.fritz.box>
- <20210304173254.3qid3tm26eq6yweg@steredhat>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lI6gQ-00016R-IL
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:42 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lI6gG-0004HI-SR
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 04:23:42 -0500
+Received: by mail-wm1-x330.google.com with SMTP id m7so813676wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 01:23:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/kna9YDcKM70OLWROlrD38n/l654WznnsIfKi+4NsvI=;
+ b=Yio1LWuHPsFSD9HK5hIwapcnWgTHVPyQhcpbN+cWqovpsgevJQe9DFM79al8XMPNnQ
+ g3jKQXTa9xdCLUrVmtxA+zZrwUAnBLjdmgnIYsjuIRUD9gRqaXXc8MrHgKPTXiWsrVCA
+ 1hXpbChB2RY2SmZq9irvTxg/3eevtrg7Rf3FAY7CPQ1eHg0ZvkaJDvANh0izxP7rP7hu
+ 81Xnq2M32nnVgHvJAqgs3aeZNCQfOFsIW0AyW/GrT0ZNUAw6NCwK6oGuP9c6MT6CFafl
+ tqkYLP7L8ARH1EFZ0eYukJ0dtrrQAdtCuy1PmB7ud7fiKPwq2W8hCyw8TUk/zbsSscMr
+ CPMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/kna9YDcKM70OLWROlrD38n/l654WznnsIfKi+4NsvI=;
+ b=WpH++hj1J0FXSjHGjZ1+wDjq0MI1ec/HYkEzVNpOMZ9p9WeEITtlw3pZIDekIyt18a
+ ovWSRbC7m48QBmlp/w2bwhGZnHrRTaGVTb31A/LwesOD9IZsewa2qB/WXaHWGpxGRLGC
+ gnXGMrSkCQWFBM3LXMmcFBI3QzGFrRX+IVjO5azuumUwoxIGxvEvdYfmq5omzCHsw75K
+ KuQ0wnBSiavysRxdi0OKxFnhGWoWinC+RHoOXdM1nmlRo0qMVnUGyW1IVj/zPEnkPNV6
+ CEh8beuChg7ULU1Ty1XiVeGRJ2Ax9D3XXi/uxDkvv/SnujhruUJo4JXXQypJ8MI0j9vt
+ 1A8Q==
+X-Gm-Message-State: AOAM533Rv0chMYzJjlUqRS9wAuJQJo0RZQG2xWNCKDwMnn0veRM7oOTi
+ 9V8z4pfmu5soFunb0RWO9eSrrw==
+X-Google-Smtp-Source: ABdhPJwiQDk71VzTqaTPs3f4Kcv2gX6vEQyoqDe3pgoGTdIWRGMJjkg/w66NTa8b9SS3hSVxhksSIQ==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr7927497wmj.149.1614936211167; 
+ Fri, 05 Mar 2021 01:23:31 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a131sm3588031wmc.48.2021.03.05.01.23.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 01:23:29 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D610B1FF7E;
+ Fri,  5 Mar 2021 09:23:28 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/9] testing/next (docs, hexagon, cfi, docker)
+Date: Fri,  5 Mar 2021 09:23:19 +0000
+Message-Id: <20210305092328.31792-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210304173254.3qid3tm26eq6yweg@steredhat>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,109 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Lieven <pl@kamp.de>, Jason Dillaman <dillaman@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, armbru@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.03.2021 um 18:32 hat Stefano Garzarella geschrieben:
-> On Thu, Mar 04, 2021 at 03:59:17PM +0100, Kevin Wolf wrote:
-> > Am 04.03.2021 um 15:08 hat Stefano Garzarella geschrieben:
-> > > On Thu, Mar 04, 2021 at 01:05:02PM +0100, Kevin Wolf wrote:
-> > > > Am 03.03.2021 um 18:40 hat Stefano Garzarella geschrieben:
-> > > > > Hi Jason,
-> > > > > as reported in this BZ [1], when qemu-img creates a QCOW2 image on RBD
-> > > > > writing data is very slow compared to a raw file.
-> > > > >
-> > > > > Comparing raw vs QCOW2 image creation with RBD I found that we use a
-> > > > > different object size, for the raw file I see '4 MiB objects', for
-> > > > > QCOW2 I
-> > > > > see '64 KiB objects' as reported on comment 14 [2].
-> > > > > This should be the main issue of slowness, indeed forcing in the code 4 MiB
-> > > > > object size also for QCOW2 increased the speed a lot.
-> > > > >
-> > > > > Looking better I discovered that for raw files, we call rbd_create() with
-> > > > > obj_order = 0 (if 'cluster_size' options is not defined), so the default
-> > > > > object size is used.
-> > > > > Instead for QCOW2, we use obj_order = 16, since the default 'cluster_size'
-> > > > > defined for QCOW2, is 64 KiB.
-> > > >
-> > > > Hm, the QemuOpts-based image creation is messy, but why does the rbd
-> > > > driver even see the cluster_size option?
-> > > >
-> > > > The first thing qcow2_co_create_opts() does is splitting the passed
-> > > > QemuOpts into options it will process on the qcow2 layer and options
-> > > > that are passed to the protocol layer. So if you pass a cluster_size
-> > > > option, qcow2 should take it for itself and not pass it to rbd.
-> > > >
-> > > > If it is passed to rbd, I think that's a bug in the qcow2 driver.
-> > > 
-> > > IIUC qcow2 properyl remove it, but when rbd uses qemu_opt_get_size_del(opts,
-> > > BLOCK_OPT_CLUSTER_SIZE, 0) the default value of qcow2 format is returned.
-> > > 
-> > > Going in depth in qemu_opt_get_size_helper(), I found that qemu_opt_find()
-> > > properly returns a NULL pointer, but then we call find_default_by_name()
-> > > that returns the default value of qcow2 format (64k).
-> > 
-> > Ugh, I see why. We're passing the protocol driver a QemuOpts that was
-> > created for a QemuOptsList with the qcow2 default, not for its own
-> > QemuOptsList. This is wrong.
-> > 
-> > Note that the QemuOptsList is not qcow2_create_opts itself, but a list
-> > that is created with qemu_opts_append() to combine qcow2 and rbd options
-> > into a new QemuOptsList. For overlapping options, the format wins.
-> > 
-> > I don't think you can change the QemuOptsList of an existing QemuOpts,
-> > nor is there a clone operation that could just copy all options into a
-> > new QemuOpts created for the rbd QemuOptsList, so maybe the easiest
-> > hack^Wsolution would be converting to QDict and back...
-> 
-> Do you mean something like this? (I'll send a proper patch when everything
-> is a little clearer to me :-)
-> 
-> diff --git a/block.c b/block.c
-> index a1f3cecd75..74b02b32dc 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -671,13 +671,33 @@ out:
->  int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
->  {
->      BlockDriver *drv;
-> +    QemuOpts *new_opts;
-> +    QDict *qdict;
-> +    int ret;
-> 
->      drv = bdrv_find_protocol(filename, true, errp);
->      if (drv == NULL) {
->          return -ENOENT;
->      }
-> 
-> -    return bdrv_create(drv, filename, opts, errp);
-> +    if (!drv->create_opts) {
-> +        error_setg(errp, "Driver '%s' does not support image creation",
-> +                   drv->format_name);
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    qdict = qemu_opts_to_qdict(opts, NULL);
-> +    new_opts = qemu_opts_from_qdict(drv->create_opts, qdict, errp);
-> +    if (new_opts == NULL) {
-> +        ret = -EINVAL;
-> +        goto out;
-> +    }
-> +
-> +    ret = bdrv_create(drv, filename, new_opts, errp);
-> +out:
-> +    qemu_opts_del(new_opts);
-> +    qobject_unref(qdict);
-> +    return ret;
->  }
+Hi,
 
-Something like this, yes. Does it work for you?
+Another week another testing/next roll. The series includes a couple
+of my proposed documentation tweaks (including the re-org of the devel
+manual). We also enable testing for the hexagon linux-user target to
+avoid bitrot. I've documented the process for manually updating the
+registry at:
 
-Of course, in the real patch it could use a comment why we're doing
-these seemingly redundant conversions.
+ https://wiki.qemu.org/Testing/DockerBuild#The_GitLab_Registry
 
-Kevin
+There are also jobs for testing CFI and some other minor tweaks and
+clean-ups.
+
+The following still need review:
+
+ - gitlab: add build-user-hexagon test
+ - tests/docker: add a test-tcg for building then running check-tcg
+ - docs/devel: re-organise the developers guide into sections
+
+Alessandro Di Federico (2):
+  docker: Add Hexagon image
+  tests/tcg: Use Hexagon Docker image
+
+Alex Bennée (4):
+  docs/devel: re-organise the developers guide into sections
+  docs/system: add a gentle prompt for the complexity to come
+  tests/docker: add a test-tcg for building then running check-tcg
+  gitlab: add build-user-hexagon test
+
+Daniele Buono (2):
+  gitlab-ci.yml: Allow custom # of parallel linkers
+  gitlab-ci.yml: Add jobs to test CFI flags
+
+Philippe Mathieu-Daudé (1):
+  tests/docker: Use --arch-only when building Debian cross image
+
+ docs/devel/index.rst                          |  32 +---
+ docs/devel/multi-thread-tcg.rst               |   5 +-
+ docs/devel/section-apis.rst                   |  16 ++
+ docs/devel/section-building.rst               |  13 ++
+ docs/devel/section-concepts.rst               |  21 +++
+ docs/devel/section-process.rst                |  11 ++
+ docs/devel/section-tcg-emulation.rst          |  19 +++
+ docs/devel/section-testing.rst                |  20 +++
+ docs/devel/tcg-icount.rst                     |   6 +-
+ docs/devel/testing.rst                        |   6 +-
+ docs/system/quickstart.rst                    |   8 +
+ docs/system/targets.rst                       |   2 +
+ .gitlab-ci.yml                                | 134 +++++++++++++++++
+ MAINTAINERS                                   |   2 +
+ tests/docker/Makefile.include                 |   2 +
+ .../dockerfiles/debian-hexagon-cross.docker   |  27 ++++
+ .../build-toolchain.sh                        | 141 ++++++++++++++++++
+ tests/docker/dockerfiles/debian10.docker      |   2 +-
+ tests/docker/test-tcg                         |  22 +++
+ tests/tcg/configure.sh                        |   4 +
+ 20 files changed, 458 insertions(+), 35 deletions(-)
+ create mode 100644 docs/devel/section-apis.rst
+ create mode 100644 docs/devel/section-building.rst
+ create mode 100644 docs/devel/section-concepts.rst
+ create mode 100644 docs/devel/section-process.rst
+ create mode 100644 docs/devel/section-tcg-emulation.rst
+ create mode 100644 docs/devel/section-testing.rst
+ create mode 100644 tests/docker/dockerfiles/debian-hexagon-cross.docker
+ create mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+ create mode 100755 tests/docker/test-tcg
+
+-- 
+2.20.1
 
 
