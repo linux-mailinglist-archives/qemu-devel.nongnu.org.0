@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574C332E72A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:24:02 +0100 (CET)
-Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E84032E731
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:27:05 +0100 (CET)
+Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI8Yr-0005Yt-EN
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1lI8bo-0006y1-5w
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI8Xb-0004yD-Mw
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:22:43 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41614)
+ id 1lI8Zo-0006Av-3i
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:25:00 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI8XZ-0004qZ-ID
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:22:42 -0500
-Received: by mail-ed1-x531.google.com with SMTP id b7so2053132edz.8
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 03:22:41 -0800 (PST)
+ id 1lI8Zi-0005lO-OV
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 06:24:59 -0500
+Received: by mail-ej1-x629.google.com with SMTP id c10so2704493ejx.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 03:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8qyOVIxrlhAAZUUomRZiOSz30DPevvY82WCeucYNLzE=;
- b=IS+2VCG1/eQCa7O8BlCgLX5YTRgYN6Lp4CVVSKfmGs7JaDF0UrTiVai4yy/l/IwdiY
- IBBoDci5O4FdKnE1wllTKJfFdEYIm18iaHVIYIcWYoJJ8MJGlBxTmgAzU6CUAP77L/Vr
- NucV2peQOUa1A5sxrC4jaNtCsVmL37EuIIzluuCz7SOw02VJWxsAxeJj772JoMNvuJMN
- xgp8xf/TnmTO/DRaNDJMcOoxbZjze7QtwTQW3hUev3qmnBb3+KK9yxXFuSqoXbR/+JY8
- KosmOF7dSdLcyH9IaR5UeAGlpPbHJaY4OqbNhH9EMd1LBXYp5u5hthhTUX3/J0T/9r0e
- +Hqw==
+ :cc; bh=s7vGvqzRy8b/gJxm87b/S+KkzlxIVTgYDsci1M179E8=;
+ b=v3GSKXjMNp3IsxUYpDqgdbWnHJELhSvbg7JTFgtkm0p8FDTpdw/H2UMkLvSfjOvPRt
+ Bdjr30w3ZdZjTmJMZEHkFNRbRY+y+4GdyqLbHM/kYmB3Yg2fyQFfULeVesmFepNMHTiJ
+ dpDwfBabX2oohVWywo5tBBVxSSnsv5D0g9CgHlVqHn+f2MTbd71jRcEDxReXgcisbIE7
+ Il590wtuYV1Wtrn0hGpFcj00wk2Xd2Xyd5CtMcdS08orpWCr/6N/mq+NO09uSsSlIDdu
+ eKUlA3FMHVu24L/G42vMHXe0puvU46LF0FJ6WLVquMhhMFiPBNXLn8zP2RxpNpVtEmye
+ KILA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8qyOVIxrlhAAZUUomRZiOSz30DPevvY82WCeucYNLzE=;
- b=ssxmkmggMhVDPLpj2ABQo1RVniQK1YCqhyZjFcYGKsIYxjOKqRp5MjlG02lQNPbf91
- BZ9rs55Fl3y2N/MZ+ssuSgkWFhcNsyUmY0Ils+SbsD7mnDsyZbZXHwzGT5l3Cnu3WRQ6
- PcLImoAeJyyDRjUZ1lm8XVKXwIN0VWd9Y8xe6fX9rxE1ukmSMWAyHAsfkqYXdit4HnjJ
- h5AMo7glHmpVrRvb+zihz/zwkNf+AE6RSjBIvu6aQqGxtySEGz5Ec55P10+BXbVkeVX7
- /WIXUquRPgU8njoMkJYxTdVl/Pbhv2UtAtw3e/41F6+J395YCe4ZmNaRKHTGfvfAMMQI
- R9XQ==
-X-Gm-Message-State: AOAM532NK/O60Jlm5xt5tKQjMTeOzE/9FLuzMex/YCyVxRV83GeayShr
- d+FabdT8hR0hPF8p15E5iOXfsYc7gZtZd/MuFSZVyA==
-X-Google-Smtp-Source: ABdhPJzNP1/X4pcIAZ0t80kBLd/lHEX9ukCFNs7ijI+46QR6VwAaSwPhLJ1XjJHSFacjLfFDha8rgl10CBD3Sg1iXLE=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr8460140edt.251.1614943360064; 
- Fri, 05 Mar 2021 03:22:40 -0800 (PST)
+ bh=s7vGvqzRy8b/gJxm87b/S+KkzlxIVTgYDsci1M179E8=;
+ b=LztPDAK5+NkFhYQ5nHQ4oRKpGgzKGjnmDKpGprPt2XoOgb6pS09bxNONoBR+jtrDCg
+ Rx20gPuT6JSsVUy2O/gM0/j+4dMk+O7Z/Gvb/nx9mzetjtObnqNbRILy8Tq+ubcJ59Iu
+ oujyWCc3bwNQUVxULmP5+TFvirdCNXnKK5fgsLWu2HFiQo4lVpQRbAX3PIUzgNkBzNo8
+ v0H6LM+HoRC9xtfEzsGIVzY+BR04MY156791ym/eNEpsnVstCGNz0i2eT7W5GTrBzXJe
+ Seq6vAErbSpODajuOAw22fc9GqH9rGw8vJmlpbwmd8MG5x7q0+a+hVZfOLwQtcYCjU6/
+ R+oA==
+X-Gm-Message-State: AOAM532+sxnb0ImP6gZnFkNQEpzZM46UReS3IlaXQYCXdBrIFUq6QY01
+ Bwd07hSx+r+xqj5JdEoyh7DGYMhzgLQwivtBWZcYhw==
+X-Google-Smtp-Source: ABdhPJzhAndITV7dLyZ5iFBAhnMcUpp5Ofj8j9gzBK/KK5NDzOu9aFgXRpcIsXuDI9sCZhw8plsKZNYsgvYZTMxmvP4=
+X-Received: by 2002:a17:906:b14d:: with SMTP id
+ bt13mr1778444ejb.407.1614943491709; 
+ Fri, 05 Mar 2021 03:24:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20210216224543.16142-1-rebecca@nuviainc.com>
-In-Reply-To: <20210216224543.16142-1-rebecca@nuviainc.com>
+References: <20210218212453.831406-1-dje@google.com>
+In-Reply-To: <20210218212453.831406-1-dje@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 11:22:24 +0000
-Message-ID: <CAFEAcA8CfHe6NaaSF5S2cz=SkKOQoSOjsdMVqDUbM0D7R_EXfw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] target/arm: Add support for FEAT_SSBS
-To: Rebecca Cran <rebecca@nuviainc.com>
+Date: Fri, 5 Mar 2021 11:24:36 +0000
+Message-ID: <CAFEAcA_xt4VsqhPuMpsJKxQsEW1p9cWFjme-AXMH7zFSygD1ew@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Add npcm7xx emc model
+To: Doug Evans <dje@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,23 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 22:45, Rebecca Cran <rebecca@nuviainc.com> wrote:
+On Thu, 18 Feb 2021 at 21:24, Doug Evans <dje@google.com> wrote:
 >
+> This is a 10/100 ethernet device that has several features.
+> Only the ones needed by the Linux driver have been implemented.
+> See npcm7xx_emc.c for a list of unimplemented features.
 >
-> Add support for FEAT_SSBS, Speculative Store Bypass Safe. SSBS is an
-> optional feature in ARMv8.0 and is mandatory in ARMv8.5.
->
-> Changes from v1 to v2:
->
-> o Removed changes to cpsr_write_from_spsr_elx and cpsr_read_for_spsr_elx.
-> o Moved the SSBS case in translate-a64.c above DIT to keep the numbers in
->   order.
-> o Moved the check for SCTLR_DSSBS_32 in take_aarch32_exception.
->
+> Doug Evans (3):
+>   hw/net: Add npcm7xx emc model
+>   hw/arm: Add npcm7xx emc model
+>   tests/qtests: Add npcm7xx emc model test
+
 
 
 Applied to target-arm.next, thanks.
