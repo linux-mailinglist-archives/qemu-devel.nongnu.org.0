@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2F632ED82
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 15:54:23 +0100 (CET)
-Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B3932ED86
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 15:57:50 +0100 (CET)
+Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIBqQ-00078b-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 09:54:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
+	id 1lIBtl-0000Lm-K0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 09:57:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIBoV-00061x-Af
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:52:23 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIBoQ-0000TK-Sm
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:52:23 -0500
-Received: by mail-ej1-x630.google.com with SMTP id w17so3987941ejc.6
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 06:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2HlzMsulkf1nZK4lCFXC5t1qQhQOsKs3MD2XhO0VRKg=;
- b=btr5qpMYc2BO6QlRHpAObmL0dnuCZqKPv6RmY5+gCwuPt/ML15BTC74IBtoDTOFZVf
- ZkM4pzwjAa0whkXnXAaAd8g/YR8cUJCBAJxxike1FJMSbUOJmnymR1yqDLCFtBC365KH
- w6XDVVtV2h6KPYHPzmmqqGVr0+XW1Op8aZvAszaso3I3ATJCO33iSFjPlbOJKu/hhihB
- bzK8Rj81NQpF65v75I23WczMcn3CfEhHvFiB78QJoxyx/zNkciBtxdNKjk9XcA3KkFzc
- brrCuSd8CYcm4tWpQhOCWHTFw1i15fmusx+x9gy1q0P+11MHyuo3b5FIXxCIkd4vYoQW
- 7wOg==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lIBsv-00081e-88
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:56:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lIBst-0002XU-Bx
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:56:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614956213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UKRX4+7q9McxwT3a8IQp5a5oCsCcryJWs0xxC1NbKCw=;
+ b=iXsIocLDbvhRzzoc2Ri6x5re+vin94HoK/GiwVDCSW89g2vpWBeYtiKBsxXMBszK53Oydj
+ SrKUqc2LRRBibHQa+hsOKlZ5mUXxmeN9XvOCnJZOUvu6CHcMULDwnLHhHpw3mMzPh/jeFc
+ C2rxI7HSifLI9PKhLrd0nimLkua725c=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-KTiNy-DPNA2PFxNGdJBYIg-1; Fri, 05 Mar 2021 09:56:50 -0500
+X-MC-Unique: KTiNy-DPNA2PFxNGdJBYIg-1
+Received: by mail-ua1-f69.google.com with SMTP id w21so319490uao.23
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 06:56:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2HlzMsulkf1nZK4lCFXC5t1qQhQOsKs3MD2XhO0VRKg=;
- b=C4sL4gyqL6Gq/kjotSdDFOc49Lzjb8E2abKBB2nwe1T/3tl+L+6OR77SVysXwL9DN7
- jiqFRtWzvX9I4J07+lr8hNac+AZICExWBd7omBJfniSbXroC+TwKavuBwBDBa4ZacVMr
- fJQOXhnXsfHiHgxQ05/w19na35Y+2vLtUaQbRHq1tVffsdx5IhjhJZHeBEgwkCeGctmv
- AN2m4GQVjfqbdeEfQVi/DUU7mSfcqoVLGV8cJlxJ+OjaKMNzsnR2qmmXdc5QzjWsarwN
- MdpeLn3BGzhDLW/sY+X7N2sP8nAe0IifFTw5I1Ky72Yeg8IXmqr+YUbxHYeZ1azvtaVZ
- 3SmQ==
-X-Gm-Message-State: AOAM532gBt0+0NNrE4v6OPf+6qfEqU9iKn7pNYVn3GmnhVCEmCNlzQUs
- Zrgoo/whx5inbQoyR55Tl+348ygmj4LpXqVvAk2BXg==
-X-Google-Smtp-Source: ABdhPJw8YXUwNXlYz7s8dPzytl2T21BwAyh+BYhCyYlF1IjabU2ZXLOD3IG2FiUqktHWBWF5lku4qA7khXRIfNYWa8U=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr2549871ejd.85.1614955937280; 
- Fri, 05 Mar 2021 06:52:17 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=UKRX4+7q9McxwT3a8IQp5a5oCsCcryJWs0xxC1NbKCw=;
+ b=MXwojrPK5tYF8yA+EXt0J23U+H9jpnf9//iJ47lrFUMf9SF3qWsF41BDbPc7vBy0Qq
+ W9RUJ1VAecxyRZdrFlEGV69IAzS8FhlAUHubIwWX6YJU5Ey0wPFZK+rA+PT1YLjK0gLV
+ 168ipCKH59XPotC4pyISZ5w0foUyvai0loVWP8Y8LmgUbFrtfcUU+qmBpxjJ30+zHQ08
+ 84xUdcgt10+/RBwDE2Edd+jFKP90L+p413VMkStPoh0dmqUQPQjHH4wb2uDJVrayXAE3
+ 5u3p0pNdjsnM1/4vIPIIOzOx2BSAqnGc1ktETLIK1n3ofJbHXrK6vjKHNNX0+6NW3uY5
+ 4Ivw==
+X-Gm-Message-State: AOAM533Ad4HsO/fATH4Nctauz5uGcrIYpduN2O3qqvrXyw7tmKWO1y9H
+ xrv5p7hqfd5H9kqnVTlZSjowPhvsuuZetEZzg2Kd5ourRQ2Pvj3y8E4mhozLvBO4plUTd5EQ6Dn
+ dnWlyncrtUzcLwY7Zt/bDevSHJwsTOxc=
+X-Received: by 2002:ab0:660d:: with SMTP id r13mr5690964uam.5.1614956210305;
+ Fri, 05 Mar 2021 06:56:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfiXfWazzAAcNis8qemOLDBIL3CwtA/CPTcVGTBSDVQlZF45QqtjIczovDh13AAMcls5jzm9UXbvmIrn3pLSU=
+X-Received: by 2002:ab0:660d:: with SMTP id r13mr5690946uam.5.1614956210153;
+ Fri, 05 Mar 2021 06:56:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20210305144839.6558-1-alex.bennee@linaro.org>
-In-Reply-To: <20210305144839.6558-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 14:52:01 +0000
-Message-ID: <CAFEAcA-UVUCd2XgU4anv4c1WH0kzCcB=usPfaBroNSkzq_ST3A@mail.gmail.com>
-Subject: Re: [RFC PATCH] .editorconfig: update the automatic mode setting for
- Emacs
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-4-nieklinnenbank@gmail.com>
+In-Reply-To: <20210304203540.41614-4-nieklinnenbank@gmail.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 5 Mar 2021 11:56:24 -0300
+Message-ID: <CAKJDGDYmXH0xpOW534AMWhG_i0bqym=t4YyDpjQ3SoJRN_mAvw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] tests/acceptance/boot_linux_console: change URL
+ for test_arm_orangepi_bionic_20_08
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,44 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 at 14:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Thu, Mar 4, 2021 at 5:42 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
 >
-> It seems the editor specific keywords have been deprecated in the main
-> editorconfig plugin:
+> Update the download URL of the Armbian 20.08 Bionic image for
+> test_arm_orangepi_bionic_20_08 of the orangepi-pc machine.
 >
->   https://github.com/editorconfig/editorconfig-emacs#file-type-file_type_=
-ext-file_type_emacs
+> The archive.armbian.com URL contains more images and should keep stable
+> for a longer period of time than dl.armbian.com.
 >
-> Update the keywords to the suggested one and point users at the
-> extension.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 > ---
->  .editorconfig | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
+>  tests/acceptance/boot_linux_console.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/.editorconfig b/.editorconfig
-> index 22681d91c6..22656e849d 100644
-> --- a/.editorconfig
-> +++ b/.editorconfig
-> @@ -4,6 +4,11 @@
->  # plugin.
->  #
->  # Check https://editorconfig.org for details.
-> +#
-> +# Emacs: you need https://github.com/10sr/editorconfig-custom-majormode-=
-el
-> +# to automatically enable the appropriate major-mode for your files
-> +# that aren't already caught by your exiting config.
 
-"existing".
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
--- PMM
 
