@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D85732F701
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 00:57:53 +0100 (CET)
-Received: from localhost ([::1]:33170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FE932F706
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 01:02:48 +0100 (CET)
+Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIKKO-0001Mq-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 18:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
+	id 1lIKP8-0004Y0-Qi
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 19:02:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1lIKHD-00076O-FE; Fri, 05 Mar 2021 18:54:35 -0500
-Received: from home.keithp.com ([63.227.221.253]:34272 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1lIKHB-0005uL-08; Fri, 05 Mar 2021 18:54:35 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id C33843F2EE40;
- Fri,  5 Mar 2021 15:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1614988469; bh=kQYl8htm6EDnpEk43q6P1gZCrhFnVFNXjZmsmKnliDI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=I5TQWJeR+YjGYdBD3tfqIaHyfGvkhyrCLXLfvrCmsZWSeV90cI3Z1GyNOa6pDvVoh
- o48mVgYTOqLzMB3QwyOqR4TgHB/AdkmczvC7iteI7WilGvOVdFSM4Lhj1vt041bXLS
- 76Ir7O62nIT6hZRkwARHTGjgh1kulrW8JF4IQV4N65LwsBSxCh3WAR1B9iImoek6Iy
- LwOxJRq61tVaUJV2+/xPoi0H1bibH6SWXhR1kuL/1N/GIZD8odPADFI8FXT8RLCF86
- RSIobeiNr/kMlpd7dt1f1wN5ZI0HPba8IqVKdhSiiEWSJvVff3YtNTE7rGI9KVvfqO
- 8plFVl4asxcpA==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id vAsnTAh4Cqzo; Fri,  5 Mar 2021 15:54:29 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 7451E3F2EE3F;
- Fri,  5 Mar 2021 15:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1614988469; bh=kQYl8htm6EDnpEk43q6P1gZCrhFnVFNXjZmsmKnliDI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=I5TQWJeR+YjGYdBD3tfqIaHyfGvkhyrCLXLfvrCmsZWSeV90cI3Z1GyNOa6pDvVoh
- o48mVgYTOqLzMB3QwyOqR4TgHB/AdkmczvC7iteI7WilGvOVdFSM4Lhj1vt041bXLS
- 76Ir7O62nIT6hZRkwARHTGjgh1kulrW8JF4IQV4N65LwsBSxCh3WAR1B9iImoek6Iy
- LwOxJRq61tVaUJV2+/xPoi0H1bibH6SWXhR1kuL/1N/GIZD8odPADFI8FXT8RLCF86
- RSIobeiNr/kMlpd7dt1f1wN5ZI0HPba8IqVKdhSiiEWSJvVff3YtNTE7rGI9KVvfqO
- 8plFVl4asxcpA==
-Received: by keithp.com (Postfix, from userid 1000)
- id 39A0115821A3; Fri,  5 Mar 2021 15:54:29 -0800 (PST)
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, QEMU Developers
- <qemu-devel@nongnu.org>, Bug 1915925 <1915925@bugs.launchpad.net>, "open
- list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-Subject: Re: [PATCH v1 3/3] semihosting/arg-compat: fix up handling of
- SYS_HEAPINFO
-In-Reply-To: <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
-References: <20210305135451.15427-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIKNP-00041A-VA
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 19:01:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIKNN-0000KQ-4j
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 19:00:59 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lIKNK-0001z8-UG
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 00:00:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E16D62E8157
+ for <qemu-devel@nongnu.org>; Sat,  6 Mar 2021 00:00:54 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Mar 2021 23:54:28 -0000
+From: Keith Packard <1915925@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: semihosting testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
+X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
+X-Launchpad-Bug-Modifier: Keith Packard (keithp)
+References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
  <20210305135451.15427-4-alex.bennee@linaro.org>
  <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
  <87im65gxla.fsf@keithp.com>
  <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
-Date: Fri, 05 Mar 2021 15:54:28 -0800
-Message-ID: <877dmlgnrf.fsf@keithp.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <877dmlgnrf.fsf@keithp.com>
+Subject: [Bug 1915925] Re: [PATCH v1 3/3] semihosting/arg-compat: fix up
+ handling of SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
+X-Launchpad-Hash: 6fe4ec5e35d0f33d078646c3371f3b5f4fe3a00f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,14 +76,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Keith Packard <keithp@keithp.com>
-From:  Keith Packard via <qemu-devel@nongnu.org>
-
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
@@ -115,27 +102,48 @@ semihosting code for qemu as I'm pretty sure getting qemu to support
 dynamic XLEN values would be a large project (a project which I don't
 personally feel would offer much value).
 
-=2D-=20
-=2Dkeith
+-- =
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+-keith
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAmBCxLQACgkQ2yIaaQAA
-ABFHExAAnbnZUxZUu0+MzkWHrqiM5ddgv6bMmaklL47A1Jd/z2s/NOFqbqbMtfPY
-lQeT9FZE5d23vOEGAY3/5LrK59vN1LXsr1/8IRkGd1/607rs3qEGICeFaqSxbZ8d
-ixcE3ip7fVI6E2km7zVY6NWBHt8ungsv6ASMGjPGM8ekJMwSG3DvD61tW1bLhfPR
-BzdOURsksPix9z7Gr8WnU/JqBsAohhAZ/h8/lc4UFF2qwvCpaiabrm1ww9cvcnxY
-v2JRNv0NxIHtvTywz/UVXD9qpq/av2L/GRsym6exl/zph8svdS4R5UeIAYnsLxPz
-f1spoWwb1sltd9CP++RFpXr0JsKc6X7Zgx/WZmvyA2iVYYncSVZkzhjlS74hfZ2Z
-iCvQ716Z2Vq6Vn8/yNhwWEd1y/Qi+CxHHLYGuPvWCGbM4dXiUlMmSb0GeIEJP5EX
-4rlz5jkaYzjHIGZW3rdIABIWVWiE1LO9sFhcC24y68gNEUt7tRRaUeGtXKDdiP11
-bVosRxdZ5BD2Ra6g8A7D4WrdcwrmxbokGuxlEZpabj5ovstb9MwmQ0M/IgD0cO4e
-ZXVE2ai0yq8hscCm+QeKX9ptTFfxHw849dvcjuPxnGSMozYuE3P1OEn/iCRb7gCb
-vsx23/Wf34VDv+oNvbuwnCLfqNS7LumCr3PGypZiZuSyWkJwxoU=
-=Ck89
------END PGP SIGNATURE-----
---=-=-=--
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915925
+
+Title:
+  ARM semihosting HEAPINFO results wrote to wrong address
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  This affects latest development branch of QEMU.
+
+  According to the ARM spec of the HEAPINFO semihosting call:
+
+  https://developer.arm.com/documentation/100863/0300/Semihosting-
+  operations/SYS-HEAPINFO--0x16-?lang=3Den
+
+  > the PARAMETER REGISTER contains the address of a pointer to a four-
+  field data block.
+
+  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
+  field data block directly.
+
+  Here is a simple program that can demonstrate this problem:
+  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
+  newlib
+
+  This code links with newlib with semihosting mode, which will call the
+  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+  may crash the program either because of invalid write or memory
+  curruption, depending on the compiled program structure.
+
+  Also refer to my discussion with newlib folks:
+  https://sourceware.org/pipermail/newlib/2021/018260.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
