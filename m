@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B583A32F42C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:42:57 +0100 (CET)
-Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1323C32F48B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 21:21:24 +0100 (CET)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIGLg-0006fZ-LU
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:42:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42164)
+	id 1lIGws-0007WI-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 15:21:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lIGJu-0005Uu-HX
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:41:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lIGJs-0001GB-BM
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:41:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614973262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KT9VnlaZ6UEcmuSn9Db54edrZFWYxcYpVASfbrxxHNI=;
- b=X0m0wnOkV7nDxXVhs4LhXkNX2dCBdxuLvzokv7zC9OiLrZUo4w8uGgsVvBBDRMWnK+AoDS
- 68MA1nq8t/CkB9qAatvVMoHDC2tr4txcNBz03xjAGpAcyCDx1c8LLY5G4kJUpe8eFd03zH
- Ts9t2ObCmLkMl2tsqXH1E5/Yycvb330=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-BnnBeFWMO-KFE6d2msiw3w-1; Fri, 05 Mar 2021 14:41:01 -0500
-X-MC-Unique: BnnBeFWMO-KFE6d2msiw3w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E656A1009470;
- Fri,  5 Mar 2021 19:40:59 +0000 (UTC)
-Received: from [10.3.113.71] (ovpn-113-71.phx2.redhat.com [10.3.113.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A33CB60BF3;
- Fri,  5 Mar 2021 19:40:59 +0000 (UTC)
-Subject: Re: [PATCH] docs: qsd: Explain --export nbd,name=... default
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210305094856.18964-1-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <260328cb-fcd5-44c8-7ccc-fae9870fa9ff@redhat.com>
-Date: Fri, 5 Mar 2021 13:40:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1lIGv1-0006d1-IT; Fri, 05 Mar 2021 15:19:27 -0500
+Received: from home.keithp.com ([63.227.221.253]:33058 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1lIGux-0001fq-Is; Fri, 05 Mar 2021 15:19:27 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id 2DCC73F2EE3F;
+ Fri,  5 Mar 2021 12:19:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1614975557; bh=Ane6Z/iOYdLzQEYJ1l+yME575dvok5HTBcejFsm2kdE=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=F35daGPrBakhHFqXEvzw8ZwZXl7iauUYj8OKDHRL/hxd0vOtHVC9sShTeA7Octcw4
+ MfR3s1gw+BD9rg5RX8dr1EGlnJRCdiMl6Lse8TEztBPvQ4hbZVlJu6k4xzJQsYcRTg
+ qMu8jC8xRSkKH/aWuYHsycPonIBbnCsQRkT8SN6qoxP+7ww8TIN/mb8UugTBO7JZ0t
+ 3cJzxXZWkttA9EswpIYmEYWPMFKltilJugU+kFWw8/LFgEZ4DKsiKv1H7LF2qsagrr
+ tkkS9DaCf0HhyJ639TZ4+9GvJ/dprkem+gduX9x7c1FnBkRqJ7u7xf9CO1IZYZyCyB
+ ERgJHjKYgZSfA==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id lCDKVBfi5HNK; Fri,  5 Mar 2021 12:19:16 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id C0DBB3F2EE21;
+ Fri,  5 Mar 2021 12:19:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1614975556; bh=Ane6Z/iOYdLzQEYJ1l+yME575dvok5HTBcejFsm2kdE=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=RmS6hyxkYPgcAcR7ivjPlg8uV9hrFA2irCbdaxdTJwGKSY9emvROt4BILfZZ7qrOh
+ CFcOrGd2qbGqwTa0HBJjiX3T9nKRuG+jxGSwu11mxFG+foM9mB0BXJNplOrf58Ntut
+ Aig5p8B/oUC9xGPfxiqYprzg/mIHL7kZgR5u2tnMRe0n1EDnzQe3dg8619CRvCpjOU
+ buHqviXiGGTOnNE2p0xvo5MDdjIExr2SDbP+i47whFnMGSHiHr4YKa5SVmr7x0LsvE
+ N3wj0tU1FQ54/uXjWTHeZCh8rEbmtUwX+X+dJLK7Cgxq0ugqQx1/ZSVECav2wDLkty
+ DbS7TwVF/y5bw==
+Received: by keithp.com (Postfix, from userid 1000)
+ id 98A9D15821A3; Fri,  5 Mar 2021 12:19:16 -0800 (PST)
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Bug 1915925
+ <1915925@bugs.launchpad.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Subject: Re: [PATCH  v1 3/3] semihosting/arg-compat: fix up handling of
+ SYS_HEAPINFO
+In-Reply-To: <20210305135451.15427-4-alex.bennee@linaro.org>
+References: <20210305135451.15427-1-alex.bennee@linaro.org>
+ <20210305135451.15427-4-alex.bennee@linaro.org>
+Date: Fri, 05 Mar 2021 12:19:16 -0800
+Message-ID: <87lfb1gxq3.fsf@keithp.com>
 MIME-Version: 1.0
-In-Reply-To: <20210305094856.18964-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
+ helo=elaine.keithp.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,51 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Keith Packard <keithp@keithp.com>
+From:  Keith Packard via <qemu-devel@nongnu.org>
 
-On 3/5/21 3:48 AM, Kevin Wolf wrote:
-> The 'name' option for NBD exports is optional. Add a note that the
-> default for the option is the node name (people could otherwise expect
-> that it's the empty string like for qemu-nbd).
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  docs/tools/qemu-storage-daemon.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hmm. If we are only exporting a single image, letting "" serve as the
-default export name as a synonym for the non-empty node-name might be
-nice.  But we can export more than one image at a time, at which point
-"" has no sane default, so always requiring the client to know the node
-name is tolerable.  And 'qemu-nbd --list' or 'nbdinfo --list' are
-capable of showing which node name(s) an NBD server is exposing.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> I'm not sure this every worked properly and it's certainly not
+> exercised by check-tcg or Peter's semihosting tests. Hoist it into
+> it's own helper function and attempt to validate the results in the
+> linux-user semihosting test at the least.
 
-> 
-> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-> index fe3042d609..086493ebb3 100644
-> --- a/docs/tools/qemu-storage-daemon.rst
-> +++ b/docs/tools/qemu-storage-daemon.rst
-> @@ -80,8 +80,9 @@ Standard options:
->    requests for modifying data (the default is off).
->  
->    The ``nbd`` export type requires ``--nbd-server`` (see below). ``name`` is
-> -  the NBD export name. ``bitmap`` is the name of a dirty bitmap reachable from
-> -  the block node, so the NBD client can use NBD_OPT_SET_META_CONTEXT with the
-> +  the NBD export name (if not specified, it defaults to the given
-> +  ``node-name``). ``bitmap`` is the name of a dirty bitmap reachable from the
-> +  block node, so the NBD client can use NBD_OPT_SET_META_CONTEXT with the
->    metadata context name "qemu:dirty-bitmap:BITMAP" to inspect the bitmap.
->  
->    The ``vhost-user-blk`` export type takes a vhost-user socket address on which
-> 
+The patch is mostly code motion, moving the existing heapinfo stuff into
+a separate function. That makes it really hard to see how you've
+changed the values being returned. I'd love to see a two patch series,
+one of which moves the code as-is and a second patch which fixes
+whatever bugs you've found.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+=2D-=20
+=2Dkeith
 
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAmBCkkQACgkQ2yIaaQAA
+ABH2vQ/9Hns9A12xQi4WE/5uRF4/KHbPczlCwwrrmCIYkllMzNQ9AtlXLSZZIDgD
+dBro2yHjBzYWY0WkmgQS5qrsPSAfseWdRTmKukSHJWhxK5sSN8TMe/NvnQ2nN86Y
+cCm9QHam716TF+b5mZgQjqTm4RdwHo6RWFhnlxj7M+FfUAKsLo5o9rD0+CL+WHW6
+rJycd0X45M7FXVUQqfpZnbmKVzW7wFUeE4PEpIDZvtwU2KOLurYKyIXb+T6xVMdh
+qgG9kaEJbYRrrKJXom62yaX+lD+/zwpuU9GUiQ73zrs2oYk+wo0XLXefW7wSDLgy
+8HlIHmhplruKQJu3ly0vbqzO7o5QSGvRjsjfvKFe2DrOR5KXBH5bcGRjQ/6Xv7M2
+BFh5fjkSs1fcN/LVlxZfug8xP7rsEjsjBfH8FV4j9gOp/qmMdVcWWAl/znuAJUoH
+pNnVSsFQ5wVlpTRiYPplDQuzveiUBSXFfcLVnB+SgIIX4COmsI07bj+Z0exRQOqR
+UUnVkgG8OUu4u877DOPWJf9v/ly9kkmwJMaJ9VPnvcioJQcxsosHCQgFN3KwI+wb
+QUgUrQ0ZrR/stzzqlWjHdBPJNFYt/m0JXguKkHvzSMXYzfaf4LR3h1o6uk+q1xA6
+vhYNON0fZ5QJPWGVBk0U+d9LLJxCNsUBOWX+L3ZpGL9yglVvdO4=
+=GQC+
+-----END PGP SIGNATURE-----
+--=-=-=--
 
