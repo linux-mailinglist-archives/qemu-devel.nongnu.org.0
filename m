@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4151C32E833
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:25:55 +0100 (CET)
-Received: from localhost ([::1]:42778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F5D32EB6E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:44:52 +0100 (CET)
+Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI9Wk-0004Co-Bk
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:25:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
+	id 1lI9p4-0000bw-V4
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI9VK-0003lS-6P
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:24:26 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI9VI-0006v2-Ba
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:24:25 -0500
-Received: by mail-ed1-x535.google.com with SMTP id d13so2318760edp.4
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 04:24:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HU93SaiFSr3EDy+loYe3i4eJMORclCvJSkwllDMb3To=;
- b=iHJrTRAKsSDKdHEY9sVmztNY+TRWc4iA5yPqpwgduhkvMYYaSqiHhY+B5RA35Pymn6
- D8Sl5L2m9+UTAcCYMcljVPwT2qHSNX51voFnX0X7kbUzkXgFEq3Z5QfmDL3gEIFV6dFr
- eChBpHl5lSki1p53Uoh8Ufg+6ty9OpFFFTqqp77WuRq6sNcIY4VJa7Fivoc4M0m4/1E7
- 2EHfk5Gh+6NpbBK6QSKkEUyHiCCYcD/fQJsZ+tQ1UdWaQSfUPtyGHawsBJElen2aVdXn
- pOUOsXLs8bN2fcfgi6yyD4PsVMsyXIfALHoO/oBwTKSxiMS5k6xcEWpBqcwifn+ZUNAN
- BsMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HU93SaiFSr3EDy+loYe3i4eJMORclCvJSkwllDMb3To=;
- b=icEnCLOHiROtXRtNuDAoJqCVZqnkKv3Obaa+uspiVygf7XGINkxUtzbmpwxNJA0miu
- wbE8I3Fx/eAn7/6FNNP0Pt5CvyaOYgaFqndhWAhPg3ULiCRprQNyVvP9iF1GuUWU7ayc
- 5+2LFLqL0Iwp6B58jIgHHONTUzTe+21ZgrtUQXbzr4GMih95KJVP/bHJVdqRLZfNT/G8
- TRvNJVrbHnaEOn+4fUqvo+RNHsnopVhVeyWckb9asS5ZOFlEqAs1vsn3TCiOvFgSc5Zb
- fzBsr5n12L67V3JkFv6/N2voMNrvwN0cPlu3G8rh+Wn9CC/tDsoS3e/Y9yyF/t7Phebf
- rQyg==
-X-Gm-Message-State: AOAM533U5xvXph/FYdQ7FETN0tgpqKDfi4LBmcOvlm52C9DWZxhRtYiu
- SMe1N7ojWF8Fmcdm2/UOYjIQyvf2a2GfllSN7gavHg==
-X-Google-Smtp-Source: ABdhPJwwRLVya/X3RcKHfW4P6I5oWNiPcOmksVnO7/Dee2crOWOCff+v6f9xnIHI2ACxInxzn4YBC2tZ5AgI02UfaeI=
-X-Received: by 2002:a05:6402:40b:: with SMTP id
- q11mr8805940edv.36.1614947060397; 
- Fri, 05 Mar 2021 04:24:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lI9nv-0008Ia-0b
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:43:39 -0500
+Received: from collins.uni-paderborn.de ([2001:638:502:c003::14]:43134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lI9nq-00076l-0b
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ENoyFnJ3NNW4nC2aQeSoaNRZyMRTdYloTPZ4KLmB7cY=; b=E7TBcV86pW7RumwQsiU9t2MDlK
+ MUGBEFtwio4cQlPy16H8dAbyw1s0wMeH1BGd2xmNYJ6HOe8u6/tz8VSRZv+2DOcEwLpOqzu9asxOA
+ jxGNZ1M6h2QAwxI0elo52a+htg1XKlCuE6QkFhRXl/BQ8xlV4qNVgl3C4RfNUt79sB9Y=;
+Date: Fri, 5 Mar 2021 13:43:21 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
+Subject: Re: [PATCH v2 1/1] tricore: fixed faulty conditions for extr and imask
+Message-ID: <20210305124321.25ppziim6qhklukg@schnipp-desktop>
+References: <20210211115329.8984-1-david.brenken@efs-auto.org>
+ <20210211115329.8984-2-david.brenken@efs-auto.org>
+ <fdd6bbdb-a943-3e38-3b83-9c4af95ff6fd@amsat.org>
+ <DB8PR05MB61074744610D1B29FDAC9F49B08C9@DB8PR05MB6107.eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210219201820.2672077-1-pcc@google.com>
- <7f891cc6-33ff-bd87-e1a5-98c874326be5@linaro.org>
-In-Reply-To: <7f891cc6-33ff-bd87-e1a5-98c874326be5@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 12:24:04 +0000
-Message-ID: <CAFEAcA-3oX2-QDsBW3YLfiKzZzL5p+VDCnDL3fn_3jd-Gh9a+g@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Use TCF0 and TFSRE0 for unprivileged tag
- checks
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DB8PR05MB61074744610D1B29FDAC9F49B08C9@DB8PR05MB6107.eurprd05.prod.outlook.com>
+X-IMT-Spam-Score: 0.0 ()
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=30585586, da=102557267,
+ mc=519, sc=4, hc=515, sp=0, fso=30585586, re=0, sd=0, hd=0
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.3.5.123318, AntiVirus-Engine: 5.80.0,
+ AntiVirus-Data: 2021.2.8.5800000
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::14;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=collins.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,50 +69,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mitchp@google.com, QEMU Developers <qemu-devel@nongnu.org>,
- serbanc@google.com, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Peter Collingbourne <pcc@google.com>, eugenis@google.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Hofstetter,
+ Georg \(EFS-GH2\)" <georg.hofstetter@efs-auto.de>, "Brenken,
+ David \(EFS-GH5\)" <david.brenken@efs-auto.de>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Brenken <david.brenken@efs-auto.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 20 Feb 2021 at 16:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/19/21 12:18 PM, Peter Collingbourne wrote:
-> > Section D6.7 of the ARM ARM states:
-> >
-> > For the purpose of determining Tag Check Fault handling, unprivileged
-> > load and store instructions are treated as if executed at EL0 when
-> > executed at either:
-> > - EL1, when the Effective value of PSTATE.UAO is 0.
-> > - EL2, when both the Effective value of HCR_EL2.{E2H, TGE} is {1, 1}
-> >   and the Effective value of PSTATE.UAO is 0.
-> >
-> > ARM has confirmed a defect in the pseudocode function
-> > AArch64.TagCheckFault that makes it inconsistent with the above
-> > wording. The remedy is to adjust references to PSTATE.EL in that
-> > function to instead refer to AArch64.AccessUsesEL(acctype), so
-> > that unprivileged instructions use SCTLR_EL1.TCF0 and TFSRE0_EL1.
-> > The exception type for synchronous tag check faults remains unchanged.
-> >
-> > This patch implements the described change by partially reverting
-> > commits 50244cc76abc and cc97b0019bb5.
-> >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > ---
-> >  target/arm/helper.c     |  2 +-
-> >  target/arm/mte_helper.c | 13 +++++++++----
-> >  2 files changed, 10 insertions(+), 5 deletions(-)
->
-> Interesting.  When the the 50244cc bug was reported, I had wondered if this
-> were intentional.  The reversions, with the additional change to the el for the
-> syndrome, looks correct based on the described change to TagCheckFault.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Thu, Feb 11, 2021 at 01:49:14PM +0000, Konopik, Andreas (EFS-GH2) wrote:
+> Hi Philippe,
+> 
+> > From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On
+> > Behalf Of Philippe Mathieu-Daudé
+> > Sent: Thursday, February 11, 2021 13:10
+> > Hi David and Andreas,
+> > 
+> > On 2/11/21 12:53 PM, David Brenken wrote:
+> > > From: Andreas Konopik <andreas.konopik@efs-auto.de>
+> > 
+> > Here is a good place to explain why you need this change, how did you
+> > noticed it (example of opcode and conditions reaching this issue) - eventually
+> > provide a reproducer (asm dump could be enough) - and also eventually a
+> > reference to the manual (chapter, table) justifying your change.
+> > 
+> > See also:
+> > https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+> > https://chris.beams.io/posts/git-commit/#why-not-how
+> 
+> I appreciate your feedback and will write more verbose commit messages in
+> the future.
+> 
+> According to the TC 1.3.1. Architecture Manual [1; page 174], results are
+> undefined, if pos + width > 32 or if width = 0.
 
+While editing the commit message of this patch, I realized that we are not
+checking for width=0. A quick test let to:
 
+qemu-system-tricore: ../upstream/tcg/tcg-op.c:217: tcg_gen_sari_i32: Assertion `arg2 >= 0 && arg2 < 32' failed.
 
-Applied to target-arm.next, thanks.
+As Richard suggested that is not what should happen in case of undefined behaviour.
+I'll fix this in a another patch.
 
--- PMM
+Cheers,
+Bastian
 
