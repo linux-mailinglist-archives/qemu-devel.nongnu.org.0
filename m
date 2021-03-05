@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11C932F0E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:12:35 +0100 (CET)
-Received: from localhost ([::1]:59750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D1F32F08D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:03:16 +0100 (CET)
+Received: from localhost ([::1]:55646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIE0A-0002F3-UM
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:12:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32822)
+	id 1lIDr5-0005Hl-4o
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:03:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkI-0006vY-Ns
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58808)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkD-0006sg-T6
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDk5-0007Cr-BL
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:10 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDjz-0007AB-Bq
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614963356;
+ s=mimecast20190719; t=1614963349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iKcXNqoKQ9PlHlaamZu7e42WXZCYcY/ba4R23Tc+J70=;
- b=MmU7ZnyoIQMUDdWlgqh8fNe62kulVDbO9J1ZLfBs/83p+xFgSgqMaNotgCqiS8ufp6SAek
- /kKHV8Ej3wU0MohKXDtcOoTgR4SHwLtqCQakUZg77H7jEDyTnG6bmAFO0DD0Hs8wBd5HH0
- toDZgbLv0RIkmI8n0rXXxNf1BD1wAb0=
+ bh=hNkuWjOrI8SckSnRLnxx+FN4aL9raBAHm2X/LISDeaE=;
+ b=bbex7f/PMO/gYYtlyFfLeL+wufXkWDifji2/TqeZSzpnAvwZE9+GZ8POeL792QLKF2i4sk
+ wYHk9yJeIQhAKDyNu9P5gDDlo/LgRzAqw5Z+4XOo95JjoFmHlgHAEOmXglDRAUBAEzbQhk
+ /umgZM4c1bVnIHZk1MqHA1pekyrgJ1w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-2hsxdQ4uPEWemRyYOyPVRw-1; Fri, 05 Mar 2021 11:55:54 -0500
-X-MC-Unique: 2hsxdQ4uPEWemRyYOyPVRw-1
+ us-mta-298-rJQGhuAxN6CpmPnMHuqXeQ-1; Fri, 05 Mar 2021 11:55:44 -0500
+X-MC-Unique: rJQGhuAxN6CpmPnMHuqXeQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0DFCDF8C4;
- Fri,  5 Mar 2021 16:55:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C03410059D7;
+ Fri,  5 Mar 2021 16:55:21 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A447460BF3;
- Fri,  5 Mar 2021 16:55:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BDF460BF3;
+ Fri,  5 Mar 2021 16:55:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/31] qemu-storage-daemon: add --pidfile option
-Date: Fri,  5 Mar 2021 17:54:32 +0100
-Message-Id: <20210305165454.356840-10-kwolf@redhat.com>
+Subject: [PULL 10/31] docs: show how to spawn qemu-storage-daemon with fd
+ passing
+Date: Fri,  5 Mar 2021 17:54:33 +0100
+Message-Id: <20210305165454.356840-11-kwolf@redhat.com>
 In-Reply-To: <20210305165454.356840-1-kwolf@redhat.com>
 References: <20210305165454.356840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,17 +54,17 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,139 +83,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Daemons often have a --pidfile option where the pid is written to a file
-so that scripts can stop the daemon by sending a signal.
+The QMP monitor, NBD server, and vhost-user-blk export all support file
+descriptor passing. This is a useful technique because it allows the
+parent process to spawn and wait for qemu-storage-daemon without busy
+waiting, which may delay startup due to arbitrary sleep() calls.
 
-The pid file also acts as a lock to prevent multiple instances of the
-daemon from launching for a given pid file.
+This Python example is inspired by the test case written for libnbd by
+Richard W.M. Jones <rjones@redhat.com>:
+https://gitlab.com/nbdkit/libnbd/-/commit/89113f484effb0e6c322314ba75c1cbe07a04543
 
-QEMU, qemu-nbd, qemu-ga, virtiofsd, and qemu-pr-helper all support the
---pidfile option. Add it to qemu-storage-daemon too.
+Thanks to Daniel P. Berrangé <berrange@redhat.com> for suggestions on
+how to get this working. Now let's document it!
 
 Reported-by: Richard W.M. Jones <rjones@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210302142746.170535-1-stefanha@redhat.com>
+Message-Id: <20210301172728.135331-2-stefanha@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/tools/qemu-storage-daemon.rst   | 14 +++++++++++
- storage-daemon/qemu-storage-daemon.c | 36 ++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+ docs/tools/qemu-storage-daemon.rst | 42 ++++++++++++++++++++++++++++--
+ 1 file changed, 40 insertions(+), 2 deletions(-)
 
 diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index c05b3d3811..6ce85f2f7d 100644
+index 6ce85f2f7d..5714794775 100644
 --- a/docs/tools/qemu-storage-daemon.rst
 +++ b/docs/tools/qemu-storage-daemon.rst
-@@ -118,6 +118,20 @@ Standard options:
-   List object properties with ``<type>,help``. See the :manpage:`qemu(1)`
-   manual page for a description of the object properties.
+@@ -101,10 +101,12 @@ Standard options:
  
-+.. option:: --pidfile PATH
-+
-+  is the path to a file where the daemon writes its pid. This allows scripts to
-+  stop the daemon by sending a signal::
-+
-+    $ kill -SIGTERM $(<path/to/qsd.pid)
-+
-+  A file lock is applied to the file so only one instance of the daemon can run
-+  with a given pid file path. The daemon unlinks its pid file when terminating.
-+
-+  The pid file is written after chardevs, exports, and NBD servers have been
-+  created but before accepting connections. The daemon has started successfully
-+  when the pid file is written and clients may begin connecting.
-+
- Examples
- --------
- Launch the daemon with QMP monitor socket ``qmp.sock`` so clients can execute
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 78ddf619d4..23756fc8e5 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -59,6 +59,7 @@
- #include "sysemu/runstate.h"
- #include "trace/control.h"
+ .. option:: --nbd-server addr.type=inet,addr.host=<host>,addr.port=<port>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
+   --nbd-server addr.type=unix,addr.path=<path>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
++  --nbd-server addr.type=fd,addr.str=<fd>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
  
-+static const char *pid_file;
- static volatile bool exit_requested = false;
+   is a server for NBD exports. Both TCP and UNIX domain sockets are supported.
+-  TLS encryption can be configured using ``--object`` tls-creds-* and authz-*
+-  secrets (see below).
++  A listen socket can be provided via file descriptor passing (see Examples
++  below). TLS encryption can be configured using ``--object`` tls-creds-* and
++  authz-* secrets (see below).
  
- void qemu_system_killed(int signal, pid_t pid)
-@@ -115,6 +116,8 @@ static void help(void)
- "                         See the qemu(1) man page for documentation of the\n"
- "                         objects that can be added.\n"
- "\n"
-+"  --pidfile <path>       write process ID to a file after startup\n"
-+"\n"
- QEMU_HELP_BOTTOM "\n",
-     error_get_progname());
- }
-@@ -126,6 +129,7 @@ enum {
-     OPTION_MONITOR,
-     OPTION_NBD_SERVER,
-     OPTION_OBJECT,
-+    OPTION_PIDFILE,
- };
+   To configure an NBD server on UNIX domain socket path ``/tmp/nbd.sock``::
  
- extern QemuOptsList qemu_chardev_opts;
-@@ -178,6 +182,7 @@ static void process_options(int argc, char *argv[])
-         {"monitor", required_argument, NULL, OPTION_MONITOR},
-         {"nbd-server", required_argument, NULL, OPTION_NBD_SERVER},
-         {"object", required_argument, NULL, OPTION_OBJECT},
-+        {"pidfile", required_argument, NULL, OPTION_PIDFILE},
-         {"trace", required_argument, NULL, 'T'},
-         {"version", no_argument, NULL, 'V'},
-         {0, 0, 0, 0}
-@@ -289,6 +294,9 @@ static void process_options(int argc, char *argv[])
-                 qobject_unref(args);
-                 break;
-             }
-+        case OPTION_PIDFILE:
-+            pid_file = optarg;
-+            break;
-         case 1:
-             error_report("Unexpected argument");
-             exit(EXIT_FAILURE);
-@@ -299,6 +307,27 @@ static void process_options(int argc, char *argv[])
-     loc_set_none();
- }
+@@ -141,6 +143,42 @@ QMP commands::
+       --chardev socket,path=qmp.sock,server=on,wait=off,id=char1 \
+       --monitor chardev=char1
  
-+static void pid_file_cleanup(void)
-+{
-+    unlink(pid_file);
-+}
++Launch the daemon from Python with a QMP monitor socket using file descriptor
++passing so there is no need to busy wait for the QMP monitor to become
++available::
 +
-+static void pid_file_init(void)
-+{
-+    Error *err = NULL;
++  #!/usr/bin/env python3
++  import subprocess
++  import socket
 +
-+    if (!pid_file) {
-+        return;
-+    }
++  sock_path = '/var/run/qmp.sock'
 +
-+    if (!qemu_write_pidfile(pid_file, &err)) {
-+        error_reportf_err(err, "cannot create PID file: ");
-+        exit(EXIT_FAILURE);
-+    }
++  with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as listen_sock:
++      listen_sock.bind(sock_path)
++      listen_sock.listen()
 +
-+    atexit(pid_file_cleanup);
-+}
++      fd = listen_sock.fileno()
 +
- int main(int argc, char *argv[])
- {
- #ifdef CONFIG_POSIX
-@@ -326,6 +355,13 @@ int main(int argc, char *argv[])
-     qemu_init_main_loop(&error_fatal);
-     process_options(argc, argv);
++      subprocess.Popen(
++          ['qemu-storage-daemon',
++           '--chardev', f'socket,fd={fd},server=on,id=char1',
++           '--monitor', 'chardev=char1'],
++          pass_fds=[fd],
++      )
++
++  # listen_sock was automatically closed when leaving the 'with' statement
++  # body. If the daemon process terminated early then the following connect()
++  # will fail with "Connection refused" because no process has the listen
++  # socket open anymore. Launch errors can be detected this way.
++
++  qmp_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++  qmp_sock.connect(sock_path)
++  ...QMP interaction...
++
++The same socket spawning approach also works with the ``--nbd-server
++addr.type=fd,addr.str=<fd>`` and ``--export
++type=vhost-user-blk,addr.type=fd,addr.str=<fd>`` options.
++
+ Export raw image file ``disk.img`` over NBD UNIX domain socket ``nbd.sock``::
  
-+    /*
-+     * Write the pid file after creating chardevs, exports, and NBD servers but
-+     * before accepting connections. This ordering is documented. Do not change
-+     * it.
-+     */
-+    pid_file_init();
-+
-     while (!exit_requested) {
-         main_loop_wait(false);
-     }
+   $ qemu-storage-daemon \
 -- 
 2.29.2
 
