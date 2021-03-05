@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D9B32F369
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:03:24 +0100 (CET)
-Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF3E32F36F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:05:15 +0100 (CET)
+Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFjO-0007z6-FH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:03:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
+	id 1lIFlC-0000Wq-AN
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:05:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFhX-0007T5-FG
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:01:27 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:37640)
+ id 1lIFix-00083R-Um
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:02:55 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFhM-0005GF-In
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:01:24 -0500
-Received: by mail-pf1-x432.google.com with SMTP id a188so2813619pfb.4
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 11:01:16 -0800 (PST)
+ id 1lIFiw-0005fG-Fi
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:02:55 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id bj7so2661625pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 11:02:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FyRGb36aXIiGIu9PWiRL/SRZ9zhJ+5iRXHCT46I+kjI=;
- b=Q+B9H4xeQBmEaLz3lNd/LHD+IEQDgKzOCu/oh9lOrtBbJqveTvGz3O0WpAR1NktyCn
- lZ2gTGEhdOW3Uwh7uiPfp96o8YzDUBjDZFqOMIHRypeHcwvtz3niQEILz3hppUC9nBnU
- wZa24fpjcAX3OR5DJ0xdemO4P/cLzNzM/eVCvhqKaOd4H9Lp8qtG0PNVPIGPW/8/MkDH
- 5X8d05pp74ay1Rj1LKlRZrGJHa9clFBCTjTHD9/Mi9DqXAgvwVhjfgSlm+gocJnAKTWQ
- Ldu8zW/DjoM1e+CAhkQCyYciD0deOJr3ziurgHzx1ajbqrssfGRN3VNMLFMB//1kutwP
- FG6g==
+ bh=lDCucv2iMtNYVhajKnsANwMYALDBcAKpoTZBiIfmPiU=;
+ b=dRlOTqnCv6ZmdjwJKH+sZ9i/8Fyv9koE9ZOjfC0VRagcay3lwDlmv2YegbMlnKmgpY
+ 2TSTLAGQZkdx83w726o4rffxtDGoF3eBuZe8kB4XA1NLB/ZOhctoj80c8Ar8zXhP/42X
+ tz/C1JExwV9WfdGVUDT9BP2GfhHU3Qioh68qfAV+JBbPQ76h1er4XQGqzi8e4qHL8+Ng
+ W8GDkD/B2rW/k+nagHHGP6y3be2c2zWLlnc3lrrVirm97rEenHF6iw2nyVy2Bvf9HOFD
+ esX0iKe6hWe2JvNa2Gh069tVkAhGsYpfGb4dSpD9wP8DBJBL99WcFBtO9VX+FLAfDUwP
+ UPzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FyRGb36aXIiGIu9PWiRL/SRZ9zhJ+5iRXHCT46I+kjI=;
- b=KJ3Y9mocrnPKXvFOH8Mh9rUxM1yd8HYe2RtyrIoYTIGj5NM07ThDVbNkvw7xWh1ndZ
- GbEibwJq37Xh9ktYc7h1cJbMnLGFZejoDQ4LNDRUhhgbO6C+6eKIF8jnrz6inQ2dxGm3
- HGHI+zkPKfM0i5hVAIqzZh99h86x6liyrK+VTkqEMoxrulruM9pC1nhYP2zZ1sCCRv54
- bFdOOXI9bEBMZm5gSOqHf+UTpdbKh7fQ0Vv3+tHwFKk6lgzCdw15mAXVnb6LGJFwi1At
- FGz+TANfjO1JFRsyFd9Mt7gnQHg3EFQ6iueWFrB8Zmc2bZk0PbaFQUidTMIP0vjcxdDg
- yw4g==
-X-Gm-Message-State: AOAM531ebujnssg+7S4DHZfS+etspMT47G8/rU1x5RO/Q0Fp1IO8cy1C
- iK/KNcuPmlXo8zN/wDMSTLgd/g==
-X-Google-Smtp-Source: ABdhPJy8kSDJBoyEGrWAxP7FBgeZLCx9L5BusuxNrTyl+hDsaPo5V9d5wNsWsRS9OFkVFxtR83qiDg==
-X-Received: by 2002:a63:905:: with SMTP id 5mr9872287pgj.337.1614970874934;
- Fri, 05 Mar 2021 11:01:14 -0800 (PST)
+ bh=lDCucv2iMtNYVhajKnsANwMYALDBcAKpoTZBiIfmPiU=;
+ b=DLCeUckOzfUrY7+3i3BR6ArdPL8e5SUHqqhSzUwGNIyo+20IelOXbtl0QM6flruU5R
+ SxN/tany2a5gBYcKUf9ZgOt2FhFMxrvL6c/fEEDJGaW3vDVdiHV6GVAiLRa0ijlBIBpY
+ 9iGLgYoIjf17SjY64umiz/fdiMT1QOqsONj9xQC45gA6qbYazC1NOKLEkmphNR5relvY
+ HBoUWBvbli1ulcNtkPpTmc5SD8caocCD8efKbKb+YL5zAbNlxIxd5Juwk5voNlFmT4cn
+ ISiy2uV5a+DhxnIaadK65MgdBFpSQDTr66putXq1qRl7vpmpJTRZzKKm8TcMhzXzgGD6
+ QvaA==
+X-Gm-Message-State: AOAM532MzdXozB/6QW3Y5GpNDPhwC7/gSw/RWVqYuql+OCruKQ9pg8gX
+ aPORpS6w7dncY6dMge0SEHjCJQ==
+X-Google-Smtp-Source: ABdhPJyFvIYT/nzejNpa1XVygAjKeJcX4pmE5aAjOfE/X33pweUJdZMn0lk1tvrXvHtoJ5v8/jBSdw==
+X-Received: by 2002:a17:90b:4d05:: with SMTP id
+ mw5mr11746867pjb.217.1614970973010; 
+ Fri, 05 Mar 2021 11:02:53 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id ob6sm2804839pjb.30.2021.03.05.11.01.14
+ by smtp.gmail.com with ESMTPSA id 35sm3106675pgm.64.2021.03.05.11.02.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 11:01:14 -0800 (PST)
-Subject: Re: [PATCH v2] Hexagon (target/hexagon) Fix shift amount check in
- fASHIFTL/fLSHIFTR
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1614879425-9259-1-git-send-email-tsimpson@quicinc.com>
+ Fri, 05 Mar 2021 11:02:52 -0800 (PST)
+Subject: Re: [PATCH] exec: Poison Hexagon target-specific definitions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210219135754.1968100-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d48eed46-8220-56b5-8a2f-e4f57bcd7436@linaro.org>
-Date: Fri, 5 Mar 2021 11:01:12 -0800
+Message-ID: <135cb2b4-bedd-0591-4b63-fe6054075917@linaro.org>
+Date: Fri, 5 Mar 2021 11:02:50 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <1614879425-9259-1-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20210219135754.1968100-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,31 +88,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, peter.maydell@linaro.org, philmd@redhat.com, bcain@quicinc.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/21 9:37 AM, Taylor Simpson wrote:
-> Fixes: a646e99cb90 ("Hexagon (target/hexagon) macros")
-> Eliminate the following Coverity CIDs (Bad bit shift operation)
->      325227
->      325292
->      325425
->      325526
->      325561
->      325564
->      325578
->      325637
->      325736
->      325748
->      325786
->      325815
->      325837
+On 2/19/21 5:57 AM, Philippe Mathieu-Daudé wrote:
+> Commit 3e7a84eeccc ("Hexagon build infrastructure") added Hexagon
+> definitions that should be poisoned on target independent device
+> code, but forgot to update "exec/poison.h". Do it now.
 > 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/hexagon/macros.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   include/exec/poison.h | 2 ++
+>   1 file changed, 2 insertions(+)
 
 Queued to hexagon-next.
 
