@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5472332EFF7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:23:45 +0100 (CET)
-Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57EF32EFFB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:25:51 +0100 (CET)
+Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDEu-0008Jr-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:23:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47388)
+	id 1lIDGw-0002kZ-Up
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:25:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDCi-0006gQ-OR
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:28 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55610)
+ id 1lIDCl-0006oZ-Rn
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:31 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDCh-0007IR-5D
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:28 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id w7so1946358wmb.5
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 08:21:24 -0800 (PST)
+ id 1lIDCj-0007KG-LP
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:31 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id h98so2677725wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 08:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wPcnqGU4UTHM8Jk/Lrqw/LIFbJVS4CYQnfKcUElhSEw=;
- b=aLJjVx8mUzS2bizwLYi+Xa6EajYA53wSDFn7GVS1jSOYnZEXDJuwUHMjoCZlCoRhRU
- WAXLaTTASD0vFKT29VN8G/5tpmFC1J2GcAU01HgkrcqvWqq6M7yhEdP3lLEVshneoKHQ
- 7H6ZZYPF9fxbna3T5X3GakxUiKmgBUkmJBnVtm3Xj86d5jcCEsPa7ueWIq4gkIPyfyI6
- 03DYRAwV/TJY7LuGPXeeku1d+UTnOakTS7v8jrpI7znrIcOBNENxz2MgQe7ErY5lPRjB
- YjkcxUl1e4Js36fUD4YtNRBeygJi8FXO22rwLwUudmQ0ATeYbl3YaWELW0Z2/m3Nxwmr
- RKhA==
+ bh=kTzOWUKGqF7Ld/iGKjPTw96gS52bnIzue7kcTaEyF0A=;
+ b=pfxbPtH/jI83c4YupKkE1LFPlUPQj+VLu0TgEbAPdZhINRU0mz+FXo69duOv8+kBew
+ jWGZ0ZFJ1Bxw+uwrh9k+cRrKjNBEb/JL1ayRyNbvTAe9wRvTNqPge067UEnfiE+kan/U
+ KQGxVKYVCbYrjO9mXJHS0y9Pt6VvAAgJnQN8e5DRP9cnvEJgJQXx4VJMky58xglYLsyg
+ msPx4g2zEWYi3aeVN54ljR33q2oQeDI9kzEDBh+huApC+Py+7Uu1o1qhg5HAT4T35TQV
+ ZwfLloRKZOhkAL21KVxwUk5idpFjT/eyZrAF+nrHZ7thzmQbYzPWMSuumjoF06vPNqPF
+ YN6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wPcnqGU4UTHM8Jk/Lrqw/LIFbJVS4CYQnfKcUElhSEw=;
- b=IV9sWOFdDTMAVTj8eWt1DtbvBgKa0bFTPF4utQl/J2DFllkYKKEkh5gWTDCZzzxU8T
- kVP7yJEl+s4hlhOFh6fMmS5EA3DIUUUVnvl6Nfg00iVMnv1UtXLS3qderyVUCkmoW7P4
- FXcdugB5rXLeZeyve7L3DvCqe1HlLgsh2PUcIOVlQ2Qpeu8L8WQ3yy9SAWTZ4XDIFKNT
- aAslstPA8E4r7+Mr6hV4B5NfRiCQfLw0S3drO/BFNg0Hrc/iByasU8RZEDr/8Y4uhAuW
- aRMZW6aHCrDcH6Ks3ag5omA7Akrg3vilMFbP7lXlmMTkibTsi/LMk+2oZUghsDL3IYwA
- yKkg==
-X-Gm-Message-State: AOAM530KTxY9o3mS3rKKbZI8A/L27vp9Ozv9kkBiW/zVJxRV5ygo+DSR
- zyBY77dcEtVR5lcN0NhI574Nyh1COB4=
-X-Google-Smtp-Source: ABdhPJyxntFx1LgxJiEpTvmXcEslXLMHAqvEVXjR+fBT+qB/NRotYpobdXDvpHDNG2SKQIFW9M+Q8g==
-X-Received: by 2002:a1c:dd44:: with SMTP id u65mr9723008wmg.87.1614961283506; 
- Fri, 05 Mar 2021 08:21:23 -0800 (PST)
+ bh=kTzOWUKGqF7Ld/iGKjPTw96gS52bnIzue7kcTaEyF0A=;
+ b=lf1IDH1S06l4R4ycr5zi+FWXLonSBisdrgKND3CC706lcY2Gl0g1dXV4ARSVEC4huJ
+ bJ+MUNrdhRwD9gy58lXPPrCu/WRHpZl08ZM6GdxfyVF+PP02jyP7XKQr2jUhj7CKfSDs
+ nE57zWUqbXj2JNVYisqlbS4HouCnWAYyYwcYocVfySsG/4i/IhXb4jywkJ9/N8N6WdQm
+ /EIUfYxKQONHViwWYur4sMT2W6RbkDdNPSQeWkufFPvDdh/LZBac78Lj+10xt8wvIsWV
+ vVi8t72CiSwqPf1ax/O6CPNcUOezicWEjyOXh9SKQOGXUTl96sUDbhL/Dosgz06+pVOn
+ zu2Q==
+X-Gm-Message-State: AOAM532MsG+n6TJSizSTlfnL+lYjntmG41I+R+CosW2lt+9WMH18SSOt
+ 6INZ3T35B/DQorjDXYbw6J3s05MYQYw=
+X-Google-Smtp-Source: ABdhPJywnQJZHSShpVoh4UTDEWKmXEgQNzWV6Rp6s/JxHpStL68LkJb20dazazHeuXuB2kQc7q1Y8w==
+X-Received: by 2002:adf:f303:: with SMTP id i3mr10031298wro.67.1614961288160; 
+ Fri, 05 Mar 2021 08:21:28 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t14sm5422872wru.64.2021.03.05.08.21.22
+ by smtp.gmail.com with ESMTPSA id y10sm4867483wrl.19.2021.03.05.08.21.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 08:21:23 -0800 (PST)
+ Fri, 05 Mar 2021 08:21:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] hw/mips/gt64xxx: Fix typos in qemu_log_mask() formats
-Date: Fri,  5 Mar 2021 17:21:04 +0100
-Message-Id: <20210305162107.2233203-4-f4bug@amsat.org>
+Subject: [PATCH 4/6] hw/mips/gt64xxx: Rename trace events related to interrupt
+ registers
+Date: Fri,  5 Mar 2021 17:21:05 +0100
+Message-Id: <20210305162107.2233203-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210305162107.2233203-1-f4bug@amsat.org>
 References: <20210305162107.2233203-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,103 +92,79 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the following typos:
-- GT_PCI1_CFGDATA is not a timer register but a PCI one,
-- zero-padding flag is out of the format
+We want to trace all register accesses. First rename the current
+gt64120_read / gt64120_write events with '_intreg' suffix, as they
+are restricted to interrupt registers.
 
-Fixes: 641ca2bfcd5 ("hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/mips/gt64xxx_pci.c | 16 ++++++++--------
+ hw/mips/trace-events  |  4 ++--
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 99b1690af19..8ff31380d74 100644
+index 8ff31380d74..9a12d00d1e1 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -463,7 +463,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Read-only registers, do nothing */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "gt64120: Read-only register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
+@@ -642,19 +642,19 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         /* not really implemented */
+         s->regs[saddr] = ~(~(s->regs[saddr]) | ~(val & 0xfffffffe));
+         s->regs[saddr] |= !!(s->regs[saddr] & 0xfffffffe);
+-        trace_gt64120_write("INTRCAUSE", size, val);
++        trace_gt64120_write_intreg("INTRCAUSE", size, val);
+         break;
+     case GT_INTRMASK:
+         s->regs[saddr] = val & 0x3c3ffffe;
+-        trace_gt64120_write("INTRMASK", size, val);
++        trace_gt64120_write_intreg("INTRMASK", size, val);
+         break;
+     case GT_PCI0_ICMASK:
+         s->regs[saddr] = val & 0x03fffffe;
+-        trace_gt64120_write("ICMASK", size, val);
++        trace_gt64120_write_intreg("ICMASK", size, val);
+         break;
+     case GT_PCI0_SERR0MASK:
+         s->regs[saddr] = val & 0x0000003f;
+-        trace_gt64120_write("SERR0MASK", size, val);
++        trace_gt64120_write_intreg("SERR0MASK", size, val);
          break;
  
-@@ -473,7 +473,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Read-only registers, do nothing */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "gt64120: Read-only register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
- 
-@@ -515,7 +515,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Not implemented */
-         qemu_log_mask(LOG_UNIMP,
-                       "gt64120: Unimplemented device register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
- 
-@@ -528,7 +528,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Read-only registers, do nothing */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "gt64120: Read-only register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
- 
-@@ -565,7 +565,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Not implemented */
-         qemu_log_mask(LOG_UNIMP,
-                       "gt64120: Unimplemented DMA register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
- 
-@@ -578,7 +578,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-         /* Not implemented */
-         qemu_log_mask(LOG_UNIMP,
-                       "gt64120: Unimplemented timer register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
- 
-@@ -621,8 +621,8 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-     case GT_PCI1_CFGDATA:
-         /* not implemented */
-         qemu_log_mask(LOG_UNIMP,
--                      "gt64120: Unimplemented timer register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "gt64120: Unimplemented PCI register write "
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
-     case GT_PCI0_CFGADDR:
-@@ -682,7 +682,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "gt64120: Illegal register write "
--                      "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
-+                      "reg:0x%03x size:%u value:0x%0*" PRIx64 "\n",
-                       saddr << 2, size, size << 1, val);
-         break;
-     }
-@@ -958,7 +958,7 @@ static uint64_t gt64120_readl(void *opaque,
+     /* Reserved when only PCI_0 is configured. */
+@@ -929,19 +929,19 @@ static uint64_t gt64120_readl(void *opaque,
+     /* Interrupts */
+     case GT_INTRCAUSE:
          val = s->regs[saddr];
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "gt64120: Illegal register read "
--                      "reg:0x03%x size:%u value:0x%0*x\n",
-+                      "reg:0x%03x size:%u value:0x%0*x\n",
-                       saddr << 2, size, size << 1, val);
+-        trace_gt64120_read("INTRCAUSE", size, val);
++        trace_gt64120_read_intreg("INTRCAUSE", size, val);
          break;
-     }
+     case GT_INTRMASK:
+         val = s->regs[saddr];
+-        trace_gt64120_read("INTRMASK", size, val);
++        trace_gt64120_read_intreg("INTRMASK", size, val);
+         break;
+     case GT_PCI0_ICMASK:
+         val = s->regs[saddr];
+-        trace_gt64120_read("ICMASK", size, val);
++        trace_gt64120_read_intreg("ICMASK", size, val);
+         break;
+     case GT_PCI0_SERR0MASK:
+         val = s->regs[saddr];
+-        trace_gt64120_read("SERR0MASK", size, val);
++        trace_gt64120_read_intreg("SERR0MASK", size, val);
+         break;
+ 
+     /* Reserved when only PCI_0 is configured. */
+diff --git a/hw/mips/trace-events b/hw/mips/trace-events
+index 915139d9811..b7e934c3933 100644
+--- a/hw/mips/trace-events
++++ b/hw/mips/trace-events
+@@ -1,4 +1,4 @@
+ # gt64xxx_pci.c
+-gt64120_read(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
+-gt64120_write(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
++gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
++gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
+ gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
 -- 
 2.26.2
 
