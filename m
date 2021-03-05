@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6289C32E5F5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:16:38 +0100 (CET)
-Received: from localhost ([::1]:36360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8511032E60A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:19:24 +0100 (CET)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI7Vd-0004ca-FG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:16:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
+	id 1lI7YJ-0006rx-JU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lI7Te-0003Wy-KX
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:14:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51005)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7W0-0005QL-Qh
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lI7Tb-0007Tw-T0
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:14:34 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7Vz-0000JX-1e
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614939269;
+ s=mimecast20190719; t=1614939415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I4vnbUEM8bdJEqv7ZwQoWFdubDGSNDkB4eefEut0hA8=;
- b=Pm5HH+m4r0nd7mjfGQ68bBCMs51Ms2Iu+FJ5RudRYfalC+qAAAJkNTAUBgJDNZBpJio5CT
- UZGAl6impIdaVd5JiIiciHF94CixN8MPYrRdTRHJNIAvlKS2cGiGNr7UVUP4sedz9hAVcd
- eQCtGGQ45Hvt0C1uArJ3qFQWCeVlN1Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-YFc7CCqDNCGtXtC9UQxulg-1; Fri, 05 Mar 2021 05:14:26 -0500
-X-MC-Unique: YFc7CCqDNCGtXtC9UQxulg-1
-Received: by mail-wm1-f69.google.com with SMTP id n25so576317wmk.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 02:14:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I4vnbUEM8bdJEqv7ZwQoWFdubDGSNDkB4eefEut0hA8=;
- b=cEimUR5kpfXGmJvj2Dac+HaebZUTU6vwBOlG8+e8HD5GlKX5grpEYuCUvfLHUx6oS5
- BSaG866ZWSLZl97WDkPfP91aatH4Vle/0h17GyQgD+hgjo+E4NDTUTEVPsltSfLeWvJ3
- tHeO+WrXbweSlfswvl/crxLvIRAUoVlfMD+wQUHNQaXXdekoauXNfFgF/4DWiQV0vVvE
- ZRRQD0mUnfzyVq9qGQBbGPjBTGg9kL9pfkE1nqfFyKMZfksIxVEKlnSsahfeNkI50/Ng
- PEdFk4Rv6uTAKeaPjj/sjeR2pc08/jGt/1YrD9t8yLjfhXAwVCzFJxp8wcnyofYyqJk4
- x+og==
-X-Gm-Message-State: AOAM531AG7gu2cFEI61zNdb7+/72teK2xd23DlRGLaBe+Eka6DXN7CKn
- 57mQ9wxttKzqVCMIhAh8eB5KiZ3pc+46Pq3LxqI3MSNdHgd3B44k2y0sqvnGb9xolZjGKBKotRn
- Awkv3m3YWEFzA8Zw=
-X-Received: by 2002:a05:600c:2247:: with SMTP id
- a7mr8251426wmm.131.1614939264616; 
- Fri, 05 Mar 2021 02:14:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsF+zxaOCwDcPGokHOKJSYV6BVdVhq6F7dpeNXCmwo8UvOe54kPbchGlwmD07tNdpL0FYLLw==
-X-Received: by 2002:a05:600c:2247:: with SMTP id
- a7mr8251406wmm.131.1614939264494; 
- Fri, 05 Mar 2021 02:14:24 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v5sm3867205wmh.2.2021.03.05.02.14.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 02:14:24 -0800 (PST)
-Subject: Re: [PATCH v5 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating
- CI)
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210219215838.752547-1-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0acfe9de-c7c9-ef1e-8ed4-6f7e42859dcc@redhat.com>
-Date: Fri, 5 Mar 2021 11:14:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5Y1M1d391uOplNVMwxXUq0UfXN29arv2SAlLv+184lA=;
+ b=KOdEu4tJceT5+kOMSRUYzhyzB6g//sAj27Lm33vMRzl4LXgI3KERTMmWyW8dk7ZaUMtf63
+ Qymm/M1PB6A4DOPQuHUIUngEY6ld3HhqWJN2chzdzlunCyabIDEYm3CIq2RIyaHbKpSfLi
+ hg550mwaNka656QPuXK2GCWF/Oz2vNc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-Z-3qMECOM0m3T0pEupiJmw-1; Fri, 05 Mar 2021 05:16:53 -0500
+X-MC-Unique: Z-3qMECOM0m3T0pEupiJmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B492800D53;
+ Fri,  5 Mar 2021 10:16:52 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-112-194.ams2.redhat.com [10.36.112.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C47C61001B2C;
+ Fri,  5 Mar 2021 10:16:35 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] RAM_NORESERVE,
+ MAP_NORESERVE and hostmem "reserve" property
+Date: Fri,  5 Mar 2021 11:16:25 +0100
+Message-Id: <20210305101634.10745-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210219215838.752547-1-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,49 +74,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cleber,
+Some cleanups previously sent in other context (resizeable allocations),
+followed by RAM_NORESERVE, implementing it under POSIX using MAP_NORESERVE,
+and letting users configure it for memory backens using the "reserve"
+property (default: true).
 
-On 2/19/21 10:58 PM, Cleber Rosa wrote:
-> TL;DR: this should allow the QEMU maintainer to push to the staging
-> branch, and have custom jobs running on the project's aarch64 and
-> s390x machines.  Jobs in this version are allowed to fail, to allow
-> for the inclusion of the novel machines/jobs without CI disruption.
-> Simple usage looks like:
-> 
->    git push remote staging
->    ./scripts/ci/gitlab-pipeline-status --verbose --wait
-> 
-> Long version:
-> 
-> The idea about a public facing Gating CI for QEMU was summarized in an
-> RFC[1].  Since then, it was decided that a simpler version should be
-> attempted first.
-> 
-> At this point, there are two specific runners (an aarch64 and an s390x)
-> registered with GitLab, at https://gitlab.com/qemu-project, currently
-> setup to the "qemu" repository.
+MAP_NORESERVE under Linux has in the context of QEMU an effect on
+1) Private anonymous memory
+-> memory-backend-ram,id=mem0,size=10G
+2) Private file-based mappings
+-> memory-backend-file,id=mem0,size=10G,mem-path=/dev/shm/0
+3) Private/shared hugetlbfs memory
+-> memory-backend-memfd,id=mem0,size=10G,hugetlb=on,hugetlbsize=2M
 
-Our CI is heavily based on containerized testing, your scripts/document
-don't cover that.
+With MAP_NORESERVE/"reserve=off", we won't be reserving swap space (1/2) or
+huge pages (3) for the whole memory region.
 
-Should we document how to install a container service (we mostly
-use Docker and Podman)?
+The target use case is virtio-mem, which dynamically exposes memory
+inside a large, sparse memory area to the VM. MAP_NORESERVE tells the OS
+"this mapping might be very sparse". This essentially allows
+avoiding to set "/proc/sys/vm/overcommit_memory == 1") when using
+virtio-mem and also supporting hugetlbfs in the future.
 
-Or should we simply explicit these are only "native" runners and
-container support will be considered later eventually?
+virtio-mem currently only supports anonymous memory, in the future we want
+to also support private memfd, shared file-based and shared hugetlbfs
+mappings.
 
-Regards,
+virtio-mem features I am currently working on include:
+1. Introducing a prealloc option for virtio-mem (e.g., using fallocate()
+   when plugging blocks) to fail nicely when running out of
+   backing storage like huge pages.
+2. Supporting resizable RAM block/memmory regions, such that we won't
+   always expose a large, sparse memory region to the VM.
+3. Handling virtio-mem requests via an iothread to not hold the BQL while
+   populating/preallocating memory
+4. Protecting unplugged memory e.g., using userfaultfd.
+5. (resizeable allocations / optimized mmap handling when resizing RAM
+    blocks)
 
-Phil.
+Based-on: 20210303130916.22553-1-david@redhat.com
+
+v1 -> v2:
+- Rebased to upstream and phs_mem_alloc simplifications
+-- Upsteam added the "map_offset" parameter to many RAM allocation
+   interfaces.
+- "softmmu/physmem: Drop "shared" parameter from ram_block_add()"
+-- Use local variable "shared"
+- "memory: introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()"
+-- Simplify due to phs_mem_alloc changes
+- "util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE"
+-- Add a whole bunch of comments.
+-- Exclude shared anonymous memory that QEMU doesn't use
+-- Special-case readonly mappings
+
+Cc: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Liam Merwick <liam.merwick@oracle.com>
+
+
+David Hildenbrand (9):
+  softmmu/physmem: Drop "shared" parameter from ram_block_add()
+  util/mmap-alloc: Factor out calculation of the pagesize for the guard
+    page
+  util/mmap-alloc: Factor out reserving of a memory region to
+    mmap_reserve()
+  util/mmap-alloc: Factor out activating of memory to mmap_activate()
+  softmmu/memory: Pass ram_flags into qemu_ram_alloc_from_fd()
+  softmmu/memory: Pass ram_flags into
+    memory_region_init_ram_shared_nomigrate()
+  memory: introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()
+  util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE
+  hostmem: Wire up RAM_NORESERVE via "reserve" property
+
+ backends/hostmem-file.c                       |  11 +-
+ backends/hostmem-memfd.c                      |   8 +-
+ backends/hostmem-ram.c                        |   7 +-
+ backends/hostmem.c                            |  33 +++
+ hw/m68k/next-cube.c                           |   4 +-
+ hw/misc/ivshmem.c                             |   5 +-
+ include/exec/cpu-common.h                     |   1 +
+ include/exec/memory.h                         |  43 ++--
+ include/exec/ram_addr.h                       |   9 +-
+ include/qemu/mmap-alloc.h                     |   2 +
+ include/qemu/osdep.h                          |   3 +-
+ include/sysemu/hostmem.h                      |   2 +-
+ migration/ram.c                               |   3 +-
+ .../memory-region-housekeeping.cocci          |   8 +-
+ softmmu/memory.c                              |  27 ++-
+ softmmu/physmem.c                             |  41 ++--
+ util/mmap-alloc.c                             | 220 ++++++++++++------
+ util/oslib-posix.c                            |   6 +-
+ util/oslib-win32.c                            |  13 +-
+ 19 files changed, 299 insertions(+), 147 deletions(-)
+
+-- 
+2.29.2
 
 
