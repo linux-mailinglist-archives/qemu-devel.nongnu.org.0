@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B0932F078
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:59:06 +0100 (CET)
-Received: from localhost ([::1]:44666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE29F32F077
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:59:00 +0100 (CET)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDn7-0000SF-O2
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
+	id 1lIDn1-0000AS-QH
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:58:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDk3-0006oL-Ki
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40037)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDjR-0006VG-1l
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDjx-00078g-D0
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:55 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDjM-0006qX-RX
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614963346;
+ s=mimecast20190719; t=1614963311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I+24Wp5v0/ql1DcefmbkDRn1VATYhE49R2ywNT9QU2c=;
- b=bzoRx6/Xixz4Hqwuzuo60IVLuypQgkCrL54Up7Ff8k6Q6GV1dp9LS8E91/NJdbl2N3blpl
- CTmuoPIvgt+i4puUl652oFF0QLf6RrBNjklTHyAEbOeggwMof9ioUeUaTVRUUnBGYzhAJF
- n3GAPaUCRBf2zVva4VI6vTaLkgigtY0=
+ bh=gcesI6OmHPcp+iCBo3uaXoarCsoV/ZL8T4rRpgjE3PA=;
+ b=EYWauXuvj4/nrH6fCd3eCw+HEbX5iqFLHWI1c0O1bNNgoRPd2v3OHPx0NIHy6yJ7IUkNLP
+ qLTguY6/4Tnyu5WCEIZJURawp1Tk9H/DmAlWu/NUTBTDoXQXNME49YSg7vWDl+4eEN43t7
+ SgQqnn7CPCH+U+fLqzyoIPOgRnHAs8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-Dncz_u7jMd6q7oiv4f28dw-1; Fri, 05 Mar 2021 11:55:44 -0500
-X-MC-Unique: Dncz_u7jMd6q7oiv4f28dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-486-ffJKH-FvNhSEmTDHeY9MXA-1; Fri, 05 Mar 2021 11:54:59 -0500
+X-MC-Unique: ffJKH-FvNhSEmTDHeY9MXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D5111005584;
- Fri,  5 Mar 2021 16:55:15 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 714AE60BF3;
- Fri,  5 Mar 2021 16:55:14 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 06/31] blockjob: report a better error message
-Date: Fri,  5 Mar 2021 17:54:29 +0100
-Message-Id: <20210305165454.356840-7-kwolf@redhat.com>
-In-Reply-To: <20210305165454.356840-1-kwolf@redhat.com>
-References: <20210305165454.356840-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E414687A831;
+ Fri,  5 Mar 2021 16:54:45 +0000 (UTC)
+Received: from [10.10.117.80] (ovpn-117-80.rdu2.redhat.com [10.10.117.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5DD19CAD;
+ Fri,  5 Mar 2021 16:54:45 +0000 (UTC)
+Subject: Re: [PATCH v2 8/8] simplebench/bench_block_job: drop caches before
+ test run
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210304101738.20248-1-vsementsov@virtuozzo.com>
+ <20210304101738.20248-9-vsementsov@virtuozzo.com>
+ <f7d24c40-eb01-4df6-52c7-5f48aa30656f@redhat.com>
+ <c3c9571b-5999-378e-1915-88eaaf93b2de@virtuozzo.com>
+ <efe7e17b-1edd-7db7-174e-c0ed1bf80001@redhat.com>
+ <809a11de-6633-87f1-07fd-7544c06cdd0c@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <184d373a-30cd-e9cb-2d9d-520504d9a0fa@redhat.com>
+Date: Fri, 5 Mar 2021 11:54:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <809a11de-6633-87f1-07fd-7544c06cdd0c@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,70 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+On 3/5/21 11:50 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 05.03.2021 19:30, John Snow wrote:
+>> On 3/5/21 4:11 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> 05.03.2021 04:30, John Snow wrote:
+>>>> On 3/4/21 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> It probably may improve reliability of results when testing in cached
+>>>>> mode.
+>>>>>
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>> ---
+>>>>>   scripts/simplebench/bench_block_job.py | 2 ++
+>>>>>   1 file changed, 2 insertions(+)
+>>>>>
+>>>>> diff --git a/scripts/simplebench/bench_block_job.py 
+>>>>> b/scripts/simplebench/bench_block_job.py
+>>>>> index 4f03c12169..fa45ad2655 100755
+>>>>> --- a/scripts/simplebench/bench_block_job.py
+>>>>> +++ b/scripts/simplebench/bench_block_job.py
+>>>>> @@ -53,6 +53,8 @@ def bench_block_job(cmd, cmd_args, qemu_args):
+>>>>>           return {'error': 'qemu failed: ' + str(vm.get_log())}
+>>>>>       try:
+>>>>> +        subprocess.run('sync; echo 3 > /proc/sys/vm/drop_caches', 
+>>>>> shell=True,
+>>>>> +                       check=True)
+>>>>>           res = vm.qmp(cmd, **cmd_args)
+>>>>>           if res != {'return': {}}:
+>>>>>               vm.shutdown()
+>>>>>
+>>>>
+>>>> Worth adding a conditional to allow "hot" or "cold" runs? nah?
+>>>>
+>>>
+>>> You mean, make this addition optional? Make sense
+>>>
+>>>
+>>
+>> I was thinking (along the lines of allowing both old and new behavior, 
+>> in case anyone except you used these scripts) of this sort of thing:
+>>
+>> def bench_block_job(cmd, cmd_args, qemu_args, drop_cache=True): ...
+>>
+>> I don't insist on it; I was just earnestly wondering if it had any 
+>> utility. If it doesn't, don't respin on my account.
+>>
+> 
+> Ok, thanks a lot for reviewing! Still, I think, I'll resend
+> 
 
-When a block job fails, we report strerror(-job->job.ret) error
-message, also if the job set an error object.
-Let's report a better error message using error_get_pretty(job->job.err).
+Thanks for sharing your benchmarking scripts :)
 
-If an error object was not set, strerror(-job->ret) is used as fallback,
-as explained in include/qemu/job.h:
-
-typedef struct Job {
-    ...
-    /**
-     * Error object for a failed job.
-     * If job->ret is nonzero and an error object was not set, it will be set
-     * to strerror(-job->ret) during job_completed.
-     */
-    Error *err;
-}
-
-In block_job_query() there can be a transient where 'job.err' is not set
-by a scheduled bottom half. In that case we use strerror(-job->ret) as it
-was before.
-
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210225103633.76746-1-sgarzare@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- blockjob.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/blockjob.c b/blockjob.c
-index f2feff051d..ef968017a2 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -318,8 +318,12 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     info->status    = job->job.status;
-     info->auto_finalize = job->job.auto_finalize;
-     info->auto_dismiss  = job->job.auto_dismiss;
--    info->has_error = job->job.ret != 0;
--    info->error     = job->job.ret ? g_strdup(strerror(-job->job.ret)) : NULL;
-+    if (job->job.ret) {
-+        info->has_error = true;
-+        info->error = job->job.err ?
-+                        g_strdup(error_get_pretty(job->job.err)) :
-+                        g_strdup(strerror(-job->job.ret));
-+    }
-     return info;
- }
- 
-@@ -356,7 +360,7 @@ static void block_job_event_completed(Notifier *n, void *opaque)
-     }
- 
-     if (job->job.ret < 0) {
--        msg = strerror(-job->job.ret);
-+        msg = error_get_pretty(job->job.err);
-     }
- 
-     qapi_event_send_block_job_completed(job_type(&job->job),
--- 
-2.29.2
+--js
 
 
