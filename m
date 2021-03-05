@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C0632E20B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 07:16:06 +0100 (CET)
-Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1BE32E21E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 07:28:29 +0100 (CET)
+Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI3kr-00026s-1m
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 01:16:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
+	id 1lI3wp-0004tn-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 01:28:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lI3jf-00015O-0S; Fri, 05 Mar 2021 01:14:51 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:35697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lI3ja-0006Eh-GG; Fri, 05 Mar 2021 01:14:50 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1090531|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.04784-0.00539141-0.946769;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.Jgmc0sJ_1614924874; 
-Received: from 30.225.208.66(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Jgmc0sJ_1614924874)
- by smtp.aliyun-inc.com(10.147.44.129);
- Fri, 05 Mar 2021 14:14:34 +0800
-Subject: Re: [PATCH 00/38] target/riscv: support packed extension v0.9.2
-To: qemu-devel@nongnu.org
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <814f40d2-3b2e-6690-d978-1f2786ffa529@c-sky.com>
-Date: Fri, 5 Mar 2021 14:14:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lI3vG-0003mJ-Jk
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 01:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lI3vE-0005Rh-S4
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 01:26:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614925608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=B9OI7PXsH/cGVlnkYYWLf40hzVn+RKlv7C5LbdP6/3w=;
+ b=gbimOLbArs2KhoBeI/yWLaP2Taxc+sTNi5k5FZWRN0qNMTH6kWrAYtQ+0TKEEw9Xh1eUx1
+ 096LEDsLS7JP83he/6VKDmckCy/sl6ddF9Nn5tu5ybFVC+vdfIlyodtQVywrnFbaB+tGfY
+ hPt9gk1kVPZF6uFzkyKQAKnCSh9cPEU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-wz3iVuscM620IZkPDggFwQ-1; Fri, 05 Mar 2021 01:26:44 -0500
+X-MC-Unique: wz3iVuscM620IZkPDggFwQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48AC11823E24;
+ Fri,  5 Mar 2021 06:26:43 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-165.pek2.redhat.com
+ [10.72.12.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6E2760C5F;
+ Fri,  5 Mar 2021 06:26:40 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-security@nongnu.org
+Subject: [PATCH V4 00/10] Detect reentrant RX casued by loopback
+Date: Fri,  5 Mar 2021 14:26:28 +0800
+Message-Id: <20210305062638.6749-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210212150256.885-1-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,84 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-riscv@nongnu.org, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: alxndr@bu.edu, Jason Wang <jasowang@redhat.com>, philmd@redhat.com,
+ ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+Hi All:
 
-On 2021/2/12 23:02, LIU Zhiwei wrote:
-> This patchset implements the packed extension for RISC-V on QEMU.
->
-> This patchset have passed all my direct Linux user mode cases(RV64) and
-> bare metal cases(RV32) on X86-64 Ubuntu host machine. I will later push
-> these test cases to my repo(https://github.com/romanheros/qemu.git
-> branch:packed-upstream-v1).
->
-> I have ported packed extension on RISU, but I didn't find a simulator or
-> hardware to compare with. If anyone have one, please let me know.
->
-> Features:
->    * support specification packed extension v0.9.2(https://github.com/riscv/riscv-p-spec/)
->    * support basic packed extension.
->    * support Zp64.
->
-> LIU Zhiwei (38):
->    target/riscv: implementation-defined constant parameters
->    target/riscv: Hoist vector functions
->    target/riscv: Fixup saturate subtract function
->    target/riscv: 16-bit Addition & Subtraction Instructions
->    target/riscv: 8-bit Addition & Subtraction Instruction
->    target/riscv: SIMD 16-bit Shift Instructions
->    target/riscv: SIMD 8-bit Shift Instructions
->    target/riscv: SIMD 16-bit Compare Instructions
->    target/riscv: SIMD 8-bit Compare Instructions
->    target/riscv: SIMD 16-bit Multiply Instructions
->    target/riscv: SIMD 8-bit Multiply Instructions
->    target/riscv: SIMD 16-bit Miscellaneous Instructions
->    target/riscv: SIMD 8-bit Miscellaneous Instructions
->    target/riscv: 8-bit Unpacking Instructions
->    target/riscv: 16-bit Packing Instructions
->    target/riscv: Signed MSW 32x32 Multiply and Add Instructions
->    target/riscv: Signed MSW 32x16 Multiply and Add Instructions
->    target/riscv: Signed 16-bit Multiply 32-bit Add/Subtract Instructions
->    target/riscv: Signed 16-bit Multiply 64-bit Add/Subtract Instructions
->    target/riscv: Partial-SIMD Miscellaneous Instructions
->    target/riscv: 8-bit Multiply with 32-bit Add Instructions
->    target/riscv: 64-bit Add/Subtract Instructions
->    target/riscv: 32-bit Multiply 64-bit Add/Subtract Instructions
->    target/riscv: Signed 16-bit Multiply with 64-bit Add/Subtract
->      Instructions
->    target/riscv: Non-SIMD Q15 saturation ALU Instructions
->    target/riscv: Non-SIMD Q31 saturation ALU Instructions
->    target/riscv: 32-bit Computation Instructions
->    target/riscv: Non-SIMD Miscellaneous Instructions
->    target/riscv: RV64 Only SIMD 32-bit Add/Subtract Instructions
->    target/riscv: RV64 Only SIMD 32-bit Shift Instructions
->    target/riscv: RV64 Only SIMD 32-bit Miscellaneous Instructions
->    target/riscv: RV64 Only SIMD Q15 saturating Multiply Instructions
->    target/riscv: RV64 Only 32-bit Multiply Instructions
->    target/riscv: RV64 Only 32-bit Multiply & Add Instructions
->    target/riscv: RV64 Only 32-bit Parallel Multiply & Add Instructions
->    target/riscv: RV64 Only Non-SIMD 32-bit Shift Instructions
->    target/riscv: RV64 Only 32-bit Packing Instructions
->    target/riscv: configure and turn on packed extension from command line
->
->   target/riscv/cpu.c                      |   32 +
->   target/riscv/cpu.h                      |    6 +
->   target/riscv/helper.h                   |  332 ++
->   target/riscv/insn32-64.decode           |   93 +-
->   target/riscv/insn32.decode              |  285 ++
->   target/riscv/insn_trans/trans_rvp.c.inc | 1224 +++++++
->   target/riscv/internals.h                |   50 +
->   target/riscv/meson.build                |    1 +
->   target/riscv/packed_helper.c            | 3862 +++++++++++++++++++++++
->   target/riscv/translate.c                |    3 +
->   target/riscv/vector_helper.c            |   90 +-
->   11 files changed, 5912 insertions(+), 66 deletions(-)
->   create mode 100644 target/riscv/insn_trans/trans_rvp.c.inc
->   create mode 100644 target/riscv/packed_helper.c
->
+Followed by commit 22dc8663d9 ("net: forbid the reentrant RX"), we
+still need to fix the issues casued by loopback mode where the NIC
+usually it via calling nc->info->receive() directly.
+
+The fix is to introduce new network helper and check the
+queue->delivering.
+
+This series addresses CVE-2021-3416.
+
+Thanks
+
+Changes since V3:
+- clarify CVE number in the commit log
+- ident fix
+
+Changes since V2:
+- add more fixes from Alexander
+
+Changes since V1:
+
+- Fix dp8393x compiling
+- Add rtl8139 fix
+- Tweak the commit log
+- Silent patchew warning
+
+Alexander Bulekov (4):
+  rtl8139: switch to use qemu_receive_packet() for loopback
+  pcnet: switch to use qemu_receive_packet() for loopback
+  cadence_gem: switch to use qemu_receive_packet() for loopback
+  lan9118: switch to use qemu_receive_packet() for loopback
+
+Jason Wang (6):
+  net: introduce qemu_receive_packet()
+  e1000: switch to use qemu_receive_packet() for loopback
+  dp8393x: switch to use qemu_receive_packet() for loopback packet
+  msf2-mac: switch to use qemu_receive_packet() for loopback
+  sungem: switch to use qemu_receive_packet() for loopback
+  tx_pkt: switch to use qemu_receive_packet_iov() for loopback
+
+ hw/net/cadence_gem.c |  4 ++--
+ hw/net/dp8393x.c     |  2 +-
+ hw/net/e1000.c       |  2 +-
+ hw/net/lan9118.c     |  2 +-
+ hw/net/msf2-emac.c   |  2 +-
+ hw/net/net_tx_pkt.c  |  2 +-
+ hw/net/pcnet.c       |  2 +-
+ hw/net/rtl8139.c     |  2 +-
+ hw/net/sungem.c      |  2 +-
+ include/net/net.h    |  5 +++++
+ include/net/queue.h  |  8 ++++++++
+ net/net.c            | 38 +++++++++++++++++++++++++++++++-------
+ net/queue.c          | 22 ++++++++++++++++++++++
+ 13 files changed, 76 insertions(+), 17 deletions(-)
+
+-- 
+2.24.3 (Apple Git-128)
 
 
