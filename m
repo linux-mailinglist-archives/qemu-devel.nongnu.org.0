@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188A432F61F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 23:54:09 +0100 (CET)
-Received: from localhost ([::1]:40922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B280432F631
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 23:56:07 +0100 (CET)
+Received: from localhost ([::1]:43540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIJKh-0004se-HW
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 17:54:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
+	id 1lIJMc-0005zg-Qh
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 17:56:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIJJL-0004EI-W8
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 17:52:44 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37188)
+ id 1lIJLD-0005Lx-RC
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 17:54:39 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIJJF-0004u8-Jn
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 17:52:43 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id d13so4873492edp.4
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 14:52:36 -0800 (PST)
+ id 1lIJL9-0005gd-Qq
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 17:54:39 -0500
+Received: by mail-ed1-x532.google.com with SMTP id b7so4855842edz.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 14:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sh6FM4aEobIwqwltwKCz6GytNw1X/PJPbaJplxnwAXo=;
- b=BQE7fvjgJO1d6mn/QB8eZXJ7u5z9POVC+HVZWGXD1GovWFzZPJ8PUR8ihyEASoNMDn
- cT5CeHUpZyikckfRA9DwmAb0L1O747XSmTLqNrSNwsPoW1EjRiy0OUc0BjT4MmY9lqKn
- 6x5gIt9wmJy78AkrT0nGxcv6oWD6TiscIHRDvSXJfmw56gH3v/VMwyL+jyIPL9Vz/LC4
- 6Ru2XgToX3uvOB/Cb7Pt9IrkYbLe1dwWpMz4/Tb7MFngpmqpWxM9RT99HEwbjlIBj4+d
- meP9Z4ZpM2p0LgqV9UmXW+ZpBiFw94qB2Fd+r3hMgOX67jtbPMXvFCdSZZO+hfPy7Ds7
- 9L5w==
+ :cc; bh=OhDzm4pHloCI7PgBmv97B3kI3ArMztNJTPc5uSxw1LQ=;
+ b=GeduCRBP3i5HZbMXwHf6PKS+KhtAotz0vIuaKz8Wf1PMrba+dYddrTwyi7P2Wh76dn
+ BJQatV+iSgXnXcV8dBRa1s/0hv5oMw9dlNsmjr0D8vjNIAf8t0ZpjOcMdSBHOic+IszY
+ hXEjp5K6EsPC7JR1H/M06kJOoeWqsBzIPyBQjhzMmUz+Mj0bMsVPcRlO2Eh20buk7Jj7
+ l45C7whhteG64jGXcOd7vzG8HpyJp4bbgdvv7JIL7SqrJnLe9utNXzMGgezDCLOryoeN
+ s78kBK6vOcSgzxeAx0s35OQHYiD7wOXFYRJRWLUXnJ4UccrBWEV4857N3TEzMdx5V4Lb
+ eVdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Sh6FM4aEobIwqwltwKCz6GytNw1X/PJPbaJplxnwAXo=;
- b=IcP4d1ftHgPE/DotXo6DUzrY/Q/GaqpIhrLXBgYHQEbubZVrLTpOAlOBrmkJoSfjwq
- FvOSd3Nq+7laTVgUCKQ+1yaOQZK8lCHbWX1FBVLh3yYJ/dvH+WqrU/dYH0hIhA2j6Ax0
- S4ubMsxe/RRifQitthx3KIQwmR3Tyovg5dMK1AcQVWP1nzwiiSUSqv272gu47HjMsBsI
- O+9GYC71kdD3neEDe1ldY5ecsvo2h6gW3uLpzCU/4hyJ3gmHN3D87OWDbgOCb2RdC7EZ
- zLn4RrXhXamlx+QQ+48LbXKuTGvaJZF0DctsF/nylflNjnLFfW7N78EMm+E/JTuwbQMR
- y90g==
-X-Gm-Message-State: AOAM531Vs7iidYvdJGzIhQfIcuNj65z37tW4y2DbGYobbYu/1o2tgg/K
- oPD7lO+dQ054Or4fm7foHj0NM/qRl7KVKrnYh0+DSw==
-X-Google-Smtp-Source: ABdhPJyh+I40sKoYRWlA8feXci4HP83uwRJSqp0WYZE5ARZjZ39CE80ObtZ5SW3H0YC+wvIAflSlcQGuJUN6KisjYAU=
-X-Received: by 2002:a05:6402:40b:: with SMTP id
- q11mr11364035edv.36.1614984755525; 
- Fri, 05 Mar 2021 14:52:35 -0800 (PST)
+ bh=OhDzm4pHloCI7PgBmv97B3kI3ArMztNJTPc5uSxw1LQ=;
+ b=WS2Ax+b5DG1opifoIC4eGo0XxXi8J3xAxirS0T8lOCwQ29RvtReL2gs5+YXRw1fyGU
+ RetIAhg/3+J4RCtBxNe1HYt1hxA47uxnQUEuk1Cyngiiha6183tk8+L3DEkPcvnCFGuO
+ rcH3/AhgACXDA8zlVS7DsjsBpmzZb9vt0y2RuopRvAY2UfrzlKU4ADVU+7CjflFY4+en
+ y0mbRc6XU0BhgxDaG+CpxV5kCeUk98WSJSt3/tHvORGBmaMC1XoTmnvj6KLsNeh6NnNo
+ N0iGMMEaAS/mRqYnVHjH9669EOp4aMnv4dJV+Al/sb9f9IUtS6rGf3hz/8YfM5uIm8HU
+ 20nA==
+X-Gm-Message-State: AOAM531tJHm9O0jF+ws8lBiBNMyUXUYRncbRsi/JBfRkaH9Lf3tmkje4
+ Ej4JnfJe6fD4y7CSJiP0e3BKwMkoKJLGt1CNr3C4cA==
+X-Google-Smtp-Source: ABdhPJz9v0k0UWBnVRYpvF4mDAN3mDsc0GgXDAhN7LVgrk4sgIbMr9rnVWw0NkfjOkDJrMcbWlRjKfBeLamsYHtNaa0=
+X-Received: by 2002:aa7:c3cd:: with SMTP id l13mr11349809edr.52.1614984874405; 
+ Fri, 05 Mar 2021 14:54:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20210305155517.1604547-1-cohuck@redhat.com>
-In-Reply-To: <20210305155517.1604547-1-cohuck@redhat.com>
+References: <20210305135451.15427-1-alex.bennee@linaro.org>
+ <20210305135451.15427-4-alex.bennee@linaro.org>
+ <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
+ <87im65gxla.fsf@keithp.com>
+In-Reply-To: <87im65gxla.fsf@keithp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 22:52:19 +0000
-Message-ID: <CAFEAcA8WKNmNLS9yavoPKgqjaJTZGPsA24xNn4LZ7q-XmTRS5w@mail.gmail.com>
-Subject: Re: [PULL 0/8] s390x update
-To: Cornelia Huck <cohuck@redhat.com>
+Date: Fri, 5 Mar 2021 22:54:18 +0000
+Message-ID: <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] semihosting/arg-compat: fix up handling of
+ SYS_HEAPINFO
+To: Keith Packard <keithp@keithp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,36 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bug 1915925 <1915925@bugs.launchpad.net>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 at 15:55, Cornelia Huck <cohuck@redhat.com> wrote:
+On Fri, 5 Mar 2021 at 20:22, Keith Packard <keithp@keithp.com> wrote:
 >
-> The following changes since commit c40ae5a3ee387b13116948cbfe7824f03311db7e:
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-03-03 16:55:15 +0000)
+> > Also, you don't seem to have the correct "is the CPU in
+> > 32-bit or 64-bit mode" test here: you cannot rely on target_ulong
+> > being the right size, you must make a runtime check.
 >
-> are available in the Git repository at:
->
->   https://gitlab.com/cohuck/qemu.git tags/s390x-20210305
->
-> for you to fetch changes up to 39d5d1404ed695f4a1cd2b117a6cf2d92dd8e8b9:
->
->   target/s390x/kvm: Simplify debug code (2021-03-04 14:19:08 +0100)
->
-> ----------------------------------------------------------------
-> some accumulated s390x fixes
->
-> ----------------------------------------------------------------
->
+> Do you mean whether a dual aarch64/arm core is in arm or aarch64 mode,
+> or whether an aarch64 is running a 32-bit ABI?
 
+For semihosting for Arm what matters is "what state is the core
+in at the point where it makes the semihosting SVC/HLT/etc insn?".
 
+How does RISCV specify it?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
