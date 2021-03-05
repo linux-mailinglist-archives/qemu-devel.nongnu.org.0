@@ -2,46 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB9332EEAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:24:00 +0100 (CET)
-Received: from localhost ([::1]:53550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C8832EE47
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:19:33 +0100 (CET)
+Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lICJ5-0008G8-Es
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:23:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56376)
+	id 1lICEm-0008Ar-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:19:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwX-0002Bm-A0
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:43 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lIBwL-00044V-O7
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:00:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9A5F6AFF6;
- Fri,  5 Mar 2021 14:59:59 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v4 33/33] XXX disable arm-cpu-features
-Date: Fri,  5 Mar 2021 15:59:41 +0100
-Message-Id: <20210305145941.32020-34-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210305145941.32020-1-cfontana@suse.de>
-References: <20210305145941.32020-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lIC1Q-0007w9-59
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:05:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lIC1L-0006PE-0A
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:05:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614956736;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=InawuL87Otlg8iB2a2gTtWLiA8QqZM30KWN700tepSY=;
+ b=EBbs485egsVU1hv/eIWJ956ju2jvmQB7jyxI6w8nVJZkpkjjim6efIvlt8jC8pRx5lJRsW
+ wUiN1beYoeU4fpSFEK5nXN9kSKTH0bhIwjrdLlIGDTlRApfohsXCcp0Ah/2eb/vXUi9qsq
+ zamtm3ZhJdiY0SEziDxngE8tQJATB34=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-jiU6uNPYNTmGvhBviyFMOQ-1; Fri, 05 Mar 2021 10:05:35 -0500
+X-MC-Unique: jiU6uNPYNTmGvhBviyFMOQ-1
+Received: by mail-ua1-f69.google.com with SMTP id r9so327615uan.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:05:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=InawuL87Otlg8iB2a2gTtWLiA8QqZM30KWN700tepSY=;
+ b=KcJGzu23CDtlBmoaO3sxjqwM3bj2uxdOTai9EQGxrZPYk6E7mkih00ZmeDwF5SQ79j
+ 7Lx5Rg6WXdtzMlASAFALYRpO68GdnlToegS9zFGCV8H4YBoAERuXI+rjlhyc63uhaBfF
+ wqnP7QM/Ag1qET91FQXbifMAiQi/hccLtAcr+sAKu0xsfr2CBfoC0OD8+43PEwZ3F9u1
+ tM9OqI8vRAQDHGftJcDEbSLQHIieWuHfvi4xc912R+h01LtUhYjSny5NsBh2QtAp4BwN
+ EfZ3E5mh0pYTspTbk6erl0RH8DTmbOUklCka1RtOZr6xEp16xUxXCBP5cxPeKwzgPReK
+ Px9A==
+X-Gm-Message-State: AOAM530pVU1VHZzIP841wbekPcxBVBAA3hHIxLkVDhCBu3JW68GyjGXg
+ QX5hnY8jPqpVF8OIBckJDzdwXD9097s38yMQIJ2CuvIFPAKTVfEnvYaOiOnlmhreM30+peF283P
+ mrqb1nOxqNnYFUVzPvAieLp3dCdrbfyU=
+X-Received: by 2002:a67:fe93:: with SMTP id b19mr6649140vsr.1.1614956726923;
+ Fri, 05 Mar 2021 07:05:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwSvGuytYs6LBhEsTwXh7CwKXO5JaU9Ofqqlki8gXcFSJ5Di7o6vJ95KWUKhcBtDrupFWSTjX2TIKkAimVCmVA=
+X-Received: by 2002:a67:fe93:: with SMTP id b19mr6648907vsr.1.1614956724741;
+ Fri, 05 Mar 2021 07:05:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-5-nieklinnenbank@gmail.com>
+In-Reply-To: <20210304203540.41614-5-nieklinnenbank@gmail.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 5 Mar 2021 12:04:58 -0300
+Message-ID: <CAKJDGDawHKo0=q_psWrSOGVXvDf+QjjM20E29bdbogNfBTUsXg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] tests/acceptance: update sunxi kernel from armbian
+ to 5.10.16
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,42 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- tests/qtest/meson.build | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Thu, Mar 4, 2021 at 5:45 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+>
+> The linux kernel 4.20.7 binary for sunxi has been removed from apt.armbian.com:
+>
+>   $ ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes avocado --show=app,console run -t machine:orangepi-pc tests/acceptance/boot_linux_console.py
+>   Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+>   ...
+>   (1/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+>     CANCEL: Missing asset https://apt.armbian.com/pool/main/l/linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb (0.55 s)
+>
+> This commit updates the sunxi kernel to 5.10.16 for the acceptance
+> tests of the orangepi-pc and cubieboard machines.
+>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>  tests/acceptance/boot_linux_console.py | 40 +++++++++++++-------------
+>  tests/acceptance/replay_kernel.py      |  8 +++---
+>  2 files changed, 24 insertions(+), 24 deletions(-)
+>
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6077e0748e..9feca57d2c 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -148,8 +148,7 @@ qtests_arm = \
-   (config_all_devices.has_key('CONFIG_CMSDK_APB_WATCHDOG') ? ['cmsdk-apb-watchdog-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
-   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
--  ['arm-cpu-features',
--   'microbit-test',
-+  ['microbit-test',
-    'm25p80-test',
-    'test-arm-mptimer',
-    'boot-serial-test',
-@@ -158,8 +157,7 @@ qtests_arm = \
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
-   (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
--  ['arm-cpu-features',
--   'numa-test',
-+  ['numa-test',
-    'boot-serial-test',
-    'xlnx-can-test',
-    'migration-test']
--- 
-2.26.2
+I think some devs will not like it, but, for me, it is fine as we
+don't have the old kernel available anymore:
+
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
