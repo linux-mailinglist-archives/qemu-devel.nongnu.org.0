@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BD132EF36
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:43:42 +0100 (CET)
-Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E575432EF43
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:45:13 +0100 (CET)
+Received: from localhost ([::1]:34382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lICc9-0000a0-Lt
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:43:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34240)
+	id 1lICdc-0002Mh-TF
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:45:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lICNe-0007ed-O4
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:28:42 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:37034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lICNd-0007lY-13
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:28:42 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id d13so3144919edp.4
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:28:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=U0dl+186hE06nAv+1dMykXHa7aau242UowlnbHcB+fk=;
- b=uTTD/6An8CaP6YrMPsREjt9eTkAownz2gtvIdJ5RAHf6tldByyLe3tmDKFzwk4IZHo
- 7Nuraot4opRo8O2QHrb2W0+pGPsjWuqwuNeZ2EUoMcS7oGZ01JipMDbQd5OMPy+W4/kM
- dsGR9sLYnSVkprGp3nSBiLoG6tcakn9WtGOMjvZhRGI/f0ivYaF4/Zy634uXDOIhLll7
- A6DqtwB0LJVzQWBBoJq5r28Phou7rcqRK8OsLSmSsB1x83jcixYRcIlqhyS/Ok81YKtG
- idcwx7Z03YhfOpGspZWsOh4JgJZwMUraHaWTusWcUv1OSdOzMRqn2LGr/HR1SnX8oR5M
- ErFQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lICW7-0002ud-6O
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:37:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lICW2-0003bG-Eg
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:37:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614958640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VM5usnxbwbdMQmAkNqSEXWFDqDsME8ZUFNJtssClblc=;
+ b=PiW2vWDPZgOiTqpV86s3ePg3NORGvFCU6N9AoBM7u0Y6zguEvtv5TGJp5Eoz2s6088AS3d
+ r9Zwhyku7yg5Vr9Mel73RH04k+eIIj6U9Vomp8214yEt4Chj4dirDshuQslw6JU1P5Yr65
+ xpULVl/L7Omcfd2V8teA1QSb4xpSt/o=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-M-MCHRUcP0elOzyfFnEkGA-1; Fri, 05 Mar 2021 10:37:16 -0500
+X-MC-Unique: M-MCHRUcP0elOzyfFnEkGA-1
+Received: by mail-qt1-f200.google.com with SMTP id k4so1884099qtd.20
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:37:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=U0dl+186hE06nAv+1dMykXHa7aau242UowlnbHcB+fk=;
- b=PuZSzi89oGKI3KhuyvckWZBYmy/db6FpCg7da69kP98Vi4SkYxzYaCVMdnCMTvs0ea
- nDglKwD8nto8z7PQrfayk1AaGfrY9QSt2mKOUGyY7OtvILWn9rutPz+nLd8ulbJjy4Cj
- ImUSKIP14h50Bc7HcEau+1weBuCLUbJT6sMMgXrmrdds1bW2CFdgZd5375tzHdI/EEaN
- 1d4mPhVCmIuFE9tdzKAYysFTfXuCEsWrpAHfZNoSCD0s/SUnqEp19XX37iWX3DSmh7MU
- dwP7N4vxE0iP+I2MbeD8dqo22wFroRW4UpHgiFLst9SXZUpq6f2xrRw7WsGpOx4w35Yt
- SpFg==
-X-Gm-Message-State: AOAM532oD8GREes7hlzmla+xAZvpn9IRplsYHeXcSUJkA+b+QVSbNZ+U
- tZzraNRWjUViD9yzXq0esbLQyg==
-X-Google-Smtp-Source: ABdhPJzjr+DHr+7bsh7CpuiXDehxXT/hH3OCRtRJOS7WZnt3ZUfK+8pGjQ20+mRmmC64De6vomsv/Q==
-X-Received: by 2002:aa7:c843:: with SMTP id g3mr9681605edt.228.1614958119361; 
- Fri, 05 Mar 2021 07:28:39 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id lx6sm1668480ejb.64.2021.03.05.07.28.38
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VM5usnxbwbdMQmAkNqSEXWFDqDsME8ZUFNJtssClblc=;
+ b=Qpx5yMtj59jXlAMShWIDeY23OEcyS2j5Vc5EmfOKJH0OwIVhNJSv+SmDg5UqnrfCMv
+ dztOl+DsxgISQyOCSHKYSCKTRO5J1Y5E9VlFTCTMT0BOwsZO54GV0wFbyMZB2CDZnczK
+ NAWAE5SQ3kX827+Rzi1F/8+r86jyS+q3SSBfILW+f/HIs2HK8hU9r7SsV8hBJlrcMoTc
+ vxiRn5u+mhKQEpyAZeR/mpUKDWR2Ag+fqifiHNGKmt1fXv5N4NuTedSFtQtVAFcyqUkr
+ K51NcDYyDhclFEzLqrWxU45dz6f9s6vhOSrGF1pIHIr4/f0l4UuHRNtH3ZhI9K1SVQ2J
+ f04g==
+X-Gm-Message-State: AOAM5304uf6SqCSF9ri0EXuH7ovE3/dNp7nMPVUU3IG98mYkC5zWklQJ
+ SR3kQwjPH3fG0LefEGBlOBwEsQpN/W7bqkQNI+uvnPJp2JMfkuwxPmI5D5dL3dJv8RHMwR63PlJ
+ twsTnbL4a0DeAAyo=
+X-Received: by 2002:a05:6214:aae:: with SMTP id
+ ew14mr9540449qvb.24.1614958636122; 
+ Fri, 05 Mar 2021 07:37:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyB4JZtMASx0k65cuavabY0PrSoysqOM6feB49hI/cytiY6dkQjJwkq5kXlzFeukx6oQdfC4A==
+X-Received: by 2002:a05:6214:aae:: with SMTP id
+ ew14mr9540423qvb.24.1614958635882; 
+ Fri, 05 Mar 2021 07:37:15 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id a9sm1995727qtx.96.2021.03.05.07.37.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 07:28:38 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C4C021FF7E;
- Fri,  5 Mar 2021 15:28:37 +0000 (GMT)
-References: <20210208023752.270606-1-richard.henderson@linaro.org>
- <20210208023752.270606-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 03/70] tcg: Manage splitwx in tc_ptr_to_region_tree
- by hand
-Date: Fri, 05 Mar 2021 15:28:31 +0000
-In-reply-to: <20210208023752.270606-4-richard.henderson@linaro.org>
-Message-ID: <878s71fwm2.fsf@linaro.org>
+ Fri, 05 Mar 2021 07:37:15 -0800 (PST)
+Date: Fri, 5 Mar 2021 10:37:13 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 7/9] memory: introduce RAM_NORESERVE and wire it up in
+ qemu_ram_mmap()
+Message-ID: <20210305153713.GG397383@xz-x1>
+References: <20210305101634.10745-1-david@redhat.com>
+ <20210305101634.10745-8-david@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210305101634.10745-8-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,22 +95,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-s390x@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Mar 05, 2021 at 11:16:32AM +0100, David Hildenbrand wrote:
+> Let's introduce RAM_NORESERVE, allowing mmap'ing with MAP_NORESERVE. The
+> new flag has the following semantics:
+> 
+>   RAM is mmap-ed with MAP_NORESERVE. When set, reserving swap space (or
+>   huge pages on Linux) is skipped: will bail out if not supported. When not
+>   set, the OS might reserve swap space (or huge pages on Linux), depending
+>   on OS support.
+> 
+> Allow passing it into:
+> - memory_region_init_ram_nomigrate()
+> - memory_region_init_resizeable_ram()
+> - memory_region_init_ram_from_file()
+> 
+> ... and teach qemu_ram_mmap() and qemu_anon_ram_alloc() about the flag.
+> Bail out if the flag is not supported, which is the case right now for
+> both, POSIX and win32. We will add the POSIX mmap implementation next and
+> allow specifying RAM_NORESERVE via memory backends.
+> 
+> The target use case is virtio-mem, which dynamically exposes memory
+> inside a large, sparse memory area to the VM.
+> 
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Stefan Weil <sw@weilnetz.de>
+> Cc: kvm@vger.kernel.org
+> Cc: qemu-s390x@nongnu.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-> The use in tcg_tb_lookup is given a random pc that comes from the pc
-> of a signal handler.  Do not assert that the pointer is already within
-> the code gen buffer at all, much less the writable mirror of it.
->
-> Fixes: db0c51a3803
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+-- 
+Peter Xu
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
