@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8561632E63C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:25:01 +0100 (CET)
-Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C82F32E66B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:30:31 +0100 (CET)
+Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI7dk-0005Py-IH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:25:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47378)
+	id 1lI7j4-0001Oz-Mz
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI7c5-0003zn-Is
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:23:17 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lI7c4-0002xd-3k
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:23:17 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id h10so1837592edl.6
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 02:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6VCuuBtbuc8EStm0rgjyCLYmu6kKh/SbbcBZq5BmvOI=;
- b=y+BEdgaCBzdC+JZSkiSPqTwo5LYtWRXgqNaWCN6ZdgtoUyf0fZhoghWlnY1xjAuxsH
- jPEeGNt1ps/Z/FrhQtqCc3gs4OaXqdQ22Covk9quVYsMhy7ltDox/trBFY1rWERFvR8L
- BSPPJfUY8M/3gxPnO2JsXl/9YpO953TqQtZOX4b8zGUPOc9RG3jasRo7itkF3kuT5mFh
- tA1lFxeBpad3WE0dahG5mDk6BZJgPfuhBgbLPv1AjvFgCHvnn2mlqihf+oh9t0Hzux9O
- +h6ppIWu5tRIjZ0f74zEGy5wV1LUX830tJNjD19cZKMXKbQNoYl66X66Y0dzQWo1pFbQ
- 9LLQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lI7gT-0000Iv-4v
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:27:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lI7gO-0004yA-3m
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:27:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614940062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ynJqjMPq2VeQ1KGJnjXQjrrHSQhxWis2CNDdCm+IHl0=;
+ b=gjfapm0Uno/oQq0uEjPmxvLlMS0YM8dKs/RbnOt1OhT9WptEn1YnkTjNYfk047Z7sNrTFE
+ uP20Zvl50+5xYM+mABLEZJrn3l8JP6BLrzPsEHva14nhZ1oxmQnBRBKq6it0FJGbUKU3k3
+ QehUYw51H5UmlmH1Jm998IHBIihwa4g=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-Tfvlf9_DOrOy3eqMxUvrgg-1; Fri, 05 Mar 2021 05:27:40 -0500
+X-MC-Unique: Tfvlf9_DOrOy3eqMxUvrgg-1
+Received: by mail-wr1-f70.google.com with SMTP id b15so877481wrm.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 02:27:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6VCuuBtbuc8EStm0rgjyCLYmu6kKh/SbbcBZq5BmvOI=;
- b=W8mnfIVMFKLKnoo4B8RZJan0MK4StH3bnw4y/kUGL7WkEcH51Gr5w3K5Ucj8wtdJkC
- i6Aac9YLMzCzalk0gqvxVOWMYN1AAfAJcn1NPmmugYPBglWeEw10kxldFcAcabzc0vn9
- VBYOaAoAfNnbm/SWOyIvN18scZMZgJT4TiaFRO2pJHxCwj/uDGoBKKZqa2NA1FDDZUK9
- HbUcXducIN0xhraY/IcWvTNgkHhQbp40OUBz9hfBAh4CCEikWYEIXc1hwP2CN7gE6uXU
- CpJXbWtCWsYMZLmC5UQ659ycuFcPghqgp+B6X77tmjdpCsnWpw9hV1PNiF2hmLkZCkC7
- 0Geg==
-X-Gm-Message-State: AOAM53045dUCd4K1xZNcI2GGJFofhpG13KTC2+P/TUDY/QzRoWZkOh8v
- nn9VEyR4OO8ENcOLeZgfVypvMIqUO7+qiP9h56c/R9JkP1tXSg==
-X-Google-Smtp-Source: ABdhPJwDE1uTKZNemTqPV1rS8OXGhiQD0qjFjItEviGk+EqWbNKiONjbLdq8jKKcRhbmslcb7t5oZJ5i8aOB+sXcSh8=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr8290734edt.251.1614939794628; 
- Fri, 05 Mar 2021 02:23:14 -0800 (PST)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ynJqjMPq2VeQ1KGJnjXQjrrHSQhxWis2CNDdCm+IHl0=;
+ b=sfHImNg5jaYQva6in7LMXlS2IlYn8D/lbygpdUQeCSqFjSwOWuGRMP7Mk+b116vqr9
+ Kgd6U976jEmYai8Q5sHtEOF9tfIs8qg5p8dGBfXnXFPKcklSo6OgcLouCIEmc3SqUIZ/
+ vhDjI2O7vipP0q2+MdJNvIJpLptA+ufjlYlUWJtQfZPP4UjIF8OScZrYDzIBuI0XLnEV
+ BIzHTeq4qJ1p/Z9icjFI7WvunPscmv63v46dVFRBtfCLDeO4qRJhGIiFwBQuUHtmKQ3Y
+ 5pdP2H/FOskAGq8EWMnNWgBs39HfDWeeYqNBM6Pday9/hrPVf303fzNX7ygCTEV05Mh5
+ bTjg==
+X-Gm-Message-State: AOAM533qLGeLbetgkyLIgi8EgJN9Cbwhcz9pquEG3dq+R1Rv84hyHd/o
+ S5egXYhxMr3CZmKa9sJqt0ytc59m8JSGbOrU0/FQ9r2JnjI+ShWu3+hndofwmSwR/oG+dm/minN
+ JWsr4i+9GN6PW5Gc=
+X-Received: by 2002:adf:f186:: with SMTP id h6mr8700216wro.290.1614940059557; 
+ Fri, 05 Mar 2021 02:27:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/dwP+riWuo2rALDwgnVnxLVvFG2maVn7ja/nEgnVqgW+6052pmM9xkxytEILvKxRgcUwyfA==
+X-Received: by 2002:adf:f186:: with SMTP id h6mr8700194wro.290.1614940059393; 
+ Fri, 05 Mar 2021 02:27:39 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h10sm3971246wrp.22.2021.03.05.02.27.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Mar 2021 02:27:38 -0800 (PST)
+Subject: Re: [PATCH v5 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating
+ CI)
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <0acfe9de-c7c9-ef1e-8ed4-6f7e42859dcc@redhat.com>
+Message-ID: <1e6e8f6b-c73e-a54c-8d64-b6a617428ec2@redhat.com>
+Date: Fri, 5 Mar 2021 11:27:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-44-peter.maydell@linaro.org>
- <5283165e-f8f8-fd5b-843c-2010d212785b@linaro.org>
-In-Reply-To: <5283165e-f8f8-fd5b-843c-2010d212785b@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 10:22:59 +0000
-Message-ID: <CAFEAcA8kLV_gxbD+Gt+c4ShTxcPKEUHYvF26gmtDA_-iAuWdTQ@mail.gmail.com>
-Subject: Re: [PATCH 43/44] docs/system/arm/mps2.rst: Document the new
- mps3-an547 board
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <0acfe9de-c7c9-ef1e-8ed4-6f7e42859dcc@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,36 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 at 01:28, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/19/21 6:46 AM, Peter Maydell wrote:
-> > @@ -1,5 +1,5 @@
-> > -Arm MPS2 and MPS3 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``, ``mps3-an524``)
-> > -=========================================================================================================================================
-> > +Arm MPS2 and MPS3 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``, ``mps3-an524``, ``mps3-an547``)'
-> I think you should drop the list here, as it has gotten *way* too long.
->
-> > @@ -27,6 +27,8 @@ QEMU models the following FPGA images:
-> >     Dual Cortex-M33 as documented in Arm Application Note AN521
-> >   ``mps3-an524``
-> >     Dual Cortex-M33 on an MPS3, as documented in Arm Application Note AN524
-> > +``mps3-an547``
-> > +  Cortex-M55 on an MPS3, as documented in Arm Application Note AN547
->
-> The list is down here, anyway.
+On 3/5/21 11:14 AM, Philippe Mathieu-Daudé wrote:
+> Hi Cleber,
+> 
+> On 2/19/21 10:58 PM, Cleber Rosa wrote:
+>> TL;DR: this should allow the QEMU maintainer to push to the staging
+>> branch, and have custom jobs running on the project's aarch64 and
+>> s390x machines.  Jobs in this version are allowed to fail, to allow
+>> for the inclusion of the novel machines/jobs without CI disruption.
+>> Simple usage looks like:
+>>
+>>    git push remote staging
+>>    ./scripts/ci/gitlab-pipeline-status --verbose --wait
+>>
+>> Long version:
+>>
+>> The idea about a public facing Gating CI for QEMU was summarized in an
+>> RFC[1].  Since then, it was decided that a simpler version should be
+>> attempted first.
+>>
+>> At this point, there are two specific runners (an aarch64 and an s390x)
+>> registered with GitLab, at https://gitlab.com/qemu-project, currently
+>> setup to the "qemu" repository.
 
-The title is what generates the text for the table of contents in the
-next page up:
+Also we are interested in testing virtualization with these runners.
 
-https://qemu-project.gitlab.io/qemu/system/target-arm.html#board-specific-documentation
+If KVM is available, we need to document the gitlab-runner user needs
+to be in the KVM group, and it would be helpful to have a 'kvm' tag
+in the runner taglist, so we could assign specific jobs to these
+runners.
 
-I like having every board model listed explicitly in that ToC. (Though we
-have broken this rule for the Aspeed boards with "*-bmc"...)
+> Our CI is heavily based on containerized testing, your scripts/document
+> don't cover that.
+> 
+> Should we document how to install a container service (we mostly
+> use Docker and Podman)?
+> 
+> Or should we simply explicit these are only "native" runners and
+> container support will be considered later eventually?
+> 
+> Regards,
+> 
+> Phil.
+> 
 
--- PMM
 
