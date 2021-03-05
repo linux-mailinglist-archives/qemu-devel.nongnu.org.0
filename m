@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2063432EF64
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:53:02 +0100 (CET)
-Received: from localhost ([::1]:50374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E64032EF53
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 16:49:03 +0100 (CET)
+Received: from localhost ([::1]:44588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIClA-0000jh-R0
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
+	id 1lIChK-0006eE-AI
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 10:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lICYn-0005uM-Ge
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:40:13 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lICYb-0004e0-Ow
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:40:08 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id jx13so2084537pjb.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:39:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jLqDEbj96a8v8DVEdBHUUJgC/PotIjYjDO17JK0TuFw=;
- b=zp8B42YhnhDj/iGKKb7vS5I/QrMfs2fyzPr7FI2DFfz8KtI1zXitARm2oOkKDmwKXX
- Cfvd9aJpZQvJiUfrJUM54SCQhrxSuVbAAeKdZlBIT7DkrXY3leh3PMc6Ij5bVFTQFzly
- Wy6tQaB/NwBr1X1EoI2BoYdakQs9XFCdsk6XJof3Cnk7TO2kSPIzcgtq0G0Ofx+7/JvQ
- ud23tNcrNJV8ByQRd47gwdkMFcuUaE/9rQ3KjgwGCkUYxEtTFQ9CuSjPkUS7tL1MYYRH
- b0z04Z7UXlR4Fmqg35p7SHGxjuskiPBxGtMZSwO78uKRcn614L80auRy+lK/wPbf7G11
- leYg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lICal-0008QH-Oa
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:42:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lICah-0005j7-Aj
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 10:42:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614958930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vVL67c/WNgKqHQyf9emFhoJH10bfpZyRPUkSC5FmR8A=;
+ b=iqeXUEnxq2bUzwr5dyzt7yyfnaOSMIOrKew994YjjGiKUUW2e/xrdn9Jg0gTgnN8CVPj4n
+ 9cyDnXjo1xFQKk0Bezi75oqGac67aFoZNHu3ZKzu8zwz071r9NSUjbglFTAxeYqxsbW/II
+ vJCGpBRc7u2bslI3psH06EbpYYPNQR0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-POGQ5iskNN-JLX9Zjkpn_w-1; Fri, 05 Mar 2021 10:42:09 -0500
+X-MC-Unique: POGQ5iskNN-JLX9Zjkpn_w-1
+Received: by mail-qv1-f71.google.com with SMTP id iy2so1786500qvb.22
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 07:42:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jLqDEbj96a8v8DVEdBHUUJgC/PotIjYjDO17JK0TuFw=;
- b=bbeb0snvnUEAmGFOdekjq3tcv0kjcOWUSzBOCqcBcYdd0lmbFbwMaFVtGqeCCPL/Jl
- 2YZIr5PBfETv7/dpn2Ogjm4+W0Z8znStKEHgBm6H6Lao+NMs3BFt9xKS2Z/z3BZZ4h+c
- v88iL+2tPHz9AdFGNyLQKWrzfFj2fHokM4nZMxFJT9v8XitEqPTE+Tv7ZQQLew/jretR
- mGbadnCXl6aFAmATXZTrMPR0IbrROm4oXZhcg4b8RVJgNtHOLXgVvU9yvu2hVjjyd0Jz
- 5vzVMGeJ53nVu+bi0y8okFFYq3ULFAjF7tLr1lnzj6CW9W8+TqUuSTJxwmkGKbnhMoCh
- s1zg==
-X-Gm-Message-State: AOAM532Kvzc35N6Uhvs9uKb5byWePPCPsfxoMDHrMpTyjCdPfwZBjv5Q
- 7Z7j72AO/4gekjon60grf8e66w==
-X-Google-Smtp-Source: ABdhPJzBJ3lJCRV6B4Bkguao0kjrvjp8SoDtUiSn8NxcSURbcDPpwQKEV27qYc3HHBxU0SS1ke51eA==
-X-Received: by 2002:a17:90b:3783:: with SMTP id
- mz3mr11372326pjb.88.1614958798369; 
- Fri, 05 Mar 2021 07:39:58 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id v1sm2801167pjt.1.2021.03.05.07.39.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 07:39:57 -0800 (PST)
-Subject: Re: [PATCH] linux-user: Adjust pgd_find_hole_fallback result with
- guest_loaddr
-To: "Ivan A. Melnikov" <iv@altlinux.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210303094919.x6wnlh6qulx72fz6@titan.localdomain>
- <87eegtg05n.fsf@linaro.org>
- <20210305150603.5dgwt27l6agqtacn@titan.localdomain>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <40afa5f1-667c-9db6-fcce-016b3c27cdc2@linaro.org>
-Date: Fri, 5 Mar 2021 07:39:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vVL67c/WNgKqHQyf9emFhoJH10bfpZyRPUkSC5FmR8A=;
+ b=WGBS+oiHFplYVQTa99JXh52k6Q3J/ihgW7KZLaEclxC2TQFi3pix5py+NaW2B1qaho
+ 4+A2I9hHhgXG3+zJWkKZ4iYv2DNU/z3OWjZd6ZPRciE5OuQ3PXk2qaKXpN0g4aBxqbJb
+ 3w0ku1zKgedhS/CNYMMgo1Q0dwtB7ZaJQr094+wI5eynr+UrScR3W9fd5GbtyeR+BbkS
+ uGIH5Gyuam4ypRIme8h9S6Cla1yxGqQ2Vp3uoyeugXWu8lqflZtlT6OnYo+8widSR/yv
+ 5nrry/nobaiq9Q2CiorewTEXBqinHvHUwmU0kvUjIDcr+8zGMfc0FcxsVm2PZcZF2SSr
+ Te3g==
+X-Gm-Message-State: AOAM532jVtJTmd3PoJYleUH+qngcMfvF6MVvYBM5vdx2NVozUemEawDi
+ HwIXN5nxEiZ9SReojofuyt28RIP1kIaCR2OvH1VP9TTsAztjJbKgUhPFHq1szapu+VaHFyPT25N
+ LYlsZMG95oGSdXd0=
+X-Received: by 2002:ac8:6988:: with SMTP id o8mr9423248qtq.24.1614958928663;
+ Fri, 05 Mar 2021 07:42:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVQscX/7P2Y8WzLoPT9wNX3QRYe46tt9FPIDfoUrVfyXajcYSkOl/CZX+ZYfc3Zwa9jhnpKw==
+X-Received: by 2002:ac8:6988:: with SMTP id o8mr9423226qtq.24.1614958928468;
+ Fri, 05 Mar 2021 07:42:08 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id z78sm2068430qka.38.2021.03.05.07.42.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 07:42:08 -0800 (PST)
+Date: Fri, 5 Mar 2021 10:42:06 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 8/9] util/mmap-alloc: Support RAM_NORESERVE via
+ MAP_NORESERVE
+Message-ID: <20210305154206.GH397383@xz-x1>
+References: <20210305101634.10745-1-david@redhat.com>
+ <20210305101634.10745-9-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210305150603.5dgwt27l6agqtacn@titan.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210305101634.10745-9-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,18 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/21 7:06 AM, Ivan A. Melnikov wrote:
-> Especially since, as far
-> as I remeber, comparing unsigned value with -1 (which is int)
-> is UB.
+On Fri, Mar 05, 2021 at 11:16:33AM +0100, David Hildenbrand wrote:
+> +#define OVERCOMMIT_MEMORY_PATH "/proc/sys/vm/overcommit_memory"
+> +static bool map_noreserve_effective(int fd, bool readonly, bool shared)
+> +{
 
-It is certainly not undefined behaviour.  The defined behaviour is to promote 
-to the common type, which will do exactly what we want.
+[...]
 
+> @@ -184,8 +251,7 @@ void *qemu_ram_mmap(int fd,
+>      size_t offset, total;
+>      void *ptr, *guardptr;
+>  
+> -    if (noreserve) {
+> -        error_report("Skipping reservation of swap space is not supported");
+> +    if (noreserve && !map_noreserve_effective(fd, shared, readonly)) {
 
-r~
+Need to switch "shared" & "readonly"?
+
+>          return MAP_FAILED;
+>      }
+
+-- 
+Peter Xu
+
 
