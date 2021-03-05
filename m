@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B285B32E60B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:19:27 +0100 (CET)
-Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0248C32E60D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 11:19:37 +0100 (CET)
+Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI7YM-000701-Mv
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:19:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46152)
+	id 1lI7YV-0007EA-VC
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 05:19:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7W2-0005Sm-Uw
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33446)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7WI-0005aS-JY
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7W1-0000L3-75
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:02 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lI7WG-0000RO-Rj
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 05:17:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614939420;
+ s=mimecast20190719; t=1614939436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kfDGm/3S8Z2MTLybln9y1B3jL5NtrOR8PdZZRWb80Gc=;
- b=RybWH0MkcQZMU2R2Rtj5TnnZajrJma6OtutfTusR/x37s757Z0/GVajmLqfByuhe7I6A4Y
- Lod3PsDnPZNKbRLLCtalhNgZSkPHTqw0cFZ2lCiPQw2xnX8OcoEYAex2at/Jw4k0RcFLh2
- g1Eddf33G407YyrdD/wr/EXYrV+cgw8=
+ bh=W2xadBhOlctA+eFTSVDngodlBQX81CnvqOgmN6nNNlI=;
+ b=EBmj0Iro/Rc4yihIO50ELRl+eI53qfgTqqov5i2AfQgR8kh+D8qdAUcPWAFJjichH24ues
+ DY79yn2hpHA+V4P8IM5S7f4oyk9yyV4KXoJp4Md1+qbzTSKeiCnLUsokLsNl87rTaBjpQi
+ wvCUBi4k5snlec3ZpPKumsQo8MsfJZA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-BwVjLmYDORCgPGjFeAEmqQ-1; Fri, 05 Mar 2021 05:16:58 -0500
-X-MC-Unique: BwVjLmYDORCgPGjFeAEmqQ-1
+ us-mta-471-B8fbtWZVOSeq5oiOymVNqA-1; Fri, 05 Mar 2021 05:17:14 -0500
+X-MC-Unique: B8fbtWZVOSeq5oiOymVNqA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4152019067E1;
- Fri,  5 Mar 2021 10:16:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6CB7108BD08;
+ Fri,  5 Mar 2021 10:17:12 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6503710016DB;
- Fri,  5 Mar 2021 10:16:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89E3B10016DB;
+ Fri,  5 Mar 2021 10:16:56 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] softmmu/physmem: Drop "shared" parameter from
- ram_block_add()
-Date: Fri,  5 Mar 2021 11:16:26 +0100
-Message-Id: <20210305101634.10745-2-david@redhat.com>
+Subject: [PATCH v2 2/9] util/mmap-alloc: Factor out calculation of the
+ pagesize for the guard page
+Date: Fri,  5 Mar 2021 11:16:27 +0100
+Message-Id: <20210305101634.10745-3-david@redhat.com>
 In-Reply-To: <20210305101634.10745-1-david@redhat.com>
 References: <20210305101634.10745-1-david@redhat.com>
 MIME-Version: 1.0
@@ -93,59 +93,108 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Properly store it in the flags of the ram block instead (and the flag
-even already exists and is used).
+Let's factor out calculating the size of the guard page and rename the
+variable to make it clearer that this pagesize only applies to the
+guard page.
 
-E.g., qemu_ram_is_shared() now properly succeeds on all ram blocks that are
-actually shared.
-
-Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/physmem.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ util/mmap-alloc.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 141fce79e8..62ea4abbdd 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1927,8 +1927,9 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
-     }
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index e6fa8b598b..24854064b4 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -82,6 +82,16 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
+     return qemu_real_host_page_size;
  }
  
--static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
-+static void ram_block_add(RAMBlock *new_block, Error **errp)
++static inline size_t mmap_guard_pagesize(int fd)
++{
++#if defined(__powerpc64__) && defined(__linux__)
++    /* Mappings in the same segment must share the same page size */
++    return qemu_fd_getpagesize(fd);
++#else
++    return qemu_real_host_page_size;
++#endif
++}
++
+ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+@@ -90,12 +100,12 @@ void *qemu_ram_mmap(int fd,
+                     bool is_pmem,
+                     off_t map_offset)
  {
-+    const bool shared = qemu_ram_is_shared(new_block);
-     RAMBlock *block;
-     RAMBlock *last_block = NULL;
-     ram_addr_t old_ram_size, new_ram_size;
-@@ -2064,7 +2065,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
++    const size_t guard_pagesize = mmap_guard_pagesize(fd);
+     int prot;
+     int flags;
+     int map_sync_flags = 0;
+     int guardfd;
+     size_t offset;
+-    size_t pagesize;
+     size_t total;
+     void *guardptr;
+     void *ptr;
+@@ -116,8 +126,7 @@ void *qemu_ram_mmap(int fd,
+      * anonymous memory is OK.
+      */
+     flags = MAP_PRIVATE;
+-    pagesize = qemu_fd_getpagesize(fd);
+-    if (fd == -1 || pagesize == qemu_real_host_page_size) {
++    if (fd == -1 || guard_pagesize == qemu_real_host_page_size) {
+         guardfd = -1;
+         flags |= MAP_ANONYMOUS;
+     } else {
+@@ -126,7 +135,6 @@ void *qemu_ram_mmap(int fd,
+     }
+ #else
+     guardfd = -1;
+-    pagesize = qemu_real_host_page_size;
+     flags = MAP_PRIVATE | MAP_ANONYMOUS;
+ #endif
+ 
+@@ -138,7 +146,7 @@ void *qemu_ram_mmap(int fd,
+ 
+     assert(is_power_of_2(align));
+     /* Always align to host page size */
+-    assert(align >= pagesize);
++    assert(align >= guard_pagesize);
+ 
+     flags = MAP_FIXED;
+     flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+@@ -193,8 +201,8 @@ void *qemu_ram_mmap(int fd,
+      * a guard page guarding against potential buffer overflows.
+      */
+     total -= offset;
+-    if (total > size + pagesize) {
+-        munmap(ptr + size + pagesize, total - size - pagesize);
++    if (total > size + guard_pagesize) {
++        munmap(ptr + size + guard_pagesize, total - size - guard_pagesize);
      }
  
--    ram_block_add(new_block, &local_err, ram_flags & RAM_SHARED);
-+    ram_block_add(new_block, &local_err);
-     if (local_err) {
-         g_free(new_block);
-         error_propagate(errp, local_err);
-@@ -2127,10 +2128,13 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
-     if (host) {
-         new_block->flags |= RAM_PREALLOC;
+     return ptr;
+@@ -202,15 +210,8 @@ void *qemu_ram_mmap(int fd,
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size)
+ {
+-    size_t pagesize;
+-
+     if (ptr) {
+         /* Unmap both the RAM block and the guard page */
+-#if defined(__powerpc64__) && defined(__linux__)
+-        pagesize = qemu_fd_getpagesize(fd);
+-#else
+-        pagesize = qemu_real_host_page_size;
+-#endif
+-        munmap(ptr, size + pagesize);
++        munmap(ptr, size + mmap_guard_pagesize(fd));
      }
-+    if (share) {
-+        new_block->flags |= RAM_SHARED;
-+    }
-     if (resizeable) {
-         new_block->flags |= RAM_RESIZEABLE;
-     }
--    ram_block_add(new_block, &local_err, share);
-+    ram_block_add(new_block, &local_err);
-     if (local_err) {
-         g_free(new_block);
-         error_propagate(errp, local_err);
+ }
 -- 
 2.29.2
 
