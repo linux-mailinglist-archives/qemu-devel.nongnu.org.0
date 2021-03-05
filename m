@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AD832ED76
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 15:51:01 +0100 (CET)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADC332ED73
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 15:50:08 +0100 (CET)
+Received: from localhost ([::1]:46640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIBnA-0004It-DE
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 09:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53582)
+	id 1lIBmJ-0003Iu-5c
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 09:50:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIBkl-0001fq-IY
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:48:31 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:46801)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lIBl6-000237-Nv
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:48:52 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIBkj-00079c-89
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:48:31 -0500
-Received: by mail-ej1-x631.google.com with SMTP id r17so3912334ejy.13
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 06:48:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lIBl3-0007Ig-MD
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 09:48:52 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id f12so2358946wrx.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 06:48:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ut45ZNUFx4I9cGZaEL3mdBFu9mwmY1NBE3AgGM/zY1s=;
- b=VJ6aht5POT1QMUZgS8+gcBJfkvfrPQJA2S6GfMKaglMmDMDcCZxeIh92Bh1GCnyT85
- htGc97DsbJTNMENlXFSnTMD8E6b+SeqDHhjwrQPSSLomDtkR6fJLYyaxWuombeO00SfF
- +c7i+73dkgTYY83y2EHvL04gePjzoJ7z5Kbcr2cIEfjpHfBJm9JkcH0nmGF+RgbRobl8
- xVII+bocu5I2H4b0T9470phS/EaX2hTgEyYKg4udEOF0eCYxgdCKFqwHpSZFHVsj9rFR
- OwNVwf4vcW3LVO3xI0IAOHvw2ObEsHtXmvgNzBt1sQVNK9a+0pWJ/R+DUzkLZDygPIg1
- ZTvA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H2PThwTQIl906+wEewRZ6lvmWIUQrRdCUiNrHANKF5E=;
+ b=sXbbHTljFTyk5a2ygIb1wlrPXaRw6YzDEDvACnNl13ngjdLy8j1iU5VZwtk/Fma3a2
+ jEpIMDKj4Gx3b5JMFhu+R7QnOtEYcVRhVJg+NzGN7+d2H/VIU5IFkTosYih/aaz0JYgq
+ kPVsSfQRuUzBsBn/nHwCXbGcvI7Vl1k1PCvHHXuMvlphniZnqi4ZCPCij1jT63mVN17o
+ 2OFMLGm+23Q8sga4XC2WqkgSl1hASpj1AtzABWYX2jc3AEfj85mDPN4kMX97dQydxa58
+ L+qo6rDs7giPdr1/e4NKhJ5zgZN1RfG0zfdgJ88rB1JJ/TG/7Ko7j31eXFRJry+4Gk0U
+ fVTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ut45ZNUFx4I9cGZaEL3mdBFu9mwmY1NBE3AgGM/zY1s=;
- b=l9t1nzoqn8T/SVfAj6rY407pKDnlWvnPSBFccPDUFcCZHKgfgDLj0nYhla+eBW4CjN
- bHx38DcVxiID2vQEN3fu+joJyIAlVd2BRuiylx01qAKiM09JkzPe3GKvppoQdNYeuqaF
- ahpQJEQDCMK4vljLuwfD5KUjiT7jf0GzBI99hHPBoJU4488wtlQ512W6GjOW3r4fphvQ
- cCbkZ9lBiN59DKOXyIDCm3XeFW0kp1cbHeN/VHpUhpL/TaZJrWxfwCUuuYa7Sa7LSwks
- mL4fbb6sWC/lLNhgGcpSszCUsw/KItOd9hFuk9OgBdg66Ox4xIqE5P7CA5RKvHS40B4T
- tfoQ==
-X-Gm-Message-State: AOAM533ODC+a1SfEn9jCNnbbw1cadRtrO7s8liquZ+AP+PmFFjelBzuo
- LD/sFpu//ys6QUqNBodAj8yJ+wFNTI/ylNXBmxI6eQ==
-X-Google-Smtp-Source: ABdhPJxt3CP9R8R09fhYVww3yyMcdliFn0GZcmc0C0OM/K4AAuVW0FgkeXpDfLkwDVXld//eNoKKsllBEZynhecU4aQ=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr2537956ejd.85.1614955707326; 
- Fri, 05 Mar 2021 06:48:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H2PThwTQIl906+wEewRZ6lvmWIUQrRdCUiNrHANKF5E=;
+ b=AQ/XIdh1WUJTOgKBwia8MgJuH6rehx6+GcaGRnU5/Bta0+EBqw18QlOvuHf9PO0+1a
+ h5WbqwgYSCBcHOL8djNGRHczPgzAAlUWoVfvLQ/GsTsgSZCHpj+5a8uw/U2JROZJPIrw
+ MbcEpqXAuIplNxm4OAgxqa2zUgYo5BnYpU/CfK7ZRZhICCEAs0X3XonzseqT+f6y3Yir
+ XRd1FYRFRaqDHq4lkHN8y6erixIgCJWZWcPumL5GyWNW1ClYpfSno9C+OS9esI53KLEE
+ zHKLInMu2TSivIlMLGh8eb26tSoHV8g3wvMrZOLKcU6zDMJyoq7RMQnnLhaOvEgO3DTa
+ yHqA==
+X-Gm-Message-State: AOAM532E1MXKrwc4RsiIMYDX+9nBaFyRurmvmU0p6HKOMn/qhwKo59WD
+ B6SOGViRjSievYVPbB4Kal/rNg==
+X-Google-Smtp-Source: ABdhPJzPE0u2D1Y4HiExq+OtA7q5AY9vOpl82sIFSiUiU+TeMxgWz3JB3WIEbYpKOG4GAtlY0d1fIA==
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr9879865wre.83.1614955728182; 
+ Fri, 05 Mar 2021 06:48:48 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b186sm4994919wmc.44.2021.03.05.06.48.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 06:48:47 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5B5101FF7E;
+ Fri,  5 Mar 2021 14:48:46 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] .editorconfig: update the automatic mode setting for Emacs
+Date: Fri,  5 Mar 2021 14:48:39 +0000
+Message-Id: <20210305144839.6558-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210211141515.8755-1-peter.maydell@linaro.org>
-In-Reply-To: <20210211141515.8755-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Mar 2021 14:48:11 +0000
-Message-ID: <CAFEAcA-yS0XcCU7CW2hDr=SLMB2WcNQbdtK=Ei8tk-86bW+i8g@mail.gmail.com>
-Subject: Re: [PATCH 0/9] hw/display/pl110, pxa2xx_lcd: Tidy up template headers
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,47 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for review?
+It seems the editor specific keywords have been deprecated in the main
+editorconfig plugin:
 
-thanks
--- PMM
+  https://github.com/editorconfig/editorconfig-emacs#file-type-file_type_ext-file_type_emacs
 
-On Thu, 11 Feb 2021 at 14:15, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> For a long time now the UI layer has guaranteed that the console
-> surface is always 32 bits per pixel, but some older display device
-> models still have the code to handle other depths.  This patchset
-> cleans up that dead code for the pl110 and pxa2xx_lcd devices.  For
-> the pxa2xx_lcd we can remove the template header entirely; the pl110
-> still uses it to handle the wide variety of guest pixel formats that
-> it has to support, but we can at least simplify it from a
-> doubly-nested set of inclusions to a single layer.
->
-> thanks
-> -- PMM
->
-> Peter Maydell (9):
->   hw/display/pl110: Remove dead code for non-32-bpp surfaces
->   hw/display/pl110: Pull included-once parts of template header into
->     pl110.c
->   hw/display/pl110: Remove use of BITS from pl110_template.h
->   hw/display/pxa2xx_lcd: Remove dead code for non-32-bpp surfaces
->   hw/display/pxa2xx_lcd: Remove dest_width state field
->   hw/display/pxa2xx: Remove use of BITS in pxa2xx_template.h
->   hw/display/pxa2xx: Apply brace-related coding style fixes to template
->     header
->   hw/display/pxa2xx: Apply whitespace-only coding style fixes to
->     template header
->   hw/display/pxa2xx: Inline template header
->
->  hw/display/pl110_template.h  | 120 +-------
->  hw/display/pxa2xx_template.h | 447 ------------------------------
->  hw/display/pl110.c           | 123 ++++++---
->  hw/display/pxa2xx_lcd.c      | 520 ++++++++++++++++++++++++++++++-----
->  4 files changed, 542 insertions(+), 668 deletions(-)
->  delete mode 100644 hw/display/pxa2xx_template.h
+Update the keywords to the suggested one and point users at the
+extension.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ .editorconfig | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/.editorconfig b/.editorconfig
+index 22681d91c6..22656e849d 100644
+--- a/.editorconfig
++++ b/.editorconfig
+@@ -4,6 +4,11 @@
+ # plugin.
+ #
+ # Check https://editorconfig.org for details.
++#
++# Emacs: you need https://github.com/10sr/editorconfig-custom-majormode-el
++# to automatically enable the appropriate major-mode for your files
++# that aren't already caught by your exiting config.
++#
+ 
+ root = true
+ 
+@@ -15,17 +20,17 @@ charset = utf-8
+ [*.mak]
+ indent_style = tab
+ indent_size = 8
+-file_type_emacs = makefile
++emacs_mode = makefile
+ 
+ [Makefile*]
+ indent_style = tab
+ indent_size = 8
+-file_type_emacs = makefile
++emacs_mode = makefile
+ 
+ [*.{c,h,c.inc,h.inc}]
+ indent_style = space
+ indent_size = 4
+-file_type_emacs = c
++emacs_mode = c
+ 
+ [*.sh]
+ indent_style = space
+@@ -34,11 +39,11 @@ indent_size = 4
+ [*.{s,S}]
+ indent_style = tab
+ indent_size = 8
+-file_type_emacs = asm
++emacs_mode = asm
+ 
+ [*.{vert,frag}]
+-file_type_emacs = glsl
++emacs_mode = glsl
+ 
+ [*.json]
+ indent_style = space
+-file_type_emacs = python
++emacs_mode = python
+-- 
+2.20.1
+
 
