@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFD332F155
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:36:15 +0100 (CET)
-Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCCC32F1B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:49:54 +0100 (CET)
+Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIEN4-00041v-TO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:36:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
+	id 1lIEaC-0004Le-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:49:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lIDpP-0003uW-GS
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:27 -0500
-Received: from collins.uni-paderborn.de ([2001:638:502:c003::14]:43602)
+ id 1lIDpM-0003nI-4Q
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:24 -0500
+Received: from collins.uni-paderborn.de ([2001:638:502:c003::14]:43614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lIDpI-0001Cx-1P
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:27 -0500
+ id 1lIDpJ-0001Dg-GU
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
  :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2rdnG2M2y1LxV4aD66y7NdZWtKU89FEgAHob2DD+25s=; b=OIZW+t7cDexYWL8RlgbukLflO+
- x5YUwEJM8C2XdfeD07cwYk7daI5QpSMlVM4omRjOFNIfoGAzrrWN5naB4x2KuJ4/56ly42W7mfEkW
- iT/hxEtIBZU+fDTAWJOyALb8tiei279A1ZlB3ISL2fHIWEa5D+5E23d27x9wDH82XPQ8=;
+ bh=iezqbuCnweD8zTieNl+EMzfhwg62SK7sljMpMQQekaM=; b=uXEG9xvoD/EYVkWtloBb3GDmfu
+ 2jLPgIFrKKUxGuKvuUE8f299BPEShv0ZGV9vBRvE7JH3i4+xMQc6a1yAcrucQCSkfZBSPSFwZtkRl
+ 6XFbhnCgvRKiQZ8FGT6uQ9rOQxifBDvNkNYYBKo54EJE6qhKCImyT/X8DpRgTX0j2LeU=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/15] tests/tcg/tricore: Add msub test
-Date: Fri,  5 Mar 2021 18:00:44 +0100
-Message-Id: <20210305170045.869437-15-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v3 15/15] tests/tcg/tricore: Add muls test
+Date: Fri,  5 Mar 2021 18:00:45 +0100
+Message-Id: <20210305170045.869437-16-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
 References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
@@ -42,9 +42,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2021.3.5.165117, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=30601061, da=102572742,
- mc=555, sc=4, hc=551, sp=0, fso=30601061, re=0, sd=0, hd=0
+ AntiVirus-Data: 2021.2.8.5800002
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=30601062, da=102572743,
+ mc=557, sc=4, hc=553, sp=0, fso=30601062, re=0, sd=0, hd=0
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::14;
@@ -76,14 +76,26 @@ Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
  tests/tcg/tricore/Makefile.softmmu-target      | 1 +
  tests/tcg/tricore/Makefile.softmmu-target.orig | 1 +
- tests/tcg/tricore/test_msub.S                  | 9 +++++++++
+ tests/tcg/tricore/test_muls.S                  | 9 +++++++++
  3 files changed, 11 insertions(+)
- create mode 100644 tests/tcg/tricore/test_msub.S
+ create mode 100644 tests/tcg/tricore/test_muls.S
 
 diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index 8de005523e..0fe6a86482 100644
+index 0fe6a86482..5007c60ce8 100644
 --- a/tests/tcg/tricore/Makefile.softmmu-target
 +++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -12,6 +12,7 @@ TESTS += test_fmul.tst
+ TESTS += test_ftoi.tst
+ TESTS += test_madd.tst
+ TESTS += test_msub.tst
++TESTS += test_muls.tst
+ 
+ QEMU_OPTS += -M tricore_testboard -nographic -kernel
+ 
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target.orig b/tests/tcg/tricore/Makefile.softmmu-target.orig
+index 8de005523e..0fe6a86482 100644
+--- a/tests/tcg/tricore/Makefile.softmmu-target.orig
++++ b/tests/tcg/tricore/Makefile.softmmu-target.orig
 @@ -11,6 +11,7 @@ TESTS += test_fadd.tst
  TESTS += test_fmul.tst
  TESTS += test_ftoi.tst
@@ -92,31 +104,19 @@ index 8de005523e..0fe6a86482 100644
  
  QEMU_OPTS += -M tricore_testboard -nographic -kernel
  
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target.orig b/tests/tcg/tricore/Makefile.softmmu-target.orig
-index fcc7b6c1c9..8de005523e 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target.orig
-+++ b/tests/tcg/tricore/Makefile.softmmu-target.orig
-@@ -10,6 +10,7 @@ TESTS += test_dvstep.tst
- TESTS += test_fadd.tst
- TESTS += test_fmul.tst
- TESTS += test_ftoi.tst
-+TESTS += test_madd.tst
- 
- QEMU_OPTS += -M tricore_testboard -nographic -kernel
- 
-diff --git a/tests/tcg/tricore/test_msub.S b/tests/tcg/tricore/test_msub.S
+diff --git a/tests/tcg/tricore/test_muls.S b/tests/tcg/tricore/test_muls.S
 new file mode 100644
-index 0000000000..6dee87d99c
+index 0000000000..ca517556bc
 --- /dev/null
-+++ b/tests/tcg/tricore/test_msub.S
++++ b/tests/tcg/tricore/test_muls.S
 @@ -0,0 +1,9 @@
 +#include "macros.h"
 +.text
 +.global _start
 +_start:
-+    TEST_D_DDI_PSW(msub, 1, 0xd2fbe5e0, 0x00000b80,0x64003300, 0xff5420d4, -216)
-+    TEST_D_DDI_PSW(msub, 2, 0xfffffc10, 0x00000b80,0xfffffe68, 0xfffffffd, -200)
-+    TEST_D_DDD_PSW(msubs.u, 3, 0x0, 0x60000b80, 0x1, 0xffffffff, 0xffffffdb)
++    TEST_D_DD_PSW(muls.u, 1, 0xffffffff, 0x78000b80, 0x80000001, 0xffffffff)
++    TEST_D_DD_PSW(muls.u, 2, 0xffffffff, 0x60000b80, 0xfffffffe, 0xffffffff)
++
 +    TEST_PASSFAIL
 +
 -- 
