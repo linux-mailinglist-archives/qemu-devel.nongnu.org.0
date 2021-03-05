@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE8F32DECC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 02:10:02 +0100 (CET)
-Received: from localhost ([::1]:37686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038B132DEC8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 02:06:50 +0100 (CET)
+Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHyye-0004nP-1F
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 20:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34436)
+	id 1lHyvZ-00031C-39
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 20:06:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lHyw7-0003eb-QO; Thu, 04 Mar 2021 20:07:23 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36577 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lHyw5-0001GE-Ai; Thu, 04 Mar 2021 20:07:23 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Ds8ht1v5Nz9sW4; Fri,  5 Mar 2021 12:07:10 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1614906430;
- bh=s0wRZu0/+tuLPWzvmvXeXIjTSXu2BPLEFslkvWH9Euc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GEJtH2zfPI4na1IS1CE06PgWyOgpzAvrGA0mnkNV5pUwZc71Xcgfniig6gFgfI6zE
- tDl7DbQNYuPpB7Xrviw1D9pH4PubxJVfYxan1uvDMHkkcTpZtZ0H8D5qjamrF79/sy
- TIu6SQ5oJPQ4+04QW2KDax/4RsJoVKZ04LBHmNXc=
-Date: Fri, 5 Mar 2021 12:02:37 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and
- base vt82c686b_isa on it
-Message-ID: <YEGDLehnK3Vhp56s@yekko.fritz.box>
-References: <cover.1614719482.git.balaton@eik.bme.hu>
- <07df96112b78673ca191f9a4ffa17bf3a11160f3.1614719482.git.balaton@eik.bme.hu>
- <da48a752-9b2d-6cd8-9603-4cc528fea628@amsat.org>
- <11fb7590-89f3-62e7-48e3-d44226876e78@eik.bme.hu>
- <14cc6696-869d-679a-883f-fbcd30fe6ba1@amsat.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHyuA-0002QN-Bq
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:05:22 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lHyu6-0000J3-6R
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:05:22 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id j12so751739pfj.12
+ for <qemu-devel@nongnu.org>; Thu, 04 Mar 2021 17:05:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=4OkRY0T7vmghve69EI/fLlSmC6Nxsk5UvcZOHcGPscM=;
+ b=bLGJy8rcrheUAL21B4OfhNvQ86S20OGlBbNtT/+d07lcbOyjxNr5nq2NyWx45knY4O
+ fdx75VdYFuAqqfWea9VbpKoWUjz1Ljg9+r7W2gEdMmjRJ0wbWGMp9mqsFvNz6FZutt8Z
+ Hp9qzFf8dlT93B8nKxhGCSzh76TUt4fZL9rrtGDogFkOizdjTgA1ojESBrY6GO+Ctkp1
+ JZrJhcga24K3SR/DolLakxkGDnKSUaEOEpZUxqkFSJ8QLFVm5DjY1wX+9ZhOxf00zN8n
+ 7rcjAWKY5ZAZMbicR3sWOq0RCwAWuidq3LYHYGw06T4uXC7iOP4B903KSrNLOf+ZAklk
+ gN9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4OkRY0T7vmghve69EI/fLlSmC6Nxsk5UvcZOHcGPscM=;
+ b=omDswwpOuk9rBcHLZ+SztJpL0s2A/5cdbpZ5h5jU6noejpnxFPwhkSL13At0FhvJiU
+ DFCfav+wbz1syrqZVibRK56H5TUK2ssfO4VmwIz2BZbmMS1INiwSg8hFYS8dug4Ij8Lj
+ OPKMJsvogRkLlhDR4pHZ2UOuslNa0Qb0xEb3PoHSMtAdXSPqydrtbghdR3PAdZeeM/iw
+ QQmoUiyTjmGD2XlgHNpc/IJL8lhORKyHaNYZAZyqEXkMD5wCRM3VL3N42cXnp62xWXK2
+ B6BUgIzz8R2bW/n4XohyOkMbY7KEfLS9++hErt6wVZeRjEPrUYCpIAq9PnxdcDRtn7Ff
+ xX+w==
+X-Gm-Message-State: AOAM530CNNIUN5WHXAFSnz1txavP9e/CX5jwF6oWbaAyxMT7VscUI0L1
+ fW/W6pg2sGAN06V4jX5CpewYT8TG7epLhw==
+X-Google-Smtp-Source: ABdhPJzRkJSzpI0koCqHnntQuIN7hRcr8kW+gk4/K/C22wz4We6I1gSapYfNXSasCyId89+5scNYhA==
+X-Received: by 2002:a63:cc05:: with SMTP id x5mr5816773pgf.254.1614906316439; 
+ Thu, 04 Mar 2021 17:05:16 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id mp1sm386466pjb.48.2021.03.04.17.05.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 17:05:16 -0800 (PST)
+Subject: Re: [PATCH 41/44] hw/arm/mps2-tz: Make initsvtor0 setting
+ board-specific
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210219144617.4782-1-peter.maydell@linaro.org>
+ <20210219144617.4782-42-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <87b32098-0a6d-fad5-bc09-b73b185b44f0@linaro.org>
+Date: Thu, 4 Mar 2021 17:05:14 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H+A5279dMSSaCAQE"
-Content-Disposition: inline
-In-Reply-To: <14cc6696-869d-679a-883f-fbcd30fe6ba1@amsat.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210219144617.4782-42-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,102 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/19/21 6:46 AM, Peter Maydell wrote:
+> The AN547 configures the SSE-300 with a different initsvtor0
+> setting from its default; make this a board-specific setting.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
 
---H+A5279dMSSaCAQE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Thu, Mar 04, 2021 at 11:42:10PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 3/4/21 9:16 PM, BALATON Zoltan wrote:
-> > On Thu, 4 Mar 2021, Philippe Mathieu-Daud=E9 wrote:
-> >> On 3/2/21 10:11 PM, BALATON Zoltan wrote:
-> >>> To allow reusing ISA bridge emulation for vt8231_isa move the device
-> >>> state of vt82c686b_isa emulation in an abstract via_isa class.
-> >>>
-> >>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> >>> ---
-> >>> =A0hw/isa/vt82c686.c=A0=A0=A0=A0=A0=A0=A0 | 70 ++++++++++++++++++++++=
-------------------
-> >>> =A0include/hw/pci/pci_ids.h |=A0 2 +-
-> >>> =A02 files changed, 40 insertions(+), 32 deletions(-)
-> >>>
-> >>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> >>> index 72234bc4d1..5137f97f37 100644
-> >>> --- a/hw/isa/vt82c686.c
-> >>> +++ b/hw/isa/vt82c686.c
-> >>> @@ -609,24 +609,48 @@ static const TypeInfo vt8231_superio_info =3D {
-> >>> =A0};
-> >>>
-> >>>
-> >>> -OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
-> >>> +#define TYPE_VIA_ISA "via-isa"
-> >>> +OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
-> >>>
-> >>> -struct VT82C686BISAState {
-> >>> +struct ViaISAState {
-> >>> =A0=A0=A0=A0 PCIDevice dev;
-> >>> =A0=A0=A0=A0 qemu_irq cpu_intr;
-> >>> =A0=A0=A0=A0 ViaSuperIOState *via_sio;
-> >>> =A0};
-> >>>
-> >>> +static const VMStateDescription vmstate_via =3D {
-> >>> +=A0=A0=A0 .name =3D "via-isa",
-> >>
-> >> You changed the migration stream name, so I think we have
-> >> a problem with migration... No clue how to do that properly.
-> >=20
-> > I don't think these machines support migration or state description of
-> > vt86c686b was not missing something before these patches that would make
-> > it not work anyway so I did not worry about this too much. I doubt
-> > anybody wants to migrate a fuloong2e machine so this should not be a
-> > problem in practice but maybe you can mention it in the release notes if
-> > you think that would be necessary.
->=20
-> Maybe just add in the description:
->=20
->  This change breaks migration back compatibility, but
->  this is not an issue for the Fuloong2E machine.
-
-Hrm.  If migration was never supported, why is there a vmstate
-description there at all though?
-
-That said, I don't think breaking compat is a problem: that's only an
-issue where we actually have versioned machine types, which covers
-only pc, pseries, arm virt and a very few others.  I don't think this
-device was used on any of them.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---H+A5279dMSSaCAQE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBBgy0ACgkQbDjKyiDZ
-s5JOGhAAhXYFHdJa1nt2jkSBsZDdyIdPZPoh1pfHsJTzOY+auRZLtF1FlpPEcFmN
-0tYscy0phijH2hRcq20TqqUHHzx5NxZ9aPEwG4m/+P01E1UtDlb2wjagshVGs4VC
-bLDOK4+DBiBpYDIjB4/Yn0aYPyjApDr2foUUO/FaFX79VZBYPkB/ML3DH42tLMnB
-39+vX7bOCjBxwG8aGje2E0MMfXdFn9buEARi4RbXhVQGjx/kaBZ71KliRpzmbZvZ
-vNYttHPWyPwNs7VL9wfbT+Crsk3lYBU09H5rvzig/TqmV5DSBalMkrjtJVhgYbA9
-LfEadVe94yUx624wSIfOFIchy/mLETpThu7tJe9r02COpuIzNUl3gRK0KiNo4JyN
-5y2MKjuBwVOHEt6Uwvgr61x8ihUt5s6kx0WSrpfKbzdkbjhTSNaRTMIRS5jlXoWD
-WZpVQa9RFp503dkgDGokJRJgmjnYgCSpRJzCPSZ+8QzeDwFJ3WvVbhP5oRjjXYEZ
-vu4LBnBMOlftkQwFnSZMLwii4M9H+vNIXzx/uYVB3XOtQoLYUFEdg7HqsevRYA/F
-dYc6bhWE8VRaLsdyq6T6brzBTTodQr8prfPbGmnObX47kvO6VuJpycJ5MWyEWhL5
-fDya2wEglqlwxAHlIDue4RxmS92TMhdNcP6e/C41TmKJCf7687c=
-=aLiX
------END PGP SIGNATURE-----
-
---H+A5279dMSSaCAQE--
+r~
 
