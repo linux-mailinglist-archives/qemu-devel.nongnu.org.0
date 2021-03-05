@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B4B32E7CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:21:04 +0100 (CET)
-Received: from localhost ([::1]:37756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD44932E7D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:23:22 +0100 (CET)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI9S3-0001x8-RC
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:21:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42082)
+	id 1lI9UH-0003C1-S1
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:23:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lI9QR-0001Fv-Lh
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:19:23 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lI9QP-0004mR-9b
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:19:23 -0500
-Received: by mail-pl1-x634.google.com with SMTP id c16so1351259ply.0
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 04:19:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MS1YtIiFvnaMvZIN+/vfOaN3d8TXxwZx1s64ja1hh/g=;
- b=h9+UbzftE1hV2Ug4pYxu0AufzB0In17/uby6rmlPq0VBKYouWZ6nGadoHOgTFeLZtX
- psFMua0/CC0YZ1jtFUdwo/8XUOOC76MGz/hYwCIwybtIpK6YTpgl9b+xdh2OMHZ1qcfw
- DeNQpqqawPrYYF7fDN0TPSyQSqV92q7Criyh4LKJOiEPZhegURWBWSIG/mZMRUgzrEWR
- W09mvJ9KKPLKvNY93jfoZXPNd22bEAXegMZKAwHfPCdb99u3TfxBjxu+ZX5OugEP79n9
- x7DptIrh9Dx+Eqs4NvUQZFQySjcg2biV5nzjDnr6fVzu20eKR2uALW6d5ASOB10jBqCw
- AXog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MS1YtIiFvnaMvZIN+/vfOaN3d8TXxwZx1s64ja1hh/g=;
- b=sz2GTa0m3C04zhAx3SNOe1ESN4vQy8x6ss6Q2fTIOe5JqTLPAZhYXF+w/fUCpFsHuF
- rtHY08bylPnebWbZFWFHtGDoZSEH9d80sQzMZHWND2MbrU/N1CEJTEJ27B7zJNQYI/E0
- VXYQWFmLqKB8uWLRvB93dbwHXS7UX04roVZEDN3vIKIweG9FQvo63Q5PUvNrUciCpdxD
- sSCPBCic17UroKSnH8P9jzHRndOxOMNBAr+Is53voDITcYxjIFObXc9Sy5gHi6S9c5l2
- qy8kabBK9uDpcZ08F4Ircj2J2oUUiYNWzzmm16yyAfIDKvUMI7BkUalLq+s2Sxe55iko
- 8vSg==
-X-Gm-Message-State: AOAM532Li3SzvI+B8G++dDClHxUyNHcIqUhXmXvNrdAz6UFXOHZDIWe0
- 6Bzydq/l+o3VuNoX5BcspGMf+sYPCGcLFQ==
-X-Google-Smtp-Source: ABdhPJzCMQWnVaPb1HkOTk7rukPNSEvE/r+XwOomiP/5/2Kxy6CNdCYxZsMVWNPv4qEYxcvJIR10qQ==
-X-Received: by 2002:a17:90a:e2ca:: with SMTP id
- fr10mr9903108pjb.154.1614946756178; 
- Fri, 05 Mar 2021 04:19:16 -0800 (PST)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:6076:fea8:b0ba:4fdb])
- by smtp.gmail.com with ESMTPSA id q23sm2526049pfl.123.2021.03.05.04.19.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Mar 2021 04:19:15 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Clear modifiers whenever possible
-Date: Fri,  5 Mar 2021 21:19:09 +0900
-Message-Id: <20210305121909.65249-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lI9TD-0002ZV-D6; Fri, 05 Mar 2021 07:22:15 -0500
+Resent-Date: Fri, 05 Mar 2021 07:22:15 -0500
+Resent-Message-Id: <E1lI9TD-0002ZV-D6@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lI9TB-00062B-14; Fri, 05 Mar 2021 07:22:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614946908; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HKsh0JKhBYUFSxaSMlDCX/d7BzDDh+v+X2Ai/9uMKBN8/Q+gmKdXZ4v0hBcI3drcvuuyZpwSKN8ZwmvJizFA75MbmSi5YerRwhckuvyltcszUhA7uvbqBV6xUj93OPHsduYk0bMoFyE64gSyrHzB9F0pUwv2B0Hc/w4/RA1J4Sg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1614946908;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=gbxlyZp56lWETH6yEIuP7i0WvmWDM8yoOdNnTh/AT8k=; 
+ b=HARwdSsrcYLlC3G6m+RPV5gbdDMJ2Ze1HC8WZRBA102n8el++LVdRXzsI9rJFyIP8OUesg/PFdBe0kgzWmGvfyq7DnUxFB/YFAjyUR3C0DT55d43hMvdsl/Tu95eK/GVAG7nyj6/vD7tsd5FLjkjNJPOeP/a8h5XFuyt83Cuea8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1614946905285613.9165312123315;
+ Fri, 5 Mar 2021 04:21:45 -0800 (PST)
+In-Reply-To: <20210305121748.65173-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2] block/file-posix: Optimize for macOS
+Message-ID: <161494690342.7069.17808818329866585438@c667a6b167f6>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: akihiko.odaki@gmail.com
+Date: Fri, 5 Mar 2021 04:21:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,208 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, pkrempa@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ mail@knazarov.com, akihiko.odaki@gmail.com, mreitz@redhat.com,
+ jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ui/cocoa does not receive NSEventTypeFlagsChanged when it is not active,
-and the modifier state can be desynchronized in such a situation.
-
-[NSEvent -modifierFlags] tells whether a modifier is *not* pressed, so
-check it whenever receiving an event and clear the modifier if it is not
-pressed.
-
-Note that [NSEvent -modifierFlags] does not tell if a certain modifier
-*is* pressed because the documented mask for [NSEvent -modifierFlags]
-generalizes left shift and right shift, for example. CapsLock is the
-only exception. The pressed state is synchronized only with
-NSEventTypeFlagsChanged.
-
-This change also removes modifier keys from keycode map. If they
-are input with NSEventTypeKeyDown or NSEventTypeKeyUp, it leads to
-desynchronization. Although such a situation is not observed, they are
-removed just in case.
-
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 142 ++++++++++++++++++++++++++++++++---------------------
- 1 file changed, 86 insertions(+), 56 deletions(-)
-
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index f27beb30e6e..940d8b83e31 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -189,14 +189,6 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
-     [kVK_ANSI_Comma] = Q_KEY_CODE_COMMA,
-     [kVK_ANSI_Period] = Q_KEY_CODE_DOT,
-     [kVK_ANSI_Slash] = Q_KEY_CODE_SLASH,
--    [kVK_Shift] = Q_KEY_CODE_SHIFT,
--    [kVK_RightShift] = Q_KEY_CODE_SHIFT_R,
--    [kVK_Control] = Q_KEY_CODE_CTRL,
--    [kVK_RightControl] = Q_KEY_CODE_CTRL_R,
--    [kVK_Option] = Q_KEY_CODE_ALT,
--    [kVK_RightOption] = Q_KEY_CODE_ALT_R,
--    [kVK_Command] = Q_KEY_CODE_META_L,
--    [0x36] = Q_KEY_CODE_META_R, /* There is no kVK_RightCommand */
-     [kVK_Space] = Q_KEY_CODE_SPC,
- 
-     [kVK_ANSI_Keypad0] = Q_KEY_CODE_KP_0,
-@@ -615,9 +607,24 @@ - (void) toggleModifier: (int)keycode {
-     qemu_input_event_send_key_qcode(dcl.con, keycode, modifiers_state[keycode]);
- }
- 
--- (void) toggleStatefulModifier: (int)keycode {
-+- (void) clearModifier: (int)keycode {
-+    if (!modifiers_state[keycode]) {
-+        return;
-+    }
-+
-+    // Clear the stored state.
-+    modifiers_state[keycode] = NO;
-+    // Send a keyup.
-+    qemu_input_event_send_key_qcode(dcl.con, keycode, false);
-+}
-+
-+- (void) setStatefulModifier: (int)keycode down:(BOOL)down {
-+    if (down == modifiers_state[keycode]) {
-+        return;
-+    }
-+
-     // Toggle the stored state.
--    modifiers_state[keycode] = !modifiers_state[keycode];
-+    modifiers_state[keycode] = down;
-     // Generate keydown and keyup.
-     qemu_input_event_send_key_qcode(dcl.con, keycode, true);
-     qemu_input_event_send_key_qcode(dcl.con, keycode, false);
-@@ -714,57 +721,80 @@ - (bool) handleEventLocked:(NSEvent *)event
-     static bool switched_to_fullscreen = false;
-     // Location of event in virtual screen coordinates
-     NSPoint p = [self screenLocationOfEvent:event];
-+    NSUInteger modifiers = [event modifierFlags];
- 
--    switch ([event type]) {
--        case NSEventTypeFlagsChanged:
--            if ([event keyCode] == 0) {
--                // When the Cocoa keyCode is zero that means keys should be
--                // synthesized based on the values in in the eventModifiers
--                // bitmask.
--
--                if (qemu_console_is_graphic(NULL)) {
--                    NSUInteger modifiers = [event modifierFlags];
-+    // emulate caps lock keydown and keyup
-+    [self setStatefulModifier:Q_KEY_CODE_CAPS_LOCK down:!!(modifiers & NSEventModifierFlagCapsLock)];
- 
--                    if (!!(modifiers & NSEventModifierFlagCapsLock) != !!modifiers_state[Q_KEY_CODE_CAPS_LOCK]) {
--                        [self toggleStatefulModifier:Q_KEY_CODE_CAPS_LOCK];
--                    }
--                    if (!!(modifiers & NSEventModifierFlagShift) != !!modifiers_state[Q_KEY_CODE_SHIFT]) {
--                        [self toggleModifier:Q_KEY_CODE_SHIFT];
--                    }
--                    if (!!(modifiers & NSEventModifierFlagControl) != !!modifiers_state[Q_KEY_CODE_CTRL]) {
--                        [self toggleModifier:Q_KEY_CODE_CTRL];
--                    }
--                    if (!!(modifiers & NSEventModifierFlagOption) != !!modifiers_state[Q_KEY_CODE_ALT]) {
--                        [self toggleModifier:Q_KEY_CODE_ALT];
--                    }
--                    if (!!(modifiers & NSEventModifierFlagCommand) != !!modifiers_state[Q_KEY_CODE_META_L]) {
--                        [self toggleModifier:Q_KEY_CODE_META_L];
--                    }
--                }
--            } else {
--                keycode = cocoa_keycode_to_qemu([event keyCode]);
--            }
--
--            if ((keycode == Q_KEY_CODE_META_L || keycode == Q_KEY_CODE_META_R)
--               && !isMouseGrabbed) {
--              /* Don't pass command key changes to guest unless mouse is grabbed */
--              keycode = 0;
--            }
-+    if (qemu_console_is_graphic(NULL)) {
-+        if (!(modifiers & NSEventModifierFlagShift)) {
-+            [self clearModifier:Q_KEY_CODE_SHIFT];
-+            [self clearModifier:Q_KEY_CODE_SHIFT_R];
-+        }
-+        if (!(modifiers & NSEventModifierFlagControl)) {
-+            [self clearModifier:Q_KEY_CODE_CTRL];
-+            [self clearModifier:Q_KEY_CODE_CTRL_R];
-+        }
-+        if (!(modifiers & NSEventModifierFlagOption)) {
-+            [self clearModifier:Q_KEY_CODE_ALT];
-+            [self clearModifier:Q_KEY_CODE_ALT_R];
-+        }
-+        if (!(modifiers & NSEventModifierFlagCommand)) {
-+            [self clearModifier:Q_KEY_CODE_META_L];
-+            [self clearModifier:Q_KEY_CODE_META_R];
-+        }
-+    }
- 
--            if (keycode) {
--                // emulate caps lock and num lock keydown and keyup
--                if (keycode == Q_KEY_CODE_CAPS_LOCK ||
--                    keycode == Q_KEY_CODE_NUM_LOCK) {
--                    [self toggleStatefulModifier:keycode];
--                } else if (qemu_console_is_graphic(NULL)) {
--                    if (switched_to_fullscreen) {
--                        switched_to_fullscreen = false;
--                    } else {
--                        [self toggleModifier:keycode];
--                    }
-+    switch ([event type]) {
-+        case NSEventTypeFlagsChanged:
-+            if (qemu_console_is_graphic(NULL)) {
-+                switch ([event keyCode]) {
-+                    case kVK_Shift:
-+                        if (!!(modifiers & NSEventModifierFlagShift)) {
-+                            [self toggleModifier:Q_KEY_CODE_SHIFT];
-+                        }
-+                        break;
-+
-+                    case kVK_RightShift:
-+                        if (!!(modifiers & NSEventModifierFlagShift)) {
-+                            [self toggleModifier:Q_KEY_CODE_SHIFT_R];
-+                        }
-+                        break;
-+
-+                    case kVK_Control:
-+                        if (!!(modifiers & NSEventModifierFlagControl)) {
-+                            [self toggleModifier:Q_KEY_CODE_CTRL];
-+                        }
-+                        break;
-+
-+                    case kVK_Option:
-+                        if (!!(modifiers & NSEventModifierFlagOption)) {
-+                            [self toggleModifier:Q_KEY_CODE_ALT];
-+                        }
-+                        break;
-+
-+                    case kVK_RightOption:
-+                        if (!!(modifiers & NSEventModifierFlagOption)) {
-+                            [self toggleModifier:Q_KEY_CODE_ALT_R];
-+                        }
-+                        break;
-+
-+                    /* Don't pass command key changes to guest unless mouse is grabbed */
-+                    case kVK_Command:
-+                        if (isMouseGrabbed &&
-+                            !!(modifiers & NSEventModifierFlagCommand)) {
-+                            [self toggleModifier:Q_KEY_CODE_META_L];
-+                        }
-+                        break;
-+
-+                    case kVK_RightCommand:
-+                        if (isMouseGrabbed &&
-+                            !!(modifiers & NSEventModifierFlagCommand)) {
-+                            [self toggleModifier:Q_KEY_CODE_META_R];
-+                        }
-+                        break;
-                 }
-             }
--
-             break;
-         case NSEventTypeKeyDown:
-             keycode = cocoa_keycode_to_qemu([event keyCode]);
--- 
-2.24.3 (Apple Git-128)
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwNTEyMTc0OC42NTE3
+My0xLWFraWhpa28ub2Rha2lAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
+IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
+cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMDUxMjE3NDgu
+NjUxNzMtMS1ha2loaWtvLm9kYWtpQGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIGJsb2Nr
+L2ZpbGUtcG9zaXg6IE9wdGltaXplIGZvciBtYWNPUwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09
+PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dy
+YW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NS
+SVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3
+MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25l
+dyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMwNTEyMTc0OC42NTE3My0xLWFraWhpa28ub2Rh
+a2lAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAyMTAzMDUxMjE3NDguNjUxNzMtMS1ha2loaWtvLm9k
+YWtpQGdtYWlsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjE2YjYzOWEgYmxv
+Y2svZmlsZS1wb3NpeDogT3B0aW1pemUgZm9yIG1hY09TCgo9PT0gT1VUUFVUIEJFR0lOID09PQpX
+QVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAoj
+OTU6IEZJTEU6IGJsb2NrL2ZpbGUtcG9zaXguYzoyMTMzOgorI2lmIGRlZmluZWQoX19BUFBMRV9f
+KSAmJiAoX19NQUNIX18pCgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9u
+YWwgc3RhdGVtZW50cyAoOCwgMTEpCiMxNjg6IEZJTEU6IGh3L2Jsb2NrL2Jsb2NrLmM6NzM6Cisg
+ICAgICAgIGlmICghYmFja2VuZF9yZXQgJiYgYmxvY2tzaXplcy5waHlzKSB7CiAgICAgICAgICAg
+IGNvbmYtPnBoeXNpY2FsX2Jsb2NrX3NpemUgPSBibG9ja3NpemVzLnBoeXM7Cgp0b3RhbDogMSBl
+cnJvcnMsIDEgd2FybmluZ3MsIDE0NSBsaW5lcyBjaGVja2VkCgpDb21taXQgMTZiNjM5YTgxYzQ1
+IChibG9jay9maWxlLXBvc2l4OiBPcHRpbWl6ZSBmb3IgbWFjT1MpIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNv
+ZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9s
+b2dzLzIwMjEwMzA1MTIxNzQ4LjY1MTczLTEtYWtpaGlrby5vZGFraUBnbWFpbC5jb20vdGVzdGlu
+Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
+YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
+ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
