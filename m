@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E07232F32B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:51:46 +0100 (CET)
-Received: from localhost ([::1]:52436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0106932F371
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:06:32 +0100 (CET)
+Received: from localhost ([::1]:51058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFY9-0006RI-Bg
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58382)
+	id 1lIFmR-0001Yl-1t
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:06:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFXB-0005Zf-JM
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 13:50:45 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFX8-0001oj-Si
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 13:50:45 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id w18so2688431pfu.9
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 10:50:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lx2N37kJif26i9qxMVEJexuMDPpksluloW6bSTvv3NQ=;
- b=Zxhipp/1D3a/pxlP/iifSj4mH+UPyWUJh38LqBTZA9FXpPubG/XKxwRVJIc8UhpQyF
- kuXjXU0sRPtI+orLdg/ydSputf9b24y9SsJ8NehjTYndZc7LlCy7eg5n6n6G+KB6a/Cl
- DRJgTPiNj3SKnqVjMUB9zXq3LOLXDxqBk7ZCn5HWQoHFv5RumarbK94VwBsjtOC6V6d1
- eoO1yheUk2o3dC09XfcJctrrZKBW1Ncp9R6asS38qX3FSKiEWVlRcFdCJwAOscx7TGPa
- 8KYRlzGTVutJc5qhKKWrxjD67rXLfQRUD8wygPSZBg/HsrmRqFXBc4ZrksbMKCZP4YxD
- ZOxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lx2N37kJif26i9qxMVEJexuMDPpksluloW6bSTvv3NQ=;
- b=S0uxgNg/UFC7I3iKv5zzkccHoyJmir6M5Uselp7UelxoL1DhdlcPzx2YC2sfFq4GnF
- /JjWS7M21/XMrFyU0OD6NfyxexPJaK/4f2DzPcOBesCftjgLmNOVm5wZqSMHa82qpQRN
- TrXg826eQzHs4rnBsoSxgrROpMBHPZqLEwtiu/Pf3Jfw5r0OmvioBdpUPlol3rmRTrEy
- 1PZhkMvvdx/SWUpc/Qr1+7WQuonoL21Kyv3vduzdU1TcsNZaEXacHG785F+S2Q+N4pjU
- Yv41PjpWwEfPbmLTpCuV2EuT91nKIixF5qHOdArf+w310cyhnWj/TvHalpkw9JhBIhEa
- ge6A==
-X-Gm-Message-State: AOAM532jXZB1daxgrdNvTscHIbHPVPViubRnA6W6n6OSmPepfi6vXsiu
- NVuw/+VjmCFETy858EotytjnJg==
-X-Google-Smtp-Source: ABdhPJxAXA53YP+UjTtBzQRHUfJsIHWXCXxtVvJkXY52nqN913B30PJWQVK1JvoQ/b/RvLldDGiwag==
-X-Received: by 2002:aa7:8bd2:0:b029:1ee:1838:685f with SMTP id
- s18-20020aa78bd20000b02901ee1838685fmr10224739pfd.64.1614970240096; 
- Fri, 05 Mar 2021 10:50:40 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id u4sm3068238pgj.29.2021.03.05.10.50.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 10:50:39 -0800 (PST)
-Subject: Re: [PATCH] linux-user: Fix executable page of /proc/self/maps
-To: laurent@vivier.eu, qemu-devel@nongnu.org
-References: <20210305173144.874378-1-nsurbayrole@quarkslab.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc49596c-56a8-6518-52a7-8d18f26e854c@linaro.org>
-Date: Fri, 5 Mar 2021 10:50:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lIFix-00082H-1U; Fri, 05 Mar 2021 14:02:55 -0500
+Resent-Date: Fri, 05 Mar 2021 14:02:55 -0500
+Resent-Message-Id: <E1lIFix-00082H-1U@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lIFiu-0005eT-E2; Fri, 05 Mar 2021 14:02:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614970950; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=IGJlhwkNh6Y5AjFpZmuIdaMn1etJmvsZ9KYueYbdyVWCLK5SPJZirGdsFkUxgnY0pRDK74cF/X9SRY4mSwtNyn3JY19Yh9We6uBJj5ldiT+mHdKhRmdB63hWd33mdGFWxMjOLmv/somFX63+cbzz058VyXCX/ofIaq6jBRNqQrY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1614970950;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=42quQYIzb/Egk9lLeL4+7KBGHMPQalO6NfhPAqQzR4g=; 
+ b=Uph92pg2XPgrMwCeCtHiJ/3lA/wPrj380DYee7FyTd18UEuGcuiv314r7ylecU6KDQAVnWiKGMFZC3zKSVuWUSOYpYTBB+amWn2GHgWuoQ/BEFUDzQKgwPPUO9OIFn/7qizaSoCIPR8N4YglE4l/LvaS5sl3n82PO1f65RXpYLU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1614970850719133.2847356561682;
+ Fri, 5 Mar 2021 11:00:50 -0800 (PST)
+In-Reply-To: <20210305183857.3120188-1-wuhaotsh@google.com>
+Subject: Re: [PATCH 0/4] hw/misc: Add NPCM7XX Tachometer Device
+Message-ID: <161497084913.14855.6309011504141188246@c667a6b167f6>
 MIME-Version: 1.0
-In-Reply-To: <20210305173144.874378-1-nsurbayrole@quarkslab.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Fri, 5 Mar 2021 11:00:50 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,51 +65,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nicolas Surbayrole <nsurbayrole@quarkslab.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
+ hskinnemoen@google.com, wuhaotsh@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, dje@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/21 9:31 AM, Nicolas Surbayrole wrote:
-> The guest binary and libraries are not always mapped with the
-> executable bit in the host process. The guest may read a
-> /proc/self/maps with no executable address range. The
-> patch bases the perm fields against the guest permission inside
-> Qemu.
-> 
-> Signed-off-by: Nicolas Surbayrole <nsurbayrole@quarkslab.com>
-> ---
->   linux-user/syscall.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 389ec09764..77c40a274f 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -7888,9 +7888,9 @@ static int open_self_maps(void *cpu_env, int fd)
->               count = dprintf(fd, TARGET_ABI_FMT_ptr "-" TARGET_ABI_FMT_ptr
->                               " %c%c%c%c %08" PRIx64 " %s %"PRId64,
->                               h2g(min), h2g(max - 1) + 1,
-> -                            e->is_read ? 'r' : '-',
-> -                            e->is_write ? 'w' : '-',
-> -                            e->is_exec ? 'x' : '-',
-> +                            (flags & PROT_READ) ? 'r' : '-',
-> +                            (flags & PROT_WRITE) ? 'w' : '-',
-> +                            (flags & PROT_EXEC) ? 'x' : '-',
-
-Use PAGE_*, as those are the bits in flags.  These three just happen to be the 
-same.
-
-While we're at it, use PAGE_WRITE_ORG -- PAGE_WRITE may be removed on a rwx 
-page in which we've translated code.
-
-
-r~
-
-
-
->                               e->is_priv ? 'p' : '-',
->                               (uint64_t) e->offset, e->dev, e->inode);
->               if (path) {
-> 
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwNTE4Mzg1Ny4zMTIw
+MTg4LTEtd3VoYW90c2hAZ29vZ2xlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzA1MTgzODU3LjMx
+MjAxODgtMS13dWhhb3RzaEBnb29nbGUuY29tClN1YmplY3Q6IFtQQVRDSCAwLzRdIGh3L21pc2M6
+IEFkZCBOUENNN1hYIFRhY2hvbWV0ZXIgRGV2aWNlCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
+MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
+IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzAyMTc1NzQxLjEwNzk4NTEtMS1yaWNoYXJkLmhl
+bmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTAzMDIxNzU3NDEuMTA3OTg1MS0xLXJp
+Y2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8y
+MDIxMDMwNTE3MDA0NS44Njk0MzctMS1rYmFzdGlhbkBtYWlsLnVuaS1wYWRlcmJvcm4uZGUgLT4g
+cGF0Y2hldy8yMDIxMDMwNTE3MDA0NS44Njk0MzctMS1rYmFzdGlhbkBtYWlsLnVuaS1wYWRlcmJv
+cm4uZGUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMwNTE3MTUxNS4xMDM4LTEt
+cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTAzMDUxNzE1MTUuMTAzOC0x
+LXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIw
+MjEwMzA1MTgzODU3LjMxMjAxODgtMS13dWhhb3RzaEBnb29nbGUuY29tIC0+IHBhdGNoZXcvMjAy
+MTAzMDUxODM4NTcuMzEyMDE4OC0xLXd1aGFvdHNoQGdvb2dsZS5jb20KU3dpdGNoZWQgdG8gYSBu
+ZXcgYnJhbmNoICd0ZXN0Jwo3YjE4MTAxIHRlc3RzL3F0ZXN0OiBUZXN0IFBXTSBmYW4gUlBNIHVz
+aW5nIE1GVCBpbiBQV00gdGVzdAo1Mzc5OWU2IGh3L2FybTogQ29ubmVjdCBQV00gZmFucyBpbiBO
+UENNN1hYIGJvYXJkcwo5MjI2YjZkIGh3L21pc2M6IEFkZCBOUENNN1hYIE1GVCBNb2R1bGUKNDAz
+NzYyYSBody9taXNjOiBBZGQgR1BJT3MgZm9yIGR1dHkgaW4gTlBDTTd4eCBQV00KCj09PSBPVVRQ
+VVQgQkVHSU4gPT09CjEvNCBDaGVja2luZyBjb21taXQgNDAzNzYyYTQ2YWU5IChody9taXNjOiBB
+ZGQgR1BJT3MgZm9yIGR1dHkgaW4gTlBDTTd4eCBQV00pCkVSUk9SOiBBdXRob3IgZW1haWwgYWRk
+cmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IEhhbyBXdSB2
+aWEgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywg
+MzggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoy
+LzQgQ2hlY2tpbmcgY29tbWl0IDkyMjZiNmQ0MThjYSAoaHcvbWlzYzogQWRkIE5QQ003WFggTUZU
+IE1vZHVsZSkKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGlu
+IHN0cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCkVSUk9SOiBB
+dXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApB
+dXRob3I6IEhhbyBXdSB2aWEgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KCldBUk5JTkc6IGFkZGVk
+LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
+Zz8KIzE1MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2Fybmlu
+Z3MsIDczNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KCjMvNCBDaGVja2luZyBjb21taXQgNTM3OTllNjBjMTY2IChody9hcm06IENvbm5lY3QgUFdN
+IGZhbnMgaW4gTlBDTTdYWCBib2FyZHMpCkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBt
+YW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IEhhbyBXdSB2aWEgPHFlbXUt
+ZGV2ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTY2IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC80IENoZWNr
+aW5nIGNvbW1pdCA3YjE4MTAxNzFkZTMgKHRlc3RzL3F0ZXN0OiBUZXN0IFBXTSBmYW4gUlBNIHVz
+aW5nIE1GVCBpbiBQV00gdGVzdCkKRVJST1I6IEF1dGhvciBlbWFpbCBhZGRyZXNzIGlzIG1hbmds
+ZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjogSGFvIFd1IHZpYSA8cWVtdS1kZXZl
+bEBub25nbnUub3JnPgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyODcgbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggNC80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVO
+RCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlz
+IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMwNTE4Mzg1Ny4zMTIw
+MTg4LTEtd3VoYW90c2hAZ29vZ2xlLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
