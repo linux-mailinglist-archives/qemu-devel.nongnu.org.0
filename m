@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6B832EC70
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 14:44:46 +0100 (CET)
-Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7CF32EC96
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 14:56:41 +0100 (CET)
+Received: from localhost ([::1]:43126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIAl3-0003F3-Gj
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 08:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
+	id 1lIAwZ-0000Zn-Tw
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 08:56:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lIAiJ-000253-LY
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:41:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lIAiH-0000Fa-2V
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:41:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614951710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VwYIlkYmYGMaNZRPJNYxJ9wOcvChbgsN/Uwmy1X5qpA=;
- b=irP3ftRNnZRm7Q/BPBbqcwM0donHylHznr5bl2PECt7svNdH/SvThk+pwR+2XVoSSYfyey
- UeCpNb3vXgNSybj8BYsZozkJjFLGPR8htXSwot8GdlYDCRQ7hF4sM9rcjHultxYJt1Jq6v
- T9wUTpDsa0DYi8tfIb4TCOSVyQMwA0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-pduhoFsYNOGM8kY7nZDVSA-1; Fri, 05 Mar 2021 08:41:49 -0500
-X-MC-Unique: pduhoFsYNOGM8kY7nZDVSA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C077387A83A;
- Fri,  5 Mar 2021 13:41:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30AEE19934;
- Fri,  5 Mar 2021 13:41:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AD7C71132C12; Fri,  5 Mar 2021 14:41:45 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 2/5] monitor: drain requests queue with 'channel
- closed' event
-References: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1606484146-913540-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <87h7ltll0m.fsf@dusky.pond.sub.org>
- <b2f95f97-6305-7bc0-8e22-720972b105bb@virtuozzo.com>
-Date: Fri, 05 Mar 2021 14:41:45 +0100
-In-Reply-To: <b2f95f97-6305-7bc0-8e22-720972b105bb@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 2 Mar 2021 18:25:56 +0300")
-Message-ID: <87v9a5zpie.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lIAuv-0007ZW-S1
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:54:57 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lIAuu-000781-3f
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:54:57 -0500
+Received: by mail-wm1-x329.google.com with SMTP id e23so1514811wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 05:54:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NcYO7v1lBl/JJcG9J8U1SwmVEFIq6vwL1ejkFgN620A=;
+ b=B9Sb0PcoXs05MkryKPVoCE5kv5Fu/iTEkMO1KkDBXvRYnoM+TANf/8UKI00igaHYYe
+ XVH/Mo35elJCG4JTVmNmIQvNSib9hGeoHVEptE3Vtx5a8cRyKexZXJHetYVLFpVjUUld
+ 4QVmDXM/C/zpLwU4/AqwxijTbdikDjw+o2yVll23mqW6wAZrjezECGqUOPAGjTxXP1N9
+ GS0Iuymi7DZ3daa1awr3njcBMqqumXvaSi4K41Rb0co8WkdZPduYvkOni7QGCaQnScYO
+ T5KY45TN3iG5YvPFm81nktUJfnUzK5UVXC8NZseRlVTsE+h8t8GGx2vFII8iyXUBr0TW
+ AAmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NcYO7v1lBl/JJcG9J8U1SwmVEFIq6vwL1ejkFgN620A=;
+ b=YeRyqo1LlgNIZkDfK6Q03wrrosAoKySa+sRIT9Oj/+TMKJSJi1RXD32BaVed81Q3i8
+ cJKKvjo6QCgb/404Xpk3ViOkjFXs1Q/tgxPpiz5jvlREOULleGITQzk5iF2AxJc++lYG
+ iNYUeUO0lp4r0RoRPSsidIAUALi2LR5+cROgS/JORHaYAex+NmpK0Owo990XJsKClmiD
+ VH0VF6QfgHiV32XLTOJkaGuIZ0IItPriOae/tAz+n0mTQgl/+NlvZ4WhlRUe2ENjhUkT
+ r5BePA7DXxXDihsDofFbV06O5dd1UZovXEzYk37bZWdqsqPefG7t3kk+OzRXJ4Vdsi8Q
+ E7Vw==
+X-Gm-Message-State: AOAM531GjYDpfFm+1zmb//uBpCMBKkaeATwj51OYxkdgegRQolDJ3J5e
+ umJBHBTGnVWVmRpZ0C/bhMSafw==
+X-Google-Smtp-Source: ABdhPJwNd76IG7l7SU4TEo1NTixVcLrCr8Syn/1zYH/Lk7yx2YDm7at0jbWeKLDpS7QqNMw8avldfQ==
+X-Received: by 2002:a05:600c:2947:: with SMTP id
+ n7mr9229284wmd.61.1614952493966; 
+ Fri, 05 Mar 2021 05:54:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h2sm5123391wrq.81.2021.03.05.05.54.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 05:54:52 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BFC2D1FF7E;
+ Fri,  5 Mar 2021 13:54:51 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/3] semihosting/next (move from hw, heapinfo)
+Date: Fri,  5 Mar 2021 13:54:48 +0000
+Message-Id: <20210305135451.15427-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,166 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
- qemu-block@nongnu.org, den@openvz.org, mdroth@linux.vnet.ibm.com,
- Andrey Shinkevich via <qemu-devel@nongnu.org>, pbonzini@redhat.com,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, mreitz@redhat.com,
- dgilbert@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+Hi,
 
-> 02.03.2021 16:53, Markus Armbruster wrote:
->> Andrey Shinkevich via <qemu-devel@nongnu.org> writes:
->> 
->>> When CHR_EVENT_CLOSED comes, the QMP requests queue may still contain
->>> unprocessed commands. It can happen with QMP capability OOB enabled.
->>> Let the dispatcher complete handling requests rest in the monitor
->>> queue.
->>>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> ---
->>>   monitor/qmp.c | 46 +++++++++++++++++++++-------------------------
->>>   1 file changed, 21 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/monitor/qmp.c b/monitor/qmp.c
->>> index 7169366..a86ed35 100644
->>> --- a/monitor/qmp.c
->>> +++ b/monitor/qmp.c
->>> @@ -75,36 +75,32 @@ static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
->>>       }
->>>   }
->>>   
->>> -static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
->>> +/*
->>> + * Let unprocessed QMP commands be handled.
->>> + */
->>> +static void monitor_qmp_drain_queue(MonitorQMP *mon)
->>>   {
->>> -    qemu_mutex_lock(&mon->qmp_queue_lock);
->>> +    bool q_is_empty = false;
->>>   
->>> -    /*
->>> -     * Same condition as in monitor_qmp_dispatcher_co(), but before
->>> -     * removing an element from the queue (hence no `- 1`).
->>> -     * Also, the queue should not be empty either, otherwise the
->>> -     * monitor hasn't been suspended yet (or was already resumed).
->>> -     */
->>> -    bool need_resume = (!qmp_oob_enabled(mon) ||
->>> -        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX)
->>> -        && !g_queue_is_empty(mon->qmp_requests);
->>> +    while (!q_is_empty) {
->>> +        qemu_mutex_lock(&mon->qmp_queue_lock);
->>> +        q_is_empty = g_queue_is_empty(mon->qmp_requests);
->>> +        qemu_mutex_unlock(&mon->qmp_queue_lock);
->>>   
->>> -    monitor_qmp_cleanup_req_queue_locked(mon);
->>> +        if (!q_is_empty) {
->>> +            if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
->>> +                /* Kick the dispatcher coroutine */
->>> +                aio_co_wake(qmp_dispatcher_co);
->>> +            } else {
->>> +                /* Let the dispatcher do its job for a while */
->>> +                g_usleep(40);
->>> +            }
->>> +        }
->>> +    }
->>>   
->>> -    if (need_resume) {
->>> -        /*
->>> -         * handle_qmp_command() suspended the monitor because the
->>> -         * request queue filled up, to be resumed when the queue has
->>> -         * space again.  We just emptied it; resume the monitor.
->>> -         *
->>> -         * Without this, the monitor would remain suspended forever
->>> -         * when we get here while the monitor is suspended.  An
->>> -         * unfortunately timed CHR_EVENT_CLOSED can do the trick.
->>> -         */
->>> +    if (qatomic_mb_read(&mon->common.suspend_cnt)) {
->>>           monitor_resume(&mon->common);
->>>       }
->>> -
->>> -    qemu_mutex_unlock(&mon->qmp_queue_lock);
->>>   }
->>>   
->>>   void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
->>> @@ -418,7 +414,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
->>>            * stdio, it's possible that stdout is still open when stdin
->>>            * is closed.
->>>            */
->>> -        monitor_qmp_cleanup_queue_and_resume(mon);
->>> +        monitor_qmp_drain_queue(mon);
->>>           json_message_parser_destroy(&mon->parser);
->>>           json_message_parser_init(&mon->parser, handle_qmp_command,
->>>                                    mon, NULL);
->> 
->> Before the patch: we call monitor_qmp_cleanup_queue_and_resume() to
->> throw away the contents of the request queue, and resume the monitor if
->> suspended.
->> 
->> Afterwards: we call monitor_qmp_drain_queue() to wait for the request
->> queue to drain.  I think.  Before we discuss the how, I have a question
->> the commit message should answer, but doesn't: why?
->> 
->
-> Hi!
->
-> Andrey is not in Virtuozzo now, and nobody doing this work actually.. Honestly, I don't believe that the feature should be so difficult.
->
-> Actually, we have the following patch in Virtuozzo 7 (Rhel7 based) for years, and it just works without any problems:
+Not much in this series apart from moving semihosting out of hw (where
+it sat a bit weirdly) and an attempt at fixing a bug in the
+SYS_HEAPINFO code. It works AFAICT but still seems a little fugly to
+me. See:
 
-I appreciate your repeated efforts to get your downstream patch
-upstream.
+ - semihosting/arg-compat: fix up handling of SYS_HEAPINFO
 
-> --- a/monitor.c
-> +++ b/monitor.c
-> @@ -4013,7 +4013,7 @@ static int monitor_can_read(void *opaque)
->   {
->       Monitor *mon = opaque;
->   
-> -    return !atomic_mb_read(&mon->suspend_cnt);
-> +    return !atomic_mb_read(&mon->suspend_cnt) ? 4096 : 0;
->   }
->
->
-> And in Vz8 (Rhel8 based), it looks like (to avoid assertion in handle_qmp_command()):
->
-> --- a/include/monitor/monitor.h
-> +++ b/include/monitor/monitor.h
-> @@ -9,7 +9,7 @@ extern __thread Monitor *cur_mon;
->   typedef struct MonitorHMP MonitorHMP;
->   typedef struct MonitorOptions MonitorOptions;
->   
-> -#define QMP_REQ_QUEUE_LEN_MAX 8
-> +#define QMP_REQ_QUEUE_LEN_MAX 4096
->   
->   extern QemuOptsList qemu_mon_opts;
->   
->
-> diff --git a/monitor/monitor.c b/monitor/monitor.c
-> index b385a3d569..a124d010f3 100644
-> --- a/monitor/monitor.c
-> +++ b/monitor/monitor.c
-> @@ -501,7 +501,7 @@ int monitor_can_read(void *opaque)
->   {
->       Monitor *mon = opaque;
->   
-> -    return !atomic_mb_read(&mon->suspend_cnt);
-> +    return !atomic_mb_read(&mon->suspend_cnt) ? 4096 : 0;
->   }
->
->
-> There are some theoretical risks of overflowing... But it just works. Still this probably not good for upstream. And I'm not sure how would it work with OOB..
+Alex Bennée (1):
+  semihosting/arg-compat: fix up handling of SYS_HEAPINFO
 
-This is exactly what makes the feature difficult: we need to think
-through the ramifications taking OOB and coroutines into account.
+Philippe Mathieu-Daudé (2):
+  semihosting: Move include/hw/semihosting/ -> include/semihosting/
+  semihosting: Move hw/semihosting/ -> semihosting/
 
-So far, the feature has been important enough to post patches, but not
-important enough to accompany them with a "think through".
+ meson.build                                   |   1 +
+ include/{hw => }/semihosting/console.h        |   0
+ include/{hw => }/semihosting/semihost.h       |   0
+ {hw/semihosting => semihosting}/common-semi.h |   0
+ tests/tcg/arm/semicall.h                      |   1 +
+ gdbstub.c                                     |   2 +-
+ hw/mips/malta.c                               |   2 +-
+ linux-user/aarch64/cpu_loop.c                 |   2 +-
+ linux-user/arm/cpu_loop.c                     |   2 +-
+ linux-user/riscv/cpu_loop.c                   |   2 +-
+ linux-user/semihost.c                         |   2 +-
+ .../arm-compat-semi.c                         | 135 ++++++++++--------
+ {hw/semihosting => semihosting}/config.c      |   2 +-
+ {hw/semihosting => semihosting}/console.c     |   4 +-
+ softmmu/vl.c                                  |   2 +-
+ stubs/semihost.c                              |   2 +-
+ target/arm/helper.c                           |   4 +-
+ target/arm/m_helper.c                         |   4 +-
+ target/arm/translate-a64.c                    |   2 +-
+ target/arm/translate.c                        |   2 +-
+ target/lm32/helper.c                          |   2 +-
+ target/m68k/op_helper.c                       |   2 +-
+ target/mips/cpu.c                             |   2 +-
+ target/mips/mips-semi.c                       |   4 +-
+ target/mips/translate.c                       |   2 +-
+ target/nios2/helper.c                         |   2 +-
+ target/riscv/cpu_helper.c                     |   2 +-
+ target/unicore32/helper.c                     |   2 +-
+ target/xtensa/translate.c                     |   2 +-
+ target/xtensa/xtensa-semi.c                   |   2 +-
+ tests/tcg/arm/semihosting.c                   |  34 ++++-
+ Kconfig                                       |   1 +
+ MAINTAINERS                                   |   4 +-
+ hw/Kconfig                                    |   1 -
+ hw/meson.build                                |   1 -
+ {hw/semihosting => semihosting}/Kconfig       |   0
+ {hw/semihosting => semihosting}/meson.build   |   0
+ 37 files changed, 142 insertions(+), 92 deletions(-)
+ rename include/{hw => }/semihosting/console.h (100%)
+ rename include/{hw => }/semihosting/semihost.h (100%)
+ rename {hw/semihosting => semihosting}/common-semi.h (100%)
+ rename {hw/semihosting => semihosting}/arm-compat-semi.c (94%)
+ rename {hw/semihosting => semihosting}/config.c (99%)
+ rename {hw/semihosting => semihosting}/console.c (98%)
+ rename {hw/semihosting => semihosting}/Kconfig (100%)
+ rename {hw/semihosting => semihosting}/meson.build (100%)
 
-Sometimes, maintainers are willing and able to do some of the patch
-submitter's work for them.  I haven't been able to do that for this
-feature.  I'll need more help, I'm afraid.
+-- 
+2.20.1
 
 
