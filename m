@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C915A32F29E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:32:38 +0100 (CET)
-Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD64C32F29F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:33:07 +0100 (CET)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFFd-0003DF-Rx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:32:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1lIFG6-0003ta-Ph
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:33:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE41-0007Sk-Se
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:33 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45524)
+ id 1lIE3y-0007Pl-C3
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:32 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3M-0007io-F3
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:33 -0500
-Received: by mail-wr1-x430.google.com with SMTP id e10so2862301wro.12
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:47 -0800 (PST)
+ id 1lIE3M-0007jB-Eo
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:28 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o2so2099108wme.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sSQp2d6jwLb6DcuGgX9lcMaIg2ApAQ9naMb0a9sdWEA=;
- b=fMG96CrpnLNsEwDfbyYlUf9l4ZS/JTKcPypHOrTtjgQEJ25pICPvoX/vMHcbTj8W7M
- Op2GOBbzSEhjR1xCnUjMqezPL/56q/25VClRdBa/dmilwlb2zDBobO5Ij9YSXHKMA6zy
- pb6r6svAl7cYEFnfdN+eWw3zAEvXRzcHwKkdo8I4z6NxuNvp7hUS0WfbiEnv26YZujdb
- ZIdwYGsEDUlAMTeWBIuDM03FUfmNx3pUW1rVlFW9MbSDaJKZPVaeO55DXNhBwRFQ6d7+
- YYS8rVUmInmZr10aqZoSVThMkTcfqRobsK9NC9ECPttANYDpggTiKuW2ydkJsYUfToI0
- cUQA==
+ bh=IM0evp81Tpfg78UhLeSOv0MQOAQ09htasgtTC7lU0Cg=;
+ b=tDbnx0ulR87df0LZ1Skkto0me1m4JkMZtfzKAxvDk2wOB8AsDz+pXgeCn6ATPkuC5g
+ 5YxDVbAjr3Le2yczKwKLxM7awVTb64zy8BCBdY5ppCvvTqq5IBhqCdHyJ3BIAvcyZNOR
+ FPbVTwnrMuIYrQXCd3lUW/vD5wibp7eCMtVhX5F9uZs4Sly9F166UY8c+CloCmhqoDhE
+ Q8LO22dx5IvjQnjVymgi/crIh07IOS8GkXPM9GhGt7kzARsGZ+wRbWh7LzvS9EuyRGWK
+ fpiI9WLe/mYYLZE+xQOtu2EhyIk4SjmJIzBwXoloFHe7ycTcee9RHk9fBMp7I+gD9BaX
+ c2kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sSQp2d6jwLb6DcuGgX9lcMaIg2ApAQ9naMb0a9sdWEA=;
- b=sTk5NiDiaxqGfJTK4qICix/x3fpv8SQYQJPOHLJNEfFVe/pdWfMAi/yyq8h7b+qYou
- z2d3ltSF6V/NbMjzbV05z9oDpsCMf3qq4bEvLoRQQptK/Bi/yR3V+t+lPTwKRRo+rT1E
- btUyAefHhcStx9+IEMGwForXEPZOJIx1dwcY3OX8ibnWMX7JNTaiFKMLSXLVlfuz1aYW
- 8BG5fFjojEfMZk5Ehc5Wi3e+SYeWe5rrKej885mlMzrZLX2MtouY+nALYZhDlONcQHPa
- X8AFyFMC2rV7LBiqUQWycgvzhp5X6+3PY6I6YxYINDD6hRASFX3gFa6lAy77tI7xzBZL
- MesQ==
-X-Gm-Message-State: AOAM531WN1ATYBgGrKNWUcmazSQY4eIcir92idfwi2LN3ovzWqw4Geso
- lBTx7oNUqi33xmVIY+NhyrWRVVVflFlgTA==
-X-Google-Smtp-Source: ABdhPJzNnfAfZDNC+/tcpwuKQRZ6pI0cCYrSc7eMkA9EApPznXYtUSdBeYra9e6l23FB4cJaX09Kvg==
-X-Received: by 2002:a5d:620d:: with SMTP id y13mr10613456wru.88.1614964546606; 
- Fri, 05 Mar 2021 09:15:46 -0800 (PST)
+ bh=IM0evp81Tpfg78UhLeSOv0MQOAQ09htasgtTC7lU0Cg=;
+ b=sGFkXyGn+I2/iDAQuhsouCrGbn9SQonp+81D6pL7X91cOQT35obQ3qSEfHvGP9srcc
+ Eq6GACzvBOMIgC3iDEEq6V8EHf4PATWzpTzdkxbA9IHgaBJprKGr0agKzXHqqV4G6ipE
+ sD0P7xXs9Vw+rUVN3Sw2rr0EJ32llBQNgZgxS6pccD14/FbEh499HyZeX7KwErHn2IqC
+ Ai6lIpgjSSrjoOvWQqRO2nWi+pekgErXvbDXTEwfOLJt/r2X03cSgZdNQZEDyhy9YLPi
+ fGIN48ha2XEy7JfObrr0M7daUW7AWzOd2hyLMmwGNfWC1MfZbDOueAQE17m/i/rz4dNK
+ VvWw==
+X-Gm-Message-State: AOAM530twwM5QxhG71Omz8TK2i+6yuOtASMr54FAViEhhxHCbfUQzBSO
+ bGn35VJGpWC+OLlpUyJozpe+ivsSS40lMg==
+X-Google-Smtp-Source: ABdhPJykmQc15cZ8goG901abPenpJ7wwhbpylAyO1DptFiD2UYPalWaJZ82IrTeiSnAJXe404b5pkA==
+X-Received: by 2002:a05:600c:284:: with SMTP id
+ 4mr10125503wmk.24.1614964547161; 
+ Fri, 05 Mar 2021 09:15:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.46
  for <qemu-devel@nongnu.org>
@@ -54,24 +55,23 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Fri, 05 Mar 2021 09:15:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/49] hw/arm/mps2-tz: Set MachineClass default_ram info from
- RAMInfo data
-Date: Fri,  5 Mar 2021 17:15:08 +0000
-Message-Id: <20210305171515.1038-43-peter.maydell@linaro.org>
+Subject: [PULL 43/49] hw/arm/mps2-tz: Support ROMs as well as RAMs
+Date: Fri,  5 Mar 2021 17:15:09 +0000
+Message-Id: <20210305171515.1038-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,67 +87,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of hardcoding the MachineClass default_ram_size and
-default_ram_id fields, set them on class creation by finding the
-entry in the RAMInfo array which is marked as being the QEMU system
-RAM.
+The AN505 and AN521 don't have any read-only memory, but the AN524
+does; add a flag to ROMInfo to mark a region as ROM.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210215115138.20465-18-peter.maydell@linaro.org
+Message-id: 20210215115138.20465-19-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ hw/arm/mps2-tz.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 26a52b72eec..eaa430e9537 100644
+index eaa430e9537..333795b029c 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -811,8 +811,26 @@ static void mps2tz_class_init(ObjectClass *oc, void *data)
+@@ -92,8 +92,10 @@ typedef struct RAMInfo {
+  * Flag values:
+  *  IS_ALIAS: this RAM area is an alias to the upstream end of the
+  *    MPC specified by its .mpc value
++ *  IS_ROM: this RAM area is read-only
+  */
+ #define IS_ALIAS 1
++#define IS_ROM 2
  
-     mc->init = mps2tz_common_init;
-     iic->check = mps2_tz_idau_check;
--    mc->default_ram_size = 16 * MiB;
--    mc->default_ram_id = "mps.ram";
-+}
-+
-+static void mps2tz_set_default_ram_info(MPS2TZMachineClass *mmc)
-+{
-+    /*
-+     * Set mc->default_ram_size and default_ram_id from the
-+     * information in mmc->raminfo.
-+     */
-+    MachineClass *mc = MACHINE_CLASS(mmc);
-+    const RAMInfo *p;
-+
-+    for (p = mmc->raminfo; p->name; p++) {
-+        if (p->mrindex < 0) {
-+            /* Found the entry for "system memory" */
-+            mc->default_ram_size = p->size;
-+            mc->default_ram_id = p->name;
-+            return;
-+        }
+ struct MPS2TZMachineClass {
+     MachineClass parent;
+@@ -209,6 +211,7 @@ static MemoryRegion *mr_for_raminfo(MPS2TZMachineState *mms,
+     if (raminfo->mrindex < 0) {
+         /* Means this RAMInfo is for QEMU's "system memory" */
+         MachineState *machine = MACHINE(mms);
++        assert(!(raminfo->flags & IS_ROM));
+         return machine->ram;
+     }
+ 
+@@ -217,6 +220,9 @@ static MemoryRegion *mr_for_raminfo(MPS2TZMachineState *mms,
+ 
+     memory_region_init_ram(ram, NULL, raminfo->name,
+                            raminfo->size, &error_fatal);
++    if (raminfo->flags & IS_ROM) {
++        memory_region_set_readonly(ram, true);
 +    }
-+    g_assert_not_reached();
+     return ram;
  }
  
- static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-@@ -835,6 +853,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->numirq = 92;
-     mmc->raminfo = an505_raminfo;
-     mmc->armsse_type = TYPE_IOTKIT;
-+    mps2tz_set_default_ram_info(mmc);
- }
- 
- static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-@@ -857,6 +876,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->numirq = 92;
-     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
-     mmc->armsse_type = TYPE_SSE200;
-+    mps2tz_set_default_ram_info(mmc);
- }
- 
- static const TypeInfo mps2tz_info = {
 -- 
 2.20.1
 
