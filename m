@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAED032F239
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:15:25 +0100 (CET)
-Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC7D32F243
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:18:52 +0100 (CET)
+Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIEyy-0006KS-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:15:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38354)
+	id 1lIF2J-0002Ty-1c
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:18:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3Q-00070U-Hi
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:56 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53418)
+ id 1lIE3f-0007Ja-NG
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:12 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3A-0007bE-05
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:56 -0500
-Received: by mail-wm1-x335.google.com with SMTP id e23so2101509wmh.3
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:35 -0800 (PST)
+ id 1lIE3E-0007cM-8V
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:10 -0500
+Received: by mail-wm1-x331.google.com with SMTP id l22so2109720wme.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2b6FsaIecUp7nn2WzqIajLloJVXEMYAzJTZLvvG7dSo=;
- b=IXVE+MgalQIgEyW5JQjoyGvT3KndB7KCnTd5JBvrnl631BrZqYj2c2cKuh5XGNoJLx
- 5ZtQYVhYRs7jVHNd83jir7ebU8gqg2XEYPpS/4l1cQFD25rE/lq4CENQuu6mgDAALq1r
- TdfyCAYlfi0KlKPLpBSZuq2biw3Dtm2OukTHb4ZTczNQg+MyiHoXUkY0668aZrCfjvLk
- kwSLC/VwXGqKfGRjPvWxrQKHTRVmvUH5slfmmHc8L6VEulwVVSf1tQzDOVm3ksCsbYd4
- KyKAtJdFhRGLuEty+s38zdeunbvapTICssSkarw+ctvS3Tco09BRvU0KPnH2U3AiLgSa
- Jt9A==
+ bh=wk0S0KTbLUFNBa4y721gmJ4km7P/S6HBOD3pRDA2m3Y=;
+ b=mLYCMPanw9nJWjuGykL0cZQlXJoIAnla4C5Yvm5uMHrwEc9N8gsvspC9H5qBc8Jnbw
+ 6fvuEYaNh69lALrxANy+7Mwjq2xU7WohRdZNSXprMSsfzWybQfdwzpbiYJX5EL2SylGy
+ vtEcALxekY18HsQbhgaLV0qeA1bvgGr2+CFZAjd10H4g+mxBWzf7hKtze9Cf0lzOU/um
+ cqnhBKp3TvOW55WpgXHLTYuc5Nbp+zQVdUJoOHAt7QiCs+Jq1+TCSOm5mYGohlP6DWgo
+ sqvDTE44pm5edwWBdLEh8pwfUF8MVB/SDJZUVlZVed5zxgUcP6LTlQhv6wKNC2/FzSGU
+ HTGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2b6FsaIecUp7nn2WzqIajLloJVXEMYAzJTZLvvG7dSo=;
- b=lCcq2T2qsJ8+Ivd+CNQ2dmC54U/PYNDdKJyWe4mkbvgd50dWaNMmETVN5oPM92jVxU
- We4ilZdw9jZiulHbbYui2yUhUDomodPhCuw+3ErlIZU/xf8DvTQPUTLFapmd1cmgXsnL
- 0h9YHHAFz9p8IUlNvyqm2+avr0caNomaoDcjiBiCYiietyqFO/vGFfdP1gzLNjF/NNEz
- 6yTQD3OFCUu0h7K1Pu9UiQo+eqMUScz4XWJ9m0sC4KhWY9ZtQGMwuoWob1sMgFdneooa
- 1X9aWH+yu8fK2h/23GmBEQz6hGMQwMhWgm3YenOMVEvtBKLLiJvlFioqBl8Sr87mNFBs
- BFVA==
-X-Gm-Message-State: AOAM532nvMjRknV3wWe4VKVgRiEEPZAWcmG14b3kJhToz6HGpa6tr5MY
- JTRYLgUhFChkW8BBs/Tu5qL7tILaB5CZhw==
-X-Google-Smtp-Source: ABdhPJxE51iDO2lMfiVQeE8ZTbW/IrQCs+JsSgePfT//qj9ipaMF8R2+2Q+xrX9mCIN+76aiKhzFSA==
-X-Received: by 2002:a05:600c:4f0b:: with SMTP id
- l11mr9879536wmq.102.1614964534621; 
- Fri, 05 Mar 2021 09:15:34 -0800 (PST)
+ bh=wk0S0KTbLUFNBa4y721gmJ4km7P/S6HBOD3pRDA2m3Y=;
+ b=dONDVy5TD4PFde7e8E/1sOmBepM3uCBW2A2pt0AeVGUGytt5f0FSSFg8gYRPJESFSu
+ JLUrtvr2rUD92scHkNFNYal/oEC14e/iXOfTIpY1GjbDO65qvbvX9lhyHDNL2G4JQZkJ
+ 5S+t4o48SSQ3H6D01fbLXLv5l+sTCMuBlL1UrWVsvu97GUn4wcTtPIhvlpvANBlHFjUw
+ p+sNfb7uhHy2R7ixpQOMaA++Cm5ymJnUNVNyayWjtVdmB0yAMkuJp0EDWi0Xn7HQUFiW
+ AlZrmXB+Xro9e3MnAVABtyGAtXERhTKQ/rxgd/zoBxBHkOOQzqvH5SU0vXeR2miEiy0b
+ i39g==
+X-Gm-Message-State: AOAM5333+ka4kIVnN5/Ytrjmu4tgGgDJ60aEQGLPxYop1vmYvKcy069z
+ 6XiepVRK0EOSHLjr3sIzB/QAY+mcj7ecnw==
+X-Google-Smtp-Source: ABdhPJxywINTwFp46m/Wh7lY9GaCzNMB1eZoeB59J4Re+8ctcgJgLSMcNi7PousvzsBTsnvv1A37Ng==
+X-Received: by 2002:a1c:ddc6:: with SMTP id
+ u189mr10050856wmg.171.1614964535846; 
+ Fri, 05 Mar 2021 09:15:35 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.34
+ by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 09:15:34 -0800 (PST)
+ Fri, 05 Mar 2021 09:15:35 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/49] hw/display/omap_lcdc: Delete unnecessary macro
-Date: Fri,  5 Mar 2021 17:14:50 +0000
-Message-Id: <20210305171515.1038-25-peter.maydell@linaro.org>
+Subject: [PULL 26/49] hw/arm/mps2-tz: Make SYSCLK frequency board-specific
+Date: Fri,  5 Mar 2021 17:14:52 +0000
+Message-Id: <20210305171515.1038-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,38 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The macro draw_line_func is used only once; just expand it.
+The AN524 has a different SYSCLK frequency from the AN505 and AN521;
+make the SYSCLK frequency a field in the MPS2TZMachineClass rather
+than a compile-time constant so we can support the AN524.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210215103215.4944-10-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210215115138.20465-2-peter.maydell@linaro.org
 ---
- hw/display/omap_lcdc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/arm/mps2-tz.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
-index 2db04fad2fc..0ba42ef637c 100644
---- a/hw/display/omap_lcdc.c
-+++ b/hw/display/omap_lcdc.c
-@@ -70,8 +70,6 @@ static void omap_lcd_interrupts(struct omap_lcd_panel_s *s)
-     qemu_irq_lower(s->irq);
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 90caa914934..82ce6262817 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -76,6 +76,7 @@ struct MPS2TZMachineClass {
+     MachineClass parent;
+     MPS2TZFPGAType fpga_type;
+     uint32_t scc_id;
++    uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
+     const char *armsse_type;
+ };
+ 
+@@ -111,8 +112,6 @@ struct MPS2TZMachineState {
+ 
+ OBJECT_DECLARE_TYPE(MPS2TZMachineState, MPS2TZMachineClass, MPS2TZ_MACHINE)
+ 
+-/* Main SYSCLK frequency in Hz */
+-#define SYSCLK_FRQ 20000000
+ /* Slow 32Khz S32KCLK frequency in Hz */
+ #define S32KCLK_FRQ (32 * 1000)
+ 
+@@ -186,6 +185,7 @@ static MemoryRegion *make_unimp_dev(MPS2TZMachineState *mms,
+ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+                                const char *name, hwaddr size)
+ {
++    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+     CMSDKAPBUART *uart = opaque;
+     int i = uart - &mms->uart[0];
+     int rxirqno = i * 2;
+@@ -196,7 +196,7 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+ 
+     object_initialize_child(OBJECT(mms), name, uart, TYPE_CMSDK_APB_UART);
+     qdev_prop_set_chr(DEVICE(uart), "chardev", serial_hd(i));
+-    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", SYSCLK_FRQ);
++    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", mmc->sysclk_frq);
+     sysbus_realize(SYS_BUS_DEVICE(uart), &error_fatal);
+     s = SYS_BUS_DEVICE(uart);
+     sysbus_connect_irq(s, 0, get_sse_irq_in(mms, txirqno));
+@@ -403,7 +403,7 @@ static void mps2tz_common_init(MachineState *machine)
+ 
+     /* These clocks don't need migration because they are fixed-frequency */
+     mms->sysclk = clock_new(OBJECT(machine), "SYSCLK");
+-    clock_set_hz(mms->sysclk, SYSCLK_FRQ);
++    clock_set_hz(mms->sysclk, mmc->sysclk_frq);
+     mms->s32kclk = clock_new(OBJECT(machine), "S32KCLK");
+     clock_set_hz(mms->s32kclk, S32KCLK_FRQ);
+ 
+@@ -670,6 +670,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mmc->fpga_type = FPGA_AN505;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
+     mmc->scc_id = 0x41045050;
++    mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
+     mmc->armsse_type = TYPE_IOTKIT;
  }
  
--#define draw_line_func drawfn
--
- /*
-  * 2-bit colour
-  */
-@@ -202,7 +200,7 @@ static void omap_update_display(void *opaque)
- {
-     struct omap_lcd_panel_s *omap_lcd = (struct omap_lcd_panel_s *) opaque;
-     DisplaySurface *surface;
--    draw_line_func draw_line;
-+    drawfn draw_line;
-     int size, height, first, last;
-     int width, linesize, step, bpp, frame_offset;
-     hwaddr frame_base;
+@@ -685,6 +686,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mmc->fpga_type = FPGA_AN521;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
+     mmc->scc_id = 0x41045210;
++    mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
+     mmc->armsse_type = TYPE_SSE200;
+ }
+ 
 -- 
 2.20.1
 
