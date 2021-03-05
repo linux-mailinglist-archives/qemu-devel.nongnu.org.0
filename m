@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDF732F0FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:18:24 +0100 (CET)
-Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C97F32F0EA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:14:10 +0100 (CET)
+Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIE5n-00076X-OA
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:18:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33056)
+	id 1lIE1h-0003mc-2X
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:14:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkT-0007Bt-Eu
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36474)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkH-0006tZ-1r
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkB-0007Du-3z
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:21 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDk5-0007CX-3n
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614963357;
+ s=mimecast20190719; t=1614963356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Z2AuwW/9GaMnMEUouEm1irTTlYSgTpDzabvvMAMFtI=;
- b=HNk9dnn4Nt332sl+YdEdx88PXwUxM5CpVVhAzdpB527Mlb2+ksjjWbk5sBHXoqcN4fe0z9
- UDvZXXWbe0oDZepuymCvpKBnoNOIsqspPUEZtvMFp0Ntq5tyiUxaVRZT1imq1ftsYEJsMe
- 8ayjl+niQ+WcDmoGDVd58S67I7boOTk=
+ bh=VF98KSzLbmqEjHnWVEXHrpPBNZqP8dKQmGu7jqXOY2M=;
+ b=FfinuYpN8n54oV/tAOrdlMR9U8I3tv05u5n+xgift8jtRx0yE9tOGj+iCe4yenAm2cXeMD
+ YSmnhYwV3puu4XDNr3mXiM303WZWGD4vvvcxaB6QMJx/TwHoa73TzimRytPX2r2eGCunjc
+ Jepys13DVY8ZThUUJ6rIzQIWSquUmKg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-nSDxR5OTNJitZN52Rs1f5A-1; Fri, 05 Mar 2021 11:55:55 -0500
-X-MC-Unique: nSDxR5OTNJitZN52Rs1f5A-1
+ us-mta-254-qVaeBIEmM_qt5ViBwg5HDQ-1; Fri, 05 Mar 2021 11:55:52 -0500
+X-MC-Unique: qVaeBIEmM_qt5ViBwg5HDQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59DCE18BEF9F;
- Fri,  5 Mar 2021 16:55:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23C24100A44D;
+ Fri,  5 Mar 2021 16:55:14 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C32B60BF3;
- Fri,  5 Mar 2021 16:55:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 143A960BF3;
+ Fri,  5 Mar 2021 16:55:12 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/31] backup-top: Refuse I/O in inactive state
-Date: Fri,  5 Mar 2021 17:54:26 +0100
-Message-Id: <20210305165454.356840-4-kwolf@redhat.com>
+Subject: [PULL 05/31] iotests: Fix up python style in 300
+Date: Fri,  5 Mar 2021 17:54:28 +0100
+Message-Id: <20210305165454.356840-6-kwolf@redhat.com>
 In-Reply-To: <20210305165454.356840-1-kwolf@redhat.com>
 References: <20210305165454.356840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,56 +80,66 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 
-When the backup-top node transitions from active to inactive in
-bdrv_backup_top_drop(), the BlockCopyState is freed and the filtered
-child is removed, so the node effectively becomes unusable.
+Break some long lines, and relax our type hints to be more generic to
+any JSON, in order to more easily permit the additional JSON depth now
+possible in migration parameters.  Detected by iotest 297.
 
-However, noone told its I/O functions this, so they will happily
-continue accessing bs->backing and s->bcs.  Prevent that by aborting
-early when s->active is false.
-
-(After the preceding patch, the node should be gone after
-bdrv_backup_top_drop(), so this should largely be a theoretical problem.
-But still, better to be safe than sorry, and also I think it just makes
-sense to check s->active in the I/O functions.)
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210219153348.41861-3-mreitz@redhat.com>
+Fixes: ca4bfec41d56
+ (qemu-iotests: 300: Add test case for modifying persistence of bitmap)
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20210215220518.1745469-1-eblake@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/backup-top.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ tests/qemu-iotests/300 | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index d1253e1aa6..589e8b651d 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -45,6 +45,12 @@ static coroutine_fn int backup_top_co_preadv(
-         BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-         QEMUIOVector *qiov, int flags)
- {
-+    BDRVBackupTopState *s = bs->opaque;
-+
-+    if (!s->active) {
-+        return -EIO;
-+    }
-+
-     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
- }
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 63036f6a6e..adb9276297 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -22,7 +22,7 @@
+ import os
+ import random
+ import re
+-from typing import Dict, List, Optional, Union
++from typing import Dict, List, Optional
  
-@@ -54,6 +60,10 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offset,
-     BDRVBackupTopState *s = bs->opaque;
-     uint64_t off, end;
+ import iotests
  
-+    if (!s->active) {
-+        return -EIO;
-+    }
-+
-     if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-         return 0;
-     }
+@@ -30,7 +30,7 @@ import iotests
+ # pylint: disable=wrong-import-order
+ import qemu
+ 
+-BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
++BlockBitmapMapping = List[Dict[str, object]]
+ 
+ mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+ 
+@@ -602,7 +602,8 @@ class TestCrossAliasMigration(TestDirtyBitmapMigration):
+ 
+ class TestAliasTransformMigration(TestDirtyBitmapMigration):
+     """
+-    Tests the 'transform' option which modifies bitmap persistence on migration.
++    Tests the 'transform' option which modifies bitmap persistence on
++    migration.
+     """
+ 
+     src_node_name = 'node-a'
+@@ -674,7 +675,8 @@ class TestAliasTransformMigration(TestDirtyBitmapMigration):
+         bitmaps = self.vm_b.query_bitmaps()
+ 
+         for node in bitmaps:
+-            bitmaps[node] = sorted(((bmap['name'], bmap['persistent']) for bmap in bitmaps[node]))
++            bitmaps[node] = sorted(((bmap['name'], bmap['persistent'])
++                                    for bmap in bitmaps[node]))
+ 
+         self.assertEqual(bitmaps,
+                          {'node-a': [('bmap-a', True), ('bmap-b', False)],
 -- 
 2.29.2
 
