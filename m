@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D789F32E774
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:54:53 +0100 (CET)
-Received: from localhost ([::1]:33578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9579732E777
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 12:56:25 +0100 (CET)
+Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI92i-0003tZ-VJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:54:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36500)
+	id 1lI94C-0005Wq-Jx
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 06:56:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lI91C-00038k-Bb; Fri, 05 Mar 2021 06:53:18 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42669)
+ id 1lI91t-0003U2-Jh; Fri, 05 Mar 2021 06:54:02 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lI91A-00025E-Uq; Fri, 05 Mar 2021 06:53:18 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id j2so1760600wrx.9;
- Fri, 05 Mar 2021 03:53:16 -0800 (PST)
+ id 1lI91r-0002MB-OC; Fri, 05 Mar 2021 06:54:01 -0500
+Received: by mail-wm1-x335.google.com with SMTP id u187so1188082wmg.4;
+ Fri, 05 Mar 2021 03:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fK+Z1wl+vRpf1r/gJh57E0mJ0GFzaGFjZ+0/PhXri4o=;
- b=CwhHKLlzZM7SnNF/xO3iNGjvGJIYvKtYZgL2tnMDB+zsWpGWcKT3R/S7ahy9mMr3AY
- 86KaSnFjbk4/egFjwEyXZilZ88Bhhy0JteHjMKdo9UEMvJRs2iCURKDqyl4M2RNADVHU
- MofMtQxJuaSwoBIui9m6azXriPAO8Dk9mPBbSHjjwpjhuxHzO0hsmJynGUgS/bZdCk+Y
- d8mWWjt8/ELm7MKVcAubOcKQS9oiQhBs97phsQBy/YuWpTaz5LennRL7vIh6V5xbyS0C
- OsOSz7cwnxZW3pIPO8P7uiDkW5NNi3NhL2hQHkv05C7nDaHOqgLUBe4KyLs7FxW8ke4O
- ytPw==
+ bh=0qiSOy8uXPMzP0SiA0Z4ONNtIL5xwSeVo2IOW1/wmvc=;
+ b=oocimgGKGd/Ub1juSLJh6PL5QtXzzHjQULn5RSN7jw40NbqRF/xounqigUuiBIeB/c
+ b32qcBNnAYDm62shwPn2QqFQZa38E0LyBHDZJ+7VMpNiK/59noAAmoJGuy/1+OcuSNOA
+ dyWuHVdDNgBngsd3pXnnmTM8F7KumVQK6FoM8VBKdaT6gVmj0mXAuZDk4pHCm0JeE78V
+ dh681V8+VEYu//LsB+jm0Gya26DIZVEFytXoEClo3cQDyFXrdPTGUlfOgnDy3eOayUyd
+ jaF/9RAJA5B+oqjyVajMjI17Fcb92HO4qpx5/yOZjwJnWfpP11hQ3jUKlLQsGEndkx8Z
+ PQkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fK+Z1wl+vRpf1r/gJh57E0mJ0GFzaGFjZ+0/PhXri4o=;
- b=LMEMicp1pfdQf37QFylP0D5p4YXNQpEP+Kq/JFmyYKhZb//+QZsK9vaYWKgtqmexGW
- fiJVtEtQ+QkN/FrnA/w6IzoJvES7ltecyu3fjbVlxlBBJ9BhUy1qRc7W4eQUGJfy4SuX
- 1BTOqevqRBoK62NohglMEsBnUTyy/nRcpyG/q0Uu7LMrOJwGJ/wVbL8MdaXWnBpg4ksJ
- aVtEYqkNJ/Ej4v31q0L56EpQlAIKO2nGchrfL7mk3DGggoA2gGqrkBsNLpfqdDIjVpda
- XjvrwuyUaxuDHH/YtMeHfvb3i9a1sWW++gkcUOfMe8CgBEkbtVBMNKl8OzsVKaxWGK8B
- u09w==
-X-Gm-Message-State: AOAM531ssDZrsonONdJgPYWpFwvgOgul8oeWMGwi67LsQ4BCMOFijQL7
- wPa6clKT3Jh3besir4ZsExGwwbfhCa0=
-X-Google-Smtp-Source: ABdhPJwwWVZQMtYKYUKt4OnUDkDRw25xp0jEy7+8w6270q27+fcmkhm6J0N1VsU7IaobRe693rcHDQ==
-X-Received: by 2002:adf:e809:: with SMTP id o9mr9201963wrm.110.1614945195100; 
- Fri, 05 Mar 2021 03:53:15 -0800 (PST)
+ bh=0qiSOy8uXPMzP0SiA0Z4ONNtIL5xwSeVo2IOW1/wmvc=;
+ b=ucMBx0vA2TQH+9nSzkn77frQlhu9DYJsayCp+etbu7ZvYK+05AKkEeIfyiaEFVK7S2
+ bi84oIeQ3RKe0YSSi/z3c1kl2ykS0LohKxU1YjYsETqkgtRLWg1jt3hhVwnb58NvC0g7
+ qF4ASESgn08SpInEQY5Y06sCSMhaZBHM89Xa9mnJCakzAWQp7MMm/iIKafoll3W9XAHZ
+ 0LyrecMQcT3JauuRgUDsEynBAcILBXmJG1VvRvsgQ4mWUToi9KzY6/8nfoOkwJFhrUu1
+ reulVe2N/7ksDqjPUuSdtlMkG2MzJ2nbUwsDtO7VnlKDdWIuUbaj8K+FJrO6Dnm1LQt8
+ Dm0w==
+X-Gm-Message-State: AOAM531c2LjPDdXFBoNZVAlfo/fHeRjjbMXgRezVaqCxmwerLGAk+wU3
+ cqABDgfK9Cy0RcZM1Tk8ZQDmx/SETGM=
+X-Google-Smtp-Source: ABdhPJyQNYqeBofF5f+KejoiQUbFpnmQX0VXQEOSEBuVcNwZlTC73/jPdoZIyl5q8uqHJnTzQ7nmCA==
+X-Received: by 2002:a7b:ca50:: with SMTP id m16mr8321160wml.113.1614945237782; 
+ Fri, 05 Mar 2021 03:53:57 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p18sm4742502wro.18.2021.03.05.03.53.14
+ by smtp.gmail.com with ESMTPSA id f7sm1977778wmq.11.2021.03.05.03.53.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 03:53:14 -0800 (PST)
-Subject: Re: [PATCH v2 14/24] hw/arm/mps2-tz: Size the uart-irq-orgate based
- on the number of UARTs
+ Fri, 05 Mar 2021 03:53:57 -0800 (PST)
+Subject: Re: [PATCH v2 18/24] hw/arm/mps2-tz: Support ROMs as well as RAMs
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210215115138.20465-1-peter.maydell@linaro.org>
- <20210215115138.20465-15-peter.maydell@linaro.org>
+ <20210215115138.20465-19-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6af2117a-e0de-5761-03a7-9bd3a8fe8cd4@amsat.org>
-Date: Fri, 5 Mar 2021 12:53:13 +0100
+Message-ID: <cdb50276-007d-9aeb-cdaa-05928624952d@amsat.org>
+Date: Fri, 5 Mar 2021 12:53:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210215115138.20465-15-peter.maydell@linaro.org>
+In-Reply-To: <20210215115138.20465-19-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,19 +92,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/21 12:51 PM, Peter Maydell wrote:
-> We create an OR gate to wire together the overflow IRQs for all the
-> UARTs on the board; this has to have twice the number of inputs as
-> there are UARTs, since each UART feeds it a TX overflow and an RX
-> overflow interrupt line.  Replace the hardcoded '10' with a
-> calculation based on the size of the uart[] array in the
-> MPS2TZMachineState.  (We rely on OR gate inputs that are never wired
-> up or asserted being treated as always-zero.)
+> The AN505 and AN521 don't have any read-only memory, but the AN524
+> does; add a flag to ROMInfo to mark a region as ROM.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/arm/mps2-tz.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+>  hw/arm/mps2-tz.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
