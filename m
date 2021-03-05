@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4AD32EC63
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 14:40:07 +0100 (CET)
-Received: from localhost ([::1]:54946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6B832EC70
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 14:44:46 +0100 (CET)
+Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIAgT-0000cF-Hm
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 08:40:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57004)
+	id 1lIAl3-0003F3-Gj
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 08:44:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIAeY-0008JO-Ph
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:38:02 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lIAeV-0006Zz-NQ
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:38:02 -0500
-Received: by mail-ej1-x630.google.com with SMTP id e19so3516195ejt.3
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 05:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=VChA74ZJCn6SU0KhyFg43TE9aejq+/Oro//tYKvt2d0=;
- b=fLX2jJy9oS3COcxWtBGxlG5ZEPAHXlr/Fp3yIZLOiBmhcWa+typkiCcNlbj6zeZbYD
- oJMlOqqR0XFNmxrS8WSt11MdT3cqjEhRGOz5ClbbFdQEBB2+HEOc1yX0JLXyGEf8UlEN
- riVxARLkn8w4oHGbyLw00KeAvj0XqfiJEf4aJq0iS3tcH2K0kQglIY2zzGNdHU5nwzkR
- ou6FGyvG5KfC0eWcH6GVKtBZD4S+XWkfc7WWj3QSjsnWCtnfE6LipD110efWZUFqJXpe
- oG+4dlY5RtTBgy0lIrX4OAJG5b1Lr+QgHRtzNspx2F1W/s1vYELPY161Fe7BrSOcEca7
- +sRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=VChA74ZJCn6SU0KhyFg43TE9aejq+/Oro//tYKvt2d0=;
- b=c/UO9GUiFsQrvjc2i8VfvlW7GRBTSKMdweprzOwD7nwnqkv5xGyz2XDYhOrgMtlwyi
- HFw8frsjE0bmOYZuFym7e5Xa/W3G2+yzFmKfJWzVGInzcBb1nz1lJuIKv/zKHSHZvjEk
- bmh3BgpJk6QIcpKIvR/2RYT28dZvBJzxs2mXmiGLVrhpxgpIrUgUcqoy7124w3UOxXKX
- +3hov76FAq9a2k06aPkimv1INyBA4UbggqySksx8RPFeqzArq9G/ufe9gdT33L9p3q/s
- Sn7qKKM/RLafid1caYN3zwpoOWxn2Im/HiqoKdCvL83A11DZIIH3IwV4e092VfvKj3KX
- xwhQ==
-X-Gm-Message-State: AOAM533OLDtmtSMkHF+T6wXJ62pkiJEwt431Nj5Z0PNwmdd18PaZoe5/
- speSyO2EIJZr4WkCPOT0Y8IbrQ==
-X-Google-Smtp-Source: ABdhPJyvWra9NIJ1sumEOJCeKjFOFx7R8mBN0ncv3ZLyqZ4pBYhySnvU4FRtlBBQ7ZECZDIRMIk5PA==
-X-Received: by 2002:a17:906:3552:: with SMTP id
- s18mr2276085eja.497.1614951476953; 
- Fri, 05 Mar 2021 05:37:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id gr16sm1596066ejb.44.2021.03.05.05.37.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 05:37:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 39C6E1FF7E;
- Fri,  5 Mar 2021 13:37:55 +0000 (GMT)
-References: <20210305092328.31792-1-alex.bennee@linaro.org>
- <20210305092328.31792-2-alex.bennee@linaro.org>
- <38b39e61-b4b9-e60a-c5d9-d80b7618ba72@amsat.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 1/9] docs/devel: re-organise the developers guide
- into sections
-Date: Fri, 05 Mar 2021 13:37:38 +0000
-In-reply-to: <38b39e61-b4b9-e60a-c5d9-d80b7618ba72@amsat.org>
-Message-ID: <87h7lpg1qk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lIAiJ-000253-LY
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:41:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lIAiH-0000Fa-2V
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 08:41:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614951710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VwYIlkYmYGMaNZRPJNYxJ9wOcvChbgsN/Uwmy1X5qpA=;
+ b=irP3ftRNnZRm7Q/BPBbqcwM0donHylHznr5bl2PECt7svNdH/SvThk+pwR+2XVoSSYfyey
+ UeCpNb3vXgNSybj8BYsZozkJjFLGPR8htXSwot8GdlYDCRQ7hF4sM9rcjHultxYJt1Jq6v
+ T9wUTpDsa0DYi8tfIb4TCOSVyQMwA0g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-pduhoFsYNOGM8kY7nZDVSA-1; Fri, 05 Mar 2021 08:41:49 -0500
+X-MC-Unique: pduhoFsYNOGM8kY7nZDVSA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C077387A83A;
+ Fri,  5 Mar 2021 13:41:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30AEE19934;
+ Fri,  5 Mar 2021 13:41:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AD7C71132C12; Fri,  5 Mar 2021 14:41:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 2/5] monitor: drain requests queue with 'channel
+ closed' event
+References: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1606484146-913540-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <87h7ltll0m.fsf@dusky.pond.sub.org>
+ <b2f95f97-6305-7bc0-8e22-720972b105bb@virtuozzo.com>
+Date: Fri, 05 Mar 2021 14:41:45 +0100
+In-Reply-To: <b2f95f97-6305-7bc0-8e22-720972b105bb@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 2 Mar 2021 18:25:56 +0300")
+Message-ID: <87v9a5zpie.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,53 +83,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ qemu-block@nongnu.org, den@openvz.org, mdroth@linux.vnet.ibm.com,
+ Andrey Shinkevich via <qemu-devel@nongnu.org>, pbonzini@redhat.com,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, mreitz@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> On 3/5/21 10:23 AM, Alex Benn=C3=A9e wrote:
->> The list of sub-sections was getting a bit long and sporadically
->> organised. Let's try and impose some order on this hairball of
->> documentation.
->>=20
->> [AJB: RFC because I wonder if we should make a more concerted effort
->> to move bits of the wiki into a canonical maintained document. There
->> is also probably a need for a quickbuild or tldr section of the
->> build-system for users who just want to build something.]
->>=20
->> Based-on: 20210223095931.16908-1-alex.bennee@linaro.org
+> 02.03.2021 16:53, Markus Armbruster wrote:
+>> Andrey Shinkevich via <qemu-devel@nongnu.org> writes:
+>> 
+>>> When CHR_EVENT_CLOSED comes, the QMP requests queue may still contain
+>>> unprocessed commands. It can happen with QMP capability OOB enabled.
+>>> Let the dispatcher complete handling requests rest in the monitor
+>>> queue.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> ---
+>>>   monitor/qmp.c | 46 +++++++++++++++++++++-------------------------
+>>>   1 file changed, 21 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/monitor/qmp.c b/monitor/qmp.c
+>>> index 7169366..a86ed35 100644
+>>> --- a/monitor/qmp.c
+>>> +++ b/monitor/qmp.c
+>>> @@ -75,36 +75,32 @@ static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
+>>>       }
+>>>   }
+>>>   
+>>> -static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
+>>> +/*
+>>> + * Let unprocessed QMP commands be handled.
+>>> + */
+>>> +static void monitor_qmp_drain_queue(MonitorQMP *mon)
+>>>   {
+>>> -    qemu_mutex_lock(&mon->qmp_queue_lock);
+>>> +    bool q_is_empty = false;
+>>>   
+>>> -    /*
+>>> -     * Same condition as in monitor_qmp_dispatcher_co(), but before
+>>> -     * removing an element from the queue (hence no `- 1`).
+>>> -     * Also, the queue should not be empty either, otherwise the
+>>> -     * monitor hasn't been suspended yet (or was already resumed).
+>>> -     */
+>>> -    bool need_resume = (!qmp_oob_enabled(mon) ||
+>>> -        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX)
+>>> -        && !g_queue_is_empty(mon->qmp_requests);
+>>> +    while (!q_is_empty) {
+>>> +        qemu_mutex_lock(&mon->qmp_queue_lock);
+>>> +        q_is_empty = g_queue_is_empty(mon->qmp_requests);
+>>> +        qemu_mutex_unlock(&mon->qmp_queue_lock);
+>>>   
+>>> -    monitor_qmp_cleanup_req_queue_locked(mon);
+>>> +        if (!q_is_empty) {
+>>> +            if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
+>>> +                /* Kick the dispatcher coroutine */
+>>> +                aio_co_wake(qmp_dispatcher_co);
+>>> +            } else {
+>>> +                /* Let the dispatcher do its job for a while */
+>>> +                g_usleep(40);
+>>> +            }
+>>> +        }
+>>> +    }
+>>>   
+>>> -    if (need_resume) {
+>>> -        /*
+>>> -         * handle_qmp_command() suspended the monitor because the
+>>> -         * request queue filled up, to be resumed when the queue has
+>>> -         * space again.  We just emptied it; resume the monitor.
+>>> -         *
+>>> -         * Without this, the monitor would remain suspended forever
+>>> -         * when we get here while the monitor is suspended.  An
+>>> -         * unfortunately timed CHR_EVENT_CLOSED can do the trick.
+>>> -         */
+>>> +    if (qatomic_mb_read(&mon->common.suspend_cnt)) {
+>>>           monitor_resume(&mon->common);
+>>>       }
+>>> -
+>>> -    qemu_mutex_unlock(&mon->qmp_queue_lock);
+>>>   }
+>>>   
+>>>   void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
+>>> @@ -418,7 +414,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
+>>>            * stdio, it's possible that stdout is still open when stdin
+>>>            * is closed.
+>>>            */
+>>> -        monitor_qmp_cleanup_queue_and_resume(mon);
+>>> +        monitor_qmp_drain_queue(mon);
+>>>           json_message_parser_destroy(&mon->parser);
+>>>           json_message_parser_init(&mon->parser, handle_qmp_command,
+>>>                                    mon, NULL);
+>> 
+>> Before the patch: we call monitor_qmp_cleanup_queue_and_resume() to
+>> throw away the contents of the request queue, and resume the monitor if
+>> suspended.
+>> 
+>> Afterwards: we call monitor_qmp_drain_queue() to wait for the request
+>> queue to drain.  I think.  Before we discuss the how, I have a question
+>> the commit message should answer, but doesn't: why?
+>> 
 >
-> ^ IMO this hint for git bots should be removed from git history.
-
-I'll add a check for that in my patch scripts.
-
+> Hi!
 >
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  docs/devel/index.rst                 | 32 ++++++----------------------
->>  docs/devel/multi-thread-tcg.rst      |  5 +++--
->>  docs/devel/section-apis.rst          | 16 ++++++++++++++
->>  docs/devel/section-building.rst      | 13 +++++++++++
->>  docs/devel/section-concepts.rst      | 21 ++++++++++++++++++
->>  docs/devel/section-process.rst       | 11 ++++++++++
->>  docs/devel/section-tcg-emulation.rst | 19 +++++++++++++++++
->>  docs/devel/section-testing.rst       | 20 +++++++++++++++++
->>  docs/devel/tcg-icount.rst            |  6 +++---
->>  docs/devel/testing.rst               |  6 +++---
->>  10 files changed, 115 insertions(+), 34 deletions(-)
->>  create mode 100644 docs/devel/section-apis.rst
->>  create mode 100644 docs/devel/section-building.rst
->>  create mode 100644 docs/devel/section-concepts.rst
->>  create mode 100644 docs/devel/section-process.rst
->>  create mode 100644 docs/devel/section-tcg-emulation.rst
->>  create mode 100644 docs/devel/section-testing.rst
+> Andrey is not in Virtuozzo now, and nobody doing this work actually.. Honestly, I don't believe that the feature should be so difficult.
+>
+> Actually, we have the following patch in Virtuozzo 7 (Rhel7 based) for years, and it just works without any problems:
 
+I appreciate your repeated efforts to get your downstream patch
+upstream.
 
---=20
-Alex Benn=C3=A9e
+> --- a/monitor.c
+> +++ b/monitor.c
+> @@ -4013,7 +4013,7 @@ static int monitor_can_read(void *opaque)
+>   {
+>       Monitor *mon = opaque;
+>   
+> -    return !atomic_mb_read(&mon->suspend_cnt);
+> +    return !atomic_mb_read(&mon->suspend_cnt) ? 4096 : 0;
+>   }
+>
+>
+> And in Vz8 (Rhel8 based), it looks like (to avoid assertion in handle_qmp_command()):
+>
+> --- a/include/monitor/monitor.h
+> +++ b/include/monitor/monitor.h
+> @@ -9,7 +9,7 @@ extern __thread Monitor *cur_mon;
+>   typedef struct MonitorHMP MonitorHMP;
+>   typedef struct MonitorOptions MonitorOptions;
+>   
+> -#define QMP_REQ_QUEUE_LEN_MAX 8
+> +#define QMP_REQ_QUEUE_LEN_MAX 4096
+>   
+>   extern QemuOptsList qemu_mon_opts;
+>   
+>
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index b385a3d569..a124d010f3 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -501,7 +501,7 @@ int monitor_can_read(void *opaque)
+>   {
+>       Monitor *mon = opaque;
+>   
+> -    return !atomic_mb_read(&mon->suspend_cnt);
+> +    return !atomic_mb_read(&mon->suspend_cnt) ? 4096 : 0;
+>   }
+>
+>
+> There are some theoretical risks of overflowing... But it just works. Still this probably not good for upstream. And I'm not sure how would it work with OOB..
+
+This is exactly what makes the feature difficult: we need to think
+through the ramifications taking OOB and coroutines into account.
+
+So far, the feature has been important enough to post patches, but not
+important enough to accompany them with a "think through".
+
+Sometimes, maintainers are willing and able to do some of the patch
+submitter's work for them.  I haven't been able to do that for this
+feature.  I'll need more help, I'm afraid.
+
 
