@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CFC32F644
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 00:02:33 +0100 (CET)
-Received: from localhost ([::1]:46118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F1C32F6FD
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 00:56:44 +0100 (CET)
+Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIJSq-0007o7-4X
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 18:02:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54382)
+	id 1lIKJG-0008Ky-V8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 18:56:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIJRI-0007DM-Jg
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:00:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55074)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lIKGy-0006mT-Qf
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:20 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIJRA-00007q-I8
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:00:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lIJR7-000630-8a
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 23:00:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3AE892E8157
- for <qemu-devel@nongnu.org>; Fri,  5 Mar 2021 23:00:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lIKGx-0005pt-8I
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 18:54:20 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id n22so2670087wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 15:54:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hOhBYeXVbU9iDoe3oZ1EJaWHxisFx5ag98EkS9/ZKl8=;
+ b=E30ch/iNSMgrdblpe+fTnsRsVbf4A6wvXLTlESsGAhG0c7E2BqujX/UOGxHZFfc0nv
+ AbSRo3hMF86c2ADGAyoH1YJZvbR0bT7uWg8uZZ9F8tW/+LiPoSXo9YepqD2SXVxc91Tg
+ CpugOzO3rmFFQTP+sViDLvQT9K2JQ58PNEFpN72keFyAV6D1RuBCpgb0VJbtWA4oeTP7
+ oCDrPIjqIzftF6yp/LO4BPusPAN+Wq0ERN5Jwzhw5ggLb+GibfQlod0r20xJ/OrY7TTp
+ ZPKkGwjpfbcOs0+2qQiaWDT+5DgGKD4bv9TsWx7yGgOnBeH4enTl2zaUD+0/0d4kp8/9
+ Yugw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=hOhBYeXVbU9iDoe3oZ1EJaWHxisFx5ag98EkS9/ZKl8=;
+ b=jO8tqL1B20SY1naPUpKIKmMY970TW4axl8SwYZC7IwOQIUxfu4DTtcXcujpNiwL1gC
+ RC7v/dO0wmmPcS1uKsvMmiiEkCbyZ73wjGWIWwcelamYFPqRJjPhkUWtV1SjAbu2LExH
+ ko3gs/fsH5LUmCMy0mwBLMY1XcrfHL/2ziAowdpF9XkMImtmKllra1G0W3sNgU9GN4gq
+ iMPBQdU64IrFCHJLYPVmD9cg0sp+EsoBbw6P7Ao1QNLszNdjwNCyHvzxpdwlfhEtspp8
+ 9NaKiPLHwy182jzV6WgNFu8rLiorYh1xV2/ocDcsDEDgoJJHcUNLGiqv6ZsEcAfgTtrw
+ tcfw==
+X-Gm-Message-State: AOAM532hRvuRd3K63eioKVZ03B8AlQc/apoNBO8kZ7hgkifzOG95LNTb
+ iiInB5mQFH2Q/viq3aJ6UhVztUO7ATE=
+X-Google-Smtp-Source: ABdhPJz3ZjoC2I5JIVp5OWhH6ReCn8Tsn5iCwlmzQhDjEH4BBxmoTDG39wcL3g9UgXamwq3tgYXGTQ==
+X-Received: by 2002:a05:600c:1553:: with SMTP id
+ f19mr11079778wmg.33.1614988456713; 
+ Fri, 05 Mar 2021 15:54:16 -0800 (PST)
+Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id s20sm6997103wmj.36.2021.03.05.15.54.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 15:54:16 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] memory: Display AddressSpace zero-based in 'info mtree'
+Date: Sat,  6 Mar 2021 00:54:11 +0100
+Message-Id: <20210305235414.2358144-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Mar 2021 22:54:18 -0000
-From: Peter Maydell <1915925@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: semihosting testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
-X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
- <20210305135451.15427-4-alex.bennee@linaro.org>
- <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
- <87im65gxla.fsf@keithp.com>
-Message-Id: <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
-Subject: [Bug 1915925] Re: [PATCH v1 3/3] semihosting/arg-compat: fix up
- handling of SYS_HEAPINFO
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
-X-Launchpad-Hash: 41c769eccf60b60c110d3b091dc3ff113e6f9dc7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,67 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 at 20:22, Keith Packard <keithp@keithp.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > Also, you don't seem to have the correct "is the CPU in
-> > 32-bit or 64-bit mode" test here: you cannot rely on target_ulong
-> > being the right size, you must make a runtime check.
->
-> Do you mean whether a dual aarch64/arm core is in arm or aarch64 mode,
-> or whether an aarch64 is running a 32-bit ABI?
-
-For semihosting for Arm what matters is "what state is the core
-in at the point where it makes the semihosting SVC/HLT/etc insn?".
-
-How does RISCV specify it?
-
-thanks
--- PMM
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915925
-
-Title:
-  ARM semihosting HEAPINFO results wrote to wrong address
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  This affects latest development branch of QEMU.
-
-  According to the ARM spec of the HEAPINFO semihosting call:
-
-  https://developer.arm.com/documentation/100863/0300/Semihosting-
-  operations/SYS-HEAPINFO--0x16-?lang=3Den
-
-  > the PARAMETER REGISTER contains the address of a pointer to a four-
-  field data block.
-
-  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
-  field data block directly.
-
-  Here is a simple program that can demonstrate this problem:
-  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
-  newlib
-
-  This code links with newlib with semihosting mode, which will call the
-  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-  may crash the program either because of invalid write or memory
-  curruption, depending on the compiled program structure.
-
-  Also refer to my discussion with newlib folks:
-  https://sourceware.org/pipermail/newlib/2021/018260.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
+Hi,=0D
+=0D
+I have been confused for some years by AddressSpace being displayed=0D
+based on the physical address of their first MemoryRegion.=0D
+The actual fix is quite trivial for my needs, but I might not see=0D
+all the possible side effects. Altough the change are restricted=0D
+to mtree_info() which is only available on the monitor.=0D
+=0D
+Last patch is a minor cleanup. I ended not using it.=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  memory: Better name 'offset' argument in mtree_print_mr()=0D
+  memory: Provide 'base address' argument to mtree_print_mr()=0D
+  memory: Make memory_region_to_absolute_addr() take a const=0D
+    MemoryRegion=0D
+=0D
+ softmmu/memory.c | 22 ++++++++++++----------=0D
+ 1 file changed, 12 insertions(+), 10 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
