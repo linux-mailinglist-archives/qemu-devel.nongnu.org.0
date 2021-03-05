@@ -2,100 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1FE32E7A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:06:55 +0100 (CET)
-Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F6332E7BC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 13:13:55 +0100 (CET)
+Received: from localhost ([::1]:58964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI9EM-0004Y3-0g
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:06:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
+	id 1lI9L8-0006jz-60
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 07:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lI9D0-00041N-MN; Fri, 05 Mar 2021 07:05:30 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lI9Cw-0007QJ-Dn; Fri, 05 Mar 2021 07:05:30 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 125C4f7t001442; Fri, 5 Mar 2021 07:05:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=OPB+/egpQQEmnsZZBJwTPgKfoLiwVHG5dTv2vjNShR0=;
- b=PQqCVVsrmepAN2E2yRekiN0syNAzUQkK/LHdZaMt6cvqXnMUsVrpBer75Wp5fSA9rfCA
- eDO+QpPP0KjMve54n4F2Ze/+ms3vJyj6yP4cYdBgoOoq3YKXR7jMyaLPkmmVS6E/8CZE
- I8Iaar24hWPtSlbjANZv3ul0dPPwlun3QA6bqxFNoI2nOgGQkt7jAQJUfMupkTIFnL8q
- NxLRbhlCWJCT2R/q851pkf5NGLFDFtMZPhDo2WvzfkQ+iZ1+XCONQKYugF379zKappOW
- Cz/rxXYeOm1Mso2bzGK8PH/rCzQWJwVrjm8u7y13qMGDivYAjvF8g4Hz82CHZ/tMkCTC cQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 373fn9gnac-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Mar 2021 07:05:23 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 125C5MuC005090;
- Fri, 5 Mar 2021 07:05:22 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 373fn9gn91-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Mar 2021 07:05:22 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 125BqbAQ006734;
- Fri, 5 Mar 2021 12:05:20 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 3713s9swnj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Mar 2021 12:05:20 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 125C5HWl18285002
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Mar 2021 12:05:17 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2FB6D4204F;
- Fri,  5 Mar 2021 12:05:17 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 169EA42049;
- Fri,  5 Mar 2021 12:05:16 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.32.15])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri,  5 Mar 2021 12:05:15 +0000 (GMT)
-Date: Fri, 5 Mar 2021 13:05:14 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v3 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210305130514.18589602.pasic@linux.ibm.com>
-In-Reply-To: <20210305125442.6c582681.cohuck@redhat.com>
-References: <20210302173544.3704179-1-pasic@linux.ibm.com>
- <20210305125442.6c582681.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lI9Jw-0005uy-08
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:12:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lI9Jt-0001xW-TO
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 07:12:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614946356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nPzlS2HTZ3NE1rSuU5kf+8jZsDpvYZ7OrE9KBLUROd4=;
+ b=dCXR/g3zaWfzsIcLLEPWBMt1he6R+kCn0gtJXUkvWflcjUF5q9l3XbrjtH/S+bm6W50+/u
+ f3MuguuaEZDzP4xMjQBYwcXncR2bgHGnLV/LrbsblZU/3/4krIO8qzqg/2iUnHSpMDzx4d
+ KeXvdd1cafoZdt6w/0mQqXBLI8CIZD4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-AwkB0N8zPnm4R4DR4pWgVw-1; Fri, 05 Mar 2021 07:12:32 -0500
+X-MC-Unique: AwkB0N8zPnm4R4DR4pWgVw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738CDCC621;
+ Fri,  5 Mar 2021 12:12:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F015E60244;
+ Fri,  5 Mar 2021 12:12:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 79A291132C12; Fri,  5 Mar 2021 13:12:26 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH 2/3] qapi, audio: respect build time conditions in audio
+ schema
+References: <20210302175524.1290840-1-berrange@redhat.com>
+ <20210302175524.1290840-3-berrange@redhat.com>
+Date: Fri, 05 Mar 2021 13:12:26 +0100
+In-Reply-To: <20210302175524.1290840-3-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Tue, 2 Mar 2021 17:55:23
+ +0000")
+Message-ID: <87o8fx3il1.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-05_08:2021-03-03,
- 2021-03-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103050061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,95 +84,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 12:54:42 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Tue,  2 Mar 2021 18:35:44 +0100
-> Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> > module, which provides the type virtio-gpu-device, packaging the
-> > hw-display-virtio-gpu module as a separate package that may or may not
-> > be installed along with the qemu package leads to problems. Namely if
-> > the hw-display-virtio-gpu is absent, qemu continues to advertise
-> > virtio-gpu-ccw, but it aborts not only when one attempts using
-> > virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> > to instantiate the type to introspect it.
-> > 
-> > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> > was chosen because it is not a portable device. Because registering
-> > virtio-gpu-ccw would make non-s390x emulator fail due to a missing
-> > parent type, if built as a module, before registering it, we check
-> > if the ancestor types are already registered.
-> > 
-> > With virtio-gpu-ccw built as a module, the correct way to package a
-> > modularized qemu is to require that hw-display-virtio-gpu must be
-> > installed whenever the module hw-s390x-virtio-gpu-ccw.
-> > 
-> > The definition S390_ADAPTER_SUPPRESSIBLE was moved to "cpu.h", per
-> > suggestion of Thomas Huth. From interface design perspective, IMHO, not
-> > a good thing as it belongs to the public interface of
-> > css_register_io_adapters(). We did this because CONFIG_KVM requeires
-> > NEED_CPU_H and Thomas, and other commenters did not like the
-> > consequences of that.
-> > 
-> > Moving the interrupt related declarations to s390_flic.h was suggested
-> > by Cornelia Huck.
-> > 
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > ---
-> > 
-> > As explained in [1] the previous idea of type_register_mayfail() does
-> > not work. The next best thing is to check if all types we need are
-> > already registered before registering virtio-gpu-ccw from the module. It
-> > is reasonable to assume that when the module is loaded, the ancestors
-> > are already registered (which is not the case if the device is a
-> > built in one).
-> > 
-> > The alternatives to this approch I could identify are:
-> > * A poor mans version of this which checks for the parent
-> > * Emulator specific modules:
-> >   * An emulator specific directory within the modules directory which
-> >     is ignored by the other emulators.
-> >   * A way to tell the shared util library the name of this directory,
-> >     and the code to check it if set.
-> >   * Build hw-s390x-virtio-gpu-ccw so it lands in this special directory
-> >     in the build tree, and install it there as well.
-> >   I've spend some time with looking into this, but I came to the
-> >   conclusion that the two latter points look hairy.
-> > 
-> > [1] https://lore.kernel.org/qemu-devel/20210222125548.346166-1-pasic@linux.ibm.com/T/#maf0608df5479f87b23606f01f732740d2617b458
-> > ---
-> >  hw/s390x/meson.build         |  7 ++++-
-> >  hw/s390x/virtio-ccw-gpu.c    |  5 ++++
-> >  include/hw/s390x/css.h       |  7 -----
-> >  include/hw/s390x/s390_flic.h |  3 +++
-> >  include/qom/object.h         | 10 ++++++++
-> >  qom/object.c                 | 50 ++++++++++++++++++++++++++++++++++++
-> >  target/s390x/cpu.h           |  9 ++++---
-> >  util/module.c                |  1 +
-> >  8 files changed, 81 insertions(+), 11 deletions(-)  
-> 
-> The s390x part looks fine, but I'm not that well versed in the object
-> and module stuff...
-> 
+> Currently the -audiodev accepts any audiodev type regardless of what is
+> built in to QEMU. An error only occurs later at runtime when a sound
+> device tries to use the audio backend.
+>
+> With this change QEMU will immediately reject -audiodev args that are
+> not compiled into the binary. The QMP schema will also be introspectable
+> to identify what is compiled in.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Thanks Conny! Gerd was so kind to provide review from that perspective.
-I'm hoping on his continued feedback :)
+Subject "qapi, audio: respect build time conditions in audio schema"
+feels too narrow.  The patch goes beyond the schema, because it has to:
+guarding QAPI schema parts with 'if' requires guarding use of C code
+generated for it with #if.
 
-Have a nice weekend!
+An easy way out is perhaps stating just the aim:
+
+    audio: Make introspection reflect build configuration
+
+This assumes the patch does a complete job.  If there's more audio build
+configuration to reflect, add a suitable qualifier like "more closely".
+
+Fun: before the patch, the CONFIG_AUDIO_ conditionals are effectively
+applied just to output of -help.
+
+[...]
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index d7b91230d7..9af1b8140c 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -386,8 +386,24 @@
+>  # Since: 4.0
+>  ##
+>  { 'enum': 'AudiodevDriver',
+> -  'data': [ 'none', 'alsa', 'coreaudio', 'dsound', 'jack', 'oss', 'pa',
+> -            'sdl', 'spice', 'wav' ] }
+> +  'data': [ 'none',
+> +            { 'name': 'alsa',
+> +              'if': 'defined(CONFIG_AUDIO_ALSA)' },
+> +            { 'name': 'coreaudio',
+> +              'if': 'defined(CONFIG_AUDIO_COREAUDIO)' },
+> +            { 'name': 'dsound',
+> +              'if': 'defined(CONFIG_AUDIO_DSOUND)' },
+> +            { 'name': 'jack',
+> +              'if': 'defined(CONFIG_AUDIO_JACK)' },
+> +            { 'name': 'oss',
+> +              'if': 'defined(CONFIG_AUDIO_OSS)' },
+> +            { 'name': 'pa',
+> +              'if': 'defined(CONFIG_AUDIO_PA)' },
+> +            { 'name': 'sdl',
+> +              'if': 'defined(CONFIG_AUDIO_SDL)' },
+> +            { 'name': 'spice',
+> +              'if': 'defined(CONFIG_SPICE)' },
+> +            'wav' ] }
+> =20
+>  ##
+>  # @Audiodev:
+> @@ -410,14 +426,22 @@
+>    'discriminator': 'driver',
+>    'data': {
+>      'none':      'AudiodevGenericOptions',
+> -    'alsa':      'AudiodevAlsaOptions',
+> -    'coreaudio': 'AudiodevCoreaudioOptions',
+> -    'dsound':    'AudiodevDsoundOptions',
+> -    'jack':      'AudiodevJackOptions',
+> -    'oss':       'AudiodevOssOptions',
+> -    'pa':        'AudiodevPaOptions',
+> -    'sdl':       'AudiodevSdlOptions',
+> -    'spice':     'AudiodevGenericOptions',
+> +    'alsa':      { 'type': 'AudiodevAlsaOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_ALSA)' },
+> +    'coreaudio': { 'type': 'AudiodevCoreaudioOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_COREAUDIO)' },
+> +    'dsound':    { 'type': 'AudiodevDsoundOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_DSOUND)' },
+> +    'jack':      { 'type': 'AudiodevJackOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_JACK)' },
+> +    'oss':       { 'type': 'AudiodevOssOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_OSS)' },
+> +    'pa':        { 'type': 'AudiodevPaOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_PA)' },
+> +    'sdl':       { 'type': 'AudiodevSdlOptions',
+> +                   'if': 'defined(CONFIG_AUDIO_SDL)' },
+> +    'spice':     { 'type': 'AudiodevGenericOptions',
+> +                   'if': 'defined(CONFIG_SPICE)' },
+>      'wav':       'AudiodevWavOptions' } }
+> =20
+>  ##
+
+For the QAPI schema part:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
