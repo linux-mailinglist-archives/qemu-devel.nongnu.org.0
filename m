@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2303B32F375
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:07:42 +0100 (CET)
-Received: from localhost ([::1]:53646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB7F32F426
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 20:42:31 +0100 (CET)
+Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFnZ-0002j9-6v
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:07:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
+	id 1lIGLG-00068L-8x
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 14:42:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFke-0000vs-MI
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:04:45 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39009)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIGJe-00055m-P7
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:40:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lIFkb-00063c-EY
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:04:40 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id ch11so2657800pjb.4
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 11:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PF7Z0/qIMuTyRq0GXDoKtAwSHlPQWX0fI68R4KEEhBU=;
- b=g33yepKE81bogIc19MggTIUN/1iZryiN71WVWm0/Ns81n0bhBKgtqLhMzAXCcc1KIk
- O+h550Ve9uzJAALhdJLIea+pVOH61CebEYuNbASvlc0C1iIx2Z5U/HLWvlKnFrqK0X5K
- v6m8sJZQd8gasjZBhMWTSedtC4+sTSuVpLg5D6+TIcvQKKSHKb7GB6DQRO2+FkZvre7Z
- n5PmTAbyuBOhy/ujyroBb5Gyrd3eAzIukcTCw+5rkeGB3FM/4HGtMQNU4gF/8YBWY2Rd
- wgh/5t3XsqZSW4JP6eEzVgXIQd5XF8RP2cgodGq5kDgGCjDf3qt11XcI50HOaJyf9i/S
- XJ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PF7Z0/qIMuTyRq0GXDoKtAwSHlPQWX0fI68R4KEEhBU=;
- b=g4vyVvCSRQCSvDJevCo1jm6WaVTBsn88uO6JuMYkyqKMb89tkf6CaNQ736dtaUDQpH
- Q/PxIZ0GOetFf3OCwtxgGttTZAmTOXhILCyUsOAmNvBZkj2OdsygeLjNlhEyAlpMo/Kz
- Yki4fmISBFxuk/I/Oy5HBsfYfKpE65cMD7q0FEl3aHgKXZDb+kFGYSKpfVGrbuw0StRI
- HXstBuYWKClxNgsW00Vgve3W6x+/xtAItUimJbLn9k8tKiMSC1c8kFDjM00Ev6d6I9ZB
- R48XxT1L08zciABg1YqE+vDsQObagC1AndSAOYc90hhIMmMNgd2b8EptJzeWIS3eAlJT
- qJQQ==
-X-Gm-Message-State: AOAM530ZHYYSmP+ul0KYWLDJkFtnp2R0Y85AVaNoxu+oyf8gSl70Kq3P
- MDFQsk7zWa4SXeMzBKtgZNQUFZmC+m1U9w==
-X-Google-Smtp-Source: ABdhPJxzubaUX10jXyIqGd6CKV+hLP8ZTL0Y0NxBoVu5yARaV0BCMOtOJp96qCaexpDQnaeposMDlA==
-X-Received: by 2002:a17:90a:e516:: with SMTP id
- t22mr10288079pjy.39.1614971076140; 
- Fri, 05 Mar 2021 11:04:36 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id y14sm3215930pfq.218.2021.03.05.11.04.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 11:04:35 -0800 (PST)
-Subject: Re: [PATCH] target/hexagon/opcodes: Add missing varargs cleanup
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210223111253.2831285-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <655c262f-6033-a8ab-3565-ecafaa7ddd18@linaro.org>
-Date: Fri, 5 Mar 2021 11:04:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIGJc-0001A9-Jv
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 14:40:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lIGJb-0002wy-6j
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 19:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 26FA02E8047
+ for <qemu-devel@nongnu.org>; Fri,  5 Mar 2021 19:40:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210223111253.2831285-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Mar 2021 19:28:57 -0000
+From: Jessica Clarke <1917940@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jrtc27
+X-Launchpad-Bug-Reporter: Jessica Clarke (jrtc27)
+X-Launchpad-Bug-Modifier: Jessica Clarke (jrtc27)
+Message-Id: <161497253793.31770.9218035606388599691.malonedeb@gac.canonical.com>
+Subject: [Bug 1917940] [NEW] -bios edk2-$arch-code doesn't work for x86
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
+X-Launchpad-Hash: 6e886fb244a8c966a2262269991db9cfc129215a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,22 +68,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>
+Reply-To: Bug 1917940 <1917940@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 3:12 AM, Philippe Mathieu-Daudé wrote:
-> Fix a trivial incorrect usage of variable argument macros detected
-> by Coverity (missing_va_end: va_end was not called for ap).
-> 
-> Fixes: Coverity CID 1446720 (VARARGS)
-> Fixes: e3c00c2ed75 ("Hexagon (target/hexagon) opcode data structures")
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/hexagon/opcodes.c | 1 +
->   1 file changed, 1 insertion(+)
+Public bug reported:
 
-Queued to hexagon-next.
+Whilst creating a flash device is recommended, -bios <file> is extremely
+useful in many cases as it automatically searches $PREFIX/share/qemu
+rather than requiring the caller (be it a human or a script) to work out
+where that directory is for the QEMU being called and prepend it to the
+file name.
 
-r~
+Currently, all the x86 EDK2 FD code files are 3653632 bytes in size, or
+0x37c000 bytes. However, for some reason I cannot find the answer to (I
+traced the code back to 7587cf44019d593bb12703e7046bd7738996c55c), x86's
+-bios only allows files that are multiples of 64K in size
+(x86_bios_rom_init), which would require the EDK2 ROMs to be rounded up
+to 0x380000 bytes. If I delete the check, QEMU is able to load the only-
+16K-multiple-sized EDK2 and boot an OS just fine. If I pad EDK2 with 16K
+of zeroes at the *start* (since the ROM gets mapped counting backwards),
+it also works just fine (but padding at the *end* doesn't). Please
+therefore either relax the check in x86_bios_rom_init or ensure the EDK2
+binary is suitably padded.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917940
+
+Title:
+  -bios edk2-$arch-code doesn't work for x86
+
+Status in QEMU:
+  New
+
+Bug description:
+  Whilst creating a flash device is recommended, -bios <file> is
+  extremely useful in many cases as it automatically searches
+  $PREFIX/share/qemu rather than requiring the caller (be it a human or
+  a script) to work out where that directory is for the QEMU being
+  called and prepend it to the file name.
+
+  Currently, all the x86 EDK2 FD code files are 3653632 bytes in size,
+  or 0x37c000 bytes. However, for some reason I cannot find the answer
+  to (I traced the code back to
+  7587cf44019d593bb12703e7046bd7738996c55c), x86's -bios only allows
+  files that are multiples of 64K in size (x86_bios_rom_init), which
+  would require the EDK2 ROMs to be rounded up to 0x380000 bytes. If I
+  delete the check, QEMU is able to load the only-16K-multiple-sized
+  EDK2 and boot an OS just fine. If I pad EDK2 with 16K of zeroes at the
+  *start* (since the ROM gets mapped counting backwards), it also works
+  just fine (but padding at the *end* doesn't). Please therefore either
+  relax the check in x86_bios_rom_init or ensure the EDK2 binary is
+  suitably padded.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917940/+subscriptions
 
