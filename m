@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CA532F286
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:29:28 +0100 (CET)
-Received: from localhost ([::1]:59544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986F732F274
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:26:51 +0100 (CET)
+Received: from localhost ([::1]:50990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIFCZ-00085N-MH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:29:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
+	id 1lIFA2-0004XU-MM
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:26:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE40-0007R5-Cr
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:33 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36350)
+ id 1lIE3s-0007PT-1b
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:32 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3M-0007jZ-FI
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:31 -0500
-Received: by mail-wm1-x336.google.com with SMTP id k66so2114618wmf.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:48 -0800 (PST)
+ id 1lIE3M-0007jk-Ey
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:23 -0500
+Received: by mail-wm1-x343.google.com with SMTP id
+ w203-20020a1c49d40000b029010c706d0642so6357983wma.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aFknsSA98SRLzdL3tZ2HL5mJV7033TpNawxHLDY/8NA=;
- b=C+Z4WaR+3jK7zLp724X0Yqt6PFuE3wlIN4FzUEzM8GW+sa2ycbeG3Bb7GTOkL6ws9W
- 7eODq7MQ0ggLQtDvHCXlu/4qLDnKETEA1SrWcrSTCXlLrP8nqfKrgsbenk4RnWiURurq
- 22QtjV3S6W9AelSQa6cR7q0y6cLjY7Doy62qrdyh3wjdP4a09vR4WE3Kb4AXfHjI8/be
- hmuxw9Mx1TUBqenyIN7Z/71rhMtkYnwRA0pWICTkqohpfi6YMXK8gqkMeTbC0O2L3hJA
- N2YgWGMiiHkqdGgVXJOUSSabU+cygsQRPPLVVQoKYeq59Lse4VGaFYNphjNNREhcwWr9
- mZFg==
+ bh=zN+8aIt/w5r/Xv2DEI+FzEndZfrlw2WjLwXrcd/0mHs=;
+ b=gB3tXhm8xtDkNCqo+2gCjPCdzqVcDozlVCLjv5i95LsAfbM7D4wmDZIdSlpQhqjd0e
+ LQLxli+t+N0yS7rp2ER/8S/6vJRIln2TlXq3O5twyXvz9vYmCRvpEI1KCGuLG5yd7gk2
+ g3ZvhtrL9GxY5GCKsleCrn0t4XCNcc5sd/um0y9DNfDEmLa2zbr69gFN93KMWSKhP5Cj
+ dmdVe24nO6w6tXYdJ3dOzMmhmY+615IjTJJFvDQCPA3DzHk19OaZufpa4fJCb3tJCysp
+ OsjBSiHE1eD5LYhdNX+9ihnaHRhhbjw0MxhjvPa8P2nkGQIF70R6oPIv3S3mf2ZMGhl1
+ /zTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aFknsSA98SRLzdL3tZ2HL5mJV7033TpNawxHLDY/8NA=;
- b=uTt6ZoKsLoAqIB7zmaEqXh3DLwYWI5GEfaxbw706Gdpb0hhDLaaP5Za3plEmiQfypC
- 5LJTGpneKB77geOUqEw+X8caKxOyYOh8qk2NLR7EKOix7rXw+8djvdDmNhPmO1ue8SKM
- B02znU/0K/76Z8UbxZD6yDFMVSe5mm+siDw6p+NPxGe5q3ozB7DstnKC2rrYKVZNclfI
- YtjQLsV5L+uy0dWuuSa4IOATgNHsFQYFxXeNs8j3ma76g2Hx+1Le4p4GWy5e59dhQDwe
- ZkpanfL7gsyeHKl681nnmhEVW/3x/+gNDn+G6WH2abh9BUaBPx3WbzTxpbes7/NG49/G
- RsaQ==
-X-Gm-Message-State: AOAM531OM4Jg0MVwH34HCpDsH5rvy1w3p95Ejfqs2x0+7mbsMOqWQtGq
- HM33oZO575vE3UboX/DFpQ4sLTNMgGtB2g==
-X-Google-Smtp-Source: ABdhPJw0sSfQZofl2MyoXvW8XzZi9OseD2rcWhtXMKm1++szDrCr/p61RRwveHuXkWMr3qw7AZ4RjA==
-X-Received: by 2002:a1c:ddc6:: with SMTP id
- u189mr10051679wmg.171.1614964547712; 
- Fri, 05 Mar 2021 09:15:47 -0800 (PST)
+ bh=zN+8aIt/w5r/Xv2DEI+FzEndZfrlw2WjLwXrcd/0mHs=;
+ b=KtYyskznOj07vWjLXHlimY4m+ql53ip6WIF2hh0HAQoCtKu+tCHzxX4VuorX3Cx2QR
+ SKj93bKS1S2j4X//KX4T02GQtwoJmueAa900dWFqyh3R4sLWnjIbXYfpq3YfG7hD5gpp
+ 6+tgEXMb1G9pagy7U2MD6sUWn49pj/80v+qIBk2+jbPc8aKWdGZgryMXVYkZGZRojiWT
+ msRcU6+eHxLgeTWA6OUfGmjzgU0B1dtI9/aE54vHJ09ap8bnvAYk1WEvfE0Jdkh85AKJ
+ cFe1nmjF4lyfna4ZSgzhzj2YuQihcFQMP2UsFYYYUkSf1HKvJrjvP1YkFhjd79CSs3LF
+ O1SA==
+X-Gm-Message-State: AOAM533oloywsdG1DTrF93gAnP3UFS77dNLctFNyKc5nSco62MncvD9V
+ f+4PYDdbhqyGqKE1blQl9ZeKEpcouO8Uzg==
+X-Google-Smtp-Source: ABdhPJwA8MNx3vh1ZD7TGR8q5MH9lchR6pmYc5fB7f2rTchWELBvhHkZIqIssd7PnX29/aEJjaCdYA==
+X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr9941619wmb.115.1614964548429; 
+ Fri, 05 Mar 2021 09:15:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 09:15:47 -0800 (PST)
+ Fri, 05 Mar 2021 09:15:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/49] hw/arm/mps2-tz: Get armv7m_load_kernel() size argument
- from RAMInfo
-Date: Fri,  5 Mar 2021 17:15:10 +0000
-Message-Id: <20210305171515.1038-45-peter.maydell@linaro.org>
+Subject: [PULL 45/49] hw/arm/mps2-tz: Add new mps3-an524 board
+Date: Fri,  5 Mar 2021 17:15:11 +0000
+Message-Id: <20210305171515.1038-46-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,57 +87,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The armv7m_load_kernel() function takes a mem_size argument which it
-expects to be the size of the memory region at guest address 0.  (It
-uses this argument only as a limit on how large a raw image file it
-can load at address zero).
+Add support for the mps3-an524 board; this is an SSE-200 based FPGA
+image, like the existing mps2-an521.  It has a usefully larger amount
+of RAM, and a PL031 RTC, as well as some more minor differences.
 
-Instead of hardcoding this value, find the RAMInfo corresponding to
-the 0 address and extract its size.
+In real hardware this image runs on a newer generation of the FPGA
+board, the MPS3 rather than the older MPS2.  Architecturally the two
+boards are similar, so we implement the MPS3 boards in the mps2-tz.c
+file as variations of the existing MPS2 boards.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210215115138.20465-20-peter.maydell@linaro.org
+Message-id: 20210215115138.20465-21-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ hw/arm/mps2-tz.c | 139 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 135 insertions(+), 4 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 333795b029c..4dfd9a3aa52 100644
+index 4dfd9a3aa52..baeb684d9d0 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -525,6 +525,20 @@ static void create_non_mpc_ram(MPS2TZMachineState *mms)
+@@ -16,6 +16,7 @@
+  * This source file covers the following FPGA images, for TrustZone cores:
+  *  "mps2-an505" -- Cortex-M33 as documented in ARM Application Note AN505
+  *  "mps2-an521" -- Dual Cortex-M33 as documented in Application Note AN521
++ *  "mps2-an524" -- Dual Cortex-M33 as documented in Application Note AN524
+  *
+  * Links to the TRM for the board itself and to the various Application
+  * Notes which document the FPGA images can be found here:
+@@ -27,11 +28,13 @@
+  * http://infocenter.arm.com/help/topic/com.arm.doc.dai0505b/index.html
+  * Application Note AN521:
+  * http://infocenter.arm.com/help/topic/com.arm.doc.dai0521c/index.html
++ * Application Note AN524:
++ * https://developer.arm.com/documentation/dai0524/latest/
+  *
+  * The AN505 defers to the Cortex-M33 processor ARMv8M IoT Kit FVP User Guide
+  * (ARM ECM0601256) for the details of some of the device layout:
+  *   http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ecm0601256/index.html
+- * Similarly, the AN521 uses the SSE-200, and the SSE-200 TRM defines
++ * Similarly, the AN521 and AN524 use the SSE-200, and the SSE-200 TRM defines
+  * most of the device layout:
+  *  http://infocenter.arm.com/help/topic/com.arm.doc.101104_0100_00_en/corelink_sse200_subsystem_for_embedded_technical_reference_manual_101104_0100_00_en.pdf
+  *
+@@ -65,12 +68,13 @@
+ #include "hw/qdev-clock.h"
+ #include "qom/object.h"
+ 
+-#define MPS2TZ_NUMIRQ_MAX 92
++#define MPS2TZ_NUMIRQ_MAX 95
+ #define MPS2TZ_RAM_MAX 4
+ 
+ typedef enum MPS2TZFPGAType {
+     FPGA_AN505,
+     FPGA_AN521,
++    FPGA_AN524,
+ } MPS2TZFPGAType;
+ 
+ /*
+@@ -121,13 +125,15 @@ struct MPS2TZMachineState {
+     TZPPC ppc[5];
+     TZMPC mpc[3];
+     PL022State spi[5];
+-    ArmSbconI2CState i2c[4];
++    ArmSbconI2CState i2c[5];
+     UnimplementedDeviceState i2s_audio;
+     UnimplementedDeviceState gpio[4];
+     UnimplementedDeviceState gfx;
++    UnimplementedDeviceState cldc;
++    UnimplementedDeviceState rtc;
+     PL080State dma[4];
+     TZMSC msc[4];
+-    CMSDKAPBUART uart[5];
++    CMSDKAPBUART uart[6];
+     SplitIRQ sec_resp_splitter;
+     qemu_or_irq uart_irq_orgate;
+     DeviceState *lan9118;
+@@ -139,6 +145,7 @@ struct MPS2TZMachineState {
+ #define TYPE_MPS2TZ_MACHINE "mps2tz"
+ #define TYPE_MPS2TZ_AN505_MACHINE MACHINE_TYPE_NAME("mps2-an505")
+ #define TYPE_MPS2TZ_AN521_MACHINE MACHINE_TYPE_NAME("mps2-an521")
++#define TYPE_MPS3TZ_AN524_MACHINE MACHINE_TYPE_NAME("mps3-an524")
+ 
+ OBJECT_DECLARE_TYPE(MPS2TZMachineState, MPS2TZMachineClass, MPS2TZ_MACHINE)
+ 
+@@ -151,6 +158,15 @@ static const uint32_t an505_oscclk[] = {
+     25000000,
+ };
+ 
++static const uint32_t an524_oscclk[] = {
++    24000000,
++    32000000,
++    50000000,
++    50000000,
++    24576000,
++    23750000,
++};
++
+ static const RAMInfo an505_raminfo[] = { {
+         .name = "ssram-0",
+         .base = 0x00000000,
+@@ -188,6 +204,37 @@ static const RAMInfo an505_raminfo[] = { {
+     },
+ };
+ 
++static const RAMInfo an524_raminfo[] = { {
++        .name = "bram",
++        .base = 0x00000000,
++        .size = 512 * KiB,
++        .mpc = 0,
++        .mrindex = 0,
++    }, {
++        .name = "sram",
++        .base = 0x20000000,
++        .size = 32 * 4 * KiB,
++        .mpc = 1,
++        .mrindex = 1,
++    }, {
++        /* We don't model QSPI flash yet; for now expose it as simple ROM */
++        .name = "QSPI",
++        .base = 0x28000000,
++        .size = 8 * MiB,
++        .mpc = 1,
++        .mrindex = 2,
++        .flags = IS_ROM,
++    }, {
++        .name = "DDR",
++        .base = 0x60000000,
++        .size = 2 * GiB,
++        .mpc = 2,
++        .mrindex = -1,
++    }, {
++        .name = NULL,
++    },
++};
++
+ static const RAMInfo *find_raminfo_for_mpc(MPS2TZMachineState *mms, int mpc)
+ {
+     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+@@ -717,12 +764,66 @@ static void mps2tz_common_init(MachineState *machine)
+         },
+     };
+ 
++    const PPCInfo an524_ppcs[] = { {
++            .name = "apb_ppcexp0",
++            .ports = {
++                { "bram-mpc", make_mpc, &mms->mpc[0], 0x58007000, 0x1000 },
++                { "qspi-mpc", make_mpc, &mms->mpc[1], 0x58008000, 0x1000 },
++                { "ddr-mpc", make_mpc, &mms->mpc[2], 0x58009000, 0x1000 },
++            },
++        }, {
++            .name = "apb_ppcexp1",
++            .ports = {
++                { "i2c0", make_i2c, &mms->i2c[0], 0x41200000, 0x1000 },
++                { "i2c1", make_i2c, &mms->i2c[1], 0x41201000, 0x1000 },
++                { "spi0", make_spi, &mms->spi[0], 0x41202000, 0x1000, { 52 } },
++                { "spi1", make_spi, &mms->spi[1], 0x41203000, 0x1000, { 53 } },
++                { "spi2", make_spi, &mms->spi[2], 0x41204000, 0x1000, { 54 } },
++                { "i2c2", make_i2c, &mms->i2c[2], 0x41205000, 0x1000 },
++                { "i2c3", make_i2c, &mms->i2c[3], 0x41206000, 0x1000 },
++                { /* port 7 reserved */ },
++                { "i2c4", make_i2c, &mms->i2c[4], 0x41208000, 0x1000 },
++            },
++        }, {
++            .name = "apb_ppcexp2",
++            .ports = {
++                { "scc", make_scc, &mms->scc, 0x41300000, 0x1000 },
++                { "i2s-audio", make_unimp_dev, &mms->i2s_audio,
++                  0x41301000, 0x1000 },
++                { "fpgaio", make_fpgaio, &mms->fpgaio, 0x41302000, 0x1000 },
++                { "uart0", make_uart, &mms->uart[0], 0x41303000, 0x1000, { 32, 33, 42 } },
++                { "uart1", make_uart, &mms->uart[1], 0x41304000, 0x1000, { 34, 35, 43 } },
++                { "uart2", make_uart, &mms->uart[2], 0x41305000, 0x1000, { 36, 37, 44 } },
++                { "uart3", make_uart, &mms->uart[3], 0x41306000, 0x1000, { 38, 39, 45 } },
++                { "uart4", make_uart, &mms->uart[4], 0x41307000, 0x1000, { 40, 41, 46 } },
++                { "uart5", make_uart, &mms->uart[5], 0x41308000, 0x1000, { 124, 125, 126 } },
++
++                { /* port 9 reserved */ },
++                { "clcd", make_unimp_dev, &mms->cldc, 0x4130a000, 0x1000 },
++                { "rtc", make_unimp_dev, &mms->rtc, 0x4130b000, 0x1000 },
++            },
++        }, {
++            .name = "ahb_ppcexp0",
++            .ports = {
++                { "gpio0", make_unimp_dev, &mms->gpio[0], 0x41100000, 0x1000 },
++                { "gpio1", make_unimp_dev, &mms->gpio[1], 0x41101000, 0x1000 },
++                { "gpio2", make_unimp_dev, &mms->gpio[2], 0x41102000, 0x1000 },
++                { "gpio3", make_unimp_dev, &mms->gpio[3], 0x41103000, 0x1000 },
++                { "eth", make_eth_dev, NULL, 0x41400000, 0x100000, { 48 } },
++            },
++        },
++    };
++
+     switch (mmc->fpga_type) {
+     case FPGA_AN505:
+     case FPGA_AN521:
+         ppcs = an505_ppcs;
+         num_ppcs = ARRAY_SIZE(an505_ppcs);
+         break;
++    case FPGA_AN524:
++        ppcs = an524_ppcs;
++        num_ppcs = ARRAY_SIZE(an524_ppcs);
++        break;
+     default:
+         g_assert_not_reached();
      }
+@@ -900,6 +1001,29 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mps2tz_set_default_ram_info(mmc);
  }
  
-+static uint32_t boot_ram_size(MPS2TZMachineState *mms)
++static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
 +{
-+    /* Return the size of the RAM block at guest address zero */
-+    const RAMInfo *p;
-+    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
++    MachineClass *mc = MACHINE_CLASS(oc);
++    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_CLASS(oc);
 +
-+    for (p = mmc->raminfo; p->name; p++) {
-+        if (p->base == 0) {
-+            return p->size;
-+        }
-+    }
-+    g_assert_not_reached();
++    mc->desc = "ARM MPS3 with AN524 FPGA image for dual Cortex-M33";
++    mc->default_cpus = 2;
++    mc->min_cpus = mc->default_cpus;
++    mc->max_cpus = mc->default_cpus;
++    mmc->fpga_type = FPGA_AN524;
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
++    mmc->scc_id = 0x41045240;
++    mmc->sysclk_frq = 32 * 1000 * 1000; /* 32MHz */
++    mmc->oscclk = an524_oscclk;
++    mmc->len_oscclk = ARRAY_SIZE(an524_oscclk);
++    mmc->fpgaio_num_leds = 10;
++    mmc->fpgaio_has_switches = true;
++    mmc->numirq = 95;
++    mmc->raminfo = an524_raminfo;
++    mmc->armsse_type = TYPE_SSE200;
++    mps2tz_set_default_ram_info(mmc);
 +}
 +
- static void mps2tz_common_init(MachineState *machine)
+ static const TypeInfo mps2tz_info = {
+     .name = TYPE_MPS2TZ_MACHINE,
+     .parent = TYPE_MACHINE,
+@@ -925,11 +1049,18 @@ static const TypeInfo mps2tz_an521_info = {
+     .class_init = mps2tz_an521_class_init,
+ };
+ 
++static const TypeInfo mps3tz_an524_info = {
++    .name = TYPE_MPS3TZ_AN524_MACHINE,
++    .parent = TYPE_MPS2TZ_MACHINE,
++    .class_init = mps3tz_an524_class_init,
++};
++
+ static void mps2tz_machine_init(void)
  {
-     MPS2TZMachineState *mms = MPS2TZ_MACHINE(machine);
-@@ -789,7 +803,8 @@ static void mps2tz_common_init(MachineState *machine)
- 
-     create_non_mpc_ram(mms);
- 
--    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x400000);
-+    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-+                       boot_ram_size(mms));
+     type_register_static(&mps2tz_info);
+     type_register_static(&mps2tz_an505_info);
+     type_register_static(&mps2tz_an521_info);
++    type_register_static(&mps3tz_an524_info);
  }
  
- static void mps2_tz_idau_check(IDAUInterface *ii, uint32_t address,
+ type_init(mps2tz_machine_init);
 -- 
 2.20.1
 
