@@ -2,82 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB3F32E05E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 05:07:01 +0100 (CET)
-Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8941632E20A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 07:15:51 +0100 (CET)
+Received: from localhost ([::1]:35906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI1jv-0004SK-H2
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 23:06:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32912)
+	id 1lI3kc-0001es-3n
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 01:15:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lI1it-00041d-RU
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 23:05:55 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:44915)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1lI3jK-0000nn-G2; Fri, 05 Mar 2021 01:14:30 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lI1ir-0001ks-PZ
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 23:05:55 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 0DD105C0117;
- Thu,  4 Mar 2021 23:05:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 04 Mar 2021 23:05:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=NLhai53zZ5jBSbPSro6ZlU/6vs
- 4WAwegzqBDCO83KJc=; b=HXy6pMDxjNs/5i72wvQP0bL/BSRZiKUbfB81KRbiKZ
- C+cuHBVXkbeLXhnPgEZGwbJPHn4TlnwTzr3HCrSYdNllo4Ocmdb+hgwSd8Sj1OAS
- BuUUlkLkL11KLULijreme2YqztgG73OfDONmHsWQJMuQLHCTzE9//vfEm4lq34ZO
- JTL3CKGUz8HYuVrmcHY7vunTNnhH3CtZZr/0F7YsDSGyxv5fxheF/pA7qqHm0L54
- cLHsMplvL3XLhw4/XJN6pAtf+0Je2dVX6HvRTIEx5lfpwbVNod1uokHEkEl9K1/e
- pEgJRUg4hcL7XqEb/oxCQpbfa/oDfNb1kocISsNrknkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=NLhai53zZ5jBSbPSr
- o6ZlU/6vs4WAwegzqBDCO83KJc=; b=BS5q+nL22wC3rLZIkFl9aEjKj5PpUJZnq
- ZyYbIXcVk3glkZMElK7kggp6nIDLT4An3CeqLK9W39HPsB/rC72vQE+PkWW+GH19
- Alr9lFYtJGNUeFWwQVvA22UiMXTu/WjzNQ6I+PMhLpIUSp/DuOwDxIYV6SU/jjwk
- QDrdg4IF5+sup/8VBjyo5mrAD0a4nIgaLc+p/KqTt/GqVnZaI7hvwyKibwyyY5x8
- PSfptW4s2RPID/1pQ7P0a3HgySzbYGXVZI+UE4DnwHU6sZggWpLCd7HSvbVIcuvQ
- 5/LZRNnImJVJweC5Bpxaq+p/2WKTtVhM7frGd3eiRvoNtx1tcceEg==
-X-ME-Sender: <xms:IK5BYNTbqXjmZnZpQpwfpfr66r3bGrYdAKgsEgI-vgWdMvb4YjW_4w>
- <xme:IK5BYEkfY1SE3tiyyOYVp8mcY4i_VwmDZhQ2whNMp4UVIIcCAiqZFbfAkvWuRh2N7
- PxA5knjpgRokuu7f98>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddthedgieefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
- dttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehf
- lhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpefhjedtkedtueehtdeifeetke
- evffetjeetfeegkeevgefftedvudfgleeihfdtudenucfkphepudduhedrvddvjedrudei
- hedrudehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:IK5BYNQd3c73OY-jAnMJ__tTL4q42ddrYnGaEX5IUpoPiAUETM9IDA>
- <xmx:IK5BYCN5-GIu7o7pgHDWXS44Lskf2Od5qYMkcr4r8ClPrjI_wdTZDQ>
- <xmx:IK5BYGUZ0O6owA7GTYoiq3QBC0PglQm_RAbxNjJjs4XKuUMgKxdbaQ>
- <xmx:Ia5BYJfzXlq16SL6R9qo-Y2SkDlKjFJ_7AC7aoTlUp17haGWpzfEqw>
-Received: from archlinux.202.net.flygoat.com (unknown [115.227.165.152])
- by mail.messagingengine.com (Postfix) with ESMTPA id 40A1724005A;
- Thu,  4 Mar 2021 23:05:50 -0500 (EST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: laurent@vivier.eu
-Subject: [PATCH v2] linux-user: add missing MULTICAST_IF get/setsockopt option
-Date: Fri,  5 Mar 2021 12:05:42 +0800
-Message-Id: <20210305040542.9879-1-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.30.1
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1lI3jH-00061r-6H; Fri, 05 Mar 2021 01:14:30 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DsHSj4ng3zlSJ5;
+ Fri,  5 Mar 2021 14:12:05 +0800 (CST)
+Received: from [10.174.186.67] (10.174.186.67) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 5 Mar 2021 14:14:06 +0800
+Subject: Re: [RFC PATCH 0/5] hw/arm/virt: Introduce cpu topology support
+To: Andrew Jones <drjones@redhat.com>
+References: <20210225085627.2263-1-fangying1@huawei.com>
+ <20210225120255.4gfbtsflbdsyxizn@kamzik.brq.redhat.com>
+ <261f7e04-ea59-6883-981f-3891c240416e@huawei.com>
+ <20210301094804.teo4szecdppo5dp5@kamzik.brq.redhat.com>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <50ae84fd-14d6-e74f-1afb-5b87be599ca2@huawei.com>
+Date: Fri, 5 Mar 2021 14:14:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210301094804.teo4szecdppo5dp5@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.67]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,54 +61,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-{IP,IPV6}_MULTICAST_IF was not supported.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- linux-user/syscall.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 389ec09764..77343130b3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2219,6 +2219,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
- #ifdef IP_FREEBIND
-         case IP_FREEBIND:
- #endif
-+        case IP_MULTICAST_IF:
-         case IP_MULTICAST_TTL:
-         case IP_MULTICAST_LOOP:
-             val = 0;
-@@ -2265,6 +2266,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-         case IPV6_V6ONLY:
-         case IPV6_RECVPKTINFO:
-         case IPV6_UNICAST_HOPS:
-+        case IPV6_MULTICAST_IF:
-         case IPV6_MULTICAST_HOPS:
-         case IPV6_MULTICAST_LOOP:
-         case IPV6_RECVERR:
-@@ -2891,6 +2893,7 @@ get_timeout:
- #ifdef IP_FREEBIND
-         case IP_FREEBIND:
- #endif
-+        case IP_MULTICAST_IF:
-         case IP_MULTICAST_TTL:
-         case IP_MULTICAST_LOOP:
-             if (get_user_u32(len, optlen))
-@@ -2926,6 +2929,7 @@ get_timeout:
-         case IPV6_V6ONLY:
-         case IPV6_RECVPKTINFO:
-         case IPV6_UNICAST_HOPS:
-+        case IPV6_MULTICAST_IF:
-         case IPV6_MULTICAST_HOPS:
-         case IPV6_MULTICAST_LOOP:
-         case IPV6_RECVERR:
--- 
-2.30.1
+On 3/1/2021 5:48 PM, Andrew Jones wrote:
+> On Fri, Feb 26, 2021 at 04:41:45PM +0800, Ying Fang wrote:
+>>
+>>
+>> On 2/25/2021 8:02 PM, Andrew Jones wrote:
+>>> On Thu, Feb 25, 2021 at 04:56:22PM +0800, Ying Fang wrote:
+>>>> An accurate cpu topology may help improve the cpu scheduler's decision
+>>>> making when dealing with multi-core system. So cpu topology description
+>>>> is helpful to provide guest with the right view. Dario Faggioli's talk
+>>>> in [0] also shows the virtual topology may has impact on sched performace.
+>>>> Thus this patch series is posted to introduce cpu topology support for
+>>>> arm platform.
+>>>>
+>>>> Both fdt and ACPI are introduced to present the cpu topology. To describe
+>>>> the cpu topology via ACPI, a PPTT table is introduced according to the
+>>>> processor hierarchy node structure. This series is derived from [1], in
+>>>> [1] we are trying to bring both cpu and cache topology support for arm
+>>>> platform, but there is still some issues to solve to support the cache
+>>>> hierarchy. So we split the cpu topology part out and send it seperately.
+>>>> The patch series to support cache hierarchy will be send later since
+>>>> Salil Mehta's cpu hotplug feature need the cpu topology enabled first and
+>>>> he is waiting for it to be upstreamed.
+>>>>
+>>>> This patch series was initially based on the patches posted by Andrew Jones [2].
+>>>> I jumped in on it since some OS vendor cooperative partner are eager for it.
+>>>> Thanks for Andrew's contribution.
+>>>>
+>>>> After applying this patch series, launch a guest with virt-6.0 and cpu
+>>>> topology configured with sockets:cores:threads = 2:4:2, you will get the
+>>>> bellow messages with the lscpu command.
+>>>>
+>>>> -----------------------------------------
+>>>> Architecture:                    aarch64
+>>>> CPU op-mode(s):                  64-bit
+>>>> Byte Order:                      Little Endian
+>>>> CPU(s):                          16
+>>>> On-line CPU(s) list:             0-15
+>>>> Thread(s) per core:              2
+>>>
+>>> What CPU model was used? Did it actually support threads? If these were
+>>
+>> It's tested on Huawei Kunpeng 920 CPU model and vcpu host-passthrough.
+>> It does not support threads for now, but the next version 930 may
+>> support it. Here we emulate a virtual cpu topology, a virtual 2 threads
+>> is used to do the test.
+>>
+>>
+>>> KVM VCPUs, then I guess MPIDR.MT was not set on the CPUs. Apparently
+>>> that didn't confuse Linux? See [1] for how I once tried to deal with
+>>> threads.
+>>>
+>>> [1] https://github.com/rhdrjones/qemu/commit/60218e0dd7b331031b644872d56f2aca42d0ff1e
+>>>
+>>
+>> If ACPI PPTT table is specified, the linux kernel won't check the MPIDR
+>> register to populate cpu topology. Moreover MPIDR does not ensure a
+>> right cpu topology. So it won't be a problem if MPIDR.MT is not set.
+> 
+> OK, so Linux doesn't care about MPIDR.MT with ACPI. What happens with
+> DT?
 
+Behind the logical of Linux kernel, it tries to parse cpu topology in
+smp_prepare_cpus (arch/arm64/kernel/topology.c). If cpu topology is
+provided via DT, Linux kernel won't check MPIDR any more. This is the
+same with ACPI enabled.
+
+> 
+>>
+>>>> Core(s) per socket:              4
+>>>> Socket(s):                       2
+>>>
+>>> Good, but what happens if you specify '-smp 16'? Do you get 16 sockets
+>                ^^ You didn't answer this question.
+
+The latest qemu use smp_parse the parse -smp command line, by default if
+-smp 16 is given, arm64 virt machine will get 16 sockets.
+
+> 
+>>> each with 1 core? Or, do you get 1 socket with 16 cores? And, which do
+>>> we want and why? If you look at [2], then you'll see I was assuming we
+>>> want to prefer cores over sockets, since without topology descriptions
+>>> that's what the Linux guest kernel would do.
+>>>
+>>> [2] https://github.com/rhdrjones/qemu/commit/c0670b1bccb4d08c7cf7c6957cc8878a2af131dd
+>>>
+
+Thanks, I'll check the default way Linux does.
+
+>>>> NUMA node(s):                    2
+>>>
+>>> Why do we have two NUMA nodes in the guest? The two sockets in the
+>>> guest should not imply this.
+>>
+>> The two NUMA nodes are emulated by Qemu since we already have guest numa
+>> topology feature.
+> 
+> That's what I suspected, and I presume only a single node is present when
+> you don't use QEMU's NUMA feature - even when you supply a VCPU topology
+> with multiple sockets?
+
+Agreed, I would like single numa node too if we do not use guest
+numa feature. Here I provide the guest with two numa nodes and set the 
+cpu affinity only to do a test.
+
+
+> 
+> Thanks,
+> drew
+> 
+>> So the two sockets in the guest has nothing to do with
+>> it. Actually even one socket may have two numa nodes in it in real cpu
+>> model.
+>>
+>>>
+>>> Thanks,
+>>> drew
+>>>
+>>>> Vendor ID:                       HiSilicon
+>>>> Model:                           0
+>>>> Model name:                      Kunpeng-920
+>>>> Stepping:                        0x1
+>>>> BogoMIPS:                        200.00
+>>>> NUMA node0 CPU(s):               0-7
+>>>> NUMA node1 CPU(s):               8-15
+>>>>
+>>>> [0] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines-friend-or-foe-dario-faggioli-suse
+>>>> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg02166.html
+>>>> [2] https://patchwork.ozlabs.org/project/qemu-devel/cover/20180704124923.32483-1-drjones@redhat.com
+>>>>
+>>>> Ying Fang (5):
+>>>>     device_tree: Add qemu_fdt_add_path
+>>>>     hw/arm/virt: Add cpu-map to device tree
+>>>>     hw/arm/virt-acpi-build: distinguish possible and present cpus
+>>>>     hw/acpi/aml-build: add processor hierarchy node structure
+>>>>     hw/arm/virt-acpi-build: add PPTT table
+>>>>
+>>>>    hw/acpi/aml-build.c          | 40 ++++++++++++++++++++++
+>>>>    hw/arm/virt-acpi-build.c     | 64 +++++++++++++++++++++++++++++++++---
+>>>>    hw/arm/virt.c                | 40 +++++++++++++++++++++-
+>>>>    include/hw/acpi/acpi-defs.h  | 13 ++++++++
+>>>>    include/hw/acpi/aml-build.h  |  7 ++++
+>>>>    include/hw/arm/virt.h        |  1 +
+>>>>    include/sysemu/device_tree.h |  1 +
+>>>>    softmmu/device_tree.c        | 45 +++++++++++++++++++++++--
+>>>>    8 files changed, 204 insertions(+), 7 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.23.0
+>>>>
+>>>
+>>> .
+>>>
+>>
+> 
+> .
+> 
 
