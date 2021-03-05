@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FC032F008
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:29:53 +0100 (CET)
-Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DC832F004
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 17:28:29 +0100 (CET)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDKq-0007dB-Q9
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:29:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
+	id 1lIDJU-0005sK-8I
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 11:28:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDCv-00073R-6Q
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:41 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDCt-0007RY-Mr
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:21:40 -0500
-Received: by mail-wm1-x336.google.com with SMTP id o2so1960648wme.5
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 08:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RFA8710d7y21V9/sjoSrymWAAotgH49b0pKscVplcYw=;
- b=o7MlH9Oodd972e/C8geXVcLvys+HAUlS7CXcRnu6GzIzKmbVyiLFPRroXo1dlQABUK
- NUcBCKHr9TfpISblbhSaNCY/fR6N2mI1OfTw8iAPhz4OUcvtsGIKAcFFhC+pS8REyHmY
- fDgb8U0NbpPRtNFOaICXwS32ASUGAdixoS3JHXkhzeeYVxj85clBE8BY+gyFUJ0cxfJX
- sb7+beLwvA8BoOQLWYcGcKyozAHbWVxbjat7AKE4Mwthtj2VMydFphcKXZNBcNjTdiYD
- olpoQ+4eTEMbGhy/OgDrbrEQNGzljd10uS5CnLrdLziD7vH/IQ06pjH8ZTuiudByWe9G
- m7Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RFA8710d7y21V9/sjoSrymWAAotgH49b0pKscVplcYw=;
- b=pui45PT9NHUd0sksIkdDY1528BMaIMf62ibpxhTWkawl/Za/sniVz96vyY+spDMRLz
- xOn+0FJJu7iJ2W1luT9sZj5v8i+vUDa9fo80ifJMVnl68Eu2f2mXiMcx4bIBwJOv4OUq
- PKQ0qzBKk5DvETgogIMKTL2TLIB/lwuVpPXdcrJ4LKOPD8mVmME/1uUv+cyIkclYAdRi
- GR9FlZGPPUSzMHDlCJSJgLTxsmDc5fpAkvg7KFKEJ6bDd3VIfWNW877pNEt2O+EOosjK
- wmgMbHIhGASWyDsKxQMyD77DE/flIL3PQ69ON2vWUQm48TsZpkdAtW+N19N2e91iOkA7
- IGaA==
-X-Gm-Message-State: AOAM532vY77L0DLJCABkQi6KJVeV6VJ7ui7eMYtCYZAdQiWxBtfpF/ik
- OBu3irCfG3tQnvAhZZsv+WAWLFPmKuo=
-X-Google-Smtp-Source: ABdhPJxlYv1yidtuaDF1acJQiIzyeN/7Y8hpel7K5gREIdKoxE6sGOwqOG69nLLHIGMecruNogeZMg==
-X-Received: by 2002:a1c:bb89:: with SMTP id l131mr9936815wmf.47.1614961297422; 
- Fri, 05 Mar 2021 08:21:37 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c3sm5033116wrr.29.2021.03.05.08.21.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 08:21:37 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] hw/mips/gt64xxx: Let the GT64120 manage the lower 512MiB
- hole
-Date: Fri,  5 Mar 2021 17:21:07 +0100
-Message-Id: <20210305162107.2233203-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210305162107.2233203-1-f4bug@amsat.org>
-References: <20210305162107.2233203-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDGw-0003oA-A8
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:25:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lIDGt-0001Ek-Bv
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:25:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614961546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mx6lYqEAWksj1hovDtnEfeJJAWtpwuuPZGBNAYjDM9I=;
+ b=hZmI7ptOFvopGrpQB12Yr9H5jJQGqScuviiok6MZK3jaWH2IAalDs24L3QzIkhs3uq5rMq
+ AC9q6q4aNXe9Cf4d654KCaIdHh5tCniq0KQam3mtU+7WjRW4j4P03xnPHWwueXs92tFUQN
+ BXHIs/rk/+wTf8VVqd++zm+/Sto8Yfw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-ARGsxKsYP5eCJj-ua9MhRQ-1; Fri, 05 Mar 2021 11:25:44 -0500
+X-MC-Unique: ARGsxKsYP5eCJj-ua9MhRQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A364E108BD06;
+ Fri,  5 Mar 2021 16:25:43 +0000 (UTC)
+Received: from [10.10.117.80] (ovpn-117-80.rdu2.redhat.com [10.10.117.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2A6F19C66;
+ Fri,  5 Mar 2021 16:25:42 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] simplebench: bench_one(): add slow_limit argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210304101738.20248-1-vsementsov@virtuozzo.com>
+ <20210304101738.20248-2-vsementsov@virtuozzo.com>
+ <ec82b01e-30f5-564a-a88a-b83f9a9d9d02@redhat.com>
+ <06561d9c-0011-c698-41a8-235cc061f4a6@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <81277a70-3af1-19b4-1ee0-70715aab1891@redhat.com>
+Date: Fri, 5 Mar 2021 11:25:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <06561d9c-0011-c698-41a8-235cc061f4a6@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,73 +84,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the comment in the Malta board, the [0x0000.0000-0x2000.0000]
-range is decoded by the GT64120, so move the "empty_slot" there.
+On 3/5/21 4:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 05.03.2021 04:22, John Snow wrote:
+>> On 3/4/21 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> Sometimes one of cells in a testing table runs too slow. And we really
+>>> don't want to wait so long. Limit number of runs in this case.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   scripts/simplebench/simplebench.py | 29 +++++++++++++++++++++++++----
+>>>   1 file changed, 25 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/scripts/simplebench/simplebench.py 
+>>> b/scripts/simplebench/simplebench.py
+>>> index f61513af90..b153cae274 100644
+>>> --- a/scripts/simplebench/simplebench.py
+>>> +++ b/scripts/simplebench/simplebench.py
+>>> @@ -19,9 +19,11 @@
+>>>   #
+>>>   import statistics
+>>> +import time
+>>> -def bench_one(test_func, test_env, test_case, count=5, 
+>>> initial_run=True):
+>>> +def bench_one(test_func, test_env, test_case, count=5, 
+>>> initial_run=True,
+>>> +              slow_limit=100):
+>>>       """Benchmark one test-case
+>>>       test_func   -- benchmarking function with prototype
+>>> @@ -36,6 +38,8 @@ def bench_one(test_func, test_env, test_case, 
+>>> count=5, initial_run=True):
+>>>       test_case   -- test case - opaque second argument for test_func
+>>>       count       -- how many times to call test_func, to calculate 
+>>> average
+>>>       initial_run -- do initial run of test_func, which don't get 
+>>> into result
+>>> +    slow_limit  -- reduce test runs to 2, if current run exceedes 
+>>> the limit
+>>> +                   (in seconds)
+>>
+>> s/exceedes/exceeds, and you need to mention that if the initial run 
+>> exceeds the limit, it will change the behavior to count that result.
+>>
+>> It is also possible (conceivably) that the initial run exceeds the 
+>> limit, but subsequent runs don't, so it might be hard to predict how 
+>> many tests it'll actually run.
+>>
+>> If you're OK with that behavior, maybe:
+>>
+>> "Consider a test run 'slow' once it exceeds this limit, in seconds.
+>>   Stop early once there are two 'slow' runs, including the initial run.
+>>   Slow initial runs will be included in the results."
+>>
+>> Lastly, this will change existing behavior -- do we care? Should it 
+>> default to None instead? Should we be able to pass None or 0 to 
+>> disable this behavior?
+> 
+> For sure I don't care about changing the behavior. Consider simplebench 
+> in a version 0.0.1 :). Maybe, I should make a comment somewhere, but 
+> nobody will read it anyway.
+> 
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/mips/gt64xxx_pci.c | 8 ++++++++
- hw/mips/malta.c       | 7 -------
- 2 files changed, 8 insertions(+), 7 deletions(-)
+Yep, it's yours anyway. Just thought I'd mention it. It's probably the 
+case that you're the only person who actually uses this at the moment.
 
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 43349d6837d..a3926e5cb8a 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -29,6 +29,7 @@
- #include "hw/mips/mips.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
-+#include "hw/misc/empty_slot.h"
- #include "hw/southbridge/piix.h"
- #include "migration/vmstate.h"
- #include "hw/intc/i8259.h"
-@@ -1206,6 +1207,13 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
- 
-     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
-                           "gt64120-isd", 0x1000);
-+
-+    /*
-+     * The whole address space decoded by the GT-64120A doesn't generate
-+     * exception when accessing invalid memory. Create an empty slot to
-+     * emulate this feature.
-+     */
-+    empty_slot_init("GT64120", 0, 0x20000000);
- }
- 
- PCIBus *gt64120_register(qemu_irq *pic)
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 9afc0b427bf..b2469f8ee78 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -56,7 +56,6 @@
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "hw/misc/empty_slot.h"
- #include "sysemu/kvm.h"
- #include "hw/semihosting/semihost.h"
- #include "hw/mips/cps.h"
-@@ -1396,12 +1395,6 @@ void mips_malta_init(MachineState *machine)
- 
-     /* Northbridge */
-     pci_bus = gt64120_register(s->i8259);
--    /*
--     * The whole address space decoded by the GT-64120A doesn't generate
--     * exception when accessing invalid memory. Create an empty slot to
--     * emulate this feature.
--     */
--    empty_slot_init("GT64120", 0, 0x20000000);
- 
-     /* Southbridge */
-     dev = piix4_create(pci_bus, &isa_bus, &smbus);
--- 
-2.26.2
+> The aim of the patch is to minimize waiting for too long cells of the 
+> table, which are obviously too much longer then the others. Probably the 
+> logic should be improved a bit about ignoring or using initial-run result..
+> Like this:
+> 
+> If both initial and first run are slow, count both and stop here.
+> Otherwise, stop at first slow normal run and don't count initial run.
+> 
+> Or may be even
+> 
+> If both initial and first run are slow, count both and stop here.
+> Otherwise, behave the common way.
+> 
+
+My opinion is that you can do whatever you'd like (you're the maintainer 
+here!) but it'd be nice if the docstring was accurate. If changing the 
+behavior makes it easier to write a good docstring, that's fine too. Go 
+with whatever is most useful to you.
+
+--js
+
+>>
+>>>       Returns dict with the following fields:
+>>>           'runs':     list of test_func results
+>>> @@ -47,17 +51,34 @@ def bench_one(test_func, test_env, test_case, 
+>>> count=5, initial_run=True):
+>>>           'n-failed': number of failed runs (exists only if at least 
+>>> one run
+>>>                       failed)
+>>>       """
+>>> +    runs = []
+>>> +    i = 0
+>>>       if initial_run:
+>>> +        t = time.time()
+>>> +
+>>>           print('  #initial run:')
+>>> -        print('   ', test_func(test_env, test_case))
+>>> +        res = test_func(test_env, test_case)
+>>> +        print('   ', res)
+>>> +
+>>> +        if time.time() - t > slow_limit:
+>>> +            print('    - initial run is too slow, so it counts')
+>>> +            runs.append(res)
+>>> +            i = 1
+>>> +
+>>> +    for i in range(i, count):
+>>> +        t = time.time()
+>>> -    runs = []
+>>> -    for i in range(count):
+>>>           print('  #run {}'.format(i+1))
+>>>           res = test_func(test_env, test_case)
+>>>           print('   ', res)
+>>>           runs.append(res)
+>>> +        if time.time() - t > slow_limit and len(runs) >= 2:
+>>> +            print('    - run is too slow, and we have enough runs, 
+>>> stop here')
+>>> +            break
+>>> +
+>>> +    count = len(runs)
+>>> +
+>>>       result = {'runs': runs}
+>>>       succeeded = [r for r in runs if ('seconds' in r or 'iops' in r)]
+>>>
+>>
+> 
+> 
 
 
