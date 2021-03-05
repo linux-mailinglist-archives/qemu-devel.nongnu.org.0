@@ -2,58 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5804E32E03F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 04:44:21 +0100 (CET)
-Received: from localhost ([::1]:57936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED1732E04A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 04:47:57 +0100 (CET)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lI1O0-0007eX-F4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 22:44:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58824)
+	id 1lI1RU-00015w-4N
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 22:47:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lI1Mw-00075o-7F
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 22:43:14 -0500
-Resent-Date: Thu, 04 Mar 2021 22:43:14 -0500
-Resent-Message-Id: <E1lI1Mw-00075o-7F@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21389)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lI1Qc-0000at-Mp
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 22:47:02 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lI1Mt-00058o-Ji
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 22:43:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1614915772; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jANTlujKcPnYOMp0SSsyJaLkPePjsU9/pBDElmci0dTwj1o4Dy0DDVSm0Kz2Sgzqg2GE1hMe3Ju+u9BVCh0vTcgqbZCNFjHxBxWHsLUy3iKSMvnd499e2Qa+7R2iPYlH1DNb9xqiJLWrjM2CLEA3DnChVBVY7W52GQ0q5nkihbk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1614915772;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=lDatQ1ywmCK5j9M3uFnBtjBQQ5TMoI5opzjumMGbpXs=; 
- b=mzHjH1KgirNJmQHhe0VSnlTiUZrHyEW7qPeP7001bTY/d5ae6BzlcC1LGatbQVf4yPaVhP/iU3nHlOZwkUuNDZRe47B7QMFMM2bp0Z8ZY9yTru3hxomgiy5O7xhLU82tvPKKu2cdFL0lLJwLDo0rOfO8Z9dwYDKaXHdCY6tVFY8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1614915768966659.129505345789;
- Thu, 4 Mar 2021 19:42:48 -0800 (PST)
-In-Reply-To: <20210305033510.8600-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lI1Qb-0007a1-7U
+ for qemu-devel@nongnu.org; Thu, 04 Mar 2021 22:47:02 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id AE4F35C00EE;
+ Thu,  4 Mar 2021 22:47:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 04 Mar 2021 22:47:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=m
+ HBdDiVQKRaoDxQSLiv1haLuqAzIAfSyK13ZMsFiWno=; b=0ufkgLzDya1NAfs6/
+ sQB55Syj5iGucyyc+muUww1z4Ivyo5GuOP773I0y68hs1+cp8IccXyCZZLmHY8Pc
+ D8IaRi+MoqapkL1nXxSCRlOyRY/8TYADV7vmwNHN/80pmIukYD0CgeY6YHaY43qm
+ XcUh20hGNSHcxTdcOj1Fhq3swr1bfG4jnMCy/Q5AV/Qq96bxD2myq1IrytKs7nNC
+ pHeXj0ohJuZCEAQTXPPAlCUnLe7+szfYnWpzbrJKmqvYrF9nfrRPUItNp8fJG4Rp
+ Rk4H4kLZCJ38t20a0ykh+iIQzQk0X0ZlVwLDKjtzSVvJur4nW6zr6Td6vqFDNSmx
+ isO/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=mHBdDiVQKRaoDxQSLiv1haLuqAzIAfSyK13ZMsFiW
+ no=; b=G8PyqZWtiAr6EZD79FFw4P5jxbei70R1qydQHmskmHpD7OC2J0hF4Ttuw
+ FXK/IId7fyheW+DI8evUovCGV4xCYvtGERkfLJgHg8fdq+ZlIlE4NeP5VWmtTmww
+ yP7unpMY3Pjhq4P6vpG2rsWGOlJasXrj3UiVM8Lenb14pH/i0KG6QKJXjeEJzBaB
+ R1+EfW7VKLZ6syeg79LqrlsHzkc9h4pYOKgjhAcoc04iZak2sPU59BZZAqPxdr4n
+ kvAsvLECrFvrYObkKTsi0AcIpbiO+mqi0oF+b+jzhG0i1DQK59/q45DB7G4DXF17
+ BrxA3opyF0dWzXxu+ctKaIp//9I3Q==
+X-ME-Sender: <xms:tKlBYE3GXel1bOoQY6SY9jBxhQ93XcgDCffV1LYcHbCqEQFvqPCX-Q>
+ <xme:tKlBYPG4CHrMk3ogigF7qbIEAh-gGz05n5FSen50dhAN203urHP2eUJnWktBc0ifI
+ KavMSaMDS0HAoeM-94>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddthedgiedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgsehtke
+ ertddtfeftnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
+ ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeeludeitddvkeffge
+ fgueekjeegfeefteelgffhkeffueetieejgeehhfeuffdvnecukfhppeeghedrfeefrdeh
+ tddrvdehgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:tKlBYM6caz9vBeFiuIlf3DKYF8ed_XhmfF2xEMuiBmKvdzOgbb402A>
+ <xmx:tKlBYN1DfiYPhmGKv902Pka1wWskNVbA8USFlr7kdN4y4bd9SlSl4w>
+ <xmx:tKlBYHE3u0bMwjOC6zuoVZ0R14Y2-Nkigfejp5mUxOn0tNd9t4PIWQ>
+ <xmx:tKlBYKNFVsf4XGOtpHugZnuBwWmUA2_-clQTIlzn_44axk3SB-g7NA>
+Received: from [127.0.0.1] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BA6E524005A;
+ Thu,  4 Mar 2021 22:46:58 -0500 (EST)
 Subject: Re: [PATCH] linux-user: add missing MULTICAST_IF get/setsockopt option
-Message-ID: <161491576761.25942.13581879647546304735@c667a6b167f6>
+To: laurent@vivier.eu
+References: <20210305033510.8600-1-jiaxun.yang@flygoat.com>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <b699536d-e2e6-0e7b-a883-4ba5de067e9f@flygoat.com>
+Date: Fri, 5 Mar 2021 11:46:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jiaxun.yang@flygoat.com
-Date: Thu, 4 Mar 2021 19:42:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210305033510.8600-1-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,82 +98,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: syq@debian.org, laurent@vivier.eu, qemu-devel@nongnu.org
+Cc: Yunqiang Su <syq@debian.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwNTAzMzUxMC44NjAw
-LTEtamlheHVuLnlhbmdAZmx5Z29hdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMwNTAzMzUxMC44
-NjAwLTEtamlheHVuLnlhbmdAZmx5Z29hdC5jb20KU3ViamVjdDogW1BBVENIXSBsaW51eC11c2Vy
-OiBhZGQgbWlzc2luZyBNVUxUSUNBU1RfSUYgZ2V0L3NldHNvY2tvcHQgb3B0aW9uCgo9PT0gVEVT
-VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYv
-bnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-YWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJh
-c2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIx
-NjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXBy
-b2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjE4MTc1NjQ4LjE2
-MzYyMTktMS1mNGJ1Z0BhbXNhdC5vcmcgLT4gcGF0Y2hldy8yMDIxMDIxODE3NTY0OC4xNjM2MjE5
-LTEtZjRidWdAYW1zYXQub3JnCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMTgy
-MTI0NTMuODMxNDA2LTEtZGplQGdvb2dsZS5jb20gLT4gcGF0Y2hldy8yMDIxMDIxODIxMjQ1My44
-MzE0MDYtMS1kamVAZ29vZ2xlLmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEw
-MjE5MTQ0NjE3LjQ3ODItMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIx
-MDIxOTE0NDYxNy40NzgyLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnCiAtIFt0YWcgdXBkYXRl
-XSAgICAgIHBhdGNoZXcvMjAyMTAzMDQwMjE2MjEuNTc5LTEteXV6ZW5naHVpQGh1YXdlaS5jb20g
-LT4gcGF0Y2hldy8yMDIxMDMwNDAyMTYyMS41NzktMS15dXplbmdodWlAaHVhd2VpLmNvbQogLSBb
-dGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzA0MTAxNzM4LjIwMjQ4LTEtdnNlbWVudHNv
-dkB2aXJ0dW96em8uY29tIC0+IHBhdGNoZXcvMjAyMTAzMDQxMDE3MzguMjAyNDgtMS12c2VtZW50
-c292QHZpcnR1b3p6by5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMwNDE0
-MDIyOS41NzU0ODEtMS1hcm1icnVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzA0MTQwMjI5
-LjU3NTQ4MS0xLWFybWJydUByZWRoYXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcv
-MjAyMTAzMDQyMDM1NDAuNDE2MTQtMS1uaWVrbGlubmVuYmFua0BnbWFpbC5jb20gLT4gcGF0Y2hl
-dy8yMDIxMDMwNDIwMzU0MC40MTYxNC0xLW5pZWtsaW5uZW5iYW5rQGdtYWlsLmNvbQogLSBbdGFn
-IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzA0MjIwMTA0LjI1NzQxMTItMS1sYXVyZW50QHZp
-dmllci5ldSAtPiBwYXRjaGV3LzIwMjEwMzA0MjIwMTA0LjI1NzQxMTItMS1sYXVyZW50QHZpdmll
-ci5ldQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzA0MjIxMTAzLjYzNjktMS1t
-YXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51ayAtPiBwYXRjaGV3LzIwMjEwMzA0MjIxMTAzLjYz
-NjktMS1tYXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51awogKiBbbmV3IHRhZ10gICAgICAgICBw
-YXRjaGV3LzIwMjEwMzA1MDMzNTEwLjg2MDAtMS1qaWF4dW4ueWFuZ0BmbHlnb2F0LmNvbSAtPiBw
-YXRjaGV3LzIwMjEwMzA1MDMzNTEwLjg2MDAtMS1qaWF4dW4ueWFuZ0BmbHlnb2F0LmNvbQpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmZlNGI5NjIgbGludXgtdXNlcjogYWRkIG1pc3Np
-bmcgTVVMVElDQVNUX0lGIGdldC9zZXRzb2Nrb3B0IG9wdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9
-PT0KVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmlu
-ZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVk
-LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
-Zz8KIzU0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNl
-CiMxMTU4OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYy5vcmlnOjExMDA6CisgICAgJAoKRVJS
-T1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzExNjY6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5j
-Lm9yaWc6MTEwODoKKyAgICAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTE3NjogRklM
-RTogbGludXgtdXNlci9zeXNjYWxsLmMub3JpZzoxMTE4OgorICAgICQKCkVSUk9SOiB0cmFpbGlu
-ZyB3aGl0ZXNwYWNlCiMxMTgyOiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYy5vcmlnOjExMjQ6
-CisgICAgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzE5MzQ6IEZJTEU6IGxpbnV4LXVz
-ZXIvc3lzY2FsbC5jLm9yaWc6MTg3NjoKKyAgICAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
-ZQojMTkzNjogRklMRTogbGludXgtdXNlci9zeXNjYWxsLmMub3JpZzoxODc4OgorICAgIGlmICht
-c2dfY29udHJvbGxlbiA8IHNpemVvZiAoc3RydWN0IHRhcmdldF9jbXNnaGRyKSkgJAoKRVJST1I6
-IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzIwMjI6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5jLm9y
-aWc6MTk2NDoKKyAgICBpZiAobXNnX2NvbnRyb2xsZW4gPCBzaXplb2YgKHN0cnVjdCB0YXJnZXRf
-Y21zZ2hkcikpICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM2MzEzOiBGSUxFOiBsaW51
-eC11c2VyL3N5c2NhbGwuYy5vcmlnOjYyNTU6CisgICAgaWYgKGxkdF9pbmZvLmVudHJ5X251bWJl
-ciA8IFRBUkdFVF9HRFRfRU5UUllfVExTX01JTiB8fCAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVz
-cGFjZQojNjM5MTogRklMRTogbGludXgtdXNlci9zeXNjYWxsLmMub3JpZzo2MzMzOgorICAgICQK
-CkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM2NDA3OiBGSUxFOiBsaW51eC11c2VyL3N5c2Nh
-bGwuYy5vcmlnOjYzNDk6CisgICAgYmFzZV9hZGRyID0gKGVudHJ5XzEgPj4gMTYpIHwgJAoKRVJS
-T1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzY0MDg6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5j
-Lm9yaWc6NjM1MDoKKyAgICAgICAgKGVudHJ5XzIgJiAweGZmMDAwMDAwKSB8ICQKCkVSUk9SOiB0
-cmFpbGluZyB3aGl0ZXNwYWNlCiMxMTUxMTogRklMRTogbGludXgtdXNlci9zeXNjYWxsLmMub3Jp
-ZzoxMTQ1MzoKKyAgICAgICAgaWYgKCEocCA9IGxvY2tfdXNlcl9zdHJpbmcoYXJnMikpKSAkCgp0
-b3RhbDogMTIgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMzMzMyBsaW5lcyBjaGVja2VkCgpDb21taXQg
-ZmU0Yjk2MjViYWY4IChsaW51eC11c2VyOiBhZGQgbWlzc2luZyBNVUxUSUNBU1RfSUYgZ2V0L3Nl
-dHNvY2tvcHQgb3B0aW9uKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVO
-RCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlz
-IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMwNTAzMzUxMC44NjAw
-LTEtamlheHVuLnlhbmdAZmx5Z29hdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3Nh
-Z2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczov
-L3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZl
-bEByZWRoYXQuY29t
+ÔÚ 2021/3/5 ÉÏÎç11:35, Jiaxun Yang Ð´µÀ:
+
+ > {IP,IPV6}_MULTICAST_IF was not supported.
+
+ >
+
+ > Reported-by: Yunqiang Su <syq@debian.org>
+
+ > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+ > ---
+
+ >   linux-user/syscall.c      |     4 +
+
+ >   linux-user/syscall.c.orig | 13305 
+++++++++++++++++++++++++++++++++++++^ Sorry ^ ^ sorry for the noise...
+
+I'm drunk today.
+
+
+
+- Jiaxun
 
