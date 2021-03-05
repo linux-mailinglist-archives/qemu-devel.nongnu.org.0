@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC7D32F243
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:18:52 +0100 (CET)
-Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A88B32F23B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 19:15:54 +0100 (CET)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIF2J-0002Ty-1c
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:18:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
+	id 1lIEzR-0006pT-5J
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 13:15:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3f-0007Ja-NG
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:12 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51887)
+ id 1lIE3T-00078h-GW
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:59 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lIE3E-0007cM-8V
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:16:10 -0500
-Received: by mail-wm1-x331.google.com with SMTP id l22so2109720wme.1
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:36 -0800 (PST)
+ id 1lIE3B-0007cY-IG
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:15:59 -0500
+Received: by mail-wr1-x431.google.com with SMTP id e10so2861798wro.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 09:15:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wk0S0KTbLUFNBa4y721gmJ4km7P/S6HBOD3pRDA2m3Y=;
- b=mLYCMPanw9nJWjuGykL0cZQlXJoIAnla4C5Yvm5uMHrwEc9N8gsvspC9H5qBc8Jnbw
- 6fvuEYaNh69lALrxANy+7Mwjq2xU7WohRdZNSXprMSsfzWybQfdwzpbiYJX5EL2SylGy
- vtEcALxekY18HsQbhgaLV0qeA1bvgGr2+CFZAjd10H4g+mxBWzf7hKtze9Cf0lzOU/um
- cqnhBKp3TvOW55WpgXHLTYuc5Nbp+zQVdUJoOHAt7QiCs+Jq1+TCSOm5mYGohlP6DWgo
- sqvDTE44pm5edwWBdLEh8pwfUF8MVB/SDJZUVlZVed5zxgUcP6LTlQhv6wKNC2/FzSGU
- HTGA==
+ bh=K/jZXCP6LksMYUYaChqccij/aV0P097t4ytaapQVG2o=;
+ b=UCjDKAsGSuHoxlEnK0nUVftZSbaPLAEMAQN99uuGWyELCNRtlQk8fdshOAZkt2K0Xx
+ TgW6GxGILiy0lhU/346mDwTs/XDhoytlKSiiqP5TTkAuhG0wJ7D8ZA3vLrEq6VOcBdrX
+ DxloWrYI7r9Uap/UO+FPokpexR4cM0avj45Pn88bIqEc0af3z/Mcap4mtVZRsjEah/ns
+ 6d4cyTDdddA0O28Uw2O1kTCuRYeMvVBGkXNOAn4V3Ir2aY/db7D67h+hZsh+oSZA6c75
+ Ezw69Pih+TLdv62cyWA26F4DmF542spDFaT2/taLspJOlD9lc7ZbphYt5Dw5L/ji4T6Z
+ z1PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wk0S0KTbLUFNBa4y721gmJ4km7P/S6HBOD3pRDA2m3Y=;
- b=dONDVy5TD4PFde7e8E/1sOmBepM3uCBW2A2pt0AeVGUGytt5f0FSSFg8gYRPJESFSu
- JLUrtvr2rUD92scHkNFNYal/oEC14e/iXOfTIpY1GjbDO65qvbvX9lhyHDNL2G4JQZkJ
- 5S+t4o48SSQ3H6D01fbLXLv5l+sTCMuBlL1UrWVsvu97GUn4wcTtPIhvlpvANBlHFjUw
- p+sNfb7uhHy2R7ixpQOMaA++Cm5ymJnUNVNyayWjtVdmB0yAMkuJp0EDWi0Xn7HQUFiW
- AlZrmXB+Xro9e3MnAVABtyGAtXERhTKQ/rxgd/zoBxBHkOOQzqvH5SU0vXeR2miEiy0b
- i39g==
-X-Gm-Message-State: AOAM5333+ka4kIVnN5/Ytrjmu4tgGgDJ60aEQGLPxYop1vmYvKcy069z
- 6XiepVRK0EOSHLjr3sIzB/QAY+mcj7ecnw==
-X-Google-Smtp-Source: ABdhPJxywINTwFp46m/Wh7lY9GaCzNMB1eZoeB59J4Re+8ctcgJgLSMcNi7PousvzsBTsnvv1A37Ng==
-X-Received: by 2002:a1c:ddc6:: with SMTP id
- u189mr10050856wmg.171.1614964535846; 
- Fri, 05 Mar 2021 09:15:35 -0800 (PST)
+ bh=K/jZXCP6LksMYUYaChqccij/aV0P097t4ytaapQVG2o=;
+ b=NANxyyZcerpWdRCqy2toiFNVYU2rRX53WqHIgUcNCBNYiNrjFMm36rmxSXkrgcG0sb
+ y2c1jXOIoT/5J+JujQwGkm5ort6Nbsq1BkjUewKwrvWROBBAl33pooU5MnK0oP3s+M59
+ t0vMNJgrDnyzvFBQrYwcfMsEW9frr3jB16AQKJZ/UU5ppwx4IZmcOGjkThTiu0Rp72E8
+ dEHeQfSlZhwRBA11FMpSGTiZqvCSsozz1ngUmMt2HSAXxzLcIuIv6ncZqcKowpjStl2y
+ Db+Io08V86K+6yotKYN6s2vChG9uO2hcEYLEC3KBtmwWIcgK9iGUnPGeyFdiwa77utDG
+ nxmQ==
+X-Gm-Message-State: AOAM5312UdyQunm0PCCvZM9Rei8VKpSP9l1REjGVaHINq4+9HYLQhJpC
+ M+6dWMhZ88wlCotNlFy4v9c1jldG5L8CRA==
+X-Google-Smtp-Source: ABdhPJxLqi7c6ImepGhB0fgueOiBaUOF5KtFd2/blAAw+v70LEBnPSe07bYTEZULzfjRmVnyhPfMXA==
+X-Received: by 2002:a05:6000:181b:: with SMTP id
+ m27mr10650616wrh.363.1614964536545; 
+ Fri, 05 Mar 2021 09:15:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m132sm5942357wmf.45.2021.03.05.09.15.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 09:15:35 -0800 (PST)
+ Fri, 05 Mar 2021 09:15:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/49] hw/arm/mps2-tz: Make SYSCLK frequency board-specific
-Date: Fri,  5 Mar 2021 17:14:52 +0000
-Message-Id: <20210305171515.1038-27-peter.maydell@linaro.org>
+Subject: [PULL 27/49] hw/misc/mps2-scc: Support configurable number of OSCCLK
+ values
+Date: Fri,  5 Mar 2021 17:14:53 +0000
+Message-Id: <20210305171515.1038-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210305171515.1038-1-peter.maydell@linaro.org>
 References: <20210305171515.1038-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,80 +89,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN524 has a different SYSCLK frequency from the AN505 and AN521;
-make the SYSCLK frequency a field in the MPS2TZMachineClass rather
-than a compile-time constant so we can support the AN524.
+Currently the MPS2 SCC device implements a fixed number of OSCCLK
+values (3).  The variant of this device in the MPS3 AN524 board has 6
+OSCCLK values.  Switch to using a PROP_ARRAY, which allows board code
+to specify how large the OSCCLK array should be as well as its
+values.
+
+With a variable-length property array, the SCC no longer specifies
+default values for the OSCCLKs, so we must set them explicitly in the
+board code.  This defaults are actually incorrect for the an521 and
+an505; we will correct this bug in a following patch.
+
+This is a migration compatibility break for all the mps boards.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210215115138.20465-2-peter.maydell@linaro.org
+Message-id: 20210215115138.20465-3-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ include/hw/misc/mps2-scc.h |  7 +++----
+ hw/arm/mps2-tz.c           |  5 +++++
+ hw/arm/mps2.c              |  5 +++++
+ hw/misc/mps2-scc.c         | 24 +++++++++++++-----------
+ 4 files changed, 26 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 90caa914934..82ce6262817 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -76,6 +76,7 @@ struct MPS2TZMachineClass {
-     MachineClass parent;
-     MPS2TZFPGAType fpga_type;
-     uint32_t scc_id;
-+    uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
-     const char *armsse_type;
+diff --git a/include/hw/misc/mps2-scc.h b/include/hw/misc/mps2-scc.h
+index f65d8732031..514da49f69e 100644
+--- a/include/hw/misc/mps2-scc.h
++++ b/include/hw/misc/mps2-scc.h
+@@ -19,8 +19,6 @@
+ #define TYPE_MPS2_SCC "mps2-scc"
+ OBJECT_DECLARE_SIMPLE_TYPE(MPS2SCC, MPS2_SCC)
+ 
+-#define NUM_OSCCLK 3
+-
+ struct MPS2SCC {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -39,8 +37,9 @@ struct MPS2SCC {
+     uint32_t dll;
+     uint32_t aid;
+     uint32_t id;
+-    uint32_t oscclk[NUM_OSCCLK];
+-    uint32_t oscclk_reset[NUM_OSCCLK];
++    uint32_t num_oscclk;
++    uint32_t *oscclk;
++    uint32_t *oscclk_reset;
  };
  
-@@ -111,8 +112,6 @@ struct MPS2TZMachineState {
- 
- OBJECT_DECLARE_TYPE(MPS2TZMachineState, MPS2TZMachineClass, MPS2TZ_MACHINE)
- 
--/* Main SYSCLK frequency in Hz */
--#define SYSCLK_FRQ 20000000
- /* Slow 32Khz S32KCLK frequency in Hz */
- #define S32KCLK_FRQ (32 * 1000)
- 
-@@ -186,6 +185,7 @@ static MemoryRegion *make_unimp_dev(MPS2TZMachineState *mms,
- static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
-                                const char *name, hwaddr size)
+ #endif
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 82ce6262817..7c066c11ed4 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -219,6 +219,11 @@ static MemoryRegion *make_scc(MPS2TZMachineState *mms, void *opaque,
+     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
+     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
+     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
++    /* This will need to be per-FPGA image eventually */
++    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
++    qdev_prop_set_uint32(sccdev, "oscclk[0]", 50000000);
++    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24576000);
++    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
+     sysbus_realize(SYS_BUS_DEVICE(scc), &error_fatal);
+     return sysbus_mmio_get_region(SYS_BUS_DEVICE(sccdev), 0);
+ }
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index 39add416db5..81413b7133e 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -373,6 +373,11 @@ static void mps2_common_init(MachineState *machine)
+     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
+     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
+     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
++    /* All these FPGA images have the same OSCCLK configuration */
++    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
++    qdev_prop_set_uint32(sccdev, "oscclk[0]", 50000000);
++    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24576000);
++    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->scc), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
+     object_initialize_child(OBJECT(mms), "fpgaio",
+diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
+index ce1dfe93562..52a4e183b71 100644
+--- a/hw/misc/mps2-scc.c
++++ b/hw/misc/mps2-scc.c
+@@ -57,7 +57,7 @@ static bool scc_cfg_write(MPS2SCC *s, unsigned function,
  {
-+    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
-     CMSDKAPBUART *uart = opaque;
-     int i = uart - &mms->uart[0];
-     int rxirqno = i * 2;
-@@ -196,7 +196,7 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+     trace_mps2_scc_cfg_write(function, device, value);
  
-     object_initialize_child(OBJECT(mms), name, uart, TYPE_CMSDK_APB_UART);
-     qdev_prop_set_chr(DEVICE(uart), "chardev", serial_hd(i));
--    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", SYSCLK_FRQ);
-+    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", mmc->sysclk_frq);
-     sysbus_realize(SYS_BUS_DEVICE(uart), &error_fatal);
-     s = SYS_BUS_DEVICE(uart);
-     sysbus_connect_irq(s, 0, get_sse_irq_in(mms, txirqno));
-@@ -403,7 +403,7 @@ static void mps2tz_common_init(MachineState *machine)
- 
-     /* These clocks don't need migration because they are fixed-frequency */
-     mms->sysclk = clock_new(OBJECT(machine), "SYSCLK");
--    clock_set_hz(mms->sysclk, SYSCLK_FRQ);
-+    clock_set_hz(mms->sysclk, mmc->sysclk_frq);
-     mms->s32kclk = clock_new(OBJECT(machine), "S32KCLK");
-     clock_set_hz(mms->s32kclk, S32KCLK_FRQ);
- 
-@@ -670,6 +670,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->fpga_type = FPGA_AN505;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045050;
-+    mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-     mmc->armsse_type = TYPE_IOTKIT;
+-    if (function != 1 || device >= NUM_OSCCLK) {
++    if (function != 1 || device >= s->num_oscclk) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "MPS2 SCC config write: bad function %d device %d\n",
+                       function, device);
+@@ -75,7 +75,7 @@ static bool scc_cfg_write(MPS2SCC *s, unsigned function,
+ static bool scc_cfg_read(MPS2SCC *s, unsigned function,
+                          unsigned device, uint32_t *value)
+ {
+-    if (function != 1 || device >= NUM_OSCCLK) {
++    if (function != 1 || device >= s->num_oscclk) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "MPS2 SCC config read: bad function %d device %d\n",
+                       function, device);
+@@ -227,7 +227,7 @@ static void mps2_scc_reset(DeviceState *dev)
+     s->cfgctrl = 0x100000;
+     s->cfgstat = 0;
+     s->dll = 0xffff0001;
+-    for (i = 0; i < NUM_OSCCLK; i++) {
++    for (i = 0; i < s->num_oscclk; i++) {
+         s->oscclk[i] = s->oscclk_reset[i];
+     }
+     for (i = 0; i < ARRAY_SIZE(s->led); i++) {
+@@ -254,12 +254,14 @@ static void mps2_scc_realize(DeviceState *dev, Error **errp)
+                                       LED_COLOR_GREEN, name);
+         g_free(name);
+     }
++
++    s->oscclk = g_new0(uint32_t, s->num_oscclk);
  }
  
-@@ -685,6 +686,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->fpga_type = FPGA_AN521;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045210;
-+    mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-     mmc->armsse_type = TYPE_SSE200;
- }
+ static const VMStateDescription mps2_scc_vmstate = {
+     .name = "mps2-scc",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(cfg0, MPS2SCC),
+         VMSTATE_UINT32(cfg1, MPS2SCC),
+@@ -268,7 +270,8 @@ static const VMStateDescription mps2_scc_vmstate = {
+         VMSTATE_UINT32(cfgctrl, MPS2SCC),
+         VMSTATE_UINT32(cfgstat, MPS2SCC),
+         VMSTATE_UINT32(dll, MPS2SCC),
+-        VMSTATE_UINT32_ARRAY(oscclk, MPS2SCC, NUM_OSCCLK),
++        VMSTATE_VARRAY_UINT32(oscclk, MPS2SCC, num_oscclk,
++                              0, vmstate_info_uint32, uint32_t),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -280,14 +283,13 @@ static Property mps2_scc_properties[] = {
+     DEFINE_PROP_UINT32("scc-cfg4", MPS2SCC, cfg4, 0),
+     DEFINE_PROP_UINT32("scc-aid", MPS2SCC, aid, 0),
+     DEFINE_PROP_UINT32("scc-id", MPS2SCC, id, 0),
+-    /* These are the initial settings for the source clocks on the board.
++    /*
++     * These are the initial settings for the source clocks on the board.
+      * In hardware they can be configured via a config file read by the
+      * motherboard configuration controller to suit the FPGA image.
+-     * These default values are used by most of the standard FPGA images.
+      */
+-    DEFINE_PROP_UINT32("oscclk0", MPS2SCC, oscclk_reset[0], 50000000),
+-    DEFINE_PROP_UINT32("oscclk1", MPS2SCC, oscclk_reset[1], 24576000),
+-    DEFINE_PROP_UINT32("oscclk2", MPS2SCC, oscclk_reset[2], 25000000),
++    DEFINE_PROP_ARRAY("oscclk", MPS2SCC, num_oscclk, oscclk_reset,
++                      qdev_prop_uint32, uint32_t),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
 -- 
 2.20.1
