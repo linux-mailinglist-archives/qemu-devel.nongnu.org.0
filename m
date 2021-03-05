@@ -2,83 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639D632F0A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:05:38 +0100 (CET)
-Received: from localhost ([::1]:35888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31DE32F107
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:21:11 +0100 (CET)
+Received: from localhost ([::1]:52148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDtR-0000JH-Dt
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:05:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
+	id 1lIE8U-0003lh-RL
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:21:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDjj-0006iF-8a
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:35 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lIDjh-0006xU-32
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:55:34 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id m1so2061024wml.2
- for <qemu-devel@nongnu.org>; Fri, 05 Mar 2021 08:55:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iGE0zWMj9g0yxYkyXp2YcNV0B/SXtUYSwHLNYBgKmZw=;
- b=POTZp4OUNTZrNcRn7mH43qlXMVR6phWwhRzIucvQsHq0vPqL/hYmlnNjTu0r5QcTal
- JiRKgwvPB2vWinJ+Jx91kjppDIDTuxKHcPm+CWgH7tIUucWTvVxD3XE+dZevbQ0Tzr7a
- vzTToTU0WZiyil9quk9dzUJWFi+NFU8CUFspNQt8g7ktI+jZOfeNwoPapHaDRjkIKwfU
- P2yOTgsldFu/vtWIV8mOvKwf0CHsgnZceDadmvPp/gcOswayEVLRLC4Ef9n2TBCMyw/4
- GlWoXNgFQxLwu4ZV1JVPBTrimiM8RcCvswJ8f2qgxEGhd/T6vHXOlMSg4MzwmeFsgyzA
- KRyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iGE0zWMj9g0yxYkyXp2YcNV0B/SXtUYSwHLNYBgKmZw=;
- b=WHMvzLxFVyatVw2j7ZxVFiCndUta7PZR2GpYhT9/E5kI8EWKlNg6Zdq5syJxRJezj5
- PMaE37cd2lNoyO+A+X5fOUBxgmynxbvPqi2Wo2+Omt9aQCNcjzyJaDJJj8joMcMvLFt+
- HKY4/5VQbSfNmp/zQLQNd3r4dE52RjvIQrM08ZzsR9x2BgN46hTBr6A6yY0ZjkXubGnH
- 2HTr+J64xGhFS47tWtafBjuiVT513+ACAkv8wOG6RXQbYzr5+W3pEiy4JgJQMZGuj6Ut
- i2j2gALrtiNUVKwpfpqT78AYcCMrvUPw1V7RT2Ic6Ir9cG9mcGBhjApP/srVX+P5we/b
- MT6Q==
-X-Gm-Message-State: AOAM531qED/UyoRILUnjM2aoXki0oUU2GFlBw430Y6Xmeq2HL3UkzDCA
- EdQXMGgArFN3YkMnVbioEGAVw45+3rY=
-X-Google-Smtp-Source: ABdhPJztgK4uRLPxoNylzk4E++zZ6f5pi8kVYDN1XNbA8Wf2VBGp+n7ahASBPQGaUPmT9EKdeK9tgA==
-X-Received: by 2002:a05:600c:6d4:: with SMTP id
- b20mr9965212wmn.142.1614963328851; 
- Fri, 05 Mar 2021 08:55:28 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a14sm5532221wrg.84.2021.03.05.08.55.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 08:55:28 -0800 (PST)
-Subject: Re: [PATCH v3 00/70] TCI fixes and cleanups
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210208023752.270606-1-richard.henderson@linaro.org>
- <87zgzheeto.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <07611530-06cb-cb13-b95f-8ee9350660ba@amsat.org>
-Date: Fri, 5 Mar 2021 17:55:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lIDp3-0003c4-57
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:05 -0500
+Received: from collins.uni-paderborn.de ([2001:638:502:c003::14]:43366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lIDp0-00012l-1Z
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 12:01:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fQBs9qsVMZTlQkmVmn+vW/hy18QmAy2icTy6HMQKaUY=; b=F7dWRiboXHfcP/tlOvvhiFsfHr
+ aGV5IXldIXqGqygb49EGueuUdBQGPK5iSV53BP9Y1jT/+i1MnhhQUt2RhAKA89sxkC8Y+uicweWf3
+ +7TQp/lGL4vd5ACTt0U98sEATFopnGko3typhqKe9QLKlc+FctTSjn1FHpi9yq5ufoHs=;
+X-Envelope-From: <kbastian@mail.uni-paderborn.de>
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 01/15] tests/tcg: Add docker_as and docker_ld cmds
+Date: Fri,  5 Mar 2021 18:00:31 +0100
+Message-Id: <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
+References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
-In-Reply-To: <87zgzheeto.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.3.5.165117, AntiVirus-Engine: 5.80.0,
+ AntiVirus-Data: 2021.2.8.5800000
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=30601040, da=102572721,
+ mc=529, sc=4, hc=525, sp=0, fso=30601040, re=0, sd=0, hd=0
+X-IMT-Spam-Score: 0.0 ()
+X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
+Received-SPF: pass client-ip=2001:638:502:c003::14;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=collins.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,56 +66,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: kbastian@mail.uni-paderborn.de, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMy81LzIxIDU6MzcgUE0sIEFsZXggQmVubsOpZSB3cm90ZToNCj4gDQo+IFJpY2hhcmQg
-SGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPiB3cml0ZXM6DQo+IA0K
-Pj4gQ2hhbmdlcyBzaW5jZSB2MjoNCj4+ICAgKiAyMC1zb21ldGhpbmcgcGF0Y2hlcyBhcmUg
-bm93IHVwc3RyZWFtLg0KPj4gICAqIEluY3JlYXNlIHRlc3RpbmcgdGltZW91dCBmb3IgdGNp
-Lg0KPj4gICAqIEdpdGxhYiB0ZXN0aW5nIGZvciB0Y2kgdy8gMzItYml0IGhvc3QuDQo+IA0K
-PiBIbW0gdGhhdCBmYWlscyB3aXRoIHRoaXMgYXBwbGllZCBvbiB0aGUgY3VycmVudCBtYXN0
-ZXI6DQo+IA0KPiBjYyAtSWxpYnFlbXUtaTM4Ni1saW51eC11c2VyLmZhLnAgLUkuIC1JLi4g
-LUl0YXJnZXQvaTM4NiAtSS4uL3RhcmdldC9pMzg2IC1JLi4vbGludXgtdXNlci9ob3N0L2kz
-ODYgLUlsaW51eC11c2VyIC1JLi4vbGludXgtdXNlciAtSWxpbnV4LXVzZXIvaTM4NiAtSS4u
-L2xpbnV4LXVzZXIvaTM4NiAtSS4uL2NhcHN0b25lL2luY2x1ZGUvY2Fwc3RvbmUgLUl0cmFj
-ZSAtSXFhcGkgLUl1aSAtSXVpL3NoYWRlciAtSS91c3IvaW5jbHVkZS9nbGliLTIuMCAtSS91
-c3IvbGliL2dsaWItMi4wL2luY2x1ZGUgLWZkaWFnbm9zdGljcy1jb2xvcj1hdXRvIC1waXBl
-IC1XYWxsIC1XaW52YWxpZC1wY2ggLVdlcnJvciAtc3RkPWdudTk5IC1PMiAtZyAtaXN5c3Rl
-bSAvYnVpbGRzL3N0c3F1YWQvcWVtdS9saW51eC1oZWFkZXJzIC1pc3lzdGVtIGxpbnV4LWhl
-YWRlcnMgLWlxdW90ZSAuIC1pcXVvdGUgL2J1aWxkcy9zdHNxdWFkL3FlbXUgLWlxdW90ZSAv
-YnVpbGRzL3N0c3F1YWQvcWVtdS9pbmNsdWRlIC1pcXVvdGUgL2J1aWxkcy9zdHNxdWFkL3Fl
-bXUvZGlzYXMvbGlidml4bCAtaXF1b3RlIC9idWlsZHMvc3RzcXVhZC9xZW11L3RjZy90Y2kg
-LWlxdW90ZSAvYnVpbGRzL3N0c3F1YWQvcWVtdS9hY2NlbC90Y2cgLXB0aHJlYWQgLVVfRk9S
-VElGWV9TT1VSQ0UgLURfRk9SVElGWV9TT1VSQ0U9MiAtbTMyIC1EX0dOVV9TT1VSQ0UgLURf
-RklMRV9PRkZTRVRfQklUUz02NCAtRF9MQVJHRUZJTEVfU09VUkNFIC1Xc3RyaWN0LXByb3Rv
-dHlwZXMgLVdyZWR1bmRhbnQtZGVjbHMgLVd1bmRlZiAtV3dyaXRlLXN0cmluZ3MgLVdtaXNz
-aW5nLXByb3RvdHlwZXMgLWZuby1zdHJpY3QtYWxpYXNpbmcgLWZuby1jb21tb24gLWZ3cmFw
-diAtbTMyIC1Xb2xkLXN0eWxlLWRlY2xhcmF0aW9uIC1Xb2xkLXN0eWxlLWRlZmluaXRpb24g
-LVd0eXBlLWxpbWl0cyAtV2Zvcm1hdC1zZWN1cml0eSAtV2Zvcm1hdC15MmsgLVdpbml0LXNl
-bGYgLVdpZ25vcmVkLXF1YWxpZmllcnMgLVdlbXB0eS1ib2R5IC1XbmVzdGVkLWV4dGVybnMg
-LVdlbmRpZi1sYWJlbHMgLVdleHBhbnNpb24tdG8tZGVmaW5lZCAtV2ltcGxpY2l0LWZhbGx0
-aHJvdWdoPTIgLVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV25vLXNoaWZ0LW5lZ2F0aXZl
-LXZhbHVlIC1Xbm8tcHNhYmkgLWZzdGFjay1wcm90ZWN0b3Itc3Ryb25nIC1mUElDIC1pc3lz
-dGVtLi4vbGludXgtaGVhZGVycyAtaXN5c3RlbWxpbnV4LWhlYWRlcnMgLURORUVEX0NQVV9I
-ICctRENPTkZJR19UQVJHRVQ9ImkzODYtbGludXgtdXNlci1jb25maWctdGFyZ2V0LmgiJyAn
-LURDT05GSUdfREVWSUNFUz0iaTM4Ni1saW51eC11c2VyLWNvbmZpZy1kZXZpY2VzLmgiJyAt
-TUQgLU1RIGxpYnFlbXUtaTM4Ni1saW51eC11c2VyLmZhLnAvdGNnX3RjaS5jLm8gLU1GIGxp
-YnFlbXUtaTM4Ni1saW51eC11c2VyLmZhLnAvdGNnX3RjaS5jLm8uZCAtbyBsaWJxZW11LWkz
-ODYtbGludXgtdXNlci5mYS5wL3RjZ190Y2kuYy5vIC1jIC4uL3RjZy90Y2kuYw0KPiAuLi90
-Y2cvdGNpLmM6IEluIGZ1bmN0aW9uICd0Y2dfcWVtdV90Yl9leGVjJzoNCj4gLi4vdGNnL3Rj
-aS5jOjMxNzozNzogZXJyb3I6IHBhc3NpbmcgYXJndW1lbnQgMSBvZiAnZzJoJyBtYWtlcyBw
-b2ludGVyIGZyb20gaW50ZWdlciB3aXRob3V0IGEgY2FzdCBbLVdlcnJvcj1pbnQtY29udmVy
-c2lvbl0NCj4gICAzMTcgfCAjIGRlZmluZSBxZW11X2xkX3ViICAgICAgbGR1Yl9wKGcyaCh0
-YWRkcikpDQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Xn5+fn4NCj4gICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-DQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0
-X3Vsb25nIHtha2EgdW5zaWduZWQgaW50fQ0KPiAuLi90Y2cvdGNpLmM6OTIzOjI1OiBub3Rl
-OiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ3FlbXVfbGRfdWInDQo+ICAgOTIzIHwgICAgICAg
-ICAgICAgICAgIHRtcDMyID0gcWVtdV9sZF91YjsNCj4gICAgICAgfCAgICAgICAgICAgICAg
-ICAgICAgICAgICBefn5+fn5+fn5+DQo+IA0KPiBhbmQgbW9yZToNCj4gDQo+IGh0dHBzOi8v
-Z2l0bGFiLmNvbS9zdHNxdWFkL3FlbXUvLS9qb2JzLzEwNzYyMzEzMjANCg0KVGhpcyBpcyBm
-aXhlZCBpbiB2NCA7KQ0KDQpodHRwczovL3d3dy5tYWlsLWFyY2hpdmUuY29tL3FlbXUtZGV2
-ZWxAbm9uZ251Lm9yZy9tc2c3ODM0NTIuaHRtbA0K
+At least for the TriCore target no easily available c compiler exists.
+Thus we need to rely on "as" and "ld". This allows us to run them
+through the docker image as well as with locally installed tools.
+
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+---
+v2 -> v3:
+    - emit CROSS_LD_GUEST/CROSS_AS_GUEST
+
+ tests/tcg/Makefile.qemu | 15 +++++++++++++++
+ tests/tcg/configure.sh  | 20 ++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index a56564660c..fefb50903d 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -22,6 +22,8 @@ quiet-@ = $(if $(V),,@)
+ quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+ 
+ CROSS_CC_GUEST:=
++CROSS_AS_GUEST:=
++CROSS_LD_GUEST:=
+ DOCKER_IMAGE:=
+ 
+ -include tests/tcg/config-$(TARGET).mak
+@@ -42,6 +44,7 @@ cross-build-guest-tests:
+ 	$(call quiet-command, \
+ 	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+ 	    $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC="$(CROSS_CC_GUEST)" \
++			AS="$(CROSS_AS_GUEST) LD="$(CROSS_LD_GUEST)" \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
+ 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
+ 	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
+@@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
+ 		-i qemu/$(DOCKER_IMAGE) \
+ 		-s $(SRC_PATH) -- "
+ 
++DOCKER_AS_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_AS_GUEST) \
++		-i qemu/$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
++
++DOCKER_LD_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_LD_GUEST) \
++		-i qemu/$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
++
++
+ .PHONY: docker-build-guest-tests
+ docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
+ 	$(call quiet-command, \
+ 	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+ 	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
++			AS=$(DOCKER_AS_CMD) LD=$(DOCKER_LD_CMD) \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
+ 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
+ 	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 36b8a73a54..4da8c3fa12 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -72,6 +72,12 @@ fi
+ : ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_x86_64="-m64"}
+ 
++# cross as defaults, can be overridden with --cross-as-ARCH
++: ${cross_as_tricore="tricore-as"}
++
++# cross ld defaults, can be overridden with --cross-ld-ARCH
++: ${cross_as_tricore="tricore-ld"}
++
+ for target in $target_list; do
+   arch=${target%%-*}
+   case $arch in
+@@ -228,6 +234,18 @@ for target in $target_list; do
+     fi
+     echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
+ 
++    eval "target_as=\${cross_as_$i}"
++    if has $target_as; then
++      echo "CROSS_AS_GUEST=$target_as" >> $config_target_mak
++      continue
++    fi
++
++    eval "target_ld=\${cross_ld_$i}"
++    if has $target_ld; then
++      echo "CROSS_LD_GUEST=$target_ld" >> $config_target_mak
++      continue
++    fi
++
+     # Test for compiler features for optional tests. We only do this
+     # for cross compilers because ensuring the docker containers based
+     # compilers is a requirememt for adding a new test that needs a
+@@ -261,5 +279,7 @@ for target in $target_list; do
+   if test $got_cross_cc = no && test "$container" != no && test -n "$container_image"; then
+     echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
+     echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
++    echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> $config_target_mak
++    echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> $config_target_mak
+   fi
+ done
+-- 
+2.30.1
+
 
