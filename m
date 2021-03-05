@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E97B32DF3F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 02:51:50 +0100 (CET)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73CC32DFA8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 03:27:56 +0100 (CET)
+Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lHzd7-0007Oz-Ao
-	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 20:51:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42704)
+	id 1lI0C3-0003d1-DC
+	for lists+qemu-devel@lfdr.de; Thu, 04 Mar 2021 21:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzcE-0006ss-Cb
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:50:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lHzcC-0004C1-Oe
- for qemu-devel@nongnu.org; Thu, 04 Mar 2021 20:50:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614909051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EgXZ1HeHZY+bttcLOVbUTTkCy63VC+YkIG2KtVNsDmo=;
- b=DTJu8eu1w/LsqqUhjLGaNc/dFolMS4FBfSW2nv8OiM65HXIOh0PdMklZcptExkBUsHBTvt
- yv8KUCNujqkvgzn8Ygty8QWim/XvXhTx95bzfdq3gVZtRv16T8d6q3Y9mkJWeCdsMxMRWt
- i6BlHsEzFThghwITVupuf1NvMM5YO4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-gYXLgb3kNz-5rOJp2XG6kQ-1; Thu, 04 Mar 2021 20:50:49 -0500
-X-MC-Unique: gYXLgb3kNz-5rOJp2XG6kQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E8F6520E;
- Fri,  5 Mar 2021 01:50:48 +0000 (UTC)
-Received: from [10.10.118.103] (ovpn-118-103.rdu2.redhat.com [10.10.118.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFA955C1B4;
- Fri,  5 Mar 2021 01:50:47 +0000 (UTC)
-Subject: Re: [PATCH v2 4/8] simplebench/bench-backup: add target-cache argument
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210304101738.20248-1-vsementsov@virtuozzo.com>
- <20210304101738.20248-5-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e364a9ad-c90d-9c1a-3196-41dd982d867e@redhat.com>
-Date: Thu, 4 Mar 2021 20:50:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lI0Al-00038e-2m; Thu, 04 Mar 2021 21:26:35 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lI0Aj-00039n-Ey; Thu, 04 Mar 2021 21:26:34 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id m9so311890ybk.8;
+ Thu, 04 Mar 2021 18:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VgMVX3PrXp9UUmZsE7WXYPIAvoLCqMA+jxGWA30Zd5I=;
+ b=E1Dmkp2L1dcB3rILcdxBORJ8OaFxTbhf6EIbP9PGp9sL6fKFT+Tew+Umygd/62U3BV
+ qq/PLrmOiyUAILVrMol8YUIk/tjOez92NUyi6O2VSvJHDt8o3pAu4SRI64oqmwwC4UR3
+ m03NpHf93OYSOj7RiDNNeCcQSlOyCLVzYp7y27O9A9M4whtWRwo5qRUxjpqyjWAzTO3M
+ aiycjGpbfVm0YYXS4e+NAVz8sunv0ziwOco3ude4hUPSfTQ0C4Gy8ziGAd4k6nNpYJFs
+ MxKFHXkuWLtZ6gdWz6ZYl+AW9cRyr/LPdEj9w5wrPrmT2lhNTnQ2U3jh1E9Krw5wwP7n
+ PzPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VgMVX3PrXp9UUmZsE7WXYPIAvoLCqMA+jxGWA30Zd5I=;
+ b=aH2sOlAmPBFXanw1a4HxknaX9YP7G9gkt89nbQlMrttOwyWTWYbHw6mfKqqCNFqC38
+ mfhVtbeckOPYV9Yxc3CGNzi5q6RunI0ttUwvM3A9baoJW003jMRfQGK8W3RwGBvIY45x
+ +7BJ+MAk6jyDqdreojidHnCt/7D5t+bjWa6ZBsFFGHMLBuL8UfaKcS13+FyoYlxIHECs
+ CQR7ksGRr7vk01zAWfRpPJ1weSsfHTFm0axOafiCEugckROSNonfOGPo6Ya0yPJ6V9ER
+ fRqA4IXUM/VPdGOp0UVolDsZg9jnIXATVH98CAAv67ujWNboXRYjp44sGigPreLmdU2t
+ QZuQ==
+X-Gm-Message-State: AOAM533dfPCgNUFPyeZfNoX6B1DAP8NuX6r99Hpwp+hihmEwqyTVk6VG
+ mWo22Si6116oEQB7CbMsfsChTf1xvH74Rg1meAM=
+X-Google-Smtp-Source: ABdhPJyqQdqP6raOWoWbL24x2WZyRxojrdiPvoIYpQhfhOFMoG9aoZHJkUlnm29PnrR1QeRAVIJYM8XWuwX+Wbdbfn0=
+X-Received: by 2002:a25:d28b:: with SMTP id
+ j133mr10170490ybg.517.1614911191739; 
+ Thu, 04 Mar 2021 18:26:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210304101738.20248-5-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210218175648.1636219-1-f4bug@amsat.org>
+In-Reply-To: <20210218175648.1636219-1-f4bug@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 5 Mar 2021 10:26:20 +0800
+Message-ID: <CAEUhbmVD3pzm2MAyfBqqr6DvQUcJbXMJrr5OdDURs42e6iMbXg@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd/sdhci: Report error when guest access protected
+ registers
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,22 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/21 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Allow benchmark with different kinds of target cache.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Fri, Feb 19, 2021 at 1:56 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The SDHC_SYSAD and SDHC_BLKSIZE can not be accessed while a
+> transaction is in progress, see 'SD Host Controller Simplified
+> Specification'
+>
+>   1.5) SD Command Generation
+>
+>   The Host Driver should not read the SDMA System Address, Block
+>   Size and Block Count registers during a data transaction unless
+>   the transfer is stopped because the value is changing and not
+>   stable.
+>
+> Report guest intents as errors.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->   scripts/simplebench/bench-backup.py    | 33 ++++++++++++++++++++------
->   scripts/simplebench/bench_block_job.py | 10 +++++---
->   2 files changed, 33 insertions(+), 10 deletions(-)
-> 
+> Based-on: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/sd/sdhci.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
 
-Admittedly just skimming a bit on this one, it looks OK.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
