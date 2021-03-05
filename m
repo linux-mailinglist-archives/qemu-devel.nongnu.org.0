@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF65032F08C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:03:08 +0100 (CET)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5733132F111
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Mar 2021 18:24:54 +0100 (CET)
+Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIDr1-000586-VD
-	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:03:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32826)
+	id 1lIEC5-0007do-AY
+	for lists+qemu-devel@lfdr.de; Fri, 05 Mar 2021 12:24:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkJ-0006wA-3u
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50637)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkX-0007Ob-Tw
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDk5-0007Cw-BA
- for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:10 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lIDkB-0007DW-As
+ for qemu-devel@nongnu.org; Fri, 05 Mar 2021 11:56:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614963356;
+ s=mimecast20190719; t=1614963357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pTPBH2dCtN388X/Wnwa0fO66b9FOLPf59TK8XH6wKpM=;
- b=KYwPafuo88HN0DKsQCZQDUjmEFa8N3DlAqpT9SMelAFysIhd6AhWZG9ZbCoXH/vS4masnC
- 34wSRpsZmYCN6NbVnkuS1R+1rcGfuAR30IBleEDsSwT9ydaWF+2u7M/VrbBLy3ke/hnblO
- YYFFz3zlU2B8F1huK/w8C4K0f5ErYro=
+ bh=HwpQ4G9rUCVn5Vuq90w3hYXqwNDwbwuvrLwMSwG27LY=;
+ b=fpBRJS3EOS9luYFLS+QU+DKnwEt0x9HTVTc0DUd0kNJxd+BWIVOx7+L6cSf+nutcAlpBsS
+ 2y0yjVdd5ap5JmJS5sQoCtXjo7yv+ZpGdRTn7d6cuextS3B62jMtu7+Dausg8zRZXSeHAd
+ vO2GQP4c9dQXXfixqW44MTs860W9Acg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-h2hgwnkdMZmXLv1Q9yKJng-1; Fri, 05 Mar 2021 11:55:54 -0500
-X-MC-Unique: h2hgwnkdMZmXLv1Q9yKJng-1
+ us-mta-291-ESm5hrgaN_eXjfyaoRrBtw-1; Fri, 05 Mar 2021 11:55:55 -0500
+X-MC-Unique: ESm5hrgaN_eXjfyaoRrBtw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E33DF8DB;
- Fri,  5 Mar 2021 16:55:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 591471009C55;
+ Fri,  5 Mar 2021 16:55:32 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCE9D60C66;
- Fri,  5 Mar 2021 16:55:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C25360C43;
+ Fri,  5 Mar 2021 16:55:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 17/31] tests/qtest: add multi-queue test case to
- vhost-user-blk-test
-Date: Fri,  5 Mar 2021 17:54:40 +0100
-Message-Id: <20210305165454.356840-18-kwolf@redhat.com>
+Subject: [PULL 18/31] block/export: fix blk_size double byteswap
+Date: Fri,  5 Mar 2021 17:54:41 +0100
+Message-Id: <20210305165454.356840-19-kwolf@redhat.com>
 In-Reply-To: <20210305165454.356840-1-kwolf@redhat.com>
 References: <20210305165454.356840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,140 +82,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
+The config->blk_size field is little-endian. Use the native-endian
+blk_size variable to avoid double byteswapping.
+
+Fixes: 11f60f7eaee2630dd6fa0c3a8c49f792e46c4cf1 ("block/export: make vhost-user-blk config space little-endian")
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210223144653.811468-7-stefanha@redhat.com>
+Message-Id: <20210223144653.811468-8-stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 81 +++++++++++++++++++++++++++++--
- 1 file changed, 76 insertions(+), 5 deletions(-)
+ block/export/vhost-user-blk-server.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index f0fb09893e..61beee52d3 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -563,6 +563,67 @@ static void pci_hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
+diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+index ab2c4d44c4..7aea132f69 100644
+--- a/block/export/vhost-user-blk-server.c
++++ b/block/export/vhost-user-blk-server.c
+@@ -356,7 +356,7 @@ vu_blk_initialize_config(BlockDriverState *bs,
+     config->num_queues = cpu_to_le16(num_queues);
+     config->max_discard_sectors = cpu_to_le32(32768);
+     config->max_discard_seg = cpu_to_le32(1);
+-    config->discard_sector_alignment = cpu_to_le32(config->blk_size >> 9);
++    config->discard_sector_alignment = cpu_to_le32(blk_size >> 9);
+     config->max_write_zeroes_sectors = cpu_to_le32(32768);
+     config->max_write_zeroes_seg = cpu_to_le32(1);
  }
- 
-+static void multiqueue(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtioPCIDevice *pdev1 = obj;
-+    QVirtioDevice *dev1 = &pdev1->vdev;
-+    QVirtioPCIDevice *pdev8;
-+    QVirtioDevice *dev8;
-+    QTestState *qts = pdev1->pdev->bus->qts;
-+    uint64_t features;
-+    uint16_t num_queues;
-+
-+    /*
-+     * The primary device has 1 queue and VIRTIO_BLK_F_MQ is not enabled. The
-+     * VIRTIO specification allows VIRTIO_BLK_F_MQ to be enabled when there is
-+     * only 1 virtqueue, but --device vhost-user-blk-pci doesn't do this (which
-+     * is also spec-compliant).
-+     */
-+    features = qvirtio_get_features(dev1);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ), ==, 0);
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI));
-+    qvirtio_set_features(dev1, features);
-+
-+    /* Hotplug a secondary device with 8 queues */
-+    qtest_qmp_device_add(qts, "vhost-user-blk-pci", "drv1",
-+                         "{'addr': %s, 'chardev': 'char2', 'num-queues': 8}",
-+                         stringify(PCI_SLOT_HP) ".0");
-+
-+    pdev8 = virtio_pci_new(pdev1->pdev->bus,
-+                           &(QPCIAddress) {
-+                               .devfn = QPCI_DEVFN(PCI_SLOT_HP, 0)
-+                           });
-+    g_assert_nonnull(pdev8);
-+    g_assert_cmpint(pdev8->vdev.device_type, ==, VIRTIO_ID_BLOCK);
-+
-+    qos_object_start_hw(&pdev8->obj);
-+
-+    dev8 = &pdev8->vdev;
-+    features = qvirtio_get_features(dev8);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ),
-+                    ==,
-+                    (1u << VIRTIO_BLK_F_MQ));
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI) |
-+                            (1u << VIRTIO_BLK_F_MQ));
-+    qvirtio_set_features(dev8, features);
-+
-+    num_queues = qvirtio_config_readw(dev8,
-+            offsetof(struct virtio_blk_config, num_queues));
-+    g_assert_cmpint(num_queues, ==, 8);
-+
-+    qvirtio_pci_device_disable(pdev8);
-+    qos_object_destroy(&pdev8->obj);
-+
-+    /* unplug secondary disk */
-+    qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
-+}
-+
- /*
-  * Check that setting the vring addr on a non-existent virtqueue does
-  * not crash.
-@@ -682,7 +743,8 @@ static void quit_storage_daemon(void *data)
-     g_free(data);
- }
- 
--static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
-+static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
-+                                 int num_queues)
- {
-     const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-     int i;
-@@ -707,8 +769,8 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
-         g_string_append_printf(storage_daemon_command,
-             "--blockdev driver=file,node-name=disk%d,filename=%s "
-             "--export type=vhost-user-blk,id=disk%d,addr.type=unix,addr.path=%s,"
--            "node-name=disk%i,writable=on ",
--            i, img_path, i, sock_path, i);
-+            "node-name=disk%i,writable=on,num-queues=%d ",
-+            i, img_path, i, sock_path, i, num_queues);
- 
-         g_string_append_printf(cmd_line, "-chardev socket,id=char%d,path=%s ",
-                                i + 1, sock_path);
-@@ -742,7 +804,7 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
- 
- static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- {
--    start_vhost_user_blk(cmd_line, 1);
-+    start_vhost_user_blk(cmd_line, 1, 1);
-     return arg;
- }
- 
-@@ -756,7 +818,13 @@ static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- static void *vhost_user_blk_hotplug_test_setup(GString *cmd_line, void *arg)
- {
-     /* "-chardev socket,id=char2" is used for pci_hotplug*/
--    start_vhost_user_blk(cmd_line, 2);
-+    start_vhost_user_blk(cmd_line, 2, 1);
-+    return arg;
-+}
-+
-+static void *vhost_user_blk_multiqueue_test_setup(GString *cmd_line, void *arg)
-+{
-+    start_vhost_user_blk(cmd_line, 2, 8);
-     return arg;
- }
- 
-@@ -783,6 +851,9 @@ static void register_vhost_user_blk_test(void)
- 
-     opts.before = vhost_user_blk_hotplug_test_setup;
-     qos_add_test("hotplug", "vhost-user-blk-pci", pci_hotplug, &opts);
-+
-+    opts.before = vhost_user_blk_multiqueue_test_setup;
-+    qos_add_test("multiqueue", "vhost-user-blk-pci", multiqueue, &opts);
- }
- 
- libqos_init(register_vhost_user_blk_test);
 -- 
 2.29.2
 
