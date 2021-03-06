@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926FE32F97E
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 11:56:45 +0100 (CET)
-Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6953632F97D
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 11:56:44 +0100 (CET)
+Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIUc0-0007fU-Ki
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 05:56:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44312)
+	id 1lIUby-0007fM-S2
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 05:56:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZn-0005ld-OP
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:27 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52344)
+ id 1lIUZo-0005mb-I2
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:28 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZl-00084w-W2
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:27 -0500
-Received: by mail-wm1-x334.google.com with SMTP id n22so3213051wmc.2
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:25 -0800 (PST)
+ id 1lIUZn-000856-1J
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:28 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ c76-20020a1c9a4f0000b029010c94499aedso847105wme.0
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ePf5Xm+2mM3AJyOz4KRHQebWqCb/bWbpeRmVlQcH6Aw=;
- b=BKijLWP3IHPzshvo5GfozjrLYU1UyWO7KREtzVMCfLBMkfQPLrqj6CmXbJHk/I+utj
- /C20RUx21Ir3JV3nOyFOoL5XF87D6EQl6KalSRwuIKt0SOnk6E9+g/+I+sUwKMBQ/tI8
- o1JIqNrpTchaZH+H8UyiHqw3HlcfH98eX2EPg/IyDumg49KjXyF+M1jnoWJjR6fDZr89
- zzN6TQ0WxwunSU+l6f/0GMGk/fJ6xRgKzrqmh7vz2FXma1mtBoah+nh5hd3wwwL4l7v6
- wzj1OtTebXP9jsDFtvAu9Q+JMTHofZ9ij1kUGIHz73SsOVizhEtbq7DYrYBPC6OVKeG2
- 1Dbg==
+ bh=ynw4rHhm1APNekgRpZNjLyKWr2jA0nlwh2JMlTwzrKk=;
+ b=bT4EBgDOYQEG5RsxCMOsv3vvIpJvJUwh5OZk862a0v2C8Cn4LKevMLGC//QD36+tEf
+ xprAm7QJO3zDt8AaEr++3P+nKqiKGIPPZLHDmwAfPzgXBpqJSx970d4oplL1e3eriOxz
+ Ft7452lrEnx0z0fincxlgNSOJ3+BBeqysIN5drsMz+T7xmO41NOgzQ3jB2YswatqasAC
+ PJvv/n9FVfoJ1jHwdZjSwgRutbrcWRdhaWGqlBLtW5sQNGHDVYujVzMotqQ0QFKTuffS
+ WqPcZ673Mqy8ASaNJ/ukxDvubvd68xl4GTVfeGWfCkJHcdVNa4/qmYvpUY5UvaQP/8z4
+ 7Vug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ePf5Xm+2mM3AJyOz4KRHQebWqCb/bWbpeRmVlQcH6Aw=;
- b=nC0ebRqdOC9LVJ5Llk2I0wYvlylIivZ59NMOBE3sbAVxaH++fHJo19EHTee+tbhBDH
- ikozgJMFnYKCYztHngNtwQK+HE28XWjJkiYXUKFKftbgawIdG1qOD87QjCR+A+VKv2Ow
- YDUfSjKcUV5ge/Mzt04bodPBQKzLRkmhQqV4tYr1SniGZdTk0EPaTqNXoyaO0+Bxj1Kr
- 8Xkwodn28pBxaW5+jZgvAujn0VkM0XgqgYoEHw+78dfMVKdzwU9xJ148lS6R+jrWbFcD
- 2rBSbarH/o2TnKVL84d8nIrg0KSTo4A73RPNiiTNeu++UFhF+esotvzkHXUL0LoHHW1B
- 0/aw==
-X-Gm-Message-State: AOAM532b4yNpPAAxGj5xC+L580gjKkcesYbwNvpWZHB8O1MRrC14ZGeL
- QwAvEK2CgvkdWmpbK2jZKpAaKiPa8SQ=
-X-Google-Smtp-Source: ABdhPJyPWaoboog5bRVotj3PFzpbA5wYC4864AYy2AQyxVtcFm2UThuSlfbBOqv5u8mJwqfd6N4aoA==
-X-Received: by 2002:a1c:9d85:: with SMTP id
- g127mr13058264wme.161.1615028064816; 
- Sat, 06 Mar 2021 02:54:24 -0800 (PST)
+ bh=ynw4rHhm1APNekgRpZNjLyKWr2jA0nlwh2JMlTwzrKk=;
+ b=jrQl341rHtHjR7TjYKW8SO+rdH3MiuOdBDf08JwSnJ7pG21oaciw+XOPI4iKNY95cd
+ pjVl5ZQ1LlKXZ2wYlIkISG0E7RsGJAfH9j1Gigqt0/vT5eVM3yoXQIO/FZLik24UqJ7U
+ QhYhI5Y4Ow0S5cKAuUMhZswn0oRmS1q8y5HmsLhWIKvrtmcEyU/oXGhjDoC4Ndk0m5qr
+ EKngyNVpGhhfokGsYLGQiMJ99O44rdS+4TH/DRzAiEQ0zDZ+UX9R6mpIa/KsGskVsrqp
+ OD9mWS9e99Iy3K0MTjXfe8wsAUGgHby1++I8cvxlH5rUyX83R6+0/INDDmote02Yh2m9
+ 4bag==
+X-Gm-Message-State: AOAM532o3yNZpdT/Tk6xy5BqpF9IbMPvGzfuvN1YcPxfnHB41jLmP5YM
+ RxLhObvAvwjvEWnxPpfAgbuKJORGWV0=
+X-Google-Smtp-Source: ABdhPJzIBVSttxX7y6WD0dpsc2mMHAX7jeFRn32m7F1m2C8662pOGRG8mFyRtWoA5uUF0/aiUb+wSA==
+X-Received: by 2002:a1c:5f89:: with SMTP id
+ t131mr12654201wmb.173.1615028065791; 
+ Sat, 06 Mar 2021 02:54:25 -0800 (PST)
 Received: from avogadro.redhat.com ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.24
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 02:54:24 -0800 (PST)
+ Sat, 06 Mar 2021 02:54:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/23] chardev: add nodelay option
-Date: Sat,  6 Mar 2021 11:54:00 +0100
-Message-Id: <20210306105419.110503-5-pbonzini@redhat.com>
+Subject: [PULL 05/23] qom: Check for wellformed id in user_creatable_add_type()
+Date: Sat,  6 Mar 2021 11:54:01 +0100
+Message-Id: <20210306105419.110503-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306105419.110503-1-pbonzini@redhat.com>
 References: <20210306105419.110503-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,143 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "delay" option was introduced as a way to enable Nagle's algorithm
-with ",nodelay".  Since the short form for boolean options has now been
-deprecated, introduce a more properly named "nodelay" option.  The "delay"
-option remains as an undocumented option.
+From: Kevin Wolf <kwolf@redhat.com>
 
-"delay" and "nodelay" are mutually exclusive.  Because the check is
-done at consumption time, the code also rejects them if one of the
-two is specified via -set.
+Most code paths for creating a user creatable object go through
+QemuOpts, which ensures that the provided 'id' option is actually a
+valid identifier.
 
-Based-on: <20210226080526.651705-1-pbonzini@redhat.com>
+However, there are some code paths that don't go through QemuOpts:
+qemu-storage-daemon --object (since commit 8db1efd3) and QMP object-add
+(since it was first introduced in commit cff8b2c6). We need to have the
+same validity check for those, too.
+
+This adds the check and makes it print the same error message as
+QemuOpts on failure.
+
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210302171623.49709-1-kwolf@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/char-socket.c | 13 +++++++++++--
- chardev/char.c        |  3 +++
- gdbstub.c             |  2 +-
- qemu-options.hx       | 14 +++++++-------
- 4 files changed, 22 insertions(+), 10 deletions(-)
+ qom/object_interfaces.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 06a37c0cc8..c8bced76b7 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1472,8 +1472,17 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-     sock = backend->u.socket.data = g_new0(ChardevSocket, 1);
-     qemu_chr_parse_common(opts, qapi_ChardevSocket_base(sock));
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index 1e9ad6f08a..7661270b98 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -8,6 +8,7 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/help_option.h"
++#include "qemu/id.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qapi/opts-visitor.h"
+@@ -41,11 +42,19 @@ Object *user_creatable_add_type(const char *type, const char *id,
+                                 const QDict *qdict,
+                                 Visitor *v, Error **errp)
+ {
++    ERRP_GUARD();
+     Object *obj;
+     ObjectClass *klass;
+     const QDictEntry *e;
+     Error *local_err = NULL;
  
--    sock->has_nodelay = qemu_opt_get(opts, "delay");
--    sock->nodelay = !qemu_opt_get_bool(opts, "delay", true);
-+    if (qemu_opt_get(opts, "delay") && qemu_opt_get(opts, "nodelay")) {
-+        error_setg(errp, "'delay' and 'nodelay' are mutually exclusive");
-+        return;
++    if (id != NULL && !id_wellformed(id)) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "id", "an identifier");
++        error_append_hint(errp, "Identifiers consist of letters, digits, "
++                          "'-', '.', '_', starting with a letter.\n");
++        return NULL;
 +    }
-+    sock->has_nodelay =
-+        qemu_opt_get(opts, "delay") ||
-+        qemu_opt_get(opts, "nodelay");
-+    sock->nodelay =
-+        !qemu_opt_get_bool(opts, "delay", true) ||
-+        qemu_opt_get_bool(opts, "nodelay", false);
 +
-     /*
-      * We have different default to QMP for 'server', hence
-      * we can't just check for existence of 'server'
-diff --git a/chardev/char.c b/chardev/char.c
-index 288efebd12..97cafd6849 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -867,6 +867,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "delay",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "nodelay",
-+            .type = QEMU_OPT_BOOL,
-         },{
-             .name = "reconnect",
-             .type = QEMU_OPT_NUMBER,
-diff --git a/gdbstub.c b/gdbstub.c
-index 3ee40479b6..16d7c8f534 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3505,7 +3505,7 @@ int gdbserver_start(const char *device)
-         if (strstart(device, "tcp:", NULL)) {
-             /* enforce required TCP attributes */
-             snprintf(gdbstub_device_name, sizeof(gdbstub_device_name),
--                     "%s,wait=off,delay=off,server=on", device);
-+                     "%s,wait=off,nodelay=on,server=on", device);
-             device = gdbstub_device_name;
-         }
- #ifndef _WIN32
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 252db9357c..90801286c6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3033,7 +3033,7 @@ DEFHEADING(Character device options:)
- DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev help\n"
-     "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
--    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,delay=on|off][,reconnect=seconds]\n"
-+    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off][,reconnect=seconds]\n"
-     "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
-     "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
-     "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
-@@ -3184,7 +3184,7 @@ The available backends are:
- 
-     TCP and unix socket options are given below:
- 
--    ``TCP options: port=port[,host=host][,to=to][,ipv4=on|off][,ipv6=on|off][,delay=on|off]``
-+    ``TCP options: port=port[,host=host][,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off]``
-         ``host`` for a listening socket specifies the local address to
-         be bound. For a connecting socket species the remote host to
-         connect to. ``host`` is optional for listening sockets. If not
-@@ -3204,7 +3204,7 @@ The available backends are:
-         or IPv6 must be used. If neither is specified the socket may
-         use either protocol.
- 
--        ``delay=on|off`` disables the Nagle algorithm.
-+        ``nodelay=on|off`` disables the Nagle algorithm.
- 
-     ``unix options: path=path[,abstract=on|off][,tight=on|off]``
-         ``path`` specifies the local path of the unix socket. ``path``
-@@ -3593,13 +3593,13 @@ SRST
-         ``telnet options:``
-             localhost 5555
- 
--    ``tcp:[host]:port[,server=on|off][,wait=on|off][,delay=on|off][,reconnect=seconds]``
-+    ``tcp:[host]:port[,server=on|off][,wait=on|off][,nodelay=on|off][,reconnect=seconds]``
-         The TCP Net Console has two modes of operation. It can send the
-         serial I/O to a location or wait for a connection from a
-         location. By default the TCP Net Console is sent to host at the
-         port. If you use the ``server=on`` option QEMU will wait for a client
-         socket application to connect to the port before continuing,
--        unless the ``wait=on|off`` option was specified. The ``delay=on|off``
-+        unless the ``wait=on|off`` option was specified. The ``nodelay=on|off``
-         option disables the Nagle buffering algorithm. The ``reconnect=on``
-         option only applies if ``server=no`` is set, if the connection goes
-         down it will attempt to reconnect at the given interval. If host
-@@ -3616,7 +3616,7 @@ SRST
-         ``Example to not wait and listen on ip 192.168.0.100 port 4444``
-             -serial tcp:192.168.0.100:4444,server=on,wait=off
- 
--    ``telnet:host:port[,server=on|off][,wait=on|off][,delay=on|off]``
-+    ``telnet:host:port[,server=on|off][,wait=on|off][,nodelay=on|off]``
-         The telnet protocol is used instead of raw tcp sockets. The
-         options work the same as if you had specified ``-serial tcp``.
-         The difference is that the port acts like a telnet server or
-@@ -3626,7 +3626,7 @@ SRST
-         you do it with Control-] and then type "send break" followed by
-         pressing the enter key.
- 
--    ``websocket:host:port,server=on[,wait=on|off][,delay=on|off]``
-+    ``websocket:host:port,server=on[,wait=on|off][,nodelay=on|off]``
-         The WebSocket protocol is used instead of raw tcp socket. The
-         port acts as a WebSocket server. Client mode is not supported.
- 
+     klass = object_class_by_name(type);
+     if (!klass) {
+         error_setg(errp, "invalid object type: %s", type);
 -- 
 2.29.2
 
