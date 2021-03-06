@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44A032F98E
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:03:26 +0100 (CET)
-Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF9C32F992
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:05:29 +0100 (CET)
+Received: from localhost ([::1]:44196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIUiT-000196-Ms
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:03:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44386)
+	id 1lIUkS-0004XR-Cl
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:05:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZs-0005tp-HL
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:32 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40001)
+ id 1lIUZt-0005vl-7R
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:33 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZr-00088D-2X
+ id 1lIUZr-00089R-QN
  for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:32 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l11so1808961wrp.7
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:30 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id u14so5231190wri.3
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EW+RazKmnfzV3iFKv1E/1XtA1W8hxsl/EMoQcnNU61o=;
- b=gN2tJF5Z2uVdSrzhhORbAVxyS+T87fLG79E4z998KIqAfOz8vTDLHhQCQ0yBnuCs09
- SI7zEX90ju6Z4TYPfyLXKBd0VbR3XxHSeK1gsfQVypLYYZ/tNelyrzjghLM/NrphaRw5
- k9FOrSaZtamPpSEghzI7dT1B/L5DSFwe+zQxspuaT6wA5kiNAncr68x6VsKolEnD1nVl
- FKVF1JDNOZptaCNtnx+nMN8xTgB4diTFxcHDzcRXqOpnkRgTM/41UigaFPIe9zxgzXlZ
- yY3ZdAs8cCZi9waeKYbISIVfGt+bFhGqikFjNIT7Ft1sGg/fhYeu5PS21KjdFuLQmlkD
- 6Dqw==
+ bh=5QsmkLXasBVRCflFMmu4M4Y+2snZ0CFWy08GKmf9z8k=;
+ b=GLb+XNC2HZNyzYgYxUEu9A5SQQKdUAHL3yMA5/DhMfJgE3FthfPT0D5EEfd0Ax+gmC
+ sJZ3qIXteVspCa1kaiUQNZuhLF+0quxrtojw7dYqCvgHqtGWh5Dc3vwvYxCxHIMjNKsA
+ a6lLrsuN7FboMWl8UT4swxStbSh2YnFcVd1OQoAs9fpwP1IeJzRTLXY+BuibhlUrs0oT
+ 53Qe/0kh5PKF9ntLjoUdu1UPgowOWWia5D+g6kzNmYtatTGxs7QtRbjyNn803Gm8M+3C
+ fqdXPGd5b7MXhLQX8Fg7XLi7gluwhYSbQ4/JHK3C5Q4b/CM8bg5p/W+dYm24E5QLTpj1
+ CBOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EW+RazKmnfzV3iFKv1E/1XtA1W8hxsl/EMoQcnNU61o=;
- b=Y8/MimhetxNIzN+cYo7ZC3f8VdsRNUypYSe9HkBg9Ia8Bo9+0iRxG0Zs4MRv6wYDV4
- +FWVoO1i9ysRbtQ8lfrxvYtKsO+FqD5yGI5rYk4strbcPqRZzDGldftRTE+mQbrXFnFw
- UaVO3884785B0e5d+Ca2W12X2lG1r3ouE7N+EQk7Rw4Ggj9VoY8RySExzdphqktjqHki
- PN/M44R3Gs7phNPEO3uE9GI+FBBC6G4n0OFi1H3NTB/9I59Y8Zmnxx8laSx5uU6HRowD
- FcbOG66NS3MGFtDcciWHHfHM2v9rjSo9zAapCjhb2KAkQ5dfRkzgYq/MNvUeE1QQ84Uv
- Iwnw==
-X-Gm-Message-State: AOAM530bpe9AwkdBpfovXpEHI1k9XfRtARd4tGc603F82HawDtBcBqy3
- c2tIOCaH2BOGdZpnfI2DFF9eep2DkVQ=
-X-Google-Smtp-Source: ABdhPJzW6engqE3cQ5Gl8gWdXKgG4YHg+OexuY7hTYh4BW2oxQNn3grqtQafjmiIeLT6V2cKRfdFhQ==
-X-Received: by 2002:adf:f905:: with SMTP id b5mr13141765wrr.129.1615028069872; 
- Sat, 06 Mar 2021 02:54:29 -0800 (PST)
+ bh=5QsmkLXasBVRCflFMmu4M4Y+2snZ0CFWy08GKmf9z8k=;
+ b=Ge/JFm/ChgjHzjpvxQWKXclBghUeIy0zYguZTOhbBW7X+CrQ53NKk3AJCNTMkRDiJ/
+ UyLHdraKaHSsZM1UGK0eN7sZUWdH6OLaWyWAQETANK3sbnFbJZXN6rFeaoy7xdgzCtfg
+ bGtqOZDmKqK5sZlLWj1IuEa1iz/PSm1JRSRWytgckTZ3/v21YJL/8MHMTtvYQ5XXhDa7
+ BohFGUb+tnvNhUbvr+EthcFJRkkdLighZYTaGqdtGze8u1Say9KLynS7J061NcDGSMyA
+ +yTlqMTn1y0wvG0AV1wf6nDiSBe+eNg8lSxRVIsgCCsrc4Ix5FLiqDXhIykiGZFh4k8o
+ ywyQ==
+X-Gm-Message-State: AOAM530TjpQy7eWxCKdpzAO015G7OxiXsaCW0wvCJb49k+JhfKlJsJ8R
+ YLMWiA10yPI05Fzq9j3KMM56kz1EMcA=
+X-Google-Smtp-Source: ABdhPJwO6u75JuwcAxio9hTgcToQLAymRCcN/C6mjUTOrQJuzNfOq3ffuQd4wGwytxAr5SbSbymdXA==
+X-Received: by 2002:adf:ea8b:: with SMTP id s11mr14061935wrm.413.1615028070623; 
+ Sat, 06 Mar 2021 02:54:30 -0800 (PST)
 Received: from avogadro.redhat.com ([93.56.170.5])
  by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 02:54:29 -0800 (PST)
+ Sat, 06 Mar 2021 02:54:30 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/23] elf_ops: correct loading of 32 bit PVH kernel
-Date: Sat,  6 Mar 2021 11:54:06 +0100
-Message-Id: <20210306105419.110503-11-pbonzini@redhat.com>
+Subject: [PULL 11/23] x86/pvh: extract only 4 bytes of start address for 32
+ bit kernels
+Date: Sat,  6 Mar 2021 11:54:07 +0100
+Message-Id: <20210306105419.110503-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306105419.110503-1-pbonzini@redhat.com>
 References: <20210306105419.110503-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,46 +85,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: David Edmondson <david.edmondson@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Edmondson <david.edmondson@oracle.com>
 
-Because sizeof(struct elf64_note) == sizeof(struct elf32_note),
-attempting to use the size of the currently defined struct elf_note as
-a discriminator for whether the object being loaded is 64 bit in
-load_elf() fails.
+When loading the PVH start address from a 32 bit ELF note, extract
+only the appropriate number of bytes.
 
-Instead, take advantage of the existing glue parameter SZ, which is
-defined as 32 or 64 in the respective variants of load_elf().
-
-Fixes: 696aa04c84c6 ("elf-ops.h: Add get_elf_note_type()")
+Fixes: ab969087da65 ("pvh: Boot uncompressed kernel using direct boot ABI")
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210302090315.3031492-2-david.edmondson@oracle.com>
+Message-Id: <20210302090315.3031492-3-david.edmondson@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/elf_ops.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/i386/x86.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 8e8436831d..78409ab34a 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -598,9 +598,7 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-             nhdr = glue(get_elf_note_type, SZ)(nhdr, file_size, ph->p_align,
-                                                *(uint64_t *)translate_opaque);
-             if (nhdr != NULL) {
--                bool is64 =
--                    sizeof(struct elf_note) == sizeof(struct elf64_note);
--                elf_note_fn((void *)nhdr, (void *)&ph->p_align, is64);
-+                elf_note_fn((void *)nhdr, (void *)&ph->p_align, SZ == 64);
-             }
-             data = NULL;
-         }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 6329f90ef9..7865660e2c 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -690,6 +690,8 @@ static uint64_t read_pvh_start_addr(void *arg1, void *arg2, bool is64)
+         elf_note_data_addr =
+             ((void *)nhdr64) + nhdr_size64 +
+             QEMU_ALIGN_UP(nhdr_namesz, phdr_align);
++
++        pvh_start_addr = *elf_note_data_addr;
+     } else {
+         struct elf32_note *nhdr32 = (struct elf32_note *)arg1;
+         uint32_t nhdr_size32 = sizeof(struct elf32_note);
+@@ -699,9 +701,9 @@ static uint64_t read_pvh_start_addr(void *arg1, void *arg2, bool is64)
+         elf_note_data_addr =
+             ((void *)nhdr32) + nhdr_size32 +
+             QEMU_ALIGN_UP(nhdr_namesz, phdr_align);
+-    }
+ 
+-    pvh_start_addr = *elf_note_data_addr;
++        pvh_start_addr = *(uint32_t *)elf_note_data_addr;
++    }
+ 
+     return pvh_start_addr;
+ }
 -- 
 2.29.2
 
