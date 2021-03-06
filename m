@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1696B32FCCB
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 20:32:04 +0100 (CET)
-Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E97832FD81
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 22:31:55 +0100 (CET)
+Received: from localhost ([::1]:44892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIceg-0002JP-M5
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 14:32:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40824)
+	id 1lIeWc-0005xL-G2
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 16:31:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lIcc5-0001dA-Nj
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 14:29:21 -0500
-Received: from hera.aquilenet.fr ([185.233.100.1]:48576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lIcc2-0002Ds-I7
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 14:29:21 -0500
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 0BB73266;
- Sat,  6 Mar 2021 20:29:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4X89kzrXNWbC; Sat,  6 Mar 2021 20:29:14 +0100 (CET)
-Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 05E65EE;
- Sat,  6 Mar 2021 20:29:13 +0100 (CET)
-Received: from samy by begin with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1lIcbw-000SaB-9k; Sat, 06 Mar 2021 20:29:12 +0100
-Date: Sat, 6 Mar 2021 20:29:12 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
- of inet_parse
-Message-ID: <20210306192912.wzs5d7pynxztnvxb@begin>
-References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
- <YDN73SqaDQDtwlgZ@redhat.com>
- <20210228213957.xkc4cceh5o6rgd5n@begin>
- <CADPb22RAxehwfRRBdsRm1exU2D38FCcRv23XcS5VKdZfvDp+pQ@mail.gmail.com>
- <YD/RXfECJ4TshqsT@redhat.com>
- <20210305212806.kx62ycfr7k4wxdlq@begin>
- <CADPb22Tv0-oXhxu7Fke3hDq+yq1_n5RTcAC4efmZ0iniAUxVQg@mail.gmail.com>
- <20210306001014.zsvg35ku4647wpr4@begin>
- <CADPb22SXEZx-qvvDNBbb0NbohUWaddYuUvT2zBNH4bFQPp9QZA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIeVb-0005RV-Jg
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 16:30:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lIeVX-0002HT-GL
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 16:30:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lIeVV-0007rR-HV
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 21:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 78CFC2E815C
+ for <qemu-devel@nongnu.org>; Sat,  6 Mar 2021 21:30:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADPb22SXEZx-qvvDNBbb0NbohUWaddYuUvT2zBNH4bFQPp9QZA@mail.gmail.com>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 0BB73266
-X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[5];
- HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- TO_DN_ALL(0.00)[]; RCVD_NO_TLS_LAST(0.10)[];
- FROM_EQ_ENVFROM(0.00)[]; MID_RHS_NOT_FQDN(0.50)[];
- BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=185.233.100.1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 06 Mar 2021 21:24:57 -0000
+From: Ryan Macnak <1918026@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: rmacnak
+X-Launchpad-Bug-Reporter: Ryan Macnak (rmacnak)
+X-Launchpad-Bug-Modifier: Ryan Macnak (rmacnak)
+Message-Id: <161506589796.3423.13383022797399751590.malonedeb@soybean.canonical.com>
+Subject: [Bug 1918026] [NEW] RISCV64 32-bit AMOs incorrectly simulated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
+X-Launchpad-Hash: 4b54843f01726b8b73020720c26627e8aac856c7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,47 +68,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1918026 <1918026@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Public bug reported:
 
-Doug Evans, le ven. 05 mars 2021 17:00:13 -0800, a ecrit:
-> Is it possible for QEMU to lazily determine the guest's IPv6
-> address? I.e., postpone the ""->guest address mapping until it's
-> needed and then, say, take the first entry in the NDP table?
+Version: qemu-riscv64 version 4.2.1 (Debian 1:4.2-3ubuntu6.14)
 
-That would probably be possible, yes, by moving the 
+test:
+  amomaxu.w a0, a1, (a0)
+  ret
 
-if (!guest_addr.s_addr) {
-    guest_addr = slirp->vdhcp_startaddr;
-}
+int32_t* value =3D -7;
+EXPECT_EQ(-7, test(&value, -11));
+EXPECT_EQ(-7, value);  // FAIL, saw -11
+EXPECT_EQ(-7, test(&value, -7));
+EXPECT_EQ(-7, value);  // FAIL, raw -11
+EXPECT_EQ(-7, test(&value, -4));
+EXPECT_EQ(-4, value);
 
-from slirp_add_hostfwd() and alike to tcp_connect() and sorecvfrom()
-(along the other sotranslate call).
+test:
+  amomax.w a0, a1, (a0)
+  ret
 
-> That feels a bit fragile: what if someone else gets the first entry in
-> the NDP table? But is that any more fragile than assuming the first
-> handed out DHCP address is to the guest?
+int32_t* value =3D -7;
+EXPECT_EQ(-7, test(&value, -11));
+EXPECT_EQ(-7, value);
+EXPECT_EQ(-7, test(&value, -7));
+EXPECT_EQ(-7, value);
+EXPECT_EQ(-7, test(&value, -4));
+EXPECT_EQ(-4, value);  // FAIL, saw -7
 
-I don't think it's really more fragile.
+I suspect that trans_amo<op>_w should be using
+tcg_gen_atomic_fetch_<op>_i32 instead of tcg_gen_atomic_fetch_<op>_tl.
 
-> [<<-- Honest question, can we assume the first handed out DHCP address
-> will necessarily be the guest?]
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-It "cannot" be anything else. What could happen is a PXE loader that
-uses DHCP/NDP, and then the OS that does it again.
+-- =
 
-> But that would mean the defaults for the guest would have to be
-> different than for the host. E.g.,
-> host: ",ipv4" means both,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918026
 
-Why would it mean both? I don't follow you here.
+Title:
+  RISCV64 32-bit AMOs incorrectly simulated
 
-> whereas guest: ",ipv4" (ideally) means ipv4 (since both is meaningless)
+Status in QEMU:
+  New
 
-Samuel
+Bug description:
+  Version: qemu-riscv64 version 4.2.1 (Debian 1:4.2-3ubuntu6.14)
+
+  test:
+    amomaxu.w a0, a1, (a0)
+    ret
+
+  int32_t* value =3D -7;
+  EXPECT_EQ(-7, test(&value, -11));
+  EXPECT_EQ(-7, value);  // FAIL, saw -11
+  EXPECT_EQ(-7, test(&value, -7));
+  EXPECT_EQ(-7, value);  // FAIL, raw -11
+  EXPECT_EQ(-7, test(&value, -4));
+  EXPECT_EQ(-4, value);
+
+  test:
+    amomax.w a0, a1, (a0)
+    ret
+
+  int32_t* value =3D -7;
+  EXPECT_EQ(-7, test(&value, -11));
+  EXPECT_EQ(-7, value);
+  EXPECT_EQ(-7, test(&value, -7));
+  EXPECT_EQ(-7, value);
+  EXPECT_EQ(-7, test(&value, -4));
+  EXPECT_EQ(-4, value);  // FAIL, saw -7
+
+  I suspect that trans_amo<op>_w should be using
+  tcg_gen_atomic_fetch_<op>_i32 instead of tcg_gen_atomic_fetch_<op>_tl.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918026/+subscriptions
 
