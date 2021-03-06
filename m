@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261DA32F9A4
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:08:53 +0100 (CET)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208C932F98B
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:01:43 +0100 (CET)
+Received: from localhost ([::1]:57110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIUnk-0001eH-7V
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:08:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
+	id 1lIUgo-0006lT-0r
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:01:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZy-00060y-2h
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:39 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36510)
+ id 1lIUZz-00061S-TU
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:41 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZv-0008Bc-Ng
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:37 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- r15-20020a05600c35cfb029010e639ca09eso846926wmq.1
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:35 -0800 (PST)
+ id 1lIUZx-0008CX-QV
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:39 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id l12so5216309wry.2
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=45ZsPcyt0fqSXzgBophlHxaHG8EqkcxkX9bmzk+z7TA=;
- b=NFeGn2RrVnq77B47qS7X1nO9QaIz49aVeasrrzP5IAPLRbe5oFyPIAxgj2a5oAotku
- FeslLG5TpqRg4VBgb3QBEm/5xA6IGFJYWwT/++HDco9N08l8z4dOE13uoeDMP77P/1Ds
- v0IGR3ilmbvgDegEikEIzRu606cILWZ+HVS+vSnEBMWOGyF9/pIhFFXMskA+PTXO/MJM
- vGZTX8FhXgfzSXxtdOz1VPQJogljf/SeOHuKOf75SrN2+qB504mraHf3nlDLXeimQRgV
- EJBDuzMDgwG23AF/COh7UXhNaF+x9cVpNaqTxOFCnGap+Jlrw2KujGdjoa+wrq59wncq
- j0RA==
+ bh=UIYd14lz7UHJRjF1bu94Jg7Tf5lE7IMtqw4bi8iqiNI=;
+ b=q5qc8qGtvCjDi/k6cyipubQxnNK9PiPMuz6xhsCrpEsCFdPrYp5e3ct666yFEEKW0A
+ cM9FgNNq7Q8Ut8wWJJEjXY2cQUrCL7zYkOGHlZt0bJq1otIiEDv7IP6JA5oVOh8F3tJi
+ E1Jzb6rKQtwhSCtZgdnKGIBZoNlatWO0IIhN8leIIyCCeC3aga1HfUnis5dTPR2eO1Sw
+ reXkk5paTQfDAyzXk/zHQ3510UFkKEGXly2/gcTBUvwIPshggiKujfDH/0pPtQhUQJH3
+ 5pGbOjQ+94nhqWWV7LEc28RbxSK9Sv6oxEk5XinlQcmYBI+I8TKdBL2KWUn/J5MtA7UZ
+ OD1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=45ZsPcyt0fqSXzgBophlHxaHG8EqkcxkX9bmzk+z7TA=;
- b=CrgDo2mJTOwwCFaGm1kUVvaSy3P3EJrY9D2q0TQB/IEVLpipUwWEp4JrSdxpUbGmvm
- 7FPsW34TRWyk1Nut0Ko3ntBQkvxzGAKsHNiEjAOkoSZkm/GOWNoui5XXB/G2qawqenFY
- xbIBIdsHKOBrc3APJheOh2CrJh+Qwdk8EquqSOUk2KJ5vaIZ7jW36Yjhp0OWsNT8ZRNN
- mw5fQscWk6kiC4+Q4HeAdROlB6A0YlWexui/6Wlq8eAFoPYIpv8QT2GZjpduX5TVEKuQ
- 7i+R2PqEYpalMaaKV7MdNtmGHdLq66P/dEIVWhnI6e1ibIcjeD5BCzpPH0p8RSHdUsEJ
- 7aKg==
-X-Gm-Message-State: AOAM531Rg3IC7zXCWi+u856rieDAmA8/GnSuMMmh4r27hTOEhd75Rjlr
- d7OjX8ryK7uM4UU2e0TpEZ6hbp3VK3A=
-X-Google-Smtp-Source: ABdhPJzznnzQCAYwyaMLGEiuJ80XlzS7yKLzsTadDcis2d93y7XsOMOxKrktY/Z9kb0VRl1RosKq+A==
-X-Received: by 2002:a1c:1f8f:: with SMTP id f137mr13092451wmf.66.1615028074565; 
- Sat, 06 Mar 2021 02:54:34 -0800 (PST)
+ bh=UIYd14lz7UHJRjF1bu94Jg7Tf5lE7IMtqw4bi8iqiNI=;
+ b=hZa8E9aZQTS+mw7h7EQKrI04MQIzPW0V0GqRupM6Ukw55Xz+OQFYZO5OYOZ0OfR+sg
+ Ah1Dq540PsunNZImk+xC2ZEwUUk/i2PGoyTPF1K9dX4dcEXlu+QVPNVDODdGSse8DxH/
+ HTXJGwAxnZBHTon4I+8sL1Y3bZK+XKMWuwqNDgnMjhKhLkmKKqWD7OfF89OfaKpz7XbO
+ mXhkegsSxjeo7zoQCBO90eX52eeIqsSV1ewmchNRZvAcQxtOJMtvWbR5fOrwnS2QWk2w
+ 1wXcHmS1JKV4dMKvppl4DqTR2sxxSaP6Vrl1/64YlbHBiKX8BS0hqbiKE4eHZLotlu6H
+ IjvQ==
+X-Gm-Message-State: AOAM533JxXl6V77ZUge1xzF8H3gfDuQo8zgiXvHXyUBl5qZndbxfrCnC
+ WJJmv+6g/pYMdgAQc+kOo3aNdsPcLJ0=
+X-Google-Smtp-Source: ABdhPJzCEvBbZQwtlXpuHyG8uwbKlgPcSjjH03Yx2hjLnk56MavAWLFAOZeaaLKsZ+rx8C5pIONihw==
+X-Received: by 2002:adf:f144:: with SMTP id y4mr13746336wro.408.1615028075503; 
+ Sat, 06 Mar 2021 02:54:35 -0800 (PST)
 Received: from avogadro.redhat.com ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.33
+ by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 02:54:34 -0800 (PST)
+ Sat, 06 Mar 2021 02:54:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/23] scsi: inline sg_io_sense_from_errno() into the callers.
-Date: Sat,  6 Mar 2021 11:54:12 +0100
-Message-Id: <20210306105419.110503-17-pbonzini@redhat.com>
+Subject: [PULL 17/23] scsi: move host_status handling into SCSI drivers
+Date: Sat,  6 Mar 2021 11:54:13 +0100
+Message-Id: <20210306105419.110503-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306105419.110503-1-pbonzini@redhat.com>
 References: <20210306105419.110503-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,246 +89,278 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hannes Reinecke <hare@suse.de>
 
-Currently sg_io_sense_from_errno() converts the two input parameters
-'errno' and 'io_hdr' into sense code and SCSI status. Having
-split the function off into scsi_sense_from_errno() and
-scsi_sense_from_host_status(), both of which are available generically,
-we now inline the logic in the callers so that scsi-disk and
-scsi-generic will be able to pass host_status to the HBA.
+Some SCSI drivers like virtio have an internal mapping for the
+host_status. This patch moves the host_status translation into
+the SCSI drivers to allow those drivers to set up the correct
+values.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Message-Id: <20201116184041.60465-7-hare@suse.de>
-[Put together from "scsi-disk: Add sg_io callback to evaluate status"
- and what remains of "scsi: split sg_io_sense_from_errno() in two functions",
- with many other fixes. - Paolo]
+Signed-off-by: Hannes Reinecke <hare@suse.de>.
+[Added default handling to avoid touching all drivers. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c    | 47 +++++++++++++++++++++++++++++++++++++-----
- hw/scsi/scsi-generic.c | 22 ++++++++++++++------
- include/scsi/utils.h   |  3 ---
- scsi/qemu-pr-helper.c  | 24 ++++++++++++++-------
- scsi/utils.c           | 23 ---------------------
- 5 files changed, 75 insertions(+), 44 deletions(-)
+ hw/scsi/scsi-bus.c     | 33 ++++++++++++++++++++++++++++--
+ hw/scsi/scsi-disk.c    | 12 +++++------
+ hw/scsi/scsi-generic.c |  6 ++----
+ hw/scsi/virtio-scsi.c  | 46 ++++++++++++++++++++++++++++++++++++++++++
+ hw/scsi/vmw_pvscsi.c   | 39 +++++++++++++++++++++++++++++++++++
+ include/hw/scsi/scsi.h |  5 ++++-
+ 6 files changed, 128 insertions(+), 13 deletions(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index a5a58d7db3..ceaf78b423 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -77,7 +77,6 @@ typedef struct SCSIDiskReq {
-     struct iovec iov;
-     QEMUIOVector qiov;
-     BlockAcctCookie acct;
--    unsigned char *status;
- } SCSIDiskReq;
- 
- #define SCSI_DISK_F_REMOVABLE             0
-@@ -261,8 +260,6 @@ static bool scsi_disk_req_check_error(SCSIDiskReq *r, int ret, bool acct_failed)
- 
-     if (ret < 0) {
-         return scsi_handle_rw_error(r, ret, acct_failed);
--    } else if (r->status && *r->status) {
--        return scsi_handle_rw_error(r, *r->status, acct_failed);
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index dc4141ec8d..2d674f94d7 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -692,6 +692,7 @@ SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
+     req->lun = lun;
+     req->hba_private = hba_private;
+     req->status = -1;
++    req->host_status = -1;
+     req->ops = reqops;
+     object_ref(OBJECT(d));
+     object_ref(OBJECT(qbus->parent));
+@@ -1455,10 +1456,38 @@ void scsi_req_print(SCSIRequest *req)
      }
+ }
  
-     return false;
-@@ -2697,8 +2694,47 @@ typedef struct SCSIBlockReq {
- 
-     /* CDB passed to SG_IO.  */
-     uint8_t cdb[16];
-+    BlockCompletionFunc *cb;
-+    void *cb_opaque;
- } SCSIBlockReq;
- 
-+static void scsi_block_sgio_complete(void *opaque, int ret)
++void scsi_req_complete_failed(SCSIRequest *req, int host_status)
 +{
-+    SCSIBlockReq *req = (SCSIBlockReq *)opaque;
-+    SCSIDiskReq *r = &req->req;
-+    SCSIDevice *s = r->req.dev;
-+    sg_io_hdr_t *io_hdr = &req->io_header;
 +    SCSISense sense;
++    int status;
 +
-+    if (ret == 0) {
-+        if (io_hdr->host_status != SCSI_HOST_OK) {
-+            ret = scsi_sense_from_host_status(io_hdr->host_status, &sense);
-+            if (ret == CHECK_CONDITION) {
-+                scsi_req_build_sense(&r->req, sense);
-+            }
-+        } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
-+            ret = BUSY;
-+        } else {
-+            ret = io_hdr->status;
++    assert(req->status == -1 && req->host_status == -1);
++    assert(req->ops != &reqops_unit_attention);
++
++    if (!req->bus->info->fail) {
++        status = scsi_sense_from_host_status(req->host_status, &sense);
++        if (status == CHECK_CONDITION) {
++            scsi_req_build_sense(req, sense);
 +        }
-+
-+        if (ret > 0) {
-+            aio_context_acquire(blk_get_aio_context(s->conf.blk));
-+            if (scsi_handle_rw_error(r, ret, true)) {
-+                aio_context_release(blk_get_aio_context(s->conf.blk));
-+                scsi_req_unref(&r->req);
-+                return;
-+            }
-+            aio_context_release(blk_get_aio_context(s->conf.blk));
-+
-+            /* Ignore error.  */
-+            ret = 0;
-+        }
++        scsi_req_complete(req, status);
++        return;
 +    }
 +
-+    req->cb(req->cb_opaque, ret);
++    req->host_status = host_status;
++    scsi_req_ref(req);
++    scsi_req_dequeue(req);
++    req->bus->info->fail(req);
++
++    /* Cancelled requests might end up being completed instead of cancelled */
++    notifier_list_notify(&req->cancel_notifiers, req);
++    scsi_req_unref(req);
 +}
 +
- static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
-                                       int64_t offset, QEMUIOVector *iov,
-                                       int direction,
-@@ -2777,9 +2813,11 @@ static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
-     io_header->timeout = s->qdev.io_timeout * 1000;
-     io_header->usr_ptr = r;
-     io_header->flags |= SG_FLAG_DIRECT_IO;
-+    req->cb = cb;
-+    req->cb_opaque = opaque;
-     trace_scsi_disk_aio_sgio_command(r->req.tag, req->cdb[0], lba,
-                                      nb_logical_blocks, io_header->timeout);
--    aiocb = blk_aio_ioctl(s->qdev.conf.blk, SG_IO, io_header, cb, opaque);
-+    aiocb = blk_aio_ioctl(s->qdev.conf.blk, SG_IO, io_header, scsi_block_sgio_complete, req);
-     assert(aiocb != NULL);
-     return aiocb;
- }
-@@ -2893,7 +2931,6 @@ static int32_t scsi_block_dma_command(SCSIRequest *req, uint8_t *buf)
-         return 0;
-     }
+ void scsi_req_complete(SCSIRequest *req, int status)
+ {
+-    assert(req->status == -1);
++    assert(req->status == -1 && req->host_status == -1);
+     req->status = status;
++    req->host_status = SCSI_HOST_OK;
  
--    r->req.status = &r->io_header.status;
-     return scsi_disk_dma_command(req, buf);
- }
+     assert(req->sense_len <= sizeof(req->sense));
+     if (status == GOOD) {
+@@ -1646,7 +1675,7 @@ static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
  
+     QTAILQ_FOREACH(req, &s->requests, next) {
+         assert(!req->io_canceled);
+-        assert(req->status == -1);
++        assert(req->status == -1 && req->host_status == -1);
+         assert(req->enqueued);
+ 
+         qemu_put_sbyte(f, req->retry ? 1 : 2);
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index ceaf78b423..bd7103cd0e 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2704,15 +2704,15 @@ static void scsi_block_sgio_complete(void *opaque, int ret)
+     SCSIDiskReq *r = &req->req;
+     SCSIDevice *s = r->req.dev;
+     sg_io_hdr_t *io_hdr = &req->io_header;
+-    SCSISense sense;
+ 
+     if (ret == 0) {
+         if (io_hdr->host_status != SCSI_HOST_OK) {
+-            ret = scsi_sense_from_host_status(io_hdr->host_status, &sense);
+-            if (ret == CHECK_CONDITION) {
+-                scsi_req_build_sense(&r->req, sense);
+-            }
+-        } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
++            scsi_req_complete_failed(&r->req, io_hdr->host_status);
++            scsi_req_unref(&r->req);
++            return;
++        }
++
++        if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
+             ret = BUSY;
+         } else {
+             ret = io_hdr->status;
 diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index f9fd2ccfdd..02b87819e5 100644
+index 02b87819e5..98c30c5d5c 100644
 --- a/hw/scsi/scsi-generic.c
 +++ b/hw/scsi/scsi-generic.c
-@@ -75,6 +75,7 @@ static void scsi_command_complete_noio(SCSIGenericReq *r, int ret)
- {
-     int status;
-     SCSISense sense;
-+    sg_io_hdr_t *io_hdr = &r->io_header;
- 
-     assert(r->req.aiocb == NULL);
- 
-@@ -82,15 +83,24 @@ static void scsi_command_complete_noio(SCSIGenericReq *r, int ret)
-         scsi_req_cancel_complete(&r->req);
-         goto done;
-     }
--    status = sg_io_sense_from_errno(-ret, &r->io_header, &sense);
--    if (status == CHECK_CONDITION) {
--        if (r->io_header.driver_status & SG_ERR_DRIVER_SENSE) {
--            r->req.sense_len = r->io_header.sb_len_wr;
--        } else {
-+    if (ret < 0) {
-+        status = scsi_sense_from_errno(-ret, &sense);
-+        if (status == CHECK_CONDITION) {
-+            scsi_req_build_sense(&r->req, sense);
-+        }
-+    } else if (io_hdr->host_status != SCSI_HOST_OK) {
-+        status = scsi_sense_from_host_status(io_hdr->host_status, &sense);
-+        if (status == CHECK_CONDITION) {
+@@ -89,10 +89,8 @@ static void scsi_command_complete_noio(SCSIGenericReq *r, int ret)
              scsi_req_build_sense(&r->req, sense);
          }
-+    } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
-+        status = BUSY;
-+    } else {
-+        status = io_hdr->status;
-+        if (io_hdr->driver_status & SG_ERR_DRIVER_SENSE) {
-+            r->req.sense_len = io_hdr->sb_len_wr;
-+        }
-     }
--
-     trace_scsi_generic_command_complete_noio(r, r->req.tag, status);
+     } else if (io_hdr->host_status != SCSI_HOST_OK) {
+-        status = scsi_sense_from_host_status(io_hdr->host_status, &sense);
+-        if (status == CHECK_CONDITION) {
+-            scsi_req_build_sense(&r->req, sense);
+-        }
++        scsi_req_complete_failed(&r->req, io_hdr->host_status);
++        goto done;
+     } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
+         status = BUSY;
+     } else {
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 358c0e70b0..6d80730287 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -500,6 +500,51 @@ static void virtio_scsi_complete_cmd_req(VirtIOSCSIReq *req)
+     virtio_scsi_complete_req(req);
+ }
  
-     scsi_req_complete(&r->req, status);
-diff --git a/include/scsi/utils.h b/include/scsi/utils.h
-index 9080d65e27..d5c8efa16e 100644
---- a/include/scsi/utils.h
-+++ b/include/scsi/utils.h
-@@ -139,9 +139,6 @@ int scsi_cdb_length(uint8_t *buf);
- #ifdef CONFIG_LINUX
- #define SG_ERR_DRIVER_TIMEOUT  0x06
- #define SG_ERR_DRIVER_SENSE    0x08
--
--int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
--                           SCSISense *sense);
- #endif
- 
- int scsi_sense_from_errno(int errno_value, SCSISense *sense);
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 2733d92f2d..7b9389b47b 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -149,19 +149,29 @@ static int do_sgio_worker(void *opaque)
-     io_hdr.dxferp = (char *)data->buf;
-     io_hdr.dxfer_len = data->sz;
-     ret = ioctl(data->fd, SG_IO, &io_hdr);
--    status = sg_io_sense_from_errno(ret < 0 ? errno : 0, &io_hdr,
--                                    &sense_code);
++static void virtio_scsi_command_failed(SCSIRequest *r)
++{
++    VirtIOSCSIReq *req = r->hba_private;
 +
-+    if (ret < 0) {
-+        status = scsi_sense_from_errno(errno, &sense_code);
-+        if (status == CHECK_CONDITION) {
-+            scsi_build_sense(data->sense, sense_code);
-+        }
-+    } else if (io_hdr.host_status != SCSI_HOST_OK) {
-+        status = scsi_sense_from_host_status(io_hdr.host_status, &sense_code);
-+        if (status == CHECK_CONDITION) {
-+            scsi_build_sense(data->sense, sense_code);
-+        }
-+    } else if (io_hdr.driver_status & SG_ERR_DRIVER_TIMEOUT) {
-+        status = BUSY;
-+    } else {
-+        status = io_hdr.status;
++    if (r->io_canceled) {
++        return;
 +    }
 +
-     if (status == GOOD) {
-         data->sz -= io_hdr.resid;
-     } else {
-         data->sz = 0;
-     }
++    req->resp.cmd.status = GOOD;
++    switch (r->host_status) {
++    case SCSI_HOST_NO_LUN:
++        req->resp.cmd.response = VIRTIO_SCSI_S_INCORRECT_LUN;
++        break;
++    case SCSI_HOST_BUSY:
++        req->resp.cmd.response = VIRTIO_SCSI_S_BUSY;
++        break;
++    case SCSI_HOST_TIME_OUT:
++    case SCSI_HOST_ABORTED:
++        req->resp.cmd.response = VIRTIO_SCSI_S_ABORTED;
++        break;
++    case SCSI_HOST_BAD_RESPONSE:
++        req->resp.cmd.response = VIRTIO_SCSI_S_BAD_TARGET;
++        break;
++    case SCSI_HOST_RESET:
++        req->resp.cmd.response = VIRTIO_SCSI_S_RESET;
++        break;
++    case SCSI_HOST_TRANSPORT_DISRUPTED:
++        req->resp.cmd.response = VIRTIO_SCSI_S_TRANSPORT_FAILURE;
++        break;
++    case SCSI_HOST_TARGET_FAILURE:
++        req->resp.cmd.response = VIRTIO_SCSI_S_TARGET_FAILURE;
++        break;
++    case SCSI_HOST_RESERVATION_ERROR:
++        req->resp.cmd.response = VIRTIO_SCSI_S_NEXUS_FAILURE;
++        break;
++    case SCSI_HOST_ALLOCATION_FAILURE:
++    case SCSI_HOST_MEDIUM_ERROR:
++    case SCSI_HOST_ERROR:
++    default:
++        req->resp.cmd.response = VIRTIO_SCSI_S_FAILURE;
++        break;
++    }
++    virtio_scsi_complete_cmd_req(req);
++}
++
+ static void virtio_scsi_command_complete(SCSIRequest *r, size_t resid)
+ {
+     VirtIOSCSIReq *req = r->hba_private;
+@@ -908,6 +953,7 @@ static struct SCSIBusInfo virtio_scsi_scsi_info = {
+     .max_lun = VIRTIO_SCSI_MAX_LUN,
  
--    if (status == CHECK_CONDITION &&
--        !(io_hdr.driver_status & SG_ERR_DRIVER_SENSE)) {
--        scsi_build_sense(data->sense, sense_code);
--    }
--
-     return status;
+     .complete = virtio_scsi_command_complete,
++    .fail = virtio_scsi_command_failed,
+     .cancel = virtio_scsi_request_cancelled,
+     .change = virtio_scsi_change,
+     .parse_cdb = virtio_scsi_parse_cdb,
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index 0da378ed50..1f30cb020a 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -510,6 +510,44 @@ pvscsi_write_sense(PVSCSIRequest *r, uint8_t *sense, int len)
+     cpu_physical_memory_write(r->req.senseAddr, sense, r->cmp.senseLen);
  }
  
-diff --git a/scsi/utils.c b/scsi/utils.c
-index 28eb32746e..873e05aeaf 100644
---- a/scsi/utils.c
-+++ b/scsi/utils.c
-@@ -658,26 +658,3 @@ int scsi_sense_from_host_status(uint8_t host_status,
-     }
-     return GOOD;
- }
--
--#ifdef CONFIG_LINUX
--int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
--                           SCSISense *sense)
--{
--    if (errno_value != 0) {
--        return scsi_sense_from_errno(errno_value, sense);
--    } else {
--        int status = scsi_sense_from_host_status(io_hdr->host_status, sense);
--        if (status) {
--            return status;
--        } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
--            return BUSY;
--        } else if (io_hdr->status) {
--            return io_hdr->status;
--        } else if (io_hdr->driver_status & SG_ERR_DRIVER_SENSE) {
--            return CHECK_CONDITION;
--        } else {
--            return GOOD;
--        }
--    }
--}
--#endif
++static void
++pvscsi_command_failed(SCSIRequest *req)
++{
++    PVSCSIRequest *pvscsi_req = req->hba_private;
++    PVSCSIState *s;
++
++    if (!pvscsi_req) {
++        trace_pvscsi_command_complete_not_found(req->tag);
++        return;
++    }
++    s = pvscsi_req->dev;
++
++    switch (req->host_status) {
++    case SCSI_HOST_NO_LUN:
++        pvscsi_req->cmp.hostStatus = BTSTAT_LUNMISMATCH;
++        break;
++    case SCSI_HOST_BUSY:
++        pvscsi_req->cmp.hostStatus = BTSTAT_ABORTQUEUE;
++        break;
++    case SCSI_HOST_TIME_OUT:
++    case SCSI_HOST_ABORTED:
++        pvscsi_req->cmp.hostStatus = BTSTAT_SENTRST;
++        break;
++    case SCSI_HOST_BAD_RESPONSE:
++        pvscsi_req->cmp.hostStatus = BTSTAT_SELTIMEO;
++        break;
++    case SCSI_HOST_RESET:
++        pvscsi_req->cmp.hostStatus = BTSTAT_BUSRESET;
++        break;
++    default:
++        pvscsi_req->cmp.hostStatus = BTSTAT_HASOFTWARE;
++        break;
++    }
++    pvscsi_req->cmp.scsiStatus = GOOD;
++    qemu_sglist_destroy(&pvscsi_req->sgl);
++    pvscsi_complete_request(s, pvscsi_req);
++}
++
+ static void
+ pvscsi_command_complete(SCSIRequest *req, size_t resid)
+ {
+@@ -1103,6 +1141,7 @@ static const struct SCSIBusInfo pvscsi_scsi_info = {
+         .get_sg_list = pvscsi_get_sg_list,
+         .complete = pvscsi_command_complete,
+         .cancel = pvscsi_request_cancelled,
++        .fail = pvscsi_command_failed,
+ };
+ 
+ static void
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 5d992e6e1d..0b726bc78c 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -27,7 +27,8 @@ struct SCSIRequest {
+     uint32_t          refcount;
+     uint32_t          tag;
+     uint32_t          lun;
+-    uint32_t          status;
++    int16_t           status;
++    int16_t           host_status;
+     void              *hba_private;
+     size_t            resid;
+     SCSICommand       cmd;
+@@ -123,6 +124,7 @@ struct SCSIBusInfo {
+     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                      void *hba_private);
+     void (*transfer_data)(SCSIRequest *req, uint32_t arg);
++    void (*fail)(SCSIRequest *req);
+     void (*complete)(SCSIRequest *req, size_t resid);
+     void (*cancel)(SCSIRequest *req);
+     void (*change)(SCSIBus *bus, SCSIDevice *dev, SCSISense sense);
+@@ -177,6 +179,7 @@ void scsi_req_print(SCSIRequest *req);
+ void scsi_req_continue(SCSIRequest *req);
+ void scsi_req_data(SCSIRequest *req, int len);
+ void scsi_req_complete(SCSIRequest *req, int status);
++void scsi_req_complete_failed(SCSIRequest *req, int host_status);
+ uint8_t *scsi_req_get_buf(SCSIRequest *req);
+ int scsi_req_get_sense(SCSIRequest *req, uint8_t *buf, int len);
+ void scsi_req_cancel_complete(SCSIRequest *req);
 -- 
 2.29.2
 
