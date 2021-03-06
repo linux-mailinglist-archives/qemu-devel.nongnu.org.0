@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BF132F9A5
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:10:38 +0100 (CET)
-Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CDE32F990
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 12:03:32 +0100 (CET)
+Received: from localhost ([::1]:36290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIUpS-0002XV-0f
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
+	id 1lIUiZ-0001Nt-5M
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 06:03:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUa1-00061a-6n
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:41 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39293)
+ id 1lIUa1-00061o-NQ
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:43 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lIUZz-0008Dh-09
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:40 -0500
-Received: by mail-wr1-x431.google.com with SMTP id b18so5216366wrn.6
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:38 -0800 (PST)
+ id 1lIUZz-0008F0-RT
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:41 -0500
+Received: by mail-wr1-x435.google.com with SMTP id e10so5170745wro.12
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XQ/WctJe2L4xl8WNjtSQPbxp/LlhPKDQHw2nHEsK5u4=;
- b=nIzTG50jN230RwVyAWuLOILr2OAsLb5JYX+Ko8pDkoqVDbXx7qUxr7dlJZNuY1OOab
- GRJlD2UyRXoOnNCZ1RXb78pV6hkEqzKnGGUuqE12hC0hHXtpXBpIdgh4s348LpZoo3SZ
- EfjrNqKZFcF5v5hrkdAdyGA+KfDP/5RY4RLEtPU8YcrIW+RhhAYnEZicwefT/+veDX9I
- YSrYeME646PE72k6jRNhyhkynj6I9WJ8StNox85idqOUFftMB8r0fBBkGI7uD2RX/2+p
- U79rb16tQEDspHaeTqaId+oUVwcMc8RRdtVAwciF7gFRQTsueVcjrkXqdm1IHfN7xHF8
- KCPA==
+ bh=kU3bZsFA+beRn8mnmHGaAIYUo4tijB2YCZ4G9Uc0rCA=;
+ b=hYkCx+/uJ6C+P5bYM1jyAhCHOKEFwh21M2uRwl2o+aRw/SMSnKuOYSR+vBgvofDROH
+ PKB/rAafGyRoTvtq60XBniIYzgrW+p2BHDGDR22o0JH7ti0Yob8h1wvH99lPP5ksOspZ
+ ffNChCc1W1I6yzWfDXCN6L6HKB9SF1OHq3YLDtKosbmFEZDosdwz8sH2YPKwgcxjrcsO
+ vxaEwhxjeMwiUwzy28PsmvTH+21Sj6aQr6AldYXsj/R0n1mohWeqCq5EQTKYitPxUuFK
+ kuyuvuBangvTraHnUdxhJzDu+wCI3qXf8RAfABV2A+bfjpCTwo3C+N/fbdwf5MAm+Goo
+ OmEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XQ/WctJe2L4xl8WNjtSQPbxp/LlhPKDQHw2nHEsK5u4=;
- b=QSgBiIuXRgsHMj0xem3QIBq+biOiuxEEaRKLqXpPJwWC08XASPCZLTYXOp1n+1QtOb
- PKk9hmnqJSEIPZAj8qNoLB8XK6gjeQqYU+sufBjp9JVO3k+2FY55HCiXGFRar1J9VdGC
- X8nYAMv8V2TS6Q0O+L6w9BIbgXMaR6m9+JMOYP0ziB+J47UIt0YUECDmnlaenIB2Fgwf
- owh0z+3LWBbJj6uoCZA7o5EAAPrNm+HZBjsAgoGqyMJDX4MI7h+sIlLV/la4rsFKP9kv
- ic8ZYcnNv1x8Ott1XsMq+dlCGxDSWwMj+UyJ2jCsKov++bDAnLBg9Yr6g3u6x91stt7Z
- WRPA==
-X-Gm-Message-State: AOAM533OJ16k8CH7FXLExDJqK4j4SSDfGuVaWv95xbhmQpcmfRIWzcyE
- e3gxlvNH/5QustkhIRPxlZ7hMA+f0S0=
-X-Google-Smtp-Source: ABdhPJxGK9ann0lPEumS/tFkHwoTNVTpsxHNzBsL9qxWqehEGYRwVN8x2XQe/KOiAejMXJxQL67gsg==
-X-Received: by 2002:a05:6000:1547:: with SMTP id
- 7mr13661072wry.301.1615028077748; 
- Sat, 06 Mar 2021 02:54:37 -0800 (PST)
+ bh=kU3bZsFA+beRn8mnmHGaAIYUo4tijB2YCZ4G9Uc0rCA=;
+ b=F859rbC0e9WscsY2pvwmfJN98Saouxk9shVzi3gnevlfp1c2TR9spD1tJUb/eBHnc0
+ uXp/2BAYOC0afv4aR55xoHXIqc/2O1USRGiEZ4tt1jb53t01cCj70MvTCQCMtkuuq61K
+ utP+A403xmhby8wn7dx30ac0+d/Nw/E+xsZtiCr6wbhGEl3nBB1Oe7ayrJW7A0MSVWxJ
+ c1wySmsN/VmnTL+IWD0Uj2Q0nqF10LWBSDJic2PhYIpij9RLSB1thnzhZ4KQoEpYhW+C
+ VYzwSrP4MMm3sfghBxKIARHFGSmqK0zS/3t5uVRdyRpbLW84Ah+cRTlTJ20fqYCxwbzF
+ ZvBA==
+X-Gm-Message-State: AOAM533nOUFOk1Uz5nWvFY6U8z9MvSkOLnWYImBCf8xfgzMlX5hcpiET
+ ODtTs/s4gTh+Hlz7gYEGEFPzLDBK/Mg=
+X-Google-Smtp-Source: ABdhPJw/FqheEyyWKnfuehOUd/7LHnVAib3UGjkO4US0sAkwDGZxK6Of8BEOaJ7Spkhb7fFXPHoP0Q==
+X-Received: by 2002:a5d:6c69:: with SMTP id r9mr13520260wrz.11.1615028078596; 
+ Sat, 06 Mar 2021 02:54:38 -0800 (PST)
 Received: from avogadro.redhat.com ([93.56.170.5])
  by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.37
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 02:54:37 -0800 (PST)
+ Sat, 06 Mar 2021 02:54:38 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] meson: adjust timeouts for some slower tests
-Date: Sat,  6 Mar 2021 11:54:16 +0100
-Message-Id: <20210306105419.110503-21-pbonzini@redhat.com>
+Subject: [PULL 21/23] trace: fix "-trace file=..."
+Date: Sat,  6 Mar 2021 11:54:17 +0100
+Message-Id: <20210306105419.110503-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306105419.110503-1-pbonzini@redhat.com>
 References: <20210306105419.110503-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,116 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: armbru@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adjust the timeouts for the benchmarks (Meson 0.57 allows 0 to mean
-infinite) and for the longest running tests.  These are the
-times that I measured and the corresponding timeouts.  For generic
-qtests, the target that reported the longest runtime is included.
+Because trace_opt_parse always deletes the options it has parsed,
+trace_init_file's call to qemu_find_opts_singleton always
+creates an empty -trace option group.  Therefore, the subsequent
+qemu_opt_get(opts, "file") always returns NULL.
 
-unit tests:
-    test-crypto-tlscredsx509        13.15s   45s
-    test-crypto-tlssession          14.12s   45s
+To fix this, save the last "-trace file=..." option in a global
+variable and use it later in trace_init_file.
 
-qtests:
-    qos-test                        21.26s   60s   (i386)
-    ahci-test                       22.18s   60s
-    pxe-test                        26.51s   60s
-    boot-serial-test                28.02s   60s   (sparc)
-    prom-env-test                   28.86s   60s
-    bios-tables-test                50.17s   120s   (aarch64)
-    test-hmp                        57.15s   120s   (aarch64)
-    npcm7xx_pwm-test                71.27s   150s
-    migration-test                  97.09s   150s  (aarch64)
-    qom-test                        139.20s  240s  (aarch64)
+This is similar to what was done before commit 92eecfff32 ("trace:
+remove argument from trace_init_file", 2020-11-11), except contained
+within trace/control.c and without memory leaks.
 
+Fixes: 92eecfff32 ("trace: remove argument from trace_init_file", 2020-11-11)
+Cc: stefanha@redhat.com
+Reported-by: armbru@redhat.com
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210209145759.141231-2-pbonzini@redhat.com>
 ---
- tests/fp/meson.build    |  2 +-
- tests/meson.build       |  8 ++++++++
- tests/qtest/meson.build | 15 +++++++++++++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
+ trace/control.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 8d739c4d59..1c3eee9955 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -624,7 +624,7 @@ test('fp-test-mulAdd', fptest,
-      # no fptest_rounding_args
-      args: fptest_args +
-            ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
--     suite: ['softfloat-slow', 'softfloat-ops-slow'], timeout: 60)
-+     suite: ['softfloat-slow', 'softfloat-ops-slow'], timeout: 90)
+diff --git a/trace/control.c b/trace/control.c
+index cd04dd4e0c..4be38e1af2 100644
+--- a/trace/control.c
++++ b/trace/control.c
+@@ -40,6 +40,7 @@ static size_t nevent_groups;
+ static uint32_t next_id;
+ static uint32_t next_vcpu_id;
+ static bool init_trace_on_startup;
++static char *trace_opts_file;
  
- fpbench = executable(
-   'fp-bench',
-diff --git a/tests/meson.build b/tests/meson.build
-index 7d7da6a636..656d211e25 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -237,6 +237,11 @@ test_env = environment()
- test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
- test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+ QemuOptsList qemu_trace_opts = {
+     .name = "trace",
+@@ -224,10 +225,8 @@ static void trace_init_events(const char *fname)
  
-+slow_tests = {
-+  'test-crypto-tlscredsx509': 45,
-+  'test-crypto-tlssession': 45
-+}
-+
- foreach test_name, extra: tests
-   src = [test_name + '.c']
-   deps = [qemuutil]
-@@ -254,6 +259,8 @@ foreach test_name, extra: tests
-        env: test_env,
-        args: ['--tap', '-k'],
-        protocol: 'tap',
-+       timeout: slow_tests.get(test_name, 30),
-+       priority: slow_tests.get(test_name, 30),
-        suite: ['unit'])
- endforeach
+ void trace_init_file(void)
+ {
+-    QemuOpts *opts = qemu_find_opts_singleton("trace");
+-    const char *file = qemu_opt_get(opts, "file");
+ #ifdef CONFIG_TRACE_SIMPLE
+-    st_set_trace_file(file);
++    st_set_trace_file(trace_opts_file);
+     if (init_trace_on_startup) {
+         st_set_trace_file_enabled(true);
+     }
+@@ -238,11 +237,11 @@ void trace_init_file(void)
+      * backend. However we should only override -D if we actually have
+      * something to override it with.
+      */
+-    if (file) {
+-        qemu_set_log_filename(file, &error_fatal);
++    if (trace_opts_file) {
++        qemu_set_log_filename(trace_opts_file, &error_fatal);
+     }
+ #else
+-    if (file) {
++    if (trace_opts_file) {
+         fprintf(stderr, "error: --trace file=...: "
+                 "option not supported by the selected tracing backends\n");
+         exit(1);
+@@ -303,6 +302,8 @@ void trace_opt_parse(const char *optarg)
+     }
+     trace_init_events(qemu_opt_get(opts, "events"));
+     init_trace_on_startup = true;
++    g_free(trace_opts_file);
++    trace_opts_file = g_strdup(qemu_opt_get(opts, "file"));
+     qemu_opts_del(opts);
+ }
  
-@@ -263,6 +270,7 @@ foreach bench_name, deps: benchs
-   benchmark(bench_name, exe,
-             args: ['--tap', '-k'],
-             protocol: 'tap',
-+            timeout: 0,
-             suite: ['speed'])
- endforeach
- 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index ba6ecaed32..8c79d5cc3b 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -4,6 +4,19 @@ if not config_host.has_key('CONFIG_POSIX')
-   subdir_done()
- endif
- 
-+slow_qtests = {
-+  'ahci-test' : 60,
-+  'bios-tables-test' : 120,
-+  'boot-serial-test' : 60,
-+  'migration-test' : 150,
-+  'npcm7xx_pwm-test': 150,
-+  'prom-env-test' : 60,
-+  'pxe-test' : 60,
-+  'qos-test' : 60,
-+  'qom-test' : 300,
-+  'test-hmp' : 120,
-+}
-+
- qtests_generic = [
-   'cdrom-test',
-   'device-introspect-test',
-@@ -273,6 +286,8 @@ foreach dir : target_dirs
-          env: qtest_env,
-          args: ['--tap', '-k'],
-          protocol: 'tap',
-+         timeout: slow_qtests.get(test, 30),
-+         priority: slow_qtests.get(test, 30),
-          suite: ['qtest', 'qtest-' + target_base])
-   endforeach
- endforeach
 -- 
 2.29.2
 
