@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DCD32F925
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 10:34:49 +0100 (CET)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355532F975
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 11:49:45 +0100 (CET)
+Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lITKh-0007C2-JF
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 04:34:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59770)
+	id 1lIUVE-00040U-39
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 05:49:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.a.melnikov@gmail.com>)
- id 1lITJ7-0006jK-Dz
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 04:33:10 -0500
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:40347)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lIUUP-0003bO-HP
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:48:53 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ivan.a.melnikov@gmail.com>)
- id 1lITJ3-0007Ny-G1
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 04:33:09 -0500
-Received: by mail-lf1-x133.google.com with SMTP id x4so3254451lfu.7
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 01:33:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lIUUN-0004Yj-Ve
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:48:53 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id d15so5205555wrv.5
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:48:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2nkftZPw7wHjP7jh8U/tMxxARHByP0A5sIXfm3o819g=;
- b=XJtAHjIBAescB5UjPTig1M7Gx9iFRG3B7mRAl3O0Echme0aVA1Cgd2mTpkFhvTgwmw
- XwKUZtxmNwXx02cm69one0wCrT+kGzZ5uNhuNe3gCmQdK3SnwIqD9cRKvCfiwSzVYGfH
- Xe8stYC/g5ofQo7DTsrWDyelAMkI5WBZSu5URTfRgf5HEwekhQmAWCrvMy1EI70fIZXC
- 10GJUVvdVuxYJ2tYDxvlDbqg7LBD/bUSmrpWtYUUsmgUiyiQX2vEh63rgQwf8c/ptfrU
- mfG0XhPTu+fBThZ7jD+iq6E07NFDmmgBzT49XakeHBlNRIsymt+rshnma9Pnb2jyAMbN
- 21XQ==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DoeEvWyNKUu+KM2rOfLrnCNzfh9K3Uxn7fLG02mCJk4=;
+ b=Z6a8lWDAaiSPmu4+0wxKMa7g2q4gf7fUsBc3FRUenXebcujdBCnXQ2W5266Hikzypf
+ hxZQJYHigOoxohTG13j4q0dO7uDvDYbvxz3Mn/j0xqLco7/U7JK6wrLTGZ7PjHoaronY
+ dXyFZ4Ss/MKu6dl3woeI8ml1r458XgKW2gre+Yum+5nRzHUA4/2WWWZK5fO7dZW8AAh+
+ ep9Hriq4spp6KPa9TDmNiA9MzlZHw9rzzGdLVTXk0E2s6CWLS0qTnwPP9DExipwEXfaM
+ g1z1x0CEzXhi1eF9pAPhA7V7qCF+RHUPJmL6NwwpudRlVc1XVv0HHg6qUtQEb3sm+DN6
+ Ntww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=2nkftZPw7wHjP7jh8U/tMxxARHByP0A5sIXfm3o819g=;
- b=uDbYdgkkvIaVt1QdWrSStf58Y3+MrarUJLYyVJhwESoLIJdiKLTodqhAoJfeU5LBjM
- YOj/UFZmuCWUxgYzQRKPXWcB2AIpB+SZ0d6r61t5l1s3SgAOYOwlCSde6wE0sohCjaFj
- fQxyHvs5S4KiwS0MXebnWuxey4LXGw37Xy79qyuExRHkiNfE4FdhrH38uspjhe4PCJ09
- 6GVP2DYQ2PYjJM9zL8FGm2DtCWiJTw3okZ6455SBKqIRzPZUpsNV2h70q6BEcqVe7QJj
- Px6bnxfz+ADPUno2m7E99Mk0/VAlAe6yyD+7/8F5lZ2fQ0iD+jGMdZzzN0WDp4IvPn1+
- aURw==
-X-Gm-Message-State: AOAM5315umU5UKKc6ILAUionr0CJB/LLFgwaZ79NMC3ijPQMPpkgzi5U
- RThbqcYMWNdpJl7LfeIFMSaohflDYJ4=
-X-Google-Smtp-Source: ABdhPJznIsE8BV8LaCOgkC4xsvFcWCo3TnKJOU9YhCT7MnPh2BJ1dN8DdpvV47yddNrawrPtl15iWw==
-X-Received: by 2002:a19:ed0e:: with SMTP id y14mr8673178lfy.440.1615023182232; 
- Sat, 06 Mar 2021 01:33:02 -0800 (PST)
-Received: from titan.localdomain ([193.43.9.4])
- by smtp.gmail.com with ESMTPSA id r5sm633024ljh.128.2021.03.06.01.33.00
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=DoeEvWyNKUu+KM2rOfLrnCNzfh9K3Uxn7fLG02mCJk4=;
+ b=Bx92BkkMsFSR3f/mDtTHXBLGIUrgfku9VSK6uMjEsbHMFL2lRpQ/pGmpvlLqyBaJzh
+ cU6B3mCxQY5hKt1AhNZKJZ2cINkq7K5B6aQMEfQPcjWIVYH/9cSUoefrF3P0d+jRk7Ui
+ in+vxCkzhVAcmYf2Gb5mRSvHwPxs0gKLR5xd++CoKe0p/iof3eOZio2cc5Y/rJrWJFaJ
+ 1XcJUOOEyCf7EFEGMbQIny74x5Xv6NcOgjZKZBuoSsTew/Cfn/mMs7XSe2sCCuk1Fn3u
+ D7hbtl2R8M6LRdRZ10Tl0hXE7aNa/57v9r4QOiALY7AnzL3po3g+I91tURpHciiX6/fj
+ Xv+A==
+X-Gm-Message-State: AOAM530RTIJ1iajHtBxk5kMUhQfwm6lyt7/fxld6l0Ht1dnsuHSdpJT1
+ bXia+O9WfkZ6JyXumr3SQId4kGXUQSY=
+X-Google-Smtp-Source: ABdhPJyZD02H+wmbPIEa9vDOQ+RVqx+682LZ0slAiJWpLqXr4GCpuyHK1lSYAEu5S3HjIEaDYOIVqQ==
+X-Received: by 2002:adf:e68e:: with SMTP id r14mr13470501wrm.273.1615027728270; 
+ Sat, 06 Mar 2021 02:48:48 -0800 (PST)
+Received: from avogadro.redhat.com ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id b17sm8021446wrt.17.2021.03.06.02.48.47
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 01:33:01 -0800 (PST)
-Date: Sat, 6 Mar 2021 13:33:00 +0400
-From: "Ivan A. Melnikov" <iv@altlinux.org>
+ Sat, 06 Mar 2021 02:48:47 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: Adjust pgd_find_hole_fallback result with
- guest_loaddr
-Message-ID: <20210306093300.ymbogset7fi6p2cr@titan.localdomain>
-References: <20210303094919.x6wnlh6qulx72fz6@titan.localdomain>
+Subject: [PATCH] scsi-generic: do not snoop the output of failed commands
+Date: Sat,  6 Mar 2021 11:48:46 +0100
+Message-Id: <20210306104846.109916-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210303094919.x6wnlh6qulx72fz6@titan.localdomain>
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=ivan.a.melnikov@gmail.com; helo=mail-lf1-x133.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,42 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While pgd_find_hole_fallback returns the beginning of the
-hole found, pgb_find_hole returns guest_base, which
-is somewhat different as the binary qemu-user is loading
-usually have non-zero load address.
+If a READ CAPACITY command would fail, for example s->qdev.blocksize would be
+set to zero and cause a division by zero on the next use.
 
-Failing to take that into account leads to random crashes
-if the hole is "just big enough", but not bigger:
-in that case, important mappings (e.g. parts of qemu-user
-itself) may be replaced with the binary we are loading
-(e.g. guest elf interpreter).
-
-Downstream issue (in Russian): https://bugzilla.altlinux.org/39141
-Signed-off-by: Ivan A. Melnikov <iv@altlinux.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/scsi/scsi-generic.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index bab4237e90..58281e00f8 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2259,7 +2259,8 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
-     brk = (uintptr_t)sbrk(0);
- 
-     if (!maps) {
--        return pgd_find_hole_fallback(guest_size, brk, align, offset);
-+        ret = pgd_find_hole_fallback(guest_size, brk, align, offset);
-+        return (ret == (uintptr_t) -1) ? -1 : (ret - guest_loaddr);
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index cf7e11cf44..f9fd2ccfdd 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -288,7 +288,10 @@ static void scsi_read_complete(void * opaque, int ret)
+         }
      }
  
-     /* The first hole is before the first map entry. */
+-    if (len == 0) {
++    if (r->io_header.host_status != SCSI_HOST_OK ||
++        (r->io_header.driver_status & SG_ERR_DRIVER_TIMEOUT) ||
++        r->io_header.status != GOOD ||
++        len == 0) {
+         scsi_command_complete_noio(r, 0);
+         goto done;
+     }
 -- 
 2.29.2
 
