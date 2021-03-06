@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008D032F978
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 11:51:56 +0100 (CET)
-Received: from localhost ([::1]:33440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9931832F97B
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 11:56:33 +0100 (CET)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIUXM-000588-0m
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 05:51:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1lIUbo-0007NN-HF
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 05:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lIUVt-0004YE-JS
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:50:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lIUVp-0005Vz-QC
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:50:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615027819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/1lluMk+w88sj+0G/J4g6WQ/5AH8NSllKZ8NDlAIg4k=;
- b=FC+h2qE2bg1kui7M1AaizSvitpro4k1ncFvAHg4D12ppnJChA13wioFOWl6SGjeqMNBuUI
- kBkiTDnLPxnKQeRiUTSF17NB6kK/afl5gBkFHptxuOTYJZ42+MEhscajperPBulqkUX8lV
- kzGur3sC+ItC48fKsBbh7WLwtD2QdBc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-ZQljk5H9PZec0UeGUyUciw-1; Sat, 06 Mar 2021 05:50:18 -0500
-X-MC-Unique: ZQljk5H9PZec0UeGUyUciw-1
-Received: by mail-wr1-f72.google.com with SMTP id h5so2342437wrr.17
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:50:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lIUZk-0005jI-DD
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:24 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lIUZi-00081W-M2
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 05:54:24 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ d139-20020a1c1d910000b029010b895cb6f2so817166wmd.5
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 02:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vcbMbCWMwtpSyDqG2EhWc9p/uzgheUgFvQdRlE8SlB0=;
+ b=aqfd7wdgqfIWgclNVqaOZX5kuX6LZ9m0Q8xUakZDbmDpG3T5w44pCGeHp0On+rR2bI
+ yCp0lwh5U4FAg3njqMbo5FDxAnnvbn4/CyMdRSLkFXBLdU6AM54gOaloYirePe/rRcGV
+ pQbAGbbSjXIDNbIwepOxhJVOZvUDmdNG4/Uk/siI1/D5kcIbY0bBtijfdcOfYDLcYBz7
+ axtSMUKu9iefek5coPMQvIngjpPbuGrlP0RvWghP3gWf4RyzBnm4oOweHb8tBAqPDPX2
+ cMX7BYasaQN9rsfbNgR+HvyJcKecM7I5/nRZbGw2m+B6MMeToWdK+r+W+BjNzePkvDZN
+ KXLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/1lluMk+w88sj+0G/J4g6WQ/5AH8NSllKZ8NDlAIg4k=;
- b=Ko0ld0VLce0GCQPFeVO6sMM5yacAVj7LIxWRot8hj5DRJce6XABdTb955X6gp4noDP
- Xi020edk2dFOXVbUAV3C73ePOEKYuz+9QsRUO9xgT7uoU0wMavdOEDZ8EW2lUBjaWksv
- CWH3VW+LvLfcfWPCBE8grdSn+1vp54xh85QbZtTc4cnWg4EKxQsXiCzFR4Au3TTdWCtq
- sxsnXy+DxAoxmOwspPoYQp7Gaj4R+ixx8VMg+hwq8EzEP9EKHQnBkM5kPm6HOZ0l2DoE
- UJIpy9qcvGf7emReC1nFf8CYd4sc2MNVFNaSbfMYVaGYfD+/uU6AGuzvDK04zPe7TmT0
- Ji4Q==
-X-Gm-Message-State: AOAM533nc7oy9a6q4+J+VY5JteJonNEue6fZOSDhDOSa4zftU3n8RFJW
- eJ8OrZ1TijuKiS/2joZgP8Pn57pOTx17fqjTuPtU1VUE09ocpQhQcStbbazG50mlocnZGPgwm/l
- c7dCLhsMdF98wdvk=
-X-Received: by 2002:a1c:7715:: with SMTP id t21mr13001064wmi.132.1615027817021; 
- Sat, 06 Mar 2021 02:50:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyDqCkA0zgTxs9aG6vzJbfCI4mNhtJXzpeB88ssWfzah2BRAloiq3Ln4mZONkiSjyqVKXDaRA==
-X-Received: by 2002:a1c:7715:: with SMTP id t21mr13001043wmi.132.1615027816804; 
- Sat, 06 Mar 2021 02:50:16 -0800 (PST)
-Received: from [192.168.10.118] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id h20sm8016461wmp.38.2021.03.06.02.50.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Mar 2021 02:50:16 -0800 (PST)
-Subject: Re: [PATCH] qom: Check for wellformed id in user_creatable_add_type()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20210302171623.49709-1-kwolf@redhat.com>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=vcbMbCWMwtpSyDqG2EhWc9p/uzgheUgFvQdRlE8SlB0=;
+ b=gTTqIK+ctR/97OhN++hZ7S1WNPSJa8Bz6OCo/cdCwYtWTncMg2bbRYfmxO2oAalm6w
+ Z+W/C4oW4XPN6cai0zoaa5QtKjFcR2vkkVLHTZ6VF6tKMWaG1fVDSI04WOKhxhYxS9CF
+ DCA3XDg5MlLvIOFgPLqxZniikb3n5QOo9DERY7ODcvwN8yke1gKm0H46f6pMumQu6byd
+ XKmH6T/m1a/eaAPSAUIl+9SKbSFxi1Fe8PyjziM+wY++8FjbYmJrNDmRJ2KNSD7mHSy+
+ YWsxJMH5CgpNxmHUM3DQyGVKm82zclOJwCsJ95aWEz5u/3yGvhHDOPIJqAyAK/jUqJQP
+ eKqQ==
+X-Gm-Message-State: AOAM53324HCGlO1fJ9NJ3pyK/0n4wayB4P5QpBCjYvpnnKBQB/onLv29
+ qj+EmLE0ijJI7TGwPVTDo2TbeI2ANxs=
+X-Google-Smtp-Source: ABdhPJxZP9Tt7cfD8egxmbADhlcYraie/yORcZikLfJRiIrW5DO5+CXOxSx7Azaga//coKECW5pVBw==
+X-Received: by 2002:a1c:dc42:: with SMTP id t63mr13081537wmg.153.1615028060753; 
+ Sat, 06 Mar 2021 02:54:20 -0800 (PST)
+Received: from avogadro.redhat.com ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id i26sm9326472wmb.18.2021.03.06.02.54.19
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Mar 2021 02:54:20 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <deeee390-7c4b-6857-8ec2-6d19ca8c03a0@redhat.com>
-Date: Sat, 6 Mar 2021 11:50:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/23] Misc patches for 2021-03-06
+Date: Sat,  6 Mar 2021 11:53:56 +0100
+Message-Id: <20210306105419.110503-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210302171623.49709-1-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,70 +84,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/21 18:16, Kevin Wolf wrote:
-> Most code paths for creating a user creatable object go through
-> QemuOpts, which ensures that the provided 'id' option is actually a
-> valid identifier.
-> 
-> However, there are some code paths that don't go through QemuOpts:
-> qemu-storage-daemon --object (since commit 8db1efd3) and QMP object-add
-> (since it was first introduced in commit cff8b2c6). We need to have the
-> same validity check for those, too.
-> 
-> This adds the check and makes it print the same error message as
-> QemuOpts on failure.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
-> This makes sense even without the -object QAPIfication, so no reason to
-> wait for v3 of that series to get this fixed.
+The following changes since commit e586edcb410543768ef009eaa22a2d9dd4a53846:
 
-It needs a check for id != NULL, but no big deal so I added it.
+  virtiofs: drop remapped security.capability xattr as needed (2021-03-04 10:26:16 +0000)
 
-Thanks,
+are available in the Git repository at:
 
-Paolo
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
->   qom/object_interfaces.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-> index 1e9ad6f08a..515ca4557e 100644
-> --- a/qom/object_interfaces.c
-> +++ b/qom/object_interfaces.c
-> @@ -8,6 +8,7 @@
->   #include "qapi/qobject-input-visitor.h"
->   #include "qom/object_interfaces.h"
->   #include "qemu/help_option.h"
-> +#include "qemu/id.h"
->   #include "qemu/module.h"
->   #include "qemu/option.h"
->   #include "qapi/opts-visitor.h"
-> @@ -41,11 +42,19 @@ Object *user_creatable_add_type(const char *type, const char *id,
->                                   const QDict *qdict,
->                                   Visitor *v, Error **errp)
->   {
-> +    ERRP_GUARD();
->       Object *obj;
->       ObjectClass *klass;
->       const QDictEntry *e;
->       Error *local_err = NULL;
->   
-> +    if (!id_wellformed(id)) {
-> +        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "id", "an identifier");
-> +        error_append_hint(errp, "Identifiers consist of letters, digits, "
-> +                          "'-', '.', '_', starting with a letter.\n");
-> +        return NULL;
-> +    }
-> +
->       klass = object_class_by_name(type);
->       if (!klass) {
->           error_setg(errp, "invalid object type: %s", type);
-> 
+for you to fetch changes up to c715343fd96bcf93263fda38d81af815fdb5a7fa:
+
+  meson: Stop if cfi is enabled with system slirp (2021-03-06 11:42:57 +0100)
+
+----------------------------------------------------------------
+* fix tracing vs -daemonize (Daniel)
+* detect invalid CFI configuration (Daniele)
+* 32-bit PVH fix (David)
+* forward SCSI passthrough host-status to the SCSI HBA (Hannes)
+* detect ill-formed id in QMP object-add (Kevin)
+* miscellaneous bugfixes and cleanups (Keqian, Kostiantyn, myself, Peng Liang)
+* add nodelay option for chardev (myself)
+* deprecate -M kernel-irqchip=off on x86 (myself)
+* keep .d files (myself)
+* Fix -trace file (myself)
+
+----------------------------------------------------------------
+Daniel Henrique Barboza (1):
+      vl.c: do not execute trace_init_backends() before daemonizing
+
+Daniele Buono (1):
+      meson: Stop if cfi is enabled with system slirp
+
+David Edmondson (2):
+      elf_ops: correct loading of 32 bit PVH kernel
+      x86/pvh: extract only 4 bytes of start address for 32 bit kernels
+
+Hannes Reinecke (4):
+      scsi: Rename linux-specific SG_ERR codes to generic SCSI_HOST error codes
+      scsi: Add mapping for generic SCSI_HOST status to sense codes
+      scsi: inline sg_io_sense_from_errno() into the callers.
+      scsi: move host_status handling into SCSI drivers
+
+Keqian Zhu (2):
+      accel: kvm: Fix memory waste under mismatch page size
+      accel: kvm: Add aligment assert for kvm_log_clear_one_slot
+
+Kevin Wolf (1):
+      qom: Check for wellformed id in user_creatable_add_type()
+
+Kostiantyn Kostiuk (1):
+      qga-vss: Use dynamic linking for GLib
+
+Paolo Bonzini (10):
+      KVM: x86: do not fail if software breakpoint has already been removed
+      KVM: x86: deprecate -M kernel-irqchip=off except for -M isapc
+      chardev: add nodelay option
+      qemu-config: add error propagation to qemu_config_parse
+      scsi-generic: do not snoop the output of failed commands
+      qemu-option: do not suggest using the delay option
+      build-sys: invoke ninja with -d keepdepfile
+      meson: adjust timeouts for some slower tests
+      trace: fix "-trace file=..."
+      trace: skip qemu_set_log_filename if no "-D" option was passed
+
+Peng Liang (1):
+      lsilogic: Use PCIDevice::exit instead of DeviceState::unrealize
+
+ Makefile                   |  2 +-
+ accel/kvm/kvm-all.c        | 13 ++++++++-
+ block/blkdebug.c           |  3 +-
+ chardev/char-socket.c      | 13 +++++++--
+ chardev/char.c             |  3 ++
+ docs/system/deprecated.rst | 13 +++++++++
+ gdbstub.c                  |  2 +-
+ hw/i386/x86.c              |  6 ++--
+ hw/intc/apic.c             |  6 ++++
+ hw/scsi/lsi53c895a.c       |  4 +--
+ hw/scsi/scsi-bus.c         | 33 +++++++++++++++++++--
+ hw/scsi/scsi-disk.c        | 47 ++++++++++++++++++++++++++----
+ hw/scsi/scsi-generic.c     | 25 +++++++++++-----
+ hw/scsi/virtio-scsi.c      | 46 +++++++++++++++++++++++++++++
+ hw/scsi/vmw_pvscsi.c       | 39 +++++++++++++++++++++++++
+ include/hw/elf_ops.h       |  4 +--
+ include/hw/scsi/scsi.h     |  5 +++-
+ include/qemu/config-file.h |  5 ++--
+ include/scsi/utils.h       | 27 ++++++++++-------
+ meson.build                | 12 ++++++++
+ qemu-options.hx            | 14 ++++-----
+ qga/vss-win32/meson.build  |  4 +--
+ qom/object_interfaces.c    |  9 ++++++
+ scsi/qemu-pr-helper.c      | 24 +++++++++++-----
+ scsi/utils.c               | 72 ++++++++++++++++++++++++++++++++--------------
+ softmmu/vl.c               | 51 ++++++++++++++++----------------
+ target/i386/kvm/kvm.c      |  9 ++++--
+ tests/fp/meson.build       |  2 +-
+ tests/meson.build          |  8 ++++++
+ tests/qtest/meson.build    | 15 ++++++++++
+ trace/control.c            | 13 +++++----
+ util/qemu-config.c         | 23 ++++++++-------
+ util/qemu-option.c         |  6 +++-
+ 33 files changed, 434 insertions(+), 124 deletions(-)
+-- 
+2.29.2
 
 
