@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE6E32FC26
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 18:04:32 +0100 (CET)
-Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1696B32FCCB
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Mar 2021 20:32:04 +0100 (CET)
+Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIaLu-0000dQ-Qs
-	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 12:04:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44748)
+	id 1lIceg-0002JP-M5
+	for lists+qemu-devel@lfdr.de; Sat, 06 Mar 2021 14:32:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIaIS-0005wb-HA
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 12:01:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIaIK-0005Ad-S6
- for qemu-devel@nongnu.org; Sat, 06 Mar 2021 12:00:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lIaIJ-0008Cf-55
- for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 17:00:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 184AF2E815D
- for <qemu-devel@nongnu.org>; Sat,  6 Mar 2021 17:00:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lIcc5-0001dA-Nj
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 14:29:21 -0500
+Received: from hera.aquilenet.fr ([185.233.100.1]:48576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lIcc2-0002Ds-I7
+ for qemu-devel@nongnu.org; Sat, 06 Mar 2021 14:29:21 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 0BB73266;
+ Sat,  6 Mar 2021 20:29:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4X89kzrXNWbC; Sat,  6 Mar 2021 20:29:14 +0100 (CET)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 05E65EE;
+ Sat,  6 Mar 2021 20:29:13 +0100 (CET)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1lIcbw-000SaB-9k; Sat, 06 Mar 2021 20:29:12 +0100
+Date: Sat, 6 Mar 2021 20:29:12 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Doug Evans <dje@google.com>
+Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
+ of inet_parse
+Message-ID: <20210306192912.wzs5d7pynxztnvxb@begin>
+References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
+ <YDN73SqaDQDtwlgZ@redhat.com>
+ <20210228213957.xkc4cceh5o6rgd5n@begin>
+ <CADPb22RAxehwfRRBdsRm1exU2D38FCcRv23XcS5VKdZfvDp+pQ@mail.gmail.com>
+ <YD/RXfECJ4TshqsT@redhat.com>
+ <20210305212806.kx62ycfr7k4wxdlq@begin>
+ <CADPb22Tv0-oXhxu7Fke3hDq+yq1_n5RTcAC4efmZ0iniAUxVQg@mail.gmail.com>
+ <20210306001014.zsvg35ku4647wpr4@begin>
+ <CADPb22SXEZx-qvvDNBbb0NbohUWaddYuUvT2zBNH4bFQPp9QZA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 06 Mar 2021 16:54:30 -0000
-From: Keith Packard <1915925@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: semihosting testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
-X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
-X-Launchpad-Bug-Modifier: Keith Packard (keithp)
-References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
- <20210305135451.15427-4-alex.bennee@linaro.org>
- <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
- <87im65gxla.fsf@keithp.com>
- <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
- <877dmlgnrf.fsf@keithp.com>
- <CAFEAcA8t9eQf7nD2Ea7z1qO-Tf5xthTvzODS3XsxX+0ns3ttQg@mail.gmail.com>
-Message-Id: <87o8fwfcjd.fsf@keithp.com>
-Subject: [Bug 1915925] Re: [PATCH v1 3/3] semihosting/arg-compat: fix up
- handling of SYS_HEAPINFO
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
-X-Launchpad-Hash: 3eb472337bf52aa916f33bc4c9a9a2810eef8d57
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADPb22SXEZx-qvvDNBbb0NbohUWaddYuUvT2zBNH4bFQPp9QZA@mail.gmail.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 0BB73266
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[5];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ TO_DN_ALL(0.00)[]; RCVD_NO_TLS_LAST(0.10)[];
+ FROM_EQ_ENVFROM(0.00)[]; MID_RHS_NOT_FQDN(0.50)[];
+ BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,98 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hello,
 
-> ILP32 for AArch64 is a zombie target -- it is kinda-sorta
-> supported in some toolchains but has no support in eg
-> the Linux syscall ABI. The semihosting ABI does not implement
-> any kind of ILP32 variant -- you can have A32/T32 (AArch32)
-> semihosting, where register and field sizes are 32 bit, or
-> you can have A64 (AArch64) semihosting, where register and
-> field sizes are 64 bit.
+Doug Evans, le ven. 05 mars 2021 17:00:13 -0800, a ecrit:
+> Is it possible for QEMU to lazily determine the guest's IPv6
+> address? I.e., postpone the ""->guest address mapping until it's
+> needed and then, say, take the first entry in the NDP table?
 
-Yeah, I did ILP32 support for Picolibc; all of the aarch64 asm support
-needed fixing as ilp32 doesn't specify that register arguments clear the
-top 32 bits. Seems pretty obvious that it's little used.
+That would probably be possible, yes, by moving the 
 
-For semihosting, as the ABI isn't visible to the hardware/emulator, the
-only reasonable answer that I could come up with was to treat ILP32 the
-same as the LP64 and pass 64 bit parameters.
+if (!guest_addr.s_addr) {
+    guest_addr = slirp->vdhcp_startaddr;
+}
 
-As picolibc is designed for bare-metal environments, it's pretty easy to
-support ilp32 otherwise.
+from slirp_add_hostfwd() and alike to tcp_connect() and sorecvfrom()
+(along the other sotranslate call).
 
-> I meant, how does the RISCV semihosting ABI specify what
-> the field size is? To answer my own question, I just looked at
-> the spec doc and it says "depends on whether the caller is
-> 32-bit or 64-bit", which implies that we need to look at the
-> current state of the CPU in some way.
+> That feels a bit fragile: what if someone else gets the first entry in
+> the NDP table? But is that any more fragile than assuming the first
+> handed out DHCP address is to the guest?
 
-Yes. As qemu currently fixes that value based on compilation parameters,
-we can use the relevant native types directly and ignore the CPU
-state. Adding dynamic XLEN support to qemu would involve a bunch of work
-as the same code can be run in both 64- and 32- bit modes, so you'd have
-to translate it twice and select which to execute based on the CPU
-state.
+I don't think it's really more fragile.
 
-> Part of why I asked is that the current RISCV implementation
-> is just looking at sizeof(target_ulong); but the qemu-system-riscv64
-> executable AIUI now supports emulating both "this is a 64 bit
-> guest CPU" and "this is a 32 bit host CPU", and so looking at
-> a QEMU-compile-time value like "sizeof(target_ulong)" will
-> produce the wrong answer for 32-bit CPUs emulated in
-> the qemu-system-riscv64 binary. My guess is maybe
-> it should be looking at the result of riscv_cpu_is_32bit() instead.
+> [<<-- Honest question, can we assume the first handed out DHCP address
+> will necessarily be the guest?]
 
-Wow. I read through the code and couldn't find anything that looked like
-it supported that, sounds like I must have missed something?
+It "cannot" be anything else. What could happen is a PXE loader that
+uses DHCP/NDP, and then the OS that does it again.
 
--- =
+> But that would mean the defaults for the guest would have to be
+> different than for the host. E.g.,
+> host: ",ipv4" means both,
 
--keith
+Why would it mean both? I don't follow you here.
 
--- =
+> whereas guest: ",ipv4" (ideally) means ipv4 (since both is meaningless)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915925
-
-Title:
-  ARM semihosting HEAPINFO results wrote to wrong address
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  This affects latest development branch of QEMU.
-
-  According to the ARM spec of the HEAPINFO semihosting call:
-
-  https://developer.arm.com/documentation/100863/0300/Semihosting-
-  operations/SYS-HEAPINFO--0x16-?lang=3Den
-
-  > the PARAMETER REGISTER contains the address of a pointer to a four-
-  field data block.
-
-  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
-  field data block directly.
-
-  Here is a simple program that can demonstrate this problem:
-  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
-  newlib
-
-  This code links with newlib with semihosting mode, which will call the
-  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-  may crash the program either because of invalid write or memory
-  curruption, depending on the compiled program structure.
-
-  Also refer to my discussion with newlib folks:
-  https://sourceware.org/pipermail/newlib/2021/018260.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
+Samuel
 
