@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C3E330506
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 23:31:30 +0100 (CET)
-Received: from localhost ([::1]:38168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E16C330508
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 23:33:41 +0100 (CET)
+Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ1vt-0002Hr-Bm
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 17:31:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45834)
+	id 1lJ1y0-0004FL-Kt
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 17:33:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJ1rC-0006X3-Sb; Sun, 07 Mar 2021 17:26:38 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40550)
+ id 1lJ1rH-0006en-3B; Sun, 07 Mar 2021 17:26:43 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJ1rB-00070K-Iz; Sun, 07 Mar 2021 17:26:38 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so2675318wmy.5; 
- Sun, 07 Mar 2021 14:26:35 -0800 (PST)
+ id 1lJ1rF-00071V-MQ; Sun, 07 Mar 2021 17:26:42 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so2675384wmy.5; 
+ Sun, 07 Mar 2021 14:26:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IXFyeqK1CTpX3BeruT6hgoEpNJU4XbuAmq1jWxI1ce0=;
- b=sD9qbS0fWhWvt05Ei8vEt3U1rTE+JEYpE7xBlc2nN6PKRyBh7FwOysRoiav1YTgW3J
- J9cJlej7hFd1VkgH7PNjKyhBNIZ6W5WVFL8AaNVBt6593fc+ChvTjFyd+mt0W/At3xe7
- uCtqh1T9io/O6OLYooPIv1P4YwRS+AqogTtvigSXRZMf6hMcub//UqTQQXloCAlmM8Kx
- RiF4a4H3PwotrmsUGTg2tHNtHQ53HRDi97rBBmee59O4XcxQD2JciGp6GBe+Ztm1olB3
- 6QVOIcIjt0feq9YbEJO1p21kKhcHjSzNbK2TEUYNFpsPWSYQ5WxmSCREc25C/wc3Bxjb
- xW9A==
+ bh=l+x3ilWAF4HBxRoA4j1jhis87Mqt2ccHGS29X/ly8xQ=;
+ b=lJQbqDxyPL7OkfklQEPEdF4dkq2hcD7h7dD+9+TJj0NzweP2sOTO40MZkYuvOU3OCo
+ ZwDaAT8XtuPDTaR6xXniwM9ubHVKhTVASIWMbaVq5nnwsip4YnGqFILk/iYPpeHybRJc
+ xII+2OOtuCTQUwB60uIXF6ue/WUD4m4glRwd7pE7laAUMrcSMHmSmWbwKBNIwNW4uJwp
+ zmMKRiSylhlmbiGu+kG7wQxT2NeaXM8Il03/hPJSosMmgmQ7ZC3Ql3cnQU4cbUO80q+P
+ 7EgtKYVKJZYEK0i+eAcyOVqThiWHTpX+PEhQkiT27mMduzYPlAReruG2FgY1bvloSPQy
+ 12/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IXFyeqK1CTpX3BeruT6hgoEpNJU4XbuAmq1jWxI1ce0=;
- b=ObuFbQZ/NGXXVYbG+GZPoxJoPgfZzD+hX01/tTTaWu5LKj4NsriEaWuTjs1VNGC7z6
- RQspyrAemBUOCw/cU0jyhuKmm560JJWdQw5wR78XX3vRf/zlSxXrSJKRyYShbQGfrdDS
- lBp/Got0XL2+cngnGV3udDZzOVZ5WSatrvm4DpFL+LVxJeNEvEiZVB1+6S/t+eTTqNx5
- /yQpt/DvZuDaaT+J9voTWHwk3O3gRyMRmukwEBbi/Zk6FnBCikYj99vjsUh9M/juLaDN
- zMiqVxGaGSnhqu3XTRnytEYeYYCCEUnobb9yEYe5/1sywNqHBc5sRhmSglpQJctHF7ln
- frQA==
-X-Gm-Message-State: AOAM533M71jWSbWX/OSQXdVSsp8mcq4EaKV9DML4hBBctsoA5SwobpqN
- vlFTdZSP1IXxkS4dwOkfMsEmqdXM4lU=
-X-Google-Smtp-Source: ABdhPJwEZI9+cwNyR2xYkhawW7HxyYUEpg+gjWEa6EjaudXqiA063myUhNzmeMjW8Mj2LQ3RBNOtiQ==
-X-Received: by 2002:a1c:1fc6:: with SMTP id f189mr19409691wmf.68.1615155994040; 
- Sun, 07 Mar 2021 14:26:34 -0800 (PST)
+ bh=l+x3ilWAF4HBxRoA4j1jhis87Mqt2ccHGS29X/ly8xQ=;
+ b=Rs3K/CqDanPujbJi5OrmtcovmXuC13yF+cZQnHr1awg4K5Y6IcsO+Eb9UFvI12n0wo
+ HaovkHavrb4L5qpOX8X8OSfNKaLK82K+6KYedMTOZMkyTQIiZNsArtEYtsTt5+gziVtb
+ ajhpi9zaR9GYkV7TDhZoD7yHG2izOWwGNsDeauixD/qmtT0JM08+uXDytxjyPW8m5geB
+ ZE5gBFLakJzkLv8jdymin7M1/gIGB2v2bkKJCwySY4xWPdD7Xxr5j8qQDHtf0xzK94A+
+ cqyAs4dIlhi21VyYuwPosJ8sUP/4CXFI40JY77wTYahBkMRiWBOWS2Nkq7hbsWMnfuiB
+ K5eg==
+X-Gm-Message-State: AOAM533LOra2hlFTgEMfsen2t5MWHnh5cfBLVR7G7NUIgooXwXpC4erb
+ r7QhVV1JYgnbQHbKrGQPnk17UvRcQGU=
+X-Google-Smtp-Source: ABdhPJyUhNO/SIB2PXWMtVRQU048vlvq05i9AeNOH5BfX+1XIiVkImWodcADLM3sSQm91Dmr1WSoaw==
+X-Received: by 2002:a1c:f702:: with SMTP id v2mr18811766wmh.131.1615155999449; 
+ Sun, 07 Mar 2021 14:26:39 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y18sm7651000wrw.39.2021.03.07.14.26.32
+ by smtp.gmail.com with ESMTPSA id i3sm15276232wra.66.2021.03.07.14.26.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Mar 2021 14:26:33 -0800 (PST)
+ Sun, 07 Mar 2021 14:26:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw/i386/pc: Get pflash MemoryRegion with
+Subject: [PATCH 2/4] hw/mips/malta: Get pflash MemoryRegion with
  sysbus_mmio_get_region()
-Date: Sun,  7 Mar 2021 23:26:22 +0100
-Message-Id: <20210307222625.347268-2-f4bug@amsat.org>
+Date: Sun,  7 Mar 2021 23:26:23 +0100
+Message-Id: <20210307222625.347268-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210307222625.347268-1-f4bug@amsat.org>
 References: <20210307222625.347268-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -105,22 +105,22 @@ pflash_cfi01_get_memory() helper.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/pc_sysfw.c | 2 +-
+ hw/mips/malta.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 9fe72b370e8..caad9cbd5eb 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -297,7 +297,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
-                         0x100000000ULL - total_size);
- 
-         if (i == 0) {
--            flash_mem = pflash_cfi01_get_memory(system_flash);
-+            flash_mem = sysbus_mmio_get_region(SYS_BUS_DEVICE(system_flash), 0);
-             pc_isa_bios_init(rom_memory, flash_mem, size);
- 
-             /* Encrypt the pflash boot ROM */
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 9afc0b427bf..43b985bccf9 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1295,7 +1295,7 @@ void mips_malta_init(MachineState *machine)
+                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+                                65536,
+                                4, 0x0000, 0x0000, 0x0000, 0x0000, be);
+-    bios = pflash_cfi01_get_memory(fl);
++    bios = sysbus_mmio_get_region(SYS_BUS_DEVICE(fl), 0);
+     fl_idx++;
+     if (kernel_filename) {
+         ram_low_size = MIN(ram_size, 256 * MiB);
 -- 
 2.26.2
 
