@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E598F3304C0
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:00:05 +0100 (CET)
-Received: from localhost ([::1]:52258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0317C3304C1
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:00:06 +0100 (CET)
+Received: from localhost ([::1]:52216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ0VQ-0003VA-Vi
+	id 1lJ0VQ-0003U9-Vm
 	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 16:00:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33398)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0S6-000882-Kx
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:38 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:50407)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0SD-0008GL-Cq
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:46 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:44707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0S3-0006hr-LP
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:38 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0SA-0006kB-0R
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:45 -0500
 Received: from localhost.localdomain ([82.252.159.174]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Ml6i2-1m2C1I34qS-00lXqM; Sun, 07 Mar 2021 21:56:28 +0100
+ id 1N5VPg-1lqhXj43T8-016w4i; Sun, 07 Mar 2021 21:56:30 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/5] m68k: add an interrupt controller
-Date: Sun,  7 Mar 2021 21:56:21 +0100
-Message-Id: <20210307205623.507180-4-laurent@vivier.eu>
+Subject: [PATCH v5 5/5] m68k: add Virtual M68k Machine
+Date: Sun,  7 Mar 2021 21:56:23 +0100
+Message-Id: <20210307205623.507180-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210307205623.507180-1-laurent@vivier.eu>
 References: <20210307205623.507180-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pLW9G6MkGSMqi/cjF8eoVzpjcWSlyH4zfeP0Gi16zd3+/1dnQOf
- vgWme+WltEbc1TsKFRTNeg4IuA7iITc+WZ31EgxIx0WHq4xrEupSCVoe01Xl6d+LHk9zEnb
- z/ingAKhV49VW/EgzUe3mQIpOnZIHuBGTxRh3B/dnSCGXHkpCLhEW5SG0vcygtYP39CYXIY
- hnt+RJTL1kNt93a+qA8mw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h7DLfoc/8zM=:KR8O2SXiHtQTyqHhereF05
- RJeVICRMnv9OZ9WKQAiPHtchhQV/hb4voYR74AsnvUzegBwfD5A3WjK24gJTCC5IfNNEOcCzL
- qrxywNourXBWocgw+3qYpZw1LeeJC2kzQ4oB2jf03xozuJeFHcLFB7zompLN+ib6lr1bryfjk
- BSK4/z5C+jKtp8L/l7Alp7A1GHtQ3wxrRlThKPSWQvKwd/6kd7XAMlf7oFwfFRDKz8o3JDNdO
- sYqu5PEaojMX20AEsMMXi5OWUdNpLhZn7L4tvoSA/bZVSkAnc3+RQZTU7UDQzDEcyUc1JHyQ6
- 3Yykx44onno3tN63CiF9UH9IO9Tmazf/0NhMiFDJ246qGFet7XntJ0c0cvup722k6Ah9runMF
- C+EYAtYv38DW7BckCas/9jlx+VhdyEwk90qqb8GswQKQcyjsHjGys2P/tYeg8+CWWwjo9G7op
- dBwYI4PjBQ==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:fS06AVfxrOnc2Sy6g8V3bBzduYmpKNuu6TVBXvo9F0e6TiAkxSC
+ y42/a2rrkPctf1Iu89lXKkeIsLgvowmi31gSVr9WpMP433Yy1lYaJhWnqAlFd+TcyJnn5NR
+ TwsbXStFwj1SDfyCyTCizy0zSk+IkaeA7aFkZO2n5LnOt/6VEiEyyrA90ll20/8W60IYFDg
+ fbSItVAMamH6Jc8P14V/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:K5ZI1XwKeys=:hQFkt/PMDmtPUz0/9Bajux
+ i84YAeDUNXy/zzgP2eR+PrOSraMNfUsvSGamauW4GmtLpeDfVNgk3SNSu8AM+IoB1NfHi6FXK
+ xXasMlJuJFjApj4hUvDo+57CP7NCYqa50dSD1ryhZCLIKNqxkw8A3j4MOKjJ9gL3LiI3Sp+Az
+ WpPbASJHFSUU8sT3IQYeMVypVLGS+BHbAz/AlgPvq7gmDjhfLkpgr9W+8RtoHdbO158jTsVqT
+ U6fCY98hEmB6IchsbNvcyj7tsfyYaHACHOURQwHQc1uzFjqwKNcQZP8XXPnVUDlmYrlqLtlZU
+ MK4M8DwHbxfAtW8efRJ1U2pLmmlRPsXX2XdqxYHoKA7ZsXSHGayHK5mpbMq1Wb04+MzQLm2Qe
+ W2hqGNEur12nUQJra2Y7e808lBWEdb6q5bGE7YOPHsbZYZjpevTZVSdc8+OPpPkoEE+KQ43xp
+ FgPAHWwVUw==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,215 +70,431 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A (generic) copy of the GLUE device we already have for q800 to use with
-the m68k-virt machine.
-The q800 one would disappear in the future as q800 uses actually the djMEMC
-controller.
+The machine is based on Goldfish interfaces defined by Google
+for Android simulator. It uses Goldfish-rtc (timer and RTC),
+Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
+
+The machine is created with 128 virtio-mmio bus, and they can
+be used to use serial console, GPU, disk, NIC, HID, ...
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/intc/m68k_irqc.h |  41 +++++++++++++
- hw/intc/m68k_irqc.c         | 119 ++++++++++++++++++++++++++++++++++++
- hw/intc/Kconfig             |   3 +
- hw/intc/meson.build         |   1 +
- 4 files changed, 164 insertions(+)
- create mode 100644 include/hw/intc/m68k_irqc.h
- create mode 100644 hw/intc/m68k_irqc.c
+ default-configs/devices/m68k-softmmu.mak      |   1 +
+ .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +
+ hw/m68k/virt.c                                | 313 ++++++++++++++++++
+ MAINTAINERS                                   |  13 +
+ hw/m68k/Kconfig                               |  10 +
+ hw/m68k/meson.build                           |   1 +
+ 6 files changed, 356 insertions(+)
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
+ create mode 100644 hw/m68k/virt.c
 
-diff --git a/include/hw/intc/m68k_irqc.h b/include/hw/intc/m68k_irqc.h
+diff --git a/default-configs/devices/m68k-softmmu.mak b/default-configs/devices/m68k-softmmu.mak
+index 6629fd2aa330..7f8619e42786 100644
+--- a/default-configs/devices/m68k-softmmu.mak
++++ b/default-configs/devices/m68k-softmmu.mak
+@@ -8,3 +8,4 @@ CONFIG_AN5206=y
+ CONFIG_MCF5208=y
+ CONFIG_NEXTCUBE=y
+ CONFIG_Q800=y
++CONFIG_M68K_VIRT=y
+diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
 new file mode 100644
-index 000000000000..dbcfcfc2e000
+index 000000000000..81be1e092497
 --- /dev/null
-+++ b/include/hw/intc/m68k_irqc.h
-@@ -0,0 +1,41 @@
++++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++** asm/bootinfo-virt.h -- Virtual-m68k-specific boot information definitions
++*/
++
++#ifndef _UAPI_ASM_M68K_BOOTINFO_VIRT_H
++#define _UAPI_ASM_M68K_BOOTINFO_VIRT_H
++
++#define BI_VIRT_QEMU_VERSION	0x8000
++#define BI_VIRT_GF_PIC_BASE	0x8001
++#define BI_VIRT_GF_RTC_BASE	0x8002
++#define BI_VIRT_GF_TTY_BASE	0x8003
++#define BI_VIRT_VIRTIO_BASE	0x8004
++#define BI_VIRT_CTRL_BASE	0x8005
++
++#define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
++
++#endif /* _UAPI_ASM_M68K_BOOTINFO_MAC_H */
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+new file mode 100644
+index 000000000000..b813cf58eacd
+--- /dev/null
++++ b/hw/m68k/virt.c
+@@ -0,0 +1,313 @@
 +/*
 + * SPDX-License-Identifer: GPL-2.0-or-later
 + *
-+ * QEMU Motorola 680x0 IRQ Controller
-+ *
-+ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ */
-+
-+#ifndef M68K_IRQC_H
-+#define M68K_IRQC_H
-+
-+#include "hw/sysbus.h"
-+
-+#define TYPE_M68K_IRQC "m68k-irq-controller"
-+#define M68K_IRQC(obj) OBJECT_CHECK(M68KIRQCState, (obj), \
-+                                    TYPE_M68K_IRQC)
-+
-+#define M68K_IRQC_AUTOVECTOR_BASE 25
-+
-+enum {
-+    M68K_IRQC_LEVEL_1 = 0,
-+    M68K_IRQC_LEVEL_2,
-+    M68K_IRQC_LEVEL_3,
-+    M68K_IRQC_LEVEL_4,
-+    M68K_IRQC_LEVEL_5,
-+    M68K_IRQC_LEVEL_6,
-+    M68K_IRQC_LEVEL_7,
-+};
-+#define M68K_IRQC_LEVEL_NUM (M68K_IRQC_LEVEL_7 - M68K_IRQC_LEVEL_1 + 1)
-+
-+typedef struct M68KIRQCState {
-+    SysBusDevice parent_obj;
-+
-+    uint8_t ipr;
-+
-+    /* statistics */
-+    uint64_t stats_irq_count[M68K_IRQC_LEVEL_NUM];
-+} M68KIRQCState;
-+
-+#endif
-diff --git a/hw/intc/m68k_irqc.c b/hw/intc/m68k_irqc.c
-new file mode 100644
-index 000000000000..2133d2a698ab
---- /dev/null
-+++ b/hw/intc/m68k_irqc.c
-@@ -0,0 +1,119 @@
-+/*
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ *
-+ * QEMU Motorola 680x0 IRQ Controller
++ * QEMU Vitual M68K Machine
 + *
 + * (c) 2020 Laurent Vivier <laurent@vivier.eu>
 + *
 + */
 +
 +#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu-common.h"
++#include "sysemu/sysemu.h"
 +#include "cpu.h"
-+#include "migration/vmstate.h"
-+#include "monitor/monitor.h"
-+#include "hw/nmi.h"
-+#include "hw/intc/intc.h"
++#include "hw/hw.h"
++#include "hw/boards.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "elf.h"
++#include "hw/loader.h"
++#include "ui/console.h"
++#include "exec/address-spaces.h"
++#include "hw/sysbus.h"
++#include "standard-headers/asm-m68k/bootinfo.h"
++#include "standard-headers/asm-m68k/bootinfo-virt.h"
++#include "bootinfo.h"
++#include "net/net.h"
++#include "qapi/error.h"
++#include "sysemu/qtest.h"
++#include "sysemu/runstate.h"
++#include "sysemu/reset.h"
++
 +#include "hw/intc/m68k_irqc.h"
++#include "hw/misc/m68k_virt_ctrl.h"
++#include "hw/char/goldfish_tty.h"
++#include "hw/rtc/goldfish_rtc.h"
++#include "hw/intc/goldfish_pic.h"
++#include "hw/virtio/virtio-mmio.h"
++#include "hw/virtio/virtio-blk.h"
 +
++/*
++ * 6 goldfish-pic for CPU IRQ #1 to IRQ #6
++ * CPU IRQ #1 -> PIC #1
++ *               IRQ #1 to IRQ #31 -> unused
++ *               IRQ #32 -> goldfish-tty
++ * CPU IRQ #2 -> PIC #2
++ *               IRQ #1 to IRQ #32 -> virtio-mmio from 1 to 32
++ * CPU IRQ #3 -> PIC #3
++ *               IRQ #1 to IRQ #32 -> virtio-mmio from 33 to 64
++ * CPU IRQ #4 -> PIC #4
++ *               IRQ #1 to IRQ #32 -> virtio-mmio from 65 to 96
++ * CPU IRQ #5 -> PIC #5
++ *               IRQ #1 to IRQ #32 -> virtio-mmio from 97 to 128
++ * CPU IRQ #6 -> PIC #6
++ *               IRQ #1 -> goldfish-rtc
++ *               IRQ #2 to IRQ #32 -> unused
++ * CPU IRQ #7 -> NMI
++ */
 +
-+static bool m68k_irqc_get_statistics(InterruptStatsProvider *obj,
-+                                     uint64_t **irq_counts, unsigned int *nb_irqs)
++#define PIC_IRQ_BASE(num)     (8 + (num - 1) * 32)
++#define PIC_IRQ(num, irq)     (PIC_IRQ_BASE(num) + irq - 1)
++#define PIC_GPIO(pic_irq)     (qdev_get_gpio_in(pic_dev[(pic_irq - 8) / 32], \
++                                                (pic_irq - 8) % 32))
++
++#define VIRT_GF_PIC_MMIO_BASE 0xff000000     /* MMIO: 0xff000000 - 0xff005fff */
++#define VIRT_GF_PIC_IRQ_BASE  1              /* IRQ: #1 -> #6 */
++#define VIRT_GF_PIC_NB        6
++
++/* 2 goldfish-rtc (and timer) */
++#define VIRT_GF_RTC_MMIO_BASE 0xff006000     /* MMIO: 0xff006000 - 0xff007fff */
++#define VIRT_GF_RTC_IRQ_BASE  PIC_IRQ(6, 1)  /* PIC: #6, IRQ: #1 */
++#define VIRT_GF_RTC_NB        2
++
++/* 1 goldfish-tty */
++#define VIRT_GF_TTY_MMIO_BASE 0xff008000     /* MMIO: 0xff008000 - 0xff008fff */
++#define VIRT_GF_TTY_IRQ_BASE  PIC_IRQ(1, 32) /* PIC: #1, IRQ: #32 */
++
++/* 1 m68k-virt-ctrl */
++#define VIRT_M68K_CTRL_MMIO_BASE 0xff009000    /* MMIO: 0xff009000 - 0xff009fff */
++#define VIRT_M68K_CTRL_IRQ_BASE  PIC_IRQ(1, 1) /* PIC: #1, IRQ: #1 */
++
++/*
++ * virtio-mmio size is 0x200 bytes
++ * we use 4 goldfish-pic to attach them,
++ * we can attach 32 virtio devices / goldfish-pic
++ * -> we can manage 32 * 4 = 128 virtio devices
++ */
++#define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
++#define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
++
++static void main_cpu_reset(void *opaque)
 +{
-+    M68KIRQCState *s = M68K_IRQC(obj);
++    M68kCPU *cpu = opaque;
++    CPUState *cs = CPU(cpu);
 +
-+    *irq_counts = s->stats_irq_count;
-+    *nb_irqs = ARRAY_SIZE(s->stats_irq_count);
-+    return true;
++    cpu_reset(cs);
++    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
++    cpu->env.pc = ldl_phys(cs->as, 4);
 +}
 +
-+static void m68k_irqc_print_info(InterruptStatsProvider *obj, Monitor *mon)
++static void virt_init(MachineState *machine)
 +{
-+    M68KIRQCState *s = M68K_IRQC(obj);
-+    monitor_printf(mon, "m68k-irqc: ipr=0x%x\n", s->ipr);
-+}
-+
-+static void m68k_set_irq(void *opaque, int irq, int level)
-+{
-+    M68KIRQCState *s = opaque;
-+    M68kCPU *cpu = M68K_CPU(first_cpu);
++    M68kCPU *cpu = NULL;
++    int32_t kernel_size;
++    uint64_t elf_entry;
++    ram_addr_t initrd_base;
++    int32_t initrd_size;
++    ram_addr_t ram_size = machine->ram_size;
++    const char *kernel_filename = machine->kernel_filename;
++    const char *initrd_filename = machine->initrd_filename;
++    const char *kernel_cmdline = machine->kernel_cmdline;
++    hwaddr parameters_base;
++    DeviceState *dev;
++    DeviceState *irqc_dev;
++    DeviceState *pic_dev[VIRT_GF_PIC_NB];
++    SysBusDevice *sysbus;
++    hwaddr io_base;
 +    int i;
 +
-+    if (level) {
-+        s->ipr |= 1 << irq;
-+        s->stats_irq_count[irq]++;
-+    } else {
-+        s->ipr &= ~(1 << irq);
++    if (ram_size > 3399672 * KiB) {
++        /*
++         * The physical memory can be up to 4 GiB - 16 MiB, but linux
++         * kernel crashes after this limit (~ 3.2 GiB)
++         */
++        error_report("Too much memory for this machine: %" PRId64 " KiB, "
++                     "maximum 3399672 KiB", ram_size / KiB);
++        exit(1);
 +    }
 +
-+    for (i = M68K_IRQC_LEVEL_7; i >= M68K_IRQC_LEVEL_1; i--) {
-+        if ((s->ipr >> i) & 1) {
-+            m68k_set_irq_level(cpu, i + 1, i + M68K_IRQC_AUTOVECTOR_BASE);
-+            return;
++    /* init CPUs */
++    cpu = M68K_CPU(cpu_create(machine->cpu_type));
++    qemu_register_reset(main_cpu_reset, cpu);
++
++    /* RAM */
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
++
++    /* IRQ Controller */
++
++    irqc_dev = qdev_new(TYPE_M68K_IRQC);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(irqc_dev), &error_fatal);
++
++    /*
++     * 6 goldfish-pic
++     *
++     * map: 0xff000000 - 0xff006fff = 28 KiB
++     * IRQ: #1 (lower priority) -> #6 (higher priority)
++     *
++     */
++    io_base = VIRT_GF_PIC_MMIO_BASE;
++    for (i = 0; i < VIRT_GF_PIC_NB; i++) {
++        pic_dev[i] = qdev_new(TYPE_GOLDFISH_PIC);
++        sysbus = SYS_BUS_DEVICE(pic_dev[i]);
++        qdev_prop_set_uint8(pic_dev[i], "index", i);
++        sysbus_realize_and_unref(sysbus, &error_fatal);
++
++        sysbus_mmio_map(sysbus, 0, io_base);
++        sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(irqc_dev, i));
++
++        io_base += 0x1000;
++    }
++
++    /* goldfish-rtc */
++    io_base = VIRT_GF_RTC_MMIO_BASE;
++    for (i = 0; i < VIRT_GF_RTC_NB; i++) {
++        dev = qdev_new(TYPE_GOLDFISH_RTC);
++        sysbus = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(sysbus, &error_fatal);
++        sysbus_mmio_map(sysbus, 0, io_base);
++        sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_RTC_IRQ_BASE + i));
++
++        io_base += 0x1000;
++    }
++
++    /* goldfish-tty */
++    dev = qdev_new(TYPE_GOLDFISH_TTY);
++    sysbus = SYS_BUS_DEVICE(dev);
++    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
++    sysbus_realize_and_unref(sysbus, &error_fatal);
++    sysbus_mmio_map(sysbus, 0, VIRT_GF_TTY_MMIO_BASE);
++    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_TTY_IRQ_BASE));
++
++    /* M68K virt controller */
++    dev = qdev_new(TYPE_M68K_VIRT_CTRL);
++    sysbus = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(sysbus, &error_fatal);
++    sysbus_mmio_map(sysbus, 0, VIRT_M68K_CTRL_MMIO_BASE);
++    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_M68K_CTRL_IRQ_BASE));
++
++    /* virtio-mmio */
++    io_base = VIRT_VIRTIO_MMIO_BASE;
++    for (i = 0; i < 128; i++) {
++        dev = qdev_new(TYPE_VIRTIO_MMIO);
++        qdev_prop_set_bit(dev, "force-legacy", false);
++        sysbus = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(sysbus, &error_fatal);
++        sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_VIRTIO_IRQ_BASE + i));
++        sysbus_mmio_map(sysbus, 0, io_base);
++        io_base += 0x200;
++    }
++
++    if (kernel_filename) {
++        CPUState *cs = CPU(cpu);
++        uint64_t high;
++
++        kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
++                               &elf_entry, NULL, &high, NULL, 1,
++                               EM_68K, 0, 0);
++        if (kernel_size < 0) {
++            error_report("could not load kernel '%s'", kernel_filename);
++            exit(1);
 +        }
++        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
++        parameters_base = (high + 1) & ~1;
++
++        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
++        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
++        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
++
++        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
++                  ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
++                   (QEMU_VERSION_MICRO << 8)));
++        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
++                  VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
++        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
++                  VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
++        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
++                  VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
++        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
++                  VIRT_M68K_CTRL_MMIO_BASE, VIRT_M68K_CTRL_IRQ_BASE);
++        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
++                  VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
++
++        if (kernel_cmdline) {
++            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
++                        kernel_cmdline);
++        }
++
++        /* load initrd */
++        if (initrd_filename) {
++            initrd_size = get_image_size(initrd_filename);
++            if (initrd_size < 0) {
++                error_report("could not load initial ram disk '%s'",
++                             initrd_filename);
++                exit(1);
++            }
++
++            initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
++            load_image_targphys(initrd_filename, initrd_base,
++                                ram_size - initrd_base);
++            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
++                      initrd_size);
++        } else {
++            initrd_base = 0;
++            initrd_size = 0;
++        }
++        BOOTINFO0(cs->as, parameters_base, BI_LAST);
 +    }
-+    m68k_set_irq_level(cpu, 0, 0);
 +}
 +
-+static void m68k_irqc_reset(DeviceState *d)
++static void virt_machine_class_init(ObjectClass *oc, void *data)
 +{
-+    M68KIRQCState *s = M68K_IRQC(d);
-+    int i;
-+
-+    s->ipr = 0;
-+    for (i = 0; i < ARRAY_SIZE(s->stats_irq_count); i++) {
-+        s->stats_irq_count[i] = 0;
-+    }
++    MachineClass *mc = MACHINE_CLASS(oc);
++    mc->desc = "QEMU M68K Virtual Machine";
++    mc->init = virt_init;
++    mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
++    mc->max_cpus = 1;
++    mc->no_floppy = 1;
++    mc->no_parallel = 1;
++    mc->default_ram_id = "m68k_virt.ram";
 +}
 +
-+static void m68k_irqc_instance_init(Object *obj)
-+{
-+    qdev_init_gpio_in(DEVICE(obj), m68k_set_irq, M68K_IRQC_LEVEL_NUM);
-+}
-+
-+static void m68k_nmi(NMIState *n, int cpu_index, Error **errp)
-+{
-+    m68k_set_irq(n, M68K_IRQC_LEVEL_7, 1);
-+}
-+
-+static const VMStateDescription vmstate_m68k_irqc = {
-+    .name = "m68k-irqc",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ipr, M68KIRQCState),
-+        VMSTATE_END_OF_LIST()
-+    }
++static const TypeInfo virt_machine_info = {
++    .name       = MACHINE_TYPE_NAME("virt"),
++    .parent     = TYPE_MACHINE,
++    .abstract   = true,
++    .class_init = virt_machine_class_init,
 +};
 +
-+static void m68k_irqc_class_init(ObjectClass *oc, void *data)
-+ {
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    NMIClass *nc = NMI_CLASS(oc);
-+    InterruptStatsProviderClass *ic = INTERRUPT_STATS_PROVIDER_CLASS(oc);
-+
-+    nc->nmi_monitor_handler = m68k_nmi;
-+    dc->reset = m68k_irqc_reset;
-+    dc->vmsd = &vmstate_m68k_irqc;
-+    ic->get_statistics = m68k_irqc_get_statistics;
-+    ic->print_info = m68k_irqc_print_info;
-+}
-+
-+static const TypeInfo m68k_irqc_type_info = {
-+    .name = TYPE_M68K_IRQC,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(M68KIRQCState),
-+    .instance_init = m68k_irqc_instance_init,
-+    .class_init = m68k_irqc_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+         { TYPE_NMI },
-+         { TYPE_INTERRUPT_STATS_PROVIDER },
-+         { }
-+    },
-+};
-+
-+static void q800_irq_register_types(void)
++static void virt_machine_register_types(void)
 +{
-+    type_register_static(&m68k_irqc_type_info);
++    type_register_static(&virt_machine_info);
 +}
 +
-+type_init(q800_irq_register_types);
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index c4f8642dae8e..fdb4a30b98e8 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -67,3 +67,6 @@ config SIFIVE_PLIC
++type_init(virt_machine_register_types)
++
++#define DEFINE_VIRT_MACHINE(major, minor, latest) \
++    static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
++                                                    void *data) \
++    { \
++        MachineClass *mc = MACHINE_CLASS(oc); \
++        virt_machine_##major##_##minor##_options(mc); \
++        mc->desc = "QEMU " # major "." # minor " M68K Virtual Machine"; \
++        if (latest) { \
++            mc->alias = "virt"; \
++        } \
++    } \
++    static const TypeInfo machvirt_##major##_##minor##_info = { \
++        .name = MACHINE_TYPE_NAME("virt-" # major "." # minor), \
++        .parent = MACHINE_TYPE_NAME("virt"), \
++        .class_init = virt_##major##_##minor##_class_init, \
++    }; \
++    static void machvirt_machine_##major##_##minor##_init(void) \
++    { \
++        type_register_static(&machvirt_##major##_##minor##_info); \
++    } \
++    type_init(machvirt_machine_##major##_##minor##_init);
++
++static void virt_machine_6_0_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(6, 0, true)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 26c9454823ac..88c562c0eba0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1123,6 +1123,19 @@ F: include/hw/nubus/*
+ F: include/hw/display/macfb.h
+ F: include/hw/block/swim.h
  
- config GOLDFISH_PIC
-     bool
++virt
++M: Laurent Vivier <laurent@vivier.eu>
++S: Maintained
++F: hw/m68k/virt.c
++F: hw/char/goldfish_tty.c
++F: hw/intc/goldfish_pic.c
++F: hw/intc/m68k_irqc.c
++F: hw/misc/m68k_virt_ctrl.c
++F: include/hw/char/goldfish_tty.h
++F: include/hw/intc/goldfish_pic.h
++F: include/hw/intc/m68k_irqc.h
++F: include/hw/misc/m68k_virt_ctrl.h
 +
-+config M68K_IRQC
+ MicroBlaze Machines
+ -------------------
+ petalogix_s3adsp1800
+diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+index 60d7bcfb8f2b..f90d06d1cab7 100644
+--- a/hw/m68k/Kconfig
++++ b/hw/m68k/Kconfig
+@@ -23,3 +23,13 @@ config Q800
+     select ESP
+     select DP8393X
+     select OR_IRQ
++
++config M68K_VIRT
 +    bool
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 5d0f5d1b3812..fb39e19d3ef8 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -58,3 +58,4 @@ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- 		if_true: files('spapr_xive_kvm.c'))
- specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
-+specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++    select M68K_IRQC
++    select M68K_VIRT_CTRL
++    select GOLDFISH_PIC
++    select GOLDFISH_TTY
++    select GOLDFISH_RTC
++    select VIRTIO
++    select VIRTIO_MMIO
+diff --git a/hw/m68k/meson.build b/hw/m68k/meson.build
+index ca0044c652d3..31248641d301 100644
+--- a/hw/m68k/meson.build
++++ b/hw/m68k/meson.build
+@@ -3,5 +3,6 @@ m68k_ss.add(when: 'CONFIG_AN5206', if_true: files('an5206.c', 'mcf5206.c'))
+ m68k_ss.add(when: 'CONFIG_MCF5208', if_true: files('mcf5208.c', 'mcf_intc.c'))
+ m68k_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-kbd.c', 'next-cube.c'))
+ m68k_ss.add(when: 'CONFIG_Q800', if_true: files('q800.c'))
++m68k_ss.add(when: 'CONFIG_M68K_VIRT', if_true: files('virt.c'))
+ 
+ hw_arch += {'m68k': m68k_ss}
 -- 
 2.29.2
 
