@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DC33300FF
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:47:09 +0100 (CET)
-Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B15330102
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:48:01 +0100 (CET)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIsoO-0000Mg-4C
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41756)
+	id 1lIspC-0000v3-Dq
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:47:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFo-0002Mo-Ca
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:24 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43702
+ id 1lIsFx-0002Q2-58
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:34 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43712
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFm-0007zh-Oz
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:24 -0500
+ id 1lIsFt-00083y-C7
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:32 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFV-0002V5-5O; Sun, 07 Mar 2021 12:11:11 +0000
+ id 1lIsFf-0002V5-KA; Sun, 07 Mar 2021 12:11:19 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Sun,  7 Mar 2021 12:08:33 +0000
-Message-Id: <20210307120850.10418-26-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  7 Mar 2021 12:08:35 +0000
+Message-Id: <20210307120850.10418-28-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 References: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 25/42] esp: remove CMD pdma_origin
+Subject: [PULL 27/42] esp: fix PDMA target selection
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,85 +63,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cmdbuf is really just a copy of FIFO data (including extra message phase
-bytes) so its pdma_origin is effectively TI. Fortunately we already know when
-we are receiving a SCSI command since do_cmd == 1 which enables us to
-distinguish between the two cases in esp_pdma_read()/esp_pdma_write().
+Currently the target selection for PDMA is done after the SCSI command has been
+delivered which is not correct. Perform target selection as part of the initial
+get_cmd() call when the command is submitted: if no target is present, don't
+raise DRQ.
+
+If the target is present then switch to the command phase since the MacOS toolbox
+ROM checks for this before attempting to submit the SCSI command.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210304221103.6369-26-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210304221103.6369-28-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c         | 22 ++++++++++++----------
- include/hw/scsi/esp.h |  1 -
- 2 files changed, 12 insertions(+), 11 deletions(-)
+ hw/scsi/esp.c | 53 +++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 34 insertions(+), 19 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index c80dc606e8..d5c03f9697 100644
+index d8d7ede00a..10e63d1f62 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -143,10 +143,11 @@ static uint8_t esp_pdma_read(ESPState *s)
- 
-     switch (s->pdma_origin) {
-     case TI:
--        val = s->ti_buf[s->ti_rptr++];
--        break;
--    case CMD:
--        val = s->cmdbuf[s->cmdlen++];
-+        if (s->do_cmd) {
-+            val = s->cmdbuf[s->cmdlen++];
-+        } else {
-+            val = s->ti_buf[s->ti_rptr++];
-+        }
-         break;
-     case ASYNC:
-         val = s->async_buf[0];
-@@ -176,10 +177,11 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
- 
-     switch (s->pdma_origin) {
-     case TI:
--        s->ti_buf[s->ti_wptr++] = val;
--        break;
--    case CMD:
--        s->cmdbuf[s->cmdlen++] = val;
-+        if (s->do_cmd) {
-+            s->cmdbuf[s->cmdlen++] = val;
-+        } else {
-+            s->ti_buf[s->ti_wptr++] = val;
-+        }
-         break;
-     case ASYNC:
-         s->async_buf[0] = val;
-@@ -240,7 +242,7 @@ static uint32_t get_cmd(ESPState *s)
-         if (s->dma_memory_read) {
+@@ -243,6 +243,9 @@ static uint32_t get_cmd(ESPState *s)
              s->dma_memory_read(s->dma_opaque, buf, dmalen);
          } else {
--            set_pdma(s, CMD);
-+            set_pdma(s, TI);
+             set_pdma(s, TI);
++            if (esp_select(s) < 0) {
++                return -1;
++            }
              esp_raise_drq(s);
              return 0;
          }
-@@ -471,7 +473,7 @@ static void esp_do_dma(ESPState *s)
-         if (s->dma_memory_read) {
-             s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-         } else {
--            set_pdma(s, CMD);
-+            set_pdma(s, TI);
-             s->pdma_cb = do_dma_pdma_cb;
-             esp_raise_drq(s);
-             return;
-diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index 1be4586aff..dbbbb3fc52 100644
---- a/include/hw/scsi/esp.h
-+++ b/include/hw/scsi/esp.h
-@@ -17,7 +17,6 @@ typedef struct ESPState ESPState;
+@@ -257,7 +260,7 @@ static uint32_t get_cmd(ESPState *s)
+     trace_esp_get_cmd(dmalen, target);
  
- enum pdma_origin_id {
-     TI,
--    CMD,
-     ASYNC,
- };
+     if (esp_select(s) < 0) {
+-        return 0;
++        return -1;
+     }
+     return dmalen;
+ }
+@@ -299,9 +302,6 @@ static void do_cmd(ESPState *s)
+ 
+ static void satn_pdma_cb(ESPState *s)
+ {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         do_cmd(s);
+@@ -310,24 +310,28 @@ static void satn_pdma_cb(ESPState *s)
+ 
+ static void handle_satn(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_satn;
+         return;
+     }
+     s->pdma_cb = satn_pdma_cb;
+-    s->cmdlen = get_cmd(s);
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s);
++    if (cmdlen > 0) {
++        s->cmdlen = cmdlen;
+         do_cmd(s);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
+ 
+ static void s_without_satn_pdma_cb(ESPState *s)
+ {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         do_busid_cmd(s, s->cmdbuf, 0);
+@@ -336,24 +340,28 @@ static void s_without_satn_pdma_cb(ESPState *s)
+ 
+ static void handle_s_without_atn(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_s_without_atn;
+         return;
+     }
+     s->pdma_cb = s_without_satn_pdma_cb;
+-    s->cmdlen = get_cmd(s);
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s);
++    if (cmdlen > 0) {
++        s->cmdlen = cmdlen;
+         do_busid_cmd(s, s->cmdbuf, 0);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
+ 
+ static void satn_stop_pdma_cb(ESPState *s)
+ {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         trace_esp_handle_satn_stop(s->cmdlen);
+@@ -367,21 +375,28 @@ static void satn_stop_pdma_cb(ESPState *s)
+ 
+ static void handle_satn_stop(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_satn_stop;
+         return;
+     }
+     s->pdma_cb = satn_stop_pdma_cb;
+-    s->cmdlen = get_cmd(s);
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s);
++    if (cmdlen > 0) {
+         trace_esp_handle_satn_stop(s->cmdlen);
++        s->cmdlen = cmdlen;
+         s->do_cmd = 1;
+         s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
+         s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+         s->rregs[ESP_RSEQ] = SEQ_CD;
+         esp_raise_irq(s);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
  
 -- 
 2.20.1
