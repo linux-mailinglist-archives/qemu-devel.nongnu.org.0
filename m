@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ECB330437
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 20:21:26 +0100 (CET)
-Received: from localhost ([::1]:38890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591D1330440
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 20:26:18 +0100 (CET)
+Received: from localhost ([::1]:43326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIyxt-0001KM-Ci
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 14:21:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
+	id 1lIz2f-0003UW-BO
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 14:26:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIyvc-0000ru-PY
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 14:19:00 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44082
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIyvb-0005Gy-5J
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 14:19:00 -0500
-Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIyvV-0004wn-Vx; Sun, 07 Mar 2021 19:18:57 +0000
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lIz0c-0002su-8W
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 14:24:10 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lIz0a-0006gC-Gn
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 14:24:10 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id h98so9124053wrh.11
+ for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 11:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/0LELbHdRk9R+YdgeVx27Hw+aget/zqKYPCE4fXBiC8=;
+ b=sFkFo9veClzfhBfLIu6fsCGgDZw4dlDkHIS0p35r2p61MN7Adl9/Z3MpgNt3rxxoUM
+ LcbsbdU7cEEc0XpfvNK5ZhAHpNB+tBBLgZfqOCiZ+rsoD0ch+ANA8y5K6ohxPSSDBfeK
+ uvsVD9fSXqEL8xnE/+68h5pUSCSb/RApD7PtJtZhYVdoiU7g3/hM9OhCcDG0KwfmSmRK
+ cyIwmI/5CJcf2TD3kpW1ZkpuUUSmGjSN09KSYYsAMnAcbHzTwYzs5NTbBID6w7EdjcU/
+ WxgcDH1/QI/TWPaK5Xide4XKujHD0SJEYz9uqoQy3V2ycnraY08wiEZ0BarBAns19iJK
+ Xr/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/0LELbHdRk9R+YdgeVx27Hw+aget/zqKYPCE4fXBiC8=;
+ b=SVOY/68nEWm3bXyW8ZLDaoe9uXQ0g219+PmFNOaDRXPqrcNX6fdS5zthOCzrDL9FrO
+ TrYoj1jd8x/C5cz8lMtFjtifsd8bii2t6ySPk5x5Jhu5SrF8vsM/rv6DaQpDtfXk+mN1
+ El5SWvf9Dt08xSG2sQMY+7wJ9Xbqar5xEnMGV1IXNGmk8GdHpI+Sqe0QxYpN5EJbSoK5
+ p02TT2BAw8aXHVnkKcvWhmESKwxrPANoqUmsQUyzABiv+x/E5HV3v/0y3WXwrXOhAI6Z
+ UhFie9nH1PXyP2ITcyboHryrv0ltpe8/FPtrDI6LMI4rdw6oBtkMul2bdjtGihRIFZCa
+ HxCw==
+X-Gm-Message-State: AOAM530v4jTfh0oQ4Z3CWYTfVF0n7JWyRHHvOC64sRfkSCKw+d5TAtcG
+ eVEEX4SlMK1NVQSA8czt+iU=
+X-Google-Smtp-Source: ABdhPJxhictYulbB0Zm3QTSpCwimywkAoUtpuCu0cI4jbNj9lsIpqL2jbR5b1X3Ko/R7rvpdzTkfxA==
+X-Received: by 2002:adf:ef4c:: with SMTP id c12mr19846865wrp.112.1615145046745; 
+ Sun, 07 Mar 2021 11:24:06 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id 36sm15510794wrh.94.2021.03.07.11.24.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Mar 2021 11:24:05 -0800 (PST)
+Subject: Re: [PATCH v4 1/5] char: add goldfish-tty
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210307182210.473111-1-laurent@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <10e2920f-cbd9-947f-c116-54bb2fe551aa@ilande.co.uk>
-Date: Sun, 7 Mar 2021 19:18:52 +0000
+References: <20210307164828.87348-1-laurent@vivier.eu>
+ <20210307164828.87348-2-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6909cb99-6058-472e-bfa2-62172c448b1d@amsat.org>
+Date: Sun, 7 Mar 2021 20:24:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210307182210.473111-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210307164828.87348-2-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.148.34.47
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2] target/m68k: implement rtr instruction
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,78 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/03/2021 18:22, Laurent Vivier wrote:
-
-> This is needed to boot MacOS ROM.
+On 3/7/21 5:48 PM, Laurent Vivier wrote:
+> Implement the goldfish tty device as defined in
 > 
-> Pull the condition code and the program counter from the stack.
+> https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
 > 
-> Operation:
+> and based on the kernel driver code:
 > 
->      (SP) -> CCR
->      SP + 2 -> SP
->      (SP) -> PC
->      SP + 4 - > SP
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
 > 
-> This operation is not privileged.
-> 
-> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
-> 
-> Notes:
->      v2: update comment
->          SP + 4 -> SP
-> 
->   target/m68k/translate.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
-> 
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index ac936ebe8f14..e6942955713c 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -2969,6 +2969,20 @@ DISAS_INSN(rtd)
->       gen_jmp(s, tmp);
->   }
->   
-> +DISAS_INSN(rtr)
+>  include/hw/char/goldfish_tty.h |  35 +++++
+>  hw/char/goldfish_tty.c         | 272 +++++++++++++++++++++++++++++++++
+>  hw/char/Kconfig                |   3 +
+>  hw/char/meson.build            |   2 +
+>  hw/char/trace-events           |  10 ++
+>  5 files changed, 322 insertions(+)
+>  create mode 100644 include/hw/char/goldfish_tty.h
+>  create mode 100644 hw/char/goldfish_tty.c
+
+> +static void goldfish_tty_write(void *opaque, hwaddr addr,
+> +                               uint64_t value, unsigned size)
 > +{
-> +    TCGv tmp;
-> +    TCGv ccr;
+> +    GoldfishTTYState *s = opaque;
+> +    unsigned char c;
 > +
-> +    ccr = gen_load(s, OS_WORD, QREG_SP, 0, IS_USER(s));
-> +    gen_set_sr(s, ccr, true);
-> +    tcg_temp_free(ccr);
-> +    tcg_gen_addi_i32(QREG_SP, QREG_SP, 2);
-> +    tmp = gen_load(s, OS_LONG, QREG_SP, 0, IS_USER(s));
-> +    tcg_gen_addi_i32(QREG_SP, QREG_SP, 4);
-> +    gen_jmp(s, tmp);
+> +    trace_goldfish_tty_write(s, addr, size, value);
+> +
+> +    switch (addr) {
+> +    case REG_PUT_CHAR:
+> +        c = value;
+> +        qemu_chr_fe_write_all(&s->chr, &c, sizeof(c));
+
+No IRQ here described in the spec... So this is correct.
+
+> +        break;
+> +    case REG_CMD:
+> +        goldfish_tty_cmd(s, value);
+> +        break;
+> +    case REG_DATA_PTR:
+> +        s->data_ptr = value;
+> +        break;
+> +    case REG_DATA_PTR_HIGH:
+> +        s->data_ptr = (value << 32) | (uint32_t)s->data_ptr;
+
+Matter of taste, I find it easier to review as:
+
+           s->data_ptr = deposit64(s->data_ptr, value, 32, 32);
+
+The spec says this register is only available on 64-bit targets.
+
+Should we restrict this "#if TARGET_LONG_SIZE == 8"?
+else log_mask(GUEST_ERROR)...
+
+This seems overkill to me but that would respect the spec.
+
+> +        break;
+> +    case REG_DATA_LEN:
+> +        s->data_len = value;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
+> +                      __func__, addr);
+> +        break;
+> +    }
 > +}
 > +
->   DISAS_INSN(rts)
->   {
->       TCGv tmp;
-> @@ -6015,6 +6029,7 @@ void register_m68k_insns (CPUM68KState *env)
->       BASE(nop,       4e71, ffff);
->       INSN(rtd,       4e74, ffff, RTD);
->       BASE(rts,       4e75, ffff);
-> +    INSN(rtr,       4e77, ffff, M68000);
->       BASE(jump,      4e80, ffc0);
->       BASE(jump,      4ec0, ffc0);
->       INSN(addsubq,   5000, f080, M68000);
+> +static const MemoryRegionOps goldfish_tty_ops = {
+> +    .read = goldfish_tty_read,
+> +    .write = goldfish_tty_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +    .valid.max_access_size = 4,
 
-Solves the issue for me, so:
+Again, I think you also want:
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+       .impl.min_access_size = 4,
 
-I also have a couple of other target/m68k patches from my experimental branch which 
-are probably worth adding to an m68k PR. Let me go dig them out...
+> +    .impl.max_access_size = 4,
+> +};
 
-
-ATB,
-
-Mark.
+With min_access_size:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
