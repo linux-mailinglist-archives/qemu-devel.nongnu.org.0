@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653DC33005A
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 12:35:23 +0100 (CET)
-Received: from localhost ([::1]:51860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C683300B3
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:11:59 +0100 (CET)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIrgw-00014y-05
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 06:35:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34638)
+	id 1lIsGL-0001lj-7J
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:11:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lIrfy-00009U-0T
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 06:34:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lIrfu-0005gt-1z
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 06:34:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615116855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=K/WPsCjc8hf5AVKPZV7gykeUnRTIgpE3cjTfT+zLPmY=;
- b=RJSuJtmMw5K+wJlJ/MUMmC3HBzxuYrc2p9JvYIeisOVKtKllD4xlEZrwSOOZuwcwH40VLS
- 7+m05aV09w1T2vPLLWRlIRkqkh/3C5cCXLUCDTWgny0ZHb53q+aFlAG9YaJAZxO0ZPPFT4
- BILBTrOiY3V5dSyY9jbF/X1S266wpUA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-FgegxhIGMg-_Ex-AWpdxFw-1; Sun, 07 Mar 2021 06:34:11 -0500
-X-MC-Unique: FgegxhIGMg-_Ex-AWpdxFw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5CE41005D4E;
- Sun,  7 Mar 2021 11:34:09 +0000 (UTC)
-Received: from thuth.com (ovpn-112-78.ams2.redhat.com [10.36.112.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11AA2100164A;
- Sun,  7 Mar 2021 11:34:04 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Merge the Gitlab-CI section into the generic CI
- section
-Date: Sun,  7 Mar 2021 12:34:03 +0100
-Message-Id: <20210307113403.11028-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lIsDh-0000Cp-VJ
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:09:14 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43550
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lIsDg-0007SM-7X
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:09:13 -0500
+Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
+ helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lIsDZ-0002V5-6q; Sun, 07 Mar 2021 12:09:10 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Sun,  7 Mar 2021 12:08:08 +0000
+Message-Id: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 86.148.34.47
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 00/42] qemu-sparc queue 20210307
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,83 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The status of the gitlab-CI files is currently somewhat confusing, and
-it is often not quite clear whether a patch should go via my tree or
-via the testing tree of Alex. That situation has grown historically...
-Initially, I was the only one using the gitlab-CI, just for my private
-repository there. But in the course of time, the gitlab-CI switched to
-use the containers from tests/docker/ (which is not part of the gitlab-CI
-section in the MAINTAINERS file), and QEMU now even switched to gitlab.com
-completely for the repository and will soon use it as its gating CI, too.
-So it makes way more sense if the gitlab-ci.yml files belong to the people
-who are owning the qemu-project on gitlab.com and take care of the gitlab
-CI there. Thus let's merge the gitlab-ci section into the common "test and
-build automation" section, and change the status of myself to a "reviewer"
-there instead.
-While we're at it, I'm also removing the line with Fam there for now,
-since he was hardly active during the last years in this area anymore.
-If he ever gets more time for this part again in the future, we surely
-can add the line back again.
+The following changes since commit 91e92cad67caca3bc4b8e920ddb5c8ca64aac9e1:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+  Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210305' into staging (2021-03-05 19:04:47 +0000)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 26c9454823..e9cd29ed0b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3262,17 +3262,21 @@ F: include/hw/remote/iohub.h
- 
- Build and test automation
- -------------------------
--Build and test automation
-+Build and test automation, Linux Continuous Integration
- M: Alex Bennée <alex.bennee@linaro.org>
--M: Fam Zheng <fam@euphon.net>
- R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Thomas Huth <thuth@redhat.com>
-+R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- S: Maintained
- F: .github/lockdown.yml
-+F: .gitlab-ci.yml
-+F: .gitlab-ci.d/
- F: .travis.yml
- F: scripts/ci/
- F: tests/docker/
- F: tests/vm/
- F: scripts/archive-source.sh
-+W: https://gitlab.com/qemu-project/qemu/pipelines
- W: https://travis-ci.org/qemu/qemu
- W: http://patchew.org/QEMU/
- 
-@@ -3289,17 +3293,6 @@ S: Maintained
- F: .cirrus.yml
- W: https://cirrus-ci.com/github/qemu/qemu
- 
--GitLab Continuous Integration
--M: Thomas Huth <thuth@redhat.com>
--M: Philippe Mathieu-Daudé <philmd@redhat.com>
--M: Alex Bennée <alex.bennee@linaro.org>
--R: Wainer dos Santos Moschetta <wainersm@redhat.com>
--S: Maintained
--F: .gitlab-ci.yml
--F: .gitlab-ci.d/crossbuilds.yml
--F: .gitlab-ci.d/*py
--F: scripts/ci/gitlab-pipeline-status
--
- Guest Test Compilation Support
- M: Alex Bennée <alex.bennee@linaro.org>
- R: Philippe Mathieu-Daudé <f4bug@amsat.org>
--- 
-2.27.0
+are available in the Git repository at:
 
+  git://github.com/mcayland/qemu.git tags/qemu-sparc-20210307
+
+for you to fetch changes up to 7aa6baee7c8a54473f28c6fa1e980a9ff7989036:
+
+  esp: add support for unaligned accesses (2021-03-07 10:39:05 +0000)
+
+----------------------------------------------------------------
+qemu-sparc queue
+
+----------------------------------------------------------------
+Mark Cave-Ayland (42):
+      esp: checkpatch fixes
+      esp: rename existing ESP QOM type to SYSBUS_ESP
+      esp: QOMify the internal ESP device state
+      esp: add vmstate_esp version to embedded ESPState
+      esp: add trace event when receiving a TI command
+      esp: fix esp_reg_read() trace event
+      esp: add PDMA trace events
+      esp: determine transfer direction directly from SCSI phase
+      esp: introduce esp_get_tc() and esp_set_tc()
+      esp: introduce esp_get_stc()
+      esp: apply transfer length adjustment when STC is zero at TC load time
+      esp: remove dma_counter from ESPState
+      esp: remove dma_left from ESPState
+      esp: remove minlen restriction in handle_ti
+      esp: introduce esp_pdma_read() and esp_pdma_write() functions
+      esp: use pdma_origin directly in esp_pdma_read()/esp_pdma_write()
+      esp: move pdma_len and TC logic into esp_pdma_read()/esp_pdma_write()
+      esp: accumulate SCSI commands for PDMA transfers in cmdbuf instead of pdma_buf
+      esp: remove buf parameter from do_cmd()
+      esp: remove the buf and buflen parameters from get_cmd()
+      esp: remove redundant pdma_start from ESPState
+      esp: move PDMA length adjustments into esp_pdma_read()/esp_pdma_write()
+      esp: use ti_wptr/ti_rptr to manage the current FIFO position for PDMA
+      esp: use in-built TC to determine PDMA transfer length
+      esp: remove CMD pdma_origin
+      esp: rename get_cmd_cb() to esp_select()
+      esp: fix PDMA target selection
+      esp: use FIFO for PDMA transfers between initiator and device
+      esp: remove pdma_origin from ESPState
+      esp: add 4 byte PDMA read and write transfers
+      esp: implement FIFO flush command
+      esp: latch individual bits in ESP_RINTR register
+      esp: defer command completion interrupt on incoming data transfers
+      esp: remove old deferred command completion mechanism
+      esp: raise interrupt after every non-DMA byte transferred to the FIFO
+      esp: add maxlen parameter to get_cmd()
+      esp: transition to message out phase after SATN and stop command
+      esp: convert ti_buf from array to Fifo8
+      esp: convert cmdbuf from array to Fifo8
+      esp: add trivial implementation of the ESP_RFLAGS register
+      esp: implement non-DMA transfers in PDMA mode
+      esp: add support for unaligned accesses
+
+ hw/dma/sparc32_dma.c  |   4 +-
+ hw/m68k/q800.c        |   4 +-
+ hw/mips/jazz.c        |   4 +-
+ hw/scsi/esp-pci.c     |  53 ++-
+ hw/scsi/esp.c         | 975 ++++++++++++++++++++++++++++++++++----------------
+ hw/scsi/trace-events  |   5 +
+ hw/sparc/sun4m.c      |   2 +-
+ include/hw/scsi/esp.h |  52 +--
+ 8 files changed, 748 insertions(+), 351 deletions(-)
 
