@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73250330315
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 17:54:25 +0100 (CET)
-Received: from localhost ([::1]:46566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D71330311
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 17:51:32 +0100 (CET)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIwfg-0004Rg-Hn
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 11:54:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
+	id 1lIwct-00010c-NB
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 11:51:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaL-0007Za-2G
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:53 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:52255)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaH-0007Xv-V3
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:49 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:33225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaI-0006Yg-KN
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:52 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaC-0006YD-Q3
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:49 -0500
 Received: from localhost.localdomain ([82.252.159.174]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M3UIe-1lJUXo40Cw-000Zi8; Sun, 07 Mar 2021 17:48:35 +0100
+ id 1MFslN-1lXZxz0fhn-00HMXp; Sun, 07 Mar 2021 17:48:36 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/5] char: add goldfish-tty
-Date: Sun,  7 Mar 2021 17:48:24 +0100
-Message-Id: <20210307164828.87348-2-laurent@vivier.eu>
+Subject: [PATCH v4 2/5] intc: add goldfish-pic
+Date: Sun,  7 Mar 2021 17:48:25 +0100
+Message-Id: <20210307164828.87348-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210307164828.87348-1-laurent@vivier.eu>
 References: <20210307164828.87348-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QevshVMrmCQyElQ4heZMzicmmuWbX7W0xbPg2YFdUWWNMVMMd7p
- HrcJRVJvZRDbl3DWyuLGycQzDKH+Zvm05CWYVMzWY1GKBcJcDYud9juTJLcci5Xs+meJO45
- hPW4mI/fHMtqY7hzZfrtsrRqUAm+G4PFDvQN90J8WTxu4muKlk+1gaHbXNzmQN2EJTIQjEo
- ib559YzxrQFx8Z+mWhoGA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uLp6G/nxA48=:IXkXbAr0Gyxnmg1Jv7MZ25
- hxvRUhAitV+nekJ6uk1jsn/aPRKBsgIomtR4XcOu9SCOtMd7G1Z2TAbSOic1mUr6u/pn29x4L
- sXwYe9mxL3RdmvF/hStJPVeAzUxRxmpmK2EJNQjQksaYwztJss5ldeSmyU1zklAjzZ2P9Eh4S
- woLj52SjWJsK2IRM1jU0VLUzhFciN9gsxnYrodI1SqRYal0Ubz8pXa3HrvwcCBFqpj+GnyNlW
- e/2nosR7ZG7uWHv1gCaMsDPTkwz/16GViGeYqsRDkNT/gxfOBkix2WkYVayiHNQGWc6NZTElQ
- T6NFLraA26yFKK5KFGW65Z2nXc/PhNfFMSnLtOb/+349nnc93p5sYZZEvCuF4mqBeQZw/NHlt
- GfxFTbfYRgSJlLNmiou12NDwS2bI2zxsX9hCs1F9dgx8yBG+VO+lEWZoNhGEbQ7pjlo9FChHi
- /16IwvrCOw==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:0y1HtQiWIoBDGSkluCmjCS3J12koF6aPAcTRYOt2QugmTzO0Xbx
+ 5DYchfeTg03YTffolOfu0rGBiykWBBzf8TGZKdEn+IgC/J0Ndatxjvbg9Vb3U4A5JzWUU1b
+ 7bQK4XUCeTZsEdX6/0Y94pH+IMs49c1FnygQYxxOPhur8Rrmh1O11z12Cs0BrO6MLcx4cF8
+ r1TbWRTp+E7Mxm/PZpiHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UUhiITxIOeI=:NK0tFJbexeh6456h65El6O
+ y2EnkVK0Ah4P1boxGiwDENM7GkW/Hhy43He9B+fdmwwKkleU+v8uzUadbNbnUQi7pmjVSDWsd
+ /GxATNQGKPnWRja5mY4uVX0ZE3jkzW3Io0qJuPIcMDEzpMz2v+YerJMRgR8KfOL6pR0kFNw9Q
+ nPUXYMTwu8uCmc2JfH3HYBRR1CtA1qnCNq0Mc0zdfVgp7hOn2rwKv893ZmQB6Ghhl3edVIZFE
+ gmuKTKNuTEQkG8zl3QPziuggh1A9Zdqy1LGchE8g+oZgUKXozBqK/AtEoGq1GzLYwNHc8wl/9
+ idlB8OJDzs0m5H0ruG7R4Pg5ETxyRheTMS8cer4yquKV3XwuPca1TOkFvyCGzvUpOqrf7tcec
+ gM6eOxQunjsaqY5hejTHgDCmVQvvotYxjmPlXRiIAlwWw8mFiCwOkKwxckDILlDe6JBR3hA3y
+ Nia5lchz5Q==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,76 +71,72 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the goldfish tty device as defined in
+Implement the goldfish pic device as defined in
 
 https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
 
-and based on the kernel driver code:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
-
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/char/goldfish_tty.h |  35 +++++
- hw/char/goldfish_tty.c         | 272 +++++++++++++++++++++++++++++++++
- hw/char/Kconfig                |   3 +
- hw/char/meson.build            |   2 +
- hw/char/trace-events           |  10 ++
- 5 files changed, 322 insertions(+)
- create mode 100644 include/hw/char/goldfish_tty.h
- create mode 100644 hw/char/goldfish_tty.c
+ include/hw/intc/goldfish_pic.h |  33 +++++
+ hw/intc/goldfish_pic.c         | 219 +++++++++++++++++++++++++++++++++
+ hw/intc/Kconfig                |   3 +
+ hw/intc/meson.build            |   1 +
+ hw/intc/trace-events           |   8 ++
+ 5 files changed, 264 insertions(+)
+ create mode 100644 include/hw/intc/goldfish_pic.h
+ create mode 100644 hw/intc/goldfish_pic.c
 
-diff --git a/include/hw/char/goldfish_tty.h b/include/hw/char/goldfish_tty.h
+diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
 new file mode 100644
-index 000000000000..b9dd67362a68
+index 000000000000..ad13ab37fc3e
 --- /dev/null
-+++ b/include/hw/char/goldfish_tty.h
-@@ -0,0 +1,35 @@
++++ b/include/hw/intc/goldfish_pic.h
+@@ -0,0 +1,33 @@
 +/*
 + * SPDX-License-Identifer: GPL-2.0-or-later
 + *
-+ * Goldfish TTY
++ * Goldfish PIC
 + *
 + * (c) 2020 Laurent Vivier <laurent@vivier.eu>
 + *
 + */
 +
-+#ifndef HW_CHAR_GOLDFISH_TTY_H
-+#define HW_CHAR_GOLDFISH_TTY_H
++#ifndef HW_INTC_GOLDFISH_PIC_H
++#define HW_INTC_GOLDFISH_PIC_H
 +
-+#include "qemu/fifo8.h"
-+#include "chardev/char-fe.h"
++#define TYPE_GOLDFISH_PIC "goldfish_pic"
++OBJECT_DECLARE_SIMPLE_TYPE(GoldfishPICState, GOLDFISH_PIC)
 +
-+#define TYPE_GOLDFISH_TTY "goldfish_tty"
-+OBJECT_DECLARE_SIMPLE_TYPE(GoldfishTTYState, GOLDFISH_TTY)
++#define GOLDFISH_PIC_IRQ_NB 32
 +
-+#define GOLFISH_TTY_BUFFER_SIZE 128
-+
-+struct GoldfishTTYState {
++struct GoldfishPICState {
 +    SysBusDevice parent_obj;
 +
 +    MemoryRegion iomem;
 +    qemu_irq irq;
-+    CharBackend chr;
 +
-+    uint32_t data_len;
-+    uint64_t data_ptr;
-+    bool int_enabled;
++    uint32_t pending;
++    uint32_t enabled;
 +
-+    Fifo8 rx_fifo;
++    /* statistics */
++    uint64_t stats_irq_count[32];
++    /* for tracing */
++    uint8_t idx;
 +};
 +
 +#endif
-diff --git a/hw/char/goldfish_tty.c b/hw/char/goldfish_tty.c
+diff --git a/hw/intc/goldfish_pic.c b/hw/intc/goldfish_pic.c
 new file mode 100644
-index 000000000000..1fd29c0d9ccc
+index 000000000000..e3b43a69f163
 --- /dev/null
-+++ b/hw/char/goldfish_tty.c
-@@ -0,0 +1,272 @@
++++ b/hw/intc/goldfish_pic.c
+@@ -0,0 +1,219 @@
 +/*
 + * SPDX-License-Identifer: GPL-2.0-or-later
 + *
-+ * Goldfish TTY
++ * Goldfish PIC
 + *
 + * (c) 2020 Laurent Vivier <laurent@vivier.eu>
 + *
@@ -147,48 +144,81 @@ index 000000000000..1fd29c0d9ccc
 +
 +#include "qemu/osdep.h"
 +#include "hw/irq.h"
-+#include "hw/qdev-properties-system.h"
++#include "hw/qdev-properties.h"
 +#include "hw/sysbus.h"
 +#include "migration/vmstate.h"
-+#include "chardev/char-fe.h"
++#include "monitor/monitor.h"
 +#include "qemu/log.h"
 +#include "trace.h"
-+#include "exec/address-spaces.h"
-+#include "hw/char/goldfish_tty.h"
++#include "hw/intc/intc.h"
++#include "hw/intc/goldfish_pic.h"
 +
 +/* registers */
 +
 +enum {
-+    REG_PUT_CHAR      = 0x00,
-+    REG_BYTES_READY   = 0x04,
-+    REG_CMD           = 0x08,
-+    REG_DATA_PTR      = 0x10,
-+    REG_DATA_LEN      = 0x14,
-+    REG_DATA_PTR_HIGH = 0x18,
-+    REG_VERSION       = 0x20,
++    REG_STATUS          = 0x00,
++    REG_IRQ_PENDING     = 0x04,
++    REG_IRQ_DISABLE_ALL = 0x08,
++    REG_DISABLE         = 0x0c,
++    REG_ENABLE          = 0x10,
 +};
 +
-+/* commands */
++static bool goldfish_pic_get_statistics(InterruptStatsProvider *obj,
++                                        uint64_t **irq_counts,
++                                        unsigned int *nb_irqs)
++{
++    GoldfishPICState *s = GOLDFISH_PIC(obj);
 +
-+enum {
-+    CMD_INT_DISABLE   = 0x00,
-+    CMD_INT_ENABLE    = 0x01,
-+    CMD_WRITE_BUFFER  = 0x02,
-+    CMD_READ_BUFFER   = 0x03,
-+};
++    *irq_counts = s->stats_irq_count;
++    *nb_irqs = ARRAY_SIZE(s->stats_irq_count);
++    return true;
++}
 +
-+static uint64_t goldfish_tty_read(void *opaque, hwaddr addr,
++static void goldfish_pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
++{
++    GoldfishPICState *s = GOLDFISH_PIC(obj);
++    monitor_printf(mon, "goldfish-pic.%d: pending=0x%08x enabled=0x%08x\n",
++                   s->idx, s->pending, s->enabled);
++}
++
++static void goldfish_pic_update(GoldfishPICState *s)
++{
++    if (s->pending & s->enabled) {
++        qemu_irq_raise(s->irq);
++    } else {
++        qemu_irq_lower(s->irq);
++    }
++}
++
++static void goldfish_irq_request(void *opaque, int irq, int level)
++{
++    GoldfishPICState *s = opaque;
++
++    trace_goldfish_irq_request(s, s->idx, irq, level);
++
++    if (level) {
++        s->pending |= 1 << irq;
++        s->stats_irq_count[irq]++;
++    } else {
++        s->pending &= ~(1 << irq);
++    }
++    goldfish_pic_update(s);
++}
++
++static uint64_t goldfish_pic_read(void *opaque, hwaddr addr,
 +                                  unsigned size)
 +{
-+    GoldfishTTYState *s = opaque;
++    GoldfishPICState *s = opaque;
 +    uint64_t value = 0;
 +
 +    switch (addr) {
-+    case REG_BYTES_READY:
-+        value = fifo8_num_used(&s->rx_fifo);
++    case REG_STATUS:
++        /* The number of pending interrupts (0 to 32) */
++        value = ctpop32(s->pending & s->enabled);
 +        break;
-+    case REG_VERSION:
-+        value = 0;
++    case REG_IRQ_PENDING:
++        /* The pending interrupt mask */
++        value = s->pending & s->enabled;
 +        break;
 +    default:
 +        qemu_log_mask(LOG_UNIMP,
@@ -197,82 +227,28 @@ index 000000000000..1fd29c0d9ccc
 +        break;
 +    }
 +
-+    trace_goldfish_tty_read(s, addr, size, value);
++    trace_goldfish_pic_read(s, s->idx, addr, size, value);
 +
 +    return value;
 +}
 +
-+static void goldfish_tty_cmd(GoldfishTTYState *s, uint32_t cmd)
-+{
-+    uint32_t to_copy;
-+    uint8_t *buf;
-+    uint8_t data_out[GOLFISH_TTY_BUFFER_SIZE];
-+
-+    switch (cmd) {
-+    case CMD_INT_DISABLE:
-+        if (s->int_enabled) {
-+            if (!fifo8_is_empty(&s->rx_fifo)) {
-+                qemu_set_irq(s->irq, 0);
-+            }
-+            s->int_enabled = false;
-+        }
-+        break;
-+    case CMD_INT_ENABLE:
-+        if (!s->int_enabled) {
-+            if (!fifo8_is_empty(&s->rx_fifo)) {
-+                qemu_set_irq(s->irq, 1);
-+            }
-+            s->int_enabled = true;
-+        }
-+        break;
-+    case CMD_WRITE_BUFFER:
-+        to_copy = s->data_len;
-+        while (to_copy) {
-+            int len;
-+
-+            len = MIN(sizeof(data_out), to_copy);
-+
-+            address_space_rw(&address_space_memory, s->data_ptr,
-+                             MEMTXATTRS_UNSPECIFIED, data_out, len, 0);
-+            to_copy -= len;
-+            qemu_chr_fe_write_all(&s->chr, data_out, len);
-+        }
-+        break;
-+    case CMD_READ_BUFFER:
-+        buf = (uint8_t *)fifo8_pop_buf(&s->rx_fifo, s->data_len, &to_copy);
-+        address_space_rw(&address_space_memory, s->data_ptr,
-+                         MEMTXATTRS_UNSPECIFIED, buf, to_copy, 1);
-+        if (s->int_enabled && fifo8_is_empty(&s->rx_fifo)) {
-+            qemu_set_irq(s->irq, 0);
-+        }
-+        break;
-+    }
-+}
-+
-+static void goldfish_tty_write(void *opaque, hwaddr addr,
++static void goldfish_pic_write(void *opaque, hwaddr addr,
 +                               uint64_t value, unsigned size)
 +{
-+    GoldfishTTYState *s = opaque;
-+    unsigned char c;
++    GoldfishPICState *s = opaque;
 +
-+    trace_goldfish_tty_write(s, addr, size, value);
++    trace_goldfish_pic_write(s, s->idx, addr, size, value);
 +
 +    switch (addr) {
-+    case REG_PUT_CHAR:
-+        c = value;
-+        qemu_chr_fe_write_all(&s->chr, &c, sizeof(c));
++    case REG_IRQ_DISABLE_ALL:
++        s->enabled = 0;
++        s->pending = 0;
 +        break;
-+    case REG_CMD:
-+        goldfish_tty_cmd(s, value);
++    case REG_DISABLE:
++        s->enabled &= ~value;
 +        break;
-+    case REG_DATA_PTR:
-+        s->data_ptr = value;
-+        break;
-+    case REG_DATA_PTR_HIGH:
-+        s->data_ptr = (value << 32) | (uint32_t)s->data_ptr;
-+        break;
-+    case REG_DATA_LEN:
-+        s->data_len = value;
++    case REG_ENABLE:
++        s->enabled |= value;
 +        break;
 +    default:
 +        qemu_log_mask(LOG_UNIMP,
@@ -280,176 +256,138 @@ index 000000000000..1fd29c0d9ccc
 +                      __func__, addr);
 +        break;
 +    }
++    goldfish_pic_update(s);
 +}
 +
-+static const MemoryRegionOps goldfish_tty_ops = {
-+    .read = goldfish_tty_read,
-+    .write = goldfish_tty_write,
++static const MemoryRegionOps goldfish_pic_ops = {
++    .read = goldfish_pic_read,
++    .write = goldfish_pic_write,
 +    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .valid.max_access_size = 4,
++    .impl.min_access_size = 4,
 +    .impl.max_access_size = 4,
 +};
 +
-+static int goldfish_tty_can_receive(void *opaque)
++static void goldfish_pic_reset(DeviceState *dev)
 +{
-+    GoldfishTTYState *s = opaque;
-+    int available = fifo8_num_free(&s->rx_fifo);
++    GoldfishPICState *s = GOLDFISH_PIC(dev);
++    int i;
 +
-+    trace_goldfish_tty_can_receive(s, available);
++    trace_goldfish_pic_reset(s, s->idx);
++    s->pending = 0;
++    s->enabled = 0;
 +
-+    return available;
-+}
-+
-+static void goldfish_tty_receive(void *opaque, const uint8_t *buffer, int size)
-+{
-+    GoldfishTTYState *s = opaque;
-+
-+    trace_goldfish_tty_receive(s, size);
-+
-+    g_assert(size <= fifo8_num_free(&s->rx_fifo));
-+
-+    fifo8_push_all(&s->rx_fifo, buffer, size);
-+
-+    if (s->int_enabled && !fifo8_is_empty(&s->rx_fifo)) {
-+        qemu_set_irq(s->irq, 1);
++    for (i = 0; i < ARRAY_SIZE(s->stats_irq_count); i++) {
++        s->stats_irq_count[i] = 0;
 +    }
 +}
 +
-+static void goldfish_tty_reset(DeviceState *dev)
++static void goldfish_pic_realize(DeviceState *dev, Error **errp)
 +{
-+    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++    GoldfishPICState *s = GOLDFISH_PIC(dev);
 +
-+    trace_goldfish_tty_reset(s);
++    trace_goldfish_pic_realize(s, s->idx);
 +
-+    fifo8_reset(&s->rx_fifo);
-+    s->int_enabled = false;
-+    s->data_ptr = 0;
-+    s->data_len = 0;
++    memory_region_init_io(&s->iomem, OBJECT(s), &goldfish_pic_ops, s,
++                          "goldfish_pic", 0x24);
 +}
 +
-+static void goldfish_tty_realize(DeviceState *dev, Error **errp)
-+{
-+    GoldfishTTYState *s = GOLDFISH_TTY(dev);
-+
-+    trace_goldfish_tty_realize(s);
-+
-+    fifo8_create(&s->rx_fifo, GOLFISH_TTY_BUFFER_SIZE);
-+    memory_region_init_io(&s->iomem, OBJECT(s), &goldfish_tty_ops, s,
-+                          "goldfish_tty", 0x24);
-+
-+    if (qemu_chr_fe_backend_connected(&s->chr)) {
-+        qemu_chr_fe_set_handlers(&s->chr, goldfish_tty_can_receive,
-+                                 goldfish_tty_receive, NULL, NULL,
-+                                 s, NULL, true);
-+    }
-+}
-+
-+static void goldfish_tty_unrealize(DeviceState *dev)
-+{
-+    GoldfishTTYState *s = GOLDFISH_TTY(dev);
-+
-+    trace_goldfish_tty_unrealize(s);
-+
-+    fifo8_destroy(&s->rx_fifo);
-+}
-+
-+static const VMStateDescription vmstate_goldfish_tty = {
-+    .name = "goldfish_tty",
++static const VMStateDescription vmstate_goldfish_pic = {
++    .name = "goldfish_pic",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(data_len, GoldfishTTYState),
-+        VMSTATE_UINT64(data_ptr, GoldfishTTYState),
-+        VMSTATE_BOOL(int_enabled, GoldfishTTYState),
-+        VMSTATE_FIFO8(rx_fifo, GoldfishTTYState),
++        VMSTATE_UINT32(pending, GoldfishPICState),
++        VMSTATE_UINT32(enabled, GoldfishPICState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static Property goldfish_tty_properties[] = {
-+    DEFINE_PROP_CHR("chardev", GoldfishTTYState, chr),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void goldfish_tty_instance_init(Object *obj)
++static void goldfish_pic_instance_init(Object *obj)
 +{
 +    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
-+    GoldfishTTYState *s = GOLDFISH_TTY(obj);
++    GoldfishPICState *s = GOLDFISH_PIC(obj);
 +
-+    trace_goldfish_tty_instance_init(s);
++    trace_goldfish_pic_instance_init(s);
 +
 +    sysbus_init_mmio(dev, &s->iomem);
 +    sysbus_init_irq(dev, &s->irq);
++
++    qdev_init_gpio_in(DEVICE(obj), goldfish_irq_request, GOLDFISH_PIC_IRQ_NB);
 +}
 +
-+static void goldfish_tty_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    device_class_set_props(dc, goldfish_tty_properties);
-+    dc->reset = goldfish_tty_reset;
-+    dc->realize = goldfish_tty_realize;
-+    dc->unrealize = goldfish_tty_unrealize;
-+    dc->vmsd = &vmstate_goldfish_tty;
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+}
-+
-+static const TypeInfo goldfish_tty_info = {
-+    .name = TYPE_GOLDFISH_TTY,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .class_init = goldfish_tty_class_init,
-+    .instance_init = goldfish_tty_instance_init,
-+    .instance_size = sizeof(GoldfishTTYState),
++static Property goldfish_pic_properties[] = {
++    DEFINE_PROP_UINT8("index", GoldfishPICState, idx, 0),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void goldfish_tty_register_types(void)
++static void goldfish_pic_class_init(ObjectClass *oc, void *data)
 +{
-+    type_register_static(&goldfish_tty_info);
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    InterruptStatsProviderClass *ic = INTERRUPT_STATS_PROVIDER_CLASS(oc);
++
++    dc->reset = goldfish_pic_reset;
++    dc->realize = goldfish_pic_realize;
++    dc->vmsd = &vmstate_goldfish_pic;
++    ic->get_statistics = goldfish_pic_get_statistics;
++    ic->print_info = goldfish_pic_print_info;
++    device_class_set_props(dc, goldfish_pic_properties);
 +}
 +
-+type_init(goldfish_tty_register_types)
-diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-index 939bc4475883..a8bf0c6a7708 100644
---- a/hw/char/Kconfig
-+++ b/hw/char/Kconfig
-@@ -61,3 +61,6 @@ config MCHP_PFSOC_MMUART
++static const TypeInfo goldfish_pic_info = {
++    .name = TYPE_GOLDFISH_PIC,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .class_init = goldfish_pic_class_init,
++    .instance_init = goldfish_pic_instance_init,
++    .instance_size = sizeof(GoldfishPICState),
++    .interfaces = (InterfaceInfo[]) {
++         { TYPE_INTERRUPT_STATS_PROVIDER },
++         { }
++    },
++};
++
++static void goldfish_pic_register_types(void)
++{
++    type_register_static(&goldfish_pic_info);
++}
++
++type_init(goldfish_pic_register_types)
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index c18d11142a8f..c4f8642dae8e 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -64,3 +64,6 @@ config SIFIVE_CLINT
  
- config SIFIVE_UART
+ config SIFIVE_PLIC
      bool
 +
-+config GOLDFISH_TTY
++config GOLDFISH_PIC
 +    bool
-diff --git a/hw/char/meson.build b/hw/char/meson.build
-index 196ac91fa29a..69d974873606 100644
---- a/hw/char/meson.build
-+++ b/hw/char/meson.build
-@@ -39,3 +39,5 @@ specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
- specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
- specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
- specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
-+
-+specific_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 81026f661277..76d52938ead3 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -20,6 +20,16 @@ virtio_console_flush_buf(unsigned int port, size_t len, ssize_t ret) "port %u, i
- virtio_console_chr_read(unsigned int port, int size) "port %u, size %d"
- virtio_console_chr_event(unsigned int port, int event) "port %u, event %d"
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 53cba115690f..5d0f5d1b3812 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -57,3 +57,4 @@ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'spapr_xi
+ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
+ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
++specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 45ddaf48df8e..c9ab17234b44 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -239,3 +239,11 @@ xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "END 0x%x
  
-+# goldfish_tty.c
-+goldfish_tty_read(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
-+goldfish_tty_write(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
-+goldfish_tty_can_receive(void *dev, unsigned int available) "tty: %p available: %u"
-+goldfish_tty_receive(void *dev, unsigned int size) "tty: %p size: %u"
-+goldfish_tty_reset(void *dev) "tty: %p"
-+goldfish_tty_realize(void *dev) "tty: %p"
-+goldfish_tty_unrealize(void *dev) "tty: %p"
-+goldfish_tty_instance_init(void *dev) "tty: %p"
+ # pnv_xive.c
+ pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=0x%"PRIx64
 +
- # grlib_apbuart.c
- grlib_apbuart_event(int event) "event:%d"
- grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" value 0x%x"
++# goldfish_pic.c
++goldfish_irq_request(void *dev, int idx, int irq, int level) "pic: %p goldfish-irq.%d irq: %d level: %d"
++goldfish_pic_read(void *dev, int idx, unsigned int addr, unsigned int size, uint64_t value) "pic: %p goldfish-irq.%d reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_pic_write(void *dev, int idx, unsigned int addr, unsigned int size, uint64_t value) "pic: %p goldfish-irq.%d reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_pic_reset(void *dev, int idx) "pic: %p goldfish-irq.%d"
++goldfish_pic_realize(void *dev, int idx) "pic: %p goldfish-irq.%d"
++goldfish_pic_instance_init(void *dev) "pic: %p goldfish-irq"
 -- 
 2.29.2
 
