@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252FF3300C9
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:23:16 +0100 (CET)
-Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE9E3300CF
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:27:31 +0100 (CET)
+Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIsRC-0004FF-4K
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:23:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
+	id 1lIsVO-0007nm-AO
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:27:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFu-0002P4-Ek
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:31 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43706
+ id 1lIsG1-0002Rp-Ue
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:38 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43716
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFq-00081I-Af
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:30 -0500
+ id 1lIsFy-00086u-8Z
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:37 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFb-0002V5-5U; Sun, 07 Mar 2021 12:11:15 +0000
+ id 1lIsFj-0002V5-7H; Sun, 07 Mar 2021 12:11:23 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Sun,  7 Mar 2021 12:08:34 +0000
-Message-Id: <20210307120850.10418-27-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  7 Mar 2021 12:08:36 +0000
+Message-Id: <20210307120850.10418-29-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 References: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 26/42] esp: rename get_cmd_cb() to esp_select()
+Subject: [PULL 28/42] esp: use FIFO for PDMA transfers between initiator and
+ device
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,65 +64,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This better describes the purpose of the function.
+PDMA as implemented on the Quadra 800 uses DREQ to load data into the FIFO
+up to a maximum of 16 bytes at a time. The MacOS toolbox ROM requires this
+because it mixes FIFO and PDMA transfers whilst checking the FIFO status
+and counter registers to ensure success.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210304221103.6369-27-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210304221103.6369-29-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/scsi/esp.c | 109 ++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 75 insertions(+), 34 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index d5c03f9697..d8d7ede00a 100644
+index 10e63d1f62..aa897a4ebd 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -199,7 +199,7 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
-     esp_set_tc(s, dmalen);
+@@ -134,13 +134,8 @@ static void set_pdma(ESPState *s, enum pdma_origin_id origin)
+ 
+ static uint8_t esp_pdma_read(ESPState *s)
+ {
+-    uint32_t dmalen = esp_get_tc(s);
+     uint8_t val;
+ 
+-    if (dmalen == 0) {
+-        return 0;
+-    }
+-
+     switch (s->pdma_origin) {
+     case TI:
+         if (s->do_cmd) {
+@@ -160,10 +155,6 @@ static uint8_t esp_pdma_read(ESPState *s)
+         g_assert_not_reached();
+     }
+ 
+-    s->ti_size--;
+-    dmalen--;
+-    esp_set_tc(s, dmalen);
+-
+     return val;
  }
  
--static int get_cmd_cb(ESPState *s)
-+static int esp_select(ESPState *s)
- {
-     int target;
- 
-@@ -256,7 +256,7 @@ static uint32_t get_cmd(ESPState *s)
+@@ -194,7 +185,6 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+         g_assert_not_reached();
      }
-     trace_esp_get_cmd(dmalen, target);
  
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
-         return 0;
-     }
-     return dmalen;
-@@ -299,7 +299,7 @@ static void do_cmd(ESPState *s)
+-    s->ti_size++;
+     dmalen--;
+     esp_set_tc(s, dmalen);
+ }
+@@ -290,6 +280,7 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
+     s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+     s->rregs[ESP_RSEQ] = SEQ_CD;
+     esp_raise_irq(s);
++    esp_lower_drq(s);
+ }
  
- static void satn_pdma_cb(ESPState *s)
+ static void do_cmd(ESPState *s)
+@@ -447,28 +438,71 @@ static void esp_dma_done(ESPState *s)
+ static void do_dma_pdma_cb(ESPState *s)
  {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
+     int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
++    int len;
+ 
+     if (s->do_cmd) {
+         s->ti_size = 0;
+         s->cmdlen = 0;
+         s->do_cmd = 0;
+         do_cmd(s);
++        esp_lower_drq(s);
          return;
      }
-     s->do_cmd = 0;
-@@ -325,7 +325,7 @@ static void handle_satn(ESPState *s)
+-    if (s->async_len == 0) {
+-        scsi_req_continue(s->current_req);
+-        /*
+-         * If there is still data to be read from the device then
+-         * complete the DMA operation immediately.  Otherwise defer
+-         * until the scsi layer has completed.
+-         */
+-        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
++
++    if (to_device) {
++        /* Copy FIFO data to device */
++        len = MIN(s->ti_wptr, TI_BUFSZ);
++        memcpy(s->async_buf, s->ti_buf, len);
++        s->ti_wptr = 0;
++        s->ti_rptr = 0;
++        s->async_buf += len;
++        s->async_len -= len;
++        s->ti_size += len;
++        if (s->async_len == 0) {
++            scsi_req_continue(s->current_req);
+             return;
+         }
+-    }
  
- static void s_without_satn_pdma_cb(ESPState *s)
- {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
-         return;
-     }
-     s->do_cmd = 0;
-@@ -351,7 +351,7 @@ static void handle_s_without_atn(ESPState *s)
+-    /* Partially filled a scsi buffer. Complete immediately.  */
+-    esp_dma_done(s);
++        if (esp_get_tc(s) == 0) {
++            esp_lower_drq(s);
++            esp_dma_done(s);
++        }
++
++        return;
++    } else {
++        if (s->async_len == 0) {
++            if (s->current_req) {
++                scsi_req_continue(s->current_req);
++            }
++
++            /*
++             * If there is still data to be read from the device then
++             * complete the DMA operation immediately.  Otherwise defer
++             * until the scsi layer has completed.
++             */
++            if (esp_get_tc(s) != 0 || s->ti_size == 0) {
++                return;
++            }
++        }
++
++        if (esp_get_tc(s) != 0) {
++            /* Copy device data to FIFO */
++            s->ti_wptr = 0;
++            s->ti_rptr = 0;
++            len = MIN(s->async_len, TI_BUFSZ);
++            memcpy(s->ti_buf, s->async_buf, len);
++            s->ti_wptr += len;
++            s->async_buf += len;
++            s->async_len -= len;
++            s->ti_size -= len;
++            esp_set_tc(s, esp_get_tc(s) - len);
++            return;
++        }
++
++        /* Partially filled a scsi buffer. Complete immediately.  */
++        esp_lower_drq(s);
++        esp_dma_done(s);
++    }
+ }
  
- static void satn_stop_pdma_cb(ESPState *s)
- {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
-         return;
+ static void esp_do_dma(ESPState *s)
+@@ -511,7 +545,7 @@ static void esp_do_dma(ESPState *s)
+         if (s->dma_memory_read) {
+             s->dma_memory_read(s->dma_opaque, s->async_buf, len);
+         } else {
+-            set_pdma(s, ASYNC);
++            set_pdma(s, TI);
+             s->pdma_cb = do_dma_pdma_cb;
+             esp_raise_drq(s);
+             return;
+@@ -520,9 +554,20 @@ static void esp_do_dma(ESPState *s)
+         if (s->dma_memory_write) {
+             s->dma_memory_write(s->dma_opaque, s->async_buf, len);
+         } else {
+-            set_pdma(s, ASYNC);
++            /* Copy device data to FIFO */
++            len = MIN(len, TI_BUFSZ - s->ti_wptr);
++            memcpy(&s->ti_buf[s->ti_wptr], s->async_buf, len);
++            s->ti_wptr += len;
++            s->async_buf += len;
++            s->async_len -= len;
++            s->ti_size -= len;
++            esp_set_tc(s, esp_get_tc(s) - len);
++            set_pdma(s, TI);
+             s->pdma_cb = do_dma_pdma_cb;
+             esp_raise_drq(s);
++
++            /* Indicate transfer to FIFO is complete */
++            s->rregs[ESP_RSTAT] |= STAT_TC;
+             return;
+         }
      }
-     s->do_cmd = 0;
+@@ -548,6 +593,7 @@ static void esp_do_dma(ESPState *s)
+ 
+     /* Partially filled a scsi buffer. Complete immediately.  */
+     esp_dma_done(s);
++    esp_lower_drq(s);
+ }
+ 
+ static void esp_report_command_complete(ESPState *s, uint32_t status)
+@@ -564,6 +610,7 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
+     s->status = status;
+     s->rregs[ESP_RSTAT] = STAT_ST;
+     esp_dma_done(s);
++    esp_lower_drq(s);
+     if (s->current_req) {
+         scsi_req_unref(s->current_req);
+         s->current_req = NULL;
+@@ -605,6 +652,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+          * completion interrupt is deferred to here.
+          */
+         esp_dma_done(s);
++        esp_lower_drq(s);
+     }
+ }
+ 
+@@ -976,10 +1024,8 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+         break;
+     }
+     dmalen = esp_get_tc(s);
+-    if (dmalen == 0 && s->pdma_cb) {
+-        esp_lower_drq(s);
++    if (dmalen == 0 || (s->ti_wptr == TI_BUFSZ)) {
+         s->pdma_cb(s);
+-        s->pdma_cb = NULL;
+     }
+ }
+ 
+@@ -988,14 +1034,10 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+ {
+     SysBusESPState *sysbus = opaque;
+     ESPState *s = ESP(&sysbus->esp);
+-    uint32_t dmalen = esp_get_tc(s);
+     uint64_t val = 0;
+ 
+     trace_esp_pdma_read(size);
+ 
+-    if (dmalen == 0) {
+-        return 0;
+-    }
+     switch (size) {
+     case 1:
+         val = esp_pdma_read(s);
+@@ -1005,11 +1047,10 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+         val = (val << 8) | esp_pdma_read(s);
+         break;
+     }
+-    dmalen = esp_get_tc(s);
+-    if (dmalen == 0 && s->pdma_cb) {
+-        esp_lower_drq(s);
++    if (s->ti_rptr == s->ti_wptr) {
++        s->ti_wptr = 0;
++        s->ti_rptr = 0;
+         s->pdma_cb(s);
+-        s->pdma_cb = NULL;
+     }
+     return val;
+ }
 -- 
 2.20.1
 
