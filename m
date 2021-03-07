@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8293302D2
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 17:00:06 +0100 (CET)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070EC3302CE
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 16:59:10 +0100 (CET)
+Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIvp7-0001jY-QG
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 11:00:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42306)
+	id 1lIvoC-0008MW-98
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 10:59:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmh-0007Sb-6M
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:35 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43184)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmi-0007Tn-Cy
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:36 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmf-00056O-47
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:34 -0500
-Received: by mail-oi1-x243.google.com with SMTP id d20so8350403oiw.10
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 07:57:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmg-00057y-Qj
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:36 -0500
+Received: by mail-ot1-x341.google.com with SMTP id d9so6788132ote.12
+ for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 07:57:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WZ0WodKI83AjaJZfoKvN2o6wyqaUJvCDkdSFGpgrdp0=;
- b=omHHaNmsDc3mQcQmu/N1dN0Uiw0eabnKiHaQ3PZGDgyhxnIQ4fauYjMAxBaDSwGCUO
- 7FYAlqiak0w+ZnvOg/zm2kumBMz2dFYBXF4SP0lBPJilAqva+ZjEWqWSSHBWk81b1lyy
- XrrydRzhDXJI8tikaxzMlm/X5S6wOysSf5i1OgA4bwo3Jwkalun4UBITUXq8llt4Q6S3
- kbGv2BIw/HSriTnCpfW9S8+OzI9/Sjg2BjjD+2DmlG9ApjYZ9yYYt0m2ygXSUqSgYfyh
- fYmh5JZKgBA2+Yt9cy+VhibEVKUU8q7720648v64tSNC+AFn/fy8s17gg7mBnEYkDYYO
- seag==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t4z26GNk4RH+nN5Jw/9Cqpcfexl9aeBWkUx/tK8wFtk=;
+ b=zDto9yggGguJ2CCZaSKnJ/PwWj1R5/cKwzhKUv/PABUpZHHJahH/LVPAfFIOsZmnDl
+ l2Ka2poKWRLU2F2z1LUcXpsSOzCphh8tvw+3+rweOpmJVc8If97b8b7pypy9qhWNpaXF
+ a+h3JFa6u6E98df8RKhsWXIwVneB3KMtS5cqnCK881xjCIu8jQswdD/+3kf3jNcbfNp9
+ vT5eDALzKt7HNU+rJkQnZ4dT+9roOAlG4AoLRSy4MSTaCmX+rjkO/JvAZRVNqT3wEbrU
+ Hu5R1wWnfyB1W7AePEgjHNjVJH98MqPjQA2JadXYWK86Wyw7iUda8E589VC+elMu4JRl
+ qtMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WZ0WodKI83AjaJZfoKvN2o6wyqaUJvCDkdSFGpgrdp0=;
- b=aBvIzoDog/NxgIbaq1gGRidQHBtfnLyJDR3ArhUK17iPzyGNzWuhE/i4YQC2uDa5b1
- dFkiGHughqrWtZTWQ1pCF95zsEonAoec3iO8SCw+CDar+fWcslTskMK0OtJ1OzLP3c/p
- 37ua7kXozU9LePQhL1h+WEUqy+EPtL+7gbfcRLPml7/L82CyLWc1WEFBQNcn3OPNAZTz
- /klAuoS37KWsm1ACATw4Glje5lhiMWZRnGk+cZsjPTS4wH+q55KvXisMIhk6am28h+PV
- XsQpwwpOxRwSg7s788VjEF8S0Ti0NcTvQR0Ewq6+on2kToss/4dcCTE1GI0hxFxdCxRB
- s4lg==
-X-Gm-Message-State: AOAM532uvhRV04myvttM0dvm2q+HaZd4IpjIPR3g6SE3fi3Kjr20BQXn
- 4899XJZHX/8LmfqIXeKFMKRzZNs0ac/iyClK
-X-Google-Smtp-Source: ABdhPJyU+14CVT0Tc/5HYkYrr9qDjS4SCPJZzMSc8TRluNUiIDBkNP0QKEqdhwLmCH8mWwsHrjiiTw==
-X-Received: by 2002:a54:4806:: with SMTP id j6mr8928013oij.15.1615132650809;
- Sun, 07 Mar 2021 07:57:30 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t4z26GNk4RH+nN5Jw/9Cqpcfexl9aeBWkUx/tK8wFtk=;
+ b=lOYj67Tn6SfW7ZRZPm7/8H/szVyRcAIDcJQfEbk+pMN1Y0AIGHVvuE790QvKp3zv/4
+ PO5WZXiesMbMJ0CsA8LLKUENtu3Za1eCG3bIQLdDR8Z4psqJmBIWgdEB8ZAc3GwwrhvW
+ nGvEhMOcAJul4bG4KVgMsusR+AR/R+q+Yj96LBdJnLBkUmG62SewSJ3rVLYbRnE1VKTx
+ KyrAlQsmoaxS99vV7MSWiPf5u/JAB2DEPOrgoqOqgyW6T34NEe1NAm6K/WwManqI9qpO
+ WhXjb+WZy9hSI5ZVKQQH5/CwoQ3+i+O+D9Rz0YIUctpShR9Pj13Hfi9sdULa1xDGkfL8
+ 4TuA==
+X-Gm-Message-State: AOAM5325g69hBoXC73czWNow9yXOgeqBk8Rnplx/AbG5HnWuBH7GHKyA
+ MAz3bJDGhd0lBbGVvn/jjSa+ZioqjCXfMYH6
+X-Google-Smtp-Source: ABdhPJwdKa9OG+a9xQ2hHCLlXYVmLPYfb78EteeBKkDcO8omg90Spv2eSfyoLNDFtDeROh+rtAhMiw==
+X-Received: by 2002:a9d:6081:: with SMTP id m1mr11615209otj.38.1615132653534; 
+ Sun, 07 Mar 2021 07:57:33 -0800 (PST)
 Received: from rebo.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id z14sm2170468otk.30.2021.03.07.07.57.30
+ by smtp.gmail.com with ESMTPSA id z14sm2170468otk.30.2021.03.07.07.57.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Mar 2021 07:57:30 -0800 (PST)
+ Sun, 07 Mar 2021 07:57:33 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: RESEND [PATCH v2] bsd-user: Add new maintainers
-Date: Sun,  7 Mar 2021 08:56:53 -0700
-Message-Id: <20210307155654.993-1-imp@bsdimp.com>
+Subject: [PATCH v2] FreeBSD: Upgrade to 12.2 release
+Date: Sun,  7 Mar 2021 08:56:54 -0700
+Message-Id: <20210307155654.993-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210307155654.993-1-imp@bsdimp.com>
+References: <20210307155654.993-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::243;
- envelope-from=imp@bsdimp.com; helo=mail-oi1-x243.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::341;
+ envelope-from=imp@bsdimp.com; helo=mail-ot1-x341.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,39 +81,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Thomas Huth <thuth@redhat.com>,
- Warner Losh <imp@bsdimp.com>
+Cc: Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The FreeBSD project has a number of enhancements to bsd-user. Add myself
-as maintainer and Kyle Evans as a reviewer. Also add our github repo.
+FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
+project's packages will work.  Update which timezone to pick. Work around a QEMU
+bug that incorrectly raises an exception on a CRC32 instruction with the FPU
+disabled.  The qemu bug is described here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg784158.html
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Signed-off-by: Kyle Evans <kevans@freebsd.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 26c9454823..ec0e935038 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2896,9 +2896,12 @@ F: thunk.c
- F: accel/tcg/user-exec*.c
+---
+ tests/vm/freebsd | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 09f3ee6cb8..81389d527e 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -20,12 +20,16 @@ import socket
+ import subprocess
+ import basevm
  
- BSD user
--S: Orphan
-+M: Warner Losh <imp@bsdimp.com>
-+R: Kyle Evans <kevans@freebsd.org>
-+S: Maintained
- F: bsd-user/
- F: default-configs/targets/*-bsd-user.mak
-+T: git https://github.com/qemu-bsd-user/qemu-bsd-user bsd-user-rebase-3.1
++FREEBSD_CONFIG = {
++    'cpu'	: "max,sse4.2=off",
++}
++
+ class FreeBSDVM(basevm.BaseVM):
+     name = "freebsd"
+     arch = "x86_64"
  
- Linux user
- M: Laurent Vivier <laurent@vivier.eu>
+-    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
+-    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
++    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
++    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
+     size = "20G"
+     pkgs = [
+         # build tools
+@@ -125,7 +129,7 @@ class FreeBSDVM(basevm.BaseVM):
+         self.console_wait_send("IPv6",                  "n")
+         self.console_wait_send("Resolver",              "\n")
+ 
+-        self.console_wait_send("Time Zone Selector",    "a\n")
++        self.console_wait_send("Time Zone Selector",    "0\n")
+         self.console_wait_send("Confirmation",          "y")
+         self.console_wait_send("Time & Date",           "\n")
+         self.console_wait_send("Time & Date",           "\n")
+@@ -206,4 +210,4 @@ class FreeBSDVM(basevm.BaseVM):
+         self.print_step("All done")
+ 
+ if __name__ == "__main__":
+-    sys.exit(basevm.main(FreeBSDVM))
++    sys.exit(basevm.main(FreeBSDVM, config=FREEBSD_CONFIG))
 -- 
 2.30.0
 
