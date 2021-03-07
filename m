@@ -2,53 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1633304C2
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:00:58 +0100 (CET)
-Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA573304C3
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:03:47 +0100 (CET)
+Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ0WH-0003bn-Ku
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 16:00:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
+	id 1lJ0Yz-000745-4W
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 16:03:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0SE-0008GT-Um
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:47 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:51249)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0Td-0001bV-0K
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:58:13 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:59631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0SA-0006k5-7W
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:46 -0500
-Received: from localhost.localdomain ([82.252.159.174]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3Kc8-1lk7yR1QV0-010KN2; Sun, 07 Mar 2021 21:56:29 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0Ta-00075s-9Y
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:58:12 -0500
+Received: from [192.168.100.1] ([82.252.159.174]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MnJdE-1m00G429Aa-00jIO7; Sun, 07 Mar 2021 21:58:08 +0100
+Subject: Re: [PATCH 1/2] target/m68k: don't set SSW ATC bit for physical bus
+ errors
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210307202607.27745-1-mark.cave-ayland@ilande.co.uk>
+ <20210307202607.27745-2-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/5] m68k: add a system controller
-Date: Sun,  7 Mar 2021 21:56:22 +0100
-Message-Id: <20210307205623.507180-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210307205623.507180-1-laurent@vivier.eu>
-References: <20210307205623.507180-1-laurent@vivier.eu>
+Message-ID: <cbcbf5b5-2f9e-31cf-f816-9db19d4f3479@vivier.eu>
+Date: Sun, 7 Mar 2021 21:58:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210307202607.27745-2-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ma1FItY3oGziNx2IUcRNB87luTNkjIcDlOzKaiq4iMb6tR6oXh4
- PTRT7LPA5MtOEtZTYSJDJRsITBq2B3GXe+1i0aFce2BP3EossHB5E1jy6XiC0NYNtlG3XLS
- 8B4BHtu8wcrXSTKPr0UFr8pxPCbNWroyyexc8rPMEDVDE0LC566ZA66SamPTT2JePXlAFV4
- KXhiSLS5LcKUiBPw2yYnA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OW06va7dqAk=:1H9j8cJGmB9DY+ucHfjMwY
- LXWxMSLZ39Uftu7Ca5XbQudVK+FOVH7CcXQvqZ2sSiWM2Kuqw3VDGZW3S/nD0QiLE+20cNIzt
- NHUT6zNBuDPMl+n1mplFcnHCJIuf4TCzwufLWX+hmn08kgRlyECHI6rJHSqqja9IKco3jhv11
- SuHasSsU/Vzr93BbjByvP6i39ofA0e716aIM9AQ+tASU7Asc2ex7E56IYVrZGbkz/6ONCUglV
- Fvo7zYbqwBCHfu6wLDjTC8XHZxvzYfQ7z9G6LAGr6SoPJdjv+ASN1gv2ywtEz1n4OREyCCqW/
- J097QiSZ8f0NqAt0DX/9PDHC/vP7GVs5s+gnsDL9JAATcSL9/WmxxJ9PpLMnmaq7oxCNaikGy
- RlAby7oOyH3nNbYDfEO5gMaSh5D5sHXQr2f+pdw30Ilg1lOHhYNf3UlF9QWks+4Y8oUWXlPal
- g+0cjin40A==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Y2pGJfvndGiwAwsjQhDOMjIo5UgYJsKTXBs1CzBH0uiyrp38SFq
+ c2tsCM+w7cAGBTWifp0YBOrM6PRIAULg/VXcnh2VqpthceCFg+f2tMSTRxw/m3J5inIBK34
+ AsuEp5tY8kJG6JVx2fwrqebYgmSvTPoWxV9dEka8sZcKR0p4NdKwBir9KsPauglBnvk1Ug7
+ 4f9FiZsSdp1xdHnfT1mdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8v9oRFPca5U=:ux51e2bfozKte4C5yRLDg1
+ t0LFvKboBrfuGfhR4zkk9wVANxU6rp2mamX8kRC/dc4Z6k/VzsXi+Jx64KLQ4d6rBo5xWpRh7
+ IwFakyWbZbpQc0kd0Odwz0uk9CMS8tmJtC8Md0sgjNRaIAOYK/aWLPaQ2BHhJIkvneIXpqGkA
+ rFkV8COEKgrMh7yK9jdlS/NM8AhYXl9KCXSc2Dl+726OTo4gKANf4J8d+ndxh3Lu3QFqFc9eR
+ Tc7WeA04+KBdXsu9o0itbq+1pfocLgi3PCCqVKKyXewtClKg4wvgzfvXNSlg5Gc7AfCFQ75Zt
+ 3vHFtU/ec5Ha6qgxcyttoKvsY8A02I6kE0ZNBNmYweqDZzgO+Q92PRblVIJdiRIPyvR2cIVlL
+ hfjzHiJGSpi/edLj3TS5ik0zHrG+M+rGi4FYZDDxBmh4m1UVQar8G0if54L7PffhOq72P/oIk
+ jchS779HoA==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,257 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a system controller for the m68k-virt machine.
-This controller allows the kernel to power off or reset the machine.
+Le 07/03/2021 à 21:26, Mark Cave-Ayland a écrit :
+> If a NuBus slot doesn't contain a card, the Quadra hardware generates a physical
+> bus error if the CPU attempts to access the slot address space. Both Linux and
+> MacOS use a separate bus error handler during NuBus accesses in order to detect
+> and recover when addressing empty slots.
+> 
+> According to the MC68040 users manual the ATC bit of the SSW is used to
+> distinguish between ATC faults and physical bus errors. MacOS specifically checks
+> the stack frame generated by a NuBus error and panics if the SSW ATC bit is set.
+> 
+> Update m68k_cpu_transaction_failed() so that the SSW ATC bit is not set if the
+> memory API returns MEMTX_DECODE_ERROR which will be used to indicate that an
+> access to an empty NuBus slot occurred.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/m68k/op_helper.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+> index 202498deb5..59a6448296 100644
+> --- a/target/m68k/op_helper.c
+> +++ b/target/m68k/op_helper.c
+> @@ -468,7 +468,17 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+>  
+>      if (m68k_feature(env, M68K_FEATURE_M68040)) {
+>          env->mmu.mmusr = 0;
+> -        env->mmu.ssw |= M68K_ATC_040;
+> +
+> +        /*
+> +         * According to the MC68040 users manual the ATC bit of the SSW is
+> +         * used to distinguish between ATC faults and physical bus errors.
+> +         * In the case of a bus error e.g. during nubus read from an empty
+> +         * slot this bit should not be set
+> +         */
+> +        if (response != MEMTX_DECODE_ERROR) {
+> +            env->mmu.ssw |= M68K_ATC_040;
+> +        }
+> +
+>          /* FIXME: manage MMU table access error */
+>          env->mmu.ssw &= ~M68K_TM_040;
+>          if (env->sr & SR_S) { /* SUPERVISOR */
+> 
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/hw/misc/m68k_virt_ctrl.h |  22 +++++
- hw/misc/m68k_virt_ctrl.c         | 152 +++++++++++++++++++++++++++++++
- hw/misc/Kconfig                  |   3 +
- hw/misc/meson.build              |   3 +
- hw/misc/trace-events             |   7 ++
- 5 files changed, 187 insertions(+)
- create mode 100644 include/hw/misc/m68k_virt_ctrl.h
- create mode 100644 hw/misc/m68k_virt_ctrl.c
-
-diff --git a/include/hw/misc/m68k_virt_ctrl.h b/include/hw/misc/m68k_virt_ctrl.h
-new file mode 100644
-index 000000000000..1db7960e5477
---- /dev/null
-+++ b/include/hw/misc/m68k_virt_ctrl.h
-@@ -0,0 +1,22 @@
-+/*
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ *
-+ * Virt m68k system Controller
-+ */
-+
-+#ifndef M68K_VIRT_CTRL_H
-+#define M68K_VIRT_CTRL_H
-+
-+#define TYPE_M68K_VIRT_CTRL "m68k-virt-ctrl"
-+OBJECT_DECLARE_SIMPLE_TYPE(M68KVirtCtrlState, M68K_VIRT_CTRL)
-+
-+struct M68KVirtCtrlState {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion iomem;
-+    qemu_irq irq;
-+
-+    uint32_t irq_enabled;
-+};
-+
-+#endif
-diff --git a/hw/misc/m68k_virt_ctrl.c b/hw/misc/m68k_virt_ctrl.c
-new file mode 100644
-index 000000000000..fb34aa10211a
---- /dev/null
-+++ b/hw/misc/m68k_virt_ctrl.c
-@@ -0,0 +1,152 @@
-+/*
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ *
-+ * Virt m68k system Controller
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/sysbus.h"
-+#include "migration/vmstate.h"
-+#include "qemu/log.h"
-+#include "trace.h"
-+#include "sysemu/runstate.h"
-+#include "hw/misc/m68k_virt_ctrl.h"
-+
-+enum {
-+    REG_FEATURES = 0x00,
-+    REG_CMD      = 0x04,
-+};
-+
-+#define FEAT_POWER_CTRL 0x00000001
-+
-+enum {
-+    CMD_NOOP,
-+    CMD_RESET,
-+    CMD_HALT,
-+    CMD_PANIC,
-+};
-+
-+static uint64_t m68k_virt_ctrl_read(void *opaque, hwaddr addr,
-+                                    unsigned size)
-+{
-+    M68KVirtCtrlState *s = opaque;
-+    uint64_t value = 0;
-+
-+    switch (addr) {
-+    case REG_FEATURES:
-+        value = FEAT_POWER_CTRL;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
-+                      __func__, addr);
-+        break;
-+    }
-+
-+    trace_m68k_virt_ctrl_write(s, addr, size, value);
-+
-+    return value;
-+}
-+
-+static void m68k_virt_ctrl_write(void *opaque, hwaddr addr,
-+                                 uint64_t value, unsigned size)
-+{
-+    M68KVirtCtrlState *s = opaque;
-+
-+    trace_m68k_virt_ctrl_write(s, addr, size, value);
-+
-+    switch (addr) {
-+    case REG_CMD:
-+        switch (value) {
-+        case CMD_NOOP:
-+            break;
-+        case CMD_RESET:
-+            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+            break;
-+        case CMD_HALT:
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+            break;
-+        case CMD_PANIC:
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
-+            break;
-+        }
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
-+                      __func__, addr);
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps m68k_virt_ctrl_ops = {
-+    .read = m68k_virt_ctrl_read,
-+    .write = m68k_virt_ctrl_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid.max_access_size = 4,
-+    .impl.max_access_size = 4,
-+};
-+
-+static void m68k_virt_ctrl_reset(DeviceState *dev)
-+{
-+    M68KVirtCtrlState *s = M68K_VIRT_CTRL(dev);
-+
-+    trace_m68k_virt_ctrl_reset(s);
-+}
-+
-+static void m68k_virt_ctrl_realize(DeviceState *dev, Error **errp)
-+{
-+    M68KVirtCtrlState *s = M68K_VIRT_CTRL(dev);
-+
-+    trace_m68k_virt_ctrl_instance_init(s);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(s), &m68k_virt_ctrl_ops, s,
-+                          "m68k-virt-ctrl", 0x100);
-+}
-+
-+static const VMStateDescription vmstate_m68k_virt_ctrl = {
-+    .name = "m68k-virt-ctrl",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(irq_enabled, M68KVirtCtrlState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void m68k_virt_ctrl_instance_init(Object *obj)
-+{
-+    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
-+    M68KVirtCtrlState *s = M68K_VIRT_CTRL(obj);
-+
-+    trace_m68k_virt_ctrl_instance_init(s);
-+
-+    sysbus_init_mmio(dev, &s->iomem);
-+    sysbus_init_irq(dev, &s->irq);
-+}
-+
-+static void m68k_virt_ctrl_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->reset = m68k_virt_ctrl_reset;
-+    dc->realize = m68k_virt_ctrl_realize;
-+    dc->vmsd = &vmstate_m68k_virt_ctrl;
-+}
-+
-+static const TypeInfo m68k_virt_ctrl_info = {
-+    .name = TYPE_M68K_VIRT_CTRL,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .class_init = m68k_virt_ctrl_class_init,
-+    .instance_init = m68k_virt_ctrl_instance_init,
-+    .instance_size = sizeof(M68KVirtCtrlState),
-+};
-+
-+static void m68k_virt_ctrl_register_types(void)
-+{
-+    type_register_static(&m68k_virt_ctrl_info);
-+}
-+
-+type_init(m68k_virt_ctrl_register_types)
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 19c216f3efb0..9abf021ace0e 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -174,4 +174,7 @@ config SIFIVE_U_OTP
- config SIFIVE_U_PRCI
-     bool
- 
-+config M68K_VIRT_CTRL
-+    bool
-+
- source macio/Kconfig
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 629283957fcc..49b9e3c05e7a 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -24,6 +24,9 @@ softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
- # Mac devices
- softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
- 
-+# virt m68k devices
-+softmmu_ss.add(when: 'CONFIG_M68K_VIRT_CTRL', if_true: files('m68k_virt_ctrl.c'))
-+
- # RISC-V devices
- softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
- softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_IOSCB', if_true: files('mchp_pfsoc_ioscb.c'))
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index d626b9d7a7c6..d326fb1d1a56 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -243,3 +243,10 @@ pca955x_gpio_change(const char *description, unsigned id, unsigned prev_state, u
- bcm2835_cprman_read(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
- bcm2835_cprman_write(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
- bcm2835_cprman_write_invalid_magic(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
-+
-+# m68k_virt_ctrl.c
-+m68k_virt_ctrl_read(void *dev, unsigned int addr, unsigned int size, uint64_t value) "ctrl: %p reg: 0x%02x size: %d value: 0x%"PRIx64
-+m68k_virt_ctrl_write(void *dev, unsigned int addr, unsigned int size, uint64_t value) "ctrl: %p reg: 0x%02x size: %d value: 0x%"PRIx64
-+m68k_virt_ctrl_reset(void *dev) "ctrl: %p"
-+m68k_virt_ctrl_realize(void *dev) "ctrl: %p"
-+m68k_virt_ctrl_instance_init(void *dev) "ctrl: %p"
--- 
-2.29.2
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
