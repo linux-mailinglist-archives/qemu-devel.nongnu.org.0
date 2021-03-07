@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775832FEBB
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 06:17:32 +0100 (CET)
-Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0BF32FF81
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 08:36:22 +0100 (CET)
+Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIlnH-0002po-Gt
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 00:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50290)
+	id 1lInxd-0003pU-B6
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 02:36:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIllW-0002Ex-2L
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 00:15:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48980)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lInw1-0003OJ-6r
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 02:34:41 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lIllU-0005ny-6r
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 00:15:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lIllS-00014n-7k
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 05:15:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 37D992E8060
- for <qemu-devel@nongnu.org>; Sun,  7 Mar 2021 05:15:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lInvz-0003Dc-HX
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 02:34:40 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ d14-20020a17090ab30eb02900caa8f10060so1330623pjr.4
+ for <qemu-devel@nongnu.org>; Sat, 06 Mar 2021 23:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6O51sH4tnKybCPfySNrMtL3pI53Msh+JqAy9S+qdrXE=;
+ b=g8chD7ZraWP38I9SNgJXXRBf0rzPhu3ZAlnymn2JAstDCSm2vRXkqjvchnnL8nX+kW
+ oUxzL/4q29mfy0Y1izq3OtPF/aRX62YTIp7XBqapsPdmP89d3c9LAO36j3k8b14jkReZ
+ i2sVMC8Ot3FxnkU4OOrhbcWZAREqVxGtrW/SRYMZ6YNIr7g22E1w0DPYRzl7wK0WuFB7
+ ww6Yzc+7o0aqG4AO2U3NijyqvQhuhbHJi/uah1+DdtAhx/sW1QHkVszXFWQBTu/jjdl4
+ CGaH77xf9412mbBGa7gr5pJZRaqVMY6vsq74faxN4v5OnDntzlXW/21ybfFFvjlkd9rv
+ qufA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6O51sH4tnKybCPfySNrMtL3pI53Msh+JqAy9S+qdrXE=;
+ b=jOemccCAhr5x4jLE6r73MuO3vvIgjVPmHiN9tXAxUfFuoSmzSmzux4NlWZcH64lVYP
+ rPkG3n5Q76YC9XW8KkuXxc+pYmRrmfUjZ/aO2CBslBPshP3zf3BuhDaDtoYPpSI0D9bn
+ bRgYHNonujtnc07++eYheKS/wlcsicXRGRH7czKYokXzQ2WmStvQmCuSGonpJQEAIeys
+ tLNC9PySneJJlcSiqTssHw3PSglUSuYEwcJs4FSAWI5CkhGM5JH8JfD0OjZgadl+7fbS
+ fIgzbbDiGXk6arpkMq9//2ISQ4r0Xxn8+YabYrcTVyguGMh5gguuyYYyx+VWaGyljkAC
+ 6ddQ==
+X-Gm-Message-State: AOAM530iSaiPq8iGdAcg+TF8Wscq0K+y5k7XDeTCz48ml8XEsg4DrKz+
+ ErwFowUforjQ7N5DUhb0/vXs7o+hIwl6AQ==
+X-Google-Smtp-Source: ABdhPJyzpc3EB5gN0eITk7eM0g0G2DuZBen76vvjQyJTI8F+CepteZ5xE6s7phUdYtZVapepqdaOgA==
+X-Received: by 2002:a17:90a:778a:: with SMTP id
+ v10mr18456657pjk.229.1615102477826; 
+ Sat, 06 Mar 2021 23:34:37 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id s26sm7222010pfd.5.2021.03.06.23.34.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Mar 2021 23:34:37 -0800 (PST)
+Subject: Re: [PATCH 1/2] target/tricore: Fix imask OPC2_32_RRPW_IMASK for r3+1
+ == r2
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
+References: <20210305132629.755627-1-kbastian@mail.uni-paderborn.de>
+ <20210305132629.755627-2-kbastian@mail.uni-paderborn.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cb6e7c44-0472-a545-ea9e-b28e446168c9@linaro.org>
+Date: Sat, 6 Mar 2021 23:34:34 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Mar 2021 05:06:23 -0000
-From: Richard Henderson <1918026@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rmacnak rth
-X-Launchpad-Bug-Reporter: Ryan Macnak (rmacnak)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161506589796.3423.13383022797399751590.malonedeb@soybean.canonical.com>
-Message-Id: <161509358359.16055.5030887152330103609.malone@chaenomeles.canonical.com>
-Subject: [Bug 1918026] Re: RISCV64 32-bit AMOs incorrectly simulated
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
-X-Launchpad-Hash: 1d1e68401dda9a04e879e0c698f74e0fefc5b471
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210305132629.755627-2-kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,62 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918026 <1918026@bugs.launchpad.net>
+Cc: david.brenken@efs-auto.de, georg.hofstetter@efs-auto.de,
+ andreas.konopik@efs-auto.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Flushing out the report to something that compiles,
-the test case works for me using qemu 5.2.
+On 3/5/21 5:26 AM, Bastian Koppelmann wrote:
+> @@ -6989,6 +6989,7 @@ static void decode_rrpw_extract_insert(DisasContext *ctx)
+>       uint32_t op2;
+>       int r1, r2, r3;
+>       int32_t pos, width;
+> +    TCGv temp;
+>   
+>       op2 = MASK_OP_RRPW_OP2(ctx->opcode);
+>       r1 = MASK_OP_RRPW_S1(ctx->opcode);
+> @@ -7021,10 +7022,15 @@ static void decode_rrpw_extract_insert(DisasContext *ctx)
+>           break;
+>       case OPC2_32_RRPW_IMASK:
+>           CHECK_REG_PAIR(r3);
+> +        temp = tcg_temp_new();
+> +
+>           if (pos + width <= 32) {
+> -            tcg_gen_movi_tl(cpu_gpr_d[r3+1], ((1u << width) - 1) << pos);
+> +            tcg_gen_movi_tl(temp, ((1u << width) - 1) << pos);
+>               tcg_gen_shli_tl(cpu_gpr_d[r3], cpu_gpr_d[r2], pos);
+> +            tcg_gen_mov_tl(cpu_gpr_d[r3+1], temp);
+>           }
+> +
+> +        tcg_temp_free(temp);
 
-** Attachment added: "z.c"
-   https://bugs.launchpad.net/qemu/+bug/1918026/+attachment/5474131/+files/=
-z.c
+You could restrict the variable to the if block.
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918026
-
-Title:
-  RISCV64 32-bit AMOs incorrectly simulated
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  Version: qemu-riscv64 version 4.2.1 (Debian 1:4.2-3ubuntu6.14)
-
-  test:
-    amomaxu.w a0, a1, (a0)
-    ret
-
-  int32_t* value =3D -7;
-  EXPECT_EQ(-7, test(&value, -11));
-  EXPECT_EQ(-7, value);  // FAIL, saw -11
-  EXPECT_EQ(-7, test(&value, -7));
-  EXPECT_EQ(-7, value);  // FAIL, raw -11
-  EXPECT_EQ(-7, test(&value, -4));
-  EXPECT_EQ(-4, value);
-
-  test:
-    amomax.w a0, a1, (a0)
-    ret
-
-  int32_t* value =3D -7;
-  EXPECT_EQ(-7, test(&value, -11));
-  EXPECT_EQ(-7, value);
-  EXPECT_EQ(-7, test(&value, -7));
-  EXPECT_EQ(-7, value);
-  EXPECT_EQ(-7, test(&value, -4));
-  EXPECT_EQ(-4, value);  // FAIL, saw -7
-
-  I suspect that trans_amo<op>_w should be using
-  tcg_gen_atomic_fetch_<op>_i32 instead of tcg_gen_atomic_fetch_<op>_tl.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918026/+subscriptions
+r~
 
