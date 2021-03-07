@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070EC3302CE
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 16:59:10 +0100 (CET)
-Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5F633030E
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 17:51:31 +0100 (CET)
+Received: from localhost ([::1]:38784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIvoC-0008MW-98
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 10:59:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
+	id 1lIwcr-0000xX-K1
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 11:51:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmi-0007Tn-Cy
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:36 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lIvmg-00057y-Qj
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 10:57:36 -0500
-Received: by mail-ot1-x341.google.com with SMTP id d9so6788132ote.12
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 07:57:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=t4z26GNk4RH+nN5Jw/9Cqpcfexl9aeBWkUx/tK8wFtk=;
- b=zDto9yggGguJ2CCZaSKnJ/PwWj1R5/cKwzhKUv/PABUpZHHJahH/LVPAfFIOsZmnDl
- l2Ka2poKWRLU2F2z1LUcXpsSOzCphh8tvw+3+rweOpmJVc8If97b8b7pypy9qhWNpaXF
- a+h3JFa6u6E98df8RKhsWXIwVneB3KMtS5cqnCK881xjCIu8jQswdD/+3kf3jNcbfNp9
- vT5eDALzKt7HNU+rJkQnZ4dT+9roOAlG4AoLRSy4MSTaCmX+rjkO/JvAZRVNqT3wEbrU
- Hu5R1wWnfyB1W7AePEgjHNjVJH98MqPjQA2JadXYWK86Wyw7iUda8E589VC+elMu4JRl
- qtMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=t4z26GNk4RH+nN5Jw/9Cqpcfexl9aeBWkUx/tK8wFtk=;
- b=lOYj67Tn6SfW7ZRZPm7/8H/szVyRcAIDcJQfEbk+pMN1Y0AIGHVvuE790QvKp3zv/4
- PO5WZXiesMbMJ0CsA8LLKUENtu3Za1eCG3bIQLdDR8Z4psqJmBIWgdEB8ZAc3GwwrhvW
- nGvEhMOcAJul4bG4KVgMsusR+AR/R+q+Yj96LBdJnLBkUmG62SewSJ3rVLYbRnE1VKTx
- KyrAlQsmoaxS99vV7MSWiPf5u/JAB2DEPOrgoqOqgyW6T34NEe1NAm6K/WwManqI9qpO
- WhXjb+WZy9hSI5ZVKQQH5/CwoQ3+i+O+D9Rz0YIUctpShR9Pj13Hfi9sdULa1xDGkfL8
- 4TuA==
-X-Gm-Message-State: AOAM5325g69hBoXC73czWNow9yXOgeqBk8Rnplx/AbG5HnWuBH7GHKyA
- MAz3bJDGhd0lBbGVvn/jjSa+ZioqjCXfMYH6
-X-Google-Smtp-Source: ABdhPJwdKa9OG+a9xQ2hHCLlXYVmLPYfb78EteeBKkDcO8omg90Spv2eSfyoLNDFtDeROh+rtAhMiw==
-X-Received: by 2002:a9d:6081:: with SMTP id m1mr11615209otj.38.1615132653534; 
- Sun, 07 Mar 2021 07:57:33 -0800 (PST)
-Received: from rebo.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id z14sm2170468otk.30.2021.03.07.07.57.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Mar 2021 07:57:33 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaH-0007Xn-88
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:49 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:49365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lIwaC-0006YC-PZ
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 11:48:49 -0500
+Received: from localhost.localdomain ([82.252.159.174]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mtfa5-1lc8II3OEZ-00v9N3; Sun, 07 Mar 2021 17:48:34 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] FreeBSD: Upgrade to 12.2 release
-Date: Sun,  7 Mar 2021 08:56:54 -0700
-Message-Id: <20210307155654.993-2-imp@bsdimp.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210307155654.993-1-imp@bsdimp.com>
-References: <20210307155654.993-1-imp@bsdimp.com>
+Subject: [PATCH v4 0/5] m68k: add Virtual M68k Machine
+Date: Sun,  7 Mar 2021 17:48:23 +0100
+Message-Id: <20210307164828.87348-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::341;
- envelope-from=imp@bsdimp.com; helo=mail-ot1-x341.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UMSWD3pgsbjxjAd3765Fl9X5bqZewS8LXB1vnbdkncSfn1g4HW7
+ NqZM6J2ohKMd6dAE5WbSV4AH8hkiL7UycB2pce6hGqmJFxVC/2M7FeqCSBMZcg6jMG4SWSp
+ 4ytIfhtDim1FUszaZsXrUzOIvaNjJ9i+b3d/d1tog7WGfdbswVsx1y2yRXYi+GeuuziH8/a
+ EJHVqJ3jLGrOP3klzbI0Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0KvGx0mjCZs=:f4rs1v+HtXifLTsny0/3z2
+ 1PEH8USZpc8TlWMYAp6qf0+OmDmOg9tVwJx6ocrWisxrDDg9yws9x9ARbjN5/JXtXFkYPc8kK
+ j0YnH+uPCwqgBrrgv/cHTRbDNMdpHe7JHezPVCS4WeTexF1nBVunOX68mU/YL1mudwF1E4yQh
+ +xe1hJZHJ+FU8T3U1QTLdfa7Ak8opgagCtIV7cShMxx9Tyo6+upZpH8s84kKX6E4HVBJQ1yO2
+ BH2T9DRX7BXedoueFcpAkovZYs9KJHeZpfR4aE26lZNN3AhZZUEGwl0Q4v4aYNULZV5VzrS/E
+ DKc+dAv/BXCF2A1OEh8Reb3JEAtg1CWMrDov499O1gJc+Keat5FmHclvrj6648bK34lbu6Jzx
+ uSbMqx3dIqzs8KfWtC2EmKKdzD3Bt4BRzFYBDngOsde2c295Qb4REGjexyr6nKZh49fcUI5g1
+ pgW2gvft6Q==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,61 +61,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Warner Losh <imp@bsdimp.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
-project's packages will work.  Update which timezone to pick. Work around a QEMU
-bug that incorrectly raises an exception on a CRC32 instruction with the FPU
-disabled.  The qemu bug is described here:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg784158.html
-
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-
----
- tests/vm/freebsd | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 09f3ee6cb8..81389d527e 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -20,12 +20,16 @@ import socket
- import subprocess
- import basevm
- 
-+FREEBSD_CONFIG = {
-+    'cpu'	: "max,sse4.2=off",
-+}
-+
- class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
- 
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
--    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
-+    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
-     size = "20G"
-     pkgs = [
-         # build tools
-@@ -125,7 +129,7 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_wait_send("IPv6",                  "n")
-         self.console_wait_send("Resolver",              "\n")
- 
--        self.console_wait_send("Time Zone Selector",    "a\n")
-+        self.console_wait_send("Time Zone Selector",    "0\n")
-         self.console_wait_send("Confirmation",          "y")
-         self.console_wait_send("Time & Date",           "\n")
-         self.console_wait_send("Time & Date",           "\n")
-@@ -206,4 +210,4 @@ class FreeBSDVM(basevm.BaseVM):
-         self.print_step("All done")
- 
- if __name__ == "__main__":
--    sys.exit(basevm.main(FreeBSDVM))
-+    sys.exit(basevm.main(FreeBSDVM, config=FREEBSD_CONFIG))
--- 
-2.30.0
-
+The Quadra 800 machine is very limited to run linux, it manages=0D
+only 1 GiB of memory and only some specific interfaces.=0D
+=0D
+The Virtual M68k Machine is based on Goldfish interfaces defined by Google=
+=0D
+for Android simulator. It uses Goldfish-rtc (timer and RTC),=0D
+Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).=0D
+=0D
+https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDF=
+IS=3D=0D
+H-VIRTUAL-HARDWARE.TXT=0D
+=0D
+The machine is created with 128 virtio-mmio busses, and they can=0D
+be used to add serial console, GPU, disk, NIC, HID, ...=0D
+=0D
+This series re-use the goldfish-rtc implemented for RISCV, and=0D
+adds the two others based on the goldfish specs, the kernel driver=0D
+and android simulator ones.=0D
+=0D
+The machine can manage up to 3.2 GiB of memory, not because of an hardware=
+=0D
+limitation but because the kernel crashes after this value.=0D
+=0D
+Simply configure qemu with:=0D
+=0D
+    .../configure --target-list=3D3Dm68k-softmmu=0D
+=0D
+To run the machine you need a modified kernel you can find here:=0D
+=0D
+    https://github.com/vivier/linux/tree/m68k-virt=0D
+=0D
+You need to compile the kernel with:=0D
+=0D
+    make virt_defconfig=0D
+    make vmlinux=0D
+=0D
+The disk must be installed using the q800 machine because the debian instal=
+ler=0D
+doesn't want to be used with a kernel that is not the one on the ISO.=0D
+=0D
+And then you can run the machine with something like:=0D
+=0D
+qemu-system-m68k -M virt \=0D
+  -m 3399672K \=0D
+  -chardev stdio,signal=3D3Doff,mux=3D3Don,id=3D3Dchar0 \=0D
+  -mon chardev=3D3Dchar0,mode=3D3Dreadline \=0D
+  -kernel vmlinux \=0D
+  -append "console=3D3Dhvc0 root=3D3D/dev/vda2" \=0D
+  -blockdev node-name=3D3Dsystem,driver=3D3Dfile,filename=3D3Ddebian-10.0.q=
+cow2 \=0D
+  -blockdev node-name=3D3Ddrive0,driver=3D3Dqcow2,file=3D3Dsystem \=0D
+  -device virtio-blk-device,drive=3D3Ddrive0 \=0D
+  -serial chardev:char0 \=0D
+  -device virtio-net-device,netdev=3D3Dhostnet0 \=0D
+  -netdev bridge,id=3D3Dhostnet0,br=3D3Dvirbr0 \=0D
+  -device virtio-rng-device \=0D
+  -device virtio-serial-device \=0D
+  -device virtio-gpu-device \=0D
+  -device virtconsole,chardev=3D3Dchar0 \=0D
+  -device virtio-keyboard-device \=0D
+  -device virtio-mouse-device=0D
+=0D
+if you want to use Goldfish-tty for the console rather than virtconsole, yo=
+u=0D
+can add "console=3D3DttyGF".=0D
+=0D
+To start the debian-installer, you can try by adding:=0D
+=0D
+  -device virtio-scsi-device \=0D
+  -blockdev node-name=3D3Ddebian10,driver=3D3Dfile,filename=3D3Ddebian-10.0=
+.0-m68k-=3D=0D
+NETINST-1.iso \=0D
+  -blockdev node-name=3D3Dcdrom0,driver=3D3Draw,file=3D3Ddebian10 \=0D
+  -device scsi-cd,drive=3D3Dcdrom0 \=0D
+  -initrd installer-m68k/20200315/images/cdrom/initrd.gz=0D
+=0D
+ISO:    https://cdimage.debian.org/cdimage/ports/snapshots/2020-10-12/debia=
+n-=3D=0D
+10.0.0-m68k-NETINST-1.iso=0D
+initrd: https://cdimage.debian.org/cdimage/ports/debian-installer/2020-10-1=
+2/=3D=0D
+m68k/debian-installer-images_20200315_m68k.tar.gz=0D
+=0D
+v4:=0D
+  goldfish-tty:=0D
+      Use fifo8 for the data_in buffer=0D
+      Remove the data_out buffer from the struct and put it directly in=0D
+      the function. We don't need to use the fifo8 type because we=0D
+      can't bufferize the data as we can't stop the tx queue when the buffe=
+r=0D
+      is full. We rely on qemu_chr_fe_write_all() that blocks the thread fo=
+r=0D
+      that.=0D
+  goldfish-pic:=0D
+      Add DEFINE_PROP_UINT8() for the index=0D
+      Add .impl.min_access_size=0D
+=0D
+v3:=0D
+  Add some #define for the interrupt controller (and fix the number of IRQs=
+)=0D
+  Add some comments=0D
+  Update MAINTAINERS=0D
+  Remove "goldfish_rtc: re-arm the alarm after migration" that will be=0D
+  merged via the RISC-V branch.=0D
+=0D
+v2:=0D
+  Add an interrupt controller to replace the Q800 GLUE=0D
+  Add a system controller to shutdown the machine=0D
+  Add a fix for goldfish_rtc (already sent alone)=0D
+  Add statistics in goldfish-pic=0D
+  Add versionned machine type=0D
+  Use two goldfish-rtc rather than only one (for timer and RTC)=0D
+=0D
+Laurent Vivier (5):=0D
+  char: add goldfish-tty=0D
+  intc: add goldfish-pic=0D
+  m68k: add an interrupt controller=0D
+  m68k: add a system controller=0D
+  m68k: add Virtual M68k Machine=0D
+=0D
+ default-configs/devices/m68k-softmmu.mak      |   1 +=0D
+ include/hw/char/goldfish_tty.h                |  35 ++=0D
+ include/hw/intc/goldfish_pic.h                |  33 ++=0D
+ include/hw/intc/m68k_irqc.h                   |  41 +++=0D
+ include/hw/misc/m68k_virt_ctrl.h              |  22 ++=0D
+ .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +=0D
+ hw/char/goldfish_tty.c                        | 272 +++++++++++++++=0D
+ hw/intc/goldfish_pic.c                        | 219 ++++++++++++=0D
+ hw/intc/m68k_irqc.c                           | 119 +++++++=0D
+ hw/m68k/virt.c                                | 313 ++++++++++++++++++=0D
+ hw/misc/m68k_virt_ctrl.c                      | 152 +++++++++=0D
+ MAINTAINERS                                   |  13 +=0D
+ hw/char/Kconfig                               |   3 +=0D
+ hw/char/meson.build                           |   2 +=0D
+ hw/char/trace-events                          |  10 +=0D
+ hw/intc/Kconfig                               |   6 +=0D
+ hw/intc/meson.build                           |   2 +=0D
+ hw/intc/trace-events                          |   8 +=0D
+ hw/m68k/Kconfig                               |  10 +=0D
+ hw/m68k/meson.build                           |   1 +=0D
+ hw/misc/Kconfig                               |   3 +=0D
+ hw/misc/meson.build                           |   3 +=0D
+ hw/misc/trace-events                          |   7 +=0D
+ 23 files changed, 1293 insertions(+)=0D
+ create mode 100644 include/hw/char/goldfish_tty.h=0D
+ create mode 100644 include/hw/intc/goldfish_pic.h=0D
+ create mode 100644 include/hw/intc/m68k_irqc.h=0D
+ create mode 100644 include/hw/misc/m68k_virt_ctrl.h=0D
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
+ create mode 100644 hw/char/goldfish_tty.c=0D
+ create mode 100644 hw/intc/goldfish_pic.c=0D
+ create mode 100644 hw/intc/m68k_irqc.c=0D
+ create mode 100644 hw/m68k/virt.c=0D
+ create mode 100644 hw/misc/m68k_virt_ctrl.c=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
