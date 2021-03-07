@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA573304C3
+	by mail.lfdr.de (Postfix) with ESMTPS id AC48E3304C4
 	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:03:47 +0100 (CET)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ0Yz-000745-4W
+	id 1lJ0Z0-00073s-Hq
 	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 16:03:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0Td-0001bV-0K
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:58:13 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:59631)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0UR-0002xz-CW
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:59:03 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:45731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0Ta-00075s-9Y
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:58:12 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0UP-0007Ia-NG
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:59:03 -0500
 Received: from [192.168.100.1] ([82.252.159.174]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MnJdE-1m00G429Aa-00jIO7; Sun, 07 Mar 2021 21:58:08 +0100
-Subject: Re: [PATCH 1/2] target/m68k: don't set SSW ATC bit for physical bus
- errors
+ 1MXp1Q-1lFiBs0CgW-00YCvZ; Sun, 07 Mar 2021 21:59:00 +0100
+Subject: Re: [PATCH 2/2] target/m68k: add M68K_FEATURE_NO_DALIGN feature
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20210307202607.27745-1-mark.cave-ayland@ilande.co.uk>
- <20210307202607.27745-2-mark.cave-ayland@ilande.co.uk>
+ <20210307202607.27745-3-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <cbcbf5b5-2f9e-31cf-f816-9db19d4f3479@vivier.eu>
-Date: Sun, 7 Mar 2021 21:58:07 +0100
+Message-ID: <115a6a16-4b7a-8ed3-7dec-51262855b545@vivier.eu>
+Date: Sun, 7 Mar 2021 21:58:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210307202607.27745-2-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210307202607.27745-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Y2pGJfvndGiwAwsjQhDOMjIo5UgYJsKTXBs1CzBH0uiyrp38SFq
- c2tsCM+w7cAGBTWifp0YBOrM6PRIAULg/VXcnh2VqpthceCFg+f2tMSTRxw/m3J5inIBK34
- AsuEp5tY8kJG6JVx2fwrqebYgmSvTPoWxV9dEka8sZcKR0p4NdKwBir9KsPauglBnvk1Ug7
- 4f9FiZsSdp1xdHnfT1mdg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8v9oRFPca5U=:ux51e2bfozKte4C5yRLDg1
- t0LFvKboBrfuGfhR4zkk9wVANxU6rp2mamX8kRC/dc4Z6k/VzsXi+Jx64KLQ4d6rBo5xWpRh7
- IwFakyWbZbpQc0kd0Odwz0uk9CMS8tmJtC8Md0sgjNRaIAOYK/aWLPaQ2BHhJIkvneIXpqGkA
- rFkV8COEKgrMh7yK9jdlS/NM8AhYXl9KCXSc2Dl+726OTo4gKANf4J8d+ndxh3Lu3QFqFc9eR
- Tc7WeA04+KBdXsu9o0itbq+1pfocLgi3PCCqVKKyXewtClKg4wvgzfvXNSlg5Gc7AfCFQ75Zt
- 3vHFtU/ec5Ha6qgxcyttoKvsY8A02I6kE0ZNBNmYweqDZzgO+Q92PRblVIJdiRIPyvR2cIVlL
- hfjzHiJGSpi/edLj3TS5ik0zHrG+M+rGi4FYZDDxBmh4m1UVQar8G0if54L7PffhOq72P/oIk
- jchS779HoA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zfJe70xci0QSTkBQHNUpw6LZBsZiAcdRtCdrxzyHLGj+w5nursW
+ CEaPUpzH6eMkbPzr1UIn+jyBC+sJWU4sPmadHVvhzDho+Of71HC/S12ZrZpbOxmbn9VopNC
+ W8CFCu/fnNpZnSLTF7ANOcf2fBUD4JUR3xnTO2l5mHvkhRd2+Yuu5/qzaPqmNx/v2LACQuE
+ gBRAHMV/gkWZBXcKnKVPQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TgfhOieJi7U=:TUOl87Jl+K16s3c0Kgl1q5
+ 68rm69up3dADSXwdjyFxzAEFUb/5JyxkyYGjjMameGiXF2bU43n+vbifmLPxHhcQ4yPPE/l3F
+ PktYHoLPSErjtiaunN0o46IaVS0EaGkV6e07ldBVWdWcGu0g2tacBBFdAeBURge0jpmH3pW89
+ LMLKRXXD3OYsHKM5gyI+itgkS6ejCaEWT1U9kOQY3mNo+0eI4lV9wdBrf2X+/NFFcqkMOm7hY
+ O7p3TIwTC0dBIyrDhp+xBEzQDFz5VSNTUV7nyCbKwHn/3pIIvZ5Na1VW0jTbUKJ8MpSbb6XhS
+ Hlieu7/biBwvXO7cPa/HpSAnJMBQ195RCjNESeOL548EjzRYFbAb3w0OrEve/SQyZk3TgiEjn
+ LJrhsWVchiLy0FLUhbOM8dRKrAvfR+P4l8Lk9AIeAgxOV9c1Pasc1BeYLxdvmRdzTamagKKst
+ u0BLdrctJw==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,47 +70,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 07/03/2021 à 21:26, Mark Cave-Ayland a écrit :
-> If a NuBus slot doesn't contain a card, the Quadra hardware generates a physical
-> bus error if the CPU attempts to access the slot address space. Both Linux and
-> MacOS use a separate bus error handler during NuBus accesses in order to detect
-> and recover when addressing empty slots.
+> According to the M68040UM Appendix D the requirement for data accesses to be
+> word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
+> 68020 onwards will allow unaligned data accesses but at the cost of being less
+> efficient.
 > 
-> According to the MC68040 users manual the ATC bit of the SSW is used to
-> distinguish between ATC faults and physical bus errors. MacOS specifically checks
-> the stack frame generated by a NuBus error and panics if the SSW ATC bit is set.
+> Add a new M68K_FEATURE_NO_DALIGN feature to specify that data accesses are not
+> required to be word aligned, and don't perform the alignment on the stack
+> pointer when taking an exception if this feature is not selected.
 > 
-> Update m68k_cpu_transaction_failed() so that the SSW ATC bit is not set if the
-> memory API returns MEMTX_DECODE_ERROR which will be used to indicate that an
-> access to an empty NuBus slot occurred.
+> This is required because the MacOS DAFB driver attempts to call an A-trap
+> with a byte-aligned stack pointer during initialisation and without this the
+> stack pointer is off by one when the A-trap returns.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  target/m68k/op_helper.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+>  target/m68k/cpu.c       | 1 +
+>  target/m68k/cpu.h       | 1 +
+>  target/m68k/op_helper.c | 5 ++++-
+>  3 files changed, 6 insertions(+), 1 deletion(-)
 > 
+> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+> index 37d2ed9dc7..ea51753eb0 100644
+> --- a/target/m68k/cpu.c
+> +++ b/target/m68k/cpu.c
+> @@ -161,6 +161,7 @@ static void m68020_cpu_initfn(Object *obj)
+>      m68k_set_feature(env, M68K_FEATURE_CAS);
+>      m68k_set_feature(env, M68K_FEATURE_CHK2);
+>      m68k_set_feature(env, M68K_FEATURE_MSP);
+> +    m68k_set_feature(env, M68K_FEATURE_NO_DALIGN);
+>  }
+>  
+>  /*
+> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+> index 7c3feeaf8a..1e0876bba8 100644
+> --- a/target/m68k/cpu.h
+> +++ b/target/m68k/cpu.h
+> @@ -505,6 +505,7 @@ enum m68k_features {
+>      M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
+>      M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
+>      M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
+> +    M68K_FEATURE_NO_DALIGN, /* Unaligned data accesses (680[2346]0) */
+>  };
+>  
+>  static inline int m68k_feature(CPUM68KState *env, int feature)
 > diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-> index 202498deb5..59a6448296 100644
+> index 59a6448296..71b3df0910 100644
 > --- a/target/m68k/op_helper.c
 > +++ b/target/m68k/op_helper.c
-> @@ -468,7 +468,17 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+> @@ -348,7 +348,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+>      cpu_m68k_set_sr(env, sr);
+>      sp = env->aregs[7];
 >  
->      if (m68k_feature(env, M68K_FEATURE_M68040)) {
->          env->mmu.mmusr = 0;
-> -        env->mmu.ssw |= M68K_ATC_040;
+> -    sp &= ~1;
+> +    if (!m68k_feature(env, M68K_FEATURE_NO_DALIGN)) {
+> +        sp &= ~1;
+> +    }
 > +
-> +        /*
-> +         * According to the MC68040 users manual the ATC bit of the SSW is
-> +         * used to distinguish between ATC faults and physical bus errors.
-> +         * In the case of a bus error e.g. during nubus read from an empty
-> +         * slot this bit should not be set
-> +         */
-> +        if (response != MEMTX_DECODE_ERROR) {
-> +            env->mmu.ssw |= M68K_ATC_040;
-> +        }
-> +
->          /* FIXME: manage MMU table access error */
->          env->mmu.ssw &= ~M68K_TM_040;
->          if (env->sr & SR_S) { /* SUPERVISOR */
+>      if (cs->exception_index == EXCP_ACCESS) {
+>          if (env->mmu.fault) {
+>              cpu_abort(cs, "DOUBLE MMU FAULT\n");
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
