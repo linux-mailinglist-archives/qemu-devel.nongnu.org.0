@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B28330481
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 21:28:00 +0100 (CET)
-Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBD13304BD
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 21:58:21 +0100 (CET)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ00N-0007Cy-KE
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 15:27:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56916)
+	id 1lJ0Tk-0000uo-92
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 15:58:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIzyy-0005ib-2Q
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:26:32 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44132
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0S5-00087Z-0a
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:37 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:37257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIzyw-0006uK-C8
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:26:31 -0500
-Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
- helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIzyo-0005R9-WE; Sun, 07 Mar 2021 20:26:29 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Sun,  7 Mar 2021 20:26:07 +0000
-Message-Id: <20210307202607.27745-3-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210307202607.27745-1-mark.cave-ayland@ilande.co.uk>
-References: <20210307202607.27745-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0S2-0006hk-U2
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 15:56:36 -0500
+Received: from localhost.localdomain ([82.252.159.174]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MO9r5-1l7m1D32gz-00OUZT; Sun, 07 Mar 2021 21:56:26 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5] m68k: add Virtual M68k Machine
+Date: Sun,  7 Mar 2021 21:56:18 +0100
+Message-Id: <20210307205623.507180-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.34.47
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 2/2] target/m68k: add M68K_FEATURE_NO_DALIGN feature
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:EX8VZlbhDlrzUiijd6LyGCEUY9If+cbT4Gvx6PERh8HM7K0Mufh
+ PQmD+BY/ysfh0rDpNBBzn5caYrI8wLVxSZHOR7z8wVnN52jttJDrm7rwPw8I7nS01TKNyH+
+ QUrg9oD5Bo8k7TcFz/iyw7E89krl4X2ZFAQ7gQ/Me6N1bTUnPlIzhJM8ymJWcTaGcxpdtwB
+ AT7kDedvT7cJ6zuxuCrkw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vIdawb2swyc=:LCQ4qpI92y0yVnyrx+twRf
+ 1hsuj3YQFOi4Dg3wFoWok07+P4+Cx8Ie0P5Cbve/vyvuj2X6OgzREJDuDsusv57mJFtcwHP8s
+ +Z//WKRjmLcq05FXh4Fs7AdzpPUCGkosZ6tWhKJKFwmWwUmGIZi/NKUhAjiQWIdyQd4UpXg6l
+ b8WIoAD0AZgEjvbGbdwCEGmqXyjBJyASmMhUzdBJHuw0Mh/9P7ruB+krS+J6ylNgKlejzOZrK
+ sp8EnPn/Tv59pF/mVMZbKieoytFH5XXZAyF0+CvzzQLzH4FAWsH5h0xupPHFhF27SsCB5FIWW
+ AungfmZT0OwGPT0kWEUFaArihFDjPBbHLU4UM4PDNWxLtB9Acn/o/Ho68l0F2Kd1KrMctcfbY
+ A68dXBNIDdtRHpgWBpia78r8MJlJfLhCQLJnCCPOH8yeTtjkByhC71asQ6yNPf0lLGoRqtuTx
+ GeRvX0FexA==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,70 +61,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the M68040UM Appendix D the requirement for data accesses to be
-word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
-68020 onwards will allow unaligned data accesses but at the cost of being less
-efficient.
-
-Add a new M68K_FEATURE_NO_DALIGN feature to specify that data accesses are not
-required to be word aligned, and don't perform the alignment on the stack
-pointer when taking an exception if this feature is not selected.
-
-This is required because the MacOS DAFB driver attempts to call an A-trap
-with a byte-aligned stack pointer during initialisation and without this the
-stack pointer is off by one when the A-trap returns.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- target/m68k/cpu.c       | 1 +
- target/m68k/cpu.h       | 1 +
- target/m68k/op_helper.c | 5 ++++-
- 3 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 37d2ed9dc7..ea51753eb0 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -161,6 +161,7 @@ static void m68020_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CAS);
-     m68k_set_feature(env, M68K_FEATURE_CHK2);
-     m68k_set_feature(env, M68K_FEATURE_MSP);
-+    m68k_set_feature(env, M68K_FEATURE_NO_DALIGN);
- }
- 
- /*
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 7c3feeaf8a..1e0876bba8 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -505,6 +505,7 @@ enum m68k_features {
-     M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
-     M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
-     M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
-+    M68K_FEATURE_NO_DALIGN, /* Unaligned data accesses (680[2346]0) */
- };
- 
- static inline int m68k_feature(CPUM68KState *env, int feature)
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 59a6448296..71b3df0910 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -348,7 +348,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-     cpu_m68k_set_sr(env, sr);
-     sp = env->aregs[7];
- 
--    sp &= ~1;
-+    if (!m68k_feature(env, M68K_FEATURE_NO_DALIGN)) {
-+        sp &= ~1;
-+    }
-+
-     if (cs->exception_index == EXCP_ACCESS) {
-         if (env->mmu.fault) {
-             cpu_abort(cs, "DOUBLE MMU FAULT\n");
--- 
-2.20.1
-
+The Quadra 800 machine is very limited to run linux, it manages=0D
+only 1 GiB of memory and only some specific interfaces.=0D
+=0D
+The Virtual M68k Machine is based on Goldfish interfaces defined by Google=
+=0D
+for Android simulator. It uses Goldfish-rtc (timer and RTC),=0D
+Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).=0D
+=0D
+https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDF=
+IS=3D=0D
+H-VIRTUAL-HARDWARE.TXT=0D
+=0D
+The machine is created with 128 virtio-mmio busses, and they can=0D
+be used to add serial console, GPU, disk, NIC, HID, ...=0D
+=0D
+This series re-use the goldfish-rtc implemented for RISCV, and=0D
+adds the two others based on the goldfish specs, the kernel driver=0D
+and android simulator ones.=0D
+=0D
+The machine can manage up to 3.2 GiB of memory, not because of an hardware=
+=0D
+limitation but because the kernel crashes after this value.=0D
+=0D
+Simply configure qemu with:=0D
+=0D
+    .../configure --target-list=3D3Dm68k-softmmu=0D
+=0D
+To run the machine you need a modified kernel you can find here:=0D
+=0D
+    https://github.com/vivier/linux/tree/m68k-virt=0D
+=0D
+You need to compile the kernel with:=0D
+=0D
+    make virt_defconfig=0D
+    make vmlinux=0D
+=0D
+The disk must be installed using the q800 machine because the debian instal=
+ler=0D
+doesn't want to be used with a kernel that is not the one on the ISO.=0D
+=0D
+And then you can run the machine with something like:=0D
+=0D
+qemu-system-m68k -M virt \=0D
+  -m 3399672K \=0D
+  -chardev stdio,signal=3D3Doff,mux=3D3Don,id=3D3Dchar0 \=0D
+  -mon chardev=3D3Dchar0,mode=3D3Dreadline \=0D
+  -kernel vmlinux \=0D
+  -append "console=3D3Dhvc0 root=3D3D/dev/vda2" \=0D
+  -blockdev node-name=3D3Dsystem,driver=3D3Dfile,filename=3D3Ddebian-10.0.q=
+cow2 \=0D
+  -blockdev node-name=3D3Ddrive0,driver=3D3Dqcow2,file=3D3Dsystem \=0D
+  -device virtio-blk-device,drive=3D3Ddrive0 \=0D
+  -serial chardev:char0 \=0D
+  -device virtio-net-device,netdev=3D3Dhostnet0 \=0D
+  -netdev bridge,id=3D3Dhostnet0,br=3D3Dvirbr0 \=0D
+  -device virtio-rng-device \=0D
+  -device virtio-serial-device \=0D
+  -device virtio-gpu-device \=0D
+  -device virtconsole,chardev=3D3Dchar0 \=0D
+  -device virtio-keyboard-device \=0D
+  -device virtio-mouse-device=0D
+=0D
+if you want to use Goldfish-tty for the console rather than virtconsole, yo=
+u=0D
+can add "console=3D3DttyGF".=0D
+=0D
+To start the debian-installer, you can try by adding:=0D
+=0D
+  -device virtio-scsi-device \=0D
+  -blockdev node-name=3D3Ddebian10,driver=3D3Dfile,filename=3D3Ddebian-10.0=
+.0-m68k-=3D=0D
+NETINST-1.iso \=0D
+  -blockdev node-name=3D3Dcdrom0,driver=3D3Draw,file=3D3Ddebian10 \=0D
+  -device scsi-cd,drive=3D3Dcdrom0 \=0D
+  -initrd installer-m68k/20200315/images/cdrom/initrd.gz=0D
+=0D
+ISO:    https://cdimage.debian.org/cdimage/ports/snapshots/2020-10-12/debia=
+n-=3D=0D
+10.0.0-m68k-NETINST-1.iso=0D
+initrd: https://cdimage.debian.org/cdimage/ports/debian-installer/2020-10-1=
+2/=3D=0D
+m68k/debian-installer-images_20200315_m68k.tar.gz=0D
+=0D
+v5:=0D
+  goldfish-tty:=0D
+      Use deposit64()=0D
+      Add .impl.min_access_size=0D
+      Fix CMD_WRITE_BUFFER/CMD_READ_BUFFER=0D
+=0D
+v4:=0D
+  goldfish-tty:=0D
+      Use fifo8 for the data_in buffer=0D
+      Remove the data_out buffer from the struct and put it directly in=0D
+      the function. We don't need to use the fifo8 type because we=0D
+      can't bufferize the data as we can't stop the tx queue when the buffe=
+r=0D
+      is full. We rely on qemu_chr_fe_write_all() that blocks the thread fo=
+r=0D
+      that.=0D
+  goldfish-pic:=0D
+      Add DEFINE_PROP_UINT8() for the index=0D
+      Add .impl.min_access_size=0D
+=0D
+v3:=0D
+  Add some #define for the interrupt controller (and fix the number of IRQs=
+)=0D
+  Add some comments=0D
+  Update MAINTAINERS=0D
+  Remove "goldfish_rtc: re-arm the alarm after migration" that will be=0D
+  merged via the RISC-V branch.=0D
+=0D
+v2:=0D
+  Add an interrupt controller to replace the Q800 GLUE=0D
+  Add a system controller to shutdown the machine=0D
+  Add a fix for goldfish_rtc (already sent alone)=0D
+  Add statistics in goldfish-pic=0D
+  Add versionned machine type=0D
+  Use two goldfish-rtc rather than only one (for timer and RTC)=0D
+=0D
+Laurent Vivier (5):=0D
+  char: add goldfish-tty=0D
+  intc: add goldfish-pic=0D
+  m68k: add an interrupt controller=0D
+  m68k: add a system controller=0D
+  m68k: add Virtual M68k Machine=0D
+=0D
+ default-configs/devices/m68k-softmmu.mak      |   1 +=0D
+ include/hw/char/goldfish_tty.h                |  35 ++=0D
+ include/hw/intc/goldfish_pic.h                |  33 ++=0D
+ include/hw/intc/m68k_irqc.h                   |  41 +++=0D
+ include/hw/misc/m68k_virt_ctrl.h              |  22 ++=0D
+ .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +=0D
+ hw/char/goldfish_tty.c                        | 283 ++++++++++++++++=0D
+ hw/intc/goldfish_pic.c                        | 219 ++++++++++++=0D
+ hw/intc/m68k_irqc.c                           | 119 +++++++=0D
+ hw/m68k/virt.c                                | 313 ++++++++++++++++++=0D
+ hw/misc/m68k_virt_ctrl.c                      | 152 +++++++++=0D
+ MAINTAINERS                                   |  13 +=0D
+ hw/char/Kconfig                               |   3 +=0D
+ hw/char/meson.build                           |   2 +=0D
+ hw/char/trace-events                          |  10 +=0D
+ hw/intc/Kconfig                               |   6 +=0D
+ hw/intc/meson.build                           |   2 +=0D
+ hw/intc/trace-events                          |   8 +=0D
+ hw/m68k/Kconfig                               |  10 +=0D
+ hw/m68k/meson.build                           |   1 +=0D
+ hw/misc/Kconfig                               |   3 +=0D
+ hw/misc/meson.build                           |   3 +=0D
+ hw/misc/trace-events                          |   7 +=0D
+ 23 files changed, 1304 insertions(+)=0D
+ create mode 100644 include/hw/char/goldfish_tty.h=0D
+ create mode 100644 include/hw/intc/goldfish_pic.h=0D
+ create mode 100644 include/hw/intc/m68k_irqc.h=0D
+ create mode 100644 include/hw/misc/m68k_virt_ctrl.h=0D
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
+ create mode 100644 hw/char/goldfish_tty.c=0D
+ create mode 100644 hw/intc/goldfish_pic.c=0D
+ create mode 100644 hw/intc/m68k_irqc.c=0D
+ create mode 100644 hw/m68k/virt.c=0D
+ create mode 100644 hw/misc/m68k_virt_ctrl.c=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
