@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27B03300E5
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:37:24 +0100 (CET)
-Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7D83300DC
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:31:42 +0100 (CET)
+Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIsey-000219-0G
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:37:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41516)
+	id 1lIsZR-0002xZ-Pf
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:31:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsEp-0001CV-UB
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:23 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43638
+ id 1lIsFB-0001Xr-6T
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:45 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43650
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsEo-0007lh-6h
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:23 -0500
+ id 1lIsF5-0007qV-Bp
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:44 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsEk-0002V5-8p; Sun, 07 Mar 2021 12:10:19 +0000
+ id 1lIsEp-0002V5-OH; Sun, 07 Mar 2021 12:10:28 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Sun,  7 Mar 2021 12:08:23 +0000
-Message-Id: <20210307120850.10418-16-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  7 Mar 2021 12:08:25 +0000
+Message-Id: <20210307120850.10418-18-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 References: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 15/42] esp: introduce esp_pdma_read() and esp_pdma_write()
- functions
+Subject: [PULL 17/42] esp: move pdma_len and TC logic into
+ esp_pdma_read()/esp_pdma_write()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,87 +66,125 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210304221103.6369-16-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210304221103.6369-18-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ hw/scsi/esp.c | 50 ++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 32 insertions(+), 18 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 07d57cb791..0fafc866a4 100644
+index 58be98f047..b8d1ec41e9 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -151,6 +151,20 @@ static uint8_t *get_pdma_buf(ESPState *s)
-     return NULL;
+@@ -153,22 +153,45 @@ static uint8_t *get_pdma_buf(ESPState *s)
+ 
+ static uint8_t esp_pdma_read(ESPState *s)
+ {
++    uint32_t dmalen = esp_get_tc(s);
++    uint8_t val;
++
++    if (dmalen == 0 || s->pdma_len == 0) {
++        return 0;
++    }
++
+     switch (s->pdma_origin) {
+     case PDMA:
+-        return s->pdma_buf[s->pdma_cur++];
++        val = s->pdma_buf[s->pdma_cur++];
++        break;
+     case TI:
+-        return s->ti_buf[s->pdma_cur++];
++        val = s->ti_buf[s->pdma_cur++];
++        break;
+     case CMD:
+-        return s->cmdbuf[s->pdma_cur++];
++        val = s->cmdbuf[s->pdma_cur++];
++        break;
+     case ASYNC:
+-        return s->async_buf[s->pdma_cur++];
++        val = s->async_buf[s->pdma_cur++];
++        break;
+     default:
+         g_assert_not_reached();
+     }
++
++    s->pdma_len--;
++    dmalen--;
++    esp_set_tc(s, dmalen);
++
++    return val;
  }
  
-+static uint8_t esp_pdma_read(ESPState *s)
-+{
-+    uint8_t *buf = get_pdma_buf(s);
-+
-+    return buf[s->pdma_cur++];
-+}
-+
-+static void esp_pdma_write(ESPState *s, uint8_t val)
-+{
-+    uint8_t *buf = get_pdma_buf(s);
-+
-+    buf[s->pdma_cur++] = val;
-+}
-+
- static int get_cmd_cb(ESPState *s)
+ static void esp_pdma_write(ESPState *s, uint8_t val)
  {
-     int target;
-@@ -909,7 +923,6 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
++    uint32_t dmalen = esp_get_tc(s);
++
++    if (dmalen == 0 || s->pdma_len == 0) {
++        return;
++    }
++
+     switch (s->pdma_origin) {
+     case PDMA:
+         s->pdma_buf[s->pdma_cur++] = val;
+@@ -185,6 +208,10 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+     default:
+         g_assert_not_reached();
+     }
++
++    s->pdma_len--;
++    dmalen--;
++    esp_set_tc(s, dmalen);
+ }
+ 
+ static int get_cmd_cb(ESPState *s)
+@@ -944,27 +971,18 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+ {
      SysBusESPState *sysbus = opaque;
      ESPState *s = ESP(&sysbus->esp);
-     uint32_t dmalen = esp_get_tc(s);
--    uint8_t *buf = get_pdma_buf(s);
+-    uint32_t dmalen = esp_get_tc(s);
  
      trace_esp_pdma_write(size);
  
-@@ -918,13 +931,13 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-     }
+-    if (dmalen == 0 || s->pdma_len == 0) {
+-        return;
+-    }
      switch (size) {
      case 1:
--        buf[s->pdma_cur++] = val;
-+        esp_pdma_write(s, val);
-         s->pdma_len--;
-         dmalen--;
+         esp_pdma_write(s, val);
+-        s->pdma_len--;
+-        dmalen--;
          break;
      case 2:
--        buf[s->pdma_cur++] = val >> 8;
--        buf[s->pdma_cur++] = val;
-+        esp_pdma_write(s, val >> 8);
-+        esp_pdma_write(s, val);
-         s->pdma_len -= 2;
-         dmalen -= 2;
+         esp_pdma_write(s, val >> 8);
+         esp_pdma_write(s, val);
+-        s->pdma_len -= 2;
+-        dmalen -= 2;
          break;
-@@ -943,7 +956,6 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-     SysBusESPState *sysbus = opaque;
-     ESPState *s = ESP(&sysbus->esp);
-     uint32_t dmalen = esp_get_tc(s);
--    uint8_t *buf = get_pdma_buf(s);
-     uint64_t val = 0;
- 
-     trace_esp_pdma_read(size);
-@@ -953,13 +965,13 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
      }
+-    esp_set_tc(s, dmalen);
+     if (s->pdma_len == 0 && s->pdma_cb) {
+         esp_lower_drq(s);
+         s->pdma_cb(s);
+@@ -988,17 +1006,13 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
      switch (size) {
      case 1:
--        val = buf[s->pdma_cur++];
-+        val = esp_pdma_read(s);
-         s->pdma_len--;
-         dmalen--;
+         val = esp_pdma_read(s);
+-        s->pdma_len--;
+-        dmalen--;
          break;
      case 2:
--        val = buf[s->pdma_cur++];
--        val = (val << 8) | buf[s->pdma_cur++];
-+        val = esp_pdma_read(s);
-+        val = (val << 8) | esp_pdma_read(s);
-         s->pdma_len -= 2;
-         dmalen -= 2;
+         val = esp_pdma_read(s);
+         val = (val << 8) | esp_pdma_read(s);
+-        s->pdma_len -= 2;
+-        dmalen -= 2;
          break;
+     }
+-    esp_set_tc(s, dmalen);
++    dmalen = esp_get_tc(s);
+     if (dmalen == 0 || (s->pdma_len == 0 && s->pdma_cb)) {
+         esp_lower_drq(s);
+         s->pdma_cb(s);
 -- 
 2.20.1
 
