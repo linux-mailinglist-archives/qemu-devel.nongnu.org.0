@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A218E3300D5
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:29:48 +0100 (CET)
-Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252FF3300C9
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 13:23:16 +0100 (CET)
+Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lIsXb-0001XX-Mb
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
+	id 1lIsRC-0004FF-4K
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 07:23:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFO-0001t8-82
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:58 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43668
+ id 1lIsFu-0002P4-Ek
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:31 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43706
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsFL-0007si-31
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:10:58 -0500
+ id 1lIsFq-00081I-Af
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 07:11:30 -0500
 Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lIsF6-0002V5-32; Sun, 07 Mar 2021 12:10:44 +0000
+ id 1lIsFb-0002V5-5U; Sun, 07 Mar 2021 12:11:15 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Sun,  7 Mar 2021 12:08:28 +0000
-Message-Id: <20210307120850.10418-21-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  7 Mar 2021 12:08:34 +0000
+Message-Id: <20210307120850.10418-27-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
 References: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.47
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 20/42] esp: remove the buf and buflen parameters from get_cmd()
+Subject: [PULL 26/42] esp: rename get_cmd_cb() to esp_select()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,68 +64,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all SCSI commands are accumulated in cmdbuf, remove the buf and buflen
-parameters from get_cmd() since these always reference cmdbuf and ESP_CMDBUF_SZ
-respectively.
+This better describes the purpose of the function.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210304221103.6369-21-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210304221103.6369-27-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ hw/scsi/esp.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 8ebf5e8d4b..44fddf082c 100644
+index d5c03f9697..d8d7ede00a 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -236,15 +236,16 @@ static int get_cmd_cb(ESPState *s)
-     return 0;
+@@ -199,7 +199,7 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+     esp_set_tc(s, dmalen);
  }
  
--static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-+static uint32_t get_cmd(ESPState *s)
+-static int get_cmd_cb(ESPState *s)
++static int esp_select(ESPState *s)
  {
-+    uint8_t *buf = s->cmdbuf;
-     uint32_t dmalen;
      int target;
  
-     target = s->wregs[ESP_WBUSID] & BUSID_DID;
-     if (s->dma) {
-         dmalen = esp_get_tc(s);
--        if (dmalen > buflen) {
-+        if (dmalen > ESP_CMDBUF_SZ) {
-             return 0;
-         }
-         if (s->dma_memory_read) {
-@@ -323,7 +324,7 @@ static void handle_satn(ESPState *s)
+@@ -256,7 +256,7 @@ static uint32_t get_cmd(ESPState *s)
+     }
+     trace_esp_get_cmd(dmalen, target);
+ 
+-    if (get_cmd_cb(s) < 0) {
++    if (esp_select(s) < 0) {
+         return 0;
+     }
+     return dmalen;
+@@ -299,7 +299,7 @@ static void do_cmd(ESPState *s)
+ 
+ static void satn_pdma_cb(ESPState *s)
+ {
+-    if (get_cmd_cb(s) < 0) {
++    if (esp_select(s) < 0) {
          return;
      }
-     s->pdma_cb = satn_pdma_cb;
--    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
-+    s->cmdlen = get_cmd(s);
-     if (s->cmdlen) {
-         do_cmd(s);
-     } else {
-@@ -349,7 +350,7 @@ static void handle_s_without_atn(ESPState *s)
+     s->do_cmd = 0;
+@@ -325,7 +325,7 @@ static void handle_satn(ESPState *s)
+ 
+ static void s_without_satn_pdma_cb(ESPState *s)
+ {
+-    if (get_cmd_cb(s) < 0) {
++    if (esp_select(s) < 0) {
          return;
      }
-     s->pdma_cb = s_without_satn_pdma_cb;
--    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
-+    s->cmdlen = get_cmd(s);
-     if (s->cmdlen) {
-         do_busid_cmd(s, s->cmdbuf, 0);
-     } else {
-@@ -380,7 +381,7 @@ static void handle_satn_stop(ESPState *s)
+     s->do_cmd = 0;
+@@ -351,7 +351,7 @@ static void handle_s_without_atn(ESPState *s)
+ 
+ static void satn_stop_pdma_cb(ESPState *s)
+ {
+-    if (get_cmd_cb(s) < 0) {
++    if (esp_select(s) < 0) {
          return;
      }
-     s->pdma_cb = satn_stop_pdma_cb;
--    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
-+    s->cmdlen = get_cmd(s);
-     if (s->cmdlen) {
-         trace_esp_handle_satn_stop(s->cmdlen);
-         s->do_cmd = 1;
+     s->do_cmd = 0;
 -- 
 2.20.1
 
