@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E38A3304FE
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 23:28:46 +0100 (CET)
-Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4840E330501
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 23:29:22 +0100 (CET)
+Received: from localhost ([::1]:33572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ1tE-0007up-Ui
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 17:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45820)
+	id 1lJ1tp-0000KT-9g
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 17:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJ1r6-0006VB-V0; Sun, 07 Mar 2021 17:26:32 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46253)
+ id 1lJ1rM-0006pW-72; Sun, 07 Mar 2021 17:26:48 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:42591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJ1r5-0006z9-FY; Sun, 07 Mar 2021 17:26:32 -0500
-Received: by mail-wr1-x431.google.com with SMTP id a18so9397184wrc.13;
- Sun, 07 Mar 2021 14:26:30 -0800 (PST)
+ id 1lJ1rK-00072t-R7; Sun, 07 Mar 2021 17:26:47 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ b2-20020a7bc2420000b029010be1081172so2621102wmj.1; 
+ Sun, 07 Mar 2021 14:26:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MG38T2c0ah+ASOI2W2LgtqYlki8O07VU8DdrtJnD1+U=;
- b=EttU3y4RqXgiruFOPwDC0GnBvktMW+LHwSk2eE5kWFs0GVeVuOZ1utAfCnmKTxeXjO
- y15ZKF4OGZ5mTw/W6VimmTVDxsg6tPsJQnOMKx0z/Cj58THKTApl3NscRT05p88bkKHn
- /78cQrheMuFUibPq64eDXDExKz7NA4F2BbZ+45+FQUHLcmn6da+w9CTmvMq1zWW02+3x
- mTOY3wT4uDb0sIz4x9ZPWVxMFiUiY4Bny6EvA6Ypt09jW7Pcg1uBTUdWNPPjF5orOq80
- VDTvT/NPGGDBQkXvYlESYQyKGG/c9sCrFY985TMV2/vmXf9pEQfjg6QbH7hkI6NRIZYE
- /mTA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0BCq3Drp2YKmgjdsiPGLc9i+7eBAXIDTVaKRreDzvDM=;
+ b=ZOCdMAD0FzW8aTBJIhDc/isYkoXmf1d90CMtnqiCnakGiu3dEblkp21rP7wUPULtp5
+ eVC2b2X7buuSSiLDz8Kd6UTU9wtdOSAIOVVbBBFMAkPA1dSVP0D7mJ5fxMLGtrbzuyN0
+ ZFp7jtLpbh+XC+jqOsN3gXFCY9V4BPKx/cDb4QNE/5MM0tntsmWugj7B00DPUJuX70pv
+ CUompYNuab/zWBFsnaGywoX7fY/bbfWFPNRuqvIIVMa+YRTF1GEIG46GuoTwnb+P0TSU
+ lVSFPvjQuq86xIRfXDvBOK//KFS5xcun9wFcmIr+YiQViu7S5VTF5iU/fpBF9/1noE9l
+ UN9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=MG38T2c0ah+ASOI2W2LgtqYlki8O07VU8DdrtJnD1+U=;
- b=Y5KBCFoI89EMUdLuigN75VIw50LDo+Zp7fVSKuJtv3VCN/JmvtXXnNmzI1rDwanzP9
- 81kHFVvS50SLGwL1gOIpKruDijw980iwKCrz3DleXrLoTIXMDlrkDWCzYtXeiOy2R+bu
- Nfr1acvzgvx9J5tfb1NydNblJARL/mhm5I1nxqN91aPg1TKP9y4GrH+XksSFmZNd2f1q
- 6Se8yK8LtOnaKKBaleMa6jrixpNQ/NbcwdrnBwUtJxHvllrtb1EoYctNtwJVFTedzRIO
- ZTriZcakgVMuksvQhatP1xx6pCeU2XNnTNQnLw89D0T6R6bL5vsr0MAKkZr1sf8PQPS3
- z59A==
-X-Gm-Message-State: AOAM533wJkvIn9/vwZT2mqb0brerfNjoPzAoROMop3LoLcfvy1YqowGd
- I2kDN5sY2WY+k6aJdhod7ObACJNw19M=
-X-Google-Smtp-Source: ABdhPJzsRNu2EuRNnIlCClQwVyaAwzEcJWKi3txIlTbZGVIJT4vT9O6KYzxX4bIkNhpWQVsxSRWy7A==
-X-Received: by 2002:a5d:4485:: with SMTP id j5mr19324766wrq.339.1615155988705; 
- Sun, 07 Mar 2021 14:26:28 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=0BCq3Drp2YKmgjdsiPGLc9i+7eBAXIDTVaKRreDzvDM=;
+ b=SnhtMAu1RQ/KYmeX5byA1JtPuSBroQDluE0hTwp+IZ+yyaEwug3wbuJZkKYNtXXV3U
+ wxJ+pw/fDqc9qsgWRvI3CcbijI8FTA7D4bCJScVrj7EVPPg352kZ7GMCFgq/GQZhbHmm
+ G8aplZ1ALvSP5ifpqtXXKg83cT+h2C6cneYnijngR9e7x+K0qeUx4FLemtqtsF9NunWK
+ ij+kQRFGRYpW/C/BfueZgT1jfXtn9+IrJP2jDKJlRZiOLR4iJZsgZy27RQ6bp2BY3PZp
+ D1awXWJ6vn2HFNwQzT9MkLxuCnqsk7Bo9lL1+r6tJFDFkXUP9XNuHElwz+KN74G0pp2X
+ dmrg==
+X-Gm-Message-State: AOAM532jyj5tKVRYsyMw37IA5efSUeHXO+YKJP2EseyyrqMpztbAuffl
+ agOH60u6jkZKOhjaySiotWR4K777PKY=
+X-Google-Smtp-Source: ABdhPJzKzD+CBH2r3r8R7pZ5OgsuOXMSOBZDP3SbfQAZ4wu7O1KAPls9taxYfIgn4pxJ3U+oeL4VUA==
+X-Received: by 2002:a7b:ce19:: with SMTP id m25mr19442964wmc.74.1615156004792; 
+ Sun, 07 Mar 2021 14:26:44 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v18sm11643832wrf.41.2021.03.07.14.26.26
+ by smtp.gmail.com with ESMTPSA id o13sm16337145wro.15.2021.03.07.14.26.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Mar 2021 14:26:27 -0800 (PST)
+ Sun, 07 Mar 2021 14:26:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] hw/block/pflash_cfi01: Remove pflash_cfi01_get_memory()
-Date: Sun,  7 Mar 2021 23:26:21 +0100
-Message-Id: <20210307222625.347268-1-f4bug@amsat.org>
+Subject: [PATCH 3/4] hw/xtensa/xtfpga: Get pflash MemoryRegion with
+ sysbus_mmio_get_region()
+Date: Sun,  7 Mar 2021 23:26:24 +0100
+Message-Id: <20210307222625.347268-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210307222625.347268-1-f4bug@amsat.org>
+References: <20210307222625.347268-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,29 +98,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_PFLASH_CFI01 is a TYPE_SYS_BUS_DEVICE which registers its romd=0D
-MemoryRegion with sysbus_init_mmio(), so we can use the generic=0D
-sysbus_mmio_get_region() to get the region, no need for a specific=0D
-pflash_cfi01_get_memory() helper.=0D
-=0D
-First replace the few pflash_cfi01_get_memory() uses by=0D
-sysbus_mmio_get_region(), then remove the now unused helper.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  hw/i386/pc: Get pflash MemoryRegion with sysbus_mmio_get_region()=0D
-  hw/mips/malta: Get pflash MemoryRegion with sysbus_mmio_get_region()=0D
-  hw/xtensa/xtfpga: Get pflash MemoryRegion with=0D
-    sysbus_mmio_get_region()=0D
-  hw/block/pflash_cfi01: Remove pflash_cfi01_get_memory()=0D
-=0D
- include/hw/block/flash.h | 1 -=0D
- hw/block/pflash_cfi01.c  | 5 -----=0D
- hw/i386/pc_sysfw.c       | 2 +-=0D
- hw/mips/malta.c          | 2 +-=0D
- hw/xtensa/xtfpga.c       | 3 ++-=0D
- 5 files changed, 4 insertions(+), 9 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+TYPE_PFLASH_CFI01 is a TYPE_SYS_BUS_DEVICE which registers its romd
+MemoryRegion with sysbus_init_mmio(), so we can use the generic
+sysbus_mmio_get_region() to get the region, no need for a specific
+pflash_cfi01_get_memory() helper.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/xtensa/xtfpga.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+index 7be53f1895b..1d15a9aae9f 100644
+--- a/hw/xtensa/xtfpga.c
++++ b/hw/xtensa/xtfpga.c
+@@ -460,10 +460,11 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+         }
+     } else {
+         if (flash) {
+-            MemoryRegion *flash_mr = pflash_cfi01_get_memory(flash);
++            MemoryRegion *flash_mr;
+             MemoryRegion *flash_io = g_malloc(sizeof(*flash_io));
+             uint32_t size = env->config->sysrom.location[0].size;
+ 
++            flash_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(flash), 0);
+             if (board->flash->size - board->flash->boot_base < size) {
+                 size = board->flash->size - board->flash->boot_base;
+             }
+-- 
+2.26.2
+
 
