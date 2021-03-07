@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B6A3304D8
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 22:26:45 +0100 (CET)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E38A3304FE
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Mar 2021 23:28:46 +0100 (CET)
+Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ0vE-0003jj-62
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 16:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
+	id 1lJ1tE-0007up-Ui
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 17:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0uW-0003IO-Ot
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 16:26:00 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:50919)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJ0uU-0006hE-SI
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 16:26:00 -0500
-Received: from localhost.localdomain ([82.252.159.174]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M7Jj2-1lOXE71ZZU-007kAs; Sun, 07 Mar 2021 22:25:55 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJ1r6-0006VB-V0; Sun, 07 Mar 2021 17:26:32 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJ1r5-0006z9-FY; Sun, 07 Mar 2021 17:26:32 -0500
+Received: by mail-wr1-x431.google.com with SMTP id a18so9397184wrc.13;
+ Sun, 07 Mar 2021 14:26:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MG38T2c0ah+ASOI2W2LgtqYlki8O07VU8DdrtJnD1+U=;
+ b=EttU3y4RqXgiruFOPwDC0GnBvktMW+LHwSk2eE5kWFs0GVeVuOZ1utAfCnmKTxeXjO
+ y15ZKF4OGZ5mTw/W6VimmTVDxsg6tPsJQnOMKx0z/Cj58THKTApl3NscRT05p88bkKHn
+ /78cQrheMuFUibPq64eDXDExKz7NA4F2BbZ+45+FQUHLcmn6da+w9CTmvMq1zWW02+3x
+ mTOY3wT4uDb0sIz4x9ZPWVxMFiUiY4Bny6EvA6Ypt09jW7Pcg1uBTUdWNPPjF5orOq80
+ VDTvT/NPGGDBQkXvYlESYQyKGG/c9sCrFY985TMV2/vmXf9pEQfjg6QbH7hkI6NRIZYE
+ /mTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=MG38T2c0ah+ASOI2W2LgtqYlki8O07VU8DdrtJnD1+U=;
+ b=Y5KBCFoI89EMUdLuigN75VIw50LDo+Zp7fVSKuJtv3VCN/JmvtXXnNmzI1rDwanzP9
+ 81kHFVvS50SLGwL1gOIpKruDijw980iwKCrz3DleXrLoTIXMDlrkDWCzYtXeiOy2R+bu
+ Nfr1acvzgvx9J5tfb1NydNblJARL/mhm5I1nxqN91aPg1TKP9y4GrH+XksSFmZNd2f1q
+ 6Se8yK8LtOnaKKBaleMa6jrixpNQ/NbcwdrnBwUtJxHvllrtb1EoYctNtwJVFTedzRIO
+ ZTriZcakgVMuksvQhatP1xx6pCeU2XNnTNQnLw89D0T6R6bL5vsr0MAKkZr1sf8PQPS3
+ z59A==
+X-Gm-Message-State: AOAM533wJkvIn9/vwZT2mqb0brerfNjoPzAoROMop3LoLcfvy1YqowGd
+ I2kDN5sY2WY+k6aJdhod7ObACJNw19M=
+X-Google-Smtp-Source: ABdhPJzsRNu2EuRNnIlCClQwVyaAwzEcJWKi3txIlTbZGVIJT4vT9O6KYzxX4bIkNhpWQVsxSRWy7A==
+X-Received: by 2002:a5d:4485:: with SMTP id j5mr19324766wrq.339.1615155988705; 
+ Sun, 07 Mar 2021 14:26:28 -0800 (PST)
+Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id v18sm11643832wrf.41.2021.03.07.14.26.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Mar 2021 14:26:27 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] target/m68k: implement rtr instruction
-Date: Sun,  7 Mar 2021 22:25:52 +0100
-Message-Id: <20210307212552.523552-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
+Subject: [PATCH 0/4] hw/block/pflash_cfi01: Remove pflash_cfi01_get_memory()
+Date: Sun,  7 Mar 2021 23:26:21 +0100
+Message-Id: <20210307222625.347268-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p65TfEdGnZJoEzJ7/a1bmxE8SQrcnZ1HGs3whoZbKTweGi3hlOJ
- y+U9HEycAiwCkHC7XVrZFT8h1K5UhSSsDvYxvd6RpLythZmeQ0MZcj42lza1xexMXR2m1qE
- UdvKPJkWnQ/qqw+CvMFKSKbE+LbMpL9yCzur/aeT6mzzrDs5CNJDb0JK8/FGTAd7B47Qira
- 6he1DFwJkgb559S5ngpgw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:boB958wzwX8=:lFA+KCp1oNrqlmzatvX2UV
- /h/LdZYUlorpfdR4I8CJYi6U+WIB+v2j1qBXF59wGWjZxlpb7r8Qa9RK6iGoBKFNZ/buWr3UU
- 4ymbd52gZEzNygULbINsEP6hRtdxl9YfkQUosekTX10CF6BcZDaRKkgyMG9Zwu4de639uUPBK
- 7sLZpSESDmoFB1qXt3W8D9N7w+RWjX6i0tjZi8CmQ/eZs3e6wDfh4tH+Q3mSoHrhWy17hJ3uF
- 0aBNd+JTqLJXAvSkWKmPeAwjtlYHbW9jVEcF+VjFc87jDvU7FIaYtyxt0famCOsheyxdpjH7Y
- 0tlogeiEhpETtel9ijly5+5JuiAbQ7aO8hHDM70NtioGOdKADkfkp/hHfBHyosyayRtpcdWEE
- vx3Rs9mnawHXXt5wpEnPl0T6Ef2dvant1G/Ys6Pd5Rf8gCevq2YMa9qsTgfYOCRK0xz6v7Um4
- niqCdbqtUg==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,78 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed to boot MacOS ROM.
-
-Pull the condition code and the program counter from the stack.
-
-Operation:
-
-    (SP) -> CCR
-    SP + 2 -> SP
-    (SP) -> PC
-    SP + 4 -> SP
-
-This operation is not privileged.
-
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
-
-Notes:
-    v3: put loads before state writeback
-    
-    v2: update comment
-        SP + 4 -> SP
-
- target/m68k/translate.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index ac936ebe8f14..200018ae6a63 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -2969,6 +2969,25 @@ DISAS_INSN(rtd)
-     gen_jmp(s, tmp);
- }
- 
-+DISAS_INSN(rtr)
-+{
-+    TCGv tmp;
-+    TCGv ccr;
-+    TCGv sp;
-+
-+    sp = tcg_temp_new();
-+    ccr = gen_load(s, OS_WORD, QREG_SP, 0, IS_USER(s));
-+    tcg_gen_addi_i32(sp, QREG_SP, 2);
-+    tmp = gen_load(s, OS_LONG, sp, 0, IS_USER(s));
-+    tcg_gen_addi_i32(QREG_SP, sp, 4);
-+    tcg_temp_free(sp);
-+
-+    gen_set_sr(s, ccr, true);
-+    tcg_temp_free(ccr);
-+
-+    gen_jmp(s, tmp);
-+}
-+
- DISAS_INSN(rts)
- {
-     TCGv tmp;
-@@ -6015,6 +6034,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
-     BASE(rts,       4e75, ffff);
-+    INSN(rtr,       4e77, ffff, M68000);
-     BASE(jump,      4e80, ffc0);
-     BASE(jump,      4ec0, ffc0);
-     INSN(addsubq,   5000, f080, M68000);
--- 
-2.29.2
-
+TYPE_PFLASH_CFI01 is a TYPE_SYS_BUS_DEVICE which registers its romd=0D
+MemoryRegion with sysbus_init_mmio(), so we can use the generic=0D
+sysbus_mmio_get_region() to get the region, no need for a specific=0D
+pflash_cfi01_get_memory() helper.=0D
+=0D
+First replace the few pflash_cfi01_get_memory() uses by=0D
+sysbus_mmio_get_region(), then remove the now unused helper.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  hw/i386/pc: Get pflash MemoryRegion with sysbus_mmio_get_region()=0D
+  hw/mips/malta: Get pflash MemoryRegion with sysbus_mmio_get_region()=0D
+  hw/xtensa/xtfpga: Get pflash MemoryRegion with=0D
+    sysbus_mmio_get_region()=0D
+  hw/block/pflash_cfi01: Remove pflash_cfi01_get_memory()=0D
+=0D
+ include/hw/block/flash.h | 1 -=0D
+ hw/block/pflash_cfi01.c  | 5 -----=0D
+ hw/i386/pc_sysfw.c       | 2 +-=0D
+ hw/mips/malta.c          | 2 +-=0D
+ hw/xtensa/xtfpga.c       | 3 ++-=0D
+ 5 files changed, 4 insertions(+), 9 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
