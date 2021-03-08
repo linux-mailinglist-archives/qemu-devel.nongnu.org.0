@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B816633056E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 01:44:13 +0100 (CET)
-Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742ED33058A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 02:04:54 +0100 (CET)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ40K-00053K-QI
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 19:44:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33182)
+	id 1lJ4KL-0007vT-0y
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 20:04:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJ3xY-0004OG-Pe
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 19:41:21 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:34124)
+ id 1lJ4Ir-0007TL-BT
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 20:03:21 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJ3xV-0001WS-Qo
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 19:41:20 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id l2so5336251pgb.1
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 16:41:14 -0800 (PST)
+ id 1lJ4Ip-0007MJ-Mz
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 20:03:20 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id jx13so2113835pjb.1
+ for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 17:03:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Yuh7hrclpQ9WzyeCFzdypj93f8BlfP7S30rgQ9lToHw=;
- b=rtxTNCmcEcwbvu8C56rtpJdiLcfqheR3Sz3xFc3UrFbghG9LtiQLMjzM+ZQm+vUOKE
- W540zttlN855pz8Luaa+weimR0G7mW2bHC3mxhk473xddKE1gkcs3f9aiXOyB8gJGGOf
- 5MoLcBEU9OvEGlFWH9ncHAX2plaEPJtQYC+xnL3tT5LygSs63WnnzUAl9KoCnGzzD338
- C7/kvoR/3NeAjStY4cqNLc/c8cgIYl7nEaxcKTgJn6l2z+5RCkz/MajjwXRJVPMe+FYU
- +VNf2aX4CGtREaL8MWCgXggOzGy0ZeE3Jy0cxSGnABaLtv0HDcp4H5fEy+JaEQWnJpzK
- xT9Q==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=U5LK35/0ELwZDA4+SKBVeAtKXBTbXjFqOpP38E+2gIM=;
+ b=UR+jBLYCHFss/sOqXqMHEvmICzFn7EGEDManH5amXQZM3d3celpCJKEUjh0DpaRFyU
+ daPfIXaPz6uTUZ6fBZJnBy3wqKjBrq3ElsNmHHgByo9YNvAiFfkXIaOuFa74aAxKD2B/
+ YMNrAUzJKBjYB/CIq3YtzEWzVsFZs/rXSPSAiY0fXOoSoqjKEHuseCduTWPwMv6F5aRJ
+ SsJHUp1+cm60NFkY5H0YC9M60JJx+4Ppno4BGpA7kw2tOHkon77Y4ZQkdRhYkvUIHgiv
+ xAoUjgKqm3rkBibXY0BdzcYrQf3ThGDvdyJQ7bMSl7uEgvF/ZvwzIYrBkqxSuPiopNAu
+ C8rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Yuh7hrclpQ9WzyeCFzdypj93f8BlfP7S30rgQ9lToHw=;
- b=ie3v42Ikm51GLfEuEPUSibltXsns0g1uVeTagUJyN3ru815EvafkdKwVRh+T5ElBgw
- lANQToOpZklNszPZHTBVMxTcQ89tWaQZWfr3GPUiL2bwwsY37R56QzIXge7VHL3BgQeJ
- DYBq0axKvvrQoOs7TmAj9HqV6cgRQNXXQlUZ78094WrWaRupMEV8wZo+xkkfpKACE8Ag
- VPvWAWMCSV91O522e13AZFkKL3TVKU+Eqo8Fn9CVoPkVvWSY6z92XO6G3m5Kyh3S+Do+
- E5y6dI0MuJcpEYJkQIS//C3lYCUZ4jJgO1ZIDMd4A0z24UKkhBWF8mmPTW5Ds1QEFJUe
- +Blg==
-X-Gm-Message-State: AOAM530ziin8c4A6015960Yk6DtdsN0payOlBTcaz6Pq/yn4NeYxWa+5
- xEXDvFYTW84gWRJw8z/uFlTWiQ==
-X-Google-Smtp-Source: ABdhPJyr9++oUXgqWJhC6UeCr/2GNcL46D9g834nWJp3kO8eXZJ+tJfLFmNOvvP1J6VqSGKXdbQNZg==
-X-Received: by 2002:a63:1b01:: with SMTP id b1mr2914810pgb.330.1615164073351; 
- Sun, 07 Mar 2021 16:41:13 -0800 (PST)
+ bh=U5LK35/0ELwZDA4+SKBVeAtKXBTbXjFqOpP38E+2gIM=;
+ b=oAfh/BL+PKVMG+z5BM6zwlYTkQ1G6fo0iZ97kXvy1l6G1Fp/u3W9UQzoN3tCRvYndK
+ ORvYx+0+3AAYTani6lz3Qy2TzedYWyLMIlMgPKKk51pBkD+zoe9XmmecBOuUT8A6Lzfe
+ ZCLL33/v+1BHa3IZK3sK+q31uto94px0qK2iBdq+z/XBNX5K2rkfCppbiWw8CWNc0QIN
+ hT6YkPdhvCCZ9q3R4pmk++RIOKVjugNsUXcXrVpzyPr1Gyzsuu0cMAOC251GPfM0qTuX
+ BfIAtvt2VCWdlu2MHsZ9TY1XqIGitxd14og8rxwry0GAWDspA1uzzeyAhc0n03VJq65B
+ 3Lnw==
+X-Gm-Message-State: AOAM533VmWBc4qjH4c44g3SFwrMMzP3vZFu6SjK0PZLg98ZzGCrBV4UQ
+ ZnRiqmgoL4m3qFdp/G8u9Db5Aw==
+X-Google-Smtp-Source: ABdhPJy5omi2l4fQ2kwEtZuSB4lS9o0MV9b6k5Zy+YBCSYXyHb+EA1yU82/CKzu7uSN8Yhjp6eCyXQ==
+X-Received: by 2002:a17:90a:7e0a:: with SMTP id
+ i10mr21310183pjl.152.1615165398000; 
+ Sun, 07 Mar 2021 17:03:18 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id t10sm8589042pjf.30.2021.03.07.16.41.12
+ by smtp.gmail.com with ESMTPSA id z12sm8424707pjz.16.2021.03.07.17.03.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Mar 2021 16:41:12 -0800 (PST)
-Subject: Re: [PATCH v4 1/5] char: add goldfish-tty
-To: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210307164828.87348-1-laurent@vivier.eu>
- <20210307164828.87348-2-laurent@vivier.eu>
- <6909cb99-6058-472e-bfa2-62172c448b1d@amsat.org>
- <c823a8ae-4060-02c4-1bbd-688793c0b18f@vivier.eu>
+ Sun, 07 Mar 2021 17:03:17 -0800 (PST)
+Subject: Re: [PATCH 2/2] target/m68k: add M68K_FEATURE_NO_DALIGN feature
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210307202607.27745-1-mark.cave-ayland@ilande.co.uk>
+ <20210307202607.27745-3-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <80f47a12-5edd-1777-5449-3f6707ae9e91@linaro.org>
-Date: Sun, 7 Mar 2021 16:41:10 -0800
+Message-ID: <301be535-ae3f-4c09-3be5-8efc4c799ea1@linaro.org>
+Date: Sun, 7 Mar 2021 17:03:15 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <c823a8ae-4060-02c4-1bbd-688793c0b18f@vivier.eu>
+In-Reply-To: <20210307202607.27745-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,23 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/21 11:57 AM, Laurent Vivier wrote:
-> Le 07/03/2021 à 20:24, Philippe Mathieu-Daudé a écrit :
->> The spec says this register is only available on 64-bit targets.
->>
->> Should we restrict this "#if TARGET_LONG_SIZE == 8"?
->> else log_mask(GUEST_ERROR)...
->>
->> This seems overkill to me but that would respect the spec.
+On 3/7/21 12:26 PM, Mark Cave-Ayland wrote:
+> According to the M68040UM Appendix D the requirement for data accesses to be
+> word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
+> 68020 onwards will allow unaligned data accesses but at the cost of being less
+> efficient.
 > 
-> TARGET_LONG_SIZE depends on CPU, I don't think we can use it here.
+> Add a new M68K_FEATURE_NO_DALIGN feature to specify that data accesses are not
+> required to be word aligned, and don't perform the alignment on the stack
+> pointer when taking an exception if this feature is not selected.
 
-TARGET_LONG_BITS is in fact poisoned -- you can't use it here.
+How about a positive, rather than negative name, like M68K_FEATURE_UNALIGNED_DATA?
+
+This points out that we should be raising Address Error without this feature. 
+This requires a moderate amount of cleanup in translate, manipulating 
+MO_ALIGN{,_2} as part of the MemOp parameter to tcg_gen_qemu_{ld,st}_i32.
 
 
 r~
