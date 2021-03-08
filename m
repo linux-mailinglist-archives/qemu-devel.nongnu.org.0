@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5ED9330B03
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 11:22:43 +0100 (CET)
-Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61ACF330B07
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 11:23:36 +0100 (CET)
+Received: from localhost ([::1]:43488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJD2A-0005cN-Na
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 05:22:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37994)
+	id 1lJD31-0006nf-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 05:23:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJD16-0005AV-KV
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 05:21:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJD12-0002Eu-Q5
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 05:21:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615198890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=scrzUxo85m+CDiKHlYmIIAapU5N8csedqdSXTTiHT4k=;
- b=I5mrqqxjnRWm0awaxZlrZCiMYWYzUnfcj4A0/iXZR+aTWLoFqFG1BYRo7gx15GrUKSCuvn
- HT4hX+0Ejll0/bChn0TACTgPvydUVqr4X03WMbyKHPf/NULz0kbX1mUgkYSRXLiDtlkEzw
- PdbbAok+/IzAhr1OVaP4B3GCPI8IkZE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-qTlaFjaWN-6k5e31ktDJ7A-1; Mon, 08 Mar 2021 05:21:28 -0500
-X-MC-Unique: qTlaFjaWN-6k5e31ktDJ7A-1
-Received: by mail-ed1-f69.google.com with SMTP id k8so4766566edn.19
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 02:21:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJD2C-0005xv-Vi
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 05:22:44 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJD2B-0002nQ-BE
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 05:22:44 -0500
+Received: by mail-ej1-x629.google.com with SMTP id mj10so19182774ejb.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 02:22:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/1I5pAy37KUzIUsvrcseeN1J8NdaFRAjQ198WM/0KUY=;
+ b=x1qSl+B2/C1ducn7oKw7FSMyeW7WmUIdbDeythd1UYedw2wFz1M0ZuyB9N2wNPi9v9
+ AWk8ihktIt15B2j0DJ8qwWv1VF78ubQ9DEAHSo8bL1PuPEXGFx/dKa6aEU0ZzLXDYoPm
+ 40Wl1FTtp2WnhvTAjGN6ZMgfLPpKKxuLcg8dq80LIilisyOT281GDVg2iHsv/bMnv6yB
+ 5jclcMq+xWj01dRY2yoNBdJoA2OG7td+kwBUutc8r0CBAguKc7HgeDxsWkgW7SpeOxUZ
+ ydySkjULPl8fF+byvGW46hcpgRl2e1DDKs9cfa2Ufuc3nF+Hb1QUJT85lELDSf6VmeOA
+ 3H+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=scrzUxo85m+CDiKHlYmIIAapU5N8csedqdSXTTiHT4k=;
- b=nfZpRWspmAPBV/aWyjfUeWs2o+raJ/bNXFtFkw2IF9YP49YGPsNwlb8b0OaoNXfDdL
- zN1fJvpyCgN2iMrznBGWMbZhg57LraY466KGFi3gRIsynrT/PMs3s7sDjl38ndb9WAhw
- QArWe5GIpRC3XUVZr+2iIkvzY9KnuwZZ/FZpMZGyhOzMVVH6TvyoNYQluxoZL/Kfij5U
- 2dn2nFBTxcZanuIhYtUvS/b0l1aYXtJmfTwxrVuVhQtDXJsrD+P22bYuAtZpT7gyruXE
- hnIv4KURWIXEgdLJ3r71Oim5lF/ozcT3YCjqDGLVeDYWG59nWSWreRp3HGccp+WiZHuA
- JIaQ==
-X-Gm-Message-State: AOAM530DwHGWOgZoqP1A1PdN1aXleJVUMjYX/7p+tuJx16cfuKVxwdYe
- gCMutw9/ZyS4iiNonRerLXJZyEuENPa5aajYimKtDXtEZBez3bQMFj4j5fx9CSjJFV2k/MfwFBI
- Oat5u01wQsUdrYDM=
-X-Received: by 2002:a17:906:1494:: with SMTP id
- x20mr2665366ejc.101.1615198887360; 
- Mon, 08 Mar 2021 02:21:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwLtsGE2I0M5WAhrgd1Ejncl2/pmDL6C/0WqfWfUluzAqpfawa7EKrZvKhu4mh8DBQFK99R2g==
-X-Received: by 2002:a17:906:1494:: with SMTP id
- x20mr2665354ejc.101.1615198887232; 
- Mon, 08 Mar 2021 02:21:27 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g21sm6427967ejd.6.2021.03.08.02.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 02:21:26 -0800 (PST)
-Subject: Re: [PATCH] target/i386/sev: Ensure sev_fw_errlist is sync with
- update-linux-headers
-To: qemu-devel@nongnu.org
-References: <20210219180131.2061072-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bb91385d-ce8d-c949-d261-ec5315888b30@redhat.com>
-Date: Mon, 8 Mar 2021 11:21:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/1I5pAy37KUzIUsvrcseeN1J8NdaFRAjQ198WM/0KUY=;
+ b=TG6ZyG8zyHE0JXT1GQMJKiRCuR2zaQwiZMQ2ZbHVYvW4XSngrNjtlQOtvcZZhsVPvA
+ jJ51xVa9DaIIVXizCbiKngdVHkp6iQJMtpZ0uhqWxBU8nXN6b7WX5FtjbEVi1jDdcRTo
+ 7AH1C3eeXRyywLb9rIuU7TfX/3M5UdI6a8nPiiuCDeqaSQfgPz4fYlsvYohd2i+WyYNx
+ rMBrOujWpyaaowuUuNLPZ5l5JMmVzn+w3g4V3SdgRJvc6aackxWt9uCtrWhQIB3cuA21
+ 9Tt511pceex5L71dq0yiQUNUsT4tXgXDgPGtK9/Txp8uToj3X9AYJiZd8lTYf/MQVTD2
+ LtLA==
+X-Gm-Message-State: AOAM531SWsz0ZDlKyAt/XbRQIDQ04fOS+y/PchkwshPFQlIR887qiJ9n
+ AWF558NDQo+hcAGeqwSMYD2uzH+2cIIHNWS3OpnkLw==
+X-Google-Smtp-Source: ABdhPJzvHm/BhX26fsbC4I0aImCRad4MuYuzCCOwFOa9TbgwJyAYfdMQ2O4RVwJrUcHaOK0JqmKkBksXJWXagoj9X4w=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr14473885ejd.85.1615198961883; 
+ Mon, 08 Mar 2021 02:22:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210219180131.2061072-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <20210303191205.1656980-1-philmd@redhat.com>
+ <20210303191205.1656980-3-philmd@redhat.com>
+ <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+In-Reply-To: <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Mar 2021 10:22:25 +0000
+Message-ID: <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,57 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+On Mon, 8 Mar 2021 at 03:48, Jason Wang <jasowang@redhat.com> wrote:
+> Do we need to care about other type of networking backends? E.g socket.
+>
+> Or at least we should keep the padding logic if we can't audit all of
+> the backends.
 
-On 2/19/21 7:01 PM, Philippe Mathieu-Daudé wrote:
-> Ensure sev_fw_errlist[] is updated after running
-> the update-linux-headers.sh script.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Based-on: <20210218151633.215374-1-ckuehl@redhat.com>
-> ---
->  target/i386/sev.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 37690ae809c..92c69a23769 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -87,7 +87,7 @@ typedef struct __attribute__((__packed__)) SevInfoBlock {
->  static SevGuestState *sev_guest;
->  static Error *sev_mig_blocker;
->  
-> -static const char *const sev_fw_errlist[] = {
-> +static const char *const sev_fw_errlist[SEV_RET_MAX] = {
->      [SEV_RET_SUCCESS]                = "",
->      [SEV_RET_INVALID_PLATFORM_STATE] = "Platform state is invalid",
->      [SEV_RET_INVALID_GUEST_STATE]    = "Guest state is invalid",
-> @@ -114,6 +114,8 @@ static const char *const sev_fw_errlist[] = {
->      [SEV_RET_RESOURCE_LIMIT]         = "Required firmware resource depleted",
->      [SEV_RET_SECURE_DATA_INVALID]    = "Part-specific integrity check failure",
->  };
-> +/* Ensure sev_fw_errlist[] is updated after running update-linux-headers.sh */
-> +QEMU_BUILD_BUG_ON(SEV_RET_SECURE_DATA_INVALID + 1 != SEV_RET_MAX);
->  
->  #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
->  
-> @@ -160,6 +162,7 @@ fw_error_to_str(int code)
->      if (code < 0 || code >= SEV_FW_MAX_ERROR) {
->          return "unknown error";
->      }
-> +    assert(sev_fw_errlist[code]);
->  
->      return sev_fw_errlist[code];
->  }
-> 
+I think the key thing we need to do here is make a decision
+and be clear about what we're doing. There are three options
+I can see:
 
+(1) we say that the net API demands that backends pad
+packets they emit to the minimum ethernet frame length
+unless they specifically are intending to emit a short frame,
+and we fix any backends that don't comply (or equivalently,
+add support in the core code for a backend to mark itself
+as "I don't pad; please do it for me").
+
+(2) we say that the networking subsystem doesn't support
+short packets, and just have the common code always enforce
+padding short frames to the minimum length somewhere between
+when it receives a packet from a backend and passes it to
+a NIC model.
+
+(3) we say that it's the job of the NIC models to pad
+short frames as they see them coming in.
+
+I think (3) is pretty clearly the worst of these, since it
+requires every NIC model to handle it; it has no advantages
+over (2) that I can see. I don't have a strong take on whether
+we'd rather have (1) or (2): it's a tradeoff between whether
+we support modelling of short frames vs simplicity of code.
+I'd just like us to be clear about what point or points in
+the code have the responsibility for padding short frames.
+
+On
++    if (sender->info->type == NET_CLIENT_DRIVER_USER ||
++        sender->info->type == NET_CLIENT_DRIVER_TAP) {
+
+vs
+> if (sender->info->type != NET_CLIENT_DRIVER_NIC)
+
+another option would be to add a 'bool pad_short_tx_frames' to
+the NetClientInfo struct, and have those things which don't
+pad set it to true.
+
+thanks
+-- PMM
 
