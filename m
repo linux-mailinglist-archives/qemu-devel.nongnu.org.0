@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19763311A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:08:35 +0100 (CET)
-Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388C13311A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:08:59 +0100 (CET)
+Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJHUo-00077V-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
+	id 1lJHVC-0007bN-8L
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:08:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJHSq-0005TM-SY
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:06:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35961)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJHSr-0005Tu-2S
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:06:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJHSi-000157-Ue
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:06:31 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJHSp-0001Av-8a
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:06:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615215982;
+ s=mimecast20190719; t=1615215989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Wl3dKOouZGl+FThlE+OKnTQ+2P3QIIxBLrnML1PGZt8=;
- b=iDO4DsqDingBSScXMIkfF8gNmKDYrL568YoasC32YWMe3od4E2sq4nyGnvZjO9/rAfzd1O
- fRGtoQCOcnKEIoO1juvKtC1Uq8u2mu4lgcOoV5uPnSAmAd7Dsvscr9nrIr6Py69VhRO7Ms
- b//J3BDjU8FaUrMiH3Wl7mNbyYLQYzQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0RRZHJ9qaTOxtBmiPk4Hdrj+ORcKtQnnSAofGrYFBoQ=;
+ b=JrKWceD70HmmVnq8CHroZR4jfwJ++UsQ42MplxJrfzEunXVUIrWKPdRj/4Iwif9eM/USNs
+ N2CqHRiVFYvduZIobnhPSk3+/GOW1dM3SevWvPSOpZmh6pjb7W23ESJnUw4arRwDfnWP96
+ MOFp5QyNCKnUKeOW8lDCF5wAPxGO4mE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-qougcChfPoKfXYDjHK6k9Q-1; Mon, 08 Mar 2021 10:06:21 -0500
-X-MC-Unique: qougcChfPoKfXYDjHK6k9Q-1
+ us-mta-534-Q3CddSfyPsGMUcgvPwxIiA-1; Mon, 08 Mar 2021 10:06:25 -0500
+X-MC-Unique: Q3CddSfyPsGMUcgvPwxIiA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752D21084D69;
- Mon,  8 Mar 2021 15:06:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4C63879A1F;
+ Mon,  8 Mar 2021 15:06:23 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-123.ams2.redhat.com [10.36.113.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCB845D9CD;
- Mon,  8 Mar 2021 15:06:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B61A5D9D3;
+ Mon,  8 Mar 2021 15:06:19 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/12] RAM_NORESERVE,
- MAP_NORESERVE and hostmem "reserve" property
-Date: Mon,  8 Mar 2021 16:05:48 +0100
-Message-Id: <20210308150600.14440-1-david@redhat.com>
+Subject: [PATCH v3 01/12] softmmu/physmem: Mark shared anonymous memory
+ RAM_SHARED
+Date: Mon,  8 Mar 2021 16:05:49 +0100
+Message-Id: <20210308150600.14440-2-david@redhat.com>
+In-Reply-To: <20210308150600.14440-1-david@redhat.com>
+References: <20210308150600.14440-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -91,131 +94,61 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some fixes for shared anonymous memory, cleanups previously sent in other
-context (resizeable allocations), followed by RAM_NORESERVE, implementing
-it under POSIX using MAP_NORESERVE, and letting users configure it for
-memory backens using the "reserve" property (default: true).
+Let's drop the "shared" parameter from ram_block_add() and properly
+store it in the flags of the ram block instead, such that
+qemu_ram_is_shared() properly succeeds on all ram blocks that were mapped
+MAP_SHARED.
 
-MAP_NORESERVE under Linux has in the context of QEMU an effect on
-1) Private/shared anonymous memory
--> memory-backend-ram,id=mem0,size=10G
-2) Private fd-based mappings
--> memory-backend-file,id=mem0,size=10G,mem-path=/dev/shm/0
--> memory-backend-memfd,id=mem0,size=10G
-3) Private/shared hugetlb mappings
--> memory-backend-memfd,id=mem0,size=10G,hugetlb=on,hugetlbsize=2M
+We'll use this information next to fix some cases with shared anonymous
+memory.
 
-With MAP_NORESERVE/"reserve=off", we won't be reserving swap space (1/2) or
-huge pages (3) for the whole memory region.
+Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ softmmu/physmem.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-The target use case is virtio-mem, which dynamically exposes memory
-inside a large, sparse memory area to the VM. MAP_NORESERVE tells the OS
-"this mapping might be very sparse". This essentially allows
-avoiding having to set "/proc/sys/vm/overcommit_memory == 1") when using
-virtio-mem and also supporting hugetlbfs in the future.
-
-virtio-mem currently only supports anonymous memory, in the future we want
-to also support private memfd, shared file-based and shared hugetlbfs
-mappings.
-
-virtio-mem features I am currently working on that will make it all
-play together with this work include:
-1. Introducing a prealloc option for virtio-mem (e.g., using fallocate()
-   when plugging blocks) to fail nicely when running out of
-   backing storage like huge pages ("prealloc=on").
-2. Handling virtio-mem requests via an iothread to not hold the BQL while
-   populating/preallocating memory ("iothread=X").
-3. Protecting unplugged memory e.g., using userfaultfd ("prot=uffd").
-4. Dynamic reservation of swap space ("reserve=on")
-5. Supporting resizable RAM block/memmory regions, such that we won't
-   always expose a large, sparse memory region to the VM.
-6. (resizeable allocations / optimized mmap handling when resizing RAM
-    blocks)
-
-Based-on: 20210303130916.22553-1-david@redhat.com
-
-v2 -> v3:
-- Renamed "softmmu/physmem: Drop "shared" parameter from ram_block_add()"
-  to "softmmu/physmem: Mark shared anonymous memory RAM_SHARED" and
-  adjusted the description
-- Added "softmmu/physmem: Fix ram_block_discard_range() to handle shared
-  anonymous memory"
-- Added "softmmu/physmem: Fix qemu_ram_remap() to handle shared anonymous
-  memory"
-- Added "util/mmap-alloc: Pass flags instead of separate bools to
-  qemu_ram_mmap()"
-- "util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE"
--- Further tweak code comments
--- Handle shared anonymous memory
-
-v1 -> v2:
-- Rebased to upstream and phs_mem_alloc simplifications
--- Upsteam added the "map_offset" parameter to many RAM allocation
-   interfaces.
-- "softmmu/physmem: Drop "shared" parameter from ram_block_add()"
--- Use local variable "shared"
-- "memory: introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()"
--- Simplify due to phs_mem_alloc changes
-- "util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE"
--- Add a whole bunch of comments.
--- Exclude shared anonymous memory that QEMU doesn't use
--- Special-case readonly mappings
-
-Cc: Peter Xu <peterx@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: Liam Merwick <liam.merwick@oracle.com>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>
-
-David Hildenbrand (12):
-  softmmu/physmem: Mark shared anonymous memory RAM_SHARED
-  softmmu/physmem: Fix ram_block_discard_range() to handle shared
-    anonymous memory
-  softmmu/physmem: Fix qemu_ram_remap() to handle shared anonymous
-    memory
-  util/mmap-alloc: Factor out calculation of the pagesize for the guard
-    page
-  util/mmap-alloc: Factor out reserving of a memory region to
-    mmap_reserve()
-  util/mmap-alloc: Factor out activating of memory to mmap_activate()
-  softmmu/memory: Pass ram_flags into qemu_ram_alloc_from_fd()
-  softmmu/memory: Pass ram_flags into
-    memory_region_init_ram_shared_nomigrate()
-  util/mmap-alloc: Pass flags instead of separate bools to
-    qemu_ram_mmap()
-  memory: introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()
-  util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE
-  hostmem: Wire up RAM_NORESERVE via "reserve" property
-
- backends/hostmem-file.c                       |  11 +-
- backends/hostmem-memfd.c                      |   8 +-
- backends/hostmem-ram.c                        |   7 +-
- backends/hostmem.c                            |  33 +++
- hw/m68k/next-cube.c                           |   4 +-
- hw/misc/ivshmem.c                             |   5 +-
- include/exec/cpu-common.h                     |   1 +
- include/exec/memory.h                         |  43 ++--
- include/exec/ram_addr.h                       |   9 +-
- include/qemu/mmap-alloc.h                     |  20 +-
- include/qemu/osdep.h                          |   3 +-
- include/sysemu/hostmem.h                      |   2 +-
- migration/ram.c                               |   3 +-
- .../memory-region-housekeeping.cocci          |   8 +-
- softmmu/memory.c                              |  27 ++-
- softmmu/physmem.c                             |  61 +++--
- util/mmap-alloc.c                             | 217 ++++++++++++------
- util/oslib-posix.c                            |   7 +-
- util/oslib-win32.c                            |  13 +-
- 19 files changed, 323 insertions(+), 159 deletions(-)
-
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 141fce79e8..62ea4abbdd 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1927,8 +1927,9 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
+     }
+ }
+ 
+-static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
++static void ram_block_add(RAMBlock *new_block, Error **errp)
+ {
++    const bool shared = qemu_ram_is_shared(new_block);
+     RAMBlock *block;
+     RAMBlock *last_block = NULL;
+     ram_addr_t old_ram_size, new_ram_size;
+@@ -2064,7 +2065,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    ram_block_add(new_block, &local_err, ram_flags & RAM_SHARED);
++    ram_block_add(new_block, &local_err);
+     if (local_err) {
+         g_free(new_block);
+         error_propagate(errp, local_err);
+@@ -2127,10 +2128,13 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+     if (host) {
+         new_block->flags |= RAM_PREALLOC;
+     }
++    if (share) {
++        new_block->flags |= RAM_SHARED;
++    }
+     if (resizeable) {
+         new_block->flags |= RAM_RESIZEABLE;
+     }
+-    ram_block_add(new_block, &local_err, share);
++    ram_block_add(new_block, &local_err);
+     if (local_err) {
+         g_free(new_block);
+         error_propagate(errp, local_err);
 -- 
 2.29.2
 
