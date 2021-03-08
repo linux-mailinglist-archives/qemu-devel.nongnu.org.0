@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC860331019
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:56:32 +0100 (CET)
-Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA71330F2B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:31:48 +0100 (CET)
+Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGN5-00046D-8i
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:56:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37640)
+	id 1lJFz9-0005Ks-MI
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3R-0000UV-EK
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3O-0001w9-OD
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-aXG14X0jPBWaImhh0N_cDA-1; Mon, 08 Mar 2021 07:31:57 -0500
-X-MC-Unique: aXG14X0jPBWaImhh0N_cDA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BDFE8189D6;
- Mon,  8 Mar 2021 12:31:56 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E5AA5D9D0;
- Mon,  8 Mar 2021 12:31:54 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lJFDo-0006Ve-Sr
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:42:52 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:45099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lJFDm-0006IS-T5
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:42:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=8viDl3lhYCs36VVutx2j225iB6EY3cUEsTqRTzP8azI=; b=Tj5F2luoc+R5XIcilo8F8Fgqpc
+ qMN8dSmasQ/OOKy8hBNu3a/6bB87s4B0ivrM4rcsjquT9RufQmTB27SwqvXlr2bCVrHn2yvqczYab
+ /pPKCIyJB3kHxKa20ufq4137+WzEB57hDdl8w511wRPeRmEleP3uR+6xXNF0cdk2OX4JSDvwk7xh7
+ hvu7EDmhj7z8zHW9s2Wg61rcxBTPKNY3wrH8qWYD6g+Pincy9Dwn0m26LnhzdXe7/+L9B7VO/0BXk
+ EQtqnqcW8+ivFtClWAug4QXD47fc94In9QWhsFDXmaw2sGKSpEbrGlLJxRbutpT22mbLDNRF38MWU
+ qtuyGdUwHC063ZmxaUGnYbaLXxFPNrO2ISQK+QGq79WNlusqpiZmAxAXkJ5D9HEe6SlEYpQLdroCi
+ +FMouALLmU1LD+rCVA/BCHkfjDFh+jWCvtREp2K/ShrDs8VhB2YLlenucOV1pTUU+L9mS+LvmAA6c
+ y8e0Y6Gt6qgbnyZr3cr2momzcRrhn/2p9kJaCo4C1FNrJS+2MApDlD3+LkCAflNiYnt+qskBPaH26
+ 0MjwyN+sl/86ezZUGlr4UL8poCfeAQF4TXAiU8Vl6OR0J8hQVeQr2jVs1soX2Oz2Co/EmQWghmnaT
+ EGU0irNDlC8CAakjfLSffS+qFjWz81iKWcR+juPDI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] virtiofsd: Release vu_dispatch_lock when stopping queue
-Date: Mon,  8 Mar 2021 13:31:41 +0100
-Message-Id: <20210308123141.26444-5-groug@kaod.org>
-In-Reply-To: <20210308123141.26444-1-groug@kaod.org>
-References: <20210308123141.26444-1-groug@kaod.org>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
+Date: Mon, 08 Mar 2021 13:42:47 +0100
+Message-ID: <134602378.QJW5UkElOJ@silver>
+In-Reply-To: <CAMVc7JXb=eK2FgEx0SV7N-DL65EaMPKHM9rZnHCfu5KTPin48g@mail.gmail.com>
+References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com> <2891210.4AG6acVJ2Y@silver>
+ <CAMVc7JXb=eK2FgEx0SV7N-DL65EaMPKHM9rZnHCfu5KTPin48g@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,83 +65,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU can stop a virtqueue by sending a VHOST_USER_GET_VRING_BASE request
-to virtiofsd. As with all other vhost-user protocol messages, the thread
-that runs the main event loop in virtiofsd takes the vu_dispatch lock in
-write mode. This ensures that no other thread can access virtqueues or
-memory tables at the same time.
+On Montag, 8. M=C3=A4rz 2021 12:31:33 CET Akihiko Odaki wrote:
+> 2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 19:39 Christian Schoenebeck =
+<qemu_oss@crudebyte.com>:
+> > This was just about silencing the mentioned automated Coverity defects
+> > report. If you have a better solution, then just ignore this patch.
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
+>=20
+> I do not have an access to Coverity defects report. I'd appreciate the
+> details if you provide one. I suspect I made a mistake somewhere else
+> ui/gtk.c in c821a58ee7 ("ui/console: Pass placeholder surface to
+> display").
 
-In the case of VHOST_USER_GET_VRING_BASE, the main thread basically
-notifies the queue thread that it should terminate and waits for its
-termination:
+Unfortunately Coverity's defects reports are not very verbose. In this case:
 
-main()
- virtio_loop()
-  vu_dispatch_wrlock()
-  vu_dispatch()
-   vu_process_message()
-    vu_get_vring_base_exec()
-     fv_queue_cleanup_thread()
-      pthread_join()
+*** CID 1448421:    (FORWARD_NULL)
+/qemu/ui/gtk.c: 570 in gd_switch()
+564             surface_width(vc->gfx.ds) =3D=3D surface_width(surface) &&
+565             surface_height(vc->gfx.ds) =3D=3D surface_height(surface)) {
+566             resized =3D false;
+567         }
+568         vc->gfx.ds =3D surface;
+569    =20
+>>> CID 1448421:    (FORWARD_NULL)
+>>> Dereferencing null pointer "surface".
+570         if (surface->format =3D=3D PIXMAN_x8r8g8b8) {
+571             /*
+572              * PIXMAN_x8r8g8b8 =3D=3D CAIRO_FORMAT_RGB24
+573              *
+574              * No need to convert, use surface directly.  Should be the
+575              * common case as this is qemu_default_pixelformat(32) too.
 
-Unfortunately, the queue thread ends up calling virtio_send_msg()
-at some point, which itself needs to grab the lock:
+So no detailed path is outlined that may lead to the detected situation (i.=
+e.=20
+no call stack or conditions like you would get e.g. with clang's static=20
+analyzer).
 
-fv_queue_thread()
- g_list_foreach()
-  fv_queue_worker()
-   fuse_session_process_buf_int()
-    do_release()
-     lo_release()
-      fuse_reply_err()
-       send_reply()
-        send_reply_iov()
-         fuse_send_reply_iov_nofree()
-          fuse_send_msg()
-           virtio_send_msg()
-            vu_dispatch_rdlock() <-- Deadlock !
+There are false positives sometimes, but they should be silenced in some wa=
+y.
 
-Simply have the main thread to release the lock before going to
-sleep and take it back afterwards. A very similar patch was already
-sent by Vivek Goyal sometime back:
-
-https://listman.redhat.com/archives/virtio-fs/2021-January/msg00073.html
-
-The only difference here is that this done in fv_queue_set_started()
-because fv_queue_cleanup_thread() can also be called from virtio_loop()
-without the lock being held.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tools/virtiofsd/fuse_virtio.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 523ee64fb7ae..3e13997406bf 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -792,7 +792,13 @@ static void fv_queue_set_started(VuDev *dev, int qidx,=
- bool started)
-             assert(0);
-         }
-     } else {
-+        /*
-+         * Temporarily drop write-lock taken in virtio_loop() so that
-+         * the queue thread doesn't block in virtio_send_msg().
-+         */
-+        vu_dispatch_unlock(vud);
-         fv_queue_cleanup_thread(vud, qidx);
-+        vu_dispatch_wrlock(vud);
-     }
- }
+So as you assume "surface" pointer should never be NULL, why did you remove=
 =20
---=20
-2.26.2
+the return statement in gd_switch() with c821a58ee7 then? Redundancy?
+
+diff --git a/ui/gtk.c b/ui/gtk.c
+index c32ee34edc..3edaf041de 100644
+=2D-- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -567,10 +567,6 @@ static void gd_switch(DisplayChangeListener *dcl,
+     }
+     vc->gfx.ds =3D surface;
+=20
+=2D    if (!surface) {
+=2D        return;
+=2D    }
+=2D
+     if (surface->format =3D=3D PIXMAN_x8r8g8b8) {
+         /*
+          * PIXMAN_x8r8g8b8 =3D=3D CAIRO_FORMAT_RGB24
+
+I was reading your change as you wanted to reach the end of the function in=
+=20
+case of surface =3D=3D NULL.
+
+Best regards,
+Christian Schoenebeck
+
 
 
