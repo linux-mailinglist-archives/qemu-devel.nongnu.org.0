@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D799C330EF8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:16:52 +0100 (CET)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0692E330F05
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:20:06 +0100 (CET)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJFkh-0001bV-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:16:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37642)
+	id 1lJFnp-0004PK-1U
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:20:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3R-0000UX-FB
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:38224)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJF4r-0001I4-WE
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:33:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3P-0001wh-OU
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJF4p-0002Yd-Te
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:33:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615206814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lBmIHFbfOJtocikMMqxDTcqd8zFsvSrvNEZkYY0BLI=;
+ b=bCPN1R7gOweAKAilgp2tpBWagP88MDbLu61ktvWqvW6Ig7TTWhBCi1VAJoNbRAyqDy98RX
+ 9vtwbDFVsezMbQzqRCiPD3AWW80eQarXjEB9AHUN+4Rgx6ZfPGQH4yTJyEXvc2udGkE7Qj
+ /SIdtCRHStppe8L4zQ1USnqB0+z0soE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-rTogx99wNSKYiuBl4lAMMw-1; Mon, 08 Mar 2021 07:31:55 -0500
-X-MC-Unique: rTogx99wNSKYiuBl4lAMMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-36-tVHes7RZOGqKcrX73lfIHw-1; Mon, 08 Mar 2021 07:33:31 -0500
+X-MC-Unique: tVHes7RZOGqKcrX73lfIHw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B72872F7A0;
- Mon,  8 Mar 2021 12:31:54 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 691605D9D0;
- Mon,  8 Mar 2021 12:31:53 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] vhost-user: Monitor slave channel in vhost_user_read()
-Date: Mon,  8 Mar 2021 13:31:40 +0100
-Message-Id: <20210308123141.26444-4-groug@kaod.org>
-In-Reply-To: <20210308123141.26444-1-groug@kaod.org>
-References: <20210308123141.26444-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4265E814314;
+ Mon,  8 Mar 2021 12:33:30 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-198.ams2.redhat.com [10.36.113.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 698D019709;
+ Mon,  8 Mar 2021 12:33:24 +0000 (UTC)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210307113403.11028-1-thuth@redhat.com>
+ <878s6xam83.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Merge the Gitlab-CI section into the generic
+ CI section
+Message-ID: <e9809c0e-1dc1-bb42-475d-ac1c032bd075@redhat.com>
+Date: Mon, 8 Mar 2021 13:33:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <878s6xam83.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,91 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that everything is in place, have the nested event loop to monitor
-the slave channel. The source in the main event loop is destroyed and
-recreated to ensure any pending even for the slave channel that was
-previously detected is purged. This guarantees that the main loop
-wont invoke slave_read() based on an event that was already handled
-by the nested loop.
+On 08/03/2021 12.57, Alex Bennée wrote:
+> 
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> The status of the gitlab-CI files is currently somewhat confusing, and
+>> it is often not quite clear whether a patch should go via my tree or
+>> via the testing tree of Alex. That situation has grown historically...
+>> Initially, I was the only one using the gitlab-CI, just for my private
+>> repository there. But in the course of time, the gitlab-CI switched to
+>> use the containers from tests/docker/ (which is not part of the gitlab-CI
+>> section in the MAINTAINERS file), and QEMU now even switched to gitlab.com
+>> completely for the repository and will soon use it as its gating CI, too.
+>> So it makes way more sense if the gitlab-ci.yml files belong to the people
+>> who are owning the qemu-project on gitlab.com and take care of the gitlab
+>> CI there. Thus let's merge the gitlab-ci section into the common "test and
+>> build automation" section,
+> 
+> I have no problem with this, might as well keep it all together.
+> 
+>> and change the status of myself to a "reviewer"
+>> there instead.
+> 
+> Can we not have multiple maintainers? Considering how important keeping
+> the testing green should be wouldn't it help to keep the bus factor
+> lower (not to mention holidays/breaks and just plain busy with other
+> things periods). It shouldn't be to hard to track as long as we mention
+> when we queue things to our trees?
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/virtio/vhost-user.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Sure, it certainly makes sense to have multiple maintainers, but I think in 
+this section, it might be better to also have someone who's also a 
+maintainer of the qemu-project at gitlab (in case there's something to 
+fix/setup with a custom runner for example, and to avoid wrong 
+expectations)? Maybe Peter finally wants to join here to get finally away 
+from his exclusive merge tests?
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index e395d0d1fd81..7669b3f2a99f 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -345,6 +345,9 @@ end:
-     return G_SOURCE_REMOVE;
- }
-=20
-+static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-+                           gpointer opaque);
-+
- static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
- {
-     struct vhost_user *u =3D dev->opaque;
-@@ -352,6 +355,7 @@ static int vhost_user_read(struct vhost_dev *dev, Vhost=
-UserMsg *msg)
-     GMainContext *prev_ctxt =3D chr->chr->gcontext;
-     GMainContext *ctxt =3D g_main_context_new();
-     GMainLoop *loop =3D g_main_loop_new(ctxt, FALSE);
-+    GSource *slave_src =3D NULL;
-     struct vhost_user_read_cb_data data =3D {
-         .dev =3D dev,
-         .loop =3D loop,
-@@ -363,8 +367,30 @@ static int vhost_user_read(struct vhost_dev *dev, Vhos=
-tUserMsg *msg)
-     qemu_chr_be_update_read_handlers(chr->chr, ctxt);
-     qemu_chr_fe_add_watch(chr, G_IO_IN | G_IO_HUP, vhost_user_read_cb, &da=
-ta);
-=20
-+    if (u->slave_ioc) {
-+        /*
-+         * This guarantees that all pending events in the main context
-+         * for the slave channel are purged. They will be re-detected
-+         * and processed now by the nested loop.
-+         */
-+        g_source_destroy(u->slave_src);
-+        g_source_unref(u->slave_src);
-+        u->slave_src =3D NULL;
-+        slave_src =3D qio_channel_add_watch_source(u->slave_ioc, G_IO_IN,
-+                                                 slave_read, dev, NULL,
-+                                                 ctxt);
-+    }
-+
-     g_main_loop_run(loop);
-=20
-+    if (u->slave_ioc) {
-+        g_source_destroy(slave_src);
-+        g_source_unref(slave_src);
-+        u->slave_src =3D qio_channel_add_watch_source(u->slave_ioc, G_IO_I=
-N,
-+                                                    slave_read, dev, NULL,
-+                                                    NULL);
-+    }
-+
-     /*
-      * Restore the previous context. This also destroys/recreates event
-      * sources : this guarantees that all pending events in the original
-@@ -372,6 +398,7 @@ static int vhost_user_read(struct vhost_dev *dev, Vhost=
-UserMsg *msg)
-      */
-     qemu_chr_be_update_read_handlers(chr->chr, prev_ctxt);
-=20
-+
-     g_main_loop_unref(loop);
-     g_main_context_unref(ctxt);
-=20
---=20
-2.26.2
+  Thomas
 
 
