@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7A83308FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 08:53:37 +0100 (CET)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9107330900
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 08:55:54 +0100 (CET)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJAhs-0002mJ-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 02:53:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1lJAk5-00046G-NW
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 02:55:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJAge-00027j-OS
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:52:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52614)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lJAii-0003Zt-Tn
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:54:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJAgd-0002AC-1C
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:52:20 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1lJAih-00031V-68
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:54:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615189938;
+ s=mimecast20190719; t=1615190065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kCHG6ZonLLPeUU16u6jdq2kF6bKbHFf90lxlB6JWyzI=;
- b=AW62awBHMq/K5s50RVJ1Lr/gyIPYXpaSFZCk0dUjO4I1of3NhHKJxE5DUnmkHVDim+sxE+
- GVSKutCprh190Vr3cnIIicEwO6zzcb6fvzar5KFSgsmL86GjK9Y9LhrfTSYYr0o9zm5Ve+
- ilwJcPJGgiU/EeVMmBzgrKssTYcr49c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-1uoZyCawO7muS9ga1PdI_g-1; Mon, 08 Mar 2021 02:52:15 -0500
-X-MC-Unique: 1uoZyCawO7muS9ga1PdI_g-1
-Received: by mail-wr1-f70.google.com with SMTP id x9so4417826wro.9
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 23:52:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kCHG6ZonLLPeUU16u6jdq2kF6bKbHFf90lxlB6JWyzI=;
- b=OhIoW09p2Ug8qEzdCA311WWHqXNSP5YMl3iUI/RryERWQuPN5U557sTVzRH56bo1uy
- gsH9kraC5QkHYJi5r3EgK2NuN4GwEh1+523Wefy+PiZsBB+yd4nNKCW3w111951Fmods
- 38g9DZ8uCCbwa6/SINnzqRIg1sXCY0hsjeQm4NEBEnatvN+5qXwi7xsbRLsZ5zqZ4rhk
- bUkbgRLgmbJaikuG08VmXIgnnEBiNZhn9NFs5rAfN4t/8UMsik1Gqtex19kO768ljMHD
- 5aj6Oa13tGCFQFjl585mS/AOcp67X5kttAT/PV8iHfNdD9QsqxApv0HvHbtqLRNCh1ko
- uQCA==
-X-Gm-Message-State: AOAM533n/J5ca5CnaYB9l7biYy20u/qcWyHRPHdk/KV7f7VFTKnwL3bs
- /BHPH3iN1qLoy0/ebEXCd3CHJ2/14Qow3Fb//Kzc1DosnK237pvShZuDArL/TUwBovxj7cevcdU
- D6L+n9Vq59jfqn44=
-X-Received: by 2002:a5d:6049:: with SMTP id j9mr1102392wrt.117.1615189934463; 
- Sun, 07 Mar 2021 23:52:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeUDcPe/yMm7POjxcLfcAM5tHnOXwQkN+tXH0foM78OD0aa+MhHidky48woiitC/OkwGVf5Q==
-X-Received: by 2002:a5d:6049:: with SMTP id j9mr1102371wrt.117.1615189934291; 
- Sun, 07 Mar 2021 23:52:14 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id k11sm17688212wmj.1.2021.03.07.23.52.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Mar 2021 23:52:13 -0800 (PST)
-Subject: Re: [PATCH v3 2/5] tests/acceptance/boot_linux_console: remove
- Armbian 19.11.3 bionic test for orangepi-pc machine
-To: Willian Rampazzo <wrampazz@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
- <20210304203540.41614-3-nieklinnenbank@gmail.com>
- <CAKJDGDZq_ioF91BUWRo_y0GKYGbjgZa46Pt83wp7t3b_ZC=ixw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4d6d2e89-1152-249b-fe55-d1b611fd77e8@redhat.com>
-Date: Mon, 8 Mar 2021 08:52:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=AIpvswgW7d6PBJKGKulZ/r+ntCDlOKxtaGOHbSwAd/Q=;
+ b=SF22uTJroVoS5VyK81oTNRlz1OLYR0NSyTajzueo5/24imKr8kG9J3DhS3T9rQR7KKx1Km
+ lVhVzwlbdQkY8QzkVdgv/RA0S12/SY/kv5yAMnN+heyKOdy7XclQpXD330DYkddF7VWArl
+ hMc6uHs0GPYRdQXzcoYEtSjd7jwfLkk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-Osk1gkCGNaaUvAzySRDBkg-1; Mon, 08 Mar 2021 02:54:23 -0500
+X-MC-Unique: Osk1gkCGNaaUvAzySRDBkg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BB39881280;
+ Mon,  8 Mar 2021 07:54:22 +0000 (UTC)
+Received: from localhost (ovpn-112-77.rdu2.redhat.com [10.10.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E16019CB1;
+ Mon,  8 Mar 2021 07:54:18 +0000 (UTC)
+Date: Mon, 8 Mar 2021 08:54:17 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Add qemu version and copyright info
+Message-ID: <20210308075351.f27qzek6nqmbfcwi@mhamilton>
+References: <20210303195339.GB3793@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKJDGDZq_ioF91BUWRo_y0GKYGbjgZa46Pt83wp7t3b_ZC=ixw@mail.gmail.com>
+In-Reply-To: <20210303195339.GB3793@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6vu3aumytw2is7vc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,57 +76,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- b.galvani@gmail.com, qemu-arm@nongnu.org,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
- Cleber Rosa Junior <crosa@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, eric.g.ernst@gmail.com,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/21 4:16 PM, Willian Rampazzo wrote:
-> On Thu, Mar 4, 2021 at 5:44 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
->>
->> The image for Armbian 19.11.3 bionic has been removed from the armbian server.
->> Without the image as input the test arm_orangepi_bionic_19_11 cannot run.
->>
->> This commit removes the test completely and merges the code of the generic function
->> do_test_arm_orangepi_uboot_armbian back with the 20.08 test.
->>
->> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
->> ---
->>  tests/acceptance/boot_linux_console.py | 72 ++++++++------------------
->>  1 file changed, 23 insertions(+), 49 deletions(-)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> index eb01286799..9fadea9958 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):
->>          # Wait for VM to shut down gracefully
->>          self.vm.wait()
->>
->> -    def do_test_arm_orangepi_uboot_armbian(self, image_path):
->> +    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
->> +                'Test artifacts fetched from unreliable apt.armbian.com')
->> +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
->> +    def test_arm_orangepi_bionic_20_08(self):
->> +        """
->> +        :avocado: tags=arch:arm
->> +        :avocado: tags=machine:orangepi-pc
->> +        :avocado: tags=device:sd
->> +        """
->> +
->> +        # This test download a 275 MiB compressed image and expand it
->> +        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
->> +        # As we expand it to 2 GiB we are safe.
->> +
->> +        image_url = ('https://dl.armbian.com/orangepipc/archive/'
->> +                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
-> 
-> The Armbian 20 is not available on this link anymore. I can browse just 21.
+--6vu3aumytw2is7vc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cat-and-mouse game *sigh*.
+On Wed, Mar 03, 2021 at 02:53:39PM -0500, Vivek Goyal wrote:
+> Option "-V" currently displays the fuse protocol version virtiofsd is
+> using. For example, I see this.
+>=20
+> $ ./virtiofsd -V
+> "using FUSE kernel interface version 7.33"
+>=20
+> People also want to know software version of virtiofsd so that they can
+> figure out if a certain fix is part of currently running virtiofsd or
+> not. Eric Ernst ran into this issue.
+>=20
+> David Gilbert thinks that it probably is best that we simply carry the
+> qemu version and display that information given we are part of qemu
+> tree.=20
+>=20
+> So this patch enhances version information and also adds qemu version
+> and copyright info. Not sure if copyright information is supposed
+> to be displayed along with version info. Given qemu-storage-daemon
+> and other utilities are doing it, so I continued with same pattern.
+> This is how now output looks like.
+>=20
+> $ ./virtiofsd -V
+> virtiofsd version 5.2.50 (v5.2.0-2357-gcbcf09872a-dirty)
+> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> using FUSE kernel interface version 7.33
+>=20
+> Reported-by: Eric Ernst <eric.g.ernst@gmail.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c |    8 ++++++++
+>  1 file changed, 8 insertions(+)
+
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c=092021-03-03 14:2=
+8:04.893672524 -0500
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c=092021-03-03 14:37:29.=
+381712706 -0500
+> @@ -37,6 +37,8 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "qemu/timer.h"
+> +#include "qemu-version.h"
+> +#include "qemu-common.h"
+>  #include "fuse_virtio.h"
+>  #include "fuse_log.h"
+>  #include "fuse_lowlevel.h"
+> @@ -3591,6 +3593,11 @@ static void fuse_lo_data_cleanup(struct
+>      free(lo->source);
+>  }
+> =20
+> +static void qemu_version(void)
+> +{
+> +    printf("virtiofsd version " QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\=
+n");
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>      struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+> @@ -3662,6 +3669,7 @@ int main(int argc, char *argv[])
+>          ret =3D 0;
+>          goto err_out1;
+>      } else if (opts.show_version) {
+> +        qemu_version();
+>          fuse_lowlevel_version();
+>          ret =3D 0;
+>          goto err_out1;
+>=20
+>=20
+
+--6vu3aumytw2is7vc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmBF2CgACgkQ9GknjS8M
+AjWnYBAAhTrft37VvzPpmwhUEvRe5FjCJxn6RpHmMPH05QuDEIF8RktS3upDfxVj
+UD68Aa/XZTVMfW4fpjPYxsQhtr85Fb1cqfISAK8awnYpozLlPbBO2H7tTg79oXsS
+Kiuf0GfO3Q7W0fIZLtUc1CW3GPVVeK44nRc5gRDOc5bAqpWxw50p2qIZs+u2ol+O
+97LlNPR2krVC3ZftkBRx0fI9h3mTDLhkdAtl+EtBNtx4+WeHi1Yw1Xl1nn3sqNdj
+XXGQzsnaSdmu7FqNzOlXd2EEutjBxr1CEP+CxiMWobcQiH52ejCP8t8V0gqAeTgp
+ghZAT9VEsvY0+srlcqv1jo9Uk4Mm0pvQtQmpDQXBgr0z75pppQC1Ko7lnLQnWpaq
+Gp7KRLbUNuq5lx1Dszhfle9y7ekNqwn34B8ifq2wVXhCj+c8n5K8F3h2CtLp4Ji4
+wKDVKvlXDtkrAHbB1N45vFGU/B0Wc0e03RsRlbdNwuq2DDsE2ustOg6yDTkIVlpi
+lyKVAbT6uBrk6qi9K5Ku9r50mVc8b2sRjoqmaM1WffmeQqRAcYYXI176q0bKFf+N
+5kvGhEQIwGUqpkp846kPbooTpkp9dX2GW1csIxQis0dZdG4lTYeRfQX+j7NVIgkt
+t+HhfCyZd5kWKZjxoywbvgOK58ekBwff0aJmnniJLRrmsR9kcx0=
+=e5r9
+-----END PGP SIGNATURE-----
+
+--6vu3aumytw2is7vc--
 
 
