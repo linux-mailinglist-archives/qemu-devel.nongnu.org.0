@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D7F3315C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:21:36 +0100 (CET)
-Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965FC3315D9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:23:41 +0100 (CET)
+Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKVb-000244-9g
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:21:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1lJKXc-0005VP-Iu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:23:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJl4-000769-8r
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:31 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35487)
+ id 1lJJl9-0007CG-Dv
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:35 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkm-00076x-SP
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:30 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id l12so12332492wry.2
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:12 -0800 (PST)
+ id 1lJJko-00077V-KQ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:35 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d15so12343403wrv.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=W+4bTUyGK28yi6/dxTf2egKfdicu748cNaQiFvA6QJw=;
- b=QcXiXBTRBEuj/GYCh99rTxcXc7xTqFrYIr8mI5JZIYPfI65gCk4ztNQUYG79CAsITO
- 4GztoinxBboIT7PXDBsxp6nX6ggM6RkDPJsaKGDym8X4djNXcFQwdXJSsVlEsm7wVGvJ
- 1CRTQUdTSJMm1zJI4Vco0/iQQpSQtHAw0gO/7BnRbjtXukA5dCT45mEj22A9QmwFeihX
- dP1bPKVPCmuF2n/WC+xrTIsPMjMWAYZpSf/xODHJ02t50cECzyzDFJuICobCcqPzqY/Q
- f1XE5YrdvprxPjs4a1T3suTkDiGGtC5G9rNjbXlUk12h2VQMWfWsQGf2vmFGylUWd4WU
- zRXQ==
+ bh=s8SBcSOsjvWWNhiZ70AknwQvWC389VYvd68bkS2XFfk=;
+ b=DjTMPMHbke5Cjvtzg1Elp2IjsyxrHqAKTrgIEuo1vy7jbd+aLWMd1HR7vX0L6GiDgv
+ 8xWnWeV12AwtkPqZYNIs6s9krpfEJnsH2vjvXSYm02Ok80Sg0mx68D1nMg8hkv6s0vZC
+ 9T4M14GKWSbruNJbXZAuv0hZDTRhmYgasGIhSsJ9gxEpvdb+xoBuV/ojfic0vhtnn9Tv
+ WoeEKJcBUq7RrEgCTWHVJ6sIeCDepiIbE9w4YM+tkDYWcfnUXPqx8WjowHzxjGad4lfo
+ C2OpNWgHhCzyHj6wZ+HDKAuU/sEsoJri0y8h+2b0h/EbWsCh+373tDs8OKq0YbY2FlNK
+ q4MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W+4bTUyGK28yi6/dxTf2egKfdicu748cNaQiFvA6QJw=;
- b=m52E/7BYhQ90XWR4m44PyXnC7nWYqVYwta4OdLtQWNQxA59ZKBGkJrKgKzFBqN8FBi
- ddICQSmB+9hi4jKjSquEB4QiRvBL3WR1PsyiSRTE872pduL9j4G4l8nMAgXwcXQSgOB3
- tq32FCnfhwXIWhavMfDtQQtIqjlehbhkcCrIAW6On1CWUwywq2iKjETj9GuHuGxjRqG9
- IAh1tA+0VF/r7nJAmd/M8fiTj1a1CZyNDbGR6b1T3iMxh/8lLoGF8d0RCMoLK0dDcJNg
- roNJCfUT4xe88ZSp6Kznqcq2m9QzASpum8F6SbXe8LIpxuawT2rUQgX/UmuPeGDNykWy
- KvdQ==
-X-Gm-Message-State: AOAM530NNIdxphY0QpvvKI02eo3ibn1IN6YZjZgtgsQ79NM6yiss5DOY
- 4j0/x6C6LKHwYJDseVhtH/61d8oy/bcOLA==
-X-Google-Smtp-Source: ABdhPJy3WUVtjNepMbw4RptZVf6rrjb+YwOXSI0OTIAv5jncA9I9HGNLLFJOSHAhw3SlySrPPB3nag==
-X-Received: by 2002:adf:f841:: with SMTP id d1mr23804336wrq.36.1615224791583; 
- Mon, 08 Mar 2021 09:33:11 -0800 (PST)
+ bh=s8SBcSOsjvWWNhiZ70AknwQvWC389VYvd68bkS2XFfk=;
+ b=NwJsu4MsnlOR3yMKFLZ5xcmHLo7x19LHiMRNFNXJxCPUL54hqKZ5EP1MvfAzWITdRs
+ N0lCljYwMg7EiOrvm+Qk3lBGY8kczdDJzCQEfQb1iuMox0YsyWoV7xwtbGN+jI3sx3NR
+ tPnsG7FGA/cRtQ44B1vc19q2KSMzPij23MBYCE0ozNfx3nm55MGnnqcsBL73ZRAm2fqt
+ aXSHkUoOqDbCyqO+huZVT8QfEW5fV+qhbk3qYEFgJPaeskeZw9bM5ursShYjncy4Wzf6
+ rgH/U4ZQCQvjNQ5fCZcMJbZK8ncAHDu7SS6NOe3Mn2mMrRii5bEwggZZJaAuVMo7o+T9
+ n++A==
+X-Gm-Message-State: AOAM533LLGnIMLWC79kL+IB1aEHPsA+51BdXbcKAq4mbVBroDidWXGei
+ cZZIXxudjMRH17tMM7hBdTkDcoeZ04uksw==
+X-Google-Smtp-Source: ABdhPJykUxvJ0WiqxvnWC7KCr8g8QuAkfnXuqVhynnWRckSOVleA1j0R1jrAtbuUOrcLuZYBtoD9uA==
+X-Received: by 2002:adf:ec46:: with SMTP id w6mr23611654wrn.213.1615224792299; 
+ Mon, 08 Mar 2021 09:33:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.11
  for <qemu-devel@nongnu.org>
@@ -54,18 +54,17 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Mon, 08 Mar 2021 09:33:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/54] hw/arm/armsse: Support variants with ARMSSE_CPU_PWRCTRL
- block
-Date: Mon,  8 Mar 2021 17:32:24 +0000
-Message-Id: <20210308173244.20710-35-peter.maydell@linaro.org>
+Subject: [PULL 35/54] hw/arm/armsse: Add SSE-300 support
+Date: Mon,  8 Mar 2021 17:32:25 +0000
+Message-Id: <20210308173244.20710-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,114 +87,211 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support SSE variants like the SSE-300 with an ARMSSE_CPU_PWRCTRL register
-block. Because this block is per-CPU and does not clash with any of the
-SSE-200 devices, we handle it with a has_cpu_pwrctrl flag like the
-existing has_cachectrl, has_cpusectrl and has_cpuid, rather than
-trying to add per-CPU-device support to the devinfo array handling code.
+Now we have sufficiently parameterised the code, we can add SSE-300
+support by adding a new entry to the armsse_variants[] array.
+
+Note that the main watchdog (unlike the s32k watchdog) in the SSE-300
+is a different device from the CMSDK watchdog; we don't have a model
+of it so we leave it as a TYPE_UNIMPLEMENTED_DEVICE stub.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-35-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-36-peter.maydell@linaro.org
 ---
- include/hw/arm/armsse.h |  3 +++
- hw/arm/armsse.c         | 26 ++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ include/hw/arm/armsse.h |   1 +
+ hw/arm/armsse.c         | 152 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 153 insertions(+)
 
 diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index f4e2b680479..21d239c381c 100644
+index 21d239c381c..36592be62c5 100644
 --- a/include/hw/arm/armsse.h
 +++ b/include/hw/arm/armsse.h
-@@ -104,6 +104,7 @@
- #include "hw/misc/iotkit-sysinfo.h"
- #include "hw/misc/armsse-cpuid.h"
- #include "hw/misc/armsse-mhu.h"
-+#include "hw/misc/armsse-cpu-pwrctrl.h"
- #include "hw/misc/unimp.h"
- #include "hw/or-irq.h"
- #include "hw/clock.h"
-@@ -179,6 +180,8 @@ struct ARMSSE {
+@@ -123,6 +123,7 @@ OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
+  */
+ #define TYPE_IOTKIT "iotkit"
+ #define TYPE_SSE200 "sse-200"
++#define TYPE_SSE300 "sse-300"
  
-     ARMSSECPUID cpuid[SSE_MAX_CPUS];
- 
-+    ARMSSECPUPwrCtrl cpu_pwrctrl[SSE_MAX_CPUS];
-+
-     /*
-      * 'container' holds all devices seen by all CPUs.
-      * 'cpu_container[i]' is the view that CPU i has: this has the
+ /* We have an IRQ splitter and an OR gate input for each external PPC
+  * and the 2 internal PPCs
 diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index ec9c30e0996..2366c49376d 100644
+index 2366c49376d..e5aeb9e485f 100644
 --- a/hw/arm/armsse.c
 +++ b/hw/arm/armsse.c
-@@ -66,6 +66,7 @@ struct ARMSSEInfo {
-     bool has_cachectrl;
-     bool has_cpusecctrl;
-     bool has_cpuid;
-+    bool has_cpu_pwrctrl;
-     bool has_sse_counter;
-     Property *props;
-     const ARMSSEDeviceInfo *devinfo;
-@@ -364,6 +365,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = false,
-         .has_cpusecctrl = false,
-         .has_cpuid = false,
-+        .has_cpu_pwrctrl = false,
-         .has_sse_counter = false,
-         .props = iotkit_properties,
-         .devinfo = iotkit_devices,
-@@ -381,6 +383,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = true,
-         .has_cpusecctrl = true,
-         .has_cpuid = true,
-+        .has_cpu_pwrctrl = false,
-         .has_sse_counter = false,
-         .props = armsse_properties,
-         .devinfo = sse200_devices,
-@@ -660,6 +663,15 @@ static void armsse_init(Object *obj)
-             g_free(name);
-         }
+@@ -337,6 +337,128 @@ static const ARMSSEDeviceInfo sse200_devices[] = {
      }
-+    if (info->has_cpu_pwrctrl) {
-+        for (i = 0; i < info->num_cpus; i++) {
-+            char *name = g_strdup_printf("cpu_pwrctrl%d", i);
-+
-+            object_initialize_child(obj, name, &s->cpu_pwrctrl[i],
-+                                    TYPE_ARMSSE_CPU_PWRCTRL);
-+            g_free(name);
-+        }
-+    }
-     if (info->has_sse_counter) {
-         object_initialize_child(obj, "sse-counter", &s->sse_counter,
-                                 TYPE_SSE_COUNTER);
-@@ -1255,6 +1267,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-      *  0x50010000: L1 icache control registers
-      *  0x50011000: CPUSECCTRL (CPU local security control registers)
-      *  0x4001f000 and 0x5001f000: CPU_IDENTITY register block
-+     * The SSE-300 has an extra:
-+     *  0x40012000 and 0x50012000: CPU_PWRCTRL register block
-      */
-     if (info->has_cachectrl) {
-         for (i = 0; i < info->num_cpus; i++) {
-@@ -1301,6 +1315,18 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-             memory_region_add_subregion(&s->cpu_container[i], 0x4001F000, mr);
-         }
-     }
-+    if (info->has_cpu_pwrctrl) {
-+        for (i = 0; i < info->num_cpus; i++) {
-+            MemoryRegion *mr;
-+
-+            if (!sysbus_realize(SYS_BUS_DEVICE(&s->cpu_pwrctrl[i]), errp)) {
-+                return;
-+            }
-+
-+            mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->cpu_pwrctrl[i]), 0);
-+            memory_region_add_subregion(&s->cpu_container[i], 0x40012000, mr);
-+        }
-+    }
+ };
  
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc[1]), errp)) {
-         return;
++static const ARMSSEDeviceInfo sse300_devices[] = {
++    {
++        .name = "timer0",
++        .type = TYPE_SSE_TIMER,
++        .index = 0,
++        .addr = 0x48000000,
++        .ppc = 0,
++        .ppc_port = 0,
++        .irq = 3,
++    },
++    {
++        .name = "timer1",
++        .type = TYPE_SSE_TIMER,
++        .index = 1,
++        .addr = 0x48001000,
++        .ppc = 0,
++        .ppc_port = 1,
++        .irq = 4,
++    },
++    {
++        .name = "timer2",
++        .type = TYPE_SSE_TIMER,
++        .index = 2,
++        .addr = 0x48002000,
++        .ppc = 0,
++        .ppc_port = 2,
++        .irq = 5,
++    },
++    {
++        .name = "timer3",
++        .type = TYPE_SSE_TIMER,
++        .index = 3,
++        .addr = 0x48003000,
++        .ppc = 0,
++        .ppc_port = 5,
++        .irq = 27,
++    },
++    {
++        .name = "s32ktimer",
++        .type = TYPE_CMSDK_APB_TIMER,
++        .index = 0,
++        .addr = 0x4802f000,
++        .ppc = 1,
++        .ppc_port = 0,
++        .irq = 2,
++        .slowclk = true,
++    },
++    {
++        .name = "s32kwatchdog",
++        .type = TYPE_CMSDK_APB_WATCHDOG,
++        .index = 0,
++        .addr = 0x4802e000,
++        .ppc = NO_PPC,
++        .irq = NMI_0,
++        .slowclk = true,
++    },
++    {
++        .name = "watchdog",
++        .type = TYPE_UNIMPLEMENTED_DEVICE,
++        .index = 0,
++        .addr = 0x48040000,
++        .size = 0x2000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "armsse-sysinfo",
++        .type = TYPE_IOTKIT_SYSINFO,
++        .index = 0,
++        .addr = 0x48020000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "armsse-sysctl",
++        .type = TYPE_IOTKIT_SYSCTL,
++        .index = 0,
++        .addr = 0x58021000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "SYS_PPU",
++        .type = TYPE_UNIMPLEMENTED_DEVICE,
++        .index = 1,
++        .addr = 0x58022000,
++        .size = 0x1000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "CPU0CORE_PPU",
++        .type = TYPE_UNIMPLEMENTED_DEVICE,
++        .index = 2,
++        .addr = 0x50023000,
++        .size = 0x1000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "MGMT_PPU",
++        .type = TYPE_UNIMPLEMENTED_DEVICE,
++        .index = 3,
++        .addr = 0x50028000,
++        .size = 0x1000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = "DEBUG_PPU",
++        .type = TYPE_UNIMPLEMENTED_DEVICE,
++        .index = 4,
++        .addr = 0x50029000,
++        .size = 0x1000,
++        .ppc = NO_PPC,
++        .irq = NO_IRQ,
++    },
++    {
++        .name = NULL,
++    }
++};
++
+ /* Is internal IRQ n shared between CPUs in a multi-core SSE ? */
+ static const bool sse200_irq_is_common[32] = {
+     [0 ... 5] = true,
+@@ -352,6 +474,18 @@ static const bool sse200_irq_is_common[32] = {
+     /* 30, 31: reserved */
+ };
+ 
++static const bool sse300_irq_is_common[32] = {
++    [0 ... 5] = true,
++    /* 6, 7: per-CPU MHU interrupts */
++    [8 ... 12] = true,
++    /* 13: reserved */
++    [14 ... 16] = true,
++    /* 17-25: reserved */
++    [26 ... 27] = true,
++    /* 28, 29: per-CPU CTI interrupts */
++    /* 30, 31: reserved */
++};
++
+ static const ARMSSEInfo armsse_variants[] = {
+     {
+         .name = TYPE_IOTKIT,
+@@ -389,6 +523,24 @@ static const ARMSSEInfo armsse_variants[] = {
+         .devinfo = sse200_devices,
+         .irq_is_common = sse200_irq_is_common,
+     },
++    {
++        .name = TYPE_SSE300,
++        .sse_version = ARMSSE_SSE300,
++        .sram_banks = 2,
++        .num_cpus = 1,
++        .sys_version = 0x7e00043b,
++        .iidr = 0x74a0043b,
++        .cpuwait_rst = 0,
++        .has_mhus = false,
++        .has_cachectrl = false,
++        .has_cpusecctrl = true,
++        .has_cpuid = true,
++        .has_cpu_pwrctrl = true,
++        .has_sse_counter = true,
++        .props = armsse_properties,
++        .devinfo = sse300_devices,
++        .irq_is_common = sse300_irq_is_common,
++    },
+ };
+ 
+ static uint32_t armsse_sys_config_value(ARMSSE *s, const ARMSSEInfo *info)
 -- 
 2.20.1
 
