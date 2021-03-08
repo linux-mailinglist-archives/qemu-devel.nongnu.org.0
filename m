@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E129F3310C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:29:28 +0100 (CET)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE8B331062
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:08:26 +0100 (CET)
+Received: from localhost ([::1]:33288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGsy-0008TH-0M
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:29:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
+	id 1lJGYb-0002zi-79
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:08:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGIC-0006dc-09
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:28 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45244)
+ id 1lJGO5-0007JT-Re
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:33 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGI7-0001GO-20
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:27 -0500
-Received: by mail-wr1-x435.google.com with SMTP id e10so11493570wro.12
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:22 -0800 (PST)
+ id 1lJGO3-0003vb-VJ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:33 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id u14so11573173wri.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e2s2r/+NfeVKeys87ugSZc5DKzDIrEIIPjFuy/f+xuQ=;
- b=xxV1L6f+Lv5a9baKHjvRRjoxFbkvWdJ6X/5/uFwUSVU+mEJCEbAg/fonTfH0vtfowZ
- a9TU6aRzgOTB9SoODZpWFv3V79ButsPcZXyF12tpVYthOcHWzjXo8PW0kYjItJgywB2o
- 7ruldkd8gU5Ex+YgtCOsWPsxZXnA85vEdcHgOxb8G+9MoP2fkCVod1XSstrtmptbQXwB
- E+DJueGlps0mqDUMrqrdaaeYA+oi7TZNx7wOcEnGBl3dzE6bO6uN2TILxR7dVzGZ2iZ3
- 5z5xlruA0bXq23fjdmOcrJr+QrICpbRYn+SMSBN3lBG9HahRnsAzbTiiqcj4uidLcGV3
- xJzQ==
+ bh=p+5D2HHD+BVS0BJkIQMQ27L655/TTuIBhMWPQAKF8AU=;
+ b=eGtMdgxhkh/REo354iMrO/HadqCk26xEkTQGhn10jgukuD5v6/rBS71VTlIiakcdLA
+ Ta9dCU64K+ygKrjAzLxHkB4gPYQA4fnzYoP30VLc6kx7VLZnY7LQG4rHXM0E1H+zIrld
+ mb8JfoBX1fvZeZUeycjkPON68Fe//MDCKB6jV+/DoPUdPgAiIPJxfykBRJZTvE8YdxuN
+ kN2zJM5JON2nqPQKVOOm8vW30G+4GxoloC422ZKg1fAohyCSbuIbSDlM06mToDk/9YrT
+ xT972naNqdmEbKwUj+6eNK2ytT0nxNx9F7/fkdfiRQqaAvwhKmJ47XZq6DWSkTKhqTjM
+ QKhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e2s2r/+NfeVKeys87ugSZc5DKzDIrEIIPjFuy/f+xuQ=;
- b=DOjnB0bIWyfnVUV/yCeSp5cQUPFyY+bbESZc3yvlQVgqC9M1xRDIUrnxM/KxlvG752
- QWgzejIX+53JvnLdLoFqNnZq/2ZCrnL7idECt88OQpvdJ8w/9A+5qO/zx6pD+yOQTJX3
- HqwYuAPSgkUmAxMZhMD69i/0v8584uRI3zA9v8i3osAPyZX8XXhw5lgnldmLcIixTzV8
- lVcmxknYSn2LFDzKahAJctto10bjK9ii3kWI5B1KePowimkCyHGF3SMYjsVQYx9KbjXE
- ZtJbvPWHkjX5qLitvLvnSomASM+ivCypeFlRV61B9gj4pBBSXvdVjiG8NaGbuImgcwSg
- kP7A==
-X-Gm-Message-State: AOAM533tT+UaTkRUaQXHPHDL3+3jNgSBEhzwWJEhw+75mw3bb65FPA6P
- EQw0c/Gilg3xKojKDouCfhQeew==
-X-Google-Smtp-Source: ABdhPJxoCTfzwEev49WQprc+OL+8piHAkz0kvPFlDW82GeRCudpjYfjGPKreA7or/d6XJeZDvcsSHQ==
-X-Received: by 2002:adf:ec83:: with SMTP id z3mr22730679wrn.59.1615211481357; 
- Mon, 08 Mar 2021 05:51:21 -0800 (PST)
+ bh=p+5D2HHD+BVS0BJkIQMQ27L655/TTuIBhMWPQAKF8AU=;
+ b=EVYv0lFQDH/aNxew/Xv/8/SnvkR6dmxJ51uIV7uSwI0bZ4nZQXx//sfO4j7AVJwdFJ
+ bVjJLCa6mBaSEFL+mHpQZ1/DdEaAAiczg1ePqk385MY5FBwuuO23qLlKCEoH4zqO5EfK
+ GUTgV+oreGdFi0zqGLTeji4uyBzOPPMBqkHw/om4sZ90M0wa5m/usfYKt/46b0+CPtq4
+ 41b57SIO2sjADxLxXSQ2RBWDWbpNAffo6q7iEgsCNXVCj81xc1cgh/h/XejC5UtDU0SV
+ 7Zd3UYhLgN8TgruItH70U4sFWrGpYL77WIOAo48lswfbfSPepIGDtpuMmfW7nThZMdOb
+ mA0g==
+X-Gm-Message-State: AOAM531bsfA3jdrfI8CzgRYx9d9bkGKx8IYBY1NbnbFWN3RiuF6HfOTK
+ nXUsnIRnd7JqqX0l5mJp8Gb/duyYla9cnQ==
+X-Google-Smtp-Source: ABdhPJyq4yFtAdhDa1jUX9o9UNHLqBN0Mim19yX/B1uZZiSCKhyd9w8edhE7SxxX5RkiMKsRGb21ag==
+X-Received: by 2002:a5d:4b06:: with SMTP id v6mr12797505wrq.41.1615211850396; 
+ Mon, 08 Mar 2021 05:57:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm4589633wmh.31.2021.03.08.05.51.11
+ by smtp.gmail.com with ESMTPSA id i26sm21238747wmb.18.2021.03.08.05.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 05:51:17 -0800 (PST)
+ Mon, 08 Mar 2021 05:57:28 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 339591FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 4CA101FF9E;
  Mon,  8 Mar 2021 13:51:06 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/18] docs: move generic-loader documentation into the main
- manual
-Date: Mon,  8 Mar 2021 13:51:00 +0000
-Message-Id: <20210308135104.24903-15-alex.bennee@linaro.org>
+Subject: [PULL 15/18] docs: add some documentation for the guest-loader
+Date: Mon,  8 Mar 2021 13:51:01 +0000
+Message-Id: <20210308135104.24903-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
 References: <20210308135104.24903-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,265 +87,98 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might as well surface this useful information in the manual so
-users can find it easily. It is a fairly simple conversion to rst with
-the only textual fixes being QemuOps to QemuOpts.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210303173642.3805-6-alex.bennee@linaro.org>
+Message-Id: <20210303173642.3805-7-alex.bennee@linaro.org>
 
-diff --git a/docs/generic-loader.txt b/docs/generic-loader.txt
-deleted file mode 100644
-index a9603a2af7..0000000000
---- a/docs/generic-loader.txt
-+++ /dev/null
-@@ -1,92 +0,0 @@
--Copyright (c) 2016 Xilinx Inc.
--
--This work is licensed under the terms of the GNU GPL, version 2 or later.  See
--the COPYING file in the top-level directory.
--
--
--The 'loader' device allows the user to load multiple images or values into
--QEMU at startup.
--
--Loading Data into Memory Values
---------------------------------
--The loader device allows memory values to be set from the command line. This
--can be done by following the syntax below:
--
--     -device loader,addr=<addr>,data=<data>,data-len=<data-len>
--                   [,data-be=<data-be>][,cpu-num=<cpu-num>]
--
--    <addr>      - The address to store the data in.
--    <data>      - The value to be written to the address. The maximum size of
--                  the data is 8 bytes.
--    <data-len>  - The length of the data in bytes. This argument must be
--                  included if the data argument is.
--    <data-be>   - Set to true if the data to be stored on the guest should be
--                  written as big endian data. The default is to write little
--                  endian data.
--    <cpu-num>   - The number of the CPU's address space where the data should
--                  be loaded. If not specified the address space of the first
--                  CPU is used.
--
--All values are parsed using the standard QemuOps parsing. This allows the user
--to specify any values in any format supported. By default the values
--will be parsed as decimal. To use hex values the user should prefix the number
--with a '0x'.
--
--An example of loading value 0x8000000e to address 0xfd1a0104 is:
--    -device loader,addr=0xfd1a0104,data=0x8000000e,data-len=4
--
--Setting a CPU's Program Counter
---------------------------------
--The loader device allows the CPU's PC to be set from the command line. This
--can be done by following the syntax below:
--
--     -device loader,addr=<addr>,cpu-num=<cpu-num>
--
--    <addr>      - The value to use as the CPU's PC.
--    <cpu-num>   - The number of the CPU whose PC should be set to the
--                  specified value.
--
--All values are parsed using the standard QemuOps parsing. This allows the user
--to specify any values in any format supported. By default the values
--will be parsed as decimal. To use hex values the user should prefix the number
--with a '0x'.
--
--An example of setting CPU 0's PC to 0x8000 is:
--    -device loader,addr=0x8000,cpu-num=0
--
--Loading Files
---------------
--The loader device also allows files to be loaded into memory. It can load ELF,
--U-Boot, and Intel HEX executable formats as well as raw images.  The syntax is
--shown below:
--
--    -device loader,file=<file>[,addr=<addr>][,cpu-num=<cpu-num>][,force-raw=<raw>]
--
--    <file>      - A file to be loaded into memory
--    <addr>      - The memory address where the file should be loaded. This is
--                  required for raw images and ignored for non-raw files.
--    <cpu-num>   - This specifies the CPU that should be used. This is an
--                  optional argument and will cause the CPU's PC to be set to
--                  the memory address where the raw file is loaded or the entry
--                  point specified in the executable format header. This option
--                  should only be used for the boot image.
--                  This will also cause the image to be written to the specified
--                  CPU's address space. If not specified, the default is CPU 0.
--    <force-raw> - Setting force-raw=on forces the file to be treated as a raw
--                  image.  This can be used to load supported executable formats
--                  as if they were raw.
--
--All values are parsed using the standard QemuOps parsing. This allows the user
--to specify any values in any format supported. By default the values
--will be parsed as decimal. To use hex values the user should prefix the number
--with a '0x'.
--
--An example of loading an ELF file which CPU0 will boot is shown below:
--    -device loader,file=./images/boot.elf,cpu-num=0
--
--Restrictions and ToDos
------------------------
-- - At the moment it is just assumed that if you specify a cpu-num then you
--   want to set the PC as well. This might not always be the case. In future
--   the internal state 'set_pc' (which exists in the generic loader now) should
--   be exposed to the user so that they can choose if the PC is set or not.
-diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.rst
+diff --git a/docs/system/guest-loader.rst b/docs/system/guest-loader.rst
 new file mode 100644
-index 0000000000..6bf8a4eb48
+index 0000000000..37d03cbd89
 --- /dev/null
-+++ b/docs/system/generic-loader.rst
-@@ -0,0 +1,117 @@
++++ b/docs/system/guest-loader.rst
+@@ -0,0 +1,54 @@
 +..
-+   Copyright (c) 2016, Xilinx Inc.
++   Copyright (c) 2020, Linaro
 +
-+This work is licensed under the terms of the GNU GPL, version 2 or later.  See
-+the COPYING file in the top-level directory.
++Guest Loader
++------------
 +
-+Generic Loader
-+--------------
++The guest loader is similar to the `generic-loader` although it is
++aimed at a particular use case of loading hypervisor guests. This is
++useful for debugging hypervisors without having to jump through the
++hoops of firmware and boot-loaders.
 +
-+The 'loader' device allows the user to load multiple images or values into
-+QEMU at startup.
++The guest loader does two things:
 +
-+Loading Data into Memory Values
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+The loader device allows memory values to be set from the command line. This
-+can be done by following the syntax below::
++  - load blobs (kernels and initial ram disks) into memory
++  - sets platform FDT data so hypervisors can find and boot them
 +
-+   -device loader,addr=<addr>,data=<data>,data-len=<data-len> \
-+                   [,data-be=<data-be>][,cpu-num=<cpu-num>]
++This is what is typically done by a boot-loader like grub using it's
++multi-boot capability. A typical example would look like:
 +
-+``<addr>``
-+  The address to store the data in.
++.. parsed-literal::
 +
-+``<data>``
-+  The value to be written to the address. The maximum size of the data
-+  is 8 bytes.
++  |qemu_system| -kernel ~/xen.git/xen/xen \
++    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
++    -device guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen" \
++    -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
 +
-+``<data-len>``
-+  The length of the data in bytes. This argument must be included if
-+  the data argument is.
++In the above example the Xen hypervisor is loaded by the -kernel
++parameter and passed it's boot arguments via -append. The Dom0 guest
++is loaded into the areas of memory. Each blob will get
++`/chosen/module@<addr>` entry in the FDT to indicate it's location and
++size. Additional information can be passed with by using additional
++arguments.
 +
-+``<data-be>``
-+  Set to true if the data to be stored on the guest should be written
-+  as big endian data. The default is to write little endian data.
++Currently the only supported machines which use FDT data to boot are
++the ARM and RiscV `virt` machines.
 +
-+``<cpu-num>``
-+  The number of the CPU's address space where the data should be
-+  loaded. If not specified the address space of the first CPU is used.
++Arguments
++^^^^^^^^^
 +
-+All values are parsed using the standard QemuOps parsing. This allows the user
-+to specify any values in any format supported. By default the values
-+will be parsed as decimal. To use hex values the user should prefix the number
-+with a '0x'.
++The full syntax of the guest-loader is::
 +
-+An example of loading value 0x8000000e to address 0xfd1a0104 is::
++  -device guest-loader,addr=<addr>[,kernel=<file>,[bootargs=<args>]][,initrd=<file>]
 +
-+    -device loader,addr=0xfd1a0104,data=0x8000000e,data-len=4
++``addr=<addr>``
++  This is mandatory and indicates the start address of the blob.
 +
-+Setting a CPU's Program Counter
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++``kernel|initrd=<file>``
++  Indicates the filename of the kernel or initrd blob. Both blobs will
++  have the "multiboot,module" compatibility string as well as
++  "multiboot,kernel" or "multiboot,ramdisk" as appropriate.
 +
-+The loader device allows the CPU's PC to be set from the command line. This
-+can be done by following the syntax below::
-+
-+     -device loader,addr=<addr>,cpu-num=<cpu-num>
-+
-+``<addr>``
-+  The value to use as the CPU's PC.
-+
-+``<cpu-num>``
-+  The number of the CPU whose PC should be set to the specified value.
-+
-+All values are parsed using the standard QemuOpts parsing. This allows the user
-+to specify any values in any format supported. By default the values
-+will be parsed as decimal. To use hex values the user should prefix the number
-+with a '0x'.
-+
-+An example of setting CPU 0's PC to 0x8000 is::
-+
-+    -device loader,addr=0x8000,cpu-num=0
-+
-+Loading Files
-+^^^^^^^^^^^^^
-+
-+The loader device also allows files to be loaded into memory. It can load ELF,
-+U-Boot, and Intel HEX executable formats as well as raw images.  The syntax is
-+shown below:
-+
-+    -device loader,file=<file>[,addr=<addr>][,cpu-num=<cpu-num>][,force-raw=<raw>]
-+
-+``<file>``
-+  A file to be loaded into memory
-+
-+``<addr>``
-+  The memory address where the file should be loaded. This is required
-+  for raw images and ignored for non-raw files.
-+
-+``<cpu-num>``
-+  This specifies the CPU that should be used. This is an
-+  optional argument and will cause the CPU's PC to be set to the
-+  memory address where the raw file is loaded or the entry point
-+  specified in the executable format header. This option should only
-+  be used for the boot image. This will also cause the image to be
-+  written to the specified CPU's address space. If not specified, the
-+  default is CPU 0. <force-raw> - Setting force-raw=on forces the file
-+  to be treated as a raw image. This can be used to load supported
-+  executable formats as if they were raw.
-+
-+All values are parsed using the standard QemuOpts parsing. This allows the user
-+to specify any values in any format supported. By default the values
-+will be parsed as decimal. To use hex values the user should prefix the number
-+with a '0x'.
-+
-+An example of loading an ELF file which CPU0 will boot is shown below::
-+
-+    -device loader,file=./images/boot.elf,cpu-num=0
-+
-+Restrictions and ToDos
-+^^^^^^^^^^^^^^^^^^^^^^
-+
-+At the moment it is just assumed that if you specify a cpu-num then
-+you want to set the PC as well. This might not always be the case. In
-+future the internal state 'set_pc' (which exists in the generic loader
-+now) should be exposed to the user so that they can choose if the PC
-+is set or not.
-+
-+
++``bootargs=<args>``
++  This is an optional field for kernel blobs which will pass command
++  like via the `/chosen/module@<addr>/bootargs` node.
 diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 625b494372..cee1c83540 100644
+index cee1c83540..6ad9c93806 100644
 --- a/docs/system/index.rst
 +++ b/docs/system/index.rst
-@@ -25,6 +25,7 @@ Contents:
-    usb
+@@ -26,6 +26,7 @@ Contents:
     ivshmem
     linuxboot
-+   generic-loader
+    generic-loader
++   guest-loader
     vnc-security
     tls
     gdb
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0134cad491..7a37599427 100644
+index 7a37599427..6bebd5279b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2016,7 +2016,7 @@ M: Alistair Francis <alistair@alistair23.me>
- S: Maintained
- F: hw/core/generic-loader.c
- F: include/hw/core/generic-loader.h
--F: docs/generic-loader.txt
-+F: docs/system/generic-loader.rst
- 
- Guest Loader
+@@ -2022,6 +2022,7 @@ Guest Loader
  M: Alex Bennée <alex.bennee@linaro.org>
+ S: Maintained
+ F: hw/core/guest-loader.c
++F: docs/system/guest-loader.rst
+ 
+ Intel Hexadecimal Object File Loader
+ M: Su Hang <suhang16@mails.ucas.ac.cn>
 -- 
 2.20.1
 
