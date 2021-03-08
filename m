@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8CC331494
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:22:28 +0100 (CET)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228CF3314C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:26:18 +0100 (CET)
+Received: from localhost ([::1]:44284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJaN-00085W-1v
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:22:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
+	id 1lJJe5-0003sd-4Q
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:26:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJC0-0004tE-BC
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43799)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCg-0005ao-OO
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:58:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBy-0000Dj-Cl
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:16 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCd-0000S6-6f
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222632;
+ s=mimecast20190719; t=1615222671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fDIbs5uQHuyfOCfukvdD7zDHBerAQWCKLrNHJGQGNrw=;
- b=Vgkmv35RrPsfudvNz8qkxhxCasSxNTSarNasGsLNMSNw8vF1wjpud5mqT2Xk7n/epGlW+e
- mm4ie7EKm8fT2Wnv+0tNRZvTJJvDGjBVn4vezcM+w4Z2sKpjAw5h4/DsElPd1E3l3cBdxi
- o6amw1CeEaCD0AK1VvMpbsrqIf10MMY=
+ bh=7uzptcsSpRnK2BA5t93RO71hnGZLwADp8OucKjUMVE0=;
+ b=Nh/kx5hkI8V/iHK6e27QQviYQlauVgWC6f1xxb5ROsUjS5+6MdCwkVQQruNY44MZD2m8D3
+ e4Ahc4ib4oj/T1TX0YIW0a2rnbgKNS2zijN78b5p5EdtbSbJtHjnuAMp0QkDU/5P+/IKxh
+ QxmhMA9XZMkDO7w6rWf0ShZxoSMTKx4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-fBCaAKngMbiAJ_XT1UcKfQ-1; Mon, 08 Mar 2021 11:57:10 -0500
-X-MC-Unique: fBCaAKngMbiAJ_XT1UcKfQ-1
+ us-mta-469-7qHMRXxuNIahv6BzIWjLKw-1; Mon, 08 Mar 2021 11:57:14 -0500
+X-MC-Unique: 7qHMRXxuNIahv6BzIWjLKw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85F891054FA5;
- Mon,  8 Mar 2021 16:57:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B94481054FA2;
+ Mon,  8 Mar 2021 16:57:13 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4CFE5D9DB;
- Mon,  8 Mar 2021 16:56:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D05CE5D9DB;
+ Mon,  8 Mar 2021 16:57:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 23/30] qemu-io: Use user_creatable_process_cmdline() for
+Subject: [PATCH v3 24/30] qemu-nbd: Use user_creatable_process_cmdline() for
  --object
-Date: Mon,  8 Mar 2021 17:54:33 +0100
-Message-Id: <20210308165440.386489-24-kwolf@redhat.com>
+Date: Mon,  8 Mar 2021 17:54:34 +0100
+Message-Id: <20210308165440.386489-25-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,7 +84,7 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This switches qemu-io from a QemuOpts-based parser for --object to
+This switches qemu-nbd from a QemuOpts-based parser for --object to
 user_creatable_process_cmdline() which uses a keyval parser and enforces
 the QAPI schema.
 
@@ -94,15 +94,15 @@ Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qemu-io.c | 33 +++------------------------------
- 1 file changed, 3 insertions(+), 30 deletions(-)
+ qemu-nbd.c | 34 +++-------------------------------
+ 1 file changed, 3 insertions(+), 31 deletions(-)
 
-diff --git a/qemu-io.c b/qemu-io.c
-index ac88d8bd40..bf902302e9 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -477,23 +477,6 @@ enum {
-     OPTION_IMAGE_OPTS = 257,
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index b1b9430a8f..93ef4e288f 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -401,24 +401,6 @@ static QemuOptsList file_opts = {
+     },
  };
  
 -static QemuOptsList qemu_object_opts = {
@@ -114,7 +114,7 @@ index ac88d8bd40..bf902302e9 100644
 -    },
 -};
 -
--static bool qemu_io_object_print_help(const char *type, QemuOpts *opts)
+-static bool qemu_nbd_object_print_help(const char *type, QemuOpts *opts)
 -{
 -    if (user_creatable_print_help(type, opts)) {
 -        exit(0);
@@ -122,42 +122,43 @@ index ac88d8bd40..bf902302e9 100644
 -    return true;
 -}
 -
- static QemuOptsList file_opts = {
-     .name = "file",
-     .implied_opt_name = "file",
-@@ -550,7 +533,6 @@ int main(int argc, char **argv)
+-
+ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, bool list,
+                                           Error **errp)
+ {
+@@ -594,7 +576,6 @@ int main(int argc, char **argv)
      qcrypto_init(&error_fatal);
  
      module_call_init(MODULE_INIT_QOM);
 -    qemu_add_opts(&qemu_object_opts);
      qemu_add_opts(&qemu_trace_opts);
-     bdrv_init();
+     qemu_init_exec_dir(argv[0]);
  
-@@ -612,14 +594,9 @@ int main(int argc, char **argv)
-         case 'U':
-             force_share = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *qopts;
--            qopts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                            optarg, true);
--            if (!qopts) {
--                exit(1);
+@@ -747,14 +728,9 @@ int main(int argc, char **argv)
+         case '?':
+             error_report("Try `%s --help' for more information.", argv[0]);
+             exit(EXIT_FAILURE);
+-        case QEMU_NBD_OPT_OBJECT: {
+-            QemuOpts *opts;
+-            opts = qemu_opts_parse_noisily(&qemu_object_opts,
+-                                           optarg, true);
+-            if (!opts) {
+-                exit(EXIT_FAILURE);
 -            }
 -        }   break;
-+        case OPTION_OBJECT:
++        case QEMU_NBD_OPT_OBJECT:
 +            user_creatable_process_cmdline(optarg);
 +            break;
-         case OPTION_IMAGE_OPTS:
-             imageOpts = true;
+         case QEMU_NBD_OPT_TLSCREDS:
+             tlscredsid = optarg;
              break;
-@@ -644,10 +621,6 @@ int main(int argc, char **argv)
-         exit(1);
+@@ -802,10 +778,6 @@ int main(int argc, char **argv)
+         export_name = "";
      }
  
 -    qemu_opts_foreach(&qemu_object_opts,
 -                      user_creatable_add_opts_foreach,
--                      qemu_io_object_print_help, &error_fatal);
+-                      qemu_nbd_object_print_help, &error_fatal);
 -
      if (!trace_init_backends()) {
          exit(1);
