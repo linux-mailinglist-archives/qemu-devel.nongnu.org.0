@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB8833154D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:54:52 +0100 (CET)
-Received: from localhost ([::1]:41714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D1933152A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:48:18 +0100 (CET)
+Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJK5j-0005dW-HZ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:54:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53274)
+	id 1lJJzN-0006Ah-2f
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:48:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkS-0006KW-6g
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:52 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46601)
+ id 1lJJkT-0006M2-1l
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:53 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkQ-0006zq-1K
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:51 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id a18so12282281wrc.13
+ id 1lJJkQ-00070R-KS
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:52 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j2so12314616wrx.9
  for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:32:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZaDTvaQiW6HmR9jZg8/+Dh4T9ld6iz8Wno9OhchiORM=;
- b=nFIHkGKbsmpjMr/8NMOOkv7yU+NpZ8Ol8xIxn9WIGkGNqQ/H7jOI1GJ1uGc3kaJJqf
- yrfN4SngKninrjtCOzKYyhKA9im2NOYfsZQCzmycfi2WlrvaOr4U57xEddpeUJehmAOk
- 7oeh633VT2JM7bDCbu80JZ+qYrUQjIEiVn4YaezDq90f7nvZw75ylp4GjEz8abzt+sx/
- LBe8W6q6/HqLiBsPKc09VoJHW+SCwo+WxIVO5Yg6q8nq8ZG/u5NOoxN7WlsPYBC99TAo
- glvPHkWsnQrBEQ0GHrrq0J4JsAyyYEsUY3ownEDcGOGItqqNEzYWr3JBp4kEjxn3gBTX
- B1Jw==
+ bh=m72i3N4bhV3HJNg5ssW7cvnHIXQkIdx9ydwrNtFfVag=;
+ b=GtLwA//2u8oYzkSH/e+zFuv6vH+BpLC0NpSbG15rW/LfQ5XS53ejVxp5Z9ejrrqARP
+ 1qLZMXb2RmuHL/R5AcZsOeA/bypCyk7P9wCYjXikCBf4fQWTVD6ssmR+dl4hGBopJ5OJ
+ RP9p2iKQMQW+8VvEP3o4GsaMUsUyhjcSiTLuFIMn/SaZKSHd95/lGTMmFGqRowbclgls
+ BwxEh1n8NEEqg2zBu23GeFMVeg7gjjI+Puuvo2gyMCxY/Qh+tG44r6P2ZB92dmNH22vC
+ BAexHpAJLGFcHdr7xbXj5jSeXmsNFjaRLcsjNARZo1+4CqAySR3XQLpo1bPYDSViM+hY
+ vAuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZaDTvaQiW6HmR9jZg8/+Dh4T9ld6iz8Wno9OhchiORM=;
- b=tocqh1lwmLmfKcsTg9w1/IJMPNjZnwtj6K3B/MNWPs/ODK3909AJcDFDaz/G12Bjy/
- cSZuy/rk1L94iSaYaf6E/ttHVDBY/JvQRfHC5kKnQrtdm60UY/WMKApVnyuZ6cwif7vZ
- VFx/wu5vY7EiBT+LbjDaX34RJRso8RruuC7ogXFrSpF4utlwS5evnmBMSJhnPkPPck0t
- jBS80lHseGutArCb2Ws17xmCkcwlFGGepTZzUR8hkvFZZWFldyVW4UMBTtItBWxF3XUy
- RkV/UKPKWfmu1jua9OFL8Vv1XflshCXGGRWSw1yYabgpmBfQNk5MmyzNKRVw5yrZNGYH
- /nNw==
-X-Gm-Message-State: AOAM530Qu4p0voyJcbV3nCfFyUt+hQZwnC8vjWZSex2iAhEp7UBB1Aqc
- VkuUWSZIJ+O3JKZsp1Iyhmio+WOrrETWEQ==
-X-Google-Smtp-Source: ABdhPJwqeTL7S0UFKLhPhNo6Fy2Mq2snXF8jCCPs4cX4N94RMFzY8DeGjY2AMizu5hKVV6j6in4C1A==
-X-Received: by 2002:adf:f7cc:: with SMTP id a12mr24030175wrq.54.1615224768381; 
+ bh=m72i3N4bhV3HJNg5ssW7cvnHIXQkIdx9ydwrNtFfVag=;
+ b=kBOYJiEV06KfM6YjQog0mH0jaaAdJ6BbGbWqQZtTerIw31l/kabymCQ19eD2X1tGqu
+ mXBS592lbcZiKzWtUgjS7up/aTHvr3pUXSKehR9szBZ3al206laHGI8iGBZgLAm/VZuA
+ n4foOiRIK+f1p1nRJ110py3TnI0XYdh/pmXIK+J7aLAdUs9nhDUqqwXTEfpJOFweMlDk
+ KsdF0KnnP7aCqHzRuZLiLZfmpz5SeuJYDFgwcHHdT+qOzcz+jwJKHw5CUpGvF7G2J+Uz
+ kmDvwe/CyYfsM8DoalaCXdrZBdx3PybbcQbY3XQy/kKNzcZxC6B/zcPVjVnpNw3qAqNg
+ N2xw==
+X-Gm-Message-State: AOAM533rOBlrxGNeEoGyEf6Nr/UOGA/e7C667DBPreMqlF0K67wAXfsy
+ 8Cg7ezg2ewkeuBvk9KbkyMSL/dFIWZMFPA==
+X-Google-Smtp-Source: ABdhPJzgYexxFrRJ1sMT6rSqIlH7dl88SKM3CAumJHLuVoPLDKFlKX9Y/qiz1pSueqxYmKytYPmTcg==
+X-Received: by 2002:a5d:5088:: with SMTP id a8mr13401087wrt.294.1615224768989; 
  Mon, 08 Mar 2021 09:32:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.47
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 08 Mar 2021 09:32:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/54] clock: Add ClockPreUpdate callback event type
-Date: Mon,  8 Mar 2021 17:31:52 +0000
-Message-Id: <20210308173244.20710-3-peter.maydell@linaro.org>
+Subject: [PULL 03/54] clock: Add clock_ns_to_ticks() function
+Date: Mon,  8 Mar 2021 17:31:53 +0000
+Message-Id: <20210308173244.20710-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,67 +87,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new callback event type ClockPreUpdate, which is called on
-period changes before the period is updated.
+Add a clock_ns_to_ticks() function which does the opposite of
+clock_ticks_to_ns(): given a duration in nanoseconds, it returns the
+number of clock ticks that would happen in that time.  This is useful
+for devices that have a free running counter register whose value can
+be calculated when it is read.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210219144617.4782-3-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-4-peter.maydell@linaro.org
 ---
- docs/devel/clocks.rst | 9 ++++++++-
- include/hw/clock.h    | 1 +
- hw/core/clock.c       | 3 +++
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ docs/devel/clocks.rst | 12 ++++++++++++
+ include/hw/clock.h    | 41 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
 diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-index cd344e3fe5d..f0391e76b4f 100644
+index f0391e76b4f..956bd147ea0 100644
 --- a/docs/devel/clocks.rst
 +++ b/docs/devel/clocks.rst
-@@ -181,7 +181,14 @@ events.
+@@ -360,6 +360,18 @@ rather than simply passing it to a QEMUTimer function like
+ ``timer_mod_ns()`` then you should be careful to avoid overflow
+ in those calculations, of course.)
  
- The events currently supported are:
++Obtaining tick counts
++---------------------
++
++For calculations where you need to know the number of ticks in
++a given duration, use ``clock_ns_to_ticks()``. This function handles
++possible non-whole-number-of-nanoseconds periods and avoids
++potential rounding errors. It will return '0' if the clock is stopped
++(i.e. it has period zero). If the inputs imply a tick count that
++overflows a 64-bit value (a very long duration for a clock with a
++very short period) the output value is truncated, so effectively
++the 64-bit output wraps around.
++
+ Changing a clock period
+ -----------------------
  
-- * ``ClockUpdate`` : called after the input clock's period has changed
-+ * ``ClockPreUpdate`` : called when the input clock's period is about to
-+   update. This is useful if the device needs to do some action for
-+   which it needs to know the old value of the clock period. During
-+   this callback, Clock API functions like ``clock_get()`` or
-+   ``clock_ticks_to_ns()`` will use the old period.
-+ * ``ClockUpdate`` : called after the input clock's period has changed.
-+   During this callback, Clock API functions like ``clock_ticks_to_ns()``
-+   will use the new period.
- 
- Note that a clock only has one callback: it is not possible to register
- different functions for different events. You must register a single
 diff --git a/include/hw/clock.h b/include/hw/clock.h
-index 282a37f7c5a..2ba44e14424 100644
+index 2ba44e14424..a7187eab95e 100644
 --- a/include/hw/clock.h
 +++ b/include/hw/clock.h
-@@ -30,6 +30,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
-  */
- typedef enum ClockEvent {
-     ClockUpdate = 1, /* Clock period has just updated */
-+    ClockPreUpdate = 2, /* Clock period is about to update */
- } ClockEvent;
+@@ -286,6 +286,47 @@ static inline uint64_t clock_ticks_to_ns(const Clock *clk, uint64_t ticks)
+     return ns_low >> 32 | ns_high << 32;
+ }
  
- typedef void ClockCallback(void *opaque, ClockEvent event);
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index 4479eff145b..fc5a99683f8 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -81,6 +81,9 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
- 
-     QLIST_FOREACH(child, &clk->children, sibling) {
-         if (child->period != clk->period) {
-+            if (call_callbacks) {
-+                clock_call_callback(child, ClockPreUpdate);
-+            }
-             child->period = clk->period;
-             trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
-                                CLOCK_PERIOD_TO_HZ(clk->period),
++/**
++ * clock_ns_to_ticks:
++ * @clk: the clock to query
++ * @ns: duration in nanoseconds
++ *
++ * Returns the number of ticks this clock would make in the given
++ * number of nanoseconds. Because a clock can have a period which
++ * is not a whole number of nanoseconds, it is important to use this
++ * function rather than attempting to obtain a "period in nanoseconds"
++ * value and then dividing the duration by that value.
++ *
++ * If the clock is stopped (ie it has period zero), returns 0.
++ *
++ * For some inputs the result could overflow a 64-bit value (because
++ * the clock's period is short and the duration is long). In these
++ * cases we truncate the result to a 64-bit value. This is on the
++ * assumption that generally the result is going to be used to report
++ * a 32-bit or 64-bit guest register value, so wrapping either cannot
++ * happen or is the desired behaviour.
++ */
++static inline uint64_t clock_ns_to_ticks(const Clock *clk, uint64_t ns)
++{
++    /*
++     * ticks = duration_in_ns / period_in_ns
++     *       = ns / (period / 2^32)
++     *       = (ns * 2^32) / period
++     * The hi, lo inputs to divu128() are (ns << 32) as a 128 bit value.
++     */
++    uint64_t lo = ns << 32;
++    uint64_t hi = ns >> 32;
++    if (clk->period == 0) {
++        return 0;
++    }
++    /*
++     * Ignore divu128() return value as we've caught div-by-zero and don't
++     * need different behaviour for overflow.
++     */
++    divu128(&lo, &hi, clk->period);
++    return lo;
++}
++
+ /**
+  * clock_is_enabled:
+  * @clk: a clock
 -- 
 2.20.1
 
