@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF7C33155C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:58:08 +0100 (CET)
-Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A291933152C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:48:37 +0100 (CET)
+Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJK8t-0001kt-Fz
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:58:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1lJJzg-0006nB-KA
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:48:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJks-0006i5-Rw
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:18 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:42651)
+ id 1lJJkt-0006im-7g
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:19 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkd-00075R-1x
+ id 1lJJkd-00075V-Tz
  for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:18 -0500
-Received: by mail-wm1-x344.google.com with SMTP id
- b2-20020a7bc2420000b029010be1081172so4312677wmj.1
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:02 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id
+ m20-20020a7bcb940000b029010cab7e5a9fso4294424wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yCyj27+bS3ZcWA05dziUtgxqkSAd6Qjd3j4Va+Ad5xI=;
- b=HwVlMF9PlwVRgH0INFY3GogvtGMA2mcSRifiCSJRzMsQiaG4pILi+vyFe+fwGmhjQm
- ZbSTWPxwDL8qyzmvmFYmBAAl3PjV83QsZl87UVtgWjdOt1C1u6KmwmHYFpydH+z6X5Sj
- MhGor98Jazx1zInrDi8jSe6elQdYXWZLPHd/K/aj/LOfkb0Wz0ge5UkFjZVYZOVxVKJG
- cOyKQWR5SlZi+wYaaAnYq/pkBpc4sHzAEZInLPEa7PUXwgZfWQYiJTKx1m4393SSsg0B
- cKZX1C9OjTrNoRCEVw6R6eo7YSmFd4VPn2Um5KQhL26hhf/U4JOeUxGtR6f39fnGpZvn
- 47Fw==
+ bh=pr09MupjCFZZn6n2TbiL0OPMMgOGEzQ19EwlGG2NjiA=;
+ b=Bqep9asJBBI8X+ZdgMEbxHQ5WttUEZhgEcmbZ1gSqSi9prXhUPgFDtxi+KDAoVQwJY
+ MmkSHwouQDP6GupnZ0olvCG2CVh2cP1hZ8/zUKIFzje+PGoEovfPCosTZAjNVl/e3WSw
+ mw547TDKM1Fg/cUBOjxR/FGSY7+F/lV37s/EEn60eAItDXrGGZe9kGzcolLMCypNNdtj
+ qf6oq1O7AXPoTKDqNnXZnGMwqW9GNXqVXZL56p6eGgITPwQNelNCsyqDxlu+Fyd8S8TI
+ Z39QITtn24IcjBbtV5h3/z/NaAkBrTNi+BqvVw0xvihtUKQKYYsRiFH1F07oOIfgSka+
+ DrSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yCyj27+bS3ZcWA05dziUtgxqkSAd6Qjd3j4Va+Ad5xI=;
- b=G9c9TJoY0X6NZOhVa3VE32LVN9QiT6HRf+7zFd9/501PfgwZo8Edi89ciUskg0zgXo
- FglEYRQucDAhRU+4zTlKn0SD10pWLj8eQtp1477LOMtDv65uIx1Cw0vAnWJApepeLW4P
- Yhu7k79NoHZqV0wbqWGYY2bw8fsT95Yaq/L1iReAKbX2m7PPNij6LE/zWSdIWBQhDphE
- D9F/rdDWF4Y85u+KFsMiTcYMKWW3fUJxKwQnEhYdp4hqtOWJOtnxZHJXcUN19Yl3tBE0
- OKktu+N/OxGANOGiuKVIcE0M/xT6UuEKwPS3Codf0IhglwqtHOp0A/XxT/+aCEsS8Ruo
- R2fg==
-X-Gm-Message-State: AOAM530/EAvj8/mnskLqEP6XnDPs3DjkU5DJ7mZ9NpwdUbGQYhpaoYcs
- pA2OGS7agBzIJ/DvLdxKg5Cah7xJxQynaw==
-X-Google-Smtp-Source: ABdhPJy2VUxetLnAMx7JqPK4SCT5ZnQ6qxgDwXrgtYXeG2a9QBRloMyJKppDnsbzFEr1V5IJN8vtvA==
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr23249683wmk.27.1615224781711; 
- Mon, 08 Mar 2021 09:33:01 -0800 (PST)
+ bh=pr09MupjCFZZn6n2TbiL0OPMMgOGEzQ19EwlGG2NjiA=;
+ b=pxl0XjriPMkpcTSU4nOxh8TFWIM6R0uA0bWXaaS2EGtmH5Bgx5j0miN9wfUAimBbp3
+ i/rQwEELKRtwICPBoPXdH+2OPk0ItAcgH21yu18NnSqWczU9uJdQhLlRSDjdnVmI5ojh
+ lLh3oRLmjUkqRnuA3re1m5/pcZ0oJucYkjhQtYrGa3ywEt+/oK/EaoBS64Gtp0pjdRQ3
+ aKHD/y6UdwQ26lIUcH5NNw6KRghaPfWNVLEPDGr/fKEARdb56pfxLPk9ykQowPNZj9rz
+ uqYb+0Fjuxv2CaEeK6AuXybZ7ulcoaKFYNRqT1M9Tt+WeU4G3bE+aZzVWJ3MHIwxn6o+
+ tkKg==
+X-Gm-Message-State: AOAM531Byfb0hliJ4h0KFAKLU4geHQBKKfWVKG3gh61hZGncdQFO8buL
+ RDYWwWo6jg7WiIUyc2HkPdGGSA03+GHiag==
+X-Google-Smtp-Source: ABdhPJw7G3hRkPqNuAdzwU6JfDTUIsG3JBMPzSDC8THr2LWZi/J1LQiSSVaTWbIlWjTx6Exy7K0Uvg==
+X-Received: by 2002:a1c:7402:: with SMTP id p2mr22570776wmc.43.1615224782452; 
+ Mon, 08 Mar 2021 09:33:02 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:33:01 -0800 (PST)
+ Mon, 08 Mar 2021 09:33:02 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/54] hw/misc/sse-cpu-pwrctrl: Implement SSE-300
- CPU<N>_PWRCTRL register block
-Date: Mon,  8 Mar 2021 17:32:10 +0000
-Message-Id: <20210308173244.20710-21-peter.maydell@linaro.org>
+Subject: [PULL 21/54] hw/arm/armsse: Use an array for apb_ppc fields in the
+ state structure
+Date: Mon,  8 Mar 2021 17:32:11 +0000
+Message-Id: <20210308173244.20710-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,297 +89,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SSE-300 has a new register block CPU<N>_PWRCTRL.  There is one
-instance of this per CPU in the system (so just one for the SSE-300),
-and as well as the usual CIDR/PIDR ID registers it has just one
-register, CPUPWRCFG.  This register allows the guest to configure
-behaviour of the system in power-down and deep-sleep states.  Since
-QEMU does not model those, we make the register a dummy
-reads-as-written implementation.
+Convert the apb_ppc0 and apb_ppc1 fields in the ARMSSE state struct
+to use an array instead of two separate fields.  We already had one
+place in the code that wanted to be able to refer to the PPC by
+index, and we're about to add more code like that.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-21-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-22-peter.maydell@linaro.org
 ---
- include/hw/misc/armsse-cpu-pwrctrl.h |  40 +++++++
- hw/misc/armsse-cpu-pwrctrl.c         | 149 +++++++++++++++++++++++++++
- MAINTAINERS                          |   2 +
- hw/arm/Kconfig                       |   1 +
- hw/misc/Kconfig                      |   3 +
- hw/misc/meson.build                  |   1 +
- hw/misc/trace-events                 |   4 +
- 7 files changed, 200 insertions(+)
- create mode 100644 include/hw/misc/armsse-cpu-pwrctrl.h
- create mode 100644 hw/misc/armsse-cpu-pwrctrl.c
+ include/hw/arm/armsse.h |  6 +++---
+ hw/arm/armsse.c         | 32 ++++++++++++++++++--------------
+ 2 files changed, 21 insertions(+), 17 deletions(-)
 
-diff --git a/include/hw/misc/armsse-cpu-pwrctrl.h b/include/hw/misc/armsse-cpu-pwrctrl.h
-new file mode 100644
-index 00000000000..51d45ede7db
---- /dev/null
-+++ b/include/hw/misc/armsse-cpu-pwrctrl.h
-@@ -0,0 +1,40 @@
-+/*
-+ * ARM SSE CPU PWRCTRL register block
-+ *
-+ * Copyright (c) 2021 Linaro Limited
-+ * Written by Peter Maydell
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 09284ca75cf..771150b0a94 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -124,8 +124,9 @@ OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
+ /* We have an IRQ splitter and an OR gate input for each external PPC
+  * and the 2 internal PPCs
+  */
++#define NUM_INTERNAL_PPCS 2
+ #define NUM_EXTERNAL_PPCS (IOTS_NUM_AHB_EXP_PPC + IOTS_NUM_APB_EXP_PPC)
+-#define NUM_PPCS (NUM_EXTERNAL_PPCS + 2)
++#define NUM_PPCS (NUM_EXTERNAL_PPCS + NUM_INTERNAL_PPCS)
+ 
+ #define MAX_SRAM_BANKS 4
+ #if MAX_SRAM_BANKS > IOTS_NUM_MPC
+@@ -152,8 +153,7 @@ struct ARMSSE {
+     ARMv7MState armv7m[SSE_MAX_CPUS];
+     CPUClusterState cluster[SSE_MAX_CPUS];
+     IoTKitSecCtl secctl;
+-    TZPPC apb_ppc0;
+-    TZPPC apb_ppc1;
++    TZPPC apb_ppc[NUM_INTERNAL_PPCS];
+     TZMPC mpc[IOTS_NUM_MPC];
+     CMSDKAPBTimer timer0;
+     CMSDKAPBTimer timer1;
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index 326e161c8d4..2b25fca1ca2 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -291,8 +291,12 @@ static void armsse_init(Object *obj)
+     }
+ 
+     object_initialize_child(obj, "secctl", &s->secctl, TYPE_IOTKIT_SECCTL);
+-    object_initialize_child(obj, "apb-ppc0", &s->apb_ppc0, TYPE_TZ_PPC);
+-    object_initialize_child(obj, "apb-ppc1", &s->apb_ppc1, TYPE_TZ_PPC);
 +
-+/*
-+ * This is a model of the "CPU<N>_PWRCTRL block" which is part of the
-+ * Arm Corstone SSE-300 Example Subsystem and documented in
-+ * https://developer.arm.com/documentation/101773/0000
-+ *
-+ * QEMU interface:
-+ *  + sysbus MMIO region 0: the register bank
-+ */
-+
-+#ifndef HW_MISC_ARMSSE_CPU_PWRCTRL_H
-+#define HW_MISC_ARMSSE_CPU_PWRCTRL_H
-+
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
-+
-+#define TYPE_ARMSSE_CPU_PWRCTRL "armsse-cpu-pwrctrl"
-+OBJECT_DECLARE_SIMPLE_TYPE(ARMSSECPUPwrCtrl, ARMSSE_CPU_PWRCTRL)
-+
-+struct ARMSSECPUPwrCtrl {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    /*< public >*/
-+    MemoryRegion iomem;
-+
-+    uint32_t cpupwrcfg;
-+};
-+
-+#endif
-diff --git a/hw/misc/armsse-cpu-pwrctrl.c b/hw/misc/armsse-cpu-pwrctrl.c
-new file mode 100644
-index 00000000000..42fc38879f2
---- /dev/null
-+++ b/hw/misc/armsse-cpu-pwrctrl.c
-@@ -0,0 +1,149 @@
-+/*
-+ * Arm SSE CPU PWRCTRL register block
-+ *
-+ * Copyright (c) 2021 Linaro Limited
-+ * Written by Peter Maydell
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
-+
-+/*
-+ * This is a model of the "CPU<N>_PWRCTRL block" which is part of the
-+ * Arm Corstone SSE-300 Example Subsystem and documented in
-+ * https://developer.arm.com/documentation/101773/0000
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "trace.h"
-+#include "qapi/error.h"
-+#include "migration/vmstate.h"
-+#include "hw/sysbus.h"
-+#include "hw/registerfields.h"
-+#include "hw/misc/armsse-cpu-pwrctrl.h"
-+
-+REG32(CPUPWRCFG, 0x0)
-+REG32(PID4, 0xfd0)
-+REG32(PID5, 0xfd4)
-+REG32(PID6, 0xfd8)
-+REG32(PID7, 0xfdc)
-+REG32(PID0, 0xfe0)
-+REG32(PID1, 0xfe4)
-+REG32(PID2, 0xfe8)
-+REG32(PID3, 0xfec)
-+REG32(CID0, 0xff0)
-+REG32(CID1, 0xff4)
-+REG32(CID2, 0xff8)
-+REG32(CID3, 0xffc)
-+
-+/* PID/CID values */
-+static const int cpu_pwrctrl_id[] = {
-+    0x04, 0x00, 0x00, 0x00, /* PID4..PID7 */
-+    0x5a, 0xb8, 0x0b, 0x00, /* PID0..PID3 */
-+    0x0d, 0xf0, 0x05, 0xb1, /* CID0..CID3 */
-+};
-+
-+static uint64_t pwrctrl_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    ARMSSECPUPwrCtrl *s = ARMSSE_CPU_PWRCTRL(opaque);
-+    uint64_t r;
-+
-+    switch (offset) {
-+    case A_CPUPWRCFG:
-+        r = s->cpupwrcfg;
-+        break;
-+    case A_PID4 ... A_CID3:
-+        r = cpu_pwrctrl_id[(offset - A_PID4) / 4];
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "SSE CPU_PWRCTRL read: bad offset %x\n", (int)offset);
-+        r = 0;
-+        break;
++    for (i = 0; i < ARRAY_SIZE(s->apb_ppc); i++) {
++        g_autofree char *name = g_strdup_printf("apb-ppc%d", i);
++        object_initialize_child(obj, name, &s->apb_ppc[i], TYPE_TZ_PPC);
 +    }
-+    trace_armsse_cpu_pwrctrl_read(offset, r, size);
-+    return r;
-+}
 +
-+static void pwrctrl_write(void *opaque, hwaddr offset,
-+                          uint64_t value, unsigned size)
-+{
-+    ARMSSECPUPwrCtrl *s = ARMSSE_CPU_PWRCTRL(opaque);
-+
-+    trace_armsse_cpu_pwrctrl_write(offset, value, size);
-+
-+    switch (offset) {
-+    case A_CPUPWRCFG:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "SSE CPU_PWRCTRL: CPUPWRCFG unimplemented\n");
-+        s->cpupwrcfg = value;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "SSE CPU_PWRCTRL write: bad offset 0x%x\n", (int)offset);
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps pwrctrl_ops = {
-+    .read = pwrctrl_read,
-+    .write = pwrctrl_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .impl.min_access_size = 4,
-+    .impl.max_access_size = 4,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+};
-+
-+static void pwrctrl_reset(DeviceState *dev)
-+{
-+    ARMSSECPUPwrCtrl *s = ARMSSE_CPU_PWRCTRL(dev);
-+
-+    s->cpupwrcfg = 0;
-+}
-+
-+static const VMStateDescription pwrctrl_vmstate = {
-+    .name = "armsse-cpu-pwrctrl",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(cpupwrcfg, ARMSSECPUPwrCtrl),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+static void pwrctrl_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    ARMSSECPUPwrCtrl *s = ARMSSE_CPU_PWRCTRL(obj);
-+
-+    memory_region_init_io(&s->iomem, obj, &pwrctrl_ops,
-+                          s, "armsse-cpu-pwrctrl", 0x1000);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
-+
-+static void pwrctrl_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = pwrctrl_reset;
-+    dc->vmsd = &pwrctrl_vmstate;
-+}
-+
-+static const TypeInfo pwrctrl_info = {
-+    .name = TYPE_ARMSSE_CPU_PWRCTRL,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(ARMSSECPUPwrCtrl),
-+    .instance_init = pwrctrl_init,
-+    .class_init = pwrctrl_class_init,
-+};
-+
-+static void pwrctrl_register_types(void)
-+{
-+    type_register_static(&pwrctrl_info);
-+}
-+
-+type_init(pwrctrl_register_types);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea206fc900e..bd863cfeca4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -747,6 +747,8 @@ F: hw/misc/iotkit-sysctl.c
- F: include/hw/misc/iotkit-sysctl.h
- F: hw/misc/iotkit-sysinfo.c
- F: include/hw/misc/iotkit-sysinfo.h
-+F: hw/misc/armsse-cpu-pwrctrl.c
-+F: include/hw/misc/armsse-cpu-pwrctrl.h
- F: hw/misc/armsse-cpuid.c
- F: include/hw/misc/armsse-cpuid.h
- F: hw/misc/armsse-mhu.c
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 69a550a0fcd..f2b7a8fc0b0 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -505,6 +505,7 @@ config ARM11MPCORE
- config ARMSSE
-     bool
-     select ARM_V7M
-+    select ARMSSE_CPU_PWRCTRL
-     select ARMSSE_CPUID
-     select ARMSSE_MHU
-     select CMSDK_APB_TIMER
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 16b96e4dafb..5426b9b1a1a 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -8,6 +8,9 @@ config ARMSSE_CPUID
- config ARMSSE_MHU
-     bool
+     for (i = 0; i < info->sram_banks; i++) {
+         char *name = g_strdup_printf("mpc%d", i);
+         object_initialize_child(obj, name, &s->mpc[i], TYPE_TZ_MPC);
+@@ -739,7 +743,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer0), 0,
+                        armsse_get_common_irq_in(s, 3));
+     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->timer0), 0);
+-    object_property_set_link(OBJECT(&s->apb_ppc0), "port[0]", OBJECT(mr),
++    object_property_set_link(OBJECT(&s->apb_ppc[0]), "port[0]", OBJECT(mr),
+                              &error_abort);
  
-+config ARMSSE_CPU_PWRCTRL
-+    bool
-+
- config MAX111X
-     bool
+     qdev_connect_clock_in(DEVICE(&s->timer1), "pclk", s->mainclk);
+@@ -749,7 +753,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer1), 0,
+                        armsse_get_common_irq_in(s, 4));
+     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->timer1), 0);
+-    object_property_set_link(OBJECT(&s->apb_ppc0), "port[1]", OBJECT(mr),
++    object_property_set_link(OBJECT(&s->apb_ppc[0]), "port[1]", OBJECT(mr),
+                              &error_abort);
  
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 629283957fc..e30a555db5c 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -96,6 +96,7 @@ softmmu_ss.add(when: 'CONFIG_TZ_MSC', if_true: files('tz-msc.c'))
- softmmu_ss.add(when: 'CONFIG_TZ_PPC', if_true: files('tz-ppc.c'))
- softmmu_ss.add(when: 'CONFIG_IOTKIT_SECCTL', if_true: files('iotkit-secctl.c'))
- softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c'))
-+softmmu_ss.add(when: 'CONFIG_ARMSSE_CPU_PWRCTRL', if_true: files('armsse-cpu-pwrctrl.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+     qdev_connect_clock_in(DEVICE(&s->dualtimer), "TIMCLK", s->mainclk);
+@@ -759,7 +763,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->dualtimer), 0,
+                        armsse_get_common_irq_in(s, 5));
+     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dualtimer), 0);
+-    object_property_set_link(OBJECT(&s->apb_ppc0), "port[2]", OBJECT(mr),
++    object_property_set_link(OBJECT(&s->apb_ppc[0]), "port[2]", OBJECT(mr),
+                              &error_abort);
  
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index d626b9d7a7c..4b15db8ca48 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -186,6 +186,10 @@ iotkit_sysctl_read(uint64_t offset, uint64_t data, unsigned size) "IoTKit SysCtl
- iotkit_sysctl_write(uint64_t offset, uint64_t data, unsigned size) "IoTKit SysCtl write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- iotkit_sysctl_reset(void) "IoTKit SysCtl: reset"
+     if (info->has_mhus) {
+@@ -782,7 +786,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+             }
+             port = g_strdup_printf("port[%d]", i + 3);
+             mr = sysbus_mmio_get_region(mhu_sbd, 0);
+-            object_property_set_link(OBJECT(&s->apb_ppc0), port, OBJECT(mr),
++            object_property_set_link(OBJECT(&s->apb_ppc[0]), port, OBJECT(mr),
+                                      &error_abort);
+             g_free(port);
  
-+# armsse-cpu-pwrctrl.c
-+armsse_cpu_pwrctrl_read(uint64_t offset, uint64_t data, unsigned size) "SSE-300 CPU_PWRCTRL read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+armsse_cpu_pwrctrl_write(uint64_t offset, uint64_t data, unsigned size) "SSE-300 CPU_PWRCTRL write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+
- # armsse-cpuid.c
- armsse_cpuid_read(uint64_t offset, uint64_t data, unsigned size) "SSE-200 CPU_IDENTITY read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- armsse_cpuid_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 CPU_IDENTITY write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+@@ -802,12 +806,12 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
+-    if (!sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc0), errp)) {
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc[0]), errp)) {
+         return;
+     }
+ 
+-    sbd_apb_ppc0 = SYS_BUS_DEVICE(&s->apb_ppc0);
+-    dev_apb_ppc0 = DEVICE(&s->apb_ppc0);
++    sbd_apb_ppc0 = SYS_BUS_DEVICE(&s->apb_ppc[0]);
++    dev_apb_ppc0 = DEVICE(&s->apb_ppc[0]);
+ 
+     mr = sysbus_mmio_get_region(sbd_apb_ppc0, 0);
+     memory_region_add_subregion(&s->container, 0x40000000, mr);
+@@ -917,16 +921,16 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->s32ktimer), 0,
+                        armsse_get_common_irq_in(s, 2));
+     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->s32ktimer), 0);
+-    object_property_set_link(OBJECT(&s->apb_ppc1), "port[0]", OBJECT(mr),
++    object_property_set_link(OBJECT(&s->apb_ppc[1]), "port[0]", OBJECT(mr),
+                              &error_abort);
+ 
+-    if (!sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc1), errp)) {
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc[1]), errp)) {
+         return;
+     }
+-    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->apb_ppc1), 0);
++    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->apb_ppc[1]), 0);
+     memory_region_add_subregion(&s->container, 0x4002f000, mr);
+ 
+-    dev_apb_ppc1 = DEVICE(&s->apb_ppc1);
++    dev_apb_ppc1 = DEVICE(&s->apb_ppc[1]);
+     qdev_connect_gpio_out_named(dev_secctl, "apb_ppc1_nonsec", 0,
+                                 qdev_get_gpio_in_named(dev_apb_ppc1,
+                                                        "cfg_nonsec", 0));
+@@ -1063,7 +1067,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+         DeviceState *devs = DEVICE(&s->ppc_irq_splitter[i]);
+         char *gpioname = g_strdup_printf("apb_ppc%d_irq_status",
+                                          i - NUM_EXTERNAL_PPCS);
+-        TZPPC *ppc = (i == NUM_EXTERNAL_PPCS) ? &s->apb_ppc0 : &s->apb_ppc1;
++        TZPPC *ppc = &s->apb_ppc[i - NUM_EXTERNAL_PPCS];
+ 
+         qdev_connect_gpio_out(devs, 0,
+                               qdev_get_gpio_in_named(dev_secctl, gpioname, 0));
 -- 
 2.20.1
 
