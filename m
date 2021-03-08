@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFB1330A84
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 10:51:04 +0100 (CET)
-Received: from localhost ([::1]:41528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FE6330AA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 10:54:37 +0100 (CET)
+Received: from localhost ([::1]:49682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJCXX-0000px-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 04:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57374)
+	id 1lJCay-0004Mw-2e
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 04:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJCTG-00009m-SS; Mon, 08 Mar 2021 04:46:38 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:42269)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lJCZj-0003tI-V3
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 04:53:19 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.219]:15336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJCTD-0002XY-H1; Mon, 08 Mar 2021 04:46:38 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 628CF3485;
- Mon,  8 Mar 2021 04:46:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Mar 2021 04:46:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=qzxGbPmDviDT8rnKQoyTElC7AQK
- JZ8KKq2mQuLEObx8=; b=z4T/ZonqFPWG3lxVT5Piolg+gPJhuKYb2C1wT1ELu6m
- tF+STFQpUagYU5hs/8QItqwlLtr3sNL6mdyGmS2eb807okCHzoMCsovzSjo63hGK
- tVAppmdYkVr7GMi+3tr8sQmTU4vYwXwy7H8kPKqzWwITzXnKKaKqEnslOeH5gqE1
- KDxiKOYJ2J0Y9cykOyp+7zWJgRawbJcEAlgShIhNzqFxU/allzyMRIrWNx+Oi6pt
- hiXRkQ0TAamveOtCsYoilS5IX6iLQ3ofPLWwqiTvniEOn8f1zFDoA41kU0V2zZt1
- gb4OuFYyZJeMKG7ZbU+0m3BpUwmx4BbOc6XtR/sC/sg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qzxGbP
- mDviDT8rnKQoyTElC7AQKJZ8KKq2mQuLEObx8=; b=WBR5thF0VFHpnliGSYgztY
- Gh226ZJ0Wrz14NpAMmTsg0B3RyYQs9n69jhtiR+edn3ZJWmzXfatAq2HqWGnYrNx
- 0IPkVbPP+l7ZVGgTv8IgP9VBvXVt1N5aDbCR/ZVr+4gBoj7ztySAe9ejTNIfPDDb
- WzpsWZNDmt31+18jyhcD/liAqJpvTgwDBNefOR+MKPnqkuzOq6Hm4oYq5SP70Tr4
- 9XgMhbw5pqYKkXhOpvRnXt4PJXqD7f9cpzNRItEeBRwT/IDd6I+9Kubd3BYKT5WE
- JslJYM9SpKtoi69QNFihGGOCwnNxruu91DnvnX625HfznEIf7UCjpKR7twuKk6qA
- ==
-X-ME-Sender: <xms:dvJFYMkPaLE5PJy_HUWbO0qAGzP7C8akvvU4xHqRWvGkKVkbBIl-OA>
- <xme:dvJFYL1qvypv7N7ohkdafGQ5EnylPPRtC23h4K9XVPOi3MCol9CSuYqPdonh0gKfX
- nBpXirSN37zRIVm_Jo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgtdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
- tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:dvJFYKqYAnH_k6iih23cfe1BhFiA3l6knb9r2omRjaKBwFRHxSiwOw>
- <xmx:dvJFYIko3-CcIv6xUqfahsZIzjtB8avDVArHj5hUhTUT-j4XrFCjCg>
- <xmx:dvJFYK0c_6VSxYyEbZ-FibM_V4zt3_GKuaMzfTwPNUOQASACQVVcEg>
- <xmx:d_JFYG-DNStQoZXxJfiJq5FROtJbW-qrFLqzEIjiIWqvie60wQKNNg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0DC8C1080066;
- Mon,  8 Mar 2021 04:46:28 -0500 (EST)
-Date: Mon, 8 Mar 2021 10:46:26 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] hw/nvme: move nvme emulation out of hw/block
-Message-ID: <YEXycjnozuTutjFK@apples.localdomain>
-References: <20210301113509.79706-1-its@irrelevant.dk>
- <bc248cb6-f8e4-8d6e-82df-9fe914779995@redhat.com>
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lJCZh-0005cW-G7
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 04:53:19 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1615197193; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=P4j6OB/SixeyHI/JPgjEIzy0hdctzjUbED5CqFJobXkZRmn2NjhmWVo/vwSCASpUtz
+ T8qHtHgiAPb1NGHrEa7UiaWL2EV3MC8bP6QRD1wRAlg4FCLAmguP2259yKrUR9WUNxwY
+ v7K8O+TsNUEqrf/hDodUxZjk14Jep0bHrwDrV4++7UQYbKIRVojqHxYnqSldjyKXfe1c
+ gwJdmXJokRRDwi9lI5Tt2C8hRRIU1nI12x3TZ4LigOZaw3I5LYSrig7D6UdRjQ7s1qTU
+ 8C75VM9arJNhViReJZepTlpkkZpblD+QSKYDETGDu0T5PkHOklTtHboaxGBXo/BnGGkz
+ Yu3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1615197193;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=fhkLxFUmNm8ZRUZ6ejkxZsjoZPF6qiNKwYZEwZfWqPs=;
+ b=UZjoW8s5b3ozJ4LFRlJuuwlgenMgcHL55ZjqS8aI/O1/PX7XdJWiIG2Gu2hv80Ij9k
+ s4HdjQJB3Zu4wW5dxEmU8O8hvSw861d+cyTw2IN6Y75WV1alG10MpEAa37r3z8nZgTsy
+ BU8TFqUBtCbNypapA+9h3Bra8ZCrVXh4R/NbxYPGU2RuDNuiV33xpJbEHpI5HkQlnRiy
+ K0xBmfTfGZl92ttmb/gZbz4NosC9PmI3N2r/62QasfzOFltNMYbdkdN5iOYP9a0y9jVg
+ lp35mwgznYnFyg6ADVxsg62vwzV6aWRue0X1wn/LEBQLTBsMRlv5hPyYUXSpG1xYFfmN
+ Jm0A==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1615197193;
+ s=strato-dkim-0002; d=ulal.de;
+ h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=fhkLxFUmNm8ZRUZ6ejkxZsjoZPF6qiNKwYZEwZfWqPs=;
+ b=sFzPcVhvdCPZAXKaZJZ/jw4f3lraXz+RFkYjvpOxlx85wkYux1LfHNZykAEz55dwKe
+ VGd3qCZc9JcOg6CtIGq8BGB4WhjCbnp/v1McGOsZKMWd9wtQ02chOHKk4tN2RddUvskw
+ lF6dussQK06YRCvwGdR500m1N69llWnDdYMJpf9ibD7hSQ3iJtD16TGORWFC9HetCs8p
+ tu3ih6AsOpOf66p88oGYCqJRPQCoYfymjUq5q8YX6rgio4wZS50Y5OP6fneOKZPjufV/
+ JokFsXMNu69H58uWOmQF0Caow/mTOmXIsMODlvvZt5u4AWrob1vhBLxTxEmKIjjI0Hc1
+ Z1Tg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JSSHyzkN3ON0Uun6F+zrkVqc/ZmTClqkOE9IdMVvnQ2O6vlW7Z+qlJRBbUq68WzKpoQ=="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2003:c3:9719:3d00:bb52:98ae:ee53:17cd]
+ by smtp.strato.de (RZmta 47.20.3 AUTH)
+ with ESMTPSA id c075a1x289rCBfE
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 8 Mar 2021 10:53:12 +0100 (CET)
+Subject: Re: [PATCH] hw/char: disable ibex uart receive if the buffer is full
+To: qemu-devel@nongnu.org
+References: <20210215231528.2718086-1-alexander.wagner@ulal.de>
+From: Alexander Wagner <alexander.wagner@ulal.de>
+Message-ID: <3adead10-7eb4-86e2-a81a-7b3e7fde49c5@ulal.de>
+Date: Mon, 8 Mar 2021 10:53:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ORZxfNy5meCjTKJR"
-Content-Disposition: inline
-In-Reply-To: <bc248cb6-f8e4-8d6e-82df-9fe914779995@redhat.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
+In-Reply-To: <20210215231528.2718086-1-alexander.wagner@ulal.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: none client-ip=81.169.146.219;
+ envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,104 +95,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: marcandre.lureau@redhat.com, Alistair.Francis@wdc.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ping
 
---ORZxfNy5meCjTKJR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://patchew.org/QEMU/20210215231528.2718086-1-alexander.wagner@ulal.de/
 
-On Mar  8 10:44, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Klaus,
->=20
-> On 3/1/21 12:35 PM, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > With the introduction of the nvme-subsystem device we are really
-> > cluttering up the hw/block directory.
-> >=20
-> > As suggested by Philippe previously, move the nvme emulation to
-> > hw/nvme.
->=20
-> Maybe type "NVMe" when talking about the technology and keep
-> lowercase "nvme" only in paths?
->=20
-> >=20
-> > Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> > v2:
-> >   * rebased on nvme-next
-> >   * got rid of the second patch (Minwoo)
-> >=20
-> >  meson.build                               |   1 +
-> >  hw/block/nvme-ns.h                        | 193 ---------------------
-> >  hw/block/nvme-subsys.h                    |  32 ----
-> >  hw/{block =3D> nvme}/nvme.h                 | 198 ++++++++++++++++++++=
-+-
->=20
-> I'd split this patch in 3:
->=20
-> 1: Add missing license in hw/block/nvme.h header
->=20
-> >  hw/nvme/trace.h                           |   1 +
-> >  hw/{block/nvme.c =3D> nvme/ctrl.c}          |   1 -
-> >  hw/{block/nvme-ns.c =3D> nvme/ns.c}         |   1 -
-> >  hw/{block/nvme-subsys.c =3D> nvme/subsys.c} |   2 +-
-> >  MAINTAINERS                               |   2 +-
-> >  hw/Kconfig                                |   1 +
-> >  hw/block/Kconfig                          |   5 -
-> >  hw/block/meson.build                      |   1 -
-> >  hw/block/trace-events                     | 182 --------------------
-> >  hw/meson.build                            |   1 +
-> >  hw/nvme/Kconfig                           |   4 +
-> >  hw/nvme/meson.build                       |   1 +
-> >  hw/nvme/trace-events                      | 180 ++++++++++++++++++++
-> >  17 files changed, 387 insertions(+), 419 deletions(-)
-> >  delete mode 100644 hw/block/nvme-ns.h
-> >  delete mode 100644 hw/block/nvme-subsys.h
->=20
-> 2: Merge nvme-ns.h & nvme-subsys.h to hw/block/nvme.h, adding
->    Minwoo Im (c).
->=20
-> >  rename hw/{block =3D> nvme}/nvme.h (55%)
-> >  create mode 100644 hw/nvme/trace.h
-> >  rename hw/{block/nvme.c =3D> nvme/ctrl.c} (99%)
-> >  rename hw/{block/nvme-ns.c =3D> nvme/ns.c} (99%)
-> >  rename hw/{block/nvme-subsys.c =3D> nvme/subsys.c} (98%)
-> >  create mode 100644 hw/nvme/Kconfig
-> >  create mode 100644 hw/nvme/meson.build
-> >  create mode 100644 hw/nvme/trace-events
->=20
-> 3: The rest (basically this patch).
->=20
-> Regards,
->=20
-> Phil.
->=20
->=20
-
-Thanks! Good suggestions, I'll respin it!
-
---ORZxfNy5meCjTKJR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBF8m4ACgkQTeGvMW1P
-Dek2fAf6A8g2tEOU/q1wqeV47P658gHJT+DWFoVYJU9NcJyXDS/7wG2+5UtaAlfH
-X0GAZFMSMUjjnIihBuGy0jYi69lZpMmz5zTo7otT/7ntxpmQL7WrPALfIM2Z9CQy
-ihUykXSraOcpmAmL82G1N1/4YzFV6aO8PlTnY0Kgl7HOM41kHwyOb0oZKzBKVbsm
-n8hbGjzuhTi734REzLhJM5JC83MP4wlwDBuAQ2HmmOadsQsgdFePMbcScydGytHP
-l4vsPp1eoUwzKA5nk4YuszPSo96wxF/AqMlxEgvO4eQ1ejikhQ4nucEp3juc75wK
-T2dgN0HaMZPMO4LZazyCZrmlyTsKqg==
-=XkHP
------END PGP SIGNATURE-----
-
---ORZxfNy5meCjTKJR--
+On 16.02.21 00:15, Alexander Wagner wrote:
+> Not disabling the UART leads to QEMU overwriting the UART receive buffer with
+> the newest received byte. The rx_level variable is added to allow the use of
+> the existing OpenTitan driver libraries.
+>
+> Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
+> ---
+>   hw/char/ibex_uart.c         | 20 +++++++++++++++-----
+>   include/hw/char/ibex_uart.h |  4 ++++
+>   2 files changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+> index 89f1182c9b..dac09d53d6 100644
+> --- a/hw/char/ibex_uart.c
+> +++ b/hw/char/ibex_uart.c
+> @@ -66,7 +66,8 @@ static int ibex_uart_can_receive(void *opaque)
+>   {
+>       IbexUartState *s = opaque;
+>   
+> -    if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
+> +    if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK)
+> +           && !(s->uart_status & R_STATUS_RXFULL_MASK)) {
+>           return 1;
+>       }
+>   
+> @@ -83,6 +84,8 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
+>   
+>       s->uart_status &= ~R_STATUS_RXIDLE_MASK;
+>       s->uart_status &= ~R_STATUS_RXEMPTY_MASK;
+> +    s->uart_status |= R_STATUS_RXFULL_MASK;
+> +    s->rx_level += 1;
+>   
+>       if (size > rx_fifo_level) {
+>           s->uart_intr_state |= R_INTR_STATE_RX_WATERMARK_MASK;
+> @@ -199,6 +202,7 @@ static void ibex_uart_reset(DeviceState *dev)
+>       s->uart_timeout_ctrl = 0x00000000;
+>   
+>       s->tx_level = 0;
+> +    s->rx_level = 0;
+>   
+>       s->char_tx_time = (NANOSECONDS_PER_SECOND / 230400) * 10;
+>   
+> @@ -243,11 +247,15 @@ static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
+>   
+>       case R_RDATA:
+>           retvalue = s->uart_rdata;
+> -        if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
+> +        if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) && (s->rx_level > 0)) {
+>               qemu_chr_fe_accept_input(&s->chr);
+>   
+> -            s->uart_status |= R_STATUS_RXIDLE_MASK;
+> -            s->uart_status |= R_STATUS_RXEMPTY_MASK;
+> +            s->rx_level -= 1;
+> +            s->uart_status &= ~R_STATUS_RXFULL_MASK;
+> +            if (s->rx_level == 0) {
+> +                s->uart_status |= R_STATUS_RXIDLE_MASK;
+> +                s->uart_status |= R_STATUS_RXEMPTY_MASK;
+> +            }
+>           }
+>           break;
+>       case R_WDATA:
+> @@ -261,7 +269,8 @@ static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
+>       case R_FIFO_STATUS:
+>           retvalue = s->uart_fifo_status;
+>   
+> -        retvalue |= s->tx_level & 0x1F;
+> +        retvalue |= (s->rx_level & 0x1F) << R_FIFO_STATUS_RXLVL_SHIFT;
+> +        retvalue |= (s->tx_level & 0x1F) << R_FIFO_STATUS_TXLVL_SHIFT;
+>   
+>           qemu_log_mask(LOG_UNIMP,
+>                         "%s: RX fifos are not supported\n", __func__);
+> @@ -364,6 +373,7 @@ static void ibex_uart_write(void *opaque, hwaddr addr,
+>           s->uart_fifo_ctrl = value;
+>   
+>           if (value & R_FIFO_CTRL_RXRST_MASK) {
+> +            s->rx_level = 0;
+>               qemu_log_mask(LOG_UNIMP,
+>                             "%s: RX fifos are not supported\n", __func__);
+>           }
+> diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
+> index 03d19e3f6f..546f958eb8 100644
+> --- a/include/hw/char/ibex_uart.h
+> +++ b/include/hw/char/ibex_uart.h
+> @@ -62,6 +62,8 @@ REG32(FIFO_CTRL, 0x1c)
+>       FIELD(FIFO_CTRL, RXILVL, 2, 3)
+>       FIELD(FIFO_CTRL, TXILVL, 5, 2)
+>   REG32(FIFO_STATUS, 0x20)
+> +    FIELD(FIFO_STATUS, TXLVL, 0, 5)
+> +    FIELD(FIFO_STATUS, RXLVL, 16, 5)
+>   REG32(OVRD, 0x24)
+>   REG32(VAL, 0x28)
+>   REG32(TIMEOUT_CTRL, 0x2c)
+> @@ -82,6 +84,8 @@ struct IbexUartState {
+>       uint8_t tx_fifo[IBEX_UART_TX_FIFO_SIZE];
+>       uint32_t tx_level;
+>   
+> +    uint32_t rx_level;
+> +
+>       QEMUTimer *fifo_trigger_handle;
+>       uint64_t char_tx_time;
+>   
 
