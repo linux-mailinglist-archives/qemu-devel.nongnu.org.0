@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C98331087
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:13:38 +0100 (CET)
-Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D86331068
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:10:22 +0100 (CET)
+Received: from localhost ([::1]:39568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGdd-0000xU-J7
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:13:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
+	id 1lJGaT-0005aA-64
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:10:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGI5-0006Xk-E3
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:22 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:42676)
+ id 1lJGI0-0006Sn-TW
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:16 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:32932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGI1-0001E8-Qt
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:21 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- b2-20020a7bc2420000b029010be1081172so3847642wmj.1
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:17 -0800 (PST)
+ id 1lJGHz-0001Bn-3i
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id 7so11566357wrz.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uTg3Tv32l8Xlt8XwDOEGmwz25MtkKlDZ8otFZdvh7to=;
- b=lCcvNqxQ1rLU7JVSPiokQwkYmfefY2HnkJLqQVH/NI+rYliIOISsTaMIX+KCA/Xxm9
- PSpGRkNvtTce/gdfFp+bCd0LfUhm8zjY7IKtrTxdRPQKkAngxRTy2O+PYWtaAuuHVg5w
- AVjWH4QUfZ+6ait/jUfYzW8xGevVve0UQNOrzry6b+iHu2a8G3xkjxR70UZwNd3xHX+q
- ny0Jyh5clLL3S41/nCM9iN6D6ITR4msG82bwua6qccLJCyfXyhqb27xAQHQGq+8A7Ygz
- CU+GnlQPH4BLajon9rasJB7nEX+qHH52pFLFSaNYNSk3SxNwOJSGT/dWd7/D4YeN5B+q
- KeGw==
+ bh=a0BK8ypBSXh0RbNv4uKgBtQr0GJ8Tge8/vqHvw7yHfo=;
+ b=GFqA4j/t8CfChKj1RTNJoT3VZIPIHTHjzEgQDu/VQOutDN8clhNER9g3zt3RL5mXnE
+ 1GvFGNyVQXu1Lm5bFEgtW1DC6HrNdrrHlvN6e3h7XpsGD60KZY/xizrvTGg7kj2cCDKX
+ js3mIt5EXYq7Rh5xMW2jlmz8Zd3ZcHWxsQJtXrFbjDMHYdoRZexuN0rza8UpgkrtjvNO
+ bWPs9yp2b9LHeZowap7OmnmEo8GON1tErU3vMFHGETjLJqNOsWdFI36+rTJkRSVWfUno
+ Q5hRs5j7BDKpmkKhz6il8nl7u2/Z72FxAXVmnRseJQfjpETtXPopoAWbo5aEiFgXuc0S
+ 4WIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uTg3Tv32l8Xlt8XwDOEGmwz25MtkKlDZ8otFZdvh7to=;
- b=Vq1Rr3x++z6Gcd++Fq9XOqa2lz1R9EJ7hOcyJxoD7T/hEpgDv5GQHOKDXzcFF3B65l
- J9Q8KWCAVJnNunlRH3hsgIHByXMRjn6IXQkkt/BaXHHCdUEpcVJhkbIWbOrTfOqtqO82
- RrbNks/VrduCIDWnnlyEQb+qMWyxZJpzZJg/n/Fsa0gZR36xtec+8svoySWZJJq2QX4p
- zxFyOrxaT4IRO59wl8dOG25Zgtrvxx5G6a3e3lu6e4yxAuFhyb4UlU8Kvzmgc04Nejky
- 81/ePKZhIfirdpSX2WLsB7fc/T3GdLPEaQeKhmhy0WSp2dD/1XFuVyyJGBj1UDNKMN6N
- j6Og==
-X-Gm-Message-State: AOAM531jdHyUrlU+GPRPdhCOmzVANsxL6SjTu9IEaOLQNWiEnEy9VdAf
- t27uaVTUXc3LoCmKkNv5s6atyA==
-X-Google-Smtp-Source: ABdhPJygSgg1IXCh/OSLbjXKquPs27AP9EVkFqXOhR3ihblroU25MeV8IDCjhE5f/CS6CzZZuMObXw==
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr22233019wma.18.1615211476518; 
- Mon, 08 Mar 2021 05:51:16 -0800 (PST)
+ bh=a0BK8ypBSXh0RbNv4uKgBtQr0GJ8Tge8/vqHvw7yHfo=;
+ b=CS7H0Q1inJ9Jwn9PfKBrS8XY8VHGAdMiVRM9stdHScpHRyxJRDoJMQ/GX981YMxdpk
+ CSQOjEliiuCcWPPVXoszLf0bBrCewUy8pxR+7kyYNN2nS98cFVHuDKY1lOVqGFf21EcL
+ y+/49Q+cPF3QAUMa2zSWm3M3CeltRwBAq3870BHwhO9VbuiCdHJNA1BYgE4RQtAY8cMt
+ VSCoJHTnkJLTmK5cTingo79gQPa6YV3N/GDkyCB7ORzi5zK5wFs+DJjXAkiQHfWhAD7C
+ /aqWozAFi2E33LpIN4PliiCVicjero8auK6Zg+hrQg3I5jVxkVaKexv/viAYHOn68mui
+ hD8g==
+X-Gm-Message-State: AOAM5309dwj9/kVigSZMALAy+wcKKzvEaE+kzKrl7ADV8Rfk0CdmPd/J
+ 5bWMupe4ExYA33MtvlMq6F5yXQ==
+X-Google-Smtp-Source: ABdhPJyICtTdVFHJfwpYZS+w/m750eREdZKMJ2qQkTZo9Dy3p8ZZz5mhwGl3peykz9ZV0uFnAAPgAQ==
+X-Received: by 2002:adf:d205:: with SMTP id j5mr13364798wrh.211.1615211473691; 
+ Mon, 08 Mar 2021 05:51:13 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a17sm19496485wmj.9.2021.03.08.05.51.06
+ by smtp.gmail.com with ESMTPSA id y18sm11344072wrw.39.2021.03.08.05.51.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 08 Mar 2021 05:51:08 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5BB811FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 86CB71FF96;
  Mon,  8 Mar 2021 13:51:05 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/18] gitlab-ci.yml: Allow custom # of parallel linkers
-Date: Mon,  8 Mar 2021 13:50:52 +0000
-Message-Id: <20210308135104.24903-7-alex.bennee@linaro.org>
+Subject: [PULL 08/18] tests/docker: Use --arch-only when building Debian cross
+ image
+Date: Mon,  8 Mar 2021 13:50:54 +0000
+Message-Id: <20210308135104.24903-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
 References: <20210308135104.24903-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,56 +87,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Define a new variable LD_JOBS, that can be used to select
-the maximum number of linking jobs to be executed in parallel.
-If the variable is not defined, maintain the default given by
-make -j
+When building a Docker image based on debian10.docker on
+a non-x86 host, we get:
 
-Currently, make parallelism at build time is based on the number
-of cpus available.
+ [2/4] RUN apt update &&     DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu
+ Reading package lists... Done
+ Building dependency tree
+ Reading state information... Done
+ Some packages could not be installed. This may mean that you have
+ requested an impossible situation or if you are using the unstable
+ distribution that some required packages have not yet been created
+ or been moved out of Incoming.
+ The following information may help to resolve the situation:
 
-This doesn't work well with LTO at linking, because with LTO the
-linker has to load in memory all the intermediate object files
-for optimization.
-The end result is that, if the gitlab runner happens to run two
-linking processes at the same time, the job will fail with an
-out-of-memory error,
+ The following packages have unmet dependencies:
+  builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
+                   Depends: gcc-alpha-linux-gnu but it is not installable
+ E: Unable to correct problems, you have held broken packages.
 
-This patch leverages the ability to maintain high parallelism at
-compile time, but limit the number of linkers executed in parallel.
+Fix by using the --arch-only option suggested here:
+https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866032/comments/1
 
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Suggested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210304030948.9367-2-dbuono@linux.vnet.ibm.com>
-Message-Id: <20210305092328.31792-8-alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210223211115.2971565-1-f4bug@amsat.org>
+Message-Id: <20210305092328.31792-10-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index c2c5196b8b..1ea944eb91 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -27,6 +27,10 @@ include:
-       else
-         ../configure --enable-werror $CONFIGURE_ARGS ;
-       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-+    - if test -n "$LD_JOBS";
-+      then
-+        meson configure . -Dbackend_max_links="$LD_JOBS" ;
-+      fi || exit 1;
-     - make -j"$JOBS"
-     - if test -n "$MAKE_CHECK_ARGS";
-       then
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 9d42b5a4b8..d034acbd25 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -32,6 +32,6 @@ RUN apt update && \
+         psmisc \
+         python3 \
+         python3-sphinx \
+-        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
++        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+ 
+ ENV FEATURES docs
 -- 
 2.20.1
 
