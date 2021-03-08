@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2983F3313EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 17:58:27 +0100 (CET)
-Received: from localhost ([::1]:55562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AEF3313EF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 17:59:08 +0100 (CET)
+Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJD8-0004VW-65
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 11:58:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44248)
+	id 1lJJDn-0005Q2-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 11:59:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lJJ7O-0001UL-Fp
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:52:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31299)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJAB-00037g-GH
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lJJ7J-0006zk-PZ
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:52:30 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA4-0007s8-4x
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222344;
+ s=mimecast20190719; t=1615222515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Hao6Y8vgnIh+cK9ry3iSR5bK54jck3obiDyserLZJCI=;
- b=H1LBdc6t6rj7T/LWjOVVF341GkBP6DbyaBbcJ1QNErn/FznSHLo2vd/keaJ9YZaEv9QqFh
- vnXl/4Mn8IT51DoYi+/R4nreCpHcKULV0CAAhyAefbnNi5sSVn14XBWzyhTFgf+hvPpbV4
- jVNLw9lMqNlksECQtoNPnc7xKGgUdB8=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GCalvqlt6OEpp2wKgME9KJ6Rb1kaPbmIsuVYAR2MnlI=;
+ b=IrvHWmv5wVBtbMMc/0IY9TcIgQbSdvyw4k5jtHqA0cpFSunjourPH7jwZyWR/JYtaKhq0h
+ 69u11y5s9IIF/WjIx9xkxJFqy8swepbpUSykzOItX3QNCR0/8ECu3veWz4GM4qy9hACoAl
+ OJVhYVAoBQJpNPfynbdDKkiKDN4w0TA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-b3aIgPhyP4yQtc9xmjqChA-1; Mon, 08 Mar 2021 11:52:20 -0500
-X-MC-Unique: b3aIgPhyP4yQtc9xmjqChA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-24-MzbYJq8jOpeai0EMk1ZNPQ-1; Mon, 08 Mar 2021 11:55:09 -0500
+X-MC-Unique: MzbYJq8jOpeai0EMk1ZNPQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E43DA760C1;
- Mon,  8 Mar 2021 16:52:18 +0000 (UTC)
-Received: from localhost (ovpn-114-104.ams2.redhat.com [10.36.114.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89EE510023B2;
- Mon,  8 Mar 2021 16:52:15 +0000 (UTC)
-Date: Mon, 8 Mar 2021 16:52:09 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v4] virtio-blk: Respect discard granularity
-Message-ID: <YEZWOeXbkuA6Fd+i@stefanha-x1.localdomain>
-References: <20210224101747.hmgou6z7qzmk62ft@steredhat>
- <20210225001239.47046-1-akihiko.odaki@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D64E193F56A;
+ Mon,  8 Mar 2021 16:55:08 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB02A5D9E3;
+ Mon,  8 Mar 2021 16:54:46 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
+Date: Mon,  8 Mar 2021 17:54:10 +0100
+Message-Id: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210225001239.47046-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uny76NbuMYiw2V+P"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,54 +73,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
+ mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uny76NbuMYiw2V+P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series adds a QAPI type for the properties of all user creatable
+QOM types and finally makes the --object command line option (in all
+binaries) and the object-add monitor commands (in QMP and HMP) use the
+new ObjectOptions union.
 
-On Thu, Feb 25, 2021 at 09:12:39AM +0900, Akihiko Odaki wrote:
-> Report the configured granularity for discard operation to the
-> guest. If this is not set use the block size.
->=20
-> Since until now we have ignored the configured discard granularity
-> and always reported the block size, let's add
-> 'report-discard-granularity' property and disable it for older
-> machine types to avoid migration issues.
->=20
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  hw/block/virtio-blk.c          | 8 +++++++-
->  hw/core/machine.c              | 4 +++-
->  include/hw/virtio/virtio-blk.h | 1 +
->  3 files changed, 11 insertions(+), 2 deletions(-)
+This change improves things in more than just one way:
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+1. Documentation for QOM object types has always been lacking. Adding
+   the schema, we get documentation for every property.
 
-Stefan
+2. It prevents bugs by performing parts of the input validation (e.g.
+   checking presence of mandatory properties) already in QAPI instead of
+   relying on separate manual implementations in each class.
 
---uny76NbuMYiw2V+P
-Content-Type: application/pgp-signature; name="signature.asc"
+3. It provides QAPI introspection for user creatable objects.
 
------BEGIN PGP SIGNATURE-----
+4. Non-scalar properties are now supported everywhere because the
+   command line parsers (including HMP) use the keyval parser now.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBGVjkACgkQnKSrs4Gr
-c8jxjggAo2aqIJtjOzo0TDGrnxFGth+QCPtirNWpDHYjW09SrD3xNhfdS/BLdsoI
-SXgrG6dSp3AbEs9A1TigPeM48AM4n+RHNt3yNdAOr6jK4tn8oXDc3SvJt+WtMfOE
-o46eL5sTvKVJ820ZhPh4ancfgZuXCockzfVpYLxbG6loWwDMBu3w6/peUTEFXHDY
-CV68KLpMZdeMvBtrAEm+karsTDI0b7lneNvBOfCJ+E44F3VNNgCeiP+wU6vZL+KY
-zehxisA8QGxPcvQsz+tdb2q37lgQ/3/5reFTw4O8lxY2s3LzrEuF0Oh5AqEI2mno
-UdZ3Gjv1oEiSIVBSjCj93ybSKsLENw==
-=JM8W
------END PGP SIGNATURE-----
 
---uny76NbuMYiw2V+P--
+If you are in the CC list and didn't expect this series, it's probably
+because you're the maintainer of one of the objects for which I'm adding
+a QAPI schema description. Please just have a look at the specific patch
+for your object and check whether the schema and its documentation make
+sense to you. You can ignore all other patches.
+
+
+In a next step after this series, we can add make use of the QAPI
+structs in the implementation of the object and separate their
+configuration from the runtime state. Specifically, the plan is to
+add a .configure() callback to ObjectClass that allows configuring the
+object in one place at creation time and keeping QOM property setters
+only for properties that can actually be changed at runtime. Paolo made
+an example of what the state could look like after this:
+
+    https://wiki.qemu.org/Features/QOM-QAPI_integration
+
+Finally, the intention is to extend the QAPI schema to have separate
+'object' entities and generate some of the code that was written
+manually in the intermediate state before.
+
+
+This series is available as a git tag at:
+
+    https://repo.or.cz/qemu/kevin.git qapi-object-v3
+
+
+v3:
+- Removed now useless QAuthZListRuleListHack
+- Made some more ObjectOptions branches conditional
+- Improved documentation for some properties
+- Fixed 'qemu-img compare' exit code for option parsing failure
+
+v2:
+- Convert not only object-add, but all external interfaces so that the
+  schema will always be enforced and mismatch between implementation and
+  schema can't go unnoticed.
+- Rebased, covering properties and object types added since v1 (yes,
+  things do become outdated rather quickly when you touch all user
+  creatable objects)
+- Changed the "Since:" version number in the schema documentation to
+  refer to the version when the object was introduced rather than 6.0
+  where the schema will (hopefully) be added
+- Probably some other minor changes
+
+Kevin Wolf (30):
+  qapi/qom: Drop deprecated 'props' from object-add
+  qapi/qom: Add ObjectOptions for iothread
+  qapi/qom: Add ObjectOptions for authz-*
+  qapi/qom: Add ObjectOptions for cryptodev-*
+  qapi/qom: Add ObjectOptions for dbus-vmstate
+  qapi/qom: Add ObjectOptions for memory-backend-*
+  qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
+  qapi/qom: Add ObjectOptions for throttle-group
+  qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
+  qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
+  qapi/qom: Add ObjectOptions for can-*
+  qapi/qom: Add ObjectOptions for colo-compare
+  qapi/qom: Add ObjectOptions for filter-*
+  qapi/qom: Add ObjectOptions for pr-manager-helper
+  qapi/qom: Add ObjectOptions for confidential-guest-support
+  qapi/qom: Add ObjectOptions for input-*
+  qapi/qom: Add ObjectOptions for x-remote-object
+  qapi/qom: QAPIfy object-add
+  qom: Make "object" QemuOptsList optional
+  qemu-storage-daemon: Implement --object with qmp_object_add()
+  qom: Remove user_creatable_add_dict()
+  qom: Factor out user_creatable_process_cmdline()
+  qemu-io: Use user_creatable_process_cmdline() for --object
+  qemu-nbd: Use user_creatable_process_cmdline() for --object
+  qom: Add user_creatable_add_from_str()
+  qemu-img: Use user_creatable_process_cmdline() for --object
+  hmp: QAPIfy object_add
+  qom: Add user_creatable_parse_str()
+  vl: QAPIfy -object
+  qom: Drop QemuOpts based interfaces
+
+ qapi/authz.json                      |  61 ++-
+ qapi/block-core.json                 |  27 ++
+ qapi/common.json                     |  52 +++
+ qapi/crypto.json                     | 159 +++++++
+ qapi/machine.json                    |  22 +-
+ qapi/net.json                        |  20 -
+ qapi/qom.json                        | 644 ++++++++++++++++++++++++++-
+ qapi/ui.json                         |  13 +-
+ docs/system/deprecated.rst           |  25 +-
+ docs/system/removed-features.rst     |   5 +
+ include/qom/object_interfaces.h      | 106 ++---
+ hw/block/xen-block.c                 |  16 +-
+ monitor/hmp-cmds.c                   |  17 +-
+ monitor/misc.c                       |   2 -
+ qemu-img.c                           | 251 ++---------
+ qemu-io.c                            |  33 +-
+ qemu-nbd.c                           |  34 +-
+ qom/object_interfaces.c              | 168 +++----
+ qom/qom-qmp-cmds.c                   |  28 +-
+ softmmu/vl.c                         | 109 +++--
+ storage-daemon/qemu-storage-daemon.c |  27 +-
+ tests/check-qom-proplist.c           |  42 +-
+ hmp-commands.hx                      |   2 +-
+ storage-daemon/qapi/qapi-schema.json |   1 +
+ 24 files changed, 1231 insertions(+), 633 deletions(-)
+
+-- 
+2.29.2
 
 
