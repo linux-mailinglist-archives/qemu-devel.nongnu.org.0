@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D471E331408
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:04:06 +0100 (CET)
-Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD0E33141D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:06:45 +0100 (CET)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJIb-0002Fm-Rg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:04:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
+	id 1lJJLA-0005m3-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:06:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA6-000315-GV
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47372)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA9-00033O-Sa
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA3-0007rv-2U
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:18 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA7-0007vd-5H
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222514;
+ s=mimecast20190719; t=1615222518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m9ZHXKFQ/xoHucHAn50KmDdpnS24lgxf7JR0zgVAWvM=;
- b=Jh10J7OvyuxxHc1MZOn8nNfxJxpYLTMvc2GN+2HvLpXAcbq8QsT3MwRpWiGlq2ik2dQ7QG
- it67Tt7eZM6wE4O2y31X7dxUyFF+Uwxxr9HaBJPN1HWHah31U1aV92IVqmrcdJgneaOzlN
- /BsjoksU/sqYZnHwiluOse8YW6cm/xg=
+ bh=SEjAru+LWL/KmRb7csSucQINEMDf7VfKnetd0CGWEx4=;
+ b=h1YOw4BpwDCLyhZEHZtrmw21ahEcKwGPSAywApNi7bOxV0GCssvpKxF6bAWVv34HvP0I63
+ tiNYmnO4revcDdaXI0wM89MYcWES5mFEhSKLlv1WliwnW3h2dTmpCSC5KpLSGV73JRZ4OW
+ yMFbhuqmIFrUOTCU/dgXF/6414CtnoI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-Qof4ucU6P52pO0LtezvRkg-1; Mon, 08 Mar 2021 11:55:12 -0500
-X-MC-Unique: Qof4ucU6P52pO0LtezvRkg-1
+ us-mta-289-LfRk7GesOf-WMRL24Pg_ng-1; Mon, 08 Mar 2021 11:55:16 -0500
+X-MC-Unique: LfRk7GesOf-WMRL24Pg_ng-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5AB68749BC;
- Mon,  8 Mar 2021 16:55:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0EA88189D2;
+ Mon,  8 Mar 2021 16:55:14 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 655255D9E3;
- Mon,  8 Mar 2021 16:55:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F17105D9E3;
+ Mon,  8 Mar 2021 16:55:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/30] qapi/qom: Drop deprecated 'props' from object-add
-Date: Mon,  8 Mar 2021 17:54:11 +0100
-Message-Id: <20210308165440.386489-2-kwolf@redhat.com>
+Subject: [PATCH v3 02/30] qapi/qom: Add ObjectOptions for iothread
+Date: Mon,  8 Mar 2021 17:54:12 +0100
+Message-Id: <20210308165440.386489-3-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,106 +83,83 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The option has been deprecated in QEMU 5.0, remove it.
+Add an ObjectOptions union that will eventually describe the options of
+all user creatable object types. As unions can't exist without any
+branches, also add the first object type.
+
+This adds a QAPI schema for the properties of the iothread object.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/qom.json                    |  6 +-----
- docs/system/deprecated.rst       |  5 -----
- docs/system/removed-features.rst |  5 +++++
- qom/qom-qmp-cmds.c               | 21 ---------------------
- 4 files changed, 6 insertions(+), 31 deletions(-)
+ qapi/qom.json | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 0b0b92944b..96c91c1faf 100644
+index 96c91c1faf..bf2ecb34be 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -211,10 +211,6 @@
- #
- # @id: the name of the new object
- #
--# @props: a dictionary of properties to be passed to the backend. Deprecated
--#         since 5.0, specify the properties on the top level instead. It is an
--#         error to specify the same option both on the top level and in @props.
--#
- # Additional arguments depend on qom-type and are passed to the backend
- # unchanged.
- #
-@@ -232,7 +228,7 @@
- #
- ##
- { 'command': 'object-add',
--  'data': {'qom-type': 'str', 'id': 'str', '*props': 'any'},
-+  'data': {'qom-type': 'str', 'id': 'str'},
-   'gen': false } # so we can get the additional arguments
+@@ -202,6 +202,59 @@
+   'returns': [ 'ObjectPropertyInfo' ],
+   'allow-preconfig': true }
  
- ##
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 561c916da2..893f3e8579 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -206,11 +206,6 @@ Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
- 
- Use arguments ``base-node`` and ``top-node`` instead.
- 
--``object-add`` option ``props`` (since 5.0)
--'''''''''''''''''''''''''''''''''''''''''''
--
--Specify the properties for the object as top-level arguments instead.
--
- ``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].status (since 4.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index c8481cafbd..95f3fb2912 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -58,6 +58,11 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
- 
- Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
- 
-+``object-add`` option ``props`` (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''
++##
++# @IothreadProperties:
++#
++# Properties for iothread objects.
++#
++# @poll-max-ns: the maximum number of nanoseconds to busy wait for events.
++#               0 means polling is disabled (default: 32768 on POSIX hosts,
++#               0 otherwise)
++#
++# @poll-grow: the multiplier used to increase the polling time when the
++#             algorithm detects it is missing events due to not polling long
++#             enough. 0 selects a default behaviour (default: 0)
++#
++# @poll-shrink: the divisor used to decrease the polling time when the
++#               algorithm detects it is spending too long polling without
++#               encountering events. 0 selects a default behaviour (default: 0)
++#
++# Since: 2.0
++##
++{ 'struct': 'IothreadProperties',
++  'data': { '*poll-max-ns': 'int',
++            '*poll-grow': 'int',
++            '*poll-shrink': 'int' } }
 +
-+Specify the properties for the object as top-level arguments instead.
++##
++# @ObjectType:
++#
++# Since: 6.0
++##
++{ 'enum': 'ObjectType',
++  'data': [
++    'iothread'
++  ] }
 +
- Human Monitor Protocol (HMP) commands
- -------------------------------------
- 
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index b40ac39f30..19fd5e117f 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -225,27 +225,6 @@ ObjectPropertyInfoList *qmp_qom_list_properties(const char *typename,
- 
- void qmp_object_add(QDict *qdict, QObject **ret_data, Error **errp)
- {
--    QObject *props;
--    QDict *pdict;
--
--    props = qdict_get(qdict, "props");
--    if (props) {
--        pdict = qobject_to(QDict, props);
--        if (!pdict) {
--            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict");
--            return;
--        }
--        qobject_ref(pdict);
--        qdict_del(qdict, "props");
--        qdict_join(qdict, pdict, false);
--        if (qdict_size(pdict) != 0) {
--            error_setg(errp, "Option in 'props' conflicts with top level");
--            qobject_unref(pdict);
--            return;
--        }
--        qobject_unref(pdict);
--    }
--
-     user_creatable_add_dict(qdict, false, errp);
- }
- 
++##
++# @ObjectOptions:
++#
++# Describes the options of a user creatable QOM object.
++#
++# @qom-type: the class name for the object to be created
++#
++# @id: the name of the new object
++#
++# Since: 6.0
++##
++{ 'union': 'ObjectOptions',
++  'base': { 'qom-type': 'ObjectType',
++            'id': 'str' },
++  'discriminator': 'qom-type',
++  'data': {
++      'iothread':                   'IothreadProperties'
++  } }
++
+ ##
+ # @object-add:
+ #
 -- 
 2.29.2
 
