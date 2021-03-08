@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F26C331A65
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 23:49:28 +0100 (CET)
-Received: from localhost ([::1]:59682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8AF331A67
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 23:51:21 +0100 (CET)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJOgp-00082C-K5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 17:49:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
+	id 1lJOie-0001CN-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 17:51:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lJOeC-00069G-Jw; Mon, 08 Mar 2021 17:46:44 -0500
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:39063)
+ id 1lJOeC-00069K-PN; Mon, 08 Mar 2021 17:46:44 -0500
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:39053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lJOeA-00038D-B1; Mon, 08 Mar 2021 17:46:44 -0500
-Received: by mail-lj1-x235.google.com with SMTP id u4so18208569ljh.6;
- Mon, 08 Mar 2021 14:46:40 -0800 (PST)
+ id 1lJOeA-00038J-ED; Mon, 08 Mar 2021 17:46:44 -0500
+Received: by mail-lj1-x22a.google.com with SMTP id u4so18208606ljh.6;
+ Mon, 08 Mar 2021 14:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eUdptTsSaAb74qDPAOtZcheqbFSIN8nlKmJ5wzafsMU=;
- b=QazIFEDG0LLFfviSlo+mvTTgfuulyJ1jY0NGVsQsVCEzLAX0b4y0VGuXifuUXh54Un
- w7wPqjFJGc7TThMOayhcxRuIizoYmj3c0J/0BQcaXlDZeTL5fluW2Z6sVut84B+KB9ZC
- OEfry4c0xjr1REwDyVZSMVJ7X7aioYvXPa4jWO2sjcqFcr+FVMttXuAWOJOGxPr9/x+g
- uf3zBRwRO6tFGYnVXEgLbNAlzqCeWfCr+5pewvVgwV2Sw14DIrdA55i1r5sWc0DIJfsg
- orbzr+P0FVEAwjrbC81tebfG4XIguNeacLnlY283sT0JOd7syGE41Ua01dR9TrkEHKPN
- jeKg==
+ bh=XsOQmvX4zDMuwKCNargfVKmUbdK5HcLS0RWcPOrqRvE=;
+ b=U0Z37uOzXUyxcTDV+UdYp1Us4M2y3L5uzHm4Hc+accOzVbViK1iDSahZ159uSZrE1y
+ qfc88xinE6bs2ABYd079a+BHlI/vLSsCqTKK+37X5PoZHow+5yK4cF092/hB1b8FxBNY
+ KREhWMoIs8kPXm0r8IeyHbteWoJE9KOoFNTtWGWLpzSHz2FXa5ee5b1tgOEdEpi3fd8a
+ I+ccuF+QcgAqOIWgK9nTRO+2Ct/Nymi21jhIeS7MGRdwdr+a7HJArtoLnsJcSeXLqDvY
+ qcdvbMxkI8VPxkxr0ou8ZRqU7MeBgBO5IMFj1MuyUHjifEu3z66dPwiWMtwelK/svvP/
+ d+fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eUdptTsSaAb74qDPAOtZcheqbFSIN8nlKmJ5wzafsMU=;
- b=l8ppdPTCPBZSF6zwFpzpKJ+P+acpLHA07Rqcpu98MW+1xBxUZfrefpi2nuyfIz7ACz
- PRcHvxV7ti/6QJidkmoEu06BxVO/2h0EIAE+zLcqYMvhlh9CEDlxS2PJOLwrqzSsjwA6
- WeGHkADKhCY/anY5OYewrbid4cfeggYCI/TtY/G7mewQvdEWQHW/e1mSTvWU4MNpAxX2
- 7+oqo/NndNEu+1lCj1MzUaGH6HesV+FUQnOorDkDHDk4MIF2o5W4uxaaeIU+7Q2Fl7iw
- BiqATHhYq4vszwz3C8OW26T2ulWEhWbP01ixMDofreov0BO8/RAQTT7IH5aAhPTBn3Hp
- 9mFw==
-X-Gm-Message-State: AOAM532Wi7Kba9SBCMSyJF0jBQZTZyF1MN7d+C1V9ctwOWHJ4VzHRIuU
- IuQ3M0yNx9eDBnv4qajsk74TChmhId8vrXTh
-X-Google-Smtp-Source: ABdhPJylkcv390yQ4ITXiTkyjyX/TBPUakRzNozAMRO6CUzUl8HXb2BPlGAm+LqAmNQMDfgG00YwNg==
-X-Received: by 2002:a2e:9a0a:: with SMTP id o10mr15046584lji.432.1615243599298; 
- Mon, 08 Mar 2021 14:46:39 -0800 (PST)
+ bh=XsOQmvX4zDMuwKCNargfVKmUbdK5HcLS0RWcPOrqRvE=;
+ b=joB2sQ7ukocyl+Y/gWl9KIoRslhpZlsjKt1HHWzRjHb1cXpgK5njZePP4snmPBNuwh
+ 9pQXUbmoiETn2nWk8+erw4HvR8LAeNXtcljdAjEX2GYac+ZnfCnkMeKG7aFtSlif/re6
+ Cc5BbY5JRiDNpDrlb4F8qmbiotf9U77TcQkfpkj8CKWlWmbJS5uvXk9Yil1CJ7kwNQMY
+ v812QBr4Nf8MuxdRYHICDWuZ9gfgCbMrE0OR0ekSeTGCQYKFkutW1g3m2SYrC9I9PPfa
+ zeu/oGfzCuVNXA2yIq+hTHUItTtLMk4hp2mnKxhXYx+zFHMyvXkPfCk42lbWi0lFdfjf
+ FG6A==
+X-Gm-Message-State: AOAM533Kkx3RRS3MotJ0BeRqzQ3bGDi543qeRvNGNbdRWC4mAOTlu0lI
+ YLQoY3JxNpl7YUfvOgKmqSXwRAJVyMnhCxrO
+X-Google-Smtp-Source: ABdhPJw/cUAVdkjyuetxhCaUJYOMCEyP+j4tKvphy/U8hAoIfskpo4YolzllgB8t2S9aUeq5MLImPw==
+X-Received: by 2002:a2e:9101:: with SMTP id m1mr15389364ljg.378.1615243600370; 
+ Mon, 08 Mar 2021 14:46:40 -0800 (PST)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id h6sm1506797lfd.77.2021.03.08.14.46.38
+ by smtp.gmail.com with ESMTPSA id n20sm1501466lfu.112.2021.03.08.14.46.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 14:46:38 -0800 (PST)
+ Mon, 08 Mar 2021 14:46:40 -0800 (PST)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] hw/misc: versal: Add a model of the XRAM controller
-Date: Mon,  8 Mar 2021 23:46:36 +0100
-Message-Id: <20210308224637.2949533-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v2 2/2] hw/arm: versal: Add support for the XRAMs
+Date: Mon,  8 Mar 2021 23:46:37 +0100
+Message-Id: <20210308224637.2949533-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210308224637.2949533-1-edgar.iglesias@gmail.com>
 References: <20210308224637.2949533-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,395 +90,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add a model of the Xilinx Versal Accelerator RAM (XRAM).
-This is mainly a stub to make firmware happy. The size of
-the RAMs can be probed. The interrupt mask logic is
-modelled but none of the interrups will ever be raised
-unless injected.
+Connect the support for the Versal Accelerator RAMs (XRAMs).
 
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- include/hw/misc/xlnx-versal-xramc.h |  97 +++++++++++
- hw/misc/xlnx-versal-xramc.c         | 253 ++++++++++++++++++++++++++++
- hw/misc/meson.build                 |   1 +
- 3 files changed, 351 insertions(+)
- create mode 100644 include/hw/misc/xlnx-versal-xramc.h
- create mode 100644 hw/misc/xlnx-versal-xramc.c
+ docs/system/arm/xlnx-versal-virt.rst |  1 +
+ include/hw/arm/xlnx-versal.h         | 13 ++++++++++
+ hw/arm/xlnx-versal.c                 | 36 ++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+)
 
-diff --git a/include/hw/misc/xlnx-versal-xramc.h b/include/hw/misc/xlnx-versal-xramc.h
-new file mode 100644
-index 0000000000..d3d1862676
---- /dev/null
-+++ b/include/hw/misc/xlnx-versal-xramc.h
-@@ -0,0 +1,97 @@
-+/*
-+ * QEMU model of the Xilinx XRAM Controller.
-+ *
-+ * Copyright (c) 2021 Xilinx Inc.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ * Written by Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-+ */
-+
-+#ifndef XLNX_VERSAL_XRAMC_H
-+#define XLNX_VERSAL_XRAMC_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/register.h"
-+
-+#define TYPE_XLNX_XRAM_CTRL "xlnx.versal-xramc"
-+
-+#define XLNX_XRAM_CTRL(obj) \
-+     OBJECT_CHECK(XlnxXramCtrl, (obj), TYPE_XLNX_XRAM_CTRL)
-+
-+REG32(XRAM_ERR_CTRL, 0x0)
-+    FIELD(XRAM_ERR_CTRL, UE_RES, 3, 1)
-+    FIELD(XRAM_ERR_CTRL, PWR_ERR_RES, 2, 1)
-+    FIELD(XRAM_ERR_CTRL, PZ_ERR_RES, 1, 1)
-+    FIELD(XRAM_ERR_CTRL, APB_ERR_RES, 0, 1)
-+REG32(XRAM_ISR, 0x4)
-+    FIELD(XRAM_ISR, INV_APB, 0, 1)
-+REG32(XRAM_IMR, 0x8)
-+    FIELD(XRAM_IMR, INV_APB, 0, 1)
-+REG32(XRAM_IEN, 0xc)
-+    FIELD(XRAM_IEN, INV_APB, 0, 1)
-+REG32(XRAM_IDS, 0x10)
-+    FIELD(XRAM_IDS, INV_APB, 0, 1)
-+REG32(XRAM_ECC_CNTL, 0x14)
-+    FIELD(XRAM_ECC_CNTL, FI_MODE, 2, 1)
-+    FIELD(XRAM_ECC_CNTL, DET_ONLY, 1, 1)
-+    FIELD(XRAM_ECC_CNTL, ECC_ON_OFF, 0, 1)
-+REG32(XRAM_CLR_EXE, 0x18)
-+    FIELD(XRAM_CLR_EXE, MON_7, 7, 1)
-+    FIELD(XRAM_CLR_EXE, MON_6, 6, 1)
-+    FIELD(XRAM_CLR_EXE, MON_5, 5, 1)
-+    FIELD(XRAM_CLR_EXE, MON_4, 4, 1)
-+    FIELD(XRAM_CLR_EXE, MON_3, 3, 1)
-+    FIELD(XRAM_CLR_EXE, MON_2, 2, 1)
-+    FIELD(XRAM_CLR_EXE, MON_1, 1, 1)
-+    FIELD(XRAM_CLR_EXE, MON_0, 0, 1)
-+REG32(XRAM_CE_FFA, 0x1c)
-+    FIELD(XRAM_CE_FFA, ADDR, 0, 20)
-+REG32(XRAM_CE_FFD0, 0x20)
-+REG32(XRAM_CE_FFD1, 0x24)
-+REG32(XRAM_CE_FFD2, 0x28)
-+REG32(XRAM_CE_FFD3, 0x2c)
-+REG32(XRAM_CE_FFE, 0x30)
-+    FIELD(XRAM_CE_FFE, SYNDROME, 0, 16)
-+REG32(XRAM_UE_FFA, 0x34)
-+    FIELD(XRAM_UE_FFA, ADDR, 0, 20)
-+REG32(XRAM_UE_FFD0, 0x38)
-+REG32(XRAM_UE_FFD1, 0x3c)
-+REG32(XRAM_UE_FFD2, 0x40)
-+REG32(XRAM_UE_FFD3, 0x44)
-+REG32(XRAM_UE_FFE, 0x48)
-+    FIELD(XRAM_UE_FFE, SYNDROME, 0, 16)
-+REG32(XRAM_FI_D0, 0x4c)
-+REG32(XRAM_FI_D1, 0x50)
-+REG32(XRAM_FI_D2, 0x54)
-+REG32(XRAM_FI_D3, 0x58)
-+REG32(XRAM_FI_SY, 0x5c)
-+    FIELD(XRAM_FI_SY, DATA, 0, 16)
-+REG32(XRAM_RMW_UE_FFA, 0x70)
-+    FIELD(XRAM_RMW_UE_FFA, ADDR, 0, 20)
-+REG32(XRAM_FI_CNTR, 0x74)
-+    FIELD(XRAM_FI_CNTR, COUNT, 0, 24)
-+REG32(XRAM_IMP, 0x80)
-+    FIELD(XRAM_IMP, SIZE, 0, 4)
-+REG32(XRAM_PRDY_DBG, 0x84)
-+    FIELD(XRAM_PRDY_DBG, ISLAND3, 12, 4)
-+    FIELD(XRAM_PRDY_DBG, ISLAND2, 8, 4)
-+    FIELD(XRAM_PRDY_DBG, ISLAND1, 4, 4)
-+    FIELD(XRAM_PRDY_DBG, ISLAND0, 0, 4)
-+REG32(XRAM_SAFETY_CHK, 0xff8)
-+
-+#define XRAM_CTRL_R_MAX (R_XRAM_SAFETY_CHK + 1)
-+
-+typedef struct XlnxXramCtrl {
-+    SysBusDevice parent_obj;
-+    MemoryRegion ram;
-+    qemu_irq irq;
-+
-+    struct {
-+        uint64_t size;
-+        unsigned int encoded_size;
-+    } cfg;
-+
-+    RegisterInfoArray *reg_array;
-+    uint32_t regs[XRAM_CTRL_R_MAX];
-+    RegisterInfo regs_info[XRAM_CTRL_R_MAX];
-+} XlnxXramCtrl;
-+#endif
-diff --git a/hw/misc/xlnx-versal-xramc.c b/hw/misc/xlnx-versal-xramc.c
-new file mode 100644
-index 0000000000..e5b719a0ed
---- /dev/null
-+++ b/hw/misc/xlnx-versal-xramc.c
-@@ -0,0 +1,253 @@
-+/*
-+ * QEMU model of the Xilinx XRAM Controller.
-+ *
-+ * Copyright (c) 2021 Xilinx Inc.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ * Written by Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "migration/vmstate.h"
-+#include "hw/sysbus.h"
-+#include "hw/register.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/irq.h"
+diff --git a/docs/system/arm/xlnx-versal-virt.rst b/docs/system/arm/xlnx-versal-virt.rst
+index 2602d0f995..27f73500d9 100644
+--- a/docs/system/arm/xlnx-versal-virt.rst
++++ b/docs/system/arm/xlnx-versal-virt.rst
+@@ -30,6 +30,7 @@ Implemented devices:
+ - 8 ADMA (Xilinx zDMA) channels
+ - 2 SD Controllers
+ - OCM (256KB of On Chip Memory)
++- XRAM (4MB of on chip Accelerator RAM)
+ - DDR memory
+ 
+ QEMU does not yet model any other devices, including the PL and the AI Engine.
+diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+index 2b76885afd..22a8fa5d11 100644
+--- a/include/hw/arm/xlnx-versal.h
++++ b/include/hw/arm/xlnx-versal.h
+@@ -14,6 +14,7 @@
+ 
+ #include "hw/sysbus.h"
+ #include "hw/arm/boot.h"
++#include "hw/or-irq.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/intc/arm_gicv3.h"
+ #include "hw/char/pl011.h"
+@@ -22,6 +23,7 @@
+ #include "hw/rtc/xlnx-zynqmp-rtc.h"
+ #include "qom/object.h"
+ #include "hw/usb/xlnx-usb-subsystem.h"
 +#include "hw/misc/xlnx-versal-xramc.h"
+ 
+ #define TYPE_XLNX_VERSAL "xlnx-versal"
+ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+@@ -31,6 +33,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+ #define XLNX_VERSAL_NR_GEMS    2
+ #define XLNX_VERSAL_NR_ADMAS   8
+ #define XLNX_VERSAL_NR_SDS     2
++#define XLNX_VERSAL_NR_XRAM    4
+ #define XLNX_VERSAL_NR_IRQS    192
+ 
+ struct Versal {
+@@ -62,6 +65,11 @@ struct Versal {
+             XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
+             VersalUsb2 usb;
+         } iou;
 +
-+#ifndef XLNX_XRAM_CTRL_ERR_DEBUG
-+#define XLNX_XRAM_CTRL_ERR_DEBUG 0
-+#endif
++        struct {
++            qemu_or_irq irq_orgate;
++            XlnxXramCtrl ctrl[XLNX_VERSAL_NR_XRAM];
++        } xram;
+     } lpd;
+ 
+     /* The Platform Management Controller subsystem.  */
+@@ -96,6 +104,7 @@ struct Versal {
+ #define VERSAL_GEM1_IRQ_0          58
+ #define VERSAL_GEM1_WAKE_IRQ_0     59
+ #define VERSAL_ADMA_IRQ_0          60
++#define VERSAL_XRAM_IRQ_0          79
+ #define VERSAL_RTC_APB_ERR_IRQ     121
+ #define VERSAL_SD0_IRQ_0           126
+ #define VERSAL_RTC_ALARM_IRQ       142
+@@ -128,6 +137,10 @@ struct Versal {
+ #define MM_OCM                      0xfffc0000U
+ #define MM_OCM_SIZE                 0x40000
+ 
++#define MM_XRAM                     0xfe800000
++#define MM_XRAMC                    0xff8e0000
++#define MM_XRAMC_SIZE               0x10000
 +
-+static void xram_update_irq(XlnxXramCtrl *s)
+ #define MM_USB2_CTRL_REGS           0xFF9D0000
+ #define MM_USB2_CTRL_REGS_SIZE      0x10000
+ 
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 628e77ef66..79609692e4 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+@@ -278,6 +279,40 @@ static void versal_create_rtc(Versal *s, qemu_irq *pic)
+     sysbus_connect_irq(sbd, 1, pic[VERSAL_RTC_APB_ERR_IRQ]);
+ }
+ 
++static void versal_create_xrams(Versal *s, qemu_irq *pic)
 +{
-+    bool pending = s->regs[R_XRAM_ISR] & ~s->regs[R_XRAM_IMR];
-+    qemu_set_irq(s->irq, pending);
-+}
++    int nr_xrams = ARRAY_SIZE(s->lpd.xram.ctrl);
++    DeviceState *orgate;
++    int i;
 +
-+static void xram_isr_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(reg->opaque);
-+    xram_update_irq(s);
-+}
++    /* XRAM IRQs get ORed into a single line.  */
++    object_initialize_child(OBJECT(s), "xram-irq-orgate",
++                            &s->lpd.xram.irq_orgate, TYPE_OR_IRQ);
++    orgate = DEVICE(&s->lpd.xram.irq_orgate);
++    object_property_set_int(OBJECT(orgate),
++                            "num-lines", nr_xrams, &error_fatal);
++    qdev_realize(orgate, NULL, &error_fatal);
++    qdev_connect_gpio_out(orgate, 0, pic[VERSAL_XRAM_IRQ_0]);
 +
-+static uint64_t xram_ien_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(reg->opaque);
-+    uint32_t val = val64;
++    for (i = 0; i < ARRAY_SIZE(s->lpd.xram.ctrl); i++) {
++        SysBusDevice *sbd;
++        MemoryRegion *mr;
 +
-+    s->regs[R_XRAM_IMR] &= ~val;
-+    xram_update_irq(s);
-+    return 0;
-+}
++        object_initialize_child(OBJECT(s), "xram[*]", &s->lpd.xram.ctrl[i],
++                                TYPE_XLNX_XRAM_CTRL);
++        sbd = SYS_BUS_DEVICE(&s->lpd.xram.ctrl[i]);
++        sysbus_realize(sbd, &error_fatal);
 +
-+static uint64_t xram_ids_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(reg->opaque);
-+    uint32_t val = val64;
++        mr = sysbus_mmio_get_region(sbd, 0);
++        memory_region_add_subregion(&s->mr_ps,
++                                    MM_XRAMC + i * MM_XRAMC_SIZE, mr);
++        mr = sysbus_mmio_get_region(sbd, 1);
++        memory_region_add_subregion(&s->mr_ps, MM_XRAM + i * MiB, mr);
 +
-+    s->regs[R_XRAM_IMR] |= val;
-+    xram_update_irq(s);
-+    return 0;
-+}
-+
-+static const RegisterAccessInfo xram_ctrl_regs_info[] = {
-+    {   .name = "XRAM_ERR_CTRL",  .addr = A_XRAM_ERR_CTRL,
-+        .reset = 0xf,
-+        .rsvd = 0xfffffff0,
-+    },{ .name = "XRAM_ISR",  .addr = A_XRAM_ISR,
-+        .rsvd = 0xfffff800,
-+        .w1c = 0x7ff,
-+        .post_write = xram_isr_postw,
-+    },{ .name = "XRAM_IMR",  .addr = A_XRAM_IMR,
-+        .reset = 0x7ff,
-+        .rsvd = 0xfffff800,
-+        .ro = 0x7ff,
-+    },{ .name = "XRAM_IEN",  .addr = A_XRAM_IEN,
-+        .rsvd = 0xfffff800,
-+        .pre_write = xram_ien_prew,
-+    },{ .name = "XRAM_IDS",  .addr = A_XRAM_IDS,
-+        .rsvd = 0xfffff800,
-+        .pre_write = xram_ids_prew,
-+    },{ .name = "XRAM_ECC_CNTL",  .addr = A_XRAM_ECC_CNTL,
-+        .rsvd = 0xfffffff8,
-+    },{ .name = "XRAM_CLR_EXE",  .addr = A_XRAM_CLR_EXE,
-+        .rsvd = 0xffffff00,
-+    },{ .name = "XRAM_CE_FFA",  .addr = A_XRAM_CE_FFA,
-+        .rsvd = 0xfff00000,
-+        .ro = 0xfffff,
-+    },{ .name = "XRAM_CE_FFD0",  .addr = A_XRAM_CE_FFD0,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_CE_FFD1",  .addr = A_XRAM_CE_FFD1,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_CE_FFD2",  .addr = A_XRAM_CE_FFD2,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_CE_FFD3",  .addr = A_XRAM_CE_FFD3,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_CE_FFE",  .addr = A_XRAM_CE_FFE,
-+        .rsvd = 0xffff0000,
-+        .ro = 0xffff,
-+    },{ .name = "XRAM_UE_FFA",  .addr = A_XRAM_UE_FFA,
-+        .rsvd = 0xfff00000,
-+        .ro = 0xfffff,
-+    },{ .name = "XRAM_UE_FFD0",  .addr = A_XRAM_UE_FFD0,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_UE_FFD1",  .addr = A_XRAM_UE_FFD1,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_UE_FFD2",  .addr = A_XRAM_UE_FFD2,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_UE_FFD3",  .addr = A_XRAM_UE_FFD3,
-+        .ro = 0xffffffff,
-+    },{ .name = "XRAM_UE_FFE",  .addr = A_XRAM_UE_FFE,
-+        .rsvd = 0xffff0000,
-+        .ro = 0xffff,
-+    },{ .name = "XRAM_FI_D0",  .addr = A_XRAM_FI_D0,
-+    },{ .name = "XRAM_FI_D1",  .addr = A_XRAM_FI_D1,
-+    },{ .name = "XRAM_FI_D2",  .addr = A_XRAM_FI_D2,
-+    },{ .name = "XRAM_FI_D3",  .addr = A_XRAM_FI_D3,
-+    },{ .name = "XRAM_FI_SY",  .addr = A_XRAM_FI_SY,
-+        .rsvd = 0xffff0000,
-+    },{ .name = "XRAM_RMW_UE_FFA",  .addr = A_XRAM_RMW_UE_FFA,
-+        .rsvd = 0xfff00000,
-+        .ro = 0xfffff,
-+    },{ .name = "XRAM_FI_CNTR",  .addr = A_XRAM_FI_CNTR,
-+        .rsvd = 0xff000000,
-+    },{ .name = "XRAM_IMP",  .addr = A_XRAM_IMP,
-+        .reset = 0x4,
-+        .rsvd = 0xfffffff0,
-+        .ro = 0xf,
-+    },{ .name = "XRAM_PRDY_DBG",  .addr = A_XRAM_PRDY_DBG,
-+        .reset = 0xffff,
-+        .rsvd = 0xffff0000,
-+        .ro = 0xffff,
-+    },{ .name = "XRAM_SAFETY_CHK",  .addr = A_XRAM_SAFETY_CHK,
++        sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(orgate, i));
 +    }
-+};
-+
-+static void xram_ctrl_reset_enter(Object *obj, ResetType type)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(obj);
-+    unsigned int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
-+        register_reset(&s->regs_info[i]);
-+    }
-+
-+    ARRAY_FIELD_DP32(s->regs, XRAM_IMP, SIZE, s->cfg.encoded_size);
 +}
 +
-+static void xram_ctrl_reset_hold(Object *obj)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(obj);
-+
-+    xram_update_irq(s);
-+}
-+
-+static const MemoryRegionOps xram_ctrl_ops = {
-+    .read = register_read_memory,
-+    .write = register_write_memory,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+static void xram_ctrl_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(dev);
-+
-+    switch (s->cfg.size) {
-+    case 64 * KiB:
-+        s->cfg.encoded_size = 0;
-+        break;
-+    case 128 * KiB:
-+        s->cfg.encoded_size = 1;
-+        break;
-+    case 256 * KiB:
-+        s->cfg.encoded_size = 2;
-+        break;
-+    case 512 * KiB:
-+        s->cfg.encoded_size = 3;
-+        break;
-+    case 1 * MiB:
-+        s->cfg.encoded_size = 4;
-+        break;
-+    default:
-+        error_setg(errp, "Unsupported XRAM size %" PRId64, s->cfg.size);
-+        return;
-+    }
-+
-+    memory_region_init_ram(&s->ram, OBJECT(s),
-+                           object_get_canonical_path_component(OBJECT(s)),
-+                           s->cfg.size, &error_fatal);
-+    sysbus_init_mmio(sbd, &s->ram);
-+}
-+
-+static void xram_ctrl_init(Object *obj)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(obj);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+
-+    s->reg_array =
-+        register_init_block32(DEVICE(obj), xram_ctrl_regs_info,
-+                              ARRAY_SIZE(xram_ctrl_regs_info),
-+                              s->regs_info, s->regs,
-+                              &xram_ctrl_ops,
-+                              XLNX_XRAM_CTRL_ERR_DEBUG,
-+                              XRAM_CTRL_R_MAX * 4);
-+    sysbus_init_mmio(sbd, &s->reg_array->mem);
-+    sysbus_init_irq(sbd, &s->irq);
-+}
-+
-+static void xram_ctrl_finalize(Object *obj)
-+{
-+    XlnxXramCtrl *s = XLNX_XRAM_CTRL(obj);
-+    register_finalize_block(s->reg_array);
-+}
-+
-+static const VMStateDescription vmstate_xram_ctrl = {
-+    .name = TYPE_XLNX_XRAM_CTRL,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, XlnxXramCtrl, XRAM_CTRL_R_MAX),
-+        VMSTATE_END_OF_LIST(),
-+    }
-+};
-+
-+static Property xram_ctrl_properties[] = {
-+    DEFINE_PROP_UINT64("size", XlnxXramCtrl, cfg.size, 1 * MiB),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void xram_ctrl_class_init(ObjectClass *klass, void *data)
-+{
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = xram_ctrl_realize;
-+    dc->vmsd = &vmstate_xram_ctrl;
-+    device_class_set_props(dc, xram_ctrl_properties);
-+
-+    rc->phases.enter = xram_ctrl_reset_enter;
-+    rc->phases.hold = xram_ctrl_reset_hold;
-+}
-+
-+static const TypeInfo xram_ctrl_info = {
-+    .name              = TYPE_XLNX_XRAM_CTRL,
-+    .parent            = TYPE_SYS_BUS_DEVICE,
-+    .instance_size     = sizeof(XlnxXramCtrl),
-+    .class_init        = xram_ctrl_class_init,
-+    .instance_init     = xram_ctrl_init,
-+    .instance_finalize = xram_ctrl_finalize,
-+};
-+
-+static void xram_ctrl_register_types(void)
-+{
-+    type_register_static(&xram_ctrl_info);
-+}
-+
-+type_init(xram_ctrl_register_types)
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 629283957f..fbc4789249 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -85,6 +85,7 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
- ))
- softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
- softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c', 'zynq-xadc.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-xramc.c'))
- softmmu_ss.add(when: 'CONFIG_STM32F2XX_SYSCFG', if_true: files('stm32f2xx_syscfg.c'))
- softmmu_ss.add(when: 'CONFIG_STM32F4XX_SYSCFG', if_true: files('stm32f4xx_syscfg.c'))
- softmmu_ss.add(when: 'CONFIG_STM32F4XX_EXTI', if_true: files('stm32f4xx_exti.c'))
+ /* This takes the board allocated linear DDR memory and creates aliases
+  * for each split DDR range/aperture on the Versal address map.
+  */
+@@ -363,6 +398,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+     versal_create_admas(s, pic);
+     versal_create_sds(s, pic);
+     versal_create_rtc(s, pic);
++    versal_create_xrams(s, pic);
+     versal_map_ddr(s);
+     versal_unimp(s);
+ 
 -- 
 2.25.1
 
