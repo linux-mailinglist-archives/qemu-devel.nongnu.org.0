@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A812331224
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:28:08 +0100 (CET)
-Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C07E331228
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:29:13 +0100 (CET)
+Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJHnj-0004bU-2K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:28:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
+	id 1lJHom-0005Xi-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lJHmj-00049u-BM
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:27:05 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:34019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lJHmh-0001aV-F7
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:27:05 -0500
-Received: by mail-qt1-x831.google.com with SMTP id 2so7786839qtw.1
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 07:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YKXjQNSsXNRm45AXYq11Pycqa5kqZLYZ+jDQbiYX3Pk=;
- b=MRzeVsxG1iaMmIEXJi0vgmfBU6o1Pa88fAHlTPAi8hU4Ha1E0Dh+FTlvAuzgVe0AJq
- 1Gy3+4flHN2ooOZXbZtVPQ1OV1+uTOfb4alP0Eo0WMZq6C+vCX2kqHydf2nDvXG4eDwC
- RaMuEWH8PizGgsFe+lXYDUzpEERd0L+vM7G3DLcvJpR4v6oriZG+NfngvvgGVJUZW81k
- rHivGLsZxGgvOIt0bEW7Rs1RM6wJe+mCFH2WpWNxN4bRDTOzVVfT8ERPIm/qYnY3PrsO
- m6xfb+6WgzJxtE2PZuG8EwXW90h2j0sWrw9j9X777HXWQlv161xhF4qp6GYYbW8/VJKj
- 5nNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YKXjQNSsXNRm45AXYq11Pycqa5kqZLYZ+jDQbiYX3Pk=;
- b=ioL/DzjlTm1eKCzn2ckJ3dsBwmUpftN0c1M3vWSnKazv0yT84LMOVHt0lsog7PRzjg
- 8ZvT5LHs+7SOSCbqcuW5jMOBPLSKMMx+yylMi2ishTGM5OxmQ9skR4OSouEIxKEsFCN7
- B1KamTEQGY8DvztifEqVi2xTI8ZFVjkWbn+umDX/Zq54umHJmELujeWPMqrzRaz/LJzG
- nD2ao1H1bPEzjZNkjuNkehWAfFLsvsS5FCHJRckV0r4olaCgaDOcD5Z4rutLVgzH7KOo
- dsnIJP+SY17XeEJHa0wQ/0bttgBnhFRXA8jpIdqtDzatop0u6+goWrKCJn3l98nSH82e
- W/EA==
-X-Gm-Message-State: AOAM532aCws5vFa8jfPnfkrFQ+nhNEBqVk6ndiOds0mlSIBo5GaDzZTo
- ymdXOa+z6ZRGaISB95/0oUBHtsi+/z9SDtVe6m2lMQ==
-X-Google-Smtp-Source: ABdhPJw+/4kWIVAifhZ/da/ZqOo+BGtnK8Wsiv+8iMaYKo62CvGVzdmQZGY8DyqrBM1ADGFJo/kCmwrOWtSFs4NSDpg=
-X-Received: by 2002:a05:622a:1c9:: with SMTP id
- t9mr21216938qtw.244.1615217222206; 
- Mon, 08 Mar 2021 07:27:02 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJHno-00050m-D7
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:28:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJHnl-000245-I7
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:28:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615217286;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/vl0aoLJjq8ig9K+albGjEb35wpyMH2HWYA7hY3e1U8=;
+ b=eF2Fxng0n8SmkO0zSZkr0jEbNzoGjU2fNzQorajl87eZqH+9ldHz/VNiOSfAAf5lXiBsqW
+ W9We8z6VT/vY6v5+LXMkMENV9rbpe9Z+jVuncFF40BymyEVZe9UN9Uoq4RDWeWAlOsQ6sL
+ xXgFCNJ9Ipfdjuv3Oau4uoAg9BH1IIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-CZdtlbejOy6PuJ0sEIVkAA-1; Mon, 08 Mar 2021 10:28:03 -0500
+X-MC-Unique: CZdtlbejOy6PuJ0sEIVkAA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD4E71E1C;
+ Mon,  8 Mar 2021 15:28:00 +0000 (UTC)
+Received: from redhat.com (ovpn-114-69.ams2.redhat.com [10.36.114.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 63D871055085;
+ Mon,  8 Mar 2021 15:27:58 +0000 (UTC)
+Date: Mon, 8 Mar 2021 15:27:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Warner Losh <imp@bsdimp.com>
+Subject: Re: RESEND [PATCH v2] bsd-user: Add new maintainers
+Message-ID: <YEZCe6CjX0aEWapR@redhat.com>
 References: <20210307155654.993-1-imp@bsdimp.com>
- <20210307155654.993-2-imp@bsdimp.com>
- <f707c609-e2ad-4b6c-985e-1218ae40e4eb@redhat.com>
-In-Reply-To: <f707c609-e2ad-4b6c-985e-1218ae40e4eb@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 8 Mar 2021 08:26:50 -0700
-Message-ID: <CANCZdfq+ocyZnMt2td3ynx3gWqdPm1csddTjuhAEbxV-QL3Gow@mail.gmail.com>
-Subject: Re: [PATCH v2] FreeBSD: Upgrade to 12.2 release
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000c3d82e05bd081009"
-Received-SPF: none client-ip=2607:f8b0:4864:20::831;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <f1045149-077f-e3cd-cad9-42eb3a2e2516@redhat.com>
+ <CAFEAcA-kuUEYC7ovT4CELNDjGxnf_Y1scSb_dCmWQfvSeaOXjw@mail.gmail.com>
+ <f6665ee9-e279-6a4d-687f-b94579d71b8d@redhat.com>
+ <376579a6-091d-b923-4aca-b69ca942bada@redhat.com>
+ <YEYVPsRcE1S9vuo3@redhat.com>
+ <843150bc-7a6e-38e7-8957-22087ce0d80e@redhat.com>
+ <CANCZdfoS4n9Dcymj4G9pC=CZ3E_POvi8nSZwHfSqKoHORpYzZA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANCZdfoS4n9Dcymj4G9pC=CZ3E_POvi8nSZwHfSqKoHORpYzZA@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,134 +88,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c3d82e05bd081009
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Mar 8, 2021 at 6:30 AM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 07/03/2021 16.56, Warner Losh wrote:
-> > FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
-> > project's packages will work.  Update which timezone to pick. Work
-> around a QEMU
-> > bug that incorrectly raises an exception on a CRC32 instruction with the
-> FPU
-> > disabled.  The qemu bug is described here:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg784158.html
+On Mon, Mar 08, 2021 at 08:21:34AM -0700, Warner Losh wrote:
+> On Mon, Mar 8, 2021 at 6:14 AM Philippe Mathieu-Daudé <philmd@redhat.com>
+> wrote:
+> 
+> > On 3/8/21 1:14 PM, Daniel P. Berrangé wrote:
+> > > On Mon, Mar 08, 2021 at 12:55:10PM +0100, Thomas Huth wrote:
+> > >> On 08/03/2021 12.16, Philippe Mathieu-Daudé wrote:
+> > >>> Hi Peter,
+> > >>>
+> > >>> +Markus/Paolo/Laurent/Richard
+> > >>>
+> > >>> On 3/8/21 11:24 AM, Peter Maydell wrote:
+> > >>>> On Mon, 8 Mar 2021 at 10:09, Thomas Huth <thuth@redhat.com> wrote:
+> > >>>>>
+> > >>>>> On 07/03/2021 16.56, Warner Losh wrote:
+> > >>>>>> The FreeBSD project has a number of enhancements to bsd-user. Add
+> > myself
+> > >>>>>> as maintainer and Kyle Evans as a reviewer. Also add our github
+> > repo.
+> > >>>>>>
+> > >>>>>> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > >>>>>> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> > >>>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > >>>>>> ---
+> > >>>>>>    MAINTAINERS | 5 ++++-
+> > >>>>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+> > >>>>>>
+> > >>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+> > >>>>>> index 26c9454823..ec0e935038 100644
+> > >>>>>> --- a/MAINTAINERS
+> > >>>>>> +++ b/MAINTAINERS
+> > >>>>>> @@ -2896,9 +2896,12 @@ F: thunk.c
+> > >>>>>>    F: accel/tcg/user-exec*.c
+> > >>>>>>
+> > >>>>>>    BSD user
+> > >>>>>> -S: Orphan
+> > >>>>>> +M: Warner Losh <imp@bsdimp.com>
+> > >>>>>> +R: Kyle Evans <kevans@freebsd.org>
+> > >>>>>> +S: Maintained
+> > >>>>>>    F: bsd-user/
+> > >>>>>>    F: default-configs/targets/*-bsd-user.mak
+> > >>>>>> +T: git https://github.com/qemu-bsd-user/qemu-bsd-user
+> > bsd-user-rebase-3.1
+> > >>>>>
+> > >>>>> BSD is not really my home turf, but since nobody else picked this up
+> > and I
+> > >>>>> plan to send a pull request for a bunch of patches anyway this week,
+> > I can
+> > >>>>> also put it into my queue.
+> > >>>>
+> > >>>> Fine with me. (The v1 was in my to-review queue, but I'm currently
+> > >>>> running somewhat behind on processing patches.)
+> > >>>
+> > >>> This is a patch for mainstream QEMU, I'm having hard time
+> > >>> understanding the point of it. This is some official way
+> > >>> to say that BSD-user is not maintained in mainstream but
+> > >>> has to be used in the referred fork which is way different
+> > >>> that mainstream...
+> > >>>
+> > >>> I'd rather wait for more mainstream contributions from Warner
+> > >>> and Kyle, or blow the current orphan/dead code and import
+> > >>> bsd-user-rebase-3.1 adding the maintainer entries along, but
+> > >>> certainly not mark this dead code as maintained.
+> > >>>
+> > >>> Please convince me why I'm wrong, because I'd prefer NAck this
+> > >>> patch...
+> > >>
+> > >> The idea has been discussed here:
+> > >>
+> > >> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01399.html
+> > >>
+> > >> So this is not about declaring that bsd-user is maintained in a
+> > different
+> > >> repository, but about giving Warner et al. a chance to finally upstream
+> > >> their work.
+> > >
+> > > Yep, I think this change in MAINTAINERS file is primarily about
+> > signalling
+> > > intent for future
 > >
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> 
+>  Yes. Just so. We have the older fork that we're trying to port forward. If
+> people have changes as we do that, it sure would be nice to have them go
+> through us rather than create more conflict with the main tree. I don't
+> need to have a new set of conflicts with main because someone thought that
+> it would be a good idea to move the space before or after the '(' or after
+> in a bunch of files. It's just extra work if I have to do it as part of the
+> merging. Better that goes into the top of our queue so it's managed and
+> easy and a click on github than another half hour I have to spend sorting
+> that out when I'd rather be sorting out the substantial change that go on
+> upstream in other areas that legitimately do make things much better.
+> 
+> We talked about all this in the above thread, I thought, and I thought it
+> was all settled, so I was rather surprised to wake up to this thread this
+> morning.
+
+From my POV, nothing has changed - I think the MAINTAINERS change is
+reasonable.
+
+
+> > > Marking the subsystem as maintained isn't saying the current code is
+> > great,
+> > > just that there is someone committed to improving it hereafter.
 > >
-> > ---
-> >   tests/vm/freebsd | 14 +++++++++-----
-> >   1 file changed, 9 insertions(+), 5 deletions(-)
->
-> I gave this a try, but it's currently failing in the unit tests:
->
-> Running test test-crypto-tlscredsx509
->
-> ** (tests/test-crypto-tlscredsx509:9999): CRITICAL **: 12:56:35.157:
-> Failed
-> to sign certificate ASN1 parser: Value is not valid.
-> ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to sign
-> certificate ASN1 parser: Value is not valid.
-> gmake: *** [Makefile.mtest:576: run-test-70] Error 1
-> gmake: *** Waiting for unfinished jobs....
-> Running test test-crypto-tlssession
->
-> ** (tests/test-crypto-tlssession:10002): CRITICAL **: 12:56:35.288: Failed
-> to sign certificate ASN1 parser: Value is not valid.
-> ERROR test-crypto-tlssession - Bail out! FATAL-CRITICAL: Failed to sign
-> certificate ASN1 parser: Value is not valid.
->
+> > OK, thank Thomas / Daniel for explaining and referring to the "BSD-user
+> > plans" (which I didn't notice earlier).
+> >
+> > Warner, what about mentioning your plans here in this patch?
+> >
+> 
+> Where is there room in the MAINTAINERS file for that? How would you like me
+> to do that?
 
-That's totally unrelated to my change. Was it failing before? What
-environment was it failing in because it all seemed to work for me...
+I think he was just referring to mentioning the intention in the
+commit message.  The MAINTAINERS file isn't a suitable place for
+describing plans.
 
-
-> I guess it's the same problem as:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06750.html
->
-> ... so this would require a bug fix in the libtasn of FreeBSD first? See:
->
-> https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+> > > If we want to warn people that the current impl isn't great, that's goes
+> > > back to the topic of having a way to classify QEMU features into quality
+> > > levels Tier 1/2/3.
+> >
+> > That indeed sounds good w.r.t. contributors / users expectations.
+> >
+> > I suppose 1=hw_accel/security, 2=tested, 3=rest?
+> >
+> > Not a single clue how to do that although.
+> >
+> 
+> Yup. Why invent something new just to make it harder for me to get things
+> into the tree? There's already the tiered maintainer stuff, and I'm trying
+> to get our stuff that turn the current bsd-user that's crap into something
+> that's quite solid.
 
 
- Is this on the host that built qemu, or inside the VM or where exactly?
+...snip...
 
-Warner
+You don't have to worry about this  - it is tangential to your patch
+here - a problem facing QEMU as a whole, not BSD specific, and there's
+no immediate answer here either.
 
---000000000000c3d82e05bd081009
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 8, 2021 at 6:30 AM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 07/03/2021=
- 16.56, Warner Losh wrote:<br>
-&gt; FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD=
-&#39;s<br>
-&gt; project&#39;s packages will work.=C2=A0 Update which timezone to pick.=
- Work around a QEMU<br>
-&gt; bug that incorrectly raises an exception on a CRC32 instruction with t=
-he FPU<br>
-&gt; disabled.=C2=A0 The qemu bug is described here:<br>
-&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg78415=
-8.html" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/q=
-emu-devel@nongnu.org/msg784158.html</a><br>
-&gt; <br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; <br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/vm/freebsd | 14 +++++++++-----<br>
-&gt;=C2=A0 =C2=A01 file changed, 9 insertions(+), 5 deletions(-)<br>
-<br>
-I gave this a try, but it&#39;s currently failing in the unit tests:<br>
-<br>
-Running test test-crypto-tlscredsx509<br>
-<br>
-** (tests/test-crypto-tlscredsx509:9999): CRITICAL **: 12:56:35.157: Failed=
- <br>
-to sign certificate ASN1 parser: Value is not valid.<br>
-ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to sign <=
-br>
-certificate ASN1 parser: Value is not valid.<br>
-gmake: *** [Makefile.mtest:576: run-test-70] Error 1<br>
-gmake: *** Waiting for unfinished jobs....<br>
-Running test test-crypto-tlssession<br>
-<br>
-** (tests/test-crypto-tlssession:10002): CRITICAL **: 12:56:35.288: Failed =
-<br>
-to sign certificate ASN1 parser: Value is not valid.<br>
-ERROR test-crypto-tlssession - Bail out! FATAL-CRITICAL: Failed to sign <br=
->
-certificate ASN1 parser: Value is not valid.<br></blockquote><div><br></div=
-><div>That&#39;s totally unrelated to my change. Was it failing before? Wha=
-t environment was it failing in because it all seemed to work for me...</di=
-v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-I guess it&#39;s the same problem as:<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06750.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2021-01/msg06750.html</a><br><br>
-... so this would require a bug fix in the libtasn of FreeBSD first? See:<b=
-r>
-<br>
-<a href=3D"https://gitlab.com/gnutls/libtasn1/-/merge_requests/71" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/gnutls/libtasn1/-/merge_req=
-uests/71</a></blockquote><div><br></div><div>=C2=A0Is this on the host that=
- built qemu, or inside the VM or where exactly?</div><div><br></div><div>Wa=
-rner</div></div></div>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---000000000000c3d82e05bd081009--
 
