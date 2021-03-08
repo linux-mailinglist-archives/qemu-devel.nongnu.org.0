@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBAD33108B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:14:02 +0100 (CET)
-Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B3333109B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:18:53 +0100 (CET)
+Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGe1-0001wV-W5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:14:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
+	id 1lJGii-00051G-2W
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:18:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJG4f-0002Uv-6m; Mon, 08 Mar 2021 08:37:29 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35949)
+ id 1lJGAB-0000KM-0n; Mon, 08 Mar 2021 08:43:11 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:39293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJG4a-00039u-7j; Mon, 08 Mar 2021 08:37:28 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id l12so14816872edt.3;
- Mon, 08 Mar 2021 05:37:22 -0800 (PST)
+ id 1lJGA8-0005n4-TK; Mon, 08 Mar 2021 08:43:10 -0500
+Received: by mail-ed1-x529.google.com with SMTP id h10so14827759edl.6;
+ Mon, 08 Mar 2021 05:43:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OTi4b6eTRDjIWHCjqDBWuf2TkNA+kfsP7A1m0+F3rcU=;
- b=TlmA4ON3Par5ZvzSArI+v/k4t0Gq/THUqAVl0nXWae4H8i3wgCfYbRp1bkKTil7jsL
- Rtpbi8BVjbKDpmdb6gtL7aOfa/qb8rsRWEIgaDD0kMFdCCJluYx7ExXwfmtsYTbMuX2q
- UfThrlCShAKllQ41rajwf1+ozL8OySdGfPEV89ZQn7lfT4NfgpDj47DzN1CbZ/ddbnn2
- dFaDBiJFU+UkV05mQPuxb3sGN6d9cGAg/vhBB3HAiNfqiwwliMU8auIme+fFU6SFTgsk
- LrRr9xk9LpZAeIeGx+NqiF3UB+uoryBXBBWkSR9siGiSiCMKxojt1EXWW1UCK96sVO2s
- hEpA==
+ bh=ip7fFtm6uT1J3MZdzmllHivAdvDKMGFOkrMfVJMWspg=;
+ b=rXHlstHxZkhbwmRznHMIte1nEdM7gR70G0DZy5l1qwZVqc2FEivhZtSpj/HTydkeuq
+ Gnjvu2/kqIfh+oLzwh39zm9IO2sTyYFhhZCLogk5Ffb+FuEeOhjWhYQP+hf5B8kt27wi
+ mxf0BocrCCeohSPCEWICQyTO3oIsICueaY7ZhyiVahJy9YKeWC0UYf+EYn4+dQ+dYN4y
+ W7Kwvx2qucbf+DRTiCF8dB6GW8NZMay+hYOAAFxtxWMZIKO/f94UFgM7E7CKcRsPo6Tu
+ Ruioid7YsJCEp8Lo39gJxqNR0xDioVv7+wei/g+9TWdTiBvR1Scp9NlHrAnHpbA86cNs
+ Brwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OTi4b6eTRDjIWHCjqDBWuf2TkNA+kfsP7A1m0+F3rcU=;
- b=TwD+Sy8iaZDjShFpdKepV0M2tdAm8/ZngWAt59mhW/SN3neNE+r7ofecG+E+pxGeRn
- BVbvjUt1a2KCxbB6yReJTFg2qMWh2smM7MZFOetoSlkDF9UN1nFLoWXo8XwxtrityRkW
- ptrIm3hDVxmwAW3j6SUezVgp23bmF60YE5sWBqaK2ERpOa0XICVRAKcYBMt9Z6rY92UE
- gkPyJ7StXBHnt4u+9bZ8QMVfjpMvKgQW8Q5Oxa+GYkTXEYCiuE9ABx8OSU9rP8jmLDRu
- 1msE2FyEVnKegW2rwWWfGiLTDVeMPagGUpmJ1c2zyvM0q4I3HHsiFp39V9Q/13XAwZ5/
- H4RA==
-X-Gm-Message-State: AOAM530Cp2Y5gKWqNaR9VZ83pNQKxEIQa4dCZcLpmtXCSG/S1rX18TBX
- 1mF2VT/T23c30dEseoRDmK0=
-X-Google-Smtp-Source: ABdhPJzQxNyiS0e0fPXiVqc0cOuMh/D1vb9CnsfdJb6CbpoZXSbyETf61Uvf1Tjp00So1S52qKEnfA==
-X-Received: by 2002:aa7:c1d5:: with SMTP id d21mr21610875edp.167.1615210641536; 
- Mon, 08 Mar 2021 05:37:21 -0800 (PST)
+ bh=ip7fFtm6uT1J3MZdzmllHivAdvDKMGFOkrMfVJMWspg=;
+ b=KxpgTyVXoJ20bPwsjOdGmX4BXACh281Zh48zBOyKC7aNFQ2xabYbC857pU3kn/cIOY
+ jJx00VvwPPK9ixQSGoL0jTa1mLzvOUGjmyl4xEG/54w1dZ50NlAZb+IzviuDhqLICd4q
+ KHaY0wi/hs5b/ieNojvwxhw2JZOOMNJY6WNHlsSnCK1sl2aRYMWcDyxXHt3sSokN5hhF
+ Ma5D840B8ogdght/v8CuCQ25+6R2eyWnigeMJLUBa0uOHQalznjI23oAIqyYWZZbI0xf
+ bqAvMmA0kzBBa9ctPL0MIarHphvfvUzKPZ8Imx7ShSYrc05KC1AGXsABC3Zkvajobx5Z
+ eOMA==
+X-Gm-Message-State: AOAM531WEjJL3GaBDaLqWlhbr4KCgZBe76GFxGVMyFQAl06Pte76Wn6H
+ 4Xbce8SWLtxTkhD43RZFEbwmKKWKgls=
+X-Google-Smtp-Source: ABdhPJwmYT01JsXNSxj4zqShjhb09HawG/j0LNwWWVwqUOUcLUAHrE3bKy3KWQrPrw+STEwgbo4tjw==
+X-Received: by 2002:aa7:cd63:: with SMTP id ca3mr16045080edb.265.1615210986705; 
+ Mon, 08 Mar 2021 05:43:06 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x25sm6984832edv.65.2021.03.08.05.37.20
+ by smtp.gmail.com with ESMTPSA id v1sm6518444ejd.3.2021.03.08.05.43.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 05:37:21 -0800 (PST)
-Subject: Re: [RFC PATCH v2 6/8] cpu: Declare cpu_has_work() in 'sysemu/tcg.h'
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-References: <20210304222323.1954755-1-f4bug@amsat.org>
- <20210304222323.1954755-7-f4bug@amsat.org>
- <ddd0572a-bba2-62ac-27b8-4a7d04257695@suse.de>
+ Mon, 08 Mar 2021 05:43:05 -0800 (PST)
+Subject: Re: [PATCH v4 6/6] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <cover.1614282456.git.balaton@eik.bme.hu>
+ <848089b1c91e0c28eb7c52ccdc55dc870eb49dc0.1614282457.git.balaton@eik.bme.hu>
+ <97399e18-3217-40db-5021-702371d196bc@amsat.org>
+ <c0403b8b-fee1-11e2-a8d0-2af36f66c9@eik.bme.hu>
+ <YD7Wl/21vn7Dkizg@yekko.fritz.box>
+ <bc813a4-51f6-7893-1cff-294e231f743@eik.bme.hu>
+ <8d55999-396-9f7a-6dc-88b1761d1e9e@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a034fce7-57bb-09fb-fda6-058b14e1b3c1@amsat.org>
-Date: Mon, 8 Mar 2021 14:37:19 +0100
+Message-ID: <bac27957-6321-36cf-4389-5d4530b20b38@amsat.org>
+Date: Mon, 8 Mar 2021 14:43:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <ddd0572a-bba2-62ac-27b8-4a7d04257695@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8d55999-396-9f7a-6dc-88b1761d1e9e@eik.bme.hu>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -75,7 +80,7 @@ X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,142 +93,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 1:17 PM, Claudio Fontana wrote:
-> On 3/4/21 11:23 PM, Philippe Mathieu-Daudé wrote:
->> We can only check if a vCPU has work with TCG.
->> Move the cpu_has_work() prototype to "sysemu/tcg.h".
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> RFC: could another accelerator do that?
->>      can we rename this tcg_vcpu_has_work()?
->> ---
->>  include/hw/core/cpu.h | 16 ----------------
->>  include/sysemu/tcg.h  | 11 +++++++++++
->>  accel/tcg/cpu-exec.c  |  7 +++++++
->>  softmmu/cpus.c        |  1 +
->>  4 files changed, 19 insertions(+), 16 deletions(-)
->>
->> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->> index 1376e496a3f..66109bcca35 100644
->> --- a/include/hw/core/cpu.h
->> +++ b/include/hw/core/cpu.h
->> @@ -670,22 +670,6 @@ CPUState *cpu_create(const char *typename);
->>   */
->>  const char *parse_cpu_option(const char *cpu_option);
->>  
->> -/**
->> - * cpu_has_work:
->> - * @cpu: The vCPU to check.
->> - *
->> - * Checks whether the CPU has work to do.
->> - *
->> - * Returns: %true if the CPU has work, %false otherwise.
->> - */
->> -static inline bool cpu_has_work(CPUState *cpu)
->> -{
->> -    CPUClass *cc = CPU_GET_CLASS(cpu);
->> -
->> -    g_assert(cc->has_work);
->> -    return cc->has_work(cpu);
->> -}
->> -
->>  /**
->>   * qemu_cpu_is_self:
->>   * @cpu: The vCPU to check against.
->> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
->> index c16c13c3c69..3d46b0a7a93 100644
->> --- a/include/sysemu/tcg.h
->> +++ b/include/sysemu/tcg.h
->> @@ -10,6 +10,7 @@
->>  
->>  #ifndef CONFIG_TCG
->>  #define tcg_enabled() 0
->> +#define cpu_has_work(cpu) false
-> 
-> email errors, so not sure if my previous message went off.
+On 3/8/21 12:45 PM, BALATON Zoltan wrote:
+> Ping? Is there anything that needs a respin that you're waiting for or
+> you just did not yet have the time yet to merge this series?
 
-Yes, got it.
+I asked you to split patch 4:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg786871.html
 
-> 
-> I am not convinced by this approach of _hiding_ the fact that cpu_has_work is TCG-only from the context where it is used.
-> 
-> When reading the actual code using this, how to get an immediate clue that this is TCG-only?
-> 
-> I think cpu_has_work should either be renamed to tcg_cpu_has_work(), thus providing the context in the name,
-> or it should not be visible/called for non-TCG at all, its call protected in some way (if (tcg_enabled() or ifdef or such..)
+If you can get Paolo to Ack patch #1 and split patch 4, I'm
+OK to queue the VIA patches via the MIPS tree, letting this
+single one for the PPC tree.
 
-If no other accelerator can do that, then I agree. I don't know enough
-all accelerators to be sure.
+Regards,
 
-> 
-> Ciao,
-> 
-> Claudio
-> 
-> 
->>  #else
->>  
->>  void tcg_exec_init(unsigned long tb_size, int splitwx);
->> @@ -26,6 +27,16 @@ extern bool tcg_allowed;
->>  extern bool mttcg_enabled;
->>  #define qemu_tcg_mttcg_enabled() (mttcg_enabled)
->>  
->> +/**
->> + * cpu_has_work:
->> + * @cpu: The vCPU to check.
->> + *
->> + * Checks whether the CPU has work to do.
->> + *
->> + * Returns: %true if the CPU has work, %false otherwise.
->> + */
->> +bool cpu_has_work(CPUState *cpu);
->> +
->>  #endif /* CONFIG_TCG */
->>  
->>  #endif
->> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->> index 7e67ade35b9..b9ce36e59e2 100644
->> --- a/accel/tcg/cpu-exec.c
->> +++ b/accel/tcg/cpu-exec.c
->> @@ -447,6 +447,13 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
->>      return tb;
->>  }
->>  
->> +bool cpu_has_work(CPUState *cpu)
->> +{
->> +    CPUClass *cc = CPU_GET_CLASS(cpu);
->> +
->> +    return cc->has_work(cpu);
->> +}
->> +
->>  static inline bool cpu_handle_halt(CPUState *cpu)
->>  {
->>      if (cpu->halted) {
->> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
->> index a7ee431187a..548ab9236f1 100644
->> --- a/softmmu/cpus.c
->> +++ b/softmmu/cpus.c
->> @@ -42,6 +42,7 @@
->>  #include "sysemu/runstate.h"
->>  #include "sysemu/cpu-timers.h"
->>  #include "sysemu/whpx.h"
->> +#include "sysemu/tcg.h"
->>  #include "hw/boards.h"
->>  #include "hw/hw.h"
->>  
->>
-> 
-> 
+Phil.
 
