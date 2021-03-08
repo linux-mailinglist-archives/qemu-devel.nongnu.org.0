@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7413311E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:15:09 +0100 (CET)
-Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE4433121C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:26:53 +0100 (CET)
+Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJHbA-000060-G6
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:15:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48212)
+	id 1lJHmW-0003M6-Hx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJHZR-00076L-8i
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:13:21 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJHZP-00044I-3b
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:13:20 -0500
-Received: by mail-ed1-x535.google.com with SMTP id h10so15254043edl.6
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 07:13:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T3Kaq6eJZBRNU0SxWs6NohsNuJ9foXdU7TucNLkClUQ=;
- b=rnbJoMqvPVxAIRmM7udbY31FCal9sAnO+owDego8dNihK5lfiMu8cKND/sje7Qkh1s
- snS/KGMGmUv+JBcrE9LVRszPBMVtIELf+C/BPGb7mSE3XDsMc5TKp49PG+iGO0qymMIn
- HT/Rmotlf0LTHF/MLCmPA2cwRfta2tme9Wb9gOGp2/nDQUhvWbi5i8N/5DVrafiXHfTD
- /5GWK1iAR2k6FSlfiCFXZlrm8Ko+6suFnl6/ez3X0qGzPtBm08u7UwpEdeWngyR4fgDS
- 9StSRLSgaS93BmhRWZ1TlvF1HxicG79kxrSIaDBSRkS/TVK08VXUdA8JyRUbEjQb0Oo6
- 86cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T3Kaq6eJZBRNU0SxWs6NohsNuJ9foXdU7TucNLkClUQ=;
- b=RiRXh0tCgqIfsQiOMtxT+EfFk8MvaRVSAAz2rrUJ2S5/Jn+Sb3YHxwUXMKv0+pwJEC
- oWBa+cae/L9DqIK66abE3Q2uKWk7srcWMB8j7FSWuPN/Lb81mAsBjKpNBO1qFtmXGcuW
- SmIEsAlWVftzpbaB3mU8FozoLYR5xSoYQQvrF741HtxMzN7to6ZLJ9Z9FuM9vxYOQ8I7
- I7aPhMo7kXUaU3sjZiAFG1AkE4pD79wwft4Ab2g9h2Wzx1dO/F7YTyDfCshoY/4YuDd+
- 7d+iuxPObhPJXu/ghyEaEHFLh8Ssv0SCwHrAerLjBykbhHwhpGCPQFQp3cIrtYWE+j3p
- tQ7w==
-X-Gm-Message-State: AOAM531tVBqtr5suneev4KCS3GFrfyy7Dk9919WTIAxPjnLppts06U4x
- nO1j5LM+rtH/zrRxVvQBpte8G/6VmfusnnP250t4+g==
-X-Google-Smtp-Source: ABdhPJxjKS8NPWtAhRSUm4ScLTF0QiL0o66kl+7ZO+V6Au8vOu0E52Dny1E6QoJ2/f9ZL8xrb++dGTTHvlOA2VUBJhg=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr3285929edt.36.1615216397629; 
- Mon, 08 Mar 2021 07:13:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJHdP-0002N6-Vy
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:17:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJHdN-0005sd-8x
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:17:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615216643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j3StYLloDS3kczxpH4ftxbUzrmLXw6Q8IbWqxohRATc=;
+ b=cK0vWDXZJ7QCZSJ48GhFqFDYrdwukIzd0coYR+UcWqKaXGYeFMJp/sNrropVEF7qdf4ZNQ
+ rUxf+U6aYDZNvVlwXOzzvYRMflok8a6QjN2hd2vSAV1xR3RJT+c3mAcwhXVAqqJjm8Uj0i
+ d44zdwcC7LO1nA5wq0gE/ZOfHwkoREY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-77-IsuvMZYFNVKUbkn-8D84Aw-1; Mon, 08 Mar 2021 10:17:19 -0500
+X-MC-Unique: IsuvMZYFNVKUbkn-8D84Aw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9335019200C5;
+ Mon,  8 Mar 2021 15:17:18 +0000 (UTC)
+Received: from localhost (ovpn-114-104.ams2.redhat.com [10.36.114.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CCA45D9CD;
+ Mon,  8 Mar 2021 15:17:14 +0000 (UTC)
+Date: Mon, 8 Mar 2021 15:17:08 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2] block/file-posix: Optimize for macOS
+Message-ID: <YEY/9DyFk9U87JtM@stefanha-x1.localdomain>
+References: <20210305121748.65173-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-References: <20210307113403.11028-1-thuth@redhat.com>
- <878s6xam83.fsf@linaro.org>
- <e9809c0e-1dc1-bb42-475d-ac1c032bd075@redhat.com>
-In-Reply-To: <e9809c0e-1dc1-bb42-475d-ac1c032bd075@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Mar 2021 15:12:59 +0000
-Message-ID: <CAFEAcA_xERAsjXX_NRtFxrONrsmwQH4v_r24cwYPLV+-apgK5g@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Merge the Gitlab-CI section into the generic
- CI section
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210305121748.65173-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="b0+B6oEhaGPdN7n9"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,27 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ pkrempa@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Konstantin Nazarov <mail@knazarov.com>,
+ John Snow <jsnow@redhat.com>, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Mar 2021 at 12:33, Thomas Huth <thuth@redhat.com> wrote:
-> Sure, it certainly makes sense to have multiple maintainers, but I think in
-> this section, it might be better to also have someone who's also a
-> maintainer of the qemu-project at gitlab (in case there's something to
-> fix/setup with a custom runner for example, and to avoid wrong
-> expectations)? Maybe Peter finally wants to join here to get finally away
-> from his exclusive merge tests?
+--b0+B6oEhaGPdN7n9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The idea with moving away from my local merge scripts is specifically
-that I *do not* want to be maintaining CI related stuff :-)
-I'm happy that we give the person who does want to be doing that work
-the necessary rights on the qemu-project at gitlab.
+On Fri, Mar 05, 2021 at 09:17:48PM +0900, Akihiko Odaki wrote:
+> This commit introduces "punch hole" operation and optimizes transfer
+> block size for macOS.
+>=20
+> This commit introduces two additional members,
+> discard_granularity and opt_io to BlockSizes type in
+> include/block/block.h. Also, the members of the type are now
+> optional. Set -1 to discard_granularity and 0 to other members
+> for the default values.
+>=20
+> Thanks to Konstantin Nazarov for detailed analysis of a flaw in an
+> old version of this change:
+> https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gist=
+comment-3654667
+>=20
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  block/file-posix.c    | 40 ++++++++++++++++++++++++++++++++++++++--
+>  block/nvme.c          |  2 ++
+>  block/raw-format.c    |  4 +++-
+>  hw/block/block.c      | 12 ++++++++++--
+>  include/block/block.h |  2 ++
+>  5 files changed, 55 insertions(+), 5 deletions(-)
 
-thanks
--- PMM
+The live migration compatibility issue is still present. Migrating to
+another host might not work if the block limits are different.
+
+Here is an idea for solving it:
+
+Modify include/hw/block/block.h:DEFINE_BLOCK_PROPERTIES_BASE() to
+support a new value called "host". The default behavior remains
+unchanged for live migration compatibility but now you can use "host" if
+you know it's okay but don't care about migration compatibility.
+
+The downside to this approach is that users must explicitly say
+something like --drive ...,opt_io_size=3Dhost. But it's still better than
+the situation we have today where user must manually enter values for
+their disk.
+
+Does this sound okay to everyone?
+
+Stefan
+
+--b0+B6oEhaGPdN7n9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBGP/QACgkQnKSrs4Gr
+c8iSeAf/X52/ZFGMjCVSY48E+xJLWqdsvMllGOg9wb/hhM+JKiAlXsUIkShM4kts
+jaONO3KTQ066nGcy446J7yvZpq9ofBzIq0E4f/xpEB+muZqbKlqU10Zr/dKYYMaF
+WgzQGcNWUsgSAPHGsYsdNfKAGOn6J61LLPN/WZ6YP0b06pZ5rMnm4HyLHH0j/zR2
+uXmjYJARltSjl1xwsGDcY3ukUTc6GrQW/tj58U0yZdv3n06tdJsN0zOviuYUJG1+
+0fpmH/JcXGIZUyQKqLOq6pR+5duquMqECVo6/ngiym69UacRrbcfydQ0ou2bbROY
+t6wuAJs02vFUIIYxMn0DJv4GrWSG4A==
+=bY46
+-----END PGP SIGNATURE-----
+
+--b0+B6oEhaGPdN7n9--
+
 
