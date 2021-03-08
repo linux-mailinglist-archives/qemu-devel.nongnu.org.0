@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8A7331666
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:42:55 +0100 (CET)
-Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1E833167F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:47:47 +0100 (CET)
+Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKqE-0007hB-4W
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54652)
+	id 1lJKuw-0003Bj-Nw
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:47:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJnO-0002CJ-II
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:35:54 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJnM-0008EI-Mq
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:35:54 -0500
-Received: by mail-ej1-x630.google.com with SMTP id mm21so21949612ejb.12
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WcywYy0MwbLvp1uGuKwbkEhzLSElonvrYpbBsOj7Qzc=;
- b=GOoYbDgTObfs+5s0dyi1jb7LeWwx3yYBmeO1IqargXh/MdvSLVw+tzNsXg0ym/3V3e
- h2OG+F0azIgSXJeP7eh9tdWG3bLIYkceDUTQwFCx74Nv89cFO9lKCRqgMPtGvgHr2oCu
- smRbYj79+Th5XHCzVDQRnQ3UCAgOG+45mgatUxxoNRcbdmhLQW9WB8HB3Nb+Idt8JGrA
- pS7FWDHbexbb4xr7H1+d+4hIDQ4RaM2jJ9K2fE/FJejkq6ipKZa4gvuNY12zi+psxum4
- 5rHqYUAGjEH1/8e4C88XjE4tDEindRSjzAouzn7rATR+xvyPBTjWB4HsjF5DGUiHgSFp
- Rfrg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJK0I-0000De-JB
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:49:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJK0A-0005D7-S1
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:49:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615225745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9UCNGaouCffr+IFjbGZkFpkEJ4aC5u+JGbZe7VOaKU=;
+ b=fb6AwmKv9FrO5/UPq2oMvJCROjiHimeTXWzHNXIq1UScEfXLtu59Wib5dSTr1DcsrhbXoc
+ q/geE4rVdcz6ok/UDHmV/7qTyyTqHE91Sun/2bIB4+2L4DRsWfsoOLgFdYI6lSDbzwunyE
+ edwqi0FLgHbE3KdSYDKX15iV1/Ycqhg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-sNmhtnSeOgiUIVQ28-zMIw-1; Mon, 08 Mar 2021 12:49:01 -0500
+X-MC-Unique: sNmhtnSeOgiUIVQ28-zMIw-1
+Received: by mail-ej1-f71.google.com with SMTP id r26so4421637eja.22
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:49:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WcywYy0MwbLvp1uGuKwbkEhzLSElonvrYpbBsOj7Qzc=;
- b=DxgYVfM2GxC/txsre9I+DFDv4S3cFq2rBVsfhFHNqie8tkLD7tuJO01Yj5DGWw6Ljb
- o5gQPklsVQfEM9lxURFwYIj+SxnTPzaj6BzHbWBCM2ALULduocal8UrQ44r5EUDKDa/w
- zubo0mwnTrdcF/w/oVrDFLOmkK6/61/OPiG0oQ0ggFB0f+2RcsLCU0M7X2VrXIsMUcxM
- EIXnYPO9UOPGJ+PbAiyfRB4ERtYu+GBn3r3XRnRrmBkfNpGOF4Z9LPycZv0aHxk/qjKf
- YOo2JOdSsJ9LHj7sQvpQy5oC+TJYL1Ym0XpTPVbGXXJZ9UFhbEitotFNoOmAm8sJlSwG
- dl1g==
-X-Gm-Message-State: AOAM530wkZkjQMurVIkdW/cBHn3q+zsrnP8Dn572gHP+A2wMc0YHoryZ
- lETNH0Kp6Hq18myFd7kX2Awd/SUqE1OcK2ZhwbtdxQ==
-X-Google-Smtp-Source: ABdhPJzd21xqibnmXwlr5Nat8Jo6omKLDzFCKF1jDgP1maip9nFkneRaSPoAxCU6Bb+5NbbOvtrWf2rIWwvnQDtY+14=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr16269429ejd.85.1615224951052; 
- Mon, 08 Mar 2021 09:35:51 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+9UCNGaouCffr+IFjbGZkFpkEJ4aC5u+JGbZe7VOaKU=;
+ b=Fwxyi3WBf5plL4+t4um2POjWQjGWfdkFi2BAJ0w29JvTeXaiAWFOPVaKofnWbCYMp1
+ J00uf5x5ZxITv4nNboB2hfyxINr6p/nRD/JBIv/vzIYqokS8y/KFptl1gfyGXk2ULYV+
+ e86iIkXa2k3ZVbZL5w9xp9CkJgRqbd8Ee7ZRM/UchU0hRIFrOMwhCiqaYVKUT/W6r9RZ
+ Regtt9NKSy3x/99cOnQmfo0sNw6explApnaDrK0cbuZnodkBh3B5OSawJhHq/n0qFvpM
+ 47++8GbYCIgg2QUGIGgC9VszfIQra4FjU2ekGWglcmhsYdRmGHNqhmSNSe0dRe7w1gCo
+ JUmQ==
+X-Gm-Message-State: AOAM5324VOtDZHT5ynYY28mMz//MFW6aQ+Mkjz7xk8SbadWmAbfvGIPC
+ KmTRcMDsc+XczKGJiWUbImWGC7FRjmbi/JHt8vSRcM4Lk6hOZ+aX73jb53v8YGKs99IWj1mCo5/
+ d5ozec3zX65DgBuk=
+X-Received: by 2002:aa7:c345:: with SMTP id j5mr22769562edr.338.1615225740450; 
+ Mon, 08 Mar 2021 09:49:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwGy2Y6xWPUQu5QKDb5h1x4XR+NHI6MHzmYFOD0ub8r9Qqze7CNeDEGvwG5FTITpG2jBjYqIw==
+X-Received: by 2002:aa7:c345:: with SMTP id j5mr22769548edr.338.1615225740299; 
+ Mon, 08 Mar 2021 09:49:00 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id k18sm3092305ejo.91.2021.03.08.09.48.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Mar 2021 09:48:59 -0800 (PST)
+Subject: Re: [RFC PATCH v2] meson: Only generate trace files for selected
+ targets
+To: Stefan Hajnoczi <stefanha@redhat.com>, Claudio Fontana <cfontana@suse.de>
+References: <20210224213515.3331631-1-philmd@redhat.com>
+ <YEZU4n1IW6lSQwxl@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <af8022d6-c729-5033-6efa-6a1ea23ebee7@redhat.com>
+Date: Mon, 8 Mar 2021 18:48:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-44-peter.maydell@linaro.org>
- <5283165e-f8f8-fd5b-843c-2010d212785b@linaro.org>
- <CAFEAcA8kLV_gxbD+Gt+c4ShTxcPKEUHYvF26gmtDA_-iAuWdTQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8kLV_gxbD+Gt+c4ShTxcPKEUHYvF26gmtDA_-iAuWdTQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Mar 2021 17:35:34 +0000
-Message-ID: <CAFEAcA-JKTOoUpN=KOkYNsoT6_-wvJFhmkfG0qH84cSOX9CsVg@mail.gmail.com>
-Subject: Re: [PATCH 43/44] docs/system/arm/mps2.rst: Document the new
- mps3-an547 board
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YEZU4n1IW6lSQwxl@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,43 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 at 10:22, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 5 Mar 2021 at 01:28, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 2/19/21 6:46 AM, Peter Maydell wrote:
-> > > @@ -1,5 +1,5 @@
-> > > -Arm MPS2 and MPS3 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``, ``mps3-an524``)
-> > > -=========================================================================================================================================
-> > > +Arm MPS2 and MPS3 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``, ``mps3-an524``, ``mps3-an547``)'
-> > I think you should drop the list here, as it has gotten *way* too long.
-> >
-> > > @@ -27,6 +27,8 @@ QEMU models the following FPGA images:
-> > >     Dual Cortex-M33 as documented in Arm Application Note AN521
-> > >   ``mps3-an524``
-> > >     Dual Cortex-M33 on an MPS3, as documented in Arm Application Note AN524
-> > > +``mps3-an547``
-> > > +  Cortex-M55 on an MPS3, as documented in Arm Application Note AN547
-> >
-> > The list is down here, anyway.
->
-> The title is what generates the text for the table of contents in the
-> next page up:
->
-> https://qemu-project.gitlab.io/qemu/system/target-arm.html#board-specific-documentation
->
-> I like having every board model listed explicitly in that ToC. (Though we
-> have broken this rule for the Aspeed boards with "*-bmc"...)
+On 3/8/21 5:46 PM, Stefan Hajnoczi wrote:
+> On Wed, Feb 24, 2021 at 10:35:15PM +0100, Philippe Mathieu-Daudé wrote:
+>> We don't need to generate trace files for targets we
+>> are not building. Restrict the the ones selected.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  meson.build | 16 ++++++++--------
+>>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index 05a67c20d93..8503aa1b628 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1826,16 +1826,16 @@
+>>    trace_events_subdirs += [
+>>      'accel/tcg',
+>>      'hw/core',
+>> -    'target/arm',
+>> -    'target/hppa',
+>> -    'target/i386',
+>>      'target/i386/kvm',
+> 
+> Please add a comment explaining why an exception is needed here and the
+> rest of the target directories are handled by the loop below when you
+> send a non-RFC patch.
 
-I put this patch into the pullreq as-is, because the series is otherwise
-ready to go and this was a minor thing; happy to send a followup patch
-tweaking the title text if we conclude that we want to do that.
+Better would be a recursive function that adds the directory if
+necessary. But I'm happy adding a simple comment =)
 
-thanks
--- PMM
+> 
+> That will help people who add sub-directories in the future.
+
+Yes. Anyhow I expect this to clash with Claudio's work in progress
+(which split target/ and add multiple subdirectories).
+
 
