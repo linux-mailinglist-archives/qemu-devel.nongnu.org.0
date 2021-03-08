@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C8A330FB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:41:52 +0100 (CET)
-Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4087330F8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:39:27 +0100 (CET)
+Received: from localhost ([::1]:40166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJG8t-0005zP-Es
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:41:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
+	id 1lJG6Y-0003SD-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:39:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEwH-0003uy-GN; Mon, 08 Mar 2021 07:24:45 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:59205)
+ id 1lJEwJ-0003yC-Iw; Mon, 08 Mar 2021 07:24:47 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:47463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEwF-0007Ec-V8; Mon, 08 Mar 2021 07:24:45 -0500
+ id 1lJEwH-0007FY-LJ; Mon, 08 Mar 2021 07:24:47 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 6943536DC;
- Mon,  8 Mar 2021 07:24:08 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id E4AC536E3;
+ Mon,  8 Mar 2021 07:24:09 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:24:09 -0500
+ by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:24:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Gcw/g+GsiTRXS
- NcHgsCWC8LWRvOT5TBhsmz4OdUQamE=; b=xhACST0B8//ZxI7/TdXikgVMnP9mZ
- Mx+Hm4znZRwpddmvCcUMwTYgh4t1T1GMeSF0YPOhPoODNJNsExi69YbMN7Fk4k0s
- 83BTnEjKtCcrp010a396BGNF6xtostkqyvToGDmQbGeWKSenFhLTlNMZO3SX8vXk
- lrCDamWGG0fdtIqk35oex+2kDw3y2yNagxYAmm2NABVcl51smtJKYTAXJLa97T81
- sshsCd6nGkb0bNZoS56yrUQgvGV/Aycw7LTpy5m21VAiFUJqkVHeG/Eh8wmbdPrW
- 67Tvv6Nf0IK2DY4hAQKUtx9o48sY5zjJLe9udoD9dDSM3IKJMLxFFXnxg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Q7itcGoTqmNSN
+ MmSWuZjgBCbDtOz7K3OK9K5REGHCdo=; b=VWmSgVjjJSODS3nPaPDaxuJDnQzIj
+ p8d3HEF5onPT46C3O22Dy5fg30oF/3lg4NLSvWzdQAtmnI14qKutz7EPqXcPST+a
+ Hv5M+BqTXo/dps5jLhgUZkbiBAVoy7ftH+vjrqx2aGGuKUhzWFspbPOTMJleuumT
+ l2gkPLnvxub1cXAevCMLrk9OCymHysR3XciaK5EnUgjbLoZXf0I47OhXGrRHMdHy
+ smzgpBXxHfZVBUMFBt3l32jYjfXTp1oOQqo2EFpgXF94ri8A2iCgkXBEpGl6BXsX
+ FFrCVOXGWYcAldRJGKqceUAMzbPOS1wXy48Cc/KdYwtfphSy+BfiA04JQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Gcw/g+GsiTRXSNcHgsCWC8LWRvOT5TBhsmz4OdUQamE=; b=k367UFCa
- a30owsKzqLoGTghbf676H74T/83ayRJONqb2tRpGzEHoExEK6rzD/csBgVLSPgUZ
- /+l+vIJMbjVcbVVB/BDg/rl+3x8b3fXQy1IKXlkKD3uUJ9FgKWhsF6aQkQf22fVd
- j75ruuvrhkX9ra9BjGX2RMBq6MmQ+nNf3/65mdCKtfcVyOsgkDM8dSkyHtjA2/Ac
- 1QYwNREJRSkkH5kticPsTJZIdn7QciH0bUhZ91VpdXWjdsgY1H2AmzPEpyTmfxsW
- klhJJxTHMiHVsixaPnwRx8ti0lRYszPtcY3a8QKua+83fSEaGgfndxkW99//41bg
- nw1hvztJa9Do1w==
-X-ME-Sender: <xms:ZxdGYAuxUa-m7VGVjshJhuySN8QE7O-R_PkfCRPuheAbt_oai6upFw>
- <xme:ZxdGYLRRHKSICW-tJ9Z3q4EdvbXoJ41lDeDWQZM9SZ_-doKXyzghy2-dVzrosEEkU
- _mwJgmm0msL4hlT9QM>
+ fm2; bh=Q7itcGoTqmNSNMmSWuZjgBCbDtOz7K3OK9K5REGHCdo=; b=I4W3W/VR
+ ofetVjLAIzlA7W/mlmS+Ofs0LxIOowmed1gAA+8AOuLLibhqYtvxuS0cFjOUxEmr
+ QBzmhTI6ce+T300djQD1ikeiaH7JvnXjqPw9lWLFsNf1Ub0VFfmhWyUF1FR+zXfk
+ gbW4zbRwvpdFBgworwrFoaNYNplIfAYDF66Q8PB2jq+N+3JpZOjktCXLzbnTTFX/
+ RlsUHLTijF5Ikctuj/iQHvwO+kB0t0lXj7flKvcjYGYjSKl6JR/WsBtNY+6BH93G
+ 3dBgcKJucxx5IAsKaOrB7Y3ujfww7tGzHszUkGfENYlICvXK9onrPXmIaw7Kjnfe
+ 8l1K4cK1SGHH+A==
+X-ME-Sender: <xms:aRdGYN8FgHE8OfgMWiw1jwrLSV7CNJTMpgmgw5HlwbqHQlVtFqAhqA>
+ <xme:aRdGYHtRX_3WJhTgOkH0RtEVhYiG7XmmeEUl4hnHJgef0vFgc_jCDtfOTjfZZOQoN
+ wvgrtzgO94opFyYtdM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvje
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ZxdGYGO3p2g0XUISkwT3R-2cMuw89x8RmDFTI_iKb0fhUfztOKmncQ>
- <xmx:ZxdGYAZVBnYCn9FfpG5-YyCoTZWlTR5CjfiqSpaig8rokDJe8So1kg>
- <xmx:ZxdGYAyriA6UNVoTd7Qj-uW6rwomxyyf9b2oCiKavRJEFYFQ7-Ia0w>
- <xmx:aBdGYJdjhORwSir7TeFrPxiVQqKybsl4kpXy485YTm5Jbuy4ey3w3kcyrUA>
+X-ME-Proxy: <xmx:aRdGYF2c7t_xRh96PcYC5vjRE6aWnGS9aNXO-GKJQeIO0MCm9BHp3Q>
+ <xmx:aRdGYEQyQkfAZE2azfrx1e2GwbLEsMDmoVnygtfkjyM1se_LbcTvrg>
+ <xmx:aRdGYBdBg6gK7m0gdgVP-YOVdX4ZS8OMRhJi8iwtQb7QbjukzOcGzg>
+ <xmx:aRdGYDEntg71lhTt5xUy2bjhK1ECXSzNe_RaCOEVYLBk5re6DPpGnqRRtes>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 90A3C1080066;
- Mon,  8 Mar 2021 07:24:06 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2889B1080069;
+ Mon,  8 Mar 2021 07:24:08 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 33/38] hw/block/nvme: fix allocated namespace list to 256
-Date: Mon,  8 Mar 2021 13:23:08 +0100
-Message-Id: <20210308122313.286938-34-its@irrelevant.dk>
+Subject: [PULL 34/38] hw/block/nvme: support allocated namespace type
+Date: Mon,  8 Mar 2021 13:23:09 +0100
+Message-Id: <20210308122313.286938-35-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308122313.286938-1-its@irrelevant.dk>
 References: <20210308122313.286938-1-its@irrelevant.dk>
@@ -103,17 +103,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-Expand allocated namespace list (subsys->namespaces) to have 256 entries
-which is a value lager than at least NVME_MAX_NAMESPACES which is for
-attached namespace list in a controller.
+From NVMe spec 1.4b "6.1.5. NSID and Namespace Relationships" defines
+valid namespace types:
 
-Allocated namespace list should at least larger than attached namespace
-list.
+	- Unallocated: Not exists in the NVMe subsystem
+	- Allocated: Exists in the NVMe subsystem
+	- Inactive: Not attached to the controller
+	- Active: Attached to the controller
 
-	n->num_namespaces = NVME_MAX_NAMESPACES;
+This patch added support for allocated, but not attached namespace type:
 
-The above line will set the NN field by id->nn so that the subsystem
-should also prepare at least this number of namespace list entries.
+	!nvme_ns(n, nsid) && nvme_subsys_ns(n->subsys, nsid)
+
+nvme_ns() returns attached namespace instance of the given controller
+and nvme_subsys_ns() returns allocated namespace instance in the
+subsystem.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
@@ -121,40 +125,173 @@ Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Tested-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-subsys.h | 2 +-
- hw/block/nvme.h        | 6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/block/nvme-subsys.h | 13 +++++++++
+ hw/block/nvme.c        | 63 +++++++++++++++++++++++++++++++-----------
+ 2 files changed, 60 insertions(+), 16 deletions(-)
 
 diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index 574774390c4c..8a0732b22316 100644
+index 8a0732b22316..14627f9ccb41 100644
 --- a/hw/block/nvme-subsys.h
 +++ b/hw/block/nvme-subsys.h
-@@ -14,7 +14,7 @@
-     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
- 
- #define NVME_SUBSYS_MAX_CTRLS   32
--#define NVME_SUBSYS_MAX_NAMESPACES  32
-+#define NVME_SUBSYS_MAX_NAMESPACES  256
- 
- typedef struct NvmeCtrl NvmeCtrl;
- typedef struct NvmeNamespace NvmeNamespace;
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index cd8d40634411..85a7b5a14f4e 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -10,6 +10,12 @@
- #define NVME_DEFAULT_ZONE_SIZE   (128 * MiB)
- #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
+@@ -30,4 +30,17 @@ typedef struct NvmeSubsystem {
+ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
+ int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp);
  
 +/*
-+ * Subsystem namespace list for allocated namespaces should be larger than
-+ * attached namespace list in a controller.
++ * Return allocated namespace of the specified nsid in the subsystem.
 + */
-+QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_SUBSYS_MAX_NAMESPACES);
++static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
++        uint32_t nsid)
++{
++    if (!subsys) {
++        return NULL;
++    }
 +
- typedef struct NvmeParams {
-     char     *serial;
-     uint32_t num_queues; /* deprecated since 5.1 */
++    return subsys->namespaces[nsid];
++}
++
+ #endif /* NVME_SUBSYS_H */
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index bfbdc8213c2b..3bfe10f5b517 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3253,7 +3253,7 @@ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+     return nvme_c2h(n, id, sizeof(id), req);
+ }
+ 
+-static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+ {
+     NvmeNamespace *ns;
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+@@ -3267,7 +3267,14 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+ 
+     ns = nvme_ns(n, nsid);
+     if (unlikely(!ns)) {
+-        return nvme_rpt_empty_id_struct(n, req);
++        if (!active) {
++            ns = nvme_subsys_ns(n->subsys, nsid);
++            if (!ns) {
++                return nvme_rpt_empty_id_struct(n, req);
++            }
++        } else {
++            return nvme_rpt_empty_id_struct(n, req);
++        }
+     }
+ 
+     if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
+@@ -3277,7 +3284,8 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_INVALID_CMD_SET | NVME_DNR;
+ }
+ 
+-static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
++        bool active)
+ {
+     NvmeNamespace *ns;
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+@@ -3291,7 +3299,14 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
+ 
+     ns = nvme_ns(n, nsid);
+     if (unlikely(!ns)) {
+-        return nvme_rpt_empty_id_struct(n, req);
++        if (!active) {
++            ns = nvme_subsys_ns(n->subsys, nsid);
++            if (!ns) {
++                return nvme_rpt_empty_id_struct(n, req);
++            }
++        } else {
++            return nvme_rpt_empty_id_struct(n, req);
++        }
+     }
+ 
+     if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
+@@ -3304,7 +3319,8 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_INVALID_FIELD | NVME_DNR;
+ }
+ 
+-static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
++        bool active)
+ {
+     NvmeNamespace *ns;
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+@@ -3329,7 +3345,14 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     for (i = 1; i <= n->num_namespaces; i++) {
+         ns = nvme_ns(n, i);
+         if (!ns) {
+-            continue;
++            if (!active) {
++                ns = nvme_subsys_ns(n->subsys, i);
++                if (!ns) {
++                    continue;
++                }
++            } else {
++                continue;
++            }
+         }
+         if (ns->params.nsid <= min_nsid) {
+             continue;
+@@ -3343,7 +3366,8 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     return nvme_c2h(n, list, data_len, req);
+ }
+ 
+-static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
++        bool active)
+ {
+     NvmeNamespace *ns;
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+@@ -3369,7 +3393,14 @@ static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req)
+     for (i = 1; i <= n->num_namespaces; i++) {
+         ns = nvme_ns(n, i);
+         if (!ns) {
+-            continue;
++            if (!active) {
++                ns = nvme_subsys_ns(n->subsys, i);
++                if (!ns) {
++                    continue;
++                }
++            } else {
++                continue;
++            }
+         }
+         if (ns->params.nsid <= min_nsid || c->csi != ns->csi) {
+             continue;
+@@ -3452,25 +3483,25 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+ 
+     switch (c->cns) {
+     case NVME_ID_CNS_NS:
+-         /* fall through */
++        return nvme_identify_ns(n, req, true);
+     case NVME_ID_CNS_NS_PRESENT:
+-        return nvme_identify_ns(n, req);
++        return nvme_identify_ns(n, req, false);
+     case NVME_ID_CNS_CS_NS:
+-         /* fall through */
++        return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
+-        return nvme_identify_ns_csi(n, req);
++        return nvme_identify_ns_csi(n, req, false);
+     case NVME_ID_CNS_CTRL:
+         return nvme_identify_ctrl(n, req);
+     case NVME_ID_CNS_CS_CTRL:
+         return nvme_identify_ctrl_csi(n, req);
+     case NVME_ID_CNS_NS_ACTIVE_LIST:
+-         /* fall through */
++        return nvme_identify_nslist(n, req, true);
+     case NVME_ID_CNS_NS_PRESENT_LIST:
+-        return nvme_identify_nslist(n, req);
++        return nvme_identify_nslist(n, req, false);
+     case NVME_ID_CNS_CS_NS_ACTIVE_LIST:
+-         /* fall through */
++        return nvme_identify_nslist_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT_LIST:
+-        return nvme_identify_nslist_csi(n, req);
++        return nvme_identify_nslist_csi(n, req, false);
+     case NVME_ID_CNS_NS_DESCR_LIST:
+         return nvme_identify_ns_descr_list(n, req);
+     case NVME_ID_CNS_IO_COMMAND_SET:
 -- 
 2.30.1
 
