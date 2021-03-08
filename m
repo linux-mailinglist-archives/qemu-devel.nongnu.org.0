@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F0E330ECE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:02:50 +0100 (CET)
-Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95D6330EDD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:08:04 +0100 (CET)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJFX7-00006H-VM
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:02:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
+	id 1lJFcB-00048C-L1
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:08:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEvM-0003Jo-Dx; Mon, 08 Mar 2021 07:23:48 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:53575)
+ id 1lJEvS-0003On-Od; Mon, 08 Mar 2021 07:23:54 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:52061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEvJ-00070W-2M; Mon, 08 Mar 2021 07:23:47 -0500
+ id 1lJEvO-000720-5W; Mon, 08 Mar 2021 07:23:54 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E3D445C0103;
- Mon,  8 Mar 2021 07:23:42 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id D0DAFFA8;
+ Mon,  8 Mar 2021 07:23:44 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:23:42 -0500
+ by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:23:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=XWZR4rNGSbpWk
- TdETrQJffVntsGaMT3SFwA1Yctnp9E=; b=u/+7pncNeawN7Vy4GE7/29feOUCut
- XfcrdRpyzb3YJrgZgD+Sd8XL202f0yUguNZdK3Ld2YYCv/hqyEFLS91zIrXhH10e
- UiYFt3zGgkiqZptOnVf0v6bXoVjECVqUXgJtf410BFJyLtXSI2sUcZMnLifqWLbE
- 4cJ0veZJnkI4qlXD4CVAbiDGS++dA9RsbSaSC3bwKfEEs4rI3yJfa5dCmh5DtpAt
- 6FUEfwVASYr/LDAG58lNc2bDZKK8PkbC9N3fvRZNmFsPNPGCSeVxhoWXhuS2lOaK
- ZPFEp2gKjMYYoCNM2s/rWW/6VKzE4gCuOkovfjrs8Pwxnf0jtgWXAaE0g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=yJP2uiNmANJEZ
+ k6C4uLBD2ASYoiONFjfxe94h+S8yXk=; b=mYYcjfTKldB2rSm+dm1yFy9U5Lh/f
+ zGhWUTnlhf6zBMJZ+4CoI/iOL2RLZbbSN7lnBk7SIzGhjNOVs0pT5C5zOWaJeRH+
+ bEzdaL7Be5gw+73cW3BWfWG1scWeA43td7Dcr9X5QNXm37FxG59Fy83J3md4VQP8
+ NHEmS0jynlVbeTqckrd9UgouMRcti+G8+X6pP7clExLzUDfgXvfLYeB7S50Km23A
+ ZL08MBHGphqDxQggcp/DUnHXsh+Aa3w1JMnyou2Z5K4ag+MXMxbnsSj/NZYvCGF0
+ nN7p4To5u1Ge/ttLSrGoV/XpUUuIs6WfKw0oZScTp3DuE5v0cHfvhS+Ag==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=XWZR4rNGSbpWkTdETrQJffVntsGaMT3SFwA1Yctnp9E=; b=R3KZvGmJ
- 2fQ1odRkxkniJ1uqgLK4r1MK2EQJfqJ77oLrnLx2wUq1V+rHrQaoT/dJ7pYqwItn
- T1hsH6+K/pUWc6+xdtvIzqoMAOiFknYg54euRjr22dgKkHs4IgV7Z399l/QymZk3
- Zsc2Bn/HAmpX8R2HjQZXULCOLTldr6m4uMTsQQg4AkPC2oNRN+Sevucc+8HEjIIc
- LZzdVByassNS17F1t6FBBEDFYfKHOkRlQeGXf2Qv5bOIB8focLV7Uwn437qE5sym
- DFJ83tzkjrLjZ/H3S+DpprMfbnNOH9bqlc9L+THjwOVtb/l+GqU1rkBADu+60fkv
- njaPfTNWEOAW/Q==
-X-ME-Sender: <xms:ThdGYHMqf9AX1FszknurqapGgLXlxpdg2AhmDq_wnOsvz3eB91YJ6Q>
- <xme:ThdGYLkX4b0rrj_M-ZKzUQC5rhsjyCj3fu8QHHoRbOkxrGy9L4DBw47RGXa9yGIOZ
- MYT1n9HDOaX2cbBXag>
+ fm2; bh=yJP2uiNmANJEZk6C4uLBD2ASYoiONFjfxe94h+S8yXk=; b=NRyTLUvK
+ 7sY4pgWRXNVMBUKQRIQU+gwfX2WoT8QoZuLXx0xgvG9yLiuTVbm4gZrpLaCTCyz5
+ rXiEc9KYH8N5pKya7adnzsgOVaLMweTb/TUaMGwfWN8AED4F4fOvkH4E7wmviQ/v
+ ArZqWpvTPmGRVaaD9Huf4yII+m1msKluv2GGQFFIm6DQ/1iNd4PcFy7tWIPLeWTh
+ AdcrIudhbUcJdwK/zTwgWz32XR4SWoVfkS4Iw0fGZGYj3ldqEqEqWYFnnhKf4RI4
+ j+meQnl6/HT89QHUrmiHTtWTZAZNcPZtYJu6paKOAvOcRNG74B1Am/rjJvPC9+7N
+ L5HpUpw7Bc3uXA==
+X-ME-Sender: <xms:UBdGYEHfS1sfXj974ZgO73IthxwmlxHhDhw3TVSh0f6rosZIbTzogQ>
+ <xme:UBdGYNWQxH_gytwHu9fdtt4XNK4Nd2Pi1lWTkc0EDJFT2X3lxpyZKbz64bGSvh_od
+ MVPH5LRwwkkz73mPAQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,33 +53,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeduvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ThdGYGRHhRLuOE5YESbEfmBcbq97rpD7SM__8AInNVSWtru4ieDwRw>
- <xmx:ThdGYPBFkV0fWgsPdEYCHp7_-JR3HncQZsWrUfugRcSAXLFH4YR0Vg>
- <xmx:ThdGYNTqut27WSOH6U25Qq4Hzk7JfqoLu06Uc8qyPlxNHPCXo5L2Tw>
- <xmx:ThdGYGQmj8HY42mTpTYjdfr805afpFjMNoimGOAvEh3BZg5HotCn5w>
+X-ME-Proxy: <xmx:UBdGYOJgjTJoiOkUkvhWKZH_zdiVLMTnujAKyy8wxQTXBaqk8tXR-Q>
+ <xmx:UBdGYGG4eBzbAvoHfsEj0LFAZN6N7wgEPqorbPgdTnpy6Xu4FbnHKQ>
+ <xmx:UBdGYKVrvegB1E7qS0e_0d2j9EOi5fyOXcK4aEg18yBFu13v8J1XxQ>
+ <xmx:UBdGYFH692yKdrntZ8maRNY6OfWTOWZpzYPRD5vY5fVUD7e6QQbkPQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 99D261080059;
- Mon,  8 Mar 2021 07:23:41 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 16FA61080059;
+ Mon,  8 Mar 2021 07:23:42 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/38] hw/block/nvme: document 'mdts' nvme device parameter
-Date: Mon,  8 Mar 2021 13:22:52 +0100
-Message-Id: <20210308122313.286938-18-its@irrelevant.dk>
+Subject: [PULL 18/38] hw/block/nvme: deduplicate bad mdts trace event
+Date: Mon,  8 Mar 2021 13:22:53 +0100
+Message-Id: <20210308122313.286938-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308122313.286938-1-its@irrelevant.dk>
 References: <20210308122313.286938-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,31 +102,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Document the 'mdts' nvme device parameter.
+If mdts is exceeded, trace it from a single place.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/block/nvme.c       | 6 +-----
+ hw/block/trace-events | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1cd82fa3c9fe..6a27b28f2c2d 100644
+index 6a27b28f2c2d..25a7726ca05b 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -63,6 +63,12 @@
-  *   completion when there are no outstanding AERs. When the maximum number of
-  *   enqueued events are reached, subsequent events will be dropped.
-  *
-+ * - `mdts`
-+ *   Indicates the maximum data transfer size for a command that transfers data
-+ *   between host-accessible memory and the controller. The value is specified
-+ *   as a power of two (2^n) and is in units of the minimum memory page size
-+ *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
-+ *
-  * - `zoned.append_size_limit`
-  *   The maximum I/O size in bytes that is allowed in Zone Append command.
-  *   The default is 128KiB. Since internally this this value is maintained as
+@@ -1075,6 +1075,7 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
+     uint8_t mdts = n->params.mdts;
+ 
+     if (mdts && len > n->page_size << mdts) {
++        trace_pci_nvme_err_mdts(len);
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
+ 
+@@ -1945,7 +1946,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_mdts(n, len);
+     if (status) {
+-        trace_pci_nvme_err_mdts(nvme_cid(req), len);
+         return status;
+     }
+ 
+@@ -2048,7 +2048,6 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_mdts(n, data_size);
+     if (status) {
+-        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
+         goto invalid;
+     }
+ 
+@@ -2116,7 +2115,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+     if (!wrz) {
+         status = nvme_check_mdts(n, data_size);
+         if (status) {
+-            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
+             goto invalid;
+         }
+     }
+@@ -2610,7 +2608,6 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_mdts(n, data_size);
+     if (status) {
+-        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
+         return status;
+     }
+ 
+@@ -3052,7 +3049,6 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_mdts(n, len);
+     if (status) {
+-        trace_pci_nvme_err_mdts(nvme_cid(req), len);
+         return status;
+     }
+ 
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index b04f7a3e1890..e1a85661cf3f 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -114,7 +114,7 @@ pci_nvme_clear_ns_close(uint32_t state, uint64_t slba) "zone state=%"PRIu32", sl
+ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Empty state"
+ 
+ # nvme traces for error conditions
+-pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
++pci_nvme_err_mdts(size_t len) "len %zu"
+ pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
+ pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
 -- 
 2.30.1
 
