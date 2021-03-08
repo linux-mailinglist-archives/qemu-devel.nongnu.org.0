@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9483330EEA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:12:06 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECDD330EF7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:16:50 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJFg5-0006KN-NM
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36572)
+	id 1lJFkg-0001b3-0S
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEwL-000406-0C; Mon, 08 Mar 2021 07:24:49 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:36423)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lJEza-0006Re-4t
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:28:10 -0500
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:53682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEwI-0007Fn-DS; Mon, 08 Mar 2021 07:24:48 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id AEE9136D0;
- Mon,  8 Mar 2021 07:24:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:24:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=i/n9370AOIpR/
- +xkc4ISrFLYa4PWa4WVUCvoki9JL1E=; b=GudtiS+Fk5ALL1YXcjcu6k2QG0HI6
- F7U2eVjhfhcaxJIivaaXtnN2mOoa83x7jOlOzi8DRLoGYdZ+M/Z07oNoSoGHloP7
- 1L0sS5Sgg0mh0fD59/p/LJ5r9Ixsjzq82Ike4+X6WHFmvMmfDkZCJah7eC3xjtRl
- 5OlcZvst+njPfLDA2lnrU4Gchp7PK1Tx/hrbQPcICkgC5KlKLon0tVJhrJxttxDr
- RWKGgHzwX/Daa21FKUeUqdxoOIe6AKLlfU45DE5rLZS9szuCRupbkYmHsq7wihVX
- AQGDG/pjTgDDFk4ORoZbgeCffONONStyP0YK6pdwLKyMONbfSDeXCC8Yw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=i/n9370AOIpR/+xkc4ISrFLYa4PWa4WVUCvoki9JL1E=; b=V2kxi0tS
- NbrUU1h8a677pErsFVo/JvRO84OSMh1l9oV5JQ0aegsDG4b0iYZ6Qo9ybotsK7sh
- cBj4jM0hGg3tqJBCsURCE5qqRxZcFdtw7UXt2mK10wq9DmyXoIuOQpJ1Gcr8m469
- FM0bUkcbh92ctl2ba83u4vURxkMJCGJUMjWeo8WREz6WdrF7Rr3kgg/zexWnwm2D
- wPeWZsiQVLIcyd9apTbxHCyq7yIWMnjBzdm6646QVxgmqON2DNESMkhKypBXv9C9
- Fa8OxOAcAlG7s2hK1XrRZa5V90kYDLqaHZsol3SS1txbQNj1kUD/GuLc04p4kAtM
- UNynRt++iMmsnQ==
-X-ME-Sender: <xms:bhdGYBTmxaMxJtjFrygRF8rPXG3N11y7ZNzdTKJfH9arNwKSx3LZ_Q>
- <xme:bhdGYKwKX0LA-2OFq7KZ5JGN60EBeSchSl4KDULLo45gVPKVZE9k780MoQiPBtm2B
- VB1aHupAEMRMDASA2E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeefud
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:bhdGYG1r_puxzHIQaZYalVyur2GNWpe-sQuW9WNq25M-FtQd46T7oQ>
- <xmx:bhdGYJAXN9Pyb2oG-fxTZEDihvZmRTz75rP9Mjnxu6e7KKiQZ_tIWw>
- <xmx:bhdGYKgspEKtgNP5NviXFkjNNnZxLOO7RxzWnU8Y-oQVpZx1DFPkyg>
- <xmx:bhdGYDUJg12O9c2cMrN7fkwQQdYWoPzdusGySt3w5TSub25kaGG74-XFlHo>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CE2A41080064;
- Mon,  8 Mar 2021 07:24:12 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 37/38] hw/block/nvme: support changed namespace asynchronous
- event
-Date: Mon,  8 Mar 2021 13:23:12 +0100
-Message-Id: <20210308122313.286938-38-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210308122313.286938-1-its@irrelevant.dk>
-References: <20210308122313.286938-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lJEzY-0000NG-02
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:28:09 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 08CB731A;
+ Mon,  8 Mar 2021 13:28:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6g1hiqJ38iv3; Mon,  8 Mar 2021 13:28:03 +0100 (CET)
+Received: from begin.home (unknown
+ [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id DC24925F;
+ Mon,  8 Mar 2021 13:28:02 +0100 (CET)
+Received: from samy by begin.home with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1lJEzQ-006FwR-SH; Mon, 08 Mar 2021 13:28:00 +0100
+Date: Mon, 8 Mar 2021 13:28:00 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH 4/4] slirp: feature detection for smbd
+Message-ID: <20210308122800.urarbnaddnvbchmh@begin>
+References: <20210308064821.81427-1-j@getutm.app>
+ <20210308064821.81427-5-j@getutm.app>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
- helo=wnew4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210308064821.81427-5-j@getutm.app>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 08CB731A
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=2a0c:e300::1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,198 +76,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+Joelle van Dyne, le dim. 07 mars 2021 22:48:21 -0800, a ecrit:
+> Replace Windows specific macro with a more generic feature detection
+> macro. Allows slirp smb feature to be disabled manually as well.
+> 
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
 
-If namespace inventory is changed due to some reasons (e.g., namespace
-attachment/detachment), controller can send out event notifier to the
-host to manage namespaces.
+Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-This patch sends out the AEN to the host after either attach or detach
-namespaces from controllers.  To support clear of the event from the
-controller, this patch also implemented Get Log Page command for Changed
-Namespace List log type.  To return namespace id list through the
-command, when namespace inventory is updated, id is added to the
-per-controller list (changed_ns_list).
+> ---
+>  configure   | 26 +++++++++++++++++++++++---
+>  meson.build |  3 +++
+>  net/slirp.c | 16 ++++++++--------
+>  3 files changed, 34 insertions(+), 11 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 34fccaa2ba..8335a3e6a0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -465,6 +465,7 @@ fuse_lseek="auto"
+>  multiprocess="auto"
+>  
+>  malloc_trim="auto"
+> +slirp_smbd="auto"
+>  
+>  # parse CC options second
+>  for opt do
+> @@ -834,8 +835,6 @@ do
+>      fi
+>  done
+>  
+> -: ${smbd=${SMBD-/usr/sbin/smbd}}
+> -
+>  # Default objcc to clang if available, otherwise use CC
+>  if has clang; then
+>    objcc=clang
+> @@ -1560,6 +1559,10 @@ for opt do
+>    ;;
+>    --disable-multiprocess) multiprocess="disabled"
+>    ;;
+> +  --enable-slirp-smbd) slirp_smbd=yes
+> +  ;;
+> +  --disable-slirp-smbd) slirp_smbd=no
+> +  ;;
+>    *)
+>        echo "ERROR: unknown option $opt"
+>        echo "Try '$0 --help' for more information"
+> @@ -1913,6 +1916,7 @@ disabled with --disable-FEATURE, default is enabled if available
+>    fuse            FUSE block device export
+>    fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+>    multiprocess    Out of process device emulation support
+> +  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
+>  
+>  NOTE: The object files are built at the place where configure is launched
+>  EOF
+> @@ -5252,6 +5256,19 @@ case "$slirp" in
+>      ;;
+>  esac
+>  
+> +# Check for slirp smbd dupport
+> +: ${smbd=${SMBD-/usr/sbin/smbd}}
+> +if test "$slirp_smbd" != "no" ; then
+> +  if test "$mingw32" = "yes" ; then
+> +    if test "$slirp_smbd" = "yes" ; then
+> +      error_exit "Host smbd not supported on this platform."
+> +    fi
+> +    slirp_smbd=no
+> +  else
+> +    slirp_smbd=yes
+> +  fi
+> +fi
+> +
+>  ##########################################
+>  # check for usable __NR_keyctl syscall
+>  
+> @@ -5527,7 +5544,10 @@ fi
+>  if test "$guest_agent" = "yes" ; then
+>    echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
+>  fi
+> -echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+> +if test "$slirp_smbd" = "yes" ; then
+> +  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
+> +  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+> +fi
+>  if test "$vde" = "yes" ; then
+>    echo "CONFIG_VDE=y" >> $config_host_mak
+>    echo "VDE_LIBS=$vde_libs" >> $config_host_mak
+> diff --git a/meson.build b/meson.build
+> index ba0db9fa1f..773ce512c7 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2629,6 +2629,9 @@ summary_info += {'pixman':            pixman.found()}
+>  summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
+>  # TODO: add back version
+>  summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
+> +if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
+> +  summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
+> +endif
+>  summary_info += {'libtasn1':          config_host.has_key('CONFIG_TASN1')}
+>  summary_info += {'PAM':               config_host.has_key('CONFIG_AUTH_PAM')}
+>  summary_info += {'iconv support':     iconv.found()}
+> diff --git a/net/slirp.c b/net/slirp.c
+> index be914c0be0..b3ded2aac1 100644
+> --- a/net/slirp.c
+> +++ b/net/slirp.c
+> @@ -27,7 +27,7 @@
+>  #include "net/slirp.h"
+>  
+>  
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>  #include <pwd.h>
+>  #include <sys/wait.h>
+>  #endif
+> @@ -90,7 +90,7 @@ typedef struct SlirpState {
+>      Slirp *slirp;
+>      Notifier poll_notifier;
+>      Notifier exit_notifier;
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>      gchar *smb_dir;
+>  #endif
+>      GSList *fwd;
+> @@ -103,7 +103,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
+>  static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
+>  static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
+>  
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>  static int slirp_smb(SlirpState *s, const char *exported_dir,
+>                       struct in_addr vserver_addr, Error **errp);
+>  static void slirp_smb_cleanup(SlirpState *s);
+> @@ -367,7 +367,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+>      struct in6_addr ip6_prefix;
+>      struct in6_addr ip6_host;
+>      struct in6_addr ip6_dns;
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>      struct in_addr smbsrv = { .s_addr = 0 };
+>  #endif
+>      NetClientState *nc;
+> @@ -477,7 +477,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+>          return -1;
+>      }
+>  
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>      if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
+>          error_setg(errp, "Failed to parse SMB address");
+>          return -1;
+> @@ -592,7 +592,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+>              }
+>          }
+>      }
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>      if (smb_export) {
+>          if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
+>              goto error;
+> @@ -784,7 +784,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
+>  
+>  }
+>  
+> -#ifndef _WIN32
+> +#if defined(CONFIG_SLIRP_SMBD)
+>  
+>  /* automatic user mode samba server configuration */
+>  static void slirp_smb_cleanup(SlirpState *s)
+> @@ -899,7 +899,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
+>      return 0;
+>  }
+>  
+> -#endif /* !defined(_WIN32) */
+> +#endif /* defined(CONFIG_SLIRP_SMBD) */
+>  
+>  static int guestfwd_can_read(void *opaque)
+>  {
+> -- 
+> 2.28.0
+> 
 
-To indicate the support of this async event, this patch set
-OAES(Optional Asynchronous Events Supported) in Identify Controller data
-structure.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Tested-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.h   |  1 +
- hw/block/nvme.h      |  4 ++++
- include/block/nvme.h |  7 ++++++
- hw/block/nvme.c      | 56 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 68 insertions(+)
-
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index b0c00e115d81..318d3aebe1a8 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -53,6 +53,7 @@ typedef struct NvmeNamespace {
-     uint8_t      csi;
- 
-     NvmeSubsystem   *subsys;
-+    QTAILQ_ENTRY(NvmeNamespace) entry;
- 
-     NvmeIdNsZoned   *id_ns_zoned;
-     NvmeZone        *zone_array;
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1287bc2cd17a..4955d649c7d4 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -192,6 +192,10 @@ typedef struct NvmeCtrl {
- 
-     uint32_t    dmrsl;
- 
-+    /* Namespace ID is started with 1 so bitmap should be 1-based */
-+#define NVME_CHANGED_NSID_SIZE  (NVME_MAX_NAMESPACES + 1)
-+    DECLARE_BITMAP(changed_nsids, NVME_CHANGED_NSID_SIZE);
-+
-     NvmeSubsystem   *subsys;
- 
-     NvmeNamespace   namespace;
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 03471a4d5abd..7ee887022aef 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -760,6 +760,7 @@ typedef struct QEMU_PACKED NvmeCopySourceRange {
- enum NvmeAsyncEventRequest {
-     NVME_AER_TYPE_ERROR                     = 0,
-     NVME_AER_TYPE_SMART                     = 1,
-+    NVME_AER_TYPE_NOTICE                    = 2,
-     NVME_AER_TYPE_IO_SPECIFIC               = 6,
-     NVME_AER_TYPE_VENDOR_SPECIFIC           = 7,
-     NVME_AER_INFO_ERR_INVALID_DB_REGISTER   = 0,
-@@ -771,6 +772,7 @@ enum NvmeAsyncEventRequest {
-     NVME_AER_INFO_SMART_RELIABILITY         = 0,
-     NVME_AER_INFO_SMART_TEMP_THRESH         = 1,
-     NVME_AER_INFO_SMART_SPARE_THRESH        = 2,
-+    NVME_AER_INFO_NOTICE_NS_ATTR_CHANGED    = 0,
- };
- 
- typedef struct QEMU_PACKED NvmeAerResult {
-@@ -940,6 +942,7 @@ enum NvmeLogIdentifier {
-     NVME_LOG_ERROR_INFO     = 0x01,
-     NVME_LOG_SMART_INFO     = 0x02,
-     NVME_LOG_FW_SLOT_INFO   = 0x03,
-+    NVME_LOG_CHANGED_NSLIST = 0x04,
-     NVME_LOG_CMD_EFFECTS    = 0x05,
- };
- 
-@@ -1056,6 +1059,10 @@ typedef struct NvmeIdCtrlNvm {
-     uint8_t     rsvd16[4080];
- } NvmeIdCtrlNvm;
- 
-+enum NvmeIdCtrlOaes {
-+    NVME_OAES_NS_ATTR   = 1 << 8,
-+};
-+
- enum NvmeIdCtrlOacs {
-     NVME_OACS_SECURITY  = 1 << 0,
-     NVME_OACS_FORMAT    = 1 << 1,
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index fc38c3e4629d..159cd0ca867b 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -3006,6 +3006,48 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     return nvme_c2h(n, (uint8_t *)&errlog, trans_len, req);
- }
- 
-+static uint16_t nvme_changed_nslist(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-+                                    uint64_t off, NvmeRequest *req)
-+{
-+    uint32_t nslist[1024];
-+    uint32_t trans_len;
-+    int i = 0;
-+    uint32_t nsid;
-+
-+    memset(nslist, 0x0, sizeof(nslist));
-+    trans_len = MIN(sizeof(nslist) - off, buf_len);
-+
-+    while ((nsid = find_first_bit(n->changed_nsids, NVME_CHANGED_NSID_SIZE)) !=
-+            NVME_CHANGED_NSID_SIZE) {
-+        /*
-+         * If more than 1024 namespaces, the first entry in the log page should
-+         * be set to 0xffffffff and the others to 0 as spec.
-+         */
-+        if (i == ARRAY_SIZE(nslist)) {
-+            memset(nslist, 0x0, sizeof(nslist));
-+            nslist[0] = 0xffffffff;
-+            break;
-+        }
-+
-+        nslist[i++] = nsid;
-+        clear_bit(nsid, n->changed_nsids);
-+    }
-+
-+    /*
-+     * Remove all the remaining list entries in case returns directly due to
-+     * more than 1024 namespaces.
-+     */
-+    if (nslist[0] == 0xffffffff) {
-+        bitmap_zero(n->changed_nsids, NVME_CHANGED_NSID_SIZE);
-+    }
-+
-+    if (!rae) {
-+        nvme_clear_events(n, NVME_AER_TYPE_NOTICE);
-+    }
-+
-+    return nvme_c2h(n, ((uint8_t *)nslist) + off, trans_len, req);
-+}
-+
- static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
-                                  uint64_t off, NvmeRequest *req)
- {
-@@ -3089,6 +3131,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_smart_info(n, rae, len, off, req);
-     case NVME_LOG_FW_SLOT_INFO:
-         return nvme_fw_log_info(n, len, off, req);
-+    case NVME_LOG_CHANGED_NSLIST:
-+        return nvme_changed_nslist(n, rae, len, off, req);
-     case NVME_LOG_CMD_EFFECTS:
-         return nvme_cmd_effects(n, csi, len, off, req);
-     default:
-@@ -3947,6 +3991,16 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
- 
-             nvme_ns_detach(ctrl, ns);
-         }
-+
-+        /*
-+         * Add namespace id to the changed namespace id list for event clearing
-+         * via Get Log Page command.
-+         */
-+        if (!test_and_set_bit(nsid, ctrl->changed_nsids)) {
-+            nvme_enqueue_event(ctrl, NVME_AER_TYPE_NOTICE,
-+                               NVME_AER_INFO_NOTICE_NS_ATTR_CHANGED,
-+                               NVME_LOG_CHANGED_NSLIST);
-+        }
-     }
- 
-     return NVME_SUCCESS;
-@@ -4945,6 +4999,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- 
-     id->cntlid = cpu_to_le16(n->cntlid);
- 
-+    id->oaes = cpu_to_le32(NVME_OAES_NS_ATTR);
-+
-     id->rab = 6;
- 
-     if (n->params.use_intel_id) {
 -- 
-2.30.1
-
+Samuel
+"And the next time you consider complaining that running Lucid Emacs
+19.05 via NFS from a remote Linux machine in Paraguay doesn't seem to
+get the background colors right, you'll know who to thank."
+(By Matt Welsh)
 
