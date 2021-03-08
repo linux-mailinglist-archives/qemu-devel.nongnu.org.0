@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814C33314CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:26:51 +0100 (CET)
-Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7818433145E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:18:15 +0100 (CET)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJec-0005cf-Fq
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:26:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
+	id 1lJJWI-0002zv-Bq
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:18:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCs-0005hn-8J
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:58:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCp-0000XL-QL
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:58:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U2lSnNsPwR0bJj2hS431ZPVo0xKvvYRSbNR2WdbqfM8=;
- b=YgAbRBl1iq35LMBGkxGQuEfRDtEJW5P0bu5dKzRHjhSFClxn0Cv/qNWo/2ifEQy1EgCgDh
- zdLU7TEp3v4JVswdXZamv6OiNYiY/uHiAX/SkBwTcqF4XPz65lue9LAQK/UXlRpWxf/NG2
- Dz/8SYi7usC3Hp5iyS+wNwGGL4zyxHs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289--6_eUI7DOiectEilIpn63A-1; Mon, 08 Mar 2021 11:58:01 -0500
-X-MC-Unique: -6_eUI7DOiectEilIpn63A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC60964AD0;
- Mon,  8 Mar 2021 16:57:59 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D51015D9D3;
- Mon,  8 Mar 2021 16:57:56 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/30] vl: QAPIfy -object
-Date: Mon,  8 Mar 2021 17:54:39 +0100
-Message-Id: <20210308165440.386489-30-kwolf@redhat.com>
-In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
-References: <20210308165440.386489-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJJBR-0004Nl-5P
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:41 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJJBO-0008Sk-SD
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:40 -0500
+Received: by mail-ej1-x633.google.com with SMTP id e19so21788160ejt.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 08:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jU5KAwICWSXyosyYi6jcxOIm/tqKDkJhcUYvpnVwKDw=;
+ b=OhuuEvLhaC+Pc5Fc2HVjJ3QLzH8iLRf35NyGM4oj2ARQ+lRnlvEEvedlIe4XNCNf2O
+ szpUXQOc0+XMgtOfjQRUCGIoE8IqMHaurjN7mfcD5veeGrCFH/s66yXbXyHumR0U8BzC
+ JKA4+mKx9cTDQ2mIEP173o5tuOgiAlG36PDClE4jFtpTb1kCRvjA78+/Ty4+jYPdcq9K
+ vQTynUP5iJ9o4l7OpitYG13IptiO3hJ+E4uEWuBUW4a2f1w3ay49UY33JI26JF66Ze+z
+ nhjtZZaWmSiAYGZnyrucbUeiCCN+zv2E3w8d28LaNrCOpkPPallodoaFumAv0vQA05ie
+ epXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jU5KAwICWSXyosyYi6jcxOIm/tqKDkJhcUYvpnVwKDw=;
+ b=R/QqyFubga0hFnmMrqkmsfVHfbmWHywSQpyH4XibpQlVhhpEfPBmkxMvgyiljnt2zW
+ GD2LVtXxyhc0TEExW6lcVcYBYgD9RIb2fJU+fiTTWiSmy4//TN4n9E9Lbk8ZtyJESh8A
+ 6Z37tD+8CcMi0SQKUSvVkA42HRogo+/AoHWtVG1XF73DT57aaotIxQqly/5VEGM+VD4m
+ jvoT/oDHGlVZ5RvE8j8F/j7phu+aMb0zHCYfqNpN+DpC9gG0EDyllD2vgDFOwPwok0yL
+ r82sBDoNdU4cIZAQAHzrb6Y4JyqZN36lB/X0mkDkkpG5X+rL10UuBGZuo/wrZ7L2S+Xg
+ QT7g==
+X-Gm-Message-State: AOAM533+47d6khiYh4ZEy3fg3+yBzGohmCfNnL0WKFks8UhQlUNBD3Jl
+ 22gh3anYjxmniwinds9aBvHlButZtPKbiG/wh8pfdw==
+X-Google-Smtp-Source: ABdhPJzTk1uxUU/uVWla9ZhsbFEGVJ79YJ0wCKL9DchYCUzGAkwIBGsdS2va/xPJdqYg+vf2i4e0NDGhftgvS8uIgxg=
+X-Received: by 2002:a17:906:66cc:: with SMTP id
+ k12mr15525092ejp.382.1615222597011; 
+ Mon, 08 Mar 2021 08:56:37 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210306151801.2388182-1-f4bug@amsat.org>
+In-Reply-To: <20210306151801.2388182-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Mar 2021 16:56:20 +0000
+Message-ID: <CAFEAcA8i4W-SjYXYb3zH6rHQ8rFQuQUa0PaaO5TpB=qb43YfaQ@mail.gmail.com>
+Subject: Re: [PATCH v3] target/arm: Restrict v7A TCG cpus to TCG accel
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,224 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
+Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This switches the system emulator from a QemuOpts-based parser for
--object to user_creatable_parse_str() which uses a keyval parser and
-enforces the QAPI schema.
+On Sat, 6 Mar 2021 at 15:18, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> KVM requires the target cpu to be at least ARMv8 architecture
+> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
+> "target/arm: Remove KVM support for 32-bit Arm hosts").
+>
+> A KVM-only build won't be able to run TCG cpus, move the
+> v7A CPU definitions to cpu_tcg.c.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v3: Rebased on ed84a60ca80 ("target/arm: Set ID_PFR2.SSBS
+>     to 1 for "max" 32-bit CPU")
 
-Apart from being a cleanup, this makes non-scalar properties accessible.
+Applied to target-arm.next, thanks.
 
-This adopts a similar model as -blockdev uses: When parsing the option,
-create the ObjectOptions and queue them. At the later point where we
-used to create objects for the collected QemuOpts, the ObjectOptions
-queue is processed instead.
+(I forgot to edit the commit message of patch 2 in the arm pullreq,
+but it's not a big deal.)
 
-A complication compared to -blockdev is that object definitions are
-supported in -readconfig and -writeconfig.
-
-After this patch, -readconfig still works, though it still goes through
-the QemuOpts parser, which means that improvements like non-scalar
-properties are still not available in config files.
-
--writeconfig stops working for -object. Tough luck. It has never
-supported all options (not even the common ones), so supporting one less
-isn't the end of the world. As object definitions from -readconfig still
-go through QemuOpts, they are still included in -writeconfig output,
-which at least prevents destroying your existing configuration when you
-just wanted to add another option.
-
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Acked-by: Peter Krempa <pkrempa@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- softmmu/vl.c | 109 +++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 84 insertions(+), 25 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 10bd8a10a3..deb061cc78 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -113,6 +113,7 @@
- #include "sysemu/replay.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/qapi-visit-block-core.h"
-+#include "qapi/qapi-visit-qom.h"
- #include "qapi/qapi-visit-ui.h"
- #include "qapi/qapi-commands-block-core.h"
- #include "qapi/qapi-commands-migration.h"
-@@ -132,6 +133,14 @@ typedef struct BlockdevOptionsQueueEntry {
- 
- typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
- 
-+typedef struct ObjectOptionsQueueEntry {
-+    ObjectOptions *options;
-+    Location loc;
-+    QTAILQ_ENTRY(ObjectOptionsQueueEntry) next;
-+} ObjectOptionsQueueEntry;
-+
-+typedef QTAILQ_HEAD(, ObjectOptionsQueueEntry) ObjectOptionsQueue;
-+
- static const char *cpu_option;
- static const char *mem_path;
- static const char *incoming;
-@@ -143,6 +152,7 @@ static int snapshot;
- static bool preconfig_requested;
- static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
-+static ObjectOptionsQueue obj_queue = QTAILQ_HEAD_INITIALIZER(obj_queue);
- static bool nographic = false;
- static int mem_prealloc; /* force preallocation of physical target memory */
- static ram_addr_t ram_size;
-@@ -1691,12 +1701,9 @@ static int machine_set_property(void *opaque,
-  * cannot be created here, as it depends on the chardev
-  * already existing.
-  */
--static bool object_create_early(const char *type, QemuOpts *opts)
-+static bool object_create_early(ObjectOptions *options)
- {
--    if (user_creatable_print_help(type, opts)) {
--        exit(0);
--    }
--
-+    const char *type = ObjectType_str(options->qom_type);
-     /*
-      * Objects should not be made "delayed" without a reason.  If you
-      * add one, state the reason in a comment!
-@@ -1744,6 +1751,56 @@ static bool object_create_early(const char *type, QemuOpts *opts)
-     return true;
- }
- 
-+static void object_queue_create(bool early)
-+{
-+    ObjectOptionsQueueEntry *entry, *next;
-+
-+    QTAILQ_FOREACH_SAFE(entry, &obj_queue, next, next) {
-+        if (early != object_create_early(entry->options)) {
-+            continue;
-+        }
-+        QTAILQ_REMOVE(&obj_queue, entry, next);
-+        loc_push_restore(&entry->loc);
-+        user_creatable_add_qapi(entry->options, &error_fatal);
-+        loc_pop(&entry->loc);
-+        qapi_free_ObjectOptions(entry->options);
-+        g_free(entry);
-+    }
-+}
-+
-+/*
-+ * -readconfig still parses things into QemuOpts. Convert any such
-+ *  configurations to an ObjectOptionsQueueEntry.
-+ *
-+ *  This is more restricted than the normal -object parser because QemuOpts
-+ *  parsed things, so no support for non-scalar properties. Help is also not
-+ *  supported (but this shouldn't be requested in a config file anyway).
-+ */
-+static int object_readconfig_to_qapi(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    ERRP_GUARD();
-+    ObjectOptionsQueueEntry *entry;
-+    ObjectOptions *options;
-+    QDict *args = qemu_opts_to_qdict(opts, NULL);
-+    Visitor *v;
-+
-+    v = qobject_input_visitor_new_keyval(QOBJECT(args));
-+    visit_type_ObjectOptions(v, NULL, &options, errp);
-+    visit_free(v);
-+    qobject_unref(args);
-+
-+    if (*errp) {
-+        return -1;
-+    }
-+
-+    entry = g_new0(ObjectOptionsQueueEntry, 1);
-+    entry->options = options;
-+    loc_save(&entry->loc);
-+    QTAILQ_INSERT_TAIL(&obj_queue, entry, next);
-+
-+    return 0;
-+}
-+
- static void qemu_apply_machine_options(void)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-@@ -1816,8 +1873,8 @@ static void qemu_create_early_backends(void)
-     }
- 
-     qemu_opts_foreach(qemu_find_opts("object"),
--                      user_creatable_add_opts_foreach,
--                      object_create_early, &error_fatal);
-+                      object_readconfig_to_qapi, NULL, &error_fatal);
-+    object_queue_create(true);
- 
-     /* spice needs the timers to be initialized by this point */
-     /* spice must initialize before audio as it changes the default auiodev */
-@@ -1841,16 +1898,6 @@ static void qemu_create_early_backends(void)
-     audio_init_audiodevs();
- }
- 
--
--/*
-- * The remainder of object creation happens after the
-- * creation of chardev, fsdev, net clients and device data types.
-- */
--static bool object_create_late(const char *type, QemuOpts *opts)
--{
--    return !object_create_early(type, opts);
--}
--
- static void qemu_create_late_backends(void)
- {
-     if (qtest_chrdev) {
-@@ -1859,9 +1906,11 @@ static void qemu_create_late_backends(void)
- 
-     net_init_clients(&error_fatal);
- 
--    qemu_opts_foreach(qemu_find_opts("object"),
--                      user_creatable_add_opts_foreach,
--                      object_create_late, &error_fatal);
-+    /*
-+     * The remainder of object creation happens after the
-+     * creation of chardev, fsdev, net clients and device data types.
-+     */
-+    object_queue_create(false);
- 
-     if (tpm_init() < 0) {
-         exit(1);
-@@ -3408,12 +3457,22 @@ void qemu_init(int argc, char **argv, char **envp)
- #endif
-                 break;
-             case QEMU_OPTION_object:
--                opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
--                                               optarg, true);
--                if (!opts) {
--                    exit(1);
-+                {
-+                    ObjectOptionsQueueEntry *entry;
-+                    ObjectOptions *options;
-+
-+                    options = user_creatable_parse_str(optarg, &error_fatal);
-+                    if (!options)  {
-+                        /* Help was printed */
-+                        exit(EXIT_SUCCESS);
-+                    }
-+
-+                    entry = g_new0(ObjectOptionsQueueEntry, 1);
-+                    entry->options = options;
-+                    loc_save(&entry->loc);
-+                    QTAILQ_INSERT_TAIL(&obj_queue, entry, next);
-+                    break;
-                 }
--                break;
-             case QEMU_OPTION_overcommit:
-                 opts = qemu_opts_parse_noisily(qemu_find_opts("overcommit"),
-                                                optarg, false);
--- 
-2.29.2
-
+-- PMM
 
