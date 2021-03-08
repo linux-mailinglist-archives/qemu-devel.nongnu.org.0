@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9330B33128C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:52:08 +0100 (CET)
-Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655C53312D8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 17:07:36 +0100 (CET)
+Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJIAx-0007Qs-Ka
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:52:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56870)
+	id 1lJIPu-00050Y-RW
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 11:07:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lJI67-0001wE-5W
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:47:09 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:49616 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <prvs=69416c753=graf@amazon.de>)
+ id 1lJIN4-0003e0-5X
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:04:39 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:51917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lJI5z-000205-QZ
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 10:47:05 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 59F8241292;
- Mon,  8 Mar 2021 15:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- mime-version:content-transfer-encoding:content-type:content-type
- :content-language:accept-language:in-reply-to:references
- :message-id:date:date:subject:subject:from:from:received
- :received:received:received; s=mta-01; t=1615218414; x=
- 1617032815; bh=om2f8jao0Hv7O+GnNkA84vVPzxvsdvR/ZOr23YP9ha8=; b=V
- YxKil5jJ9RqDMvSOXameS3vL+F49qEIKfVvPa3KeBsvy1q0ibNEQG4i/xV9LL1Eb
- tfBhUeLequkCvHTdH4k7tLXVWNyyLz+b8BsMDo7pJjDJzUM2DqsLAq2G3pAozyeJ
- u5pGyXsvjTvDgPEaHGdhldyPGgz3QzCVbRYMZqYRZA=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8M5MehVN9uou; Mon,  8 Mar 2021 18:46:54 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 702F54126E;
- Mon,  8 Mar 2021 18:46:54 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (172.17.100.103) by
- T-EXCH-04.corp.yadro.com (172.17.100.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Mon, 8 Mar 2021 18:46:53 +0300
-Received: from T-EXCH-03.corp.yadro.com ([fe80::39f4:7b05:b1d3:5272]) by
- T-EXCH-03.corp.yadro.com ([fe80::39f4:7b05:b1d3:5272%14]) with mapi id
- 15.01.0669.032; Mon, 8 Mar 2021 18:46:54 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] FreeBSD: Upgrade to 12.2 release
-Thread-Topic: [PATCH v2] FreeBSD: Upgrade to 12.2 release
-Thread-Index: AQHXE2rSG0bQ1f2FzkKIg08q5Pnksap55WCAgAAgagCAAAP8gIAAM+qy
-Date: Mon, 8 Mar 2021 15:46:54 +0000
-Message-ID: <E0C80BD2-323B-4101-8DC4-8A920B6CE5AB@yadro.com>
-References: <20210307155654.993-1-imp@bsdimp.com>
- <20210307155654.993-2-imp@bsdimp.com>
- <f707c609-e2ad-4b6c-985e-1218ae40e4eb@redhat.com>
- <CANCZdfq+ocyZnMt2td3ynx3gWqdPm1csddTjuhAEbxV-QL3Gow@mail.gmail.com>,
- <f48b0f77-02e7-fcf7-a8bd-9d7990c8db33@redhat.com>
-In-Reply-To: <f48b0f77-02e7-fcf7-a8bd-9d7990c8db33@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <prvs=69416c753=graf@amazon.de>)
+ id 1lJIMz-0001w5-SJ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:04:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1615219474; x=1646755474;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=+AelMi3v18s6+/y1BQYDbI2IpSHlRy2T4ik8Uc3Ym70=;
+ b=PzWYlCYMAk7sFRi8vIXVWrgrJIhD2AvCkvvh5+kldUVQUEB34AP7YXny
+ C+YxxnykXgPRCnTBofG1NjX4XVIgQO+RMGc/X6qOty2jLwxOd2e0clFLO
+ kF2NcUbDfRWHw3cOPpSWXFoc9tIpuHH7IevKnxGZv2U8S+Pu5VZT88JzM A=;
+X-IronPort-AV: E=Sophos;i="5.81,232,1610409600"; d="scan'208";a="92508455"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.6])
+ by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
+ 08 Mar 2021 16:04:19 +0000
+Received: from EX13MTAUWC002.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS
+ id 9E5F4A1F36; Mon,  8 Mar 2021 16:04:08 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 8 Mar 2021 16:04:08 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.162.131) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 8 Mar 2021 16:04:00 +0000
+Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
+To: Greg KH <gregkh@linuxfoundation.org>, Adrian Catangiu <acatan@amazon.com>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>, 
+ <rdunlap@infradead.org>, <arnd@arndb.de>, <ebiederm@xmission.com>,
+ <rppt@kernel.org>, <0x7f454c46@gmail.com>, <borntraeger@de.ibm.com>,
+ <Jason@zx2c4.com>, <jannh@google.com>, <w@1wt.eu>, <colmmacc@amazon.com>,
+ <luto@kernel.org>, <tytso@mit.edu>, <ebiggers@kernel.org>,
+ <dwmw@amazon.co.uk>, <bonzini@gnu.org>, <sblbir@amazon.com>,
+ <raduweis@amazon.com>, <corbet@lwn.net>, <mst@redhat.com>,
+ <mhocko@kernel.org>, <rafael@kernel.org>, <pavel@ucw.cz>,
+ <mpe@ellerman.id.au>, <areber@redhat.com>, <ovzxemul@gmail.com>,
+ <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>, <gil@azul.com>,
+ <asmehra@redhat.com>, <dgunigun@redhat.com>, <vijaysun@ca.ibm.com>,
+ <oridgar@gmail.com>, <ghammer@redhat.com>
+References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+ <YEY2b1QU5RxozL0r@kroah.com>
+Message-ID: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+Date: Mon, 8 Mar 2021 17:03:58 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YEY2b1QU5RxozL0r@kroah.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.162.131]
+X-ClientProxiedBy: EX13D19UWA003.ant.amazon.com (10.43.160.170) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=72.21.196.25;
+ envelope-from=prvs=69416c753=graf@amazon.de; helo=smtp-fw-2101.amazon.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,64 +94,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
- Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alexander Graf <graf@amazon.com>
+From:  Alexander Graf via <qemu-devel@nongnu.org>
 
-DQo+IDgg0LzQsNGA0YLQsCAyMDIxINCzLiwg0LIgMTg6NDEsIFRob21hcyBIdXRoIDx0aHV0aEBy
-ZWRoYXQuY29tPiDQvdCw0L/QuNGB0LDQuyjQsCk6DQo+IA0KPiDvu79PbiAwOC8wMy8yMDIxIDE2
-LjI2LCBXYXJuZXIgTG9zaCB3cm90ZToNCj4+IE9uIE1vbiwgTWFyIDgsIDIwMjEgYXQgNjozMCBB
-TSBUaG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbSA8bWFpbHRvOnRodXRoQHJlZGhhdC5jb20+
-PiB3cm90ZToNCj4+ICAgIE9uIDA3LzAzLzIwMjEgMTYuNTYsIFdhcm5lciBMb3NoIHdyb3RlOg0K
-Pj4gICAgID4gRnJlZUJTRCAxMi4xIGhhcyByZWFjaGVkIGVuZCBvZiBsaWZlLiBVc2UgMTIuMiBp
-bnN0ZWFkIHNvIHRoYXQgRnJlZUJTRCdzDQo+PiAgICAgPiBwcm9qZWN0J3MgcGFja2FnZXMgd2ls
-bCB3b3JrLiAgVXBkYXRlIHdoaWNoIHRpbWV6b25lIHRvIHBpY2suIFdvcmsNCj4+ICAgIGFyb3Vu
-ZCBhIFFFTVUNCj4+ICAgICA+IGJ1ZyB0aGF0IGluY29ycmVjdGx5IHJhaXNlcyBhbiBleGNlcHRp
-b24gb24gYSBDUkMzMiBpbnN0cnVjdGlvbiB3aXRoDQo+PiAgICB0aGUgRlBVDQo+PiAgICAgPiBk
-aXNhYmxlZC4gIFRoZSBxZW11IGJ1ZyBpcyBkZXNjcmliZWQgaGVyZToNCj4+ICAgICA+IGh0dHBz
-Oi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZlbEBub25nbnUub3JnL21zZzc4NDE1OC5o
-dG1sDQo+PiAgICA8aHR0cHM6Ly93d3cubWFpbC1hcmNoaXZlLmNvbS9xZW11LWRldmVsQG5vbmdu
-dS5vcmcvbXNnNzg0MTU4Lmh0bWw+DQo+PiAgICAgPg0KPj4gICAgID4gU2lnbmVkLW9mZi1ieTog
-V2FybmVyIExvc2ggPGltcEBic2RpbXAuY29tIDxtYWlsdG86aW1wQGJzZGltcC5jb20+Pg0KPj4g
-ICAgID4NCj4+ICAgICA+IC0tLQ0KPj4gICAgID4gICB0ZXN0cy92bS9mcmVlYnNkIHwgMTQgKysr
-KysrKysrLS0tLS0NCj4+ICAgICA+ICAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwg
-NSBkZWxldGlvbnMoLSkNCj4+ICAgIEkgZ2F2ZSB0aGlzIGEgdHJ5LCBidXQgaXQncyBjdXJyZW50
-bHkgZmFpbGluZyBpbiB0aGUgdW5pdCB0ZXN0czoNCj4+ICAgIFJ1bm5pbmcgdGVzdCB0ZXN0LWNy
-eXB0by10bHNjcmVkc3g1MDkNCj4+ICAgICoqICh0ZXN0cy90ZXN0LWNyeXB0by10bHNjcmVkc3g1
-MDk6OTk5OSk6IENSSVRJQ0FMICoqOiAxMjo1NjozNS4xNTc6IEZhaWxlZA0KPj4gICAgdG8gc2ln
-biBjZXJ0aWZpY2F0ZSBBU04xIHBhcnNlcjogVmFsdWUgaXMgbm90IHZhbGlkLg0KPj4gICAgRVJS
-T1IgdGVzdC1jcnlwdG8tdGxzY3JlZHN4NTA5IC0gQmFpbCBvdXQhIEZBVEFMLUNSSVRJQ0FMOiBG
-YWlsZWQgdG8gc2lnbg0KPj4gICAgY2VydGlmaWNhdGUgQVNOMSBwYXJzZXI6IFZhbHVlIGlzIG5v
-dCB2YWxpZC4NCj4+ICAgIGdtYWtlOiAqKiogW01ha2VmaWxlLm10ZXN0OjU3NjogcnVuLXRlc3Qt
-NzBdIEVycm9yIDENCj4+ICAgIGdtYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2Jz
-Li4uLg0KPj4gICAgUnVubmluZyB0ZXN0IHRlc3QtY3J5cHRvLXRsc3Nlc3Npb24NCj4+ICAgICoq
-ICh0ZXN0cy90ZXN0LWNyeXB0by10bHNzZXNzaW9uOjEwMDAyKTogQ1JJVElDQUwgKio6IDEyOjU2
-OjM1LjI4ODogRmFpbGVkDQo+PiAgICB0byBzaWduIGNlcnRpZmljYXRlIEFTTjEgcGFyc2VyOiBW
-YWx1ZSBpcyBub3QgdmFsaWQuDQo+PiAgICBFUlJPUiB0ZXN0LWNyeXB0by10bHNzZXNzaW9uIC0g
-QmFpbCBvdXQhIEZBVEFMLUNSSVRJQ0FMOiBGYWlsZWQgdG8gc2lnbg0KPj4gICAgY2VydGlmaWNh
-dGUgQVNOMSBwYXJzZXI6IFZhbHVlIGlzIG5vdCB2YWxpZC4NCj4+IFRoYXQncyB0b3RhbGx5IHVu
-cmVsYXRlZCB0byBteSBjaGFuZ2UuIFdhcyBpdCBmYWlsaW5nIGJlZm9yZT8gV2hhdCBlbnZpcm9u
-bWVudCB3YXMgaXQgZmFpbGluZyBpbiBiZWNhdXNlIGl0IGFsbCBzZWVtZWQgdG8gd29yayBmb3Ig
-bWUuLi4NCj4gDQo+IEl0J3MgYmVlbiBhIHdoaWxlIHNpbmNlIEkgbGFzdCByYW4gIm1ha2Ugdm0t
-YnVpbGQtZnJlZWJzZCIsIHNvIEkgY2FuJ3QgcmVhbGx5IHRlbGwgd2hldGhlciB0aGUgcHJvYmxl
-bSB3YXMgYWxyZWFkeSB0aGVyZSBiZWZvcmUgLi4uIHdoZW4gSSBub3cgdHJ5IHRvIHJ1biBpdCB3
-aXRob3V0IHlvdXIgcGF0Y2gsIGl0IGZhaWxzIGZvciBtZSwgdG9vLCBidXQgcmF0aGVyIGR1ZSB0
-byBGcmVlQlNEIDEyLjEgYmVpbmcgb3V0IG9mIHNlcnZpY2UgaW5zdGVhZC4NCj4gDQo+PiAgICBJ
-IGd1ZXNzIGl0J3MgdGhlIHNhbWUgcHJvYmxlbSBhczoNCj4+ICAgIGh0dHBzOi8vbGlzdHMuZ251
-Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIxLTAxL21zZzA2NzUwLmh0bWwNCj4+ICAg
-IDxodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAyMS0wMS9t
-c2cwNjc1MC5odG1sPg0KPj4gICAgLi4uIHNvIHRoaXMgd291bGQgcmVxdWlyZSBhIGJ1ZyBmaXgg
-aW4gdGhlIGxpYnRhc24gb2YgRnJlZUJTRCBmaXJzdD8gU2VlOg0KPj4gICAgaHR0cHM6Ly9naXRs
-YWIuY29tL2dudXRscy9saWJ0YXNuMS8tL21lcmdlX3JlcXVlc3RzLzcxDQo+PiAgICA8aHR0cHM6
-Ly9naXRsYWIuY29tL2dudXRscy9saWJ0YXNuMS8tL21lcmdlX3JlcXVlc3RzLzcxPg0KPj4gIElz
-IHRoaXMgb24gdGhlIGhvc3QgdGhhdCBidWlsdCBxZW11LCBvciBpbnNpZGUgdGhlIFZNIG9yIHdo
-ZXJlIGV4YWN0bHk/DQo+IA0KPiBJdCdzIGluc2lkZSB0aGUgVk0gLi4uIEkgYXNzdW1lIHRoZSBs
-aWJ0YXNuIHRoZXJlIGhhcyB0aGUgc2FtZSBidWcgYXMgdGhlIG9uZSBvbiBtYWNPUz8NCj4gDQoN
-ClRoZSBnbnV0bHMgZmFpbHVyZXMgb24gbWFjT1MgYW5kIEZyZWVCU0QgKHdpdGggY2xhbmcgYXMg
-bWFpbiBjb21waWxlcikgd29u4oCZdCBoYXBwZW4gb25seSBpZiBsaWJ0YXNuMSBmcm9tIG1hc3Rl
-ciBpcyB1c2VkLiBPdGhlcndpc2UgbGlidGFzbjEgaGFzIHRvIGJlIGNvbXBpbGVkIHdpdGggLU8x
-Ly1PMC4NCg0K0J7RgtC/0YDQsNCy0LvQtdC90L4g0YEgaVBob25lDQoNCj4gVGhvbWFzDQo+IA0K
+
+
+On 08.03.21 15:36, Greg KH wrote:
+> =
+
+> On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
+>> +static struct miscdevice sysgenid_misc =3D {
+>> +     .minor =3D MISC_DYNAMIC_MINOR,
+>> +     .name =3D "sysgenid",
+>> +     .fops =3D &fops,
+>> +};
+> =
+
+> Much cleaner, but:
+> =
+
+>> +static int __init sysgenid_init(void)
+>> +{
+>> +     int ret;
+>> +
+>> +     sysgenid_data.map_buf =3D get_zeroed_page(GFP_KERNEL);
+>> +     if (!sysgenid_data.map_buf)
+>> +             return -ENOMEM;
+>> +
+>> +     atomic_set(&sysgenid_data.generation_counter, 0);
+>> +     atomic_set(&sysgenid_data.outdated_watchers, 0);
+>> +     init_waitqueue_head(&sysgenid_data.read_waitq);
+>> +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
+>> +     spin_lock_init(&sysgenid_data.lock);
+>> +
+>> +     ret =3D misc_register(&sysgenid_misc);
+>> +     if (ret < 0) {
+>> +             pr_err("misc_register() failed for sysgenid\n");
+>> +             goto err;
+>> +     }
+>> +
+>> +     return 0;
+>> +
+>> +err:
+>> +     free_pages(sysgenid_data.map_buf, 0);
+>> +     sysgenid_data.map_buf =3D 0;
+>> +
+>> +     return ret;
+>> +}
+>> +
+>> +static void __exit sysgenid_exit(void)
+>> +{
+>> +     misc_deregister(&sysgenid_misc);
+>> +     free_pages(sysgenid_data.map_buf, 0);
+>> +     sysgenid_data.map_buf =3D 0;
+>> +}
+>> +
+>> +module_init(sysgenid_init);
+>> +module_exit(sysgenid_exit);
+> =
+
+> So you do this for any bit of hardware that happens to be out there?
+> Will that really work?  You do not have any hwid to trigger off of to
+> know that this is a valid device you can handle?
+
+The interface is already useful in a pure container context where the =
+
+generation change request is triggered by software.
+
+And yes, there are hardware triggers, but Michael was quite unhappy =
+
+about potential races between VMGenID change and SysGenID change and =
+
+thus wanted to ideally separate the interfaces. So we went ahead and =
+
+isolated the SysGenID one, as it's already useful as is.
+
+Hardware drivers to inject change events into SysGenID can then follow =
+
+later, for all different hardware platforms. But SysGenID as in this =
+
+patch is a completely hardware agnostic concept.
+
+
+Alex
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
 
