@@ -2,90 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C18331B0C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 00:42:04 +0100 (CET)
-Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5747331B2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 00:55:17 +0100 (CET)
+Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJPVi-0002Mg-TR
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 18:42:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43906)
+	id 1lJPiW-0004WM-I6
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 18:55:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJPUH-0001p6-Cs
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:40:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42958)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJPUF-00020K-9P
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:40:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615246829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pNpgSDE2jDlATHb1J12CtayPRdMxFRuBtOZPY1HEL8c=;
- b=JJBu+noIGx641UQG0+LoUi0pDFBhRHUAQoERMauo/eub4e7HfUAb9Ctz3cmlSlFF7Igqgk
- zyO+A2TUDuaswXOJ+6Ad32KhaeGOM4glfmKzCZFbyYLhCI2uvgZTrhV71LC8pY9lh+olNf
- LT60yyjiLclI0ayec7dCUijqTk0CeEM=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-ubG7mCLmO36CsamDKeDf1Q-1; Mon, 08 Mar 2021 18:40:28 -0500
-X-MC-Unique: ubG7mCLmO36CsamDKeDf1Q-1
-Received: by mail-qk1-f200.google.com with SMTP id 130so8657794qkm.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 15:40:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
+ id 1lJPhm-00045r-Su
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:54:30 -0500
+Received: from mail-vs1-f44.google.com ([209.85.217.44]:33064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
+ id 1lJPhl-00089s-04
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:54:30 -0500
+Received: by mail-vs1-f44.google.com with SMTP id b189so5862857vsd.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 15:54:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pNpgSDE2jDlATHb1J12CtayPRdMxFRuBtOZPY1HEL8c=;
- b=EdIH1F36vcjaHLAA2iMEk2o8GfToOa7ZtV2zSIGDYUOdycSm63tBiED5TJiBLW1RUY
- K/xugFcpy6fhlW+GAdxlvV8SMZfD3zr1///Xy6CybxRsq/PK9hfW2Y094NhXfGT+2SPx
- bqGDkZdLNSwPjRoLh4Q8uJfVW8EsBPRGmFUPVffJWLMnC15bDf0bxQfF9PIal1OcAoPW
- jbvgVRWm0Qp013kJ/xcZArTARh1HjNTET4uhZOWW8zCAlS5dTDd47TW49lzROjxLdp33
- 55UsX29Gh18cd3JhKQy9kHRCh8mrnlzpaL4PfQPNYszFQVjLbaVboZKeASsGLjtUpU85
- XQOA==
-X-Gm-Message-State: AOAM5333rcxXBukfDWipeUMCYDETYrHzytaCcPEQUIIfR1PMlT/2UBdp
- n4tNsPaCV26tp5uavuCBF2688JycIalfJWgmD6zkIVer5h5zuGv86Pvyf3L5ivlfd1XNdTVf1H0
- 7UpHBag1ab4lzpvY=
-X-Received: by 2002:a05:620a:204d:: with SMTP id
- d13mr22855328qka.347.1615246827474; 
- Mon, 08 Mar 2021 15:40:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxozdM1/UvPnRdfi2dIlJrtg0NvOeJC1alEctF6XcMFjS0r6hgfWpD6VmWv2GMBRzTpaCYDDQ==
-X-Received: by 2002:a05:620a:204d:: with SMTP id
- d13mr22855311qka.347.1615246827261; 
- Mon, 08 Mar 2021 15:40:27 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
- by smtp.gmail.com with ESMTPSA id t24sm1715057qto.23.2021.03.08.15.40.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 15:40:26 -0800 (PST)
-Date: Mon, 8 Mar 2021 18:40:25 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/3] memory: Provide 'base address' argument to
- mtree_print_mr()
-Message-ID: <20210308234025.GP397383@xz-x1>
-References: <20210305235414.2358144-1-f4bug@amsat.org>
- <20210305235414.2358144-3-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=G6S2LEiGLXU8ZWvl8YTZPVAvJj3NTusq0IDkpgaaOiQ=;
+ b=VtoZ2yYK+OgughI5IkAo4Whk5mu4SayYWh84c7YOt9FT0WqWJrYQpItCSuhtF7NZ84
+ LhagwV482BGkP+DOx+jxqrEs/szeBdq1gDzgRWGtPnWmxsACtN3AGysvkC8ok23H+azK
+ YhY9oy1/TXXkGJsHLiRNn/YwLEPw+nQixuw/UodsDs2d+HaANuvzRWHFLZhEGC7Q7Gtg
+ 0m93UrNNSMYpRI6Zk5Ng5Ue9xDiK1k5yhbO9+hoxCRiC1MVrBoMIBh2GYY9brDPH015W
+ /gP+jtWztjOsjQWiOeVxSzYtGww+ZlemMjto3aMlb7fZ+4nBv1B+Ni5h8tcgLq9OI4HS
+ NEvg==
+X-Gm-Message-State: AOAM531K/sgHHd6BixCUfoE5rTWcuIfTPd6n/kSB+xkHjDCEp/eoKzDe
+ hlz1IWLztUrPRTmuVAAsY6kw6RimBTZU7jOuHnISGhIa9MVMPw==
+X-Google-Smtp-Source: ABdhPJy9C4EyqVL8BwvMItpO1D5tEquwlygm4Unoxh5zC5WQZuoS0mlslnSbhIhPfIeWy1ZGeJ7W1dapKK5GgRgL1o8=
+X-Received: by 2002:a05:6102:21a4:: with SMTP id
+ i4mr5857287vsb.13.1615247666745; 
+ Mon, 08 Mar 2021 15:54:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210305235414.2358144-3-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Ben Leslie <benno@benno.id.au>
+Date: Tue, 9 Mar 2021 10:54:15 +1100
+Message-ID: <CABZ0LtCh37eXx0evxYNsZigFJgq-RY+wdFvA0SMDH4HgxpK-zw@mail.gmail.com>
+Subject: What is the intended behaviour of usb_host_get_port for root hubs?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000006694f405bd0f271d"
+Received-SPF: pass client-ip=209.85.217.44; envelope-from=ben.leslie@gmail.com;
+ helo=mail-vs1-f44.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,45 +65,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Phil,
+--0000000000006694f405bd0f271d
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Mar 06, 2021 at 12:54:13AM +0100, Philippe Mathieu-Daudé wrote:
-> @@ -3188,14 +3188,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
->  
->      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
->          qemu_printf("address-space: %s\n", as->name);
-> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
-> +        mtree_print_mr(as->root, 1, 0, as->root->addr,
+When usb_host_get_port is called for a root-hub device what string should
+be output in the port parameter?
 
-Root MR of any address space should have mr->addr==0, right?
+The current behaviour writes a string with whatever stack value happened to
+be in the paths stack array.
 
-I'm slightly confused on what this patch wanted to do if so, since then "base"
-will always be zero..  Or am I wrong?
+Possible behaviours that I can see being useful are:
 
-Thanks,
+1: Don't modify the port parameter.
+2: Write an empty string.
 
-> +                       &ml_head, owner, disabled);
->          qemu_printf("\n");
->      }
->  
->      /* print aliased regions */
->      QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
->          qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
-> -        mtree_print_mr(ml->mr, 1, 0, &ml_head, owner, disabled);
-> +        mtree_print_mr(ml->mr, 1, 0, 0, &ml_head, owner, disabled);
->          qemu_printf("\n");
->      }
->  
-> -- 
-> 2.26.2
-> 
+My preference would be for #2, but possibly #1 is intended. I can provide a
+patch if someone can let me know the intended behaviour. If #1 is intended,
+then I think the usage in hmp_info_usbhost might need changing as well. The
+other usage in usb_host_auto_check where the provided port parameter is set
+to "-" prior to calling the function; it's not clear what the intent of
+that is. Finally, the function returns zero on error and string length on
+success (which actually makes #2 a problem), however none of the callers
+check the return value, so perhaps it can be made a void function? Or
+possibly it should return -1 on error, rather than zero.
 
--- 
-Peter Xu
+Regards,
 
+Ben
+
+--0000000000006694f405bd0f271d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>When usb_host_get_port is called for a root-hub devic=
+e what string should be output in the port parameter?</div><div><br></div><=
+div><div>The current behaviour writes a string with whatever stack value ha=
+ppened to be in the paths stack array.</div><div><br></div></div><div>Possi=
+ble behaviours that I can see being useful are:</div><div><br></div><div>1:=
+ Don&#39;t modify the port parameter.</div><div>2: Write an empty string.</=
+div><div><br></div><div>My preference would be for #2, but possibly #1 is i=
+ntended. I can provide a patch if someone can let me know the intended beha=
+viour. If #1 is intended, then I think the usage in hmp_info_usbhost might =
+need changing as well. The other usage in usb_host_auto_check where the pro=
+vided port parameter is set to &quot;-&quot; prior to calling the function;=
+ it&#39;s not clear what the intent of that is. Finally, the function retur=
+ns zero on error and string length on success (which actually makes #2 a pr=
+oblem), however none of the callers check the return value, so perhaps it c=
+an be made a void function? Or possibly it should return -1 on error, rathe=
+r than zero.<br></div><div><br></div><div>Regards,</div><div><br></div><div=
+>Ben<br></div></div>
+
+--0000000000006694f405bd0f271d--
 
