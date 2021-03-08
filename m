@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C1733100E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:53:42 +0100 (CET)
-Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC860331019
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:56:32 +0100 (CET)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGKL-0000iS-UT
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:53:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
+	id 1lJGN5-00046D-8i
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:56:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3P-0000Ry-Ap
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:07 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:30766)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3R-0000UV-EK
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3K-0001uM-7q
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:06 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJF3O-0001w9-OD
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:32:09 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-Fggn1500NR2zJjuEYvadDA-1; Mon, 08 Mar 2021 07:31:52 -0500
-X-MC-Unique: Fggn1500NR2zJjuEYvadDA-1
+ us-mta-276-aXG14X0jPBWaImhh0N_cDA-1; Mon, 08 Mar 2021 07:31:57 -0500
+X-MC-Unique: aXG14X0jPBWaImhh0N_cDA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A8B62F7A6;
- Mon,  8 Mar 2021 12:31:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BDFE8189D6;
+ Mon,  8 Mar 2021 12:31:56 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BA9A5D9D0;
- Mon,  8 Mar 2021 12:31:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E5AA5D9D0;
+ Mon,  8 Mar 2021 12:31:54 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] vhost-user: Introduce nested event loop in
- vhost_user_read()
-Date: Mon,  8 Mar 2021 13:31:38 +0100
-Message-Id: <20210308123141.26444-2-groug@kaod.org>
+Subject: [PATCH 4/4] virtiofsd: Release vu_dispatch_lock when stopping queue
+Date: Mon,  8 Mar 2021 13:31:41 +0100
+Message-Id: <20210308123141.26444-5-groug@kaod.org>
 In-Reply-To: <20210308123141.26444-1-groug@kaod.org>
 References: <20210308123141.26444-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -69,141 +68,76 @@ Cc: Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A deadlock condition potentially exists if a vhost-user process needs
-to request something to QEMU on the slave channel while processing a
-vhost-user message.
+QEMU can stop a virtqueue by sending a VHOST_USER_GET_VRING_BASE request
+to virtiofsd. As with all other vhost-user protocol messages, the thread
+that runs the main event loop in virtiofsd takes the vu_dispatch lock in
+write mode. This ensures that no other thread can access virtqueues or
+memory tables at the same time.
 
-This doesn't seem to affect any vhost-user implementation so far, but
-this is currently biting the upcoming enablement of DAX with virtio-fs.
-The issue is being observed when the guest does an emergency reboot while
-a mapping still exits in the DAX window, which is very easy to get with
-a busy enough workload (e.g. as simulated by blogbench [1]) :
+In the case of VHOST_USER_GET_VRING_BASE, the main thread basically
+notifies the queue thread that it should terminate and waits for its
+termination:
 
-- QEMU sends VHOST_USER_GET_VRING_BASE to virtiofsd.
+main()
+ virtio_loop()
+  vu_dispatch_wrlock()
+  vu_dispatch()
+   vu_process_message()
+    vu_get_vring_base_exec()
+     fv_queue_cleanup_thread()
+      pthread_join()
 
-- In order to complete the request, virtiofsd then asks QEMU to remove
-  the mapping on the slave channel.
+Unfortunately, the queue thread ends up calling virtio_send_msg()
+at some point, which itself needs to grab the lock:
 
-All these dialogs are synchronous, hence the deadlock.
+fv_queue_thread()
+ g_list_foreach()
+  fv_queue_worker()
+   fuse_session_process_buf_int()
+    do_release()
+     lo_release()
+      fuse_reply_err()
+       send_reply()
+        send_reply_iov()
+         fuse_send_reply_iov_nofree()
+          fuse_send_msg()
+           virtio_send_msg()
+            vu_dispatch_rdlock() <-- Deadlock !
 
-As pointed out by Stefan Hajnoczi:
+Simply have the main thread to release the lock before going to
+sleep and take it back afterwards. A very similar patch was already
+sent by Vivek Goyal sometime back:
 
-When QEMU's vhost-user master implementation sends a vhost-user protocol
-message, vhost_user_read() does a "blocking" read during which slave_fd
-is not monitored by QEMU.
+https://listman.redhat.com/archives/virtio-fs/2021-January/msg00073.html
 
-As a preliminary step to address this, split vhost_user_read() into a
-nested even loop and a one-shot callback that does the actual reading.
-A subsequent patch will teach the loop to monitor and process messages
-from the slave channel as well.
+The only difference here is that this done in fv_queue_set_started()
+because fv_queue_cleanup_thread() can also be called from virtio_loop()
+without the lock being held.
 
-[1] https://github.com/jedisct1/Blogbench
-
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/virtio/vhost-user.c | 59 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 54 insertions(+), 5 deletions(-)
+ tools/virtiofsd/fuse_virtio.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2fdd5daf74bb..8a0574d5f959 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -294,15 +294,27 @@ static int vhost_user_read_header(struct vhost_dev *d=
-ev, VhostUserMsg *msg)
-     return 0;
- }
-=20
--static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
-+struct vhost_user_read_cb_data {
-+    struct vhost_dev *dev;
-+    VhostUserMsg *msg;
-+    GMainLoop *loop;
-+    int ret;
-+};
-+
-+static gboolean vhost_user_read_cb(GIOChannel *source, GIOCondition condit=
-ion,
-+                                   gpointer opaque)
- {
-+    struct vhost_user_read_cb_data *data =3D opaque;
-+    struct vhost_dev *dev =3D data->dev;
-+    VhostUserMsg *msg =3D data->msg;
-     struct vhost_user *u =3D dev->opaque;
-     CharBackend *chr =3D u->user->chr;
-     uint8_t *p =3D (uint8_t *) msg;
-     int r, size;
-=20
-     if (vhost_user_read_header(dev, msg) < 0) {
--        return -1;
-+        data->ret =3D -1;
-+        goto end;
-     }
-=20
-     /* validate message size is sane */
-@@ -310,7 +322,8 @@ static int vhost_user_read(struct vhost_dev *dev, Vhost=
-UserMsg *msg)
-         error_report("Failed to read msg header."
-                 " Size %d exceeds the maximum %zu.", msg->hdr.size,
-                 VHOST_USER_PAYLOAD_SIZE);
--        return -1;
-+        data->ret =3D -1;
-+        goto end;
-     }
-=20
-     if (msg->hdr.size) {
-@@ -320,11 +333,47 @@ static int vhost_user_read(struct vhost_dev *dev, Vho=
-stUserMsg *msg)
-         if (r !=3D size) {
-             error_report("Failed to read msg payload."
-                          " Read %d instead of %d.", r, msg->hdr.size);
--            return -1;
-+            data->ret =3D -1;
-+            goto end;
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 523ee64fb7ae..3e13997406bf 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -792,7 +792,13 @@ static void fv_queue_set_started(VuDev *dev, int qidx,=
+ bool started)
+             assert(0);
          }
+     } else {
++        /*
++         * Temporarily drop write-lock taken in virtio_loop() so that
++         * the queue thread doesn't block in virtio_send_msg().
++         */
++        vu_dispatch_unlock(vud);
+         fv_queue_cleanup_thread(vud, qidx);
++        vu_dispatch_wrlock(vud);
      }
-=20
--    return 0;
-+end:
-+    g_main_loop_quit(data->loop);
-+    return G_SOURCE_REMOVE;
-+}
-+
-+static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
-+{
-+    struct vhost_user *u =3D dev->opaque;
-+    CharBackend *chr =3D u->user->chr;
-+    GMainContext *prev_ctxt =3D chr->chr->gcontext;
-+    GMainContext *ctxt =3D g_main_context_new();
-+    GMainLoop *loop =3D g_main_loop_new(ctxt, FALSE);
-+    struct vhost_user_read_cb_data data =3D {
-+        .dev =3D dev,
-+        .loop =3D loop,
-+        .msg =3D msg,
-+        .ret =3D 0
-+    };
-+
-+    /* Switch context and add a new watch to monitor chardev activity */
-+    qemu_chr_be_update_read_handlers(chr->chr, ctxt);
-+    qemu_chr_fe_add_watch(chr, G_IO_IN | G_IO_HUP, vhost_user_read_cb, &da=
-ta);
-+
-+    g_main_loop_run(loop);
-+
-+    /*
-+     * Restore the previous context. This also destroys/recreates event
-+     * sources : this guarantees that all pending events in the original
-+     * context that have been processed by the nested loop are purged.
-+     */
-+    qemu_chr_be_update_read_handlers(chr->chr, prev_ctxt);
-+
-+    g_main_loop_unref(loop);
-+    g_main_context_unref(ctxt);
-+
-+    return data.ret;
  }
 =20
- static int process_message_reply(struct vhost_dev *dev,
 --=20
 2.26.2
 
