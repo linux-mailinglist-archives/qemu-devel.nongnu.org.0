@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F933306CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 05:14:10 +0100 (CET)
-Received: from localhost ([::1]:35532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCFC33076F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 06:32:43 +0100 (CET)
+Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ7HU-0004tO-UO
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 23:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
+	id 1lJ8VV-0005fp-UQ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 00:32:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJ7GN-0004RH-5c
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 23:12:59 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJ7GL-0007CZ-Me
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 23:12:58 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id p193so8794009yba.4
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 20:12:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LmrzTQ9QfRrT5p2KvIZtAd+8KB9wPN/rcBKQ+5QBUmg=;
- b=euzDwNv6BsnW2+78/Dl7bAybiqFMJUbwd4sTZzPJdN7DgHBypAvS4zPxvFNlxPU1rH
- LOeszTxb0628PK94qXDQL8c0IiQ111S13+fV26r/+3dudwNpHTbg/TYzhErxP7sGw3PK
- lptohR4iXWX37CD8jJJDXLMDmhGFjcl9JIXi1gMJr8t48hozEATBUfjBhHCEfUvngtUf
- O2p7IjebBMrPdzuMZt/yNhTkg2Q5g8s9APdbEyCUelR3o1GzeY1xfcrbU1jNge23OoZK
- dqZhcczO077JHZbP/n2kOWugKHfLixlLgQFqNsds1b7FYBrHwvmBamN47N26+cOhA0N7
- ilow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LmrzTQ9QfRrT5p2KvIZtAd+8KB9wPN/rcBKQ+5QBUmg=;
- b=oTOIx6NBjWZ+nGp12af+BqbzaiHKSvFPYTsf2g/frxuWv/Y1IGUZt7rfRMKSyzzs+p
- Cp//jEgFCSz6cRfBbB1aeWrLhaZnLmBpNrDKrFOrhsjwt6KkSzIUZ13qdFRcjZQWveRJ
- m7eUN9/Z9U04IX4D1VmiA0iAofQnKjPs5dULXI87Cq4ZTUl204//7Jaxow9/hbN67K73
- ulV8pD150UWcb3Ls3ru35zVXuQmkWxwU09tnSNH1AeNLRuWhUeJi+bLxOGaL56qNcrzz
- fQ2kOubwkp6j/cpas1stQpLfS+ESdsxxv67Vo0GtUw9QBCOekxdVtk/NL5xYKruWOCQ2
- TG0A==
-X-Gm-Message-State: AOAM532Isvpx8PZkkZbuMSUp8ALxzRvkfwteVxrG2yaVzyZwYCYwveI5
- BLSQ3UzOlq6luU2niOqtIse3WMVgjD8U7m0XcSs=
-X-Google-Smtp-Source: ABdhPJzxHAo8mO2ugotbIoRRojXWieYRN9zrsUTG4hEUDa7tEKtO7RzCpM7McV84kt4a7JIfHc0bNZaVaZ3QiuevGJk=
-X-Received: by 2002:a25:d744:: with SMTP id o65mr33530064ybg.387.1615176776306; 
- Sun, 07 Mar 2021 20:12:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJ8UF-0004or-FR
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 00:31:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJ8UC-00083k-6V
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 00:31:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615181478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VQHFbV/TWv31UBvcFVxFe+9CVzlK9XeqXYwAco0Ct9w=;
+ b=iEVHPawkuHdDj52VpU9yx81XlwxFMhrH3X04oUFMZW4QrabMKE9W8y2OUoByR75H9M2rtn
+ cDDa4SH/1d0WwNNSgQH0aZgdNxEET+ARNfsT/B36clwHq9DIBsgv+Py5E9NyYRgAzJEhVn
+ 23Shcy8u0GJ9S57WVzhkRJAqDNUZa3o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-84e2spzIOQ2x06Ib2dKReQ-1; Mon, 08 Mar 2021 00:31:15 -0500
+X-MC-Unique: 84e2spzIOQ2x06Ib2dKReQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82A281084C95;
+ Mon,  8 Mar 2021 05:31:14 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-193.pek2.redhat.com
+ [10.72.13.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB7D85D9D3;
+ Mon,  8 Mar 2021 05:31:05 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com
+Subject: [PATCH] virtio-net: calculating proper msix vectors on init
+Date: Mon,  8 Mar 2021 13:30:59 +0800
+Message-Id: <20210308053059.28753-1-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
-In-Reply-To: <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 8 Mar 2021 12:12:44 +0800
-Message-ID: <CAEUhbmV3rKLMbptXAGjZ5Qn4ONDmjT7-H18P2Stp=cAuSXUGuA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, stefanha@redhat.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 8, 2021 at 11:48 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/3/4 3:11 =E4=B8=8A=E5=8D=88, Philippe Mathieu-Daud=C3=A9 wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > The minimum Ethernet frame length is 60 bytes. For short frames with
-> > smaller length like ARP packets (only 42 bytes), on a real world NIC
-> > it can choose either padding its length to the minimum required 60
-> > bytes, or sending it out directly to the wire. Such behavior can be
-> > hardcoded or controled by a register bit. Similarly on the receive
-> > path, NICs can choose either dropping such short frames directly or
-> > handing them over to software to handle.
-> >
-> > On the other hand, for the network backends SLiRP/TAP, they don't
-> > expose a way to control the short frame behavior. As of today they
-> > just send/receive data from/to the other end connected to them,
-> > which means any sized packet is acceptable. So they can send and
-> > receive short frames without any problem. It is observed that ARP
-> > packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> > these ARP packets to the other end which might be a NIC model that
-> > does not allow short frames to pass through.
->
->
-> Do we need to care about other type of networking backends? E.g socket.
->
+Currently, the default msix vectors for virtio-net-pci is 3 which is
+obvious not suitable for multiqueue guest, so we depends on the user
+or management tools to pass a correct vectors parameter. In fact, we
+can simplifying this by calculating the number of vectors on realize.
 
-I am not sure as I never used other backends. If someone who is more
-familiar with the network codes better than me can confirm other
-backends are also needed, we might do:
+Consider we have N queues, the number of vectors needed is 2*N + 2
+(#queue pais + plus one config interrupt and control vq). We didn't
+check whether or not host support control vq because it was added
+unconditionally by qemu to avoid breaking legacy guests such as Minix.
 
-if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/core/machine.c          | 1 +
+ hw/virtio/virtio-net-pci.c | 8 +++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-> Or at least we should keep the padding logic if we can't audit all of
-> the backends.
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 4386f57b5c..979133f8b7 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@
+ GlobalProperty hw_compat_5_2[] = {
+     { "ICH9-LPC", "smm-compat", "on"},
+     { "PIIX4_PM", "smm-compat", "on"},
++    { "virtio-net-pci", "vectors", "3"},
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+ 
+diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
+index 292d13d278..2894c46b66 100644
+--- a/hw/virtio/virtio-net-pci.c
++++ b/hw/virtio/virtio-net-pci.c
+@@ -41,7 +41,8 @@ struct VirtIONetPCI {
+ static Property virtio_net_properties[] = {
+     DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
+                     VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
+-    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -50,6 +51,11 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *qdev = DEVICE(vpci_dev);
+     VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
++    VirtIONet *net = VIRTIO_NET(vdev);
++
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1) + 2;
++    }
+ 
+     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+                                   object_get_typename(OBJECT(qdev)));
+-- 
+2.24.3 (Apple Git-128)
 
-Regards,
-Bin
 
