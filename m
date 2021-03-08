@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81E5331519
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:43:33 +0100 (CET)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E934D33151C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:45:10 +0100 (CET)
+Received: from localhost ([::1]:47318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJum-00029t-Vd
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:43:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51868)
+	id 1lJJwL-00045u-UD
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:45:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1lJJci-0004RS-5t
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:24:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1lJJcf-0003SS-8o
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:24:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A52356520F;
- Mon,  8 Mar 2021 17:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1615224287;
- bh=mM7ct2vgRlQeJ6mmmYx4ShAL1KKFFLg9U+ZCmnf0rDA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ox8FtV0m2DJVYbt3iY5k+JsCuBCZYeAax/5KG5HDdHKEeeI8sCl3nSGWG3yxIemTQ
- zo57Q6vcHbPtuQ3m++iZxB3o17ukYqBu+NyjDs2esBwc2yzujLL0srdvXbrkEFBJBk
- TuOz/byGz6rgCi4wOlsohTDSEYC+AgfW5dtmIhnk=
-Date: Mon, 8 Mar 2021 18:24:44 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexander Graf <graf@amazon.com>
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
-Message-ID: <YEZd3It1llq9ctPN@kroah.com>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
- <YEY2b1QU5RxozL0r@kroah.com>
- <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJJiP-0003cs-Th
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:30:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJJiN-00068B-Ll
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:30:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lJJiL-0007pI-PP
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 17:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BECAD2E8041
+ for <qemu-devel@nongnu.org>; Mon,  8 Mar 2021 17:30:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=gregkh@linuxfoundation.org; helo=mail.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Mar 2021 17:25:19 -0000
+From: Dantali0n <1916655@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dantalion jnsnow
+X-Launchpad-Bug-Reporter: Dantali0n (dantalion)
+X-Launchpad-Bug-Modifier: Dantali0n (dantalion)
+References: <161411327241.7209.12340035841972797663.malonedeb@gac.canonical.com>
+Message-Id: <161522431976.27320.859129909135067989.malone@gac.canonical.com>
+Subject: [Bug 1916655] Re: Compilation fails due to zstd qcow2 compression
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f41ce4c616a9df6b2066606b5a16a036a6d2f6bb"; Instance="production"
+X-Launchpad-Hash: 5ae64c167d954397174ecd37e1b46a4e086559ef
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,97 +70,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason@zx2c4.com, areber@redhat.com, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, ghammer@redhat.com, vijaysun@ca.ibm.com,
- 0x7f454c46@gmail.com, qemu-devel@nongnu.org, mhocko@kernel.org,
- dgunigun@redhat.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
- linux-s390@vger.kernel.org, corbet@lwn.net, mpe@ellerman.id.au, mst@redhat.com,
- ebiggers@kernel.org, borntraeger@de.ibm.com, sblbir@amazon.com,
- bonzini@gnu.org, arnd@arndb.de, jannh@google.com, raduweis@amazon.com,
- asmehra@redhat.com, Adrian Catangiu <acatan@amazon.com>, rppt@kernel.org,
- luto@kernel.org, gil@azul.com, oridgar@gmail.com, colmmacc@amazon.com,
- tytso@mit.edu, ovzxemul@gmail.com, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, ebiederm@xmission.com, rafael@kernel.org,
- w@1wt.eu, dwmw@amazon.co.uk
+Reply-To: Bug 1916655 <1916655@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 08, 2021 at 05:03:58PM +0100, Alexander Graf wrote:
-> 
-> 
-> On 08.03.21 15:36, Greg KH wrote:
-> > 
-> > On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
-> > > +static struct miscdevice sysgenid_misc = {
-> > > +     .minor = MISC_DYNAMIC_MINOR,
-> > > +     .name = "sysgenid",
-> > > +     .fops = &fops,
-> > > +};
-> > 
-> > Much cleaner, but:
-> > 
-> > > +static int __init sysgenid_init(void)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     sysgenid_data.map_buf = get_zeroed_page(GFP_KERNEL);
-> > > +     if (!sysgenid_data.map_buf)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     atomic_set(&sysgenid_data.generation_counter, 0);
-> > > +     atomic_set(&sysgenid_data.outdated_watchers, 0);
-> > > +     init_waitqueue_head(&sysgenid_data.read_waitq);
-> > > +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
-> > > +     spin_lock_init(&sysgenid_data.lock);
-> > > +
-> > > +     ret = misc_register(&sysgenid_misc);
-> > > +     if (ret < 0) {
-> > > +             pr_err("misc_register() failed for sysgenid\n");
-> > > +             goto err;
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err:
-> > > +     free_pages(sysgenid_data.map_buf, 0);
-> > > +     sysgenid_data.map_buf = 0;
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static void __exit sysgenid_exit(void)
-> > > +{
-> > > +     misc_deregister(&sysgenid_misc);
-> > > +     free_pages(sysgenid_data.map_buf, 0);
-> > > +     sysgenid_data.map_buf = 0;
-> > > +}
-> > > +
-> > > +module_init(sysgenid_init);
-> > > +module_exit(sysgenid_exit);
-> > 
-> > So you do this for any bit of hardware that happens to be out there?
-> > Will that really work?  You do not have any hwid to trigger off of to
-> > know that this is a valid device you can handle?
-> 
-> The interface is already useful in a pure container context where the
-> generation change request is triggered by software.
-> 
-> And yes, there are hardware triggers, but Michael was quite unhappy about
-> potential races between VMGenID change and SysGenID change and thus wanted
-> to ideally separate the interfaces. So we went ahead and isolated the
-> SysGenID one, as it's already useful as is.
-> 
-> Hardware drivers to inject change events into SysGenID can then follow
-> later, for all different hardware platforms. But SysGenID as in this patch
-> is a completely hardware agnostic concept.
+> Is there something we need to fix in the build system?
 
-Ok, so what is going to cause this driver to be automatically loaded?
-How will userspace "know" they want this and know to load it?
+Maybe, I do not know how this dependency is validated. If the
+directories used to validate dependencies differs from the directories
+(or order) used at compile / link time than this can cause errors like
+these.
 
-This really is just a shared memory "driver", it's gotten so small now,
-so why can't this just be a userspace program/server now?  :)
+However, what could also happen I suppose that the order in which
+headers are included differs from the order in which libraries are
+included. This could still be caused by the build system but also by the
+user (LD_PRELOAD, ld-config etc).
 
-thanks,
+-- =
 
-greg k-h
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916655
+
+Title:
+  Compilation fails due to zstd qcow2 compression
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Compilation of QEMU fails when using recent versions of zstd.
+
+  I use the following commands to compile QEMU:
+  $ mkdir build
+  $ cd build
+  $ ../configure --enable-debug --target-list=3Dx86_64-softmmu
+  $ make -j $(nproc)
+
+  Here is a paste from the ../configure output:
+  https://paste.ubuntu.com/p/dHsWzGV7TH/
+
+  And one from the make output:
+  https://paste.ubuntu.com/p/89qKk4NrFz/
+
+  In short the error boils down to:
+  ../block/qcow2-threads.c: In function =E2=80=98qcow2_zstd_compress=E2=80=
+=99:
+  ../block/qcow2-threads.c:225:16: error: implicit declaration of function =
+=E2=80=98ZSTD_compressStream2=E2=80=99; did you mean =E2=80=98ZSTD_compress=
+Stream=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+    225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD=
+_e_end);
+        |                ^~~~~~~~~~~~~~~~~~~~
+        |                ZSTD_compressStream
+  ../block/qcow2-threads.c:225:16: error: nested extern declaration of =E2=
+=80=98ZSTD_compressStream2=E2=80=99 [-Werror=3Dnested-externs]
+  ../block/qcow2-threads.c:225:60: error: =E2=80=98ZSTD_e_end=E2=80=99 unde=
+clared (first use in this function)
+    225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD=
+_e_end);
+        |
+
+  System info:
+  QEMU commit: 7ef8134565dccf9186d5eabd7dbb4ecae6dead87 (from Github)
+  Kernel: 5.10.15
+  zstd: 1.4.8
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916655/+subscriptions
 
