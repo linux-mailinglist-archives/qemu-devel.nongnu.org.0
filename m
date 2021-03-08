@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6BF5331588
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:09:28 +0100 (CET)
-Received: from localhost ([::1]:49962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFB1331576
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:05:48 +0100 (CET)
+Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKJr-00045i-S0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:09:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
+	id 1lJKGJ-0000YD-If
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:05:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJlK-0007Yg-DH
+ id 1lJJlK-0007Xi-0T
  for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:46 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:41890)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkz-0007DC-Sr
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:46 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso4312334wmi.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:25 -0800 (PST)
+ id 1lJJl0-0007DS-MT
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:45 -0500
+Received: by mail-wr1-x435.google.com with SMTP id v15so12329027wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=74U/u/XTm/I9RFlPjSYA1HB7Yb99PayPgOPDysisocw=;
- b=oldW3FcgouspBTSczRg+dBA6mWQ6CCMYnoDkrUXX+he26tlajJ4iPRySGb5KROTLXr
- P0J4NUigOvOIlefkj1/T08ctbgKuK9DPK/VXZUwbQdmLqFjNWjxBAQdhxNPJKpWSLYV2
- 0K4SYZFSWnabtfy8RnWpPrNaXWKg7zH5h5lX6HbCk/+G6qRfp3M2pQQRz0KcIZ16dRqa
- sI7EIWZxeLj5Idjbi/0KZ/jAXZEDMHrHK9k6FR+cjc9TzQIyBUtkDxZo9Qq7FtTX3rLx
- C25otljcZcF04+GboE6f+dMyUHKviDvwu3PKV9kQ2ytSpmofnIPPUAjqsfXoC7AeoMZe
- dVdg==
+ bh=NkgfjHifXa+4FrF0AQ8Os4BS+pn0bK0Hd28SCsYgWvo=;
+ b=Il6H/5U/ezn3Oi72iThvZVcz7FJ9gY07yFGcoMK/VEEl1u8VyYPgARpaH8ZB9f7OgV
+ g+x/4vmqYDlYu5qcpVUKNcjdQQXWiG5zAjp/wOItSMwjZMbk3EFOIBajEi0/0m3rfB+q
+ lC7rYc5G+iE7f9Bzw27pJYsyDM0INA0wtUzaHEJb/AgTsj32yTNe+clPZr2BYxXcQn0k
+ w2fBgWI88w4Xgs09DCHAVsqGuu+jO2eFPIpPbwxO6VAXKieUnksq2EODoYFWbYb5iF5I
+ ULW9rRjZtLdyb75Bf+ct4WP3GTmsBt+rG5s2mUhNcaby8en88oMZ6aRj4XwuxE0PJEmH
+ 3Ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=74U/u/XTm/I9RFlPjSYA1HB7Yb99PayPgOPDysisocw=;
- b=MQqE0A2Butu5Gvd/2UzxpLTpq6y2tJrSNjGOF5vE2WJIP3YzzB6oEu1JRXkO15AX73
- lYzE9SOKC5uck6L+7ba1/0FVrWl68aor7xhrCvlM7txY8vUFnXjT+WAYTtbQVtZL+kEd
- GFKXl/5KFvAmtWvXjNAeo6kOTy8eywj/5d592dDgm2qHP6hmFV57LgUcqtXalu5wZM7m
- wxUqncm9HSQ39/9ZF5ToW1yIdttU36orjyGUiXwGAz26ynWr3e9JzCsR9ncM9Xibh2Qh
- A8Q0WxMJXHD09USMSYsqDO5O94smF+oijglkJjdfjsI6E/4GE5PsRjv7nQS2dyy89cwr
- P2SA==
-X-Gm-Message-State: AOAM532kiTIemmKKl2rFUjEi2mZ7u8A5Sf/hMnpb5EAt3qCWzE52kf87
- xdPbf8SxNFm7i30w8OhgQrnB4yKMvUrxOQ==
-X-Google-Smtp-Source: ABdhPJxGrvjHRjv6HmXtfAvA21gDFofNFJsA7dYhoxpUihWd5UlHEeso2t8kjiwi+wG226KMmmXp4Q==
-X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr11772153wmc.3.1615224804539; 
- Mon, 08 Mar 2021 09:33:24 -0800 (PST)
+ bh=NkgfjHifXa+4FrF0AQ8Os4BS+pn0bK0Hd28SCsYgWvo=;
+ b=n2Wb5MYpDtOQQabAVQS4sMtqANnNL7cMw9NDxWVjarOHzz+Hv9AmDBJpg7KIcDEk/u
+ t/IRuAMTYu9iGapQmbGUziZ33WJ9BGHfveUMoU3CjnxxUGx/ni8JNOdqslIgQ8n38d/G
+ afT+T2rxBAr2q1c9AaY8PcvkNEIn4yigcQ/ACTdfGqhdvbflnyPDHb/Zrbi99yDfNItk
+ 5WkhGP14QcvVwbffwFjxTmXm0487lpivwlq/+dDkuNDFbRHH0V7SRQ7iXFo+hJneSNmi
+ z/piVrdCUgVqwepxD0qX3uJMCJLiKZvx9kUogUxoNtx2eU/TDT1EFCkwrxWYI7Exrh2U
+ F/Xg==
+X-Gm-Message-State: AOAM532R5sraMghJbBecEqW8NbKfPgVhp384tXFUEXXqFfFJHtWvLEgP
+ fKPFtsKzKD8T9HpAzAAClnD0iEO/EVmOhQ==
+X-Google-Smtp-Source: ABdhPJyQYJC/srQ+GjhhdRF7vqHMMTuE1W7NKQwBn5zvBWfI8/6v7pOukgv6DHQFkfaBpGVHhNOxMg==
+X-Received: by 2002:adf:f7cc:: with SMTP id a12mr24032558wrq.54.1615224805477; 
+ Mon, 08 Mar 2021 09:33:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.24
  for <qemu-devel@nongnu.org>
@@ -55,17 +54,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Mon, 08 Mar 2021 09:33:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/54] hw/ssi: xilinx_spips: Remove DMA related dead codes from
- zynqmp_spips
-Date: Mon,  8 Mar 2021 17:32:42 +0000
-Message-Id: <20210308173244.20710-53-peter.maydell@linaro.org>
+Subject: [PULL 53/54] hw/timer/renesas_tmr: Prefix constants for CSS values
+ with CSS_
+Date: Mon,  8 Mar 2021 17:32:43 +0000
+Message-Id: <20210308173244.20710-54-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +88,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+The #defines INTERNAL and CASCADING represent different possible
+values for the TCCR.CSS register field; prefix them with CSS_ to make
+this more obvious, before we add more defines to represent the
+other possible values of the field in the next commit.
 
-Now that the Xilinx CSU DMA model is implemented, the existing
-DMA related dead codes in the ZynqMP QSPI are useless and should
-be removed. The maximum register number is also updated to only
-include the QSPI registers.
-
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20210303135254.3970-6-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210219223241.16344-2-peter.maydell@linaro.org
 ---
- include/hw/ssi/xilinx_spips.h |  2 +-
- hw/ssi/xilinx_spips.c         | 10 ----------
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ hw/timer/renesas_tmr.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/ssi/xilinx_spips.h b/include/hw/ssi/xilinx_spips.h
-index 3eae73480e1..06bfd183124 100644
---- a/include/hw/ssi/xilinx_spips.h
-+++ b/include/hw/ssi/xilinx_spips.h
-@@ -34,7 +34,7 @@
- typedef struct XilinxSPIPS XilinxSPIPS;
+diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+index e03a8155b2b..22260aaaba5 100644
+--- a/hw/timer/renesas_tmr.c
++++ b/hw/timer/renesas_tmr.c
+@@ -46,8 +46,8 @@ REG8(TCCR, 10)
+   FIELD(TCCR, CSS,   3, 2)
+   FIELD(TCCR, TMRIS, 7, 1)
  
- #define XLNX_SPIPS_R_MAX        (0x100 / 4)
--#define XLNX_ZYNQMP_SPIPS_R_MAX (0x830 / 4)
-+#define XLNX_ZYNQMP_SPIPS_R_MAX (0x200 / 4)
+-#define INTERNAL  0x01
+-#define CASCADING 0x03
++#define CSS_INTERNAL  0x01
++#define CSS_CASCADING 0x03
+ #define CCLR_A    0x01
+ #define CCLR_B    0x02
  
- /* Bite off 4k chunks at a time */
- #define LQSPI_CACHE_SIZE 1024
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 8a0cc22d42e..1e9dba20392 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -195,13 +195,6 @@
- #define R_GQSPI_MOD_ID        (0x1fc / 4)
- #define R_GQSPI_MOD_ID_RESET  (0x10a0000)
+@@ -72,7 +72,7 @@ static void update_events(RTMRState *tmr, int ch)
+         /* event not happened */
+         return ;
+     }
+-    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) == CASCADING) {
++    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) == CSS_CASCADING) {
+         /* cascading mode */
+         if (ch == 1) {
+             tmr->next[ch] = none;
+@@ -130,7 +130,7 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+     if (delta > 0) {
+         tmr->tick = now;
  
--#define R_QSPIDMA_DST_CTRL         (0x80c / 4)
--#define R_QSPIDMA_DST_CTRL_RESET   (0x803ffa00)
--#define R_QSPIDMA_DST_I_MASK       (0x820 / 4)
--#define R_QSPIDMA_DST_I_MASK_RESET (0xfe)
--#define R_QSPIDMA_DST_CTRL2        (0x824 / 4)
--#define R_QSPIDMA_DST_CTRL2_RESET  (0x081bfff8)
--
- /* size of TXRX FIFOs */
- #define RXFF_A          (128)
- #define TXFF_A          (128)
-@@ -417,9 +410,6 @@ static void xlnx_zynqmp_qspips_reset(DeviceState *d)
-     s->regs[R_GQSPI_GPIO] = 1;
-     s->regs[R_GQSPI_LPBK_DLY_ADJ] = R_GQSPI_LPBK_DLY_ADJ_RESET;
-     s->regs[R_GQSPI_MOD_ID] = R_GQSPI_MOD_ID_RESET;
--    s->regs[R_QSPIDMA_DST_CTRL] = R_QSPIDMA_DST_CTRL_RESET;
--    s->regs[R_QSPIDMA_DST_I_MASK] = R_QSPIDMA_DST_I_MASK_RESET;
--    s->regs[R_QSPIDMA_DST_CTRL2] = R_QSPIDMA_DST_CTRL2_RESET;
-     s->man_start_com_g = false;
-     s->gqspi_irqline = 0;
-     xlnx_zynqmp_qspips_update_ixr(s);
+-        if (FIELD_EX8(tmr->tccr[1], TCCR, CSS) == INTERNAL) {
++        if (FIELD_EX8(tmr->tccr[1], TCCR, CSS) == CSS_INTERNAL) {
+             /* timer1 count update */
+             elapsed = elapsed_time(tmr, 1, delta);
+             if (elapsed >= 0x100) {
+@@ -139,11 +139,11 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+             tcnt[1] = tmr->tcnt[1] + (elapsed & 0xff);
+         }
+         switch (FIELD_EX8(tmr->tccr[0], TCCR, CSS)) {
+-        case INTERNAL:
++        case CSS_INTERNAL:
+             elapsed = elapsed_time(tmr, 0, delta);
+             tcnt[0] = tmr->tcnt[0] + elapsed;
+             break;
+-        case CASCADING:
++        case CSS_CASCADING:
+             if (ovf > 0) {
+                 tcnt[0] = tmr->tcnt[0] + ovf;
+             }
+@@ -330,7 +330,7 @@ static uint16_t issue_event(RTMRState *tmr, int ch, int sz,
+                 qemu_irq_pulse(tmr->cmia[ch]);
+             }
+             if (sz == 8 && ch == 0 &&
+-                FIELD_EX8(tmr->tccr[1], TCCR, CSS) == CASCADING) {
++                FIELD_EX8(tmr->tccr[1], TCCR, CSS) == CSS_CASCADING) {
+                 tmr->tcnt[1]++;
+                 timer_events(tmr, 1);
+             }
+@@ -362,7 +362,7 @@ static void timer_events(RTMRState *tmr, int ch)
+     uint16_t tcnt;
+ 
+     tmr->tcnt[ch] = read_tcnt(tmr, 1, ch);
+-    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) != CASCADING) {
++    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) != CSS_CASCADING) {
+         tmr->tcnt[ch] = issue_event(tmr, ch, 8,
+                                     tmr->tcnt[ch],
+                                     tmr->tcora[ch],
 -- 
 2.20.1
 
