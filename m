@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C453310CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:32:03 +0100 (CET)
-Received: from localhost ([::1]:33904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BC43310E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:34:35 +0100 (CET)
+Received: from localhost ([::1]:40940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGvS-0002At-15
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:32:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53876)
+	id 1lJGxu-0005MM-Ds
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:34:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJGJL-0000ag-DK
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:52:39 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJGJJ-0001k1-Gi
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:52:39 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E8D43AC54;
- Mon,  8 Mar 2021 13:52:35 +0000 (UTC)
-Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210301085450.1732-1-cfontana@suse.de>
- <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
- <6230ef40-c0ec-875e-dbd3-46fb5925322e@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <81208ea0-f389-14d0-c366-0579dee3376d@suse.de>
-Date: Mon, 8 Mar 2021 14:52:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJGO9-0007Rj-78
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:37 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:38078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJGO6-0003ws-Gh
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:36 -0500
+Received: by mail-ed1-x535.google.com with SMTP id m9so14858526edd.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gSt6SUYr2bac/TT0PvZCBdfdvwXGi6EeQHntGeiNh8w=;
+ b=NZTZt09c/l4HK1cKWXKNkb2gKKC/faTZFpUs5wp/qbCsBu4bUwKv6PzkeSuu2HzNJn
+ HZHhHQbASb4WYAsdJwKA6zKc2iTwmU2xrjMAhju2gzs9ulxUjhFOazRyWCBS0BtTSKpZ
+ 99uNNCJG/lY5+v0Xq3SZ18Vw0dlfsJruHmqsSx4cI/w95lXFD6BcKDjQi8LRPB2LtJSs
+ dN5nH6Dr8MHbH3IDkL1apjSZtL3rumjoG7EvAJwiOq+sqT1+1/YaI79Xb8/5j4dlbwPq
+ SOMHf2gPlHZ/mSLIp39c2KfZtKuG4k8a9MHI8XIWD4IenMLLyByJpAvyzyAAIA7p9Xfp
+ GprQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gSt6SUYr2bac/TT0PvZCBdfdvwXGi6EeQHntGeiNh8w=;
+ b=QFhYtz+XPRdrx6gFcAXnHgAbT3WaItQy/bGJZktWBfw6h+vwba5uUq78ih0DU7LWff
+ P+qm2nwkl80llSa3v5rZTGPuQtCV1q9/pCC22JHO/cEt32ZYt6KvzQqiFSDhJJXea3wa
+ kAc4VthL0ubEgq0XL8kq4dCNQFNquUNPKvX+L96Sk4tXL79+QR+31oTF4GkEfQUWse7C
+ lip2EiwZ/xr02DBTmAlR9NXDQGaniNivGuAbUCxvv8d7bpcOUM02lw5lkr5z3ZUL+LRh
+ JaNlLhUhsqmD47UsVrb5jbFhs9qD477fOKas0OgLDWKQSiXto9cIj7m2umYRLGS+ODhi
+ AROQ==
+X-Gm-Message-State: AOAM530qrhpO68pjjNQVEo5S/HHo6s3ceOuBEVuW164vdFQwFyZE9Pj0
+ PHZWpUREia108MNnFvN2vjlNj3cXCh5MTb+E+zp3kYKGv8I=
+X-Google-Smtp-Source: ABdhPJwM4bQsQz/yRpvh5PPkDLpbjdpKvqpTZI7hG5F5Rk++Aq++P2YK52dNNbeV/Az4JBLKv4TrS2qxwLuTYaGqhuE=
+X-Received: by 2002:a05:6402:2d0:: with SMTP id
+ b16mr22515939edx.194.1615211853150; 
+ Mon, 08 Mar 2021 05:57:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6230ef40-c0ec-875e-dbd3-46fb5925322e@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com> <2891210.4AG6acVJ2Y@silver>
+ <CAMVc7JXb=eK2FgEx0SV7N-DL65EaMPKHM9rZnHCfu5KTPin48g@mail.gmail.com>
+ <134602378.QJW5UkElOJ@silver>
+ <CAFEAcA-36A9RAB3eqi6-SHJSUxpzJsgVo75d3DZXcWhGYwLhrw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-36A9RAB3eqi6-SHJSUxpzJsgVo75d3DZXcWhGYwLhrw@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Mon, 8 Mar 2021 22:57:22 +0900
+Message-ID: <CAMVc7JWDCkCXKaj0Cba=OOb73i1Zuwx_WnLpJC6qL+1w1aZwvA@mail.gmail.com>
+Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,54 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 2:27 PM, Philippe Mathieu-Daudé wrote:
-> Hi Claudio,
-> 
-> On 3/8/21 1:57 PM, Claudio Fontana wrote:
->> Hi,
->>
->> anything else for me to do here?
->>
->> The latest rebased state of this series should be always available here:
->>
->> https://gitlab.com/hw-claudio/qemu/-/tree/i386_cleanup_8
->>
->> When it comes to the ARM cleanup series,
->> I would like to have the tests pass for ARM, before doing even more changes, could you help me there Philippe?
->>
->> Maybe applying some of your changes on top would fix the failures? I tried, for example with the arm-cpu-features ones, but it didn't work for me..
-> 
-> TBH I wrote these patches during my personal spare time and this
-> became a real Pandora box that drained too much energy. I prefer
-> to step back and focus on finishing smaller tasks before burning
-> out. That said I appreciate your effort and am interested in
-> following / reviewing your work.
-> 
-> Regards,
-> 
-> Phil.
-> 
+2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 22:38 Peter Maydell <peter.may=
+dell@linaro.org>:
+>
+> The online defect viewer is a bit better for showing why it thought
+> something was an issue. In this case we have at the top of the function:
+>
+>     trace_gd_switch(vc->label,
+>                     surface ? surface_width(surface)  : 0,
+>                     surface ? surface_height(surface) : 0);
+>
+> which tests whether surface is NULL, implying that sometimes it is.
+>
+> Then later we have:
+>     if (vc->gfx.ds && surface &&
+>
+> also checking surface for NULL-ness.
+>
+> Finally we have:
+>     if (surface->format =3D=3D PIXMAN_x8r8g8b8) {
+>
+> which dereferences surface without checking if it's NULL.
+>
+> So there is definitely a bug here:
+> (1) either surface can never be NULL, and all the places where
+> the function is testing for NULL-ness are wrong and need to be removed
+> (2) or surface can be NULL, and we should check here too
+>
+> Coverity can't tell us which of the two possibilities is right, of course=
+.
+>
+> thanks
+> -- PMM
 
-Thanks Philippe for sharing this, and I agree completely, it is very draining.
+c821a58ee7 ("ui/console: Pass placeholder surface to display")
+intended to eliminate the possibility that surface is NULL, so (1) is
+the case. I am preparing a patch to remove NULL checks.
 
-The effort of making tests happy that run in artificial environments in particular often feels to me
-as too disconnected from actually ensuring that there is no real run time regression.
-
-qtest_enabled() (implicitly, or explicitly via open-ended else statements) is another painful variable to keep in mind in cpu and machine code, so it is not helpful in my view.
-
-I'll try to push more to get the tests running again, if you have any comment or idea, feel free to just point me in the right direction,
-that is very valuable to me, even without working code.
-
-Currently I am struggling with arm-cpu-features and other tests (device-introspect-test, qom-test, test-hmp).
-
-I'll publish arm_cleanup_v5 soon,
-
-Thanks a lot,
-
-Claudio
+Thanks,
+Akihiko Odaki
 
