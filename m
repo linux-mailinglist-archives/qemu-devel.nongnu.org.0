@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885B433104B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:03:39 +0100 (CET)
-Received: from localhost ([::1]:45906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E129F3310C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:29:28 +0100 (CET)
+Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGTy-0004wW-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:03:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55156)
+	id 1lJGsy-0008TH-0M
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:29:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGO5-0007H6-0w
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:33 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46896)
+ id 1lJGIC-0006dc-09
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:28 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGO3-0003uw-4m
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:32 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- d139-20020a1c1d910000b029010b895cb6f2so3859256wmd.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:57:30 -0800 (PST)
+ id 1lJGI7-0001GO-20
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:27 -0500
+Received: by mail-wr1-x435.google.com with SMTP id e10so11493570wro.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qdRJRL3+3BE/JH14YpiGu383dDrAlP7VpAQihL8OqOE=;
- b=jG+Ocu+pvktYB4XAD03JfHf645e595o4p1nYB4PsmZGQpJ9zsozfOikfy7Qeieq4Y+
- Q4xnlskGVQ4g4Ift9Ak7uDfXqbSX9nfmLXoo3d3EDTrGH8j9DZ072zYQbE3RFoyU0ljA
- lricDeaQwrkgeERXq79kZ04+qS9OGmtT9cDbcTDiZw7pob0KNB47vqUhT4YLP+QGoeHu
- j4bi58loqf1POne+kc4MVoIm+xiEwwEeG3o+FCtS3nvs6BC0XPTaInSRhI00fSRlgNc9
- Fvn6He6ipHGSZYAXGHWLlo8tFrpQThyNUGaSUmGUGgcGRyOTm9+ZjGiNoEMALQYjd/Ya
- 6MCQ==
+ bh=e2s2r/+NfeVKeys87ugSZc5DKzDIrEIIPjFuy/f+xuQ=;
+ b=xxV1L6f+Lv5a9baKHjvRRjoxFbkvWdJ6X/5/uFwUSVU+mEJCEbAg/fonTfH0vtfowZ
+ a9TU6aRzgOTB9SoODZpWFv3V79ButsPcZXyF12tpVYthOcHWzjXo8PW0kYjItJgywB2o
+ 7ruldkd8gU5Ex+YgtCOsWPsxZXnA85vEdcHgOxb8G+9MoP2fkCVod1XSstrtmptbQXwB
+ E+DJueGlps0mqDUMrqrdaaeYA+oi7TZNx7wOcEnGBl3dzE6bO6uN2TILxR7dVzGZ2iZ3
+ 5z5xlruA0bXq23fjdmOcrJr+QrICpbRYn+SMSBN3lBG9HahRnsAzbTiiqcj4uidLcGV3
+ xJzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qdRJRL3+3BE/JH14YpiGu383dDrAlP7VpAQihL8OqOE=;
- b=r/XAThMLxJuGK1Pb1Fx+p+1D38fC9ojjAum2wVV/5kYplVvwHsJBLDSNlnNqxWR0vo
- spzeaTRI5Ui3tI4AbsrkYmEVN+DNlvX+KsC6Qyh+fCiH9MEkGdAVtg3HBigJkZ0RGvPY
- 3hZu12gkSYy/LEpaZoMJXVySXn4mFb8I2YwBdI8EaKA9BPCJeyDHzgmTVf1ca9oJs9to
- MwMwuBX5jxCZIPVhftLWhMO8DnQ9c5RlLBYyS0ivbtHOgXqhbtQuoBrk23a1j54Q3OgO
- CrzHgcl1Is7W5vWcYtf6eBzfD306C3rfbf+d6GPPXWvGKbr8QdXQPvB4MOdgzYEl5sIE
- Lq7A==
-X-Gm-Message-State: AOAM531zgY3IfXRTlfmWaM+mneVcOpxrWOZBWgdFI8Luag2tfeGRw38p
- cLAgmpX1hY3o9vuBjiuqC5CWMg==
-X-Google-Smtp-Source: ABdhPJw1NdB4QTQJyDL/FC9b28CAzvSH7zJHJK/OR5K9BU8AexCGoT0eMXBixAKzv5DY+gzaqe93aw==
-X-Received: by 2002:a1c:7714:: with SMTP id t20mr21838401wmi.107.1615211849713; 
- Mon, 08 Mar 2021 05:57:29 -0800 (PST)
+ bh=e2s2r/+NfeVKeys87ugSZc5DKzDIrEIIPjFuy/f+xuQ=;
+ b=DOjnB0bIWyfnVUV/yCeSp5cQUPFyY+bbESZc3yvlQVgqC9M1xRDIUrnxM/KxlvG752
+ QWgzejIX+53JvnLdLoFqNnZq/2ZCrnL7idECt88OQpvdJ8w/9A+5qO/zx6pD+yOQTJX3
+ HqwYuAPSgkUmAxMZhMD69i/0v8584uRI3zA9v8i3osAPyZX8XXhw5lgnldmLcIixTzV8
+ lVcmxknYSn2LFDzKahAJctto10bjK9ii3kWI5B1KePowimkCyHGF3SMYjsVQYx9KbjXE
+ ZtJbvPWHkjX5qLitvLvnSomASM+ivCypeFlRV61B9gj4pBBSXvdVjiG8NaGbuImgcwSg
+ kP7A==
+X-Gm-Message-State: AOAM533tT+UaTkRUaQXHPHDL3+3jNgSBEhzwWJEhw+75mw3bb65FPA6P
+ EQw0c/Gilg3xKojKDouCfhQeew==
+X-Google-Smtp-Source: ABdhPJxoCTfzwEev49WQprc+OL+8piHAkz0kvPFlDW82GeRCudpjYfjGPKreA7or/d6XJeZDvcsSHQ==
+X-Received: by 2002:adf:ec83:: with SMTP id z3mr22730679wrn.59.1615211481357; 
+ Mon, 08 Mar 2021 05:51:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k11sm19444723wmj.1.2021.03.08.05.57.28
+ by smtp.gmail.com with ESMTPSA id s9sm4589633wmh.31.2021.03.08.05.51.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 05:57:28 -0800 (PST)
+ Mon, 08 Mar 2021 05:51:17 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ED12A1FF9B;
- Mon,  8 Mar 2021 13:51:05 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 339591FF9D;
+ Mon,  8 Mar 2021 13:51:06 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/18] device_tree: add qemu_fdt_setprop_string_array helper
-Date: Mon,  8 Mar 2021 13:50:58 +0000
-Message-Id: <20210308135104.24903-13-alex.bennee@linaro.org>
+Subject: [PULL 14/18] docs: move generic-loader documentation into the main
+ manual
+Date: Mon,  8 Mar 2021 13:51:00 +0000
+Message-Id: <20210308135104.24903-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
 References: <20210308135104.24903-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,91 +88,265 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A string array in device tree is simply a series of \0 terminated
-strings next to each other. As libfdt doesn't support that directly
-we need to build it ourselves.
+We might as well surface this useful information in the manual so
+users can find it easily. It is a fairly simple conversion to rst with
+the only textual fixes being QemuOps to QemuOpts.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210303173642.3805-4-alex.bennee@linaro.org>
+Message-Id: <20210303173642.3805-6-alex.bennee@linaro.org>
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index 982c89345f..8a2fe55622 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -70,6 +70,23 @@ int qemu_fdt_setprop_u64(void *fdt, const char *node_path,
-                          const char *property, uint64_t val);
- int qemu_fdt_setprop_string(void *fdt, const char *node_path,
-                             const char *property, const char *string);
+diff --git a/docs/generic-loader.txt b/docs/generic-loader.txt
+deleted file mode 100644
+index a9603a2af7..0000000000
+--- a/docs/generic-loader.txt
++++ /dev/null
+@@ -1,92 +0,0 @@
+-Copyright (c) 2016 Xilinx Inc.
+-
+-This work is licensed under the terms of the GNU GPL, version 2 or later.  See
+-the COPYING file in the top-level directory.
+-
+-
+-The 'loader' device allows the user to load multiple images or values into
+-QEMU at startup.
+-
+-Loading Data into Memory Values
+--------------------------------
+-The loader device allows memory values to be set from the command line. This
+-can be done by following the syntax below:
+-
+-     -device loader,addr=<addr>,data=<data>,data-len=<data-len>
+-                   [,data-be=<data-be>][,cpu-num=<cpu-num>]
+-
+-    <addr>      - The address to store the data in.
+-    <data>      - The value to be written to the address. The maximum size of
+-                  the data is 8 bytes.
+-    <data-len>  - The length of the data in bytes. This argument must be
+-                  included if the data argument is.
+-    <data-be>   - Set to true if the data to be stored on the guest should be
+-                  written as big endian data. The default is to write little
+-                  endian data.
+-    <cpu-num>   - The number of the CPU's address space where the data should
+-                  be loaded. If not specified the address space of the first
+-                  CPU is used.
+-
+-All values are parsed using the standard QemuOps parsing. This allows the user
+-to specify any values in any format supported. By default the values
+-will be parsed as decimal. To use hex values the user should prefix the number
+-with a '0x'.
+-
+-An example of loading value 0x8000000e to address 0xfd1a0104 is:
+-    -device loader,addr=0xfd1a0104,data=0x8000000e,data-len=4
+-
+-Setting a CPU's Program Counter
+--------------------------------
+-The loader device allows the CPU's PC to be set from the command line. This
+-can be done by following the syntax below:
+-
+-     -device loader,addr=<addr>,cpu-num=<cpu-num>
+-
+-    <addr>      - The value to use as the CPU's PC.
+-    <cpu-num>   - The number of the CPU whose PC should be set to the
+-                  specified value.
+-
+-All values are parsed using the standard QemuOps parsing. This allows the user
+-to specify any values in any format supported. By default the values
+-will be parsed as decimal. To use hex values the user should prefix the number
+-with a '0x'.
+-
+-An example of setting CPU 0's PC to 0x8000 is:
+-    -device loader,addr=0x8000,cpu-num=0
+-
+-Loading Files
+--------------
+-The loader device also allows files to be loaded into memory. It can load ELF,
+-U-Boot, and Intel HEX executable formats as well as raw images.  The syntax is
+-shown below:
+-
+-    -device loader,file=<file>[,addr=<addr>][,cpu-num=<cpu-num>][,force-raw=<raw>]
+-
+-    <file>      - A file to be loaded into memory
+-    <addr>      - The memory address where the file should be loaded. This is
+-                  required for raw images and ignored for non-raw files.
+-    <cpu-num>   - This specifies the CPU that should be used. This is an
+-                  optional argument and will cause the CPU's PC to be set to
+-                  the memory address where the raw file is loaded or the entry
+-                  point specified in the executable format header. This option
+-                  should only be used for the boot image.
+-                  This will also cause the image to be written to the specified
+-                  CPU's address space. If not specified, the default is CPU 0.
+-    <force-raw> - Setting force-raw=on forces the file to be treated as a raw
+-                  image.  This can be used to load supported executable formats
+-                  as if they were raw.
+-
+-All values are parsed using the standard QemuOps parsing. This allows the user
+-to specify any values in any format supported. By default the values
+-will be parsed as decimal. To use hex values the user should prefix the number
+-with a '0x'.
+-
+-An example of loading an ELF file which CPU0 will boot is shown below:
+-    -device loader,file=./images/boot.elf,cpu-num=0
+-
+-Restrictions and ToDos
+-----------------------
+- - At the moment it is just assumed that if you specify a cpu-num then you
+-   want to set the PC as well. This might not always be the case. In future
+-   the internal state 'set_pc' (which exists in the generic loader now) should
+-   be exposed to the user so that they can choose if the PC is set or not.
+diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.rst
+new file mode 100644
+index 0000000000..6bf8a4eb48
+--- /dev/null
++++ b/docs/system/generic-loader.rst
+@@ -0,0 +1,117 @@
++..
++   Copyright (c) 2016, Xilinx Inc.
 +
-+/**
-+ * qemu_fdt_setprop_string_array: set a string array property
-+ *
-+ * @fdt: pointer to the dt blob
-+ * @name: node name
-+ * @prop: property array
-+ * @array: pointer to an array of string pointers
-+ * @len: length of array
-+ *
-+ * assigns a string array to a property. This function converts and
-+ * array of strings to a sequential string with \0 separators before
-+ * setting the property.
-+ */
-+int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
-+                                  const char *prop, char **array, int len);
++This work is licensed under the terms of the GNU GPL, version 2 or later.  See
++the COPYING file in the top-level directory.
 +
- int qemu_fdt_setprop_phandle(void *fdt, const char *node_path,
-                              const char *property,
-                              const char *target_node_path);
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index b9a3ddc518..2691c58cf6 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -21,6 +21,7 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "qemu/bswap.h"
-+#include "qemu/cutils.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
- #include "hw/loader.h"
-@@ -397,6 +398,31 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
-     return r;
- }
++Generic Loader
++--------------
++
++The 'loader' device allows the user to load multiple images or values into
++QEMU at startup.
++
++Loading Data into Memory Values
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++The loader device allows memory values to be set from the command line. This
++can be done by following the syntax below::
++
++   -device loader,addr=<addr>,data=<data>,data-len=<data-len> \
++                   [,data-be=<data-be>][,cpu-num=<cpu-num>]
++
++``<addr>``
++  The address to store the data in.
++
++``<data>``
++  The value to be written to the address. The maximum size of the data
++  is 8 bytes.
++
++``<data-len>``
++  The length of the data in bytes. This argument must be included if
++  the data argument is.
++
++``<data-be>``
++  Set to true if the data to be stored on the guest should be written
++  as big endian data. The default is to write little endian data.
++
++``<cpu-num>``
++  The number of the CPU's address space where the data should be
++  loaded. If not specified the address space of the first CPU is used.
++
++All values are parsed using the standard QemuOps parsing. This allows the user
++to specify any values in any format supported. By default the values
++will be parsed as decimal. To use hex values the user should prefix the number
++with a '0x'.
++
++An example of loading value 0x8000000e to address 0xfd1a0104 is::
++
++    -device loader,addr=0xfd1a0104,data=0x8000000e,data-len=4
++
++Setting a CPU's Program Counter
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The loader device allows the CPU's PC to be set from the command line. This
++can be done by following the syntax below::
++
++     -device loader,addr=<addr>,cpu-num=<cpu-num>
++
++``<addr>``
++  The value to use as the CPU's PC.
++
++``<cpu-num>``
++  The number of the CPU whose PC should be set to the specified value.
++
++All values are parsed using the standard QemuOpts parsing. This allows the user
++to specify any values in any format supported. By default the values
++will be parsed as decimal. To use hex values the user should prefix the number
++with a '0x'.
++
++An example of setting CPU 0's PC to 0x8000 is::
++
++    -device loader,addr=0x8000,cpu-num=0
++
++Loading Files
++^^^^^^^^^^^^^
++
++The loader device also allows files to be loaded into memory. It can load ELF,
++U-Boot, and Intel HEX executable formats as well as raw images.  The syntax is
++shown below:
++
++    -device loader,file=<file>[,addr=<addr>][,cpu-num=<cpu-num>][,force-raw=<raw>]
++
++``<file>``
++  A file to be loaded into memory
++
++``<addr>``
++  The memory address where the file should be loaded. This is required
++  for raw images and ignored for non-raw files.
++
++``<cpu-num>``
++  This specifies the CPU that should be used. This is an
++  optional argument and will cause the CPU's PC to be set to the
++  memory address where the raw file is loaded or the entry point
++  specified in the executable format header. This option should only
++  be used for the boot image. This will also cause the image to be
++  written to the specified CPU's address space. If not specified, the
++  default is CPU 0. <force-raw> - Setting force-raw=on forces the file
++  to be treated as a raw image. This can be used to load supported
++  executable formats as if they were raw.
++
++All values are parsed using the standard QemuOpts parsing. This allows the user
++to specify any values in any format supported. By default the values
++will be parsed as decimal. To use hex values the user should prefix the number
++with a '0x'.
++
++An example of loading an ELF file which CPU0 will boot is shown below::
++
++    -device loader,file=./images/boot.elf,cpu-num=0
++
++Restrictions and ToDos
++^^^^^^^^^^^^^^^^^^^^^^
++
++At the moment it is just assumed that if you specify a cpu-num then
++you want to set the PC as well. This might not always be the case. In
++future the internal state 'set_pc' (which exists in the generic loader
++now) should be exposed to the user so that they can choose if the PC
++is set or not.
++
++
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index 625b494372..cee1c83540 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -25,6 +25,7 @@ Contents:
+    usb
+    ivshmem
+    linuxboot
++   generic-loader
+    vnc-security
+    tls
+    gdb
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0134cad491..7a37599427 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2016,7 +2016,7 @@ M: Alistair Francis <alistair@alistair23.me>
+ S: Maintained
+ F: hw/core/generic-loader.c
+ F: include/hw/core/generic-loader.h
+-F: docs/generic-loader.txt
++F: docs/system/generic-loader.rst
  
-+/*
-+ * libfdt doesn't allow us to add string arrays directly but they are
-+ * test a series of null terminated strings with a length. We build
-+ * the string up here so we can calculate the final length.
-+ */
-+int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
-+                                  const char *prop, char **array, int len)
-+{
-+    int ret, i, total_len = 0;
-+    char *str, *p;
-+    for (i = 0; i < len; i++) {
-+        total_len += strlen(array[i]) + 1;
-+    }
-+    p = str = g_malloc0(total_len);
-+    for (i = 0; i < len; i++) {
-+        int len = strlen(array[i]) + 1;
-+        pstrcpy(p, len, array[i]);
-+        p += len;
-+    }
-+
-+    ret = qemu_fdt_setprop(fdt, node_path, prop, str, total_len);
-+    g_free(str);
-+    return ret;
-+}
-+
- const void *qemu_fdt_getprop(void *fdt, const char *node_path,
-                              const char *property, int *lenp, Error **errp)
- {
+ Guest Loader
+ M: Alex Bennée <alex.bennee@linaro.org>
 -- 
 2.20.1
 
