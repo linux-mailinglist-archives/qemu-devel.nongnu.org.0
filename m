@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE2133154A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:54:30 +0100 (CET)
-Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B6A331533
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:49:54 +0100 (CET)
+Received: from localhost ([::1]:55626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJK5O-000527-00
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:54:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
+	id 1lJK0v-0007xX-Qi
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:49:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJke-0006V4-6q
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:07 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39260)
+ id 1lJJkc-0006US-U8
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:03 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkU-00071s-RK
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:03 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id b18so12330390wrn.6
+ id 1lJJkV-00071y-CL
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:02 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h98so12286918wrh.11
  for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:32:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=t/0i5gP0fvOyDNPaVkl4SmcpUrXx30uegWr0B09D6oA=;
- b=sFt8QJAypq2Xw46PVFxszoLTMKYv+K/2skuAp+2VL+Bj5E+UJk/PelU0I77oGVljf4
- F3TUGyZ4YVlmv9XHgFR+qdinnQqJ3NkTwIjC4dERDGTUDWDUP7Uz+NQskexkCmEW6wKQ
- 6envNJd6j3TfxTr7U6EVMiKAIfsLE6q7i5i1r6gCCFtrfB8v5j4jn/0xpE2GgXnNvA25
- rjQufBvS0E4PgH0cnqeNn8/GOps7BJnoFwAfBYJI847RBZGhupDGzIsfqhJOMAlJZxjv
- ovTTduqANJTixzWJqVeSe61h5OpNY/K0WG1yLc27Xs3LuPW66eqHxHT++TsEX8FxgwUq
- HlcA==
+ bh=XFF1OhNMNqvGibNSw+5+2cn3CH+sBe8I4eaSY9GdJCc=;
+ b=E1jhP8e5DYnDZPp9GCYpK2Csnp3HjmIbgh41lLXmi/V6frvXH6LgtfWgboOM6kexvS
+ s9F60oBIQH/1ZoKp+mlKyA67dJAB7c+CmAEpzF/sciEBhsrYIuSqmYgq5BEYuPBYbfPS
+ +6Va3K3htwTTuPx4VECrCTqv0QvbyF8Nm97Z+EKhAqqAKGMMfwn9fF4OZ8CPULdHaDhX
+ L48oE+qZcTHWZ1cdkG1JG34W+RcOmJUBiSAt8kJ2ytSy+SUSA3c71Wsw/fKQQQVQdMfv
+ eN/zbTtgRsQcGzhxcCcNlWNSHPq6xXXGLhnbAiVYEvFQ9r+EOfnYjNSe+wexRlvtX0IO
+ FNvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t/0i5gP0fvOyDNPaVkl4SmcpUrXx30uegWr0B09D6oA=;
- b=XtqwxJSjhgRAcemoLaEzu7Kv3klr5BDmOCEg9/ciWRyfGvLCpJwJlzGfxzTLzh7C5m
- jTlAWPX0LPq6Bz99GOd0Ell1O9xygwFkIMIXgEE5h7yjUwmYtVdZFVF64biQeIr3hww5
- EPG3oyYYtP/kbu89VcZl1JEMONFQESm9Vsl2M9uZ3yo591lDolt7/lpzC10RYlRgltzN
- e7Z3ejFyN/91F86pSvYB0HIpVu27GqNAYwxGSbwe5ZI1boOQ5TvREPXRPom6iJk0QmUS
- VS/ft8s1Meldh2p+X+dgEAcCXKlVzgx5rcFi6GTKHGxXOkOwEHzBS+DDTUeyF3wp01ZX
- nVFw==
-X-Gm-Message-State: AOAM532jVQLXlD1WZUVq+++fIbNp83lfK3kE0We4JC/yah6MjbKPRXxP
- rX7kWdFxJBJeKshhBckeC6drDFAlYWRgkA==
-X-Google-Smtp-Source: ABdhPJxFi2x30/1yZ+alx5RbzB7b0JteZJ/oKAl3+75r0FZfThIfmhtaGRJU2tifjnFfSdmE6SYC6g==
-X-Received: by 2002:a5d:4d01:: with SMTP id z1mr23877167wrt.133.1615224773244; 
+ bh=XFF1OhNMNqvGibNSw+5+2cn3CH+sBe8I4eaSY9GdJCc=;
+ b=lTCDg9rjztUbx/0rSg9groUtT7aDiLycImaihu7XsV7apqQTXSQd7vJbQznH5EhbNw
+ DirecQwFKE3nhENb+LbrkiAa1DnX9/Z3qk1q3rq8uFOF63aSGHCRKsEhJQofoRRmz5EZ
+ JUANmRnDf6hLStwRLRQMjXnljUhqojUbDKFirhdtKpHiouOYVfeOp3B644XpKtKwtiYv
+ aPg5eV1TtsPdqPBDdWgM4SrTmZ1QE14AbCdFz1YH2iDIV1gf9RV0PEESlxpEv6FaDV6W
+ NEOwRAXOERiHzKe/PurjxWmZlqSjDJ8rlcqO6Qibd/jUhCRmvwv7EkDu+Gj5yrWq9ZpM
+ lr1A==
+X-Gm-Message-State: AOAM533lcmuXoDLGaigXFDewTiOXy9RbwHT++phROrfdff6YhesVUAbk
+ 10lrMglfawn9ka+RmgL5iwhUuUr/dOX9NQ==
+X-Google-Smtp-Source: ABdhPJwSuh0VvOZzxme4N/r/ZG7X5hCURttWAK1PeSmvZSukXLoMcA9um2OBpV3U5Mq9RI/xLHUIvg==
+X-Received: by 2002:adf:84e6:: with SMTP id 93mr22769598wrg.376.1615224773903; 
  Mon, 08 Mar 2021 09:32:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.52
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:32:52 -0800 (PST)
+ Mon, 08 Mar 2021 09:32:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/54] hw/arm/armsse.c: Use correct SYS_CONFIG0 register value
- for SSE-300
-Date: Mon,  8 Mar 2021 17:31:59 +0000
-Message-Id: <20210308173244.20710-10-peter.maydell@linaro.org>
+Subject: [PULL 10/54] hw/misc/iotkit-sysinfo.c: Implement SYS_CONFIG1 and IIDR
+Date: Mon,  8 Mar 2021 17:32:00 +0000
+Message-Id: <20210308173244.20710-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,93 +87,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the SSE-300, the format of the SYS_CONFIG0 register has changed again;
-pass through the correct value to the SYSINFO register block device.
+For SSE-300, the SYSINFO register block has two new registers:
 
-We drop the old SysConfigFormat enum, which was implemented in the
-hope that different flavours of SSE would share the same format;
-since they all seem to be different and we now have an sse_version
-enum to key off, just use that.
+ * SYS_CONFIG1 indicates the config for a potential CPU2 and CPU3;
+   since the SSE-300 can only be configured with a single CPU it
+   is always zero
+
+ * IIDR is the subsystem implementation identity register;
+   its value is set by the SoC integrator, so we plumb this in from
+   the armsse.c code as we do with SYS_VERSION and SYS_CONFIG
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-10-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-11-peter.maydell@linaro.org
 ---
- hw/arm/armsse.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ include/hw/misc/iotkit-sysinfo.h |  1 +
+ hw/arm/armsse.c                  |  5 +++++
+ hw/misc/iotkit-sysinfo.c         | 22 ++++++++++++++++++++++
+ 3 files changed, 28 insertions(+)
 
+diff --git a/include/hw/misc/iotkit-sysinfo.h b/include/hw/misc/iotkit-sysinfo.h
+index 91bd14bdbff..91c23f90d23 100644
+--- a/include/hw/misc/iotkit-sysinfo.h
++++ b/include/hw/misc/iotkit-sysinfo.h
+@@ -39,6 +39,7 @@ struct IoTKitSysInfo {
+     uint32_t sys_version;
+     uint32_t sys_config;
+     uint32_t sse_version;
++    uint32_t iidr;
+ };
+ 
+ #endif
 diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 67fa4ffe34a..113a783a46a 100644
+index 113a783a46a..326e161c8d4 100644
 --- a/hw/arm/armsse.c
 +++ b/hw/arm/armsse.c
-@@ -24,12 +24,6 @@
- #include "hw/irq.h"
- #include "hw/qdev-clock.h"
- 
--/* Format of the System Information block SYS_CONFIG register */
--typedef enum SysConfigFormat {
--    IoTKitFormat,
--    SSE200Format,
--} SysConfigFormat;
--
- struct ARMSSEInfo {
-     const char *name;
-     uint32_t sse_version;
-@@ -37,7 +31,6 @@ struct ARMSSEInfo {
+@@ -30,6 +30,7 @@ struct ARMSSEInfo {
+     int sram_banks;
      int num_cpus;
      uint32_t sys_version;
++    uint32_t iidr;
      uint32_t cpuwait_rst;
--    SysConfigFormat sys_config_format;
      bool has_mhus;
      bool has_ppus;
-     bool has_cachectrl;
-@@ -78,7 +71,6 @@ static const ARMSSEInfo armsse_variants[] = {
+@@ -70,6 +71,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .sram_banks = 1,
          .num_cpus = 1,
          .sys_version = 0x41743,
++        .iidr = 0,
          .cpuwait_rst = 0,
--        .sys_config_format = IoTKitFormat,
          .has_mhus = false,
          .has_ppus = false,
-         .has_cachectrl = false,
-@@ -93,7 +85,6 @@ static const ARMSSEInfo armsse_variants[] = {
+@@ -84,6 +86,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .sram_banks = 4,
          .num_cpus = 2,
          .sys_version = 0x22041743,
++        .iidr = 0,
          .cpuwait_rst = 2,
--        .sys_config_format = SSE200Format,
          .has_mhus = true,
          .has_ppus = true,
-         .has_cachectrl = true,
-@@ -108,13 +99,13 @@ static uint32_t armsse_sys_config_value(ARMSSE *s, const ARMSSEInfo *info)
-     /* Return the SYS_CONFIG value for this SSE */
-     uint32_t sys_config;
+@@ -950,6 +953,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     }
+     object_property_set_int(OBJECT(&s->sysinfo), "sse-version",
+                             info->sse_version, &error_abort);
++    object_property_set_int(OBJECT(&s->sysinfo), "IIDR",
++                            info->iidr, &error_abort);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->sysinfo), errp)) {
+         return;
+     }
+diff --git a/hw/misc/iotkit-sysinfo.c b/hw/misc/iotkit-sysinfo.c
+index 4bd3fd4c8f3..aaa9305b2ea 100644
+--- a/hw/misc/iotkit-sysinfo.c
++++ b/hw/misc/iotkit-sysinfo.c
+@@ -30,6 +30,8 @@
  
--    switch (info->sys_config_format) {
--    case IoTKitFormat:
-+    switch (info->sse_version) {
-+    case ARMSSE_IOTKIT:
-         sys_config = 0;
-         sys_config = deposit32(sys_config, 0, 4, info->sram_banks);
-         sys_config = deposit32(sys_config, 4, 4, s->sram_addr_width - 12);
+ REG32(SYS_VERSION, 0x0)
+ REG32(SYS_CONFIG, 0x4)
++REG32(SYS_CONFIG1, 0x8)
++REG32(IIDR, 0xfc8)
+ REG32(PID4, 0xfd0)
+ REG32(PID5, 0xfd4)
+ REG32(PID6, 0xfd8)
+@@ -70,6 +72,24 @@ static uint64_t iotkit_sysinfo_read(void *opaque, hwaddr offset,
+     case A_SYS_CONFIG:
+         r = s->sys_config;
          break;
--    case SSE200Format:
-+    case ARMSSE_SSE200:
-         sys_config = 0;
-         sys_config = deposit32(sys_config, 0, 4, info->sram_banks);
-         sys_config = deposit32(sys_config, 4, 5, s->sram_addr_width);
-@@ -125,6 +116,12 @@ static uint32_t armsse_sys_config_value(ARMSSE *s, const ARMSSEInfo *info)
-             sys_config = deposit32(sys_config, 28, 4, 2);
++    case A_SYS_CONFIG1:
++        switch (s->sse_version) {
++        case ARMSSE_SSE300:
++            return 0;
++            break;
++        default:
++            goto bad_read;
++        }
++        break;
++    case A_IIDR:
++        switch (s->sse_version) {
++        case ARMSSE_SSE300:
++            return s->iidr;
++            break;
++        default:
++            goto bad_read;
++        }
++        break;
+     case A_PID4 ... A_CID3:
+         switch (s->sse_version) {
+         case ARMSSE_SSE300:
+@@ -81,6 +101,7 @@ static uint64_t iotkit_sysinfo_read(void *opaque, hwaddr offset,
          }
          break;
-+    case ARMSSE_SSE300:
-+        sys_config = 0;
-+        sys_config = deposit32(sys_config, 0, 4, info->sram_banks);
-+        sys_config = deposit32(sys_config, 4, 5, s->sram_addr_width);
-+        sys_config = deposit32(sys_config, 16, 3, 3); /* CPU0 = Cortex-M55 */
-+        break;
      default:
-         g_assert_not_reached();
-     }
++    bad_read:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "IoTKit SysInfo read: bad offset %x\n", (int)offset);
+         r = 0;
+@@ -114,6 +135,7 @@ static Property iotkit_sysinfo_props[] = {
+     DEFINE_PROP_UINT32("SYS_VERSION", IoTKitSysInfo, sys_version, 0),
+     DEFINE_PROP_UINT32("SYS_CONFIG", IoTKitSysInfo, sys_config, 0),
+     DEFINE_PROP_UINT32("sse-version", IoTKitSysInfo, sse_version, 0),
++    DEFINE_PROP_UINT32("IIDR", IoTKitSysInfo, iidr, 0),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.20.1
 
