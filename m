@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52A5330F10
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:24:24 +0100 (CET)
-Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052D3330ED4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:05:30 +0100 (CET)
+Received: from localhost ([::1]:37524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJFrw-0006ax-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
+	id 1lJFZe-0001k6-Pi
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:05:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEvv-0003mD-SQ; Mon, 08 Mar 2021 07:24:27 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:43863)
+ id 1lJEw3-0003n7-Cl; Mon, 08 Mar 2021 07:24:32 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:51223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJEvq-00074G-6D; Mon, 08 Mar 2021 07:24:23 -0500
+ id 1lJEvr-00075V-Om; Mon, 08 Mar 2021 07:24:30 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 01ED9FDB;
- Mon,  8 Mar 2021 07:23:55 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 8BA2A36DA;
+ Mon,  8 Mar 2021 07:23:57 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:23:56 -0500
+ by compute4.internal (MEProxy); Mon, 08 Mar 2021 07:23:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=YvVql8HSdq+lS
- v/P5l8+1BHXMz87sH6F5IGR+O/+IcY=; b=L1QcY8N/BdMdWzHW5g0V3z5/xMuMn
- lvX0rXM+ipxrAoDd3qjA71v+5IUj7Ovu6D9YAQOB7cA8rcjYH6teeazn8n18yIlh
- O2qet3a/dghfs/BZiH1ZOXyRuF5DM3c3xo6FbUMce+kDGbJr5FKzjXXeyXfwbKch
- QEuZlUqKe+ZuCkBDJ5TplLipB63pzordNVw3yo1BA98aZzpDz4EP5DZzKobTvyw2
- xyefnGw/VTpWeMu7zTs8Un0lkKuMijekmoyChdQHZBbKqRAF6oD0xfAd5T3JkZyD
- Ip/LQN2cJRwbMH3uEYE0k0MRnGnnggT8cMBeIh2CQKw9J9nYTnm9MSDSw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=/ZZQCC1UfXLRG
+ eY4A1sN9etTsAeV2OOWDHOgpzMv958=; b=xKKyVdBOk7oL1g/hgkQRHYemSt8N+
+ f4KfAYcMNWro33xxygkuMGpxmfaNzY2IafQDh7RviVvS25UN3iSurmxD1Ke8Kjez
+ mf+lInOd4zNMoU3FYfYkjH0ogE8nJnYVrSaWzUc5hKexiXFkeDil6VYWln9jbwcA
+ ILVnrv5HpavCOjfigF1bWcADa34HeOL8T9m/TGuU640vmZV9NXDM2aq84fxx6xAV
+ jyh1t/h4HU2l5+loMz0GGfB4+kjubo4l9Oq3BObToUK5SMrRrVe8KtpK4sLl+jbk
+ LB+SqqQZTJkyu0+semJAdBCCpCyvOn6F0P2iS5OYidLjfzQP6Lgkc/c4g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=YvVql8HSdq+lSv/P5l8+1BHXMz87sH6F5IGR+O/+IcY=; b=RRHBSkpd
- 8fwd7a9BU0ttxDiDMQ1iDxBJ38jR0v99CMKvPhEFWKogGj8ChqRNjANLNLdzK8gJ
- jFPq4Hb58fAwQy++/8J+h3i6pXLDIzoE8Dupdw0tQN4W7YeRGy4kkkeiGFt+3qC+
- o76X3fDVe2QIKRhCvyABWhT96hQu0NmXgo4YwiSj/Gk0LtTFDGHQ76iMhtGrqiA3
- uErSqURlZfb1O3Hl4pJULxxRThqV7Dh6OWwUyqD/LFKL5gwETrGJH/cMZXq9s4Za
- eaVnIwQPVyy9jZslI0bIOhbejy9a6+v2eCo63xeH1Y/SE8tR9AHjbuV1K14/Ikhp
- 47TlAx8H+oSuyw==
-X-ME-Sender: <xms:WxdGYKkZbXCgXejf9xwIUMhwB1N4mbrGA_2SsVIvFgg8VRoNsChG5A>
- <xme:WxdGYB3fQ2HI9xnRBmBHP_XE4i2LVKM4fYyQPCAw4tX5MNee6U8v67DFS8QICngBz
- TUZY_zp6ve74ewQiUI>
+ fm2; bh=/ZZQCC1UfXLRGeY4A1sN9etTsAeV2OOWDHOgpzMv958=; b=eSXDWeSt
+ NIdVNJBC3XYWR86tmxk+YLtntJntFQUT+uDdLCTZ6AmNZ2KdzfxI4cpZGSijLApU
+ nylcjyNVdQ0buiKb0lHlQYFInH/XYXoy3ivR46tm15Abe76/pbJxomNzLaq8JdrX
+ 0mlCFHKG64M1Aex/O5Xnew0cfA5G64AF+COd2MatDNqWWwxR+gNAqwmyDl2oXNjc
+ dyyhdZRC+NQJwhTT2vKg1lQ9XbGjWxcbSjzb3nt35R+qKhAX+Qb7TINwI0wBgAAx
+ WFB3op3VaeJO39Arggms8OHMFE5q5s8S99g1dqaKAMSrL5La86zEOp/DLs1IVdvJ
+ bQIbZtv9F35v6w==
+X-ME-Sender: <xms:XRdGYPifZwiwsBDsUS2TFUanAzGfJnFxuGfv0NEtMOuuLmSq5UU1Lw>
+ <xme:XRdGYMAIbn7cSKH1l_QUg9AmAXpcNQ1Ia6DJDI0rAOXyyMFWALcyW_e3GI9uXn_PU
+ bb202mn1NcMVBwslAM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,21 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduvddgfedtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedule
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:WxdGYIpldjCM0LZD52-rh3yKKnVaGgafMCB7rEU2ilPpAq_LASuC7w>
- <xmx:WxdGYOmjvo0qhBh4Kkt7aL41EgNBl2xkq9ONgWgyVWLowAerBWyy3w>
- <xmx:WxdGYI3kfgbmoVGCWH9clqgRrR16smTv4Pt02esuc6mVhcRrNwjrRg>
- <xmx:WxdGYJLEETVTnfSukjU-LZnYOlMvjiQrwgMPONqkWakAxy3olbKa3SuIjBM>
+X-ME-Proxy: <xmx:XRdGYPGRFjnFzqtOtDgjSCW5YBhHCBpqhzCOeeFOhPuJtnmV1vItSw>
+ <xmx:XRdGYMQVymJWr1DAsd6rTihQvxdlzgf3naIk1ePHPmQrG8_z4Rh4gw>
+ <xmx:XRdGYMwgjeSALLf3iGBFX9kuNBtQdmoEGdv6gN_uJehaYJlTC8yV8w>
+ <xmx:XRdGYLnYwWTvliQjZ-BfAUfJxrkq1O5ZfTjM736WmV_tthfZwFr-d0lUe8s>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 27A1F108005F;
- Mon,  8 Mar 2021 07:23:54 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B27CF1080059;
+ Mon,  8 Mar 2021 07:23:55 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 25/38] hw/block/nvme: remove redundant len member in compare
- context
-Date: Mon,  8 Mar 2021 13:23:00 +0100
-Message-Id: <20210308122313.286938-26-its@irrelevant.dk>
+Subject: [PULL 26/38] hw/block/nvme: remove block accounting for write zeroes
+Date: Mon,  8 Mar 2021 13:23:01 +0100
+Message-Id: <20210308122313.286938-27-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308122313.286938-1-its@irrelevant.dk>
 References: <20210308122313.286938-1-its@irrelevant.dk>
@@ -104,57 +103,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The 'len' member of the nvme_compare_ctx struct is redundant since the
-same information is available in the 'iov' member.
+A Write Zeroes commands should not be counted in either the 'Data Units
+Written' or in 'Host Write Commands' SMART/Health Information Log page.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 0f6400cd7274..8b84342d72a8 100644
+index 8b84342d72a8..148ad3dd01e1 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1694,7 +1694,6 @@ static void nvme_aio_copy_in_cb(void *opaque, int ret)
- struct nvme_compare_ctx {
-     QEMUIOVector iov;
-     uint8_t *bounce;
--    size_t len;
- };
- 
- static void nvme_compare_cb(void *opaque, int ret)
-@@ -1715,16 +1714,16 @@ static void nvme_compare_cb(void *opaque, int ret)
-         goto out;
-     }
- 
--    buf = g_malloc(ctx->len);
-+    buf = g_malloc(ctx->iov.size);
- 
--    status = nvme_dma(nvme_ctrl(req), buf, ctx->len, DMA_DIRECTION_TO_DEVICE,
--                      req);
-+    status = nvme_dma(nvme_ctrl(req), buf, ctx->iov.size,
-+                      DMA_DIRECTION_TO_DEVICE, req);
-     if (status) {
-         req->status = status;
-         goto out;
-     }
- 
--    if (memcmp(buf, ctx->bounce, ctx->len)) {
-+    if (memcmp(buf, ctx->bounce, ctx->iov.size)) {
-         req->status = NVME_CMP_FAILURE;
-     }
- 
-@@ -1965,7 +1964,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
- 
-     ctx = g_new(struct nvme_compare_ctx, 1);
-     ctx->bounce = bounce;
--    ctx->len = len;
- 
-     req->opaque = ctx;
- 
+@@ -2172,7 +2172,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+                                          nvme_rw_cb, req);
+         }
+     } else {
+-        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
+         req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
+                                            BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
+                                            req);
 -- 
 2.30.1
 
