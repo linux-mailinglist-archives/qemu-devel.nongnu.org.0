@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC75331671
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:46:00 +0100 (CET)
-Received: from localhost ([::1]:57706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6371E331680
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:48:54 +0100 (CET)
+Received: from localhost ([::1]:34910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKtD-00021w-A3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:45:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54130)
+	id 1lJKw1-0004Vh-DG
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:48:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJlK-0007Zq-W6
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:47 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJl1-0007Dc-7L
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:46 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d15so12344136wrv.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=FhDIOwyJ8GCGcJ/kxHrV64oHA1bgEOV4xBZvRE8WQhg=;
- b=hT5uGpCwAxpNWpZ3KSL0/Eh/LZlaAzOjCKimT4mZP8EsY7h3AjVInEtwSPe9iiRaZ2
- x1oCvWN3Q9hbZTLlVGcHDKoUqsJWC5nZXCNRBTGt9y1dhsHklZUUus/7DJSp5OEnsR9B
- NGwIaGXqR0bdLw0/F/a5qCF/Td7KNT0lHKSGhFeSUlfu/HGQK5DtyypujTDV+bmb3AcQ
- YhEk2Ue090dl+46M22ElhaDdAk6WVgBWVbDyf667F8Hl3Dy9EWkheKSq8K1IPid0bCUt
- Ufr8DHulzy82PuSL2oXthAGVndAWpYy4PIHCjQ1w4kW6EBDPF1L9WrEIYCX5Er0QkNRW
- U6cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FhDIOwyJ8GCGcJ/kxHrV64oHA1bgEOV4xBZvRE8WQhg=;
- b=kNS0TgJ2OEv69FjFdJRl+3S13HxFk/egSY+sYGxehksfx/IIGdNrOLd2KJ1cD53I2N
- 8Mg3hwo58rk8BX7twFP3k/q/4cizlOmn3G9bS4TN+aame7xpUOBSgFzMjaXpJDPX7rRt
- VakkFqMUiWh4cjHdVFVfCGv/Xu1MbpvC+23LlaFabiWu4W2Mj1+cB3VJDpwsCsh0K5y3
- eJ195kvL72Y8Uqsqm3ePt6+Dz98v6tQJIpUl/5TtB0Irc3pzUOqIIOSz3isIkwfuKbzb
- yw7iZpmEW80pYZh6dgaW5+8RlDIQ0q69E+GfDWppJBdIE0I52hs+5O93yVbcZ16xnuvI
- mKHA==
-X-Gm-Message-State: AOAM5306YpDrk3iSYsE0neaPoyHegZCUOwaRXVgE5/kYRqac4o0d6lWk
- bIwcd9MwGoSm428o7WRdQu/8pT/FcqXDbA==
-X-Google-Smtp-Source: ABdhPJwXsZqh9wY8fAfwTj24VJkE/GnE4/oGyJ/BMRKN8xquoIe03DPDDOiNz2vGVdkoG2PCmOHyiQ==
-X-Received: by 2002:a05:6000:1788:: with SMTP id
- e8mr24402113wrg.171.1615224806047; 
- Mon, 08 Mar 2021 09:33:26 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.25
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:33:25 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 54/54] hw/timer/renesas_tmr: Fix use of uninitialized data in
- read_tcnt()
-Date: Mon,  8 Mar 2021 17:32:44 +0000
-Message-Id: <20210308173244.20710-55-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
-References: <20210308173244.20710-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJJlM-0007eL-R4
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:48 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:46217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJJkz-0007BZ-SU
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:48 -0500
+Received: from [192.168.100.1] ([82.252.159.174]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MPoTl-1l5kos451X-00MvNm; Mon, 08 Mar 2021 18:33:22 +0100
+Subject: Re: [PATCH v2 2/3] target/m68k: reformat m68k_features enum
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210308121155.2476-1-mark.cave-ayland@ilande.co.uk>
+ <20210308121155.2476-3-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <732e8cd1-60d3-915a-0c8c-dff5d9c20449@vivier.eu>
+Date: Mon, 8 Mar 2021 18:33:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210308121155.2476-3-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Provags-ID: V03:K1:qGBsdG21ByL+hgtI1+7dn+qA2lRWz2iMMmRu5fCQTYAMrTIrWfE
+ mpHIn2mh669C+Zr448nPyoUQXwxTCvRMkVv/pDXOhL2kWqWOy3xF8vMusrmzbsqqkIEI7g0
+ JD9Yjvd/K9LexrmHznTud3YnVblh7mwnV0URK6eMw4waWKpVszDjkvAmI1X4GmRtJxNfZM9
+ GcmKlp4rj7hTZjnc+Kbhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5j1Tr+6t2eQ=:dGxem9AxLuEgz9I7irrC7m
+ 8pcBJyHrs16sj363YzW8dLIuvmMC2xjRFr8xajvnQD5QZUfsoxPPFgEWHE16UQPXVK8KQJ0Vq
+ gnIycO1OAn9YKFTzjX3CfAmDpqKEH1LPW5pf8EkA44zJa/P1WQHp2YnkgI7zCWphMpNHmhkyR
+ 3uaYMbNK6J1mrciSD4mfJLcFbTxvUKNr7rlk5MWT4FduSShliK1qclJxcOhSjqlwV2qEpUK1g
+ 0pSjfdCXsbogVDIjlQAnLczSXKnTYR7BbQUXKBHDf0W+0rG2EaU1R9PAzNkXZgovtXM/cebOs
+ pGLXr31O0dQhVBGo3/NQqVveTWT9orYQTBqsLCe//lK0PWvAs1V3Xxr2zRuWCCraLUjX77vda
+ QU9eCd6GxfcgYkY2yiX9PoAiOJHPJPPjkaCrsQt358BezBd3/pz261oTpZfM8
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,80 +68,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The read_tcnt() function calculates the TCNT register values for the
-two channels of the timer module; it sets these up in the local
-tcnt[] array, and eventually returns either one or both of them,
-depending on whether the access is 8 or 16 bits.  However, not all of
-the code paths through this function set both elements of this array:
-if the guest has programmed the TCCR.CSS register fields to values
-which are either documented as not to be used or which QEMU does not
-implement, then the function will return uninitialized data.  (This
-was spotted by Coverity.)
+Le 08/03/2021 à 13:11, Mark Cave-Ayland a écrit :
+> Move the feature comment from after the feature name to the preceding line to
+> allow for longer feature names and descriptions without hitting the 80
+> character line limit.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/m68k/cpu.h | 66 +++++++++++++++++++++++++++++++----------------
+>  1 file changed, 44 insertions(+), 22 deletions(-)
+> 
+> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+> index 7c3feeaf8a..ce558e9b03 100644
+> --- a/target/m68k/cpu.h
+> +++ b/target/m68k/cpu.h
+> @@ -475,36 +475,58 @@ void do_m68k_semihosting(CPUM68KState *env, int nr);
+>   */
+>  
+>  enum m68k_features {
+> -    M68K_FEATURE_M68000,   /* Base m68k instruction set */
+> +    /* Base m68k instruction set */
+> +    M68K_FEATURE_M68000,
+>      M68K_FEATURE_M68010,
+>      M68K_FEATURE_M68020,
+>      M68K_FEATURE_M68030,
+>      M68K_FEATURE_M68040,
+>      M68K_FEATURE_M68060,
+> -    M68K_FEATURE_CF_ISA_A, /* Base Coldfire set Rev A. */
+> -    M68K_FEATURE_CF_ISA_B, /* (ISA B or C). */
+> -    M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
+> -    M68K_FEATURE_BRAL, /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
+> +    /* Base Coldfire set Rev A. */
+> +    M68K_FEATURE_CF_ISA_A,
+> +    /* (ISA B or C). */
+> +    M68K_FEATURE_CF_ISA_B,
+> +    /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
+> +    M68K_FEATURE_CF_ISA_APLUSC,
+> +    /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
+> +    M68K_FEATURE_BRAL,
+>      M68K_FEATURE_CF_FPU,
+>      M68K_FEATURE_CF_MAC,
+>      M68K_FEATURE_CF_EMAC,
+> -    M68K_FEATURE_CF_EMAC_B,   /* Revision B EMAC (dual accumulate). */
+> -    M68K_FEATURE_USP, /* User Stack Pointer. (680[012346]0, ISA A+, B or C).*/
+> -    M68K_FEATURE_MSP, /* Master Stack Pointer. (680[234]0) */
+> -    M68K_FEATURE_EXT_FULL,    /* 68020+ full extension word. */
+> -    M68K_FEATURE_WORD_INDEX,  /* word sized address index registers. */
+> -    M68K_FEATURE_SCALED_INDEX, /* scaled address index registers. */
+> -    M68K_FEATURE_LONG_MULDIV, /* 32 bit mul/div. (680[2346]0, and CPU32) */
+> -    M68K_FEATURE_QUAD_MULDIV, /* 64 bit mul/div. (680[2346]0, and CPU32) */
+> -    M68K_FEATURE_BCCL,  /* Bcc with Long branches. (680[2346]0, and CPU32) */
+> -    M68K_FEATURE_BITFIELD, /* BFxxx Bit field insns. (680[2346]0) */
+> -    M68K_FEATURE_FPU,   /* fpu insn. (680[46]0) */
+> -    M68K_FEATURE_CAS,   /* CAS/CAS2[WL] insns. (680[2346]0) */
+> -    M68K_FEATURE_BKPT,  /* BKPT insn. (680[12346]0, and CPU32) */
+> -    M68K_FEATURE_RTD,   /* RTD insn. (680[12346]0, and CPU32) */
+> -    M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
+> -    M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
+> -    M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
+> +    /* Revision B EMAC (dual accumulate). */
+> +    M68K_FEATURE_CF_EMAC_B,
+> +    /* User Stack Pointer. (680[012346]0, ISA A+, B or C). */
+> +    M68K_FEATURE_USP,
+> +    /* Master Stack Pointer. (680[234]0) */
+> +    M68K_FEATURE_MSP,
+> +    /* 68020+ full extension word. */
+> +    M68K_FEATURE_EXT_FULL,
+> +    /* word sized address index registers. */
+> +    M68K_FEATURE_WORD_INDEX,
+> +    /* scaled address index registers. */
+> +    M68K_FEATURE_SCALED_INDEX,
+> +    /* 32 bit mul/div. (680[2346]0, and CPU32) */
+> +    M68K_FEATURE_LONG_MULDIV,
+> +    /* 64 bit mul/div. (680[2346]0, and CPU32) */
+> +    M68K_FEATURE_QUAD_MULDIV,
+> +    /* Bcc with Long branches. (680[2346]0, and CPU32) */
+> +    M68K_FEATURE_BCCL,
+> +    /* BFxxx Bit field insns. (680[2346]0) */
+> +    M68K_FEATURE_BITFIELD,
+> +    /* fpu insn. (680[46]0) */
+> +    M68K_FEATURE_FPU,
+> +    /* CAS/CAS2[WL] insns. (680[2346]0) */
+> +    M68K_FEATURE_CAS,
+> +    /* BKPT insn. (680[12346]0, and CPU32) */
+> +    M68K_FEATURE_BKPT,
+> +    /* RTD insn. (680[12346]0, and CPU32) */
+> +    M68K_FEATURE_RTD,
+> +    /* CHK2 insn. (680[2346]0, and CPU32) */
+> +    M68K_FEATURE_CHK2,
+> +    /* MOVEP insn. (680[01234]0, and CPU32) */
+> +    M68K_FEATURE_MOVEP,
+> +    /* MOVEC insn. (from 68010) */
+> +    M68K_FEATURE_MOVEC,
+>  };
+>  
+>  static inline int m68k_feature(CPUM68KState *env, int feature)
+> 
 
-Add the missing CSS cases to this code, so that we return a
-consistent value instead of uninitialized data, and so the code
-structure indicates what's happening.
-
-Fixes: CID 1429976
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210219223241.16344-3-peter.maydell@linaro.org
----
- hw/timer/renesas_tmr.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
-index 22260aaaba5..eed39917fec 100644
---- a/hw/timer/renesas_tmr.c
-+++ b/hw/timer/renesas_tmr.c
-@@ -46,7 +46,9 @@ REG8(TCCR, 10)
-   FIELD(TCCR, CSS,   3, 2)
-   FIELD(TCCR, TMRIS, 7, 1)
- 
-+#define CSS_EXTERNAL  0x00
- #define CSS_INTERNAL  0x01
-+#define CSS_INVALID   0x02
- #define CSS_CASCADING 0x03
- #define CCLR_A    0x01
- #define CCLR_B    0x02
-@@ -130,13 +132,20 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
-     if (delta > 0) {
-         tmr->tick = now;
- 
--        if (FIELD_EX8(tmr->tccr[1], TCCR, CSS) == CSS_INTERNAL) {
-+        switch (FIELD_EX8(tmr->tccr[1], TCCR, CSS)) {
-+        case CSS_INTERNAL:
-             /* timer1 count update */
-             elapsed = elapsed_time(tmr, 1, delta);
-             if (elapsed >= 0x100) {
-                 ovf = elapsed >> 8;
-             }
-             tcnt[1] = tmr->tcnt[1] + (elapsed & 0xff);
-+            break;
-+        case CSS_INVALID: /* guest error to have set this */
-+        case CSS_EXTERNAL: /* QEMU doesn't implement these */
-+        case CSS_CASCADING:
-+            tcnt[1] = tmr->tcnt[1];
-+            break;
-         }
-         switch (FIELD_EX8(tmr->tccr[0], TCCR, CSS)) {
-         case CSS_INTERNAL:
-@@ -144,9 +153,11 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
-             tcnt[0] = tmr->tcnt[0] + elapsed;
-             break;
-         case CSS_CASCADING:
--            if (ovf > 0) {
--                tcnt[0] = tmr->tcnt[0] + ovf;
--            }
-+            tcnt[0] = tmr->tcnt[0] + ovf;
-+            break;
-+        case CSS_INVALID: /* guest error to have set this */
-+        case CSS_EXTERNAL: /* QEMU doesn't implement this */
-+            tcnt[0] = tmr->tcnt[0];
-             break;
-         }
-     } else {
--- 
-2.20.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
