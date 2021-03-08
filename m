@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AA2330864
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 07:46:53 +0100 (CET)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDA2330867
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 07:48:04 +0100 (CET)
+Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ9fI-0002ER-97
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 01:46:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
+	id 1lJ9gR-0003GC-3D
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 01:48:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lJ9bO-000188-GY
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:42:50 -0500
-Received: from mail-il1-f180.google.com ([209.85.166.180]:34999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lJ9bN-0005du-4s
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:42:50 -0500
-Received: by mail-il1-f180.google.com with SMTP id h18so7908299ils.2
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 22:42:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jIYR8iOwdgRB4BdvEppXOOBALFpL9ArrsNR9y6RNiFk=;
- b=pM+dePPMbNmgGiVNd92HzK5A+M04UqunrLovS5UCe6lHXWV4n+SxzIATWnvuLApwYJ
- F7RLdw63s2u86MAz9wrRtErHsBEzXpW/bSWSEWjS43G0pKGpZLs+8rFLzo77rIfZrxKM
- SRpkVEhyFB2Foz0GGKqQh51aNICMB193dvzD/yTCKL3C5CXA5Lc59Cy+anwJ8dMKBqGH
- wxn9JTcvaX/QHNwhjiyJ2LhP3raK40TSCQPT6h54jib9uc3OVjfrX0dLrIITcHXwmJ3R
- 56eZCAlPhA/FF1ySNWcV8dtczhkDgKKLaOg6PzS4QR9anyYw7wb/KauGb2e9hmz8Fl1t
- KoUA==
-X-Gm-Message-State: AOAM53083St81rT/6FufRwjGcMAgpSLcG2TKv6lUyk9v7cUIytsvE6dl
- 9XdwxPnBQej9+K4tROgoXSJf07oz7bg=
-X-Google-Smtp-Source: ABdhPJxZ2IIqE7DpxRNNGaNJN3QplTY7G6yK346ii2m4X87JQn6/ekqPwoICLmLqVjzYAqnhppN3wQ==
-X-Received: by 2002:a05:6e02:d53:: with SMTP id
- h19mr19351223ilj.157.1615185768177; 
- Sun, 07 Mar 2021 22:42:48 -0800 (PST)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com.
- [209.85.166.52])
- by smtp.gmail.com with ESMTPSA id f11sm4452566ilr.5.2021.03.07.22.42.47
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Mar 2021 22:42:48 -0800 (PST)
-Received: by mail-io1-f52.google.com with SMTP id n132so8842462iod.0
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 22:42:47 -0800 (PST)
-X-Received: by 2002:a5d:8416:: with SMTP id i22mr16860404ion.32.1615185767808; 
- Sun, 07 Mar 2021 22:42:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9d1-0001ux-Hw
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:44:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9d0-0006GA-63
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:44:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615185868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+IU52f4upeYdwySvE2LK7HmB+eUtwrhgzMWUlimbTgw=;
+ b=LKB0A7UlZt96e3IwleXkdxy8QN52yDAIx86dGg83oXkJpPaQfqP+tPTh0I9sv2hGDY4Pdw
+ kC+9Y5OZAdfZER4WDVZRz+5+VxgxdgBcxBX3BIW8fAB8k2P9TQjNZMsjIId9GuWX6YNKwe
+ JKypVkP08OZAtm/cSiGegY+EIjCZpOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-HVH0cjXmOIaePoKxtTZPEQ-1; Mon, 08 Mar 2021 01:44:25 -0500
+X-MC-Unique: HVH0cjXmOIaePoKxtTZPEQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A659E18D6A2C;
+ Mon,  8 Mar 2021 06:44:23 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-143.ams2.redhat.com [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A58F26E405;
+ Mon,  8 Mar 2021 06:44:11 +0000 (UTC)
+Subject: Re: [PATCH v3 04/12] libqtest: add qtest_remove_abrt_handler()
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210223144653.811468-1-stefanha@redhat.com>
+ <20210223144653.811468-5-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <63f791d0-9e1d-efe9-0f6c-6f647b611cc4@redhat.com>
+Date: Mon, 8 Mar 2021 07:44:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210125073427.3970606-1-marcandre.lureau@redhat.com>
- <20210125073427.3970606-3-marcandre.lureau@redhat.com>
-In-Reply-To: <20210125073427.3970606-3-marcandre.lureau@redhat.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Sun, 7 Mar 2021 22:42:37 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSAhvK7F+QM9Cx19todBewQZe+9mup3duFsqoN1Px7Hz2Q@mail.gmail.com>
-Message-ID: <CA+E+eSAhvK7F+QM9Cx19todBewQZe+9mup3duFsqoN1Px7Hz2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] build-sys: make libslirp a meson subproject
-To: marcandre.lureau@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.180; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f180.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210223144653.811468-5-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,19 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Joelle van Dyne <j@getutm.app>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Coiby Xu <coiby.xu@gmail.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 24, 2021 at 11:34 PM <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Remove the manual build.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 23/02/2021 15.46, Stefan Hajnoczi wrote:
+> Add a function to remove previously-added abrt handler functions.
+> 
+> Now that a symmetric pair of add/remove functions exists we can also
+> balance the SIGABRT handler installation. The signal handler was
+> installed each time qtest_add_abrt_handler() was called. Now it is
+> installed when the abrt handler list becomes non-empty and removed again
+> when the list becomes empty.
+> 
+> The qtest_remove_abrt_handler() function will be used by
+> vhost-user-blk-test.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>   tests/qtest/libqos/libqtest.h | 18 ++++++++++++++++++
+>   tests/qtest/libqtest.c        | 35 +++++++++++++++++++++++++++++------
+>   2 files changed, 47 insertions(+), 6 deletions(-)
 
-Tested-by: Joelle van Dyne <j@getutm.app>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
