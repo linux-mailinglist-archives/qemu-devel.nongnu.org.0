@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1CC33161E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:31:13 +0100 (CET)
-Received: from localhost ([::1]:56060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270DF33169E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:51:37 +0100 (CET)
+Received: from localhost ([::1]:39596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKeu-0006C5-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:31:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57282)
+	id 1lJKye-0006XK-5p
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:51:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lJK0x-0000pN-Op
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:49:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lJK0v-0005VO-NH
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:49:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615225792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=boJBC0KuhJY8QxYhhfPJUf3/P0+VFh1ZmSlOtMgljgQ=;
- b=QAoFaYngqS9sM3Zyh7JAGgvHlQC2Ii8Gse+Gyet9C6gaiQTfSxlqL3t9TNeDPmIkGisIXk
- awNzNDK7B7nbFicjha3MGro61VQURpTMVS+5D5MONOdXei8Rs5Tsj7rUTq7RPBMwdEfzaP
- MOUhSPYV5EZxF+GYGxrYxXmr91LEp/0=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-MWK3bSowPDCKNZ8u7ix_VQ-1; Mon, 08 Mar 2021 12:49:49 -0500
-X-MC-Unique: MWK3bSowPDCKNZ8u7ix_VQ-1
-Received: by mail-vs1-f72.google.com with SMTP id v66so4231121vsb.7
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:49:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJK3L-0003l7-45
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:52:23 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJK3J-0006mp-3h
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:52:22 -0500
+Received: by mail-ej1-x636.google.com with SMTP id mj10so22111331ejb.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:52:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CSR+RofT0Ct3BEUPKdnvi4db5uf53x6vobQd1CVXkis=;
+ b=XVYEwWxzko+nxprRahLoeLdMVebLJEK7hoOkPTmj4Bb8/x2a7NUtQyOyfP2I6N4zLG
+ b/UAAAW0fhJcoECSsRPdLTLuLEDolyw1swZr2wauk6qObRNavwAgcqTLc8xAskWJQHch
+ EK9F1tF99uUrs+i+gm8BXYb9V92oqhxJ8WNvYioDmoSlZGR8I+RGZOQDMV0lyP3ALgHg
+ FpYduhaP4ZuHzXEmpP3ZChEOQz+4LW6Z6K3gdXkMkzYEi4rNHvNkRRpIDradcbsF61Ec
+ YjwLIxpJGek18HNUs0YsoUXIH/3iHxVj35LE/M08SRTxpHkS4DfP3+hMUkMdvHOc0N/I
+ q6mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=boJBC0KuhJY8QxYhhfPJUf3/P0+VFh1ZmSlOtMgljgQ=;
- b=kga2RIAP1H8QYPKfA52m44iBDPUADixa0msZ4H+E+Df6q5gSfvLnDRvI/cEeWVeCaz
- ZvXiEXv4EU3cLhGXXn2sfkOMkIO9ieGlb/AeaQrZyVdva522UXr9uZLqFa61gYlQDnyO
- xxExWLRQGOjSznf6AgYg4eyuQQ7mAqvG5ZLXEG+SXbsazn4ugs4WPlx1TRQLfRd1i1KC
- xLlXTZXMHXPYgZjdPZKKYIF1+5pQiW01MhkQ6h9Gct/8vJH5NpTjTd4lgZE8ujtVYFXv
- /rwDZs2jR3No4IFWUdrB8hn7gD9DJJwbq8mcGJTw6ajMGn8HZpPsqijwA3wnGmaR+KcX
- XS8Q==
-X-Gm-Message-State: AOAM5326tVuYHTHg67uv3Wd2URmOBENzobvItTrVN2S++OrkrBAwinjk
- tsW7IUWBGBQUz4QsPowzKEZVBm8x2DDgACLJ8StiSWEF76xRvzDm7yKz7R5Vf6j70OslH6DnMwe
- hv6cguCWjhNbB8nu5dYIVevXmnc8uy9U=
-X-Received: by 2002:ab0:660d:: with SMTP id r13mr12701225uam.5.1615225788523; 
- Mon, 08 Mar 2021 09:49:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyl/DBmG+NOzkJhYYVDhqlGXawpHsv+eHDH09EIn+CMmPxslJO+XjxdXa2JmW7TQNOlD7fyNH7zgJJhUKnznRQ=
-X-Received: by 2002:ab0:660d:: with SMTP id r13mr12701214uam.5.1615225788280; 
- Mon, 08 Mar 2021 09:49:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20210308154633.158915-1-thuth@redhat.com>
-In-Reply-To: <20210308154633.158915-1-thuth@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 8 Mar 2021 14:49:22 -0300
-Message-ID: <CAKJDGDYOivmpA+qS-ZM7m68GudUKkwM=wCgA3feV8WKuT=dqFQ@mail.gmail.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CSR+RofT0Ct3BEUPKdnvi4db5uf53x6vobQd1CVXkis=;
+ b=tYkYp/BuesmS/JfdZcjW1eOblYD0O1QHP2OuSNqATRvZCQ6t3m0W1v1YwTKudcqbAQ
+ zq4LW882ZjfSdPE18+36kAWCbEQUOrMAPcoYJtayRnpvJWPJ2dzW7ER6j5jSbF8r5mKL
+ IR417UUeht+XsE4lWa6dO2McF7oTKf4fiugyYshOretFdxklDTCbmQ5qVno94I9z+6gp
+ 07Xavf5v2CEQKZnffE4n0beinH56pKHBOl15/H23lm0+vHT7BW+RJLZH7kfNobEO+GV2
+ UWbj7R4+C4r0GmvPHrQDi9QinpNu195gRTA3eyCRv3CpWSMs0SrIUDNKTQHOUEP9PrCy
+ RweA==
+X-Gm-Message-State: AOAM532MKxXHoiNudHexVGpMy0AFcxsF3vXnkbEP1wHvA7OP1oVt2kXi
+ wtqQEW8zIHcuBJ7BB0NotdE=
+X-Google-Smtp-Source: ABdhPJzkw3VpXfKGP+PytXlPSP9wx+4CQrw79qgYNGSS5MoE1RWnXN1IxdpG3hhbfc5xnrW+sQVnSQ==
+X-Received: by 2002:a17:906:f02:: with SMTP id
+ z2mr16321610eji.469.1615225939225; 
+ Mon, 08 Mar 2021 09:52:19 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u16sm7733522edq.4.2021.03.08.09.52.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Mar 2021 09:52:18 -0800 (PST)
 Subject: Re: [PATCH v2] MAINTAINERS: Merge the Gitlab-CI section into the
  generic CI section
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20210308154633.158915-1-thuth@redhat.com>
+ <78fb219e-fba5-0dfc-b21e-0cc657a9c372@amsat.org>
+ <8532b756-f53c-e606-b900-6dc77527fd71@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <508bacf5-0c3e-9817-4514-93f0452c619b@amsat.org>
+Date: Mon, 8 Mar 2021 18:52:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <8532b756-f53c-e606-b900-6dc77527fd71@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,103 +94,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 8, 2021 at 12:46 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> The status of the gitlab-CI files is currently somewhat confusing, and
-> it is often not quite clear whether a patch should go via my tree or
-> via the testing tree of Alex. That situation has grown historically...
-> Initially, I was the only one using the gitlab-CI, just for my private
-> repository there. But in the course of time, the gitlab-CI switched to
-> use the containers from tests/docker/ (which is not part of the gitlab-CI
-> section in the MAINTAINERS file), and QEMU now even switched to gitlab.co=
-m
-> completely for the repository and will soon use it as its gating CI, too,
-> so it makes way more sense if the gitlab-ci.yml files belong to the peopl=
-e
-> who are owning the qemu-project on gitlab.com and take care of the gitlab
-> CI there. Thus let's merge the gitlab-ci section into the common "test an=
-d
-> build automation" section.
+On 3/8/21 6:01 PM, Thomas Huth wrote:
+> On 08/03/2021 17.35, Philippe Mathieu-Daudé wrote:
+>> On 3/8/21 4:46 PM, Thomas Huth wrote:
+>>> The status of the gitlab-CI files is currently somewhat confusing, and
+>>> it is often not quite clear whether a patch should go via my tree or
+>>> via the testing tree of Alex. That situation has grown historically...
+>>> Initially, I was the only one using the gitlab-CI, just for my private
+>>> repository there. But in the course of time, the gitlab-CI switched to
+>>> use the containers from tests/docker/ (which is not part of the
+>>> gitlab-CI
+>>> section in the MAINTAINERS file), and QEMU now even switched to
+>>> gitlab.com
+>>> completely for the repository and will soon use it as its gating CI,
+>>> too,
+>>> so it makes way more sense if the gitlab-ci.yml files belong to the
+>>> people
+>>> who are owning the qemu-project on gitlab.com and take care of the
+>>> gitlab
+>>> CI there. Thus let's merge the gitlab-ci section into the common
+>>> "test and
+>>> build automation" section.
+>>>
+>>> While we're at it, I'm also removing the line with Fam there for now,
+>>> since he was hardly active during the last years in this area anymore.
+>>> If he ever gets more time for this part again in the future, we surely
+>>> can add the line back again.
+>>>
+>>> Now to avoid that Alex is listed here alone, Philippe and I agreed to
+>>> help as backup maintainers here, too.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   v2: Keep Philippe and myself as maintainer instead of reviewer
+>>>
+>>>   MAINTAINERS | 21 +++++++--------------
+>>>   1 file changed, 7 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 26c9454823..5c4c179abb 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -3262,17 +3262,21 @@ F: include/hw/remote/iohub.h
+>>>     Build and test automation
+>>>   -------------------------
+>>> -Build and test automation
+>>> +Build and test automation, Linux Continuous Integration
+>>
+>> I'd rather not limit it to Linux hosts...
+>>
+>>>   M: Alex Bennée <alex.bennee@linaro.org>
+>>> -M: Fam Zheng <fam@euphon.net>
+>>
+>> I'm not sure about Fam removal, he is the one maintaining patchew
+>> (see [*] below)... Maybe we need an Ack from Paolo?
+> 
+> We could split the Patchew part into a separate section... OTOH, there
+> are no patchew related files in the main git repo anyway that we track
+> in the MAINTAINERS file, so maybe it makes more sense to simply remove
+> that line? (Patchew admins are already mentioned here:
+> https://wiki.qemu.org/AdminContacts )
 
-Makes sense to me.
+Also here:
+https://wiki.qemu.org/Testing/CI
 
-Acked-by: Willian Rampazzo <willianr@redhat.com>
-
->
-> While we're at it, I'm also removing the line with Fam there for now,
-> since he was hardly active during the last years in this area anymore.
-> If he ever gets more time for this part again in the future, we surely
-> can add the line back again.
->
-> Now to avoid that Alex is listed here alone, Philippe and I agreed to
-> help as backup maintainers here, too.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Keep Philippe and myself as maintainer instead of reviewer
->
->  MAINTAINERS | 21 +++++++--------------
->  1 file changed, 7 insertions(+), 14 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26c9454823..5c4c179abb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3262,17 +3262,21 @@ F: include/hw/remote/iohub.h
->
->  Build and test automation
->  -------------------------
-> -Build and test automation
-> +Build and test automation, Linux Continuous Integration
->  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> -M: Fam Zheng <fam@euphon.net>
-> -R: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> +M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> +M: Thomas Huth <thuth@redhat.com>
-> +R: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-Feel free to add me as a Reviewer: Willian Rampazzo <willianr@redhat.com>
-
->  S: Maintained
->  F: .github/lockdown.yml
-> +F: .gitlab-ci.yml
-> +F: .gitlab-ci.d/
->  F: .travis.yml
->  F: scripts/ci/
->  F: tests/docker/
->  F: tests/vm/
->  F: scripts/archive-source.sh
-> +W: https://gitlab.com/qemu-project/qemu/pipelines
->  W: https://travis-ci.org/qemu/qemu
->  W: http://patchew.org/QEMU/
->
-> @@ -3289,17 +3293,6 @@ S: Maintained
->  F: .cirrus.yml
->  W: https://cirrus-ci.com/github/qemu/qemu
->
-> -GitLab Continuous Integration
-> -M: Thomas Huth <thuth@redhat.com>
-> -M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> -M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> -R: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> -S: Maintained
-> -F: .gitlab-ci.yml
-> -F: .gitlab-ci.d/crossbuilds.yml
-> -F: .gitlab-ci.d/*py
-> -F: scripts/ci/gitlab-pipeline-status
-> -
->  Guest Test Compilation Support
->  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->  R: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> --
-> 2.27.0
->
-
+So it makes sense to me to remove the patchew line.
 
