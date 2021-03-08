@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A917331AE0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 00:15:53 +0100 (CET)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C18331B0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 00:42:04 +0100 (CET)
+Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJP6O-0005hq-G1
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 18:15:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39288)
+	id 1lJPVi-0002Mg-TR
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 18:42:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lJP2E-0001vm-8X
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:11:34 -0500
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:40260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lJP2B-0005ma-JV
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:11:33 -0500
-Received: by mail-qk1-x735.google.com with SMTP id l132so11211638qke.7
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 15:11:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aoM0M/DyXZftEA9Ex3Gu16FrflMwJF8lgoZOVYhOnRQ=;
- b=Tq2LEKeA71/8Ua0E/3BNhFRZXma12M/qJYMqDjs+TOsByx7bNV5/rm4Xfqg2PNZ7p2
- qM89GT7dYdi64nNLbZmKvgx06f3mFCGqFTuXUvVs+STPyBtQ+aKfN8MFFALGsxBBt/7n
- /OSTIkrRi4bsHwVXgMSeM/t5WbfJbGLHm1FSs+9cD7nhK7fMeY7Ah+G7ElFghqH53LAc
- wiQR5FaYcGhYLEXZapVTLCVdpuioweqIQqcMcis6zePGGA6hWxheMKbHcSp469KInbMp
- ajGNsfqNQP1Kt7mXRCYL1o9J3BRcDBF++lGorrbEcY7vEA++J94rKz/OTYQepnMSfHWg
- EJ4A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJPUH-0001p6-Cs
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:40:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJPUF-00020K-9P
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:40:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615246829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pNpgSDE2jDlATHb1J12CtayPRdMxFRuBtOZPY1HEL8c=;
+ b=JJBu+noIGx641UQG0+LoUi0pDFBhRHUAQoERMauo/eub4e7HfUAb9Ctz3cmlSlFF7Igqgk
+ zyO+A2TUDuaswXOJ+6Ad32KhaeGOM4glfmKzCZFbyYLhCI2uvgZTrhV71LC8pY9lh+olNf
+ LT60yyjiLclI0ayec7dCUijqTk0CeEM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-ubG7mCLmO36CsamDKeDf1Q-1; Mon, 08 Mar 2021 18:40:28 -0500
+X-MC-Unique: ubG7mCLmO36CsamDKeDf1Q-1
+Received: by mail-qk1-f200.google.com with SMTP id 130so8657794qkm.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 15:40:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aoM0M/DyXZftEA9Ex3Gu16FrflMwJF8lgoZOVYhOnRQ=;
- b=ki1f84nIzkdmUfw+8sKHXawKK29tHbPDm1+L+2DBMg/tyohNgDJmtWbsecSdQQnVoY
- yJr8hv31qyOfiIhUj/zyDbW2t69h+6J501fMx/rfcFjXLRiDxOI4DzBYg4PXK8rKxa3H
- xbBXaCz1B+e6y+zwr4gFhyRiMCnBHUjWpe//TiPQgpVTXkH91c/LfohTpIPqvRFOUdPE
- 3hRNGyc5ltYzsrAJjaGicR5/OCtlbpP+29VoYMuvRvI+PjVk6BBy6kABVP7lreA00xwk
- QPcV/pnwlwFB5oGrYZErmk2ezqD+V85FUD+62VmlN+jEMDM0j4ihTeKz05izoGCEXDH0
- IPMQ==
-X-Gm-Message-State: AOAM530+ukcbxDVRUqD2MN0RpWfVa7n6YlCL7s5vzTN8a5NNtyoiITmP
- iCysi5+Lwbaxzazv8OP+MalrOepTZUrnbA==
-X-Google-Smtp-Source: ABdhPJxiMUNLsUXnE5xJFBUzV4hC22/EKUYAZZkyyE31tZzsZRHI6l4W1k5Lg0e8MoxYpjMNI8L4ng==
-X-Received: by 2002:a05:620a:31c:: with SMTP id
- s28mr22950255qkm.342.1615245090764; 
- Mon, 08 Mar 2021 15:11:30 -0800 (PST)
-Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id z6sm3312342qto.70.2021.03.08.15.11.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pNpgSDE2jDlATHb1J12CtayPRdMxFRuBtOZPY1HEL8c=;
+ b=EdIH1F36vcjaHLAA2iMEk2o8GfToOa7ZtV2zSIGDYUOdycSm63tBiED5TJiBLW1RUY
+ K/xugFcpy6fhlW+GAdxlvV8SMZfD3zr1///Xy6CybxRsq/PK9hfW2Y094NhXfGT+2SPx
+ bqGDkZdLNSwPjRoLh4Q8uJfVW8EsBPRGmFUPVffJWLMnC15bDf0bxQfF9PIal1OcAoPW
+ jbvgVRWm0Qp013kJ/xcZArTARh1HjNTET4uhZOWW8zCAlS5dTDd47TW49lzROjxLdp33
+ 55UsX29Gh18cd3JhKQy9kHRCh8mrnlzpaL4PfQPNYszFQVjLbaVboZKeASsGLjtUpU85
+ XQOA==
+X-Gm-Message-State: AOAM5333rcxXBukfDWipeUMCYDETYrHzytaCcPEQUIIfR1PMlT/2UBdp
+ n4tNsPaCV26tp5uavuCBF2688JycIalfJWgmD6zkIVer5h5zuGv86Pvyf3L5ivlfd1XNdTVf1H0
+ 7UpHBag1ab4lzpvY=
+X-Received: by 2002:a05:620a:204d:: with SMTP id
+ d13mr22855328qka.347.1615246827474; 
+ Mon, 08 Mar 2021 15:40:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxozdM1/UvPnRdfi2dIlJrtg0NvOeJC1alEctF6XcMFjS0r6hgfWpD6VmWv2GMBRzTpaCYDDQ==
+X-Received: by 2002:a05:620a:204d:: with SMTP id
+ d13mr22855311qka.347.1615246827261; 
+ Mon, 08 Mar 2021 15:40:27 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id t24sm1715057qto.23.2021.03.08.15.40.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 15:11:30 -0800 (PST)
-From: Rebecca Cran <rebecca@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: set ID_AA64ISAR0.TLB to 2 for max AARCH64
- CPU type
-Date: Mon,  8 Mar 2021 16:11:17 -0700
-Message-Id: <20210308231117.12650-4-rebecca@nuviainc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210308231117.12650-1-rebecca@nuviainc.com>
-References: <20210308231117.12650-1-rebecca@nuviainc.com>
+ Mon, 08 Mar 2021 15:40:26 -0800 (PST)
+Date: Mon, 8 Mar 2021 18:40:25 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 2/3] memory: Provide 'base address' argument to
+ mtree_print_mr()
+Message-ID: <20210308234025.GP397383@xz-x1>
+References: <20210305235414.2358144-1-f4bug@amsat.org>
+ <20210305235414.2358144-3-f4bug@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <20210305235414.2358144-3-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=rebecca@nuviainc.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,31 +98,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Indicate support for FEAT_TLBIOS and FEAT_TLBIRANGE by setting
-ID_AA64ISAR0.TLB to 2 for the max AARCH64 CPU type.
+Phil,
 
-Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
----
- target/arm/cpu64.c | 1 +
- 1 file changed, 1 insertion(+)
+On Sat, Mar 06, 2021 at 12:54:13AM +0100, Philippe Mathieu-Daudé wrote:
+> @@ -3188,14 +3188,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+>  
+>      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+>          qemu_printf("address-space: %s\n", as->name);
+> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
+> +        mtree_print_mr(as->root, 1, 0, as->root->addr,
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index c255f1bcc393..e1003fd96138 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -651,6 +651,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
-+        t = FIELD_DP64(t, ID_AA64ISAR0, TLB, 2);
-         t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
-         cpu->isar.id_aa64isar0 = t;
- 
+Root MR of any address space should have mr->addr==0, right?
+
+I'm slightly confused on what this patch wanted to do if so, since then "base"
+will always be zero..  Or am I wrong?
+
+Thanks,
+
+> +                       &ml_head, owner, disabled);
+>          qemu_printf("\n");
+>      }
+>  
+>      /* print aliased regions */
+>      QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
+>          qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
+> -        mtree_print_mr(ml->mr, 1, 0, &ml_head, owner, disabled);
+> +        mtree_print_mr(ml->mr, 1, 0, 0, &ml_head, owner, disabled);
+>          qemu_printf("\n");
+>      }
+>  
+> -- 
+> 2.26.2
+> 
+
 -- 
-2.26.2
+Peter Xu
 
 
