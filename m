@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7A6330FD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:47:08 +0100 (CET)
-Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E87330F8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:39:32 +0100 (CET)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGDz-0002vm-Fw
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:47:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48952)
+	id 1lJG6d-0004kq-3T
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:39:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJG1V-0007ce-8X
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:34:13 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35214)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lJG5G-0003RH-OV; Mon, 08 Mar 2021 08:38:06 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:38814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJG1S-0001kb-QI
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:34:12 -0500
-Received: by mail-ej1-x631.google.com with SMTP id dx17so20435713ejb.2
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:34:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lJG5F-0003Uw-82; Mon, 08 Mar 2021 08:38:06 -0500
+Received: by mail-io1-xd31.google.com with SMTP id k2so9914388ioh.5;
+ Mon, 08 Mar 2021 05:38:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2GMxVklie4vmHIPQCvWWOhONMn+AEDnZu+IiqlNnhII=;
- b=BBac93dtKc+MpEGziPZ6iAWPvTwC1KgqTKurIMQwY1py4GD3h4bZWQRvoUYPX6mwSz
- aeuQaIefyMFsZpuacqRQ4idQwgRj+AXlTSIr5+doY0gvmx4Rb+5Mnwifwy+LnuFykBF5
- GQk2X5jV51ZeNRV0guplM2zPxxkBNLIJSDIZljsnNRUvj0bFI0Fbd7cTY8by1pqhFojn
- dZ7CvmGBJsTMT1i4S46VfUwDR9N5ooKPuL+zIKiNvQFmMNCeVc7TBTw/yk0faDKS6lng
- 8n2V2foMq010yee/Wv85hlFRL6zW4oZ/IqProdGOP/wlgmw1VWn/9dz+uc2jy7Mhb7I4
- T4hQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yRZZ3NmuNmMen6Ygr2JxTxV9jSL4/3wNcB5Wux9QOQU=;
+ b=hI4Fy0vi9FW5ST0Gnf6+tO30c9DCA1hwaJlQ6xcJtVAzIcd6JhvGO4VoXrkmlvU0+f
+ Uj/YqCQAYkAvxEj08zozGthSjn5jgxrn5qy1s/MSlEU8BT0jAGyQ6UOPG4Y0YIRAVreb
+ 97pGzQsi2ar2WJsSIDGoO+Og4IX7T/ff9OQ80SuD2cRdWWdmILXtn1AL3lZNCt0Dr3Ro
+ aLNf1wNX7JH5t4LmyeEyyrvdMW/ymnvJw69vDTc4htK2Yh5bKCv6QHl1b713lwWz6C1E
+ l+t1ollv8tqkIwCpmc1Yej20fwt2+EuydBN3nln03u6nFzRMX88vVwAWL8EjNfp1w5JL
+ Fv1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2GMxVklie4vmHIPQCvWWOhONMn+AEDnZu+IiqlNnhII=;
- b=G67AuyUh56NO4Ja80P3pHehk8tNNYWtSfAImm0cySusjwoIDTNVjyRAyxV7RvZxpjI
- ybDNrzZgxJ8Sgd/ZO74ZzffKc7jzUHPS13UNE6FSz9w1XPfeC5BJLojNrH3FPWHQPmKD
- L7R9dO56rG9gFbkrcLRYTMauWEhw44cyi+qVNgtBG4zLb9wubByF8zfB3JdE9+tGNkeM
- EcdaRX8xW7l6q6xekN3pgtk/9xJNC0Y4YRjGawqFPR5hM61DPlMe9KtasEk22C7+xJKT
- u8c/azpRYxAgA1oaaKHcjEW84YpxpDJPVmancrPdWOUwAWfDP7TGURPprbGi49K726u2
- OUNg==
-X-Gm-Message-State: AOAM533YXevX7leH89wO9ZD+8DEp61ZV/ZIf4P81GmukkeHKoZtyzLzZ
- 8YyjFnl4q3ZjlNcJ7foIYQI=
-X-Google-Smtp-Source: ABdhPJz6+PR/tJsslXlRlFbWU4fHQDm2QNpqDNhgB78N2286v51vrYhDMO9NyMaTevZF2/gdFONaQg==
-X-Received: by 2002:a17:906:ae96:: with SMTP id
- md22mr14523237ejb.409.1615210448595; 
- Mon, 08 Mar 2021 05:34:08 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y12sm6778319ejb.104.2021.03.08.05.34.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 05:34:08 -0800 (PST)
-Subject: Re: [PATCH] MAINTAINERS: Merge the Gitlab-CI section into the generic
- CI section
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20210307113403.11028-1-thuth@redhat.com>
- <878s6xam83.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d451b382-c5dc-2346-a463-e95e48f205e4@amsat.org>
-Date: Mon, 8 Mar 2021 14:34:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yRZZ3NmuNmMen6Ygr2JxTxV9jSL4/3wNcB5Wux9QOQU=;
+ b=QdjWpSjDhKwFv98sR6EdWv9q2PihWp4C1pth1eTxDUyZU2uXfjx2GAkpzqCk5A08jX
+ 1Z+wq0RF9gRdQRIGHP2xe71JDylA8JZqVYrfe+6CPUujry4UxkRFLQi3w/0NmkQNw7uT
+ ai2DiMAI5TJl/xm0wQcWXEHti6ttoMUN21gwbjvBjfoZeO9GUnH9QMW8ZnqLP9zZ9pYS
+ q/Zu89GHgfREfXvgw5NP3qFnjDYoknIEHb8zNIifPsH0XdX+ELPrKYdnXGdcltkHfEgR
+ Cg6W+JGB0PKyr3ZOahIVpWeKNPg0lB7sirHCV8HjDqACyRu6z0YOd3vLM2xAdCbVYjDY
+ 6STQ==
+X-Gm-Message-State: AOAM531I4liQL+F3WkC09DALmLFWdGDZo8zVZRHWgwpcH7nwCB7EdmU0
+ ZEcAIxCGJGMma0Q+EhCIiIrBCGjt1unijBtMBJk=
+X-Google-Smtp-Source: ABdhPJxbrEkWSF7CgK3+YztN7QniYLnNxfa+QbAD+wEiitVRABqUoOCUP95BFwKSLtvSjN8vQza4PSYVeXXt4/pireU=
+X-Received: by 2002:a02:cad9:: with SMTP id f25mr23025681jap.26.1615210683172; 
+ Mon, 08 Mar 2021 05:38:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <878s6xam83.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210305135451.15427-1-alex.bennee@linaro.org>
+ <20210305135451.15427-4-alex.bennee@linaro.org>
+ <CAFEAcA9LdZ=Ym_UQFwqMcrHv6pygdxZC+fgoc=N3mU484d-a_A@mail.gmail.com>
+ <87im65gxla.fsf@keithp.com>
+ <CAFEAcA8DuMANP7-JF=bTDXG7uJF0q4HUQ2P4WOGvXAOWGtPYnA@mail.gmail.com>
+ <877dmlgnrf.fsf@keithp.com>
+ <CAFEAcA8t9eQf7nD2Ea7z1qO-Tf5xthTvzODS3XsxX+0ns3ttQg@mail.gmail.com>
+ <87o8fwfcjd.fsf@keithp.com>
+ <CAFEAcA-X6aqsePMKgxzHcRA8okyVUg=Lxve2KqXrd+qiX=jjFg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-X6aqsePMKgxzHcRA8okyVUg=Lxve2KqXrd+qiX=jjFg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 8 Mar 2021 08:36:44 -0500
+Message-ID: <CAKmqyKMmS3uasofFLvteZyZVJTR8mrmVtTM=WKUD_DQ_8rHmqw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] semihosting/arg-compat: fix up handling of
+ SYS_HEAPINFO
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,54 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Bug 1915925 <1915925@bugs.launchpad.net>, Keith Packard <keithp@keithp.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Mon, Mar 8, 2021 at 5:10 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sat, 6 Mar 2021 at 16:54, Keith Packard <keithp@keithp.com> wrote:
+> >
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > Part of why I asked is that the current RISCV implementation
+> > > is just looking at sizeof(target_ulong); but the qemu-system-riscv64
+> > > executable AIUI now supports emulating both "this is a 64 bit
+> > > guest CPU" and "this is a 32 bit host CPU", and so looking at
+> > > a QEMU-compile-time value like "sizeof(target_ulong)" will
+> > > produce the wrong answer for 32-bit CPUs emulated in
+> > > the qemu-system-riscv64 binary. My guess is maybe
+> > > it should be looking at the result of riscv_cpu_is_32bit() instead.
+> >
+> > Wow. I read through the code and couldn't find anything that looked like
+> > it supported that, sounds like I must have missed something?
 
-On 3/8/21 12:57 PM, Alex Bennée wrote:
-> 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> The status of the gitlab-CI files is currently somewhat confusing, and
->> it is often not quite clear whether a patch should go via my tree or
->> via the testing tree of Alex. That situation has grown historically...
->> Initially, I was the only one using the gitlab-CI, just for my private
->> repository there. But in the course of time, the gitlab-CI switched to
->> use the containers from tests/docker/ (which is not part of the gitlab-CI
->> section in the MAINTAINERS file), and QEMU now even switched to gitlab.com
->> completely for the repository and will soon use it as its gating CI, too.
->> So it makes way more sense if the gitlab-ci.yml files belong to the people
->> who are owning the qemu-project on gitlab.com and take care of the gitlab
->> CI there. Thus let's merge the gitlab-ci section into the common "test and
->> build automation" section,
-> 
-> I have no problem with this, might as well keep it all together.
-> 
->> and change the status of myself to a "reviewer"
->> there instead.
-> 
-> Can we not have multiple maintainers? Considering how important keeping
-> the testing green should be wouldn't it help to keep the bus factor
-> lower (not to mention holidays/breaks and just plain busy with other
-> things periods). It shouldn't be to hard to track as long as we mention
-> when we queue things to our trees?
+riscv_cpu_is_32bit() is somewhat new, so it might not have been there
+when you wrote the patches.
 
-I'm OK to be listed as backup maintainer as I do have a genuine
-interest in CI/testing. It will be in my scarcer personal time
-although, so better if another maintainers with more resources
-could pop up along instead.
+>
+> I thought Alistair had done that work (which brings riscv into
+> line with the other 32/64 bit QEMU targets, which all support
+> the 32-bit CPU types in the 64-bit-capable executable). But maybe
+> it hasn't landed in master yet?
 
->> While we're at it, I'm also removing the line with Fam there for now,
->> since he was hardly active during the last years in this area anymore.
->> If he ever gets more time for this part again in the future, we surely
->> can add the line back again.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  MAINTAINERS | 19 ++++++-------------
->>  1 file changed, 6 insertions(+), 13 deletions(-)
+I have started on the effort, but I have not finished yet. Adding
+riscv_cpu_is_32bit() was the first step there and I have some more
+patches locally but I don't have anything working yet.
+
+Alistair
+
+>
+> thanks
+> -- PMM
 
