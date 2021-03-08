@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A9533087C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 07:55:17 +0100 (CET)
-Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6B53308B2
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 08:16:57 +0100 (CET)
+Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ9nQ-000333-4q
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 01:55:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54274)
+	id 1lJA8O-00079h-AB
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 02:16:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9m5-0002RI-Na
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:53:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9lz-0001Ws-Ta
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:53:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615186424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9w8FJ1uaOrP5h4kSs9WT4WiibK352EkWzlL3AI0yRVI=;
- b=CglL2n1Aq21osCNwS1jiYztWb0/okBcitJuygcV+D8TE639xB6AlzXATelzKsfs2tSWbKg
- SiInCdXTQZUtAvkZ1vwM94Cl1J1g+5InThOlmOZOLq5xIA/hheXavKc73hBuyxySztZbHQ
- VGwHBRMNe8VSyqQCZ6ZOnDqiBod8shY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-mVkSWo3KOtO3kHSjpl1iLQ-1; Mon, 08 Mar 2021 01:53:40 -0500
-X-MC-Unique: mVkSWo3KOtO3kHSjpl1iLQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C181084D70;
- Mon,  8 Mar 2021 06:53:39 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-143.ams2.redhat.com [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0BEF5D9D0;
- Mon,  8 Mar 2021 06:53:34 +0000 (UTC)
-Subject: Re: [PATCH v4 4/5] m68k: add a system controller
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210307164828.87348-1-laurent@vivier.eu>
- <20210307164828.87348-5-laurent@vivier.eu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <cb15e697-be77-5cbc-ec4d-555955963d65@redhat.com>
-Date: Mon, 8 Mar 2021 07:53:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJA7E-0006in-Lk
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:15:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36004)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJA7C-0003Au-HR
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:15:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lJA7A-0005YT-8H
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 07:15:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 39FBD2E8157
+ for <qemu-devel@nongnu.org>; Mon,  8 Mar 2021 07:15:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210307164828.87348-5-laurent@vivier.eu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Mar 2021 07:02:06 -0000
+From: Thomas Huth <1918084@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eddyh th-huth
+X-Launchpad-Bug-Reporter: Eddy Hahn (eddyh)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161517335801.3660.13243926426355834161.malonedeb@soybean.canonical.com>
+Message-Id: <161518692664.3660.849736883507532300.malone@soybean.canonical.com>
+Subject: [Bug 1918084] Re: Build fails on macOS 11.2.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fc09074b06b3b9178bd28175bdab646b3b5abfce"; Instance="production"
+X-Launchpad-Hash: ead8d58bda90499e9656be7d61fdc3226bfca647
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,25 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1918084 <1918084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/03/2021 17.48, Laurent Vivier wrote:
-> Add a system controller for the m68k-virt machine.
-> This controller allows the kernel to power off or reset the machine.
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/hw/misc/m68k_virt_ctrl.h |  22 +++++
->   hw/misc/m68k_virt_ctrl.c         | 152 +++++++++++++++++++++++++++++++
+That's a very incomplete log that you've pasted here, I think there
+should be an earlier error message that should indicate the real
+problem. Please recompile without "-j8" and paste the full error log at
+the end.
 
-Wouldn't it make more sense to place this in hw/m68k than hw/misc ?
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-  Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918084
+
+Title:
+  Build fails on macOS 11.2.2
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hi,
+
+  I got the latest version from git. I have pre-compiled the dependency
+  libraries. All good. configure creates the necessary files. When I
+  build I got the following error:
+
+  [1368/6454] Compiling C object libcapstone.a.p/capstone_arch_AArch64_AArc=
+h64InstPrinter.c.o
+  ninja: build stopped: subcommand failed.
+  make[1]: *** [run-ninja] Error 1
+  make: *** [all] Error 2
+
+  I've ran make as make -j 8
+
+  original config:
+
+  PKG_CONFIG_PATH=3D"$SERVERPLUS_DIR/dependencies/glib/lib/pkgconfig:$SERVE=
+RPLUS_DIR/dependencies/pixman/lib/pkgconfig:$SERVERPLUS_DIR/dependencies
+  /cyrus-sasl/lib/pkgconfig" ./configure --prefix=3D"$SERVERPLUS_DIR"
+  --enable-hvf --enable-cocoa --enable-vnc-sasl --enable-auth-pam
+  --ninja=3D/opt/build/build/stage/tools/ninja/ninja
+  --python=3D"$SERVERPLUS_DIR/dependencies/python/bin/python3" --enable-
+  bsd-user
+
+  if I build with --target-list=3Dx86_64-softmmu then it will build but I
+  will get only the x86_64 QEMU built. With 5.0 I could build all
+  emulators.
+
+  $SERVERPLUS_DIR is my target dir.
+
+  Thanks,
+
+  Eddy
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918084/+subscriptions
 
