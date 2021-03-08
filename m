@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655C53312D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 17:07:36 +0100 (CET)
-Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5CD3312DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 17:07:56 +0100 (CET)
+Received: from localhost ([::1]:41328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJIPu-00050Y-RW
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 11:07:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33004)
+	id 1lJIQF-00063a-71
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 11:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=69416c753=graf@amazon.de>)
- id 1lJIN4-0003e0-5X
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:04:39 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:51917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=69416c753=graf@amazon.de>)
- id 1lJIMz-0001w5-SJ
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:04:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1615219474; x=1646755474;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=+AelMi3v18s6+/y1BQYDbI2IpSHlRy2T4ik8Uc3Ym70=;
- b=PzWYlCYMAk7sFRi8vIXVWrgrJIhD2AvCkvvh5+kldUVQUEB34AP7YXny
- C+YxxnykXgPRCnTBofG1NjX4XVIgQO+RMGc/X6qOty2jLwxOd2e0clFLO
- kF2NcUbDfRWHw3cOPpSWXFoc9tIpuHH7IevKnxGZv2U8S+Pu5VZT88JzM A=;
-X-IronPort-AV: E=Sophos;i="5.81,232,1610409600"; d="scan'208";a="92508455"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.6])
- by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
- 08 Mar 2021 16:04:19 +0000
-Received: from EX13MTAUWC002.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
- by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS
- id 9E5F4A1F36; Mon,  8 Mar 2021 16:04:08 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 8 Mar 2021 16:04:08 +0000
-Received: from Alexanders-MacBook-Air.local (10.43.162.131) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 8 Mar 2021 16:04:00 +0000
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
-To: Greg KH <gregkh@linuxfoundation.org>, Adrian Catangiu <acatan@amazon.com>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>, 
- <rdunlap@infradead.org>, <arnd@arndb.de>, <ebiederm@xmission.com>,
- <rppt@kernel.org>, <0x7f454c46@gmail.com>, <borntraeger@de.ibm.com>,
- <Jason@zx2c4.com>, <jannh@google.com>, <w@1wt.eu>, <colmmacc@amazon.com>,
- <luto@kernel.org>, <tytso@mit.edu>, <ebiggers@kernel.org>,
- <dwmw@amazon.co.uk>, <bonzini@gnu.org>, <sblbir@amazon.com>,
- <raduweis@amazon.com>, <corbet@lwn.net>, <mst@redhat.com>,
- <mhocko@kernel.org>, <rafael@kernel.org>, <pavel@ucw.cz>,
- <mpe@ellerman.id.au>, <areber@redhat.com>, <ovzxemul@gmail.com>,
- <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>, <gil@azul.com>,
- <asmehra@redhat.com>, <dgunigun@redhat.com>, <vijaysun@ca.ibm.com>,
- <oridgar@gmail.com>, <ghammer@redhat.com>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
- <YEY2b1QU5RxozL0r@kroah.com>
-Message-ID: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
-Date: Mon, 8 Mar 2021 17:03:58 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJIOF-0004UI-BZ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:05:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJIOB-0002fD-BF
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:05:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615219543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VqxDODeZlYNvl3sPedY9ipJXdFHi/HzWqFExp66Ji4o=;
+ b=BT7gqItyhtQGSoswdHvT02ulraidqYs4Y9wD96ZdDwdo06KuLXJ5RG4uoMwqRMpymCyC1v
+ g8N731Bl+eaQhbPssodGtZe/1ppWjrZP3qGnATcAvmDN87IWLHi+gZrzvDL2D13j4VN3wR
+ K1CWslldW5By/2ZzDz52JBFChjnKh9E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-UVj2WCfFOYOQCqLvW6FkKg-1; Mon, 08 Mar 2021 11:05:39 -0500
+X-MC-Unique: UVj2WCfFOYOQCqLvW6FkKg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEAE819057AA;
+ Mon,  8 Mar 2021 16:05:38 +0000 (UTC)
+Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BF9A80479;
+ Mon,  8 Mar 2021 16:05:37 +0000 (UTC)
+Subject: Re: [PATCH] inet_parse: Clarify IPv6 comment and error message
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Doug Evans <dje@google.com>
+References: <20210308002928.3385275-1-dje@google.com>
+ <161516362431.11025.2679751497781286596@c667a6b167f6>
+ <CADPb22R89=EcWFcuFABZP3=L3CbUEq1eKPqNJY=SqDSoZ+CDnQ@mail.gmail.com>
+ <YEYKy65zOHUWVu/D@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <93eef612-08f6-7eb2-0d1b-de2ff0a58433@redhat.com>
+Date: Mon, 8 Mar 2021 10:05:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YEY2b1QU5RxozL0r@kroah.com>
+In-Reply-To: <YEYKy65zOHUWVu/D@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.43.162.131]
-X-ClientProxiedBy: EX13D19UWA003.ant.amazon.com (10.43.160.170) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="windows-1252"; format="flowed"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=72.21.196.25;
- envelope-from=prvs=69416c753=graf@amazon.de; helo=smtp-fw-2101.amazon.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,102 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alexander Graf <graf@amazon.com>
-From:  Alexander Graf via <qemu-devel@nongnu.org>
 
+On 3/8/21 5:30 AM, Daniel P. Berrangé wrote:
+> On Sun, Mar 07, 2021 at 05:31:24PM -0800, Doug Evans wrote:
+>> Not sure how this "Author email address is mangled" happened.
+>>
+>> $ git format-patch -o patches/error-parsing-ipv6 -1
+>> $ git send-email --to='qemu-devel@nongnu.org,Samuel Thibault <
+>> samuel.thibault@ens-lyon.org>,"Daniel P. Berrangé" <berrange@redhat.com>' \
+>> --smtp-server=foo
+>> patches/error-parsing-ipv6/0001-inet_parse-Clarify-IPv6-comment-and-error-message.patch
+>>
+>> It's possible my smtp-server arg munged things incorrectly, but I've done
+>> the identical thing for previous patches and not seen this for at least
+>> some of them.
+>> Sigh.
+> 
+> The 'via <qemu-devel@nongnu.org>' mangling is something that gnu.org
+> mailman is configured to do. It used to do this in many scenarios, but
+> supposedly it now only mangles when the sender has a bad DKIM signature
+> and their domain has strict DMARC policies:
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00416.html
 
+And the solution to avoid triggering the check failure is to include
+'From: you <real@address>' as the first line of the body (which will
+then override whatever header mangling the list inflicted on your
+message).  There are supposedly ways to configure git to do this
+automatically for you as part of 'git send-email', but as I don't suffer
+from the problem, I'm not sure off-hand what those steps are (git config
+format.from ?)
 
-On 08.03.21 15:36, Greg KH wrote:
-> =
-
-> On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
->> +static struct miscdevice sysgenid_misc =3D {
->> +     .minor =3D MISC_DYNAMIC_MINOR,
->> +     .name =3D "sysgenid",
->> +     .fops =3D &fops,
->> +};
-> =
-
-> Much cleaner, but:
-> =
-
->> +static int __init sysgenid_init(void)
->> +{
->> +     int ret;
->> +
->> +     sysgenid_data.map_buf =3D get_zeroed_page(GFP_KERNEL);
->> +     if (!sysgenid_data.map_buf)
->> +             return -ENOMEM;
->> +
->> +     atomic_set(&sysgenid_data.generation_counter, 0);
->> +     atomic_set(&sysgenid_data.outdated_watchers, 0);
->> +     init_waitqueue_head(&sysgenid_data.read_waitq);
->> +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
->> +     spin_lock_init(&sysgenid_data.lock);
->> +
->> +     ret =3D misc_register(&sysgenid_misc);
->> +     if (ret < 0) {
->> +             pr_err("misc_register() failed for sysgenid\n");
->> +             goto err;
->> +     }
->> +
->> +     return 0;
->> +
->> +err:
->> +     free_pages(sysgenid_data.map_buf, 0);
->> +     sysgenid_data.map_buf =3D 0;
->> +
->> +     return ret;
->> +}
->> +
->> +static void __exit sysgenid_exit(void)
->> +{
->> +     misc_deregister(&sysgenid_misc);
->> +     free_pages(sysgenid_data.map_buf, 0);
->> +     sysgenid_data.map_buf =3D 0;
->> +}
->> +
->> +module_init(sysgenid_init);
->> +module_exit(sysgenid_exit);
-> =
-
-> So you do this for any bit of hardware that happens to be out there?
-> Will that really work?  You do not have any hwid to trigger off of to
-> know that this is a valid device you can handle?
-
-The interface is already useful in a pure container context where the =
-
-generation change request is triggered by software.
-
-And yes, there are hardware triggers, but Michael was quite unhappy =
-
-about potential races between VMGenID change and SysGenID change and =
-
-thus wanted to ideally separate the interfaces. So we went ahead and =
-
-isolated the SysGenID one, as it's already useful as is.
-
-Hardware drivers to inject change events into SysGenID can then follow =
-
-later, for all different hardware platforms. But SysGenID as in this =
-
-patch is a completely hardware agnostic concept.
-
-
-Alex
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
