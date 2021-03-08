@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCFC33076F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 06:32:43 +0100 (CET)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB52330821
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 07:34:16 +0100 (CET)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ8VV-0005fp-UQ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 00:32:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
+	id 1lJ9T4-0006fr-W8
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 01:34:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lJ8UF-0004or-FR
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 00:31:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51445)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9Qf-00069g-9W
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:31:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lJ8UC-00083k-6V
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 00:31:22 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJ9Qb-0001CJ-Nb
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 01:31:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615181478;
+ s=mimecast20190719; t=1615185100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VQHFbV/TWv31UBvcFVxFe+9CVzlK9XeqXYwAco0Ct9w=;
- b=iEVHPawkuHdDj52VpU9yx81XlwxFMhrH3X04oUFMZW4QrabMKE9W8y2OUoByR75H9M2rtn
- cDDa4SH/1d0WwNNSgQH0aZgdNxEET+ARNfsT/B36clwHq9DIBsgv+Py5E9NyYRgAzJEhVn
- 23Shcy8u0GJ9S57WVzhkRJAqDNUZa3o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hBnN/VaFlQVU9Dms6PZ5pc1Hbldf0xoTAJd5aWNOfKk=;
+ b=BoOUWYLJe8OWZ6wseYNWRjTDmMAo5AgZuIPzwtK5BRenWV/0GhzOv2lRC9uCS33iy/pz9V
+ RqLo9bmH5xPa/6TMTQDB4oh6QvfLIWk428h0DInJTnxUg3+tA2mA+MspflgAqz0IsIDtME
+ bYK1EP8J3p3fbG/wNM1CSxe8cNU3jpY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-84e2spzIOQ2x06Ib2dKReQ-1; Mon, 08 Mar 2021 00:31:15 -0500
-X-MC-Unique: 84e2spzIOQ2x06Ib2dKReQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-505-ZkkwxpVlMbazDcuJ9SN7hg-1; Mon, 08 Mar 2021 01:31:38 -0500
+X-MC-Unique: ZkkwxpVlMbazDcuJ9SN7hg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82A281084C95;
- Mon,  8 Mar 2021 05:31:14 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-193.pek2.redhat.com
- [10.72.13.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB7D85D9D3;
- Mon,  8 Mar 2021 05:31:05 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com
-Subject: [PATCH] virtio-net: calculating proper msix vectors on init
-Date: Mon,  8 Mar 2021 13:30:59 +0800
-Message-Id: <20210308053059.28753-1-jasowang@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 668D4804331
+ for <qemu-devel@nongnu.org>; Mon,  8 Mar 2021 06:31:37 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-143.ams2.redhat.com [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A6A360C04;
+ Mon,  8 Mar 2021 06:31:26 +0000 (UTC)
+Subject: Re: [PATCH 1/3] tests/qtest/vhost-user-test: use share=on with memfd
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210222161017.570837-1-stefanha@redhat.com>
+ <20210222161017.570837-2-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <ed164725-4437-ca63-42f7-aecee0b71de8@redhat.com>
+Date: Mon, 8 Mar 2021 07:31:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210222161017.570837-2-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, stefanha@redhat.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the default msix vectors for virtio-net-pci is 3 which is
-obvious not suitable for multiqueue guest, so we depends on the user
-or management tools to pass a correct vectors parameter. In fact, we
-can simplifying this by calculating the number of vectors on realize.
+On 22/02/2021 17.10, Stefan Hajnoczi wrote:
+> For some reason memfd never used share=on. vhost-user relies on
+> mmap(MAP_SHARED) so this seems like a problem, but the tests still run
+> without it.
+> 
+> Add share=on for consistency and to prevent future bugs in the test.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   tests/qtest/vhost-user-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+> index 1a5f5313ff..2db98c4920 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -40,7 +40,7 @@
+>   #define QEMU_CMD_MEM    " -m %d -object memory-backend-file,id=mem,size=%dM," \
+>                           "mem-path=%s,share=on -numa node,memdev=mem"
+>   #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=mem,size=%dM," \
+> -                        " -numa node,memdev=mem"
+> +                        "share=on -numa node,memdev=mem"
 
-Consider we have N queues, the number of vectors needed is 2*N + 2
-(#queue pais + plus one config interrupt and control vq). We didn't
-check whether or not host support control vq because it was added
-unconditionally by qemu to avoid breaking legacy guests such as Minix.
+Even if it's not required, it seems to be a good clean up, also with regards 
+to the lonely comma at the end of the previous line.
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/core/machine.c          | 1 +
- hw/virtio/virtio-net-pci.c | 8 +++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 4386f57b5c..979133f8b7 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -39,6 +39,7 @@
- GlobalProperty hw_compat_5_2[] = {
-     { "ICH9-LPC", "smm-compat", "on"},
-     { "PIIX4_PM", "smm-compat", "on"},
-+    { "virtio-net-pci", "vectors", "3"},
- };
- const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
- 
-diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
-index 292d13d278..2894c46b66 100644
---- a/hw/virtio/virtio-net-pci.c
-+++ b/hw/virtio/virtio-net-pci.c
-@@ -41,7 +41,8 @@ struct VirtIONetPCI {
- static Property virtio_net_properties[] = {
-     DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
--    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
-+    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                       DEV_NVECTORS_UNSPECIFIED),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -50,6 +51,11 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     DeviceState *qdev = DEVICE(vpci_dev);
-     VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
-+    VirtIONet *net = VIRTIO_NET(vdev);
-+
-+    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-+        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1) + 2;
-+    }
- 
-     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
-                                   object_get_typename(OBJECT(qdev)));
--- 
-2.24.3 (Apple Git-128)
+I assume this will go through the vhost tree, or do you want me to take this 
+single patch through my qtest tree?
 
 
