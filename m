@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599FE3314D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:28:45 +0100 (CET)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D004331495
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:22:49 +0100 (CET)
+Received: from localhost ([::1]:35068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJgS-0008Cy-8E
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46866)
+	id 1lJJai-0008UK-FA
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:22:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJF5-0008UF-2z
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:00:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36298)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCs-0005jg-Vx
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:58:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJF3-0001VC-Ce
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:00:26 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJCp-0000XS-QK
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:58:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222823;
+ s=mimecast20190719; t=1615222683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tNUIEDl9OWLmdNqi7esqEGhgchqfWPXysNQIQUOen9A=;
- b=PBnD1dREoesrylFoaS9wT1JGrfvUO4VnQHAS3AKkxChWSnXLW/P/TbBY8cykyuIliFRcAZ
- +7b5RSGKVRIZaGYVZ2kmXJP254ENq0mTxiCIFS5Kay38iZjNAeIfpIkyzGH/p3yJGLvRXm
- lplPL3PafklfdPQrr11dY0wNt1LN+BM=
+ bh=dwL4gLVY8vn+pPFBNx3wAc+MAMmKtIr/okI9h3N/fi4=;
+ b=aw3+IdCG4KAFQJiAJnE1CUlgHsWSms/MuU62N5K5ymPBQwvT8jj3A0pVQ1YNPrzDXgNnbi
+ ijpm+80gCdFRYlSJHqW+Gden1a+ZDyQJRmOLJUMhXrYNKcrJbxP9XZq4Ov5lzgOkwyUIAu
+ d9tYY08/+tONf5Gw3Do3D6TVxotw/a4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-sO_0ktv6PxWgFuknInOMlw-1; Mon, 08 Mar 2021 11:56:32 -0500
-X-MC-Unique: sO_0ktv6PxWgFuknInOMlw-1
+ us-mta-600-wq1zcv_qOza_4M__Aer9Ww-1; Mon, 08 Mar 2021 11:56:35 -0500
+X-MC-Unique: wq1zcv_qOza_4M__Aer9Ww-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A32A108BD0B;
- Mon,  8 Mar 2021 16:56:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0B31054F9B;
+ Mon,  8 Mar 2021 16:56:34 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 730A25D9DB;
- Mon,  8 Mar 2021 16:56:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 632525D9DB;
+ Mon,  8 Mar 2021 16:56:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/30] qapi/qom: Add ObjectOptions for
- confidential-guest-support
-Date: Mon,  8 Mar 2021 17:54:25 +0100
-Message-Id: <20210308165440.386489-16-kwolf@redhat.com>
+Subject: [PATCH v3 16/30] qapi/qom: Add ObjectOptions for input-*
+Date: Mon,  8 Mar 2021 17:54:26 +0100
+Message-Id: <20210308165440.386489-17-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,88 +83,155 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the objects implementing
-the confidential-guest-support interface.
+This adds a QAPI schema for the properties of the input-* objects.
 
-pef-guest and s390x-pv-guest don't have any properties, so they only
-need to be added to the ObjectType enum without adding a new branch to
-ObjectOptions.
+ui.json cannot be included in qom.json because the storage daemon can't
+use it, so move GrabToggleKeys to common.json.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/qom.json | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ qapi/common.json | 12 ++++++++++
+ qapi/qom.json    | 59 ++++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/ui.json     | 13 +----------
+ 3 files changed, 72 insertions(+), 12 deletions(-)
 
+diff --git a/qapi/common.json b/qapi/common.json
+index b87e7f9039..7c976296f0 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -185,3 +185,15 @@
+ ##
+ { 'enum': 'NetFilterDirection',
+   'data': [ 'all', 'rx', 'tx' ] }
++
++##
++# @GrabToggleKeys:
++#
++# Keys to toggle input-linux between host and guest.
++#
++# Since: 4.0
++#
++##
++{ 'enum': 'GrabToggleKeys',
++  'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
++            'ctrl-scrolllock' ] }
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 6afac9169f..ad72dbdec2 100644
+index ad72dbdec2..6b96e9b0b3 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -635,6 +635,38 @@
-   'base': 'RngProperties',
-   'data': { '*filename': 'str' } }
+@@ -444,6 +444,61 @@
+   'base': 'NetfilterProperties',
+   'data': { '*vnet_hdr_support': 'bool' } }
  
 +##
-+# @SevGuestProperties:
++# @InputBarrierProperties:
 +#
-+# Properties for sev-guest objects.
++# Properties for input-barrier objects.
 +#
-+# @sev-device: SEV device to use (default: "/dev/sev")
++# @name: the screen name as declared in the screens section of barrier.conf
 +#
-+# @dh-cert-file: guest owners DH certificate (encoded with base64)
++# @server: hostname of the Barrier server (default: "localhost")
 +#
-+# @session-file: guest owners session parameters (encoded with base64)
++# @port: TCP port of the Barrier server (default: "24800")
 +#
-+# @policy: SEV policy value (default: 0x1)
++# @x-origin: x coordinate of the leftmost pixel on the guest screen
++#            (default: "0")
 +#
-+# @handle: SEV firmware handle (default: 0)
++# @y-origin: y coordinate of the topmost pixel on the guest screen
++#            (default: "0")
 +#
-+# @cbitpos: C-bit location in page table entry (default: 0)
++# @width: the width of secondary screen in pixels (default: "1920")
 +#
-+# @reduced-phys-bits: number of bits in physical addresses that become
-+#                     unavailable when SEV is enabled
++# @height: the height of secondary screen in pixels (default: "1080")
 +#
-+# Since: 2.12
++# Since: 4.2
 +##
-+{ 'struct': 'SevGuestProperties',
-+  'data': { '*sev-device': 'str',
-+            '*dh-cert-file': 'str',
-+            '*session-file': 'str',
-+            '*policy': 'uint32',
-+            '*handle': 'uint32',
-+            '*cbitpos': 'uint32',
-+            'reduced-phys-bits': 'uint32' },
-+  'if': 'defined(CONFIG_SEV)' }
++{ 'struct': 'InputBarrierProperties',
++  'data': { 'name': 'str',
++            '*server': 'str',
++            '*port': 'str',
++            '*x-origin': 'str',
++            '*y-origin': 'str',
++            '*width': 'str',
++            '*height': 'str' } }
++
++##
++# @InputLinuxProperties:
++#
++# Properties for input-linux objects.
++#
++# @evdev: the path of the host evdev device to use
++#
++# @grab_all: if true, grab is toggled for all devices (e.g. both keyboard and
++#            mouse) instead of just one device (default: false)
++#
++# @repeat: enables auto-repeat events (default: false)
++#
++# @grab-toggle: the key or key combination that toggles device grab
++#               (default: ctrl-ctrl)
++#
++# Since: 2.6
++##
++{ 'struct': 'InputLinuxProperties',
++  'data': { 'evdev': 'str',
++            '*grab_all': 'bool',
++            '*repeat': 'bool',
++            '*grab-toggle': 'GrabToggleKeys' } }
 +
  ##
- # @ObjectType:
+ # @IothreadProperties:
  #
-@@ -663,12 +695,15 @@
+@@ -691,6 +746,8 @@
+     'filter-redirector',
+     'filter-replay',
+     'filter-rewriter',
++    'input-barrier',
++    'input-linux',
+     'iothread',
      'memory-backend-file',
      'memory-backend-memfd',
-     'memory-backend-ram',
-+    {'name': 'pef-guest', 'if': 'defined(CONFIG_PSERIES)' },
-     'pr-manager-helper',
-     'rng-builtin',
-     'rng-egd',
-     'rng-random',
-     'secret',
-     'secret_keyring',
-+    {'name': 'sev-guest', 'if': 'defined(CONFIG_SEV)' },
-+    's390-pv-guest',
-     'throttle-group',
-     'tls-creds-anon',
-     'tls-creds-psk',
-@@ -720,6 +755,8 @@
-       'rng-random':                 'RngRandomProperties',
-       'secret':                     'SecretProperties',
-       'secret_keyring':             'SecretKeyringProperties',
-+      'sev-guest':                  { 'type': 'SevGuestProperties',
-+                                      'if': 'defined(CONFIG_SEV)' },
-       'throttle-group':             'ThrottleGroupProperties',
-       'tls-creds-anon':             'TlsCredsAnonProperties',
-       'tls-creds-psk':              'TlsCredsPskProperties',
+@@ -744,6 +801,8 @@
+       'filter-redirector':          'FilterRedirectorProperties',
+       'filter-replay':              'NetfilterProperties',
+       'filter-rewriter':            'FilterRewriterProperties',
++      'input-barrier':              'InputBarrierProperties',
++      'input-linux':                'InputLinuxProperties',
+       'iothread':                   'IothreadProperties',
+       'memory-backend-file':        'MemoryBackendFileProperties',
+       'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
+diff --git a/qapi/ui.json b/qapi/ui.json
+index d08d72b439..cc1882108b 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -6,6 +6,7 @@
+ # = Remote desktop
+ ##
+ 
++{ 'include': 'common.json' }
+ { 'include': 'sockets.json' }
+ 
+ ##
+@@ -1021,18 +1022,6 @@
+             '*head'  : 'int',
+             'events' : [ 'InputEvent' ] } }
+ 
+-##
+-# @GrabToggleKeys:
+-#
+-# Keys to toggle input-linux between host and guest.
+-#
+-# Since: 4.0
+-#
+-##
+-{ 'enum': 'GrabToggleKeys',
+-  'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
+-            'ctrl-scrolllock' ] }
+-
+ ##
+ # @DisplayGTK:
+ #
 -- 
 2.29.2
 
