@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAFA33110E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:40:08 +0100 (CET)
-Received: from localhost ([::1]:51002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194B9331123
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:43:04 +0100 (CET)
+Received: from localhost ([::1]:57344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJH3C-0001PZ-QX
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:40:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
+	id 1lJH67-00048c-4i
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:43:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJGXg-0003Jg-Jl
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:07:28 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41875)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lJGmj-00026B-FA; Mon, 08 Mar 2021 09:23:01 -0500
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:35810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJGXe-00007L-FE
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:07:28 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- nh23-20020a17090b3657b02900c0d5e235a8so3183684pjb.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:07:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lJGmh-0006ME-KU; Mon, 08 Mar 2021 09:23:01 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id z6so2458975qts.2;
+ Mon, 08 Mar 2021 06:22:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kTNskZH1aOJNJ1AE2bkS4myoUN8f6RMcimPSrzDsHo4=;
- b=nUC6VKqRR3WTZYM8MyGKPj45kSt4OjPyxGmH3vLLWDrHPeL4eGyllpvjN6dNu26z6b
- 5+6BahbybL3l+Vo1BUeSD2PvqoaxnTuOsu1v/QZhl+gAv3NNQQB9LmCF5BtJkNi0ktJc
- TaylxiubWlOnIoiPPkRaptEEDo9VNEYbeJs/aegvjM+Jc7rHCAK9jTLZGn2dR53d6dul
- nF/0EkDPeh6RHMqJCOVF8E9ePqidMHiR97HGmUA2CKdTGoJsIHk+E4V2Ro88vEKN4zwA
- HuTRwI88yG7iltY5xBaEPs8Cj9BkL3xduGGhfh52REttYUb+2F5EfZsBUIBM/2BzXu1f
- ELHw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HnyZUSQbhfcP5GtnqAH5uvgP/eVlJRUnBUdmqI6IidI=;
+ b=OElqoFQzH8tDZER2QLP1PLgNGlk1iZHCwrEoRQ9odBMCjd6apJ3UlzwGcJ022TSuCS
+ 85ol3VIKktdw46YFemL8ExcrQT5Zr2GXIHeXgcLPG/f2FvI5SBiis7HhO2nI07ER8xHb
+ vp44OYYuqFTgVbn4+DcIt06QuXdG5/KsG4vx0Jd8yi9qx1X31nVQhW/Cmjqrq0VjzI6O
+ UaB8aKaNUyrSRZNyVvrhMuk99oKSYt4efLviAzVerO1yegECk8D9iJWk74j7R47azo9w
+ nXIbjYKFOJiN2s0nMoNP+Dtb0ZUz6q852XGSVCzj1ifvuxp7HVmmqhqq8eW901o5kGSd
+ EsSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kTNskZH1aOJNJ1AE2bkS4myoUN8f6RMcimPSrzDsHo4=;
- b=NV7XXSUa9fLbJhhIMvJtfOcQXKDDdm10LWtsFPB/9A6NiQmkWejqflnbttAKv4zpXY
- oTF2jYFPTRx6BNEVXKEcnQSUr8Neiyh96G7zo6AadkbqU3sB1zh88E0dPfVUClEROTZi
- bfcLW7GdHcgJ4cGOcu63n1xBoYABuf/9ed4ZIQTAbh9Lq/cqL44kG/NcKkI3wyaTYRrz
- d5kyQ1rdkYn6B3ch2OZMiRzw7DE2y39+D9a7MOSCqZHihSwuorlow2syGCxwQkwk7xug
- YHedJP/2KAP0B9MrfaRC0sBigPZV6uiSgiImAMmtMD1QzT7ali55Bp4cQm52R4GiZfAP
- wnlw==
-X-Gm-Message-State: AOAM530ZEahwY3nRUJxW2FBWjJ5AEY1vIna3JGHTnrDnA+ZsEJeLoB0s
- oDvqk3zhtSZ2q4EgooIDlsLMRz5N4me94Q==
-X-Google-Smtp-Source: ABdhPJzZSfy8wh3xl15zwJdgy9Ic/kR79B78bNXFSJQOdsXC72P7DmdoI8/wwYKvCZEnjRqPvT0YmQ==
-X-Received: by 2002:a17:90a:5215:: with SMTP id
- v21mr24852453pjh.28.1615212444541; 
- Mon, 08 Mar 2021 06:07:24 -0800 (PST)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:c0c2:2512:25a1:f7e0])
- by smtp.gmail.com with ESMTPSA id c24sm7313537pfi.193.2021.03.08.06.07.22
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Mar 2021 06:07:24 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/gtk: Remove NULL checks in gd_switch
-Date: Mon,  8 Mar 2021 23:07:13 +0900
-Message-Id: <20210308140713.17901-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ bh=HnyZUSQbhfcP5GtnqAH5uvgP/eVlJRUnBUdmqI6IidI=;
+ b=ADR/PDMx6tIzLiMFdqkDZEicN7e/xxk/TNlenwJKL4aokDgYoB9z7/4rfOK63SRJ8P
+ HtbWb0qvDcUEeHrWob3uVSWE+IBYZPziwL2EF9qUv+OUAdKj5XxnEjEOoiJFdMYpUiMR
+ Eyswwwz80vzBtsvMNmnR2Jzbmpw7on49WIaSM39ac0SiaiX0vz6Y8SRv420/CIU3F/53
+ oaMBrQrAPGbZk2gPOcoZHECdqXYetWijq5PsQ9xgqynfktpbZHfkDXJq9hISYF8QtEQm
+ Tg3UYhVGzBP3lQjswEzUGZ8yBPxJmFjpvR6EjKjHwtrsZWeZUG2NiLuQXLhC5AA0kwwe
+ qANQ==
+X-Gm-Message-State: AOAM533IRar6IR9i7azNjHKK5Cy/hVn40vSqQXJP3jwc4QQd++qs0fYl
+ oUzbtV99Tcvw7odkg2MIiYg=
+X-Google-Smtp-Source: ABdhPJydAk11he6PtYfZl8xOkHkACR6ZX9dkxgwM+ttHUgkbto1FAu5LExPo/s5oqvX2lyo63Y5A3g==
+X-Received: by 2002:ac8:4684:: with SMTP id g4mr20260404qto.388.1615213377639; 
+ Mon, 08 Mar 2021 06:22:57 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c7:1670:7849:4614:f4b6:4112?
+ ([2804:431:c7c7:1670:7849:4614:f4b6:4112])
+ by smtp.gmail.com with ESMTPSA id p126sm7658340qkf.110.2021.03.08.06.22.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Mar 2021 06:22:57 -0800 (PST)
+Subject: Re: [RFC] adding a generic QAPI event for failed device hotunplug
+To: Markus Armbruster <armbru@redhat.com>
+References: <155911cc-8764-1a65-4bb3-2fc0628d52e5@gmail.com>
+ <877dmkrcpl.fsf@dusky.pond.sub.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <d9567bf3-8740-e8fe-b29b-a3b0ebdb5809@gmail.com>
+Date: Mon, 8 Mar 2021 11:22:54 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <877dmkrcpl.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,50 +87,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, michael.roth@amd.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-c821a58ee7 ("ui/console: Pass placeholder surface to display")
-eliminated the possibility that NULL is passed as surface to
-dpy_gfx_switch and removed some NULL checks from gd_switch, but the
-removal was not thoroughly. Remaining NULL checks were confusing for
-Coverity and probably also for humans. This change removes those NULL
-checks.
 
-Reported-by: Coverity (CID 1448421)
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/gtk.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 3edaf041def..eb1c9658e24 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -547,9 +547,7 @@ static void gd_switch(DisplayChangeListener *dcl,
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-     bool resized = true;
- 
--    trace_gd_switch(vc->label,
--                    surface ? surface_width(surface)  : 0,
--                    surface ? surface_height(surface) : 0);
-+    trace_gd_switch(vc->label, surface_width(surface), surface_height(surface));
- 
-     if (vc->gfx.surface) {
-         cairo_surface_destroy(vc->gfx.surface);
-@@ -560,7 +558,7 @@ static void gd_switch(DisplayChangeListener *dcl,
-         vc->gfx.convert = NULL;
-     }
- 
--    if (vc->gfx.ds && surface &&
-+    if (vc->gfx.ds &&
-         surface_width(vc->gfx.ds) == surface_width(surface) &&
-         surface_height(vc->gfx.ds) == surface_height(surface)) {
-         resized = false;
--- 
-2.24.3 (Apple Git-128)
+On 3/6/21 3:57 AM, Markus Armbruster wrote:
+> Cc: ACPI maintainers for additional expertise.
+> 
+> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+> 
+>> Hi,
+>>
+>> Recent changes in pseries code (not yet pushed, available at David's
+>> ppc-for-6.0) are using the QAPI event MEM_UNPLUG_ERROR to report memory
+>> hotunplug errors in the pseries machine.
+>>
+>> The pseries machine is also using a timeout to cancel CPU hotunplugs that
+>> takes too long to finish (in which we're assuming a guest side error) and
+>> it would be desirable to also send a QAPI event for this case as well.
+>>
+>> At this moment, there is no "CPU_UNPLUG_ERROR" in QAPI (guess ACPI doesn't
+>> need it).
+> 
+> I see two interpretations of "ACPI doesn't need":
+> 
+> 1. Unplug can't fail, or QEMU can't detect failure.  Michael, Igor?
+> 
+> 2. Management applications haven't needed to know badly enough to
+> implement an event.
+> 
+>>            Before sending patches to implement this new event I had a talk
+>> with David Gibson and he suggested that, instead of adding a new CPU_UNPLUG_ERROR
+>> event, we could add a generic event (e.g. DEVICE_UNPLUG_ERROR) that can be
+>> used by the pseries machine in both error scenarios (MEM and CPU).
+> 
+> Good point.  One general event is better than two special ones that
+> could easily grow siblings.
+> 
+>> This could also be used by x86 as well, although I believe the use of
+>> MEM_UNPLUG_ERROR would need to be kept for awhile to avoid breaking ABI.
+> 
+> Yes.  Our rules for interface deprecation apply.
+> 
+>> Any suggestions/comments?
+> 
+> We should document the event's reliability.  Are there unplug operations
+> where we can't detect failure?  Are there unplug operations where we
+> could, but haven't implemented the event?
 
+The current version of the PowerPC spec that the pseries machine implements
+(LOPAR) does not predict a way for the virtual machine to report a hotunplug
+error back to the hypervisor. If something fails, the hypervisor is left
+in the dark.
+
+What happened in the 6.0.0 dev cycle is that we faced a reliable way of
+making CPU hotunplug fail in the guest (trying to hotunplug the last online
+CPU) and the pseries machine was unprepared for dealing with it. We ended up
+implementing a hotunplug timeout and, if the timeout kicks in, we're assuming
+that the CPU hotunplug failed in the guest. This is the first scenario we have
+today where we want to send a QAPI event informing the CPU hotunplug error,
+but this event does not exist in QEMU ATM.
+
+The second scenario is a memory hotunplug error. I found out that the pseries
+guest kernel does a reconfiguration step when re-attaching the DIMM right
+after refusing the hotunplug, and this reconfiguration is visible to QEMU.
+I proceeded to make the pseries machine detect this error case, rollback the
+unplug operation and fire up the MEM_UNPLUG_ERROR. This case is already covered
+by QAPI, but if we add a DEVICE_UNPLUG_ERROR event I would use it in this case as
+well instead of the MEM specific one.
+
+This investigation and work in the mem hotunplug error path triggered a
+discussion in qemu-ppc, where we're considering whether we should do the same
+signalling the kernel does for the DIMM hotunplug error for all other device
+hotunplug errors, given that the reconfiguration per se is not forbidden by LOPAR
+and it's currently a no-op. We would make a LOPAR spec change to make this an
+official hotunplug error report mechanism, and all pseries hotunplug operations,
+for all devices, would report DEVICE_UNPLUG_ERROR QAPI events in the error path.
+
+Granted, the spec change + Kernel change is not something that we will be able
+to nail down in the 6.0.0 cycle, but having the DEVICE_UNPLUG_ERROR QAPI event
+already in place would make it easier for the future as well.
+
+
+I have a doc draft of these changes/infos that I forgot to post. I would post
+it as docs/system/ppc-spapr-hotunplug-notes.rst. I can add the QAPI events
+information there as well. Does that work for you as far as documentation
+goes?
+
+
+
+DHB
+
+
+> 
+> The fewer exceptions, the better, of course.
+> 
 
