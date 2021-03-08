@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270DF33169E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:51:37 +0100 (CET)
-Received: from localhost ([::1]:39596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF843316D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:57:08 +0100 (CET)
+Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKye-0006XK-5p
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:51:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
+	id 1lJL3z-0003U2-SF
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:57:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJK3L-0003l7-45
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:52:23 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37893)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lJKCh-0006ik-Sq; Mon, 08 Mar 2021 13:02:03 -0500
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:43400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJK3J-0006mp-3h
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:52:22 -0500
-Received: by mail-ej1-x636.google.com with SMTP id mj10so22111331ejb.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:52:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lJKCf-0002df-Lu; Mon, 08 Mar 2021 13:02:03 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id l14so5418758qtr.10;
+ Mon, 08 Mar 2021 10:02:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CSR+RofT0Ct3BEUPKdnvi4db5uf53x6vobQd1CVXkis=;
- b=XVYEwWxzko+nxprRahLoeLdMVebLJEK7hoOkPTmj4Bb8/x2a7NUtQyOyfP2I6N4zLG
- b/UAAAW0fhJcoECSsRPdLTLuLEDolyw1swZr2wauk6qObRNavwAgcqTLc8xAskWJQHch
- EK9F1tF99uUrs+i+gm8BXYb9V92oqhxJ8WNvYioDmoSlZGR8I+RGZOQDMV0lyP3ALgHg
- FpYduhaP4ZuHzXEmpP3ZChEOQz+4LW6Z6K3gdXkMkzYEi4rNHvNkRRpIDradcbsF61Ec
- YjwLIxpJGek18HNUs0YsoUXIH/3iHxVj35LE/M08SRTxpHkS4DfP3+hMUkMdvHOc0N/I
- q6mg==
+ bh=/r7Cn0PhijXud09hBtuV4XyxS1AJNXD0kOldlmgiZKA=;
+ b=tiijS20+SUyfvIMEiEy0iUWd0ErpNg3lX0f7r/O0VG+UEGrRS92TMUT6pxfyXibxGX
+ C/g7RvKuWMZ2KUHlXakvXBJ1hy/PRjg0cwVBvEDw44g2E8BV1zAtGa2P4YKYccsXmqMm
+ xTXWehNKrCnBMsBicnq95BjX3IsP+8gWGEnZMw5DX2Cst20p352seoAhJ0JoW/uViopo
+ pS/1WlgHRf61lc9t8p3gtJUqOswhnjQwl4ZFBw6qYcC9HW86LJ/WFcq4Kujb390oyH0v
+ +afHe5w//ykfI7bGbXpBkERtWdYur1KY+fd7iHBh0yl0x20koqYxfJF6lTKYue5jjmE1
+ DFow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CSR+RofT0Ct3BEUPKdnvi4db5uf53x6vobQd1CVXkis=;
- b=tYkYp/BuesmS/JfdZcjW1eOblYD0O1QHP2OuSNqATRvZCQ6t3m0W1v1YwTKudcqbAQ
- zq4LW882ZjfSdPE18+36kAWCbEQUOrMAPcoYJtayRnpvJWPJ2dzW7ER6j5jSbF8r5mKL
- IR417UUeht+XsE4lWa6dO2McF7oTKf4fiugyYshOretFdxklDTCbmQ5qVno94I9z+6gp
- 07Xavf5v2CEQKZnffE4n0beinH56pKHBOl15/H23lm0+vHT7BW+RJLZH7kfNobEO+GV2
- UWbj7R4+C4r0GmvPHrQDi9QinpNu195gRTA3eyCRv3CpWSMs0SrIUDNKTQHOUEP9PrCy
- RweA==
-X-Gm-Message-State: AOAM532MKxXHoiNudHexVGpMy0AFcxsF3vXnkbEP1wHvA7OP1oVt2kXi
- wtqQEW8zIHcuBJ7BB0NotdE=
-X-Google-Smtp-Source: ABdhPJzkw3VpXfKGP+PytXlPSP9wx+4CQrw79qgYNGSS5MoE1RWnXN1IxdpG3hhbfc5xnrW+sQVnSQ==
-X-Received: by 2002:a17:906:f02:: with SMTP id
- z2mr16321610eji.469.1615225939225; 
- Mon, 08 Mar 2021 09:52:19 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u16sm7733522edq.4.2021.03.08.09.52.18
+ bh=/r7Cn0PhijXud09hBtuV4XyxS1AJNXD0kOldlmgiZKA=;
+ b=ICm11jOlzPRLZKuKUihrv6pPhnOlQO4wcHcjsdYm6L4Amcgp1K/9s5N0+2E7gVUtZv
+ 8oVnUlSPxXWS2wmoaUJuP/XEFNN+J+nmqHxpU+y6wGSKDYGeNk4954W14g15MsW2PHI8
+ MZY92FEOdKmEl6PUWrJRqYS5PO6eqclUWT4VAwZBlZnyeQ+VfI8NF0yd5ufNsGZ2VbOf
+ PwsgB6+JeY4h775tyv7CeGbzwm/uVOi0XqV3ID9v7WthpgjQJI1WRKgz1DsZJCq/mhDH
+ BT1K5Q1mkY7Lbcc1JgDEiuonmeHptYugRDEBkdi0W6bJjqT2kdD+L610orj2/8HRS+FY
+ XqxQ==
+X-Gm-Message-State: AOAM530nZF/v/6lGrhy4LWylCJ5YYFPX3BrhezAhibwvqxK/dx6MOQ5R
+ H2BTY63O/9jJw2stwPCzjbw=
+X-Google-Smtp-Source: ABdhPJyIYbZxdKNeeX1W3jYcbRRlfWbNi51e9D60XBOYtzTbZRDWczuEZox4rzSeTeeU4WCBp4tE5A==
+X-Received: by 2002:ac8:5b8d:: with SMTP id a13mr21112546qta.240.1615226517834; 
+ Mon, 08 Mar 2021 10:01:57 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c7:1670:7849:4614:f4b6:4112?
+ ([2804:431:c7c7:1670:7849:4614:f4b6:4112])
+ by smtp.gmail.com with ESMTPSA id 75sm1291145qkj.134.2021.03.08.10.01.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 09:52:18 -0800 (PST)
-Subject: Re: [PATCH v2] MAINTAINERS: Merge the Gitlab-CI section into the
- generic CI section
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20210308154633.158915-1-thuth@redhat.com>
- <78fb219e-fba5-0dfc-b21e-0cc657a9c372@amsat.org>
- <8532b756-f53c-e606-b900-6dc77527fd71@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <508bacf5-0c3e-9817-4514-93f0452c619b@amsat.org>
-Date: Mon, 8 Mar 2021 18:52:17 +0100
+ Mon, 08 Mar 2021 10:01:57 -0800 (PST)
+Subject: Re: [RFC] adding a generic QAPI event for failed device hotunplug
+To: Markus Armbruster <armbru@redhat.com>
+References: <155911cc-8764-1a65-4bb3-2fc0628d52e5@gmail.com>
+ <877dmkrcpl.fsf@dusky.pond.sub.org>
+ <d9567bf3-8740-e8fe-b29b-a3b0ebdb5809@gmail.com>
+ <87blbt60hc.fsf@dusky.pond.sub.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <8b79c207-f653-9eec-77f1-ea46c7c75ad5@gmail.com>
+Date: Mon, 8 Mar 2021 15:01:53 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <8532b756-f53c-e606-b900-6dc77527fd71@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87blbt60hc.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,76 +89,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, michael.roth@amd.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 6:01 PM, Thomas Huth wrote:
-> On 08/03/2021 17.35, Philippe Mathieu-Daudé wrote:
->> On 3/8/21 4:46 PM, Thomas Huth wrote:
->>> The status of the gitlab-CI files is currently somewhat confusing, and
->>> it is often not quite clear whether a patch should go via my tree or
->>> via the testing tree of Alex. That situation has grown historically...
->>> Initially, I was the only one using the gitlab-CI, just for my private
->>> repository there. But in the course of time, the gitlab-CI switched to
->>> use the containers from tests/docker/ (which is not part of the
->>> gitlab-CI
->>> section in the MAINTAINERS file), and QEMU now even switched to
->>> gitlab.com
->>> completely for the repository and will soon use it as its gating CI,
->>> too,
->>> so it makes way more sense if the gitlab-ci.yml files belong to the
->>> people
->>> who are owning the qemu-project on gitlab.com and take care of the
->>> gitlab
->>> CI there. Thus let's merge the gitlab-ci section into the common
->>> "test and
->>> build automation" section.
->>>
->>> While we're at it, I'm also removing the line with Fam there for now,
->>> since he was hardly active during the last years in this area anymore.
->>> If he ever gets more time for this part again in the future, we surely
->>> can add the line back again.
->>>
->>> Now to avoid that Alex is listed here alone, Philippe and I agreed to
->>> help as backup maintainers here, too.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   v2: Keep Philippe and myself as maintainer instead of reviewer
->>>
->>>   MAINTAINERS | 21 +++++++--------------
->>>   1 file changed, 7 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 26c9454823..5c4c179abb 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -3262,17 +3262,21 @@ F: include/hw/remote/iohub.h
->>>     Build and test automation
->>>   -------------------------
->>> -Build and test automation
->>> +Build and test automation, Linux Continuous Integration
->>
->> I'd rather not limit it to Linux hosts...
->>
->>>   M: Alex Bennée <alex.bennee@linaro.org>
->>> -M: Fam Zheng <fam@euphon.net>
->>
->> I'm not sure about Fam removal, he is the one maintaining patchew
->> (see [*] below)... Maybe we need an Ack from Paolo?
+
+
+On 3/8/21 2:04 PM, Markus Armbruster wrote:
+> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 > 
-> We could split the Patchew part into a separate section... OTOH, there
-> are no patchew related files in the main git repo anyway that we track
-> in the MAINTAINERS file, so maybe it makes more sense to simply remove
-> that line? (Patchew admins are already mentioned here:
-> https://wiki.qemu.org/AdminContacts )
+>> On 3/6/21 3:57 AM, Markus Armbruster wrote:
+>>> Cc: ACPI maintainers for additional expertise.
+>>>
+>>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>>>
+>>>> Hi,
+>>>>
+>>>> Recent changes in pseries code (not yet pushed, available at David's
+>>>> ppc-for-6.0) are using the QAPI event MEM_UNPLUG_ERROR to report memory
+>>>> hotunplug errors in the pseries machine.
+>>>>
+>>>> The pseries machine is also using a timeout to cancel CPU hotunplugs that
+>>>> takes too long to finish (in which we're assuming a guest side error) and
+>>>> it would be desirable to also send a QAPI event for this case as well.
+>>>>
+>>>> At this moment, there is no "CPU_UNPLUG_ERROR" in QAPI (guess ACPI doesn't
+>>>> need it).
+>>>
+>>> I see two interpretations of "ACPI doesn't need":
+>>>
+>>> 1. Unplug can't fail, or QEMU can't detect failure.  Michael, Igor?
+>>>
+>>> 2. Management applications haven't needed to know badly enough to
+>>> implement an event.
+>>>
+>>>>             Before sending patches to implement this new event I had a talk
+>>>> with David Gibson and he suggested that, instead of adding a new CPU_UNPLUG_ERROR
+>>>> event, we could add a generic event (e.g. DEVICE_UNPLUG_ERROR) that can be
+>>>> used by the pseries machine in both error scenarios (MEM and CPU).
+>>>
+>>> Good point.  One general event is better than two special ones that
+>>> could easily grow siblings.
+>>>
+>>>> This could also be used by x86 as well, although I believe the use of
+>>>> MEM_UNPLUG_ERROR would need to be kept for awhile to avoid breaking ABI.
+>>>
+>>> Yes.  Our rules for interface deprecation apply.
+>>>
+>>>> Any suggestions/comments?
+>>>
+>>> We should document the event's reliability.  Are there unplug operations
+>>> where we can't detect failure?  Are there unplug operations where we
+>>> could, but haven't implemented the event?
+>>
+>> The current version of the PowerPC spec that the pseries machine implements
+>> (LOPAR) does not predict a way for the virtual machine to report a hotunplug
+>> error back to the hypervisor. If something fails, the hypervisor is left
+>> in the dark.
+>>
+>> What happened in the 6.0.0 dev cycle is that we faced a reliable way of
+> 
+> Do you mean "unreliable way"?
 
-Also here:
-https://wiki.qemu.org/Testing/CI
+I guess a better word would be 'reproducible', as in we discovered a reproducible
+way of getting the guest kernel to refuse the CPU hotunplug.
 
-So it makes sense to me to remove the patchew line.
+> 
+>> making CPU hotunplug fail in the guest (trying to hotunplug the last online
+>> CPU) and the pseries machine was unprepared for dealing with it. We ended up
+>> implementing a hotunplug timeout and, if the timeout kicks in, we're assuming
+>> that the CPU hotunplug failed in the guest. This is the first scenario we have
+>> today where we want to send a QAPI event informing the CPU hotunplug error,
+>> but this event does not exist in QEMU ATM.
+> 
+> When the timeout kicks in, how can you know the operation failed?  You
+> better be sure when you send an error event.  In other words: what
+> prevents the scenario where the operation is much slower than you
+> expect, the timeout expires, the error event is sent, and then the
+> operation completes successfully?
+
+A CPU hotunplug in a pseries guest takes no more than a couple of seconds, even
+if the guest is under heavy load. The timeout is set to 15 seconds.
+
+I'm aware that there's always that special use case, that we haven't seen yet,
+where this assumption is no longer valid. The plan is to change the spec and the
+guest kernel to signal the CPU hotunplug error back to QEMU before the dragon
+lands. For now, timing out the CPU hotunplug process when we're almost certain
+(but not 100%) that it failed in the guest is the best can do.
+
+For both cases I want to use DEVICE_UNPLUG_ERROR right from the start, avoiding
+guest visible changes when we change how we're detecting the unplug errors.
+
+> 
+>> The second scenario is a memory hotunplug error. I found out that the pseries
+>> guest kernel does a reconfiguration step when re-attaching the DIMM right
+>> after refusing the hotunplug, and this reconfiguration is visible to QEMU.
+>> I proceeded to make the pseries machine detect this error case, rollback the
+>> unplug operation and fire up the MEM_UNPLUG_ERROR. This case is already covered
+>> by QAPI, but if we add a DEVICE_UNPLUG_ERROR event I would use it in this case as
+>> well instead of the MEM specific one.
+>>
+>> This investigation and work in the mem hotunplug error path triggered a
+>> discussion in qemu-ppc, where we're considering whether we should do the same
+>> signalling the kernel does for the DIMM hotunplug error for all other device
+>> hotunplug errors, given that the reconfiguration per se is not forbidden by LOPAR
+>> and it's currently a no-op. We would make a LOPAR spec change to make this an
+>> official hotunplug error report mechanism, and all pseries hotunplug operations,
+>> for all devices, would report DEVICE_UNPLUG_ERROR QAPI events in the error path.
+>>
+>> Granted, the spec change + Kernel change is not something that we will be able
+>> to nail down in the 6.0.0 cycle, but having the DEVICE_UNPLUG_ERROR QAPI event
+>> already in place would make it easier for the future as well.
+>>
+>>
+>> I have a doc draft of these changes/infos that I forgot to post. I would post
+>> it as docs/system/ppc-spapr-hotunplug-notes.rst. I can add the QAPI events
+>> information there as well. Does that work for you as far as documentation
+>> goes?
+> 
+> A DEVICE_UNPLUG_ERROR event makes perfect sense regardless of machine
+> and device.
+> 
+> I'm not asking you to to implement it for all machines and devices.  But
+> I want its design to support growth towards that goal, and its
+> documentation reflect its current state.
+> 
+> In particular, the doc comment in the QAPI schema should list the
+> limitation.  If the event is only implemented for LOPAR for now, say so.
+> If it's only implemented for certain devices, say so.
+> 
+> Questions?
+
+
+Nope. Thanks for the pointers. I'll add the DEVICE_UNPLUG_ERROR QAPI event
+in a way that it can be used by other machines in the future, and documenting
+where the event is being used ATM.
+
+
+Thanks,
+
+
+DHB
+
+
+> 
 
