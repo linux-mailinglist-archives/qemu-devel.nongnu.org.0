@@ -2,60 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB5A3310BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:25:00 +0100 (CET)
-Received: from localhost ([::1]:45350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DD43310C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:28:38 +0100 (CET)
+Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGod-0003Kp-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:24:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55466)
+	id 1lJGs7-0007JQ-HP
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:28:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lJGOu-0000TY-U1
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:58:24 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lJGOr-0004Fs-Q5
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:58:24 -0500
-Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DvKdM43MBzRMtn;
- Mon,  8 Mar 2021 21:56:39 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 8 Mar 2021 21:58:15 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Mon, 8 Mar 2021 21:58:15 +0800
-Subject: Re: [PATCH v3 3/3] migration/ram: Optimize ram_save_host_page()
-To: Peter Xu <peterx@redhat.com>
-References: <20210305075035.1852-1-jiangkunkun@huawei.com>
- <20210305075035.1852-4-jiangkunkun@huawei.com>
- <20210305143033.GF397383@xz-x1>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <228f70c3-4c4f-5d21-c2f0-1be7c0d7aea5@huawei.com>
-Date: Mon, 8 Mar 2021 21:58:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJGVK-0007X9-OE
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:05:02 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJGVD-0007Jd-QN
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:04:59 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ 124-20020a1c00820000b029010b871409cfso3867441wma.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:04:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=XbZDs1VhTHGtO9BVxsEBkTSFPcrlMKAaA/BAg1voT5Q=;
+ b=QiPQmykFuwYkXHQUPlAk2PwWEcK16naEFFr4GQWMr430tDRXo+MGj4GMRZUuzs9bju
+ /wHXEamo1SKyoUNzqFV5fe4Gr5yIsBFCRZwqRkly/271XdtHw9/wmh6x4eGly2clryz6
+ 6zdtmPvU8W8mOYufMXTgjTCTOYqP8C7OHdayxOWY3lqUZUSe95BUEVOA3zdjuqqfuvyM
+ rvXkuTWaWRZEhLf7bePzyzEEbrJOHQAjMgnSjdCPkQ1ypTK8XDtcarHYhFUfYAJ/JD5t
+ FAn5U98QkZP0SSGRbW1E6U+W3yEXeCydoLT0bsXM8tAVWd3k45o0wwNP0bhO9UwGEACp
+ tFKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=XbZDs1VhTHGtO9BVxsEBkTSFPcrlMKAaA/BAg1voT5Q=;
+ b=GrtOsmipgNV8x0GVKLGRYjNKGfGGjaIB7D8Z7AsvyxUTf8lqQQGWfU5DzyXQcT835F
+ oID7XAOYm69VsuUxeeRP73Kp8i3sc6UVbfAIePR7YtwxYHn/VsHSMrX5mdcFopARIbQp
+ CbsazLcy88YkmMIw5plxzxkWSuCf/DATCFqTHDXK62SWUBHL7vj6wNjZZMkioWbXr31y
+ n/Z1fPrXwwQrBKyd+0zb0AeGKfHBVMHemjl9K63r1URUNCcN31t0Troa/OgKrcJxUbEZ
+ MbEEb5y2OFm9XpL4PVraNY9s1DAgJa4GMGsKjM3UPiswsp+FbCkH4OoELifD4pPrStIr
+ hzMQ==
+X-Gm-Message-State: AOAM530FlzxJqh154eLSgCNWLFGgX70B39bw3IGcCRQFXym3rHfUyqWW
+ vLkcBKv7TlF3t+P/xa6FLvMkTA==
+X-Google-Smtp-Source: ABdhPJwmcERIHXcY2SNn2iRcnuZLtWgDe40rttBksbE27vPfoKWpkkh3cCgEw371rtNQmJ+lORMkHA==
+X-Received: by 2002:a1c:bad6:: with SMTP id k205mr13726929wmf.16.1615212294102; 
+ Mon, 08 Mar 2021 06:04:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f7sm21207972wrm.36.2021.03.08.06.04.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Mar 2021 06:04:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 762921FF7E;
+ Mon,  8 Mar 2021 14:04:52 +0000 (GMT)
+References: <20210301085450.1732-1-cfontana@suse.de>
+ <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
+Date: Mon, 08 Mar 2021 14:02:48 +0000
+In-reply-to: <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
+Message-ID: <875z21aghn.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210305143033.GF397383@xz-x1>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,112 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC
- here" <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
- wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 2021/3/5 22:30, Peter Xu wrote:
-> On Fri, Mar 05, 2021 at 03:50:35PM +0800, Kunkun Jiang wrote:
->> Starting from pss->page, ram_save_host_page() will check every page
->> and send the dirty pages up to the end of the current host page or
->> the boundary of used_length of the block. If the host page size is
->> a huge page, the step "check" will take a lot of time.
->>
->> This will improve performance to use migration_bitmap_find_dirty().
-> Is there any measurement done?
-I tested it on Kunpeng 920.  VM params: 1U 4G( page size 1G).
-The time of ram_save_host_page() in the last round of ram saving:
-before optimize: 9250us               after optimize: 34us
-> This looks like an optimization, but to me it seems to have changed a lot
-> context that it doesn't need to... Do you think it'll also work to just look up
-> dirty again and update pss->page properly if migration_bitmap_clear_dirty()
-> returned zero?
+Claudio Fontana <cfontana@suse.de> writes:
+
+> Hi,
 >
-> Thanks,
-This just inverted the body of the loop, suggested by @David Edmondson.
-Here is the v2[1]. Do you mean to change it like this?
+> anything else for me to do here?
 
-[1]: 
-http://patchwork.ozlabs.org/project/qemu-devel/patch/20210301082132.1107-4-jiangkunkun@huawei.com/
+It looks to me that this series is looking pretty good. Every patch has
+at least one review so I think it's just waiting on the maintainers to
+pick it up.
 
-Thanks,
-Kunkun Jiang
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->> ---
->>   migration/ram.c | 39 +++++++++++++++++++--------------------
->>   1 file changed, 19 insertions(+), 20 deletions(-)
->>
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 9fc5b2997c..28215aefe4 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -1991,6 +1991,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>       int pages = 0;
->>       size_t pagesize_bits =
->>           qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
->> +    unsigned long hostpage_boundary =
->> +        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
->>       unsigned long start_page = pss->page;
->>       int res;
->>   
->> @@ -2003,30 +2005,27 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>           int pages_this_iteration = 0;
->>   
->>           /* Check if the page is dirty and send it if it is */
->> -        if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
->> -            pss->page++;
->> -            continue;
->> -        }
->> -
->> -        pages_this_iteration = ram_save_target_page(rs, pss, last_stage);
->> -        if (pages_this_iteration < 0) {
->> -            return pages_this_iteration;
->> -        }
->> +        if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
->> +            pages_this_iteration = ram_save_target_page(rs, pss, last_stage);
->> +            if (pages_this_iteration < 0) {
->> +                return pages_this_iteration;
->> +            }
->>   
->> -        pages += pages_this_iteration;
->> -        pss->page++;
->> -        /*
->> -         * Allow rate limiting to happen in the middle of huge pages if
->> -         * something is sent in the current iteration.
->> -         */
->> -        if (pagesize_bits > 1 && pages_this_iteration > 0) {
->> -            migration_rate_limit();
->> +            pages += pages_this_iteration;
->> +            /*
->> +             * Allow rate limiting to happen in the middle of huge pages if
->> +             * something is sent in the current iteration.
->> +             */
->> +            if (pagesize_bits > 1 && pages_this_iteration > 0) {
->> +                migration_rate_limit();
->> +            }
->>           }
->> -    } while ((pss->page & (pagesize_bits - 1)) &&
->> +        pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
->> +    } while ((pss->page < hostpage_boundary) &&
->>                offset_in_ramblock(pss->block,
->>                                   ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
->> -    /* The offset we leave with is the last one we looked at */
->> -    pss->page--;
->> +    /* The offset we leave with is the min boundary of host page and block */
->> +    pss->page = MIN(pss->page, hostpage_boundary) - 1;
->>   
->>       res = ram_save_release_protection(rs, pss, start_page);
->>       return (res < 0 ? res : pages);
->> -- 
->> 2.23.0
->>
+Paolo/Richard - are you intending to take the series as is or are you
+waiting for something else? I'd like to see the patch delta reduced for
+the ARM cleanup work which is still ongoing.
 
+>
+> The latest rebased state of this series should be always available here:
+>
+> https://gitlab.com/hw-claudio/qemu/-/tree/i386_cleanup_8
+>
+> When it comes to the ARM cleanup series,
+> I would like to have the tests pass for ARM, before doing even more chang=
+es, could you help me there Philippe?
+>
+> Maybe applying some of your changes on top would fix the failures? I trie=
+d, for example with the arm-cpu-features ones, but it didn't work for me..
+>
+<snip>
+
+--=20
+Alex Benn=C3=A9e
 
