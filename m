@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F7A331A01
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 23:10:15 +0100 (CET)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D535331A16
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 23:18:46 +0100 (CET)
+Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJO4s-0006UR-IH
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 17:10:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
+	id 1lJOD7-00084L-DA
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 17:18:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJO3o-00064U-Ih
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 17:09:08 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44951)
+ id 1lJOBX-0007XP-6m
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 17:17:07 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJO3n-0002qu-2M
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 17:09:08 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so4738131wmi.3
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 14:09:06 -0800 (PST)
+ id 1lJOBV-0006id-Ix
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 17:17:06 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 124-20020a1c00820000b029010b871409cfso4722834wma.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 14:17:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nLmWiSlQUJsgq9QeI/hne2aTLOGGDliDzyj97+ybhZQ=;
- b=Gs2cMZnZ6h0FHsK7/77xuqIc8D6Y5gZ5MfVmX6xvVmuxn5sATIj6SqLfP6a3sOGllo
- Mr5LVE1EWCe/zBG90BnfP21W3/jHQqVmYn6BqC9j5ZIPEWqY80D0W0PI01x1lOUY4P8j
- WxWc9sDa7FNt0mr2hRxi8io+xZDUJxUMPQFtp5UfkowDuUWCnEe97UYyvwnfh62D2MhV
- /uZvQj17JAMAhBFc1HOs8Tj0R3IjxrWB7pguDrCKNmCsFI2CGQwfNxBl8YgTKSSjje8k
- fRlhnAHHRbb2cTRhg2HKMeMpDfTKzNBXhkOlQCKXlhskpwjOq3FMrbrW0zS/1PrM7xqS
- Cztg==
+ bh=h0b/cenWeeiPywT5XUDhauNY0w7yUDFyqPvzkuNNGVU=;
+ b=WRJOMYxKhZam57R0RVsDQJkGU6LtVlK0QzWy+A/D5LhjfLzXeU7DjwN9ML+oVs1ohy
+ V4gMcdOlkeosMhgYu3MvR+bfQoHW/Xl+UVfqiqe6o047kwnQRaLncnyWUbtklf/G7yKf
+ GTb/bnh2+6uAI7qseM7RBHjlZrmvOJmaglttEPCAymf2fyVwRq63s0qXo9kosbZez0AJ
+ NGZBQ6DX4r+heZZOJfjDRda7/NdJjdjWfsSN52HgkDhldIv/Ky8t+hEMt4uVeCx7Cabf
+ wXN4vYwlKGTkfdF26XJfMrLGIdJ1JESQDO3bPRqxPNbex/3WIXcud1VdsUWF+no5zP5u
+ I3tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nLmWiSlQUJsgq9QeI/hne2aTLOGGDliDzyj97+ybhZQ=;
- b=eXnDdetSMiyiPYLt8YCYu5ps8RGrSTOl9DH7Ez8vPj7HgpQ5YmpLYo0myIP+XK1T5m
- PD91AzrceG+N3J8Pci/GsrugSDZ1iBL806jrvjzWAMZF+xcMXGMyHDioYSHcpvFqizvp
- NecQJKqwNb+nascgLGXPBhjUTOjKJZf7XW+g476JgYezVwIYtPnYg0ktTctfzBS25N62
- 6XCkRQSyUzLREOywvDvhmSn1vXHFnPK1iDeqgHYgwRu/As8TmsW8s2VKXwTZetsoPlho
- cvktYXMhjKjQ7h/fSpifPt5FYmAjiRTE4cXrK+7qkNYV1cysxBG7LTO8RCo1GMipCOuo
- G7Ng==
-X-Gm-Message-State: AOAM530pHFiT/SJNFTlUmnrMo50fzFSK1T63dNSuQwrcQnIIMaQlfpQH
- ge6i+LwMUYJVoUs51i5d0qg=
-X-Google-Smtp-Source: ABdhPJyCME+A6QLq5LFk3OYw45ebN9xn3gSCwJwZC4MW0C71EMD1mjuP1cyOdUIGmlXbdDAk5MRcqQ==
-X-Received: by 2002:a05:600c:220d:: with SMTP id
- z13mr798487wml.1.1615241345271; 
- Mon, 08 Mar 2021 14:09:05 -0800 (PST)
+ bh=h0b/cenWeeiPywT5XUDhauNY0w7yUDFyqPvzkuNNGVU=;
+ b=fkua7yiDzUOBXGekNjf817/wZntaYOBLYsvNuYRbJNp8Mr1oj8X1jzYuoCqRPgdg2i
+ gMBQthvXs+CUUJ56FpcuzwnvyB8Av8Kox9zV3pfAPx/Y9pg5lyt24X5EmVBxIDtEhjGV
+ Pc4SE1NGYSdGkann5lSMYybFUzH9qeUnO3UhV50wVRkX/sZH6vmoY1OOGytbH2wW0WrW
+ /7eiU6MToL9C3+9+3f4K4Dg9v58nNz+6oGMxwBsHLKBsHVZRfF891VUYAdbddLmudjSM
+ w+gkrL4Gx3COSFXG2xBJC1CAgz4J2pRc0SJN3YK0vcG9+CMirH45c9C1g06/mwubpGy5
+ YfWw==
+X-Gm-Message-State: AOAM533qeE2LJ9kU/rSqso8OnMKkBz9VFP4BRKLj6nfSR4VKK+U2Dy/K
+ D7ARIHCAa8pccy9HhcdoUtA=
+X-Google-Smtp-Source: ABdhPJwfBm9/SJo8r4kirnDliaYHQTpJ9Ib7ZcEInm4JKH90BquYvXVzISOlzbYrKfRUIeXTos0bKw==
+X-Received: by 2002:a1c:2857:: with SMTP id o84mr782756wmo.181.1615241823943; 
+ Mon, 08 Mar 2021 14:17:03 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c35sm870346wmp.3.2021.03.08.14.09.04
+ by smtp.gmail.com with ESMTPSA id s23sm856786wmc.29.2021.03.08.14.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 14:09:04 -0800 (PST)
-Subject: Re: [PATCH v6 4/5] m68k: add a system controller
+ Mon, 08 Mar 2021 14:17:03 -0800 (PST)
+Subject: Re: [PATCH v6 5/5] m68k: add Virtual M68k Machine
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20210308212501.650740-1-laurent@vivier.eu>
- <20210308212501.650740-5-laurent@vivier.eu>
+ <20210308212501.650740-6-laurent@vivier.eu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9ceeb14d-7c18-e493-4511-fbe841dcb098@amsat.org>
-Date: Mon, 8 Mar 2021 23:09:03 +0100
+Message-ID: <5e7838c8-8763-d6cd-1a0f-41196bbb42c4@amsat.org>
+Date: Mon, 8 Mar 2021 23:17:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210308212501.650740-5-laurent@vivier.eu>
+In-Reply-To: <20210308212501.650740-6-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,22 +97,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/8/21 10:25 PM, Laurent Vivier wrote:
-> Add a system controller for the m68k-virt machine.
-> This controller allows the kernel to power off or reset the machine.
+> The machine is based on Goldfish interfaces defined by Google
+> for Android simulator. It uses Goldfish-rtc (timer and RTC),
+> Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
+> 
+> The machine is created with 128 virtio-mmio bus, and they can
+> be used to use serial console, GPU, disk, NIC, HID, ...
 > 
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/specs/virt-ctlr.txt    |  26 +++++++
->  include/hw/misc/virt_ctrl.h |  22 ++++++
->  hw/misc/virt_ctrl.c         | 151 ++++++++++++++++++++++++++++++++++++
->  hw/misc/Kconfig             |   3 +
->  hw/misc/meson.build         |   3 +
->  hw/misc/trace-events        |   7 ++
->  6 files changed, 212 insertions(+)
->  create mode 100644 docs/specs/virt-ctlr.txt
->  create mode 100644 include/hw/misc/virt_ctrl.h
->  create mode 100644 hw/misc/virt_ctrl.c
+>  default-configs/devices/m68k-softmmu.mak      |   1 +
+>  .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +
+>  hw/m68k/virt.c                                | 313 ++++++++++++++++++
+>  MAINTAINERS                                   |  13 +
+>  hw/m68k/Kconfig                               |  10 +
+>  hw/m68k/meson.build                           |   1 +
+>  6 files changed, 356 insertions(+)
+>  create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
+>  create mode 100644 hw/m68k/virt.c
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> +config M68K_VIRT
+> +    bool
+> +    select M68K_IRQC
+> +    select VIRT_CTRL
+> +    select GOLDFISH_PIC
+> +    select GOLDFISH_TTY
+> +    select GOLDFISH_RTC
+> +    select VIRTIO
+
+You don't seem to use VIRTIO directly but via VIRTIO_MMIO
+which already selects VIRTIO, so you could remove this
+line (keeping the next one). Just nitpicking...
+
+> +    select VIRTIO_MMIO
 
