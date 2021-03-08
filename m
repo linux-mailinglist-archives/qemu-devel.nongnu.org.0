@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AEF33111D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:42:51 +0100 (CET)
-Received: from localhost ([::1]:56654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6362E33113B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:51:53 +0100 (CET)
+Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJH5u-0003p3-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:42:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39008)
+	id 1lJHEe-0002nY-4y
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:51:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lJH3E-00025U-A3
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:40:04 -0500
-Resent-Date: Mon, 08 Mar 2021 09:40:04 -0500
-Resent-Message-Id: <E1lJH3E-00025U-A3@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21362)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJHDg-0001sj-Hj; Mon, 08 Mar 2021 09:50:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lJH3B-0005ZD-Ft
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:40:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615214394; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QCFoiCMG8re0MYuO5Bc//2rMBBgko5ymdRsR4AQWVCqnDdjcqqqn7Dse9ODFMoZh8DSvDoDwEp4YYKXKi7LoeCT5FGc63PAB3UuoSpkB1V3dc/xIRBg+JGgzY94P+NlXSkxElNOAp4sASTJ5+p/2JPPpc8CdSPxNSwPv6y/Yq4c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615214394;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=eKAwjNJH3pMh6RljgyVByS3tdDkKxd7yf9VoK5bRubs=; 
- b=AYqEoO+emvcqMhGuhNF4eQWP2+N5tw2sbAUqHjIOL+xSQQPev5LK67djNiX/+/KIlkFrkzHxOFzHp6c9YaDb4QGzyQ4eDquqaeyNdpsaqjpbKop7yW0tBP36NjsK9/VuNWW3nV62d9aE/u7CZEFyaAr5DWlp5oc0EaaaPVWqEvg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615214389505352.6582342590897;
- Mon, 8 Mar 2021 06:39:49 -0800 (PST)
-In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
-Subject: Re: [PULL 00/18] testing, docs, semihosting move and guest-loader
-Message-ID: <161521438841.244.10410462204524974339@f3770d8ad632>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJHDd-0002Hv-EQ; Mon, 08 Mar 2021 09:50:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 52A9EAE30;
+ Mon,  8 Mar 2021 14:50:45 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 1/8] sysemu/tcg: Restrict tcg_exec_init() to
+ CONFIG_TCG
+To: David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210304222323.1954755-1-f4bug@amsat.org>
+ <20210304222323.1954755-2-f4bug@amsat.org>
+ <e927dd5b-85c5-ddbf-aa16-2d1401a10bc3@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <442914dd-1059-dba4-fc14-09671e041747@suse.de>
+Date: Mon, 8 Mar 2021 15:50:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Mon, 8 Mar 2021 06:39:49 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e927dd5b-85c5-ddbf-aa16-2d1401a10bc3@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,112 +59,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwODEzNTEwNC4yNDkw
-My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMwODEzNTEwNC4y
-NDkwMy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1BVTEwgMDAvMThdIHRlc3Rp
-bmcsIGRvY3MsIHNlbWlob3N0aW5nIG1vdmUgYW5kIGd1ZXN0LWxvYWRlcgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
-fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
-aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
-PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
-ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
-L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMwODEzNTEwNC4yNDkwMy0x
-LWFsZXguYmVubmVlQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDMwODEzNTEwNC4yNDkwMy0x
-LWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwpk
-NDYxNWQ3IHNlbWlob3N0aW5nOiBNb3ZlIGh3L3NlbWlob3N0aW5nLyAtPiBzZW1paG9zdGluZy8K
-MTFmZjMzNiBzZW1paG9zdGluZzogTW92ZSBpbmNsdWRlL2h3L3NlbWlob3N0aW5nLyAtPiBpbmNs
-dWRlL3NlbWlob3N0aW5nLwo2ZmY0NzBkIHRlc3RzL2F2b2NhZG86IGFkZCBib290X3hlbiB0ZXN0
-cwozNjY5NzJmIGRvY3M6IGFkZCBzb21lIGRvY3VtZW50YXRpb24gZm9yIHRoZSBndWVzdC1sb2Fk
-ZXIKMmRlNjMzNCBkb2NzOiBtb3ZlIGdlbmVyaWMtbG9hZGVyIGRvY3VtZW50YXRpb24gaW50byB0
-aGUgbWFpbiBtYW51YWwKMzU0MDMzMSBody9jb3JlOiBpbXBsZW1lbnQgYSBndWVzdC1sb2FkZXIg
-dG8gc3VwcG9ydCBzdGF0aWMgaHlwZXJ2aXNvciBndWVzdHMKNTkxNTJkNCBkZXZpY2VfdHJlZTog
-YWRkIHFlbXVfZmR0X3NldHByb3Bfc3RyaW5nX2FycmF5IGhlbHBlcgo1ZTczYzBhIGh3L3Jpc2N2
-OiBtaWdyYXRlIGZkdCBmaWVsZCB0byBnZW5lcmljIE1hY2hpbmVTdGF0ZQo5N2IyMTEwIGh3L2Jv
-YXJkOiBwcm9tb3RlIGZkdCBmcm9tIEFSTSBWaXJ0TWFjaGluZVN0YXRlIHRvIE1hY2hpbmVTdGF0
-ZQo4ZTA4N2UwIC5lZGl0b3Jjb25maWc6IHVwZGF0ZSB0aGUgYXV0b21hdGljIG1vZGUgc2V0dGlu
-ZyBmb3IgRW1hY3MKYjE5YjhhOSB0ZXN0cy9kb2NrZXI6IFVzZSAtLWFyY2gtb25seSB3aGVuIGJ1
-aWxkaW5nIERlYmlhbiBjcm9zcyBpbWFnZQo3OTA0ZGRkIGdpdGxhYi1jaS55bWw6IEFkZCBqb2Jz
-IHRvIHRlc3QgQ0ZJIGZsYWdzCmMwYjFhMTggZ2l0bGFiLWNpLnltbDogQWxsb3cgY3VzdG9tICMg
-b2YgcGFyYWxsZWwgbGlua2VycwowNmFhYTJhIGdpdGxhYjogYWRkIGJ1aWxkLXVzZXItaGV4YWdv
-biB0ZXN0CjZlMTNkMzYgdGVzdHMvdGNnOiBVc2UgSGV4YWdvbiBEb2NrZXIgaW1hZ2UKZDFlODNl
-YiBkb2NrZXI6IEFkZCBIZXhhZ29uIGltYWdlCjBjZWRjNzIgdGVzdHMvZG9ja2VyOiBhZGQgYSB0
-ZXN0LXRjZyBmb3IgYnVpbGRpbmcgdGhlbiBydW5uaW5nIGNoZWNrLXRjZwoxNDYzYTFhIGRvY3Mv
-c3lzdGVtOiBhZGQgYSBnZW50bGUgcHJvbXB0IGZvciB0aGUgY29tcGxleGl0eSB0byBjb21lCgo9
-PT0gT1VUUFVUIEJFR0lOID09PQoxLzE4IENoZWNraW5nIGNvbW1pdCAxNDYzYTFhZGQ3ZWUgKGRv
-Y3Mvc3lzdGVtOiBhZGQgYSBnZW50bGUgcHJvbXB0IGZvciB0aGUgY29tcGxleGl0eSB0byBjb21l
-KQoyLzE4IENoZWNraW5nIGNvbW1pdCAwY2VkYzcyNWNmYzcgKHRlc3RzL2RvY2tlcjogYWRkIGEg
-dGVzdC10Y2cgZm9yIGJ1aWxkaW5nIHRoZW4gcnVubmluZyBjaGVjay10Y2cpClVzZSBvZiB1bmlu
-aXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3Jp
-cHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBm
-aWxlIG1vZGUgMTAwNzU1Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDIyIGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDIvMTggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8xOCBDaGVja2lu
-ZyBjb21taXQgZDFlODNlYmU2OTE3IChkb2NrZXI6IEFkZCBIZXhhZ29uIGltYWdlKQpXQVJOSU5H
-OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTU0OiBGSUxFOiB0ZXN0cy9kb2NrZXIvZG9ja2Vy
-ZmlsZXMvZGViaWFuLWhleGFnb24tY3Jvc3MuZG9ja2VyLmQvYnVpbGQtdG9vbGNoYWluLnNoOjYz
-OgorICAgIC1EQ01BS0VfQVNNX0ZMQUdTPSItRzAgLW1sb25nLWNhbGxzIC1mbm8tcGljIC0tdGFy
-Z2V0PWhleGFnb24tdW5rbm93bi1saW51eC1tdXNsICIgXAoKRVJST1I6IGxpbmUgb3ZlciA5MCBj
-aGFyYWN0ZXJzCiMxODE6IEZJTEU6IHRlc3RzL2RvY2tlci9kb2NrZXJmaWxlcy9kZWJpYW4taGV4
-YWdvbi1jcm9zcy5kb2NrZXIuZC9idWlsZC10b29sY2hhaW4uc2g6OTA6CisgICAgQ1JPU1NfQ0ZM
-QUdTPSItRzAgLU8wIC1tdjY1IC1mbm8tYnVpbHRpbiAtZm5vLXJvdW5kaW5nLW1hdGggLS10YXJn
-ZXQ9aGV4YWdvbi11bmtub3duLWxpbnV4LW11c2wiIFwKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hh
-cmFjdGVycwojMjE4OiBGSUxFOiB0ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMvZGViaWFuLWhleGFn
-b24tY3Jvc3MuZG9ja2VyLmQvYnVpbGQtdG9vbGNoYWluLnNoOjEyNzoKKyAgICBDRkxBR1M9Ii1H
-MCAtTzAgLW12NjUgLWZuby1idWlsdGluIC1mbm8tcm91bmRpbmctbWF0aCAtLXRhcmdldD1oZXhh
-Z29uLXVua25vd24tbGludXgtbXVzbCIgXAoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAx
-ODQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
-NC8xOCBDaGVja2luZyBjb21taXQgNmUxM2QzNmRiNDQxICh0ZXN0cy90Y2c6IFVzZSBIZXhhZ29u
-IERvY2tlciBpbWFnZSkKNS8xOCBDaGVja2luZyBjb21taXQgMDZhYWEyYTIzM2IwIChnaXRsYWI6
-IGFkZCBidWlsZC11c2VyLWhleGFnb24gdGVzdCkKNi8xOCBDaGVja2luZyBjb21taXQgYzBiMWEx
-ODkwMjA3IChnaXRsYWItY2kueW1sOiBBbGxvdyBjdXN0b20gIyBvZiBwYXJhbGxlbCBsaW5rZXJz
-KQo3LzE4IENoZWNraW5nIGNvbW1pdCA3OTA0ZGRkZjlhN2QgKGdpdGxhYi1jaS55bWw6IEFkZCBq
-b2JzIHRvIHRlc3QgQ0ZJIGZsYWdzKQo4LzE4IENoZWNraW5nIGNvbW1pdCBiMTliOGE5ZmZjYzMg
-KHRlc3RzL2RvY2tlcjogVXNlIC0tYXJjaC1vbmx5IHdoZW4gYnVpbGRpbmcgRGViaWFuIGNyb3Nz
-IGltYWdlKQo5LzE4IENoZWNraW5nIGNvbW1pdCA4ZTA4N2UwMDZjZWUgKC5lZGl0b3Jjb25maWc6
-IHVwZGF0ZSB0aGUgYXV0b21hdGljIG1vZGUgc2V0dGluZyBmb3IgRW1hY3MpCjEwLzE4IENoZWNr
-aW5nIGNvbW1pdCA5N2IyMTEwNDNhMWIgKGh3L2JvYXJkOiBwcm9tb3RlIGZkdCBmcm9tIEFSTSBW
-aXJ0TWFjaGluZVN0YXRlIHRvIE1hY2hpbmVTdGF0ZSkKMTEvMTggQ2hlY2tpbmcgY29tbWl0IDVl
-NzNjMGE3NTk4YiAoaHcvcmlzY3Y6IG1pZ3JhdGUgZmR0IGZpZWxkIHRvIGdlbmVyaWMgTWFjaGlu
-ZVN0YXRlKQoxMi8xOCBDaGVja2luZyBjb21taXQgNTkxNTJkNGIyZjVlIChkZXZpY2VfdHJlZTog
-YWRkIHFlbXVfZmR0X3NldHByb3Bfc3RyaW5nX2FycmF5IGhlbHBlcikKMTMvMTggQ2hlY2tpbmcg
-Y29tbWl0IDM1NDAzMzEzOGEzOCAoaHcvY29yZTogaW1wbGVtZW50IGEgZ3Vlc3QtbG9hZGVyIHRv
-IHN1cHBvcnQgc3RhdGljIGh5cGVydmlzb3IgZ3Vlc3RzKQoxNC8xOCBDaGVja2luZyBjb21taXQg
-MmRlNjMzNDVlMTk5IChkb2NzOiBtb3ZlIGdlbmVyaWMtbG9hZGVyIGRvY3VtZW50YXRpb24gaW50
-byB0aGUgbWFpbiBtYW51YWwpCjE1LzE4IENoZWNraW5nIGNvbW1pdCAzNjY5NzJmOWE0OGIgKGRv
-Y3M6IGFkZCBzb21lIGRvY3VtZW50YXRpb24gZm9yIHRoZSBndWVzdC1sb2FkZXIpCjE2LzE4IENo
-ZWNraW5nIGNvbW1pdCA2ZmY0NzBkMjVmYzYgKHRlc3RzL2F2b2NhZG86IGFkZCBib290X3hlbiB0
-ZXN0cykKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzk2OiBGSUxFOiB0ZXN0cy9h
-Y2NlcHRhbmNlL2Jvb3RfeGVuLnB5OjU2OgorICAgICAgICAgICAgICAgICAgICAgICAgICdndWVz
-dC1sb2FkZXIsYWRkcj0weDQ3MDAwMDAwLGtlcm5lbD0lcyxib290YXJncz1jb25zb2xlPWh2YzAn
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTE4OiBGSUxFOiB0ZXN0cy9hY2Nl
-cHRhbmNlL2Jvb3RfeGVuLnB5Ojc4OgorICAgICAgICAgICAgICAgICAgICd4ZW4taHlwZXJ2aXNv
-ci00LjExLWFybTY0XzQuMTEuNCUyQjM3LWczMjYzZjI1N2NhLTFfYXJtNjQuZGViJykKCldBUk5J
-Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMzY6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2Uv
-Ym9vdF94ZW4ucHk6OTY6CisgICAgICAgICAgICAgICAgICAgJ3hlbi1oeXBlcnZpc29yLTQuMTQt
-YXJtNjRfNC4xNC4wJTJCODAtZ2QxMDFiNDE3YjctMV9hcm02NC5kZWInKQoKdG90YWw6IDAgZXJy
-b3JzLCAzIHdhcm5pbmdzLCAxMjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMTggaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KMTcvMTggQ2hlY2tpbmcgY29tbWl0IDExZmYzMzY3MTNkZCAoc2Vt
-aWhvc3Rpbmc6IE1vdmUgaW5jbHVkZS9ody9zZW1paG9zdGluZy8gLT4gaW5jbHVkZS9zZW1paG9z
-dGluZy8pCjE4LzE4IENoZWNraW5nIGNvbW1pdCBkNDYxNWQ3NTAyZTUgKHNlbWlob3N0aW5nOiBN
-b3ZlIGh3L3NlbWlob3N0aW5nLyAtPiBzZW1paG9zdGluZy8pCj09PSBPVVRQVVQgRU5EID09PQoK
-VGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzA4MTM1MTA0LjI0OTAzLTEtYWxl
-eC5iZW5uZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+On 3/8/21 2:40 PM, David Hildenbrand wrote:
+> On 04.03.21 23:23, Philippe Mathieu-Daudé wrote:
+>> Invert the #ifdef'ry to easily restrict tcg_exec_init() declaration
+>> to CONFIG_TCG.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   include/sysemu/tcg.h | 10 ++++++----
+>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+>> index 00349fb18a7..fddde2b6b9a 100644
+>> --- a/include/sysemu/tcg.h
+>> +++ b/include/sysemu/tcg.h
+>> @@ -8,13 +8,15 @@
+>>   #ifndef SYSEMU_TCG_H
+>>   #define SYSEMU_TCG_H
+>>   
+>> +#ifndef CONFIG_TCG
+>> +#define tcg_enabled() 0
+>> +#else
+>> +
+>>   void tcg_exec_init(unsigned long tb_size, int splitwx);
+>>   
+>> -#ifdef CONFIG_TCG
+>>   extern bool tcg_allowed;
+>>   #define tcg_enabled() (tcg_allowed)
+>> -#else
+>> -#define tcg_enabled() 0
+>> -#endif
+>> +
+>> +#endif /* CONFIG_TCG */
+>>   
+>>   #endif
+>>
+> 
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> 
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
