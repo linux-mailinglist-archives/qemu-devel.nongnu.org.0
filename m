@@ -2,101 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191E833194A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 22:21:14 +0100 (CET)
-Received: from localhost ([::1]:32806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA06331959
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 22:27:14 +0100 (CET)
+Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJNJQ-0004C2-MS
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 16:21:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46146)
+	id 1lJNPF-0006fy-MO
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 16:27:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lJNIH-0003c0-2F; Mon, 08 Mar 2021 16:20:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48084)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJNNR-0005Q2-L6
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 16:25:21 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:49295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lJNIF-0005Z9-0p; Mon, 08 Mar 2021 16:20:00 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 128L5SYe110051; Mon, 8 Mar 2021 16:19:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=lYYfRUqiSks4E8Js4g/jh8C8zYgVRPyBaftIAd/vGQE=;
- b=ESEfJSOm7jyjTbhaX5HuU4Y5PeF5XdgGzw4DprbpnuFpOhbj/drH3je//iY7iyreX7Ji
- Bpz4Yi1f6rb20M6sqVI41laU7vwCahYEBcFOYCVPDdnbJ5F1cqED5w8G2/nTj0wtozGN
- zQdz5y2+GlNqbj7CzhWYZK/RoDE+zYVkPr4SlQSgBmVCl0+UjqAN/yR5AEitmtlwG4Bv
- fLPQkziEyngA/ZbGZBSb9fIFyXpyjlD92B0ZOd40bIa0aEupneHCgR+3vbTtiMtWFfwu
- ClLR30r3wjm17u64fQwvAbzJx92hmdnIi80prrvbDOWiLW6FADGCEEd6aBZvk21QUqJr DQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 375udprj1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Mar 2021 16:19:55 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 128L5S4M110023;
- Mon, 8 Mar 2021 16:19:54 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 375udprj17-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Mar 2021 16:19:54 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 128LJPAv030528;
- Mon, 8 Mar 2021 21:19:52 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3741c8a5mj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Mar 2021 21:19:52 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 128LJYOW24904026
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 Mar 2021 21:19:34 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59C86AE053;
- Mon,  8 Mar 2021 21:19:49 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 408F3AE04D;
- Mon,  8 Mar 2021 21:19:48 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.56.228])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon,  8 Mar 2021 21:19:48 +0000 (GMT)
-Date: Mon, 8 Mar 2021 22:19:46 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210308221946.4644ad4e.pasic@linux.ibm.com>
-In-Reply-To: <20210305214603.GF3139005@habkost.net>
-References: <20210302173544.3704179-1-pasic@linux.ibm.com>
- <20210305214603.GF3139005@habkost.net>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJNNP-00080R-C0
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 16:25:21 -0500
+Received: from localhost.localdomain ([82.252.131.214]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mi23L-1lx5yD3fnd-00e12u; Mon, 08 Mar 2021 22:25:05 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/5] m68k: add Virtual M68k Machine
+Date: Mon,  8 Mar 2021 22:24:56 +0100
+Message-Id: <20210308212501.650740-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-08_20:2021-03-08,
- 2021-03-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 mlxlogscore=999 impostorscore=0 lowpriorityscore=0 spamscore=0
- malwarescore=0 suspectscore=0 adultscore=0 mlxscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103080111
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:snxTvmEhm4m7MDY5JiPST5+Bj4Pt1kh1WDLOa1mk+186TRzbyFD
+ +1+CEX5jtf8tPiLUTFLXy2H55SFVftlkD/nQPgVJCMCe+uR3vE9esDYtQIDNcyJAkXlQPbu
+ PlOUwzVW/Ca1d6iJbR6AGIetpqpRoa4Cqud0OZXarbaLIs68a0CRtFrwCwxOorXkCEQed59
+ 9G9YTVVejKHCNvOKAHH+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4WXsomhksco=:JKS+oC0hIkdJmHXgUoV3oI
+ klywkiB/pd/x85fm0I75zq8rRd4nk+TdIOee7sJi0pAjRJrVKHPVPInC4PcX3dWZENt970TWx
+ Fmj1P4Sb0jAqzDp/k8tVhgCdzgaaWqT6QyPPU7LoZJ0v5ttWuuyY4Zwjw8DlREABecSKInzAB
+ CBu1O6+OvwpSbthIS8gBwAxmJ4D144/d7zC3MmdotCwucFaPdRG9ziKWbuqj5ogZvnO+mluKU
+ rLx9y9mF0L0xuJEG9D1UyxqcZBH372h17yuwmxM3Xi17hUL/qa2C0yWfLLWw++PBCO1Ez7IoO
+ GYXKAdDiYpVAus2nH+hg51sesUWI+Aod5WNWFkvYmlRKMkChbD4h2JjmWY/0ojtLogZgvWtZs
+ OWE1gT1Zukezb0HFH8oIpM8UoVfqvAMfD4C5I8BDakq3eI4a5MNkHSr65ziLw
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,199 +60,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Mar 2021 16:46:03 -0500
-Eduardo Habkost <ehabkost@redhat.com> wrote:
-
-> On Tue, Mar 02, 2021 at 06:35:44PM +0100, Halil Pasic wrote:
-> > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> > module, which provides the type virtio-gpu-device, packaging the
-> > hw-display-virtio-gpu module as a separate package that may or may not
-> > be installed along with the qemu package leads to problems. Namely if
-> > the hw-display-virtio-gpu is absent, qemu continues to advertise
-> > virtio-gpu-ccw, but it aborts not only when one attempts using
-> > virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> > to instantiate the type to introspect it.
-> > 
-> > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> > was chosen because it is not a portable device. Because registering
-> > virtio-gpu-ccw would make non-s390x emulator fail due to a missing
-> > parent type, if built as a module, before registering it, we check
-> > if the ancestor types are already registered.  
-> 
-> I don't understand what makes it necessary to make the
-> type_register() call conditional.  Calling type_register() before
-> the parent types are registered is perfectly valid.
-> 
-
-Registering a type that ain't going to become a complete type in time
-is in my understanding invalid. Why? Because the unsuspecting
-client code is about to trigger an abort when it attempts to use
-the registered, thus advertised type. That is the state of the art
-today. Of course we can morph that, adn make zombie TypeImpl's perfectly
-valid.
-
-> I don't think we should prevent type_register() from being
-> called.  We just need to prevent type_initialize() from being
-> called unless the type definition is complete.  
-
-Yes, but for that we need to catch when type_initialize() is about to be
-called, and preferably we should also know if we are dealing with a
-modularized type, which is allowed to fail this way, or are we dealing
-with a good old built in type, where trying to initialize an incomplete
-type is still a result of a programming mistake.
-
-So we would have to catch all the client code, which might be actually
-manageable (contrary to my first intuition).
-
-I did a little prototyping. I will post a patch on top of this
-patch with the results.
-
-I'm not confident about what I did in that prototype code since for
-instance *object_class_by_name gets called about 80 places:
-$ git grep -e object_class_by_name|wc -l
-82
-
-And to make things even harder to reason about type_initialize() can be 
-called through following public interfaces:
-object_class_by_name()
-object_class_get_parent()
-object_initialize()
-object_class_foreach()
-object_new_with_class()
-object_new()
-object_new_with_propv()
-and here I stopped looking.
-
-If we decide to sacrifice the assertions, and make incomplete types
-first class citizens regardless their origin (registered form a module
-or form core qemu), we would still have to take care of some 8
-invocations of type_initialize(). (Sacrificing the assertions
-may be a good idea if we have appropriate test coverage which
-would complain about the functionality that we silently discarded.)
-
-Another option to preserve the old behavior for the vast majority of
-types would be to mark "special" TypeImpl's as 'have to be careful
-before calling type_initialize()', but that doesn't sound very beutiful
-either. 
-
-I can try myself at any of these, but I don't mind if somebody who has
-a better understanding of object.c takes over.
-
-The reason why I choose to propose making virtio-gpu-ccw call
-type_register() conditionally if built as a module, is because
-it was easy to reason about the impact of that: it impacts
-virtio-gpu-ccw and that is it. Yes, it smells like technical
-debt.
-
-> This way there
-> won't be any tricky module loading order requirements.
-> 
-
-While I don't fully understand the situation when types are registered
-from modules in an up and running qemu, I do see a significant
-benefit in modules being able to register a type without having all
-dependencies met with respect to loading order requirements. 
-
-[..]
-> I suggest splitting the QOM core changes and s390x-specific
-> changes into separate patches, so they can be reviewed and
-> included separately.
-
-No problem, I can do that.
-
----------------------------8<------------------------------
-From: Halil Pasic <pasic@linux.ibm.com>
-Date: Mon, 8 Mar 2021 21:34:00 +0100
-Subject: [PATCH 1/1] WIP: prevent type_initialize() with incomplete type
-
-Eduardo suggested that instead of checking if the type is going to be a
-complete one, before registering it form the virtio-gpu-ccw module we
-should actually prevent a type_initialize() from being called unless
-the type is complete.
-
-Now if we do that for each and every type we may end up hiding bugs.
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
----
- hw/s390x/virtio-ccw-gpu.c |  5 -----
- qom/object.c              | 22 +++++++++++++++++++++-
- 2 files changed, 21 insertions(+), 6 deletions(-)
-
-diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
-index ccdf6ac20f..c301e2586b 100644
---- a/hw/s390x/virtio-ccw-gpu.c
-+++ b/hw/s390x/virtio-ccw-gpu.c
-@@ -62,11 +62,6 @@ static const TypeInfo virtio_ccw_gpu = {
- 
- static void virtio_ccw_gpu_register(void)
- {
--#ifdef CONFIG_MODULES
--    if (!type_ancestors_registered(&virtio_ccw_gpu)) {
--        return;
--    }
--#endif
-     type_register_static(&virtio_ccw_gpu);
- }
- 
-diff --git a/qom/object.c b/qom/object.c
-index 03bd9aa2ba..77c159f827 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1061,6 +1061,23 @@ const char *object_class_get_name(ObjectClass *klass)
-     return klass->type->name;
- }
- 
-+static ObjectClass *__module_object_class_by_name(const char *typename)
-+{
-+    TypeImpl *type = type_get_by_name(typename);
-+
-+    if (!type) {
-+        return NULL;
-+    }
-+
-+    if (!__type_ancestors_registered(type)) {
-+        return NULL;
-+    }
-+
-+    type_initialize(type);
-+
-+    return type->class;
-+}
-+
- ObjectClass *object_class_by_name(const char *typename)
- {
-     TypeImpl *type = type_get_by_name(typename);
-@@ -1082,7 +1099,7 @@ ObjectClass *module_object_class_by_name(const char *typename)
- #ifdef CONFIG_MODULES
-     if (!oc) {
-         module_load_qom_one(typename);
--        oc = object_class_by_name(typename);
-+        oc = __module_object_class_by_name(typename);
-     }
- #endif
-     return oc;
-@@ -1116,6 +1133,9 @@ static void object_class_foreach_tramp(gpointer key, gpointer value,
-     TypeImpl *type = value;
-     ObjectClass *k;
- 
-+    if (!__type_ancestors_registered(type)) {
-+        return;
-+    }
-     type_initialize(type);
-     k = type->class;
- 
-
+The Quadra 800 machine is very limited to run linux, it manages=0D
+only 1 GiB of memory and only some specific interfaces.=0D
+=0D
+The Virtual M68k Machine is based on Goldfish interfaces defined by Google=
+=0D
+for Android simulator. It uses Goldfish-rtc (timer and RTC),=0D
+Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).=0D
+=0D
+https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDF=
+IS=3D=0D
+H-VIRTUAL-HARDWARE.TXT=0D
+=0D
+The machine is created with 128 virtio-mmio busses, and they can=0D
+be used to add serial console, GPU, disk, NIC, HID, ...=0D
+=0D
+This series re-use the goldfish-rtc implemented for RISCV, and=0D
+adds the two others based on the goldfish specs, the kernel driver=0D
+and android simulator ones.=0D
+=0D
+The machine can manage up to 3.2 GiB of memory, not because of an hardware=
+=0D
+limitation but because the kernel crashes after this value.=0D
+=0D
+Simply configure qemu with:=0D
+=0D
+    .../configure --target-list=3D3Dm68k-softmmu=0D
+=0D
+To run the machine you need a modified kernel you can find here:=0D
+=0D
+    https://github.com/vivier/linux/tree/m68k-virt=0D
+=0D
+You need to compile the kernel with:=0D
+=0D
+    make virt_defconfig=0D
+    make vmlinux=0D
+=0D
+The disk must be installed using the q800 machine because the debian instal=
+ler=0D
+doesn't want to be used with a kernel that is not the one on the ISO.=0D
+=0D
+And then you can run the machine with something like:=0D
+=0D
+qemu-system-m68k -M virt \=0D
+  -m 3399672K \=0D
+  -chardev stdio,signal=3D3Doff,mux=3D3Don,id=3D3Dchar0 \=0D
+  -mon chardev=3D3Dchar0,mode=3D3Dreadline \=0D
+  -kernel vmlinux \=0D
+  -append "console=3D3Dhvc0 root=3D3D/dev/vda2" \=0D
+  -blockdev node-name=3D3Dsystem,driver=3D3Dfile,filename=3D3Ddebian-10.0.q=
+cow2 \=0D
+  -blockdev node-name=3D3Ddrive0,driver=3D3Dqcow2,file=3D3Dsystem \=0D
+  -device virtio-blk-device,drive=3D3Ddrive0 \=0D
+  -serial chardev:char0 \=0D
+  -device virtio-net-device,netdev=3D3Dhostnet0 \=0D
+  -netdev bridge,id=3D3Dhostnet0,br=3D3Dvirbr0 \=0D
+  -device virtio-rng-device \=0D
+  -device virtio-serial-device \=0D
+  -device virtio-gpu-device \=0D
+  -device virtconsole,chardev=3D3Dchar0 \=0D
+  -device virtio-keyboard-device \=0D
+  -device virtio-mouse-device=0D
+=0D
+if you want to use Goldfish-tty for the console rather than virtconsole, yo=
+u=0D
+can add "console=3D3DttyGF".=0D
+=0D
+To start the debian-installer, you can try by adding:=0D
+=0D
+  -device virtio-scsi-device \=0D
+  -blockdev node-name=3D3Ddebian10,driver=3D3Dfile,filename=3D3Ddebian-10.0=
+.0-m68k-=3D=0D
+NETINST-1.iso \=0D
+  -blockdev node-name=3D3Dcdrom0,driver=3D3Draw,file=3D3Ddebian10 \=0D
+  -device scsi-cd,drive=3D3Dcdrom0 \=0D
+  -initrd installer-m68k/20200315/images/cdrom/initrd.gz=0D
+=0D
+ISO:    https://cdimage.debian.org/cdimage/ports/snapshots/2020-10-12/debia=
+n-=3D=0D
+10.0.0-m68k-NETINST-1.iso=0D
+initrd: https://cdimage.debian.org/cdimage/ports/debian-installer/2020-10-1=
+2/=3D=0D
+m68k/debian-installer-images_20200315_m68k.tar.gz=0D
+=0D
+v6:=0D
+  m68k-virt-ctrl:=0D
+      Renamed to virt-ctrl to be generic=0D
+      Add a simple specs document=0D
+=0D
+v5:=0D
+  goldfish-tty:=0D
+      Use deposit64()=0D
+      Add .impl.min_access_size=0D
+      Fix CMD_WRITE_BUFFER/CMD_READ_BUFFER=0D
+=0D
+v4:=0D
+  goldfish-tty:=0D
+      Use fifo8 for the data_in buffer=0D
+      Remove the data_out buffer from the struct and put it directly in=0D
+      the function. We don't need to use the fifo8 type because we=0D
+      can't bufferize the data as we can't stop the tx queue when the buffe=
+r=0D
+      is full. We rely on qemu_chr_fe_write_all() that blocks the thread fo=
+r=0D
+      that.=0D
+  goldfish-pic:=0D
+      Add DEFINE_PROP_UINT8() for the index=0D
+      Add .impl.min_access_size=0D
+=0D
+v3:=0D
+  Add some #define for the interrupt controller (and fix the number of IRQs=
+)=0D
+  Add some comments=0D
+  Update MAINTAINERS=0D
+  Remove "goldfish_rtc: re-arm the alarm after migration" that will be=0D
+  merged via the RISC-V branch.=0D
+=0D
+v2:=0D
+  Add an interrupt controller to replace the Q800 GLUE=0D
+  Add a system controller to shutdown the machine=0D
+  Add a fix for goldfish_rtc (already sent alone)=0D
+  Add statistics in goldfish-pic=0D
+  Add versionned machine type=0D
+  Use two goldfish-rtc rather than only one (for timer and RTC)=0D
+=0D
+Laurent Vivier (5):=0D
+  char: add goldfish-tty=0D
+  intc: add goldfish-pic=0D
+  m68k: add an interrupt controller=0D
+  m68k: add a system controller=0D
+  m68k: add Virtual M68k Machine=0D
+=0D
+ docs/specs/virt-ctlr.txt                      |  26 ++=0D
+ default-configs/devices/m68k-softmmu.mak      |   1 +=0D
+ include/hw/char/goldfish_tty.h                |  35 ++=0D
+ include/hw/intc/goldfish_pic.h                |  33 ++=0D
+ include/hw/intc/m68k_irqc.h                   |  41 +++=0D
+ include/hw/misc/virt_ctrl.h                   |  22 ++=0D
+ .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +=0D
+ hw/char/goldfish_tty.c                        | 283 ++++++++++++++++=0D
+ hw/intc/goldfish_pic.c                        | 219 ++++++++++++=0D
+ hw/intc/m68k_irqc.c                           | 119 +++++++=0D
+ hw/m68k/virt.c                                | 313 ++++++++++++++++++=0D
+ hw/misc/virt_ctrl.c                           | 151 +++++++++=0D
+ MAINTAINERS                                   |  13 +=0D
+ hw/char/Kconfig                               |   3 +=0D
+ hw/char/meson.build                           |   2 +=0D
+ hw/char/trace-events                          |  10 +=0D
+ hw/intc/Kconfig                               |   6 +=0D
+ hw/intc/meson.build                           |   2 +=0D
+ hw/intc/trace-events                          |   8 +=0D
+ hw/m68k/Kconfig                               |  10 +=0D
+ hw/m68k/meson.build                           |   1 +=0D
+ hw/misc/Kconfig                               |   3 +=0D
+ hw/misc/meson.build                           |   3 +=0D
+ hw/misc/trace-events                          |   7 +=0D
+ 24 files changed, 1329 insertions(+)=0D
+ create mode 100644 docs/specs/virt-ctlr.txt=0D
+ create mode 100644 include/hw/char/goldfish_tty.h=0D
+ create mode 100644 include/hw/intc/goldfish_pic.h=0D
+ create mode 100644 include/hw/intc/m68k_irqc.h=0D
+ create mode 100644 include/hw/misc/virt_ctrl.h=0D
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
+ create mode 100644 hw/char/goldfish_tty.c=0D
+ create mode 100644 hw/intc/goldfish_pic.c=0D
+ create mode 100644 hw/intc/m68k_irqc.c=0D
+ create mode 100644 hw/m68k/virt.c=0D
+ create mode 100644 hw/misc/virt_ctrl.c=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
