@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EB533100B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:52:47 +0100 (CET)
-Received: from localhost ([::1]:41432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2C4331014
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:55:26 +0100 (CET)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGJS-000847-NG
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:52:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
+	id 1lJGM1-00037R-3P
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:55:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGHy-0006OG-CF
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:14 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38620)
+ id 1lJGI3-0006Wr-JH
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:19 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGHv-00019X-IK
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:14 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d15so11546026wrv.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:11 -0800 (PST)
+ id 1lJGI0-0001DT-QS
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:19 -0500
+Received: by mail-wm1-x335.google.com with SMTP id i9so6045464wml.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4iLXz1N0BQOxTQbwmS1B/ilLFWZjmC6OV4ztuE458q0=;
- b=XZIB+zcEYJgPNwb1xpbuurmaRjSb+XfMqvyDqzixqfD9jpzJSLWcYWax3tfJf8DZ6j
- bOyxkWCc4N6ggnDmVKu//6MgpzXDrquKQAxe0LPNF366lpTDmGZVlQrPO1+19xSw5cUE
- x/ictljpO7nUPPnw3U9yWQx0/HzEjMdh38HRdOHN5pTzqQG8XMJoJJgB8dBqoAPoJBQR
- VJSoOHiSPpslH5aZjQHMnaMkqt9t3OJwwrE1AsRx1DqON+aiMs6VeKdLi4WKGP/yd+KC
- eiWiQ+TEabLo6wi0oe3nBNFvCnSWCWZp4bD3qDsLjJiwMVNYPRdsIHsaMOFRkkqJy5Hq
- RRaw==
+ bh=zvlHmg3Gvm+4PGagR+ylVzZ1n3v00RRhYPBHrbsRAfc=;
+ b=Y0iGh15raylKqeIyeBOGp1/t6Jm+5pqSmFk058L31oVV83GImE83V2BYP3/TlAG1Ig
+ At+UHfxOsPVfIcpbXA0iq3YthJ2L84FSx5phdsxNvqnGHzZVVsAtY7sqbvcThB2OTpp0
+ Le7hkUDK/NwXd7yRszxkGEuWIEnvaUSG3gmmSpsqsiM/KCsZSYNoxkY07FL3T4IS7lWI
+ vwSTxMhGkOM6aQiJ2NCLcbvedx717nJeP/uYY0BwtmpNJDYywxK3mfmS+L3K9U7XvTCY
+ NMWZC2kpQg/R/O+KbRpV2WFRnql6roqvVILm4xyHxVUchZVRLFx5m9wztys5xSlgNwvH
+ CgfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4iLXz1N0BQOxTQbwmS1B/ilLFWZjmC6OV4ztuE458q0=;
- b=DCfj6YT0AF6DTPhZ4YvhVbLuocreHO0lOT/ejh14VahI0yPWkJecoMnJVoCZaRLt/W
- Bdh4FLfJW8czNIEztsmw1Ie2eyJDJe7/D5ho+oTsLYrAbytNXkMTXKIl4teL3iZB1wPf
- CKrVbqaycNKnwioqHpRZJ1T0T6BNmIm0Z4XNsA4+P7aQZIH6zFHgw46IGybqFbhhxYIa
- N4+iYicVp9nM9X5ax4TBbn32qjTWIRW2xJE9YOMGLVdv5eduyp42/fHB8cRFM0TJMXUy
- Ovz/XxI71M42hYv/nJjksKcCM4qlDnRt8upG2ZcefjDABr5l3Ho67sjCMR/AkE7TTS+t
- yTvQ==
-X-Gm-Message-State: AOAM531zTNTaG96HV/fmpt0mc6XrjjTBA1F6t6HBymS1Hl4JP+Rt1dbd
- nGjtyGSMA/h4gHXHa9+YpGuciA==
-X-Google-Smtp-Source: ABdhPJzB221c+G2pnLWzKLJg0kkEsl2CQFEhRnyhjrvl8a0iS2ptR8PC+GnM+zn04fX//FQISlwynQ==
-X-Received: by 2002:adf:e582:: with SMTP id l2mr23269724wrm.207.1615211470313; 
- Mon, 08 Mar 2021 05:51:10 -0800 (PST)
+ bh=zvlHmg3Gvm+4PGagR+ylVzZ1n3v00RRhYPBHrbsRAfc=;
+ b=KmciYwjLzg8MouRDZdeS8Izj7pMAPDVfu0B91ZVIW3V5xhHfewpiwsJ5We1H2ydya4
+ gRYC7dFGihqQqjdIUouANnLrzCyvhqsb89BBzeRxnOLy6OS/aJ04nI5cdJFMuPfEu2Vw
+ J0rOfJ6wTr2tASUUp01oxpWPxXCXGyYd4PQrfGr4opqxDXtpRA5O6hGobrpy+FIX4ApK
+ Eo+83oxNNOXAfouARMFK6lWFKJSDRY7cjQ7bLrwdCNnVitHXVUnqoqGcOhP3TpzKhcBf
+ eIWuftizlsc++/5KMjk+RQtOn+Wrv0u8KXlJCDgze9ghkphSjRmvuMweX6iLv2wB9sIX
+ w6Lg==
+X-Gm-Message-State: AOAM533gzQwQ3sHLzIN6fuH0Re8v+LrTxlt6t2z0y7Q06JwMLbe7OAXV
+ ZphpMaBRUsye+Aw89ze0/Tj/6Q==
+X-Google-Smtp-Source: ABdhPJx5Vntr/Z9/eJo/pl4szopgjnHUTF6KL6ifQHuBqxOxZWSMYJrT8nBbFOsFBkf9vCDKe/05xA==
+X-Received: by 2002:a05:600c:d1:: with SMTP id
+ u17mr22836010wmm.64.1615211475477; 
+ Mon, 08 Mar 2021 05:51:15 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t8sm20408018wrr.10.2021.03.08.05.51.05
+ by smtp.gmail.com with ESMTPSA id x6sm19597648wmj.32.2021.03.08.05.51.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 08 Mar 2021 05:51:08 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B4661FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 71BBF1FF93;
  Mon,  8 Mar 2021 13:51:05 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/18] tests/tcg: Use Hexagon Docker image
-Date: Mon,  8 Mar 2021 13:50:50 +0000
-Message-Id: <20210308135104.24903-5-alex.bennee@linaro.org>
+Subject: [PULL 07/18] gitlab-ci.yml: Add jobs to test CFI flags
+Date: Mon,  8 Mar 2021 13:50:53 +0000
+Message-Id: <20210308135104.24903-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
 References: <20210308135104.24903-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +87,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alessandro Di Federico <ale@rev.ng>,
+Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 
-[PMD: Split from 'Add Hexagon Docker image' patch]
+QEMU has had options to enable control-flow integrity features
+for a few months now. Add two sets of build/check/acceptance
+jobs to ensure the binary produced is working fine.
 
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The three sets allow testing of x86_64 binaries for x86_64, s390x,
+ppc64 and aarch64 targets
+
+[AJB: tweak job names to avoid brands]
+
+Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210228222314.304787-5-f4bug@amsat.org>
-Message-Id: <20210305092328.31792-6-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
+Message-Id: <20210305092328.31792-9-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 36b8a73a54..f70fd7435d 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -124,6 +124,10 @@ for target in $target_list; do
-       container_image=fedora-cris-cross
-       container_cross_cc=cris-linux-gnu-gcc
-       ;;
-+    hexagon-*)
-+      container_image=debian-hexagon-cross
-+      container_cross_cc=hexagon-unknown-linux-musl-clang
-+      ;;
-     hppa-*)
-       container_image=debian-hppa-cross
-       container_cross_cc=hppa-linux-gnu-gcc
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 1ea944eb91..5625265ef8 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -494,6 +494,125 @@ clang-user:
+       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+     MAKE_CHECK_ARGS: check-unit check-tcg
+ 
++# Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
++# On gitlab runners, default value sometimes end up calling 2 lds concurrently and
++# triggers an Out-Of-Memory error
++#
++# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
++# with QEMU and linked as a static library to avoid false positives in CFI checks.
++# This can be accomplished by using -enable-slirp=git, which avoids the use of
++# a system-wide version of the library
++#
++# Split in three sets of build/check/acceptance to limit the execution time of each
++# job
++build-cfi-aarch64:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: aarch64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-aarch64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-aarch64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-aarch64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-aarch64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
++build-cfi-ppc64-s390x:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: ppc64-softmmu s390x-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-ppc64-s390x:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-ppc64-s390x
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-ppc64-s390x:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-ppc64-s390x
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
++build-cfi-x86_64:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: x86_64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-x86_64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-x86_64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-x86_64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-x86_64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
+ tsan-build:
+   <<: *native_build_job_definition
+   variables:
 -- 
 2.20.1
 
