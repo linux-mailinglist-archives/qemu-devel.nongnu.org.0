@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB68B331632
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:35:09 +0100 (CET)
-Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D865F331633
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:35:23 +0100 (CET)
+Received: from localhost ([::1]:36434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKii-0000rl-M5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:35:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
+	id 1lJKiw-0001Ob-TN
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:35:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJlE-0007Kn-TW
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:40 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:43826)
+ id 1lJJlQ-0007hM-0z
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:52 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJku-0007Aa-W1
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:40 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so1354751wmj.2
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:20 -0800 (PST)
+ id 1lJJkx-0007BV-Ax
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:51 -0500
+Received: by mail-wr1-x444.google.com with SMTP id u14so12351029wri.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ziICIXGPvQZza0uMOa3mR8fWI7bLdTpYK7osvD3e7VI=;
- b=N7sdkzGgAZ3RxRvkjnnuaS6tLGu/n1RfpsjL88Jb3x25HR21pHCjgjSd+mjyA9NDAj
- zWZtT7N3NIORASnHU0cC3As/SMCM2+fjktOSl/BnSX5s3t3QpMK6mDpfBz1T5rNSAfdf
- wJ3Q74fsAe76k40iBuAPxS9hzWUp4G/e+37OhvmogzlyyDsLbKPl6GeEwZaM0vIyYZok
- GWC/NWi2EEL4BNcryiK/QwfKmSjY9sQC0POU+kxYGiK0w3F6ZMtxRaWspkxxMJ317JBu
- ruaaj0cDM0NUxa6BlA83nyjApXyfaCQz+wmfd80R6eCbfryfALUwUJKbZchl3oHQPCuo
- 2mHw==
+ bh=lA7oiYyAGagWdRyrQNLK3IAwWndTaSbKAt8TTshBDqk=;
+ b=Skk8ztAQ2fSZqkINu4C0qMbhtfBaille3TbGKuQAps7+cC/+cJkwmJ1K9hC+8Le7Kh
+ HGc9674vxcLbIbRJX3ANRoxjjWCc8X/14E+77wqxThtO96GA2mcGOt8W0Ir/e08BMO5c
+ /oSScVBow3f8WTLmG08yJwuVGEGJFX/IFk2IxxJI82QmmLFJUPLukzN+mBvECi9a5i56
+ QZvA1t7mzNmMwVQFH8dGqRDA/Ii4GmgICWPERJJcxyrxqRFieEUmD/1+GjzZw5FmTK7q
+ Jy+rkuND1pjVve5bYouT19EgKJ3oQFL/2s9SN4EXTCWW5Og/5tfULx5iQyWu0wCeK0iZ
+ uY2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ziICIXGPvQZza0uMOa3mR8fWI7bLdTpYK7osvD3e7VI=;
- b=rmuD2LPjpPRTZqIzDA5QZjRBrPJ9eqGjB1OyMyG/LxVZB1ZrcyK12Dvj6OoKByLALi
- 7WqRlMRb7Typ76dMaLLOR3+MByKbk34rSDbq/rFHqq0G3GEUDe0L3r1TuXbtM/z3nef6
- IeVf5ynIMZ6IhrLG4p10X3b+Flo7OofUQqISJUf3bCLF7NrUSD4zya6MQJnHzQlvT58/
- VuD6bdNLmDQ0B/gVB/+CBPzOcDT/ehsA73MOCblBHnp51smjlBhXIzV6zwxihh/oLPOg
- KRQHGMrg+E6Yx2J7ZkXWknrBrx+t5nvjjSeSTOIhKr+jGevktwiRGJ1l+kHcJGF6szNq
- zPPA==
-X-Gm-Message-State: AOAM532Mv+e000Xdg5d1Top5Zn+2arriFDx6Zyt6LST78yENJ4PP0jBK
- u6x4Q6dXLBQGsd8Z5dQD4iFwryefdyTJFg==
-X-Google-Smtp-Source: ABdhPJz807v0nf9G8n02jyy7pmgefxuLfuSF3rRdajZLcQu0GKcD46b0wyVyZE4lDH0v5f3Z1+45Jw==
-X-Received: by 2002:a05:600c:1992:: with SMTP id
- t18mr3035296wmq.125.1615224799635; 
- Mon, 08 Mar 2021 09:33:19 -0800 (PST)
+ bh=lA7oiYyAGagWdRyrQNLK3IAwWndTaSbKAt8TTshBDqk=;
+ b=uisPhjT1ydvw+7u01/ImnLurKLvU9WBLNsOHAzbBkPzeAsS80cqfkSiYA5Thf9dqnz
+ e5qd2H3jm6tWymNbEIE6KzBueplogPyPJOC5hCQMwI1A5i4IH2RU/JE3tAWRb6kmwJYy
+ /4Z6IyKlWqktndCNl6Ty6+n5pgbFTd972g8m+oTEQm4dTrTLuB1rhhT3wdfhxxJOkvxg
+ 4+p2Qe9mvNpLgamvuLw3R8QmDFRq1kV8ze6hXjftf9j1n+XsaBGAt6aBfoqGIpBzo/Db
+ J7MJ8EzLYDTq1cGXOWIi5FbvuAzuHHMKpGbpj8uVt3DNaLkBrIdPJoNDwjtyHbsJhiJ2
+ oR6Q==
+X-Gm-Message-State: AOAM533YxyLs7D7CsrNukpoQYTSEWr2ZoCEKT5EqXX6V5Sfcsk8oK9vS
+ +F0j1JWBixLy6nzuRK8jVBUjVuYGtfUwVw==
+X-Google-Smtp-Source: ABdhPJy3l8uY0prhjs9PWPRRAjCwy7VuKgEDm1sVEOJWHEuVdTGCz63AI2oDHUshJ8TbxWJTeFUKzQ==
+X-Received: by 2002:a05:6000:114e:: with SMTP id
+ d14mr24090094wrx.236.1615224801804; 
+ Mon, 08 Mar 2021 09:33:21 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.19
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:33:19 -0800 (PST)
+ Mon, 08 Mar 2021 09:33:21 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/54] tests/qtest/sse-timer-test: Test counter scaling changes
-Date: Mon,  8 Mar 2021 17:32:36 +0000
-Message-Id: <20210308173244.20710-47-peter.maydell@linaro.org>
+Subject: [PULL 48/54] hw/dma: Implement a Xilinx CSU DMA model
+Date: Mon,  8 Mar 2021 17:32:38 +0000
+Message-Id: <20210308173244.20710-49-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,66 +87,861 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that when we change the scaling of the system counter that the
-system timer responds appropriately.
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
+ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+crash. This is observed when testing VxWorks 7.
+
+This adds a Xilinx CSU DMA model and the implementation is based on
+https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c.
+The DST part of the model is verified along with ZynqMP GQSPI model.
+
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20210303135254.3970-2-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/sse-timer-test.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ include/hw/dma/xlnx_csu_dma.h |  52 +++
+ hw/dma/xlnx_csu_dma.c         | 745 ++++++++++++++++++++++++++++++++++
+ hw/dma/Kconfig                |   4 +
+ hw/dma/meson.build            |   1 +
+ 4 files changed, 802 insertions(+)
+ create mode 100644 include/hw/dma/xlnx_csu_dma.h
+ create mode 100644 hw/dma/xlnx_csu_dma.c
 
-diff --git a/tests/qtest/sse-timer-test.c b/tests/qtest/sse-timer-test.c
-index f4f6704b308..a65d7542d51 100644
---- a/tests/qtest/sse-timer-test.c
-+++ b/tests/qtest/sse-timer-test.c
-@@ -189,6 +189,37 @@ static void test_timer(void)
-     g_assert_cmpuint(readl(TIMER_BASE + CNTP_AIVAL_HI), ==, 0x42);
- }
- 
-+static void test_timer_scale_change(void)
+diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
+new file mode 100644
+index 00000000000..204d94c6737
+--- /dev/null
++++ b/include/hw/dma/xlnx_csu_dma.h
+@@ -0,0 +1,52 @@
++/*
++ * Xilinx Platform CSU Stream DMA emulation
++ *
++ * This implementation is based on
++ * https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef XLNX_CSU_DMA_H
++#define XLNX_CSU_DMA_H
++
++#define TYPE_XLNX_CSU_DMA "xlnx.csu_dma"
++
++#define XLNX_CSU_DMA_R_MAX (0x2c / 4)
++
++typedef struct XlnxCSUDMA {
++    SysBusDevice busdev;
++    MemoryRegion iomem;
++    MemTxAttrs attr;
++    MemoryRegion *dma_mr;
++    AddressSpace *dma_as;
++    qemu_irq irq;
++    StreamSink *tx_dev; /* Used as generic StreamSink */
++    ptimer_state *src_timer;
++
++    uint16_t width;
++    bool is_dst;
++    bool r_size_last_word;
++
++    StreamCanPushNotifyFn notify;
++    void *notify_opaque;
++
++    uint32_t regs[XLNX_CSU_DMA_R_MAX];
++    RegisterInfo regs_info[XLNX_CSU_DMA_R_MAX];
++} XlnxCSUDMA;
++
++#define XLNX_CSU_DMA(obj) \
++    OBJECT_CHECK(XlnxCSUDMA, (obj), TYPE_XLNX_CSU_DMA)
++
++#endif
+diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
+new file mode 100644
+index 00000000000..50709a3909b
+--- /dev/null
++++ b/hw/dma/xlnx_csu_dma.c
+@@ -0,0 +1,745 @@
++/*
++ * Xilinx Platform CSU Stream DMA emulation
++ *
++ * This implementation is based on
++ * https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "sysemu/dma.h"
++#include "hw/ptimer.h"
++#include "hw/stream.h"
++#include "hw/register.h"
++#include "hw/dma/xlnx_csu_dma.h"
++
++/*
++ * Ref: UG1087 (v1.7) February 8, 2019
++ * https://www.xilinx.com/html_docs/registers/ug1087/ug1087-zynq-ultrascale-registers.html
++ * CSUDMA Module section
++ */
++REG32(ADDR, 0x0)
++    FIELD(ADDR, ADDR, 2, 30) /* wo */
++REG32(SIZE, 0x4)
++    FIELD(SIZE, SIZE, 2, 27) /* wo */
++    FIELD(SIZE, LAST_WORD, 0, 1) /* rw, only exists in SRC */
++REG32(STATUS, 0x8)
++    FIELD(STATUS, DONE_CNT, 13, 3) /* wtc */
++    FIELD(STATUS, FIFO_LEVEL, 5, 8) /* ro */
++    FIELD(STATUS, OUTSTANDING, 1, 4) /* ro */
++    FIELD(STATUS, BUSY, 0, 1) /* ro */
++REG32(CTRL, 0xc)
++    FIELD(CTRL, FIFOTHRESH, 25, 7) /* rw, only exists in DST, reset 0x40 */
++    FIELD(CTRL, APB_ERR_RESP, 24, 1) /* rw */
++    FIELD(CTRL, ENDIANNESS, 23, 1) /* rw */
++    FIELD(CTRL, AXI_BRST_TYPE, 22, 1) /* rw */
++    FIELD(CTRL, TIMEOUT_VAL, 10, 12) /* rw, reset: 0xFFE */
++    FIELD(CTRL, FIFO_THRESH, 2, 8) /* rw, reset: 0x80 */
++    FIELD(CTRL, PAUSE_STRM, 1, 1) /* rw */
++    FIELD(CTRL, PAUSE_MEM, 0, 1) /* rw */
++REG32(CRC, 0x10)
++REG32(INT_STATUS, 0x14)
++    FIELD(INT_STATUS, FIFO_OVERFLOW, 7, 1) /* wtc */
++    FIELD(INT_STATUS, INVALID_APB, 6, 1) /* wtc */
++    FIELD(INT_STATUS, THRESH_HIT, 5, 1) /* wtc */
++    FIELD(INT_STATUS, TIMEOUT_MEM, 4, 1) /* wtc */
++    FIELD(INT_STATUS, TIMEOUT_STRM, 3, 1) /* wtc */
++    FIELD(INT_STATUS, AXI_BRESP_ERR, 2, 1) /* wtc, SRC: AXI_RDERR */
++    FIELD(INT_STATUS, DONE, 1, 1) /* wtc */
++    FIELD(INT_STATUS, MEM_DONE, 0, 1) /* wtc */
++REG32(INT_ENABLE, 0x18)
++    FIELD(INT_ENABLE, FIFO_OVERFLOW, 7, 1) /* wtc */
++    FIELD(INT_ENABLE, INVALID_APB, 6, 1) /* wtc */
++    FIELD(INT_ENABLE, THRESH_HIT, 5, 1) /* wtc */
++    FIELD(INT_ENABLE, TIMEOUT_MEM, 4, 1) /* wtc */
++    FIELD(INT_ENABLE, TIMEOUT_STRM, 3, 1) /* wtc */
++    FIELD(INT_ENABLE, AXI_BRESP_ERR, 2, 1) /* wtc, SRC: AXI_RDERR */
++    FIELD(INT_ENABLE, DONE, 1, 1) /* wtc */
++    FIELD(INT_ENABLE, MEM_DONE, 0, 1) /* wtc */
++REG32(INT_DISABLE, 0x1c)
++    FIELD(INT_DISABLE, FIFO_OVERFLOW, 7, 1) /* wtc */
++    FIELD(INT_DISABLE, INVALID_APB, 6, 1) /* wtc */
++    FIELD(INT_DISABLE, THRESH_HIT, 5, 1) /* wtc */
++    FIELD(INT_DISABLE, TIMEOUT_MEM, 4, 1) /* wtc */
++    FIELD(INT_DISABLE, TIMEOUT_STRM, 3, 1) /* wtc */
++    FIELD(INT_DISABLE, AXI_BRESP_ERR, 2, 1) /* wtc, SRC: AXI_RDERR */
++    FIELD(INT_DISABLE, DONE, 1, 1) /* wtc */
++    FIELD(INT_DISABLE, MEM_DONE, 0, 1) /* wtc */
++REG32(INT_MASK, 0x20)
++    FIELD(INT_MASK, FIFO_OVERFLOW, 7, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, INVALID_APB, 6, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, THRESH_HIT, 5, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, TIMEOUT_MEM, 4, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, TIMEOUT_STRM, 3, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, AXI_BRESP_ERR, 2, 1) /* ro, reset: 0x1, SRC: AXI_RDERR */
++    FIELD(INT_MASK, DONE, 1, 1) /* ro, reset: 0x1 */
++    FIELD(INT_MASK, MEM_DONE, 0, 1) /* ro, reset: 0x1 */
++REG32(CTRL2, 0x24)
++    FIELD(CTRL2, ARCACHE, 24, 3) /* rw */
++    FIELD(CTRL2, ROUTE_BIT, 23, 1) /* rw */
++    FIELD(CTRL2, TIMEOUT_EN, 22, 1) /* rw */
++    FIELD(CTRL2, TIMEOUT_PRE, 4, 12) /* rw, reset: 0xFFF */
++    FIELD(CTRL2, MAX_OUTS_CMDS, 0, 4) /* rw, reset: 0x8 */
++REG32(ADDR_MSB, 0x28)
++    FIELD(ADDR_MSB, ADDR_MSB, 0, 17) /* wo */
++
++#define R_CTRL_TIMEOUT_VAL_RESET    (0xFFE)
++#define R_CTRL_FIFO_THRESH_RESET    (0x80)
++#define R_CTRL_FIFOTHRESH_RESET     (0x40)
++
++#define R_CTRL2_TIMEOUT_PRE_RESET   (0xFFF)
++#define R_CTRL2_MAX_OUTS_CMDS_RESET (0x8)
++
++#define XLNX_CSU_DMA_ERR_DEBUG      (0)
++#define XLNX_CSU_DMA_INT_R_MASK     (0xff)
++
++/* UG1807: Set the prescaler value for the timeout in clk (~2.5ns) cycles */
++#define XLNX_CSU_DMA_TIMER_FREQ     (400 * 1000 * 1000)
++
++static bool xlnx_csu_dma_is_paused(XlnxCSUDMA *s)
 +{
-+    /*
-+     * Test that the timer responds correctly to counter
-+     * scaling changes while it has an active timer.
-+     */
-+    reset_counter_and_timer();
-+    /* Give ourselves access to the timer, and enable the counter and timer */
-+    writel(PERIPHNSPPC0, 1);
-+    writel(COUNTER_BASE + CNTCR, 1);
-+    writel(TIMER_BASE + CNTP_CTL, 1);
-+    /* Set the CompareValue to 4000 ticks */
-+    writel(TIMER_BASE + CNTP_CVAL_LO, 4000);
-+    writel(TIMER_BASE + CNTP_CVAL_HI, 0);
-+    /* Advance halfway and check ISTATUS is not set */
-+    clock_step_ticks(2000);
-+    g_assert_cmpuint(readl(TIMER_BASE + CNTP_CTL), ==, 1);
-+    /* Reprogram the counter to run at 1/16th speed */
-+    writel(COUNTER_BASE + CNTCR, 0);
-+    writel(COUNTER_BASE + CNTSCR, 0x00100000); /* 1/16th normal speed */
-+    writel(COUNTER_BASE + CNTCR, 5); /* EN, SCEN */
-+    /* Advance to where the timer would have fired and check it has not */
-+    clock_step_ticks(2000);
-+    g_assert_cmpuint(readl(TIMER_BASE + CNTP_CTL), ==, 1);
-+    /* Advance to where the timer must fire at the new clock rate */
-+    clock_step_ticks(29996);
-+    g_assert_cmpuint(readl(TIMER_BASE + CNTP_CTL), ==, 1);
-+    clock_step_ticks(4);
-+    g_assert_cmpuint(readl(TIMER_BASE + CNTP_CTL), ==, 5);
++    bool paused;
++
++    paused = !!(s->regs[R_CTRL] & R_CTRL_PAUSE_STRM_MASK);
++    paused |= !!(s->regs[R_CTRL] & R_CTRL_PAUSE_MEM_MASK);
++
++    return paused;
 +}
 +
- int main(int argc, char **argv)
- {
-     int r;
-@@ -199,6 +230,7 @@ int main(int argc, char **argv)
++static bool xlnx_csu_dma_get_eop(XlnxCSUDMA *s)
++{
++    return s->r_size_last_word;
++}
++
++static bool xlnx_csu_dma_burst_is_fixed(XlnxCSUDMA *s)
++{
++    return !!(s->regs[R_CTRL] & R_CTRL_AXI_BRST_TYPE_MASK);
++}
++
++static bool xlnx_csu_dma_timeout_enabled(XlnxCSUDMA *s)
++{
++    return !!(s->regs[R_CTRL2] & R_CTRL2_TIMEOUT_EN_MASK);
++}
++
++static void xlnx_csu_dma_update_done_cnt(XlnxCSUDMA *s, int a)
++{
++    int cnt;
++
++    /* Increase DONE_CNT */
++    cnt = ARRAY_FIELD_EX32(s->regs, STATUS, DONE_CNT) + a;
++    ARRAY_FIELD_DP32(s->regs, STATUS, DONE_CNT, cnt);
++}
++
++static void xlnx_csu_dma_data_process(XlnxCSUDMA *s, uint8_t *buf, uint32_t len)
++{
++    uint32_t bswap;
++    uint32_t i;
++
++    bswap = s->regs[R_CTRL] & R_CTRL_ENDIANNESS_MASK;
++    if (s->is_dst && !bswap) {
++        /* Fast when ENDIANNESS cleared */
++        return;
++    }
++
++    for (i = 0; i < len; i += 4) {
++        uint8_t *b = &buf[i];
++        union {
++            uint8_t u8[4];
++            uint32_t u32;
++        } v = {
++            .u8 = { b[0], b[1], b[2], b[3] }
++        };
++
++        if (!s->is_dst) {
++            s->regs[R_CRC] += v.u32;
++        }
++        if (bswap) {
++            /*
++             * No point using bswap, we need to writeback
++             * into a potentially unaligned pointer.
++             */
++            b[0] = v.u8[3];
++            b[1] = v.u8[2];
++            b[2] = v.u8[1];
++            b[3] = v.u8[0];
++        }
++    }
++}
++
++static void xlnx_csu_dma_update_irq(XlnxCSUDMA *s)
++{
++    qemu_set_irq(s->irq, !!(s->regs[R_INT_STATUS] & ~s->regs[R_INT_MASK]));
++}
++
++/* len is in bytes */
++static uint32_t xlnx_csu_dma_read(XlnxCSUDMA *s, uint8_t *buf, uint32_t len)
++{
++    hwaddr addr = (hwaddr)s->regs[R_ADDR_MSB] << 32 | s->regs[R_ADDR];
++    MemTxResult result = MEMTX_OK;
++
++    if (xlnx_csu_dma_burst_is_fixed(s)) {
++        uint32_t i;
++
++        for (i = 0; i < len && (result == MEMTX_OK); i += s->width) {
++            uint32_t mlen = MIN(len - i, s->width);
++
++            result = address_space_rw(s->dma_as, addr, s->attr,
++                                      buf + i, mlen, false);
++        }
++    } else {
++        result = address_space_rw(s->dma_as, addr, s->attr, buf, len, false);
++    }
++
++    if (result == MEMTX_OK) {
++        xlnx_csu_dma_data_process(s, buf, len);
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad address 0x%lx for mem read",
++                      __func__, addr);
++        s->regs[R_INT_STATUS] |= R_INT_STATUS_AXI_BRESP_ERR_MASK;
++        xlnx_csu_dma_update_irq(s);
++    }
++    return len;
++}
++
++/* len is in bytes */
++static uint32_t xlnx_csu_dma_write(XlnxCSUDMA *s, uint8_t *buf, uint32_t len)
++{
++    hwaddr addr = (hwaddr)s->regs[R_ADDR_MSB] << 32 | s->regs[R_ADDR];
++    MemTxResult result = MEMTX_OK;
++
++    xlnx_csu_dma_data_process(s, buf, len);
++    if (xlnx_csu_dma_burst_is_fixed(s)) {
++        uint32_t i;
++
++        for (i = 0; i < len && (result == MEMTX_OK); i += s->width) {
++            uint32_t mlen = MIN(len - i, s->width);
++
++            result = address_space_rw(s->dma_as, addr, s->attr,
++                                      buf, mlen, true);
++            buf += mlen;
++        }
++    } else {
++        result = address_space_rw(s->dma_as, addr, s->attr, buf, len, true);
++    }
++
++    if (result != MEMTX_OK) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad address 0x%lx for mem write",
++                      __func__, addr);
++        s->regs[R_INT_STATUS] |= R_INT_STATUS_AXI_BRESP_ERR_MASK;
++        xlnx_csu_dma_update_irq(s);
++    }
++    return len;
++}
++
++static void xlnx_csu_dma_done(XlnxCSUDMA *s)
++{
++    s->regs[R_STATUS] &= ~R_STATUS_BUSY_MASK;
++    s->regs[R_INT_STATUS] |= R_INT_STATUS_DONE_MASK;
++
++    if (!s->is_dst) {
++        s->regs[R_INT_STATUS] |= R_INT_STATUS_MEM_DONE_MASK;
++    }
++
++    xlnx_csu_dma_update_done_cnt(s, 1);
++}
++
++static uint32_t xlnx_csu_dma_advance(XlnxCSUDMA *s, uint32_t len)
++{
++    uint32_t size = s->regs[R_SIZE];
++    hwaddr dst = (hwaddr)s->regs[R_ADDR_MSB] << 32 | s->regs[R_ADDR];
++
++    assert(len <= size);
++
++    size -= len;
++    s->regs[R_SIZE] = size;
++
++    if (!xlnx_csu_dma_burst_is_fixed(s)) {
++        dst += len;
++        s->regs[R_ADDR] = (uint32_t) dst;
++        s->regs[R_ADDR_MSB] = dst >> 32;
++    }
++
++    if (size == 0) {
++        xlnx_csu_dma_done(s);
++    }
++
++    return size;
++}
++
++static void xlnx_csu_dma_src_notify(void *opaque)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(opaque);
++    unsigned char buf[4 * 1024];
++    size_t rlen = 0;
++
++    ptimer_transaction_begin(s->src_timer);
++    /* Stop the backpreassure timer */
++    ptimer_stop(s->src_timer);
++
++    while (s->regs[R_SIZE] && !xlnx_csu_dma_is_paused(s) &&
++           stream_can_push(s->tx_dev, xlnx_csu_dma_src_notify, s)) {
++        uint32_t plen = MIN(s->regs[R_SIZE], sizeof buf);
++        bool eop = false;
++
++        /* Did we fit it all? */
++        if (s->regs[R_SIZE] == plen && xlnx_csu_dma_get_eop(s)) {
++            eop = true;
++        }
++
++        /* DMA transfer */
++        xlnx_csu_dma_read(s, buf, plen);
++        rlen = stream_push(s->tx_dev, buf, plen, eop);
++        xlnx_csu_dma_advance(s, rlen);
++    }
++
++    if (xlnx_csu_dma_timeout_enabled(s) && s->regs[R_SIZE] &&
++        !stream_can_push(s->tx_dev, xlnx_csu_dma_src_notify, s)) {
++        uint32_t timeout = ARRAY_FIELD_EX32(s->regs, CTRL, TIMEOUT_VAL);
++        uint32_t div = ARRAY_FIELD_EX32(s->regs, CTRL2, TIMEOUT_PRE) + 1;
++        uint32_t freq = XLNX_CSU_DMA_TIMER_FREQ;
++
++        freq /= div;
++        ptimer_set_freq(s->src_timer, freq);
++        ptimer_set_count(s->src_timer, timeout);
++        ptimer_run(s->src_timer, 1);
++    }
++
++    ptimer_transaction_commit(s->src_timer);
++    xlnx_csu_dma_update_irq(s);
++}
++
++static uint64_t addr_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    /* Address is word aligned */
++    return val & R_ADDR_ADDR_MASK;
++}
++
++static uint64_t size_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    if (s->regs[R_SIZE] != 0) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Starting DMA while already running.\n", __func__);
++    }
++
++    if (!s->is_dst) {
++        s->r_size_last_word = !!(val & R_SIZE_LAST_WORD_MASK);
++    }
++
++    /* Size is word aligned */
++    return val & R_SIZE_SIZE_MASK;
++}
++
++static uint64_t size_post_read(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    return val | s->r_size_last_word;
++}
++
++static void size_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    s->regs[R_STATUS] |= R_STATUS_BUSY_MASK;
++
++    /*
++     * Note that if SIZE is programmed to 0, and the DMA is started,
++     * the interrupts DONE and MEM_DONE will be asserted.
++     */
++    if (s->regs[R_SIZE] == 0) {
++        xlnx_csu_dma_done(s);
++        xlnx_csu_dma_update_irq(s);
++        return;
++    }
++
++    /* Set SIZE is considered the last step in transfer configuration */
++    if (!s->is_dst) {
++        xlnx_csu_dma_src_notify(s);
++    } else {
++        if (s->notify) {
++            s->notify(s->notify_opaque);
++        }
++    }
++}
++
++static uint64_t status_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    return val & (R_STATUS_DONE_CNT_MASK | R_STATUS_BUSY_MASK);
++}
++
++static void ctrl_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    if (!s->is_dst) {
++        if (!xlnx_csu_dma_is_paused(s)) {
++            xlnx_csu_dma_src_notify(s);
++        }
++    } else {
++        if (!xlnx_csu_dma_is_paused(s) && s->notify) {
++            s->notify(s->notify_opaque);
++        }
++    }
++}
++
++static uint64_t int_status_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    /* DMA counter decrements when flag 'DONE' is cleared */
++    if ((val & s->regs[R_INT_STATUS] & R_INT_STATUS_DONE_MASK)) {
++        xlnx_csu_dma_update_done_cnt(s, -1);
++    }
++
++    return s->regs[R_INT_STATUS] & ~val;
++}
++
++static void int_status_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    xlnx_csu_dma_update_irq(s);
++}
++
++static uint64_t int_enable_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++    uint32_t v32 = val;
++
++    /*
++     * R_INT_ENABLE doesn't have its own state.
++     * It is used to indirectly modify R_INT_MASK.
++     *
++     * 1: Enable this interrupt field (the mask bit will be cleared to 0)
++     * 0: No effect
++     */
++    s->regs[R_INT_MASK] &= ~v32;
++    return 0;
++}
++
++static void int_enable_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    xlnx_csu_dma_update_irq(s);
++}
++
++static uint64_t int_disable_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++    uint32_t v32 = val;
++
++    /*
++     * R_INT_DISABLE doesn't have its own state.
++     * It is used to indirectly modify R_INT_MASK.
++     *
++     * 1: Disable this interrupt field (the mask bit will be set to 1)
++     * 0: No effect
++     */
++    s->regs[R_INT_MASK] |= v32;
++    return 0;
++}
++
++static void int_disable_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(reg->opaque);
++
++    xlnx_csu_dma_update_irq(s);
++}
++
++static uint64_t addr_msb_pre_write(RegisterInfo *reg, uint64_t val)
++{
++    return val & R_ADDR_MSB_ADDR_MSB_MASK;
++}
++
++static const RegisterAccessInfo *xlnx_csu_dma_regs_info[] = {
++#define DMACH_REGINFO(NAME, snd)                                              \
++    (const RegisterAccessInfo []) {                                           \
++        {                                                                     \
++            .name = #NAME "_ADDR",                                            \
++            .addr = A_ADDR,                                                   \
++            .pre_write = addr_pre_write                                       \
++        }, {                                                                  \
++            .name = #NAME "_SIZE",                                            \
++            .addr = A_SIZE,                                                   \
++            .pre_write = size_pre_write,                                      \
++            .post_write = size_post_write,                                    \
++            .post_read = size_post_read                                       \
++        }, {                                                                  \
++            .name = #NAME "_STATUS",                                          \
++            .addr = A_STATUS,                                                 \
++            .pre_write = status_pre_write,                                    \
++            .w1c = R_STATUS_DONE_CNT_MASK,                                    \
++            .ro = (R_STATUS_BUSY_MASK                                         \
++                   | R_STATUS_FIFO_LEVEL_MASK                                 \
++                   | R_STATUS_OUTSTANDING_MASK)                               \
++        }, {                                                                  \
++            .name = #NAME "_CTRL",                                            \
++            .addr = A_CTRL,                                                   \
++            .post_write = ctrl_post_write,                                    \
++            .reset = ((R_CTRL_TIMEOUT_VAL_RESET << R_CTRL_TIMEOUT_VAL_SHIFT)  \
++                      | (R_CTRL_FIFO_THRESH_RESET << R_CTRL_FIFO_THRESH_SHIFT)\
++                      | (snd ? 0 : R_CTRL_FIFOTHRESH_RESET                    \
++                         << R_CTRL_FIFOTHRESH_SHIFT))                         \
++        }, {                                                                  \
++            .name = #NAME "_CRC",                                             \
++            .addr = A_CRC,                                                    \
++        }, {                                                                  \
++            .name =  #NAME "_INT_STATUS",                                     \
++            .addr = A_INT_STATUS,                                             \
++            .pre_write = int_status_pre_write,                                \
++            .post_write = int_status_post_write                               \
++        }, {                                                                  \
++            .name = #NAME "_INT_ENABLE",                                      \
++            .addr = A_INT_ENABLE,                                             \
++            .pre_write = int_enable_pre_write,                                \
++            .post_write = int_enable_post_write                               \
++        }, {                                                                  \
++            .name = #NAME "_INT_DISABLE",                                     \
++            .addr = A_INT_DISABLE,                                            \
++            .pre_write = int_disable_pre_write,                               \
++            .post_write = int_disable_post_write                              \
++        }, {                                                                  \
++            .name = #NAME "_INT_MASK",                                        \
++            .addr = A_INT_MASK,                                               \
++            .ro = ~0,                                                         \
++            .reset = XLNX_CSU_DMA_INT_R_MASK                                  \
++        }, {                                                                  \
++            .name = #NAME "_CTRL2",                                           \
++            .addr = A_CTRL2,                                                  \
++            .reset = ((R_CTRL2_TIMEOUT_PRE_RESET                              \
++                       << R_CTRL2_TIMEOUT_PRE_SHIFT)                          \
++                      | (R_CTRL2_MAX_OUTS_CMDS_RESET                          \
++                         << R_CTRL2_MAX_OUTS_CMDS_SHIFT))                     \
++        }, {                                                                  \
++            .name = #NAME "_ADDR_MSB",                                        \
++            .addr = A_ADDR_MSB,                                               \
++            .pre_write = addr_msb_pre_write                                   \
++        }                                                                     \
++    }
++
++    DMACH_REGINFO(DMA_SRC, true),
++    DMACH_REGINFO(DMA_DST, false)
++};
++
++static const MemoryRegionOps xlnx_csu_dma_ops = {
++    .read = register_read_memory,
++    .write = register_write_memory,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    }
++};
++
++static void xlnx_csu_dma_src_timeout_hit(void *opaque)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(opaque);
++
++    /* Ignore if the timeout is masked */
++    if (!xlnx_csu_dma_timeout_enabled(s)) {
++        return;
++    }
++
++    s->regs[R_INT_STATUS] |= R_INT_STATUS_TIMEOUT_STRM_MASK;
++    xlnx_csu_dma_update_irq(s);
++}
++
++static size_t xlnx_csu_dma_stream_push(StreamSink *obj, uint8_t *buf,
++                                       size_t len, bool eop)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(obj);
++    uint32_t size = s->regs[R_SIZE];
++    uint32_t mlen = MIN(size, len) & (~3); /* Size is word aligned */
++
++    /* Be called when it's DST */
++    assert(s->is_dst);
++
++    if (size == 0 || len <= 0) {
++        return 0;
++    }
++
++    if (len && (xlnx_csu_dma_is_paused(s) || mlen == 0)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "csu-dma: DST channel dropping %zd b of data.\n", len);
++        s->regs[R_INT_STATUS] |= R_INT_STATUS_FIFO_OVERFLOW_MASK;
++        return len;
++    }
++
++    if (xlnx_csu_dma_write(s, buf, mlen) != mlen) {
++        return 0;
++    }
++
++    xlnx_csu_dma_advance(s, mlen);
++    xlnx_csu_dma_update_irq(s);
++
++    return mlen;
++}
++
++static bool xlnx_csu_dma_stream_can_push(StreamSink *obj,
++                                         StreamCanPushNotifyFn notify,
++                                         void *notify_opaque)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(obj);
++
++    if (s->regs[R_SIZE] != 0) {
++        return true;
++    } else {
++        s->notify = notify;
++        s->notify_opaque = notify_opaque;
++        return false;
++    }
++}
++
++static void xlnx_csu_dma_reset(DeviceState *dev)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(dev);
++    unsigned int i;
++
++    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
++        register_reset(&s->regs_info[i]);
++    }
++}
++
++static void xlnx_csu_dma_realize(DeviceState *dev, Error **errp)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(dev);
++    RegisterInfoArray *reg_array;
++
++    reg_array =
++        register_init_block32(dev, xlnx_csu_dma_regs_info[!!s->is_dst],
++                              XLNX_CSU_DMA_R_MAX,
++                              s->regs_info, s->regs,
++                              &xlnx_csu_dma_ops,
++                              XLNX_CSU_DMA_ERR_DEBUG,
++                              XLNX_CSU_DMA_R_MAX * 4);
++    memory_region_add_subregion(&s->iomem,
++                                0x0,
++                                &reg_array->mem);
++
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
++    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
++
++    if (!s->is_dst && !s->tx_dev) {
++        error_setg(errp, "zynqmp.csu-dma: Stream not connected");
++        return;
++    }
++
++    s->src_timer = ptimer_init(xlnx_csu_dma_src_timeout_hit,
++                               s, PTIMER_POLICY_DEFAULT);
++
++    if (s->dma_mr) {
++        s->dma_as = g_malloc0(sizeof(AddressSpace));
++        address_space_init(s->dma_as, s->dma_mr, NULL);
++    } else {
++        s->dma_as = &address_space_memory;
++    }
++
++    s->attr = MEMTXATTRS_UNSPECIFIED;
++
++    s->r_size_last_word = 0;
++}
++
++static const VMStateDescription vmstate_xlnx_csu_dma = {
++    .name = TYPE_XLNX_CSU_DMA,
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .minimum_version_id_old = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_PTIMER(src_timer, XlnxCSUDMA),
++        VMSTATE_UINT16(width, XlnxCSUDMA),
++        VMSTATE_BOOL(is_dst, XlnxCSUDMA),
++        VMSTATE_BOOL(r_size_last_word, XlnxCSUDMA),
++        VMSTATE_UINT32_ARRAY(regs, XlnxCSUDMA, XLNX_CSU_DMA_R_MAX),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static Property xlnx_csu_dma_properties[] = {
++    /*
++     * Ref PG021, Stream Data Width:
++     * Data width in bits of the AXI S2MM AXI4-Stream Data bus.
++     * This value must be equal or less than the Memory Map Data Width.
++     * Valid values are 8, 16, 32, 64, 128, 512 and 1024.
++     * "dma-width" is the byte value of the "Stream Data Width".
++     */
++    DEFINE_PROP_UINT16("dma-width", XlnxCSUDMA, width, 4),
++    /*
++     * The CSU DMA is a two-channel, simple DMA, allowing separate control of
++     * the SRC (read) channel and DST (write) channel. "is-dst" is used to mark
++     * which channel the device is connected to.
++     */
++    DEFINE_PROP_BOOL("is-dst", XlnxCSUDMA, is_dst, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void xlnx_csu_dma_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
++
++    dc->reset = xlnx_csu_dma_reset;
++    dc->realize = xlnx_csu_dma_realize;
++    dc->vmsd = &vmstate_xlnx_csu_dma;
++    device_class_set_props(dc, xlnx_csu_dma_properties);
++
++    ssc->push = xlnx_csu_dma_stream_push;
++    ssc->can_push = xlnx_csu_dma_stream_can_push;
++}
++
++static void xlnx_csu_dma_init(Object *obj)
++{
++    XlnxCSUDMA *s = XLNX_CSU_DMA(obj);
++
++    memory_region_init(&s->iomem, obj, TYPE_XLNX_CSU_DMA,
++                       XLNX_CSU_DMA_R_MAX * 4);
++
++    object_property_add_link(obj, "stream-connected-dma", TYPE_STREAM_SINK,
++                             (Object **)&s->tx_dev,
++                             qdev_prop_allow_set_link_before_realize,
++                             OBJ_PROP_LINK_STRONG);
++    object_property_add_link(obj, "dma", TYPE_MEMORY_REGION,
++                             (Object **)&s->dma_mr,
++                             qdev_prop_allow_set_link_before_realize,
++                             OBJ_PROP_LINK_STRONG);
++}
++
++static const TypeInfo xlnx_csu_dma_info = {
++    .name          = TYPE_XLNX_CSU_DMA,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(XlnxCSUDMA),
++    .class_init    = xlnx_csu_dma_class_init,
++    .instance_init = xlnx_csu_dma_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_STREAM_SINK },
++        { }
++    }
++};
++
++static void xlnx_csu_dma_register_types(void)
++{
++    type_register_static(&xlnx_csu_dma_info);
++}
++
++type_init(xlnx_csu_dma_register_types)
+diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
+index 5d6be1a7a7a..98fbb1bb049 100644
+--- a/hw/dma/Kconfig
++++ b/hw/dma/Kconfig
+@@ -26,3 +26,7 @@ config STP2000
  
-     qtest_add_func("/sse-timer/counter", test_counter);
-     qtest_add_func("/sse-timer/timer", test_timer);
-+    qtest_add_func("/sse-timer/timer-scale-change", test_timer_scale_change);
- 
-     r = g_test_run();
- 
+ config SIFIVE_PDMA
+     bool
++
++config XLNX_CSU_DMA
++    bool
++    select REGISTER
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+index 47b4a7cb47b..5c78a4e05ff 100644
+--- a/hw/dma/meson.build
++++ b/hw/dma/meson.build
+@@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
 -- 
 2.20.1
 
