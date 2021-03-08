@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965FC3315D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:23:41 +0100 (CET)
-Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D95E3315A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:15:56 +0100 (CET)
+Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKXc-0005VP-Iu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:23:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
+	id 1lJKQ7-0002iU-Am
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:15:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJl9-0007CG-Dv
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:35 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38800)
+ id 1lJJl8-0007BJ-DQ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:34 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJko-00077V-KQ
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:35 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d15so12343403wrv.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:13 -0800 (PST)
+ id 1lJJko-00077t-KO
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:34 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d15so12343436wrv.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=s8SBcSOsjvWWNhiZ70AknwQvWC389VYvd68bkS2XFfk=;
- b=DjTMPMHbke5Cjvtzg1Elp2IjsyxrHqAKTrgIEuo1vy7jbd+aLWMd1HR7vX0L6GiDgv
- 8xWnWeV12AwtkPqZYNIs6s9krpfEJnsH2vjvXSYm02Ok80Sg0mx68D1nMg8hkv6s0vZC
- 9T4M14GKWSbruNJbXZAuv0hZDTRhmYgasGIhSsJ9gxEpvdb+xoBuV/ojfic0vhtnn9Tv
- WoeEKJcBUq7RrEgCTWHVJ6sIeCDepiIbE9w4YM+tkDYWcfnUXPqx8WjowHzxjGad4lfo
- C2OpNWgHhCzyHj6wZ+HDKAuU/sEsoJri0y8h+2b0h/EbWsCh+373tDs8OKq0YbY2FlNK
- q4MA==
+ bh=tF0bxF/X/uhIISy4lNQFUIu4Sj26ElDb/tpwdKi0i00=;
+ b=yGQz/CwUKlpTdFVYQKjKM7Ca67l5Ugod7/5d1fP+Rc1CzHO8ZmIIGsffTBV3NDiAls
+ cGJFsdf2nXk0eCejxB2X7OrCR7geIEcLWVBILTxE3rxV6nmk4YyUNhSWE6Ib3O0p/qQc
+ nKSO50GzpaBFHZv7aRyhQVnsKjipNb1276SuOVOs+FI0OOpSZ54Qt/e4j2mDLvZYEfH+
+ fe5y1g2IPRKt1MvyHTs6mV4qyoUdSzM4hasOHRSgWXBohytF5mXi/vhdbW4OABEOM7LA
+ n2Y8VlnycIyy2erIcMwkLGpZA407fU7MrlECoBvh5FlV9OBV1q+fPTfowPp+AQ2cvYXO
+ O0lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s8SBcSOsjvWWNhiZ70AknwQvWC389VYvd68bkS2XFfk=;
- b=NwJsu4MsnlOR3yMKFLZ5xcmHLo7x19LHiMRNFNXJxCPUL54hqKZ5EP1MvfAzWITdRs
- N0lCljYwMg7EiOrvm+Qk3lBGY8kczdDJzCQEfQb1iuMox0YsyWoV7xwtbGN+jI3sx3NR
- tPnsG7FGA/cRtQ44B1vc19q2KSMzPij23MBYCE0ozNfx3nm55MGnnqcsBL73ZRAm2fqt
- aXSHkUoOqDbCyqO+huZVT8QfEW5fV+qhbk3qYEFgJPaeskeZw9bM5ursShYjncy4Wzf6
- rgH/U4ZQCQvjNQ5fCZcMJbZK8ncAHDu7SS6NOe3Mn2mMrRii5bEwggZZJaAuVMo7o+T9
- n++A==
-X-Gm-Message-State: AOAM533LLGnIMLWC79kL+IB1aEHPsA+51BdXbcKAq4mbVBroDidWXGei
- cZZIXxudjMRH17tMM7hBdTkDcoeZ04uksw==
-X-Google-Smtp-Source: ABdhPJykUxvJ0WiqxvnWC7KCr8g8QuAkfnXuqVhynnWRckSOVleA1j0R1jrAtbuUOrcLuZYBtoD9uA==
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr23611654wrn.213.1615224792299; 
- Mon, 08 Mar 2021 09:33:12 -0800 (PST)
+ bh=tF0bxF/X/uhIISy4lNQFUIu4Sj26ElDb/tpwdKi0i00=;
+ b=DBF5mo02neZs+kWUf8QFqpQv83XFEvQsDbtBHlk/mIgbSyl5tZqtXpLXIgyzkQJYGE
+ y/6jm5XGO+819kXeD+b1PavbAuPtkBwQTrbWaMdWnFR1JhDflc3Ih9lDY9/yR94DTn7Z
+ 8ubRx7Th873D7K9FTA9KZlvdY7Jms61gWJcSEfctqsACT303GNlH4vWH86GCM42TXrDY
+ AsLI1nreDYnyzxzStiTLeILXvfOs/IbG1RIAkSTJvyfn2y6kFmz0jUOtg0pNqN7546rU
+ WvKWBGpF9+5G0ozNjyC3gg4vrIxWiQbz0xbgMAe2dqXHDCYN4XhqmQyi6Dz4Vgmm0yF0
+ mRHg==
+X-Gm-Message-State: AOAM533f8q+dO/II0LmPCr5fnMldGV0NTNEthOqIZrfszGIhOliqC4Mg
+ cKmusM8javBFmi0SxoRvjqDy0JoJDhnWPQ==
+X-Google-Smtp-Source: ABdhPJy6wWf86GcVOpkHAYWbvKybobEbSQjds7jwPOgGrvsZ7aSLFMdRtZr9F+KolAUHcgjKcR3emg==
+X-Received: by 2002:adf:eb8e:: with SMTP id t14mr23922166wrn.20.1615224793285; 
+ Mon, 08 Mar 2021 09:33:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.11
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:33:11 -0800 (PST)
+ Mon, 08 Mar 2021 09:33:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/54] hw/arm/armsse: Add SSE-300 support
-Date: Mon,  8 Mar 2021 17:32:25 +0000
-Message-Id: <20210308173244.20710-36-peter.maydell@linaro.org>
+Subject: [PULL 36/54] hw/arm/mps2-tz: Make UART overflow IRQ board-specific
+Date: Mon,  8 Mar 2021 17:32:26 +0000
+Message-Id: <20210308173244.20710-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,211 +87,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have sufficiently parameterised the code, we can add SSE-300
-support by adding a new entry to the armsse_variants[] array.
-
-Note that the main watchdog (unlike the s32k watchdog) in the SSE-300
-is a different device from the CMSDK watchdog; we don't have a model
-of it so we leave it as a TYPE_UNIMPLEMENTED_DEVICE stub.
+The AN547 puts the combined UART overflow IRQ at 48, not 47 like the
+other images. Make this setting board-specific.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-36-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-37-peter.maydell@linaro.org
 ---
- include/hw/arm/armsse.h |   1 +
- hw/arm/armsse.c         | 152 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 153 insertions(+)
+ hw/arm/mps2-tz.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 21d239c381c..36592be62c5 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -123,6 +123,7 @@ OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
-  */
- #define TYPE_IOTKIT "iotkit"
- #define TYPE_SSE200 "sse-200"
-+#define TYPE_SSE300 "sse-300"
- 
- /* We have an IRQ splitter and an OR gate input for each external PPC
-  * and the 2 internal PPCs
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 2366c49376d..e5aeb9e485f 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -337,6 +337,128 @@ static const ARMSSEDeviceInfo sse200_devices[] = {
-     }
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 72da8cb1a16..85e80c4d726 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -111,6 +111,7 @@ struct MPS2TZMachineClass {
+     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
+     bool fpgaio_has_switches; /* Does FPGAIO have SWITCH register? */
+     int numirq; /* Number of external interrupts */
++    int uart_overflow_irq; /* number of the combined UART overflow IRQ */
+     const RAMInfo *raminfo;
+     const char *armsse_type;
  };
+@@ -770,7 +771,7 @@ static void mps2tz_common_init(MachineState *machine)
+                             &error_fatal);
+     qdev_realize(DEVICE(&mms->uart_irq_orgate), NULL, &error_fatal);
+     qdev_connect_gpio_out(DEVICE(&mms->uart_irq_orgate), 0,
+-                          get_sse_irq_in(mms, 47));
++                          get_sse_irq_in(mms, mmc->uart_overflow_irq));
  
-+static const ARMSSEDeviceInfo sse300_devices[] = {
-+    {
-+        .name = "timer0",
-+        .type = TYPE_SSE_TIMER,
-+        .index = 0,
-+        .addr = 0x48000000,
-+        .ppc = 0,
-+        .ppc_port = 0,
-+        .irq = 3,
-+    },
-+    {
-+        .name = "timer1",
-+        .type = TYPE_SSE_TIMER,
-+        .index = 1,
-+        .addr = 0x48001000,
-+        .ppc = 0,
-+        .ppc_port = 1,
-+        .irq = 4,
-+    },
-+    {
-+        .name = "timer2",
-+        .type = TYPE_SSE_TIMER,
-+        .index = 2,
-+        .addr = 0x48002000,
-+        .ppc = 0,
-+        .ppc_port = 2,
-+        .irq = 5,
-+    },
-+    {
-+        .name = "timer3",
-+        .type = TYPE_SSE_TIMER,
-+        .index = 3,
-+        .addr = 0x48003000,
-+        .ppc = 0,
-+        .ppc_port = 5,
-+        .irq = 27,
-+    },
-+    {
-+        .name = "s32ktimer",
-+        .type = TYPE_CMSDK_APB_TIMER,
-+        .index = 0,
-+        .addr = 0x4802f000,
-+        .ppc = 1,
-+        .ppc_port = 0,
-+        .irq = 2,
-+        .slowclk = true,
-+    },
-+    {
-+        .name = "s32kwatchdog",
-+        .type = TYPE_CMSDK_APB_WATCHDOG,
-+        .index = 0,
-+        .addr = 0x4802e000,
-+        .ppc = NO_PPC,
-+        .irq = NMI_0,
-+        .slowclk = true,
-+    },
-+    {
-+        .name = "watchdog",
-+        .type = TYPE_UNIMPLEMENTED_DEVICE,
-+        .index = 0,
-+        .addr = 0x48040000,
-+        .size = 0x2000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "armsse-sysinfo",
-+        .type = TYPE_IOTKIT_SYSINFO,
-+        .index = 0,
-+        .addr = 0x48020000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "armsse-sysctl",
-+        .type = TYPE_IOTKIT_SYSCTL,
-+        .index = 0,
-+        .addr = 0x58021000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "SYS_PPU",
-+        .type = TYPE_UNIMPLEMENTED_DEVICE,
-+        .index = 1,
-+        .addr = 0x58022000,
-+        .size = 0x1000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "CPU0CORE_PPU",
-+        .type = TYPE_UNIMPLEMENTED_DEVICE,
-+        .index = 2,
-+        .addr = 0x50023000,
-+        .size = 0x1000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "MGMT_PPU",
-+        .type = TYPE_UNIMPLEMENTED_DEVICE,
-+        .index = 3,
-+        .addr = 0x50028000,
-+        .size = 0x1000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = "DEBUG_PPU",
-+        .type = TYPE_UNIMPLEMENTED_DEVICE,
-+        .index = 4,
-+        .addr = 0x50029000,
-+        .size = 0x1000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-+    {
-+        .name = NULL,
-+    }
-+};
-+
- /* Is internal IRQ n shared between CPUs in a multi-core SSE ? */
- static const bool sse200_irq_is_common[32] = {
-     [0 ... 5] = true,
-@@ -352,6 +474,18 @@ static const bool sse200_irq_is_common[32] = {
-     /* 30, 31: reserved */
- };
- 
-+static const bool sse300_irq_is_common[32] = {
-+    [0 ... 5] = true,
-+    /* 6, 7: per-CPU MHU interrupts */
-+    [8 ... 12] = true,
-+    /* 13: reserved */
-+    [14 ... 16] = true,
-+    /* 17-25: reserved */
-+    [26 ... 27] = true,
-+    /* 28, 29: per-CPU CTI interrupts */
-+    /* 30, 31: reserved */
-+};
-+
- static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_IOTKIT,
-@@ -389,6 +523,24 @@ static const ARMSSEInfo armsse_variants[] = {
-         .devinfo = sse200_devices,
-         .irq_is_common = sse200_irq_is_common,
-     },
-+    {
-+        .name = TYPE_SSE300,
-+        .sse_version = ARMSSE_SSE300,
-+        .sram_banks = 2,
-+        .num_cpus = 1,
-+        .sys_version = 0x7e00043b,
-+        .iidr = 0x74a0043b,
-+        .cpuwait_rst = 0,
-+        .has_mhus = false,
-+        .has_cachectrl = false,
-+        .has_cpusecctrl = true,
-+        .has_cpuid = true,
-+        .has_cpu_pwrctrl = true,
-+        .has_sse_counter = true,
-+        .props = armsse_properties,
-+        .devinfo = sse300_devices,
-+        .irq_is_common = sse300_irq_is_common,
-+    },
- };
- 
- static uint32_t armsse_sys_config_value(ARMSSE *s, const ARMSSEInfo *info)
+     /* Most of the devices in the FPGA are behind Peripheral Protection
+      * Controllers. The required order for initializing things is:
+@@ -1046,6 +1047,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mmc->fpgaio_num_leds = 2;
+     mmc->fpgaio_has_switches = false;
+     mmc->numirq = 92;
++    mmc->uart_overflow_irq = 47;
+     mmc->raminfo = an505_raminfo;
+     mmc->armsse_type = TYPE_IOTKIT;
+     mps2tz_set_default_ram_info(mmc);
+@@ -1069,6 +1071,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mmc->fpgaio_num_leds = 2;
+     mmc->fpgaio_has_switches = false;
+     mmc->numirq = 92;
++    mmc->uart_overflow_irq = 47;
+     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
+     mmc->armsse_type = TYPE_SSE200;
+     mps2tz_set_default_ram_info(mmc);
+@@ -1092,6 +1095,7 @@ static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
+     mmc->fpgaio_num_leds = 10;
+     mmc->fpgaio_has_switches = true;
+     mmc->numirq = 95;
++    mmc->uart_overflow_irq = 47;
+     mmc->raminfo = an524_raminfo;
+     mmc->armsse_type = TYPE_SSE200;
+     mps2tz_set_default_ram_info(mmc);
 -- 
 2.20.1
 
