@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1998A330689
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 04:46:47 +0100 (CET)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5CD33068B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 04:52:00 +0100 (CET)
+Received: from localhost ([::1]:54556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJ6r0-0005ta-6B
-	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 22:46:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57686)
+	id 1lJ6w3-0007ZO-En
+	for lists+qemu-devel@lfdr.de; Sun, 07 Mar 2021 22:51:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJ6pu-0005Nq-P9
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 22:45:38 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJ6pt-0003Z5-77
- for qemu-devel@nongnu.org; Sun, 07 Mar 2021 22:45:38 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id dm26so12543117edb.12
- for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 19:45:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qw4c5DeqbHXyeQolSCmjXmjW3AYjVNO5anziBtYFLfg=;
- b=G4GZHRlgpcjPCWRTtersLTh84AGeQo2TZc+4rIi18Sot2ebgolgCUQnm6fas8wzxxc
- iPBm3ibyAXSacDXq53QG5Io59U3dJde6PUsWVjX7OCQeCkqAuTgnc9/dvKbvsmTcNK5y
- 9xWFyqNa4SLNQjrvWy919wltKUpck/oxou1xZPF+c1FmU8LlI5mlPN1o6IKjX4LH9j7l
- cqOgxC03YGLL8mirDLK9PgaaUyFKeF1Baqa7Em4wuyWDF/1D6ltrbD1lRueSLbZa2Atr
- G7DYLRCwv75oHzS0+UrYw8V2tY1y2tTfhVLX+zq5OrAKIalknaBEJNZPvAEtm80gejhg
- scMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qw4c5DeqbHXyeQolSCmjXmjW3AYjVNO5anziBtYFLfg=;
- b=XZh5H1Cd8Q5sPWumvCRHym2p09e7aiPF1H3RcdzN6XzyvwOgH6PBsgzC5Jdn/loJyb
- GNfuo6rqG454l7k2CjKT9v7TgFSCzzt1DmU7OzlupwK0KQqPLuoCmdytOynxJwXto8df
- mn5S1p34/Yh+34I3GYQbYsjflxKurJxc+KF96dCeBjfDgSdiNQi6BrxRQHPIni1MX1LF
- q38ZNMDwlKfaNAfTysgoAKV4OpONWJBGryYbfgqddgTTgfBneIOaiBo2gTNp8YOgqrUd
- H3XB0QfvauUFECE2WUrsp4y3YKJlHxKDsWo1iVI1RUCBf92PB7WWrwuSpnJZWHaPZ/Lg
- PoPA==
-X-Gm-Message-State: AOAM530RTKWwqcWkco14ouIwySYAzzGgO7smam5HVPBpIDt5cOtsT7og
- lI0PUxeZpK9APb6Y08oegq4nrJX7zx34Oq8KMMY=
-X-Google-Smtp-Source: ABdhPJwq6hHV54qECN53ZXi2jsaBH97K5wMU4iH6oYxvhIw99hsHync7Yj6RcOiw9CMLj44LfMBw2bMOlnjJ8+sxZds=
-X-Received: by 2002:a05:6402:2d0:: with SMTP id
- b16mr20424928edx.194.1615175134756; 
- Sun, 07 Mar 2021 19:45:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJ6t4-0006oT-GP
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 22:48:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJ6t1-0004ye-VK
+ for qemu-devel@nongnu.org; Sun, 07 Mar 2021 22:48:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615175329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OhkRzQzeRj0zW89HID/a4cHu8LqHa5SNx5be9C/6wJM=;
+ b=ELzaA3HP9Xk/hTbRPOw6x1nfAfhjlh3kBD22BXMwMirP1ZAjjz4rLVEmhA9MsTpCizPd7b
+ fmJerQiHdgItCQz17U/7VFFCIz4EWlR3H/cZSV8zXOWhSqhIWAMtSac01wecAl+L3EemiN
+ Qt06Jo4HUnm+zgKV0duaCxtVNqQr5Bw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-R6i29BV0O9GSBO6AnPZddQ-1; Sun, 07 Mar 2021 22:48:46 -0500
+X-MC-Unique: R6i29BV0O9GSBO6AnPZddQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93E3C814314;
+ Mon,  8 Mar 2021 03:48:44 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-193.pek2.redhat.com
+ [10.72.13.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4976E196E3;
+ Mon,  8 Mar 2021 03:48:40 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210303191205.1656980-1-philmd@redhat.com>
+ <20210303191205.1656980-3-philmd@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+Date: Mon, 8 Mar 2021 11:48:38 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com>
-In-Reply-To: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Mon, 8 Mar 2021 12:45:24 +0900
-Message-ID: <CAMVc7JVh9zzPs6zxjNFuxZSZzqzYu13H=9NBH6__X+h-eQivfg@mail.gmail.com>
-Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210303191205.1656980-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,51 +86,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 4:57 Christian Schoenebeck <qe=
-mu_oss@crudebyte.com>:
->
-> DisplaySurface pointer passed to gd_switch() can be NULL, so check this
-> before trying to dereference it.
->
-> Fixes: c821a58ee7 ("ui/console: Pass placeholder surface to display")
-> Reported-by: Coverity (CID 1448421)
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  ui/gtk.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 3edaf041de..a27b27d004 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -567,7 +567,7 @@ static void gd_switch(DisplayChangeListener *dcl,
->      }
->      vc->gfx.ds =3D surface;
->
-> -    if (surface->format =3D=3D PIXMAN_x8r8g8b8) {
-> +    if (surface && surface->format =3D=3D PIXMAN_x8r8g8b8) {
->          /*
->           * PIXMAN_x8r8g8b8 =3D=3D CAIRO_FORMAT_RGB24
->           *
-> @@ -580,7 +580,7 @@ static void gd_switch(DisplayChangeListener *dcl,
->               surface_width(surface),
->               surface_height(surface),
->               surface_stride(surface));
-> -    } else {
-> +    } else if (surface) {
->          /* Must convert surface, use pixman to do it. */
->          vc->gfx.convert =3D pixman_image_create_bits(PIXMAN_x8r8g8b8,
->                                                     surface_width(surface=
-),
-> --
-> 2.20.1
->
 
-When will the DisplaySurface pointer passed to gd_switch() be NULL?
-Also, it affects other displays so it should be fixed in ui/console.c,
-or fix all relevant displays.
+On 2021/3/4 3:11 上午, Philippe Mathieu-Daudé wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> The minimum Ethernet frame length is 60 bytes. For short frames with
+> smaller length like ARP packets (only 42 bytes), on a real world NIC
+> it can choose either padding its length to the minimum required 60
+> bytes, or sending it out directly to the wire. Such behavior can be
+> hardcoded or controled by a register bit. Similarly on the receive
+> path, NICs can choose either dropping such short frames directly or
+> handing them over to software to handle.
+>
+> On the other hand, for the network backends SLiRP/TAP, they don't
+> expose a way to control the short frame behavior. As of today they
+> just send/receive data from/to the other end connected to them,
+> which means any sized packet is acceptable. So they can send and
+> receive short frames without any problem. It is observed that ARP
+> packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+> these ARP packets to the other end which might be a NIC model that
+> does not allow short frames to pass through.
+
+
+Do we need to care about other type of networking backends? E.g socket.
+
+Or at least we should keep the padding logic if we can't audit all of 
+the backends.
+
+Thanks
+
+
+>
+> To provide better compatibility, for packets sent from SLiRP/TAP, we
+> change to pad short frames before sending it out to the other end.
+> This ensures SLiRP/TAP as an Ethernet sender do not violate the spec.
+> But with this change, the behavior of dropping short frames in the
+> NIC model cannot be emulated because it always receives a packet that
+> is spec complaint. The capability of sending short frames from NIC
+> models are still supported and short frames can still pass through
+> SLiRP/TAP interfaces.
+>
+> This commit should be able to fix the issue as reported with some
+> NIC models before, that ARP requests get dropped, preventing the
+> guest from becoming visible on the network. It was workarounded in
+> these NIC models on the receive path, that when a short frame is
+> received, it is padded up to 60 bytes.
+>
+> The following 2 commits seem to be the one to workaround this issue
+> in e1000 and vmxenet3 before, and should probably be reverted.
+>
+>    commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+>    commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Message-Id: <1614763306-18026-2-git-send-email-bmeng.cn@gmail.com>
+> [PMD: Use struct iovec for zero-copy]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   include/net/eth.h |  1 +
+>   net/net.c         | 14 ++++++++++++++
+>   2 files changed, 15 insertions(+)
+>
+> diff --git a/include/net/eth.h b/include/net/eth.h
+> index 0671be69165..7c825ecb2f7 100644
+> --- a/include/net/eth.h
+> +++ b/include/net/eth.h
+> @@ -31,6 +31,7 @@
+>   
+>   #define ETH_ALEN 6
+>   #define ETH_HLEN 14
+> +#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+>   
+>   struct eth_header {
+>       uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
+> diff --git a/net/net.c b/net/net.c
+> index 159e4d0ec25..d42ac9365eb 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -620,6 +620,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>                                                    const uint8_t *buf, int size,
+>                                                    NetPacketSent *sent_cb)
+>   {
+> +    static const uint8_t null_buf[ETH_ZLEN] = { };
+>       NetQueue *queue;
+>       int ret;
+>       int iovcnt = 1;
+> @@ -628,6 +629,10 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>               .iov_base = (void *)buf,
+>               .iov_len = size,
+>           },
+> +        [1] = {
+> +            .iov_base = (void *)null_buf,
+> +            .iov_len = ETH_ZLEN,
+> +        },
+>       };
+>   
+>   #ifdef DEBUG_NET
+> @@ -639,6 +644,15 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>           return size;
+>       }
+>   
+> +    /* Pad to minimum Ethernet frame length for SLiRP and TAP */
+> +    if (sender->info->type == NET_CLIENT_DRIVER_USER ||
+> +        sender->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        if (size < ETH_ZLEN) {
+> +            iov[1].iov_len = ETH_ZLEN - size;
+> +            iovcnt = 2;
+> +        }
+> +    }
+> +
+>       /* Let filters handle the packet first */
+>       ret = filter_receive_iov(sender, NET_FILTER_DIRECTION_TX,
+>                                sender, flags, iov, iovcnt, sent_cb);
+
 
