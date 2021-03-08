@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F2F33144C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:13:02 +0100 (CET)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C07333145A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:16:29 +0100 (CET)
+Received: from localhost ([::1]:47346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJRF-0005Gg-EP
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:13:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
+	id 1lJJUa-0000gU-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:16:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBm-0004ek-G4
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29190)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBt-0004lG-Nq
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBg-00007b-D9
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:58 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBm-00008V-9e
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:57:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222615;
+ s=mimecast20190719; t=1615222619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EkuUd2LMCxrtdi0zEIrPb/8mJLjvo49VX/SxPFjWD7s=;
- b=Z0I2ogr0jSycbdHZLbKc3RgOaxy16ltX3sxjMNXAvKyRgyywmJ27tPbCIKxNDC08ZScsjH
- 6Rkj2c82dIjfdi5n4RD1U/ifjuk1PyV55CNSZhNqizppx6kx7cMsxgiv2gK+OyMgoBUrnl
- iZE7lPbHbGAmPIjCXAidpxj91yBjuek=
+ bh=QK3+wvFIX6xtoJ+rW3QuK/UFcrE7WWNUGx5TZzjc3o4=;
+ b=H/KuUphQke/9FiBygrmcPYjnSNoywMsSA/I/88hHfOo9umbQBbhOr7tVEpZl4PI/sVCCtn
+ BR8uL7W0sowOZaEV+KNXoDwLIkcMIE1GKwq3Rd6KGR5m7xbIvpfXJf4yF4V+wVdVwBiA7b
+ bOyIL5NBeIcOzRzY7Jp8bcNslAwHPmE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-7EiMDiYNPCWQBG7NuJStlA-1; Mon, 08 Mar 2021 11:56:54 -0500
-X-MC-Unique: 7EiMDiYNPCWQBG7NuJStlA-1
+ us-mta-127-cFfo1btnMiOxkcaz_AlfPA-1; Mon, 08 Mar 2021 11:56:57 -0500
+X-MC-Unique: cFfo1btnMiOxkcaz_AlfPA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B208E5761;
- Mon,  8 Mar 2021 16:56:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E480814336;
+ Mon,  8 Mar 2021 16:56:56 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 657A05D9D3;
- Mon,  8 Mar 2021 16:56:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82BA45D9D3;
+ Mon,  8 Mar 2021 16:56:53 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/30] qemu-storage-daemon: Implement --object with
- qmp_object_add()
-Date: Mon,  8 Mar 2021 17:54:30 +0100
-Message-Id: <20210308165440.386489-21-kwolf@redhat.com>
+Subject: [PATCH v3 21/30] qom: Remove user_creatable_add_dict()
+Date: Mon,  8 Mar 2021 17:54:31 +0100
+Message-Id: <20210308165440.386489-22-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,76 +83,88 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This QAPIfies --object and ensures that QMP and the command line option
-behave the same.
+This function is now unused and can be removed.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- storage-daemon/qemu-storage-daemon.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ include/qom/object_interfaces.h | 18 ------------------
+ qom/object_interfaces.c         | 32 --------------------------------
+ 2 files changed, 50 deletions(-)
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index a1bcbacf05..4ab7e73053 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -38,6 +38,7 @@
- #include "qapi/qapi-visit-block-core.h"
- #include "qapi/qapi-visit-block-export.h"
- #include "qapi/qapi-visit-control.h"
-+#include "qapi/qapi-visit-qom.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "qapi/qobject-input-visitor.h"
-@@ -134,15 +135,6 @@ enum {
+diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
+index 9b9938b8c0..5299603f50 100644
+--- a/include/qom/object_interfaces.h
++++ b/include/qom/object_interfaces.h
+@@ -86,24 +86,6 @@ Object *user_creatable_add_type(const char *type, const char *id,
+                                 const QDict *qdict,
+                                 Visitor *v, Error **errp);
  
- extern QemuOptsList qemu_chardev_opts;
- 
--static QemuOptsList qemu_object_opts = {
--    .name = "object",
--    .implied_opt_name = "qom-type",
--    .head = QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
--    .desc = {
--        { }
--    },
--};
+-/**
+- * user_creatable_add_dict:
+- * @qdict: the object definition
+- * @keyval: if true, use a keyval visitor for processing @qdict (i.e.
+- *          assume that all @qdict values are strings); otherwise, use
+- *          the normal QObject visitor (i.e. assume all @qdict values
+- *          have the QType expected by the QOM object type)
+- * @errp: if an error occurs, a pointer to an area to store the error
+- *
+- * Create an instance of the user creatable object that is defined by
+- * @qdict.  The object type is taken from the QDict key 'qom-type', its
+- * ID from the key 'id'. The remaining entries in @qdict are used to
+- * initialize the object properties.
+- *
+- * Returns: %true on success, %false on failure.
+- */
+-bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp);
 -
- static void init_qmp_commands(void)
+ /**
+  * user_creatable_add_opts:
+  * @opts: the object definition
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index d4df2334b7..02c3934329 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -113,38 +113,6 @@ out:
+     return obj;
+ }
+ 
+-bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
+-{
+-    Visitor *v;
+-    Object *obj;
+-    g_autofree char *type = NULL;
+-    g_autofree char *id = NULL;
+-
+-    type = g_strdup(qdict_get_try_str(qdict, "qom-type"));
+-    if (!type) {
+-        error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
+-        return false;
+-    }
+-    qdict_del(qdict, "qom-type");
+-
+-    id = g_strdup(qdict_get_try_str(qdict, "id"));
+-    if (!id) {
+-        error_setg(errp, QERR_MISSING_PARAMETER, "id");
+-        return false;
+-    }
+-    qdict_del(qdict, "id");
+-
+-    if (keyval) {
+-        v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
+-    } else {
+-        v = qobject_input_visitor_new(QOBJECT(qdict));
+-    }
+-    obj = user_creatable_add_type(type, id, qdict, v, errp);
+-    visit_free(v);
+-    object_unref(obj);
+-    return !!obj;
+-}
+-
+ Object *user_creatable_add_opts(QemuOpts *opts, Error **errp)
  {
-     qmp_init_marshal(&qmp_commands);
-@@ -282,14 +274,22 @@ static void process_options(int argc, char *argv[])
-             {
-                 QDict *args;
-                 bool help;
-+                Visitor *v;
-+                ObjectOptions *options;
- 
-                 args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
-                 if (help) {
-                     user_creatable_print_help_from_qdict(args);
-                     exit(EXIT_SUCCESS);
-                 }
--                user_creatable_add_dict(args, true, &error_fatal);
-+
-+                v = qobject_input_visitor_new_keyval(QOBJECT(args));
-+                visit_type_ObjectOptions(v, NULL, &options, &error_fatal);
-+                visit_free(v);
-                 qobject_unref(args);
-+
-+                qmp_object_add(options, &error_fatal);
-+                qapi_free_ObjectOptions(options);
-                 break;
-             }
-         case OPTION_PIDFILE:
-@@ -338,7 +338,6 @@ int main(int argc, char *argv[])
- 
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_TRACE);
--    qemu_add_opts(&qemu_object_opts);
-     qemu_add_opts(&qemu_trace_opts);
-     qcrypto_init(&error_fatal);
-     bdrv_init();
+     Visitor *v;
 -- 
 2.29.2
 
