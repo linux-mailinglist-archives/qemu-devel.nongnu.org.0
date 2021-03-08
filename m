@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F437331450
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:15:10 +0100 (CET)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D299B33144B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:12:21 +0100 (CET)
+Received: from localhost ([::1]:35618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJTJ-0007pk-88
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:15:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
+	id 1lJJQa-0003mJ-R8
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:12:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBI-00040I-C5
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37310)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJBH-0003wd-AW
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJB9-0008Mm-EQ
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:32 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJB9-0008OK-CP
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:56:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222578;
+ s=mimecast20190719; t=1615222581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EN4QvUbAh4F1RyvXaWITXd7zkhtxEAPwE2nARm9y9T8=;
- b=I3nRTQSQE35AbK7bVaZ5xYdI51xyarKWw3rhflyRtjpxQpeCoSTmc8vuJ8dzqGz62j+Usc
- LoBQtoEkEBZSkgd9Shr8O5yafXNmnevUatAtYJig/ZXxGjoDLjNuPYFWMXnJ4yTPY6Hn4k
- G2irQOWMA8gKm//0jYV14x+vTYgisM8=
+ bh=6Nl8RFf8EAHNlAq+0ppc/JSVVYHnYUTrEVm4qCv3AMM=;
+ b=METUa8PIeAWWKZy4P7nACL2msLb5N4zPVh43KBNg5MVYZAv/uIPwF/XqMMHX1tyUFP1oSQ
+ SoXvNNDB88Cht+dUYkvq5cP6ECrkDKIdVRjjPA3yNH3iixLWaJvNeK8w31lFDV17NSyNmp
+ gAVBUiTHu41DWfDeZeLwuuUTlDnY398=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-tdHQSXDiO66LKcWnvh1V7w-1; Mon, 08 Mar 2021 11:56:17 -0500
-X-MC-Unique: tdHQSXDiO66LKcWnvh1V7w-1
+ us-mta-112-bFg_5oaqOCm5hch1V2EGHg-1; Mon, 08 Mar 2021 11:56:20 -0500
+X-MC-Unique: bFg_5oaqOCm5hch1V2EGHg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1585801814;
- Mon,  8 Mar 2021 16:56:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A4CBE5760;
+ Mon,  8 Mar 2021 16:56:19 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 255575D9DB;
- Mon,  8 Mar 2021 16:56:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 453D95D9DB;
+ Mon,  8 Mar 2021 16:56:16 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/30] qapi/qom: Add ObjectOptions for filter-*
-Date: Mon,  8 Mar 2021 17:54:23 +0100
-Message-Id: <20210308165440.386489-14-kwolf@redhat.com>
+Subject: [PATCH v3 14/30] qapi/qom: Add ObjectOptions for pr-manager-helper
+Date: Mon,  8 Mar 2021 17:54:24 +0100
+Message-Id: <20210308165440.386489-15-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,252 +83,55 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the filter-* objects.
-
-Some parts of the interface (in particular NetfilterProperties.position)
-are very unusual for QAPI, but for now just describe the existing
-interface.
-
-net.json can't be included in qom.json because the storage daemon
-doesn't have it. NetFilterDirection is still required in the new object
-property definitions in qom.json, so move this enum to common.json.
+This adds a QAPI schema for the properties of the pr-manager-helper
+object.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/common.json |  20 +++++++
- qapi/net.json    |  20 -------
- qapi/qom.json    | 143 +++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 163 insertions(+), 20 deletions(-)
+ qapi/qom.json | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/qapi/common.json b/qapi/common.json
-index 2dad4fadc3..b87e7f9039 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -165,3 +165,23 @@
- ##
- { 'enum': 'HostMemPolicy',
-   'data': [ 'default', 'preferred', 'bind', 'interleave' ] }
-+
-+##
-+# @NetFilterDirection:
-+#
-+# Indicates whether a netfilter is attached to a netdev's transmit queue or
-+# receive queue or both.
-+#
-+# @all: the filter is attached both to the receive and the transmit
-+#       queue of the netdev (default).
-+#
-+# @rx: the filter is attached to the receive queue of the netdev,
-+#      where it will receive packets sent to the netdev.
-+#
-+# @tx: the filter is attached to the transmit queue of the netdev,
-+#      where it will receive packets sent by the netdev.
-+#
-+# Since: 2.5
-+##
-+{ 'enum': 'NetFilterDirection',
-+  'data': [ 'all', 'rx', 'tx' ] }
-diff --git a/qapi/net.json b/qapi/net.json
-index c31748c87f..af3f5b0fda 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -492,26 +492,6 @@
-     'vhost-user': 'NetdevVhostUserOptions',
-     'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
- 
--##
--# @NetFilterDirection:
--#
--# Indicates whether a netfilter is attached to a netdev's transmit queue or
--# receive queue or both.
--#
--# @all: the filter is attached both to the receive and the transmit
--#       queue of the netdev (default).
--#
--# @rx: the filter is attached to the receive queue of the netdev,
--#      where it will receive packets sent to the netdev.
--#
--# @tx: the filter is attached to the transmit queue of the netdev,
--#      where it will receive packets sent by the netdev.
--#
--# Since: 2.5
--##
--{ 'enum': 'NetFilterDirection',
--  'data': [ 'all', 'rx', 'tx' ] }
--
- ##
- # @RxState:
- #
 diff --git a/qapi/qom.json b/qapi/qom.json
-index a34ae43cb9..6fe775bd83 100644
+index 6fe775bd83..6afac9169f 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -313,6 +313,137 @@
-   'data': { 'addr': 'str' ,
-             '*id-list': 'str' } }
+@@ -577,6 +577,18 @@
+             '*hugetlbsize': 'size',
+             '*seal': 'bool' } }
  
 +##
-+# @NetfilterInsert:
++# @PrManagerHelperProperties:
 +#
-+# Indicates where to insert a netfilter relative to a given other filter.
++# Properties for pr-manager-helper objects.
 +#
-+# @before: insert before the specified filter
++# @path: the path to a Unix domain socket for connecting to the external helper
 +#
-+# @behind: insert behind the specified filter
-+#
-+# Since: 5.0
++# Since: 2.11
 +##
-+{ 'enum': 'NetfilterInsert',
-+  'data': [ 'before', 'behind' ] }
-+
-+##
-+# @NetfilterProperties:
-+#
-+# Properties for objects of classes derived from netfilter.
-+#
-+# @netdev: id of the network device backend to filter
-+#
-+# @queue: indicates which queue(s) to filter (default: all)
-+#
-+# @status: indicates whether the filter is enabled ("on") or disabled ("off")
-+#          (default: "on")
-+#
-+# @position: specifies where the filter should be inserted in the filter list.
-+#            "head" means the filter is inserted at the head of the filter list,
-+#            before any existing filters.
-+#            "tail" means the filter is inserted at the tail of the filter list,
-+#            behind any existing filters (default).
-+#            "id=<id>" means the filter is inserted before or behind the filter
-+#            specified by <id>, depending on the @insert property.
-+#            (default: "tail")
-+#
-+# @insert: where to insert the filter relative to the filter given in @position.
-+#          Ignored if @position is "head" or "tail". (default: behind)
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'NetfilterProperties',
-+  'data': { 'netdev': 'str',
-+            '*queue': 'NetFilterDirection',
-+            '*status': 'str',
-+            '*position': 'str',
-+            '*insert': 'NetfilterInsert' } }
-+
-+##
-+# @FilterBufferProperties:
-+#
-+# Properties for filter-buffer objects.
-+#
-+# @interval: a non-zero interval in microseconds.  All packets arriving in the
-+#            given interval are delayed until the end of the interval.
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'FilterBufferProperties',
-+  'base': 'NetfilterProperties',
-+  'data': { 'interval': 'uint32' } }
-+
-+##
-+# @FilterDumpProperties:
-+#
-+# Properties for filter-dump objects.
-+#
-+# @file: the filename where the dumped packets should be stored
-+#
-+# @maxlen: maximum number of bytes in a packet that are stored (default: 65536)
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'FilterDumpProperties',
-+  'base': 'NetfilterProperties',
-+  'data': { 'file': 'str',
-+            '*maxlen': 'uint32' } }
-+
-+##
-+# @FilterMirrorProperties:
-+#
-+# Properties for filter-mirror objects.
-+#
-+# @outdev: the name of a character device backend to which all incoming packets
-+#          are mirrored
-+#
-+# @vnet_hdr_support: if true, vnet header support is enabled (default: false)
-+#
-+# Since: 2.6
-+##
-+{ 'struct': 'FilterMirrorProperties',
-+  'base': 'NetfilterProperties',
-+  'data': { 'outdev': 'str',
-+            '*vnet_hdr_support': 'bool' } }
-+
-+##
-+# @FilterRedirectorProperties:
-+#
-+# Properties for filter-redirector objects.
-+#
-+# At least one of @indev or @outdev must be present.  If both are present, they
-+# must not refer to the same character device backend.
-+#
-+# @indev: the name of a character device backend from which packets are
-+#         received and redirected to the filtered network device
-+#
-+# @outdev: the name of a character device backend to which all incoming packets
-+#          are redirected
-+#
-+# @vnet_hdr_support: if true, vnet header support is enabled (default: false)
-+#
-+# Since: 2.6
-+##
-+{ 'struct': 'FilterRedirectorProperties',
-+  'base': 'NetfilterProperties',
-+  'data': { '*indev': 'str',
-+            '*outdev': 'str',
-+            '*vnet_hdr_support': 'bool' } }
-+
-+##
-+# @FilterRewriterProperties:
-+#
-+# Properties for filter-rewriter objects.
-+#
-+# @vnet_hdr_support: if true, vnet header support is enabled (default: false)
-+#
-+# Since: 2.8
-+##
-+{ 'struct': 'FilterRewriterProperties',
-+  'base': 'NetfilterProperties',
-+  'data': { '*vnet_hdr_support': 'bool' } }
++{ 'struct': 'PrManagerHelperProperties',
++  'data': { 'path': 'str' } }
 +
  ##
- # @IothreadProperties:
+ # @RngProperties:
  #
-@@ -510,6 +641,12 @@
-     'cryptodev-backend-builtin',
-     'cryptodev-vhost-user',
-     'dbus-vmstate',
-+    'filter-buffer',
-+    'filter-dump',
-+    'filter-mirror',
-+    'filter-redirector',
-+    'filter-replay',
-+    'filter-rewriter',
-     'iothread',
+@@ -651,6 +663,7 @@
      'memory-backend-file',
      'memory-backend-memfd',
-@@ -553,6 +690,12 @@
-       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
-                                       'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
-       'dbus-vmstate':               'DBusVMStateProperties',
-+      'filter-buffer':              'FilterBufferProperties',
-+      'filter-dump':                'FilterDumpProperties',
-+      'filter-mirror':              'FilterMirrorProperties',
-+      'filter-redirector':          'FilterRedirectorProperties',
-+      'filter-replay':              'NetfilterProperties',
-+      'filter-rewriter':            'FilterRewriterProperties',
-       'iothread':                   'IothreadProperties',
-       'memory-backend-file':        'MemoryBackendFileProperties',
+     'memory-backend-ram',
++    'pr-manager-helper',
+     'rng-builtin',
+     'rng-egd',
+     'rng-random',
+@@ -701,6 +714,7 @@
        'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
+                                       'if': 'defined(CONFIG_LINUX)' },
+       'memory-backend-ram':         'MemoryBackendProperties',
++      'pr-manager-helper':          'PrManagerHelperProperties',
+       'rng-builtin':                'RngProperties',
+       'rng-egd':                    'RngEgdProperties',
+       'rng-random':                 'RngRandomProperties',
 -- 
 2.29.2
 
