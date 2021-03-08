@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49F4331681
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:49:17 +0100 (CET)
-Received: from localhost ([::1]:35290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F193316CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 19:56:43 +0100 (CET)
+Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJKwO-0004f8-QH
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:49:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
+	id 1lJL3Z-0002fk-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 13:56:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJKtw-0003FC-3H
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 13:46:44 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46444)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJL1G-0001Hr-6H
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 13:54:18 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJKtu-0004tL-BK
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 13:46:43 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id r17so22400348ejy.13
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 10:46:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eFEtm6/vfemJQGFHW+B0HR0CWfXRbEsEF8AHXCNZvVo=;
- b=LYFoag5sV0Zq+qHWnDWqyYVtho8O+ij5a6sBYFHMeKprw1Ohj3+b41PsIh+ufu3VKf
- mv6azq5gZGFaXEhi3L7CbbvwtgxiBvpk5+Wpcq++DemC9Th8cUzxOrfUdKXpx9IBNmp2
- ABLZMxgD2qliboQUD+RwKzq+yN9r4nte/3n3X3EUqVgWF3ZMOymVMdhwUPgdm3YLGtKi
- OJHa/4/D3vYuzz5SgMMfGZITQlbcAck5UUSH94DYAuSwfRnSTI06BmWgHfB9MvbwuiG4
- +ppl9a6+OrmMyC2vC8nNmr93Q0pcu4fSPNh3G4i8rWQcXoFLqyyBcCOhwIfLIViNw9nC
- 9s0g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJL1D-0007mu-Ad
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 13:54:17 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id r17so22440809ejy.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 10:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=s68YxjxghOLXRdJ5cBdo9TaspjWGSCJZKR5arDr7N7Q=;
+ b=EDzteovQ5hIjdRvhQZT3Gy70cqpNPkOoiMUozTHHephb7wU7QojdZ5uW0J4vhriA4m
+ u1aKcYqmJEViqhyZUuKXDlKCM//NbDECVoqj0BHzkD7uXwGl4RGxPTL++seE8JpmVQzl
+ 7fR4i2fhNm+BFNyXOcbWFrHYbxODATmYVCwBKYfYe+NtrbJlVfeaT3oYG3Uwn2fqbPcC
+ sUUR7o9Ub29LJTbdcCcsTQXeL8b9kbCFfj7ofXsj0ACCEfdd3lriSrKtdRZTx20Q9Jrh
+ np5BizOwPGL/99kb1TET4DaaLkv0SnJvczccP2mQa1mCvARmsVlE4846Aey2kmt6Npio
+ l9dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eFEtm6/vfemJQGFHW+B0HR0CWfXRbEsEF8AHXCNZvVo=;
- b=LoGIx+l1eNCa7Gg/3xVLI7cBRDsEjKZOte30vsoiPURJsuGw54XsfQKsSNU/OAf+qZ
- Um31cd+D6SeIJP9QEN8Q1br5xMhDcenetAJ3pDHqE/vPZbS8EVWtVZZZLcFmmjtc+CBB
- jGJR8iHHJByt7Q/xGtwvPB5SB1BjAHiTX6Ds9bq/rg4cdjkhKyDaQaIEFlErsOTyZ+CE
- /sFsjT56dqiG50OcxC2dTWicoDPTIiZ32uBmK6liNMDCaF6jutsL1fvqWjhUteCAo1/T
- /le0DW7M4dbfZDBBIJU0+3qgjVOa9llxXtyp3eAMATPCLMUloIwFMkOXSX+v95bdTZXM
- kKGQ==
-X-Gm-Message-State: AOAM531OMH2csagHKgFXvSN1hj/cxc/04mCD4AIUrq8tXbMDsTNl955k
- 2vMZDa1RvXqeRIsRPA2ycKY=
-X-Google-Smtp-Source: ABdhPJy34mnhyCxn1HNeEX2yQnlFu6Ih8Ur5QA6UaEJrzbRsz8mcqwodtgunymjQfhhQcF135ASAQA==
-X-Received: by 2002:a17:906:ecf3:: with SMTP id
- qt19mr16141915ejb.467.1615229200782; 
- Mon, 08 Mar 2021 10:46:40 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id bi26sm7021261ejb.120.2021.03.08.10.46.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 10:46:40 -0800 (PST)
-Subject: Re: [RFC PATCH 16/42] target/mips/tx79: Introduce PSUB* opcodes
- (Parallel Subtract)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-17-f4bug@amsat.org>
- <fd568d8d-a60f-5644-f8d3-5163ec21173d@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1df01b24-8d19-19b5-32f1-b5784466c335@amsat.org>
-Date: Mon, 8 Mar 2021 19:46:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=s68YxjxghOLXRdJ5cBdo9TaspjWGSCJZKR5arDr7N7Q=;
+ b=hPK5XE0IAOXOrgiS5y7hx8WM1XH5v3OfQ8jJqewi/Nx17AEmF/HiYANcoBl5+6VLJ+
+ qW5xe4lpeO88Bwf1lDH4NuFa1Q2ygwv3b7dQnE+dHGD6c1Qk4Xe9fxWWtyT1SPVZFie5
+ 065FigLQik7noRBmsIJrQ+K9vhy3hKDYUbtEChtLewT8O9IYyeTH2tY5aojhs4ARgIcG
+ idg1MCOCMf8bKtpLbXCHblRdgtCR6udXq9N2h2/H0/hqDCtLnTEaRUB+9AooDVW7AYoS
+ d82UF7YuQCln576+2Od8zF5gorAjlH4Gj7RJDHwBC/rVgrQaQ69S+B1Hqf2EmVDjEf//
+ z+bg==
+X-Gm-Message-State: AOAM532EeTr3u/5bBrtpzZIFgvpORA/y4BpUCn2TrwROch0tzD2SKJKr
+ Z5seeLgwxvtYoWPFCRfzwUw5IWjOmRQSqL2+1VfLkw==
+X-Google-Smtp-Source: ABdhPJy9tLzAt6I+6k764vmQ760BMTJq8iDBUHRKonuRJRJJe9zDwABgJNntJDRkW3+c4KZrmfYT9Ya+DluEpRFO3Lw=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr16786767ejc.250.1615229650389; 
+ Mon, 08 Mar 2021 10:54:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <fd568d8d-a60f-5644-f8d3-5163ec21173d@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210308122313.286938-1-its@irrelevant.dk>
+ <20210308122313.286938-2-its@irrelevant.dk>
+ <48178d72-444c-91fd-c1ef-0ae28b8a674e@redhat.com>
+ <YEZw/cDu+1zouiHT@apples.localdomain>
+In-Reply-To: <YEZw/cDu+1zouiHT@apples.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Mar 2021 18:53:53 +0000
+Message-ID: <CAFEAcA9Jf9JPyzZEagNKwd3pRwyY5OZJUV9U-=3LGwcCbF695w@mail.gmail.com>
+Subject: Re: [PULL 01/38] hw/block/nvme: introduce nvme-subsys device
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,36 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Fredrik Noring <noring@nocrew.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 5:38 PM, Richard Henderson wrote:
-> On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
->> +/* Parallel Subtract Byte */
->> +static bool trans_PSUBB(DisasContext *ctx, arg_rtype *a)
->> +{
->> +    return trans_parallel_substract(ctx, a, 8);
->> +}
->> +
->> +/* Parallel Subtract Halfword */
->> +static bool trans_PSUBH(DisasContext *ctx, arg_rtype *a)
->> +{
->> +    return trans_parallel_substract(ctx, a, 16);
->> +}
->> +
->> +/* Parallel Subtract Word */
->> +static bool trans_PSUBW(DisasContext *ctx, arg_rtype *a)
->> +{
->> +    return trans_parallel_substract(ctx, a, 32);
->> +}
-> 
-> We already have helpers for these operations.  Use your trans_parallel_logic
-> with tcg_gen_vec_sub{8,16,32}_i64.
+On Mon, 8 Mar 2021 at 18:46, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> On Mar  8 19:32, Paolo Bonzini wrote:
+> > On 08/03/21 13:22, Klaus Jensen wrote:
+> > >
+> > > This patch introduced a simple nvme-subsys device model.  The subsystem
+> > > will be prepared with subsystem NQN with <subsys_id> provided in
+> > > nvme-subsys device:
+> > >
+> > >    ex) -device nvme-subsys,id=subsys0: nqn.2019-08.org.qemu:subsys0
+> >
+> > Hi Klaus, sorry for not spotting this before.  In the SCSI subsystem we
+> > moved away from using id as guest-visible data.  Keeping it as a default is
+> > fine I guess, but would it be possible to add an nqn property to nvme-subsys
+> > and use it if it is present instead of the id?
+> >
+> > Thanks,
+> >
+> > Paolo
+> >
+>
+> Hi Paolo,
+>
+> Thanks for pointing this out! Absolutely - we have no specific reason to
+> use 'id', so we can just change it completely to use 'nqn'.
+>
+> Peter, you want this in a v2 or did you already start integration of
+> this PR?
 
-Very nice :>
+I haven't yet started working on this PR so if the change is trivial
+feel free to roll a v2.
+
+-- PMM
 
