@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD0E33141D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:06:45 +0100 (CET)
-Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A76331411
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:05:39 +0100 (CET)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJLA-0005m3-Fc
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:06:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
+	id 1lJJK5-0003lO-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:05:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA9-00033O-Sa
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43869)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJAL-0003NN-H4
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJA7-0007vd-5H
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:21 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJJAJ-00084w-J4
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 11:55:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615222518;
+ s=mimecast20190719; t=1615222530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SEjAru+LWL/KmRb7csSucQINEMDf7VfKnetd0CGWEx4=;
- b=h1YOw4BpwDCLyhZEHZtrmw21ahEcKwGPSAywApNi7bOxV0GCssvpKxF6bAWVv34HvP0I63
- tiNYmnO4revcDdaXI0wM89MYcWES5mFEhSKLlv1WliwnW3h2dTmpCSC5KpLSGV73JRZ4OW
- yMFbhuqmIFrUOTCU/dgXF/6414CtnoI=
+ bh=4fKrSoN5LQPGwgzDOQHNyExlWDQc6c4cs2ig5IKjOWU=;
+ b=bkXwk/P3GKaa4Sygk1v5USs5o28sfjw6FEfknrhAnn7SJAGZoSJ3p/iKN6BUFIoQH/YoJg
+ aLM+vZe3UtXR6JdAhpIaX0lU3T93CDN2/dtI6jjo1kd/+OtG7XqkX4Kb3k21J2scaj7Qq6
+ j4dHLeLAbc1UWuSPGU6eAKd8bRl+VsE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-LfRk7GesOf-WMRL24Pg_ng-1; Mon, 08 Mar 2021 11:55:16 -0500
-X-MC-Unique: LfRk7GesOf-WMRL24Pg_ng-1
+ us-mta-457-0OybWU4sNfSrFDJOuVKHTQ-1; Mon, 08 Mar 2021 11:55:29 -0500
+X-MC-Unique: 0OybWU4sNfSrFDJOuVKHTQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0EA88189D2;
- Mon,  8 Mar 2021 16:55:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00626881281;
+ Mon,  8 Mar 2021 16:55:28 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-100.ams2.redhat.com [10.36.112.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F17105D9E3;
- Mon,  8 Mar 2021 16:55:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34B715D9E3;
+ Mon,  8 Mar 2021 16:55:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/30] qapi/qom: Add ObjectOptions for iothread
-Date: Mon,  8 Mar 2021 17:54:12 +0100
-Message-Id: <20210308165440.386489-3-kwolf@redhat.com>
+Subject: [PATCH v3 03/30] qapi/qom: Add ObjectOptions for authz-*
+Date: Mon,  8 Mar 2021 17:54:13 +0100
+Message-Id: <20210308165440.386489-4-kwolf@redhat.com>
 In-Reply-To: <20210308165440.386489-1-kwolf@redhat.com>
 References: <20210308165440.386489-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,83 +83,137 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an ObjectOptions union that will eventually describe the options of
-all user creatable object types. As unions can't exist without any
-branches, also add the first object type.
-
-This adds a QAPI schema for the properties of the iothread object.
+This adds a QAPI schema for the properties of the authz-* objects.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/qom.json | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ qapi/authz.json                      | 61 +++++++++++++++++++++++++---
+ qapi/qom.json                        | 10 +++++
+ storage-daemon/qapi/qapi-schema.json |  1 +
+ 3 files changed, 67 insertions(+), 5 deletions(-)
 
+diff --git a/qapi/authz.json b/qapi/authz.json
+index 42afe752d1..51845e37cc 100644
+--- a/qapi/authz.json
++++ b/qapi/authz.json
+@@ -50,12 +50,63 @@
+            '*format': 'QAuthZListFormat'}}
+ 
+ ##
+-# @QAuthZListRuleListHack:
++# @AuthZListProperties:
+ #
+-# Not exposed via QMP; hack to generate QAuthZListRuleList
+-# for use internally by the code.
++# Properties for authz-list objects.
++#
++# @policy: Default policy to apply when no rule matches (default: deny)
++#
++# @rules: Authorization rules based on matching user
++#
++# Since: 4.0
++##
++{ 'struct': 'AuthZListProperties',
++  'data': { '*policy': 'QAuthZListPolicy',
++            '*rules': ['QAuthZListRule'] } }
++
++##
++# @AuthZListFileProperties:
++#
++# Properties for authz-listfile objects.
++#
++# @filename: File name to load the configuration from. The file must
++#            contain valid JSON for AuthZListProperties.
++#
++# @refresh: If true, inotify is used to monitor the file, automatically
++#           reloading changes. If an error occurs during reloading, all
++#           authorizations will fail until the file is next successfully
++#           loaded. (default: true if the binary was built with
++#           CONFIG_INOTIFY1, false otherwise)
++#
++# Since: 4.0
++##
++{ 'struct': 'AuthZListFileProperties',
++  'data': { 'filename': 'str',
++            '*refresh': 'bool' } }
++
++##
++# @AuthZPAMProperties:
++#
++# Properties for authz-pam objects.
++#
++# @service: PAM service name to use for authorization
++#
++# Since: 4.0
++##
++{ 'struct': 'AuthZPAMProperties',
++  'data': { 'service': 'str' } }
++
++##
++# @AuthZSimpleProperties:
++#
++# Properties for authz-simple objects.
++#
++# @identity: Identifies the allowed user. Its format depends on the network
++#            service that authorization object is associated with. For
++#            authorizing based on TLS x509 certificates, the identity must be
++#            the x509 distinguished name.
+ #
+ # Since: 4.0
+ ##
+-{ 'struct': 'QAuthZListRuleListHack',
+-  'data': { 'unused': ['QAuthZListRule'] } }
++{ 'struct': 'AuthZSimpleProperties',
++  'data': { 'identity': 'str' } }
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 96c91c1faf..bf2ecb34be 100644
+index bf2ecb34be..30ed179bc1 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -202,6 +202,59 @@
-   'returns': [ 'ObjectPropertyInfo' ],
-   'allow-preconfig': true }
+@@ -4,6 +4,8 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
  
-+##
-+# @IothreadProperties:
-+#
-+# Properties for iothread objects.
-+#
-+# @poll-max-ns: the maximum number of nanoseconds to busy wait for events.
-+#               0 means polling is disabled (default: 32768 on POSIX hosts,
-+#               0 otherwise)
-+#
-+# @poll-grow: the multiplier used to increase the polling time when the
-+#             algorithm detects it is missing events due to not polling long
-+#             enough. 0 selects a default behaviour (default: 0)
-+#
-+# @poll-shrink: the divisor used to decrease the polling time when the
-+#               algorithm detects it is spending too long polling without
-+#               encountering events. 0 selects a default behaviour (default: 0)
-+#
-+# Since: 2.0
-+##
-+{ 'struct': 'IothreadProperties',
-+  'data': { '*poll-max-ns': 'int',
-+            '*poll-grow': 'int',
-+            '*poll-shrink': 'int' } }
-+
-+##
-+# @ObjectType:
-+#
-+# Since: 6.0
-+##
-+{ 'enum': 'ObjectType',
-+  'data': [
-+    'iothread'
-+  ] }
-+
-+##
-+# @ObjectOptions:
-+#
-+# Describes the options of a user creatable QOM object.
-+#
-+# @qom-type: the class name for the object to be created
-+#
-+# @id: the name of the new object
-+#
-+# Since: 6.0
-+##
-+{ 'union': 'ObjectOptions',
-+  'base': { 'qom-type': 'ObjectType',
-+            'id': 'str' },
-+  'discriminator': 'qom-type',
-+  'data': {
-+      'iothread':                   'IothreadProperties'
-+  } }
++{ 'include': 'authz.json' }
 +
  ##
- # @object-add:
- #
+ # = QEMU Object Model (QOM)
+ ##
+@@ -233,6 +235,10 @@
+ ##
+ { 'enum': 'ObjectType',
+   'data': [
++    'authz-list',
++    'authz-listfile',
++    'authz-pam',
++    'authz-simple',
+     'iothread'
+   ] }
+ 
+@@ -252,6 +258,10 @@
+             'id': 'str' },
+   'discriminator': 'qom-type',
+   'data': {
++      'authz-list':                 'AuthZListProperties',
++      'authz-listfile':             'AuthZListFileProperties',
++      'authz-pam':                  'AuthZPAMProperties',
++      'authz-simple':               'AuthZSimpleProperties',
+       'iothread':                   'IothreadProperties'
+   } }
+ 
+diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
+index 28117c3aac..67749d1101 100644
+--- a/storage-daemon/qapi/qapi-schema.json
++++ b/storage-daemon/qapi/qapi-schema.json
+@@ -26,6 +26,7 @@
+ { 'include': '../../qapi/crypto.json' }
+ { 'include': '../../qapi/introspect.json' }
+ { 'include': '../../qapi/job.json' }
++{ 'include': '../../qapi/authz.json' }
+ { 'include': '../../qapi/qom.json' }
+ { 'include': '../../qapi/sockets.json' }
+ { 'include': '../../qapi/transaction.json' }
 -- 
 2.29.2
 
