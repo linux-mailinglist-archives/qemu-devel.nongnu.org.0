@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2C4331014
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:55:26 +0100 (CET)
-Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A6A33102E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 14:57:46 +0100 (CET)
+Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGM1-00037R-3P
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:55:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53536)
+	id 1lJGOH-0006Vu-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 08:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGI3-0006Wr-JH
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:19 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50338)
+ id 1lJGIA-0006bi-Nw
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:26 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGI0-0001DT-QS
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:19 -0500
-Received: by mail-wm1-x335.google.com with SMTP id i9so6045464wml.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:16 -0800 (PST)
+ id 1lJGI5-0001Fw-5J
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:51:26 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id e23so6093509wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zvlHmg3Gvm+4PGagR+ylVzZ1n3v00RRhYPBHrbsRAfc=;
- b=Y0iGh15raylKqeIyeBOGp1/t6Jm+5pqSmFk058L31oVV83GImE83V2BYP3/TlAG1Ig
- At+UHfxOsPVfIcpbXA0iq3YthJ2L84FSx5phdsxNvqnGHzZVVsAtY7sqbvcThB2OTpp0
- Le7hkUDK/NwXd7yRszxkGEuWIEnvaUSG3gmmSpsqsiM/KCsZSYNoxkY07FL3T4IS7lWI
- vwSTxMhGkOM6aQiJ2NCLcbvedx717nJeP/uYY0BwtmpNJDYywxK3mfmS+L3K9U7XvTCY
- NMWZC2kpQg/R/O+KbRpV2WFRnql6roqvVILm4xyHxVUchZVRLFx5m9wztys5xSlgNwvH
- CgfA==
+ bh=5ViVWtZ3No3EwiuLvapp181B6jvA1Zl37fC61JHK5PU=;
+ b=TJORMraYWiV20w8qDxwleyRNVTbR0TIBeI94ghcyq8tlh79y0d4L7nwo/m3niOq40b
+ hXKK7FhGpIhdRB7lomBs4Ho0ubfN2MUOCAzkymSbZPcQGPIGys3hUeX0WYRxKqdQVPqg
+ pSqeLwW4OdDG5xCwE0ysa7Z9A0GiCxYS34KpTShrJeWuR0XmLxDqhw1PxK8F2fvBRbbw
+ agelcXI94uSbi+BTHoZFP4O8sPC5BhN5AYPXjTpVq3U/cmpCzObRBDuQ6FEfSMBrjGSJ
+ B15zYfWEIPmPQYFaq8XJKAdE9OAmANB/1RwOyIgx4UQ8mT0rR2ZVgOdc/Fbv31eF3mio
+ g0GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zvlHmg3Gvm+4PGagR+ylVzZ1n3v00RRhYPBHrbsRAfc=;
- b=KmciYwjLzg8MouRDZdeS8Izj7pMAPDVfu0B91ZVIW3V5xhHfewpiwsJ5We1H2ydya4
- gRYC7dFGihqQqjdIUouANnLrzCyvhqsb89BBzeRxnOLy6OS/aJ04nI5cdJFMuPfEu2Vw
- J0rOfJ6wTr2tASUUp01oxpWPxXCXGyYd4PQrfGr4opqxDXtpRA5O6hGobrpy+FIX4ApK
- Eo+83oxNNOXAfouARMFK6lWFKJSDRY7cjQ7bLrwdCNnVitHXVUnqoqGcOhP3TpzKhcBf
- eIWuftizlsc++/5KMjk+RQtOn+Wrv0u8KXlJCDgze9ghkphSjRmvuMweX6iLv2wB9sIX
- w6Lg==
-X-Gm-Message-State: AOAM533gzQwQ3sHLzIN6fuH0Re8v+LrTxlt6t2z0y7Q06JwMLbe7OAXV
- ZphpMaBRUsye+Aw89ze0/Tj/6Q==
-X-Google-Smtp-Source: ABdhPJx5Vntr/Z9/eJo/pl4szopgjnHUTF6KL6ifQHuBqxOxZWSMYJrT8nBbFOsFBkf9vCDKe/05xA==
-X-Received: by 2002:a05:600c:d1:: with SMTP id
- u17mr22836010wmm.64.1615211475477; 
- Mon, 08 Mar 2021 05:51:15 -0800 (PST)
+ bh=5ViVWtZ3No3EwiuLvapp181B6jvA1Zl37fC61JHK5PU=;
+ b=erSIm/WI2Dfeq4eKY2B1XCoWTBZdcpTaz7ObdsSbNAzb3wh53ot9S+qJu/2poOooFT
+ pmWDknUr+EecIVMSbCzDvWkCIuYmn5ZSm3jgTGBrz2oRx9Y7JnZYOxNTwrJyblUzIxRy
+ zzZ2uliCELM4J1f8d80D4rxfR90UPpCy1o1IF/+QALf8rwG53xbJCjbIRpD1f4II8xNw
+ rEjXCK5+V1a2/IhQCA+s15smKX8JaMTN7jMcbxqtny/Ri/ozSQq1sULV8x33l96hHD+O
+ OZt8um09Zv9sXmB9UV8CR4z7ZIRPehgUrPMPPP3A8+QApXi18SnRE0AOOG56OnMLWtge
+ 1eOQ==
+X-Gm-Message-State: AOAM533y21QtRUofJCG+ETELzwPg5PvPZEE0d/OJ2e3M4+F9pZfKy9Pd
+ hYXe/ruI+BXuIYkyFtsYeG1jCA==
+X-Google-Smtp-Source: ABdhPJxue4Yz6kyYhmmiB5Vn+HdqZkVx9Qye3KB7dMj0OGCelTgX5k4HApjvnNY/gb0RvaoIQuAXYA==
+X-Received: by 2002:a1c:195:: with SMTP id 143mr21688670wmb.81.1615211479644; 
+ Mon, 08 Mar 2021 05:51:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x6sm19597648wmj.32.2021.03.08.05.51.07
+ by smtp.gmail.com with ESMTPSA id k4sm23496842wrd.9.2021.03.08.05.51.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 05:51:08 -0800 (PST)
+ Mon, 08 Mar 2021 05:51:17 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 71BBF1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id D4BE61FF9A;
  Mon,  8 Mar 2021 13:51:05 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/18] gitlab-ci.yml: Add jobs to test CFI flags
-Date: Mon,  8 Mar 2021 13:50:53 +0000
-Message-Id: <20210308135104.24903-8-alex.bennee@linaro.org>
+Subject: [PULL 11/18] hw/riscv: migrate fdt field to generic MachineState
+Date: Mon,  8 Mar 2021 13:50:57 +0000
+Message-Id: <20210308135104.24903-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308135104.24903-1-alex.bennee@linaro.org>
 References: <20210308135104.24903-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,162 +86,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+ qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+This is a mechanical change to make the fdt available through
+MachineState.
 
-QEMU has had options to enable control-flow integrity features
-for a few months now. Add two sets of build/check/acceptance
-jobs to ensure the binary produced is working fine.
-
-The three sets allow testing of x86_64 binaries for x86_64, s390x,
-ppc64 and aarch64 targets
-
-[AJB: tweak job names to avoid brands]
-
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
-Message-Id: <20210305092328.31792-9-alex.bennee@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210303173642.3805-3-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 1ea944eb91..5625265ef8 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -494,6 +494,125 @@ clang-user:
-       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
-     MAKE_CHECK_ARGS: check-unit check-tcg
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 84b7a3848f..632da52018 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -41,7 +41,6 @@ struct RISCVVirtState {
+     DeviceState *plic[VIRT_SOCKETS_MAX];
+     PFlashCFI01 *flash[2];
  
-+# Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
-+# On gitlab runners, default value sometimes end up calling 2 lds concurrently and
-+# triggers an Out-Of-Memory error
-+#
-+# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
-+# with QEMU and linked as a static library to avoid false positives in CFI checks.
-+# This can be accomplished by using -enable-slirp=git, which avoids the use of
-+# a system-wide version of the library
-+#
-+# Split in three sets of build/check/acceptance to limit the execution time of each
-+# job
-+build-cfi-aarch64:
-+  <<: *native_build_job_definition
-+  needs:
-+  - job: amd64-fedora-container
-+  variables:
-+    LD_JOBS: 1
-+    AR: llvm-ar
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-+      --enable-safe-stack --enable-slirp=git
-+    TARGETS: aarch64-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-cfi-aarch64:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-aarch64
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-cfi-aarch64:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-aarch64
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
-+build-cfi-ppc64-s390x:
-+  <<: *native_build_job_definition
-+  needs:
-+  - job: amd64-fedora-container
-+  variables:
-+    LD_JOBS: 1
-+    AR: llvm-ar
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-+      --enable-safe-stack --enable-slirp=git
-+    TARGETS: ppc64-softmmu s390x-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-cfi-ppc64-s390x:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-ppc64-s390x
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-cfi-ppc64-s390x:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-ppc64-s390x
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
-+build-cfi-x86_64:
-+  <<: *native_build_job_definition
-+  needs:
-+  - job: amd64-fedora-container
-+  variables:
-+    LD_JOBS: 1
-+    AR: llvm-ar
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-+      --enable-safe-stack --enable-slirp=git
-+    TARGETS: x86_64-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-cfi-x86_64:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-x86_64
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-cfi-x86_64:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-x86_64
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
- tsan-build:
-   <<: *native_build_job_definition
-   variables:
+-    void *fdt;
+     int fdt_size;
+ };
+ 
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4f0c2fbca0..0b39101a5e 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -195,14 +195,14 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+ 
+     if (mc->dtb) {
+-        fdt = s->fdt = load_device_tree(mc->dtb, &s->fdt_size);
++        fdt = mc->fdt = load_device_tree(mc->dtb, &s->fdt_size);
+         if (!fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+         }
+         goto update_bootargs;
+     } else {
+-        fdt = s->fdt = create_device_tree(&s->fdt_size);
++        fdt = mc->fdt = create_device_tree(&s->fdt_size);
+         if (!fdt) {
+             error_report("create_device_tree() failed");
+             exit(1);
+@@ -444,12 +444,12 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     g_free(name);
+ 
+     name = g_strdup_printf("/soc/flash@%" PRIx64, flashbase);
+-    qemu_fdt_add_subnode(s->fdt, name);
+-    qemu_fdt_setprop_string(s->fdt, name, "compatible", "cfi-flash");
+-    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
++    qemu_fdt_add_subnode(mc->fdt, name);
++    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
++    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
+                                  2, flashbase, 2, flashsize,
+                                  2, flashbase + flashsize, 2, flashsize);
+-    qemu_fdt_setprop_cell(s->fdt, name, "bank-width", 4);
++    qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
+     g_free(name);
+ 
+ update_bootargs:
+@@ -667,9 +667,9 @@ static void virt_machine_init(MachineState *machine)
+             hwaddr end = riscv_load_initrd(machine->initrd_filename,
+                                            machine->ram_size, kernel_entry,
+                                            &start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+                                   "linux,initrd-start", start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+                                   end);
+         }
+     } else {
+@@ -690,12 +690,12 @@ static void virt_machine_init(MachineState *machine)
+ 
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+-                                   machine->ram_size, s->fdt);
++                                   machine->ram_size, machine->fdt);
+     /* load the reset vector */
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+                               virt_memmap[VIRT_MROM].base,
+                               virt_memmap[VIRT_MROM].size, kernel_entry,
+-                              fdt_load_addr, s->fdt);
++                              fdt_load_addr, machine->fdt);
+ 
+     /* SiFive Test MMIO device */
+     sifive_test_create(memmap[VIRT_TEST].base);
 -- 
 2.20.1
 
