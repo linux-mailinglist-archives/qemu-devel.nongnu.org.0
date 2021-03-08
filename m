@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945483308E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 08:39:05 +0100 (CET)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07CC3308FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 08:51:53 +0100 (CET)
+Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJATo-0005h3-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 02:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60340)
+	id 1lJAgC-0001WL-9c
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 02:51:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJAOh-00038X-Jy
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:33:47 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:41219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJAOe-0002YH-Mn
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:33:47 -0500
-Received: from [192.168.100.1] ([82.252.159.174]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MekKJ-1lqr7K1KoX-00aigg; Mon, 08 Mar 2021 08:33:35 +0100
-Subject: Re: [PATCH v5 4/5] m68k: add a system controller
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
-References: <20210307205623.507180-1-laurent@vivier.eu>
- <20210307205623.507180-5-laurent@vivier.eu>
- <db46d90a-ad9e-720e-c219-19d647555378@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <84158a04-e8be-c2c8-6185-5a485b3e9b88@vivier.eu>
-Date: Mon, 8 Mar 2021 08:33:34 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJAeW-0000kS-J9
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:50:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJAeT-00012E-K8
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 02:50:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615189803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sdilp73AuirF724i5VenkGAx8C9V0SGJGdomHDOsg+U=;
+ b=IT5NhmaLTPc3FH4rr9a9zm1lDvnHcpn9velOHZbft0ozEFy+EKLfjSMNbqL3GPma3IaGiK
+ Ozd7ACgCPL9GDbVAe3l0ZkjxlK6ngwqLfo5Md3xXOGxpg0GyEWCqTfhIL3RmWZUX0obgy/
+ yTr81SoOLMZgKRVXRmWFvrEThkCY8C8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-6Ueydo-jPL6SvZ0CfOF3EA-1; Mon, 08 Mar 2021 02:49:59 -0500
+X-MC-Unique: 6Ueydo-jPL6SvZ0CfOF3EA-1
+Received: by mail-wr1-f69.google.com with SMTP id p15so4406543wre.13
+ for <qemu-devel@nongnu.org>; Sun, 07 Mar 2021 23:49:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sdilp73AuirF724i5VenkGAx8C9V0SGJGdomHDOsg+U=;
+ b=KQyZDhMTOEeBTxIV+RGZE0dvFoVp1s/QlzdVVPNGfjdqi+rv8AOu12CepqRYTDvfAz
+ kyC27cmRnVXtyoRR6mrDWosktWDmJjW7UKDpU6svwC5Ml6ZAYlSI96mi3KoYvO+5EHYS
+ svmOkS5AHTYlkS4a2teFO2JgAUXXdw0uumEnywtnCdeIPHPn4vcn8OJdLRae3ywY9LPf
+ 7EN9OuqKOp6MuMZc239lA20E7PuuWigVOzeFpKqXTQBW9XsWB0nG14z5txxmk4LD7JX8
+ s5aHwjtuihupfuRRlfxnc+msV2UmD8sCUIprwwGl+cHIHx0Z8lzxoFKUPCm6O3gXz44B
+ /Bvw==
+X-Gm-Message-State: AOAM532BlYdSKGS487yTFEP3gdm2Ln1ZbDKfIxxjTRAg8KDqYIszbkUg
+ g/xfplHYu7VohZba++cIH+QwucYGia1mbyho3v2PP3vJnwIQVffNWBuRdNhTv6a/WROS+keZdbI
+ s4FFxi+djRoBkju4=
+X-Received: by 2002:adf:a1ce:: with SMTP id v14mr21781634wrv.228.1615189798788; 
+ Sun, 07 Mar 2021 23:49:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzwXnnjwU0DMy80ATOfQmnOrL21wGXzJUOSg5M05S3+Hw60dHCZSfpqW65dmZazuSEM1NAx8Q==
+X-Received: by 2002:adf:a1ce:: with SMTP id v14mr21781611wrv.228.1615189798617; 
+ Sun, 07 Mar 2021 23:49:58 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id v18sm13873563wrf.41.2021.03.07.23.49.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Mar 2021 23:49:58 -0800 (PST)
+Subject: Re: [PATCH v3 4/5] tests/acceptance: update sunxi kernel from armbian
+ to 5.10.16
+To: Willian Rampazzo <wrampazz@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-5-nieklinnenbank@gmail.com>
+ <CAKJDGDawHKo0=q_psWrSOGVXvDf+QjjM20E29bdbogNfBTUsXg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0c4868bb-374e-ec77-a7cd-4ae901e1e684@redhat.com>
+Date: Mon, 8 Mar 2021 08:49:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <db46d90a-ad9e-720e-c219-19d647555378@amsat.org>
+In-Reply-To: <CAKJDGDawHKo0=q_psWrSOGVXvDf+QjjM20E29bdbogNfBTUsXg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wjzu2SoeSmX6HOP6HoDN95eCrQTomQbHpMtWPNyesIGFQkFa3hF
- MisFUWZMzH9jlhU54JhhyBvJIqkL8sk0c+QtAT5TYiVE41CQnuY51TMMj3T4IaY6GEkTP3R
- fvvLj8Vz5ySQPZ5HBNUqcaUyiUWs9yMpyOn8MUUeCg0rvPWWdO96FFknuARu8llV6/AAdu/
- C73zrFkRXI4vwdZkGPD0g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dZ4GTj3Czhw=:Ip0GUPp4IfTKNv1RTeGpC4
- r8ysOTw4fDQKq8WlcWonrJgkYkLk0T1StwVMYWWnjZhtRipqC7lLdfpn4ehXA1ySMx6oQtHxm
- WqeH2xkew8DteJC8flPmQINU3HZsOYEKILYI/+bIC7AqR4VK8h1iVzNq2p3q/v7D7TIlMdf+s
- oEPCTOVblMOxUpRos09mHnsRYPSd/GpHYbA9U1SGMl0TCsPeXStpcXx7SBLyNLhq+tbrDGGGn
- hgxrz6ffadPCOv+31OB1FXOWW8eNlNuyvoCjIYWBe63JzjZ0J5LxdHIeS7H83hZYifBGYcn04
- 883arByfGoUTdNs8BlDR0i9HG/5zlbgprNjdjMu/8AVwX1Dl0LYtWbVUBFensJ6NTpmAaDYTi
- ajade6b5fwTPTRh4IRW7Wh7eGXtLc6P28LjNeBwZCxx6Q5jyyFIVpnfnzAIRSlps8bwJtLOIz
- AHYLFfUgaA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,224 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/03/2021 à 08:30, Philippe Mathieu-Daudé a écrit :
-> On 3/7/21 9:56 PM, Laurent Vivier wrote:
->> Add a system controller for the m68k-virt machine.
->> This controller allows the kernel to power off or reset the machine.
+On 3/5/21 4:04 PM, Willian Rampazzo wrote:
+> On Thu, Mar 4, 2021 at 5:45 PM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
 >>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> The linux kernel 4.20.7 binary for sunxi has been removed from apt.armbian.com:
+>>
+>>   $ ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes avocado --show=app,console run -t machine:orangepi-pc tests/acceptance/boot_linux_console.py
+>>   Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+>>   ...
+>>   (1/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+>>     CANCEL: Missing asset https://apt.armbian.com/pool/main/l/linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb (0.55 s)
+>>
+>> This commit updates the sunxi kernel to 5.10.16 for the acceptance
+>> tests of the orangepi-pc and cubieboard machines.
+>>
+>> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 >> ---
->>  include/hw/misc/m68k_virt_ctrl.h |  22 +++++
->>  hw/misc/m68k_virt_ctrl.c         | 152 +++++++++++++++++++++++++++++++
->>  hw/misc/Kconfig                  |   3 +
->>  hw/misc/meson.build              |   3 +
->>  hw/misc/trace-events             |   7 ++
->>  5 files changed, 187 insertions(+)
->>  create mode 100644 include/hw/misc/m68k_virt_ctrl.h
->>  create mode 100644 hw/misc/m68k_virt_ctrl.c
+>>  tests/acceptance/boot_linux_console.py | 40 +++++++++++++-------------
+>>  tests/acceptance/replay_kernel.py      |  8 +++---
+>>  2 files changed, 24 insertions(+), 24 deletions(-)
 >>
->> diff --git a/include/hw/misc/m68k_virt_ctrl.h b/include/hw/misc/m68k_virt_ctrl.h
->> new file mode 100644
->> index 000000000000..1db7960e5477
->> --- /dev/null
->> +++ b/include/hw/misc/m68k_virt_ctrl.h
->> @@ -0,0 +1,22 @@
->> +/*
->> + * SPDX-License-Identifer: GPL-2.0-or-later
->> + *
->> + * Virt m68k system Controller
->> + */
->> +
->> +#ifndef M68K_VIRT_CTRL_H
->> +#define M68K_VIRT_CTRL_H
->> +
->> +#define TYPE_M68K_VIRT_CTRL "m68k-virt-ctrl"
->> +OBJECT_DECLARE_SIMPLE_TYPE(M68KVirtCtrlState, M68K_VIRT_CTRL)
->> +
->> +struct M68KVirtCtrlState {
->> +    SysBusDevice parent_obj;
->> +
->> +    MemoryRegion iomem;
->> +    qemu_irq irq;
->> +
->> +    uint32_t irq_enabled;
->> +};
->> +
->> +#endif
->> diff --git a/hw/misc/m68k_virt_ctrl.c b/hw/misc/m68k_virt_ctrl.c
->> new file mode 100644
->> index 000000000000..fb34aa10211a
->> --- /dev/null
->> +++ b/hw/misc/m68k_virt_ctrl.c
->> @@ -0,0 +1,152 @@
->> +/*
->> + * SPDX-License-Identifer: GPL-2.0-or-later
->> + *
->> + * Virt m68k system Controller
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/irq.h"
->> +#include "hw/qdev-properties.h"
->> +#include "hw/sysbus.h"
->> +#include "migration/vmstate.h"
->> +#include "qemu/log.h"
->> +#include "trace.h"
->> +#include "sysemu/runstate.h"
->> +#include "hw/misc/m68k_virt_ctrl.h"
->> +
->> +enum {
->> +    REG_FEATURES = 0x00,
->> +    REG_CMD      = 0x04,
->> +};
->> +
->> +#define FEAT_POWER_CTRL 0x00000001
->> +
->> +enum {
->> +    CMD_NOOP,
->> +    CMD_RESET,
->> +    CMD_HALT,
->> +    CMD_PANIC,
->> +};
->> +
->> +static uint64_t m68k_virt_ctrl_read(void *opaque, hwaddr addr,
->> +                                    unsigned size)
->> +{
->> +    M68KVirtCtrlState *s = opaque;
->> +    uint64_t value = 0;
->> +
->> +    switch (addr) {
->> +    case REG_FEATURES:
->> +        value = FEAT_POWER_CTRL;
->> +        break;
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP,
->> +                      "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
->> +                      __func__, addr);
->> +        break;
->> +    }
->> +
->> +    trace_m68k_virt_ctrl_write(s, addr, size, value);
->> +
->> +    return value;
->> +}
->> +
->> +static void m68k_virt_ctrl_write(void *opaque, hwaddr addr,
->> +                                 uint64_t value, unsigned size)
->> +{
->> +    M68KVirtCtrlState *s = opaque;
->> +
->> +    trace_m68k_virt_ctrl_write(s, addr, size, value);
->> +
->> +    switch (addr) {
->> +    case REG_CMD:
->> +        switch (value) {
->> +        case CMD_NOOP:
->> +            break;
->> +        case CMD_RESET:
->> +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
->> +            break;
->> +        case CMD_HALT:
->> +            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->> +            break;
->> +        case CMD_PANIC:
->> +            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
->> +            break;
->> +        }
->> +        break;
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP,
->> +                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
->> +                      __func__, addr);
->> +        break;
->> +    }
->> +}
->> +
->> +static const MemoryRegionOps m68k_virt_ctrl_ops = {
->> +    .read = m68k_virt_ctrl_read,
->> +    .write = m68k_virt_ctrl_write,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->> +    .valid.max_access_size = 4,
->> +    .impl.max_access_size = 4,
->> +};
->> +
->> +static void m68k_virt_ctrl_reset(DeviceState *dev)
->> +{
->> +    M68KVirtCtrlState *s = M68K_VIRT_CTRL(dev);
->> +
->> +    trace_m68k_virt_ctrl_reset(s);
->> +}
->> +
->> +static void m68k_virt_ctrl_realize(DeviceState *dev, Error **errp)
->> +{
->> +    M68KVirtCtrlState *s = M68K_VIRT_CTRL(dev);
->> +
->> +    trace_m68k_virt_ctrl_instance_init(s);
->> +
->> +    memory_region_init_io(&s->iomem, OBJECT(s), &m68k_virt_ctrl_ops, s,
->> +                          "m68k-virt-ctrl", 0x100);
->> +}
->> +
->> +static const VMStateDescription vmstate_m68k_virt_ctrl = {
->> +    .name = "m68k-virt-ctrl",
->> +    .version_id = 1,
->> +    .minimum_version_id = 1,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_UINT32(irq_enabled, M68KVirtCtrlState),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
->> +
->> +static void m68k_virt_ctrl_instance_init(Object *obj)
->> +{
->> +    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
->> +    M68KVirtCtrlState *s = M68K_VIRT_CTRL(obj);
->> +
->> +    trace_m68k_virt_ctrl_instance_init(s);
->> +
->> +    sysbus_init_mmio(dev, &s->iomem);
->> +    sysbus_init_irq(dev, &s->irq);
->> +}
->> +
->> +static void m68k_virt_ctrl_class_init(ObjectClass *oc, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(oc);
->> +
->> +    dc->reset = m68k_virt_ctrl_reset;
->> +    dc->realize = m68k_virt_ctrl_realize;
->> +    dc->vmsd = &vmstate_m68k_virt_ctrl;
->> +}
->> +
->> +static const TypeInfo m68k_virt_ctrl_info = {
->> +    .name = TYPE_M68K_VIRT_CTRL,
->> +    .parent = TYPE_SYS_BUS_DEVICE,
->> +    .class_init = m68k_virt_ctrl_class_init,
->> +    .instance_init = m68k_virt_ctrl_instance_init,
->> +    .instance_size = sizeof(M68KVirtCtrlState),
->> +};
->> +
->> +static void m68k_virt_ctrl_register_types(void)
->> +{
->> +    type_register_static(&m68k_virt_ctrl_info);
->> +}
 > 
-> AFAICT nothing is m68k-specific in this controller... And being
-> trivial it can easily be reused.
-> What about renaming it... TrivialVirtSystemController maybe, and
-> write a a-la-gold spec documentation for it?
+> I think some devs will not like it,
+Maybe you refer to my previous NACKs regarding similar changes in
+integration tests. Niek is the author of the test and the maintainer
+of the machine, so if he is OK to stop testing the 4.20.7 kernels
+and test the 5.10.16 from now on, I won't object.
+
+> but, for me, it is fine as we
+> don't have the old kernel available anymore:
 > 
-
-I agree with that, I stopped in the middle of the way by putting it in misc but keeping m68k in the
-name.
-
-Thanks,
-Laurent
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> 
 
 
