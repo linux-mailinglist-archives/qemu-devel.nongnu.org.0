@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BC43310E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:34:35 +0100 (CET)
-Received: from localhost ([::1]:40940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAFA33110E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:40:08 +0100 (CET)
+Received: from localhost ([::1]:51002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGxu-0005MM-Ds
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:34:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
+	id 1lJH3C-0001PZ-QX
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:40:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJGO9-0007Rj-78
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:37 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:38078)
+ id 1lJGXg-0003Jg-Jl
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:07:28 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJGO6-0003ws-Gh
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 08:57:36 -0500
-Received: by mail-ed1-x535.google.com with SMTP id m9so14858526edd.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 05:57:34 -0800 (PST)
+ id 1lJGXe-00007L-FE
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:07:28 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ nh23-20020a17090b3657b02900c0d5e235a8so3183684pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:07:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gSt6SUYr2bac/TT0PvZCBdfdvwXGi6EeQHntGeiNh8w=;
- b=NZTZt09c/l4HK1cKWXKNkb2gKKC/faTZFpUs5wp/qbCsBu4bUwKv6PzkeSuu2HzNJn
- HZHhHQbASb4WYAsdJwKA6zKc2iTwmU2xrjMAhju2gzs9ulxUjhFOazRyWCBS0BtTSKpZ
- 99uNNCJG/lY5+v0Xq3SZ18Vw0dlfsJruHmqsSx4cI/w95lXFD6BcKDjQi8LRPB2LtJSs
- dN5nH6Dr8MHbH3IDkL1apjSZtL3rumjoG7EvAJwiOq+sqT1+1/YaI79Xb8/5j4dlbwPq
- SOMHf2gPlHZ/mSLIp39c2KfZtKuG4k8a9MHI8XIWD4IenMLLyByJpAvyzyAAIA7p9Xfp
- GprQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kTNskZH1aOJNJ1AE2bkS4myoUN8f6RMcimPSrzDsHo4=;
+ b=nUC6VKqRR3WTZYM8MyGKPj45kSt4OjPyxGmH3vLLWDrHPeL4eGyllpvjN6dNu26z6b
+ 5+6BahbybL3l+Vo1BUeSD2PvqoaxnTuOsu1v/QZhl+gAv3NNQQB9LmCF5BtJkNi0ktJc
+ TaylxiubWlOnIoiPPkRaptEEDo9VNEYbeJs/aegvjM+Jc7rHCAK9jTLZGn2dR53d6dul
+ nF/0EkDPeh6RHMqJCOVF8E9ePqidMHiR97HGmUA2CKdTGoJsIHk+E4V2Ro88vEKN4zwA
+ HuTRwI88yG7iltY5xBaEPs8Cj9BkL3xduGGhfh52REttYUb+2F5EfZsBUIBM/2BzXu1f
+ ELHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gSt6SUYr2bac/TT0PvZCBdfdvwXGi6EeQHntGeiNh8w=;
- b=QFhYtz+XPRdrx6gFcAXnHgAbT3WaItQy/bGJZktWBfw6h+vwba5uUq78ih0DU7LWff
- P+qm2nwkl80llSa3v5rZTGPuQtCV1q9/pCC22JHO/cEt32ZYt6KvzQqiFSDhJJXea3wa
- kAc4VthL0ubEgq0XL8kq4dCNQFNquUNPKvX+L96Sk4tXL79+QR+31oTF4GkEfQUWse7C
- lip2EiwZ/xr02DBTmAlR9NXDQGaniNivGuAbUCxvv8d7bpcOUM02lw5lkr5z3ZUL+LRh
- JaNlLhUhsqmD47UsVrb5jbFhs9qD477fOKas0OgLDWKQSiXto9cIj7m2umYRLGS+ODhi
- AROQ==
-X-Gm-Message-State: AOAM530qrhpO68pjjNQVEo5S/HHo6s3ceOuBEVuW164vdFQwFyZE9Pj0
- PHZWpUREia108MNnFvN2vjlNj3cXCh5MTb+E+zp3kYKGv8I=
-X-Google-Smtp-Source: ABdhPJwM4bQsQz/yRpvh5PPkDLpbjdpKvqpTZI7hG5F5Rk++Aq++P2YK52dNNbeV/Az4JBLKv4TrS2qxwLuTYaGqhuE=
-X-Received: by 2002:a05:6402:2d0:: with SMTP id
- b16mr22515939edx.194.1615211853150; 
- Mon, 08 Mar 2021 05:57:33 -0800 (PST)
-MIME-Version: 1.0
-References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com> <2891210.4AG6acVJ2Y@silver>
- <CAMVc7JXb=eK2FgEx0SV7N-DL65EaMPKHM9rZnHCfu5KTPin48g@mail.gmail.com>
- <134602378.QJW5UkElOJ@silver>
- <CAFEAcA-36A9RAB3eqi6-SHJSUxpzJsgVo75d3DZXcWhGYwLhrw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-36A9RAB3eqi6-SHJSUxpzJsgVo75d3DZXcWhGYwLhrw@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kTNskZH1aOJNJ1AE2bkS4myoUN8f6RMcimPSrzDsHo4=;
+ b=NV7XXSUa9fLbJhhIMvJtfOcQXKDDdm10LWtsFPB/9A6NiQmkWejqflnbttAKv4zpXY
+ oTF2jYFPTRx6BNEVXKEcnQSUr8Neiyh96G7zo6AadkbqU3sB1zh88E0dPfVUClEROTZi
+ bfcLW7GdHcgJ4cGOcu63n1xBoYABuf/9ed4ZIQTAbh9Lq/cqL44kG/NcKkI3wyaTYRrz
+ d5kyQ1rdkYn6B3ch2OZMiRzw7DE2y39+D9a7MOSCqZHihSwuorlow2syGCxwQkwk7xug
+ YHedJP/2KAP0B9MrfaRC0sBigPZV6uiSgiImAMmtMD1QzT7ali55Bp4cQm52R4GiZfAP
+ wnlw==
+X-Gm-Message-State: AOAM530ZEahwY3nRUJxW2FBWjJ5AEY1vIna3JGHTnrDnA+ZsEJeLoB0s
+ oDvqk3zhtSZ2q4EgooIDlsLMRz5N4me94Q==
+X-Google-Smtp-Source: ABdhPJzZSfy8wh3xl15zwJdgy9Ic/kR79B78bNXFSJQOdsXC72P7DmdoI8/wwYKvCZEnjRqPvT0YmQ==
+X-Received: by 2002:a17:90a:5215:: with SMTP id
+ v21mr24852453pjh.28.1615212444541; 
+ Mon, 08 Mar 2021 06:07:24 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:c0c2:2512:25a1:f7e0])
+ by smtp.gmail.com with ESMTPSA id c24sm7313537pfi.193.2021.03.08.06.07.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Mar 2021 06:07:24 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Mon, 8 Mar 2021 22:57:22 +0900
-Message-ID: <CAMVc7JWDCkCXKaj0Cba=OOb73i1Zuwx_WnLpJC6qL+1w1aZwvA@mail.gmail.com>
-Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x535.google.com
+To: 
+Subject: [PATCH] ui/gtk: Remove NULL checks in gd_switch
+Date: Mon,  8 Mar 2021 23:07:13 +0900
+Message-Id: <20210308140713.17901-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,48 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 22:38 Peter Maydell <peter.may=
-dell@linaro.org>:
->
-> The online defect viewer is a bit better for showing why it thought
-> something was an issue. In this case we have at the top of the function:
->
->     trace_gd_switch(vc->label,
->                     surface ? surface_width(surface)  : 0,
->                     surface ? surface_height(surface) : 0);
->
-> which tests whether surface is NULL, implying that sometimes it is.
->
-> Then later we have:
->     if (vc->gfx.ds && surface &&
->
-> also checking surface for NULL-ness.
->
-> Finally we have:
->     if (surface->format =3D=3D PIXMAN_x8r8g8b8) {
->
-> which dereferences surface without checking if it's NULL.
->
-> So there is definitely a bug here:
-> (1) either surface can never be NULL, and all the places where
-> the function is testing for NULL-ness are wrong and need to be removed
-> (2) or surface can be NULL, and we should check here too
->
-> Coverity can't tell us which of the two possibilities is right, of course=
-.
->
-> thanks
-> -- PMM
-
 c821a58ee7 ("ui/console: Pass placeholder surface to display")
-intended to eliminate the possibility that surface is NULL, so (1) is
-the case. I am preparing a patch to remove NULL checks.
+eliminated the possibility that NULL is passed as surface to
+dpy_gfx_switch and removed some NULL checks from gd_switch, but the
+removal was not thoroughly. Remaining NULL checks were confusing for
+Coverity and probably also for humans. This change removes those NULL
+checks.
 
-Thanks,
-Akihiko Odaki
+Reported-by: Coverity (CID 1448421)
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/gtk.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 3edaf041def..eb1c9658e24 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -547,9 +547,7 @@ static void gd_switch(DisplayChangeListener *dcl,
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+     bool resized = true;
+ 
+-    trace_gd_switch(vc->label,
+-                    surface ? surface_width(surface)  : 0,
+-                    surface ? surface_height(surface) : 0);
++    trace_gd_switch(vc->label, surface_width(surface), surface_height(surface));
+ 
+     if (vc->gfx.surface) {
+         cairo_surface_destroy(vc->gfx.surface);
+@@ -560,7 +558,7 @@ static void gd_switch(DisplayChangeListener *dcl,
+         vc->gfx.convert = NULL;
+     }
+ 
+-    if (vc->gfx.ds && surface &&
++    if (vc->gfx.ds &&
+         surface_width(vc->gfx.ds) == surface_width(surface) &&
+         surface_height(vc->gfx.ds) == surface_height(surface)) {
+         resized = false;
+-- 
+2.24.3 (Apple Git-128)
+
 
