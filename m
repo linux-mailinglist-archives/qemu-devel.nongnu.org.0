@@ -2,127 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4E933189B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 21:31:12 +0100 (CET)
-Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7099C3318A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 21:34:00 +0100 (CET)
+Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJMX1-0002QQ-7o
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 15:31:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34090)
+	id 1lJMZj-0003rs-HQ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 15:33:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lJMVA-0001fA-N5
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 15:29:16 -0500
-Received: from mail-dm6nam11on2098.outbound.protection.outlook.com
- ([40.107.223.98]:54208 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lJMV8-0007as-EU
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 15:29:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nu4KWUg0BkiMe6GVWsNq8KidopMoMsrG0E6SZpNaSJLfPYrcRpV0FGoZJzNhcT8VKx+gBQZQSljl6Dlo2cAwVReYqVa9fnxY3Aar0Kv2O/Qpbazi53Uc1a7joJe6LSreeDP0WQbakpSpdO5nAdIuskSd7COFZhg6cREcFL+K7DrZ1/XyWjPTcFscb+f8v+UHU0R/CTOF0XNGoqw5GUPphoOpl1WpfPUIsPBB7Ng5rceCUrStPcgZrCYrtSzpzjtdexhr+GVpS/itH56oF3jUo4aCbhND18gzoG1trmS5jjG0WDRbHTjFEAjnJ97v3UPIhvEBu4QgDFFILZoT9Y39hA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xv8FkhvQpJZDgisvkvBL9yfbDObKtyo8uAQlOUVR4I=;
- b=KNTKD7jwSXss7HRbp3CiIVLkgQwM65P5KqzkwRMQM/377GRUrascpcJhUx89u2sqJXeFv/tiDwSV++IrqQHPeA8uQ3reRg++23uXcju0w6Cez9U29wRyzTBh68YYpK2HsMhXvJCrO2xabTpQ8uVrDQiVrUtlZ892mXXS1CXryWNNcGkq9ovqEk2cQtvt08cBVoFffi7x517EV4Rxfjc7/Jwd85W9nxATaIL0W3gnLPEvP+na8GtX1RtQvUfQ03MvTvl+GsNJtZxSzHphewpNueBauMr+crd7WyOrAT/jnJIaEtGUZP31sChYtGFHRtr5/KchpJbM0gYww4KpR2pysA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xv8FkhvQpJZDgisvkvBL9yfbDObKtyo8uAQlOUVR4I=;
- b=M20pCSK0MEVnHAlkqR1ExEgVxlF9Z2+cx3f/J/BNnuAqIdKuyeESAYO5qIvCzmWnOzQc8uVDC35+5WZBXcKh/IZ/OBEdRi4hYQkp9dxfoezFLpICDDLZ/NslFfbWGNN6/LYcLUoCX52CIKcph92vd6cCMYJ2mgmbrIT60rhe4WM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
- SA0PR01MB6425.prod.exchangelabs.com (2603:10b6:806:ea::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17; Mon, 8 Mar 2021 20:14:09 +0000
-Received: from SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::c43:8d97:e9e9:6403]) by SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::c43:8d97:e9e9:6403%7]) with mapi id 15.20.3912.027; Mon, 8 Mar 2021
- 20:14:09 +0000
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: cota@braap.org, richard.henderson@linaro.org,
- Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: [PATCH] plugins: Expose physical addresses instead of device offsets
-Date: Mon,  8 Mar 2021 15:14:06 -0500
-Message-Id: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
-X-Mailer: git-send-email 2.30.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [68.73.113.219]
-X-ClientProxiedBy: BL1PR13CA0304.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::9) To SN6PR01MB4304.prod.exchangelabs.com
- (2603:10b6:805:a6::23)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1lJMYU-00032D-Q2; Mon, 08 Mar 2021 15:32:42 -0500
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:32777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1lJMYS-0000kn-PB; Mon, 08 Mar 2021 15:32:42 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id n132so11459482iod.0;
+ Mon, 08 Mar 2021 12:32:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cB7RESq++gU8X3Z1jSwlbXmrp2OCbipUfhx7PCcAVes=;
+ b=u8UG7BITYk+YW4Z1lb10sOJzeVmlRAX2HFamGLN/V2COcgw9NHHkmg+avs3jFCHxBI
+ C628dUT7Ehz5jXS95VhfG62p8jkve9U6hqbL89SQvWjPae2KCUrvkfOZmf4Yj7n/2V3t
+ j20lwAIRJlP8u5jGNlOKxjTSKeh93ZMMiESrjvsVnE3SNQhsZ1a4Egr0A88oIe+s1X47
+ 2niMJ7yj4XM5BGuJGnHd/qd7UFgQpyeIHcB8TOW/c+hL56XE6LlJMqyY+xef0YU+yCOj
+ KRTA6Tww92dJKAyk1C6fFexpV/Y1O4yRFSskOZo85nQVUKHfCS6yXB3cY+nwfwP3E0yK
+ 8cKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cB7RESq++gU8X3Z1jSwlbXmrp2OCbipUfhx7PCcAVes=;
+ b=IMLss6tgglRK2TrZYoVOROVb3pLKy3+b1mhAxgDZt6ysDEYFB6GmZe0yBnB+CLlbQS
+ 6M1+856i8aTmlE0MJ5L82AzU+u4Ao/AkxnLUL8JZrI9LfX3bM3HiUfY//jSm97ePDXJa
+ qiuDyalc7d0Lxo+u5VEl/wMb7szIQVT45YucMYD0aDGaIrIPIUrzXAkh6ceGp1k6rz2V
+ P2xjO/IfnN2xY0S1LNriC6WYQG2wuNRijFGLr+yEdkl9kZBEAnl67//L56i5Z2oKHHn1
+ NTCUJdx9+x+EiE+95Vz49t8Y8Mlzb9iLNDRoxoC8STVXTwf/OYsqo/lsGYXT84BlxzCa
+ A/CQ==
+X-Gm-Message-State: AOAM533SZU4RJ7UUDtNnQ0XOsHkwkfOOwNT2s/Zew6wFm8KJBIfA/EVj
+ RWz6YMxJ40+B3H8a2V+TsceDlgQLGN8flngJuKs=
+X-Google-Smtp-Source: ABdhPJxMiUmLffbsd+Smk+zCc+gi7Xufi0kk2QWvwLMiyLjdXsEM5ANq2LQS1r1187jA9tDvlgxwrWKfNlAGtHiB08A=
+X-Received: by 2002:a5d:80d5:: with SMTP id h21mr7667218ior.11.1615235559131; 
+ Mon, 08 Mar 2021 12:32:39 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from strawberry.localdomain (68.73.113.219) by
- BL1PR13CA0304.namprd13.prod.outlook.com (2603:10b6:208:2c1::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.13 via Frontend Transport; Mon, 8 Mar 2021 20:14:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a240e265-65cb-4727-e0b9-08d8e26ebb99
-X-MS-TrafficTypeDiagnostic: SA0PR01MB6425:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR01MB642582374CD610B491DC545F8A939@SA0PR01MB6425.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QTp8/HRESLYG2HlmWkOEAt6BoEM/UejsEZIIONeS0WuU72JW9l5wM8iV4FBikOkrMZMIl0eMxQ19NvsnsRuXW3uF92lKDxJYwmY3+iCfzSZQcwF5fX5lJXpjnliCdHwaZmEwIGAb2GszUQj5IYB+lPTKwcX+E9VyEZLVxxUp5BNH/G6UgW+tGnY9NDlYEOIPPjSzwJfwhPYBTWlNYdKyJWiFd+fPYfK/VRI1fhZfjtGyzrsYfLAts0YD4ByN1Tf/Oswd42HaegxrozVCbk5P5ObndNoyclW5XfDo/wq1HHNoUFL7Tl5Z8nT9khJATgGjdJ9durDSlbXSlx87dtuiAhKTsl0E3AVGUxY3rdCZTcUR5pVKzygWw8SLPGT5WGBumGNisynbMnC2Hi8K0pAjY9kShVl+BeLHtA9lJ4kn8Mh+QubsUWrUFItn1DTYiASTORsKV4VJjVD/IVlL0kIY7oKo3uXAz0Q0eK5KRxN2s7IBEE5KOXwjiFjQewmSXIgt2p0am+Facj6WFDJXlb2XCQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(136003)(366004)(376002)(346002)(26005)(6506007)(5660300002)(1076003)(86362001)(186003)(52116002)(83380400001)(16526019)(107886003)(66476007)(6512007)(4326008)(66556008)(2616005)(66946007)(6486002)(6666004)(956004)(2906002)(8936002)(316002)(478600001)(110136005)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Ov/yeZNv6XXj6vk9DwKXr8CsFUetRxR046RPlRHQcOSsWdocpRYhtL/GC/7h?=
- =?us-ascii?Q?Ve5aR0HdcyP+bSIpBc3VK8iGaZ5BFxKivZ/TUkbK8eRiE2+QXzAksNzFNa9d?=
- =?us-ascii?Q?Yz1BeWltKv3L4HQmLzYttWmvHD78R/BxUVAH4gAEYLt3nja5roZwuA75U732?=
- =?us-ascii?Q?Q9KqiRCrN4Ak2t+SatIcJmqThbyc//DSJVnp6lseXBCr05HyGRywDPSR0JoK?=
- =?us-ascii?Q?h7VhlyNm1CIg5msKPFfSXnj62FiZijzLaEVGrTxMmEVIS0Pj8ErJNu7uCHNW?=
- =?us-ascii?Q?NXC1CFlaEVHWihkUhnNP1/IWGX9qhAW7h3VoJ6d1K7OrIcS08xeU82tTO11n?=
- =?us-ascii?Q?dhS/mIPBJDaeBrQURd9kUKJuLDUQaZfrUl8Gw5rOsNW5YyBAeUUfeINzdkhD?=
- =?us-ascii?Q?YG3H6waFst/UrKl5iYAkgjcVA4O1zD+Pj1DCMDW0qGsSQTrYTp91Gor3tAHr?=
- =?us-ascii?Q?E9lq4CUmucpAV/J7rniQF/QDfLJKlD0kmu1oj+JQRnVU0+UerUF1ITRj0i73?=
- =?us-ascii?Q?rqEnAvJIfpQp7YdmdYuuLMahW1RwHfna/NrvpMTA0JiDHPRx4kh/TXuPReo6?=
- =?us-ascii?Q?UTqIMkrV3CSQ62Z9SgP2GTXp3RwnRyCn9UgdukebwUe4bY7WifLHQDDMMsr6?=
- =?us-ascii?Q?dVyE5Mja6xPXtL2UnNKDaUAqQDZY4L3Rf5p8Zx8VtF3yJpxyJYO/gOswg7rK?=
- =?us-ascii?Q?kukCwmmA0GLcWsJOQIAO5ABXfaJM49bF4hI/toD1gKAQ/o7NrdeK+YoQaCys?=
- =?us-ascii?Q?F1u57j+Zyf56z4nSaJEeNrX7b04x7xvCrmaq/FOw9K7A7zFaFjMGxhDwI90X?=
- =?us-ascii?Q?VSgr2v+uQTFCQcG+eee3h2vZGEJzBcEC5CFXo9t35HCj3Qg97ALcYt2dKk3g?=
- =?us-ascii?Q?+b72WaAL+OY38/9m9TejLncVPVN8IEE5i4bqR5Pcy5M3mZHb7ff4+NVjiCXz?=
- =?us-ascii?Q?UaUPPU24746WAwD2Sc9yzMdtBW7LBavc66k0rhU6d6pn7QeFHg91qvO4vbyu?=
- =?us-ascii?Q?+P50szx3GYaYGTbPCkeax2JYwN/jl1g2OnULV10msh+ro66Mk94wbCxh1cuf?=
- =?us-ascii?Q?nY7e7QYjBVlH5BCYfgCfwzoUaKskQEQ5NaT1QOEGpDt1SK7tHotE15bO8Ql5?=
- =?us-ascii?Q?H5YjMhRoxnNU0byxMujyV1aIXdHQorxZLxzRVJDfLd30yugjCieRAiQckKAH?=
- =?us-ascii?Q?t2ZCG6nx4EKD+1+w2N9QE600CsSBEyOj8UukTNycqBgDkRxlWNuWKc/4sc0G?=
- =?us-ascii?Q?nvcUPcVqVpUEW8IZ8BRS8Wf2wOnKti9ilEon33lzgMTL+x8ZP27Q2iy8x71O?=
- =?us-ascii?Q?mmWIvyPsJ6eFDKJ84PURCnam?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a240e265-65cb-4727-e0b9-08d8e26ebb99
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 20:14:09.6228 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mzgAuOrfX6p1/Pn+cLmfdYo1A2MrGLw/fiUpw+K5xkez2bWkIBCvGxnK6dapOecbjATvCX7PYCEcJDH4QnWxo9C4IgkXGP6F+LcneizHvFM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR01MB6425
-Received-SPF: pass client-ip=40.107.223.98;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210304203540.41614-1-nieklinnenbank@gmail.com>
+ <20210304203540.41614-3-nieklinnenbank@gmail.com>
+ <CAKJDGDZq_ioF91BUWRo_y0GKYGbjgZa46Pt83wp7t3b_ZC=ixw@mail.gmail.com>
+ <4d6d2e89-1152-249b-fe55-d1b611fd77e8@redhat.com>
+In-Reply-To: <4d6d2e89-1152-249b-fe55-d1b611fd77e8@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Mon, 8 Mar 2021 21:32:28 +0100
+Message-ID: <CAPan3WqJHFy=GKVXFHgDbTimmZsBueUUhxvs4L+D58J-JQF3ew@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] tests/acceptance/boot_linux_console: remove
+ Armbian 19.11.3 bionic test for orangepi-pc machine
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000bb0ec905bd0c5593"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -136,113 +78,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>, qemu-devel <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows plugins to query for full virtual-to-physical address
-translation for a given `qemu_plugin_hwaddr` and stops exposing the
-offset within the device itself. As this change breaks the API,
-QEMU_PLUGIN_VERSION is incremented.
+--000000000000bb0ec905bd0c5593
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
----
- contrib/plugins/hotpages.c  |  2 +-
- contrib/plugins/hwprofile.c |  2 +-
- include/qemu/qemu-plugin.h  |  4 ++--
- plugins/api.c               | 16 +++++++++++-----
- 4 files changed, 15 insertions(+), 9 deletions(-)
+Hi Philippe, Willian,
 
-diff --git a/contrib/plugins/hotpages.c b/contrib/plugins/hotpages.c
-index eacc678eac..bf53267532 100644
---- a/contrib/plugins/hotpages.c
-+++ b/contrib/plugins/hotpages.c
-@@ -122,7 +122,7 @@ static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         }
-     } else {
-         if (hwaddr && !qemu_plugin_hwaddr_is_io(hwaddr)) {
--            page = (uint64_t) qemu_plugin_hwaddr_device_offset(hwaddr);
-+            page = (uint64_t) qemu_plugin_hwaddr_phys_addr(hwaddr);
-         } else {
-             page = vaddr;
-         }
-diff --git a/contrib/plugins/hwprofile.c b/contrib/plugins/hwprofile.c
-index 6dac1d5f85..faf216ac00 100644
---- a/contrib/plugins/hwprofile.c
-+++ b/contrib/plugins/hwprofile.c
-@@ -201,7 +201,7 @@ static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         return;
-     } else {
-         const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
--        uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
-+        uint64_t off = qemu_plugin_hwaddr_phys_addr(hwaddr);
-         bool is_write = qemu_plugin_mem_is_store(meminfo);
-         DeviceCounts *counts;
- 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index c66507fe8f..2252ecf2f0 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -47,7 +47,7 @@ typedef uint64_t qemu_plugin_id_t;
- 
- extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
- 
--#define QEMU_PLUGIN_VERSION 0
-+#define QEMU_PLUGIN_VERSION 1
- 
- typedef struct {
-     /* string describing architecture */
-@@ -328,7 +328,7 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-  * offset will be into the appropriate block of RAM.
-  */
- bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
--uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
-+uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
- 
- /*
-  * Returns a string representing the device. The string is valid for
-diff --git a/plugins/api.c b/plugins/api.c
-index 0b04380d57..e7352df3e3 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -40,6 +40,7 @@
- #include "sysemu/sysemu.h"
- #include "tcg/tcg.h"
- #include "exec/exec-all.h"
-+#include "exec/ram_addr.h"
- #include "disas/disas.h"
- #include "plugin.h"
- #ifndef CONFIG_USER_ONLY
-@@ -298,19 +299,24 @@ bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr)
- #endif
- }
- 
--uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr)
-+uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
- {
- #ifdef CONFIG_SOFTMMU
-     if (haddr) {
-         if (!haddr->is_io) {
--            ram_addr_t ram_addr = qemu_ram_addr_from_host((void *) haddr->v.ram.hostaddr);
--            if (ram_addr == RAM_ADDR_INVALID) {
-+            RAMBlock *block;
-+            ram_addr_t offset;
-+
-+            block = qemu_ram_block_from_host((void *) haddr->v.ram.hostaddr, false, &offset);
-+            if (!block) {
-                 error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
-                 abort();
-             }
--            return ram_addr;
-+
-+            return block->offset + offset + block->mr->addr;
-         } else {
--            return haddr->v.io.offset;
-+            MemoryRegionSection *mrs = haddr->v.io.section;
-+            return haddr->v.io.offset + mrs->mr->addr;
-         }
-     }
- #endif
--- 
-2.17.1
+On Mon, Mar 8, 2021 at 8:52 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
 
+> On 3/5/21 4:16 PM, Willian Rampazzo wrote:
+> > On Thu, Mar 4, 2021 at 5:44 PM Niek Linnenbank <nieklinnenbank@gmail.co=
+m>
+> wrote:
+> >>
+> >> The image for Armbian 19.11.3 bionic has been removed from the armbian
+> server.
+> >> Without the image as input the test arm_orangepi_bionic_19_11 cannot
+> run.
+> >>
+> >> This commit removes the test completely and merges the code of the
+> generic function
+> >> do_test_arm_orangepi_uboot_armbian back with the 20.08 test.
+> >>
+> >> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> >> ---
+> >>  tests/acceptance/boot_linux_console.py | 72 ++++++++-----------------=
+-
+> >>  1 file changed, 23 insertions(+), 49 deletions(-)
+> >>
+> >> diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> >> index eb01286799..9fadea9958 100644
+> >> --- a/tests/acceptance/boot_linux_console.py
+> >> +++ b/tests/acceptance/boot_linux_console.py
+> >> @@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):
+> >>          # Wait for VM to shut down gracefully
+> >>          self.vm.wait()
+> >>
+> >> -    def do_test_arm_orangepi_uboot_armbian(self, image_path):
+> >> +    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+> >> +                'Test artifacts fetched from unreliable
+> apt.armbian.com')
+> >> +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage
+> limited')
+> >> +    def test_arm_orangepi_bionic_20_08(self):
+> >> +        """
+> >> +        :avocado: tags=3Darch:arm
+> >> +        :avocado: tags=3Dmachine:orangepi-pc
+> >> +        :avocado: tags=3Ddevice:sd
+> >> +        """
+> >> +
+> >> +        # This test download a 275 MiB compressed image and expand it
+> >> +        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
+> >> +        # As we expand it to 2 GiB we are safe.
+> >> +
+> >> +        image_url =3D ('https://dl.armbian.com/orangepipc/archive/'
+> >> +
+>  'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
+> >
+> > The Armbian 20 is not available on this link anymore. I can browse just
+> 21.
+>
+> Cat-and-mouse game *sigh*.
+>
+>
+Just to clarify here: in this patch I wanted to only make the change to
+remove the test for the 19.11.3 image.
+And in the 3rd patch (tests/acceptance/boot_linux_console: change URL for
+test_arm_orangepi_bionic_20_08)
+do the update for to correct the 20.08 link. So each patch fixes one
+problem at a time.
+
+Does that make sense, or do you prefer that I combine them in a single
+patch instead?
+
+Regards,
+Niek
+
+--=20
+Niek Linnenbank
+
+--000000000000bb0ec905bd0c5593
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Philippe, Willian,</div><div><br>=
+</div></div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Mon, Mar 8, 2021 at 8:52 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D=
+"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On 3/5/21 4:16 PM, Willian Ramp=
+azzo wrote:<br>
+&gt; On Thu, Mar 4, 2021 at 5:44 PM Niek Linnenbank &lt;<a href=3D"mailto:n=
+ieklinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;=
+ wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; The image for Armbian 19.11.3 bionic has been removed from the arm=
+bian server.<br>
+&gt;&gt; Without the image as input the test arm_orangepi_bionic_19_11 cann=
+ot run.<br>
+&gt;&gt;<br>
+&gt;&gt; This commit removes the test completely and merges the code of the=
+ generic function<br>
+&gt;&gt; do_test_arm_orangepi_uboot_armbian back with the 20.08 test.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenban=
+k@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 tests/acceptance/boot_linux_console.py | 72 ++++++++--------=
+----------<br>
+&gt;&gt;=C2=A0 1 file changed, 23 insertions(+), 49 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/tests/acceptance/boot_linux_console.py b/tests/accept=
+ance/boot_linux_console.py<br>
+&gt;&gt; index eb01286799..9fadea9958 100644<br>
+&gt;&gt; --- a/tests/acceptance/boot_linux_console.py<br>
+&gt;&gt; +++ b/tests/acceptance/boot_linux_console.py<br>
+&gt;&gt; @@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Wait for VM to shut down grace=
+fully<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.wait()<br>
+&gt;&gt;<br>
+&gt;&gt; -=C2=A0 =C2=A0 def do_test_arm_orangepi_uboot_armbian(self, image_=
+path):<br>
+&gt;&gt; +=C2=A0 =C2=A0 @skipUnless(os.getenv(&#39;ARMBIAN_ARTIFACTS_CACHED=
+&#39;),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;Test=
+ artifacts fetched from unreliable <a href=3D"http://apt.armbian.com" rel=
+=3D"noreferrer" target=3D"_blank">apt.armbian.com</a>&#39;)<br>
+&gt;&gt; +=C2=A0 =C2=A0 @skipUnless(os.getenv(&#39;AVOCADO_ALLOW_LARGE_STOR=
+AGE&#39;), &#39;storage limited&#39;)<br>
+&gt;&gt; +=C2=A0 =C2=A0 def test_arm_orangepi_bionic_20_08(self):<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:orangepi-pc<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 275 MiB compre=
+ssed image and expand it<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to 1036 MiB, but the underlying fil=
+esystem is 1552 MiB...<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # As we expand it to 2 GiB we are saf=
+e.<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_url =3D (&#39;<a href=3D"https:=
+//dl.armbian.com/orangepipc/archive/" rel=3D"noreferrer" target=3D"_blank">=
+https://dl.armbian.com/orangepipc/archive/</a>&#39;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0&#39;Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz&#3=
+9;)<br>
+&gt; <br>
+&gt; The Armbian 20 is not available on this link anymore. I can browse jus=
+t 21.<br>
+<br>
+Cat-and-mouse game *sigh*.<br>
+<br></blockquote><div><br></div><div>Just to clarify here: in this patch I =
+wanted to only make the change to remove the test for the 19.11.3 image.</d=
+iv><div>And in the 3rd patch (tests/acceptance/boot_linux_console: change U=
+RL for test_arm_orangepi_bionic_20_08)</div><div>do the update for to corre=
+ct the 20.08 link. So each patch fixes one problem at a time.<br></div><div=
+><br></div><div>Does that make sense, or do you prefer that I combine them =
+in a single patch instead?</div><div><br></div><div>Regards,</div><div>Niek=
+<br></div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signa=
+ture"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></div></div>
+
+--000000000000bb0ec905bd0c5593--
 
