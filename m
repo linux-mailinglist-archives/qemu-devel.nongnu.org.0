@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DD43310C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:28:38 +0100 (CET)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0AF3310BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:26:38 +0100 (CET)
+Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJGs7-0007JQ-HP
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:28:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57430)
+	id 1lJGqD-0005No-Ub
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:26:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGVK-0007X9-OE
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:05:02 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39527)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJGTl-0005Xt-6Q
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:03:25 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJGVD-0007Jd-QN
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:04:59 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- 124-20020a1c00820000b029010b871409cfso3867441wma.4
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:04:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJGTi-0006Z1-D5
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:03:24 -0500
+Received: by mail-ej1-x634.google.com with SMTP id mm21so20530035ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:03:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=XbZDs1VhTHGtO9BVxsEBkTSFPcrlMKAaA/BAg1voT5Q=;
- b=QiPQmykFuwYkXHQUPlAk2PwWEcK16naEFFr4GQWMr430tDRXo+MGj4GMRZUuzs9bju
- /wHXEamo1SKyoUNzqFV5fe4Gr5yIsBFCRZwqRkly/271XdtHw9/wmh6x4eGly2clryz6
- 6zdtmPvU8W8mOYufMXTgjTCTOYqP8C7OHdayxOWY3lqUZUSe95BUEVOA3zdjuqqfuvyM
- rvXkuTWaWRZEhLf7bePzyzEEbrJOHQAjMgnSjdCPkQ1ypTK8XDtcarHYhFUfYAJ/JD5t
- FAn5U98QkZP0SSGRbW1E6U+W3yEXeCydoLT0bsXM8tAVWd3k45o0wwNP0bhO9UwGEACp
- tFKQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1MVJ+cyJ1uJhdl/MbyCV+p1N1bsfPKT0Bxi2SNtiOuw=;
+ b=BFOKf3C99KmT6eLX+ZClZbeb8MULMxd9c71juvafTDt5yFhhmZnNWsgy6V9z3X6gWS
+ T5Eow1DjPoaFA5VzHEJmLJzbdre2T0ksCLB76GtKKtkCvy5ioQBJlLmfHo1cPh8BxOd/
+ 8VpK3ViVF8st9GCwwFLQWG6sQJQTv1qlB/qPQBHAoY7sV+nVqhtgqunWbAJ620AEVVUz
+ wIn4Q3F9bBrheB26+weHHjuCBgtEGMX2kEJWLJreIK4mupT+qgiYhnI3s74WnmHgi8gt
+ 1LK0BDwjTKb9hAeMU/0phttDFHVYeHGKX+sN59vqO2nJZjbhNFdZe8LaYGO+xEGyGV43
+ ei8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=XbZDs1VhTHGtO9BVxsEBkTSFPcrlMKAaA/BAg1voT5Q=;
- b=GrtOsmipgNV8x0GVKLGRYjNKGfGGjaIB7D8Z7AsvyxUTf8lqQQGWfU5DzyXQcT835F
- oID7XAOYm69VsuUxeeRP73Kp8i3sc6UVbfAIePR7YtwxYHn/VsHSMrX5mdcFopARIbQp
- CbsazLcy88YkmMIw5plxzxkWSuCf/DATCFqTHDXK62SWUBHL7vj6wNjZZMkioWbXr31y
- n/Z1fPrXwwQrBKyd+0zb0AeGKfHBVMHemjl9K63r1URUNCcN31t0Troa/OgKrcJxUbEZ
- MbEEb5y2OFm9XpL4PVraNY9s1DAgJa4GMGsKjM3UPiswsp+FbCkH4OoELifD4pPrStIr
- hzMQ==
-X-Gm-Message-State: AOAM530FlzxJqh154eLSgCNWLFGgX70B39bw3IGcCRQFXym3rHfUyqWW
- vLkcBKv7TlF3t+P/xa6FLvMkTA==
-X-Google-Smtp-Source: ABdhPJwmcERIHXcY2SNn2iRcnuZLtWgDe40rttBksbE27vPfoKWpkkh3cCgEw371rtNQmJ+lORMkHA==
-X-Received: by 2002:a1c:bad6:: with SMTP id k205mr13726929wmf.16.1615212294102; 
- Mon, 08 Mar 2021 06:04:54 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f7sm21207972wrm.36.2021.03.08.06.04.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 06:04:53 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 762921FF7E;
- Mon,  8 Mar 2021 14:04:52 +0000 (GMT)
-References: <20210301085450.1732-1-cfontana@suse.de>
- <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
-Date: Mon, 08 Mar 2021 14:02:48 +0000
-In-reply-to: <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
-Message-ID: <875z21aghn.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1MVJ+cyJ1uJhdl/MbyCV+p1N1bsfPKT0Bxi2SNtiOuw=;
+ b=KRqxkU0OtBx6k3+MPNCx4xf1cgdIsDIPWgvUMWPnuTGOnKIDcY/mnXVl5J/uYd+XXq
+ p/G8FZSKmQOPiC9JqhoqnKBcmZBjZEcIHcsu0Xg3WRDToysV4te2CxVMuXFOe0A5J8Yg
+ tlYuxgM7yRxe8BiZwwP1YIOt34si4s6y7YfmmeisRqbsWdyPPZdCOb7H/vlQ5FbIRMJa
+ JMxgE1K84Gry7CYodzoZ2/P55zmPLERV01co6m98R8u/HaZcn/d/c1waRQdC2IRPzwMd
+ 34UAdTeqtyAG0Or3XqKDH651cPq5DtQinWSGbVOdpi3KdU/ilSgnHtDFK/f59/ute+iD
+ a7tA==
+X-Gm-Message-State: AOAM530XX684sePF5LPep5RTMg3s4LUMZL6jefOmS7wlp0FfVhVPx2Yv
+ 3x0REZo59UcPq8t1sRBfOu0aT/oDfJf04v+dzEXjnA==
+X-Google-Smtp-Source: ABdhPJz4+OqQ3voCN5MuzkiwfmQS0XngpQUWo92OnR+XaCdg34nYP9D90Hr5GOmvbT2DGPglvzBM0/zgidgVTRrw2F8=
+X-Received: by 2002:a17:907:10ce:: with SMTP id
+ rv14mr15416267ejb.56.1615212200563; 
+ Mon, 08 Mar 2021 06:03:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210308111649.14898-1-alex.bennee@linaro.org>
+In-Reply-To: <20210308111649.14898-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Mar 2021 14:03:03 +0000
+Message-ID: <CAFEAcA9kwSH07hafgvpuKvnbg5R2uz_2mdZe6wWuYG9K0+0nnQ@mail.gmail.com>
+Subject: Re: [qemu-web RFC PATCH] _download/source.html: show the GPG
+ fingerprint for releases
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Claudio Fontana <cfontana@suse.de> writes:
-
-> Hi,
+On Mon, 8 Mar 2021 at 11:19, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 >
-> anything else for me to do here?
+> At the moment we mention the signature but don't actually say what it
+> is or how to check it. Lets surface the fingerprint on the information
+> along with a guide of how to verify the download.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  _download/source.html | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/_download/source.html b/_download/source.html
+> index 35fd156..6c2f6f6 100644
+> --- a/_download/source.html
+> +++ b/_download/source.html
+> @@ -8,14 +8,21 @@
+>         <div id=3D"releases">
+>         {% include releases.html %}
+>         </div>
+> -       <p>or stay on the bleeding edge with the
+> -          <a href=3D"https://gitlab.com/qemu-project/qemu">git repositor=
+y!</a></p>
+> -
+> +       <p>
+> +          Our source code tarballs are signed with the release
+> +          managers key, fingerprint:
 
-It looks to me that this series is looking pretty good. Every patch has
-at least one review so I think it's just waiting on the maintainers to
-pick it up.
+"manager's"
 
-Paolo/Richard - are you intending to take the series as is or are you
-waiting for something else? I'd like to see the patch delta reduced for
-the ARM cleanup work which is still ongoing.
+> +          <pre><code>CEAC C9E1 5534 EBAB B82D  3FA0 3353 C9CE F108 B584<=
+/code></pre>.
+> +          Alternatively stay on the bleeding edge with the
+> +         <a href=3D"https://gitlab.com/qemu-project/qemu">git repository=
+!</a></p>
+>         <h2>Build instructions</h2>
+>
+>         {% for release in site.data.releases offset: 0 limit: 1 %}
+>         <p>To download and build QEMU {{release.branch}}.{{release.patch}=
+}:</p>
+>  <pre>wget https://download.qemu.org/qemu-{{release.branch}}.{{release.pa=
+tch}}.tar.xz
+> +# optional verify signature
 
->
-> The latest rebased state of this series should be always available here:
->
-> https://gitlab.com/hw-claudio/qemu/-/tree/i386_cleanup_8
->
-> When it comes to the ARM cleanup series,
-> I would like to have the tests pass for ARM, before doing even more chang=
-es, could you help me there Philippe?
->
-> Maybe applying some of your changes on top would fix the failures? I trie=
-d, for example with the arm-cpu-features ones, but it didn't work for me..
->
-<snip>
+"optionally"
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
