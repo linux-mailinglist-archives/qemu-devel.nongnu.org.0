@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F62633117C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 15:58:27 +0100 (CET)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DB5331187
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 16:00:21 +0100 (CET)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJHL0-00079k-9w
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 09:58:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43194)
+	id 1lJHMq-00007G-HW
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 10:00:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJHKA-0006fo-Ok
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:57:34 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJHK8-0005Pp-U2
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:57:34 -0500
-Received: by mail-ej1-x630.google.com with SMTP id c10so20909966ejx.9
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 06:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=E1SrcyMgQtiEyIP4agR0phsflV3b7ndmC/5mDSIjP+Q=;
- b=cdfIACrM7wd49V680aFll+18GzF2ZfBnyDB+F3i+IFaI1Ls44fJFZtng+B/2XpWDcF
- aEEmbm1D2HlMR7xm+HA+3x814SJFVXaoTU/HebPeh02riUsvkWRg7WLoKLNVlhRdEf4A
- k6X5f1zvAZD66XwcU4aNWuhnD78i+R+2D1larvZmy7n5g8by/O5hUWXD8X+CHjIQmUYc
- QyJ4Y3BXMFQeveIjgyLBSkCLBdiwcbR23NW6cSVE5KVngsDHw19SbmGsMS2pxBQKcmyL
- rlM8UYq8WIE0X+xLu8i3HWsJJtChFhgjqdQe3vr2pX1WAk6Mrzf7YNDI3/D27nvV/qKX
- NncQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E1SrcyMgQtiEyIP4agR0phsflV3b7ndmC/5mDSIjP+Q=;
- b=lWVNIoQ7cAzvTsgQS6iNaBxIjBQge80jMDm4bGP21CUbMnjWZK8BUZj5eBRx4a8X5Y
- 6r4sVCyRakwPojejnqPSzRifmIXEDRRVrPnBlVuTeKu7Or+ANs9ZzL1TgdbQJs9etKAq
- KM6np2Prs8wREEm9P4Nl7i+8aRWyiM2cZEq97uzC3G6v+Hws3tbrSKvANgQSQwYDjPKd
- Sr9ID5K/n1I1FYO/fkPRy3KfNFj7nYz6YeLm6lxT1wZg8kRNCrNl4s2aHQZgoK0aZrcE
- cexDegZAe5bWJP4x+uejcPebki7J35cWuBM6ef+em99BP5pHv69tO5y7fpYGIOP9nqpR
- qWww==
-X-Gm-Message-State: AOAM532ieabli60qdj+V6Hi88DSrxgLOalui2KvT7DyGyq6Ks/f+g0Jd
- v/XsN9wVlg+duEcwAG44JJf7UgwEDqw=
-X-Google-Smtp-Source: ABdhPJwkWvrbTXKjL3x61SxKe3vsteG7Lmpwuvp+CIwMs22aOmCothl+fzW8jw6sWqtNvFPQhZupQw==
-X-Received: by 2002:a17:906:ad96:: with SMTP id
- la22mr15962190ejb.237.1615215451395; 
- Mon, 08 Mar 2021 06:57:31 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d1sm6893703eje.26.2021.03.08.06.57.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 06:57:30 -0800 (PST)
-Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lJHKy-0007Tn-RJ
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:58:25 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:54209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lJHKw-0005iQ-4W
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 09:58:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=EVW6muVku5uclCjg+uAVBxqvFZOPEleIob7Pt8Y9c44=; b=qoq9geFfCxko80HE75pomwSioz
+ 3xBl1u/epr2L3dLz//rUeoCctcU2GS5e753AlBZvX9MgKQXeztsuIoqOp0hi0V0Zq8hvWTLQ7CsfP
+ lQCm56ROdGLZVCFqAL4AXl1+XdjOxLQYoeXTFsJOe2Fmu2iFjT+628sASvfcD3R50CxXfAhePB/ou
+ +3hHOs0kIXQ/+r+lVb/LsT+Hz+TM0b6OBbLL/+wFZCEO3yAUWT81sui/7jhxMKI/qN+uAmXyW5v6+
+ 0VWNZ5qLjSGvn7LkzBvfr4OWwKZaJimwKiT5pg94glOIjWaLEy9sNYgVp+no/xPUKndytpKIOkYCm
+ y1ei0YCiU4o+xlMVJkHIg3KnjlAkCiaPZYj7kTh3AdfxKhWTe6sXCYxfjzIl7PV6GhAt9OYCyh7od
+ U/p1X5ppERZOXDt55oewsaL9C/BnRGZxkFgt8qtFFNnRi/l4Aop0CnTOHoQUbQFnDR4knbt3WqDLG
+ aAxvFkDcgfGTGxPPhjB0REmF1jX9h6Fspf2jNDGn6Ay040UCbS1S9DWYOIoqYw9o5Wu1zJRT0iJWT
+ piCFMLrK29FoxWaXwjH2cPpWpip6e1DvGPKpgu7h2hil46Y/lyM7EiNdnpeefqIF6XiX35HLs90bY
+ siAzoUuR0E3oRmb1ppKTGXeAs5jGcH5Obu7yhGS8k=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20210301085450.1732-1-cfontana@suse.de>
- <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de>
- <6230ef40-c0ec-875e-dbd3-46fb5925322e@amsat.org>
- <81208ea0-f389-14d0-c366-0579dee3376d@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f3700214-baed-e03a-d4e1-028758b07054@amsat.org>
-Date: Mon, 8 Mar 2021 15:57:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
+Date: Mon, 08 Mar 2021 15:57:56 +0100
+Message-ID: <2232725.kIh4fn7MiB@silver>
+In-Reply-To: <2f4c50c9-930f-b820-b507-d9e43da20093@redhat.com>
+References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com>
+ <CAMVc7JVK0FuBuyVvH3ai7V2HxQeiy8dMPHDYB-c7w7ARQL7nMw@mail.gmail.com>
+ <2f4c50c9-930f-b820-b507-d9e43da20093@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <81208ea0-f389-14d0-c366-0579dee3376d@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,53 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 2:52 PM, Claudio Fontana wrote:
-> On 3/8/21 2:27 PM, Philippe Mathieu-Daudé wrote:
->> Hi Claudio,
->>
->> On 3/8/21 1:57 PM, Claudio Fontana wrote:
->>> Hi,
->>>
->>> anything else for me to do here?
->>>
->>> The latest rebased state of this series should be always available here:
->>>
->>> https://gitlab.com/hw-claudio/qemu/-/tree/i386_cleanup_8
->>>
->>> When it comes to the ARM cleanup series,
->>> I would like to have the tests pass for ARM, before doing even more changes, could you help me there Philippe?
->>>
->>> Maybe applying some of your changes on top would fix the failures? I tried, for example with the arm-cpu-features ones, but it didn't work for me..
->>
->> TBH I wrote these patches during my personal spare time and this
->> became a real Pandora box that drained too much energy. I prefer
->> to step back and focus on finishing smaller tasks before burning
->> out. That said I appreciate your effort and am interested in
->> following / reviewing your work.
->>
->> Regards,
->>
->> Phil.
->>
-> 
-> Thanks Philippe for sharing this, and I agree completely, it is very draining.
-> 
-> The effort of making tests happy that run in artificial environments in particular often feels to me
-> as too disconnected from actually ensuring that there is no real run time regression.
-> 
-> qtest_enabled() (implicitly, or explicitly via open-ended else statements) is another painful variable to keep in mind in cpu and machine code, so it is not helpful in my view.
-> 
-> I'll try to push more to get the tests running again, if you have any comment or idea, feel free to just point me in the right direction,
-> that is very valuable to me, even without working code.
+On Montag, 8. M=C3=A4rz 2021 15:30:23 CET Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/8/21 3:17 PM, Akihiko Odaki wrote:
+> > 2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 23:03 Christian Schoenebec=
+k <qemu_oss@crudebyte.com>:
+> >> BTW, there is __nonnull supported by clang, e.g.:
+> >>=20
+> >> static void foo(void *__nonnull p) {
+> >>=20
+> >>         ...
+> >>=20
+> >> }
+> >>=20
+> >> Maybe as an optionally defined macro (if supported by compiler) this
+> >> could be a useful tool for such intended nonnull designs, as it
+> >> immediately emits compiler errors.
+> >>=20
+> >> Best regards,
+> >> Christian Schoenebeck
+> >=20
+> > GCC has nonnull attribute and clang accepts it too. However, it
+> > specifies argument indices, which is harder to understand and to
+> > maintain.
+> > __attribute__((nonnull(2)))
+> > void f(void *k, void *l);
+>=20
+> Richard once suggested to add QEMU_NONNULL(), I have been using
+> it on a series trying to enforce non-null uses of QOM
+> 'struct Object *owner' but it didn't work out because migrations
+> of MemoryRegion, some have NULL owner in MachineState.
+>=20
+> I also discarded it because Daniel said it could have side-effects
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg720739.html
 
-Basically I gave up after realizing from Daniel reviews that we need
-QMP commands to query QEMU at runtime its built-in features, so we
-have build-agnostic tests easier to maintain. I agree this is the
-best way to resolve this particular case, but also scale for various
-other cases.
+Yes, but the optimizer part could be disabled with
+=2Dfno-delete-null-pointer-checks which would render it a pure diagnostic
+feature:
+
+https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-no=
+nnull-function-attribute
+
+Is there an example where the compiler failed to detect a NULL user case?
+
+Best regards,
+Christian Schoenebeck
+
+
 
