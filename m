@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0123314F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:34:50 +0100 (CET)
-Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81E5331519
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:43:33 +0100 (CET)
+Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJJmL-0007sI-T1
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:34:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
+	id 1lJJum-00029t-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:43:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJUB-0001px-Oj
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:16:03 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJU9-0007oj-U7
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:16:03 -0500
-Received: by mail-ed1-x530.google.com with SMTP id m9so15841730edd.5
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:16:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eqEAVHhKJIhXGbOs6NWemQDC8v4aBYn9Ws+uma5LFJA=;
- b=MzfyNzDIbYtNlrEqCez4tSnUyFzniUvt6I2lnpWOFSu1ye0hEP8h3+Uq5TO8rDocWX
- Usc5QjgC6gt9SLJVLD57kcMnchBLcfhb+0HD3AnSuJ5ghbtdGtFCi34/hkk9VQ+GEsii
- MWMlz7NiHBVGo4SDrz7AoorYijPBf0rYPUsTe5B1PYZ14Uvl8y7hW/UwMf8II7FH4yTw
- mbkjn4VYDst9WGBked3fGnXHzoN1S4llKjcUuEKh57g8/uXjha0JmN5UueONz/GfjsTf
- 6ED1PtbWKqXgAg0eeLrnvTyupvPY8bbSh/jPHkhagvMa4uLk5+roNuECbQpD3E9FpUTa
- KpMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eqEAVHhKJIhXGbOs6NWemQDC8v4aBYn9Ws+uma5LFJA=;
- b=mIuVDVHjozyeIOOn61dgt/tkpA5Zo1kasFTIP9YMHKtTrV/7iCE/HRFQBvd8K5RZbC
- m9jJWJG42qPCudVc9nGAnOWIbPDgWZzhs92roSHRNkKFJb8lbUQI1x+EkrAQQYemYdSY
- tS2Adwm11293ZT8Jr3YvV8QAH7v3PkIV54R9LuUtjePzR/dy6uM+hEjb+oqu0A2S1CB7
- r5gr1p6SF7uhWJ2nBq1zXx1TdT1PAby6N8E6Wsw8w4A2BeNtZm9rILRNwd+EKQAXgpGA
- XJsV9rXJXnUnoto39MjlUZGGYgm7o2G5ot4arnIVMzZICuOXlEDm9oX709t3j46hPv/z
- +2IA==
-X-Gm-Message-State: AOAM530sp9if+HxbOeig6qOOSMb0PsZUpAZP2AqzH1A1+PcbbzNvLHPC
- 5Fz+TvV0FPfXmkTMKGQdxeJdnGJzNw1Ek47UrIlz8g==
-X-Google-Smtp-Source: ABdhPJwuFX8JxjN37/aFf2S8mpTWWT+npl9XVAZJ5W9R7EfYFxE6y2ss/1vgYTfsV+shuggoIbHv/OXz68hybP/bNW0=
-X-Received: by 2002:aa7:c3cd:: with SMTP id l13mr22939974edr.52.1615223759740; 
- Mon, 08 Mar 2021 09:15:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1lJJci-0004RS-5t
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:24:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1lJJcf-0003SS-8o
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:24:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A52356520F;
+ Mon,  8 Mar 2021 17:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1615224287;
+ bh=mM7ct2vgRlQeJ6mmmYx4ShAL1KKFFLg9U+ZCmnf0rDA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ox8FtV0m2DJVYbt3iY5k+JsCuBCZYeAax/5KG5HDdHKEeeI8sCl3nSGWG3yxIemTQ
+ zo57Q6vcHbPtuQ3m++iZxB3o17ukYqBu+NyjDs2esBwc2yzujLL0srdvXbrkEFBJBk
+ TuOz/byGz6rgCi4wOlsohTDSEYC+AgfW5dtmIhnk=
+Date: Mon, 8 Mar 2021 18:24:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexander Graf <graf@amazon.com>
+Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
+Message-ID: <YEZd3It1llq9ctPN@kroah.com>
+References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+ <YEY2b1QU5RxozL0r@kroah.com>
+ <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
 MIME-Version: 1.0
-References: <20210303135254.3970-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210303135254.3970-1-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Mar 2021 17:15:43 +0000
-Message-ID: <CAFEAcA8BUZ_WFqY2RpcT-UX6f7Sa4fr2c9YG6Q3yTPem=ZRwfw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] hw/arm: zynqmp: Implement a CSU DMA model and
- connect it with GQSPI
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+Received-SPF: pass client-ip=198.145.29.99;
+ envelope-from=gregkh@linuxfoundation.org; helo=mail.kernel.org
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,30 +61,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Jason@zx2c4.com, areber@redhat.com, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, ghammer@redhat.com, vijaysun@ca.ibm.com,
+ 0x7f454c46@gmail.com, qemu-devel@nongnu.org, mhocko@kernel.org,
+ dgunigun@redhat.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
+ linux-s390@vger.kernel.org, corbet@lwn.net, mpe@ellerman.id.au, mst@redhat.com,
+ ebiggers@kernel.org, borntraeger@de.ibm.com, sblbir@amazon.com,
+ bonzini@gnu.org, arnd@arndb.de, jannh@google.com, raduweis@amazon.com,
+ asmehra@redhat.com, Adrian Catangiu <acatan@amazon.com>, rppt@kernel.org,
+ luto@kernel.org, gil@azul.com, oridgar@gmail.com, colmmacc@amazon.com,
+ tytso@mit.edu, ovzxemul@gmail.com, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, ebiederm@xmission.com, rafael@kernel.org,
+ w@1wt.eu, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Mar 2021 at 13:53, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> crash. This is observed when testing VxWorks 7.
->
-> We added a Xilinx CSU DMA model and the implementation is based on
-> https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
-> and the one in Edgar's branch.
->
-> The DST part of the model is verified along with ZynqMP GQSPI model.
+On Mon, Mar 08, 2021 at 05:03:58PM +0100, Alexander Graf wrote:
+> 
+> 
+> On 08.03.21 15:36, Greg KH wrote:
+> > 
+> > On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
+> > > +static struct miscdevice sysgenid_misc = {
+> > > +     .minor = MISC_DYNAMIC_MINOR,
+> > > +     .name = "sysgenid",
+> > > +     .fops = &fops,
+> > > +};
+> > 
+> > Much cleaner, but:
+> > 
+> > > +static int __init sysgenid_init(void)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     sysgenid_data.map_buf = get_zeroed_page(GFP_KERNEL);
+> > > +     if (!sysgenid_data.map_buf)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     atomic_set(&sysgenid_data.generation_counter, 0);
+> > > +     atomic_set(&sysgenid_data.outdated_watchers, 0);
+> > > +     init_waitqueue_head(&sysgenid_data.read_waitq);
+> > > +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
+> > > +     spin_lock_init(&sysgenid_data.lock);
+> > > +
+> > > +     ret = misc_register(&sysgenid_misc);
+> > > +     if (ret < 0) {
+> > > +             pr_err("misc_register() failed for sysgenid\n");
+> > > +             goto err;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +
+> > > +err:
+> > > +     free_pages(sysgenid_data.map_buf, 0);
+> > > +     sysgenid_data.map_buf = 0;
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static void __exit sysgenid_exit(void)
+> > > +{
+> > > +     misc_deregister(&sysgenid_misc);
+> > > +     free_pages(sysgenid_data.map_buf, 0);
+> > > +     sysgenid_data.map_buf = 0;
+> > > +}
+> > > +
+> > > +module_init(sysgenid_init);
+> > > +module_exit(sysgenid_exit);
+> > 
+> > So you do this for any bit of hardware that happens to be out there?
+> > Will that really work?  You do not have any hwid to trigger off of to
+> > know that this is a valid device you can handle?
+> 
+> The interface is already useful in a pure container context where the
+> generation change request is triggered by software.
+> 
+> And yes, there are hardware triggers, but Michael was quite unhappy about
+> potential races between VMGenID change and SysGenID change and thus wanted
+> to ideally separate the interfaces. So we went ahead and isolated the
+> SysGenID one, as it's already useful as is.
+> 
+> Hardware drivers to inject change events into SysGenID can then follow
+> later, for all different hardware platforms. But SysGenID as in this patch
+> is a completely hardware agnostic concept.
 
+Ok, so what is going to cause this driver to be automatically loaded?
+How will userspace "know" they want this and know to load it?
 
+This really is just a shared memory "driver", it's gotten so small now,
+so why can't this just be a userspace program/server now?  :)
 
-Applied to target-arm.next, thanks.
+thanks,
 
--- PMM
+greg k-h
 
