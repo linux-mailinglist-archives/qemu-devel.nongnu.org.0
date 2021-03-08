@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D73E330C18
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 12:19:04 +0100 (CET)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D558B330C1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 12:19:06 +0100 (CET)
+Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJDuh-0007qU-41
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 06:19:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
+	id 1lJDuj-0007uw-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 06:19:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJDsY-0006n3-NE
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 06:16:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJDsU-00025S-Hj
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 06:16:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615202205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fn125XYC++D2f8QRXbixeiep14LQqwK0hHRl1JBGekw=;
- b=bT7rMdELFvrWiyH0OuaDJ5d7HYsFwWi+06PXBGgskHoad72frQbFZ+JsvJFLcCRrwYjbVW
- HT+7NImW2pqL8Y4d1FciSxeliiF7E0yAfJMWbKf3pldTmYGQ+fLMV/bGi9Pn/dZsNndJC8
- V5I83vFbY1sylp/e4w9WlTDAOxdplTY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-WKAflemqN_-sc54zW6tfdg-1; Mon, 08 Mar 2021 06:16:42 -0500
-X-MC-Unique: WKAflemqN_-sc54zW6tfdg-1
-Received: by mail-ed1-f70.google.com with SMTP id a2so4848972edx.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 03:16:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJDsq-0006q2-Bo
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 06:17:08 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJDsn-0002BO-2N
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 06:17:08 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l11so7609703wrp.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 03:17:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MO79JBKW4TjMhW0Kep40xCMVdBOGcJTCggQBfKbGO+8=;
+ b=BnxBEdUq1OCgT4S+BgKmQmNmkC07c81WjQ+L741yXiEAjpvreAdpIVWpm6XrxSua60
+ bVkNVm4rFtcpuc8bc+qQIchRW3UxmP2+20AOogwq9w20UDbERtgJHdt+D0IB9U9/bUv5
+ pnq23kJkxMoTkmYVDS3FB9gix+PmYwoRbopBFLIXJJkimH3sOEqjz1yNF2PBZOREn5jK
+ g/4WFWe4Os4NTk2iwjp1vMuNqFXc0wI92ciZTB43dmJNECFWuq9AGjmfoxI3YzqewPyc
+ MtfMEduHgfMglpY8x63pdgAs768HjKUpBHdDUfNfG3pZlA/uJ7fkLPwW4LPYXKKU4qMA
+ fiCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fn125XYC++D2f8QRXbixeiep14LQqwK0hHRl1JBGekw=;
- b=NrxqzxfkkyoYR9aWSp9Xq1+ObbSeFD14Zfdwb1/w2oIQU8BfcsazJjcIaGrkVNqDEo
- Jdp3+HMkmeaApuKS8BdyYJbAZkeNGisD0ToCp+iPA2/0nGEp4rkmWa9leExWoDi8uCHk
- JK7JSFsUcGpLP0NdpKuSngSrQtsBArrbt+hZQ3qupilvYz4E+AWr9Ddvh92tWxnF5mNr
- C2aVIzMOeQLjx/puGu0IhsX4zOvh2pqckAn1Xx3z7q8C6aeinmVocjPlnx/cj0GJN1Ns
- qWRjFq/tNGJzvsoQifrmVJxMa8fe+1XgMIYjlSjGqAg/XIAGsuB6qNdIOHiFkZc/dXt1
- PoTA==
-X-Gm-Message-State: AOAM5312fXeSzAp7d7HLFhPTYjbc+2lQnNcyPWYuajT5tzKVz//ODvW6
- W3DklBb+UJaTb+m84PGRcbB+BPfY0/vMWIomdStgokkXmCD576mMDqxMH7hDeZmLIrbp9Ztn7z6
- BAf8kuSLLyIp0HQY=
-X-Received: by 2002:a17:906:bfcc:: with SMTP id
- us12mr14832950ejb.266.1615202201411; 
- Mon, 08 Mar 2021 03:16:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx66X/tQ1dGIRwdHFCT5vY4L2eJEe48TypuQh4T7gURZZ7dYsIjuhNRY3YDhm1koScOUMlb/w==
-X-Received: by 2002:a17:906:bfcc:: with SMTP id
- us12mr14832930ejb.266.1615202201186; 
- Mon, 08 Mar 2021 03:16:41 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e4sm6482509ejz.4.2021.03.08.03.16.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 03:16:40 -0800 (PST)
-Subject: Re: RESEND [PATCH v2] bsd-user: Add new maintainers
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210307155654.993-1-imp@bsdimp.com>
- <f1045149-077f-e3cd-cad9-42eb3a2e2516@redhat.com>
- <CAFEAcA-kuUEYC7ovT4CELNDjGxnf_Y1scSb_dCmWQfvSeaOXjw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f6665ee9-e279-6a4d-687f-b94579d71b8d@redhat.com>
-Date: Mon, 8 Mar 2021 12:16:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=MO79JBKW4TjMhW0Kep40xCMVdBOGcJTCggQBfKbGO+8=;
+ b=KMiUsK4yXj9WjpymebpgodOoCpuclHZtprX4ImlvYZ//TXfVrezFVSh1irwj7lYz0V
+ nk+EcyV19Qc4QglEMKPPzwPMN06ot9dB6cVOQY8HSOdnwJgRuR73dnQ0rf72GdXpG+rl
+ f7DddqQUQH4KjQK597fuHwUFapsO9Nk7SvWcH7zhfX1JHmvGNq5RZty7mqt1mDZDOUBN
+ hqnwsyomt0u9MJoA2PAkfhwZwuSpH5rQa+jiM/+Xz5LIz1WBlho1Nd3hdkJJgupIXQBQ
+ F42q7CcdHvDf8irxW9uBzdf99RFHbXuuV7yXMhwSrNCuGcsBxh8pxXQLEKrwmFBRqizF
+ BzPA==
+X-Gm-Message-State: AOAM531qxB2x5/AUD13NvQJSE9It9qgJ2QQt8lUA4CNGEvcTwlpm5LV1
+ INEyb9tcNiJmVJnTHPz+Wc7lIw==
+X-Google-Smtp-Source: ABdhPJxyCMDWFp+NJH3X2pkPudiY6/fyzjHZ7VzPJcx+vPByGlea6sfIac6DHnfCINBbAZHZuNib7A==
+X-Received: by 2002:adf:dfc3:: with SMTP id q3mr22798588wrn.121.1615202221152; 
+ Mon, 08 Mar 2021 03:17:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m2sm17739607wml.34.2021.03.08.03.17.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Mar 2021 03:17:00 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 712A61FF7E;
+ Mon,  8 Mar 2021 11:16:59 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web RFC PATCH] _download/source.html: show the GPG fingerprint
+ for releases
+Date: Mon,  8 Mar 2021 11:16:49 +0000
+Message-Id: <20210308111649.14898-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-kuUEYC7ovT4CELNDjGxnf_Y1scSb_dCmWQfvSeaOXjw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,69 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: pbonzini@redhat.com, thuth@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+At the moment we mention the signature but don't actually say what it
+is or how to check it. Lets surface the fingerprint on the information
+along with a guide of how to verify the download.
 
-+Markus/Paolo/Laurent/Richard
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ _download/source.html | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-On 3/8/21 11:24 AM, Peter Maydell wrote:
-> On Mon, 8 Mar 2021 at 10:09, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 07/03/2021 16.56, Warner Losh wrote:
->>> The FreeBSD project has a number of enhancements to bsd-user. Add myself
->>> as maintainer and Kyle Evans as a reviewer. Also add our github repo.
->>>
->>> Signed-off-by: Warner Losh <imp@bsdimp.com>
->>> Signed-off-by: Kyle Evans <kevans@freebsd.org>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   MAINTAINERS | 5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 26c9454823..ec0e935038 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -2896,9 +2896,12 @@ F: thunk.c
->>>   F: accel/tcg/user-exec*.c
->>>
->>>   BSD user
->>> -S: Orphan
->>> +M: Warner Losh <imp@bsdimp.com>
->>> +R: Kyle Evans <kevans@freebsd.org>
->>> +S: Maintained
->>>   F: bsd-user/
->>>   F: default-configs/targets/*-bsd-user.mak
->>> +T: git https://github.com/qemu-bsd-user/qemu-bsd-user bsd-user-rebase-3.1
->>
->> BSD is not really my home turf, but since nobody else picked this up and I
->> plan to send a pull request for a bunch of patches anyway this week, I can
->> also put it into my queue.
-> 
-> Fine with me. (The v1 was in my to-review queue, but I'm currently
-> running somewhat behind on processing patches.)
-
-This is a patch for mainstream QEMU, I'm having hard time
-understanding the point of it. This is some official way
-to say that BSD-user is not maintained in mainstream but
-has to be used in the referred fork which is way different
-that mainstream...
-
-I'd rather wait for more mainstream contributions from Warner
-and Kyle, or blow the current orphan/dead code and import
-bsd-user-rebase-3.1 adding the maintainer entries along, but
-certainly not mark this dead code as maintained.
-
-Please convince me why I'm wrong, because I'd prefer NAck this
-patch...
-
-Regards,
-
-Phil.
+diff --git a/_download/source.html b/_download/source.html
+index 35fd156..6c2f6f6 100644
+--- a/_download/source.html
++++ b/_download/source.html
+@@ -8,14 +8,21 @@
+ 	<div id="releases">
+ 	{% include releases.html %}
+ 	</div>
+-	<p>or stay on the bleeding edge with the
+-	   <a href="https://gitlab.com/qemu-project/qemu">git repository!</a></p>
+-
++	<p>
++          Our source code tarballs are signed with the release
++          managers key, fingerprint:
++          <pre><code>CEAC C9E1 5534 EBAB B82D  3FA0 3353 C9CE F108 B584</code></pre>.
++          Alternatively stay on the bleeding edge with the
++	  <a href="https://gitlab.com/qemu-project/qemu">git repository!</a></p>
+ 	<h2>Build instructions</h2>
+ 
+ 	{% for release in site.data.releases offset: 0 limit: 1 %}
+ 	<p>To download and build QEMU {{release.branch}}.{{release.patch}}:</p>
+ <pre>wget https://download.qemu.org/qemu-{{release.branch}}.{{release.patch}}.tar.xz
++# optional verify signature
++wget https://download.qemu.org/qemu-{{release.branch}}.{{release.patch}}.tar.xz.sig
++gpg --output qemu-{{release.branch}}.{{release.patch}}.tar.xz --verify qemu-{{release.branch}}.{{release.patch}}.tar.xz.sig
++# extract and build
+ tar xvJf qemu-{{release.branch}}.{{release.patch}}.tar.xz
+ cd qemu-{{release.branch}}.{{release.patch}}
+ ./configure
+-- 
+2.20.1
 
 
