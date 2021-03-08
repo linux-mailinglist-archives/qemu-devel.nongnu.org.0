@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC92330D30
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 13:17:10 +0100 (CET)
-Received: from localhost ([::1]:59892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B69E330D2D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 13:16:21 +0100 (CET)
+Received: from localhost ([::1]:57364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJEoo-0007PZ-2y
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 07:17:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
+	id 1lJEo8-0006HM-DY
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 07:16:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJEkG-0002zn-1x
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:12:20 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45218
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJElX-0004Hd-Il; Mon, 08 Mar 2021 07:13:40 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJEkE-0001w0-Hu
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 07:12:19 -0500
-Received: from host86-148-34-47.range86-148.btcentralplus.com ([86.148.34.47]
- helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJEk9-0004B0-6h; Mon, 08 Mar 2021 12:12:18 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Mon,  8 Mar 2021 12:11:55 +0000
-Message-Id: <20210308121155.2476-4-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210308121155.2476-1-mark.cave-ayland@ilande.co.uk>
-References: <20210308121155.2476-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJElS-0002QW-0u; Mon, 08 Mar 2021 07:13:39 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B049CAC0C;
+ Mon,  8 Mar 2021 12:13:29 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 6/8] cpu: Declare cpu_has_work() in 'sysemu/tcg.h'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210304222323.1954755-1-f4bug@amsat.org>
+ <20210304222323.1954755-7-f4bug@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <417b5d4a-b1a6-92be-5d84-f8ef28f793c9@suse.de>
+Date: Mon, 8 Mar 2021 13:13:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20210304222323.1954755-7-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.34.47
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 3/3] target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,72 +56,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the M68040UM Appendix D the requirement for data accesses to be
-word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
-68020 onwards will allow unaligned data accesses but at the cost of being less
-efficient.
+On 3/4/21 11:23 PM, Philippe Mathieu-Daudé wrote:
+> We can only check if a vCPU has work with TCG.
+> Move the cpu_has_work() prototype to "sysemu/tcg.h".
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> RFC: could another accelerator do that?
+>      can we rename this tcg_vcpu_has_work()?
+> ---
+>  include/hw/core/cpu.h | 16 ----------------
+>  include/sysemu/tcg.h  | 11 +++++++++++
+>  accel/tcg/cpu-exec.c  |  7 +++++++
+>  softmmu/cpus.c        |  1 +
+>  4 files changed, 19 insertions(+), 16 deletions(-)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 1376e496a3f..66109bcca35 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -670,22 +670,6 @@ CPUState *cpu_create(const char *typename);
+>   */
+>  const char *parse_cpu_option(const char *cpu_option);
+>  
+> -/**
+> - * cpu_has_work:
+> - * @cpu: The vCPU to check.
+> - *
+> - * Checks whether the CPU has work to do.
+> - *
+> - * Returns: %true if the CPU has work, %false otherwise.
+> - */
+> -static inline bool cpu_has_work(CPUState *cpu)
+> -{
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> -
+> -    g_assert(cc->has_work);
+> -    return cc->has_work(cpu);
+> -}
+> -
+>  /**
+>   * qemu_cpu_is_self:
+>   * @cpu: The vCPU to check against.
+> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+> index c16c13c3c69..3d46b0a7a93 100644
+> --- a/include/sysemu/tcg.h
+> +++ b/include/sysemu/tcg.h
+> @@ -10,6 +10,7 @@
+>  
+>  #ifndef CONFIG_TCG
+>  #define tcg_enabled() 0
+> +#define cpu_has_work(cpu) false
 
-Add a new M68K_FEATURE_UNALIGNED_DATA feature to specify that data accesses are
-not required to be word aligned, and don't perform the alignment on the stack
-pointer when taking an exception if this feature is not selected.
 
-This is required because the MacOS DAFB driver attempts to call an A-trap
-with a byte-aligned stack pointer during initialisation and without this the
-stack pointer is off by one when the A-trap returns.
+I am not sure I like this approach,
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- target/m68k/cpu.c       | 1 +
- target/m68k/cpu.h       | 2 ++
- target/m68k/op_helper.c | 5 ++++-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+it is misleading for the reader: cpu_has_work should not be called for TCG at all,
+or at least a clue should be given that it is indeed a TCG-only function.
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 37d2ed9dc7..a14874b4da 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -161,6 +161,7 @@ static void m68020_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CAS);
-     m68k_set_feature(env, M68K_FEATURE_CHK2);
-     m68k_set_feature(env, M68K_FEATURE_MSP);
-+    m68k_set_feature(env, M68K_FEATURE_UNALIGNED_DATA);
- }
- 
- /*
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index ce558e9b03..402c86c876 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -527,6 +527,8 @@ enum m68k_features {
-     M68K_FEATURE_MOVEP,
-     /* MOVEC insn. (from 68010) */
-     M68K_FEATURE_MOVEC,
-+    /* Unaligned data accesses (680[2346]0) */
-+    M68K_FEATURE_UNALIGNED_DATA,
- };
- 
- static inline int m68k_feature(CPUM68KState *env, int feature)
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 59a6448296..3fa7b7e19e 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -348,7 +348,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-     cpu_m68k_set_sr(env, sr);
-     sp = env->aregs[7];
- 
--    sp &= ~1;
-+    if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
-+        sp &= ~1;
-+    }
-+
-     if (cs->exception_index == EXCP_ACCESS) {
-         if (env->mmu.fault) {
-             cpu_abort(cs, "DOUBLE MMU FAULT\n");
--- 
-2.20.1
+Otherwise, from the common code, the reader does not have any clue from the context that this is actually meaningful for TCG only.
+
+Where is this actually used..?
+
+
+>  #else
+>  
+>  void tcg_exec_init(unsigned long tb_size, int splitwx);
+> @@ -26,6 +27,16 @@ extern bool tcg_allowed;
+>  extern bool mttcg_enabled;
+>  #define qemu_tcg_mttcg_enabled() (mttcg_enabled)
+>  
+> +/**
+> + * cpu_has_work:
+> + * @cpu: The vCPU to check.
+> + *
+> + * Checks whether the CPU has work to do.
+> + *
+> + * Returns: %true if the CPU has work, %false otherwise.
+> + */
+> +bool cpu_has_work(CPUState *cpu);
+> +
+>  #endif /* CONFIG_TCG */
+>  
+>  #endif
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 7e67ade35b9..b9ce36e59e2 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -447,6 +447,13 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+>      return tb;
+>  }
+>  
+> +bool cpu_has_work(CPUState *cpu)
+> +{
+> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +
+> +    return cc->has_work(cpu);
+> +}
+> +
+>  static inline bool cpu_handle_halt(CPUState *cpu)
+>  {
+>      if (cpu->halted) {
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index a7ee431187a..548ab9236f1 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -42,6 +42,7 @@
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/cpu-timers.h"
+>  #include "sysemu/whpx.h"
+> +#include "sysemu/tcg.h"
+>  #include "hw/boards.h"
+>  #include "hw/hw.h"
+>  
+> 
 
 
