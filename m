@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F0B331538
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:51:23 +0100 (CET)
-Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136A333150A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:41:46 +0100 (CET)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJK2M-0001Lg-NE
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:51:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53374)
+	id 1lJJt3-0007IM-4P
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:41:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkX-0006T1-Ho
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:01 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39267)
+ id 1lJJkW-0006Sw-NP
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:57 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkT-00071P-2K
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:57 -0500
-Received: by mail-wr1-x435.google.com with SMTP id b18so12330274wrn.6
+ id 1lJJkU-00071b-2i
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:32:56 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ w203-20020a1c49d40000b029010c706d0642so8298727wma.0
  for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:32:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UgQVj1xUbdSa2HwBsp43GVc2QdLfNOw5vVbdlhyRPxU=;
- b=OG0qLsgJEAKa3Lev6C2djgHATj0qjUvL1t8ChTme3C1dv+EKBrI6L70BIlPp2QVyTb
- i7msmPnZv8VwQpMPeUHP4b6bRiBbh4XwyTDMkIadAioXBIeYwrcaUkcJTV48Ul7L0XL0
- T3dyVL+yEc8Gm546UxS6ImNxCN7+GLHYeWHDT83Hd1ffxte1uQnP8fphmgXuygMf5pm2
- tffUs1KmJPGhy3MFXx9olDCLeGSAxV5sGEluq4IQCxPIDf6vHpL5+3Pw7R4yoxZiulb0
- UggAvhW0HQCDJxmWJs8a3wIcZLlfBP3VQifurj3Au+IOUhWvwYe9d/HjuBOIaXvzSlyw
- n8tQ==
+ bh=ocFxpM3Id831muBIJ5hzrnRVlMKiDWzMHDQfp86Zrhc=;
+ b=Imom97tjZkVR8PYA/qnHxkv/ZoiI6RUMb4Cb3K688HaEqEzhswQNwGI34YIAjm3T4q
+ epfPYvEGJLV6sOqyGpFT9BfMEilzuqJ5ckj5h3fPvNGKMOlWfvTDK31nN4BdKf34KCCO
+ rV/nr/uC2bDpouhcmlBtPiOZ/hatuhlYHOcIYpSI9/JuTanJaUJHPzkafYCvhMPs38Nd
+ oGTTVpeXPcY5xoWJpy62l3uNAhd1IMPJq6E9i6uVSpwEeoHZpB2itJk6VtrP7pF8zrqM
+ xnKdFfnV2X0/3gtLmDx8g53mynvaeAvvsqVrTl4p0guC4Ey+C26FqTrxZbKH/g8VOENg
+ RZPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UgQVj1xUbdSa2HwBsp43GVc2QdLfNOw5vVbdlhyRPxU=;
- b=LwA4Lzga1SCitR3WV+K1Mj4+GD1PH5Vfkp/+8I3ZpLVSsueidPgf0eo5ZmXPr9ixHO
- M23JpA2xiEo4s5zTuLfNwRmoBnJYqRzzjMN+dNuOb4MClmIyw2th6gma8BQ4dvXK/8f+
- EYBiwVS13vg+jQvzTfxuV/j9oXqlYJZ14SbmYH3CyvUP49AbKRnlgGeLYpcbwq/m9uaH
- 1QS6roI7dX8YK2lU2sAHS8/tFcpY+9AVSjgdKNFqMQpFmCHLyTybX7Lhj0Me54EZbQMq
- 7hrGa+81wZ/2JvthR+LmKPybSZr2IKu4dOvSbIu+rOzIFNRPljjeI5FqmMJPm7dXMQ5B
- cFvQ==
-X-Gm-Message-State: AOAM530g6sgBAWDlSkutzKO8DC+PnJVob6Y0tjrO6pJqr0bEdRsUBr9m
- avQGxGQouPxfMW9LvKG/LpiqKpAgTTyciQ==
-X-Google-Smtp-Source: ABdhPJw6kwMIR1tR0MyIhVsVfHDN/GnmG+EFsOtc/ZfcHWAmi2QMecrAhdtxOz4QBbdkLJD9CQ/hIg==
-X-Received: by 2002:adf:f0c1:: with SMTP id x1mr23574499wro.7.1615224771281;
+ bh=ocFxpM3Id831muBIJ5hzrnRVlMKiDWzMHDQfp86Zrhc=;
+ b=NZ/q/x6jHSM9a3ldyULlSYtsg4n6XiclJ2oqAjSKlCL4f7Zsz/f3XiQ9cRnSwORSRE
+ Msrd5GP5Kg3tncqSw7kKd/TiVxZ/V7xMMVEWNLO9BIuOPTkRq604ix3kql2vfU0A87q1
+ ZxT6brFT/gjdkcPv/ISu2g0q4o9EuD/km7r7EgBi8mY2gyNXP3JFr2XioBkSjwJ1KrJ9
+ 3tQZPmCjnMN7NLGJr4Z5Lwiei9+zIS5axlG+2Tg/Dq2IRDv59+m8J/ndp7NC3ngH5ExJ
+ 5kjl7pjLfFTRVC4rYlQDFaBwCwYOMZQy1NRCW/lMAkTmnZoM+T5t3f+IbDo5zrNEYWGb
+ sv/Q==
+X-Gm-Message-State: AOAM533XDEjL2SIORS/fNB96sTYN224oLnm54BTetnV0S3oymT+OR1G5
+ HtIGHCDH++hlzakV4Fz1zSRlViGlc8QFhQ==
+X-Google-Smtp-Source: ABdhPJwEf1eq86uN2OfEFA2vwjpoUHOYmHDapwzhUZhLT5MGih/tP91xts9271zgI7aZP28adoXhxw==
+X-Received: by 2002:a1c:bd55:: with SMTP id n82mr16623485wmf.3.1615224771938; 
  Mon, 08 Mar 2021 09:32:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.50
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.32.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:32:50 -0800 (PST)
+ Mon, 08 Mar 2021 09:32:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/54] hw/misc/iotkit-sysctl: Remove is_sse200 flag
-Date: Mon,  8 Mar 2021 17:31:56 +0000
-Message-Id: <20210308173244.20710-7-peter.maydell@linaro.org>
+Subject: [PULL 07/54] hw/misc/iotkit-secctl.c: Implement SSE-300 PID register
+ values
+Date: Mon,  8 Mar 2021 17:31:57 +0000
+Message-Id: <20210308173244.20710-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,432 +89,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the is_sse200 flag in favour of just directly testing the new
-sse_version field.
+The versions of the Secure Access Configuration Register Block
+and Non-secure Access Configuration Register Block in the SSE-300
+are the same as those in the SSE-200, but the CIDR/PIDR ID
+register values are different.
 
-Since some of these registers exist in the SSE-300 but some do not or
-have different behaviour, we expand out the if() statements in the
-read and write functions into switch()es, so we have an easy place to
-put SSE-300 specific behaviour.
-
-(Until we do add the SSE-300 behaviour, the thing preventing us
-reaching the "unreachable" default cases is that armsse.c doesn't
-yet pass us an ARMSSE_SSE300 version.)
+Plumb through the sse-version property and use it to select
+the correct ID register values.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-7-peter.maydell@linaro.org
+Message-id: 20210219144617.4782-8-peter.maydell@linaro.org
 ---
- include/hw/misc/iotkit-sysctl.h |   2 -
- hw/misc/iotkit-sysctl.c         | 256 +++++++++++++++++++++++---------
- 2 files changed, 187 insertions(+), 71 deletions(-)
+ include/hw/misc/iotkit-secctl.h |  2 ++
+ hw/arm/armsse.c                 |  2 ++
+ hw/misc/iotkit-secctl.c         | 50 +++++++++++++++++++++++++++++++--
+ 3 files changed, 52 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/misc/iotkit-sysctl.h b/include/hw/misc/iotkit-sysctl.h
-index 7cdafea3e25..980c2ddfd3c 100644
---- a/include/hw/misc/iotkit-sysctl.h
-+++ b/include/hw/misc/iotkit-sysctl.h
-@@ -64,8 +64,6 @@ struct IoTKitSysCtl {
-     uint32_t cpuwait_rst;
-     uint32_t initsvtor0_rst;
-     uint32_t initsvtor1_rst;
--
--    bool is_sse200;
+diff --git a/include/hw/misc/iotkit-secctl.h b/include/hw/misc/iotkit-secctl.h
+index 227d44abe49..79a36283201 100644
+--- a/include/hw/misc/iotkit-secctl.h
++++ b/include/hw/misc/iotkit-secctl.h
+@@ -120,6 +120,8 @@ struct IoTKitSecCtl {
+     IoTKitSecCtlPPC apb[IOTS_NUM_APB_PPC];
+     IoTKitSecCtlPPC apbexp[IOTS_NUM_APB_EXP_PPC];
+     IoTKitSecCtlPPC ahbexp[IOTS_NUM_APB_EXP_PPC];
++
++    uint32_t sse_version;
  };
  
  #endif
-diff --git a/hw/misc/iotkit-sysctl.c b/hw/misc/iotkit-sysctl.c
-index 34b37fe8824..c67f5b320ab 100644
---- a/hw/misc/iotkit-sysctl.c
-+++ b/hw/misc/iotkit-sysctl.c
-@@ -101,28 +101,48 @@ static uint64_t iotkit_sysctl_read(void *opaque, hwaddr offset,
-         r = s->secure_debug;
-         break;
-     case A_SCSECCTRL:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->scsecctrl;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->scsecctrl;
-         break;
-     case A_FCLK_DIV:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->fclk_div;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->fclk_div;
-         break;
-     case A_SYSCLK_DIV:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->sysclk_div;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->sysclk_div;
-         break;
-     case A_CLOCK_FORCE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->clock_force;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->clock_force;
-         break;
-     case A_RESET_SYNDROME:
-         r = s->reset_syndrome;
-@@ -137,60 +157,100 @@ static uint64_t iotkit_sysctl_read(void *opaque, hwaddr offset,
-         r = s->initsvtor0;
-         break;
-     case A_INITSVTOR1:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->initsvtor1;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->initsvtor1;
-         break;
-     case A_CPUWAIT:
-         r = s->cpuwait;
-         break;
-     case A_NMI_ENABLE:
--        /* In IoTKit this is named BUSWAIT but is marked reserved, R/O, zero */
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-+            /* In IoTKit this is named BUSWAIT but marked reserved, R/O, zero */
-             r = 0;
-             break;
-+        case ARMSSE_SSE200:
-+            r = s->nmi_enable;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->nmi_enable;
-         break;
-     case A_WICCTRL:
-         r = s->wicctrl;
-         break;
-     case A_EWCTRL:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->ewctrl;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->ewctrl;
-         break;
-     case A_PDCM_PD_SYS_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->pdcm_pd_sys_sense;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->pdcm_pd_sys_sense;
-         break;
-     case A_PDCM_PD_SRAM0_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->pdcm_pd_sram0_sense;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->pdcm_pd_sram0_sense;
-         break;
-     case A_PDCM_PD_SRAM1_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->pdcm_pd_sram1_sense;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->pdcm_pd_sram1_sense;
-         break;
-     case A_PDCM_PD_SRAM2_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->pdcm_pd_sram2_sense;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->pdcm_pd_sram2_sense;
-         break;
-     case A_PDCM_PD_SRAM3_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            r = s->pdcm_pd_sram3_sense;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        r = s->pdcm_pd_sram3_sense;
-         break;
-     case A_PID4 ... A_CID3:
-         r = sysctl_id[(offset - A_PID4) / 4];
-@@ -284,94 +344,154 @@ static void iotkit_sysctl_write(void *opaque, hwaddr offset,
-         }
-         break;
-     case A_SCSECCTRL:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl SCSECCTRL unimplemented\n");
-+            s->scsecctrl = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl SCSECCTRL unimplemented\n");
--        s->scsecctrl = value;
-         break;
-     case A_FCLK_DIV:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl FCLK_DIV unimplemented\n");
-+            s->fclk_div = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl FCLK_DIV unimplemented\n");
--        s->fclk_div = value;
-         break;
-     case A_SYSCLK_DIV:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl SYSCLK_DIV unimplemented\n");
-+            s->sysclk_div = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl SYSCLK_DIV unimplemented\n");
--        s->sysclk_div = value;
-         break;
-     case A_CLOCK_FORCE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl CLOCK_FORCE unimplemented\n");
-+            s->clock_force = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl CLOCK_FORCE unimplemented\n");
--        s->clock_force = value;
-         break;
-     case A_INITSVTOR1:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            s->initsvtor1 = value;
-+            set_init_vtor(1, s->initsvtor1);
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        s->initsvtor1 = value;
--        set_init_vtor(1, s->initsvtor1);
-         break;
-     case A_EWCTRL:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl EWCTRL unimplemented\n");
-+            s->ewctrl = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl EWCTRL unimplemented\n");
--        s->ewctrl = value;
-         break;
-     case A_PDCM_PD_SYS_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "IoTKit SysCtl PDCM_PD_SYS_SENSE unimplemented\n");
-+            s->pdcm_pd_sys_sense = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP,
--                      "IoTKit SysCtl PDCM_PD_SYS_SENSE unimplemented\n");
--        s->pdcm_pd_sys_sense = value;
-         break;
-     case A_PDCM_PD_SRAM0_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "IoTKit SysCtl PDCM_PD_SRAM0_SENSE unimplemented\n");
-+            s->pdcm_pd_sram0_sense = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP,
--                      "IoTKit SysCtl PDCM_PD_SRAM0_SENSE unimplemented\n");
--        s->pdcm_pd_sram0_sense = value;
-         break;
-     case A_PDCM_PD_SRAM1_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "IoTKit SysCtl PDCM_PD_SRAM1_SENSE unimplemented\n");
-+            s->pdcm_pd_sram1_sense = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP,
--                      "IoTKit SysCtl PDCM_PD_SRAM1_SENSE unimplemented\n");
--        s->pdcm_pd_sram1_sense = value;
-         break;
-     case A_PDCM_PD_SRAM2_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "IoTKit SysCtl PDCM_PD_SRAM2_SENSE unimplemented\n");
-+            s->pdcm_pd_sram2_sense = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP,
--                      "IoTKit SysCtl PDCM_PD_SRAM2_SENSE unimplemented\n");
--        s->pdcm_pd_sram2_sense = value;
-         break;
-     case A_PDCM_PD_SRAM3_SENSE:
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto bad_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "IoTKit SysCtl PDCM_PD_SRAM3_SENSE unimplemented\n");
-+            s->pdcm_pd_sram3_sense = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP,
--                      "IoTKit SysCtl PDCM_PD_SRAM3_SENSE unimplemented\n");
--        s->pdcm_pd_sram3_sense = value;
-         break;
-     case A_NMI_ENABLE:
-         /* In IoTKit this is BUSWAIT: reserved, R/O, zero */
--        if (!s->is_sse200) {
-+        switch (s->sse_version) {
-+        case ARMSSE_IOTKIT:
-             goto ro_offset;
-+        case ARMSSE_SSE200:
-+            qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl NMI_ENABLE unimplemented\n");
-+            s->nmi_enable = value;
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        qemu_log_mask(LOG_UNIMP, "IoTKit SysCtl NMI_ENABLE unimplemented\n");
--        s->nmi_enable = value;
-         break;
-     case A_SECDBGSTAT:
-     case A_PID4 ... A_CID3:
-@@ -443,15 +563,13 @@ static void iotkit_sysctl_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "invalid sse-version value %d", s->sse_version);
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index f509f59d4a8..9632c287351 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -654,6 +654,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Security controller */
++    object_property_set_int(OBJECT(&s->secctl), "sse-version",
++                            info->sse_version, &error_abort);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->secctl), errp)) {
          return;
      }
--
--    s->is_sse200 = s->sse_version == ARMSSE_SSE200;
+diff --git a/hw/misc/iotkit-secctl.c b/hw/misc/iotkit-secctl.c
+index 9fdb82056a8..7b41cfa8fc5 100644
+--- a/hw/misc/iotkit-secctl.c
++++ b/hw/misc/iotkit-secctl.c
+@@ -19,6 +19,8 @@
+ #include "hw/registerfields.h"
+ #include "hw/irq.h"
+ #include "hw/misc/iotkit-secctl.h"
++#include "hw/arm/armsse-version.h"
++#include "hw/qdev-properties.h"
+ 
+ /* Registers in the secure privilege control block */
+ REG32(SECRESPCFG, 0x10)
+@@ -95,6 +97,19 @@ static const uint8_t iotkit_secctl_ns_idregs[] = {
+     0x0d, 0xf0, 0x05, 0xb1,
+ };
+ 
++static const uint8_t iotkit_secctl_s_sse300_idregs[] = {
++    0x04, 0x00, 0x00, 0x00,
++    0x52, 0xb8, 0x2b, 0x00,
++    0x0d, 0xf0, 0x05, 0xb1,
++};
++
++static const uint8_t iotkit_secctl_ns_sse300_idregs[] = {
++    0x04, 0x00, 0x00, 0x00,
++    0x53, 0xb8, 0x2b, 0x00,
++    0x0d, 0xf0, 0x05, 0xb1,
++};
++
++
+ /* The register sets for the various PPCs (AHB internal, APB internal,
+  * AHB expansion, APB expansion) are all set up so that they are
+  * in 16-aligned blocks so offsets 0xN0, 0xN4, 0xN8, 0xNC are PPCs
+@@ -213,7 +228,14 @@ static MemTxResult iotkit_secctl_s_read(void *opaque, hwaddr addr,
+     case A_CID1:
+     case A_CID2:
+     case A_CID3:
+-        r = iotkit_secctl_s_idregs[(offset - A_PID4) / 4];
++        switch (s->sse_version) {
++        case ARMSSE_SSE300:
++            r = iotkit_secctl_s_sse300_idregs[(offset - A_PID4) / 4];
++            break;
++        default:
++            r = iotkit_secctl_s_idregs[(offset - A_PID4) / 4];
++            break;
++        }
+         break;
+     case A_SECPPCINTCLR:
+     case A_SECMSCINTCLR:
+@@ -473,7 +495,14 @@ static MemTxResult iotkit_secctl_ns_read(void *opaque, hwaddr addr,
+     case A_CID1:
+     case A_CID2:
+     case A_CID3:
+-        r = iotkit_secctl_ns_idregs[(offset - A_PID4) / 4];
++        switch (s->sse_version) {
++        case ARMSSE_SSE300:
++            r = iotkit_secctl_ns_sse300_idregs[(offset - A_PID4) / 4];
++            break;
++        default:
++            r = iotkit_secctl_ns_idregs[(offset - A_PID4) / 4];
++            break;
++        }
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -710,6 +739,16 @@ static void iotkit_secctl_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->ns_regs);
  }
  
- static bool sse200_needed(void *opaque)
++static void iotkit_secctl_realize(DeviceState *dev, Error **errp)
++{
++    IoTKitSecCtl *s = IOTKIT_SECCTL(dev);
++
++    if (!armsse_version_valid(s->sse_version)) {
++        error_setg(errp, "invalid sse-version value %d", s->sse_version);
++        return;
++    }
++}
++
+ static const VMStateDescription iotkit_secctl_ppc_vmstate = {
+     .name = "iotkit-secctl-ppc",
+     .version_id = 1,
+@@ -775,12 +814,19 @@ static const VMStateDescription iotkit_secctl_vmstate = {
+     },
+ };
+ 
++static Property iotkit_secctl_props[] = {
++    DEFINE_PROP_UINT32("sse-version", IoTKitSecCtl, sse_version, 0),
++    DEFINE_PROP_END_OF_LIST()
++};
++
+ static void iotkit_secctl_class_init(ObjectClass *klass, void *data)
  {
-     IoTKitSysCtl *s = IOTKIT_SYSCTL(opaque);
+     DeviceClass *dc = DEVICE_CLASS(klass);
  
--    return s->is_sse200;
-+    return s->sse_version == ARMSSE_SSE200;
+     dc->vmsd = &iotkit_secctl_vmstate;
+     dc->reset = iotkit_secctl_reset;
++    dc->realize = iotkit_secctl_realize;
++    device_class_set_props(dc, iotkit_secctl_props);
  }
  
- static const VMStateDescription iotkit_sysctl_sse200_vmstate = {
+ static const TypeInfo iotkit_secctl_info = {
 -- 
 2.20.1
 
