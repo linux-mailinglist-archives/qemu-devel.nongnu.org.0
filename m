@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A280E33154C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:54:50 +0100 (CET)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAEC33155D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Mar 2021 18:58:10 +0100 (CET)
+Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJK5h-0005XY-MY
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:54:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53746)
+	id 1lJK8v-0001pJ-7O
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 12:58:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJky-0006xI-Kq
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:24 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37753)
+ id 1lJJlH-0007Sg-Vj
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:44 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJJkj-000767-QG
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:24 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so4309246wml.2
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:07 -0800 (PST)
+ id 1lJJky-0007CK-Li
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 12:33:43 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id h98so12288607wrh.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 09:33:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7xYZ+HciElGUaFRNp8Vvkg6tWFIMlpBDq+4h/wI/xJ8=;
- b=QW/g2Vrw1GJ0znTFWjb5cJaOD4GdpPj3tNXmcLRGiLFus3Tphkk5PVNlpIXw6FyCOD
- 4BF57p9reZcxl8nrnQGYO0xDKUPDRhWpMhMUk9QFv5mZScMn9mpwRAY0F8vfcKTmQEMR
- nuzCNK+lMS1WQR7DYeGi/jlneXSuC8iTvaDYRJiU6Pa0aB2PGZTUidNMrPaC9LtGKmHx
- i6HUqqlfBUOFvUuMv0TQOYCkn7YVuJvcG+NpGlNn4Cit6YJnxNJMPVZFSDi/hPlJUBDB
- ttvvGXfmtsf7MXO7sYo2QMHJzxfbPDXyqbwkHJUbW/X3M0PfiGsIIxt6AvAWBl8kDVTM
- w+YQ==
+ bh=FwS3SPX8y37ONXBWnC+0aZzPfEkxrlTDIJyPgPsjX4w=;
+ b=hX+bQTYVIfoMarahcE0CILh2NiFpg6eqR6s6Hw1lKi3k3YcnHLZjZC46f6NqdVHNAH
+ wJZ+zYUYOP371LzfmUhh+G5bnTMweHdE4PWil+UE+qPpyHqY430XrHZMOXU/4Cmq9+7f
+ d3Hh8kPTa5zN3xDAA4R/RVhFH81qZwwYrJhFXOe7OLff18WFKYVosmKsbsqWrgBif8zD
+ 0Yt+Qjj9MfZCoTjZcDoLSB2q1hl//ydjAaaGvqV4Wh7Cy1KJczc9Oa/y+mJN+POdZ3YX
+ LQpAK7xH11qAAy8GFSHNF5M5TLhuvDpVPBcwrEeNbYecJHT4V872iQS+LSEuxJ1D7Iqe
+ 0YGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7xYZ+HciElGUaFRNp8Vvkg6tWFIMlpBDq+4h/wI/xJ8=;
- b=YuY1Bzz45zWwlgD6rdc70Vy75wOlknDwRXe4X9OCOT4ZDEyzHDUDWkSPV51in9h7kk
- A85W2nXhk4s5oHQ1NeeWvnSx7ayB//6yq/S31EmKx1D5mM/q1HPYGSk2Prq3ZY4lU0UT
- xAHYzGeL5IAcNmFO3GSCNejF7RKyiNYj+Bdw23bI/S7X8ZFiBwLxO1cdXZiX8O182nYc
- EDf+cLWGvqri4UurTA1FxAIYCfhJIwKi7UhWtSSzmgaj7e23YWdR/qNX4xK8wEAGJ2Gf
- 0RRLJYD2uN8ccG9xJUfR06vD+yZc1/jq9RmHzmDXjui8McQ9xabvuKMWOWoWv/z45kpr
- qAEA==
-X-Gm-Message-State: AOAM532hcFVczUN9FlzY5W5ktC6b96vrHHh98kpQ+EkW85W3Eg5Sbgwi
- /tVCg/xYXjggCNfQ65R8/tAwGNPnPAyS2A==
-X-Google-Smtp-Source: ABdhPJz+dncdNumMpXXEBO4ms3fqXd8pFBjsUg6fahdMPEdC3ivcYZNaA3CcskfRD7zt7e8Jfh+6Eg==
-X-Received: by 2002:a1c:65c2:: with SMTP id z185mr13652889wmb.2.1615224786741; 
- Mon, 08 Mar 2021 09:33:06 -0800 (PST)
+ bh=FwS3SPX8y37ONXBWnC+0aZzPfEkxrlTDIJyPgPsjX4w=;
+ b=RgELcIGufzRfx/va2YlOo0t1yA3/BbJbXRaDY1JtUW5FjpGIL/TZocpYhyef6HPD4y
+ KO1bgOfKQMHOOHAAaYBMRW86maNfgYMZfvYkWROWMNzdFNfOsp2L3l14oxcEZF810SWY
+ wZrWGjCEslMvbvZwLzci7p+e39IH9DX1UKV9roS+8fSq9p8D3UTC5d34im0rbhn75n8A
+ L5IjGf0TCiTIOAYjzAmYdy5la79aZc8KDrSP6CqTG/A9cT419lh6e9M0j38Gi57RIF0m
+ EzEhgBQksLESMdaf55jdkRVbyIoO3XQk6Us6PrZTbArMp8SGLBlPl7DX8r1JfMeDl1tm
+ CpVA==
+X-Gm-Message-State: AOAM530ePPpm8rNFOHj8CGqJG5tc0Dbl0Ka7w7kqvn4HJnwZMZ9Ljuq8
+ Rvhr58oMEt9jOdJrbJAfdfli0U3ajIzegQ==
+X-Google-Smtp-Source: ABdhPJwnGrkpfzIUM46o1FnUUgPUxHV3E/UQwsr5+kepi7QqgWF3x7SrRW4kFMH6MTZ6nPBmVWZ2zA==
+X-Received: by 2002:adf:ee92:: with SMTP id b18mr22797577wro.275.1615224803232; 
+ Mon, 08 Mar 2021 09:33:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.06
+ by smtp.gmail.com with ESMTPSA id i10sm18628217wrs.11.2021.03.08.09.33.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:33:06 -0800 (PST)
+ Mon, 08 Mar 2021 09:33:22 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/54] hw/arm/armsse: Move sysinfo register block into
- data-driven framework
-Date: Mon,  8 Mar 2021 17:32:17 +0000
-Message-Id: <20210308173244.20710-28-peter.maydell@linaro.org>
+Subject: [PULL 50/54] hw/arm: xlnx-zynqmp: Connect a Xilinx CSU DMA module for
+ QSPI
+Date: Mon,  8 Mar 2021 17:32:40 +0000
+Message-Id: <20210308173244.20710-51-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210308173244.20710-1-peter.maydell@linaro.org>
 References: <20210308173244.20710-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,107 +87,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the sysinfo register block into the data-driven framework.
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-While we are moving the code for configuring this device around,
-regularize on using &error_abortw when setting the integer
-properties: they are all simple DEFINE_PROP_UINT32 properties so the
-setting can never fail.
+Add a Xilinx CSU DMA module to ZynqMP SoC, and connent the stream
+link of GQSPI to CSU DMA.
 
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20210303135254.3970-4-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210219144617.4782-28-peter.maydell@linaro.org
 ---
- hw/arm/armsse.c | 47 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+ include/hw/arm/xlnx-zynqmp.h |  2 ++
+ hw/arm/xlnx-zynqmp.c         | 12 ++++++++++++
+ hw/arm/Kconfig               |  1 +
+ 3 files changed, 15 insertions(+)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 3270362d599..91f30b1fdc4 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -157,6 +157,14 @@ static const ARMSSEDeviceInfo sse200_devices[] = {
-         .ppc = NO_PPC,
-         .irq = NMI_1,
-     },
-+    {
-+        .name = "armsse-sysinfo",
-+        .type = TYPE_IOTKIT_SYSINFO,
-+        .index = 0,
-+        .addr = 0x40020000,
-+        .ppc = NO_PPC,
-+        .irq = NO_IRQ,
-+    },
-     {
-         .name = NULL,
-     }
-@@ -407,6 +415,10 @@ static void armsse_init(Object *obj)
-             object_initialize_child(obj, devinfo->name,
-                                     &s->cmsdk_watchdog[devinfo->index],
-                                     TYPE_CMSDK_APB_WATCHDOG);
-+        } else if (!strcmp(devinfo->type, TYPE_IOTKIT_SYSINFO)) {
-+            assert(devinfo->index == 0);
-+            object_initialize_child(obj, devinfo->name, &s->sysinfo,
-+                                    TYPE_IOTKIT_SYSINFO);
-         } else {
-             g_assert_not_reached();
-         }
-@@ -437,8 +449,6 @@ static void armsse_init(Object *obj)
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index c83ef23e92d..1676a84ec82 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -35,6 +35,7 @@
+ #include "target/arm/cpu.h"
+ #include "qom/object.h"
+ #include "net/can_emu.h"
++#include "hw/dma/xlnx_csu_dma.h"
  
-     object_initialize_child(obj, "armsse-sysctl", &s->sysctl,
-                             TYPE_IOTKIT_SYSCTL);
--    object_initialize_child(obj, "armsse-sysinfo", &s->sysinfo,
--                            TYPE_IOTKIT_SYSINFO);
-     if (info->has_mhus) {
-         object_initialize_child(obj, "mhu0", &s->mhu[0], TYPE_ARMSSE_MHU);
-         object_initialize_child(obj, "mhu1", &s->mhu[1], TYPE_ARMSSE_MHU);
-@@ -889,6 +899,22 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
-             mr = sysbus_mmio_get_region(sbd, 0);
-+        } else if (!strcmp(devinfo->type, TYPE_IOTKIT_SYSINFO)) {
-+            sbd = SYS_BUS_DEVICE(&s->sysinfo);
+ #define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+@@ -108,6 +109,7 @@ struct XlnxZynqMPState {
+     XlnxZynqMPRTC rtc;
+     XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
+     XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
++    XlnxCSUDMA qspi_dma;
+ 
+     char *boot_cpu;
+     ARMCPU *boot_cpu_ptr;
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index e2056a764e2..7f01284a5c0 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -50,6 +50,7 @@
+ #define QSPI_ADDR           0xff0f0000
+ #define LQSPI_ADDR          0xc0000000
+ #define QSPI_IRQ            15
++#define QSPI_DMA_ADDR       0xff0f0800
+ 
+ #define DP_ADDR             0xfd4a0000
+ #define DP_IRQ              113
+@@ -284,6 +285,8 @@ static void xlnx_zynqmp_init(Object *obj)
+     for (i = 0; i < XLNX_ZYNQMP_NUM_ADMA_CH; i++) {
+         object_initialize_child(obj, "adma[*]", &s->adma[i], TYPE_XLNX_ZDMA);
+     }
 +
-+            object_property_set_int(OBJECT(&s->sysinfo), "SYS_VERSION",
-+                                    info->sys_version, &error_abort);
-+            object_property_set_int(OBJECT(&s->sysinfo), "SYS_CONFIG",
-+                                    armsse_sys_config_value(s, info),
-+                                    &error_abort);
-+            object_property_set_int(OBJECT(&s->sysinfo), "sse-version",
-+                                    info->sse_version, &error_abort);
-+            object_property_set_int(OBJECT(&s->sysinfo), "IIDR",
-+                                    info->iidr, &error_abort);
-+            if (!sysbus_realize(sbd, errp)) {
-+                return;
-+            }
-+            mr = sysbus_mmio_get_region(sbd, 0);
-         } else {
-             g_assert_not_reached();
-         }
-@@ -1106,23 +1132,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-         memory_region_add_subregion(&s->container, devinfo->addr, mr);
-     }
++    object_initialize_child(obj, "qspi-dma", &s->qspi_dma, TYPE_XLNX_CSU_DMA);
+ }
  
--    if (!object_property_set_int(OBJECT(&s->sysinfo), "SYS_VERSION",
--                                 info->sys_version, errp)) {
--        return;
--    }
--    if (!object_property_set_int(OBJECT(&s->sysinfo), "SYS_CONFIG",
--                                 armsse_sys_config_value(s, info), errp)) {
--        return;
--    }
--    object_property_set_int(OBJECT(&s->sysinfo), "sse-version",
--                            info->sse_version, &error_abort);
--    object_property_set_int(OBJECT(&s->sysinfo), "IIDR",
--                            info->iidr, &error_abort);
--    if (!sysbus_realize(SYS_BUS_DEVICE(&s->sysinfo), errp)) {
--        return;
--    }
--    /* System information registers */
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysinfo), 0, 0x40020000);
-     /* System control registers */
-     object_property_set_int(OBJECT(&s->sysctl), "sse-version",
-                             info->sse_version, &error_abort);
+ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+@@ -638,6 +641,15 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->adma[i]), 0,
+                            gic_spi[adma_ch_intr[i]]);
+     }
++
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->qspi_dma), errp)) {
++        return;
++    }
++
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi_dma), 0, QSPI_DMA_ADDR);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0, gic_spi[QSPI_IRQ]);
++    object_property_set_link(OBJECT(&s->qspi), "stream-connected-dma",
++                             OBJECT(&s->qspi_dma), errp);
+ }
+ 
+ static Property xlnx_zynqmp_props[] = {
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index f2b7a8fc0b0..8c37cf00da7 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -353,6 +353,7 @@ config XLNX_ZYNQMP_ARM
+     select SSI_M25P80
+     select XILINX_AXI
+     select XILINX_SPIPS
++    select XLNX_CSU_DMA
+     select XLNX_ZYNQMP
+     select XLNX_ZDMA
+ 
 -- 
 2.20.1
 
