@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B743329F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:15:09 +0100 (CET)
-Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEE5332A10
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:17:37 +0100 (CET)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJe4i-0006t3-II
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:15:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49906)
+	id 1lJe76-0001xx-34
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:17:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdnP-0004ZC-GG
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:15 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38235)
+ id 1lJdnY-0004sE-4k
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:24 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdnM-0002Qz-9P
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:15 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id mj10so28476495ejb.5
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:57:11 -0800 (PST)
+ id 1lJdnW-0002Vq-JQ
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:23 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id bd6so20660331edb.10
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:57:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uKIJKMsw/r7XvCdaVtLJUnBMuj2jf66I2sYgK8saVig=;
- b=ambdDhCmaF9SKSTnhDkc/e82xNQxRCkiEDD4rg9X8TqmoyFRcrjzzamqGOUs6oPvW4
- pHNGwwAZswnHQIsBmw1scES9d7TWf5MFTdvRej680pQWYz4Uz3XzbSKrxpeSPr3/6Hzb
- CFdfSuq02nY4CYhL+Fbi475h50MBq9Z7Yxae9MxUZSfPSeUu4RkOl5G5okqWSlestOQU
- bVKln8fdXyz9WMB5wPufLFX+FQkGm18j8b3WbqOXkBTS7boOHoPYE+Oh47pzxdEBjOVm
- 3vncbTEo+RLu7ZhzHCm7EO747eq5WUr8ypZhhgfqBaIKNvW3Kw/KFFIqI/WRBipIUdlq
- xxnQ==
+ bh=XTd3dK5Mj70iaA9wAzBL+3DpQxfmajFVbOdHqCwvUtU=;
+ b=GFJMRhpclO2wif7QM47XRXh8CYCymLx2CQcNhJLU90ZTBU8v1559gLPIYDlHb0NpV8
+ R8Lwgjw2BWYrISdz7SL97zcgatj987grZc63JURxe6rXOHqnn4tX9kxOM/AJH3CWamYZ
+ 1QKTiBqfD0uC+VsbSeK/epuF41ZIe/gXLxFc0/97SrKdz32nsRm0rYhvAZWGsxXFJmEz
+ 4P4eG1wSr0MzDbHDiAPhWo2FqQ5ZXCCJ03kJ5s2FNdU5UpQ/mXMSb6Ou7VdkDMfFv0Rq
+ CQ0bD1uF7bIwXMrmIqAd7Qc3CyhC8D889+VdCV7zPywg06ppJAZtJevC8v63QUROsSXK
+ bMJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uKIJKMsw/r7XvCdaVtLJUnBMuj2jf66I2sYgK8saVig=;
- b=K6TKG3xC35iPxPVPmWe1mEH0boQbSzCu16ks3DhjzdkDU9KqeDs3qckQ3tz/gfasDj
- s0UKshcnDTzEclzDcfvXEv62ydoVOC8KxJL8hUJADAn+9UvxmlzIb/p6eMBdhazv2BE8
- 95DGsmt0qStsmuMLLgjD9ak1eOpSPy/cjmEA84AsP6N2kF5UX8ht6OH3JEB4UX35xQum
- JJUx8/ztnTofHVDuaW5SkIYMSXNC8mncr2fl4CY6h/kUOmfJ0egqws37RDYsY1M8UzB+
- QUgn7SzHdUyQ3ll0Xd9OvHRRG4SYweUixloDXsNwXECp0dFbg6GJOj/t1Hs3eG1Tc9CM
- oAzQ==
-X-Gm-Message-State: AOAM5304jkHOV6Xg7iFpd/W48msfeCM5hQpP1mZIpaSWvZCHIA4W7w9N
- wkONQghxVxdRWGIcK2D905QTP+kRXWI=
-X-Google-Smtp-Source: ABdhPJwpMLJ9r+LHtiDQ+eqJZSi1Atr++SL02vWSIEuRc8Qj1M3JFxs7VqBVlQXp03IsFZu57SdqmQ==
-X-Received: by 2002:a17:906:cd05:: with SMTP id
- oz5mr21149057ejb.345.1615301830755; 
- Tue, 09 Mar 2021 06:57:10 -0800 (PST)
+ bh=XTd3dK5Mj70iaA9wAzBL+3DpQxfmajFVbOdHqCwvUtU=;
+ b=eFnjswgNtcGzziyyRmCqlLZl6rzK2Q3Mq56hSVd9LvRG3KFWOlAVMoyFm1V9CEy6N+
+ 6uKCrPtKJ334aqvywAgjBNfYqu27f7iKf0IE/TfZ0qanRC3FK6QUH6xwr47j8u5JD+Ms
+ On+BOq8U4i83ZSmNkHXHWb6uZCjUVmazKt8AaRW2FKc7FBoFiY8KY97qr9ov+Kqz2t3s
+ WVl4MByY/2b9mLRJkdTw1CjpLpr/mwcpP+6K4M9tGjJ7W92bKngCVTiEzGYZWrSvJr1y
+ CkNvoGEPFOw5uBil1dzAVNWmfucu0QMPY2gECuY7m4F+RrQpFUj1AYx0PmoYG03825JO
+ wChw==
+X-Gm-Message-State: AOAM530CWzj7y8fI0Ha5bpGRzLgoiPUtenIkBUndCFTeOC6Hi8C6jkqe
+ 0yOpZiKEUK3sd3wP+4gF1m7uNEGX4dA=
+X-Google-Smtp-Source: ABdhPJxkHL1+yKsLZn4Q/aFSgAzqZZl80Gp6XzfdwRl9CZcFX2074VDGSLlINELORPJEAzfpcrm8/A==
+X-Received: by 2002:a05:6402:30a2:: with SMTP id
+ df2mr4524495edb.29.1615301840906; 
+ Tue, 09 Mar 2021 06:57:20 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p19sm9424103edr.57.2021.03.09.06.57.09
+ by smtp.gmail.com with ESMTPSA id a3sm8363431ejv.40.2021.03.09.06.57.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:57:10 -0800 (PST)
+ Tue, 09 Mar 2021 06:57:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 03/22] target/mips/translate: Make gen_rdhwr() public
-Date: Tue,  9 Mar 2021 15:56:34 +0100
-Message-Id: <20210309145653.743937-4-f4bug@amsat.org>
+Subject: [RFC PATCH v2 05/22] target/mips/tx79: Move PCPYH opcode to decodetree
+Date: Tue,  9 Mar 2021 15:56:36 +0100
+Message-Id: <20210309145653.743937-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309145653.743937-1-f4bug@amsat.org>
 References: <20210309145653.743937-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,43 +94,126 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will use gen_rdhwr() outside of translate.c, make it public.
+Move the existing PCPYH opcode (Parallel Copy Halfword) to decodetree.
+Remove unnecessary code / comments.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210214175912.732946-28-f4bug@amsat.org>
+Message-Id: <20210214175912.732946-12-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.h | 2 ++
- target/mips/translate.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ target/mips/tx79.decode      |  5 +++++
+ target/mips/translate.c      | 39 ------------------------------------
+ target/mips/tx79_translate.c | 22 ++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 39 deletions(-)
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index e4f2f26de89..2b3c7a69ec6 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -148,6 +148,8 @@ void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1);
- bool gen_lsa(DisasContext *ctx, int rd, int rt, int rs, int sa);
- bool gen_dlsa(DisasContext *ctx, int rd, int rt, int rs, int sa);
+diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
+index 30737da54e4..7af35458b0a 100644
+--- a/target/mips/tx79.decode
++++ b/target/mips/tx79.decode
+@@ -17,6 +17,7 @@
+ # Named instruction formats.  These are generally used to
+ # reduce the amount of duplication between instruction patterns.
  
-+void gen_rdhwr(DisasContext *ctx, int rt, int rd, int sel);
++@rt_rd          ...... ..... rt:5  rd:5  ..... ......   &rtype rs=0 sa=0
+ @rs             ...... rs:5  ..... ..........  ......   &rtype rt=0 rd=0 sa=0
+ @rd             ...... ..........  rd:5  ..... ......   &rtype rs=0 rt=0 sa=0
+ 
+@@ -26,3 +27,7 @@ MFHI1           011100 0000000000  ..... 00000 010000   @rd
+ MTHI1           011100 .....  0000000000 00000 010001   @rs
+ MFLO1           011100 0000000000  ..... 00000 010010   @rd
+ MTLO1           011100 .....  0000000000 00000 010011   @rs
 +
- extern TCGv cpu_gpr[32], cpu_PC;
- #if defined(TARGET_MIPS64)
- extern TCGv_i64 cpu_gpr_hi[32];
++# MMI3
++
++PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 0131affce70..0f77c0ebc57 100644
+index 9de81b08665..25adaa75eb5 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -12349,7 +12349,7 @@ static void gen_flt3_arith(DisasContext *ctx, uint32_t opc,
-     }
+@@ -24062,42 +24062,6 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
+  *                     PEXTUW
+  */
+ 
+-/*
+- *  PCPYH rd, rt
+- *
+- *    Parallel Copy Halfword
+- *
+- *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+- *  +-----------+---------+---------+---------+---------+-----------+
+- *  |    MMI    |0 0 0 0 0|   rt    |   rd    |  PCPYH  |    MMI3   |
+- *  +-----------+---------+---------+---------+---------+-----------+
+- */
+-static void gen_mmi_pcpyh(DisasContext *ctx)
+-{
+-    uint32_t pd, rt, rd;
+-    uint32_t opcode;
+-
+-    opcode = ctx->opcode;
+-
+-    pd = extract32(opcode, 21, 5);
+-    rt = extract32(opcode, 16, 5);
+-    rd = extract32(opcode, 11, 5);
+-
+-    if (unlikely(pd != 0)) {
+-        gen_reserved_instruction(ctx);
+-    } else if (rd == 0) {
+-        /* nop */
+-    } else if (rt == 0) {
+-        tcg_gen_movi_i64(cpu_gpr[rd], 0);
+-        tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
+-    } else {
+-        tcg_gen_deposit_i64(cpu_gpr[rd], cpu_gpr[rt], cpu_gpr[rt], 16, 16);
+-        tcg_gen_deposit_i64(cpu_gpr[rd], cpu_gpr[rd], cpu_gpr[rd], 32, 32);
+-        tcg_gen_deposit_i64(cpu_gpr_hi[rd], cpu_gpr_hi[rt], cpu_gpr_hi[rt], 16, 16);
+-        tcg_gen_deposit_i64(cpu_gpr_hi[rd], cpu_gpr_hi[rd], cpu_gpr_hi[rd], 32, 32);
+-    }
+-}
+-
+ /*
+  *  PCPYLD rd, rs, rt
+  *
+@@ -25016,9 +24980,6 @@ static void decode_mmi3(CPUMIPSState *env, DisasContext *ctx)
+     case MMI_OPC_3_PEXCW:      /* TODO: MMI_OPC_3_PEXCW */
+         gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI3 */
+         break;
+-    case MMI_OPC_3_PCPYH:
+-        gen_mmi_pcpyh(ctx);
+-        break;
+     case MMI_OPC_3_PCPYUD:
+         gen_mmi_pcpyud(ctx);
+         break;
+diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
+index 905245cece7..d58b4fcd7b3 100644
+--- a/target/mips/tx79_translate.c
++++ b/target/mips/tx79_translate.c
+@@ -49,3 +49,25 @@ static bool trans_MTLO1(DisasContext *ctx, arg_rtype *a)
+ 
+     return true;
  }
- 
--static void gen_rdhwr(DisasContext *ctx, int rt, int rd, int sel)
-+void gen_rdhwr(DisasContext *ctx, int rt, int rd, int sel)
- {
-     TCGv t0;
- 
++
++/* Parallel Copy Halfword */
++static bool trans_PCPYH(DisasContext *s, arg_rtype *a)
++{
++    if (a->rd == 0) {
++        /* nop */
++        return true;
++    }
++
++    if (a->rt == 0) {
++        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
++        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
++        return true;
++    }
++
++    tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rt], cpu_gpr[a->rt], 16, 16);
++    tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], cpu_gpr[a->rd], 32, 32);
++    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rt], cpu_gpr_hi[a->rt], 16, 16);
++    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], 32, 32);
++
++    return true;
++}
 -- 
 2.26.2
 
