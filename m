@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2273331C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 23:54:05 +0100 (CET)
-Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CE83331C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 23:56:04 +0100 (CET)
+Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJlEq-00040v-Cr
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 17:54:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50270)
+	id 1lJlGl-0005My-Vt
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 17:56:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lJlAy-0002sR-OD
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:50:05 -0500
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:44600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lJlAx-0006YJ-1s
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:50:04 -0500
-Received: by mail-qk1-x735.google.com with SMTP id 130so14884866qkh.11
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 14:50:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LBoMEznxpbUHqr02K0crGliNNJhF8QUMOIS46J3udkU=;
- b=Qp0KioZVJwRJOeMAAOVxit/UjVwIcG0gcxSYc2S4QSrSMdfVEwQ9gUuT/ino4nwaKC
- ZEq5ALt5RIuafAeA3qSQy9xJF9s8chtxSOCtMfCqQpFJ66vDIvDwwWXmCp0V5ImKmQbo
- VjWq20GE+gW6DQ9wAkphbXq1n0SfwRpSpbNaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LBoMEznxpbUHqr02K0crGliNNJhF8QUMOIS46J3udkU=;
- b=Z0FtrkAuY6pSXiBniphwsseBThYKgDbWEFn2IEiGUEkg34+1oLgEmWJVayWI7Ab2L7
- JDByyepsSHSRWPqP6m3aNPEFbMbp9v5dZRNkcneIAdVk1mWVNoutnJYgPRaO1GDYBFZ7
- gIUB3PqC6gD2rhAqp3dP43CNxijT2KbB795NmXRT7u9gwPSDkRVAN5V6mwN0SdDAF6ad
- vomzzfRVUD9tF8HdGVfd9KIAPKkWN6rx/HS0B7FVyRUdK8QYLMaG8rRrBlrsPa/ecy4t
- UAxJl5E1V3+Vvhy7XDYkgjc7sed0/4f0kf5hk31gMbSgCmSE4GwcoINpBeLUeb+fvRtq
- 2yaQ==
-X-Gm-Message-State: AOAM531j404a7r6WI0Ovh34idqgFRLj0+3yPZjRpF0OdsqoqNC1WPGW3
- oozbTo++Bm0f/i0a12SQowO6/CkGKCacJuzVyQI=
-X-Google-Smtp-Source: ABdhPJyMVR0YvoZJKOU1QiZvPDRyXGB9G3P3NgbVeJBg3EFaRLiKZ2fMOargbrrDbMbHIBGLdizAF6/vZz4hn8/xDWY=
-X-Received: by 2002:a05:620a:24cd:: with SMTP id
- m13mr28499414qkn.273.1615330201809; 
- Tue, 09 Mar 2021 14:50:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJlFj-0004f5-1x
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:54:59 -0500
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:39711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lJlFf-0000EE-HZ
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:54:58 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 9E9032471B1;
+ Tue,  9 Mar 2021 23:54:51 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 9 Mar 2021
+ 23:54:51 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001fd8a561b-acc5-47cb-b49d-a348f01b07f7,
+ 5BB0FC21D60CBA87691D752E0F3295FDC8BC83A3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 9 Mar 2021 23:54:49 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Fix the location of tools manuals
+Message-ID: <20210309235449.138fb41a@bahia.lan>
+In-Reply-To: <dd68974a-d2df-88ea-52fc-fb8def4b4ee3@redhat.com>
+References: <20210204135425.1380280-1-wainersm@redhat.com>
+ <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
+ <dd85243c-860d-e915-295d-8292d0a2f36f@redhat.com>
+ <dd68974a-d2df-88ea-52fc-fb8def4b4ee3@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210309153507.1905682-1-wainersm@redhat.com>
-In-Reply-To: <20210309153507.1905682-1-wainersm@redhat.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Mar 2021 22:49:49 +0000
-Message-ID: <CACPK8XftT1enddLKnj8+9p+Wd3O9C6w-FqgnNR2yBFx62GuBRg@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Print expected message on
- wait_for_console_pattern
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=joel.stan@gmail.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 9c02ed1c-e9e5-42e9-b0df-dbbe99ab9a2b
+X-Ovh-Tracer-Id: 18211149521477999026
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgudeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,49 +69,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: willianr@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, dgilbert@redhat.com,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 at 16:00, Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> For the sake of improve debuggability of tests which use the
-> wait_for_console_pattern(), this changed the _console_interaction() so that
-> the expected message is printed if the test fail.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
-> While I was testing  "[PATCH v2 2/2] tests/acceptance: Test ast2600 machine"
-> I could not clearly determine which of the called wait_for_console_pattern()
-> was failing. So this patch improves debuggability in such as situations.
+On Tue, 9 Mar 2021 20:48:40 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Nice!
+> On 09/03/2021 18.41, Wainer dos Santos Moschetta wrote:
+> > Hi,
+> >=20
+> > Any issue that prevent this of being queued?
+>=20
+> Maybe it's just not clear who should take the patch ... CC:-ing qemu-triv=
+ial=20
+> and qemu-block now, since I think it could go through the trivial or bloc=
+k tree.
+>=20
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+For the virtfs change:
 
->
->  tests/acceptance/avocado_qemu/__init__.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index df167b142c..ed338caaba 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -97,7 +97,8 @@ def _console_interaction(test, success_message, failure_message,
->              break
->          if failure_message and failure_message in msg:
->              console.close()
-> -            fail = 'Failure message found in console: %s' % failure_message
-> +            fail = 'Failure message found in console: "%s". Expected: "%s"' % \
-> +                    (failure_message, success_message)
->              test.fail(fail)
->
->  def interrupt_interactive_console_until_pattern(test, success_message,
-> --
-> 2.29.2
->
->
+Acked-by: Greg Kurz <groug@kaod.org>
+
+> > On 2/4/21 10:59 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 2/4/21 2:54 PM, Wainer dos Santos Moschetta wrote:
+> >>> The qemu-img.rst, qemu-nbd.rst, virtfs-proxy-helper.rst,=20
+> >>> qemu-trace-stap.rst,
+> >>> and virtiofsd.rst manuals were moved to docs/tools, so this update=20
+> >>> MAINTAINERS
+> >>> accordingly.
+> >>>
+> >>> Fixes: a08b4a9fe6c ("docs: Move tools documentation to tools manual")
+> >>> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >>> ---
+> >>> v1: was "MAINTAINERS: Fix the location of virtiofsd.rst"
+> >>> v2: Fixed the location of all files [philmd]
+> >>>
+> >>> =C2=A0 MAINTAINERS | 10 +++++-----
+> >>> =C2=A0 1 file changed, 5 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>> index 00626941f1..174425a941 100644
+> >>> --- a/MAINTAINERS
+> >>> +++ b/MAINTAINERS
+> >>> @@ -1829,7 +1829,7 @@ S: Odd Fixes
+> >>> =C2=A0 F: hw/9pfs/
+> >>> =C2=A0 X: hw/9pfs/xen-9p*
+> >>> =C2=A0 F: fsdev/
+> >>> -F: docs/interop/virtfs-proxy-helper.rst
+> >>> +F: docs/tools/virtfs-proxy-helper.rst
+>=20
+> FWIW:
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>=20
+
 
