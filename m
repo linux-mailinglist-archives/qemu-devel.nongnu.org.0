@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C05332890
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:27:36 +0100 (CET)
-Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD2A332880
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:24:41 +0100 (CET)
+Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdKh-0004FG-JZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:27:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39922)
+	id 1lJdHs-0008ME-DQ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:24:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJdEy-0005QA-IJ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:21:42 -0500
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:42981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJdEq-0003U5-Ot
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:21:40 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id e45so12918816ote.9
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=tWd3uk2YWgVFGfjkgGFWFBwno/Ry/8sVR8CJDE/Wdps=;
- b=SVfHq/a7/RRH6Xomp/RCq7yUJFdhqe/G7/RTzD7HMYJdrZhByNsqF+yDEnpuPR9O8K
- 9rpcrhWoQZPP4y3bAn/o7UEKMjwM7uEPJH9p4DYNNqujlmtWLV81tP7EDozDtz9Ax8FD
- Q/mEH/Cku9wHrYNs6qglvaRNiTT7Ullk+7KC1h+M8gY51jznSW3oSzr7qX7ylcI2are+
- YY6Mc3jc23P7XrG1MuVa4/ZGe0fo5DZjHv4FtrTkpzM5r63NgNOhcbC+l2aRTxQdeZ65
- oG+chSGBKCLmpDdfVH2ihMJ6FoJ3Z+IPCMwUB3yxpcZgPajKIw7bDfh1R7R8DNOuEXQk
- FbhA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJdFz-0006az-1N
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:22:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJdFw-0003wt-IR
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:22:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615299759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5dMbHVJpy+cO5ZJ4Pv9wAwDQaU/VeyJYr3PcB0+jSzg=;
+ b=FzdaaVDgLB+hZ39RFS3GwEg0wv3rAo5nHwYP9v+AbOmQgQg6BM2LbGxyhGLIpdbkQe6Rej
+ 4foJe1g04+njqSk8KhU5DCk46ZdmN/8x2Y7+bWxDcVKepPwAZ8rYrSIuleiVm0mENw6qcp
+ kzYXMeF4xujB1xx4WW3ySq3oRWTClrw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-gxY6zJZKOvWn-s_t5sX6-Q-1; Tue, 09 Mar 2021 09:22:37 -0500
+X-MC-Unique: gxY6zJZKOvWn-s_t5sX6-Q-1
+Received: by mail-wr1-f69.google.com with SMTP id f3so6490702wrt.14
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:22:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tWd3uk2YWgVFGfjkgGFWFBwno/Ry/8sVR8CJDE/Wdps=;
- b=rXrvbFVCDMGkNgSmh8KeKFoVuFpEjVAbxOiXNXOVau/tXMff6QuIcpuky2nrmUukmG
- 9jGjdAQxgqd+/rOw10gbaMA/xtAFM7YUl9heiav7xpq1t6bhIgjBrGZ6gOG+f1Tq2I8s
- Erhi5LTqqMje4XUNzkf9sB/67x14tZgKGZtNvoS6ho4iQtU5OqTd5U3SKinBUSgIOJCo
- Qb2WLIEEscDefiJYzfp5NSQU2RISLfLIssejVjbAqTA+WwQdhfw6WtlAt66RD+YwFZhH
- mTJ2zgK3RRvHTKqhNpUaoVXquDbRYp0vmRjz/I48tCBdJKBjT32Q4cNhZD+FwgExEKBD
- h4kA==
-X-Gm-Message-State: AOAM531TfPZ0xP6anvI3z8wXPK/9zl8qNa89DbBmXVDxcvuk8cfPS06w
- UyBNEuNCZXp2BqMsOVxLGJey3A==
-X-Google-Smtp-Source: ABdhPJyvJZw4zpjoFnqdnBZX6J2w1+08iYTmm6HgiESrTQyrfmr4MgF1bbWOdHRfoj9nTUy2YQqyig==
-X-Received: by 2002:a9d:ef1:: with SMTP id 104mr19805251otj.180.1615299691270; 
- Tue, 09 Mar 2021 06:21:31 -0800 (PST)
-Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id v1sm2928914ooh.3.2021.03.09.06.21.30
+ bh=5dMbHVJpy+cO5ZJ4Pv9wAwDQaU/VeyJYr3PcB0+jSzg=;
+ b=UU9C3T17m3LrtVWYPCTubURjwFwxhZBzOX55wvvCfsyLzqHJrrZewAuaGZ7tcqSaWJ
+ m9IhyywVW/DZ16mJe8LFMwZP0r8gUVOOkn+vf9Hg0cAXtf6msRORBJkuo2hpNHtawHzZ
+ KBQFq6GIl8ssfmDIQBBXqyl4BXhjEZvZpGeqOqWqW7hHc+lYPG41f0zOtNdP5Uel0I5E
+ vSPA7wBcKgxK/zQQC6vRGwEgJw2TLTh1KGz4IQ/AGfbKHaYMdOx8iz+fasY9usf3Qiho
+ iSoZE7dc46IzgfuDpoE1b4588V0BajeTwr0LWl035mW6HaGzFyqONuZxsM813yLnd/yl
+ L6FQ==
+X-Gm-Message-State: AOAM532N1ZiqyGqNCzhMreJUEM1DXal3B6UKrCVqwb9ijheTSBfFBgfK
+ xrZuCIFrmMeP1sH/YqQo+h0EXTi9Pmh/EgfFY9dDvOsU9tcjYXKQehHCbGtPlH3+TwPmrwfVEe7
+ 5lRhY24hnYBdAeak=
+X-Received: by 2002:adf:ea0e:: with SMTP id q14mr29098113wrm.389.1615299756447; 
+ Tue, 09 Mar 2021 06:22:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxf14t72eKrzfO1Lrd5ptVt3fVSW6PEFO+/SKsxavaHSvmVvNtXRzVtJoecaGqR3UCZzDRf4g==
+X-Received: by 2002:adf:ea0e:: with SMTP id q14mr29098103wrm.389.1615299756293; 
+ Tue, 09 Mar 2021 06:22:36 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t8sm25771119wrr.10.2021.03.09.06.22.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 06:21:30 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] target/m68k: add M68K_FEATURE_UNALIGNED_DATA
- feature
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu
-References: <20210308121155.2476-1-mark.cave-ayland@ilande.co.uk>
- <20210308121155.2476-4-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d95aaf36-0227-2541-2640-35febc4bdca7@linaro.org>
-Date: Tue, 9 Mar 2021 06:21:28 -0800
+ Tue, 09 Mar 2021 06:22:35 -0800 (PST)
+Subject: Re: [PATCH] scsi: fix sense code for EREMOTEIO
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210309135752.187916-1-pbonzini@redhat.com>
+ <369adbbf-5ec4-2e1a-2df1-f9277123ac3f@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <34591ce5-0470-3eb2-3138-f57ad51905db@redhat.com>
+Date: Tue, 9 Mar 2021 15:22:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210308121155.2476-4-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <369adbbf-5ec4-2e1a-2df1-f9277123ac3f@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,28 +101,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 4:11 AM, Mark Cave-Ayland wrote:
-> According to the M68040UM Appendix D the requirement for data accesses to be
-> word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
-> 68020 onwards will allow unaligned data accesses but at the cost of being less
-> efficient.
+On 09/03/21 15:14, Philippe Mathieu-Daudé wrote:
+>> SENSE_CODE(LUN_COMM_FAILURE) has an ABORTED COMMAND sense key,
+>> so it results in a retry in Linux.  To ensure that EREMOTEIO
+>> is forwarded to the guest, use a HARDWARE ERROR sense key
+>> instead.  Note that the code before commit d7a84021d was incorrect
+>> because it used HARDWARE_ERROR as a SCSI status, not as a sense
+>> key.
 > 
-> Add a new M68K_FEATURE_UNALIGNED_DATA feature to specify that data accesses are
-> not required to be word aligned, and don't perform the alignment on the stack
-> pointer when taking an exception if this feature is not selected.
-> 
-> This is required because the MacOS DAFB driver attempts to call an A-trap
-> with a byte-aligned stack pointer during initialisation and without this the
-> stack pointer is off by one when the A-trap returns.
-> 
-> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Laurent Vivier<laurent@vivier.eu>
-> ---
+> It is not clear whether if it deserves a 'Fixes: d7a84021db8 ("scsi:
+> introduce scsi_sense_from_errno()")' or not...
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yes, why not.  That was in turn a bugfix but not the best.
 
-r~
+Paolo
+
+>> Reported-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+>> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+> 
+
 
