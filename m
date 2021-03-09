@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28EE332F60
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:55:53 +0100 (CET)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08E7332F6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:58:50 +0100 (CET)
+Received: from localhost ([::1]:57396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJiSO-00073H-QZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:55:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
+	id 1lJiVF-00021R-O5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:58:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lJhaN-0007bi-R4
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:00:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lJhaI-0005zS-CE
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:00:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615316397;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+2P+jDYI8uJmCYQSvxJgwJwI8xgvpgieHgKFQEVdTW0=;
- b=adb1LkmYP+ltU2V4RjvdfMwi/vaeqWxeIB7v7STDVsWIXePD/o7+bEV+w4Pu0S3IsQfOjn
- 4d1VYmhNJpI2CeY6vE0ElmlhK0FT6Lw4tNi3L8lMj+MuOXTmnJ85HLnIM3/cckc56TJvyj
- 7Df7pAchTowpXHIBGcWOpcfstMLrFgs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-ForYyC5_ME2apDWBRgwD2w-1; Tue, 09 Mar 2021 13:59:52 -0500
-X-MC-Unique: ForYyC5_ME2apDWBRgwD2w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CAD680432E;
- Tue,  9 Mar 2021 18:59:51 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.193.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A90B5C233;
- Tue,  9 Mar 2021 18:59:41 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH] hw/arm/virt: KVM: The IPA lower bound is 32
-Date: Tue,  9 Mar 2021 19:59:39 +0100
-Message-Id: <20210309185939.188431-1-drjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJhiN-0005fe-Oz
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:08:19 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJhiL-0000yj-Vr
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:08:19 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id x9so22442880edd.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 11:08:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8d+eN5pLgED+uqQ3pUk7CcgP+iDLiwuObCJhPjjUbm4=;
+ b=WnJomdkMzB/mzeeMwmKHfuFq8bg08VOaEoI7AdNDlB6kbLhdLCf38t0rZjHPNQUwuv
+ kBmHcZH1QtTsFCcqB4w2ArVxxNa2fhc7O5aRPihzK3OVKjccrnM1sulrvp8RYd5W/Pae
+ eFN8jCyqW0hUqEWrE3ErMz0YDoAhREMuOfK+GzDZbWp2sh9WAHy2/omcXHzlixoKMX9l
+ DsUhzLUWZlCb60gvVGFbQNdQkLuBQdaDtFOeEzYvqMEd+C624Edhu/tIKrOJ3RJT5YdY
+ RL+aEhcI1MUizFLWkxEbCKvTC40lI3ez6qnBEq5wrsXARd63ol97uN3zhH7dd/FYQrAY
+ Ik/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=8d+eN5pLgED+uqQ3pUk7CcgP+iDLiwuObCJhPjjUbm4=;
+ b=ABfH6kERmOTptShuWnIFoVh2QnzJzhQeuwe2RrTku5btPLAOlPLzBDs9jKB/LtltCz
+ 1d4+Yv9Bemwy6Xnipt0y7lPN1RG3EopsOktCLS1itfOr9b2Q10aYVkcTOsPt0nUo9tfF
+ yoWR/K089XNJQstBVBKpmnNfjfGuv+R01rP5/PWKCGuLQ6eY37IqY9WQWZIp6ye0BQeF
+ 05sUTkoLqnprsYf+5CE+tYcUI4Df/17zCt31hJhWMbF4f2dehIxyOqXNjKmIeKaoSBdD
+ p13cuMVgwPJoThnGihoAh1NhHhWEKJ2AF3mmi4j5l9iUuILFZbLePkBFQN2ZCGx4kgDe
+ npkg==
+X-Gm-Message-State: AOAM530PrCpS6Uuk6XuVvhp1rsMQ2eitm4vp6f5iSlrOz3FmdI2DLhfy
+ +kWdaYtnkbgYuVE+71GnBzoKqEuJHD0=
+X-Google-Smtp-Source: ABdhPJxUW2RkLWjHUP2PwSclq/EFESGJi9Im/qRwp+XO9jVAZGi6+nKgFTJG8UGS5//tV2zGbPDbbA==
+X-Received: by 2002:a05:6402:484:: with SMTP id
+ k4mr5810888edv.321.1615316896217; 
+ Tue, 09 Mar 2021 11:08:16 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id cb17sm9754784edb.10.2021.03.09.11.08.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 11:08:15 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/3] hw/usb/hcd-uhci: Expose generic prototypes to local header
+Date: Tue,  9 Mar 2021 20:08:01 +0100
+Message-Id: <20210309190802.830969-3-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210309190802.830969-1-f4bug@amsat.org>
+References: <20210309190802.830969-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,50 +86,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, maz@kernel.org, eric.auger@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virt machine already checks KVM_CAP_ARM_VM_IPA_SIZE to get the
-upper bound of the IPA size. If that bound is lower than the highest
-possible GPA for the machine, then QEMU will error out. However, the
-IPA is set to 40 when the highest GPA is less than or equal to 40,
-even when KVM may only support an IPA limit as low as 32. This means
-KVM may fail the VM creation unnecessarily. Additionally, 40 is
-selected with the value 0, which means use the default, and that gets
-around a check in some versions of KVM, causing a difficult to debug
-fail. Always use the IPA size that corresponds to the highest possible
-GPA, unless it's lower than 32, in which case use 32.
+Extract generic UHCI prototypes into a new "hcd-uhci.h" local
+header so we can reuse them in other units.
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/virt.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ hw/usb/hcd-uhci.h | 93 +++++++++++++++++++++++++++++++++++++++++++++++
+ hw/usb/hcd-uhci.c | 60 ++----------------------------
+ 2 files changed, 96 insertions(+), 57 deletions(-)
+ create mode 100644 hw/usb/hcd-uhci.h
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 371147f3ae9c..7bf563715b4e 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2547,14 +2547,13 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
-                      "require an IPA range (%d bits) larger than "
-                      "the one supported by the host (%d bits)",
-                      requested_pa_size, max_vm_pa_size);
--       exit(1);
-+        exit(1);
-     }
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+new file mode 100644
+index 00000000000..e61d8fcb192
+--- /dev/null
++++ b/hw/usb/hcd-uhci.h
+@@ -0,0 +1,93 @@
++/*
++ * USB UHCI controller emulation
++ *
++ * Copyright (c) 2005 Fabrice Bellard
++ *
++ * Copyright (c) 2008 Max Krasnyansky
++ *     Magor rewrite of the UHCI data structures parser and frame processor
++ *     Support for fully async operation and multiple outstanding transactions
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++#ifndef HW_USB_HCD_UHCI_H
++#define HW_USB_HCD_UHCI_H
 +
-     /*
--     * By default we return 0 which corresponds to an implicit legacy
--     * 40b IPA setting. Otherwise we return the actual requested PA
--     * logsize
-+     * KVM requires the IPA size to be at least 32 bits.
-      */
--    return requested_pa_size > 40 ? requested_pa_size : 0;
-+    return requested_pa_size < 32 ? 32 : requested_pa_size;
- }
++#include "exec/memory.h"
++#include "qemu/timer.h"
++#include "hw/pci/pci.h"
++#include "hw/usb.h"
++
++typedef struct UHCIQueue UHCIQueue;
++
++#define NB_PORTS 2
++
++typedef struct UHCIPort {
++    USBPort port;
++    uint16_t ctrl;
++} UHCIPort;
++
++typedef struct UHCIState {
++    PCIDevice dev;
++    MemoryRegion io_bar;
++    USBBus bus; /* Note unused when we're a companion controller */
++    uint16_t cmd; /* cmd register */
++    uint16_t status;
++    uint16_t intr; /* interrupt enable register */
++    uint16_t frnum; /* frame number */
++    uint32_t fl_base_addr; /* frame list base address */
++    uint8_t sof_timing;
++    uint8_t status2; /* bit 0 and 1 are used to generate UHCI_STS_USBINT */
++    int64_t expire_time;
++    QEMUTimer *frame_timer;
++    QEMUBH *bh;
++    uint32_t frame_bytes;
++    uint32_t frame_bandwidth;
++    bool completions_only;
++    UHCIPort ports[NB_PORTS];
++
++    /* Interrupts that should be raised at the end of the current frame.  */
++    uint32_t pending_int_mask;
++
++    /* Active packets */
++    QTAILQ_HEAD(, UHCIQueue) queues;
++    uint8_t num_ports_vmstate;
++
++    /* Properties */
++    char *masterbus;
++    uint32_t firstport;
++    uint32_t maxframes;
++} UHCIState;
++
++#define TYPE_UHCI "pci-uhci-usb"
++DECLARE_INSTANCE_CHECKER(UHCIState, UHCI, TYPE_UHCI)
++
++typedef struct UHCIInfo {
++    const char *name;
++    uint16_t   vendor_id;
++    uint16_t   device_id;
++    uint8_t    revision;
++    uint8_t    irq_pin;
++    void       (*realize)(PCIDevice *dev, Error **errp);
++    bool       unplug;
++} UHCIInfo;
++
++void uhci_data_class_init(ObjectClass *klass, void *data);
++void usb_uhci_common_realize(PCIDevice *dev, Error **errp);
++
++#endif
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 5969eb86b31..d6338c33d86 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -40,6 +40,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "qom/object.h"
++#include "hcd-uhci.h"
  
- static void virt_machine_class_init(ObjectClass *oc, void *data)
+ #define FRAME_TIMER_FREQ 1000
+ 
+@@ -50,8 +51,6 @@
+ 
+ #define MAX_FRAMES_PER_TICK    (QH_VALID / 2)
+ 
+-#define NB_PORTS 2
+-
+ enum {
+     TD_RESULT_STOP_FRAME = 10,
+     TD_RESULT_COMPLETE,
+@@ -62,20 +61,8 @@ enum {
+ 
+ typedef struct UHCIState UHCIState;
+ typedef struct UHCIAsync UHCIAsync;
+-typedef struct UHCIQueue UHCIQueue;
+-typedef struct UHCIInfo UHCIInfo;
+ typedef struct UHCIPCIDeviceClass UHCIPCIDeviceClass;
+ 
+-struct UHCIInfo {
+-    const char *name;
+-    uint16_t   vendor_id;
+-    uint16_t   device_id;
+-    uint8_t    revision;
+-    uint8_t    irq_pin;
+-    void       (*realize)(PCIDevice *dev, Error **errp);
+-    bool       unplug;
+-};
+-
+ struct UHCIPCIDeviceClass {
+     PCIDeviceClass parent_class;
+     UHCIInfo       info;
+@@ -107,43 +94,6 @@ struct UHCIQueue {
+     int8_t    valid;
+ };
+ 
+-typedef struct UHCIPort {
+-    USBPort port;
+-    uint16_t ctrl;
+-} UHCIPort;
+-
+-struct UHCIState {
+-    PCIDevice dev;
+-    MemoryRegion io_bar;
+-    USBBus bus; /* Note unused when we're a companion controller */
+-    uint16_t cmd; /* cmd register */
+-    uint16_t status;
+-    uint16_t intr; /* interrupt enable register */
+-    uint16_t frnum; /* frame number */
+-    uint32_t fl_base_addr; /* frame list base address */
+-    uint8_t sof_timing;
+-    uint8_t status2; /* bit 0 and 1 are used to generate UHCI_STS_USBINT */
+-    int64_t expire_time;
+-    QEMUTimer *frame_timer;
+-    QEMUBH *bh;
+-    uint32_t frame_bytes;
+-    uint32_t frame_bandwidth;
+-    bool completions_only;
+-    UHCIPort ports[NB_PORTS];
+-
+-    /* Interrupts that should be raised at the end of the current frame.  */
+-    uint32_t pending_int_mask;
+-
+-    /* Active packets */
+-    QTAILQ_HEAD(, UHCIQueue) queues;
+-    uint8_t num_ports_vmstate;
+-
+-    /* Properties */
+-    char *masterbus;
+-    uint32_t firstport;
+-    uint32_t maxframes;
+-};
+-
+ typedef struct UHCI_TD {
+     uint32_t link;
+     uint32_t ctrl; /* see TD_CTRL_xxx */
+@@ -160,10 +110,6 @@ static void uhci_async_cancel(UHCIAsync *async);
+ static void uhci_queue_fill(UHCIQueue *q, UHCI_TD *td);
+ static void uhci_resume(void *opaque);
+ 
+-#define TYPE_UHCI "pci-uhci-usb"
+-DECLARE_INSTANCE_CHECKER(UHCIState, UHCI,
+-                         TYPE_UHCI)
+-
+ static inline int32_t uhci_queue_token(UHCI_TD *td)
+ {
+     if ((td->token & (0xf << 15)) == 0) {
+@@ -1213,7 +1159,7 @@ static USBPortOps uhci_port_ops = {
+ static USBBusOps uhci_bus_ops = {
+ };
+ 
+-static void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
++void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+ {
+     Error *err = NULL;
+     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+@@ -1335,7 +1281,7 @@ static const TypeInfo uhci_pci_type_info = {
+     },
+ };
+ 
+-static void uhci_data_class_init(ObjectClass *klass, void *data)
++void uhci_data_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     DeviceClass *dc = DEVICE_CLASS(klass);
 -- 
-2.27.0
+2.26.2
 
 
