@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B9033287E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:23:54 +0100 (CET)
-Received: from localhost ([::1]:57376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654CE332879
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:23:38 +0100 (CET)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdH7-0007GB-Ky
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:23:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
+	id 1lJdGr-0006cM-CF
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:23:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJdB1-0001L9-KH
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:35 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46684)
+ id 1lJdB2-0001Ne-Ha
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:36 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJdAz-0001iF-Ka
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:35 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a18so15867609wrc.13
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:17:33 -0800 (PST)
+ id 1lJdB0-0001ic-Qn
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:36 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id l22so2074385wme.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=joRSekChbA2FSdcIDUV4Rc5Up/Vr8KMhyFb2Cl5+fLs=;
- b=y1F7PChOqkextOtYB9k8YXreCJZDMUJTnF09fdfiqUsT9KVHeycKhkKrmgem+PATYJ
- ZRpixpTuHgTo6zbOeZLSFgUaVAUCPdjtdmEcVxoZ87OHugCKTGOsHA2J01fKmkn41qrz
- 4sCHYGLUWbQ4mnikoDBfu7sI1S3294svw9ECTaN4f5L45YMEFbHykgaJfrLZcMJ5tf0J
- /Z326dPqwQOimQLWgNKM8CrEKkodyi+xSVzRjEJRscTcFlKtcc2LnBLNirgsxxOPO2mz
- BTSnWWN4pu2lKfgUZhIPxvDuvz4k5j60asXjWSdCnxZAq9GzwDz5ZmkQR4W34auyCmdM
- Pixg==
+ bh=nN/o3NC1BjCVaVugecWZFPBtRdcQ9Jd3TS2cKRxBLsA=;
+ b=Psti3gEGTHOBatFrhi4usMelQDLv5p8QRvNUVI/4Uoae3py2vs0WNWnGKO/nPJWwGm
+ fSFSvl4Wf6kgg/LCrzn6tQMNHbqv4U2OfSPobYy5r5VCtsDvfBQ6ouoZqmG9ixhIx1cm
+ 4qx83HoQ7fjQDSuK1qq3w5UEPZZFx7XvQIyiNhsUP4l9iLamqrrvPbsWJ5qHPF+pRRlo
+ mYv1wpajO6eViNo/iac3GoKje1tbICYAl8ed7MdRF7+UHFk4SQdbqBFaplXClBwKzsGN
+ BMPn9SGGsWCdjIJ0rZktraW0rHVZPAUZxyEuSB41OniVQFzlRyPGAYzyCCzAcZx2NY5m
+ I8/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=joRSekChbA2FSdcIDUV4Rc5Up/Vr8KMhyFb2Cl5+fLs=;
- b=hu9Tntsrt9xuRv9QumdBprL97EQpGprgbcSmyqt6SUWacjbvmxWekrQXYOszvmVYnd
- 5pzHiJrvztMjn+gvd1LoMi135ulxejQXPJdQ3gJ58b4Gz4uYA1P2Tq2wMQjk8ps1YAEG
- re/YukPDVaXKQi9k4v9TC6JB0YjVKJHwzfhO/qNfzlXfARlNAQv5VpnOok7vsGm2vN9S
- PT3MhskIymzQjhOTJyY7Lc0cmZdczTiffeA3myv8uu8i/ojYyNQ+ipqUVWoYE5rpnADV
- IHMZhW0+cTGUkkFeZbzkNcT65Q9SwC33qZWFHrsdE0ZisDQL/sc0lf8r2vVJbt+9kABR
- ClvQ==
-X-Gm-Message-State: AOAM531umJh6PYKULEZ2LsIezQ//0Tz884eots8NGHRU9UEsQQioSDao
- EzE5u9sPzS2Qs66PtX1EVFvMb23IhQ6mHw==
-X-Google-Smtp-Source: ABdhPJwhz5QZ/d0m3y5tyd6y1iANvithNdv0Lk4ttrqYrgRtzwzx2iGJIQGK53zT+CRcti/3/Ey9nQ==
-X-Received: by 2002:adf:a406:: with SMTP id d6mr28779773wra.141.1615299452273; 
- Tue, 09 Mar 2021 06:17:32 -0800 (PST)
+ bh=nN/o3NC1BjCVaVugecWZFPBtRdcQ9Jd3TS2cKRxBLsA=;
+ b=RGvaz88DW0K3UYJtyiVQwFozdYT9C711UU2KvZTU23Ak9YK3vVIAjj0zbS/YeHS7SG
+ wUYe0+uzGpEbAd8garQ+G+t/lhUrMOgyFN6OJcW08bTnHcVt9A6/d/GtsSqgBqXL0An3
+ jh1a3EwOp4UAidU0jWwkjIta9oye11Oltdnd1I2jC5Y1kEVcIlq9rTS/aa47NzIibizX
+ WhB+0GOMISTQBLBNU58W6BGDt9ovI01aOXUpetsueZ2DQLs2tNCZpf6E1l40xyU3/kZM
+ XvSius3EF8vBANvaXArMXkHSQwjvfhpPEUOair8fRtiuN7CszB2RVplTIJCKTaA3MyvW
+ TynA==
+X-Gm-Message-State: AOAM533vcxAMvzK7/bKZ+bfZ3qPr4qwNV7PfCFN7X8yjmPL+LY1J/xQI
+ DcB3HHqwxXOEwipHTsOqk+l0uQ==
+X-Google-Smtp-Source: ABdhPJzO+tvxGegk80s1X5KlUsYXn7t8Lnib0hp0VfXOCz1DZ80zXK+eotHW9jiopzxWXu0O8d2UUg==
+X-Received: by 2002:a05:600c:4ba2:: with SMTP id
+ e34mr4308715wmp.121.1615299453372; 
+ Tue, 09 Mar 2021 06:17:33 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z25sm4182503wmi.23.2021.03.09.06.17.28
+ by smtp.gmail.com with ESMTPSA id f22sm4147037wmc.33.2021.03.09.06.17.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:17:28 -0800 (PST)
+ Tue, 09 Mar 2021 06:17:31 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 470081FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 5CB931FF8F;
  Tue,  9 Mar 2021 14:17:28 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] semihosting/arm-compat-semi: unify GET/SET_ARG helpers
-Date: Tue,  9 Mar 2021 14:17:25 +0000
-Message-Id: <20210309141727.12522-3-alex.bennee@linaro.org>
+Subject: [PATCH v2 3/4] semihosting/arm-compat-semi: deref parameter register
+ for SYS_HEAPINFO
+Date: Tue,  9 Mar 2021 14:17:26 +0000
+Message-Id: <20210309141727.12522-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210309141727.12522-1-alex.bennee@linaro.org>
 References: <20210309141727.12522-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,102 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: keithp@keithp.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Bug 1915925 <1915925@bugs.launchpad.net>, keithp@keithp.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From the semihosting point of view what we want to know is the current
-mode of the processor. Unify this into a single helper and allow us to
-use the same GET/SET_ARG helpers for the rest of the code.
+As per the spec:
 
-Note: we aren't currently testing riscv32 due to missing toolchain for
-check-tcg tests.
+  the PARAMETER REGISTER contains the address of a pointer to a
+  four-field data block.
 
+So we need to follow the pointer and place the results of SYS_HEAPINFO
+there.
+
+Bug: https://bugs.launchpad.net/bugs/1915925
+Cc: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: Keith Packard <keithp@keithp.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 54 ++++++++++++-----------------------
- 1 file changed, 18 insertions(+), 36 deletions(-)
+ semihosting/arm-compat-semi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 94950b6c56..733eea1e2d 100644
+index 733eea1e2d..2ac9226d29 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -767,15 +767,28 @@ static const GuestFDFunctions guestfd_fns[] = {
-     },
- };
+@@ -1210,6 +1210,8 @@ target_ulong do_common_semihosting(CPUState *cs)
+             retvals[2] = rambase + limit; /* Stack base */
+             retvals[3] = rambase; /* Stack limit.  */
+ #endif
++            /* The result array is pointed to by arg0 */
++            args = arg0;
  
--/* Read the input value from the argument block; fail the semihosting
-- * call if the memory read fails.
-+/*
-+ * Read the input value from the argument block; fail the semihosting
-+ * call if the memory read fails. Eventually we could use a generic
-+ * CPUState helper function here.
-  */
-+static inline bool is_64bit_semihosting(CPUArchState *env)
-+{
- #ifdef TARGET_ARM
-+    return is_a64(env);
-+#elif defined(TARGET_RISCV)
-+    return !riscv_cpu_is_32bit(env);
-+#else
-+#error un-handled architecture
-+#endif
-+}
-+
-+
- #define GET_ARG(n) do {                                 \
--    if (is_a64(env)) {                                  \
-+    if (is_64bit_semihosting(env)) {                    \
-         if (get_user_u64(arg ## n, args + (n) * 8)) {   \
-             errno = EFAULT;                             \
--            return set_swi_errno(cs, -1);              \
-+            return set_swi_errno(cs, -1);               \
-         }                                               \
-     } else {                                            \
-         if (get_user_u32(arg ## n, args + (n) * 4)) {   \
-@@ -786,41 +799,10 @@ static const GuestFDFunctions guestfd_fns[] = {
- } while (0)
- 
- #define SET_ARG(n, val)                                 \
--    (is_a64(env) ?                                      \
-+    (is_64bit_semihosting(env) ?                        \
-      put_user_u64(val, args + (n) * 8) :                \
-      put_user_u32(val, args + (n) * 4))
--#endif
- 
--#ifdef TARGET_RISCV
--
--/*
-- * get_user_ual is defined as get_user_u32 in softmmu-semi.h,
-- * we need a macro that fetches a target_ulong
-- */
--#define get_user_utl(arg, p)                    \
--    ((sizeof(target_ulong) == 8) ?              \
--     get_user_u64(arg, p) :                     \
--     get_user_u32(arg, p))
--
--/*
-- * put_user_ual is defined as put_user_u32 in softmmu-semi.h,
-- * we need a macro that stores a target_ulong
-- */
--#define put_user_utl(arg, p)                    \
--    ((sizeof(target_ulong) == 8) ?              \
--     put_user_u64(arg, p) :                     \
--     put_user_u32(arg, p))
--
--#define GET_ARG(n) do {                                                 \
--        if (get_user_utl(arg ## n, args + (n) * sizeof(target_ulong))) { \
--            errno = EFAULT;                                             \
--            return set_swi_errno(cs, -1);                              \
--        }                                                               \
--    } while (0)
--
--#define SET_ARG(n, val)                                 \
--    put_user_utl(val, args + (n) * sizeof(target_ulong))
--#endif
- 
- /*
-  * Do a semihosting call.
+             for (i = 0; i < ARRAY_SIZE(retvals); i++) {
+                 bool fail;
 -- 
 2.20.1
 
