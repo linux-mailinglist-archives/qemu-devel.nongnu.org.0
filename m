@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DDF332FCE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:22:34 +0100 (CET)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBDB332F7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:02:34 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJisD-000463-F0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:22:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55328)
+	id 1lJiYr-0005Ls-6e
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:02:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJhiS-0005ju-Iv
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:08:24 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33307)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJhiQ-00010s-U4
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:08:24 -0500
-Received: by mail-ed1-x535.google.com with SMTP id x9so22443448edd.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 11:08:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JlWRzP7BEt7P68aDoGigCLgcJlZLTJDqyDnSuE3SPXE=;
- b=G14L+VoIPwURp8R0lB3ymUTv2j79m52/BMzNQZK1nsH2t6FzItEz0rpVmUetYkxwFw
- MpvLcUcWGaannciMJJPaul9XIZl8t+kD0yF5+nzqjO+IWII86yecKg3xsHgHvhAxwkr4
- 2yBV0sTmrwOje7AAq/sf42z0go4tzVE1PMwND44avkWWnpjumXHODh8swKthzgPvdO/K
- aYwLInj/899KpiJ6mj1cxUgU/WpFV/WjjKu9R7gZKfcoJ+eJgkWFo0+KxjUcKOL01TDB
- 8pz/GtByuv+96Gd81/AKfWy76WRDOfEcI9XlVwDKp3jzmpoWV/5doWLazyDMn4Vi5/Qv
- FWsA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJhjE-0006It-6f
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:09:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJhjA-0001IV-FC
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:09:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615316947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t74XzBLrYMwzv4lixFZUSxbdgtyNB1o0grdw2prjhrw=;
+ b=A1ZbdShKAvkGhFt2nkpBB/M0nzC7Zz9OQmGr0uPmyAAW5Ad7sgiPJvC29W+Nmr8ui9f7Pw
+ p8O4Kz7TT56M7E9xn3+l06n+NBIrYNIvQhO7c/v4EvTZU4X7mA+ROhvq6QqpD4dusloQqc
+ WjE1Dsza5+i6NNAIjDH36ryAbYSPg0Q=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-G7Ger3ocNc-GUxWktKjsCQ-1; Tue, 09 Mar 2021 14:09:05 -0500
+X-MC-Unique: G7Ger3ocNc-GUxWktKjsCQ-1
+Received: by mail-ej1-f69.google.com with SMTP id bg7so36364ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 11:09:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JlWRzP7BEt7P68aDoGigCLgcJlZLTJDqyDnSuE3SPXE=;
- b=L01kbzgWLWDPB8Bzzm+j1KsUgSoiGNUXl6ucyNqGiMqonWRF7aoScKlQSomB3hCMOk
- a5ip6jmW0Ivgn84/WTU3YILVQ9uHI/38Ay5sDSWsVoAYGdwrj4UUEyA8LvkOzwRZgATG
- zKumfDlgP1pyrbv8zfXAlttx6luKGYlEovMBp8F+FffSTFLXKw4vzq03a57i1kOWXUq7
- DEEh1zWmVri/ZAcN3x4/0IsHH91acp1Txarv/cFFFn/Q1dhcZ7q12XoGuDh7dqSUCW3N
- s/1N+c6kt4ouThs4Q6nh8oe2qsUmlL1V7kFtfhyMqDtfa/tnILvI4v/2r4R6JFVnc6/x
- bI2g==
-X-Gm-Message-State: AOAM532x01lFgoECsST0F1OLoS1yycn8EP9hRdO1MbJ3zTj4gndIid1v
- qLpIZN0h4/7uSPlHT9Agv9tFdbZaroQ=
-X-Google-Smtp-Source: ABdhPJzy32OZSVDrtf0NDfQk6ouNddtI8j3TK9hk4SWeSTjFARsHeaV5T+7dvK6gPZgM4z1SJ1LqNg==
-X-Received: by 2002:a50:ec0e:: with SMTP id g14mr5995286edr.264.1615316901354; 
- Tue, 09 Mar 2021 11:08:21 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t74XzBLrYMwzv4lixFZUSxbdgtyNB1o0grdw2prjhrw=;
+ b=kxRWgoX478U2l/41SJEV438HbIheq7JN+iIWIi2mQt8HJyvKsjzf/AUf2k7h5J+6RE
+ EcjXfZFghb3/9AaUwRjjVsHnV5W3gMPSKDlTm51mUN6nv6Il0Hbn17OOaLStL98snOj4
+ bbYqo6iTpYSoIWKq80tVkqnApbaGtlrjlk40WtaaGWMAwqRK6TseRQZNC0yrfL/tbLzw
+ 5wbh0U3jmLrZ93hDnwWIdHCJnR/ccfbhoqkIlzFyezTShVG3mO8Tw6UfmrtEn8tPOICb
+ sGKu10/QXgygPsA0lfMjp6wgQ2x/wUmb7iYMP+Aeslgmiio5CBfGV72YwwbA4lnUBr53
+ EIhA==
+X-Gm-Message-State: AOAM530/glQm9ujjVxeniSf4WHM3ZWuUxkg4P+z22vx+gTbrEI3BidwJ
+ A9IGXvFcpXHZAMuJJsZyx2tDaASea2Z/ipnZs6vH4ZKmGy+u6D+6Q8pSIeCMmuRcH+Xdvsf92d5
+ JiaUhSEtIWsjjZK8=
+X-Received: by 2002:a17:906:9be1:: with SMTP id
+ de33mr23149711ejc.320.1615316943988; 
+ Tue, 09 Mar 2021 11:09:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzPKCVgHsfydOWIHUJnYNtTg+ao6Ia2wPd/fiHPvX7GZAy3Saa3QS5h7XVTF4XCNMMPHt0Njw==
+X-Received: by 2002:a17:906:9be1:: with SMTP id
+ de33mr23149702ejc.320.1615316943882; 
+ Tue, 09 Mar 2021 11:09:03 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c7sm3403695edk.50.2021.03.09.11.08.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 11:08:20 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/usb: Extract VT82C686 UHCI PCI function into a new unit
-Date: Tue,  9 Mar 2021 20:08:02 +0100
-Message-Id: <20210309190802.830969-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210309190802.830969-1-f4bug@amsat.org>
-References: <20210309190802.830969-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id m7sm8754097ejk.52.2021.03.09.11.09.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 11:09:03 -0800 (PST)
+Subject: Re: [PATCH] qemu-common.h: Update copyright string to 2021
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20210309162258.28633-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3ca695b1-a341-6ff0-6b45-e929a7fd83d9@redhat.com>
+Date: Tue, 9 Mar 2021 20:09:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210309162258.28633-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,140 +100,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the VT82C686 PCI UHCI function into a new unit so
-it is only build when the VT82C686 south bridge is selected.
+On 3/9/21 5:22 PM, Peter Maydell wrote:
+> Update the common copyright string that we use in
+> -version reports, About dialogs, etc, to 2021.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/qemu-common.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/usb/hcd-uhci.c          | 23 --------------------
- hw/usb/vt82c686-uhci-pci.c | 43 ++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                |  1 +
- hw/usb/meson.build         |  1 +
- 4 files changed, 45 insertions(+), 23 deletions(-)
- create mode 100644 hw/usb/vt82c686-uhci-pci.c
-
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index d6338c33d86..0cb02a64321 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -1207,21 +1207,6 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
-     pci_register_bar(&s->dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &s->io_bar);
- }
- 
--static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
--{
--    UHCIState *s = UHCI(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    /* USB misc control 1/2 */
--    pci_set_long(pci_conf + 0x40,0x00001000);
--    /* PM capability */
--    pci_set_long(pci_conf + 0x80,0x00020001);
--    /* USB legacy support  */
--    pci_set_long(pci_conf + 0xc0,0x00002000);
--
--    usb_uhci_common_realize(dev, errp);
--}
--
- static void usb_uhci_exit(PCIDevice *dev)
- {
-     UHCIState *s = UHCI(dev);
-@@ -1318,14 +1303,6 @@ static UHCIInfo uhci_info[] = {
-         .revision  = 0x01,
-         .irq_pin   = 3,
-         .unplug    = true,
--    },{
--        .name      = "vt82c686b-usb-uhci",
--        .vendor_id = PCI_VENDOR_ID_VIA,
--        .device_id = PCI_DEVICE_ID_VIA_UHCI,
--        .revision  = 0x01,
--        .irq_pin   = 3,
--        .realize   = usb_uhci_vt82c686b_realize,
--        .unplug    = true,
-     },{
-         .name      = "ich9-usb-uhci1", /* 00:1d.0 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-new file mode 100644
-index 00000000000..b109c216033
---- /dev/null
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -0,0 +1,43 @@
-+#include "qemu/osdep.h"
-+#include "hcd-uhci.h"
-+
-+static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-+{
-+    UHCIState *s = UHCI(dev);
-+    uint8_t *pci_conf = s->dev.config;
-+
-+    /* USB misc control 1/2 */
-+    pci_set_long(pci_conf + 0x40, 0x00001000);
-+    /* PM capability */
-+    pci_set_long(pci_conf + 0x80, 0x00020001);
-+    /* USB legacy support  */
-+    pci_set_long(pci_conf + 0xc0, 0x00002000);
-+
-+    usb_uhci_common_realize(dev, errp);
-+}
-+
-+static UHCIInfo uhci_info[] = {
-+    {
-+        .name      = "vt82c686b-usb-uhci",
-+        .vendor_id = PCI_VENDOR_ID_VIA,
-+        .device_id = PCI_DEVICE_ID_VIA_UHCI,
-+        .revision  = 0x01,
-+        .irq_pin   = 3,
-+        .realize   = usb_uhci_vt82c686b_realize,
-+        .unplug    = true,
-+    }
-+};
-+
-+static const TypeInfo vt82c686b_usb_uhci_type_info = {
-+    .parent         = TYPE_UHCI,
-+    .name           = "vt82c686b-usb-uhci",
-+    .class_init     = uhci_data_class_init,
-+    .class_data     = uhci_info,
-+};
-+
-+static void vt82c686b_usb_uhci_register_types(void)
-+{
-+    type_register_static(&vt82c686b_usb_uhci_type_info);
-+}
-+
-+type_init(vt82c686b_usb_uhci_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f22d83c1782..6fd55c0a40c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1173,6 +1173,7 @@ S: Odd Fixes
- F: hw/mips/fuloong2e.c
- F: hw/isa/vt82c686.c
- F: hw/pci-host/bonito.c
-+F: hw/usb/vt82c686-uhci-pci.c
- F: include/hw/isa/vt82c686.h
- 
- Loongson-3 virtual platforms
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 653192cff6f..6e3159798e9 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -32,6 +32,7 @@
- softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
- softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
-+softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('vt82c686-uhci-pci.c'))
- specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
- specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
- 
--- 
-2.26.2
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
