@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A447332742
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:34:32 +0100 (CET)
-Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2D0332741
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:33:56 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcVL-0001ql-IC
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:34:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45590)
+	id 1lJcUl-00013s-Ny
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:33:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lJcJ9-0005T6-Uq
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:21:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lJcJ5-0000bh-Ks
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:21:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615296110;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=fIfhDhvvVg9Nn67ijxh8hQY9TPf7K9ctxDitP4qM8Ao=;
- b=Nr0Znl71CDZ3iAsJaPmiyj+nxHgohHVsXjfyueEKW/EJHqQrrPFw1IxfgAy4VmIyik1Lho
- /vPhzuZXH+EhkepNPttzRrNYiU/qH+sA/VdJN17NoaR9Tgp8n/V6Tz9MVwYg71X0TzCt4i
- GA/5jz+GSOxbdIqLcpf4JCxa/D4cif8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-f904s_HyOgmvHePQM3uWaQ-1; Tue, 09 Mar 2021 08:21:36 -0500
-X-MC-Unique: f904s_HyOgmvHePQM3uWaQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7FC17B9B;
- Tue,  9 Mar 2021 13:21:34 +0000 (UTC)
-Received: from redhat.com (ovpn-114-154.ams2.redhat.com [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CB0C5D9DB;
- Tue,  9 Mar 2021 13:21:17 +0000 (UTC)
-Date: Tue, 9 Mar 2021 13:21:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <YEd2SnQkdtfhI4dL@redhat.com>
-References: <20210302173544.3704179-1-pasic@linux.ibm.com>
- <20210305214603.GF3139005@habkost.net>
- <20210309124512.6goag5jblcje3umk@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJcRl-0006WQ-BB
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:30:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJcRj-0004d2-8i
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:30:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lJcRg-0002kX-V7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 13:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EA4382E8157
+ for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 13:30:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210309124512.6goag5jblcje3umk@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Mar 2021 13:24:46 -0000
+From: Max Reitz <1916501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jcfaracco mrashish xanclic
+X-Launchpad-Bug-Reporter: Maya (mrashish)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <161400808000.28728.8511381080583624216.malonedeb@soybean.canonical.com>
+Message-Id: <161529628698.26783.17097460706823388369.malone@chaenomeles.canonical.com>
+Subject: [Bug 1916501] Re: qemu-img convert segfaults with specific URL
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
+X-Launchpad-Hash: 7e4f98c1da604aad81c089c5edc21ba188b0e15c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,71 +69,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Reply-To: Bug 1916501 <1916501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 09, 2021 at 01:45:12PM +0100, Gerd Hoffmann wrote:
-> On Fri, Mar 05, 2021 at 04:46:03PM -0500, Eduardo Habkost wrote:
-> > On Tue, Mar 02, 2021 at 06:35:44PM +0100, Halil Pasic wrote:
-> > > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> > > module, which provides the type virtio-gpu-device, packaging the
-> > > hw-display-virtio-gpu module as a separate package that may or may not
-> > > be installed along with the qemu package leads to problems. Namely if
-> > > the hw-display-virtio-gpu is absent, qemu continues to advertise
-> > > virtio-gpu-ccw, but it aborts not only when one attempts using
-> > > virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> > > to instantiate the type to introspect it.
-> > > 
-> > > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> > > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> > > was chosen because it is not a portable device. Because registering
-> > > virtio-gpu-ccw would make non-s390x emulator fail due to a missing
-> > > parent type, if built as a module, before registering it, we check
-> > > if the ancestor types are already registered.
-> > 
-> > I don't understand what makes it necessary to make the
-> > type_register() call conditional.  Calling type_register() before
-> > the parent types are registered is perfectly valid.
-> 
-> Well, yes, in a non-modular world this will work perfectly fine.  We
-> only compile objects actually supported into the system emulator.
-> 
-> With modular builds we have the situation that we have shared modules
-> which may or may not work in specific system emulators, for example
-> hw-display-virtio-gpu-pci.so or the ccw module added by this patch,
-> because the given system emulator doesn't provide the needed support.
-> We have some which don't support pci (avr for example).  Likewise ccw
-> is supported by s390x only.
+I think I=E2=80=99ve come to kind of understood what might be wrong: qemu f=
+rees
+CURLSocket objects when =E2=80=9Ctheir=E2=80=9D transfer is done, but libcu=
+rl=E2=80=99s
+documentation actually doesn=E2=80=99t note any long-lasting relationship
+between a socket and some transfer (i.e., a CURL object), so we probably
+shouldn=E2=80=99t free CURLSocket objects just because some transfer is don=
+e.
+Instead, we should only do so once libcurl explicitly tells us to remove
+the socket.
 
-We could solve this by having a different location for loading modules
-for each target.
+I=E2=80=99ve sent a two-patch series to that effect:
+https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg00515.html =E2=
+=80=93
+it seems to help.
 
-  *  /usr/$LIB/qemu/
+-- =
 
-    All the real .so's go in here as today
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916501
 
-  *  /usr/$LIB/qemu/$TARGET
+Title:
+  qemu-img convert segfaults with specific URL
 
-    Populated with symlinks to the .so's in the parent dir,
-    but /only/ those which are valid for this $TARGET
+Status in QEMU:
+  New
 
-Then change QEMU  to load from the second dir.
+Bug description:
+  Using what is currently the latest git: (commit
+  00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
+  2021 +0000)
 
+  $ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.=
+net/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
+  Segmentation fault (core dumped)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  =
 
+  Backtrace for convenience:
+  qemu: qemu_mutex_lock_impl: Invalid argument
+
+  Thread 1 "qemu-img" received signal SIGABRT, Aborted.
+  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  (gdb) bt
+  #0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  #1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
+  #2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@en=
+try=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-=
+thread-posix.c:37
+  #3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, f=
+ile=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-=
+posix.c:81
+  #4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../bloc=
+k/curl.c:406
+  #5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x55555=
+5737790, node=3D0x555555b14150) at ../util/aio-posix.c:329
+  #6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at=
+ ../util/aio-posix.c:372
+  #7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
+  #8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, cal=
+lback=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
+  #9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-=
+2.0.so.0
+  #10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
+  #11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:=
+255
+  #12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
+loop.c:531
+  #13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu=
+-img.c:2139
+  #14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qe=
+mu-img.c:2738
+  #15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../q=
+emu-img.c:5536
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916501/+subscriptions
 
