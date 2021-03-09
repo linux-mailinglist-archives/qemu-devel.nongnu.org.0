@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84663325A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:45:25 +0100 (CET)
-Received: from localhost ([::1]:53776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD8533258B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:37:09 +0100 (CET)
+Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbjo-0002p6-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:45:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1lJbbn-00060l-VA
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:37:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJap5-0000iD-E5; Tue, 09 Mar 2021 06:46:47 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:59375)
+ id 1lJapA-0000o9-NB; Tue, 09 Mar 2021 06:46:52 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:51689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJap0-0000oN-Dd; Tue, 09 Mar 2021 06:46:47 -0500
+ id 1lJap0-0000oO-CU; Tue, 09 Mar 2021 06:46:52 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id C3D501320;
- Tue,  9 Mar 2021 06:46:06 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 52C67275A;
+ Tue,  9 Mar 2021 06:46:08 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:46:07 -0500
+ by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:46:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=4MBfUUX+81EY1
- 0usv2jO8kYmSruutrkK92npChlYE8Q=; b=EY+TPu0msmr/PBSJNY/mBP23xd3Fc
- mAwdNi5R1LwyaqerLckoZflyqd2ZH34wPrR27Ym+TelJBi01ec+3rQrBxPkJgp/6
- RfSx0jtsE8AKitTR8RqJ+1evuZivH7Sqlmyeg9fGfv7TdkdBpBK19CkZeWIsgakF
- bWRxt+p4bWqvmru1T7Z7eto2mf/mSzvDpP8+4LQKEr3gS3oRY1JgAXE/WaJu3kAE
- 976BA59E2gE6xuuoe+Z+e23ONh/3vrGmg7IrOzRzkBP4AQjUSITl9efZWR79MbrJ
- DZnjjvT6vyevD+fBNmXfvDdck+genWzgbw+W+yFdUc0UYlUcyZ4iUfatw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Q3iFoLigSf9g5
+ OGZglzxMkSArBgsjbBQ5O8hEKtgtUA=; b=w9JJEWLSWEqxDiyVCSOjVrcOWMNDq
+ n0RtGPEYVN/CSc3QtG4Jw4snsikmZuerxgNPXlF9KDBqLKG5sgi2b1Z8RaI4LatG
+ EM0LBjOrQnnj2aLj3rfaDlqhm2MIR64eCnuCAhqwhLxWiOi8KhgfdL7Jrzqh69rd
+ E4przod8I2+R8gNsvAhrzOmsRBAwxtrGJG5znk08Vh9fROF2YwSv5ONywBb6TV1W
+ sH7VPEGyGKNFosQ3adE0ul2jm0/ctj3Y3+R3TZWwfoaj98uMZxUpV6is3RMt/bT4
+ sRK5miVCIQFmt1bgEVHcheul9TMGn2xk6G2Vqxs1gI68yFz49YlR4QIlA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=4MBfUUX+81EY10usv2jO8kYmSruutrkK92npChlYE8Q=; b=O3ETUDpU
- v7IB6x35PBihYVXrg5YtVuzKnTZYyIsx3YJbIbAZYkj6OVSLwR5ZUv2r4cUxf1xz
- Z3rn4FCD54eN53WtSEG5ccE9GoRJnikwWIytETYoqZEO9WxIHiwKbmc/TSa7jJCF
- 7uOoGDbXkcl99MEsNhtD8Q8ZS1yS18aHkRpVQbiwuyR3/c0jIQw4j/o9saHMFY1o
- 4KRCH6FlUw8RCcLPTyY6d0nISAoPSfSe3WzOEgmFBdKMFDZQfDtG88trLgrg236A
- BkqR1TtbVOqm+zYPMDvKlSRzAQl7gBtHWyJDz/bqW4vwHtmkxzq5Mu+Vxv2tYr41
- H1q/8N03F3lUjQ==
-X-ME-Sender: <xms:_l9HYAdqN5ZOYVUJPhlGJOiwCeYXEAXZXhaDHD-FgOr2fy3RptnAhQ>
- <xme:_l9HYCOLRNduuvJKo2E7IQz0LUcT0BA602y_5ENhkeDkXj4VIg7ykcghma3iAe472
- SEf27Xp4bhwebJpSlc>
+ fm2; bh=Q3iFoLigSf9g5OGZglzxMkSArBgsjbBQ5O8hEKtgtUA=; b=szK5yVFs
+ ISJy9JRfBDDVVikZfKPG2lpi9O52yfQseYWyzYTTW+JMRnmgLyz26fXNioRegkHp
+ TTVAD1TpGoiuHJ/XQ4VpZz6/2r/MfR2Bq9PAnOxQq5Px5fXvrZ1QbXVYabqYwCAo
+ DBX8fPlLba0FuHf2b6WHds1ht3lDlOcdLGjSmkVAyL0LjXHzE0jWlv5ZTJFP6pIX
+ 24hCZUQ3fteZMCyIYLGUQ3/sNh4C7hz2FNMxj+Hc4d86fJncyzQ7DVctp3T3dkOe
+ dsADOS2KW9hhnbmkfoYkjZh2UGGhXIEk8bLCNvYEblzsXODRSEzgysIsWB8jVugJ
+ oQnQXllQZXG0ZA==
+X-ME-Sender: <xms:_19HYDQ-HXF8TEFBsiSzZdQ8RJoXY9-K0JWnodkHtWDukkei1pjmKg>
+ <xme:_19HYExQPCdDBMd9q2wlrF7ISN8f8j9g7WVaUotJw6EDeav4l11KJymilG2z3Wbap
+ Gsn5-9Oki0Td6fYsQc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:_l9HYBgI1dJZxKU3xDEYCkyMuImEWIpJa09mXwPyTesGLuEb6crHig>
- <xmx:_l9HYF9u_bThEuuvmDZf0ZY3qb3xvSrEHqBSsOHwe2uyOnk5vkXeNQ>
- <xmx:_l9HYMsc6R4nxQJs8XqytjEPL04gPPo7risFlNbSJG2zoUMONu0l2w>
- <xmx:_l9HYKAmthQXXQzeLuFXqTnFKcML2h-ubZdysOsn1xfvS5aN6ot8Q7Tu3FE>
+X-ME-Proxy: <xmx:_19HYI3QQspJTcmrbTw6uNgQZakiEgH_my1hRiNix0cWYGuGOWs-zQ>
+ <xmx:_19HYDDmsPKl3EMe6mA2qd5eXzBVBz-0K97-nFB5Ar37Vn9fwxdYnQ>
+ <xmx:_19HYMjmpFQRaVQrxAxfdflH5lO6l_D4kKHWF9yTHjslts5LHOvBjw>
+ <xmx:_19HYFX2KnglJTI2zjQe1ul18qLdXFyoZ5LFUtmT1Qb_q9DC91vQtA6WzSQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E769324005E;
- Tue,  9 Mar 2021 06:46:04 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7AFDB240054;
+ Tue,  9 Mar 2021 06:46:06 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 32/38] hw/block/nvme: fix namespaces array to 1-based
-Date: Tue,  9 Mar 2021 12:45:06 +0100
-Message-Id: <20210309114512.536489-33-its@irrelevant.dk>
+Subject: [PULL v2 33/38] hw/block/nvme: fix allocated namespace list to 256
+Date: Tue,  9 Mar 2021 12:45:07 +0100
+Message-Id: <20210309114512.536489-34-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
 References: <20210309114512.536489-1-its@irrelevant.dk>
@@ -103,9 +103,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-subsys->namespaces array used to be sized to NVME_SUBSYS_MAX_NAMESPACES.
-But subsys->namespaces are being accessed with 1-based namespace id
-which means the very first array entry will always be empty(NULL).
+Expand allocated namespace list (subsys->namespaces) to have 256 entries
+which is a value lager than at least NVME_MAX_NAMESPACES which is for
+attached namespace list in a controller.
+
+Allocated namespace list should at least larger than attached namespace
+list.
+
+	n->num_namespaces = NVME_MAX_NAMESPACES;
+
+The above line will set the NN field by id->nn so that the subsystem
+should also prepare at least this number of namespace list entries.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
@@ -114,21 +122,39 @@ Tested-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
  hw/block/nvme-subsys.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.h        | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index 507efcd23f9b..20d34004c677 100644
+index 20d34004c677..65a8bcda030d 100644
 --- a/hw/block/nvme-subsys.h
 +++ b/hw/block/nvme-subsys.h
-@@ -24,7 +24,7 @@ typedef struct NvmeSubsystem {
+@@ -14,7 +14,7 @@
+     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
  
-     NvmeCtrl    *ctrls[NVME_SUBSYS_MAX_CTRLS];
-     /* Allocated namespaces for this subsystem */
--    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES];
-+    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES + 1];
+ #define NVME_SUBSYS_MAX_CTRLS   32
+-#define NVME_SUBSYS_MAX_NAMESPACES  32
++#define NVME_SUBSYS_MAX_NAMESPACES  256
  
-     struct {
-         char *nqn;
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index cd8d40634411..85a7b5a14f4e 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -10,6 +10,12 @@
+ #define NVME_DEFAULT_ZONE_SIZE   (128 * MiB)
+ #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
+ 
++/*
++ * Subsystem namespace list for allocated namespaces should be larger than
++ * attached namespace list in a controller.
++ */
++QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_SUBSYS_MAX_NAMESPACES);
++
+ typedef struct NvmeParams {
+     char     *serial;
+     uint32_t num_queues; /* deprecated since 5.1 */
 -- 
 2.30.1
 
