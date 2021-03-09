@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10253332C3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:37:17 +0100 (CET)
-Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B634332C24
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:32:41 +0100 (CET)
+Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJfMC-0003TE-0j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:37:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1lJfHk-0000CS-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:32:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJefK-0004Fh-5s
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJef0-000118-DN
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615305157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fW6c1TB5SEpvYZ2Q5rGXnjq1LRDj6qeOKV+ewkG2dHY=;
- b=GGWDBrLlTzhYTKamVm6O0QSXjolKRAEJoHCOhuT4PqKhRGwxDr/NA7SKCvPKs+eL2tiwgL
- L1SHG4xOrxJQalo+MKSJg2o6K5enVP6a1X6xY6ObmhHP0h1bwpEyGO9KKICszYgRA8wNt6
- X1fqk4G3fQor7PSTWjQ2pHl89Zw/tPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-N7AkZzUPORKhGrVOKumVwQ-1; Tue, 09 Mar 2021 10:52:35 -0500
-X-MC-Unique: N7AkZzUPORKhGrVOKumVwQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37FFF1842145;
- Tue,  9 Mar 2021 15:52:34 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD1E819C46;
- Tue,  9 Mar 2021 15:52:33 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJefW-0004cb-PO
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:53:10 -0500
+Received: from mail-oo1-xc2f.google.com ([2607:f8b0:4864:20::c2f]:40117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJefV-0001Bq-1I
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:53:10 -0500
+Received: by mail-oo1-xc2f.google.com with SMTP id l5so3141262ooj.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 07:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W14unbYsNxQ1Va38g+npA6Ct860YaOiFCU0ExYMrSII=;
+ b=esD8E35ZJqmJeIWUYcoLpnvh5fT950Ojq4nVPtntQ8u8Di+bwpvSpMEt+LIZipAXj8
+ INigbQIIlKUIudUPpoJGb2hhf9fx+HvIQcPYnU0pjqphFzDQSkCWr50dfTABFUG3kQXL
+ JJWnabYsxd90Gc2Vd7HImtnV6046eckNL0U74YrXl4oNS6tg96hnuhlDgYYpHPnCr3yo
+ azhCeSPdNPMr4u/KXX3ybGM8A1ScgcYkqKK0E5+rFX4Fxqh5liO+ZJzfZ7m+b8xXYCsE
+ CdECEI4orWLjLnBBQwzc38EOOH1L7Va4afQN1seJ7cKOKx538J6xdf8xLcPPTCTIONmL
+ bXqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W14unbYsNxQ1Va38g+npA6Ct860YaOiFCU0ExYMrSII=;
+ b=aqo5c+rqPl2Fx8v20Rws48IKZ7fJrmB7bjpAwF5rOryJWJSBs6wEmmGhw5KRVaEMb0
+ DQHddPUmo4A/MKX78SCmvdlcIAC9F02j8cSXFA76C+fG7mMOMw9qdYP+iy9Win1AMw4h
+ 4M6oyZHKmcge68jdZnn0sijXqbUFif7Ao3NtAvxYtcQfi+MuHLvHzXUA6PABnrwVYAJ8
+ QRtxBkVGdJbEdq2fJDTVql4aUk2pK9SI3zgd0dOh64B7ivpPNRKw7Bqh3SeM071JWWfv
+ bnw5Vlu+Vz2F/wD9XJJVxlbbhg1MNDVhuL1NHfly5Lh4x65DI07CepKzvVO9sUhGJZIA
+ JS5A==
+X-Gm-Message-State: AOAM532rrN8lIwoI8uV505H5s+EE4w5dT33AI6qxA/CnB+iHLYWNSp6V
+ Sac1SXP1mjgLNTl+wI/61/1Kc5JCEhKLjC6I
+X-Google-Smtp-Source: ABdhPJyPz/6JiOsB00tepMobuAYWqENwXA3l3HRCNuXCVH4Uiovke5F8XIe6YYrRoaEIiQVbQiZ42A==
+X-Received: by 2002:a05:6820:129:: with SMTP id
+ i9mr22618434ood.80.1615305187750; 
+ Tue, 09 Mar 2021 07:53:07 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id b14sm2952539ooj.26.2021.03.09.07.53.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 07:53:07 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] block/qcow2: refactor qcow2_update_options_prepare error
- paths
-Date: Tue,  9 Mar 2021 09:52:02 -0600
-Message-Id: <20210309155202.1312571-18-eblake@redhat.com>
-In-Reply-To: <20210309155202.1312571-1-eblake@redhat.com>
-References: <20210309155202.1312571-1-eblake@redhat.com>
+Subject: [PATCH v4 0/8] target/arm: sve1 fixes
+Date: Tue,  9 Mar 2021 07:52:57 -0800
+Message-Id: <20210309155305.11301-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,62 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, "open list:qcow2" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Three of these have been hanging around on a queue for ages;
+the rest are new.  The WHILE and reduction bugs were found by
+RISU triggering an assertion on 384-bit (vq=3) vectors.
 
-Keep setting ret close to setting errp and don't merge different error
-paths into one. This way it's more obvious that we don't return
-error without setting errp.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20210202124956.63146-15-vsementsov@virtuozzo.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/qcow2.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+r~
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index a1dee95dea6c..0db1227ac909 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1158,6 +1158,10 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-         }
-         qdict_put_str(encryptopts, "format", "qcow");
-         r->crypto_opts = block_crypto_open_opts_init(encryptopts, errp);
-+        if (!r->crypto_opts) {
-+            ret = -EINVAL;
-+            goto fail;
-+        }
-         break;
 
-     case QCOW_CRYPT_LUKS:
-@@ -1170,14 +1174,15 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-         }
-         qdict_put_str(encryptopts, "format", "luks");
-         r->crypto_opts = block_crypto_open_opts_init(encryptopts, errp);
-+        if (!r->crypto_opts) {
-+            ret = -EINVAL;
-+            goto fail;
-+        }
-         break;
+Richard Henderson (8):
+  target/arm: Fix sve_uzp_p vs odd vector lengths
+  target/arm: Fix sve_zip_p vs odd vector lengths
+  target/arm: Fix sve_punpk_p vs odd vector lengths
+  target/arm: Update find_last_active for PREDDESC
+  target/arm: Update BRKA, BRKB, BRKN for PREDDESC
+  target/arm: Update CNTP for PREDDESC
+  target/arm: Update WHILE for PREDDESC
+  target/arm: Update sve reduction vs simd_desc
 
-     default:
-         error_setg(errp, "Unsupported encryption method %d",
-                    s->crypt_method_header);
--        break;
--    }
--    if (s->crypt_method_header != QCOW_CRYPT_NONE && !r->crypto_opts) {
-         ret = -EINVAL;
-         goto fail;
-     }
+ target/arm/sve_helper.c    | 107 +++++++++++++++++++++----------------
+ target/arm/translate-sve.c |  26 ++++-----
+ 2 files changed, 73 insertions(+), 60 deletions(-)
+
 -- 
-2.30.1
+2.25.1
 
 
