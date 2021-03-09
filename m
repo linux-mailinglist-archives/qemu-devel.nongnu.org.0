@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AFE332FBB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:18:03 +0100 (CET)
-Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44736332F9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:08:01 +0100 (CET)
+Received: from localhost ([::1]:47556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJinq-0006Yh-Gj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:18:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
+	id 1lJie8-0002Kw-9u
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:08:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJh33-00063U-OA
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:25:37 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJh2z-0000TL-Aj
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:25:37 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id u14so17648544wri.3
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=f0BMsR/OLrIq+XTThQnJJBWU8/FbV6em/iiXxIQGMbo=;
- b=LnwRq59nqkbXiSMVii9fSXmfQ18K00hJqWrelTpGDLUEXctaYepKuSvACBa9742Ivx
- w9W9FJlu4c9RLhhjl09KljnV7ezuVFN7P+ONrrdvCSaudQpR0m2WN2w2QW7O5IbTXd19
- Uocfn9/jruY5/nzv2dYOTHwAiA9T0uA7iA7Em7B7ORWx2yvcWTCBLndr0fEyYPS/wxZ7
- REhOhJh31civIymsB02UOEItZdVuSXdLLJpvpjmoeccpOK9753cBcLtKUEF8dHjoofXD
- tMGBZ3+enj/YCnexeulIuEKTJMMu2OE7542vG3mD2jV0CQClV1S+zvADyx5yWXPoAGr7
- cqJg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh4y-0000U4-L4
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh4k-00017g-QS
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615314437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HkiWR+cyoXL+3QxgB4d5UIT+26hl5aPuRcbIAsUgzew=;
+ b=ZhL3bYXXA0lkpWJVnxAeUtCx7KrYiuV8ySz8bsa9/PxDfgpM6/RzMh+pKCszqm4UlYbpss
+ DaVqNutkDFKfxpotjY8Dd/b3LPdOxiaGXDEkNpAhPmscs0NdLEvgBYA9Y6RaAWNa2FLm4P
+ N14+r6nOkHy9sOWqwwRfCqEPM6gO8ZQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-dlplkOxjMdif6bwXbE37iQ-1; Tue, 09 Mar 2021 13:27:13 -0500
+X-MC-Unique: dlplkOxjMdif6bwXbE37iQ-1
+Received: by mail-ej1-f69.google.com with SMTP id jo6so6029204ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:27:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=f0BMsR/OLrIq+XTThQnJJBWU8/FbV6em/iiXxIQGMbo=;
- b=Ib7kNDrb8OiPCyXqWKgwbCh0eXA9SsHT2AftBX4lv2GV4sKb6rN3jYNKSPKaHCJRLF
- ZDHQRLTPhd2U1UO2KhV7t5pUSsrR0fGurxrbb49ZWpjyWRiBDrv9UIKyxzy5J0sF/Csz
- MdngPQejUq42eWPR+aw6Sq8/I66AcS144s+ixt2WX0O12HIIWO+A2ecMuwztd7hJZgY2
- 9zvJ0JtFOnb8raM6zDDvwpIa2plpYesd2DvPID3J3OaVp7uU8tsy8Y3GDUG3Dt6i9zor
- MdSZQdWXTIrlag5pmCR2KjaT1bJcBjl9/vpD9PwFbOjcVYm65Xuy+7jwTJvim8NP4ITT
- Ndfg==
-X-Gm-Message-State: AOAM530AH4HPmR5sRxCF93BZTfsswiH4wBj58qtFwg6w3xMYmSYZ9OYN
- uiRj9WFrNwlPdo7SQ8bIfeCi5w==
-X-Google-Smtp-Source: ABdhPJzpO0xJwKP6OwMNq7zfbwuO+nvXJbv656jgWks49cH+GV6exeB7YyKQ2vCoY6LdCEZMEmm0XA==
-X-Received: by 2002:adf:e603:: with SMTP id p3mr30223836wrm.360.1615314331354; 
- Tue, 09 Mar 2021 10:25:31 -0800 (PST)
-Received: from [192.168.103.34] ([185.81.136.17])
- by smtp.gmail.com with ESMTPSA id z2sm30047107wrm.0.2021.03.09.10.25.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 10:25:31 -0800 (PST)
-Subject: Re: [PATCH v3 3/4] fdc: Inline fdctrl_connect_drives() into
- fdctrl_realize_common()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210309161214.1402527-1-armbru@redhat.com>
- <20210309161214.1402527-4-armbru@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ebe654b3-aafb-658d-ba80-ebc3e60d59a5@linaro.org>
-Date: Tue, 9 Mar 2021 12:25:18 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ bh=RLF51FFC7qM3o+SMPe8txGyZ4Ay15wN/0Wk+wGkbd2s=;
+ b=lqQdhS0KYtRO6sByP6Hsi3b9MCYI5rmsbURnbUg1g2kvwwzPCOjE/PeTZ22pahBy5E
+ YU1rsELCgbsUyU7l3Ca+pRTjMFG7kV5EycfCunSXMJACcG+0WVUmShln7cVfwyKB4Spq
+ sDPj/ZlFmux5/pEErFCmPdDwNEnrJLJbkfGClTl9YBfxpRHU43+qTQzAtmR9/g4LbOhr
+ tsf3nC8gV3bTiEL//AENd/txGD8VJb77G1upkpAS/RX/wZh6LPSQabubYFCiEYYK/uiG
+ hbiNP1olGZMEzz+7LWRzW6eaOV2cgpr02L/ys0TmvVDeCzNj9tdb3PyDJUAfIPabcQ2L
+ Zppw==
+X-Gm-Message-State: AOAM531mFtFfg9KE2UAqvlMSaP8NYW3gXhthJ7KKBF9q+Ebpkr1y0k+g
+ DMcvSIhkD4jL08b1QTl98u3PTyU1jO/qAl0UKLZqLqPVvc2bZXVoar+TyYyg3EtfqT5say7iYwz
+ 0pC9mQaDSomcKFQkaLiAxQXQC/HbAhCKnR1/4InXDArYM++ULbQNxIFqdQl8lKDqi
+X-Received: by 2002:a17:906:f8d5:: with SMTP id
+ lh21mr21673459ejb.64.1615314432378; 
+ Tue, 09 Mar 2021 10:27:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYhNph6o44XdUaszL05pI+YotaWAAXvnl8ANwB0u/0We7U5IKGuX4X7BMIsn4E5TxtTia+ug==
+X-Received: by 2002:a17:906:f8d5:: with SMTP id
+ lh21mr21673432ejb.64.1615314432150; 
+ Tue, 09 Mar 2021 10:27:12 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id m7sm9425080edp.81.2021.03.09.10.27.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 10:27:11 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] net/eth: Fix stack-buffer-overflow in
+ _eth_get_rss_ex_dst_addr()
+Date: Tue,  9 Mar 2021 19:27:03 +0100
+Message-Id: <20210309182709.810955-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210309161214.1402527-4-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 8:12 AM, Markus Armbruster wrote:
-> @@ -2565,6 +2551,7 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
->                                     Error **errp)
->   {
->       int i, j;
-> +    FDrive *drive;
->       static int command_tables_inited = 0;
->   
->       if (fdctrl->fallback == FLOPPY_DRIVE_TYPE_AUTO) {
-> @@ -2604,7 +2591,13 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
->       }
->   
->       floppy_bus_create(fdctrl, &fdctrl->bus, dev);
-> -    fdctrl_connect_drives(fdctrl, dev, errp);
-> +
-> +    for (i = 0; i < MAX_FD; i++) {
-> +        drive = &fdctrl->drives[i];
+I had a look at the patch from Miroslav trying to silence a=0D
+compiler warning which in fact is a nasty bug. Here is a fix.=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg772735.html=0D
+=0D
+Since v3:=0D
+- reworked in multiple trivial patches (Stefano)=0D
+- reset R-b/A-b tags=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  net/eth: Simplify _eth_get_rss_ex_dst_addr()=0D
+  net/eth: Better describe _eth_get_rss_ex_dst_addr's offset argument=0D
+  net/eth: Initialize input_size variable earlier=0D
+  net/eth: Check rt_hdr size before casting to ip6_ext_hdr=0D
+  net/eth: Remove now useless size check=0D
+  net/eth: Return earlier in _eth_get_rss_ex_dst_addr()=0D
+=0D
+ net/eth.c                      | 42 +++++++++++++--------------=0D
+ tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++=0D
+ MAINTAINERS                    |  1 +=0D
+ tests/qtest/meson.build        |  1 +=0D
+ 4 files changed, 75 insertions(+), 22 deletions(-)=0D
+ create mode 100644 tests/qtest/fuzz-e1000e-test.c=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-FWIW, the declaration could be local to this loop.
-
-r~
 
