@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5BF3329F2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:15:17 +0100 (CET)
-Received: from localhost ([::1]:52518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A44D332A5F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:26:37 +0100 (CET)
+Received: from localhost ([::1]:58428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJe4q-00077l-M7
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:15:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
+	id 1lJeFh-0004Pv-CM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:26:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJdT9-00068E-AI
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:36:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJdT6-0001rr-Cn
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:36:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615300575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=chuoaICmiBfrDBlUcbMO3IRg1iki2dfxOMLEGBz7MLQ=;
- b=adNxYirK94jrQdmBUxe1dNVFlT5de9B2uv4yQNwCMTeoG+ciSBC/aTtD1I4/vzQuJtj9hl
- mMQgqV3bk/dWWnvVFX9Ttp9fW3Y6KKfNPfd4+Ah8slbvDxJSEzKSoYDnaMS3DaljZkqiXe
- pSlisoBPf0hhPfdwv5UCKwWqUpugFsM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-bLGfwM6hNS6zOSUu4dkLxg-1; Tue, 09 Mar 2021 09:36:11 -0500
-X-MC-Unique: bLGfwM6hNS6zOSUu4dkLxg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0CE81B2C983;
- Tue,  9 Mar 2021 14:36:09 +0000 (UTC)
-Received: from [10.36.112.254] (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABE3F6F98C;
- Tue,  9 Mar 2021 14:36:04 +0000 (UTC)
-Subject: Re: [RFC RESEND PATCH 0/4] hw/arm/virt-acpi-build: Introduce iommu
- option for pci root bus
-To: Wang Xingang <wangxingang5@huawei.com>, qemu-devel@nongnu.org
-References: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <e37590d0-d65f-e4e4-ec59-92eb3166d9d9@redhat.com>
-Date: Tue, 9 Mar 2021 15:36:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lJdUY-00088Y-O3
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:37:46 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lJdUW-0002Xe-Sb
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:37:46 -0500
+Received: by mail-ed1-x535.google.com with SMTP id dm26so20498303edb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=RRl8ZwwGl0rjUuWYzuTyINdrAJBZTYZJDNbf5fF8KoY=;
+ b=CoznnZ27q0i1MKxTi9Kzn0pbxM0+i8sz/AeGxchjjmU0q9HmtBbRYfchSdHaUOZxhi
+ R75C88eikBDRw5x3kLNW0R5FVRMml1BmMRDmmeP3nwm7g49m5IwpUbkKfft2MvIpKaF4
+ bIU4nLBma6xnfdIlNiSan2PitrLylwGHpnhsLurVhw5trXKjqCrgtquIdtfMJfBmr+oJ
+ H1n8RvC2AbWziVDGJEIygH4AV4siVeCrw+VyWPkU3locEfjpc7H9qsc/CfHtulwf0I6u
+ C/gTgPPVlNmdn4zC0uRmFa1n60jeG+cfVbPcW0dyvzIPSNZpkfcqK616OZcdmcJNkLl8
+ p9eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=RRl8ZwwGl0rjUuWYzuTyINdrAJBZTYZJDNbf5fF8KoY=;
+ b=PakStvaFneXEDR7X2sSZVbeWxAC8Pgue3gfUDnZzYDe4bDTyDkxm9hKrrAU/VDosHJ
+ Y7jAJWSPcU5swH7X1OvJqZvp6rkU9vW1jHHcnqCtIC9cBNeHCTdtNlNgSDXusA38gByu
+ tyt/eGpCrZgOxT/GYWAXsAnDFRzvktLq3on4wrRBJ7Sbrk6SpUlfiYFosO/nAAbFRk2j
+ Rf1bQDz60KStRbNDgpmCyZzhQag8vrQmTDTROEQuhBp9r3HQ5osEUzLXx5fhjqxOC9ux
+ /Mrgr2J7eWfgFfqIR39A/TiJgyD7q6lyYy2muxz8e91Ey7Hagqj25BB9h4YLHobPiMlj
+ 4e9g==
+X-Gm-Message-State: AOAM532pVNFRTDhzSSVV6iMaG9tlm6FUGJSc+I3gWmOElpHB1I0AZ7FI
+ u6wnD8BqcztU10gwmcOFYwlylQ==
+X-Google-Smtp-Source: ABdhPJzWDAhoaYG6EouIhSW8TZfLSJGCaLxZq8HAhGZomA8+sCNf6bfpmtlw5MOHor/CFzO4YuBzkw==
+X-Received: by 2002:a05:6402:304b:: with SMTP id
+ bu11mr4287747edb.157.1615300662793; 
+ Tue, 09 Mar 2021 06:37:42 -0800 (PST)
+Received: from wks.local (5-12-20-125.residential.rdsnet.ro. [5.12.20.125])
+ by smtp.gmail.com with ESMTPSA id e4sm8566632ejz.4.2021.03.09.06.37.42
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Mar 2021 06:37:42 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
+Subject: Re: Malfunctionning qemu-system-arm ?
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <e00943e0-b9a7-1688-b169-3650e8e4290e@trusted-objects.com>
+Date: Tue, 9 Mar 2021 16:37:41 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FBA649E1-4EFB-4409-894E-C1A5AB086BF1@livius.net>
+References: <20210211141515.8755-1-peter.maydell@linaro.org>
+ <14af0670-caaf-caf1-0b90-fb10c7db13b0@trusted-objects.com>
+ <e00943e0-b9a7-1688-b169-3650e8e4290e@trusted-objects.com>
+To: vincent Dupaquis <v.dupaquis@trusted-objects.com>
+X-Mailer: Apple Mail (2.3654.60.0.2.21)
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, peter.maydell@linaro.org, cenjiahui@huawei.com,
- mst@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On 2/27/21 9:33 AM, Wang Xingang wrote:
-> From: Xingang Wang <wangxingang5@huawei.com>
-> 
-> These patches add support for configure iommu on/off for pci root bus,
-> including primary bus and pxb root bus. At present, All root bus will go
-> through iommu when iommu is configured, which is not flexible.
-> 
-> So this add option to enable/disable iommu for primary bus and pxb root bus.
-> When iommu is enabled for the root bus, devices attached to it will go
-> through iommu. When iommu is disabled for the root bus, devices will not
-> go through iommu accordingly.
 
-Please could you give an example of the qemu command line for which the
-new option is useful for you. This would help me to understand your
-pcie/pci topology and also make sure I test it with the smmu.
 
-Thank you in advance
+> On 15 Feb 2021, at 17:09, vincent Dupaquis =
+<v.dupaquis@trusted-objects.com> wrote:
+>=20
+> ... stuck on the starting HAL_init() call.
 
-Best Regards
+HAL requires, amongst other things, the clock registers, since it sets =
+the PLLs for the desired frequencies.
 
-Eric
-> 
-> Xingang Wang (4):
->   pci: Add PCI_BUS_IOMMU property
->   hw/pci: Add iommu option for pci root bus
->   hw/pci: Add pci_root_bus_max_bus
->   hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
-> 
->  hw/arm/virt-acpi-build.c            | 92 +++++++++++++++++++++--------
->  hw/arm/virt.c                       | 29 +++++++++
->  hw/pci-bridge/pci_expander_bridge.c |  6 ++
->  hw/pci/pci.c                        | 35 ++++++++++-
->  include/hw/arm/virt.h               |  1 +
->  include/hw/pci/pci.h                |  1 +
->  include/hw/pci/pci_bus.h            | 13 ++++
->  7 files changed, 153 insertions(+), 24 deletions(-)
-> 
+xPack QEMU Arm [1] implements these registers, and is able to properly =
+run the HAL init code.
+
+
+Regards,
+
+Liviu
+
+[1] - https://xpack.github.io/qemu-arm/
 
 
