@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0B23327F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:59:16 +0100 (CET)
-Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D6F332801
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:03:42 +0100 (CET)
+Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJctH-0000Nr-43
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:59:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59986)
+	id 1lJcxZ-00036o-L8
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:03:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lJcs1-0007u4-CB
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:57:57 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lJcrz-0000yW-RC
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:57:57 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id i9so1986890wml.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:57:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O5RBOSfx7iDmIi9Xz0oLA+stkvsgLx1qUA7neDwYRCc=;
- b=ty4+ZWgg4q3N7jhXDhN5UPd/QJsSjoz1/525dtpt53stUfh7D/PNnzXsHW0aJYYxJD
- uwasGWvkcdDnxqSrohzWjI8usjIFeMs7cr21KO7xIRTtba7+AqlZKirul0qwHkg66mP/
- PlpHguM9hlpgKERcaeXJRwLdh4EOWSfhcvjaNscOYOPzxjUZMTo5g2JYGUBwXrZ30i/h
- luw2Ve/GvR7whTyqLLDK9gwTAsgXmjcvOZQxtOm3wBv7/MgYq932GBDTY2Zigp8kjklw
- Br8jdrm7fXbnZWlziScBjJlhe4uQZgEc1G0gLpUOcqv8w8VW/HVAoJfCkUN8hCgHHPL3
- Iulg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=O5RBOSfx7iDmIi9Xz0oLA+stkvsgLx1qUA7neDwYRCc=;
- b=awYVfZZM501Z/lUDnCUGcyQR/SDceHtsvVgRT74LxtgmKCx99o9MFEoHnKYJi5ViI8
- IP7DjiCWnWz/4qzjBlUwpEqXFPXRLNmOhTT3uqYBoo7s+QbammRiLi98aT9hd8i3O4u5
- ypFYNsWTqPgmRW+YYv8JNtlAg5WqQ4tirl16jGVaUyuFGj7VzlzhTdAyoXj430xXmJZa
- 0vo5zK1tONnmRDDGvvIsGgPG+DuYMZb7YkYejC+GV7mGkybBd3UTHnWtIYgJ7swH1Wtu
- CXZFyljHUyW2lGiRu/KeBR7cpohEx7VrkBH9W1JgDOL+e3eBJIlUFUdc4bBu/OZmTQ6u
- +PbA==
-X-Gm-Message-State: AOAM530reC6BFx9//tFUIbWcYv40pXr/CXDga/UXUyRCKWAcsdpFpHgQ
- qTDmlp1QuMoCPSmFmW40KODkUbhpgww=
-X-Google-Smtp-Source: ABdhPJy0BCBTduClHQxKMRvJELAAA1489GhHSXLo0lsGDWCzF0EX+K69DXKzDJwd/9fmtVezty41hg==
-X-Received: by 2002:a1c:1f04:: with SMTP id f4mr4313619wmf.12.1615298273995;
- Tue, 09 Mar 2021 05:57:53 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- a5sm24097138wrs.35.2021.03.09.05.57.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 05:57:53 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] scsi: fix sense code for EREMOTEIO
-Date: Tue,  9 Mar 2021 14:57:52 +0100
-Message-Id: <20210309135752.187916-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJcup-0001vO-7s; Tue, 09 Mar 2021 09:00:51 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJcui-0002NR-CD; Tue, 09 Mar 2021 09:00:50 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7125A7456B7;
+ Tue,  9 Mar 2021 15:00:39 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4FCDA7456B4; Tue,  9 Mar 2021 15:00:39 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4EDB57456E3;
+ Tue,  9 Mar 2021 15:00:39 +0100 (CET)
+Date: Tue, 9 Mar 2021 15:00:39 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v14] spapr: Implement Open Firmware client interface
+In-Reply-To: <19bc153a-027c-d5ca-6849-ae33315c62af@ozlabs.ru>
+Message-ID: <d7edd653-4923-fea5-e14-cd4ab871e324@eik.bme.hu>
+References: <20210224054130.4540-1-aik@ozlabs.ru>
+ <YD2yd42dv/7/m94f@yekko.fritz.box>
+ <08781378-b4ba-12bf-2ae8-f3da9db9342c@ozlabs.ru>
+ <YEcHxEvVPPO85BGE@yekko.fritz.box>
+ <19bc153a-027c-d5ca-6849-ae33315c62af@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,46 +58,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SENSE_CODE(LUN_COMM_FAILURE) has an ABORTED COMMAND sense key,
-so it results in a retry in Linux.  To ensure that EREMOTEIO
-is forwarded to the guest, use a HARDWARE ERROR sense key
-instead.  Note that the code before commit d7a84021d was incorrect
-because it used HARDWARE_ERROR as a SCSI status, not as a sense
-key.
+On Tue, 9 Mar 2021, Alexey Kardashevskiy wrote:
+> On 09/03/2021 16:29, David Gibson wrote:
+>>>>> +struct ClientArchitectureSupportClass {
+>>>>> +    InterfaceClass parent;
+>>>>> +    target_ulong (*cas)(CPUState *cs, target_ulong vec);
+>>>>> +    void (*quiesce)(void);
+>>>> 
+>>>> Is there actually any real connection of quiesce behaviour to cas
+>>>> behaviour?  Basically, I'm wondering if this is not so much about
+>>>> client-architecture-support fundamentally as just about
+>>>> machine-specific parts of the VOF behaviour.  Which would be fine, but
+>>>> suggests a different name for the interface.
+>>> 
+>>> The most canonical way would be having 2 interfaces.
+>> 
+>> Why?  I don't see any reason these shouldn't be a single interface, it
+>> just has a bad name.
+>
+> I renamed it to SpaprVofInterface for now.
+>
+>
+>> [snip]
+>>>>> +typedef int size_t;
+>>>>> +typedef void client(void);
+>>>>> +
+>>>>> +/* globals */
+>>>>> +extern void _prom_entry(void); /* OF CI entry point (i.e. this 
+>>>>> firmware) */
+>>>>> +
+>>>>> +void do_boot(unsigned long addr, unsigned long r3, unsigned long r4);
+>>>>> +
+>>>>> +/* libc */
+>>>>> +int strlen(const char *s);
+>>>>> +int strcmp(const char *s1, const char *s2);
+>>>>> +void *memcpy(void *dest, const void *src, size_t n);
+>>>>> +int memcmp(const void *ptr1, const void *ptr2, size_t n);
+>>>>> +void *memmove(void *dest, const void *src, size_t n);
+>>>>> +void *memset(void *dest, int c, size_t size);
+>>>>> +
+>>>>> +/* Prom */
+>>>>> +typedef unsigned long prom_arg_t;
+>>>>> +int call_prom(const char *service, int nargs, int nret, ...);
+>>>> 
+>>>> AIUI this isn't so much about calling the PROM, since this *is* the
+>>>> PROM code, but rather about calling the parts that are implemented on
+>>>> the qemu side.  Different names might clarify that.
+>>> 
+>>> "call_ci"?
+>> 
+>> Works for me.
+>
+> call_ci() it is then.
+>
+> About builtins such as memcmp() - turns out these are not really builtins as 
+> they are not inlined and gcc/ld still want to link against libc which is 
+> trickier for such firmware (not quite sure how to do this and keep it small 
+> and not pull other libc stuff in), gcc just knows about them a bit more. This 
+> is different from, for example, __builtin_ctz which is inlined. So I am 
+> keeping my libc.o for now.
 
-Reported-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scsi/utils.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Do they really want libc or they are in libgcc for which there's 
+--static-libgcc I think to avoid needing it in runtime but not sure what 
+clang has for these.
 
-diff --git a/scsi/utils.c b/scsi/utils.c
-index 873e05aeaf..357b036671 100644
---- a/scsi/utils.c
-+++ b/scsi/utils.c
-@@ -589,7 +589,7 @@ int scsi_sense_from_errno(int errno_value, SCSISense *sense)
-         return TASK_SET_FULL;
- #ifdef CONFIG_LINUX
-         /* These errno mapping are specific to Linux.  For more information:
--         * - scsi_decide_disposition in drivers/scsi/scsi_error.c
-+         * - scsi_check_sense and scsi_decide_disposition in drivers/scsi/scsi_error.c
-          * - scsi_result_to_blk_status in drivers/scsi/scsi_lib.c
-          * - blk_errors[] in block/blk-core.c
-          */
-@@ -599,7 +599,7 @@ int scsi_sense_from_errno(int errno_value, SCSISense *sense)
-         *sense = SENSE_CODE(READ_ERROR);
-         return CHECK_CONDITION;
-     case EREMOTEIO:
--        *sense = SENSE_CODE(LUN_COMM_FAILURE);
-+        *sense = SENSE_CODE(TARGET_FAILURE);
-         return CHECK_CONDITION;
- #endif
-     case ENOMEDIUM:
--- 
-2.29.2
-
+Regards,
+BALATON Zoltan
 
