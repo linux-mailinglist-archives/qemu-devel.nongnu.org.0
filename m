@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5747331B2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 00:55:17 +0100 (CET)
-Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B478331BA4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 01:29:18 +0100 (CET)
+Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJPiW-0004WM-I6
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 18:55:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
+	id 1lJQFQ-0001sF-Hz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 19:29:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lJPhm-00045r-Su
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:54:30 -0500
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:33064)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lJQE0-0000L1-2H
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 19:27:48 -0500
+Received: from mail-pg1-f172.google.com ([209.85.215.172]:34743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lJPhl-00089s-04
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 18:54:30 -0500
-Received: by mail-vs1-f44.google.com with SMTP id b189so5862857vsd.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 15:54:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lJQDy-0006KG-IN
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 19:27:47 -0500
+Received: by mail-pg1-f172.google.com with SMTP id l2so7557725pgb.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 16:27:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=G6S2LEiGLXU8ZWvl8YTZPVAvJj3NTusq0IDkpgaaOiQ=;
- b=VtoZ2yYK+OgughI5IkAo4Whk5mu4SayYWh84c7YOt9FT0WqWJrYQpItCSuhtF7NZ84
- LhagwV482BGkP+DOx+jxqrEs/szeBdq1gDzgRWGtPnWmxsACtN3AGysvkC8ok23H+azK
- YhY9oy1/TXXkGJsHLiRNn/YwLEPw+nQixuw/UodsDs2d+HaANuvzRWHFLZhEGC7Q7Gtg
- 0m93UrNNSMYpRI6Zk5Ng5Ue9xDiK1k5yhbO9+hoxCRiC1MVrBoMIBh2GYY9brDPH015W
- /gP+jtWztjOsjQWiOeVxSzYtGww+ZlemMjto3aMlb7fZ+4nBv1B+Ni5h8tcgLq9OI4HS
- NEvg==
-X-Gm-Message-State: AOAM531K/sgHHd6BixCUfoE5rTWcuIfTPd6n/kSB+xkHjDCEp/eoKzDe
- hlz1IWLztUrPRTmuVAAsY6kw6RimBTZU7jOuHnISGhIa9MVMPw==
-X-Google-Smtp-Source: ABdhPJy9C4EyqVL8BwvMItpO1D5tEquwlygm4Unoxh5zC5WQZuoS0mlslnSbhIhPfIeWy1ZGeJ7W1dapKK5GgRgL1o8=
-X-Received: by 2002:a05:6102:21a4:: with SMTP id
- i4mr5857287vsb.13.1615247666745; 
- Mon, 08 Mar 2021 15:54:26 -0800 (PST)
-MIME-Version: 1.0
-From: Ben Leslie <benno@benno.id.au>
-Date: Tue, 9 Mar 2021 10:54:15 +1100
-Message-ID: <CABZ0LtCh37eXx0evxYNsZigFJgq-RY+wdFvA0SMDH4HgxpK-zw@mail.gmail.com>
-Subject: What is the intended behaviour of usb_host_get_port for root hubs?
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LGTm0gDmZLnK+xZ5da5pWZ57q8U7GENz+8zAuGK5Ts8=;
+ b=Ihbmrp915Nz29FCtHk1bckm0pefqCB8GbaNm2SbNHbo2kuisxJdOh3XZVBTAp9P7SL
+ YedHyNandIvqD6HyWH6ET0XXViBz8C7NEZijdsof2zbXdEOTavHWGWtrrxaH/PlXNL9o
+ 3z6DO94qfomAfs7NTaslKgUfA7WhYlzuu2uX7eK+6tk6eDE+iQYPof8r2xWQo/PtXM+Z
+ Sjy8fLoMerUNQhqreDRfaLmIOyOtVN5z/nnUfqOATSqmjv5CBhFRpEKJyK4VlI0OHdne
+ P1bWgJC7N02VqLru/ijO9vcDh4LNF4TkNdMKt5DZBhTDP0Wt1weJNyQL55kq5vt/GSFf
+ 7yGg==
+X-Gm-Message-State: AOAM533FIvo6ObapFVKaWbJwIGZWHJPwiClhzvWPSQEXyDh6LN5M66Zm
+ zvfXZczoEUKfsNC8P27uKgTbHzhZbyA=
+X-Google-Smtp-Source: ABdhPJybLSZVycZO9Xcjt2tk4567W641pX3jGLaKPWKCghamFQojdQsgYCnq7Kecazy2/rTfRoPXTw==
+X-Received: by 2002:a65:428b:: with SMTP id j11mr22732961pgp.47.1615249664683; 
+ Mon, 08 Mar 2021 16:27:44 -0800 (PST)
+Received: from localhost.localdomain ([73.93.154.215])
+ by smtp.gmail.com with ESMTPSA id d2sm466764pjx.42.2021.03.08.16.27.43
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Mar 2021 16:27:44 -0800 (PST)
+From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000006694f405bd0f271d"
-Received-SPF: pass client-ip=209.85.217.44; envelope-from=ben.leslie@gmail.com;
- helo=mail-vs1-f44.google.com
+Subject: [PATCH v2 0/4] Disable unsupported features on iOS hosts
+Date: Mon,  8 Mar 2021 16:27:37 -0800
+Message-Id: <20210309002741.85057-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.215.172;
+ envelope-from=osy86github@gmail.com; helo=mail-pg1-f172.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
 X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -68,55 +74,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006694f405bd0f271d
-Content-Type: text/plain; charset="UTF-8"
+These patches disables code that cannot be compiled or run on iOS by adding
+feature/header detection at configure time.
 
-When usb_host_get_port is called for a root-hub device what string should
-be output in the port parameter?
+v2:
 
-The current behaviour writes a string with whatever stack value happened to
-be in the paths stack array.
+* Broken merge where config_host['CONFIG_SMBD_COMMAND'] was duplicated.
 
-Possible behaviours that I can see being useful are:
+-j
 
-1: Don't modify the port parameter.
-2: Write an empty string.
+Joelle van Dyne (4):
+  block: feature detection for host block support
+  block: check for sys/disk.h
+  block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+  slirp: feature detection for smbd
 
-My preference would be for #2, but possibly #1 is intended. I can provide a
-patch if someone can let me know the intended behaviour. If #1 is intended,
-then I think the usage in hmp_info_usbhost might need changing as well. The
-other usage in usb_host_auto_check where the provided port parameter is set
-to "-" prior to calling the function; it's not clear what the intent of
-that is. Finally, the function returns zero on error and string length on
-success (which actually makes #2 a problem), however none of the callers
-check the return value, so perhaps it can be made a void function? Or
-possibly it should return -1 on error, rather than zero.
+ configure            | 26 +++++++++++++++++++---
+ meson.build          |  9 ++++++--
+ qapi/block-core.json | 10 ++++++---
+ block.c              |  2 +-
+ block/file-posix.c   | 51 +++++++++++++++++++++++++-------------------
+ net/slirp.c          | 16 +++++++-------
+ 6 files changed, 75 insertions(+), 39 deletions(-)
 
-Regards,
+-- 
+2.28.0
 
-Ben
-
---0000000000006694f405bd0f271d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>When usb_host_get_port is called for a root-hub devic=
-e what string should be output in the port parameter?</div><div><br></div><=
-div><div>The current behaviour writes a string with whatever stack value ha=
-ppened to be in the paths stack array.</div><div><br></div></div><div>Possi=
-ble behaviours that I can see being useful are:</div><div><br></div><div>1:=
- Don&#39;t modify the port parameter.</div><div>2: Write an empty string.</=
-div><div><br></div><div>My preference would be for #2, but possibly #1 is i=
-ntended. I can provide a patch if someone can let me know the intended beha=
-viour. If #1 is intended, then I think the usage in hmp_info_usbhost might =
-need changing as well. The other usage in usb_host_auto_check where the pro=
-vided port parameter is set to &quot;-&quot; prior to calling the function;=
- it&#39;s not clear what the intent of that is. Finally, the function retur=
-ns zero on error and string length on success (which actually makes #2 a pr=
-oblem), however none of the callers check the return value, so perhaps it c=
-an be made a void function? Or possibly it should return -1 on error, rathe=
-r than zero.<br></div><div><br></div><div>Regards,</div><div><br></div><div=
->Ben<br></div></div>
-
---0000000000006694f405bd0f271d--
 
