@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6563333119
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:40:33 +0100 (CET)
-Received: from localhost ([::1]:45838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7282333128
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:43:41 +0100 (CET)
+Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJk5g-0001Wj-UO
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:40:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
+	id 1lJk8i-0004qT-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:43:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJk2p-0007hf-Fo; Tue, 09 Mar 2021 16:37:35 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:48243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJk2n-0006by-PT; Tue, 09 Mar 2021 16:37:35 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MLi0U-1l24fF0wt6-00HdyI; Tue, 09 Mar 2021 22:37:17 +0100
-Subject: Re: [PATCH v2 3/3] hw/lm32/Kconfig: Have MILKYMIST select LM32_DEVICES
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-References: <20210221225626.2589247-1-f4bug@amsat.org>
- <20210221225626.2589247-4-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <64001fe1-ee40-739b-23b7-b076884ea27e@vivier.eu>
-Date: Tue, 9 Mar 2021 22:37:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1lJk4R-0001ln-MM; Tue, 09 Mar 2021 16:39:15 -0500
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:27066
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1lJk4Q-0007FP-4k; Tue, 09 Mar 2021 16:39:15 -0500
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4Dw7tg4L2Pz8PbN;
+ Tue,  9 Mar 2021 16:40:59 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=3G4ER0wlF
+ 7jbLUGOb1J+c+mCTwY=; b=XQNM5ywjqO36RtRMyGE2X2mO3H0zap9obAZ1nLVLS
+ OoiUnyjPGRo8BZDDtm8Vdc8Q7185hz7ABeZkecKluLjlFn7Tr9D5SCMJmF8A2l03
+ DjUUFwbPQn0k20bolpiJ2YCyn4tXtDP5QOa0zhoLFC1xACBoYvWXxhOJSOl7ViEE
+ 4Y=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=dCr
+ aqjkvTaZJy0+G3aBc+kj54txFub3fUmaZOOZBRUsQfd4kFirVTHFpE7OR75jbUN0
+ HZByX97ounqzptOEbO1rnBW2UxBRDsPWeVoYg03Vl6xbZOqCLA6Y7SvFg+1Q4WCT
+ eRgXkGsAVkdwAmZyafo4yOFa/CCmuGt102shdOfs=
+Received: from [192.168.6.30]
+ (bras-base-toroon2719w-grc-43-174-88-243-61.dsl.bell.ca [174.88.243.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4Dw7tg3NTrz8PbK;
+ Tue,  9 Mar 2021 16:40:59 -0500 (EST)
+Message-ID: <d799a899-f173-110f-7426-40477b27edf2@comstyle.com>
+Date: Tue, 9 Mar 2021 16:38:59 -0500
 MIME-Version: 1.0
-In-Reply-To: <20210221225626.2589247-4-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HK/yuwPhGH0moDzRu5BKKIph2y9kqlqkVVxuz7mGws+X5bk4gs2
- NwKpQU5q7OMVBRv1mszpG43J8sgoAZO2/8PKXMTEdmGnRwstmfNh6vP+YjzqUn+CC4fYadZ
- PLnPthjEcaDpUyDIRPcJGL5g26CnpJ3XZOZLUG+XPp1d2aroxgUYgUUlm/CNClrz45vmHrb
- mMEc0afrUVq2h2R0rSvng==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9QhjvfWftQY=:4ufjZXc+hoa35wOCBJDenE
- kTLzdqDCv401MQ4fh1T256JHyGPOuWtXQMhkxwypLsRsaI+hGJLbkHDVII/oGkaAl163xheQU
- lt3ONyjmFUgbn82xVLm0myvmHWtcY658+ux8LEGvWXjZKxD0KJXkEYWSQnvzgrPvAYhl7whNq
- Waf2pDsRLdk28NaiuNrpL2mhcEHZdyRL9LC4Wp7vjpemEA/h3tdn3nrb0hy76SgeloVPGG6RN
- nyz9hAnFm1p5jnHOtNeH5zB3LEIv63cFNF9DyOljTqLuG8sc3F7P1flDY0VZS0X7KtbnXmVWz
- u1TJAK0S4FkZhtyw9S4yRBj9PCPyyXLdXV8R9HfYpaPZgtyh0l/dmMlk+rATpYr/kmvMnCuo2
- 39TIeMf7ebdoh3ejoMwDferfR3IiNLcDEd40yS+X7aPnL6ehA0z4GdlZIfzPU
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101
+ Thunderbird/87.0
+Subject: Re: [PATCH] migration: Remove time_t cast for OpenBSD
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <YDNdAiOkEYOfmbhT@humpty.home.comstyle.com>
+ <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,60 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Michael Walle <michael@walle.cc>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/02/2021 à 23:56, Philippe Mathieu-Daudé a écrit :
-> The Milkymist board requires more than the PTIMER. Directly
-> select the LM32_DEVICES. This fixes:
-> 
->   /usr/bin/ld:
->   libqemu-lm32-softmmu.fa.p/target_lm32_gdbstub.c.o: in function `lm32_cpu_gdb_read_register':
->   target/lm32/gdbstub.c:46: undefined reference to `lm32_pic_get_im'
->   target/lm32/gdbstub.c:48: undefined reference to `lm32_pic_get_ip'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helper_wcsr_im':
->   target/lm32/op_helper.c:107: undefined reference to `lm32_pic_set_im'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helper_wcsr_ip':
->   target/lm32/op_helper.c:114: undefined reference to `lm32_pic_set_ip'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helper_wcsr_jtx':
->   target/lm32/op_helper.c:120: undefined reference to `lm32_juart_set_jtx'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helper_wcsr_jrx':
->   target/lm32/op_helper.c:125: undefined reference to `lm32_juart_set_jrx'
->   libqemu-lm32-softmmu.fa.p/target_lm32_translate.c.o: in function `lm32_cpu_dump_state':
->   target/lm32/translate.c:1161: undefined reference to `lm32_pic_get_ip'
->   target/lm32/translate.c:1161: undefined reference to `lm32_pic_get_im'
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/lm32/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/lm32/Kconfig b/hw/lm32/Kconfig
-> index 518c84ed508..8ac94205d71 100644
-> --- a/hw/lm32/Kconfig
-> +++ b/hw/lm32/Kconfig
-> @@ -6,11 +6,11 @@ config MILKYMIST
->      bool
->      # FIXME: disabling it results in compile-time errors
->      select MILKYMIST_TMU2 if OPENGL && X11
-> -    select PTIMER
->      select PFLASH_CFI01
->      select FRAMEBUFFER
->      select SD
->      select USB_OHCI
-> +    select LM32_DEVICES
->  
->  config LM32_EVR
->      bool
-> 
+On 3/8/2021 6:46 AM, Thomas Huth wrote:
+> On 22/02/2021 08.28, Brad Smith wrote:
+>> OpenBSD has supported 64-bit time_t across all archs since 5.5=20
+>> released in 2014.
+>>
+>> Remove a time_t cast that is no longer necessary.
+>>
+>>
+>> Signed-off-by: Brad Smith <brad@comstyle.com>
+>>
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index 52e2d72e4b..9557f85ba9 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -2849,8 +2849,7 @@ bool save_snapshot(const char *name, bool=20
+>> overwrite, const char *vmstate,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (name) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pstrcpy(sn->nam=
+e, sizeof(sn->name), name);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* cast below needed for O=
+penBSD where tv_sec is=20
+>> still 'long' */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 localtime_r((const time_t =
+*)&tv.tv_sec, &tm);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 localtime_r(&tv.tv_sec, &t=
+m);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strftime(sn->na=
+me, sizeof(sn->name),=20
+>> "vm-%Y%m%d%H%M%S", &tm);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> Please make sure to CC: the maintainers (see MAINTAINERS file). Done no=
+w.
+>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Applied to my trivial-patches branch.
 
-Thanks,
-Laurent
+My bad. That was an oversight on my part. I was quick to send it to the=20
+list without thinking
+about something like that.
 
 
