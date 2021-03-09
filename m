@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A3D33252D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:16:33 +0100 (CET)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECC833255F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:22:37 +0100 (CET)
+Received: from localhost ([::1]:50196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbHs-0001u8-23
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:16:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
+	id 1lJbNk-000607-45
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:22:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJao1-0008SX-WF; Tue, 09 Mar 2021 06:45:42 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:56397)
+ id 1lJao6-00006z-63; Tue, 09 Mar 2021 06:45:46 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:36413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJao0-0000OO-4g; Tue, 09 Mar 2021 06:45:41 -0500
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id D4E762705;
- Tue,  9 Mar 2021 06:45:37 -0500 (EST)
+ id 1lJao3-0000Rx-Ja; Tue, 09 Mar 2021 06:45:45 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 5F6EA2777;
+ Tue,  9 Mar 2021 06:45:41 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Tue, 09 Mar 2021 06:45:38 -0500
+ by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=UrKdYwGrVaGOu
- lNLHfnJ/mvHVJitFlGANq1iGrvBrjE=; b=OF5l4nh3Sw5Hw5JL5VP1bV61KMfrl
- fMVkCpyB9Vecsjk8tbocVkEjubnP+a8PriqLzHDO2VNdA/XnfvRrJS9MIfMBeog7
- 9NpJe9r1ZWF3PEPY9kmZp105wvT5g6U5P40B9c5nQTig//ij1fFKjAy6dV1aPWWS
- jF1YHRnA23T2fRH1IViw6BYe737X6gyj4v2FKBmTglJw2wttjdvOI/JNbNlDEdPg
- kYjLPTdMV6WcvSnasd7MbrwFLsRz2pXimOBLKnX2VkActvQmSn0LBn6k79khfllS
- h2A5h+b8zP6ZqoiD9YJ9oPrEmzYGOG2Nn0qeYM18hxK8XZ62hEieqGczQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=6tUgHYgUp2ybC
+ 6UX/X0aIvrDkDk1L72fYFBNNAan4Kc=; b=Te9Pv2W3Zfn8zJFlPpxWIzZ2t3zfM
+ EZurQUoYse0cGhctP8fPD1eTyTFxx1fHfY4wftpkAFOKK7JKPKldERYXiRNvAnsV
+ p4ejeTwNqAIZvttrG2jmQYcEaDEH/+8suI+lEhU0pmOiN3GNa5x7WdLAPo2JcoKu
+ fCWaPN3B0s+o7sgHoHwP2UJ8/RveKuxCUHGW+aq0SxGfXlxnE+Utn+kcs5e4+xb/
+ dejuKfSkWzdQAJ+pTXwjQTZEpdjnyNKEYeRQBCfrUV7ZoVY53JNZ6N8ZH0MsPd6f
+ JnUD3CPtI9sOHSPH5n9iKYQtwu/1hJrGEXAUHpigxrrxCjD7Xr0WYh4wg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=UrKdYwGrVaGOulNLHfnJ/mvHVJitFlGANq1iGrvBrjE=; b=c5alaxzo
- iczre2y+vxpZZZULezogkJpg8LWvRSy+w+PuEYDKu1UyB4qLg1vh/si44aNrYHdq
- sHmaN851ilsrxCBe1wv8MwociwrOk54R8t4X8N4JBYamlrUE9sq2lp+IKb32gthI
- 1uTJESReqDJgowye9uaGstwsjTgDGmWHerNjH5is43Z1p2SeE19KsDWcX000zn6U
- g2XYW3GrHYE7KZOGkTG83nu+8VtgkXJhvuT/UNe2B+iMfSl0+oSplFaG74qeW7is
- UI0tfdzU11fwIQiusehlVnbUgGBLoQQhOFnSru9AdmTbGjPaBEdd+iUj0KNr9W1X
- ucCDXgnGuNxK9Q==
-X-ME-Sender: <xms:4F9HYFzlMqOiL26Rmpge44JCXYZmRZkn7_0wppThO7bOwY3ki3kNkw>
- <xme:4F9HYHS7rutRz3x7wBEhYgXQXd9SoJfU57jds6P8ZS3m9v1ARgIcD1KPSWOdLusN-
- dK1L2q-NqNbuVLE9_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfedvucetufdoteggodetrfdotf
+ fm2; bh=6tUgHYgUp2ybC6UX/X0aIvrDkDk1L72fYFBNNAan4Kc=; b=Ox33hHoJ
+ /nW9b7PqZ2bu45wT5S6fCmEDchTiJ2/0mFEpMK94HfkBB0GLsY1v3kjWmmkll9JZ
+ /A78BDVTSTBsHUlTWn+mDMk1X2acZ1yfNZhGRCzWBKqha2ca0yWFE5NiPgL495aA
+ GH2xJWckClrxpW8+WXQv6EXt4GUV6gI4ieM2BIzpa4LGaltk9j55Efz3C0RcDzEu
+ izGoEVt+WVGaGxl13EoIrDg0flX2Oo0lI0C6dH2t/rg7PltIYavb2IEw2+VHShLp
+ kYRKY45mwpkFwU3uuDvokjipHHkSkD8smym5DiF2DbZnrClphYAAsZwKDlOuIu/F
+ letimaXKWTNi7A==
+X-ME-Sender: <xms:4l9HYN7I4lSQSbkij3kwP1ZMpk7VblsMOWAPCNC63FUVa1tW4tCB9Q>
+ <xme:4l9HYK4Wpd2UmhjRYu8ztxhN_nxIdEMwu7NZ466VzZX8C9z5U1uhVexDloEtjDKD5
+ JPjPLsGAKCwEcvCPLA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeelne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:4F9HYIuJNSXpRI9xGY9iCei5zOxOXsiNFkB4K9cWQDQnDBDrqH4rbg>
- <xmx:4F9HYJtnp-jW8iF1R4xRJkXEPnmL7SfslHG8gyyauqk2SyM6rZB7zQ>
- <xmx:4F9HYOxL6yQcsezxG7tNigJ2lI1nzxXCVAHrlCwCAJQE-YCRMGkmXA>
- <xmx:4V9HYEqpt0X6vOK-Ah9a48X5amBNva0027DQI6kybsd_68qjWMfjBFgml1Q>
+X-ME-Proxy: <xmx:4l9HYEdUc3VAbLgvhiz3_SROm8roTyduncApCoPO_nCx1tXVMX0uPA>
+ <xmx:4l9HYGIYKii687p-Rh1EjNxhJf6GU4ldWMBMNM6QqH4sqEWdsMNAvA>
+ <xmx:4l9HYBIycJ7WzKxA1gPBBCztPXBAHLY9-drxv5mktawTmD5PrawxMA>
+ <xmx:5V9HYKUVXnBGMST9GB3ovgqp_8HH4BA-aquoVo8AncxllEXt6nPu18m3phE>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C69AF24005A;
- Tue,  9 Mar 2021 06:45:34 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 71DEA240054;
+ Tue,  9 Mar 2021 06:45:36 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 13/38] hw/block/nvme: add missing mor/mar constraint checks
-Date: Tue,  9 Mar 2021 12:44:47 +0100
-Message-Id: <20210309114512.536489-14-its@irrelevant.dk>
+Subject: [PULL v2 14/38] hw/block/nvme: improve invalid zasl value reporting
+Date: Tue,  9 Mar 2021 12:44:48 +0100
+Message-Id: <20210309114512.536489-15-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
 References: <20210309114512.536489-1-its@irrelevant.dk>
@@ -95,54 +95,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>, Corne <info@dantalion.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Firstly, if zoned.max_active is non-zero, zoned.max_open must be less
-than or equal to zoned.max_active.
+The Zone Append Size Limit (ZASL) must be at least 4096 bytes, so
+improve the user experience by adding an early parameter check in
+nvme_check_constraints.
 
-Secondly, if only zones.max_active is set, we have to explicitly set
-zones.max_open or we end up with an invalid MAR/MOR configuration. This
-is an artifact of the parameters not being zeroes-based like in the
-spec.
+When ZASL is still too small due to the host configuring the device for
+an even larger page size, convert the trace point in nvme_start_ctrl to
+an NVME_GUEST_ERR such that this is logged by QEMU instead of only
+traced.
 
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reported-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reported-by: Corne <info@dantalion.nl>
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
 Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/block/nvme.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index fd73d0321109..0e8760020483 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -163,6 +163,18 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
-         return -1;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 56ef07b74d27..2addaf7c4f70 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3997,8 +3997,10 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+         n->zasl = n->params.mdts;
+     } else {
+         if (n->params.zasl_bs < n->page_size) {
+-            trace_pci_nvme_err_startfail_zasl_too_small(n->params.zasl_bs,
+-                                                        n->page_size);
++            NVME_GUEST_ERR(pci_nvme_err_startfail_zasl_too_small,
++                           "Zone Append Size Limit (ZASL) of %d bytes is too "
++                           "small; must be at least %d bytes",
++                           n->params.zasl_bs, n->page_size);
+             return -1;
+         }
+         n->zasl = 31 - clz32(n->params.zasl_bs / n->page_size);
+@@ -4517,6 +4519,12 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             error_setg(errp, "zone append size limit has to be a power of 2");
+             return;
+         }
++
++        if (n->params.zasl_bs < 4096) {
++            error_setg(errp, "zone append size limit must be at least "
++                       "4096 bytes");
++            return;
++        }
      }
+ }
  
-+    if (ns->params.max_active_zones) {
-+        if (ns->params.max_open_zones > ns->params.max_active_zones) {
-+            error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
-+                       ns->params.max_open_zones, ns->params.max_active_zones);
-+            return -1;
-+        }
-+
-+        if (!ns->params.max_open_zones) {
-+            ns->params.max_open_zones = ns->params.max_active_zones;
-+        }
-+    }
-+
-     if (ns->params.zd_extension_size) {
-         if (ns->params.zd_extension_size & 0x3f) {
-             error_setg(errp,
 -- 
 2.30.1
 
