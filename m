@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DB33239E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:06:53 +0100 (CET)
-Received: from localhost ([::1]:57674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F01C332391
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:03:51 +0100 (CET)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaCS-0000ia-64
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:06:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54480)
+	id 1lJa9W-0005m3-5u
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:03:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJZuw-00071i-3x
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:48:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45086)
+ id 1lJZva-0007cF-Hf
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:49:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJZum-0007jA-8M
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:48:43 -0500
+ id 1lJZvS-00081l-Te
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:49:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615286915;
+ s=mimecast20190719; t=1615286958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1oPwGCt0ZeqlH7x2F9o9cV4recxB0g7xPF2LXzP+Azo=;
- b=fKRlhs4cU1cOj8R5xrA++Kv79kmnuyITmvOrAWJcB6cJKXchD2VL7+qWzF3n3NgoB/3mR2
- hwM/ItajGbkfIjCLm5hZdz0/1Eoh5hApT4G9PeQKL0JQo0jDmh/P6xfFGEV6KyMGw5oDg6
- VtrJY7nz+uVTjS6Ye1/zL1VHjWgDJJw=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-nywqsGGDPUKMk3WZ52ZPVA-1; Tue, 09 Mar 2021 05:48:31 -0500
-X-MC-Unique: nywqsGGDPUKMk3WZ52ZPVA-1
-Received: by mail-ej1-f70.google.com with SMTP id h14so5461891ejg.7
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:48:31 -0800 (PST)
+ bh=qB4KHqPlrFTctEbnFGKvZBqJc9jrC/hw8b5hgzChfIM=;
+ b=byczoRcG8KiGyyWHwMmOw4NE/OROy6j8p08Yom7M3wjXqRTMBpxcduLHQZGEyWcCNoYErH
+ +tguZ+SnQToAu9+pj+gk7Ju6BvpkIwHHsDRtLJT0Q5TzIKkH3WVvDp7Yvvz/gjdSHrAGDE
+ 2wX/D6tQyi3uh3y/GyUv2NdSubrs7+g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-32vNJyQZMIuOYCnERvHp5g-1; Tue, 09 Mar 2021 05:49:15 -0500
+X-MC-Unique: 32vNJyQZMIuOYCnERvHp5g-1
+Received: by mail-ed1-f69.google.com with SMTP id a2so6531685edx.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:49:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1oPwGCt0ZeqlH7x2F9o9cV4recxB0g7xPF2LXzP+Azo=;
- b=Rs03jXic79es5MiU8ABUa8IojzE5NFcKeha1jIwo2FbFMtp45Wpu4JZpOIYBBWv/5p
- jO8qsxQJTT8Jm/gtXTmrl22WaDgleh2UpYrGIXxDKQ9Q/TK4hTMc5Iu5pNhY2sTi4fez
- ELvRIsvmrax2BNuLOazALN/zbZtsBMNiNue9KV3+5A7e8QLRKgtTlCDeiRaHS94TKkFj
- AcSVpK7LaqgL+lxnqEDZsm3BW1Hxhkv3zRicNd8kbMTHEo4gT/CrL938itoqjtyL1ii3
- vCPCYrkubTXcla3MyoMrQabhtbOZq+zBGNvrhXfrF5RVu4CF4AaxYHzdJEoxJu9OblUo
- m75g==
-X-Gm-Message-State: AOAM533D575ttBsq89CYudFmol0s/FWzSqjFqCA82gVyR3pIHs/MyNaI
- iHOmFB3v/qdbgadye6++vJWAeEtiBOItMwCJ9AEnl8rit0v8EglxbMBmEa30Ix6NO7FdLYSE1Qu
- akic0oekbMBXGSNGXC4K5qQdxhn/XTi2tvQP36jW/w/VMzFleHnySxdoZ6xjmJBp0oHw=
-X-Received: by 2002:a17:906:a896:: with SMTP id
- ha22mr19413115ejb.503.1615286910252; 
- Tue, 09 Mar 2021 02:48:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqJkTuyX445TkYnXZCHRnmokAlgLrrmRrQNjVXBD7v2VRYqzWWvcrCo5aWZ2yWrPgDHDss7A==
-X-Received: by 2002:a17:906:a896:: with SMTP id
- ha22mr19413101ejb.503.1615286910068; 
- Tue, 09 Mar 2021 02:48:30 -0800 (PST)
+ bh=qB4KHqPlrFTctEbnFGKvZBqJc9jrC/hw8b5hgzChfIM=;
+ b=hxoeGPGkdCZJW9eSUcI7LzXWBOr3wJPmsNqgqvfcRT+Wy3LUXlMsQN0+e+njhhWJTg
+ jgQ0d1v/CTw1hRQckdExJ/6PA+pf89VmRP/6kstu6YqWKIXGy1bw6wVo2Ez61P7c+Ssf
+ eZQckCOK3gxTR/ugDaiGLwYMsX5ZkqSiEhc1t8nMyIx5EU07dIjhHOWNmFBGcJISfd+s
+ CF5m7Pr00j4WrHSDBbs8//OEfELShF8eZkwUjt8oPi0FAILY+lu1qG66X7Q7obry3K1C
+ YFvv8BQE699pDoCufEeGHMjSoRcggSrU8FVwng0Ea1hVqbHMp49aGVtyH9UZTo2qqe8U
+ yASg==
+X-Gm-Message-State: AOAM533bGAVLTvYQ1Mlqo2wwayvyDmNeSxbIlARCsmaQi+KZgLcS/M37
+ bEPt8Ew+4JTOCf+4gB3o6lwgl9alOzP/bmZKLlkY18be+UrqL6+/RacFFtHuKEfsrzCktWXCS4b
+ WKardCIhygPNi3YU=
+X-Received: by 2002:a17:906:3444:: with SMTP id
+ d4mr19539479ejb.410.1615286954412; 
+ Tue, 09 Mar 2021 02:49:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzn8TRrTJopVhSteEiMup0Bu91G8pdzdJQ5s6wkx6Nu/K0J3QiCslgbBVpcm3u+MKfLL25x8Q==
+X-Received: by 2002:a17:906:3444:: with SMTP id
+ d4mr19539470ejb.410.1615286954243; 
+ Tue, 09 Mar 2021 02:49:14 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t12sm3119847edy.56.2021.03.09.02.48.29
+ by smtp.gmail.com with ESMTPSA id r24sm8736441edw.11.2021.03.09.02.49.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 02:48:29 -0800 (PST)
-Subject: Re: [PATCH] coroutine: add libucontext as external library
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210309032637.41778-1-j@getutm.app> <YEdBce6TWCVpSph9@redhat.com>
- <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
- <537a6a0e-431b-3920-c8dc-290e4e3d8895@redhat.com>
- <YEdOJIUp5wsVo0ao@redhat.com>
- <CAJ+F1CJ30dgGMj-R54jonrHsieAYZRk4foOOYgspkKbQ=3P3Uw@mail.gmail.com>
+ Tue, 09 Mar 2021 02:49:13 -0800 (PST)
+Subject: Re: [RFC PATCH 3/4] coroutine/mutex: Store the coroutine in the
+ CoWaitRecord only once
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
+References: <20210309102157.365356-1-david.edmondson@oracle.com>
+ <20210309102157.365356-4-david.edmondson@oracle.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <96c824e5-3eba-be5c-b9ab-271f2017de54@redhat.com>
-Date: Tue, 9 Mar 2021 11:48:28 +0100
+Message-ID: <0fe082d7-acb4-a9a2-8a50-0448b32ecf11@redhat.com>
+Date: Tue, 9 Mar 2021 11:49:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJ30dgGMj-R54jonrHsieAYZRk4foOOYgspkKbQ=3P3Uw@mail.gmail.com>
+In-Reply-To: <20210309102157.365356-4-david.edmondson@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -106,21 +103,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/21 11:42, Marc-André Lureau wrote:
-> If I remember correctly, there were objections because we wanted to have 
-> an implementation close to QEMU, so we could easily extend it, or add 
-> custom optimizations.
+On 09/03/21 11:21, David Edmondson wrote:
+> When taking the slow path for mutex acquisition, set the coroutine
+> value in the CoWaitRecord in push_waiter(), rather than both there and
+> in the caller.
+> 
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>   util/qemu-coroutine-lock.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+> index 5816bf8900..eb73cf11dc 100644
+> --- a/util/qemu-coroutine-lock.c
+> +++ b/util/qemu-coroutine-lock.c
+> @@ -204,7 +204,6 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
+>       unsigned old_handoff;
+>   
+>       trace_qemu_co_mutex_lock_entry(mutex, self);
+> -    w.co = self;
+>       push_waiter(mutex, &w);
+>   
+>       /* This is the "Responsibility Hand-Off" protocol; a lock() picks from
+> 
 
-I think it's quite mature now.  The code that needs to stay close to 
-QEMU is the locks as they rely on AioContext, but the generic coroutine 
-stuff can certainly be moved out.
-
-Paolo
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
