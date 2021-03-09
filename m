@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641AB3325ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:58:52 +0100 (CET)
-Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40D23325A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:45:26 +0100 (CET)
+Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbwp-0000Xa-DT
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:58:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
+	id 1lJbjp-0004PW-VX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:45:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJbEU-0000uz-1b
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:13:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58196)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJbJh-0004OE-BC
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:18:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJbES-0007M9-4n
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:13:01 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJbJe-00021i-UA
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:18:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615291976;
+ s=mimecast20190719; t=1615292301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mHO/a15bwcocGbGc55AboGwHoInofVBTPvIRW1fMhiA=;
- b=Ev910bjAZoNApMk9lVxVaHPerLZWVm/AXJwlCxK5YH9PvWxC+4fMLFWcUIIhRWmfHFTc5I
- 3BtjaPIzD3gRAMeir9268lAzHGrycB5ZR20LmpvAP6roclq5HfIdyulXVEbeuh57PHHS8D
- SqPgqDL80wnvtnI7hSPEgfLF9qFDOOo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-vJGPv429NyqMeiBOT3X7KA-1; Tue, 09 Mar 2021 07:12:55 -0500
-X-MC-Unique: vJGPv429NyqMeiBOT3X7KA-1
-Received: by mail-wm1-f69.google.com with SMTP id z26so1050254wml.4
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 04:12:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mHO/a15bwcocGbGc55AboGwHoInofVBTPvIRW1fMhiA=;
- b=PpB5JIAzGch2niHZHS0hQuqOzb+0AawtAT/LutYw4YTIHaUwvlDPDwPo+9M0JJmcJp
- 2D3oWzW0heLbEngJmNZ57SAThOv8D4xguktDPAwnIdwSueHD4Bjx4CP28wrc7V6DAkx/
- 9XKpQvms3fksmUzyjPHIvxO/CUhQgptHVoR9O9vq66MXuVHuufb1G6vhjUc32tz1cCvo
- T7Xx5u+n3NMgvWgwAEGTLrFZYJ0sQyDSkeDMUI0E7z5anaQpbNWTkWQBle/4iDhdQyre
- d2yRds/W82Z/Ow5GqsNZpyDC1xkR2AuPh727vitcBF/N6kcKjyG7sYdDA1MtQC/gtWua
- hfgw==
-X-Gm-Message-State: AOAM531wcHecerHDuBibszVWlbmoNjIp2NATHqjV0E9+KoQNShweRZYm
- 8zp0iL3e/kUivU6LV70Va+6jYgwgL2+iSvm6WEgtbFcQP1mQoieoMrvqJUmdFoN/wnR86wuEO15
- Yq3Dx1MxsZHI3aks=
-X-Received: by 2002:a1c:7715:: with SMTP id t21mr3666773wmi.132.1615291973894; 
- Tue, 09 Mar 2021 04:12:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxdmsM+0piJVOpETIfhJ2mSxFN6S8sXCTAL/si9y0OG14v7469oRogRL+8IsiibIS+oQfMPuw==
-X-Received: by 2002:a1c:7715:: with SMTP id t21mr3666750wmi.132.1615291973713; 
- Tue, 09 Mar 2021 04:12:53 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s23sm3719130wmc.35.2021.03.09.04.12.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 04:12:53 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] slirp: feature detection for smbd
-To: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org
-References: <20210309002741.85057-1-j@getutm.app>
- <20210309002741.85057-5-j@getutm.app>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <808bb587-cce9-7118-5c05-f7b1680dd7e5@redhat.com>
-Date: Tue, 9 Mar 2021 13:12:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VFKS7+/mtl2EOkx0uLn6TxabWibmzofrxB17dgl7oFw=;
+ b=LEc75c3/E/HwNUBs0FbgvbLPuy6qLPGh8q+ODAdo3QBP4HWnfq4jgWBd8KS/wJiv3nP1Wi
+ fPIvC3RKQow2LC23gejrcvH896dlpkKfsRjBc8V6pxjX3sQk4U66TOn7fBr7DirNtLy/Sa
+ JeCr6foJCrUBNYmuqf77uUra0d9wAxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-LBNCD76LNkSE8w9B52WB8A-1; Tue, 09 Mar 2021 07:18:18 -0500
+X-MC-Unique: LBNCD76LNkSE8w9B52WB8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E65A81A281;
+ Tue,  9 Mar 2021 12:18:17 +0000 (UTC)
+Received: from merkur.redhat.com (ovpn-114-169.ams2.redhat.com [10.36.114.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 790666F971;
+ Tue,  9 Mar 2021 12:18:16 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] storage-daemon: Call job_cancel_sync_all() on shutdown
+Date: Tue,  9 Mar 2021 13:18:14 +0100
+Message-Id: <20210309121814.31078-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210309002741.85057-5-j@getutm.app>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,187 +73,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- "Danilo C. L. de Paula" <ddepaula@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 1:27 AM, Joelle van Dyne wrote:
-> Replace Windows specific macro with a more generic feature detection
-> macro. Allows slirp smb feature to be disabled manually as well.
-> 
-> Signed-off-by: Joelle van Dyne <j@getutm.app>
+bdrv_close_all() asserts that no jobs are running any more, so we need
+to cancel all jobs first to avoid failing the assertion.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: b55a3c8860b763b62b2cc2f4a6f55379977bbde5
+Reported-by: Nini Gu <ngu@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ storage-daemon/qemu-storage-daemon.c  |  1 +
+ tests/qemu-iotests/tests/qsd-jobs     | 66 +++++++++++++++++++++++++++
+ tests/qemu-iotests/tests/qsd-jobs.out | 22 +++++++++
+ 3 files changed, 89 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/qsd-jobs
+ create mode 100644 tests/qemu-iotests/tests/qsd-jobs.out
 
-> ---
->  configure   | 26 +++++++++++++++++++++++---
->  meson.build |  2 +-
->  net/slirp.c | 16 ++++++++--------
->  3 files changed, 32 insertions(+), 12 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 34fccaa2ba..8335a3e6a0 100755
-> --- a/configure
-> +++ b/configure
-> @@ -465,6 +465,7 @@ fuse_lseek="auto"
->  multiprocess="auto"
->  
->  malloc_trim="auto"
-> +slirp_smbd="auto"
->  
->  # parse CC options second
->  for opt do
-> @@ -834,8 +835,6 @@ do
->      fi
->  done
->  
-> -: ${smbd=${SMBD-/usr/sbin/smbd}}
-> -
->  # Default objcc to clang if available, otherwise use CC
->  if has clang; then
->    objcc=clang
-> @@ -1560,6 +1559,10 @@ for opt do
->    ;;
->    --disable-multiprocess) multiprocess="disabled"
->    ;;
-> +  --enable-slirp-smbd) slirp_smbd=yes
-> +  ;;
-> +  --disable-slirp-smbd) slirp_smbd=no
-> +  ;;
->    *)
->        echo "ERROR: unknown option $opt"
->        echo "Try '$0 --help' for more information"
-> @@ -1913,6 +1916,7 @@ disabled with --disable-FEATURE, default is enabled if available
->    fuse            FUSE block device export
->    fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
->    multiprocess    Out of process device emulation support
-> +  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
->  
->  NOTE: The object files are built at the place where configure is launched
->  EOF
-> @@ -5252,6 +5256,19 @@ case "$slirp" in
->      ;;
->  esac
->  
-> +# Check for slirp smbd dupport
-> +: ${smbd=${SMBD-/usr/sbin/smbd}}
-> +if test "$slirp_smbd" != "no" ; then
-> +  if test "$mingw32" = "yes" ; then
-> +    if test "$slirp_smbd" = "yes" ; then
-> +      error_exit "Host smbd not supported on this platform."
-> +    fi
-> +    slirp_smbd=no
-> +  else
-> +    slirp_smbd=yes
-> +  fi
-> +fi
-> +
->  ##########################################
->  # check for usable __NR_keyctl syscall
->  
-> @@ -5527,7 +5544,10 @@ fi
->  if test "$guest_agent" = "yes" ; then
->    echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
->  fi
-> -echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-> +if test "$slirp_smbd" = "yes" ; then
-> +  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
-> +  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-> +fi
->  if test "$vde" = "yes" ; then
->    echo "CONFIG_VDE=y" >> $config_host_mak
->    echo "VDE_LIBS=$vde_libs" >> $config_host_mak
-> diff --git a/meson.build b/meson.build
-> index ba0db9fa1f..cad70a8fc5 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2424,7 +2424,7 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
->  if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
->    summary_info += {'wixl':            wixl.found() ? wixl.full_path() : false}
->  endif
-> -if slirp_opt != 'disabled'
-> +if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
->    summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
->  endif
->  summary(summary_info, bool_yn: true, section: 'Host binaries')
-> diff --git a/net/slirp.c b/net/slirp.c
-> index be914c0be0..b3ded2aac1 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -27,7 +27,7 @@
->  #include "net/slirp.h"
->  
->  
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->  #include <pwd.h>
->  #include <sys/wait.h>
->  #endif
-> @@ -90,7 +90,7 @@ typedef struct SlirpState {
->      Slirp *slirp;
->      Notifier poll_notifier;
->      Notifier exit_notifier;
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->      gchar *smb_dir;
->  #endif
->      GSList *fwd;
-> @@ -103,7 +103,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
->  static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
->  static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
->  
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->  static int slirp_smb(SlirpState *s, const char *exported_dir,
->                       struct in_addr vserver_addr, Error **errp);
->  static void slirp_smb_cleanup(SlirpState *s);
-> @@ -367,7 +367,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->      struct in6_addr ip6_prefix;
->      struct in6_addr ip6_host;
->      struct in6_addr ip6_dns;
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->      struct in_addr smbsrv = { .s_addr = 0 };
->  #endif
->      NetClientState *nc;
-> @@ -477,7 +477,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->          return -1;
->      }
->  
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->      if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
->          error_setg(errp, "Failed to parse SMB address");
->          return -1;
-> @@ -592,7 +592,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->              }
->          }
->      }
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->      if (smb_export) {
->          if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
->              goto error;
-> @@ -784,7 +784,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
->  
->  }
->  
-> -#ifndef _WIN32
-> +#if defined(CONFIG_SLIRP_SMBD)
->  
->  /* automatic user mode samba server configuration */
->  static void slirp_smb_cleanup(SlirpState *s)
-> @@ -899,7 +899,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
->      return 0;
->  }
->  
-> -#endif /* !defined(_WIN32) */
-> +#endif /* defined(CONFIG_SLIRP_SMBD) */
->  
->  static int guestfwd_can_read(void *opaque)
->  {
-> 
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 23756fc8e5..a39a22386a 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -368,6 +368,7 @@ int main(int argc, char *argv[])
+ 
+     blk_exp_close_all();
+     bdrv_drain_all_begin();
++    job_cancel_sync_all();
+     bdrv_close_all();
+ 
+     monitor_cleanup();
+diff --git a/tests/qemu-iotests/tests/qsd-jobs b/tests/qemu-iotests/tests/qsd-jobs
+new file mode 100755
+index 0000000000..1a1c534fac
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qsd-jobs
+@@ -0,0 +1,66 @@
++#!/usr/bin/env bash
++# group: rw auto quick qsd
++#
++# Job tests related specifically to qemu-storage-daemon
++#
++# Copyright (C) 2021 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=kwolf@redhat.com
++
++seq="$(basename $0)"
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++cd ..
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow2
++_supported_proto generic
++
++size=128M
++
++TEST_IMG="$TEST_IMG.base" _make_test_img $size
++_make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++
++echo
++echo "=== Job still present at shutdown ==="
++echo
++
++# Just make sure that this doesn't crash
++$QSD --chardev stdio,id=stdio --monitor chardev=stdio \
++    --blockdev node-name=file0,driver=file,filename="$TEST_IMG" \
++    --blockdev node-name=fmt0,driver=qcow2,file=file0 <<EOF | _filter_qmp
++{"execute":"qmp_capabilities"}
++{"execute": "block-commit", "arguments": {"device": "fmt0", "job-id": "job0"}}
++{"execute": "quit"}
++EOF
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
++
+diff --git a/tests/qemu-iotests/tests/qsd-jobs.out b/tests/qemu-iotests/tests/qsd-jobs.out
+new file mode 100644
+index 0000000000..e3a684b34d
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qsd-jobs.out
+@@ -0,0 +1,22 @@
++QA output created by qsd-jobs
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
++
++=== Job still present at shutdown ===
++
++QMP_VERSION
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
++*** done
+-- 
+2.29.2
 
 
