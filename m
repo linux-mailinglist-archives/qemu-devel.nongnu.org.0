@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F30332F49
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:48:22 +0100 (CET)
-Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CFF332F21
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:37:50 +0100 (CET)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJiL7-0006vW-My
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:48:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60116)
+	id 1lJiAv-0003IX-DP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:37:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJft0-0002nD-8X
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:11:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41068)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJfne-0004Yb-BD; Tue, 09 Mar 2021 12:05:38 -0500
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:35972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJfsv-0001ce-AZ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:11:10 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lJfst-00053u-8b
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 17:11:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3A0A62E8060
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 17:11:03 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJfnc-0000np-KG; Tue, 09 Mar 2021 12:05:38 -0500
+Received: by mail-ot1-f47.google.com with SMTP id t16so13499162ott.3;
+ Tue, 09 Mar 2021 09:05:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=q1XNEE0z/hqszFiJ0f9cCvphhpMbw6AgpQTG7xmgIAc=;
+ b=WoCsQRaBJwERrZUcKkwkNM5GkHwghGbHQyrbKVFc8vxkMb91tMwIToCbCcC5Kp6oAJ
+ 1xp3Pc4qHqwRcK9u6m7KEJfLQiJof1ee2uOwqrQlKf57ouny4FWNfgAK8gbzWP6GFxMZ
+ GK1f3Oya0Xcr9tG6XAtyhzQgoPKMouklFelU82w+OHOWOpd3oToBLbTkrULllrWPYbcL
+ NC8iqSoWrK/BwQ2OJextbZAN03YYHDSu54pdLDz0EzR8kZ7miMlM4Xr0v7s2REV45d/i
+ ZtGmITWOCDEgdR2oni9ohb0MliGQXVJGZS2wYJjcho1cvP7W8n5sp9wR0NQ2/uHTgjVK
+ biRQ==
+X-Gm-Message-State: AOAM533VDnQM7l/wuTkc+DKmPSnqvntBZNWJ0R1YUNKwyV8JN6uySMmR
+ F+/H+EAAesjfD+JgGCzU3KFF3ZkGYvwYMsj4U/U=
+X-Google-Smtp-Source: ABdhPJza5Q1dLXOYGLGZU5PfIRm9kG0uWYLLrn8xfnLER5+lz+tqL1mJBZ4H0XNRV0+IvwyrvMGmJgwIzZBHD0M4dYo=
+X-Received: by 2002:a9d:4a8e:: with SMTP id i14mr25059422otf.37.1615309534965; 
+ Tue, 09 Mar 2021 09:05:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <cover.1614719482.git.balaton@eik.bme.hu>
+ <07df96112b78673ca191f9a4ffa17bf3a11160f3.1614719482.git.balaton@eik.bme.hu>
+ <da48a752-9b2d-6cd8-9603-4cc528fea628@amsat.org>
+ <11fb7590-89f3-62e7-48e3-d44226876e78@eik.bme.hu>
+ <14cc6696-869d-679a-883f-fbcd30fe6ba1@amsat.org>
+ <YEGDLehnK3Vhp56s@yekko.fritz.box>
+ <YEebhGGvGeWpK5+x@work-vm> <f8f3f750-b9b5-8a99-4df7-93bb7daf0cb6@amsat.org>
+In-Reply-To: <f8f3f750-b9b5-8a99-4df7-93bb7daf0cb6@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 9 Mar 2021 18:05:23 +0100
+Message-ID: <CAAdtpL7+ev=e15xpG1Bsg4KbFDUUaRFzZY=gMxcZ9V7yzw5nyw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and base
+ vt82c686b_isa on it
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Mar 2021 17:01:28 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1915925@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: semihosting testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
-X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
- <20210309141727.12522-4-alex.bennee@linaro.org>
- <CAFEAcA_zFYAWc=03iSdsj-Sy+MN5-DWih4QKzddZJsrRjrzhOw@mail.gmail.com>
-Message-Id: <87r1ko8dlj.fsf@linaro.org>
-Subject: [Bug 1915925] Re: [PATCH v2 3/4] semihosting/arm-compat-semi: deref
- parameter register for SYS_HEAPINFO
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
-X-Launchpad-Hash: 440cfb360c912c86b9e1243a3b556e97503761cf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+Received-SPF: pass client-ip=209.85.210.47;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f47.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,123 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 9 Mar 2021 at 14:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->> As per the spec:
->>
->>   the PARAMETER REGISTER contains the address of a pointer to a
->>   four-field data block.
->>
->> So we need to follow the pointer and place the results of SYS_HEAPINFO
->> there.
->>
->> Bug: https://bugs.launchpad.net/bugs/1915925
->> Cc: Bug 1915925 <1915925@bugs.launchpad.net>
->> Cc: Keith Packard <keithp@keithp.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  semihosting/arm-compat-semi.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi=
-.c
->> index 733eea1e2d..2ac9226d29 100644
->> --- a/semihosting/arm-compat-semi.c
->> +++ b/semihosting/arm-compat-semi.c
->> @@ -1210,6 +1210,8 @@ target_ulong do_common_semihosting(CPUState *cs)
->>              retvals[2] =3D rambase + limit; /* Stack base */
->>              retvals[3] =3D rambase; /* Stack limit.  */
->>  #endif
->> +            /* The result array is pointed to by arg0 */
->> +            args =3D arg0;
->>
->>              for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
->>                  bool fail;
->> --
+On Tue, Mar 9, 2021 at 6:03 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
 >
-> No, 'args' is the argument array. That's not the same thing
-> as the data block we're writing, and we shouldn't reassign
-> that variable here.
+> +Gerd
 >
-> What was wrong with the old arm-semi.c code, which just did
-> appropriate loads and stores here, and worked fine and was
-> not buggy ?
-
-I was just trying avoid repeating too much verbiage. But OK I've
-reverted to the original code with the new helper:
-
-            for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
-                bool fail;
-
-                if (is_64bit_semihosting(env)) {
-                    fail =3D put_user_u64(retvals[i], arg0 + i * 8);
-                } else {
-                    fail =3D put_user_u32(retvals[i], arg0 + i * 4);
-                }
-
-                if (fail) {
-                    /* Couldn't write back to argument block */
-                    errno =3D EFAULT;
-                    return set_swi_errno(cs, -1);
-                }
-            }
-            return 0;
-
-
+> On 3/9/21 5:00 PM, Dr. David Alan Gilbert wrote:
+> > * David Gibson (david@gibson.dropbear.id.au) wrote:
+> >> On Thu, Mar 04, 2021 at 11:42:10PM +0100, Philippe Mathieu-Daud=C3=A9 =
+wrote:
+> >>> On 3/4/21 9:16 PM, BALATON Zoltan wrote:
+> >>>> On Thu, 4 Mar 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>>>> On 3/2/21 10:11 PM, BALATON Zoltan wrote:
+> >>>>>> To allow reusing ISA bridge emulation for vt8231_isa move the devi=
+ce
+> >>>>>> state of vt82c686b_isa emulation in an abstract via_isa class.
+> >>>>>>
+> >>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> >>>>>> ---
+> >>>>>>  hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++-------------=
+-----
+> >>>>>>  include/hw/pci/pci_ids.h |  2 +-
+> >>>>>>  2 files changed, 40 insertions(+), 32 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> >>>>>> index 72234bc4d1..5137f97f37 100644
+> >>>>>> --- a/hw/isa/vt82c686.c
+> >>>>>> +++ b/hw/isa/vt82c686.c
+> >>>>>> @@ -609,24 +609,48 @@ static const TypeInfo vt8231_superio_info =
+=3D {
+> >>>>>>  };
+> >>>>>>
+> >>>>>>
+> >>>>>> -OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+> >>>>>> +#define TYPE_VIA_ISA "via-isa"
+> >>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
+> >>>>>>
+> >>>>>> -struct VT82C686BISAState {
+> >>>>>> +struct ViaISAState {
+> >>>>>>      PCIDevice dev;
+> >>>>>>      qemu_irq cpu_intr;
+> >>>>>>      ViaSuperIOState *via_sio;
+> >>>>>>  };
+> >>>>>>
+> >>>>>> +static const VMStateDescription vmstate_via =3D {
+> >>>>>> +    .name =3D "via-isa",
+> >>>>>
+> >>>>> You changed the migration stream name, so I think we have
+> >>>>> a problem with migration... No clue how to do that properly.
+> >>>>
+> >>>> I don't think these machines support migration or state description =
+of
+> >>>> vt86c686b was not missing something before these patches that would =
+make
+> >>>> it not work anyway so I did not worry about this too much. I doubt
+> >>>> anybody wants to migrate a fuloong2e machine so this should not be a
+> >>>> problem in practice but maybe you can mention it in the release note=
+s if
+> >>>> you think that would be necessary.
+> >>>
+> >>> Maybe just add in the description:
+> >>>
+> >>>  This change breaks migration back compatibility, but
+> >>>  this is not an issue for the Fuloong2E machine.
+> >>
+> >> Hrm.  If migration was never supported, why is there a vmstate
+> >> description there at all though?
+> >>
+> >> That said, I don't think breaking compat is a problem: that's only an
+> >> issue where we actually have versioned machine types, which covers
+> >> only pc, pseries, arm virt and a very few others.  I don't think this
+> >> device was used on any of them.
+> >
+> > Except 'vt82c686b-usb-uhci' is a generic PCI device that anyone can
+> > instantiate, so it's not actually Fuloong specific.
 >
-> thanks
-> -- PMM
+> I tend to see this as a bug, as this is a function specific to the
+> southbridge chipset and isn't meant to be used apart...
+>
+> If this isn't a feature but really a bug, a simple way to clean this
+> is to make struct UHCIInfo and usb_uhci_common_realize() public, and
+> type_register "vt82c686b-usb-uhci" elsewhere.
+>
+> Gerd would that work with you?
 
-
--- =
-
-Alex Benn=C3=A9e
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915925
-
-Title:
-  ARM semihosting HEAPINFO results wrote to wrong address
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  This affects latest development branch of QEMU.
-
-  According to the ARM spec of the HEAPINFO semihosting call:
-
-  https://developer.arm.com/documentation/100863/0300/Semihosting-
-  operations/SYS-HEAPINFO--0x16-?lang=3Den
-
-  > the PARAMETER REGISTER contains the address of a pointer to a four-
-  field data block.
-
-  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
-  field data block directly.
-
-  Here is a simple program that can demonstrate this problem:
-  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
-  newlib
-
-  This code links with newlib with semihosting mode, which will call the
-  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-  may crash the program either because of invalid write or memory
-  curruption, depending on the compiled program structure.
-
-  Also refer to my discussion with newlib folks:
-  https://sourceware.org/pipermail/newlib/2021/018260.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
+Or is it too late, we can not make this device kconfig-selectable now?
 
