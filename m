@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD5233229A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:09:31 +0100 (CET)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70D73322AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:12:31 +0100 (CET)
+Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJZIw-0000HZ-Oc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:09:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43260)
+	id 1lJZLq-0001Jq-Vm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:12:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJZI2-0008I3-FP
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:08:34 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:41765)
+ id 1lJZKf-0000tc-9Q
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:11:17 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJZI0-0001ok-Nq
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:08:34 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id b7so19018522edz.8
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:08:32 -0800 (PST)
+ id 1lJZKd-0003u4-Bz
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:11:17 -0500
+Received: by mail-ed1-x531.google.com with SMTP id h10so19046372edl.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OctfkJJ2DqGILCOuDl2zxuSX3e2qFwLuRZXoGiFXnik=;
- b=YnsVH/xsFq1EswVWCCXKDwKkTpR/8tPYfdT3iggnBDs2rRfMDyPk2Sczq1abfpspdR
- P0Ev9ejZjBjptKMvYu4ivQaesOK7bJF3BRUEpFn3Md9mqGD+GrjzMG+Bm4+ZQOGIoVWe
- PlbyDmkprQ+FCjOMAMdCqvylG0LzM92LYQuzUW2LJoDmUOKiUkmQMMX8CCa9XtH8mP2/
- O8shCPKcCIJy/CzMCI1s1mDqPF6zv6wu6Bnv54a5b6o2ucjbiQDZsaEis5ReLELOJT24
- aSTrdbCEkkdhJ+mZBQtO5oiaoaUsdjPn/mrffROKx7gjQuKWg6JmBQqD2rxzGfrSPUNH
- rFIQ==
+ :cc; bh=hUy7oz6XKOu9TyrjTVaegMyjj38rOWf3Iq1ElvmbJeE=;
+ b=fBwcBeIFiOUMDziOMlpLSk4uuAd8pvUoItDSiSyb2me0Fazs4A+SaPR4DZV27vzCpx
+ D2DUpSMZ2vw+RZ1120n8GeKIJ7RE1LDyK9o/+9iMswG/Ia84qcRFo3qeCPCBIv5GRooF
+ J1EFsbWOhVnr8TPINJpmogKGNk1lrU94HkXa+wGzLdWJjzydj/oH+sJXaE6homNLGmb5
+ lHjpmKB65+I+0HsItQNsQQ6lewBD8FVSeiyRbcmcuW8LHtPj6eDSrAlKXfjUV0K/BKfO
+ kxFr+mQywqtxRyXipb+Vw7aF2SsgIpym4ju/oQQi5LTveOKirhZ0qZBZ8wp2MREFUMEq
+ Lg9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OctfkJJ2DqGILCOuDl2zxuSX3e2qFwLuRZXoGiFXnik=;
- b=dejeylmq5IskBQ509bx3ndMjY68gYB8z9xQHZ4S3GnHjq2PZf5iT2hlxT/2+glwNVB
- 0T37nPXb12ighjV9cB025CindnC4punKFNg71P10f7j5r98a+KOQhjJ4t/fA1K4QtKaE
- huPyjOlN8zi37+D6KP/KJL3VSCAYPVaxHBY6WKzkgcKD2SLIG8A83f7CqyHLqGUUK1+i
- TUswzGrWMB88RibrfCEc2rpWIGGctnwsRcH+GxMkwESAOIguFuOtkfZwKdVlrzFKX71U
- enIm5QxVKKd+tfqrR53Z9ZfehidpwfDGXpMhUz10uSYAfsVROeMe4+c+j0M+jx+4v3Bk
- VMjQ==
-X-Gm-Message-State: AOAM53388BygywcX4CiM8ucvUuovz7to6Ktw0aQBivi8XOh+jisbKGyd
- 5+ZRyQEM+fuW8dmAA9Tbv1AAbQ04XU3hcHD21U3X3Q==
-X-Google-Smtp-Source: ABdhPJz8ZFmWWLzdHpPQxRd5k7IHIbpio2MIqGFHI8vCkeZUc39j2lsBkdVsDWo0WCZaGWY9R1seA6QK+K8Jpu/cWSw=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr3120984edt.36.1615284511058; 
- Tue, 09 Mar 2021 02:08:31 -0800 (PST)
+ bh=hUy7oz6XKOu9TyrjTVaegMyjj38rOWf3Iq1ElvmbJeE=;
+ b=VvxFzzqb1hGyYvsI9DfnHInYhYYDUqwoY5cMnD5vlo3RArNRNQk+51c+lBWQqKePlR
+ w4f5g4Kuzv0wsZHKsm/unpC6Jsf+E5US5P6FCMtZbPrSjxjqfxEBU3i+GaPm/onhKV+k
+ 2G8zfRTSvdKHNaE1zB/k9TpFtTJYE/uPA6y+b2ulz5mcZc9igQucxAjbjomN2f0Pq1Nr
+ 6nAm5zhoO0a1F6CNXgtoNlopJ6H7S8DvC0l50DrfleMUBcWO4Vr/7TRchxmfyfsl9TMJ
+ gn1ipa1fZKV/s3YA12nMJyO14MisyMnCJafe9UfRXvIBOgrsA1FfhLWjVc06f7EUHsxp
+ PeYg==
+X-Gm-Message-State: AOAM532CRy3lzIFkNMVmQOrb7HCVmKr2QYx2aA4CYh7lxwQQ19/2EAPw
+ WD6fknVuBKaauEhNc7qtoh/g1WeMwrOTLW6A2CvQeg==
+X-Google-Smtp-Source: ABdhPJyRYWq58o3FcHQPOC4SgoxNg556Yvm+wn+SBOJgpuOSt5A4N5TPyP57oHre5FbmE/P/Ddy1mCNXNZPH5E0IFp8=
+X-Received: by 2002:aa7:d686:: with SMTP id d6mr3243963edr.146.1615284672738; 
+ Tue, 09 Mar 2021 02:11:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
-In-Reply-To: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
+References: <20210309002741.85057-1-j@getutm.app>
+ <20210309002741.85057-5-j@getutm.app>
+In-Reply-To: <20210309002741.85057-5-j@getutm.app>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Mar 2021 10:08:14 +0000
-Message-ID: <CAFEAcA-x=FPqFMi7=RkPj4sU7nPgqZCnRf4x7k5_e2AcryGJ+A@mail.gmail.com>
-Subject: Re: [PATCH] plugins: Expose physical addresses instead of device
- offsets
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Date: Tue, 9 Mar 2021 10:10:56 +0000
+Message-ID: <CAFEAcA9ATZh6PVRbvUhT6ZAg6-85xhgOwTz=ufUHgZYzFAWOUA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] slirp: feature detection for smbd
+To: Joelle van Dyne <j@getutm.app>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,52 +77,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Mar 2021 at 20:14, Aaron Lindsay <aaron@os.amperecomputing.com> wrote:
+On Tue, 9 Mar 2021 at 00:30, Joelle van Dyne <j@getutm.app> wrote:
 >
-> This allows plugins to query for full virtual-to-physical address
-> translation for a given `qemu_plugin_hwaddr` and stops exposing the
-> offset within the device itself. As this change breaks the API,
-> QEMU_PLUGIN_VERSION is incremented.
+> Replace Windows specific macro with a more generic feature detection
+> macro. Allows slirp smb feature to be disabled manually as well.
 >
-> Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
 > ---
-
-
-> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> index c66507fe8f..2252ecf2f0 100644
-> --- a/include/qemu/qemu-plugin.h
-> +++ b/include/qemu/qemu-plugin.h
-> @@ -47,7 +47,7 @@ typedef uint64_t qemu_plugin_id_t;
->
->  extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
->
-> -#define QEMU_PLUGIN_VERSION 0
-> +#define QEMU_PLUGIN_VERSION 1
->
->  typedef struct {
->      /* string describing architecture */
-> @@ -328,7 +328,7 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
->   * offset will be into the appropriate block of RAM.
->   */
->  bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
-> -uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
-> +uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
-
-
-This should have a documentation comment, since this is the public-facing API.
-
-Also, physical addresses aren't uniquely identifying, they're only valid
-in the context of a particular address space (think TrustZone, for instance),
-so the plugin-facing API should probably have some concept of how it
-distinguishes "this is an access for Secure 0x4000" from "this is an
-access for Non-Secure 0x4000".
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
