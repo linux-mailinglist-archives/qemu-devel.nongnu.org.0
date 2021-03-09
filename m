@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FAE332833
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:10:32 +0100 (CET)
-Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF906332838
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:11:29 +0100 (CET)
+Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJd4B-00011b-53
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:10:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1lJd57-0002f3-04
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:11:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJd12-0007Qz-Lq
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:07:17 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:36343)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lJd3H-0001EF-8G; Tue, 09 Mar 2021 09:09:35 -0500
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:36554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJd10-0005Lf-Uk
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:07:16 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id t16so12885406ott.3
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:07:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hAl1BLHCcN1CwVZ8PyAt1gMXLhGKB8ckAc29CNoGBxw=;
- b=rJi15Hf6BfvnsqLDRCNxKFu0ihX/18BMN5QQmiSBpKCqaj7yiEQo933m5lHwxvbOao
- gU1rhKiMNcHL0Yv2j08zlufKKskPezgtF8p2HhEFqnEkeeYtR6DrOxnq2uoZ+gKRCZls
- KQvHwgDPDSH2MGAAqYzJuwDOFuwCPBP2OTagCwo9U0pHII+4FozdjnKdN2/UjtuqBVlS
- +xd304s4o/OxzBr5GF6i5gTei65+yDSkiXiQR5xRgn4IBaL5oyDph5dAV2OIEdfkDiTl
- U3qnrPOB4lCzTzfH6S7ZvZqdfJ61YFvNseuUJbe05CjcY7vcrICcSSzxkxqKdujtmtyT
- 8+dA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lJd3F-0006Rh-A0; Tue, 09 Mar 2021 09:09:34 -0500
+Received: by mail-io1-xd32.google.com with SMTP id n14so14046292iog.3;
+ Tue, 09 Mar 2021 06:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Mg7f6S3hgyM0etM3rGcj4N6RNXXuK0yZ3qf8DfzYumk=;
+ b=uar9IfyvmDSKp1P5UFrBho8Kp2bv4Sv0OujCynzdLvoxLxK2DTmlSNYPqKzHvDQSYg
+ bLlpm2fd0HWSIRpl0Nggfa+cGUCjNmO/IOrfOw+impxNLUz9fzprrDBo6TrFy/9Qf9HL
+ Zpm/D8ZzsQOwCUaBLVzRA0GAduE+/HLaqKi52lbMpWrj1LRC7gDIALJL7qHVx1561yrf
+ PuD3HLpUvcns4ZM3Oys9wurvIQJDPaPNMgIrxEtgfJdOuq12HE0qtlYMdNYcHtJG5zM+
+ iH/wHCTkYGt1mD8EBzSlX4qjBzqFPMnSbF4XJRmnDin0dnhmbqjNtUTSbQAPOulwDY3y
+ Tm8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hAl1BLHCcN1CwVZ8PyAt1gMXLhGKB8ckAc29CNoGBxw=;
- b=q2i/WIHQSkEccKDiYRyPVlaDMjnceKn6RLjdK5C3tMEu0pcZ1E0Lz0uGXYSpbCnK5Y
- zYH/5A0K46Kushn07Nsx745dDmxrt/C5JovbAfnW5DFJ3+a0xCRVguTIwBL4HwOFZS2K
- /7ts5FA6W0bX5cnnkIvCPFNHSMWLOCwPfa22vaO0WJeF4aK2ilTz4SMbtjH4UGZoLZSV
- qrchj2YY1AYoXJu+1MRCUYaLsq3OJ0KN9L1MWCy8CD3xYPpg2EFIzZ2fZ8k2SkO3VWmO
- mAgwPbmyVOCtctYaVGbCTLLWu4pB1nFvrnEK5hpkhmCR4DpJydIwnEATznbv0Rl/AjfG
- yD1g==
-X-Gm-Message-State: AOAM5320Vq7L6FWRhxNYuSAKDXEbwKD/fCvvZC/ZD0VB9rCGaxH9LDoj
- qFWA0IyjHN2mbA6Xy5tK1SAIGw==
-X-Google-Smtp-Source: ABdhPJwvPzGUTzi/uq1EG3dsMH6d/iuA3LZjRzDVAn3gLfmZWNQOHy71y2gza20Cq5sNRnqpTzPa3A==
-X-Received: by 2002:a05:6830:1e03:: with SMTP id
- s3mr13663383otr.321.1615298833244; 
- Tue, 09 Mar 2021 06:07:13 -0800 (PST)
-Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c20sm2934737oiw.18.2021.03.09.06.07.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 06:07:12 -0800 (PST)
-Subject: Re: [PATCH v2] linux-user: Fix executable page of /proc/self/maps
-To: Nicolas Surbayrole <nsurbayrole@quarkslab.com>, qemu-devel@nongnu.org
-References: <20210308091959.986540-1-nsurbayrole@quarkslab.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8e4ff419-d2a8-5dc0-3c7e-e603ec89eca0@linaro.org>
-Date: Tue, 9 Mar 2021 06:07:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Mg7f6S3hgyM0etM3rGcj4N6RNXXuK0yZ3qf8DfzYumk=;
+ b=KkuDZr9///kxC1T5ygCQ3Wq7VxhZUWP1pRhoBFjB31FF9LAgvMPuwzp3g/AhPdEarR
+ pYhUV901bJWmYjN6E+0oMOlv725vHtc7dDhv6a6A1UuyHDRtC0+4WcXY6ELVrtLrQ4Eh
+ gbAhIsF6fnjYN/pw7QlKKgDBtITZ02QwVsGN2DxS6Mpl3eHUGz6vKLwvftOSj+HgDJv2
+ NbtIN3Ix39dbaweL/kFEzMvNPdMkbsW41Kgu8QOenegWO3UQnthY6rxY0Pm3vj+YVzLE
+ cNr4KjsGWeIcniiUNZXyobLTbo3YLY/FvN31jXbTInmbXSCXWU0pRjCYwjUpZU3bWBIi
+ mVZg==
+X-Gm-Message-State: AOAM533Yc7Sc4gm+8287lZbHN53mA69CSeGtQ/MNzraB2AINYZ7YOiZS
+ j2QiT6+4AtGG029ZTcbRgiNrz2tDaq2r9ISZTUg=
+X-Google-Smtp-Source: ABdhPJwN4AZv/wINW1ETs4E6Pz+MZZyQJNn30izrxqoL0UqP+POuCk3mZUs0POfDBFb0jHl/MILnGR93uaBgeACoRYU=
+X-Received: by 2002:a05:6602:14cb:: with SMTP id
+ b11mr23466225iow.175.1615298971267; 
+ Tue, 09 Mar 2021 06:09:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210308091959.986540-1-nsurbayrole@quarkslab.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-2-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210212150256.885-2-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 9 Mar 2021 09:08:09 -0500
+Message-ID: <CAKmqyKN8hL6+wjiMUHcmbVsNgy9LRU+ah5LQmS1wU-=miTfvTg@mail.gmail.com>
+Subject: Re: [PATCH 01/38] target/riscv: implementation-defined constant
+ parameters
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,22 +78,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 1:19 AM, Nicolas Surbayrole wrote:
-> The guest binary and libraries are not always map with the
-> executable bit in the host process. The guest may read a
-> /proc/self/maps with no executable address range. The
-> perm fields should be based on the guest permission inside
-> Qemu.
-> 
-> Signed-off-by: Nicolas Surbayrole<nsurbayrole@quarkslab.com>
+On Fri, Feb 12, 2021 at 10:05 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> ext_p64 is whether to support Zp64 extension in RV32, default value is true.
+> pext_ver is the packed specification version, default value is v0.9.2.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+>  target/riscv/cpu.c       | 29 +++++++++++++++++++++++++++++
+>  target/riscv/cpu.h       |  6 ++++++
+>  target/riscv/translate.c |  2 ++
+>  3 files changed, 37 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 16f1a34238..1b99f629ec 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -132,6 +132,11 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
+>      env->vext_ver = vext_ver;
+>  }
+>
+> +static void set_pext_version(CPURISCVState *env, int pext_ver)
+> +{
+> +    env->pext_ver = pext_ver;
+> +}
+> +
+>  static void set_feature(CPURISCVState *env, int feature)
+>  {
+>      env->features |= (1ULL << feature);
+> @@ -380,6 +385,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+>      int priv_version = PRIV_VERSION_1_11_0;
+>      int vext_version = VEXT_VERSION_0_07_1;
+> +    int pext_version = PEXT_VERSION_0_09_2;
+>      target_ulong target_misa = env->misa;
+>      Error *local_err = NULL;
+>
+> @@ -404,6 +410,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>
+>      set_priv_version(env, priv_version);
+>      set_vext_version(env, vext_version);
+> +    set_pext_version(env, pext_version);
+>
+>      if (cpu->cfg.mmu) {
+>          set_feature(env, RISCV_FEATURE_MMU);
+> @@ -511,6 +518,28 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              }
+>              set_vext_version(env, vext_version);
+>          }
+> +        if (cpu->cfg.ext_p) {
+> +            target_misa |= RVP;
+> +            if (cpu->cfg.pext_spec) {
+> +                if (!g_strcmp0(cpu->cfg.pext_spec, "v0.9.2")) {
+> +                    pext_version = PEXT_VERSION_0_09_2;
+> +                } else {
+> +                    error_setg(errp,
+> +                               "Unsupported packed spec version '%s'",
+> +                               cpu->cfg.pext_spec);
+> +                    return;
+> +                }
+> +            } else {
+> +                qemu_log("packed verison is not specified, "
+> +                         "use the default value v0.9.2\n");
+> +            }
+> +            if (!cpu->cfg.ext_p64 && env->misa == RV64) {
+> +                error_setg(errp, "For RV64, the Zp64 instructions will be "
+> +                                 "included in the baseline P extension.");
+> +                return;
+> +            }
+> +            set_pext_version(env, pext_version);
+> +        }
+>
+>          set_misa(env, target_misa);
+>      }
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 02758ae0eb..f458722646 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -68,6 +68,7 @@
+>  #define RVF RV('F')
+>  #define RVD RV('D')
+>  #define RVV RV('V')
+> +#define RVP RV('P')
+>  #define RVC RV('C')
+>  #define RVS RV('S')
+>  #define RVU RV('U')
+> @@ -87,6 +88,7 @@ enum {
+>  #define PRIV_VERSION_1_11_0 0x00011100
+>
+>  #define VEXT_VERSION_0_07_1 0x00000701
+> +#define PEXT_VERSION_0_09_2 0x00000902
+>
+>  enum {
+>      TRANSLATE_SUCCESS,
+> @@ -134,6 +136,7 @@ struct CPURISCVState {
+>
+>      target_ulong priv_ver;
+>      target_ulong vext_ver;
+> +    target_ulong pext_ver;
+>      target_ulong misa;
+>      target_ulong misa_mask;
+>
+> @@ -288,13 +291,16 @@ struct RISCVCPU {
+>          bool ext_u;
+>          bool ext_h;
+>          bool ext_v;
+> +        bool ext_p;
+>          bool ext_counters;
+>          bool ext_ifencei;
+>          bool ext_icsr;
+> +        bool ext_p64;
+>
+>          char *priv_spec;
+>          char *user_spec;
+>          char *vext_spec;
+> +        char *pext_spec;
+>          uint16_t vlen;
+>          uint16_t elen;
+>          bool mmu;
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 0f28b5f41e..eb810efec6 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -56,6 +56,7 @@ typedef struct DisasContext {
+>         to reset this known value.  */
+>      int frm;
+>      bool ext_ifencei;
+> +    bool ext_p64;
+>      bool hlsx;
+>      /* vector extension */
+>      bool vill;
+> @@ -824,6 +825,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+>      ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
+>      ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+> +    ctx->ext_p64 = cpu->cfg.ext_p64;
+>      ctx->cs = cs;
+>  }
+>
+> --
+> 2.17.1
+>
 
