@@ -2,53 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B5C331D70
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 04:23:40 +0100 (CET)
-Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA688331D8B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 04:27:31 +0100 (CET)
+Received: from localhost ([::1]:47396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJSyB-000832-Tz
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 22:23:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53914)
+	id 1lJT1u-0000oA-RX
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 22:27:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJSx6-0007VN-Q1; Mon, 08 Mar 2021 22:22:32 -0500
-Received: from ozlabs.org ([203.11.71.1]:52817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJSx2-0001av-Tr; Mon, 08 Mar 2021 22:22:32 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DvgVv6ncVz9sW8; Tue,  9 Mar 2021 14:22:15 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1615260135;
- bh=D3nIBoavsCBs75Y2GcObvpz5Eiw6BxjLwk9/11CZ4oU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A2aGKcUVHL3bufeZWXFVla/paUqCh/rOEI15cpzE2wUrOBDXeo1jQTs+biWKprztS
- OEUGlxFLWzvzV8wtH/FJ3TaHeA55ADYpO/NRtSBlsom/6nho5q50PxwO4yzBPItIFN
- muZBIIsSr8+4sZFrsB8UmYPnDZw9hJC2UeyD0uc0=
-Date: Tue, 9 Mar 2021 14:22:11 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [RFC] adding a generic QAPI event for failed device hotunplug
-Message-ID: <YEbp4wKK/QY7uKYw@yekko.fritz.box>
-References: <155911cc-8764-1a65-4bb3-2fc0628d52e5@gmail.com>
- <877dmkrcpl.fsf@dusky.pond.sub.org>
- <d9567bf3-8740-e8fe-b29b-a3b0ebdb5809@gmail.com>
- <87blbt60hc.fsf@dusky.pond.sub.org>
- <8b79c207-f653-9eec-77f1-ea46c7c75ad5@gmail.com>
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lJT19-0000Nk-Hx
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 22:26:43 -0500
+Received: from mail-pl1-f170.google.com ([209.85.214.170]:45988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lJT17-0003Zp-Ic
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 22:26:43 -0500
+Received: by mail-pl1-f170.google.com with SMTP id u18so5855485plc.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 19:26:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JHux4Vj0a3895MKSpvKMl3Nm9rrh8xma7G117mXJNoI=;
+ b=nn2L9MDW/FFYSIQGN7JDrE7NTZDJGrowbMp0P05lL/fDd7jVX9QkjgMem9frpwnmZJ
+ 8uECapj9/QC9ItGGZE39lR5B/8bOOLoY7O9HkWMRVouf3KDSeQRJeB5dFfta+w58e65L
+ 0X4PIgeGeZA6rZgISIQskr8If3xxgNZtPge6Hpc2hxznm4+wcVWcL+Dly1eMUdTu/Zxj
+ UZudMuUplQtem+2SZyYKBybHb88cIHLYpakKeS7wIn10bD3el8bxxiXs7c2v8toHZlT7
+ UGxgYPYE+3w1WVDQorSFcN9rr2f5QeQZlCqmNcRgSdr6b4MusVbFxZq9lztdkHMtA086
+ E/Ow==
+X-Gm-Message-State: AOAM532jxyddrD/NDQmaidF+/Dm6wp8g2GtTczATE7JOsAtt/7tiuQV1
+ /vbB/j9CSztYZ+pmXv62IbJ/jUDNmbo=
+X-Google-Smtp-Source: ABdhPJzwSn6GNzMkq/L56AqyEAuiz4Vyexnv2ciU2cu8x2iE2iIZu5kZQjM2wc2cbr0DIoe/fXp15A==
+X-Received: by 2002:a17:902:a40b:b029:e0:1096:7fb with SMTP id
+ p11-20020a170902a40bb02900e0109607fbmr1938832plq.40.1615260399860; 
+ Mon, 08 Mar 2021 19:26:39 -0800 (PST)
+Received: from localhost.localdomain ([73.93.153.84])
+ by smtp.gmail.com with ESMTPSA id i128sm10932247pfe.64.2021.03.08.19.26.38
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Mar 2021 19:26:39 -0800 (PST)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] coroutine: add libucontext as external library
+Date: Mon,  8 Mar 2021 19:26:36 -0800
+Message-Id: <20210309032637.41778-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2HWfSg8NMa+VUZoO"
-Content-Disposition: inline
-In-Reply-To: <8b79c207-f653-9eec-77f1-ea46c7c75ad5@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.214.170;
+ envelope-from=osy86github@gmail.com; helo=mail-pl1-f170.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,267 +71,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, michael.roth@amd.com,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+iOS does not support ucontext natively for aarch64 and the sigaltstack is
+also unsupported (even worse, it fails silently, see:
+https://openradar.appspot.com/13002712 )
 
---2HWfSg8NMa+VUZoO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As a workaround we include a library implementation of ucontext and add it
+as a build option.
 
-On Mon, Mar 08, 2021 at 03:01:53PM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 3/8/21 2:04 PM, Markus Armbruster wrote:
-> > Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> >=20
-> > > On 3/6/21 3:57 AM, Markus Armbruster wrote:
-> > > > Cc: ACPI maintainers for additional expertise.
-> > > >=20
-> > > > Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> > > >=20
-> > > > > Hi,
-> > > > >=20
-> > > > > Recent changes in pseries code (not yet pushed, available at Davi=
-d's
-> > > > > ppc-for-6.0) are using the QAPI event MEM_UNPLUG_ERROR to report =
-memory
-> > > > > hotunplug errors in the pseries machine.
-> > > > >=20
-> > > > > The pseries machine is also using a timeout to cancel CPU hotunpl=
-ugs that
-> > > > > takes too long to finish (in which we're assuming a guest side er=
-ror) and
-> > > > > it would be desirable to also send a QAPI event for this case as =
-well.
-> > > > >=20
-> > > > > At this moment, there is no "CPU_UNPLUG_ERROR" in QAPI (guess ACP=
-I doesn't
-> > > > > need it).
-> > > >=20
-> > > > I see two interpretations of "ACPI doesn't need":
-> > > >=20
-> > > > 1. Unplug can't fail, or QEMU can't detect failure.  Michael, Igor?
-> > > >=20
-> > > > 2. Management applications haven't needed to know badly enough to
-> > > > implement an event.
-> > > >=20
-> > > > >             Before sending patches to implement this new event I =
-had a talk
-> > > > > with David Gibson and he suggested that, instead of adding a new =
-CPU_UNPLUG_ERROR
-> > > > > event, we could add a generic event (e.g. DEVICE_UNPLUG_ERROR) th=
-at can be
-> > > > > used by the pseries machine in both error scenarios (MEM and CPU).
-> > > >=20
-> > > > Good point.  One general event is better than two special ones that
-> > > > could easily grow siblings.
-> > > >=20
-> > > > > This could also be used by x86 as well, although I believe the us=
-e of
-> > > > > MEM_UNPLUG_ERROR would need to be kept for awhile to avoid breaki=
-ng ABI.
-> > > >=20
-> > > > Yes.  Our rules for interface deprecation apply.
-> > > >=20
-> > > > > Any suggestions/comments?
-> > > >=20
-> > > > We should document the event's reliability.  Are there unplug opera=
-tions
-> > > > where we can't detect failure?  Are there unplug operations where we
-> > > > could, but haven't implemented the event?
-> > >=20
-> > > The current version of the PowerPC spec that the pseries machine impl=
-ements
-> > > (LOPAR) does not predict a way for the virtual machine to report a ho=
-tunplug
-> > > error back to the hypervisor. If something fails, the hypervisor is l=
-eft
-> > > in the dark.
-> > >=20
-> > > What happened in the 6.0.0 dev cycle is that we faced a reliable way =
-of
-> >=20
-> > Do you mean "unreliable way"?
->=20
-> I guess a better word would be 'reproducible', as in we discovered a repr=
-oducible
-> way of getting the guest kernel to refuse the CPU hotunplug.
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+---
+ configure                 | 21 ++++++++++++++++++---
+ meson.build               | 12 +++++++++++-
+ util/coroutine-ucontext.c |  9 +++++++++
+ .gitmodules               |  3 +++
+ MAINTAINERS               |  6 ++++++
+ meson_options.txt         |  2 ++
+ subprojects/libucontext   |  1 +
+ 7 files changed, 50 insertions(+), 4 deletions(-)
+ create mode 160000 subprojects/libucontext
 
-Right.  It's worth noting here that in the PAPR model, there are no
-"forced" unplugs.  Unplugs always consist of a request to the guest,
-which is then resposible for offlining the device and signalling back
-to the hypervisor that it's done with it.
+diff --git a/configure b/configure
+index 34fccaa2ba..5f225894a9 100755
+--- a/configure
++++ b/configure
+@@ -1773,7 +1773,7 @@ Advanced options (experts only):
+   --oss-lib                path to OSS library
+   --cpu=CPU                Build for host CPU [$cpu]
+   --with-coroutine=BACKEND coroutine backend. Supported options:
+-                           ucontext, sigaltstack, windows
++                           ucontext, libucontext, sigaltstack, windows
+   --enable-gcov            enable test coverage analysis with gcov
+   --disable-blobs          disable installing provided firmware blobs
+   --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
+@@ -4517,12 +4517,27 @@ else
+       error_exit "only the 'windows' coroutine backend is valid for Windows"
+     fi
+     ;;
++  libucontext)
++  ;;
+   *)
+     error_exit "unknown coroutine backend $coroutine"
+     ;;
+   esac
+ fi
+ 
++case $coroutine in
++libucontext)
++  git_submodules="${git_submodules} subprojects/libucontext"
++  mkdir -p libucontext
++  coroutine_impl=ucontext
++  libucontext="enabled"
++  ;;
++*)
++  coroutine_impl=$coroutine
++  libucontext="disabled"
++  ;;
++esac
++
+ if test "$coroutine_pool" = ""; then
+   coroutine_pool=yes
+ fi
+@@ -5858,7 +5873,7 @@ if test "$qom_cast_debug" = "yes" ; then
+   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
+ fi
+ 
+-echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
++echo "CONFIG_COROUTINE_BACKEND=$coroutine_impl" >> $config_host_mak
+ if test "$coroutine_pool" = "yes" ; then
+   echo "CONFIG_COROUTINE_POOL=1" >> $config_host_mak
+ else
+@@ -6421,7 +6436,7 @@ NINJA=$ninja $meson setup \
+         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
+         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+-        -Dattr=$attr -Ddefault_devices=$default_devices \
++        -Dattr=$attr -Ddefault_devices=$default_devices -Ducontext=$libucontext \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
+diff --git a/meson.build b/meson.build
+index adeec153d9..2440d90734 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1633,9 +1633,18 @@ if not fdt.found() and fdt_required.length() > 0
+   error('fdt not available but required by targets ' + ', '.join(fdt_required))
+ endif
+ 
++ucontext = dependency('libucontext', kwargs: static_kwargs, required : false)
++if not ucontext.found() and get_option('ucontext').enabled()
++  libucontext_proj = subproject('libucontext',
++                                default_options: ['default_library=static',
++                                                  'freestanding=true'])
++  ucontext = libucontext_proj.get_variable('libucontext_dep')
++endif
++
+ config_host_data.set('CONFIG_CAPSTONE', capstone.found())
+ config_host_data.set('CONFIG_FDT', fdt.found())
+ config_host_data.set('CONFIG_SLIRP', slirp.found())
++config_host_data.set('CONFIG_LIBUCONTEXT', ucontext.found())
+ 
+ #####################
+ # Generated sources #
+@@ -1883,7 +1892,7 @@ util_ss.add_all(trace_ss)
+ util_ss = util_ss.apply(config_all, strict: false)
+ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+-                             dependencies: [util_ss.dependencies(), m, glib, socket, malloc])
++                             dependencies: [util_ss.dependencies(), m, glib, socket, malloc, ucontext])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: genh + version_res)
+ 
+@@ -2579,6 +2588,7 @@ summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
+ 
+ # Block layer
+ summary_info = {}
++summary_info += {'libucontext support': ucontext.found()}
+ summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
+ summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
+ if have_block
+diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
+index 904b375192..220c57a743 100644
+--- a/util/coroutine-ucontext.c
++++ b/util/coroutine-ucontext.c
+@@ -23,7 +23,16 @@
+ #undef _FORTIFY_SOURCE
+ #endif
+ #include "qemu/osdep.h"
++#if defined(CONFIG_LIBUCONTEXT)
++#include <libucontext/libucontext.h>
++#define ucontext_t libucontext_ucontext_t
++#define getcontext libucontext_getcontext
++#define setcontext libucontext_setcontext
++#define swapcontext libucontext_swapcontext
++#define makecontext libucontext_makecontext
++#else
+ #include <ucontext.h>
++#endif
+ #include "qemu/coroutine_int.h"
+ 
+ #ifdef CONFIG_VALGRIND_H
+diff --git a/.gitmodules b/.gitmodules
+index 08b1b48a09..6434b98c49 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -64,3 +64,6 @@
+ [submodule "roms/vbootrom"]
+ 	path = roms/vbootrom
+ 	url = https://gitlab.com/qemu-project/vbootrom.git
++[submodule "libucontext"]
++	path = subprojects/libucontext
++	url = https://github.com/kaniini/libucontext.git
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f22d83c178..76de0c7dcb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2893,6 +2893,12 @@ F: hw/core/clock-vmstate.c
+ F: hw/core/qdev-clock.c
+ F: docs/devel/clocks.rst
+ 
++libucontext in QEMU
++M: Joelle van Dyne <j@getutm.app>
++S: Maintained
++F: subprojects/libucontext
++K: ^Subject:.*(?i)libucontext
++
+ Usermode Emulation
+ ------------------
+ Overall usermode emulation
+diff --git a/meson_options.txt b/meson_options.txt
+index 9734019995..5db4ef21f8 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -108,6 +108,8 @@ option('fuse', type: 'feature', value: 'auto',
+        description: 'FUSE block device export')
+ option('fuse_lseek', type : 'feature', value : 'auto',
+        description: 'SEEK_HOLE/SEEK_DATA support for FUSE exports')
++option('ucontext', type : 'feature', value : 'disabled',
++       description: 'libucontext support')
+ 
+ option('vhost_user_blk_server', type: 'feature', value: 'auto',
+        description: 'build vhost-user-blk server')
+diff --git a/subprojects/libucontext b/subprojects/libucontext
+new file mode 160000
+index 0000000000..464f98a01b
+--- /dev/null
++++ b/subprojects/libucontext
+@@ -0,0 +1 @@
++Subproject commit 464f98a01b41006f9dc68ff0eee0aa2656709acc
+-- 
+2.28.0
 
-> > > making CPU hotunplug fail in the guest (trying to hotunplug the last =
-online
-> > > CPU) and the pseries machine was unprepared for dealing with it. We e=
-nded up
-> > > implementing a hotunplug timeout and, if the timeout kicks in, we're =
-assuming
-> > > that the CPU hotunplug failed in the guest. This is the first scenari=
-o we have
-> > > today where we want to send a QAPI event informing the CPU hotunplug =
-error,
-> > > but this event does not exist in QEMU ATM.
-> >=20
-> > When the timeout kicks in, how can you know the operation failed?  You
-> > better be sure when you send an error event.  In other words: what
-> > prevents the scenario where the operation is much slower than you
-> > expect, the timeout expires, the error event is sent, and then the
-> > operation completes successfully?
->=20
-> A CPU hotunplug in a pseries guest takes no more than a couple of seconds=
-, even
-> if the guest is under heavy load. The timeout is set to 15 seconds.
-
-Right.  We're well aware that a timeout is an ugly hack, since it's
-not really possible to distinguish it from a guest that's just being
-really slow.
-
-It was the best thing we could come up with in the short term though.
-Without the changes we're suggesting here, the guest can positively
-assert the unplug is complete, but it has no way to signal failure.
-So, without a timeout qemu is stuck waiting indefinitely (or at least
-until the next machine reset) on the guest for an unplug that might
-never complete.
-
-It's particularly nasty if the guest does really fail the hotplug
-internally, but then conditions change so that the same unplug could
-now succeed.  The unplug request is just a message - there's no guest
-visible persistent state saying we want the device unplugged, so if
-conditions change the guest won't then re-attempt the unplug.
-Meanwhile the user can't re-attempt the device_del, because on the
-qemu side it's still stuck in a pending unplug waiting on the guest.
-
-As we're discussing we think we have a better way, but it relies on
-guest changes, so we can't assume we already have that on the qemu
-side.
-
-> I'm aware that there's always that special use case, that we haven't seen=
- yet,
-> where this assumption is no longer valid. The plan is to change the spec =
-and the
-> guest kernel to signal the CPU hotunplug error back to QEMU before the dr=
-agon
-> lands. For now, timing out the CPU hotunplug process when we're almost ce=
-rtain
-> (but not 100%) that it failed in the guest is the best can do.
->=20
-> For both cases I want to use DEVICE_UNPLUG_ERROR right from the start, av=
-oiding
-> guest visible changes when we change how we're detecting the unplug error=
-s.
->=20
-> > > The second scenario is a memory hotunplug error. I found out that the=
- pseries
-> > > guest kernel does a reconfiguration step when re-attaching the DIMM r=
-ight
-> > > after refusing the hotunplug, and this reconfiguration is visible to =
-QEMU.
-> > > I proceeded to make the pseries machine detect this error case, rollb=
-ack the
-> > > unplug operation and fire up the MEM_UNPLUG_ERROR. This case is alrea=
-dy covered
-> > > by QAPI, but if we add a DEVICE_UNPLUG_ERROR event I would use it in =
-this case as
-> > > well instead of the MEM specific one.
-> > >=20
-> > > This investigation and work in the mem hotunplug error path triggered=
- a
-> > > discussion in qemu-ppc, where we're considering whether we should do =
-the same
-> > > signalling the kernel does for the DIMM hotunplug error for all other=
- device
-> > > hotunplug errors, given that the reconfiguration per se is not forbid=
-den by LOPAR
-> > > and it's currently a no-op. We would make a LOPAR spec change to make=
- this an
-> > > official hotunplug error report mechanism, and all pseries hotunplug =
-operations,
-> > > for all devices, would report DEVICE_UNPLUG_ERROR QAPI events in the =
-error path.
-> > >=20
-> > > Granted, the spec change + Kernel change is not something that we wil=
-l be able
-> > > to nail down in the 6.0.0 cycle, but having the DEVICE_UNPLUG_ERROR Q=
-API event
-> > > already in place would make it easier for the future as well.
-> > >=20
-> > >=20
-> > > I have a doc draft of these changes/infos that I forgot to post. I wo=
-uld post
-> > > it as docs/system/ppc-spapr-hotunplug-notes.rst. I can add the QAPI e=
-vents
-> > > information there as well. Does that work for you as far as documenta=
-tion
-> > > goes?
-> >=20
-> > A DEVICE_UNPLUG_ERROR event makes perfect sense regardless of machine
-> > and device.
-
-Ack.  Fwiw, I don't think this can ever be more than a "best effort"
-notification.  Even with a machine and OS that should support it, a
-guest bug or hang could mean that it never acks *or* nacks an unplug
-request.
-
-> > I'm not asking you to to implement it for all machines and devices.  But
-> > I want its design to support growth towards that goal, and its
-> > documentation reflect its current state.
-> >=20
-> > In particular, the doc comment in the QAPI schema should list the
-> > limitation.  If the event is only implemented for LOPAR for now, say so.
-> > If it's only implemented for certain devices, say so.
-> >=20
-> > Questions?
->=20
->=20
-> Nope. Thanks for the pointers. I'll add the DEVICE_UNPLUG_ERROR QAPI event
-> in a way that it can be used by other machines in the future, and documen=
-ting
-> where the event is being used ATM.
->=20
->=20
-> Thanks,
->=20
->=20
-> DHB
->=20
->=20
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---2HWfSg8NMa+VUZoO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBG6eEACgkQbDjKyiDZ
-s5IJDg//VZV1V9c49zYM+j/soY4/buFtyU+61JybqoY+1g4GP6k76yRX5UHmpuSQ
-3RLye7i6aKRaTri07ivt0C8LnYmJIdOcC4yB+ylZGW5WHJyW2imvONmbD7wSLlEe
-4SwnKhbFNrwKXr84+hXnTtvExfPogtag8Jfl8lPgOgE2hjTh5PBPlpS7C5WmOV8N
-W6ZrAFQ07eqUVgkFbxvwrLYd2uPWKIw74RRe3+cQF7LMc2ckGT156u+goXg95gkc
-yjLy9/sVHH23YHKAnuUm7GzplsQCYeRG6jI7BQZCJELpTAKjnfUn3RbkpChm3fgD
-h788Wk8E74xRk2pUs4JAz8iMLs4VTirYg+Mbn7/2Mq+L2Akl6DhN0oYUAQQ34A1s
-YpmeMo9ggCVCPSpl2rkjbP1s7tWqGysooqgkx8mb83J/WTFi7tY3WlJHGB9AuQ1h
-OEuWpAzm+p/eLAn4MwI7AGgBOnLCm4BnMkd2oILiP8+K88Ff7BPSofFeLaJDx0d5
-EPMy1w2pPL5fPjZodLsBxPdlx9XlPDlxjp7DgH3FTfQ19RkEshfMhmtpcykXDxiF
-IRT39vtX1jUvM9wvcLTEJiw70oyAchiB1nyhHICa3Ghws2oUojSgriH0N27WL9mr
-jtq2etygFG0C/jd9MEyiado7reItSxs3aFxQKZhkc44iZXuokvM=
-=USzY
------END PGP SIGNATURE-----
-
---2HWfSg8NMa+VUZoO--
 
