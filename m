@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23CD332EB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:08:18 +0100 (CET)
-Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E95C332ED8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:17:34 +0100 (CET)
+Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhiL-0004HH-NA
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:08:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47630)
+	id 1lJhrJ-0002nc-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:17:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf8Q-0000kj-6s
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:02 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:46172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf88-0002ti-4Y
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:01 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id r24so6275477otq.13
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KA40eVLdhdRfN2JR4MJ3Si1YCqVpEUGM3POPrQ47iFo=;
- b=qD0MOHKOp6bP/YsVj8koY8qGBD0BmVEgkJhNjcO5ZVl5Y0EQ6Ec5Fx1l1/F3IeTNYr
- X+7gf+PIU1/HXjQQF8lFgVqK6sTr16j6sSMiuDV++Y2hpGULonPr51y19Rs0UIlXMNuB
- mT23KnHS291zDdY/HRY/P/mJvxO9964oFu54YSUEUdZY2lCgKDjRBiAGTUDiIkl1YhqV
- LDl7OwAI4WglzV8CxDML4EfMjzvx8r51VqY7+xHM7Suc9t8aONa/ApxVK/Mn3bmcJ5rI
- 0ia9MA22gHEijhojbrq3PtVohgmurbPWpCRHmMnQLn7FpxmO8sL3d+S5/xaWvM4GcGE2
- y/IQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJfDl-0006EN-Ny
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:28:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJfDi-0003aW-QZ
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:28:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615307310;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EEKs5LEaRlIiCJyZrFMOpaM3dTCR4PQ5MGtnoosh7+o=;
+ b=Ll34enNrotwAvYFNLNPBDOwsJVpzq5o7S2pJQ2Q71w2tmmTu8No9qEYkJISolkdbcLmQtP
+ hbH2F283vq4CAMFH09f08RAlk8Z6mNInVQTCjoqfnog5sZsC3snxtdoYNiIzgGNEuBSXfY
+ j5fnmgu5n5U5wSoVtJvBKwSD/5rpC98=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-orQiJ_RSMpOklnHKnxML3g-1; Tue, 09 Mar 2021 11:28:28 -0500
+X-MC-Unique: orQiJ_RSMpOklnHKnxML3g-1
+Received: by mail-qv1-f71.google.com with SMTP id d15so10519334qvn.16
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:28:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KA40eVLdhdRfN2JR4MJ3Si1YCqVpEUGM3POPrQ47iFo=;
- b=VRvxIK8G0z3EtRhqpO21HjA3DT8BQJPWc0v3XKNvLvi5lbJwYj2ZEHAbapVO3ohjIg
- CrFbNX6hUOafX0UP301RQ/xwL9RVxwTK4Dy5buHH8sfXzsSAQMwqgw9TKNAqDVBHax9T
- BOmX7GNEOb1Dh5/4BZuJGDG/nmMYWS5hsMh90CR1OZxodXTHmXSlDz5rewc1VTvRIXYY
- wwfeVu7SpIJEGr6/OlCaMElvw9a4yqw+3qU20tfTnTUACqN1r+EDuDGa3bDH0LIqxYZH
- N7Y+EaQXZM7YhvMHJpZlEGz/iOqkpSQzl+ZvR8mHSRH81PGcgW1UiBPlWU3ijdccIe6N
- bpag==
-X-Gm-Message-State: AOAM531ejOg2HHfx7Z9xnN4OjjnvJFfXcMWmNVv8oedqwZ9cS7iG2G7K
- 084ZeZWY/+hUMO7kdtosVgyKFyGreqaCm+2v
-X-Google-Smtp-Source: ABdhPJzhsOr09RZlqb1kFoXoEPRxSR6EgTzZJnc2KU3WgQ/nDQrpbjXihw/Dv5A8Tuicu/IbIPhrVg==
-X-Received: by 2002:a9d:7513:: with SMTP id r19mr9976102otk.85.1615306962934; 
- Tue, 09 Mar 2021 08:22:42 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.41
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EEKs5LEaRlIiCJyZrFMOpaM3dTCR4PQ5MGtnoosh7+o=;
+ b=tS4a86ZrHDAHlw8lKMPiwArHAVR+Ht+qPGxAKDciUZUy3WgIhhjqC4uHBxljQfRN1K
+ Fa8IgeZIXBwiuy54KKUBtNm25SA+CXB/+aqdjyY+v4VJvJOQe2nYt0bRodZGJqvkoy6b
+ Z9uqGEb+ahiSjHT0dHiRwmPRumBfD2uHjQJrY9kvcAy2Jm+Mu3sAoPlzHcAwjoCkeLMX
+ NLG2Nbb+9tkM3vPsy/YYfHoKrZteCLuxIyB4mVZdZomWOl0t+zrh2tbjwZnVYWpDet7J
+ G0PTCSABmc/A7H8P92KKGWLoea8kNbqzrUPvFa+R2rLNLk1uWy7++kcm1CXqPxhtn/1/
+ RIqQ==
+X-Gm-Message-State: AOAM5300q9SEIzWfiRk6HMHkG+B3BVir6vDjNZXYELIXe7UpxSSv8bQY
+ Zca51OggdKgVMXojKD9t2FA7sTa8C07G/YiQ7OekPwAkTGF/VaXc6xPBhCsSq6WTK3v1f5Oj2rL
+ FTeFzKFwHKGseBGo=
+X-Received: by 2002:a05:620a:1369:: with SMTP id
+ d9mr26813443qkl.378.1615307308160; 
+ Tue, 09 Mar 2021 08:28:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwGKM20n5L8wW6Ei0XN5v7BksN4x4MtzmgWcwbL3HUBys6KTE0etn7JkrXEGvoJ9Xfstnk/mw==
+X-Received: by 2002:a05:620a:1369:: with SMTP id
+ d9mr26813421qkl.378.1615307307971; 
+ Tue, 09 Mar 2021 08:28:27 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id q30sm2986567qtd.89.2021.03.09.08.28.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 08:22:42 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 78/78] target/arm: Enable SVE2 and some extensions
-Date: Tue,  9 Mar 2021 08:20:41 -0800
-Message-Id: <20210309162041.23124-79-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210309162041.23124-1-richard.henderson@linaro.org>
-References: <20210309162041.23124-1-richard.henderson@linaro.org>
+ Tue, 09 Mar 2021 08:28:27 -0800 (PST)
+Date: Tue, 9 Mar 2021 11:28:26 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 2/7] dma: Introduce dma_aligned_pow2_mask()
+Message-ID: <20210309162826.GC763132@xz-x1>
+References: <20210309102742.30442-1-eric.auger@redhat.com>
+ <20210309102742.30442-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210309102742.30442-3-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,38 +94,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, jasowang@redhat.com,
+ mst@redhat.com, qemu-devel@nongnu.org, shameerali.kolothum.thodi@huawei.com,
+ vivek.gautam@arm.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+On Tue, Mar 09, 2021 at 11:27:37AM +0100, Eric Auger wrote:
+> Currently get_naturally_aligned_size() is used by the intel iommu
+> to compute the maximum invalidation range based on @size which is
+> a power of 2 while being aligned with the @start address and less
+> than the maximum range defined by @gaw.
+> 
+> This helper is also useful for other iommu devices (virtio-iommu,
+> SMMUv3) to make sure IOMMU UNMAP notifiers only are called with
+> power of 2 range sizes.
+> 
+> Let's move this latter into dma-helpers.c and rename it into
+> dma_aligned_pow2_mask(). Also rewrite the helper so that it
+> accomodates UINT64_MAX values for the size mask and max mask.
+> It now returns a mask instead of a size. Change the caller.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index f0a9e968c9..b717b096c3 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -702,6 +702,17 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
-         cpu->isar.id_aa64mmfr2 = t;
- 
-+        t = cpu->isar.id_aa64zfr0;
-+        t = FIELD_DP64(t, ID_AA64ZFR0, SVEVER, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);  /* PMULL */
-+        t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, F32MM, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, F64MM, 1);
-+        cpu->isar.id_aa64zfr0 = t;
-+
-         /* Replicate the same data to the 32-bit id registers.  */
-         u = cpu->isar.id_isar5;
-         u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
 -- 
-2.25.1
+Peter Xu
 
 
