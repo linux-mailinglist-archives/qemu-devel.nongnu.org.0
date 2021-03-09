@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7AF333213
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 00:52:33 +0100 (CET)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE47D333217
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 00:54:35 +0100 (CET)
+Received: from localhost ([::1]:47390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJm9Q-00062A-GZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 18:52:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33448)
+	id 1lJmBO-00013H-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 18:54:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJm7p-0003q4-S4
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 18:50:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60141)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJm7q-0003rN-Fz
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 18:50:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJm7m-0000st-9Y
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 18:50:53 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJm7m-0000t3-VF
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 18:50:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615333849;
+ s=mimecast20190719; t=1615333850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KGPgh1dIDJdjD0VFPE49/XWio89qIKTLCGFsAjUNGeg=;
- b=SPsHKtdYExtNR9KAEYdE0Mm0G+vOu390iOgIEtsdewfIdK/54zGCaaDl0NVHIoFp5z/n45
- 4dbUhKICZ74PBs+3ACmmA7U0lM6eCbVMFe22Iphr4CrzHKQ7ySZWijtJZ7YhFnFvc5xxAg
- ouDGqCxJ/rX6ybGubg4WFQNn/7tvaDw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-fdByi0dxOvayqVdQKsy0mA-1; Tue, 09 Mar 2021 18:50:43 -0500
-X-MC-Unique: fdByi0dxOvayqVdQKsy0mA-1
-Received: by mail-ej1-f72.google.com with SMTP id 3so6421248ejx.17
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 15:50:42 -0800 (PST)
+ bh=bP+dfqmjDokovQt4RSO6YJdtqZpqvWo3J8PFMVnml4w=;
+ b=hwC7M+g7y91gfrmoOwMcM7jEQ16efszllnl10abKFp/eQIwK9j0+POruD0TVoE/gdZuriD
+ mXryz6LksMEbtlzZCjOQR0pZJyAuXWSGyuAxriIrPh5xd9tt9Pku5j0Yy8JWnV6JbKj/rT
+ 8804wBpW8LRkVHAeRqziWNYdZbkJMxE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-IOXraz0HMSmUiCAy8pYNgw-1; Tue, 09 Mar 2021 18:50:48 -0500
+X-MC-Unique: IOXraz0HMSmUiCAy8pYNgw-1
+Received: by mail-ej1-f71.google.com with SMTP id rl7so6387785ejb.16
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 15:50:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KGPgh1dIDJdjD0VFPE49/XWio89qIKTLCGFsAjUNGeg=;
- b=UaCt6nuvYwhwuHCb/vYZWJTKvJn59N2NHmB7RAJ0FKgmgqKo4cQNtCqJbb9pntsFxZ
- 8x0itLbDSoQcjd3qB5KI8gmg5+mo4S5T8FSwwUcbSg2eDJoXU3z7yXw6tEUfHdfymyCm
- w3pqrTZZnwiL76BBwEieYJnBYONcv/1OX8Ma/FvDFWP+oaHHbXYhwJEGgM6BcVSgiwpe
- Mk7aMTXshC5S/jKMjIoJBSqgJTkmHZgJvFJYPRCbIGFJilUWSSZM2n+CgfhMjq6dPXke
- E+6MJgzkMA5pGcAdTA+96R3Vtcglo0Ze4HplPcvoyKJEGEO7OVJhDmFs38IgevOx8LjO
- Tppg==
-X-Gm-Message-State: AOAM530ac16WDowufllXxRG7L5h34/UM+mXdLtK9ft3q9VFJEp+B6Jsy
- cxMUBUhMXcrJ261IM/7WE7Drj4s5XBx7gBeAZ5b+m0oehD1LlnbCSREZ+jzYIog93LiFjMfQ/06
- wd+zWuiMP2PSMDPpM5Qgt0N2c1VW7io9hUVX58snj5KmrjQUA3EaKyNKqF13rAACd
-X-Received: by 2002:a17:906:c08f:: with SMTP id
- f15mr590181ejz.318.1615333841610; 
- Tue, 09 Mar 2021 15:50:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzfJ2PDUKA7kWCb844iEaOZBN+L2h+mFRyUUB3jpN2debum4xtGQyUoTboG1ptTFv2hMhTKQQ==
-X-Received: by 2002:a17:906:c08f:: with SMTP id
- f15mr590162ejz.318.1615333841409; 
- Tue, 09 Mar 2021 15:50:41 -0800 (PST)
+ bh=bP+dfqmjDokovQt4RSO6YJdtqZpqvWo3J8PFMVnml4w=;
+ b=FXATQ3ay7Gc4uK4R89qTtbrJWMEhbhZ1nGMonnZtdn1cBOf21a8sYBjvteTnjUpLos
+ u4I+E7MhJkP4CAQRzb8hgGQ0uBurWvax/C/utJ2Hflv/GWV25fSpFS+Z4Vz9ICz3ehmp
+ gzMjM1xwMfoCUmwhGoedxlQHh69fjk2S1zIJi4HRibifWb5y7VwKUHVyYLS0xpaN6kcP
+ 9bstzVnH02Px9qXSWe8wjV/a2fGzsp2QMoxpxcgT+Kk5IRN5iGKimbe6A0JyaOhCcnzC
+ dT9KXXUhhuBUk8IcoRZ32LxM8iblZoXY3/lYbf4n58mlHq7bipGJ2cdEbbWR8d/pqxzT
+ PriQ==
+X-Gm-Message-State: AOAM532j94O3YomkN/yXj99uC4787JozTZ6aFSCY+GcU4tJxbtKwuMA2
+ rLEU8ZNOWQWajsBFR5LDeo/iCHpnpZB8DpVesXUsRE63l1NN8Iy86gMZVIAlv9hu3CIRhvxuq/4
+ 2QD6kYUtdqgXIEq0GMXlo0e8huikmQQQAkEPisgJKYCprTWR92Cgyk9HYv/DTrbTU
+X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr138120eds.375.1615333847208;
+ Tue, 09 Mar 2021 15:50:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUyLHh125iyHm2/HgTf7o7AO5/gHOBdkA+2yLHl4axRD8UWzmBSu9e4oB3CR1HQar4OEhfLg==
+X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr138102eds.375.1615333847022;
+ Tue, 09 Mar 2021 15:50:47 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r19sm9954620edp.52.2021.03.09.15.50.40
+ by smtp.gmail.com with ESMTPSA id g1sm10029369edh.31.2021.03.09.15.50.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 15:50:41 -0800 (PST)
+ Tue, 09 Mar 2021 15:50:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] hw/block/pflash_cfi01: Extract
- pflash_cfi01_fill_cfi_table()
-Date: Wed, 10 Mar 2021 00:50:21 +0100
-Message-Id: <20210309235028.912078-3-philmd@redhat.com>
+Subject: [PATCH 3/9] hw/block/pflash_cfi02: Extract
+ pflash_cfi02_fill_cfi_table()
+Date: Wed, 10 Mar 2021 00:50:22 +0100
+Message-Id: <20210309235028.912078-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309235028.912078-1-philmd@redhat.com>
 References: <20210309235028.912078-1-philmd@redhat.com>
@@ -105,182 +103,224 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fill the CFI table in out of DeviceRealize() in a new function:
-pflash_cfi01_fill_cfi_table().
+pflash_cfi02_fill_cfi_table().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 140 +++++++++++++++++++++-------------------
- 1 file changed, 73 insertions(+), 67 deletions(-)
+ hw/block/pflash_cfi02.c | 193 +++++++++++++++++++++-------------------
+ 1 file changed, 99 insertions(+), 94 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index b6919bbe474..03472ea5b64 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -704,30 +704,11 @@ static const MemoryRegionOps pflash_cfi01_ops = {
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index fa981465e12..845f50ed99b 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -724,6 +724,104 @@ static const MemoryRegionOps pflash_cfi02_ops = {
      .endianness = DEVICE_NATIVE_ENDIAN,
  };
  
--static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-+static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
- {
--    ERRP_GUARD();
--    PFlashCFI01 *pfl = PFLASH_CFI01(dev);
--    uint64_t total_len;
--    int ret;
-     uint64_t blocks_per_device, sector_len_per_device, device_len;
-     int num_devices;
- 
--    if (pfl->sector_len == 0) {
--        error_setg(errp, "attribute \"sector-length\" not specified or zero.");
--        return;
--    }
--    if (pfl->nb_blocs == 0) {
--        error_setg(errp, "attribute \"num-blocks\" not specified or zero.");
--        return;
--    }
--    if (pfl->name == NULL) {
--        error_setg(errp, "attribute \"name\" not specified.");
--        return;
--    }
--
--    total_len = pfl->sector_len * pfl->nb_blocs;
--
-     /*
-      * These are only used to expose the parameters of each device
-      * in the cfi_table[].
-@@ -742,53 +723,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-     }
-     device_len = sector_len_per_device * blocks_per_device;
- 
--    memory_region_init_rom_device(
--        &pfl->mem, OBJECT(dev),
--        &pflash_cfi01_ops,
--        pfl,
--        pfl->name, total_len, errp);
--    if (*errp) {
--        return;
--    }
--
--    pfl->storage = memory_region_get_ram_ptr(&pfl->mem);
--    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
--
--    if (pfl->blk) {
--        uint64_t perm;
--        pfl->ro = !blk_supports_write_perm(pfl->blk);
--        perm = BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRITE);
--        ret = blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
--        if (ret < 0) {
--            return;
--        }
--    } else {
--        pfl->ro = 0;
--    }
--
--    if (pfl->blk) {
--        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, total_len,
--                                         errp)) {
--            vmstate_unregister_ram(&pfl->mem, DEVICE(pfl));
--            return;
--        }
--    }
--
--    /*
--     * Default to devices being used at their maximum device width. This was
--     * assumed before the device_width support was added.
--     */
--    if (!pfl->max_device_width) {
--        pfl->max_device_width = pfl->device_width;
--    }
--
--    pfl->wcycle = 0;
--    /*
--     * The command 0x00 is not assigned by the CFI open standard,
--     * but QEMU historically uses it for the READ_ARRAY command (0xff).
--     */
--    pfl->cmd = 0x00;
--    pfl->status = 0x80; /* WSM ready */
-     /* Hardcoded CFI table */
-     /* Standard "QRY" string */
-     pfl->cfi_table[0x10] = 'Q';
-@@ -876,6 +810,78 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-     pfl->cfi_table[0x3f] = 0x01; /* Number of protection fields */
- }
- 
-+static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
++static void pflash_cfi02_fill_cfi_table(PFlashCFI02 *pfl, int nb_regions)
 +{
-+    ERRP_GUARD();
-+    PFlashCFI01 *pfl = PFLASH_CFI01(dev);
-+    uint64_t total_len;
-+    int ret;
-+
-+    if (pfl->sector_len == 0) {
-+        error_setg(errp, "attribute \"sector-length\" not specified or zero.");
-+        return;
-+    }
-+    if (pfl->nb_blocs == 0) {
-+        error_setg(errp, "attribute \"num-blocks\" not specified or zero.");
-+        return;
-+    }
-+    if (pfl->name == NULL) {
-+        error_setg(errp, "attribute \"name\" not specified.");
-+        return;
-+    }
-+
-+    total_len = pfl->sector_len * pfl->nb_blocs;
-+
-+    memory_region_init_rom_device(
-+        &pfl->mem, OBJECT(dev),
-+        &pflash_cfi01_ops,
-+        pfl,
-+        pfl->name, total_len, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    pfl->storage = memory_region_get_ram_ptr(&pfl->mem);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
-+
-+    if (pfl->blk) {
-+        uint64_t perm;
-+        pfl->ro = !blk_supports_write_perm(pfl->blk);
-+        perm = BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRITE);
-+        ret = blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
-+        if (ret < 0) {
-+            return;
-+        }
-+    } else {
-+        pfl->ro = 0;
-+    }
-+
-+    if (pfl->blk) {
-+        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, total_len,
-+                                         errp)) {
-+            vmstate_unregister_ram(&pfl->mem, DEVICE(pfl));
-+            return;
-+        }
-+    }
-+
++    /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
++    const uint16_t pri_ofs = 0x40;
++    /* Standard "QRY" string */
++    pfl->cfi_table[0x10] = 'Q';
++    pfl->cfi_table[0x11] = 'R';
++    pfl->cfi_table[0x12] = 'Y';
++    /* Command set (AMD/Fujitsu) */
++    pfl->cfi_table[0x13] = 0x02;
++    pfl->cfi_table[0x14] = 0x00;
++    /* Primary extended table address */
++    pfl->cfi_table[0x15] = pri_ofs;
++    pfl->cfi_table[0x16] = pri_ofs >> 8;
++    /* Alternate command set (none) */
++    pfl->cfi_table[0x17] = 0x00;
++    pfl->cfi_table[0x18] = 0x00;
++    /* Alternate extended table (none) */
++    pfl->cfi_table[0x19] = 0x00;
++    pfl->cfi_table[0x1A] = 0x00;
++    /* Vcc min */
++    pfl->cfi_table[0x1B] = 0x27;
++    /* Vcc max */
++    pfl->cfi_table[0x1C] = 0x36;
++    /* Vpp min (no Vpp pin) */
++    pfl->cfi_table[0x1D] = 0x00;
++    /* Vpp max (no Vpp pin) */
++    pfl->cfi_table[0x1E] = 0x00;
++    /* Timeout per single byte/word write (128 ms) */
++    pfl->cfi_table[0x1F] = 0x07;
++    /* Timeout for min size buffer write (NA) */
++    pfl->cfi_table[0x20] = 0x00;
++    /* Typical timeout for block erase (512 ms) */
++    pfl->cfi_table[0x21] = 0x09;
++    /* Typical timeout for full chip erase (4096 ms) */
++    pfl->cfi_table[0x22] = 0x0C;
++    /* Reserved */
++    pfl->cfi_table[0x23] = 0x01;
++    /* Max timeout for buffer write (NA) */
++    pfl->cfi_table[0x24] = 0x00;
++    /* Max timeout for block erase */
++    pfl->cfi_table[0x25] = 0x0A;
++    /* Max timeout for chip erase */
++    pfl->cfi_table[0x26] = 0x0D;
++    /* Device size */
++    pfl->cfi_table[0x27] = ctz32(pfl->chip_len);
++    /* Flash device interface (8 & 16 bits) */
++    pfl->cfi_table[0x28] = 0x02;
++    pfl->cfi_table[0x29] = 0x00;
++    /* Max number of bytes in multi-bytes write */
 +    /*
-+     * Default to devices being used at their maximum device width. This was
-+     * assumed before the device_width support was added.
++     * XXX: disable buffered write as it's not supported
++     * pfl->cfi_table[0x2A] = 0x05;
 +     */
-+    if (!pfl->max_device_width) {
-+        pfl->max_device_width = pfl->device_width;
++    pfl->cfi_table[0x2A] = 0x00;
++    pfl->cfi_table[0x2B] = 0x00;
++    /* Number of erase block regions */
++    pfl->cfi_table[0x2c] = nb_regions;
++    /* Erase block regions */
++    for (int i = 0; i < nb_regions; ++i) {
++        uint32_t sector_len_per_device = pfl->sector_len[i];
++        pfl->cfi_table[0x2d + 4 * i] = pfl->nb_blocs[i] - 1;
++        pfl->cfi_table[0x2e + 4 * i] = (pfl->nb_blocs[i] - 1) >> 8;
++        pfl->cfi_table[0x2f + 4 * i] = sector_len_per_device >> 8;
++        pfl->cfi_table[0x30 + 4 * i] = sector_len_per_device >> 16;
 +    }
++    assert(0x2c + 4 * nb_regions < pri_ofs);
 +
-+    pfl->wcycle = 0;
-+    /*
-+     * The command 0x00 is not assigned by the CFI open standard,
-+     * but QEMU historically uses it for the READ_ARRAY command (0xff).
-+     */
-+    pfl->cmd = 0x00;
-+    pfl->status = 0x80; /* WSM ready */
-+    pflash_cfi01_fill_cfi_table(pfl);
++    /* Extended */
++    pfl->cfi_table[0x00 + pri_ofs] = 'P';
++    pfl->cfi_table[0x01 + pri_ofs] = 'R';
++    pfl->cfi_table[0x02 + pri_ofs] = 'I';
++
++    /* Extended version 1.0 */
++    pfl->cfi_table[0x03 + pri_ofs] = '1';
++    pfl->cfi_table[0x04 + pri_ofs] = '0';
++
++    /* Address sensitive unlock required. */
++    pfl->cfi_table[0x05 + pri_ofs] = 0x00;
++    /* Erase suspend to read/write. */
++    pfl->cfi_table[0x06 + pri_ofs] = 0x02;
++    /* Sector protect not supported. */
++    pfl->cfi_table[0x07 + pri_ofs] = 0x00;
++    /* Temporary sector unprotect not supported. */
++    pfl->cfi_table[0x08 + pri_ofs] = 0x00;
++
++    /* Sector protect/unprotect scheme. */
++    pfl->cfi_table[0x09 + pri_ofs] = 0x00;
++
++    /* Simultaneous operation not supported. */
++    pfl->cfi_table[0x0a + pri_ofs] = 0x00;
++    /* Burst mode not supported. */
++    pfl->cfi_table[0x0b + pri_ofs] = 0x00;
++    /* Page mode not supported. */
++    pfl->cfi_table[0x0c + pri_ofs] = 0x00;
++    assert(0x0c + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
 +}
 +
- static void pflash_cfi01_system_reset(DeviceState *dev)
+ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
  {
-     PFlashCFI01 *pfl = PFLASH_CFI01(dev);
+     ERRP_GUARD();
+@@ -837,100 +935,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+     pfl->cmd = 0;
+     pfl->status = 0;
+ 
+-    /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
+-    const uint16_t pri_ofs = 0x40;
+-    /* Standard "QRY" string */
+-    pfl->cfi_table[0x10] = 'Q';
+-    pfl->cfi_table[0x11] = 'R';
+-    pfl->cfi_table[0x12] = 'Y';
+-    /* Command set (AMD/Fujitsu) */
+-    pfl->cfi_table[0x13] = 0x02;
+-    pfl->cfi_table[0x14] = 0x00;
+-    /* Primary extended table address */
+-    pfl->cfi_table[0x15] = pri_ofs;
+-    pfl->cfi_table[0x16] = pri_ofs >> 8;
+-    /* Alternate command set (none) */
+-    pfl->cfi_table[0x17] = 0x00;
+-    pfl->cfi_table[0x18] = 0x00;
+-    /* Alternate extended table (none) */
+-    pfl->cfi_table[0x19] = 0x00;
+-    pfl->cfi_table[0x1A] = 0x00;
+-    /* Vcc min */
+-    pfl->cfi_table[0x1B] = 0x27;
+-    /* Vcc max */
+-    pfl->cfi_table[0x1C] = 0x36;
+-    /* Vpp min (no Vpp pin) */
+-    pfl->cfi_table[0x1D] = 0x00;
+-    /* Vpp max (no Vpp pin) */
+-    pfl->cfi_table[0x1E] = 0x00;
+-    /* Timeout per single byte/word write (128 ms) */
+-    pfl->cfi_table[0x1F] = 0x07;
+-    /* Timeout for min size buffer write (NA) */
+-    pfl->cfi_table[0x20] = 0x00;
+-    /* Typical timeout for block erase (512 ms) */
+-    pfl->cfi_table[0x21] = 0x09;
+-    /* Typical timeout for full chip erase (4096 ms) */
+-    pfl->cfi_table[0x22] = 0x0C;
+-    /* Reserved */
+-    pfl->cfi_table[0x23] = 0x01;
+-    /* Max timeout for buffer write (NA) */
+-    pfl->cfi_table[0x24] = 0x00;
+-    /* Max timeout for block erase */
+-    pfl->cfi_table[0x25] = 0x0A;
+-    /* Max timeout for chip erase */
+-    pfl->cfi_table[0x26] = 0x0D;
+-    /* Device size */
+-    pfl->cfi_table[0x27] = ctz32(pfl->chip_len);
+-    /* Flash device interface (8 & 16 bits) */
+-    pfl->cfi_table[0x28] = 0x02;
+-    pfl->cfi_table[0x29] = 0x00;
+-    /* Max number of bytes in multi-bytes write */
+-    /*
+-     * XXX: disable buffered write as it's not supported
+-     * pfl->cfi_table[0x2A] = 0x05;
+-     */
+-    pfl->cfi_table[0x2A] = 0x00;
+-    pfl->cfi_table[0x2B] = 0x00;
+-    /* Number of erase block regions */
+-    pfl->cfi_table[0x2c] = nb_regions;
+-    /* Erase block regions */
+-    for (int i = 0; i < nb_regions; ++i) {
+-        uint32_t sector_len_per_device = pfl->sector_len[i];
+-        pfl->cfi_table[0x2d + 4 * i] = pfl->nb_blocs[i] - 1;
+-        pfl->cfi_table[0x2e + 4 * i] = (pfl->nb_blocs[i] - 1) >> 8;
+-        pfl->cfi_table[0x2f + 4 * i] = sector_len_per_device >> 8;
+-        pfl->cfi_table[0x30 + 4 * i] = sector_len_per_device >> 16;
+-    }
+-    assert(0x2c + 4 * nb_regions < pri_ofs);
+-
+-    /* Extended */
+-    pfl->cfi_table[0x00 + pri_ofs] = 'P';
+-    pfl->cfi_table[0x01 + pri_ofs] = 'R';
+-    pfl->cfi_table[0x02 + pri_ofs] = 'I';
+-
+-    /* Extended version 1.0 */
+-    pfl->cfi_table[0x03 + pri_ofs] = '1';
+-    pfl->cfi_table[0x04 + pri_ofs] = '0';
+-
+-    /* Address sensitive unlock required. */
+-    pfl->cfi_table[0x05 + pri_ofs] = 0x00;
+-    /* Erase suspend to read/write. */
+-    pfl->cfi_table[0x06 + pri_ofs] = 0x02;
+-    /* Sector protect not supported. */
+-    pfl->cfi_table[0x07 + pri_ofs] = 0x00;
+-    /* Temporary sector unprotect not supported. */
+-    pfl->cfi_table[0x08 + pri_ofs] = 0x00;
+-
+-    /* Sector protect/unprotect scheme. */
+-    pfl->cfi_table[0x09 + pri_ofs] = 0x00;
+-
+-    /* Simultaneous operation not supported. */
+-    pfl->cfi_table[0x0a + pri_ofs] = 0x00;
+-    /* Burst mode not supported. */
+-    pfl->cfi_table[0x0b + pri_ofs] = 0x00;
+-    /* Page mode not supported. */
+-    pfl->cfi_table[0x0c + pri_ofs] = 0x00;
+-    assert(0x0c + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
++    pflash_cfi02_fill_cfi_table(pfl, nb_regions);
+ }
+ 
+ static Property pflash_cfi02_properties[] = {
 -- 
 2.26.2
 
