@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF0D3330E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:28:52 +0100 (CET)
-Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCE93330D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:23:56 +0100 (CET)
+Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjuN-0006pk-CZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:28:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
+	id 1lJjpb-0006AL-On
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:23:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjaU-0001h3-Gc; Tue, 09 Mar 2021 16:08:18 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:39073)
+ id 1lJjgC-0003qU-Lz; Tue, 09 Mar 2021 16:14:12 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:43827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjaR-0001At-Tl; Tue, 09 Mar 2021 16:08:18 -0500
+ id 1lJjgA-0003qa-Jb; Tue, 09 Mar 2021 16:14:12 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N5G1T-1liWIA3JVl-0119Sl; Tue, 09 Mar 2021 22:08:03 +0100
-Subject: Re: [PATCH] migration: Remove time_t cast for OpenBSD
-To: Thomas Huth <thuth@redhat.com>, Brad Smith <brad@comstyle.com>,
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MEFCF-1lR7XN38bd-00AEId; Tue, 09 Mar 2021 22:13:48 +0100
+Subject: Re: [PATCH v3 1/5] ui: Replace the word 'whitelist'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <YDNdAiOkEYOfmbhT@humpty.home.comstyle.com>
- <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
+References: <20210303184644.1639691-1-philmd@redhat.com>
+ <20210303184644.1639691-2-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <26c9c34a-3872-c044-4b01-06d2eb4bfbb1@vivier.eu>
-Date: Tue, 9 Mar 2021 22:08:02 +0100
+Message-ID: <66379742-141f-d38e-a6bb-dabe58c2a4b4@vivier.eu>
+Date: Tue, 9 Mar 2021 22:13:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
+In-Reply-To: <20210303184644.1639691-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ty1V12YAowO0ta6d48aN3YFy9pV+bZ+592T3WIJi/pYI0OBZrkU
- Wx5Sf3cah4ZfT8xVnjRW4Nq/fPJIwiR52k+W1BdLJpAFeytBSBB7TcPMilVRo59BxCfVUg4
- 1t7knKWo6OVdySrDmR6hkL3g4vqL4F89/LYQ32i8oXjucSkiAeMqsLRmTazJEgK98aIB4qP
- 7Zm9utfhIVhQGi3nEuSQA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G9zRZDAt/58=:Updr2FDvNaBl4saYPMfjus
- 7xArot2t0fQBri/Km7B4lxSL2hXqQV7lShwzxY0/HH7eTHEJh1pf93bCuurbipS5PamF7UPBF
- qkRhKTXXN4lwxYSjrsaYb4n/L5Yrv9mQulcWr20nByZgucWuiIC1wR6Lstzg+DbM1ALfAUSWz
- IrvGTVh7bx6GNKoYWH07EnlX/ziG/SNHS/gtmmQ1bUIourJo6a2FiCb7nXpn8N27J7gnJzIKj
- L3DLF+IcYaRyAwLHGcJIx5+aJp7tkiwf622mXo9rTH+wmcWAZ8LH5zL88hAyMRA0axnDLyr9L
- xqALGm1N8Qt+Hqbnh66JQaTS/KdFbxFEf1cgfjDoUZQF1aH1E3xUDRkI34dwng4yPZYRL+vfq
- J/DatCrwvRcGgITU/qUit6dhdXSKC2r9ZqyVcPkM/IH1XzEhtcKNZzwDLEA8PNW/UnRpiszSj
- mnFjKOgUQw==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hJ1i3EZ3WPY84s24TlJs1/9Xr4aPSqV03JDn2HbXtQ0OYhXHXY+
+ PFJKCcWB7WPkW0Br9gkWiEX5ON0N7mOzAnYS56X8DduernEEaoQgWYp9Kd0Teu4Z+smjyyp
+ Gcog0khVCd012HCVIeY4S3IdqHdeJbv2p0qURfw8lKdJ/Wglsiq1YaowfRES7bVlekfbmCc
+ UsjTKuye+P/k7UlUKhsSA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FAvzR5Z3q8s=:Fbs23XYaxN7RCPky+hnn7j
+ PcjkznypOVoJSNrokLkhvmLtzhteenB5g3i23WrPmYykcWnE6D8BitaamfnSH7zB127BwhvnM
+ UYwlGyMAE4TzkAJtxf8O4sSPO8/1XZkU2C2vcCCCR4/mqKaBI2J1nyXgwcCHCYMoe3OPQC1w+
+ JavnOg7h9f5BjWj3l6Gly0coiDYkrRHhjoSLPr1XDq7GIa9SXDbxd3oEOF42pMos9O0Z3uOmh
+ oh2EYSC53b7NGJD41AvGbJauOYnDRDswdU1bugQX9bPXedZV9JOYs5S8JfxURGkcK5bZSe54v
+ 6/BoghqxoBFZaFfcZf8mMrE2F8SLvFMyBEfWT5ylZgKk9yNK0fJFi+pPOfBZh9YfsL3W9Zcxu
+ oH8zGvQ4K89ZpKktRXNtj0fssWJIvjyPySzXiNpOst3hNWEa8YzPs9mdVE8I02qSi9gXVEBWl
+ A7i9Vcs+2w==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -67,39 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Eduardo Otubo <otubo@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/03/2021 à 12:46, Thomas Huth a écrit :
-> On 22/02/2021 08.28, Brad Smith wrote:
->> OpenBSD has supported 64-bit time_t across all archs since 5.5 released in 2014.
->>
->> Remove a time_t cast that is no longer necessary.
->>
->>
->> Signed-off-by: Brad Smith <brad@comstyle.com>
->>
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index 52e2d72e4b..9557f85ba9 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -2849,8 +2849,7 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
->>       if (name) {
->>           pstrcpy(sn->name, sizeof(sn->name), name);
->>       } else {
->> -        /* cast below needed for OpenBSD where tv_sec is still 'long' */
->> -        localtime_r((const time_t *)&tv.tv_sec, &tm);
->> +        localtime_r(&tv.tv_sec, &tm);
->>           strftime(sn->name, sizeof(sn->name), "vm-%Y%m%d%H%M%S", &tm);
->>       }
+Le 03/03/2021 à 19:46, Philippe Mathieu-Daudé a écrit :
+> Follow the inclusive terminology from the "Conscious Language in your
+> Open Source Projects" guidelines [*] and replace the words "whitelist"
+> appropriately.
+> 
+> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
+> 
+> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  ui/console.c       | 2 +-
+>  ui/vnc-auth-sasl.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/ui/console.c b/ui/console.c
+> index c5d11bc7017..5a8311ced20 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1708,7 +1708,7 @@ bool dpy_gfx_check_format(QemuConsole *con,
+>                  return false;
+>              }
+>          } else {
+> -            /* default is to whitelist native 32 bpp only */
+> +            /* default is to allow native 32 bpp only */
+>              if (format != qemu_default_pixman_format(32, true)) {
+>                  return false;
+>              }
+> diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
+> index f67111a3662..df7dc08e9fc 100644
+> --- a/ui/vnc-auth-sasl.c
+> +++ b/ui/vnc-auth-sasl.c
+> @@ -288,7 +288,7 @@ static int protocol_client_auth_sasl_step(VncState *vs, uint8_t *data, size_t le
+>              goto authreject;
+>          }
+>  
+> -        /* Check username whitelist ACL */
+> +        /* Check the username access control list */
+>          if (vnc_auth_sasl_check_access(vs) < 0) {
+>              goto authreject;
+>          }
+> @@ -409,7 +409,7 @@ static int protocol_client_auth_sasl_start(VncState *vs, uint8_t *data, size_t l
+>              goto authreject;
+>          }
+>  
+> -        /* Check username whitelist ACL */
+> +        /* Check the username access control list */
+>          if (vnc_auth_sasl_check_access(vs) < 0) {
+>              goto authreject;
+>          }
 > 
 
-but the qemu_timeval from "include/sysemu/os-win32.h" still uses a long: is this file compiled for
-win32?
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
