@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A0C33225D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 10:53:20 +0100 (CET)
-Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A4533227C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:01:06 +0100 (CET)
+Received: from localhost ([::1]:49694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJZ3H-0005Ci-86
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 04:53:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
+	id 1lJZAm-000749-Rd
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:01:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJZ29-0004Ye-No
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:52:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJZ27-0000pj-Hq
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:52:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615283525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I72/5j5tykCWVg95qigBI9N67v+1qGQ4EF1OwizO3hI=;
- b=H6oFkFQA1KhLmWcTNscpfaYsajsv+fjS4Btpjbi5Ll+ruNom7pMp9aJDvf7y23okkLw5rx
- EpGN2Sip6SJM5YuKWdGLhQj6I+bvWt+puNBbSqoBleubSynMBP+ytrG5+dcAGF+5trkbKH
- FM/r+EasronurjdFAVQsBvGknlIpdM8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-a862q8aDMHqkeQtbJALW5g-1; Tue, 09 Mar 2021 04:52:02 -0500
-X-MC-Unique: a862q8aDMHqkeQtbJALW5g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8528A26862;
- Tue,  9 Mar 2021 09:52:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-41.ams2.redhat.com
- [10.36.113.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B50519709;
- Tue,  9 Mar 2021 09:52:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 84BB918000A2; Tue,  9 Mar 2021 10:51:59 +0100 (CET)
-Date: Tue, 9 Mar 2021 10:51:59 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH] ui/gtk: Remove NULL checks in gd_switch
-Message-ID: <20210309095159.537padxrysp7umqc@sirius.home.kraxel.org>
-References: <20210308140713.17901-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lJZ9S-0006ej-FE
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:59:42 -0500
+Received: from mail-io1-f49.google.com ([209.85.166.49]:42886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lJZ9O-0004pP-Bf
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:59:42 -0500
+Received: by mail-io1-f49.google.com with SMTP id u20so13215578iot.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 01:59:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HYNIz5yWilzMI7bZ3jOnOzOFGdzAGVlE/knSsPfOnhs=;
+ b=KHur/19Ze3ZPGIOI/NAPlvubpu/OnFJowOkfy5VC/cK0N6IuVhLbzNxhvKypPWJvFt
+ L5sr7x7nGFLRau24LHyZDO8CteABC1fO9SBYUvfXY6P0UJfCqMQyJb/OkYiqQS263rWA
+ 2aQUkKBfa4d2ZE/p/zW5ERu4UACI8nO1sIfa14EarO4P1osd3gabAyZrw/AKhWu9gyP2
+ 1vQ0vEbq7grzVdZ8Yoik9wL6YjrLfyc0+hObyzvhEgIOGywBAtUWNPOEJCpkgvwBXRU4
+ xm7Nq5urknYgIKTBpjBGpfTOprCpmKBvDZi2oxkhKxp/pwG/8KzmCtwtJmoWXfcFG5OT
+ Patg==
+X-Gm-Message-State: AOAM533BNCvGqc/cRtgsELCz1PUfkpDcszSNn6pfN0I14vAHS5nkGInP
+ Zavzi/Kdnv8fqdFnW5rpjjbLOcYKkF4=
+X-Google-Smtp-Source: ABdhPJyweehfSYpXM3usq1vOx4cUnnQDU4XXUfokA6DFC6nyaN0BkRYWtjeCjG+JlVcrg28WZmsiCQ==
+X-Received: by 2002:a5e:8e41:: with SMTP id r1mr22549137ioo.5.1615283976675;
+ Tue, 09 Mar 2021 01:59:36 -0800 (PST)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com.
+ [209.85.166.43])
+ by smtp.gmail.com with ESMTPSA id f15sm6544348ilj.24.2021.03.09.01.59.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 01:59:36 -0800 (PST)
+Received: by mail-io1-f43.google.com with SMTP id i8so13227198iog.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 01:59:36 -0800 (PST)
+X-Received: by 2002:a6b:760d:: with SMTP id g13mr22286311iom.84.1615283976082; 
+ Tue, 09 Mar 2021 01:59:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210308140713.17901-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210309032637.41778-1-j@getutm.app> <YEdBce6TWCVpSph9@redhat.com>
+In-Reply-To: <YEdBce6TWCVpSph9@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Tue, 9 Mar 2021 01:59:25 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
+Message-ID: <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
+Subject: Re: [PATCH] coroutine: add libucontext as external library
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.49; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f49.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joelle van Dyne <j@getutm.app>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 08, 2021 at 11:07:13PM +0900, Akihiko Odaki wrote:
-> c821a58ee7 ("ui/console: Pass placeholder surface to display")
-> eliminated the possibility that NULL is passed as surface to
-> dpy_gfx_switch and removed some NULL checks from gd_switch, but the
-> removal was not thoroughly. Remaining NULL checks were confusing for
-> Coverity and probably also for humans. This change removes those NULL
-> checks.
-> 
-> Reported-by: Coverity (CID 1448421)
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+On Tue, Mar 9, 2021 at 1:36 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Mon, Mar 08, 2021 at 07:26:36PM -0800, Joelle van Dyne wrote:
+> > iOS does not support ucontext natively for aarch64 and the sigaltstack =
+is
+> > also unsupported (even worse, it fails silently, see:
+> > https://openradar.appspot.com/13002712 )
+> >
+> > As a workaround we include a library implementation of ucontext and add=
+ it
+> > as a build option.
+>
+> The README here:
+>
+>   https://github.com/kaniini/libucontext
+>
+> indicates that it is intentionally limiting what registers it saves
+> and restores, explicitly excluding FPU.
+>
+> Peter & Paolo expressed concern about this, indicating FPU reg support
+> was a requirement for QEMU:
+>
+>    https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05525.html
+>
+Does it make a difference if this is provided as an option and not as
+a replacement? Would it make sense to add some warning at configure
+time? Right now none of the concurrency backends are supported on iOS
+and it's possible support will go away on macOS as well in the future.
+QEMU would not be able to run at all.
 
-Added to UI queue.
+-j
 
-thanks,
-  Gerd
-
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
