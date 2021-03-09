@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D712331DDB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 05:25:28 +0100 (CET)
-Received: from localhost ([::1]:37464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CABC331E0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 05:47:46 +0100 (CET)
+Received: from localhost ([::1]:44598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJTvz-0003Cn-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 23:25:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34980)
+	id 1lJUHZ-0007Jc-29
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 23:47:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lJTuw-0002R3-3g
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:24:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lJTus-0002nY-TM
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:24:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615263857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DSvAdTCSB8OrsGOVGRZFvsItTZqKQkTj5MMiUOXod6s=;
- b=dTaIk9ARnST77Jhp46Szfxorz5Zq/axvf/fBEDI0uoyHOLxfbubP5o1H89DpAhqbNXxrY5
- 1a5cAcae/3uYedQLruCbW3LkaCT+sB3LhPVYOQw7hXIGkX+837+lxYYQm55WOsXVrhe1RM
- 2PqwMViPR277q9JG75D33n9bvwkJR+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-diQHEoxuMBucfNe-XmK3cg-1; Mon, 08 Mar 2021 23:24:15 -0500
-X-MC-Unique: diQHEoxuMBucfNe-XmK3cg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6943804334
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 04:24:14 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-195.pek2.redhat.com
- [10.72.12.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B24F16F986;
- Tue,  9 Mar 2021 04:24:04 +0000 (UTC)
-Subject: Re: [PATCH] virtio-net: calculating proper msix vectors on init
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, mst@redhat.com
-References: <20210308053059.28753-1-jasowang@redhat.com>
- <5a0806aa-af0b-2a41-c604-ede8dd49de31@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a1093267-332f-74f0-c9a0-ee543a2b8794@redhat.com>
-Date: Tue, 9 Mar 2021 12:24:02 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <a_lijiejun@163.com>)
+ id 1lJTjh-0006s6-2b
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:12:45 -0500
+Received: from m1363.mail.163.com ([220.181.13.63]:13266)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <a_lijiejun@163.com>)
+ id 1lJTja-0004EW-BP
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:12:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=K1iAG
+ uF/1A4atisSacBktnHxuvyFrc+4WHxzqsCyWio=; b=Q6GPl3C8TnSqwqfu1mwOy
+ lCOhkVonuLkq1Z/XPBQ12zWyux42A8nInUxoSzupCEylizDDJdyElyYxhZF3hODv
+ zX3HODeaoTqjMcu9oAzPuJrKcB5I0uaKEIqvG4BhhYzf+1kviKpsb/r29hh2xgbc
+ Bc87HCSo5JjIq0ZrmkctBQ=
+Received: from a_lijiejun$163.com ( [121.201.121.142] ) by
+ ajax-webmail-wmsvr63 (Coremail) ; Tue, 9 Mar 2021 11:57:02 +0800 (CST)
+X-Originating-IP: [121.201.121.142]
+Date: Tue, 9 Mar 2021 11:57:02 +0800 (CST)
+From: =?GBK?B?wO691L+h?= <a_lijiejun@163.com>
+To: kraxel@redhat.com, mst@redhat.com
+Subject: [PATCH] virtio-gpu: Add spaces around operator
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+X-CM-CTRLDATA: I7ZQeGZvb3Rlcl9odG09MTc5NTo1Ng==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_49398_836465282.1615262222000"
 MIME-Version: 1.0
-In-Reply-To: <5a0806aa-af0b-2a41-c604-ede8dd49de31@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+Message-ID: <62fc3043.352f.178152186b1.Coremail.a_lijiejun@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: P8GowAA3TsIO8kZgzWEDAQ--.7440W
+X-CM-SenderInfo: pdboxyplhm30i6rwjhhfrp/xtbBXhVNFFaD6CAZ8wABsk
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.63; envelope-from=a_lijiejun@163.com;
+ helo=m1363.mail.163.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 08 Mar 2021 23:46:06 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,87 +67,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+------=_Part_49398_836465282.1615262222000
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-On 2021/3/8 6:06 下午, Philippe Mathieu-Daudé wrote:
-> Hi Jason,
->
-> On 3/8/21 6:30 AM, Jason Wang wrote:
->> Currently, the default msix vectors for virtio-net-pci is 3 which is
->> obvious not suitable for multiqueue guest, so we depends on the user
->> or management tools to pass a correct vectors parameter. In fact, we
->> can simplifying this by calculating the number of vectors on realize.
->>
->> Consider we have N queues, the number of vectors needed is 2*N + 2
->> (#queue pais + plus one config interrupt and control vq). We didn't
-> Typo "pairs".
->
->> check whether or not host support control vq because it was added
->> unconditionally by qemu to avoid breaking legacy guests such as Minix.
->>
->> Signed-off-by: Jason Wang <jasowang@redhat.com>
->> ---
->>   hw/core/machine.c          | 1 +
->>   hw/virtio/virtio-net-pci.c | 8 +++++++-
->>   2 files changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 4386f57b5c..979133f8b7 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -39,6 +39,7 @@
->>   GlobalProperty hw_compat_5_2[] = {
->>       { "ICH9-LPC", "smm-compat", "on"},
->>       { "PIIX4_PM", "smm-compat", "on"},
->> +    { "virtio-net-pci", "vectors", "3"},
->>   };
->>   const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
->>   
->> diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
->> index 292d13d278..2894c46b66 100644
->> --- a/hw/virtio/virtio-net-pci.c
->> +++ b/hw/virtio/virtio-net-pci.c
->> @@ -41,7 +41,8 @@ struct VirtIONetPCI {
->>   static Property virtio_net_properties[] = {
->>       DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
->>                       VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
->> -    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
->> +    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
->> +                       DEV_NVECTORS_UNSPECIFIED),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>   
->> @@ -50,6 +51,11 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->>       DeviceState *qdev = DEVICE(vpci_dev);
->>       VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
->>       DeviceState *vdev = DEVICE(&dev->vdev);
->> +    VirtIONet *net = VIRTIO_NET(vdev);
->> +
->> +    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
->> +        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1) + 2;
-> Please either document that magic '2':
->
->             vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1)
->                                  + 1 /* Config interrupt */
->                                  + 1 /* Control vq */;
->
-> Or add self-explicit definitions and use them in place.
+RnJvbSAwNTEyZDFjYmU1YzAxODQ0YjRhY2EyNjAwMjQwMDZlMDU4ZGMxYjZjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQoKRnJvbTogbGlqaWVqdW4gPGFfbGlqaWVqdW5AMTYzLmNvbT4KCkRhdGU6
+IFR1ZSwgOSBNYXIgMjAyMSAxMToxNzo1OSArMDgwMAoKU3ViamVjdDogW1BBVENIXSB2aXJ0aW8t
+Z3B1OiBBZGQgc3BhY2VzIGFyb3VuZCBvcGVyYXRvcgoKCgoKRml4IGNvZGUgc3R5bGUuIE9wZXJh
+dG9yIG5lZWRzIHNwYWNlcyBmb3JlbmQgc2lkZXMuCgoKCgpTaWduZWQtb2ZmLWJ5OiBsaWppZWp1
+biA8YV9saWppZWp1bkAxNjMuY29tPgoKLS0tCgogaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMg
+fCAyICstCgogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgoK
+CgpkaWZmIC0tZ2l0IGEvaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMgYi9ody9kaXNwbGF5L3Zp
+cnRpby1ncHUtM2QuYwoKaW5kZXggOWViNDg5MC4uZmIxMWU1ZiAxMDA2NDQKCi0tLSBhL2h3L2Rp
+c3BsYXkvdmlydGlvLWdwdS0zZC5jCgorKysgYi9ody9kaXNwbGF5L3ZpcnRpby1ncHUtM2QuYwoK
+QEAgLTQzOCw3ICs0MzgsNyBAQCB2b2lkIHZpcnRpb19ncHVfdmlyZ2xfcHJvY2Vzc19jbWQoVmly
+dElPR1BVICpnLAoKICAgICAgICAgYnJlYWs7CgogICAgIGNhc2UgVklSVElPX0dQVV9DTURfUkVT
+T1VSQ0VfRkxVU0g6CgogICAgICAgICB2aXJnbF9jbWRfcmVzb3VyY2VfZmx1c2goZywgY21kKTsK
+Ci0gICAgICAgYnJlYWs7CgorICAgICAgICBicmVhazsKCiAgICAgY2FzZSBWSVJUSU9fR1BVX0NN
+RF9SRVNPVVJDRV9VTlJFRjoKCiAgICAgICAgIHZpcmdsX2NtZF9yZXNvdXJjZV91bnJlZihnLCBj
+bWQpOwoKICAgICAgICAgYnJlYWs7CgotLQoKMS44LjMuMQ==
+------=_Part_49398_836465282.1615262222000
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-
-Ok, V2 is sent.
-
-Thanks
-
-
->
->> +    }
->>   
->>       virtio_net_set_netclient_name(&dev->vdev, qdev->id,
->>                                     object_get_typename(OBJECT(qdev)));
->>
->
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxwIHN0eWxlPSJtYXJnaW46MDsiPkZyb20gMDUxMmQxY2JlNWMw
+MTg0NGI0YWNhMjYwMDI0MDA2ZTA1OGRjMWI2YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDE8L3A+
+PHAgc3R5bGU9Im1hcmdpbjowOyI+RnJvbTogbGlqaWVqdW4gJmx0O2FfbGlqaWVqdW5AMTYzLmNv
+bSZndDs8L3A+PHAgc3R5bGU9Im1hcmdpbjowOyI+RGF0ZTogVHVlLCA5IE1hciAyMDIxIDExOjE3
+OjU5ICswODAwPC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPlN1YmplY3Q6IFtQQVRDSF0gdmlydGlv
+LWdwdTogQWRkIHNwYWNlcyBhcm91bmQgb3BlcmF0b3I8L3A+PHAgc3R5bGU9Im1hcmdpbjowOyI+
+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij5GaXggY29kZSBzdHlsZS4gT3BlcmF0b3IgbmVl
+ZHMgc3BhY2VzIGZvcmVuZCBzaWRlcy48L3A+PHAgc3R5bGU9Im1hcmdpbjowOyI+PGJyPjwvcD48
+cCBzdHlsZT0ibWFyZ2luOjA7Ij5TaWduZWQtb2ZmLWJ5OiBsaWppZWp1biAmbHQ7YV9saWppZWp1
+bkAxNjMuY29tJmd0OzwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij4tLS08L3A+PHAgc3R5bGU9Im1h
+cmdpbjowOyI+Jm5ic3A7aHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMgfCAyICstPC9wPjxwIHN0
+eWxlPSJtYXJnaW46MDsiPiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKTwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJn
+aW46MDsiPmRpZmYgLS1naXQgYS9ody9kaXNwbGF5L3ZpcnRpby1ncHUtM2QuYyBiL2h3L2Rpc3Bs
+YXkvdmlydGlvLWdwdS0zZC5jPC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPmluZGV4IDllYjQ4OTAu
+LmZiMTFlNWYgMTAwNjQ0PC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPi0tLSBhL2h3L2Rpc3BsYXkv
+dmlydGlvLWdwdS0zZC5jPC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPisrKyBiL2h3L2Rpc3BsYXkv
+dmlydGlvLWdwdS0zZC5jPC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPkBAIC00MzgsNyArNDM4LDcg
+QEAgdm9pZCB2aXJ0aW9fZ3B1X3ZpcmdsX3Byb2Nlc3NfY21kKFZpcnRJT0dQVSAqZyw8L3A+PHAg
+c3R5bGU9Im1hcmdpbjowOyI+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2JyZWFr
+OzwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgJm5ic3A7ICZuYnNwO2Nhc2UgVklSVElP
+X0dQVV9DTURfUkVTT1VSQ0VfRkxVU0g6PC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPiZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt2aXJnbF9jbWRfcmVzb3VyY2VfZmx1c2goZywgY21k
+KTs8L3A+PHAgc3R5bGU9Im1hcmdpbjowOyI+LSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2Jy
+ZWFrOzwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij4rJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+IGJyZWFrOzwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgJm5ic3A7ICZuYnNwO2Nhc2Ug
+VklSVElPX0dQVV9DTURfUkVTT1VSQ0VfVU5SRUY6PC9wPjxwIHN0eWxlPSJtYXJnaW46MDsiPiZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt2aXJnbF9jbWRfcmVzb3VyY2VfdW5yZWYo
+ZywgY21kKTs8L3A+PHAgc3R5bGU9Im1hcmdpbjowOyI+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwO2JyZWFrOzwvcD48cCBzdHlsZT0ibWFyZ2luOjA7Ij4tLTwvcD48cCBzdHlsZT0i
+bWFyZ2luOjA7Ij4xLjguMy4xPC9wPjwvZGl2Pjxicj48YnI+PHNwYW4gdGl0bGU9Im5ldGVhc2Vm
+b290ZXIiPjxwPiZuYnNwOzwvcD48L3NwYW4+
+------=_Part_49398_836465282.1615262222000--
 
 
