@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E84F3325FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:02:32 +0100 (CET)
-Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA33033266F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:19:25 +0100 (CET)
+Received: from localhost ([::1]:44588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJc0N-0004Fp-5V
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:02:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1lJcGi-00023G-IZ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJbYF-00057r-4A
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:33:27 -0500
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:45826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJbYD-00026M-FP
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:33:26 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id l8so13741827ybe.12
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 04:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OrQiduMHxj8r427PICG1/TaGKi8yJJJ4L4xvewL4Hls=;
- b=kuyyj6ltHkrm+0fSdhVJwa4TVnvognTbc7LWKxZxWsP6jf+sKwhHVXuukRb2IGkB+x
- jI4vH2sOuFBIBUqyn5cNebvCBgpxiTbTg5ZRszbSID5+p5RuCKiQ5H/PyLlaDu4btIAJ
- bVAOwWwkH3R46MEysUYOdBpRQzDlxSECFXpV+AaOHMvkc28KgKORvpPdg/1Pc/kzAZ2Q
- AKVlTQt+bx/HlAfvIJrHteTacBAzKNsxCeNaNwUJ/1fJsAfANs/UDH0EipY6Ka/Fyb8K
- 2WliCoW8DhgxeemLtlqFsqg+7jJQJItlsAEIYU/WTITg6lyDzanKnUPde9p6YgtIMjdn
- ZukA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OrQiduMHxj8r427PICG1/TaGKi8yJJJ4L4xvewL4Hls=;
- b=P2BA8RgmPZ17wCwoHxlCpRfxPlvBENBnNMiM6e975giMlf92ses1oh/MZoewLtd3Bz
- 0egqhAw8fETo97BpMO5gqZuGmQwfJmmWhBboqk6EOjC+2gF/pNmKkDGfcuSm9/V0uSCq
- mBdCWZb5i+KAfKYErnOTQlvbsI6c55nKVGoRROhlq1LTHPJiPfzo9EKuHkxMEky1yzOv
- FTo9rCyNkqGlk1XDvuLQfAdft2ZymcE7gehGO5wMN2+tNE2iNPp7RZLzwpnqUF7xX58b
- Bt4iq9pxR/AiuMIiq2EiVY0UEhBePSbV18g6fB/Aq6kpF9UoSqvdPklfSsqUBIlFEtfP
- f8ug==
-X-Gm-Message-State: AOAM530tn9Nem20HL4A/FbSCQWaWeLs9MMMMFNrwU/B3uv517JXs7GOA
- o0kH8bF93kWItT7zdKdmlGv87IkIo98tL3X8sZg=
-X-Google-Smtp-Source: ABdhPJw5J/SvpHYXF6kzyKyhutYOh4q+omUDsXLaP15c79/8KjVyykoweHxPfSKIy0JOcQamfxZgntzBrV6FB7kTV1g=
-X-Received: by 2002:a25:8712:: with SMTP id a18mr40951005ybl.306.1615293204372; 
- Tue, 09 Mar 2021 04:33:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJbjw-0005C7-4T
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:45:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJbjs-0000Za-D5
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:45:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615293926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9iEvu4DS25inKP36gsRvCljH4wYCnN11Bn9bsq6N9VM=;
+ b=Bid/oNaFzkgWXvNlQPg2XZI9oxMz2pEtOEYrOy+bXcnUjKo4gnYZ2v02oUh1wqCkKu+5KX
+ hoV55UCQeqTAZGcahz74elU0DpEDNIj3DQO38Ez+p3YLV/GXVoasNimneObcF2CEX0rA72
+ dOgEno0X76E4ImbQHQ7DaFnh+pZQUj8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-T4Ywg3PqO_278fdYvPcAgg-1; Tue, 09 Mar 2021 07:45:24 -0500
+X-MC-Unique: T4Ywg3PqO_278fdYvPcAgg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 487C7107465C;
+ Tue,  9 Mar 2021 12:45:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-41.ams2.redhat.com
+ [10.36.113.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C3F15C260;
+ Tue,  9 Mar 2021 12:45:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2B7C518000A2; Tue,  9 Mar 2021 13:45:12 +0100 (CET)
+Date: Tue, 9 Mar 2021 13:45:12 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v3 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210309124512.6goag5jblcje3umk@sirius.home.kraxel.org>
+References: <20210302173544.3704179-1-pasic@linux.ibm.com>
+ <20210305214603.GF3139005@habkost.net>
 MIME-Version: 1.0
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
- <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
- <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
- <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
- <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
- <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
- <9FFFC757-FD77-4683-8A7F-A39E2337EE2F@redhat.com>
-In-Reply-To: <9FFFC757-FD77-4683-8A7F-A39E2337EE2F@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 9 Mar 2021 20:33:14 +0800
-Message-ID: <CAEUhbmVG5qUee1XRDia95eOL8B1rLFpKsaQaY-bkejv_0uzajg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Yan Vugenfirer <yvugenfi@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210305214603.GF3139005@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,105 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 9, 2021 at 8:30 PM Yan Vugenfirer <yvugenfi@redhat.com> wrote:
->
->
->
-> On 9 Mar 2021, at 12:13 PM, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
->
->
-> Hi Jason,
->
-> On Tue, Mar 9, 2021 at 5:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
->
-> Hi Jason,
->
-> On Tue, Mar 9, 2021 at 4:57 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
->
-> On 2021/3/9 4:35 =E4=B8=8B=E5=8D=88, Bin Meng wrote:
->
-> Hi Jason,
->
-> On Tue, Mar 9, 2021 at 4:23 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/3/8 6:22 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
->
-> I think the key thing we need to do here is make a decision
-> and be clear about what we're doing. There are three options
-> I can see:
->
-> (1) we say that the net API demands that backends pad
-> packets they emit to the minimum ethernet frame length
-> unless they specifically are intending to emit a short frame,
-> and we fix any backends that don't comply (or equivalently,
-> add support in the core code for a backend to mark itself
-> as "I don't pad; please do it for me").
->
-> (2) we say that the networking subsystem doesn't support
-> short packets, and just have the common code always enforce
-> padding short frames to the minimum length somewhere between
-> when it receives a packet from a backend and passes it to
-> a NIC model.
->
-> (3) we say that it's the job of the NIC models to pad
-> short frames as they see them coming in.
->
->
-> I'm not sure how much value we can gain from (1). So (2) looks better to =
-me.
->
-> Bin or Philippe, want to send a new version?
->
-> I think this series does what (2) asks for. Or am I missing anything?
->
->
->
-> It only did the padding for user/TAP.
->
->
->
-> (hit send too soon ...)
->
-> Ah, so we want this:
->
-> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
->
-> correct?
->
->
-> No, option (2) is "always pad short packets regardless of
-> sender->info->type". Even if a NIC driver sends out a short
-> packet, we want to pad it, because we might be feeding it to
-> something that assumes it does not see short packets.
->
->
-> Some thought on this option - in such case with virtio-net, can we also g=
-et an indication from the device that the packet will be padded?
-> Currently we are padding short packets in Windows driver (this is MS cert=
-ification requirement), and it will be nice not do to this in the guest if =
-device will announce such capability.
->
+On Fri, Mar 05, 2021 at 04:46:03PM -0500, Eduardo Habkost wrote:
+> On Tue, Mar 02, 2021 at 06:35:44PM +0100, Halil Pasic wrote:
+> > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
+> > module, which provides the type virtio-gpu-device, packaging the
+> > hw-display-virtio-gpu module as a separate package that may or may not
+> > be installed along with the qemu package leads to problems. Namely if
+> > the hw-display-virtio-gpu is absent, qemu continues to advertise
+> > virtio-gpu-ccw, but it aborts not only when one attempts using
+> > virtio-gpu-ccw, but also when libvirtd's capability probing tries
+> > to instantiate the type to introspect it.
+> > 
+> > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
+> > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
+> > was chosen because it is not a portable device. Because registering
+> > virtio-gpu-ccw would make non-s390x emulator fail due to a missing
+> > parent type, if built as a module, before registering it, we check
+> > if the ancestor types are already registered.
+> 
+> I don't understand what makes it necessary to make the
+> type_register() call conditional.  Calling type_register() before
+> the parent types are registered is perfectly valid.
 
-This is more of a virtio-net specification question. virtio-net should
-expose a register bit to control this behavior, just like a real world
-NIC does.
+Well, yes, in a non-modular world this will work perfectly fine.  We
+only compile objects actually supported into the system emulator.
 
-Regards,
-Bin
+With modular builds we have the situation that we have shared modules
+which may or may not work in specific system emulators, for example
+hw-display-virtio-gpu-pci.so or the ccw module added by this patch,
+because the given system emulator doesn't provide the needed support.
+We have some which don't support pci (avr for example).  Likewise ccw
+is supported by s390x only.
+
+When loading the ccw module into a non-s390x the object initialization
+fails due to the missing parent object and we run into an assert.
+
+Loading a pci module into a non-pci system emulator would have an
+simliar effect, except that those modules don't load in the first
+place due to missing symbol references for pci_* functions.
+
+So we are looking for some way to deal with the situation, i.e.
+avoid failing type initialization (we could also catch type
+initialitation failues, but there are *lots* if places in qemu ...).
+So not registering a type where we know it will fail is the idea here,
+taking advantage of the fact that in case of modules the types are
+actually loaded and initialized in order, so if the parent type isn't
+present at registration time it wouldn't show up later.
+
+Hmm, while thinking about it, a completely different idea:  Maybe add
+explicit symbol references instead?  i.e. add "have_$feature = 1"
+variables (either unconditionally, or only for the cases where we don't
+have symbol references anyway), then reference them in modules needing
+the feature like this:
+
+	if (have_bus_ccw) {
+		type_register(&type_virtio_gpu_ccw);
+	}
+
+take care,
+  Gerd
+
 
