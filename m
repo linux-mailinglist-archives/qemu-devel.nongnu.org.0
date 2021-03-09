@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBE3332F36
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:43:45 +0100 (CET)
-Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34551332F41
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:46:25 +0100 (CET)
+Received: from localhost ([::1]:55516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJiGd-0001e8-N9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:43:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36570)
+	id 1lJiJE-00058Y-5m
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:46:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lJg87-0008Lw-5f
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:26:53 -0500
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:33906)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJg8j-0008SB-A3
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:27:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lJg81-0004oh-BF
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:26:45 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id E80162476F6;
- Tue,  9 Mar 2021 18:26:36 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 9 Mar 2021
- 18:26:36 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005b3342e94-a8ab-4258-a199-b306ceb08c64,
- 8C9061D2296CFEABF2D52E5F4F8F8063DC0B97BF) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 1/8] powerpc/xive: Use cpu_to_node() instead of
- ibm,chip-id property
-To: Daniel Henrique Barboza <danielhb@linux.ibm.com>, Greg Kurz
- <groug@kaod.org>
-References: <20210303174857.1760393-1-clg@kaod.org>
- <20210303174857.1760393-2-clg@kaod.org> <20210308181359.789c143b@bahia.lan>
- <8dd98e22-1f10-e87b-3fe3-e786bc9a8d71@kaod.org>
- <3180b5c6-e61f-9c5f-3c80-f10e69dc5785@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <92edbc26-4cb5-6e2f-00ff-43a3dca43759@kaod.org>
-Date: Tue, 9 Mar 2021 18:26:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <3180b5c6-e61f-9c5f-3c80-f10e69dc5785@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 36be80d9-9d5e-489e-a97b-459db706a6b2
-X-Ovh-Tracer-Id: 12667499853954255721
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJg8d-0004s6-6y
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:27:24 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 65AAB6523A;
+ Tue,  9 Mar 2021 17:27:17 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1lJg8Z-000bSO-EF; Tue, 09 Mar 2021 17:27:15 +0000
+Date: Tue, 09 Mar 2021 17:27:14 +0000
+Message-ID: <87h7lkxmod.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v9 3/6] arm64: kvm: Save/restore MTE registers
+In-Reply-To: <20210301142315.30920-4-steven.price@arm.com>
+References: <20210301142315.30920-1-steven.price@arm.com>
+ <20210301142315.30920-4-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,173 +73,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>,
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
- QEMU Developers <qemu-devel@nongnu.org>, David Gibson <dgibson@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 6:08 PM, Daniel Henrique Barboza wrote:
+On Mon, 01 Mar 2021 14:23:12 +0000,
+Steven Price <steven.price@arm.com> wrote:
 > 
+> Define the new system registers that MTE introduces and context switch
+> them. The MTE feature is still hidden from the ID register as it isn't
+> supported in a VM yet.
 > 
-> On 3/9/21 12:33 PM, Cédric Le Goater wrote:
->> On 3/8/21 6:13 PM, Greg Kurz wrote:
->>> On Wed, 3 Mar 2021 18:48:50 +0100
->>> Cédric Le Goater <clg@kaod.org> wrote:
->>>
->>>> The 'chip_id' field of the XIVE CPU structure is used to choose a
->>>> target for a source located on the same chip when possible. This field
->>>> is assigned on the PowerNV platform using the "ibm,chip-id" property
->>>> on pSeries under KVM when NUMA nodes are defined but it is undefined
->>>
->>> This sentence seems to have a syntax problem... like it is missing an
->>> 'and' before 'on pSeries'.
->>
->> ah yes, or simply a comma.
->>
->>>> under PowerVM. The XIVE source structure has a similar field
->>>> 'src_chip' which is only assigned on the PowerNV platform.
->>>>
->>>> cpu_to_node() returns a compatible value on all platforms, 0 being the
->>>> default node. It will also give us the opportunity to set the affinity
->>>> of a source on pSeries when we can localize them.
->>>>
->>>
->>> IIUC this relies on the fact that the NUMA node id is == to chip id
->>> on PowerNV, i.e. xc->chip_id which is passed to OPAL remain stable
->>> with this change.
->>
->> Linux sets the NUMA node in numa_setup_cpu(). On pseries, the hcall
->> H_HOME_NODE_ASSOCIATIVITY returns the node id if I am correct (Daniel
->> in Cc:)
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/kvm_host.h          |  6 ++
+>  arch/arm64/include/asm/kvm_mte.h           | 66 ++++++++++++++++++++++
+>  arch/arm64/include/asm/sysreg.h            |  3 +-
+>  arch/arm64/kernel/asm-offsets.c            |  3 +
+>  arch/arm64/kvm/hyp/entry.S                 |  7 +++
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 +++++++
+>  arch/arm64/kvm/sys_regs.c                  | 22 ++++++--
+>  7 files changed, 123 insertions(+), 5 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/kvm_mte.h
 > 
-> That's correct. H_HOME_NODE_ASSOCIATIVITY returns not only the node_id, but
-> a list with the ibm,associativity domains of the CPU that "proc-no" (processor
-> identifier) is mapped to inside QEMU.
-> 
-> node_id in this case, considering that we're working with a reference-points
-> of size 4, is the 4th element of the returned list. The last element is
-> "procno" itself.
-> 
-> 
->>
->> On PowerNV, Linux uses "ibm,associativity" property of the CPU to find
->> the node id. This value is built from the chip id in OPAL, so the
->> value returned by cpu_to_node(cpu) and the value of the "ibm,chip-id"
->> property are unlikely to be different.
->>
->> cpu_to_node(cpu) is used in many places to allocate the structures
->> locally to the owning node. XIVE is not an exception (see below in the
->> same patch), it is better to be consistent and get the same information
->> (node id) using the same routine.
->>
->>
->> In Linux, "ibm,chip-id" is only used in low level PowerNV drivers :
->> LPC, XSCOM, RNG, VAS, NX. XIVE should be in that list also but skiboot
->> unifies the controllers of the system to only expose one the OS. This
->> is problematic and should be changed but it's another topic.
->>
->>
->>> On the other hand, you have the pSeries case under PowerVM that
->>> doesn't xc->chip_id, which isn't passed to any hcall AFAICT.
->>
->> yes "ibm,chip-id" is an OPAL concept unfortunately and it has no meaning
->> under PAPR. xc->chip_id on pseries (PowerVM) will contains an invalid
->> chip id.
->>
->> QEMU/KVM exposes "ibm,chip-id" but it's not used. (its value is not
->> always correct btw)
-> 
-> 
-> If you have a way to reliably reproduce this, let me know and I'll fix it
-> up in QEMU.
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 1170ee137096..d00cc3590f6e 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -208,6 +208,12 @@ enum vcpu_sysreg {
+>  	CNTP_CVAL_EL0,
+>  	CNTP_CTL_EL0,
+>  
+> +	/* Memory Tagging Extension registers */
+> +	RGSR_EL1,	/* Random Allocation Tag Seed Register */
+> +	GCR_EL1,	/* Tag Control Register */
+> +	TFSR_EL1,	/* Tag Fault Status Register (EL1) */
+> +	TFSRE0_EL1,	/* Tag Fault Status Register (EL0) */
+> +
+>  	/* 32bit specific registers. Keep them at the end of the range */
+>  	DACR32_EL2,	/* Domain Access Control Register */
+>  	IFSR32_EL2,	/* Instruction Fault Status Register */
+> diff --git a/arch/arm64/include/asm/kvm_mte.h b/arch/arm64/include/asm/kvm_mte.h
+> new file mode 100644
+> index 000000000000..6541c7d6ce06
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/kvm_mte.h
+> @@ -0,0 +1,66 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 ARM Ltd.
+> + */
+> +#ifndef __ASM_KVM_MTE_H
+> +#define __ASM_KVM_MTE_H
+> +
+> +#ifdef __ASSEMBLY__
+> +
+> +#include <asm/sysreg.h>
+> +
+> +#ifdef CONFIG_ARM64_MTE
+> +
+> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+> +alternative_if_not ARM64_MTE
+> +	b	.L__skip_switch\@
+> +alternative_else_nop_endif
+> +	mrs	\reg1, hcr_el2
+> +	and	\reg1, \reg1, #(HCR_ATA)
+> +	cbz	\reg1, .L__skip_switch\@
+> +
+> +	mrs_s	\reg1, SYS_RGSR_EL1
+> +	str	\reg1, [\h_ctxt, #CPU_RGSR_EL1]
+> +	mrs_s	\reg1, SYS_GCR_EL1
+> +	str	\reg1, [\h_ctxt, #CPU_GCR_EL1]
+> +
+> +	ldr	\reg1, [\g_ctxt, #CPU_RGSR_EL1]
+> +	msr_s	SYS_RGSR_EL1, \reg1
+> +	ldr	\reg1, [\g_ctxt, #CPU_GCR_EL1]
+> +	msr_s	SYS_GCR_EL1, \reg1
+> +
+> +.L__skip_switch\@:
+> +.endm
+> +
+> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+> +alternative_if_not ARM64_MTE
+> +	b	.L__skip_switch\@
+> +alternative_else_nop_endif
+> +	mrs	\reg1, hcr_el2
+> +	and	\reg1, \reg1, #(HCR_ATA)
+> +	cbz	\reg1, .L__skip_switch\@
+> +
+> +	mrs_s	\reg1, SYS_RGSR_EL1
+> +	str	\reg1, [\g_ctxt, #CPU_RGSR_EL1]
+> +	mrs_s	\reg1, SYS_GCR_EL1
+> +	str	\reg1, [\g_ctxt, #CPU_GCR_EL1]
+> +
+> +	ldr	\reg1, [\h_ctxt, #CPU_RGSR_EL1]
+> +	msr_s	SYS_RGSR_EL1, \reg1
+> +	ldr	\reg1, [\h_ctxt, #CPU_GCR_EL1]
+> +	msr_s	SYS_GCR_EL1, \reg1
+> +
+> +.L__skip_switch\@:
+> +.endm
+> +
+> +#else /* CONFIG_ARM64_MTE */
+> +
+> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+> +.endm
+> +
+> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+> +.endm
+> +
+> +#endif /* CONFIG_ARM64_MTE */
+> +#endif /* __ASSEMBLY__ */
+> +#endif /* __ASM_KVM_MTE_H */
+> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+> index dfd4edbfe360..5424d195cf96 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -580,7 +580,8 @@
+>  #define SCTLR_ELx_M	(BIT(0))
+>  
+>  #define SCTLR_ELx_FLAGS	(SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
+> -			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
+> +			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
+> +			 SCTLR_ELx_ITFSB)
+>  
+>  /* SCTLR_EL2 specific flags. */
+>  #define SCTLR_EL2_RES1	((BIT(4))  | (BIT(5))  | (BIT(11)) | (BIT(16)) | \
+> diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
+> index a36e2fc330d4..944e4f1f45d9 100644
+> --- a/arch/arm64/kernel/asm-offsets.c
+> +++ b/arch/arm64/kernel/asm-offsets.c
+> @@ -108,6 +108,9 @@ int main(void)
+>    DEFINE(VCPU_WORKAROUND_FLAGS,	offsetof(struct kvm_vcpu, arch.workaround_flags));
+>    DEFINE(VCPU_HCR_EL2,		offsetof(struct kvm_vcpu, arch.hcr_el2));
+>    DEFINE(CPU_USER_PT_REGS,	offsetof(struct kvm_cpu_context, regs));
+> +  DEFINE(CPU_RGSR_EL1,		offsetof(struct kvm_cpu_context, sys_regs[RGSR_EL1]));
+> +  DEFINE(CPU_GCR_EL1,		offsetof(struct kvm_cpu_context, sys_regs[GCR_EL1]));
+> +  DEFINE(CPU_TFSRE0_EL1,	offsetof(struct kvm_cpu_context, sys_regs[TFSRE0_EL1]));
+>    DEFINE(CPU_APIAKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APIAKEYLO_EL1]));
+>    DEFINE(CPU_APIBKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APIBKEYLO_EL1]));
+>    DEFINE(CPU_APDAKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APDAKEYLO_EL1]));
+> diff --git a/arch/arm64/kvm/hyp/entry.S b/arch/arm64/kvm/hyp/entry.S
+> index b0afad7a99c6..c67582c6dd55 100644
+> --- a/arch/arm64/kvm/hyp/entry.S
+> +++ b/arch/arm64/kvm/hyp/entry.S
+> @@ -13,6 +13,7 @@
+>  #include <asm/kvm_arm.h>
+>  #include <asm/kvm_asm.h>
+>  #include <asm/kvm_mmu.h>
+> +#include <asm/kvm_mte.h>
+>  #include <asm/kvm_ptrauth.h>
+>  
+>  	.text
+> @@ -51,6 +52,9 @@ alternative_else_nop_endif
+>  
+>  	add	x29, x0, #VCPU_CONTEXT
+>  
+> +	// mte_switch_to_guest(g_ctxt, h_ctxt, tmp1)
+> +	mte_switch_to_guest x29, x1, x2
+> +
+>  	// Macro ptrauth_switch_to_guest format:
+>  	// 	ptrauth_switch_to_guest(guest cxt, tmp1, tmp2, tmp3)
+>  	// The below macro to restore guest keys is not implemented in C code
+> @@ -140,6 +144,9 @@ SYM_INNER_LABEL(__guest_exit, SYM_L_GLOBAL)
+>  	// when this feature is enabled for kernel code.
+>  	ptrauth_switch_to_hyp x1, x2, x3, x4, x5
+>  
+> +	// mte_switch_to_hyp(g_ctxt, h_ctxt, reg1)
+> +	mte_switch_to_hyp x1, x2, x3
+> +
+>  	// Restore hyp's sp_el0
+>  	restore_sp_el0 x2, x3
+>  
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> index cce43bfe158f..de7e14c862e6 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> @@ -14,6 +14,7 @@
+>  #include <asm/kvm_asm.h>
+>  #include <asm/kvm_emulate.h>
+>  #include <asm/kvm_hyp.h>
+> +#include <asm/kvm_mmu.h>
+>  
+>  static inline void __sysreg_save_common_state(struct kvm_cpu_context *ctxt)
+>  {
+> @@ -26,6 +27,16 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
+>  }
+>  
+> +static inline bool ctxt_has_mte(struct kvm_cpu_context *ctxt)
+> +{
+> +	struct kvm_vcpu *vcpu = ctxt->__hyp_running_vcpu;
+> +
+> +	if (!vcpu)
+> +		vcpu = container_of(ctxt, struct kvm_vcpu, arch.ctxt);
+> +
+> +	return kvm_has_mte(kern_hyp_va(vcpu->kvm));
+> +}
+> +
+>  static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
+>  {
+>  	ctxt_sys_reg(ctxt, CSSELR_EL1)	= read_sysreg(csselr_el1);
+> @@ -46,6 +57,11 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, PAR_EL1)	= read_sysreg_par();
+>  	ctxt_sys_reg(ctxt, TPIDR_EL1)	= read_sysreg(tpidr_el1);
+>  
+> +	if (ctxt_has_mte(ctxt)) {
+> +		ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
+> +		ctxt_sys_reg(ctxt, TFSRE0_EL1) = read_sysreg_s(SYS_TFSRE0_EL1);
+> +	}
 
-with :
+Could TFSRE0_EL1 be synchronised on vcpu_load()/vcpu_put() instead of
+being done eagerly on each save/restore? Same thing for TFSR_EL1 when
+running VHE?
 
-   -smp 4,cores=1,maxcpus=8 -object memory-backend-ram,id=ram-node0,size=2G -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 -object memory-backend-ram,id=ram-node1,size=2G -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
+I'd like to keep the switch as lean as possible. I'm pretty sure this
+would simplify some of the "container_of()" ugliness above.
 
-# dmesg | grep numa
-[    0.013106] numa: Node 0 CPUs: 0-1
-[    0.013136] numa: Node 1 CPUs: 2-3
-
-# dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
-		ibm,chip-id = <0x01>;
-		ibm,chip-id = <0x02>;
-		ibm,chip-id = <0x00>;
-		ibm,chip-id = <0x03>;
-
-with :
-
-  -smp 4,cores=4,maxcpus=8,threads=1 -object memory-backend-ram,id=ram-node0,size=2G -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 -object memory-backend-ram,id=ram-node1,size=2G -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
-
-# dmesg | grep numa
-[    0.013106] numa: Node 0 CPUs: 0-1
-[    0.013136] numa: Node 1 CPUs: 2-3
-
-# dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
-		ibm,chip-id = <0x00>;
-		ibm,chip-id = <0x00>;
-		ibm,chip-id = <0x00>;
-		ibm,chip-id = <0x00>;
-
-I think we should simply remove "ibm,chip-id" since it's not used and
-not in the PAPR spec.
+> +
+>  	ctxt_sys_reg(ctxt, SP_EL1)	= read_sysreg(sp_el1);
+>  	ctxt_sys_reg(ctxt, ELR_EL1)	= read_sysreg_el1(SYS_ELR);
+>  	ctxt_sys_reg(ctxt, SPSR_EL1)	= read_sysreg_el1(SYS_SPSR);
+> @@ -107,6 +123,11 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+>  	write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),	par_el1);
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),	tpidr_el1);
+>  
+> +	if (ctxt_has_mte(ctxt)) {
+> +		write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
+> +	}
+> +
+>  	if (!has_vhe() &&
+>  	    cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
+>  	    ctxt->__hyp_running_vcpu) {
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index e09dbc00b0a2..17cb6256f205 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1301,6 +1301,20 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+>  	return true;
+>  }
+>  
+> +static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+> +				   const struct sys_reg_desc *rd)
+> +{
+> +	return REG_HIDDEN;
+> +}
+> +
+> +#define MTE_REG(name) {				\
+> +	SYS_DESC(SYS_##name),			\
+> +	.access = undef_access,			\
+> +	.reset = reset_unknown,			\
+> +	.reg = name,				\
+> +	.visibility = mte_visibility,		\
+> +}
+> +
+>  /* sys_reg_desc initialiser for known cpufeature ID registers */
+>  #define ID_SANITISED(name) {			\
+>  	SYS_DESC(SYS_##name),			\
+> @@ -1469,8 +1483,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
+>  	{ SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
+>  
+> -	{ SYS_DESC(SYS_RGSR_EL1), undef_access },
+> -	{ SYS_DESC(SYS_GCR_EL1), undef_access },
+> +	MTE_REG(RGSR_EL1),
+> +	MTE_REG(GCR_EL1),
+>  
+>  	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
+>  	{ SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
+> @@ -1496,8 +1510,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
+>  	{ SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
+>  
+> -	{ SYS_DESC(SYS_TFSR_EL1), undef_access },
+> -	{ SYS_DESC(SYS_TFSRE0_EL1), undef_access },
+> +	MTE_REG(TFSR_EL1),
+> +	MTE_REG(TFSRE0_EL1),
+>  
+>  	{ SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
+>  	{ SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
 
 Thanks,
 
-C.
+	M.
 
- 
-
-> 
-> Thanks,
-> 
-> 
-> DHB
-> 
-> 
->>
->>> It looks like the chip id is only used for localization purpose in
->>> this case, right ?
->>
->> Yes and PAPR sources are not localized. So it's not used. MSI sources
->> could be if we rewrote the MSI driver.
->>
->>> In this case, what about doing this change for pSeries only,
->>> somewhere in spapr.c ?
->>
->> The IPI code is common to all platforms and all have the same issue.
->> I rather not.
->>
->> Thanks,
->>
->> C.
->>  
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>>   arch/powerpc/sysdev/xive/common.c | 7 +------
->>>>   1 file changed, 1 insertion(+), 6 deletions(-)
->>>>
->>>> diff --git a/arch/powerpc/sysdev/xive/common.c b/arch/powerpc/sysdev/xive/common.c
->>>> index 595310e056f4..b8e456da28aa 100644
->>>> --- a/arch/powerpc/sysdev/xive/common.c
->>>> +++ b/arch/powerpc/sysdev/xive/common.c
->>>> @@ -1335,16 +1335,11 @@ static int xive_prepare_cpu(unsigned int cpu)
->>>>         xc = per_cpu(xive_cpu, cpu);
->>>>       if (!xc) {
->>>> -        struct device_node *np;
->>>> -
->>>>           xc = kzalloc_node(sizeof(struct xive_cpu),
->>>>                     GFP_KERNEL, cpu_to_node(cpu));
->>>>           if (!xc)
->>>>               return -ENOMEM;
->>>> -        np = of_get_cpu_node(cpu, NULL);
->>>> -        if (np)
->>>> -            xc->chip_id = of_get_ibm_chip_id(np);
->>>> -        of_node_put(np);
->>>> +        xc->chip_id = cpu_to_node(cpu);
->>>>           xc->hw_ipi = XIVE_BAD_IRQ;
->>>>             per_cpu(xive_cpu, cpu) = xc;
->>>
->>
+-- 
+Without deviation from the norm, progress is not possible.
 
