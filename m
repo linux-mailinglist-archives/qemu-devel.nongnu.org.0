@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1036D332943
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:55:14 +0100 (CET)
-Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42A933295C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:58:01 +0100 (CET)
+Received: from localhost ([::1]:33496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdlP-0000Vc-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:55:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42220)
+	id 1lJdo8-00042z-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJW-0003rE-PC
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJY-0003rz-HY
  for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45710)
+Received: from mx2.suse.de ([195.135.220.15]:45714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJS-0005kV-IY
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:22 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJS-0005lF-V4
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:24 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 91D63AE85;
- Tue,  9 Mar 2021 14:25:58 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A8E10AF0F;
+ Tue,  9 Mar 2021 14:25:59 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v5 29/36] target/arm: cleanup cpu includes
-Date: Tue,  9 Mar 2021 15:25:37 +0100
-Message-Id: <20210309142544.5020-30-cfontana@suse.de>
+Subject: [RFC v5 32/36] tests: restrict TCG-only arm-cpu-features tests to TCG
+ builds
+Date: Tue,  9 Mar 2021 15:25:40 +0100
+Message-Id: <20210309142544.5020-33-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309142544.5020-1-cfontana@suse.de>
 References: <20210309142544.5020-1-cfontana@suse.de>
@@ -55,148 +56,64 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@centriq4.arch.suse.de>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
+sve_tests_sve_max_vq_8,
+sve_tests_sve_off,
+test_query_cpu_model_expansion
 
-cpu.c,
-cpu32.c,
-cpu64.c,
-tcg/sysemu/tcg-cpu.c,
+all require TCG to run. Skip them for KVM-only builds.
 
-all need a good cleanup when it comes to included header files.
-
-Signed-off-by: Claudio Fontana <cfontana@centriq4.arch.suse.de>
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.c                |  8 ++------
- target/arm/cpu32.c              | 14 --------------
- target/arm/cpu64.c              |  6 ------
- target/arm/tcg/sysemu/tcg-cpu.c | 22 +---------------------
- 4 files changed, 3 insertions(+), 47 deletions(-)
+ tests/qtest/arm-cpu-features.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 97cb6ec8a8..3491e615c3 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -19,28 +19,24 @@
-  */
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8252b85bb8..83a89864dd 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -352,8 +352,12 @@ static void sve_tests_sve_max_vq_8(const void *data)
+ {
+     QTestState *qts;
  
- #include "qemu/osdep.h"
--#include "qemu/qemu-print.h"
- #include "qemu-common.h"
- #include "target/arm/idau.h"
--#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
++#ifndef CONFIG_TCG
++    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_max_vq_8");
++    return;
++#endif /* CONFIG_TCG */
 +
- #ifdef CONFIG_TCG
- #include "tcg/tcg-cpu.h"
- #endif /* CONFIG_TCG */
- #include "cpu32.h"
--#include "internals.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
+     qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
+-
+     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
+ 
+     /*
+@@ -387,6 +391,11 @@ static void sve_tests_sve_off(const void *data)
+ {
+     QTestState *qts;
+ 
++#ifndef CONFIG_TCG
++    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_off");
++    return;
++#endif /* CONFIG_TCG */
 +
- #include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
- #include "kvm/kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
-index 182f66db0a..f36ba88525 100644
---- a/target/arm/cpu32.c
-+++ b/target/arm/cpu32.c
-@@ -20,26 +20,12 @@
+     qts = qtest_init(MACHINE "-cpu max,sve=off");
  
- #include "qemu/osdep.h"
- #include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
- #include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "kvm/kvm_arm.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
- #include "cpu-mmu.h"
- #include "cpu32.h"
+     /* SVE is off, so the map should be empty. */
+@@ -443,6 +452,11 @@ static void test_query_cpu_model_expansion(const void *data)
+ {
+     QTestState *qts;
  
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d7e9a812cd..b3475a93cc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -22,13 +22,7 @@
- #include "qapi/error.h"
- #include "qemu/qemu-print.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
--#include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "qemu/module.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#endif
- #include "sysemu/kvm.h"
- #include "kvm/kvm_arm.h"
- #include "qapi/visitor.h"
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index ed030678f3..664a7ee206 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -19,29 +19,9 @@
-  */
++#ifndef CONFIG_TCG
++    g_test_skip("TCG disabled, skipping tcg_only test_query_cpu_model_expansion");
++    return;
++#endif /* CONFIG_TCG */
++
+     qts = qtest_init(MACHINE "-cpu max");
  
- #include "qemu/osdep.h"
--#include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
--#include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
--#include "hw/core/tcg-cpu-ops.h"
- #include "hw/semihosting/common-semi.h"
--#include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#include "hw/boards.h"
--#endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
--#include "cpu-mmu.h"
-+#include "qemu/log.h"
- #include "tcg/tcg-cpu.h"
- 
- /*
+     /* Test common query-cpu-model-expansion input validation */
 -- 
 2.26.2
 
