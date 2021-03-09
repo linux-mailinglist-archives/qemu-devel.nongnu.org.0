@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C16133292A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:52:49 +0100 (CET)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDD9332949
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:55:36 +0100 (CET)
+Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdj6-00064r-G6
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:52:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
+	id 1lJdln-00010p-E9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJf-0003xZ-P5
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:33 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJV-0005mt-6R
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:31 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B2E4CAF0D;
- Tue,  9 Mar 2021 14:26:00 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v5 35/36] tests: do not run qom-test on all machines for ARM
- KVM-only
-Date: Tue,  9 Mar 2021 15:25:43 +0100
-Message-Id: <20210309142544.5020-36-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdJt-00042C-QT
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:46 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34087)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdJs-00061I-Bg
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:45 -0500
+Received: by mail-ej1-x633.google.com with SMTP id hs11so28189040ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fHShbnL609j0MJwdNHwq2VVMU06lFz5d39e3YBTfjlM=;
+ b=mRFpumqGEVNpA5+uXsEp9koWeDRufmAAmXZLwzLV4Tcrstu4LRzGsDsi/TQ2PctIKW
+ vA8Ywtru2zNvPspdE6H7pZ/CczkY7uqubKdER+cw5H22hwIv70KPaDz772uYmY/Jq4I/
+ BxoFUF6gveqgNtgf6bTcmtbbi/nE1fvXnzamkSlTzOjdOHX91JTmnIdXpFjlbKxklBcS
+ Gf/bQToSM6vq3jLhWhWwvLs+tItMpO8yXlBTxl/6WLZ/Muggr4uaXhmSQNaRK1qF2W69
+ kK4RpaqnGSwjJ7EFzmFOvkmpuRNbRj63+CnX++ZHkYXtTjbmEYfQjaPKj21TmFSfZC+2
+ r52g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=fHShbnL609j0MJwdNHwq2VVMU06lFz5d39e3YBTfjlM=;
+ b=de8uKM3MN0Xh28+9W5M7GiIOHw1+e094ABdtFThNvnKDVcm/Yb9I2QEIvycMi3bY4j
+ FtNBb5P6/eoPm6aArzh6ugSeLl1xZ5f7lpP0IBxITcs7qnXXXdWhUyEAfvFcg6ghYSrC
+ ImIf92JYsvgVkULMNJ7SIrM6imct6EtIOWPMS/AXlWhGDz0ju/9FlIolRJuNfIZhWUox
+ MvChiys6wLfuQHl9wN/BMI1AoDhEQP2cS1mQ0ASkeLuntrYkTjCl4V3X6SYbXHLN08aP
+ 27dlCBA1VVSkDNktXzGuc4Eqrqvg5AV4MhUWz3OrZA6cldViT/lyxEW1m/X7pj1C/fa+
+ VRYw==
+X-Gm-Message-State: AOAM532avM2HkdN+9n3/OZ9gUO+tsdBLVPMic8VdczK/tprZkAdgb/C2
+ 94ZZjxdpP4aJmuJEH1J7ug3APBkBmg0=
+X-Google-Smtp-Source: ABdhPJyY2xGphduKpgVYRaWxoNMhcq+mwZrwrSUUsvqT+POJQ06HZtvvr+/I9AgxZOE8TDIE/Pbd1w==
+X-Received: by 2002:a17:906:1a44:: with SMTP id
+ j4mr20957347ejf.401.1615300002725; 
+ Tue, 09 Mar 2021 06:26:42 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id n2sm8340751ejl.1.2021.03.09.06.26.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 06:26:42 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RESEND 2/6] hw/mips/gt64xxx: Simplify ISD MemoryRegion
+ read/write handlers
+Date: Tue,  9 Mar 2021 15:26:26 +0100
+Message-Id: <20210309142630.728014-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210309142544.5020-1-cfontana@suse.de>
-References: <20210309142544.5020-1-cfontana@suse.de>
+In-Reply-To: <20210309142630.728014-1-f4bug@amsat.org>
+References: <20210309142630.728014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,58 +87,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-on ARM we currently list and build all machines, even when
-building KVM-only, without TCG.
+The ISD MemoryRegion is implemented for 32-bit accesses.
+Simplify it by setting the MemoryRegionOps::impl min/max
+access size fields.
 
-Until we fix this (and we only list and build machines that are
-compatible with KVM), only test specifically using the "virt"
-machine in this case.
+Since the region is registered with a size of 0x1000 bytes,
+we can remove the hwaddr mask.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/qom-test.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ hw/mips/gt64xxx_pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
-index eb34af843b..b0a6d10148 100644
---- a/tests/qtest/qom-test.c
-+++ b/tests/qtest/qom-test.c
-@@ -90,7 +90,27 @@ int main(int argc, char **argv)
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index 6eb73e77057..99b1690af19 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -385,13 +385,12 @@ static void gt64120_writel(void *opaque, hwaddr addr,
  {
-     g_test_init(&argc, &argv, NULL);
+     GT64120State *s = opaque;
+     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+-    uint32_t saddr;
++    uint32_t saddr = addr >> 2;
  
-+    /*
-+     * XXX currently we build also boards for ARM that are incompatible with KVM.
-+     * We therefore need to check this explicitly, and only test virt for kvm-only
-+     * arm builds.
-+     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
-+     * are built for the kvm-only build, we could remove this.
-+     */
-+#ifndef CONFIG_TCG
-+    {
-+        const char *arch = qtest_get_arch();
-+
-+        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
-+            add_machine_test_case("virt");
-+            goto add_machine_test_done;
-+        }
-+    }
-+#endif /* !CONFIG_TCG */
-+
-     qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
-+    goto add_machine_test_done;
+     if (!(s->regs[GT_CPU] & 0x00001000)) {
+         val = bswap32(val);
+     }
  
-+ add_machine_test_done:
-     return g_test_run();
- }
+-    saddr = (addr & 0xfff) >> 2;
+     switch (saddr) {
+ 
+     /* CPU Configuration */
+@@ -695,9 +694,8 @@ static uint64_t gt64120_readl(void *opaque,
+     GT64120State *s = opaque;
+     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+     uint32_t val;
+-    uint32_t saddr;
++    uint32_t saddr = addr >> 2;
+ 
+-    saddr = (addr & 0xfff) >> 2;
+     switch (saddr) {
+ 
+     /* CPU Configuration */
+@@ -976,6 +974,10 @@ static const MemoryRegionOps isd_mem_ops = {
+     .read = gt64120_readl,
+     .write = gt64120_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
+ };
+ 
+ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
 -- 
 2.26.2
 
