@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7948F332382
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:01:44 +0100 (CET)
-Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE6833238E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:02:46 +0100 (CET)
+Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJa7R-0003vx-TM
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
+	id 1lJa8T-0004Ue-GN
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:02:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJZt5-0005Zc-OE
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:46:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43017)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJZtU-0005uS-59
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:47:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJZt1-0006rt-Ur
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:46:51 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJZtN-00070R-Qx
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:47:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615286807;
+ s=mimecast20190719; t=1615286827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pg0pQZWYCigrpvMIrSRl+a2zQk1P38Gj5P9fWbjq1D8=;
- b=a5iSKsec3ETFISf133aBo+DU4ETIDm0Ygv0yEzjpMIhec7P1eBsUdgpSCnNlM86HASBnM5
- Chkpi1aBZvynscPZsWak9yR3kOl+8jf/9RuueUWoEZcbe6dzhRyTXRMCnKhRPZnL334fSa
- TqSoVimiaJa/vuLcOe6tofQcp0lwvcs=
+ bh=g2j6+iFbJbFE2i3dYpkoNs3R7YJ+9cgbVTtopz6dt04=;
+ b=hKZ8m+GiIu8JffCQKcxKTtqEyMXDFrUKXcosGSg/Xe8xqXpgmj9lKFhBytOq5wMlOl1PX+
+ rV0Bkza9+bx5m3gTBYvjOBiCEZJeOLyn2BLIyG+9l5280Mg3NsgvUlSE6fboDo0Dr+jNSX
+ uPU5A8xdA0KTj6ly27SigTJW8lMNdL0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-A5Ry4d4bNRSGDwY9OK9dGw-1; Tue, 09 Mar 2021 05:46:45 -0500
-X-MC-Unique: A5Ry4d4bNRSGDwY9OK9dGw-1
+ us-mta-378-OfsOdOjePKus6P5aLa8nWA-1; Tue, 09 Mar 2021 05:47:04 -0500
+X-MC-Unique: OfsOdOjePKus6P5aLa8nWA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 418201005D45
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 10:46:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15D1B804331;
+ Tue,  9 Mar 2021 10:47:03 +0000 (UTC)
 Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0190C60C04;
- Tue,  9 Mar 2021 10:46:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D78F060C04;
+ Tue,  9 Mar 2021 10:46:58 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/14] libqos/qgraph: format qgraph comments for sphinx
- documentation
-Date: Tue,  9 Mar 2021 11:46:12 +0100
-Message-Id: <20210309104617.714908-10-thuth@redhat.com>
+Subject: [PULL 13/14] Remove deprecated target tilegx
+Date: Tue,  9 Mar 2021 11:46:16 +0100
+Message-Id: <20210309104617.714908-14-thuth@redhat.com>
 In-Reply-To: <20210309104617.714908-1-thuth@redhat.com>
 References: <20210309104617.714908-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,18 +53,17 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,958 +76,6128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+TILE-Gx was only implemented in linux-user mode, but support for this CPU
+was removed from the upstream Linux kernel in 2018, and it has also been
+dropped from glibc, so there is no new Linux development taking place with
+this architecture. For running the old binaries, users can simply use older
+versions of QEMU.
 
-Change documentation style and fix minor typos in tests/qtest/libqos/qgraph.h
-to automatically generate sphinx documentation in docs/devel/qgraph.rst
-
-The mechanism explanation that once was in qgraph.h is now moved to qgraph.rst
-
-There is no functional change intended.
-
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210308073240.6363-1-eesposit@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210224183952.80463-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS                 |   1 +
- docs/devel/index.rst        |   1 +
- docs/devel/qgraph.rst       | 261 +++++++++++++++++++++
- docs/devel/qtest.rst        |   8 +
- tests/qtest/libqos/qgraph.h | 450 +++++++++---------------------------
- 5 files changed, 386 insertions(+), 335 deletions(-)
- create mode 100644 docs/devel/qgraph.rst
+ .gitlab-ci.yml                                |    3 +-
+ configure                                     |    2 +-
+ default-configs/targets/tilegx-linux-user.mak |    1 -
+ docs/system/deprecated.rst                    |    8 -
+ docs/system/removed-features.rst              |   14 +
+ include/elf.h                                 |    2 -
+ include/exec/poison.h                         |    1 -
+ linux-user/elfload.c                          |   23 -
+ linux-user/syscall_defs.h                     |   10 +-
+ linux-user/tilegx/cpu_loop.c                  |  287 --
+ linux-user/tilegx/signal.c                    |  178 --
+ linux-user/tilegx/sockbits.h                  |    1 -
+ linux-user/tilegx/syscall_nr.h                |  327 ---
+ linux-user/tilegx/target_cpu.h                |   44 -
+ linux-user/tilegx/target_elf.h                |   14 -
+ linux-user/tilegx/target_fcntl.h              |   11 -
+ linux-user/tilegx/target_signal.h             |   23 -
+ linux-user/tilegx/target_structs.h            |   46 -
+ linux-user/tilegx/target_syscall.h            |   44 -
+ linux-user/tilegx/termbits.h                  |    1 -
+ target/meson.build                            |    1 -
+ target/tilegx/cpu-param.h                     |   17 -
+ target/tilegx/cpu.c                           |  182 --
+ target/tilegx/cpu.h                           |  160 --
+ target/tilegx/helper.c                        |  147 -
+ target/tilegx/helper.h                        |   23 -
+ target/tilegx/meson.build                     |   13 -
+ target/tilegx/opcode_tilegx.h                 | 1406 ----------
+ target/tilegx/simd_helper.c                   |  165 --
+ target/tilegx/spr_def_64.h                    |  212 --
+ target/tilegx/translate.c                     | 2437 -----------------
+ 31 files changed, 18 insertions(+), 5785 deletions(-)
+ delete mode 100644 default-configs/targets/tilegx-linux-user.mak
+ delete mode 100644 linux-user/tilegx/cpu_loop.c
+ delete mode 100644 linux-user/tilegx/signal.c
+ delete mode 100644 linux-user/tilegx/sockbits.h
+ delete mode 100644 linux-user/tilegx/syscall_nr.h
+ delete mode 100644 linux-user/tilegx/target_cpu.h
+ delete mode 100644 linux-user/tilegx/target_elf.h
+ delete mode 100644 linux-user/tilegx/target_fcntl.h
+ delete mode 100644 linux-user/tilegx/target_signal.h
+ delete mode 100644 linux-user/tilegx/target_structs.h
+ delete mode 100644 linux-user/tilegx/target_syscall.h
+ delete mode 100644 linux-user/tilegx/termbits.h
+ delete mode 100644 target/tilegx/cpu-param.h
+ delete mode 100644 target/tilegx/cpu.c
+ delete mode 100644 target/tilegx/cpu.h
+ delete mode 100644 target/tilegx/helper.c
+ delete mode 100644 target/tilegx/helper.h
+ delete mode 100644 target/tilegx/meson.build
+ delete mode 100644 target/tilegx/opcode_tilegx.h
+ delete mode 100644 target/tilegx/simd_helper.c
+ delete mode 100644 target/tilegx/spr_def_64.h
+ delete mode 100644 target/tilegx/translate.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f22d83c178..68388900af 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2607,6 +2607,7 @@ S: Maintained
- F: softmmu/qtest.c
- F: accel/qtest/
- F: tests/qtest/
-+F: docs/devel/qgraph.rst
- X: tests/qtest/bios-tables-test*
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 84eb4b0e5f..07202f6ffb 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -499,8 +499,7 @@ build-deprecated:
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-docs --disable-tools
+     MAKE_CHECK_ARGS: build-tcg
+-    TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+-      unicore32-softmmu
++    TARGETS: ppc64abi32-linux-user lm32-softmmu unicore32-softmmu
+   artifacts:
+     expire_in: 2 days
+     paths:
+diff --git a/configure b/configure
+index 34fccaa2ba..f7d022a5db 100755
+--- a/configure
++++ b/configure
+@@ -1655,7 +1655,7 @@ if [ "$ARCH" = "unknown" ]; then
+ fi
  
- Device Fuzzing
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index ae664da00c..7c424ea6d7 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -12,6 +12,7 @@ Contents:
+ default_target_list=""
+-deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
++deprecated_targets_list=ppc64abi32-linux-user,lm32-softmmu,unicore32-softmmu
+ deprecated_features=""
+ mak_wilds=""
  
- .. toctree::
-    :maxdepth: 2
-+   :includehidden:
+diff --git a/default-configs/targets/tilegx-linux-user.mak b/default-configs/targets/tilegx-linux-user.mak
+deleted file mode 100644
+index 10480e74c9..0000000000
+--- a/default-configs/targets/tilegx-linux-user.mak
++++ /dev/null
+@@ -1 +0,0 @@
+-TARGET_ARCH=tilegx
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index cfabe69846..241b28a521 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -402,14 +402,6 @@ it out of sheepdog volumes into an alternative storage backend.
+ linux-user mode CPUs
+ --------------------
  
-    build-system
-    style
-diff --git a/docs/devel/qgraph.rst b/docs/devel/qgraph.rst
-new file mode 100644
-index 0000000000..62a45cbcbf
---- /dev/null
-+++ b/docs/devel/qgraph.rst
-@@ -0,0 +1,261 @@
-+.. _qgraph:
-+
-+========================================
-+Qtest Driver Framework
-+========================================
-+
-+This Qgraph API provides all basic functions to create a graph
-+and instantiate nodes representing machines, drivers and tests
-+representing their relations with ``CONSUMES``, ``PRODUCES``, and
-+``CONTAINS`` edges.
-+
-+The idea is to have a framework where each test asks for a specific
-+driver, and the framework takes care of allocating the proper devices
-+required and passing the correct command line arguments to QEMU.
-+
-+Nodes
-+^^^^^^
-+
-+A node can be of four types:
-+
-+- **QNODE_MACHINE**:   for example ``arm/raspi2``
-+- **QNODE_DRIVER**:    for example ``generic-sdhci``
-+- **QNODE_INTERFACE**: for example ``sdhci`` (interface for all ``-sdhci``
-+  drivers).
-+  An interface is not explicitly created, it will be automatically
-+  instantiated when a node consumes or produces it.
-+- **QNODE_TEST**:      for example ``sdhci-test``, consumes an interface and
-+  tests the functions provided.
-+
-+Notes for the nodes:
-+
-+- QNODE_MACHINE: each machine struct must have a ``QGuestAllocator`` and
-+  implement ``get_driver()`` to return the allocator mapped to the interface
-+  "memory". The function can also return ``NULL`` if the allocator
-+  is not set.
-+- QNODE_DRIVER:  driver names must be unique, and machines and nodes
-+  planned to be "consumed" by other nodes must match QEMU
-+  drivers name, otherwise they won't be discovered
-+
-+Edges
-+^^^^^^
-+
-+An edge relation between two nodes (drivers or machines) `X` and `Y` can be:
-+
-+- ``X CONSUMES Y``: `Y` can be plugged into `X`
-+- ``X PRODUCES Y``: `X` provides the interface `Y`
-+- ``X CONTAINS Y``: `Y` is part of `X` component
-+
-+Execution steps
-+^^^^^^^^^^^^^^^
-+
-+The basic framework steps are the following:
-+
-+- All nodes and edges are created in their respective
-+  machine/driver/test files
-+- The framework starts QEMU and asks for a list of available devices
-+  and machines (note that only machines and "consumed" nodes are mapped
-+  1:1 with QEMU devices)
-+- The framework walks the graph starting from the available machines and
-+  performs a Depth First Search for tests
-+- Once a test is found, the path is walked again and all drivers are
-+  allocated accordingly and the final interface is passed to the test
-+- The test is executed
-+- Unused objects are cleaned and the path discovery is continued
-+
-+Depending on the QEMU binary used, only some drivers/machines will be
-+available and only test that are reached by them will be executed.
-+
-+Creating a new driver and its interface
-+"""""""""""""""""""""""""""""""""""""""""
-+
-+.. code::
-+
-+    #include "qgraph.h"
-+
-+    struct My_driver {
-+        QOSGraphObject obj;
-+        Node_produced prod;
-+        Node_contained cont;
-+    }
-+
-+    static void my_destructor(QOSGraphObject *obj)
-+    {
-+        g_free(obj);
-+    }
-+
-+    static void *my_get_driver(void *object, const char *interface) {
-+        My_driver *dev = object;
-+        if (!g_strcmp0(interface, "my_interface")) {
-+            return &dev->prod;
-+        }
-+        abort();
-+    }
-+
-+    static void *my_get_device(void *object, const char *device) {
-+        My_driver *dev = object;
-+        if (!g_strcmp0(device, "my_driver_contained")) {
-+            return &dev->cont;
-+        }
-+        abort();
-+    }
-+
-+    static void *my_driver_constructor(void *node_consumed,
-+                                        QOSGraphObject *alloc)
-+    {
-+        My_driver dev = g_new(My_driver, 1);
-+
-+        // get the node pointed by the produce edge
-+        dev->obj.get_driver = my_get_driver;
-+
-+        // get the node pointed by the contains
-+        dev->obj.get_device = my_get_device;
-+
-+        // free the object
-+        dev->obj.destructor = my_destructor;
-+
-+        do_something_with_node_consumed(node_consumed);
-+
-+        // set all fields of contained device
-+        init_contained_device(&dev->cont);
-+        return &dev->obj;
-+    }
-+
-+    static void register_my_driver(void)
-+    {
-+        qos_node_create_driver("my_driver", my_driver_constructor);
-+
-+        // contained drivers don't need a constructor,
-+        // they will be init by the parent.
-+        qos_node_create_driver("my_driver_contained", NULL);
-+
-+        // For the sake of this example, assume machine x86_64/pc
-+        // contains "other_node".
-+        // This relation, along with the machine and "other_node"
-+        // creation, should be defined in the x86_64_pc-machine.c file.
-+        // "my_driver" will then consume "other_node"
-+        qos_node_contains("my_driver", "my_driver_contained");
-+        qos_node_produces("my_driver", "my_interface");
-+        qos_node_consumes("my_driver", "other_node");
-+    }
-+
-+In the above example, all possible types of relations are created:
-+node "my_driver" consumes, contains and produces other nodes.
-+More specifically::
-+
-+  x86_64/pc -->contains--> other_node <--consumes-- my_driver
-+                                                        |
-+                       my_driver_contained <--contains--+
-+                                                        |
-+                              my_interface <--produces--+
-+
-+or inverting the consumes edge in consumed_by::
-+
-+  x86_64/pc -->contains--> other_node --consumed_by--> my_driver
-+                                                            |
-+                           my_driver_contained <--contains--+
-+                                                            |
-+                                  my_interface <--produces--+
-+
-+Creating new test
-+"""""""""""""""""
-+
-+.. code::
-+
-+    #include "qgraph.h"
-+
-+    static void my_test_function(void *obj, void *data)
-+    {
-+        Node_produced *interface_to_test = obj;
-+        // test interface_to_test
-+    }
-+
-+    static void register_my_test(void)
-+    {
-+        qos_add_test("my_interface", "my_test", my_test_function);
-+    }
-+
-+    libqos_init(register_my_test);
-+
-+Here a new test is created, consuming "my_interface" node
-+and creating a valid path from a machine to a test.
-+Final graph will be like this::
-+
-+  x86_64/pc --contains--> other_node <--consumes-- my_driver
-+                                                         |
-+                        my_driver_contained <--contains--+
-+                                                         |
-+         my_test --consumes--> my_interface <--produces--+
-+
-+or inverting the consumes edge in consumed_by::
-+
-+  x86_64/pc --contains--> other_node --consumed_by--> my_driver
-+                                                            |
-+                           my_driver_contained <--contains--+
-+                                                            |
-+         my_test <--consumed_by-- my_interface <--produces--+
-+
-+Assuming there the binary is
-+``QTEST_QEMU_BINARY=./qemu-system-x86_64``
-+a valid test path will be:
-+``/x86_64/pc/other_node/my_driver/my_interface/my_test``.
-+
-+Additional examples are also in ``test-qgraph.c``
-+
-+Command line:
-+""""""""""""""
-+
-+Command line is built by using node names and optional arguments
-+passed by the user when building the edges.
-+
-+There are three types of command line arguments:
-+
-+- ``in node``      : created from the node name. For example, machines will
-+  have ``-M <machine>`` to its command line, while devices
-+  ``-device <device>``. It is automatically done by the framework.
-+- ``after node``   : added as additional argument to the node name.
-+  This argument is added optionally when creating edges,
-+  by setting the parameter @after_cmd_line and
-+  @extra_edge_opts in #QOSGraphEdgeOptions.
-+  The framework automatically adds
-+  a comma before @extra_edge_opts,
-+  because it is going to add attributes
-+  after the destination node pointed by
-+  the edge containing these options, and automatically
-+  adds a space before @after_cmd_line, because it
-+  adds an additional device, not an attribute.
-+- ``before node``  : added as additional argument to the node name.
-+  This argument is added optionally when creating edges,
-+  by setting the parameter @before_cmd_line in
-+  #QOSGraphEdgeOptions. This attribute
-+  is going to add attributes before the destination node
-+  pointed by the edge containing these options. It is
-+  helpful to commands that are not node-representable,
-+  such as ``-fdsev`` or ``-netdev``.
-+
-+While adding command line in edges is always used, not all nodes names are
-+used in every path walk: this is because the contained or produced ones
-+are already added by QEMU, so only nodes that "consumes" will be used to
-+build the command line. Also, nodes that will have ``{ "abstract" : true }``
-+as QMP attribute will loose their command line, since they are not proper
-+devices to be added in QEMU.
-+
-+Example::
-+
-+    QOSGraphEdgeOptions opts = {
-+        .arg = NULL,
-+        .size_arg = 0,
-+        .after_cmd_line = "-device other",
-+        .before_cmd_line = "-netdev something",
-+        .extra_edge_opts = "addr=04.0",
-+    };
-+    QOSGraphNodeS *node = qos_node_create_driver("my_node", constructor);
-+    qos_node_consumes_args("my_node", "interface", &opts);
-+
-+Will produce the following command line:
-+``-netdev something -device my_node,addr=04.0 -device other``
-+
-+Qgraph API reference
-+^^^^^^^^^^^^^^^^^^^^
-+
-+.. kernel-doc:: tests/qtest/libqos/qgraph.h
-diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
-index 97c5a75626..c3dceb6c8a 100644
---- a/docs/devel/qtest.rst
-+++ b/docs/devel/qtest.rst
-@@ -2,6 +2,11 @@
- QTest Device Emulation Testing Framework
- ========================================
- 
-+.. toctree::
-+   :hidden:
-+
-+   qgraph
-+
- QTest is a device emulation testing framework.  It can be very useful to test
- device models; it could also control certain aspects of QEMU (such as virtual
- clock stepping), with a special purpose "qtest" protocol.  Refer to
-@@ -24,6 +29,9 @@ On top of libqtest, a higher level library, ``libqos``, was created to
- encapsulate common tasks of device drivers, such as memory management and
- communicating with system buses or devices. Many virtual device tests use
- libqos instead of directly calling into libqtest.
-+Libqos also offers the Qgraph API to increase each test coverage and
-+automate QEMU command line arguments and devices setup.
-+Refer to :ref:`qgraph` for Qgraph explanation and API.
- 
- Steps to add a new QTest case are:
- 
-diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
-index 07a32535f1..54672350c8 100644
---- a/tests/qtest/libqos/qgraph.h
-+++ b/tests/qtest/libqos/qgraph.h
-@@ -29,7 +29,6 @@
- typedef struct QOSGraphObject QOSGraphObject;
- typedef struct QOSGraphNode QOSGraphNode;
- typedef struct QOSGraphEdge QOSGraphEdge;
--typedef struct QOSGraphNodeOptions QOSGraphNodeOptions;
- typedef struct QOSGraphEdgeOptions QOSGraphEdgeOptions;
- typedef struct QOSGraphTestOptions QOSGraphTestOptions;
- 
-@@ -49,340 +48,94 @@ typedef void (*QOSStartFunct) (QOSGraphObject *object);
- typedef void *(*QOSBeforeTest) (GString *cmd_line, void *arg);
- 
- /**
-- * SECTION: qgraph.h
-- * @title: Qtest Driver Framework
-- * @short_description: interfaces to organize drivers and tests
-- *                     as nodes in a graph
-- *
-- * This Qgraph API provides all basic functions to create a graph
-- * and instantiate nodes representing machines, drivers and tests
-- * representing their relations with CONSUMES, PRODUCES, and CONTAINS
-- * edges.
-- *
-- * The idea is to have a framework where each test asks for a specific
-- * driver, and the framework takes care of allocating the proper devices
-- * required and passing the correct command line arguments to QEMU.
-- *
-- * A node can be of four types:
-- * - QNODE_MACHINE:   for example "arm/raspi2"
-- * - QNODE_DRIVER:    for example "generic-sdhci"
-- * - QNODE_INTERFACE: for example "sdhci" (interface for all "-sdhci" drivers)
-- *                     an interface is not explicitly created, it will be auto-
-- *                     matically instantiated when a node consumes or produces
-- *                     it.
-- * - QNODE_TEST:      for example "sdhci-test", consumes an interface and tests
-- *                    the functions provided
-- *
-- * Notes for the nodes:
-- * - QNODE_MACHINE: each machine struct must have a QGuestAllocator and
-- *                  implement get_driver to return the allocator passing
-- *                  "memory". The function can also return NULL if the
-- *                  allocator is not set.
-- * - QNODE_DRIVER:  driver names must be unique, and machines and nodes
-- *                  planned to be "consumed" by other nodes must match QEMU
-- *                  drivers name, otherwise they won't be discovered
-- *
-- * An edge relation between two nodes (drivers or machines) X and Y can be:
-- * - X CONSUMES Y: Y can be plugged into X
-- * - X PRODUCES Y: X provides the interface Y
-- * - X CONTAINS Y: Y is part of X component
-- *
-- * Basic framework steps are the following:
-- * - All nodes and edges are created in their respective
-- *   machine/driver/test files
-- * - The framework starts QEMU and asks for a list of available devices
-- *   and machines (note that only machines and "consumed" nodes are mapped
-- *   1:1 with QEMU devices)
-- * - The framework walks the graph starting from the available machines and
-- *   performs a Depth First Search for tests
-- * - Once a test is found, the path is walked again and all drivers are
-- *   allocated accordingly and the final interface is passed to the test
-- * - The test is executed
-- * - Unused objects are cleaned and the path discovery is continued
-- *
-- * Depending on the QEMU binary used, only some drivers/machines will be
-- * available and only test that are reached by them will be executed.
-- *
-- * <example>
-- *   <title>Creating new driver an its interface</title>
-- *   <programlisting>
-- #include "qgraph.h"
+-``tilegx`` CPUs (since 5.1.0)
+-'''''''''''''''''''''''''''''
 -
-- struct My_driver {
--     QOSGraphObject obj;
--     Node_produced prod;
--     Node_contained cont;
-- }
+-The ``tilegx`` guest CPU support (which was only implemented in
+-linux-user mode) is deprecated and will be removed in a future version
+-of QEMU. Support for this CPU was removed from the upstream Linux
+-kernel in 2018, and has also been dropped from glibc.
 -
-- static void my_destructor(QOSGraphObject *obj)
-- {
--    g_free(obj);
-- }
+ ``ppc64abi32`` CPUs (since 5.2.0)
+ '''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index c8481cafbd..4dcf4f924c 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -142,6 +142,20 @@ This machine has been renamed ``fuloong2e``.
+ These machine types were very old and likely could not be used for live
+ migration from old QEMU versions anymore. Use a newer machine type instead.
+ 
++
++linux-user mode CPUs
++--------------------
++
++``tilegx`` CPUs (removed in 6.0)
++''''''''''''''''''''''''''''''''
++
++The ``tilegx`` guest CPU support has been removed without replacement. It was
++only implemented in linux-user mode, but support for this CPU was removed from
++the upstream Linux kernel in 2018, and it has also been dropped from glibc, so
++there is no new Linux development taking place with this architecture. For
++running the old binaries, you can use older versions of QEMU.
++
++
+ Related binaries
+ ----------------
+ 
+diff --git a/include/elf.h b/include/elf.h
+index f4fa3c1cd4..78237c9a87 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -206,8 +206,6 @@ typedef struct mips_elf_abiflags_v0 {
+ 
+ #define EM_AARCH64  183
+ 
+-#define EM_TILEGX   191 /* TILE-Gx */
 -
-- static void my_get_driver(void *object, const char *interface) {
--    My_driver *dev = object;
--    if (!g_strcmp0(interface, "my_interface")) {
--        return &dev->prod;
--    }
--    abort();
-- }
+ #define EM_MOXIE           223     /* Moxie processor family */
+ #define EM_MOXIE_OLD       0xFEED
+ 
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index d7ae1f23e7..7b1bb12958 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -30,7 +30,6 @@
+ #pragma GCC poison TARGET_SH4
+ #pragma GCC poison TARGET_SPARC
+ #pragma GCC poison TARGET_SPARC64
+-#pragma GCC poison TARGET_TILEGX
+ #pragma GCC poison TARGET_TRICORE
+ #pragma GCC poison TARGET_UNICORE32
+ #pragma GCC poison TARGET_XTENSA
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index bab4237e90..140a971632 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1387,29 +1387,6 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
+ 
+ #endif /* TARGET_S390X */
+ 
+-#ifdef TARGET_TILEGX
 -
-- static void my_get_device(void *object, const char *device) {
--    My_driver *dev = object;
--    if (!g_strcmp0(device, "my_driver_contained")) {
--        return &dev->cont;
--    }
--    abort();
-- }
+-/* 42 bits real used address, a half for user mode */
+-#define ELF_START_MMAP (0x00000020000000000ULL)
 -
-- static void *my_driver_constructor(void *node_consumed,
--                                    QOSGraphObject *alloc)
-- {
--    My_driver dev = g_new(My_driver, 1);
--    // get the node pointed by the produce edge
--    dev->obj.get_driver = my_get_driver;
--    // get the node pointed by the contains
--    dev->obj.get_device = my_get_device;
--    // free the object
--    dev->obj.destructor = my_destructor;
--    do_something_with_node_consumed(node_consumed);
--    // set all fields of contained device
--    init_contained_device(&dev->cont);
--    return &dev->obj;
-- }
+-#define elf_check_arch(x) ((x) == EM_TILEGX)
 -
-- static void register_my_driver(void)
-- {
--     qos_node_create_driver("my_driver", my_driver_constructor);
--     // contained drivers don't need a constructor,
--     // they will be init by the parent.
--     qos_node_create_driver("my_driver_contained", NULL);
+-#define ELF_CLASS   ELFCLASS64
+-#define ELF_DATA    ELFDATA2LSB
+-#define ELF_ARCH    EM_TILEGX
 -
--    // For the sake of this example, assume machine x86_64/pc contains
--    // "other_node".
--    // This relation, along with the machine and "other_node" creation,
--    // should be defined in the x86_64_pc-machine.c file.
--    // "my_driver" will then consume "other_node"
--    qos_node_contains("my_driver", "my_driver_contained");
--    qos_node_produces("my_driver", "my_interface");
--    qos_node_consumes("my_driver", "other_node");
-- }
-- *   </programlisting>
-- * </example>
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-    regs->pc = infop->entry;
+-    regs->sp = infop->start_stack;
+-
+-}
+-
+-#define ELF_EXEC_PAGESIZE        65536 /* TILE-Gx page size is 64KB */
+-
+-#endif /* TARGET_TILEGX */
+-
+ #ifdef TARGET_RISCV
+ 
+ #define ELF_START_MMAP 0x80000000
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 6823d8646c..25be414727 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -72,8 +72,7 @@
+ 
+ #if defined(TARGET_I386) || defined(TARGET_ARM) || defined(TARGET_SH4) \
+     || defined(TARGET_M68K) || defined(TARGET_CRIS) \
+-    || defined(TARGET_S390X) \
+-    || defined(TARGET_OPENRISC) || defined(TARGET_TILEGX) \
++    || defined(TARGET_S390X) || defined(TARGET_OPENRISC) \
+     || defined(TARGET_NIOS2) || defined(TARGET_RISCV) \
+     || defined(TARGET_XTENSA)
+ 
+@@ -691,10 +690,6 @@ typedef struct target_siginfo {
+ #define TARGET_ILL_PRVREG	(6)	/* privileged register */
+ #define TARGET_ILL_COPROC	(7)	/* coprocessor error */
+ #define TARGET_ILL_BADSTK	(8)	/* internal stack error */
+-#ifdef TARGET_TILEGX
+-#define TARGET_ILL_DBLFLT       (9)     /* double fault */
+-#define TARGET_ILL_HARDWALL     (10)    /* user networks hardwall violation */
+-#endif
+ 
+ /*
+  * SIGFPE si_codes
+@@ -2149,8 +2144,7 @@ struct target_stat64  {
+     abi_ulong __unused5;
+ };
+ 
+-#elif defined(TARGET_OPENRISC) || defined(TARGET_TILEGX) || \
+-      defined(TARGET_NIOS2) || defined(TARGET_RISCV)
++#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || defined(TARGET_RISCV)
+ 
+ /* These are the asm-generic versions of the stat and stat64 structures */
+ 
+diff --git a/linux-user/tilegx/cpu_loop.c b/linux-user/tilegx/cpu_loop.c
+deleted file mode 100644
+index 490a8f38e5..0000000000
+--- a/linux-user/tilegx/cpu_loop.c
++++ /dev/null
+@@ -1,287 +0,0 @@
+-/*
+- *  qemu user cpu loop
 - *
-- * In the above example, all possible types of relations are created:
-- * node "my_driver" consumes, contains and produces other nodes.
-- * more specifically:
-- * x86_64/pc -->contains--> other_node <--consumes-- my_driver
-- *                                                       |
-- *                      my_driver_contained <--contains--+
-- *                                                       |
-- *                             my_interface <--produces--+
+- *  Copyright (c) 2003-2008 Fabrice Bellard
 - *
-- * or inverting the consumes edge in consumed_by:
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
 - *
-- * x86_64/pc -->contains--> other_node --consumed_by--> my_driver
-- *                                                           |
-- *                          my_driver_contained <--contains--+
-- *                                                           |
-- *                                 my_interface <--produces--+
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
 - *
-- * <example>
-- *   <title>Creating new test</title>
-- *   <programlisting>
-- * #include "qgraph.h"
-- *
-- * static void my_test_function(void *obj, void *data)
-- * {
-- *    Node_produced *interface_to_test = obj;
-- *    // test interface_to_test
-- * }
-- *
-- * static void register_my_test(void)
-- * {
-- *    qos_add_test("my_interface", "my_test", my_test_function);
-- * }
-- *
-- * libqos_init(register_my_test);
-- *
-- *   </programlisting>
-- * </example>
-- *
-- * Here a new test is created, consuming "my_interface" node
-- * and creating a valid path from a machine to a test.
-- * Final graph will be like this:
-- * x86_64/pc -->contains--> other_node <--consumes-- my_driver
-- *                                                        |
-- *                       my_driver_contained <--contains--+
-- *                                                        |
-- *        my_test --consumes--> my_interface <--produces--+
-- *
-- * or inverting the consumes edge in consumed_by:
-- *
-- * x86_64/pc -->contains--> other_node --consumed_by--> my_driver
-- *                                                           |
-- *                          my_driver_contained <--contains--+
-- *                                                           |
-- *        my_test <--consumed_by-- my_interface <--produces--+
-- *
-- * Assuming there the binary is
-- * QTEST_QEMU_BINARY=./qemu-system-x86_64
-- * a valid test path will be:
-- * "/x86_64/pc/other_node/my_driver/my_interface/my_test".
-- *
-- * Additional examples are also in test-qgraph.c
-- *
-- * Command line:
-- * Command line is built by using node names and optional arguments
-- * passed by the user when building the edges.
-- *
-- * There are three types of command line arguments:
-- * - in node      : created from the node name. For example, machines will
-- *                  have "-M <machine>" to its command line, while devices
-- *                  "-device <device>". It is automatically done by the
-- *                   framework.
-- * - after node   : added as additional argument to the node name.
-- *                  This argument is added optionally when creating edges,
-- *                  by setting the parameter @after_cmd_line and
-- *                  @extra_edge_opts in #QOSGraphEdgeOptions.
-- *                  The framework automatically adds
-- *                  a comma before @extra_edge_opts,
-- *                  because it is going to add attributes
-- *                  after the destination node pointed by
-- *                  the edge containing these options, and automatically
-- *                  adds a space before @after_cmd_line, because it
-- *                  adds an additional device, not an attribute.
-- * - before node  : added as additional argument to the node name.
-- *                  This argument is added optionally when creating edges,
-- *                  by setting the parameter @before_cmd_line in
-- *                  #QOSGraphEdgeOptions. This attribute
-- *                  is going to add attributes before the destination node
-- *                  pointed by the edge containing these options. It is
-- *                  helpful to commands that are not node-representable,
-- *                  such as "-fdsev" or "-netdev".
-- *
-- * While adding command line in edges is always used, not all nodes names are
-- * used in every path walk: this is because the contained or produced ones
-- * are already added by QEMU, so only nodes that "consumes" will be used to
-- * build the command line. Also, nodes that will have { "abstract" : true }
-- * as QMP attribute will loose their command line, since they are not proper
-- * devices to be added in QEMU.
-- *
-- * Example:
-- *
-- QOSGraphEdgeOptions opts = {
--     .arg = NULL,
--     .size_arg = 0,
--     .after_cmd_line = "-device other",
--     .before_cmd_line = "-netdev something",
--     .extra_edge_opts = "addr=04.0",
-- };
-- QOSGraphNode * node = qos_node_create_driver("my_node", constructor);
-- qos_node_consumes_args("my_node", "interface", &opts);
-- *
-- * Will produce the following command line:
-- * "-netdev something -device my_node,addr=04.0 -device other"
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 - */
 -
+-#include "qemu/osdep.h"
+-#include "qemu-common.h"
+-#include "qemu.h"
+-#include "cpu_loop-common.h"
+-
+-static void gen_sigill_reg(CPUTLGState *env)
+-{
+-    target_siginfo_t info;
+-
+-    info.si_signo = TARGET_SIGILL;
+-    info.si_errno = 0;
+-    info.si_code = TARGET_ILL_PRVREG;
+-    info._sifields._sigfault._addr = env->pc;
+-    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-}
+-
+-static void do_signal(CPUTLGState *env, int signo, int sigcode)
+-{
+-    target_siginfo_t info;
+-
+-    info.si_signo = signo;
+-    info.si_errno = 0;
+-    info._sifields._sigfault._addr = env->pc;
+-
+-    if (signo == TARGET_SIGSEGV) {
+-        /* The passed in sigcode is a dummy; check for a page mapping
+-           and pass either MAPERR or ACCERR.  */
+-        target_ulong addr = env->excaddr;
+-        info._sifields._sigfault._addr = addr;
+-        if (page_check_range(addr, 1, PAGE_VALID) < 0) {
+-            sigcode = TARGET_SEGV_MAPERR;
+-        } else {
+-            sigcode = TARGET_SEGV_ACCERR;
+-        }
+-    }
+-    info.si_code = sigcode;
+-
+-    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-}
+-
+-static void gen_sigsegv_maperr(CPUTLGState *env, target_ulong addr)
+-{
+-    env->excaddr = addr;
+-    do_signal(env, TARGET_SIGSEGV, 0);
+-}
+-
+-static void set_regval(CPUTLGState *env, uint8_t reg, uint64_t val)
+-{
+-    if (unlikely(reg >= TILEGX_R_COUNT)) {
+-        switch (reg) {
+-        case TILEGX_R_SN:
+-        case TILEGX_R_ZERO:
+-            return;
+-        case TILEGX_R_IDN0:
+-        case TILEGX_R_IDN1:
+-        case TILEGX_R_UDN0:
+-        case TILEGX_R_UDN1:
+-        case TILEGX_R_UDN2:
+-        case TILEGX_R_UDN3:
+-            gen_sigill_reg(env);
+-            return;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-    env->regs[reg] = val;
+-}
+-
+-/*
+- * Compare the 8-byte contents of the CmpValue SPR with the 8-byte value in
+- * memory at the address held in the first source register. If the values are
+- * not equal, then no memory operation is performed. If the values are equal,
+- * the 8-byte quantity from the second source register is written into memory
+- * at the address held in the first source register. In either case, the result
+- * of the instruction is the value read from memory. The compare and write to
+- * memory are atomic and thus can be used for synchronization purposes. This
+- * instruction only operates for addresses aligned to a 8-byte boundary.
+- * Unaligned memory access causes an Unaligned Data Reference interrupt.
+- *
+- * Functional Description (64-bit)
+- *       uint64_t memVal = memoryReadDoubleWord (rf[SrcA]);
+- *       rf[Dest] = memVal;
+- *       if (memVal == SPR[CmpValueSPR])
+- *           memoryWriteDoubleWord (rf[SrcA], rf[SrcB]);
+- *
+- * Functional Description (32-bit)
+- *       uint64_t memVal = signExtend32 (memoryReadWord (rf[SrcA]));
+- *       rf[Dest] = memVal;
+- *       if (memVal == signExtend32 (SPR[CmpValueSPR]))
+- *           memoryWriteWord (rf[SrcA], rf[SrcB]);
+- *
+- *
+- * This function also processes exch and exch4 which need not process SPR.
+- */
+-static void do_exch(CPUTLGState *env, bool quad, bool cmp)
+-{
+-    target_ulong addr;
+-    target_long val, sprval;
+-
+-    start_exclusive();
+-
+-    addr = env->atomic_srca;
+-    if (quad ? get_user_s64(val, addr) : get_user_s32(val, addr)) {
+-        goto sigsegv_maperr;
+-    }
+-
+-    if (cmp) {
+-        if (quad) {
+-            sprval = env->spregs[TILEGX_SPR_CMPEXCH];
+-        } else {
+-            sprval = sextract64(env->spregs[TILEGX_SPR_CMPEXCH], 0, 32);
+-        }
+-    }
+-
+-    if (!cmp || val == sprval) {
+-        target_long valb = env->atomic_srcb;
+-        if (quad ? put_user_u64(valb, addr) : put_user_u32(valb, addr)) {
+-            goto sigsegv_maperr;
+-        }
+-    }
+-
+-    set_regval(env, env->atomic_dstr, val);
+-    end_exclusive();
+-    return;
+-
+- sigsegv_maperr:
+-    end_exclusive();
+-    gen_sigsegv_maperr(env, addr);
+-}
+-
+-static void do_fetch(CPUTLGState *env, int trapnr, bool quad)
+-{
+-    int8_t write = 1;
+-    target_ulong addr;
+-    target_long val, valb;
+-
+-    start_exclusive();
+-
+-    addr = env->atomic_srca;
+-    valb = env->atomic_srcb;
+-    if (quad ? get_user_s64(val, addr) : get_user_s32(val, addr)) {
+-        goto sigsegv_maperr;
+-    }
+-
+-    switch (trapnr) {
+-    case TILEGX_EXCP_OPCODE_FETCHADD:
+-    case TILEGX_EXCP_OPCODE_FETCHADD4:
+-        valb += val;
+-        break;
+-    case TILEGX_EXCP_OPCODE_FETCHADDGEZ:
+-        valb += val;
+-        if (valb < 0) {
+-            write = 0;
+-        }
+-        break;
+-    case TILEGX_EXCP_OPCODE_FETCHADDGEZ4:
+-        valb += val;
+-        if ((int32_t)valb < 0) {
+-            write = 0;
+-        }
+-        break;
+-    case TILEGX_EXCP_OPCODE_FETCHAND:
+-    case TILEGX_EXCP_OPCODE_FETCHAND4:
+-        valb &= val;
+-        break;
+-    case TILEGX_EXCP_OPCODE_FETCHOR:
+-    case TILEGX_EXCP_OPCODE_FETCHOR4:
+-        valb |= val;
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    if (write) {
+-        if (quad ? put_user_u64(valb, addr) : put_user_u32(valb, addr)) {
+-            goto sigsegv_maperr;
+-        }
+-    }
+-
+-    set_regval(env, env->atomic_dstr, val);
+-    end_exclusive();
+-    return;
+-
+- sigsegv_maperr:
+-    end_exclusive();
+-    gen_sigsegv_maperr(env, addr);
+-}
+-
+-void cpu_loop(CPUTLGState *env)
+-{
+-    CPUState *cs = env_cpu(env);
+-    int trapnr;
+-
+-    while (1) {
+-        cpu_exec_start(cs);
+-        trapnr = cpu_exec(cs);
+-        cpu_exec_end(cs);
+-        process_queued_cpu_work(cs);
+-
+-        switch (trapnr) {
+-        case TILEGX_EXCP_SYSCALL:
+-        {
+-            abi_ulong ret = do_syscall(env, env->regs[TILEGX_R_NR],
+-                                       env->regs[0], env->regs[1],
+-                                       env->regs[2], env->regs[3],
+-                                       env->regs[4], env->regs[5],
+-                                       env->regs[6], env->regs[7]);
+-            if (ret == -TARGET_ERESTARTSYS) {
+-                env->pc -= 8;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
+-                env->regs[TILEGX_R_RE] = ret;
+-                env->regs[TILEGX_R_ERR] = TILEGX_IS_ERRNO(ret) ? -ret : 0;
+-            }
+-            break;
+-        }
+-        case TILEGX_EXCP_OPCODE_EXCH:
+-            do_exch(env, true, false);
+-            break;
+-        case TILEGX_EXCP_OPCODE_EXCH4:
+-            do_exch(env, false, false);
+-            break;
+-        case TILEGX_EXCP_OPCODE_CMPEXCH:
+-            do_exch(env, true, true);
+-            break;
+-        case TILEGX_EXCP_OPCODE_CMPEXCH4:
+-            do_exch(env, false, true);
+-            break;
+-        case TILEGX_EXCP_OPCODE_FETCHADD:
+-        case TILEGX_EXCP_OPCODE_FETCHADDGEZ:
+-        case TILEGX_EXCP_OPCODE_FETCHAND:
+-        case TILEGX_EXCP_OPCODE_FETCHOR:
+-            do_fetch(env, trapnr, true);
+-            break;
+-        case TILEGX_EXCP_OPCODE_FETCHADD4:
+-        case TILEGX_EXCP_OPCODE_FETCHADDGEZ4:
+-        case TILEGX_EXCP_OPCODE_FETCHAND4:
+-        case TILEGX_EXCP_OPCODE_FETCHOR4:
+-            do_fetch(env, trapnr, false);
+-            break;
+-        case TILEGX_EXCP_SIGNAL:
+-            do_signal(env, env->signo, env->sigcode);
+-            break;
+-        case TILEGX_EXCP_REG_IDN_ACCESS:
+-        case TILEGX_EXCP_REG_UDN_ACCESS:
+-            gen_sigill_reg(env);
+-            break;
+-        case EXCP_ATOMIC:
+-            cpu_exec_step_atomic(cs);
+-            break;
+-        default:
+-            fprintf(stderr, "trapnr is %d[0x%x].\n", trapnr, trapnr);
+-            g_assert_not_reached();
+-        }
+-        process_pending_signals(env);
+-    }
+-}
+-
+-void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+-{
+-    int i;
+-    for (i = 0; i < TILEGX_R_COUNT; i++) {
+-        env->regs[i] = regs->regs[i];
+-    }
+-    for (i = 0; i < TILEGX_SPR_COUNT; i++) {
+-        env->spregs[i] = 0;
+-    }
+-    env->pc = regs->pc;
+-}
+diff --git a/linux-user/tilegx/signal.c b/linux-user/tilegx/signal.c
+deleted file mode 100644
+index c5a1c7161d..0000000000
+--- a/linux-user/tilegx/signal.c
++++ /dev/null
+@@ -1,178 +0,0 @@
+-/*
+- *  Emulation of Linux signals
+- *
+- *  Copyright (c) 2003 Fabrice Bellard
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#include "qemu/osdep.h"
+-#include "qemu.h"
+-#include "signal-common.h"
+-#include "linux-user/trace.h"
+-
+-struct target_sigcontext {
+-    union {
+-        /* General-purpose registers.  */
+-        abi_ulong gregs[56];
+-        struct {
+-            abi_ulong __gregs[53];
+-            abi_ulong tp;        /* Aliases gregs[TREG_TP].  */
+-            abi_ulong sp;        /* Aliases gregs[TREG_SP].  */
+-            abi_ulong lr;        /* Aliases gregs[TREG_LR].  */
+-        };
+-    };
+-    abi_ulong pc;        /* Program counter.  */
+-    abi_ulong ics;       /* In Interrupt Critical Section?  */
+-    abi_ulong faultnum;  /* Fault number.  */
+-    abi_ulong pad[5];
+-};
+-
+-struct target_ucontext {
+-    abi_ulong tuc_flags;
+-    abi_ulong tuc_link;
+-    target_stack_t tuc_stack;
+-    struct target_sigcontext tuc_mcontext;
+-    target_sigset_t tuc_sigmask;   /* mask last for extensibility */
+-};
+-
+-struct target_rt_sigframe {
+-    unsigned char save_area[16]; /* caller save area */
+-    struct target_siginfo info;
+-    struct target_ucontext uc;
+-    abi_ulong retcode[2];
+-};
+-
+-#define INSN_MOVELI_R10_139  0x00045fe551483000ULL /* { moveli r10, 139 } */
+-#define INSN_SWINT1          0x286b180051485000ULL /* { swint1 } */
+-
+-
+-static void setup_sigcontext(struct target_sigcontext *sc,
+-                             CPUArchState *env, int signo)
+-{
+-    int i;
+-
+-    for (i = 0; i < TILEGX_R_COUNT; ++i) {
+-        __put_user(env->regs[i], &sc->gregs[i]);
+-    }
+-
+-    __put_user(env->pc, &sc->pc);
+-    __put_user(0, &sc->ics);
+-    __put_user(signo, &sc->faultnum);
+-}
+-
+-static void restore_sigcontext(CPUTLGState *env, struct target_sigcontext *sc)
+-{
+-    int i;
+-
+-    for (i = 0; i < TILEGX_R_COUNT; ++i) {
+-        __get_user(env->regs[i], &sc->gregs[i]);
+-    }
+-
+-    __get_user(env->pc, &sc->pc);
+-}
+-
+-static abi_ulong get_sigframe(struct target_sigaction *ka, CPUArchState *env,
+-                              size_t frame_size)
+-{
+-    unsigned long sp = get_sp_from_cpustate(env);
+-
+-    if (on_sig_stack(sp) && !likely(on_sig_stack(sp - frame_size))) {
+-        return -1UL;
+-    }
+-
+-    sp = target_sigsp(sp, ka) - frame_size;
+-    sp &= -16UL;
+-    return sp;
+-}
+-
+-void setup_rt_frame(int sig, struct target_sigaction *ka,
+-                    target_siginfo_t *info,
+-                    target_sigset_t *set, CPUArchState *env)
+-{
+-    abi_ulong frame_addr;
+-    struct target_rt_sigframe *frame;
+-    unsigned long restorer;
+-
+-    frame_addr = get_sigframe(ka, env, sizeof(*frame));
+-    trace_user_setup_rt_frame(env, frame_addr);
+-    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
+-        goto give_sigsegv;
+-    }
+-
+-    /* Always write at least the signal number for the stack backtracer. */
+-    if (ka->sa_flags & TARGET_SA_SIGINFO) {
+-        /* At sigreturn time, restore the callee-save registers too. */
+-        tswap_siginfo(&frame->info, info);
+-        /* regs->flags |= PT_FLAGS_RESTORE_REGS; FIXME: we can skip it? */
+-    } else {
+-        __put_user(info->si_signo, &frame->info.si_signo);
+-    }
+-
+-    /* Create the ucontext.  */
+-    __put_user(0, &frame->uc.tuc_flags);
+-    __put_user(0, &frame->uc.tuc_link);
+-    target_save_altstack(&frame->uc.tuc_stack, env);
+-    setup_sigcontext(&frame->uc.tuc_mcontext, env, info->si_signo);
+-
+-    if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        restorer = (unsigned long) ka->sa_restorer;
+-    } else {
+-        __put_user(INSN_MOVELI_R10_139, &frame->retcode[0]);
+-        __put_user(INSN_SWINT1, &frame->retcode[1]);
+-        restorer = frame_addr + offsetof(struct target_rt_sigframe, retcode);
+-    }
+-    env->pc = (unsigned long) ka->_sa_handler;
+-    env->regs[TILEGX_R_SP] = (unsigned long) frame;
+-    env->regs[TILEGX_R_LR] = restorer;
+-    env->regs[0] = (unsigned long) sig;
+-    env->regs[1] = (unsigned long) &frame->info;
+-    env->regs[2] = (unsigned long) &frame->uc;
+-    /* regs->flags |= PT_FLAGS_CALLER_SAVES; FIXME: we can skip it? */
+-
+-    unlock_user_struct(frame, frame_addr, 1);
+-    return;
+-
+-give_sigsegv:
+-    force_sigsegv(sig);
+-}
+-
+-long do_rt_sigreturn(CPUTLGState *env)
+-{
+-    abi_ulong frame_addr = env->regs[TILEGX_R_SP];
+-    struct target_rt_sigframe *frame;
+-    sigset_t set;
+-
+-    trace_user_do_rt_sigreturn(env, frame_addr);
+-    if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+-        goto badframe;
+-    }
+-    target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
+-    set_sigmask(&set);
+-
+-    restore_sigcontext(env, &frame->uc.tuc_mcontext);
+-    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
+-                                             uc.tuc_stack),
+-                       0, env->regs[TILEGX_R_SP]) == -EFAULT) {
+-        goto badframe;
+-    }
+-
+-    unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
+-
+-
+- badframe:
+-    unlock_user_struct(frame, frame_addr, 0);
+-    force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
+-}
+diff --git a/linux-user/tilegx/sockbits.h b/linux-user/tilegx/sockbits.h
+deleted file mode 100644
+index 0e4c8f012d..0000000000
+--- a/linux-user/tilegx/sockbits.h
++++ /dev/null
+@@ -1 +0,0 @@
+-#include "../generic/sockbits.h"
+diff --git a/linux-user/tilegx/syscall_nr.h b/linux-user/tilegx/syscall_nr.h
+deleted file mode 100644
+index c104b94230..0000000000
+--- a/linux-user/tilegx/syscall_nr.h
++++ /dev/null
+@@ -1,327 +0,0 @@
+-#ifndef TILEGX_SYSCALL_NR_H
+-#define TILEGX_SYSCALL_NR_H
+-
+-/*
+- * Copy from linux kernel asm-generic/unistd.h, which tilegx uses.
+- */
+-#define TARGET_NR_io_setup                      0
+-#define TARGET_NR_io_destroy                    1
+-#define TARGET_NR_io_submit                     2
+-#define TARGET_NR_io_cancel                     3
+-#define TARGET_NR_io_getevents                  4
+-#define TARGET_NR_setxattr                      5
+-#define TARGET_NR_lsetxattr                     6
+-#define TARGET_NR_fsetxattr                     7
+-#define TARGET_NR_getxattr                      8
+-#define TARGET_NR_lgetxattr                     9
+-#define TARGET_NR_fgetxattr                     10
+-#define TARGET_NR_listxattr                     11
+-#define TARGET_NR_llistxattr                    12
+-#define TARGET_NR_flistxattr                    13
+-#define TARGET_NR_removexattr                   14
+-#define TARGET_NR_lremovexattr                  15
+-#define TARGET_NR_fremovexattr                  16
+-#define TARGET_NR_getcwd                        17
+-#define TARGET_NR_lookup_dcookie                18
+-#define TARGET_NR_eventfd2                      19
+-#define TARGET_NR_epoll_create1                 20
+-#define TARGET_NR_epoll_ctl                     21
+-#define TARGET_NR_epoll_pwait                   22
+-#define TARGET_NR_dup                           23
+-#define TARGET_NR_dup3                          24
+-#define TARGET_NR_fcntl                         25
+-#define TARGET_NR_inotify_init1                 26
+-#define TARGET_NR_inotify_add_watch             27
+-#define TARGET_NR_inotify_rm_watch              28
+-#define TARGET_NR_ioctl                         29
+-#define TARGET_NR_ioprio_set                    30
+-#define TARGET_NR_ioprio_get                    31
+-#define TARGET_NR_flock                         32
+-#define TARGET_NR_mknodat                       33
+-#define TARGET_NR_mkdirat                       34
+-#define TARGET_NR_unlinkat                      35
+-#define TARGET_NR_symlinkat                     36
+-#define TARGET_NR_linkat                        37
+-#define TARGET_NR_renameat                      38
+-#define TARGET_NR_umount2                       39
+-#define TARGET_NR_mount                         40
+-#define TARGET_NR_pivot_root                    41
+-#define TARGET_NR_nfsservctl                    42
+-#define TARGET_NR_statfs                        43
+-#define TARGET_NR_fstatfs                       44
+-#define TARGET_NR_truncate                      45
+-#define TARGET_NR_ftruncate                     46
+-#define TARGET_NR_fallocate                     47
+-#define TARGET_NR_faccessat                     48
+-#define TARGET_NR_chdir                         49
+-#define TARGET_NR_fchdir                        50
+-#define TARGET_NR_chroot                        51
+-#define TARGET_NR_fchmod                        52
+-#define TARGET_NR_fchmodat                      53
+-#define TARGET_NR_fchownat                      54
+-#define TARGET_NR_fchown                        55
+-#define TARGET_NR_openat                        56
+-#define TARGET_NR_close                         57
+-#define TARGET_NR_vhangup                       58
+-#define TARGET_NR_pipe2                         59
+-#define TARGET_NR_quotactl                      60
+-#define TARGET_NR_getdents64                    61
+-#define TARGET_NR_lseek                         62
+-#define TARGET_NR_read                          63
+-#define TARGET_NR_write                         64
+-#define TARGET_NR_readv                         65
+-#define TARGET_NR_writev                        66
+-#define TARGET_NR_pread64                       67
+-#define TARGET_NR_pwrite64                      68
+-#define TARGET_NR_preadv                        69
+-#define TARGET_NR_pwritev                       70
+-#define TARGET_NR_sendfile                      71
+-#define TARGET_NR_pselect6                      72
+-#define TARGET_NR_ppoll                         73
+-#define TARGET_NR_signalfd4                     74
+-#define TARGET_NR_vmsplice                      75
+-#define TARGET_NR_splice                        76
+-#define TARGET_NR_tee                           77
+-#define TARGET_NR_readlinkat                    78
+-#define TARGET_NR_fstatat64                     79 /* let syscall.c known */
+-#define TARGET_NR_fstat                         80
+-#define TARGET_NR_sync                          81
+-#define TARGET_NR_fsync                         82
+-#define TARGET_NR_fdatasync                     83
+-#define TARGET_NR_sync_file_range               84 /* For tilegx, no range2 */
+-#define TARGET_NR_timerfd_create                85
+-#define TARGET_NR_timerfd_settime               86
+-#define TARGET_NR_timerfd_gettime               87
+-#define TARGET_NR_utimensat                     88
+-#define TARGET_NR_acct                          89
+-#define TARGET_NR_capget                        90
+-#define TARGET_NR_capset                        91
+-#define TARGET_NR_personality                   92
+-#define TARGET_NR_exit                          93
+-#define TARGET_NR_exit_group                    94
+-#define TARGET_NR_waitid                        95
+-#define TARGET_NR_set_tid_address               96
+-#define TARGET_NR_unshare                       97
+-#define TARGET_NR_futex                         98
+-#define TARGET_NR_set_robust_list               99
+-#define TARGET_NR_get_robust_list               100
+-#define TARGET_NR_nanosleep                     101
+-#define TARGET_NR_getitimer                     102
+-#define TARGET_NR_setitimer                     103
+-#define TARGET_NR_kexec_load                    104
+-#define TARGET_NR_init_module                   105
+-#define TARGET_NR_delete_module                 106
+-#define TARGET_NR_timer_create                  107
+-#define TARGET_NR_timer_gettime                 108
+-#define TARGET_NR_timer_getoverrun              109
+-#define TARGET_NR_timer_settime                 110
+-#define TARGET_NR_timer_delete                  111
+-#define TARGET_NR_clock_settime                 112
+-#define TARGET_NR_clock_gettime                 113
+-#define TARGET_NR_clock_getres                  114
+-#define TARGET_NR_clock_nanosleep               115
+-#define TARGET_NR_syslog                        116
+-#define TARGET_NR_ptrace                        117
+-#define TARGET_NR_sched_setparam                118
+-#define TARGET_NR_sched_setscheduler            119
+-#define TARGET_NR_sched_getscheduler            120
+-#define TARGET_NR_sched_getparam                121
+-#define TARGET_NR_sched_setaffinity             122
+-#define TARGET_NR_sched_getaffinity             123
+-#define TARGET_NR_sched_yield                   124
+-#define TARGET_NR_sched_get_priority_max        125
+-#define TARGET_NR_sched_get_priority_min        126
+-#define TARGET_NR_sched_rr_get_interval         127
+-#define TARGET_NR_restart_syscall               128
+-#define TARGET_NR_kill                          129
+-#define TARGET_NR_tkill                         130
+-#define TARGET_NR_tgkill                        131
+-#define TARGET_NR_sigaltstack                   132
+-#define TARGET_NR_rt_sigsuspend                 133
+-#define TARGET_NR_rt_sigaction                  134
+-#define TARGET_NR_rt_sigprocmask                135
+-#define TARGET_NR_rt_sigpending                 136
+-#define TARGET_NR_rt_sigtimedwait               137
+-#define TARGET_NR_rt_sigqueueinfo               138
+-#define TARGET_NR_rt_sigreturn                  139
+-#define TARGET_NR_setpriority                   140
+-#define TARGET_NR_getpriority                   141
+-#define TARGET_NR_reboot                        142
+-#define TARGET_NR_setregid                      143
+-#define TARGET_NR_setgid                        144
+-#define TARGET_NR_setreuid                      145
+-#define TARGET_NR_setuid                        146
+-#define TARGET_NR_setresuid                     147
+-#define TARGET_NR_getresuid                     148
+-#define TARGET_NR_setresgid                     149
+-#define TARGET_NR_getresgid                     150
+-#define TARGET_NR_setfsuid                      151
+-#define TARGET_NR_setfsgid                      152
+-#define TARGET_NR_times                         153
+-#define TARGET_NR_setpgid                       154
+-#define TARGET_NR_getpgid                       155
+-#define TARGET_NR_getsid                        156
+-#define TARGET_NR_setsid                        157
+-#define TARGET_NR_getgroups                     158
+-#define TARGET_NR_setgroups                     159
+-#define TARGET_NR_uname                         160
+-#define TARGET_NR_sethostname                   161
+-#define TARGET_NR_setdomainname                 162
+-#define TARGET_NR_getrlimit                     163
+-#define TARGET_NR_setrlimit                     164
+-#define TARGET_NR_getrusage                     165
+-#define TARGET_NR_umask                         166
+-#define TARGET_NR_prctl                         167
+-#define TARGET_NR_getcpu                        168
+-#define TARGET_NR_gettimeofday                  169
+-#define TARGET_NR_settimeofday                  170
+-#define TARGET_NR_adjtimex                      171
+-#define TARGET_NR_getpid                        172
+-#define TARGET_NR_getppid                       173
+-#define TARGET_NR_getuid                        174
+-#define TARGET_NR_geteuid                       175
+-#define TARGET_NR_getgid                        176
+-#define TARGET_NR_getegid                       177
+-#define TARGET_NR_gettid                        178
+-#define TARGET_NR_sysinfo                       179
+-#define TARGET_NR_mq_open                       180
+-#define TARGET_NR_mq_unlink                     181
+-#define TARGET_NR_mq_timedsend                  182
+-#define TARGET_NR_mq_timedreceive               183
+-#define TARGET_NR_mq_notify                     184
+-#define TARGET_NR_mq_getsetattr                 185
+-#define TARGET_NR_msgget                        186
+-#define TARGET_NR_msgctl                        187
+-#define TARGET_NR_msgrcv                        188
+-#define TARGET_NR_msgsnd                        189
+-#define TARGET_NR_semget                        190
+-#define TARGET_NR_semctl                        191
+-#define TARGET_NR_semtimedop                    192
+-#define TARGET_NR_semop                         193
+-#define TARGET_NR_shmget                        194
+-#define TARGET_NR_shmctl                        195
+-#define TARGET_NR_shmat                         196
+-#define TARGET_NR_shmdt                         197
+-#define TARGET_NR_socket                        198
+-#define TARGET_NR_socketpair                    199
+-#define TARGET_NR_bind                          200
+-#define TARGET_NR_listen                        201
+-#define TARGET_NR_accept                        202
+-#define TARGET_NR_connect                       203
+-#define TARGET_NR_getsockname                   204
+-#define TARGET_NR_getpeername                   205
+-#define TARGET_NR_sendto                        206
+-#define TARGET_NR_recvfrom                      207
+-#define TARGET_NR_setsockopt                    208
+-#define TARGET_NR_getsockopt                    209
+-#define TARGET_NR_shutdown                      210
+-#define TARGET_NR_sendmsg                       211
+-#define TARGET_NR_recvmsg                       212
+-#define TARGET_NR_readahead                     213
+-#define TARGET_NR_brk                           214
+-#define TARGET_NR_munmap                        215
+-#define TARGET_NR_mremap                        216
+-#define TARGET_NR_add_key                       217
+-#define TARGET_NR_request_key                   218
+-#define TARGET_NR_keyctl                        219
+-#define TARGET_NR_clone                         220
+-#define TARGET_NR_execve                        221
+-#define TARGET_NR_mmap                          222
+-#define TARGET_NR_fadvise64                     223
+-#define TARGET_NR_swapon                        224
+-#define TARGET_NR_swapoff                       225
+-#define TARGET_NR_mprotect                      226
+-#define TARGET_NR_msync                         227
+-#define TARGET_NR_mlock                         228
+-#define TARGET_NR_munlock                       229
+-#define TARGET_NR_mlockall                      230
+-#define TARGET_NR_munlockall                    231
+-#define TARGET_NR_mincore                       232
+-#define TARGET_NR_madvise                       233
+-#define TARGET_NR_remap_file_pages              234
+-#define TARGET_NR_mbind                         235
+-#define TARGET_NR_get_mempolicy                 236
+-#define TARGET_NR_set_mempolicy                 237
+-#define TARGET_NR_migrate_pages                 238
+-#define TARGET_NR_move_pages                    239
+-#define TARGET_NR_rt_tgsigqueueinfo             240
+-#define TARGET_NR_perf_event_open               241
+-#define TARGET_NR_accept4                       242
+-#define TARGET_NR_recvmmsg                      243
+-
+-#define TARGET_NR_arch_specific_syscall         244
+-#define TARGET_NR_cacheflush                    245  /* tilegx own syscall */
+-
+-#define TARGET_NR_wait4                         260
+-#define TARGET_NR_prlimit64                     261
+-#define TARGET_NR_fanotify_init                 262
+-#define TARGET_NR_fanotify_mark                 263
+-#define TARGET_NR_name_to_handle_at             264
+-#define TARGET_NR_open_by_handle_at             265
+-#define TARGET_NR_clock_adjtime                 266
+-#define TARGET_NR_syncfs                        267
+-#define TARGET_NR_setns                         268
+-#define TARGET_NR_sendmmsg                      269
+-#define TARGET_NR_process_vm_readv              270
+-#define TARGET_NR_process_vm_writev             271
+-#define TARGET_NR_kcmp                          272
+-#define TARGET_NR_finit_module                  273
+-#define TARGET_NR_sched_setattr                 274
+-#define TARGET_NR_sched_getattr                 275
+-#define TARGET_NR_renameat2                     276
+-#define TARGET_NR_seccomp                       277
+-#define TARGET_NR_getrandom                     278
+-#define TARGET_NR_memfd_create                  279
+-#define TARGET_NR_bpf                           280
+-#define TARGET_NR_execveat                      281
+-#define TARGET_NR_userfaultfd                   282
+-#define TARGET_NR_membarrier                    283
+-#define TARGET_NR_mlock2                        284
+-#define TARGET_NR_copy_file_range               285
+-
+-#define TARGET_NR_open                          1024
+-#define TARGET_NR_link                          1025
+-#define TARGET_NR_unlink                        1026
+-#define TARGET_NR_mknod                         1027
+-#define TARGET_NR_chmod                         1028
+-#define TARGET_NR_chown                         1029
+-#define TARGET_NR_mkdir                         1030
+-#define TARGET_NR_rmdir                         1031
+-#define TARGET_NR_lchown                        1032
+-#define TARGET_NR_access                        1033
+-#define TARGET_NR_rename                        1034
+-#define TARGET_NR_readlink                      1035
+-#define TARGET_NR_symlink                       1036
+-#define TARGET_NR_utimes                        1037
+-#define TARGET_NR_stat64                        1038 /* let syscall.c known */
+-#define TARGET_NR_lstat                         1039
+-
+-#define TARGET_NR_pipe                          1040
+-#define TARGET_NR_dup2                          1041
+-#define TARGET_NR_epoll_create                  1042
+-#define TARGET_NR_inotify_init                  1043
+-#define TARGET_NR_eventfd                       1044
+-#define TARGET_NR_signalfd                      1045
+-
+-#define TARGET_NR_alarm                         1059
+-#define TARGET_NR_getpgrp                       1060
+-#define TARGET_NR_pause                         1061
+-#define TARGET_NR_time                          1062
+-#define TARGET_NR_utime                         1063
+-#define TARGET_NR_creat                         1064
+-#define TARGET_NR_getdents                      1065
+-#define TARGET_NR_futimesat                     1066
+-#define TARGET_NR_poll                          1068
+-#define TARGET_NR_epoll_wait                    1069
+-#define TARGET_NR_ustat                         1070
+-#define TARGET_NR_vfork                         1071
+-#define TARGET_NR_oldwait4                      1072
+-#define TARGET_NR_recv                          1073
+-#define TARGET_NR_send                          1074
+-#define TARGET_NR_bdflush                       1075
+-#define TARGET_NR_umount                        1076
+-#define TARGET_NR_uselib                        1077
+-#define TARGET_NR__sysctl                       1078
+-#define TARGET_NR_fork                          1079
+-
+-#endif
+diff --git a/linux-user/tilegx/target_cpu.h b/linux-user/tilegx/target_cpu.h
+deleted file mode 100644
+index 5fa9e2a9a4..0000000000
+--- a/linux-user/tilegx/target_cpu.h
++++ /dev/null
+@@ -1,44 +0,0 @@
+-/*
+- * TILE-Gx specific CPU ABI and functions for linux-user
+- *
+- * Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#ifndef TILEGX_TARGET_CPU_H
+-#define TILEGX_TARGET_CPU_H
+-
+-static inline void cpu_clone_regs_child(CPUTLGState *env, target_ulong newsp,
+-                                        unsigned flags)
+-{
+-    if (newsp) {
+-        env->regs[TILEGX_R_SP] = newsp;
+-    }
+-    env->regs[TILEGX_R_RE] = 0;
+-}
+-
+-static inline void cpu_clone_regs_parent(CPUTLGState *env, unsigned flags)
+-{
+-}
+-
+-static inline void cpu_set_tls(CPUTLGState *env, target_ulong newtls)
+-{
+-    env->regs[TILEGX_R_TP] = newtls;
+-}
+-
+-static inline abi_ulong get_sp_from_cpustate(CPUTLGState *state)
+-{
+-    return state->regs[TILEGX_R_SP];
+-}
+-#endif
+diff --git a/linux-user/tilegx/target_elf.h b/linux-user/tilegx/target_elf.h
+deleted file mode 100644
+index 7197bb0005..0000000000
+--- a/linux-user/tilegx/target_elf.h
++++ /dev/null
+@@ -1,14 +0,0 @@
+-/*
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef TILEGX_TARGET_ELF_H
+-#define TILEGX_TARGET_ELF_H
+-static inline const char *cpu_get_model(uint32_t eflags)
+-{
+-    return "any";
+-}
+-#endif
+diff --git a/linux-user/tilegx/target_fcntl.h b/linux-user/tilegx/target_fcntl.h
+deleted file mode 100644
+index 5ed7438459..0000000000
+--- a/linux-user/tilegx/target_fcntl.h
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/*
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef TILEGX_TARGET_FCNTL_H
+-#define TILEGX_TARGET_FCNTL_H
+-#include "../generic/fcntl.h"
+-#endif
+diff --git a/linux-user/tilegx/target_signal.h b/linux-user/tilegx/target_signal.h
+deleted file mode 100644
+index 655be13009..0000000000
+--- a/linux-user/tilegx/target_signal.h
++++ /dev/null
+@@ -1,23 +0,0 @@
+-#ifndef TILEGX_TARGET_SIGNAL_H
+-#define TILEGX_TARGET_SIGNAL_H
+-
+-/* this struct defines a stack used during syscall handling */
+-
+-typedef struct target_sigaltstack {
+-    abi_ulong ss_sp;
+-    abi_int ss_flags;
+-    abi_ulong ss_size;
+-} target_stack_t;
+-
+-/*
+- * sigaltstack controls
+- */
+-#define TARGET_SS_ONSTACK     1
+-#define TARGET_SS_DISABLE     2
+-
+-#define TARGET_MINSIGSTKSZ    2048
+-#define TARGET_SIGSTKSZ       8192
+-
+-#include "../generic/signal.h"
+-
+-#endif /* TILEGX_TARGET_SIGNAL_H */
+diff --git a/linux-user/tilegx/target_structs.h b/linux-user/tilegx/target_structs.h
+deleted file mode 100644
+index 1df000cc96..0000000000
+--- a/linux-user/tilegx/target_structs.h
++++ /dev/null
+@@ -1,46 +0,0 @@
+-/*
+- * TILE-Gx specific structures for linux-user
+- *
+- * Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#ifndef TILEGX_TARGET_STRUCTS_H
+-#define TILEGX_TARGET_STRUCTS_H
+-
+-struct target_ipc_perm {
+-    abi_int __key;                      /* Key.  */
+-    abi_uint uid;                       /* Owner's user ID.  */
+-    abi_uint gid;                       /* Owner's group ID.  */
+-    abi_uint cuid;                      /* Creator's user ID.  */
+-    abi_uint cgid;                      /* Creator's group ID.  */
+-    abi_uint mode;                      /* Read/write permission.  */
+-    abi_ushort __seq;                   /* Sequence number.  */
+-};
+-
+-struct target_shmid_ds {
+-    struct target_ipc_perm shm_perm;    /* operation permission struct */
+-    abi_long shm_segsz;                 /* size of segment in bytes */
+-    abi_ulong shm_atime;                /* time of last shmat() */
+-    abi_ulong shm_dtime;                /* time of last shmdt() */
+-    abi_ulong shm_ctime;                /* time of last change by shmctl() */
+-    abi_int shm_cpid;                   /* pid of creator */
+-    abi_int shm_lpid;                   /* pid of last shmop */
+-    abi_ushort shm_nattch;              /* number of current attaches */
+-    abi_ushort shm_unused;              /* compatibility */
+-    abi_ulong __unused4;
+-    abi_ulong __unused5;
+-};
+-
+-#endif
+diff --git a/linux-user/tilegx/target_syscall.h b/linux-user/tilegx/target_syscall.h
+deleted file mode 100644
+index 8e9db734b8..0000000000
+--- a/linux-user/tilegx/target_syscall.h
++++ /dev/null
+@@ -1,44 +0,0 @@
+-#ifndef TILEGX_TARGET_SYSCALL_H
+-#define TILEGX_TARGET_SYSCALL_H
+-
+-#define UNAME_MACHINE "tilegx"
+-#define UNAME_MINIMUM_RELEASE "3.19"
+-
+-#define MMAP_SHIFT TARGET_PAGE_BITS
+-
+-#define TILEGX_IS_ERRNO(ret) \
+-                       ((ret) > 0xfffffffffffff000ULL) /* errno is 0 -- 4096 */
+-
+-typedef uint64_t tilegx_reg_t;
+-
+-struct target_pt_regs {
+-
+-    union {
+-        /* Saved main processor registers; 56..63 are special. */
+-        tilegx_reg_t regs[56];
+-        struct {
+-            tilegx_reg_t __regs[53];
+-            tilegx_reg_t tp;    /* aliases regs[TREG_TP] */
+-            tilegx_reg_t sp;    /* aliases regs[TREG_SP] */
+-            tilegx_reg_t lr;    /* aliases regs[TREG_LR] */
+-        };
+-    };
+-
+-    /* Saved special registers. */
+-    tilegx_reg_t pc;            /* stored in EX_CONTEXT_K_0 */
+-    tilegx_reg_t ex1;           /* stored in EX_CONTEXT_K_1 (PL and ICS bit) */
+-    tilegx_reg_t faultnum;      /* fault number (INT_SWINT_1 for syscall) */
+-    tilegx_reg_t orig_r0;       /* r0 at syscall entry, else zero */
+-    tilegx_reg_t flags;         /* flags (see below) */
+-    tilegx_reg_t cmpexch;       /* value of CMPEXCH_VALUE SPR at interrupt */
+-    tilegx_reg_t pad[2];
+-};
+-
+-#define TARGET_MCL_CURRENT 1
+-#define TARGET_MCL_FUTURE  2
+-#define TARGET_MCL_ONFAULT 4
+-
+-/* For faultnum */
+-#define TARGET_INT_SWINT_1            14
+-
+-#endif
+diff --git a/linux-user/tilegx/termbits.h b/linux-user/tilegx/termbits.h
+deleted file mode 100644
+index b1d4f4fedb..0000000000
+--- a/linux-user/tilegx/termbits.h
++++ /dev/null
+@@ -1 +0,0 @@
+-#include "../generic/termbits.h"
+diff --git a/target/meson.build b/target/meson.build
+index c35c1e9d34..0e2c4b69cb 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -18,7 +18,6 @@ subdir('rx')
+ subdir('s390x')
+ subdir('sh4')
+ subdir('sparc')
+-subdir('tilegx')
+ subdir('tricore')
+ subdir('unicore32')
+ subdir('xtensa')
+diff --git a/target/tilegx/cpu-param.h b/target/tilegx/cpu-param.h
+deleted file mode 100644
+index 80a341cbb7..0000000000
+--- a/target/tilegx/cpu-param.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/*
+- * TILE-Gx cpu parameters for qemu.
+- *
+- * Copyright (c) 2015 Chen Gang
+- * SPDX-License-Identifier: LGPL-2.0+
+- */
+-
+-#ifndef TILEGX_CPU_PARAM_H
+-#define TILEGX_CPU_PARAM_H 1
+-
+-#define TARGET_LONG_BITS 64
+-#define TARGET_PAGE_BITS 16  /* TILE-Gx uses 64KB page size */
+-#define TARGET_PHYS_ADDR_SPACE_BITS 42
+-#define TARGET_VIRT_ADDR_SPACE_BITS 64
+-#define NB_MMU_MODES 1
+-
+-#endif
+diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
+deleted file mode 100644
+index d969c2f133..0000000000
+--- a/target/tilegx/cpu.c
++++ /dev/null
+@@ -1,182 +0,0 @@
+-/*
+- * QEMU TILE-Gx CPU
+- *
+- *  Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see
+- * <http://www.gnu.org/licenses/lgpl-2.1.html>
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qapi/error.h"
+-#include "cpu.h"
+-#include "qemu/module.h"
+-#include "linux-user/syscall_defs.h"
+-#include "qemu/qemu-print.h"
+-#include "exec/exec-all.h"
+-
+-static void tilegx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-{
+-    static const char * const reg_names[TILEGX_R_COUNT] = {
+-         "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+-         "r8",  "r9", "r10", "r11", "r12", "r13", "r14", "r15",
+-        "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+-        "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+-        "r32", "r33", "r34", "r35", "r36", "r37", "r38", "r39",
+-        "r40", "r41", "r42", "r43", "r44", "r45", "r46", "r47",
+-        "r48", "r49", "r50", "r51",  "bp",  "tp",  "sp",  "lr"
+-    };
+-
+-    TileGXCPU *cpu = TILEGX_CPU(cs);
+-    CPUTLGState *env = &cpu->env;
+-    int i;
+-
+-    for (i = 0; i < TILEGX_R_COUNT; i++) {
+-        qemu_fprintf(f, "%-4s" TARGET_FMT_lx "%s",
+-                     reg_names[i], env->regs[i],
+-                     (i % 4) == 3 ? "\n" : " ");
+-    }
+-    qemu_fprintf(f, "PC  " TARGET_FMT_lx " CEX " TARGET_FMT_lx "\n\n",
+-                 env->pc, env->spregs[TILEGX_SPR_CMPEXCH]);
+-}
+-
+-static ObjectClass *tilegx_cpu_class_by_name(const char *cpu_model)
+-{
+-    return object_class_by_name(TYPE_TILEGX_CPU);
+-}
+-
+-static void tilegx_cpu_set_pc(CPUState *cs, vaddr value)
+-{
+-    TileGXCPU *cpu = TILEGX_CPU(cs);
+-
+-    cpu->env.pc = value;
+-}
+-
+-static bool tilegx_cpu_has_work(CPUState *cs)
+-{
+-    return true;
+-}
+-
+-static void tilegx_cpu_reset(DeviceState *dev)
+-{
+-    CPUState *s = CPU(dev);
+-    TileGXCPU *cpu = TILEGX_CPU(s);
+-    TileGXCPUClass *tcc = TILEGX_CPU_GET_CLASS(cpu);
+-    CPUTLGState *env = &cpu->env;
+-
+-    tcc->parent_reset(dev);
+-
+-    memset(env, 0, offsetof(CPUTLGState, end_reset_fields));
+-}
+-
+-static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
+-{
+-    CPUState *cs = CPU(dev);
+-    TileGXCPUClass *tcc = TILEGX_CPU_GET_CLASS(dev);
+-    Error *local_err = NULL;
+-
+-    cpu_exec_realizefn(cs, &local_err);
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+-    cpu_reset(cs);
+-    qemu_init_vcpu(cs);
+-
+-    tcc->parent_realize(dev, errp);
+-}
+-
+-static void tilegx_cpu_initfn(Object *obj)
+-{
+-    TileGXCPU *cpu = TILEGX_CPU(obj);
+-
+-    cpu_set_cpustate_pointers(cpu);
+-}
+-
+-static void tilegx_cpu_do_interrupt(CPUState *cs)
+-{
+-    cs->exception_index = -1;
+-}
+-
+-static bool tilegx_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                                MMUAccessType access_type, int mmu_idx,
+-                                bool probe, uintptr_t retaddr)
+-{
+-    TileGXCPU *cpu = TILEGX_CPU(cs);
+-
+-    /* The sigcode field will be filled in by do_signal in main.c.  */
+-    cs->exception_index = TILEGX_EXCP_SIGNAL;
+-    cpu->env.excaddr = address;
+-    cpu->env.signo = TARGET_SIGSEGV;
+-    cpu->env.sigcode = 0;
+-
+-    cpu_loop_exit_restore(cs, retaddr);
+-}
+-
+-static bool tilegx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-{
+-    if (interrupt_request & CPU_INTERRUPT_HARD) {
+-        tilegx_cpu_do_interrupt(cs);
+-        return true;
+-    }
+-    return false;
+-}
+-
+-#include "hw/core/tcg-cpu-ops.h"
+-
+-static struct TCGCPUOps tilegx_tcg_ops = {
+-    .initialize = tilegx_tcg_init,
+-    .cpu_exec_interrupt = tilegx_cpu_exec_interrupt,
+-    .tlb_fill = tilegx_cpu_tlb_fill,
+-
+-#ifndef CONFIG_USER_ONLY
+-    .do_interrupt = tilegx_cpu_do_interrupt,
+-#endif /* !CONFIG_USER_ONLY */
+-};
+-
+-static void tilegx_cpu_class_init(ObjectClass *oc, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(oc);
+-    CPUClass *cc = CPU_CLASS(oc);
+-    TileGXCPUClass *tcc = TILEGX_CPU_CLASS(oc);
+-
+-    device_class_set_parent_realize(dc, tilegx_cpu_realizefn,
+-                                    &tcc->parent_realize);
+-
+-    device_class_set_parent_reset(dc, tilegx_cpu_reset, &tcc->parent_reset);
+-
+-    cc->class_by_name = tilegx_cpu_class_by_name;
+-    cc->has_work = tilegx_cpu_has_work;
+-    cc->dump_state = tilegx_cpu_dump_state;
+-    cc->set_pc = tilegx_cpu_set_pc;
+-    cc->gdb_num_core_regs = 0;
+-    cc->tcg_ops = &tilegx_tcg_ops;
+-}
+-
+-static const TypeInfo tilegx_cpu_type_info = {
+-    .name = TYPE_TILEGX_CPU,
+-    .parent = TYPE_CPU,
+-    .instance_size = sizeof(TileGXCPU),
+-    .instance_init = tilegx_cpu_initfn,
+-    .class_size = sizeof(TileGXCPUClass),
+-    .class_init = tilegx_cpu_class_init,
+-};
+-
+-static void tilegx_cpu_register_types(void)
+-{
+-    type_register_static(&tilegx_cpu_type_info);
+-}
+-
+-type_init(tilegx_cpu_register_types)
+diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+deleted file mode 100644
+index 7d8e44d12e..0000000000
+--- a/target/tilegx/cpu.h
++++ /dev/null
+@@ -1,160 +0,0 @@
+-/*
+- *  TILE-Gx virtual CPU header
+- *
+- *  Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef TILEGX_CPU_H
+-#define TILEGX_CPU_H
+-
+-#include "exec/cpu-defs.h"
+-#include "qom/object.h"
+-
+-/* TILE-Gx common register alias */
+-#define TILEGX_R_RE    0   /*  0 register, for function/syscall return value */
+-#define TILEGX_R_ERR   1   /*  1 register, for syscall errno flag */
+-#define TILEGX_R_NR    10  /* 10 register, for syscall number */
+-#define TILEGX_R_BP    52  /* 52 register, optional frame pointer */
+-#define TILEGX_R_TP    53  /* TP register, thread local storage data */
+-#define TILEGX_R_SP    54  /* SP register, stack pointer */
+-#define TILEGX_R_LR    55  /* LR register, may save pc, but it is not pc */
+-#define TILEGX_R_COUNT 56  /* Only 56 registers are really useful */
+-#define TILEGX_R_SN    56  /* SN register, obsoleted, it likes zero register */
+-#define TILEGX_R_IDN0  57  /* IDN0 register, cause IDN_ACCESS exception */
+-#define TILEGX_R_IDN1  58  /* IDN1 register, cause IDN_ACCESS exception */
+-#define TILEGX_R_UDN0  59  /* UDN0 register, cause UDN_ACCESS exception */
+-#define TILEGX_R_UDN1  60  /* UDN1 register, cause UDN_ACCESS exception */
+-#define TILEGX_R_UDN2  61  /* UDN2 register, cause UDN_ACCESS exception */
+-#define TILEGX_R_UDN3  62  /* UDN3 register, cause UDN_ACCESS exception */
+-#define TILEGX_R_ZERO  63  /* Zero register, always zero */
+-#define TILEGX_R_NOREG 255 /* Invalid register value */
+-
+-/* TILE-Gx special registers used by outside */
+-enum {
+-    TILEGX_SPR_CMPEXCH = 0,
+-    TILEGX_SPR_CRITICAL_SEC = 1,
+-    TILEGX_SPR_SIM_CONTROL = 2,
+-    TILEGX_SPR_EX_CONTEXT_0_0 = 3,
+-    TILEGX_SPR_EX_CONTEXT_0_1 = 4,
+-    TILEGX_SPR_COUNT
+-};
+-
+-/* Exception numbers */
+-typedef enum {
+-    TILEGX_EXCP_NONE = 0,
+-    TILEGX_EXCP_SYSCALL = 1,
+-    TILEGX_EXCP_SIGNAL = 2,
+-    TILEGX_EXCP_OPCODE_UNKNOWN = 0x101,
+-    TILEGX_EXCP_OPCODE_UNIMPLEMENTED = 0x102,
+-    TILEGX_EXCP_OPCODE_CMPEXCH = 0x103,
+-    TILEGX_EXCP_OPCODE_CMPEXCH4 = 0x104,
+-    TILEGX_EXCP_OPCODE_EXCH = 0x105,
+-    TILEGX_EXCP_OPCODE_EXCH4 = 0x106,
+-    TILEGX_EXCP_OPCODE_FETCHADD = 0x107,
+-    TILEGX_EXCP_OPCODE_FETCHADD4 = 0x108,
+-    TILEGX_EXCP_OPCODE_FETCHADDGEZ = 0x109,
+-    TILEGX_EXCP_OPCODE_FETCHADDGEZ4 = 0x10a,
+-    TILEGX_EXCP_OPCODE_FETCHAND = 0x10b,
+-    TILEGX_EXCP_OPCODE_FETCHAND4 = 0x10c,
+-    TILEGX_EXCP_OPCODE_FETCHOR = 0x10d,
+-    TILEGX_EXCP_OPCODE_FETCHOR4 = 0x10e,
+-    TILEGX_EXCP_REG_IDN_ACCESS = 0x181,
+-    TILEGX_EXCP_REG_UDN_ACCESS = 0x182,
+-    TILEGX_EXCP_UNALIGNMENT = 0x201,
+-    TILEGX_EXCP_DBUG_BREAK = 0x301
+-} TileExcp;
+-
+-typedef struct CPUTLGState {
+-    uint64_t regs[TILEGX_R_COUNT];     /* Common used registers by outside */
+-    uint64_t spregs[TILEGX_SPR_COUNT]; /* Special used registers by outside */
+-    uint64_t pc;                       /* Current pc */
+-
+-#if defined(CONFIG_USER_ONLY)
+-    uint64_t excaddr;                  /* exception address */
+-    uint64_t atomic_srca;              /* Arguments to atomic "exceptions" */
+-    uint64_t atomic_srcb;
+-    uint32_t atomic_dstr;
+-    uint32_t signo;                    /* Signal number */
+-    uint32_t sigcode;                  /* Signal code */
+-#endif
+-
+-    /* Fields up to this point are cleared by a CPU reset */
+-    struct {} end_reset_fields;
+-} CPUTLGState;
+-
+-#include "hw/core/cpu.h"
+-
+-#define TYPE_TILEGX_CPU "tilegx-cpu"
+-
+-OBJECT_DECLARE_TYPE(TileGXCPU, TileGXCPUClass,
+-                    TILEGX_CPU)
+-
 -/**
-- * Edge options to be passed to the contains/consumes *_args function.
-+ * struct QOSGraphEdgeOptions:
-+ * Edge options to be passed to the contains/consumes \*_args function.
-+ * @arg: optional arg that will be used by dest edge
-+ * @size_arg: @arg size that will be used by dest edge
-+ * @extra_device_opts: optional additional command line for dest
-+ *                     edge, used to add additional attributes
-+ *                     *after* the node command line, the
-+ *                     framework automatically prepends ","
-+ *                     to this argument.
-+ * @before_cmd_line: optional additional command line for dest
-+ *                   edge, used to add additional attributes
-+ *                   *before* the node command line, usually
-+ *                   other non-node represented commands,
-+ *                   like "-fdsev synt"
-+ * @after_cmd_line: optional extra command line to be added
-+ *                  after the device command. This option
-+ *                  is used to add other devices
-+ *                  command line that depend on current node.
-+ *                  Automatically prepends " " to this argument
-+ * @edge_name: optional edge to differentiate multiple
-+ *             devices with same node name
-  */
- struct QOSGraphEdgeOptions {
--    void *arg;                    /*
--                                   * optional arg that will be used by
--                                   * dest edge
--                                   */
--    uint32_t size_arg;            /*
--                                   * optional arg size that will be used by
--                                   * dest edge
--                                   */
--    const char *extra_device_opts;/*
--                                   *optional additional command line for dest
--                                   * edge, used to add additional attributes
--                                   * *after* the node command line, the
--                                   * framework automatically prepends ","
--                                   * to this argument.
--                                   */
--    const char *before_cmd_line;  /*
--                                   * optional additional command line for dest
--                                   * edge, used to add additional attributes
--                                   * *before* the node command line, usually
--                                   * other non-node represented commands,
--                                   * like "-fdsev synt"
--                                   */
--    const char *after_cmd_line;   /*
--                                   * optional extra command line to be added
--                                   * after the device command. This option
--                                   * is used to add other devices
--                                   * command line that depend on current node.
--                                   * Automatically prepends " " to this
--                                   * argument
--                                   */
--    const char *edge_name;        /*
--                                   * optional edge to differentiate multiple
--                                   * devices with same node name
--                                   */
-+    void *arg;
-+    uint32_t size_arg;
-+    const char *extra_device_opts;
-+    const char *before_cmd_line;
-+    const char *after_cmd_line;
-+    const char *edge_name;
- };
- 
- /**
-+ * struct QOSGraphTestOptions:
-  * Test options to be passed to the test functions.
-+ * @edge: edge arguments that will be used by test.
-+ *        Note that test *does not* use edge_name,
-+ *        and uses instead arg and size_arg as
-+ *        data arg for its test function.
-+ * @arg:  if @before is non-NULL, pass @arg there.
-+ *        Otherwise pass it to the test function.
-+ * @before: executed before the test. Used to add
-+ *          additional parameters to the command line
-+ *          and modify the argument to the test function.
-+ * @subprocess: run the test in a subprocess.
-  */
- struct QOSGraphTestOptions {
--    QOSGraphEdgeOptions edge;   /* edge arguments that will be used by test.
--                                 * Note that test *does not* use edge_name,
--                                 * and uses instead arg and size_arg as
--                                 * data arg for its test function.
--                                 */
--    void *arg;                  /* passed to the .before function, or to the
--                                 * test function if there is no .before
--                                 * function
--                                 */
--    QOSBeforeTest before;       /* executed before the test. Can add
--                                 * additional parameters to the command line
--                                 * and modify the argument to the test function.
--                                 */
--    bool subprocess;            /* run the test in a subprocess */
-+    QOSGraphEdgeOptions edge;
-+    void *arg;
-+    QOSBeforeTest before;
-+    bool subprocess;
- };
- 
- /**
-+ * struct QOSGraphObject:
-  * Each driver, test or machine of this framework will have a
-  * QOSGraphObject as first field.
-  *
-  * This set of functions offered by QOSGraphObject are executed
-  * in different stages of the framework:
-- * - get_driver / get_device : Once a machine-to-test path has been
-- * found, the framework traverses it again and allocates all the
-- * nodes, using the provided constructor. To satisfy their relations,
-- * i.e. for produces or contains, where a struct constructor needs
-- * an external parameter represented by the previous node,
-- * the framework will call get_device (for contains) or
-- * get_driver (for produces), depending on the edge type, passing
-- * them the name of the next node to be taken and getting from them
-- * the corresponding pointer to the actual structure of the next node to
-- * be used in the path.
+- * TileGXCPUClass:
+- * @parent_realize: The parent class' realize handler.
+- * @parent_reset: The parent class' reset handler.
 - *
-- * - start_hw: This function is executed after all the path objects
-- * have been allocated, but before the test is run. It starts the hw, setting
-- * the initial configurations (*_device_enable) and making it ready for the
-- * test.
+- * A Tile-Gx CPU model.
+- */
+-struct TileGXCPUClass {
+-    /*< private >*/
+-    CPUClass parent_class;
+-    /*< public >*/
+-
+-    DeviceRealize parent_realize;
+-    DeviceReset parent_reset;
+-};
+-
+-/**
+- * TileGXCPU:
+- * @env: #CPUTLGState
 - *
-- * - destructor: Opposite to the node constructor, destroys the object.
-- * This function is called after the test has been executed, and performs
-- * a complete cleanup of each node allocated field. In case no constructor
-- * is provided, no destructor will be called.
+- * A Tile-GX CPU.
+- */
+-struct TileGXCPU {
+-    /*< private >*/
+-    CPUState parent_obj;
+-    /*< public >*/
+-
+-    CPUNegativeOffsetState neg;
+-    CPUTLGState env;
+-};
+-
+-
+-/* TILE-Gx memory attributes */
+-#define MMU_USER_IDX    0  /* Current memory operation is in user mode */
+-
+-typedef CPUTLGState CPUArchState;
+-typedef TileGXCPU ArchCPU;
+-
+-#include "exec/cpu-all.h"
+-
+-void tilegx_tcg_init(void);
+-int cpu_tilegx_signal_handler(int host_signum, void *pinfo, void *puc);
+-
+-#define CPU_RESOLVING_TYPE TYPE_TILEGX_CPU
+-
+-#define cpu_signal_handler cpu_tilegx_signal_handler
+-
+-static inline void cpu_get_tb_cpu_state(CPUTLGState *env, target_ulong *pc,
+-                                        target_ulong *cs_base, uint32_t *flags)
+-{
+-    *pc = env->pc;
+-    *cs_base = 0;
+-    *flags = 0;
+-}
+-
+-#endif
+diff --git a/target/tilegx/helper.c b/target/tilegx/helper.c
+deleted file mode 100644
+index c006bf7454..0000000000
+--- a/target/tilegx/helper.c
++++ /dev/null
+@@ -1,147 +0,0 @@
+-/*
+- * QEMU TILE-Gx helpers
 - *
-+ * @get_driver: see @get_device
-+ * @get_device: Once a machine-to-test path has been
-+ *              found, the framework traverses it again and allocates all the
-+ *              nodes, using the provided constructor. To satisfy their
-+ *              relations, i.e. for produces or contains, where a struct
-+ *              constructor needs an external parameter represented by the
-+ *              previous node, the framework will call
-+ *              @get_device (for contains) or @get_driver (for produces),
-+ *              depending on the edge type, passing them the name of the next
-+ *              node to be taken and getting from them the corresponding
-+ *              pointer to the actual structure of the next node to
-+ *              be used in the path.
-+ * @start_hw: This function is executed after all the path objects
-+ *            have been allocated, but before the test is run. It starts the
-+ *            hw, setting the initial configurations (\*_device_enable) and
-+ *            making it ready for the test.
-+ * @destructor: Opposite to the node constructor, destroys the object.
-+ *              This function is called after the test has been executed, and
-+ *              performs a complete cleanup of each node allocated field.
-+ *              In case no constructor is provided, no destructor will be
-+ *              called.
-+ * @free: free the memory associated to the QOSGraphObject and its contained
-+ *        children
-  */
- struct QOSGraphObject {
--    /* for produces edges, returns void * */
-     QOSGetDriver get_driver;
--    /* for contains edges, returns a QOSGraphObject * */
-     QOSGetDevice get_device;
--    /* start the hw, get ready for the test */
-     QOSStartFunct start_hw;
--    /* destroy this QOSGraphObject */
-     QOSDestructorFunc destructor;
--    /* free the memory associated to the QOSGraphObject and its contained
--     * children */
-     GDestroyNotify free;
- };
- 
-@@ -399,24 +152,30 @@ void qos_graph_init(void);
- void qos_graph_destroy(void);
- 
- /**
-- * qos_node_destroy(): removes and frees a node from the,
-+ * qos_node_destroy(): removes and frees a node from the
-  * nodes hash table.
-+ * @key: Name of the node
-  */
- void qos_node_destroy(void *key);
- 
- /**
-- * qos_edge_destroy(): removes and frees an edge from the,
-+ * qos_edge_destroy(): removes and frees an edge from the
-  * edges hash table.
-+ * @key: Name of the node
-  */
- void qos_edge_destroy(void *key);
- 
- /**
-  * qos_add_test(): adds a test node @name to the nodes hash table.
-+ * @name: Name of the test
-+ * @interface: Name of the interface node it consumes
-+ * @test_func: Actual test to perform
-+ * @opts: Facultative options (see %QOSGraphTestOptions)
-  *
-  * The test will consume a @interface node, and once the
-  * graph walking algorithm has found it, the @test_func will be
-  * executed. It also has the possibility to
-- * add an optional @opts (see %QOSGraphNodeOptions).
-+ * add an optional @opts (see %QOSGraphTestOptions).
-  *
-  * For tests, opts->edge.arg and size_arg represent the arg to pass
-  * to @test_func
-@@ -428,6 +187,8 @@ void qos_add_test(const char *name, const char *interface,
- /**
-  * qos_node_create_machine(): creates the machine @name and
-  * adds it to the node hash table.
-+ * @name: Name of the machine
-+ * @function: Machine constructor
-  *
-  * This node will be of type QNODE_MACHINE and have @function
-  * as constructor
-@@ -438,6 +199,9 @@ void qos_node_create_machine(const char *name, QOSCreateMachineFunc function);
-  * qos_node_create_machine_args(): same as qos_node_create_machine,
-  * but with the possibility to add an optional ", @opts" after -M machine
-  * command line.
-+ * @name: Name of the machine
-+ * @function: Machine constructor
-+ * @opts: Optional additional command line
-  */
- void qos_node_create_machine_args(const char *name,
-                                   QOSCreateMachineFunc function,
-@@ -446,6 +210,8 @@ void qos_node_create_machine_args(const char *name,
- /**
-  * qos_node_create_driver(): creates the driver @name and
-  * adds it to the node hash table.
-+ * @name: Name of the driver
-+ * @function: Driver constructor
-  *
-  * This node will be of type QNODE_DRIVER and have @function
-  * as constructor
-@@ -453,17 +219,17 @@ void qos_node_create_machine_args(const char *name,
- void qos_node_create_driver(const char *name, QOSCreateDriverFunc function);
- 
- /**
-- * Behaves as qos_node_create_driver() with the extension of allowing to
-- * specify a different node name vs. associated QEMU device name.
-+ * qos_node_create_driver_named(): behaves as qos_node_create_driver() with the
-+ * extension of allowing to specify a different node name vs. associated QEMU
-+ * device name.
-+ * @name: Custom, unique name of the node to be created
-+ * @qemu_name: Actual (official) QEMU driver name the node shall be
-+ * associated with
-+ * @function: Driver constructor
-  *
-  * Use this function instead of qos_node_create_driver() if you need to create
-  * several instances of the same QEMU device. You are free to choose a custom
-  * node name, however the chosen node name must always be unique.
+- *  Copyright (c) 2015 Chen Gang
 - *
-- * @param name: custom, unique name of the node to be created
-- * @param qemu_name: actual (official) QEMU driver name the node shall be
-- *                   associated with
-- * @param function: driver constructor
-  */
- void qos_node_create_driver_named(const char *name, const char *qemu_name,
-                                   QOSCreateDriverFunc function);
-@@ -472,6 +238,9 @@ void qos_node_create_driver_named(const char *name, const char *qemu_name,
-  * qos_node_contains(): creates one or more edges of type QEDGE_CONTAINS
-  * and adds them to the edge list mapped to @container in the
-  * edge hash table.
-+ * @container: Source node that "contains"
-+ * @contained: Destination node that "is contained"
-+ * @opts: Facultative options (see %QOSGraphEdgeOptions)
-  *
-  * The edges will have @container as source and @contained as destination.
-  *
-@@ -483,14 +252,17 @@ void qos_node_create_driver_named(const char *name, const char *qemu_name,
-  * This function can be useful when there are multiple devices
-  * with the same node name contained in a machine/other node
-  *
-- * For example, if "arm/raspi2" contains 2 "generic-sdhci"
-+ * For example, if ``arm/raspi2`` contains 2 ``generic-sdhci``
-  * devices, the right commands will be:
-- * qos_node_create_machine("arm/raspi2");
-- * qos_node_create_driver("generic-sdhci", constructor);
-- * //assume rest of the fields are set NULL
-- * QOSGraphEdgeOptions op1 = { .edge_name = "emmc" };
-- * QOSGraphEdgeOptions op2 = { .edge_name = "sdcard" };
-- * qos_node_contains("arm/raspi2", "generic-sdhci", &op1, &op2, NULL);
-+ *
-+ * .. code::
-+ *
-+ *    qos_node_create_machine("arm/raspi2");
-+ *    qos_node_create_driver("generic-sdhci", constructor);
-+ *    // assume rest of the fields are set NULL
-+ *    QOSGraphEdgeOptions op1 = { .edge_name = "emmc" };
-+ *    QOSGraphEdgeOptions op2 = { .edge_name = "sdcard" };
-+ *    qos_node_contains("arm/raspi2", "generic-sdhci", &op1, &op2, NULL);
-  *
-  * Of course this also requires that the @container's get_device function
-  * should implement a case for "emmc" and "sdcard".
-@@ -505,6 +277,8 @@ void qos_node_contains(const char *container, const char *contained,
-  * qos_node_produces(): creates an edge of type QEDGE_PRODUCES and
-  * adds it to the edge list mapped to @producer in the
-  * edge hash table.
-+ * @producer: Source node that "produces"
-+ * @interface: Interface node that "is produced"
-  *
-  * This edge will have @producer as source and @interface as destination.
-  */
-@@ -514,6 +288,9 @@ void qos_node_produces(const char *producer, const char *interface);
-  * qos_node_consumes():  creates an edge of type QEDGE_CONSUMED_BY and
-  * adds it to the edge list mapped to @interface in the
-  * edge hash table.
-+ * @consumer: Node that "consumes"
-+ * @interface: Interface node that "is consumed by"
-+ * @opts: Facultative options (see %QOSGraphEdgeOptions)
-  *
-  * This edge will have @interface as source and @consumer as destination.
-  * It also has the possibility to add an optional @opts
-@@ -539,7 +316,7 @@ const char *qos_get_current_command_line(void);
- /**
-  * qos_allocate_objects():
-  * @qts: The #QTestState that will be referred to by the machine object.
-- * @alloc: Where to store the allocator for the machine object, or %NULL.
-+ * @p_alloc: Where to store the allocator for the machine object, or %NULL.
-  *
-  * Allocate driver objects for the current test
-  * path, but relative to the QTestState @qts.
-@@ -551,24 +328,27 @@ void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc);
- 
- /**
-  * qos_object_destroy(): calls the destructor for @obj
-+ * @obj: A #QOSGraphObject to destroy
-  */
- void qos_object_destroy(QOSGraphObject *obj);
- 
- /**
-  * qos_object_queue_destroy(): queue the destructor for @obj so that it is
-  * called at the end of the test
-+ * @obj: A #QOSGraphObject to destroy
-  */
- void qos_object_queue_destroy(QOSGraphObject *obj);
- 
- /**
-  * qos_object_start_hw(): calls the start_hw function for @obj
-+ * @obj: A #QOSGraphObject containing the start_hw function
-  */
- void qos_object_start_hw(QOSGraphObject *obj);
- 
- /**
-  * qos_machine_new(): instantiate a new machine node
-- * @node: A machine node to be instantiated
-- * @qts: The #QTestState that will be referred to by the machine object.
-+ * @node: Machine node to be instantiated
-+ * @qts: A #QTestState that will be referred to by the machine object.
-  *
-  * Returns a machine object.
-  */
-@@ -587,8 +367,8 @@ QOSGraphObject *qos_driver_new(QOSGraphNode *node, QOSGraphObject *parent,
-                                QGuestAllocator *alloc, void *arg);
- 
- /**
-- * Just for debugging purpose: prints all currently existing nodes and
-- * edges to stdout.
-+ * qos_dump_graph(): prints all currently existing nodes and
-+ * edges to stdout. Just for debugging purposes.
-  *
-  * All qtests add themselves to the overall qos graph by calling qgraph
-  * functions that add device nodes and edges between the individual graph
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see
+- * <http://www.gnu.org/licenses/lgpl-2.1.html>
+- */
+-
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/exec-all.h"
+-#include "exec/helper-proto.h"
+-#include <zlib.h> /* For crc32 */
+-#include "syscall_defs.h"
+-
+-void helper_exception(CPUTLGState *env, uint32_t excp)
+-{
+-    CPUState *cs = env_cpu(env);
+-
+-    cs->exception_index = excp;
+-    cpu_loop_exit(cs);
+-}
+-
+-void helper_ext01_ics(CPUTLGState *env)
+-{
+-    uint64_t val = env->spregs[TILEGX_SPR_EX_CONTEXT_0_1];
+-
+-    switch (val) {
+-    case 0:
+-    case 1:
+-        env->spregs[TILEGX_SPR_CRITICAL_SEC] = val;
+-        break;
+-    default:
+-#if defined(CONFIG_USER_ONLY)
+-        env->signo = TARGET_SIGILL;
+-        env->sigcode = TARGET_ILL_ILLOPC;
+-        helper_exception(env, TILEGX_EXCP_SIGNAL);
+-#else
+-        helper_exception(env, TILEGX_EXCP_OPCODE_UNIMPLEMENTED);
+-#endif
+-        break;
+-    }
+-}
+-
+-uint64_t helper_revbits(uint64_t arg)
+-{
+-    return revbit64(arg);
+-}
+-
+-/*
+- * Functional Description
+- *     uint64_t a = rf[SrcA];
+- *     uint64_t b = rf[SrcB];
+- *     uint64_t d = rf[Dest];
+- *     uint64_t output = 0;
+- *     unsigned int counter;
+- *     for (counter = 0; counter < (WORD_SIZE / BYTE_SIZE); counter++)
+- *     {
+- *         int sel = getByte (b, counter) & 0xf;
+- *         uint8_t byte = (sel < 8) ? getByte (d, sel) : getByte (a, (sel - 8));
+- *         output = setByte (output, counter, byte);
+- *     }
+- *     rf[Dest] = output;
+- */
+-uint64_t helper_shufflebytes(uint64_t dest, uint64_t srca, uint64_t srcb)
+-{
+-    uint64_t vdst = 0;
+-    int count;
+-
+-    for (count = 0; count < 64; count += 8) {
+-        uint64_t sel = srcb >> count;
+-        uint64_t src = (sel & 8) ? srca : dest;
+-        vdst |= extract64(src, (sel & 7) * 8, 8) << count;
+-    }
+-
+-    return vdst;
+-}
+-
+-uint64_t helper_crc32_8(uint64_t accum, uint64_t input)
+-{
+-    uint8_t buf = input;
+-
+-    /* zlib crc32 converts the accumulator and output to one's complement.  */
+-    return crc32(accum ^ 0xffffffff, &buf, 1) ^ 0xffffffff;
+-}
+-
+-uint64_t helper_crc32_32(uint64_t accum, uint64_t input)
+-{
+-    uint8_t buf[4];
+-
+-    stl_le_p(buf, input);
+-
+-    /* zlib crc32 converts the accumulator and output to one's complement.  */
+-    return crc32(accum ^ 0xffffffff, buf, 4) ^ 0xffffffff;
+-}
+-
+-uint64_t helper_cmula(uint64_t srcd, uint64_t srca, uint64_t srcb)
+-{
+-    uint32_t reala = (int16_t)srca;
+-    uint32_t imaga = (int16_t)(srca >> 16);
+-    uint32_t realb = (int16_t)srcb;
+-    uint32_t imagb = (int16_t)(srcb >> 16);
+-    uint32_t reald = srcd;
+-    uint32_t imagd = srcd >> 32;
+-    uint32_t realr = reala * realb - imaga * imagb + reald;
+-    uint32_t imagr = reala * imagb + imaga * realb + imagd;
+-
+-    return deposit64(realr, 32, 32, imagr);
+-}
+-
+-uint64_t helper_cmulaf(uint64_t srcd, uint64_t srca, uint64_t srcb)
+-{
+-    uint32_t reala = (int16_t)srca;
+-    uint32_t imaga = (int16_t)(srca >> 16);
+-    uint32_t realb = (int16_t)srcb;
+-    uint32_t imagb = (int16_t)(srcb >> 16);
+-    uint32_t reald = (int16_t)srcd;
+-    uint32_t imagd = (int16_t)(srcd >> 16);
+-    int32_t realr = reala * realb - imaga * imagb;
+-    int32_t imagr = reala * imagb + imaga * realb;
+-
+-    return deposit32((realr >> 15) + reald, 16, 16, (imagr >> 15) + imagd);
+-}
+-
+-uint64_t helper_cmul2(uint64_t srca, uint64_t srcb, int shift, int round)
+-{
+-    uint32_t reala = (int16_t)srca;
+-    uint32_t imaga = (int16_t)(srca >> 16);
+-    uint32_t realb = (int16_t)srcb;
+-    uint32_t imagb = (int16_t)(srcb >> 16);
+-    int32_t realr = reala * realb - imaga * imagb + round;
+-    int32_t imagr = reala * imagb + imaga * realb + round;
+-
+-    return deposit32(realr >> shift, 16, 16, imagr >> shift);
+-}
+diff --git a/target/tilegx/helper.h b/target/tilegx/helper.h
+deleted file mode 100644
+index 16745c266f..0000000000
+--- a/target/tilegx/helper.h
++++ /dev/null
+@@ -1,23 +0,0 @@
+-DEF_HELPER_2(exception, noreturn, env, i32)
+-DEF_HELPER_1(ext01_ics, void, env)
+-DEF_HELPER_FLAGS_1(revbits, TCG_CALL_NO_RWG_SE, i64, i64)
+-DEF_HELPER_FLAGS_3(shufflebytes, TCG_CALL_NO_RWG_SE, i64, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(crc32_8, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(crc32_32, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_3(cmula, TCG_CALL_NO_RWG_SE, i64, i64, i64, i64)
+-DEF_HELPER_FLAGS_3(cmulaf, TCG_CALL_NO_RWG_SE, i64, i64, i64, i64)
+-DEF_HELPER_FLAGS_4(cmul2, TCG_CALL_NO_RWG_SE, i64, i64, i64, int, int)
+-
+-DEF_HELPER_FLAGS_2(v1int_h, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v1int_l, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2int_h, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2int_l, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(v1multu, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2mults, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v1shl, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v1shru, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v1shrs, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2shl, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2shru, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(v2shrs, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+diff --git a/target/tilegx/meson.build b/target/tilegx/meson.build
+deleted file mode 100644
+index 678590439c..0000000000
+--- a/target/tilegx/meson.build
++++ /dev/null
+@@ -1,13 +0,0 @@
+-tilegx_ss = ss.source_set()
+-tilegx_ss.add(files(
+-  'cpu.c',
+-  'helper.c',
+-  'simd_helper.c',
+-  'translate.c',
+-))
+-tilegx_ss.add(zlib)
+-
+-tilegx_softmmu_ss = ss.source_set()
+-
+-target_arch += {'tilegx': tilegx_ss}
+-target_softmmu_arch += {'tilegx': tilegx_softmmu_ss}
+diff --git a/target/tilegx/opcode_tilegx.h b/target/tilegx/opcode_tilegx.h
+deleted file mode 100644
+index 55376be4cf..0000000000
+--- a/target/tilegx/opcode_tilegx.h
++++ /dev/null
+@@ -1,1406 +0,0 @@
+-/* TILE-Gx opcode information.
+- *
+- * Copyright 2011 Tilera Corporation. All Rights Reserved.
+- *
+- *   This program is free software; you can redistribute it and/or
+- *   modify it under the terms of the GNU General Public License
+- *   as published by the Free Software Foundation, version 2.
+- *
+- *   This program is distributed in the hope that it will be useful, but
+- *   WITHOUT ANY WARRANTY; without even the implied warranty of
+- *   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or
+- *   NON INFRINGEMENT.  See the GNU General Public License for
+- *   more details.
+- *
+- *
+- *
+- *
+- *
+- */
+-
+-#ifndef OPCODE_TILEGX_H
+-#define OPCODE_TILEGX_H
+-
+-#ifndef __ASSEMBLER__
+-
+-typedef uint64_t tilegx_bundle_bits;
+-
+-/* These are the bits that determine if a bundle is in the X encoding. */
+-#define TILEGX_BUNDLE_MODE_MASK ((tilegx_bundle_bits)3 << 62)
+-
+-enum
+-{
+-  /* Maximum number of instructions in a bundle (2 for X, 3 for Y). */
+-  TILEGX_MAX_INSTRUCTIONS_PER_BUNDLE = 3,
+-
+-  /* How many different pipeline encodings are there? X0, X1, Y0, Y1, Y2. */
+-  TILEGX_NUM_PIPELINE_ENCODINGS = 5,
+-
+-  /* Log base 2 of TILEGX_BUNDLE_SIZE_IN_BYTES. */
+-  TILEGX_LOG2_BUNDLE_SIZE_IN_BYTES = 3,
+-
+-  /* Instructions take this many bytes. */
+-  TILEGX_BUNDLE_SIZE_IN_BYTES = 1 << TILEGX_LOG2_BUNDLE_SIZE_IN_BYTES,
+-
+-  /* Log base 2 of TILEGX_BUNDLE_ALIGNMENT_IN_BYTES. */
+-  TILEGX_LOG2_BUNDLE_ALIGNMENT_IN_BYTES = 3,
+-
+-  /* Bundles should be aligned modulo this number of bytes. */
+-  TILEGX_BUNDLE_ALIGNMENT_IN_BYTES =
+-    (1 << TILEGX_LOG2_BUNDLE_ALIGNMENT_IN_BYTES),
+-
+-  /* Number of registers (some are magic, such as network I/O). */
+-  TILEGX_NUM_REGISTERS = 64,
+-};
+-
+-/* Make a few "tile_" variables to simplify common code between
+-   architectures.  */
+-
+-typedef tilegx_bundle_bits tile_bundle_bits;
+-#define TILE_BUNDLE_SIZE_IN_BYTES TILEGX_BUNDLE_SIZE_IN_BYTES
+-#define TILE_BUNDLE_ALIGNMENT_IN_BYTES TILEGX_BUNDLE_ALIGNMENT_IN_BYTES
+-#define TILE_LOG2_BUNDLE_ALIGNMENT_IN_BYTES \
+-  TILEGX_LOG2_BUNDLE_ALIGNMENT_IN_BYTES
+-#define TILE_BPT_BUNDLE TILEGX_BPT_BUNDLE
+-
+-/* 64-bit pattern for a { bpt ; nop } bundle. */
+-#define TILEGX_BPT_BUNDLE 0x286a44ae51485000ULL
+-
+-static inline unsigned int
+-get_BFEnd_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_BFOpcodeExtension_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 24)) & 0xf);
+-}
+-
+-static inline unsigned int
+-get_BFStart_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 18)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_BrOff_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x0000003f) |
+-         (((unsigned int)(n >> 37)) & 0x0001ffc0);
+-}
+-
+-static inline unsigned int
+-get_BrType_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 54)) & 0x1f);
+-}
+-
+-static inline unsigned int
+-get_Dest_Imm8_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x0000003f) |
+-         (((unsigned int)(n >> 43)) & 0x000000c0);
+-}
+-
+-static inline unsigned int
+-get_Dest_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 0)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_Dest_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_Dest_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 0)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_Dest_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_Imm16_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0xffff);
+-}
+-
+-static inline unsigned int
+-get_Imm16_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0xffff);
+-}
+-
+-static inline unsigned int
+-get_Imm8OpcodeExtension_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 20)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_Imm8OpcodeExtension_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 51)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_Imm8_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_Imm8_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_Imm8_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_Imm8_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0xff);
+-}
+-
+-static inline unsigned int
+-get_JumpOff_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x7ffffff);
+-}
+-
+-static inline unsigned int
+-get_JumpOpcodeExtension_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 58)) & 0x1);
+-}
+-
+-static inline unsigned int
+-get_MF_Imm14_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 37)) & 0x3fff);
+-}
+-
+-static inline unsigned int
+-get_MT_Imm14_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 31)) & 0x0000003f) |
+-         (((unsigned int)(n >> 37)) & 0x00003fc0);
+-}
+-
+-static inline unsigned int
+-get_Mode(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 62)) & 0x3);
+-}
+-
+-static inline unsigned int
+-get_Opcode_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 28)) & 0x7);
+-}
+-
+-static inline unsigned int
+-get_Opcode_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 59)) & 0x7);
+-}
+-
+-static inline unsigned int
+-get_Opcode_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 27)) & 0xf);
+-}
+-
+-static inline unsigned int
+-get_Opcode_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 58)) & 0xf);
+-}
+-
+-static inline unsigned int
+-get_Opcode_Y2(tilegx_bundle_bits n)
+-{
+-  return (((n >> 26)) & 0x00000001) |
+-         (((unsigned int)(n >> 56)) & 0x00000002);
+-}
+-
+-static inline unsigned int
+-get_RRROpcodeExtension_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 18)) & 0x3ff);
+-}
+-
+-static inline unsigned int
+-get_RRROpcodeExtension_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 49)) & 0x3ff);
+-}
+-
+-static inline unsigned int
+-get_RRROpcodeExtension_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 18)) & 0x3);
+-}
+-
+-static inline unsigned int
+-get_RRROpcodeExtension_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 49)) & 0x3);
+-}
+-
+-static inline unsigned int
+-get_ShAmt_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_ShAmt_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_ShAmt_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_ShAmt_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_ShiftOpcodeExtension_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 18)) & 0x3ff);
+-}
+-
+-static inline unsigned int
+-get_ShiftOpcodeExtension_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 49)) & 0x3ff);
+-}
+-
+-static inline unsigned int
+-get_ShiftOpcodeExtension_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 18)) & 0x3);
+-}
+-
+-static inline unsigned int
+-get_ShiftOpcodeExtension_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 49)) & 0x3);
+-}
+-
+-static inline unsigned int
+-get_SrcA_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 6)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcA_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 37)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcA_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 6)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcA_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 37)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcA_Y2(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 20)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcBDest_Y2(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 51)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcB_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcB_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcB_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_SrcB_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_UnaryOpcodeExtension_X0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_UnaryOpcodeExtension_X1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_UnaryOpcodeExtension_Y0(tilegx_bundle_bits num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((n >> 12)) & 0x3f);
+-}
+-
+-static inline unsigned int
+-get_UnaryOpcodeExtension_Y1(tilegx_bundle_bits n)
+-{
+-  return (((unsigned int)(n >> 43)) & 0x3f);
+-}
+-
+-
+-static inline int
+-sign_extend(int n, int num_bits)
+-{
+-  int shift = (int)(sizeof(int) * 8 - num_bits);
+-  return (n << shift) >> shift;
+-}
+-
+-
+-
+-static inline tilegx_bundle_bits
+-create_BFEnd_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_BFOpcodeExtension_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xf) << 24);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_BFStart_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 18);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_BrOff_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x0000003f)) << 31) |
+-         (((tilegx_bundle_bits)(n & 0x0001ffc0)) << 37);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_BrType_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x1f)) << 54);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Dest_Imm8_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x0000003f)) << 31) |
+-         (((tilegx_bundle_bits)(n & 0x000000c0)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Dest_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 0);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Dest_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 31);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Dest_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 0);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Dest_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 31);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm16_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xffff) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm16_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0xffff)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8OpcodeExtension_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xff) << 20);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8OpcodeExtension_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0xff)) << 51);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xff) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0xff)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xff) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Imm8_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0xff)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_JumpOff_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x7ffffff)) << 31);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_JumpOpcodeExtension_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x1)) << 58);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_MF_Imm14_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3fff)) << 37);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_MT_Imm14_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x0000003f)) << 31) |
+-         (((tilegx_bundle_bits)(n & 0x00003fc0)) << 37);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Mode(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3)) << 62);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Opcode_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x7) << 28);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Opcode_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x7)) << 59);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Opcode_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0xf) << 27);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Opcode_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0xf)) << 58);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_Opcode_Y2(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x00000001) << 26) |
+-         (((tilegx_bundle_bits)(n & 0x00000002)) << 56);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_RRROpcodeExtension_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3ff) << 18);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_RRROpcodeExtension_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3ff)) << 49);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_RRROpcodeExtension_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3) << 18);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_RRROpcodeExtension_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3)) << 49);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShAmt_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShAmt_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShAmt_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShAmt_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShiftOpcodeExtension_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3ff) << 18);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShiftOpcodeExtension_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3ff)) << 49);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShiftOpcodeExtension_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3) << 18);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_ShiftOpcodeExtension_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3)) << 49);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcA_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 6);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcA_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 37);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcA_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 6);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcA_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 37);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcA_Y2(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 20);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcBDest_Y2(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 51);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcB_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcB_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcB_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_SrcB_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_UnaryOpcodeExtension_X0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_UnaryOpcodeExtension_X1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_UnaryOpcodeExtension_Y0(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return ((n & 0x3f) << 12);
+-}
+-
+-static inline tilegx_bundle_bits
+-create_UnaryOpcodeExtension_Y1(int num)
+-{
+-  const unsigned int n = (unsigned int)num;
+-  return (((tilegx_bundle_bits)(n & 0x3f)) << 43);
+-}
+-
+-
+-enum
+-{
+-  ADDI_IMM8_OPCODE_X0 = 1,
+-  ADDI_IMM8_OPCODE_X1 = 1,
+-  ADDI_OPCODE_Y0 = 0,
+-  ADDI_OPCODE_Y1 = 1,
+-  ADDLI_OPCODE_X0 = 1,
+-  ADDLI_OPCODE_X1 = 0,
+-  ADDXI_IMM8_OPCODE_X0 = 2,
+-  ADDXI_IMM8_OPCODE_X1 = 2,
+-  ADDXI_OPCODE_Y0 = 1,
+-  ADDXI_OPCODE_Y1 = 2,
+-  ADDXLI_OPCODE_X0 = 2,
+-  ADDXLI_OPCODE_X1 = 1,
+-  ADDXSC_RRR_0_OPCODE_X0 = 1,
+-  ADDXSC_RRR_0_OPCODE_X1 = 1,
+-  ADDX_RRR_0_OPCODE_X0 = 2,
+-  ADDX_RRR_0_OPCODE_X1 = 2,
+-  ADDX_RRR_0_OPCODE_Y0 = 0,
+-  ADDX_RRR_0_OPCODE_Y1 = 0,
+-  ADD_RRR_0_OPCODE_X0 = 3,
+-  ADD_RRR_0_OPCODE_X1 = 3,
+-  ADD_RRR_0_OPCODE_Y0 = 1,
+-  ADD_RRR_0_OPCODE_Y1 = 1,
+-  ANDI_IMM8_OPCODE_X0 = 3,
+-  ANDI_IMM8_OPCODE_X1 = 3,
+-  ANDI_OPCODE_Y0 = 2,
+-  ANDI_OPCODE_Y1 = 3,
+-  AND_RRR_0_OPCODE_X0 = 4,
+-  AND_RRR_0_OPCODE_X1 = 4,
+-  AND_RRR_5_OPCODE_Y0 = 0,
+-  AND_RRR_5_OPCODE_Y1 = 0,
+-  BEQZT_BRANCH_OPCODE_X1 = 16,
+-  BEQZ_BRANCH_OPCODE_X1 = 17,
+-  BFEXTS_BF_OPCODE_X0 = 4,
+-  BFEXTU_BF_OPCODE_X0 = 5,
+-  BFINS_BF_OPCODE_X0 = 6,
+-  BF_OPCODE_X0 = 3,
+-  BGEZT_BRANCH_OPCODE_X1 = 18,
+-  BGEZ_BRANCH_OPCODE_X1 = 19,
+-  BGTZT_BRANCH_OPCODE_X1 = 20,
+-  BGTZ_BRANCH_OPCODE_X1 = 21,
+-  BLBCT_BRANCH_OPCODE_X1 = 22,
+-  BLBC_BRANCH_OPCODE_X1 = 23,
+-  BLBST_BRANCH_OPCODE_X1 = 24,
+-  BLBS_BRANCH_OPCODE_X1 = 25,
+-  BLEZT_BRANCH_OPCODE_X1 = 26,
+-  BLEZ_BRANCH_OPCODE_X1 = 27,
+-  BLTZT_BRANCH_OPCODE_X1 = 28,
+-  BLTZ_BRANCH_OPCODE_X1 = 29,
+-  BNEZT_BRANCH_OPCODE_X1 = 30,
+-  BNEZ_BRANCH_OPCODE_X1 = 31,
+-  BRANCH_OPCODE_X1 = 2,
+-  CMOVEQZ_RRR_0_OPCODE_X0 = 5,
+-  CMOVEQZ_RRR_4_OPCODE_Y0 = 0,
+-  CMOVNEZ_RRR_0_OPCODE_X0 = 6,
+-  CMOVNEZ_RRR_4_OPCODE_Y0 = 1,
+-  CMPEQI_IMM8_OPCODE_X0 = 4,
+-  CMPEQI_IMM8_OPCODE_X1 = 4,
+-  CMPEQI_OPCODE_Y0 = 3,
+-  CMPEQI_OPCODE_Y1 = 4,
+-  CMPEQ_RRR_0_OPCODE_X0 = 7,
+-  CMPEQ_RRR_0_OPCODE_X1 = 5,
+-  CMPEQ_RRR_3_OPCODE_Y0 = 0,
+-  CMPEQ_RRR_3_OPCODE_Y1 = 2,
+-  CMPEXCH4_RRR_0_OPCODE_X1 = 6,
+-  CMPEXCH_RRR_0_OPCODE_X1 = 7,
+-  CMPLES_RRR_0_OPCODE_X0 = 8,
+-  CMPLES_RRR_0_OPCODE_X1 = 8,
+-  CMPLES_RRR_2_OPCODE_Y0 = 0,
+-  CMPLES_RRR_2_OPCODE_Y1 = 0,
+-  CMPLEU_RRR_0_OPCODE_X0 = 9,
+-  CMPLEU_RRR_0_OPCODE_X1 = 9,
+-  CMPLEU_RRR_2_OPCODE_Y0 = 1,
+-  CMPLEU_RRR_2_OPCODE_Y1 = 1,
+-  CMPLTSI_IMM8_OPCODE_X0 = 5,
+-  CMPLTSI_IMM8_OPCODE_X1 = 5,
+-  CMPLTSI_OPCODE_Y0 = 4,
+-  CMPLTSI_OPCODE_Y1 = 5,
+-  CMPLTS_RRR_0_OPCODE_X0 = 10,
+-  CMPLTS_RRR_0_OPCODE_X1 = 10,
+-  CMPLTS_RRR_2_OPCODE_Y0 = 2,
+-  CMPLTS_RRR_2_OPCODE_Y1 = 2,
+-  CMPLTUI_IMM8_OPCODE_X0 = 6,
+-  CMPLTUI_IMM8_OPCODE_X1 = 6,
+-  CMPLTU_RRR_0_OPCODE_X0 = 11,
+-  CMPLTU_RRR_0_OPCODE_X1 = 11,
+-  CMPLTU_RRR_2_OPCODE_Y0 = 3,
+-  CMPLTU_RRR_2_OPCODE_Y1 = 3,
+-  CMPNE_RRR_0_OPCODE_X0 = 12,
+-  CMPNE_RRR_0_OPCODE_X1 = 12,
+-  CMPNE_RRR_3_OPCODE_Y0 = 1,
+-  CMPNE_RRR_3_OPCODE_Y1 = 3,
+-  CMULAF_RRR_0_OPCODE_X0 = 13,
+-  CMULA_RRR_0_OPCODE_X0 = 14,
+-  CMULFR_RRR_0_OPCODE_X0 = 15,
+-  CMULF_RRR_0_OPCODE_X0 = 16,
+-  CMULHR_RRR_0_OPCODE_X0 = 17,
+-  CMULH_RRR_0_OPCODE_X0 = 18,
+-  CMUL_RRR_0_OPCODE_X0 = 19,
+-  CNTLZ_UNARY_OPCODE_X0 = 1,
+-  CNTLZ_UNARY_OPCODE_Y0 = 1,
+-  CNTTZ_UNARY_OPCODE_X0 = 2,
+-  CNTTZ_UNARY_OPCODE_Y0 = 2,
+-  CRC32_32_RRR_0_OPCODE_X0 = 20,
+-  CRC32_8_RRR_0_OPCODE_X0 = 21,
+-  DBLALIGN2_RRR_0_OPCODE_X0 = 22,
+-  DBLALIGN2_RRR_0_OPCODE_X1 = 13,
+-  DBLALIGN4_RRR_0_OPCODE_X0 = 23,
+-  DBLALIGN4_RRR_0_OPCODE_X1 = 14,
+-  DBLALIGN6_RRR_0_OPCODE_X0 = 24,
+-  DBLALIGN6_RRR_0_OPCODE_X1 = 15,
+-  DBLALIGN_RRR_0_OPCODE_X0 = 25,
+-  DRAIN_UNARY_OPCODE_X1 = 1,
+-  DTLBPR_UNARY_OPCODE_X1 = 2,
+-  EXCH4_RRR_0_OPCODE_X1 = 16,
+-  EXCH_RRR_0_OPCODE_X1 = 17,
+-  FDOUBLE_ADDSUB_RRR_0_OPCODE_X0 = 26,
+-  FDOUBLE_ADD_FLAGS_RRR_0_OPCODE_X0 = 27,
+-  FDOUBLE_MUL_FLAGS_RRR_0_OPCODE_X0 = 28,
+-  FDOUBLE_PACK1_RRR_0_OPCODE_X0 = 29,
+-  FDOUBLE_PACK2_RRR_0_OPCODE_X0 = 30,
+-  FDOUBLE_SUB_FLAGS_RRR_0_OPCODE_X0 = 31,
+-  FDOUBLE_UNPACK_MAX_RRR_0_OPCODE_X0 = 32,
+-  FDOUBLE_UNPACK_MIN_RRR_0_OPCODE_X0 = 33,
+-  FETCHADD4_RRR_0_OPCODE_X1 = 18,
+-  FETCHADDGEZ4_RRR_0_OPCODE_X1 = 19,
+-  FETCHADDGEZ_RRR_0_OPCODE_X1 = 20,
+-  FETCHADD_RRR_0_OPCODE_X1 = 21,
+-  FETCHAND4_RRR_0_OPCODE_X1 = 22,
+-  FETCHAND_RRR_0_OPCODE_X1 = 23,
+-  FETCHOR4_RRR_0_OPCODE_X1 = 24,
+-  FETCHOR_RRR_0_OPCODE_X1 = 25,
+-  FINV_UNARY_OPCODE_X1 = 3,
+-  FLUSHWB_UNARY_OPCODE_X1 = 4,
+-  FLUSH_UNARY_OPCODE_X1 = 5,
+-  FNOP_UNARY_OPCODE_X0 = 3,
+-  FNOP_UNARY_OPCODE_X1 = 6,
+-  FNOP_UNARY_OPCODE_Y0 = 3,
+-  FNOP_UNARY_OPCODE_Y1 = 8,
+-  FSINGLE_ADD1_RRR_0_OPCODE_X0 = 34,
+-  FSINGLE_ADDSUB2_RRR_0_OPCODE_X0 = 35,
+-  FSINGLE_MUL1_RRR_0_OPCODE_X0 = 36,
+-  FSINGLE_MUL2_RRR_0_OPCODE_X0 = 37,
+-  FSINGLE_PACK1_UNARY_OPCODE_X0 = 4,
+-  FSINGLE_PACK1_UNARY_OPCODE_Y0 = 4,
+-  FSINGLE_PACK2_RRR_0_OPCODE_X0 = 38,
+-  FSINGLE_SUB1_RRR_0_OPCODE_X0 = 39,
+-  ICOH_UNARY_OPCODE_X1 = 7,
+-  ILL_UNARY_OPCODE_X1 = 8,
+-  ILL_UNARY_OPCODE_Y1 = 9,
+-  IMM8_OPCODE_X0 = 4,
+-  IMM8_OPCODE_X1 = 3,
+-  INV_UNARY_OPCODE_X1 = 9,
+-  IRET_UNARY_OPCODE_X1 = 10,
+-  JALRP_UNARY_OPCODE_X1 = 11,
+-  JALRP_UNARY_OPCODE_Y1 = 10,
+-  JALR_UNARY_OPCODE_X1 = 12,
+-  JALR_UNARY_OPCODE_Y1 = 11,
+-  JAL_JUMP_OPCODE_X1 = 0,
+-  JRP_UNARY_OPCODE_X1 = 13,
+-  JRP_UNARY_OPCODE_Y1 = 12,
+-  JR_UNARY_OPCODE_X1 = 14,
+-  JR_UNARY_OPCODE_Y1 = 13,
+-  JUMP_OPCODE_X1 = 4,
+-  J_JUMP_OPCODE_X1 = 1,
+-  LD1S_ADD_IMM8_OPCODE_X1 = 7,
+-  LD1S_OPCODE_Y2 = 0,
+-  LD1S_UNARY_OPCODE_X1 = 15,
+-  LD1U_ADD_IMM8_OPCODE_X1 = 8,
+-  LD1U_OPCODE_Y2 = 1,
+-  LD1U_UNARY_OPCODE_X1 = 16,
+-  LD2S_ADD_IMM8_OPCODE_X1 = 9,
+-  LD2S_OPCODE_Y2 = 2,
+-  LD2S_UNARY_OPCODE_X1 = 17,
+-  LD2U_ADD_IMM8_OPCODE_X1 = 10,
+-  LD2U_OPCODE_Y2 = 3,
+-  LD2U_UNARY_OPCODE_X1 = 18,
+-  LD4S_ADD_IMM8_OPCODE_X1 = 11,
+-  LD4S_OPCODE_Y2 = 1,
+-  LD4S_UNARY_OPCODE_X1 = 19,
+-  LD4U_ADD_IMM8_OPCODE_X1 = 12,
+-  LD4U_OPCODE_Y2 = 2,
+-  LD4U_UNARY_OPCODE_X1 = 20,
+-  LDNA_UNARY_OPCODE_X1 = 21,
+-  LDNT1S_ADD_IMM8_OPCODE_X1 = 13,
+-  LDNT1S_UNARY_OPCODE_X1 = 22,
+-  LDNT1U_ADD_IMM8_OPCODE_X1 = 14,
+-  LDNT1U_UNARY_OPCODE_X1 = 23,
+-  LDNT2S_ADD_IMM8_OPCODE_X1 = 15,
+-  LDNT2S_UNARY_OPCODE_X1 = 24,
+-  LDNT2U_ADD_IMM8_OPCODE_X1 = 16,
+-  LDNT2U_UNARY_OPCODE_X1 = 25,
+-  LDNT4S_ADD_IMM8_OPCODE_X1 = 17,
+-  LDNT4S_UNARY_OPCODE_X1 = 26,
+-  LDNT4U_ADD_IMM8_OPCODE_X1 = 18,
+-  LDNT4U_UNARY_OPCODE_X1 = 27,
+-  LDNT_ADD_IMM8_OPCODE_X1 = 19,
+-  LDNT_UNARY_OPCODE_X1 = 28,
+-  LD_ADD_IMM8_OPCODE_X1 = 20,
+-  LD_OPCODE_Y2 = 3,
+-  LD_UNARY_OPCODE_X1 = 29,
+-  LNK_UNARY_OPCODE_X1 = 30,
+-  LNK_UNARY_OPCODE_Y1 = 14,
+-  LDNA_ADD_IMM8_OPCODE_X1 = 21,
+-  MFSPR_IMM8_OPCODE_X1 = 22,
+-  MF_UNARY_OPCODE_X1 = 31,
+-  MM_BF_OPCODE_X0 = 7,
+-  MNZ_RRR_0_OPCODE_X0 = 40,
+-  MNZ_RRR_0_OPCODE_X1 = 26,
+-  MNZ_RRR_4_OPCODE_Y0 = 2,
+-  MNZ_RRR_4_OPCODE_Y1 = 2,
+-  MODE_OPCODE_YA2 = 1,
+-  MODE_OPCODE_YB2 = 2,
+-  MODE_OPCODE_YC2 = 3,
+-  MTSPR_IMM8_OPCODE_X1 = 23,
+-  MULAX_RRR_0_OPCODE_X0 = 41,
+-  MULAX_RRR_3_OPCODE_Y0 = 2,
+-  MULA_HS_HS_RRR_0_OPCODE_X0 = 42,
+-  MULA_HS_HS_RRR_9_OPCODE_Y0 = 0,
+-  MULA_HS_HU_RRR_0_OPCODE_X0 = 43,
+-  MULA_HS_LS_RRR_0_OPCODE_X0 = 44,
+-  MULA_HS_LU_RRR_0_OPCODE_X0 = 45,
+-  MULA_HU_HU_RRR_0_OPCODE_X0 = 46,
+-  MULA_HU_HU_RRR_9_OPCODE_Y0 = 1,
+-  MULA_HU_LS_RRR_0_OPCODE_X0 = 47,
+-  MULA_HU_LU_RRR_0_OPCODE_X0 = 48,
+-  MULA_LS_LS_RRR_0_OPCODE_X0 = 49,
+-  MULA_LS_LS_RRR_9_OPCODE_Y0 = 2,
+-  MULA_LS_LU_RRR_0_OPCODE_X0 = 50,
+-  MULA_LU_LU_RRR_0_OPCODE_X0 = 51,
+-  MULA_LU_LU_RRR_9_OPCODE_Y0 = 3,
+-  MULX_RRR_0_OPCODE_X0 = 52,
+-  MULX_RRR_3_OPCODE_Y0 = 3,
+-  MUL_HS_HS_RRR_0_OPCODE_X0 = 53,
+-  MUL_HS_HS_RRR_8_OPCODE_Y0 = 0,
+-  MUL_HS_HU_RRR_0_OPCODE_X0 = 54,
+-  MUL_HS_LS_RRR_0_OPCODE_X0 = 55,
+-  MUL_HS_LU_RRR_0_OPCODE_X0 = 56,
+-  MUL_HU_HU_RRR_0_OPCODE_X0 = 57,
+-  MUL_HU_HU_RRR_8_OPCODE_Y0 = 1,
+-  MUL_HU_LS_RRR_0_OPCODE_X0 = 58,
+-  MUL_HU_LU_RRR_0_OPCODE_X0 = 59,
+-  MUL_LS_LS_RRR_0_OPCODE_X0 = 60,
+-  MUL_LS_LS_RRR_8_OPCODE_Y0 = 2,
+-  MUL_LS_LU_RRR_0_OPCODE_X0 = 61,
+-  MUL_LU_LU_RRR_0_OPCODE_X0 = 62,
+-  MUL_LU_LU_RRR_8_OPCODE_Y0 = 3,
+-  MZ_RRR_0_OPCODE_X0 = 63,
+-  MZ_RRR_0_OPCODE_X1 = 27,
+-  MZ_RRR_4_OPCODE_Y0 = 3,
+-  MZ_RRR_4_OPCODE_Y1 = 3,
+-  NAP_UNARY_OPCODE_X1 = 32,
+-  NOP_UNARY_OPCODE_X0 = 5,
+-  NOP_UNARY_OPCODE_X1 = 33,
+-  NOP_UNARY_OPCODE_Y0 = 5,
+-  NOP_UNARY_OPCODE_Y1 = 15,
+-  NOR_RRR_0_OPCODE_X0 = 64,
+-  NOR_RRR_0_OPCODE_X1 = 28,
+-  NOR_RRR_5_OPCODE_Y0 = 1,
+-  NOR_RRR_5_OPCODE_Y1 = 1,
+-  ORI_IMM8_OPCODE_X0 = 7,
+-  ORI_IMM8_OPCODE_X1 = 24,
+-  OR_RRR_0_OPCODE_X0 = 65,
+-  OR_RRR_0_OPCODE_X1 = 29,
+-  OR_RRR_5_OPCODE_Y0 = 2,
+-  OR_RRR_5_OPCODE_Y1 = 2,
+-  PCNT_UNARY_OPCODE_X0 = 6,
+-  PCNT_UNARY_OPCODE_Y0 = 6,
+-  REVBITS_UNARY_OPCODE_X0 = 7,
+-  REVBITS_UNARY_OPCODE_Y0 = 7,
+-  REVBYTES_UNARY_OPCODE_X0 = 8,
+-  REVBYTES_UNARY_OPCODE_Y0 = 8,
+-  ROTLI_SHIFT_OPCODE_X0 = 1,
+-  ROTLI_SHIFT_OPCODE_X1 = 1,
+-  ROTLI_SHIFT_OPCODE_Y0 = 0,
+-  ROTLI_SHIFT_OPCODE_Y1 = 0,
+-  ROTL_RRR_0_OPCODE_X0 = 66,
+-  ROTL_RRR_0_OPCODE_X1 = 30,
+-  ROTL_RRR_6_OPCODE_Y0 = 0,
+-  ROTL_RRR_6_OPCODE_Y1 = 0,
+-  RRR_0_OPCODE_X0 = 5,
+-  RRR_0_OPCODE_X1 = 5,
+-  RRR_0_OPCODE_Y0 = 5,
+-  RRR_0_OPCODE_Y1 = 6,
+-  RRR_1_OPCODE_Y0 = 6,
+-  RRR_1_OPCODE_Y1 = 7,
+-  RRR_2_OPCODE_Y0 = 7,
+-  RRR_2_OPCODE_Y1 = 8,
+-  RRR_3_OPCODE_Y0 = 8,
+-  RRR_3_OPCODE_Y1 = 9,
+-  RRR_4_OPCODE_Y0 = 9,
+-  RRR_4_OPCODE_Y1 = 10,
+-  RRR_5_OPCODE_Y0 = 10,
+-  RRR_5_OPCODE_Y1 = 11,
+-  RRR_6_OPCODE_Y0 = 11,
+-  RRR_6_OPCODE_Y1 = 12,
+-  RRR_7_OPCODE_Y0 = 12,
+-  RRR_7_OPCODE_Y1 = 13,
+-  RRR_8_OPCODE_Y0 = 13,
+-  RRR_9_OPCODE_Y0 = 14,
+-  SHIFT_OPCODE_X0 = 6,
+-  SHIFT_OPCODE_X1 = 6,
+-  SHIFT_OPCODE_Y0 = 15,
+-  SHIFT_OPCODE_Y1 = 14,
+-  SHL16INSLI_OPCODE_X0 = 7,
+-  SHL16INSLI_OPCODE_X1 = 7,
+-  SHL1ADDX_RRR_0_OPCODE_X0 = 67,
+-  SHL1ADDX_RRR_0_OPCODE_X1 = 31,
+-  SHL1ADDX_RRR_7_OPCODE_Y0 = 1,
+-  SHL1ADDX_RRR_7_OPCODE_Y1 = 1,
+-  SHL1ADD_RRR_0_OPCODE_X0 = 68,
+-  SHL1ADD_RRR_0_OPCODE_X1 = 32,
+-  SHL1ADD_RRR_1_OPCODE_Y0 = 0,
+-  SHL1ADD_RRR_1_OPCODE_Y1 = 0,
+-  SHL2ADDX_RRR_0_OPCODE_X0 = 69,
+-  SHL2ADDX_RRR_0_OPCODE_X1 = 33,
+-  SHL2ADDX_RRR_7_OPCODE_Y0 = 2,
+-  SHL2ADDX_RRR_7_OPCODE_Y1 = 2,
+-  SHL2ADD_RRR_0_OPCODE_X0 = 70,
+-  SHL2ADD_RRR_0_OPCODE_X1 = 34,
+-  SHL2ADD_RRR_1_OPCODE_Y0 = 1,
+-  SHL2ADD_RRR_1_OPCODE_Y1 = 1,
+-  SHL3ADDX_RRR_0_OPCODE_X0 = 71,
+-  SHL3ADDX_RRR_0_OPCODE_X1 = 35,
+-  SHL3ADDX_RRR_7_OPCODE_Y0 = 3,
+-  SHL3ADDX_RRR_7_OPCODE_Y1 = 3,
+-  SHL3ADD_RRR_0_OPCODE_X0 = 72,
+-  SHL3ADD_RRR_0_OPCODE_X1 = 36,
+-  SHL3ADD_RRR_1_OPCODE_Y0 = 2,
+-  SHL3ADD_RRR_1_OPCODE_Y1 = 2,
+-  SHLI_SHIFT_OPCODE_X0 = 2,
+-  SHLI_SHIFT_OPCODE_X1 = 2,
+-  SHLI_SHIFT_OPCODE_Y0 = 1,
+-  SHLI_SHIFT_OPCODE_Y1 = 1,
+-  SHLXI_SHIFT_OPCODE_X0 = 3,
+-  SHLXI_SHIFT_OPCODE_X1 = 3,
+-  SHLX_RRR_0_OPCODE_X0 = 73,
+-  SHLX_RRR_0_OPCODE_X1 = 37,
+-  SHL_RRR_0_OPCODE_X0 = 74,
+-  SHL_RRR_0_OPCODE_X1 = 38,
+-  SHL_RRR_6_OPCODE_Y0 = 1,
+-  SHL_RRR_6_OPCODE_Y1 = 1,
+-  SHRSI_SHIFT_OPCODE_X0 = 4,
+-  SHRSI_SHIFT_OPCODE_X1 = 4,
+-  SHRSI_SHIFT_OPCODE_Y0 = 2,
+-  SHRSI_SHIFT_OPCODE_Y1 = 2,
+-  SHRS_RRR_0_OPCODE_X0 = 75,
+-  SHRS_RRR_0_OPCODE_X1 = 39,
+-  SHRS_RRR_6_OPCODE_Y0 = 2,
+-  SHRS_RRR_6_OPCODE_Y1 = 2,
+-  SHRUI_SHIFT_OPCODE_X0 = 5,
+-  SHRUI_SHIFT_OPCODE_X1 = 5,
+-  SHRUI_SHIFT_OPCODE_Y0 = 3,
+-  SHRUI_SHIFT_OPCODE_Y1 = 3,
+-  SHRUXI_SHIFT_OPCODE_X0 = 6,
+-  SHRUXI_SHIFT_OPCODE_X1 = 6,
+-  SHRUX_RRR_0_OPCODE_X0 = 76,
+-  SHRUX_RRR_0_OPCODE_X1 = 40,
+-  SHRU_RRR_0_OPCODE_X0 = 77,
+-  SHRU_RRR_0_OPCODE_X1 = 41,
+-  SHRU_RRR_6_OPCODE_Y0 = 3,
+-  SHRU_RRR_6_OPCODE_Y1 = 3,
+-  SHUFFLEBYTES_RRR_0_OPCODE_X0 = 78,
+-  ST1_ADD_IMM8_OPCODE_X1 = 25,
+-  ST1_OPCODE_Y2 = 0,
+-  ST1_RRR_0_OPCODE_X1 = 42,
+-  ST2_ADD_IMM8_OPCODE_X1 = 26,
+-  ST2_OPCODE_Y2 = 1,
+-  ST2_RRR_0_OPCODE_X1 = 43,
+-  ST4_ADD_IMM8_OPCODE_X1 = 27,
+-  ST4_OPCODE_Y2 = 2,
+-  ST4_RRR_0_OPCODE_X1 = 44,
+-  STNT1_ADD_IMM8_OPCODE_X1 = 28,
+-  STNT1_RRR_0_OPCODE_X1 = 45,
+-  STNT2_ADD_IMM8_OPCODE_X1 = 29,
+-  STNT2_RRR_0_OPCODE_X1 = 46,
+-  STNT4_ADD_IMM8_OPCODE_X1 = 30,
+-  STNT4_RRR_0_OPCODE_X1 = 47,
+-  STNT_ADD_IMM8_OPCODE_X1 = 31,
+-  STNT_RRR_0_OPCODE_X1 = 48,
+-  ST_ADD_IMM8_OPCODE_X1 = 32,
+-  ST_OPCODE_Y2 = 3,
+-  ST_RRR_0_OPCODE_X1 = 49,
+-  SUBXSC_RRR_0_OPCODE_X0 = 79,
+-  SUBXSC_RRR_0_OPCODE_X1 = 50,
+-  SUBX_RRR_0_OPCODE_X0 = 80,
+-  SUBX_RRR_0_OPCODE_X1 = 51,
+-  SUBX_RRR_0_OPCODE_Y0 = 2,
+-  SUBX_RRR_0_OPCODE_Y1 = 2,
+-  SUB_RRR_0_OPCODE_X0 = 81,
+-  SUB_RRR_0_OPCODE_X1 = 52,
+-  SUB_RRR_0_OPCODE_Y0 = 3,
+-  SUB_RRR_0_OPCODE_Y1 = 3,
+-  SWINT0_UNARY_OPCODE_X1 = 34,
+-  SWINT1_UNARY_OPCODE_X1 = 35,
+-  SWINT2_UNARY_OPCODE_X1 = 36,
+-  SWINT3_UNARY_OPCODE_X1 = 37,
+-  TBLIDXB0_UNARY_OPCODE_X0 = 9,
+-  TBLIDXB0_UNARY_OPCODE_Y0 = 9,
+-  TBLIDXB1_UNARY_OPCODE_X0 = 10,
+-  TBLIDXB1_UNARY_OPCODE_Y0 = 10,
+-  TBLIDXB2_UNARY_OPCODE_X0 = 11,
+-  TBLIDXB2_UNARY_OPCODE_Y0 = 11,
+-  TBLIDXB3_UNARY_OPCODE_X0 = 12,
+-  TBLIDXB3_UNARY_OPCODE_Y0 = 12,
+-  UNARY_RRR_0_OPCODE_X0 = 82,
+-  UNARY_RRR_0_OPCODE_X1 = 53,
+-  UNARY_RRR_1_OPCODE_Y0 = 3,
+-  UNARY_RRR_1_OPCODE_Y1 = 3,
+-  V1ADDI_IMM8_OPCODE_X0 = 8,
+-  V1ADDI_IMM8_OPCODE_X1 = 33,
+-  V1ADDUC_RRR_0_OPCODE_X0 = 83,
+-  V1ADDUC_RRR_0_OPCODE_X1 = 54,
+-  V1ADD_RRR_0_OPCODE_X0 = 84,
+-  V1ADD_RRR_0_OPCODE_X1 = 55,
+-  V1ADIFFU_RRR_0_OPCODE_X0 = 85,
+-  V1AVGU_RRR_0_OPCODE_X0 = 86,
+-  V1CMPEQI_IMM8_OPCODE_X0 = 9,
+-  V1CMPEQI_IMM8_OPCODE_X1 = 34,
+-  V1CMPEQ_RRR_0_OPCODE_X0 = 87,
+-  V1CMPEQ_RRR_0_OPCODE_X1 = 56,
+-  V1CMPLES_RRR_0_OPCODE_X0 = 88,
+-  V1CMPLES_RRR_0_OPCODE_X1 = 57,
+-  V1CMPLEU_RRR_0_OPCODE_X0 = 89,
+-  V1CMPLEU_RRR_0_OPCODE_X1 = 58,
+-  V1CMPLTSI_IMM8_OPCODE_X0 = 10,
+-  V1CMPLTSI_IMM8_OPCODE_X1 = 35,
+-  V1CMPLTS_RRR_0_OPCODE_X0 = 90,
+-  V1CMPLTS_RRR_0_OPCODE_X1 = 59,
+-  V1CMPLTUI_IMM8_OPCODE_X0 = 11,
+-  V1CMPLTUI_IMM8_OPCODE_X1 = 36,
+-  V1CMPLTU_RRR_0_OPCODE_X0 = 91,
+-  V1CMPLTU_RRR_0_OPCODE_X1 = 60,
+-  V1CMPNE_RRR_0_OPCODE_X0 = 92,
+-  V1CMPNE_RRR_0_OPCODE_X1 = 61,
+-  V1DDOTPUA_RRR_0_OPCODE_X0 = 161,
+-  V1DDOTPUSA_RRR_0_OPCODE_X0 = 93,
+-  V1DDOTPUS_RRR_0_OPCODE_X0 = 94,
+-  V1DDOTPU_RRR_0_OPCODE_X0 = 162,
+-  V1DOTPA_RRR_0_OPCODE_X0 = 95,
+-  V1DOTPUA_RRR_0_OPCODE_X0 = 163,
+-  V1DOTPUSA_RRR_0_OPCODE_X0 = 96,
+-  V1DOTPUS_RRR_0_OPCODE_X0 = 97,
+-  V1DOTPU_RRR_0_OPCODE_X0 = 164,
+-  V1DOTP_RRR_0_OPCODE_X0 = 98,
+-  V1INT_H_RRR_0_OPCODE_X0 = 99,
+-  V1INT_H_RRR_0_OPCODE_X1 = 62,
+-  V1INT_L_RRR_0_OPCODE_X0 = 100,
+-  V1INT_L_RRR_0_OPCODE_X1 = 63,
+-  V1MAXUI_IMM8_OPCODE_X0 = 12,
+-  V1MAXUI_IMM8_OPCODE_X1 = 37,
+-  V1MAXU_RRR_0_OPCODE_X0 = 101,
+-  V1MAXU_RRR_0_OPCODE_X1 = 64,
+-  V1MINUI_IMM8_OPCODE_X0 = 13,
+-  V1MINUI_IMM8_OPCODE_X1 = 38,
+-  V1MINU_RRR_0_OPCODE_X0 = 102,
+-  V1MINU_RRR_0_OPCODE_X1 = 65,
+-  V1MNZ_RRR_0_OPCODE_X0 = 103,
+-  V1MNZ_RRR_0_OPCODE_X1 = 66,
+-  V1MULTU_RRR_0_OPCODE_X0 = 104,
+-  V1MULUS_RRR_0_OPCODE_X0 = 105,
+-  V1MULU_RRR_0_OPCODE_X0 = 106,
+-  V1MZ_RRR_0_OPCODE_X0 = 107,
+-  V1MZ_RRR_0_OPCODE_X1 = 67,
+-  V1SADAU_RRR_0_OPCODE_X0 = 108,
+-  V1SADU_RRR_0_OPCODE_X0 = 109,
+-  V1SHLI_SHIFT_OPCODE_X0 = 7,
+-  V1SHLI_SHIFT_OPCODE_X1 = 7,
+-  V1SHL_RRR_0_OPCODE_X0 = 110,
+-  V1SHL_RRR_0_OPCODE_X1 = 68,
+-  V1SHRSI_SHIFT_OPCODE_X0 = 8,
+-  V1SHRSI_SHIFT_OPCODE_X1 = 8,
+-  V1SHRS_RRR_0_OPCODE_X0 = 111,
+-  V1SHRS_RRR_0_OPCODE_X1 = 69,
+-  V1SHRUI_SHIFT_OPCODE_X0 = 9,
+-  V1SHRUI_SHIFT_OPCODE_X1 = 9,
+-  V1SHRU_RRR_0_OPCODE_X0 = 112,
+-  V1SHRU_RRR_0_OPCODE_X1 = 70,
+-  V1SUBUC_RRR_0_OPCODE_X0 = 113,
+-  V1SUBUC_RRR_0_OPCODE_X1 = 71,
+-  V1SUB_RRR_0_OPCODE_X0 = 114,
+-  V1SUB_RRR_0_OPCODE_X1 = 72,
+-  V2ADDI_IMM8_OPCODE_X0 = 14,
+-  V2ADDI_IMM8_OPCODE_X1 = 39,
+-  V2ADDSC_RRR_0_OPCODE_X0 = 115,
+-  V2ADDSC_RRR_0_OPCODE_X1 = 73,
+-  V2ADD_RRR_0_OPCODE_X0 = 116,
+-  V2ADD_RRR_0_OPCODE_X1 = 74,
+-  V2ADIFFS_RRR_0_OPCODE_X0 = 117,
+-  V2AVGS_RRR_0_OPCODE_X0 = 118,
+-  V2CMPEQI_IMM8_OPCODE_X0 = 15,
+-  V2CMPEQI_IMM8_OPCODE_X1 = 40,
+-  V2CMPEQ_RRR_0_OPCODE_X0 = 119,
+-  V2CMPEQ_RRR_0_OPCODE_X1 = 75,
+-  V2CMPLES_RRR_0_OPCODE_X0 = 120,
+-  V2CMPLES_RRR_0_OPCODE_X1 = 76,
+-  V2CMPLEU_RRR_0_OPCODE_X0 = 121,
+-  V2CMPLEU_RRR_0_OPCODE_X1 = 77,
+-  V2CMPLTSI_IMM8_OPCODE_X0 = 16,
+-  V2CMPLTSI_IMM8_OPCODE_X1 = 41,
+-  V2CMPLTS_RRR_0_OPCODE_X0 = 122,
+-  V2CMPLTS_RRR_0_OPCODE_X1 = 78,
+-  V2CMPLTUI_IMM8_OPCODE_X0 = 17,
+-  V2CMPLTUI_IMM8_OPCODE_X1 = 42,
+-  V2CMPLTU_RRR_0_OPCODE_X0 = 123,
+-  V2CMPLTU_RRR_0_OPCODE_X1 = 79,
+-  V2CMPNE_RRR_0_OPCODE_X0 = 124,
+-  V2CMPNE_RRR_0_OPCODE_X1 = 80,
+-  V2DOTPA_RRR_0_OPCODE_X0 = 125,
+-  V2DOTP_RRR_0_OPCODE_X0 = 126,
+-  V2INT_H_RRR_0_OPCODE_X0 = 127,
+-  V2INT_H_RRR_0_OPCODE_X1 = 81,
+-  V2INT_L_RRR_0_OPCODE_X0 = 128,
+-  V2INT_L_RRR_0_OPCODE_X1 = 82,
+-  V2MAXSI_IMM8_OPCODE_X0 = 18,
+-  V2MAXSI_IMM8_OPCODE_X1 = 43,
+-  V2MAXS_RRR_0_OPCODE_X0 = 129,
+-  V2MAXS_RRR_0_OPCODE_X1 = 83,
+-  V2MINSI_IMM8_OPCODE_X0 = 19,
+-  V2MINSI_IMM8_OPCODE_X1 = 44,
+-  V2MINS_RRR_0_OPCODE_X0 = 130,
+-  V2MINS_RRR_0_OPCODE_X1 = 84,
+-  V2MNZ_RRR_0_OPCODE_X0 = 131,
+-  V2MNZ_RRR_0_OPCODE_X1 = 85,
+-  V2MULFSC_RRR_0_OPCODE_X0 = 132,
+-  V2MULS_RRR_0_OPCODE_X0 = 133,
+-  V2MULTS_RRR_0_OPCODE_X0 = 134,
+-  V2MZ_RRR_0_OPCODE_X0 = 135,
+-  V2MZ_RRR_0_OPCODE_X1 = 86,
+-  V2PACKH_RRR_0_OPCODE_X0 = 136,
+-  V2PACKH_RRR_0_OPCODE_X1 = 87,
+-  V2PACKL_RRR_0_OPCODE_X0 = 137,
+-  V2PACKL_RRR_0_OPCODE_X1 = 88,
+-  V2PACKUC_RRR_0_OPCODE_X0 = 138,
+-  V2PACKUC_RRR_0_OPCODE_X1 = 89,
+-  V2SADAS_RRR_0_OPCODE_X0 = 139,
+-  V2SADAU_RRR_0_OPCODE_X0 = 140,
+-  V2SADS_RRR_0_OPCODE_X0 = 141,
+-  V2SADU_RRR_0_OPCODE_X0 = 142,
+-  V2SHLI_SHIFT_OPCODE_X0 = 10,
+-  V2SHLI_SHIFT_OPCODE_X1 = 10,
+-  V2SHLSC_RRR_0_OPCODE_X0 = 143,
+-  V2SHLSC_RRR_0_OPCODE_X1 = 90,
+-  V2SHL_RRR_0_OPCODE_X0 = 144,
+-  V2SHL_RRR_0_OPCODE_X1 = 91,
+-  V2SHRSI_SHIFT_OPCODE_X0 = 11,
+-  V2SHRSI_SHIFT_OPCODE_X1 = 11,
+-  V2SHRS_RRR_0_OPCODE_X0 = 145,
+-  V2SHRS_RRR_0_OPCODE_X1 = 92,
+-  V2SHRUI_SHIFT_OPCODE_X0 = 12,
+-  V2SHRUI_SHIFT_OPCODE_X1 = 12,
+-  V2SHRU_RRR_0_OPCODE_X0 = 146,
+-  V2SHRU_RRR_0_OPCODE_X1 = 93,
+-  V2SUBSC_RRR_0_OPCODE_X0 = 147,
+-  V2SUBSC_RRR_0_OPCODE_X1 = 94,
+-  V2SUB_RRR_0_OPCODE_X0 = 148,
+-  V2SUB_RRR_0_OPCODE_X1 = 95,
+-  V4ADDSC_RRR_0_OPCODE_X0 = 149,
+-  V4ADDSC_RRR_0_OPCODE_X1 = 96,
+-  V4ADD_RRR_0_OPCODE_X0 = 150,
+-  V4ADD_RRR_0_OPCODE_X1 = 97,
+-  V4INT_H_RRR_0_OPCODE_X0 = 151,
+-  V4INT_H_RRR_0_OPCODE_X1 = 98,
+-  V4INT_L_RRR_0_OPCODE_X0 = 152,
+-  V4INT_L_RRR_0_OPCODE_X1 = 99,
+-  V4PACKSC_RRR_0_OPCODE_X0 = 153,
+-  V4PACKSC_RRR_0_OPCODE_X1 = 100,
+-  V4SHLSC_RRR_0_OPCODE_X0 = 154,
+-  V4SHLSC_RRR_0_OPCODE_X1 = 101,
+-  V4SHL_RRR_0_OPCODE_X0 = 155,
+-  V4SHL_RRR_0_OPCODE_X1 = 102,
+-  V4SHRS_RRR_0_OPCODE_X0 = 156,
+-  V4SHRS_RRR_0_OPCODE_X1 = 103,
+-  V4SHRU_RRR_0_OPCODE_X0 = 157,
+-  V4SHRU_RRR_0_OPCODE_X1 = 104,
+-  V4SUBSC_RRR_0_OPCODE_X0 = 158,
+-  V4SUBSC_RRR_0_OPCODE_X1 = 105,
+-  V4SUB_RRR_0_OPCODE_X0 = 159,
+-  V4SUB_RRR_0_OPCODE_X1 = 106,
+-  WH64_UNARY_OPCODE_X1 = 38,
+-  XORI_IMM8_OPCODE_X0 = 20,
+-  XORI_IMM8_OPCODE_X1 = 45,
+-  XOR_RRR_0_OPCODE_X0 = 160,
+-  XOR_RRR_0_OPCODE_X1 = 107,
+-  XOR_RRR_5_OPCODE_Y0 = 3,
+-  XOR_RRR_5_OPCODE_Y1 = 3
+-};
+-
+-
+-#endif /* __ASSEMBLER__ */
+-
+-#endif /* OPCODE_TILEGX_H */
+diff --git a/target/tilegx/simd_helper.c b/target/tilegx/simd_helper.c
+deleted file mode 100644
+index 0fdfad2fa9..0000000000
+--- a/target/tilegx/simd_helper.c
++++ /dev/null
+@@ -1,165 +0,0 @@
+-/*
+- * QEMU TILE-Gx helpers
+- *
+- *  Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see
+- * <http://www.gnu.org/licenses/lgpl-2.1.html>
+- */
+-
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/helper-proto.h"
+-
+-
+-/* Broadcast a value to all elements of a vector.  */
+-#define V1(X)      (((X) & 0xff) * 0x0101010101010101ull)
+-#define V2(X)      (((X) & 0xffff) * 0x0001000100010001ull)
+-
+-
+-uint64_t helper_v1multu(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    for (i = 0; i < 64; i += 8) {
+-        unsigned ae = extract64(a, i, 8);
+-        unsigned be = extract64(b, i, 8);
+-        r = deposit64(r, i, 8, ae * be);
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v2mults(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    /* While the instruction talks about signed inputs, with a
+-       truncated result the sign of the inputs doesn't matter.  */
+-    for (i = 0; i < 64; i += 16) {
+-        unsigned ae = extract64(a, i, 16);
+-        unsigned be = extract64(b, i, 16);
+-        r = deposit64(r, i, 16, ae * be);
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v1shl(uint64_t a, uint64_t b)
+-{
+-    uint64_t m;
+-
+-    b &= 7;
+-    m = V1(0xff >> b);
+-    return (a & m) << b;
+-}
+-
+-uint64_t helper_v2shl(uint64_t a, uint64_t b)
+-{
+-    uint64_t m;
+-
+-    b &= 15;
+-    m = V2(0xffff >> b);
+-    return (a & m) << b;
+-}
+-
+-uint64_t helper_v1shru(uint64_t a, uint64_t b)
+-{
+-    uint64_t m;
+-
+-    b &= 7;
+-    m = V1(0xff << b);
+-    return (a & m) >> b;
+-}
+-
+-uint64_t helper_v2shru(uint64_t a, uint64_t b)
+-{
+-    uint64_t m;
+-
+-    b &= 15;
+-    m = V2(0xffff << b);
+-    return (a & m) >> b;
+-}
+-
+-uint64_t helper_v1shrs(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    b &= 7;
+-    for (i = 0; i < 64; i += 8) {
+-        r = deposit64(r, i, 8, sextract64(a, i + b, 8 - b));
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v2shrs(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    b &= 15;
+-    for (i = 0; i < 64; i += 16) {
+-        r = deposit64(r, i, 16, sextract64(a, i + b, 16 - b));
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v1int_h(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    for (i = 0; i < 32; i += 8) {
+-        r = deposit64(r, 2 * i + 8, 8, extract64(a, i + 32, 8));
+-        r = deposit64(r, 2 * i, 8, extract64(b, i + 32, 8));
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v1int_l(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    for (i = 0; i < 32; i += 8) {
+-        r = deposit64(r, 2 * i + 8, 8, extract64(a, i, 8));
+-        r = deposit64(r, 2 * i, 8, extract64(b, i, 8));
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v2int_h(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    for (i = 0; i < 32; i += 16) {
+-        r = deposit64(r, 2 * i + 16, 16, extract64(a, i + 32, 16));
+-        r = deposit64(r, 2 * i, 16, extract64(b, i + 32, 16));
+-    }
+-    return r;
+-}
+-
+-uint64_t helper_v2int_l(uint64_t a, uint64_t b)
+-{
+-    uint64_t r = 0;
+-    int i;
+-
+-    for (i = 0; i < 32; i += 16) {
+-        r = deposit64(r, 2 * i + 16, 16, extract64(a, i, 16));
+-        r = deposit64(r, 2 * i, 16, extract64(b, i, 16));
+-    }
+-    return r;
+-}
+diff --git a/target/tilegx/spr_def_64.h b/target/tilegx/spr_def_64.h
+deleted file mode 100644
+index d3c0cc26d8..0000000000
+--- a/target/tilegx/spr_def_64.h
++++ /dev/null
+@@ -1,212 +0,0 @@
+-/*
+- * Copyright 2011 Tilera Corporation. All Rights Reserved.
+- *
+- *   This program is free software; you can redistribute it and/or
+- *   modify it under the terms of the GNU General Public License
+- *   as published by the Free Software Foundation, version 2.
+- *
+- *   This program is distributed in the hope that it will be useful, but
+- *   WITHOUT ANY WARRANTY; without even the implied warranty of
+- *   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or
+- *   NON INFRINGEMENT.  See the GNU General Public License for
+- *   more details.
+- */
+-
+-#ifndef ARCH_SPR_DEF_64_H
+-#define ARCH_SPR_DEF_64_H
+-
+-#define SPR_AUX_PERF_COUNT_0 0x2105
+-#define SPR_AUX_PERF_COUNT_1 0x2106
+-#define SPR_AUX_PERF_COUNT_CTL 0x2107
+-#define SPR_AUX_PERF_COUNT_STS 0x2108
+-#define SPR_CMPEXCH_VALUE 0x2780
+-#define SPR_CYCLE 0x2781
+-#define SPR_DONE 0x2705
+-#define SPR_DSTREAM_PF 0x2706
+-#define SPR_EVENT_BEGIN 0x2782
+-#define SPR_EVENT_END 0x2783
+-#define SPR_EX_CONTEXT_0_0 0x2580
+-#define SPR_EX_CONTEXT_0_1 0x2581
+-#define SPR_EX_CONTEXT_0_1__PL_SHIFT 0
+-#define SPR_EX_CONTEXT_0_1__PL_RMASK 0x3
+-#define SPR_EX_CONTEXT_0_1__PL_MASK  0x3
+-#define SPR_EX_CONTEXT_0_1__ICS_SHIFT 2
+-#define SPR_EX_CONTEXT_0_1__ICS_RMASK 0x1
+-#define SPR_EX_CONTEXT_0_1__ICS_MASK  0x4
+-#define SPR_EX_CONTEXT_1_0 0x2480
+-#define SPR_EX_CONTEXT_1_1 0x2481
+-#define SPR_EX_CONTEXT_1_1__PL_SHIFT 0
+-#define SPR_EX_CONTEXT_1_1__PL_RMASK 0x3
+-#define SPR_EX_CONTEXT_1_1__PL_MASK  0x3
+-#define SPR_EX_CONTEXT_1_1__ICS_SHIFT 2
+-#define SPR_EX_CONTEXT_1_1__ICS_RMASK 0x1
+-#define SPR_EX_CONTEXT_1_1__ICS_MASK  0x4
+-#define SPR_EX_CONTEXT_2_0 0x2380
+-#define SPR_EX_CONTEXT_2_1 0x2381
+-#define SPR_EX_CONTEXT_2_1__PL_SHIFT 0
+-#define SPR_EX_CONTEXT_2_1__PL_RMASK 0x3
+-#define SPR_EX_CONTEXT_2_1__PL_MASK  0x3
+-#define SPR_EX_CONTEXT_2_1__ICS_SHIFT 2
+-#define SPR_EX_CONTEXT_2_1__ICS_RMASK 0x1
+-#define SPR_EX_CONTEXT_2_1__ICS_MASK  0x4
+-#define SPR_FAIL 0x2707
+-#define SPR_IDN_AVAIL_EN 0x1a05
+-#define SPR_IDN_DATA_AVAIL 0x0a80
+-#define SPR_IDN_DEADLOCK_TIMEOUT 0x1806
+-#define SPR_IDN_DEMUX_COUNT_0 0x0a05
+-#define SPR_IDN_DEMUX_COUNT_1 0x0a06
+-#define SPR_IDN_DIRECTION_PROTECT 0x1405
+-#define SPR_IDN_PENDING 0x0a08
+-#define SPR_ILL_TRANS_REASON__I_STREAM_VA_RMASK 0x1
+-#define SPR_INTCTRL_0_STATUS 0x2505
+-#define SPR_INTCTRL_1_STATUS 0x2405
+-#define SPR_INTCTRL_2_STATUS 0x2305
+-#define SPR_INTERRUPT_CRITICAL_SECTION 0x2708
+-#define SPR_INTERRUPT_MASK_0 0x2506
+-#define SPR_INTERRUPT_MASK_1 0x2406
+-#define SPR_INTERRUPT_MASK_2 0x2306
+-#define SPR_INTERRUPT_MASK_RESET_0 0x2507
+-#define SPR_INTERRUPT_MASK_RESET_1 0x2407
+-#define SPR_INTERRUPT_MASK_RESET_2 0x2307
+-#define SPR_INTERRUPT_MASK_SET_0 0x2508
+-#define SPR_INTERRUPT_MASK_SET_1 0x2408
+-#define SPR_INTERRUPT_MASK_SET_2 0x2308
+-#define SPR_INTERRUPT_VECTOR_BASE_0 0x2509
+-#define SPR_INTERRUPT_VECTOR_BASE_1 0x2409
+-#define SPR_INTERRUPT_VECTOR_BASE_2 0x2309
+-#define SPR_INTERRUPT_VECTOR_BASE_3 0x2209
+-#define SPR_IPI_EVENT_0 0x1f05
+-#define SPR_IPI_EVENT_1 0x1e05
+-#define SPR_IPI_EVENT_2 0x1d05
+-#define SPR_IPI_EVENT_RESET_0 0x1f06
+-#define SPR_IPI_EVENT_RESET_1 0x1e06
+-#define SPR_IPI_EVENT_RESET_2 0x1d06
+-#define SPR_IPI_EVENT_SET_0 0x1f07
+-#define SPR_IPI_EVENT_SET_1 0x1e07
+-#define SPR_IPI_EVENT_SET_2 0x1d07
+-#define SPR_IPI_MASK_0 0x1f08
+-#define SPR_IPI_MASK_1 0x1e08
+-#define SPR_IPI_MASK_2 0x1d08
+-#define SPR_IPI_MASK_RESET_0 0x1f09
+-#define SPR_IPI_MASK_RESET_1 0x1e09
+-#define SPR_IPI_MASK_RESET_2 0x1d09
+-#define SPR_IPI_MASK_SET_0 0x1f0a
+-#define SPR_IPI_MASK_SET_1 0x1e0a
+-#define SPR_IPI_MASK_SET_2 0x1d0a
+-#define SPR_MPL_AUX_PERF_COUNT_SET_0 0x2100
+-#define SPR_MPL_AUX_PERF_COUNT_SET_1 0x2101
+-#define SPR_MPL_AUX_PERF_COUNT_SET_2 0x2102
+-#define SPR_MPL_AUX_TILE_TIMER_SET_0 0x1700
+-#define SPR_MPL_AUX_TILE_TIMER_SET_1 0x1701
+-#define SPR_MPL_AUX_TILE_TIMER_SET_2 0x1702
+-#define SPR_MPL_IDN_ACCESS_SET_0 0x0a00
+-#define SPR_MPL_IDN_ACCESS_SET_1 0x0a01
+-#define SPR_MPL_IDN_ACCESS_SET_2 0x0a02
+-#define SPR_MPL_IDN_AVAIL_SET_0 0x1a00
+-#define SPR_MPL_IDN_AVAIL_SET_1 0x1a01
+-#define SPR_MPL_IDN_AVAIL_SET_2 0x1a02
+-#define SPR_MPL_IDN_COMPLETE_SET_0 0x0500
+-#define SPR_MPL_IDN_COMPLETE_SET_1 0x0501
+-#define SPR_MPL_IDN_COMPLETE_SET_2 0x0502
+-#define SPR_MPL_IDN_FIREWALL_SET_0 0x1400
+-#define SPR_MPL_IDN_FIREWALL_SET_1 0x1401
+-#define SPR_MPL_IDN_FIREWALL_SET_2 0x1402
+-#define SPR_MPL_IDN_TIMER_SET_0 0x1800
+-#define SPR_MPL_IDN_TIMER_SET_1 0x1801
+-#define SPR_MPL_IDN_TIMER_SET_2 0x1802
+-#define SPR_MPL_INTCTRL_0_SET_0 0x2500
+-#define SPR_MPL_INTCTRL_0_SET_1 0x2501
+-#define SPR_MPL_INTCTRL_0_SET_2 0x2502
+-#define SPR_MPL_INTCTRL_1_SET_0 0x2400
+-#define SPR_MPL_INTCTRL_1_SET_1 0x2401
+-#define SPR_MPL_INTCTRL_1_SET_2 0x2402
+-#define SPR_MPL_INTCTRL_2_SET_0 0x2300
+-#define SPR_MPL_INTCTRL_2_SET_1 0x2301
+-#define SPR_MPL_INTCTRL_2_SET_2 0x2302
+-#define SPR_MPL_IPI_0 0x1f04
+-#define SPR_MPL_IPI_0_SET_0 0x1f00
+-#define SPR_MPL_IPI_0_SET_1 0x1f01
+-#define SPR_MPL_IPI_0_SET_2 0x1f02
+-#define SPR_MPL_IPI_1 0x1e04
+-#define SPR_MPL_IPI_1_SET_0 0x1e00
+-#define SPR_MPL_IPI_1_SET_1 0x1e01
+-#define SPR_MPL_IPI_1_SET_2 0x1e02
+-#define SPR_MPL_IPI_2 0x1d04
+-#define SPR_MPL_IPI_2_SET_0 0x1d00
+-#define SPR_MPL_IPI_2_SET_1 0x1d01
+-#define SPR_MPL_IPI_2_SET_2 0x1d02
+-#define SPR_MPL_PERF_COUNT_SET_0 0x2000
+-#define SPR_MPL_PERF_COUNT_SET_1 0x2001
+-#define SPR_MPL_PERF_COUNT_SET_2 0x2002
+-#define SPR_MPL_UDN_ACCESS_SET_0 0x0b00
+-#define SPR_MPL_UDN_ACCESS_SET_1 0x0b01
+-#define SPR_MPL_UDN_ACCESS_SET_2 0x0b02
+-#define SPR_MPL_UDN_AVAIL_SET_0 0x1b00
+-#define SPR_MPL_UDN_AVAIL_SET_1 0x1b01
+-#define SPR_MPL_UDN_AVAIL_SET_2 0x1b02
+-#define SPR_MPL_UDN_COMPLETE_SET_0 0x0600
+-#define SPR_MPL_UDN_COMPLETE_SET_1 0x0601
+-#define SPR_MPL_UDN_COMPLETE_SET_2 0x0602
+-#define SPR_MPL_UDN_FIREWALL_SET_0 0x1500
+-#define SPR_MPL_UDN_FIREWALL_SET_1 0x1501
+-#define SPR_MPL_UDN_FIREWALL_SET_2 0x1502
+-#define SPR_MPL_UDN_TIMER_SET_0 0x1900
+-#define SPR_MPL_UDN_TIMER_SET_1 0x1901
+-#define SPR_MPL_UDN_TIMER_SET_2 0x1902
+-#define SPR_MPL_WORLD_ACCESS_SET_0 0x2700
+-#define SPR_MPL_WORLD_ACCESS_SET_1 0x2701
+-#define SPR_MPL_WORLD_ACCESS_SET_2 0x2702
+-#define SPR_PASS 0x2709
+-#define SPR_PERF_COUNT_0 0x2005
+-#define SPR_PERF_COUNT_1 0x2006
+-#define SPR_PERF_COUNT_CTL 0x2007
+-#define SPR_PERF_COUNT_DN_CTL 0x2008
+-#define SPR_PERF_COUNT_STS 0x2009
+-#define SPR_PROC_STATUS 0x2784
+-#define SPR_SIM_CONTROL 0x2785
+-#define SPR_SINGLE_STEP_CONTROL_0 0x0405
+-#define SPR_SINGLE_STEP_CONTROL_0__CANCELED_MASK  0x1
+-#define SPR_SINGLE_STEP_CONTROL_0__INHIBIT_MASK  0x2
+-#define SPR_SINGLE_STEP_CONTROL_1 0x0305
+-#define SPR_SINGLE_STEP_CONTROL_1__CANCELED_MASK  0x1
+-#define SPR_SINGLE_STEP_CONTROL_1__INHIBIT_MASK  0x2
+-#define SPR_SINGLE_STEP_CONTROL_2 0x0205
+-#define SPR_SINGLE_STEP_CONTROL_2__CANCELED_MASK  0x1
+-#define SPR_SINGLE_STEP_CONTROL_2__INHIBIT_MASK  0x2
+-#define SPR_SINGLE_STEP_EN_0_0 0x250a
+-#define SPR_SINGLE_STEP_EN_0_1 0x240a
+-#define SPR_SINGLE_STEP_EN_0_2 0x230a
+-#define SPR_SINGLE_STEP_EN_1_0 0x250b
+-#define SPR_SINGLE_STEP_EN_1_1 0x240b
+-#define SPR_SINGLE_STEP_EN_1_2 0x230b
+-#define SPR_SINGLE_STEP_EN_2_0 0x250c
+-#define SPR_SINGLE_STEP_EN_2_1 0x240c
+-#define SPR_SINGLE_STEP_EN_2_2 0x230c
+-#define SPR_SYSTEM_SAVE_0_0 0x2582
+-#define SPR_SYSTEM_SAVE_0_1 0x2583
+-#define SPR_SYSTEM_SAVE_0_2 0x2584
+-#define SPR_SYSTEM_SAVE_0_3 0x2585
+-#define SPR_SYSTEM_SAVE_1_0 0x2482
+-#define SPR_SYSTEM_SAVE_1_1 0x2483
+-#define SPR_SYSTEM_SAVE_1_2 0x2484
+-#define SPR_SYSTEM_SAVE_1_3 0x2485
+-#define SPR_SYSTEM_SAVE_2_0 0x2382
+-#define SPR_SYSTEM_SAVE_2_1 0x2383
+-#define SPR_SYSTEM_SAVE_2_2 0x2384
+-#define SPR_SYSTEM_SAVE_2_3 0x2385
+-#define SPR_TILE_COORD 0x270b
+-#define SPR_TILE_RTF_HWM 0x270c
+-#define SPR_TILE_TIMER_CONTROL 0x1605
+-#define SPR_UDN_AVAIL_EN 0x1b05
+-#define SPR_UDN_DATA_AVAIL 0x0b80
+-#define SPR_UDN_DEADLOCK_TIMEOUT 0x1906
+-#define SPR_UDN_DEMUX_COUNT_0 0x0b05
+-#define SPR_UDN_DEMUX_COUNT_1 0x0b06
+-#define SPR_UDN_DEMUX_COUNT_2 0x0b07
+-#define SPR_UDN_DEMUX_COUNT_3 0x0b08
+-#define SPR_UDN_DIRECTION_PROTECT 0x1505
+-#define SPR_UDN_PENDING 0x0b0a
+-#define SPR_WATCH_MASK 0x200a
+-#define SPR_WATCH_VAL 0x200b
+-
+-#endif
+diff --git a/target/tilegx/translate.c b/target/tilegx/translate.c
+deleted file mode 100644
+index 65f1c91f4f..0000000000
+--- a/target/tilegx/translate.c
++++ /dev/null
+@@ -1,2437 +0,0 @@
+-/*
+- * QEMU TILE-Gx CPU
+- *
+- *  Copyright (c) 2015 Chen Gang
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see
+- * <http://www.gnu.org/licenses/lgpl-2.1.html>
+- */
+-
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "qemu/log.h"
+-#include "exec/log.h"
+-#include "disas/disas.h"
+-#include "exec/exec-all.h"
+-#include "tcg/tcg-op.h"
+-#include "exec/cpu_ldst.h"
+-#include "linux-user/syscall_defs.h"
+-
+-#include "opcode_tilegx.h"
+-#include "spr_def_64.h"
+-
+-#define FMT64X                          "%016" PRIx64
+-
+-static TCGv cpu_pc;
+-static TCGv cpu_regs[TILEGX_R_COUNT];
+-
+-static const char * const reg_names[64] = {
+-     "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+-     "r8",  "r9", "r10", "r11", "r12", "r13", "r14", "r15",
+-    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+-    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+-    "r32", "r33", "r34", "r35", "r36", "r37", "r38", "r39",
+-    "r40", "r41", "r42", "r43", "r44", "r45", "r46", "r47",
+-    "r48", "r49", "r50", "r51",  "bp",  "tp",  "sp",  "lr",
+-    "sn", "idn0", "idn1", "udn0", "udn1", "udn2", "udn2", "zero"
+-};
+-
+-/* Modified registers are cached in temporaries until the end of the bundle. */
+-typedef struct {
+-    unsigned reg;
+-    TCGv val;
+-} DisasContextTemp;
+-
+-#define MAX_WRITEBACK 4
+-
+-/* This is the state at translation time.  */
+-typedef struct {
+-    uint64_t pc;		/* Current pc */
+-
+-    TCGv zero;                  /* For zero register */
+-
+-    DisasContextTemp wb[MAX_WRITEBACK];
+-    int num_wb;
+-    int mmuidx;
+-    bool exit_tb;
+-    TileExcp atomic_excp;
+-
+-    struct {
+-        TCGCond cond;    /* branch condition */
+-        TCGv dest;       /* branch destination */
+-        TCGv val1;       /* value to be compared against zero, for cond */
+-    } jmp;               /* Jump object, only once in each TB block */
+-} DisasContext;
+-
+-#include "exec/gen-icount.h"
+-
+-/* Differentiate the various pipe encodings.  */
+-#define TY_X0  0
+-#define TY_X1  1
+-#define TY_Y0  2
+-#define TY_Y1  3
+-
+-/* Remerge the base opcode and extension fields for switching.
+-   The X opcode fields are 3 bits; Y0/Y1 opcode fields are 4 bits;
+-   Y2 opcode field is 2 bits.  */
+-#define OE(OP, EXT, XY) (TY_##XY + OP * 4 + EXT * 64)
+-
+-/* Similar, but for Y2 only.  */
+-#define OEY2(OP, MODE) (OP + MODE * 4)
+-
+-/* Similar, but make sure opcode names match up.  */
+-#define OE_RR_X0(E)    OE(RRR_0_OPCODE_X0, E##_UNARY_OPCODE_X0, X0)
+-#define OE_RR_X1(E)    OE(RRR_0_OPCODE_X1, E##_UNARY_OPCODE_X1, X1)
+-#define OE_RR_Y0(E)    OE(RRR_1_OPCODE_Y0, E##_UNARY_OPCODE_Y0, Y0)
+-#define OE_RR_Y1(E)    OE(RRR_1_OPCODE_Y1, E##_UNARY_OPCODE_Y1, Y1)
+-#define OE_RRR(E,N,XY) OE(RRR_##N##_OPCODE_##XY, E##_RRR_##N##_OPCODE_##XY, XY)
+-#define OE_IM(E,XY)    OE(IMM8_OPCODE_##XY, E##_IMM8_OPCODE_##XY, XY)
+-#define OE_SH(E,XY)    OE(SHIFT_OPCODE_##XY, E##_SHIFT_OPCODE_##XY, XY)
+-
+-#define V1_IMM(X)      (((X) & 0xff) * 0x0101010101010101ull)
+-#define V2_IMM(X)      (((X) & 0xffff) * 0x0001000100010001ull)
+-
+-
+-static void gen_exception(DisasContext *dc, TileExcp num)
+-{
+-    TCGv_i32 tmp;
+-
+-    tcg_gen_movi_tl(cpu_pc, dc->pc + TILEGX_BUNDLE_SIZE_IN_BYTES);
+-
+-    tmp = tcg_const_i32(num);
+-    gen_helper_exception(cpu_env, tmp);
+-    tcg_temp_free_i32(tmp);
+-    dc->exit_tb = true;
+-}
+-
+-static bool check_gr(DisasContext *dc, uint8_t reg)
+-{
+-    if (likely(reg < TILEGX_R_COUNT)) {
+-        return true;
+-    }
+-
+-    switch (reg) {
+-    case TILEGX_R_SN:
+-    case TILEGX_R_ZERO:
+-        break;
+-    case TILEGX_R_IDN0:
+-    case TILEGX_R_IDN1:
+-        gen_exception(dc, TILEGX_EXCP_REG_IDN_ACCESS);
+-        break;
+-    case TILEGX_R_UDN0:
+-    case TILEGX_R_UDN1:
+-    case TILEGX_R_UDN2:
+-    case TILEGX_R_UDN3:
+-        gen_exception(dc, TILEGX_EXCP_REG_UDN_ACCESS);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    return false;
+-}
+-
+-static TCGv load_zero(DisasContext *dc)
+-{
+-    if (!dc->zero) {
+-        dc->zero = tcg_const_i64(0);
+-    }
+-    return dc->zero;
+-}
+-
+-static TCGv load_gr(DisasContext *dc, unsigned reg)
+-{
+-    if (check_gr(dc, reg)) {
+-        return cpu_regs[reg];
+-    }
+-    return load_zero(dc);
+-}
+-
+-static TCGv dest_gr(DisasContext *dc, unsigned reg)
+-{
+-    int n;
+-
+-    /* Skip the result, mark the exception if necessary, and continue */
+-    check_gr(dc, reg);
+-
+-    n = dc->num_wb++;
+-    dc->wb[n].reg = reg;
+-    return dc->wb[n].val = tcg_temp_new_i64();
+-}
+-
+-static void gen_saturate_op(TCGv tdest, TCGv tsrca, TCGv tsrcb,
+-                            void (*operate)(TCGv, TCGv, TCGv))
+-{
+-    TCGv t0 = tcg_temp_new();
+-
+-    tcg_gen_ext32s_tl(tdest, tsrca);
+-    tcg_gen_ext32s_tl(t0, tsrcb);
+-    operate(tdest, tdest, t0);
+-
+-    tcg_gen_movi_tl(t0, 0x7fffffff);
+-    tcg_gen_movcond_tl(TCG_COND_GT, tdest, tdest, t0, t0, tdest);
+-    tcg_gen_movi_tl(t0, -0x80000000LL);
+-    tcg_gen_movcond_tl(TCG_COND_LT, tdest, tdest, t0, t0, tdest);
+-
+-    tcg_temp_free(t0);
+-}
+-
+-static void gen_atomic_excp(DisasContext *dc, unsigned dest, TCGv tdest,
+-                            TCGv tsrca, TCGv tsrcb, TileExcp excp)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    TCGv_i32 t;
+-
+-    tcg_gen_st_tl(tsrca, cpu_env, offsetof(CPUTLGState, atomic_srca));
+-    tcg_gen_st_tl(tsrcb, cpu_env, offsetof(CPUTLGState, atomic_srcb));
+-    t = tcg_const_i32(dest);
+-    tcg_gen_st_i32(t, cpu_env, offsetof(CPUTLGState, atomic_dstr));
+-    tcg_temp_free_i32(t);
+-
+-    /* We're going to write the real result in the exception.  But in
+-       the meantime we've already created a writeback register, and
+-       we don't want that to remain uninitialized.  */
+-    tcg_gen_movi_tl(tdest, 0);
+-
+-    /* Note that we need to delay issuing the exception that implements
+-       the atomic operation until after writing back the results of the
+-       instruction occupying the X0 pipe.  */
+-    dc->atomic_excp = excp;
+-#else
+-    gen_exception(dc, TILEGX_EXCP_OPCODE_UNIMPLEMENTED);
+-#endif
+-}
+-
+-/* Shift the 128-bit value TSRCA:TSRCD right by the number of bytes
+-   specified by the bottom 3 bits of TSRCB, and set TDEST to the
+-   low 64 bits of the resulting value.  */
+-static void gen_dblalign(TCGv tdest, TCGv tsrcd, TCGv tsrca, TCGv tsrcb)
+-{
+-    TCGv t0 = tcg_temp_new();
+-
+-    tcg_gen_andi_tl(t0, tsrcb, 7);
+-    tcg_gen_shli_tl(t0, t0, 3);
+-    tcg_gen_shr_tl(tdest, tsrcd, t0);
+-
+-    /* We want to do "t0 = tsrca << (64 - t0)".  Two's complement
+-       arithmetic on a 6-bit field tells us that 64 - t0 is equal
+-       to (t0 ^ 63) + 1.  So we can do the shift in two parts,
+-       neither of which will be an invalid shift by 64.  */
+-    tcg_gen_xori_tl(t0, t0, 63);
+-    tcg_gen_shl_tl(t0, tsrca, t0);
+-    tcg_gen_shli_tl(t0, t0, 1);
+-    tcg_gen_or_tl(tdest, tdest, t0);
+-
+-    tcg_temp_free(t0);
+-}
+-
+-/* Similarly, except that the 128-bit value is TSRCA:TSRCB, and the
+-   right shift is an immediate.  */
+-static void gen_dblaligni(TCGv tdest, TCGv tsrca, TCGv tsrcb, int shr)
+-{
+-    TCGv t0 = tcg_temp_new();
+-
+-    tcg_gen_shri_tl(t0, tsrcb, shr);
+-    tcg_gen_shli_tl(tdest, tsrca, 64 - shr);
+-    tcg_gen_or_tl(tdest, tdest, t0);
+-
+-    tcg_temp_free(t0);
+-}
+-
+-typedef enum {
+-    LU, LS, HU, HS
+-} MulHalf;
+-
+-static void gen_ext_half(TCGv d, TCGv s, MulHalf h)
+-{
+-    switch (h) {
+-    case LU:
+-        tcg_gen_ext32u_tl(d, s);
+-        break;
+-    case LS:
+-        tcg_gen_ext32s_tl(d, s);
+-        break;
+-    case HU:
+-        tcg_gen_shri_tl(d, s, 32);
+-        break;
+-    case HS:
+-        tcg_gen_sari_tl(d, s, 32);
+-        break;
+-    }
+-}
+-
+-static void gen_mul_half(TCGv tdest, TCGv tsrca, TCGv tsrcb,
+-                         MulHalf ha, MulHalf hb)
+-{
+-    TCGv t = tcg_temp_new();
+-    gen_ext_half(t, tsrca, ha);
+-    gen_ext_half(tdest, tsrcb, hb);
+-    tcg_gen_mul_tl(tdest, tdest, t);
+-    tcg_temp_free(t);
+-}
+-
+-static void gen_cmul2(TCGv tdest, TCGv tsrca, TCGv tsrcb, int sh, int rd)
+-{
+-    TCGv_i32 tsh = tcg_const_i32(sh);
+-    TCGv_i32 trd = tcg_const_i32(rd);
+-    gen_helper_cmul2(tdest, tsrca, tsrcb, tsh, trd);
+-    tcg_temp_free_i32(tsh);
+-    tcg_temp_free_i32(trd);
+-}
+-
+-static TileExcp gen_st_opcode(DisasContext *dc, unsigned dest, unsigned srca,
+-                              unsigned srcb, MemOp memop, const char *name)
+-{
+-    if (dest) {
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    tcg_gen_qemu_st_tl(load_gr(dc, srcb), load_gr(dc, srca),
+-                       dc->mmuidx, memop);
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s", name,
+-                  reg_names[srca], reg_names[srcb]);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_st_add_opcode(DisasContext *dc, unsigned srca, unsigned srcb,
+-                                  int imm, MemOp memop, const char *name)
+-{
+-    TCGv tsrca = load_gr(dc, srca);
+-    TCGv tsrcb = load_gr(dc, srcb);
+-
+-    tcg_gen_qemu_st_tl(tsrcb, tsrca, dc->mmuidx, memop);
+-    tcg_gen_addi_tl(dest_gr(dc, srca), tsrca, imm);
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s, %d", name,
+-                  reg_names[srca], reg_names[srcb], imm);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-/* Equality comparison with zero can be done quickly and efficiently.  */
+-static void gen_v1cmpeq0(TCGv v)
+-{
+-    TCGv m = tcg_const_tl(V1_IMM(0x7f));
+-    TCGv c = tcg_temp_new();
+-
+-    /* ~(((v & m) + m) | m | v).  Sets the msb for each byte == 0.  */
+-    tcg_gen_and_tl(c, v, m);
+-    tcg_gen_add_tl(c, c, m);
+-    tcg_gen_or_tl(c, c, m);
+-    tcg_gen_nor_tl(c, c, v);
+-    tcg_temp_free(m);
+-
+-    /* Shift the msb down to form the lsb boolean result.  */
+-    tcg_gen_shri_tl(v, c, 7);
+-    tcg_temp_free(c);
+-}
+-
+-static void gen_v1cmpne0(TCGv v)
+-{
+-    TCGv m = tcg_const_tl(V1_IMM(0x7f));
+-    TCGv c = tcg_temp_new();
+-
+-    /* (((v & m) + m) | v) & ~m.  Sets the msb for each byte != 0.  */
+-    tcg_gen_and_tl(c, v, m);
+-    tcg_gen_add_tl(c, c, m);
+-    tcg_gen_or_tl(c, c, v);
+-    tcg_gen_andc_tl(c, c, m);
+-    tcg_temp_free(m);
+-
+-    /* Shift the msb down to form the lsb boolean result.  */
+-    tcg_gen_shri_tl(v, c, 7);
+-    tcg_temp_free(c);
+-}
+-
+-/* Vector addition can be performed via arithmetic plus masking.  It is
+-   efficient this way only for 4 or more elements.  */
+-static void gen_v12add(TCGv tdest, TCGv tsrca, TCGv tsrcb, uint64_t sign)
+-{
+-    TCGv tmask = tcg_const_tl(~sign);
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    /* ((a & ~sign) + (b & ~sign)) ^ ((a ^ b) & sign).  */
+-    tcg_gen_and_tl(t0, tsrca, tmask);
+-    tcg_gen_and_tl(t1, tsrcb, tmask);
+-    tcg_gen_add_tl(tdest, t0, t1);
+-    tcg_gen_xor_tl(t0, tsrca, tsrcb);
+-    tcg_gen_andc_tl(t0, t0, tmask);
+-    tcg_gen_xor_tl(tdest, tdest, t0);
+-
+-    tcg_temp_free(t1);
+-    tcg_temp_free(t0);
+-    tcg_temp_free(tmask);
+-}
+-
+-/* Similarly for vector subtraction.  */
+-static void gen_v12sub(TCGv tdest, TCGv tsrca, TCGv tsrcb, uint64_t sign)
+-{
+-    TCGv tsign = tcg_const_tl(sign);
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    /* ((a | sign) - (b & ~sign)) ^ ((a ^ ~b) & sign).  */
+-    tcg_gen_or_tl(t0, tsrca, tsign);
+-    tcg_gen_andc_tl(t1, tsrcb, tsign);
+-    tcg_gen_sub_tl(tdest, t0, t1);
+-    tcg_gen_eqv_tl(t0, tsrca, tsrcb);
+-    tcg_gen_and_tl(t0, t0, tsign);
+-    tcg_gen_xor_tl(tdest, tdest, t0);
+-
+-    tcg_temp_free(t1);
+-    tcg_temp_free(t0);
+-    tcg_temp_free(tsign);
+-}
+-
+-static void gen_v4sh(TCGv d64, TCGv a64, TCGv b64,
+-                     void (*generate)(TCGv_i32, TCGv_i32, TCGv_i32))
+-{
+-    TCGv_i32 al = tcg_temp_new_i32();
+-    TCGv_i32 ah = tcg_temp_new_i32();
+-    TCGv_i32 bl = tcg_temp_new_i32();
+-
+-    tcg_gen_extr_i64_i32(al, ah, a64);
+-    tcg_gen_extrl_i64_i32(bl, b64);
+-    tcg_gen_andi_i32(bl, bl, 31);
+-    generate(al, al, bl);
+-    generate(ah, ah, bl);
+-    tcg_gen_concat_i32_i64(d64, al, ah);
+-
+-    tcg_temp_free_i32(al);
+-    tcg_temp_free_i32(ah);
+-    tcg_temp_free_i32(bl);
+-}
+-
+-static void gen_v4op(TCGv d64, TCGv a64, TCGv b64,
+-                     void (*generate)(TCGv_i32, TCGv_i32, TCGv_i32))
+-{
+-    TCGv_i32 al = tcg_temp_new_i32();
+-    TCGv_i32 ah = tcg_temp_new_i32();
+-    TCGv_i32 bl = tcg_temp_new_i32();
+-    TCGv_i32 bh = tcg_temp_new_i32();
+-
+-    tcg_gen_extr_i64_i32(al, ah, a64);
+-    tcg_gen_extr_i64_i32(bl, bh, b64);
+-    generate(al, al, bl);
+-    generate(ah, ah, bh);
+-    tcg_gen_concat_i32_i64(d64, al, ah);
+-
+-    tcg_temp_free_i32(al);
+-    tcg_temp_free_i32(ah);
+-    tcg_temp_free_i32(bl);
+-    tcg_temp_free_i32(bh);
+-}
+-
+-static TileExcp gen_signal(DisasContext *dc, int signo, int sigcode,
+-                           const char *mnemonic)
+-{
+-    TCGv_i32 t0 = tcg_const_i32(signo);
+-    TCGv_i32 t1 = tcg_const_i32(sigcode);
+-
+-    tcg_gen_st_i32(t0, cpu_env, offsetof(CPUTLGState, signo));
+-    tcg_gen_st_i32(t1, cpu_env, offsetof(CPUTLGState, sigcode));
+-
+-    tcg_temp_free_i32(t1);
+-    tcg_temp_free_i32(t0);
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s", mnemonic);
+-    return TILEGX_EXCP_SIGNAL;
+-}
+-
+-static bool parse_from_addli(uint64_t bundle, int *signo, int *sigcode)
+-{
+-    int imm;
+-
+-    if ((get_Opcode_X0(bundle) != ADDLI_OPCODE_X0)
+-        || (get_Dest_X0(bundle) != TILEGX_R_ZERO)
+-        || (get_SrcA_X0(bundle) != TILEGX_R_ZERO)) {
+-        return false;
+-    }
+-
+-    imm = get_Imm16_X0(bundle);
+-    *signo = imm & 0x3f;
+-    *sigcode = (imm >> 6) & 0xf;
+-
+-    /* ??? The linux kernel validates both signo and the sigcode vs the
+-       known max for each signal.  Don't bother here.  */
+-    return true;
+-}
+-
+-static TileExcp gen_specill(DisasContext *dc, unsigned dest, unsigned srca,
+-                            uint64_t bundle)
+-{
+-    const char *mnemonic;
+-    int signo;
+-    int sigcode;
+-
+-    if (dest == 0x1c && srca == 0x25) {
+-        signo = TARGET_SIGTRAP;
+-        sigcode = TARGET_TRAP_BRKPT;
+-        mnemonic = "bpt";
+-    } else if (dest == 0x1d && srca == 0x25
+-               && parse_from_addli(bundle, &signo, &sigcode)) {
+-        mnemonic = "raise";
+-    } else {
+-        signo = TARGET_SIGILL;
+-        sigcode = TARGET_ILL_ILLOPC;
+-        mnemonic = "ill";
+-    }
+-
+-    return gen_signal(dc, signo, sigcode, mnemonic);
+-}
+-
+-static TileExcp gen_rr_opcode(DisasContext *dc, unsigned opext,
+-                              unsigned dest, unsigned srca, uint64_t bundle)
+-{
+-    TCGv tdest, tsrca;
+-    const char *mnemonic;
+-    MemOp memop;
+-    TileExcp ret = TILEGX_EXCP_NONE;
+-    bool prefetch_nofault = false;
+-
+-    /* Eliminate instructions with no output before doing anything else.  */
+-    switch (opext) {
+-    case OE_RR_Y0(NOP):
+-    case OE_RR_Y1(NOP):
+-    case OE_RR_X0(NOP):
+-    case OE_RR_X1(NOP):
+-        mnemonic = "nop";
+-        goto done0;
+-    case OE_RR_Y0(FNOP):
+-    case OE_RR_Y1(FNOP):
+-    case OE_RR_X0(FNOP):
+-    case OE_RR_X1(FNOP):
+-        mnemonic = "fnop";
+-        goto done0;
+-    case OE_RR_X1(DRAIN):
+-        mnemonic = "drain";
+-        goto done0;
+-    case OE_RR_X1(FLUSHWB):
+-        mnemonic = "flushwb";
+-        goto done0;
+-    case OE_RR_X1(ILL):
+-        return gen_specill(dc, dest, srca, bundle);
+-    case OE_RR_Y1(ILL):
+-        return gen_signal(dc, TARGET_SIGILL, TARGET_ILL_ILLOPC, "ill");
+-    case OE_RR_X1(MF):
+-        mnemonic = "mf";
+-        goto done0;
+-    case OE_RR_X1(NAP):
+-        /* ??? This should yield, especially in system mode.  */
+-        mnemonic = "nap";
+-        goto done0;
+-    case OE_RR_X1(IRET):
+-        gen_helper_ext01_ics(cpu_env);
+-        dc->jmp.cond = TCG_COND_ALWAYS;
+-        dc->jmp.dest = tcg_temp_new();
+-        tcg_gen_ld_tl(dc->jmp.dest, cpu_env,
+-                      offsetof(CPUTLGState, spregs[TILEGX_SPR_EX_CONTEXT_0_0]));
+-        tcg_gen_andi_tl(dc->jmp.dest, dc->jmp.dest, ~7);
+-        mnemonic = "iret";
+-        goto done0;
+-    case OE_RR_X1(SWINT0):
+-    case OE_RR_X1(SWINT2):
+-    case OE_RR_X1(SWINT3):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RR_X1(SWINT1):
+-        ret = TILEGX_EXCP_SYSCALL;
+-        mnemonic = "swint1";
+-    done0:
+-        if (srca || dest) {
+-            return TILEGX_EXCP_OPCODE_UNKNOWN;
+-        }
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s", mnemonic);
+-        return ret;
+-
+-    case OE_RR_X1(DTLBPR):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RR_X1(FINV):
+-        mnemonic = "finv";
+-        goto done1;
+-    case OE_RR_X1(FLUSH):
+-        mnemonic = "flush";
+-        goto done1;
+-    case OE_RR_X1(ICOH):
+-        mnemonic = "icoh";
+-        goto done1;
+-    case OE_RR_X1(INV):
+-        mnemonic = "inv";
+-        goto done1;
+-    case OE_RR_X1(WH64):
+-        mnemonic = "wh64";
+-        goto done1;
+-    case OE_RR_X1(JRP):
+-    case OE_RR_Y1(JRP):
+-        mnemonic = "jrp";
+-        goto do_jr;
+-    case OE_RR_X1(JR):
+-    case OE_RR_Y1(JR):
+-        mnemonic = "jr";
+-        goto do_jr;
+-    case OE_RR_X1(JALRP):
+-    case OE_RR_Y1(JALRP):
+-        mnemonic = "jalrp";
+-        goto do_jalr;
+-    case OE_RR_X1(JALR):
+-    case OE_RR_Y1(JALR):
+-        mnemonic = "jalr";
+-    do_jalr:
+-        tcg_gen_movi_tl(dest_gr(dc, TILEGX_R_LR),
+-                        dc->pc + TILEGX_BUNDLE_SIZE_IN_BYTES);
+-    do_jr:
+-        dc->jmp.cond = TCG_COND_ALWAYS;
+-        dc->jmp.dest = tcg_temp_new();
+-        tcg_gen_andi_tl(dc->jmp.dest, load_gr(dc, srca), ~7);
+-    done1:
+-        if (dest) {
+-            return TILEGX_EXCP_OPCODE_UNKNOWN;
+-        }
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s", mnemonic, reg_names[srca]);
+-        return ret;
+-    }
+-
+-    tdest = dest_gr(dc, dest);
+-    tsrca = load_gr(dc, srca);
+-
+-    switch (opext) {
+-    case OE_RR_X0(CNTLZ):
+-    case OE_RR_Y0(CNTLZ):
+-        tcg_gen_clzi_tl(tdest, tsrca, TARGET_LONG_BITS);
+-        mnemonic = "cntlz";
+-        break;
+-    case OE_RR_X0(CNTTZ):
+-    case OE_RR_Y0(CNTTZ):
+-        tcg_gen_ctzi_tl(tdest, tsrca, TARGET_LONG_BITS);
+-        mnemonic = "cnttz";
+-        break;
+-    case OE_RR_X0(FSINGLE_PACK1):
+-    case OE_RR_Y0(FSINGLE_PACK1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RR_X1(LD1S):
+-        memop = MO_SB;
+-        mnemonic = "ld1s"; /* prefetch_l1_fault */
+-        goto do_load;
+-    case OE_RR_X1(LD1U):
+-        memop = MO_UB;
+-        mnemonic = "ld1u"; /* prefetch, prefetch_l1 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OE_RR_X1(LD2S):
+-        memop = MO_TESW;
+-        mnemonic = "ld2s"; /* prefetch_l2_fault */
+-        goto do_load;
+-    case OE_RR_X1(LD2U):
+-        memop = MO_TEUW;
+-        mnemonic = "ld2u"; /* prefetch_l2 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OE_RR_X1(LD4S):
+-        memop = MO_TESL;
+-        mnemonic = "ld4s"; /* prefetch_l3_fault */
+-        goto do_load;
+-    case OE_RR_X1(LD4U):
+-        memop = MO_TEUL;
+-        mnemonic = "ld4u"; /* prefetch_l3 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OE_RR_X1(LDNT1S):
+-        memop = MO_SB;
+-        mnemonic = "ldnt1s";
+-        goto do_load;
+-    case OE_RR_X1(LDNT1U):
+-        memop = MO_UB;
+-        mnemonic = "ldnt1u";
+-        goto do_load;
+-    case OE_RR_X1(LDNT2S):
+-        memop = MO_TESW;
+-        mnemonic = "ldnt2s";
+-        goto do_load;
+-    case OE_RR_X1(LDNT2U):
+-        memop = MO_TEUW;
+-        mnemonic = "ldnt2u";
+-        goto do_load;
+-    case OE_RR_X1(LDNT4S):
+-        memop = MO_TESL;
+-        mnemonic = "ldnt4s";
+-        goto do_load;
+-    case OE_RR_X1(LDNT4U):
+-        memop = MO_TEUL;
+-        mnemonic = "ldnt4u";
+-        goto do_load;
+-    case OE_RR_X1(LDNT):
+-        memop = MO_TEQ;
+-        mnemonic = "ldnt";
+-        goto do_load;
+-    case OE_RR_X1(LD):
+-        memop = MO_TEQ;
+-        mnemonic = "ld";
+-    do_load:
+-        if (!prefetch_nofault) {
+-            tcg_gen_qemu_ld_tl(tdest, tsrca, dc->mmuidx, memop);
+-        }
+-        break;
+-    case OE_RR_X1(LDNA):
+-        tcg_gen_andi_tl(tdest, tsrca, ~7);
+-        tcg_gen_qemu_ld_tl(tdest, tdest, dc->mmuidx, MO_TEQ);
+-        mnemonic = "ldna";
+-        break;
+-    case OE_RR_X1(LNK):
+-    case OE_RR_Y1(LNK):
+-        if (srca) {
+-            return TILEGX_EXCP_OPCODE_UNKNOWN;
+-        }
+-        tcg_gen_movi_tl(tdest, dc->pc + TILEGX_BUNDLE_SIZE_IN_BYTES);
+-        mnemonic = "lnk";
+-        break;
+-    case OE_RR_X0(PCNT):
+-    case OE_RR_Y0(PCNT):
+-        tcg_gen_ctpop_tl(tdest, tsrca);
+-        mnemonic = "pcnt";
+-        break;
+-    case OE_RR_X0(REVBITS):
+-    case OE_RR_Y0(REVBITS):
+-        gen_helper_revbits(tdest, tsrca);
+-        mnemonic = "revbits";
+-        break;
+-    case OE_RR_X0(REVBYTES):
+-    case OE_RR_Y0(REVBYTES):
+-        tcg_gen_bswap64_tl(tdest, tsrca);
+-        mnemonic = "revbytes";
+-        break;
+-    case OE_RR_X0(TBLIDXB0):
+-    case OE_RR_Y0(TBLIDXB0):
+-        tcg_gen_deposit_tl(tdest, load_gr(dc, dest), tsrca, 2, 8);
+-        mnemonic = "tblidxb0";
+-        break;
+-    case OE_RR_X0(TBLIDXB1):
+-    case OE_RR_Y0(TBLIDXB1):
+-        tcg_gen_shri_tl(tdest, tsrca, 8);
+-        tcg_gen_deposit_tl(tdest, load_gr(dc, dest), tdest, 2, 8);
+-        mnemonic = "tblidxb1";
+-        break;
+-    case OE_RR_X0(TBLIDXB2):
+-    case OE_RR_Y0(TBLIDXB2):
+-        tcg_gen_shri_tl(tdest, tsrca, 16);
+-        tcg_gen_deposit_tl(tdest, load_gr(dc, dest), tdest, 2, 8);
+-        mnemonic = "tblidxb2";
+-        break;
+-    case OE_RR_X0(TBLIDXB3):
+-    case OE_RR_Y0(TBLIDXB3):
+-        tcg_gen_shri_tl(tdest, tsrca, 24);
+-        tcg_gen_deposit_tl(tdest, load_gr(dc, dest), tdest, 2, 8);
+-        mnemonic = "tblidxb3";
+-        break;
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s", mnemonic,
+-                  reg_names[dest], reg_names[srca]);
+-    return ret;
+-}
+-
+-static TileExcp gen_rrr_opcode(DisasContext *dc, unsigned opext,
+-                               unsigned dest, unsigned srca, unsigned srcb)
+-{
+-    TCGv tdest = dest_gr(dc, dest);
+-    TCGv tsrca = load_gr(dc, srca);
+-    TCGv tsrcb = load_gr(dc, srcb);
+-    TCGv t0;
+-    const char *mnemonic;
+-
+-    switch (opext) {
+-    case OE_RRR(ADDXSC, 0, X0):
+-    case OE_RRR(ADDXSC, 0, X1):
+-        gen_saturate_op(tdest, tsrca, tsrcb, tcg_gen_add_tl);
+-        mnemonic = "addxsc";
+-        break;
+-    case OE_RRR(ADDX, 0, X0):
+-    case OE_RRR(ADDX, 0, X1):
+-    case OE_RRR(ADDX, 0, Y0):
+-    case OE_RRR(ADDX, 0, Y1):
+-        tcg_gen_add_tl(tdest, tsrca, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "addx";
+-        break;
+-    case OE_RRR(ADD, 0, X0):
+-    case OE_RRR(ADD, 0, X1):
+-    case OE_RRR(ADD, 0, Y0):
+-    case OE_RRR(ADD, 0, Y1):
+-        tcg_gen_add_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "add";
+-        break;
+-    case OE_RRR(AND, 0, X0):
+-    case OE_RRR(AND, 0, X1):
+-    case OE_RRR(AND, 5, Y0):
+-    case OE_RRR(AND, 5, Y1):
+-        tcg_gen_and_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "and";
+-        break;
+-    case OE_RRR(CMOVEQZ, 0, X0):
+-    case OE_RRR(CMOVEQZ, 4, Y0):
+-        tcg_gen_movcond_tl(TCG_COND_EQ, tdest, tsrca, load_zero(dc),
+-                           tsrcb, load_gr(dc, dest));
+-        mnemonic = "cmoveqz";
+-        break;
+-    case OE_RRR(CMOVNEZ, 0, X0):
+-    case OE_RRR(CMOVNEZ, 4, Y0):
+-        tcg_gen_movcond_tl(TCG_COND_NE, tdest, tsrca, load_zero(dc),
+-                           tsrcb, load_gr(dc, dest));
+-        mnemonic = "cmovnez";
+-        break;
+-    case OE_RRR(CMPEQ, 0, X0):
+-    case OE_RRR(CMPEQ, 0, X1):
+-    case OE_RRR(CMPEQ, 3, Y0):
+-    case OE_RRR(CMPEQ, 3, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_EQ, tdest, tsrca, tsrcb);
+-        mnemonic = "cmpeq";
+-        break;
+-    case OE_RRR(CMPEXCH4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_CMPEXCH4);
+-        mnemonic = "cmpexch4";
+-        break;
+-    case OE_RRR(CMPEXCH, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_CMPEXCH);
+-        mnemonic = "cmpexch";
+-        break;
+-    case OE_RRR(CMPLES, 0, X0):
+-    case OE_RRR(CMPLES, 0, X1):
+-    case OE_RRR(CMPLES, 2, Y0):
+-    case OE_RRR(CMPLES, 2, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_LE, tdest, tsrca, tsrcb);
+-        mnemonic = "cmples";
+-        break;
+-    case OE_RRR(CMPLEU, 0, X0):
+-    case OE_RRR(CMPLEU, 0, X1):
+-    case OE_RRR(CMPLEU, 2, Y0):
+-    case OE_RRR(CMPLEU, 2, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_LEU, tdest, tsrca, tsrcb);
+-        mnemonic = "cmpleu";
+-        break;
+-    case OE_RRR(CMPLTS, 0, X0):
+-    case OE_RRR(CMPLTS, 0, X1):
+-    case OE_RRR(CMPLTS, 2, Y0):
+-    case OE_RRR(CMPLTS, 2, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_LT, tdest, tsrca, tsrcb);
+-        mnemonic = "cmplts";
+-        break;
+-    case OE_RRR(CMPLTU, 0, X0):
+-    case OE_RRR(CMPLTU, 0, X1):
+-    case OE_RRR(CMPLTU, 2, Y0):
+-    case OE_RRR(CMPLTU, 2, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_LTU, tdest, tsrca, tsrcb);
+-        mnemonic = "cmpltu";
+-        break;
+-    case OE_RRR(CMPNE, 0, X0):
+-    case OE_RRR(CMPNE, 0, X1):
+-    case OE_RRR(CMPNE, 3, Y0):
+-    case OE_RRR(CMPNE, 3, Y1):
+-        tcg_gen_setcond_tl(TCG_COND_NE, tdest, tsrca, tsrcb);
+-        mnemonic = "cmpne";
+-        break;
+-    case OE_RRR(CMULAF, 0, X0):
+-        gen_helper_cmulaf(tdest, load_gr(dc, dest), tsrca, tsrcb);
+-        mnemonic = "cmulaf";
+-        break;
+-    case OE_RRR(CMULA, 0, X0):
+-        gen_helper_cmula(tdest, load_gr(dc, dest), tsrca, tsrcb);
+-        mnemonic = "cmula";
+-        break;
+-    case OE_RRR(CMULFR, 0, X0):
+-        gen_cmul2(tdest, tsrca, tsrcb, 15, 1 << 14);
+-        mnemonic = "cmulfr";
+-        break;
+-    case OE_RRR(CMULF, 0, X0):
+-        gen_cmul2(tdest, tsrca, tsrcb, 15, 0);
+-        mnemonic = "cmulf";
+-        break;
+-    case OE_RRR(CMULHR, 0, X0):
+-        gen_cmul2(tdest, tsrca, tsrcb, 16, 1 << 15);
+-        mnemonic = "cmulhr";
+-        break;
+-    case OE_RRR(CMULH, 0, X0):
+-        gen_cmul2(tdest, tsrca, tsrcb, 16, 0);
+-        mnemonic = "cmulh";
+-        break;
+-    case OE_RRR(CMUL, 0, X0):
+-        gen_helper_cmula(tdest, load_zero(dc), tsrca, tsrcb);
+-        mnemonic = "cmul";
+-        break;
+-    case OE_RRR(CRC32_32, 0, X0):
+-        gen_helper_crc32_32(tdest, tsrca, tsrcb);
+-        mnemonic = "crc32_32";
+-        break;
+-    case OE_RRR(CRC32_8, 0, X0):
+-        gen_helper_crc32_8(tdest, tsrca, tsrcb);
+-        mnemonic = "crc32_8";
+-        break;
+-    case OE_RRR(DBLALIGN2, 0, X0):
+-    case OE_RRR(DBLALIGN2, 0, X1):
+-        gen_dblaligni(tdest, tsrca, tsrcb, 16);
+-        mnemonic = "dblalign2";
+-        break;
+-    case OE_RRR(DBLALIGN4, 0, X0):
+-    case OE_RRR(DBLALIGN4, 0, X1):
+-        gen_dblaligni(tdest, tsrca, tsrcb, 32);
+-        mnemonic = "dblalign4";
+-        break;
+-    case OE_RRR(DBLALIGN6, 0, X0):
+-    case OE_RRR(DBLALIGN6, 0, X1):
+-        gen_dblaligni(tdest, tsrca, tsrcb, 48);
+-        mnemonic = "dblalign6";
+-        break;
+-    case OE_RRR(DBLALIGN, 0, X0):
+-        gen_dblalign(tdest, load_gr(dc, dest), tsrca, tsrcb);
+-        mnemonic = "dblalign";
+-        break;
+-    case OE_RRR(EXCH4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_EXCH4);
+-        mnemonic = "exch4";
+-        break;
+-    case OE_RRR(EXCH, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_EXCH);
+-        mnemonic = "exch";
+-        break;
+-    case OE_RRR(FDOUBLE_ADDSUB, 0, X0):
+-    case OE_RRR(FDOUBLE_ADD_FLAGS, 0, X0):
+-    case OE_RRR(FDOUBLE_MUL_FLAGS, 0, X0):
+-    case OE_RRR(FDOUBLE_PACK1, 0, X0):
+-    case OE_RRR(FDOUBLE_PACK2, 0, X0):
+-    case OE_RRR(FDOUBLE_SUB_FLAGS, 0, X0):
+-    case OE_RRR(FDOUBLE_UNPACK_MAX, 0, X0):
+-    case OE_RRR(FDOUBLE_UNPACK_MIN, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(FETCHADD4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHADD4);
+-        mnemonic = "fetchadd4";
+-        break;
+-    case OE_RRR(FETCHADDGEZ4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHADDGEZ4);
+-        mnemonic = "fetchaddgez4";
+-        break;
+-    case OE_RRR(FETCHADDGEZ, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHADDGEZ);
+-        mnemonic = "fetchaddgez";
+-        break;
+-    case OE_RRR(FETCHADD, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHADD);
+-        mnemonic = "fetchadd";
+-        break;
+-    case OE_RRR(FETCHAND4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHAND4);
+-        mnemonic = "fetchand4";
+-        break;
+-    case OE_RRR(FETCHAND, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHAND);
+-        mnemonic = "fetchand";
+-        break;
+-    case OE_RRR(FETCHOR4, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHOR4);
+-        mnemonic = "fetchor4";
+-        break;
+-    case OE_RRR(FETCHOR, 0, X1):
+-        gen_atomic_excp(dc, dest, tdest, tsrca, tsrcb,
+-                        TILEGX_EXCP_OPCODE_FETCHOR);
+-        mnemonic = "fetchor";
+-        break;
+-    case OE_RRR(FSINGLE_ADD1, 0, X0):
+-    case OE_RRR(FSINGLE_ADDSUB2, 0, X0):
+-    case OE_RRR(FSINGLE_MUL1, 0, X0):
+-    case OE_RRR(FSINGLE_MUL2, 0, X0):
+-    case OE_RRR(FSINGLE_PACK2, 0, X0):
+-    case OE_RRR(FSINGLE_SUB1, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(MNZ, 0, X0):
+-    case OE_RRR(MNZ, 0, X1):
+-    case OE_RRR(MNZ, 4, Y0):
+-    case OE_RRR(MNZ, 4, Y1):
+-        t0 = load_zero(dc);
+-        tcg_gen_movcond_tl(TCG_COND_NE, tdest, tsrca, t0, tsrcb, t0);
+-        mnemonic = "mnz";
+-        break;
+-    case OE_RRR(MULAX, 0, X0):
+-    case OE_RRR(MULAX, 3, Y0):
+-        tcg_gen_mul_tl(tdest, tsrca, tsrcb);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "mulax";
+-        break;
+-    case OE_RRR(MULA_HS_HS, 0, X0):
+-    case OE_RRR(MULA_HS_HS, 9, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, HS);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hs_hs";
+-        break;
+-    case OE_RRR(MULA_HS_HU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, HU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hs_hu";
+-        break;
+-    case OE_RRR(MULA_HS_LS, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, LS);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hs_ls";
+-        break;
+-    case OE_RRR(MULA_HS_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, LU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hs_lu";
+-        break;
+-    case OE_RRR(MULA_HU_HU, 0, X0):
+-    case OE_RRR(MULA_HU_HU, 9, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, HU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hu_hu";
+-        break;
+-    case OE_RRR(MULA_HU_LS, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, LS);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hu_ls";
+-        break;
+-    case OE_RRR(MULA_HU_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, LU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_hu_lu";
+-        break;
+-    case OE_RRR(MULA_LS_LS, 0, X0):
+-    case OE_RRR(MULA_LS_LS, 9, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LS, LS);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_ls_ls";
+-        break;
+-    case OE_RRR(MULA_LS_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LS, LU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_ls_lu";
+-        break;
+-    case OE_RRR(MULA_LU_LU, 0, X0):
+-    case OE_RRR(MULA_LU_LU, 9, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LU, LU);
+-        tcg_gen_add_tl(tdest, tdest, load_gr(dc, dest));
+-        mnemonic = "mula_lu_lu";
+-        break;
+-    case OE_RRR(MULX, 0, X0):
+-    case OE_RRR(MULX, 3, Y0):
+-        tcg_gen_mul_tl(tdest, tsrca, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "mulx";
+-        break;
+-    case OE_RRR(MUL_HS_HS, 0, X0):
+-    case OE_RRR(MUL_HS_HS, 8, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, HS);
+-        mnemonic = "mul_hs_hs";
+-        break;
+-    case OE_RRR(MUL_HS_HU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, HU);
+-        mnemonic = "mul_hs_hu";
+-        break;
+-    case OE_RRR(MUL_HS_LS, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, LS);
+-        mnemonic = "mul_hs_ls";
+-        break;
+-    case OE_RRR(MUL_HS_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HS, LU);
+-        mnemonic = "mul_hs_lu";
+-        break;
+-    case OE_RRR(MUL_HU_HU, 0, X0):
+-    case OE_RRR(MUL_HU_HU, 8, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, HU);
+-        mnemonic = "mul_hu_hu";
+-        break;
+-    case OE_RRR(MUL_HU_LS, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, LS);
+-        mnemonic = "mul_hu_ls";
+-        break;
+-    case OE_RRR(MUL_HU_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, HU, LU);
+-        mnemonic = "mul_hu_lu";
+-        break;
+-    case OE_RRR(MUL_LS_LS, 0, X0):
+-    case OE_RRR(MUL_LS_LS, 8, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LS, LS);
+-        mnemonic = "mul_ls_ls";
+-        break;
+-    case OE_RRR(MUL_LS_LU, 0, X0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LS, LU);
+-        mnemonic = "mul_ls_lu";
+-        break;
+-    case OE_RRR(MUL_LU_LU, 0, X0):
+-    case OE_RRR(MUL_LU_LU, 8, Y0):
+-        gen_mul_half(tdest, tsrca, tsrcb, LU, LU);
+-        mnemonic = "mul_lu_lu";
+-        break;
+-    case OE_RRR(MZ, 0, X0):
+-    case OE_RRR(MZ, 0, X1):
+-    case OE_RRR(MZ, 4, Y0):
+-    case OE_RRR(MZ, 4, Y1):
+-        t0 = load_zero(dc);
+-        tcg_gen_movcond_tl(TCG_COND_EQ, tdest, tsrca, t0, tsrcb, t0);
+-        mnemonic = "mz";
+-        break;
+-    case OE_RRR(NOR, 0, X0):
+-    case OE_RRR(NOR, 0, X1):
+-    case OE_RRR(NOR, 5, Y0):
+-    case OE_RRR(NOR, 5, Y1):
+-        tcg_gen_nor_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "nor";
+-        break;
+-    case OE_RRR(OR, 0, X0):
+-    case OE_RRR(OR, 0, X1):
+-    case OE_RRR(OR, 5, Y0):
+-    case OE_RRR(OR, 5, Y1):
+-        tcg_gen_or_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "or";
+-        break;
+-    case OE_RRR(ROTL, 0, X0):
+-    case OE_RRR(ROTL, 0, X1):
+-    case OE_RRR(ROTL, 6, Y0):
+-    case OE_RRR(ROTL, 6, Y1):
+-        tcg_gen_andi_tl(tdest, tsrcb, 63);
+-        tcg_gen_rotl_tl(tdest, tsrca, tdest);
+-        mnemonic = "rotl";
+-        break;
+-    case OE_RRR(SHL1ADDX, 0, X0):
+-    case OE_RRR(SHL1ADDX, 0, X1):
+-    case OE_RRR(SHL1ADDX, 7, Y0):
+-    case OE_RRR(SHL1ADDX, 7, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 1);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "shl1addx";
+-        break;
+-    case OE_RRR(SHL1ADD, 0, X0):
+-    case OE_RRR(SHL1ADD, 0, X1):
+-    case OE_RRR(SHL1ADD, 1, Y0):
+-    case OE_RRR(SHL1ADD, 1, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 1);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        mnemonic = "shl1add";
+-        break;
+-    case OE_RRR(SHL2ADDX, 0, X0):
+-    case OE_RRR(SHL2ADDX, 0, X1):
+-    case OE_RRR(SHL2ADDX, 7, Y0):
+-    case OE_RRR(SHL2ADDX, 7, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 2);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "shl2addx";
+-        break;
+-    case OE_RRR(SHL2ADD, 0, X0):
+-    case OE_RRR(SHL2ADD, 0, X1):
+-    case OE_RRR(SHL2ADD, 1, Y0):
+-    case OE_RRR(SHL2ADD, 1, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 2);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        mnemonic = "shl2add";
+-        break;
+-    case OE_RRR(SHL3ADDX, 0, X0):
+-    case OE_RRR(SHL3ADDX, 0, X1):
+-    case OE_RRR(SHL3ADDX, 7, Y0):
+-    case OE_RRR(SHL3ADDX, 7, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 3);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "shl3addx";
+-        break;
+-    case OE_RRR(SHL3ADD, 0, X0):
+-    case OE_RRR(SHL3ADD, 0, X1):
+-    case OE_RRR(SHL3ADD, 1, Y0):
+-    case OE_RRR(SHL3ADD, 1, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, 3);
+-        tcg_gen_add_tl(tdest, tdest, tsrcb);
+-        mnemonic = "shl3add";
+-        break;
+-    case OE_RRR(SHLX, 0, X0):
+-    case OE_RRR(SHLX, 0, X1):
+-        tcg_gen_andi_tl(tdest, tsrcb, 31);
+-        tcg_gen_shl_tl(tdest, tsrca, tdest);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "shlx";
+-        break;
+-    case OE_RRR(SHL, 0, X0):
+-    case OE_RRR(SHL, 0, X1):
+-    case OE_RRR(SHL, 6, Y0):
+-    case OE_RRR(SHL, 6, Y1):
+-        tcg_gen_andi_tl(tdest, tsrcb, 63);
+-        tcg_gen_shl_tl(tdest, tsrca, tdest);
+-        mnemonic = "shl";
+-        break;
+-    case OE_RRR(SHRS, 0, X0):
+-    case OE_RRR(SHRS, 0, X1):
+-    case OE_RRR(SHRS, 6, Y0):
+-    case OE_RRR(SHRS, 6, Y1):
+-        tcg_gen_andi_tl(tdest, tsrcb, 63);
+-        tcg_gen_sar_tl(tdest, tsrca, tdest);
+-        mnemonic = "shrs";
+-        break;
+-    case OE_RRR(SHRUX, 0, X0):
+-    case OE_RRR(SHRUX, 0, X1):
+-        t0 = tcg_temp_new();
+-        tcg_gen_andi_tl(t0, tsrcb, 31);
+-        tcg_gen_ext32u_tl(tdest, tsrca);
+-        tcg_gen_shr_tl(tdest, tdest, t0);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        tcg_temp_free(t0);
+-        mnemonic = "shrux";
+-        break;
+-    case OE_RRR(SHRU, 0, X0):
+-    case OE_RRR(SHRU, 0, X1):
+-    case OE_RRR(SHRU, 6, Y0):
+-    case OE_RRR(SHRU, 6, Y1):
+-        tcg_gen_andi_tl(tdest, tsrcb, 63);
+-        tcg_gen_shr_tl(tdest, tsrca, tdest);
+-        mnemonic = "shru";
+-        break;
+-    case OE_RRR(SHUFFLEBYTES, 0, X0):
+-        gen_helper_shufflebytes(tdest, load_gr(dc, dest), tsrca, tsrca);
+-        mnemonic = "shufflebytes";
+-        break;
+-    case OE_RRR(SUBXSC, 0, X0):
+-    case OE_RRR(SUBXSC, 0, X1):
+-        gen_saturate_op(tdest, tsrca, tsrcb, tcg_gen_sub_tl);
+-        mnemonic = "subxsc";
+-        break;
+-    case OE_RRR(SUBX, 0, X0):
+-    case OE_RRR(SUBX, 0, X1):
+-    case OE_RRR(SUBX, 0, Y0):
+-    case OE_RRR(SUBX, 0, Y1):
+-        tcg_gen_sub_tl(tdest, tsrca, tsrcb);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "subx";
+-        break;
+-    case OE_RRR(SUB, 0, X0):
+-    case OE_RRR(SUB, 0, X1):
+-    case OE_RRR(SUB, 0, Y0):
+-    case OE_RRR(SUB, 0, Y1):
+-        tcg_gen_sub_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "sub";
+-        break;
+-    case OE_RRR(V1ADDUC, 0, X0):
+-    case OE_RRR(V1ADDUC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1ADD, 0, X0):
+-    case OE_RRR(V1ADD, 0, X1):
+-        gen_v12add(tdest, tsrca, tsrcb, V1_IMM(0x80));
+-        mnemonic = "v1add";
+-        break;
+-    case OE_RRR(V1ADIFFU, 0, X0):
+-    case OE_RRR(V1AVGU, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1CMPEQ, 0, X0):
+-    case OE_RRR(V1CMPEQ, 0, X1):
+-        tcg_gen_xor_tl(tdest, tsrca, tsrcb);
+-        gen_v1cmpeq0(tdest);
+-        mnemonic = "v1cmpeq";
+-        break;
+-    case OE_RRR(V1CMPLES, 0, X0):
+-    case OE_RRR(V1CMPLES, 0, X1):
+-    case OE_RRR(V1CMPLEU, 0, X0):
+-    case OE_RRR(V1CMPLEU, 0, X1):
+-    case OE_RRR(V1CMPLTS, 0, X0):
+-    case OE_RRR(V1CMPLTS, 0, X1):
+-    case OE_RRR(V1CMPLTU, 0, X0):
+-    case OE_RRR(V1CMPLTU, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1CMPNE, 0, X0):
+-    case OE_RRR(V1CMPNE, 0, X1):
+-        tcg_gen_xor_tl(tdest, tsrca, tsrcb);
+-        gen_v1cmpne0(tdest);
+-        mnemonic = "v1cmpne";
+-        break;
+-    case OE_RRR(V1DDOTPUA, 0, X0):
+-    case OE_RRR(V1DDOTPUSA, 0, X0):
+-    case OE_RRR(V1DDOTPUS, 0, X0):
+-    case OE_RRR(V1DDOTPU, 0, X0):
+-    case OE_RRR(V1DOTPA, 0, X0):
+-    case OE_RRR(V1DOTPUA, 0, X0):
+-    case OE_RRR(V1DOTPUSA, 0, X0):
+-    case OE_RRR(V1DOTPUS, 0, X0):
+-    case OE_RRR(V1DOTPU, 0, X0):
+-    case OE_RRR(V1DOTP, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1INT_H, 0, X0):
+-    case OE_RRR(V1INT_H, 0, X1):
+-        gen_helper_v1int_h(tdest, tsrca, tsrcb);
+-        mnemonic = "v1int_h";
+-        break;
+-    case OE_RRR(V1INT_L, 0, X0):
+-    case OE_RRR(V1INT_L, 0, X1):
+-        gen_helper_v1int_l(tdest, tsrca, tsrcb);
+-        mnemonic = "v1int_l";
+-        break;
+-    case OE_RRR(V1MAXU, 0, X0):
+-    case OE_RRR(V1MAXU, 0, X1):
+-    case OE_RRR(V1MINU, 0, X0):
+-    case OE_RRR(V1MINU, 0, X1):
+-    case OE_RRR(V1MNZ, 0, X0):
+-    case OE_RRR(V1MNZ, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1MULTU, 0, X0):
+-        gen_helper_v1multu(tdest, tsrca, tsrcb);
+-        mnemonic = "v1multu";
+-        break;
+-    case OE_RRR(V1MULUS, 0, X0):
+-    case OE_RRR(V1MULU, 0, X0):
+-    case OE_RRR(V1MZ, 0, X0):
+-    case OE_RRR(V1MZ, 0, X1):
+-    case OE_RRR(V1SADAU, 0, X0):
+-    case OE_RRR(V1SADU, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1SHL, 0, X0):
+-    case OE_RRR(V1SHL, 0, X1):
+-        gen_helper_v1shl(tdest, tsrca, tsrcb);
+-        mnemonic = "v1shl";
+-        break;
+-    case OE_RRR(V1SHRS, 0, X0):
+-    case OE_RRR(V1SHRS, 0, X1):
+-        gen_helper_v1shrs(tdest, tsrca, tsrcb);
+-        mnemonic = "v1shrs";
+-        break;
+-    case OE_RRR(V1SHRU, 0, X0):
+-    case OE_RRR(V1SHRU, 0, X1):
+-        gen_helper_v1shru(tdest, tsrca, tsrcb);
+-        mnemonic = "v1shru";
+-        break;
+-    case OE_RRR(V1SUBUC, 0, X0):
+-    case OE_RRR(V1SUBUC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V1SUB, 0, X0):
+-    case OE_RRR(V1SUB, 0, X1):
+-        gen_v12sub(tdest, tsrca, tsrcb, V1_IMM(0x80));
+-        mnemonic = "v1sub";
+-        break;
+-    case OE_RRR(V2ADDSC, 0, X0):
+-    case OE_RRR(V2ADDSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V2ADD, 0, X0):
+-    case OE_RRR(V2ADD, 0, X1):
+-        gen_v12add(tdest, tsrca, tsrcb, V2_IMM(0x8000));
+-        mnemonic = "v2add";
+-        break;
+-    case OE_RRR(V2ADIFFS, 0, X0):
+-    case OE_RRR(V2AVGS, 0, X0):
+-    case OE_RRR(V2CMPEQ, 0, X0):
+-    case OE_RRR(V2CMPEQ, 0, X1):
+-    case OE_RRR(V2CMPLES, 0, X0):
+-    case OE_RRR(V2CMPLES, 0, X1):
+-    case OE_RRR(V2CMPLEU, 0, X0):
+-    case OE_RRR(V2CMPLEU, 0, X1):
+-    case OE_RRR(V2CMPLTS, 0, X0):
+-    case OE_RRR(V2CMPLTS, 0, X1):
+-    case OE_RRR(V2CMPLTU, 0, X0):
+-    case OE_RRR(V2CMPLTU, 0, X1):
+-    case OE_RRR(V2CMPNE, 0, X0):
+-    case OE_RRR(V2CMPNE, 0, X1):
+-    case OE_RRR(V2DOTPA, 0, X0):
+-    case OE_RRR(V2DOTP, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V2INT_H, 0, X0):
+-    case OE_RRR(V2INT_H, 0, X1):
+-        gen_helper_v2int_h(tdest, tsrca, tsrcb);
+-        mnemonic = "v2int_h";
+-        break;
+-    case OE_RRR(V2INT_L, 0, X0):
+-    case OE_RRR(V2INT_L, 0, X1):
+-        gen_helper_v2int_l(tdest, tsrca, tsrcb);
+-        mnemonic = "v2int_l";
+-        break;
+-    case OE_RRR(V2MAXS, 0, X0):
+-    case OE_RRR(V2MAXS, 0, X1):
+-    case OE_RRR(V2MINS, 0, X0):
+-    case OE_RRR(V2MINS, 0, X1):
+-    case OE_RRR(V2MNZ, 0, X0):
+-    case OE_RRR(V2MNZ, 0, X1):
+-    case OE_RRR(V2MULFSC, 0, X0):
+-    case OE_RRR(V2MULS, 0, X0):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V2MULTS, 0, X0):
+-        gen_helper_v2mults(tdest, tsrca, tsrcb);
+-        mnemonic = "v2mults";
+-        break;
+-    case OE_RRR(V2MZ, 0, X0):
+-    case OE_RRR(V2MZ, 0, X1):
+-    case OE_RRR(V2PACKH, 0, X0):
+-    case OE_RRR(V2PACKH, 0, X1):
+-    case OE_RRR(V2PACKL, 0, X0):
+-    case OE_RRR(V2PACKL, 0, X1):
+-    case OE_RRR(V2PACKUC, 0, X0):
+-    case OE_RRR(V2PACKUC, 0, X1):
+-    case OE_RRR(V2SADAS, 0, X0):
+-    case OE_RRR(V2SADAU, 0, X0):
+-    case OE_RRR(V2SADS, 0, X0):
+-    case OE_RRR(V2SADU, 0, X0):
+-    case OE_RRR(V2SHLSC, 0, X0):
+-    case OE_RRR(V2SHLSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V2SHL, 0, X0):
+-    case OE_RRR(V2SHL, 0, X1):
+-        gen_helper_v2shl(tdest, tsrca, tsrcb);
+-        mnemonic = "v2shl";
+-        break;
+-    case OE_RRR(V2SHRS, 0, X0):
+-    case OE_RRR(V2SHRS, 0, X1):
+-        gen_helper_v2shrs(tdest, tsrca, tsrcb);
+-        mnemonic = "v2shrs";
+-        break;
+-    case OE_RRR(V2SHRU, 0, X0):
+-    case OE_RRR(V2SHRU, 0, X1):
+-        gen_helper_v2shru(tdest, tsrca, tsrcb);
+-        mnemonic = "v2shru";
+-        break;
+-    case OE_RRR(V2SUBSC, 0, X0):
+-    case OE_RRR(V2SUBSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V2SUB, 0, X0):
+-    case OE_RRR(V2SUB, 0, X1):
+-        gen_v12sub(tdest, tsrca, tsrcb, V2_IMM(0x8000));
+-        mnemonic = "v2sub";
+-        break;
+-    case OE_RRR(V4ADDSC, 0, X0):
+-    case OE_RRR(V4ADDSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V4ADD, 0, X0):
+-    case OE_RRR(V4ADD, 0, X1):
+-        gen_v4op(tdest, tsrca, tsrcb, tcg_gen_add_i32);
+-        mnemonic = "v4add";
+-        break;
+-    case OE_RRR(V4INT_H, 0, X0):
+-    case OE_RRR(V4INT_H, 0, X1):
+-        tcg_gen_shri_tl(tdest, tsrcb, 32);
+-        tcg_gen_deposit_tl(tdest, tsrca, tdest, 0, 32);
+-        mnemonic = "v4int_h";
+-        break;
+-    case OE_RRR(V4INT_L, 0, X0):
+-    case OE_RRR(V4INT_L, 0, X1):
+-        tcg_gen_deposit_tl(tdest, tsrcb, tsrca, 32, 32);
+-        mnemonic = "v4int_l";
+-        break;
+-    case OE_RRR(V4PACKSC, 0, X0):
+-    case OE_RRR(V4PACKSC, 0, X1):
+-    case OE_RRR(V4SHLSC, 0, X0):
+-    case OE_RRR(V4SHLSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V4SHL, 0, X0):
+-    case OE_RRR(V4SHL, 0, X1):
+-        gen_v4sh(tdest, tsrca, tsrcb, tcg_gen_shl_i32);
+-        mnemonic = "v4shl";
+-        break;
+-    case OE_RRR(V4SHRS, 0, X0):
+-    case OE_RRR(V4SHRS, 0, X1):
+-        gen_v4sh(tdest, tsrca, tsrcb, tcg_gen_sar_i32);
+-        mnemonic = "v4shrs";
+-        break;
+-    case OE_RRR(V4SHRU, 0, X0):
+-    case OE_RRR(V4SHRU, 0, X1):
+-        gen_v4sh(tdest, tsrca, tsrcb, tcg_gen_shr_i32);
+-        mnemonic = "v4shru";
+-        break;
+-    case OE_RRR(V4SUBSC, 0, X0):
+-    case OE_RRR(V4SUBSC, 0, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_RRR(V4SUB, 0, X0):
+-    case OE_RRR(V4SUB, 0, X1):
+-        gen_v4op(tdest, tsrca, tsrcb, tcg_gen_sub_i32);
+-        mnemonic = "v2sub";
+-        break;
+-    case OE_RRR(XOR, 0, X0):
+-    case OE_RRR(XOR, 0, X1):
+-    case OE_RRR(XOR, 5, Y0):
+-    case OE_RRR(XOR, 5, Y1):
+-        tcg_gen_xor_tl(tdest, tsrca, tsrcb);
+-        mnemonic = "xor";
+-        break;
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s, %s", mnemonic,
+-                  reg_names[dest], reg_names[srca], reg_names[srcb]);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_rri_opcode(DisasContext *dc, unsigned opext,
+-                               unsigned dest, unsigned srca, int imm)
+-{
+-    TCGv tdest = dest_gr(dc, dest);
+-    TCGv tsrca = load_gr(dc, srca);
+-    bool prefetch_nofault = false;
+-    const char *mnemonic;
+-    MemOp memop;
+-    int i2, i3;
+-    TCGv t0;
+-
+-    switch (opext) {
+-    case OE(ADDI_OPCODE_Y0, 0, Y0):
+-    case OE(ADDI_OPCODE_Y1, 0, Y1):
+-    case OE_IM(ADDI, X0):
+-    case OE_IM(ADDI, X1):
+-        tcg_gen_addi_tl(tdest, tsrca, imm);
+-        mnemonic = "addi";
+-        break;
+-    case OE(ADDXI_OPCODE_Y0, 0, Y0):
+-    case OE(ADDXI_OPCODE_Y1, 0, Y1):
+-    case OE_IM(ADDXI, X0):
+-    case OE_IM(ADDXI, X1):
+-        tcg_gen_addi_tl(tdest, tsrca, imm);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "addxi";
+-        break;
+-    case OE(ANDI_OPCODE_Y0, 0, Y0):
+-    case OE(ANDI_OPCODE_Y1, 0, Y1):
+-    case OE_IM(ANDI, X0):
+-    case OE_IM(ANDI, X1):
+-        tcg_gen_andi_tl(tdest, tsrca, imm);
+-        mnemonic = "andi";
+-        break;
+-    case OE(CMPEQI_OPCODE_Y0, 0, Y0):
+-    case OE(CMPEQI_OPCODE_Y1, 0, Y1):
+-    case OE_IM(CMPEQI, X0):
+-    case OE_IM(CMPEQI, X1):
+-        tcg_gen_setcondi_tl(TCG_COND_EQ, tdest, tsrca, imm);
+-        mnemonic = "cmpeqi";
+-        break;
+-    case OE(CMPLTSI_OPCODE_Y0, 0, Y0):
+-    case OE(CMPLTSI_OPCODE_Y1, 0, Y1):
+-    case OE_IM(CMPLTSI, X0):
+-    case OE_IM(CMPLTSI, X1):
+-        tcg_gen_setcondi_tl(TCG_COND_LT, tdest, tsrca, imm);
+-        mnemonic = "cmpltsi";
+-        break;
+-    case OE_IM(CMPLTUI, X0):
+-    case OE_IM(CMPLTUI, X1):
+-        tcg_gen_setcondi_tl(TCG_COND_LTU, tdest, tsrca, imm);
+-        mnemonic = "cmpltui";
+-        break;
+-    case OE_IM(LD1S_ADD, X1):
+-        memop = MO_SB;
+-        mnemonic = "ld1s_add"; /* prefetch_add_l1_fault */
+-        goto do_load_add;
+-    case OE_IM(LD1U_ADD, X1):
+-        memop = MO_UB;
+-        mnemonic = "ld1u_add"; /* prefetch_add_l1 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load_add;
+-    case OE_IM(LD2S_ADD, X1):
+-        memop = MO_TESW;
+-        mnemonic = "ld2s_add"; /* prefetch_add_l2_fault */
+-        goto do_load_add;
+-    case OE_IM(LD2U_ADD, X1):
+-        memop = MO_TEUW;
+-        mnemonic = "ld2u_add"; /* prefetch_add_l2 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load_add;
+-    case OE_IM(LD4S_ADD, X1):
+-        memop = MO_TESL;
+-        mnemonic = "ld4s_add"; /* prefetch_add_l3_fault */
+-        goto do_load_add;
+-    case OE_IM(LD4U_ADD, X1):
+-        memop = MO_TEUL;
+-        mnemonic = "ld4u_add"; /* prefetch_add_l3 */
+-        prefetch_nofault = (dest == TILEGX_R_ZERO);
+-        goto do_load_add;
+-    case OE_IM(LDNT1S_ADD, X1):
+-        memop = MO_SB;
+-        mnemonic = "ldnt1s_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT1U_ADD, X1):
+-        memop = MO_UB;
+-        mnemonic = "ldnt1u_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT2S_ADD, X1):
+-        memop = MO_TESW;
+-        mnemonic = "ldnt2s_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT2U_ADD, X1):
+-        memop = MO_TEUW;
+-        mnemonic = "ldnt2u_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT4S_ADD, X1):
+-        memop = MO_TESL;
+-        mnemonic = "ldnt4s_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT4U_ADD, X1):
+-        memop = MO_TEUL;
+-        mnemonic = "ldnt4u_add";
+-        goto do_load_add;
+-    case OE_IM(LDNT_ADD, X1):
+-        memop = MO_TEQ;
+-        mnemonic = "ldnt_add";
+-        goto do_load_add;
+-    case OE_IM(LD_ADD, X1):
+-        memop = MO_TEQ;
+-        mnemonic = "ld_add";
+-    do_load_add:
+-        if (!prefetch_nofault) {
+-            tcg_gen_qemu_ld_tl(tdest, tsrca, dc->mmuidx, memop);
+-        }
+-        tcg_gen_addi_tl(dest_gr(dc, srca), tsrca, imm);
+-        break;
+-    case OE_IM(LDNA_ADD, X1):
+-        tcg_gen_andi_tl(tdest, tsrca, ~7);
+-        tcg_gen_qemu_ld_tl(tdest, tdest, dc->mmuidx, MO_TEQ);
+-        tcg_gen_addi_tl(dest_gr(dc, srca), tsrca, imm);
+-        mnemonic = "ldna_add";
+-        break;
+-    case OE_IM(ORI, X0):
+-    case OE_IM(ORI, X1):
+-        tcg_gen_ori_tl(tdest, tsrca, imm);
+-        mnemonic = "ori";
+-        break;
+-    case OE_IM(V1ADDI, X0):
+-    case OE_IM(V1ADDI, X1):
+-        t0 = tcg_const_tl(V1_IMM(imm));
+-        gen_v12add(tdest, tsrca, t0, V1_IMM(0x80));
+-        tcg_temp_free(t0);
+-        mnemonic = "v1addi";
+-        break;
+-    case OE_IM(V1CMPEQI, X0):
+-    case OE_IM(V1CMPEQI, X1):
+-        tcg_gen_xori_tl(tdest, tsrca, V1_IMM(imm));
+-        gen_v1cmpeq0(tdest);
+-        mnemonic = "v1cmpeqi";
+-        break;
+-    case OE_IM(V1CMPLTSI, X0):
+-    case OE_IM(V1CMPLTSI, X1):
+-    case OE_IM(V1CMPLTUI, X0):
+-    case OE_IM(V1CMPLTUI, X1):
+-    case OE_IM(V1MAXUI, X0):
+-    case OE_IM(V1MAXUI, X1):
+-    case OE_IM(V1MINUI, X0):
+-    case OE_IM(V1MINUI, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_IM(V2ADDI, X0):
+-    case OE_IM(V2ADDI, X1):
+-        t0 = tcg_const_tl(V2_IMM(imm));
+-        gen_v12add(tdest, tsrca, t0, V2_IMM(0x8000));
+-        tcg_temp_free(t0);
+-        mnemonic = "v2addi";
+-        break;
+-    case OE_IM(V2CMPEQI, X0):
+-    case OE_IM(V2CMPEQI, X1):
+-    case OE_IM(V2CMPLTSI, X0):
+-    case OE_IM(V2CMPLTSI, X1):
+-    case OE_IM(V2CMPLTUI, X0):
+-    case OE_IM(V2CMPLTUI, X1):
+-    case OE_IM(V2MAXSI, X0):
+-    case OE_IM(V2MAXSI, X1):
+-    case OE_IM(V2MINSI, X0):
+-    case OE_IM(V2MINSI, X1):
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    case OE_IM(XORI, X0):
+-    case OE_IM(XORI, X1):
+-        tcg_gen_xori_tl(tdest, tsrca, imm);
+-        mnemonic = "xori";
+-        break;
+-
+-    case OE_SH(ROTLI, X0):
+-    case OE_SH(ROTLI, X1):
+-    case OE_SH(ROTLI, Y0):
+-    case OE_SH(ROTLI, Y1):
+-        tcg_gen_rotli_tl(tdest, tsrca, imm);
+-        mnemonic = "rotli";
+-        break;
+-    case OE_SH(SHLI, X0):
+-    case OE_SH(SHLI, X1):
+-    case OE_SH(SHLI, Y0):
+-    case OE_SH(SHLI, Y1):
+-        tcg_gen_shli_tl(tdest, tsrca, imm);
+-        mnemonic = "shli";
+-        break;
+-    case OE_SH(SHLXI, X0):
+-    case OE_SH(SHLXI, X1):
+-        tcg_gen_shli_tl(tdest, tsrca, imm & 31);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "shlxi";
+-        break;
+-    case OE_SH(SHRSI, X0):
+-    case OE_SH(SHRSI, X1):
+-    case OE_SH(SHRSI, Y0):
+-    case OE_SH(SHRSI, Y1):
+-        tcg_gen_sari_tl(tdest, tsrca, imm);
+-        mnemonic = "shrsi";
+-        break;
+-    case OE_SH(SHRUI, X0):
+-    case OE_SH(SHRUI, X1):
+-    case OE_SH(SHRUI, Y0):
+-    case OE_SH(SHRUI, Y1):
+-        tcg_gen_shri_tl(tdest, tsrca, imm);
+-        mnemonic = "shrui";
+-        break;
+-    case OE_SH(SHRUXI, X0):
+-    case OE_SH(SHRUXI, X1):
+-        if ((imm & 31) == 0) {
+-            tcg_gen_ext32s_tl(tdest, tsrca);
+-        } else {
+-            tcg_gen_ext32u_tl(tdest, tsrca);
+-            tcg_gen_shri_tl(tdest, tdest, imm & 31);
+-        }
+-        mnemonic = "shlxi";
+-        break;
+-    case OE_SH(V1SHLI, X0):
+-    case OE_SH(V1SHLI, X1):
+-        i2 = imm & 7;
+-        i3 = 0xff >> i2;
+-        tcg_gen_andi_tl(tdest, tsrca, V1_IMM(i3));
+-        tcg_gen_shli_tl(tdest, tdest, i2);
+-        mnemonic = "v1shli";
+-        break;
+-    case OE_SH(V1SHRSI, X0):
+-    case OE_SH(V1SHRSI, X1):
+-        t0 = tcg_const_tl(imm & 7);
+-        gen_helper_v1shrs(tdest, tsrca, t0);
+-        tcg_temp_free(t0);
+-        mnemonic = "v1shrsi";
+-        break;
+-    case OE_SH(V1SHRUI, X0):
+-    case OE_SH(V1SHRUI, X1):
+-        i2 = imm & 7;
+-        i3 = (0xff << i2) & 0xff;
+-        tcg_gen_andi_tl(tdest, tsrca, V1_IMM(i3));
+-        tcg_gen_shri_tl(tdest, tdest, i2);
+-        mnemonic = "v1shrui";
+-        break;
+-    case OE_SH(V2SHLI, X0):
+-    case OE_SH(V2SHLI, X1):
+-        i2 = imm & 15;
+-        i3 = 0xffff >> i2;
+-        tcg_gen_andi_tl(tdest, tsrca, V2_IMM(i3));
+-        tcg_gen_shli_tl(tdest, tdest, i2);
+-        mnemonic = "v2shli";
+-        break;
+-    case OE_SH(V2SHRSI, X0):
+-    case OE_SH(V2SHRSI, X1):
+-        t0 = tcg_const_tl(imm & 15);
+-        gen_helper_v2shrs(tdest, tsrca, t0);
+-        tcg_temp_free(t0);
+-        mnemonic = "v2shrsi";
+-        break;
+-    case OE_SH(V2SHRUI, X0):
+-    case OE_SH(V2SHRUI, X1):
+-        i2 = imm & 15;
+-        i3 = (0xffff << i2) & 0xffff;
+-        tcg_gen_andi_tl(tdest, tsrca, V2_IMM(i3));
+-        tcg_gen_shri_tl(tdest, tdest, i2);
+-        mnemonic = "v2shrui";
+-        break;
+-
+-    case OE(ADDLI_OPCODE_X0, 0, X0):
+-    case OE(ADDLI_OPCODE_X1, 0, X1):
+-        tcg_gen_addi_tl(tdest, tsrca, imm);
+-        mnemonic = "addli";
+-        break;
+-    case OE(ADDXLI_OPCODE_X0, 0, X0):
+-    case OE(ADDXLI_OPCODE_X1, 0, X1):
+-        tcg_gen_addi_tl(tdest, tsrca, imm);
+-        tcg_gen_ext32s_tl(tdest, tdest);
+-        mnemonic = "addxli";
+-        break;
+-    case OE(SHL16INSLI_OPCODE_X0, 0, X0):
+-    case OE(SHL16INSLI_OPCODE_X1, 0, X1):
+-        tcg_gen_shli_tl(tdest, tsrca, 16);
+-        tcg_gen_ori_tl(tdest, tdest, imm & 0xffff);
+-        mnemonic = "shl16insli";
+-        break;
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s, %d", mnemonic,
+-                  reg_names[dest], reg_names[srca], imm);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_bf_opcode_x0(DisasContext *dc, unsigned ext,
+-                                 unsigned dest, unsigned srca,
+-                                 unsigned bfs, unsigned bfe)
+-{
+-    TCGv tdest = dest_gr(dc, dest);
+-    TCGv tsrca = load_gr(dc, srca);
+-    TCGv tsrcd;
+-    int len;
+-    const char *mnemonic;
+-
+-    /* The bitfield is either between E and S inclusive,
+-       or up from S and down from E inclusive.  */
+-    if (bfs <= bfe) {
+-        len = bfe - bfs + 1;
+-    } else {
+-        len = (64 - bfs) + (bfe + 1);
+-    }
+-
+-    switch (ext) {
+-    case BFEXTU_BF_OPCODE_X0:
+-        if (bfs == 0 && bfe == 7) {
+-            tcg_gen_ext8u_tl(tdest, tsrca);
+-        } else if (bfs == 0 && bfe == 15) {
+-            tcg_gen_ext16u_tl(tdest, tsrca);
+-        } else if (bfs == 0 && bfe == 31) {
+-            tcg_gen_ext32u_tl(tdest, tsrca);
+-        } else {
+-            int rol = 63 - bfe;
+-            if (bfs <= bfe) {
+-                tcg_gen_shli_tl(tdest, tsrca, rol);
+-            } else {
+-                tcg_gen_rotli_tl(tdest, tsrca, rol);
+-            }
+-            tcg_gen_shri_tl(tdest, tdest, (bfs + rol) & 63);
+-        }
+-        mnemonic = "bfextu";
+-        break;
+-
+-    case BFEXTS_BF_OPCODE_X0:
+-        if (bfs == 0 && bfe == 7) {
+-            tcg_gen_ext8s_tl(tdest, tsrca);
+-        } else if (bfs == 0 && bfe == 15) {
+-            tcg_gen_ext16s_tl(tdest, tsrca);
+-        } else if (bfs == 0 && bfe == 31) {
+-            tcg_gen_ext32s_tl(tdest, tsrca);
+-        } else {
+-            int rol = 63 - bfe;
+-            if (bfs <= bfe) {
+-                tcg_gen_shli_tl(tdest, tsrca, rol);
+-            } else {
+-                tcg_gen_rotli_tl(tdest, tsrca, rol);
+-            }
+-            tcg_gen_sari_tl(tdest, tdest, (bfs + rol) & 63);
+-        }
+-        mnemonic = "bfexts";
+-        break;
+-
+-    case BFINS_BF_OPCODE_X0:
+-        tsrcd = load_gr(dc, dest);
+-        if (bfs <= bfe) {
+-            tcg_gen_deposit_tl(tdest, tsrcd, tsrca, bfs, len);
+-        } else {
+-            tcg_gen_rotri_tl(tdest, tsrcd, bfs);
+-            tcg_gen_deposit_tl(tdest, tdest, tsrca, 0, len);
+-            tcg_gen_rotli_tl(tdest, tdest, bfs);
+-        }
+-        mnemonic = "bfins";
+-        break;
+-
+-    case MM_BF_OPCODE_X0:
+-        tsrcd = load_gr(dc, dest);
+-        if (bfs == 0) {
+-            tcg_gen_deposit_tl(tdest, tsrca, tsrcd, 0, len);
+-        } else {
+-            uint64_t mask = len == 64 ? -1 : rol64((1ULL << len) - 1, bfs);
+-            TCGv tmp = tcg_const_tl(mask);
+-
+-            tcg_gen_and_tl(tdest, tsrcd, tmp);
+-            tcg_gen_andc_tl(tmp, tsrca, tmp);
+-            tcg_gen_or_tl(tdest, tdest, tmp);
+-            tcg_temp_free(tmp);
+-        }
+-        mnemonic = "mm";
+-        break;
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s, %u, %u", mnemonic,
+-                  reg_names[dest], reg_names[srca], bfs, bfe);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_branch_opcode_x1(DisasContext *dc, unsigned ext,
+-                                     unsigned srca, int off)
+-{
+-    target_ulong tgt = dc->pc + off * TILEGX_BUNDLE_SIZE_IN_BYTES;
+-    const char *mnemonic;
+-
+-    dc->jmp.dest = tcg_const_tl(tgt);
+-    dc->jmp.val1 = tcg_temp_new();
+-    tcg_gen_mov_tl(dc->jmp.val1, load_gr(dc, srca));
+-
+-    /* Note that the "predict taken" opcodes have bit 0 clear.
+-       Therefore, fold the two cases together by setting bit 0.  */
+-    switch (ext | 1) {
+-    case BEQZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_EQ;
+-        mnemonic = "beqz";
+-        break;
+-    case BNEZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_NE;
+-        mnemonic = "bnez";
+-        break;
+-    case BGEZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_GE;
+-        mnemonic = "bgez";
+-        break;
+-    case BGTZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_GT;
+-        mnemonic = "bgtz";
+-        break;
+-    case BLEZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_LE;
+-        mnemonic = "blez";
+-        break;
+-    case BLTZ_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_LT;
+-        mnemonic = "bltz";
+-        break;
+-    case BLBC_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_EQ;
+-        tcg_gen_andi_tl(dc->jmp.val1, dc->jmp.val1, 1);
+-        mnemonic = "blbc";
+-        break;
+-    case BLBS_BRANCH_OPCODE_X1:
+-        dc->jmp.cond = TCG_COND_NE;
+-        tcg_gen_andi_tl(dc->jmp.val1, dc->jmp.val1, 1);
+-        mnemonic = "blbs";
+-        break;
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
+-        qemu_log("%s%s %s, " TARGET_FMT_lx " <%s>",
+-                 mnemonic, ext & 1 ? "" : "t",
+-                 reg_names[srca], tgt, lookup_symbol(tgt));
+-    }
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_jump_opcode_x1(DisasContext *dc, unsigned ext, int off)
+-{
+-    target_ulong tgt = dc->pc + off * TILEGX_BUNDLE_SIZE_IN_BYTES;
+-    const char *mnemonic = "j";
+-
+-    /* The extension field is 1 bit, therefore we only have JAL and J.  */
+-    if (ext == JAL_JUMP_OPCODE_X1) {
+-        tcg_gen_movi_tl(dest_gr(dc, TILEGX_R_LR),
+-                        dc->pc + TILEGX_BUNDLE_SIZE_IN_BYTES);
+-        mnemonic = "jal";
+-    }
+-    dc->jmp.cond = TCG_COND_ALWAYS;
+-    dc->jmp.dest = tcg_const_tl(tgt);
+-
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
+-        qemu_log("%s " TARGET_FMT_lx " <%s>",
+-                 mnemonic, tgt, lookup_symbol(tgt));
+-    }
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-typedef struct {
+-    const char *name;
+-    intptr_t offset;
+-    void (*get)(TCGv, TCGv_ptr);
+-    void (*put)(TCGv_ptr, TCGv);
+-} TileSPR;
+-
+-static const TileSPR *find_spr(unsigned spr)
+-{
+-    /* Allow the compiler to construct the binary search tree.  */
+-#define D(N, O, G, P) \
+-    case SPR_##N: { static const TileSPR x = { #N, O, G, P }; return &x; }
+-
+-    switch (spr) {
+-    D(CMPEXCH_VALUE,
+-      offsetof(CPUTLGState, spregs[TILEGX_SPR_CMPEXCH]), 0, 0)
+-    D(INTERRUPT_CRITICAL_SECTION,
+-      offsetof(CPUTLGState, spregs[TILEGX_SPR_CRITICAL_SEC]), 0, 0)
+-    D(SIM_CONTROL,
+-      offsetof(CPUTLGState, spregs[TILEGX_SPR_SIM_CONTROL]), 0, 0)
+-    D(EX_CONTEXT_0_0,
+-      offsetof(CPUTLGState, spregs[TILEGX_SPR_EX_CONTEXT_0_0]), 0, 0)
+-    D(EX_CONTEXT_0_1,
+-      offsetof(CPUTLGState, spregs[TILEGX_SPR_EX_CONTEXT_0_1]), 0, 0)
+-    }
+-
+-#undef D
+-
+-    qemu_log_mask(LOG_UNIMP, "UNIMP SPR %u\n", spr);
+-    return NULL;
+-}
+-
+-static TileExcp gen_mtspr_x1(DisasContext *dc, unsigned spr, unsigned srca)
+-{
+-    const TileSPR *def = find_spr(spr);
+-    TCGv tsrca;
+-
+-    if (def == NULL) {
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, "mtspr spr[%u], %s", spr, reg_names[srca]);
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    }
+-
+-    tsrca = load_gr(dc, srca);
+-    if (def->put) {
+-        def->put(cpu_env, tsrca);
+-    } else {
+-        tcg_gen_st_tl(tsrca, cpu_env, def->offset);
+-    }
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "mtspr %s, %s", def->name, reg_names[srca]);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp gen_mfspr_x1(DisasContext *dc, unsigned dest, unsigned spr)
+-{
+-    const TileSPR *def = find_spr(spr);
+-    TCGv tdest;
+-
+-    if (def == NULL) {
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, "mtspr %s, spr[%u]", reg_names[dest], spr);
+-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+-    }
+-
+-    tdest = dest_gr(dc, dest);
+-    if (def->get) {
+-        def->get(tdest, cpu_env);
+-    } else {
+-        tcg_gen_ld_tl(tdest, cpu_env, def->offset);
+-    }
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "mfspr %s, %s", reg_names[dest], def->name);
+-    return TILEGX_EXCP_NONE;
+-}
+-
+-static TileExcp decode_y0(DisasContext *dc, tilegx_bundle_bits bundle)
+-{
+-    unsigned opc = get_Opcode_Y0(bundle);
+-    unsigned ext = get_RRROpcodeExtension_Y0(bundle);
+-    unsigned dest = get_Dest_Y0(bundle);
+-    unsigned srca = get_SrcA_Y0(bundle);
+-    unsigned srcb;
+-    int imm;
+-
+-    switch (opc) {
+-    case RRR_1_OPCODE_Y0:
+-        if (ext == UNARY_RRR_1_OPCODE_Y0) {
+-            ext = get_UnaryOpcodeExtension_Y0(bundle);
+-            return gen_rr_opcode(dc, OE(opc, ext, Y0), dest, srca, bundle);
+-        }
+-        /* fallthru */
+-    case RRR_0_OPCODE_Y0:
+-    case RRR_2_OPCODE_Y0:
+-    case RRR_3_OPCODE_Y0:
+-    case RRR_4_OPCODE_Y0:
+-    case RRR_5_OPCODE_Y0:
+-    case RRR_6_OPCODE_Y0:
+-    case RRR_7_OPCODE_Y0:
+-    case RRR_8_OPCODE_Y0:
+-    case RRR_9_OPCODE_Y0:
+-        srcb = get_SrcB_Y0(bundle);
+-        return gen_rrr_opcode(dc, OE(opc, ext, Y0), dest, srca, srcb);
+-
+-    case SHIFT_OPCODE_Y0:
+-        ext = get_ShiftOpcodeExtension_Y0(bundle);
+-        imm = get_ShAmt_Y0(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, Y0), dest, srca, imm);
+-
+-    case ADDI_OPCODE_Y0:
+-    case ADDXI_OPCODE_Y0:
+-    case ANDI_OPCODE_Y0:
+-    case CMPEQI_OPCODE_Y0:
+-    case CMPLTSI_OPCODE_Y0:
+-        imm = (int8_t)get_Imm8_Y0(bundle);
+-        return gen_rri_opcode(dc, OE(opc, 0, Y0), dest, srca, imm);
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-}
+-
+-static TileExcp decode_y1(DisasContext *dc, tilegx_bundle_bits bundle)
+-{
+-    unsigned opc = get_Opcode_Y1(bundle);
+-    unsigned ext = get_RRROpcodeExtension_Y1(bundle);
+-    unsigned dest = get_Dest_Y1(bundle);
+-    unsigned srca = get_SrcA_Y1(bundle);
+-    unsigned srcb;
+-    int imm;
+-
+-    switch (get_Opcode_Y1(bundle)) {
+-    case RRR_1_OPCODE_Y1:
+-        if (ext == UNARY_RRR_1_OPCODE_Y0) {
+-            ext = get_UnaryOpcodeExtension_Y1(bundle);
+-            return gen_rr_opcode(dc, OE(opc, ext, Y1), dest, srca, bundle);
+-        }
+-        /* fallthru */
+-    case RRR_0_OPCODE_Y1:
+-    case RRR_2_OPCODE_Y1:
+-    case RRR_3_OPCODE_Y1:
+-    case RRR_4_OPCODE_Y1:
+-    case RRR_5_OPCODE_Y1:
+-    case RRR_6_OPCODE_Y1:
+-    case RRR_7_OPCODE_Y1:
+-        srcb = get_SrcB_Y1(bundle);
+-        return gen_rrr_opcode(dc, OE(opc, ext, Y1), dest, srca, srcb);
+-
+-    case SHIFT_OPCODE_Y1:
+-        ext = get_ShiftOpcodeExtension_Y1(bundle);
+-        imm = get_ShAmt_Y1(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, Y1), dest, srca, imm);
+-
+-    case ADDI_OPCODE_Y1:
+-    case ADDXI_OPCODE_Y1:
+-    case ANDI_OPCODE_Y1:
+-    case CMPEQI_OPCODE_Y1:
+-    case CMPLTSI_OPCODE_Y1:
+-        imm = (int8_t)get_Imm8_Y1(bundle);
+-        return gen_rri_opcode(dc, OE(opc, 0, Y1), dest, srca, imm);
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-}
+-
+-static TileExcp decode_y2(DisasContext *dc, tilegx_bundle_bits bundle)
+-{
+-    unsigned mode = get_Mode(bundle);
+-    unsigned opc = get_Opcode_Y2(bundle);
+-    unsigned srca = get_SrcA_Y2(bundle);
+-    unsigned srcbdest = get_SrcBDest_Y2(bundle);
+-    const char *mnemonic;
+-    MemOp memop;
+-    bool prefetch_nofault = false;
+-
+-    switch (OEY2(opc, mode)) {
+-    case OEY2(LD1S_OPCODE_Y2, MODE_OPCODE_YA2):
+-        memop = MO_SB;
+-        mnemonic = "ld1s"; /* prefetch_l1_fault */
+-        goto do_load;
+-    case OEY2(LD1U_OPCODE_Y2, MODE_OPCODE_YA2):
+-        memop = MO_UB;
+-        mnemonic = "ld1u"; /* prefetch, prefetch_l1 */
+-        prefetch_nofault = (srcbdest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OEY2(LD2S_OPCODE_Y2, MODE_OPCODE_YA2):
+-        memop = MO_TESW;
+-        mnemonic = "ld2s"; /* prefetch_l2_fault */
+-        goto do_load;
+-    case OEY2(LD2U_OPCODE_Y2, MODE_OPCODE_YA2):
+-        memop = MO_TEUW;
+-        mnemonic = "ld2u"; /* prefetch_l2 */
+-        prefetch_nofault = (srcbdest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OEY2(LD4S_OPCODE_Y2, MODE_OPCODE_YB2):
+-        memop = MO_TESL;
+-        mnemonic = "ld4s"; /* prefetch_l3_fault */
+-        goto do_load;
+-    case OEY2(LD4U_OPCODE_Y2, MODE_OPCODE_YB2):
+-        memop = MO_TEUL;
+-        mnemonic = "ld4u"; /* prefetch_l3 */
+-        prefetch_nofault = (srcbdest == TILEGX_R_ZERO);
+-        goto do_load;
+-    case OEY2(LD_OPCODE_Y2, MODE_OPCODE_YB2):
+-        memop = MO_TEQ;
+-        mnemonic = "ld";
+-    do_load:
+-        if (!prefetch_nofault) {
+-            tcg_gen_qemu_ld_tl(dest_gr(dc, srcbdest), load_gr(dc, srca),
+-                               dc->mmuidx, memop);
+-        }
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, "%s %s, %s", mnemonic,
+-                      reg_names[srcbdest], reg_names[srca]);
+-        return TILEGX_EXCP_NONE;
+-
+-    case OEY2(ST1_OPCODE_Y2, MODE_OPCODE_YC2):
+-        return gen_st_opcode(dc, 0, srca, srcbdest, MO_UB, "st1");
+-    case OEY2(ST2_OPCODE_Y2, MODE_OPCODE_YC2):
+-        return gen_st_opcode(dc, 0, srca, srcbdest, MO_TEUW, "st2");
+-    case OEY2(ST4_OPCODE_Y2, MODE_OPCODE_YC2):
+-        return gen_st_opcode(dc, 0, srca, srcbdest, MO_TEUL, "st4");
+-    case OEY2(ST_OPCODE_Y2, MODE_OPCODE_YC2):
+-        return gen_st_opcode(dc, 0, srca, srcbdest, MO_TEQ, "st");
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-}
+-
+-static TileExcp decode_x0(DisasContext *dc, tilegx_bundle_bits bundle)
+-{
+-    unsigned opc = get_Opcode_X0(bundle);
+-    unsigned dest = get_Dest_X0(bundle);
+-    unsigned srca = get_SrcA_X0(bundle);
+-    unsigned ext, srcb, bfs, bfe;
+-    int imm;
+-
+-    switch (opc) {
+-    case RRR_0_OPCODE_X0:
+-        ext = get_RRROpcodeExtension_X0(bundle);
+-        if (ext == UNARY_RRR_0_OPCODE_X0) {
+-            ext = get_UnaryOpcodeExtension_X0(bundle);
+-            return gen_rr_opcode(dc, OE(opc, ext, X0), dest, srca, bundle);
+-        }
+-        srcb = get_SrcB_X0(bundle);
+-        return gen_rrr_opcode(dc, OE(opc, ext, X0), dest, srca, srcb);
+-
+-    case SHIFT_OPCODE_X0:
+-        ext = get_ShiftOpcodeExtension_X0(bundle);
+-        imm = get_ShAmt_X0(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, X0), dest, srca, imm);
+-
+-    case IMM8_OPCODE_X0:
+-        ext = get_Imm8OpcodeExtension_X0(bundle);
+-        imm = (int8_t)get_Imm8_X0(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, X0), dest, srca, imm);
+-
+-    case BF_OPCODE_X0:
+-        ext = get_BFOpcodeExtension_X0(bundle);
+-        bfs = get_BFStart_X0(bundle);
+-        bfe = get_BFEnd_X0(bundle);
+-        return gen_bf_opcode_x0(dc, ext, dest, srca, bfs, bfe);
+-
+-    case ADDLI_OPCODE_X0:
+-    case SHL16INSLI_OPCODE_X0:
+-    case ADDXLI_OPCODE_X0:
+-        imm = (int16_t)get_Imm16_X0(bundle);
+-        return gen_rri_opcode(dc, OE(opc, 0, X0), dest, srca, imm);
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-}
+-
+-static TileExcp decode_x1(DisasContext *dc, tilegx_bundle_bits bundle)
+-{
+-    unsigned opc = get_Opcode_X1(bundle);
+-    unsigned dest = get_Dest_X1(bundle);
+-    unsigned srca = get_SrcA_X1(bundle);
+-    unsigned ext, srcb;
+-    int imm;
+-
+-    switch (opc) {
+-    case RRR_0_OPCODE_X1:
+-        ext = get_RRROpcodeExtension_X1(bundle);
+-        srcb = get_SrcB_X1(bundle);
+-        switch (ext) {
+-        case UNARY_RRR_0_OPCODE_X1:
+-            ext = get_UnaryOpcodeExtension_X1(bundle);
+-            return gen_rr_opcode(dc, OE(opc, ext, X1), dest, srca, bundle);
+-        case ST1_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_UB, "st1");
+-        case ST2_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEUW, "st2");
+-        case ST4_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEUL, "st4");
+-        case STNT1_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_UB, "stnt1");
+-        case STNT2_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEUW, "stnt2");
+-        case STNT4_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEUL, "stnt4");
+-        case STNT_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEQ, "stnt");
+-        case ST_RRR_0_OPCODE_X1:
+-            return gen_st_opcode(dc, dest, srca, srcb, MO_TEQ, "st");
+-        }
+-        return gen_rrr_opcode(dc, OE(opc, ext, X1), dest, srca, srcb);
+-
+-    case SHIFT_OPCODE_X1:
+-        ext = get_ShiftOpcodeExtension_X1(bundle);
+-        imm = get_ShAmt_X1(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, X1), dest, srca, imm);
+-
+-    case IMM8_OPCODE_X1:
+-        ext = get_Imm8OpcodeExtension_X1(bundle);
+-        imm = (int8_t)get_Dest_Imm8_X1(bundle);
+-        srcb = get_SrcB_X1(bundle);
+-        switch (ext) {
+-        case ST1_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_UB, "st1_add");
+-        case ST2_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEUW, "st2_add");
+-        case ST4_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEUL, "st4_add");
+-        case STNT1_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_UB, "stnt1_add");
+-        case STNT2_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEUW, "stnt2_add");
+-        case STNT4_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEUL, "stnt4_add");
+-        case STNT_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEQ, "stnt_add");
+-        case ST_ADD_IMM8_OPCODE_X1:
+-            return gen_st_add_opcode(dc, srca, srcb, imm, MO_TEQ, "st_add");
+-        case MFSPR_IMM8_OPCODE_X1:
+-            return gen_mfspr_x1(dc, dest, get_MF_Imm14_X1(bundle));
+-        case MTSPR_IMM8_OPCODE_X1:
+-            return gen_mtspr_x1(dc, get_MT_Imm14_X1(bundle), srca);
+-        }
+-        imm = (int8_t)get_Imm8_X1(bundle);
+-        return gen_rri_opcode(dc, OE(opc, ext, X1), dest, srca, imm);
+-
+-    case BRANCH_OPCODE_X1:
+-        ext = get_BrType_X1(bundle);
+-        imm = sextract32(get_BrOff_X1(bundle), 0, 17);
+-        return gen_branch_opcode_x1(dc, ext, srca, imm);
+-
+-    case JUMP_OPCODE_X1:
+-        ext = get_JumpOpcodeExtension_X1(bundle);
+-        imm = sextract32(get_JumpOff_X1(bundle), 0, 27);
+-        return gen_jump_opcode_x1(dc, ext, imm);
+-
+-    case ADDLI_OPCODE_X1:
+-    case SHL16INSLI_OPCODE_X1:
+-    case ADDXLI_OPCODE_X1:
+-        imm = (int16_t)get_Imm16_X1(bundle);
+-        return gen_rri_opcode(dc, OE(opc, 0, X1), dest, srca, imm);
+-
+-    default:
+-        return TILEGX_EXCP_OPCODE_UNKNOWN;
+-    }
+-}
+-
+-static void notice_excp(DisasContext *dc, uint64_t bundle,
+-                        const char *type, TileExcp excp)
+-{
+-    if (likely(excp == TILEGX_EXCP_NONE)) {
+-        return;
+-    }
+-    gen_exception(dc, excp);
+-    switch (excp) {
+-    case TILEGX_EXCP_OPCODE_UNIMPLEMENTED:
+-        qemu_log_mask(LOG_UNIMP, "UNIMP %s, [" FMT64X "]\n", type, bundle);
+-        break;
+-    case TILEGX_EXCP_OPCODE_UNKNOWN:
+-        qemu_log_mask(LOG_UNIMP, "UNKNOWN %s, [" FMT64X "]\n", type, bundle);
+-        break;
+-    default:
+-        break;
+-    }
+-}
+-
+-static void translate_one_bundle(DisasContext *dc, uint64_t bundle)
+-{
+-    int i;
+-
+-    for (i = 0; i < ARRAY_SIZE(dc->wb); i++) {
+-        DisasContextTemp *wb = &dc->wb[i];
+-        wb->reg = TILEGX_R_NOREG;
+-        wb->val = NULL;
+-    }
+-    dc->num_wb = 0;
+-
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, "  %" PRIx64 ":  { ", dc->pc);
+-    if (get_Mode(bundle)) {
+-        notice_excp(dc, bundle, "y0", decode_y0(dc, bundle));
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, " ; ");
+-        notice_excp(dc, bundle, "y1", decode_y1(dc, bundle));
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, " ; ");
+-        notice_excp(dc, bundle, "y2", decode_y2(dc, bundle));
+-    } else {
+-        notice_excp(dc, bundle, "x0", decode_x0(dc, bundle));
+-        qemu_log_mask(CPU_LOG_TB_IN_ASM, " ; ");
+-        notice_excp(dc, bundle, "x1", decode_x1(dc, bundle));
+-    }
+-    qemu_log_mask(CPU_LOG_TB_IN_ASM, " }\n");
+-
+-    for (i = dc->num_wb - 1; i >= 0; --i) {
+-        DisasContextTemp *wb = &dc->wb[i];
+-        if (wb->reg < TILEGX_R_COUNT) {
+-            tcg_gen_mov_i64(cpu_regs[wb->reg], wb->val);
+-        }
+-        tcg_temp_free_i64(wb->val);
+-    }
+-
+-    if (dc->jmp.cond != TCG_COND_NEVER) {
+-        if (dc->jmp.cond == TCG_COND_ALWAYS) {
+-            tcg_gen_mov_i64(cpu_pc, dc->jmp.dest);
+-        } else {
+-            TCGv next = tcg_const_i64(dc->pc + TILEGX_BUNDLE_SIZE_IN_BYTES);
+-            tcg_gen_movcond_i64(dc->jmp.cond, cpu_pc,
+-                                dc->jmp.val1, load_zero(dc),
+-                                dc->jmp.dest, next);
+-            tcg_temp_free_i64(dc->jmp.val1);
+-            tcg_temp_free_i64(next);
+-        }
+-        tcg_temp_free_i64(dc->jmp.dest);
+-        tcg_gen_exit_tb(NULL, 0);
+-        dc->exit_tb = true;
+-    } else if (dc->atomic_excp != TILEGX_EXCP_NONE) {
+-        gen_exception(dc, dc->atomic_excp);
+-    }
+-}
+-
+-void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+-{
+-    CPUTLGState *env = cs->env_ptr;
+-    DisasContext ctx;
+-    DisasContext *dc = &ctx;
+-    uint64_t pc_start = tb->pc;
+-    uint64_t page_start = pc_start & TARGET_PAGE_MASK;
+-    int num_insns = 0;
+-
+-    dc->pc = pc_start;
+-    dc->mmuidx = 0;
+-    dc->exit_tb = false;
+-    dc->atomic_excp = TILEGX_EXCP_NONE;
+-    dc->jmp.cond = TCG_COND_NEVER;
+-    dc->jmp.dest = NULL;
+-    dc->jmp.val1 = NULL;
+-    dc->zero = NULL;
+-
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
+-        qemu_log("IN: %s\n", lookup_symbol(pc_start));
+-    }
+-    gen_tb_start(tb);
+-
+-    while (1) {
+-        tcg_gen_insn_start(dc->pc);
+-        num_insns++;
+-
+-        translate_one_bundle(dc, cpu_ldq_data(env, dc->pc));
+-
+-        if (dc->exit_tb) {
+-            /* PC updated and EXIT_TB/GOTO_TB/exception emitted.  */
+-            break;
+-        }
+-        dc->pc += TILEGX_BUNDLE_SIZE_IN_BYTES;
+-        if (num_insns >= max_insns
+-            || (dc->pc - page_start >= TARGET_PAGE_SIZE)
+-            || tcg_op_buf_full()) {
+-            /* Ending the TB due to TB size or page boundary.  Set PC.  */
+-            tcg_gen_movi_tl(cpu_pc, dc->pc);
+-            tcg_gen_exit_tb(NULL, 0);
+-            break;
+-        }
+-    }
+-
+-    gen_tb_end(tb, num_insns);
+-    tb->size = dc->pc - pc_start;
+-    tb->icount = num_insns;
+-}
+-
+-void restore_state_to_opc(CPUTLGState *env, TranslationBlock *tb,
+-                          target_ulong *data)
+-{
+-    env->pc = data[0];
+-}
+-
+-void tilegx_tcg_init(void)
+-{
+-    int i;
+-
+-    cpu_pc = tcg_global_mem_new_i64(cpu_env, offsetof(CPUTLGState, pc), "pc");
+-    for (i = 0; i < TILEGX_R_COUNT; i++) {
+-        cpu_regs[i] = tcg_global_mem_new_i64(cpu_env,
+-                                             offsetof(CPUTLGState, regs[i]),
+-                                             reg_names[i]);
+-    }
+-}
 -- 
 2.27.0
 
