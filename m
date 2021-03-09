@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5199332FEC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:31:40 +0100 (CET)
-Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2AA332FFE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:34:52 +0100 (CET)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJj11-0005Ga-Sm
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:31:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
+	id 1lJj47-0000U0-HD
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lJhtn-00060Q-5z
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:20:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lJhtl-0005hz-7g
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:20:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615317604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SGalK1W+r81SehqFNZPi5ZiII+lX6WMtAlCXqPii4+I=;
- b=Al7t+RtVvLrAYUkbjX47Y7fNGKeTpEV0yIuZrWYomTqTWMjlv0iBxeOb9L0NPqrQwCsdNp
- p0PJ07PndijNbmlpagP4mGLMz62uo8OW3OJN4zXyeUFu09+jmNOs+KbKr92C5Y/+l/itwW
- jlw69DktWSRQ0Exsq7I20sBBOgnt30o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-msZiheV3P8SSeQxjhYp9_A-1; Tue, 09 Mar 2021 14:20:00 -0500
-X-MC-Unique: msZiheV3P8SSeQxjhYp9_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1lJhvi-0007bv-SE; Tue, 09 Mar 2021 14:22:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1lJhvf-0006cr-TY; Tue, 09 Mar 2021 14:22:06 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0BD01923765;
- Tue,  9 Mar 2021 19:19:58 +0000 (UTC)
-Received: from localhost (ovpn-117-250.rdu2.redhat.com [10.10.117.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A890C1895D;
- Tue,  9 Mar 2021 19:19:52 +0000 (UTC)
-Date: Tue, 9 Mar 2021 13:52:37 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 0/3] tests/acceptance: Handle tests with "cpu" tag
-Message-ID: <20210309185237.GB2155904@amachine.somewhere>
-References: <20210224212654.1146167-1-wainersm@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210224212654.1146167-1-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V0207lvV8h4k8FAm"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ by mail.kernel.org (Postfix) with ESMTPSA id 5644D64F6C;
+ Tue,  9 Mar 2021 19:22:01 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1lJhvb-000cVW-A9; Tue, 09 Mar 2021 19:21:59 +0000
+Date: Tue, 09 Mar 2021 19:21:58 +0000
+Message-ID: <87eegoxhd5.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH] hw/arm/virt: KVM: The IPA lower bound is 32
+In-Reply-To: <20210309185939.188431-1-drjones@redhat.com>
+References: <20210309185939.188431-1-drjones@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: drjones@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, eric.auger@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,100 +66,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
- aurelien@aurel32.net
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---V0207lvV8h4k8FAm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Andrew,
 
-On Wed, Feb 24, 2021 at 06:26:51PM -0300, Wainer dos Santos Moschetta wrote=
-:
-> Currently the acceptance tests tagged with "machine" have the "-M TYPE"
-> automatically added to the list of arguments of the QEMUMachine object.
-> In other words, that option is passed to the launched QEMU. On this
-> series it is implemented the same feature but instead for tests marked
-> with "cpu".
->
+On Tue, 09 Mar 2021 18:59:39 +0000,
+Andrew Jones <drjones@redhat.com> wrote:
+> 
+> The virt machine already checks KVM_CAP_ARM_VM_IPA_SIZE to get the
+> upper bound of the IPA size. If that bound is lower than the highest
+> possible GPA for the machine, then QEMU will error out. However, the
+> IPA is set to 40 when the highest GPA is less than or equal to 40,
+> even when KVM may only support an IPA limit as low as 32. This means
+> KVM may fail the VM creation unnecessarily. Additionally, 40 is
+> selected with the value 0, which means use the default, and that gets
+> around a check in some versions of KVM, causing a difficult to debug
+> fail. Always use the IPA size that corresponds to the highest possible
+> GPA, unless it's lower than 32, in which case use 32.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  hw/arm/virt.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 371147f3ae9c..7bf563715b4e 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2547,14 +2547,13 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+>                       "require an IPA range (%d bits) larger than "
+>                       "the one supported by the host (%d bits)",
+>                       requested_pa_size, max_vm_pa_size);
+> -       exit(1);
+> +        exit(1);
+>      }
+> +
+>      /*
+> -     * By default we return 0 which corresponds to an implicit legacy
+> -     * 40b IPA setting. Otherwise we return the actual requested PA
+> -     * logsize
+> +     * KVM requires the IPA size to be at least 32 bits.
+>       */
+> -    return requested_pa_size > 40 ? requested_pa_size : 0;
+> +    return requested_pa_size < 32 ? 32 : requested_pa_size;
 
-Good!
+Doesn't this break on older kernels (pre 233a7cb23531, which is
+anything up 4.19), where the 'type' parameter passed at VM creation
+time was expected to be 0 and nothing else?
 
-> There is a caveat, however, in case the test needs additional arguments t=
-o
-> the CPU type they cannot be passed via tag, because the tags parser split
-> values by comma. For example, in tests/acceptance/x86_cpu_model_versions.=
-py,
-> there are cases where:
->=20
->   * -cpu is set to "Cascadelake-Server,x-force-features=3Don,check=3Doff,=
-enforce=3Doff"
->   * if it was tagged like "cpu:Cascadelake-Server,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff"
->     then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
->     "x-force-features=3Don", "check=3Doff", "enforce=3Doff")
->   * resulting on "-cpu Cascadelake-Server" and the remaining arguments ar=
-e ignored.
->=20
-> For the example above, one should tag it (or not at all) as "cpu:Cascadel=
-ake-Server"
-> AND self.vm.add_args('-cpu', "Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff"),
-> and that results on something like:
->=20
->   "qemu-system-x86_64 (...) -cpu Cascadelake-Server -cpu Cascadelake-Serv=
-er,x-force-features=3Don,check=3Doff,enforce=3Doff".
->
+I had a quick go at qemu a couple of weeks back and came up with the
+following hack, but never actually tested it (there is no way qemu can
+fit in the initramfs I am feeding to this damn machine...).
 
-There are clearly two problems here:
+Thanks,
 
-1) the tag is meant to be succinct, so that it can be used by users
-   selecting which tests to run.  At the same time, it's a waste
-   to throw away the other information or keep it duplicate or
-   incosistent.
+	M.
 
-2) QEMUMachine doesn't keep track of command line arguments
-   (add_args() makes it pretty clear what's doing).  But, on this type
-   of use case, a "set_args()" is desirable, in which case it would
-   overwrite the existing arguments for a given command line option.
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 371147f3ae..3301bb8dba 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2534,8 +2534,11 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+ static int virt_kvm_type(MachineState *ms, const char *type_str)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(ms);
+-    int max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms);
++    int max_vm_pa_size;
+     int requested_pa_size;
++    bool fixed_ipa;
++
++    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
+ 
+     /* we freeze the memory map to compute the highest gpa */
+     virt_set_memmap(vms);
+@@ -2550,11 +2553,12 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+        exit(1);
+     }
+     /*
+-     * By default we return 0 which corresponds to an implicit legacy
+-     * 40b IPA setting. Otherwise we return the actual requested PA
+-     * logsize
++     * We return the requested PA log size, unless KVM only supports
++     * the implicit legacy 40b IPA setting, in which case we return 0.
+      */
+-    return requested_pa_size > 40 ? requested_pa_size : 0;
++    if (fixed_ipa)
++        return 0;
++    return requested_pa_size;
+ }
+ 
+ static void virt_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/slirp b/slirp
+index 8f43a99191..ce94eba204 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
++Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 00e124c812..5f576730e6 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -230,12 +230,14 @@ bool kvm_arm_pmu_supported(void)
+     return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
+ }
+ 
+-int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
++int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
+ {
+     KVMState *s = KVM_STATE(ms->accelerator);
+     int ret;
+ 
+     ret = kvm_check_extension(s, KVM_CAP_ARM_VM_IPA_SIZE);
++    *fixed_ipa = !(ret > 0);
++
+     return ret > 0 ? ret : 40;
+ }
+ 
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index eb81b7059e..75d7133a35 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -311,10 +311,11 @@ bool kvm_arm_sve_supported(void);
+ /**
+  * kvm_arm_get_max_vm_ipa_size:
+  * @ms: Machine state handle
++ * @fixed_ipa: Indicate whether the IPA address space is a fixed value
+  *
+  * Returns the number of bits in the IPA address space supported by KVM
+  */
+-int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
++int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa);
+ 
+ /**
+  * kvm_arm_sync_mpstate_to_kvm:
+@@ -409,7 +410,7 @@ static inline void kvm_arm_add_vcpu_properties(Object *obj)
+     g_assert_not_reached();
+ }
+ 
+-static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
++static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
+ {
+     g_assert_not_reached();
+ }
 
-> QEMU is going to ignore the first -cpu argument. See the patch 0003 for a=
- reference.
->
-
-But this would still be creating a QEMU command line with multiple
-'-cpu' arguments, right?  I understand this could be useful for
-testing the behavior of the parameter parsing (if that's intended) but
-it's bad practice to be generating incorrect command line in tests.
-
-Maybe just by tackling issue #2 this could be avoided.
-
-Cheers,
-- Cleber.
-
---V0207lvV8h4k8FAm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBHw/MACgkQZX6NM6Xy
-CfO1XhAAnAZ3HTO5rfcqGYLhEIDt2NyTeMPpI0pLSEv6OAyUv5aRJpBvpQhovw2Q
-ejzARHghzW9WqzITs9A0h39L70+Qs51swp8CmwuAhM39BXkcQzBC/2jXXJFIcW/r
-bN1aiJNgXh+Qz1IwfsxOyytmiQrGyR/3WBO4iS/H3y+e9z07hkZm94TbYGFHitrN
-/ETyTuygJ5niTeME3vXdpQPB0e6Lw6mnpOKeAxd+rmGNwyLVbTjylp5QwXv5MyFz
-/H9FAcvP83AO/p262LQoJNh9RRMuOPTV8vc+XEhC47bjSfQPUnvD1mtBZifh8mIu
-whuQQa27FPZedpHXLp99gD68PWP9x0CbTZPynhZcS4O77HhzqGqg75KXAe8vCVJ6
-magWFvMauy20vznooRWRteovEk6lYnxunrXgQI5ummWAsQ4LTEPgqKvjWV7Q1w2+
-nQXITPsxb1L4mDS+zc/RsP5JRiK5yxslLUTWRyMIVHZZVwSE/SpppB3sZ4//DNIJ
-Qxmle5RttIuhaRNxKzHSSlry4vK9F30bwYzdsPqRj8W4WTV5yuHQuIErpT9rToYk
-q2vFm4V/XIWiKDgRX8g/njFLD95yMU956v+6ex1esReeq5m9KDi5PgoLtZ89Kbf0
-t6OsGrYUg26iuKH6P6UT5qDBPV6J7z5YTBjROljUIDUxf7b/6a4=
-=eAlC
------END PGP SIGNATURE-----
-
---V0207lvV8h4k8FAm--
-
+-- 
+Without deviation from the norm, progress is not possible.
 
