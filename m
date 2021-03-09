@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE6D332E3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:26:43 +0100 (CET)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAB6332DBF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:04:40 +0100 (CET)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJh41-0006Fu-Kh
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:26:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46454)
+	id 1lJgil-0006xO-Lc
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:04:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf7S-0008P1-EC
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:02 -0500
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:38389)
+ id 1lJf7Y-0000Ay-1R
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:08 -0500
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf7Q-0002jd-MQ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:02 -0500
-Received: by mail-ot1-x32d.google.com with SMTP id a17so13373028oto.5
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:00 -0800 (PST)
+ id 1lJf7U-0002kF-6e
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:07 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id n23so7731666otq.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dmOaMq0cyoTud0OTLwGo1bmU+yPSQ++q9U9cjzeKa4M=;
- b=u0x80t9C7FpPKMWMeYbn9liCw4tnVADINA+wbbvfWzhNdoP1sjDVexwTtt+SniWWl0
- FKwM3cJ23RbR8/p0Qh1Qojuk0e6UOtDXGaamO67omqeXV++A1LurS2w5DjRwMsiKaJiH
- D725oJbMT9nBw7US8I3nyat+e95bKQdGqKUP8fOSCOMvN5buwxH0dMXEdy9nMelWORp0
- 5UJRT0VlHYP34mGHGbnTRh4OmF655jiGcv+MqD9JlSjqTEljzOFnrGwE8GXzQwAZVUsn
- zB8wjE4v2DMXrw4zWPxLOoeDklztLKcDzhzjQGR6chAh7jB4Pxd4691GofbTrwHk4+Eb
- iBjw==
+ bh=adanJyUxqOWc9Dhq8EIk3bW7dNNKqybJfKCeN5b9hiE=;
+ b=rRzMroVDH+kXWy/hu6PDgmO5Gc6ZYGbJznpGLle8WV9D9FkNySPcyOIFR+vM1BT8MI
+ vEgiPlqczHEXRdn0UnRCDiGNVALrC+py3kMg989Qfx6geFW4oOZAvT5wfshuJe7z2VRi
+ kMQ0OTg6DqCvhCh+hfXn5NcFRcIyfDji+ZAuRd8XrVM8NEHtWcifSQPkdcjuFzbWMTcf
+ 4h8gjpE/lSL8I6tUtW1J16YpStq1HsR/0qudmc4+TGPzdu+YCpMCOiPWlnmcUkl9cIct
+ b0hxellvspd1qrHMTEMW7Qi17tu7faxpKSuAnNxMiTPvldDAQRP3bDwz32blqnIQTXFc
+ 5eeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dmOaMq0cyoTud0OTLwGo1bmU+yPSQ++q9U9cjzeKa4M=;
- b=J3Y3ZVis083RJ0cerH6WguMr5GHIYXGq9GGm1rTABrC9bq5a09Ba3MdqM7rLVoWxRC
- Xdq+8H+53/f5jBEoglHsnWHnEdiMZ5pikzmsbR7s/ybVkZwKpjulbwORs4Fs8jqj2r5i
- Qi+IZF03pqjajhKs7a8G3hMVv9UfZkPnm8Q5YGnTHaIxbReJR+bUnTqPOsSsZJ9A4PL8
- NWlTpEoCX3Qq+aRwOPmQ3MjhLXp1MZeRbCSnNPEJfFQd/HGnvHrFArTDyEFdMexXSnTo
- F3vkLOOgRDWBtLW8d8MgiwPi7UmdyAOLeMQyzkzkKvYeRL6flf8bQcYN/tQbuCNlRt/u
- lHow==
-X-Gm-Message-State: AOAM531MlaorEprprbgEtDgmowujxPmd+DS0WYY1XysO5UN1K1ET2GW/
- NRyPlMlkiGJO2RO8TcUETFhFi/vBpeflW5n5
-X-Google-Smtp-Source: ABdhPJyvCnXL2vdMn8kMTw/kFB8a50NrD9rtiWCeOUHrkVphZ47uQwgF+SWL8fFy4XYux1xjrGjbQw==
-X-Received: by 2002:a9d:750c:: with SMTP id r12mr9669622otk.322.1615306919692; 
- Tue, 09 Mar 2021 08:21:59 -0800 (PST)
+ bh=adanJyUxqOWc9Dhq8EIk3bW7dNNKqybJfKCeN5b9hiE=;
+ b=gaCtN9aZwXAgv6ajo7qrfRlPSj0HupkgludFdBPUsoUNxx0M36swTckOmjacD0I5iy
+ d+tBNEMcrHwJptLvNnelDkbUJpMSNBwkpbuO8aDAnUH9y89FvRK89Dv6qSlTjtNtQUSi
+ jfLacJ4fOLqvEu4UyQfOfn9D9UYkUf98woI24oxyPCvHthTLWgeSIuncvta9bSa00rDx
+ /ilDwToeqpJGIUEFvXZYPNBd4N79QgxDQNiqePgVyaDs8i780iX6kpxXuZGDekmlVN4g
+ MWUo6IrMugbq1VI0rgQaKSIZ3jG8j0tOPcGvHzkqZGaSuAaeug+mx1niwEvPRhOv8wfo
+ lEww==
+X-Gm-Message-State: AOAM530COxIKLUfDYnmWKnMj0Ov3LsR5DKEj5XhrumC7aSOLt+zza8WP
+ svyFISWh/1t9pB3cg3JOLve7+xC5g5cTh4y/
+X-Google-Smtp-Source: ABdhPJzJ52FZ37P0Qpbz/n+DVPbwW08fEKV9skazsQVcAccNchL0xu0n0RRPxc9U0NWbw3eP5n+TPg==
+X-Received: by 2002:a05:6830:1304:: with SMTP id
+ p4mr24459350otq.185.1615306923128; 
+ Tue, 09 Mar 2021 08:22:03 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.21.58
+ by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 08:21:59 -0800 (PST)
+ Tue, 09 Mar 2021 08:22:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 40/78] target/arm: Implement SVE2 SUBHNB, SUBHNT
-Date: Tue,  9 Mar 2021 08:20:03 -0800
-Message-Id: <20210309162041.23124-41-richard.henderson@linaro.org>
+Subject: [PATCH v4 43/78] target/arm: Implement SVE2 XAR
+Date: Tue,  9 Mar 2021 08:20:06 -0800
+Message-Id: <20210309162041.23124-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210309162041.23124-1-richard.henderson@linaro.org>
 References: <20210309162041.23124-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,97 +84,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
- Stephen Long <steplong@quicinc.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+In addition, use the same vector generator interface for AdvSIMD.
+This fixes a bug in which the AdvSIMD insn failed to clear the
+high bits of the SVE register.
 
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200417162231.10374-4-steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  8 ++++++++
- target/arm/sve.decode      |  2 ++
- target/arm/sve_helper.c    | 10 ++++++++++
- target/arm/translate-sve.c |  3 +++
- 4 files changed, 23 insertions(+)
+ target/arm/helper-sve.h    |   4 ++
+ target/arm/helper.h        |   2 +
+ target/arm/translate-a64.h |   3 ++
+ target/arm/sve.decode      |   4 ++
+ target/arm/sve_helper.c    |  39 ++++++++++++++
+ target/arm/translate-a64.c |  25 ++-------
+ target/arm/translate-sve.c | 104 +++++++++++++++++++++++++++++++++++++
+ target/arm/vec_helper.c    |  12 +++++
+ 8 files changed, 172 insertions(+), 21 deletions(-)
 
 diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 8d95c87694..3642e7c820 100644
+index 507a2fea8e..28b8f00201 100644
 --- a/target/arm/helper-sve.h
 +++ b/target/arm/helper-sve.h
-@@ -2525,6 +2525,14 @@ DEF_HELPER_FLAGS_4(sve2_raddhnt_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve2_raddhnt_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve2_raddhnt_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+@@ -2558,6 +2558,10 @@ DEF_HELPER_FLAGS_5(sve2_histcnt_d, TCG_CALL_NO_RWG,
  
-+DEF_HELPER_FLAGS_4(sve2_subhnb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_subhnb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_subhnb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(sve2_histseg, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_4(sve2_xar_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(sve2_xar_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(sve2_xar_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_4(sve2_subhnt_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_subhnt_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_subhnt_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_6(sve2_faddp_zpzz_h, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_6(sve2_faddp_zpzz_s, TCG_CALL_NO_RWG,
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 6bb0b0ddc0..23a7ec5638 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -953,6 +953,8 @@ DEF_HELPER_FLAGS_5(neon_sqrdmulh_h, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(neon_sqrdmulh_s, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_4(gvec_xar_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
- DEF_HELPER_FLAGS_5(sve2_match_ppzz_b, TCG_CALL_NO_RWG,
-                    i32, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_match_ppzz_h, TCG_CALL_NO_RWG,
+ #ifdef TARGET_AARCH64
+ #include "helper-a64.h"
+ #include "helper-sve.h"
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 3668b671dd..cdf2b2d1be 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -122,5 +122,8 @@ bool disas_sve(DisasContext *, uint32_t);
+ 
+ void gen_gvec_rax1(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+                    uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++void gen_gvec_xar(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                  uint32_t rm_ofs, int64_t shift,
++                  uint32_t opr_sz, uint32_t max_sz);
+ 
+ #endif /* TARGET_ARM_TRANSLATE_A64_H */
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index dfcfab4bc0..c68bfcf6ed 100644
+index 8f501a083c..7645587469 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1326,6 +1326,8 @@ ADDHNB          01000101 .. 1 ..... 011 000 ..... .....  @rd_rn_rm
- ADDHNT          01000101 .. 1 ..... 011 001 ..... .....  @rd_rn_rm
- RADDHNB         01000101 .. 1 ..... 011 010 ..... .....  @rd_rn_rm
- RADDHNT         01000101 .. 1 ..... 011 011 ..... .....  @rd_rn_rm
-+SUBHNB          01000101 .. 1 ..... 011 100 ..... .....  @rd_rn_rm
-+SUBHNT          01000101 .. 1 ..... 011 101 ..... .....  @rd_rn_rm
+@@ -65,6 +65,7 @@
+ &rr_dbm         rd rn dbm
+ &rrri           rd rn rm imm
+ &rri_esz        rd rn imm esz
++&rrri_esz       rd rn rm imm esz
+ &rrr_esz        rd rn rm esz
+ &rpr_esz        rd pg rn esz
+ &rpr_s          rd pg rn s
+@@ -384,6 +385,9 @@ ORR_zzz         00000100 01 1 ..... 001 100 ..... .....         @rd_rn_rm_e0
+ EOR_zzz         00000100 10 1 ..... 001 100 ..... .....         @rd_rn_rm_e0
+ BIC_zzz         00000100 11 1 ..... 001 100 ..... .....         @rd_rn_rm_e0
  
- ### SVE2 Character Match
- 
++XAR             00000100 .. 1 ..... 001 101 rm:5  rd:5   &rrri_esz \
++                rn=%reg_movprfx esz=%tszimm16_esz imm=%tszimm16_shr
++
+ # SVE2 bitwise ternary operations
+ EOR3            00000100 00 1 ..... 001 110 ..... .....         @rdn_ra_rm_e0
+ BSL             00000100 00 1 ..... 001 111 ..... .....         @rdn_ra_rm_e0
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 8be0d28a8a..229dde282e 100644
+index 88a5e64277..0a02deef70 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -2136,6 +2136,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)              \
- 
- #define DO_ADDHN(N, M, SH)  ((N + M) >> SH)
- #define DO_RADDHN(N, M, SH) ((N + M + ((__typeof(N))1 << (SH - 1))) >> SH)
-+#define DO_SUBHN(N, M, SH)  ((N - M) >> SH)
- 
- DO_BINOPNB(sve2_addhnb_h, uint16_t, uint8_t, 8, DO_ADDHN)
- DO_BINOPNB(sve2_addhnb_s, uint32_t, uint16_t, 16, DO_ADDHN)
-@@ -2153,6 +2154,15 @@ DO_BINOPNT(sve2_raddhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_RADDHN)
- DO_BINOPNT(sve2_raddhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_RADDHN)
- DO_BINOPNT(sve2_raddhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_RADDHN)
- 
-+DO_BINOPNB(sve2_subhnb_h, uint16_t, uint8_t, 8, DO_SUBHN)
-+DO_BINOPNB(sve2_subhnb_s, uint32_t, uint16_t, 16, DO_SUBHN)
-+DO_BINOPNB(sve2_subhnb_d, uint64_t, uint32_t, 32, DO_SUBHN)
+@@ -7225,3 +7225,42 @@ void HELPER(sve2_histseg)(void *vd, void *vn, void *vm, uint32_t desc)
+         *(uint64_t *)(vd + i + 8) = out1;
+     }
+ }
 +
-+DO_BINOPNT(sve2_subhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_SUBHN)
-+DO_BINOPNT(sve2_subhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_SUBHN)
-+DO_BINOPNT(sve2_subhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_SUBHN)
++void HELPER(sve2_xar_b)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
++    int shr = simd_data(desc);
++    int shl = 8 - shr;
++    uint64_t mask = dup_const(MO_8, 0xff >> shr);
++    uint64_t *d = vd, *n = vn, *m = vm;
 +
-+#undef DO_SUBHN
- #undef DO_RADDHN
- #undef DO_ADDHN
++    for (i = 0; i < opr_sz; ++i) {
++        uint64_t t = n[i] ^ m[i];
++        d[i] = ((t >> shr) & mask) | ((t << shl) & ~mask);
++    }
++}
++
++void HELPER(sve2_xar_h)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
++    int shr = simd_data(desc);
++    int shl = 16 - shr;
++    uint64_t mask = dup_const(MO_16, 0xffff >> shr);
++    uint64_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        uint64_t t = n[i] ^ m[i];
++        d[i] = ((t >> shr) & mask) | ((t << shl) & ~mask);
++    }
++}
++
++void HELPER(sve2_xar_s)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc) / 4;
++    int shr = simd_data(desc);
++    uint32_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = ror32(n[i] ^ m[i], shr);
++    }
++}
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index b591f096df..491519fa6c 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14355,8 +14355,6 @@ static void disas_crypto_xar(DisasContext *s, uint32_t insn)
+     int imm6 = extract32(insn, 10, 6);
+     int rn = extract32(insn, 5, 5);
+     int rd = extract32(insn, 0, 5);
+-    TCGv_i64 tcg_op1, tcg_op2, tcg_res[2];
+-    int pass;
  
+     if (!dc_isar_feature(aa64_sha3, s)) {
+         unallocated_encoding(s);
+@@ -14367,25 +14365,10 @@ static void disas_crypto_xar(DisasContext *s, uint32_t insn)
+         return;
+     }
+ 
+-    tcg_op1 = tcg_temp_new_i64();
+-    tcg_op2 = tcg_temp_new_i64();
+-    tcg_res[0] = tcg_temp_new_i64();
+-    tcg_res[1] = tcg_temp_new_i64();
+-
+-    for (pass = 0; pass < 2; pass++) {
+-        read_vec_element(s, tcg_op1, rn, pass, MO_64);
+-        read_vec_element(s, tcg_op2, rm, pass, MO_64);
+-
+-        tcg_gen_xor_i64(tcg_res[pass], tcg_op1, tcg_op2);
+-        tcg_gen_rotri_i64(tcg_res[pass], tcg_res[pass], imm6);
+-    }
+-    write_vec_element(s, tcg_res[0], rd, 0, MO_64);
+-    write_vec_element(s, tcg_res[1], rd, 1, MO_64);
+-
+-    tcg_temp_free_i64(tcg_op1);
+-    tcg_temp_free_i64(tcg_op2);
+-    tcg_temp_free_i64(tcg_res[0]);
+-    tcg_temp_free_i64(tcg_res[1]);
++    gen_gvec_xar(MO_64, vec_full_reg_offset(s, rd),
++                 vec_full_reg_offset(s, rn),
++                 vec_full_reg_offset(s, rm), imm6, 16,
++                 vec_full_reg_size(s));
+ }
+ 
+ /* Crypto three-reg imm2
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 375f75e086..792ec38cb0 100644
+index acda88cb2c..cad61f4577 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -7478,6 +7478,9 @@ DO_SVE2_ZZZ_NARROW(ADDHNT, addhnt)
- DO_SVE2_ZZZ_NARROW(RADDHNB, raddhnb)
- DO_SVE2_ZZZ_NARROW(RADDHNT, raddhnt)
+@@ -340,6 +340,110 @@ static bool trans_BIC_zzz(DisasContext *s, arg_rrr_esz *a)
+     return do_zzz_fn(s, a, tcg_gen_gvec_andc);
+ }
  
-+DO_SVE2_ZZZ_NARROW(SUBHNB, subhnb)
-+DO_SVE2_ZZZ_NARROW(SUBHNT, subhnt)
++static void gen_xar8_i64(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m, int64_t sh)
++{
++    TCGv_i64 t = tcg_temp_new_i64();
++    uint64_t mask = dup_const(MO_8, 0xff >> sh);
 +
- static bool do_sve2_ppzz_flags(DisasContext *s, arg_rprr_esz *a,
-                                gen_helper_gvec_flags_4 *fn)
++    tcg_gen_xor_i64(t, n, m);
++    tcg_gen_shri_i64(d, t, sh);
++    tcg_gen_shli_i64(t, t, 8 - sh);
++    tcg_gen_andi_i64(d, d, mask);
++    tcg_gen_andi_i64(t, t, ~mask);
++    tcg_gen_or_i64(d, d, t);
++    tcg_temp_free_i64(t);
++}
++
++static void gen_xar16_i64(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m, int64_t sh)
++{
++    TCGv_i64 t = tcg_temp_new_i64();
++    uint64_t mask = dup_const(MO_16, 0xffff >> sh);
++
++    tcg_gen_xor_i64(t, n, m);
++    tcg_gen_shri_i64(d, t, sh);
++    tcg_gen_shli_i64(t, t, 16 - sh);
++    tcg_gen_andi_i64(d, d, mask);
++    tcg_gen_andi_i64(t, t, ~mask);
++    tcg_gen_or_i64(d, d, t);
++    tcg_temp_free_i64(t);
++}
++
++static void gen_xar_i32(TCGv_i32 d, TCGv_i32 n, TCGv_i32 m, int32_t sh)
++{
++    tcg_gen_xor_i32(d, n, m);
++    tcg_gen_rotri_i32(d, d, sh);
++}
++
++static void gen_xar_i64(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m, int64_t sh)
++{
++    tcg_gen_xor_i64(d, n, m);
++    tcg_gen_rotri_i64(d, d, sh);
++}
++
++static void gen_xar_vec(unsigned vece, TCGv_vec d, TCGv_vec n,
++                        TCGv_vec m, int64_t sh)
++{
++    tcg_gen_xor_vec(vece, d, n, m);
++    tcg_gen_rotri_vec(vece, d, d, sh);
++}
++
++void gen_gvec_xar(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                  uint32_t rm_ofs, int64_t shift,
++                  uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop[] = { INDEX_op_rotli_vec, 0 };
++    static const GVecGen3i ops[4] = {
++        { .fni8 = gen_xar8_i64,
++          .fniv = gen_xar_vec,
++          .fno = gen_helper_sve2_xar_b,
++          .opt_opc = vecop,
++          .vece = MO_8 },
++        { .fni8 = gen_xar16_i64,
++          .fniv = gen_xar_vec,
++          .fno = gen_helper_sve2_xar_h,
++          .opt_opc = vecop,
++          .vece = MO_16 },
++        { .fni4 = gen_xar_i32,
++          .fniv = gen_xar_vec,
++          .fno = gen_helper_sve2_xar_s,
++          .opt_opc = vecop,
++          .vece = MO_32 },
++        { .fni8 = gen_xar_i64,
++          .fniv = gen_xar_vec,
++          .fno = gen_helper_gvec_xar_d,
++          .opt_opc = vecop,
++          .vece = MO_64 }
++    };
++    int esize = 8 << vece;
++
++    /* The SVE2 range is 1 .. esize; the AdvSIMD range is 0 .. esize-1. */
++    tcg_debug_assert(shift >= 0);
++    tcg_debug_assert(shift <= esize);
++    shift &= esize - 1;
++
++    if (shift == 0) {
++        /* xar with no rotate devolves to xor. */
++        tcg_gen_gvec_xor(vece, rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz);
++    } else {
++        tcg_gen_gvec_3i(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz,
++                        shift, &ops[vece]);
++    }
++}
++
++static bool trans_XAR(DisasContext *s, arg_rrri_esz *a)
++{
++    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        unsigned vsz = vec_full_reg_size(s);
++        gen_gvec_xar(a->esz, vec_full_reg_offset(s, a->rd),
++                     vec_full_reg_offset(s, a->rn),
++                     vec_full_reg_offset(s, a->rm), a->imm, vsz, vsz);
++    }
++    return true;
++}
++
+ static bool do_sve2_zzzz_fn(DisasContext *s, arg_rrrr_esz *a, GVecGen4Fn *fn)
  {
+     if (!dc_isar_feature(aa64_sve2, s)) {
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 19006f50f7..a3d80ecad0 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -2253,3 +2253,15 @@ void HELPER(gvec_umulh_d)(void *vd, void *vn, void *vm, uint32_t desc)
+     }
+     clear_tail(d, opr_sz, simd_maxsz(desc));
+ }
++
++void HELPER(gvec_xar_d)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
++    int shr = simd_data(desc);
++    uint64_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        d[i] = ror64(n[i] ^ m[i], shr);
++    }
++    clear_tail(d, opr_sz * 8, simd_maxsz(desc));
++}
 -- 
 2.25.1
 
