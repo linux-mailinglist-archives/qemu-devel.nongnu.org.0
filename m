@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA6E3325DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:55:22 +0100 (CET)
-Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71983325E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:57:36 +0100 (CET)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbtR-0004bp-HS
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47106)
+	id 1lJbvb-0007A6-TW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:57:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lJaz6-00088t-11
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:57:08 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40841)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lJb0l-0001Hq-Gy
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:58:51 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lJaz4-0006iL-Ix
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:57:07 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so5752378wmy.5
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:57:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lJb0k-0007jo-4F
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:58:51 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so5836912wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=dme-org.20150623.gappssmtp.com; s=20150623;
  h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version; bh=D00tlaWh0D0zg6qfxP2WbPIE21o6XC5zlMKsk7pUCPs=;
- b=tMJexgtHnnPpNNeClaml0RRcQ2H5lkL0OegszX2av8VaZvqCz4v5Lc6MBqzu9M5PxH
- b89HjZpY8TTCZOA6KGrfVWNpPXf1n7KU0FmXm152XpplFCOEQu5uUq8HxXz0kcqGB/3r
- IoCZ4eUdlX3DEDJRCqyoPO+Ym7+JSNcu7gZjQol7r1EAJdUTp+j41QpFnnI1buBPc04U
- DmVRaRZz/on9R5l7+ju1/1PHeQc0PArAsZhaDuiF03W1lvKEJRf+6SA72c5GjBZ8Br5j
- sDgQfZRDDHCf1fYQLo0pAiTmmalq51EaSxlkwFKo5H9Vgj4c3Gs3HkSvzbSK+kh8fF2m
- yhLw==
+ :mime-version:content-transfer-encoding;
+ bh=NohMhn4XLK6qm/sKEcoQF9IHoo7QmfOoBWhBlYAPRlU=;
+ b=rzux3CRipY61uG5R+5nAUW+HXtOsZYR4//cdai54TjoXcRsrjqo1kKZC/SCfitFLJH
+ cDoPeHmAacWFhz8OT+BMvjs1nzFoOxOVqgmtVQxgeR5+6r9Csc1VDksAB80TaJpA8/Rb
+ x4ZaeDalWWn2bJ1d/himg3ab2fxuRsOEUmlt2rcd2wRHlOdFo8wKJ/dmcTDC0VvzH9Qg
+ tde9cN5p4/j+9BwRiNTkzdSTCbl4l6LkY9qHFjX0r+QXTcBODeliWrK2Dex4QRX7D0Pw
+ tKe1vRSXs6KTgjIlce4Tkr6Nxa5CZwnML6y5WfeZb11eDGMYgV0ZP3aH5j/xt25iT+pw
+ hEyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=D00tlaWh0D0zg6qfxP2WbPIE21o6XC5zlMKsk7pUCPs=;
- b=HTV10RS7/WNxaJkrTzekPt6aeFDGLuLeSPHtR6WIAGdR9pk7hrnow4Av6J5mrWFYyF
- 0x5Y4Csyx8sjGTSCl5GgepwJQ99sD2CVSPE84UONWUCLWxONyApPbR6ZF5Pc8VjhG4/D
- A9PZmUN7l8S5gOvaNA+HUbE/SzE9ZrtY0aV4TmVB9Ctk9kO8l7ANBzoAylEtjbpihZNm
- BV4lsqEbNKZiieVkP40jMoYuzsRu2fb6LZRG8xOx5eLIrQpQsfjfpa17doaDE4AT35Jb
- mQEbZ1vt7d65PfgnGdKRCW7eoXdXCNc4zUuZJ1lCcEwRIXRxxDToNUF5Ls2dsGRHOIOa
- PGkA==
-X-Gm-Message-State: AOAM533Ih+Y3SNlaOTuXjEo+htEnJ/Kc3Ol1CNbPI8hHBCiUW7Ur4kVD
- f1hv2ayEgc33Yv5rHRwJZJI73g==
-X-Google-Smtp-Source: ABdhPJyg6LX7foEPfqUTufkfMZvPRp4d1hTVkNkcOygDZyMF1CDIqaJ2lFuRiDJNt0DHymEJ6gkCTA==
-X-Received: by 2002:a05:600c:2945:: with SMTP id
- n5mr3652857wmd.78.1615291024034; 
- Tue, 09 Mar 2021 03:57:04 -0800 (PST)
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NohMhn4XLK6qm/sKEcoQF9IHoo7QmfOoBWhBlYAPRlU=;
+ b=rGkMCf1SdCuCa+/JSzUhDczMs1Wy1Gr6A6uoQKinZCcK7YExrXxU90cNHfhNoougF6
+ 13cgFtwiUMc07QWtPR/JlrG5oV/gQWkEKnNddKvV/QoZYMm8E9JTpp6WWDgm0ZI/kxel
+ S2Fbs5loZWfpRYRvSP2eFZb319cVDqycZLDnKoeyVeN6mJ0QT0WRYe7UGgtcjoYB8bED
+ 1EDSngG9ZmOuNQlqUMydqqPlZjIwY/ii78p7uvWaMvULy3wWMFJ+SIUp9VZqAT0xwMhp
+ 4aj/+HRzdX4a9AD5EyES/ntMaAfZLMkqWhYeDq85xfPsKuThRavswIza7JvaiRWgCSpN
+ nmlg==
+X-Gm-Message-State: AOAM531Io+dx1Mm7d5eSXTp6+WkD1SZQJavKPUR3GvD6GY5DjpMxtRLN
+ SeB+O58M8K8I2K9acEXsohddDw==
+X-Google-Smtp-Source: ABdhPJw65Lg16qCTvgkvj7f3dW9YrkpkyejqC/bOhuql52VO7Dh8QZUflekSQmtWPe8Zhy7n3IzN7Q==
+X-Received: by 2002:a1c:9a09:: with SMTP id c9mr3570823wme.172.1615291128672; 
+ Tue, 09 Mar 2021 03:58:48 -0800 (PST)
 Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
  [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id h20sm3580413wmp.38.2021.03.09.03.57.03
+ by smtp.gmail.com with ESMTPSA id z188sm4119321wme.32.2021.03.09.03.58.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 03:57:03 -0800 (PST)
+ Tue, 09 Mar 2021 03:58:48 -0800 (PST)
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 48118348;
- Tue, 9 Mar 2021 11:57:02 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 4/4] coroutine/rwlock: Wake writers in preference to
- readers
-In-Reply-To: <8de7f2e6-825f-a803-cf12-870559b5e787@redhat.com>
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id fab595dd;
+ Tue, 9 Mar 2021 11:58:47 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 1/4] block/vdi: When writing new bmap entry fails,
+ don't leak the buffer
+In-Reply-To: <34865f4c-dc32-4298-6ec9-c8690d738435@redhat.com>
 References: <20210309102157.365356-1-david.edmondson@oracle.com>
- <20210309102157.365356-5-david.edmondson@oracle.com>
- <8de7f2e6-825f-a803-cf12-870559b5e787@redhat.com>
+ <20210309102157.365356-2-david.edmondson@oracle.com>
+ <34865f4c-dc32-4298-6ec9-c8690d738435@redhat.com>
 X-HGTTG: heart-of-gold
 From: David Edmondson <dme@dme.org>
-Date: Tue, 09 Mar 2021 11:57:02 +0000
-Message-ID: <m2pn08h75d.fsf@dme.org>
+Date: Tue, 09 Mar 2021 11:58:47 +0000
+Message-ID: <m2mtvch72g.fsf@dme.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=2a00:1450:4864:20::331;
- envelope-from=dme@dme.org; helo=mail-wm1-x331.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::336;
+ envelope-from=dme@dme.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,42 +96,69 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2021-03-09 at 12:06:22 +01, Paolo Bonzini wrote:
+On Tuesday, 2021-03-09 at 12:09:55 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
-> On 09/03/21 11:21, David Edmondson wrote:
->> -        /* The critical section started in qemu_co_rwlock_wrlock.  */
->> -        qemu_co_queue_restart_all(&lock->queue);
->> +        /* The critical section started in qemu_co_rwlock_wrlock or
->> +         * qemu_co_rwlock_upgrade.
->> +         */
->> +        qemu_co_queue_restart_all(&lock->wqueue);
->> +        qemu_co_queue_restart_all(&lock->rqueue);
+> On 3/9/21 11:21 AM, David Edmondson wrote:
+>> If a new bitmap entry is allocated, requiring the entire block to be
+>> written, avoiding leaking the buffer allocated for the block should
+>> the write fail.
+>>=20
+>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 >
-> Hmm, the devil is in the details---this is a thundering herd waiting to 
-> happen.  But fortunately this can be fixed while making the unlock 
-> primitive even simpler:
->
->      if (lock->reader) {
->           self->locks_held--;
->
->           /* Read-side critical sections do not keep lock->mutex.  */
->           qemu_co_mutex_lock(&lock->mutex);
->           lock->reader--;
->           assert(lock->reader >= 0);
->       }
->
->       /* If there are no remaining readers wake one waiting writer
->        * or all waiting readers.
->        */
->       if (!lock->reader && !qemu_co_queue_next(&lock->wqueue)) {
->           assert(!lock->pending_writer);
->           qemu_co_queue_restart_all(&lock->rqueue);
->       }
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-That's a nice improvement, I agree. I'll roll it into another revision
-and work on a test.
+Thanks.
+
+>> ---
+>>  block/vdi.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>=20
+>> diff --git a/block/vdi.c b/block/vdi.c
+>> index 5627e7d764..2a6dc26124 100644
+>> --- a/block/vdi.c
+>> +++ b/block/vdi.c
+>> @@ -690,6 +690,7 @@ nonallocating_write:
+>>=20=20
+>>      logout("finished data write\n");
+>>      if (ret < 0) {
+>> +        g_free(block);
+>>          return ret;
+>>      }
+>
+> Alternative using g_autofree:
+
+Newfangled witchy magic!
+
+I'm happy to change it if you think it beneficial.
+
+> -- >8 --
+> diff --git a/block/vdi.c b/block/vdi.c
+> index 5627e7d764a..1cd8ae2ba99 100644
+> --- a/block/vdi.c
+> +++ b/block/vdi.c
+> @@ -612,7 +612,7 @@ vdi_co_pwritev(BlockDriverState *bs, uint64_t
+> offset, uint64_t bytes,
+>      uint64_t data_offset;
+>      uint32_t bmap_first =3D VDI_UNALLOCATED;
+>      uint32_t bmap_last =3D VDI_UNALLOCATED;
+> -    uint8_t *block =3D NULL;
+> +    g_autofree uint8_t *block =3D NULL;
+>      uint64_t bytes_done =3D 0;
+>      int ret =3D 0;
+>
+> @@ -705,9 +705,6 @@ nonallocating_write:
+>          *header =3D s->header;
+>          vdi_header_to_le(header);
+>          ret =3D bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
+> -        g_free(block);
+> -        block =3D NULL;
+> -
+>          if (ret < 0) {
+>              return ret;
+>          }
+> ---
 
 dme.
--- 
-But uh oh, I love her because, she moves in her own way.
+--=20
+Tonight I think I'll walk alone, I'll find my soul as I go home.
 
