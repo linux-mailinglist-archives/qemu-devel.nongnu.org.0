@@ -2,74 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C61332396
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:04:59 +0100 (CET)
-Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DB33239E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:06:53 +0100 (CET)
+Received: from localhost ([::1]:57674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaAb-0006Zq-Qy
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:04:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1lJaCS-0000ia-64
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:06:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJZts-0006K9-2W
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:47:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26441)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJZuw-00071i-3x
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:48:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJZto-0007EO-RG
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:47:39 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJZum-0007jA-8M
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:48:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615286855;
+ s=mimecast20190719; t=1615286915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M81XwExSiooxNUVq2R0z54bIdT81N8nuLLiIVntzLp8=;
- b=ODmNgeAjcV4s2lWSzAhuundDvpCZLAILwLhhtTp3Hz8dWgk8RJkbvf6nc6WYH2BDhuU5He
- xY2c1nhcEcitcE5gYDJn2PVdFUCzt5eo3qTvGy6t1nUjzq+OwJN/ZXaViFq4pgCZACgPbV
- kpGHkv2UGAwp+U41se+l8FI7cgedyy0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-SGBQQ56fO0CHTNb2qOFELg-1; Tue, 09 Mar 2021 05:47:34 -0500
-X-MC-Unique: SGBQQ56fO0CHTNb2qOFELg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A97D800C78;
- Tue,  9 Mar 2021 10:47:32 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-169.ams2.redhat.com [10.36.114.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D368919C97;
- Tue,  9 Mar 2021 10:47:26 +0000 (UTC)
-Date: Tue, 9 Mar 2021 11:47:25 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] block/file-posix: Optimize for macOS
-Message-ID: <20210309104725.GB5798@merkur.fritz.box>
-References: <20210305121748.65173-1-akihiko.odaki@gmail.com>
- <YEY/9DyFk9U87JtM@stefanha-x1.localdomain>
- <CAMVc7JUSFsLovDAPOX1-6q6fimyrvq9wt51jb=hEQm+oB8RpUg@mail.gmail.com>
- <CAMVc7JXpP7twOzPWkFnSCgFtGBSNKG=iS95KNW8p7C_WCmEt6w@mail.gmail.com>
- <20210309093718.GA5798@merkur.fritz.box>
- <YEdNUu5OGSJ/mIo+@redhat.com>
+ bh=1oPwGCt0ZeqlH7x2F9o9cV4recxB0g7xPF2LXzP+Azo=;
+ b=fKRlhs4cU1cOj8R5xrA++Kv79kmnuyITmvOrAWJcB6cJKXchD2VL7+qWzF3n3NgoB/3mR2
+ hwM/ItajGbkfIjCLm5hZdz0/1Eoh5hApT4G9PeQKL0JQo0jDmh/P6xfFGEV6KyMGw5oDg6
+ VtrJY7nz+uVTjS6Ye1/zL1VHjWgDJJw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-nywqsGGDPUKMk3WZ52ZPVA-1; Tue, 09 Mar 2021 05:48:31 -0500
+X-MC-Unique: nywqsGGDPUKMk3WZ52ZPVA-1
+Received: by mail-ej1-f70.google.com with SMTP id h14so5461891ejg.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:48:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1oPwGCt0ZeqlH7x2F9o9cV4recxB0g7xPF2LXzP+Azo=;
+ b=Rs03jXic79es5MiU8ABUa8IojzE5NFcKeha1jIwo2FbFMtp45Wpu4JZpOIYBBWv/5p
+ jO8qsxQJTT8Jm/gtXTmrl22WaDgleh2UpYrGIXxDKQ9Q/TK4hTMc5Iu5pNhY2sTi4fez
+ ELvRIsvmrax2BNuLOazALN/zbZtsBMNiNue9KV3+5A7e8QLRKgtTlCDeiRaHS94TKkFj
+ AcSVpK7LaqgL+lxnqEDZsm3BW1Hxhkv3zRicNd8kbMTHEo4gT/CrL938itoqjtyL1ii3
+ vCPCYrkubTXcla3MyoMrQabhtbOZq+zBGNvrhXfrF5RVu4CF4AaxYHzdJEoxJu9OblUo
+ m75g==
+X-Gm-Message-State: AOAM533D575ttBsq89CYudFmol0s/FWzSqjFqCA82gVyR3pIHs/MyNaI
+ iHOmFB3v/qdbgadye6++vJWAeEtiBOItMwCJ9AEnl8rit0v8EglxbMBmEa30Ix6NO7FdLYSE1Qu
+ akic0oekbMBXGSNGXC4K5qQdxhn/XTi2tvQP36jW/w/VMzFleHnySxdoZ6xjmJBp0oHw=
+X-Received: by 2002:a17:906:a896:: with SMTP id
+ ha22mr19413115ejb.503.1615286910252; 
+ Tue, 09 Mar 2021 02:48:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyqJkTuyX445TkYnXZCHRnmokAlgLrrmRrQNjVXBD7v2VRYqzWWvcrCo5aWZ2yWrPgDHDss7A==
+X-Received: by 2002:a17:906:a896:: with SMTP id
+ ha22mr19413101ejb.503.1615286910068; 
+ Tue, 09 Mar 2021 02:48:30 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t12sm3119847edy.56.2021.03.09.02.48.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 02:48:29 -0800 (PST)
+Subject: Re: [PATCH] coroutine: add libucontext as external library
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210309032637.41778-1-j@getutm.app> <YEdBce6TWCVpSph9@redhat.com>
+ <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
+ <537a6a0e-431b-3920-c8dc-290e4e3d8895@redhat.com>
+ <YEdOJIUp5wsVo0ao@redhat.com>
+ <CAJ+F1CJ30dgGMj-R54jonrHsieAYZRk4foOOYgspkKbQ=3P3Uw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <96c824e5-3eba-be5c-b9ab-271f2017de54@redhat.com>
+Date: Tue, 9 Mar 2021 11:48:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YEdNUu5OGSJ/mIo+@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAJ+F1CJ30dgGMj-R54jonrHsieAYZRk4foOOYgspkKbQ=3P3Uw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,105 +106,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, pkrempa@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- qemu Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Konstantin Nazarov <mail@knazarov.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.03.2021 um 11:26 hat Daniel P. Berrangé geschrieben:
-> On Tue, Mar 09, 2021 at 10:37:18AM +0100, Kevin Wolf wrote:
-> > Am 09.03.2021 um 05:52 hat Akihiko Odaki geschrieben:
-> > > 2021年3月9日(火) 0:37 Akihiko Odaki <akihiko.odaki@gmail.com>:
-> > > >
-> > > > 2021年3月9日(火) 0:17 Stefan Hajnoczi <stefanha@redhat.com>:
-> > > > >
-> > > > > The live migration compatibility issue is still present. Migrating to
-> > > > > another host might not work if the block limits are different.
-> > > > >
-> > > > > Here is an idea for solving it:
-> > > > >
-> > > > > Modify include/hw/block/block.h:DEFINE_BLOCK_PROPERTIES_BASE() to
-> > > > > support a new value called "host". The default behavior remains
-> > > > > unchanged for live migration compatibility but now you can use "host" if
-> > > > > you know it's okay but don't care about migration compatibility.
-> > > > >
-> > > > > The downside to this approach is that users must explicitly say
-> > > > > something like --drive ...,opt_io_size=host. But it's still better than
-> > > > > the situation we have today where user must manually enter values for
-> > > > > their disk.
-> > > > >
-> > > > > Does this sound okay to everyone?
-> > > > >
-> > > > > Stefan
-> > > >
-> > > > I wonder how that change affects other block drivers implementing
-> > > > bdrv_probe_blocksizes. As far as I know, the values they report are
-> > > > already used by default, which is contrary to the default not being
-> > > > "host".
-> > > >
-> > > > Regards,
-> > > > Akihiko Odaki
-> > > 
-> > > Let me suggest a variant of Stefan's approach:
-> > > 
-> > > Modify include/hw/block/block.h:DEFINE_BLOCK_PROPERTIES_BASE() to
-> > > support a new value called "host". The default values for block size
-> > > properties may be "host" or not, but they should be consistent. If
-> > > they are "host" by default
-> > 
-> > I'm not sure if it's a good idea, but maybe we could make it so that the
-> > default is "host" only as long as you didn't specify -nodefaults? Then
-> > libvirt would automatically keep the old behaviour (because it always
-> > sets -nodefaults) and manual invocations would usually get the new one.
-> > 
-> > Of course, when I start with "I'm not sure if it's a good idea", it's
-> > usually not, but I wanted to share the thought anyway...
-> 
-> Can you elaborate on what the actual live migration problem is, and
-> its impact ?  This patch is touching the block backends, so I'm
-> wondering how backend data ends up having an impact on the migration
-> stream which is all frontend device data ?  I'm especially concerned
-> by the mention that some block backends already have this problem,
-> and wondering if it already impacts libvirt ?
+On 09/03/21 11:42, Marc-André Lureau wrote:
+> If I remember correctly, there were objections because we wanted to have 
+> an implementation close to QEMU, so we could easily extend it, or add 
+> custom optimizations.
 
-The part that modifies the backend is the boring part (I haven't even
-looked at the code for that one yet).
+I think it's quite mature now.  The code that needs to stay close to 
+QEMU is the locks as they rely on AioContext, but the generic coroutine 
+stuff can certainly be moved out.
 
-The interesting part is the change to hw/block/block.c, which modifies
-the defaults for some qdev properties of block devices. The reason why
-it does so is that it wants to let them default to autodetecting
-whatever is optimal on the host.
-
-The potential conflict between autodetecting qdev property defaults in
-the backend and live migration should be obvious.
-
-> Using -nodefaults is good practice, but I'm still uncomfortable saying
-> that its use is a requirement if you want migration to work, as that
-> feels like a change in semantics for non-libvirt users (who can be
-> mgmt apps, nor merely human interactive users).
-
-We can make live migration work in a way, by including these properties
-in the VM state and then overriding whatever was set on the command line
-with the values from the VM state. (This patch doesn't do this yet, nor
-does it disable live migration, but it just lets the device magically
-change its properties during migration, which is incorrect.)
-
-Of course, this would still mean that the old value is only preserved on
-the destination host as long as the QEMU instance runs. On the next
-boot, the guest visible disk will change.
-
-So if you want stable guest devices, you can't really have any of this
-autodetection. If you set the properties explicitly instead of relying
-on the defaults (which is what you should be doing ideally), you don't
-have the problem, but I'm not sure if we can expect that users are
-actually doing that. Considering -nodefaults would be just another
-attempt to cover most users who care about a stable guest view, but
-don't specify the value for each qdev property.
-
-Kevin
+Paolo
 
 
