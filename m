@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751C3332A41
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:22:06 +0100 (CET)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922D8332A1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:19:16 +0100 (CET)
+Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeBR-0007UP-Fk
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:22:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44014)
+	id 1lJe8h-000491-IS
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:19:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lJdNX-0000Lf-El
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:30:33 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:39503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lJdNV-00088o-He
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:30:31 -0500
-Received: by mail-il1-x12f.google.com with SMTP id d5so12345268iln.6
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:30:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UFiTteGxIWzglXUGobNDEyTTes0z0Yxcm9Sz45fkq5c=;
- b=kd6wxKmGEFltCYg8Rer5UmjKMRbBo6wiWlf7GR5j9zg4xHCtvAE7hFkzi+ZN9st4QG
- qiDdMbXJV1k+AfrJRYYDDNAhij5AJEeb3Iez9a/6bufMej6NMw5YtntxAT8qZfouK/A0
- 8aSEGxooigTlr1DriF75dK1zMStE6q+6gVAcMfYD7DuX2JlFbYMDi+lqp8mq75Cc8zEb
- LjTFzTRcifMVeEHXibk/PrQ0VM+swrkJbkIsykm9RH9W4Lk55hvSfxhm6VHuw25Kq4Qc
- 2LHoQLQrSTFBZtk4sTNwg02cxkGgBMHbIlR1IquxeCYCVGYU54mFFxlFcvdFbRhJ/vbL
- 2Zjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UFiTteGxIWzglXUGobNDEyTTes0z0Yxcm9Sz45fkq5c=;
- b=UeNPJA+dTdJDXFyheH/rntULFeQdhZSiknuOe7BHa02KmMgpp6rODtRgl9tB9F1gPi
- 8U70YB/5e3STMeqrn4bU+JKs6ZEC8dxiwXur06jwnZoCQx6DWlEqlN+EVg4KFVMavDXp
- +fZbN+KrSGqssvtbPAk1dfJNo1TiBs48Im3QTViPvvaYAvr4DijkDFkl8RviUMfouMTn
- HhG6kkBFYRrhgD/JoHf+kGZ0+FEPMkMxCjPyWCHHZDNiYGpqNK6hLbeM5uSJsAsxS2+i
- zRte/45vz5BbMnLQW5n+z/8SP9n5Ivjw9L1GtEKWQzMYVynjZB6AP8GxJMx0VyF3pczS
- 6l8A==
-X-Gm-Message-State: AOAM53079y62jeh++bvgX2bOkV64jP8zlvoFB2H01qizrR1ZPvrGd5Xm
- 5kHhHUuIbYvZXfB7jhyDT0Xazz5wZ396RZJRL34=
-X-Google-Smtp-Source: ABdhPJxFA/FcItgQYz4H8FEMXdK+kGQBgQspAPwn6xeYaYLMDwGfJ+SUXXv0/tauD1sSE4e4aMPx4OSBPVYkCrG8Bfw=
-X-Received: by 2002:a05:6e02:1a0c:: with SMTP id
- s12mr25115995ild.177.1615300228433; 
- Tue, 09 Mar 2021 06:30:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJdMx-00081X-EI
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:29:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJdMv-0007bx-1t
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:29:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615300192;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oRhpyJBNEL7Nd7fkc0QxRcvkdst0aGDSo+U81UMj2ZQ=;
+ b=Ci3Q8E7sgXpnO2ut5rgDz4Bq+ul2NTAs6gUxC+eeB9j5svPCfcW6yPG4GKY4DlSIWIgSek
+ JY5IPst+TpDRDG3goivPfHnvd5kNw6GZGIQb5MDs+vI9zo8q6D/RPEr0YmygSFZPdialK5
+ acPLCcuWiD3MkqRLDZctKrJw3DcY1XE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-NYGri0P9PNSgZUAgUMVP1w-1; Tue, 09 Mar 2021 09:29:50 -0500
+X-MC-Unique: NYGri0P9PNSgZUAgUMVP1w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 345CD1009E2D;
+ Tue,  9 Mar 2021 14:29:49 +0000 (UTC)
+Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70C9F59444;
+ Tue,  9 Mar 2021 14:29:43 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] usb: Un-deprecate -usbdevice (except for -usbdevice audio
+ which gets removed)
+Date: Tue,  9 Mar 2021 15:29:40 +0100
+Message-Id: <20210309142940.943831-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210215231528.2718086-1-alexander.wagner@ulal.de>
- <CAKmqyKM4ewocr51Qhx8R1XR=r2rcgyuBLTqhpi-MYVpFko_Rcg@mail.gmail.com>
- <19c50d64-fe9d-8c72-2002-3586abac821c@ulal.de>
-In-Reply-To: <19c50d64-fe9d-8c72-2002-3586abac821c@ulal.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Mar 2021 09:29:08 -0500
-Message-ID: <CAKmqyKMhDyHkfn7zszhDOiKY5k=JRzmYjz7-QD9j8Ntr=T8Qag@mail.gmail.com>
-Subject: Re: [PATCH] hw/char: disable ibex uart receive if the buffer is full
-To: Alexander Wagner <alexander.wagner@ulal.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,62 +75,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 9, 2021 at 2:27 AM Alexander Wagner
-<alexander.wagner@ulal.de> wrote:
->
->
-> On 08.03.21 14:47, Alistair Francis wrote:
-> >>   hw/char/ibex_uart.c         | 20 +++++++++++++++-----
-> >>   include/hw/char/ibex_uart.h |  4 ++++
-> >>   2 files changed, 19 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-> >> index 89f1182c9b..dac09d53d6 100644
-> >> --- a/hw/char/ibex_uart.c
-> >> +++ b/hw/char/ibex_uart.c
-> >> @@ -66,7 +66,8 @@ static int ibex_uart_can_receive(void *opaque)
-> >>   {
-> >>       IbexUartState *s = opaque;
-> >>
-> >> -    if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
-> >> +    if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK)
-> >> +           && !(s->uart_status & R_STATUS_RXFULL_MASK)) {
-> >>           return 1;
-> >>       }
-> >>
-> >> @@ -83,6 +84,8 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
-> >>
-> >>       s->uart_status &= ~R_STATUS_RXIDLE_MASK;
-> >>       s->uart_status &= ~R_STATUS_RXEMPTY_MASK;
-> >> +    s->uart_status |= R_STATUS_RXFULL_MASK;
-> > Doesn't this mean we set RXFULL on every receive? Shouldn't this check
-> > the rx_level first?
-> >
-> > Alistair
->
-> Thank you for having a look! :)
->
-> Yes, this is correct. The RXFULL is currently set on every receive. The
-> RXFULL is used to indicate to QEMU that the device cannot receive any
-> further bytes.
->
-> As the FIFO buffers are currently not yet implemented I thought it would
-> make sense to behave like the OT UART could only receive one byte at a time.
+When trying to remove the -usbdevice option, there were complaints that
+"-usbdevice braille" is still a very useful shortcut for some people.
+Thus we never remove this option. Since it's not such a big burden to
+keep it around, and it's also convenient in the sense that you don't
+have to worry to enable a host controller explicitly with this option,
+we should remove it from he deprecation list again, and rather properly
+document the possible device for this option instead.
 
-Ah, good point.
+However, there is one exception: "-usbdevice audio" should go away, since
+audio devices without "audiodev=..." parameter are also on the deprecation
+list and you cannot use "-usbdevice audio" with "audiodev".
 
-Can you add a comment where it is set describing that then?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/system/deprecated.rst |  9 ---------
+ hw/usb/dev-audio.c         |  1 -
+ qemu-options.hx            | 38 ++++++++++++++++++++++++++++++++------
+ softmmu/vl.c               |  2 --
+ 4 files changed, 32 insertions(+), 18 deletions(-)
 
-Alistair
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index cfabe69846..816eb4084f 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -21,15 +21,6 @@ deprecated.
+ System emulator command line arguments
+ --------------------------------------
+ 
+-``-usbdevice`` (since 2.10.0)
+-'''''''''''''''''''''''''''''
+-
+-The ``-usbdevice DEV`` argument is now a synonym for setting
+-the ``-device usb-DEV`` argument instead. The deprecated syntax
+-would automatically enable USB support on the machine type.
+-If using the new syntax, USB support must be explicitly
+-enabled via the ``-machine usb=on`` argument.
+-
+ ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index e1486f81e0..f5cb246792 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -1024,7 +1024,6 @@ static const TypeInfo usb_audio_info = {
+ static void usb_audio_register_types(void)
+ {
+     type_register_static(&usb_audio_info);
+-    usb_legacy_register(TYPE_USB_AUDIO, "audio", NULL);
+ }
+ 
+ type_init(usb_audio_register_types)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 90801286c6..cef8c2da57 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1705,7 +1705,7 @@ ERST
+ 
+ DEFHEADING()
+ 
+-DEFHEADING(USB options:)
++DEFHEADING(USB convenience options:)
+ 
+ DEF("usb", 0, QEMU_OPTION_usb,
+     "-usb            enable on-board USB host controller (if not enabled by default)\n",
+@@ -1723,9 +1723,31 @@ DEF("usbdevice", HAS_ARG, QEMU_OPTION_usbdevice,
+     QEMU_ARCH_ALL)
+ SRST
+ ``-usbdevice devname``
+-    Add the USB device devname. Note that this option is deprecated,
+-    please use ``-device usb-...`` instead. See the chapter about
++    Add the USB device devname, and enable an on-board USB controller
++    if possible and necessary (just like it can be done via
++    ``-machine usb=on``). Note that this option is mainly intended for
++    the user's convenience only. More fine-grained control can be
++    achieved by selecting a USB host controller (if necessary) and the
++    desired USB device via the ``-device`` option instead. For example,
++    instead of using ``-usbdevice mouse`` it is possible to use
++    ``-device qemu-xhci -device usb-mouse`` to connect the USB mouse
++    to a USB 3.0 controller instead (at least on machines that support
++    PCI and do not have an USB controller enabled by default yet).
++    For more details, see the chapter about
+     :ref:`Connecting USB devices` in the System Emulation Users Guide.
++    Possible devices for devname are:
++
++    ``braille``
++        Braille device. This will use BrlAPI to display the braille
++        output on a real or fake device (i.e. it also creates a
++        corresponding ``braille`` chardev automatically beside the
++        ``usb-braille`` USB device).
++
++    ``ccid``
++        Smartcard reader device
++
++    ``keyboard``
++        Standard USB keyboard. Will override the PS/2 keyboard (if present).
+ 
+     ``mouse``
+         Virtual Mouse. This will override the PS/2 mouse emulation when
+@@ -1737,9 +1759,13 @@ SRST
+         position without having to grab the mouse. Also overrides the
+         PS/2 mouse emulation when activated.
+ 
+-    ``braille``
+-        Braille device. This will use BrlAPI to display the braille
+-        output on a real or fake device.
++    ``u2f-key``
++        U2F (Universal Second Factor) key.
++
++    ``wacom-tablet``
++        Wacom PenPartner USB tablet.
++
++
+ ERST
+ 
+ DEFHEADING()
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ff488ea3e7..76ebe7bb7a 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3180,8 +3180,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 break;
+             case QEMU_OPTION_usbdevice:
+-                error_report("'-usbdevice' is deprecated, please use "
+-                             "'-device usb-...' instead");
+                 olist = qemu_find_opts("machine");
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 add_device_config(DEV_USB, optarg);
+-- 
+2.27.0
 
->
-> Alex
->
 
