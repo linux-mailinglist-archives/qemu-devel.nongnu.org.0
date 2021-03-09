@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85668332768
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:43:04 +0100 (CET)
-Received: from localhost ([::1]:41676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE6233277B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:48:10 +0100 (CET)
+Received: from localhost ([::1]:44668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcdb-0000Cv-KP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:43:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
+	id 1lJciX-0001ky-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:48:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJcbo-00084E-Pp; Tue, 09 Mar 2021 08:41:12 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJcbk-0001Zp-E2; Tue, 09 Mar 2021 08:41:12 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2EAD7AC17;
- Tue,  9 Mar 2021 13:41:05 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210221222617.2579610-1-f4bug@amsat.org>
- <20210221222617.2579610-2-f4bug@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
-Date: Tue, 9 Mar 2021 14:41:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lJchW-0001LM-1K
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:47:06 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lJchU-0004G0-79
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:47:05 -0500
+Received: by mail-ed1-x534.google.com with SMTP id dm26so20132271edb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GcK/2jjSRhgYCHWQF1KkIFwILgjiubXjMmZkZUi/zM4=;
+ b=N3Vq1pH3WxfgEYT4O5v0gJbkceq0I453NBRI6ddcSLZk9uCNXmyLXOOVXvUrKGoRDG
+ EGHB+5GKvlHEfFRI6ktHvu89fngzeuFfIWPDAZlx3sHfLiyczT83zm5Q1vAibQTI57P4
+ yhMQOPCueIUn1HYlQH4r6pdfc9gyl1fLsp7p+PGU7fhmHfQwLm7qbCO2zMQu7JRW1B2P
+ aivIk4Gj+cbQ6F0r852Ss3a5swOMleBC/YdDISotVtostHY35K4YAyHADfs2UOVd3+fH
+ ZGqeuWMTAftuBJsFB4EC+8X2MQ0XIF6gQHgMccgvylx5IgCkmEkaJXJEzCmZcoU6SKZy
+ vH2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GcK/2jjSRhgYCHWQF1KkIFwILgjiubXjMmZkZUi/zM4=;
+ b=YaSCrEZt+VkcKzpi7GesiNbZ7TPgA5XXkToL3tyHTL0fFMmr8P0vTxTqQp1fdQHYB/
+ TUqlyLdgEMDdKPAAB2jaD1XuvzFKlQW4ZzKfNOaadUyLn4LOuVsuCLNPDPb9BxqvQ4yG
+ NkQtPxT/J11paJhwXhZgW88EAsyBqdt6VhAtPNYHmMgp5iacxRCCR0qb0qMF60KupyAn
+ kdhziNKz4SpasoCPUhkAyLzC5QZ6bZkgpcSKcgZoYLCRX5Here4SFlD/aLgc/iy58/u4
+ usAaSLlAxljZC/G4Zc0exztZeEhvmi4qs9wSZt89Mf4FzEr8jfiTIAogQA+d3Fi5ilj3
+ VfGw==
+X-Gm-Message-State: AOAM532bkbOmHbMJ+kWuQtNg9isjtMS+OvlTwZYMOxB5trz7pOP+8x54
+ irOHhAsVDXXkwOM1wnY8tLJlF+i4yZo=
+X-Google-Smtp-Source: ABdhPJwUImF7qx0AH9fe8OtkD358NPnnjfFJiq/kOzP5gsl9RMfDWy3GN+pUBQR1ElJyUlo3ni7L5A==
+X-Received: by 2002:aa7:cf02:: with SMTP id a2mr4158809edy.59.1615297621644;
+ Tue, 09 Mar 2021 05:47:01 -0800 (PST)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ y16sm8660948ejk.43.2021.03.09.05.47.01 for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 05:47:01 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Revert "accel: kvm: Add aligment assert for
+ kvm_log_clear_one_slot"
+Date: Tue,  9 Mar 2021 14:47:00 +0100
+Message-Id: <20210309134700.186694-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210221222617.2579610-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,90 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
-> IDAU is specific to M-profile. KVM only supports A-profile.
-> Restrict this interface to TCG, as it is pointless (and
-> confusing) on a KVM-only build.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This reverts commit 3920552846e881bafa9f9aad0bb1a6eef874d7fb.
+Thomas Huth reported a failure with CentOS 6 guests:
 
+../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
 
-This one breaks the KVM tests hard though (most of them).
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ accel/kvm/kvm-all.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-I will try to figure out why.
-
-Ciao,
-
-Claudio
-
-
-> ---
->  target/arm/cpu.c     | 7 -------
->  target/arm/cpu_tcg.c | 8 ++++++++
->  2 files changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index b8bc89e71fc..a772fd4926f 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
->      .class_init = arm_cpu_class_init,
->  };
->  
-> -static const TypeInfo idau_interface_type_info = {
-> -    .name = TYPE_IDAU_INTERFACE,
-> -    .parent = TYPE_INTERFACE,
-> -    .class_size = sizeof(IDAUInterfaceClass),
-> -};
-> -
->  static void arm_cpu_register_types(void)
->  {
->      const size_t cpu_count = ARRAY_SIZE(arm_cpus);
-> @@ -2399,7 +2393,6 @@ static void arm_cpu_register_types(void)
->      if (cpu_count) {
->          size_t i;
->  
-> -        type_register_static(&idau_interface_type_info);
->          for (i = 0; i < cpu_count; ++i) {
->              arm_cpu_register(&arm_cpus[i]);
->          }
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index c29b434c60d..fb07a336939 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -14,6 +14,7 @@
->  #include "hw/core/tcg-cpu-ops.h"
->  #endif /* CONFIG_TCG */
->  #include "internals.h"
-> +#include "target/arm/idau.h"
->  
->  /* CPU models. These are not needed for the AArch64 linux-user build. */
->  #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-> @@ -739,10 +740,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
->      { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
->  };
->  
-> +static const TypeInfo idau_interface_type_info = {
-> +    .name = TYPE_IDAU_INTERFACE,
-> +    .parent = TYPE_INTERFACE,
-> +    .class_size = sizeof(IDAUInterfaceClass),
-> +};
-> +
->  static void arm_tcg_cpu_register_types(void)
->  {
->      size_t i;
->  
-> +    type_register_static(&idau_interface_type_info);
->      for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
->          arm_cpu_register(&arm_tcg_cpus[i]);
->      }
-> 
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index f88a52393f..ffce83f1a7 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -673,10 +673,6 @@ out:
+ #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
+ #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
+ 
+-/*
+- * As the granule of kvm dirty log is qemu_real_host_page_size,
+- * @start and @size are expected and restricted to align to it.
+- */
+ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+                                   uint64_t size)
+ {
+@@ -686,9 +682,6 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+     unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+     int ret;
+ 
+-    /* Make sure start and size are qemu_real_host_page_size aligned */
+-    assert(QEMU_IS_ALIGNED(start | size, psize));
+-
+     /*
+      * We need to extend either the start or the size or both to
+      * satisfy the KVM interface requirement.  Firstly, do the start
+-- 
+2.29.2
 
 
