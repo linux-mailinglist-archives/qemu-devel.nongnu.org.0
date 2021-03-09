@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F36E3330FE
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B5C3330FD
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:37:16 +0100 (CET)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJk2V-00067s-Cn
+	id 1lJk2V-00067j-8q
 	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lJk0k-0004Sp-Rj
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 16:35:26 -0500
-Received: from mail-pf1-f174.google.com ([209.85.210.174]:40642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lJk0d-0005cZ-OD
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 16:35:22 -0500
-Received: by mail-pf1-f174.google.com with SMTP id x7so6896740pfi.7
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 13:35:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=h87+BQRAY+NP+o3seQKydpXF/ivAKG7yDbH/a9XLY/k=;
- b=trDuv/3igQ2FLoiN/HZvR57XEv15iF/2+8yXemM4YoctYuaABGwSOIyV2KAgsBLvNt
- dzOc7IwGxG5OiAuPDRWeSW06HZxSTG7Zmr122ofANqufzHCR4Q1SnHoYb6XVYcA3odHX
- 46DTbLXfiJTTkBWxrR8pyIPN0qCiKX0x/F3TvVaEr+Dfqu/i8fBocAzUJGyV3JONLBqT
- 251xeza5xNwYzzSHs9hs9jfCIu6yqUoS3YdlqYVdGJxzpFC+a+TKca8tY8zJv/xAf+Ef
- KQKszckGSCsik4cjeKOY3V38ds/JUKQPgTq5YE3Thx+izJ7+TiHIs7a9rAcXZCEJT3nv
- GxuA==
-X-Gm-Message-State: AOAM532lycDDfnO/dK7vch24l7BCRpZbHWjljhQ6evE2gQg2IT8b18en
- UIM2pnT4bwaoyhTj4U3vffjgTGysjBQ=
-X-Google-Smtp-Source: ABdhPJxdfLyrLVM8pitBFuesAGn7PTaYxAcGRyzuUZZuCkEhzmc98YBZoSCdWcPjoKaVR0k0nzPypw==
-X-Received: by 2002:a63:2bc4:: with SMTP id
- r187mr27048708pgr.131.1615325715953; 
- Tue, 09 Mar 2021 13:35:15 -0800 (PST)
-Received: from Yifans-Mac-Mini.hsd1.ca.comcast.net
- (c-73-170-32-51.hsd1.ca.comcast.net. [73.170.32.51])
- by smtp.gmail.com with ESMTPSA id y68sm15433995pgy.5.2021.03.09.13.35.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Mar 2021 13:35:15 -0800 (PST)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [RFC] hw/display: add virtio-ramfb device
-Date: Tue,  9 Mar 2021 13:35:13 -0800
-Message-Id: <20210309213513.12925-1-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.210.174;
- envelope-from=osy86github@gmail.com; helo=mail-pf1-f174.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1lJk0v-0004VD-G0; Tue, 09 Mar 2021 16:35:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1lJk0h-0005cm-C7; Tue, 09 Mar 2021 16:35:34 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 915AC64F78;
+ Tue,  9 Mar 2021 21:35:17 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1lJk0Z-000dZe-IM; Tue, 09 Mar 2021 21:35:15 +0000
+Date: Tue, 09 Mar 2021 21:35:14 +0000
+Message-ID: <87y2ewqact.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH] hw/arm/virt: KVM: The IPA lower bound is 32
+In-Reply-To: <20210309200606.kjjbxyyzijv2qsd4@kamzik.brq.redhat.com>
+References: <20210309185939.188431-1-drjones@redhat.com>
+ <87eegoxhd5.wl-maz@kernel.org>
+ <20210309200606.kjjbxyyzijv2qsd4@kamzik.brq.redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: drjones@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, eric.auger@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,234 +68,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Joelle van Dyne <j@getutm.app>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like virtio-vga, but using ramfb instead of legacy vga.
-Useful for booting from OVMF (with updated drivers) into Windows
-ARM which expects a linear FB that the virtio-gpu driver in OVMF
-does not provide.
+On Tue, 09 Mar 2021 20:06:06 +0000,
+Andrew Jones <drjones@redhat.com> wrote:
+> 
+> On Tue, Mar 09, 2021 at 07:21:58PM +0000, Marc Zyngier wrote:
+> > Hi Andrew,
+> > 
+> > On Tue, 09 Mar 2021 18:59:39 +0000,
+> > Andrew Jones <drjones@redhat.com> wrote:
+> > > 
+> > > The virt machine already checks KVM_CAP_ARM_VM_IPA_SIZE to get the
+> > > upper bound of the IPA size. If that bound is lower than the highest
+> > > possible GPA for the machine, then QEMU will error out. However, the
+> > > IPA is set to 40 when the highest GPA is less than or equal to 40,
+> > > even when KVM may only support an IPA limit as low as 32. This means
+> > > KVM may fail the VM creation unnecessarily. Additionally, 40 is
+> > > selected with the value 0, which means use the default, and that gets
+> > > around a check in some versions of KVM, causing a difficult to debug
+> > > fail. Always use the IPA size that corresponds to the highest possible
+> > > GPA, unless it's lower than 32, in which case use 32.
+> > > 
+> > > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > > ---
+> > >  hw/arm/virt.c | 9 ++++-----
+> > >  1 file changed, 4 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > > index 371147f3ae9c..7bf563715b4e 100644
+> > > --- a/hw/arm/virt.c
+> > > +++ b/hw/arm/virt.c
+> > > @@ -2547,14 +2547,13 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+> > >                       "require an IPA range (%d bits) larger than "
+> > >                       "the one supported by the host (%d bits)",
+> > >                       requested_pa_size, max_vm_pa_size);
+> > > -       exit(1);
+> > > +        exit(1);
+> > >      }
+> > > +
+> > >      /*
+> > > -     * By default we return 0 which corresponds to an implicit legacy
+> > > -     * 40b IPA setting. Otherwise we return the actual requested PA
+> > > -     * logsize
+> > > +     * KVM requires the IPA size to be at least 32 bits.
+> > >       */
+> > > -    return requested_pa_size > 40 ? requested_pa_size : 0;
+> > > +    return requested_pa_size < 32 ? 32 : requested_pa_size;
+> > 
+> > Doesn't this break on older kernels (pre 233a7cb23531, which is
+> > anything up 4.19), where the 'type' parameter passed at VM creation
+> > time was expected to be 0 and nothing else?
+> 
+> Doh, of course!
+> 
+> > 
+> > I had a quick go at qemu a couple of weeks back and came up with the
+> > following hack, but never actually tested it (there is no way qemu can
+> > fit in the initramfs I am feeding to this damn machine...).
+> > 
+> > Thanks,
+> > 
+> > 	M.
+> > 
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 371147f3ae..3301bb8dba 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -2534,8 +2534,11 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+> >  static int virt_kvm_type(MachineState *ms, const char *type_str)
+> >  {
+> >      VirtMachineState *vms = VIRT_MACHINE(ms);
+> > -    int max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms);
+> > +    int max_vm_pa_size;
+> >      int requested_pa_size;
+> > +    bool fixed_ipa;
+> > +
+> > +    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
+> >  
+> >      /* we freeze the memory map to compute the highest gpa */
+> >      virt_set_memmap(vms);
+> > @@ -2550,11 +2553,12 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+> >         exit(1);
+> >      }
+> >      /*
+> > -     * By default we return 0 which corresponds to an implicit legacy
+> > -     * 40b IPA setting. Otherwise we return the actual requested PA
+> > -     * logsize
+> > +     * We return the requested PA log size, unless KVM only supports
+> > +     * the implicit legacy 40b IPA setting, in which case we return 0.
+> >       */
+> > -    return requested_pa_size > 40 ? requested_pa_size : 0;
+> > +    if (fixed_ipa)
+> > +        return 0;
+> > +    return requested_pa_size;
+> 
+> Looks good to me. I think we should still ensure requested_pa_size is at
+> least 32 though.
 
-This code was originally written by Gerd Hoffmann and was
-updated to contain later changes to the display driver tree.
+Yes, absolutely.
 
-Co-authored-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- hw/display/virtio-ramfb.c | 188 ++++++++++++++++++++++++++++++++++++++
- hw/display/meson.build    |   1 +
- 2 files changed, 189 insertions(+)
- create mode 100644 hw/display/virtio-ramfb.c
+> I can add that and test this tomorrow. Should I post it with your
+> authorship?
 
-diff --git a/hw/display/virtio-ramfb.c b/hw/display/virtio-ramfb.c
-new file mode 100644
-index 0000000000..d08bb90a14
---- /dev/null
-+++ b/hw/display/virtio-ramfb.c
-@@ -0,0 +1,188 @@
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "ui/console.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/virtio-gpu-pci.h"
-+#include "qapi/error.h"
-+#include "hw/display/ramfb.h"
-+#include "qom/object.h"
-+
-+/*
-+ * virtio-ramfb-base: This extends VirtioPCIProxy.
-+ */
-+#define TYPE_VIRTIO_RAMFB_BASE "virtio-ramfb-base"
-+OBJECT_DECLARE_TYPE(VirtIORAMFBBase, VirtIORAMFBBaseClass,
-+                    VIRTIO_RAMFB_BASE)
-+
-+struct VirtIORAMFBBase {
-+    VirtIOPCIProxy parent_obj;
-+
-+    VirtIOGPUBase *vgpu;
-+    RAMFBState    *ramfb;
-+};
-+
-+struct VirtIORAMFBBaseClass {
-+    VirtioPCIClass parent_class;
-+
-+    DeviceReset parent_reset;
-+};
-+
-+static void virtio_ramfb_invalidate_display(void *opaque)
-+{
-+    VirtIORAMFBBase *vramfb = opaque;
-+    VirtIOGPUBase *g = vramfb->vgpu;
-+
-+    if (g->enable) {
-+        g->hw_ops->invalidate(g);
-+    }
-+}
-+
-+static void virtio_ramfb_update_display(void *opaque)
-+{
-+    VirtIORAMFBBase *vramfb = opaque;
-+    VirtIOGPUBase *g = vramfb->vgpu;
-+
-+    if (g->enable) {
-+        g->hw_ops->gfx_update(g);
-+    } else {
-+        ramfb_display_update(g->scanout[0].con, vramfb->ramfb);
-+    }
-+}
-+
-+static int virtio_ramfb_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
-+{
-+    VirtIORAMFBBase *vramfb = opaque;
-+    VirtIOGPUBase *g = vramfb->vgpu;
-+
-+    if (g->hw_ops->ui_info) {
-+        return g->hw_ops->ui_info(g, idx, info);
-+    }
-+    return -1;
-+}
-+
-+static void virtio_ramfb_gl_block(void *opaque, bool block)
-+{
-+    VirtIORAMFBBase *vramfb = opaque;
-+    VirtIOGPUBase *g = vramfb->vgpu;
-+
-+    if (g->hw_ops->gl_block) {
-+        g->hw_ops->gl_block(g, block);
-+    }
-+}
-+
-+static const GraphicHwOps virtio_ramfb_ops = {
-+    .invalidate = virtio_ramfb_invalidate_display,
-+    .gfx_update = virtio_ramfb_update_display,
-+    .ui_info = virtio_ramfb_ui_info,
-+    .gl_block = virtio_ramfb_gl_block,
-+};
-+
-+static const VMStateDescription vmstate_virtio_ramfb = {
-+    .name = "virtio-ramfb",
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-+    .fields = (VMStateField[]) {
-+        /* no pci stuff here, saving the virtio device will handle that */
-+        /* FIXME */
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+/* RAMFB device wrapper around PCI device around virtio GPU */
-+static void virtio_ramfb_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VirtIORAMFBBase *vramfb = VIRTIO_RAMFB_BASE(vpci_dev);
-+    VirtIOGPUBase *g = vramfb->vgpu;
-+    int i;
-+
-+    /* init virtio bits */
-+    virtio_pci_force_virtio_1(vpci_dev);
-+    if (!qdev_realize(DEVICE(g), BUS(&vpci_dev->bus), errp)) {
-+        return;
-+    }
-+
-+    /* init ramfb */
-+    vramfb->ramfb = ramfb_setup(errp);
-+    graphic_console_set_hwops(g->scanout[0].con, &virtio_ramfb_ops, vramfb);
-+
-+    for (i = 0; i < g->conf.max_outputs; i++) {
-+        object_property_set_link(OBJECT(g->scanout[i].con), "device",
-+                                 OBJECT(vpci_dev), &error_abort);
-+    }
-+}
-+
-+static void virtio_ramfb_reset(DeviceState *dev)
-+{
-+    VirtIORAMFBBaseClass *klass = VIRTIO_RAMFB_BASE_GET_CLASS(dev);
-+
-+    /* reset virtio-gpu */
-+    klass->parent_reset(dev);
-+}
-+
-+static Property virtio_ramfb_base_properties[] = {
-+    DEFINE_VIRTIO_GPU_PCI_PROPERTIES(VirtIOPCIProxy),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void virtio_ramfb_base_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    VirtIORAMFBBaseClass *v = VIRTIO_RAMFB_BASE_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+    device_class_set_props(dc, virtio_ramfb_base_properties);
-+    dc->vmsd = &vmstate_virtio_ramfb;
-+    dc->hotpluggable = false;
-+    device_class_set_parent_reset(dc, virtio_ramfb_reset,
-+                                  &v->parent_reset);
-+
-+    k->realize = virtio_ramfb_realize;
-+    pcidev_k->class_id = PCI_CLASS_DISPLAY_OTHER;
-+}
-+
-+static TypeInfo virtio_ramfb_base_info = {
-+    .name          = TYPE_VIRTIO_RAMFB_BASE,
-+    .parent        = TYPE_VIRTIO_PCI,
-+    .instance_size = sizeof(VirtIORAMFBBase),
-+    .class_size    = sizeof(VirtIORAMFBBaseClass),
-+    .class_init    = virtio_ramfb_base_class_init,
-+    .abstract      = true,
-+};
-+
-+#define TYPE_VIRTIO_RAMFB "virtio-ramfb"
-+
-+typedef struct VirtIORAMFB VirtIORAMFB;
-+DECLARE_INSTANCE_CHECKER(VirtIORAMFB, VIRTIO_RAMFB,
-+                         TYPE_VIRTIO_RAMFB)
-+
-+struct VirtIORAMFB {
-+    VirtIORAMFBBase parent_obj;
-+
-+    VirtIOGPU     vdev;
-+};
-+
-+static void virtio_ramfb_inst_initfn(Object *obj)
-+{
-+    VirtIORAMFB *dev = VIRTIO_RAMFB(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_GPU);
-+    VIRTIO_RAMFB_BASE(dev)->vgpu = VIRTIO_GPU_BASE(&dev->vdev);
-+}
-+
-+static VirtioPCIDeviceTypeInfo virtio_ramfb_info = {
-+    .generic_name  = TYPE_VIRTIO_RAMFB,
-+    .parent        = TYPE_VIRTIO_RAMFB_BASE,
-+    .instance_size = sizeof(VirtIORAMFB),
-+    .instance_init = virtio_ramfb_inst_initfn,
-+};
-+
-+static void virtio_ramfb_register_types(void)
-+{
-+    type_register_static(&virtio_ramfb_base_info);
-+    virtio_pci_types_register(&virtio_ramfb_info);
-+}
-+
-+type_init(virtio_ramfb_register_types)
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 9d79e3951d..14f5fa39f4 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -60,6 +60,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL'],
-                     if_true: [files('virtio-gpu-3d.c'), pixman, virgl])
-   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
-+  virtio_gpu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('virtio-ramfb.c'))
-   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
- endif
- 
+No, please keep it with yours (add a Suggested-by: tag if you really
+want to). If you can give it a good shake, that'd be great. I'll try
+and repost the kernel fixes tomorrow.
+
+Thanks,
+
+	M.
+
 -- 
-2.28.0
-
+Without deviation from the norm, progress is not possible.
 
