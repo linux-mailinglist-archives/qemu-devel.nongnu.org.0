@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AAD332E54
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:33:58 +0100 (CET)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02D7332E5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:36:00 +0100 (CET)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhB7-0005P5-M4
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:33:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47578)
+	id 1lJhD6-00072a-07
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:36:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf8O-0000kB-D8
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:01 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:41380)
+ id 1lJf8S-0000mq-IP
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:04 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:33977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf86-0002tI-Ng
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:00 -0500
-Received: by mail-oi1-x232.google.com with SMTP id y131so12660185oia.8
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:41 -0800 (PST)
+ id 1lJf86-0002tU-R2
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:04 -0500
+Received: by mail-oi1-x230.google.com with SMTP id x78so15566466oix.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uNObzhk2VNVhoLK83yWNuS3fwlbTMuGpnWo81q3J43E=;
- b=hjX1lJBRj85ajk/9oVOo6QL3G+U1zwzG7Ouz5SnjU7Wxfx6kKqM/GXaZPYVIumXrdq
- bqdffZbkrHDCdNf6GCCoR8lfvIYRt6G/oRj8KLNPKKe/rymjKV1wbizc9pYVMzGthrzb
- njKrrOdvSPjcp/FKJKTATZX7qltZeyYUz0m6hyAC3OdBNnusV2Yg2aTWSFQhSx4fdhmh
- a/POpkqppQ8fuLg00sLHItFwyIhBV/ju3LyXTjkqfkJIvgFAl0+DIP6txzN/NBLv+kXm
- Pt4gp3fxB73VdZTQtxe9D7qkm+KE5yonvYKV8mOrSPFiDEEOZYnJ6DzA7cSeGYSeGJ0E
- qBpw==
+ bh=WagiVrDfUgMksBOhokHdQsJkyD0LF4+ZrDTc70WJHXM=;
+ b=PNVqX2QFLjutgz74hzJHUwhuoveZ0LoTQOQi/EHylwnRhgRKw9cqqSNHsyYfJRCKuz
+ yiOAr4D1dPSucfUayf3xY9LTP3Oa1fRtsDgYemmkL0DdVUkb6/AtPTEyi1UAIxhHWKrk
+ dJfP5q1tA/WpZKJMVVJ5HVNhWFD3l6xT3wxAdevi9m0GdpRZ6L18tcLlFjVGu//1yx/c
+ KPh0UWvUc+WMjFiL+MqUN2jA/1P1zsfHcdSmKe8vQ3DIR68Av7OTwudKtKbAoBHk/kcx
+ YIrpuDg38vSGJiSLvRWXKJJgcd5t314ufHw0+DYsb1MStTtsyym6u71i7UGlOo/UlnBX
+ Aikw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uNObzhk2VNVhoLK83yWNuS3fwlbTMuGpnWo81q3J43E=;
- b=HVSpzI8AoXUhgSHxTwX8u6AmwE+GwbwtelLze4X8ZjaHH2RXiIeyfMeOAbUUFbFKAw
- 1vJFp+dS2xtHwmWWtkeGGIDkcEmc53up2My9n8aw9MGGE6//RXKxH8XsfKUwjFyMR9Ci
- E74hjIFBifFM9LWwst2cyIxF5VXdgflj5KoP5W04m/w31OoDj5+4pHFJM1mDDAgEJMep
- +yL0gVEiOqyUrUS50mhoFYrfFsixXjDoGCU9Tdfge4UN2KMm3WYi3Lyk93ieSccQfy1l
- wVCFIpiU2zWT6hhBdWyB/nsKQHr8qCN772AGT5Ahauz/fPfaYGBCwLuVjrs3Lziak7ib
- dM8A==
-X-Gm-Message-State: AOAM533lAOVULVFEGpJq8Fb/ZI0QsTAY7Z7Ra7ETtENn2cFxTWvcdc9o
- n5z7a56/aVTfSQ95SKLmJYhh4CnQcd9/2rXl
-X-Google-Smtp-Source: ABdhPJyra2q6ajRQmUQJ67XylZBr9PBK4PzpjTXGq8nrL+fA2Bkz845QIF4lh3X6/wKrGnfEoCOwng==
-X-Received: by 2002:aca:cfd3:: with SMTP id f202mr3470893oig.155.1615306960747; 
- Tue, 09 Mar 2021 08:22:40 -0800 (PST)
+ bh=WagiVrDfUgMksBOhokHdQsJkyD0LF4+ZrDTc70WJHXM=;
+ b=dqvBeHtxgRUMSOyo9XyK4ocuMptGO8rd/BDelnIhXYiKnXxfUJJrIVmllGaW0xOayz
+ Gp5ZOD46kAhYGFjQIzNsSZhJfe/cgiCsipolJVnNubbSVTQyTTOcgJt+vHZG1+OiufoK
+ jr408CRpf7RaIRbfO/NT++rzKjcUFEg5DSkU/Fae6dufRFktB8pyXg9adS3J0k73y7J6
+ ++4Dz0ZMdZuXd92UU70aQeKMIWh1VeCF9c/8eqc/YrtXwwgxk2xJhfeW5AUyV4QPan02
+ 95UZ7VwLVd9qHPUROkmA8XW7m3HkXFDZVUSilYeQdW7mHhrzspaPW19AbDWdLlBuYTsi
+ lr8A==
+X-Gm-Message-State: AOAM530crL5lmtv0dh3kfjNTn0D2amBnRSeahDWn6SR2fA9dDFNo8adM
+ JtptVK76kLZoPGuApSGW2cebTdtV4+iOdmXX
+X-Google-Smtp-Source: ABdhPJzAyUWwVYrMRylfKRWlN07dLoJ0mwppze0uyRzH5ZdtXH4Z4M956GV91Pv6/1Xkg6kl3PAx5g==
+X-Received: by 2002:aca:4e13:: with SMTP id c19mr3572899oib.40.1615306961818; 
+ Tue, 09 Mar 2021 08:22:41 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.39
+ by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 08:22:40 -0800 (PST)
+ Tue, 09 Mar 2021 08:22:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 76/78] target/arm: Implement SVE2 fp multiply-add long
-Date: Tue,  9 Mar 2021 08:20:39 -0800
-Message-Id: <20210309162041.23124-77-richard.henderson@linaro.org>
+Subject: [PATCH v4 77/78] target/arm: Implement SVE2 complex integer dot
+ product
+Date: Tue,  9 Mar 2021 08:20:40 -0800
+Message-Id: <20210309162041.23124-78-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210309162041.23124-1-richard.henderson@linaro.org>
 References: <20210309162041.23124-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,225 +84,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
- Stephen Long <steplong@quicinc.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
-
-Implements both vectored and indexed FMLALB, FMLALT, FMLSLB, FMLSLT
-
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200504171240.11220-1-steplong@quicinc.com>
-[rth: Rearrange to use float16_to_float32_by_bits.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.h        |  5 +++
- target/arm/sve.decode      | 12 ++++++
- target/arm/translate-sve.c | 75 ++++++++++++++++++++++++++++++++++++++
- target/arm/vec_helper.c    | 51 ++++++++++++++++++++++++++
- 4 files changed, 143 insertions(+)
+ target/arm/helper-sve.h    | 10 ++++
+ target/arm/sve.decode      |  9 ++++
+ target/arm/sve_helper.c    | 99 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c | 17 +++++++
+ 4 files changed, 135 insertions(+)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 86f938c938..e8b16a401f 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -987,6 +987,11 @@ DEF_HELPER_FLAGS_4(sve2_sqrdmulh_idx_s, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_4(sve2_sqrdmulh_idx_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_6(sve2_fmlal_zzzw_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_6(sve2_fmlal_zzxw_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, ptr, i32)
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 43ee4238de..955d14b7ac 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2784,3 +2784,13 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
 +
- DEF_HELPER_FLAGS_4(gvec_xar_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- 
- #ifdef TARGET_AARCH64
++DEF_HELPER_FLAGS_5(sve2_cdot_zzzz_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_cdot_zzzz_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_cdot_idx_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_cdot_idx_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index f2a66a159a..b5c53b4c40 100644
+index b5c53b4c40..289a3576c3 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1601,3 +1601,15 @@ FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
+@@ -811,6 +811,9 @@ MUL_zzi         00100101 .. 110 000 110 ........ .....          @rdn_i8s
+ DOT_zzzz        01000100 1 sz:1 0 rm:5 00000 u:1 rn:5 rd:5 \
+                 ra=%reg_movprfx
  
- ### SVE2 floating-point convert to integer
- FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
++# SVE2 complex dot product (vectors)
++CDOT_zzzz       01000100 esz:2 0 rm:5 0001 rot:2 rn:5 rd:5  ra=%reg_movprfx
 +
-+### SVE2 floating-point multiply-add long (vectors)
-+FMLALB_zzzw     01100100 .. 1 ..... 10 0 00 0 ..... .....  @rda_rn_rm
-+FMLALT_zzzw     01100100 .. 1 ..... 10 0 00 1 ..... .....  @rda_rn_rm
-+FMLSLB_zzzw     01100100 .. 1 ..... 10 1 00 0 ..... .....  @rda_rn_rm
-+FMLSLT_zzzw     01100100 .. 1 ..... 10 1 00 1 ..... .....  @rda_rn_rm
+ #### SVE Multiply - Indexed
+ 
+ # SVE integer dot product (indexed)
+@@ -849,6 +852,12 @@ SQDMLSLB_zzxw_d 01000100 .. 1 ..... 0011.0 ..... .....          @rrxw_d
+ SQDMLSLT_zzxw_s 01000100 .. 1 ..... 0011.1 ..... .....          @rrxw_s
+ SQDMLSLT_zzxw_d 01000100 .. 1 ..... 0011.1 ..... .....          @rrxw_d
+ 
++# SVE2 complex integer dot product (indexed)
++CDOT_zzxw_s     01000100 10 1 index:2 rm:3 0100 rot:2 rn:5 rd:5 \
++                ra=%reg_movprfx
++CDOT_zzxw_d     01000100 11 1 index:1 rm:4 0100 rot:2 rn:5 rd:5 \
++                ra=%reg_movprfx
 +
-+### SVE2 floating-point multiply-add long (indexed)
-+FMLALB_zzxw     01100100 .. 1 ..... 0100.0 ..... .....     @rrxw_s
-+FMLALT_zzxw     01100100 .. 1 ..... 0100.1 ..... .....     @rrxw_s
-+FMLSLB_zzxw     01100100 .. 1 ..... 0110.0 ..... .....     @rrxw_s
-+FMLSLT_zzxw     01100100 .. 1 ..... 0110.1 ..... .....     @rrxw_s
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 4002bc5ed4..af2c6fbb9e 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -8519,3 +8519,78 @@ static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
-     }
-     return true;
- }
-+
-+static bool do_FMLAL_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sub, bool sel)
-+{
-+    if (a->esz != MO_32 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_4_ptr(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           vec_full_reg_offset(s, a->rm),
-+                           vec_full_reg_offset(s, a->ra),
-+                           cpu_env, vsz, vsz, (sel << 1) | sub,
-+                           gen_helper_sve2_fmlal_zzzw_s);
-+    }
-+    return true;
-+}
-+
-+static bool trans_FMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
-+{
-+    return do_FMLAL_zzzw(s, a, false, false);
-+}
-+
-+static bool trans_FMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
-+{
-+    return do_FMLAL_zzzw(s, a, false, true);
-+}
-+
-+static bool trans_FMLSLB_zzzw(DisasContext *s, arg_rrrr_esz *a)
-+{
-+    return do_FMLAL_zzzw(s, a, true, false);
-+}
-+
-+static bool trans_FMLSLT_zzzw(DisasContext *s, arg_rrrr_esz *a)
-+{
-+    return do_FMLAL_zzzw(s, a, true, true);
-+}
-+
-+static bool do_FMLAL_zzxw(DisasContext *s, arg_rrxr_esz *a, bool sub, bool sel)
-+{
-+    if (a->esz != MO_32 || !dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_4_ptr(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           vec_full_reg_offset(s, a->rm),
-+                           vec_full_reg_offset(s, a->ra),
-+                           cpu_env, vsz, vsz,
-+                           (a->index << 2) | (sel << 1) | sub,
-+                           gen_helper_sve2_fmlal_zzxw_s);
-+    }
-+    return true;
-+}
-+
-+static bool trans_FMLALB_zzxw(DisasContext *s, arg_rrxr_esz *a)
-+{
-+    return do_FMLAL_zzxw(s, a, false, false);
-+}
-+
-+static bool trans_FMLALT_zzxw(DisasContext *s, arg_rrxr_esz *a)
-+{
-+    return do_FMLAL_zzxw(s, a, false, true);
-+}
-+
-+static bool trans_FMLSLB_zzxw(DisasContext *s, arg_rrxr_esz *a)
-+{
-+    return do_FMLAL_zzxw(s, a, true, false);
-+}
-+
-+static bool trans_FMLSLT_zzxw(DisasContext *s, arg_rrxr_esz *a)
-+{
-+    return do_FMLAL_zzxw(s, a, true, true);
-+}
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 9b2a4d5b7e..ea08b15c55 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -29,10 +29,14 @@
-    so addressing units smaller than that needs a host-endian fixup.  */
- #ifdef HOST_WORDS_BIGENDIAN
- #define H1(x)  ((x) ^ 7)
-+#define H1_2(x) ((x) ^ 6)
-+#define H1_4(x) ((x) ^ 4)
- #define H2(x)  ((x) ^ 3)
- #define H4(x)  ((x) ^ 1)
- #else
- #define H1(x)  (x)
-+#define H1_2(x) (x)
-+#define H1_4(x) (x)
- #define H2(x)  (x)
- #define H4(x)  (x)
- #endif
-@@ -1907,6 +1911,27 @@ void HELPER(gvec_fmlal_a64)(void *vd, void *vn, void *vm,
-              get_flush_inputs_to_zero(&env->vfp.fp_status_f16));
+ # SVE2 complex integer multiply-add (indexed)
+ CMLA_zzxz_h     01000100 10 1 index:2 rm:3 0110 rot:2 rn:5 rd:5 \
+                 ra=%reg_movprfx
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index d08da9fdc1..0a583b9898 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1592,6 +1592,105 @@ void HELPER(sve2_sqrdcmlah_idx_s)(void *vd, void *vn, void *vm,
+     do_cmla_idx_s(vd, vn, vm, va, desc, do_sqrdcmlah_s);
  }
  
-+void HELPER(sve2_fmlal_zzzw_s)(void *vd, void *vn, void *vm, void *va,
-+                               void *venv, uint32_t desc)
++/* Note N and M are 4 elements bundled into one unit. */
++static int32_t do_cdot_s(uint32_t n, uint32_t m, int32_t a,
++                         int sel_a, int sel_b, int sub_i)
 +{
-+    intptr_t i, oprsz = simd_oprsz(desc);
-+    uint16_t negn = extract32(desc, SIMD_DATA_SHIFT, 1) << 15;
-+    intptr_t sel = extract32(desc, SIMD_DATA_SHIFT + 1, 1) * sizeof(float16);
-+    CPUARMState *env = venv;
-+    float_status *status = &env->vfp.fp_status;
-+    bool fz16 = get_flush_inputs_to_zero(&env->vfp.fp_status_f16);
++    for (int i = 0; i <= 1; i++) {
++        int32_t elt1_r = (int8_t)(n >> (16 * i));
++        int32_t elt1_i = (int8_t)(n >> (16 * i + 8));
++        int32_t elt2_a = (int8_t)(m >> (16 * i + 8 * sel_a));
++        int32_t elt2_b = (int8_t)(m >> (16 * i + 8 * sel_b));
 +
-+    for (i = 0; i < oprsz; i += sizeof(float32)) {
-+        float16 nn_16 = *(float16 *)(vn + H1_2(i + sel)) ^ negn;
-+        float16 mm_16 = *(float16 *)(vm + H1_2(i + sel));
-+        float32 nn = float16_to_float32_by_bits(nn_16, fz16);
-+        float32 mm = float16_to_float32_by_bits(mm_16, fz16);
-+        float32 aa = *(float32 *)(va + H1_4(i));
++        a += elt1_r * elt2_a + elt1_i * elt2_b * sub_i;
++    }
++    return a;
++}
 +
-+        *(float32 *)(vd + H1_4(i)) = float32_muladd(nn, mm, aa, 0, status);
++static int64_t do_cdot_d(uint64_t n, uint64_t m, int64_t a,
++                         int sel_a, int sel_b, int sub_i)
++{
++    for (int i = 0; i <= 1; i++) {
++        int64_t elt1_r = (int16_t)(n >> (32 * i + 0));
++        int64_t elt1_i = (int16_t)(n >> (32 * i + 16));
++        int64_t elt2_a = (int16_t)(m >> (32 * i + 16 * sel_a));
++        int64_t elt2_b = (int16_t)(m >> (32 * i + 16 * sel_b));
++
++        a += elt1_r * elt2_a + elt1_i * elt2_b * sub_i;
++    }
++    return a;
++}
++
++void HELPER(sve2_cdot_zzzz_s)(void *vd, void *vn, void *vm,
++                              void *va, uint32_t desc)
++{
++    int opr_sz = simd_oprsz(desc);
++    int rot = simd_data(desc);
++    int sel_a = rot & 1;
++    int sel_b = sel_a ^ 1;
++    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
++    uint32_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (int e = 0; e < opr_sz / 4; e++) {
++        d[e] = do_cdot_s(n[e], m[e], a[e], sel_a, sel_b, sub_i);
 +    }
 +}
 +
- static void do_fmlal_idx(float32 *d, void *vn, void *vm, float_status *fpst,
-                          uint32_t desc, bool fz16)
- {
-@@ -1951,6 +1976,32 @@ void HELPER(gvec_fmlal_idx_a64)(void *vd, void *vn, void *vm,
-                  get_flush_inputs_to_zero(&env->vfp.fp_status_f16));
- }
- 
-+void HELPER(sve2_fmlal_zzxw_s)(void *vd, void *vn, void *vm, void *va,
-+                               void *venv, uint32_t desc)
++void HELPER(sve2_cdot_zzzz_d)(void *vd, void *vn, void *vm,
++                              void *va, uint32_t desc)
 +{
-+    intptr_t i, j, oprsz = simd_oprsz(desc);
-+    uint16_t negn = extract32(desc, SIMD_DATA_SHIFT, 1) << 15;
-+    intptr_t sel = extract32(desc, SIMD_DATA_SHIFT + 1, 1) * sizeof(float16);
-+    intptr_t idx = extract32(desc, SIMD_DATA_SHIFT + 2, 3) * sizeof(float16);
-+    CPUARMState *env = venv;
-+    float_status *status = &env->vfp.fp_status;
-+    bool fz16 = get_flush_inputs_to_zero(&env->vfp.fp_status_f16);
++    int opr_sz = simd_oprsz(desc);
++    int rot = simd_data(desc);
++    int sel_a = rot & 1;
++    int sel_b = sel_a ^ 1;
++    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
++    uint64_t *d = vd, *n = vn, *m = vm, *a = va;
 +
-+    for (i = 0; i < oprsz; i += 16) {
-+        float16 mm_16 = *(float16 *)(vm + i + idx);
-+        float32 mm = float16_to_float32_by_bits(mm_16, fz16);
++    for (int e = 0; e < opr_sz / 8; e++) {
++        d[e] = do_cdot_d(n[e], m[e], a[e], sel_a, sel_b, sub_i);
++    }
++}
 +
-+        for (j = 0; j < 16; j += sizeof(float32)) {
-+            float16 nn_16 = *(float16 *)(vn + H1_2(i + j + sel)) ^ negn;
-+            float32 nn = float16_to_float32_by_bits(nn_16, fz16);
-+            float32 aa = *(float32 *)(va + H1_4(i + j));
++void HELPER(sve2_cdot_idx_s)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
++{
++    int opr_sz = simd_oprsz(desc);
++    int rot = extract32(desc, SIMD_DATA_SHIFT, 2);
++    int idx = H4(extract32(desc, SIMD_DATA_SHIFT + 2, 2));
++    int sel_a = rot & 1;
++    int sel_b = sel_a ^ 1;
++    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
++    uint32_t *d = vd, *n = vn, *m = vm, *a = va;
 +
-+            *(float32 *)(vd + H1_4(i + j)) =
-+                float32_muladd(nn, mm, aa, 0, status);
++    for (int seg = 0; seg < opr_sz / 4; seg += 4) {
++        uint32_t seg_m = m[seg + idx];
++        for (int e = 0; e < 4; e++) {
++            d[seg + e] = do_cdot_s(n[seg + e], seg_m, a[seg + e],
++                                   sel_a, sel_b, sub_i);
 +        }
 +    }
 +}
 +
- void HELPER(gvec_sshl_b)(void *vd, void *vn, void *vm, uint32_t desc)
++void HELPER(sve2_cdot_idx_d)(void *vd, void *vn, void *vm,
++                             void *va, uint32_t desc)
++{
++    int seg, opr_sz = simd_oprsz(desc);
++    int rot = extract32(desc, SIMD_DATA_SHIFT, 2);
++    int idx = extract32(desc, SIMD_DATA_SHIFT + 2, 2);
++    int sel_a = rot & 1;
++    int sel_b = sel_a ^ 1;
++    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
++    uint64_t *d = vd, *n = vn, *m = vm, *a = va;
++
++    for (seg = 0; seg < opr_sz / 8; seg += 2) {
++        uint64_t seg_m = m[seg + idx];
++        for (int e = 0; e < 2; e++) {
++            d[seg + e] = do_cdot_d(n[seg + e], seg_m, a[seg + e],
++                                   sel_a, sel_b, sub_i);
++        }
++    }
++}
++
+ #define DO_ZZXZ(NAME, TYPE, H, OP) \
+ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
+ {                                                                       \
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index af2c6fbb9e..3c44a0d182 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4147,6 +4147,9 @@ DO_SVE2_RRXR_ROT(CMLA_zzxz_s, gen_helper_sve2_cmla_idx_s)
+ DO_SVE2_RRXR_ROT(SQRDCMLAH_zzxz_h, gen_helper_sve2_sqrdcmlah_idx_h)
+ DO_SVE2_RRXR_ROT(SQRDCMLAH_zzxz_s, gen_helper_sve2_sqrdcmlah_idx_s)
+ 
++DO_SVE2_RRXR_ROT(CDOT_zzxw_s, gen_helper_sve2_cdot_idx_s)
++DO_SVE2_RRXR_ROT(CDOT_zzxw_d, gen_helper_sve2_cdot_idx_d)
++
+ #undef DO_SVE2_RRXR_ROT
+ 
+ /*
+@@ -8351,6 +8354,20 @@ static bool trans_CMLA_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
+     return true;
+ }
+ 
++static bool trans_CDOT_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
++{
++    if (!dc_isar_feature(aa64_sve2, s) || a->esz < MO_32) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_helper_gvec_4 *fn = (a->esz == MO_32
++                                 ? gen_helper_sve2_cdot_zzzz_s
++                                 : gen_helper_sve2_cdot_zzzz_d);
++        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->rot);
++    }
++    return true;
++}
++
+ static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_SQRDCMLAH_zzzz *a)
  {
-     intptr_t i, opr_sz = simd_oprsz(desc);
+     static gen_helper_gvec_4 * const fns[] = {
 -- 
 2.25.1
 
