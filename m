@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B23C332666
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:14:55 +0100 (CET)
-Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F4F3326F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:24:35 +0100 (CET)
+Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcCM-0007yP-Ma
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:14:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
+	id 1lJcLi-00074k-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:24:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lJc3q-0008Rq-1h
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:06:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44694)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJc51-0001k8-0b
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lJc3n-0001R8-9a
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:06:05 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJc4y-00026y-VV
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615295151;
+ s=mimecast20190719; t=1615295235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LGwhidlqBn0V3Z6vmQUJleWMkiGFxZMCQn+zKVELuCc=;
- b=Uh0gi8ccsAueAKYwYQoYjlgR0zQ6Svme9FeSt+nigeMdB3hev4S0exIwsakxBO3mRGZWpZ
- tHWljI5HnKvFHl4anjMJ6ee3xpktZlrUqzZVfCLuHVd7azFIsL9bKe0EWkOtIhmz3p76sT
- hH6icoG8fUINIan/aRdsIKuAxS3UFgU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-tfNZyQKfOY65YjrcuAanlQ-1; Tue, 09 Mar 2021 08:05:49 -0500
-X-MC-Unique: tfNZyQKfOY65YjrcuAanlQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5434E19067E4;
- Tue,  9 Mar 2021 13:05:48 +0000 (UTC)
-Received: from localhost (ovpn-112-45.ams2.redhat.com [10.36.112.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBC145C260;
- Tue,  9 Mar 2021 13:05:47 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] curl: Disconnect sockets from CURLState
-Date: Tue,  9 Mar 2021 14:05:41 +0100
-Message-Id: <20210309130541.37540-3-mreitz@redhat.com>
-In-Reply-To: <20210309130541.37540-1-mreitz@redhat.com>
-References: <20210309130541.37540-1-mreitz@redhat.com>
+ bh=DJhmQBbZCkOsOGflPt2V334CdR5LFAy01KLLlkoJV5E=;
+ b=L8DFp2A7Nv/vi0AQEpG+U8PoJiNnQ3aJMEfnB68IzN6GmWmMAwclOlyKKpJ80GGXtm3Ypz
+ +Ior8Q1+NzqHDrlK5eDCXIwjAt4Fc4Yn4ID/EhvLw+ImU+EmoR4Ur6zRh85Bt8aMnX4Vpn
+ E5Ti0bu+iv8JsajZ5Ei1FaJN0/AW2ug=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-VUGq4eUEOwWuyV7iIuiAhQ-1; Tue, 09 Mar 2021 08:07:14 -0500
+X-MC-Unique: VUGq4eUEOwWuyV7iIuiAhQ-1
+Received: by mail-ed1-f71.google.com with SMTP id a2so6696646edx.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:07:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DJhmQBbZCkOsOGflPt2V334CdR5LFAy01KLLlkoJV5E=;
+ b=OIT2lq2IFLQJJ2RgQbLsPRgyIHOpxNRYLJ2fdzO3Rx7fu79yxJc8PYL8GnrjiETrJ1
+ fzQSSIh/gZ7wR2CF8/zL1Cts3NuVZO7TsX54Myr+z9r8EVDi9svGqeyzsyW8vraZ0cub
+ uOXMrF7t2IXfmr4BfCr3MFKEm6DspKjEKKBf75TLyTsBhNlDzNqvU6fPvl2QlZYyb5p3
+ kUqhrFUVWh+RccIyjqZ9yOybtTv9gdi33fciM5fsDW8P571cM60onEWE6ofnmbJKCoc7
+ on0K5SGEWhZ2OVdJoigRhkEKyYdNxOcsQTlTI39BS7zBWL1d9oTYKa1LMvKPnopA5IgT
+ d3cQ==
+X-Gm-Message-State: AOAM532Gz7eKU4q2AHUm0BXRpAr9tjKkamWeIchPu+HcobTsTy1NNmMX
+ EcCMCZZcwe7Mqna6k+vI0ss3Y3dCd+rEEVBwJqr/2/Vdr/G+Tj7cO+lDFgO9zQMWEjxGKqJPHwb
+ Jm4VI/7VA/hf5cFg=
+X-Received: by 2002:a17:907:7637:: with SMTP id
+ jy23mr18893772ejc.12.1615295232844; 
+ Tue, 09 Mar 2021 05:07:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx536ZrtxTaRidOZSoSxwnpOkuCvHmCu4onq/OUu9unjQB3clAIP/it65093rHhhvKn/+31RA==
+X-Received: by 2002:a17:907:7637:: with SMTP id
+ jy23mr18893722ejc.12.1615295232322; 
+ Tue, 09 Mar 2021 05:07:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u59sm9159032edc.73.2021.03.09.05.07.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 05:07:11 -0800 (PST)
+Subject: Re: [RFC PATCH 1/4] block/vdi: When writing new bmap entry fails,
+ don't leak the buffer
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Edmondson <dme@dme.org>, qemu-devel@nongnu.org
+References: <20210309102157.365356-1-david.edmondson@oracle.com>
+ <20210309102157.365356-2-david.edmondson@oracle.com>
+ <34865f4c-dc32-4298-6ec9-c8690d738435@redhat.com> <m2mtvch72g.fsf@dme.org>
+ <e71f897d-29a5-5efd-70f5-6ab7a7318b13@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3573c0b9-3211-d425-da75-333b924f56ab@redhat.com>
+Date: Tue, 9 Mar 2021 14:07:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <e71f897d-29a5-5efd-70f5-6ab7a7318b13@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,180 +106,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a curl transfer is finished, that does not mean that CURL lets go
-of all the sockets it used for it.  We therefore must not free a
-CURLSocket object before CURL has invoked curl_sock_cb() to tell us to
-remove it.  Otherwise, we may get a use-after-free, as described in this
-bug report: https://bugs.launchpad.net/qemu/+bug/1916501
+On 09/03/21 13:06, Philippe Mathieu-Daudé wrote:
+>> Newfangled witchy magic!
+>>
+>> I'm happy to change it if you think it beneficial.
+> 
+> I then saw the next patch which keeps modifying the same
+> function, so this might not be a great improvement after
+> all.
 
-(Reproducer from that report:
-  $ qemu-img convert -f qcow2 -O raw \
-  https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img \
-  out.img
-)
+Yeah I was also going to suggest it but considering patch 2 it doesn't 
+really flow well.
 
-(Alternatively, it might seem logical to force-drop all sockets that
-have been used for a state when the respective transfer is done, kind of
-like it is done now, but including unsetting the AIO handlers.
-Unfortunately, doing so makes the driver just hang instead of crashing,
-which seems to evidence that CURL still uses those sockets.)
-
-Make the CURLSocket object independent of "its" CURLState by putting all
-sockets into a hash table belonging to the BDRVCURLState instead of a
-list that belongs to a CURLState.  Do not touch any sockets in
-curl_clean_state().
-
-Testing, it seems like all sockets are indeed gone by the time the curl
-BDS is closed, so it seems like there really was no point in freeing any
-socket just because a transfer is done.  libcurl does invoke
-curl_sock_cb() with CURL_POLL_REMOVE for every socket it has.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1916501
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/curl.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
-
-diff --git a/block/curl.c b/block/curl.c
-index 43c79bcf36..50e741a0d7 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -79,7 +79,6 @@ typedef struct CURLAIOCB {
- typedef struct CURLSocket {
-     int fd;
-     struct BDRVCURLState *s;
--    QLIST_ENTRY(CURLSocket) next;
- } CURLSocket;
- 
- typedef struct CURLState
-@@ -87,7 +86,6 @@ typedef struct CURLState
-     struct BDRVCURLState *s;
-     CURLAIOCB *acb[CURL_NUM_ACB];
-     CURL *curl;
--    QLIST_HEAD(, CURLSocket) sockets;
-     char *orig_buf;
-     uint64_t buf_start;
-     size_t buf_off;
-@@ -102,6 +100,7 @@ typedef struct BDRVCURLState {
-     QEMUTimer timer;
-     uint64_t len;
-     CURLState states[CURL_NUM_STATES];
-+    GHashTable *sockets; /* GINT_TO_POINTER(fd) -> socket */
-     char *url;
-     size_t readahead_size;
-     bool sslverify;
-@@ -120,6 +119,21 @@ typedef struct BDRVCURLState {
- static void curl_clean_state(CURLState *s);
- static void curl_multi_do(void *arg);
- 
-+static gboolean curl_drop_socket(void *key, void *value, void *opaque)
-+{
-+    CURLSocket *socket = value;
-+    BDRVCURLState *s = socket->s;
-+
-+    aio_set_fd_handler(s->aio_context, socket->fd, false,
-+                       NULL, NULL, NULL, NULL);
-+    return true;
-+}
-+
-+static void curl_drop_all_sockets(GHashTable *sockets)
-+{
-+    g_hash_table_foreach_remove(sockets, curl_drop_socket, NULL);
-+}
-+
- /* Called from curl_multi_do_locked, with s->mutex held.  */
- static int curl_timer_cb(CURLM *multi, long timeout_ms, void *opaque)
- {
-@@ -147,16 +161,12 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
-     curl_easy_getinfo(curl, CURLINFO_PRIVATE, (char **)&state);
-     s = state->s;
- 
--    QLIST_FOREACH(socket, &state->sockets, next) {
--        if (socket->fd == fd) {
--            break;
--        }
--    }
-+    socket = g_hash_table_lookup(s->sockets, GINT_TO_POINTER(fd));
-     if (!socket) {
-         socket = g_new0(CURLSocket, 1);
-         socket->fd = fd;
-         socket->s = s;
--        QLIST_INSERT_HEAD(&state->sockets, socket, next);
-+        g_hash_table_insert(s->sockets, GINT_TO_POINTER(fd), socket);
-     }
- 
-     trace_curl_sock_cb(action, (int)fd);
-@@ -180,8 +190,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
-     }
- 
-     if (action == CURL_POLL_REMOVE) {
--        QLIST_REMOVE(socket, next);
--        g_free(socket);
-+        g_hash_table_remove(s->sockets, GINT_TO_POINTER(fd));
-     }
- 
-     return 0;
-@@ -498,7 +507,6 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
- #endif
-     }
- 
--    QLIST_INIT(&state->sockets);
-     state->s = s;
- 
-     return 0;
-@@ -515,13 +523,6 @@ static void curl_clean_state(CURLState *s)
-     if (s->s->multi)
-         curl_multi_remove_handle(s->s->multi, s->curl);
- 
--    while (!QLIST_EMPTY(&s->sockets)) {
--        CURLSocket *socket = QLIST_FIRST(&s->sockets);
--
--        QLIST_REMOVE(socket, next);
--        g_free(socket);
--    }
--
-     s->in_use = 0;
- 
-     qemu_co_enter_next(&s->s->free_state_waitq, &s->s->mutex);
-@@ -539,6 +540,7 @@ static void curl_detach_aio_context(BlockDriverState *bs)
-     int i;
- 
-     WITH_QEMU_LOCK_GUARD(&s->mutex) {
-+        curl_drop_all_sockets(s->sockets);
-         for (i = 0; i < CURL_NUM_STATES; i++) {
-             if (s->states[i].in_use) {
-                 curl_clean_state(&s->states[i]);
-@@ -745,6 +747,7 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     qemu_co_queue_init(&s->free_state_waitq);
-     s->aio_context = bdrv_get_aio_context(bs);
-     s->url = g_strdup(file);
-+    s->sockets = g_hash_table_new_full(NULL, NULL, NULL, g_free);
-     qemu_mutex_lock(&s->mutex);
-     state = curl_find_state(s);
-     qemu_mutex_unlock(&s->mutex);
-@@ -818,6 +821,8 @@ out_noclean:
-     g_free(s->username);
-     g_free(s->proxyusername);
-     g_free(s->proxypassword);
-+    curl_drop_all_sockets(s->sockets);
-+    g_hash_table_destroy(s->sockets);
-     qemu_opts_del(opts);
-     return -EINVAL;
- }
-@@ -916,6 +921,7 @@ static void curl_close(BlockDriverState *bs)
-     curl_detach_aio_context(bs);
-     qemu_mutex_destroy(&s->mutex);
- 
-+    g_hash_table_destroy(s->sockets);
-     g_free(s->cookie);
-     g_free(s->url);
-     g_free(s->username);
--- 
-2.29.2
+paolo
 
 
