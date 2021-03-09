@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2D0332741
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:33:56 +0100 (CET)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0779533274E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:37:53 +0100 (CET)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcUl-00013s-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49178)
+	id 1lJcYa-0006zH-3W
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:37:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJcRl-0006WQ-BB
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37298)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJcS2-00072P-8i
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:31:06 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJcRj-0004d2-8i
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:30:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lJcRg-0002kX-V7
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 13:30:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EA4382E8157
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 13:30:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJcRz-0004pl-LU
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:31:05 -0500
+Received: by mail-ej1-x633.google.com with SMTP id dx17so27659721ejb.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:31:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Uh6c7+CuRro54PmfG9+edXZYQI4DvJM5hX/S9b/HXRQ=;
+ b=tWUn+Unx8EQfoiSrfLpp6oNksmtsQ9Ks9979vyAZaxC4f4+nZFh/0fwiQ9Wq/W5K/7
+ 7snh+XHRUtT0aHYKwkSxoJqj22OeBkbgLofLEL/j+iehUVCXnn/wIP4JlokBH0IzIU6t
+ P3wZ9B62XknWwriCPsIApRdHxOLVPeuVbmMaz2NQP2ZEARY2SM8DFhJ+iP4kZaejaq6q
+ xKMhxSnqQW1GhZje6hFOzFMkVXzTs0cI4rjeRuzPmM6G8dcXGuXXhTWJ+xihqS/xuKKd
+ KRV+CsoOEMvn4XkXLMoB+NpZFGE2zBMSGxH/mo/MnhjPUQLWnuu+kgitEp8aAQb5P4gv
+ Ow8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Uh6c7+CuRro54PmfG9+edXZYQI4DvJM5hX/S9b/HXRQ=;
+ b=ueqeZc6pjcAG2if9oGvOK46pHxCvUK59jD1UcJut5vhyccEQgUxbGgp5MP7FHf9DER
+ YX9bkntvlIPeqZYi5bLs5xyxyYf9D+jDt64GAAb8hKq+GEgwgBIfjt4JFmJRnlrWvz6W
+ d0Kmw4w/S11eu0APadqcX/703mT4YEgbue/3O3zwsR3yqxwpMsAc/5glCmjTE4fLrOL4
+ V20kKFGGt+thEZ8QuLMH7So0+ymwNA8ZSF9+8xJtzjhRrN7GyYvE0rJIgaWjffy6PwMX
+ UFYrUNI9nIlsRACO+NcCNdnnSborUvcJRD4/4lqqfn3OiERnEvXb/YixkRykZ4mNXybB
+ DLrw==
+X-Gm-Message-State: AOAM5313n5e8akQPCrCy6eFQu2soa5UzfO+q7ZGK1REXwWQrmjv6qVR0
+ 2LvnMf8Zr+kUZLDVU1eD12bvve8taIkUxXyHQatN3A==
+X-Google-Smtp-Source: ABdhPJw23STRnbaB6W0AKZirdcx0rj9PYAuyjERiplaroMNjwl24ObhC6mB79aSl/jY8BOF/uzBy2pS8r/mcwafhnXU=
+X-Received: by 2002:a17:906:1ecc:: with SMTP id
+ m12mr20188623ejj.4.1615296661722; 
+ Tue, 09 Mar 2021 05:31:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Mar 2021 13:24:46 -0000
-From: Max Reitz <1916501@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jcfaracco mrashish xanclic
-X-Launchpad-Bug-Reporter: Maya (mrashish)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <161400808000.28728.8511381080583624216.malonedeb@soybean.canonical.com>
-Message-Id: <161529628698.26783.17097460706823388369.malone@chaenomeles.canonical.com>
-Subject: [Bug 1916501] Re: qemu-img convert segfaults with specific URL
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
-X-Launchpad-Hash: 7e4f98c1da604aad81c089c5edc21ba188b0e15c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210309111510.79495-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <20210309111510.79495-1-mjt@msgid.tls.msk.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Mar 2021 13:30:44 +0000
+Message-ID: <CAFEAcA_0KRbyMu_PUhfxeVR5H+34duhTKCarW_JmCynU7i1p6g@mail.gmail.com>
+Subject: Re: [PATCH V2 trivial] Various spelling fixes
+To: Michael Tokarev <mjt@tls.msk.ru>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,86 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916501 <1916501@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think I=E2=80=99ve come to kind of understood what might be wrong: qemu f=
-rees
-CURLSocket objects when =E2=80=9Ctheir=E2=80=9D transfer is done, but libcu=
-rl=E2=80=99s
-documentation actually doesn=E2=80=99t note any long-lasting relationship
-between a socket and some transfer (i.e., a CURL object), so we probably
-shouldn=E2=80=99t free CURLSocket objects just because some transfer is don=
-e.
-Instead, we should only do so once libcurl explicitly tells us to remove
-the socket.
+On Tue, 9 Mar 2021 at 11:23, Michael Tokarev <mjt@tls.msk.ru> wrote:
+>
+> An assorted set of spelling fixes in various places.
+>
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> ---
+> V1: https://lists.nongnu.org/archive/html/qemu-devel/2020-12/msg05959.html
+> Changes: incorporated suggestions by Stefan Weil and added his R-b.
+>
+> Please note: this also patches one file in disas/
 
-I=E2=80=99ve sent a two-patch series to that effect:
-https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg00515.html =E2=
-=80=93
-it seems to help.
 
--- =
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916501
-
-Title:
-  qemu-img convert segfaults with specific URL
-
-Status in QEMU:
-  New
-
-Bug description:
-  Using what is currently the latest git: (commit
-  00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
-  2021 +0000)
-
-  $ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.=
-net/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
-  Segmentation fault (core dumped)
-
-  =
-
-  Backtrace for convenience:
-  qemu: qemu_mutex_lock_impl: Invalid argument
-
-  Thread 1 "qemu-img" received signal SIGABRT, Aborted.
-  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
-  (gdb) bt
-  #0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
-  #1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
-  #2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@en=
-try=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-=
-thread-posix.c:37
-  #3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, f=
-ile=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-=
-posix.c:81
-  #4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../bloc=
-k/curl.c:406
-  #5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x55555=
-5737790, node=3D0x555555b14150) at ../util/aio-posix.c:329
-  #6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at=
- ../util/aio-posix.c:372
-  #7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
-  #8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, cal=
-lback=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
-  #9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-=
-2.0.so.0
-  #10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
-  #11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:=
-255
-  #12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
-loop.c:531
-  #13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu=
--img.c:2139
-  #14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qe=
-mu-img.c:2738
-  #15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../q=
-emu-img.c:5536
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916501/+subscriptions
+thanks
+-- PMM
 
