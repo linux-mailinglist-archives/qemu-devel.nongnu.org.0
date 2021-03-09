@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABF8333030
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:46:14 +0100 (CET)
-Received: from localhost ([::1]:35216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37A933303F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:50:45 +0100 (CET)
+Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjF7-0006MO-6h
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:46:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
+	id 1lJjJV-0001ni-1L
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:50:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJibF-0000jS-FA
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:05:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25487)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lJicY-00021c-0r
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:06:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJibB-0007Mi-HJ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:05:00 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lJicV-0007zS-CQ
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:06:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615320295;
+ s=mimecast20190719; t=1615320378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9VnVJw0mUoWlvR4oUcurQR1ID0ATTbgo0v9El6/2vw4=;
- b=Mg7LG8GJWDbywTFJiA54OlaE1CgaHlM0MF3+Id4S7srz6hXNogHNshkfst9W5W6A9/2D85
- obOVK4l6osgJmCg4LQbUjP2KnBTcyq+WRbjXmQaMTOFSsOp4GR0hX6hwnCUwyMW7G2Nf9N
- oKBpQj070ByqWfCxdyspVbZs8ea/RPk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-9UBT1qRwN9-8AA8lY2tMSQ-1; Tue, 09 Mar 2021 15:04:54 -0500
-X-MC-Unique: 9UBT1qRwN9-8AA8lY2tMSQ-1
-Received: by mail-qt1-f198.google.com with SMTP id 4so11283618qtc.13
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 12:04:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9VnVJw0mUoWlvR4oUcurQR1ID0ATTbgo0v9El6/2vw4=;
- b=TAGx0+6vaXNAGP2N4ml5U0ERfsnWPhDbxGrk/QdmmDpeb+nnyUrK75GaAsQIK+1qB7
- beDif/YtTe5OPp0Ze7lWuz7Eop3j1sGEP26OoWqmV2u2orz9b0uA1wzA9ngv5qxGMacc
- hrYgTPY1RT7+dAibsj8Y5jMK7Oum5gojI4tHbExkradrDSpgcxmPrWxm4A1IYkA6MkS9
- eLtr3VOBh6zCxJC12RleXFBl/0vX9neKcyRShulEh2SniWdBzN/ugWCk3HvrHefqfBur
- Ls85oq1IN+vXK+hSDbu80X6k/8Awr+HT6TTOs9tVA1eRiIXpzo21VzrZArhbEMgrrABV
- HokQ==
-X-Gm-Message-State: AOAM5334rlFr8qs79m+JPEyPzVHQvgLRydlkI8dr0OhOBgtVM6TYcozN
- 7qvxAils3VVAyjURQZSOfo7WZeTuTrY0PR3PvDhwvzVB5dk/jxSUX5xRMAvEYYdGqWlOd4jt4//
- g4zi5OiV+BZ2Yts8=
-X-Received: by 2002:a05:6214:d6d:: with SMTP id
- 13mr27959095qvs.60.1615320293519; 
- Tue, 09 Mar 2021 12:04:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy0h6rCjsz6FpCKiQEzasdyob+Shl4vJoiLU/3F8aRwydS8NqDicavzN+seGBeRkSkBF+pcgQ==
-X-Received: by 2002:a05:6214:d6d:: with SMTP id
- 13mr27959080qvs.60.1615320293314; 
- Tue, 09 Mar 2021 12:04:53 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
- by smtp.gmail.com with ESMTPSA id f9sm9469319qkk.115.2021.03.09.12.04.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 12:04:52 -0800 (PST)
-Date: Tue, 9 Mar 2021 15:04:51 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 09/12] util/mmap-alloc: Pass flags instead of separate
- bools to qemu_ram_mmap()
-Message-ID: <20210309200451.GF763132@xz-x1>
-References: <20210308150600.14440-1-david@redhat.com>
- <20210308150600.14440-10-david@redhat.com>
+ bh=V31TjWu6XYS8JIBkyxYoGF9fOdBz5OJ6asSh2+PvSs4=;
+ b=Emp1+wLfKsQs6XKoPtst0q3V3BHcxgRBhuyaeLaV17hA8Y3o6LzQVM+Vlqn7MEoRq9Kg8a
+ /jyn9q+AhBfA5j1cZeDB+1SHvnw9h2nHr/uUhzBIfvDh5EWt+7qmWMK/6LqhdIwRM7l7Lt
+ bwfL9dklhUAJqxia9/5pykjBJnGR/K8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-himc4tNnOPqC0jOfO2y2Aw-1; Tue, 09 Mar 2021 15:06:17 -0500
+X-MC-Unique: himc4tNnOPqC0jOfO2y2Aw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7701005D57;
+ Tue,  9 Mar 2021 20:06:15 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9433A1F406;
+ Tue,  9 Mar 2021 20:06:10 +0000 (UTC)
+Date: Tue, 9 Mar 2021 21:06:06 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH] hw/arm/virt: KVM: The IPA lower bound is 32
+Message-ID: <20210309200606.kjjbxyyzijv2qsd4@kamzik.brq.redhat.com>
+References: <20210309185939.188431-1-drjones@redhat.com>
+ <87eegoxhd5.wl-maz@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210308150600.14440-10-david@redhat.com>
+In-Reply-To: <87eegoxhd5.wl-maz@kernel.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,56 +78,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 08, 2021 at 04:05:57PM +0100, David Hildenbrand wrote:
-> Let's introduce a new set of flags that abstract mmap logic and replace
-> our current set of bools, to prepare for another flag.
+On Tue, Mar 09, 2021 at 07:21:58PM +0000, Marc Zyngier wrote:
+> Hi Andrew,
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/qemu/mmap-alloc.h | 17 +++++++++++------
->  softmmu/physmem.c         |  8 +++++---
->  util/mmap-alloc.c         | 14 +++++++-------
->  util/oslib-posix.c        |  3 ++-
->  4 files changed, 25 insertions(+), 17 deletions(-)
+> On Tue, 09 Mar 2021 18:59:39 +0000,
+> Andrew Jones <drjones@redhat.com> wrote:
+> > 
+> > The virt machine already checks KVM_CAP_ARM_VM_IPA_SIZE to get the
+> > upper bound of the IPA size. If that bound is lower than the highest
+> > possible GPA for the machine, then QEMU will error out. However, the
+> > IPA is set to 40 when the highest GPA is less than or equal to 40,
+> > even when KVM may only support an IPA limit as low as 32. This means
+> > KVM may fail the VM creation unnecessarily. Additionally, 40 is
+> > selected with the value 0, which means use the default, and that gets
+> > around a check in some versions of KVM, causing a difficult to debug
+> > fail. Always use the IPA size that corresponds to the highest possible
+> > GPA, unless it's lower than 32, in which case use 32.
+> > 
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > ---
+> >  hw/arm/virt.c | 9 ++++-----
+> >  1 file changed, 4 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 371147f3ae9c..7bf563715b4e 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -2547,14 +2547,13 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+> >                       "require an IPA range (%d bits) larger than "
+> >                       "the one supported by the host (%d bits)",
+> >                       requested_pa_size, max_vm_pa_size);
+> > -       exit(1);
+> > +        exit(1);
+> >      }
+> > +
+> >      /*
+> > -     * By default we return 0 which corresponds to an implicit legacy
+> > -     * 40b IPA setting. Otherwise we return the actual requested PA
+> > -     * logsize
+> > +     * KVM requires the IPA size to be at least 32 bits.
+> >       */
+> > -    return requested_pa_size > 40 ? requested_pa_size : 0;
+> > +    return requested_pa_size < 32 ? 32 : requested_pa_size;
 > 
-> diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-> index 456ff87df1..55664ea9f3 100644
-> --- a/include/qemu/mmap-alloc.h
-> +++ b/include/qemu/mmap-alloc.h
-> @@ -6,6 +6,15 @@ size_t qemu_fd_getpagesize(int fd);
->  
->  size_t qemu_mempath_getpagesize(const char *mem_path);
->  
-> +/* Map PROT_READ instead of PROT_READ|PROT_WRITE. */
-> +#define QEMU_RAM_MMAP_READONLY      (1 << 0)
-> +
-> +/* Map MAP_SHARED instead of MAP_PRIVATE. */
-> +#define QEMU_RAM_MMAP_SHARED        (1 << 1)
-> +
-> +/* Map MAP_SYNC|MAP_SHARED_VALIDATE if possible, fallback and warn otherwise. */
-> +#define QEMU_RAM_MMAP_PMEM          (1 << 2)
+> Doesn't this break on older kernels (pre 233a7cb23531, which is
+> anything up 4.19), where the 'type' parameter passed at VM creation
+> time was expected to be 0 and nothing else?
 
-Sorry to speak late - I just noticed that is_pmem can actually be converted too
-with "MAP_SYNC | MAP_SHARED_VALIDATE".  We can even define MAP_PMEM_EXTRA for
-use within qemu if we want.  Then we can avoid one layer of QEMU_RAM_* by
-directly using MAP_*, I think?
+Doh, of course!
 
--- 
-Peter Xu
+> 
+> I had a quick go at qemu a couple of weeks back and came up with the
+> following hack, but never actually tested it (there is no way qemu can
+> fit in the initramfs I am feeding to this damn machine...).
+> 
+> Thanks,
+> 
+> 	M.
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 371147f3ae..3301bb8dba 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2534,8 +2534,11 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+>  static int virt_kvm_type(MachineState *ms, const char *type_str)
+>  {
+>      VirtMachineState *vms = VIRT_MACHINE(ms);
+> -    int max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms);
+> +    int max_vm_pa_size;
+>      int requested_pa_size;
+> +    bool fixed_ipa;
+> +
+> +    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
+>  
+>      /* we freeze the memory map to compute the highest gpa */
+>      virt_set_memmap(vms);
+> @@ -2550,11 +2553,12 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+>         exit(1);
+>      }
+>      /*
+> -     * By default we return 0 which corresponds to an implicit legacy
+> -     * 40b IPA setting. Otherwise we return the actual requested PA
+> -     * logsize
+> +     * We return the requested PA log size, unless KVM only supports
+> +     * the implicit legacy 40b IPA setting, in which case we return 0.
+>       */
+> -    return requested_pa_size > 40 ? requested_pa_size : 0;
+> +    if (fixed_ipa)
+> +        return 0;
+> +    return requested_pa_size;
+
+Looks good to me. I think we should still ensure requested_pa_size is at
+least 32 though. I can add that and test this tomorrow. Should I post it
+with your authorship?
+
+Thanks,
+drew
+
+>  }
+>  
+>  static void virt_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/slirp b/slirp
+> index 8f43a99191..ce94eba204 160000
+> --- a/slirp
+> +++ b/slirp
+> @@ -1 +1 @@
+> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
+> +Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index 00e124c812..5f576730e6 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -230,12 +230,14 @@ bool kvm_arm_pmu_supported(void)
+>      return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
+>  }
+>  
+> -int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+> +int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
+>  {
+>      KVMState *s = KVM_STATE(ms->accelerator);
+>      int ret;
+>  
+>      ret = kvm_check_extension(s, KVM_CAP_ARM_VM_IPA_SIZE);
+> +    *fixed_ipa = !(ret > 0);
+> +
+>      return ret > 0 ? ret : 40;
+>  }
+>  
+> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+> index eb81b7059e..75d7133a35 100644
+> --- a/target/arm/kvm_arm.h
+> +++ b/target/arm/kvm_arm.h
+> @@ -311,10 +311,11 @@ bool kvm_arm_sve_supported(void);
+>  /**
+>   * kvm_arm_get_max_vm_ipa_size:
+>   * @ms: Machine state handle
+> + * @fixed_ipa: Indicate whether the IPA address space is a fixed value
+>   *
+>   * Returns the number of bits in the IPA address space supported by KVM
+>   */
+> -int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
+> +int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa);
+>  
+>  /**
+>   * kvm_arm_sync_mpstate_to_kvm:
+> @@ -409,7 +410,7 @@ static inline void kvm_arm_add_vcpu_properties(Object *obj)
+>      g_assert_not_reached();
+>  }
+>  
+> -static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+> +static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
+>  {
+>      g_assert_not_reached();
+>  }
+> 
+> -- 
+> Without deviation from the norm, progress is not possible.
+> 
 
 
