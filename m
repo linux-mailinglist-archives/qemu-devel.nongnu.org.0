@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA39332EE3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:20:08 +0100 (CET)
-Received: from localhost ([::1]:53060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEDF332EF4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:25:18 +0100 (CET)
+Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhtn-0004gk-4h
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:20:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
+	id 1lJhyn-0000Ep-VH
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:25:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lJfrK-0001Gb-Nt; Tue, 09 Mar 2021 12:09:27 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:40108)
+ id 1lJfrP-0001HO-5E; Tue, 09 Mar 2021 12:09:38 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:40102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lJfrC-0001DP-8y; Tue, 09 Mar 2021 12:09:26 -0500
+ id 1lJfrC-0001DO-4Y; Tue, 09 Mar 2021 12:09:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=sLcazRBYDZOTf/U/pqyZY5+acPdr0M5SVvjch2P+1lw=; 
- b=R+K7NMw7TYdGg1TdozkGzeuQYnizJpGmcGqyFSA3bORXo3QZj2IrRtx3ljuLQktwYTbCp+5Hwv/U/I3767KxdFBtzC7fKBpZAItlMCq7Vt2+j7ynOdHK1uCQPlgVCY5iwfn/0CvujsniuFQw8/GJlxsvIMy1nv1BRj1urymSFKg0PVqCmzPdCfG4czP8vBVj/Co5Cn01V+FywASuzqCPkmTWofHSjqYujNuI9EtRwNbumysLCLq9G1CeZHx36f490yu2Y6G2CZyRqSTFZarY0AVZyXVvysF/TTcerJCDX4JGPRJ5mTLC6NjYlKAc+CVpA6lq5zBCo+ClyMMb3ubjZQ==;
+ bh=vYA+YpmbT7JAoNHgBq2mRYLLWM2xG7ehSzLe3Fg+ggs=; 
+ b=cN4+dvHwjQMgrELvqeUSKMUpCwzV8bVCFEoLRf1mI2GEbfTs4sfJcHRxVsk4m3E6ozmEpsORLuU4QyAWBOrZkesvquW09xtg/ZjcjeFsGEjpzQkWXKA/6W3NIBo6j68AnzAS8o4H+bi6rro+gh27P8Ix5OUNABmwexk34Ztoan1wmRKWqyF3tTRiU1dWuai/aajHdrBHaDcXVb6T8tNadgAvL92EPJ2cgZJgb++pf56yBG1+N33bL5bGdVTLm78g5JZjFLzjvl3prd1/CXPl/xnMiSOilEsJtqeJeIxGVzI8PxT4vOxVxmQPFzACXQb+t9dlaV8cZOTA/xHWtjrIcg==;
 Received: from [213.94.25.37] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1lJfqn-0003Lt-P1; Tue, 09 Mar 2021 18:08:53 +0100
+ id 1lJfqn-0003Lu-Rn; Tue, 09 Mar 2021 18:08:53 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1lJfqa-0005Ib-OO; Tue, 09 Mar 2021 18:08:40 +0100
+ id 1lJfqa-0005Id-PH; Tue, 09 Mar 2021 18:08:40 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/6] iotests: Test reopening multiple devices at the same
- time
-Date: Tue,  9 Mar 2021 18:08:31 +0100
-Message-Id: <23d5f5437212a7d9640c663e6c32daf8f31ae8cb.1615309297.git.berto@igalia.com>
+Subject: [PATCH v3 6/6] block: Make blockdev-reopen stable API
+Date: Tue,  9 Mar 2021 18:08:32 +0100
+Message-Id: <848aa6eb8ddcdd3de50dc66ea3427766ee7452f6.1615309297.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1615309297.git.berto@igalia.com>
 References: <cover.1615309297.git.berto@igalia.com>
@@ -67,84 +66,178 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test swaps the images used by two active block devices.
-
-This is now possible thanks to the new ability to run
-x-blockdev-reopen on multiple devices at the same time.
+This patch drops the 'x-' prefix from x-blockdev-reopen.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- tests/qemu-iotests/245     | 41 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/245.out |  4 ++--
- 2 files changed, 43 insertions(+), 2 deletions(-)
+ qapi/block-core.json       |  6 +++---
+ blockdev.c                 |  2 +-
+ tests/qemu-iotests/155     |  2 +-
+ tests/qemu-iotests/165     |  2 +-
+ tests/qemu-iotests/245     | 10 +++++-----
+ tests/qemu-iotests/248     |  2 +-
+ tests/qemu-iotests/248.out |  2 +-
+ tests/qemu-iotests/296     |  2 +-
+ tests/qemu-iotests/298     |  2 +-
+ 9 files changed, 15 insertions(+), 15 deletions(-)
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0363c901b7..c9ef9fdebb 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4138,7 +4138,7 @@
+ { 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true }
+ 
+ ##
+-# @x-blockdev-reopen:
++# @blockdev-reopen:
+ #
+ # Reopens one or more block devices using the given set of options.
+ # Any option not specified will be reset to its default value regardless
+@@ -4176,9 +4176,9 @@
+ # image does not have a default backing file name as part of its
+ # metadata.
+ #
+-# Since: 4.0
++# Since: 6.0
+ ##
+-{ 'command': 'x-blockdev-reopen',
++{ 'command': 'blockdev-reopen',
+   'data': { 'options': ['BlockdevOptions'] } }
+ 
+ ##
+diff --git a/blockdev.c b/blockdev.c
+index 6b688c0f73..ccc7978665 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3528,7 +3528,7 @@ fail:
+     visit_free(v);
+ }
+ 
+-void qmp_x_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
++void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
+ {
+     BlockReopenQueue *queue = NULL;
+     GSList *aio_ctxs = NULL;
+diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
+index 5271f9541f..eb9b3c68ac 100755
+--- a/tests/qemu-iotests/155
++++ b/tests/qemu-iotests/155
+@@ -260,7 +260,7 @@ class TestBlockdevMirrorReopen(MirrorBaseClass):
+             result = self.vm.qmp('blockdev-add', node_name="backing",
+                                  driver="null-co")
+             self.assert_qmp(result, 'return', {})
+-            result = self.vm.qmp('x-blockdev-reopen', options = [{
++            result = self.vm.qmp('blockdev-reopen', options = [{
+                                      'node-name': "target",
+                                      'driver': iotests.imgfmt,
+                                      'file': "target-file",
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index 32db5086e1..d76d5036f1 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -136,7 +136,7 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+         assert sha256_1 == self.getSha256()
+ 
+         # Reopen to RW
+-        result = self.vm.qmp('x-blockdev-reopen', options = [{
++        result = self.vm.qmp('blockdev-reopen', options = [{
+             'node-name': 'node0',
+             'driver': iotests.imgfmt,
+             'file': {
 diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 53281228bc..fb11eb146d 100755
+index fb11eb146d..57ff4d846f 100755
 --- a/tests/qemu-iotests/245
 +++ b/tests/qemu-iotests/245
-@@ -648,6 +648,47 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-                                          '-c', 'read -P 0x40 0x40008 1',
-                                          '-c', 'read -P 0x80 0x40010 1', hd_path[0])
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ #
+-# Test cases for the QMP 'x-blockdev-reopen' command
++# Test cases for the QMP 'blockdev-reopen' command
+ #
+ # Copyright (C) 2018-2019 Igalia, S.L.
+ # Author: Alberto Garcia <berto@igalia.com>
+@@ -84,16 +84,16 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+                          "Expected output of %d qemu-io commands, found %d" %
+                          (found, self.total_io_cmds))
  
-+    # Swap the disk images of two active block devices
-+    def test_swap_files(self):
-+        # Add hd0 and hd2 (none of them with backing files)
-+        opts0 = hd_opts(0)
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts0)
-+        self.assert_qmp(result, 'return', {})
-+
-+        opts2 = hd_opts(2)
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts2)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Write different data to both block devices
-+        self.run_qemu_io("hd0", "write -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "write -P 0xa2 0 1k")
-+
-+        # Check that the data reads correctly
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-+        # It's not possible to make a block device use an image that
-+        # is already being used by the other device.
-+        self.reopen(opts0, {'file': 'hd2-file'},
-+                    "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd2-file")
-+        self.reopen(opts2, {'file': 'hd0-file'},
-+                    "Conflicts with use by hd2 as 'file', which does not allow 'write, resize' on hd0-file")
-+
-+        # But we can swap the images if we reopen both devices at the
-+        # same time
-+        opts0['file'] = 'hd2-file'
-+        opts2['file'] = 'hd0-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa2 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa0 0 1k")
-+
-+        # And we can of course come back to the original state
-+        opts0['file'] = 'hd0-file'
-+        opts2['file'] = 'hd2-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-     # Misc reopen tests with different block drivers
-     @iotests.skip_if_unsupported(['quorum', 'throttle'])
-     def test_misc_drivers(self):
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index 6ea1b2798f..c4230b51d1 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -17,8 +17,8 @@ read 1/1 bytes at offset 262152
- read 1/1 bytes at offset 262160
- 1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-    # Run x-blockdev-reopen on a list of block devices
++    # Run blockdev-reopen on a list of block devices
+     def reopenMultiple(self, opts, errmsg = None):
+-        result = self.vm.qmp('x-blockdev-reopen', conv_keys = False, options = opts)
++        result = self.vm.qmp('blockdev-reopen', conv_keys = False, options = opts)
+         if errmsg:
+             self.assert_qmp(result, 'error/class', 'GenericError')
+             self.assert_qmp(result, 'error/desc', errmsg)
+         else:
+             self.assert_qmp(result, 'return', {})
  
--........................
-+.........................
- ----------------------------------------------------------------------
--Ran 24 tests
-+Ran 25 tests
+-    # Run x-blockdev-reopen on a single block device (specified by
++    # Run blockdev-reopen on a single block device (specified by
+     # 'opts') but applying 'newopts' on top of it. The original 'opts'
+     # dict is unmodified
+     def reopen(self, opts, newopts = {}, errmsg = None):
+@@ -160,7 +160,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.reopen(opts, {'file.locking': 'off'}, "Cannot change the option 'locking'")
+         self.reopen(opts, {'file.filename': None}, "Invalid parameter type for 'options[0].file.filename', expected: string")
  
- OK
+-        # node-name is optional in BlockdevOptions, but x-blockdev-reopen needs it
++        # node-name is optional in BlockdevOptions, but blockdev-reopen needs it
+         del opts['node-name']
+         self.reopen(opts, {}, "Node name not specified")
+ 
+diff --git a/tests/qemu-iotests/248 b/tests/qemu-iotests/248
+index 2b43853183..0da519d79f 100755
+--- a/tests/qemu-iotests/248
++++ b/tests/qemu-iotests/248
+@@ -61,7 +61,7 @@ vm.event_wait('JOB_STATUS_CHANGE', timeout=3.0,
+ vm.get_qmp_events()
+ 
+ del blockdev_opts['file']['size']
+-vm.qmp_log('x-blockdev-reopen', filters=[filter_qmp_testfiles],
++vm.qmp_log('blockdev-reopen', filters=[filter_qmp_testfiles],
+            options = [ blockdev_opts ])
+ 
+ vm.qmp_log('block-job-resume', device='drive0')
+diff --git a/tests/qemu-iotests/248.out b/tests/qemu-iotests/248.out
+index 893f625347..66e94ccd7e 100644
+--- a/tests/qemu-iotests/248.out
++++ b/tests/qemu-iotests/248.out
+@@ -2,7 +2,7 @@
+ {"return": {}}
+ {"execute": "blockdev-mirror", "arguments": {"device": "drive0", "on-target-error": "enospc", "sync": "full", "target": "target"}}
+ {"return": {}}
+-{"execute": "x-blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
++{"execute": "blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
+ {"return": {}}
+ {"execute": "block-job-resume", "arguments": {"device": "drive0"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
+index cfa5122d6b..19c4cb3861 100755
+--- a/tests/qemu-iotests/296
++++ b/tests/qemu-iotests/296
+@@ -117,7 +117,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+     def openImageQmp(self, vm, id, file, secret,
+                      readOnly = False, reOpen = False):
+ 
+-        command = 'x-blockdev-reopen' if reOpen else 'blockdev-add'
++        command = 'blockdev-reopen' if reOpen else 'blockdev-add'
+ 
+         opts = {
+                 'driver': iotests.imgfmt,
+diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
+index 4efdb35b91..b4d8bd9b55 100644
+--- a/tests/qemu-iotests/298
++++ b/tests/qemu-iotests/298
+@@ -98,7 +98,7 @@ class TestPreallocateFilter(TestPreallocateBase):
+         self.check_big()
+ 
+     def test_reopen_opts(self):
+-        result = self.vm.qmp('x-blockdev-reopen', options = [{
++        result = self.vm.qmp('blockdev-reopen', options = [{
+             'node-name': 'disk',
+             'driver': iotests.imgfmt,
+             'file': {
 -- 
 2.20.1
 
