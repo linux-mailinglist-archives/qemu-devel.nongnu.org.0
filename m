@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675D0332A63
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:27:20 +0100 (CET)
-Received: from localhost ([::1]:33840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDF43329E0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:12:01 +0100 (CET)
+Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeGV-0005zQ-F9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:27:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
+	id 1lJe1g-0003IV-GD
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:12:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJdld-0001xK-5S; Tue, 09 Mar 2021 09:55:25 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJdlb-0001aY-5u; Tue, 09 Mar 2021 09:55:24 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8D469AE7F;
- Tue,  9 Mar 2021 14:55:16 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210221222617.2579610-1-f4bug@amsat.org>
- <20210221222617.2579610-2-f4bug@amsat.org>
- <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
- <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <0db478a3-ad7d-d70c-f650-54fb4ff35b49@suse.de>
-Date: Tue, 9 Mar 2021 15:55:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdnF-0004S1-8r
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:05 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdnA-0002Ln-Um
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:57:04 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id dx17so28475730ejb.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:56:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HH26cU5A0i8raW+zocYPoYUE+HBXnO6h7fo4ht7A3ig=;
+ b=p0PVKeluxXLZYsRiFBK5dUwq4jgtahEr1vvNOEC4zWCSNtaAIP4VEvgtUEvtBsCzEo
+ 39GXAYqh6xhCM5Z7IPUrm39pXzbg/J7BW2yGU3N6fNVbFEXIfvrpRQPFbPjszA1B+Iy3
+ xB/474eU51MsaPenZlrXHtaTbVKBhcVJm2gr0WHxaovZqoIkx9rBwbASZdvzAb9gVyw1
+ DKBahwI4VeLmJctuvxapx9TdPLyt9vOx5Gw6IEHV/uJuA6rcf7xvslA10hpsQoELXfiY
+ DoMR5x1BJBH/mSm7oz+i3OpX77mA8ZJ7+R027NZghdn0WCtisMxPP6fdGPiW1kCivAkj
+ bM2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HH26cU5A0i8raW+zocYPoYUE+HBXnO6h7fo4ht7A3ig=;
+ b=Uub2VMVG2N1I2VeNHYfpTKRtJElkfZu3S2Wkb+9yOusXf6ZpnoXiSZRH04XBx3IPsU
+ arCdcPkiHx8QvQlG6ovtUBK4iKiJIEWyenhbrGEG+JMygozZ9aGpeOBJCe8KxqFDGpHU
+ LluNAtPKx/Jo0/6gb/eVoySVXKGIlXLXo/T6k6EWrWQN4sJtNIQ7kXQ0AP9VyY8aVKmC
+ RMP2MQ4DIkn4dUBkXJ2RITGUaaNykpnDQfn1ahe01J9PiRLBWuzdNznN3LFkXA83uCpa
+ UrIis5+B51tOxEGNNGgKPrAsS+GJziuRpLKrRVRhYA+V0fyKN5hrMKcDkvP4Z2upauU+
+ jf7g==
+X-Gm-Message-State: AOAM530ql0u7HDvbZJWs7gWh+QKBR6UUZ6iMOqYTlhpoeNQlenMzK0Of
+ sIHtRgkkUesYIjEEEJRSPhr1UuS6ihU=
+X-Google-Smtp-Source: ABdhPJwkBuv4EIq/kxn5vV/gCtVWk2No/cVmCgsRjvKrf4Up0I9joQD6VEmnm90gxl4MxzhzRWuQIw==
+X-Received: by 2002:a17:906:ecfb:: with SMTP id
+ qt27mr20220875ejb.245.1615301815416; 
+ Tue, 09 Mar 2021 06:56:55 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id o1sm9329884eds.26.2021.03.09.06.56.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 06:56:54 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 00/22] target/mips: Reintroduce the R5900 CPU (without
+ testing)
+Date: Tue,  9 Mar 2021 15:56:31 +0100
+Message-Id: <20210309145653.743937-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,111 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fredrik Noring <noring@nocrew.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 3:18 PM, Philippe Mathieu-Daudé wrote:
-> On 3/9/21 2:41 PM, Claudio Fontana wrote:
->> On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
->>> IDAU is specific to M-profile. KVM only supports A-profile.
->>> Restrict this interface to TCG, as it is pointless (and
->>> confusing) on a KVM-only build.
->>>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->>
->> This one breaks the KVM tests hard though (most of them).
->>
->> I will try to figure out why.
->>
->> Ciao,
->>
->> Claudio
->>
->>
->>> ---
->>>  target/arm/cpu.c     | 7 -------
->>>  target/arm/cpu_tcg.c | 8 ++++++++
->>>  2 files changed, 8 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->>> index b8bc89e71fc..a772fd4926f 100644
->>> --- a/target/arm/cpu.c
->>> +++ b/target/arm/cpu.c
->>> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
->>>      .class_init = arm_cpu_class_init,
->>>  };
->>>  
->>> -static const TypeInfo idau_interface_type_info = {
->>> -    .name = TYPE_IDAU_INTERFACE,
->>> -    .parent = TYPE_INTERFACE,
-> 
-> Hmm this is an interface...
-> 
-> Is a CPU/machine trying to resolve it?
-
-I think that qtests assume the interface to be there.
-
-device-introspection-test for sure, but apparently many others too..
-
-RFC v5 is out now,
-
-Ciao,
-
-Claudio
-
-> 
->>> -    .class_size = sizeof(IDAUInterfaceClass),
->>> -};
->>> -
->>>  static void arm_cpu_register_types(void)
->>>  {
->>>      const size_t cpu_count = ARRAY_SIZE(arm_cpus);
->>> @@ -2399,7 +2393,6 @@ static void arm_cpu_register_types(void)
->>>      if (cpu_count) {
->>>          size_t i;
->>>  
->>> -        type_register_static(&idau_interface_type_info);
->>>          for (i = 0; i < cpu_count; ++i) {
->>>              arm_cpu_register(&arm_cpus[i]);
->>>          }
->>> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
->>> index c29b434c60d..fb07a336939 100644
->>> --- a/target/arm/cpu_tcg.c
->>> +++ b/target/arm/cpu_tcg.c
->>> @@ -14,6 +14,7 @@
->>>  #include "hw/core/tcg-cpu-ops.h"
->>>  #endif /* CONFIG_TCG */
->>>  #include "internals.h"
->>> +#include "target/arm/idau.h"
->>>  
->>>  /* CPU models. These are not needed for the AArch64 linux-user build. */
->>>  #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
->>> @@ -739,10 +740,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
->>>      { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
->>>  };
->>>  
->>> +static const TypeInfo idau_interface_type_info = {
->>> +    .name = TYPE_IDAU_INTERFACE,
->>> +    .parent = TYPE_INTERFACE,
->>> +    .class_size = sizeof(IDAUInterfaceClass),
->>> +};
->>> +
->>>  static void arm_tcg_cpu_register_types(void)
->>>  {
->>>      size_t i;
->>>  
->>> +    type_register_static(&idau_interface_type_info);
->>>      for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
->>>          arm_cpu_register(&arm_tcg_cpus[i]);
->>>      }
->>>
->>
->>
-> 
-
+First part (TCG, testing postponed) of RFC v1:=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg782449.html=0D
+=0D
+3 patches can still be improved for performance, but the improvement=0D
+is not yet addressed in this series. Other patches are good enough=0D
+for review.=0D
+=0D
+https://gitlab.com/philmd/qemu/-/commits/mips-r5900-v2=0D
+Based-on: mips-next=0D
+Supersedes: <20210214175912.732946-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (22):=0D
+  target/mips/tx79: Move MFHI1 / MFLO1 opcodes to decodetree=0D
+  target/mips/tx79: Move MTHI1 / MTLO1 opcodes to decodetree=0D
+  target/mips/translate: Make gen_rdhwr() public=0D
+  target/mips/translate: Simplify PCPYH using deposit_i64()=0D
+  target/mips/tx79: Move PCPYH opcode to decodetree=0D
+  target/mips/tx79: Move PCPYLD / PCPYUD opcodes to decodetree=0D
+  target/mips: Remove 'C790 Multimedia Instructions' dead code=0D
+  target/mips/tx79: Salvage instructions description comment=0D
+  target/mips/tx79: Introduce PAND/POR/PXOR/PNOR opcodes (parallel=0D
+    logic)=0D
+  target/mips/tx79: Introduce PSUB* opcodes (Parallel Subtract)=0D
+  target/mips/tx79: Introduce PEXTUW (Parallel Extend Upper from Word)=0D
+  target/mips/tx79: Introduce PEXTL[BHW] opcodes (Parallel Extend Lower)=0D
+  target/mips/tx79: Introduce PCEQ* opcodes (Parallel Compare for Equal)=0D
+  target/mips/tx79: Introduce PCGT* (Parallel Compare for Greater Than)=0D
+  target/mips/tx79: Introduce PPACW opcode (Parallel Pack to Word)=0D
+  target/mips/tx79: Introduce PINTEH (Parallel Interleave Even Halfword)=0D
+  target/mips/tx79: Introduce PEXE[HW] opcodes (Parallel Exchange Even)=0D
+  target/mips/tx79: Introduce PROT3W opcode (Parallel Rotate 3 Words)=0D
+  target/mips/tx79: Introduce LQ opcode (Load Quadword)=0D
+  target/mips/tx79: Introduce SQ opcode (Store Quadword)=0D
+  target/mips/tx79: Move RDHWR usermode kludge to trans_SQ()=0D
+  target/mips: Reintroduce the R5900 CPU=0D
+=0D
+ target/mips/translate.h      |   6 +=0D
+ target/mips/tx79.decode      |  79 ++++=0D
+ target/mips/translate.c      | 790 +---------------------------------=0D
+ target/mips/tx79_translate.c | 808 +++++++++++++++++++++++++++++++++++=0D
+ target/mips/txx9_translate.c |  20 +=0D
+ target/mips/cpu-defs.c.inc   |  59 +++=0D
+ target/mips/meson.build      |   5 +=0D
+ 7 files changed, 983 insertions(+), 784 deletions(-)=0D
+ create mode 100644 target/mips/tx79.decode=0D
+ create mode 100644 target/mips/tx79_translate.c=0D
+ create mode 100644 target/mips/txx9_translate.c=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
