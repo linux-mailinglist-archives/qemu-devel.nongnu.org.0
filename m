@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302F73330A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:09:58 +0100 (CET)
-Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65C93330AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:11:52 +0100 (CET)
+Received: from localhost ([::1]:51242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjc4-0002u7-Ti
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:09:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
+	id 1lJjdv-0006RZ-QL
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:11:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjHM-0000sH-E5; Tue, 09 Mar 2021 15:48:32 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:47007)
+ id 1lJjIv-0002XF-1f; Tue, 09 Mar 2021 15:50:13 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:55385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjH7-0000qK-2f; Tue, 09 Mar 2021 15:48:31 -0500
+ id 1lJjIt-0001Ub-7w; Tue, 09 Mar 2021 15:50:08 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MAgMY-1lUkpn0Uye-00B3Dx; Tue, 09 Mar 2021 21:48:11 +0100
-Subject: Re: [PATCH] net: Use id_generate() in the network subsystem, too
-To: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210215090225.1046239-1-thuth@redhat.com>
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M5xDJ-1lPTWj3iV1-007Rik; Tue, 09 Mar 2021 21:49:55 +0100
+Subject: Re: [PATCH] fuzz-test: remove unneccessary debugging flags
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210216181316.794276-1-alxndr@bu.edu>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <14235a40-b3d2-98c4-2439-518199c2c2c3@vivier.eu>
-Date: Tue, 9 Mar 2021 21:48:09 +0100
+Message-ID: <07e8f46f-4ee3-83f9-f429-eb34edb6e554@vivier.eu>
+Date: Tue, 9 Mar 2021 21:49:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210215090225.1046239-1-thuth@redhat.com>
+In-Reply-To: <20210216181316.794276-1-alxndr@bu.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kE/sbWIiQkQRCMGD5Qc2vZh7MyYEK1d+74ARlVFzL5jUJdNcv5g
- yMIO593reGM/hHsUal5F2P9P2Wre8Im3Lx+OT1wVywbf4YIeXRDbTqKGyGOJI9jchJOvZST
- qLOVqZQaBpImnQCVfB1ZP8rk1sLT3zHIhI0Uo1Mg7Cz67DfuZeqSPD54kJIAl0KwrMnnLfx
- RV92tK8aeHWnGzK5OLroA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+ejyk1uNfNs=:lkNTAsUrz0Wv5B4SjWJEu1
- 0m60+lsnP0+vIpL4/9vJXoQt8tqqyKYqhhqQOe12tcHrXgiPZUDVyief2ZRyb3z9HRgmxb3OV
- U15ffP76LHGLMfMjGQwWvXxtEIcRE2NIFui/pbE6AxCrwjrdXdxUs2RQQb8Lbyg/vQWg6G7vO
- hScf+7logLkp30AigdOCWPNOj0ZPuE51rC5gp3Tp6fyPUYy1B8U14N3BcjlQ/LQ7InKkD1Q3N
- dx9ESgP6YusVKCXQMd/WCyZQJDGGEmwqq5Ck73N5n45lJwUnwgk9Dxk/VYlRzU5VqX5z7pMUz
- Gw3kmrpLA4rGy9/UezhnA4U7oqEMGBwapHj8IZwItRmdSxAld2xDN5WprCT4FUXuK/XkXi4bt
- O34GxaFUvTHM6gdvEnZHpqL0YBLUkOTxwK4lYJi8jTz5OO5D7MH428OPgZ+CBBAafx3Y1vXPk
- IGauGk+xaA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9Sa5t1xKFOPqkmzq7yW7kasowgx0JoU/vqwmrRbZB3a3kRE0P93
+ AoBSXUjzDYztoc0veHbpbEBBTOE6YF8JsgMZGX2A+tA57KzdvsxGcvw5QWG8i+SlfSpht7I
+ KJ1tQD1qEbGlllEHGKgtvnFfCu80Ef7exb/R14zZoeqL5MsdvfgAnXbywe35WfbQ64CRTvd
+ /nUzQ+/Kh7jyeA4wn0FfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/vzEO7KqX2w=:HK0JZtn3SkNRC9//m8aKjr
+ Xg45Yu0tQ1bD6qGwjiHWdhPc+8alGkTIXQv+5l18nQDM6RVV6wxDAoYwpQY8iHyPGYVAeOBXe
+ Vw+N30YFmGzgQTRcOwE/AtaJ/jLycewxoGw+zsnPOs7hRpj4kcatrEWEi3tie5eohe+Cg0+sq
+ aRhkq2EVg5BBkMaGPuo6Qp0XLAEov8kI07UUvJQPROk5TUyyPxiqiOP1uLc9plChZXFq07BfR
+ +gjp+m3mXxzq2EA7JT3WiW5lmqdPIBaDOt0qmB6bbG37ciVyKgWS17PIPREKLIoE0M2AHWKQp
+ TGTV+/PRXAFqawr/2/E6FcIPhxiOfJrismD9FPSlNixNk+Eul75zHKe17XvayBWs/DqQ9R8Hl
+ wlZb8hUOHwmMkPrGFQHFc4TFw/p3PN4Cdm+ISIlESxU+9JcX4zTrm0bJSvx0Q
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,77 +64,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/02/2021 à 10:02, Thomas Huth a écrit :
-> We already got a global function called id_generate() to create unique
-> IDs within QEMU. Let's use it in the network subsytem, too, instead of
-> inventing our own ID scheme here.
+Le 16/02/2021 à 19:13, Alexander Bulekov a écrit :
+> These flags cause the output to look strange for 'make check', and
+> they aren't needed to reproduce bugs, if they reappear.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
->  include/qemu/id.h | 1 +
->  net/net.c         | 6 +++---
->  util/id.c         | 1 +
->  3 files changed, 5 insertions(+), 3 deletions(-)
+>  tests/qtest/fuzz-test.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/include/qemu/id.h b/include/qemu/id.h
-> index b55c406e69..46b759b284 100644
-> --- a/include/qemu/id.h
-> +++ b/include/qemu/id.h
-> @@ -5,6 +5,7 @@ typedef enum IdSubSystems {
->      ID_QDEV,
->      ID_BLOCK,
->      ID_CHR,
-> +    ID_NET,
->      ID_MAX      /* last element, used as array size */
->  } IdSubSystems;
+> diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+> index cdb1100a0b..6f161c93be 100644
+> --- a/tests/qtest/fuzz-test.c
+> +++ b/tests/qtest/fuzz-test.c
+> @@ -39,8 +39,7 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+>      QTestState *s;
 >  
-> diff --git a/net/net.c b/net/net.c
-> index fb7b7dcc25..ca30df963d 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -43,6 +43,7 @@
->  #include "qemu/cutils.h"
->  #include "qemu/config-file.h"
->  #include "qemu/ctype.h"
-> +#include "qemu/id.h"
->  #include "qemu/iov.h"
->  #include "qemu/qemu-print.h"
->  #include "qemu/main-loop.h"
-> @@ -1111,8 +1112,7 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+>      s = qtest_init("-M pc-q35-5.0 "
+> -                   "-nographic -monitor none -serial none "
+> -                   "-d guest_errors -trace pci*");
+> +                   "-nographic -monitor none -serial none");
 >  
->      /* Create an ID for -net if the user did not specify one */
->      if (!is_netdev && !qemu_opts_id(opts)) {
-> -        static int idx;
-> -        qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i", idx++));
-> +        qemu_opts_set_id(opts, id_generate(ID_NET));
->      }
->  
->      if (visit_type_Netdev(v, NULL, &object, errp)) {
-> @@ -1467,7 +1467,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
->      /* Create an ID if the user did not specify one */
->      nd_id = g_strdup(qemu_opts_id(opts));
->      if (!nd_id) {
-> -        nd_id = g_strdup_printf("__org.qemu.nic%i", idx);
-> +        nd_id = id_generate(ID_NET);
->          qemu_opts_set_id(opts, nd_id);
->      }
->  
-> diff --git a/util/id.c b/util/id.c
-> index 5addb4460e..ded41c5025 100644
-> --- a/util/id.c
-> +++ b/util/id.c
-> @@ -35,6 +35,7 @@ static const char *const id_subsys_str[ID_MAX] = {
->      [ID_QDEV]  = "qdev",
->      [ID_BLOCK] = "block",
->      [ID_CHR] = "chr",
-> +    [ID_NET] = "net",
->  };
->  
->  /*
+>      qtest_outl(s, 0xcf8, 0x8400f841);
+>      qtest_outl(s, 0xcfc, 0xebed205d);
 > 
 
 Applied to my trivial-patches branch.
