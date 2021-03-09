@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E389332E08
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:17:06 +0100 (CET)
-Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5149D332E13
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:19:26 +0100 (CET)
+Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJgun-0001Zk-0q
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:17:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
+	id 1lJgx2-0005Xv-QP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:19:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf7Z-0000DZ-02
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:09 -0500
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:45387)
+ id 1lJf7a-0000Hg-RT
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:10 -0500
+Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:46336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf7W-0002km-He
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:08 -0500
-Received: by mail-oo1-xc2a.google.com with SMTP id s23so3177378oot.12
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:06 -0800 (PST)
+ id 1lJf7Y-0002lU-Rt
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:22:10 -0500
+Received: by mail-oo1-xc34.google.com with SMTP id l11so3166995oov.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bFsXvn8twBtNJsU+A9bHI+28KQAx75XSf3FzGr0LfTA=;
- b=q0fu5sSoZ7yFFwRNiK535wkOmqDR8Mm3uSK5rzUFfY3DTblLR3s1rdAEvKm7FMmCz5
- Q3qgB+VjI1PLSCRsjpFuXcldMrKfo7Arvn086/zoNRQZb8066wF45pbk39AUS1NdudOg
- F8wND/7en4V0R62H43M3qafTpxkpYX/AvGWTPJLpGVbApaNdv8eIQKK4OgLknLuUjI3g
- J61P2wMlYOnA0aj8PQtJyBIP0lwjaNjrSxQkn1mtyXzR0kb0UAjYqC3fKP0oDmyLipx5
- QSq/2y7LzaybBmTLPusjytWgpVWt4AwGrfIQpJLI6p8B34UFVsDJ7CQJPZuzDcGJZ8xj
- Ayew==
+ bh=HEwyxw34JNS3xvvmtmlho/yxHK1LKHErEB/8mITxEEA=;
+ b=xKL1VeqgOiuR1tF7zh9YSdfceKKUpt3AVxq74NOV8Syh0+01kMfHyFun0NBhwVtz71
+ AC9Nd0ZHLJ7o+nPH1pf8EXedClHxdefahUu0GhmNWy6gLI2OS+ngEz6u/t+IVVL4zDGi
+ /fPxQCPawnXRh73QcTlBr2fNpCePw3oxWdYant7MZVrCG8w4OXIMPhhaCgUlXaOBwnQl
+ Qt5ncFSg4F79R3fhAtkLgqgRSepXz2QTjL1pARXFE19DbpKjCx8cnYAMAoXCbEH9pmWD
+ EvjMHJj78zBpuYu1eMLKv4ut+YWxAq//pqqg/AXn9b4zq/3PZQjiXJbUaQfaI6DlaFIo
+ Ovwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bFsXvn8twBtNJsU+A9bHI+28KQAx75XSf3FzGr0LfTA=;
- b=XEvJTHt2JebZAVSKY5/l+ZvZlBaRYpTiehQRRKFX9LS0VnVw4ymzRRlYXFJ+n/fAdy
- c9nancEY+lZoP4XjN8GfrXv9dPinHF+zMDeUCS4/eK3pB56suH/ecl2owrGuq+eyZY+m
- jBmCF61L+4VeYtPeB164x1MDRXnrpG19OwjG76FPqRfhqFIfblBR5p9G6GplWzhkTutE
- bHZf1dUct3VbsggubTfX3yr89Pd2kAttF/uXSICqG/7AMCpgahBkHnrWoXlxIltMoXxm
- 5Lm4HWZ3KeOPei77HJUm6aCS+Co98B1nlPnysKFC8a1UVteGiAY6FLUgVke0wXTC0HaY
- nwRw==
-X-Gm-Message-State: AOAM531dd3cWx5IbocKjIyNLV3ePJUDfCp96A1UTptJmJ8KvW2BdkyCt
- hdnx1NMHePgNdmxFz5Faa0KggOUJq59aD0Z9
-X-Google-Smtp-Source: ABdhPJxenISAWEy2VG1IwPQw1MiFKHbDxJRtBqL14OJoayCzwIdpm+khyyH2O+APNm4JsptC4mpaEg==
-X-Received: by 2002:a4a:d1da:: with SMTP id a26mr22970496oos.58.1615306925485; 
- Tue, 09 Mar 2021 08:22:05 -0800 (PST)
+ bh=HEwyxw34JNS3xvvmtmlho/yxHK1LKHErEB/8mITxEEA=;
+ b=nyDJHT0aYVrBjK8LwwW4GXJuc4flVbHhL4Jt3xMSWEp51QN7FO1wBVnbXNdRnhhp/V
+ TIoGjzsgSSdy+5oCUjTWvq8I22fniRX9ZDVlndoGIGNtZ1Hz8A9U9FpkgQFrOx0SX6R/
+ s4J30Nnz+FHGaBNRjihZHrPzkp5EojVnHm32ZSLUsh9vt2fU6aX1DnDYOSUaIRBaTPPZ
+ yf/yGVCAISuJrWn4fWpQqDsQuSNYxJpUQPez70yg5S9icBS9hGgf74bPKUgy/dnlFQbU
+ MzAhZajpsdnCDICAmzBo4g0t5FybopNj9tmRbnzdABZ9v6JqKkDFbC9XW9F8fs/MtnO4
+ vvrw==
+X-Gm-Message-State: AOAM530kOHyHf6yAX3/36w/5oKIHGvCFHv1wi19YwFGe3WaDmB514HCA
+ gTXDAyXuqmPiD/92UrefoiZ4yTiIL+TgRoZ7
+X-Google-Smtp-Source: ABdhPJwM44zXhW4QyIwtPy7cUNPmRdeTsCRoXBGXBPGIa2B7Yl2LrIezZ6uWHvLUFObd/YLIE83dcw==
+X-Received: by 2002:a4a:d994:: with SMTP id k20mr22846236oou.70.1615306927863; 
+ Tue, 09 Mar 2021 08:22:07 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.04
+ by smtp.gmail.com with ESMTPSA id u19sm3470898ote.15.2021.03.09.08.22.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 08:22:05 -0800 (PST)
+ Tue, 09 Mar 2021 08:22:07 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 45/78] target/arm: Implement SVE2 gather load insns
-Date: Tue,  9 Mar 2021 08:20:08 -0800
-Message-Id: <20210309162041.23124-46-richard.henderson@linaro.org>
+Subject: [PATCH v4 47/78] target/arm: Implement SVE2 SPLICE, EXT
+Date: Tue,  9 Mar 2021 08:20:10 -0800
+Message-Id: <20210309162041.23124-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210309162041.23124-1-richard.henderson@linaro.org>
 References: <20210309162041.23124-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,74 +90,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stephen Long <steplong@quicinc.com>
 
-Add decoding logic for SVE2 64-bit/32-bit gather non-temporal
-load insns.
-
-64-bit
-* LDNT1SB
-* LDNT1B (vector plus scalar)
-* LDNT1SH
-* LDNT1H (vector plus scalar)
-* LDNT1SW
-* LDNT1W (vector plus scalar)
-* LDNT1D (vector plus scalar)
-
-32-bit
-* LDNT1SB
-* LDNT1B (vector plus scalar)
-* LDNT1SH
-* LDNT1H (vector plus scalar)
-* LDNT1W (vector plus scalar)
-
 Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200422152343.12493-1-steplong@quicinc.com>
+Message-Id: <20200423180347.9403-1-steplong@quicinc.com>
+[rth: Rename the trans_* functions to *_sve2.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode      | 11 +++++++++++
- target/arm/translate-sve.c |  8 ++++++++
- 2 files changed, 19 insertions(+)
+ target/arm/sve.decode      | 11 +++++++++--
+ target/arm/translate-sve.c | 35 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 39 insertions(+), 7 deletions(-)
 
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 5cfe6df0d2..c3958bed6a 100644
+index cb2ee86228..67b6466a1e 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1389,6 +1389,17 @@ UMLSLT_zzzw     01000100 .. 0 ..... 010 111 ..... .....  @rda_rn_rm
- CMLA_zzzz       01000100 esz:2 0 rm:5 0010 rot:2 rn:5 rd:5  ra=%reg_movprfx
- SQRDCMLAH_zzzz  01000100 esz:2 0 rm:5 0011 rot:2 rn:5 rd:5  ra=%reg_movprfx
+@@ -494,10 +494,14 @@ CPY_z_i         00000101 .. 01 .... 00 . ........ .....   @rdn_pg4 imm=%sh8_i8s
  
-+### SVE2 Memory Gather Load Group
-+
-+# SVE2 64-bit gather non-temporal load
-+#   (scalar plus unpacked 32-bit unscaled offsets)
-+LDNT1_zprz      1100010 msz:2 00 rm:5 1 u:1 0 pg:3 rn:5 rd:5 \
-+                &rprr_gather_load xs=0 esz=3 scale=0 ff=0
-+
-+# SVE2 32-bit gather non-temporal load (scalar plus 32-bit unscaled offsets)
-+LDNT1_zprz      1000010 msz:2 00 rm:5 10 u:1 pg:3 rn:5 rd:5 \
-+                &rprr_gather_load xs=0 esz=2 scale=0 ff=0
-+
- ### SVE2 Memory Store Group
+ ### SVE Permute - Extract Group
  
- # SVE2 64-bit scatter non-temporal store (vector plus scalar)
+-# SVE extract vector (immediate offset)
++# SVE extract vector (destructive)
+ EXT             00000101 001 ..... 000 ... rm:5 rd:5 \
+                 &rrri rn=%reg_movprfx imm=%imm8_16_10
+ 
++# SVE2 extract vector (constructive)
++EXT_sve2        00000101 011 ..... 000 ... rn:5 rd:5 \
++                &rri imm=%imm8_16_10
++
+ ### SVE Permute - Unpredicated Group
+ 
+ # SVE broadcast general register
+@@ -588,9 +592,12 @@ REVH            00000101 .. 1001 01 100 ... ..... .....         @rd_pg_rn
+ REVW            00000101 .. 1001 10 100 ... ..... .....         @rd_pg_rn
+ RBIT            00000101 .. 1001 11 100 ... ..... .....         @rd_pg_rn
+ 
+-# SVE vector splice (predicated)
++# SVE vector splice (predicated, destructive)
+ SPLICE          00000101 .. 101 100 100 ... ..... .....         @rdn_pg_rm
+ 
++# SVE2 vector splice (predicated, constructive)
++SPLICE_sve2     00000101 .. 101 101 100 ... ..... .....         @rd_pg_rn
++
+ ### SVE Select Vectors Group
+ 
+ # SVE select vector elements (predicated)
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 895522e3cf..21ecb535ca 100644
+index 8c93d87897..cfcf4893ac 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6016,6 +6016,14 @@ static bool trans_LD1_zpiz(DisasContext *s, arg_LD1_zpiz *a)
+@@ -2266,18 +2266,18 @@ static bool trans_CPY_z_i(DisasContext *s, arg_CPY_z_i *a)
+  *** SVE Permute Extract Group
+  */
+ 
+-static bool trans_EXT(DisasContext *s, arg_EXT *a)
++static bool do_EXT(DisasContext *s, int rd, int rn, int rm, int imm)
+ {
+     if (!sve_access_check(s)) {
+         return true;
+     }
+ 
+     unsigned vsz = vec_full_reg_size(s);
+-    unsigned n_ofs = a->imm >= vsz ? 0 : a->imm;
++    unsigned n_ofs = imm >= vsz ? 0 : imm;
+     unsigned n_siz = vsz - n_ofs;
+-    unsigned d = vec_full_reg_offset(s, a->rd);
+-    unsigned n = vec_full_reg_offset(s, a->rn);
+-    unsigned m = vec_full_reg_offset(s, a->rm);
++    unsigned d = vec_full_reg_offset(s, rd);
++    unsigned n = vec_full_reg_offset(s, rn);
++    unsigned m = vec_full_reg_offset(s, rm);
+ 
+     /* Use host vector move insns if we have appropriate sizes
+      * and no unfortunate overlap.
+@@ -2296,6 +2296,19 @@ static bool trans_EXT(DisasContext *s, arg_EXT *a)
      return true;
  }
  
-+static bool trans_LDNT1_zprz(DisasContext *s, arg_LD1_zprz *a)
++static bool trans_EXT(DisasContext *s, arg_EXT *a)
++{
++    return do_EXT(s, a->rd, a->rn, a->rm, a->imm);
++}
++
++static bool trans_EXT_sve2(DisasContext *s, arg_rri *a)
 +{
 +    if (!dc_isar_feature(aa64_sve2, s)) {
 +        return false;
 +    }
-+    return trans_LD1_zprz(s, a);
++    return do_EXT(s, a->rd, a->rn, (a->rn + 1) % 32, a->imm);
 +}
 +
- /* Indexed by [mte][be][xs][msz].  */
- static gen_helper_gvec_mem_scatter * const scatter_store_fn32[2][2][2][3] = {
-     { /* MTE Inactive */
+ /*
+  *** SVE Permute - Unpredicated Group
+  */
+@@ -3013,6 +3026,18 @@ static bool trans_SPLICE(DisasContext *s, arg_rprr_esz *a)
+     return true;
+ }
+ 
++static bool trans_SPLICE_sve2(DisasContext *s, arg_rpr_esz *a)
++{
++    if (!dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_ool_zzzp(s, gen_helper_sve_splice,
++                          a->rd, a->rn, (a->rn + 1) % 32, a->pg, a->esz);
++    }
++    return true;
++}
++
+ /*
+  *** SVE Integer Compare - Vectors Group
+  */
 -- 
 2.25.1
 
