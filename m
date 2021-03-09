@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9171D332F85
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:04:19 +0100 (CET)
-Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AFE332FBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:18:03 +0100 (CET)
+Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJiaY-00072D-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:04:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
+	id 1lJinq-0006Yh-Gj
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:18:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lJh1i-0004oC-VE; Tue, 09 Mar 2021 13:24:15 -0500
-Received: from mail-il1-f181.google.com ([209.85.166.181]:36124)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJh33-00063U-OA
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:25:37 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lJh1h-0008JT-4A; Tue, 09 Mar 2021 13:24:14 -0500
-Received: by mail-il1-f181.google.com with SMTP id g9so13067711ilc.3;
- Tue, 09 Mar 2021 10:24:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJh2z-0000TL-Aj
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:25:37 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u14so17648544wri.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=f0BMsR/OLrIq+XTThQnJJBWU8/FbV6em/iiXxIQGMbo=;
+ b=LnwRq59nqkbXiSMVii9fSXmfQ18K00hJqWrelTpGDLUEXctaYepKuSvACBa9742Ivx
+ w9W9FJlu4c9RLhhjl09KljnV7ezuVFN7P+ONrrdvCSaudQpR0m2WN2w2QW7O5IbTXd19
+ Uocfn9/jruY5/nzv2dYOTHwAiA9T0uA7iA7Em7B7ORWx2yvcWTCBLndr0fEyYPS/wxZ7
+ REhOhJh31civIymsB02UOEItZdVuSXdLLJpvpjmoeccpOK9753cBcLtKUEF8dHjoofXD
+ tMGBZ3+enj/YCnexeulIuEKTJMMu2OE7542vG3mD2jV0CQClV1S+zvADyx5yWXPoAGr7
+ cqJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3Yiv96Q1LyyBLt78n51xwVCMAh+v0w6kUAIirgO6bps=;
- b=YvvvNBJlaSedsot+/i71GdBCS0djkVgbZmToA5SrYKMrnA6qSPZcpsYOaPMKfnrx85
- X58AeSuKGvKacv/TOOftL2RpoCGDKh9tKu7bHB03zv3mD0c7pgLCB1rWVLOPMTB7JuKO
- Jugjoc3FiNEUSps+2sfcMaU9rivJP6JhtGY2Aues7bE8MmquaHdsBWfJ1LtmFPycdodq
- ENfburm+3OU4gbVUwOx2Hd/Zg5Q6bc3mwU5CZxnQ55ylAVlO7xVEC00orsFntycRe6I1
- 8XhD5d5rOH3kxDNFa8uYnHmC25NT8D36mcgPlsYnDUSIibk2N8b5a+ohvcBqrOShfBwq
- Bjbg==
-X-Gm-Message-State: AOAM533+LvTWNOFLUYOSD+tU8baQgl3p83f+IC02qrPf8xvdFHBvRgoj
- qsQcg4bbu3gR4nFm2yhdmyBWqBBK1K4=
-X-Google-Smtp-Source: ABdhPJzpYTjpRlCIuXXTJVicQr8Z7DqOMWWq9mKXAmwKlLABQGV5QbmhkDH+fDvbe42vm+9tXMvT6Q==
-X-Received: by 2002:a05:6e02:1845:: with SMTP id
- b5mr25999954ilv.11.1615314251587; 
- Tue, 09 Mar 2021 10:24:11 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
- [209.85.166.41])
- by smtp.gmail.com with ESMTPSA id a5sm8175170ilk.14.2021.03.09.10.24.11
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=f0BMsR/OLrIq+XTThQnJJBWU8/FbV6em/iiXxIQGMbo=;
+ b=Ib7kNDrb8OiPCyXqWKgwbCh0eXA9SsHT2AftBX4lv2GV4sKb6rN3jYNKSPKaHCJRLF
+ ZDHQRLTPhd2U1UO2KhV7t5pUSsrR0fGurxrbb49ZWpjyWRiBDrv9UIKyxzy5J0sF/Csz
+ MdngPQejUq42eWPR+aw6Sq8/I66AcS144s+ixt2WX0O12HIIWO+A2ecMuwztd7hJZgY2
+ 9zvJ0JtFOnb8raM6zDDvwpIa2plpYesd2DvPID3J3OaVp7uU8tsy8Y3GDUG3Dt6i9zor
+ MdSZQdWXTIrlag5pmCR2KjaT1bJcBjl9/vpD9PwFbOjcVYm65Xuy+7jwTJvim8NP4ITT
+ Ndfg==
+X-Gm-Message-State: AOAM530AH4HPmR5sRxCF93BZTfsswiH4wBj58qtFwg6w3xMYmSYZ9OYN
+ uiRj9WFrNwlPdo7SQ8bIfeCi5w==
+X-Google-Smtp-Source: ABdhPJzpO0xJwKP6OwMNq7zfbwuO+nvXJbv656jgWks49cH+GV6exeB7YyKQ2vCoY6LdCEZMEmm0XA==
+X-Received: by 2002:adf:e603:: with SMTP id p3mr30223836wrm.360.1615314331354; 
+ Tue, 09 Mar 2021 10:25:31 -0800 (PST)
+Received: from [192.168.103.34] ([185.81.136.17])
+ by smtp.gmail.com with ESMTPSA id z2sm30047107wrm.0.2021.03.09.10.25.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 10:24:11 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id o9so14992355iow.6;
- Tue, 09 Mar 2021 10:24:11 -0800 (PST)
-X-Received: by 2002:a6b:b5c2:: with SMTP id
- e185mr24210030iof.204.1615314251178; 
- Tue, 09 Mar 2021 10:24:11 -0800 (PST)
+ Tue, 09 Mar 2021 10:25:31 -0800 (PST)
+Subject: Re: [PATCH v3 3/4] fdc: Inline fdctrl_connect_drives() into
+ fdctrl_realize_common()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210309161214.1402527-1-armbru@redhat.com>
+ <20210309161214.1402527-4-armbru@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ebe654b3-aafb-658d-ba80-ebc3e60d59a5@linaro.org>
+Date: Tue, 9 Mar 2021 12:25:18 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210309032637.41778-1-j@getutm.app>
- <YEeWimKd1QVd176N@stefanha-x1.localdomain>
-In-Reply-To: <YEeWimKd1QVd176N@stefanha-x1.localdomain>
-From: Joelle van Dyne <j@getutm.app>
-Date: Tue, 9 Mar 2021 10:24:00 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSBiPAYtWyhMx07g8+ovON8hfF1kaoOLhUTUc0vWpYOtYA@mail.gmail.com>
-Message-ID: <CA+E+eSBiPAYtWyhMx07g8+ovON8hfF1kaoOLhUTUc0vWpYOtYA@mail.gmail.com>
-Subject: Re: [PATCH] coroutine: add libucontext as external library
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.181; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f181.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210309161214.1402527-4-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +88,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 9, 2021 at 7:38 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Mon, Mar 08, 2021 at 07:26:36PM -0800, Joelle van Dyne wrote:
-> > iOS does not support ucontext natively for aarch64 and the sigaltstack is
-> > also unsupported (even worse, it fails silently, see:
-> > https://openradar.appspot.com/13002712 )
-> >
-> > As a workaround we include a library implementation of ucontext and add it
-> > as a build option.
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  configure                 | 21 ++++++++++++++++++---
-> >  meson.build               | 12 +++++++++++-
-> >  util/coroutine-ucontext.c |  9 +++++++++
-> >  .gitmodules               |  3 +++
-> >  MAINTAINERS               |  6 ++++++
-> >  meson_options.txt         |  2 ++
-> >  subprojects/libucontext   |  1 +
-> >  7 files changed, 50 insertions(+), 4 deletions(-)
-> >  create mode 160000 subprojects/libucontext
-> >
-> > diff --git a/configure b/configure
-> > index 34fccaa2ba..5f225894a9 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -1773,7 +1773,7 @@ Advanced options (experts only):
-> >    --oss-lib                path to OSS library
-> >    --cpu=CPU                Build for host CPU [$cpu]
-> >    --with-coroutine=BACKEND coroutine backend. Supported options:
-> > -                           ucontext, sigaltstack, windows
-> > +                           ucontext, libucontext, sigaltstack, windows
->
-> This approach mixes the concept of the coroutine backend (ucontext,
-> sigaltstack, etc) with the optional libucontext library dependency.
->
-> libucontext is not a coroutine backend. The patch had to introduce
-> $coroutine_impl in addition to $coroutine in order to work around this.
-> Let's avoid combining these two independent concepts into
-> --with-coroutine=.
->
-> I suggest treating libucontext as an optional library dependency in
-> ./configure with explicit --enable-libucontext/--disable-libucontext
-> options. Most of the time neither option will be provided by the user
-> and ./configure should automatically decide whether libucontext is
-> needed or not.
->
-> > +case $coroutine in
-> > +libucontext)
-> > +  git_submodules="${git_submodules} subprojects/libucontext"
-> > +  mkdir -p libucontext
->
-> Why is this mkdir necessary?
+On 3/9/21 8:12 AM, Markus Armbruster wrote:
+> @@ -2565,6 +2551,7 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
+>                                     Error **errp)
+>   {
+>       int i, j;
+> +    FDrive *drive;
+>       static int command_tables_inited = 0;
+>   
+>       if (fdctrl->fallback == FLOPPY_DRIVE_TYPE_AUTO) {
+> @@ -2604,7 +2591,13 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
+>       }
+>   
+>       floppy_bus_create(fdctrl, &fdctrl->bus, dev);
+> -    fdctrl_connect_drives(fdctrl, dev, errp);
+> +
+> +    for (i = 0; i < MAX_FD; i++) {
+> +        drive = &fdctrl->drives[i];
 
-That is a typo, will fix.
+FWIW, the declaration could be local to this loop.
 
-Thanks to all the feedback in this thread. I will shelve this patchset
-for now and see if it's possible to fix ucontext on Darwin. Or if we
-go with gcoroutine that would work as well. Either way it seems like
-this isn't ready yet.
-
--j
+r~
 
