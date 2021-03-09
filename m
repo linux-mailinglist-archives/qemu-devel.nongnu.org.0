@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7637332014
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 08:54:38 +0100 (CET)
-Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44725332057
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 09:19:54 +0100 (CET)
+Received: from localhost ([::1]:46730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJXCP-0006gz-Di
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 02:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
+	id 1lJXaq-0004LS-Qv
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 03:19:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lJXAz-0006Ej-1c
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 02:53:09 -0500
-Received: from mail-ej1-f50.google.com ([209.85.218.50]:45634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ben.leslie@gmail.com>)
- id 1lJXAx-0005Xg-88
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 02:53:08 -0500
-Received: by mail-ej1-f50.google.com with SMTP id mm21so25492500ejb.12
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 23:53:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PY2VHsDpxouPcVwsWXx4dyG7j2TPcUj52kPEdMDSBcA=;
- b=T6fxn8+KuMUS7FIL63XO+JNxEBfEk4MrEF8RViIBZn0z7Hq8KDi4418pm88iqw2TmM
- ZlHG82MIMHb4bB81jnhGEMhg7mUXcoGOgz5qX4lDKF33R4sx/sBpQfMcsBwy5WNH0vC8
- KCU3PlCcXGkeAqfO+83wmF7aIB+r07VSNjCv8gvpikpglknRxPvwpUtDc3OmT2a1vlZH
- o5Q4pkQ7bnxixWLnrduEC4j94LZLkW6g4ix6nLK5WGcISA/UlO5j6JaUqlTVsKppQScB
- qsb8l/jaOYYNGx3PnWk1thtmXynX/4367du/x+4Tw9p9i6hf15fnJm/nh1SvkVXIx1mQ
- rmgA==
-X-Gm-Message-State: AOAM5302xkj83Nu9v+RtUSABIO9NvKa22kkXhpwRy6AsTch715iuDMdL
- g8IPIrBgkMlMdtZN4H+x5fQdU064FuEVKmfvBhE=
-X-Google-Smtp-Source: ABdhPJyhrx2174EvfOzIpBb26KyY+v6Qzo0cu6w9FK1IF6+qfds/euXpgGufRovs79jdi4U6pc3VAlRJpi2Zw1Y2NT0=
-X-Received: by 2002:a17:906:f0c8:: with SMTP id
- dk8mr16729919ejb.300.1615276385758; 
- Mon, 08 Mar 2021 23:53:05 -0800 (PST)
-MIME-Version: 1.0
-References: <CABZ0LtBrGynOoYr=xbT3zNGe3UQg=Dr39_8d9V6+XgGzpnQrsw@mail.gmail.com>
- <20210304143149.jc24h6fh35luzhyb@sirius.home.kraxel.org>
- <CABZ0LtCaQYWPG4A8HYgk5w-d0RWA0dOsOZ9XAuJ67BUJwe3EFg@mail.gmail.com>
-In-Reply-To: <CABZ0LtCaQYWPG4A8HYgk5w-d0RWA0dOsOZ9XAuJ67BUJwe3EFg@mail.gmail.com>
-From: Ben Leslie <benno@benno.id.au>
-Date: Tue, 9 Mar 2021 18:52:54 +1100
-Message-ID: <CABZ0LtARKHimDLA-jUwF-yRbyxnMSAXk_Z=GM0LzRviAmvEDig@mail.gmail.com>
-Subject: Re: USB port claiming / set configuration problems
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lJXZY-0003vn-RY
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:18:32 -0500
+Received: from mga14.intel.com ([192.55.52.115]:39396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lJXZV-0003vE-SS
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:18:32 -0500
+IronPort-SDR: zYkBGtCA2FNwjesrXhYLyZQ/e4fkCPFVHr2jke+qvVZyTv66AG2l6H7BkfQT7j9pwnhv6BITmj
+ FmNp6sfN7h8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="187549616"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="187549616"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 00:18:22 -0800
+IronPort-SDR: 2+yulLCLD2zFzBghqT+uUFa/cwHmYCwFgn/xXGROMAffyuN8JQhl5fmjpytKxJ8XGPWYJlZgA+
+ PFX5wnvl5hVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="369704631"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga003.jf.intel.com with ESMTP; 09 Mar 2021 00:18:22 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 9 Mar 2021 00:18:22 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 9 Mar 2021 00:18:21 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.013;
+ Tue, 9 Mar 2021 00:18:21 -0800
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002ff2d505bd15d76e"
-Received-SPF: pass client-ip=209.85.218.50; envelope-from=ben.leslie@gmail.com;
- helo=mail-ej1-f50.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Subject: RE: [RFC 0/1] Use dmabufs for display updates instead of pixman
+Thread-Topic: [RFC 0/1] Use dmabufs for display updates instead of pixman
+Thread-Index: AQHXDzwZ+OI5gY9jG0mrUFozYSd6RKpxH9oAgAor3EA=
+Date: Tue, 9 Mar 2021 08:18:21 +0000
+Message-ID: <aaa8d88e16c34f9c94c3df2f11b06b74@intel.com>
+References: <20210302080358.3095748-1-vivek.kasireddy@intel.com>
+ <20210302120350.5zqcrdajdpszezpr@sirius.home.kraxel.org>
+In-Reply-To: <20210302120350.5zqcrdajdpszezpr@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,189 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, "Kim,
+ Dongwon" <dongwon.kim@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002ff2d505bd15d76e
-Content-Type: text/plain; charset="UTF-8"
+Hi Gerd,
 
-On Fri, 5 Mar 2021 at 11:50, Ben Leslie <benno@benno.id.au> wrote:
+> Yes, it surely makes sense to go into that direction.
+> The patch as-is doesn't, it breaks the guest/host interface.
+> That's ok-ish for a quick proof-of-concept, but clearly not merge-able.
+>=20
+> > TODO:
+> > - Use Blob resources for getting meta-data such as modifier, format, et=
+c.
+>=20
+> That is pretty much mandatory.  Without blob resources there is no concep=
+t of resources
+> shared between host and guest in virtio-gpu, all data is explicitly copie=
+d with transfer
+> commands.
+[Kasireddy, Vivek] My understanding of virtio-gpu and the concept of resour=
+ces is still
+fairly limited but are blob resources really needed for non-Virgl use-cases=
+ -- other than
+something like a dmabuf/scanout blob that shares the meta-data such as modi=
+fer? I
+thought the main motivation for blob resources would be to avoid the explic=
+it copy you
+mentioned for Virgl workloads.=20
 
-> On Fri, 5 Mar 2021 at 01:31, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->>   Hi,
->>
->> > Would adding support to host-libusb to use these
->> > ioctl to claim the port be beneficial?
->>
->> I don't feel like side-stepping libusb.  That is asking for trouble
->> because usbdevfs might behave differently then and confuse libusb.
->>
->> So, if anything, libusb would need support that, then qemu can use it.
->>
->> > Based on a simple test program and
->> > hardware USB traces for a device connected to a 'claimed' port the
->> kernel
->> > does indeed leave the device in an unconfigured state. (Although it
->> still
->> > performs some basic control transfers to gather descriptor, and
->> strangely
->> > seems to in this case make an explicit SET CONFIGURATION transfer, but
->> sets
->> > configuration to zero, rather than an actual configuration, which, at
->> least
->> > for the devices I was able to test with, avoided the problems of calling
->> > SET CONFIGURATION (1) twice).
->>
->> We could try that too (set config to zero first, then set the config we
->> actually want) and see if that works better.
->>
->
-> This approach seems to work well, and let's me just use libusb, which is a
-> plus.
->
-> It seems I had actually misdiagnosed (or only partially diagnosed) the
-> issue
-> with my 'problem devices'. It turned out that setting *any* valid
-> configuration
-> twice in a row causes problems for the device! So, for example, if the
-> current
-> configuration was set to 1, and then set configuration 2 was called that
-> would
-> also cause problems. I guess that drivers on other systems ensured that
-> such a sequence never occurred.
->
-> I reverted bfe44898848614cfcb3a269bc965afbe1f0f331c and made this change:
->
-> --- a/hw/usb/host-libusb.c
-> +++ b/hw/usb/host-libusb.c
-> @@ -955,6 +955,11 @@ static int usb_host_open(USBHostDevice *s,
-> libusb_device *dev, int hostfd)
->
->      usb_host_detach_kernel(s);
->
-> +    rc = libusb_set_configuration(s->dh, 0);
-> +    if (rc != 0) {
-> +        goto fail;
-> +    }
-> +
->      libusb_get_device_descriptor(dev, &s->ddesc);
->      usb_host_get_port(s->dev, s->port, sizeof(s->port));
->
-> This appears to work for my use cases. (Although I still have more testing
-> to do).
->
-> In terms of the transaction on the wire, this is not quite as good as the
-> 'claim port'
-> approach. Specifically, with the claim port after setting address and
-> getting some
-> basic descriptors the kernel will explicitly set configuration to zero and
-> not perform
-> any more transactions. Without the 'claim port' the kernel appears to
-> configure to
-> the first configuration and then read a few more descriptors. For my test
-> cases
-> at least this doesn't appear to be problematic, but I thought it was worth
-> calling
-> out the differences. Of course the great benefit of this approach is that
-> it uses
-> existing libusb functionality.
->
->
-For the archives, unfortunately this approach did not work for my use case.
-I was able to get something working using the claim port approach, but that
-meant going behind the back of libusb, which is obviously not suitable to be
-merged, and ends up as a reasonably sizable patch.
+>=20
+> Which implies quite a bit of work because we don't have blob resource sup=
+port in qemu
+> yet.
+[Kasireddy, Vivek] I was scrubbing through old mailing list messages to und=
+erstand the
+motivation behind blob resources as to why they are needed and came across =
+this:
+https://gitlab.freedesktop.org/virgl/qemu/-/commits/virtio-gpu-next
 
-I'll see if there is any appetite for adding claim port functionality to
-libusb
-before raising it again here.
+Does your work above not count for anything?
 
-Thanks for the feedback and assistance.
+>=20
+> > - Test with Virgil rendered BOs to see if this can be used in that case=
+..
+>=20
+> That also opens up the question how to go forward with virtio-gpu in gene=
+ral.  The object
+> hierarchy we have right now (skipping pci + vga variants for simplicity):
+>=20
+>   TYPE_VIRTIO_GPU_BASE (abstract base)
+>    -> TYPE_VIRTIO_GPU (in-qemu implementation)
+>    -> TYPE_VHOST_USER_GPU (vhost-user implementation)
+>=20
+> When compiled with opengl + virgl TYPE_VIRTIO_GPU has a virgl=3Don/off pr=
+operty.
+> Having a single device is not ideal for modular builds.
+> because the hw-display-virtio-gpu.so module has a dependency on ui-opengl=
+.so so that is
+> needed (due to symbol references) even for the virgl=3Doff case.  Also th=
+e code is a bit of a
+> #ifdef mess.
+>=20
+> I think we should split TYPE_VIRTIO_GPU into two devices.  Remove
+> virgl+opengl support from TYPE_VIRTIO_GPU.  Add a new
+> TYPE_VIRTIO_GPU_VIRGL, with either TYPE_VIRTIO_GPU or
+> TYPE_VIRTIO_GPU_BASE as parent (not sure which is easier), have all openg=
+l/virgl
+> support code there.
+>=20
+> I think when using opengl it makes sense to also require virgl, so we can=
+ use the
+> virglrenderer library to manage blob resources (even when the actual rend=
+ering isn't done
+> with virgl).  Also reduces the complexity and test matrix.
+[Kasireddy, Vivek] When you say "using opengl" are you referring to the pre=
+sentation of
+the rendered buffer via dmabuf or pixman? If yes, I am not sure why this wo=
+uld need to
+depend on Virgl. For our use-case(s) where we are using virtio-gpu in buffe=
+r sharing mode,
+we'd still need opengl for submitting the dmabuf to UI, IIUC.
 
-Cheers,
+>=20
+> Maybe it even makes sense to deprecate in-qemu virgl support and focus ex=
+clusively on
+> the vhost-user implementation, so we don't have to duplicate all work for=
+ both
+> implementations.
+[Kasireddy, Vivek] Is the vhost-user implementation better in terms of perf=
+ormance, generally?=20
 
-Ben
+> > case, how do we make sure that Weston and Qemu UI are not using the sam=
+e buffer at
+> any given time?
+>=20
+> There is graphic_hw_gl_block + graphic_hw_gl_flushed for syncronization.
+> Right now this is only wired up in spice, and it is rather simple (just s=
+talls virgl rendering
+> instead of providing per-buffer syncronization).
+[Kasireddy, Vivek] I guess that might work for Virgl rendering but not for =
+our use-case. What
+we need is a way to tell if the previously submitted dmabuf has been consum=
+ed by the Host=20
+compositor or not before we release/close it. Weston (wl_buffer.release eve=
+nt and fences)=20
+and EGL (sync and fences) do provide few options but I am not sure if GTK l=
+ets us use
+any of those or not. Any recommendations? EGLSync objects?
 
---0000000000002ff2d505bd15d76e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On a different note, any particular reason why Qemu UI EGL implementation i=
+s limited to Xorg
+and not extended to Wayland/Weston for which there is GTK glarea?
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 5 Mar 2021 at 11:50, Ben Leslie &=
-lt;<a href=3D"mailto:benno@benno.id.au">benno@benno.id.au</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Fri, 5 Mar 2021 at 01:31, G=
-erd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kra=
-xel@redhat.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">=C2=A0 Hi,<br>
-<br>&gt; Would adding support to host-libusb to use these<br>
-&gt; ioctl to claim the port be beneficial?<br>
-<br>
-I don&#39;t feel like side-stepping libusb.=C2=A0 That is asking for troubl=
-e<br>
-because usbdevfs might behave differently then and confuse libusb.<br>
-<br>
-So, if anything, libusb would need support that, then qemu can use it.<br>
-<br>
-&gt; Based on a simple test program and<br>
-&gt; hardware USB traces for a device connected to a &#39;claimed&#39; port=
- the kernel<br>
-&gt; does indeed leave the device in an unconfigured state. (Although it st=
-ill<br>
-&gt; performs some basic control transfers to gather descriptor, and strang=
-ely<br>
-&gt; seems to in this case make an explicit SET CONFIGURATION transfer, but=
- sets<br>
-&gt; configuration to zero, rather than an actual configuration, which, at =
-least<br>
-&gt; for the devices I was able to test with, avoided the problems of calli=
-ng<br>
-&gt; SET CONFIGURATION (1) twice).<br>
-<br>
-We could try that too (set config to zero first, then set the config we<br>
-actually want) and see if that works better.<br></blockquote><div><br></div=
-><div>This approach seems to work well, and let&#39;s me just use libusb, w=
-hich is a plus.</div><div><br></div><div>It seems I had actually misdiagnos=
-ed (or only partially diagnosed) the issue</div><div>with my &#39;problem d=
-evices&#39;. It turned out that setting *any* valid configuration</div><div=
->twice in a row causes problems for the device! So, for example, if the cur=
-rent</div><div>configuration was set to 1, and then set configuration 2 was=
- called that would</div><div>also cause problems. I guess that drivers on o=
-ther systems ensured that</div><div>such a sequence never occurred.</div></=
-div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">I rever=
-ted bfe44898848614cfcb3a269bc965afbe1f0f331c and made this change:<br></div=
-><div class=3D"gmail_quote"><div><br></div><div>--- a/hw/usb/host-libusb.c<=
-br>+++ b/hw/usb/host-libusb.c<br>@@ -955,6 +955,11 @@ static int usb_host_o=
-pen(USBHostDevice *s, libusb_device *dev, int hostfd)<br><br>=C2=A0 =C2=A0 =
-=C2=A0usb_host_detach_kernel(s);<br><br>+ =C2=A0 =C2=A0rc =3D libusb_set_co=
-nfiguration(s-&gt;dh, 0);<br>+ =C2=A0 =C2=A0if (rc !=3D 0) {<br>+ =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0goto fail;<br>+ =C2=A0 =C2=A0}<br>+<br>=C2=A0 =C2=A0 =
-=C2=A0libusb_get_device_descriptor(dev, &amp;s-&gt;ddesc);<br>=C2=A0 =C2=A0=
- =C2=A0usb_host_get_port(s-&gt;dev, s-&gt;port, sizeof(s-&gt;port));</div><=
-div><br></div><div>This appears to work for my use cases. (Although I still=
- have more testing to do).</div><div><br></div><div>In terms of the transac=
-tion on the wire, this is not quite as good as the &#39;claim port&#39;</di=
-v><div>approach. Specifically, with the claim port after setting address an=
-d getting some</div><div>basic descriptors the kernel will explicitly set c=
-onfiguration to zero and not perform</div><div>any more transactions. Witho=
-ut the &#39;claim port&#39; the kernel appears to configure to</div><div>th=
-e first configuration and then read a few more descriptors. For my test cas=
-es</div><div>at least this doesn&#39;t appear to be problematic, but I thou=
-ght it was worth calling</div><div>out the differences. Of course the great=
- benefit of this approach is that it uses</div><div>existing libusb functio=
-nality.</div><br></div></div></blockquote><div><br></div><div>For the archi=
-ves, unfortunately this approach did not work for my use case. <br></div><d=
-iv>I was able to get something working using the claim port approach, but t=
-hat</div><div>meant going behind the back of libusb, which is obviously not=
- suitable to be</div><div>merged, and ends up as a reasonably sizable patch=
-.</div><div><br></div><div>I&#39;ll see if there is any appetite for adding=
- claim port functionality to libusb</div><div>before raising it again here.=
-</div><div><br></div><div>Thanks for the feedback and assistance.</div><div=
-><br></div><div>Cheers,</div><div><br></div><div>Ben<br></div><div><br></di=
-v><div><br></div><div><br></div></div></div>
+Thanks,
+Vivek
 
---0000000000002ff2d505bd15d76e--
+>=20
+> take care,
+>   Gerd
+
 
