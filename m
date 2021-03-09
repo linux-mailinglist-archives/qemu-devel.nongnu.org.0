@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015C1332F9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:11:30 +0100 (CET)
-Received: from localhost ([::1]:54394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776A5332F99
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:07:37 +0100 (CET)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJihU-0005IM-WF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:11:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1lJidk-0001ZT-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:07:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lJhtj-0005wR-FK
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:20:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lJhte-0005fM-8O
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:20:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615317596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lAb/poRfsnDxgJC8JphkPmLqKx1aIX7mZ+Maip5DSQA=;
- b=MP7SDjQH2inP2tRMfBppWuDgzmCB115XGMP006ahWqIZTIXazhotmCqrKhMLkslIsw1Vt4
- auPRMOpnx65Y4P/XTVp+sxUdZ+ZGWLxQeRK8UKe+aUHjHYT6AJNu4tydsJsFrdJJUW50RQ
- +iu3/ERO2Fq+2Ad8nGqP6cpzHmQ/e5w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-bQ-Ux-F7PFOWX0plCEE4Cg-1; Tue, 09 Mar 2021 14:19:52 -0500
-X-MC-Unique: bQ-Ux-F7PFOWX0plCEE4Cg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D505C108BD06;
- Tue,  9 Mar 2021 19:19:50 +0000 (UTC)
-Received: from localhost (ovpn-117-250.rdu2.redhat.com [10.10.117.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A0471B400;
- Tue,  9 Mar 2021 19:19:46 +0000 (UTC)
-Date: Tue, 9 Mar 2021 14:18:26 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 3/3] tests/acceptance: Tagging tests with "cpu:VALUE"
-Message-ID: <20210309191826.GD2155904@amachine.somewhere>
-References: <20210224212654.1146167-1-wainersm@redhat.com>
- <20210224212654.1146167-4-wainersm@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJhsZ-0004vm-Ii
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:18:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:51766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJhsS-0005BR-2C
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:18:49 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 87DB5ACC6;
+ Tue,  9 Mar 2021 19:18:42 +0000 (UTC)
+Subject: Re: [RFC v5 22/36] target/arm: split 32bit cpu models from cpu.c to
+ cpu32.c
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210309142544.5020-1-cfontana@suse.de>
+ <20210309142544.5020-23-cfontana@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <45ec8801-99c1-ccb9-c6ca-dd9d7f094d98@suse.de>
+Date: Tue, 9 Mar 2021 20:18:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210224212654.1146167-4-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sXc4Kmr5FA7axrvy"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210309142544.5020-23-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,387 +59,1540 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
- aurelien@aurel32.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---sXc4Kmr5FA7axrvy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Feb 24, 2021 at 06:26:54PM -0300, Wainer dos Santos Moschetta wrote=
-:
-> The existing tests which are passing "-cpu VALUE" argument to the vm obje=
-ct
-> are now properly "cpu:VALUE" tagged, so letting the avocado_qemu framewor=
-k to
-> handle that automatically.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+On 3/9/21 3:25 PM, Claudio Fontana wrote:
+> just like we have cpu64.c for the 64bit cpu models,
+> spawn a cpu32.c from cpu.c.
+> 
+> cpu.c will continue to contain the common parts.
+> 
+> Note that we need to build cpu32 also for TARGET_AARCH64,
+> because qemu-system-aarch64 is supposed to be able to run
+> non-aarch64 cpus too.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  tests/acceptance/boot_linux_console.py     | 16 +++++++++-------
->  tests/acceptance/pc_cpu_hotplug_props.py   |  2 +-
->  tests/acceptance/replay_kernel.py          |  9 ++++++---
->  tests/acceptance/virtio-gpu.py             |  4 ++--
->  tests/acceptance/x86_cpu_model_versions.py |  8 ++++++++
->  5 files changed, 26 insertions(+), 13 deletions(-)
->=20
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index eb01286799..2447b370ff 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -238,6 +238,7 @@ def test_mips64el_malta_5KEc_cpio(self):
->          :avocado: tags=3Darch:mips64el
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:5KEc
->          """
->          kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/'
->                        'raw/9ad2df38/mips/malta/mips64el/'
-> @@ -257,8 +258,7 @@ def test_mips64el_malta_5KEc_cpio(self):
->          kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
->                                 + 'console=3DttyS0 console=3Dtty '
->                                 + 'rdinit=3D/sbin/init noreboot')
-> -        self.vm.add_args('-cpu', '5KEc',
-> -                         '-kernel', kernel_path,
-> +        self.vm.add_args('-kernel', kernel_path,
->                           '-initrd', initrd_path,
->                           '-append', kernel_command_line,
->                           '-no-reboot')
-> @@ -286,7 +286,6 @@ def do_test_mips_malta32el_nanomips(self, kernel_url,=
- kernel_hash):
->                                 + 'mem=3D256m@@0x0 '
->                                 + 'console=3DttyS0')
->          self.vm.add_args('-no-reboot',
-> -                         '-cpu', 'I7200',
->                           '-kernel', kernel_path,
->                           '-append', kernel_command_line)
->          self.vm.launch()
-> @@ -298,6 +297,7 @@ def test_mips_malta32el_nanomips_4k(self):
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> @@ -310,6 +310,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> @@ -322,6 +323,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> @@ -333,6 +335,7 @@ def test_aarch64_virt(self):
->          """
->          :avocado: tags=3Darch:aarch64
->          :avocado: tags=3Dmachine:virt
-> +        :avocado: tags=3Dcpu:cortex-a53
->          """
->          kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/=
-fedora'
->                        '/linux/releases/29/Everything/aarch64/os/images/p=
-xeboot'
-> @@ -343,8 +346,7 @@ def test_aarch64_virt(self):
->          self.vm.set_console()
->          kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->                                 'console=3DttyAMA0')
-> -        self.vm.add_args('-cpu', 'cortex-a53',
-> -                         '-kernel', kernel_path,
-> +        self.vm.add_args('-kernel', kernel_path,
->                           '-append', kernel_command_line)
->          self.vm.launch()
->          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-> @@ -1076,9 +1078,9 @@ def test_ppc64_e500(self):
->          """
->          :avocado: tags=3Darch:ppc64
->          :avocado: tags=3Dmachine:ppce500
-> +        :avocado: tags=3Dcpu:e5500
->          """
->          tar_hash =3D '6951d86d644b302898da2fd701739c9406527fe1'
-> -        self.vm.add_args('-cpu', 'e5500')
->          self.do_test_advcal_2018('19', tar_hash, 'uImage')
-> =20
->      def test_ppc_g3beige(self):
-> @@ -1120,7 +1122,7 @@ def test_xtensa_lx60(self):
->          """
->          :avocado: tags=3Darch:xtensa
->          :avocado: tags=3Dmachine:lx60
-> +        :avocado: tags=3Dcpu:dc233c
->          """
->          tar_hash =3D '49e88d9933742f0164b60839886c9739cb7a0d34'
-> -        self.vm.add_args('-cpu', 'dc233c')
->          self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf=
-')
-> diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/=
-pc_cpu_hotplug_props.py
-> index e49bf33fc5..f8a39e6d0a 100644
-> --- a/tests/acceptance/pc_cpu_hotplug_props.py
-> +++ b/tests/acceptance/pc_cpu_hotplug_props.py
-> @@ -25,11 +25,11 @@
->  class OmittedCPUProps(Test):
->      """
->      :avocado: tags=3Darch:x86_64
-> +    :avocado: tags=3Dcpu:qemu64
->      """
->      def test_no_die_id(self):
->          self.vm.add_args('-nodefaults', '-S')
->          self.vm.add_args('-smp', '1,sockets=3D2,cores=3D2,threads=3D2,ma=
-xcpus=3D8')
-> -        self.vm.add_args('-cpu', 'qemu64')
->          self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=3D1,cor=
-e-id=3D0,thread-id=3D0')
->          self.vm.launch()
->          self.assertEquals(len(self.vm.command('query-cpus')), 2)
-> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_=
-kernel.py
-> index 6ae18485be..fefa6d8550 100644
-> --- a/tests/acceptance/replay_kernel.py
-> +++ b/tests/acceptance/replay_kernel.py
-> @@ -394,6 +394,7 @@ def test_mips64el_malta_5KEc_cpio(self):
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
->          :avocado: tags=3Dslowness:high
-> +        :avocado: tags=3Dcpu:5KEc
->          """
->          kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/'
->                        'raw/9ad2df38/mips/malta/mips64el/'
-> @@ -414,7 +415,7 @@ def test_mips64el_malta_5KEc_cpio(self):
->                                 'rdinit=3D/sbin/init noreboot')
->          console_pattern =3D 'Boot successful.'
->          self.run_rr(kernel_path, kernel_command_line, console_pattern, s=
-hift=3D5,
-> -                    args=3D('-initrd', initrd_path, '-cpu', '5KEc'))
-> +                    args=3D('-initrd', initrd_path))
-> =20
->      def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
->          kernel_path =3D self.workdir + "kernel"
-> @@ -426,14 +427,14 @@ def do_test_mips_malta32el_nanomips(self, kernel_pa=
-th_xz):
->                                 'mem=3D256m@@0x0 '
->                                 'console=3DttyS0')
->          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-> -        self.run_rr(kernel_path, kernel_command_line, console_pattern, s=
-hift=3D5,
-> -                    args=3D('-cpu', 'I7200'))
-> +        self.run_rr(kernel_path, kernel_command_line, console_pattern, s=
-hift=3D5)
-> =20
->      def test_mips_malta32el_nanomips_4k(self):
->          """
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> @@ -447,6 +448,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> @@ -460,6 +462,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
->          :avocado: tags=3Darch:mipsel
->          :avocado: tags=3Dmachine:malta
->          :avocado: tags=3Dendian:little
-> +        :avocado: tags=3Dcpu:I7200
->          """
->          kernel_url =3D ('https://mipsdistros.mips.com/LinuxDistro/nanomi=
-ps/'
->                        'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142=
-/'
-> diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu=
-.py
-> index ab1a4c1a71..c650427379 100644
-> --- a/tests/acceptance/virtio-gpu.py
-> +++ b/tests/acceptance/virtio-gpu.py
-> @@ -60,6 +60,7 @@ def test_virtio_vga_virgl(self):
->          """
->          :avocado: tags=3Darch:x86_64
->          :avocado: tags=3Ddevice:virtio-vga
-> +        :avocado: tags=3Dcpu:host
->          """
->          kernel_command_line =3D (
->              self.KERNEL_COMMON_COMMAND_LINE + "console=3DttyS0 rdinit=3D=
-/bin/bash"
-> @@ -72,7 +73,6 @@ def test_virtio_vga_virgl(self):
->          initrd_path =3D self.fetch_asset(self.INITRD_URL)
-> =20
->          self.vm.set_console()
-> -        self.vm.add_args("-cpu", "host")
->          self.vm.add_args("-m", "2G")
->          self.vm.add_args("-machine", "pc,accel=3Dkvm")
->          self.vm.add_args("-device", "virtio-vga,virgl=3Don")
-> @@ -96,6 +96,7 @@ def test_vhost_user_vga_virgl(self):
->          """
->          :avocado: tags=3Darch:x86_64
->          :avocado: tags=3Ddevice:vhost-user-vga
-> +        :avocado: tags=3Dcpu:host
->          """
->          kernel_command_line =3D (
->              self.KERNEL_COMMON_COMMAND_LINE + "console=3DttyS0 rdinit=3D=
-/bin/bash"
-> @@ -135,7 +136,6 @@ def test_vhost_user_vga_virgl(self):
->          )
-> =20
->          self.vm.set_console()
-> -        self.vm.add_args("-cpu", "host")
->          self.vm.add_args("-m", "2G")
->          self.vm.add_args("-object", "memory-backend-memfd,id=3Dmem,size=
-=3D2G")
->          self.vm.add_args("-machine", "pc,memory-backend=3Dmem,accel=3Dkv=
-m")
-> diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
-e/x86_cpu_model_versions.py
-> index 2b7461bb41..8a0a07ef71 100644
-> --- a/tests/acceptance/x86_cpu_model_versions.py
-> +++ b/tests/acceptance/x86_cpu_model_versions.py
-> @@ -252,6 +252,7 @@ def get_cpu_prop(self, prop):
->      def test_4_1(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.1
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          # machine-type only:
->          self.vm.add_args('-S')
-> @@ -263,6 +264,7 @@ def test_4_1(self):
->      def test_4_0(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.0
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          self.vm.add_args('-S')
->          self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff')
-> @@ -273,6 +275,7 @@ def test_4_0(self):
->      def test_set_4_0(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.0
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          # command line must override machine-type if CPU model is not ve=
-rsioned:
->          self.vm.add_args('-S')
-> @@ -284,6 +287,7 @@ def test_set_4_0(self):
->      def test_unset_4_1(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.1
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          self.vm.add_args('-S')
->          self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff,-arch-capabilities')
-> @@ -294,6 +298,7 @@ def test_unset_4_1(self):
->      def test_v1_4_0(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.0
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          # versioned CPU model overrides machine-type:
->          self.vm.add_args('-S')
-> @@ -305,6 +310,7 @@ def test_v1_4_0(self):
->      def test_v2_4_0(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.0
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          self.vm.add_args('-S')
->          self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=
-=3Don,check=3Doff,enforce=3Doff')
-> @@ -315,6 +321,7 @@ def test_v2_4_0(self):
->      def test_v1_set_4_0(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.0
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          # command line must override machine-type and versioned CPU mode=
-l:
->          self.vm.add_args('-S')
-> @@ -326,6 +333,7 @@ def test_v1_set_4_0(self):
->      def test_v2_unset_4_1(self):
->          """
->          :avocado: tags=3Dmachine:pc-i440fx-4.1
-> +        :avocado: tags=3Dcpu:Cascadelake-Server
->          """
->          self.vm.add_args('-S')
->          self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=
-=3Don,check=3Doff,enforce=3Doff,-arch-capabilities')
-> --=20
-> 2.29.2
->=20
+>  target/arm/cpu-qom.h   |   3 -
+>  target/arm/cpu.h       |   4 +-
+>  target/arm/cpu32.h     |  27 ++
+>  target/arm/cpu.c       | 612 +----------------------------------------
+>  target/arm/cpu32.c     | 516 ++++++++++++++++++++++++++++++++++
+>  target/arm/cpu64.c     | 131 ++++++++-
+>  target/arm/cpu_tcg.c   |   3 +-
+>  target/arm/gdbstub.c   |   4 +-
+>  target/arm/meson.build |   5 +
+>  9 files changed, 688 insertions(+), 617 deletions(-)
+>  create mode 100644 target/arm/cpu32.h
+>  create mode 100644 target/arm/cpu32.c
+> 
+> diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+> index a22bd506d0..0d41a346b9 100644
+> --- a/target/arm/cpu-qom.h
+> +++ b/target/arm/cpu-qom.h
+> @@ -38,9 +38,6 @@ typedef struct ARMCPUInfo {
+>      void (*class_init)(ObjectClass *oc, void *data);
+>  } ARMCPUInfo;
+>  
+> -void arm_cpu_register(const ARMCPUInfo *info);
+> -void aarch64_cpu_register(const ARMCPUInfo *info);
+> -
+>  /**
+>   * ARMCPUClass:
+>   * @parent_realize: The parent class' realize handler.
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 9293d90ffb..ea1e63f7f6 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -1026,8 +1026,8 @@ void arm_cpu_do_interrupt(CPUState *cpu);
+>  void arm_v7m_cpu_do_interrupt(CPUState *cpu);
+>  bool arm_cpu_exec_interrupt(CPUState *cpu, int int_req);
+>  
+> -int arm_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+> -int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+> +int arm32_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+> +int arm32_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  
+>  /*
+>   * Helpers to dynamically generates XML descriptions of the sysregs
+> diff --git a/target/arm/cpu32.h b/target/arm/cpu32.h
+> new file mode 100644
+> index 0000000000..9cc6b710aa
+> --- /dev/null
+> +++ b/target/arm/cpu32.h
+> @@ -0,0 +1,27 @@
+> +/*
+> + * QEMU ARM CPU models (32bit)
+> + *
+> + * Copyright (c) 2012 SUSE LINUX Products GmbH
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License
+> + * as published by the Free Software Foundation; either version 2
+> + * of the License, or (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see
+> + * <http://www.gnu.org/licenses/gpl-2.0.html>
+> + */
+> +
+> +#ifndef ARM_CPU32_H
+> +#define ARM_CPU32_H
+> +
+> +void arm32_cpu_class_init(ObjectClass *oc, void *data);
+> +void arm32_cpu_register(const ARMCPUInfo *info);
+> +
+> +#endif /* ARM_CPU32_H */
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 88e866cc8f..0f640a8b4e 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -30,6 +30,7 @@
+>  #ifdef CONFIG_TCG
+>  #include "hw/core/tcg-cpu-ops.h"
+>  #endif /* CONFIG_TCG */
+> +#include "cpu32.h"
+>  #include "internals.h"
+>  #include "exec/exec-all.h"
+>  #include "hw/qdev-properties.h"
+> @@ -716,230 +717,6 @@ static void arm_disas_set_info(CPUState *cpu, disassemble_info *info)
+>  #endif
+>  }
+>  
+> -#ifdef TARGET_AARCH64
+> -
+> -static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(cs);
+> -    CPUARMState *env = &cpu->env;
+> -    uint32_t psr = pstate_read(env);
+> -    int i;
+> -    int el = arm_current_el(env);
+> -    const char *ns_status;
+> -
+> -    qemu_fprintf(f, " PC=%016" PRIx64 " ", env->pc);
+> -    for (i = 0; i < 32; i++) {
+> -        if (i == 31) {
+> -            qemu_fprintf(f, " SP=%016" PRIx64 "\n", env->xregs[i]);
+> -        } else {
+> -            qemu_fprintf(f, "X%02d=%016" PRIx64 "%s", i, env->xregs[i],
+> -                         (i + 2) % 3 ? " " : "\n");
+> -        }
+> -    }
+> -
+> -    if (arm_feature(env, ARM_FEATURE_EL3) && el != 3) {
+> -        ns_status = env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+> -    } else {
+> -        ns_status = "";
+> -    }
+> -    qemu_fprintf(f, "PSTATE=%08x %c%c%c%c %sEL%d%c",
+> -                 psr,
+> -                 psr & PSTATE_N ? 'N' : '-',
+> -                 psr & PSTATE_Z ? 'Z' : '-',
+> -                 psr & PSTATE_C ? 'C' : '-',
+> -                 psr & PSTATE_V ? 'V' : '-',
+> -                 ns_status,
+> -                 el,
+> -                 psr & PSTATE_SP ? 'h' : 't');
+> -
+> -    if (cpu_isar_feature(aa64_bti, cpu)) {
+> -        qemu_fprintf(f, "  BTYPE=%d", (psr & PSTATE_BTYPE) >> 10);
+> -    }
+> -    if (!(flags & CPU_DUMP_FPU)) {
+> -        qemu_fprintf(f, "\n");
+> -        return;
+> -    }
+> -    if (fp_exception_el(env, el) != 0) {
+> -        qemu_fprintf(f, "    FPU disabled\n");
+> -        return;
+> -    }
+> -    qemu_fprintf(f, "     FPCR=%08x FPSR=%08x\n",
+> -                 vfp_get_fpcr(env), vfp_get_fpsr(env));
+> -
+> -    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
+> -        int j, zcr_len = sve_zcr_len_for_el(env, el);
+> -
+> -        for (i = 0; i <= FFR_PRED_NUM; i++) {
+> -            bool eol;
+> -            if (i == FFR_PRED_NUM) {
+> -                qemu_fprintf(f, "FFR=");
+> -                /* It's last, so end the line.  */
+> -                eol = true;
+> -            } else {
+> -                qemu_fprintf(f, "P%02d=", i);
+> -                switch (zcr_len) {
+> -                case 0:
+> -                    eol = i % 8 == 7;
+> -                    break;
+> -                case 1:
+> -                    eol = i % 6 == 5;
+> -                    break;
+> -                case 2:
+> -                case 3:
+> -                    eol = i % 3 == 2;
+> -                    break;
+> -                default:
+> -                    /* More than one quadword per predicate.  */
+> -                    eol = true;
+> -                    break;
+> -                }
+> -            }
+> -            for (j = zcr_len / 4; j >= 0; j--) {
+> -                int digits;
+> -                if (j * 4 + 4 <= zcr_len + 1) {
+> -                    digits = 16;
+> -                } else {
+> -                    digits = (zcr_len % 4 + 1) * 4;
+> -                }
+> -                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
+> -                             env->vfp.pregs[i].p[j],
+> -                             j ? ":" : eol ? "\n" : " ");
+> -            }
+> -        }
+> -
+> -        for (i = 0; i < 32; i++) {
+> -            if (zcr_len == 0) {
+> -                qemu_fprintf(f, "Z%02d=%016" PRIx64 ":%016" PRIx64 "%s",
+> -                             i, env->vfp.zregs[i].d[1],
+> -                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ");
+> -            } else if (zcr_len == 1) {
+> -                qemu_fprintf(f, "Z%02d=%016" PRIx64 ":%016" PRIx64
+> -                             ":%016" PRIx64 ":%016" PRIx64 "\n",
+> -                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i].d[2],
+> -                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d[0]);
+> -            } else {
+> -                for (j = zcr_len; j >= 0; j--) {
+> -                    bool odd = (zcr_len - j) % 2 != 0;
+> -                    if (j == zcr_len) {
+> -                        qemu_fprintf(f, "Z%02d[%x-%x]=", i, j, j - 1);
+> -                    } else if (!odd) {
+> -                        if (j > 0) {
+> -                            qemu_fprintf(f, "   [%x-%x]=", j, j - 1);
+> -                        } else {
+> -                            qemu_fprintf(f, "     [%x]=", j);
+> -                        }
+> -                    }
+> -                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
+> -                                 env->vfp.zregs[i].d[j * 2 + 1],
+> -                                 env->vfp.zregs[i].d[j * 2],
+> -                                 odd || j == 0 ? "\n" : ":");
+> -                }
+> -            }
+> -        }
+> -    } else {
+> -        for (i = 0; i < 32; i++) {
+> -            uint64_t *q = aa64_vfp_qreg(env, i);
+> -            qemu_fprintf(f, "Q%02d=%016" PRIx64 ":%016" PRIx64 "%s",
+> -                         i, q[1], q[0], (i & 1 ? "\n" : " "));
+> -        }
+> -    }
+> -}
+> -
+> -#else
+> -
+> -static inline void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> -{
+> -    g_assert_not_reached();
+> -}
+> -
+> -#endif
+> -
+> -static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(cs);
+> -    CPUARMState *env = &cpu->env;
+> -    int i;
+> -
+> -    if (is_a64(env)) {
+> -        aarch64_cpu_dump_state(cs, f, flags);
+> -        return;
+> -    }
+> -
+> -    for (i = 0; i < 16; i++) {
+> -        qemu_fprintf(f, "R%02d=%08x", i, env->regs[i]);
+> -        if ((i % 4) == 3) {
+> -            qemu_fprintf(f, "\n");
+> -        } else {
+> -            qemu_fprintf(f, " ");
+> -        }
+> -    }
+> -
+> -    if (arm_feature(env, ARM_FEATURE_M)) {
+> -        uint32_t xpsr = xpsr_read(env);
+> -        const char *mode;
+> -        const char *ns_status = "";
+> -
+> -        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+> -            ns_status = env->v7m.secure ? "S " : "NS ";
+> -        }
+> -
+> -        if (xpsr & XPSR_EXCP) {
+> -            mode = "handler";
+> -        } else {
+> -            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_MASK) {
+> -                mode = "unpriv-thread";
+> -            } else {
+> -                mode = "priv-thread";
+> -            }
+> -        }
+> -
+> -        qemu_fprintf(f, "XPSR=%08x %c%c%c%c %c %s%s\n",
+> -                     xpsr,
+> -                     xpsr & XPSR_N ? 'N' : '-',
+> -                     xpsr & XPSR_Z ? 'Z' : '-',
+> -                     xpsr & XPSR_C ? 'C' : '-',
+> -                     xpsr & XPSR_V ? 'V' : '-',
+> -                     xpsr & XPSR_T ? 'T' : 'A',
+> -                     ns_status,
+> -                     mode);
+> -    } else {
+> -        uint32_t psr = cpsr_read(env);
+> -        const char *ns_status = "";
+> -
+> -        if (arm_feature(env, ARM_FEATURE_EL3) &&
+> -            (psr & CPSR_M) != ARM_CPU_MODE_MON) {
+> -            ns_status = env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+> -        }
+> -
+> -        qemu_fprintf(f, "PSR=%08x %c%c%c%c %c %s%s%d\n",
+> -                     psr,
+> -                     psr & CPSR_N ? 'N' : '-',
+> -                     psr & CPSR_Z ? 'Z' : '-',
+> -                     psr & CPSR_C ? 'C' : '-',
+> -                     psr & CPSR_V ? 'V' : '-',
+> -                     psr & CPSR_T ? 'T' : 'A',
+> -                     ns_status,
+> -                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
+> -    }
+> -
+> -    if (flags & CPU_DUMP_FPU) {
+> -        int numvfpregs = 0;
+> -        if (cpu_isar_feature(aa32_simd_r32, cpu)) {
+> -            numvfpregs = 32;
+> -        } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+> -            numvfpregs = 16;
+> -        }
+> -        for (i = 0; i < numvfpregs; i++) {
+> -            uint64_t v = *aa32_vfp_dreg(env, i);
+> -            qemu_fprintf(f, "s%02d=%08x s%02d=%08x d%02d=%016" PRIx64 "\n",
+> -                         i * 2, (uint32_t)v,
+> -                         i * 2 + 1, (uint32_t)(v >> 32),
+> -                         i, v);
+> -        }
+> -        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
+> -    }
+> -}
+> -
+>  uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+>  {
+>      uint32_t Aff1 = idx / clustersz;
+> @@ -1845,331 +1622,6 @@ static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
+>      return oc;
+>  }
+>  
+> -/* CPU models. These are not needed for the AArch64 linux-user build. */
+> -#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+> -
+> -static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
+> -    { .name = "L2LOCKDOWN", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 0,
+> -      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> -    { .name = "L2AUXCR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
+> -      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> -    REGINFO_SENTINEL
+> -};
+> -
+> -static void cortex_a8_initfn(Object *obj)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -
+> -    cpu->dtb_compatible = "arm,cortex-a8";
+> -    set_feature(&cpu->env, ARM_FEATURE_V7);
+> -    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> -    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> -    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> -    cpu->midr = 0x410fc080;
+> -    cpu->reset_fpsid = 0x410330c0;
+> -    cpu->isar.mvfr0 = 0x11110222;
+> -    cpu->isar.mvfr1 = 0x00011111;
+> -    cpu->ctr = 0x82048004;
+> -    cpu->reset_sctlr = 0x00c50078;
+> -    cpu->isar.id_pfr0 = 0x1031;
+> -    cpu->isar.id_pfr1 = 0x11;
+> -    cpu->isar.id_dfr0 = 0x400;
+> -    cpu->id_afr0 = 0;
+> -    cpu->isar.id_mmfr0 = 0x31100003;
+> -    cpu->isar.id_mmfr1 = 0x20000000;
+> -    cpu->isar.id_mmfr2 = 0x01202000;
+> -    cpu->isar.id_mmfr3 = 0x11;
+> -    cpu->isar.id_isar0 = 0x00101111;
+> -    cpu->isar.id_isar1 = 0x12112111;
+> -    cpu->isar.id_isar2 = 0x21232031;
+> -    cpu->isar.id_isar3 = 0x11112131;
+> -    cpu->isar.id_isar4 = 0x00111142;
+> -    cpu->isar.dbgdidr = 0x15141000;
+> -    cpu->clidr = (1 << 27) | (2 << 24) | 3;
+> -    cpu->ccsidr[0] = 0xe007e01a; /* 16k L1 dcache. */
+> -    cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
+> -    cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
+> -    cpu->reset_auxcr = 2;
+> -    define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
+> -}
+> -
+> -static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
+> -    /*
+> -     * power_control should be set to maximum latency. Again,
+> -     * default to 0 and set by private hook
+> -     */
+> -    { .name = "A9_PWRCTL", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 0,
+> -      .access = PL1_RW, .resetvalue = 0,
+> -      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_control) },
+> -    { .name = "A9_DIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 1,
+> -      .access = PL1_RW, .resetvalue = 0,
+> -      .fieldoffset = offsetof(CPUARMState, cp15.c15_diagnostic) },
+> -    { .name = "A9_PWRDIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 2,
+> -      .access = PL1_RW, .resetvalue = 0,
+> -      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_diagnostic) },
+> -    { .name = "NEONBUSY", .cp = 15, .crn = 15, .crm = 1, .opc1 = 0, .opc2 = 0,
+> -      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> -    /* TLB lockdown control */
+> -    { .name = "TLB_LOCKR", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 2,
+> -      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
+> -    { .name = "TLB_LOCKW", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 4,
+> -      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
+> -    { .name = "TLB_VA", .cp = 15, .crn = 15, .crm = 5, .opc1 = 5, .opc2 = 2,
+> -      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> -    { .name = "TLB_PA", .cp = 15, .crn = 15, .crm = 6, .opc1 = 5, .opc2 = 2,
+> -      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> -    { .name = "TLB_ATTR", .cp = 15, .crn = 15, .crm = 7, .opc1 = 5, .opc2 = 2,
+> -      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> -    REGINFO_SENTINEL
+> -};
+> -
+> -static void cortex_a9_initfn(Object *obj)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -
+> -    cpu->dtb_compatible = "arm,cortex-a9";
+> -    set_feature(&cpu->env, ARM_FEATURE_V7);
+> -    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> -    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> -    /*
+> -     * Note that A9 supports the MP extensions even for
+> -     * A9UP and single-core A9MP (which are both different
+> -     * and valid configurations; we don't model A9UP).
+> -     */
+> -    set_feature(&cpu->env, ARM_FEATURE_V7MP);
+> -    set_feature(&cpu->env, ARM_FEATURE_CBAR);
+> -    cpu->midr = 0x410fc090;
+> -    cpu->reset_fpsid = 0x41033090;
+> -    cpu->isar.mvfr0 = 0x11110222;
+> -    cpu->isar.mvfr1 = 0x01111111;
+> -    cpu->ctr = 0x80038003;
+> -    cpu->reset_sctlr = 0x00c50078;
+> -    cpu->isar.id_pfr0 = 0x1031;
+> -    cpu->isar.id_pfr1 = 0x11;
+> -    cpu->isar.id_dfr0 = 0x000;
+> -    cpu->id_afr0 = 0;
+> -    cpu->isar.id_mmfr0 = 0x00100103;
+> -    cpu->isar.id_mmfr1 = 0x20000000;
+> -    cpu->isar.id_mmfr2 = 0x01230000;
+> -    cpu->isar.id_mmfr3 = 0x00002111;
+> -    cpu->isar.id_isar0 = 0x00101111;
+> -    cpu->isar.id_isar1 = 0x13112111;
+> -    cpu->isar.id_isar2 = 0x21232041;
+> -    cpu->isar.id_isar3 = 0x11112131;
+> -    cpu->isar.id_isar4 = 0x00111142;
+> -    cpu->isar.dbgdidr = 0x35141000;
+> -    cpu->clidr = (1 << 27) | (1 << 24) | 3;
+> -    cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
+> -    cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
+> -    define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
+> -}
+> -
+> -#ifndef CONFIG_USER_ONLY
+> -static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+> -{
+> -    MachineState *ms = MACHINE(qdev_get_machine());
+> -
+> -    /*
+> -     * Linux wants the number of processors from here.
+> -     * Might as well set the interrupt-controller bit too.
+> -     */
+> -    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
+> -}
+> -#endif
+> -
+> -static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
+> -#ifndef CONFIG_USER_ONLY
+> -    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
+> -      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
+> -      .writefn = arm_cp_write_ignore, },
+> -#endif
+> -    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
+> -      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> -    REGINFO_SENTINEL
+> -};
+> -
+> -static void cortex_a7_initfn(Object *obj)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -
+> -    cpu->dtb_compatible = "arm,cortex-a7";
+> -    set_feature(&cpu->env, ARM_FEATURE_V7VE);
+> -    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> -    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> -    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> -    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> -    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> -    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> -    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
+> -    cpu->midr = 0x410fc075;
+> -    cpu->reset_fpsid = 0x41023075;
+> -    cpu->isar.mvfr0 = 0x10110222;
+> -    cpu->isar.mvfr1 = 0x11111111;
+> -    cpu->ctr = 0x84448003;
+> -    cpu->reset_sctlr = 0x00c50078;
+> -    cpu->isar.id_pfr0 = 0x00001131;
+> -    cpu->isar.id_pfr1 = 0x00011011;
+> -    cpu->isar.id_dfr0 = 0x02010555;
+> -    cpu->id_afr0 = 0x00000000;
+> -    cpu->isar.id_mmfr0 = 0x10101105;
+> -    cpu->isar.id_mmfr1 = 0x40000000;
+> -    cpu->isar.id_mmfr2 = 0x01240000;
+> -    cpu->isar.id_mmfr3 = 0x02102211;
+> -    /*
+> -     * a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
+> -     * table 4-41 gives 0x02101110, which includes the arm div insns.
+> -     */
+> -    cpu->isar.id_isar0 = 0x02101110;
+> -    cpu->isar.id_isar1 = 0x13112111;
+> -    cpu->isar.id_isar2 = 0x21232041;
+> -    cpu->isar.id_isar3 = 0x11112131;
+> -    cpu->isar.id_isar4 = 0x10011142;
+> -    cpu->isar.dbgdidr = 0x3515f005;
+> -    cpu->clidr = 0x0a200023;
+> -    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+> -    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+> -    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
+> -    define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
+> -}
+> -
+> -static void cortex_a15_initfn(Object *obj)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -
+> -    cpu->dtb_compatible = "arm,cortex-a15";
+> -    set_feature(&cpu->env, ARM_FEATURE_V7VE);
+> -    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> -    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> -    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> -    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> -    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> -    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> -    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> -    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
+> -    cpu->midr = 0x412fc0f1;
+> -    cpu->reset_fpsid = 0x410430f0;
+> -    cpu->isar.mvfr0 = 0x10110222;
+> -    cpu->isar.mvfr1 = 0x11111111;
+> -    cpu->ctr = 0x8444c004;
+> -    cpu->reset_sctlr = 0x00c50078;
+> -    cpu->isar.id_pfr0 = 0x00001131;
+> -    cpu->isar.id_pfr1 = 0x00011011;
+> -    cpu->isar.id_dfr0 = 0x02010555;
+> -    cpu->id_afr0 = 0x00000000;
+> -    cpu->isar.id_mmfr0 = 0x10201105;
+> -    cpu->isar.id_mmfr1 = 0x20000000;
+> -    cpu->isar.id_mmfr2 = 0x01240000;
+> -    cpu->isar.id_mmfr3 = 0x02102211;
+> -    cpu->isar.id_isar0 = 0x02101110;
+> -    cpu->isar.id_isar1 = 0x13112111;
+> -    cpu->isar.id_isar2 = 0x21232041;
+> -    cpu->isar.id_isar3 = 0x11112131;
+> -    cpu->isar.id_isar4 = 0x10011142;
+> -    cpu->isar.dbgdidr = 0x3515f021;
+> -    cpu->clidr = 0x0a200023;
+> -    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+> -    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+> -    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
+> -    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
+> -}
+> -
+> -#ifndef TARGET_AARCH64
+> -/*
+> - * -cpu max: a CPU with as many features enabled as our emulation supports.
+> - * The version of '-cpu max' for qemu-system-aarch64 is defined in cpu64.c;
+> - * this only needs to handle 32 bits, and need not care about KVM.
+> - */
+> -static void arm_max_initfn(Object *obj)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -
+> -    cortex_a15_initfn(obj);
+> -
+> -    /* old-style VFP short-vector support */
+> -    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+> -
+> -#ifdef CONFIG_USER_ONLY
+> -    /*
+> -     * We don't set these in system emulation mode for the moment,
+> -     * since we don't correctly set (all of) the ID registers to
+> -     * advertise them.
+> -     */
+> -    set_feature(&cpu->env, ARM_FEATURE_V8);
+> -    {
+> -        uint32_t t;
+> -
+> -        t = cpu->isar.id_isar5;
+> -        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
+> -        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
+> -        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
+> -        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
+> -        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
+> -        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
+> -        cpu->isar.id_isar5 = t;
+> -
+> -        t = cpu->isar.id_isar6;
+> -        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
+> -        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
+> -        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
+> -        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
+> -        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+> -        cpu->isar.id_isar6 = t;
+> -
+> -        t = cpu->isar.mvfr1;
+> -        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
+> -        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
+> -        cpu->isar.mvfr1 = t;
+> -
+> -        t = cpu->isar.mvfr2;
+> -        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
+> -        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+> -        cpu->isar.mvfr2 = t;
+> -
+> -        t = cpu->isar.id_mmfr3;
+> -        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
+> -        cpu->isar.id_mmfr3 = t;
+> -
+> -        t = cpu->isar.id_mmfr4;
+> -        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+> -        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
+> -        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+> -        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
+> -        cpu->isar.id_mmfr4 = t;
+> -
+> -        t = cpu->isar.id_pfr0;
+> -        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
+> -        cpu->isar.id_pfr0 = t;
+> -
+> -        t = cpu->isar.id_pfr2;
+> -        t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
+> -        cpu->isar.id_pfr2 = t;
+> -    }
+> -#endif
+> -}
+> -#endif
+> -
+> -#endif /* !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64) */
+> -
+> -static const ARMCPUInfo arm_cpus[] = {
+> -#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+> -    { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
+> -    { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
+> -    { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
+> -    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
+> -#ifndef TARGET_AARCH64
+> -    { .name = "max",         .initfn = arm_max_initfn },
+> -#endif
+> -#ifdef CONFIG_USER_ONLY
+> -    { .name = "any",         .initfn = arm_max_initfn },
+> -#endif
+> -#endif
+> -};
+> -
+>  static Property arm_cpu_properties[] = {
+>      DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
+>      DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
+> @@ -2180,17 +1632,6 @@ static Property arm_cpu_properties[] = {
+>      DEFINE_PROP_END_OF_LIST()
+>  };
+>  
+> -static gchar *arm_gdb_arch_name(CPUState *cs)
+> -{
+> -    ARMCPU *cpu = ARM_CPU(cs);
+> -    CPUARMState *env = &cpu->env;
+> -
+> -    if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+> -        return g_strdup("iwmmxt");
+> -    }
+> -    return g_strdup("arm");
+> -}
+> -
+>  #ifdef CONFIG_TCG
+>  static struct TCGCPUOps arm_tcg_ops = {
+>      .initialize = arm_translate_init,
+> @@ -2223,10 +1664,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>  
+>      cc->class_by_name = arm_cpu_class_by_name;
+>      cc->has_work = arm_cpu_has_work;
+> -    cc->dump_state = arm_cpu_dump_state;
+>      cc->set_pc = arm_cpu_set_pc;
+> -    cc->gdb_read_register = arm_cpu_gdb_read_register;
+> -    cc->gdb_write_register = arm_cpu_gdb_write_register;
+>  #ifndef CONFIG_USER_ONLY
+>      cc->get_phys_page_attrs_debug = arm_cpu_get_phys_page_attrs_debug;
+>      cc->asidx_from_attrs = arm_asidx_from_attrs;
+> @@ -2235,9 +1673,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>      cc->write_elf64_note = arm_cpu_write_elf64_note;
+>      cc->write_elf32_note = arm_cpu_write_elf32_note;
+>  #endif
+> -    cc->gdb_num_core_regs = 26;
+> -    cc->gdb_core_xml_file = "arm-core.xml";
+> -    cc->gdb_arch_name = arm_gdb_arch_name;
+> +
+>      cc->gdb_get_dynamic_xml = arm_gdb_get_dynamic_xml;
+>      cc->gdb_stop_before_watchpoint = true;
+>      cc->disas_set_info = arm_disas_set_info;
+> @@ -2245,6 +1681,8 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>  #ifdef CONFIG_TCG
+>      cc->tcg_ops = &arm_tcg_ops;
+>  #endif /* CONFIG_TCG */
+> +
+> +    arm32_cpu_class_init(oc, data);
+>  }
+>  
+>  #ifdef CONFIG_KVM
+> @@ -2267,38 +1705,6 @@ static const TypeInfo host_arm_cpu_type_info = {
+>  
+>  #endif
+>  
+> -static void arm_cpu_instance_init(Object *obj)
+> -{
+> -    ARMCPUClass *acc = ARM_CPU_GET_CLASS(obj);
+> -
+> -    acc->info->initfn(obj);
+> -    arm_cpu_post_init(obj);
+> -}
+> -
+> -static void cpu_register_class_init(ObjectClass *oc, void *data)
+> -{
+> -    ARMCPUClass *acc = ARM_CPU_CLASS(oc);
+> -
+> -    acc->info = data;
+> -}
+> -
+> -void arm_cpu_register(const ARMCPUInfo *info)
+> -{
+> -    TypeInfo type_info = {
+> -        .parent = TYPE_ARM_CPU,
+> -        .instance_size = sizeof(ARMCPU),
+> -        .instance_align = __alignof__(ARMCPU),
+> -        .instance_init = arm_cpu_instance_init,
+> -        .class_size = sizeof(ARMCPUClass),
+> -        .class_init = info->class_init ?: cpu_register_class_init,
+> -        .class_data = (void *)info,
+> -    };
+> -
+> -    type_info.name = g_strdup_printf("%s-" TYPE_ARM_CPU, info->name);
+> -    type_register(&type_info);
+> -    g_free((void *)type_info.name);
+> -}
+> -
+>  static const TypeInfo arm_cpu_type_info = {
+>      .name = TYPE_ARM_CPU,
+>      .parent = TYPE_CPU,
+> @@ -2313,21 +1719,11 @@ static const TypeInfo arm_cpu_type_info = {
+>  
+>  static void arm_cpu_register_types(void)
+>  {
+> -    const size_t cpu_count = ARRAY_SIZE(arm_cpus);
+> -
+>      type_register_static(&arm_cpu_type_info);
+>  
+>  #ifdef CONFIG_KVM
+>      type_register_static(&host_arm_cpu_type_info);
+>  #endif
+> -
+> -    if (cpu_count) {
+> -        size_t i;
+> -
+> -        for (i = 0; i < cpu_count; ++i) {
+> -            arm_cpu_register(&arm_cpus[i]);
+> -        }
+> -    }
+>  }
+>  
+>  type_init(arm_cpu_register_types)
+> diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
+> new file mode 100644
+> index 0000000000..cb5b033b27
+> --- /dev/null
+> +++ b/target/arm/cpu32.c
+> @@ -0,0 +1,516 @@
+> +/*
+> + * QEMU ARM CPU models (32bit)
+> + *
+> + * Copyright (c) 2012 SUSE LINUX Products GmbH
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License
+> + * as published by the Free Software Foundation; either version 2
+> + * of the License, or (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see
+> + * <http://www.gnu.org/licenses/gpl-2.0.html>
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/qemu-print.h"
+> +#include "qemu-common.h"
+> +#include "target/arm/idau.h"
+> +#include "qemu/module.h"
+> +#include "qapi/error.h"
+> +#include "qapi/visitor.h"
+> +#include "cpu.h"
+> +#include "cpregs.h"
+> +#include "internals.h"
+> +#include "exec/exec-all.h"
+> +#include "hw/qdev-properties.h"
+> +#if !defined(CONFIG_USER_ONLY)
+> +#include "hw/loader.h"
+> +#include "hw/boards.h"
+> +#endif
+> +#include "sysemu/sysemu.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/hw_accel.h"
+> +#include "kvm_arm.h"
+> +#include "disas/capstone.h"
+> +#include "fpu/softfloat.h"
+> +#include "get-phys-addr.h"
 
-So these do produce duplicate '-cpu' arguments indeed:
 
-   VM launch command: './qemu-system-x86_64 -display none -vga none
-       -chardev socket,id=3Dmon,path=3D/var/tmp/avo_qemu_sock_syr8rstd/qemu=
--2162592-monitor.sock
-       -mon chardev=3Dmon,mode=3Dcontrol -machine pc-i440fx-4.1
-       -cpu Cascadelake-Server -S
-       -cpu Cascadelake-Server,x-force-features=3Don,check=3Doff,enforce=3D=
-off'
+this should be "cpu-mmu.h"
 
-Like I said elsewhere, I think we should prevent this from happen (and
-it looks like it wouldn't be very hard to do so).
 
-Also, IIUC, you left this commit to *add* tags (and consequently
-remove the manual setting of the '-cpu' args.  But, on the previous
-patch, because of the fixes, you still do some of that, so it's not as
-easy to spot the difference in intention between this patch and the
-previous one.  IMO, it's another indication that you should split out
-the tag fixes.
-
-Regards,
-- Cleber.
-
---sXc4Kmr5FA7axrvy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBHygAACgkQZX6NM6Xy
-CfMriA//YbpEi14+3okm2QDmBHf/BBpPOLzC3NNhSJYh25CXBBNs0q6djzFsM39A
-zJbHWyRdGjZ3y2jYnIPWhlSXoWgDD1CjvDDnEhupPFqCWYF3jpCaVJ+e+WRu6fDX
-pq4x7YcPNCHiSzxXWELWR+7++GhicPO89Q21yY7WLA4Idla8aXpKn0jTz962Zh9o
-9Dqz8FcVrEf4c2/ICEffuib3VCg0LIthwgHi9RZuYzHrk0/ofDfk3E2KMyRRX45T
-eQ3iKMnfCM3tkLyGofuN9XzcgFyIlnzls0UIngrun8sMe2f+ZbpuULnWvig6RWu7
-hnqSQzuxqqfTRzQ3gji8c2tJQDZMcYBe8al0mW8F85M2JRq6gJnV+IoMkVbaN1ZR
-cMNoxIpFCTfsNyZ3xYNzXS8rUoNyojGbVuPftGVGLDKGp2+GJ1vfvXXAR698z71h
-pR/QzLH1iI/60hon/z2c72ME0T/9yNSDg/M7YIEHUWcBCzMoPtv37bPb2g+P0v92
-l1QHqyO+y6oUgLKOlj6G4v/Okty0IIqljYtzBsoBWMb2LCWcy+YsJoGR/+3gCMx/
-XUPOJqugASO9W6qoqhB/UYznHtYnndDjPGS2nKuSRYI4AHROUBmDzgrLzDcIm/RT
-0eS6Xycj7zW6NgcpP6rIY5xkybQG8nbPKDAESVO02kDm4aPmBTI=
-=YOLk
------END PGP SIGNATURE-----
-
---sXc4Kmr5FA7axrvy--
+> +#include "cpu32.h"
+> +
+> +#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+> +
+> +static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
+> +    { .name = "L2LOCKDOWN", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 0,
+> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> +    { .name = "L2AUXCR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
+> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> +    REGINFO_SENTINEL
+> +};
+> +
+> +static void cortex_a8_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cpu->dtb_compatible = "arm,cortex-a8";
+> +    set_feature(&cpu->env, ARM_FEATURE_V7);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> +    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    cpu->midr = 0x410fc080;
+> +    cpu->reset_fpsid = 0x410330c0;
+> +    cpu->isar.mvfr0 = 0x11110222;
+> +    cpu->isar.mvfr1 = 0x00011111;
+> +    cpu->ctr = 0x82048004;
+> +    cpu->reset_sctlr = 0x00c50078;
+> +    cpu->isar.id_pfr0 = 0x1031;
+> +    cpu->isar.id_pfr1 = 0x11;
+> +    cpu->isar.id_dfr0 = 0x400;
+> +    cpu->id_afr0 = 0;
+> +    cpu->isar.id_mmfr0 = 0x31100003;
+> +    cpu->isar.id_mmfr1 = 0x20000000;
+> +    cpu->isar.id_mmfr2 = 0x01202000;
+> +    cpu->isar.id_mmfr3 = 0x11;
+> +    cpu->isar.id_isar0 = 0x00101111;
+> +    cpu->isar.id_isar1 = 0x12112111;
+> +    cpu->isar.id_isar2 = 0x21232031;
+> +    cpu->isar.id_isar3 = 0x11112131;
+> +    cpu->isar.id_isar4 = 0x00111142;
+> +    cpu->isar.dbgdidr = 0x15141000;
+> +    cpu->clidr = (1 << 27) | (2 << 24) | 3;
+> +    cpu->ccsidr[0] = 0xe007e01a; /* 16k L1 dcache. */
+> +    cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
+> +    cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
+> +    cpu->reset_auxcr = 2;
+> +    define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
+> +}
+> +
+> +static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
+> +    /*
+> +     * power_control should be set to maximum latency. Again,
+> +     * default to 0 and set by private hook
+> +     */
+> +    { .name = "A9_PWRCTL", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 0,
+> +      .access = PL1_RW, .resetvalue = 0,
+> +      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_control) },
+> +    { .name = "A9_DIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 1,
+> +      .access = PL1_RW, .resetvalue = 0,
+> +      .fieldoffset = offsetof(CPUARMState, cp15.c15_diagnostic) },
+> +    { .name = "A9_PWRDIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 2,
+> +      .access = PL1_RW, .resetvalue = 0,
+> +      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_diagnostic) },
+> +    { .name = "NEONBUSY", .cp = 15, .crn = 15, .crm = 1, .opc1 = 0, .opc2 = 0,
+> +      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> +    /* TLB lockdown control */
+> +    { .name = "TLB_LOCKR", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 2,
+> +      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
+> +    { .name = "TLB_LOCKW", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 4,
+> +      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
+> +    { .name = "TLB_VA", .cp = 15, .crn = 15, .crm = 5, .opc1 = 5, .opc2 = 2,
+> +      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> +    { .name = "TLB_PA", .cp = 15, .crn = 15, .crm = 6, .opc1 = 5, .opc2 = 2,
+> +      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> +    { .name = "TLB_ATTR", .cp = 15, .crn = 15, .crm = 7, .opc1 = 5, .opc2 = 2,
+> +      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
+> +    REGINFO_SENTINEL
+> +};
+> +
+> +static void cortex_a9_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cpu->dtb_compatible = "arm,cortex-a9";
+> +    set_feature(&cpu->env, ARM_FEATURE_V7);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    /*
+> +     * Note that A9 supports the MP extensions even for
+> +     * A9UP and single-core A9MP (which are both different
+> +     * and valid configurations; we don't model A9UP).
+> +     */
+> +    set_feature(&cpu->env, ARM_FEATURE_V7MP);
+> +    set_feature(&cpu->env, ARM_FEATURE_CBAR);
+> +    cpu->midr = 0x410fc090;
+> +    cpu->reset_fpsid = 0x41033090;
+> +    cpu->isar.mvfr0 = 0x11110222;
+> +    cpu->isar.mvfr1 = 0x01111111;
+> +    cpu->ctr = 0x80038003;
+> +    cpu->reset_sctlr = 0x00c50078;
+> +    cpu->isar.id_pfr0 = 0x1031;
+> +    cpu->isar.id_pfr1 = 0x11;
+> +    cpu->isar.id_dfr0 = 0x000;
+> +    cpu->id_afr0 = 0;
+> +    cpu->isar.id_mmfr0 = 0x00100103;
+> +    cpu->isar.id_mmfr1 = 0x20000000;
+> +    cpu->isar.id_mmfr2 = 0x01230000;
+> +    cpu->isar.id_mmfr3 = 0x00002111;
+> +    cpu->isar.id_isar0 = 0x00101111;
+> +    cpu->isar.id_isar1 = 0x13112111;
+> +    cpu->isar.id_isar2 = 0x21232041;
+> +    cpu->isar.id_isar3 = 0x11112131;
+> +    cpu->isar.id_isar4 = 0x00111142;
+> +    cpu->isar.dbgdidr = 0x35141000;
+> +    cpu->clidr = (1 << 27) | (1 << 24) | 3;
+> +    cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
+> +    cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
+> +    define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
+> +}
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +
+> +    /*
+> +     * Linux wants the number of processors from here.
+> +     * Might as well set the interrupt-controller bit too.
+> +     */
+> +    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
+> +}
+> +#endif
+> +
+> +static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
+> +#ifndef CONFIG_USER_ONLY
+> +    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
+> +      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
+> +      .writefn = arm_cp_write_ignore, },
+> +#endif
+> +    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
+> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+> +    REGINFO_SENTINEL
+> +};
+> +
+> +static void cortex_a7_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cpu->dtb_compatible = "arm,cortex-a7";
+> +    set_feature(&cpu->env, ARM_FEATURE_V7VE);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> +    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> +    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
+> +    cpu->midr = 0x410fc075;
+> +    cpu->reset_fpsid = 0x41023075;
+> +    cpu->isar.mvfr0 = 0x10110222;
+> +    cpu->isar.mvfr1 = 0x11111111;
+> +    cpu->ctr = 0x84448003;
+> +    cpu->reset_sctlr = 0x00c50078;
+> +    cpu->isar.id_pfr0 = 0x00001131;
+> +    cpu->isar.id_pfr1 = 0x00011011;
+> +    cpu->isar.id_dfr0 = 0x02010555;
+> +    cpu->id_afr0 = 0x00000000;
+> +    cpu->isar.id_mmfr0 = 0x10101105;
+> +    cpu->isar.id_mmfr1 = 0x40000000;
+> +    cpu->isar.id_mmfr2 = 0x01240000;
+> +    cpu->isar.id_mmfr3 = 0x02102211;
+> +    /*
+> +     * a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
+> +     * table 4-41 gives 0x02101110, which includes the arm div insns.
+> +     */
+> +    cpu->isar.id_isar0 = 0x02101110;
+> +    cpu->isar.id_isar1 = 0x13112111;
+> +    cpu->isar.id_isar2 = 0x21232041;
+> +    cpu->isar.id_isar3 = 0x11112131;
+> +    cpu->isar.id_isar4 = 0x10011142;
+> +    cpu->isar.dbgdidr = 0x3515f005;
+> +    cpu->clidr = 0x0a200023;
+> +    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+> +    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+> +    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
+> +    define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
+> +}
+> +
+> +static void cortex_a15_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cpu->dtb_compatible = "arm,cortex-a15";
+> +    set_feature(&cpu->env, ARM_FEATURE_V7VE);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> +    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
+> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> +    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
+> +    cpu->midr = 0x412fc0f1;
+> +    cpu->reset_fpsid = 0x410430f0;
+> +    cpu->isar.mvfr0 = 0x10110222;
+> +    cpu->isar.mvfr1 = 0x11111111;
+> +    cpu->ctr = 0x8444c004;
+> +    cpu->reset_sctlr = 0x00c50078;
+> +    cpu->isar.id_pfr0 = 0x00001131;
+> +    cpu->isar.id_pfr1 = 0x00011011;
+> +    cpu->isar.id_dfr0 = 0x02010555;
+> +    cpu->id_afr0 = 0x00000000;
+> +    cpu->isar.id_mmfr0 = 0x10201105;
+> +    cpu->isar.id_mmfr1 = 0x20000000;
+> +    cpu->isar.id_mmfr2 = 0x01240000;
+> +    cpu->isar.id_mmfr3 = 0x02102211;
+> +    cpu->isar.id_isar0 = 0x02101110;
+> +    cpu->isar.id_isar1 = 0x13112111;
+> +    cpu->isar.id_isar2 = 0x21232041;
+> +    cpu->isar.id_isar3 = 0x11112131;
+> +    cpu->isar.id_isar4 = 0x10011142;
+> +    cpu->isar.dbgdidr = 0x3515f021;
+> +    cpu->clidr = 0x0a200023;
+> +    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+> +    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+> +    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
+> +    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
+> +}
+> +
+> +#ifndef TARGET_AARCH64
+> +/*
+> + * -cpu max: a CPU with as many features enabled as our emulation supports.
+> + * The version of '-cpu max' for qemu-system-aarch64 is defined in cpu64.c;
+> + * this only needs to handle 32 bits, and need not care about KVM.
+> + */
+> +static void arm32_max_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cortex_a15_initfn(obj);
+> +
+> +    /* old-style VFP short-vector support */
+> +    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+> +
+> +#ifdef CONFIG_USER_ONLY
+> +    /*
+> +     * We don't set these in system emulation mode for the moment,
+> +     * since we don't correctly set (all of) the ID registers to
+> +     * advertise them.
+> +     */
+> +    set_feature(&cpu->env, ARM_FEATURE_V8);
+> +    {
+> +        uint32_t t;
+> +
+> +        t = cpu->isar.id_isar5;
+> +        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
+> +        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
+> +        cpu->isar.id_isar5 = t;
+> +
+> +        t = cpu->isar.id_isar6;
+> +        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+> +        cpu->isar.id_isar6 = t;
+> +
+> +        t = cpu->isar.mvfr1;
+> +        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
+> +        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
+> +        cpu->isar.mvfr1 = t;
+> +
+> +        t = cpu->isar.mvfr2;
+> +        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
+> +        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+> +        cpu->isar.mvfr2 = t;
+> +
+> +        t = cpu->isar.id_mmfr3;
+> +        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
+> +        cpu->isar.id_mmfr3 = t;
+> +
+> +        t = cpu->isar.id_mmfr4;
+> +        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+> +        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
+> +        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+> +        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
+> +        cpu->isar.id_mmfr4 = t;
+> +
+> +        t = cpu->isar.id_pfr0;
+> +        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
+> +        cpu->isar.id_pfr0 = t;
+> +    }
+> +#endif
+> +}
+> +#endif /* !TARGET_AARCH64 */
+> +#endif /* !CONFIG_USER_ONLY || !TARGET_AARCH64 */
+> +
+> +static const ARMCPUInfo arm32_cpus[] = {
+> +#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+> +    { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
+> +    { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
+> +    { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
+> +    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
+> +#ifndef TARGET_AARCH64
+> +    { .name = "max",         .initfn = arm32_max_initfn },
+> +#endif
+> +#ifdef CONFIG_USER_ONLY
+> +    { .name = "any",         .initfn = arm32_max_initfn },
+> +#endif
+> +#endif /* !CONFIG_USER_ONLY || !TARGET_AARCH64 */
+> +};
+> +
+> +static gchar *arm32_gdb_arch_name(CPUState *cs)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +
+> +    if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+> +        return g_strdup("iwmmxt");
+> +    }
+> +    return g_strdup("arm");
+> +}
+> +
+> +static void arm32_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    int i;
+> +
+> +    assert(!is_a64(env));
+> +
+> +    for (i = 0; i < 16; i++) {
+> +        qemu_fprintf(f, "R%02d=%08x", i, env->regs[i]);
+> +        if ((i % 4) == 3) {
+> +            qemu_fprintf(f, "\n");
+> +        } else {
+> +            qemu_fprintf(f, " ");
+> +        }
+> +    }
+> +
+> +    if (arm_feature(env, ARM_FEATURE_M)) {
+> +        uint32_t xpsr = xpsr_read(env);
+> +        const char *mode;
+> +        const char *ns_status = "";
+> +
+> +        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+> +            ns_status = env->v7m.secure ? "S " : "NS ";
+> +        }
+> +
+> +        if (xpsr & XPSR_EXCP) {
+> +            mode = "handler";
+> +        } else {
+> +            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_MASK) {
+> +                mode = "unpriv-thread";
+> +            } else {
+> +                mode = "priv-thread";
+> +            }
+> +        }
+> +
+> +        qemu_fprintf(f, "XPSR=%08x %c%c%c%c %c %s%s\n",
+> +                     xpsr,
+> +                     xpsr & XPSR_N ? 'N' : '-',
+> +                     xpsr & XPSR_Z ? 'Z' : '-',
+> +                     xpsr & XPSR_C ? 'C' : '-',
+> +                     xpsr & XPSR_V ? 'V' : '-',
+> +                     xpsr & XPSR_T ? 'T' : 'A',
+> +                     ns_status,
+> +                     mode);
+> +    } else {
+> +        uint32_t psr = cpsr_read(env);
+> +        const char *ns_status = "";
+> +
+> +        if (arm_feature(env, ARM_FEATURE_EL3) &&
+> +            (psr & CPSR_M) != ARM_CPU_MODE_MON) {
+> +            ns_status = env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+> +        }
+> +
+> +        qemu_fprintf(f, "PSR=%08x %c%c%c%c %c %s%s%d\n",
+> +                     psr,
+> +                     psr & CPSR_N ? 'N' : '-',
+> +                     psr & CPSR_Z ? 'Z' : '-',
+> +                     psr & CPSR_C ? 'C' : '-',
+> +                     psr & CPSR_V ? 'V' : '-',
+> +                     psr & CPSR_T ? 'T' : 'A',
+> +                     ns_status,
+> +                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
+> +    }
+> +
+> +    if (flags & CPU_DUMP_FPU) {
+> +        int numvfpregs = 0;
+> +        if (cpu_isar_feature(aa32_simd_r32, cpu)) {
+> +            numvfpregs = 32;
+> +        } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+> +            numvfpregs = 16;
+> +        }
+> +        for (i = 0; i < numvfpregs; i++) {
+> +            uint64_t v = *aa32_vfp_dreg(env, i);
+> +            qemu_fprintf(f, "s%02d=%08x s%02d=%08x d%02d=%016" PRIx64 "\n",
+> +                         i * 2, (uint32_t)v,
+> +                         i * 2 + 1, (uint32_t)(v >> 32),
+> +                         i, v);
+> +        }
+> +        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
+> +    }
+> +}
+> +
+> +void arm32_cpu_class_init(ObjectClass *oc, void *data)
+> +{
+> +    CPUClass *cc = CPU_CLASS(oc);
+> +
+> +    cc->gdb_read_register = arm32_cpu_gdb_read_register;
+> +    cc->gdb_write_register = arm32_cpu_gdb_write_register;
+> +    cc->gdb_num_core_regs = 26;
+> +    cc->gdb_core_xml_file = "arm-core.xml";
+> +    cc->gdb_arch_name = arm32_gdb_arch_name;
+> +    cc->dump_state = arm32_cpu_dump_state;
+> +}
+> +
+> +static void arm32_cpu_instance_init(Object *obj)
+> +{
+> +    ARMCPUClass *acc = ARM_CPU_GET_CLASS(obj);
+> +
+> +    acc->info->initfn(obj);
+> +    arm_cpu_post_init(obj);
+> +}
+> +
+> +static void arm32_cpu_register_class_init(ObjectClass *oc, void *data)
+> +{
+> +    ARMCPUClass *acc = ARM_CPU_CLASS(oc);
+> +
+> +    acc->info = data;
+> +}
+> +
+> +void arm32_cpu_register(const ARMCPUInfo *info)
+> +{
+> +    TypeInfo type_info = {
+> +        .parent = TYPE_ARM_CPU,
+> +        .instance_size = sizeof(ARMCPU),
+> +        .instance_align = __alignof__(ARMCPU),
+> +        .instance_init = arm32_cpu_instance_init,
+> +        .class_size = sizeof(ARMCPUClass),
+> +        .class_init = info->class_init ?: arm32_cpu_register_class_init,
+> +        .class_data = (void *)info,
+> +    };
+> +
+> +    type_info.name = g_strdup_printf("%s-" TYPE_ARM_CPU, info->name);
+> +    type_register(&type_info);
+> +    g_free((void *)type_info.name);
+> +}
+> +
+> +static void arm32_cpu_register_types(void)
+> +{
+> +    const size_t cpu_count = ARRAY_SIZE(arm32_cpus);
+> +
+> +    if (cpu_count) {
+> +        size_t i;
+> +
+> +        for (i = 0; i < cpu_count; ++i) {
+> +            arm32_cpu_register(&arm32_cpus[i]);
+> +        }
+> +    }
+> +}
+> +
+> +type_init(arm32_cpu_register_types)
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 0728f1a431..0a14cca194 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -20,6 +20,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "qemu/qemu-print.h"
+>  #include "cpu.h"
+>  #ifdef CONFIG_TCG
+>  #include "hw/core/tcg-cpu-ops.h"
+> @@ -814,6 +815,133 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
+>      return g_strdup("aarch64");
+>  }
+>  
+> +static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    uint32_t psr = pstate_read(env);
+> +    int i;
+> +    int el = arm_current_el(env);
+> +    const char *ns_status;
+> +
+> +    qemu_fprintf(f, " PC=%016" PRIx64 " ", env->pc);
+> +    for (i = 0; i < 32; i++) {
+> +        if (i == 31) {
+> +            qemu_fprintf(f, " SP=%016" PRIx64 "\n", env->xregs[i]);
+> +        } else {
+> +            qemu_fprintf(f, "X%02d=%016" PRIx64 "%s", i, env->xregs[i],
+> +                         (i + 2) % 3 ? " " : "\n");
+> +        }
+> +    }
+> +
+> +    if (arm_feature(env, ARM_FEATURE_EL3) && el != 3) {
+> +        ns_status = env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+> +    } else {
+> +        ns_status = "";
+> +    }
+> +    qemu_fprintf(f, "PSTATE=%08x %c%c%c%c %sEL%d%c",
+> +                 psr,
+> +                 psr & PSTATE_N ? 'N' : '-',
+> +                 psr & PSTATE_Z ? 'Z' : '-',
+> +                 psr & PSTATE_C ? 'C' : '-',
+> +                 psr & PSTATE_V ? 'V' : '-',
+> +                 ns_status,
+> +                 el,
+> +                 psr & PSTATE_SP ? 'h' : 't');
+> +
+> +    if (cpu_isar_feature(aa64_bti, cpu)) {
+> +        qemu_fprintf(f, "  BTYPE=%d", (psr & PSTATE_BTYPE) >> 10);
+> +    }
+> +    if (!(flags & CPU_DUMP_FPU)) {
+> +        qemu_fprintf(f, "\n");
+> +        return;
+> +    }
+> +    if (fp_exception_el(env, el) != 0) {
+> +        qemu_fprintf(f, "    FPU disabled\n");
+> +        return;
+> +    }
+> +    qemu_fprintf(f, "     FPCR=%08x FPSR=%08x\n",
+> +                 vfp_get_fpcr(env), vfp_get_fpsr(env));
+> +
+> +    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
+> +        int j, zcr_len = sve_zcr_len_for_el(env, el);
+> +
+> +        for (i = 0; i <= FFR_PRED_NUM; i++) {
+> +            bool eol;
+> +            if (i == FFR_PRED_NUM) {
+> +                qemu_fprintf(f, "FFR=");
+> +                /* It's last, so end the line.  */
+> +                eol = true;
+> +            } else {
+> +                qemu_fprintf(f, "P%02d=", i);
+> +                switch (zcr_len) {
+> +                case 0:
+> +                    eol = i % 8 == 7;
+> +                    break;
+> +                case 1:
+> +                    eol = i % 6 == 5;
+> +                    break;
+> +                case 2:
+> +                case 3:
+> +                    eol = i % 3 == 2;
+> +                    break;
+> +                default:
+> +                    /* More than one quadword per predicate.  */
+> +                    eol = true;
+> +                    break;
+> +                }
+> +            }
+> +            for (j = zcr_len / 4; j >= 0; j--) {
+> +                int digits;
+> +                if (j * 4 + 4 <= zcr_len + 1) {
+> +                    digits = 16;
+> +                } else {
+> +                    digits = (zcr_len % 4 + 1) * 4;
+> +                }
+> +                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
+> +                             env->vfp.pregs[i].p[j],
+> +                             j ? ":" : eol ? "\n" : " ");
+> +            }
+> +        }
+> +
+> +        for (i = 0; i < 32; i++) {
+> +            if (zcr_len == 0) {
+> +                qemu_fprintf(f, "Z%02d=%016" PRIx64 ":%016" PRIx64 "%s",
+> +                             i, env->vfp.zregs[i].d[1],
+> +                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ");
+> +            } else if (zcr_len == 1) {
+> +                qemu_fprintf(f, "Z%02d=%016" PRIx64 ":%016" PRIx64
+> +                             ":%016" PRIx64 ":%016" PRIx64 "\n",
+> +                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i].d[2],
+> +                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d[0]);
+> +            } else {
+> +                for (j = zcr_len; j >= 0; j--) {
+> +                    bool odd = (zcr_len - j) % 2 != 0;
+> +                    if (j == zcr_len) {
+> +                        qemu_fprintf(f, "Z%02d[%x-%x]=", i, j, j - 1);
+> +                    } else if (!odd) {
+> +                        if (j > 0) {
+> +                            qemu_fprintf(f, "   [%x-%x]=", j, j - 1);
+> +                        } else {
+> +                            qemu_fprintf(f, "     [%x]=", j);
+> +                        }
+> +                    }
+> +                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
+> +                                 env->vfp.zregs[i].d[j * 2 + 1],
+> +                                 env->vfp.zregs[i].d[j * 2],
+> +                                 odd || j == 0 ? "\n" : ":");
+> +                }
+> +            }
+> +        }
+> +    } else {
+> +        for (i = 0; i < 32; i++) {
+> +            uint64_t *q = aa64_vfp_qreg(env, i);
+> +            qemu_fprintf(f, "Q%02d=%016" PRIx64 ":%016" PRIx64 "%s",
+> +                         i, q[1], q[0], (i & 1 ? "\n" : " "));
+> +        }
+> +    }
+> +}
+> +
+>  static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
+>  {
+>      CPUClass *cc = CPU_CLASS(oc);
+> @@ -823,6 +951,7 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
+>      cc->gdb_num_core_regs = 34;
+>      cc->gdb_core_xml_file = "aarch64-core.xml";
+>      cc->gdb_arch_name = aarch64_gdb_arch_name;
+> +    cc->dump_state = aarch64_cpu_dump_state;
+>  
+>      object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
+>                                     aarch64_cpu_set_aarch64);
+> @@ -846,7 +975,7 @@ static void cpu_register_class_init(ObjectClass *oc, void *data)
+>      acc->info = data;
+>  }
+>  
+> -void aarch64_cpu_register(const ARMCPUInfo *info)
+> +static void aarch64_cpu_register(const ARMCPUInfo *info)
+>  {
+>      TypeInfo type_info = {
+>          .parent = TYPE_AARCH64_CPU,
+> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+> index b7189491de..77d08645e5 100644
+> --- a/target/arm/cpu_tcg.c
+> +++ b/target/arm/cpu_tcg.c
+> @@ -16,6 +16,7 @@
+>  #include "internals.h"
+>  #include "target/arm/idau.h"
+>  #include "cpregs.h"
+> +#include "cpu32.h"
+>  
+>  /* CPU models. These are not needed for the AArch64 linux-user build. */
+>  #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+> @@ -753,7 +754,7 @@ static void arm_tcg_cpu_register_types(void)
+>  
+>      type_register_static(&idau_interface_type_info);
+>      for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
+> -        arm_cpu_register(&arm_tcg_cpus[i]);
+> +        arm32_cpu_register(&arm_tcg_cpus[i]);
+>      }
+>  }
+>  
+> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+> index 0645415f44..93c668c5a1 100644
+> --- a/target/arm/gdbstub.c
+> +++ b/target/arm/gdbstub.c
+> @@ -34,7 +34,7 @@ typedef struct RegisterSysregXmlParam {
+>     We hack round this by giving the FPA regs zero size when talking to a
+>     newer gdb.  */
+>  
+> -int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+> +int arm32_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+>  {
+>      ARMCPU *cpu = ARM_CPU(cs);
+>      CPUARMState *env = &cpu->env;
+> @@ -69,7 +69,7 @@ int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+>      return 0;
+>  }
+>  
+> -int arm_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+> +int arm32_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>  {
+>      ARMCPU *cpu = ARM_CPU(cs);
+>      CPUARMState *env = &cpu->env;
+> diff --git a/target/arm/meson.build b/target/arm/meson.build
+> index 8fa0b12510..e4ff9a0534 100644
+> --- a/target/arm/meson.build
+> +++ b/target/arm/meson.build
+> @@ -1,6 +1,7 @@
+>  arm_ss = ss.source_set()
+>  arm_ss.add(files(
+>    'cpu.c',
+> +  'cpu32.c',
+>    'gdbstub.c',
+>    'cpu_tcg.c',
+>    'cpu-mmu.c',
+> @@ -18,6 +19,10 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+>    'gdbstub64.c',
+>  ))
+>  
+> +arm_ss.add(when: 'CONFIG_TCG', if_true: files(
+> +  'cpu_tcg.c',
+> +))
+> +
+>  arm_softmmu_ss = ss.source_set()
+>  arm_softmmu_ss.add(files(
+>    'arch_dump.c',
+> 
 
 
