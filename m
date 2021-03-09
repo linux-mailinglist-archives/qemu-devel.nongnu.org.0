@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFAF3329CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:10:07 +0100 (CET)
-Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A985C3329CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:10:11 +0100 (CET)
+Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdzl-0001Ng-Fo
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
+	id 1lJdzu-0001h3-NV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:10:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdK9-0004aC-Ee
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:27:01 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35183)
+ id 1lJdKI-0004jX-HM
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:27:10 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdK7-0006Bu-Rb
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:27:01 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id dx17so28184697ejb.2
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:26:59 -0800 (PST)
+ id 1lJdKD-0006Ez-7J
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:27:10 -0500
+Received: by mail-ed1-x536.google.com with SMTP id h10so20505729edl.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:27:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L3v18ZL7N+cktt0efKAeS8NVT3CCQT0jjeaLH5CTmjc=;
- b=FrqJHveuA7Z+/pB0t1KxhikvGLPi6lv9laW28yFYD9A/lJ5RLNZctUe8UB0WG0HfIb
- 9yfFPCCifSZp5+gC1hwsWkT+E6mdo9M6UCthFzjFv1ELF0RVGl6TcOXsoAwpG3xoYFYz
- HrDhNUrnsdqnyOU8s3owmBW9/lngTAtU3FAv7RGUeK3TLSjWKFBgE01rR/rGq5jf6Ruo
- LA10l9bh5TMAfOJgzHgfVGHnPgvAdl1vL+AsPxMuhlUKi4ElB+WNp9+1gukDRuW09j0Z
- low8OSQMsAXNel4h65dR5MMzcpTl2KqNjcceqQgn0wCfC8QeXDlOK4k5WtiMnERhjGrW
- HG/Q==
+ bh=RFA8710d7y21V9/sjoSrymWAAotgH49b0pKscVplcYw=;
+ b=BSjvmPHAIVVMSfZIVzs+16uxOxSkk81HRBA0kRvpV8nhzTnllQkIqUP8CLXe1mLlEo
+ 0nsRB3X2ZslglNoccglBj5hFHVLB9hjxA8aC9RTEQto4XkBUVsb5O8MzH/4vG5zoc2q3
+ EDOUm9X9ZJBrvleGOXgPIIZnHL+4TpZTdsS7zBFgWuTIZaQTFF8r06ncxn7idOkndB5f
+ 2A+vSx7nonUs1Hbb5q57ybaxiP81ra0WgaGxINeP6/z5el2siAF7Ge7eOpAvJH8M2jN8
+ Y6uSuTDwJWQcJKdwjKKpIx6UtDG5esZd3BiKTwrkWjZGOB8tG59wnDN6GpZxu44xYs17
+ ZDjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L3v18ZL7N+cktt0efKAeS8NVT3CCQT0jjeaLH5CTmjc=;
- b=joW9NCYVQekXfJZqZdNS4AfQGTX7yDamOaHy7VYc5jKO/dZIuoyBD//wCLmr+dTP+V
- e+N4T8bg51aKIWYjKWj5kQg/UBBxDLCjLw7RFZnsvCAT3vrXu3+/DKRk8gASPtwHslCk
- AadU8qxFYMzmX80IE8KDZXw+zm5Cynj3OOQRAIJSqN6oXgxYncLCFwXrHJvvcZa9Fjbb
- OWBKpj2Ljxe/sSroCCWRkGC1F/YGZV1fGp/pVvoz5ALf2XYvgNEaige9+1CvxKG9X3EL
- m+JEXWz3PlaozbR5qOQYrMBZIfoZflLpdCbp5rJ35e6nxZVBd/rulMCJ4+fTlY9llv4d
- F94A==
-X-Gm-Message-State: AOAM531/vluSQu4zUsHesV60xfIlUPVciMsdKOUwqSItvnIHIm3RtF3B
- u/ty/83Wd9Yp/S2Tih2kGiXncLS9uGI=
-X-Google-Smtp-Source: ABdhPJx1Ys/9MMOAZWU/fFfAVB2g9FVVlyJ+7Y7XCgD7JdN6/EIjYZfZmgfJWoMo+1o4BN9pTRogPw==
-X-Received: by 2002:a17:907:9808:: with SMTP id
- ji8mr18971135ejc.333.1615300018292; 
- Tue, 09 Mar 2021 06:26:58 -0800 (PST)
+ bh=RFA8710d7y21V9/sjoSrymWAAotgH49b0pKscVplcYw=;
+ b=I2jhQzfjNhIDbnlqUREK+FWzPrVvudN7aKu2fZnZhh6hbk7YHcwKIkrJ8G5OMWe4KU
+ 37y/KwJkRpm0rE3sgjawINz7yBHfKjZQZHesefpowXyqL4nBiGLGWQ7H+GKR1+DFTU93
+ yRHAfjrg6OIOjHDBqgzW9iZu2Fer1iv9v9+kQJyAKqT/1wwzaRTc6ngPHPk9AADdsaGN
+ qSqB3TiM8AMh4c7eChRpJDioDJuDyivH2kswSAay4f+C6rMfGjHowDe3NMjOu9St6dyj
+ p7WRdTO/88HLKxIrgwoU2WHYk4mbS2+HyFWksNYjX1GVjye4nHIwiXG+KBleIfNz7PJw
+ +jiw==
+X-Gm-Message-State: AOAM530p+s+2ar4LlmjK/ANmzGG9fUip1PkdurYV78yATOocWWdkoaUD
+ JsOfZr8fEI1juapxJ3HF3c4fft6pHl4=
+X-Google-Smtp-Source: ABdhPJxwUkTSFGUX3GsQ956FVFaacpGs3ogL35e8zZVueABofAF5C5cafZZGvsyMxc6g0/Q6OxPWuQ==
+X-Received: by 2002:aa7:d416:: with SMTP id z22mr4343910edq.239.1615300023694; 
+ Tue, 09 Mar 2021 06:27:03 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s11sm3065335edt.27.2021.03.09.06.26.57
+ by smtp.gmail.com with ESMTPSA id b17sm8149195ejj.9.2021.03.09.06.27.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:26:57 -0800 (PST)
+ Tue, 09 Mar 2021 06:27:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND 5/6] hw/mips/gt64xxx: Trace accesses to ISD registers
-Date: Tue,  9 Mar 2021 15:26:29 +0100
-Message-Id: <20210309142630.728014-6-f4bug@amsat.org>
+Subject: [PATCH RESEND 6/6] hw/mips/gt64xxx: Let the GT64120 manage the lower
+ 512MiB hole
+Date: Tue,  9 Mar 2021 15:26:30 +0100
+Message-Id: <20210309142630.728014-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309142630.728014-1-f4bug@amsat.org>
 References: <20210309142630.728014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,45 +92,66 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trace all accesses to Internal Space Decode (ISD) registers.
+Per the comment in the Malta board, the [0x0000.0000-0x2000.0000]
+range is decoded by the GT64120, so move the "empty_slot" there.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 2 ++
- hw/mips/trace-events  | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/mips/gt64xxx_pci.c | 8 ++++++++
+ hw/mips/malta.c       | 7 -------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 9a12d00d1e1..43349d6837d 100644
+index 43349d6837d..a3926e5cb8a 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -387,6 +387,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-     PCIHostState *phb = PCI_HOST_BRIDGE(s);
-     uint32_t saddr = addr >> 2;
+@@ -29,6 +29,7 @@
+ #include "hw/mips/mips.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
++#include "hw/misc/empty_slot.h"
+ #include "hw/southbridge/piix.h"
+ #include "migration/vmstate.h"
+ #include "hw/intc/i8259.h"
+@@ -1206,6 +1207,13 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
  
-+    trace_gt64120_write(addr, val);
-     if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val = bswap32(val);
-     }
-@@ -966,6 +967,7 @@ static uint64_t gt64120_readl(void *opaque,
-     if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val = bswap32(val);
-     }
-+    trace_gt64120_read(addr, val);
- 
-     return val;
+     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
+                           "gt64120-isd", 0x1000);
++
++    /*
++     * The whole address space decoded by the GT-64120A doesn't generate
++     * exception when accessing invalid memory. Create an empty slot to
++     * emulate this feature.
++     */
++    empty_slot_init("GT64120", 0, 0x20000000);
  }
-diff --git a/hw/mips/trace-events b/hw/mips/trace-events
-index b7e934c3933..13ee731a488 100644
---- a/hw/mips/trace-events
-+++ b/hw/mips/trace-events
-@@ -1,4 +1,6 @@
- # gt64xxx_pci.c
-+gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
-+gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
- gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
- gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
- gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
+ 
+ PCIBus *gt64120_register(qemu_irq *pic)
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 9afc0b427bf..b2469f8ee78 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -56,7 +56,6 @@
+ #include "sysemu/runstate.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+-#include "hw/misc/empty_slot.h"
+ #include "sysemu/kvm.h"
+ #include "hw/semihosting/semihost.h"
+ #include "hw/mips/cps.h"
+@@ -1396,12 +1395,6 @@ void mips_malta_init(MachineState *machine)
+ 
+     /* Northbridge */
+     pci_bus = gt64120_register(s->i8259);
+-    /*
+-     * The whole address space decoded by the GT-64120A doesn't generate
+-     * exception when accessing invalid memory. Create an empty slot to
+-     * emulate this feature.
+-     */
+-    empty_slot_init("GT64120", 0, 0x20000000);
+ 
+     /* Southbridge */
+     dev = piix4_create(pci_bus, &isa_bus, &smbus);
 -- 
 2.26.2
 
