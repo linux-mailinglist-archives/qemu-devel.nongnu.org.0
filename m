@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077EF332D10
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 18:19:14 +0100 (CET)
-Received: from localhost ([::1]:55464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E401A332D4E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 18:32:26 +0100 (CET)
+Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJg0m-0000lp-Uf
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 12:19:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44912)
+	id 1lJgDZ-0002XX-LT
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 12:32:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJf5y-0006RW-TH
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:20:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJf5q-0002G3-CX
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:20:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615306821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1jJJbOIxOY0Mxq+H2kcUM6uJwMCSAvdeDJz/Hci88oM=;
- b=gYojolVDbLntuoLfIPwjzCaBnihBZJsuh63w/dpfukK/ocMEe7Iov3MGbPTJDa2MzxF4vl
- SRTWjdCcFB8xAiK9kzvZgPnx0eJM7z0bBdep1oh2D+Dt0LC1ITT6klqRFimy6hK2skL39q
- cDVYizPDf9nhMYuxELvUC7Rd51gnFVI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-IJO7rgPAP8Cvint-yo1Ckw-1; Tue, 09 Mar 2021 11:20:19 -0500
-X-MC-Unique: IJO7rgPAP8Cvint-yo1Ckw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C96B80432E;
- Tue,  9 Mar 2021 16:20:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B62FB60C17;
- Tue,  9 Mar 2021 16:20:07 +0000 (UTC)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
- <20201217014941.22872-3-zhukeqian1@huawei.com>
- <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
- <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
- <11854ebf-ed88-496d-8381-5385ef1b403a@redhat.com> <YEeM8eUUzm9AlaFI@work-vm>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
- kvm_log_clear_one_slot
-Message-ID: <48fd9bee-4542-533a-b893-7acf3744fe36@redhat.com>
-Date: Tue, 9 Mar 2021 17:20:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJf6F-0006vK-4h
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:20:52 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:47062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJf6C-0002NM-OT
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:20:46 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id f3so15491384oiw.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lnwWrhEneEUUM+YHpqRK/Z28UUqQlE1sLsUPEdpUHzc=;
+ b=NYZveROCj4x3Zd0gjPRlffBCQz8wWsgl91wH9n6geQZR42+2Brl9Uy5I2LWYivlF4b
+ IwJabAq8PaUPm8WuIaYw5t+yW1KfCvWhQFlQcLxpcwOOhl/aPSvuHbABSdN3Geq6ApZ8
+ CArAeCQbQJ8ilxQzyfIJy52x/uSrjBn42OTS84SMNuaZhc0UyR+tyJ0BdKU3nwnCwzkE
+ 8pPMPqz4742ZRtdh9HGmo8JKfZ7DMi+9mmu94agpPSzSNDYVb8MznAAVm03oNRMY81yy
+ rhLlnDqwDv+Yt65dMszaU6SLnkD5ibdjIdZ8CObSlgBAeFKFbHq58Ksvoh1qMtWY/iJP
+ gpRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lnwWrhEneEUUM+YHpqRK/Z28UUqQlE1sLsUPEdpUHzc=;
+ b=AH7UcNhDf1eMtYMcMsmdbL3sDMCee0ZJTLKGHBrJPpn8pHg6J5DlM06cu0dsc6izia
+ 8UYuw2R6Bw8InArr1zdMPQz3mM9RFnKvptYHhMjNG8UarJDQIluT+DgFgLLOUoPEE89e
+ nujIRNtSUjU70MtVwM90ruckdVs1gmCWBKkKC/ZMTIQPpXwQshTlIIEHHp28wvBRBw5c
+ IlL4FQEZ315tLOHDGOGMCIa7d23aKlp2zAPIkf/EcUTr2DXtlJsO0nGwV5oYhYaPt2b9
+ RvkwXZLZ6+6K9GrRtBC0iG9t5eb8UslWAD9XwgXOvEPLdLdig2sTAEaFg3nXhxVVpNcB
+ vWQQ==
+X-Gm-Message-State: AOAM530eUDO+GX9nTLt/82grqXzP9XGVyv+/sdEaAu1y17kbLAlu/q6C
+ ASv7FuFU7r+Z+27rmbNj+yKOj0oCt6wZ2OCb
+X-Google-Smtp-Source: ABdhPJzJxOFUD4BMJ2dE+GdZWvJuj6HIkkm3BhL09NgN39JdjWqOkpiOVg7B5selxuzBSo9huyOwBA==
+X-Received: by 2002:aca:b544:: with SMTP id e65mr3510183oif.78.1615306843476; 
+ Tue, 09 Mar 2021 08:20:43 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id v23sm2516474ots.63.2021.03.09.08.20.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 08:20:43 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/78] target/arm: Implement SVE2
+Date: Tue,  9 Mar 2021 08:19:23 -0800
+Message-Id: <20210309162041.23124-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YEeM8eUUzm9AlaFI@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,116 +82,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- jiangkunkun@huawei.com, qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- wanghaibin.wang@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/2021 15.57, Dr. David Alan Gilbert wrote:
-> * Thomas Huth (thuth@redhat.com) wrote:
->> On 09/03/2021 15.05, Keqian Zhu wrote:
->>>
->>>
->>> On 2021/3/9 21:48, Thomas Huth wrote:
->>>> On 17/12/2020 02.49, Keqian Zhu wrote:
->>>>> The parameters start and size are transfered from QEMU memory
->>>>> emulation layer. It can promise that they are TARGET_PAGE_SIZE
->>>>> aligned. However, KVM needs they are qemu_real_page_size aligned.
->>>>>
->>>>> Though no caller breaks this aligned requirement currently, we'd
->>>>> better add an explicit assert to avoid future breaking.
->>>>>
->>>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->>>>> ---
->>>>>     accel/kvm/kvm-all.c | 7 +++++++
->>>>>     1 file changed, 7 insertions(+)
->>>>>
->>>>> ---
->>>>> v2
->>>>>     - Address Andrew's commment (Use assert instead of return err).
->>>>>
->>>>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->>>>> index f6b16a8df8..73b195cc41 100644
->>>>> --- a/accel/kvm/kvm-all.c
->>>>> +++ b/accel/kvm/kvm-all.c
->>>>> @@ -692,6 +692,10 @@ out:
->>>>>     #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
->>>>>     #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
->>>>>     +/*
->>>>> + * As the granule of kvm dirty log is qemu_real_host_page_size,
->>>>> + * @start and @size are expected and restricted to align to it.
->>>>> + */
->>>>>     static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>>>>                                       uint64_t size)
->>>>>     {
->>>>> @@ -701,6 +705,9 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>>>>         unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
->>>>>         int ret;
->>>>>     +    /* Make sure start and size are qemu_real_host_page_size aligned */
->>>>> +    assert(QEMU_IS_ALIGNED(start | size, psize));
->>>>
->>>> Sorry, but that was a bad idea: It triggers and kills my Centos 6 VM:
->>>>
->>>> $ qemu-system-x86_64 -accel kvm -hda ~/virt/images/centos6.qcow2 -m 1G
->>>> qemu-system-x86_64: ../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
->>>> Aborted (core dumped)
->>> Hi Thomas,
->>>
->>> I think this patch is ok, maybe it trigger a potential bug?
->>
->> Well, sure, there is either a bug somewhere else or in this new code. But it's certainly not normal that the assert() triggers, is it?
->>
->> FWIW, here's a backtrace:
->>
->> #0  0x00007ffff2c1584f in raise () at /lib64/libc.so.6
->> #1  0x00007ffff2bffc45 in abort () at /lib64/libc.so.6
->> #2  0x00007ffff2bffb19 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
->> #3  0x00007ffff2c0de36 in .annobin_assert.c_end () at /lib64/libc.so.6
->> #4  0x0000555555ba25f3 in kvm_log_clear_one_slot
->>      (size=6910080, start=0, as_id=0, mem=0x555556e1ee00)
->>      at ../../devel/qemu/accel/kvm/kvm-all.c:691
->> #5  0x0000555555ba25f3 in kvm_physical_log_clear
->>      (section=0x7fffffffd0b0, section=0x7fffffffd0b0, kml=0x555556dbaac0)
->>      at ../../devel/qemu/accel/kvm/kvm-all.c:843
->> #6  0x0000555555ba25f3 in kvm_log_clear (listener=0x555556dbaac0, section=0x7fffffffd0b0)
->>      at ../../devel/qemu/accel/kvm/kvm-all.c:1253
->> #7  0x0000555555b023d8 in memory_region_clear_dirty_bitmap
->>      (mr=mr@entry=0x5555573394c0, start=start@entry=0, len=len@entry=6910080)
->>      at ../../devel/qemu/softmmu/memory.c:2132
->> #8  0x0000555555b313d9 in cpu_physical_memory_snapshot_and_clear_dirty
->>      (mr=mr@entry=0x5555573394c0, offset=offset@entry=0, length=length@entry=6910080, client=client@entry=0) at ../../devel/qemu/softmmu/physmem.c:1109
->> #9  0x0000555555b02483 in memory_region_snapshot_and_clear_dirty
->>      (mr=mr@entry=0x5555573394c0, addr=addr@entry=0, size=size@entry=6910080, client=client@entry=0)
->>      at ../../devel/qemu/softmmu/memory.c:2146
-> 
-> Could you please figure out which memory region this is?
-> WTH is that size? Is that really the problem that the size is just
-> crazy?
+After a 6-month hiatus, sve2 is back.  This time, with RISU
+testing vs FVP 11.13.36.
 
-The answer is one stack frame below...
+Based-on: 20210309155305.11301-1-richard.henderson@linaro.org
+("target/arm: sve1 fixes")
 
->> #10 0x0000555555babe99 in vga_draw_graphic (full_update=0, s=0x5555573394b0)
->>      at ../../devel/qemu/hw/display/vga.c:1661
 
-The vga code basically does this:
+r~
 
-     region_start = (s->start_addr * 4);
-     region_end = region_start + (ram_addr_t)s->line_offset * height;
-     region_end += width * depth / 8; /* scanline length */
-     region_end -= s->line_offset;
-     ...
-     memory_region_snapshot_and_clear_dirty(... region_end - region_start...);
 
-Thus it uses a size that is nowhere guaranteed to be a multiple
-of the page size.
+Richard Henderson (60):
+  target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
+  target/arm: Implement SVE2 Integer Multiply - Unpredicated
+  target/arm: Implement SVE2 integer pairwise add and accumulate long
+  target/arm: Implement SVE2 integer unary operations (predicated)
+  target/arm: Split out saturating/rounding shifts from neon
+  target/arm: Implement SVE2 saturating/rounding bitwise shift left
+    (predicated)
+  target/arm: Implement SVE2 integer halving add/subtract (predicated)
+  target/arm: Implement SVE2 integer pairwise arithmetic
+  target/arm: Implement SVE2 saturating add/subtract (predicated)
+  target/arm: Implement SVE2 integer add/subtract long
+  target/arm: Implement SVE2 integer add/subtract interleaved long
+  target/arm: Implement SVE2 integer add/subtract wide
+  target/arm: Implement SVE2 integer multiply long
+  target/arm: Implement PMULLB and PMULLT
+  target/arm: Implement SVE2 bitwise shift left long
+  target/arm: Implement SVE2 bitwise exclusive-or interleaved
+  target/arm: Implement SVE2 bitwise permute
+  target/arm: Implement SVE2 complex integer add
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+    long
+  target/arm: Implement SVE2 integer add/subtract long with carry
+  target/arm: Implement SVE2 bitwise shift right and accumulate
+  target/arm: Implement SVE2 bitwise shift and insert
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+  target/arm: Implement SVE2 saturating extract narrow
+  target/arm: Implement SVE2 SHRN, RSHRN
+  target/arm: Implement SVE2 SQSHRUN, SQRSHRUN
+  target/arm: Implement SVE2 UQSHRN, UQRSHRN
+  target/arm: Implement SVE2 SQSHRN, SQRSHRN
+  target/arm: Implement SVE2 WHILEGT, WHILEGE, WHILEHI, WHILEHS
+  target/arm: Implement SVE2 WHILERW, WHILEWR
+  target/arm: Implement SVE2 bitwise ternary operations
+  target/arm: Implement SVE2 saturating multiply-add long
+  target/arm: Implement SVE2 saturating multiply-add high
+  target/arm: Implement SVE2 integer multiply-add long
+  target/arm: Implement SVE2 complex integer multiply-add
+  target/arm: Implement SVE2 XAR
+  target/arm: Pass separate addend to {U,S}DOT helpers
+  target/arm: Pass separate addend to FCMLA helpers
+  target/arm: Split out formats for 2 vectors + 1 index
+  target/arm: Split out formats for 3 vectors + 1 index
+  target/arm: Implement SVE2 integer multiply (indexed)
+  target/arm: Implement SVE2 integer multiply-add (indexed)
+  target/arm: Implement SVE2 saturating multiply-add high (indexed)
+  target/arm: Implement SVE2 saturating multiply-add (indexed)
+  target/arm: Implement SVE2 integer multiply long (indexed)
+  target/arm: Implement SVE2 saturating multiply (indexed)
+  target/arm: Implement SVE2 signed saturating doubling multiply high
+  target/arm: Implement SVE2 saturating multiply high (indexed)
+  target/arm: Implement SVE2 multiply-add long (indexed)
+  target/arm: Implement SVE2 complex integer multiply-add (indexed)
+  target/arm: Implement SVE mixed sign dot product (indexed)
+  target/arm: Implement SVE mixed sign dot product
+  target/arm: Implement SVE2 crypto unary operations
+  target/arm: Implement SVE2 crypto destructive binary operations
+  target/arm: Implement SVE2 crypto constructive binary operations
+  target/arm: Share table of sve load functions
+  target/arm: Implement SVE2 LD1RO
+  target/arm: Implement 128-bit ZIP, UZP, TRN
+  target/arm: Implement SVE2 complex integer dot product
+  target/arm: Enable SVE2 and some extensions
 
-A similar usage can be seen in other devices, too (e.g. sm501.c),
-so either there is a bug in the assert() statement, or we have
-a problem with many devices...
+Stephen Long (18):
+  target/arm: Implement SVE2 floating-point pairwise
+  target/arm: Implement SVE2 MATCH, NMATCH
+  target/arm: Implement SVE2 ADDHNB, ADDHNT
+  target/arm: Implement SVE2 RADDHNB, RADDHNT
+  target/arm: Implement SVE2 SUBHNB, SUBHNT
+  target/arm: Implement SVE2 RSUBHNB, RSUBHNT
+  target/arm: Implement SVE2 HISTCNT, HISTSEG
+  target/arm: Implement SVE2 scatter store insns
+  target/arm: Implement SVE2 gather load insns
+  target/arm: Implement SVE2 FMMLA
+  target/arm: Implement SVE2 SPLICE, EXT
+  target/arm: Implement SVE2 TBL, TBX
+  target/arm: Implement SVE2 FCVTNT
+  target/arm: Implement SVE2 FCVTLT
+  target/arm: Implement SVE2 FCVTXNT, FCVTX
+  target/arm: Implement SVE2 FLOGB
+  target/arm: Implement SVE2 bitwise shift immediate
+  target/arm: Implement SVE2 fp multiply-add long
 
-  Thomas
+ target/arm/cpu.h                |   56 +
+ target/arm/helper-sve.h         |  722 ++++++-
+ target/arm/helper.h             |  104 +-
+ target/arm/translate-a64.h      |    3 +
+ target/arm/vec_internal.h       |  143 ++
+ target/arm/sve.decode           |  568 +++++-
+ target/arm/cpu64.c              |   11 +
+ target/arm/helper.c             |    3 +-
+ target/arm/kvm64.c              |   11 +
+ target/arm/neon_helper.c        |  507 +----
+ target/arm/sve_helper.c         | 2123 ++++++++++++++++++++-
+ target/arm/translate-a64.c      |   68 +-
+ target/arm/translate-sve.c      | 3157 +++++++++++++++++++++++++++++--
+ target/arm/vec_helper.c         |  777 +++++++-
+ target/arm/translate-neon.c.inc |   20 +-
+ 15 files changed, 7425 insertions(+), 848 deletions(-)
+
+-- 
+2.25.1
 
 
