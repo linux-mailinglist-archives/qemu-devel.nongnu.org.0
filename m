@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3254033222D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 10:39:04 +0100 (CET)
-Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9E8332238
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 10:41:51 +0100 (CET)
+Received: from localhost ([::1]:43952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJYpS-0006wd-Uo
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 04:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34578)
+	id 1lJYsA-0000lx-32
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 04:41:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJYmV-0005nV-0N
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:35:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45040)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJYmc-0005r4-Fa
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:36:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJYmQ-00008I-JN
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:35:58 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJYmV-0000AP-N0
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 04:36:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615282552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HojpXorL2IhvEPmjoG/lwImU4IPA7ibKrwoH8nzX+pU=;
- b=K5knr5EyUK/dADbF2m9yXQuSIxuytKfNep2kR7gCzElToMDR1XVOdwpCbJ42gTpFBsqJ3l
- 70xQLVQSVXAZ3VQqcAl/z0uJEQKqupYjJ0gE9TQaD2fwV9nEdRCcBP3MNVBB3hBW/uULZD
- XJR7Yiy14tL/fW7VkBNic05rkGC1ut4=
+ s=mimecast20190719; t=1615282557;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=JmnSyCEyTOjhy6kHkOaGYEfGKRCJ3xRRvyLfE2fsCQk=;
+ b=eNu0jCIkBKp6NmJkzN+02svtrnZDk7JcityP0Ie1ivw6SB9YBil1/do+VqhqNPwG1pstTt
+ hjcHsBppl+wsqErK8hUwIrzKBqCZYW6XKPPawTfvz1d5iA5FkJogAqpLc7GiuaEO7gqb73
+ KKxvUQeVKD/2yLqRIiBI2fQcib9KAWg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-IW9OAMoJPhClXiFSZagrKQ-1; Tue, 09 Mar 2021 04:35:50 -0500
-X-MC-Unique: IW9OAMoJPhClXiFSZagrKQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-591-2lNhpmtrO3O2fRMb8jF2aA-1; Tue, 09 Mar 2021 04:35:55 -0500
+X-MC-Unique: 2lNhpmtrO3O2fRMb8jF2aA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7501B801814;
- Tue,  9 Mar 2021 09:35:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD02D5D9DC;
- Tue,  9 Mar 2021 09:35:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 67AB01132C12; Tue,  9 Mar 2021 10:35:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zihao Chang <changzihao1@huawei.com>
-Subject: Re: [PATCH v4 3/3] qmp: add new qmp display-reload
-References: <20210224123419.786-1-changzihao1@huawei.com>
- <20210224123419.786-4-changzihao1@huawei.com>
-Date: Tue, 09 Mar 2021 10:35:44 +0100
-In-Reply-To: <20210224123419.786-4-changzihao1@huawei.com> (Zihao Chang's
- message of "Wed, 24 Feb 2021 20:34:19 +0800")
-Message-ID: <87lfawu0sv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 275DA801814;
+ Tue,  9 Mar 2021 09:35:54 +0000 (UTC)
+Received: from redhat.com (ovpn-114-154.ams2.redhat.com [10.36.114.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89FFE3A47;
+ Tue,  9 Mar 2021 09:35:48 +0000 (UTC)
+Date: Tue, 9 Mar 2021 09:35:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH] coroutine: add libucontext as external library
+Message-ID: <YEdBce6TWCVpSph9@redhat.com>
+References: <20210309032637.41778-1-j@getutm.app>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210309032637.41778-1-j@getutm.app>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,110 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com, yebiaoxiang@huawei.com,
- kraxel@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry for the delay, I missed this one.
+On Mon, Mar 08, 2021 at 07:26:36PM -0800, Joelle van Dyne wrote:
+> iOS does not support ucontext natively for aarch64 and the sigaltstack is
+> also unsupported (even worse, it fails silently, see:
+> https://openradar.appspot.com/13002712 )
+> 
+> As a workaround we include a library implementation of ucontext and add it
+> as a build option.
 
-Zihao Chang <changzihao1@huawei.com> writes:
+The README here:
 
-> This patch provides a new qmp to reload display configuration
-> without restart VM, but only reloading the vnc tls certificates
-> is implemented.
-> Example:
-> {"execute": "display-reload", "arguments":{"vnc-tls-certs": true}}
->
-> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-> ---
->  monitor/qmp-cmds.c | 12 ++++++++++++
->  qapi/ui.json       | 32 ++++++++++++++++++++++++++++++++
->  2 files changed, 44 insertions(+)
->
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index c7df8c0ee268..02ac2fdb1a47 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -334,3 +334,15 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
->  
->      return mem_info;
->  }
-> +
-> +void qmp_display_reload(DisplayReloadInfo *arg, Error **errp)
-> +{
-> +    Error *local_err = NULL;
-> +
-> +    if (arg->has_vnc_tls_certs && arg->vnc_tls_certs) {
-> +        if (!vnc_display_reload_certs(NULL, &local_err)) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +    }
-> +}
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d08d72b43923..922d9ae0772e 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1179,3 +1179,35 @@
->  ##
->  { 'command': 'query-display-options',
->    'returns': 'DisplayOptions' }
-> +
-> +##
-> +# @DisplayReloadInfo:
-> +#
-> +# The basic information for reload Display configuration
-> +#
-> +# @vnc-tls-certs: whether to reload tls certs
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'DisplayReloadInfo',
-> +  'data': { '*vnc-tls-certs': 'bool' } }
-> +
-> +##
-> +# @display-reload:
-> +#
-> +# Reload display configuration
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 6.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "display-reload",
-> +#      "arguments": { "vnc-tls-certs": true } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'display-reload',
-> +  'data': 'DisplayReloadInfo',
-> +  'boxed' : true }
+  https://github.com/kaniini/libucontext
 
-Why 'boxed': true?
+indicates that it is intentionally limiting what registers it saves
+and restores, explicitly excluding FPU.
 
-What about:
+Peter & Paolo expressed concern about this, indicating FPU reg support
+was a requirement for QEMU:
 
-   ##
-   # @display-reload:
-   #
-   # Reload display configuration
-   #
-   # Returns: Nothing on success
-   #
-   # Since: 6.0
-   #
-   # Example:
-   #
-   # -> { "execute": "display-reload",
-   #      "arguments": { "vnc-tls-certs": true } }
-   # <- { "return": {} }
-   #
-   ##
-   { 'command': 'display-reload',
-     'data': { '*vnc-tls-certs': 'bool' } }
+   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05525.html
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
