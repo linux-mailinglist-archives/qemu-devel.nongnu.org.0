@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1158033303C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:50:35 +0100 (CET)
-Received: from localhost ([::1]:43374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FA4332FFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:34:11 +0100 (CET)
+Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjJJ-0001gC-VY
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:50:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37332)
+	id 1lJj3S-0008MX-T9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:34:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJiXM-0005Fa-OG
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:01:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJiXF-0005h0-Nm
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:01:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lJiXC-0005Td-Ud
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 20:00:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E52352E8157
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 20:00:50 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Mar 2021 19:53:39 -0000
-From: Alexander Bulekov <1918321@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJiWN-00043O-Ap
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:00:00 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:37723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJiWK-0005As-If
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 14:59:59 -0500
+Received: from localhost.localdomain ([82.142.6.26]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MF39S-1lZ8qQ37Pc-00FWIC; Tue, 09 Mar 2021 20:59:47 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <161531961935.11554.15835639895023157218.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1918321] [NEW] [OSS-Fuzz] Issue 31875 megasas: Null-ptr
- dereference in megasas_finish_dcmd
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
-X-Launchpad-Hash: 4ed427c7293066f3c94a680de3b69bb1867b52a5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Subject: [PATCH v7 1/5] char: add goldfish-tty
+Date: Tue,  9 Mar 2021 20:59:37 +0100
+Message-Id: <20210309195941.763896-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210309195941.763896-1-laurent@vivier.eu>
+References: <20210309195941.763896-1-laurent@vivier.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:H+aGOFAUKpHJ4H+aSiIHAEhSq5mSSBqAAsUfoUNQ1iZkf3VXc3g
+ pBtQ3TrFuYrasdS0TKy9xxXJrQkaotqHLmlt4wLaFACzmOBLC7ZpeVH00Zbv8k6BFd2nIao
+ /kE4pJJQkkep8KyUK5HLW6u5zK/pftllOyCu6+0JFTT0BnLbS/ZLhXfnvhqNKt67PyecYcf
+ K7nFkxkn+4zPSt00mucFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:a/MfSIwOwoY=:QNAqaDWd9V9bC9JnDKE9zM
+ 8+FJ/QaQlh4mJO1YMN4DXJbdhZNAWquvaQLd+JIPGMYQhXzdchNIjVr4Ppbmp6h+oFcXWxTwA
+ uVS+eS3Yw4vMfm/K7sCp4+RyykygACm5NAZ2obyBbDGvjYWVVwOV5/TbeuQSAfdgpMw+JwbP2
+ iD8j3ElVThBzwsBZEc9oSXn1HpSDM5rbeExdkUwqW9k0eHAJYRFj6QR+U6OcDEIiNVvNfykT4
+ 5xiYpqDMX++xZqEQCcU69NakCOj2watZlZPtyk1KYP/BdS5txEJo06MD1tqWs6u3jMUei6Az7
+ KB+9QowwaPI28BGvhDfbxtarhPxtzyfK5uve34w7fMQbqNFQCYyJgjCORoRD2xyznhlkR4UeQ
+ GOpTFXwjaCR3s4KElxKhsl96JL0KFCeUuxwP0oGN8mmwVAatzaW0pdI2Kam6Bczmp1r9K2rNB
+ qIkkvw2t5w==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,227 +63,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918321 <1918321@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Implement the goldfish tty device as defined in
 
-Hello,
+https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
 
-=3D=3D QTest Reproducer =3D=3D
-/* =
+and based on the kernel driver code:
 
- * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m=
- \
- * 512M -machine q35 -nodefaults -device megasas -device \
- * scsi-cd,drive=3Dnull0 -blockdev \
- * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
- * outl 0xcf8 0x80000801
- * outl 0xcfc 0x05000000
- * outl 0xcf8 0x80000816
- * outl 0xcfc 0x19000000
- * write 0x1e1ed300 0x1 0x01
- * write 0x1e1ed307 0x1 0x01
- * write 0x1e1ed316 0x1 0x01
- * write 0x1e1ed328 0x1 0x01
- * write 0x1e1ed32f 0x1 0x01
- * outl 0x1940 0x1e1ed300
- * outl 0x19c0 0x00
- * EOF
- */
-static void null_deref_megasas_finish_dcmd(void)
-{
-    QTestState *s =3D qtest_init(
-        "-display none , -m 512M -machine q35 -nodefaults -device megasas -=
-device "
-        "scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Don,=
-node-name=3Dnull0 ");
-    qtest_outl(s, 0xcf8, 0x80000801);
-    qtest_outl(s, 0xcfc, 0x05000000);
-    qtest_outl(s, 0xcf8, 0x80000816);
-    qtest_outl(s, 0xcfc, 0x19000000);
-    qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
-    qtest_outl(s, 0x1940, 0x1e1ed300);
-    qtest_outl(s, 0x19c0, 0x00);
-    qtest_quit(s);
-}
-int main(int argc, char **argv)
-{
-    const char *arch =3D qtest_get_arch();
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
 
-    g_test_init(&argc, &argv, NULL);
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/char/goldfish_tty.h |  35 ++++
+ hw/char/goldfish_tty.c         | 283 +++++++++++++++++++++++++++++++++
+ hw/char/Kconfig                |   3 +
+ hw/char/meson.build            |   2 +
+ hw/char/trace-events           |  10 ++
+ 5 files changed, 333 insertions(+)
+ create mode 100644 include/hw/char/goldfish_tty.h
+ create mode 100644 hw/char/goldfish_tty.c
 
-    if (strcmp(arch, "i386") =3D=3D 0) {
-        qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
-                       null_deref_megasas_finish_dcmd);
-    }
+diff --git a/include/hw/char/goldfish_tty.h b/include/hw/char/goldfish_tty.h
+new file mode 100644
+index 000000000000..b9dd67362a68
+--- /dev/null
++++ b/include/hw/char/goldfish_tty.h
+@@ -0,0 +1,35 @@
++/*
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ *
++ * Goldfish TTY
++ *
++ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
++ *
++ */
++
++#ifndef HW_CHAR_GOLDFISH_TTY_H
++#define HW_CHAR_GOLDFISH_TTY_H
++
++#include "qemu/fifo8.h"
++#include "chardev/char-fe.h"
++
++#define TYPE_GOLDFISH_TTY "goldfish_tty"
++OBJECT_DECLARE_SIMPLE_TYPE(GoldfishTTYState, GOLDFISH_TTY)
++
++#define GOLFISH_TTY_BUFFER_SIZE 128
++
++struct GoldfishTTYState {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++    qemu_irq irq;
++    CharBackend chr;
++
++    uint32_t data_len;
++    uint64_t data_ptr;
++    bool int_enabled;
++
++    Fifo8 rx_fifo;
++};
++
++#endif
+diff --git a/hw/char/goldfish_tty.c b/hw/char/goldfish_tty.c
+new file mode 100644
+index 000000000000..9f705f8653cc
+--- /dev/null
++++ b/hw/char/goldfish_tty.c
+@@ -0,0 +1,283 @@
++/*
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ *
++ * Goldfish TTY
++ *
++ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties-system.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "chardev/char-fe.h"
++#include "qemu/log.h"
++#include "trace.h"
++#include "exec/address-spaces.h"
++#include "hw/char/goldfish_tty.h"
++
++/* registers */
++
++enum {
++    REG_PUT_CHAR      = 0x00,
++    REG_BYTES_READY   = 0x04,
++    REG_CMD           = 0x08,
++    REG_DATA_PTR      = 0x10,
++    REG_DATA_LEN      = 0x14,
++    REG_DATA_PTR_HIGH = 0x18,
++    REG_VERSION       = 0x20,
++};
++
++/* commands */
++
++enum {
++    CMD_INT_DISABLE   = 0x00,
++    CMD_INT_ENABLE    = 0x01,
++    CMD_WRITE_BUFFER  = 0x02,
++    CMD_READ_BUFFER   = 0x03,
++};
++
++static uint64_t goldfish_tty_read(void *opaque, hwaddr addr,
++                                  unsigned size)
++{
++    GoldfishTTYState *s = opaque;
++    uint64_t value = 0;
++
++    switch (addr) {
++    case REG_BYTES_READY:
++        value = fifo8_num_used(&s->rx_fifo);
++        break;
++    case REG_VERSION:
++        value = 0;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
++    }
++
++    trace_goldfish_tty_read(s, addr, size, value);
++
++    return value;
++}
++
++static void goldfish_tty_cmd(GoldfishTTYState *s, uint32_t cmd)
++{
++    uint32_t to_copy;
++    uint8_t *buf;
++    uint8_t data_out[GOLFISH_TTY_BUFFER_SIZE];
++    int len;
++    uint64_t ptr;
++
++    switch (cmd) {
++    case CMD_INT_DISABLE:
++        if (s->int_enabled) {
++            if (!fifo8_is_empty(&s->rx_fifo)) {
++                qemu_set_irq(s->irq, 0);
++            }
++            s->int_enabled = false;
++        }
++        break;
++    case CMD_INT_ENABLE:
++        if (!s->int_enabled) {
++            if (!fifo8_is_empty(&s->rx_fifo)) {
++                qemu_set_irq(s->irq, 1);
++            }
++            s->int_enabled = true;
++        }
++        break;
++    case CMD_WRITE_BUFFER:
++        len = s->data_len;
++        ptr = s->data_ptr;
++        while (len) {
++            to_copy = MIN(GOLFISH_TTY_BUFFER_SIZE, len);
++
++            address_space_rw(&address_space_memory, ptr,
++                             MEMTXATTRS_UNSPECIFIED, data_out, to_copy, 0);
++            qemu_chr_fe_write_all(&s->chr, data_out, to_copy);
++
++            len -= to_copy;
++            ptr += to_copy;
++        }
++        break;
++    case CMD_READ_BUFFER:
++        len = s->data_len;
++        ptr = s->data_ptr;
++        while (len && !fifo8_is_empty(&s->rx_fifo)) {
++            buf = (uint8_t *)fifo8_pop_buf(&s->rx_fifo, len, &to_copy);
++            address_space_rw(&address_space_memory, ptr,
++                            MEMTXATTRS_UNSPECIFIED, buf, to_copy, 1);
++
++            len -= to_copy;
++            ptr += to_copy;
++        }
++        if (s->int_enabled && fifo8_is_empty(&s->rx_fifo)) {
++            qemu_set_irq(s->irq, 0);
++        }
++        break;
++    }
++}
++
++static void goldfish_tty_write(void *opaque, hwaddr addr,
++                               uint64_t value, unsigned size)
++{
++    GoldfishTTYState *s = opaque;
++    unsigned char c;
++
++    trace_goldfish_tty_write(s, addr, size, value);
++
++    switch (addr) {
++    case REG_PUT_CHAR:
++        c = value;
++        qemu_chr_fe_write_all(&s->chr, &c, sizeof(c));
++        break;
++    case REG_CMD:
++        goldfish_tty_cmd(s, value);
++        break;
++    case REG_DATA_PTR:
++        s->data_ptr = value;
++        break;
++    case REG_DATA_PTR_HIGH:
++        s->data_ptr = deposit64(s->data_ptr, 32, 32, value);
++        break;
++    case REG_DATA_LEN:
++        s->data_len = value;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
++    }
++}
++
++static const MemoryRegionOps goldfish_tty_ops = {
++    .read = goldfish_tty_read,
++    .write = goldfish_tty_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.max_access_size = 4,
++    .impl.max_access_size = 4,
++    .impl.min_access_size = 4,
++};
++
++static int goldfish_tty_can_receive(void *opaque)
++{
++    GoldfishTTYState *s = opaque;
++    int available = fifo8_num_free(&s->rx_fifo);
++
++    trace_goldfish_tty_can_receive(s, available);
++
++    return available;
++}
++
++static void goldfish_tty_receive(void *opaque, const uint8_t *buffer, int size)
++{
++    GoldfishTTYState *s = opaque;
++
++    trace_goldfish_tty_receive(s, size);
++
++    g_assert(size <= fifo8_num_free(&s->rx_fifo));
++
++    fifo8_push_all(&s->rx_fifo, buffer, size);
++
++    if (s->int_enabled && !fifo8_is_empty(&s->rx_fifo)) {
++        qemu_set_irq(s->irq, 1);
++    }
++}
++
++static void goldfish_tty_reset(DeviceState *dev)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_reset(s);
++
++    fifo8_reset(&s->rx_fifo);
++    s->int_enabled = false;
++    s->data_ptr = 0;
++    s->data_len = 0;
++}
++
++static void goldfish_tty_realize(DeviceState *dev, Error **errp)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_realize(s);
++
++    fifo8_create(&s->rx_fifo, GOLFISH_TTY_BUFFER_SIZE);
++    memory_region_init_io(&s->iomem, OBJECT(s), &goldfish_tty_ops, s,
++                          "goldfish_tty", 0x24);
++
++    if (qemu_chr_fe_backend_connected(&s->chr)) {
++        qemu_chr_fe_set_handlers(&s->chr, goldfish_tty_can_receive,
++                                 goldfish_tty_receive, NULL, NULL,
++                                 s, NULL, true);
++    }
++}
++
++static void goldfish_tty_unrealize(DeviceState *dev)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_unrealize(s);
++
++    fifo8_destroy(&s->rx_fifo);
++}
++
++static const VMStateDescription vmstate_goldfish_tty = {
++    .name = "goldfish_tty",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(data_len, GoldfishTTYState),
++        VMSTATE_UINT64(data_ptr, GoldfishTTYState),
++        VMSTATE_BOOL(int_enabled, GoldfishTTYState),
++        VMSTATE_FIFO8(rx_fifo, GoldfishTTYState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static Property goldfish_tty_properties[] = {
++    DEFINE_PROP_CHR("chardev", GoldfishTTYState, chr),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void goldfish_tty_instance_init(Object *obj)
++{
++    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
++    GoldfishTTYState *s = GOLDFISH_TTY(obj);
++
++    trace_goldfish_tty_instance_init(s);
++
++    sysbus_init_mmio(dev, &s->iomem);
++    sysbus_init_irq(dev, &s->irq);
++}
++
++static void goldfish_tty_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    device_class_set_props(dc, goldfish_tty_properties);
++    dc->reset = goldfish_tty_reset;
++    dc->realize = goldfish_tty_realize;
++    dc->unrealize = goldfish_tty_unrealize;
++    dc->vmsd = &vmstate_goldfish_tty;
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++}
++
++static const TypeInfo goldfish_tty_info = {
++    .name = TYPE_GOLDFISH_TTY,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .class_init = goldfish_tty_class_init,
++    .instance_init = goldfish_tty_instance_init,
++    .instance_size = sizeof(GoldfishTTYState),
++};
++
++static void goldfish_tty_register_types(void)
++{
++    type_register_static(&goldfish_tty_info);
++}
++
++type_init(goldfish_tty_register_types)
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index f6f4fffd1b7c..4cf36ac637ba 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -64,3 +64,6 @@ config MCHP_PFSOC_MMUART
+ 
+ config SIFIVE_UART
+     bool
++
++config GOLDFISH_TTY
++    bool
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index afe9a0af88c1..6f5c3e5b5bfa 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -39,3 +39,5 @@ specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
+ specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
+ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
++
++specific_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 81026f661277..76d52938ead3 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -20,6 +20,16 @@ virtio_console_flush_buf(unsigned int port, size_t len, ssize_t ret) "port %u, i
+ virtio_console_chr_read(unsigned int port, int size) "port %u, size %d"
+ virtio_console_chr_event(unsigned int port, int event) "port %u, event %d"
+ 
++# goldfish_tty.c
++goldfish_tty_read(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_tty_write(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_tty_can_receive(void *dev, unsigned int available) "tty: %p available: %u"
++goldfish_tty_receive(void *dev, unsigned int size) "tty: %p size: %u"
++goldfish_tty_reset(void *dev) "tty: %p"
++goldfish_tty_realize(void *dev) "tty: %p"
++goldfish_tty_unrealize(void *dev) "tty: %p"
++goldfish_tty_instance_init(void *dev) "tty: %p"
++
+ # grlib_apbuart.c
+ grlib_apbuart_event(int event) "event:%d"
+ grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" value 0x%x"
+-- 
+2.29.2
 
-    return g_test_run();
-}
-
-=3D=3D Stack Trace =3D=3D
-../hw/scsi/megasas.c:1884:21: runtime error: member access within null poin=
-ter of type 'union mfi_frame'
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasas.=
-c:1884:21 in
-../hw/scsi/megasas.c:1884:21: runtime error: member access within null poin=
-ter of type 'struct mfi_frame_header'
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasas.=
-c:1884:21 in
-AddressSanitizer:DEADLYSIGNAL
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=3D=3D314546=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
-000003 (pc 0x55b1b4f4de73 bp 0x7ffcfc5a8bb0 sp 0x7ffcfc5a8900 T0)
-=3D=3D314546=3D=3DThe signal is caused by a WRITE memory access.
-=3D=3D314546=3D=3DHint: address points to the zero page.
-#0 0x55b1b4f4de73 in megasas_command_complete build/../hw/scsi/megasas.c:18=
-84:40
-#1 0x55b1b5613914 in scsi_req_complete build/../hw/scsi/scsi-bus.c:1515:5
-#2 0x55b1b5448aeb in scsi_dma_complete_noio build/../hw/scsi/scsi-disk.c:34=
-5:9
-#3 0x55b1b5446fc7 in scsi_dma_complete build/../hw/scsi/scsi-disk.c:366:5
-#4 0x55b1b4fffc56 in dma_complete build/../softmmu/dma-helpers.c:121:9
-#5 0x55b1b4fffc56 in dma_blk_cb build/../softmmu/dma-helpers.c:139:9
-#6 0x55b1b6856016 in blk_aio_complete build/../block/block-backend.c:1412:9
-#7 0x55b1b6f48b06 in aio_bh_poll build/../util/async.c:164:13
-#8 0x55b1b6f08cec in aio_dispatch build/../util/aio-posix.c:381:5
-#9 0x55b1b6f4d59c in aio_ctx_dispatch build/../util/async.c:306:5
-#10 0x7fd88c098baa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/li=
-bglib-2.0.so.0+0x51baa)
-#11 0x55b1b6f59a3c in glib_pollfds_poll build/../util/main-loop.c:232:9
-#12 0x55b1b6f59a3c in os_host_main_loop_wait build/../util/main-loop.c:255:5
-#13 0x55b1b6f59a3c in main_loop_wait build/../util/main-loop.c:531:11
-#14 0x55b1b61a78a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
-#15 0x55b1b4c751e5 in main build/../softmmu/main.c:50:5
-#16 0x7fd88aec6d09 in __libc_start_main csu/../csu/libc-start.c:308:16
-#17 0x55b1b4bc8bb9 in _start (system-i386+0x2b5fbb9)
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: fuzzer
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918321
-
-Title:
-  [OSS-Fuzz] Issue 31875 megasas: Null-ptr dereference in
-  megasas_finish_dcmd
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  =3D=3D QTest Reproducer =3D=3D
-  /* =
-
-   * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, =
--m \
-   * 512M -machine q35 -nodefaults -device megasas -device \
-   * scsi-cd,drive=3Dnull0 -blockdev \
-   * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
-   * outl 0xcf8 0x80000801
-   * outl 0xcfc 0x05000000
-   * outl 0xcf8 0x80000816
-   * outl 0xcfc 0x19000000
-   * write 0x1e1ed300 0x1 0x01
-   * write 0x1e1ed307 0x1 0x01
-   * write 0x1e1ed316 0x1 0x01
-   * write 0x1e1ed328 0x1 0x01
-   * write 0x1e1ed32f 0x1 0x01
-   * outl 0x1940 0x1e1ed300
-   * outl 0x19c0 0x00
-   * EOF
-   */
-  static void null_deref_megasas_finish_dcmd(void)
-  {
-      QTestState *s =3D qtest_init(
-          "-display none , -m 512M -machine q35 -nodefaults -device megasas=
- -device "
-          "scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Do=
-n,node-name=3Dnull0 ");
-      qtest_outl(s, 0xcf8, 0x80000801);
-      qtest_outl(s, 0xcfc, 0x05000000);
-      qtest_outl(s, 0xcf8, 0x80000816);
-      qtest_outl(s, 0xcfc, 0x19000000);
-      qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
-      qtest_outl(s, 0x1940, 0x1e1ed300);
-      qtest_outl(s, 0x19c0, 0x00);
-      qtest_quit(s);
-  }
-  int main(int argc, char **argv)
-  {
-      const char *arch =3D qtest_get_arch();
-
-      g_test_init(&argc, &argv, NULL);
-
-      if (strcmp(arch, "i386") =3D=3D 0) {
-          qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
-                         null_deref_megasas_finish_dcmd);
-      }
-
-      return g_test_run();
-  }
-
-  =3D=3D Stack Trace =3D=3D
-  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
-inter of type 'union mfi_frame'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
-s.c:1884:21 in
-  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
-inter of type 'struct mfi_frame_header'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
-s.c:1884:21 in
-  AddressSanitizer:DEADLYSIGNAL
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D314546=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
-00000003 (pc 0x55b1b4f4de73 bp 0x7ffcfc5a8bb0 sp 0x7ffcfc5a8900 T0)
-  =3D=3D314546=3D=3DThe signal is caused by a WRITE memory access.
-  =3D=3D314546=3D=3DHint: address points to the zero page.
-  #0 0x55b1b4f4de73 in megasas_command_complete build/../hw/scsi/megasas.c:=
-1884:40
-  #1 0x55b1b5613914 in scsi_req_complete build/../hw/scsi/scsi-bus.c:1515:5
-  #2 0x55b1b5448aeb in scsi_dma_complete_noio build/../hw/scsi/scsi-disk.c:=
-345:9
-  #3 0x55b1b5446fc7 in scsi_dma_complete build/../hw/scsi/scsi-disk.c:366:5
-  #4 0x55b1b4fffc56 in dma_complete build/../softmmu/dma-helpers.c:121:9
-  #5 0x55b1b4fffc56 in dma_blk_cb build/../softmmu/dma-helpers.c:139:9
-  #6 0x55b1b6856016 in blk_aio_complete build/../block/block-backend.c:1412=
-:9
-  #7 0x55b1b6f48b06 in aio_bh_poll build/../util/async.c:164:13
-  #8 0x55b1b6f08cec in aio_dispatch build/../util/aio-posix.c:381:5
-  #9 0x55b1b6f4d59c in aio_ctx_dispatch build/../util/async.c:306:5
-  #10 0x7fd88c098baa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/=
-libglib-2.0.so.0+0x51baa)
-  #11 0x55b1b6f59a3c in glib_pollfds_poll build/../util/main-loop.c:232:9
-  #12 0x55b1b6f59a3c in os_host_main_loop_wait build/../util/main-loop.c:25=
-5:5
-  #13 0x55b1b6f59a3c in main_loop_wait build/../util/main-loop.c:531:11
-  #14 0x55b1b61a78a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
-  #15 0x55b1b4c751e5 in main build/../softmmu/main.c:50:5
-  #16 0x7fd88aec6d09 in __libc_start_main csu/../csu/libc-start.c:308:16
-  #17 0x55b1b4bc8bb9 in _start (system-i386+0x2b5fbb9)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918321/+subscriptions
 
