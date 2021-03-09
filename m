@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB6533249C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:01:43 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84BB33249D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:02:01 +0100 (CET)
+Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJb3W-0001fX-2p
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:01:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
+	id 1lJb3o-0001wI-HO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:02:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanu-0008HB-Mi; Tue, 09 Mar 2021 06:45:34 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34501)
+ id 1lJanq-0008CH-Q1; Tue, 09 Mar 2021 06:45:30 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanl-00006Q-B0; Tue, 09 Mar 2021 06:45:34 -0500
+ id 1lJann-00008n-Tp; Tue, 09 Mar 2021 06:45:30 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id C289E275F;
- Tue,  9 Mar 2021 06:45:22 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 697E1261C;
+ Tue,  9 Mar 2021 06:45:24 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:23 -0500
+ by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=C99L0/tH1ohpk
- 9fIFzQAr03WqmfpfPGKb6ktUnvxpTg=; b=LADxGil9XcjUArrIcTtzH+SHtHBJP
- cqVO9jvAd3vC4CCQM2o+YpFAceKqDLA0mKIU2Neb4n1dTsKHLvh4gAINeFX5q/Sn
- LBX3o5Vm2hboE9dY22zdtoDukerID1shx/zQOTepaSj1Eza1gR8/w5mshdOyFD6h
- Balxkl3MCfz1k9ViDlUPHfx9IXqRz76r8QZC5x/Wmz3rIQ7c5YmGB0PenbtPOjpB
- 3QZshXB0LSGU3PD3610Fo7UeCRWzep4tozh1Z4/CYaCMsiy5XwcwmkhmfHX4rtvW
- fU9IXZQ5jwJgDiLggMEwPOu7+Opv4bHQY0ueHToxkjWp59g9kMyjpcC9g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=ttCMfODAjtfaq
+ TggQvOlkBJKw2ToMEl9DHUWKQ7EMUs=; b=0E35OnyY7ucLaId+m3kO8m9if1n9P
+ Osv5+LpfAB+DaMxq8SgRy+Da/S9pFgFiscv7K0j/7BzCN0/zWuzjVHWwRO6KvLjb
+ tV6vegfd6uEcekE61XGMcev+Sk6m7OgiX5jjf0s/fIlCzRSIAqt0BfWLNqSPh9Ab
+ JbkrLfGcIvpTMcABMsDtfWX4YFTipdvEW/Ckh9WP9TZfvMJcqG2qS+aQUygWXzAK
+ 8YXo4d5ezK3oaX5+MqTgQIdKduLN2tUwmyGo8wemxHGI129JyHqiP5kbVvKtL5fV
+ bBX280HerogjHkTcFl4aKbWG3Cvv+AIkjJsAMiruhKZV3gkT8Mvas8y2A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=C99L0/tH1ohpk9fIFzQAr03WqmfpfPGKb6ktUnvxpTg=; b=Bpc4pphq
- 5kX8HBr8rtfaFvZXKYnK5Ad0tlTGYjUBjAyhIUOF8Lo4H3x3XYZ+0NCF1+l653Nt
- k0CmNWIQ6o2ScGRK6dREjBz3CCL/uAELJbpHrJdkkY4Wr0DCpX06+VMpQqkBX6D7
- Vk4RAeXQv34yjq9SnQCqM/YzI53XBYjyH0NVbEzpDZzyTndnjQKb1XJlg2bK1xoL
- aMo4Dc7tWh1GYv3+/yU+omA0idCZVARCI5ejPd9jrZHD9PmuqvPzXgv32grzVAi9
- K+yIuZcEPFDKLqegCS0wnJfnwOwjtS+8NoerMtSFvJ7QQrr8Gt/GwQstnqYjC+lx
- oU8ZUaCtZ2rbQw==
-X-ME-Sender: <xms:0l9HYJD6HFDtqOcNpGihxhx6qVPYbZJWX8HJVqwj9GAuiQdyVcb5kg>
- <xme:0l9HYDCiRqXETQAEzwBptMxG3iCpVvFeE9fjQwVwa8G4vSwhSBVCa1kxxrCjxBo5X
- q7uy4HqMfPSwGmMxZY>
+ fm2; bh=ttCMfODAjtfaqTggQvOlkBJKw2ToMEl9DHUWKQ7EMUs=; b=WYkYAEkE
+ ILJ511aR6YrU4TzJbcnAk+tlGSOQK+CVx0tMvzReeMNrfwtZ7JpwDqLsEJsUofLQ
+ MyAZYUPZFusuehsARuB7NJz7vn5BmL6A/cqx2Xw3eRQgkcgd/YRK1476FQP4GNFh
+ mHLEoyNLsi5YCk1E9eJKfa5ownocTtYsS8g++JIyw4sUqB5j50nVj5PpFXISSjRZ
+ 1b4bhYtH9zoUDkljzaO36VWIzXi+RhAAAq5M4++Ms7exH8PH1lb0IZYzQrmoh71H
+ VD1r8ZStddmvFYVM4uXg0Cda09QtrYpVCaTMCeJuB5XR7waHoz6kTfGA6zg04hQO
+ 3sWWfCY+QrZo9A==
+X-ME-Sender: <xms:019HYAqRiRHlZMgEcD7PKFRaH-HKhNtSz1LB-shwDO2oBVud9-wbLA>
+ <xme:019HYGrZD7kUNOJ_rMG9VJ9VRmF9TnflmiFib3sjHGn4v4v6EGsZ0qh4s5WFEQOeJ
+ ondWMWJSOADBH6l7nw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,21 +53,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:0l9HYLBYq35Kp1GqZ2wHuU6UNNJ3fp2TJF8NVeUQ_9AiPVrHb4bsrA>
- <xmx:0l9HYOqf-HeADcNyA6VJvRcYlQAefY0TX6QmEPByzu7-iD1iJq05PA>
- <xmx:0l9HYFmsPNDTnp1EG9EDVx9QE_CU6BOzSXGxLPqU3YcO8KmKePjX-Q>
- <xmx:0l9HYNncJ9DzxUmuemqBe4PGFsn0ngzKIgjb4uUiRu1Q7B8pVdTWegHjffE>
+X-ME-Proxy: <xmx:019HYFMmLVq0WLASV_Niwv-_wcFbDGBjH1fEiwykl7u_lsNETAHyzA>
+ <xmx:019HYH5PD4kPE4NqvsOAUf8Q8jxeBxCTaUoYk73WEfcq2I4UWTZY-w>
+ <xmx:019HYP7QW-WMgX6KZ6VZ8EZGujQoM4M75DKIbiduuOZnp3SX3E1MWQ>
+ <xmx:1F9HYJtJDvV5JHsfB-Flp3pFqydMZa9eKzDkBRLc4LIocjQtFLAA_007Tyg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0E5F3240054;
- Tue,  9 Mar 2021 06:45:20 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 93973240057;
+ Tue,  9 Mar 2021 06:45:22 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 04/38] hw/block/nvme: support for multi-controller in
- subsystem
-Date: Tue,  9 Mar 2021 12:44:38 +0100
-Message-Id: <20210309114512.536489-5-its@irrelevant.dk>
+Subject: [PULL v2 05/38] hw/block/nvme: add NMIC enum value for Identify
+ Namespace
+Date: Tue,  9 Mar 2021 12:44:39 +0100
+Message-Id: <20210309114512.536489-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
 References: <20210309114512.536489-1-its@irrelevant.dk>
@@ -104,19 +104,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-We have nvme-subsys and nvme devices mapped together.  To support
-multi-controller scheme to this setup, controller identifier(id) has to
-be managed.  Earlier, cntlid(controller id) used to be always 0 because
-we didn't have any subsystem scheme that controller id matters.
+Added Namespace Multi-path I/O and Namespace Sharing Capabilities (NMIC)
+field to support shared namespace from controller(s).
 
-This patch introduced 'cntlid' attribute to the nvme controller
-instance(NvmeCtrl) and make it allocated by the nvme-subsys device
-mapped to the controller.  If nvme-subsys is not given to the
-controller, then it will always be 0 as it was.
-
-Added 'ctrls' array in the nvme-subsys instance to manage attached
-controllers to the subsystem with a limit(32).  This patch didn't take
-list for the controllers to make it seamless with nvme-ns device.
+This field is in Identify Namespace data structure in [30].
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Tested-by: Klaus Jensen <k.jensen@samsung.com>
@@ -124,135 +115,24 @@ Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-subsys.h |  4 ++++
- hw/block/nvme.h        |  1 +
- hw/block/nvme-subsys.c | 21 +++++++++++++++++++++
- hw/block/nvme.c        | 29 +++++++++++++++++++++++++++++
- 4 files changed, 55 insertions(+)
+ include/block/nvme.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index fc86d01ff32e..55411eccfb54 100644
---- a/hw/block/nvme-subsys.h
-+++ b/hw/block/nvme-subsys.h
-@@ -21,9 +21,13 @@ typedef struct NvmeSubsystem {
-     DeviceState parent_obj;
-     uint8_t     subnqn[256];
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index f1d3a78658eb..3db2b9b4cba7 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1203,6 +1203,10 @@ enum NvmeNsIdentifierType {
+     NVME_NIDT_CSI               = 0x04,
+ };
  
-+    NvmeCtrl    *ctrls[NVME_SUBSYS_MAX_CTRLS];
++enum NvmeIdNsNmic {
++    NVME_NMIC_NS_SHARED         = 1 << 0,
++};
 +
-     struct {
-         char *nqn;
-     } params;
- } NvmeSubsystem;
- 
-+int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
-+
- #endif /* NVME_SUBSYS_H */
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 04d4684601fd..b8f5f2d6ffb8 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -134,6 +134,7 @@ typedef struct NvmeCtrl {
-     NvmeBus      bus;
-     BlockConf    conf;
- 
-+    uint16_t    cntlid;
-     bool        qs_created;
-     uint32_t    page_size;
-     uint16_t    page_bits;
-diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
-index 840448bb13f1..283a97b79d57 100644
---- a/hw/block/nvme-subsys.c
-+++ b/hw/block/nvme-subsys.c
-@@ -22,6 +22,27 @@
- #include "nvme.h"
- #include "nvme-subsys.h"
- 
-+int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
-+{
-+    NvmeSubsystem *subsys = n->subsys;
-+    int cntlid;
-+
-+    for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
-+        if (!subsys->ctrls[cntlid]) {
-+            break;
-+        }
-+    }
-+
-+    if (cntlid == ARRAY_SIZE(subsys->ctrls)) {
-+        error_setg(errp, "no more free controller id");
-+        return -1;
-+    }
-+
-+    subsys->ctrls[cntlid] = n;
-+
-+    return cntlid;
-+}
-+
- static void nvme_subsys_setup(NvmeSubsystem *subsys)
- {
-     const char *nqn = subsys->params.nqn ?
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f5a19fd54676..5a63c356bad9 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -4448,6 +4448,9 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-     strpadcpy((char *)id->fr, sizeof(id->fr), "1.0", ' ');
-     strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
-+
-+    id->cntlid = cpu_to_le16(n->cntlid);
-+
-     id->rab = 6;
-     id->ieee[0] = 0x00;
-     id->ieee[1] = 0x02;
-@@ -4494,6 +4497,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->psd[0].enlat = cpu_to_le32(0x10);
-     id->psd[0].exlat = cpu_to_le32(0x4);
- 
-+    if (n->subsys) {
-+        id->cmic |= NVME_CMIC_MULTI_CTRL;
-+    }
-+
-     NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
-     NVME_CAP_SET_CQR(n->bar.cap, 1);
-     NVME_CAP_SET_TO(n->bar.cap, 0xf);
-@@ -4508,6 +4515,24 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     n->bar.intmc = n->bar.intms = 0;
- }
- 
-+static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
-+{
-+    int cntlid;
-+
-+    if (!n->subsys) {
-+        return 0;
-+    }
-+
-+    cntlid = nvme_subsys_register_ctrl(n, errp);
-+    if (cntlid < 0) {
-+        return -1;
-+    }
-+
-+    n->cntlid = cntlid;
-+
-+    return 0;
-+}
-+
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- {
-     NvmeCtrl *n = NVME(pci_dev);
-@@ -4528,6 +4553,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
- 
-+    if (nvme_init_subsys(n, errp)) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-     nvme_init_ctrl(n, pci_dev);
- 
-     /* setup a namespace if the controller drive property was given */
+ enum NvmeCsi {
+     NVME_CSI_NVM                = 0x00,
+     NVME_CSI_ZONED              = 0x02,
 -- 
 2.30.1
 
