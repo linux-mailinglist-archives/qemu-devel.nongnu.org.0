@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF0E3320D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 09:37:26 +0100 (CET)
-Received: from localhost ([::1]:37014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83853320DE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 09:38:46 +0100 (CET)
+Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJXrp-0004W7-2Z
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 03:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
+	id 1lJXt7-0005e3-W5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 03:38:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJXqN-0003JO-Jj
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:35:55 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJXqL-00066F-Qc
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:35:55 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id x19so13163797ybe.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 00:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SEwR5AH7SeLObOiQTUZKW2Fqaf8NIFre/dsfNL5A4Gg=;
- b=uptD6MGtQocSQX9xEHH4+B+SW2QAd7J8Ejm6pmgGvuDYidExQh8hOucKInBCgnG2Sm
- cwCZFdGefYFO6rCiQdRkCO/L71Obho8kdlQT9yooRHKqNL2vkbWBroVmztvW+Cn4wP6Y
- gk/V/Q/sOHbBZpRFo/5BOFeXLczrsgK6G3pArktv4bdhj2jdephtPQQ/GWwiXBGtPutc
- jMPySEK9yEOHT+ls8VUOl+FHSHx8f/QFOZDL8sei9/wbZRnU2hZq65ckVplMJI+RCkae
- 0+0sl2zb+VWfgHMQl2eWuTGqJaANEZ8JUyBYI9M6f2myqRdg4F8FioJH4yIcafyxsZhh
- cTlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SEwR5AH7SeLObOiQTUZKW2Fqaf8NIFre/dsfNL5A4Gg=;
- b=YkiZa1eICJs8V87yhNMPexpnwv4mR5Cel2UrWe4UttHwW04VcX8sUs3vM1vzZiI6Bu
- 3Y2XvnTSijRrUyk7bR7MUWUr6mb1bxI4xtSReX8WonoUk6/XWD3JlXoEdQWsiOfs6XXj
- F2lA61gdcCrzwZO6HKOmbL0cfxcH9cf89xZciAxLvMckwnIJD4QshBU59Vv8IzKyRKc0
- zmIxdShh03LPBFJRCEyjz3Sb54/zf2S8BjjH//hB21QsXM/XUBXWCrPr8K++xgidGLGI
- vXbgkR0DryLcVbHBA3al09QZbiIK4NoBfvJLIaWXcqjIS34W7KzUpjGxPj+vL03z0236
- S2cw==
-X-Gm-Message-State: AOAM532MK0bG7C0x1rYCJeqrMno+4R8yfiLxY5LbVH4k+5+s/orRQ7SB
- 9t0H7lTpmuDi/uxsj78Xkrh5+WnaHnUvsIDdFiM=
-X-Google-Smtp-Source: ABdhPJzAcbQnjh+a5AauqAwxzdIzaCH10XjGLunvqRIKjmzfsMepq8lc1tEdZniRj562iFHFQhGAPQxPNNg4HTaRtSo=
-X-Received: by 2002:a25:2d1f:: with SMTP id t31mr40982945ybt.239.1615278952458; 
- Tue, 09 Mar 2021 00:35:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lJXsD-0005Ee-RK
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:37:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lJXs9-0007N7-1a
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 03:37:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615279062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tLhh6Dp03nyJ+Bzj1ov/nQwTahFJ76ls+vmQls49DSU=;
+ b=PIWc7xD4iXbFemq+DnGzz1cavBVtM99DDwPylyTjWz1pYQOu0k4zAFPwPoVgjWOTWSui2z
+ wWNDAYeGxda6ORu8wKCMPC5gJqbV/lTzSTTl54AeTl7GU2wjQ2pLjPjSJMvX9LFOzv9VmL
+ pLPYAQtITafjlTrnU/fJvj//RT4nLAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-B9ZR0FCjMSmwoxL5MTRU0g-1; Tue, 09 Mar 2021 03:37:39 -0500
+X-MC-Unique: B9ZR0FCjMSmwoxL5MTRU0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B40193F564;
+ Tue,  9 Mar 2021 08:37:38 +0000 (UTC)
+Received: from [10.36.112.254] (ovpn-112-254.ams2.redhat.com [10.36.112.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BBA7679F0;
+ Tue,  9 Mar 2021 08:37:30 +0000 (UTC)
+Subject: Re: [PATCH v2 4/7] hw/arm/smmu-common: Fix smmu_iotlb_inv_iova when
+ asid is not set
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210225091435.644762-1-eric.auger@redhat.com>
+ <20210225091435.644762-5-eric.auger@redhat.com>
+ <CAFEAcA_ZTJUD1SfbAX07uk+WceO_NvqE_i+NrHF13bAOmfF3nw@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <4626b8d9-8b0f-c81c-56a2-331957dfd81a@redhat.com>
+Date: Tue, 9 Mar 2021 09:37:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
-In-Reply-To: <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 9 Mar 2021 16:35:41 +0800
-Message-ID: <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA_ZTJUD1SfbAX07uk+WceO_NvqE_i+NrHF13bAOmfF3nw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,63 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, vivek.gautam@arm.com,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
+Hi Peter,
+On 3/8/21 5:37 PM, Peter Maydell wrote:
+> On Thu, 25 Feb 2021 at 09:15, Eric Auger <eric.auger@redhat.com> wrote:
+>>
+>> If the asid is not set, do not attempt to locate the key directly
+>> as all inserted keys have a valid asid.
+>>
+>> Use g_hash_table_foreach_remove instead.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/arm/smmu-common.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+>> index 405d5c5325..e9ca3aebb2 100644
+>> --- a/hw/arm/smmu-common.c
+>> +++ b/hw/arm/smmu-common.c
+>> @@ -151,7 +151,7 @@ inline void
+>>  smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
+>>                      uint8_t tg, uint64_t num_pages, uint8_t ttl)
+>>  {
+>> -    if (ttl && (num_pages == 1)) {
+>> +    if (ttl && (num_pages == 1) && (asid >= 0)) {
+>>          SMMUIOTLBKey key = smmu_get_iotlb_key(asid, iova, tg, ttl);
+>>
+>>          g_hash_table_remove(s->iotlb, &key);
+> 
+> Do we also need to avoid the remove-by-key codepath if
+> the tg is not set ?
+when TG is not set, TTL is res0 so I think it is safe.
 
-On Tue, Mar 9, 2021 at 4:23 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/3/8 6:22 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
-> > On Mon, 8 Mar 2021 at 03:48, Jason Wang <jasowang@redhat.com> wrote:
-> >> Do we need to care about other type of networking backends? E.g socket=
-.
-> >>
-> >> Or at least we should keep the padding logic if we can't audit all of
-> >> the backends.
-> > I think the key thing we need to do here is make a decision
-> > and be clear about what we're doing. There are three options
-> > I can see:
-> >
-> > (1) we say that the net API demands that backends pad
-> > packets they emit to the minimum ethernet frame length
-> > unless they specifically are intending to emit a short frame,
-> > and we fix any backends that don't comply (or equivalently,
-> > add support in the core code for a backend to mark itself
-> > as "I don't pad; please do it for me").
-> >
-> > (2) we say that the networking subsystem doesn't support
-> > short packets, and just have the common code always enforce
-> > padding short frames to the minimum length somewhere between
-> > when it receives a packet from a backend and passes it to
-> > a NIC model.
-> >
-> > (3) we say that it's the job of the NIC models to pad
-> > short frames as they see them coming in.
-> >
-> > I think (3) is pretty clearly the worst of these, since it
-> > requires every NIC model to handle it; it has no advantages
-> > over (2) that I can see. I don't have a strong take on whether
-> > we'd rather have (1) or (2): it's a tradeoff between whether
-> > we support modelling of short frames vs simplicity of code.
-> > I'd just like us to be clear about what point or points in
-> > the code have the responsibility for padding short frames.
->
->
-> I'm not sure how much value we can gain from (1). So (2) looks better to =
-me.
->
-> Bin or Philippe, want to send a new version?
->
+Thanks
 
-I think this series does what (2) asks for. Or am I missing anything?
+Eric
+> 
+> thanks
+> -- PMM
+> 
 
-Regards,
-Bin
 
