@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89663330E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:28:06 +0100 (CET)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBBB53330E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:29:49 +0100 (CET)
+Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjtd-0005Bv-O1
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
+	id 1lJjvI-0007b5-Sr
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:29:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjje-0007pb-36; Tue, 09 Mar 2021 16:17:46 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:43653)
+ id 1lJjlY-0001ir-Ts; Tue, 09 Mar 2021 16:19:44 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:40269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjjW-0005QI-51; Tue, 09 Mar 2021 16:17:43 -0500
+ id 1lJjlT-0006Qg-AP; Tue, 09 Mar 2021 16:19:44 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MEVmm-1lYZyD2ZRq-00G0Xh; Tue, 09 Mar 2021 22:17:16 +0100
-Subject: Re: [PATCH v3 5/5] tests/fp/fp-test: Replace the word 'blacklist'
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210303184644.1639691-1-philmd@redhat.com>
- <20210303184644.1639691-6-philmd@redhat.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MHWvH-1lWe3l3tMP-00DW8L; Tue, 09 Mar 2021 22:19:37 +0100
+Subject: Re: [PATCH] qemu-common.h: Update copyright string to 2021
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20210309162258.28633-1-peter.maydell@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a19c2ef3-1c85-4e3f-010d-ee4bd8687cf9@vivier.eu>
-Date: Tue, 9 Mar 2021 22:17:14 +0100
+Message-ID: <483713c4-0419-18ab-a0fa-74831eb8cf7b@vivier.eu>
+Date: Tue, 9 Mar 2021 22:19:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210303184644.1639691-6-philmd@redhat.com>
+In-Reply-To: <20210309162258.28633-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pwuK/AVPs+j3JgOA10NyXz6vjLK64tPpfzQHSsCShCkzemb+Uxq
- yUi1D1IHFHqT6JoXVF64y0Kzg+jKhk9fyixcGCsfKwCXAJYMVHfz/Wnck0e5uBKBX3VW/yL
- giZ/15jiNJsSbYqZE+P92JC9OD2ACwSiChuJTIAf/4EB9Igz/RpQZ3ftUpFyl6Ea2nv8lJK
- 3dG6Gc89jrym8lB+xzP9g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YlwF/tstTdI=:n6qBWkTt4NNFKJODntv73K
- QL85z7S64HDsJX400Jvf2jSGIctt+qej53KBMGWem2xIq/WKg3fe/FEDBObl0cC6ar0C8bGin
- ilLxOLLYjiWGpCHSehYTAjX0rTC82c1yfipwZ0ygULDvOAI9ntAdu/YEOuj1A2ADH5cztepqB
- SMlBr7f1j/5PmhHSGJIFoQJ8ESzKjH7ErVEF/SMbkaY8DOrNyRBoStN9FI5bx5uzPYQQ92L6G
- n6psocvV5pbx+rVCUDxtMrCIKfMODY/fHWNIMHlB8tm3GEFkL7YXGv6XYVSJ+0TqNAVQwRGaB
- 7vxcg26OiBG8UK6BNhRzgPsKOAmi7Gzk2u4v66OUXK5w7f1+DqSGu0WKL881iGkPLx1RB+Rqz
- A/Yuk/w6DNXh1GYWKRS3nfdG5qnLlIetgnRFY5eCZmciVOkDXd1oeoIi/YEOu
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Luc82Wg1KNNoyi6FTdivNmQepfBP+oX9FtTvgdNw9KDaYvhpCKv
+ 5pFaJHXoPoqHccqsFd3g5V05Po+ChSpCLAoUYVmlZ6ZEy49bHo2W+x6wZpJEkzR8LgieWku
+ T8g6ZHsMMracmcdsrW9H3m8dnSbw52EXdjrJad0Iz3vJmEBDPZfr9iA4NLsQeGDh8izEhNV
+ oKDZgnko6Ev69WpixcZrA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:L+EaZ1Kfx+g=:G1gVuDO5Nm8QTMA2RM7bF3
+ zuOK2hRSbzbun3UdCW50asZXxzdVNRt6ul3dK4HulmfQ5MZN6WN94w8Grlnl6OewBZUEjEaBm
+ h67dJnekjtiaSMd6+K1TKgRmQoBM1INB7po1ppNrs42Z41Qqfe5uKEfW96mv5jrWpIccX6qQJ
+ dW9tXW2L4BKfARlwc43obb+hAzFKQlg5GK4kqzQsrr6j/aNbtdihUd5ZeFZhafF8njyCwSrIL
+ oaQ8xiHY+XrgsB8UHcsng9Z4FLPE38sGh4h87PKKOsOF8rYZw7I1eYSbymDOQarPETg80O+RD
+ DS71ssIEkLEEdLVVh7kTEfPJpfJmnzqIAJI7VflbV8o+ZBOWAx57m8xVpzSBafpSdCpwmi7Ck
+ IaUqbkuwguSNnyHxKwCgrP0n+C+h5tr54afuUfofcp+r7ZEN43Z4/0IMhGoNbO/8rIcAiSAAm
+ A4OGul2iJQ==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,67 +66,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Michael Roth <michael.roth@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Eduardo Otubo <otubo@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/03/2021 à 19:46, Philippe Mathieu-Daudé a écrit :
-> Follow the inclusive terminology from the "Conscious Language in your
-> Open Source Projects" guidelines [*] and replace the word "blacklist"
-> appropriately.
+Le 09/03/2021 à 17:22, Peter Maydell a écrit :
+> Update the common copyright string that we use in
+> -version reports, About dialogs, etc, to 2021.
 > 
-> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
-> 
-> Acked-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  tests/fp/fp-test.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  include/qemu-common.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-> index 06ffebd6db1..5a4cad8c8b2 100644
-> --- a/tests/fp/fp-test.c
-> +++ b/tests/fp/fp-test.c
-> @@ -123,7 +123,7 @@ static void not_implemented(void)
->      fprintf(stderr, "Not implemented.\n");
->  }
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 654621444ec..73bcf763ed8 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -13,7 +13,7 @@
+>  #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
 >  
-> -static bool blacklisted(unsigned op, int rmode)
-> +static bool is_allowed(unsigned op, int rmode)
->  {
->      /* odd has not been implemented for any 80-bit ops */
->      if (rmode == softfloat_round_odd) {
-> @@ -161,10 +161,10 @@ static bool blacklisted(unsigned op, int rmode)
->          case F32_TO_EXTF80:
->          case F64_TO_EXTF80:
->          case F128_TO_EXTF80:
-> -            return true;
-> +            return false;
->          }
->      }
-> -    return false;
-> +    return true;
->  }
+>  /* Copyright string for -version arguments, About dialogs, etc */
+> -#define QEMU_COPYRIGHT "Copyright (c) 2003-2020 " \
+> +#define QEMU_COPYRIGHT "Copyright (c) 2003-2021 " \
+>      "Fabrice Bellard and the QEMU Project developers"
 >  
->  static void do_testfloat(int op, int rmode, bool exact)
-> @@ -194,7 +194,7 @@ static void do_testfloat(int op, int rmode, bool exact)
->      verCases_writeFunctionName(stderr);
->      fputs("\n", stderr);
->  
-> -    if (blacklisted(op, rmode)) {
-> +    if (!is_allowed(op, rmode)) {
->          not_implemented();
->          return;
->      }
+>  /* Bug reporting information for --help arguments, About dialogs, etc */
 > 
 
 Applied to my trivial-patches branch.
