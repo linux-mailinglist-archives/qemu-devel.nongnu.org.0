@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D23330A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:11:27 +0100 (CET)
-Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2816C33309D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:07:33 +0100 (CET)
+Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjdW-0005Rh-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:11:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
+	id 1lJjZk-0007Fg-0x
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:07:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjAf-0000x7-0M; Tue, 09 Mar 2021 15:41:38 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:60807)
+ id 1lJjBL-0002Xv-LJ; Tue, 09 Mar 2021 15:42:20 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:54771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjAc-0006Ow-Ha; Tue, 09 Mar 2021 15:41:36 -0500
+ id 1lJjBI-0006jJ-44; Tue, 09 Mar 2021 15:42:19 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MSKly-1lD5Iv2Zzc-00Sc9D; Tue, 09 Mar 2021 21:41:29 +0100
-Subject: Re: [PATCH 1/2] backends/dbus-vmstate: Fix short read error handling
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MX0TX-1lHBxT2qmP-00XNSY; Tue, 09 Mar 2021 21:42:10 +0100
+Subject: Re: [PATCH 2/2] vhost_user_gpu: Drop dead check for g_malloc() failure
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20210126124240.2081959-1-armbru@redhat.com>
- <20210126124240.2081959-2-armbru@redhat.com>
+ <20210126124240.2081959-3-armbru@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b3f5ab1f-589a-1f61-2043-07b661a50272@vivier.eu>
-Date: Tue, 9 Mar 2021 21:41:28 +0100
+Message-ID: <aa5fd123-d1a2-3928-a62a-2ec26b5a49b7@vivier.eu>
+Date: Tue, 9 Mar 2021 21:42:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210126124240.2081959-2-armbru@redhat.com>
+In-Reply-To: <20210126124240.2081959-3-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oSsrdiPWMyOl6VqfWDrh385HhTVgOou919K26Zxss4ZGW5py/ZL
- ld7q7p0wIFnwxl8jPItldpIjzFxwmQrMxzVgBBtpNyR8kUfphrAyHtkUfDj0noIm53CGtZS
- rpJJucWMun2C3C+rsi6B+RotZ4zLWQWavaINRv2ZAX5zSj9HX/Qs/p+HQ+eAioYURocd5Cr
- V+xCGZstvNNhOy/D5KlBg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B5RMyDUOuNs=:YIF2twlaB6QPLHKIyWde6H
- bIsi4TDldq4vFgYENmwy89FsVSRyXZvO4MhjQH2ps/Du1fjzLCHcEHNne0FPRH3pUAZAZVswa
- 1/Qvp/930qzG0PP1c8lzO9RS4x5yIXAUXeuopLYybvTVmnSdoVSoCkWo6h2jFAdBNrZE8Ueq8
- Jy0yzphoBelDuuKuqxv1vyouZuJ2fdNgfKE78EHWs0QYlubam/QsrU4qhSBRnL8Na8U1Obu/F
- cWXaxAfBEZF1+1zwIFAjxoJWEbGvxaNtt2aLMkHP+Dy2//827oTBa1y0RQHNQ3DcBSpFCsKH+
- uMiYW70KaYVhLayWk89xGKRzZqcwhYwtCHwtw/gS7rJK6YwVHLmHgoNCr/pkCQhyhFf22cl7N
- AOmCJwKX3mG9dRyuUi+xlCCc/w28hsy9F4KpsDphxbC+8tup1J4zIdxrDpC8F
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ibsdu3YLGMoLhSNeXKAHiDQq10ER+xXy65u3veAhal7W88cUgsd
+ 7diT6tNaOro7yn1Fy36TdkMjejICGyOHD9SXn1vkhoLFFyOjb5RQe12/nKSwqM+aEood0/O
+ P6YBcbexjiW25wJQ0nxrrFI9vAvh46HTdLZw5LvUBFPFdav1gc/QPCmwfTAZI6xq0CPFHPG
+ wxtXtQrAzeEBx2fSiu65Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Yv48Udrekgs=:x0cnWZNKWC8Ca3tcRbYD/X
+ yZOjuercW20gIn45JtXrYtTt3/DBY9wOKQocbrjmWsi0LqujGMSKcrykjBGs99qJU1dZe39Zb
+ 8gR6aBu6OBJIBptzyQdJT6ZnOel8QUZXaTanIJFGZp/FIfDsVmguZNj0XcceHa7TJyM0mIQX1
+ BQlFowaWJccGTGss/u+3K9wX8u0NYSVgI48nc4XLVf80YtXNY7PGh3EjOK8TxC420+Muh0sgn
+ PF3mnC7nEgymqkh8DdNfa53aNcEe5cI/NflLXOo9J+BEwJsFORLrp14UPtdNq4za09hNE7ygM
+ o4n6VesFFZlFe8/TPrXlS781qjpa9m8tyYAazVNKeoJSgh3h46/DewdZS5S+TrhDdRzjppCxn
+ 9F0RU1j8NYGsk6QIHJSnzu6NLMaf2hvyidqXGMnoNp2GshuRMY7ZNHDih+knL
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,40 +71,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 26/01/2021 à 13:42, Markus Armbruster a écrit :
-> When dbus_vmstate_post_load() fails, it complains to stderr.  Except
-> on short read, where it checks with g_return_val_if_fail().  This
-> fails silently if G_DISABLE_CHECKS is undefined (it should be), or
-> else pads the short read with uninitialized bytes.
-> 
-> Replace g_return_val_if_fail() by a proper error check.
-> 
-> Fixes: 5010cec2bc87dafab39b3913c8ca91f88df9c540
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  backends/dbus-vmstate.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  hw/display/vhost-user-gpu.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-> index bd050e8e9c..2a0d2e4a31 100644
-> --- a/backends/dbus-vmstate.c
-> +++ b/backends/dbus-vmstate.c
-> @@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, int version_id)
->                                       &bytes_read, NULL, &err)) {
->              goto error;
->          }
-> -        g_return_val_if_fail(bytes_read == len, -1);
-> +        if (bytes_read != len) {
-> +            error_report("%s: Short read", __func__);
-> +            return -1;
-> +        }
->          id[len] = 0;
+> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+> index 51f1747c4a..db042c7c5e 100644
+> --- a/hw/display/vhost-user-gpu.c
+> +++ b/hw/display/vhost-user-gpu.c
+> @@ -332,7 +332,6 @@ vhost_user_gpu_chr_read(void *opaque)
+>      }
 >  
->          trace_dbus_vmstate_loading(id);
+>      msg = g_malloc(VHOST_USER_GPU_HDR_SIZE + size);
+> -    g_return_if_fail(msg != NULL);
+>  
+>      r = qemu_chr_fe_read_all(&g->vhost_chr,
+>                               (uint8_t *)&msg->payload, size);
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
