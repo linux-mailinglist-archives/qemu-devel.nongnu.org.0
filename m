@@ -2,72 +2,164 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B873322DC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:21:37 +0100 (CET)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D08D3322FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:27:45 +0100 (CET)
+Received: from localhost ([::1]:49862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJZUf-0005vt-27
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:21:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1lJZaa-0003Mz-5c
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:27:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJZTX-0005PV-Fw
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:20:27 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJZTV-00018z-KX
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:20:27 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id bm21so26295251ejb.4
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mU5fOuFa0asJ8/RqiN8lVAPTh0kpPR9/MXoDY9LeyHk=;
- b=hmR0Emnukv3Qle3tac0EDMCsbPtDvOVCu3BruGWDk6FOKH51aAO1rfMs+8r4xhxXgC
- 9etHA7WXjz2PGzyaIaD30qUTul0WJ+v5liU9Lhep+tlFaDMs7vcIHE01wlAHJjp1pLb0
- HjAACEWXpF76e9ZRR8UwxwSPInEMb6vZe/yDWMSiCUd8Wr0Hot0myV5YMJh7fqrEY+mX
- 0J4znxigulqCGHLh5VTOUDrGcwusVx4f7TZxIEvuMxPnjiFIua5Bf9RXasRolg+tJ/h5
- 7nxN4lqUHf7TOwNG0dKTFNO6JmFLcILHcN6/uIb+OW+HWZrGBvMJCSl5zwCtLFQ4U4KO
- TFmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mU5fOuFa0asJ8/RqiN8lVAPTh0kpPR9/MXoDY9LeyHk=;
- b=CBjMQOlhEFxyfsnQaEjRzWx/pt3tYQdOVUFA8r4GRZQL0Luw0BV4u8cxtOlT3U5QyX
- 3NRH6mxho+5vIIvc+sLEhFIsVQ34FsA9Ow6akk1+BXtaM+zB/7f02Kjt9vMJ4IY3uCrU
- hwReys88y96q87G5Yl9MFLxT1B6CNXwZ4Rgtv5F3DfmlNkrNKexkdALmt3djS2ou+j73
- QZUexN+QTk61qX8cZtwh1TKD4F3wjibeTkIjBYLqsJP124o8Ntu/hAdBuIPPnRu0y5YZ
- h2xe8kAWS1GAVGYCv38Dpwe//S6IIf2W8l47Vu3umgf1Expl6q6JSDtaDF2Pe3Ivjimb
- s+nA==
-X-Gm-Message-State: AOAM530rrUkfcZhLjZtYgJalNVSfHq6oHJ/BYqfmyqawivskJvzb1f22
- 4FxFFC9IgY7bDz8tX+ahmJP8MdRZlKGYr2cn17YUSg==
-X-Google-Smtp-Source: ABdhPJxPI6/02NA2C2URvt6N/CcW5tUaanj295wfDsb175OGHpFuvt7IgBI5KqIvDDwaDlUL4KY+sOn0VnccFedaZu8=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr19918109ejc.250.1615285224048; 
- Tue, 09 Mar 2021 02:20:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJZVE-0006Sd-Gk; Tue, 09 Mar 2021 05:22:12 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:58254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJZVA-00026e-9k; Tue, 09 Mar 2021 05:22:12 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 129AJpMT178077;
+ Tue, 9 Mar 2021 10:22:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=OfWhrClSVfpIViHkehDCY5UZqAjogxardqY1XyI6Tfw=;
+ b=l51UgzuIdkyDprNCxFqLaqF4pe/MSd9kDPXwYVQDH0lOYN73hn/4AtzfB3SlK8sdurT3
+ RkCMcVRydosy/J9p9Hrpsmj0ZJxUfjexdMOxKM/lUY8QkPvpYUzqgdi8K0lvFgMzWLTM
+ p25xGtKfGVUq4DPeMvzDW71v3uph8ZjXjWncqZdanfhKYM8+iPbXHC5iNJbevRHAc9aP
+ jz7QykVRe5sCaf5KWyOc7bM1bQTM+sgi1rYdTGAyAP6BQyuaodzBRdVtISLRXNPZJN2O
+ OX+6Z6CqDIs+PPr4w2eJU2vZ1m2NyKQk4YMp+zQ9fdgQB76YBQLCNSVHE0lqJKgiQ4zx Lw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 3742cn6rdm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 09 Mar 2021 10:22:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 129ALUa2158580;
+ Tue, 9 Mar 2021 10:22:05 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
+ by aserp3020.oracle.com with ESMTP id 374kmy995w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 09 Mar 2021 10:22:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O0/nO3bnriMqVtOCfBPkOUda7D7nLr2OwCktUAfPkTW6KSHh9RMBff4OjosRAV7sMBfeVj36/2C+6ArFJb01dvHh6FJZ/RYbvNW8mmshg70UglqBthJcOA7dP+Naejhs2A1BR73fhNeeoYFTusK0hqCB9surEzkUpA3FnYjYJqVbquM5lnXT6Mh7GezjjHGip9fVaPWbmJNlD8WB/OF4fv17+wBQ6E+dKR+rlIkEFzLoYU5Zpl+gUmW4TDgRVt0ofbemtPKDSJUs7IxovKkWveAIHeO6L8Sb5eE1Rr4Q1WsFiTt8p2FY6//M8bnPXmFsWksGh7dW2KqPrCZmx8gJFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OfWhrClSVfpIViHkehDCY5UZqAjogxardqY1XyI6Tfw=;
+ b=aMjGaVTkOpEEPIHovqzv3n6oJqOg5xdyS0j+yc4LOdJdW3o31OT6HGvB25GK0wizss8woEPNxjP4esCWMh2G44qFhttruwXRmf+rgMEnKtyI3b3A4yBMbnabM2i7O+iGmVMgHLYAZA3X11xa5SzBabFWfOI68Ph25SUq04gmNkKiuGXyb+LFBLh9tVRy+eWyLeLVh9AJ2oCibgNMWIWyCV/Ggnyqb7irrtGGZhm1lDj35hS5rYUulyRuVkiA7nJ8upkTsjdtIkk1BcS2HpWmtNFE5+yYG0hyjmKUlhDalhZIq9bGqx6bAVR4BrEmJzDlMLUklJg9bWWcVI+OGup0Kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OfWhrClSVfpIViHkehDCY5UZqAjogxardqY1XyI6Tfw=;
+ b=mVPHAh88xgvT4Nh7y6lJZAXoJNzSIB66naBoav6zNGXgzx72wF3EAGXuiIbqle+XQMMd6+SvKzZ1AeUOui6FHIARPACb9ZEELRJL7FLjRDA4cF1pSUm8R+7umrT10CFBbZ/xf4nD1l1KktWfjmj0INMrIpTSqSn8or0sdGBVOrk=
+Authentication-Results: weilnetz.de; dkim=none (message not signed)
+ header.d=none;weilnetz.de; dmarc=none action=none header.from=oracle.com;
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
+ by DS7PR10MB5184.namprd10.prod.outlook.com (2603:10b6:5:38e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Tue, 9 Mar
+ 2021 10:22:03 +0000
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934]) by DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::f871:5965:2081:3934%5]) with mapi id 15.20.3890.038; Tue, 9 Mar 2021
+ 10:22:03 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/4] coroutine rwlock downgrade fix, minor VDI changes
+Date: Tue,  9 Mar 2021 10:21:53 +0000
+Message-Id: <20210309102157.365356-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.30.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [2001:8b0:bb71:7140:64::1]
+X-ClientProxiedBy: LNXP123CA0017.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:d2::29) To DM6PR10MB3148.namprd10.prod.outlook.com
+ (2603:10b6:5:1a4::21)
 MIME-Version: 1.0
-References: <20210309032637.41778-1-j@getutm.app> <YEdBce6TWCVpSph9@redhat.com>
- <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
-In-Reply-To: <CA+E+eSBt5sq08zfxLOZKNQd=A3q=9YLEt0moipTb7j+OGWyuRg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Mar 2021 10:20:07 +0000
-Message-ID: <CAFEAcA__kgr8=g1X87RAaMax9zs00mefCvqrfH4TzfU6oTaowA@mail.gmail.com>
-Subject: Re: [PATCH] coroutine: add libucontext as external library
-To: Joelle van Dyne <j@getutm.app>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from disaster-area.hh.sledj.net (2001:8b0:bb71:7140:64::1) by
+ LNXP123CA0017.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:d2::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.26 via Frontend Transport; Tue, 9 Mar 2021 10:22:01 +0000
+Received: from localhost (disaster-area.hh.sledj.net [local])	by
+ disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 4264daef;
+ Tue, 9 Mar 2021 10:21:57 +0000 (UTC)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e42418d4-bdb4-4c0e-4f83-08d8e2e52e74
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5184:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DS7PR10MB5184CABB847796E1C4D8BC7888929@DS7PR10MB5184.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JF+wIB1nMKHcXno67r9zG931Jv6Y+/YXUM2GSECs2nUD2QqRWwSz0EO/G31eUIPjUfHGofuZRF2alI4DBQfd8uODxT7eldo30xHTnuDX4bOiRNxu6cZmlBFZG1pP9RkrlbdcG+EMQO1z1p3hR2/D3jaKbGsdgGcQA1TszkaL37sT6GJW/Bm5XzaG65Zww5yoLLuc/hATbBngwNoW7gg8rAlLK4TRtvFRqLxgAYdSaxTWqbh1Vu7PjwRlD4J+hILJGdFbBUlsmY+6V2acAsnMxzYFqlN6ySnX5h3FCBL0rn1ihOnzTl6/C3rLkBjD72gUfR058CY6c2+kGiUAIVetkk5U3mW63MB90EjZyORr+38BL/RI/uZd9aR+EMtKiiE/6gtTzyfothpK1c5hrNgM3JGQgCtMmL5Th9sdysVzYvgHd467rp+cTntnrZVJczk6mgA8JWAtbjCrie1AOuIGW+y339xDQeW63i5WoqMn5Tft1KRI4g3kZOvg9MokSw7NqQr7uHIq/zG5W/1yn9fbLQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(396003)(39860400002)(346002)(366004)(136003)(2616005)(66946007)(6666004)(478600001)(107886003)(86362001)(1076003)(6916009)(66556008)(54906003)(66476007)(8936002)(8676002)(186003)(5660300002)(316002)(44832011)(52116002)(2906002)(4326008)(83380400001)(36756003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?TwZjKrzSmBJXGjKS/7C29s5nGpXXImdD4vNLjU8a1+8s09ZfYKCSr2IzWdXO?=
+ =?us-ascii?Q?Mq45DIKgTxPy+iT5nyU7JHAf+D8Gbc+/+xDItbNVo4JvKX2duRMdfN6+gIdK?=
+ =?us-ascii?Q?t8vUwAziCukkZQbElRAKVSlFhKJkMk56RQgYVk7LZAsk8hrU0LxZq21/ww88?=
+ =?us-ascii?Q?kJCX99fRVxpW8n3frzx6Itlsa4bguJn3Ukuagq6gtVGKTUDrJ7b9mhPYqGyt?=
+ =?us-ascii?Q?00yL94MhRzneFGT+T9WJmGxcxGIIHFtuRBxpoq61hudsF1KTJOK2guQSxWuL?=
+ =?us-ascii?Q?l0l9jWAvVxYUIoj5n9c1Uc7eXingwb8z83latp7Hm5yL2mJZLNGHf1/RnASY?=
+ =?us-ascii?Q?Gvc1TO6aR0FkhJPmuAmgR0G8aiNcc3Ni1wPR7zij1ZJxs/UBoYo7z3YKZta8?=
+ =?us-ascii?Q?nqgFY48iZBZ1UeZA4URKf0ieUhALlbMTQ099OurNPfFpb3UwzPp7dCxzDqw0?=
+ =?us-ascii?Q?++7qs5dg5A41MHAF8XyRxr3WILAjvlatQ6Ln3iofZW0LJXAlfsa3iwYGC+qK?=
+ =?us-ascii?Q?Fmt4Cfa8J2XFC96Uo4sbTGpDsvDhj6BWRwlyE1bYX0md+3oCMIJdd8rqfhDw?=
+ =?us-ascii?Q?gxgz+gAKWjDi7UVK9uADHuscifQPWVmQEeexDHjjB2CWwh2RB4IlPRUItwav?=
+ =?us-ascii?Q?/OVlZHLDr97wkh++zBIVLGJrM1an9LIHXUyzLtDrvTVbLUbRH/LaC/dMGmgP?=
+ =?us-ascii?Q?LThTGNhT5OwekMdHxQwndLDQUPudlBmwcfpPhU4QU3G3+Gm4cRoers9Iq8g5?=
+ =?us-ascii?Q?RMzOP1SCLPqhzJvzkrEQm37uwljFFNlG5llm6oWBf+vd6tFE7qmMXzBRQTTg?=
+ =?us-ascii?Q?2GZgpea9PVmcqfENNcVKpPy89+18IqtIJjBFHNxbcsFFwjUNPUWY/gMSEobp?=
+ =?us-ascii?Q?mhf6U8omgIi0vLy/+E72hHHcgS35Lppzy+R1iCz4dxJR3m968IRy5ErzWi0a?=
+ =?us-ascii?Q?xnKZnLPMuahnH47TuQcrboWbb/SXsPME3INcXyMrDrZBDGKibAbN9BoGe3T1?=
+ =?us-ascii?Q?b6503G/eVmqMxsJ7GbcPyeu6HGNo/gmgcddTgjsjNB7csQJorEuz63cJyjG1?=
+ =?us-ascii?Q?Zm5QhSG5cr9MITGEVZyBNqLcgV5b22OvEmbQsEtEooJmF6zbbPDtEHHtBvkO?=
+ =?us-ascii?Q?IMiDya4pnKjei7zGa3qHHB4tIhWKQeRo4xITQKoEF4VEes4AEPoIuX2Lkdu6?=
+ =?us-ascii?Q?wkIHQf+gC0y29P5TAxT3RfN9avTQsyAz+J19d0LKTwY7A9KQgsz3JSkb4wWg?=
+ =?us-ascii?Q?zL2TfUkFlBHHRWDvVTNKnrwSHQx9DY9ye+ifNVHeI9qOIwPw4LI4rALAnK6J?=
+ =?us-ascii?Q?eybbCMJyy8UhRm8lYiA5BGHexN33vtf1vJ38XSUbZ2nz0A=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e42418d4-bdb4-4c0e-4f83-08d8e2e52e74
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 10:22:03.0776 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G78BIzBgx/WJ+3WWa1HYXOnnjCc+2nklBiukHbf5asDqwXC5hwHwuFV22wx67owiiO3oGGrsA8lXCF88uBPGBArXz+xsAqZ2x3TFGJEgveA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5184
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9917
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103090049
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9917
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0
+ clxscore=1011 phishscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103090049
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=david.edmondson@oracle.com; helo=userp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +172,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Max Reitz <mreitz@redhat.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 at 09:59, Joelle van Dyne <j@getutm.app> wrote:
->
-> On Tue, Mar 9, 2021 at 1:36 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> > The README here:
-> >
-> >   https://github.com/kaniini/libucontext
-> >
-> > indicates that it is intentionally limiting what registers it saves
-> > and restores, explicitly excluding FPU.
-> >
-> > Peter & Paolo expressed concern about this, indicating FPU reg support
-> > was a requirement for QEMU:
-> >
-> >    https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05525.html
-> >
-> Does it make a difference if this is provided as an option and not as
-> a replacement? Would it make sense to add some warning at configure
-> time? Right now none of the concurrency backends are supported on iOS
-> and it's possible support will go away on macOS as well in the future.
-> QEMU would not be able to run at all.
+RFC because changing the coroutine code is scary and I'm new to it.
 
-We don't currently support iOS; if we add it we definitely don't
-want to add it as a "we know this has buggy coroutine support"
-target, because that's a path to weird hard-to-diagnose bugs.
-Right now macOS works fine without libucontext; if we ever do need
-to use libucontext on macOS in future we'd want to get the FPU
-support etc fixed first.
+Stressing the VDI code with qemu-img:
 
-Adding FPU handling for aarch64 to libucontext should not be too
-difficult (because the FPU is guaranteed to exist you don't need to
-do the hardware capability detection the README talks about).
+  qemu-img convert -p -W -m 16 -O vdi input.qcow2 output.vdi
 
-thanks
--- PMM
+leads to a hang relatively quickly on a machine with sufficient
+CPUs. A similar test targetting either raw or qcow2 formats, or
+avoiding out-of-order writes, completes fine.
+
+At the point of the hang all of the coroutines are sitting in
+qemu_co_queue_wait_impl(), called from either qemu_co_rwlock_rdlock()
+or qemu_co_rwlock_upgrade(), all referencing the same CoRwlock
+(BDRVVdiState.bmap_lock).
+
+The comment in the last patch explains what I believe is happening -
+downgrading an rwlock from write to read can later result in a failure
+to schedule an appropriate coroutine when the read lock is released.
+
+A less invasive change might be to simply have the read side of the
+unlock code mark *all* queued coroutines as runnable. This seems
+somewhat wasteful, as any read hopefuls that run before a write
+hopeful will immediately put themselves back on the queue.
+
+No code other than block/vdi.c appears to use
+qemu_co_rwlock_downgrade().
+
+The block/vdi.c changes are small things noticed by inspection when
+looking for the cause of the hang.
+
+David Edmondson (4):
+  block/vdi: When writing new bmap entry fails, don't leak the buffer
+  block/vdi: Don't assume that blocks are larger than VdiHeader
+  coroutine/mutex: Store the coroutine in the CoWaitRecord only once
+  coroutine/rwlock: Wake writers in preference to readers
+
+ block/vdi.c                | 11 +++++++----
+ include/qemu/coroutine.h   |  8 +++++---
+ util/qemu-coroutine-lock.c | 25 +++++++++++++++----------
+ 3 files changed, 27 insertions(+), 17 deletions(-)
+
+-- 
+2.30.1
+
 
