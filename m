@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C758E3325FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:03:03 +0100 (CET)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80CA332611
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:06:34 +0100 (CET)
+Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJc0s-0004mK-Sk
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:03:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53258)
+	id 1lJc4H-0007w8-RO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJbNw-0007az-3Q
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:22:48 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:52311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJbNu-0004gZ-Ij
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:22:47 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id fu20so810098pjb.2
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 04:22:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tpimQkkd/08GAgP446IN11jO++3Y9xP+PLHlyIh3/fc=;
- b=i8AbzbTrgo/4pPRJ9uCLnCaKVQ2W+lnqAcTEBsDoA1Z+SDCXucmP4Bn4WGzE6GROgt
- vThlJkiK53fQn9kDY20cNsb6TOEdVSa2hL2QXOtNE7j+GgJYvAvwwV3IFfneUcbjb3Ad
- uUk/ql/q3N9KZ8NbARVxf9vU21lyX4STZsitMrD29zBvf6ZWVj7CN4VUdWk/evfB8OFc
- 1gUTq9PDFCaHGsKTMzxVSEHLKZIrH4yM36VlryzjTFkVP2ttRru+rukpdIsL//SIEaE8
- tkkgxq+K1Ru2jRzHVEl/w3OnhKZUC8wOHcV8kyTHPJjY+sDaZk/Ffs7zgFN9OHZXqsIN
- P2og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tpimQkkd/08GAgP446IN11jO++3Y9xP+PLHlyIh3/fc=;
- b=fqla2NQgn3Zb6oQDsjH0a1zgSDPlXRimo5HZJ6M4X0yVxtmYzlV3vJV/YN96Vqu0T1
- ZKjb9IuCJDcYJP2jmN21KuAJI/bvZGf0DTFAP/aPLh9TbO1RKfbUgflnenRyGCxM7zYx
- zZC8FhnysU3oLnrBhLgYPFaJ1FDsAWghG3lMltc4Aji6cYuAxtxDOVTJBgqfbCzvJF5H
- T7ozHOhCzBpylrsy8amq2mjeqYu3xO+nNTB1YHcvc5vIIyjYjVdSC/3iZVyik2WK0jC8
- CxmUckq2HNBxNtV1LJVhMs1f4a0phFnZclP45sfCImOV7wrY0g2O2uP/F4Pz2H1UWSjL
- GqrQ==
-X-Gm-Message-State: AOAM533YICLqsCTeleBvObnkFzbWx7aoELkL4VzS5Xbg6XQlrRcYy1W/
- qJP4Dbc+JX4dOTB3rSxFPD6nqcw6+pKZ9A==
-X-Google-Smtp-Source: ABdhPJwj+96DQCTVuVTARWJnTq8dS1DV0fIirYTD0rlgoEzVgXyZblhFpWUVb2ljhv+QnJCeyVDT7w==
-X-Received: by 2002:a17:902:509:b029:e5:9944:f763 with SMTP id
- 9-20020a1709020509b02900e59944f763mr26027291plf.35.1615292564987; 
- Tue, 09 Mar 2021 04:22:44 -0800 (PST)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:d12c:1da1:5934:88c6])
- by smtp.gmail.com with ESMTPSA id l4sm9910596pgi.19.2021.03.09.04.22.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Mar 2021 04:22:44 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH 2/2] ui/cocoa: Do not rely on the first argument
-Date: Tue,  9 Mar 2021 21:22:26 +0900
-Message-Id: <20210309122226.23117-2-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210309122226.23117-1-akihiko.odaki@gmail.com>
-References: <20210309122226.23117-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <a_lijiejun@163.com>)
+ id 1lJbSS-0001kW-05
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:27:28 -0500
+Received: from m13109.mail.163.com ([220.181.13.109]:23783)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <a_lijiejun@163.com>)
+ id 1lJbSH-00071i-Vs
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:27:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=hIKQ9
+ XTWwF2qAn/ZIOOIhZj+bRhaaf3Wa5aEmlZNmxQ=; b=gGG5pSb9XAb7MKpsxpnZ7
+ 5cOkJIbLC7/69X2cDYW0l0lx/kP94q9Ucytnb7RD8G2W811+5zaskQcIRd/JWwNo
+ rO9XikdWpNL6+iDogzvW2McLG97TLOF1s47HusA7KBUzV3gyquR7RxEKAChOJFg+
+ UHCY59r6DEjIN3Pz60ROGo=
+Received: from a_lijiejun$163.com ( [121.201.121.142] ) by
+ ajax-webmail-wmsvr109 (Coremail) ; Tue, 9 Mar 2021 20:27:06 +0800 (CST)
+X-Originating-IP: [121.201.121.142]
+Date: Tue, 9 Mar 2021 20:27:06 +0800 (CST)
+From: =?GBK?B?wO691L+h?= <a_lijiejun@163.com>
+To: =?GBK?Q?Philippe_Mathieu-Daud=A8=A6?= <philmd@redhat.com>
+Subject: Re:Re: [PATCH] virtio-gpu: Add spaces around operator
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+In-Reply-To: <c7918046-a99e-663e-355c-0b9b1c4d817c@redhat.com>
+References: <1615275756-129881-1-git-send-email-a_lijiejun@163.com>
+ <c7918046-a99e-663e-355c-0b9b1c4d817c@redhat.com>
+X-CM-CTRLDATA: JHFKSmZvb3Rlcl9odG09MTk3ODo1Ng==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_127007_152833634.1615292826979"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <168ecce2.896f.17816f48563.Coremail.a_lijiejun@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: bcGowADXUZSbaUdgeJcDAQ--.58413W
+X-CM-SenderInfo: pdboxyplhm30i6rwjhhfrp/xtbBohtQFFaD-GNzWgAAse
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.109; envelope-from=a_lijiejun@163.com;
+ helo=m13109.mail.163.com
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +68,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, kraxel@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first argument of the executable was used to get its path, but it is
-not reliable because the executer can specify any arbitrary string. Use the
-interfaces provided by QEMU and the platform to get those paths.
+------=_Part_127007_152833634.1615292826979
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+CgoKCgoKCgoKCgoKCgoKCgoKCkF0IDIwMjEtMDMtMDkgMTc6MDg6MDgsICJQaGlsaXBwZSBNYXRo
+aWV1LURhdWSopiIgPHBoaWxtZEByZWRoYXQuY29tPiB3cm90ZToKPihDYydpbmcgcWVtdS10cml2
+aWFsQCkKPgo+T24gMy85LzIxIDg6NDIgQU0sIGxpamllanVuIHdyb3RlOgo+PiBGaXggY29kZSBz
+dHlsZS4gT3BlcmF0b3IgbmVlZHMgc3BhY2VzIGZvcmVuZCBzaWRlcywgYW5kIGRlbGV0ZSBsaW5l
+IHNwYWNlLgo+Cgo+ImZvcmVuZCI/CgoKZG9uZSB3aXRoOgpGaXggY29kZSBzdHlsZS4gT3BlcmF0
+b3IgbmVlZHMgYWxpZ24gd2l0aCBlaWdodCBzcGFjZXMsIGFuZCBkZWxldGUgbGluZSBzcGFjZS4K
+Cgo+Cj5PdGhlcndpc2U6Cj5SZXZpZXdlZC1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkqKYgPHBo
+aWxtZEByZWRoYXQuY29tPgo+Cj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBsaWppZWp1biA8YV9saWpp
+ZWp1bkAxNjMuY29tPgo+PiAtLS0KPj4gIGh3L2Rpc3BsYXkvdmlydGlvLWdwdS0zZC5jIHwgMyAr
+LS0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKPj4g
+Cj4+IGRpZmYgLS1naXQgYS9ody9kaXNwbGF5L3ZpcnRpby1ncHUtM2QuYyBiL2h3L2Rpc3BsYXkv
+dmlydGlvLWdwdS0zZC5jCj4+IGluZGV4IDllYjQ4OTAuLmQ5ODk2NDggMTAwNjQ0Cj4+IC0tLSBh
+L2h3L2Rpc3BsYXkvdmlydGlvLWdwdS0zZC5jCj4+ICsrKyBiL2h3L2Rpc3BsYXkvdmlydGlvLWdw
+dS0zZC5jCj4+IEBAIC00MzgsNyArNDM4LDcgQEAgdm9pZCB2aXJ0aW9fZ3B1X3ZpcmdsX3Byb2Nl
+c3NfY21kKFZpcnRJT0dQVSAqZywKPj4gICAgICAgICAgYnJlYWs7Cj4+ICAgICAgY2FzZSBWSVJU
+SU9fR1BVX0NNRF9SRVNPVVJDRV9GTFVTSDoKPj4gICAgICAgICAgdmlyZ2xfY21kX3Jlc291cmNl
+X2ZsdXNoKGcsIGNtZCk7Cj4+IC0gICAgICAgYnJlYWs7Cj4+ICsgICAgICAgIGJyZWFrOwo+PiAg
+ICAgIGNhc2UgVklSVElPX0dQVV9DTURfUkVTT1VSQ0VfVU5SRUY6Cj4+ICAgICAgICAgIHZpcmds
+X2NtZF9yZXNvdXJjZV91bnJlZihnLCBjbWQpOwo+PiAgICAgICAgICBicmVhazsKPj4gQEAgLTQ1
+Niw3ICs0NTYsNiBAQCB2b2lkIHZpcnRpb19ncHVfdmlyZ2xfcHJvY2Vzc19jbWQoVmlydElPR1BV
+ICpnLAo+PiAgICAgIGNhc2UgVklSVElPX0dQVV9DTURfR0VUX0NBUFNFVDoKPj4gICAgICAgICAg
+dmlyZ2xfY21kX2dldF9jYXBzZXQoZywgY21kKTsKPj4gICAgICAgICAgYnJlYWs7Cj4+IC0KPj4g
+ICAgICBjYXNlIFZJUlRJT19HUFVfQ01EX0dFVF9ESVNQTEFZX0lORk86Cj4+ICAgICAgICAgIHZp
+cnRpb19ncHVfZ2V0X2Rpc3BsYXlfaW5mbyhnLCBjbWQpOwo+PiAgICAgICAgICBicmVhazsKPj4g
+Cg==
+------=_Part_127007_152833634.1615292826979
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index d8eacea6d22..6e94301c0d6 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1414,20 +1414,21 @@ - (void)make_about_window
-     [superView addSubview: picture_view];
- 
-     /* Make the name label */
--    x = 0;
--    y = y - 25;
--    int name_width = about_width, name_height = 20;
--    NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
--    NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
--    [name_label setEditable: NO];
--    [name_label setBezeled: NO];
--    [name_label setDrawsBackground: NO];
--    [name_label setAlignment: NSTextAlignmentCenter];
--    NSString *qemu_name = [[NSString alloc] initWithCString: gArgv[0]
--                                            encoding: NSASCIIStringEncoding];
--    qemu_name = [qemu_name lastPathComponent];
--    [name_label setStringValue: qemu_name];
--    [superView addSubview: name_label];
-+    NSBundle *bundle = [NSBundle mainBundle];
-+    if (bundle) {
-+        x = 0;
-+        y = y - 25;
-+        int name_width = about_width, name_height = 20;
-+        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
-+        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
-+        [name_label setEditable: NO];
-+        [name_label setBezeled: NO];
-+        [name_label setDrawsBackground: NO];
-+        [name_label setAlignment: NSTextAlignmentCenter];
-+        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
-+        [name_label setStringValue: qemu_name];
-+        [superView addSubview: name_label];
-+    }
- 
-     /* Set the version label's attributes */
-     x = 0;
--- 
-2.24.3 (Apple Git-128)
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxl
+PSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0
+eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxk
+aXYgc3R5bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PGRpdiBpZD0iZGl2TmV0
+ZWFzZU1haWxDYXJkIj48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cHJlPjxi
+cj5BdCAyMDIxLTAzLTA5IDE3OjA4OjA4LCAiUGhpbGlwcGUgTWF0aGlldS1EYXVkqKYiICZsdDtw
+aGlsbWRAcmVkaGF0LmNvbSZndDsgd3JvdGU6CiZndDsoQ2MnaW5nIHFlbXUtdHJpdmlhbEApCiZn
+dDsKJmd0O09uIDMvOS8yMSA4OjQyIEFNLCBsaWppZWp1biB3cm90ZToKJmd0OyZndDsgRml4IGNv
+ZGUgc3R5bGUuIE9wZXJhdG9yIG5lZWRzIHNwYWNlcyBmb3JlbmQgc2lkZXMsIGFuZCBkZWxldGUg
+bGluZSBzcGFjZS4KJmd0Owo8ZGl2PiZndDsiZm9yZW5kIj88L2Rpdj48ZGl2Pjxicj48L2Rpdj48
+ZGl2PmRvbmUgd2l0aDo8L2Rpdj48ZGl2PkZpeCBjb2RlIHN0eWxlLiBPcGVyYXRvciBuZWVkcyBh
+bGlnbiB3aXRoIGVpZ2h0IHNwYWNlcywgYW5kIGRlbGV0ZSBsaW5lIHNwYWNlLjwvZGl2PjxkaXY+
+PGJyPjwvZGl2PiZndDsKJmd0O090aGVyd2lzZToKJmd0O1Jldmlld2VkLWJ5OiBQaGlsaXBwZSBN
+YXRoaWV1LURhdWSopiAmbHQ7cGhpbG1kQHJlZGhhdC5jb20mZ3Q7CiZndDsKJmd0OyZndDsgCiZn
+dDsmZ3Q7IFNpZ25lZC1vZmYtYnk6IGxpamllanVuICZsdDthX2xpamllanVuQDE2My5jb20mZ3Q7
+CiZndDsmZ3Q7IC0tLQomZ3Q7Jmd0OyAgaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMgfCAzICst
+LQomZ3Q7Jmd0OyAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygt
+KQomZ3Q7Jmd0OyAKJmd0OyZndDsgZGlmZiAtLWdpdCBhL2h3L2Rpc3BsYXkvdmlydGlvLWdwdS0z
+ZC5jIGIvaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMKJmd0OyZndDsgaW5kZXggOWViNDg5MC4u
+ZDk4OTY0OCAxMDA2NDQKJmd0OyZndDsgLS0tIGEvaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMK
+Jmd0OyZndDsgKysrIGIvaHcvZGlzcGxheS92aXJ0aW8tZ3B1LTNkLmMKJmd0OyZndDsgQEAgLTQz
+OCw3ICs0MzgsNyBAQCB2b2lkIHZpcnRpb19ncHVfdmlyZ2xfcHJvY2Vzc19jbWQoVmlydElPR1BV
+ICpnLAomZ3Q7Jmd0OyAgICAgICAgICBicmVhazsKJmd0OyZndDsgICAgICBjYXNlIFZJUlRJT19H
+UFVfQ01EX1JFU09VUkNFX0ZMVVNIOgomZ3Q7Jmd0OyAgICAgICAgICB2aXJnbF9jbWRfcmVzb3Vy
+Y2VfZmx1c2goZywgY21kKTsKJmd0OyZndDsgLSAgICAgICBicmVhazsKJmd0OyZndDsgKyAgICAg
+ICAgYnJlYWs7CiZndDsmZ3Q7ICAgICAgY2FzZSBWSVJUSU9fR1BVX0NNRF9SRVNPVVJDRV9VTlJF
+RjoKJmd0OyZndDsgICAgICAgICAgdmlyZ2xfY21kX3Jlc291cmNlX3VucmVmKGcsIGNtZCk7CiZn
+dDsmZ3Q7ICAgICAgICAgIGJyZWFrOwomZ3Q7Jmd0OyBAQCAtNDU2LDcgKzQ1Niw2IEBAIHZvaWQg
+dmlydGlvX2dwdV92aXJnbF9wcm9jZXNzX2NtZChWaXJ0SU9HUFUgKmcsCiZndDsmZ3Q7ICAgICAg
+Y2FzZSBWSVJUSU9fR1BVX0NNRF9HRVRfQ0FQU0VUOgomZ3Q7Jmd0OyAgICAgICAgICB2aXJnbF9j
+bWRfZ2V0X2NhcHNldChnLCBjbWQpOwomZ3Q7Jmd0OyAgICAgICAgICBicmVhazsKJmd0OyZndDsg
+LQomZ3Q7Jmd0OyAgICAgIGNhc2UgVklSVElPX0dQVV9DTURfR0VUX0RJU1BMQVlfSU5GTzoKJmd0
+OyZndDsgICAgICAgICAgdmlydGlvX2dwdV9nZXRfZGlzcGxheV9pbmZvKGcsIGNtZCk7CiZndDsm
+Z3Q7ICAgICAgICAgIGJyZWFrOwomZ3Q7Jmd0OyAKPC9wcmU+PC9kaXY+PGJyPjxicj48c3BhbiB0
+aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj4=
+------=_Part_127007_152833634.1615292826979--
 
 
