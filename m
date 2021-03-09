@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCE93330D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:23:56 +0100 (CET)
-Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4790C3330DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:26:11 +0100 (CET)
+Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjpb-0006AL-On
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56416)
+	id 1lJjrm-0001qR-AE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:26:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjgC-0003qU-Lz; Tue, 09 Mar 2021 16:14:12 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:43827)
+ id 1lJjgu-0005Fp-N3; Tue, 09 Mar 2021 16:14:56 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:46925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJjgA-0003qa-Jb; Tue, 09 Mar 2021 16:14:12 -0500
+ id 1lJjgs-0004C6-U8; Tue, 09 Mar 2021 16:14:56 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MEFCF-1lR7XN38bd-00AEId; Tue, 09 Mar 2021 22:13:48 +0100
-Subject: Re: [PATCH v3 1/5] ui: Replace the word 'whitelist'
+ 1MvrVJ-1lZCXN1IV5-00sw3q; Tue, 09 Mar 2021 22:14:34 +0100
+Subject: Re: [PATCH v3 2/5] scripts/tracetool: Replace the word 'whitelist'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210303184644.1639691-1-philmd@redhat.com>
- <20210303184644.1639691-2-philmd@redhat.com>
+ <20210303184644.1639691-3-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <66379742-141f-d38e-a6bb-dabe58c2a4b4@vivier.eu>
-Date: Tue, 9 Mar 2021 22:13:46 +0100
+Message-ID: <ea41c8f1-6f4d-f2f0-5d3e-b907675fa4fc@vivier.eu>
+Date: Tue, 9 Mar 2021 22:14:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210303184644.1639691-2-philmd@redhat.com>
+In-Reply-To: <20210303184644.1639691-3-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hJ1i3EZ3WPY84s24TlJs1/9Xr4aPSqV03JDn2HbXtQ0OYhXHXY+
- PFJKCcWB7WPkW0Br9gkWiEX5ON0N7mOzAnYS56X8DduernEEaoQgWYp9Kd0Teu4Z+smjyyp
- Gcog0khVCd012HCVIeY4S3IdqHdeJbv2p0qURfw8lKdJ/Wglsiq1YaowfRES7bVlekfbmCc
- UsjTKuye+P/k7UlUKhsSA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FAvzR5Z3q8s=:Fbs23XYaxN7RCPky+hnn7j
- PcjkznypOVoJSNrokLkhvmLtzhteenB5g3i23WrPmYykcWnE6D8BitaamfnSH7zB127BwhvnM
- UYwlGyMAE4TzkAJtxf8O4sSPO8/1XZkU2C2vcCCCR4/mqKaBI2J1nyXgwcCHCYMoe3OPQC1w+
- JavnOg7h9f5BjWj3l6Gly0coiDYkrRHhjoSLPr1XDq7GIa9SXDbxd3oEOF42pMos9O0Z3uOmh
- oh2EYSC53b7NGJD41AvGbJauOYnDRDswdU1bugQX9bPXedZV9JOYs5S8JfxURGkcK5bZSe54v
- 6/BoghqxoBFZaFfcZf8mMrE2F8SLvFMyBEfWT5ylZgKk9yNK0fJFi+pPOfBZh9YfsL3W9Zcxu
- oH8zGvQ4K89ZpKktRXNtj0fssWJIvjyPySzXiNpOst3hNWEa8YzPs9mdVE8I02qSi9gXVEBWl
- A7i9Vcs+2w==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:3LEc2nj06X8TI6cQ/Miuo7kgqrvgxED/5iUfKgZBdUBjRSt5veI
+ e+LU8n650QxqiYXDM9cDv7yJmJY3T+wRJPkViRy0LbhPSNwvNGuaDd5X9YC0x6UQaWSkbm8
+ KTwe7AiSarGnT5+RXtY1LQZaimzQtTg7ma8iGcw9PfpHuN23kuURtXg5zqLAu2rPhDaDrjC
+ JJVC/T2KmIkj9S4bBFigg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gWJnnl3Vfmc=:wNLU5zu0czF3w1P+Ru0PQz
+ HvSrSzeALHB5auLjVfdwIaN9uYJo/U/fxq60JlAWEcMtYAQqQ3tlYk/ivCzO9jMRX5zNIMzJL
+ Xx5c5Cq70cfLzGuMHA1lu1cCmjIrTLfpPu+dcI3/rSYRgcS4Qlo/bq/46b+EI3U5uMRIV/VBV
+ jnwz5q01Ufs8mw0+K6ScIgyMUwgvDgtXNHk+aZNDCj7xtvLCgviVbj5A+V8S2S4xt2ukKb70J
+ iVlnSe28PkegMddix4vs2rxEGZSenAlR/X2SWGZpyIUlglMpv09qqs5W/VKQ9FuA75PLypZmT
+ g8Dt2uYcNHOMt2I7oicHbu5ApX/a00T6M/XxByvdaZaj86YpjFfDTje8vCKKCxjV2JoLpgBIg
+ 0JYiSn1RO8hv6K5Q5hMZqgn7RDPAFfoVwPUp3S0qzgpk4Wp35XtTSq48Gjwok/BNFz983w81l
+ t/dkpFMjNA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,7 +68,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
  Michael Roth <michael.roth@amd.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Eduardo Otubo <otubo@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
@@ -85,50 +87,28 @@ Le 03/03/2021 à 19:46, Philippe Mathieu-Daudé a écrit :
 > 
 > [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
 > 
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  ui/console.c       | 2 +-
->  ui/vnc-auth-sasl.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  scripts/tracetool/__init__.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/ui/console.c b/ui/console.c
-> index c5d11bc7017..5a8311ced20 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -1708,7 +1708,7 @@ bool dpy_gfx_check_format(QemuConsole *con,
->                  return false;
->              }
->          } else {
-> -            /* default is to whitelist native 32 bpp only */
-> +            /* default is to allow native 32 bpp only */
->              if (format != qemu_default_pixman_format(32, true)) {
->                  return false;
->              }
-> diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
-> index f67111a3662..df7dc08e9fc 100644
-> --- a/ui/vnc-auth-sasl.c
-> +++ b/ui/vnc-auth-sasl.c
-> @@ -288,7 +288,7 @@ static int protocol_client_auth_sasl_step(VncState *vs, uint8_t *data, size_t le
->              goto authreject;
->          }
->  
-> -        /* Check username whitelist ACL */
-> +        /* Check the username access control list */
->          if (vnc_auth_sasl_check_access(vs) < 0) {
->              goto authreject;
->          }
-> @@ -409,7 +409,7 @@ static int protocol_client_auth_sasl_start(VncState *vs, uint8_t *data, size_t l
->              goto authreject;
->          }
->  
-> -        /* Check username whitelist ACL */
-> +        /* Check the username access control list */
->          if (vnc_auth_sasl_check_access(vs) < 0) {
->              goto authreject;
->          }
+> diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
+> index 96b1cd69a52..5bc94d95cfc 100644
+> --- a/scripts/tracetool/__init__.py
+> +++ b/scripts/tracetool/__init__.py
+> @@ -100,7 +100,7 @@ def validate_type(name):
+>          if bit == "const":
+>              continue
+>          if bit not in ALLOWED_TYPES:
+> -            raise ValueError("Argument type '%s' is not in whitelist. "
+> +            raise ValueError("Argument type '%s' is not allowed. "
+>                               "Only standard C types and fixed size integer "
+>                               "types should be used. struct, union, and "
+>                               "other complex pointer types should be "
 > 
 
 Applied to my trivial-patches branch.
