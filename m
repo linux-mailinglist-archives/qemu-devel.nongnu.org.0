@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC95D332B57
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:59:51 +0100 (CET)
-Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68C2332AED
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:46:56 +0100 (CET)
+Received: from localhost ([::1]:33434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJely-0002fc-TN
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:59:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59782)
+	id 1lJeZT-0004Mz-VV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:46:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
- id 1lJeOV-0008LR-Rd
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:35:36 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.166]:30749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
- id 1lJeOS-0002AV-VY
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:35:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615304124; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=r1uoUt4dgk/RB3lIdbIaOoWxsR1toAY5zRpbcy+bEQFjWbo6dH3yW8OZVKGmLjJrbO
- cdISTljoL0EYz7o4IYJR5RNG2Gzxi2NYXEtRxH3QsO5qEZFQYiJFHo9FwutNKS0aRPlJ
- BMVBl+IO9jLSPGLYZ4Y8JVi/rqKB9WOmpiuClmLAzou+7KRWz/hLhlSETkxdDk9h0uhb
- xG7wV2YO3P+fuNbfL1b3cnsX6IRtbtsaoREbVlY0D9k8OCd2p3ymlqW5j6IU7XgjkbVl
- GZFWKr9SuQkrVDYFq51qeIvsJ71lC0jl/w9UxQXzo+3kC2ACpxa4/VZGtWhJpWG7B2kb
- HOHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1615304124;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
- From:Subject:Sender;
- bh=RqOiIrXVJZiBq4p3O3z/tQfVLJvgSlFsbpVX3hMtdKg=;
- b=U25T5L5emqjavgN4AqlTvYt7eDSvdNpcxq5OWJIHtWY//Vi7F+WJFXHIIIWtwz2Uor
- RsGa/rfu41naFdHjZ8d9bCklaHTc6XQQ13+X8u+ILgja8bDv2dKt4QVSTwuW3BIUcnuP
- 8x50GpKhYPr/yRiJ/4UDBCBcKLCrT4cRd8MH4nuB+J6KyIwJKN5y5jlh86twvCKb/l0A
- 97mr0cXYl5NxonVGbf3Wy5FkwDgQ0zyqOAXTfGLhUd9iZvy6xOOB3P4s0tzoeKFcnYVd
- Z7ETtHtSjZ9erVN1FMp3sM8RvtZ1JnlhUOhrjx+xmUNmybopiDTPuC83hdYe/iURGL3p
- V1xg==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1615304124;
- s=strato-dkim-0002; d=ulal.de;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
- From:Subject:Sender;
- bh=RqOiIrXVJZiBq4p3O3z/tQfVLJvgSlFsbpVX3hMtdKg=;
- b=FZTdJDGi7TOqaTmOMkyMLw9vdcB5PvsE23JGbBJJQBEwphr73W6C49ByVT/6UbmTtS
- kvWQ1hC58AGfyB1MFEvCxp9tYQBmC/dogaYR9jv9W6teCzRLpWXDhOcZ3WP5/uOtW1Ts
- HHymf89VnHM8yF8K29WxYEdRxrY9X7fV/vVlOgSTvNU8lUTjZiZEqGyZ2PagIIe8tuPJ
- dH1izai9FapGigdCsH63ZtYPo4RGV4mmFlIjJdfvKArmuHw0vd4OUBE0+vxNzJ8TAh24
- +fv6bwPPF9RF6SlAwK8hVNHihXT6AP7EjaJ2yFRZewTpr462z7SWd3gFmc4aNUmqWJFd
- friA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JSSHyzkN3ON0Uun6F+zrkVqc/ZmTClqkOE9IdMVvnQ2O6vlW7Z+qlJRBbUq68WzKpoQ=="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2003:c3:9719:3d00:bb52:98ae:ee53:17cd]
- by smtp.strato.de (RZmta 47.20.3 AUTH)
- with ESMTPSA id c075a1x29FZNHmz
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 9 Mar 2021 16:35:23 +0100 (CET)
-Subject: Re: [PATCH] hw/char: disable ibex uart receive if the buffer is full
-To: Alistair Francis <alistair23@gmail.com>
-References: <20210215231528.2718086-1-alexander.wagner@ulal.de>
- <CAKmqyKM4ewocr51Qhx8R1XR=r2rcgyuBLTqhpi-MYVpFko_Rcg@mail.gmail.com>
- <19c50d64-fe9d-8c72-2002-3586abac821c@ulal.de>
- <CAKmqyKMhDyHkfn7zszhDOiKY5k=JRzmYjz7-QD9j8Ntr=T8Qag@mail.gmail.com>
-From: Alexander Wagner <alexander.wagner@ulal.de>
-Message-ID: <0f1e36fb-6ac4-b709-a9ba-2754e3f1fe78@ulal.de>
-Date: Tue, 9 Mar 2021 16:35:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJeRp-0003EM-CI
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:39:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJeRl-0003Qb-QY
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:38:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615304337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DLhIoQVa11gRPqErcsdUE6PIk1VfueyId0W7JyOrJoI=;
+ b=BCeQq9VD/CGAmwpHHibQvO7Hx6Rt0v6KsX1VqN8cgevRNbjMsOg+G2wK29uBtqDUz1feV7
+ qjHIFmitz+8ul/xg5UUTrOa0XFqNMg11e5x4d5cVCmcJ++Md6U2Adj6dFhQCyCwvAtoOAH
+ Rq1BRFJ3BjCfL9XB0XPRzaH4rM0STOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-wYATtotPP92mQcX4R7yxRA-1; Tue, 09 Mar 2021 10:38:53 -0500
+X-MC-Unique: wYATtotPP92mQcX4R7yxRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66AD883DD21;
+ Tue,  9 Mar 2021 15:38:52 +0000 (UTC)
+Received: from localhost (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 119F05D9CD;
+ Tue,  9 Mar 2021 15:38:51 +0000 (UTC)
+Date: Tue, 9 Mar 2021 15:38:50 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH] coroutine: add libucontext as external library
+Message-ID: <YEeWimKd1QVd176N@stefanha-x1.localdomain>
+References: <20210309032637.41778-1-j@getutm.app>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMhDyHkfn7zszhDOiKY5k=JRzmYjz7-QD9j8Ntr=T8Qag@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------9D5936DC0AA7FBA8D2BFAF6B"
-Content-Language: en-US
-Received-SPF: none client-ip=81.169.146.166;
- envelope-from=alexander.wagner@ulal.de; helo=mo4-p01-ob.smtp.rzone.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210309032637.41778-1-j@getutm.app>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xun/5BWfXN2lU6j6"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,153 +78,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------9D5936DC0AA7FBA8D2BFAF6B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--xun/5BWfXN2lU6j6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Mar 08, 2021 at 07:26:36PM -0800, Joelle van Dyne wrote:
+> iOS does not support ucontext natively for aarch64 and the sigaltstack is
+> also unsupported (even worse, it fails silently, see:
+> https://openradar.appspot.com/13002712 )
+>=20
+> As a workaround we include a library implementation of ucontext and add i=
+t
+> as a build option.
+>=20
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> ---
+>  configure                 | 21 ++++++++++++++++++---
+>  meson.build               | 12 +++++++++++-
+>  util/coroutine-ucontext.c |  9 +++++++++
+>  .gitmodules               |  3 +++
+>  MAINTAINERS               |  6 ++++++
+>  meson_options.txt         |  2 ++
+>  subprojects/libucontext   |  1 +
+>  7 files changed, 50 insertions(+), 4 deletions(-)
+>  create mode 160000 subprojects/libucontext
+>=20
+> diff --git a/configure b/configure
+> index 34fccaa2ba..5f225894a9 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1773,7 +1773,7 @@ Advanced options (experts only):
+>    --oss-lib                path to OSS library
+>    --cpu=3DCPU                Build for host CPU [$cpu]
+>    --with-coroutine=3DBACKEND coroutine backend. Supported options:
+> -                           ucontext, sigaltstack, windows
+> +                           ucontext, libucontext, sigaltstack, windows
 
-On 09.03.21 15:29, Alistair Francis wrote:
-> On Tue, Mar 9, 2021 at 2:27 AM Alexander Wagner
-> <alexander.wagner@ulal.de> wrote:
->>
->> On 08.03.21 14:47, Alistair Francis wrote:
->>>>    hw/char/ibex_uart.c         | 20 +++++++++++++++-----
->>>>    include/hw/char/ibex_uart.h |  4 ++++
->>>>    2 files changed, 19 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
->>>> index 89f1182c9b..dac09d53d6 100644
->>>> --- a/hw/char/ibex_uart.c
->>>> +++ b/hw/char/ibex_uart.c
->>>> @@ -66,7 +66,8 @@ static int ibex_uart_can_receive(void *opaque)
->>>>    {
->>>>        IbexUartState *s = opaque;
->>>>
->>>> -    if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
->>>> +    if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK)
->>>> +           && !(s->uart_status & R_STATUS_RXFULL_MASK)) {
->>>>            return 1;
->>>>        }
->>>>
->>>> @@ -83,6 +84,8 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
->>>>
->>>>        s->uart_status &= ~R_STATUS_RXIDLE_MASK;
->>>>        s->uart_status &= ~R_STATUS_RXEMPTY_MASK;
->>>> +    s->uart_status |= R_STATUS_RXFULL_MASK;
->>> Doesn't this mean we set RXFULL on every receive? Shouldn't this check
->>> the rx_level first?
->>>
->>> Alistair
->> Thank you for having a look! :)
->>
->> Yes, this is correct. The RXFULL is currently set on every receive. The
->> RXFULL is used to indicate to QEMU that the device cannot receive any
->> further bytes.
->>
->> As the FIFO buffers are currently not yet implemented I thought it would
->> make sense to behave like the OT UART could only receive one byte at a time.
-> Ah, good point.
->
-> Can you add a comment where it is set describing that then?
->
-> Alistair
->
-Sure, I just added a comment and emailed this as patch v2.
+This approach mixes the concept of the coroutine backend (ucontext,
+sigaltstack, etc) with the optional libucontext library dependency.
 
-Alex
+libucontext is not a coroutine backend. The patch had to introduce
+$coroutine_impl in addition to $coroutine in order to work around this.
+Let's avoid combining these two independent concepts into
+--with-coroutine=3D.
 
+I suggest treating libucontext as an optional library dependency in
+./configure with explicit --enable-libucontext/--disable-libucontext
+options. Most of the time neither option will be provided by the user
+and ./configure should automatically decide whether libucontext is
+needed or not.
 
---------------9D5936DC0AA7FBA8D2BFAF6B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+> +case $coroutine in
+> +libucontext)
+> +  git_submodules=3D"${git_submodules} subprojects/libucontext"
+> +  mkdir -p libucontext
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 09.03.21 15:29, Alistair Francis
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAKmqyKMhDyHkfn7zszhDOiKY5k=JRzmYjz7-QD9j8Ntr=T8Qag@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Tue, Mar 9, 2021 at 2:27 AM Alexander Wagner
-<a class="moz-txt-link-rfc2396E" href="mailto:alexander.wagner@ulal.de">&lt;alexander.wagner@ulal.de&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
+Why is this mkdir necessary?
 
-On 08.03.21 14:47, Alistair Francis wrote:
-</pre>
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">  hw/char/ibex_uart.c         | 20 +++++++++++++++-----
-  include/hw/char/ibex_uart.h |  4 ++++
-  2 files changed, 19 insertions(+), 5 deletions(-)
+--xun/5BWfXN2lU6j6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index 89f1182c9b..dac09d53d6 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -66,7 +66,8 @@ static int ibex_uart_can_receive(void *opaque)
-  {
-      IbexUartState *s = opaque;
+-----BEGIN PGP SIGNATURE-----
 
--    if (s-&gt;uart_ctrl &amp; R_CTRL_RX_ENABLE_MASK) {
-+    if ((s-&gt;uart_ctrl &amp; R_CTRL_RX_ENABLE_MASK)
-+           &amp;&amp; !(s-&gt;uart_status &amp; R_STATUS_RXFULL_MASK)) {
-          return 1;
-      }
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBHlooACgkQnKSrs4Gr
+c8gFqAf+PZ8PVTJzfsN8i0V7W7ewgJ6pOo8tCtRQJj5QNpxyksBgDXlSF60THfql
+UPKwnfD9FVOPY6Opz/iSUwFCyK8eptb1IulWL/LBpVYmzBWbx5voh+hxgtX2WnVG
+A7W/A2HFsOe+XwBwnCZNISh1HD+P3px8bQgWa8mrVHy7ZfK4zEKnzRJc9CcEzgF+
+ynft3r0kmzmcHJ4+pBpdXwRnDCOpprHDTutkrfLLsBlC47l55q/MLOkXBlq4JG6F
+4ycmVhCM3IwGQ0v9clUiof/ZrA4Mm7RiVjx8IAMlr2gHC2jFFIpdMJtFykvjnLLV
+r1ND2nqmeGZe9uS4inposT9u+pHYig==
+=fDr6
+-----END PGP SIGNATURE-----
 
-@@ -83,6 +84,8 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
+--xun/5BWfXN2lU6j6--
 
-      s-&gt;uart_status &amp;= ~R_STATUS_RXIDLE_MASK;
-      s-&gt;uart_status &amp;= ~R_STATUS_RXEMPTY_MASK;
-+    s-&gt;uart_status |= R_STATUS_RXFULL_MASK;
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">Doesn't this mean we set RXFULL on every receive? Shouldn't this check
-the rx_level first?
-
-Alistair
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Thank you for having a look! :)
-
-Yes, this is correct. The RXFULL is currently set on every receive. The
-RXFULL is used to indicate to QEMU that the device cannot receive any
-further bytes.
-
-As the FIFO buffers are currently not yet implemented I thought it would
-make sense to behave like the OT UART could only receive one byte at a time.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Ah, good point.
-
-Can you add a comment where it is set describing that then?
-
-Alistair
-
-</pre>
-    </blockquote>
-    <pre>Sure, I just added a comment and emailed this as patch v2.
-
-Alex
-</pre>
-  </body>
-</html>
-
---------------9D5936DC0AA7FBA8D2BFAF6B--
 
