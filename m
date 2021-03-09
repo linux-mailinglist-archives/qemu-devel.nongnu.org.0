@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F0A332B48
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:58:15 +0100 (CET)
-Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA94332BA9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:12:45 +0100 (CET)
+Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJekQ-0000sR-Pv
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:58:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1lJeyS-00078j-JH
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:12:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJeZs-00069t-T9
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:47:22 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJeZo-0007C7-4X
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:47:20 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DA4407456B8;
- Tue,  9 Mar 2021 16:47:13 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B9CBE7456B4; Tue,  9 Mar 2021 16:47:13 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B831B7456E3;
- Tue,  9 Mar 2021 16:47:13 +0100 (CET)
-Date: Tue, 9 Mar 2021 16:47:13 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH RESEND 5/6] hw/mips/gt64xxx: Trace accesses to ISD
- registers
-In-Reply-To: <20210309142630.728014-6-f4bug@amsat.org>
-Message-ID: <c41f22b4-e687-3ff-fd23-5c645ae5911f@eik.bme.hu>
-References: <20210309142630.728014-1-f4bug@amsat.org>
- <20210309142630.728014-6-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJeTa-00061M-TI
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:40:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lJeTY-0004I0-QL
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:40:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lJeTW-0006U7-Q1
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 15:40:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BE9722E815A
+ for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 15:40:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-976903974-1615304833=:73634"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Mar 2021 15:30:36 -0000
+From: Simon Tatham <1918302@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: statham-arm
+X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
+X-Launchpad-Bug-Modifier: Simon Tatham (statham-arm)
+Message-Id: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
+Subject: [Bug 1918302] [NEW] qemu-system-arm segfaults while servicing
+ SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
+X-Launchpad-Hash: 9de9100f8c91b8f0582d5b02bd45706f3e1b5249
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,66 +69,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Public bug reported:
 
---3866299591-976903974-1615304833=:73634
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried to
+use it to run the attached bare-metal Arm hello-world image, using the
+command line
 
-On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
-> Trace all accesses to Internal Space Decode (ISD) registers.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> hw/mips/gt64xxx_pci.c | 2 ++
-> hw/mips/trace-events  | 2 ++
-> 2 files changed, 4 insertions(+)
->
-> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-> index 9a12d00d1e1..43349d6837d 100644
-> --- a/hw/mips/gt64xxx_pci.c
-> +++ b/hw/mips/gt64xxx_pci.c
-> @@ -387,6 +387,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
->     PCIHostState *phb = PCI_HOST_BRIDGE(s);
->     uint32_t saddr = addr >> 2;
->
-> +    trace_gt64120_write(addr, val);
->     if (!(s->regs[GT_CPU] & 0x00001000)) {
->         val = bswap32(val);
->     }
-> @@ -966,6 +967,7 @@ static uint64_t gt64120_readl(void *opaque,
->     if (!(s->regs[GT_CPU] & 0x00001000)) {
->         val = bswap32(val);
->     }
-> +    trace_gt64120_read(addr, val);
+qemu-system-arm -M microbit -semihosting -nographic -device
+loader,file=3Dhello.hex
 
-There are a few other places where logs use saddr << 2 instead of addr so 
-for consistency you might consider either changing those too or use saddr 
-<< 2 here as well. (Reviewed-by still stands either way.)
+The result was that qemu-system-arm itself died of a segfault. Compiling
+it for debugging, the location of the segfault was in target/arm/arm-
+semi.c, in the case handler for the semihosting call
+TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
 
-Regards,
-BALATON Zoltan
+            const struct arm_boot_info *info =3D env->boot_info;
+            target_ulong rambase =3D info->loader_start;
 
->
->     return val;
-> }
-> diff --git a/hw/mips/trace-events b/hw/mips/trace-events
-> index b7e934c3933..13ee731a488 100644
-> --- a/hw/mips/trace-events
-> +++ b/hw/mips/trace-events
-> @@ -1,4 +1,6 @@
-> # gt64xxx_pci.c
-> +gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
-> +gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
-> gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
-> gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
-> gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
->
---3866299591-976903974-1615304833=:73634--
+and the problem seems to be that 'info', aka env->boot_info, is NULL in
+this context.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Image that triggers the failure, in ihex format"
+   https://bugs.launchpad.net/bugs/1918302/+attachment/5475149/+files/hello=
+.hex
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918302
+
+Title:
+  qemu-system-arm segfaults while servicing SYS_HEAPINFO
+
+Status in QEMU:
+  New
+
+Bug description:
+  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
+  to use it to run the attached bare-metal Arm hello-world image, using
+  the command line
+
+  qemu-system-arm -M microbit -semihosting -nographic -device
+  loader,file=3Dhello.hex
+
+  The result was that qemu-system-arm itself died of a segfault.
+  Compiling it for debugging, the location of the segfault was in
+  target/arm/arm-semi.c, in the case handler for the semihosting call
+  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
+
+              const struct arm_boot_info *info =3D env->boot_info;
+              target_ulong rambase =3D info->loader_start;
+
+  and the problem seems to be that 'info', aka env->boot_info, is NULL
+  in this context.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
 
