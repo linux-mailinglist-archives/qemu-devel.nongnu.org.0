@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CD633248F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:56:36 +0100 (CET)
-Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40F5332491
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:57:47 +0100 (CET)
+Received: from localhost ([::1]:42746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJayZ-0006Be-MW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:56:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1lJazi-00075r-Rm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:57:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanu-0008Ge-1v; Tue, 09 Mar 2021 06:45:34 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34489)
+ id 1lJanw-0008JC-9I; Tue, 09 Mar 2021 06:45:36 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:56649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanr-0000Cj-4d; Tue, 09 Mar 2021 06:45:33 -0500
+ id 1lJans-0000DL-ON; Tue, 09 Mar 2021 06:45:35 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 07C9D2768;
- Tue,  9 Mar 2021 06:45:28 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 85D062705;
+ Tue,  9 Mar 2021 06:45:30 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:29 -0500
+ by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=VPe5sHsPPOJzS
- wPbwz3cH2Q6hptoAZSww7aXtvF6un0=; b=rMJTK114YS/YwpxiEXo3NTqR/UzRL
- u75K0J+32mfr6BSzPeHTDY2r6+EKDL18QociWzWs/Ztd1nkc8Cfk+1pfRsrVEzQM
- aZoaWS9bK/JW7cqjPdy93KtUQE55NZFvsx5XYhILIRb/lPYK1Nnw44A89nvqRK2W
- YDh9WH946o35fO7WGlkd5+DpewNnrycXlHgu44WC232c4RO3FWlpauzLSfWy3Q1k
- pv0rX+/6SUYH7DB6B30zrKj6AgWk6552zLIWxn4gVLrj2CDN4uXnUzmhYcLDphGY
- lh/IwBTUjXMYPxB0Izy3EI2aDda1ZtOZZ23xFfdcNN7XbKNBpb3jl+cSA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=uFb8yBQj3snFT
+ 6siiehYDGiWZqmzLiYnBeb/W4SacCo=; b=vUNESlEGEX7q9lOqkMGBS8Xf1pVO/
+ GqDnpz8TaZzFypNPsI2OPgnBM3YxRqcYqbz5GvfnMbjjlSrNcZ+ocCWVZwvBGWTV
+ DcoWDs97CM9sGwf23UrrlEMplVoi3Ljs0NmOEr/qVGvw65DbRL+9R0AJD56Ha/V0
+ ediKY9k6p4TnujZ7bc7TIxQAg8pkQJ/p+1Z4DSW/mQIvMZ0SGGMvcnNXdS3/lS5j
+ rjDByQ6wxdxBnvgXGNWKCnh7NGblobT1qBzf/Tr5il+5buRr274eL+iam5e6hKIQ
+ sfPjgOj/IRTcWOpsUVnrKL76rD1A5sxbieAZ2wH01F0HEEDvU60onWemA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=VPe5sHsPPOJzSwPbwz3cH2Q6hptoAZSww7aXtvF6un0=; b=c9ZZMRpI
- QFkQei1NfsXGO9a8OIblPnikziAMtDyULRmfH8/2l1iMK5sAs537EYo2rUp6HOHm
- a73b9htQL6nxyv8u/iarN13VIHN87ZB0jcoa3huat8Y3Jtte2HdiratXewSEukC3
- hhu92luRQ6WJJdDMqCoWIKCh/soy824K/kwYuYpHcsPFFr+EG0GVU6fF4piU8aq0
- FOPlHUBJSe9ggJznbHyiE/Q5DBjRqNYQb75m8W0QSxA965HLIoxFrLM+paH0yNQk
- pqs0IPJMkcCW67XQ1GwlcdYdzw7FrambN8Frzv7fKfjwV/cmpi0O8wgErjX7fuBi
- y3b5B/MyGxFD0Q==
-X-ME-Sender: <xms:2F9HYI04knWEgcvx8nSv1jRadKgT9MYjjhG98q4YE2xOmLn7Np_rKg>
- <xme:2F9HYDHeAh4bb_Za9SXrw9Y5UkehSrVkOWrOwZ4r9PKmfk7OkBO4BdDs9-KRdbEJq
- Zl2iGHfTyBKQAULo8k>
+ fm2; bh=uFb8yBQj3snFT6siiehYDGiWZqmzLiYnBeb/W4SacCo=; b=n+4Ii3pj
+ QewV9OZfdhfwsZHB5EpADUHy4Lyhwm3mIcZ9xdu1UBT7mrHTctA+AISTZoktfcGw
+ iX4YcJcT8mPbD59QMP3Js7Y7MIoRCOMBmGrBEHhQs/JgmDAFTRvblxgfXnt4B9ub
+ vhC2/EXeV1JSeIog6f+DE9QkxTnjbI1FHvqj0Z71gKRqdq/PnKCMjNMv291v3/gw
+ emnS1wTW6pc14fCB3yZJHLDTF+81dTbREgZvcN4HCCDgx3cVJS0iHSvfP6R0E3M5
+ 7zmiHRFYk7KUlsQ6irotdpR2CSYm+UX7/OU9IdvOCVa39fUp6wBx0CXABx9KUxSY
+ /d1bZa+SzSII2A==
+X-ME-Sender: <xms:2l9HYLMEunBg1TFJa1AerEU5lAYW8Y72RJF5aqD_wZRWlCkpWmxpOg>
+ <xme:2l9HYF_uZvbyS_E1TPqLq9JPSHeDvXyJyIj3lBV5VfTaxJEakpLWjJDHqjimtYl6X
+ yoQkplh3_vT0bUA4LM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeehne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:2F9HYA75ZKXsDVB-jKMN7mW1q1luE-oekOANO9qrLarb25SaG5qwow>
- <xmx:2F9HYB0LjCVerZ6Pol-vRuqnEzIrIL_UmKjz0Gh5rUXhe_dH2Zrr-Q>
- <xmx:2F9HYLGNnG8VN6w2HMK81nfONJ9p3QzNi816vo4-nRl0m_70xX8V7A>
- <xmx:2F9HYK1WFKW0yTcrUwqnsjojxU3YS0Qh4SfwxZAcjWrMXKdvBACVJw>
+X-ME-Proxy: <xmx:2l9HYKQw8Xz9qnOtXYu4u3kQ6qJSI2bbv78sr3wlhyq0LdEWndbsZw>
+ <xmx:2l9HYPt5eDis3WMsRFVq3HGAvwtQ-OeYiQonhFI4_AlpVvNdOijkDw>
+ <xmx:2l9HYDc2i6JIfYHpMRKCXt-rxdlWdoph-N2DcL3DFh7qZeMTQVGM5g>
+ <xmx:2l9HYFvOdPOmBXuf5c379eaUrlujRBEw2f7iJtykP8z47DrlKYmdGQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 59825240054;
- Tue,  9 Mar 2021 06:45:27 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C6B3824005A;
+ Tue,  9 Mar 2021 06:45:28 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 08/38] hw/block/nvme: refactor zone resource management
-Date: Tue,  9 Mar 2021 12:44:42 +0100
-Message-Id: <20210309114512.536489-9-its@irrelevant.dk>
+Subject: [PULL v2 09/38] hw/block/nvme: pull write pointer advancement to
+ separate function
+Date: Tue,  9 Mar 2021 12:44:43 +0100
+Message-Id: <20210309114512.536489-10-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
 References: <20210309114512.536489-1-its@irrelevant.dk>
@@ -102,313 +103,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Zone transition handling and resource management is open coded (and
-semi-duplicated in the case of open, close and finish).
-
-In preparation for Simple Copy command support (which also needs to open
-zones for writing), consolidate into a set of 'nvme_zrm' functions and
-in the process fix a bug with the controller not closing an open zone to
-allow another zone to be explicitly opened.
+In preparation for Simple Copy, pull write pointer advancement into a
+separate function that is independent off an NvmeRequest.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 220 +++++++++++++++++++++++-------------------------
- 1 file changed, 103 insertions(+), 117 deletions(-)
+ hw/block/nvme.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f39be1961e04..7897390b6d74 100644
+index 7897390b6d74..44129f8e8bb8 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1292,7 +1292,46 @@ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
-     return status;
+@@ -1407,6 +1407,16 @@ static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
+     return __nvme_zrm_open(ns, zone, false);
  }
  
--static void nvme_auto_transition_zone(NvmeNamespace *ns)
-+static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
++static void __nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
++                                   uint32_t nlb)
 +{
-+    switch (nvme_get_zone_state(zone)) {
-+    case NVME_ZONE_STATE_FULL:
-+        return NVME_SUCCESS;
++    zone->d.wp += nlb;
 +
-+    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-+    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-+        nvme_aor_dec_open(ns);
-+        /* fallthrough */
-+    case NVME_ZONE_STATE_CLOSED:
-+        nvme_aor_dec_active(ns);
-+        /* fallthrough */
-+    case NVME_ZONE_STATE_EMPTY:
-+        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_FULL);
-+        return NVME_SUCCESS;
-+
-+    default:
-+        return NVME_ZONE_INVAL_TRANSITION;
++    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
++        nvme_zrm_finish(ns, zone);
 +    }
 +}
 +
-+static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
-+{
-+    switch (nvme_get_zone_state(zone)) {
-+    case NVME_ZONE_STATE_CLOSED:
-+        return NVME_SUCCESS;
-+
-+    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-+    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-+        nvme_aor_dec_open(ns);
-+        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-+        /* fall through */
-+
-+    default:
-+        return NVME_ZONE_INVAL_TRANSITION;
-+    }
-+}
-+
-+static void nvme_zrm_auto_transition_zone(NvmeNamespace *ns)
- {
-     NvmeZone *zone;
- 
-@@ -1304,34 +1343,74 @@ static void nvme_auto_transition_zone(NvmeNamespace *ns)
-              * Automatically close this implicitly open zone.
-              */
-             QTAILQ_REMOVE(&ns->imp_open_zones, zone, entry);
--            nvme_aor_dec_open(ns);
--            nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-+            nvme_zrm_close(ns, zone);
-         }
-     }
- }
- 
--static uint16_t nvme_auto_open_zone(NvmeNamespace *ns, NvmeZone *zone)
-+static uint16_t __nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone,
-+                                bool implicit)
- {
--    uint16_t status = NVME_SUCCESS;
--    uint8_t zs = nvme_get_zone_state(zone);
-+    int act = 0;
-+    uint16_t status;
- 
--    if (zs == NVME_ZONE_STATE_EMPTY) {
--        nvme_auto_transition_zone(ns);
--        status = nvme_aor_check(ns, 1, 1);
--    } else if (zs == NVME_ZONE_STATE_CLOSED) {
--        nvme_auto_transition_zone(ns);
--        status = nvme_aor_check(ns, 0, 1);
-+    switch (nvme_get_zone_state(zone)) {
-+    case NVME_ZONE_STATE_EMPTY:
-+        act = 1;
-+
-+        /* fallthrough */
-+
-+    case NVME_ZONE_STATE_CLOSED:
-+        nvme_zrm_auto_transition_zone(ns);
-+        status = nvme_aor_check(ns, act, 1);
-+        if (status) {
-+            return status;
-+        }
-+
-+        if (act) {
-+            nvme_aor_inc_active(ns);
-+        }
-+
-+        nvme_aor_inc_open(ns);
-+
-+        if (implicit) {
-+            nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_IMPLICITLY_OPEN);
-+            return NVME_SUCCESS;
-+        }
-+
-+        /* fallthrough */
-+
-+    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-+        if (implicit) {
-+            return NVME_SUCCESS;
-+        }
-+
-+        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EXPLICITLY_OPEN);
-+
-+        /* fallthrough */
-+
-+    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-+        return NVME_SUCCESS;
-+
-+    default:
-+        return NVME_ZONE_INVAL_TRANSITION;
-     }
--
--    return status;
- }
- 
--static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
--                                      bool failed)
-+static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
-+{
-+    return __nvme_zrm_open(ns, zone, true);
-+}
-+
-+static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
-+{
-+    return __nvme_zrm_open(ns, zone, false);
-+}
-+
-+static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
+ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
  {
      NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-     NvmeZone *zone;
--    NvmeZonedResult *res = (NvmeZonedResult *)&req->cqe;
-     uint64_t slba;
-     uint32_t nlb;
+@@ -1418,11 +1428,7 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
+     nlb = le16_to_cpu(rw->nlb) + 1;
+     zone = nvme_get_zone_by_slba(ns, slba);
  
-@@ -1341,47 +1420,8 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
- 
-     zone->d.wp += nlb;
- 
--    if (failed) {
--        res->slba = 0;
+-    zone->d.wp += nlb;
+-
+-    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
+-        nvme_zrm_finish(ns, zone);
 -    }
--
-     if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
--        switch (nvme_get_zone_state(zone)) {
--        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
--        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
--            nvme_aor_dec_open(ns);
--            /* fall through */
--        case NVME_ZONE_STATE_CLOSED:
--            nvme_aor_dec_active(ns);
--            /* fall through */
--        case NVME_ZONE_STATE_EMPTY:
--            nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_FULL);
--            /* fall through */
--        case NVME_ZONE_STATE_FULL:
--            break;
--        default:
--            assert(false);
--        }
--    }
--}
--
--static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
--                                 uint32_t nlb)
--{
--    uint8_t zs;
--
--    zone->w_ptr += nlb;
--
--    if (zone->w_ptr < nvme_zone_wr_boundary(zone)) {
--        zs = nvme_get_zone_state(zone);
--        switch (zs) {
--        case NVME_ZONE_STATE_EMPTY:
--            nvme_aor_inc_active(ns);
--            /* fall through */
--        case NVME_ZONE_STATE_CLOSED:
--            nvme_aor_inc_open(ns);
--            nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_IMPLICITLY_OPEN);
--        }
-+        nvme_zrm_finish(ns, zone);
-     }
++    __nvme_advance_zone_wp(ns, zone, nlb);
  }
  
-@@ -1406,7 +1446,7 @@ static void nvme_rw_cb(void *opaque, int ret)
-     trace_pci_nvme_rw_cb(nvme_cid(req), blk_name(blk));
- 
-     if (ns->params.zoned && nvme_is_write(req)) {
--        nvme_finalize_zoned_write(ns, req, ret != 0);
-+        nvme_finalize_zoned_write(ns, req);
-     }
- 
-     if (!ret) {
-@@ -1782,12 +1822,12 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-             goto invalid;
-         }
- 
--        status = nvme_auto_open_zone(ns, zone);
-+        status = nvme_zrm_auto(ns, zone);
-         if (status) {
-             goto invalid;
-         }
- 
--        nvme_advance_zone_wp(ns, zone, nlb);
-+        zone->w_ptr += nlb;
-     }
- 
-     data_offset = nvme_l2b(ns, slba);
-@@ -1873,73 +1913,19 @@ enum NvmeZoneProcessingMask {
- static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                NvmeZoneState state, NvmeRequest *req)
- {
--    uint16_t status;
--
--    switch (state) {
--    case NVME_ZONE_STATE_EMPTY:
--        status = nvme_aor_check(ns, 1, 0);
--        if (status) {
--            return status;
--        }
--        nvme_aor_inc_active(ns);
--        /* fall through */
--    case NVME_ZONE_STATE_CLOSED:
--        status = nvme_aor_check(ns, 0, 1);
--        if (status) {
--            if (state == NVME_ZONE_STATE_EMPTY) {
--                nvme_aor_dec_active(ns);
--            }
--            return status;
--        }
--        nvme_aor_inc_open(ns);
--        /* fall through */
--    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
--        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EXPLICITLY_OPEN);
--        /* fall through */
--    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
--        return NVME_SUCCESS;
--    default:
--        return NVME_ZONE_INVAL_TRANSITION;
--    }
-+    return nvme_zrm_open(ns, zone);
- }
- 
- static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                 NvmeZoneState state, NvmeRequest *req)
- {
--    switch (state) {
--    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
--    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
--        nvme_aor_dec_open(ns);
--        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
--        /* fall through */
--    case NVME_ZONE_STATE_CLOSED:
--        return NVME_SUCCESS;
--    default:
--        return NVME_ZONE_INVAL_TRANSITION;
--    }
-+    return nvme_zrm_close(ns, zone);
- }
- 
- static uint16_t nvme_finish_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                  NvmeZoneState state, NvmeRequest *req)
- {
--    switch (state) {
--    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
--    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
--        nvme_aor_dec_open(ns);
--        /* fall through */
--    case NVME_ZONE_STATE_CLOSED:
--        nvme_aor_dec_active(ns);
--        /* fall through */
--    case NVME_ZONE_STATE_EMPTY:
--        zone->w_ptr = nvme_zone_wr_boundary(zone);
--        zone->d.wp = zone->w_ptr;
--        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_FULL);
--        /* fall through */
--    case NVME_ZONE_STATE_FULL:
--        return NVME_SUCCESS;
--    default:
--        return NVME_ZONE_INVAL_TRANSITION;
--    }
-+    return nvme_zrm_finish(ns, zone);
- }
- 
- static uint16_t nvme_reset_zone(NvmeNamespace *ns, NvmeZone *zone,
+ static inline bool nvme_is_write(NvmeRequest *req)
 -- 
 2.30.1
 
