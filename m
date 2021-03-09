@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4492A33301B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:41:01 +0100 (CET)
-Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D7E33304D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:52:39 +0100 (CET)
+Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJj9z-0007XW-BU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:40:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1lJjLK-0005ZE-5t
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:52:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJijC-0001cQ-Jl
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:13:20 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57014)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJilT-0004Q8-Tw
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:15:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:53225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJij8-0002Rm-27
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:13:14 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1A6877456B7;
- Tue,  9 Mar 2021 21:13:07 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DFEF07456B4; Tue,  9 Mar 2021 21:13:06 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DE4B07456E3;
- Tue,  9 Mar 2021 21:13:06 +0100 (CET)
-Date: Tue, 9 Mar 2021 21:13:06 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/3] hw/usb: Extract VT82C686 UHCI PCI function into a
- new unit
-In-Reply-To: <20210309190802.830969-4-f4bug@amsat.org>
-Message-ID: <4ffa2641-2b53-467-337d-38926c02b4b@eik.bme.hu>
-References: <20210309190802.830969-1-f4bug@amsat.org>
- <20210309190802.830969-4-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJilR-0003RZ-O7
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:15:35 -0500
+Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MQ5nK-1l6R3x0SrA-00M1qh; Tue, 09 Mar 2021 21:15:13 +0100
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <336b0ebf-bf70-5798-9118-5229963824d5@vivier.eu>
+Date: Tue, 9 Mar 2021 21:15:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2086724762-1615320786=:45902"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+In-Reply-To: <20210222105004.1642234-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XEBxR8vETQeDyAsjxRYwgPHdAMC4ihEE2YO9nym6bi6c1r+bgQY
+ hz08BxkiS/zjxsWdU/OTjXDfO/Cf6ucRQVPJSsF1m7BcaMLN1PODjLNsNjEBZUCDEbLFccN
+ O1Y010OC6PyyQ5DgKRg6j3a4r9XzDD69B7iCKPTZGn6CbbSdFaLLelquwIzx9y5L69r/UnO
+ IuV/iDLt282AtAU37nZfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PBEXGZk7G70=:Tu7Q76/xDJ2nEvmKUK0wnS
+ aHE1DY66Fd8P55vJEz7cC9mBaMq8GcoePJEtQQT3QJrZ3/gaH7iN/2rxAT+13UGX2FMsCBCgX
+ i3r+1yf+jG/3nhK8F7DY+6uwSxbZyt4JmXuLns5FFF7FzKtEpU6yQzRZoKBSmeeW9ezose6LK
+ XHiGu3GU7h/OP+qZCLJO3JEebkj81CzgDxGVFe2BDLIkjLQ7yIxK1XwTmJYa4O+SGqgHpg5HC
+ RibtveCfQqhUoW5GyyuZ5rWZN8TU87EZsxogmCiltBIBcvR+wfsq7Hsacl+TD+ngQKFPYo6U/
+ bbE/9LM29c4IC2xt/h8/o6mqkPWNb0qsiBQyHbdBAcrzyq2DkUVD+L/GoTYFRcdMjmWw3VTw+
+ rDzDDO30swO1z5s2arcER9DdxqTnT17RDVQJ/lLhcUO0398oNl/zZj9ZhkQgQ3C6NTycB61EM
+ hDHyrqj0ig==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,162 +65,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Helge Deller <deller@gmx.de>, Michael Tokarev <mjt@tls.msk.ru>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-2086724762-1615320786=:45902
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
-> Extract the VT82C686 PCI UHCI function into a new unit so
-> it is only build when the VT82C686 south bridge is selected.
-
-I'm not sure it's worth separating just this one device from the other 
-similar usb devices when the others that are also part of south bridge 
-chips are left there. Maybe you could just set user_creatable = false so 
-it can only be created as part of the chips that contain it or just don't 
-bother and leave it as it is which is the least likely to break anything 
-that may rely on it as removing it from the device list may need to go 
-through deprecation.
-
-But I don't really mind, so if others like this approach I don't want to 
-block the patch. I think it's unlikely anybody would use this device other 
-than part of fuloong2e or pegasos2 so probably it's unlikely to break 
-anything if it suddenly goes away from a new build.
-
-Regards,
-BALATON Zoltan
-
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Le 22/02/2021 à 11:50, Laurent Vivier a écrit :
+> Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
+> flag.
+> 
+> This patch allows to use new flag in AT_FLAGS to detect if
+> preserve-argv0 is configured for this interpreter:
+> argv[0] (the full pathname provided by binfmt-misc) is removed and
+> replaced by argv[1] (the original argv[0] provided by binfmt-misc when
+> 'P'/preserve-arg[0] is set)
+> 
+> For instance with this patch and kernel support for AT_FLAGS:
+> 
+>   $ sudo chroot m68k-chroot sh -c 'echo $0'
+>   sh
+> 
+> without this patch:
+> 
+>   $ sudo chroot m68k-chroot sh -c 'echo $0'
+>   /usr/bin/sh
+> 
+> The new flag is available in kernel (v5.12) since:
+> 2347961b11d4 ("binfmt_misc: pass binfmt_misc flags to the interpreter")
+> 
+> This can be tested with something like:
+> 
+>   # cp ..../qemu-ppc /chroot/powerpc/jessie
+> 
+>   # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
+>                         --persistent no --preserve-argv0 yes
+>   # systemctl restart systemd-binfmt.service
+>   # cat /proc/sys/fs/binfmt_misc/qemu-ppc
+>   enabled
+>   interpreter //qemu-ppc
+>   flags: POC
+>   offset 0
+>   magic 7f454c4601020100000000000000000000020014
+>   mask ffffffffffffff00fffffffffffffffffffeffff
+>   # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
+>   sh
+> 
+>   # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
+>                         --persistent no --preserve-argv0 no
+>   # systemctl restart systemd-binfmt.service
+>   # cat /proc/sys/fs/binfmt_misc/qemu-ppc
+>   enabled
+>   interpreter //qemu-ppc
+>   flags: OC
+>   offset 0
+>   magic 7f454c4601020100000000000000000000020014
+>   mask ffffffffffffff00fffffffffffffffffffeffff
+>   # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
+>   /bin/sh
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
-> hw/usb/hcd-uhci.c          | 23 --------------------
-> hw/usb/vt82c686-uhci-pci.c | 43 ++++++++++++++++++++++++++++++++++++++
-> MAINTAINERS                |  1 +
-> hw/usb/meson.build         |  1 +
-> 4 files changed, 45 insertions(+), 23 deletions(-)
-> create mode 100644 hw/usb/vt82c686-uhci-pci.c
->
-> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-> index d6338c33d86..0cb02a64321 100644
-> --- a/hw/usb/hcd-uhci.c
-> +++ b/hw/usb/hcd-uhci.c
-> @@ -1207,21 +1207,6 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
->     pci_register_bar(&s->dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &s->io_bar);
-> }
->
-> -static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-> -{
-> -    UHCIState *s = UHCI(dev);
-> -    uint8_t *pci_conf = s->dev.config;
-> -
-> -    /* USB misc control 1/2 */
-> -    pci_set_long(pci_conf + 0x40,0x00001000);
-> -    /* PM capability */
-> -    pci_set_long(pci_conf + 0x80,0x00020001);
-> -    /* USB legacy support  */
-> -    pci_set_long(pci_conf + 0xc0,0x00002000);
-> -
-> -    usb_uhci_common_realize(dev, errp);
-> -}
-> -
-> static void usb_uhci_exit(PCIDevice *dev)
-> {
->     UHCIState *s = UHCI(dev);
-> @@ -1318,14 +1303,6 @@ static UHCIInfo uhci_info[] = {
->         .revision  = 0x01,
->         .irq_pin   = 3,
->         .unplug    = true,
-> -    },{
-> -        .name      = "vt82c686b-usb-uhci",
-> -        .vendor_id = PCI_VENDOR_ID_VIA,
-> -        .device_id = PCI_DEVICE_ID_VIA_UHCI,
-> -        .revision  = 0x01,
-> -        .irq_pin   = 3,
-> -        .realize   = usb_uhci_vt82c686b_realize,
-> -        .unplug    = true,
->     },{
->         .name      = "ich9-usb-uhci1", /* 00:1d.0 */
->         .vendor_id = PCI_VENDOR_ID_INTEL,
-> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-> new file mode 100644
-> index 00000000000..b109c216033
-> --- /dev/null
-> +++ b/hw/usb/vt82c686-uhci-pci.c
-> @@ -0,0 +1,43 @@
-> +#include "qemu/osdep.h"
-> +#include "hcd-uhci.h"
+>  linux-user/main.c           | 24 ++++++++++++++++++++
+>  scripts/qemu-binfmt-conf.sh | 44 +++++++++++++++++++++++--------------
+>  2 files changed, 51 insertions(+), 17 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 81f48ff54ed4..b9015a5dbd3e 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -26,6 +26,7 @@
+>  #include <sys/syscall.h>
+>  #include <sys/resource.h>
+>  #include <sys/shm.h>
+> +#include <linux/binfmts.h>
+>  
+>  #include "qapi/error.h"
+>  #include "qemu.h"
+> @@ -49,6 +50,11 @@
+>  #include "cpu_loop-common.h"
+>  #include "crypto/init.h"
+>  
+> +#ifndef AT_FLAGS_PRESERVE_ARGV0
+> +#define AT_FLAGS_PRESERVE_ARGV0_BIT 0
+> +#define AT_FLAGS_PRESERVE_ARGV0 (1 << AT_FLAGS_PRESERVE_ARGV0_BIT)
+> +#endif
 > +
-> +static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-> +{
-> +    UHCIState *s = UHCI(dev);
-> +    uint8_t *pci_conf = s->dev.config;
+>  char *exec_path;
+>  
+>  int singlestep;
+> @@ -631,6 +637,7 @@ int main(int argc, char **argv, char **envp)
+>      int execfd;
+>      int log_mask;
+>      unsigned long max_reserved_va;
+> +    bool preserve_argv0;
+>  
+>      error_init(argv[0]);
+>      module_call_init(MODULE_INIT_TRACE);
+> @@ -687,6 +694,9 @@ int main(int argc, char **argv, char **envp)
+>  
+>      init_qemu_uname_release();
+>  
+> +    /*
+> +     * Manage binfmt-misc open-binary flag
+> +     */
+>      execfd = qemu_getauxval(AT_EXECFD);
+>      if (execfd == 0) {
+>          execfd = open(exec_path, O_RDONLY);
+> @@ -696,6 +706,20 @@ int main(int argc, char **argv, char **envp)
+>          }
+>      }
+>  
+> +    /*
+> +     * get binfmt_misc flags
+> +     */
+> +    preserve_argv0 = !!(qemu_getauxval(AT_FLAGS) & AT_FLAGS_PRESERVE_ARGV0);
 > +
-> +    /* USB misc control 1/2 */
-> +    pci_set_long(pci_conf + 0x40, 0x00001000);
-> +    /* PM capability */
-> +    pci_set_long(pci_conf + 0x80, 0x00020001);
-> +    /* USB legacy support  */
-> +    pci_set_long(pci_conf + 0xc0, 0x00002000);
-> +
-> +    usb_uhci_common_realize(dev, errp);
-> +}
-> +
-> +static UHCIInfo uhci_info[] = {
-> +    {
-> +        .name      = "vt82c686b-usb-uhci",
-> +        .vendor_id = PCI_VENDOR_ID_VIA,
-> +        .device_id = PCI_DEVICE_ID_VIA_UHCI,
-> +        .revision  = 0x01,
-> +        .irq_pin   = 3,
-> +        .realize   = usb_uhci_vt82c686b_realize,
-> +        .unplug    = true,
+> +    /*
+> +     * Manage binfmt-misc preserve-arg[0] flag
+> +     *    argv[optind]     full path to the binary
+> +     *    argv[optind + 1] original argv[0]
+> +     */
+> +    if (optind + 1 < argc && preserve_argv0) {
+> +        optind++;
 > +    }
-> +};
 > +
-> +static const TypeInfo vt82c686b_usb_uhci_type_info = {
-> +    .parent         = TYPE_UHCI,
-> +    .name           = "vt82c686b-usb-uhci",
-> +    .class_init     = uhci_data_class_init,
-> +    .class_data     = uhci_info,
-> +};
-> +
-> +static void vt82c686b_usb_uhci_register_types(void)
-> +{
-> +    type_register_static(&vt82c686b_usb_uhci_type_info);
-> +}
-> +
-> +type_init(vt82c686b_usb_uhci_register_types)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f22d83c1782..6fd55c0a40c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1173,6 +1173,7 @@ S: Odd Fixes
-> F: hw/mips/fuloong2e.c
-> F: hw/isa/vt82c686.c
-> F: hw/pci-host/bonito.c
-> +F: hw/usb/vt82c686-uhci-pci.c
-> F: include/hw/isa/vt82c686.h
->
-> Loongson-3 virtual platforms
-> diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-> index 653192cff6f..6e3159798e9 100644
-> --- a/hw/usb/meson.build
-> +++ b/hw/usb/meson.build
-> @@ -32,6 +32,7 @@
-> softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
-> softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
-> softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
-> +softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('vt82c686-uhci-pci.c'))
-> specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
-> specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
->
->
---3866299591-2086724762-1615320786=:45902--
+>      if (cpu_model == NULL) {
+>          cpu_model = cpu_get_model(get_elf_eflags(execfd));
+>      }
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index 7b5d54b88741..573b5dc6acd7 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -178,25 +178,27 @@ usage() {
+>  Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
+>                             [--help][--credential yes|no][--exportdir PATH]
+>                             [--persistent yes|no][--qemu-suffix SUFFIX]
+> +                           [--preserve-argv0 yes|no]
+>  
+>         Configure binfmt_misc to use qemu interpreter
+>  
+> -       --help:        display this usage
+> -       --qemu-path:   set path to qemu interpreter ($QEMU_PATH)
+> -       --qemu-suffix: add a suffix to the default interpreter name
+> -       --debian:      don't write into /proc,
+> -                      instead generate update-binfmts templates
+> -       --systemd:     don't write into /proc,
+> -                      instead generate file for systemd-binfmt.service
+> -                      for the given CPU. If CPU is "ALL", generate a
+> -                      file for all known cpus
+> -       --exportdir:   define where to write configuration files
+> -                      (default: $SYSTEMDDIR or $DEBIANDIR)
+> -       --credential:  if yes, credential and security tokens are
+> -                      calculated according to the binary to interpret
+> -       --persistent:  if yes, the interpreter is loaded when binfmt is
+> -                      configured and remains in memory. All future uses
+> -                      are cloned from the open file.
+> +       --help:          display this usage
+> +       --qemu-path:     set path to qemu interpreter ($QEMU_PATH)
+> +       --qemu-suffix:   add a suffix to the default interpreter name
+> +       --debian:        don't write into /proc,
+> +                        instead generate update-binfmts templates
+> +       --systemd:       don't write into /proc,
+> +                        instead generate file for systemd-binfmt.service
+> +                        for the given CPU. If CPU is "ALL", generate a
+> +                        file for all known cpus
+> +       --exportdir:     define where to write configuration files
+> +                        (default: $SYSTEMDDIR or $DEBIANDIR)
+> +       --credential:    if yes, credential and security tokens are
+> +                        calculated according to the binary to interpret
+> +       --persistent:    if yes, the interpreter is loaded when binfmt is
+> +                        configured and remains in memory. All future uses
+> +                        are cloned from the open file.
+> +       --preserve-argv0 preserve argv[0]
+>  
+>      To import templates with update-binfmts, use :
+>  
+> @@ -269,6 +271,9 @@ qemu_generate_register() {
+>      if [ "$PERSISTENT" = "yes" ] ; then
+>          flags="${flags}F"
+>      fi
+> +    if [ "$PRESERVE_ARG0" = "yes" ] ; then
+> +        flags="${flags}P"
+> +    fi
+>  
+>      echo ":qemu-$cpu:M::$magic:$mask:$qemu:$flags"
+>  }
+> @@ -330,9 +335,10 @@ DEBIANDIR="/usr/share/binfmts"
+>  QEMU_PATH=/usr/local/bin
+>  CREDENTIAL=no
+>  PERSISTENT=no
+> +PRESERVE_ARG0=no
+>  QEMU_SUFFIX=""
+>  
+> -options=$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent: -- "$@")
+> +options=$(getopt -o ds:Q:S:e:hc:p:g: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
+>  eval set -- "$options"
+>  
+>  while true ; do
+> @@ -388,6 +394,10 @@ while true ; do
+>          shift
+>          PERSISTENT="$1"
+>          ;;
+> +    -g|--preserve-argv0)
+> +        shift
+> +        PRESERVE_ARG0="$1"
+> +        ;;
+>      *)
+>          break
+>          ;;
+> 
+
+Applied to my linux-user-for-6.0 branch.
+
+Thanks,
+Laurent
+
 
