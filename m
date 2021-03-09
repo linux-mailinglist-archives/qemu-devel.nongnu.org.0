@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E116332AF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:48:03 +0100 (CET)
-Received: from localhost ([::1]:37738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3598A332AD7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:45:22 +0100 (CET)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeaY-0006HM-J4
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:48:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50422)
+	id 1lJeXx-0003PP-8F
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:45:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdos-00063c-02
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:46 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:45854)
+ id 1lJdow-0006BZ-P9
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:50 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:47019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdoq-0002yG-AC
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:45 -0500
-Received: by mail-ed1-x536.google.com with SMTP id dm26so20651542edb.12
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:58:43 -0800 (PST)
+ id 1lJdov-00031H-AD
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:50 -0500
+Received: by mail-ed1-x532.google.com with SMTP id w9so20633120edt.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:58:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=y78UYhzpjwwqyIkKdZskzp+sDvMwTfmnMMTxyxcUqTQ=;
- b=nmv7vBPk25/FIE3RQwb38P+mL2oTue9Z/aRq236XaEdpff0zBEIb6b40lB7KZ2E2E1
- CGEZm02xS0Ys4hh17VibVANImElOHitohM5QyHSWQB434UXMsk5Bo5+DASazXm8TjX2/
- y2+qUedMdybuoa2lnc5yTKMg4mF83vABav1w0YzCxFBbxOJm0cfmsMFAxjkBw6HPuWDI
- 2cwpAIAUSteYk3228bcAdBN4dLKvLn1XoMZbGXfwqCt8MhtJ8o5by6I2/sDZsMPjJlUk
- 6f8h3MJ3HN06A2sT5rsJLvFD6LEV8yN2MRIKywLISm7cPQRYHnOZ4O36ZHMb6cFL9t9l
- CWSw==
+ bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
+ b=WMgFyNRI8F55jyD5CEONfpd5j2lKSzvGxrBtoOOeSsD4pdbHnwf0P6TCVo5KTsUCfI
+ Atj7pm9MXY2FFk0XP8onKVt7isdUjE4/KirtBH65TslU2wUhv9yYTWkniTK9WZcBDdqY
+ iKK0afIJOq4f0TtVlL4W4r/kFwSNbZCm95Vfmmut0itIDcoX8zaczBaxy4+ENDocXZDY
+ JpDdxo3DBIryERgv3KE10wZPPUoFs8VrHnO4MC1qkAPxKBSYn2FzO+AYVmqtoUzrOb5l
+ nwJ97UGhSMExOTZN6L1oHG27v6s96q8JXJ17NE2kIUuZhjE+st17Fb89zB95mpFl+FO0
+ iWtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=y78UYhzpjwwqyIkKdZskzp+sDvMwTfmnMMTxyxcUqTQ=;
- b=eP+8M5GeQHa9DrEC46x2UlhkLMNsX2nxtOZqiWg5YCs52IdFsye9HZF50junCsKMgZ
- TnqKcxiPxgIFmVWuC0Hm6k1LI2qbb28CRoJ/vVTtQhJxPYm4tlOx/C5sa4bmd2Wo7z4F
- 28wqyUal8NtmnKm9KXlbJGgQDsLxDFcvqa9KT4P35vFfS1ZM3xLcI/JikUGLZy4F2OC9
- Ii0U488k6wS6LvVLpqICbjVbISJi/Q2Q24tby3de2S/Upw4YvDDt+8iYZxAU6xV98KUK
- 11DrK+/aNahdPd7+mf+VlyC6IQQE9n1SEAqvuVptp6oYHUbURWMoFIu9NpDimZrgBzIA
- JXtw==
-X-Gm-Message-State: AOAM531/Rjv4/OiJFJ2eb0HY/XuUcItNFPghiJnRytIwloS7yXS5NgXV
- 5XlDX8t4BVoJEoQwsiuZYhU20vt4Qp8=
-X-Google-Smtp-Source: ABdhPJxFU24/zE7Oa6xcLXJkxjK1TuIXdvwz96wPl0C9lHXBjRfDcqP5+3ohxRFKm9aRuv68e5EL4A==
-X-Received: by 2002:aa7:d4d2:: with SMTP id t18mr4572526edr.342.1615301922732; 
- Tue, 09 Mar 2021 06:58:42 -0800 (PST)
+ bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
+ b=cmvWUdAAt4DF/HQC1C/15RBGAAIjDDrqMtJgPbNogUdmOFA2mgycdGVXj9SzeXEeIG
+ pmdwsgD6c/WOFjy9yFn+2Q/2rvWPWTbSucJwzzzX2DmGYQtTL6GhzkhJEC8r0Jh8kiLn
+ g6oDaiFSbiZ5Fts+Af4GgOI/PgS8cJKLsj/rulzt1D9G/xT3fQzx8c9CwCOLSydgohP0
+ NzUJkZkgY9navT9erO0Tt5zFbDtkihfP+tp2BEiZEh/V55edKRf+gWMx0WosvFf66i73
+ qQ1bTKFt+QtPbTAo4CyZ1E9uReIKSwLNhD0ebbDusiwwG1Jdxe5TcmFHNm9MydK50dpG
+ gTvA==
+X-Gm-Message-State: AOAM530KqXrBE/M2w67YTg2j/vUqBawHlXslR6h+h5JM8ysKUdV1XWB1
+ 4sTfa7nmphxDZb8eGcFgZi9EoGnv05w=
+X-Google-Smtp-Source: ABdhPJxRAoG07U3axtmUjYethmyf7yWtTSVEMr2VIG0GMeTEq+3awAlntFDuLQlk600XueskmvzRJA==
+X-Received: by 2002:aa7:df84:: with SMTP id b4mr4516787edy.240.1615301927879; 
+ Tue, 09 Mar 2021 06:58:47 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s13sm9551481edr.86.2021.03.09.06.58.41
+ by smtp.gmail.com with ESMTPSA id s9sm3182962edd.16.2021.03.09.06.58.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:58:42 -0800 (PST)
+ Tue, 09 Mar 2021 06:58:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 21/22] target/mips/tx79: Move RDHWR usermode kludge to
- trans_SQ()
-Date: Tue,  9 Mar 2021 15:56:52 +0100
-Message-Id: <20210309145653.743937-22-f4bug@amsat.org>
+Subject: [RFC PATCH v2 22/22] target/mips: Reintroduce the R5900 CPU
+Date: Tue,  9 Mar 2021 15:56:53 +0100
+Message-Id: <20210309145653.743937-23-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309145653.743937-1-f4bug@amsat.org>
 References: <20210309145653.743937-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,155 +93,93 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than SQ is properly implemented, we can move the RDHWR
-kludge required to have usermode working with recent glibc.
+Now that we have the minimum prerequisites to support the
+R5900 CPU, we can reintroduce it.
+
+While we are reverting commit 823f2897bdd ("Disable R5900
+support"), we effectively cherry-pick commit ed4f49ba9bb
+("target/mips: Define the R5900 CPU").
+
+This reverts commit 823f2897bdd78185f3ba33292a25105ba8bad1b5.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210214175912.732946-31-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: { RDHWR_user } (rth)
----
- target/mips/tx79.decode      |  5 +++-
- target/mips/translate.c      | 56 ------------------------------------
- target/mips/tx79_translate.c | 31 ++++++++++++++++++++
- 3 files changed, 35 insertions(+), 57 deletions(-)
+ target/mips/cpu-defs.c.inc | 59 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index f1cb7ebfa3c..4e8acb7ab9a 100644
---- a/target/mips/tx79.decode
-+++ b/target/mips/tx79.decode
-@@ -73,4 +73,7 @@ PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
- # SPECIAL
- 
- LQ              011110 ..... ..... ................     @ldst
--SQ              011111 ..... ..... ................     @ldst
-+{
-+  RDHWR_user    011111 00000 ..... ..... 00000 111011   @rt_rd
-+  SQ            011111 ..... ..... ................     @ldst
-+}
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 0d20a0e3b84..b01022a6ad7 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -1167,7 +1167,6 @@ enum {
- 
- enum {
-     MMI_OPC_CLASS_MMI = 0x1C << 26,    /* Same as OPC_SPECIAL2 */
--    MMI_OPC_SQ        = 0x1F << 26,    /* Same as OPC_SPECIAL3 */
- };
- 
- /*
-@@ -24428,53 +24427,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
--static void gen_mmi_sq(DisasContext *ctx, int base, int rt, int offset)
--{
--    gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_SQ */
--}
--
--/*
-- * The TX79-specific instruction Store Quadword
-- *
-- * +--------+-------+-------+------------------------+
-- * | 011111 |  base |   rt  |           offset       | SQ
-- * +--------+-------+-------+------------------------+
-- *      6       5       5                 16
-- *
-- * has the same opcode as the Read Hardware Register instruction
-- *
-- * +--------+-------+-------+-------+-------+--------+
-- * | 011111 | 00000 |   rt  |   rd  | 00000 | 111011 | RDHWR
-- * +--------+-------+-------+-------+-------+--------+
-- *      6       5       5       5       5        6
-- *
-- * that is required, trapped and emulated by the Linux kernel. However, all
-- * RDHWR encodings yield address error exceptions on the TX79 since the SQ
-- * offset is odd. Therefore all valid SQ instructions can execute normally.
-- * In user mode, QEMU must verify the upper and lower 11 bits to distinguish
-- * between SQ and RDHWR, as the Linux kernel does.
-- */
--static void decode_mmi_sq(CPUMIPSState *env, DisasContext *ctx)
--{
--    int base = extract32(ctx->opcode, 21, 5);
--    int rt = extract32(ctx->opcode, 16, 5);
--    int offset = extract32(ctx->opcode, 0, 16);
--
--#ifdef CONFIG_USER_ONLY
--    uint32_t op1 = MASK_SPECIAL3(ctx->opcode);
--    uint32_t op2 = extract32(ctx->opcode, 6, 5);
--
--    if (base == 0 && op2 == 0 && op1 == OPC_RDHWR) {
--        int rd = extract32(ctx->opcode, 11, 5);
--
--        gen_rdhwr(ctx, rt, rd, 0);
--        return;
--    }
--#endif
--
--    gen_mmi_sq(ctx, base, rt, offset);
--}
--
- #endif
- 
- static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-@@ -24664,15 +24616,7 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
-         decode_opc_special2_legacy(env, ctx);
-         break;
-     case OPC_SPECIAL3:
--#if defined(TARGET_MIPS64)
--        if (ctx->insn_flags & INSN_R5900) {
--            decode_mmi_sq(env, ctx);    /* MMI_OPC_SQ */
--        } else {
--            decode_opc_special3(env, ctx);
--        }
--#else
-         decode_opc_special3(env, ctx);
--#endif
-         break;
-     case OPC_REGIMM:
-         op1 = MASK_REGIMM(ctx->opcode);
-diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index e32c6218852..5e69783420a 100644
---- a/target/mips/tx79_translate.c
-+++ b/target/mips/tx79_translate.c
-@@ -396,6 +396,37 @@ static bool trans_SQ(DisasContext *ctx, arg_itype *a)
-     return true;
- }
- 
-+/*
-+ * The TX79-specific instruction Store Quadword
-+ *
-+ * +--------+-------+-------+------------------------+
-+ * | 011111 |  base |   rt  |           offset       | SQ
-+ * +--------+-------+-------+------------------------+
-+ *      6       5       5                 16
-+ *
-+ * has the same opcode as the Read Hardware Register instruction
-+ *
-+ * +--------+-------+-------+-------+-------+--------+
-+ * | 011111 | 00000 |   rt  |   rd  | 00000 | 111011 | RDHWR
-+ * +--------+-------+-------+-------+-------+--------+
-+ *      6       5       5       5       5        6
-+ *
-+ * that is required, trapped and emulated by the Linux kernel. However, all
-+ * RDHWR encodings yield address error exceptions on the TX79 since the SQ
-+ * offset is odd. Therefore all valid SQ instructions can execute normally.
-+ * In user mode, QEMU must verify the upper and lower 11 bits to distinguish
-+ * between SQ and RDHWR, as the Linux kernel does.
-+ */
-+static bool trans_RDHWR_user(DisasContext *ctx, arg_rtype *a)
-+{
-+#if defined(CONFIG_USER_ONLY)
-+    gen_rdhwr(ctx, a->rt, a->rd, 0);
-+    return true;
+diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+index e03b2a998cd..1a73b5409f0 100644
+--- a/target/mips/cpu-defs.c.inc
++++ b/target/mips/cpu-defs.c.inc
+@@ -411,6 +411,65 @@ const mips_def_t mips_defs[] =
+         .insn_flags = CPU_MIPS32R5,
+         .mmu_type = MMU_TYPE_R4000,
+     },
++    {
++        /*
++         * The Toshiba TX System RISC TX79 Core Architecture manual
++         *
++         * https://wiki.qemu.org/File:C790.pdf
++         *
++         * describes the C790 processor that is a follow-up to the R5900.
++         * There are a few notable differences in that the R5900 FPU
++         *
++         * - is not IEEE 754-1985 compliant,
++         * - does not implement double format, and
++         * - its machine code is nonstandard.
++         */
++        .name = "R5900",
++        .CP0_PRid = 0x00002E00,
++        /* No L2 cache, icache size 32k, dcache size 32k, uncached coherency. */
++        .CP0_Config0 = (0x3 << 9) | (0x3 << 6) | (0x2 << CP0C0_K0),
++        .CP0_Status_rw_bitmask = 0xF4C79C1F,
++#ifdef CONFIG_USER_ONLY
++        /*
++         * R5900 hardware traps to the Linux kernel for IEEE 754-1985 and LL/SC
++         * emulation. For user only, QEMU is the kernel, so we emulate the traps
++         * by simply emulating the instructions directly.
++         *
++         * Note: Config1 is only used internally, the R5900 has only Config0.
++         */
++        .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
++        .CP0_LLAddr_rw_bitmask = 0xFFFFFFFF,
++        .CP0_LLAddr_shift = 4,
++        .CP1_fcr0 = (0x38 << FCR0_PRID) | (0x0 << FCR0_REV),
++        .CP1_fcr31 = 0,
++        .CP1_fcr31_rw_bitmask = 0x0183FFFF,
 +#else
-+    return false;
-+#endif
-+}
-+
- /*
-  *     Multiply and Divide (19 instructions)
-  *     -------------------------------------
++        /*
++         * The R5900 COP1 FPU implements single-precision floating-point
++         * operations but is not entirely IEEE 754-1985 compatible. In
++         * particular,
++         *
++         * - NaN (not a number) and +/- infinities are not supported;
++         * - exception mechanisms are not fully supported;
++         * - denormalized numbers are not supported;
++         * - rounding towards nearest and +/- infinities are not supported;
++         * - computed results usually differs in the least significant bit;
++         * - saturations can differ more than the least significant bit.
++         *
++         * Since only rounding towards zero is supported, the two least
++         * significant bits of FCR31 are hardwired to 01.
++         *
++         * FPU emulation is disabled here until it is implemented.
++         *
++         * Note: Config1 is only used internally, the R5900 has only Config0.
++         */
++        .CP0_Config1 = (47 << CP0C1_MMU),
++#endif /* !CONFIG_USER_ONLY */
++        .SEGBITS = 32,
++        .PABITS = 32,
++        .insn_flags = CPU_MIPS3 | INSN_R5900 | ASE_MMI,
++        .mmu_type = MMU_TYPE_R4000,
++    },
+     {
+         /* A generic CPU supporting MIPS32 Release 6 ISA.
+            FIXME: Support IEEE 754-2008 FP.
 -- 
 2.26.2
 
