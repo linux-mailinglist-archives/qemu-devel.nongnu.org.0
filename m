@@ -2,130 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B22332A69
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:29:01 +0100 (CET)
-Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590B3332A4E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:24:15 +0100 (CET)
+Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeI8-0008QZ-UU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46424)
+	id 1lJeDV-0001WP-K9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:24:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lJdX3-0002i6-MP
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:40:23 -0500
-Received: from mail-eopbgr750092.outbound.protection.outlook.com
- ([40.107.75.92]:60901 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lJdWy-0003d3-5R
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:40:21 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J0I69ax+o6DnosorjwWox6bFAu9FcQYs7YJ9YPVhP3f9i8PRubo+Zzqavk+ecQfE8+sGYbsSKKMJKL8v9blA1ZdjChHrDtP64SiGqiLJFnFvwCknsj2uEwhgPzFqzl9aZBD07G786yVznr+6g7+XMlcUYHYDGeZ8nvZIhqGPzKRm5t+6VJ/x0U2ggneVBRjft3deoJ3IAniUxzwAMCjfRd/94c9RZIouWkV1vqMvHuJ4vg3IRNNHzkyawmcUIU120PR6QwoGFScXT1MT43As1N3QAjaetx1DZ3BdQIDZeuvcaQlZLYOwlKfeZ+8qn7iUvo3zm8LjDJ0zci5TKK0xPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ByH1XVOmLUAlYjS5aH9aKjc9sax1YUkNFXfV5oec/Y=;
- b=obvzMVigmpN+kEOPX5sB7UeY68dwvskkTbw7RYm9ETa+7pp0wVf7bw2wLodQei2OGMAZuIGiJlemztzn6L+vt89dfMOrsXVrCggon0j2DZlwu/rVnx+a8Ss54KTmyxAtqCMxTicwev5mAGUXTBz1heCplx1SYfkPHmc09LhLA6gv7ngPoXsQtqyAEnONHBm7tnEJJUPoi+3pK5xolNANq28D39kjCKq592sixhxujy2xpH4GYFcN8wivhtCzKTPDG1GMUlAuwv0OYSjMeVcuKwmOtccmUGy4OhDNku1+YMl0uJGb2dqsNoVdOxwAjqT7lkn0n46zhDbnPt57p0gdOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ByH1XVOmLUAlYjS5aH9aKjc9sax1YUkNFXfV5oec/Y=;
- b=uCHX/Tlt7GQO+CqZjb3jOONq8BdGKp29+Qs5wadjc2Yjl045krsA6PoSrN2Up2maZ+O0y78+82VpXin6CPl9uHSjA7vg8EW1gP+yd9JiKFlH2v+quFlQzDgHea7E72PDvQqlPAy50KsELTgQzVT0Bv8fEvZ33zlc0hqSXvvKgf4=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
- SA0PR01MB6473.prod.exchangelabs.com (2603:10b6:806:ec::8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.26; Tue, 9 Mar 2021 14:40:12 +0000
-Received: from SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::c43:8d97:e9e9:6403]) by SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::c43:8d97:e9e9:6403%7]) with mapi id 15.20.3912.027; Tue, 9 Mar 2021
- 14:40:12 +0000
-Date: Tue, 9 Mar 2021 09:40:16 -0500
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- "Emilio G. Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] plugins: Expose physical addresses instead of device
- offsets
-Message-ID: <YEeI0GLdvRFAB+FV@strawberry.localdomain>
-References: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
- <CAFEAcA-x=FPqFMi7=RkPj4sU7nPgqZCnRf4x7k5_e2AcryGJ+A@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-x=FPqFMi7=RkPj4sU7nPgqZCnRf4x7k5_e2AcryGJ+A@mail.gmail.com>
-X-Originating-IP: [68.73.113.219]
-X-ClientProxiedBy: MN2PR05CA0024.namprd05.prod.outlook.com
- (2603:10b6:208:c0::37) To SN6PR01MB4304.prod.exchangelabs.com
- (2603:10b6:805:a6::23)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJdbj-0006i8-4p
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:45:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJdbg-0005dM-Ix
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:45:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615301107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A5iDdX+KeaMWvhAz6I0ypuxm4fXm8JQ0KpuEoyZURuc=;
+ b=iuQJ4DqTsg8aySuQcMz7QqeuE+PdQ/o2jswf5LOx7VlaSEk9BmEnhuMiR1Vfr4zDplRdnp
+ n3zMXGrzrldzEqEvUyE3uf44vu9lvKBSN8G/Tlu4GaEOlP0Ci8hcZhBM08cGnsdxaLX5q/
+ B04a5/4kqKWfOO5bdSv1nGgqmkhIEY0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-toFQWOf-MueAmsfEphVZEQ-1; Tue, 09 Mar 2021 09:45:06 -0500
+X-MC-Unique: toFQWOf-MueAmsfEphVZEQ-1
+Received: by mail-wr1-f70.google.com with SMTP id v13so6530369wrs.21
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:45:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A5iDdX+KeaMWvhAz6I0ypuxm4fXm8JQ0KpuEoyZURuc=;
+ b=gvL7fLsc2sBZ8va0XSwQrFncGOomBlvagI7pKYNLATgI4OHjWLYhUpOktCPPeSAn0j
+ p3K+jsHYoNkSVlEJmL1ZJva41hg1fnkR10i5CD7dIG1gcny4jfAXuJpuE7Gsb0BbZPQ4
+ W436b+jzxXVfnoe0hIgENIW2VkJiqjkFsh9EV4vJ+QVtvT++pf8YC0+rrLDu455ka7Nc
+ TX11JVHhGUvdx9woRPB79MZ4YIjFoYjBdIjYU2v3G1ifL8sK1sqrrkT9GWfnM4+cqDty
+ +z1AcqQfxRVnE3TMYijjE1syyv+oyyX1jnsb73oAiA+Th2gPONeC1H4iTh94cAr+zfYr
+ CIxw==
+X-Gm-Message-State: AOAM531zvmjM3+dyAYJluaZR5+sKlKQL6yR1YDfViBQm36lCkUPAN7DE
+ z7UlpdaZM+q6K2Pt1dqmlVzvQv59RADxGEXnFZWmxVP1895euD9FWUosAOsNzz8zCKgJQXvaI4c
+ ZVB23qSXuXvICAIU=
+X-Received: by 2002:a5d:4d8a:: with SMTP id b10mr8809047wru.395.1615301104785; 
+ Tue, 09 Mar 2021 06:45:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz8ObrEfIuht3NBomzy6s+LYO4eIYBEt6ikVd0WT0zNlwoQ+BoA9FyNh0ftHXpI5XJUKkIIOQ==
+X-Received: by 2002:a5d:4d8a:: with SMTP id b10mr8809016wru.395.1615301104501; 
+ Tue, 09 Mar 2021 06:45:04 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t23sm5146812wra.50.2021.03.09.06.45.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 06:45:03 -0800 (PST)
+Subject: Re: [PATCH] usb: Un-deprecate -usbdevice (except for -usbdevice audio
+ which gets removed)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20210309142940.943831-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <75f9eac2-9981-ee1f-b158-5d1136c993c6@redhat.com>
+Date: Tue, 9 Mar 2021 15:45:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from strawberry.localdomain (68.73.113.219) by
- MN2PR05CA0024.namprd05.prod.outlook.com (2603:10b6:208:c0::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.16 via Frontend Transport; Tue, 9 Mar 2021 14:40:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b79a501b-7fa2-4f8f-9e36-08d8e3093ecc
-X-MS-TrafficTypeDiagnostic: SA0PR01MB6473:
-X-Microsoft-Antispam-PRVS: <SA0PR01MB64730ADF770EFB79B11CFA558A929@SA0PR01MB6473.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nb4V1/xYhiLzoR1dUuXgGyidYUMfa7vRU50Ws1mvucAm0JgRNKodR5JwycqOvHv5bxELuDR34ZwHgm+0nR2i24QlTAA2ANdpAKsrUWopZHvplwN3FTiK7hbmHwCC6OVtnxDLdp2Ad0KxesG7pvYfXHHmsgW0xNm2pBsCfVUYNnLHnjpyTHTayZkem7c/+PJ6+NaurERwrpCY8Yg7/TZfk9xKkXTfPUgmntAk5KJy3NR+e0lIKtAIECVkaJ9TpMLzzGPf0kMXoLjpNVXv7yJW3p9THUJ2CXpImlS7+Gvdgh8UD8JN+lNrNhuu8TJeDAm71t6MhmVtrWlBvdKr+FriyPGZDEM/C6l5rVvNa1BFa30zKqVtuouj3YI8tIIrD72voi81Guon3BzULKPpRMa2lKFUxD6lfepeYfrp6uZxvw8hXaU9aKe63d8V+ojJR5iodCDtGU0tlJieDBqShXh/WSIZMx0b9Fa9K0v2ovNpIgwyKFOD+olDZbtUbQwmg15EQMkJIYRzJ85Wj6SebctM6ZZ0aub6aOaiZ4D32dA41nJ/PH3QvLyZl1VZcK+lTq+g
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39850400004)(136003)(346002)(396003)(376002)(5660300002)(26005)(4326008)(316002)(86362001)(186003)(16526019)(9686003)(6916009)(55016002)(6506007)(8936002)(66476007)(8676002)(7696005)(66946007)(83380400001)(52116002)(66556008)(54906003)(956004)(478600001)(2906002)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?b0HkEF6ruXJxRkAMhmqyS1LIIcPmxiaY5iautZqbMsJ62m5Sav086YcllsHK?=
- =?us-ascii?Q?G7/0UKCYXjeaREMtJIC1LRhErhfb9LQpLeU7bCxxPQWHJ9E9wvZTXyHC/R/F?=
- =?us-ascii?Q?DaKCWcVZwtefBA2XueUxgADb1FM7XyfZ5z3sEpjIqHdKBhLeR8OSiXo9s19l?=
- =?us-ascii?Q?P4y8OyrMIdRmP78W3yEfruqnqJkMtWVt9aDGabCVPzmZgfg2U88vwnV3+IMn?=
- =?us-ascii?Q?WJcpvStsHgPsoeMrELsJyRgN6Fn/T9FZJ6hv5my5fEyzp6HWPbuBD3BO8mAS?=
- =?us-ascii?Q?LVqjyYmpk9oV1AZjt2wbx3p5wJ7nWNHJzI8/Qw8WnAobDf3YcILash1VJUCd?=
- =?us-ascii?Q?FoU4ExxD6kqsP7YhwLF01vut+FPPiptHgBtwz8giMBVl0VKtWGx6miK+ST0S?=
- =?us-ascii?Q?h96xs/eNXdFWp3eKrWUKHQFUghz+SQ/m1vnQXaTsHYwz0y4+yMg3OWxpgOwu?=
- =?us-ascii?Q?aBFfhDUYv28e7rMh9Oe4EPL5l+jhJa/+SUJBe1ujSVV+WGg6cNexU9BVx51M?=
- =?us-ascii?Q?TNJn9XvY2itAeQ4dYXf/u4125B1FU72H1iVKZvryPoXtrJOPW2cYPoxyIPlH?=
- =?us-ascii?Q?BE7HaB+x707s93tSBRDWFR2/520JFEZ9ladc43e9YV9c4CaCkF6XpE6X/11V?=
- =?us-ascii?Q?34dWyyFM1mphwXBS7q6RK4TmXGKl3wzMV1kJN+PruSOhswCSA2ozWvgVF6iw?=
- =?us-ascii?Q?G7CWBUvvOoW/c/d3cm772DuAdvldcnFErcwjQohDYiooky/yf5Y+t3FkafHM?=
- =?us-ascii?Q?NQiDWNFU/RY/g42t1d/Uoln/GKZTNEeJdyyI2oi7aCQXK0T8l5XKjBhTuwfr?=
- =?us-ascii?Q?LUAbdBaNI0+j7K9B8pG92BiAyqlrw3j+62YZ0MeGIDYeA+J6jXxikHKePPsl?=
- =?us-ascii?Q?xSFPc/JsZxKO7W+Blh+rm5RsR/hlOsJA/uLmKSWeRH7AaMNjtPvKPj103ED0?=
- =?us-ascii?Q?I6yGAR0s43VU/z76N0bhVYnvmJLTfigNJecTmurEDi/oy26qMSgVZ+MM4r3W?=
- =?us-ascii?Q?Rb78VF+79mNKQm3YG4uJY1yPG5hem8QSElwRcGgRoyjmP6EwuUcVXG0q3llw?=
- =?us-ascii?Q?TKctxh7D6t3ICPlAxLNhoXw+D1QwvCabZIRHbxG9fGRPlJM5wlxE26PrPM4I?=
- =?us-ascii?Q?/ju9iDPNy9A0WK7UUfFHGLNW8uxvCCuWlJX3b+wBShlRvJgwubaFfschWLJc?=
- =?us-ascii?Q?sHnL1j1AHosYmGthgUuk3Y2hkSGExmkinKjLcbLvjneQAfXxNiTTsvgdLoBy?=
- =?us-ascii?Q?e+oJMSfUvHSrmXY0JaPWFyEscYEvz4HQE0l0Nv/qX6gVbCrvlNx4pAzE2Zhp?=
- =?us-ascii?Q?5qw/HKOKwGUgLoTamEGDZWGV?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b79a501b-7fa2-4f8f-9e36-08d8e3093ecc
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 14:40:12.2482 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1nHD3UZY5h/epXlLreW6aC0ZHSf5hclcD4MPSnv42yDLY3c2xr4wFamd6K3w2okzWucOrzwdT35QGKdxtVgNbnY7e8B5aevNZhiGeVff3rc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR01MB6473
-Received-SPF: pass client-ip=40.107.75.92;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM02-BL2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210309142940.943831-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -139,66 +101,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mar 09 10:08, Peter Maydell wrote:
-> On Mon, 8 Mar 2021 at 20:14, Aaron Lindsay <aaron@os.amperecomputing.com> wrote:
-> >
-> > This allows plugins to query for full virtual-to-physical address
-> > translation for a given `qemu_plugin_hwaddr` and stops exposing the
-> > offset within the device itself. As this change breaks the API,
-> > QEMU_PLUGIN_VERSION is incremented.
-> >
-> > Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
-> > ---
+On 09/03/21 15:29, Thomas Huth wrote:
+> When trying to remove the -usbdevice option, there were complaints that
+> "-usbdevice braille" is still a very useful shortcut for some people.
+> Thus we never remove this option. Since it's not such a big burden to
+> keep it around, and it's also convenient in the sense that you don't
+> have to worry to enable a host controller explicitly with this option,
+> we should remove it from he deprecation list again, and rather properly
+> document the possible device for this option instead.
 > 
+> However, there is one exception: "-usbdevice audio" should go away, since
+> audio devices without "audiodev=..." parameter are also on the deprecation
+> list and you cannot use "-usbdevice audio" with "audiodev".
 > 
-> > diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> > index c66507fe8f..2252ecf2f0 100644
-> > --- a/include/qemu/qemu-plugin.h
-> > +++ b/include/qemu/qemu-plugin.h
-> > @@ -47,7 +47,7 @@ typedef uint64_t qemu_plugin_id_t;
-> >
-> >  extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
-> >
-> > -#define QEMU_PLUGIN_VERSION 0
-> > +#define QEMU_PLUGIN_VERSION 1
-> >
-> >  typedef struct {
-> >      /* string describing architecture */
-> > @@ -328,7 +328,7 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-> >   * offset will be into the appropriate block of RAM.
-> >   */
-> >  bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
-> > -uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
-> > +uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+It's missing an addition to docs/system/removed-features.rst for 
+"-usbdevice audio"; otherwise looks good.
+
+By the way, we should add an equivalent of "-nic" for audio devices when 
+removing -soundhw.  Something like "-audio 
+BACKEND[,model=DEVTYPE],ARGS"; it would be equivalent to "-audiodev 
+BACKEND,ARGS,id=audiodev0 -device DEVTYPE" with DEVTYPE, and would 
+instead be processed by the board if DEVTYPE is not specified.
+
+Paolo
+
+> ---
+>   docs/system/deprecated.rst |  9 ---------
+>   hw/usb/dev-audio.c         |  1 -
+>   qemu-options.hx            | 38 ++++++++++++++++++++++++++++++++------
+>   softmmu/vl.c               |  2 --
+>   4 files changed, 32 insertions(+), 18 deletions(-)
 > 
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index cfabe69846..816eb4084f 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -21,15 +21,6 @@ deprecated.
+>   System emulator command line arguments
+>   --------------------------------------
+>   
+> -``-usbdevice`` (since 2.10.0)
+> -'''''''''''''''''''''''''''''
+> -
+> -The ``-usbdevice DEV`` argument is now a synonym for setting
+> -the ``-device usb-DEV`` argument instead. The deprecated syntax
+> -would automatically enable USB support on the machine type.
+> -If using the new syntax, USB support must be explicitly
+> -enabled via the ``-machine usb=on`` argument.
+> -
+>   ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+>   '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>   
+> diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+> index e1486f81e0..f5cb246792 100644
+> --- a/hw/usb/dev-audio.c
+> +++ b/hw/usb/dev-audio.c
+> @@ -1024,7 +1024,6 @@ static const TypeInfo usb_audio_info = {
+>   static void usb_audio_register_types(void)
+>   {
+>       type_register_static(&usb_audio_info);
+> -    usb_legacy_register(TYPE_USB_AUDIO, "audio", NULL);
+>   }
+>   
+>   type_init(usb_audio_register_types)
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 90801286c6..cef8c2da57 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1705,7 +1705,7 @@ ERST
+>   
+>   DEFHEADING()
+>   
+> -DEFHEADING(USB options:)
+> +DEFHEADING(USB convenience options:)
+>   
+>   DEF("usb", 0, QEMU_OPTION_usb,
+>       "-usb            enable on-board USB host controller (if not enabled by default)\n",
+> @@ -1723,9 +1723,31 @@ DEF("usbdevice", HAS_ARG, QEMU_OPTION_usbdevice,
+>       QEMU_ARCH_ALL)
+>   SRST
+>   ``-usbdevice devname``
+> -    Add the USB device devname. Note that this option is deprecated,
+> -    please use ``-device usb-...`` instead. See the chapter about
+> +    Add the USB device devname, and enable an on-board USB controller
+> +    if possible and necessary (just like it can be done via
+> +    ``-machine usb=on``). Note that this option is mainly intended for
+> +    the user's convenience only. More fine-grained control can be
+> +    achieved by selecting a USB host controller (if necessary) and the
+> +    desired USB device via the ``-device`` option instead. For example,
+> +    instead of using ``-usbdevice mouse`` it is possible to use
+> +    ``-device qemu-xhci -device usb-mouse`` to connect the USB mouse
+> +    to a USB 3.0 controller instead (at least on machines that support
+> +    PCI and do not have an USB controller enabled by default yet).
+> +    For more details, see the chapter about
+>       :ref:`Connecting USB devices` in the System Emulation Users Guide.
+> +    Possible devices for devname are:
+> +
+> +    ``braille``
+> +        Braille device. This will use BrlAPI to display the braille
+> +        output on a real or fake device (i.e. it also creates a
+> +        corresponding ``braille`` chardev automatically beside the
+> +        ``usb-braille`` USB device).
+> +
+> +    ``ccid``
+> +        Smartcard reader device
+> +
+> +    ``keyboard``
+> +        Standard USB keyboard. Will override the PS/2 keyboard (if present).
+>   
+>       ``mouse``
+>           Virtual Mouse. This will override the PS/2 mouse emulation when
+> @@ -1737,9 +1759,13 @@ SRST
+>           position without having to grab the mouse. Also overrides the
+>           PS/2 mouse emulation when activated.
+>   
+> -    ``braille``
+> -        Braille device. This will use BrlAPI to display the braille
+> -        output on a real or fake device.
+> +    ``u2f-key``
+> +        U2F (Universal Second Factor) key.
+> +
+> +    ``wacom-tablet``
+> +        Wacom PenPartner USB tablet.
+> +
+> +
+>   ERST
+>   
+>   DEFHEADING()
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7..76ebe7bb7a 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -3180,8 +3180,6 @@ void qemu_init(int argc, char **argv, char **envp)
+>                   qemu_opts_parse_noisily(olist, "usb=on", false);
+>                   break;
+>               case QEMU_OPTION_usbdevice:
+> -                error_report("'-usbdevice' is deprecated, please use "
+> -                             "'-device usb-...' instead");
+>                   olist = qemu_find_opts("machine");
+>                   qemu_opts_parse_noisily(olist, "usb=on", false);
+>                   add_device_config(DEV_USB, optarg);
 > 
-> This should have a documentation comment, since this is the public-facing API.
 
-I now see I neglected to update the comment right here the function
-declaration, and will do so for v2.
-
-But are you asking for additional documentation beyond that change? If
-so, where is the right place to add this? docs/devel/tcg-plugins.rst
-doesn't seem to have much in the way of documentation for the actual
-calls.
-
-> Also, physical addresses aren't uniquely identifying, they're only valid
-> in the context of a particular address space (think TrustZone, for instance),
-> so the plugin-facing API should probably have some concept of how it
-> distinguishes "this is an access for Secure 0x4000" from "this is an
-> access for Non-Secure 0x4000".
-
-I agree it could be handy to expose address spaces in addition to the
-addresses themselves. Do you believe doing so would change the form of
-the interface in this patch, or could that be a logically separate
-addition?
-
-I have a secondary concern that it might be hard to expose address
-spaces in an architecture-agnostic yet still-helpful way, but haven't
-thought through that enough for it to be a firm opinion.
-
--Aaron
 
