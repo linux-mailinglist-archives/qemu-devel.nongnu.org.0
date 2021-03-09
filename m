@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42A933295C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:58:01 +0100 (CET)
-Received: from localhost ([::1]:33496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C16133292A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:52:49 +0100 (CET)
+Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdo8-00042z-Qw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:58:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
+	id 1lJdj6-00064r-G6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:52:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJY-0003rz-HY
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45714)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJf-0003xZ-P5
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:33 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJS-0005lF-V4
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:24 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lJdJV-0005mt-6R
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:26:31 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A8E10AF0F;
- Tue,  9 Mar 2021 14:25:59 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B2E4CAF0D;
+ Tue,  9 Mar 2021 14:26:00 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v5 32/36] tests: restrict TCG-only arm-cpu-features tests to TCG
- builds
-Date: Tue,  9 Mar 2021 15:25:40 +0100
-Message-Id: <20210309142544.5020-33-cfontana@suse.de>
+Subject: [RFC v5 35/36] tests: do not run qom-test on all machines for ARM
+ KVM-only
+Date: Tue,  9 Mar 2021 15:25:43 +0100
+Message-Id: <20210309142544.5020-36-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309142544.5020-1-cfontana@suse.de>
 References: <20210309142544.5020-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -55,65 +56,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sve_tests_sve_max_vq_8,
-sve_tests_sve_off,
-test_query_cpu_model_expansion
+on ARM we currently list and build all machines, even when
+building KVM-only, without TCG.
 
-all require TCG to run. Skip them for KVM-only builds.
+Until we fix this (and we only list and build machines that are
+compatible with KVM), only test specifically using the "virt"
+machine in this case.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/arm-cpu-features.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ tests/qtest/qom-test.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 8252b85bb8..83a89864dd 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -352,8 +352,12 @@ static void sve_tests_sve_max_vq_8(const void *data)
+diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+index eb34af843b..b0a6d10148 100644
+--- a/tests/qtest/qom-test.c
++++ b/tests/qtest/qom-test.c
+@@ -90,7 +90,27 @@ int main(int argc, char **argv)
  {
-     QTestState *qts;
+     g_test_init(&argc, &argv, NULL);
  
++    /*
++     * XXX currently we build also boards for ARM that are incompatible with KVM.
++     * We therefore need to check this explicitly, and only test virt for kvm-only
++     * arm builds.
++     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
++     * are built for the kvm-only build, we could remove this.
++     */
 +#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_max_vq_8");
-+    return;
-+#endif /* CONFIG_TCG */
++    {
++        const char *arch = qtest_get_arch();
 +
-     qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
--
-     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
- 
-     /*
-@@ -387,6 +391,11 @@ static void sve_tests_sve_off(const void *data)
- {
-     QTestState *qts;
- 
-+#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_off");
-+    return;
-+#endif /* CONFIG_TCG */
++        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
++            add_machine_test_case("virt");
++            goto add_machine_test_done;
++        }
++    }
++#endif /* !CONFIG_TCG */
 +
-     qts = qtest_init(MACHINE "-cpu max,sve=off");
+     qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
++    goto add_machine_test_done;
  
-     /* SVE is off, so the map should be empty. */
-@@ -443,6 +452,11 @@ static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
- 
-+#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only test_query_cpu_model_expansion");
-+    return;
-+#endif /* CONFIG_TCG */
-+
-     qts = qtest_init(MACHINE "-cpu max");
- 
-     /* Test common query-cpu-model-expansion input validation */
++ add_machine_test_done:
+     return g_test_run();
+ }
 -- 
 2.26.2
 
