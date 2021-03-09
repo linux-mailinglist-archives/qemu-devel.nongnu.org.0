@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF81A332AD6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:44:58 +0100 (CET)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920FB332ACD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:43:22 +0100 (CET)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeXZ-0002eJ-VB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:44:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50304)
+	id 1lJeW1-0008RX-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:43:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdoS-0005ST-NF
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:20 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39561)
+ id 1lJdof-0005kg-Rk
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:34 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdoQ-0002oF-OR
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:19 -0500
-Received: by mail-ed1-x532.google.com with SMTP id h10so20740332edl.6
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:58:18 -0800 (PST)
+ id 1lJdoe-0002sf-Fd
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:33 -0500
+Received: by mail-ed1-x531.google.com with SMTP id d13so20780595edp.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:58:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OxqjLVKnzec0kFVuN+C9Om0vprT+bKPUVJ8CMXW3FNM=;
- b=QpKNjGXe911Mi+x/3irf3KSKDIkD7PyKAn2b2CeXsZ9edk1zkBZCDFPnfSGaHt006E
- wcFyW4GN7Mv7avUJDZuuB6qcIYhVDacCkvWH6/yMuVO2pkYfGaO9pNk6e9i6OZ9+WsPw
- uNmrLpZhfSCIRPycLxD88woCkqmQ7crnCopO98veMLydru/kZMf2B9FbLcit7aGTcoFe
- uYoAMbnN2pHJvJfKl8TY0ZQN6ME1mG1mLQiRWqUr7Pr/dwNoHeY8Mb1fDYYpbnOcY4Sq
- XEghP9581LQHowvZqmnU1qqkkmTxJxJFaeThkZ+9KWN9qtemgI0bdiVKMM+h1keWQvAU
- GMDA==
+ bh=gHWKjcJBF2z8bEAukiKiBUIE3a11RI/Qsu47KnxKfMQ=;
+ b=gtJFlNFjbUvQF3cCQBpni8Jbt3EsR31q6+Yyyv1TguFXDWQ7NWJapzfWE5rZssu+Nt
+ /0qu98tLxiDPx/+Iw1zQKTB7Utzr2bDBzc2qbJ7dwZnz7EZvAeLlFuOriJKoGP+Trm/m
+ J+RghFrj4tfBDe6dJvkFMaHD15PVbcSE21FU3jpanH3xuSbgeMfUFQiyS7hOqH2ZwH5z
+ UdjLJmbB4LwgcLK4BgrPi0ZS+cd/+XRN1qQnbrGVdy2cA3IsJjZyfPVCHZ4q8djkkwng
+ jdqmCKAp+OdXKoa1MhWnTqzM2G39HKFbmDHKhgy/0EdKpuybT1R+M9j7O5uEzRR1E96r
+ tBEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OxqjLVKnzec0kFVuN+C9Om0vprT+bKPUVJ8CMXW3FNM=;
- b=D4pRd3Nw+lKJf5e7q4bKUSUR8upg3CJoADhFDaNtpc1SdIJ6DCEzen0sAEkxy7i9Md
- WHTetri6SQs05qVMuR4B4R/IEQSchZUKtu8eFNno4r6D93/17GnJSvubPbc4CwsqOeCz
- iE55+DxmtMOMdVxH5TV+DUlleYzAfc3zqRaPHqdAMN1W+EhHgA+VHEAdTonoSgwOY4Ck
- bkdfgKbb9OduBsu9Kz5R1YGwf9jmQvFJOp1+XQxxx14/gCsSmEDhqzWOPHmxFmBzbMZX
- fOAuwoqlcN0wgIky7GSIYPvYD12iVvGYjH03qzMWDAmgH+D+kUhYFhKK6XbZ7HED7icx
- qjLQ==
-X-Gm-Message-State: AOAM530Zn0/RYm4Uv/HZKQYTHL5B2MiUGJ1uggVxUsAi4Slby8mJLQKN
- Hv7DVtrUKnU2BZmFStZEWoouiEy7dbk=
-X-Google-Smtp-Source: ABdhPJyqlaMVWKk+R5+wuhITC+yE1uA8+K3aHDLDzwE1yHmrAxpkjOCEpeWGSa2PSUA70tK4dQze5A==
-X-Received: by 2002:aa7:d9c8:: with SMTP id v8mr4471222eds.9.1615301897257;
- Tue, 09 Mar 2021 06:58:17 -0800 (PST)
+ bh=gHWKjcJBF2z8bEAukiKiBUIE3a11RI/Qsu47KnxKfMQ=;
+ b=fKWO560qoM+WmtsWXbeM0r4eKQuzXCILKArSiB2Wq9lFIqx7hI/hZAXZsahrEOj5Xt
+ KIuZC8j6HDg3TKqJrQlUt5IDpAH6Wt2TTbwOc56gwTIyjzgTcx17ta1DgoyecCo/4+pz
+ aGT8bQJD6s8KHaL0MbWlS58kKjz+3dhAabgLLxvDoeQZyznVqopRn6A8KAtxwmNut+Ki
+ qgHL/Oo+izfl2jhW6YyEySIeQyRT+YgqfvCJy3+8X7plgRb6f73t1EtGz3Mfw6nuneWT
+ al4yNXYuHoCQRY9p/wE0zeDMwJgzkmdacDRMy/0EAmb3jZxnvmJXoav431pPn4aDcbEf
+ B/Yg==
+X-Gm-Message-State: AOAM533ZJn4hhI1QqTKXEMuxxizKAzs+cjXitCS2BUioTQ6BlpwW8ITh
+ xWy2V7hT1Pal3/Q1PfYHF3MRfcNHqLc=
+X-Google-Smtp-Source: ABdhPJxu0uf2nFfJ/mPWPvAtZdEyDTCmOeb1ncstwHXT/aCltrxfxYBqNmNuMtHk+GvtFS7ct3j+jA==
+X-Received: by 2002:a05:6402:84b:: with SMTP id
+ b11mr4517401edz.56.1615301907286; 
+ Tue, 09 Mar 2021 06:58:27 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id si3sm8380527ejb.90.2021.03.09.06.58.16
+ by smtp.gmail.com with ESMTPSA id eo22sm8687735ejc.0.2021.03.09.06.58.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:58:16 -0800 (PST)
+ Tue, 09 Mar 2021 06:58:26 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 16/22] target/mips/tx79: Introduce PINTEH (Parallel
- Interleave Even Halfword)
-Date: Tue,  9 Mar 2021 15:56:47 +0100
-Message-Id: <20210309145653.743937-17-f4bug@amsat.org>
+Subject: [RFC PATCH v2 18/22] target/mips/tx79: Introduce PROT3W opcode
+ (Parallel Rotate 3 Words)
+Date: Tue,  9 Mar 2021 15:56:49 +0100
+Message-Id: <20210309145653.743937-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309145653.743937-1-f4bug@amsat.org>
 References: <20210309145653.743937-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,58 +95,64 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the PINTEH opcode (Parallel Interleave Even Halfword).
+Introduce the PROT3W opcode (Parallel Rotate 3 Words).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2:
-Use trans_parallel_arith (rth)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210214175912.732946-25-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  target/mips/tx79.decode      |  1 +
- target/mips/tx79_translate.c | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ target/mips/tx79_translate.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index 653910371d2..fbd2be569ad 100644
+index 0ea9fc95568..79001359242 100644
 --- a/target/mips/tx79.decode
 +++ b/target/mips/tx79.decode
-@@ -57,6 +57,7 @@ PXOR            011100 ..... ..... ..... 10011 001001   @rs_rt_rd
+@@ -56,6 +56,7 @@ PAND            011100 ..... ..... ..... 10010 001001   @rs_rt_rd
+ PXOR            011100 ..... ..... ..... 10011 001001   @rs_rt_rd
+ PEXEH           011100 00000 ..... ..... 11010 001001   @rt_rd
+ PEXEW           011100 00000 ..... ..... 11110 001001   @rt_rd
++PROT3W          011100 00000 ..... ..... 11111 001001   @rt_rd
  
  # MMI3
  
-+PINTEH          011100 ..... ..... ..... 01010 101001   @rs_rt_rd
- PCPYUD          011100 ..... ..... ..... 01110 101001   @rs_rt_rd
- POR             011100 ..... ..... ..... 10010 101001   @rs_rt_rd
- PNOR            011100 ..... ..... ..... 10011 101001   @rs_rt_rd
 diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index 90c33d26a9f..7c7879face0 100644
+index b23e0a1b048..f1c6546d70c 100644
 --- a/target/mips/tx79_translate.c
 +++ b/target/mips/tx79_translate.c
-@@ -593,3 +593,25 @@ static bool trans_PCPYUD(DisasContext *s, arg_rtype *a)
+@@ -685,3 +685,31 @@ static bool trans_PEXEW(DisasContext *ctx, arg_rtype *a)
  
      return true;
  }
 +
-+static void gen_vec_pinteh(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
++/* Parallel Rotate 3 Words Left */
++static bool trans_PROT3W(DisasContext *ctx, arg_rtype *a)
 +{
-+    TCGv_i64 x, y, mask = tcg_constant_i64(0x0000ffff0000ffffull);
++    TCGv_i64 ax;
 +
-+    x = tcg_temp_new_i64();
-+    y = tcg_temp_new_i64();
++    if (a->rd == 0) {
++        /* nop */
++        return true;
++    }
++    if (a->rt == 0) {
++        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
++        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
++        return true;
++    }
 +
-+    tcg_gen_shli_i64(x, a, 8);
-+    tcg_gen_and_i64(x, x, mask);
-+    tcg_gen_and_i64(y, b, mask);
-+    tcg_gen_or_i64(d, x, y);
++    ax = tcg_temp_new_i64();
 +
-+    tcg_temp_free(y);
-+    tcg_temp_free(x);
-+}
++    tcg_gen_mov_i64(ax, cpu_gpr_hi[a->rt]);
++    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, cpu_gpr[a->rt], 0, 32);
 +
-+/* Parallel Interleave Even Halfword */
-+static bool trans_PINTEH(DisasContext *ctx, arg_rtype *a)
-+{
-+    return trans_parallel_arith(ctx, a, gen_vec_pinteh);
++    tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rt], ax, 0, 32);
++    tcg_gen_rotri_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], 32);
++
++    tcg_temp_free(ax);
++
++    return true;
 +}
 -- 
 2.26.2
