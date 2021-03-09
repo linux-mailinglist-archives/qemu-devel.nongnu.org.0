@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254493323FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:27:35 +0100 (CET)
-Received: from localhost ([::1]:44090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C41332422
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:33:28 +0100 (CET)
+Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaWU-0002Fw-7T
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:27:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
+	id 1lJacB-0005Rj-8N
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:33:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJaUJ-0000tS-79
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:25:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJaUE-0003uG-Ox
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:25:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615289112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3+EGOOJR1IIig3bg/8zzFxOv8VZiFbkFn9c7zuEEmL4=;
- b=aUJofmCoMGbgp7EdCUHy5N1TMpo0p15Urn3tXyQ945/2UumohrCyAf43lCljdU3+JVklbP
- soqj2WXV2g5ggDktuC/rBgPm3RMbqrMnIBtvdRmVgdv5Y8kr9x+lPOdGAqe1OwHwTqYXTc
- iLPc0FKELQOY4br/nsP18ikmzks7N+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-Cfmnh2R4PWy3PUcqIYKo1Q-1; Tue, 09 Mar 2021 06:25:10 -0500
-X-MC-Unique: Cfmnh2R4PWy3PUcqIYKo1Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24E8801503;
- Tue,  9 Mar 2021 11:25:09 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-41.ams2.redhat.com
- [10.36.113.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0A860855;
- Tue,  9 Mar 2021 11:25:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0DB2E18000A2; Tue,  9 Mar 2021 12:25:08 +0100 (CET)
-Date: Tue, 9 Mar 2021 12:25:08 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v4] ui/cocoa: Use kCGColorSpaceSRGB
-Message-ID: <20210309112508.vhksco52jztjpaop@sirius.home.kraxel.org>
-References: <20210305121304.65096-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJaaV-0004nx-4R
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:31:43 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJaaS-0007n0-Bh
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:31:42 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id e19so26742718ejt.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:31:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w4q6igLyhpztxOKThSb8mVPy8c4IoqSAJFc2dUHMagQ=;
+ b=UTcWiTz9c/rhBwq0Sv6Yq0Vgs2Bw1XImZpka+HPh9jOoT6DlileiNoQiNRviNt1rY+
+ ddcOaJkjZ1UxeljK9vC09xTguqjGNPjig25Uv1D+QQCuEqMX8Zkv3s/7Rgxok6zQ54r/
+ N1sAD6+mh5Z0obEidkEyLx1zXMaxRf7wa7edTNWBw0kMHx09q+QQZiqTCZIu1wKSD2+1
+ 1CqLlOSe2uoqBRIaM1sLlt7SZtKduZEgmfWJHCn+z1iJW7VH8dXI21IGhZhRU1oYsWgE
+ +F4TpnUekvdmzoQTO2JD6d9AejcgPfjCCktjIDB/aMNLzjeSJpE+QUml55PiM9kEu46k
+ S9pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w4q6igLyhpztxOKThSb8mVPy8c4IoqSAJFc2dUHMagQ=;
+ b=mFqFmcmoyDlaq8dwi3BvSn/1rryGf57VgnxR9CNVY7+rFbYO+OOKuCLZM4XNaUyl8K
+ 8tONUVrp1JkST1tZI+lLv8K/WGpKHMNr4juApdrGbyxqiQtbfBLPnrFJoGPJvvYFE+2j
+ 3uBwAgcrv70G6sLq6f0Rg3d6PRvhlnYpoTWxAMatdGcwwxp8pKhKWsktyqfi3GHl5uTi
+ Xn0ft97xfZFg+7JlL99+z4vLy4TYWyo0sKhdgLWdZR6EGwbau4LOcw/ZdprjrKarA9gJ
+ TnYtBVQPJCz58+twQvaNgLDRHzxV/3Wa37KBxJmHbUhn3dXt6pkVhV0DzyAWMiipUeCT
+ zezg==
+X-Gm-Message-State: AOAM531A/tNNMexLWTTEJCqJjM9cdHuZOvwHJ+r6EVOXF7k2756mLzFu
+ eVdw6PGILE3BCAOCOVsRtC6vSD8ju0U6DymXebBZ5g==
+X-Google-Smtp-Source: ABdhPJxzquEpSRAhDm6NNBw2OrXCzCRctswgn6jd06mgptvrfG7m/IvjCt7HtIqvyCfNYYMHiuBUNmrM5pQscZ55BLM=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr20012556ejd.85.1615289497418; 
+ Tue, 09 Mar 2021 03:31:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210305121304.65096-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210309002741.85057-1-j@getutm.app>
+ <20210309002741.85057-4-j@getutm.app>
+In-Reply-To: <20210309002741.85057-4-j@getutm.app>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Mar 2021 11:31:20 +0000
+Message-ID: <CAFEAcA8c9=CYM2FfGf51-8keC8Gp2ySKMnXQ+YUz+Lw6g+Ek-g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+To: Joelle van Dyne <j@getutm.app>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,22 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 05, 2021 at 09:13:04PM +0900, Akihiko Odaki wrote:
-> kCGColorSpaceGenericRGB | Apple Developer Documentation
-> https://developer.apple.com/documentation/coregraphics/kcgcolorspacegenericrgb
-> > Deprecated
-> > Use kCGColorSpaceSRGB instead.
-> 
-> This change also removes the legacy color space specification for
-> PowerPC.
+On Tue, 9 Mar 2021 at 00:30, Joelle van Dyne <j@getutm.app> wrote:
+>
+> iOS hosts do not have these defined so we fallback to the
+> default behaviour.
+>
+> Co-authored-by: Warner Losh <imp@bsdimp.com>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> ---
+>  block/file-posix.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
 
-Added to UI queue.
+raw_getlength() is a bit of a mess; this certainly seems like
+an improvement...
 
-thanks,
-  Gerd
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d1ab3180ff..9b6d7ddda3 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2326,8 +2326,10 @@ static int64_t raw_getlength(BlockDriverState *bs)
+>  again:
+>  #endif
+>      if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
+> +        size = 0;
+>  #ifdef DIOCGMEDIASIZE
+>          if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
+> +            size = 0;
 
+this if() should have braces {}.
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
