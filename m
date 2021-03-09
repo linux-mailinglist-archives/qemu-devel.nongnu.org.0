@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F8C332842
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:16:01 +0100 (CET)
-Received: from localhost ([::1]:39280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7838B33283D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:13:16 +0100 (CET)
+Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJd9U-0007e6-GI
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
+	id 1lJd6p-0005Tn-H1
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lJd6S-0005tU-Bu; Tue, 09 Mar 2021 09:12:52 -0500
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:36588)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJd5R-00048I-DH
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:11:49 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:40269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lJd6P-0007y8-B7; Tue, 09 Mar 2021 09:12:52 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id n14so14060970iog.3;
- Tue, 09 Mar 2021 06:12:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zpmYrWel7xLbhUWrYs37egYbTmbXi1z3eiKOo+zCPeU=;
- b=XxGnEaS8G6RPjcKyK7cqDX43M8bFt8EF35G810MoKni7DIaeAt4qdRdo0rmjWL8Ien
- YLo0nM9vw6MqsCBN9BSXFP3Mz3vPawulA5nlLWrBsDMrFCPcy/uiBXLv6jgM1du5uOxR
- Tx8tlr44Cs8y4CTE/F2AFS7tWbJk2QJI2VCsenOxBBkGSSU0MB0cKgotAe/ZX0En4Nle
- 3AjKXH5easJjVPqe2MJnYvgdCBhv++4ozHO8xl817WhPcuMdnFu8Lz/bazZhPuaPPV3r
- kP38/W2yJLmrAsa30rjocL66pQg7lkr8an9uKlHmJHBPAubEknF+p8RjQB7aduwTJ0TR
- wiLQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJd5N-0007WE-SC
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:11:49 -0500
+Received: by mail-ot1-x330.google.com with SMTP id b8so12898110oti.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5d6h/oI05GGkXzLRzzB+ytQLWVabxb3ZgNJ5byndeWY=;
+ b=Ksa8GLJud2pA4O7d1v5uF/NlR0JQU0Z5rJ6KWtpJcNf0Wts7CudaoUyjbox3TyUie5
+ u9cIn5m+GeK0sKvhJJQ0fwJwsJX55HKFCiN/EgEjdNv4MpLNQX59DX2VDxTh1DW+EJS/
+ 3o4sBaEe5U/O9+JsGHkkOQeSPY/maKr61g9zHmH6T0ITr1I5WdUJ9LivlnonEw15y6a5
+ yOoFIL33mEXc9iylCovoMq+9NAlNLjtJqu+AXK/tiYXJbfwuZdqkqHpSl64oYIIAp8YO
+ GiIdfWgu0g5qP1BI5Xi+Gjg2dctziMO3+ymiLaK190nwexXKIckIQGZqenBWB04QASY0
+ vV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zpmYrWel7xLbhUWrYs37egYbTmbXi1z3eiKOo+zCPeU=;
- b=iEgXL/EfjTSVj7bn9og8HlB241erD7Q8N+qpHXBrNBMcmCUnyv1XwHjxO8HD5yxVRA
- MNl9MWFpi+aX2SK36dopr51Se6bf79T2nm1zwEPu+M/OZ0+S0wR0pCtnj33Es2dvy/y2
- bApp4UHMUDuqBuyD4wiWjGrwcJ0dJG0BOaZBWvMoeOAEoWnQZrk3PmsKSj7V4f4ROAL9
- Cj9bMkR0CREZ+Ld5TR0VLQ8XKhZl+Z0cYK8FM6HtWNs8glFbGIv1uM94BbyL4JiqJTJY
- 5cYfi/r7ylLM+kSotAW2Z/00Q+DwDv7AApxYEHSGcsKgU3xuo1IVZCn21Dx13iHsrkFI
- zsgw==
-X-Gm-Message-State: AOAM532nO9XJU91Mi98Ff2ON0DS+gocbzlxgl+zbpzRi1V/qYcowg5Jp
- HEJnhq/12fZAhzZFcTWqHHlTbmKg38Axcdtju8Y=
-X-Google-Smtp-Source: ABdhPJztFKbuOe0LyWoVzhTd5PTasjsaz9xwrZi7ZRp+ngKxrzfWdxICCLL5OaYDrjZC1fkxtNCJe/zDiPOmSmsVmsg=
-X-Received: by 2002:a02:cad9:: with SMTP id f25mr28319352jap.26.1615299167988; 
- Tue, 09 Mar 2021 06:12:47 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5d6h/oI05GGkXzLRzzB+ytQLWVabxb3ZgNJ5byndeWY=;
+ b=Nc/CTfMatbJGjKyTQSpUxgQXtBdzAGQks/uqmCgUfup/hgUNV5kFm+O+GN60Ax8C8K
+ 3CC0AyhYcREe77fSLNhs1GvNqYmWYXae4UyEpcAPJ4oITmcfjS5THf+kKNRVbsmSp36X
+ 52L0n6aMmwF/dv/EgjsFcwBywnidYUadAPJA6wBxdsY0KrEZvbKOIgoUx7gAUPNQu+9F
+ zcoaVFbkKRMFU323H8EOCvQEnNmoqth36Gu8aupsyWKCtsoA3GD9zy6osZ0SmyeCCzAt
+ Q/kyjl3WMnbsh+5X5uwGyJcXejFRrhLvIWotOE+pr1AGpFoPeqq7x1JqTQrUAdZFCouX
+ NJhg==
+X-Gm-Message-State: AOAM530zol0XwESF/aicbW/f0BkX2M52zLzH/HttRHyn5C/+/27vKWGv
+ kLa2m3t0ZYhfIE3A7C6EX5X15g==
+X-Google-Smtp-Source: ABdhPJy72fkbiuw81RhmCfcG90mseFPomxXWmLKFJG9OwsCacar53MSPgNPG7GjVL6vbo1CmVjpY/Q==
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr22561066otk.367.1615299103757; 
+ Tue, 09 Mar 2021 06:11:43 -0800 (PST)
+Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id j19sm3111437oie.6.2021.03.09.06.11.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 06:11:43 -0800 (PST)
+Subject: Re: [PATCH] target/mips: Use gen_load_gpr[_hi]() when possible
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210308131604.460693-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b8a3d08e-7fb1-55fc-402b-cf1f313d0eb3@linaro.org>
+Date: Tue, 9 Mar 2021 06:11:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-4-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210212150256.885-4-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Mar 2021 09:11:26 -0500
-Message-ID: <CAKmqyKNhnVLNNuNVPFjjvM4OMFekJSu_dn3-sB6Ph7PAkvfTXg@mail.gmail.com>
-Subject: Re: [PATCH 03/38] target/riscv: Fixup saturate subtract function
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <20210308131604.460693-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,69 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 10:10 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> The overflow predication ((a - b) ^ a) & (a ^ b) & INT64_MIN is right.
-> However, when the predication is ture and a is 0, it should return maximum.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 3/8/21 5:16 AM, Philippe Mathieu-Daudé wrote:
+> Use gen_load_gpr[_hi]() instead of open coding it.
+> 
+> Patch generated using the following spatch script:
+> 
+>    @gen_load_gpr@
+>    identifier reg_idx;
+>    expression tcg_reg;
+>    @@
+>    -if (reg_idx == 0) {
+>    -    tcg_gen_movi_tl(tcg_reg, 0);
+>    -} else {
+>    -    tcg_gen_mov_tl(tcg_reg, cpu_gpr[reg_idx]);
+>    -}
+>    +gen_load_gpr(tcg_reg, reg_idx);
+> 
+>    @gen_load_gpr_hi@
+>    identifier reg_idx;
+>    expression tcg_reg;
+>    @@
+>    -if (reg_idx == 0) {
+>    -    tcg_gen_movi_i64(tcg_reg, 0);
+>    -} else {
+>    -    tcg_gen_mov_i64(tcg_reg, cpu_gpr_hi[reg_idx]);
+>    -}
+>    +gen_load_gpr_hi(tcg_reg, reg_idx);
+> 
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->  target/riscv/vector_helper.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 9371d70f6b..9786f630b4 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -2425,7 +2425,7 @@ int8_t ssub8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
->  {
->      int8_t res = a - b;
->      if ((res ^ a) & (a ^ b) & INT8_MIN) {
-> -        res = a > 0 ? INT8_MAX : INT8_MIN;
-> +        res = a >= 0 ? INT8_MAX : INT8_MIN;
->          env->vxsat = 0x1;
->      }
->      return res;
-> @@ -2435,7 +2435,7 @@ int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
->  {
->      int16_t res = a - b;
->      if ((res ^ a) & (a ^ b) & INT16_MIN) {
-> -        res = a > 0 ? INT16_MAX : INT16_MIN;
-> +        res = a >= 0 ? INT16_MAX : INT16_MIN;
->          env->vxsat = 0x1;
->      }
->      return res;
-> @@ -2445,7 +2445,7 @@ int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
->  {
->      int32_t res = a - b;
->      if ((res ^ a) & (a ^ b) & INT32_MIN) {
-> -        res = a > 0 ? INT32_MAX : INT32_MIN;
-> +        res = a >= 0 ? INT32_MAX : INT32_MIN;
->          env->vxsat = 0x1;
->      }
->      return res;
-> @@ -2455,7 +2455,7 @@ int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
->  {
->      int64_t res = a - b;
->      if ((res ^ a) & (a ^ b) & INT64_MIN) {
-> -        res = a > 0 ? INT64_MAX : INT64_MIN;
-> +        res = a >= 0 ? INT64_MAX : INT64_MIN;
->          env->vxsat = 0x1;
->      }
->      return res;
-> --
-> 2.17.1
->
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
