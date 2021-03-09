@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BF5332EB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:07:49 +0100 (CET)
-Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACB1332ED4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:14:32 +0100 (CET)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhhs-00040s-FZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:07:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
+	id 1lJhoN-0000Jb-QW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:14:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJfm6-0003ah-Ml; Tue, 09 Mar 2021 12:04:02 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37294)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJfm4-0000h2-QI; Tue, 09 Mar 2021 12:04:02 -0500
-Received: by mail-ej1-x634.google.com with SMTP id bm21so29682449ejb.4;
- Tue, 09 Mar 2021 09:03:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vVM6wFe4bKZ1btWGfkXbVefoXhJyME3i5G6PHiPcvX8=;
- b=numjzj/2eRfToS2xrWTZmAYPNTb8LdtG5jzirsO+/2qeOX99t9aB+GdbtHtzl6O8Fh
- 3LIVB4LhMgq2qmuajGfQv4tODK1ci4ih+a1cagQgRo4jk2AdckyUg/iYnTyONeV7paIl
- 5wE8Q6fkKZr5SKY0YxtLxyubkmYM/u/tijX6/WE5bhnJIP1U69U9mZlkIJLH/8LgDgyw
- k4QA354cGF6eNMl7vHsoMZnqWCoVbLQTiOynaTL+tnw2qOooCpmjM77hTUp10SQn8GsQ
- XBbn+b+pe3PZtsrHGbohBqfJNJvX3JCRfcI7kZ7CZ5Jqj3HK2U3JoITqxpay5gqjZNhz
- QLyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vVM6wFe4bKZ1btWGfkXbVefoXhJyME3i5G6PHiPcvX8=;
- b=MnRUkOhatlnNKhTHAKFRC6216Rq15FEGxpdjgdWQ62D/vwt34T5HV+NiWwc38CKPHl
- Bu2GnTJpScEb7K1x6oum9fu9HCJffy8Ohb1pgsuRlt6T9nleR9BxdOjAiySwfmIum76C
- NmO0CxEAz+BQL1wyviPQ+mgaUe8jjfj4F0jdCWziJ8b0QIljCdzf4ol4JcdrgqNp8lCf
- 1RF/ZpQDSEi0raPuB3jE1MGmaQXRkXcN+8D8ApV/Rdr1tQ7zyGPZxwGzjWlE7uKMll4V
- kFdkIZqARFcpQuuz00zUluVWj1tg3K4cUusdc84hVcfRjE3taaM+dak5yBrdqSeIDJVA
- Zchg==
-X-Gm-Message-State: AOAM531estonhCixdWW87ALPNBI/qwBO4lMosNFa0Sxvgj7IFEeSxoPD
- kRj5Nk+Tltk8qqdQuxM6TZk=
-X-Google-Smtp-Source: ABdhPJwEQhDGl3E4s3lxKvV73DGT2RKJzSnvekMPAoXkF0lNZkNpm9oq0XEQsFN4q36g3yIzwVDCCQ==
-X-Received: by 2002:a17:906:3882:: with SMTP id
- q2mr16455265ejd.540.1615309438832; 
- Tue, 09 Mar 2021 09:03:58 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id gn3sm7315319ejc.2.2021.03.09.09.03.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 09:03:58 -0800 (PST)
-Subject: Re: [PATCH v5 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and base
- vt82c686b_isa on it
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <cover.1614719482.git.balaton@eik.bme.hu>
- <07df96112b78673ca191f9a4ffa17bf3a11160f3.1614719482.git.balaton@eik.bme.hu>
- <da48a752-9b2d-6cd8-9603-4cc528fea628@amsat.org>
- <11fb7590-89f3-62e7-48e3-d44226876e78@eik.bme.hu>
- <14cc6696-869d-679a-883f-fbcd30fe6ba1@amsat.org>
- <YEGDLehnK3Vhp56s@yekko.fritz.box> <YEebhGGvGeWpK5+x@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f8f3f750-b9b5-8a99-4df7-93bb7daf0cb6@amsat.org>
-Date: Tue, 9 Mar 2021 18:03:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <YEebhGGvGeWpK5+x@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJfoY-00068L-NC
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:06:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJfoS-00011q-QO
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:06:34 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 39FE764F45;
+ Tue,  9 Mar 2021 17:06:26 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1lJfoO-000bDF-1a; Tue, 09 Mar 2021 17:06:24 +0000
+Date: Tue, 09 Mar 2021 17:06:23 +0000
+Message-ID: <87im60xnn4.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v9 2/6] arm64: kvm: Introduce MTE VM feature
+In-Reply-To: <20210301142315.30920-3-steven.price@arm.com>
+References: <20210301142315.30920-1-steven.price@arm.com>
+ <20210301142315.30920-3-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,83 +73,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Gerd
-
-On 3/9/21 5:00 PM, Dr. David Alan Gilbert wrote:
-> * David Gibson (david@gibson.dropbear.id.au) wrote:
->> On Thu, Mar 04, 2021 at 11:42:10PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 3/4/21 9:16 PM, BALATON Zoltan wrote:
->>>> On Thu, 4 Mar 2021, Philippe Mathieu-Daudé wrote:
->>>>> On 3/2/21 10:11 PM, BALATON Zoltan wrote:
->>>>>> To allow reusing ISA bridge emulation for vt8231_isa move the device
->>>>>> state of vt82c686b_isa emulation in an abstract via_isa class.
->>>>>>
->>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>> ---
->>>>>>  hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
->>>>>>  include/hw/pci/pci_ids.h |  2 +-
->>>>>>  2 files changed, 40 insertions(+), 32 deletions(-)
->>>>>>
->>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>>> index 72234bc4d1..5137f97f37 100644
->>>>>> --- a/hw/isa/vt82c686.c
->>>>>> +++ b/hw/isa/vt82c686.c
->>>>>> @@ -609,24 +609,48 @@ static const TypeInfo vt8231_superio_info = {
->>>>>>  };
->>>>>>
->>>>>>
->>>>>> -OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
->>>>>> +#define TYPE_VIA_ISA "via-isa"
->>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
->>>>>>
->>>>>> -struct VT82C686BISAState {
->>>>>> +struct ViaISAState {
->>>>>>      PCIDevice dev;
->>>>>>      qemu_irq cpu_intr;
->>>>>>      ViaSuperIOState *via_sio;
->>>>>>  };
->>>>>>
->>>>>> +static const VMStateDescription vmstate_via = {
->>>>>> +    .name = "via-isa",
->>>>>
->>>>> You changed the migration stream name, so I think we have
->>>>> a problem with migration... No clue how to do that properly.
->>>>
->>>> I don't think these machines support migration or state description of
->>>> vt86c686b was not missing something before these patches that would make
->>>> it not work anyway so I did not worry about this too much. I doubt
->>>> anybody wants to migrate a fuloong2e machine so this should not be a
->>>> problem in practice but maybe you can mention it in the release notes if
->>>> you think that would be necessary.
->>>
->>> Maybe just add in the description:
->>>
->>>  This change breaks migration back compatibility, but
->>>  this is not an issue for the Fuloong2E machine.
->>
->> Hrm.  If migration was never supported, why is there a vmstate
->> description there at all though?
->>
->> That said, I don't think breaking compat is a problem: that's only an
->> issue where we actually have versioned machine types, which covers
->> only pc, pseries, arm virt and a very few others.  I don't think this
->> device was used on any of them.
+On Mon, 01 Mar 2021 14:23:11 +0000,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> Except 'vt82c686b-usb-uhci' is a generic PCI device that anyone can
-> instantiate, so it's not actually Fuloong specific.
+> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+> for a VM. This will expose the feature to the guest and automatically
+> tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+> storage) to ensure that the guest cannot see stale tags, and so that
+> the tags are correctly saved/restored across swap.
+> 
+> Actually exposing the new capability to user space happens in a later
+> patch.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/kvm_emulate.h |  3 +++
+>  arch/arm64/include/asm/kvm_host.h    |  3 +++
+>  arch/arm64/kvm/hyp/exception.c       |  3 ++-
+>  arch/arm64/kvm/mmu.c                 | 16 ++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c            |  3 ++-
+>  include/uapi/linux/kvm.h             |  1 +
+>  6 files changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index f612c090f2e4..6bf776c2399c 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+>  	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+>  	    vcpu_el1_is_32bit(vcpu))
+>  		vcpu->arch.hcr_el2 |= HCR_TID2;
+> +
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+>  }
+>  
+>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 3d10e6527f7d..1170ee137096 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -132,6 +132,8 @@ struct kvm_arch {
+>  
+>  	u8 pfr0_csv2;
+>  	u8 pfr0_csv3;
+> +	/* Memory Tagging Extension enabled for the guest */
+> +	bool mte_enabled;
+>  };
+>  
+>  struct kvm_vcpu_fault_info {
+> @@ -767,6 +769,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+>  #define kvm_arm_vcpu_sve_finalized(vcpu) \
+>  	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+>  
+> +#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+>  #define kvm_vcpu_has_pmu(vcpu)					\
+>  	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+>  
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 73629094f903..56426565600c 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	new |= (old & PSR_C_BIT);
+>  	new |= (old & PSR_V_BIT);
+>  
+> -	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		new |= PSR_TCO_BIT;
+>  
+>  	new |= (old & PSR_DIT_BIT);
+>  
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 77cb2d28f2a4..fdb6ab604fd0 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  	if (vma_pagesize == PAGE_SIZE && !force_pte)
+>  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+>  							   &pfn, &fault_ipa);
+> +
+> +	if (kvm_has_mte(kvm) && pfn_valid(pfn)) {
+> +		/*
+> +		 * VM will be able to see the page's tags, so we must ensure
+> +		 * they have been initialised. if PG_mte_tagged is set, tags
+> +		 * have already been initialised.
+> +		 */
+> +		struct page *page = pfn_to_page(pfn);
+> +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
+> +
+> +		for (i = 0; i < nr_pages; i++, page++) {
+> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> +				mte_clear_page_tags(page_address(page));
+> +		}
+> +	}
 
-I tend to see this as a bug, as this is a function specific to the
-southbridge chipset and isn't meant to be used apart...
+Is there any reason to do this dance for anything but a translation
+fault?
 
-If this isn't a feature but really a bug, a simple way to clean this
-is to make struct UHCIInfo and usb_uhci_common_realize() public, and
-type_register "vt82c686b-usb-uhci" elsewhere.
+> +
+>  	if (writable)
+>  		prot |= KVM_PGTABLE_PROT_W;
+>  
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 4f2f1e3145de..e09dbc00b0a2 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1046,7 +1046,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+>  		val |= FIELD_PREP(FEATURE(ID_AA64PFR0_CSV3), (u64)vcpu->kvm->arch.pfr0_csv3);
+>  		break;
+>  	case SYS_ID_AA64PFR1_EL1:
+> -		val &= ~FEATURE(ID_AA64PFR1_MTE);
+> +		if (!kvm_has_mte(vcpu->kvm))
+> +			val &= ~FEATURE(ID_AA64PFR1_MTE);
 
-Gerd would that work with you?
+Are we happy to expose *any* of the MTE flavours? Or should we
+restrict it in any way?
+
+>  		break;
+>  	case SYS_ID_AA64ISAR1_EL1:
+>  		if (!vcpu_has_ptrauth(vcpu))
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 8b281f722e5b..05618a4abf7e 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1078,6 +1078,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_DIRTY_LOG_RING 192
+>  #define KVM_CAP_X86_BUS_LOCK_EXIT 193
+>  #define KVM_CAP_PPC_DAWR1 194
+> +#define KVM_CAP_ARM_MTE 195
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>  
+> -- 
+> 2.20.1
+> 
+> 
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
