@@ -2,58 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F143323A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:09:58 +0100 (CET)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE96A3323B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:15:30 +0100 (CET)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaFR-00057f-Pk
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:09:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
+	id 1lJaKn-0002lA-Ns
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:15:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lJaCg-0002Vx-TR
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:07:06 -0500
-Resent-Date: Tue, 09 Mar 2021 06:07:06 -0500
-Resent-Message-Id: <E1lJaCg-0002Vx-TR@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lJaCd-0001aI-Tg
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:07:06 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615288010; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=mS1dAWQg3rxaRukAMpQC+g8Ppu4SwfYha/OxF1uhNiOXqXKWHX+wFjP886Z2l8lh6HRldAvkb+d/w3tgOCI8wdb2EVJw+GO6+f3I39La7R8zkSF48+6Lv97q3LfrkwyWjDrii7E68usmfazbti5Su5tRumJ5brVcaVNxaHeAAyk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615288010;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=zAXwha2MoHlXNPBhZasMAINCEMLAXxB1onioEpwPES8=; 
- b=JML3kjlvtYquhED9kAt/NY1qSNLqaseuxlalOnINsnVhrQANrCKMkwn9K/UTp97mA5fJEp9tscJvgnGEUXFqbXckF9i8TkvZ0mLr9NU81avBU5LDZAu0qUZ0yZ9iDTcducp2Cpceq/VAQAwN7xViNHBnXOkXFgX0oDI5SysY5js=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 161528800717055.578607354741166;
- Tue, 9 Mar 2021 03:06:47 -0800 (PST)
-In-Reply-To: <20210309104617.714908-1-thuth@redhat.com>
-Subject: Re: [PULL 00/14] Gitlab, testing and misc patches
-Message-ID: <161528800611.244.11864224223850886749@f3770d8ad632>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJaFX-0006Kr-Nd
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:10:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJaFU-0003CC-RM
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:10:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615288200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g9KI/p5eeRU4qS1Pye7SeraTnRaP27kWSc4+kWFyX6Y=;
+ b=XAMo0fOEoM2tcH3u/cP12xBIgVLQcQ3vy8qBm2EMcMiqlUK734i09PHXiUwviYlqpHM0pk
+ RJG7iB6d9jUbG493waxxpnBRfsMqf0x29+kLQ2MCHQenSymf8gPbFckppqKhgIuYS/BAhm
+ Uhse5frgNlbYvHsg7VPvbY0J9ved49g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-w1jb50HEPcGHtneiQPYA0g-1; Tue, 09 Mar 2021 06:09:58 -0500
+X-MC-Unique: w1jb50HEPcGHtneiQPYA0g-1
+Received: by mail-wm1-f69.google.com with SMTP id z26so985333wml.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:09:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g9KI/p5eeRU4qS1Pye7SeraTnRaP27kWSc4+kWFyX6Y=;
+ b=oPUnNOB7Y3xSKArovgzxomDcsGGwMJbwAOqEnl8NTWuC4iS8Y2LWASGdpGvoX89WQs
+ A+06wC2pQ63mso6LsT+bnaV1rlRz8yAOX1KfA2vVeBXQurEGFLWsU4xaXj60ma+JoktL
+ Uj5RZGCQpWsBdWYKUt18IyFi/kkg/XWqkLjhkBTU1cpG1AaHlghQpyPBuXzkAsI4YtON
+ 161XuRu1+UwoztJa8R8GrrJAw7mFLa6tg8sEb3NfV1fxRakU1FL5L+5wWDQijm7i3kwI
+ qDU7hMfHi3ucN67ABLlqslU8q5/J1nC1aVk7/0FHbhb7/LPzUS+Edn87afLrzKYBjpAX
+ ZImQ==
+X-Gm-Message-State: AOAM531INxJqnx4vxgtJz1BLHVQ9wjMzTm9pK2RP2xdZ3L1Z7vJWQiVZ
+ h8HtVHDfuWD4OMwMEeQCDq/yS1JvVacn/vUzmdiV8t7RGqS/FmrWd+GabmDOJtWjHaNPoIqE1ZJ
+ 3HbcEkh67lxFPfDY=
+X-Received: by 2002:adf:d23c:: with SMTP id k28mr1933326wrh.4.1615288197418;
+ Tue, 09 Mar 2021 03:09:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjs0vUUNjMZdxP6kyv8s5kjcb00t5hTn9EnIGfio9vJHbiCjj3EwQnvOKnK061RteFQ/Rn8A==
+X-Received: by 2002:adf:d23c:: with SMTP id k28mr1933300wrh.4.1615288197240;
+ Tue, 09 Mar 2021 03:09:57 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id y10sm22925505wrl.19.2021.03.09.03.09.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 03:09:56 -0800 (PST)
+Subject: Re: [RFC PATCH 1/4] block/vdi: When writing new bmap entry fails,
+ don't leak the buffer
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
+References: <20210309102157.365356-1-david.edmondson@oracle.com>
+ <20210309102157.365356-2-david.edmondson@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <34865f4c-dc32-4298-6ec9-c8690d738435@redhat.com>
+Date: Tue, 9 Mar 2021 12:09:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Tue, 9 Mar 2021 03:06:47 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210309102157.365356-2-david.edmondson@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,84 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwOTEwNDYxNy43MTQ5
-MDgtMS10aHV0aEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMDkxMDQ2MTcuNzE0OTA4
-LTEtdGh1dGhAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8xNF0gR2l0bGFiLCB0ZXN0aW5n
-IGFuZCBtaXNjIHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gK
-Z2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1
-ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9j
-aGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpV
-cGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAg
-IHBhdGNoZXcvMjAyMTAyMTExNDE1MTUuODc1NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAt
-PiBwYXRjaGV3LzIwMjEwMjExMTQxNTE1Ljg3NTUtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMwOTEwNDYxNy43MTQ5MDgtMS10aHV0
-aEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMDkxMDQ2MTcuNzE0OTA4LTEtdGh1dGhAcmVk
-aGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjAwMWUwZjYgYnNkLXVzZXI6
-IEFkZCBuZXcgbWFpbnRhaW5lcnMKY2Q1NGY4MSBSZW1vdmUgZGVwcmVjYXRlZCB0YXJnZXQgdGls
-ZWd4CjRkZWUyOTAgQWNjZXB0YW5jZSBUZXN0czogcmVzdG9yZSBmaWx0ZXJpbmcgb2YgdGVzdHMg
-YnkgdGFyZ2V0IGFyY2gKN2UyZDk0MyBBY2NlcHRhbmNlIFRlc3RzOiByZXN0b3JlIGRvd25sb2Fk
-aW5nIG9mIFZNIGltYWdlcwoxNzY3YmU1IGRvY3MvZGV2ZWwvcWdyYXBoOiBpbXByb3ZlIHFncmFw
-aCBkb2N1bWVudGF0aW9uCmE2MzRlYWEgbGlicW9zL3FncmFwaDogZm9ybWF0IHFncmFwaCBjb21t
-ZW50cyBmb3Igc3BoaW54IGRvY3VtZW50YXRpb24KMTQwMzgyOCBzY3JpcHRzL2NpL2dpdGxhYi1w
-aXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZvIHdoZW4gcGlwZWxpbmUgbm90IGZvdW5kCjk2
-MTcwODQgc2NyaXB0cy9jaS9naXRsYWItcGlwZWxpbmUtc3RhdHVzOiBnaXZlIG1vcmUgaW5mb3Jt
-YXRpb24gb24gZmFpbHVyZXMKOWMxYWUyNCBzY3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0
-dXM6IHNwbGl0IHV0bGl0eSBmdW5jdGlvbiBmb3IgSFRUUCBHRVQKMmMxOTBiYiBtZXNvbjogUmUt
-ZW5hYmxlIHRoZSBwb3NzaWJpbGl0eSB0byBydW4gIm1ha2UgY2hlY2sgU1BFRUQ9c2xvdyIKODYx
-ZDgzZSBkb2NrZXI6IE9wZW5TQkkgYnVpbGQgam9iIGRlcGVuZHMgb24gT3BlblNCSSBjb250YWlu
-ZXIKNjBmYmMxOCBkb2NrZXI6IEVESzIgYnVpbGQgam9iIGRlcGVuZHMgb24gRURLMiBjb250YWlu
-ZXIKOTk0ZWQ4MiBkb2NrZXI6IEFscGluZSBidWlsZCBqb2IgZGVwZW5kcyBvbiBBbHBpbmUgY29u
-dGFpbmVyCmZiNDlmMzEgcXRlc3Q6IGRlbGV0ZSBzdXBlcmZsdW91cyBpbmNsdXNpb25zIG9mIHF0
-ZXN0LmgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTQgQ2hlY2tpbmcgY29tbWl0IGZiNDlmMzE2
-MDc2OCAocXRlc3Q6IGRlbGV0ZSBzdXBlcmZsdW91cyBpbmNsdXNpb25zIG9mIHF0ZXN0LmgpCjIv
-MTQgQ2hlY2tpbmcgY29tbWl0IDk5NGVkODIxZjhjYSAoZG9ja2VyOiBBbHBpbmUgYnVpbGQgam9i
-IGRlcGVuZHMgb24gQWxwaW5lIGNvbnRhaW5lcikKMy8xNCBDaGVja2luZyBjb21taXQgNjBmYmMx
-ODUwNjk4IChkb2NrZXI6IEVESzIgYnVpbGQgam9iIGRlcGVuZHMgb24gRURLMiBjb250YWluZXIp
-CjQvMTQgQ2hlY2tpbmcgY29tbWl0IDg2MWQ4M2VkODRlYSAoZG9ja2VyOiBPcGVuU0JJIGJ1aWxk
-IGpvYiBkZXBlbmRzIG9uIE9wZW5TQkkgY29udGFpbmVyKQo1LzE0IENoZWNraW5nIGNvbW1pdCAy
-YzE5MGJiNWEyNDEgKG1lc29uOiBSZS1lbmFibGUgdGhlIHBvc3NpYmlsaXR5IHRvIHJ1biAibWFr
-ZSBjaGVjayBTUEVFRD1zbG93IikKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyOTog
-RklMRTogc2NyaXB0cy9tdGVzdDJtYWtlLnB5OjI0OgorLnRlc3QtaHVtYW4tdGFwID0gJDEgJChp
-ZiAkNCwoY2QgJDQgJiYgJDIpLCQyKSAtbSAkKFNQRUVEKSA8IC9kZXYvbnVsbCB8IC4vc2NyaXB0
-cy90YXAtZHJpdmVyLnBsIC0tdGVzdC1uYW1lPSIkMyIgJChpZiAkKFYpLCwtLXNob3ctZmFpbHVy
-ZXMtb25seSkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOCBsaW5lcyBjaGVja2VkCgpQ
-YXRjaCA1LzE0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
-aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
-aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo2LzE0IENoZWNraW5nIGNvbW1p
-dCA5YzFhZTI0NTI5NDcgKHNjcmlwdHMvY2kvZ2l0bGFiLXBpcGVsaW5lLXN0YXR1czogc3BsaXQg
-dXRsaXR5IGZ1bmN0aW9uIGZvciBIVFRQIEdFVCkKNy8xNCBDaGVja2luZyBjb21taXQgOTYxNzA4
-NDMyOTU4IChzY3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZv
-cm1hdGlvbiBvbiBmYWlsdXJlcykKOC8xNCBDaGVja2luZyBjb21taXQgMTQwMzgyODljMjYzIChz
-Y3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZvIHdoZW4gcGlw
-ZWxpbmUgbm90IGZvdW5kKQo5LzE0IENoZWNraW5nIGNvbW1pdCBhNjM0ZWFhN2FiZmYgKGxpYnFv
-cy9xZ3JhcGg6IGZvcm1hdCBxZ3JhcGggY29tbWVudHMgZm9yIHNwaGlueCBkb2N1bWVudGF0aW9u
-KQoxMC8xNCBDaGVja2luZyBjb21taXQgMTc2N2JlNThiYTQ3IChkb2NzL2RldmVsL3FncmFwaDog
-aW1wcm92ZSBxZ3JhcGggZG9jdW1lbnRhdGlvbikKMTEvMTQgQ2hlY2tpbmcgY29tbWl0IDdlMmQ5
-NDNlNjQzMSAoQWNjZXB0YW5jZSBUZXN0czogcmVzdG9yZSBkb3dubG9hZGluZyBvZiBWTSBpbWFn
-ZXMpCjEyLzE0IENoZWNraW5nIGNvbW1pdCA0ZGVlMjkwNGJlN2EgKEFjY2VwdGFuY2UgVGVzdHM6
-IHJlc3RvcmUgZmlsdGVyaW5nIG9mIHRlc3RzIGJ5IHRhcmdldCBhcmNoKQoxMy8xNCBDaGVja2lu
-ZyBjb21taXQgY2Q1NGY4MWQwMGQ2IChSZW1vdmUgZGVwcmVjYXRlZCB0YXJnZXQgdGlsZWd4KQpV
-c2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5nIGVx
-IGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-ODI6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
-cywgMTMwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEzLzE0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjE0LzE0IENoZWNraW5nIGNvbW1pdCAwMDFlMGY2ZDljY2UgKGJzZC11c2VyOiBBZGQgbmV3
-IG1haW50YWluZXJzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
-aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDIxMDMwOTEwNDYxNy43MTQ5MDgtMS10aHV0aEByZWRoYXQuY29tL3Rlc3Rpbmcu
-Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
-bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
-ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 3/9/21 11:21 AM, David Edmondson wrote:
+> If a new bitmap entry is allocated, requiring the entire block to be
+> written, avoiding leaking the buffer allocated for the block should
+> the write fail.
+> 
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  block/vdi.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/vdi.c b/block/vdi.c
+> index 5627e7d764..2a6dc26124 100644
+> --- a/block/vdi.c
+> +++ b/block/vdi.c
+> @@ -690,6 +690,7 @@ nonallocating_write:
+>  
+>      logout("finished data write\n");
+>      if (ret < 0) {
+> +        g_free(block);
+>          return ret;
+>      }
+
+Alternative using g_autofree:
+
+-- >8 --
+diff --git a/block/vdi.c b/block/vdi.c
+index 5627e7d764a..1cd8ae2ba99 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -612,7 +612,7 @@ vdi_co_pwritev(BlockDriverState *bs, uint64_t
+offset, uint64_t bytes,
+     uint64_t data_offset;
+     uint32_t bmap_first = VDI_UNALLOCATED;
+     uint32_t bmap_last = VDI_UNALLOCATED;
+-    uint8_t *block = NULL;
++    g_autofree uint8_t *block = NULL;
+     uint64_t bytes_done = 0;
+     int ret = 0;
+
+@@ -705,9 +705,6 @@ nonallocating_write:
+         *header = s->header;
+         vdi_header_to_le(header);
+         ret = bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
+-        g_free(block);
+-        block = NULL;
+-
+         if (ret < 0) {
+             return ret;
+         }
+---
+
 
