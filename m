@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F098933317B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 23:27:30 +0100 (CET)
-Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B95333180
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 23:29:28 +0100 (CET)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJkp7-0007gV-HN
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 17:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46520)
+	id 1lJkr1-00011P-Lw
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 17:29:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJkoI-0007EH-P9
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:26:38 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45104)
+ id 1lJkos-0007oF-Th; Tue, 09 Mar 2021 17:27:14 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:45112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJkoF-0004Jy-Px
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 17:26:38 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id mm21so32338171ejb.12
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 14:26:35 -0800 (PST)
+ id 1lJkor-0004aS-B0; Tue, 09 Mar 2021 17:27:14 -0500
+Received: by mail-ej1-x632.google.com with SMTP id mm21so32343368ejb.12;
+ Tue, 09 Mar 2021 14:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tclFdy5liTKxd+HYQn0rcjOXUW+zOcvQ9qtXx+xFZu4=;
- b=CBNyi0sFZPzPEMdTDFP7oxmV8ZLjHL1hIiPyx03/0ImwOwkvhuUHphWcBwoxURIFPq
- AuaelJ3Jp5xZ14L9ahYZodztbe5ncFLhwAJZbN8rTGjEvdIwo0L7rQzNSHnUWAaRsrW9
- ES4JpbQR/1sy7JJmjIR2LX2aOgndQMTJoo3Un7MxAoydCcPTBjzFM+8Yurk86Ev9cg7y
- atOjk3F8v9qbT+07J6yfYlJCv4c9EL+q+ckZyfgjbAhdMZu14xSQUU+GYGuKQzz/VGTI
- FmnvpECDHVrm47wkIn4C1BG6FNXq/XBsHqwNwDhddkNSFqmR73kHgQU70zh7Xe3gMWN/
- 6caA==
+ bh=waypPTrL9HbDSh/r8YG8J4eKLb6Zf5sO+ndWAU14lRQ=;
+ b=div5lIRcAfjar/L8wbRIwBPWzRGSpmqMIkuvA/o7rHRWbUyz8fFA5czJbR4UePs659
+ f76wv55l2t/8DZUeAdIJlElsZed9A6dHKW03nSx81kuOx/Nalg2yV4k88yEIQzDzteRd
+ pLp1wFbCMw7bwGmb9es186x39xyFlHcxZg8DfjbLok9Uc477379pRMscXohQFwAC7yS6
+ 5BB+gZs4ZYzsTw9/kkJUkNlJfOjqWaRnHDgQ4DXBz2pd/2gDURLRddRabnbHMIWEx2r+
+ 7pufQlwQQSLddYrsd5UjIUplmYqCgT8MOzmgJx2JupNjuqkuBUX7de25SjV6fNluvNip
+ UC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tclFdy5liTKxd+HYQn0rcjOXUW+zOcvQ9qtXx+xFZu4=;
- b=EpsZ7K54ypSIX84JZvWFwUmit+/uczSxUOtqmJYJFBBh/LS8rqtALc8bjEth1JKAz4
- 9yTjLtH2WVC+JlNTXE2Bo30SA9Xk7KF9qn3egW2uOSQ4iJgvJ/mMGgLfZE0nL+AUk2wa
- 4V15m5WdrcDlmF6qAu9tKQM0YXJKc+XapgBjiP/nnx6dCYQQ3zoeTjNuhDs1iL4CgYMs
- 4jTr1mABnOwTvds/SKOiIctk/8gLdmRQi/0R96SzSdDMiCanvqwJHUl0PWTnO5IC2DR6
- L9BIG85lbr13cC7d0Oh6IKiP2Thd/eXVkyjl2WG+GlTQ5pl+vaumFYUzb/GE2fkPzsCT
- hwPA==
-X-Gm-Message-State: AOAM531XKz4wMeweJVJl/Ipvh9PGcI1wD6pcJqBTEQIkzQ8U0uBF80kp
- rFPgJqtNEv9fhOEJbC8sPvtMhEGdZxk=
-X-Google-Smtp-Source: ABdhPJyNBgdiFmG8qam26WGwZT7EegOGFcc+fN65g7EP49XnXEzXNjwQ/h5NWJeyBJAkuBkIK34ZaA==
-X-Received: by 2002:a17:906:8593:: with SMTP id
- v19mr318217ejx.32.1615328793552; 
- Tue, 09 Mar 2021 14:26:33 -0800 (PST)
+ bh=waypPTrL9HbDSh/r8YG8J4eKLb6Zf5sO+ndWAU14lRQ=;
+ b=Ljv01QqcsgxFxNOHsDbz5nc0d/WUzG1KEE5VqBec4uFd+s3dVafM6yZUQo5TmTZAVJ
+ BgbnphzRBLZvUaGlXtAHWlcqfXSu1IkTsUgXRsLPqk0xjtmvN/s0eeiXAQ03cArVxl7W
+ JNq5tVNN1oTFekFiNVy8BrvIidDfn8UL/ZfrWP+7MrUkFmYLUAhkkhrMXTyAiFXtKIut
+ h9k12M5KZ9qGbpr58M8Bc+91069xXyy7kbzv9ROfU6KIQlrEJ3iW0vEGaBQJDSCnMVcr
+ XfMoJH8YJB2JmxVSMAJAJ47d0LNOKSwkjSQwryH6rUdERRjYr5i9uPAkxoRV7955u3Gj
+ HBXQ==
+X-Gm-Message-State: AOAM532oO72UVi6+E8XSzhccGEStiB/1RKVdTRdZCw3Z6nyIpYSXBlkV
+ MCR3+rtAZoGvv8bsXUgyCcw=
+X-Google-Smtp-Source: ABdhPJxG1uEDCEC4NyUh8xhO4Aqjkdgf8ZgwP7xl+HV8em5ovn35l4yMUFI5EqeeKo9BJklSvLwhCA==
+X-Received: by 2002:a17:906:f02:: with SMTP id z2mr249595eji.469.1615328830990; 
+ Tue, 09 Mar 2021 14:27:10 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id dg26sm9726771edb.88.2021.03.09.14.26.32
+ by smtp.gmail.com with ESMTPSA id i11sm8633157ejf.76.2021.03.09.14.27.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 14:26:32 -0800 (PST)
-Subject: Re: [PULL 00/18] testing, docs, semihosting move and guest-loader
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210308135104.24903-1-alex.bennee@linaro.org>
- <CAFEAcA9d01LaFRW=NnqivAMCsxPUbRP8kqOuL0i=P3o42tSZEg@mail.gmail.com>
- <87ft148964.fsf@linaro.org>
+ Tue, 09 Mar 2021 14:27:10 -0800 (PST)
+Subject: Re: [PATCH v2] tests/acceptance: Add bFLT loader linux-user test
+To: qemu-devel@nongnu.org
+References: <20210214194524.768660-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <94023068-afd8-834d-c3a8-4ee15f4e44d5@amsat.org>
-Date: Tue, 9 Mar 2021 23:26:31 +0100
+Message-ID: <cae49194-7c6e-4c5e-6407-687c08ef67b9@amsat.org>
+Date: Tue, 9 Mar 2021 23:27:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <87ft148964.fsf@linaro.org>
+In-Reply-To: <20210214194524.768660-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,106 +86,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 7:37 PM, Alex Bennée wrote:
+ping?
+
+On 2/14/21 8:45 PM, Philippe Mathieu-Daudé wrote:
+> Add a very quick test that runs a busybox binary in bFLT format:
 > 
-> Peter Maydell <peter.maydell@linaro.org> writes:
+>   $ avocado --show=app run -t linux_user tests/acceptance/load_bflt.py
+>   JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
+>   JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
+>    (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
+>   RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+>   JOB TIME   : 0.54 s
 > 
->> On Mon, 8 Mar 2021 at 13:51, Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> The following changes since commit 91e92cad67caca3bc4b8e920ddb5c8ca64aac9e1:
->>>
->>>   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210305' into staging (2021-03-05 19:04:47 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>   https://github.com/stsquad/qemu.git tags/pull-testing-docs-xen-updates-080321-1
->>>
->>> for you to fetch changes up to 8109b8cadf5979a29b4b6e1ca7288bc0ee676426:
->>>
->>>   semihosting: Move hw/semihosting/ -> semihosting/ (2021-03-08 12:15:05 +0000)
->>>
->>> ----------------------------------------------------------------
->>> Testing, guest-loader and other misc tweaks
->>>
->>>   - add warning text to quickstart example
->>>   - add support for hexagon check-tcg tests
->>>   - add CFI tests to CI
->>>   - use --arch-only for docker pre-requisites
->>>   - fix .editorconfig for emacs
->>>   - add guest-loader for Xen-like hypervisor testing
->>>   - move generic-loader docs into manual proper
->>>   - move semihosting out of hw/
->>
->> Fails on x86-64 trying to do something with docker:
->>
->> make: Entering directory
->> '/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
->> /home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py --engine
->> auto build -t qemu/debian-hexagon-cross -f
->> /home/petmay01/linaro/qemu-for-merges/tests/docker/dockerfiles/debian-hexagon-cross.docker
->>   --registry registry.gitlab.com/qemu-project/qemu --add-current-user
->> --extra-files /home/petmay01/linaro/qemu-for-merges/tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
->> Using default tag: latest
->> latest: Pulling from qemu-project/qemu/qemu/debian10
->> Digest: sha256:4f96b88d2c3cf59d46d6173d86f240ef7b4f2b68509e6e5eec7b179aa1bfbf74
->> Status: Image is up to date for
->> registry.gitlab.com/qemu-project/qemu/qemu/debian10:latest
->> Using default tag: latest
->> latest: Pulling from qemu-project/qemu/qemu/debian-hexagon-cross
->> 45b42c59be33: Already exists
->> 7a55fd5ded7c: Already exists
->> [...]
->>
->> 40ae5f465547: Pull complete
->> Digest: sha256:c5f3e6f6a761c17570945059e60297352380379f9222fe444f998c6ea7e9d4ce
->> Status: Downloaded newer image for
->> registry.gitlab.com/qemu-project/qemu/qemu/debian-hexagon-cross:latest
-
-^ until here, all good.
-
->>
->> #1 [internal] load build definition from tmplp8d2u1p.docker
->> #1       digest:
->> sha256:639f37ba0ced2cf59254e62ec107d1d7ccd627d6876fb2b465f50c88c4baa44d
->> #1         name: "[internal] load build definition from tmplp8d2u1p.docker"
->> #1      started: 2021-03-09 16:53:55.092177401 +0000 UTC
->> #1    completed: 2021-03-09 16:53:55.092271396 +0000 UTC
->> #1     duration: 93.995µs
->> #1      started: 2021-03-09 16:53:55.092598107 +0000 UTC
->> #1    completed: 2021-03-09 16:53:55.188002068 +0000 UTC
->> #1     duration: 95.403961ms
->> #1 transferring dockerfile: 1.26kB done
->>
->> [...]
->> #9 [internal] load build context
->> #9      started: 2021-03-09 16:53:56.338003711 +0000 UTC
->> #9    completed: 2021-03-09 16:53:56.42858509 +0000 UTC
->> #9     duration: 90.581379ms
->> #9 transferring context: 4.19kB done
->>
->>
->> #7 [2/6] RUN apt update &&     DEBIAN_FRONTEND=noninteractive eatmydata    ...
->> #7       digest:
->> sha256:d73bbaa9b5d86f286257ada3d545250e61e000c22c1f971f003578dc00661346
->> #7         name: "[2/6] RUN apt update &&
->> DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu"
-
-^ why is that run?...
-
->> #7      started: 2021-03-09 16:53:56.338854291 +0000 UTC
->> #7 0.553
->> #7 0.553 WARNING: apt does not have a stable CLI interface. Use with
->> caution in scripts.
->> #7 0.553
->> #7    completed: 2021-03-09 16:54:00.554068941 +0000 UTC
->> #7     duration: 4.21521465s
->> #7        error: "executor failed running [/bin/sh -c apt update &&
->>  DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu]:
->> exit code: 137: context canceled: context canceled"
-
-:/
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Based-on: <20210214175912.732946-1-f4bug@amsat.org>
+>   tests/acceptance: Extract QemuBaseTest from Test
+>   tests/acceptance: Make pick_default_qemu_bin() more generic
+>   tests/acceptance: Introduce QemuUserTest base class
+> ---
+>  tests/acceptance/load_bflt.py | 51 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 tests/acceptance/load_bflt.py
+> 
+> diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.py
+> new file mode 100644
+> index 00000000000..4b7796d0775
+> --- /dev/null
+> +++ b/tests/acceptance/load_bflt.py
+> @@ -0,0 +1,51 @@
+> +# Test the bFLT format
+> +#
+> +# Copyright (C) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +import os
+> +import bz2
+> +import subprocess
+> +
+> +from avocado_qemu import QemuUserTest
+> +
+> +
+> +class LoadBFLT(QemuUserTest):
+> +
+> +    def extract_cpio(self, cpio_path):
+> +        """
+> +        Extracts a cpio archive into the test workdir
+> +
+> +        :param cpio_path: path to the cpio archive
+> +        """
+> +        cwd = os.getcwd()
+> +        os.chdir(self.workdir)
+> +        with bz2.open(cpio_path, 'rb') as archive_cpio:
+> +            subprocess.run(['cpio', '-i'], input=archive_cpio.read(),
+> +                           stderr=subprocess.DEVNULL)
+> +        os.chdir(cwd)
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+> +    def test_stm32(self):
+> +        """
+> +        :avocado: tags=arch:arm
+> +        :avocado: tags=linux_user
+> +        :avocado: tags=quick
+> +        """
+> +        # See https://elinux.org/STM32#User_Space
+> +        rootfs_url = ('https://elinux.org/images/5/51/'
+> +                      'Stm32_mini_rootfs.cpio.bz2')
+> +        rootfs_hash = '9f065e6ba40cce7411ba757f924f30fcc57951e6'
+> +        rootfs_path_bz2 = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
+> +        busybox_path = self.workdir + "/bin/busybox"
+> +
+> +        self.extract_cpio(rootfs_path_bz2)
+> +
+> +        res = self.run(busybox_path)
+> +        ver = 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-call binary.'
+> +        self.assertIn(ver, res.stdout_text)
+> +
+> +        res = self.run(busybox_path, ['uname', '-a'])
+> +        unm = 'armv7l GNU/Linux'
+> +        self.assertIn(unm, res.stdout_text)
+> 
 
