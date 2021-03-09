@@ -2,89 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351F33323A5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:09:30 +0100 (CET)
-Received: from localhost ([::1]:37360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4C63323AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:11:21 +0100 (CET)
+Received: from localhost ([::1]:45922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaEz-0003vY-8n
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:09:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
+	id 1lJaGm-0007Vm-RT
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:11:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa3f-0008VX-UR
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:57:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35376)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJa5C-0002P2-MD
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:59:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa3e-0004YR-8B
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:57:47 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJa5A-0005Tu-RP
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:59:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615287465;
+ s=mimecast20190719; t=1615287559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hXWvbuBVFniX4JX9BiUt02YKZBohAC5KmK2NT6xHghY=;
- b=OY6A2opxabjr0g6F5Ve0HzNVOF3M2RaOrG8wnv5ZUAETrIMXBI1tST/x0GGg4qb98Z+AUy
- Hzk18TtzMiTlLvi0waqBOdXkO/ImFl+kINY5As68EbN7uQ5HajwPSNLKkFAEe5JahbtOVo
- nd/HeP3BNqiGVD2lkaQF567j925cy7o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-Qz9um4A4OnG6GNfLRMv5WQ-1; Tue, 09 Mar 2021 05:57:43 -0500
-X-MC-Unique: Qz9um4A4OnG6GNfLRMv5WQ-1
-Received: by mail-wm1-f70.google.com with SMTP id z26so972563wml.4
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:57:43 -0800 (PST)
+ bh=yRxvsKmNncV8gIbdVotOotnEES0pzldxGy8qKwFrEho=;
+ b=JvKG2RFgRPeKV6TqgY+l+EMK523vnmgm5Rz0fnZpCVRRZDOgFIB34StDq3ShqwzZt3tnoG
+ hLJaCJimQGPzUzWIfCIPickBipkJOq4881yg63RPn7dT7dK/P488l3xL2gvL8F1dEtVzxY
+ fHjrbOE2xowwLct4AZhhbu95emwBito=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-5vVClVc8OymrxOt76nJcag-1; Tue, 09 Mar 2021 05:59:16 -0500
+X-MC-Unique: 5vVClVc8OymrxOt76nJcag-1
+Received: by mail-ej1-f71.google.com with SMTP id en21so5465825ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:59:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hXWvbuBVFniX4JX9BiUt02YKZBohAC5KmK2NT6xHghY=;
- b=J85A24vad3DaXVaNryjH7ye7ZGLEAiO2OvqqnCBoO7jx8I3nf+vTFwmxjjcj7rLJ7Q
- NeGf8JaxnZVkOLaErOp1bvP72mg2fgGGmEWdvjQuU0MWU0Dwo/lSHDD6a7Q7c88qn4ta
- OLN7HDA+KbnjgfWoI8g3WavuzoNbsQVkIkqu3FF8dlv1prRqyxN8fDSD66vb1oUEbVTO
- xWhiu5VgoNuKe2X41aF8ZT/E35UvK5/1iFAJjxNFgZwimtGAUQjAenNF/SGwz874TJGD
- gfssYrvctH7gcWQnzftioFMwC5DiVsMqurv6yYXMsQeuY1Qa/J4LNrzZhMkV7rjkRlgg
- 0O5g==
-X-Gm-Message-State: AOAM531FNccjblYZPz2qwX2KxT8CPDiVIIiO/dOMHbPgAJuxrQ7iJzVB
- un4NGr4bCjhMGEVFjq4VI5mrr2qES+RIyBJNkt4knfZ2XoB5t89gAw8RWJ7hlbvG0nMC7pGE6Wt
- OMDC/BiAE7QWBgzI=
-X-Received: by 2002:adf:8547:: with SMTP id 65mr27775774wrh.269.1615287462363; 
- Tue, 09 Mar 2021 02:57:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzEtrTd0dSrSYZeg0Px7Zg01XD1LjrGrEVevFA3G2vMMpx7J3+zriIV6zPzJm0+7xDow1BUQQ==
-X-Received: by 2002:adf:8547:: with SMTP id 65mr27775762wrh.269.1615287462248; 
- Tue, 09 Mar 2021 02:57:42 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id j125sm3382274wmb.44.2021.03.09.02.57.41
+ bh=yRxvsKmNncV8gIbdVotOotnEES0pzldxGy8qKwFrEho=;
+ b=gw3XMUMT5e9LwobI/nApSGVh4JCIKFxIATYWZgCKGogXnF4TFU3TICpPjkmDV/Ooo9
+ 3GUhaBSK2lPKoS1/+hZX4+fvspl3lsFTlZ7S64YHi/9/57gQ9Cfjm7ku7LDmDa6MPuM8
+ ixusvqVNzwZZptGovPo8/Zu3zCW+1NkQ4Pk1gdxumHjZiY6SYmCFRp3ZWaLylf4C/lBO
+ cT0Y1Tlao9CNp2tezDbBkAf59UGkQbZmRMr+FOS1NUCdW8XPi6XwL8NOb+emQ6QLZu++
+ Udrh24G73AKyVMMZ1KdFCWUhKR1O1Oq9pfgrUhlmk/9DNq9nhMiyTXaiEwmiIIZ4ZZyI
+ e5zw==
+X-Gm-Message-State: AOAM531CuDhtbhgmxdJGPgLJESXvRtgnycuGQtUO1DhDiYOUReCS80dR
+ Pk5PuImryhlTrcN45YQgnr2zj/e2DooE0bgl7dtwuOI0qx0jTIQVzLAafc4oCO1PZYlSpsHCvvl
+ AinwCSQ6HOrz0lYo=
+X-Received: by 2002:a17:906:938f:: with SMTP id
+ l15mr19436263ejx.15.1615287554906; 
+ Tue, 09 Mar 2021 02:59:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznyub/crQRN/XENIHLOSwbnmDeeAGtikZrPAykFShyORkRtbppdBfjpySupGO2CcNbZIUM1w==
+X-Received: by 2002:a17:906:938f:: with SMTP id
+ l15mr19436240ejx.15.1615287554658; 
+ Tue, 09 Mar 2021 02:59:14 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p3sm8102760ejd.7.2021.03.09.02.59.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 02:57:41 -0800 (PST)
-Subject: Re: [PATCH v3] bsd-user: Add new maintainers
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20210308224023.75187-1-imp@bsdimp.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <49ed6b25-8ed1-efab-a0fc-4118451df35f@redhat.com>
-Date: Tue, 9 Mar 2021 11:57:41 +0100
+ Tue, 09 Mar 2021 02:59:14 -0800 (PST)
+Subject: Re: [RFC PATCH 4/4] coroutine/rwlock: Wake writers in preference to
+ readers
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
+References: <20210309102157.365356-1-david.edmondson@oracle.com>
+ <20210309102157.365356-5-david.edmondson@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d2e118ce-2d86-b53b-c698-c0fa7afc5428@redhat.com>
+Date: Tue, 9 Mar 2021 11:59:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210308224023.75187-1-imp@bsdimp.com>
+In-Reply-To: <20210309102157.365356-5-david.edmondson@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,28 +103,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 11:40 PM, Warner Losh wrote:
-> The FreeBSD project has a number of enhancements to bsd-user. These changes have
-> evolved over the past 10 year, and aren't currently updated to the latest
-> version of qemu due to fluxuations in staffing causing us to fall behind in the
-> past. We're working on porting all the changes forward and contributing all the
-> changes back to qemu. Add myself as maintainer and Kyle Evans as a reviewer for
-> changes. In addition, add a pointer to our github repo in the interim while this
-> work is ongoing.
-
-Thanks for this explanation and for doing this!
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+On 09/03/21 11:21, David Edmondson wrote:
+> A feature of the current rwlock is that if multiple coroutines hold a
+> reader lock, all must be runnable. The unlock implementation relies on
+> this, choosing to wake a single coroutine when the final read lock
+> holder exits the critical section, assuming that it will wake a
+> coroutine attempting to acquire a write lock.
 > 
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> The downgrade implementation violates this assumption by creating a
+> read lock owning coroutine that is exclusively runnable - any other
+> coroutines that are waiting to acquire a read lock are *not* made
+> runnable when the write lock holder converts its ownership to read
+> only.
+> 
+> As a result of this, a coroutine that downgrades a write lock can
+> later cause unlock to wake a coroutine that is attempting to acquire a
+> read lock rather than one aiming for a write lock, should the
+> coroutines be so ordered in the wait queue.
+> 
+> If the wait queue contains both read hopefuls and write hopefuls, any
+> read hopeful coroutine that is woken will immediately go back onto the
+> wait queue when it attempts to acquire the rwlock, due to the pending
+> write acquisition. At this point there are no coroutines holding
+> either read or write locks and no way for the coroutines in the queue
+> to be made runnable. A hang ensues.
+> 
+> Address this by using separate queues for coroutines attempting to
+> acquire read and write ownership of the rwlock. When unlocking, prefer
+> to make runnable a coroutine that is waiting for a write lock, but if
+> none is available, make all coroutines waiting to take a read lock
+> runnable.
+> 
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+
+This is certainly the simplest solution, I like it.  And if I understand 
+it correctly, doing this instead in unlock:
+
+         if (lock->reader || !qemu_co_queue_next(&lock->wqueue)) {
+             qemu_co_queue_restart_all(&lock->rqueue);
+
+would be incorrect because readers could starve writers.
+
+Regarding this particular bug, do you think you could write a testcase too?
+
+Thanks,
+
+Paolo
+
 > ---
->  MAINTAINERS | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>   include/qemu/coroutine.h   |  8 +++++---
+>   util/qemu-coroutine-lock.c | 24 +++++++++++++++---------
+>   2 files changed, 20 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> index 84eab6e3bf..3dfbf57faf 100644
+> --- a/include/qemu/coroutine.h
+> +++ b/include/qemu/coroutine.h
+> @@ -241,7 +241,8 @@ typedef struct CoRwlock {
+>       int pending_writer;
+>       int reader;
+>       CoMutex mutex;
+> -    CoQueue queue;
+> +    CoQueue rqueue;
+> +    CoQueue wqueue;
+>   } CoRwlock;
+>   
+>   /**
+> @@ -283,8 +284,9 @@ void qemu_co_rwlock_downgrade(CoRwlock *lock);
+>   void qemu_co_rwlock_wrlock(CoRwlock *lock);
+>   
+>   /**
+> - * Unlocks the read/write lock and schedules the next coroutine that was
+> - * waiting for this lock to be run.
+> + * Unlocks the read/write lock and schedules the next coroutine that
+> + * was waiting for this lock to be run, preferring to wake one
+> + * attempting to take a write lock over those taking a read lock.
+>    */
+>   void qemu_co_rwlock_unlock(CoRwlock *lock);
+>   
+> diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+> index eb73cf11dc..c05c143142 100644
+> --- a/util/qemu-coroutine-lock.c
+> +++ b/util/qemu-coroutine-lock.c
+> @@ -330,7 +330,8 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
+>   void qemu_co_rwlock_init(CoRwlock *lock)
+>   {
+>       memset(lock, 0, sizeof(*lock));
+> -    qemu_co_queue_init(&lock->queue);
+> +    qemu_co_queue_init(&lock->rqueue);
+> +    qemu_co_queue_init(&lock->wqueue);
+>       qemu_co_mutex_init(&lock->mutex);
+>   }
+>   
+> @@ -341,7 +342,7 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock)
+>       qemu_co_mutex_lock(&lock->mutex);
+>       /* For fairness, wait if a writer is in line.  */
+>       while (lock->pending_writer) {
+> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
+> +        qemu_co_queue_wait(&lock->rqueue, &lock->mutex);
+>       }
+>       lock->reader++;
+>       qemu_co_mutex_unlock(&lock->mutex);
+> @@ -356,17 +357,22 @@ void qemu_co_rwlock_unlock(CoRwlock *lock)
+>   
+>       assert(qemu_in_coroutine());
+>       if (!lock->reader) {
+> -        /* The critical section started in qemu_co_rwlock_wrlock.  */
+> -        qemu_co_queue_restart_all(&lock->queue);
+> +        /* The critical section started in qemu_co_rwlock_wrlock or
+> +         * qemu_co_rwlock_upgrade.
+> +         */
+> +        qemu_co_queue_restart_all(&lock->wqueue);
+> +        qemu_co_queue_restart_all(&lock->rqueue);
+>       } else {
+>           self->locks_held--;
+>   
+>           qemu_co_mutex_lock(&lock->mutex);
+>           lock->reader--;
+>           assert(lock->reader >= 0);
+> -        /* Wakeup only one waiting writer */
+> -        if (!lock->reader) {
+> -            qemu_co_queue_next(&lock->queue);
+> +        /* If there are no remaining readers wake one waiting writer
+> +         * or all waiting readers.
+> +         */
+> +        if (!lock->reader && !qemu_co_queue_next(&lock->wqueue)) {
+> +            qemu_co_queue_restart_all(&lock->rqueue);
+>           }
+>       }
+>       qemu_co_mutex_unlock(&lock->mutex);
+> @@ -392,7 +398,7 @@ void qemu_co_rwlock_wrlock(CoRwlock *lock)
+>       qemu_co_mutex_lock(&lock->mutex);
+>       lock->pending_writer++;
+>       while (lock->reader) {
+> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
+> +        qemu_co_queue_wait(&lock->wqueue, &lock->mutex);
+>       }
+>       lock->pending_writer--;
+>   
+> @@ -411,7 +417,7 @@ void qemu_co_rwlock_upgrade(CoRwlock *lock)
+>       lock->reader--;
+>       lock->pending_writer++;
+>       while (lock->reader) {
+> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
+> +        qemu_co_queue_wait(&lock->wqueue, &lock->mutex);
+>       }
+>       lock->pending_writer--;
+>   
+> 
 
 
