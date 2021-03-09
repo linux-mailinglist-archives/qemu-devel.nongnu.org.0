@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81688331DD7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 05:22:02 +0100 (CET)
-Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF510331DDA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 05:24:40 +0100 (CET)
+Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJTsf-0000zE-1v
-	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 23:22:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
+	id 1lJTvD-0002Ks-Si
+	for lists+qemu-devel@lfdr.de; Mon, 08 Mar 2021 23:24:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJTrI-0000Eo-1f
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:20:36 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:33000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lJTrF-0000cI-Js
- for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:20:35 -0500
-Received: by mail-ed1-x533.google.com with SMTP id x9so17966592edd.0
- for <qemu-devel@nongnu.org>; Mon, 08 Mar 2021 20:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Gbw+QeSCNgheaK9bBLrk580QPYS70O6kECamW6thIEo=;
- b=dTHioCFYtkd4w933FXtRXrme385Ju7LBg2khQhYJvYu6SmZutL4zsiB7p4wJcNietc
- 8U8k5N3/n7el97sqYn9TIkc0UTOrIsikfYVokHPP4AR0uevR6AcKXRXrpxHy65V1xQeL
- 1O8ikbyIreH0nfKurOdgAcstlM5ivS99+rTZmj0aQRe+6e4MC6LAaTYKGa9EV51c23uh
- 3caIiEEMvVw+RLhoH+JClEh72Q9ms6D3yahicwgs/Qnr62mb3eiVwPfyhKx8j7yJiCCJ
- 53PS8eoMN7jiufXgy27ZoO05V6twR6H+U+a5iItuOvQD6BIqXCeo7zK9iMGSaJGNP5bs
- Lbhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Gbw+QeSCNgheaK9bBLrk580QPYS70O6kECamW6thIEo=;
- b=J0eaYVfmnfqQErFEWHXwkBnPuvthsHYvtU+BRCg22BvmSIpM87+RPyOG2uSLfwwE3W
- ZevxRSYF11qHKNP/XjfH8XOSbX6fAX7NTNT33s7navCGIteDQQ0W44YpN2EAvhV0StDb
- EGV3P9WLlWwY94sC2iDNqgjtIr7HIpu315h0MzOr6axGXDmXnO9mzje/Hl/FZZN/iZ1f
- VOVjX+9AGZyp7YBmibmfJ7LNPFskgEzDiNh6W8g3+pOlWa/Ae4fnsUsMN3rRJIsr2Vlm
- tiKNawsIkQOyjRqApF2U/mWwt39AKL/kpmdxBEq1iMa8aAyUvt2OFO6OPlPb0uwD74V1
- Xzfg==
-X-Gm-Message-State: AOAM530AECohfSXW7VbOaNXmqcNgSqT0Fvd/dkPQjlelC+eFkiPFFfgB
- DGFQadf2TgyG8v/qEszolyoFRQIn0g97l5Z77cI=
-X-Google-Smtp-Source: ABdhPJyQ0stx7/kudkjegDG3kpm/g+oWTmlV17ZjshnMoiuRGvxW6d/BA8r1U583+V9v1S/igyXHqXG+BrW0Ti0vadY=
-X-Received: by 2002:a50:fa42:: with SMTP id c2mr1925746edq.159.1615263630609; 
- Mon, 08 Mar 2021 20:20:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJTu9-0001vO-Mm
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:23:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lJTu7-0002LX-7F
+ for qemu-devel@nongnu.org; Mon, 08 Mar 2021 23:23:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615263808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OfRUE4LCefTkOXIOevKpR1ItTWl/4t1ZzUofK3Ks0Ws=;
+ b=WIavX9sF2qlny8KAW8RxiUqPy19YGU4MZdYqT/npqjxRlngTXocSLAAdHh4foIzDfD0Q58
+ D7jyAewWK4JVzZUJxbczI7EOCLYkpFITZjG6Br63E9wH2LgqJuiYCR+hLxM33aviJZQ58X
+ Y00jcthKQKdkuCk/JW+xqAkVRJUX7sY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-FYxE7R1bMA-WKyjGSoM8gw-1; Mon, 08 Mar 2021 23:23:27 -0500
+X-MC-Unique: FYxE7R1bMA-WKyjGSoM8gw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E239557;
+ Tue,  9 Mar 2021 04:23:25 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-195.pek2.redhat.com
+ [10.72.12.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3B415D9D3;
+ Tue,  9 Mar 2021 04:23:16 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ jasowang@redhat.com
+Subject: [PATCH V2] virtio-net: calculating proper msix vectors on init
+Date: Tue,  9 Mar 2021 12:23:14 +0800
+Message-Id: <20210309042314.45817-1-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <E1lIzWX-0003qN-Me@lizzy.crudebyte.com>
- <CAMVc7JVK0FuBuyVvH3ai7V2HxQeiy8dMPHDYB-c7w7ARQL7nMw@mail.gmail.com>
- <2f4c50c9-930f-b820-b507-d9e43da20093@redhat.com> <2232725.kIh4fn7MiB@silver>
-In-Reply-To: <2232725.kIh4fn7MiB@silver>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Tue, 9 Mar 2021 13:20:19 +0900
-Message-ID: <CAMVc7JU9=02VC0j_bku+R6hBK-apWD2hcKJezSZnh7Kvqw9tKA@mail.gmail.com>
-Subject: Re: [PATCH] ui/gtk: fix NULL pointer dereference
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B43=E6=9C=888=E6=97=A5(=E6=9C=88) 23:58 Christian Schoenebeck <q=
-emu_oss@crudebyte.com>:
->
-> Yes, but the optimizer part could be disabled with
-> -fno-delete-null-pointer-checks which would render it a pure diagnostic
-> feature:
->
-> https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-=
-nonnull-function-attribute
->
-> Is there an example where the compiler failed to detect a NULL user case?
->
-> Best regards,
-> Christian Schoenebeck
->
->
+Currently, the default msix vectors for virtio-net-pci is 3 which is
+obvious not suitable for multiqueue guest, so we depends on the user
+or management tools to pass a correct vectors parameter. In fact, we
+can simplifying this by calculating the number of vectors on realize.
 
--fno-delete-null-pointer-checks also prevents the compiler to infer
-that a pointer is never NULL with the fact it is dereferenced
-somewhere else. It also disables
--fisolate-erroneous-paths-dereference, which turns code paths with
-NULL pointer dereferences into traps. I suspect these side effects are
-too important to ignore.
+Consider we have N queues, the number of vectors needed is 2*N + 2
+(#queue pairs + plus one config interrupt and control vq). We didn't
+check whether or not host support control vq because it was added
+unconditionally by qemu to avoid breaking legacy guests such as Minix.
 
-Perhaps we may define QEMU_NONNULL as once it was, and document that
-it affects runtime behaviors and should not be blindly added to
-functions that already exist. We may also be able to enable
--fisolate-erroneous-paths-attribute, which turns code paths with NULL
-pointer passing to such functions into traps, if we explicitly state
-that it has runtime effects.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+Changes since v1:
+- Fix typo in the commit log
+- Explain the magic number during vectors calculation
+---
+ hw/core/machine.c          |  1 +
+ hw/virtio/virtio-net-pci.c | 10 +++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-Regards,
-Akihiko Odaki
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 4386f57b5c..979133f8b7 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@
+ GlobalProperty hw_compat_5_2[] = {
+     { "ICH9-LPC", "smm-compat", "on"},
+     { "PIIX4_PM", "smm-compat", "on"},
++    { "virtio-net-pci", "vectors", "3"},
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+ 
+diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
+index 292d13d278..aa0b3caecb 100644
+--- a/hw/virtio/virtio-net-pci.c
++++ b/hw/virtio/virtio-net-pci.c
+@@ -41,7 +41,8 @@ struct VirtIONetPCI {
+ static Property virtio_net_properties[] = {
+     DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
+                     VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
+-    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -50,6 +51,13 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *qdev = DEVICE(vpci_dev);
+     VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
++    VirtIONet *net = VIRTIO_NET(vdev);
++
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1)
++            + 1 /* Config interrupt */
++            + 1 /* Control vq */;
++    }
+ 
+     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+                                   object_get_typename(OBJECT(qdev)));
+-- 
+2.24.3 (Apple Git-128)
+
 
