@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922D8332A1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:19:16 +0100 (CET)
-Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3F233299D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:04:32 +0100 (CET)
+Received: from localhost ([::1]:47538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJe8h-000491-IS
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:19:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
+	id 1lJduR-0001iM-DM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:04:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJdMx-00081X-EI
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:29:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJdMv-0007bx-1t
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:29:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615300192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oRhpyJBNEL7Nd7fkc0QxRcvkdst0aGDSo+U81UMj2ZQ=;
- b=Ci3Q8E7sgXpnO2ut5rgDz4Bq+ul2NTAs6gUxC+eeB9j5svPCfcW6yPG4GKY4DlSIWIgSek
- JY5IPst+TpDRDG3goivPfHnvd5kNw6GZGIQb5MDs+vI9zo8q6D/RPEr0YmygSFZPdialK5
- acPLCcuWiD3MkqRLDZctKrJw3DcY1XE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-NYGri0P9PNSgZUAgUMVP1w-1; Tue, 09 Mar 2021 09:29:50 -0500
-X-MC-Unique: NYGri0P9PNSgZUAgUMVP1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 345CD1009E2D;
- Tue,  9 Mar 2021 14:29:49 +0000 (UTC)
-Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70C9F59444;
- Tue,  9 Mar 2021 14:29:43 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] usb: Un-deprecate -usbdevice (except for -usbdevice audio
- which gets removed)
-Date: Tue,  9 Mar 2021 15:29:40 +0100
-Message-Id: <20210309142940.943831-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJdQO-0002oK-Fi
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:33:28 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJdQL-0000j2-Gl
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:33:28 -0500
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4DvyKv2QvGz143FM;
+ Tue,  9 Mar 2021 22:30:27 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 9 Mar 2021 22:33:18 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Tue, 9 Mar 2021 22:33:17 +0800
+Subject: Re: [PATCH v3 2/3] migration/ram: Reduce unnecessary rate limiting
+To: Peter Xu <peterx@redhat.com>
+References: <20210305075035.1852-1-jiangkunkun@huawei.com>
+ <20210305075035.1852-3-jiangkunkun@huawei.com>
+ <20210305142250.GE397383@xz-x1>
+ <a4c34c08-b686-8ec1-8e8d-2770e26e38c5@huawei.com>
+ <20210308211255.GL397383@xz-x1>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <b426bf66-f5d9-c5ea-fb2f-24b615743075@huawei.com>
+Date: Tue, 9 Mar 2021 22:33:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210308211255.GL397383@xz-x1>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,142 +70,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC
+ here" <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When trying to remove the -usbdevice option, there were complaints that
-"-usbdevice braille" is still a very useful shortcut for some people.
-Thus we never remove this option. Since it's not such a big burden to
-keep it around, and it's also convenient in the sense that you don't
-have to worry to enable a host controller explicitly with this option,
-we should remove it from he deprecation list again, and rather properly
-document the possible device for this option instead.
+Hi,
 
-However, there is one exception: "-usbdevice audio" should go away, since
-audio devices without "audiodev=..." parameter are also on the deprecation
-list and you cannot use "-usbdevice audio" with "audiodev".
+On 2021/3/9 5:12, Peter Xu wrote:
+> On Mon, Mar 08, 2021 at 06:34:58PM +0800, Kunkun Jiang wrote:
+>> Hi,
+>>
+>> On 2021/3/5 22:22, Peter Xu wrote:
+>>> Kunkun,
+>>>
+>>> On Fri, Mar 05, 2021 at 03:50:34PM +0800, Kunkun Jiang wrote:
+>>>> When the host page is a huge page and something is sent in the
+>>>> current iteration, the migration_rate_limit() should be executed.
+>>>> If not, this function can be omitted to save time.
+>>>>
+>>>> Rename tmppages to pages_this_iteration to express its meaning
+>>>> more clearly.
+>>>>
+>>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>>>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>>>> ---
+>>>>    migration/ram.c | 21 ++++++++++++++-------
+>>>>    1 file changed, 14 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/migration/ram.c b/migration/ram.c
+>>>> index a168da5cdd..9fc5b2997c 100644
+>>>> --- a/migration/ram.c
+>>>> +++ b/migration/ram.c
+>>>> @@ -1988,7 +1988,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+>>>>    static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>>>                                  bool last_stage)
+>>>>    {
+>>>> -    int tmppages, pages = 0;
+>>>> +    int pages = 0;
+>>>>        size_t pagesize_bits =
+>>>>            qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+>>>>        unsigned long start_page = pss->page;
+>>>> @@ -2000,21 +2000,28 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>>>        }
+>>>>        do {
+>>>> +        int pages_this_iteration = 0;
+>>>> +
+>>>>            /* Check if the page is dirty and send it if it is */
+>>>>            if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+>>>>                pss->page++;
+>>>>                continue;
+>>>>            }
+>>>> -        tmppages = ram_save_target_page(rs, pss, last_stage);
+>>>> -        if (tmppages < 0) {
+>>>> -            return tmppages;
+>>>> +        pages_this_iteration = ram_save_target_page(rs, pss, last_stage);
+>>>> +        if (pages_this_iteration < 0) {
+>>>> +            return pages_this_iteration;
+>>>>            }
+>>>> -        pages += tmppages;
+>>>> +        pages += pages_this_iteration;
+>>> To me, both names are okay, it's just that the new name doesn't really provide
+>>> a lot more new information, while it's even longer...
+>>>
+>>> Since you seem to prefer cleaning up tmppages, I'm actually thinking whether
+>>> it should be called as "pages" at all since ram_save_target_page() majorly only
+>>> returns either 1 if succeeded or <0 if error.  There's only one very corner
+>>> case of xbzrle where it can return 0 in save_xbzrle_page():
+>>>
+>>>       if (encoded_len == 0) {
+>>>           trace_save_xbzrle_page_skipping();
+>>>           return 0;
+>>>       }
+>>>
+>>> I think it means the page didn't change at all, then I'm also wondering maybe
+>>> it can also return 1 showing one page migrated (though actually skipped!) which
+>>> should still be fine for the callers, e.g., ram_find_and_save_block() who will
+>>> finally check this "pages" value.
+>>>
+>>> So I think _maybe_ that's a nicer cleanup to change that "return 0" to "return
+>>> 1", then another patch to make the return value to be (1) return 0 if page
+>>> saved, or (2) return <0 if error.  Then here in ram_save_host_page() tmppages
+>>> can be renamed to "ret" or "succeed".
+>> Thanks for your advice.
+>> change "return 0" to "return 1" would have a slight effect on
+>> 'rs->target_page_count += pages'
+>> in ram_save_iterate(). This may lead to consider more complex situations.
+>> What do you think of
+>> this?
+> I don't think we should change the meaning of ram_save_host_page()'s return
+> value, but only ram_save_target_page(); ram_save_host_page() could return >1
+> for huge pages.  Thanks,
+>
+I am not sure I have got your point. If I change "return 0" to "return 
+1" (actually skipped),
+the "pages" in the ram_save_host_page() will add 1(original add 0). Then 
+it will end the
+loop in the ram_find_and_save_block. And then in the ram_save_iterate(), 
+the modify may
+have a effect on "rs->target_page_count += page".
+I haven't done enough research on this part of code. Do you think this 
+change will have
+a big impact?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/system/deprecated.rst |  9 ---------
- hw/usb/dev-audio.c         |  1 -
- qemu-options.hx            | 38 ++++++++++++++++++++++++++++++++------
- softmmu/vl.c               |  2 --
- 4 files changed, 32 insertions(+), 18 deletions(-)
+Thanks,
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index cfabe69846..816eb4084f 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -21,15 +21,6 @@ deprecated.
- System emulator command line arguments
- --------------------------------------
- 
--``-usbdevice`` (since 2.10.0)
--'''''''''''''''''''''''''''''
--
--The ``-usbdevice DEV`` argument is now a synonym for setting
--the ``-device usb-DEV`` argument instead. The deprecated syntax
--would automatically enable USB support on the machine type.
--If using the new syntax, USB support must be explicitly
--enabled via the ``-machine usb=on`` argument.
--
- ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
-index e1486f81e0..f5cb246792 100644
---- a/hw/usb/dev-audio.c
-+++ b/hw/usb/dev-audio.c
-@@ -1024,7 +1024,6 @@ static const TypeInfo usb_audio_info = {
- static void usb_audio_register_types(void)
- {
-     type_register_static(&usb_audio_info);
--    usb_legacy_register(TYPE_USB_AUDIO, "audio", NULL);
- }
- 
- type_init(usb_audio_register_types)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 90801286c6..cef8c2da57 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1705,7 +1705,7 @@ ERST
- 
- DEFHEADING()
- 
--DEFHEADING(USB options:)
-+DEFHEADING(USB convenience options:)
- 
- DEF("usb", 0, QEMU_OPTION_usb,
-     "-usb            enable on-board USB host controller (if not enabled by default)\n",
-@@ -1723,9 +1723,31 @@ DEF("usbdevice", HAS_ARG, QEMU_OPTION_usbdevice,
-     QEMU_ARCH_ALL)
- SRST
- ``-usbdevice devname``
--    Add the USB device devname. Note that this option is deprecated,
--    please use ``-device usb-...`` instead. See the chapter about
-+    Add the USB device devname, and enable an on-board USB controller
-+    if possible and necessary (just like it can be done via
-+    ``-machine usb=on``). Note that this option is mainly intended for
-+    the user's convenience only. More fine-grained control can be
-+    achieved by selecting a USB host controller (if necessary) and the
-+    desired USB device via the ``-device`` option instead. For example,
-+    instead of using ``-usbdevice mouse`` it is possible to use
-+    ``-device qemu-xhci -device usb-mouse`` to connect the USB mouse
-+    to a USB 3.0 controller instead (at least on machines that support
-+    PCI and do not have an USB controller enabled by default yet).
-+    For more details, see the chapter about
-     :ref:`Connecting USB devices` in the System Emulation Users Guide.
-+    Possible devices for devname are:
-+
-+    ``braille``
-+        Braille device. This will use BrlAPI to display the braille
-+        output on a real or fake device (i.e. it also creates a
-+        corresponding ``braille`` chardev automatically beside the
-+        ``usb-braille`` USB device).
-+
-+    ``ccid``
-+        Smartcard reader device
-+
-+    ``keyboard``
-+        Standard USB keyboard. Will override the PS/2 keyboard (if present).
- 
-     ``mouse``
-         Virtual Mouse. This will override the PS/2 mouse emulation when
-@@ -1737,9 +1759,13 @@ SRST
-         position without having to grab the mouse. Also overrides the
-         PS/2 mouse emulation when activated.
- 
--    ``braille``
--        Braille device. This will use BrlAPI to display the braille
--        output on a real or fake device.
-+    ``u2f-key``
-+        U2F (Universal Second Factor) key.
-+
-+    ``wacom-tablet``
-+        Wacom PenPartner USB tablet.
-+
-+
- ERST
- 
- DEFHEADING()
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ff488ea3e7..76ebe7bb7a 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3180,8 +3180,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 qemu_opts_parse_noisily(olist, "usb=on", false);
-                 break;
-             case QEMU_OPTION_usbdevice:
--                error_report("'-usbdevice' is deprecated, please use "
--                             "'-device usb-...' instead");
-                 olist = qemu_find_opts("machine");
-                 qemu_opts_parse_noisily(olist, "usb=on", false);
-                 add_device_config(DEV_USB, optarg);
--- 
-2.27.0
+Kunkun Jiang
 
 
