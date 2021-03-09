@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8091332EF9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:26:52 +0100 (CET)
-Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E329B332EF0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:23:26 +0100 (CET)
+Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJi0J-00028E-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:26:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1lJhwz-0007XN-V2
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:23:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJg2h-00031k-6O
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:21:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJg2f-0003nl-DZ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:21:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615310468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0AE67cAPZJY8chQKOQmsktIOifoChSB3E3t0PP+IvFM=;
- b=VXuVtAb4VvFFsD9NAQTiDQd4rAEO9YxtLWaistzx8H8g2vF3myPx2L4WikbWliIjuewYOS
- ZLiXprRVzPDa54+s6+DR+39ozo8zhdA0FLba/Y7W+EKOc5ueAn3XzN5mY+33D8tPkyD+Wb
- 5ZpsSRqfJjksbSuSK1LGdYoeC/meIX0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-2w-cWkoBN1qoNuYKGoEWLw-1; Tue, 09 Mar 2021 12:21:06 -0500
-X-MC-Unique: 2w-cWkoBN1qoNuYKGoEWLw-1
-Received: by mail-wr1-f70.google.com with SMTP id r12so6740051wro.15
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 09:21:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJg32-0003Ue-Eb
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:21:32 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJg30-0003q6-Kt
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:21:32 -0500
+Received: by mail-ed1-x530.google.com with SMTP id dm26so21705840edb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 09:21:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UJdRBlWM+wZ66yoBLFObCROF7hpC192uscdEZY5GxEY=;
+ b=i7s2x861cgBBsbrHGRmdeg4lcqr8JtWLPuLXpvJXZB6jQIRv8ygX84y9nhO3lPm3T/
+ 0HNMI5LNowIOGU7Nn5xy/S3ZiX2JKIocWuSxA97YiZTAh+Zi9/bhsv4uSHiNPKkQxli0
+ kYtWwEgvYvYWVBxg0KtwecrLiL1KCfcJuYvjwD48vVlu8XoSX9sLxkmgQzoQz+oURQsG
+ 56l01mXem7M7I6pR9O7rwEJxbBg4jI22Uh3nrSP54rFyuLnB0TCoxipHRZ4kY9AN7esU
+ HcwbKll+8th415fmywxSYAa7XvlbXt/WPDaPieJgWmxVc2lAhm0sTYGxXsMy9D9cppm5
+ psKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0AE67cAPZJY8chQKOQmsktIOifoChSB3E3t0PP+IvFM=;
- b=DTevJCYTF1D3x0pj25rlfqeCStJfBQHFFi2j56FmZvEOuSjNLeWIZ8oSs6YYWnvTF+
- BhbPra3SdQABm3asje71t/jaWrpzBaxegXrrKjee6o1yQGwit0ieszYnznNwhSvfW9pL
- TmT7t2xOHoaf9V2qLUDWyPMCfSn2E4RwDr1cLQcv5ESZ2XPR5sfBT9AcPPtYTbrL+jxE
- qivq5X8xxOjPBMbNbZawoLPU4ZPx5qLmqEBFe2X3CHOP4kVoYhrVLky0J2lOcY/AVePQ
- 9e+XT1RMsDLBcKVa7EkzVdH4pP8Ym8Vk9ZnKG+413rv1BTDj/ZlDNaglojgvlKMamVxL
- HHwA==
-X-Gm-Message-State: AOAM533R3Vu9N3DR/U07yWVCVIeOhCSnIrPPFsjiAZXicZnybSLu7Zk8
- vdUVuA7MO1hC3oAfaOPZiITJB+IGcHF5SmGeO0YlicRFtZatICBuJuh9rPviTJS8W5fuuyZOBiO
- upNPHrY4TV5OuCYs=
-X-Received: by 2002:a1c:2155:: with SMTP id h82mr5314965wmh.169.1615310465735; 
- Tue, 09 Mar 2021 09:21:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzwp1OoO2fQMXJYdrgwF+6sk16RaVOGzbdTatJpBJGcC0TcSroVoH1g3nQT75CMdCfByZJO2w==
-X-Received: by 2002:a1c:2155:: with SMTP id h82mr5314933wmh.169.1615310465526; 
- Tue, 09 Mar 2021 09:21:05 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s11sm5364119wme.22.2021.03.09.09.21.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 09:21:04 -0800 (PST)
-Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
- audio which gets removed)
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20210309165035.967853-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <88c7a101-7cac-ed49-c45c-11fb7d7158d8@redhat.com>
-Date: Tue, 9 Mar 2021 18:21:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=UJdRBlWM+wZ66yoBLFObCROF7hpC192uscdEZY5GxEY=;
+ b=taKYc5G407uCcho9r+P9x08olvAfeN4ZgMdo9QlP/16yfgdjLiv5/gFN10eFqUllXF
+ X/raBBECOuQIg6NUBIfrDaIQYWeiKytR5XLlpWYOWVGTBxQnmixAsmvY4VyjLJfpYRt2
+ NEhRQfrdK6DNmvdEd7hdg264exhnZXsml2Yl/ZWp+9YWS/JnrCKcgcMBp8ZMaHwHN4jU
+ uGMeJkFYNh5g/nPaEbpVKYeeNv35spJC8R2dojZ6lxYIVXSBmDqDJ6CCsXIr8i+8bsqU
+ UnTZu7ZVZK9KL/L3vki4DQarwUnJV0lw+j/xPiTsCbUJKk0ZxA+a0fSQj6lGoZOp7JPM
+ j9hw==
+X-Gm-Message-State: AOAM533oJ1jhsBnLBSRAFATn+jiFg7FN+9yH7KpyR2KqA0OJhsxHIXVU
+ 7ijJogYfQWSsGzIod0USylli0A==
+X-Google-Smtp-Source: ABdhPJzd7DFAOy/ta9197qeuOVUD5N7hAjxjw523gv/J9m+LfrvcAJBi3w6bI5mInYzvWsUl4ppgcA==
+X-Received: by 2002:a05:6402:22f6:: with SMTP id
+ dn22mr5243032edb.214.1615310488766; 
+ Tue, 09 Mar 2021 09:21:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r13sm9475011edy.3.2021.03.09.09.21.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 09:21:27 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1A4981FF7E;
+ Tue,  9 Mar 2021 17:21:27 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 0/4] semihosting/next (SYS_HEAPINFO)
+Date: Tue,  9 Mar 2021 17:21:23 +0000
+Message-Id: <20210309172127.20470-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210309165035.967853-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,22 +85,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: keithp@keithp.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/21 17:50, Thomas Huth wrote:
-> +``-usbdevice audio`` (removed in 6.0)
-> +'''''''''''''''''''''''''''''''''''''
-> +
-> +This option lacked the possibility to specify an audio backend device.
-> +Use ``-device usb-audio`` now instead (and specify a corresponding USB
-> +host controller if necessary).
+Hi,
 
-Perhaps "a corresponding USB host controller or ``-usb``.  No need to 
-send v3 if you send it through your own pull request.
+Hopefully the final revision, instead of hacking about args to
+reverted to the orignal code (with minor tweaks for args). Still based
+on my in-flight PR:
 
-Paolo
+  pull-testing-docs-xen-updates-080321-1
+
+which already moves the semihosting code out of hw/. Please review:
+
+ - tests/tcg: add HeapInfo checking to semihosting test
+ - semihosting/arm-compat-semi: deref parameter register for SYS_HEAPINFO
+ - semihosting/arm-compat-semi: unify GET/SET_ARG helpers
+ - semihosting: move semihosting tests to multiarch
+
+
+Alex Bennée (4):
+  semihosting: move semihosting tests to multiarch
+  semihosting/arm-compat-semi: unify GET/SET_ARG helpers
+  semihosting/arm-compat-semi: don't use SET_ARG to report SYS_HEAPINFO
+  tests/tcg: add HeapInfo checking to semihosting test
+
+ tests/tcg/aarch64/semicall.h                  | 18 ++++++
+ tests/tcg/arm/semicall.h                      | 15 +----
+ tests/tcg/riscv64/semicall.h                  | 22 +++++++
+ semihosting/arm-compat-semi.c                 | 62 +++++++------------
+ tests/tcg/arm/semihosting.c                   | 26 --------
+ .../arm-compat-semi}/semiconsole.c            |  2 +
+ .../multiarch/arm-compat-semi/semihosting.c   | 62 +++++++++++++++++++
+ tests/tcg/Makefile.target                     |  3 +
+ tests/tcg/aarch64/Makefile.target             | 18 ------
+ tests/tcg/arm/Makefile.target                 | 16 +----
+ tests/tcg/multiarch/Makefile.target           | 31 ++++++++++
+ 11 files changed, 165 insertions(+), 110 deletions(-)
+ create mode 100644 tests/tcg/aarch64/semicall.h
+ create mode 100644 tests/tcg/riscv64/semicall.h
+ delete mode 100644 tests/tcg/arm/semihosting.c
+ rename tests/tcg/{arm => multiarch/arm-compat-semi}/semiconsole.c (93%)
+ create mode 100644 tests/tcg/multiarch/arm-compat-semi/semihosting.c
+
+-- 
+2.20.1
 
 
