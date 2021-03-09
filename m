@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE9033239D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:06:45 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351F33323A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:09:30 +0100 (CET)
+Received: from localhost ([::1]:37360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaCK-0000MT-P3
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:06:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
+	id 1lJaEz-0003vY-8n
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:09:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa11-0003nq-2o
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:55:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20987)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa3f-0008VX-UR
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:57:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa0t-0002mG-Fg
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:55:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJa3e-0004YR-8B
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:57:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615287293;
+ s=mimecast20190719; t=1615287465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GUkVWtO4wU2tLsNxibFoSMTJ0Z8k34HxCnX16WFh7XY=;
- b=V4q6wplz6uqECPRbqjFmyiAhg99R7i3fKIoakc5Dww/M74X1QfF72LG2oChocAFLJQLF9v
- WEqi87f1l1WnQC7FD/OG/6EBeKcGPyPYdhU0Q9cWsiXgu3TaJBHbSZJdbEhFVMI/CbD0ph
- rbBjsahftyYzBqqwJzAl9yppfM2Mm2k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-chSw4_o6OaOLEXCpBZpbuQ-1; Tue, 09 Mar 2021 05:54:52 -0500
-X-MC-Unique: chSw4_o6OaOLEXCpBZpbuQ-1
-Received: by mail-wm1-f72.google.com with SMTP id n25so979294wmk.1
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:54:52 -0800 (PST)
+ bh=hXWvbuBVFniX4JX9BiUt02YKZBohAC5KmK2NT6xHghY=;
+ b=OY6A2opxabjr0g6F5Ve0HzNVOF3M2RaOrG8wnv5ZUAETrIMXBI1tST/x0GGg4qb98Z+AUy
+ Hzk18TtzMiTlLvi0waqBOdXkO/ImFl+kINY5As68EbN7uQ5HajwPSNLKkFAEe5JahbtOVo
+ nd/HeP3BNqiGVD2lkaQF567j925cy7o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-Qz9um4A4OnG6GNfLRMv5WQ-1; Tue, 09 Mar 2021 05:57:43 -0500
+X-MC-Unique: Qz9um4A4OnG6GNfLRMv5WQ-1
+Received: by mail-wm1-f70.google.com with SMTP id z26so972563wml.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:57:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GUkVWtO4wU2tLsNxibFoSMTJ0Z8k34HxCnX16WFh7XY=;
- b=sfpa1wzvWrKM2D8Ij9AsBgTZveKR9/crNPN/k+ikGXuyeeQqT8qdg8kLx7PeiRkFk3
- aYFm6MNZCGnh1a2aN7m9ycKszDN+laPMIxsS9f8TErHn+5BUiDYboF+stu7mslTjyGIG
- woKzkWwZxAOa3SJZTnR7lbrGmYXXdsZhZcP9WIcTvLTcLJ7PpESGdytHgjNx6LtGrwLK
- +aQp9aBHwxJO+WTbePLVLg8I7HI1zTLnNbsyjaQh+og3KN375buNm/CgYbJDIqZl2DDE
- 2VPV2NgTYL7Xu+R8WNRxD8tdlM1tbWh4RlHx5sAMpgkfJYVcrV4fFe41U5MFhjCHirb/
- E9WQ==
-X-Gm-Message-State: AOAM532rRGgj1IhjSLS8ZC2LqeSDA5Gbvh5eFLXPNt+duMjsgKTbr7nB
- 4ot/3iiycVV1mahR06z/1wdUSyaYyzJO3M2GRyUpezDdtt/AC34yL8O+4WgYpCLuHanLzZZEzTa
- gMfNhxBGUCfuHZr8v5nikjDuQookq/lc10IkK6GBht82a8eIZ/So1c7vB9EHqhLkl
-X-Received: by 2002:a7b:cdf7:: with SMTP id p23mr3393823wmj.26.1615287291002; 
- Tue, 09 Mar 2021 02:54:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzKrD7YAsHYcqGiGcOLd2FHJQNXIlNNEr6Fl15OcoyqC6ea0GrqTx43YuYCfUQhOTjA2XvBoQ==
-X-Received: by 2002:a7b:cdf7:: with SMTP id p23mr3393800wmj.26.1615287290762; 
- Tue, 09 Mar 2021 02:54:50 -0800 (PST)
+ bh=hXWvbuBVFniX4JX9BiUt02YKZBohAC5KmK2NT6xHghY=;
+ b=J85A24vad3DaXVaNryjH7ye7ZGLEAiO2OvqqnCBoO7jx8I3nf+vTFwmxjjcj7rLJ7Q
+ NeGf8JaxnZVkOLaErOp1bvP72mg2fgGGmEWdvjQuU0MWU0Dwo/lSHDD6a7Q7c88qn4ta
+ OLN7HDA+KbnjgfWoI8g3WavuzoNbsQVkIkqu3FF8dlv1prRqyxN8fDSD66vb1oUEbVTO
+ xWhiu5VgoNuKe2X41aF8ZT/E35UvK5/1iFAJjxNFgZwimtGAUQjAenNF/SGwz874TJGD
+ gfssYrvctH7gcWQnzftioFMwC5DiVsMqurv6yYXMsQeuY1Qa/J4LNrzZhMkV7rjkRlgg
+ 0O5g==
+X-Gm-Message-State: AOAM531FNccjblYZPz2qwX2KxT8CPDiVIIiO/dOMHbPgAJuxrQ7iJzVB
+ un4NGr4bCjhMGEVFjq4VI5mrr2qES+RIyBJNkt4knfZ2XoB5t89gAw8RWJ7hlbvG0nMC7pGE6Wt
+ OMDC/BiAE7QWBgzI=
+X-Received: by 2002:adf:8547:: with SMTP id 65mr27775774wrh.269.1615287462363; 
+ Tue, 09 Mar 2021 02:57:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEtrTd0dSrSYZeg0Px7Zg01XD1LjrGrEVevFA3G2vMMpx7J3+zriIV6zPzJm0+7xDow1BUQQ==
+X-Received: by 2002:adf:8547:: with SMTP id 65mr27775762wrh.269.1615287462248; 
+ Tue, 09 Mar 2021 02:57:42 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id b186sm3456418wmc.44.2021.03.09.02.54.49
+ by smtp.gmail.com with ESMTPSA id j125sm3382274wmb.44.2021.03.09.02.57.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 02:54:50 -0800 (PST)
-Subject: Re: [RFC PATCH v2] meson: Only generate trace files for selected
- targets
-To: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210224213515.3331631-1-philmd@redhat.com>
- <YEZU4n1IW6lSQwxl@stefanha-x1.localdomain>
- <af8022d6-c729-5033-6efa-6a1ea23ebee7@redhat.com>
- <b9b3c6ac-e7c5-2f64-cc66-5303e6b9a2c4@suse.de>
- <7ff2c1ed-e6ad-4a6f-3552-be5ba90960d7@redhat.com>
+ Tue, 09 Mar 2021 02:57:41 -0800 (PST)
+Subject: Re: [PATCH v3] bsd-user: Add new maintainers
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210308224023.75187-1-imp@bsdimp.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9cf0f38a-3b9c-6f18-e5f2-9be31c708312@redhat.com>
-Date: Tue, 9 Mar 2021 11:54:49 +0100
+Message-ID: <49ed6b25-8ed1-efab-a0fc-4118451df35f@redhat.com>
+Date: Tue, 9 Mar 2021 11:57:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <7ff2c1ed-e6ad-4a6f-3552-be5ba90960d7@redhat.com>
+In-Reply-To: <20210308224023.75187-1-imp@bsdimp.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -103,25 +97,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 11:26 AM, Paolo Bonzini wrote:
-> On 09/03/21 09:41, Claudio Fontana wrote:
->> In any case, I agree that just recursing all directories in target/
->> looking for trace.h / traceevents files could be better.
-> 
-> Using the directory structure to find source files is a bad idea because
-> you don't notice that you haven't "git add"ed a file until it's too late
-> (typically the maintainer notices it for you...).
-> 
-> We do it for default-configs/targets, but that's an exception and I'd
-> rather not extend it more.
-> 
-> In fact, Philippe, perhaps you can add the extra tracedirs for hw/ and
-> target/ to the default-config/targets/*.mak file?
+On 3/8/21 11:40 PM, Warner Losh wrote:
+> The FreeBSD project has a number of enhancements to bsd-user. These changes have
+> evolved over the past 10 year, and aren't currently updated to the latest
+> version of qemu due to fluxuations in staffing causing us to fall behind in the
+> past. We're working on porting all the changes forward and contributing all the
+> changes back to qemu. Add myself as maintainer and Kyle Evans as a reviewer for
+> changes. In addition, add a pointer to our github repo in the interim while this
+> work is ongoing.
 
-Hmm interesting idea... I'll have a look, thanks!
+Thanks for this explanation and for doing this!
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> 
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  MAINTAINERS | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
 
