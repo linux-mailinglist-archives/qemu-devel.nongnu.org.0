@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF0F332E62
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:38:22 +0100 (CET)
-Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B02332E72
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:44:08 +0100 (CET)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhFN-00014Q-MM
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:38:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
+	id 1lJhKx-0004hz-3B
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:44:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf8S-0000mB-7h
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:04 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:40430)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJf8U-0000r6-99
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:08 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:47002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJf8J-0002x4-T9
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:04 -0500
-Received: by mail-ot1-x334.google.com with SMTP id b8so13351254oti.7
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:22:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJf8Q-0002xp-Pk
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:23:06 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id a18so16778160wrc.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:23:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=ml5XTUlD7ef/AmQIcNDTC1TSOCGoXFvmHqjUMxek/00=;
- b=p+YPRpx1WOObkiLQ55Qb0BkCVbSwQR+AmwOrDaiVin1W0AUbsqGAp0HJT4BdxfIeMy
- jZQWG6YxWXGP3WrRYgdRtupFfQ77UKzyn6N00kMI7CqBg4k8rjeCSV8nb2eyh4mJrdA+
- i+eZPGbG/Cz/Fqh3HSjUp8Mq4UkufVli9zeaAitn4P+0f7+yDIWTaekCt3+ldaEjLP0t
- CFg3fK0hArk4Sp1P9sRFjAWATMDjjZt/RBdSOqwjr+ZEPTy+e8eEDQeE0NoJj/UG1VNW
- fh/FQxW+TVrCWanNeWPWvt7UXh9Cp4jJ7/W2Hq/adx1LlWetET9qhSoFLneicP6Nnimt
- /8EA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tBewBnTfMkgPBQhT3YpBMAvGkh7+L4IITUeQXmeYAZ0=;
+ b=iF84CXsn7f4Tpu3Ot2d1w/sBDfj5oDgAlNTTKQz0Qr7EgfBJscXHvlmoFTEIiwxPyO
+ CiVQXJxjXAN9b8VxL2zcsvoQ1lsYDkSCSbvl1QHY25UmiRGkHq81QuByZdwBdiG1Jy7O
+ qpzA0VOEA5LVxwa8ycQIlo98DO72C/w02vQCMKorXIZp8b+CN6yq/VS523HWKkvun1b4
+ a1UVPXT3emXlQE6SKliUzOnrpPn/9d2a/ZvOQoqig6xWBoi7q+m/lrncM3Jaz1HarMH4
+ XJDC9eScNKwYM/23au6fyVvjrCz9dJDfWyzAYW962C1uMNR/Od27+MiO1m0ju/N4Jc4S
+ j/zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ml5XTUlD7ef/AmQIcNDTC1TSOCGoXFvmHqjUMxek/00=;
- b=eX2yhHAFG2M7wR77VzygpteUu4xq+Z8yoodPT7fREK0CCx7TyMXAbexEdbx8cz9rQG
- vNPFPSQuJVUjua4VQJ5CV1cVCbbdbuHH5f+JXBaATRkyiFcpp/Uy8bteSoY2apUq5zov
- JJCooIjhVeUnrT74BJCEJjRhxX51uCFUmP7zsFSKHK5ciGKUqBFoZX+sgfSZPsQtu1YC
- crsnaaTJgRVIRrb514zUarSlZwol4NvEgnUVDrXZkUFP5lHGNk74XIVNgZD4D+0wabcY
- UbvWZRuLVG2FBqzdFb+7GgB9+lssLG3T/rlX4D9UOJjYFtDORxiS7RURG5BUIO1OFJnB
- e8qw==
-X-Gm-Message-State: AOAM533xbqjF3Jqu+GOtBUJPTNeqcbm/Lhv3+gYf1krNhx5q5pup6PGT
- 7Gr7cE72X0pSZO0BRfPnzyGPL43Lnt8TE5Hm
-X-Google-Smtp-Source: ABdhPJwnHgihQXUOwHagz8qHxewPIKjJJdaaDuWwE2T8erT8ia3+HtEDmiG1RNKAbGyUQ848GnHmmQ==
-X-Received: by 2002:a9d:4a8e:: with SMTP id i14mr24917966otf.37.1615306975015; 
- Tue, 09 Mar 2021 08:22:55 -0800 (PST)
-Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id r44sm578261ooi.17.2021.03.09.08.22.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 08:22:54 -0800 (PST)
-Subject: Re: [PATCH] hexagon: do not specify inputs to
- semantics_generated.pyinc generation
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210309151907.201528-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aaaaf43a-7fa4-cfb5-6a06-46cdab6446bd@linaro.org>
-Date: Tue, 9 Mar 2021 08:22:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ bh=tBewBnTfMkgPBQhT3YpBMAvGkh7+L4IITUeQXmeYAZ0=;
+ b=NQVm0DNTREonZ0wBnWg1umiI0W9kCIRwaRTebA34c2a/qdjoQaUQyj42Mg8PSE600K
+ LTu16jPCgRIzFsjP4bVb0o50N3vDXmFyIlrQJbIwMyG1Ia5SvgDk/ZD0Qp5eprmDP61J
+ bBum5rIVA5FlC9si3r86XBxQm4lTDXjhhlgyRvAYuscKNd4GYMoc5V+8gVtaFOH6iDGr
+ 6EJ5NXFvwUsNFop0wVvVOtNo2snOUKEUwGOpXNZlKS0w/diaVO12XXnjmsY7sxleRKc+
+ VJ5oKAJTPckxOcVvRVxXNX5oXsjHC/+NFMxRUQa1c9ZhWdPuRf9g1jI6xBobY/w5r0UG
+ 1oOg==
+X-Gm-Message-State: AOAM532KehV5RM5YXkCnO828TShWHjcV8v1I8fXQ9LZx4NOqyjlBMSfP
+ QztPzyKvAlJVPSfV0Mb//OIr9PYVuqS0Ig==
+X-Google-Smtp-Source: ABdhPJzvwzNXsBZksJiUiPxx9h1kf9tyjyKErsj0LGDpxYspEZ4lLse5c93mG5/WMprWNIB3s4Lu5w==
+X-Received: by 2002:a5d:6945:: with SMTP id r5mr28570053wrw.367.1615306980690; 
+ Tue, 09 Mar 2021 08:23:00 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id r7sm25345030wre.25.2021.03.09.08.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 08:23:00 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org,
+	qemu-trivial@nongnu.org
+Subject: [PATCH] qemu-common.h: Update copyright string to 2021
+Date: Tue,  9 Mar 2021 16:22:58 +0000
+Message-Id: <20210309162258.28633-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210309151907.201528-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,17 +84,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 7:19 AM, Paolo Bonzini wrote:
-> gen_semantics is an executable, not an input.  Meson 0.57 special cases
-> the first argument and @INPUT@ is not expanded there.  Fix that by
-> not including it in the input, only in the command.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   target/hexagon/meson.build | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+Update the common copyright string that we use in
+-version reports, About dialogs, etc, to 2021.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/qemu-common.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-r~
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 654621444ec..73bcf763ed8 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -13,7 +13,7 @@
+ #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+ 
+ /* Copyright string for -version arguments, About dialogs, etc */
+-#define QEMU_COPYRIGHT "Copyright (c) 2003-2020 " \
++#define QEMU_COPYRIGHT "Copyright (c) 2003-2021 " \
+     "Fabrice Bellard and the QEMU Project developers"
+ 
+ /* Bug reporting information for --help arguments, About dialogs, etc */
+-- 
+2.20.1
+
 
