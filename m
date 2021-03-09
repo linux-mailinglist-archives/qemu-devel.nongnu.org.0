@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9D2332B82
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:09:08 +0100 (CET)
-Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C008332B5B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:02:08 +0100 (CET)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeux-0002OF-Om
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:09:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
+	id 1lJeoB-0004Ag-5m
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:02:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJePG-0000s8-G4
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:36:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:63082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJePC-0002Vx-MF
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:36:21 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D68197456E3;
- Tue,  9 Mar 2021 16:36:15 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B1FF37456B8; Tue,  9 Mar 2021 16:36:15 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B03E17456B7;
- Tue,  9 Mar 2021 16:36:15 +0100 (CET)
-Date: Tue, 9 Mar 2021 16:36:15 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH RESEND 1/6] hw/mips/gt64xxx: Initialize ISD I/O memory
- region in DeviceRealize()
-In-Reply-To: <20210309142630.728014-2-f4bug@amsat.org>
-Message-ID: <f7f32dd5-67da-b8f0-6f5d-6c28c898b63@eik.bme.hu>
-References: <20210309142630.728014-1-f4bug@amsat.org>
- <20210309142630.728014-2-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeWl-0002fh-CV
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:44:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeWh-0005ce-ET
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:44:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615304642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fCKQ/cKmc7swBDql1gE6qoIShzTiG4FXzCCBZhkP3Ww=;
+ b=MWCwk8MLZ9P6txhJcJLTSlTP4+Dm+ngpBP9DSG7JZS0tBJqiiU2bMpLmmUe84H4HMoyd8P
+ r9KRRnEjr1oACO+15GAxROCbmAo9GKQfPacUdaASOsTEqQV0UhtDRk/kRE/c5GAj2s6xVS
+ /v66PrvjXa6cfb6Onhgmu2mYUGKSZlw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-UqLLVZNDPEGsVCPWBk9PPQ-1; Tue, 09 Mar 2021 10:44:00 -0500
+X-MC-Unique: UqLLVZNDPEGsVCPWBk9PPQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F98919057D0;
+ Tue,  9 Mar 2021 15:43:59 +0000 (UTC)
+Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 46DED1037E8A;
+ Tue,  9 Mar 2021 15:43:54 +0000 (UTC)
+Subject: Re: [PATCH] virtio-gpu: Add spaces around operator
+To: lijiejun <a_lijiejun@163.com>, kraxel@redhat.com
+References: <1615275756-129881-1-git-send-email-a_lijiejun@163.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0a9ae121-8bd5-8457-c335-60e8fb0af02a@redhat.com>
+Date: Tue, 9 Mar 2021 09:43:53 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2098251995-1615304175=:73634"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1615275756-129881-1-git-send-email-a_lijiejun@163.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,68 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 3/9/21 1:42 AM, lijiejun wrote:
+> Fix code style. Operator needs spaces forend sides, and delete line space.
 
---3866299591-2098251995-1615304175=:73634
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+What operator?  'break' is a statement, not an operator.
 
-On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
-> The ISD I/O region belongs to the TYPE_GT64120_PCI_HOST_BRIDGE,
-> so initialize it before it is realized, not after.
-> Rename the region as 'gt64120-isd' so it is clearer to realize
-> it belongs to the GT64120 in the memory tree view.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
+> 
+> Signed-off-by: lijiejun <a_lijiejun@163.com>
 > ---
-> hw/mips/gt64xxx_pci.c | 11 +++++++++--
-> 1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-> index 588e6f99301..6eb73e77057 100644
-> --- a/hw/mips/gt64xxx_pci.c
-> +++ b/hw/mips/gt64xxx_pci.c
-> @@ -1196,6 +1196,14 @@ static void gt64120_reset(DeviceState *dev)
->     gt64120_pci_mapping(s);
-> }
->
-> +static void gt64120_realize(DeviceState *dev, Error **errp)
-> +{
-> +    GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-> +
-> +    memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
-> +                          "gt64120-isd", 0x1000);
-> +}
-> +
-> PCIBus *gt64120_register(qemu_irq *pic)
-> {
->     GT64120State *d;
-> @@ -1214,8 +1222,6 @@ PCIBus *gt64120_register(qemu_irq *pic)
->                                      get_system_io(),
->                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
->     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> -    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
-> -                          "isd-mem", 0x1000);
->
->     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
->     return phb->bus;
-> @@ -1270,6 +1276,7 @@ static void gt64120_class_init(ObjectClass *klass, void *data)
->     DeviceClass *dc = DEVICE_CLASS(klass);
->
->     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> +    dc->realize = gt64120_realize;
->     dc->reset = gt64120_reset;
->     dc->vmsd = &vmstate_gt64120;
-> }
->
---3866299591-2098251995-1615304175=:73634--
+>  hw/display/virtio-gpu-3d.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+> index 9eb4890..d989648 100644
+> --- a/hw/display/virtio-gpu-3d.c
+> +++ b/hw/display/virtio-gpu-3d.c
+> @@ -438,7 +438,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>          break;
+>      case VIRTIO_GPU_CMD_RESOURCE_FLUSH:
+>          virgl_cmd_resource_flush(g, cmd);
+> -       break;
+> +        break;
+>      case VIRTIO_GPU_CMD_RESOURCE_UNREF:
+>          virgl_cmd_resource_unref(g, cmd);
+>          break;
+> @@ -456,7 +456,6 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>      case VIRTIO_GPU_CMD_GET_CAPSET:
+>          virgl_cmd_get_capset(g, cmd);
+>          break;
+> -
+>      case VIRTIO_GPU_CMD_GET_DISPLAY_INFO:
+>          virtio_gpu_get_display_info(g, cmd);
+>          break;
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
