@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B458F332336
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:38:27 +0100 (CET)
-Received: from localhost ([::1]:50180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F8E332332
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 11:37:35 +0100 (CET)
+Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJZkw-0006mu-NN
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48750)
+	id 1lJZk6-0005yW-D6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 05:37:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJZbh-000621-Cr
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:28:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJZbd-0005ub-Li
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:28:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615285729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdzN1ZnC9RX8O+IBRs2w96B0tqq+RWUAOqQHl2yjuEo=;
- b=D0h07+ske5LQz2NdJPEErU89O5OJocstpLzux48l9sa/91IdBnETCJUBaGa9jI/LwPteq8
- dqnFW8L9Zy3CwoPUKhYLj1oRFAZI00Uwi+coqhz8o+vSY9D4X0qzu8jS3ylMgE4cz+NCDb
- B+2MsCKoS9Y0wTXG6hdQcse931nkAXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-JlIlgP6NPZm37LIejIdTXg-1; Tue, 09 Mar 2021 05:28:45 -0500
-X-MC-Unique: JlIlgP6NPZm37LIejIdTXg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F981108BD11;
- Tue,  9 Mar 2021 10:28:44 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34C911F4;
- Tue,  9 Mar 2021 10:28:28 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
- jean-philippe@linaro.org, peterx@redhat.com, jasowang@redhat.com,
- pbonzini@redhat.com
-Subject: [PATCH v3 7/7] hw/arm/smmuv3: Uniformize sid traces
-Date: Tue,  9 Mar 2021 11:27:42 +0100
-Message-Id: <20210309102742.30442-8-eric.auger@redhat.com>
-In-Reply-To: <20210309102742.30442-1-eric.auger@redhat.com>
-References: <20210309102742.30442-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJZcP-0006ok-5n
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:29:37 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJZcL-0006Iw-Cp
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:29:36 -0500
+Received: by mail-ed1-x533.google.com with SMTP id d13so19162371edp.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:29:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=S3KXReOvVnm7/5sZmOG3H/7xS9cmKSrIa6x5MdAmVz0=;
+ b=Zh7vwdZCdtW2AVS0fFHcS64L9qFPXW29JH3H/58wYo241A0ZAFiv17aN2/bXnSYOUg
+ uBbn5WV0l4BBf1EfaXHIuUJib9i7smzzR2WY9SP+bYXISnHdq49UZMLDFpn1o033Ahfi
+ CdFRB7MZPdNQZRqF1iPco6MQeZ2D2swH+ynIHnWq5r576ZMHxwmPK2vSch78c/tGrOHC
+ DTOG6lEAzeFnHLbgo+sw1IOBEORoJe1R1Y8u/4YuUwYQ6pxfc0KcI687sx2C3cPtjSXb
+ uXVpr5UjpJChlkY3DtZU+bfclJLCJ87+V3oH3THYWG8Defsq8aHdgVM/yMwQfkmm5+mF
+ 9xxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=S3KXReOvVnm7/5sZmOG3H/7xS9cmKSrIa6x5MdAmVz0=;
+ b=k71vDZoHyz9MjTXKmfJYUixuoQu9EYPcQSyq369cwZZD7KHPYhdV4o0Hl6vYeVGNfm
+ OtvtYdYSKu6PzZwTJcoyhJnjR9dbn5vgvnTWpIYE/Bc/ItbdJ4UFuG6WQsOw/rp2UiGs
+ vgpSbgPg2XV1g6KupXK5o1a4Y+QfgCSLknw1lkDw7mdnunYeegXzYzxPyjM9brRjfpbw
+ rawCFFA6cOYf5rB9kmVYvfy44f/FkGg8h0X3+kE1WPktmaNgmCg+5fWDbbuU2JUWnWHI
+ C3PrN4zFryRdWgLtQs61kXJA8C9gjNhwU6g7MLqI9wM/Bdh2FmShHICH8PckcB3yEVXT
+ FGeA==
+X-Gm-Message-State: AOAM532Ck9lkjovvnqhSXyNu+2W1ZbRL4nABDPnqlrxIaaBJMTUJ+12o
+ f0qrpNpYQ+bESRF8FoftOLx7QPFigFK8YQ==
+X-Google-Smtp-Source: ABdhPJzVIqt09maoSk2gr6IidHBR4gxuJy1qtwgX4DVw/zmrh/0zar5hUDIFDKWpePnZFG5hsiv2Wg==
+X-Received: by 2002:a05:6402:b70:: with SMTP id
+ cb16mr3214819edb.11.1615285770372; 
+ Tue, 09 Mar 2021 02:29:30 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g11sm4357590edt.35.2021.03.09.02.29.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 02:29:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E4CB71FF7E;
+ Tue,  9 Mar 2021 10:29:28 +0000 (GMT)
+References: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
+ <YEaHjKsnDbBxI1nS@strawberry.localdomain>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH] plugins: Expose physical addresses instead of device
+ offsets
+Date: Tue, 09 Mar 2021 10:28:30 +0000
+In-reply-to: <YEaHjKsnDbBxI1nS@strawberry.localdomain>
+Message-ID: <87zgzc8vsn.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,67 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vivek.gautam@arm.com, shameerali.kolothum.thodi@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, cota@braap.org,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert all sid printouts to sid=0x%x.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
----
+> Alex,
+>
+> I've now tested this change, and it is giving what appear to be valid
+> and correct physical addresses for both RAM and IO accesses in all the
+> cases I've thrown at it. My main concern with this patch at this point
+> is that I am concerned I may be breaking your new plugin here:
+>
+>> +++ b/contrib/plugins/hwprofile.c
+>> @@ -201,7 +201,7 @@ static void vcpu_haddr(unsigned int cpu_index, qemu_=
+plugin_meminfo_t meminfo,
+>>          return;
+>>      } else {
+>>          const char *name =3D qemu_plugin_hwaddr_device_name(hwaddr);
+>> -        uint64_t off =3D qemu_plugin_hwaddr_device_offset(hwaddr);
+>> +        uint64_t off =3D qemu_plugin_hwaddr_phys_addr(hwaddr);
+>
+> How angry is the plugin going to be that these are now physical
+> addresses instead of offsets?
 
-v2 -> v3:
-- added Philippe's R-b
----
- hw/arm/trace-events | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+I think it will be fine. It's a new plugin this cycle and it only
+changes the reporting.
 
-diff --git a/hw/arm/trace-events b/hw/arm/trace-events
-index a335ee891d..b79a91af5f 100644
---- a/hw/arm/trace-events
-+++ b/hw/arm/trace-events
-@@ -29,26 +29,26 @@ smmuv3_cmdq_opcode(const char *opcode) "<--- %s"
- smmuv3_cmdq_consume_out(uint32_t prod, uint32_t cons, uint8_t prod_wrap, uint8_t cons_wrap) "prod:%d, cons:%d, prod_wrap:%d, cons_wrap:%d "
- smmuv3_cmdq_consume_error(const char *cmd_name, uint8_t cmd_error) "Error on %s command execution: %d"
- smmuv3_write_mmio(uint64_t addr, uint64_t val, unsigned size, uint32_t r) "addr: 0x%"PRIx64" val:0x%"PRIx64" size: 0x%x(%d)"
--smmuv3_record_event(const char *type, uint32_t sid) "%s sid=%d"
--smmuv3_find_ste(uint16_t sid, uint32_t features, uint16_t sid_split) "SID:0x%x features:0x%x, sid_split:0x%x"
-+smmuv3_record_event(const char *type, uint32_t sid) "%s sid=0x%x"
-+smmuv3_find_ste(uint16_t sid, uint32_t features, uint16_t sid_split) "sid=0x%x features:0x%x, sid_split:0x%x"
- smmuv3_find_ste_2lvl(uint64_t strtab_base, uint64_t l1ptr, int l1_ste_offset, uint64_t l2ptr, int l2_ste_offset, int max_l2_ste) "strtab_base:0x%"PRIx64" l1ptr:0x%"PRIx64" l1_off:0x%x, l2ptr:0x%"PRIx64" l2_off:0x%x max_l2_ste:%d"
- smmuv3_get_ste(uint64_t addr) "STE addr: 0x%"PRIx64
--smmuv3_translate_disable(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d bypass (smmu disabled) iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_bypass(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d STE bypass iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_abort(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d abort on iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_success(const char *n, uint16_t sid, uint64_t iova, uint64_t translated, int perm) "%s sid=%d iova=0x%"PRIx64" translated=0x%"PRIx64" perm=0x%x"
-+smmuv3_translate_disable(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x bypass (smmu disabled) iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_bypass(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x STE bypass iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_abort(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x abort on iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_success(const char *n, uint16_t sid, uint64_t iova, uint64_t translated, int perm) "%s sid=0x%x iova=0x%"PRIx64" translated=0x%"PRIx64" perm=0x%x"
- smmuv3_get_cd(uint64_t addr) "CD addr: 0x%"PRIx64
- smmuv3_decode_cd(uint32_t oas) "oas=%d"
- smmuv3_decode_cd_tt(int i, uint32_t tsz, uint64_t ttb, uint32_t granule_sz, bool had) "TT[%d]:tsz:%d ttb:0x%"PRIx64" granule_sz:%d had:%d"
--smmuv3_cmdq_cfgi_ste(int streamid) "streamid =%d"
-+smmuv3_cmdq_cfgi_ste(int streamid) "streamid= 0x%x"
- smmuv3_cmdq_cfgi_ste_range(int start, int end) "start=0x%x - end=0x%x"
--smmuv3_cmdq_cfgi_cd(uint32_t sid) "streamid = %d"
--smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache HIT for sid %d (hits=%d, misses=%d, hit rate=%d)"
--smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache MISS for sid %d (hits=%d, misses=%d, hit rate=%d)"
--smmuv3_s1_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid =%d asid =%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
-+smmuv3_cmdq_cfgi_cd(uint32_t sid) "sid=0x%x"
-+smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache HIT for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
-+smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache MISS for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
-+smmuv3_s1_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid=%d asid=%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
- smmuv3_cmdq_tlbi_nh(void) ""
- smmuv3_cmdq_tlbi_nh_asid(uint16_t asid) "asid=%d"
--smmuv3_config_cache_inv(uint32_t sid) "Config cache INV for sid %d"
-+smmuv3_config_cache_inv(uint32_t sid) "Config cache INV for sid=0x%x"
- smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s"
- smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
- smmuv3_inv_notifiers_iova(const char *name, uint16_t asid, uint64_t iova, uint8_t tg, uint64_t num_pages) "iommu mr=%s asid=%d iova=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64
--- 
-2.26.2
-
+--=20
+Alex Benn=C3=A9e
 
