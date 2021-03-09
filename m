@@ -2,55 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B11C33281F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:07:31 +0100 (CET)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8FB332829
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:08:41 +0100 (CET)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJd1G-0006lr-F9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34200)
+	id 1lJd2O-00088t-33
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:08:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJczf-0005X1-3O; Tue, 09 Mar 2021 09:05:51 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:3577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJczc-0004Xs-Ox; Tue, 09 Mar 2021 09:05:50 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dvxlg03YGzjWZG;
- Tue,  9 Mar 2021 22:04:15 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 9 Mar 2021 22:05:35 +0800
-Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
- kvm_log_clear_one_slot
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>, Peter Xu
- <peterx@redhat.com>
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
- <20201217014941.22872-3-zhukeqian1@huawei.com>
- <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
-Date: Tue, 9 Mar 2021 22:05:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJd0g-0006pV-99
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:06:54 -0500
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:38222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lJd0e-0005Bx-If
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:06:53 -0500
+Received: by mail-ot1-x333.google.com with SMTP id a17so12908582oto.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:06:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qjYr+NL2troHixLxwPC3sTsZg3dtj+qwTR3MSmHkhPA=;
+ b=l3nZujvB+FHzMixKnzovKZMGDhHE/PDxtMR0Fci59dcsdBZhUjpFRLihzYSpOjbEiI
+ W/ZDyQy426Kq71PVO0U+/vDKOchbcG9t2CYoJz5geZKAsn+5i8+NsDxWG/i7mt0xLzsY
+ 8vAEpGW6W897gqq/3ZaABpYTGQ3qydwSKA9Wawohn6hChVdtm08mSCN7tLk2LWY5mWww
+ OLNN9RyNJv5ghEKdzrUVHqIrN2NdnEpfLYzHXXAU3JhXOs6jbQ/Dt5gj8pZfrOk/s6ke
+ tck/ULD5zh8IxXIjIQ049mboQIOJ0sFVDTaVVzFU5JuV4m6lRceoFG97u7cRwhFj2cwD
+ GNJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qjYr+NL2troHixLxwPC3sTsZg3dtj+qwTR3MSmHkhPA=;
+ b=Hb1NtPSY9TlXHIcAzE4XyC8zTCI8QFputk0c9Fq7cvcVH0KkjcZIJ9uK3/6mHrLTVd
+ xbzQQmuF/auGH3h2KUuhvZzJGU27GAfVCtt8ternUpVOSp03mfyEPhiZFkH8rlfMm1G8
+ xbmjrVaHiSlyLiCMxJnU7N6G4+FgN5DeDRoBSOT4n+NLWTYvDtNMEKtB/y0bZnoACSLT
+ /EHQoAIB2qYwiEy32YlOPlm81SbI/BFtwvo91O2XE3eTxM6nsMEnM+jL0hARNzk8QVar
+ pxa0PTkkBOdJTU1p3Bs3r9JmSu7tx0oQMwYLCfgCFyiU+dgIZ+VZQcPP5DiYGTSI5RGF
+ L0ww==
+X-Gm-Message-State: AOAM531ODKbZV5NHOVxzW7sHGvaa0s714x51vNngpFZ2BdumYeao5Rm8
+ 6qZSua7qlOC1w5krkmWKvlIkM1dGTidVQnl+
+X-Google-Smtp-Source: ABdhPJyXV5f4Oat87EGbgXU5cfiVxg7v3NaVRYmMEwMFPAcPO/AMhPoHm0rDrNxQjJ1KlL0tmLq5uA==
+X-Received: by 2002:a9d:6c8f:: with SMTP id c15mr23406976otr.22.1615298811385; 
+ Tue, 09 Mar 2021 06:06:51 -0800 (PST)
+Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id s11sm3153360oia.33.2021.03.09.06.06.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 06:06:51 -0800 (PST)
+Subject: Re: [PATCH v2] linux-user: Fix executable page of /proc/self/maps
+To: Laurent Vivier <laurent@vivier.eu>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Nicolas Surbayrole <nsurbayrole@quarkslab.com>
+References: <20210308091959.986540-1-nsurbayrole@quarkslab.com>
+ <c74adef9-fb5f-06ee-9dfc-083576a5a607@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dbcc608c-a188-5a14-28dd-6109c90b850d@linaro.org>
+Date: Tue, 9 Mar 2021 06:06:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <c74adef9-fb5f-06ee-9dfc-083576a5a607@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhukeqian1@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,68 +89,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- jiangkunkun@huawei.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/8/21 2:47 AM, Laurent Vivier wrote:
+> Should we move this directly in read_self_maps() to have the guest values in MapInfo?
+
+No, because we also need read_self_maps() to create the guest in the first place.
 
 
-On 2021/3/9 21:48, Thomas Huth wrote:
-> On 17/12/2020 02.49, Keqian Zhu wrote:
->> The parameters start and size are transfered from QEMU memory
->> emulation layer. It can promise that they are TARGET_PAGE_SIZE
->> aligned. However, KVM needs they are qemu_real_page_size aligned.
->>
->> Though no caller breaks this aligned requirement currently, we'd
->> better add an explicit assert to avoid future breaking.
->>
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->> ---
->>   accel/kvm/kvm-all.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> ---
->> v2
->>   - Address Andrew's commment (Use assert instead of return err).
->>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index f6b16a8df8..73b195cc41 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -692,6 +692,10 @@ out:
->>   #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
->>   #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
->>   +/*
->> + * As the granule of kvm dirty log is qemu_real_host_page_size,
->> + * @start and @size are expected and restricted to align to it.
->> + */
->>   static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>                                     uint64_t size)
->>   {
->> @@ -701,6 +705,9 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>       unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
->>       int ret;
->>   +    /* Make sure start and size are qemu_real_host_page_size aligned */
->> +    assert(QEMU_IS_ALIGNED(start | size, psize));
-> 
-> Sorry, but that was a bad idea: It triggers and kills my Centos 6 VM:
-> 
-> $ qemu-system-x86_64 -accel kvm -hda ~/virt/images/centos6.qcow2 -m 1G
-> qemu-system-x86_64: ../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
-> Aborted (core dumped)
-Hi Thomas,
-
-I think this patch is ok, maybe it trigger a potential bug?
-
-Thanks,
-Keqian
-
-> 
-> Can we please revert this patch?
-> 
->  Thomas
-> 
-> .
-> 
+r~
 
