@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C008332B5B
+	by mail.lfdr.de (Postfix) with ESMTPS id 8757D332B5C
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:02:08 +0100 (CET)
-Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeoB-0004Ag-5m
+	id 1lJeoB-0004FT-Dm
 	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:02:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeWl-0002fh-CV
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:44:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeWh-0005ce-ET
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:44:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615304642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fCKQ/cKmc7swBDql1gE6qoIShzTiG4FXzCCBZhkP3Ww=;
- b=MWCwk8MLZ9P6txhJcJLTSlTP4+Dm+ngpBP9DSG7JZS0tBJqiiU2bMpLmmUe84H4HMoyd8P
- r9KRRnEjr1oACO+15GAxROCbmAo9GKQfPacUdaASOsTEqQV0UhtDRk/kRE/c5GAj2s6xVS
- /v66PrvjXa6cfb6Onhgmu2mYUGKSZlw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-UqLLVZNDPEGsVCPWBk9PPQ-1; Tue, 09 Mar 2021 10:44:00 -0500
-X-MC-Unique: UqLLVZNDPEGsVCPWBk9PPQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F98919057D0;
- Tue,  9 Mar 2021 15:43:59 +0000 (UTC)
-Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46DED1037E8A;
- Tue,  9 Mar 2021 15:43:54 +0000 (UTC)
-Subject: Re: [PATCH] virtio-gpu: Add spaces around operator
-To: lijiejun <a_lijiejun@163.com>, kraxel@redhat.com
-References: <1615275756-129881-1-git-send-email-a_lijiejun@163.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0a9ae121-8bd5-8457-c335-60e8fb0af02a@redhat.com>
-Date: Tue, 9 Mar 2021 09:43:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJecf-00013s-Td
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:50:15 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:59272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJecb-0008Hb-FI
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:50:13 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6FA207456B8;
+ Tue,  9 Mar 2021 16:50:07 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5141F7456B4; Tue,  9 Mar 2021 16:50:07 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4F83C7456B7;
+ Tue,  9 Mar 2021 16:50:07 +0100 (CET)
+Date: Tue, 9 Mar 2021 16:50:07 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH RESEND 2/6] hw/mips/gt64xxx: Simplify ISD MemoryRegion
+ read/write handlers
+In-Reply-To: <20210309142630.728014-3-f4bug@amsat.org>
+Message-ID: <3bb43a40-60a1-523-6571-261957ad1c57@eik.bme.hu>
+References: <20210309142630.728014-1-f4bug@amsat.org>
+ <20210309142630.728014-3-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <1615275756-129881-1-git-send-email-a_lijiejun@163.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1409978894-1615305007=:73634"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,47 +59,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 1:42 AM, lijiejun wrote:
-> Fix code style. Operator needs spaces forend sides, and delete line space.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-What operator?  'break' is a statement, not an operator.
+--3866299591-1409978894-1615305007=:73634
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> 
-> Signed-off-by: lijiejun <a_lijiejun@163.com>
+On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
+> The ISD MemoryRegion is implemented for 32-bit accesses.
+> Simplify it by setting the MemoryRegionOps::impl min/max
+> access size fields.
+>
+> Since the region is registered with a size of 0x1000 bytes,
+> we can remove the hwaddr mask.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
 > ---
->  hw/display/virtio-gpu-3d.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-> index 9eb4890..d989648 100644
-> --- a/hw/display/virtio-gpu-3d.c
-> +++ b/hw/display/virtio-gpu-3d.c
-> @@ -438,7 +438,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
->          break;
->      case VIRTIO_GPU_CMD_RESOURCE_FLUSH:
->          virgl_cmd_resource_flush(g, cmd);
-> -       break;
-> +        break;
->      case VIRTIO_GPU_CMD_RESOURCE_UNREF:
->          virgl_cmd_resource_unref(g, cmd);
->          break;
-> @@ -456,7 +456,6 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
->      case VIRTIO_GPU_CMD_GET_CAPSET:
->          virgl_cmd_get_capset(g, cmd);
->          break;
-> -
->      case VIRTIO_GPU_CMD_GET_DISPLAY_INFO:
->          virtio_gpu_get_display_info(g, cmd);
->          break;
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> hw/mips/gt64xxx_pci.c | 10 ++++++----
+> 1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index 6eb73e77057..99b1690af19 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -385,13 +385,12 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+> {
+>     GT64120State *s = opaque;
+>     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+> -    uint32_t saddr;
+> +    uint32_t saddr = addr >> 2;
+>
+>     if (!(s->regs[GT_CPU] & 0x00001000)) {
+>         val = bswap32(val);
+>     }
+>
+> -    saddr = (addr & 0xfff) >> 2;
+>     switch (saddr) {
+>
+>     /* CPU Configuration */
+> @@ -695,9 +694,8 @@ static uint64_t gt64120_readl(void *opaque,
+>     GT64120State *s = opaque;
+>     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+>     uint32_t val;
+> -    uint32_t saddr;
+> +    uint32_t saddr = addr >> 2;
+>
+> -    saddr = (addr & 0xfff) >> 2;
+>     switch (saddr) {
+>
+>     /* CPU Configuration */
+> @@ -976,6 +974,10 @@ static const MemoryRegionOps isd_mem_ops = {
+>     .read = gt64120_readl,
+>     .write = gt64120_writel,
+>     .endianness = DEVICE_NATIVE_ENDIAN,
+> +    .impl = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4,
+> +    },
+> };
+>
+> static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
+>
+--3866299591-1409978894-1615305007=:73634--
 
