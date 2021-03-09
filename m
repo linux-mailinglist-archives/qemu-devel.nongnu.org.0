@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F01C332391
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:03:51 +0100 (CET)
-Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FFE3323A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:09:45 +0100 (CET)
+Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJa9W-0005m3-5u
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:03:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
+	id 1lJaFE-0004af-9k
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJZva-0007cF-Hf
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:49:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJZvS-00081l-Te
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 05:49:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615286958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qB4KHqPlrFTctEbnFGKvZBqJc9jrC/hw8b5hgzChfIM=;
- b=byczoRcG8KiGyyWHwMmOw4NE/OROy6j8p08Yom7M3wjXqRTMBpxcduLHQZGEyWcCNoYErH
- +tguZ+SnQToAu9+pj+gk7Ju6BvpkIwHHsDRtLJT0Q5TzIKkH3WVvDp7Yvvz/gjdSHrAGDE
- 2wX/D6tQyi3uh3y/GyUv2NdSubrs7+g=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-32vNJyQZMIuOYCnERvHp5g-1; Tue, 09 Mar 2021 05:49:15 -0500
-X-MC-Unique: 32vNJyQZMIuOYCnERvHp5g-1
-Received: by mail-ed1-f69.google.com with SMTP id a2so6531685edx.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 02:49:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJZyn-0001iN-4q; Tue, 09 Mar 2021 05:52:45 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:45923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJZyl-0001ZV-8f; Tue, 09 Mar 2021 05:52:44 -0500
+Received: by mail-ed1-x529.google.com with SMTP id dm26so19127674edb.12;
+ Tue, 09 Mar 2021 02:52:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PBkIFw/rv3RVnbsvSdihRt0uNB3avplHNJapFSNbEKc=;
+ b=HTb4R6SrSUb25rWrNEX0aycAGOzI3rHJXPa8pkrC/3KiBWdKO6pJJxcVB5MgayzvRG
+ Jr1UwtLTlWZhZoN+rgV/RQ2StRIghHky4RkRQ+E96LcjZqtTBJxEVqJpBzQFhwk44SZ4
+ PULqRoJ5OtyaiasWa5vtE/pFsiG1Pxhdq9a+bITx9IqRBfY14G3IrCE4xUZl34rhfnd5
+ qCQGdApge03ygjAR+QSZAZk4ZQRgWIi0pBwXQTMuzFR7qcwrgNNzeN7uoHSFVytMZR7r
+ WGi3I8lm4D6qf42eehbPHVojCYv9jGlRkAJ4JQMSbI8Y+W5eQbQpmgvWbAl3a63fNp3/
+ PCSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qB4KHqPlrFTctEbnFGKvZBqJc9jrC/hw8b5hgzChfIM=;
- b=hxoeGPGkdCZJW9eSUcI7LzXWBOr3wJPmsNqgqvfcRT+Wy3LUXlMsQN0+e+njhhWJTg
- jgQ0d1v/CTw1hRQckdExJ/6PA+pf89VmRP/6kstu6YqWKIXGy1bw6wVo2Ez61P7c+Ssf
- eZQckCOK3gxTR/ugDaiGLwYMsX5ZkqSiEhc1t8nMyIx5EU07dIjhHOWNmFBGcJISfd+s
- CF5m7Pr00j4WrHSDBbs8//OEfELShF8eZkwUjt8oPi0FAILY+lu1qG66X7Q7obry3K1C
- YFvv8BQE699pDoCufEeGHMjSoRcggSrU8FVwng0Ea1hVqbHMp49aGVtyH9UZTo2qqe8U
- yASg==
-X-Gm-Message-State: AOAM533bGAVLTvYQ1Mlqo2wwayvyDmNeSxbIlARCsmaQi+KZgLcS/M37
- bEPt8Ew+4JTOCf+4gB3o6lwgl9alOzP/bmZKLlkY18be+UrqL6+/RacFFtHuKEfsrzCktWXCS4b
- WKardCIhygPNi3YU=
-X-Received: by 2002:a17:906:3444:: with SMTP id
- d4mr19539479ejb.410.1615286954412; 
- Tue, 09 Mar 2021 02:49:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzn8TRrTJopVhSteEiMup0Bu91G8pdzdJQ5s6wkx6Nu/K0J3QiCslgbBVpcm3u+MKfLL25x8Q==
-X-Received: by 2002:a17:906:3444:: with SMTP id
- d4mr19539470ejb.410.1615286954243; 
- Tue, 09 Mar 2021 02:49:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r24sm8736441edw.11.2021.03.09.02.49.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 02:49:13 -0800 (PST)
-Subject: Re: [RFC PATCH 3/4] coroutine/mutex: Store the coroutine in the
- CoWaitRecord only once
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20210309102157.365356-1-david.edmondson@oracle.com>
- <20210309102157.365356-4-david.edmondson@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0fe082d7-acb4-a9a2-8a50-0448b32ecf11@redhat.com>
-Date: Tue, 9 Mar 2021 11:49:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PBkIFw/rv3RVnbsvSdihRt0uNB3avplHNJapFSNbEKc=;
+ b=qsAzDOcc3qMbK87sZS258c7NjG6qFXpEhBvJiHgSEnXTQ/rIAs7c/0Wz3YPHExrCav
+ PyTHXwtLiSxDSIjoDHOgTpA8MYihYcn7zxd5knG55a+eWh1nvHIcW9nJ77w2dqB/YA1g
+ 0vaAGqruP4EbRTXuL6plTFyHifvi62nqKr9OdNI4xCjfLjmCJ3jx7z3EiZOo+69VTT56
+ G8ymMzeld9g06BYMQjntgknFnMzoZxhrOhuPRC+Hq68C9/31jW1PAKGmtfRC9pc6y6Dq
+ 4exoHRxaIZBxkliT4NLRA9jtPf8z4GdUBkKiBxUCMVTjZLHjrB86+h3KVbild4f9bqWU
+ UNzQ==
+X-Gm-Message-State: AOAM530J13TFqupDyeVh9F5ndiEI0DngGfx0fB3tf9BOtEpVrjOak8Ma
+ b4j4kdZ7LOkDBydT+K+zulnwtYRaXKtmVVZjUbo=
+X-Google-Smtp-Source: ABdhPJwFsr2RlYE0n+Z0E6Xf/WYyOtxs7HGGS/Kv0zQXOo4AcHFKLJF47l2yZH4LCzJHkkBpWBxbdfinUUDJkfgcvmg=
+X-Received: by 2002:a05:6402:50c8:: with SMTP id
+ h8mr3229351edb.360.1615287160884; 
+ Tue, 09 Mar 2021 02:52:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210309102157.365356-4-david.edmondson@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210305121748.65173-1-akihiko.odaki@gmail.com>
+ <YEY/9DyFk9U87JtM@stefanha-x1.localdomain>
+ <CAMVc7JUSFsLovDAPOX1-6q6fimyrvq9wt51jb=hEQm+oB8RpUg@mail.gmail.com>
+ <CAMVc7JXpP7twOzPWkFnSCgFtGBSNKG=iS95KNW8p7C_WCmEt6w@mail.gmail.com>
+ <20210309093718.GA5798@merkur.fritz.box> <YEdNUu5OGSJ/mIo+@redhat.com>
+In-Reply-To: <YEdNUu5OGSJ/mIo+@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 9 Mar 2021 19:52:30 +0900
+Message-ID: <CAMVc7JW4vPyLe4fXiS89nFFGrHPbeyy4g9XrMw4fJff_UiNeRA@mail.gmail.com>
+Subject: Re: [PATCH v2] block/file-posix: Optimize for macOS
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,36 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ pkrempa@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu Developers <qemu-devel@nongnu.org>,
+ Konstantin Nazarov <mail@knazarov.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/21 11:21, David Edmondson wrote:
-> When taking the slow path for mutex acquisition, set the coroutine
-> value in the CoWaitRecord in push_waiter(), rather than both there and
-> in the caller.
-> 
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> ---
->   util/qemu-coroutine-lock.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-> index 5816bf8900..eb73cf11dc 100644
-> --- a/util/qemu-coroutine-lock.c
-> +++ b/util/qemu-coroutine-lock.c
-> @@ -204,7 +204,6 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
->       unsigned old_handoff;
->   
->       trace_qemu_co_mutex_lock_entry(mutex, self);
-> -    w.co = self;
->       push_waiter(mutex, &w);
->   
->       /* This is the "Responsibility Hand-Off" protocol; a lock() picks from
-> 
+2021=E5=B9=B43=E6=9C=889=E6=97=A5(=E7=81=AB) 19:26 Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com>:
+>
+> On Tue, Mar 09, 2021 at 10:37:18AM +0100, Kevin Wolf wrote:
+> > Am 09.03.2021 um 05:52 hat Akihiko Odaki geschrieben:
+> > > 2021=E5=B9=B43=E6=9C=889=E6=97=A5(=E7=81=AB) 0:37 Akihiko Odaki <akih=
+iko.odaki@gmail.com>:
+> > > >
+> > > > 2021=E5=B9=B43=E6=9C=889=E6=97=A5(=E7=81=AB) 0:17 Stefan Hajnoczi <=
+stefanha@redhat.com>:
+> > > > >
+> > > > > The live migration compatibility issue is still present. Migratin=
+g to
+> > > > > another host might not work if the block limits are different.
+> > > > >
+> > > > > Here is an idea for solving it:
+> > > > >
+> > > > > Modify include/hw/block/block.h:DEFINE_BLOCK_PROPERTIES_BASE() to
+> > > > > support a new value called "host". The default behavior remains
+> > > > > unchanged for live migration compatibility but now you can use "h=
+ost" if
+> > > > > you know it's okay but don't care about migration compatibility.
+> > > > >
+> > > > > The downside to this approach is that users must explicitly say
+> > > > > something like --drive ...,opt_io_size=3Dhost. But it's still bet=
+ter than
+> > > > > the situation we have today where user must manually enter values=
+ for
+> > > > > their disk.
+> > > > >
+> > > > > Does this sound okay to everyone?
+> > > > >
+> > > > > Stefan
+> > > >
+> > > > I wonder how that change affects other block drivers implementing
+> > > > bdrv_probe_blocksizes. As far as I know, the values they report are
+> > > > already used by default, which is contrary to the default not being
+> > > > "host".
+> > > >
+> > > > Regards,
+> > > > Akihiko Odaki
+> > >
+> > > Let me suggest a variant of Stefan's approach:
+> > >
+> > > Modify include/hw/block/block.h:DEFINE_BLOCK_PROPERTIES_BASE() to
+> > > support a new value called "host". The default values for block size
+> > > properties may be "host" or not, but they should be consistent. If
+> > > they are "host" by default
+> >
+> > I'm not sure if it's a good idea, but maybe we could make it so that th=
+e
+> > default is "host" only as long as you didn't specify -nodefaults? Then
+> > libvirt would automatically keep the old behaviour (because it always
+> > sets -nodefaults) and manual invocations would usually get the new one.
+> >
+> > Of course, when I start with "I'm not sure if it's a good idea", it's
+> > usually not, but I wanted to share the thought anyway...
+>
+> Can you elaborate on what the actual live migration problem is, and
+> its impact ?  This patch is touching the block backends, so I'm
+> wondering how backend data ends up having an impact on the migration
+> stream which is all frontend device data ?  I'm especially concerned
+> by the mention that some block backends already have this problem,
+> and wondering if it already impacts libvirt ?
+>
+> Using -nodefaults is good practice, but I'm still uncomfortable saying
+> that its use is a requirement if you want migration to work, as that
+> feels like a change in semantics for non-libvirt users (who can be
+> mgmt apps, nor merely human interactive users).
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+A problem is that block drivers else "file" already provide
+logical_block_sizes and physical_block_sizes, which depends on their
+backends, via bdrv_probe_blocksizes. It is apparently tolerated
+because those block drivers have physical backends, unlike "file"
+block driver which has files as its backends.
 
+This patch has two important changes:
+1. It adds new members, discard_granularity and opt_io_size, to the
+value bdrv_probe_blocksizes.
+2. It implements bdrv_probe_blocksizes which returns
+discard_granularity and opt_io_size for "file" block driver.
+
+2 is unacceptable here because it is a change for "file" block driver.
+Now we are discussing how it can be fixed. A possible solution is to
+make the feature to infer the default value from the backend opt-in.
+Stefan's suggestion adds a non-default value, "host" to opt-in the
+feature. However, it breaks the current behaviors of other block
+drivers which already decides logical_block_sizes and
+physical_block_sizes from their backends. My variant fixes the
+compatibility issue by adding a global property to hw_compat_5_2.
+
+Regards,
+Akihiko Odaki
 
