@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E969533272B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:31:33 +0100 (CET)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97B333273C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:33:14 +0100 (CET)
+Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcSS-0006vp-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:31:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1lJcU5-0000OU-NP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:33:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lJcEY-00026R-QV; Tue, 09 Mar 2021 08:17:11 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46094)
+ id 1lJcEV-00025n-Nj; Tue, 09 Mar 2021 08:17:09 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lJcEU-00077c-Lo; Tue, 09 Mar 2021 08:17:08 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1lJcEQ-000762-DH; Tue, 09 Mar 2021 08:17:07 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 129D2oAD148735; Tue, 9 Mar 2021 08:16:48 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3762wtm6mq-1
+ 129D3lJE087316; Tue, 9 Mar 2021 08:16:49 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 375wet2v5v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Mar 2021 08:16:48 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 129D8hbJ007472;
- Tue, 9 Mar 2021 13:16:45 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3768t4g1q2-1
+ Tue, 09 Mar 2021 08:16:49 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 129D7v8i029541;
+ Tue, 9 Mar 2021 13:16:47 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03fra.de.ibm.com with ESMTP id 3768mpr130-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Mar 2021 13:16:45 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 129DGhRS42271124
+ Tue, 09 Mar 2021 13:16:46 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 129DGiEH33096066
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Mar 2021 13:16:43 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 36C805205A;
- Tue,  9 Mar 2021 13:16:43 +0000 (GMT)
+ Tue, 9 Mar 2021 13:16:44 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55688A4054;
+ Tue,  9 Mar 2021 13:16:44 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 195B0A405B;
+ Tue,  9 Mar 2021 13:16:44 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 03F0A5204E;
- Tue,  9 Mar 2021 13:16:42 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  9 Mar 2021 13:16:44 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.251])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 74B9222025C;
- Tue,  9 Mar 2021 14:16:42 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 76D9922025C;
+ Tue,  9 Mar 2021 14:16:43 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/7] aspeed queue
-Date: Tue,  9 Mar 2021 14:16:34 +0100
-Message-Id: <20210309131641.2709380-1-clg@kaod.org>
+Subject: [PULL 2/7] hw/arm/aspeed: Fix location of firmware images in
+ documentation
+Date: Tue,  9 Mar 2021 14:16:36 +0100
+Message-Id: <20210309131641.2709380-3-clg@kaod.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210309131641.2709380-1-clg@kaod.org>
+References: <20210309131641.2709380-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -62,18 +68,18 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-03-09_11:2021-03-08,
  2021-03-09 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=799
- impostorscore=0 priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1034 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 mlxscore=0
+ spamscore=0 bulkscore=0 impostorscore=0 clxscore=1034 lowpriorityscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2103090064
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, PDS_OTHER_BAD_TLD=1.999,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,55 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+Cc: qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 229a834518b950d56fd1bc94923276504d0ee9=
-d4:
+Firmware images can be found on the OpenBMC jenkins site and on the
+OpenBMC GitHub release page.
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-202103=
-06' into staging (2021-03-08 15:45:48 +0000)
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-Id: <20210303072743.1551329-1-clg@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ docs/system/arm/aspeed.rst | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-are available in the Git repository at:
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index 690bada7842b..8972aa3f7bbe 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -72,18 +72,22 @@ Missing devices
+ Boot options
+ ------------
+=20
+-The Aspeed machines can be started using the -kernel option to load a
+-Linux kernel or from a firmware image which can be downloaded from the
+-OpenPOWER jenkins :
++The Aspeed machines can be started using the ``-kernel`` option to
++load a Linux kernel or from a firmware. Images can be downloaded from
++the OpenBMC jenkins :
+=20
+-   https://openpower.xyz/
++   https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/distro=
+=3Dubuntu,label=3Ddocker-builder
++
++or directly from the OpenBMC GitHub release repository :
++
++   https://github.com/openbmc/openbmc/releases
+=20
+ The image should be attached as an MTD drive. Run :
+=20
+ .. code-block:: bash
+=20
+   $ qemu-system-arm -M romulus-bmc -nic user \
+-	-drive file=3Dflash-romulus,format=3Draw,if=3Dmtd -nographic
++	-drive file=3Dobmc-phosphor-image-romulus.static.mtd,format=3Draw,if=3D=
+mtd -nographic
+=20
+ Options specific to Aspeed machines are :
+=20
+--=20
+2.26.2
 
-  https://github.com/legoater/qemu/ tags/pull-aspeed-20210309
-
-for you to fetch changes up to c59f781e3bcca4a80aef5d229488fd45dbfdbd9a:
-
-  hw/misc: Model KCS devices in the Aspeed LPC controller (2021-03-09 12:=
-01:28 +0100)
-
-----------------------------------------------------------------
-Aspeed patches :
-
-* New model for the Aspeed LPC controller
-* Misc cleanups
-
-----------------------------------------------------------------
-Andrew Jeffery (4):
-      hw/arm: ast2600: Force a multiple of 32 of IRQs for the GIC
-      hw/arm: ast2600: Set AST2600_MAX_IRQ to value from datasheet
-      hw/arm: ast2600: Correct the iBT interrupt ID
-      hw/misc: Model KCS devices in the Aspeed LPC controller
-
-C=C3=A9dric Le Goater (2):
-      hw/arm/aspeed: Fix location of firmware images in documentation
-      hw/misc: Add a basic Aspeed LPC controller model
-
-Joel Stanley (1):
-      arm/ast2600: Fix SMP booting with -kernel
-
- docs/system/arm/aspeed.rst   |  16 +-
- include/hw/arm/aspeed_soc.h  |   3 +
- include/hw/misc/aspeed_lpc.h |  47 +++++
- hw/arm/aspeed_ast2600.c      |  51 ++++-
- hw/arm/aspeed_soc.c          |  34 ++-
- hw/misc/aspeed_lpc.c         | 486 +++++++++++++++++++++++++++++++++++++=
-++++++
- hw/misc/meson.build          |   7 +-
- 7 files changed, 625 insertions(+), 19 deletions(-)
- create mode 100644 include/hw/misc/aspeed_lpc.h
- create mode 100644 hw/misc/aspeed_lpc.c
 
