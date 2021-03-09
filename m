@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD672332B99
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:10:16 +0100 (CET)
-Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61767332B9D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:10:57 +0100 (CET)
+Received: from localhost ([::1]:33904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJew3-0004BA-O9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:10:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1lJewi-0004ua-A8
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:10:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJef0-000404-Hm
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29863)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeez-0003z0-UP
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeeq-0000xr-Ff
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:38 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeeq-0000xp-F2
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615305147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J3L7Oa+V91GwCEYFoUzTtVcz1YdLNdv3gb/3m3iu5cc=;
- b=CLu/zy1gUjcc0/ABV4yYgiiK2OoODa0gRhp4S0JCJHg+aXLjCw4dbVvt/KPlWmD4Fe8YuE
- 5Eq5Fo6FYU9jDTb9lalA4mEcfQQiCu/oVoB8cgJ+SayHA7Qnrptbd6dG2vbr2wj7jdAvzc
- 8N0+3i72BxscR71q7SrQyEBMzj+vJ0A=
+ bh=famiGsegrLOhl74QG+tE8DFiV7TJOmMUdMekIU06b3c=;
+ b=Lqo9OLzBKzxkOtvLyZs6qQ82wIuiZioAoWKE+R0EXht++P3rrlI/fwflowZMQ5YR95A6vW
+ NlAVb4r/djZA+2uvhYIPIzWP3TMgJebZA2TEckVt+GMw+t81/56LQiM+QHox6diG7/D2t7
+ v3DoWp/t7IaPV48ZxjrXDMwq42cuDEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-hv6cgEerOZ-U4gr0Evgy3g-1; Tue, 09 Mar 2021 10:52:24 -0500
-X-MC-Unique: hv6cgEerOZ-U4gr0Evgy3g-1
+ us-mta-512-nUo07nq1MrOZOSf5BGo6iw-1; Tue, 09 Mar 2021 10:52:24 -0500
+X-MC-Unique: nUo07nq1MrOZOSf5BGo6iw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6CD08018A7;
- Tue,  9 Mar 2021 15:52:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EDC3804331;
+ Tue,  9 Mar 2021 15:52:23 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33D8519C46;
- Tue,  9 Mar 2021 15:52:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E443019C46;
+ Tue,  9 Mar 2021 15:52:22 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/17] block: check return value of bdrv_open_child and drop
- error propagation
-Date: Tue,  9 Mar 2021 09:51:51 -0600
-Message-Id: <20210309155202.1312571-7-eblake@redhat.com>
+Subject: [PULL 07/17] blockdev: fix drive_backup_prepare() missed error
+Date: Tue,  9 Mar 2021 09:51:52 -0600
+Message-Id: <20210309155202.1312571-8-eblake@redhat.com>
 In-Reply-To: <20210309155202.1312571-1-eblake@redhat.com>
 References: <20210309155202.1312571-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -79,216 +78,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "open list:blkdebug" <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Ari Sundholm <ari@tuxera.com>
+ Alberto Garcia <berto@igalia.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This patch is generated by cocci script:
-
-@@
-symbol bdrv_open_child, errp, local_err;
-expression file;
-@@
-
-  file = bdrv_open_child(...,
--                        &local_err
-+                        errp
-                        );
-- if (local_err)
-+ if (!file)
-  {
-      ...
--     error_propagate(errp, local_err);
-      ...
-  }
-
-with command
-
-spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
---in-place --no-show-diff --max-width 80 --use-gitgrep block
+We leak local_err and don't report failure to the caller. It's
+definitely wrong, let's fix.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20210202124956.63146-4-vsementsov@virtuozzo.com>
-[eblake: fix qcow2_do_open() to use ERRP_GUARD, necessary as the only
-caller to pass allow_none=true]
+Message-Id: <20210202124956.63146-5-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/blkdebug.c     |  6 ++----
- block/blklogwrites.c | 10 ++++------
- block/blkreplay.c    |  6 ++----
- block/blkverify.c    | 11 ++++-------
- block/qcow2.c        |  6 +++---
- block/quorum.c       |  6 ++----
- 6 files changed, 17 insertions(+), 28 deletions(-)
+ blockdev.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 7eaa8a28bf86..2c0b9b0ee85e 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -464,7 +464,6 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     BDRVBlkdebugState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
-     uint64_t align;
+diff --git a/blockdev.c b/blockdev.c
+index cd438e60e35a..65884a282658 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1825,9 +1825,7 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+     aio_context_acquire(aio_context);
 
-@@ -494,10 +493,9 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options, "image",
-                                bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto out;
-     }
-
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 13ae63983bc0..b7579370a30a 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -157,19 +157,17 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
-     /* Open the file */
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY, false,
--                               &local_err);
--    if (local_err) {
-+                               errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
-
-     /* Open the log file */
-     s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_of_bds,
--                                  BDRV_CHILD_METADATA, false, &local_err);
--    if (local_err) {
-+                                  BDRV_CHILD_METADATA, false, errp);
-+    if (!s->log_file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
-
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index 30a0f5d57aa0..4a247752fd8f 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -23,16 +23,14 @@ typedef struct Request {
- static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
-                           Error **errp)
- {
--    Error *local_err = NULL;
-     int ret;
-
-     /* Open the image file */
-     bs->file = bdrv_open_child(NULL, options, "image", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
-
-diff --git a/block/blkverify.c b/block/blkverify.c
-index 943e62be9cf1..188d7632faec 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -112,7 +112,6 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     BDRVBlkverifyState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
-
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
-@@ -125,20 +124,18 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
-     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-raw"), options, "raw",
-                                bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
-
-     /* Open the test file */
-     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
-                                    "test", bs, &child_of_bds, BDRV_CHILD_DATA,
--                                   false, &local_err);
--    if (local_err) {
-+                                   false, errp);
-+    if (!s->test_file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index d9f49a52e770..c5266424bb01 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1292,6 +1292,7 @@ static int validate_compression_type(BDRVQcow2State *s, Error **errp)
- static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-                                       int flags, Error **errp)
- {
-+    ERRP_GUARD();
-     BDRVQcow2State *s = bs->opaque;
-     unsigned int len, i;
-     int ret = 0;
-@@ -1611,9 +1612,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     /* Open external data file */
-     s->data_file = bdrv_open_child(NULL, options, "data-file", bs,
-                                    &child_of_bds, BDRV_CHILD_DATA,
--                                   true, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                   true, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/quorum.c b/block/quorum.c
-index 0bd75450de97..cfc1436abb59 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -929,7 +929,6 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-                        Error **errp)
- {
-     BDRVQuorumState *s = bs->opaque;
--    Error *local_err = NULL;
-     QemuOpts *opts = NULL;
-     const char *pattern_str;
-     bool *opened;
-@@ -1007,9 +1006,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-
-         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
-                                          &child_of_bds, BDRV_CHILD_DATA, false,
--                                         &local_err);
+     if (set_backing_hd) {
+-        bdrv_set_backing_hd(target_bs, source, &local_err);
 -        if (local_err) {
 -            error_propagate(errp, local_err);
-+                                         errp);
-+        if (!s->children[i]) {
-             ret = -EINVAL;
-             goto close_exit;
++        if (bdrv_set_backing_hd(target_bs, source, errp) < 0) {
+             goto unref;
          }
+     }
 -- 
 2.30.1
 
