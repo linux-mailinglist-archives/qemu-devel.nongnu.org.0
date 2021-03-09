@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E9E333058
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:56:55 +0100 (CET)
-Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8C733304C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:52:13 +0100 (CET)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjPS-0003RA-AM
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:56:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
+	id 1lJjKu-0004Co-5m
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:52:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJiwq-00027B-1b
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:27:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJiwm-0000My-OY
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:27:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615321635;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TemRZz7vjIz9Z32CW2EqwhpXIJAGBE2eZmziBGsdzvY=;
- b=QDEn0uYuIoTed3JiF/81Vr0SsWE/QFyXEYMlolr7ZdEfjLMh/dJgj8je2Z/IeE8Ag1JSab
- Frx8ppFCrrNy5Y+WpKjZU+j7hcsLQa8GjELzjF14IwMZlhj6WKUtBss+vxOMgfdN9KOvb2
- 4S/OzkFhG4wLzcxh6Mw3V/JJjCQj4iI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-ITTHl8zkNLuR2gvvQMhI6g-1; Tue, 09 Mar 2021 15:27:13 -0500
-X-MC-Unique: ITTHl8zkNLuR2gvvQMhI6g-1
-Received: by mail-ej1-f72.google.com with SMTP id e13so6163616ejd.21
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 12:27:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=OnWzzN4k9Usy2Nukk1rkDwku9luNVOKUGHgZBSY+/Tc=;
- b=n7pjfhkCxIJHB8Pi52gT4Qx41dH/MFWsbHXuc0aN4jtu8X8YVTj1rbmXA8HYAGmzRf
- su2H/9Y2crsIMRv0JUaRlb0hszO1KaPqHIHxNFx4YQWSHwXo6PZWrs8BiOKv538tZxCW
- 5wCI0j0aj0Mu4ROPPokm3rRjtrf2YX55cfGjRH3gI3mGxkoJWXJTTBdC8cA/ats7v8IH
- CXOPWXggLLmOJVWXGUrO/ddHYjdvlGIXzdkEWxx3uFuO/UseZJjf+nLOniLf49gEGOJc
- BJyglI3qEyXvr9T3FB/zdUmorqYFNumcKHO+KTu4ta5i1/nw04QBXHvTJgB/6Bl+EZ1s
- HFUA==
-X-Gm-Message-State: AOAM531t40VSFkErkYVeqhwtVEvHgin2w3pPzNE7e6IpWHoaZb+Qa7zZ
- Dh511+c/ZOAmJ7XmIV7wuHLeORipO09mkePBjreSYDRbwjnUZ5F6Nq0I/Zle0ZNAKdMWdtKmb+L
- uYaCwYmgljEm/HnU=
-X-Received: by 2002:a05:6402:34d:: with SMTP id
- r13mr6349542edw.64.1615321632653; 
- Tue, 09 Mar 2021 12:27:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwuV5cvaZ0N9c8jWhPyEYQhtoOs72Zyy/9moi12FJEQU8P7tTqdtae0y/CObc3kvdQZpL1KGw==
-X-Received: by 2002:a05:6402:34d:: with SMTP id
- r13mr6349514edw.64.1615321632389; 
- Tue, 09 Mar 2021 12:27:12 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c6a5f.dip0.t-ipconnect.de. [91.12.106.95])
- by smtp.gmail.com with ESMTPSA id
- bi26sm8894215ejb.120.2021.03.09.12.27.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 12:27:12 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v3 09/12] util/mmap-alloc: Pass flags instead of separate
- bools to qemu_ram_mmap()
-Date: Tue, 9 Mar 2021 21:27:10 +0100
-Message-Id: <29372C8B-7F57-4AB6-99DB-5E73179D7555@redhat.com>
-References: <20210309200451.GF763132@xz-x1>
-In-Reply-To: <20210309200451.GF763132@xz-x1>
-To: Peter Xu <peterx@redhat.com>
-X-Mailer: iPhone Mail (18D52)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lJixl-0002y6-Qf; Tue, 09 Mar 2021 15:28:18 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:57659)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lJixj-0000kw-5w; Tue, 09 Mar 2021 15:28:17 -0500
+Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MA7Su-1lUCI42iy2-00BeUI; Tue, 09 Mar 2021 21:28:10 +0100
+Subject: Re: [PATCH] hw/elf_ops: Fix a typo
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210225181344.3623720-1-philmd@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <e9a2eaa7-1689-41a2-c69f-ee616b7af00e@vivier.eu>
+Date: Tue, 9 Mar 2021 21:28:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210225181344.3623720-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:s5e5x8u/If0bvj4bH5sk62dxRWPjErYoAURFcige9q2Exrko5up
+ 5fDAXj9DZu2O2kMF60/orF7p8qjFn85OyEb0J49utxFJSN7PpvsPks0suOdFdI72oCCEssC
+ s6K/HCBFUOea+cRhfjp6xJ/Y9FG0ZaaS45hkKUkw450ZugMx20Nozqchx/lTgrzwAR4xTjZ
+ HKawyfPX2aTyjytLqehxw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iL2GQNw8x2w=:8gLpoA12ZOPYHDmgoyjWc+
+ uXpvqQukGEIZJE6wMFqo8SOR73r6uuKmE46oP7SzVX5the41b3XZPTa9vazpdPgn9hFetFmjv
+ yZu2CjD3NIRZoFrlzYKPn1g8BCP55tiswy+jYkSsG7WfgdSBLP/VdMEEYOYn53Dq6sbnDCNnI
+ AvLCPjJ0VkkabqHSnVBl9861dqo1U+AKzqio7qgigte780KzfRWcXKToiL6f3EjJEWYEM1fMr
+ lh5+45uWddDWLrLvvNUa5bi3ziMJM10svOCTpogEGR3vU1wpFNgQM0mwhVo6tv7I4/2ciugCp
+ 8T6qUuABTp9tDA5yXVUKaW3c8Shyy1yiz+kbfs8SrDAGt5baNS4LdxwRAct7mDt/4orEvu1hr
+ kuE2tR94gt0UyYMBwfZZI20MKXSIvd6zbxGz3RixphcQFLavN8TmWsNc4IxlC
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,84 +65,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: qemu-trivial@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 25/02/2021 à 19:13, Philippe Mathieu-Daudé a écrit :
+> g_mapped_file_new_from_fd()'s parameter is named 'writable'.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/hw/elf_ops.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+> index 8e8436831d2..304f266bf3b 100644
+> --- a/include/hw/elf_ops.h
+> +++ b/include/hw/elf_ops.h
+> @@ -417,7 +417,7 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+>  
+>      /*
+>       * Since we want to be able to modify the mapped buffer, we set the
+> -     * 'writeble' parameter to 'true'. Modifications to the buffer are not
+> +     * 'writable' parameter to 'true'. Modifications to the buffer are not
+>       * written back to the file.
+>       */
+>      mapped_file = g_mapped_file_new_from_fd(fd, true, NULL);
+> 
 
-> Am 09.03.2021 um 21:04 schrieb Peter Xu <peterx@redhat.com>:
->=20
-> =EF=BB=BFOn Mon, Mar 08, 2021 at 04:05:57PM +0100, David Hildenbrand wrot=
-e:
->> Let's introduce a new set of flags that abstract mmap logic and replace
->> our current set of bools, to prepare for another flag.
->>=20
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->> include/qemu/mmap-alloc.h | 17 +++++++++++------
->> softmmu/physmem.c         |  8 +++++---
->> util/mmap-alloc.c         | 14 +++++++-------
->> util/oslib-posix.c        |  3 ++-
->> 4 files changed, 25 insertions(+), 17 deletions(-)
->>=20
->> diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
->> index 456ff87df1..55664ea9f3 100644
->> --- a/include/qemu/mmap-alloc.h
->> +++ b/include/qemu/mmap-alloc.h
->> @@ -6,6 +6,15 @@ size_t qemu_fd_getpagesize(int fd);
->>=20
->> size_t qemu_mempath_getpagesize(const char *mem_path);
->>=20
->> +/* Map PROT_READ instead of PROT_READ|PROT_WRITE. */
->> +#define QEMU_RAM_MMAP_READONLY      (1 << 0)
->> +
->> +/* Map MAP_SHARED instead of MAP_PRIVATE. */
->> +#define QEMU_RAM_MMAP_SHARED        (1 << 1)
->> +
->> +/* Map MAP_SYNC|MAP_SHARED_VALIDATE if possible, fallback and warn othe=
-rwise. */
->> +#define QEMU_RAM_MMAP_PMEM          (1 << 2)
->=20
-> Sorry to speak late - I just noticed that is_pmem can actually be convert=
-ed too
-> with "MAP_SYNC | MAP_SHARED_VALIDATE".  We can even define MAP_PMEM_EXTRA=
- for
-> use within qemu if we want.  Then we can avoid one layer of QEMU_RAM_* by
-> directly using MAP_*, I think?
->=20
+Applied to my trivial-patches branch.
 
-No problem :) I don=E2=80=98t think passing in random MAP_ flags is a good =
-interface (we would at least need an allow list).
-
- I like the abstraction / explicit semenatics of QEMU_RAM_MMAP_PMEM as spel=
-led out in the comment. Doing the fallback when passing in the mmap flags i=
-s a little ugly. We could do the fallback in the caller, I think I remember=
- there is only a single call site.
-
-PROT_READ won=E2=80=98t be covered as well, not sure if passing in protecti=
-ons improves the interface.
-
-Long story short, I like the abstraction provided by these flags, only expo=
-rting what we actually support/abstracting it, and setting some MAP_ flags =
-automatically (MAP_PRIVATE, MAP_ANON) instead of having to spell that put i=
-n the caller.
-
-
-> --=20
-> Peter Xu
->=20
+Thanks,
+Laurent
 
 
