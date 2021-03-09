@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733513324BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:10:02 +0100 (CET)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A3D33252D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:16:33 +0100 (CET)
+Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbBF-0006Yf-FD
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1lJbHs-0001u8-23
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:16:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanz-0008OZ-E0; Tue, 09 Mar 2021 06:45:39 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:52073)
+ id 1lJao1-0008SX-WF; Tue, 09 Mar 2021 06:45:42 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:56397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJanx-0000Jd-G8; Tue, 09 Mar 2021 06:45:39 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 35FE12711;
- Tue,  9 Mar 2021 06:45:35 -0500 (EST)
+ id 1lJao0-0000OO-4g; Tue, 09 Mar 2021 06:45:41 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id D4E762705;
+ Tue,  9 Mar 2021 06:45:37 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 09 Mar 2021 06:45:35 -0500
+ by compute7.internal (MEProxy); Tue, 09 Mar 2021 06:45:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=RBzvJrr8fa3LF
- kTLuZP2K9V1LWoxzVtfWByZdu/YYZM=; b=LsghLgyGhawImL/IaxaITmxL+zdOz
- Pmfu210SO7dVHOiMsavCLCZEKuswm1RDi6+AiLa5PPNtjS/lDoc4wCZaG2agWf/+
- /1BiNb1BsVeOMizdyX9eA1XHH4hc/Cd9dGmTakvBjSmxKs5Sb/PMtIiPZ4Pv/+4c
- 70a8hg2LnXAsB/zFxpwAUi68fXWOZMbt81+mIZWGPW13USoWpzBEwTYktm3xpqTe
- Wp1lZ7nvO4JWShdk7I9RMsQ7/BsJUX1rkPUTe6pUpUaUgnga3yYtVvaoJcnTCB1Q
- mtVGOXIfLoOhlW+mfK72Y6ztMLAndEAjTaMIs559WtmVmM+oaGqP9lt4g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=UrKdYwGrVaGOu
+ lNLHfnJ/mvHVJitFlGANq1iGrvBrjE=; b=OF5l4nh3Sw5Hw5JL5VP1bV61KMfrl
+ fMVkCpyB9Vecsjk8tbocVkEjubnP+a8PriqLzHDO2VNdA/XnfvRrJS9MIfMBeog7
+ 9NpJe9r1ZWF3PEPY9kmZp105wvT5g6U5P40B9c5nQTig//ij1fFKjAy6dV1aPWWS
+ jF1YHRnA23T2fRH1IViw6BYe737X6gyj4v2FKBmTglJw2wttjdvOI/JNbNlDEdPg
+ kYjLPTdMV6WcvSnasd7MbrwFLsRz2pXimOBLKnX2VkActvQmSn0LBn6k79khfllS
+ h2A5h+b8zP6ZqoiD9YJ9oPrEmzYGOG2Nn0qeYM18hxK8XZ62hEieqGczQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=RBzvJrr8fa3LFkTLuZP2K9V1LWoxzVtfWByZdu/YYZM=; b=NtDsBJho
- Zrr3RZAloyVEah0F6/VSNFHB9GLNmJXElud2XrHMoHdtagLnUhN9BqW1Q5jzaVbS
- qEcH2zuns3JeB5NMt2lgJYF84nFnjGIiZVTO1SO2vNaMSymA46eL6R6mb3I2cbhm
- aJcQkv/pXTV1++WWf3o7eTEP1hVtyAkPIGqHZAwb8n9+BROYl4VWJ9h5ku/tx4Wj
- n8pWC98Gd+h9j0zyG5TvjwWGWseavQdrTTifuxp4fhAtbgPQ4plCArEEsrqz66en
- rfd4iekcQrk0ZTVdcb+PQGKd4bZCP0acvmOpKfW/8H5oRY61EW1K04fGVc1kzcm4
- bJVuDotHMeQHeg==
-X-ME-Sender: <xms:3l9HYAEUBqQg7-qnh_JUFCxWkkYs8r-vPR7jC4TPzmI4IUSV2huPXw>
- <xme:3l9HYJWGceP1-hab2jiDsk6C9tPHBDJuZY1mmr3pZgqkwaBiCzC_azbbfNcFbeOiM
- WMT6rax_fLIID641-A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfeduucetufdoteggodetrfdotf
+ fm2; bh=UrKdYwGrVaGOulNLHfnJ/mvHVJitFlGANq1iGrvBrjE=; b=c5alaxzo
+ iczre2y+vxpZZZULezogkJpg8LWvRSy+w+PuEYDKu1UyB4qLg1vh/si44aNrYHdq
+ sHmaN851ilsrxCBe1wv8MwociwrOk54R8t4X8N4JBYamlrUE9sq2lp+IKb32gthI
+ 1uTJESReqDJgowye9uaGstwsjTgDGmWHerNjH5is43Z1p2SeE19KsDWcX000zn6U
+ g2XYW3GrHYE7KZOGkTG83nu+8VtgkXJhvuT/UNe2B+iMfSl0+oSplFaG74qeW7is
+ UI0tfdzU11fwIQiusehlVnbUgGBLoQQhOFnSru9AdmTbGjPaBEdd+iUj0KNr9W1X
+ ucCDXgnGuNxK9Q==
+X-ME-Sender: <xms:4F9HYFzlMqOiL26Rmpge44JCXYZmRZkn7_0wppThO7bOwY3ki3kNkw>
+ <xme:4F9HYHS7rutRz3x7wBEhYgXQXd9SoJfU57jds6P8ZS3m9v1ARgIcD1KPSWOdLusN-
+ dK1L2q-NqNbuVLE9_g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgfedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeelne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:3l9HYKKD_BQashipVWHFonkieUXQzmGqeY0MgUJq7OhYnTxUbCpxmw>
- <xmx:3l9HYCEEA-g7OxHSOxW7SS-GbjzP8V0uz1VdiZC1pWNT6WNELhm8nA>
- <xmx:3l9HYGUsricZi2Gg1GbzleNUlqMQbKspq8zjtUKsEJ2k8JPnfZFqZQ>
- <xmx:3l9HYKqYO-qj18Czd6QPM4L8ZeIR_o69OwtceENiDlytufuwY7eMTR774fo>
+X-ME-Proxy: <xmx:4F9HYIuJNSXpRI9xGY9iCei5zOxOXsiNFkB4K9cWQDQnDBDrqH4rbg>
+ <xmx:4F9HYJtnp-jW8iF1R4xRJkXEPnmL7SfslHG8gyyauqk2SyM6rZB7zQ>
+ <xmx:4F9HYOxL6yQcsezxG7tNigJ2lI1nzxXCVAHrlCwCAJQE-YCRMGkmXA>
+ <xmx:4V9HYEqpt0X6vOK-Ah9a48X5amBNva0027DQI6kybsd_68qjWMfjBFgml1Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3FD24240054;
- Tue,  9 Mar 2021 06:45:33 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C69AF24005A;
+ Tue,  9 Mar 2021 06:45:34 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 12/38] hw/block/nvme: fix Close Zone
-Date: Tue,  9 Mar 2021 12:44:46 +0100
-Message-Id: <20210309114512.536489-13-its@irrelevant.dk>
+Subject: [PULL v2 13/38] hw/block/nvme: add missing mor/mar constraint checks
+Date: Tue,  9 Mar 2021 12:44:47 +0100
+Message-Id: <20210309114512.536489-14-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
 References: <20210309114512.536489-1-its@irrelevant.dk>
@@ -95,48 +95,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Implicitly and Explicitly Open zones can be closed by Close Zone
-management function. This got broken by a recent commit ("hw/block/nvme:
-refactor zone resource management") and now such commands fail with
-Invalid Zone State Transition status.
+Firstly, if zoned.max_active is non-zero, zoned.max_open must be less
+than or equal to zoned.max_active.
 
-Modify nvm_zrm_close() function to make Close Zone work correctly.
+Secondly, if only zones.max_active is set, we have to explicitly set
+zones.max_open or we end up with an invalid MAR/MOR configuration. This
+is an artifact of the parameters not being zeroes-based like in the
+spec.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Reported-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/block/nvme-ns.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index ab4723ff319a..56ef07b74d27 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1319,14 +1319,13 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
- static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
- {
-     switch (nvme_get_zone_state(zone)) {
--    case NVME_ZONE_STATE_CLOSED:
--        return NVME_SUCCESS;
--
-     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-     case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-         nvme_aor_dec_open(ns);
-         nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-         /* fall through */
-+    case NVME_ZONE_STATE_CLOSED:
-+        return NVME_SUCCESS;
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index fd73d0321109..0e8760020483 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -163,6 +163,18 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
  
-     default:
-         return NVME_ZONE_INVAL_TRANSITION;
++    if (ns->params.max_active_zones) {
++        if (ns->params.max_open_zones > ns->params.max_active_zones) {
++            error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
++                       ns->params.max_open_zones, ns->params.max_active_zones);
++            return -1;
++        }
++
++        if (!ns->params.max_open_zones) {
++            ns->params.max_open_zones = ns->params.max_active_zones;
++        }
++    }
++
+     if (ns->params.zd_extension_size) {
+         if (ns->params.zd_extension_size & 0x3f) {
+             error_setg(errp,
 -- 
 2.30.1
 
