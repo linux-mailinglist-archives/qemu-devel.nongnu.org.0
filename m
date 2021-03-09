@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22528332C67
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:42:26 +0100 (CET)
-Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA74E332C6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:43:11 +0100 (CET)
+Received: from localhost ([::1]:44872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJfRB-0000h2-5H
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:42:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
+	id 1lJfRu-0001ny-Sd
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:43:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJefl-000507-3n
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:53:25 -0500
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:38857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lJefe-0001Hp-Pz
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:53:24 -0500
-Received: by mail-oi1-x229.google.com with SMTP id v192so7849974oia.5
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 07:53:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kPQnPJ7DMhJJR2d+A/Ri0b5LMFWa1kAHZRSsfJazyFE=;
- b=CGklaU2VC4z9nSnobL5Chl81RexnvQ2fhx0iuuwEO1vQFMPRe+lGtL1opZysUkbOds
- BjsY1/mEJARUwC7o4pH65C4ZGeAKUFT3slYIpOVLkxTEerNyxy3kribuzp1dk6k59lw6
- E/ChaWqEzD+DrVAqfF6Ta/Bz8+wQZmxBiwmTmIEr3K3FW9qzX6/Lq8hhLU437dHCWVcj
- sQclWVkrpDdzA3hiKCs7c9dbtst3MsVREp6W/u9TFYP6ev5mkMvmjkj+it9g7dAIWHkZ
- 6r/taznM880SlJ6KNaMCM3ISsc9tO2z19htYGGWDQ4ZSIzmuyZla3YzLlAmXVrsWY8k8
- flGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kPQnPJ7DMhJJR2d+A/Ri0b5LMFWa1kAHZRSsfJazyFE=;
- b=sj5rIG3Uyc8Sa3J7FK75hWtGSS4BPyjfvaz7hEi24hkmJ6LfHWRMZgrt5rpLn86KK1
- H6IhjYMKFMTOg87HE51+Jjyez5n4hJqTUGwtrRL+lsWThhcWy4+OKHjvA249EnOnTEwx
- B2JF3xRgp9nj3Fg2nMtCY4j7Wl0hgEriFr3ZFzz5I4TrVyEUAVHcz/sLU3wkKg7LTJgB
- kB77AHaC20IcROlcQQ9n04j4Kdwa3VSXzHhNCOEF7Xi6BLpJNhnAweKEYHsYALSX32Ox
- tqhn9GaeiKgTBrTWXlrwYynGzPImD3pp3Jv0W032eqci4QpnrFXilRg+GUy9ggsV7TSj
- a3gw==
-X-Gm-Message-State: AOAM530HfUyzVEjoZuA8C0y+BS4Pol/adu9wtC5SOlN56EsqQTJq9avJ
- brbfu2Xy8WWtsd9tskWM4et4SmPzxAIo0CB2
-X-Google-Smtp-Source: ABdhPJzx22I8KOesJOPxeMQHNPHe/hq4YtQuKa0CTb3cl+rx1wZ+R3I44vEKjUJe6GjpY3AWnJPBNQ==
-X-Received: by 2002:aca:44d6:: with SMTP id r205mr3416941oia.104.1615305197748; 
- Tue, 09 Mar 2021 07:53:17 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id b14sm2952539ooj.26.2021.03.09.07.53.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 07:53:17 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJekQ-00025s-VU
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:58:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJekO-0003Cv-TH
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:58:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615305492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gEZOVEV48qXHptgFZbCe1jj6186jCJKc+b16CHmiWY8=;
+ b=WDaN4hG5l5qHSpv1anpa2ir0DDRJ8R5pZJ7zH3UpM0RGnOlgM4dl22/Aky6jg9ZET+jxLg
+ MlCMn0K67gF9YWsQuV0yTzGF4uopbGFAglS2kdNRV6otQjBI8txcGv3KuYF+EFW8LRpAYd
+ 6BZ2hpdV9Kda6cnWISKnfzbgEDO95+s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-Fk9whXR6MT63tA5uFuu4vg-1; Tue, 09 Mar 2021 10:58:10 -0500
+X-MC-Unique: Fk9whXR6MT63tA5uFuu4vg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 826842F7A0
+ for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 15:58:09 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-154.ams2.redhat.com
+ [10.36.114.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18A7D19C46;
+ Tue,  9 Mar 2021 15:58:04 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 8/8] target/arm: Update sve reduction vs simd_desc
-Date: Tue,  9 Mar 2021 07:53:05 -0800
-Message-Id: <20210309155305.11301-9-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210309155305.11301-1-richard.henderson@linaro.org>
-References: <20210309155305.11301-1-richard.henderson@linaro.org>
+Subject: [PATCH v2] hw/input: expand trace info reported for ps2 device
+Date: Tue,  9 Mar 2021 15:58:04 +0000
+Message-Id: <20210309155804.306051-1-berrange@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,51 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the reduction operations, we intentionally increase maxsz to
-the next power of 2, so as to fill out the reduction tree correctly.
-Since e2e7168a214b, oprsz must equal maxsz, with exceptions for small
-vectors, so this triggers an assertion for vector sizes > 32 that are
-not themselves a power of 2.
+It is interesting to know if the PS2 keyboard is in translated mode, and
+which of the three scancode sets are in use.
 
-Pass the power-of-two value in the simd_data field instead.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- target/arm/sve_helper.c    | 2 +-
- target/arm/translate-sve.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/input/ps2.c        | 3 ++-
+ hw/input/trace-events | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 6f4bc3a3cc..fd6c58f96a 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -2896,7 +2896,7 @@ static TYPE NAME##_reduce(TYPE *data, float_status *status, uintptr_t n) \
- }                                                                     \
- uint64_t HELPER(NAME)(void *vn, void *vg, void *vs, uint32_t desc)    \
- {                                                                     \
--    uintptr_t i, oprsz = simd_oprsz(desc), maxsz = simd_maxsz(desc);  \
-+    uintptr_t i, oprsz = simd_oprsz(desc), maxsz = simd_data(desc);   \
-     TYPE data[sizeof(ARMVectorReg) / sizeof(TYPE)];                   \
-     for (i = 0; i < oprsz; ) {                                        \
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));               \
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 2420cd741b..0eefb61214 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -3440,7 +3440,7 @@ static void do_reduce(DisasContext *s, arg_rpr_esz *a,
- {
-     unsigned vsz = vec_full_reg_size(s);
-     unsigned p2vsz = pow2ceil(vsz);
--    TCGv_i32 t_desc = tcg_const_i32(simd_desc(vsz, p2vsz, 0));
-+    TCGv_i32 t_desc = tcg_const_i32(simd_desc(vsz, vsz, p2vsz));
-     TCGv_ptr t_zn, t_pg, status;
-     TCGv_i64 temp;
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 72cdb80ae1..5352e417a4 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -293,7 +293,8 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+     qcode = qemu_input_key_value_to_qcode(key->key);
  
+     mod = ps2_modifier_bit(qcode);
+-    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers);
++    trace_ps2_keyboard_event(s, qcode, key->down, mod,
++                             s->modifiers, s->scancode_set, s->translate);
+     if (key->down) {
+         s->modifiers |= mod;
+     } else {
+diff --git a/hw/input/trace-events b/hw/input/trace-events
+index 1dd8ad6018..49c70d544e 100644
+--- a/hw/input/trace-events
++++ b/hw/input/trace-events
+@@ -30,7 +30,7 @@ pckbd_kbd_write_data(uint64_t val) "0x%02"PRIx64
+ 
+ # ps2.c
+ ps2_put_keycode(void *opaque, int keycode) "%p keycode 0x%02x"
+-ps2_keyboard_event(void *opaque, int qcode, int down, unsigned int modifier, unsigned int modifiers) "%p qcode %d down %d modifier 0x%x modifiers 0x%x"
++ps2_keyboard_event(void *opaque, int qcode, int down, unsigned int modifier, unsigned int modifiers, int set, int xlate) "%p qcode %d down %d modifier 0x%x modifiers 0x%x set %d xlate %d"
+ ps2_read_data(void *opaque) "%p"
+ ps2_set_ledstate(void *s, int ledstate) "%p ledstate %d"
+ ps2_reset_keyboard(void *s) "%p"
 -- 
-2.25.1
+2.29.2
 
 
