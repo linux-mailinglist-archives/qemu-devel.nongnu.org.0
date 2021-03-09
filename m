@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74294332EC1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:09:15 +0100 (CET)
-Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BF5332EB1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:07:49 +0100 (CET)
+Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhjG-0004xb-7J
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:09:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57944)
+	id 1lJhhs-00040s-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:07:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1lJflF-0002s6-1L
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:03:11 -0500
-Received: from home.keithp.com ([63.227.221.253]:59048 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1lJflB-0000bg-V6
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:03:08 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id E217C3F2EE63;
- Tue,  9 Mar 2021 09:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1615309380; bh=2wsjMqEvNVti+NT3RQ0xAgDMxByL67YTuEkGWgOk200=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=SsqeMV0xRXf4HvfCsQ6/q7F6AxfjEHEWkkH/imP9y6oc1sKJgTG1Ow5dzlYljog48
- sNZ5ry7RKuq7ZwBj06kPk1hwKLulYE923o6iWG2rvkq4DzIwa+ehqi8FSlTKco79fC
- oZYe5yCxMLthcaFe/hpuwsgzXDIjWF75UGN61G6am/KucviSp5RzOMHnkBGRLIpuQV
- 8FEHCzntwACxY+P5Hd/zeTCjMgZhmm4sFBR+EUGqDz8dWXzw97LrfMkQQRcATcl//G
- ki3SFuDzK+olJgqxu5hCxrE97IdgYWuCMIsbOviKlUwMY9IkixH72J6+enK3eqIS5P
- 4nMucNSM/3Q1A==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 7BZ9mMIb6Fp0; Tue,  9 Mar 2021 09:02:59 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id BE78C3F2EE62;
- Tue,  9 Mar 2021 09:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1615309379; bh=2wsjMqEvNVti+NT3RQ0xAgDMxByL67YTuEkGWgOk200=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=EOUTNaLrqCXKPeiTNUGy0phMgVBYaFt3SBHYd1mELHCAUZPJ3s+rVgV75h3Hi3E2N
- nXIliDdtPywj9d6GV/HV2l3PjFVBUV90jbuYWaIenGzVfq0uOud5R9730NW9qB6Y2L
- Ed7SCFiESqWgiPIwWWLJfE+wuDdps2rLxOfdYIwrcFKrIXGNEGFH6YSXmazEKf/HT+
- xbtJf7eNL44rdgVot33XYAsmHgWHLriKcen11jzM3DEO+tpo0MkbC6FzIiYUkpezXW
- 7vJdlScKofNifDEjvQ1qdYq9vzs0cvZR+nBSisxZQQPE8nLf3a030vCu9xvtsG0kpg
- +77iA0Jesk/sA==
-Received: by keithp.com (Postfix, from userid 1000)
- id A897B15821A3; Tue,  9 Mar 2021 09:02:59 -0800 (PST)
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v2 2/4] semihosting/arm-compat-semi: unify GET/SET_ARG
- helpers
-In-Reply-To: <20210309141727.12522-3-alex.bennee@linaro.org>
-References: <20210309141727.12522-1-alex.bennee@linaro.org>
- <20210309141727.12522-3-alex.bennee@linaro.org>
-Date: Tue, 09 Mar 2021 09:02:59 -0800
-Message-ID: <87y2ewdzuk.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJfm6-0003ah-Ml; Tue, 09 Mar 2021 12:04:02 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJfm4-0000h2-QI; Tue, 09 Mar 2021 12:04:02 -0500
+Received: by mail-ej1-x634.google.com with SMTP id bm21so29682449ejb.4;
+ Tue, 09 Mar 2021 09:03:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vVM6wFe4bKZ1btWGfkXbVefoXhJyME3i5G6PHiPcvX8=;
+ b=numjzj/2eRfToS2xrWTZmAYPNTb8LdtG5jzirsO+/2qeOX99t9aB+GdbtHtzl6O8Fh
+ 3LIVB4LhMgq2qmuajGfQv4tODK1ci4ih+a1cagQgRo4jk2AdckyUg/iYnTyONeV7paIl
+ 5wE8Q6fkKZr5SKY0YxtLxyubkmYM/u/tijX6/WE5bhnJIP1U69U9mZlkIJLH/8LgDgyw
+ k4QA354cGF6eNMl7vHsoMZnqWCoVbLQTiOynaTL+tnw2qOooCpmjM77hTUp10SQn8GsQ
+ XBbn+b+pe3PZtsrHGbohBqfJNJvX3JCRfcI7kZ7CZ5Jqj3HK2U3JoITqxpay5gqjZNhz
+ QLyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vVM6wFe4bKZ1btWGfkXbVefoXhJyME3i5G6PHiPcvX8=;
+ b=MnRUkOhatlnNKhTHAKFRC6216Rq15FEGxpdjgdWQ62D/vwt34T5HV+NiWwc38CKPHl
+ Bu2GnTJpScEb7K1x6oum9fu9HCJffy8Ohb1pgsuRlt6T9nleR9BxdOjAiySwfmIum76C
+ NmO0CxEAz+BQL1wyviPQ+mgaUe8jjfj4F0jdCWziJ8b0QIljCdzf4ol4JcdrgqNp8lCf
+ 1RF/ZpQDSEi0raPuB3jE1MGmaQXRkXcN+8D8ApV/Rdr1tQ7zyGPZxwGzjWlE7uKMll4V
+ kFdkIZqARFcpQuuz00zUluVWj1tg3K4cUusdc84hVcfRjE3taaM+dak5yBrdqSeIDJVA
+ Zchg==
+X-Gm-Message-State: AOAM531estonhCixdWW87ALPNBI/qwBO4lMosNFa0Sxvgj7IFEeSxoPD
+ kRj5Nk+Tltk8qqdQuxM6TZk=
+X-Google-Smtp-Source: ABdhPJwEQhDGl3E4s3lxKvV73DGT2RKJzSnvekMPAoXkF0lNZkNpm9oq0XEQsFN4q36g3yIzwVDCCQ==
+X-Received: by 2002:a17:906:3882:: with SMTP id
+ q2mr16455265ejd.540.1615309438832; 
+ Tue, 09 Mar 2021 09:03:58 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id gn3sm7315319ejc.2.2021.03.09.09.03.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 09:03:58 -0800 (PST)
+Subject: Re: [PATCH v5 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and base
+ vt82c686b_isa on it
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <cover.1614719482.git.balaton@eik.bme.hu>
+ <07df96112b78673ca191f9a4ffa17bf3a11160f3.1614719482.git.balaton@eik.bme.hu>
+ <da48a752-9b2d-6cd8-9603-4cc528fea628@amsat.org>
+ <11fb7590-89f3-62e7-48e3-d44226876e78@eik.bme.hu>
+ <14cc6696-869d-679a-883f-fbcd30fe6ba1@amsat.org>
+ <YEGDLehnK3Vhp56s@yekko.fritz.box> <YEebhGGvGeWpK5+x@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f8f3f750-b9b5-8a99-4df7-93bb7daf0cb6@amsat.org>
+Date: Tue, 9 Mar 2021 18:03:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YEebhGGvGeWpK5+x@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,48 +94,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Keith Packard <keithp@keithp.com>
-From:  Keith Packard via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
++Gerd
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On 3/9/21 5:00 PM, Dr. David Alan Gilbert wrote:
+> * David Gibson (david@gibson.dropbear.id.au) wrote:
+>> On Thu, Mar 04, 2021 at 11:42:10PM +0100, Philippe Mathieu-Daudé wrote:
+>>> On 3/4/21 9:16 PM, BALATON Zoltan wrote:
+>>>> On Thu, 4 Mar 2021, Philippe Mathieu-Daudé wrote:
+>>>>> On 3/2/21 10:11 PM, BALATON Zoltan wrote:
+>>>>>> To allow reusing ISA bridge emulation for vt8231_isa move the device
+>>>>>> state of vt82c686b_isa emulation in an abstract via_isa class.
+>>>>>>
+>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>> ---
+>>>>>>  hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
+>>>>>>  include/hw/pci/pci_ids.h |  2 +-
+>>>>>>  2 files changed, 40 insertions(+), 32 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>>>> index 72234bc4d1..5137f97f37 100644
+>>>>>> --- a/hw/isa/vt82c686.c
+>>>>>> +++ b/hw/isa/vt82c686.c
+>>>>>> @@ -609,24 +609,48 @@ static const TypeInfo vt8231_superio_info = {
+>>>>>>  };
+>>>>>>
+>>>>>>
+>>>>>> -OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+>>>>>> +#define TYPE_VIA_ISA "via-isa"
+>>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
+>>>>>>
+>>>>>> -struct VT82C686BISAState {
+>>>>>> +struct ViaISAState {
+>>>>>>      PCIDevice dev;
+>>>>>>      qemu_irq cpu_intr;
+>>>>>>      ViaSuperIOState *via_sio;
+>>>>>>  };
+>>>>>>
+>>>>>> +static const VMStateDescription vmstate_via = {
+>>>>>> +    .name = "via-isa",
+>>>>>
+>>>>> You changed the migration stream name, so I think we have
+>>>>> a problem with migration... No clue how to do that properly.
+>>>>
+>>>> I don't think these machines support migration or state description of
+>>>> vt86c686b was not missing something before these patches that would make
+>>>> it not work anyway so I did not worry about this too much. I doubt
+>>>> anybody wants to migrate a fuloong2e machine so this should not be a
+>>>> problem in practice but maybe you can mention it in the release notes if
+>>>> you think that would be necessary.
+>>>
+>>> Maybe just add in the description:
+>>>
+>>>  This change breaks migration back compatibility, but
+>>>  this is not an issue for the Fuloong2E machine.
+>>
+>> Hrm.  If migration was never supported, why is there a vmstate
+>> description there at all though?
+>>
+>> That said, I don't think breaking compat is a problem: that's only an
+>> issue where we actually have versioned machine types, which covers
+>> only pc, pseries, arm virt and a very few others.  I don't think this
+>> device was used on any of them.
+> 
+> Except 'vt82c686b-usb-uhci' is a generic PCI device that anyone can
+> instantiate, so it's not actually Fuloong specific.
 
-> Note: we aren't currently testing riscv32 due to missing toolchain for
-> check-tcg tests.
+I tend to see this as a bug, as this is a function specific to the
+southbridge chipset and isn't meant to be used apart...
 
-That's surprising -- the usual risc-v toolchain supports both 64- and
-32- bit targets.
+If this isn't a feature but really a bug, a simple way to clean this
+is to make struct UHCIInfo and usb_uhci_common_realize() public, and
+type_register "vt82c686b-usb-uhci" elsewhere.
 
-Othewise, this patch is
-
-Reviewed-by: Keith Packard <keithp@keithp.com>
-
-=2D-=20
-=2Dkeith
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAmBHqkMACgkQ2yIaaQAA
-ABGJPxAAm0yEsEjoqP+2tmkNpVtl/G+lXcPjrXpGxIuMU1QMn4kya8oDVI7Iwuyl
-Mu4pmwWNuqpA8H9E2CsjXvSmc7hgf+LkTTbXEvGOe5CKMQW7Y/tnt82WY6ru/aEe
-mRtFX40nqCFQ9hscomeAgXJzFHVSxOAbgfR7YDQGSpMnjSnllb+OxciywJy571KQ
-aiI2OXIHhu4HK8EWxcGarhHL4a676BIxH8lMro7Wt53j6zroxvQ2r//TuRYEhVOv
-cnknJ5teYJZgb3DvZ3K9Khd6fQydEBrlpRDkByWZqLkq4Emjuxq6+jkJfBhi8q1T
-sEmrbPHWhj0Kj5Ju2H8gguketa/jRnIU2f+sKaRA4bSxQGM+upOnwuTCm9kO7TDr
-YvAppSjEUGMlsD4rbN69+bS17A83a1DpC9iP0SbdLwFm1Dk2WdWSZs+9DX/zve5c
-HZGR86yCgN2OA4ZsoSzHdR9o7VGeG0Xz2Pnjri8S5m1O0T0BleXT2Ud6/REOjQLq
-ESVhPGbovRC8McJJyJIgsygFUFI7EIENd8IoaVDD7EMC7pcJ4n43YybN2Stl8zJd
-MGMsqIRoykT9JiV1TEc52KipUe3iesvTkWEW7b452V9H/1zVgwPmgBoXRVahLdoY
-xo+ZLCrEtyQRpTkEAVJUvWdmnVO1PXlBsSRbht7sPmmlbEAyW/E=
-=awt4
------END PGP SIGNATURE-----
---=-=-=--
+Gerd would that work with you?
 
