@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D005A332F84
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:03:53 +0100 (CET)
-Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6FA332F9A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:07:44 +0100 (CET)
+Received: from localhost ([::1]:46640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJia8-0006qP-R9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
+	id 1lJidr-0001wt-T6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:07:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJgVt-0005Nj-BH
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:51:21 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53493)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJgVr-0008Nv-4w
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:51:21 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id e23so3032210wmh.3
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 09:51:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pwSvuLUJv5wrtVTBYBxls5fXoDCVF6+nRh8UPGRMic4=;
- b=Nvv5NsVyTuokT/8YqSea15iJGRoQVRNE9lLp/1aVtdY+rKJ8zXaWe6jJW4ujnahHJZ
- 9HPTvOnL0C4EG9JbSF/XRyOmbfplcyCqbWnLnOe01bXZCEOsxiVsegi+/t8JmIvHAazX
- g3Qn+/zXr0DbFBKWh3sH9ucU8RpS8h/oNBBDkQLVM4yb8WX47JLPbIjvsZqfBIPQ/l/K
- g2P4tNkBOr6iZTu1NVaHW/08wrD4H7p5e5Zcqc+J0JMoWDDFf/zsm531L40uN0/f0IC4
- ZGPCxCU7Jad4CDnN0Uli6UCNTpO1d+idgusSX8iKSo4L/xx3NNUEPfnoYxfyfUQttf0n
- cf9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pwSvuLUJv5wrtVTBYBxls5fXoDCVF6+nRh8UPGRMic4=;
- b=JbxfWDbdClM0dR1T3mPqa9T67CII9NsKSq85ernyREZjJJcywFU1rEphr3yNWE+NXZ
- tQ4EKxXtJjJoiVxyDVf7gM8rC88e/bRKhww03HWpAoC/kU/eE35jzVcrRW8wt0CZPmIA
- ZJtKkxd7FtyJm5QW1tApEUJlKkscbQM3IfaP0KD0M/B8eR4m86tkvcrvevXe+mg+yGtG
- lKL3WUp0ZnF/kuS8ko2QOcYLCfvLVGVluzH90tg0U55oMlCYH8IxIrkLWiCK1ITNYBEX
- oCYrGQ3BY9RfsIPIlctfkLZ4QCZN8/bU3RpcF05uLvOF8rVo2TfxCyhKwd3A1+2VHFl4
- CEyw==
-X-Gm-Message-State: AOAM533qHB35fu91UtpMvr6hGz4zsJn9RfnUUV/RhTMH6762zq42xcu8
- txfg6bkUMkMiBiItmYCJDaVsqQ==
-X-Google-Smtp-Source: ABdhPJwhOrlFaNQvHwEvZabGYhjoCWBehS4h4hVXWn7kloDjOJ2Itjkl4+TaAswSoEl9C/TTT/Vnzg==
-X-Received: by 2002:a7b:cf16:: with SMTP id l22mr5225919wmg.26.1615312277467; 
- Tue, 09 Mar 2021 09:51:17 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o11sm26545640wrq.74.2021.03.09.09.51.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 09:51:16 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BAB691FF7E;
- Tue,  9 Mar 2021 17:51:15 +0000 (GMT)
-References: <20210308201406.1240023-1-aaron@os.amperecomputing.com>
- <CAFEAcA-x=FPqFMi7=RkPj4sU7nPgqZCnRf4x7k5_e2AcryGJ+A@mail.gmail.com>
- <YEeI0GLdvRFAB+FV@strawberry.localdomain>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH] plugins: Expose physical addresses instead of device
- offsets
-Date: Tue, 09 Mar 2021 17:45:47 +0000
-In-reply-to: <YEeI0GLdvRFAB+FV@strawberry.localdomain>
-Message-ID: <87lfaw8bcc.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJgcF-0003Sq-Ul
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:57:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lJgcD-0000eN-O3
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:57:55 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 109B76522E;
+ Tue,  9 Mar 2021 17:57:52 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1lJgc9-000biu-V8; Tue, 09 Mar 2021 17:57:50 +0000
+Date: Tue, 09 Mar 2021 17:57:49 +0000
+Message-ID: <87ft14xl9e.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v9 5/6] KVM: arm64: ioctl to fetch/store tags in a guest
+In-Reply-To: <20210301142315.30920-6-steven.price@arm.com>
+References: <20210301142315.30920-1-steven.price@arm.com>
+ <20210301142315.30920-6-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,97 +73,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Emilio G. Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 01 Mar 2021 14:23:14 +0000,
+Steven Price <steven.price@arm.com> wrote:
+> 
+> The VMM may not wish to have it's own mapping of guest memory mapped
+> with PROT_MTE because this causes problems if the VMM has tag checking
+> enabled (the guest controls the tags in physical RAM and it's unlikely
+> the tags are correct for the VMM).
+> 
+> Instead add a new ioctl which allows the VMM to easily read/write the
+> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+> while the VMM can still read/write the tags for the purpose of
+> migration.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/uapi/asm/kvm.h | 13 +++++++
+>  arch/arm64/kvm/arm.c              | 57 +++++++++++++++++++++++++++++++
+>  include/uapi/linux/kvm.h          |  1 +
+>  3 files changed, 71 insertions(+)
+> 
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 24223adae150..5fc2534ac5df 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -184,6 +184,19 @@ struct kvm_vcpu_events {
+>  	__u32 reserved[12];
+>  };
+>  
+> +struct kvm_arm_copy_mte_tags {
+> +	__u64 guest_ipa;
+> +	__u64 length;
+> +	union {
+> +		void __user *addr;
+> +		__u64 padding;
+> +	};
+> +	__u64 flags;
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+I'd be keen on a couple of reserved __64s. Just in case...
 
-> On Mar 09 10:08, Peter Maydell wrote:
->> On Mon, 8 Mar 2021 at 20:14, Aaron Lindsay <aaron@os.amperecomputing.com=
-> wrote:
->> >
->> > This allows plugins to query for full virtual-to-physical address
->> > translation for a given `qemu_plugin_hwaddr` and stops exposing the
->> > offset within the device itself. As this change breaks the API,
->> > QEMU_PLUGIN_VERSION is incremented.
->> >
->> > Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
->> > ---
->>=20
->>=20
->> > diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
->> > index c66507fe8f..2252ecf2f0 100644
->> > --- a/include/qemu/qemu-plugin.h
->> > +++ b/include/qemu/qemu-plugin.h
->> > @@ -47,7 +47,7 @@ typedef uint64_t qemu_plugin_id_t;
->> >
->> >  extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
->> >
->> > -#define QEMU_PLUGIN_VERSION 0
->> > +#define QEMU_PLUGIN_VERSION 1
->> >
->> >  typedef struct {
->> >      /* string describing architecture */
->> > @@ -328,7 +328,7 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(=
-qemu_plugin_meminfo_t info,
->> >   * offset will be into the appropriate block of RAM.
->> >   */
->> >  bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
->> > -uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hw=
-addr *haddr);
->> > +uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr=
- *haddr);
->>=20
->>=20
->> This should have a documentation comment, since this is the public-facin=
-g API.
->
-> I now see I neglected to update the comment right here the function
-> declaration, and will do so for v2.
->
-> But are you asking for additional documentation beyond that change? If
-> so, where is the right place to add this? docs/devel/tcg-plugins.rst
-> doesn't seem to have much in the way of documentation for the actual
-> calls.
+> +};
+> +
+> +#define KVM_ARM_TAGS_TO_GUEST		0
+> +#define KVM_ARM_TAGS_FROM_GUEST		1
+> +
+>  /* If you need to interpret the index values, here is the key: */
+>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>  #define KVM_REG_ARM_COPROC_SHIFT	16
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 46bf319f6cb7..01d404833e24 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -1297,6 +1297,53 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>  	}
+>  }
+>  
+> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+> +{
+> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+> +	size_t length = copy_tags->length;
+> +	void __user *tags = copy_tags->addr;
+> +	gpa_t gfn;
+> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+> +
+> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+> +		return -EINVAL;
+> +
+> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+> +		return -EINVAL;
 
-The calls should be documented in @kerneldoc style comments in the main
-plugin header. Which reminds me I should be able to extract them into
-the tcg-plugins.rst document via sphinx.
+It is a bit odd to require userspace to provide a page-aligned
+addr/size, as it now has to find out about the kernel's page
+size. MTE_GRANULE_SIZE-aligned values would make more sense. Is there
+an underlying reason for this?
 
->
->> Also, physical addresses aren't uniquely identifying, they're only valid
->> in the context of a particular address space (think TrustZone, for insta=
-nce),
->> so the plugin-facing API should probably have some concept of how it
->> distinguishes "this is an access for Secure 0x4000" from "this is an
->> access for Non-Secure 0x4000".
->
-> I agree it could be handy to expose address spaces in addition to the
-> addresses themselves. Do you believe doing so would change the form of
-> the interface in this patch, or could that be a logically separate
-> addition?
+> +
+> +	gfn = gpa_to_gfn(guest_ipa);
+> +
+> +	while (length > 0) {
+> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+> +		void *maddr;
+> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+> +
+> +		if (is_error_noslot_pfn(pfn))
+> +			return -ENOENT;
+> +
+> +		maddr = page_address(pfn_to_page(pfn));
+> +
+> +		if (!write) {
+> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+> +			kvm_release_pfn_clean(pfn);
+> +		} else {
+> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+> +							   num_tags);
+> +			kvm_release_pfn_dirty(pfn);
+> +		}
+> +
 
-I think information about address spaces should extracted be a separate
-query.
+Is it actually safe to do this without holding any lock, without
+checking anything against the mmu_notifier_seq? What if the pages are
+being swapped out? Or the memslot removed from under your feet?
 
-> I have a secondary concern that it might be hard to expose address
-> spaces in an architecture-agnostic yet still-helpful way, but haven't
-> thought through that enough for it to be a firm opinion.
+It looks... dangerous. Do you even want to allow this while vcpus are
+actually running?
 
-Indeed - so I don't think we need to rush this without giving it some
-thought. As soft-freeze is only a few days away I don't think we want to
-rush an address space query API into 6.0. For most users I expect a
-assuming physical address is unique will work for the most part. But
-it's worth mentioning it might not be in the comment.
+> +		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE)
+> +			return -EFAULT;
+> +
+> +		gfn++;
+> +		tags += num_tags;
+> +		length -= PAGE_SIZE;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  long kvm_arch_vm_ioctl(struct file *filp,
+>  		       unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -1333,6 +1380,16 @@ long kvm_arch_vm_ioctl(struct file *filp,
+>  
+>  		return 0;
+>  	}
+> +	case KVM_ARM_MTE_COPY_TAGS: {
+> +		struct kvm_arm_copy_mte_tags copy_tags;
+> +
+> +		if (!kvm_has_mte(kvm))
+> +			return -EINVAL;
+> +
+> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
+> +			return -EFAULT;
+> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
+> +	}
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 05618a4abf7e..b75af0f9ba55 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1423,6 +1423,7 @@ struct kvm_s390_ucas_mapping {
+>  /* Available with KVM_CAP_PMU_EVENT_FILTER */
+>  #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
+>  #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
+> +#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
+>  
+>  /* ioctl for vm fd */
+>  #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
+> -- 
+> 2.20.1
+> 
+> 
 
->
-> -Aaron
+Thanks,
 
+	M.
 
---=20
-Alex Benn=C3=A9e
+-- 
+Without deviation from the norm, progress is not possible.
 
