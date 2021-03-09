@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD614332C3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:37:38 +0100 (CET)
-Received: from localhost ([::1]:59458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93489332CB1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:59:13 +0100 (CET)
+Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJfMX-0004Br-Nl
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:37:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
+	id 1lJfhQ-0007Bt-Kj
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:59:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJevF-0004B1-UX
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:09:25 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJevD-0008DI-VU
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:09:25 -0500
-Received: by mail-ed1-x535.google.com with SMTP id h10so21277743edl.6
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:09:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/cZs14T4NNs3nZl0AmPme1XuKd/3K0U0U6XI7Kd1eQo=;
- b=EcOvxAHOcPSfgnyG8zdDEMxgZcJfGIvZWGpY99FUAP3SFBH8h2haqi+SnOLBy/DhcR
- vjVqQY32MleecqznR7UCPgaanhf5n1535per26QejZ3UK4sHcXK+dmdtVrwacISGZQ8K
- hKaNKB/3HCI6+1Sa+FgUoeLJ+RUtwrQe8jf9VHEiW1MNeLF+SRndNjPCnK/BIoODmCtO
- XzFkYx3sqDKRKADW3THc6g7V6jiX4cRrALnGZxssDGzNUca2Lpv2lUjiFL/uDvO1FrN+
- i8CikCsaonuLTx6m7VMbC4HOPoEqtLmqLJcfIHFl+sVJZ6dUVKY+OjLtBCWkONUk1nVR
- K+KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/cZs14T4NNs3nZl0AmPme1XuKd/3K0U0U6XI7Kd1eQo=;
- b=EBR8K6YBxriDGGFVUAPu1SP7TeYqWhk1LlXXp7eeYxB0MyG++ykGVXnP+OuUhooZwD
- 2CtJm6xOxGg5wLOAJo+k8tn99UpNYWAnloNRmBKLjcgrI2H29mpDC4dts8SCtPYMr3XI
- 1CJnC4aHbHUlF0Ffhtjr380YFyRAh82ULXg5G8zF93gNuonl5t1laBlKYTVjaaL8Bj2e
- tr4DAPA92MiO0HNan9Ox6uinBgQeX/0xZmUJmcyiZPPdDbK4vUalMJFVTmEqRkk/6vh2
- i580BF2IhEFB/YaCLycJwHzcIEvwH9uh+zWPX4w6LsdxjOs9cLhfI5pknDVQ1OPjUsxA
- 5VdA==
-X-Gm-Message-State: AOAM5314ZB4rHDOq/whSFxQDe45EAYUeHkQNTt5bh2PAxdon6AOQB7jd
- sJqBwEsyoLJwbh7koWa+Lp6NLhFyPOFeuoT5jmofRh7iD6g=
-X-Google-Smtp-Source: ABdhPJxAP5ePM/NWuXCx3YQ8fqrpOvoFMuFUX5x9OPxQqcuATJq9sK/8fKCp1hhn8OyWaDyJ/OswAVlb7o2Xx03J1zs=
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr5089236edr.146.1615306162412; 
- Tue, 09 Mar 2021 08:09:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJeyD-0007sf-MG
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:12:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJey9-0000GX-Hs
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:12:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615306344;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=68X6WkV/gGKDLwx90Vcqv23TUS0irYZBdVsJupxRcQU=;
+ b=Jo7VcPDEMEe2kYYfJd5A/GWF9NduxVfNQGB+mdNtLZdpyc6yy42clEv0nfXJ0O2wTReGQb
+ wVVJzKexHmO3uA2veLZ8HAkZakoKvStzk5D7N5lJo7tCgrqk0aGW1XVCNRfOI0xIyRIXsN
+ aB4BBt71q0MBQbyBbKyBn3D5/ebgZEQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-w7SvjFaiMza3hTTc2aZ9MA-1; Tue, 09 Mar 2021 11:12:22 -0500
+X-MC-Unique: w7SvjFaiMza3hTTc2aZ9MA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F475193F566;
+ Tue,  9 Mar 2021 16:12:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F2D259458;
+ Tue,  9 Mar 2021 16:12:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 174B81141CBD; Tue,  9 Mar 2021 17:12:14 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 4/4] blockdev: Drop deprecated bogus -drive interface type
+Date: Tue,  9 Mar 2021 17:12:13 +0100
+Message-Id: <20210309161214.1402527-5-armbru@redhat.com>
+In-Reply-To: <20210309161214.1402527-1-armbru@redhat.com>
+References: <20210309161214.1402527-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20210307120850.10418-1-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Mar 2021 16:09:04 +0000
-Message-ID: <CAFEAcA_qecMRbzAMoaCTXN-tUKpJfD7tZ_byvXHNPrptqBjc7A@mail.gmail.com>
-Subject: Re: [PULL 00/42] qemu-sparc queue 20210307
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,33 +79,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 7 Mar 2021 at 12:09, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> The following changes since commit 91e92cad67caca3bc4b8e920ddb5c8ca64aac9e1:
->
->   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210305' into staging (2021-03-05 19:04:47 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/mcayland/qemu.git tags/qemu-sparc-20210307
->
-> for you to fetch changes up to 7aa6baee7c8a54473f28c6fa1e980a9ff7989036:
->
->   esp: add support for unaligned accesses (2021-03-07 10:39:05 +0000)
->
-> ----------------------------------------------------------------
-> qemu-sparc queue
+Drop the crap deprecated in commit a1b40bda08 "blockdev: Deprecate
+-drive with bogus interface type" (v5.1.0).
 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ docs/system/deprecated.rst       |  7 ------
+ docs/system/removed-features.rst |  7 ++++++
+ include/sysemu/blockdev.h        |  1 -
+ blockdev.c                       | 37 +++++++++++++-------------------
+ softmmu/vl.c                     |  8 +------
+ 5 files changed, 23 insertions(+), 37 deletions(-)
 
-Applied, thanks.
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 601e9647a5..664ed60e9f 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -94,13 +94,6 @@ QEMU 5.1 has three options:
+       to the user to load all the images they need.
+  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
+ 
+-``-drive`` with bogus interface type (since 5.1)
+-''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Drives with interface types other than ``if=none`` are for onboard
+-devices.  It is possible to use drives the board doesn't pick up with
+--device.  This usage is now deprecated.  Use ``if=none`` instead.
+-
+ Short-form boolean options (since 6.0)
+ ''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 77e7ba1339..e6d2fbe798 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -87,6 +87,13 @@ becomes
+     -device isa-fdc,...
+     -device floppy,unit=1,drive=...
+ 
++``-drive`` with bogus interface type (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Drives with interface types other than ``if=none`` are for onboard
++devices.  Drives the board doesn't pick up can no longer be used with
++-device.  Use ``if=none`` instead.
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+index 3b5fcda08d..32c2d6023c 100644
+--- a/include/sysemu/blockdev.h
++++ b/include/sysemu/blockdev.h
+@@ -35,7 +35,6 @@ struct DriveInfo {
+     bool is_default;            /* Added by default_drive() ?  */
+     int media_cd;
+     QemuOpts *opts;
+-    bool claimed_by_board;
+     QTAILQ_ENTRY(DriveInfo) next;
+ };
+ 
+diff --git a/blockdev.c b/blockdev.c
+index cd438e60e3..2e01889cff 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -240,19 +240,10 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
+     return NULL;
+ }
+ 
+-void drive_mark_claimed_by_board(void)
+-{
+-    BlockBackend *blk;
+-    DriveInfo *dinfo;
+-
+-    for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+-        dinfo = blk_legacy_dinfo(blk);
+-        if (dinfo && blk_get_attached_dev(blk)) {
+-            dinfo->claimed_by_board = true;
+-        }
+-    }
+-}
+-
++/*
++ * Check board claimed all -drive that are meant to be claimed.
++ * Fatal error if any remain unclaimed.
++ */
+ void drive_check_orphaned(void)
+ {
+     BlockBackend *blk;
+@@ -262,7 +253,17 @@ void drive_check_orphaned(void)
+ 
+     for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+         dinfo = blk_legacy_dinfo(blk);
+-        if (dinfo->is_default || dinfo->type == IF_NONE) {
++        /*
++         * Ignore default drives, because we create certain default
++         * drives unconditionally, then leave them unclaimed.  Not the
++         * users fault.
++         * Ignore IF_VIRTIO, because it gets desugared into -device,
++         * so we can leave failing to -device.
++         * Ignore IF_NONE, because leaving unclaimed IF_NONE remains
++         * available for device_add is a feature.
++         */
++        if (dinfo->is_default || dinfo->type == IF_VIRTIO
++            || dinfo->type == IF_NONE) {
+             continue;
+         }
+         if (!blk_get_attached_dev(blk)) {
+@@ -273,14 +274,6 @@ void drive_check_orphaned(void)
+                          if_name[dinfo->type], dinfo->bus, dinfo->unit);
+             loc_pop(&loc);
+             orphans = true;
+-            continue;
+-        }
+-        if (!dinfo->claimed_by_board && dinfo->type != IF_VIRTIO) {
+-            loc_push_none(&loc);
+-            qemu_opts_loc_restore(dinfo->opts);
+-            warn_report("bogus if=%s is deprecated, use if=none",
+-                        if_name[dinfo->type]);
+-            loc_pop(&loc);
+         }
+     }
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ff488ea3e7..7453611152 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2460,13 +2460,7 @@ static void qemu_init_board(void)
+     /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+     machine_run_board_init(current_machine);
+ 
+-    /*
+-     * TODO To drop support for deprecated bogus if=..., move
+-     * drive_check_orphaned() here, replacing this call.  Also drop
+-     * its deprecation warning, along with DriveInfo member
+-     * @claimed_by_board.
+-     */
+-    drive_mark_claimed_by_board();
++    drive_check_orphaned();
+ 
+     realtime_init();
+ 
+-- 
+2.26.2
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
