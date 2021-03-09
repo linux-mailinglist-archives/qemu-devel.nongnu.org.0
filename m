@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA426332E7C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:47:09 +0100 (CET)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7F7332E7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 19:46:43 +0100 (CET)
+Received: from localhost ([::1]:41304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhNs-0007uL-Pd
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
+	id 1lJhNS-0007SO-H6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 13:46:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJfBm-000494-KM
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:26:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJfBk-0003Ps-DP
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:26:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615307187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BU5aYMfU3EAoxou6eFDVNYgsvd9ReFPCw74KK2kV8Hk=;
- b=bQTSvgzOencwXdSGuIEV5E4XeE5OUGczwgDQxmRkOY+yh1QSegJwXJGqmRM1Uf9v0tBeSy
- fAW6iC6uGz0nRUlBpVoyWbFTTQhyA21QUGDCVNrdEHte/dr2pWFZVlju2JdLZMnFvrFgSw
- VPGEb4+z/YK1plGLllsjNYmGr91zPAw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-qa7tFOfsMv2o8F322y90wg-1; Tue, 09 Mar 2021 11:26:25 -0500
-X-MC-Unique: qa7tFOfsMv2o8F322y90wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED25F193410F;
- Tue,  9 Mar 2021 16:26:23 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8232460C13;
- Tue,  9 Mar 2021 16:26:19 +0000 (UTC)
-Subject: Re: [PATCH] usb: Un-deprecate -usbdevice (except for -usbdevice audio
- which gets removed)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20210309142940.943831-1-thuth@redhat.com>
- <75f9eac2-9981-ee1f-b158-5d1136c993c6@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <cc8baef6-8e5c-aaee-f383-38e541a491a4@redhat.com>
-Date: Tue, 9 Mar 2021 17:26:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJfCH-0004V4-Oy
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:27:01 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:45907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lJfCE-0003Sn-Vw
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:27:01 -0500
+Received: by mail-ed1-x531.google.com with SMTP id dm26so21310119edb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BzEi1fcPHCu1SeOGWK7zuipJlQvhGM96UMkejEtwLd0=;
+ b=XlBblAYnDF4I8oELsXpWrvqLCyNfpqRNXBJQMvHgqP8AOfXgnTk3CXo4b9hysr6VgR
+ cciU+bx+Ccd5I4HAIq82QUXVEZ2czUsNo/NH4JvFDOwolCEwax2q6Oi4mmZwUDr+PzEH
+ leCxAWa+/YkVCeT8fScW1Zci2UzLOF8pMpuBEBKG5NK5S0yA1oSKvsIsjTAo5KF2gv4L
+ xghgpvbmgVnvwW3QTvOay+zhS92DQdTA396wy3PXfjZ9jPoAaPPnKbMKDmu7SskziFHH
+ 0wcoiQH3XsiuKQGh6H8CrMocJJfePANvLJCinf8qXpcCABEnQMIh0d3Dcigd4Mnd/JMC
+ iv9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BzEi1fcPHCu1SeOGWK7zuipJlQvhGM96UMkejEtwLd0=;
+ b=QgkIq74I0MofaYdMTrclXWLnUYhWteD3pcp3ptefnoSwDAX8gHDRsY6roScxSKAeFC
+ iFOO/o5twiNKB/B/2ol1yjk19LC7ZdjHew5+sVkLEQS8IJuCvIx4eYU4Of2xnUI51gbP
+ z+6/eSifXIrZ1ATR1ihvY2dBG68C00fOgybolnQij2uPjG+0JUf3rrEBBzTzYHp8Zayb
+ 0CpU44b2Q7a8YUn7foCL7Ww/qkf/fQroJ6+Yv3jp5nz/xBYXsTgaGdWIMSTBcij6Hw3z
+ 1vesjPTzcK2lfCIg23I4d6EnqGn5AtLMeKanYfGBzNnnyYjus7tMPQC7N1gjjnsm5IQQ
+ 14+g==
+X-Gm-Message-State: AOAM5333sbTTH8IfctbGwIj5hBx1hCJjynVDZ/ZO9idUlUkJF6y2A+ak
+ oD53httX8fquhrAydBy7be89kbJD42N0V1Vl2Ec+sw==
+X-Google-Smtp-Source: ABdhPJzNlVlI2bI3nwakgx3Jk5s3sh2gJsCFZFbFvBPrqLxcFkFjfH1/bLZN897NktNssJufcfZ+SoaIZAEeO67/ZBg=
+X-Received: by 2002:aa7:d686:: with SMTP id d6mr5188652edr.146.1615307217610; 
+ Tue, 09 Mar 2021 08:26:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <75f9eac2-9981-ee1f-b158-5d1136c993c6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201217014941.22872-1-zhukeqian1@huawei.com>
+ <20201217014941.22872-3-zhukeqian1@huawei.com>
+ <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
+ <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
+ <11854ebf-ed88-496d-8381-5385ef1b403a@redhat.com> <YEeM8eUUzm9AlaFI@work-vm>
+ <48fd9bee-4542-533a-b893-7acf3744fe36@redhat.com>
+In-Reply-To: <48fd9bee-4542-533a-b893-7acf3744fe36@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Mar 2021 16:26:39 +0000
+Message-ID: <CAFEAcA-jnVADA85uTxPUUHfPLacN5+-d=D8MjKzfr3bT2hL7gw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
+ kvm_log_clear_one_slot
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, wanghaibin.wang@huawei.com,
+ Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/2021 15.45, Paolo Bonzini wrote:
-> On 09/03/21 15:29, Thomas Huth wrote:
->> When trying to remove the -usbdevice option, there were complaints that
->> "-usbdevice braille" is still a very useful shortcut for some people.
->> Thus we never remove this option. Since it's not such a big burden to
->> keep it around, and it's also convenient in the sense that you don't
->> have to worry to enable a host controller explicitly with this option,
->> we should remove it from he deprecation list again, and rather properly
->> document the possible device for this option instead.
->>
->> However, there is one exception: "-usbdevice audio" should go away, since
->> audio devices without "audiodev=..." parameter are also on the deprecation
->> list and you cannot use "-usbdevice audio" with "audiodev".
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> 
-> It's missing an addition to docs/system/removed-features.rst for "-usbdevice 
-> audio"; otherwise looks good.
+On Tue, 9 Mar 2021 at 16:20, Thomas Huth <thuth@redhat.com> wrote:
+> The vga code basically does this:
+>
+>      region_start = (s->start_addr * 4);
+>      region_end = region_start + (ram_addr_t)s->line_offset * height;
+>      region_end += width * depth / 8; /* scanline length */
+>      region_end -= s->line_offset;
+>      ...
+>      memory_region_snapshot_and_clear_dirty(... region_end - region_start...);
+>
+> Thus it uses a size that is nowhere guaranteed to be a multiple
+> of the page size.
 
-Well, I guess hardly anybody ever used this since it was completely 
-undocumented (try to google it - I just got one
-result), but yeah, let's better document it that it's gone
-now. I'll send a v2.
+The documentation comment for memory_region_snapshot_and_clear_dirty()
+says:
+ * The dirty bitmap region which gets copyed into the snapshot (and
+ * cleared afterwards) can be larger than requested.  The boundaries
+ * are rounded up/down
 
-  Thomas
+That is, it is the job of memory_region_snapshot_and_clear_dirty()
+to round the boundaries up/down to whatever extent it requires
+internally.
 
+thanks
+-- PMM
 
