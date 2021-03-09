@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E9D3323B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:12:24 +0100 (CET)
-Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F143323A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:09:58 +0100 (CET)
+Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaHn-0000Py-4i
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:12:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
+	id 1lJaFR-00057f-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:09:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJaC5-00014b-EU
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJaC3-0001BF-T6
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:06:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615287987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Pq8EJfDiYJYoqlSdSD0m0FRouDJg2ncmxP8m2FxexU=;
- b=iyrn5j9W/C8BztwqvaolVkTGe0WQlnZaxnY9QQeTBQnyOe/V7vF/QR2OAo/DYKgUw70PEC
- 1VjmAc8S7L+mhbDYjwwQFjoYqYgNisg8RMFnpj01YY1AVJp6bEzRvf3u5baEnniJWb0uKn
- Ck7KXhTk4WrVetADQaFxU075rHQAnG4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-rKPryh8sNs2rwAL31R4uXw-1; Tue, 09 Mar 2021 06:06:25 -0500
-X-MC-Unique: rKPryh8sNs2rwAL31R4uXw-1
-Received: by mail-ed1-f70.google.com with SMTP id m8so844245edv.11
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:06:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0Pq8EJfDiYJYoqlSdSD0m0FRouDJg2ncmxP8m2FxexU=;
- b=NUBPQrN7XGWbl0U99BKd6rF+pa97CU0hxomuLRU+Uen9PoH2CRvgY2v187U6d4sONU
- +iuF9WiVHlfsHRo9wWQZRek5Y4xJcG8uuZEJgmeDk3Sujimaw3jUI93sYhb+DS83eFtu
- /5Zx1f90K9+2c8vqmM51QWyhuBUtx9MiNKWBdCc2nMTTayxxXMe+rFulTRZaC+pJjjC4
- 8G/MyMu5Bv1+s28mi6tmwTBIhajZPuxh9JJEIiIxGtFKkU77Y9oVe8+taf3bx30wQzNX
- +hvi6M66DjDZIBYlVF7oGIML5HRkpA0jV9yKnQJXnouuRdh+HLUVOqj6e6twcZ79sh9t
- pI5w==
-X-Gm-Message-State: AOAM530OZPDbgWDcEfuYHGX0eTHk1iQtpdrgTFUu2zaWTLLTGe8d/pk7
- YWTm1E1nxTYuV5vEte6wr//um5SG/8hk+tXput1IY7SKOZXmEN5NCyPY8NuKLwby0dQjZ2YRudI
- wTQ0VnNphnXSY7wQ=
-X-Received: by 2002:a05:6402:10c6:: with SMTP id
- p6mr3369179edu.241.1615287984394; 
- Tue, 09 Mar 2021 03:06:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxmVQmxIid/9+cJnyAJTiWybcARV8/wC0f4zztpxz9WF/+w9SX4U4B2b2BYcH/aGZ3ctmiCTQ==
-X-Received: by 2002:a05:6402:10c6:: with SMTP id
- p6mr3369160edu.241.1615287984182; 
- Tue, 09 Mar 2021 03:06:24 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id cy5sm8804048edb.46.2021.03.09.03.06.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 03:06:23 -0800 (PST)
-Subject: Re: [RFC PATCH 4/4] coroutine/rwlock: Wake writers in preference to
- readers
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20210309102157.365356-1-david.edmondson@oracle.com>
- <20210309102157.365356-5-david.edmondson@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8de7f2e6-825f-a803-cf12-870559b5e787@redhat.com>
-Date: Tue, 9 Mar 2021 12:06:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lJaCg-0002Vx-TR
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:07:06 -0500
+Resent-Date: Tue, 09 Mar 2021 06:07:06 -0500
+Resent-Message-Id: <E1lJaCg-0002Vx-TR@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lJaCd-0001aI-Tg
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:07:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1615288010; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mS1dAWQg3rxaRukAMpQC+g8Ppu4SwfYha/OxF1uhNiOXqXKWHX+wFjP886Z2l8lh6HRldAvkb+d/w3tgOCI8wdb2EVJw+GO6+f3I39La7R8zkSF48+6Lv97q3LfrkwyWjDrii7E68usmfazbti5Su5tRumJ5brVcaVNxaHeAAyk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615288010;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=zAXwha2MoHlXNPBhZasMAINCEMLAXxB1onioEpwPES8=; 
+ b=JML3kjlvtYquhED9kAt/NY1qSNLqaseuxlalOnINsnVhrQANrCKMkwn9K/UTp97mA5fJEp9tscJvgnGEUXFqbXckF9i8TkvZ0mLr9NU81avBU5LDZAu0qUZ0yZ9iDTcducp2Cpceq/VAQAwN7xViNHBnXOkXFgX0oDI5SysY5js=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 161528800717055.578607354741166;
+ Tue, 9 Mar 2021 03:06:47 -0800 (PST)
+In-Reply-To: <20210309104617.714908-1-thuth@redhat.com>
+Subject: Re: [PULL 00/14] Gitlab, testing and misc patches
+Message-ID: <161528800611.244.11864224223850886749@f3770d8ad632>
 MIME-Version: 1.0
-In-Reply-To: <20210309102157.365356-5-david.edmondson@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: thuth@redhat.com
+Date: Tue, 9 Mar 2021 03:06:47 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,44 +67,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/21 11:21, David Edmondson wrote:
-> -        /* The critical section started in qemu_co_rwlock_wrlock.  */
-> -        qemu_co_queue_restart_all(&lock->queue);
-> +        /* The critical section started in qemu_co_rwlock_wrlock or
-> +         * qemu_co_rwlock_upgrade.
-> +         */
-> +        qemu_co_queue_restart_all(&lock->wqueue);
-> +        qemu_co_queue_restart_all(&lock->rqueue);
-
-Hmm, the devil is in the details---this is a thundering herd waiting to 
-happen.  But fortunately this can be fixed while making the unlock 
-primitive even simpler:
-
-     if (lock->reader) {
-          self->locks_held--;
-
-          /* Read-side critical sections do not keep lock->mutex.  */
-          qemu_co_mutex_lock(&lock->mutex);
-          lock->reader--;
-          assert(lock->reader >= 0);
-      }
-
-      /* If there are no remaining readers wake one waiting writer
-       * or all waiting readers.
-       */
-      if (!lock->reader && !qemu_co_queue_next(&lock->wqueue)) {
-          assert(!lock->pending_writer);
-          qemu_co_queue_restart_all(&lock->rqueue);
-      }
-
-Thanks,
-
-Paolo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMwOTEwNDYxNy43MTQ5
+MDgtMS10aHV0aEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMDkxMDQ2MTcuNzE0OTA4
+LTEtdGh1dGhAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8xNF0gR2l0bGFiLCB0ZXN0aW5n
+IGFuZCBtaXNjIHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gK
+Z2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1
+ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9j
+aGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpV
+cGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0
+cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAg
+IHBhdGNoZXcvMjAyMTAyMTExNDE1MTUuODc1NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAt
+PiBwYXRjaGV3LzIwMjEwMjExMTQxNTE1Ljg3NTUtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcK
+ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMwOTEwNDYxNy43MTQ5MDgtMS10aHV0
+aEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMDkxMDQ2MTcuNzE0OTA4LTEtdGh1dGhAcmVk
+aGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjAwMWUwZjYgYnNkLXVzZXI6
+IEFkZCBuZXcgbWFpbnRhaW5lcnMKY2Q1NGY4MSBSZW1vdmUgZGVwcmVjYXRlZCB0YXJnZXQgdGls
+ZWd4CjRkZWUyOTAgQWNjZXB0YW5jZSBUZXN0czogcmVzdG9yZSBmaWx0ZXJpbmcgb2YgdGVzdHMg
+YnkgdGFyZ2V0IGFyY2gKN2UyZDk0MyBBY2NlcHRhbmNlIFRlc3RzOiByZXN0b3JlIGRvd25sb2Fk
+aW5nIG9mIFZNIGltYWdlcwoxNzY3YmU1IGRvY3MvZGV2ZWwvcWdyYXBoOiBpbXByb3ZlIHFncmFw
+aCBkb2N1bWVudGF0aW9uCmE2MzRlYWEgbGlicW9zL3FncmFwaDogZm9ybWF0IHFncmFwaCBjb21t
+ZW50cyBmb3Igc3BoaW54IGRvY3VtZW50YXRpb24KMTQwMzgyOCBzY3JpcHRzL2NpL2dpdGxhYi1w
+aXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZvIHdoZW4gcGlwZWxpbmUgbm90IGZvdW5kCjk2
+MTcwODQgc2NyaXB0cy9jaS9naXRsYWItcGlwZWxpbmUtc3RhdHVzOiBnaXZlIG1vcmUgaW5mb3Jt
+YXRpb24gb24gZmFpbHVyZXMKOWMxYWUyNCBzY3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0
+dXM6IHNwbGl0IHV0bGl0eSBmdW5jdGlvbiBmb3IgSFRUUCBHRVQKMmMxOTBiYiBtZXNvbjogUmUt
+ZW5hYmxlIHRoZSBwb3NzaWJpbGl0eSB0byBydW4gIm1ha2UgY2hlY2sgU1BFRUQ9c2xvdyIKODYx
+ZDgzZSBkb2NrZXI6IE9wZW5TQkkgYnVpbGQgam9iIGRlcGVuZHMgb24gT3BlblNCSSBjb250YWlu
+ZXIKNjBmYmMxOCBkb2NrZXI6IEVESzIgYnVpbGQgam9iIGRlcGVuZHMgb24gRURLMiBjb250YWlu
+ZXIKOTk0ZWQ4MiBkb2NrZXI6IEFscGluZSBidWlsZCBqb2IgZGVwZW5kcyBvbiBBbHBpbmUgY29u
+dGFpbmVyCmZiNDlmMzEgcXRlc3Q6IGRlbGV0ZSBzdXBlcmZsdW91cyBpbmNsdXNpb25zIG9mIHF0
+ZXN0LmgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTQgQ2hlY2tpbmcgY29tbWl0IGZiNDlmMzE2
+MDc2OCAocXRlc3Q6IGRlbGV0ZSBzdXBlcmZsdW91cyBpbmNsdXNpb25zIG9mIHF0ZXN0LmgpCjIv
+MTQgQ2hlY2tpbmcgY29tbWl0IDk5NGVkODIxZjhjYSAoZG9ja2VyOiBBbHBpbmUgYnVpbGQgam9i
+IGRlcGVuZHMgb24gQWxwaW5lIGNvbnRhaW5lcikKMy8xNCBDaGVja2luZyBjb21taXQgNjBmYmMx
+ODUwNjk4IChkb2NrZXI6IEVESzIgYnVpbGQgam9iIGRlcGVuZHMgb24gRURLMiBjb250YWluZXIp
+CjQvMTQgQ2hlY2tpbmcgY29tbWl0IDg2MWQ4M2VkODRlYSAoZG9ja2VyOiBPcGVuU0JJIGJ1aWxk
+IGpvYiBkZXBlbmRzIG9uIE9wZW5TQkkgY29udGFpbmVyKQo1LzE0IENoZWNraW5nIGNvbW1pdCAy
+YzE5MGJiNWEyNDEgKG1lc29uOiBSZS1lbmFibGUgdGhlIHBvc3NpYmlsaXR5IHRvIHJ1biAibWFr
+ZSBjaGVjayBTUEVFRD1zbG93IikKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyOTog
+RklMRTogc2NyaXB0cy9tdGVzdDJtYWtlLnB5OjI0OgorLnRlc3QtaHVtYW4tdGFwID0gJDEgJChp
+ZiAkNCwoY2QgJDQgJiYgJDIpLCQyKSAtbSAkKFNQRUVEKSA8IC9kZXYvbnVsbCB8IC4vc2NyaXB0
+cy90YXAtZHJpdmVyLnBsIC0tdGVzdC1uYW1lPSIkMyIgJChpZiAkKFYpLCwtLXNob3ctZmFpbHVy
+ZXMtb25seSkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOCBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCA1LzE0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo2LzE0IENoZWNraW5nIGNvbW1p
+dCA5YzFhZTI0NTI5NDcgKHNjcmlwdHMvY2kvZ2l0bGFiLXBpcGVsaW5lLXN0YXR1czogc3BsaXQg
+dXRsaXR5IGZ1bmN0aW9uIGZvciBIVFRQIEdFVCkKNy8xNCBDaGVja2luZyBjb21taXQgOTYxNzA4
+NDMyOTU4IChzY3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZv
+cm1hdGlvbiBvbiBmYWlsdXJlcykKOC8xNCBDaGVja2luZyBjb21taXQgMTQwMzgyODljMjYzIChz
+Y3JpcHRzL2NpL2dpdGxhYi1waXBlbGluZS1zdGF0dXM6IGdpdmUgbW9yZSBpbmZvIHdoZW4gcGlw
+ZWxpbmUgbm90IGZvdW5kKQo5LzE0IENoZWNraW5nIGNvbW1pdCBhNjM0ZWFhN2FiZmYgKGxpYnFv
+cy9xZ3JhcGg6IGZvcm1hdCBxZ3JhcGggY29tbWVudHMgZm9yIHNwaGlueCBkb2N1bWVudGF0aW9u
+KQoxMC8xNCBDaGVja2luZyBjb21taXQgMTc2N2JlNThiYTQ3IChkb2NzL2RldmVsL3FncmFwaDog
+aW1wcm92ZSBxZ3JhcGggZG9jdW1lbnRhdGlvbikKMTEvMTQgQ2hlY2tpbmcgY29tbWl0IDdlMmQ5
+NDNlNjQzMSAoQWNjZXB0YW5jZSBUZXN0czogcmVzdG9yZSBkb3dubG9hZGluZyBvZiBWTSBpbWFn
+ZXMpCjEyLzE0IENoZWNraW5nIGNvbW1pdCA0ZGVlMjkwNGJlN2EgKEFjY2VwdGFuY2UgVGVzdHM6
+IHJlc3RvcmUgZmlsdGVyaW5nIG9mIHRlc3RzIGJ5IHRhcmdldCBhcmNoKQoxMy8xNCBDaGVja2lu
+ZyBjb21taXQgY2Q1NGY4MWQwMGQ2IChSZW1vdmUgZGVwcmVjYXRlZCB0YXJnZXQgdGlsZWd4KQpV
+c2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5nIGVx
+IGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQsIG1v
+dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
+ODI6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
+cywgMTMwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEzLzE0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCjE0LzE0IENoZWNraW5nIGNvbW1pdCAwMDFlMGY2ZDljY2UgKGJzZC11c2VyOiBBZGQgbmV3
+IG1haW50YWluZXJzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
+aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDIxMDMwOTEwNDYxNy43MTQ5MDgtMS10aHV0aEByZWRoYXQuY29tL3Rlc3Rpbmcu
+Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
+bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
+ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
