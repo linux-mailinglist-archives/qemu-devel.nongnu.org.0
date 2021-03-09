@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968E23323B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:15:26 +0100 (CET)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9AB3323CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 12:18:49 +0100 (CET)
+Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJaKj-0002dH-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:15:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
+	id 1lJaO0-0005xx-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 06:18:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJaI3-0001KP-Tt
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:12:41 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJaHy-0004vK-2D
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:12:37 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id ci14so26523246ejc.7
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xdNNfBaF27fGYFRBFAyj19is/iaT2FeZEt9Jne8EM1o=;
- b=pb/0ELYjPJHx1wOkswMUEAHQ5ko2E2tdiVQ5tkIFgTQEfPLeEQ8zOKSk+dtAQrqXu1
- 71d0KlQ4Pqv56qqYqulMT9eLj3rCjD40GXdD1cxrs9Zxi1Th+XPEN5HBTCXne6mSv9ti
- yhyVRW4oWcY1i5BSFAiaWzFE3bw+/LFf1pNB26fm8E+/a3BIdN4my6e2dsOdJFUBIQ0j
- HCWusVs78VWQ/MeQk/yde0HiLOT2hsYvIWcMJe4VPOQtndGX1DndLRvqglx435C5XPCZ
- LzwD4No3bJ4z5L4eBe6Ul6XXoYZggN+BDfahaLeeIoSNl2hqh6KA/1YtLRyAyPUIJ8We
- gjeA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJaIz-00022F-DO
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:13:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJaIv-0005RE-6i
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 06:13:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615288411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D/h/qPO3Oaa7gOJMO7Ztb7QxyFaaYV0WGiqQsXDt3FU=;
+ b=a/yQKGITf4pYx9iepelY3zJ3SQPPxsD8eVQEAOR8oEvfU9JVLLsP1w0J7r+yQEKYd5UF9I
+ OpfS7KN4MHhb0qjoca1h5KP9li1SQsDFu9Nq4pgCu9lj30siUZirLKOskZPaLUu2yaF86+
+ nuFhTldlwW5bpYGtM1JBsFQWA3iGwug=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-aVsivXw-NOK4xDlQ63W7JQ-1; Tue, 09 Mar 2021 06:13:30 -0500
+X-MC-Unique: aVsivXw-NOK4xDlQ63W7JQ-1
+Received: by mail-wr1-f72.google.com with SMTP id s10so6276170wre.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 03:13:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xdNNfBaF27fGYFRBFAyj19is/iaT2FeZEt9Jne8EM1o=;
- b=VNqaSjEiscxNqAIwdh/5pi9VHLEabsCzq8wfcf4ffVFsWRbNmzuyEzbuY17v8T+Wno
- 1g45ou5vZid9aM0T5tYXSt+O1Et1Zm63AKSP6SXF0lHeIzZtt6RUuncQcC7jzq6sRVmK
- xQRnpHAFbgCiGmokJK1rpDJCfqk4XkAcIUtjr4peR5tsWnAkUuK/+4HTBCYFWDACE4lJ
- 0F4IoZfjaStysgy+u7ZnrM79fqrI1uJRRs8eMMNiy/IZaZddZkVLy5GUlEcz/NRDu+4G
- XTosHUVPEFH/6pNRocs/txQ1sCQ6CxhILkxOcyXzK4z4rHnXJ8KY3PcR9pUoAlyi48/d
- cWmw==
-X-Gm-Message-State: AOAM531OfCpmK8vJyXBDt9/omOIq+BRcBPD9pkIM9hF+0wdZdrFkJDFj
- 0JnMb6ExBeYcI8innVWyCmdpPvRh60fuDT/kWV0i4g==
-X-Google-Smtp-Source: ABdhPJy/Qk4ScoHxnz2wsEGw8OJzrq3wxA11yHwAeEOk/rP67WJ9/BhKitqwNb5OELEJZVX/dJGb+nh1Ut6MXhbT6xc=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr19937762ejg.482.1615288351577; 
- Tue, 09 Mar 2021 03:12:31 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D/h/qPO3Oaa7gOJMO7Ztb7QxyFaaYV0WGiqQsXDt3FU=;
+ b=po48AFiQh+2fk+bJNl7VEj6TD2y9pdxXxZ5GDeCJ/cwjR/IfXp4xdBvY9oVSpvlDbW
+ ZiKTOOJW204hM8g5Pq55hNRdE9GnCZaBpexk73bwGhxhQ2lCQR2Jiv+s9sDBJVz9NHBM
+ WwkiBy5h4f2Brx9T8zuHn1lmouBjQnFfAC5VJ3wIZjA6DRm//UUBK1wZPixV9/lRhXDR
+ lVFprWsZyHBRZJuW0mMCfRma0iOoHqYW6N2x6T0b/U3/afiNmQtSEKagu4fXOq1Kw6Qm
+ Mcc0jLp25xlwzR0m2pFjVk3+nDSjYgrMpxqc55ti1Rk/Lvc4J0Go1G8ysVO4QY6YS/bO
+ hedA==
+X-Gm-Message-State: AOAM530OB4vl8Vul3XJcMccgRoaOGZ/l8AYZH3nUmFkO2TFso2/r4P8g
+ JO3Sag/tIYwvMkiVRiV46DB/Bi1ch7Wc64n1s4StzytxNMLP0a8/5BL1MYeBLaj+xlZC1OjYSpR
+ +/irQ7X26TT2JsJA=
+X-Received: by 2002:a5d:4521:: with SMTP id j1mr27069812wra.354.1615288408920; 
+ Tue, 09 Mar 2021 03:13:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwRsduoQKBTGJxlqWIYfquAqRuXK8LZX1NIVMWEbr/2NTsb4B2FRI5vGT7hyZGCZs3lofqY3g==
+X-Received: by 2002:a5d:4521:: with SMTP id j1mr27069790wra.354.1615288408736; 
+ Tue, 09 Mar 2021 03:13:28 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id b131sm3613282wmb.34.2021.03.09.03.13.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 03:13:28 -0800 (PST)
+Date: Tue, 9 Mar 2021 12:13:26 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V2] virtio-net: calculating proper msix vectors on init
+Message-ID: <20210309111326.wwjt4kxikrmtqbwz@steredhat>
+References: <20210309042314.45817-1-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <20210223110640.73974-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20210223110640.73974-1-akihiko.odaki@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Mar 2021 11:12:15 +0000
-Message-ID: <CAFEAcA_VcMD=Arqebgi0b_xLTLOG+M0SQwJJH1PpXLzrkg3fwA@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Do not rely on the first argument
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210309042314.45817-1-jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,76 +93,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Feb 2021 at 11:06, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+On Tue, Mar 09, 2021 at 12:23:14PM +0800, Jason Wang wrote:
+>Currently, the default msix vectors for virtio-net-pci is 3 which is
+>obvious not suitable for multiqueue guest, so we depends on the user
+>or management tools to pass a correct vectors parameter. In fact, we
+>can simplifying this by calculating the number of vectors on realize.
 >
-> The first argument of the executable was used to get its path, but it is
-> not reliable because the executer can specify any arbitrary string. Use the
-> interfaces provided by QEMU and the platform to get those paths.
+>Consider we have N queues, the number of vectors needed is 2*N + 2
+>(#queue pairs + plus one config interrupt and control vq). We didn't
+>check whether or not host support control vq because it was added
+>unconditionally by qemu to avoid breaking legacy guests such as Minix.
 >
-> This change also changes the icon shown in the "about" window to QEMU's
-> cute one.
+>Signed-off-by: Jason Wang <jasowang@redhat.com>
+>---
+>Changes since v1:
+>- Fix typo in the commit log
+>- Explain the magic number during vectors calculation
+>---
+> hw/core/machine.c          |  1 +
+> hw/virtio/virtio-net-pci.c | 10 +++++++++-
+> 2 files changed, 10 insertions(+), 1 deletion(-)
 
-This patch seems to be doing two things at once:
- * we get the executable path via the OSX APIs rather than using argv[0]
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
- * we get an image from the icon directory rather than using the
-   executable's built-in icon
-
-Please don't put more than one change in the same patch: it makes it
-harder to review.
-
-Could you split this up so that there is one patch per change
-(ie make it a 2-patch series), please ?
-
-> @@ -1401,18 +1402,13 @@ - (void)make_about_window
->      y = about_height - picture_height - 10;
->      NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
->
-> -    /* Get the path to the QEMU binary */
-> -    NSString *binary_name = [NSString stringWithCString: gArgv[0]
-> -                                      encoding: NSASCIIStringEncoding];
-> -    binary_name = [binary_name lastPathComponent];
-> -    NSString *program_path = [[NSString alloc] initWithFormat: @"%@/%@",
-> -    [[NSBundle mainBundle] bundlePath], binary_name];
-> -
->      /* Make the picture of QEMU */
->      NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
->                                                       picture_rect];
-> -    NSImage *qemu_image = [[NSWorkspace sharedWorkspace] iconForFile:
-> -                                                         program_path];
-> +    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
-> +    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
-> +    g_free(qemu_image_path_c);
-> +    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
->      [picture_view setImage: qemu_image];
->      [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
->      [superView addSubview: picture_view];
-> @@ -1427,9 +1423,7 @@ - (void)make_about_window
->      [name_label setBezeled: NO];
->      [name_label setDrawsBackground: NO];
->      [name_label setAlignment: NSTextAlignmentCenter];
-> -    NSString *qemu_name = [[NSString alloc] initWithCString: gArgv[0]
-> -                                            encoding: NSASCIIStringEncoding];
-> -    qemu_name = [qemu_name lastPathComponent];
-> +    NSString *qemu_name = [[[NSBundle mainBundle] executablePath] lastPathComponent];
-
-The API docs for NSBundle mainBundle say it can return nil and you
-always have to check the return value.
-
-https://developer.apple.com/documentation/foundation/nsbundle/1410786-mainbundle
-
-It's not clear to me what the fallback should be if it does return nil...
-
->      [name_label setStringValue: qemu_name];
->      [superView addSubview: name_label];
->
-> --
-> 2.24.3 (Apple Git-128)
-
-thanks
--- PMM
 
