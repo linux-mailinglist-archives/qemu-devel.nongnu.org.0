@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B72332F14
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:36:03 +0100 (CET)
-Received: from localhost ([::1]:56580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA67332F27
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:39:31 +0100 (CET)
+Received: from localhost ([::1]:39420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJi9B-00023d-Uc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:36:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39642)
+	id 1lJiCY-0006mc-Mj
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lJgMZ-0004Tr-HX
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:41:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lJgMX-0006is-GP
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:41:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615311699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nl/gqU+Ej/gzcUFbgOOJvKu+dvUUjpY9tss1B/4R0pc=;
- b=U3OdF9u2pHD9goVI564UkBvLUmQxhyH+aRYd0yDUHPQ40rDFmfPJ8XKQCy7wB/h3z4ghxy
- NGJPeGXWMGl8fBinnogX1SWr2byWEaoBoHvH9IOcw+rj7u6TOt/ckMgTOqpknLiiG/IWs4
- 6EYsQDuzlg4U/t1M9FlBl5XRLC3WK1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-iw2Cf5t6Ofec_hW2wRj-dQ-1; Tue, 09 Mar 2021 12:41:37 -0500
-X-MC-Unique: iw2Cf5t6Ofec_hW2wRj-dQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78B8F83DD20;
- Tue,  9 Mar 2021 17:41:36 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF0E459444;
- Tue,  9 Mar 2021 17:41:29 +0000 (UTC)
-Subject: Re: [PATCH v2] MAINTAINERS: Fix the location of tools manuals
-To: qemu-devel@nongnu.org
-References: <20210204135425.1380280-1-wainersm@redhat.com>
- <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <dd85243c-860d-e915-295d-8292d0a2f36f@redhat.com>
-Date: Tue, 9 Mar 2021 14:41:26 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJggk-0006v6-Nu
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:02:34 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:41827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJggf-0001Ic-QG
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:02:34 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso7438121wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:02:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=klCfTj3BzoCoPea+YkqxFV+crZB0bg3vz0tFgXrqhMY=;
+ b=rbswJsc+HG6xqwKJu909TfIsj9v4hiHOTzAhvaLj1l1OCbECINYkvLHqoKzUdNPG5C
+ 45y+WUwPBk0icl3DjTpKjuaoqU7siSlb91NmV4gure1wI83W9tbSRrPVE8ZIoG2M4FX7
+ 8ddqPBCxfldkmHp3CtHSk0sRKlqZ7pV9WZCWilg2gHLCxHJ+IbgBiglU8eqmpObDHDyr
+ jd4YT7hj/03Fm6RKbPf0sFi6Q2CX1SEU46ukLelE3PmeKznCaolGMomoMG8fmP4nqRMw
+ R/4A3Z62c51hu+85dGMU2aDWzIDHvGRB7FkSNnqlcm3jPB5cos8iKcaEZKVCFmbiR1Ej
+ +1Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=klCfTj3BzoCoPea+YkqxFV+crZB0bg3vz0tFgXrqhMY=;
+ b=Z68u7J2KFvr8jZB8fEzk3sqYxy8nGEThkGliMiilv5BB5dV1IHaVqYFByRO2uWFYTN
+ ocDEOfawMqv6puOSiXohkJBpiEp0TTNtwf3aNiXt9iDAOKxqRhZjZxQeJzgNkKR2jhiX
+ CLaQJIjocTaxd1J0RJlE4fH+7XSdzJcCEi+9qRD+bcsQUh6xf85kbpxRLg9ZIoa0fiNo
+ Y0mbhDO3XMFqibya946LkbtVAnV712rS9risp0A7j7c/AJHcrekuZH1GN8MyJFORIPsF
+ Mc9BpFPMKCWW2NKjPz6uu6dsoU0/bEGn7HGYKXXRlwMjchm+67wY5BNOOdMkDG9VtJWn
+ zMvA==
+X-Gm-Message-State: AOAM533Fr5JQxya3Gu/eAxIP2FgKgllJ9Iy3pYXF5XXkBu4MBa99UaOV
+ hcN1IujblUvMnywcyoovmNcLC7HCxN16Yg==
+X-Google-Smtp-Source: ABdhPJyZ90yOa9yU9JIQV3D++K35RU8BXyq6JhAcX1trgxYSaNSw8MApRsmbt1C2HJcf40sjhDyXIQ==
+X-Received: by 2002:a1c:c903:: with SMTP id f3mr5396392wmb.69.1615312947013;
+ Tue, 09 Mar 2021 10:02:27 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 91sm27590279wrl.20.2021.03.09.10.02.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 10:02:25 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 23B601FF7E;
+ Tue,  9 Mar 2021 18:02:25 +0000 (GMT)
+References: <20210308091959.986540-1-nsurbayrole@quarkslab.com>
+ <c74adef9-fb5f-06ee-9dfc-083576a5a607@vivier.eu>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2] linux-user: Fix executable page of /proc/self/maps
+Date: Tue, 09 Mar 2021 17:58:53 +0000
+In-reply-to: <c74adef9-fb5f-06ee-9dfc-083576a5a607@vivier.eu>
+Message-ID: <87im608atq.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,49 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- dgilbert@redhat.com, stefanha@redhat.com
+Cc: Nicolas Surbayrole <nsurbayrole@quarkslab.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-Any issue that prevent this of being queued?
+Laurent Vivier <laurent@vivier.eu> writes:
 
-Thanks!
-
-Wainer
-
-On 2/4/21 10:59 AM, Philippe Mathieu-Daudé wrote:
-> On 2/4/21 2:54 PM, Wainer dos Santos Moschetta wrote:
->> The qemu-img.rst, qemu-nbd.rst, virtfs-proxy-helper.rst, qemu-trace-stap.rst,
->> and virtiofsd.rst manuals were moved to docs/tools, so this update MAINTAINERS
->> accordingly.
->>
->> Fixes: a08b4a9fe6c ("docs: Move tools documentation to tools manual")
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Le 08/03/2021 =C3=A0 10:19, Nicolas Surbayrole a =C3=A9crit :
+>> The guest binary and libraries are not always map with the
+>> executable bit in the host process. The guest may read a
+>> /proc/self/maps with no executable address range. The
+>> perm fields should be based on the guest permission inside
+>> Qemu.
+>>=20
+>> Signed-off-by: Nicolas Surbayrole <nsurbayrole@quarkslab.com>
 >> ---
->> v1: was "MAINTAINERS: Fix the location of virtiofsd.rst"
->> v2: Fixed the location of all files [philmd]
->>
->>   MAINTAINERS | 10 +++++-----
->>   1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 00626941f1..174425a941 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1829,7 +1829,7 @@ S: Odd Fixes
->>   F: hw/9pfs/
->>   X: hw/9pfs/xen-9p*
->>   F: fsdev/
->> -F: docs/interop/virtfs-proxy-helper.rst
->> +F: docs/tools/virtfs-proxy-helper.rst
-> Unrelated, but Paolo once said helpers are not tools.
+>>  linux-user/syscall.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 389ec09764..0bbb2ff9c7 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -7888,9 +7888,9 @@ static int open_self_maps(void *cpu_env, int fd)
+>>              count =3D dprintf(fd, TARGET_ABI_FMT_ptr "-" TARGET_ABI_FMT=
+_ptr
+>>                              " %c%c%c%c %08" PRIx64 " %s %"PRId64,
+>>                              h2g(min), h2g(max - 1) + 1,
+>> -                            e->is_read ? 'r' : '-',
+>> -                            e->is_write ? 'w' : '-',
+>> -                            e->is_exec ? 'x' : '-',
+>> +                            (flags & PAGE_READ) ? 'r' : '-',
+>> +                            (flags & PAGE_WRITE_ORG) ? 'w' : '-',
+>> +                            (flags & PAGE_EXEC) ? 'x' : '-',
+>>                              e->is_priv ? 'p' : '-',
+>>                              (uint64_t) e->offset, e->dev, e->inode);
+>>              if (path) {
+>>=20
 >
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> It looks good.
 >
+> Alex, you wrote this code, any comment?
 
+I just checked to see if we need a Fixes but it seems we've been
+ignoring flags for anything other than page_check_range since the
+original parsing code so I think we are good.
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> Should we move this directly in read_self_maps() to have the guest
+> values in MapInfo?
+
+Nope for the reasons Richard said. read_self_maps() is a QEMU internal
+function which we use elsewhere and needs to know the "real" truth ;-)
+
+>
+> Thanks,
+> Laurent
+
+
+--=20
+Alex Benn=C3=A9e
 
