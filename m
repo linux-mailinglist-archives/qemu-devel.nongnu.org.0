@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E95C332ED8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:17:34 +0100 (CET)
-Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706A8332EA9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 20:03:10 +0100 (CET)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJhrJ-0002nc-Ij
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:17:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48888)
+	id 1lJhdM-0000Dl-U3
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 14:03:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJfDl-0006EN-Ny
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:28:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lJfDi-0003aW-QZ
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 11:28:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615307310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EEKs5LEaRlIiCJyZrFMOpaM3dTCR4PQ5MGtnoosh7+o=;
- b=Ll34enNrotwAvYFNLNPBDOwsJVpzq5o7S2pJQ2Q71w2tmmTu8No9qEYkJISolkdbcLmQtP
- hbH2F283vq4CAMFH09f08RAlk8Z6mNInVQTCjoqfnog5sZsC3snxtdoYNiIzgGNEuBSXfY
- j5fnmgu5n5U5wSoVtJvBKwSD/5rpC98=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-orQiJ_RSMpOklnHKnxML3g-1; Tue, 09 Mar 2021 11:28:28 -0500
-X-MC-Unique: orQiJ_RSMpOklnHKnxML3g-1
-Received: by mail-qv1-f71.google.com with SMTP id d15so10519334qvn.16
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 08:28:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJfkn-0002le-UV
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:02:42 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJfkk-0000ZT-Jk
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 12:02:41 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h98so17031629wrh.11
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 09:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=N02Bj7U1JgWmZRoDkjfU9IGhvGGwnaIy/8JcUDf0Sls=;
+ b=OhkIxbxqTmidM3WQh88+qrVIO6DRI3qlpmBEzP6BbfPShXhriZInmPsmKp9rfWPocj
+ sL6hPpm1CjUnWBHHFYBgQka+rCTYaVq+hSiwga70Dtc4w3S9R/VKtE9xsgEYFXFRPPFd
+ cyFf82Pa4RYMruICm35Ic/89FunvkeGxw6CtwAT6UNeaeQlB7+qIvJ5pHzih4RdjseP8
+ tGdYEmXugVUIYphRM20pfUupwwrVg8AYassObvyts3sXWhbATtOff8dR7sKp7pDm5sQ1
+ tdqJTVueOn57W72yAi42fkj85r+rL7Ou2t2IwVyQrGBL0miGN4bys5JgeEvHgoauO7sP
+ /VGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EEKs5LEaRlIiCJyZrFMOpaM3dTCR4PQ5MGtnoosh7+o=;
- b=tS4a86ZrHDAHlw8lKMPiwArHAVR+Ht+qPGxAKDciUZUy3WgIhhjqC4uHBxljQfRN1K
- Fa8IgeZIXBwiuy54KKUBtNm25SA+CXB/+aqdjyY+v4VJvJOQe2nYt0bRodZGJqvkoy6b
- Z9uqGEb+ahiSjHT0dHiRwmPRumBfD2uHjQJrY9kvcAy2Jm+Mu3sAoPlzHcAwjoCkeLMX
- NLG2Nbb+9tkM3vPsy/YYfHoKrZteCLuxIyB4mVZdZomWOl0t+zrh2tbjwZnVYWpDet7J
- G0PTCSABmc/A7H8P92KKGWLoea8kNbqzrUPvFa+R2rLNLk1uWy7++kcm1CXqPxhtn/1/
- RIqQ==
-X-Gm-Message-State: AOAM5300q9SEIzWfiRk6HMHkG+B3BVir6vDjNZXYELIXe7UpxSSv8bQY
- Zca51OggdKgVMXojKD9t2FA7sTa8C07G/YiQ7OekPwAkTGF/VaXc6xPBhCsSq6WTK3v1f5Oj2rL
- FTeFzKFwHKGseBGo=
-X-Received: by 2002:a05:620a:1369:: with SMTP id
- d9mr26813443qkl.378.1615307308160; 
- Tue, 09 Mar 2021 08:28:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwGKM20n5L8wW6Ei0XN5v7BksN4x4MtzmgWcwbL3HUBys6KTE0etn7JkrXEGvoJ9Xfstnk/mw==
-X-Received: by 2002:a05:620a:1369:: with SMTP id
- d9mr26813421qkl.378.1615307307971; 
- Tue, 09 Mar 2021 08:28:27 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
- by smtp.gmail.com with ESMTPSA id q30sm2986567qtd.89.2021.03.09.08.28.26
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=N02Bj7U1JgWmZRoDkjfU9IGhvGGwnaIy/8JcUDf0Sls=;
+ b=EdgAaY3glOw6H03HeC0SqRU4qFKCGFyzysjqKft32rlJ1db0XYzcXA5u4ib5FmrwPO
+ SCe7zgb877EZ2TSFpTt8lvRLDBM2QfqHaX2aSzMVgjma8RLDRh5jdq46P4pCWKEDK0Xp
+ yjlmiRxIZKj9KqpZn7YFOSVk2cqgLWsShJJpVYsOsH4EKNPXa5DqJI6cl6it+rqGia7J
+ 7FPdFDRvuMTcaBURfaNrgCXo65khg6F4+p/ErRCDrmKHNRrPBQ+rwTPEDgVHk5+D2qmw
+ zhdZ0zf5LYeTFpkwo3LHGJkvJr/nn5YgY3tlOfGpdTwNtXNgWXzAAiuaBKInSuakz8EX
+ B4eQ==
+X-Gm-Message-State: AOAM5319nhO/g6KN8CgXOUr2RIC4xKf1kfdigFT8dnXLSIdp2UwSIO0H
+ 1BTz3IwgW0BqUdL2CjsZXSGLcQ==
+X-Google-Smtp-Source: ABdhPJwkJiHEzOg3YPRfjSUvNHvCGq+el+uUJ0S1MNVWAQhX2PkMr6xAZCZExwH7twJ9dMw3mfeDCQ==
+X-Received: by 2002:adf:f4c1:: with SMTP id h1mr29695466wrp.71.1615309354533; 
+ Tue, 09 Mar 2021 09:02:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v18sm5705050wru.85.2021.03.09.09.02.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 08:28:27 -0800 (PST)
-Date: Tue, 9 Mar 2021 11:28:26 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v3 2/7] dma: Introduce dma_aligned_pow2_mask()
-Message-ID: <20210309162826.GC763132@xz-x1>
-References: <20210309102742.30442-1-eric.auger@redhat.com>
- <20210309102742.30442-3-eric.auger@redhat.com>
+ Tue, 09 Mar 2021 09:02:33 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C1AE31FF7E;
+ Tue,  9 Mar 2021 17:02:32 +0000 (GMT)
+References: <20210309141727.12522-1-alex.bennee@linaro.org>
+ <20210309141727.12522-4-alex.bennee@linaro.org>
+ <CAFEAcA_zFYAWc=03iSdsj-Sy+MN5-DWih4QKzddZJsrRjrzhOw@mail.gmail.com>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 3/4] semihosting/arm-compat-semi: deref parameter
+ register for SYS_HEAPINFO
+Date: Tue, 09 Mar 2021 17:01:28 +0000
+In-reply-to: <CAFEAcA_zFYAWc=03iSdsj-Sy+MN5-DWih4QKzddZJsrRjrzhOw@mail.gmail.com>
+Message-ID: <87r1ko8dlj.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210309102742.30442-3-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,33 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, jasowang@redhat.com,
- mst@redhat.com, qemu-devel@nongnu.org, shameerali.kolothum.thodi@huawei.com,
- vivek.gautam@arm.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eric.auger.pro@gmail.com
+Cc: Keith Packard <keithp@keithp.com>, Bug 1915925 <1915925@bugs.launchpad.net>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 09, 2021 at 11:27:37AM +0100, Eric Auger wrote:
-> Currently get_naturally_aligned_size() is used by the intel iommu
-> to compute the maximum invalidation range based on @size which is
-> a power of 2 while being aligned with the @start address and less
-> than the maximum range defined by @gaw.
-> 
-> This helper is also useful for other iommu devices (virtio-iommu,
-> SMMUv3) to make sure IOMMU UNMAP notifiers only are called with
-> power of 2 range sizes.
-> 
-> Let's move this latter into dma-helpers.c and rename it into
-> dma_aligned_pow2_mask(). Also rewrite the helper so that it
-> accomodates UINT64_MAX values for the size mask and max mask.
-> It now returns a mask instead of a size. Change the caller.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
--- 
-Peter Xu
+> On Tue, 9 Mar 2021 at 14:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>> As per the spec:
+>>
+>>   the PARAMETER REGISTER contains the address of a pointer to a
+>>   four-field data block.
+>>
+>> So we need to follow the pointer and place the results of SYS_HEAPINFO
+>> there.
+>>
+>> Bug: https://bugs.launchpad.net/bugs/1915925
+>> Cc: Bug 1915925 <1915925@bugs.launchpad.net>
+>> Cc: Keith Packard <keithp@keithp.com>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  semihosting/arm-compat-semi.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi=
+.c
+>> index 733eea1e2d..2ac9226d29 100644
+>> --- a/semihosting/arm-compat-semi.c
+>> +++ b/semihosting/arm-compat-semi.c
+>> @@ -1210,6 +1210,8 @@ target_ulong do_common_semihosting(CPUState *cs)
+>>              retvals[2] =3D rambase + limit; /* Stack base */
+>>              retvals[3] =3D rambase; /* Stack limit.  */
+>>  #endif
+>> +            /* The result array is pointed to by arg0 */
+>> +            args =3D arg0;
+>>
+>>              for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
+>>                  bool fail;
+>> --
+>
+> No, 'args' is the argument array. That's not the same thing
+> as the data block we're writing, and we shouldn't reassign
+> that variable here.
+>
+> What was wrong with the old arm-semi.c code, which just did
+> appropriate loads and stores here, and worked fine and was
+> not buggy ?
 
+I was just trying avoid repeating too much verbiage. But OK I've
+reverted to the original code with the new helper:
+
+            for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
+                bool fail;
+
+                if (is_64bit_semihosting(env)) {
+                    fail =3D put_user_u64(retvals[i], arg0 + i * 8);
+                } else {
+                    fail =3D put_user_u32(retvals[i], arg0 + i * 4);
+                }
+
+                if (fail) {
+                    /* Couldn't write back to argument block */
+                    errno =3D EFAULT;
+                    return set_swi_errno(cs, -1);
+                }
+            }
+            return 0;
+
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
