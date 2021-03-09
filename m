@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEF4332895
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:28:26 +0100 (CET)
-Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CE7332872
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:22:49 +0100 (CET)
+Received: from localhost ([::1]:53462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdLW-0005TJ-0s
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:28:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
+	id 1lJdG4-0005cR-Fw
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:22:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJdIu-0002jx-Fr
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:25:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49580)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJdB8-0001SU-4x
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:42 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJdIs-0005U8-Hv
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:25:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lJdIq-0002CZ-SX
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 14:25:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D36592E8157
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 14:25:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Mar 2021 14:17:26 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1915925@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lJdB2-0001kS-IL
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:41 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id 7so15945769wrz.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=H2Dg/3xWo/lJhWRHAFHTsEix8OkL3E+jnOBvruDCvb4=;
+ b=zcVJQeh11ElxEEP2NEQY6o+fNY8R5wSXDGT2s5+SYVoGgnlwGYtmvkrTk5GhjGxdUH
+ su5feLN+xebiZNIehZi6kfqoK0ciq2QKT27HWHnqfEWkwc9zFT0ITOyl6cYR1J7G3NL0
+ S75gF/OnPbvF8jb1yYZ3hhUt65m0r3kTT77KvQyPRbYOemxKWo3PQfFlfwbkyyr2DOoA
+ ryrob9Y9tAx4uugxRUAadZcsSJF+kmZTpWbTtHqpM9BpYfkwiBEoTDQXsBhMlDNjzNhs
+ 963Dh06VRpLdm+F1H8Tjqso8EzNubcGmSHV1hxfyBAzMeA9ylV1sk0W+6ukbrB8isjF+
+ 31xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=H2Dg/3xWo/lJhWRHAFHTsEix8OkL3E+jnOBvruDCvb4=;
+ b=rBDvFmze07cNBVA+Y8NujuNJm4dGElbRGerjpS5OjukKSqlR5Vlrm8CbHbSxQGNuzo
+ +zXtFxz2RcMtzSbFSAk07vVmLfc1mXwePKl7AqmxA3YjrMg0JPmCw6vWaAss3N/3W17B
+ NxfAZvljELMpxv4tzD7garEsf5swgkF+uQilhMH4Nzk7JHAoIiUjKaR+bOOnuasaHF8m
+ mguRAcuavHUmzi+QGYaJERWzk1Uc7QjcJ5cMe9/vo9MuDRCt6cuwE4zlQMaekFKP31jN
+ NXuxgBxysonOoo6aOiqSbaB5ufiR/A9KSIXEeQNGRilrA9z3w+4m6+t2wbLm95HKrGba
+ Es8Q==
+X-Gm-Message-State: AOAM531HAzJBnlcqSAwVBcXXAXVYWGl6gcYiv9+aeJhEU1lXFa/Jyoo2
+ g8aC8OqK0pz8TQyTtJJ5pBjAqw==
+X-Google-Smtp-Source: ABdhPJzUPmxcoTJSn2rIgs2VqgHrZqsLbgULjbEnV6fHU3tEmbUwJIVCDhAclvy/H6IpL17DO8F7Xw==
+X-Received: by 2002:a05:6000:10c3:: with SMTP id
+ b3mr27984166wrx.96.1615299455271; 
+ Tue, 09 Mar 2021 06:17:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s9sm4462706wmh.31.2021.03.09.06.17.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Mar 2021 06:17:32 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 70E421FF90;
+ Tue,  9 Mar 2021 14:17:28 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: semihosting testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
-X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
-Message-Id: <20210309141727.12522-4-alex.bennee@linaro.org>
-Subject: [Bug 1915925] [PATCH v2 3/4] semihosting/arm-compat-semi: deref
- parameter register for SYS_HEAPINFO
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
-X-Launchpad-Hash: 5076f7a8da93011408e7e0b31d042d7234ca4774
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH  v2 4/4] tests/tcg: add HeapInfo checking to semihosting test
+Date: Tue,  9 Mar 2021 14:17:27 +0000
+Message-Id: <20210309141727.12522-5-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210309141727.12522-1-alex.bennee@linaro.org>
+References: <20210309141727.12522-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,82 +87,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: keithp@keithp.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the spec:
+Query the SYS_HEAPINFO semicall and do some basic verification of the
+information via libc calls.
 
-  the PARAMETER REGISTER contains the address of a pointer to a
-  four-field data block.
-
-So we need to follow the pointer and place the results of SYS_HEAPINFO
-there.
-
-Bug: https://bugs.launchpad.net/bugs/1915925
-Cc: Bug 1915925 <1915925@bugs.launchpad.net>
-Cc: Keith Packard <keithp@keithp.com>
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../multiarch/arm-compat-semi/semihosting.c   | 35 ++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 733eea1e2d..2ac9226d29 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -1210,6 +1210,8 @@ target_ulong do_common_semihosting(CPUState *cs)
-             retvals[2] =3D rambase + limit; /* Stack base */
-             retvals[3] =3D rambase; /* Stack limit.  */
+diff --git a/tests/tcg/multiarch/arm-compat-semi/semihosting.c b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
+index b3fd16cd12..5fa3c0a82d 100644
+--- a/tests/tcg/multiarch/arm-compat-semi/semihosting.c
++++ b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
+@@ -8,9 +8,16 @@
+  */
+ 
+ #define SYS_WRITE0      0x04
++#define SYS_HEAPINFO    0x16
+ #define SYS_REPORTEXC   0x18
+ 
++#define _GNU_SOURCE  /* asprintf is a GNU extension */
++
+ #include <stdint.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <string.h>
++#include <unistd.h>
+ #include "semicall.h"
+ 
+ int main(int argc, char *argv[argc])
+@@ -21,8 +28,34 @@ int main(int argc, char *argv[argc])
+     uintptr_t exit_block[2] = {0x20026, 0};
+     uintptr_t exit_code = (uintptr_t) &exit_block;
  #endif
-+            /* The result array is pointed to by arg0 */
-+            args =3D arg0;
- =
-
-             for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
-                 bool fail;
--- =
-
++    struct {
++        void *heap_base;
++        void *heap_limit;
++        void *stack_base;
++        void *stack_limit;
++    } info;
++    void *ptr_to_info = (void *) &info;
++    char *heap_info, *stack_info;
++    void *brk = sbrk(0);
++
++    __semi_call(SYS_WRITE0, (uintptr_t) "Checking HeapInfo\n");
++
++    memset(&info, 0, sizeof(info));
++    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
++
++    asprintf(&heap_info, "heap: %p -> %p\n", info.heap_base, info.heap_limit);
++    __semi_call(SYS_WRITE0, (uintptr_t) heap_info);
++    if (info.heap_base != brk) {
++        sprintf(heap_info, "heap mismatch: %p\n", brk);
++        __semi_call(SYS_WRITE0, (uintptr_t) heap_info);
++        return -1;
++    }
++
++    asprintf(&stack_info, "stack: %p -> %p\n", info.stack_base, info.stack_limit);
++    __semi_call(SYS_WRITE0, (uintptr_t) stack_info);
++    free(heap_info);
++    free(stack_info);
+ 
+-    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
+     __semi_call(SYS_REPORTEXC, exit_code);
+     /* if we get here we failed */
+     return -1;
+-- 
 2.20.1
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915925
-
-Title:
-  ARM semihosting HEAPINFO results wrote to wrong address
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  This affects latest development branch of QEMU.
-
-  According to the ARM spec of the HEAPINFO semihosting call:
-
-  https://developer.arm.com/documentation/100863/0300/Semihosting-
-  operations/SYS-HEAPINFO--0x16-?lang=3Den
-
-  > the PARAMETER REGISTER contains the address of a pointer to a four-
-  field data block.
-
-  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
-  field data block directly.
-
-  Here is a simple program that can demonstrate this problem:
-  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
-  newlib
-
-  This code links with newlib with semihosting mode, which will call the
-  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-  may crash the program either because of invalid write or memory
-  curruption, depending on the compiled program structure.
-
-  Also refer to my discussion with newlib folks:
-  https://sourceware.org/pipermail/newlib/2021/018260.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
