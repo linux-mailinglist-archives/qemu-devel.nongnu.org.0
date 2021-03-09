@@ -2,57 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C583C333054
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:55:10 +0100 (CET)
-Received: from localhost ([::1]:58440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252DB33305F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:57:46 +0100 (CET)
+Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJjNl-0000j8-MP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:55:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1lJjQH-0004aL-5e
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJj0C-0005yV-Hw; Tue, 09 Mar 2021 15:30:49 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:48533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJj08-00024C-SG; Tue, 09 Mar 2021 15:30:48 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MOzKk-1l7XEn1kmC-00PJcW; Tue, 09 Mar 2021 21:30:37 +0100
-Subject: Re: [PATCH] exec/memory: Use struct Object typedef
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210225182003.3629342-1-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c347c47a-6054-e2f1-c50d-ea23b325654a@vivier.eu>
-Date: Tue, 9 Mar 2021 21:30:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210225182003.3629342-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:e7LQ1VgVBqp3FWWZwmtQ2nSyVigxhh3nOsHw5K5OW75oj4hI28L
- SkdgQN1nH81KiogPsgMsMLjh4TVOQyhaHAyyvVBDQzxN+yDq81ovrTKqZccvSdncpFYqfSq
- /TxFTYViwog3V5O22HkXgvrbTOWUb+vy1Ag6WYH0Cg3p/oEv9EBnqeQoTy8YjLAMh0Mz1A5
- W1HUtvxGMNC0YTIgHTZBQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4aR1tr4MJeE=:LcwUcQpxPefy9beX+l7Gi7
- p8SC3daL554jk887mBiUpt5hsAk5XpQCya+/iMRNdpLu9drSkOzSt9Vtnw7vsmAS5ux3nSW7v
- JY0JmgKs/ZEtRyqWHb2fkTEqsU0LvTs5o2hm9QXGEkLSO0+6V5MVeMcZQE2nUxxWa/qsdZOwk
- kbY1vyznNDLDG9XC9wuTVR4mYEpDaFaJfVok9eLvSibBStkMU7xX99ii6phXcUX4UB1pZpxff
- brvmnzvFqARieseOHo7OcXxYO8dLKip8Bbq8mMy4jlin1Wrng8Szzj624b7kk5MZIJQnYpRb9
- 107LrY7BGegdBID5aFJb+wXC9ay2svSUzHANPzJY6tD65wkNAqDRZX514ut5Kfxc8w+UXjK31
- VAnN65WzWh0lhuQXqaO5RdWEZHIMUTs+YNmLVVqGQlm/8F23BH2gmFiNuS67A
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
+ id 1lJj3q-0001RD-24
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:34:34 -0500
+Received: from static-71-162-116-19.bstnma.fios.verizon.net
+ ([71.162.116.19]:42730 helo=server4.localdomain)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chris@server4.localdomain>) id 1lJj3o-0003VM-7A
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 15:34:33 -0500
+Received: by server4.localdomain (Postfix, from userid 503)
+ id 999AB60310050; Tue,  9 Mar 2021 15:34:29 -0500 (EST)
+From: Chris Browy <cbrowy@avery-design.com>
+To: qemu-devel@nongnu.org,
+	linux-cxl@vger.kernel.org
+Subject: [RFC PATCH v3 cxl-2.0-doe 0/2] Version 3 patch series for PCIe DOE
+ for PCIe and CXL 2.0
+Date: Tue,  9 Mar 2021 15:33:49 -0500
+Message-Id: <1615322029-13038-1-git-send-email-cbrowy@avery-design.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: none client-ip=71.162.116.19;
+ envelope-from=chris@server4.localdomain; helo=server4.localdomain
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.116,
+ NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,28 +50,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: ben.widawsky@intel.com, david@redhat.com, vishal.l.verma@intel.com,
+ jgroves@micron.com, cbrowy@avery-design.com, armbru@redhat.com,
+ f4bug@amsat.org, mst@redhat.com, tyshao@avery-design.com.tw,
+ hchkuo@avery-design.com.tw, Jonathan.Cameron@Huawei.com, imammedo@redhat.com,
+ dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/02/2021 à 19:20, Philippe Mathieu-Daudé a écrit :
-> We forward-declare Object typedef in "qemu/typedefs.h" since commit
-> ca27b5eb7cd ("qom/object: Move Object typedef to 'qemu/typedefs.h'").
-> Use it everywhere to make the code simpler.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/exec/memory.h      | 32 ++++++++++++++++----------------
->  include/hw/ppc/pnv_xscom.h |  2 +-
->  hw/ppc/pnv_xscom.c         |  2 +-
->  softmmu/memory.c           | 12 ++++++------
->  4 files changed, 24 insertions(+), 24 deletions(-)
-> 
+Version 3 patch series for PCIe DOE for PCIe and CXL 2.0 implements
+all planned functionality.
 
+Based on QEMU version:
+https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Summary:
+1: PCIe DOE support for Discovery
+   - Support multiple DOE instances for each own protocol set 
+   - MSI-X and polling supported
+   - Update error and interrupt status in DOE Status register
+   - Use static array to register callback function for DOE protocols 
+   - Deprecate DOE_SUCCESS and DOE_DISCARD
+   - Add license headers
+2: CXL DOE for CDAT and Compliance Mode.
+   - Device supports pre-defined CDAT or user-provided CDAT.
+   - Support on reading the iASL aml file via specifying
+     "cdat=<filename.aml>" property to -device cxl-type3
+	 skips over the ACPI header and writes only CDAT table entries
+   - Clean up CXL compliance structures
+   - DOE CDAT response returns one CDAT Structure instance based on
+     request EntryHandle value.
+
+Example cdat.dat file: (compile with iasl -G cdat.dat)
+CDAT file may contain any mix and number of supported CDAT Structure types
+----------------------
+/* Header */ 
+Signature : "CDAT"
+Table Length : 00000000
+Revision : 01
+Checksum : 00
+Oem ID : AVERY 
+Oem Table ID : 0 
+Oem Revision : 1 
+Asl Compiler ID : "INTL"
+Asl Compiler Revision : 20160527
+
+/* CDAT structures */
+Label : DSMAS               // Field        Byte Length
+UINT8  : 0                  // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0018               // Length           2
+UINT8  : 00                 // DSMADHandle      1
+UINT8  : 00                 // Flags            1
+UINT16 : 0000               // Reserved         2
+UINT64 : 0000000000000000   // DPA Base         8
+UINT64 : ffffffffffffffff   // DPA Length       8
+
+Label : DSLBIS              // Field          Byte Length
+UINT8  : 01                 // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0018               // Length           2
+UINT8  : 00                 // Handle           1
+UINT8  : 00                 // Flags            1
+UINT8  : 00                 // Data Type        1
+UINT8  : 00                 // Reserved         1
+UINT64 : 0000000000000000   // Entry Base Unit  8
+UINT16 : 0000               // Entry[0]         2
+UINT16 : 0000               // Entry[1]         2
+UINT16 : 0000               // Entry[2]         2
+UINT16 : 0000               // Reserved         2
+
+Label: DSMSCIS              // Field        Byte Length
+UINT8  : 02                 // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0014               // Length           2
+UINT8  : 00                 // DSMASHandle      1
+UINT24 : 000000             // Reserved         3
+UINT64 : 0000000000000000   // Memory Side Cache Size    8
+UINT32 : 00000000           // Cache Attributes 4 
+
+Label : DSIS                // Field        Byte Length
+UINT8  : 03                 // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0008               // Length           2
+UINT8  : 00                 // Flags            1
+UINT8  : 00                 // Handle           1
+UINT16 : 0000               // Reserved         2
+
+Label : DSEMTS              // Field        Byte Length
+UINT8  : 04                 // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0018               // Length           2
+UINT8  : 00                 // DSMAS Handle     1
+UINT8  : 00                 // EFI Memory Type and Attribute    1
+UINT16 : 0000               // Reserved         2
+UINT64 : 0000000000000000   // DPA Offset       8
+UINT64 : 0000000000000000   // DPA Length       8
+
+Label : SSLBIS              // Field        Byte Length
+UINT8  : 05                 // Type             1
+UINT8  : 00                 // Reserved         1
+UINT16 : 0020               // Length           2
+UINT8  : 00                 // Data Type        1
+UINT24 : 000000             // Reserved         3
+UINT64 : 0000000000000000   // Entry Base Unit  8
+Label : SSLBE               // SSLBE[0]
+UINT16 : 0000               // Port X ID        2
+UINT16 : 0000               // Port Y ID        2
+UINT16 : 0000               // Latency or Bandwidth    2
+UINT16 : BBBB               // Reserved         2
+Label : SSLBE               // SSLBE[1]
+UINT16 : 0000               // Port X ID        2
+UINT16 : 0000               // Port Y ID        2
+UINT16 : 0000               // Latency or Bandwidth    2
+UINT16 : BBBC               // Reserved         2
+----
+
+References:
+1. CXL 2.0 specification
+https://www.computeexpresslink.org/download-the-specification
+2. PCI-SIG ECN: Data Object Exchange (DOE)
+http://www.pcisig.com
+3. Coherent Device Attribute Table	CDAT 1.02
+https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.02.pdf
+
+---
+Chris Browy (2):
+  Basic PCIe DOE support
+  CXL DOE support for CDAT and Compliance Mode
+
+ MAINTAINERS                               |  49 +--
+ hw/cxl/cxl-component-utils.c              |  93 +++++
+ hw/mem/cxl_type3.c                        | 184 ++++++++++
+ hw/pci/meson.build                        |   1 +
+ hw/pci/pci.c                              |  13 +-
+ hw/pci/pcie_doe.c                         | 416 ++++++++++++++++++++++
+ include/hw/cxl/cxl_cdat.h                 | 127 +++++++
+ include/hw/cxl/cxl_compl.h                | 252 +++++++++++++
+ include/hw/cxl/cxl_component.h            |  74 ++++
+ include/hw/cxl/cxl_device.h               |   4 +
+ include/hw/cxl/cxl_pci.h                  |   2 +
+ include/hw/pci/pci_ids.h                  |   5 +-
+ include/hw/pci/pcie.h                     |   1 +
+ include/hw/pci/pcie_doe.h                 | 142 ++++++++
+ include/hw/pci/pcie_regs.h                |   4 +
+ include/standard-headers/linux/pci_regs.h |   3 +-
+ 16 files changed, 1327 insertions(+), 43 deletions(-)
+ create mode 100644 hw/pci/pcie_doe.c
+ create mode 100644 include/hw/cxl/cxl_cdat.h
+ create mode 100644 include/hw/cxl/cxl_compl.h
+ create mode 100644 include/hw/pci/pcie_doe.h
+
+-- 
+2.17.1
 
 
