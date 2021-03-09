@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EB0332B66
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:03:58 +0100 (CET)
-Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9D2332B82
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:09:08 +0100 (CET)
+Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJepx-0006jb-PK
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:03:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
+	id 1lJeux-0002OF-Om
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lJeOv-0000Cy-16
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:36:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lJeOq-0002JD-Ta
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:35:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615304154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=df3uLEC7CQ41iOtsgynxbQW1fqxRdIgyQ7ldIr/XAWU=;
- b=RYOA6oi3df4zQ5jFicT1Qrlt7ZYU5OGYxHbE1EePHCp4cs4+TkV/6etVGUom3ccEBwQo5q
- wsjAdq9Q3p4U5477+SHirQu3WAXwR1/x0F64BC6kNrvafkUC08BjEc7VZ1/kolsoZZ6Bb9
- SlEin52j9ZtWUo8RnoSoIKw6rXE4Woo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-BL80J7F_OsmS6lv9aMKgVg-1; Tue, 09 Mar 2021 10:35:52 -0500
-X-MC-Unique: BL80J7F_OsmS6lv9aMKgVg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76C451014AD8
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 15:35:19 +0000 (UTC)
-Received: from wainer-laptop.localdomain.com (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC8B060240;
- Tue,  9 Mar 2021 15:35:11 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/acceptance: Print expected message on
- wait_for_console_pattern
-Date: Tue,  9 Mar 2021 12:35:07 -0300
-Message-Id: <20210309153507.1905682-1-wainersm@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJePG-0000s8-G4
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:36:22 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:63082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lJePC-0002Vx-MF
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:36:21 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D68197456E3;
+ Tue,  9 Mar 2021 16:36:15 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B1FF37456B8; Tue,  9 Mar 2021 16:36:15 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B03E17456B7;
+ Tue,  9 Mar 2021 16:36:15 +0100 (CET)
+Date: Tue, 9 Mar 2021 16:36:15 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH RESEND 1/6] hw/mips/gt64xxx: Initialize ISD I/O memory
+ region in DeviceRealize()
+In-Reply-To: <20210309142630.728014-2-f4bug@amsat.org>
+Message-ID: <f7f32dd5-67da-b8f0-6f5d-6c28c898b63@eik.bme.hu>
+References: <20210309142630.728014-1-f4bug@amsat.org>
+ <20210309142630.728014-2-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-2098251995-1615304175=:73634"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,38 +59,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: willianr@redhat.com, philmd@redhat.com, crosa@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the sake of improve debuggability of tests which use the
-wait_for_console_pattern(), this changed the _console_interaction() so that
-the expected message is printed if the test fail.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
-While I was testing  "[PATCH v2 2/2] tests/acceptance: Test ast2600 machine"
-I could not clearly determine which of the called wait_for_console_pattern()
-was failing. So this patch improves debuggability in such as situations.
+--3866299591-2098251995-1615304175=:73634
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
- tests/acceptance/avocado_qemu/__init__.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
+> The ISD I/O region belongs to the TYPE_GT64120_PCI_HOST_BRIDGE,
+> so initialize it before it is realized, not after.
+> Rename the region as 'gt64120-isd' so it is clearer to realize
+> it belongs to the GT64120 in the memory tree view.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index df167b142c..ed338caaba 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -97,7 +97,8 @@ def _console_interaction(test, success_message, failure_message,
-             break
-         if failure_message and failure_message in msg:
-             console.close()
--            fail = 'Failure message found in console: %s' % failure_message
-+            fail = 'Failure message found in console: "%s". Expected: "%s"' % \
-+                    (failure_message, success_message)
-             test.fail(fail)
- 
- def interrupt_interactive_console_until_pattern(test, success_message,
--- 
-2.29.2
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
+> ---
+> hw/mips/gt64xxx_pci.c | 11 +++++++++--
+> 1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index 588e6f99301..6eb73e77057 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -1196,6 +1196,14 @@ static void gt64120_reset(DeviceState *dev)
+>     gt64120_pci_mapping(s);
+> }
+>
+> +static void gt64120_realize(DeviceState *dev, Error **errp)
+> +{
+> +    GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
+> +
+> +    memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
+> +                          "gt64120-isd", 0x1000);
+> +}
+> +
+> PCIBus *gt64120_register(qemu_irq *pic)
+> {
+>     GT64120State *d;
+> @@ -1214,8 +1222,6 @@ PCIBus *gt64120_register(qemu_irq *pic)
+>                                      get_system_io(),
+>                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
+>     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> -    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
+> -                          "isd-mem", 0x1000);
+>
+>     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+>     return phb->bus;
+> @@ -1270,6 +1276,7 @@ static void gt64120_class_init(ObjectClass *klass, void *data)
+>     DeviceClass *dc = DEVICE_CLASS(klass);
+>
+>     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> +    dc->realize = gt64120_realize;
+>     dc->reset = gt64120_reset;
+>     dc->vmsd = &vmstate_gt64120;
+> }
+>
+--3866299591-2098251995-1615304175=:73634--
 
