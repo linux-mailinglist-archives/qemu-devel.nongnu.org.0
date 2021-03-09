@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A213A33309F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:07:58 +0100 (CET)
-Received: from localhost ([::1]:35888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D23330A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 22:11:27 +0100 (CET)
+Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJja7-0007y5-Q7
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:07:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46074)
+	id 1lJjdW-0005Rh-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 16:11:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJj5e-00035B-Ne; Tue, 09 Mar 2021 15:36:30 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:38755)
+ id 1lJjAf-0000x7-0M; Tue, 09 Mar 2021 15:41:38 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:60807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lJj5a-0004H5-Fn; Tue, 09 Mar 2021 15:36:26 -0500
+ id 1lJjAc-0006Ow-Ha; Tue, 09 Mar 2021 15:41:36 -0500
 Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MKbc2-1l396j3RnQ-00Ku01; Tue, 09 Mar 2021 21:36:02 +0100
-Subject: Re: [PATCH] linux-user/elfload: do not assume MAP_FIXED_NOREPLACE
- kernel support
-To: Vincent Fazio <vfazio@xes-inc.com>, qemu-devel@nongnu.org
-References: <20210131061930.14554-1-vfazio@xes-inc.com>
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MSKly-1lD5Iv2Zzc-00Sc9D; Tue, 09 Mar 2021 21:41:29 +0100
+Subject: Re: [PATCH 1/2] backends/dbus-vmstate: Fix short read error handling
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210126124240.2081959-1-armbru@redhat.com>
+ <20210126124240.2081959-2-armbru@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <7c945f8b-2a6e-8129-ad2a-1aa610d03904@vivier.eu>
-Date: Tue, 9 Mar 2021 21:36:00 +0100
+Message-ID: <b3f5ab1f-589a-1f61-2043-07b661a50272@vivier.eu>
+Date: Tue, 9 Mar 2021 21:41:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210131061930.14554-1-vfazio@xes-inc.com>
+In-Reply-To: <20210126124240.2081959-2-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:voQCvqbOCMTDtM0ebI0xHDFL1IkM+6d/UXddhJOxwY5nSVZqnwA
- xuZEH2fcsDkJDkO3aTDoMm+/CwCJ5pMO7QxdynZPZ3LChzHas7apOp87vFeRvOmXvfhbiRi
- DcUVSEkTUofCZVr/TLRTRibfLMSpxqQcfsMgac5+3x8j9mIURino00XOqNFcMfuoaaC3/UU
- A4ZXX0SIApEw9/PFCDrXg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Mlm4bKesgUM=:WzqotlKMUNAlyegRD1BDl6
- fYy7AH/U4PXPYpptk42F2U1CgRQrAO1rFfozK8Qfr0bdbkA2hyXwW7597NWspZDWk3my+pO48
- 5seEVhOD/9dLrntFnZmKItagily+0eOezVsENFMRGfmy87BoZpURgJ9KX/K59odZwbLT0ZEGc
- nEz2/CwskxgYbI6qkB5wtVY4EjNyNiexMpLYtOhcnspWSv/3FLX2Jd9p3mU/T8eHeV4DyYYd/
- 0yL0mxZuFuEWARJ3fw+GSZGSrMY13xqlJ7t3JxPomYDKfWhVYPb71nTYfUYQjeOafpBapijGy
- ODcP7hiHhDMMbdl2sP+WbsAgIO6HVECP+0pWlhAWtGcJGheAkd0bZnHr0w3d42MdGqcQHWtSI
- MjySdeGnX9CqS6O+qjf9XGLr/iPUGHLwOPPSpFpMPTd1WJ1c0S1sCvnywdLUYLQmiipPU72kZ
- XNSV7tc3Zg==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:oSsrdiPWMyOl6VqfWDrh385HhTVgOou919K26Zxss4ZGW5py/ZL
+ ld7q7p0wIFnwxl8jPItldpIjzFxwmQrMxzVgBBtpNyR8kUfphrAyHtkUfDj0noIm53CGtZS
+ rpJJucWMun2C3C+rsi6B+RotZ4zLWQWavaINRv2ZAX5zSj9HX/Qs/p+HQ+eAioYURocd5Cr
+ V+xCGZstvNNhOy/D5KlBg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B5RMyDUOuNs=:YIF2twlaB6QPLHKIyWde6H
+ bIsi4TDldq4vFgYENmwy89FsVSRyXZvO4MhjQH2ps/Du1fjzLCHcEHNne0FPRH3pUAZAZVswa
+ 1/Qvp/930qzG0PP1c8lzO9RS4x5yIXAUXeuopLYybvTVmnSdoVSoCkWo6h2jFAdBNrZE8Ueq8
+ Jy0yzphoBelDuuKuqxv1vyouZuJ2fdNgfKE78EHWs0QYlubam/QsrU4qhSBRnL8Na8U1Obu/F
+ cWXaxAfBEZF1+1zwIFAjxoJWEbGvxaNtt2aLMkHP+Dy2//827oTBa1y0RQHNQ3DcBSpFCsKH+
+ uMiYW70KaYVhLayWk89xGKRzZqcwhYwtCHwtw/gS7rJK6YwVHLmHgoNCr/pkCQhyhFf22cl7N
+ AOmCJwKX3mG9dRyuUi+xlCCc/w28hsy9F4KpsDphxbC+8tup1J4zIdxrDpC8F
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,44 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Vincent Fazio <vfazio@gmail.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ marcandre.lureau@redhat.com, kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/01/2021 à 07:19, Vincent Fazio a écrit :
-> From: Vincent Fazio <vfazio@gmail.com>
+Le 26/01/2021 à 13:42, Markus Armbruster a écrit :
+> When dbus_vmstate_post_load() fails, it complains to stderr.  Except
+> on short read, where it checks with g_return_val_if_fail().  This
+> fails silently if G_DISABLE_CHECKS is undefined (it should be), or
+> else pads the short read with uninitialized bytes.
 > 
-> Previously, pgd_find_hole_fallback assumed that if the build host's libc
-> had MAP_FIXED_NOREPLACE defined that the address returned by mmap would
-> match the requested address. This is not a safe assumption for Linux
-> kernels prior to 4.17
+> Replace g_return_val_if_fail() by a proper error check.
 > 
-> Now, we always compare mmap's resultant address with the requested
-> address and no longer short-circuit based on MAP_FIXED_NOREPLACE.
-> 
-> Fixes: 2667e069e7b5 ("linux-user: don't use MAP_FIXED in pgd_find_hole_fallback")
-> Signed-off-by: Vincent Fazio <vfazio@gmail.com>
+> Fixes: 5010cec2bc87dafab39b3913c8ca91f88df9c540
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  linux-user/elfload.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  backends/dbus-vmstate.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 5f5f23d2e5..8d425f9ed0 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2217,8 +2217,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
->                                       PROT_NONE, flags, -1, 0);
->              if (mmap_start != MAP_FAILED) {
->                  munmap(mmap_start, guest_size);
-> -                if (MAP_FIXED_NOREPLACE != 0 ||
-> -                    mmap_start == (void *) align_start) {
-> +                if (mmap_start == (void *) align_start) {
->                      return (uintptr_t) mmap_start + offset;
->                  }
->              }
+> diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+> index bd050e8e9c..2a0d2e4a31 100644
+> --- a/backends/dbus-vmstate.c
+> +++ b/backends/dbus-vmstate.c
+> @@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, int version_id)
+>                                       &bytes_read, NULL, &err)) {
+>              goto error;
+>          }
+> -        g_return_val_if_fail(bytes_read == len, -1);
+> +        if (bytes_read != len) {
+> +            error_report("%s: Short read", __func__);
+> +            return -1;
+> +        }
+>          id[len] = 0;
+>  
+>          trace_dbus_vmstate_loading(id);
 > 
 
-Applied to my linux-user-for-6.0 branch.
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
