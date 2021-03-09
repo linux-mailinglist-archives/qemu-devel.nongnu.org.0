@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3598A332AD7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:45:22 +0100 (CET)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939E1332AC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 16:41:03 +0100 (CET)
+Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJeXx-0003PP-8F
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:45:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
+	id 1lJeTm-0004sw-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 10:41:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdow-0006BZ-P9
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:50 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:47019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJdov-00031H-AD
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:50 -0500
-Received: by mail-ed1-x532.google.com with SMTP id w9so20633120edt.13
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:58:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
- b=WMgFyNRI8F55jyD5CEONfpd5j2lKSzvGxrBtoOOeSsD4pdbHnwf0P6TCVo5KTsUCfI
- Atj7pm9MXY2FFk0XP8onKVt7isdUjE4/KirtBH65TslU2wUhv9yYTWkniTK9WZcBDdqY
- iKK0afIJOq4f0TtVlL4W4r/kFwSNbZCm95Vfmmut0itIDcoX8zaczBaxy4+ENDocXZDY
- JpDdxo3DBIryERgv3KE10wZPPUoFs8VrHnO4MC1qkAPxKBSYn2FzO+AYVmqtoUzrOb5l
- nwJ97UGhSMExOTZN6L1oHG27v6s96q8JXJ17NE2kIUuZhjE+st17Fb89zB95mpFl+FO0
- iWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
- b=cmvWUdAAt4DF/HQC1C/15RBGAAIjDDrqMtJgPbNogUdmOFA2mgycdGVXj9SzeXEeIG
- pmdwsgD6c/WOFjy9yFn+2Q/2rvWPWTbSucJwzzzX2DmGYQtTL6GhzkhJEC8r0Jh8kiLn
- g6oDaiFSbiZ5Fts+Af4GgOI/PgS8cJKLsj/rulzt1D9G/xT3fQzx8c9CwCOLSydgohP0
- NzUJkZkgY9navT9erO0Tt5zFbDtkihfP+tp2BEiZEh/V55edKRf+gWMx0WosvFf66i73
- qQ1bTKFt+QtPbTAo4CyZ1E9uReIKSwLNhD0ebbDusiwwG1Jdxe5TcmFHNm9MydK50dpG
- gTvA==
-X-Gm-Message-State: AOAM530KqXrBE/M2w67YTg2j/vUqBawHlXslR6h+h5JM8ysKUdV1XWB1
- 4sTfa7nmphxDZb8eGcFgZi9EoGnv05w=
-X-Google-Smtp-Source: ABdhPJxRAoG07U3axtmUjYethmyf7yWtTSVEMr2VIG0GMeTEq+3awAlntFDuLQlk600XueskmvzRJA==
-X-Received: by 2002:aa7:df84:: with SMTP id b4mr4516787edy.240.1615301927879; 
- Tue, 09 Mar 2021 06:58:47 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s9sm3182962edd.16.2021.03.09.06.58.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:58:47 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 22/22] target/mips: Reintroduce the R5900 CPU
-Date: Tue,  9 Mar 2021 15:56:53 +0100
-Message-Id: <20210309145653.743937-23-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210309145653.743937-1-f4bug@amsat.org>
-References: <20210309145653.743937-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lJdoL-0005R7-Mg
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lJdoH-0002lP-DO
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:58:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615301887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rAQA3tcvp0tq3g1EHejBPjwgLMcXkHYaMzRqzot0XC4=;
+ b=hzTXG4tu0W1gJpwFGGFYsArC9CUAAR+1a5zf+R2bihi8lTLhN1XSHMs/n6JObd6D51hEVo
+ fgi7tKn+f0a6ssJsoQiIpEb0jZXKs7u7VacdXGYQqBvYIOk5WboDMjkYfYwvzSN5LmDb7J
+ w7KGHSm4BwkNf9CASD6uu34+9KOpTUQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-FnZ1EWRkM0irL7hFlHwJrw-1; Tue, 09 Mar 2021 09:58:06 -0500
+X-MC-Unique: FnZ1EWRkM0irL7hFlHwJrw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87E2E108BD08;
+ Tue,  9 Mar 2021 14:58:04 +0000 (UTC)
+Received: from work-vm (ovpn-112-63.ams2.redhat.com [10.36.112.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7D3B5C233;
+ Tue,  9 Mar 2021 14:57:55 +0000 (UTC)
+Date: Tue, 9 Mar 2021 14:57:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
+ kvm_log_clear_one_slot
+Message-ID: <YEeM8eUUzm9AlaFI@work-vm>
+References: <20201217014941.22872-1-zhukeqian1@huawei.com>
+ <20201217014941.22872-3-zhukeqian1@huawei.com>
+ <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
+ <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
+ <11854ebf-ed88-496d-8381-5385ef1b403a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <11854ebf-ed88-496d-8381-5385ef1b403a@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,102 +83,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Fredrik Noring <noring@nocrew.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ jiangkunkun@huawei.com, qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ wanghaibin.wang@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have the minimum prerequisites to support the
-R5900 CPU, we can reintroduce it.
+* Thomas Huth (thuth@redhat.com) wrote:
+> On 09/03/2021 15.05, Keqian Zhu wrote:
+> > 
+> > 
+> > On 2021/3/9 21:48, Thomas Huth wrote:
+> > > On 17/12/2020 02.49, Keqian Zhu wrote:
+> > > > The parameters start and size are transfered from QEMU memory
+> > > > emulation layer. It can promise that they are TARGET_PAGE_SIZE
+> > > > aligned. However, KVM needs they are qemu_real_page_size aligned.
+> > > > 
+> > > > Though no caller breaks this aligned requirement currently, we'd
+> > > > better add an explicit assert to avoid future breaking.
+> > > > 
+> > > > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> > > > ---
+> > > >    accel/kvm/kvm-all.c | 7 +++++++
+> > > >    1 file changed, 7 insertions(+)
+> > > > 
+> > > > ---
+> > > > v2
+> > > >    - Address Andrew's commment (Use assert instead of return err).
+> > > > 
+> > > > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> > > > index f6b16a8df8..73b195cc41 100644
+> > > > --- a/accel/kvm/kvm-all.c
+> > > > +++ b/accel/kvm/kvm-all.c
+> > > > @@ -692,6 +692,10 @@ out:
+> > > >    #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
+> > > >    #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
+> > > >    +/*
+> > > > + * As the granule of kvm dirty log is qemu_real_host_page_size,
+> > > > + * @start and @size are expected and restricted to align to it.
+> > > > + */
+> > > >    static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+> > > >                                      uint64_t size)
+> > > >    {
+> > > > @@ -701,6 +705,9 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+> > > >        unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+> > > >        int ret;
+> > > >    +    /* Make sure start and size are qemu_real_host_page_size aligned */
+> > > > +    assert(QEMU_IS_ALIGNED(start | size, psize));
+> > > 
+> > > Sorry, but that was a bad idea: It triggers and kills my Centos 6 VM:
+> > > 
+> > > $ qemu-system-x86_64 -accel kvm -hda ~/virt/images/centos6.qcow2 -m 1G
+> > > qemu-system-x86_64: ../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
+> > > Aborted (core dumped)
+> > Hi Thomas,
+> > 
+> > I think this patch is ok, maybe it trigger a potential bug?
+> 
+> Well, sure, there is either a bug somewhere else or in this new code. But it's certainly not normal that the assert() triggers, is it?
+> 
+> FWIW, here's a backtrace:
+> 
+> #0  0x00007ffff2c1584f in raise () at /lib64/libc.so.6
+> #1  0x00007ffff2bffc45 in abort () at /lib64/libc.so.6
+> #2  0x00007ffff2bffb19 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+> #3  0x00007ffff2c0de36 in .annobin_assert.c_end () at /lib64/libc.so.6
+> #4  0x0000555555ba25f3 in kvm_log_clear_one_slot
+>     (size=6910080, start=0, as_id=0, mem=0x555556e1ee00)
+>     at ../../devel/qemu/accel/kvm/kvm-all.c:691
+> #5  0x0000555555ba25f3 in kvm_physical_log_clear
+>     (section=0x7fffffffd0b0, section=0x7fffffffd0b0, kml=0x555556dbaac0)
+>     at ../../devel/qemu/accel/kvm/kvm-all.c:843
+> #6  0x0000555555ba25f3 in kvm_log_clear (listener=0x555556dbaac0, section=0x7fffffffd0b0)
+>     at ../../devel/qemu/accel/kvm/kvm-all.c:1253
+> #7  0x0000555555b023d8 in memory_region_clear_dirty_bitmap
+>     (mr=mr@entry=0x5555573394c0, start=start@entry=0, len=len@entry=6910080)
+>     at ../../devel/qemu/softmmu/memory.c:2132
+> #8  0x0000555555b313d9 in cpu_physical_memory_snapshot_and_clear_dirty
+>     (mr=mr@entry=0x5555573394c0, offset=offset@entry=0, length=length@entry=6910080, client=client@entry=0) at ../../devel/qemu/softmmu/physmem.c:1109
+> #9  0x0000555555b02483 in memory_region_snapshot_and_clear_dirty
+>     (mr=mr@entry=0x5555573394c0, addr=addr@entry=0, size=size@entry=6910080, client=client@entry=0)
+>     at ../../devel/qemu/softmmu/memory.c:2146
 
-While we are reverting commit 823f2897bdd ("Disable R5900
-support"), we effectively cherry-pick commit ed4f49ba9bb
-("target/mips: Define the R5900 CPU").
+Could you please figure out which memory region this is?
+WTH is that size? Is that really the problem that the size is just
+crazy?
 
-This reverts commit 823f2897bdd78185f3ba33292a25105ba8bad1b5.
+Dave
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210214175912.732946-31-f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/cpu-defs.c.inc | 59 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-index e03b2a998cd..1a73b5409f0 100644
---- a/target/mips/cpu-defs.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -411,6 +411,65 @@ const mips_def_t mips_defs[] =
-         .insn_flags = CPU_MIPS32R5,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-+    {
-+        /*
-+         * The Toshiba TX System RISC TX79 Core Architecture manual
-+         *
-+         * https://wiki.qemu.org/File:C790.pdf
-+         *
-+         * describes the C790 processor that is a follow-up to the R5900.
-+         * There are a few notable differences in that the R5900 FPU
-+         *
-+         * - is not IEEE 754-1985 compliant,
-+         * - does not implement double format, and
-+         * - its machine code is nonstandard.
-+         */
-+        .name = "R5900",
-+        .CP0_PRid = 0x00002E00,
-+        /* No L2 cache, icache size 32k, dcache size 32k, uncached coherency. */
-+        .CP0_Config0 = (0x3 << 9) | (0x3 << 6) | (0x2 << CP0C0_K0),
-+        .CP0_Status_rw_bitmask = 0xF4C79C1F,
-+#ifdef CONFIG_USER_ONLY
-+        /*
-+         * R5900 hardware traps to the Linux kernel for IEEE 754-1985 and LL/SC
-+         * emulation. For user only, QEMU is the kernel, so we emulate the traps
-+         * by simply emulating the instructions directly.
-+         *
-+         * Note: Config1 is only used internally, the R5900 has only Config0.
-+         */
-+        .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
-+        .CP0_LLAddr_rw_bitmask = 0xFFFFFFFF,
-+        .CP0_LLAddr_shift = 4,
-+        .CP1_fcr0 = (0x38 << FCR0_PRID) | (0x0 << FCR0_REV),
-+        .CP1_fcr31 = 0,
-+        .CP1_fcr31_rw_bitmask = 0x0183FFFF,
-+#else
-+        /*
-+         * The R5900 COP1 FPU implements single-precision floating-point
-+         * operations but is not entirely IEEE 754-1985 compatible. In
-+         * particular,
-+         *
-+         * - NaN (not a number) and +/- infinities are not supported;
-+         * - exception mechanisms are not fully supported;
-+         * - denormalized numbers are not supported;
-+         * - rounding towards nearest and +/- infinities are not supported;
-+         * - computed results usually differs in the least significant bit;
-+         * - saturations can differ more than the least significant bit.
-+         *
-+         * Since only rounding towards zero is supported, the two least
-+         * significant bits of FCR31 are hardwired to 01.
-+         *
-+         * FPU emulation is disabled here until it is implemented.
-+         *
-+         * Note: Config1 is only used internally, the R5900 has only Config0.
-+         */
-+        .CP0_Config1 = (47 << CP0C1_MMU),
-+#endif /* !CONFIG_USER_ONLY */
-+        .SEGBITS = 32,
-+        .PABITS = 32,
-+        .insn_flags = CPU_MIPS3 | INSN_R5900 | ASE_MMI,
-+        .mmu_type = MMU_TYPE_R4000,
-+    },
-     {
-         /* A generic CPU supporting MIPS32 Release 6 ISA.
-            FIXME: Support IEEE 754-2008 FP.
+> #10 0x0000555555babe99 in vga_draw_graphic (full_update=0, s=0x5555573394b0)
+>     at ../../devel/qemu/hw/display/vga.c:1661
+> #11 0x0000555555babe99 in vga_update_display (opaque=0x5555573394b0)
+>     at ../../devel/qemu/hw/display/vga.c:1784
+> #12 0x0000555555babe99 in vga_update_display (opaque=0x5555573394b0)
+>     at ../../devel/qemu/hw/display/vga.c:1757
+> #13 0x00005555558ddd32 in graphic_hw_update (con=0x555556a11800)
+>     at ../../devel/qemu/ui/console.c:279
+> #14 0x00005555558dccd2 in dpy_refresh (s=0x555556c17da0) at ../../devel/qemu/ui/console.c:1742
+> #15 0x00005555558dccd2 in gui_update (opaque=opaque@entry=0x555556c17da0)
+>     at ../../devel/qemu/ui/console.c:209
+> #16 0x0000555555dbd520 in timerlist_run_timers (timer_list=0x555556937c50)
+>     at ../../devel/qemu/util/qemu-timer.c:574
+> #17 0x0000555555dbd520 in timerlist_run_timers (timer_list=0x555556937c50)
+>     at ../../devel/qemu/util/qemu-timer.c:499
+> #18 0x0000555555dbd74a in qemu_clock_run_timers (type=<optimized out>)
+>     at ../../devel/qemu/util/qemu-timer.c:670
+> #19 0x0000555555dbd74a in qemu_clock_run_all_timers () at ../../devel/qemu/util/qemu-timer.c:670
+> 
+> Looks like something in the vga code calls this with size=6910080
+> and thus triggers the alignment assertion?
+> 
+>  Thomas
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
