@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F4F3326F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:24:35 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4343326FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 14:24:45 +0100 (CET)
+Received: from localhost ([::1]:56150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJcLi-00074k-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:24:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
+	id 1lJcLs-0007O4-RV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 08:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJc51-0001k8-0b
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24040)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJc5C-0001oX-4d
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJc4y-00026y-VV
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJc55-0002C3-SU
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 08:07:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615295235;
+ s=mimecast20190719; t=1615295243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DJhmQBbZCkOsOGflPt2V334CdR5LFAy01KLLlkoJV5E=;
- b=L8DFp2A7Nv/vi0AQEpG+U8PoJiNnQ3aJMEfnB68IzN6GmWmMAwclOlyKKpJ80GGXtm3Ypz
- +Ior8Q1+NzqHDrlK5eDCXIwjAt4Fc4Yn4ID/EhvLw+ImU+EmoR4Ur6zRh85Bt8aMnX4Vpn
- E5Ti0bu+iv8JsajZ5Ei1FaJN0/AW2ug=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-VUGq4eUEOwWuyV7iIuiAhQ-1; Tue, 09 Mar 2021 08:07:14 -0500
-X-MC-Unique: VUGq4eUEOwWuyV7iIuiAhQ-1
-Received: by mail-ed1-f71.google.com with SMTP id a2so6696646edx.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:07:13 -0800 (PST)
+ bh=pAqcI1xZK1RToPzwz4SRoWGitAD1zVFMC091we+ERJo=;
+ b=TzJStvRmrZW1E6AQM7JY4+DMRrHfcReWchag5utAlCrc707tU2AFn/zjTKw91CO8eXbq45
+ NrA0wixG0fcHQZ3q2GZdHUfV7eyjK5Qw7kSLFqHgWx7zjuzj3jWa4VxQ2Q2GYxk33V4Nl8
+ e/cheUsdNdF7hwePR4xNPwKPPvI/ds8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-gwlrakc_OgCib1Rv8GJYPQ-1; Tue, 09 Mar 2021 08:07:20 -0500
+X-MC-Unique: gwlrakc_OgCib1Rv8GJYPQ-1
+Received: by mail-wr1-f69.google.com with SMTP id h5so6384062wrr.17
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 05:07:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DJhmQBbZCkOsOGflPt2V334CdR5LFAy01KLLlkoJV5E=;
- b=OIT2lq2IFLQJJ2RgQbLsPRgyIHOpxNRYLJ2fdzO3Rx7fu79yxJc8PYL8GnrjiETrJ1
- fzQSSIh/gZ7wR2CF8/zL1Cts3NuVZO7TsX54Myr+z9r8EVDi9svGqeyzsyW8vraZ0cub
- uOXMrF7t2IXfmr4BfCr3MFKEm6DspKjEKKBf75TLyTsBhNlDzNqvU6fPvl2QlZYyb5p3
- kUqhrFUVWh+RccIyjqZ9yOybtTv9gdi33fciM5fsDW8P571cM60onEWE6ofnmbJKCoc7
- on0K5SGEWhZ2OVdJoigRhkEKyYdNxOcsQTlTI39BS7zBWL1d9oTYKa1LMvKPnopA5IgT
- d3cQ==
-X-Gm-Message-State: AOAM532Gz7eKU4q2AHUm0BXRpAr9tjKkamWeIchPu+HcobTsTy1NNmMX
- EcCMCZZcwe7Mqna6k+vI0ss3Y3dCd+rEEVBwJqr/2/Vdr/G+Tj7cO+lDFgO9zQMWEjxGKqJPHwb
- Jm4VI/7VA/hf5cFg=
-X-Received: by 2002:a17:907:7637:: with SMTP id
- jy23mr18893772ejc.12.1615295232844; 
- Tue, 09 Mar 2021 05:07:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx536ZrtxTaRidOZSoSxwnpOkuCvHmCu4onq/OUu9unjQB3clAIP/it65093rHhhvKn/+31RA==
-X-Received: by 2002:a17:907:7637:: with SMTP id
- jy23mr18893722ejc.12.1615295232322; 
- Tue, 09 Mar 2021 05:07:12 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u59sm9159032edc.73.2021.03.09.05.07.11
+ bh=pAqcI1xZK1RToPzwz4SRoWGitAD1zVFMC091we+ERJo=;
+ b=aMjwcyiE2lfHL/SOq62yjzzY2T+k8YnF8Cmzor8h74ReD6Fphjuk5MLXehs7zUdcnB
+ +ilSFI4reEcZmNXA+UYTgJfzQ0b1wYat+Iini412410BVQ20kleZye9fikjZtfCpUcx+
+ EL1WuJU3YmPH+B+IDDRE0yICB+OZkgR9vupA1ahDtn3HVcWKucL4OCv+K6QMXbHhrkF7
+ r0qZNqL6Qm6thegdIaBU8Bs9orHW/Sbewq1AgVDzj8KXPZQd1bz3em+CU9q7lwMnWP41
+ Q/4x1RuYD2wXjKsSwf36UytlZA/ALJPZbolrKoAN4M00qnbT+tsg7MXdt8VAuouIZ8sg
+ 177g==
+X-Gm-Message-State: AOAM532nMYVNw7ZkZfhqoORdMwcj7QiMTrZ3xs3slaw4DQeNtM0rOmkK
+ fttvmW5hjOLDKta11lcBozhgP2dzan13zjfDBZA0zzk7vCg5BqNRGHupfRn3yh/MzAH9Q3CFC3Z
+ aH9dFG1AST2Prx/8=
+X-Received: by 2002:a05:600c:2312:: with SMTP id
+ 18mr3979800wmo.8.1615295239189; 
+ Tue, 09 Mar 2021 05:07:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxC6wwkAhGzZMxWzOUVO3Y4raD7Uo1t9K6TrLiaegmIlYapNxzOUeKgAvXoQ9EzX9hcQYfh9g==
+X-Received: by 2002:a05:600c:2312:: with SMTP id
+ 18mr3979774wmo.8.1615295238904; 
+ Tue, 09 Mar 2021 05:07:18 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id p27sm4255105wmi.12.2021.03.09.05.07.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 05:07:11 -0800 (PST)
-Subject: Re: [RFC PATCH 1/4] block/vdi: When writing new bmap entry fails,
- don't leak the buffer
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Edmondson <dme@dme.org>, qemu-devel@nongnu.org
-References: <20210309102157.365356-1-david.edmondson@oracle.com>
- <20210309102157.365356-2-david.edmondson@oracle.com>
- <34865f4c-dc32-4298-6ec9-c8690d738435@redhat.com> <m2mtvch72g.fsf@dme.org>
- <e71f897d-29a5-5efd-70f5-6ab7a7318b13@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3573c0b9-3211-d425-da75-333b924f56ab@redhat.com>
-Date: Tue, 9 Mar 2021 14:07:10 +0100
+ Tue, 09 Mar 2021 05:07:18 -0800 (PST)
+Subject: Re: [PATCH V2 trivial] Various spelling fixes
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+References: <20210309111510.79495-1-mjt@msgid.tls.msk.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8042a47a-eb4b-3c5b-1d86-481bad70a4ce@redhat.com>
+Date: Tue, 9 Mar 2021 14:07:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <e71f897d-29a5-5efd-70f5-6ab7a7318b13@redhat.com>
+In-Reply-To: <20210309111510.79495-1-mjt@msgid.tls.msk.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -93,7 +86,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,24 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/21 13:06, Philippe Mathieu-Daudé wrote:
->> Newfangled witchy magic!
->>
->> I'm happy to change it if you think it beneficial.
+On 3/9/21 12:15 PM, Michael Tokarev wrote:
+> An assorted set of spelling fixes in various places.
 > 
-> I then saw the next patch which keeps modifying the same
-> function, so this might not be a great improvement after
-> all.
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> ---
+> V1: https://lists.nongnu.org/archive/html/qemu-devel/2020-12/msg05959.html
+> Changes: incorporated suggestions by Stefan Weil and added his R-b.
+> 
+> Please note: this also patches one file in disas/
+> 
+>  disas/nanomips.cpp            | 2 +-
+>  hw/misc/trace-events          | 2 +-
+>  hw/net/allwinner-sun8i-emac.c | 2 +-
+>  hw/ppc/pnv_bmc.c              | 2 +-
+>  hw/usb/ccid-card-emulated.c   | 2 +-
+>  hw/usb/hcd-ohci.c             | 2 +-
+>  hw/virtio/vhost.c             | 2 +-
+>  include/hw/s390x/css.h        | 2 +-
+>  qemu-options.hx               | 4 ++--
+>  target/i386/cpu.c             | 2 +-
+>  target/i386/machine.c         | 2 +-
+>  target/m68k/op_helper.c       | 2 +-
+>  target/riscv/cpu.c            | 2 +-
+>  13 files changed, 14 insertions(+), 14 deletions(-)
 
-Yeah I was also going to suggest it but considering patch 2 it doesn't 
-really flow well.
-
-paolo
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
