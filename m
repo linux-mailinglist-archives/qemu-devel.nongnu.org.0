@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CE7332872
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:22:49 +0100 (CET)
-Received: from localhost ([::1]:53462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6770F33286C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:21:58 +0100 (CET)
+Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJdG4-0005cR-Fw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:22:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37990)
+	id 1lJdFF-0004Dn-F2
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJdB8-0001SU-4x
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:42 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33185)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdBx-0002Ud-QJ; Tue, 09 Mar 2021 09:18:34 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJdB2-0001kS-IL
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:17:41 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id 7so15945769wrz.0
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 06:17:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H2Dg/3xWo/lJhWRHAFHTsEix8OkL3E+jnOBvruDCvb4=;
- b=zcVJQeh11ElxEEP2NEQY6o+fNY8R5wSXDGT2s5+SYVoGgnlwGYtmvkrTk5GhjGxdUH
- su5feLN+xebiZNIehZi6kfqoK0ciq2QKT27HWHnqfEWkwc9zFT0ITOyl6cYR1J7G3NL0
- S75gF/OnPbvF8jb1yYZ3hhUt65m0r3kTT77KvQyPRbYOemxKWo3PQfFlfwbkyyr2DOoA
- ryrob9Y9tAx4uugxRUAadZcsSJF+kmZTpWbTtHqpM9BpYfkwiBEoTDQXsBhMlDNjzNhs
- 963Dh06VRpLdm+F1H8Tjqso8EzNubcGmSHV1hxfyBAzMeA9ylV1sk0W+6ukbrB8isjF+
- 31xg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lJdBv-00027u-4Q; Tue, 09 Mar 2021 09:18:33 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id r17so28059409ejy.13;
+ Tue, 09 Mar 2021 06:18:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sOi7xz77dJm4L4wozwsnLGuhUW1u+TFIAmk6nHK5eqA=;
+ b=q00wg0RGzz9GrCSP7bsLwTcB/J/ek9J+GaknD9EEPLZ+uTMFOlqJJBI8jLZgQbIeJg
+ qRrpjag01iyIjqkeU/KU92UiIFJoser7VujSHCvPdgy/+ljdl7ZNCRd72ThxGikBOABZ
+ 5tICzdIuQ/Gh+QOa9q8aWWS9wYV3WUVKLpwC89nyyu7fF3VaF53FO7zNqpmwDiypB2iR
+ T+p1OL/bAqK2fRHUX2OUnbQNdeJrl3pZTJsOXrwXIQbCjQiKc4f6UOLw7HsXuUGV4aVh
+ QDO9WrNvkLJllkm6aqoUQWkzUyJfV1k1glZ7Ywist/TXyk6ZGjdYIbNBffXpLGer/Gsk
+ c/JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H2Dg/3xWo/lJhWRHAFHTsEix8OkL3E+jnOBvruDCvb4=;
- b=rBDvFmze07cNBVA+Y8NujuNJm4dGElbRGerjpS5OjukKSqlR5Vlrm8CbHbSxQGNuzo
- +zXtFxz2RcMtzSbFSAk07vVmLfc1mXwePKl7AqmxA3YjrMg0JPmCw6vWaAss3N/3W17B
- NxfAZvljELMpxv4tzD7garEsf5swgkF+uQilhMH4Nzk7JHAoIiUjKaR+bOOnuasaHF8m
- mguRAcuavHUmzi+QGYaJERWzk1Uc7QjcJ5cMe9/vo9MuDRCt6cuwE4zlQMaekFKP31jN
- NXuxgBxysonOoo6aOiqSbaB5ufiR/A9KSIXEeQNGRilrA9z3w+4m6+t2wbLm95HKrGba
- Es8Q==
-X-Gm-Message-State: AOAM531HAzJBnlcqSAwVBcXXAXVYWGl6gcYiv9+aeJhEU1lXFa/Jyoo2
- g8aC8OqK0pz8TQyTtJJ5pBjAqw==
-X-Google-Smtp-Source: ABdhPJzUPmxcoTJSn2rIgs2VqgHrZqsLbgULjbEnV6fHU3tEmbUwJIVCDhAclvy/H6IpL17DO8F7Xw==
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr27984166wrx.96.1615299455271; 
- Tue, 09 Mar 2021 06:17:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm4462706wmh.31.2021.03.09.06.17.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 06:17:32 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 70E421FF90;
- Tue,  9 Mar 2021 14:17:28 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 4/4] tests/tcg: add HeapInfo checking to semihosting test
-Date: Tue,  9 Mar 2021 14:17:27 +0000
-Message-Id: <20210309141727.12522-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210309141727.12522-1-alex.bennee@linaro.org>
-References: <20210309141727.12522-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sOi7xz77dJm4L4wozwsnLGuhUW1u+TFIAmk6nHK5eqA=;
+ b=UVaI6w2SaOJ2wGEMcOYosH043wOclxnMGu5oYp1nzTOxn1AYUSiYq/AQhWTES8qUjS
+ G+oyxfCPN4lziBSaILEfI/sLmVp0Ge2ki9NndRYJGz4Spfu5h98EkL35jCOwC/HJtqB9
+ EzXXrHgu/1tX2ehityNw7a4VcBtJswRlWNmOlgJUZunJMqraSdYS0GC9TItQe1xMwuCI
+ nX6nPNwie6s4HR5o9sxs8uiODx0h7rtdFAJg8Q0gKER9Wq8rUp3VQ4v95tmDPusHtFMg
+ FaRd2pKBhCVYJC51tmeotsv/ZedbicFbfM7HeTqlDLLso1t2qoz1nH/Id6NConRXQxt6
+ 250Q==
+X-Gm-Message-State: AOAM530djXKU6my6iVE5fvlbZJqr98UbESC3/fPFjOg6a/ggtS39cufL
+ TyuXMPJnFFSbYZK5R/fw1TGVw8nLbIg=
+X-Google-Smtp-Source: ABdhPJw/uQR5E4w2gpyAFtMWHVqByxTMJQOfnByp74cUURMxrnPhWZ676Mr+ht29/J7H2VY9G8ctMw==
+X-Received: by 2002:a17:906:39a:: with SMTP id
+ b26mr21128895eja.158.1615299505863; 
+ Tue, 09 Mar 2021 06:18:25 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id m14sm8880130edd.63.2021.03.09.06.18.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 06:18:25 -0800 (PST)
+Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210221222617.2579610-1-f4bug@amsat.org>
+ <20210221222617.2579610-2-f4bug@amsat.org>
+ <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
+Date: Tue, 9 Mar 2021 15:18:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,76 +89,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: keithp@keithp.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Query the SYS_HEAPINFO semicall and do some basic verification of the
-information via libc calls.
+On 3/9/21 2:41 PM, Claudio Fontana wrote:
+> On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
+>> IDAU is specific to M-profile. KVM only supports A-profile.
+>> Restrict this interface to TCG, as it is pointless (and
+>> confusing) on a KVM-only build.
+>>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> 
+> This one breaks the KVM tests hard though (most of them).
+> 
+> I will try to figure out why.
+> 
+> Ciao,
+> 
+> Claudio
+> 
+> 
+>> ---
+>>  target/arm/cpu.c     | 7 -------
+>>  target/arm/cpu_tcg.c | 8 ++++++++
+>>  2 files changed, 8 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index b8bc89e71fc..a772fd4926f 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
+>>      .class_init = arm_cpu_class_init,
+>>  };
+>>  
+>> -static const TypeInfo idau_interface_type_info = {
+>> -    .name = TYPE_IDAU_INTERFACE,
+>> -    .parent = TYPE_INTERFACE,
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .../multiarch/arm-compat-semi/semihosting.c   | 35 ++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+Hmm this is an interface...
 
-diff --git a/tests/tcg/multiarch/arm-compat-semi/semihosting.c b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-index b3fd16cd12..5fa3c0a82d 100644
---- a/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-+++ b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-@@ -8,9 +8,16 @@
-  */
- 
- #define SYS_WRITE0      0x04
-+#define SYS_HEAPINFO    0x16
- #define SYS_REPORTEXC   0x18
- 
-+#define _GNU_SOURCE  /* asprintf is a GNU extension */
-+
- #include <stdint.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <unistd.h>
- #include "semicall.h"
- 
- int main(int argc, char *argv[argc])
-@@ -21,8 +28,34 @@ int main(int argc, char *argv[argc])
-     uintptr_t exit_block[2] = {0x20026, 0};
-     uintptr_t exit_code = (uintptr_t) &exit_block;
- #endif
-+    struct {
-+        void *heap_base;
-+        void *heap_limit;
-+        void *stack_base;
-+        void *stack_limit;
-+    } info;
-+    void *ptr_to_info = (void *) &info;
-+    char *heap_info, *stack_info;
-+    void *brk = sbrk(0);
-+
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Checking HeapInfo\n");
-+
-+    memset(&info, 0, sizeof(info));
-+    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-+
-+    asprintf(&heap_info, "heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+    __semi_call(SYS_WRITE0, (uintptr_t) heap_info);
-+    if (info.heap_base != brk) {
-+        sprintf(heap_info, "heap mismatch: %p\n", brk);
-+        __semi_call(SYS_WRITE0, (uintptr_t) heap_info);
-+        return -1;
-+    }
-+
-+    asprintf(&stack_info, "stack: %p -> %p\n", info.stack_base, info.stack_limit);
-+    __semi_call(SYS_WRITE0, (uintptr_t) stack_info);
-+    free(heap_info);
-+    free(stack_info);
- 
--    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-     __semi_call(SYS_REPORTEXC, exit_code);
-     /* if we get here we failed */
-     return -1;
--- 
-2.20.1
+Is a CPU/machine trying to resolve it?
 
+>> -    .class_size = sizeof(IDAUInterfaceClass),
+>> -};
+>> -
+>>  static void arm_cpu_register_types(void)
+>>  {
+>>      const size_t cpu_count = ARRAY_SIZE(arm_cpus);
+>> @@ -2399,7 +2393,6 @@ static void arm_cpu_register_types(void)
+>>      if (cpu_count) {
+>>          size_t i;
+>>  
+>> -        type_register_static(&idau_interface_type_info);
+>>          for (i = 0; i < cpu_count; ++i) {
+>>              arm_cpu_register(&arm_cpus[i]);
+>>          }
+>> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+>> index c29b434c60d..fb07a336939 100644
+>> --- a/target/arm/cpu_tcg.c
+>> +++ b/target/arm/cpu_tcg.c
+>> @@ -14,6 +14,7 @@
+>>  #include "hw/core/tcg-cpu-ops.h"
+>>  #endif /* CONFIG_TCG */
+>>  #include "internals.h"
+>> +#include "target/arm/idau.h"
+>>  
+>>  /* CPU models. These are not needed for the AArch64 linux-user build. */
+>>  #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+>> @@ -739,10 +740,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+>>      { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
+>>  };
+>>  
+>> +static const TypeInfo idau_interface_type_info = {
+>> +    .name = TYPE_IDAU_INTERFACE,
+>> +    .parent = TYPE_INTERFACE,
+>> +    .class_size = sizeof(IDAUInterfaceClass),
+>> +};
+>> +
+>>  static void arm_tcg_cpu_register_types(void)
+>>  {
+>>      size_t i;
+>>  
+>> +    type_register_static(&idau_interface_type_info);
+>>      for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
+>>          arm_cpu_register(&arm_tcg_cpus[i]);
+>>      }
+>>
+> 
+> 
 
