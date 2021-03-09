@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B600F3325B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:48:08 +0100 (CET)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AD73325BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 13:49:38 +0100 (CET)
+Received: from localhost ([::1]:38894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJbmR-00075A-QE
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:48:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59002)
+	id 1lJbnt-0000RT-I5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 07:49:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJbkf-0005oA-Gy
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:46:17 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lJbkd-00016L-Sm
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:46:17 -0500
-Received: by mail-wr1-x431.google.com with SMTP id e10so15211611wro.12
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 04:46:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=7Dpm7ztRbLxe2Dp66gVDEwpJuna1JckwZ8MmSlOHA+Y=;
- b=J3tqKw0s/luQlaoFauQhUznnjLnNJDsrI00YZxe3NwEan/oWj0o+/EvNAVKhKbVUwB
- OWSIn4FeAIpoW/ucyoNll74eXvLsrAZIQaWhZVD3WOyseQHjueO21ZlWjQ9yXVvqvGEg
- yk/HBCqBDhk/GW8xWAIoPuFjl/2tmAHIkZbN12Aaapapci3Tj43EIDMiO0SmBufa9XIL
- PtSIJAD3ltNdptWACp90s/1tUqvHifHh2I7h3hBqd7RbGyhK9PKWyOXhMvwInVK4pUR+
- o2Ef2sDDJ2YPzLytvHcy868DCJ9z5QB+c5s05luspPeFzo33EPMOJ67LqGjILTTLbLPD
- VNHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=7Dpm7ztRbLxe2Dp66gVDEwpJuna1JckwZ8MmSlOHA+Y=;
- b=RF4hobPoMLwwv1U8Mnt/5yzWdMQghUNzulVmKuGq8ktYgS3DQEQakqZg8olG57C1+y
- yJaV/cJ4RjUrzZbN/UcqjFAM7rba7RcA9PO5wtHNgp1DZH3K+cEMK/JhCSTe3DCsoBBe
- dT7ZC70Gu0QaTwJnaParefWOEY9jQ7ncx2c/ChAeR/ixTVlHvAbI5rLMgS8LIhZ1xoI1
- LQOq57ZLbgtr/1QKuIczlrPdOBrZBEqkJnTUjaEpu5rQce4BLdW3ACdrElaBz4n8xydM
- Ay+6u+TptlcRq1QRtJsbmxflhR36q0F4xeSXjtx/vWykDZIdyFYtqV/+kEUEy/VluEMf
- bvcg==
-X-Gm-Message-State: AOAM530DnYgUGuH19qFoFks1nxWXhiL/AE7lTUHFjn2/iFQ3zE0SpTU7
- wg6LFEhtrFVdB2oDL9Y1/FXvdg==
-X-Google-Smtp-Source: ABdhPJz2TV08PnV6vJkn4CLRicU2PPq8UF74EiUTBYUubUspUT7pZ6IapyuKTWjlp8eY3EET1eA5qQ==
-X-Received: by 2002:a5d:5904:: with SMTP id v4mr27963076wrd.261.1615293974022; 
- Tue, 09 Mar 2021 04:46:14 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g9sm25160017wrp.14.2021.03.09.04.46.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 04:46:13 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 65FA51FF7E;
- Tue,  9 Mar 2021 12:46:12 +0000 (GMT)
-References: <20210308154633.158915-1-thuth@redhat.com>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] MAINTAINERS: Merge the Gitlab-CI section into the
- generic CI section
-Date: Tue, 09 Mar 2021 12:45:58 +0000
-In-reply-to: <20210308154633.158915-1-thuth@redhat.com>
-Message-ID: <87wnug8pgr.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJblc-0006wD-Ue
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:47:16 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2195)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJbla-0001Wq-MN
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 07:47:16 -0500
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Dvw015FDGz5Z19;
+ Tue,  9 Mar 2021 20:44:49 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 9 Mar 2021 20:47:04 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Tue, 9 Mar 2021 20:47:03 +0800
+Subject: Re: [PATCH v3 3/3] migration/ram: Optimize ram_save_host_page()
+To: Peter Xu <peterx@redhat.com>
+References: <20210305075035.1852-1-jiangkunkun@huawei.com>
+ <20210305075035.1852-4-jiangkunkun@huawei.com>
+ <20210305143033.GF397383@xz-x1>
+ <228f70c3-4c4f-5d21-c2f0-1be7c0d7aea5@huawei.com>
+ <20210308213647.GM397383@xz-x1>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <9a21c371-bbff-c0aa-6f58-b11af7f8f25d@huawei.com>
+Date: Tue, 9 Mar 2021 20:47:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210308213647.GM397383@xz-x1>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,43 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC
+ here" <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> The status of the gitlab-CI files is currently somewhat confusing, and
-> it is often not quite clear whether a patch should go via my tree or
-> via the testing tree of Alex. That situation has grown historically...
-> Initially, I was the only one using the gitlab-CI, just for my private
-> repository there. But in the course of time, the gitlab-CI switched to
-> use the containers from tests/docker/ (which is not part of the gitlab-CI
-> section in the MAINTAINERS file), and QEMU now even switched to gitlab.com
-> completely for the repository and will soon use it as its gating CI, too,
-> so it makes way more sense if the gitlab-ci.yml files belong to the people
-> who are owning the qemu-project on gitlab.com and take care of the gitlab
-> CI there. Thus let's merge the gitlab-ci section into the common "test and
-> build automation" section.
+On 2021/3/9 5:36, Peter Xu wrote:
+> On Mon, Mar 08, 2021 at 09:58:02PM +0800, Kunkun Jiang wrote:
+>> Hi,
+>>
+>> On 2021/3/5 22:30, Peter Xu wrote:
+>>> On Fri, Mar 05, 2021 at 03:50:35PM +0800, Kunkun Jiang wrote:
+>>>> Starting from pss->page, ram_save_host_page() will check every page
+>>>> and send the dirty pages up to the end of the current host page or
+>>>> the boundary of used_length of the block. If the host page size is
+>>>> a huge page, the step "check" will take a lot of time.
+>>>>
+>>>> This will improve performance to use migration_bitmap_find_dirty().
+>>> Is there any measurement done?
+>> I tested it on Kunpeng 920.  VM params: 1U 4G( page size 1G).
+>> The time of ram_save_host_page() in the last round of ram saving:
+>> before optimize: 9250us               after optimize: 34us
+> Looks like an idle VM, but still this is a great improvement.  Would you mind
+> add this into the commit message too?
+Ok, I will add it in the next version.😉
+>>> This looks like an optimization, but to me it seems to have changed a lot
+>>> context that it doesn't need to... Do you think it'll also work to just look up
+>>> dirty again and update pss->page properly if migration_bitmap_clear_dirty()
+>>> returned zero?
+>>>
+>>> Thanks,
+>> This just inverted the body of the loop, suggested by @David Edmondson.
+>> Here is the v2[1]. Do you mean to change it like this?
+>>
+>> [1]: http://patchwork.ozlabs.org/project/qemu-devel/patch/20210301082132.1107-4-jiangkunkun@huawei.com/
+> I see, then it's okay - But indeed I still prefer your previous version. :)
 >
-> While we're at it, I'm also removing the line with Fam there for now,
-> since he was hardly active during the last years in this area anymore.
-> If he ever gets more time for this part again in the future, we surely
-> can add the line back again.
+> Thanks,
 >
-> Now to avoid that Alex is listed here alone, Philippe and I agreed to
-> help as backup maintainers here, too.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Both versions are fine to me. This version may make the final code 
+slightly cleaner, I think.
 
-Pending changes requested by the others:
+Thanks,
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Kunkun Jiang
 
---=20
-Alex Benn=C3=A9e
 
