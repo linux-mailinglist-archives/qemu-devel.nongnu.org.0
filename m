@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4C6332825
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:08:11 +0100 (CET)
-Received: from localhost ([::1]:47526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B11C33281F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 15:07:31 +0100 (CET)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJd1u-0007f5-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:08:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
+	id 1lJd1G-0006lr-F9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 09:07:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJcy3-00045R-Pf
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:04:13 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:20523)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lJczf-0005X1-3O; Tue, 09 Mar 2021 09:05:51 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:3577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lJcxx-0003lg-KR
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 09:04:11 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 02E787456B8;
- Tue,  9 Mar 2021 15:04:04 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D82C87456B4; Tue,  9 Mar 2021 15:04:03 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D70117456E3;
- Tue,  9 Mar 2021 15:04:03 +0100 (CET)
-Date: Tue, 9 Mar 2021 15:04:03 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/6] hw/mips/gt64120: Minor fixes
-In-Reply-To: <38c097d6-f93c-76ff-d7ad-ddcd95556a2c@amsat.org>
-Message-ID: <c9b31c9-1a27-1ee6-ffb-bc5255e050fa@eik.bme.hu>
-References: <20210305162107.2233203-1-f4bug@amsat.org>
- <38c097d6-f93c-76ff-d7ad-ddcd95556a2c@amsat.org>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lJczc-0004Xs-Ox; Tue, 09 Mar 2021 09:05:50 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dvxlg03YGzjWZG;
+ Tue,  9 Mar 2021 22:04:15 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 9 Mar 2021 22:05:35 +0800
+Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
+ kvm_log_clear_one_slot
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>, Peter Xu
+ <peterx@redhat.com>
+References: <20201217014941.22872-1-zhukeqian1@huawei.com>
+ <20201217014941.22872-3-zhukeqian1@huawei.com>
+ <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
+Date: Tue, 9 Mar 2021 22:05:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-728301579-1615298643=:24425"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
+In-Reply-To: <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhukeqian1@huawei.com;
+ helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,59 +63,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ jiangkunkun@huawei.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-728301579-1615298643=:24425
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
-> Hi Zoltan,
->
-> On 3/5/21 5:21 PM, Philippe Mathieu-Daudé wrote:
->> Trivial fixes extracted from another series which became too big,
->> so I prefer to send them in a previous step.
->
-> I just realized I meant to Cc you on this series but forgot :/
-> As this model is pretty close to your MV64361 one, and this
-> series is trivial, do you mind reviewing it? It shouldn't take
-> more than 5min I hope ;)
-
-Hello,
-
-I've noticed this patch series and considered reviewing it but could not 
-do it in five minutes and I've lost it since. Can you forward it to me 
-again so I can reply to the patches? (It's been a while I've written the 
-mv64361 model so I may need to check datasheets again.)
-
-Regards,
-BALATON Zoltan
-
-> Thanks,
->
-> Phil.
->
+On 2021/3/9 21:48, Thomas Huth wrote:
+> On 17/12/2020 02.49, Keqian Zhu wrote:
+>> The parameters start and size are transfered from QEMU memory
+>> emulation layer. It can promise that they are TARGET_PAGE_SIZE
+>> aligned. However, KVM needs they are qemu_real_page_size aligned.
 >>
->> Philippe Mathieu-Daudé (6):
->>   hw/mips/gt64xxx: Initialize ISD I/O memory region in DeviceRealize()
->>   hw/mips/gt64xxx: Simplify ISD MemoryRegion read/write handlers
->>   hw/mips/gt64xxx: Fix typos in qemu_log_mask() formats
->>   hw/mips/gt64xxx: Rename trace events related to interrupt registers
->>   hw/mips/gt64xxx: Trace accesses to ISD registers
->>   hw/mips/gt64xxx: Let the GT64120 manage the lower 512MiB hole
+>> Though no caller breaks this aligned requirement currently, we'd
+>> better add an explicit assert to avoid future breaking.
 >>
->>  hw/mips/gt64xxx_pci.c | 67 +++++++++++++++++++++++++++----------------
->>  hw/mips/malta.c       |  7 -----
->>  hw/mips/trace-events  |  6 ++--
->>  3 files changed, 47 insertions(+), 33 deletions(-)
+>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>> ---
+>>   accel/kvm/kvm-all.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
 >>
->
->
---3866299591-728301579-1615298643=:24425--
+>> ---
+>> v2
+>>   - Address Andrew's commment (Use assert instead of return err).
+>>
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index f6b16a8df8..73b195cc41 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -692,6 +692,10 @@ out:
+>>   #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
+>>   #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
+>>   +/*
+>> + * As the granule of kvm dirty log is qemu_real_host_page_size,
+>> + * @start and @size are expected and restricted to align to it.
+>> + */
+>>   static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+>>                                     uint64_t size)
+>>   {
+>> @@ -701,6 +705,9 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+>>       unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+>>       int ret;
+>>   +    /* Make sure start and size are qemu_real_host_page_size aligned */
+>> +    assert(QEMU_IS_ALIGNED(start | size, psize));
+> 
+> Sorry, but that was a bad idea: It triggers and kills my Centos 6 VM:
+> 
+> $ qemu-system-x86_64 -accel kvm -hda ~/virt/images/centos6.qcow2 -m 1G
+> qemu-system-x86_64: ../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
+> Aborted (core dumped)
+Hi Thomas,
+
+I think this patch is ok, maybe it trigger a potential bug?
+
+Thanks,
+Keqian
+
+> 
+> Can we please revert this patch?
+> 
+>  Thomas
+> 
+> .
+> 
 
