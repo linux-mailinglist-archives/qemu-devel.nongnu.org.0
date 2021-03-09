@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F02D332BF3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:27:24 +0100 (CET)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD672332B99
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 17:10:16 +0100 (CET)
+Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJfCd-0003KD-Dc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:27:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36386)
+	id 1lJew3-0004BA-O9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 11:10:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeez-0003xq-E9
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49238)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJef0-000404-Hm
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeem-0000ws-Hy
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:37 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lJeeq-0000xr-Ff
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 10:52:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615305140;
+ s=mimecast20190719; t=1615305147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JUIP1hLD9IuDyzpzwwpjqZJWzFhUHjnXHR+4nt8i9Rs=;
- b=XgXs67rhC5l+QN803ez9Nh2F0qtDuEM6uDd7bnR5dm1n3ZZyG/FUyi1Ya7tySkSZRV9GqN
- HwjhaY/vHqtuQJ2Tz14tFeUYE0oCN5B2Jiy4BA0KPOQrL3hbM59/PH7J8ei+JMK+X0XWXm
- 7dIaMhhn0iUp4QpLzBC7ptgZSxGbULY=
+ bh=J3L7Oa+V91GwCEYFoUzTtVcz1YdLNdv3gb/3m3iu5cc=;
+ b=CLu/zy1gUjcc0/ABV4yYgiiK2OoODa0gRhp4S0JCJHg+aXLjCw4dbVvt/KPlWmD4Fe8YuE
+ 5Eq5Fo6FYU9jDTb9lalA4mEcfQQiCu/oVoB8cgJ+SayHA7Qnrptbd6dG2vbr2wj7jdAvzc
+ 8N0+3i72BxscR71q7SrQyEBMzj+vJ0A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-1tCHwvirN9inWzhAUmkkWQ-1; Tue, 09 Mar 2021 10:52:18 -0500
-X-MC-Unique: 1tCHwvirN9inWzhAUmkkWQ-1
+ us-mta-490-hv6cgEerOZ-U4gr0Evgy3g-1; Tue, 09 Mar 2021 10:52:24 -0500
+X-MC-Unique: hv6cgEerOZ-U4gr0Evgy3g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB7321842144
- for <qemu-devel@nongnu.org>; Tue,  9 Mar 2021 15:52:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6CD08018A7;
+ Tue,  9 Mar 2021 15:52:22 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FEEE19C46;
- Tue,  9 Mar 2021 15:52:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33D8519C46;
+ Tue,  9 Mar 2021 15:52:18 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/17] utils: Deprecate hex-with-suffix sizes
-Date: Tue,  9 Mar 2021 09:51:50 -0600
-Message-Id: <20210309155202.1312571-6-eblake@redhat.com>
+Subject: [PULL 06/17] block: check return value of bdrv_open_child and drop
+ error propagation
+Date: Tue,  9 Mar 2021 09:51:51 -0600
+Message-Id: <20210309155202.1312571-7-eblake@redhat.com>
 In-Reply-To: <20210309155202.1312571-1-eblake@redhat.com>
 References: <20210309155202.1312571-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -76,93 +77,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "open list:blkdebug" <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ari Sundholm <ari@tuxera.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Supporting '0x20M' looks odd, particularly since we have a 'B' suffix
-that is ambiguous for bytes, as well as a less-frequently-used 'E'
-suffix for extremely large exibytes.  In practice, people using hex
-inputs are specifying values in bytes (and would have written
-0x2000000, or possibly relied on default_suffix in the case of
-qemu_strtosz_MiB), and the use of scaling suffixes makes the most
-sense for inputs in decimal (where the user would write 32M).  But
-rather than outright dropping support for hex-with-suffix, let's
-follow our deprecation policy.  Sadly, since qemu_strtosz() does not
-have an Err** parameter, and plumbing that in would be a much larger
-task, we instead go with just directly emitting the deprecation
-warning to stderr.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+This patch is generated by cocci script:
+
+@@
+symbol bdrv_open_child, errp, local_err;
+expression file;
+@@
+
+  file = bdrv_open_child(...,
+-                        &local_err
++                        errp
+                        );
+- if (local_err)
++ if (!file)
+  {
+      ...
+-     error_propagate(errp, local_err);
+      ...
+  }
+
+with command
+
+spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
+--in-place --no-show-diff --max-width 80 --use-gitgrep block
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Message-Id: <20210202124956.63146-4-vsementsov@virtuozzo.com>
+[eblake: fix qcow2_do_open() to use ERRP_GUARD, necessary as the only
+caller to pass allow_none=true]
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210211204438.1184395-4-eblake@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/deprecated.rst |  8 ++++++++
- util/cutils.c              | 10 +++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ block/blkdebug.c     |  6 ++----
+ block/blklogwrites.c | 10 ++++------
+ block/blkreplay.c    |  6 ++----
+ block/blkverify.c    | 11 ++++-------
+ block/qcow2.c        |  6 +++---
+ block/quorum.c       |  6 ++----
+ 6 files changed, 17 insertions(+), 28 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index cfabe6984677..ecff6bf8c633 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -166,6 +166,14 @@ Using ``-M kernel-irqchip=off`` with x86 machine types that include a local
- APIC is deprecated.  The ``split`` setting is supported, as is using
- ``-M kernel-irqchip=off`` with the ISA PC machine type.
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 7eaa8a28bf86..2c0b9b0ee85e 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -464,7 +464,6 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     int ret;
+     uint64_t align;
 
-+hexadecimal sizes with scaling multipliers (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Input parameters that take a size value should only use a size suffix
-+(such as 'k' or 'M') when the base is written in decimal, and not when
-+the value is hexadecimal.  That is, '0x20M' is deprecated, and should
-+be written either as '32M' or as '0x2000000'.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
+@@ -494,10 +493,9 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options, "image",
+                                bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
+-    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto out;
+     }
 
-diff --git a/util/cutils.c b/util/cutils.c
-index 189a184859c0..d89a40a8c325 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -250,6 +250,9 @@ static int64_t suffix_mul(char suffix, int64_t unit)
-  *   fractional portion is truncated to byte
-  * - 0x7fEE - hexadecimal, unit determined by @default_suffix
-  *
-+ * The following cause a deprecation warning, and may be removed in the future
-+ * - 0xabc{kKmMgGtTpP} - hex with scaling suffix
-+ *
-  * The following are intentionally not supported
-  * - octal, such as 08
-  * - fractional hex, such as 0x1.8
-@@ -272,7 +275,7 @@ static int do_strtosz(const char *nptr, const char **end,
-     int retval;
-     const char *endptr, *f;
-     unsigned char c;
--    bool mul_required = false;
-+    bool mul_required = false, hex = false;
-     uint64_t val;
-     int64_t mul;
-     double fraction = 0.0;
-@@ -298,6 +301,7 @@ static int do_strtosz(const char *nptr, const char **end,
-             retval = -EINVAL;
-             goto out;
+diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+index 13ae63983bc0..b7579370a30a 100644
+--- a/block/blklogwrites.c
++++ b/block/blklogwrites.c
+@@ -157,19 +157,17 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+     /* Open the file */
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY, false,
+-                               &local_err);
+-    if (local_err) {
++                               errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+
+     /* Open the log file */
+     s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_of_bds,
+-                                  BDRV_CHILD_METADATA, false, &local_err);
+-    if (local_err) {
++                                  BDRV_CHILD_METADATA, false, errp);
++    if (!s->log_file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index 30a0f5d57aa0..4a247752fd8f 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -23,16 +23,14 @@ typedef struct Request {
+ static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
+                           Error **errp)
+ {
+-    Error *local_err = NULL;
+     int ret;
+
+     /* Open the image file */
+     bs->file = bdrv_open_child(NULL, options, "image", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
+-    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+
+diff --git a/block/blkverify.c b/block/blkverify.c
+index 943e62be9cf1..188d7632faec 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -112,7 +112,6 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+ {
+     BDRVBlkverifyState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     int ret;
+
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+@@ -125,20 +124,18 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-raw"), options, "raw",
+                                bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
+-    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+
+     /* Open the test file */
+     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
+                                    "test", bs, &child_of_bds, BDRV_CHILD_DATA,
+-                                   false, &local_err);
+-    if (local_err) {
++                                   false, errp);
++    if (!s->test_file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+
+diff --git a/block/qcow2.c b/block/qcow2.c
+index d9f49a52e770..c5266424bb01 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1292,6 +1292,7 @@ static int validate_compression_type(BDRVQcow2State *s, Error **errp)
+ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+                                       int flags, Error **errp)
+ {
++    ERRP_GUARD();
+     BDRVQcow2State *s = bs->opaque;
+     unsigned int len, i;
+     int ret = 0;
+@@ -1611,9 +1612,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     /* Open external data file */
+     s->data_file = bdrv_open_child(NULL, options, "data-file", bs,
+                                    &child_of_bds, BDRV_CHILD_DATA,
+-                                   true, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                   true, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/quorum.c b/block/quorum.c
+index 0bd75450de97..cfc1436abb59 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -929,7 +929,6 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+                        Error **errp)
+ {
+     BDRVQuorumState *s = bs->opaque;
+-    Error *local_err = NULL;
+     QemuOpts *opts = NULL;
+     const char *pattern_str;
+     bool *opened;
+@@ -1007,9 +1006,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+
+         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
+                                          &child_of_bds, BDRV_CHILD_DATA, false,
+-                                         &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++                                         errp);
++        if (!s->children[i]) {
+             ret = -EINVAL;
+             goto close_exit;
          }
-+        hex = true;
-     } else if (*endptr == '.') {
-         /*
-          * Input looks like a fraction.  Make sure even 1.k works
-@@ -320,6 +324,10 @@ static int do_strtosz(const char *nptr, const char **end,
-     c = *endptr;
-     mul = suffix_mul(c, unit);
-     if (mul > 0) {
-+        if (hex) {
-+            warn_report("Using a multiplier suffix on hex numbers "
-+                        "is deprecated: %s", nptr);
-+        }
-         endptr++;
-     } else {
-         mul = suffix_mul(default_suffix, unit);
 -- 
 2.30.1
 
