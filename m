@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F44A332F95
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:06:49 +0100 (CET)
-Received: from localhost ([::1]:44210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6403A332F9C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Mar 2021 21:10:36 +0100 (CET)
+Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJicy-0000qP-3e
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47690)
+	id 1lJigd-0004Ui-0e
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 15:10:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh4x-0000T3-Jq
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37939)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh50-0000V4-Mw
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh4q-00019D-Pb
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:34 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJh4w-0001Al-Vp
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 13:27:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615314447;
+ s=mimecast20190719; t=1615314454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JZa/iUsT9VQagkte3HBQwGL7dr2S/uC8iYuWuLSPUy0=;
- b=T7xkZBMHc5l4G+HaDWMRulr4Ul5kqDcIcHJZS7K8Na98whu1lsm2aB5UpBB4czsRQPC6Il
- pKMjf2eY4IlNM8DE2kTXKILo6GPRxCENfQgJhnf7z2JO4ET3+NPozRkkHAw1e6vcZdvdhj
- N42CuwqpSvZZxWchA8hexFEZ3gr9acY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-8u99C8lSM2Kb675IScMkuQ-1; Tue, 09 Mar 2021 13:27:24 -0500
-X-MC-Unique: 8u99C8lSM2Kb675IScMkuQ-1
-Received: by mail-ej1-f71.google.com with SMTP id fy8so6026779ejb.19
- for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:27:23 -0800 (PST)
+ bh=xHs02CwzRBs33Sh0xyloFVVfVxuoFsSy6sEOJItTgcA=;
+ b=Z1Vf4uyWvNvQkZj1kLHfhC3RSdrpWrb9Iti4nkRzr+RAsSwOgbPPYAqA6o/Es0XxaZbMG6
+ Y9prOLgOKy3OGL09ou7lv5CPJkR/ST6RHacroL4c3XNU3edx31TN1WLAZEiqB6qBxqhBJM
+ GTwdZ9X65dwZ2QH2x+N0lQom81BDNCA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-oJ1wERrXMK2G4rttRHsbww-1; Tue, 09 Mar 2021 13:27:29 -0500
+X-MC-Unique: oJ1wERrXMK2G4rttRHsbww-1
+Received: by mail-ej1-f69.google.com with SMTP id v19so6069487ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 10:27:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JZa/iUsT9VQagkte3HBQwGL7dr2S/uC8iYuWuLSPUy0=;
- b=W0H29pl5SZLRYuS6o7hlQs5WDdixGJ4IxfGNtYv6lFDieKIc/cg2kCP16HgDGs4Ahx
- kYFBdbyeFBCaIGOa8MSNnv3FFwf/Tgd3LUyYcIjwfiNpTA3VLn0EJgNXBuzD1Uu/WWiJ
- SOyWOwLPgMStbs91RlcdA9ENth2LE0Bf8XzvNEejR9onhRTJWZuKgORJ9z5qeRqsrLJQ
- CnpgrdEtYAEjpMbVO01g42x/Jv37i1LuzpNhQCuvpOOzMPfoWirdtmZ2l/LV3pkMdoAd
- UjDMC2Wm5emxowNYKfphkqpzmhMLA3415EGLejxKKIpmvWwsJqfYo5tCaN7tytpX9ril
- 40aw==
-X-Gm-Message-State: AOAM533DV5tYxS/gQzPNbhWJur8gGezF0ovWvIOBQGgwfLiNNJVfquuo
- b1tXJtovBITuUEqt+hfXu/b2imozTEQIAn1q1G6aSwJJZH4rroCMu19sgtCBNE/QJnYkR06FVKQ
- sKBY9zLsWwhYuqj8CbCAjy5b6oc8pFJg7hez6uaP1XyVJptoKWK9PeSoC1iVGKrK9
-X-Received: by 2002:a17:906:5918:: with SMTP id
- h24mr22273170ejq.501.1615314442590; 
- Tue, 09 Mar 2021 10:27:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx3sEMTKKT4SaFCXJqzS+fG3uLXd9yFb/u6RpsfKs75PASMey5Whnt69NulDldeWhQvBnv2/Q==
-X-Received: by 2002:a17:906:5918:: with SMTP id
- h24mr22273146ejq.501.1615314442454; 
- Tue, 09 Mar 2021 10:27:22 -0800 (PST)
+ bh=xHs02CwzRBs33Sh0xyloFVVfVxuoFsSy6sEOJItTgcA=;
+ b=RfRUeiJnVPus1AoDllmV0WZrrU6YmRmnzl+vMK1Z0a18HM8tdSOQgCHqFSrYxF55U/
+ GKhRJoofMtPp0yilerDmqidMGrs89Xkoi0MPj6SKdreCYaGHk6t45cSUNMQbZ11MXV80
+ 3ds76Gk/+RGUWsm9x+pQd92u+Nu85dkrrNWjKuOW2IASZdIY3N3YTZU+qsjCrg67GWG9
+ N56KQ9bZOqM+meNWnbkVI/gkSkWPwrSru3yg0Rj2xz0XXDBr5XD7hrJxiJRoWe0hEnRi
+ wBXJoeVCGzQCH6BlCndR+O/jy41XF4obf16zAuOMwdSdUaQkPI+VG2Y9Kv3u3z23oNig
+ Cybw==
+X-Gm-Message-State: AOAM5323dJI6/v3+uKt9AIbwrx4SUFQqftvb1R4RED7h5TXRb4hYtdd2
+ vAtMNqngnGwli8y9TsitUfWRwgpjowEuIlg+DIyZetOlTKzOhTNsxuJol3xjgTS2DmCrK++2iFj
+ qqRcZ2Y6MMfEP3hmd1BF3UJDiyS+ZddozWzL7zEGPOVlH1o4Z8+labjvx/B3l7X2t
+X-Received: by 2002:a17:906:32d1:: with SMTP id
+ k17mr21202203ejk.94.1615314448008; 
+ Tue, 09 Mar 2021 10:27:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwfjbc7NAUdXEPV35+w5oXbtAfHPBJtmvy6MDYIojGumPSCU8ujdHGtBaMQmJO8ESj00duX2w==
+X-Received: by 2002:a17:906:32d1:: with SMTP id
+ k17mr21202177ejk.94.1615314447825; 
+ Tue, 09 Mar 2021 10:27:27 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id be27sm9769289edb.47.2021.03.09.10.27.21
+ by smtp.gmail.com with ESMTPSA id fi11sm8640199ejb.73.2021.03.09.10.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Mar 2021 10:27:22 -0800 (PST)
+ Tue, 09 Mar 2021 10:27:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/6] net/eth: Simplify _eth_get_rss_ex_dst_addr()
-Date: Tue,  9 Mar 2021 19:27:04 +0100
-Message-Id: <20210309182709.810955-2-philmd@redhat.com>
+Subject: [PATCH v4 2/6] net/eth: Better describe _eth_get_rss_ex_dst_addr's
+ offset argument
+Date: Tue,  9 Mar 2021 19:27:05 +0100
+Message-Id: <20210309182709.810955-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210309182709.810955-1-philmd@redhat.com>
 References: <20210309182709.810955-1-philmd@redhat.com>
@@ -74,14 +75,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,49 +105,42 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The length field is already contained in the ip6_ext_hdr structure.
-Check it direcly in eth_parse_ipv6_hdr() before calling
-_eth_get_rss_ex_dst_addr(), which gets a bit simplified.
+The 'offset' argument represents the offset to the ip6_ext_hdr
+header, rename it as 'ext_hdr_offset'.
 
-Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- net/eth.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ net/eth.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/net/eth.c b/net/eth.c
-index 1e0821c5f81..7d4dd48c1ff 100644
+index 7d4dd48c1ff..6a5a1d04e0b 100644
 --- a/net/eth.c
 +++ b/net/eth.c
-@@ -407,9 +407,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+@@ -401,7 +401,7 @@ eth_is_ip6_extension_header_type(uint8_t hdr_type)
+ 
+ static bool
+ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+-                        size_t rthdr_offset,
++                        size_t ext_hdr_offset,
+                         struct ip6_ext_hdr *ext_hdr,
+                         struct in6_address *dst_addr)
  {
-     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
- 
--    if ((rthdr->rtype == 2) &&
--        (rthdr->len == sizeof(struct in6_address) / 8) &&
--        (rthdr->segleft == 1)) {
-+    if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
- 
+@@ -412,12 +412,12 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
          size_t input_size = iov_size(pkt, pkt_frags);
          size_t bytes_read;
-@@ -528,10 +526,12 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+ 
+-        if (input_size < rthdr_offset + sizeof(*ext_hdr)) {
++        if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
+             return false;
          }
  
-         if (curr_ext_hdr_type == IP6_ROUTING) {
--            info->rss_ex_dst_valid =
--                _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
--                                         ip6hdr_off + info->full_hdr_len,
--                                         &ext_hdr, &info->rss_ex_dst);
-+            if (ext_hdr.ip6r_len == sizeof(struct in6_address) / 8) {
-+                info->rss_ex_dst_valid =
-+                    _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
-+                                             ip6hdr_off + info->full_hdr_len,
-+                                             &ext_hdr, &info->rss_ex_dst);
-+            }
-         } else if (curr_ext_hdr_type == IP6_DESTINATON) {
-             info->rss_ex_src_valid =
-                 _eth_get_rss_ex_src_addr(pkt, pkt_frags,
+         bytes_read = iov_to_buf(pkt, pkt_frags,
+-                                rthdr_offset + sizeof(*ext_hdr),
++                                ext_hdr_offset + sizeof(*ext_hdr),
+                                 dst_addr, sizeof(*dst_addr));
+ 
+         return bytes_read == sizeof(*dst_addr);
 -- 
 2.26.2
 
