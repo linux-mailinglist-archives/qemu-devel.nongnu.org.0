@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410E3334335
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:39:09 +0100 (CET)
-Received: from localhost ([::1]:49018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7134B3343E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:57:03 +0100 (CET)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK1rY-0007ME-Af
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:39:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
+	id 1lK28s-0006Oj-H2
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:57:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lK1Ny-00031p-Jx
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:08:34 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lK1Nw-0006dP-Uv
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:08:34 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id bd6so28797623edb.10
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:08:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tQKjpBbeAGvVs6+wLD13+b80I0XRG1ErL3vCY11jAQ8=;
- b=fdE5vTpiprs9YgRwlunxA9uEI9O0zmGuFBxCn/Y9h/HRt6y0fhl74xYB2ZmtpNEHNT
- VxAsHzhVii1AMqO8frlqoZbLGCcaipV4uY9aEp7JqIlq26FHy3mUq4JH/gvGBd3q4Yr0
- +WTS9QP00tSkjkXPQcvXXC1gp712WR93L2inQ9WO4BguThQpbse6wjrzs8dZxEwYOmsE
- NOxUaufrJdib3LkMMUAbBIdDrw7FYZ32PakrNuuXa/e0k+zvpCQvxDX26kEkt5t9J+AT
- LwJ+lRYYx2V1UCGdP2umMrH3g8NbqHwO1EFKxcKTHjvdK+ai5oWKbi+A/e3/bGrd9drX
- Hiqw==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lK1OW-0003nn-OQ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:09:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lK1OU-0006lg-UT
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:09:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615392546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4+Csusx3xhJjfy/PEm2ywep6oc4tfFjzlLIYF6gayF8=;
+ b=bZECQ4JyJrI98k57VIbFjPi6ZdkeXl9/1SNC/Zy8nNyA8HC6K2icYtBxGE0/cHfFcUGcDv
+ 16Z7Pog546e6VSNhdOayR9idR31v0WlJLeSvP6gcYLk1KhdqE98GJUNmQVTUuBWLKb+Ae3
+ gfP/6C6Vdq+PvCBdaYPC9DY+6rEa+2Y=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-JI6BFskIN4q2H1Ksn2oVgw-1; Wed, 10 Mar 2021 11:09:04 -0500
+X-MC-Unique: JI6BFskIN4q2H1Ksn2oVgw-1
+Received: by mail-vs1-f70.google.com with SMTP id 2so5099275vsq.20
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:09:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tQKjpBbeAGvVs6+wLD13+b80I0XRG1ErL3vCY11jAQ8=;
- b=EEVIGaaiADRJT9jl11qkHw4tq/lPseubpjsa7DK/iZ+VOTl9zywb51nFEztRn5dJYC
- 4J6RiyFdIh30PbxV+tvp9G9Q97FLwkneIqS9c2fvBdoq1XF+vP1SXMVUTuYVFjZdWlYd
- rozUalNDObCkw+455RlAS1MREQKJO4FD4DxnQOJcXrOcfmBGujfKIxqxk/NcuDBxdmbF
- OHH9j44JrK9OR3UlIqLeiIVAfNoHKannqpdma745sRb7ZP9BOdK6UyDPxv8TVb7BAZHr
- 5Eac/ODj2zwTlOD932P/8ukttDY+Qd08hR9zsJ/Ij8OS+FK//sN8zZiZdptENZ4UNyxJ
- LpAA==
-X-Gm-Message-State: AOAM532wdG+QD1a81K165tJKCBtE4JC0SqAe1ppVEfIxbyB/HjoJSYz6
- YY4lFga3kTTfql6kPiB2RBHdC7N8zBJOankJLKg=
-X-Google-Smtp-Source: ABdhPJymb2jto6uErJnYtWurPU9cGbyu9Ua1yZmFZ3/d2gFzamREE3Ee/fVojMDSuRSGbqjKgURDFzCJyhkmYPEsreU=
-X-Received: by 2002:a50:fa42:: with SMTP id c2mr4195637edq.159.1615392511620; 
- Wed, 10 Mar 2021 08:08:31 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=4+Csusx3xhJjfy/PEm2ywep6oc4tfFjzlLIYF6gayF8=;
+ b=nZodXa97JI87ZWip8ga7gE3UCIIbewwA5xGhFp3/g0W5HGVaMGyQuvsspZeHBmjxnG
+ /EZezD/QlUoXQnNXjGGOqYDoVwK/wTxnEpt2tQc7gH3PrDCBillrPl64zTGy9XdvvW0x
+ U7sSu8/yDG6jMnVR1cp9oFAqU4djC6O8pRbhStSnc3kGL8hgNEUuxdKzOA9QUG++PEDQ
+ I/kchLetVJAv/WptfDzjszWeFDOZpcfKdldTsgS7UOCD8BlxXCX+DfPJmZKJXfG2lm31
+ iu2G/+moQRPe/G6k/pOKAKkXry+LK9rH3e2nvd7UbPrDLFzihiptblhWbzv9NUW85mho
+ tS8Q==
+X-Gm-Message-State: AOAM532V9LQu57poLS6VhFgxvMlbg+OoW5XyY6IO8Ym6h4K6kvPljDJ+
+ ALhVhPoOI50suhsK1ms3e/kVE5P1o4ZuOdEwqA9urtXv8TPO8icwmINSkfEebc2ELEbRbf50P/9
+ bfIO2p0sCJMhDZGuXipnAfrJpVEVtjUE=
+X-Received: by 2002:a67:8702:: with SMTP id j2mr1812126vsd.50.1615392543982;
+ Wed, 10 Mar 2021 08:09:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzFfJpN9T8p8HC4ZSNkAyhFU1WShvZIUBEOLjAd82onPu2Hb84xX4BVY+VhLP6aG3i55JWTVcqvv9Ha7di8Dn8=
+X-Received: by 2002:a67:8702:: with SMTP id j2mr1812085vsd.50.1615392543680;
+ Wed, 10 Mar 2021 08:09:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20210303152948.59943-1-akihiko.odaki@gmail.com>
- <20210303152948.59943-2-akihiko.odaki@gmail.com>
- <20210310132920.6rv5f62ineowzscq@sirius.home.kraxel.org>
-In-Reply-To: <20210310132920.6rv5f62ineowzscq@sirius.home.kraxel.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Thu, 11 Mar 2021 01:08:20 +0900
-Message-ID: <CAMVc7JUjkXRyfd0-ak6ovOzfitNE6Qke2x3twXiLXMR7b3whcw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] virtio-gpu: Respect UI refresh rate for EDID
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210310094936.1318317-1-thuth@redhat.com>
+ <CAKJDGDZdUGW=eT8ZnsVohUzmvrWGUgLdKUs=-0VNejqZyOag0w@mail.gmail.com>
+ <7c6e59fd-913f-31ff-ae33-49186f9ddde1@redhat.com>
+In-Reply-To: <7c6e59fd-913f-31ff-ae33-49186f9ddde1@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 10 Mar 2021 13:08:37 -0300
+Message-ID: <CAKJDGDbd6sZ0swGju-rCv9Lf-ADU3Tg1zeDxO-nfgpVxoONb-Q@mail.gmail.com>
+Subject: Re: [PATCH] tests: Fix broken "make check-speed"
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,56 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- qemu Developers <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B43=E6=9C=8810=E6=97=A5(=E6=B0=B4) 22:29 Gerd Hoffmann <kraxel@r=
-edhat.com>:
+On Wed, Mar 10, 2021 at 1:04 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
->   Hi,
+> On 10/03/21 16:49, Willian Rampazzo wrote:
+> > On Wed, Mar 10, 2021 at 6:51 AM Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >> When running "make check-speed", currently nothing happens. This is
+> >> because the redirection to "bench-speed" is not working as expected
+> >> (since the bench-speed rule in the generated Makefile.mtest filters
+> >> for "bench-speed" and "bench" in the MAKECMDGOALS variable).
+> >> Fix it by calling "make bench-speed" instead of using a dependency.
+> >>
+> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>   tests/Makefile.include | 5 +++--
+> >>   1 file changed, 3 insertions(+), 2 deletions(-)
+> >>
+> >
+> > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> > Tested-by: Willian Rampazzo <willianr@redhat.com>
+> >
 >
-> > -static void xenfb_update_interval(void *opaque, uint64_t interval)
-> > +static void xenfb_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info=
-)
->
-> > -    .update_interval =3D xenfb_update_interval,
-> > +    .ui_info     =3D xenfb_ui_info,
->
-> Hmm, I suspect xenfb really wants the actual refresh rate, even in case
-> vnc/sdl change it dynamically.  Anthony?  Stefano?
->
-> I guess we should just leave the update_interval callback as-is, for
-> those who want know, and use ui_info->refresh_rate for the virtual edid
-> refresh rate (which may not match the actual update interval in case of
-> dynamic changes).  Adding a comment explaining the difference to
-> console.h is a good idea too.
-
-sdl shortens update_interval to respond to user inputs, but it has
-nothing to do with frame buffer. Using ui_info->refresh_rate will
-eliminate worthless frame updates even for xenfb in such cases.
-
-xenfb has a behavior similar to virtio-gpu. Instead of generating
-interrupts, they just tell the refresh rate to the guest and expect
-the guest to provide a frame buffer by itself. I think the dynamic
-display mode change is also problematic for xenfb if the guest driver
-uses the information (although the Linux driver does not use it at
-least.) It is possible to have both of the refresh rate member in
-QemuUIInfo and update_interval, but I don't see a difference
-justifying that.
-
-Anyway, I'd also like to hear opinions from Xen developers.
-
->
-> Otherwise looks good to me overall.  Splitting the ui/gtk update to a
-> separate patch is probably a good idea.
+> I don't object to the patch, but if no one has noticed in 6 months
+> perhaps the target can go (replaced by "make bench"/"make bench-speed").
 >
 
-I'll do so when submitting the next version.
+I was also thinking about it. If the target was not working and no one
+complained, maybe remove it is just fine, so, +1 here for
+removing/renaming.
 
-Regards,
-Akihiko Odaki
+> Paolo
+>
+
 
