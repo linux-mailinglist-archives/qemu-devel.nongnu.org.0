@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F30033434C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:42:51 +0100 (CET)
-Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F1233439D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:49:52 +0100 (CET)
+Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK1v8-0002G4-HI
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:42:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
+	id 1lK21v-0006zq-9R
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:49:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lK1nI-0003dp-Hb
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:44 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:35539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lK1nF-000645-Ty
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:44 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McXs5-1lsGc2452T-00d2Al; Wed, 10 Mar 2021 17:34:36 +0100
-Subject: Re: [PULL 18/40] linux-user: Fix types in uaccess.c
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210216161658.29881-1-peter.maydell@linaro.org>
- <20210216161658.29881-19-peter.maydell@linaro.org>
- <ec051472-7511-62da-d485-17f7573aa460@vivier.eu>
- <CAFEAcA87oLDyFJovHvppa+zwO=XJoFOt3Q5V9Y5+7BU+zDQsVw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b87c934e-ab46-d862-7fcc-736d6e3442b2@vivier.eu>
-Date: Wed, 10 Mar 2021 17:34:34 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK1r5-0008Bh-PZ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:38:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51731)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK1r4-0007cD-7j
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:38:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615394317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cdbd7fmtsrvl+/weln9tpg25hNGXRfutJv6jxkEiV+Y=;
+ b=VBZ30NmOlm9jbqGNpaowqC6sjBihD83GyGi2bWEwKVj5R61HXuDLARQhPOVrrgyIOJ3TNL
+ uj9/gp23igyRV4B0JtjYDsSoKLju/dON9LMMMyPZ/WVi/IMQrVheDBP9a/K9/oufPW1gfv
+ NUJEmQAAG1/f3YAMriZHdYBmQSp/fqM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-yeQ_yR0ZOQi2R9xjVbCXOQ-1; Wed, 10 Mar 2021 11:38:35 -0500
+X-MC-Unique: yeQ_yR0ZOQi2R9xjVbCXOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 237C8801596;
+ Wed, 10 Mar 2021 16:38:34 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-19.ams2.redhat.com [10.36.112.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BAB3690F9;
+ Wed, 10 Mar 2021 16:38:29 +0000 (UTC)
+Subject: Re: [PATCH] tests: Fix broken "make check-speed"
+To: Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210310094936.1318317-1-thuth@redhat.com>
+ <CAKJDGDZdUGW=eT8ZnsVohUzmvrWGUgLdKUs=-0VNejqZyOag0w@mail.gmail.com>
+ <7c6e59fd-913f-31ff-ae33-49186f9ddde1@redhat.com>
+ <CAKJDGDbd6sZ0swGju-rCv9Lf-ADU3Tg1zeDxO-nfgpVxoONb-Q@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b1acb060-916c-01e7-d526-58d41d5097f9@redhat.com>
+Date: Wed, 10 Mar 2021 17:38:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA87oLDyFJovHvppa+zwO=XJoFOt3Q5V9Y5+7BU+zDQsVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Oy7U66iEPsd+rW4/Vwys25nWt8AIK+2vVf0FaMLDQcVsM2jfD/R
- MDbMSxk75I7Pfi2E4RI46s2Zm6RBG9zuFKChUnMLuEaHRq9mpyFt8hCMTUw1h3EU5GLqP33
- sgc5qCDAkxY2cu6CXDQB9I2bJXXs8TE6zBSONGw2I6t5JK4StmQeuH7RQAZ8k74FBS4tLH+
- Etidmv/6bGcRrvA1bNA8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4r4lwz4e894=:2InOkXSboLZcqjtQ+hRApw
- EA9+8gtk64OmNc5muTQ4Sp/6w0rkabvPx83VNJjWtOI3Wp3gYeWFpa0N2exlyVL/joBlNxkCd
- SYO3io4xcI8biLX4DpubAA4ENTqj2gsqWvMtm+buLG6xpGc012SJ0W3kFQMEerb1O+0UVPz0P
- kg9OhCIg3KQNWlNLvQE8bpFLMUYIAuoaPhEM8JARuTh246hK3o2Ut6u7FOAqbjzXMRt374xrS
- J+x0cKFhlMhKN+3YIQqDu6AZflr0AIITwnI5VpmA2OLPXHMmltuT1KH3SzblEx5h++A0RiLMJ
- T9djfkiu5M2GH5vse58wTAxrETurPdOqvJIC/juCPTrJa6AY+rLU9Myh+LU/JcUaHuXWy8eX0
- wmWpq8pWVCXvIx0yqqRPC27ADUNo2w1Ud77MRzcI4Ckq2Ch/waMl246pvP2JZ
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKJDGDbd6sZ0swGju-rCv9Lf-ADU3Tg1zeDxO-nfgpVxoONb-Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,79 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2021 à 16:48, Peter Maydell a écrit :
-> On Fri, 19 Feb 2021 at 09:21, Laurent Vivier <laurent@vivier.eu> wrote:
+On 10/03/2021 17.08, Willian Rampazzo wrote:
+> On Wed, Mar 10, 2021 at 1:04 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >>
->> Hi Richard,
+>> On 10/03/21 16:49, Willian Rampazzo wrote:
+>>> On Wed, Mar 10, 2021 at 6:51 AM Thomas Huth <thuth@redhat.com> wrote:
+>>>>
+>>>> When running "make check-speed", currently nothing happens. This is
+>>>> because the redirection to "bench-speed" is not working as expected
+>>>> (since the bench-speed rule in the generated Makefile.mtest filters
+>>>> for "bench-speed" and "bench" in the MAKECMDGOALS variable).
+>>>> Fix it by calling "make bench-speed" instead of using a dependency.
+>>>>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>    tests/Makefile.include | 5 +++--
+>>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>
+>>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+>>> Tested-by: Willian Rampazzo <willianr@redhat.com>
+>>>
 >>
->> I think this commit is the cause of CID 1446711.
+>> I don't object to the patch, but if no one has noticed in 6 months
+>> perhaps the target can go (replaced by "make bench"/"make bench-speed").
 >>
->> There is no concistancy between the various declarations of unlock_user():
->>
->> bsd-user/qemu.h
->>
->> static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
->>                                long len)
->>
->> include/exec/softmmu-semi.h
->>
->> static void softmmu_unlock_user(CPUArchState *env, void *p, target_ulong addr,
->>                                 target_ulong len)
->> ...
->> #define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
->>
->> linux-user/qemu.h
->>
->> #ifndef DEBUG_REMAP
->> static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
->> { }
->> #else
->> void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
->> #endif
->>
->> To take a signed long here allows to unconditionnaly call the unlock_user() function after the
->> syscall and not to copy the buffer if the value is negative.
 > 
-> Hi; what was the conclusion here about how best to fix the Coverity issue?
+> I was also thinking about it. If the target was not working and no one
+> complained, maybe remove it is just fine, so, +1 here for
+> removing/renaming.
 
-For what I know, there is no conclusion.
+Fine for me, too, but we then also have to update the output of "make 
+check-help" accordingly. Care to send a patch?
 
-> To save people looking it up, Coverity complains because in the
-> TARGET_NR_readlinkat case for linux-user we do:
->             void *p2;
->             p  = lock_user_string(arg2);
->             p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
->             if (!p || !p2) {
->                 ret = -TARGET_EFAULT;
->             } else if (is_proc_myself((const char *)p, "exe")) {
->                 char real[PATH_MAX], *temp;
->                 temp = realpath(exec_path, real);
->                 ret = temp == NULL ? get_errno(-1) : strlen(real) ;
->                 snprintf((char *)p2, arg4, "%s", real);
->             } else {
->                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
->             }
->             unlock_user(p2, arg3, ret);
->             unlock_user(p, arg2, 0);
-> 
-> and in the "ret = -TARGET_EFAULT" and also the get_errno(readlinkat(...))
-> codepaths we can set ret to a negative number, which Coverity thinks
-> is suspicious given that unlock_user()'s new prototype says it
-> is an unsigned value. It's correct to be suspicious, because we really
-> did change from doing a >=0 to a !=0 check on the length.
-> 
-> Unless we really want to audit all the unlock_user() callsites,
-> going back to the previous semantics seems sensible.
-
-I agree with that.
-
-Thanks,
-Laurent
+  Thomas
 
 
