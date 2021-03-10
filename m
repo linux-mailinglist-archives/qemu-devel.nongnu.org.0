@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CF8333F8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:47:14 +0100 (CET)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A5D333F9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:50:42 +0100 (CET)
+Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJzBB-0005bM-Gv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:47:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53230)
+	id 1lJzEW-0008F8-Ua
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:50:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJz9r-0004YT-Nh; Wed, 10 Mar 2021 08:45:51 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJz9o-0008JI-3q; Wed, 10 Mar 2021 08:45:51 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9BCB7AE84;
- Wed, 10 Mar 2021 13:45:39 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210221222617.2579610-1-f4bug@amsat.org>
- <20210221222617.2579610-2-f4bug@amsat.org>
- <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
- <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
- <c1b1838e-4b91-5411-42f6-cea97e1f0e81@suse.de>
- <68796aa5-1c75-8a74-fc98-7d929df9478d@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <c7a46e45-1682-ad76-a9eb-a155729e8d8f@suse.de>
-Date: Wed, 10 Mar 2021 14:45:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJzDC-0007SV-Sk
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:49:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJzD9-0001uT-6n
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:49:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615384153;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cQB0inF29EZBPxDYY+ISS0J0gN46p8KEMcnHzrhqnBA=;
+ b=gTlAvK0PSbbAN4Jie4z3x+ceknoOG/Rk2pF5h4AN6w9fnvyAXkCBv7YbSP71z2At5qXT1R
+ 8Tgsk6t3A7WkexQO3V9Ep70iwg2QqgT5QeHCK0v8MuLBbVaZ1J0sfWvaJLrLYR6m3an/5S
+ dtiMXGztax+dWkpwz5httrCuZFFpEhA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-BQgQHewgMYuSOLUmaaebQg-1; Wed, 10 Mar 2021 08:49:08 -0500
+X-MC-Unique: BQgQHewgMYuSOLUmaaebQg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DB9A80D686;
+ Wed, 10 Mar 2021 13:49:07 +0000 (UTC)
+Received: from redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A374C5DEF9;
+ Wed, 10 Mar 2021 13:48:50 +0000 (UTC)
+Date: Wed, 10 Mar 2021 13:48:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 2/4] vhost-user: Convert slave channel to QIOChannelSocket
+Message-ID: <YEjOPkKxkgoUHwsd@redhat.com>
+References: <20210308123141.26444-1-groug@kaod.org>
+ <20210308123141.26444-3-groug@kaod.org>
+ <YEeRgY2WEFSw+1qG@stefanha-x1.localdomain>
+ <20210309212322.3ab5809d@bahia.lan> <YEiw/v3vhB7y6ve3@redhat.com>
+ <20210310144525.40935330@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <68796aa5-1c75-8a74-fc98-7d929df9478d@amsat.org>
+In-Reply-To: <20210310144525.40935330@bahia.lan>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,128 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 2:42 PM, Philippe Mathieu-Daudé wrote:
-> On 3/10/21 12:46 PM, Claudio Fontana wrote:
->> On 3/9/21 3:18 PM, Philippe Mathieu-Daudé wrote:
->>> On 3/9/21 2:41 PM, Claudio Fontana wrote:
->>>> On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
->>>>> IDAU is specific to M-profile. KVM only supports A-profile.
->>>>> Restrict this interface to TCG, as it is pointless (and
->>>>> confusing) on a KVM-only build.
->>>>>
->>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>
->>>>
->>>> This one breaks the KVM tests hard though (most of them).
->>>>
->>>> I will try to figure out why.
->>>>
->>>> Ciao,
->>>>
->>>> Claudio
->>>>
->>>>
->>>>> ---
->>>>>  target/arm/cpu.c     | 7 -------
->>>>>  target/arm/cpu_tcg.c | 8 ++++++++
->>>>>  2 files changed, 8 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->>>>> index b8bc89e71fc..a772fd4926f 100644
->>>>> --- a/target/arm/cpu.c
->>>>> +++ b/target/arm/cpu.c
->>>>> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
->>>>>      .class_init = arm_cpu_class_init,
->>>>>  };
->>>>>  
->>>>> -static const TypeInfo idau_interface_type_info = {
->>>>> -    .name = TYPE_IDAU_INTERFACE,
->>>>> -    .parent = TYPE_INTERFACE,
->>>
->>> Hmm this is an interface...
->>>
->>> Is a CPU/machine trying to resolve it?
->>
->> Well, this fails horribly at any qemu-system-aarch64 startup for the kvm-only build:
->>
->> in my view we cannot remove the idau interface until we have removed all the TCG-only boards fronm the build.
+On Wed, Mar 10, 2021 at 02:45:25PM +0100, Greg Kurz wrote:
+> On Wed, 10 Mar 2021 11:43:58 +0000
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
 > 
-> Yes, this is a similar bug to the one fixed by commit 8d0bceba24c
-> ("hw/nvram: Always register FW_CFG_DATA_GENERATOR_INTERFACE").
+> > On Tue, Mar 09, 2021 at 09:23:22PM +0100, Greg Kurz wrote:
+> > > On Tue, 9 Mar 2021 15:17:21 +0000
+> > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > 
+> > > > On Mon, Mar 08, 2021 at 01:31:39PM +0100, Greg Kurz wrote:
+> > > > > +    g_autofree int *fd = NULL;
+> > > > > +    size_t fdsize = 0;
+> > > > > +    int i;
+> > > > >  
+> > > > >      /* Read header */
+> > > > >      iov.iov_base = &hdr;
+> > > > >      iov.iov_len = VHOST_USER_HDR_SIZE;
+> > > > >  
+> > > > >      do {
+> > > > > -        size = recvmsg(u->slave_fd, &msgh, 0);
+> > > > > -    } while (size < 0 && (errno == EINTR || errno == EAGAIN));
+> > > > > +        size = qio_channel_readv_full(ioc, &iov, 1, &fd, &fdsize, NULL);
+> > > > > +    } while (size == QIO_CHANNEL_ERR_BLOCK);
+> > > > 
+> > > > Is it possible to leak file descriptors and fd[] memory if we receive a
+> > > > short message and then loop around? qio_channel_readv_full() will
+> > > > overwrite &fd and that's how the leak occurs.
+> > > > 
+> > > 
+> > > qio_channel_readv_full() only returns QIO_CHANNEL_ERR_BLOCK when the
+> > > channel is non-blocking mode and no data is available. Under the hood,
+> > > this translates to this code in qio_channel_socket_readv():
+> > > 
+> > >  retry:
+> > >     ret = recvmsg(sioc->fd, &msg, sflags);
+> > >     if (ret < 0) {
+> > >         if (errno == EAGAIN) {
+> > >             return QIO_CHANNEL_ERR_BLOCK;
+> > >         }
+> > >         if (errno == EINTR) {
+> > >             goto retry;
+> > >         }
+> > > 
+> > >         error_setg_errno(errp, errno,
+> > >                          "Unable to read from socket");
+> > >         return -1;
+> > >     }
+> > > 
+> > > This is strictly equivalent to what we currently have. This cannot
+> > > leak file descriptors because we would only loop until the first
+> > > byte of real data is available and ancillary data cannot fly without
+> > > real data, i.e. no file descriptors when recvmsg() returns EAGAIN.
+> > 
+> > Yep, EAGAIN will only happen if you have no data AND no FDs.
+> > 
+> > > 
+> > > > On the other hand, it looks like ioc is in blocking mode. I'm not sure
+> > > > QIO_CHANNEL_ERR_BLOCK can occur?
+> > > > 
+> > > 
+> > > You're right but the existing code is ready to handle the non-blocking
+> > > case, so I just kept this behavior.
+> > 
+> > The existing code is *not* handling the non-blocking case in any
+> > useful way IMHO. It will block execution of this QEMU thread, and
+> > sit in a tight loop burning CPU in the EAGAIN case.
+> > 
+> > Handling non-blocking means using an I/O watch with the event loop
+> > to be notified when something becomes ready.
+> > 
 > 
->>
->> When calling qemu_init(), and we get into select_machine(),
->>
->> the object_class_get_list() tries to initialize all machine types.
->>
->> When it does that, it tries to initialize the IDAU interface, and fails.
->>
->> #0  0x0000ffffb9e51828 in raise () at /lib64/libc.so.6
->> #1  0x0000ffffb9e52e4c in abort () at /lib64/libc.so.6
->> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
->> #3  0x0000aaaae042c06c in object_class_foreach_tramp (key=0xaaaaf0cb3940, value=0xaaaaf0cb37c0, opaque=0xfffff9f2bac8)
->>     at ../qom/object.c:1069
->> #4  0x0000ffffbb3d4248 in g_hash_table_foreach () at /usr/lib64/libglib-2.0.so.0
->> #5  0x0000aaaae042c180 in object_class_foreach (fn=
->>     0xaaaae042c324 <object_class_get_list_tramp>, implements_type=0xaaaae089cc90 "machine", include_abstract=false, opaque=0xfffff9f2bb10)
->>     at ../qom/object.c:1091
->> #6  0x0000aaaae042c3a8 in object_class_get_list (implements_type=0xaaaae089cc90 "machine", include_abstract=false) at ../qom/object.c:1148
->> #7  0x0000aaaae03863d8 in select_machine () at ../softmmu/vl.c:1607
->> #8  0x0000aaaae038ad74 in qemu_init (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/vl.c:3489
->> #9  0x0000aaaadfdcf5a0 in main (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/main.c:49
->>
->>
->> (gdb) frame 2
->> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
->> 333                     abort();
->> (gdb) p ti[0]
->> $1 = {name = 0xaaaaf0cb3940 "mps2tz", class_size = 408, instance_size = 202224, instance_align = 0, class_init = 
->>     0xaaaae0273408 <mps2tz_class_init>, class_base_init = 0x0, class_data = 0x0, instance_init = 0x0, instance_post_init = 0x0, 
->>   instance_finalize = 0x0, abstract = true, parent = 0xaaaaf0cb3960 "machine", parent_type = 0xaaaaf0cad860, class = 0xaaaaf0d0d830, 
->>   num_interfaces = 1, interfaces = {{typename = 0xaaaaf0cb3980 "idau-interface"}, {typename = 0x0} <repeats 31 times>}}
->>
->>
->> In my view we should revert this until all incompatible boards are disabled
-> 
-> My view is this is a QOM design problem. Others might hit the
-> same issue. It is hard to debug. It should be fixed upfront.
-> 
->> In this case, the one failing is MPS2, so the offender is
->>
->> devices/arm-softmmu.mak:CONFIG_MPS2=y
->>
->> from the point of view of the kvm-only build.
->>
->> What I'd suggest is (but I am open to alternatives):
->>
->> * revert this one
->> * complete my arm cleanup series, with now all tests passing
->> * disable the non-KVM boards for KVM-only builds (basically your series)
->> * apply the accelerator classes specializations to ARM
-> 
-> MPS2TZ uses a Cortex-M33 which is requires TCG.
-> The machine shouldn't be present if TCG is not built-in.
-> 
-> Previous attempt which you acked :)
-> "target/arm: Restrict ARMv7 M-profile cpus to TCG accel"
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg79943.html
-> 
+> Hmm... slave_read() is a handler registered with qemu_set_fd_handler().
+> Isn't it already the case then ? Can the first call to recvmsg() even
+> return EAGAIN actually ?
 
-Yes, I would absolutely like to proceed with all of this,
+IIUC it shouldn't be able to return EAGAIN in that scenario for stream
+sockets (TCP, UNIX), only a datagram socket (UDP) would be at risk of
+EAGAIN
 
-and have only the right configuration for KVM be built,
 
-but I am a bit lost with all these different series.
 
-Ciao,
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-CLaudio
 
