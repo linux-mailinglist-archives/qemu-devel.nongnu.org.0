@@ -2,53 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077B93332D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:41:58 +0100 (CET)
-Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D4A3332E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:56:33 +0100 (CET)
+Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJnrI-0007om-GC
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:41:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
+	id 1lJo5Q-0003wN-EQ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJnq2-0007Nv-Tg
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:40:39 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJnpz-00088l-Hs
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:40:38 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwF8y04YHz17HDc;
- Wed, 10 Mar 2021 09:38:42 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Mar 2021 09:40:21 +0800
-Subject: Re: [PATCH] vfio: Support host translation granule size
-To: Alex Williamson <alex.williamson@redhat.com>, Kunkun Jiang
- <jiangkunkun@huawei.com>
-References: <20210304133446.1521-1-jiangkunkun@huawei.com>
- <20210309161713.1cc8ad2f@omen.home.shazbot.org>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <f7a5c939-8680-af9b-c7bb-83536b9bc7e1@huawei.com>
-Date: Wed, 10 Mar 2021 09:40:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lJo4J-0003HZ-GP
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:55:23 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lJo4B-0006Qq-Fj
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:55:22 -0500
+Received: by mail-pl1-x629.google.com with SMTP id n17so4126452plc.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 17:55:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=higp68H34otoXzEQtVs6KBzTmSKvjqs4tO4D/XJesns=;
+ b=k72l32P2DKOq/QszTXfKLhYZsjLzPU78EMTLdDvo5wTK/G32TuhLOFgiAPQ62E16a9
+ oR+4VnQmxBGA4AsxQBgLlDJqK0G1jaNwbjfrye80xQjSmGgWHrSoU2g2iyLEPBYn44Tl
+ HcjO9kj/C2mgFKN5cIRCuH86cUwH7HxrfhDN/lAEKXRTrPLjZN4HDvkyxg0TA6dr42Fv
+ h/5/fqJhBlBWbF+svMvcN18erOJcvgAuu0ZI8NVMTOyFBiJthFrBCRAqEuGlextEUVXx
+ GL8qb7eH3PRBrqR6qX7XzCp7GwralRom0LDrrLIZj/7c45PPVc4RollUWMxFnIzOUyAo
+ b4aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=higp68H34otoXzEQtVs6KBzTmSKvjqs4tO4D/XJesns=;
+ b=bYxz5aaHkofv532H6xgpo3TO3zuYAYT6n9tGBavuNxKyOLhEfca/9xKL/VlopCV35M
+ HpB1s4nKnrS188CWs9/FiO51t5W2WyD0FgAK8DNUfV/ghNXHY054F8Yyiis5BHl/DEB3
+ TjcBu7FY0gMmYW2C2ewQfcsxUJ8GT0qfyQrurJJED1uk+994cT867TSE4Z4SDkG9ZMBN
+ XvHGUjVpn5NXicsIH+k/F9xp9wFkbl3HdE0BrmVFItaXjXc1vhAQIQq9taipPUt1brLU
+ EtBDDthposho8BPCrPqUBoxwIpIMO2a0S17x8s+/m+nyoJSbISz2SOUF6YDEt9mWa7BJ
+ 2B6Q==
+X-Gm-Message-State: AOAM530IEm4tk2bbc+uE24bKrD5Zmajp1PhUQq8pA4g/QZKReyN5tX/G
+ cLJrTz0nIfpbXVLRAsu4VxOJvg==
+X-Google-Smtp-Source: ABdhPJxlqFHQPFSvSTtS8zRPd9R0x66nmZ1IAZXnPQ3Diirbk3mNg++UNdY8CCWjzHEbArol67n2uA==
+X-Received: by 2002:a17:902:a40b:b029:e0:1096:7fb with SMTP id
+ p11-20020a170902a40bb02900e0109607fbmr873193plq.40.1615341312569; 
+ Tue, 09 Mar 2021 17:55:12 -0800 (PST)
+Received: from [192.168.10.23] (124-171-107-241.dyn.iinet.net.au.
+ [124.171.107.241])
+ by smtp.gmail.com with UTF8SMTPSA id z1sm6040305pfn.127.2021.03.09.17.55.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Mar 2021 17:55:11 -0800 (PST)
+Subject: Re: [PATCH qemu v14] spapr: Implement Open Firmware client interface
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210224054130.4540-1-aik@ozlabs.ru>
+ <YD2yd42dv/7/m94f@yekko.fritz.box>
+ <08781378-b4ba-12bf-2ae8-f3da9db9342c@ozlabs.ru>
+ <YEcHxEvVPPO85BGE@yekko.fritz.box>
+ <19bc153a-027c-d5ca-6849-ae33315c62af@ozlabs.ru>
+ <d7edd653-4923-fea5-e14-cd4ab871e324@eik.bme.hu>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <80852df2-667a-871f-1f6a-e74723117e01@ozlabs.ru>
+Date: Wed, 10 Mar 2021 12:55:07 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101
+ Thunderbird/85.0
 MIME-Version: 1.0
-In-Reply-To: <20210309161713.1cc8ad2f@omen.home.shazbot.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d7edd653-4923-fea5-e14-cd4ab871e324@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=aik@ozlabs.ru; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,169 +91,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yi L <yi.l.liu@intel.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- shameerali.kolothum.thodi@huawei.com, Eric Auger <eric.auger@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Zenghui Yu <yuzenghui@huawei.com>,
- wanghaibin.wang@huawei.com
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
 
-On 2021/3/10 7:17, Alex Williamson wrote:
-> On Thu, 4 Mar 2021 21:34:46 +0800
-> Kunkun Jiang <jiangkunkun@huawei.com> wrote:
-> 
->> The cpu_physical_memory_set_dirty_lebitmap() can quickly deal with
->> the dirty pages of memory by bitmap-traveling, regardless of whether
->> the bitmap is aligned correctly or not.
->>
->> cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
->> host page size. So it'd better to set bitmap_pgsize to host page size
->> to support more translation granule sizes.
->>
->> Fixes: 87ea529c502 (vfio: Get migration capability flags for container)
->> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->> ---
->>  hw/vfio/common.c | 44 ++++++++++++++++++++++----------------------
->>  1 file changed, 22 insertions(+), 22 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 6ff1daa763..69fb5083a4 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -378,7 +378,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->>  {
->>      struct vfio_iommu_type1_dma_unmap *unmap;
->>      struct vfio_bitmap *bitmap;
->> -    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
->> +    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size;
->>      int ret;
->>  
->>      unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
->> @@ -390,12 +390,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->>      bitmap = (struct vfio_bitmap *)&unmap->data;
->>  
->>      /*
->> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
->> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
->> -     * TARGET_PAGE_SIZE.
->> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
->> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
->> +     * to qemu_real_host_page_size.
-> 
-> 
-> I don't see that this change is well supported by the code,
-> cpu_physical_memory_set_dirty_lebitmap() seems to operate on
-> TARGET_PAGE_SIZE, and the next three patch chunks take a detour through
-> memory listener code that seem unrelated to the change described in the
-> commit log.  This claims to fix something, what is actually broken?
-Actually I have reported this bug long ago. cpu_physical_memory_set_dirty_lebitmap() expects
-the granule of @bitmap to be qemu_real_host_page_size, as it uses @hpratio to convert the bitmap.
 
-Thanks,
-Keqian
+On 10/03/2021 01:00, BALATON Zoltan wrote:
+> On Tue, 9 Mar 2021, Alexey Kardashevskiy wrote:
+>> On 09/03/2021 16:29, David Gibson wrote:
+>>>>>> +struct ClientArchitectureSupportClass {
+>>>>>> +    InterfaceClass parent;
+>>>>>> +    target_ulong (*cas)(CPUState *cs, target_ulong vec);
+>>>>>> +    void (*quiesce)(void);
+>>>>>
+>>>>> Is there actually any real connection of quiesce behaviour to cas
+>>>>> behaviour?  Basically, I'm wondering if this is not so much about
+>>>>> client-architecture-support fundamentally as just about
+>>>>> machine-specific parts of the VOF behaviour.  Which would be fine, but
+>>>>> suggests a different name for the interface.
+>>>>
+>>>> The most canonical way would be having 2 interfaces.
+>>>
+>>> Why?  I don't see any reason these shouldn't be a single interface, it
+>>> just has a bad name.
+>>
+>> I renamed it to SpaprVofInterface for now.
+>>
+>>
+>>> [snip]
+>>>>>> +typedef int size_t;
+>>>>>> +typedef void client(void);
+>>>>>> +
+>>>>>> +/* globals */
+>>>>>> +extern void _prom_entry(void); /* OF CI entry point (i.e. this 
+>>>>>> firmware) */
+>>>>>> +
+>>>>>> +void do_boot(unsigned long addr, unsigned long r3, unsigned long 
+>>>>>> r4);
+>>>>>> +
+>>>>>> +/* libc */
+>>>>>> +int strlen(const char *s);
+>>>>>> +int strcmp(const char *s1, const char *s2);
+>>>>>> +void *memcpy(void *dest, const void *src, size_t n);
+>>>>>> +int memcmp(const void *ptr1, const void *ptr2, size_t n);
+>>>>>> +void *memmove(void *dest, const void *src, size_t n);
+>>>>>> +void *memset(void *dest, int c, size_t size);
+>>>>>> +
+>>>>>> +/* Prom */
+>>>>>> +typedef unsigned long prom_arg_t;
+>>>>>> +int call_prom(const char *service, int nargs, int nret, ...);
+>>>>>
+>>>>> AIUI this isn't so much about calling the PROM, since this *is* the
+>>>>> PROM code, but rather about calling the parts that are implemented on
+>>>>> the qemu side.  Different names might clarify that.
+>>>>
+>>>> "call_ci"?
+>>>
+>>> Works for me.
+>>
+>> call_ci() it is then.
+>>
+>> About builtins such as memcmp() - turns out these are not really 
+>> builtins as they are not inlined and gcc/ld still want to link against 
+>> libc which is trickier for such firmware (not quite sure how to do 
+>> this and keep it small and not pull other libc stuff in), gcc just 
+>> knows about them a bit more. This is different from, for example, 
+>> __builtin_ctz which is inlined. So I am keeping my libc.o for now.
+> 
+> Do they really want libc or they are in libgcc for which there's 
+> --static-libgcc I think to avoid needing it in runtime but not sure what 
+> clang has for these.
 
-> Thanks,
-> 
-> Alex
-> 
->>       */
->>  
->> -    bitmap->pgsize = TARGET_PAGE_SIZE;
->> +    bitmap->pgsize = qemu_real_host_page_size;
->>      bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
->>                     BITS_PER_BYTE;
->>  
->> @@ -674,16 +674,16 @@ static void vfio_listener_region_add(MemoryListener *listener,
->>          return;
->>      }
->>  
->> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
->> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
->> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
->> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
->>          error_report("%s received unaligned region", __func__);
->>          return;
->>      }
->>  
->> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
->> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
->>      llend = int128_make64(section->offset_within_address_space);
->>      llend = int128_add(llend, section->size);
->> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
->> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
->>  
->>      if (int128_ge(int128_make64(iova), llend)) {
->>          return;
->> @@ -892,8 +892,8 @@ static void vfio_listener_region_del(MemoryListener *listener,
->>          return;
->>      }
->>  
->> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
->> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
->> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
->> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
->>          error_report("%s received unaligned region", __func__);
->>          return;
->>      }
->> @@ -921,10 +921,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
->>           */
->>      }
->>  
->> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
->> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
->>      llend = int128_make64(section->offset_within_address_space);
->>      llend = int128_add(llend, section->size);
->> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
->> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
->>  
->>      if (int128_ge(int128_make64(iova), llend)) {
->>          return;
->> @@ -1004,13 +1004,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->>      range->size = size;
->>  
->>      /*
->> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
->> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
->> -     * TARGET_PAGE_SIZE.
->> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
->> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap's pgsize
->> +     * to qemu_real_host_page_size.
->>       */
->> -    range->bitmap.pgsize = TARGET_PAGE_SIZE;
->> +    range->bitmap.pgsize = qemu_real_host_page_size;
->>  
->> -    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
->> +    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size;
->>      range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
->>                                           BITS_PER_BYTE;
->>      range->bitmap.data = g_try_malloc0(range->bitmap.size);
->> @@ -1114,7 +1114,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
->>                 section->offset_within_region;
->>  
->>      return vfio_get_dirty_bitmap(container,
->> -                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
->> +                       REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
->>                         int128_get64(section->size), ram_addr);
->>  }
->>  
->> @@ -1655,10 +1655,10 @@ static void vfio_get_iommu_info_migration(VFIOContainer *container,
->>                              header);
->>  
->>      /*
->> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
->> -     * TARGET_PAGE_SIZE to mark those dirty.
->> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
->> +     * qemu_real_host_page_size to mark those dirty.
->>       */
->> -    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
->> +    if (cap_mig->pgsize_bitmap & qemu_real_host_page_size) {
->>          container->dirty_pages_supported = true;
->>          container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
->>          container->dirty_pgsizes = cap_mig->pgsize_bitmap;
-> 
-> .
-> 
+I was getting "unresolved symbol `memcmp`" when I tried calling memcmp() 
+or __builtin_memcmp() and "-lc" did not help (installed some multilib 
+packages, did not help either). I figured if I cannot get it compile in 
+3 minutes, I should not probably be posting this and better off simply 
+keeping the existing small libc.
+
+
+
+-- 
+Alexey
 
