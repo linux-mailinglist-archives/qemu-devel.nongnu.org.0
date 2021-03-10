@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AED3339C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:16:03 +0100 (CET)
-Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9667C3339B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:11:57 +0100 (CET)
+Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJvso-0002Sp-I1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:16:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58046)
+	id 1lJvoq-00078w-Go
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:11:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJvXW-0007Z1-O1; Wed, 10 Mar 2021 04:54:02 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:43857)
+ id 1lJvXZ-0007ae-2U; Wed, 10 Mar 2021 04:54:05 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:57073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJvXT-00057F-2c; Wed, 10 Mar 2021 04:54:02 -0500
+ id 1lJvXU-00058f-NJ; Wed, 10 Mar 2021 04:54:03 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4E5B65C00E1;
- Wed, 10 Mar 2021 04:53:58 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id D60CD5806E6;
+ Wed, 10 Mar 2021 04:53:59 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 10 Mar 2021 04:53:58 -0500
+ by compute4.internal (MEProxy); Wed, 10 Mar 2021 04:53:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=syfbKz9cAFbhT
- NQ47bfqxOFLD21vjTzsbUZ3ny2ztrE=; b=w5UuuQXxZj2POqgBeGuw44Hasqja/
- 4IsdK4Iaqr5MsO9M9OXh8ViBV44bFEvKWvzndDa1ols9zFlD1AhAvRouHQMZwAqU
- zPlH+9u0jz4xb+ugHRtwTpBo32SfM6sZhx73SoOX1py3LP+HH+OSuldoSEs9MX0u
- ayNKslJ/Y/JWE18pcauLvryVTT1n4YmYRIkQhtrheXVkSiTqfa280gWwd1ZOhIJP
- H6wCUiQyWdwbTxiXriAWxPt63vgwRx2unQO89+f5wpsjJ+5di+1Jgv4p7Qk5F4Qy
- too4zZJCV5fsd5JHHEAVHb+dbgW5ZVFb3A9rOaWUv3l7QaJM116dE1MIw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=8F3ZKsYMEXHk+
+ 5AdV0um3WvGB+j6ek/Kt6khc+0in98=; b=grLqMNA7mDX74Zin9hKNHuQ3DynFL
+ 8R7XGjo0e3bKxg60V6I0ajGpPNWJtMWjjF7S65MBE+6krWVktwaTRjxdns0wcIP4
+ wFRGmUnPIVVQCgZ9dTybjcCoeTt4l8Lb/77iKoJx+lF92t48y13oq4f/PMH2uMyB
+ TkvmYOuAJdbWpMexRiViPomrAuZy+mh6y5vhJzOM0MO/4ayoSQnFrH/KtAfpI12A
+ m32FRJz4/J72z2Eo1J+wbuPomxc0meGMldCCs/WxH5YdVeZcfPhQKq0+itJznPWc
+ 0UdKvEk0DkWhywhtshxPf+8W2BKEOZsLl3YqRmI3SlrRD0v9JrdK2swMQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=syfbKz9cAFbhTNQ47bfqxOFLD21vjTzsbUZ3ny2ztrE=; b=by5aBQ2I
- O91xTsxD7DFnx+j3SOmsI4MvJNVf/YPVuJEySssOfARqlOoqgIOI/A8dOQbSOvrG
- 37sQzcVPqB+xdH3JxD268jTLNMYyU6MuJkmZ54yeaOLY1dhn0DhBkGjQ544cndJP
- b+mhMtxZCKyEJqDBMosrLcqpwcYVVurANC+wFBCSnolANWZ6v2dokeMdMbx6cY6D
- 3LYPIVB2kzu2RzO0HxNVKGPmSLLVe2tM33sOY3A464k5HQPNsE3+EM1gyTuKGb6B
- xl4AUnLpBCFg1soniex5apFUDZP4DXkpNxnvU+tutk6seXEPgUi4u0YXtfL7LjcI
- 3uM05pGFriXDeg==
-X-ME-Sender: <xms:NpdIYG2kgiNYRGwsAw2_YCZ79FaG_HRu_pr9ZSmtjT85EgQ18Yb8GA>
- <xme:NpdIYJEMzODsQPTDNVCjK7UEOz6DZd2F5N9HrrS8oXiDn8C91TAo6nY5ZkPfM69Qz
- R_fw97k4x8J6qWV2Kw>
+ fm2; bh=8F3ZKsYMEXHk+5AdV0um3WvGB+j6ek/Kt6khc+0in98=; b=lmBndxga
+ MXjrOqVk0ilyEEqpi/ePByRoGqZKtYDedqxnCywZJnenODYM/sXncMaS7G3lYh4J
+ TIxLIhXthlvZdUJwAEmjQkagCT/19NVrtzEDChCOXhKxffodU59/LTK0oi+xRqPM
+ U43kQpA1f5ZE6PYytEulxS25L1A/q65JYJgqwia7F4wSQxIZJVNDCXCLjMb21VQC
+ rXdjRl13Frk1m4EJZk96SG1k5QauhqDaBvkR1UAIe5ZIiofHM4VB752mRFLcwutI
+ qCetY0qL8KDOdxdJQbYimqFfqp1bQaFQd7WBxotCcDDLcvG5i3R3PuPIXpxUwPxn
+ w2pNn+Rclw3psw==
+X-ME-Sender: <xms:N5dIYJ5OjzEuc5IIi37fkw5AQLvAktA5_uL9q07Nqv10RxRAqt8WyA>
+ <xme:N5dIYG6JRKCqewRPYHOIM-y_KJyWJcC7pTV0WGr8KR9MdtoEQyksmjVSAvk1_6jHN
+ wlz3KUri4tuogjvRrE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgtdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,34 +53,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgtdelucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeegne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:NpdIYO73N1UsqkJ7i9ixyhmffNqhsk0-tFZ63v3c4SV9pTpsyUxFTA>
- <xmx:NpdIYH3Q38mbUfVbQmZpxu4wPHooIDXseztnnJEz3HgeLwFYOWEc1A>
- <xmx:NpdIYJHXG9-Putq49-HHEyWZcuNg9AbMk6pBAshWP9arKPNXqfjoxg>
- <xmx:NpdIYA3dBbA0dAvqA9FMYvb5GBqlP2JxvQqs2OPEKS7f325zhuJqWQ>
+X-ME-Proxy: <xmx:N5dIYAewb91VXI2EYGW19acow8twtOGcHXOiA053jbwDQB8K6y6WTQ>
+ <xmx:N5dIYCKpCz78YQnijimSCbt_ADQTtNEejgtejWFKfmXIe_6eJUNl8g>
+ <xmx:N5dIYNJTh4jC_q21GJhumvmpNH1y9fhl2fYnYWp5ztxeMHahnufe-A>
+ <xmx:N5dIYE-olrOmcXb2VZIshVnkbg7A7I_tUYxW7jswIOJ15jzTi-nYhw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E6D74240057;
- Wed, 10 Mar 2021 04:53:56 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5F9D524005E;
+ Wed, 10 Mar 2021 04:53:58 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/13] hw/block/nvme: add non-mdts command size limit for
- verify
-Date: Wed, 10 Mar 2021 10:53:39 +0100
-Message-Id: <20210310095347.682395-6-its@irrelevant.dk>
+Subject: [PATCH v5 06/13] hw/block/nvme: support multiple lba formats
+Date: Wed, 10 Mar 2021 10:53:40 +0100
+Message-Id: <20210310095347.682395-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210310095347.682395-1-its@irrelevant.dk>
 References: <20210310095347.682395-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,133 +96,132 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>, Minwoo Im <minwoo.im@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Minwoo Im <minwoo.im@samsung.com>
 
-Verify is not subject to MDTS, so a single Verify command may result in
-excessive amounts of allocated memory. Impose a limit on the data size
-by adding support for TP 4040 ("Non-MDTS Command Size Limits").
+This patch introduces multiple LBA formats supported with the typical
+logical block sizes of 512 bytes and 4096 bytes as well as metadata
+sizes of 0, 8, 16 and 64 bytes. The format will be chosed based on the
+lbads and ms parameters of the nvme-ns device.
 
+Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
+[k.jensen: resurrected and rebased]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.h |  1 +
- hw/block/nvme.c | 34 ++++++++++++++++++++++++++++++----
- 2 files changed, 31 insertions(+), 4 deletions(-)
+ hw/block/nvme-ns.c | 60 +++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 52 insertions(+), 8 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e3af0428f802..a87621aa31e4 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -26,6 +26,7 @@ typedef struct NvmeParams {
-     uint8_t  aerl;
-     uint32_t aer_max_queued;
-     uint8_t  mdts;
-+    uint8_t  vsl;
-     bool     use_intel_id;
-     uint8_t  zasl;
-     bool     legacy_cmb;
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 43ef10921a94..70122a607169 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -23,7 +23,8 @@
-  *              [pmrdev=<mem_backend_file_id>,] \
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>,aer_max_queued=<N[optional]>, \
-- *              mdts=<N[optional]>,zoned.zasl=<N[optional]>, \
-+ *              mdts=<N[optional]>,vsl=<N[optional]>, \
-+ *              zoned.zasl=<N[optional]>, \
-  *              subsys=<subsys_id>
-  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-  *              zoned=<true|false[optional]>, \
-@@ -78,12 +79,26 @@
-  *   as a power of two (2^n) and is in units of the minimum memory page size
-  *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
-  *
-+ * - `vsl`
-+ *   Indicates the maximum data size limit for the Verify command. Like `mdts`,
-+ *   this value is specified as a power of two (2^n) and is in units of the
-+ *   minimum memory page size (CAP.MPSMIN). The default value is 7 (i.e. 512
-+ *   KiB).
-+ *
-  * - `zoned.zasl`
-  *   Indicates the maximum data transfer size for the Zone Append command. Like
-  *   `mdts`, the value is specified as a power of two (2^n) and is in units of
-  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
-  *   defaulting to the value of `mdts`).
-  *
-+ * - `zoned.append_size_limit`
-+ *   The maximum I/O size in bytes that is allowed in Zone Append command.
-+ *   The default is 128KiB. Since internally this this value is maintained as
-+ *   ZASL = log2(<maximum append size> / <page size>), some values assigned
-+ *   to this property may be rounded down and result in a lower maximum ZA
-+ *   data size being in effect. By setting this property to 0, users can make
-+ *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-+ *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `subsys`
-@@ -2544,6 +2559,10 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
-         }
-     }
- 
-+    if (len > n->page_size << n->params.vsl) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-@@ -4108,12 +4127,14 @@ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index a082a7004d8e..00e8f6af2162 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -36,13 +36,15 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
  {
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-     uint8_t id[NVME_IDENTIFY_DATA_SIZE] = {};
-+    NvmeIdCtrlNvm *id_nvm = (NvmeIdCtrlNvm *)&id;
+     BlockDriverInfo bdi;
+     NvmeIdNs *id_ns = &ns->id_ns;
+-    int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+     int npdg, nlbas;
++    uint8_t ds;
++    uint16_t ms;
++    int i;
  
-     trace_pci_nvme_identify_ctrl_csi(c->csi);
+     ns->id_ns.dlfeat = 0x1;
  
-     switch (c->csi) {
-     case NVME_CSI_NVM:
--        ((NvmeIdCtrlNvm *)&id)->dmrsl = cpu_to_le32(n->dmrsl);
-+        id_nvm->vsl = n->params.vsl;
-+        id_nvm->dmrsl = cpu_to_le32(n->dmrsl);
-         break;
+-    id_ns->lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
+-    id_ns->lbaf[lba_index].ms = ns->params.ms;
++    ds = 31 - clz32(ns->blkconf.logical_block_size);
++    ms = ns->params.ms;
  
-     case NVME_CSI_ZONED:
-@@ -5656,6 +5677,11 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-                    "than or equal to mdts (Maximum Data Transfer Size)");
-         return;
-     }
+     if (ns->params.ms) {
+         id_ns->mc = 0x3;
+@@ -53,8 +55,47 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+ 
+         id_ns->dpc = 0x1f;
+         id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
 +
-+    if (!n->params.vsl) {
-+        error_setg(errp, "vsl must be non-zero");
-+        return;
++        NvmeLBAF lbaf[16] = {
++            [0] = { .ds =  9           },
++            [1] = { .ds =  9, .ms =  8 },
++            [2] = { .ds =  9, .ms = 16 },
++            [3] = { .ds =  9, .ms = 64 },
++            [4] = { .ds = 12           },
++            [5] = { .ds = 12, .ms =  8 },
++            [6] = { .ds = 12, .ms = 16 },
++            [7] = { .ds = 12, .ms = 64 },
++        };
++
++        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
++        id_ns->nlbaf = 7;
++    } else {
++        NvmeLBAF lbaf[16] = {
++            [0] = { .ds =  9 },
++            [1] = { .ds = 12 },
++        };
++
++        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
++        id_ns->nlbaf = 1;
+     }
+ 
++    for (i = 0; i <= id_ns->nlbaf; i++) {
++        NvmeLBAF *lbaf = &id_ns->lbaf[i];
++        if (lbaf->ds == ds) {
++            if (lbaf->ms == ms) {
++                id_ns->flbas |= i;
++                goto lbaf_found;
++            }
++        }
 +    }
++
++    /* add non-standard lba format */
++    id_ns->nlbaf++;
++    id_ns->lbaf[id_ns->nlbaf].ds = ds;
++    id_ns->lbaf[id_ns->nlbaf].ms = ms;
++    id_ns->flbas |= id_ns->nlbaf;
++
++lbaf_found:
+     nlbas = nvme_ns_nlbas(ns);
+ 
+     id_ns->nsze = cpu_to_le64(nlbas);
+@@ -244,9 +285,10 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
+     }
  }
  
- static void nvme_init_state(NvmeCtrl *n)
-@@ -5913,8 +5939,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES | NVME_ONCS_DSM |
--                           NVME_ONCS_COMPARE | NVME_ONCS_COPY |
--                           NVME_ONCS_VERIFY);
-+                           NVME_ONCS_COMPARE | NVME_ONCS_COPY);
+-static void nvme_ns_init_zoned(NvmeNamespace *ns, int lba_index)
++static void nvme_ns_init_zoned(NvmeNamespace *ns)
+ {
+     NvmeIdNsZoned *id_ns_z;
++    int i;
  
-     /*
-      * NOTE: If this device ever supports a command set that does NOT use 0x0
-@@ -6057,6 +6082,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
-     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
-     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-+    DEFINE_PROP_UINT8("vsl", NvmeCtrl, params.vsl, 7),
-     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
+     nvme_ns_zoned_init_state(ns);
+ 
+@@ -258,9 +300,11 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns, int lba_index)
+     id_ns_z->zoc = 0;
+     id_ns_z->ozcs = ns->params.cross_zone_read ? 0x01 : 0x00;
+ 
+-    id_ns_z->lbafe[lba_index].zsze = cpu_to_le64(ns->zone_size);
+-    id_ns_z->lbafe[lba_index].zdes =
+-        ns->params.zd_extension_size >> 6; /* Units of 64B */
++    for (i = 0; i <= ns->id_ns.nlbaf; i++) {
++        id_ns_z->lbafe[i].zsze = cpu_to_le64(ns->zone_size);
++        id_ns_z->lbafe[i].zdes =
++            ns->params.zd_extension_size >> 6; /* Units of 64B */
++    }
+ 
+     ns->csi = NVME_CSI_ZONED;
+     ns->id_ns.nsze = cpu_to_le64(ns->num_zones * ns->zone_size);
+@@ -367,7 +411,7 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
+         if (nvme_ns_zoned_check_calc_geometry(ns, errp) != 0) {
+             return -1;
+         }
+-        nvme_ns_init_zoned(ns, 0);
++        nvme_ns_init_zoned(ns);
+     }
+ 
+     return 0;
 -- 
 2.30.1
 
