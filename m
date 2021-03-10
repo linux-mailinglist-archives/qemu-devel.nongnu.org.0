@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEEA33370F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:12:47 +0100 (CET)
-Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567B533371E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:17:03 +0100 (CET)
+Received: from localhost ([::1]:56864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJtxW-0001Vn-6U
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:12:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
+	id 1lJu1e-0006LA-3h
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:17:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuj-0005Wo-8c
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:53 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49996
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuh-0000E8-Db
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:53 -0500
-Received: from host86-140-100-136.range86-140.btcentralplus.com
- ([86.140.100.136] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuc-0006rB-0J; Wed, 10 Mar 2021 08:09:52 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Wed, 10 Mar 2021 08:09:08 +0000
-Message-Id: <20210310080908.11861-8-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJtvU-0007GE-4g
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:10:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJtvM-0000j4-Bl
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:10:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615363830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c7WFNZa0WlyannHkPDvlwPdKEU0RDPWLdBGLYkfsqug=;
+ b=ha44AAWrbQepuTWUTEYfvRJl2j3lEqUKCB+lo0IBjSUpR9j2BDiYX/BpXuCYYMyGgEW7e0
+ S35QJ6/qND8gwE2WngNphJ53S/ZXoHviEKMX/i3gBcO2okbfphVhB+GdHQ3LwruH3neWmV
+ lbITww8h/IIwrR5SKoEkP/WnhY+cFpA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-zlCc1S4uM9OaV2JvFN2bIg-1; Wed, 10 Mar 2021 03:10:28 -0500
+X-MC-Unique: zlCc1S4uM9OaV2JvFN2bIg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83FC0801503;
+ Wed, 10 Mar 2021 08:10:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E937A5D9DB;
+ Wed, 10 Mar 2021 08:10:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5B6C61132C12; Wed, 10 Mar 2021 09:10:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 4/4] blockdev: Drop deprecated bogus -drive interface
+ type
+References: <20210309161214.1402527-1-armbru@redhat.com>
+ <20210309161214.1402527-5-armbru@redhat.com>
+ <YEef1F9vZzLGAO6+@redhat.com>
+Date: Wed, 10 Mar 2021 09:10:22 +0100
+In-Reply-To: <YEef1F9vZzLGAO6+@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 9 Mar 2021 16:18:28 +0000")
+Message-ID: <87pn0777kh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.100.136
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 7/7] mac_via: remove VIA1 timer optimisations
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,129 +85,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original implementation of the Macintosh VIA devices in commit 6dca62a000
-"hw/m68k: add VIA support" used timer optimisations to reduce high CPU usage on
-the host when booting Linux. These optimisations worked by waiting until VIA1
-port B was accessed before re-arming the timers.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-The MacOS toolbox ROM constantly writes to VIA1 port B which calls
-via1_one_second_update() and via1_sixty_hz_update() to calculate the new expiry
-time, causing the timers to constantly reset and never fire. The effect of this
-is that the Ticks (0x16a) global variable holding the number of 60Hz timer ticks
-since reset is never incremented by the interrupt causing time to stand still.
+> On Tue, Mar 09, 2021 at 05:12:13PM +0100, Markus Armbruster wrote:
+>> Drop the crap deprecated in commit a1b40bda08 "blockdev: Deprecate
+>> -drive with bogus interface type" (v5.1.0).
+>>=20
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  docs/system/deprecated.rst       |  7 ------
+>>  docs/system/removed-features.rst |  7 ++++++
+>>  include/sysemu/blockdev.h        |  1 -
+>>  blockdev.c                       | 37 +++++++++++++-------------------
+>>  softmmu/vl.c                     |  8 +------
+>>  5 files changed, 23 insertions(+), 37 deletions(-)
+>>=20
+>> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+>> index 601e9647a5..664ed60e9f 100644
+>> --- a/docs/system/deprecated.rst
+>> +++ b/docs/system/deprecated.rst
+>> @@ -94,13 +94,6 @@ QEMU 5.1 has three options:
+>>        to the user to load all the images they need.
+>>   3. ``-bios <file>`` - Tells QEMU to load the specified file as the fir=
+mwrae.
+>> =20
+>> -``-drive`` with bogus interface type (since 5.1)
+>> -''''''''''''''''''''''''''''''''''''''''''''''''
+>> -
+>> -Drives with interface types other than ``if=3Dnone`` are for onboard
+>> -devices.  It is possible to use drives the board doesn't pick up with
+>> --device.  This usage is now deprecated.  Use ``if=3Dnone`` instead.
+>> -
+>>  Short-form boolean options (since 6.0)
+>>  ''''''''''''''''''''''''''''''''''''''
+>> =20
+>> diff --git a/docs/system/removed-features.rst b/docs/system/removed-feat=
+ures.rst
+>> index 77e7ba1339..e6d2fbe798 100644
+>> --- a/docs/system/removed-features.rst
+>> +++ b/docs/system/removed-features.rst
+>> @@ -87,6 +87,13 @@ becomes
+>>      -device isa-fdc,...
+>>      -device floppy,unit=3D1,drive=3D...
+>> =20
+>> +``-drive`` with bogus interface type (removed in 6.0)
+>> +'''''''''''''''''''''''''''''''''''''''''''''''''''''
+>> +
+>> +Drives with interface types other than ``if=3Dnone`` are for onboard
+>> +devices.  Drives the board doesn't pick up can no longer be used with
+>> +-device.  Use ``if=3Dnone`` instead.
+>> +
+>>  QEMU Machine Protocol (QMP) commands
+>>  ------------------------------------
+>> =20
+>> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+>> index 3b5fcda08d..32c2d6023c 100644
+>> --- a/include/sysemu/blockdev.h
+>> +++ b/include/sysemu/blockdev.h
+>> @@ -35,7 +35,6 @@ struct DriveInfo {
+>>      bool is_default;            /* Added by default_drive() ?  */
+>>      int media_cd;
+>>      QemuOpts *opts;
+>> -    bool claimed_by_board;
+>>      QTAILQ_ENTRY(DriveInfo) next;
+>>  };
+>> =20
+>> diff --git a/blockdev.c b/blockdev.c
+>> index cd438e60e3..2e01889cff 100644
+>> --- a/blockdev.c
+>> +++ b/blockdev.c
+>> @@ -240,19 +240,10 @@ DriveInfo *drive_get(BlockInterfaceType type, int =
+bus, int unit)
+>>      return NULL;
+>>  }
+>> =20
+>> -void drive_mark_claimed_by_board(void)
+>> -{
+>> -    BlockBackend *blk;
+>> -    DriveInfo *dinfo;
+>> -
+>> -    for (blk =3D blk_next(NULL); blk; blk =3D blk_next(blk)) {
+>> -        dinfo =3D blk_legacy_dinfo(blk);
+>> -        if (dinfo && blk_get_attached_dev(blk)) {
+>> -            dinfo->claimed_by_board =3D true;
+>> -        }
+>> -    }
+>> -}
+>> -
+>> +/*
+>> + * Check board claimed all -drive that are meant to be claimed.
+>> + * Fatal error if any remain unclaimed.
+>> + */
+>>  void drive_check_orphaned(void)
+>>  {
+>>      BlockBackend *blk;
+>> @@ -262,7 +253,17 @@ void drive_check_orphaned(void)
+>> =20
+>>      for (blk =3D blk_next(NULL); blk; blk =3D blk_next(blk)) {
+>>          dinfo =3D blk_legacy_dinfo(blk);
+>> -        if (dinfo->is_default || dinfo->type =3D=3D IF_NONE) {
+>> +        /*
+>> +         * Ignore default drives, because we create certain default
+>> +         * drives unconditionally, then leave them unclaimed.  Not the
+>> +         * users fault.
+>> +         * Ignore IF_VIRTIO, because it gets desugared into -device,
+>> +         * so we can leave failing to -device.
+>> +         * Ignore IF_NONE, because leaving unclaimed IF_NONE remains
+>> +         * available for device_add is a feature.
+>> +         */
+>> +        if (dinfo->is_default || dinfo->type =3D=3D IF_VIRTIO
+>> +            || dinfo->type =3D=3D IF_NONE) {
+>>              continue;
+>>          }
+>>          if (!blk_get_attached_dev(blk)) {
+>> @@ -273,14 +274,6 @@ void drive_check_orphaned(void)
+>>                           if_name[dinfo->type], dinfo->bus, dinfo->unit)=
+;
+>>              loc_pop(&loc);
+>>              orphans =3D true;
+>> -            continue;
+>> -        }
+>> -        if (!dinfo->claimed_by_board && dinfo->type !=3D IF_VIRTIO) {
+>> -            loc_push_none(&loc);
+>> -            qemu_opts_loc_restore(dinfo->opts);
+>> -            warn_report("bogus if=3D%s is deprecated, use if=3Dnone",
+>> -                        if_name[dinfo->type]);
+>> -            loc_pop(&loc);
+>>          }
+>>      }
+>> =20
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index ff488ea3e7..7453611152 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -2460,13 +2460,7 @@ static void qemu_init_board(void)
+>>      /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+>>      machine_run_board_init(current_machine);
+>> =20
+>> -    /*
+>> -     * TODO To drop support for deprecated bogus if=3D..., move
+>> -     * drive_check_orphaned() here, replacing this call.  Also drop
+>> -     * its deprecation warning, along with DriveInfo member
+>> -     * @claimed_by_board.
+>> -     */
+>> -    drive_mark_claimed_by_board();
+>> +    drive_check_orphaned();
+>
+> This method is already called by qemu_machine_creation_done(), which is
+> invoked shortly after this qemu_init_board() is run.
+>
+> So either this added instance, or the later call to drive_check_orphaned
+> feels redundant
 
-Whilst the code was introduced as a performance optimisation, it is likely that
-the high CPU usage was actually caused by the incorrect 60Hz timer interval
-fixed in the previous patch. Remove the optimisation to keep everything simple
-and enable the MacOS toolbox ROM to start keeping time.
+You're right.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/misc/mac_via.c | 43 ++++---------------------------------------
- 1 file changed, 4 insertions(+), 39 deletions(-)
+I'll drop the one in qemu_machine_creation_done().  Rationale:
 
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index c6e1552a59..23b11dd522 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -299,30 +299,17 @@ enum {
- 
- static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
- {
--    MOS6522State *s = MOS6522(v1s);
--
-     /* 60 Hz irq */
-     v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
-                           16630000 * 16630000;
--
--    if (s->ier & VIA1_IRQ_60HZ) {
--        timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
--    } else {
--        timer_del(v1s->sixty_hz_timer);
--    }
-+    timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
- }
- 
- static void via1_one_second_update(MOS6522Q800VIA1State *v1s)
- {
--    MOS6522State *s = MOS6522(v1s);
--
-     v1s->next_second = (qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1000) /
-                        1000 * 1000;
--    if (s->ier & VIA1_IRQ_ONE_SECOND) {
--        timer_mod(v1s->one_second_timer, v1s->next_second);
--    } else {
--        timer_del(v1s->one_second_timer);
--    }
-+    timer_mod(v1s->one_second_timer, v1s->next_second);
- }
- 
- static void via1_sixty_hz(void *opaque)
-@@ -893,21 +880,6 @@ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
- {
-     MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
-     MOS6522State *ms = MOS6522(s);
--    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
--
--    /*
--     * If IRQs are disabled, timers are disabled, but we need to update
--     * VIA1_IRQ_60HZ and VIA1_IRQ_ONE_SECOND bits in the IFR
--     */
--
--    if (now >= s->next_sixty_hz) {
--        ms->ifr |= VIA1_IRQ_60HZ;
--        via1_sixty_hz_update(s);
--    }
--    if (now >= s->next_second) {
--        ms->ifr |= VIA1_IRQ_ONE_SECOND;
--        via1_one_second_update(s);
--    }
- 
-     addr = (addr >> 9) & 0xf;
-     return mos6522_read(ms, addr, size);
-@@ -931,9 +903,6 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
-         v1s->last_b = ms->b;
-         break;
-     }
--
--    via1_one_second_update(v1s);
--    via1_sixty_hz_update(v1s);
- }
- 
- static const MemoryRegionOps mos6522_q800_via1_ops = {
-@@ -978,16 +947,10 @@ static const MemoryRegionOps mos6522_q800_via2_ops = {
- static void mac_via_reset(DeviceState *dev)
- {
-     MacVIAState *m = MAC_VIA(dev);
--    MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
-     ADBBusState *adb_bus = &m->adb_bus;
- 
-     adb_set_autopoll_enabled(adb_bus, true);
- 
--    timer_del(v1s->sixty_hz_timer);
--    v1s->next_sixty_hz = 0;
--    timer_del(v1s->one_second_timer);
--    v1s->next_second = 0;
--
-     m->cmd = REG_EMPTY;
-     m->alt = REG_EMPTY;
- }
-@@ -1026,9 +989,11 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     m->mos6522_via1.one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-                                                      via1_one_second,
-                                                      &m->mos6522_via1);
-+    via1_one_second_update(&m->mos6522_via1);
-     m->mos6522_via1.sixty_hz_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-                                                   via1_sixty_hz,
-                                                   &m->mos6522_via1);
-+    via1_sixty_hz_update(&m->mos6522_via1);
- 
-     qemu_get_timedate(&tm, 0);
-     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
--- 
-2.20.1
+* Before the patch, we reject -drive if=3DT when T !=3D none and nothing
+  claimed it.  We warn unless the board claimed it.  "Nothing claimed
+  it" is known only after qemu_create_cli_devices().
+
+* After the patch, we reject -drive if=3DT when T !=3D none and the board
+  didn't claim it.  This is known earlier, after
+  machine_run_board_init().
 
 
