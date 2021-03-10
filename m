@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A3A333707
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:10:52 +0100 (CET)
-Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2842333708
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:11:00 +0100 (CET)
+Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJtvf-0006Q8-8S
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
+	id 1lJtvn-0006k2-Jh
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:10:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuG-0004xX-OJ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:24 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49962
+ id 1lJtuM-00056j-3F
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:30 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49966
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuF-0008PG-BY
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:24 -0500
+ id 1lJtuJ-0008SB-7Z
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:29 -0500
 Received: from host86-140-100-136.range86-140.btcentralplus.com
  ([86.140.100.136] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuA-0006rB-NY; Wed, 10 Mar 2021 08:09:23 +0000
+ id 1lJtuG-0006rB-0P; Wed, 10 Mar 2021 08:09:28 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Wed, 10 Mar 2021 08:09:02 +0000
-Message-Id: <20210310080908.11861-2-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 10 Mar 2021 08:09:03 +0000
+Message-Id: <20210310080908.11861-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
 References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.100.136
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 1/7] mac_via: switch rtc pram trace-events to use hex rather
- than decimal for addresses
+Subject: [PATCH 2/7] mac_via: fix up adb_via_receive() trace events
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,29 +64,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since all the documentation uses the hex offsets, this makes it much easier
-to see what is going on.
+The use of the post-increment operator on adb_data_in_index meant that the
+trace-event was accidentally displaying the next byte in the incoming ADB
+data buffer rather than the current byte.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/trace-events | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/misc/mac_via.c | 41 ++++++++++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 17 deletions(-)
 
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index d626b9d7a7..73191b5e9d 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -221,8 +221,8 @@ via1_rtc_cmd_test_write(int value) "value=0x%02x"
- via1_rtc_cmd_wprotect_write(int value) "value=0x%02x"
- via1_rtc_cmd_pram_read(int addr, int value) "addr=%u value=0x%02x"
- via1_rtc_cmd_pram_write(int addr, int value) "addr=%u value=0x%02x"
--via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
--via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
-+via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=0x%x value=0x%02x"
-+via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=0x%x value=0x%02x"
- via1_adb_send(const char *state, uint8_t data, const char *vadbint) "state %s data=0x%02x vADBInt=%s"
- via1_adb_receive(const char *state, uint8_t data, const char *vadbint, int status, int index, int size) "state %s data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
- via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size) "data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 488d086a17..0f6586e102 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -816,33 +816,37 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
+         switch (s->adb_data_in_index) {
+         case 0:
+             /* First EVEN byte: vADBInt indicates bus timeout */
+-            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
+-                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
+-                                   adb_bus->status, s->adb_data_in_index,
+-                                   s->adb_data_in_size);
+-
+-            *data = s->adb_data_in[s->adb_data_in_index++];
++            *data = s->adb_data_in[s->adb_data_in_index];
+             if (adb_bus->status & ADB_STATUS_BUSTIMEOUT) {
+                 ms->b &= ~VIA1B_vADBInt;
+             } else {
+                 ms->b |= VIA1B_vADBInt;
+             }
+-            break;
+ 
+-        case 1:
+-            /* First ODD byte: vADBInt indicates SRQ */
+             trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
+                                    *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
+                                    adb_bus->status, s->adb_data_in_index,
+                                    s->adb_data_in_size);
+ 
+-            *data = s->adb_data_in[s->adb_data_in_index++];
++            s->adb_data_in_index++;
++            break;
++
++        case 1:
++            /* First ODD byte: vADBInt indicates SRQ */
++            *data = s->adb_data_in[s->adb_data_in_index];
+             pending = adb_bus->pending & ~(1 << (s->adb_autopoll_cmd >> 4));
+             if (pending) {
+                 ms->b &= ~VIA1B_vADBInt;
+             } else {
+                 ms->b |= VIA1B_vADBInt;
+             }
++
++            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
++                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
++                                   adb_bus->status, s->adb_data_in_index,
++                                   s->adb_data_in_size);
++
++            s->adb_data_in_index++;
+             break;
+ 
+         default:
+@@ -852,14 +856,9 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
+              * end of the poll reply, so provide these extra bytes below to
+              * keep it happy
+              */
+-            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
+-                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
+-                                   adb_bus->status, s->adb_data_in_index,
+-                                   s->adb_data_in_size);
+-
+             if (s->adb_data_in_index < s->adb_data_in_size) {
+                 /* Next data byte */
+-                *data = s->adb_data_in[s->adb_data_in_index++];
++                *data = s->adb_data_in[s->adb_data_in_index];
+                 ms->b |= VIA1B_vADBInt;
+             } else if (s->adb_data_in_index == s->adb_data_in_size) {
+                 if (adb_bus->status & ADB_STATUS_BUSTIMEOUT) {
+@@ -869,7 +868,6 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
+                     /* Return 0x0 after reply */
+                     *data = 0;
+                 }
+-                s->adb_data_in_index++;
+                 ms->b &= ~VIA1B_vADBInt;
+             } else {
+                 /* Bus timeout (no more data) */
+@@ -878,6 +876,15 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
+                 adb_bus->status = 0;
+                 adb_autopoll_unblock(adb_bus);
+             }
++
++            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
++                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
++                                   adb_bus->status, s->adb_data_in_index,
++                                   s->adb_data_in_size);
++
++            if (s->adb_data_in_index <= s->adb_data_in_size) {
++                s->adb_data_in_index++;
++            }
+             break;
+         }
+ 
 -- 
 2.20.1
 
