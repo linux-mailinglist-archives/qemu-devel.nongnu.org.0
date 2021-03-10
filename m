@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2D733343F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:12:56 +0100 (CET)
-Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A266E33343E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:12:24 +0100 (CET)
+Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqDP-00073l-So
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:12:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
+	id 1lJqCt-00061h-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:12:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAs-0003Wo-9o; Tue, 09 Mar 2021 23:10:19 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52309 helo=ozlabs.org)
+ id 1lJqAs-0003Wn-9D; Tue, 09 Mar 2021 23:10:19 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35073 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAp-0004AI-GY; Tue, 09 Mar 2021 23:10:18 -0500
+ id 1lJqAp-0004AO-GK; Tue, 09 Mar 2021 23:10:18 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWd5WJZz9sWm; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWd5t4Cz9sWp; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349405;
- bh=Yx8ESnsJE3vs1w3ajs3bxZmdzxPCWN7CoE8nMMMBGJg=;
+ bh=v/NiisTvwZjjJreAZMnQLch913SxxNiDzagydM1u/7c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ovIgFI+cHFOIlxA6ejTwf1kUzupByRUhPmKAS0/x1QbPhRyyhob59vUmp+CjX8rQ1
- K6Ov4+Qo3NfQ3XzkaL5zAeOMCPhOGscdPXgZ2653jjqpIbvftoMJs4KyLy8kL3PWiS
- CYyi14x4hR0ZZvEBsk1OZzN8P/IiZlwNTxHuDl2k=
+ b=kB4yk/01mKd5tYIll6K2EYLoRFssFgiBWV2m/FwP6wJ3U3a2QaLArPWmiVTNJ7YJq
+ t1wy2W8vSTrPHb7n/9RwpXJz/OffEJLyT9ShERK8WyIAQt/k+G0NFRlO7P8SoTCaPA
+ Nf8EXjrab7jtifog2huwvgq+/r1y7lprbXncQSQo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 09/20] target/ppc: Fix bcdsub. emulation when result overflows
-Date: Wed, 10 Mar 2021 15:09:51 +1100
-Message-Id: <20210310041002.333813-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/20] spapr_drc.c: introduce unplug_timeout_timer
+Date: Wed, 10 Mar 2021 15:09:52 +1100
+Message-Id: <20210310041002.333813-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,317 +57,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Clarke <pc@us.ibm.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Fabiano Rosas <farosas@linux.ibm.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabiano Rosas <farosas@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The commit d03b174a83 (target/ppc: simplify bcdadd/sub functions)
-meant to simplify some of the code but it inadvertently altered the
-way the CR6 field is set after the operation has overflowed.
+The LoPAR spec provides no way for the guest kernel to report failure of
+hotplug/hotunplug events. This wouldn't be bad if those operations were
+granted to always succeed, but that's far for the reality.
 
-The CR6 bits are set based on the *unbounded* result of the operation,
-so we need to look at the result before returning from bcd_add_mag,
-otherwise we will look at 0 when it overflows.
+What ends up happening is that, in the case of a failed hotunplug,
+regardless of whether it was a QEMU error or a guest misbehavior, the
+pSeries machine is retaining the unplug state of the device in the
+running guest.  This state is cleanup in machine reset, where it is
+assumed that this state represents a device that is pending unplug, and
+the device is hotunpluged from the board. Until the reset occurs, any
+hotunplug operation of the same device is forbid because there is a
+pending unplug state.
 
-Consider the following subtraction:
+This behavior has at least one undesirable side effect. A long standing
+pending unplug state is, more often than not, the result of a hotunplug
+error. The user had to dealt with it, since retrying to unplug the
+device is noy allowed, and then in the machine reset we're removing the
+device from the guest. This means that we're failing the user twice -
+failed to hotunplug when asked, then hotunplugged without notice.
 
-v0 = 0x9999999999999999999999999999999c (maximum positive BCD value)
-v1 = 0x0000000000000000000000000000001d (negative one BCD value)
-bcdsub. v0,v0,v1,0
+Solutions to this problem range between trying to predict when the
+hotunplug will fail and forbid the operation from the QEMU layer, from
+opening up the IRQ queue to allow for multiple hotunplug attempts, from
+telling the users to 'reboot the machine if something goes wrong'. The
+first solution is flawed because we can't fully predict guest behavior
+from QEMU, the second solution is a trial and error remediation that
+counts on a hope that the unplug will eventually succeed, and the third
+is ... well.
 
-The Power ISA 2.07B says:
-If the unbounded result is greater than zero, do the following.
-  If PS=0, the sign code of the result is set to 0b1100.
-  If PS=1, the sign code of the result is set to 0b1111.
-  If the operation overflows, CR field 6 is set to 0b0101. Otherwise,
-  CR field 6 is set to 0b0100.
+This patch introduces a crude, but effective solution to hotunplug
+errors in the pSeries machine. For each unplug done, we'll timeout after
+some time. If a certain amount of time passes, we'll cleanup the
+hotunplug state from the machine.  During the timeout period, any unplug
+operations in the same device will still be blocked. After that, we'll
+assume that the guest failed the operation, and allow the user to try
+again. If the timeout is too short we'll prevent legitimate hotunplug
+situations to occur, so we'll need to overestimate the regular time an
+unplug operation takes to succeed to account that.
 
-POWER9 hardware:
-vr0 = 0x0000000000000000000000000000000c (positive zero BCD value)
-cr6 = 0b0101 (0x5) (positive, overflow)
+The true solution for the hotunplug errors in the pSeries machines is a
+PAPR change to allow for the guest to warn the platform about it. For
+now, the work done in this timeout design can be used for the new PAPR
+'abort hcall' in the future, given that for both cases we'll need code
+to cleanup the existing unplug states of the DRCs.
 
-QEMU:
-vr0 = 0x0000000000000000000000000000000c (positive zero BCD value)
-cr6 = 0b0011 (0x3) (zero, overflow) <--- wrong
+At this moment we're adding the basic wiring of the timer into the DRC.
+Next patch will use the timer to timeout failed CPU hotunplugs.
 
-This patch reverts the part of d03b174a83 that introduced the
-problem and adds a test-case to avoid further regressions:
-
-before:
-$ make run-tcg-tests-ppc64le-linux-user
-(...)
-  TEST    bcdsub on ppc64le
-bcdsub: qemu/tests/tcg/ppc64le/bcdsub.c:58: test_bcdsub_gt:
-Assertion `(cr >> 4) == ((1 << 2) | (1 << 0))' failed.
-
-Fixes: d03b174a83 (target/ppc: simplify bcdadd/sub functions)
-Reported-by: Paul Clarke <pc@us.ibm.com>
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20210222194035.2723056-1-farosas@linux.ibm.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210222194531.62717-4-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/int_helper.c           |  13 ++-
- tests/tcg/configure.sh            |   6 ++
- tests/tcg/ppc64/Makefile.target   |  13 +++
- tests/tcg/ppc64le/Makefile.target |  12 +++
- tests/tcg/ppc64le/bcdsub.c        | 130 ++++++++++++++++++++++++++++++
- 5 files changed, 171 insertions(+), 3 deletions(-)
- create mode 100644 tests/tcg/ppc64/Makefile.target
- create mode 100644 tests/tcg/ppc64le/Makefile.target
- create mode 100644 tests/tcg/ppc64le/bcdsub.c
+ hw/ppc/spapr_drc.c         | 40 ++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr_drc.h |  4 ++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 0b682a1f94..429de28494 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -2175,14 +2175,17 @@ static int bcd_cmp_mag(ppc_avr_t *a, ppc_avr_t *b)
-     return 0;
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 67041fb212..27adbc5c30 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -57,6 +57,8 @@ static void spapr_drc_release(SpaprDrc *drc)
+     drck->release(drc->dev);
+ 
+     drc->unplug_requested = false;
++    timer_del(drc->unplug_timeout_timer);
++
+     g_free(drc->fdt);
+     drc->fdt = NULL;
+     drc->fdt_start_offset = 0;
+@@ -370,6 +372,17 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+     } while (fdt_depth != 0);
  }
  
--static void bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
-+static int bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
-                        int *overflow)
++static void spapr_drc_start_unplug_timeout_timer(SpaprDrc *drc)
++{
++    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
++
++    if (drck->unplug_timeout_seconds != 0) {
++        timer_mod(drc->unplug_timeout_timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++                  drck->unplug_timeout_seconds * 1000);
++    }
++}
++
+ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
  {
-     int carry = 0;
-     int i;
-+    int is_zero = 1;
-+
-     for (i = 1; i <= 31; i++) {
-         uint8_t digit = bcd_get_digit(a, i, invalid) +
-                         bcd_get_digit(b, i, invalid) + carry;
-+        is_zero &= (digit == 0);
-         if (digit > 9) {
-             carry = 1;
-             digit -= 10;
-@@ -2194,6 +2197,7 @@ static void bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
-     }
- 
-     *overflow = carry;
-+    return is_zero;
+     trace_spapr_drc_attach(spapr_drc_index(drc));
+@@ -475,11 +488,23 @@ static bool spapr_drc_needed(void *opaque)
+         spapr_drc_unplug_requested(drc);
  }
  
- static void bcd_sub_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
-@@ -2225,14 +2229,15 @@ uint32_t helper_bcdadd(ppc_avr_t *r,  ppc_avr_t *a, ppc_avr_t *b, uint32_t ps)
-     int sgnb = bcd_get_sgn(b);
-     int invalid = (sgna == 0) || (sgnb == 0);
-     int overflow = 0;
-+    int zero = 0;
-     uint32_t cr = 0;
-     ppc_avr_t result = { .u64 = { 0, 0 } };
- 
-     if (!invalid) {
-         if (sgna == sgnb) {
-             result.VsrB(BCD_DIG_BYTE(0)) = bcd_preferred_sgn(sgna, ps);
--            bcd_add_mag(&result, a, b, &invalid, &overflow);
--            cr = bcd_cmp_zero(&result);
-+            zero = bcd_add_mag(&result, a, b, &invalid, &overflow);
-+            cr = (sgna > 0) ? CRF_GT : CRF_LT;
-         } else {
-             int magnitude = bcd_cmp_mag(a, b);
-             if (magnitude > 0) {
-@@ -2255,6 +2260,8 @@ uint32_t helper_bcdadd(ppc_avr_t *r,  ppc_avr_t *a, ppc_avr_t *b, uint32_t ps)
-         cr = CRF_SO;
-     } else if (overflow) {
-         cr |= CRF_SO;
-+    } else if (zero) {
-+        cr |= CRF_EQ;
-     }
- 
-     *r = result;
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 36b8a73a54..ce304f4933 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -251,6 +251,12 @@ for target in $target_list; do
-                 echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
-             fi
-         ;;
-+        ppc*)
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -mpower8-vector -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
-+            fi
-+        ;;
-     esac
- 
-     enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-new file mode 100644
-index 0000000000..0c6a4585fc
---- /dev/null
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -0,0 +1,13 @@
-+# -*- Mode: makefile -*-
-+#
-+# ppc64 specific tweaks
-+
-+VPATH += $(SRC_PATH)/tests/tcg/ppc64
-+VPATH += $(SRC_PATH)/tests/tcg/ppc64le
-+
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
-+PPC64_TESTS=bcdsub
-+endif
-+bcdsub: CFLAGS += -mpower8-vector
-+
-+TESTS += $(PPC64_TESTS)
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-new file mode 100644
-index 0000000000..1acfcff94a
---- /dev/null
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -0,0 +1,12 @@
-+# -*- Mode: makefile -*-
-+#
-+# ppc64le specific tweaks
-+
-+VPATH += $(SRC_PATH)/tests/tcg/ppc64le
-+
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
-+PPC64LE_TESTS=bcdsub
-+endif
-+bcdsub: CFLAGS += -mpower8-vector
-+
-+TESTS += $(PPC64LE_TESTS)
-diff --git a/tests/tcg/ppc64le/bcdsub.c b/tests/tcg/ppc64le/bcdsub.c
-new file mode 100644
-index 0000000000..8c188cae6d
---- /dev/null
-+++ b/tests/tcg/ppc64le/bcdsub.c
-@@ -0,0 +1,130 @@
-+#include <assert.h>
-+#include <unistd.h>
-+#include <signal.h>
-+
-+#define CRF_LT  (1 << 3)
-+#define CRF_GT  (1 << 2)
-+#define CRF_EQ  (1 << 1)
-+#define CRF_SO  (1 << 0)
-+#define UNDEF   0
-+
-+#define BCDSUB(vra, vrb, ps)                    \
-+    asm ("bcdsub. %1,%2,%3,%4;"                 \
-+         "mfocrf %0,0b10;"                      \
-+         : "=r" (cr), "=v" (vrt)                \
-+         : "v" (vra), "v" (vrb), "i" (ps)       \
-+         : );
-+
-+#define TEST(vra, vrb, ps, exp_res, exp_cr6)    \
-+    do {                                        \
-+        __int128 vrt = 0;                       \
-+        int cr = 0;                             \
-+        BCDSUB(vra, vrb, ps);                   \
-+        if (exp_res)                            \
-+            assert(vrt == exp_res);             \
-+        assert((cr >> 4) == exp_cr6);           \
-+    } while (0)
-+
-+
-+/*
-+ * Unbounded result is equal to zero:
-+ *   sign = (PS) ? 0b1111 : 0b1100
-+ *   CR6 = 0b0010
-+ */
-+void test_bcdsub_eq(void)
++static int spapr_drc_post_load(void *opaque, int version_id)
 +{
-+    __int128 a, b;
++    SpaprDrc *drc = opaque;
 +
-+    /* maximum positive BCD value */
-+    a = b = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
-+
-+    TEST(a, b, 0, 0xc, CRF_EQ);
-+    TEST(a, b, 1, 0xf, CRF_EQ);
-+}
-+
-+/*
-+ * Unbounded result is greater than zero:
-+ *   sign = (PS) ? 0b1111 : 0b1100
-+ *   CR6 = (overflow) ? 0b0101 : 0b0100
-+ */
-+void test_bcdsub_gt(void)
-+{
-+    __int128 a, b, c;
-+
-+    /* maximum positive BCD value */
-+    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
-+
-+    /* negative one BCD value */
-+    b = (__int128) 0x1d;
-+
-+    TEST(a, b, 0, 0xc, (CRF_GT | CRF_SO));
-+    TEST(a, b, 1, 0xf, (CRF_GT | CRF_SO));
-+
-+    c = (((__int128) 0x9999999999999999) << 64 | 0x999999999999998c);
-+
-+    TEST(c, b, 0, a, CRF_GT);
-+    TEST(c, b, 1, (a | 0x3), CRF_GT);
-+}
-+
-+/*
-+ * Unbounded result is less than zero:
-+ *   sign = 0b1101
-+ *   CR6 = (overflow) ? 0b1001 : 0b1000
-+ */
-+void test_bcdsub_lt(void)
-+{
-+    __int128 a, b;
-+
-+    /* positive zero BCD value */
-+    a = (__int128) 0xc;
-+
-+    /* positive one BCD value */
-+    b = (__int128) 0x1c;
-+
-+    TEST(a, b, 0, 0x1d, CRF_LT);
-+    TEST(a, b, 1, 0x1d, CRF_LT);
-+
-+    /* maximum negative BCD value */
-+    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999d);
-+
-+    /* positive one BCD value */
-+    b = (__int128) 0x1c;
-+
-+    TEST(a, b, 0, 0xd, (CRF_LT | CRF_SO));
-+    TEST(a, b, 1, 0xd, (CRF_LT | CRF_SO));
-+}
-+
-+void test_bcdsub_invalid(void)
-+{
-+    __int128 a, b;
-+
-+    /* positive one BCD value */
-+    a = (__int128) 0x1c;
-+    b = 0xf00;
-+
-+    TEST(a, b, 0, UNDEF, CRF_SO);
-+    TEST(a, b, 1, UNDEF, CRF_SO);
-+
-+    TEST(b, a, 0, UNDEF, CRF_SO);
-+    TEST(b, a, 1, UNDEF, CRF_SO);
-+
-+    a = 0xbad;
-+
-+    TEST(a, b, 0, UNDEF, CRF_SO);
-+    TEST(a, b, 1, UNDEF, CRF_SO);
-+}
-+
-+int main(void)
-+{
-+    struct sigaction action;
-+
-+    action.sa_handler = _exit;
-+    sigaction(SIGABRT, &action, NULL);
-+
-+    test_bcdsub_eq();
-+    test_bcdsub_gt();
-+    test_bcdsub_lt();
-+    test_bcdsub_invalid();
++    if (drc->unplug_requested) {
++        spapr_drc_start_unplug_timeout_timer(drc);
++    }
 +
 +    return 0;
 +}
++
+ static const VMStateDescription vmstate_spapr_drc = {
+     .name = "spapr_drc",
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = spapr_drc_needed,
++    .post_load = spapr_drc_post_load,
+     .fields  = (VMStateField []) {
+         VMSTATE_UINT32(state, SpaprDrc),
+         VMSTATE_END_OF_LIST()
+@@ -490,6 +515,15 @@ static const VMStateDescription vmstate_spapr_drc = {
+     }
+ };
+ 
++static void drc_unplug_timeout_cb(void *opaque)
++{
++    SpaprDrc *drc = opaque;
++
++    if (drc->unplug_requested) {
++        drc->unplug_requested = false;
++    }
++}
++
+ static void drc_realize(DeviceState *d, Error **errp)
+ {
+     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
+@@ -512,6 +546,11 @@ static void drc_realize(DeviceState *d, Error **errp)
+     object_property_add_alias(root_container, link_name,
+                               drc->owner, child_name);
+     g_free(link_name);
++
++    drc->unplug_timeout_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                             drc_unplug_timeout_cb,
++                                             drc);
++
+     vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spapr_drc,
+                      drc);
+     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
+@@ -529,6 +568,7 @@ static void drc_unrealize(DeviceState *d)
+     name = g_strdup_printf("%x", spapr_drc_index(drc));
+     object_property_del(root_container, name);
+     g_free(name);
++    timer_free(drc->unplug_timeout_timer);
+ }
+ 
+ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+index 02a63b3666..38ec4c8091 100644
+--- a/include/hw/ppc/spapr_drc.h
++++ b/include/hw/ppc/spapr_drc.h
+@@ -187,6 +187,8 @@ typedef struct SpaprDrc {
+     bool unplug_requested;
+     void *fdt;
+     int fdt_start_offset;
++
++    QEMUTimer *unplug_timeout_timer;
+ } SpaprDrc;
+ 
+ struct SpaprMachineState;
+@@ -209,6 +211,8 @@ typedef struct SpaprDrcClass {
+ 
+     int (*dt_populate)(SpaprDrc *drc, struct SpaprMachineState *spapr,
+                        void *fdt, int *fdt_start_offset, Error **errp);
++
++    int unplug_timeout_seconds;
+ } SpaprDrcClass;
+ 
+ typedef struct SpaprDrcPhysical {
 -- 
 2.29.2
 
