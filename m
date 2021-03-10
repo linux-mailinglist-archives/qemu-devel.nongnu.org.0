@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEDB3348EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 21:34:01 +0100 (CET)
-Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BA6334915
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 21:45:14 +0100 (CET)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK5Wp-0005SN-LF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 15:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34524)
+	id 1lK5hh-0002Dg-V8
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 15:45:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK5SS-0001m8-5c
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 15:29:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36472)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK5W7-0005wX-PR
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 15:33:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK5SP-0006x0-Ox
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 15:29:27 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK5W1-0000cM-Np
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 15:33:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615408163;
+ s=mimecast20190719; t=1615408388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WUkCmkeF/L+GW58P+xjwaYZf7QVPbJvMVVLjhgnuEXM=;
- b=ObZI793eRhD7dIRfzJtjha4XwKImTED7iF5nNFfGiQn4OPcyhGoEQBrLIxDUOf/TVqzKML
- 2aVixe2ISxFv+lPGK8PEvm2Fm1e/LxS0QJbjkeVPLS8VYNeDmVhsH4fbh3HJm2ZALnYRR6
- r+x8Cwv0594xcMHyke62XlYp/91iSlw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-c2J1_Mu9PpuvsuYFggQzKQ-1; Wed, 10 Mar 2021 15:29:22 -0500
-X-MC-Unique: c2J1_Mu9PpuvsuYFggQzKQ-1
-Received: by mail-qk1-f200.google.com with SMTP id x11so10517241qki.22
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 12:29:22 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cYGLaxM2udnvCsdpS5FKK+EZxiycTUW7X1cYSnPDVZ0=;
+ b=Itt74qxOCET0jTYsOAz2b9zP6khQJqJ7ol3ra/b1ubdmPIVHmMR/O4Z9uqoYnlaME8rrhn
+ hoBn0S2pR7NDk4CZsVDWOxV5vWy9+Elh9B1wduisgfD41B3wc/JZrT+kXuzYnDgq68hSQ8
+ BFMjXMuKREev8aDSRsCePkA5Movu9tg=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-XIq15A9_PXGajXCmn6dSOQ-1; Wed, 10 Mar 2021 15:33:04 -0500
+X-MC-Unique: XIq15A9_PXGajXCmn6dSOQ-1
+Received: by mail-qv1-f72.google.com with SMTP id e10so13541891qvr.17
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 12:33:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=WUkCmkeF/L+GW58P+xjwaYZf7QVPbJvMVVLjhgnuEXM=;
- b=o9z7leUYu+mZEi0fNoDmaNW+w7+FyBmMvAE/+GCn60M+ZthAg6hVfLrK+sRspQmiEf
- HDCpMRKVGHBfavOIxBsSJkNA5TkKqiQ+Mf0Agb+C4+G1sxQ1ic34ZuP10FrbDklB1V2i
- 1H+urKGGLsGNwVh0VNreaN4q2mra+wdA8p2win5cBWzFlN6fcHR/WUhM7UVo+O2kxEcj
- mRkzATJUk56euZtOFSS2c0LYUqlSaD2BL0mIUaeV8HV8EKkSLsOL4IJ9TNWj1/cVhjPn
- cx/4LRChL3+5cOE6BJRflbWnO7JWy8fgKgwkxxxVpAdNy6nKIrrI9K0zgPldRAxtNek3
- PuIQ==
-X-Gm-Message-State: AOAM530G4DHLBxPRtX3kwVIEEtZT0RjhSGZykHJiQdSMUKNyXqpGmGo0
- 6F4T5mO65Iw/TTRceaOsoeVOeQ9iVTUJk/hAZtv8WOMth5O50oU/zSwmGlrfefG4tnS118GjMMv
- JpYrMdz3Ro4O3XCg=
-X-Received: by 2002:ad4:4745:: with SMTP id c5mr4863092qvx.39.1615408161221;
- Wed, 10 Mar 2021 12:29:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYkrnScCcVIGfCoBPFwBztSXlcf3SG1hSZg5UY64B3O1/GjuwG7isqX6fejV6IL6y/Sh/QFw==
-X-Received: by 2002:ad4:4745:: with SMTP id c5mr4863077qvx.39.1615408160951;
- Wed, 10 Mar 2021 12:29:20 -0800 (PST)
-Received: from xz-x1 ([142.126.89.138])
- by smtp.gmail.com with ESMTPSA id o76sm312289qke.79.2021.03.10.12.29.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g6OAwtBY7ChNnNIQCf2XhTyfQh8hPEREP/MQor5143A=;
+ b=dyuC8pMXmmyAzcraiX+4zWRd1M3jHZ0Hz1dHzdE30wft5mGFQQVT/K5RLbSRb10nNu
+ lz7Tcj2ns2YU6gmeHOhf3yy3WhndSeFhO/gI9Z0TbtuqNMKuO3HRW888JXKFSiKPpTlF
+ 4tcKkWTjLoirvoq0ESpMURawxajAgON18npEPf+cD+YLibNSldZkdV0m9mGynBAr0TDc
+ pP015eHwenManrESjkGUWWIvL/ZUAzhxuQ10COI8hA4/PvYBUG/gsQhX+l1pKrOi77Mi
+ fwAJ7tTWHz3auDDTLQ5faimrC2+2BJgSLHfWn/xr6buNYR7S+khNFLZbuwz2IVAxs8Zh
+ Jv2A==
+X-Gm-Message-State: AOAM53113fCml5zPd56O/wsHr784q9b0ps80BP6n9r6JshTbpCzZDS2v
+ GAmlqAKjNw1B66DHdR5VV6wJ//bV7DLB9clJcfGxOPdm/OiyReef83NRE81n7/SJBk9KTufzh+R
+ /mK5k2pl3TBrvs8Q++Isd6CvsrSdlK8oJNUYMWdSaoWjKizcE+Lt3MjARcL+vvSHg
+X-Received: by 2002:a05:620a:4002:: with SMTP id
+ h2mr4398016qko.223.1615408383526; 
+ Wed, 10 Mar 2021 12:33:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwDOYmQ5Gzngo3JjhxaFdcMbT1GmYWlc5Mois31SN8R+jdtHcCBYY+xBgiyJ5mrDGBq7kJD7A==
+X-Received: by 2002:a05:620a:4002:: with SMTP id
+ h2mr4397973qko.223.1615408383040; 
+ Wed, 10 Mar 2021 12:33:03 -0800 (PST)
+Received: from xz-x1.redhat.com ([142.126.89.138])
+ by smtp.gmail.com with ESMTPSA id z89sm306746qtd.5.2021.03.10.12.33.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 12:29:20 -0800 (PST)
-Date: Wed, 10 Mar 2021 15:29:19 -0500
+ Wed, 10 Mar 2021 12:33:02 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/2] hw/mips/jazz: Use generic I/O bus via get_system_io()
-Message-ID: <20210310202919.GH6530@xz-x1>
-References: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
- <20210310191255.1229848-1-f4bug@amsat.org>
- <20210310194924.GF6530@xz-x1>
- <5e53b99f-548c-8da9-f6fd-9c764642350b@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
+Date: Wed, 10 Mar 2021 15:32:51 -0500
+Message-Id: <20210310203301.194842-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <5e53b99f-548c-8da9-f6fd-9c764642350b@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,43 +91,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Alexander Bulekov <alxndr@bu.edu>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 09:11:40PM +0100, Philippe Mathieu-Daudé wrote:
-> >>      /* ISA bus: IO space at 0x90000000, mem space at 0x91000000 */
-> >> -    memory_region_init(isa_io, NULL, "isa-io", 0x00010000);
-> >>      memory_region_init(isa_mem, NULL, "isa-mem", 0x01000000);
-> >> -    memory_region_add_subregion(address_space, 0x90000000, isa_io);
-> >> +    memory_region_add_subregion(address_space, 0x90000000, get_system_io());
-> > 
-> > The old code has an alias created just for adding subregion into address_space:
-> > 
-> > -    /* ISA IO space at 0x90000000 */
-> > -    memory_region_init_alias(isa, NULL, "isa_mmio",
-> > -                             get_system_io(), 0, 0x01000000);
-> > -    memory_region_add_subregion(address_space, 0x90000000, isa);
-> > -    isa_mem_base = 0x11000000;
-> > 
-> > While you didn't revert that part.  Maybe that's the issue?
-> 
-> Hmm I'll have a look. This is not the series I'm working on, which
-> is much bigger and not ready for posting yet. I simply looked for
-> something similar (a bus mapped into sysbus) and remembered the
-> ISA bus from Jazz machines. I'll see if I can find a better PoC.
-
-Yeah no worry - it's just that I feel one memory_region_init_alias() call is
-probably missing in your huge series somewhere, so that you'll take that alias
-MR as subregion rather than the real MR (which is the root of one AS).
-
--- 
-Peter Xu
+This is v5 of the qemu dirty ring interface support.=0D
+=0D
+v5:=0D
+- rebase=0D
+- dropped patch "update-linux-headers: Include const.h" after rebase=0D
+- dropped patch "KVM: Fixup kvm_log_clear_one_slot() ioctl return check" si=
+nce=0D
+  similar patch got merged recently (38e0b7904eca7cd32f8953c3)=0D
+=0D
+=3D=3D=3D=3D=3D=3D=3D=3D=3D v4 cover letter below =3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=0D
+=0D
+It is merely the same as v3 content-wise, but there're a few things to ment=
+ion=0D
+besides the rebase itself:=0D
+=0D
+  - I picked up two patches from Eric Farman for the linux-header updates (=
+from=0D
+    Eric's v3 series) for convenience just in case any of the series would =
+got=0D
+    queued by any maintainer.=0D
+=0D
+  - One more patch is added as "KVM: Disable manual dirty log when dirty ri=
+ng=0D
+    enabled".  I found this when testing the branch after rebasing to lates=
+t=0D
+    qemu, that not only the manual dirty log capability is not needed for k=
+vm=0D
+    dirty ring, but more importantly INITIALLY_ALL_SET is totally against k=
+vm=0D
+    dirty ring and it could silently crash the guest after migration.  For =
+this=0D
+    new commit, I touched up "KVM: Add dirty-gfn-count property" a bit.=0D
+=0D
+  - A few more documentation lines in qemu-options.hx.=0D
+=0D
+  - I removed the RFC tag after kernel series got merged.=0D
+=0D
+Again, this is only the 1st step to support dirty ring.  Ideally dirty ring=
+=0D
+should grant QEMU the possibility to remove the whole layered dirty bitmap =
+so=0D
+that dirty ring will work similarly as auto-converge enabled but should bet=
+ter;=0D
+we will just throttle vcpus with the dirty ring kvm exit rather than explic=
+itly=0D
+adding a timer to stop the vcpu thread from entering the guest again (like =
+what=0D
+we did with current migration auto-converge).  Some more information could =
+also=0D
+be found in the kvm forum 2020 talk regarding kvm dirty ring (slides 21/22 =
+[1]).=0D
+=0D
+That next step (to remove all the dirty bitmaps, as mentioned above) is sti=
+ll=0D
+discussable: firstly I don't know whether there's anything I've overlooked =
+in=0D
+there.  Meanwhile that's also only services huge VM cases, may not be extre=
+mely=0D
+helpful with a lot major scenarios where VMs are not that huge.=0D
+=0D
+There's probably other ways to fix huge VM migration issues, majorly focusi=
+ng=0D
+on responsiveness and convergence.  For example, Google has proposed some n=
+ew=0D
+userfaultfd kernel capability called "minor modes" [2] to track page minor=
+=0D
+faults and that could be finally served for that purpose too using postcopy=
+.=0D
+That's another long story so I'll stop here, but just as a marker along wit=
+h=0D
+the dirty ring series so there'll still be a record to reference.=0D
+=0D
+Said that, I still think this series is very worth merging even if we don't=
+=0D
+persue the next steps yet, since dirty ring is disabled by default, and we =
+can=0D
+always work upon this series.=0D
+=0D
+Please review, thanks.=0D
+=0D
+V3: https://lore.kernel.org/qemu-devel/20200523232035.1029349-1-peterx@redh=
+at.com/=0D
+    (V3 contains all the pre-v3 changelog)=0D
+=0D
+QEMU branch for testing (requires kernel version 5.11-rc1+):=0D
+    https://github.com/xzpeter/qemu/tree/kvm-dirty-ring=0D
+=0D
+[1] https://static.sched.com/hosted_files/kvmforum2020/97/kvm_dirty_ring_pe=
+ter.pdf=0D
+[2] https://lore.kernel.org/lkml/20210107190453.3051110-1-axelrasmussen@goo=
+gle.com/=0D
+=0D
+---------------------------8<---------------------------------=0D
+=0D
+Overview=0D
+=3D=3D=3D=3D=3D=3D=3D=3D=0D
+=0D
+KVM dirty ring is a new interface to pass over dirty bits from kernel=0D
+to the userspace.  Instead of using a bitmap for each memory region,=0D
+the dirty ring contains an array of dirtied GPAs to fetch, one ring=0D
+per vcpu.=0D
+=0D
+There're a few major changes comparing to how the old dirty logging=0D
+interface would work:=0D
+=0D
+- Granularity of dirty bits=0D
+=0D
+  KVM dirty ring interface does not offer memory region level=0D
+  granularity to collect dirty bits (i.e., per KVM memory=0D
+  slot). Instead the dirty bit is collected globally for all the vcpus=0D
+  at once.  The major effect is on VGA part because VGA dirty tracking=0D
+  is enabled as long as the device is created, also it was in memory=0D
+  region granularity.  Now that operation will be amplified to a VM=0D
+  sync.  Maybe there's smarter way to do the same thing in VGA with=0D
+  the new interface, but so far I don't see it affects much at least=0D
+  on regular VMs.=0D
+=0D
+- Collection of dirty bits=0D
+=0D
+  The old dirty logging interface collects KVM dirty bits when=0D
+  synchronizing dirty bits.  KVM dirty ring interface instead used a=0D
+  standalone thread to do that.  So when the other thread (e.g., the=0D
+  migration thread) wants to synchronize the dirty bits, it simply=0D
+  kick the thread and wait until it flushes all the dirty bits to the=0D
+  ramblock dirty bitmap.=0D
+=0D
+A new parameter "dirty-ring-size" is added to "-accel kvm".  By=0D
+default, dirty ring is still disabled (size=3D=3D0).  To enable it, we=0D
+need to be with:=0D
+=0D
+  -accel kvm,dirty-ring-size=3D65536=0D
+=0D
+This establishes a 64K dirty ring buffer per vcpu.  Then if we=0D
+migrate, it'll switch to dirty ring.=0D
+=0D
+I gave it a shot with a 24G guest, 8 vcpus, using 10g NIC as migration=0D
+channel.  When idle or dirty workload small, I don't observe major=0D
+difference on total migration time.  When with higher random dirty=0D
+workload (800MB/s dirty rate upon 20G memory, worse for kvm dirty=0D
+ring). Total migration time is (ping pong migrate for 6 times, in=0D
+seconds):=0D
+=0D
+|-------------------------+---------------|=0D
+| dirty ring (4k entries) | dirty logging |=0D
+|-------------------------+---------------|=0D
+|                      70 |            58 |=0D
+|                      78 |            70 |=0D
+|                      72 |            48 |=0D
+|                      74 |            52 |=0D
+|                      83 |            49 |=0D
+|                      65 |            54 |=0D
+|-------------------------+---------------|=0D
+=0D
+Summary:=0D
+=0D
+dirty ring average:    73s=0D
+dirty logging average: 55s=0D
+=0D
+The KVM dirty ring will be slower in above case.  The number may show=0D
+that the dirty logging is still preferred as a default value because=0D
+small/medium VMs are still major cases, and high dirty workload=0D
+happens frequently too.  And that's what this series did.=0D
+=0D
+TODO:=0D
+=0D
+- Consider to drop the BQL dependency: then we can run the reaper thread in=
+=0D
+  parallel of main thread.  Needs some thought around the race conditions.=
+=0D
+=0D
+- Consider to drop the kvmslot bitmap: logically this can be dropped with k=
+vm=0D
+  dirty ring, not only for space saving, but also it's still another layer=
+=0D
+  linear to guest mem size which is against the whole idea of kvm dirty rin=
+g.=0D
+  This should make above number (of kvm dirty ring) even smaller (but still=
+ may=0D
+  not be as good as dirty logging when with such high workload).=0D
+=0D
+Please refer to the code and comment itself for more information.=0D
+=0D
+Thanks,=0D
+=0D
+Peter Xu (10):=0D
+  memory: Introduce log_sync_global() to memory listener=0D
+  KVM: Use a big lock to replace per-kml slots_lock=0D
+  KVM: Create the KVMSlot dirty bitmap on flag changes=0D
+  KVM: Provide helper to get kvm dirty log=0D
+  KVM: Provide helper to sync dirty bitmap from slot to ramblock=0D
+  KVM: Simplify dirty log sync in kvm_set_phys_mem=0D
+  KVM: Cache kvm slot dirty bitmap size=0D
+  KVM: Add dirty-gfn-count property=0D
+  KVM: Disable manual dirty log when dirty ring enabled=0D
+  KVM: Dirty ring support=0D
+=0D
+ accel/kvm/kvm-all.c      | 585 +++++++++++++++++++++++++++++++++------=0D
+ accel/kvm/trace-events   |   7 +=0D
+ include/exec/memory.h    |  12 +=0D
+ include/hw/core/cpu.h    |   8 +=0D
+ include/sysemu/kvm_int.h |   7 +-=0D
+ qemu-options.hx          |  12 +=0D
+ softmmu/memory.c         |  33 ++-=0D
+ 7 files changed, 565 insertions(+), 99 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
