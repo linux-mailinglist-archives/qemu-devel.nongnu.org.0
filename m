@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E103343B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:54:08 +0100 (CET)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACC433431F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:35:20 +0100 (CET)
+Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK263-0003MX-VS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
+	id 1lK1nr-00039V-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:35:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK1M8-0000iQ-PJ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:06:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41362)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK1NU-0001nX-Lb
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK1M6-0005gO-Pq
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:06:40 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK1NS-0006Tn-8z
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:08:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615392397;
+ s=mimecast20190719; t=1615392481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mX3l5qwdH/+aWeskGwyEjL5wfjz+higTTweVhP1RlPU=;
- b=FtANUiSxRsyD6wlA7Tx0ChI5vlsygi9mrDYnbHpArEIoQ2FCy/H2vaAPqR204sxfAP/Kvl
- Mx9Xu1uc/8UdJDDLbnurY6zfUxrZ4IIvAAsoI8TFzbSrv2q8AYdJrbKRQDkBTD071hpHS2
- BHaXDhjzWkflfwklvMULKHX+1lbUonA=
+ bh=AsdMloTgN0taXsKQ40fAoCDOkUQzGz5Ut5F3C362uuY=;
+ b=dgplIK4c37Hc3trrKFsTri/AHiGrstfgMB+jBNcv4Z4OlrDXJPe0W7a7JsXMISKJEtlU86
+ THfz6P6LM/C1zABR7g+wxZptkTRFz+TZ49xyy833wirMbfkJAki2SKCZmGWSEu1a5zHy5g
+ nb67zNMhFlC9zm02fckEFdDeDJZMS24=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-reytUPqbOFuPhpuYCveXEw-1; Wed, 10 Mar 2021 11:06:35 -0500
-X-MC-Unique: reytUPqbOFuPhpuYCveXEw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-34-x_2gyhbROf2NCos7PAJryg-1; Wed, 10 Mar 2021 11:07:58 -0500
+X-MC-Unique: x_2gyhbROf2NCos7PAJryg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD7056D4E1;
- Wed, 10 Mar 2021 16:06:34 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05FC917B37;
- Wed, 10 Mar 2021 16:06:32 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210309165035.967853-1-thuth@redhat.com>
- <87y2ev2lmr.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
- audio which gets removed)
-Message-ID: <23db3eef-7b13-62cb-a164-12d82b763886@redhat.com>
-Date: Wed, 10 Mar 2021 17:06:31 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D00E48015BD;
+ Wed, 10 Mar 2021 16:07:57 +0000 (UTC)
+Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A4115945D;
+ Wed, 10 Mar 2021 16:07:57 +0000 (UTC)
+Subject: Re: [PATCH 4/4] iotests/108: Test new refcount rebuild algorithm
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210310155906.147478-1-mreitz@redhat.com>
+ <20210310155906.147478-5-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0c178b42-de16-3400-1ea8-852474ed7391@redhat.com>
+Date: Wed, 10 Mar 2021 10:07:56 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <87y2ev2lmr.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210310155906.147478-5-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,112 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/03/2021 14.17, Markus Armbruster wrote:
-> Thomas Huth <thuth@redhat.com> writes:
+On 3/10/21 9:59 AM, Max Reitz wrote:
+> One clear problem with how qcow2's refcount structure rebuild algorithm
+> used to be before "qcow2: Improve refcount structure rebuilding" was
+> that it is prone to failure for qcow2 images on block devices: There is
+> generally unused space after the actual image, and if that exceeds what
+> one refblock covers, the old algorithm would invariably write the
+> reftable past the block device's end, which cannot work.  The new
+> algorithm does not have this problem.
 > 
->> When trying to remove the -usbdevice option, there were complaints that
->> "-usbdevice braille" is still a very useful shortcut for some people.
+> Test it with three tests:
+> (1) Create an image with more empty space at the end than what one
+>     refblock covers, see whether rebuilding the refcount structures
+>     results in a change in the image file length.  (It should not.)
 > 
-> Pointer?  I missed it.
+> (2) Leave precisely enough space somewhere at the beginning of the image
+>     for the new reftable (and the refblock for that place), see whether
+>     the new algorithm puts the reftable there.  (It should.)
 > 
->> Thus we never remove this option. Since it's not such a big burden to
->> keep it around, and it's also convenient in the sense that you don't
->> have to worry to enable a host controller explicitly with this option,
->> we should remove it from he deprecation list again, and rather properly
->> document the possible device for this option instead.
->>
->> However, there is one exception: "-usbdevice audio" should go away, since
->> audio devices without "audiodev=..." parameter are also on the deprecation
->> list and you cannot use "-usbdevice audio" with "audiodev".
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> 
-> To be frank, I don't like this.  At all.
-> 
-> -usbdevice comes with its own ad hoc mini-language, parsed by
-> usbdevice_create().  Syntax is DRIVER[:PARAMS], where PARAMS defaults to
-> "" and is parsed by an optional DRIVER-specific LegacyUSBFactory.
+> (3) Test the original problem: Create (something like) a block device
+>     with a fixed size, then create a qcow2 image in there, write some
+>     data, and then have qemu-img check rebuild the refcount structures.
+>     Before HEAD^, the reftable would have been written past the image
+>     file end, i.e. outside of what the block device provides, which
+>     cannot work.  HEAD^ should have fixed that.
+>     ("Something like a block device" means a loop device if we can use
+>     one ("sudo -n losetup" works), or a FUSE block export with
+>     growable=false otherwise.)
 
-Oh, there is still parameter parsing code left? I thought we'd remove it 
-after removing the other legacy devices that actually took parameters... so 
-yes, at least the parameter-related code in usbdevice_create() should go 
-away, too.
+We could use qemu-nbd as another alternative to create a non-growable
+protocol layer.  Then we don't need root access via sudo to run the test.
 
-> We already dropped multiple drivers: "host", "serial", "disk", "net"
-> (commit 99761176e, v2.12), and "bt" (commit 43d68d0a9, v5.0).
-
-Right, these were the really ugly ones that used their own parameter parsing 
-code.
-
-> We've kept "audio" (dropped in this patch), "tablet", "mouse",
-> "keyboard", "braille", "ccid", and "wacom-tablet".  Only "mouse",
-> "tablet", "braille" are documented (fixed in this patch).
-> 
-> One more has crept in: "u2f-key" (commit bb014a810, v5.2).  It's buggy:
-> 
->      $ qemu-system-x86_64 -S -usbdevice u2f-key
->      qemu-system-x86_64: -usbdevice u2f-key: '-usbdevice' is deprecated, please use '-device usb-...' instead
->      **
->      ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
->      Bail out! ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
->      Aborted (core dumped)
-> 
-> Broken right in the commit that added the stuff.  The sugar never
-> worked, and should be taken out again.
-
-Ouch, that should get removed again immediately, of course.
-
-> Without a factory, "-usbdevice BAR" is sugar for
-> 
->      -device BAZ -machine usb=on
-> 
-> "braille" is the only driver with a factory.  "-usbdevice braille" is
-> sugar for
-> 
->    -device usb-braille,chardev=braille -chardev braille,id=braille
->    -machine usb=on
-> 
-> It's buggy:
-> 
->      $ qemu-system-x86_64 -S -usbdevice braille
->      qemu-system-x86_64: -usbdevice braille: '-usbdevice' is deprecated, please use '-device usb-...' instead
-> [three seconds tick by...]
->      Segmentation fault (core dumped)
-
-That's a separate issue.
-
-> It neglects to actually parse PARAMS:
-> 
->      $ qemu-system-x86_64 -S -usbdevice braille:"I'm a Little Teapot"
->      qemu-system-x86_64: -usbdevice braille:I'm a Little Teapot: '-usbdevice' is deprecated, please use '-device usb-...' instead
-> [three seconds tick by...]
->      Segmentation fault (core dumped)
-> 
-> The whole machinery in support of optional PARAMS has long become
-> useless.
-
-Right, we should get rid of the remainders of parameter parsing here.
-
-> I fail to see why we could drop the sugar for serial, disk, net and host
-> devices, but not for the others.
- >
-> The only one that has something approaching a leg to stand on is
-> braille.  Still, I fail to see why having to specify a backend is fine
-> for any number of other devices, but not for braille.
-
-As explained in the mails from Samuel and Paolo, it's still used out there, 
-so we should not break this without an easy replacement.
-
-Gerd, can you please un-queue my patch again. I'll rework it wrt. u2f-key 
-and the legacy parameter parsing code.
-
-  Thomas
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
