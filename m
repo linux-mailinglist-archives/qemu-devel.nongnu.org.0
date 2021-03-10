@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917F233371A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:15:45 +0100 (CET)
-Received: from localhost ([::1]:54424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9ED5333720
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:17:42 +0100 (CET)
+Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJu0O-0005HM-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:15:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36234)
+	id 1lJu2H-0006zD-P6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:17:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJtyi-0003yR-4t
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:14:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51191)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJu0P-0005yo-GE
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:15:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJtyf-0002pT-9N
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:13:59 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lJu0N-000420-NM
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:15:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615364035;
+ s=mimecast20190719; t=1615364142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0RO6DJtzxn8KS8e2sc/XE0BMoC4uzgPjpZYSmpSBX2w=;
- b=f/yxHUKeaU4DtrThkuGt4vGD7quKWgoupRtoYN3yRclGVz4byGZBAnjw62HLjt9PR7hzLN
- TN+cz2Ut4zIlgF+9te/o348IC09dBfgXbvUDbfxve94lrRJkBoRS7ZKw2A886k/qffi8Od
- eY3r1u6gWOSOBik7CoDHblQE0pYTudE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-5NdapzmdNHGWae-SqSAFxw-1; Wed, 10 Mar 2021 03:13:54 -0500
-X-MC-Unique: 5NdapzmdNHGWae-SqSAFxw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09A9F80432D;
- Wed, 10 Mar 2021 08:13:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD0F65D9DB;
- Wed, 10 Mar 2021 08:13:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 370CF1132C12; Wed, 10 Mar 2021 09:13:48 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 3/4] fdc: Inline fdctrl_connect_drives() into
- fdctrl_realize_common()
-References: <20210309161214.1402527-1-armbru@redhat.com>
- <20210309161214.1402527-4-armbru@redhat.com>
- <ebe654b3-aafb-658d-ba80-ebc3e60d59a5@linaro.org>
-Date: Wed, 10 Mar 2021 09:13:48 +0100
-In-Reply-To: <ebe654b3-aafb-658d-ba80-ebc3e60d59a5@linaro.org> (Richard
- Henderson's message of "Tue, 9 Mar 2021 12:25:18 -0600")
-Message-ID: <87lfav77er.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=aD+Ndapj8ftPcJPgNUbouFAeQUeWIC3+WSriRRwq3yU=;
+ b=fFCt/PcoTzHpWzrxAx5t8m6mhM79bjkeuRpz+atO/VyNdbiFUYdQQuvDWmDFK3KkQBjB1o
+ yDKtENL8nAn2Kcm2DPlqDUHaAY7rHEF5+IvR8I+8dnxltcnmNwo2ynnwbocZbEBeqlzVnT
+ gHFpLiIK1J5GvZ51Rj3PYa8mvGTp+Dg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-Qp92G0p-NM27CWsK0pTdhA-1; Wed, 10 Mar 2021 03:15:41 -0500
+X-MC-Unique: Qp92G0p-NM27CWsK0pTdhA-1
+Received: by mail-wm1-f69.google.com with SMTP id y9so842554wma.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 00:15:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aD+Ndapj8ftPcJPgNUbouFAeQUeWIC3+WSriRRwq3yU=;
+ b=oj+N5rcdSc0g8xhzPYzMthINAm37HhC5j5Y1hrMiJq9BxUZQFcL/eLjAhme1dd8oqF
+ BmGDnQR6XpMWlGEioZF/gAbeaxlGrHcp3ZNCU2UAdbExw9T6yKS20mMh17sPxGwRBbQt
+ aWZrBNGL581KVMMSqrRz2zlImHpg2OM6zNembG4rCZf7Z7ps1uBzKJa2TRqgWXTxiS2R
+ g0Z79zPw2KvW7fEGFV4l70Mous2cJp+qooAFPbf2DVAhvO6OVbJfcrI0qIpSjR91QE8o
+ sXuKdgGbDVbWUwvkuAl/F2PbKKFeCkqIp9RL+pKVN8PsZ7gJqL3h2l0kuRuPwgo+kENy
+ 7SKQ==
+X-Gm-Message-State: AOAM532+tPEtPeC8LFhND//eiozCD/+moCZjTHHQ0ipwpezBhFlUWlt4
+ QJQfnR3hPk3VS/cY9hCmKPCgtADkVU05ZtW1Q/cDAm2dt0fb/WKclX/eL2+R953A0v/2QHnZ9DN
+ IEsCvn+MVez+Qews=
+X-Received: by 2002:a1c:7f84:: with SMTP id a126mr2090012wmd.151.1615364140039; 
+ Wed, 10 Mar 2021 00:15:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxBPMML+J22E4qHVoK89yP4UfUvN6/oMnGkXqL4PBJIR9NaKNrUtjL1i7LIln3v87bgFXIn4w==
+X-Received: by 2002:a1c:7f84:: with SMTP id a126mr2090000wmd.151.1615364139887; 
+ Wed, 10 Mar 2021 00:15:39 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id c9sm131303wml.42.2021.03.10.00.15.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Mar 2021 00:15:39 -0800 (PST)
+Subject: Re: [PATCH] tests: Move unit tests into a separate directory
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210310063314.1049838-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d684cc63-d60d-b346-3a78-edc94a0dade9@redhat.com>
+Date: Wed, 10 Mar 2021 09:15:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210310063314.1049838-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,32 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- jsnow@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 10/03/21 07:33, Thomas Huth wrote:
+> The main tests directory still looks very crowded, and it's not
+> clear which files are part of a unit tests and which belong to
+> a different test subsystem. Let's clean up the mess and move the
+> unit tests to a separate directory.
+> 
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
 
-> On 3/9/21 8:12 AM, Markus Armbruster wrote:
->> @@ -2565,6 +2551,7 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
->>                                     Error **errp)
->>   {
->>       int i, j;
->> +    FDrive *drive;
->>       static int command_tables_inited = 0;
->>         if (fdctrl->fallback == FLOPPY_DRIVE_TYPE_AUTO) {
->> @@ -2604,7 +2591,13 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
->>       }
->>         floppy_bus_create(fdctrl, &fdctrl->bus, dev);
->> -    fdctrl_connect_drives(fdctrl, dev, errp);
->> +
->> +    for (i = 0; i < MAX_FD; i++) {
->> +        drive = &fdctrl->drives[i];
->
-> FWIW, the declaration could be local to this loop.
+Looks good, I would have moved benchmarks as well but anyway it can be 
+done separately.
 
-Old-school habits.  John, got a preference?
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Paolo
 
 
