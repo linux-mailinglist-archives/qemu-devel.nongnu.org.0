@@ -2,50 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BC73333E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:37:21 +0100 (CET)
-Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558C6333408
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:58:01 +0100 (CET)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJpey-0004ks-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1lJpyx-0001rL-Ve
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1lJpcd-0000nu-Bt; Tue, 09 Mar 2021 22:34:55 -0500
-Received: from exmail.andestech.com ([60.248.187.195]:45049
- helo=ATCSQR.andestech.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1lJpcU-0000M9-JF; Tue, 09 Mar 2021 22:34:55 -0500
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 12A3YNsp085729;
- Wed, 10 Mar 2021 11:34:23 +0800 (GMT-8)
- (envelope-from dylan@andestech.com)
-Received: from atcfdc88.andestech.com (10.0.15.120) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.487.0;
- Wed, 10 Mar 2021 11:34:19 +0800
-From: Dylan Jhong <dylan@andestech.com>
-To: <Alistair.Francis@wdc.com>, <palmer@dabbelt.com>,
- <sagark@eecs.berkeley.edu>, <kbastian@mail.uni-paderborn.de>,
- <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH 3/3] Andes AE350 RISC-V Machine
-Date: Wed, 10 Mar 2021 11:33:58 +0800
-Message-ID: <20210310033358.30499-4-dylan@andestech.com>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>)
+ id 1lJpxX-0001Ci-6G; Tue, 09 Mar 2021 22:56:31 -0500
+Received: from ozlabs.ru ([107.174.27.60]:49862)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <aik@ozlabs.ru>)
+ id 1lJpxR-0004Fv-95; Tue, 09 Mar 2021 22:56:30 -0500
+Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id 83EE6AE8002D;
+ Tue,  9 Mar 2021 22:55:48 -0500 (EST)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH qemu v15] spapr: Implement Open Firmware client interface
+Date: Wed, 10 Mar 2021 14:55:46 +1100
+Message-Id: <20210310035546.74188-1-aik@ozlabs.ru>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210310033358.30499-1-dylan@andestech.com>
-References: <20210310033358.30499-1-dylan@andestech.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.0.15.120]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 12A3YNsp085729
-Received-SPF: pass client-ip=60.248.187.195; envelope-from=dylan@andestech.com;
- helo=ATCSQR.andestech.com
+Received-SPF: pass client-ip=107.174.27.60; envelope-from=aik@ozlabs.ru;
+ helo=ozlabs.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,689 +45,2268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruinland@andestech.com, Dylan Jhong <dylan@andestech.com>,
- alankao@andestech.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This provides a RISC-V Board based on Andes's AE350 specification.
-The following machine is implemented:
+The PAPR platform which describes an OS environment that's presented by
+a combination of a hypervisor and firmware. The features it specifies
+require collaboration between the firmware and the hypervisor.
 
-- 'andes_ae350'; PLIC, PLICSW, PLMT, 16550a UART, VirtIO MMIO, device-tree
+Since the beginning, the runtime component of the firmware (RTAS) has
+been implemented as a 20 byte shim which simply forwards it to
+a hypercall implemented in qemu. The boot time firmware component is
+SLOF - but a build that's specific to qemu, and has always needed to be
+updated in sync with it. Even though we've managed to limit the amount
+of runtime communication we need between qemu and SLOF, there's some,
+and it has become increasingly awkward to handle as we've implemented
+new features.
 
-Signed-off-by: Dylan Jhong <dylan@andestech.com>
-Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+This implements a boot time OF client interface (CI) which is
+enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
+Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+which implements Open Firmware Client Interface (OF CI). This allows
+using a smaller stateless firmware which does not have to manage
+the device tree.
+
+The new "vof.bin" firmware image is included with source code under
+pc-bios/. It also includes RTAS blob.
+
+This implements a handful of CI methods just to get -kernel/-initrd
+working. In particular, this implements the device tree fetching and
+simple memory allocator - "claim" (an OF CI memory allocator) and updates
+"/memory@0/available" to report the client about available memory.
+
+This implements changing some device tree properties which we know how
+to deal with, the rest is ignored. To allow changes, this skips
+fdt_pack() when x-vof=on as not packing the blob leaves some room for
+appending.
+
+In absence of SLOF, this assigns phandles to device tree nodes to make
+device tree traversing work.
+
+When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
+
+This adds basic instances support which are managed by a hash map
+ihandle -> [phandle].
+
+Before the guest started, the used memory is:
+0..e60 - the initial firmware
+8000..10000 - stack
+400000.. - kernel
+3ea0000.. - initramdisk
+
+This OF CI does not implement "interpret".
+
+Unlike SLOF, this does not format uninitialized nvram. Instead, this
+includes a disk image with pre-formatted nvram.
+
+With this basic support, this can only boot into kernel directly.
+However this is just enough for the petitboot kernel and initradmdisk to
+boot from any possible source. Note this requires reasonably recent guest
+kernel with:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735
+
+The immediate benefit is much faster booting time which especially
+crucial with fully emulated early CPU bring up environments. Also this
+may come handy when/if GRUB-in-the-userspace sees light of the day.
+
+This separates VOF and sPAPR in a hope that VOF bits may be reused by
+other POWERPC boards which do not support pSeries.
+
+This is coded in assumption that later on we might be adding support for
+booting from QEMU backends (blockdev is the first candidate) without
+devices/drivers in between as OF1275 does not require that and
+it is quite easy to so.
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 ---
- default-configs/devices/riscv32-softmmu.mak |   1 +
- default-configs/devices/riscv64-softmmu.mak |   1 +
- hw/riscv/Kconfig                            |   7 +
- hw/riscv/andes_ae350.c                      | 501 ++++++++++++++++++++
- hw/riscv/meson.build                        |   1 +
- include/hw/riscv/andes_ae350.h              |  93 ++++
- 6 files changed, 604 insertions(+)
- create mode 100644 hw/riscv/andes_ae350.c
- create mode 100644 include/hw/riscv/andes_ae350.h
 
-diff --git a/default-configs/devices/riscv32-softmmu.mak b/default-configs/devices/riscv32-softmmu.mak
-index d847bd5692..a268007e72 100644
---- a/default-configs/devices/riscv32-softmmu.mak
-+++ b/default-configs/devices/riscv32-softmmu.mak
-@@ -8,6 +8,7 @@ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
- 
- # Boards:
- #
-+CONFIG_ANDES_AE350=y
- CONFIG_SPIKE=y
- CONFIG_SIFIVE_E=y
- CONFIG_SIFIVE_U=y
-diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-configs/devices/riscv64-softmmu.mak
-index d5eec75f05..9a37dfd8c0 100644
---- a/default-configs/devices/riscv64-softmmu.mak
-+++ b/default-configs/devices/riscv64-softmmu.mak
-@@ -8,6 +8,7 @@ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
- 
- # Boards:
- #
-+CONFIG_ANDES_AE350=y
- CONFIG_SPIKE=y
- CONFIG_SIFIVE_E=y
- CONFIG_SIFIVE_U=y
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index d139074b02..04f6369ab7 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -1,6 +1,13 @@
- config IBEX
-     bool
- 
-+config ANDES_AE350
-+    bool
-+    select SERIAL
-+    select VIRTIO_MMIO
-+    select ANDES_PLIC
-+    select ANDES_PLMT
-+
- config MICROCHIP_PFSOC
-     bool
-     select CADENCE_SDHCI
-diff --git a/hw/riscv/andes_ae350.c b/hw/riscv/andes_ae350.c
+The example command line is:
+
+/home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+-nodefaults \
+-chardev stdio,id=STDIO0,signal=off,mux=on \
+-device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+-mon id=MON0,chardev=STDIO0,mode=readline \
+-nographic \
+-vga none \
+-enable-kvm \
+-m 2G \
+-machine pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
+-kernel pbuild/kernel-le-guest/vmlinux \
+-initrd pb/rootfs.cpio.xz \
+-drive id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw \
+-global spapr-nvram.drive=DRIVE0 \
+-snapshot \
+-smp 8,threads=8 \
+-L /home/aik/t/qemu-ppc64-bios/ \
+-trace events=qemu_trace_events \
+-d guest_errors \
+-chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
+-mon chardev=SOCKET0,mode=control
+
+---
+Changes:
+v15:
+* bugfix: claimed memory for the VOF itself
+* ditched OF_STACK_ADDR and allocate one instead, now it starts from 0x8000
+because it is aligned to its size (no particular reason though)
+* coding style
+* moved nvram.bin up one level
+* ditched bool in the firmware
+* made debugging code conditional using trace_event_get_state() + qemu_loglevel_mask()
+* renamed the CAS interface to SpaprVofInterface
+* added "write" which for now dumps the message and ihandle via
+trace point for early debug assistance
+* commented on when we allocate of_instances in vof_build_dt()
+* store fw_size is SpaprMachine to let spapr_vof_reset() claim it
+* many small fixes from v14's review
+
+v14:
+* check for truncates in readstr()
+* ditched a separate vof_reset()
+* spapr->vof is a pointer now, dropped the "on" field
+* removed rtas_base from vof and updated comment why we allow setting it
+* added myself to maintainers
+* updated commit log about blockdev and other possible platforms
+* added a note why new hcall is 0x5
+* no in place endianness convertion in spapr_h_vof_client
+* converted all cpu_physical_memory_read/write to address_space_rw
+* git mv hw/ppc/spapr_vof_client.c hw/ppc/spapr_vof.c
+
+v13:
+* rebase on latest ppc-for-6.0
+* shuffled code around to touch spapr.c less
+
+v12:
+* split VOF and SPAPR
+
+v11:
+* added g_autofree
+* fixed gcc warnings
+* fixed few leaks
+* added nvram image to make "nvram --print-config" not crash;
+Note that contrary to  MIN_NVRAM_SIZE (8 * KiB), the actual minimum size
+is 16K, or it just does not work (empty output from "nvram")
+
+v10:
+* now rebased to compile with meson
+
+v9:
+* remove special handling of /rtas/rtas-size as now we always add it in QEMU
+* removed leftovers from scsi/grub/stdout/stdin/...
+
+v8:
+* no read/write/seek
+* no @dev in instances
+* the machine flag is "x-vof" for now
+
+v7:
+* now we have a small firmware which loads at 0 as SLOF and starts from
+0x100 as SLOF
+* no MBR/ELF/GRUB business in QEMU anymore
+* blockdev is a separate patch
+* networking is a separate patch
+
+v6:
+* borrowed a big chunk of commit log introduction from David
+* fixed initial stack pointer (points to the highest address of stack)
+* traces for "interpret" and others
+* disabled  translate_kernel_address() hack so grub can load (work in
+progress)
+* added "milliseconds" for grub
+* fixed "claim" allocator again
+* moved FDT_MAX_SIZE to spapr.h as spapr_of_client.c wants it too for CAS
+* moved the most code possible from spapr.c to spapr_of_client.c, such as
+RTAS, prom entry and FDT build/finalize
+* separated blobs
+* GRUB now proceeds to its console prompt (there are still other issues)
+* parse MBR/GPT to find PReP and load GRUB
+
+v5:
+* made instances keep device and chardev pointers
+* removed VIO dependencies
+* print error if RTAS memory is not claimed as it should have been
+* pack FDT as "quiesce"
+
+v4:
+* fixed open
+* validate ihandles in "call-method"
+
+v3:
+* fixed phandles allocation
+* s/__be32/uint32_t/ as we do not normally have __be32 type in qemu
+* fixed size of /chosen/stdout
+* bunch of renames
+* do not create rtas properties at all, let the client deal with it;
+instead setprop allows changing these in the FDT
+* no more packing FDT when bios=off - nobody needs it and getprop does not
+work otherwise
+* allow updating initramdisk device tree properties (for zImage)
+* added instances
+* fixed stdout on OF's "write"
+* removed special handling for stdout in OF client, spapr-vty handles it
+instead
+
+v2:
+* fixed claim()
+* added "setprop"
+* cleaner client interface and RTAS blobs management
+* boots to petitboot and further to the target system
+* more trace points
+---
+ pc-bios/vof/Makefile   |  18 +
+ hw/ppc/vof.h           |  39 ++
+ include/hw/ppc/spapr.h |  17 +-
+ pc-bios/vof/vof.h      |  38 ++
+ hw/ppc/spapr.c         |  83 +++-
+ hw/ppc/spapr_hcall.c   |  26 +-
+ hw/ppc/spapr_vof.c     | 148 +++++++
+ hw/ppc/vof.c           | 982 +++++++++++++++++++++++++++++++++++++++++
+ pc-bios/vof/bootmem.c  |  14 +
+ pc-bios/vof/ci.c       |  91 ++++
+ pc-bios/vof/libc.c     |  92 ++++
+ pc-bios/vof/main.c     |  21 +
+ MAINTAINERS            |  11 +
+ hw/ppc/meson.build     |   2 +
+ hw/ppc/trace-events    |  24 +
+ pc-bios/README         |   2 +
+ pc-bios/vof-nvram.bin  | Bin 0 -> 16384 bytes
+ pc-bios/vof.bin        | Bin 0 -> 3128 bytes
+ pc-bios/vof/entry.S    |  51 +++
+ pc-bios/vof/l.lds      |  48 ++
+ 20 files changed, 1695 insertions(+), 12 deletions(-)
+ create mode 100644 pc-bios/vof/Makefile
+ create mode 100644 hw/ppc/vof.h
+ create mode 100644 pc-bios/vof/vof.h
+ create mode 100644 hw/ppc/spapr_vof.c
+ create mode 100644 hw/ppc/vof.c
+ create mode 100644 pc-bios/vof/bootmem.c
+ create mode 100644 pc-bios/vof/ci.c
+ create mode 100644 pc-bios/vof/libc.c
+ create mode 100644 pc-bios/vof/main.c
+ create mode 100644 pc-bios/vof-nvram.bin
+ create mode 100755 pc-bios/vof.bin
+ create mode 100644 pc-bios/vof/entry.S
+ create mode 100644 pc-bios/vof/l.lds
+
+diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
 new file mode 100644
-index 0000000000..ed5f9701ad
+index 000000000000..1451e0551818
 --- /dev/null
-+++ b/hw/riscv/andes_ae350.c
-@@ -0,0 +1,501 @@
++++ b/pc-bios/vof/Makefile
+@@ -0,0 +1,18 @@
++all: build-all
++
++build-all: vof.bin
++
++%.o: %.S
++	cc -m32 -mbig-endian -c -o $@ $<
++
++%.o: %.c
++	cc -m32 -mbig-endian -c -fno-stack-protector -o $@ $<
++
++vof.elf: entry.o main.o ci.o bootmem.o libc.o
++	ld -nostdlib -e_start -Tl.lds -EB -o $@ $^
++
++%.bin: %.elf
++	objcopy -O binary -j .text -j .data -j .toc -j .got2 $^ $@
++
++clean:
++	rm -f *.o vof.bin vof.elf *~
+diff --git a/hw/ppc/vof.h b/hw/ppc/vof.h
+new file mode 100644
+index 000000000000..1a7f56e2eea8
+--- /dev/null
++++ b/hw/ppc/vof.h
+@@ -0,0 +1,39 @@
++ /* Virtual Open Firmware */
++#ifndef HW_VOF_H
++#define HW_VOF_H
++
++typedef struct Vof {
++    uint32_t top_addr; /* copied from rma_size */
++    GArray *claimed; /* array of SpaprOfClaimed */
++    uint64_t claimed_base;
++    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
++    uint32_t of_instance_last;
++    char *bootargs;
++    uint32_t initrd_base; /* Updated in spapr at CAS */
++    long initrd_size; /* Updated in spapr at CAS */
++} Vof;
++
++uint32_t vof_client_call(void *fdt, Vof *vof, const char *service,
++                         uint32_t *args, unsigned nargs,
++                         uint32_t *rets, unsigned nrets);
++uint64_t vof_claim(void *fdt, Vof *vof, uint64_t virt, uint64_t size,
++                   uint64_t align);
++void vof_cleanup(Vof *vof);
++void vof_build_dt(void *fdt, Vof *vof, uint32_t top_addr);
++uint32_t vof_client_open_store(void *fdt, Vof *vof, const char *nodename,
++                               const char *prop, const char *path);
++
++/* SPAPR Virtual Open Firmware interface for ibm,client-architecture-support */
++#define TYPE_SPAPR_VOF "spapr-vof"
++#define SPAPR_VOF(obj) INTERFACE_CHECK(SpaprVof, (obj), TYPE_SPAPR_VOF)
++
++typedef struct SpaprVofClass SpaprVofClass;
++DECLARE_CLASS_CHECKERS(SpaprVofClass, SPAPR_VOF, TYPE_SPAPR_VOF)
++
++struct SpaprVofClass {
++    InterfaceClass parent;
++    target_ulong (*client_architecture_support)(CPUState *cs, target_ulong vec);
++    void (*quiesce)(void);
++};
++
++#endif /* HW_VOF_H */
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index d6edeaaaff82..e41a1141fa59 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -12,6 +12,7 @@
+ #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+ #include "hw/ppc/xics.h"        /* For ICSState */
+ #include "hw/ppc/spapr_tpm_proxy.h"
++#include "hw/ppc/vof.h"
+ 
+ struct SpaprVioBus;
+ struct SpaprPhbState;
+@@ -180,6 +181,8 @@ struct SpaprMachineState {
+     uint64_t kernel_addr;
+     uint32_t initrd_base;
+     long initrd_size;
++    long fw_size;
++    Vof *vof;
+     uint64_t rtc_offset; /* Now used only during incoming migration */
+     struct PPCTimebase tb;
+     bool has_graphics;
+@@ -554,7 +557,9 @@ struct SpaprMachineState {
+ /* Client Architecture support */
+ #define KVMPPC_H_CAS            (KVMPPC_HCALL_BASE + 0x2)
+ #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
+-#define KVMPPC_HCALL_MAX        KVMPPC_H_UPDATE_DT
++/* 0x4 was used for KVMPPC_H_UPDATE_PHANDLE in SLOF */
++#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
++#define KVMPPC_HCALL_MAX        KVMPPC_H_VOF_CLIENT
+ 
+ /*
+  * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilitating
+@@ -946,4 +951,14 @@ bool spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+ hwaddr spapr_get_rtas_addr(void);
+ bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr);
++
++void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
++                     target_ulong *stack_ptr, Error **errp);
++void spapr_vof_quiesce(void);
++target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                                target_ulong opcode, target_ulong *args);
++target_ulong spapr_vof_client_architecture_support(CPUState *cs,
++                                                   target_ulong ovec_addr);
++void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt);
++
+ #endif /* HW_SPAPR_H */
+diff --git a/pc-bios/vof/vof.h b/pc-bios/vof/vof.h
+new file mode 100644
+index 000000000000..29c80374d6dd
+--- /dev/null
++++ b/pc-bios/vof/vof.h
+@@ -0,0 +1,38 @@
++#include <stdarg.h>
++
++typedef unsigned char uint8_t;
++typedef unsigned short uint16_t;
++typedef unsigned long uint32_t;
++typedef unsigned long long uint64_t;
++#define NULL (0)
++#define PROM_ERROR (-1u)
++typedef unsigned long ihandle;
++typedef unsigned long phandle;
++typedef int size_t;
++typedef void client(void);
++
++/* globals */
++extern void _prom_entry(void); /* OF CI entry point (i.e. this firmware) */
++
++void do_boot(unsigned long addr, unsigned long r3, unsigned long r4);
++
++/* libc */
++int strlen(const char *s);
++int strcmp(const char *s1, const char *s2);
++void *memcpy(void *dest, const void *src, size_t n);
++int memcmp(const void *ptr1, const void *ptr2, size_t n);
++void *memmove(void *dest, const void *src, size_t n);
++void *memset(void *dest, int c, size_t size);
++
++/* CI wrappers */
++void ci_panic(const char *str);
++phandle ci_finddevice(const char *path);
++uint32_t ci_getprop(phandle ph, const char *propname, void *prop, int len);
++
++/* booting from -kernel */
++void boot_from_memory(uint64_t initrd, uint64_t initrdsize);
++
++/* Entry points for CI and RTAS */
++extern uint32_t ci_entry(uint32_t params);
++extern unsigned long hv_rtas(unsigned long params);
++extern unsigned int hv_rtas_size;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index aca3ef9d5825..3fcd1a83ae09 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -102,6 +102,7 @@
+ #define RTAS_MAX_ADDR           0x80000000 /* RTAS must stay below that */
+ #define FW_MAX_SIZE             0x400000
+ #define FW_FILE_NAME            "slof.bin"
++#define FW_FILE_NAME_VOF        "vof.bin"
+ #define FW_OVERHEAD             0x2800000
+ #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
+ 
+@@ -1624,22 +1625,41 @@ static void spapr_machine_reset(MachineState *machine)
+ 
+     fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
+ 
+-    rc = fdt_pack(fdt);
++    if (spapr->vof) {
++        target_ulong stack_ptr = 0;
+ 
+-    /* Should only fail if we've built a corrupted tree */
+-    assert(rc == 0);
++        /*
++         * Claims initramdisk and stack which changes "available" so
++         * doing it befofe packing.
++         */
++        spapr_vof_reset(spapr, fdt, &stack_ptr, &error_fatal);
+ 
+-    /* Load the fdt */
++        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
++                                  stack_ptr, spapr->initrd_base,
++                                  spapr->initrd_size);
++        /* We do not pack the FDT as the client may change properties. */
++    } else {
++        rc = fdt_pack(fdt);
++        /* Should only fail if we've built a corrupted tree */
++        assert(rc == 0);
++
++        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
++                                  0, fdt_addr, 0);
++    }
+     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
+-    cpu_physical_memory_write(fdt_addr, fdt, fdt_totalsize(fdt));
++
+     g_free(spapr->fdt_blob);
+     spapr->fdt_size = fdt_totalsize(fdt);
+     spapr->fdt_initial_size = spapr->fdt_size;
+     spapr->fdt_blob = fdt;
+ 
+     /* Set up the entry state */
+-    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, fdt_addr, 0);
+     first_ppc_cpu->env.gpr[5] = 0;
++    /* VOF client does not expect the FDT so we do not load it to the VM. */
++    if (!spapr->vof) {
++        /* Load the fdt */
++        cpu_physical_memory_write(fdt_addr, spapr->fdt_blob, spapr->fdt_size);
++    }
+ 
+     spapr->fwnmi_system_reset_addr = -1;
+     spapr->fwnmi_machine_check_addr = -1;
+@@ -2639,13 +2659,14 @@ static void spapr_machine_init(MachineState *machine)
+     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+-    const char *bios_name = machine->firmware ?: FW_FILE_NAME;
++    const char *bios_default = !!spapr->vof ? FW_FILE_NAME_VOF : FW_FILE_NAME;
++    const char *bios_name = machine->firmware ?: bios_default;
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+     PCIHostState *phb;
+     int i;
+     MemoryRegion *sysmem = get_system_memory();
+-    long load_limit, fw_size;
++    long load_limit;
+     char *filename;
+     Error *resize_hpt_err = NULL;
+ 
+@@ -2962,8 +2983,8 @@ static void spapr_machine_init(MachineState *machine)
+         error_report("Could not find LPAR firmware '%s'", bios_name);
+         exit(1);
+     }
+-    fw_size = load_image_targphys(filename, 0, FW_MAX_SIZE);
+-    if (fw_size <= 0) {
++    spapr->fw_size = load_image_targphys(filename, 0, FW_MAX_SIZE);
++    if (spapr->fw_size <= 0) {
+         error_report("Could not load LPAR firmware '%s'", filename);
+         exit(1);
+     }
+@@ -2996,6 +3017,10 @@ static void spapr_machine_init(MachineState *machine)
+     }
+ 
+     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
++
++    if (spapr->vof) {
++        spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, spapr_h_vof_client);
++    }
+ }
+ 
+ #define DEFAULT_KVM_TYPE "auto"
+@@ -3186,6 +3211,28 @@ static void spapr_set_resize_hpt(Object *obj, const char *value, Error **errp)
+     }
+ }
+ 
++static bool spapr_get_vof(Object *obj, Error **errp)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
++
++    return spapr->vof != NULL;
++}
++
++static void spapr_set_vof(Object *obj, bool value, Error **errp)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
++
++    if (spapr->vof) {
++        vof_cleanup(spapr->vof);
++        g_free(spapr->vof);
++        spapr->vof = NULL;
++    }
++    if (!value) {
++        return;
++    }
++    spapr->vof = g_malloc0(sizeof(*spapr->vof));
++}
++
+ static char *spapr_get_ic_mode(Object *obj, Error **errp)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
+@@ -3311,6 +3358,10 @@ static void spapr_instance_init(Object *obj)
+                                     stringify(KERNEL_LOAD_ADDR)
+                                     " for -kernel is the default");
+     spapr->kernel_addr = KERNEL_LOAD_ADDR;
++    object_property_add_bool(obj, "x-vof", spapr_get_vof, spapr_set_vof);
++    object_property_set_description(obj, "x-vof",
++                                    "Enable Virtual Open Firmware");
++
+     /* The machine class defines the default interrupt controller mode */
+     spapr->irq = smc->irq;
+     object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
+@@ -4459,6 +4510,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     XICSFabricClass *xic = XICS_FABRIC_CLASS(oc);
+     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
+     XiveFabricClass *xfc = XIVE_FABRIC_CLASS(oc);
++    SpaprVofClass *svc = SPAPR_VOF_CLASS(oc);
+ 
+     mc->desc = "pSeries Logical Partition (PAPR compliant)";
+     mc->ignore_boot_device_suffixes = true;
+@@ -4538,6 +4590,9 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     smc->smp_threads_vsmt = true;
+     smc->nr_xirqs = SPAPR_NR_XIRQS;
+     xfc->match_nvt = spapr_match_nvt;
++
++    svc->client_architecture_support = spapr_vof_client_architecture_support;
++    svc->quiesce = spapr_vof_quiesce;
+ }
+ 
+ static const TypeInfo spapr_machine_info = {
+@@ -4557,6 +4612,7 @@ static const TypeInfo spapr_machine_info = {
+         { TYPE_XICS_FABRIC },
+         { TYPE_INTERRUPT_STATS_PROVIDER },
+         { TYPE_XIVE_FABRIC },
++        { TYPE_SPAPR_VOF },
+         { }
+     },
+ };
+@@ -5025,9 +5081,16 @@ static void spapr_machine_2_1_class_options(MachineClass *mc)
+ }
+ DEFINE_SPAPR_MACHINE(2_1, "2.1", false);
+ 
++static const TypeInfo client_architecture_support_info = {
++    .name = TYPE_SPAPR_VOF,
++    .parent = TYPE_INTERFACE,
++    .class_size = sizeof(SpaprVofClass),
++};
++
+ static void spapr_machine_register_types(void)
+ {
+     type_register_static(&spapr_machine_info);
++    type_register_static(&client_architecture_support_info);
+ }
+ 
+ type_init(spapr_machine_register_types)
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 7b5cd3553c26..0cdf90af6afb 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1806,7 +1806,13 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+         spapr_setup_hpt(spapr);
+     }
+ 
+-    fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
++    if (spapr->vof && spapr->vof->initrd_base && spapr->vof->initrd_size) {
++        /* Update initramdisk location so the right area gets reserved below */
++        spapr->initrd_base = spapr->vof->initrd_base;
++        spapr->initrd_size = spapr->vof->initrd_size;
++    }
++
++    fdt = spapr_build_fdt(spapr, spapr->vof != NULL, fdt_bufsize);
+ 
+     g_free(spapr->fdt_blob);
+     spapr->fdt_size = fdt_totalsize(fdt);
+@@ -1850,6 +1856,24 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+     return ret;
+ }
+ 
++target_ulong spapr_vof_client_architecture_support(CPUState *cs,
++                                                  target_ulong ovec_addr)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++
++    target_ulong ret = do_client_architecture_support(POWERPC_CPU(cs), spapr,
++                                                      ovec_addr, FDT_MAX_SIZE);
++
++    /*
++     * This adds stdout and generates phandles for boottime and CAS FDTs.
++     * It is alright to update the FDT here as do_client_architecture_support()
++     * does not pack it.
++     */
++    spapr_vof_client_dt_finalize(spapr, spapr->fdt_blob);
++
++    return ret;
++}
++
+ static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
+                                               SpaprMachineState *spapr,
+                                               target_ulong opcode,
+diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
+new file mode 100644
+index 000000000000..8a58364490f4
+--- /dev/null
++++ b/hw/ppc/spapr_vof.c
+@@ -0,0 +1,148 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include <sys/ioctl.h>
++#include "qapi/error.h"
++#include "hw/ppc/spapr.h"
++#include "hw/ppc/spapr_vio.h"
++#include "hw/ppc/fdt.h"
++#include "sysemu/sysemu.h"
++#include "qom/qom-qobject.h"
++#include "trace.h"
++
++/* Copied from SLOF, and 4K is definitely not enough for GRUB */
++#define OF_STACK_SIZE       0x8000
++
++/* Defined as Big Endian */
++struct prom_args {
++    uint32_t service;
++    uint32_t nargs;
++    uint32_t nret;
++    uint32_t args[10];
++} QEMU_PACKED;
++
++target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                                target_ulong opcode, target_ulong *_args)
++{
++    target_ulong args_real = ppc64_phys_to_real(_args[0]);
++    struct prom_args args_be;
++    uint32_t args[ARRAY_SIZE(args_be.args)];
++    uint32_t rets[ARRAY_SIZE(args_be.args)] = { 0 }, ret;
++    char service[64];
++    unsigned nargs, nret, i;
++
++    if (address_space_rw(&address_space_memory, args_real,
++                         MEMTXATTRS_UNSPECIFIED, &args_be, sizeof(args_be),
++                         false) != MEMTX_OK) {
++        return H_HARDWARE;
++    }
++    nargs = be32_to_cpu(args_be.nargs);
++    if (nargs >= ARRAY_SIZE(args_be.args)) {
++        return H_PARAMETER;
++    }
++
++    if (address_space_rw(&address_space_memory, be32_to_cpu(args_be.service),
++                         MEMTXATTRS_UNSPECIFIED, service, sizeof(service),
++                         false) != MEMTX_OK) {
++        return H_HARDWARE;
++    }
++    if (strnlen(service, sizeof(service)) == sizeof(service)) {
++        /* Too long service name */
++        return H_PARAMETER;
++    }
++
++    for (i = 0; i < nargs; ++i) {
++        args[i] = be32_to_cpu(args_be.args[i]);
++    }
++
++    nret = be32_to_cpu(args_be.nret);
++    ret = vof_client_call(spapr->fdt_blob, spapr->vof, service,
++                          args, nargs, rets, nret);
++    if (!nret) {
++        return H_SUCCESS;
++    }
++
++    args_be.args[nargs] = cpu_to_be32(ret);
++    for (i = 1; i < nret; ++i) {
++        args_be.args[nargs + i] = cpu_to_be32(rets[i - 1]);
++    }
++
++    if (address_space_rw(&address_space_memory,
++                         args_real + offsetof(struct prom_args, args[nargs]),
++                         MEMTXATTRS_UNSPECIFIED, args_be.args + nargs,
++                         sizeof(args_be.args[0]) * nret, true) != MEMTX_OK) {
++        return H_HARDWARE;
++    }
++
++    return H_SUCCESS;
++}
++
++void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt)
++{
++    char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
++
++    vof_build_dt(fdt, spapr->vof, spapr->rma_size);
++
++    /*
++     * SLOF-less setup requires an open instance of stdout for early
++     * kernel printk. By now all phandles are settled so we can open
++     * the default serial console.
++     */
++    if (stdout_path) {
++        _FDT(vof_client_open_store(fdt, spapr->vof, "/chosen", "stdout",
++                                   stdout_path));
++    }
++}
++
++void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
++                     target_ulong *stack_ptr, Error **errp)
++{
++    Vof *vof = spapr->vof;
++
++    vof_cleanup(vof);
++
++    spapr_vof_client_dt_finalize(spapr, fdt);
++
++    if (vof_claim(spapr->fdt_blob, vof, 0, spapr->fw_size, 0) == -1) {
++        error_setg(errp, "Memory for firmware is in use");
++        return;
++    }
++
++    *stack_ptr = vof_claim(spapr->fdt_blob, vof, 0, OF_STACK_SIZE,
++                           OF_STACK_SIZE);
++    if (*stack_ptr == -1) {
++        error_setg(errp, "Memory allocation for stack failed");
++        return;
++    }
++    /*
++     * Stack grows downwards and we also reserve here space for
++     * the minimum stack frame.
++     */
++    *stack_ptr += OF_STACK_SIZE - 0x20;
++
++    if (spapr->kernel_size &&
++        vof_claim(spapr->fdt_blob, vof, spapr->kernel_addr, spapr->kernel_size,
++                  0) == -1) {
++        error_setg(errp, "Memory for kernel is in use");
++        return;
++    }
++
++    if (spapr->initrd_size &&
++        vof_claim(spapr->fdt_blob, vof, spapr->initrd_base, spapr->initrd_size,
++                  0) == -1) {
++        error_setg(errp, "Memory for initramdisk is in use");
++        return;
++    }
++
++    /*
++     * We skip writing FDT as nothing expects it; OF client interface is
++     * going to be used for reading the device tree.
++     */
++}
++
++void spapr_vof_quiesce(void)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++
++    spapr->fdt_size = fdt_totalsize(spapr->fdt_blob);
++    spapr->fdt_initial_size = spapr->fdt_size;
++}
+diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+new file mode 100644
+index 000000000000..2b23ec75fe4a
+--- /dev/null
++++ b/hw/ppc/vof.c
+@@ -0,0 +1,982 @@
 +/*
-+ * Andes RISC-V AE350 Board
++ * QEMU PowerPC Virtual Open Firmware.
 + *
-+ * Copyright (c) 2021 Andes Tech. Corp.
++ * This implements client interface from OpenFirmware IEEE1275 on the QEMU
++ * side to leave only a very basic firmware in the VM.
 + *
-+ * Andes AE350 Board supports ns16550a UART and VirtIO MMIO.
-+ * The interrupt controllers are andes PLIC and andes PLICSW.
-+ * Timer is Andes PLMT.
++ * Copyright (c) 2020 IBM Corporation.
 + *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
 + *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
 + *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
++#include "qemu-common.h"
 +#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "hw/sysbus.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/char/serial.h"
-+#include "target/riscv/cpu.h"
-+#include "hw/riscv/riscv_hart.h"
-+#include "hw/riscv/boot.h"
-+#include "hw/riscv/numa.h"
-+#include "chardev/char.h"
-+#include "sysemu/arch_init.h"
-+#include "sysemu/device_tree.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci-host/gpex.h"
++#include <sys/ioctl.h>
++#include "exec/ram_addr.h"
++#include "exec/address-spaces.h"
++#include "qemu/timer.h"
++#include "qemu/range.h"
++#include "hw/ppc/vof.h"
++#include "hw/ppc/fdt.h"
++#include "sysemu/runstate.h"
++#include "qom/qom-qobject.h"
++#include "trace.h"
++
++#include <libfdt.h>
 +
-+#include "hw/intc/andes_plic.h"
-+#include "hw/timer/andes_plmt.h"
-+#include "hw/riscv/andes_ae350.h"
-+
-+# define BIOS_FILENAME ""
-+
-+static const struct MemmapEntry {
-+    hwaddr base;
-+    hwaddr size;
-+} andes_ae350_memmap[] = {
-+    [ANDES_AE350_DEBUG]     = { 0x00000000,      0x100 },
-+    [ANDES_AE350_DRAM]      = { 0x00000000, 0x80000000 },
-+    [ANDES_AE350_MROM]      = { 0xb0000000,   0x100000 },
-+    [ANDES_AE350_MAC]       = { 0xe0100000,   0x100000 },
-+    [ANDES_AE350_GEM]       = { 0xe0200000,   0x100000 },
-+    [ANDES_AE350_PLIC]      = { 0xe4000000,   0x400000 },
-+    [ANDES_AE350_PLMT]      = { 0xe6000000,   0x100000 },
-+    [ANDES_AE350_PLICSW]    = { 0xe6400000,   0x400000 },
-+    [ANDES_AE350_UART1]     = { 0xf0200000,      0x100 },
-+    [ANDES_AE350_UART2]     = { 0xf0300000,      0x100 },
-+    [ANDES_AE350_PIT]       = { 0xf0400000,   0x100000 },
-+    [ANDES_AE350_SDC]       = { 0xf0e00000,   0x100000 },
-+    [ANDES_AE350_VIRTIO]    = { 0xfe000000,     0x1000 },
-+};
-+
-+static void
-+create_fdt(AndesAe350BoardState *bs, const struct MemmapEntry *memmap,
-+    uint64_t mem_size, const char *cmdline)
-+{
-+    AndesAe350SocState *s = &bs->soc;
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    void *fdt;
-+    int cpu, i;
-+    uint64_t mem_addr;
-+    uint32_t *plic_irq_ext, *plicsw_irq_ext, *plmt_irq_ext;
-+    unsigned long plic_addr, plicsw_addr, plmt_addr;
-+    char *plic_name, *plicsw_name, *plmt_name;
-+    uint32_t intc_phandle = 0, plic_phandle = 0;
-+    uint32_t phandle = 1;
-+    char *isa_name, *mem_name, *cpu_name, *intc_name, *uart_name, *virtio_name;
-+
-+    if (ms->dtb) {
-+        fdt = bs->fdt = load_device_tree(ms->dtb, &bs->fdt_size);
-+        if (!fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+        goto update_bootargs;
-+    } else {
-+        fdt = bs->fdt = create_device_tree(&bs->fdt_size);
-+        if (!fdt) {
-+            error_report("create_device_tree() failed");
-+            exit(1);
-+        }
-+    }
-+
-+    qemu_fdt_setprop_string(fdt, "/", "model", "Andes AE350 Board");
-+    qemu_fdt_setprop_string(fdt, "/", "compatible", "andestech,ae350");
-+    qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
-+    qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
-+
-+    qemu_fdt_add_subnode(fdt, "/soc");
-+    qemu_fdt_setprop(fdt, "/soc", "ranges", NULL, 0);
-+    qemu_fdt_setprop_string(fdt, "/soc", "compatible", "simple-bus");
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x2);
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x2);
-+
-+    qemu_fdt_add_subnode(fdt, "/cpus");
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "timebase-frequency",
-+                          ANDES_PLMT_TIMEBASE_FREQ);
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-+    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map");
-+
-+    plic_irq_ext = g_new0(uint32_t, s->cpus.num_harts * 4);
-+    plicsw_irq_ext = g_new0(uint32_t, s->cpus.num_harts * 2);
-+    plmt_irq_ext = g_new0(uint32_t, s->cpus.num_harts * 2);
-+
-+    for (cpu = 0; cpu < s->cpus.num_harts; cpu++) {
-+        intc_phandle = phandle++;
-+
-+        cpu_name = g_strdup_printf("/cpus/cpu@%d",
-+            s->cpus.hartid_base + cpu);
-+        qemu_fdt_add_subnode(fdt, cpu_name);
-+#if defined(TARGET_RISCV32)
-+        qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv32");
-+#else
-+        qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv39");
-+#endif
-+        isa_name = riscv_isa_string(&s->cpus.harts[cpu]);
-+        qemu_fdt_setprop_string(fdt, cpu_name, "riscv,isa", isa_name);
-+        g_free(isa_name);
-+        qemu_fdt_setprop_string(fdt, cpu_name, "compatible", "riscv");
-+        qemu_fdt_setprop_string(fdt, cpu_name, "status", "okay");
-+        qemu_fdt_setprop_cell(fdt, cpu_name, "reg",
-+            s->cpus.hartid_base + cpu);
-+        qemu_fdt_setprop_string(fdt, cpu_name, "device_type", "cpu");
-+
-+        intc_name = g_strdup_printf("%s/interrupt-controller", cpu_name);
-+        qemu_fdt_add_subnode(fdt, intc_name);
-+        qemu_fdt_setprop_cell(fdt, intc_name, "phandle", intc_phandle);
-+        qemu_fdt_setprop_string(fdt, intc_name, "compatible",
-+            "riscv,cpu-intc");
-+        qemu_fdt_setprop(fdt, intc_name, "interrupt-controller", NULL, 0);
-+        qemu_fdt_setprop_cell(fdt, intc_name, "#interrupt-cells", 1);
-+
-+        plic_irq_ext[cpu * 4 + 0] = cpu_to_be32(intc_phandle);
-+        plic_irq_ext[cpu * 4 + 1] = cpu_to_be32(IRQ_M_EXT);
-+        plic_irq_ext[cpu * 4 + 2] = cpu_to_be32(intc_phandle);
-+        plic_irq_ext[cpu * 4 + 3] = cpu_to_be32(IRQ_S_EXT);
-+
-+        plicsw_irq_ext[cpu * 2 + 0] = cpu_to_be32(intc_phandle);
-+        plicsw_irq_ext[cpu * 2 + 1] = cpu_to_be32(IRQ_M_SOFT);
-+
-+        plmt_irq_ext[cpu * 2 + 0] = cpu_to_be32(intc_phandle);
-+        plmt_irq_ext[cpu * 2 + 1] = cpu_to_be32(IRQ_M_TIMER);
-+
-+        g_free(intc_name);
-+    }
-+
-+    mem_addr = memmap[ANDES_AE350_DRAM].base;
-+    mem_name = g_strdup_printf("/memory@%lx", (long)mem_addr);
-+    qemu_fdt_add_subnode(fdt, mem_name);
-+    qemu_fdt_setprop_cells(fdt, mem_name, "reg",
-+        mem_addr >> 32, mem_addr, mem_size >> 32, mem_size);
-+    qemu_fdt_setprop_string(fdt, mem_name, "device_type", "memory");
-+    g_free(mem_name);
-+
-+    /* create plic */
-+    plic_phandle = phandle++;
-+    plic_addr = memmap[ANDES_AE350_PLIC].base;
-+    plic_name = g_strdup_printf("/soc/interrupt-controller@%lx", plic_addr);
-+    qemu_fdt_add_subnode(fdt, plic_name);
-+    qemu_fdt_setprop_cell(fdt, plic_name,
-+        "#address-cells", 0x2);
-+    qemu_fdt_setprop_cell(fdt, plic_name,
-+        "#interrupt-cells", 0x2);
-+    qemu_fdt_setprop_string(fdt, plic_name, "compatible", "riscv,plic0");
-+    qemu_fdt_setprop(fdt, plic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop(fdt, plic_name, "interrupts-extended",
-+        plic_irq_ext, s->cpus.num_harts * sizeof(uint32_t) * 4);
-+    qemu_fdt_setprop_cells(fdt, plic_name, "reg",
-+        0x0, plic_addr, 0x0, memmap[ANDES_AE350_PLIC].size);
-+    qemu_fdt_setprop_cell(fdt, plic_name, "riscv,ndev", 0x47);
-+    qemu_fdt_setprop_cell(fdt, plic_name, "phandle", plic_phandle);
-+    g_free(plic_name);
-+    g_free(plic_irq_ext);
-+
-+    /* create plicsw */
-+    plicsw_addr = memmap[ANDES_AE350_PLICSW].base;
-+    plicsw_name = g_strdup_printf("/soc/interrupt-controller@%lx", plicsw_addr);
-+    qemu_fdt_add_subnode(fdt, plicsw_name);
-+    qemu_fdt_setprop_cell(fdt, plicsw_name,
-+        "#address-cells", 0x2);
-+    qemu_fdt_setprop_cell(fdt, plicsw_name,
-+        "#interrupt-cells", 0x2);
-+    qemu_fdt_setprop_string(fdt, plicsw_name, "compatible", "riscv,plic1");
-+    qemu_fdt_setprop(fdt, plicsw_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop(fdt, plicsw_name, "interrupts-extended",
-+        plicsw_irq_ext, s->cpus.num_harts * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop_cells(fdt, plicsw_name, "reg",
-+        0x0, plicsw_addr, 0x0, memmap[ANDES_AE350_PLIC].size);
-+    qemu_fdt_setprop_cell(fdt, plicsw_name, "riscv,ndev", 0x1);
-+    g_free(plicsw_name);
-+    g_free(plicsw_irq_ext);
-+
-+    /* create plmt */
-+    plmt_addr = memmap[ANDES_AE350_PLMT].base;
-+    plmt_name = g_strdup_printf("/soc/plmt0@%lx", plmt_addr);
-+    qemu_fdt_add_subnode(fdt, plmt_name);
-+    qemu_fdt_setprop_string(fdt, plmt_name, "compatible", "riscv,plmt0");
-+    qemu_fdt_setprop(fdt, plmt_name, "interrupts-extended",
-+        plmt_irq_ext, s->cpus.num_harts * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop_cells(fdt, plmt_name, "reg",
-+        0x0, plmt_addr, 0x0, memmap[ANDES_AE350_PLMT].size);
-+    g_free(plmt_name);
-+    g_free(plmt_irq_ext);
-+
-+    uart_name = g_strdup_printf("/serial@%lx", memmap[ANDES_AE350_UART1].base);
-+    qemu_fdt_add_subnode(fdt, uart_name);
-+    qemu_fdt_setprop_string(fdt, uart_name, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(fdt, uart_name, "reg",
-+        0x0, memmap[ANDES_AE350_UART1].base,
-+        0x0, memmap[ANDES_AE350_UART1].size);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "clock-frequency", 3686400);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "reg-shift", ANDES_UART_REG_SHIFT);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "reg-offset", ANDES_UART_REG_OFFSET);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "interrupt-parent", plic_phandle);
-+    qemu_fdt_setprop_cells(fdt, uart_name, "interrupts", ANDES_AE350_UART1_IRQ, 0x4);
-+
-+    uart_name = g_strdup_printf("/serial@%lx", memmap[ANDES_AE350_UART2].base);
-+    qemu_fdt_add_subnode(fdt, uart_name);
-+    qemu_fdt_setprop_string(fdt, uart_name, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(fdt, uart_name, "reg",
-+        0x0, memmap[ANDES_AE350_UART2].base,
-+        0x0, memmap[ANDES_AE350_UART2].size);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "reg-shift", ANDES_UART_REG_SHIFT);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "reg-offset", ANDES_UART_REG_OFFSET);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "clock-frequency", 3686400);
-+    qemu_fdt_setprop_cell(fdt, uart_name, "interrupt-parent", plic_phandle);
-+    qemu_fdt_setprop_cells(fdt, uart_name, "interrupts", ANDES_AE350_UART2_IRQ, 0x4);
-+
-+    qemu_fdt_add_subnode(fdt, "/chosen");
-+    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-+            "console=ttyS0,38400n8 earlycon=sbi debug loglevel=7");
-+    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", uart_name);
-+    g_free(uart_name);
-+
-+    for (i = 0; i < ANDES_AE350_VIRTIO_COUNT; i++) {
-+        virtio_name = g_strdup_printf("/virtio_mmio@%lx",
-+            (memmap[ANDES_AE350_VIRTIO].base + i * memmap[ANDES_AE350_VIRTIO].size));
-+        qemu_fdt_add_subnode(fdt, virtio_name);
-+        qemu_fdt_setprop_string(fdt, virtio_name, "compatible", "virtio,mmio");
-+        qemu_fdt_setprop_cells(fdt, virtio_name, "reg",
-+            0x0, memmap[ANDES_AE350_VIRTIO].base + i * memmap[ANDES_AE350_VIRTIO].size,
-+            0x0, memmap[ANDES_AE350_VIRTIO].size);
-+        qemu_fdt_setprop_cell(fdt, virtio_name, "interrupt-parent",
-+                                plic_phandle);
-+        qemu_fdt_setprop_cells(fdt, virtio_name, "interrupts",
-+                                ANDES_AE350_VIRTIO_IRQ + i, 0x4);
-+        g_free(virtio_name);
-+    }
-+
-+update_bootargs:
-+    if (cmdline && cmdline[0] != '\0') {
-+        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-+    }
-+}
-+
-+static char *init_hart_config(const char *hart_config, int num_harts)
-+{
-+    int length = 0, i = 0;
-+    char *result;
-+
-+    length = (strlen(hart_config) + 1) * num_harts;
-+    result = g_malloc0(length);
-+    for (i = 0; i < num_harts; i++) {
-+        if (i != 0) {
-+            strncat(result, ",", length);
-+        }
-+        strncat(result, hart_config, length);
-+        length -= (strlen(hart_config) + 1);
-+    }
-+
-+    return result;
-+}
-+
-+static void andes_ae350_soc_realize(DeviceState *dev_soc, Error **errp)
-+{
-+    const struct MemmapEntry *memmap = andes_ae350_memmap;
-+    MachineState *machine = MACHINE(qdev_get_machine());
-+    MemoryRegion *system_memory = get_system_memory();
-+    AndesAe350SocState *s = ANDES_AE350_SOC(dev_soc);
-+    char *plic_hart_config, *plicsw_hart_config;
-+
-+    plicsw_hart_config =
-+        init_hart_config(ANDES_AE350_PLICSW_HART_CONFIG, machine->smp.cpus);
-+
-+    /* Per-socket SW-PLIC */
-+    s->plic_sw = andes_plicsw_create(
-+        memmap[ANDES_AE350_PLICSW].base,
-+        ANDES_AE350_PLICSW_NAME,
-+        plicsw_hart_config,
-+        ANDES_AE350_PLICSW_NUM_SOURCES,
-+        ANDES_AE350_PLICSW_NUM_PRIORITIES,
-+        ANDES_AE350_PLICSW_PRIORITY_BASE,
-+        ANDES_AE350_PLICSW_PENDING_BASE,
-+        ANDES_AE350_PLICSW_ENABLE_BASE,
-+        ANDES_AE350_PLICSW_ENABLE_STRIDE,
-+        ANDES_AE350_PLICSW_THRESHOLD_BASE,
-+        ANDES_AE350_PLICSW_THRESHOLD_STRIDE,
-+        memmap[ANDES_AE350_PLICSW].size);
-+
-+    g_free(plicsw_hart_config);
-+
-+    andes_plmt_create(memmap[ANDES_AE350_PLMT].base,
-+                memmap[ANDES_AE350_PLMT].size,
-+                machine->smp.cpus, ANDES_PLMT_TIME_BASE, ANDES_PLMT_TIMECMP_BASE);
-+
-+    plic_hart_config =
-+        init_hart_config(ANDES_AE350_PLIC_HART_CONFIG, machine->smp.cpus);
-+
-+    /* Per-socket PLIC */
-+    s->plic = andes_plic_create(
-+        memmap[ANDES_AE350_PLIC].base,
-+        ANDES_AE350_PLIC_NAME,
-+        plic_hart_config,
-+        ANDES_AE350_PLIC_NUM_SOURCES,
-+        ANDES_AE350_PLIC_NUM_PRIORITIES,
-+        ANDES_AE350_PLIC_PRIORITY_BASE,
-+        ANDES_AE350_PLIC_PENDING_BASE,
-+        ANDES_AE350_PLIC_ENABLE_BASE,
-+        ANDES_AE350_PLIC_ENABLE_STRIDE,
-+        ANDES_AE350_PLIC_THRESHOLD_BASE,
-+        ANDES_AE350_PLIC_THRESHOLD_STRIDE,
-+        memmap[ANDES_AE350_PLIC].size);
-+
-+    g_free(plic_hart_config);
-+
-+    /* VIRTIO */
-+    for (int i = 0; i < ANDES_AE350_VIRTIO_COUNT; i++) {
-+        sysbus_create_simple("virtio-mmio",
-+            memmap[ANDES_AE350_VIRTIO].base + i * memmap[ANDES_AE350_VIRTIO].size,
-+            qdev_get_gpio_in(DEVICE(s->plic), (ANDES_AE350_VIRTIO_IRQ + i)));
-+    }
-+
-+    serial_mm_init(system_memory,
-+        memmap[ANDES_AE350_UART1].base + ANDES_UART_REG_OFFSET,
-+        ANDES_UART_REG_SHIFT,
-+        qdev_get_gpio_in(DEVICE(s->plic), ANDES_AE350_UART1_IRQ),
-+        38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+
-+    serial_mm_init(system_memory,
-+        memmap[ANDES_AE350_UART2].base + ANDES_UART_REG_OFFSET,
-+        ANDES_UART_REG_SHIFT,
-+        qdev_get_gpio_in(DEVICE(s->plic), ANDES_AE350_UART2_IRQ),
-+        38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+}
-+
-+static void andes_ae350_soc_instance_init(Object *obj)
-+{
-+    const struct MemmapEntry *memmap = andes_ae350_memmap;
-+    MachineState *machine = MACHINE(qdev_get_machine());
-+    AndesAe350SocState *s = ANDES_AE350_SOC(obj);
-+
-+    object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
-+    object_property_set_str(OBJECT(&s->cpus), "cpu-type",
-+                            machine->cpu_type, &error_abort);
-+    object_property_set_int(OBJECT(&s->cpus), "num-harts",
-+                            machine->smp.cpus, &error_abort);
-+    qdev_prop_set_uint64(DEVICE(&s->cpus), "resetvec",
-+                            memmap[ANDES_AE350_MROM].base);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
-+}
-+
-+static void andes_ae350_machine_init(MachineState *machine)
-+{
-+    const struct MemmapEntry *memmap = andes_ae350_memmap;
-+
-+    AndesAe350BoardState *bs = ANDES_AE350_MACHINE(machine);
-+    MemoryRegion *system_memory = get_system_memory();
-+    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-+    MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-+    target_ulong start_addr = memmap[ANDES_AE350_DRAM].base;
-+    target_ulong firmware_end_addr, kernel_start_addr;
-+    uint32_t fdt_load_addr;
-+    uint64_t kernel_entry;
-+
-+    /* Initialize SoC */
-+    object_initialize_child(OBJECT(machine), "soc",
-+                    &bs->soc, TYPE_ANDES_AE350_SOC);
-+    qdev_realize(DEVICE(&bs->soc), NULL, &error_abort);
-+
-+    /* register system main memory (actual RAM) */
-+    memory_region_init_ram(main_mem, NULL, "riscv.andes.ae350.ram",
-+                           machine->ram_size, &error_fatal);
-+    memory_region_add_subregion(system_memory, memmap[ANDES_AE350_DRAM].base,
-+        main_mem);
-+
-+    /* create device tree */
-+    create_fdt(bs, memmap, machine->ram_size, machine->kernel_cmdline);
-+
-+    /* boot rom */
-+    memory_region_init_rom(mask_rom, NULL, "riscv.andes.ae350.mrom",
-+                           memmap[ANDES_AE350_MROM].size, &error_fatal);
-+    memory_region_add_subregion(system_memory, memmap[ANDES_AE350_MROM].base,
-+                                mask_rom);
-+
-+    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                                     start_addr, NULL);
-+    if (machine->kernel_filename) {
-+        kernel_start_addr = riscv_calc_kernel_start_addr(&bs->soc.cpus,
-+                                                         firmware_end_addr);
-+
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                         kernel_start_addr, NULL);
-+
-+        if (machine->initrd_filename) {
-+            hwaddr start;
-+            hwaddr end = riscv_load_initrd(machine->initrd_filename,
-+                                           machine->ram_size, kernel_entry,
-+                                           &start);
-+            qemu_fdt_setprop_cell(bs->fdt, "/chosen",
-+                                  "linux,initrd-start", start);
-+            qemu_fdt_setprop_cell(bs->fdt, "/chosen", "linux,initrd-end",
-+                                  end);
-+        }
-+    } else {
-+       /*
-+        * If dynamic firmware is used, it doesn't know where is the next mode
-+        * if kernel argument is not set.
-+        */
-+        kernel_entry = 0;
-+    }
-+
-+    /* Compute the fdt load address in dram */
-+    fdt_load_addr = riscv_load_fdt(memmap[ANDES_AE350_DRAM].base,
-+                                   machine->ram_size, bs->fdt);
-+
-+    /* load the reset vector */
-+    riscv_setup_rom_reset_vec(machine, &bs->soc.cpus, start_addr,
-+                andes_ae350_memmap[ANDES_AE350_MROM].base,
-+                andes_ae350_memmap[ANDES_AE350_MROM].size, kernel_entry,
-+                fdt_load_addr, bs->fdt);
-+}
-+
-+static void andes_ae350_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->desc = "RISC-V Board compatible with Andes AE350";
-+    mc->init = andes_ae350_machine_init;
-+    mc->max_cpus = ANDES_CPUS_MAX;
-+    mc->default_cpu_type = VIRT_CPU;
-+}
-+
-+static void andes_ae350_machine_instance_init(Object *obj)
-+{
-+
-+}
-+
-+static const TypeInfo andes_ae350_machine_typeinfo = {
-+    .name       = MACHINE_TYPE_NAME("andes_ae350"),
-+    .parent     = TYPE_MACHINE,
-+    .class_init = andes_ae350_machine_class_init,
-+    .instance_init = andes_ae350_machine_instance_init,
-+    .instance_size = sizeof(AndesAe350BoardState),
-+};
-+
-+static void andes_ae350_machine_init_register_types(void)
-+{
-+    type_register_static(&andes_ae350_machine_typeinfo);
-+}
-+
-+type_init(andes_ae350_machine_init_register_types)
-+
-+static void andes_ae350_soc_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = andes_ae350_soc_realize;
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo andes_ae350_soc_type_info = {
-+    .name       = TYPE_ANDES_AE350_SOC,
-+    .parent     = TYPE_DEVICE,
-+    .instance_init = andes_ae350_soc_instance_init,
-+    .instance_size = sizeof(AndesAe350SocState),
-+    .class_init = andes_ae350_soc_class_init,
-+};
-+
-+static void andes_ae350_soc_init_register_types(void)
-+{
-+    type_register_static(&andes_ae350_soc_type_info);
-+}
-+
-+type_init(andes_ae350_soc_init_register_types)
-diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index 275c0f7eb7..dc0f2cb98b 100644
---- a/hw/riscv/meson.build
-+++ b/hw/riscv/meson.build
-@@ -2,6 +2,7 @@ riscv_ss = ss.source_set()
- riscv_ss.add(files('boot.c'), fdt)
- riscv_ss.add(files('numa.c'))
- riscv_ss.add(files('riscv_hart.c'))
-+riscv_ss.add(when: 'CONFIG_ANDES_AE350', if_true: files('andes_ae350.c'))
- riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
- riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
-diff --git a/include/hw/riscv/andes_ae350.h b/include/hw/riscv/andes_ae350.h
-new file mode 100644
-index 0000000000..fb1a15e8cc
---- /dev/null
-+++ b/include/hw/riscv/andes_ae350.h
-@@ -0,0 +1,93 @@
 +/*
-+ * Andes RISC-V AE350 Board
-+ *
-+ * Copyright (c) 2021 Andes Tech. Corp.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ * OF 1275 "nextprop" description suggests is it 32 bytes max but
++ * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 chars long.
 + */
++#define OF_PROPNAME_LEN_MAX 64
 +
-+#ifndef HW_RISCV_ANDES_AE350_H
-+#define HW_RISCV_ANDES_AE350_H
++#define VOF_MAX_PATH        256
++#define VOF_MAX_PROPLEN     2048
++#define VOF_MAX_METHODLEN   256
++#define VOF_MAX_FORTHCODE   256
++#define VOF_VTY_BUF_SIZE    256
 +
-+#include "hw/riscv/riscv_hart.h"
-+#include "hw/sysbus.h"
-+#include "hw/block/flash.h"
-+#include "qom/object.h"
++typedef struct {
++    uint64_t start;
++    uint64_t size;
++} OfClaimed;
 +
-+#define ANDES_CPUS_MAX 4
++typedef struct {
++    char *path; /* the path used to open the instance */
++    uint32_t phandle;
++} OfInstance;
 +
-+#define TYPE_ANDES_AE350_SOC "riscv.andes.ae350.soc"
-+#define ANDES_AE350_SOC(obj) \
-+    OBJECT_CHECK(AndesAe350SocState, (obj), TYPE_ANDES_AE350_SOC)
++#define VOF_MEM_READ(pa, buf, size) \
++    address_space_read_full(&address_space_memory, \
++    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
++#define VOF_MEM_WRITE(pa, buf, size) \
++    address_space_write(&address_space_memory, \
++    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
 +
-+typedef struct AndesAe350SocState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
++static int readstr(hwaddr pa, char *buf, int size)
++{
++    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
++        return -1;
++    }
++    if (strnlen(buf, size) == size) {
++        buf[size - 1] = '\0';
++        trace_vof_error_str_truncated(buf, size);
++        return -1;
++    }
++    return 0;
++}
 +
-+    /*< public >*/
-+    RISCVHartArrayState cpus;
-+    DeviceState *plic;
-+    DeviceState *plic_sw;
-+} AndesAe350SocState;
++static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
++                       const char *s1, unsigned nargscheck, unsigned nretcheck)
++{
++    if (strcmp(s, s1)) {
++        return false;
++    }
++    if ((nargscheck && (nargs != nargscheck)) ||
++        (nretcheck && (nret != nretcheck))) {
++        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
++        return false;
++    }
 +
-+#define TYPE_ANDES_AE350_MACHINE MACHINE_TYPE_NAME("andes_ae350")
-+#define ANDES_AE350_MACHINE(obj) \
-+    OBJECT_CHECK(AndesAe350BoardState, (obj), TYPE_ANDES_AE350_MACHINE)
++    return true;
++}
 +
-+typedef struct AndesAe350BoardState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
++static void prop_format(char *tval, int tlen, const void *prop, int len)
++{
++    int i;
++    const unsigned char *c;
++    char *t;
++    const char bin[] = "...";
 +
-+    /*< public >*/
-+    AndesAe350SocState soc;
-+    void *fdt;
-+    int fdt_size;
-+} AndesAe350BoardState;
++    for (i = 0, c = prop; i < len; ++i, ++c) {
++        if (*c == '\0' && i == len - 1) {
++            strncpy(tval, prop, tlen - 1);
++            return;
++        }
++        if (*c < 0x20 || *c >= 0x80) {
++            break;
++        }
++    }
 +
-+enum {
-+    ANDES_AE350_DEBUG,
-+    ANDES_AE350_MROM,
-+    ANDES_AE350_PLMT,
-+    ANDES_AE350_PLICSW,
-+    ANDES_AE350_PLIC,
-+    ANDES_AE350_UART1,
-+    ANDES_AE350_UART2,
-+    ANDES_AE350_DRAM,
-+    ANDES_AE350_GEM,
-+    ANDES_AE350_PIT,
-+    ANDES_AE350_SDC,
-+    ANDES_AE350_MAC,
-+    ANDES_AE350_VIRTIO,
++    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
++        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
++            strcpy(t, bin);
++            return;
++        }
++        if (i && i % 4 == 0 && i != len - 1) {
++            strcat(t, " ");
++            ++t;
++        }
++        t += sprintf(t, "%02X", *c & 0xFF);
++    }
++}
++
++static int get_path(const void *fdt, int offset, char *buf, int len)
++{
++    int ret;
++
++    ret = fdt_get_path(fdt, offset, buf, len - 1);
++    if (ret < 0) {
++        return ret;
++    }
++
++    buf[len - 1] = 0;
++
++    return strlen(buf) + 1;
++}
++
++static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, int len)
++{
++    int ret;
++
++    ret = fdt_node_offset_by_phandle(fdt, ph);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return get_path(fdt, ret, buf, len);
++}
++
++static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
++{
++    char fullnode[1024];
++    uint32_t ret = -1;
++    int offset;
++
++    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
++        return (uint32_t) ret;
++    }
++
++    offset = fdt_path_offset(fdt, fullnode);
++    if (offset >= 0) {
++        ret = fdt_get_phandle(fdt, offset);
++    }
++    trace_vof_finddevice(fullnode, ret);
++    return (uint32_t) ret;
++}
++
++static uint32_t vof_getprop(const void *fdt, uint32_t nodeph, uint32_t pname,
++                            uint32_t valaddr, uint32_t vallen)
++{
++    char propname[OF_PROPNAME_LEN_MAX + 1];
++    uint32_t ret = 0;
++    int proplen = 0;
++    const void *prop;
++    char trval[64] = "";
++    int nodeoff = fdt_node_offset_by_phandle(fdt, nodeph);
++    bool write0 = false;
++
++    if (readstr(pname, propname, sizeof(propname))) {
++        return -1;
++    }
++    if (strcmp(propname, "name") == 0) {
++        prop = fdt_get_name(fdt, nodeoff, &proplen);
++        if (prop) {
++            const void *unit = memchr(prop, '@', proplen);
++
++            if (unit) {
++                proplen = unit - prop;
++                write0 = true;
++            }
++        }
++        proplen += 1;
++    } else {
++        prop = fdt_getprop(fdt, nodeoff, propname, &proplen);
++    }
++
++    if (prop) {
++        int cb = MIN(proplen, vallen);
++        const char zero = 0;
++
++        if (VOF_MEM_WRITE(valaddr, prop, cb) != MEMTX_OK ||
++            /* if that was "name" with a unit address, overwrite '@' with '0' */
++            (write0 &&
++             cb == proplen &&
++             VOF_MEM_WRITE(valaddr + cb - 1, &zero, 1) != MEMTX_OK)) {
++            ret = -1;
++        } else {
++            /*
++             * OF1275 says:
++             * "Size is either the actual size of the property, or -1 if name
++             * does not exist", hence returning proplen instead of cb.
++             */
++            ret = proplen;
++            /* Do not format a value if tracepoint is silent, for performance */
++            if (trace_event_get_state(TRACE_VOF_GETPROP) &&
++                qemu_loglevel_mask(LOG_TRACE)) {
++                prop_format(trval, sizeof(trval), prop, ret);
++            }
++        }
++    } else {
++        ret = -1;
++    }
++    trace_vof_getprop(nodeph, propname, ret, trval);
++
++    return ret;
++}
++
++static uint32_t vof_getproplen(const void *fdt, uint32_t nodeph, uint32_t pname)
++{
++    char propname[OF_PROPNAME_LEN_MAX + 1];
++    uint32_t ret = 0;
++    int proplen = 0;
++    const void *prop;
++    int nodeoff = fdt_node_offset_by_phandle(fdt, nodeph);
++
++    if (readstr(pname, propname, sizeof(propname))) {
++        return -1;
++    }
++    if (strcmp(propname, "name") == 0) {
++        prop = fdt_get_name(fdt, nodeoff, &proplen);
++        if (prop) {
++            const void *unit = memchr(prop, '@', proplen);
++
++            if (unit) {
++                proplen = unit - prop;
++            }
++        }
++        proplen += 1;
++    } else {
++        prop = fdt_getprop(fdt, nodeoff, propname, &proplen);
++    }
++
++    if (prop) {
++        ret = proplen;
++    } else {
++        ret = -1;
++    }
++    trace_vof_getproplen(nodeph, propname, ret);
++
++    return ret;
++}
++
++static uint32_t vof_setprop(void *fdt, Vof *vof,
++                            uint32_t nodeph, uint32_t pname,
++                            uint32_t valaddr, uint32_t vallen)
++{
++    char propname[OF_PROPNAME_LEN_MAX + 1];
++    uint32_t ret = -1;
++    int offset;
++    char trval[64] = "";
++    char nodepath[VOF_MAX_PATH] = "";
++    g_autofree char *data = NULL;
++
++    if (vallen > VOF_MAX_PROPLEN) {
++        goto trace_exit;
++    }
++    if (readstr(pname, propname, sizeof(propname))) {
++        goto trace_exit;
++    }
++    offset = fdt_node_offset_by_phandle(fdt, nodeph);
++    if (offset < 0) {
++        goto trace_exit;
++    }
++    ret = get_path(fdt, offset, nodepath, sizeof(nodepath));
++    if (ret <= 0) {
++        goto trace_exit;
++    }
++
++    ret = -1;
++    /*
++     * We only allow changing properties which we know how to update in QEMU
++     * OR
++     * the ones which we know that they need to survive during "quiesce".
++     */
++    if (strcmp(nodepath, "/rtas") == 0) {
++        if (strcmp(propname, "linux,rtas-base") == 0 ||
++             strcmp(propname, "linux,rtas-entry") == 0) {
++            /* These need to survive quiesce so let them store in the FDT */
++        } else {
++            goto trace_exit;
++        }
++    } else if (strcmp(nodepath, "/chosen") == 0) {
++        if (strcmp(propname, "bootargs") == 0) {
++            char val[1024];
++
++            if (readstr(valaddr, val, sizeof(val))) {
++                goto trace_exit;
++            }
++            g_free(vof->bootargs);
++            vof->bootargs = g_strdup(val);
++            vallen = strlen(vof->bootargs) + 1;
++        } else  if (strcmp(propname, "linux,initrd-start") == 0) {
++            if (vallen == sizeof(uint32_t)) {
++                vof->initrd_base = ldl_be_phys(first_cpu->as, valaddr);
++            } else if (vallen == sizeof(uint64_t)) {
++                vof->initrd_base = ldq_be_phys(first_cpu->as, valaddr);
++            } else {
++                goto trace_exit;
++            }
++        } else if (strcmp(propname, "linux,initrd-end") == 0) {
++            if (vallen == sizeof(uint32_t)) {
++                vof->initrd_size = ldl_be_phys(first_cpu->as, valaddr) -
++                    vof->initrd_base;
++            } else if (vallen == sizeof(uint64_t)) {
++                vof->initrd_size = ldq_be_phys(first_cpu->as, valaddr) -
++                    vof->initrd_base;
++            } else {
++                goto trace_exit;
++            }
++        } else {
++            goto trace_exit;
++        }
++    } else {
++        goto trace_exit;
++    }
++
++    data = g_malloc0(vallen);
++    if ((VOF_MEM_READ(valaddr, data, vallen) == MEMTX_OK) &&
++        !fdt_setprop(fdt, offset, propname, data, vallen)) {
++        ret = vallen;
++        if (trace_event_get_state(TRACE_VOF_SETPROP) &&
++            qemu_loglevel_mask(LOG_TRACE)) {
++            prop_format(trval, sizeof(trval), data, ret);
++        }
++    }
++
++trace_exit:
++    trace_vof_setprop(nodeph, propname, trval, vallen, ret);
++
++    return ret;
++}
++
++static uint32_t vof_nextprop(const void *fdt, uint32_t phandle,
++                             uint32_t prevaddr, uint32_t nameaddr)
++{
++    int offset, nodeoff = fdt_node_offset_by_phandle(fdt, phandle);
++    char prev[OF_PROPNAME_LEN_MAX + 1];
++    const char *tmp;
++
++    if (readstr(prevaddr, prev, sizeof(prev))) {
++        return -1;
++    }
++
++    fdt_for_each_property_offset(offset, fdt, nodeoff) {
++        if (!fdt_getprop_by_offset(fdt, offset, &tmp, NULL)) {
++            return 0;
++        }
++        if (prev[0] == '\0' || strcmp(prev, tmp) == 0) {
++            if (prev[0] != '\0') {
++                offset = fdt_next_property_offset(fdt, offset);
++                if (offset < 0) {
++                    return 0;
++                }
++            }
++            if (!fdt_getprop_by_offset(fdt, offset, &tmp, NULL)) {
++                return 0;
++            }
++
++            if (VOF_MEM_WRITE(nameaddr, tmp, strlen(tmp) + 1) != MEMTX_OK) {
++                return -1;
++            }
++            return 1;
++        }
++    }
++
++    return 0;
++}
++
++static uint32_t vof_peer(const void *fdt, uint32_t phandle)
++{
++    int ret;
++
++    if (phandle == 0) {
++        ret = fdt_path_offset(fdt, "/");
++    } else {
++        ret = fdt_next_subnode(fdt, fdt_node_offset_by_phandle(fdt, phandle));
++    }
++
++    if (ret < 0) {
++        ret = 0;
++    } else {
++        ret = fdt_get_phandle(fdt, ret);
++    }
++
++    return ret;
++}
++
++static uint32_t vof_child(const void *fdt, uint32_t phandle)
++{
++    int ret = fdt_first_subnode(fdt, fdt_node_offset_by_phandle(fdt, phandle));
++
++    if (ret < 0) {
++        ret = 0;
++    } else {
++        ret = fdt_get_phandle(fdt, ret);
++    }
++
++    return ret;
++}
++
++static uint32_t vof_parent(const void *fdt, uint32_t phandle)
++{
++    int ret = fdt_parent_offset(fdt, fdt_node_offset_by_phandle(fdt, phandle));
++
++    if (ret < 0) {
++        ret = 0;
++    } else {
++        ret = fdt_get_phandle(fdt, ret);
++    }
++
++    return ret;
++}
++
++static uint32_t vof_do_open(void *fdt, Vof *vof, const char *path)
++{
++    int offset;
++    uint32_t ret = 0;
++    OfInstance *inst = NULL;
++
++    if (vof->of_instance_last == 0xFFFFFFFF) {
++        /* We do not recycle ihandles yet */
++        goto trace_exit;
++    }
++
++    offset = fdt_path_offset(fdt, path);
++    if (offset < 0) {
++        trace_vof_error_unknown_path(path);
++        goto trace_exit;
++    }
++
++    inst = g_new0(OfInstance, 1);
++    inst->phandle = fdt_get_phandle(fdt, offset);
++    g_assert(inst->phandle);
++    ++vof->of_instance_last;
++
++    inst->path = g_strdup(path);
++    g_hash_table_insert(vof->of_instances,
++                        GINT_TO_POINTER(vof->of_instance_last),
++                        inst);
++    ret = vof->of_instance_last;
++
++trace_exit:
++    trace_vof_open(path, inst ? inst->phandle : 0, ret);
++
++    return ret;
++}
++
++uint32_t vof_client_open_store(void *fdt, Vof *vof, const char *nodename,
++                               const char *prop, const char *path)
++{
++    int node = fdt_path_offset(fdt, nodename);
++    uint32_t inst = vof_do_open(fdt, vof, path);
++
++    return fdt_setprop_cell(fdt, node, prop, inst);
++}
++
++static uint32_t vof_open(void *fdt, Vof *vof, uint32_t pathaddr)
++{
++    char path[VOF_MAX_PATH];
++
++    if (readstr(pathaddr, path, sizeof(path))) {
++        return -1;
++    }
++
++    return vof_do_open(fdt, vof, path);
++}
++
++static void vof_close(Vof *vof, uint32_t ihandle)
++{
++    if (!g_hash_table_remove(vof->of_instances, GINT_TO_POINTER(ihandle))) {
++        trace_vof_error_unknown_ihandle_close(ihandle);
++    }
++}
++
++static uint32_t vof_instance_to_package(Vof *vof, uint32_t ihandle)
++{
++    gpointer instp = g_hash_table_lookup(vof->of_instances,
++                                         GINT_TO_POINTER(ihandle));
++    uint32_t ret = -1;
++
++    if (instp) {
++        ret = ((OfInstance *)instp)->phandle;
++    }
++    trace_vof_instance_to_package(ihandle, ret);
++
++    return ret;
++}
++
++static uint32_t vof_package_to_path(const void *fdt, uint32_t phandle,
++                                    uint32_t buf, uint32_t len)
++{
++    uint32_t ret = -1;
++    char tmp[VOF_MAX_PATH] = "";
++
++    ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
++    if (ret > 0) {
++        if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
++            ret = -1;
++        }
++    }
++
++    trace_vof_package_to_path(phandle, tmp, ret);
++
++    return ret;
++}
++
++static uint32_t vof_instance_to_path(void *fdt, Vof *vof, uint32_t ihandle,
++                                     uint32_t buf, uint32_t len)
++{
++    uint32_t ret = -1;
++    uint32_t phandle = vof_instance_to_package(vof, ihandle);
++    char tmp[VOF_MAX_PATH] = "";
++
++    if (phandle != -1) {
++        ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
++        if (ret > 0) {
++            if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
++                ret = -1;
++            }
++        }
++    }
++    trace_vof_instance_to_path(ihandle, phandle, tmp, ret);
++
++    return ret;
++}
++
++static uint32_t vof_write(Vof *vof, uint32_t ihandle, uint32_t buf,
++                          uint32_t len)
++{
++    char tmp[VOF_VTY_BUF_SIZE];
++    int toread, toprint, cb = MIN(len, sizeof(tmp) - 1);
++    OfInstance *inst = (OfInstance *)
++        g_hash_table_lookup(vof->of_instances, GINT_TO_POINTER(ihandle));
++
++    if (!inst) {
++        trace_vof_error_write(ihandle);
++        return -1;
++    }
++    while (cb > 0) {
++        toread = MIN(cb, sizeof(tmp) - 1);
++
++        cpu_physical_memory_read(buf, tmp, toread);
++
++        toprint = toread;
++
++        if (trace_event_get_state(TRACE_VOF_WRITE) &&
++            qemu_loglevel_mask(LOG_TRACE)) {
++            char *c;
++
++            for (c = tmp; c < tmp + toprint; ++c) {
++                if (*c < 0x20 || *c >= 0x7f) {
++                    *c = '~';
++                }
++            }
++            tmp[toprint] = '\0';
++            trace_vof_write(ihandle, toprint, tmp);
++        }
++
++        buf += toprint;
++        cb -= toprint;
++    }
++
++    return len;
++}
++
++static void vof_claimed_dump(GArray *claimed)
++{
++    int i;
++    OfClaimed c;
++
++    if (trace_event_get_state(TRACE_VOF_CLAIMED) &&
++        qemu_loglevel_mask(LOG_TRACE)) {
++
++        for (i = 0; i < claimed->len; ++i) {
++            c = g_array_index(claimed, OfClaimed, i);
++            trace_vof_claimed(c.start, c.start + c.size, c.size);
++        }
++    }
++}
++
++static bool vof_claim_avail(GArray *claimed, uint64_t virt, uint64_t size)
++{
++    int i;
++    OfClaimed c;
++
++    for (i = 0; i < claimed->len; ++i) {
++        c = g_array_index(claimed, OfClaimed, i);
++        if (ranges_overlap(c.start, c.size, virt, size)) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
++static void vof_claim_add(GArray *claimed, uint64_t virt, uint64_t size)
++{
++    OfClaimed newclaim;
++
++    newclaim.start = virt;
++    newclaim.size = size;
++    g_array_append_val(claimed, newclaim);
++}
++
++static gint of_claimed_compare_func(gconstpointer a, gconstpointer b)
++{
++    return ((OfClaimed *)a)->start - ((OfClaimed *)b)->start;
++}
++
++static void vof_dt_memory_available(void *fdt, GArray *claimed, uint64_t base)
++{
++    int i, n, offset, proplen = 0;
++    uint64_t *mem0_reg;
++    g_autofree struct { uint64_t start, size; } *avail = NULL;
++
++    if (!fdt || !claimed) {
++        return;
++    }
++
++    offset = fdt_path_offset(fdt, "/memory@0");
++    _FDT(offset);
++
++    mem0_reg = (uint64_t *) fdt_getprop(fdt, offset, "reg", &proplen);
++    if (!mem0_reg || proplen != 2 * sizeof(uint64_t)) {
++        return;
++    }
++
++    g_array_sort(claimed, of_claimed_compare_func);
++    vof_claimed_dump(claimed);
++
++    avail = g_malloc0(sizeof(avail[0]) * claimed->len);
++    for (i = 0, n = 0; i < claimed->len; ++i) {
++        OfClaimed c = g_array_index(claimed, OfClaimed, i);
++        uint64_t size;
++
++        if (i < claimed->len - 1) {
++            OfClaimed cn = g_array_index(claimed, OfClaimed, i + 1);
++
++            size = cn.start - avail[n].start;
++        } else {
++            size = be64_to_cpu(mem0_reg[1]) - avail[n].start;
++        }
++        avail[n].start = cpu_to_be64(c.start + c.size);
++        avail[n].size = cpu_to_be64(size);
++
++        if (size) {
++            trace_vof_avail(c.start + c.size, c.start + c.size + size, size);
++            ++n;
++        }
++    }
++    _FDT((fdt_setprop(fdt, offset, "available", avail, sizeof(avail[0]) * n)));
++}
++
++/*
++ * OF1275:
++ * "Allocates size bytes of memory. If align is zero, the allocated range
++ * begins at the virtual address virt. Otherwise, an aligned address is
++ * automatically chosen and the input argument virt is ignored".
++ *
++ * In other words, exactly one of @virt and @align is non-zero.
++ */
++uint64_t vof_claim(void *fdt, Vof *vof, uint64_t virt, uint64_t size,
++                   uint64_t align)
++{
++    uint64_t ret;
++
++    if (size == 0) {
++        ret = -1;
++    } else if (align == 0) {
++        if (!vof_claim_avail(vof->claimed, virt, size)) {
++            ret = -1;
++        } else {
++            ret = virt;
++        }
++    } else {
++        vof->claimed_base = QEMU_ALIGN_UP(vof->claimed_base, align);
++        while (1) {
++            if (vof->claimed_base >= vof->top_addr) {
++                error_report("Out of RMA memory for the OF client");
++                return -1;
++            }
++            if (vof_claim_avail(vof->claimed, vof->claimed_base, size)) {
++                break;
++            }
++            vof->claimed_base += size;
++        }
++        ret = vof->claimed_base;
++    }
++
++    if (ret != -1) {
++        vof->claimed_base = MAX(vof->claimed_base, ret + size);
++        vof_claim_add(vof->claimed, ret, size);
++        /* The client reads "/memory@0/available" to know where it can claim */
++        vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
++    }
++    trace_vof_claim(virt, size, align, ret);
++
++    return ret;
++}
++
++static uint32_t vof_release(void *fdt, Vof *vof, uint64_t virt, uint64_t size)
++{
++    uint32_t ret = -1;
++    int i;
++    GArray *claimed = vof->claimed;
++    OfClaimed c;
++
++    for (i = 0; i < claimed->len; ++i) {
++        c = g_array_index(claimed, OfClaimed, i);
++        if (c.start == virt && c.size == size) {
++            g_array_remove_index(claimed, i);
++            vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
++            ret = 0;
++            break;
++        }
++    }
++
++    trace_vof_release(virt, size, ret);
++
++    return ret;
++}
++
++static void vof_instantiate_rtas(Error **errp)
++{
++    error_setg(errp, "The firmware should have instantiated RTAS");
++}
++
++static uint32_t vof_call_method(Vof *vof, uint32_t methodaddr, uint32_t ihandle,
++                                uint32_t param1, uint32_t param2,
++                                uint32_t param3, uint32_t param4,
++                                uint32_t *ret2)
++{
++    uint32_t ret = -1;
++    char method[VOF_MAX_METHODLEN] = "";
++    OfInstance *inst;
++
++    if (!ihandle) {
++        goto trace_exit;
++    }
++
++    inst = (OfInstance *) g_hash_table_lookup(vof->of_instances,
++                                              GINT_TO_POINTER(ihandle));
++    if (!inst) {
++        goto trace_exit;
++    }
++
++    if (readstr(methodaddr, method, sizeof(method))) {
++        goto trace_exit;
++    }
++
++    if (strcmp(inst->path, "/") == 0) {
++        if (strcmp(method, "ibm,client-architecture-support") == 0) {
++            Object *svo = object_dynamic_cast(qdev_get_machine(),
++                                              TYPE_SPAPR_VOF);
++
++            if (svo) {
++                SpaprVofClass *svc = SPAPR_VOF_GET_CLASS(svo);
++
++                ret = svc->client_architecture_support(first_cpu, param1);
++            }
++
++            *ret2 = 0;
++        }
++    } else if (strcmp(inst->path, "/rtas") == 0) {
++        if (strcmp(method, "instantiate-rtas") == 0) {
++            vof_instantiate_rtas(&error_fatal);
++            ret = 0;
++            *ret2 = param1; /* rtas-base */
++        }
++    } else {
++        trace_vof_error_unknown_method(method);
++    }
++
++trace_exit:
++    trace_vof_method(ihandle, method, param1, ret, *ret2);
++
++    return ret;
++}
++
++static uint32_t vof_call_interpret(uint32_t cmdaddr, uint32_t param1,
++                                   uint32_t param2, uint32_t *ret2)
++{
++    uint32_t ret = -1;
++    char cmd[VOF_MAX_FORTHCODE] = "";
++
++    /* No interpret implemented */
++    readstr(cmdaddr, cmd, sizeof(cmd));
++    trace_vof_interpret(cmd, param1, param2, ret, *ret2);
++
++    return ret;
++}
++
++static void vof_quiesce(void *fdt, Vof *vof)
++{
++    Object *svo = object_dynamic_cast(qdev_get_machine(), TYPE_SPAPR_VOF);
++    /*
++     * After "quiesce", no change should be made to the FDT and
++     * packing FDT ensures this.
++     */
++    int rc = fdt_pack(fdt);
++
++    assert(rc == 0);
++
++    if (svo) {
++        SpaprVofClass *svc = SPAPR_VOF_GET_CLASS(svo);
++
++        svc->quiesce();
++    }
++
++    vof_claimed_dump(vof->claimed);
++}
++
++uint32_t vof_client_call(void *fdt, Vof *vof, const char *service,
++                         uint32_t *args, unsigned nargs,
++                         uint32_t *rets, unsigned nrets)
++{
++    uint32_t ret = 0;
++
++    /* @nrets includes the value which this function returns */
++#define cmpserv(s, a, r) \
++    cmpservice(service, nargs, nrets, (s), (a), (r))
++
++    if (cmpserv("finddevice", 1, 1)) {
++        ret = vof_finddevice(fdt, args[0]);
++    } else if (cmpserv("getprop", 4, 1)) {
++        ret = vof_getprop(fdt, args[0], args[1], args[2], args[3]);
++    } else if (cmpserv("getproplen", 2, 1)) {
++        ret = vof_getproplen(fdt, args[0], args[1]);
++    } else if (cmpserv("setprop", 4, 1)) {
++        ret = vof_setprop(fdt, vof, args[0], args[1], args[2], args[3]);
++    } else if (cmpserv("nextprop", 3, 1)) {
++        ret = vof_nextprop(fdt, args[0], args[1], args[2]);
++    } else if (cmpserv("peer", 1, 1)) {
++        ret = vof_peer(fdt, args[0]);
++    } else if (cmpserv("child", 1, 1)) {
++        ret = vof_child(fdt, args[0]);
++    } else if (cmpserv("parent", 1, 1)) {
++        ret = vof_parent(fdt, args[0]);
++    } else if (cmpserv("open", 1, 1)) {
++        ret = vof_open(fdt, vof, args[0]);
++    } else if (cmpserv("close", 1, 0)) {
++        vof_close(vof, args[0]);
++    } else if (cmpserv("instance-to-package", 1, 1)) {
++        ret = vof_instance_to_package(vof, args[0]);
++    } else if (cmpserv("package-to-path", 3, 1)) {
++        ret = vof_package_to_path(fdt, args[0], args[1], args[2]);
++    } else if (cmpserv("instance-to-path", 3, 1)) {
++        ret = vof_instance_to_path(fdt, vof, args[0], args[1], args[2]);
++    } else if (cmpserv("write", 3, 1)) {
++        ret = vof_write(vof, args[0], args[1], args[2]);
++    } else if (cmpserv("claim", 3, 1)) {
++        ret = vof_claim(fdt, vof, args[0], args[1], args[2]);
++    } else if (cmpserv("release", 2, 0)) {
++        ret = vof_release(fdt, vof, args[0], args[1]);
++    } else if (cmpserv("call-method", 0, 0)) {
++        ret = vof_call_method(vof, args[0], args[1], args[2], args[3], args[4],
++                              args[5], rets);
++    } else if (cmpserv("interpret", 0, 0)) {
++        ret = vof_call_interpret(args[0], args[1], args[2], rets);
++    } else if (cmpserv("milliseconds", 0, 1)) {
++        ret = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++    } else if (cmpserv("quiesce", 0, 0)) {
++        vof_quiesce(fdt, vof);
++    } else if (cmpserv("exit", 0, 0)) {
++        error_report("Stopped as the VM requested \"exit\"");
++        vm_stop(RUN_STATE_PAUSED); /* Or qemu_system_guest_panicked(NULL); ? */
++    } else {
++        trace_vof_error_unknown_service(service, nargs, nrets);
++        ret = -1;
++    }
++
++    return ret;
++}
++
++static void of_instance_free(gpointer data)
++{
++    OfInstance *inst = (OfInstance *) data;
++
++    g_free(inst->path);
++    g_free(inst);
++}
++
++void vof_cleanup(Vof *vof)
++{
++    if (vof->claimed) {
++        g_array_unref(vof->claimed);
++    }
++    if (vof->of_instances) {
++        g_hash_table_unref(vof->of_instances);
++    }
++    vof->claimed = NULL;
++    vof->of_instances = NULL;
++}
++
++void vof_build_dt(void *fdt, Vof *vof, uint32_t top_addr)
++{
++    uint32_t phandle;
++    int i, offset, proplen = 0;
++    const void *prop;
++    bool found = false;
++    GArray *phandles = g_array_new(false, false, sizeof(uint32_t));
++
++    /*
++     * Here is the first time we need of_instances and claimed. These are
++     * released on vof_cleanup() (called when reset) or when vof=off but
++     * they need to survive ibm,client-architecture-support so we do not
++     * always reset them here.
++     */
++    if (!vof->of_instances) {
++        vof->of_instances = g_hash_table_new_full(g_direct_hash, g_direct_equal,
++                                                  NULL, of_instance_free);
++    }
++    if (!vof->claimed) {
++        vof->claimed = g_array_new(false, false, sizeof(OfClaimed));
++    }
++
++    vof->top_addr = top_addr;
++
++    /* Find all predefined phandles */
++    for (offset = fdt_next_node(fdt, -1, NULL);
++         offset >= 0;
++         offset = fdt_next_node(fdt, offset, NULL)) {
++        prop = fdt_getprop(fdt, offset, "phandle", &proplen);
++        if (prop && proplen == sizeof(uint32_t)) {
++            phandle = fdt32_ld(prop);
++            g_array_append_val(phandles, phandle);
++        }
++    }
++
++    /* Assign phandles skipping the predefined ones */
++    for (offset = fdt_next_node(fdt, -1, NULL), phandle = 1;
++         offset >= 0;
++         offset = fdt_next_node(fdt, offset, NULL), ++phandle) {
++        prop = fdt_getprop(fdt, offset, "phandle", &proplen);
++        if (prop) {
++            continue;
++        }
++        /* Check if the current phandle is not allocated already */
++        for ( ; ; ++phandle) {
++            for (i = 0, found = false; i < phandles->len; ++i) {
++                if (phandle == g_array_index(phandles, uint32_t, i)) {
++                    found = true;
++                    break;
++                }
++            }
++            if (!found) {
++                break;
++            }
++        }
++        _FDT(fdt_setprop_cell(fdt, offset, "phandle", phandle));
++    }
++    g_array_unref(phandles);
++
++    vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
++}
+diff --git a/pc-bios/vof/bootmem.c b/pc-bios/vof/bootmem.c
+new file mode 100644
+index 000000000000..771b9e95f95d
+--- /dev/null
++++ b/pc-bios/vof/bootmem.c
+@@ -0,0 +1,14 @@
++#include "vof.h"
++
++void boot_from_memory(uint64_t initrd, uint64_t initrdsize)
++{
++    uint64_t kern[2];
++    phandle chosen = ci_finddevice("/chosen");
++
++    if (ci_getprop(chosen, "qemu,boot-kernel", kern, sizeof(kern)) !=
++        sizeof(kern)) {
++        return;
++    }
++
++    do_boot(kern[0], initrd, initrdsize);
++}
+diff --git a/pc-bios/vof/ci.c b/pc-bios/vof/ci.c
+new file mode 100644
+index 000000000000..a80806580dd0
+--- /dev/null
++++ b/pc-bios/vof/ci.c
+@@ -0,0 +1,91 @@
++#include "vof.h"
++
++struct prom_args {
++    uint32_t service;
++    uint32_t nargs;
++    uint32_t nret;
++    uint32_t args[10];
 +};
 +
-+enum {
-+    ANDES_AE350_PIT_IRQ = 3,
-+    ANDES_AE350_UART1_IRQ = 8,
-+    ANDES_AE350_UART2_IRQ = 9,
-+    ANDES_AE350_SDC_IRQ = 18,
-+    ANDES_AE350_MAC_IRQ = 19,
-+    ANDES_AE350_GEM_IRQ = 0x35,
-+    ANDES_AE350_VIRTIO_COUNT = 8,
-+    ANDES_AE350_VIRTIO_IRQ = 16, /* 16 to 23 */
-+};
++typedef unsigned long prom_arg_t;
 +
-+#define ANDES_UART_REG_SHIFT    0x2
-+#define ANDES_UART_REG_OFFSET   0x20
++#define ADDR(x) (uint32_t)(x)
 +
-+#if defined(TARGET_RISCV32)
-+#define VIRT_CPU TYPE_RISCV_CPU_BASE32
-+#elif defined(TARGET_RISCV64)
-+#define VIRT_CPU TYPE_RISCV_CPU_BASE64
-+#endif
++static int prom_handle(struct prom_args *pargs)
++{
++    void *rtasbase;
++    uint32_t rtassize = 0;
++    phandle rtas;
 +
-+#endif /* HW_RISCV_ANDES_AE350_H */
++    if (strcmp("call-method", (void *)(unsigned long) pargs->service)) {
++        return -1;
++    }
++
++    if (strcmp("instantiate-rtas", (void *)(unsigned long) pargs->args[0])) {
++        return -1;
++    }
++
++    rtas = ci_finddevice("/rtas");
++    /* rtas-size is set by QEMU depending of FWNMI support */
++    ci_getprop(rtas, "rtas-size", &rtassize, sizeof(rtassize));
++    if (rtassize < hv_rtas_size) {
++        return -1;
++    }
++
++    rtasbase = (void *)(unsigned long) pargs->args[2];
++
++    memcpy(rtasbase, hv_rtas, hv_rtas_size);
++    pargs->args[pargs->nargs] = 0;
++    pargs->args[pargs->nargs + 1] = pargs->args[2];
++
++    return 0;
++}
++
++void prom_entry(uint32_t args)
++{
++    if (prom_handle((void *)(unsigned long) args)) {
++        ci_entry(args);
++    }
++}
++
++static int call_ci(const char *service, int nargs, int nret, ...)
++{
++    int i;
++    struct prom_args args;
++    va_list list;
++
++    args.service = ADDR(service);
++    args.nargs = nargs;
++    args.nret = nret;
++
++    va_start(list, nret);
++    for (i = 0; i < nargs; i++) {
++        args.args[i] = va_arg(list, prom_arg_t);
++    }
++    va_end(list);
++
++    for (i = 0; i < nret; i++) {
++        args.args[nargs + i] = 0;
++    }
++
++    if (ci_entry((uint32_t)(&args)) < 0) {
++        return PROM_ERROR;
++    }
++
++    return (nret > 0) ? args.args[nargs] : 0;
++}
++
++void ci_panic(const char *str)
++{
++    call_ci("exit", 0, 0);
++}
++
++phandle ci_finddevice(const char *path)
++{
++    return call_ci("finddevice", 1, 1, path);
++}
++
++uint32_t ci_getprop(phandle ph, const char *propname, void *prop, int len)
++{
++    return call_ci("getprop", 4, 1, ph, propname, prop, len);
++}
+diff --git a/pc-bios/vof/libc.c b/pc-bios/vof/libc.c
+new file mode 100644
+index 000000000000..00c10e6e7da1
+--- /dev/null
++++ b/pc-bios/vof/libc.c
+@@ -0,0 +1,92 @@
++#include "vof.h"
++
++int strlen(const char *s)
++{
++    int len = 0;
++
++    while (*s != 0) {
++        len += 1;
++        s += 1;
++    }
++
++    return len;
++}
++
++int strcmp(const char *s1, const char *s2)
++{
++    while (*s1 != 0 && *s2 != 0) {
++        if (*s1 != *s2) {
++            break;
++        }
++        s1 += 1;
++        s2 += 1;
++    }
++
++    return *s1 - *s2;
++}
++
++void *memcpy(void *dest, const void *src, size_t n)
++{
++    char *cdest;
++    const char *csrc = src;
++
++    cdest = dest;
++    while (n-- > 0) {
++        *cdest++ = *csrc++;
++    }
++
++    return dest;
++}
++
++int memcmp(const void *ptr1, const void *ptr2, size_t n)
++{
++    const unsigned char *p1 = ptr1;
++    const unsigned char *p2 = ptr2;
++
++    while (n-- > 0) {
++        if (*p1 != *p2) {
++            return *p1 - *p2;
++        }
++        p1 += 1;
++        p2 += 1;
++    }
++
++    return 0;
++}
++
++void *memmove(void *dest, const void *src, size_t n)
++{
++    char *cdest;
++    const char *csrc;
++    int i;
++
++    /* Do the buffers overlap in a bad way? */
++    if (src < dest && src + n >= dest) {
++        /* Copy from end to start */
++        cdest = dest + n - 1;
++        csrc = src + n - 1;
++        for (i = 0; i < n; i++) {
++            *cdest-- = *csrc--;
++        }
++    } else {
++        /* Normal copy is possible */
++        cdest = dest;
++        csrc = src;
++        for (i = 0; i < n; i++) {
++            *cdest++ = *csrc++;
++        }
++    }
++
++    return dest;
++}
++
++void *memset(void *dest, int c, size_t size)
++{
++    unsigned char *d = (unsigned char *)dest;
++
++    while (size-- > 0) {
++        *d++ = (unsigned char)c;
++    }
++
++    return dest;
++}
+diff --git a/pc-bios/vof/main.c b/pc-bios/vof/main.c
+new file mode 100644
+index 000000000000..9fc30d2d0957
+--- /dev/null
++++ b/pc-bios/vof/main.c
+@@ -0,0 +1,21 @@
++#include "vof.h"
++
++void do_boot(unsigned long addr, unsigned long _r3, unsigned long _r4)
++{
++    register unsigned long r3 __asm__("r3") = _r3;
++    register unsigned long r4 __asm__("r4") = _r4;
++    register unsigned long r5 __asm__("r5") = (unsigned long) _prom_entry;
++
++    ((client *)(uint32_t)addr)();
++}
++
++void entry_c(void)
++{
++    register unsigned long r3 __asm__("r3");
++    register unsigned long r4 __asm__("r4");
++    register unsigned long r5 __asm__("r5");
++    uint64_t initrd = r3, initrdsize = r4;
++
++    boot_from_memory(initrd, initrdsize);
++    ci_panic("*** No boot target ***\n");
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b2aa18e1fe3..4763967528ba 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1345,6 +1345,17 @@ F: pc-bios/canyonlands.dt[sb]
+ F: pc-bios/u-boot-sam460ex-20100605.bin
+ F: roms/u-boot-sam460ex
+ 
++Virtual Open Firmware (VOF)
++M: Alexey Kardashevskiy <aik@ozlabs.ru>
++M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
++L: qemu-ppc@nongnu.org
++S: Maintained
++F: hw/ppc/spapr_vof*
++F: hw/ppc/vof*
++F: pc-bios/vof/*
++F: pc-bios/vof*
++
+ RISC-V Machines
+ ---------------
+ OpenTitan
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index 218631c883be..24427d3f51c1 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -28,6 +28,8 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+   'spapr_rtas_ddw.c',
+   'spapr_numa.c',
+   'pef.c',
++  'spapr_vof.c',
++  'vof.c',
+ ))
+ ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+ ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index b4bbfbb01348..da5e6809eba3 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -71,6 +71,30 @@ spapr_rtas_ibm_configure_connector_invalid(uint32_t index) "DRC index: 0x%"PRIx3
+ spapr_vio_h_reg_crq(uint64_t reg, uint64_t queue_addr, uint64_t queue_len) "CRQ for dev 0x%" PRIx64 " registered at 0x%" PRIx64 "/0x%" PRIx64
+ spapr_vio_free_crq(uint32_t reg) "CRQ for dev 0x%" PRIx32 " freed"
+ 
++# vof.c
++vof_error_str_truncated(const char *s, int len) "%s truncated to %d"
++vof_error_param(const char *method, int nargscheck, int nretcheck, int nargs, int nret) "%s takes/returns %d/%d, not %d/%d"
++vof_error_unknown_service(const char *service, int nargs, int nret) "\"%s\" args=%d rets=%d"
++vof_error_unknown_method(const char *method) "\"%s\""
++vof_error_unknown_ihandle_close(uint32_t ih) "ih=0x%x"
++vof_error_unknown_path(const char *path) "\"%s\""
++vof_error_write(uint32_t ih) "ih=0x%x"
++vof_finddevice(const char *path, uint32_t ph) "\"%s\" => ph=0x%x"
++vof_claim(uint32_t virt, uint32_t size, uint32_t align, uint32_t ret) "virt=0x%x size=0x%x align=0x%x => 0x%x"
++vof_release(uint32_t virt, uint32_t size, uint32_t ret) "virt=0x%x size=0x%x => 0x%x"
++vof_method(uint32_t ihandle, const char *method, uint32_t param, uint32_t ret, uint32_t ret2) "ih=0x%x \"%s\"(0x%x) => 0x%x 0x%x"
++vof_getprop(uint32_t ph, const char *prop, uint32_t ret, const char *val) "ph=0x%x \"%s\" => len=%d [%s]"
++vof_getproplen(uint32_t ph, const char *prop, uint32_t ret) "ph=0x%x \"%s\" => len=%d"
++vof_setprop(uint32_t ph, const char *prop, const char *val, uint32_t vallen, uint32_t ret) "ph=0x%x \"%s\" [%s] len=%d => ret=%d"
++vof_open(const char *path, uint32_t ph, uint32_t ih) "%s ph=0x%x => ih=0x%x"
++vof_interpret(const char *cmd, uint32_t param1, uint32_t param2, uint32_t ret, uint32_t ret2) "[%s] 0x%x 0x%x => 0x%x 0x%x"
++vof_package_to_path(uint32_t ph, const char *tmp, uint32_t ret) "ph=0x%x => %s len=%d"
++vof_instance_to_path(uint32_t ih, uint32_t ph, const char *tmp, uint32_t ret) "ih=0x%x ph=0x%x => %s len=%d"
++vof_instance_to_package(uint32_t ih, uint32_t ph) "ih=0x%x => ph=0x%x"
++vof_write(uint32_t ih, unsigned cb, const char *msg) "ih=0x%x [%u] \"%s\""
++vof_avail(uint64_t start, uint64_t end, uint64_t size) "0x%"PRIx64"..0x%"PRIx64" size=%"PRId64
++vof_claimed(uint64_t start, uint64_t end, uint64_t size) "0x%"PRIx64"..0x%"PRIx64" size=%"PRId64
++
+ # ppc.c
+ ppc_tb_adjust(uint64_t offs1, uint64_t offs2, int64_t diff, int64_t seconds) "adjusted from 0x%"PRIx64" to 0x%"PRIx64", diff %"PRId64" (%"PRId64"s)"
+ 
+diff --git a/pc-bios/README b/pc-bios/README
+index c101c9a04f8f..6e6556e91c92 100644
+--- a/pc-bios/README
++++ b/pc-bios/README
+@@ -16,6 +16,8 @@
+   https://github.com/aik/SLOF, and the image currently in qemu is
+   built from git tag qemu-slof-20210217.
+ 
++- vof is a minimalistic firmware to work with -machine pseries,x-vof=on.
++
+ - sgabios (the Serial Graphics Adapter option ROM) provides a means for
+   legacy x86 software to communicate with an attached serial console as
+   if a video card were attached.  The master sources reside in a subversion
+diff --git a/pc-bios/vof-nvram.bin b/pc-bios/vof-nvram.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..d183901cf980a91d81c4348bb20487c7bb62a2ec
+GIT binary patch
+literal 16384
+zcmeI%Jx;?g6bEpZJ8*)oSZeqZi&Z2pKnD)sI4{AHlNb4;RW}a70XPHaW57uo=-#R7
+zKSLBhJJ0sdixY3IuY@hzo0r$OmE%T;XE9uh@s1k=AOHafKmY;|fB*y_009U<00Izz
+z00bZa0SG_<0uX=z1Rwwb2tWV=XCbip6d#B4{{rX#XR%}$Bm^J;0SG|gWP$!?Aq=-I
+zcT+0Ix{{?1q>9J8r+eW^JK1tYYZZMWQCUwW%0S*~w^p@wfkX-<yRFx)H*+YEt0RRd
+zmn}6xtwbP`yp4O=>kxMAEA<~5@*g)@mb%KD5!;O~8c)>8rRQBx55=trhk#+1+T3J_
+zaf*G4vZAduqy$qda{``6Gnc2DQg<Es<GLxL#9<Oj*zP!8ZSnwf@-j7l47!nFXQO$a
+z^Hes6YU^_M<KsM*k~zwOSa+2g3Sx{*Eyu^XrB0FM5IJ-*?8`VvpBc4}vS(+_UKJ;=
+xITAns0uX=z1Rwwb2tWV=5P-nt34DD||Nni|VfbXeJORuY0uX=z1R!vE0>7B^s4f5i
+
+literal 0
+HcmV?d00001
+
+diff --git a/pc-bios/vof.bin b/pc-bios/vof.bin
+new file mode 100755
+index 0000000000000000000000000000000000000000..f52e8e6a6da36791cbc97ecc420c7a41fe8e76f0
+GIT binary patch
+literal 3128
+zcmd^AO=ufe5FS}_yQy{9gARhIc-^>QsWx`O2XAYlb?Sg@2V+PLhPp_KrPiXh<=Sf5
+z7O7e_O&X;wNF;>>VmpT*(nBGK9FkL9D8*18e8@q8Hg=!~LoPWcr0MpX-M6tKC#opD
+zRq%ML_h#ptpKrb;`hWkzJ47=kQGUmj7}SVjN4}v5(WdkKu){1rzDKk9-Ihv(TE2^+
+zT=`vh<vz{^I%sj+ASIhPs1M>IHuIo$nCP{-Gjh)Gs_%S<xs{b#DkT^7pZkfr&fTN#
+zY`9H7vPP}>jh0IIF1g;mdsZ*yNh+<8w{(kSBTrsqjpV{%gL1Er>4h*!xuCl;Zg@I4
+z9yL#WMjLsulDl&9SM%Y?`{tjy_<K6X(IlRfO&!$BVe+a95q2qCJjDNf;=gQg9NXkW
+zED~bzM#%HX_`>i+$o<2A6GQP^<m`9wkfXm4B+7M;>A*oxTEFKQdy7Ovs~o3kqEEjG
+zJFl=qJgxK3vAYf*5@LOy>#BxH9#|(2*V0%uyqpu~QHWYKmKisHHlk^lp5kN#j*n}E
+zK3F#5eXa@W(OMQZ9{BN32IaSMp;4b2gbxih9U*e=apq#1!YKI)?ZURpwq-l6LGI9)
+z{ttcK5j^SykNn_KU_Xz}3~;`{mDt~y`PXN)wL#p{nEB+W=%3PnLwy44Hn28;wYeYb
+z>rG%yfwR-#Y^=0Rb0w1&%k7jw&Gd4Vvf63ttcJ;`M(Ip7Po?S_U8vro%hheVS~cm~
+zop!o`Sf{KShiMwSjQ=t0%tQCZFlk&H>_g~b73ag)`930egFaHC2)j3m^zzUOb)wD@
+z{;wV&*QE5);fw90IlX}``yW<E$b<NX3wDnrzE|5(GrK3U=$*uU1C|7zT+?ZAgoZAe
+z=WDS0aW{=SiF<GPfvw<yT*HHUUoqk9XXN9xd-eE7&Yk(Lt&qZa_5PTr$U$O!!I!ND
+zJ#2z6rzPggz-6KVg9tO@KlaO;UxGKT7+E^gh$Bt-KXsM;Lq{0H1q>H30yf5z73QYM
+zqY+LM`guxY97jLFMIY+NvnCrRv~&;O1AIl`zgmOeNKdbcS$G$-5Wy@Q+dm6m{Q>+g
+z;CEvd`hedL96}v`=eW>g)*o5uhsT~nGsyVht*ot5H{zASC0{Obob|pN&;7Zh$92}Z
+zockTj@}ryFd(oGP27TXhzA?ad^p)o%0Ka=Y4CBt`w;$*JBDiI7Z`EXtwe*AasP5ac
+z<LHi4Z}{zJ`=UKdUiM>Y=_+Y;cwT|$wd@5Rw4LL!-V^xOoje`8T*&$cS~j`h#Dv3{
+zy4cnc+aULb^F}WM=mpPF05i;(ex7CcW{vQwA#1j+SXe8dTT*cpT4U#-s3WFXj*`ML
+z4Xv14{Jy}|n#8s69DLwT;CWx2kUz&Laoy_kbZYxlhmc224eMjPQlksa#Td0}?-$>`
+z65>!$n*i$<cIzCP%6wGRplR|M-&vZtcV^jhjfF1Ch`Z0OF=}YnUQ!R>`PmxFA{XX8
+z>#`y=aRcwOran`@{k|La?}fhE@4x9IVzTFF1h`S_n-G{B#rNg;e5t+&Clm@P<7wqY
+zI-OB6@ud%w83jkL&`f-8u4g`(nN24swXmFtFJw~jOtNPw6JLfDQ?Gd7t!Fv)c@k$y
+zJ(c0R4^j(>MDo+r3=ZLNaVfn>y)(1v<>Uf=oSgrpo6&kcN-ixV=h&Xe<tJ)0ur6R-
+Y!McI9j&t0*rtrLpbsK93YZvRm-zr#Zp8x;=
+
+literal 0
+HcmV?d00001
+
+diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
+new file mode 100644
+index 000000000000..90f4b859a059
+--- /dev/null
++++ b/pc-bios/vof/entry.S
+@@ -0,0 +1,51 @@
++#define LOAD32(rn, name)    \
++	lis     rn,name##@h;    \
++	ori     rn,rn,name##@l
++
++#define ENTRY(func_name)    \
++	.text;                  \
++	.align  2;              \
++	.globl  .func_name;     \
++	.func_name:             \
++	.globl  func_name;      \
++	func_name:
++
++#define KVMPPC_HCALL_BASE       0xf000
++#define KVMPPC_H_RTAS           (KVMPPC_HCALL_BASE + 0x0)
++#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
++
++	. = 0x100 /* Do exactly as SLOF does */
++
++ENTRY(_start)
++	LOAD32(%r31, 0) /* Go 32bit mode */
++	mtmsrd %r31,0
++	LOAD32(2, __toc_start)
++	b entry_c
++
++ENTRY(_prom_entry)
++	LOAD32(2, __toc_start)
++	stdu    %r1,-112(%r1)
++	std     %r31,104(%r1)
++	mflr    %r31
++	bl prom_entry
++	nop
++	mtlr    %r31
++	ld      %r31,104(%r1)
++	addi    %r1,%r1,112
++	blr
++
++ENTRY(ci_entry)
++	mr	4,3
++	LOAD32(3,KVMPPC_H_VOF_CLIENT)
++	sc	1
++	blr
++
++/* This is the actual RTAS blob copied to the OS at instantiate-rtas */
++ENTRY(hv_rtas)
++	mr      %r4,%r3
++	LOAD32(3,KVMPPC_H_RTAS)
++	sc	1
++	blr
++	.globl hv_rtas_size
++hv_rtas_size:
++	.long . - hv_rtas;
+diff --git a/pc-bios/vof/l.lds b/pc-bios/vof/l.lds
+new file mode 100644
+index 000000000000..10b557a81f78
+--- /dev/null
++++ b/pc-bios/vof/l.lds
+@@ -0,0 +1,48 @@
++OUTPUT_FORMAT("elf32-powerpc", "elf32-powerpc", "elf32-powerpc")
++OUTPUT_ARCH(powerpc:common)
++
++/* set the entry point */
++ENTRY ( __start )
++
++SECTIONS {
++	__executable_start = .;
++
++	.text : {
++		*(.text)
++	}
++
++	__etext = .;
++
++	. = ALIGN(8);
++
++	.data : {
++		*(.data)
++		*(.rodata .rodata.*)
++		*(.got1)
++		*(.sdata)
++		*(.opd)
++	}
++
++	/* FIXME bss at end ??? */
++
++	. = ALIGN(8);
++	__bss_start = .;
++	.bss : {
++		*(.sbss) *(.scommon)
++		*(.dynbss)
++		*(.bss)
++	}
++
++	. = ALIGN(8);
++	__bss_end = .;
++	__bss_size = (__bss_end - __bss_start);
++
++	. = ALIGN(256);
++	__toc_start = DEFINED (.TOC.) ? .TOC. : ADDR (.got) + 0x8000;
++	.got :
++	{
++		 *(.toc .got)
++	}
++	. = ALIGN(8);
++	__toc_end = .;
++}
 -- 
 2.17.1
 
