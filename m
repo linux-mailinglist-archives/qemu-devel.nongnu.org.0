@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702B0333A13
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:33:10 +0100 (CET)
-Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAAE333A4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:42:52 +0100 (CET)
+Received: from localhost ([::1]:34410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJw9N-0005yW-GS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:33:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
+	id 1lJwIl-0006yr-Ri
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:42:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpW-0001Hb-Sj
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:38 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:42003)
+ id 1lJvpf-0001Wz-Bz
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:47 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpV-00071f-Dr
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:38 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id v13so27147238edw.9
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:37 -0800 (PST)
+ id 1lJvpc-00075f-BQ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:47 -0500
+Received: by mail-ed1-x532.google.com with SMTP id x9so27140248edd.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=T3ctX4Zss8EX9is1InNFvRPjfz7K3KaTlyGjPD5l1Sk=;
- b=B0jXGmUev96EpafhUJZ1Ml+OpG6a70RKeozIhx21697hb7XYE7oDjoO7EMCToqcLqN
- wywiwXHMHraN86959ij9UBn9fSD6V9mnsl59+UmUP//ecDPxqrSpUX8lR2zJl37XqVXZ
- VHsEeo5iw2xuzi26EFYIbF/tuLCvSsz1Pj7+cGwrYOc44KvtRvdVSiItCwxxTv54tei6
- X5blEAK3NiKLOgflU1jMXqBmxaZ9Z9X0CLiYY1s72lbruaG8huVu+hZ2WtR2nxpJHlW3
- b5BYY+YdvohwJZY/hmUPIAh+mgUMf+d84YwEPlCJ9iOnKny/x0svVyXVjUkTSYiew1rQ
- Jsnw==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=0iiOMnMZhhPH5hS1v6PwOOCna3BJGccVCrXKXmjrMKc=;
+ b=mJbv9EQC5huEQ13sJ0YQHlnIBRtKheDs5CLCySrMPFtkj3n11t2zF6mjyX7QfkmtR7
+ fSe/hvUccQUHpUOv9APF0YM1TySTDLkEai4/oa10ck/ayDAkvgHSmlNeNHAI8G8vdu/U
+ kRpqcz0wIrKPZ3JToCYV8l7rG4d1QxVvsTgNCZM7qPl8IS6kU678Cw85n1iYcr8IrRju
+ yThqy4zRhTvq4HHNUYCqeOQZDN15HTF8BRZqEMqqVpGs4jBbUYLYM034BGRTqo3PTVi+
+ APFGDOn0ZTeIaJm4KtpRKm7MaLvlOGWVd8brR+ydVdBXPoEYmg6sZqLT6C/foQLjpVtM
+ v7PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=T3ctX4Zss8EX9is1InNFvRPjfz7K3KaTlyGjPD5l1Sk=;
- b=CWrix3wm+JxGXQjmKE1wxbzJ2nQPL1FiRy9BxcLRmIVHkIq6P2i7bMAZtDKReGD4zR
- lEzSyhbmMf91bVd/TxDizrDnAFHzsB7ji8jlzteuGMDZbqBc8q2pzKqKb5t9eMrqQXMM
- cXXN7zkkcr9lJyuYIfj4DDBetcl5bgIgZaiX/NQWPm8IOstJlsW4sPLzuOJFu+GlI2qj
- YBbxFCwxgzifw+RURijmv7/i7Ncxu8PJdBgTnfuHb3gc01sEAsyPr474V+zOh0drgYqa
- NzueRBD5aXXzDtjSBK7uD+B7/iTouqvdJOHIFaqKbMW9OGQKKFXVzNBmiLgrO8mx6Sus
- JIvg==
-X-Gm-Message-State: AOAM531PASSuxawxPPm6qlGJD15YFmOH6xV04ABh/c5LpuPq2hJd0PUx
- xKWvDY45oKs8hOAQb3ieacU=
-X-Google-Smtp-Source: ABdhPJxQ1pDBIRCMz82vliTr6tTXYTcLaRe+2qR2ZMtpKRY7+BsR3Wc2BEit5eO9p2FU7yHIjSfqxA==
-X-Received: by 2002:aa7:d54a:: with SMTP id u10mr2430264edr.316.1615371156174; 
- Wed, 10 Mar 2021 02:12:36 -0800 (PST)
+ :references:mime-version:content-transfer-encoding;
+ bh=0iiOMnMZhhPH5hS1v6PwOOCna3BJGccVCrXKXmjrMKc=;
+ b=ky3NJGQuMA0eBzxgUL1xnNnDICSqz6P4DnuW1+DPtqVHntfekz92xYNqF2RJfmtfmk
+ YUZe08uxVlLkyMv0VJH0BVdw/iw+EFsKflnl9XKxA1yHWZbcMlQZ+GMTgWO1Ohs52oeY
+ s0SSa4eJbj4xguljQ6KP+dEW84TR3PosPZz5q87EAENqGIGG6wvuakl5BuR3Y0YQAjUM
+ oMIfgoVHvZyiLeqaBmutQGxMQ+iDeptbYGXEXBuCti5+LgWmVQjzuTj58GmyqNUU2fl+
+ c0GWal17jgzFFnl3c+spmy7B+2bwK+/AmsPvEV3n1IoZYY8xa6ss8sqGrN9sf6bkjH5A
+ Ej7g==
+X-Gm-Message-State: AOAM5321dH1VuOm/JikWFacUy316RQul1APSWMvnju9UjbX0yDQdAQ0R
+ J5yY3UVncuXnwlhphh+a560=
+X-Google-Smtp-Source: ABdhPJyy/E8Yt9W3PqtRntwuOAmEWlUGwdabiZFSXC5ntg1OuS/9rAPTpMB8eN6gC6Pya8EzR8hHnA==
+X-Received: by 2002:a05:6402:34c8:: with SMTP id
+ w8mr2453600edc.235.1615371162951; 
+ Wed, 10 Mar 2021 02:12:42 -0800 (PST)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.33
+ by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 02:12:35 -0800 (PST)
+ Wed, 10 Mar 2021 02:12:42 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH 08/10] hw/net: rtl8139: Remove the logic of padding short
+Subject: [PATCH 10/10] hw/net: sunhme: Remove the logic of padding short
  frames in the receive path
-Date: Wed, 10 Mar 2021 18:11:55 +0800
-Message-Id: <20210310101157.15136-9-bmeng.cn@gmail.com>
+Date: Wed, 10 Mar 2021 18:11:57 +0800
+Message-Id: <20210310101157.15136-11-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210310101157.15136-1-bmeng.cn@gmail.com>
 References: <20210310101157.15136-1-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52a.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,41 +95,48 @@ Now that we have implemented unified short frames padding in the
 QEMU networking codes, remove the same logic in the NIC codes.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+
 ---
 
- hw/net/rtl8139.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ hw/net/sunhme.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-index 4675ac878e..cbfe29a286 100644
---- a/hw/net/rtl8139.c
-+++ b/hw/net/rtl8139.c
-@@ -827,7 +827,6 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
+diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
+index fc34905f87..6971796e57 100644
+--- a/hw/net/sunhme.c
++++ b/hw/net/sunhme.c
+@@ -714,8 +714,6 @@ static inline void sunhme_set_rx_ring_nr(SunHMEState *s, int i)
+     s->erxregs[HME_ERXI_RING >> 2] = ring;
+ }
  
-     uint32_t packet_header = 0;
+-#define MIN_BUF_SIZE 60
+-
+ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
+                               size_t size)
+ {
+@@ -724,7 +722,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
+     dma_addr_t rb, addr;
+     uint32_t intstatus, status, buffer, buffersize, sum;
+     uint16_t csum;
+-    uint8_t buf1[60];
+     int nr, cr, len, rxoffset, csum_offset;
  
--    uint8_t buf1[MIN_BUF_SIZE + VLAN_HLEN];
-     static const uint8_t broadcast_macaddr[6] =
-         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+     trace_sunhme_rx_incoming(size);
+@@ -775,14 +772,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
  
-@@ -939,17 +938,6 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
-         }
-     }
+     trace_sunhme_rx_filter_accept();
  
--    /* if too small buffer, then expand it
--     * Include some tailroom in case a vlan tag is later removed. */
--    if (size < MIN_BUF_SIZE + VLAN_HLEN) {
+-    /* If too small buffer, then expand it */
+-    if (size < MIN_BUF_SIZE) {
 -        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE + VLAN_HLEN - size);
+-        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
 -        buf = buf1;
--        if (size < MIN_BUF_SIZE) {
--            size = MIN_BUF_SIZE;
--        }
+-        size = MIN_BUF_SIZE;
 -    }
 -
-     if (rtl8139_cp_receiver_enabled(s))
-     {
-         if (!rtl8139_cp_rx_valid(s)) {
+     rb = s->erxregs[HME_ERXI_RING >> 2] & HME_ERXI_RING_ADDR;
+     nr = sunhme_get_rx_ring_count(s);
+     cr = sunhme_get_rx_ring_nr(s);
 -- 
 2.17.1
 
