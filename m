@@ -2,64 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8733332B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:24:57 +0100 (CET)
-Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077B93332D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:41:58 +0100 (CET)
+Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJnaq-0004nh-85
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:24:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50054)
+	id 1lJnrI-0007om-GC
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:41:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lJnZd-0004Mh-Ql
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:23:41 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2196)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lJnq2-0007Nv-Tg
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:40:39 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lJnZa-0000Uy-GK
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:23:41 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DwDmr18qjz5Zbm;
- Wed, 10 Mar 2021 09:21:16 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 10 Mar 2021 09:23:30 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Wed, 10 Mar 2021 09:23:30 +0800
-Subject: Re: [PATCH v3 2/3] migration/ram: Reduce unnecessary rate limiting
-To: Peter Xu <peterx@redhat.com>
-References: <20210305075035.1852-1-jiangkunkun@huawei.com>
- <20210305075035.1852-3-jiangkunkun@huawei.com>
- <20210305142250.GE397383@xz-x1>
- <a4c34c08-b686-8ec1-8e8d-2770e26e38c5@huawei.com>
- <20210308211255.GL397383@xz-x1>
- <b426bf66-f5d9-c5ea-fb2f-24b615743075@huawei.com>
- <20210309161500.GB763132@xz-x1>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <5e8d85fd-b173-0cc3-90d4-5b70be8e7824@huawei.com>
-Date: Wed, 10 Mar 2021 09:23:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lJnpz-00088l-Hs
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:40:38 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwF8y04YHz17HDc;
+ Wed, 10 Mar 2021 09:38:42 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 10 Mar 2021 09:40:21 +0800
+Subject: Re: [PATCH] vfio: Support host translation granule size
+To: Alex Williamson <alex.williamson@redhat.com>, Kunkun Jiang
+ <jiangkunkun@huawei.com>
+References: <20210304133446.1521-1-jiangkunkun@huawei.com>
+ <20210309161713.1cc8ad2f@omen.home.shazbot.org>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <f7a5c939-8680-af9b-c7bb-83536b9bc7e1@huawei.com>
+Date: Wed, 10 Mar 2021 09:40:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210309161500.GB763132@xz-x1>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210309161713.1cc8ad2f@omen.home.shazbot.org>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
- dggema765-chm.china.huawei.com (10.1.198.207)
+X-Originating-IP: [10.174.184.42]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,136 +61,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC
- here" <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
- wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Liu Yi L <yi.l.liu@intel.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ shameerali.kolothum.thodi@huawei.com, Eric Auger <eric.auger@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi Alex,
 
-On 2021/3/10 0:15, Peter Xu wrote:
-> On Tue, Mar 09, 2021 at 10:33:04PM +0800, Kunkun Jiang wrote:
->> Hi,
+On 2021/3/10 7:17, Alex Williamson wrote:
+> On Thu, 4 Mar 2021 21:34:46 +0800
+> Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+> 
+>> The cpu_physical_memory_set_dirty_lebitmap() can quickly deal with
+>> the dirty pages of memory by bitmap-traveling, regardless of whether
+>> the bitmap is aligned correctly or not.
 >>
->> On 2021/3/9 5:12, Peter Xu wrote:
->>> On Mon, Mar 08, 2021 at 06:34:58PM +0800, Kunkun Jiang wrote:
->>>> Hi,
->>>>
->>>> On 2021/3/5 22:22, Peter Xu wrote:
->>>>> Kunkun,
->>>>>
->>>>> On Fri, Mar 05, 2021 at 03:50:34PM +0800, Kunkun Jiang wrote:
->>>>>> When the host page is a huge page and something is sent in the
->>>>>> current iteration, the migration_rate_limit() should be executed.
->>>>>> If not, this function can be omitted to save time.
->>>>>>
->>>>>> Rename tmppages to pages_this_iteration to express its meaning
->>>>>> more clearly.
->>>>>>
->>>>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->>>>>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->>>>>> ---
->>>>>>     migration/ram.c | 21 ++++++++++++++-------
->>>>>>     1 file changed, 14 insertions(+), 7 deletions(-)
->>>>>>
->>>>>> diff --git a/migration/ram.c b/migration/ram.c
->>>>>> index a168da5cdd..9fc5b2997c 100644
->>>>>> --- a/migration/ram.c
->>>>>> +++ b/migration/ram.c
->>>>>> @@ -1988,7 +1988,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
->>>>>>     static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>>>>>                                   bool last_stage)
->>>>>>     {
->>>>>> -    int tmppages, pages = 0;
->>>>>> +    int pages = 0;
->>>>>>         size_t pagesize_bits =
->>>>>>             qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
->>>>>>         unsigned long start_page = pss->page;
->>>>>> @@ -2000,21 +2000,28 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>>>>>         }
->>>>>>         do {
->>>>>> +        int pages_this_iteration = 0;
->>>>>> +
->>>>>>             /* Check if the page is dirty and send it if it is */
->>>>>>             if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
->>>>>>                 pss->page++;
->>>>>>                 continue;
->>>>>>             }
->>>>>> -        tmppages = ram_save_target_page(rs, pss, last_stage);
->>>>>> -        if (tmppages < 0) {
->>>>>> -            return tmppages;
->>>>>> +        pages_this_iteration = ram_save_target_page(rs, pss, last_stage);
->>>>>> +        if (pages_this_iteration < 0) {
->>>>>> +            return pages_this_iteration;
->>>>>>             }
->>>>>> -        pages += tmppages;
->>>>>> +        pages += pages_this_iteration;
->>>>> To me, both names are okay, it's just that the new name doesn't really provide
->>>>> a lot more new information, while it's even longer...
->>>>>
->>>>> Since you seem to prefer cleaning up tmppages, I'm actually thinking whether
->>>>> it should be called as "pages" at all since ram_save_target_page() majorly only
->>>>> returns either 1 if succeeded or <0 if error.  There's only one very corner
->>>>> case of xbzrle where it can return 0 in save_xbzrle_page():
->>>>>
->>>>>        if (encoded_len == 0) {
->>>>>            trace_save_xbzrle_page_skipping();
->>>>>            return 0;
->>>>>        }
->>>>>
->>>>> I think it means the page didn't change at all, then I'm also wondering maybe
->>>>> it can also return 1 showing one page migrated (though actually skipped!) which
->>>>> should still be fine for the callers, e.g., ram_find_and_save_block() who will
->>>>> finally check this "pages" value.
->>>>>
->>>>> So I think _maybe_ that's a nicer cleanup to change that "return 0" to "return
->>>>> 1", then another patch to make the return value to be (1) return 0 if page
->>>>> saved, or (2) return <0 if error.  Then here in ram_save_host_page() tmppages
->>>>> can be renamed to "ret" or "succeed".
->>>> Thanks for your advice.
->>>> change "return 0" to "return 1" would have a slight effect on
->>>> 'rs->target_page_count += pages'
->>>> in ram_save_iterate(). This may lead to consider more complex situations.
->>>> What do you think of
->>>> this?
->>> I don't think we should change the meaning of ram_save_host_page()'s return
->>> value, but only ram_save_target_page(); ram_save_host_page() could return >1
->>> for huge pages.  Thanks,
->>>
->> I am not sure I have got your point. If I change "return 0" to "return 1"
->> (actually skipped),
->> the "pages" in the ram_save_host_page() will add 1(original add 0). Then it
->> will end the
->> loop in the ram_find_and_save_block.
-> Frankly I even think it's a bug - when return 0 it could mean the xbzrle page
-> is the same as before even if dirty bit set (the page just got written with the
-> same data, that's why dirty bit set but xbzrle calculated with no diff).
-> However it shouldn't mean "done==1" which is a sign of "migration complete"
-> imho..
-Thanks for your explanation, I get it.
->> And then in the ram_save_iterate(), the
->> modify may
->> have a effect on "rs->target_page_count += page".
->> I haven't done enough research on this part of code. Do you think this
->> change will have
->> a big impact?
-> Maybe, but I don't expect it to change anything real.  If to change it we'd
-> definitely better smoke xbzrle a bit.  It's a pure idea I got in mind to
-> cleanup the code, but feel free to ignore it too.
->
-> For your current series, I think the last patch is the most appealing.  So
-> maybe we can focus on that first.
->
-> Thanks,
->
-You are right. The change here may be not worth it.
+>> cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>> host page size. So it'd better to set bitmap_pgsize to host page size
+>> to support more translation granule sizes.
+>>
+>> Fixes: 87ea529c502 (vfio: Get migration capability flags for container)
+>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>> ---
+>>  hw/vfio/common.c | 44 ++++++++++++++++++++++----------------------
+>>  1 file changed, 22 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 6ff1daa763..69fb5083a4 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -378,7 +378,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>  {
+>>      struct vfio_iommu_type1_dma_unmap *unmap;
+>>      struct vfio_bitmap *bitmap;
+>> -    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
+>> +    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size;
+>>      int ret;
+>>  
+>>      unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+>> @@ -390,12 +390,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>      bitmap = (struct vfio_bitmap *)&unmap->data;
+>>  
+>>      /*
+>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
+>> -     * TARGET_PAGE_SIZE.
+>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
+>> +     * to qemu_real_host_page_size.
+> 
+> 
+> I don't see that this change is well supported by the code,
+> cpu_physical_memory_set_dirty_lebitmap() seems to operate on
+> TARGET_PAGE_SIZE, and the next three patch chunks take a detour through
+> memory listener code that seem unrelated to the change described in the
+> commit log.  This claims to fix something, what is actually broken?
+Actually I have reported this bug long ago. cpu_physical_memory_set_dirty_lebitmap() expects
+the granule of @bitmap to be qemu_real_host_page_size, as it uses @hpratio to convert the bitmap.
 
 Thanks,
+Keqian
 
-Kunkun Jiang
-
+> Thanks,
+> 
+> Alex
+> 
+>>       */
+>>  
+>> -    bitmap->pgsize = TARGET_PAGE_SIZE;
+>> +    bitmap->pgsize = qemu_real_host_page_size;
+>>      bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>>                     BITS_PER_BYTE;
+>>  
+>> @@ -674,16 +674,16 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>>          return;
+>>      }
+>>  
+>> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+>> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
+>> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+>>          error_report("%s received unaligned region", __func__);
+>>          return;
+>>      }
+>>  
+>> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+>> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+>>      llend = int128_make64(section->offset_within_address_space);
+>>      llend = int128_add(llend, section->size);
+>> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+>> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+>>  
+>>      if (int128_ge(int128_make64(iova), llend)) {
+>>          return;
+>> @@ -892,8 +892,8 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>>          return;
+>>      }
+>>  
+>> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+>> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
+>> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+>>          error_report("%s received unaligned region", __func__);
+>>          return;
+>>      }
+>> @@ -921,10 +921,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>>           */
+>>      }
+>>  
+>> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+>> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+>>      llend = int128_make64(section->offset_within_address_space);
+>>      llend = int128_add(llend, section->size);
+>> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+>> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+>>  
+>>      if (int128_ge(int128_make64(iova), llend)) {
+>>          return;
+>> @@ -1004,13 +1004,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>      range->size = size;
+>>  
+>>      /*
+>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
+>> -     * TARGET_PAGE_SIZE.
+>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap's pgsize
+>> +     * to qemu_real_host_page_size.
+>>       */
+>> -    range->bitmap.pgsize = TARGET_PAGE_SIZE;
+>> +    range->bitmap.pgsize = qemu_real_host_page_size;
+>>  
+>> -    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
+>> +    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size;
+>>      range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>>                                           BITS_PER_BYTE;
+>>      range->bitmap.data = g_try_malloc0(range->bitmap.size);
+>> @@ -1114,7 +1114,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+>>                 section->offset_within_region;
+>>  
+>>      return vfio_get_dirty_bitmap(container,
+>> -                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
+>> +                       REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
+>>                         int128_get64(section->size), ram_addr);
+>>  }
+>>  
+>> @@ -1655,10 +1655,10 @@ static void vfio_get_iommu_info_migration(VFIOContainer *container,
+>>                              header);
+>>  
+>>      /*
+>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>> -     * TARGET_PAGE_SIZE to mark those dirty.
+>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>> +     * qemu_real_host_page_size to mark those dirty.
+>>       */
+>> -    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
+>> +    if (cap_mig->pgsize_bitmap & qemu_real_host_page_size) {
+>>          container->dirty_pages_supported = true;
+>>          container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
+>>          container->dirty_pgsizes = cap_mig->pgsize_bitmap;
+> 
+> .
+> 
 
