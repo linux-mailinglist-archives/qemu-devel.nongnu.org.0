@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FF7333CD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:46:44 +0100 (CET)
-Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51701333D1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:57:30 +0100 (CET)
+Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJyEd-0006kX-6m
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:46:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
+	id 1lJyP2-0001W9-OI
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:57:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lJyDg-0006EY-7H
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:45:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lJyDd-0007G2-OV
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:45:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615380340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pkMwztTyWX1LCGDuYNx4cXhPBuzJk2iIyVOkqhBAjAM=;
- b=YqPThWVnvrhZRR8u5BYhA+YA9W/LsrcA7aVFLqJTAfjiHan9Bvz/P1jAfq/OeWgIaph3xP
- cHtBwY/2sJ9cQSbs+j48/EJo6RfA3kksdZJQohYlfGa8oTD0AcTTJBRfay2hesqpAxyY9n
- +idh6sS1y/saN5d4tD7ZXLDGE5tJdzc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-8uHU_L6uMX-SXYFx8wOVHw-1; Wed, 10 Mar 2021 07:45:37 -0500
-X-MC-Unique: 8uHU_L6uMX-SXYFx8wOVHw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43724801817;
- Wed, 10 Mar 2021 12:45:36 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-138.ams2.redhat.com
- [10.36.115.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A84F6062F;
- Wed, 10 Mar 2021 12:45:28 +0000 (UTC)
-Subject: Re: [RFC] hw/display: add virtio-ramfb device
-To: Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
-References: <20210309213513.12925-1-j@getutm.app>
- <20210310095126.fqxigwoczqkckosp@sirius.home.kraxel.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <5b8a28d1-5a66-9634-f6fb-5b2bdfcf96f8@redhat.com>
-Date: Wed, 10 Mar 2021 13:45:27 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJyNs-0000yA-Ei
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:56:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:56741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJyNq-0005Km-6Y
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:56:16 -0500
+Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M59am-1lL4qJ2R6q-001ACL; Wed, 10 Mar 2021 13:56:07 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
+ <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
+ <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
+Message-ID: <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
+Date: Wed, 10 Mar 2021 13:56:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210310095126.fqxigwoczqkckosp@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:E6G98J+USV6ZG5g2QsXqQwJZtFXu1hEtLHWaI9MxjQFsqr76bIb
+ 3ddTRTz/asgbs2kTOnXcA8WU1iio6rsN2cOJgelGoPzCwdCG6MpouVyL1Uu2T+VG56hSlDs
+ LAQUUw37aJbKh+5BaI+sKQUBlstq/C0QVYmDGk97ISPNlzfkjb/n9m+irbne4IwTzp1q/lf
+ cOpJYelhjX54UjXM8I2QA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hW0h5M4xWe0=:RkrBVNb7Khg43FX9kZpDqp
+ 6+yQNw+NmIY4MpJeVKQGXFu1UdapftUPnL4Us3fJXyY17fCFkAcFkj+v9kJrBbzSLC0jS79kL
+ 9t4H7gVDWsh+4iMV5orufnqeXiqwF/CXLDiKnWU3/qKelw4/rIMPKfwMIiaWn6B9uJkD8rwL3
+ OPUHG0UOPPXx7JVXJMIfiL1Vw4Akfnm37XqqpMcZk04PZF9tMhvRi78TFGMExrsRdQGyuNfU1
+ xlU5hPvndD+OLhHwGhzGyhYz9cS40nmipCn+oR2kB3cMFdgKdz2fwACDwhdpuZiwiZg9/YuZq
+ 3HKichNTloceguI8MvZkIjJ8ZvLKU9j+7sTbcSTMDKjkuejuoE5yCkj1IUHI7yoHwCYzTpnZ8
+ ZItu4zUXWUu7ejeJxovf7FKGkzya8D237OVGSR53IRNOrwNKycZx0Kku0miaP
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,106 +67,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/10/21 10:51, Gerd Hoffmann wrote:
-> On Tue, Mar 09, 2021 at 01:35:13PM -0800, Joelle van Dyne wrote:
->> Like virtio-vga, but using ramfb instead of legacy vga.
->> Useful for booting from OVMF (with updated drivers) into Windows
->> ARM which expects a linear FB that the virtio-gpu driver in OVMF
->> does not provide.
+Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
+> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
+>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
+>> interval should be measured in ns, and therefore its period is a thousand
+>> times too short.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>> hw/misc/mac_via.c | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>> index f994fefa7c..c6e1552a59 100644
+>> --- a/hw/misc/mac_via.c
+>> +++ b/hw/misc/mac_via.c
+>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
+>>     MOS6522State *s = MOS6522(v1s);
+>>
+>>     /* 60 Hz irq */
+>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
+>> -                          16630 * 16630;
+>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
+>> +                          16630000 * 16630000;
 > 
-> What is wrong with "-device ramfb" for that use case?
-> 
->> This code was originally written by Gerd Hoffmann and was
->> updated to contain later changes to the display driver tree.
-> 
-> Well, the tricky part with that is OVMF driver binding.  We don't
-> want two drivers bind to the same device.
-> 
-> We have QemuRamfbDxe + QemuVideoDxe + VirtioGpuDxe.
-> 
->  - QemuRamfbDxe handles ramfb.
->  - QemuVideoDxe handles all vga devices (including virtio-vga)
->    plus bochs-display.
->  - VirtioGpuDxe handles all virtio-gpu devices (except virtio-vga).
-> 
-> VirtioGpuDxe could easily handle virtio-vga too but doesn't to avoid
-> the conflict with QemuVideoDxe.  It detects that by looking at the pci
-> class code.  virtio-vga is tagged as display/vga whereas virtio-gpu-pci
-> is display/other.
-> 
-> Problem of the virtio-ramfb device is that the guest can't figure
-> whenever the virtio-gpu device comes with ramfb support or not.
-> Merging this is a non-starter unless we have a solution for that
-> problem.
-> 
-> A use case which actually needs that would be helpful to drive that
-> effort.  I don't see one.  If your guest comes with virtio-gpu drivers
-> you don't need ramfb support.  The VirtioGpuDxe driver covers the boot
-> loader, and the guest driver everything else.  If your guest has no
-> virtio-gpu drivers the virtio-ramfb combo device is useless, you can
-> simply use standalone ramfb instead.
+> Can you put this magic number in a #define maybe also rewriting it in a way that shows it
+> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in include/qemu/timer.h
+> that could be used for that, there's also SCALE_MS that might replace 1000 * 1000 elsewhere in this
+> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used here instead?
 
-Thanks for the CC and the summary, and I agree.
+In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, in kernel 60.15 Hz.
+I Think there are several ways to compute it...
 
-
-Two (tangential) additions:
-
-- The arbitration between VirtioGpuDxe and QemuVideoDxe, on a virtio-vga
-device, happens actually in Virtio10Dxe (the virtio-1.0 transport
-driver). When Virtio10Dxe recognizes virtio-vga, it does not expose it
-as a virtio device at all.
-
-The reason for this is that VirtioGpuDxe consumes VIRTIO_DEVICE_PROTOCOL
-(does not deal with PCI [*]), and QemuVideoDxe consumes
-EFI_PCI_IO_PROTOCOL (does not deal with virtio). Therefore, the
-arbitration needs to happen in a layer that deals with both of those
-abstractions at the same time; and that's the virtio transport driver,
-which produces VIRTIO_DEVICE_PROTOCOL on top of EFI_PCI_IO_PROTOCOL.
-
-[*] I'm lying a bit here; it does consume PciIo momentarily. But, for
-nothing relevant to the UEFI driver model. VirtioGpuDxe *attempts* using
-PciIo for formatting the human-readable device name, with the B/D/F in
-it; but even if that fails, the driver works just fine (with a less
-detailed human-readable device name).
-
-- QemuRamfbDxe is a platform DXE driver, not a UEFI driver that follows
-the UEFI driver model. The reason is that the fw_cfg stuff underlying
-ramfb is a "platform device" (a singleton one at that), not an
-enumerable device.
-
-
-So, if you combined ramfb with any other (enumerable) display device
-into a single device, that would allow the QemuRamfbDxe platform driver
-and the other (UEFI) driver to bind the *same display hardware* via
-different interfaces at the same time.
-
-And arbitrating between such drivers is practically impossible without
-violating the UEFI driver model: first, the QemuRamfbDxe platform driver
-has no way of knowing whether the same display hardware qualifies for
-the other (UEFI) driver though PCI (or another enumerable interface);
-second, the other (UEFI) driver would have to check for a platform
-device (fw_cfg in this case), which is *wrong*. (Consider e.g. what
-happens if we have multiple (separate) PCI-based display devices, plus
-one ramfb device -- if ramfb were allowed to share the underlying
-hardware with one of the PCI ones, how would we tell which PCI device
-the ramfb device belonged to?)
-
-(... In fact, the second argument is akin to why I keep rejecting
-various manifestations of a GVT-g driver for OVMF -- refer to
-<https://bugzilla.tianocore.org/show_bug.cgi?id=935>. Due to the
-opregion being based on fw_cfg, the hardware itself is a fusion of a PCI
-device and a platform device -- and that's wrong for both a platform DXE
-driver, and a UEFI driver that follows the UEFI driver model. It's not
-that the driver is impossible to implement (three variants have been
-written already, mutually independently of each other), but that any
-such driver involves a layering / driver model violation one way or
-another. But, I digress.)
-
-Thanks
-Laszlo
-
+Thanks,
+Laurent
 
