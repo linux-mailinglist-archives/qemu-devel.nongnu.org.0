@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE07333D6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:12:14 +0100 (CET)
-Received: from localhost ([::1]:51056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3657D333D74
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:15:54 +0100 (CET)
+Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJydJ-0007IZ-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:12:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
+	id 1lJygr-000113-9W
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:15:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJybl-0006XM-2B
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:10:37 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:38717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJybi-0005Ug-Jw
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:10:36 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N2V8Z-1ljvxI3RyJ-013yyO; Wed, 10 Mar 2021 14:10:31 +0100
-Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
-From: Laurent Vivier <laurent@vivier.eu>
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
- <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
- <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
- <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
-Message-ID: <24d71ce3-b5b9-28fa-74c2-b22076bef287@vivier.eu>
-Date: Wed, 10 Mar 2021 14:10:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lJyfC-00004x-Nu
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:14:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lJyf6-0007YH-Nj
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:14:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615382044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ClPMmDn1r1tvHVuc3T1MsX7s1mRwCDCHu/jgRovzGjQ=;
+ b=R+pVkrs8B9ceph8kirN9pUAbpvc/xv3EdVUUdsV/XckWtaVe8ETX5qy6ooun+sthqxRJ4m
+ 52EzLLBvWK5VTKNZtRsRPILQ/OuBRFWSB92Uh3Ti6ocU8Z+yjYz9bSZWXi+48gXlAts9pI
+ G8btYb/n60ZMW5d5ZX928x5S9qi0tmA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-Za3sKDMNOCO3aoyhliau4g-1; Wed, 10 Mar 2021 08:14:01 -0500
+X-MC-Unique: Za3sKDMNOCO3aoyhliau4g-1
+Received: by mail-ed1-f69.google.com with SMTP id r19so7913403edv.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 05:14:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=ClPMmDn1r1tvHVuc3T1MsX7s1mRwCDCHu/jgRovzGjQ=;
+ b=k4Kw61532tavYruTFXDeEnouQUb45Le3ELOBv/pmqd+45Ox3w9N39Kt4iEics6btxJ
+ Sw94+X9kFqDAZNsrSkKPofcoQ1WBva2wneeZdaa4VnVzBTGqoLjLNqHyd/B/n6+ban/b
+ 024jrHWBIItt7ZT1XUkv5YqVOkQe1MttEKgRbgsbgpjEgnB/PBi+RygAGcCEXy6lq1DJ
+ 0iNoKPmYV6bYmKxoJZXVqxOglIhRMonacFJk7rnKmN5IPY2qeO7BBugtuYUYzmYspG41
+ EtRLp1gE+2QF7Fyq6VHIAC5uCSetMRo0SyLFc/zCbItUPF9rXINgTw7Oo7jneaT9M3bt
+ foGw==
+X-Gm-Message-State: AOAM531bimjGfWWxH4l/O3M1I9ErQftCiHfWgaOgYJVqY9ZZXTsPcLfi
+ 433CKh7agI9AayXKxyVnHFP7g8Nll3iuskweLqvTPbQhe+EBXtEgXhYeowUW7ZNd3GjwN0DJ8ry
+ ApCdWTcnCRufsyYI=
+X-Received: by 2002:a17:907:1692:: with SMTP id
+ hc18mr3578939ejc.265.1615382040295; 
+ Wed, 10 Mar 2021 05:14:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUbypr8J2VHgxpuhoZ6yU3287JbnqUHEYMVJpjbC5dhOHL0aO6TmAvhdKonCfbF6AhrwaWYA==
+X-Received: by 2002:a17:907:1692:: with SMTP id
+ hc18mr3578919ejc.265.1615382040081; 
+ Wed, 10 Mar 2021 05:14:00 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id i10sm9936607ejv.106.2021.03.10.05.13.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Mar 2021 05:13:59 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/5] i386: move hyperv_vendor_id initialization to
+ x86_cpu_realizefn()
+In-Reply-To: <22cf2456-433e-b39f-aca5-2a260b4a8ad7@suse.de>
+References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ <20201119103221.1665171-2-vkuznets@redhat.com>
+ <ebfd3385-6e68-cd44-b0bb-464ae56d5b59@suse.de>
+ <87v99z9qto.fsf@vitty.brq.redhat.com>
+ <22cf2456-433e-b39f-aca5-2a260b4a8ad7@suse.de>
+Date: Wed, 10 Mar 2021 14:13:59 +0100
+Message-ID: <87sg539mnc.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JebNFydYf9LRQ+jh0C7ZICzxD0KpREu9Mm/pVgZQohVFnJQVtMH
- XWn/i1hObfwjj8e4jernF+7WFsFrPWNIPwG8qIPK8+TDpyFdpQ7OMZYJrgLpmyQcbiX+DnU
- tiTsU3gjLsX8Qd22VGpWD6XKw+0mU1JnbDC5S/h0weWNfksPKYegF+kxquBscze/gKHXIW4
- Vc17d+gUkwNJzwsu/e7iw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NeYUCgcOU8g=:s9sV7Gejl8VvWepyvCzQBK
- FFwgD7oH1A8noRtpsUj5pSgbSKTu2oWRcpl6sIDMfPDShE+iLeJck8l34blW8Wjn470DxD0rP
- 73QdFuU16rnv7jxlkCB8sAPxK9sdToQ6pUo9dqW9qFuoAHXyuKSXHAt4TYib2t/Qqo90xh3g0
- yjCdHNylHHT4z6rKpc4b1wW2Iu2M5P/r46XgxClOExPxlyswNn4SLXTmcP741AFRbwz4fvX9I
- BX9kKhmlf4rGiJpXp/Jk6r5SDJX+gfINk0wDcOaP0Ztm0odITMx5hM42kWnl3oA15mnMbgy61
- E8d4xbLEMupWvUMHMBtyV+K0oteiDBX8JOikdlIEHvvlcJrBR2zi7Wd3x6GaUkYySLPwRgntx
- SKm+RRilXO066TW/H5DJIOIYe1uFjhTcj/HUK2rDupKYzMtUcB0QZm7SClO4pl/9oUVL06bEI
- Dekb2J1MiA==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,52 +98,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2021 à 13:56, Laurent Vivier a écrit :
-> Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
->> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
->>> interval should be measured in ns, and therefore its period is a thousand
->>> times too short.
+Claudio Fontana <cfontana@suse.de> writes:
+
+> On 3/10/21 12:43 PM, Vitaly Kuznetsov wrote:
+>> Claudio Fontana <cfontana@suse.de> writes:
+>> 
+>>> On 11/19/20 11:32 AM, Vitaly Kuznetsov wrote:
+>>>> As a preparation to expanding Hyper-V CPU features early, move
+>>>> hyperv_vendor_id initialization to x86_cpu_realizefn(). Introduce
+>>>> x86_cpu_hyperv_realize() to not not pollute x86_cpu_realizefn()
+>>>> itself.
+>>>>
+>>>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 >>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>> hw/misc/mac_via.c | 4 ++--
->>> 1 file changed, 2 insertions(+), 2 deletions(-)
 >>>
->>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
->>> index f994fefa7c..c6e1552a59 100644
->>> --- a/hw/misc/mac_via.c
->>> +++ b/hw/misc/mac_via.c
->>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
->>>     MOS6522State *s = MOS6522(v1s);
+>>> Hi Vitaly,
 >>>
->>>     /* 60 Hz irq */
->>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
->>> -                          16630 * 16630;
->>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
->>> +                          16630000 * 16630000;
->>
->> Can you put this magic number in a #define maybe also rewriting it in a way that shows it
->> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in include/qemu/timer.h
->> that could be used for that, there's also SCALE_MS that might replace 1000 * 1000 elsewhere in this
->> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used here instead?
-> 
-> In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, in kernel 60.15 Hz.
-> I Think there are several ways to compute it...
-> 
+>>> If building for TCG-only, does the x86_cpu_hyperv_realize function and other hyperv related functions
+>>> make sense to keep in the build?
+>>>
+>>> Now that we have per-accelerator subdirs in target/i386, should the hyperv code be moved over?
+>>>
+>> 
+>> Hi Claudio,
+>> 
+>> I'm not exactly sure. On one hand, we only implement Hyper-V emulation
+>> with KVM now.
+>
+>
+> Hi Vitaly,
+>
+>
+>> On the other hand Hyper-V specific CPU options are
+>> available even without it (and as Igor feels strongly against
+>> introducing custom option parsers, I don't see how we can forbid to use
+>> them without KVM). x86_cpu_hyperv_realize() is the bare minimum which is
+>> only needed to set our internal Hyper-V related data in a sane way,
+>> e.g. set the default to 'cpu->hyperv_vendor_id'. The actual enablement
+>> code is in target/i386/kvm.c already. Do you see anything besides
+>> x86_cpu_hyperv_realize() which we could move there?
+>
+> Currently I don't,
+> I see a lot of PROPs (hyperv_features), but I assume those are the ones you mention cannot be moved right?
+>
 
-In fact, we can read:
+Right, not without introducing a custom parser checking if KVM is in use.
 
-"the vertical retrace frequency is approximately 60.15 Hz, resulting in a period of approximately
-16.63 milliseconds"
+>
+>> Could you please
+>> take a look at v5
+>> (https://mail.gnu.org/archive/html/qemu-devel/2021-03/msg00158.html)?
+>
+>
+> I took a look at the series you pointed me to, and it seems it is all pretty much kvm/ work to me.
+>
+> Which hypervisors do you think would theoretically make sense when looking at hyperv emulation in the future?
+>
 
-https://developer.apple.com/library/archive/documentation/mac/pdf/Processes/Vertical_Retrace_Mgr.pdf
+In theory, I don't see why we can't emulate hyper-v in TCG, I'm just not
+sure how practical that would be). There was a Windows Hypervisor
+Platform accelerator (whpx) which uses genuine Hyper-V and can use
+Hyper-V enlightenment option to set guest visible CPUIDs but honestly I
+don't know much about whpx.
 
-Thanks,
-Laurent
+> Looking at the current code and your patches, in the series you link to,
+> I'd be tempted to suggest moving the hyperv realize function inside
+> kvm_cpu_realizefn in kvm/kvm-cpu.c .
+
+No problem, I wouldn't be against that. I'm waiting for some feedback on
+v5 and if I am to do v6 I'll include that. In case I got luck and v5 is
+to get merged, I can send a follow-up patch.
+
+>
+> Ciao,
+>
+> Claudio
+>
+>
+>
+>> 
+>> Thanks!
+>> 
+>> 
+>>> Thanks,
+>>>
+>>> Claudio
+>>>
+>>>
+>>>> ---
+>>>>  target/i386/cpu.c | 23 ++++++++++++++++++++++-
+>>>>  target/i386/cpu.h |  3 ++-
+>>>>  target/i386/kvm.c | 25 ++++++++++---------------
+>>>>  3 files changed, 34 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>>> index 5a8c96072e41..2a6885753378 100644
+>>>> --- a/target/i386/cpu.c
+>>>> +++ b/target/i386/cpu.c
+>>>> @@ -6509,6 +6509,25 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+>>>>      }
+>>>>  }
+>>>>  
+>>>> +static void x86_cpu_hyperv_realize(X86CPU *cpu)
+>>>> +{
+>>>> +    size_t len;
+>>>> +
+>>>> +    /* Hyper-V vendor id */
+>>>> +    if (!cpu->hyperv_vendor) {
+>>>> +        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+>>>> +    } else {
+>>>> +        len = strlen(cpu->hyperv_vendor);
+>>>> +
+>>>> +        if (len > 12) {
+>>>> +            warn_report("hv-vendor-id truncated to 12 characters");
+>>>> +            len = 12;
+>>>> +        }
+>>>> +        memset(cpu->hyperv_vendor_id, 0, 12);
+>>>> +        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>>  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>>>>  {
+>>>>      CPUState *cs = CPU(dev);
+>>>> @@ -6680,6 +6699,8 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>>>>          env->cache_info_amd.l3_cache = &legacy_l3_cache;
+>>>>      }
+>>>>  
+>>>> +    /* Process Hyper-V enlightenments */
+>>>> +    x86_cpu_hyperv_realize(cpu);
+>>>>  
+>>>>      cpu_exec_realizefn(cs, &local_err);
+>>>>      if (local_err != NULL) {
+>>>> @@ -7198,7 +7219,7 @@ static Property x86_cpu_properties[] = {
+>>>>      DEFINE_PROP_UINT32("min-xlevel2", X86CPU, env.cpuid_min_xlevel2, 0),
+>>>>      DEFINE_PROP_UINT64("ucode-rev", X86CPU, ucode_rev, 0),
+>>>>      DEFINE_PROP_BOOL("full-cpuid-auto-level", X86CPU, full_cpuid_auto_level, true),
+>>>> -    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor_id),
+>>>> +    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor),
+>>>>      DEFINE_PROP_BOOL("cpuid-0xb", X86CPU, enable_cpuid_0xb, true),
+>>>>      DEFINE_PROP_BOOL("lmce", X86CPU, enable_lmce, false),
+>>>>      DEFINE_PROP_BOOL("l3-cache", X86CPU, enable_l3_cache, true),
+>>>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>>>> index 88e8586f8fb4..be640bf45c29 100644
+>>>> --- a/target/i386/cpu.h
+>>>> +++ b/target/i386/cpu.h
+>>>> @@ -1655,11 +1655,12 @@ struct X86CPU {
+>>>>      uint64_t ucode_rev;
+>>>>  
+>>>>      uint32_t hyperv_spinlock_attempts;
+>>>> -    char *hyperv_vendor_id;
+>>>> +    char *hyperv_vendor;
+>>>>      bool hyperv_synic_kvm_only;
+>>>>      uint64_t hyperv_features;
+>>>>      bool hyperv_passthrough;
+>>>>      OnOffAuto hyperv_no_nonarch_cs;
+>>>> +    uint32_t hyperv_vendor_id[3];
+>>>>  
+>>>>      bool check_cpuid;
+>>>>      bool enforce_cpuid;
+>>>> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+>>>> index a2934dda027c..788a2cf2ec51 100644
+>>>> --- a/target/i386/kvm.c
+>>>> +++ b/target/i386/kvm.c
+>>>> @@ -1205,6 +1205,13 @@ static int hyperv_handle_properties(CPUState *cs,
+>>>>          memcpy(cpuid_ent, &cpuid->entries[0],
+>>>>                 cpuid->nent * sizeof(cpuid->entries[0]));
+>>>>  
+>>>> +        c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
+>>>> +        if (c) {
+>>>> +            cpu->hyperv_vendor_id[0] = c->ebx;
+>>>> +            cpu->hyperv_vendor_id[1] = c->ecx;
+>>>> +            cpu->hyperv_vendor_id[2] = c->edx;
+>>>> +        }
+>>>> +
+>>>>          c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
+>>>>          if (c) {
+>>>>              env->features[FEAT_HYPERV_EAX] = c->eax;
+>>>> @@ -1279,23 +1286,11 @@ static int hyperv_handle_properties(CPUState *cs,
+>>>>  
+>>>>      c = &cpuid_ent[cpuid_i++];
+>>>>      c->function = HV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
+>>>> -    if (!cpu->hyperv_vendor_id) {
+>>>> -        memcpy(signature, "Microsoft Hv", 12);
+>>>> -    } else {
+>>>> -        size_t len = strlen(cpu->hyperv_vendor_id);
+>>>> -
+>>>> -        if (len > 12) {
+>>>> -            error_report("hv-vendor-id truncated to 12 characters");
+>>>> -            len = 12;
+>>>> -        }
+>>>> -        memset(signature, 0, 12);
+>>>> -        memcpy(signature, cpu->hyperv_vendor_id, len);
+>>>> -    }
+>>>>      c->eax = hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ?
+>>>>          HV_CPUID_NESTED_FEATURES : HV_CPUID_IMPLEMENT_LIMITS;
+>>>> -    c->ebx = signature[0];
+>>>> -    c->ecx = signature[1];
+>>>> -    c->edx = signature[2];
+>>>> +    c->ebx = cpu->hyperv_vendor_id[0];
+>>>> +    c->ecx = cpu->hyperv_vendor_id[1];
+>>>> +    c->edx = cpu->hyperv_vendor_id[2];
+>>>>  
+>>>>      c = &cpuid_ent[cpuid_i++];
+>>>>      c->function = HV_CPUID_INTERFACE;
+>>>>
+>>>
+>> 
+>
+
+-- 
+Vitaly
 
 
