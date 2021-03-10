@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE4733482B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 20:41:12 +0100 (CET)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D0233482C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 20:41:17 +0100 (CET)
+Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK4hj-0003pn-Kn
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 14:41:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46240)
+	id 1lK4ho-0003yG-E3
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 14:41:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK4R0-00066E-IW
+ id 1lK4R0-00066F-IL
  for qemu-devel@nongnu.org; Wed, 10 Mar 2021 14:23:57 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:46131)
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK4Qp-0002l4-Ai
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 14:23:53 -0500
-Received: by mail-ed1-x534.google.com with SMTP id w9so29704355edt.13
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 11:23:42 -0800 (PST)
+ id 1lK4Qo-0002kg-10
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 14:23:52 -0500
+Received: by mail-ej1-x635.google.com with SMTP id ci14so40910674ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 11:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hIWJZmL4ryUgyEw+W352gXcuQhd67mjmkYPqHcAbcc4=;
- b=v4k/ruwwN1IN2PFooa4I8IeYwJidHete0lJUOOMZfDhxLqY+Iyh51l04hunuPCfAnh
- 3+vjckQ4vgqEq7kz51BGv4lCc4P36y20/abSZSCoJNBQn9SMA9W6R4E94ULL/MehmHXJ
- VrwbL3rflosYY3+8m/ks8gxYu22VhrifarglRu3dsOEKjmX3A5yYLU/cb+6/OsEAvEpJ
- fGsjppWqDLgj09CGIi+1Vn9LYepWIO9SAK9Nj37Vc2PcOFmuBNS5FLC9QUFHoylk2RTN
- FBhVw8DP5x2N18RCztYtThyUEESLgaLZ6HiKiESObK+e1B/5EvfrVICGCX125e6c2xki
- wAdA==
+ bh=Pcd1m2NC4VwbRyf9cPBN7WkrmDonr/2ABTYfeew9jPY=;
+ b=y3OX232Qhqag4TiYg+JUVib2MpoDsaPmoZXtQ7QokQUh+ro4bb9EllszZm9n8wO/h7
+ YUpmZZPJMYGoRUMOmh+h8xG4PdYeAGgf/GL5CLRZ627K7mSLkCvrbLYa3+9wTefvEb6k
+ ZBlQvfV2Tqr8Y9CKC1rmX2SWOKmGiZe9AaWjBSSZNlq56nvzkIdWYfydEuADTDVJb2xo
+ nX4C6lTd3zCfbFoocUHUxXo8HgIp/tgYXH0LOxvS47QyrKqtIH4DYx9a8+LcZUBk9sfU
+ N2zU8ec9H4KiYOEHSPXQeh2qmkuR6CSdUQsuoo5v/jiUi75Bxxv+IIaSG83x5554Ags2
+ TgeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hIWJZmL4ryUgyEw+W352gXcuQhd67mjmkYPqHcAbcc4=;
- b=BgXOrGCGjU22rDC0S56TlkZFzMeIQuM2dSVDDsVnVwu9UR/qACahyy3FWyV0GZ+Z8T
- YSpq8UuVlPUPWH5D6QTtNVqKLTvbIyRYMaPPiQlqtHriV/F4O54HEQfbwWR1DDfeWuUd
- Z79KcvEft2agKNP9hfQ6dDhC50V9J+WZA3i+lFR+RB6A0U1x9YHCcGVU7sGofchEb/6W
- 5t3iDKheQBnpIAQIkhJd3nCdeFK8CllrkCrurNFp4hywxQgOkT1tW7IVErPCBsc/feje
- g2obUBKSQsdxcUol0Fa5wZqsfryGNeqBvwdvpkB8g8wFwQ5q1jaEbKDOGrCpcnplcwNG
- fStw==
-X-Gm-Message-State: AOAM531Bec7LlXk/k1OVfq3AfHk/vqNYgl67FCDtrCyOkzNC1JKxDLz7
- 3ZeCO1tuxg0XIumrVnpHx2Kmzg==
-X-Google-Smtp-Source: ABdhPJyNP+Kvtuh0caPbbGoOf/TNcmCQcTZKR5CRyP3syU8Bx97APecWhhKxhzebxgPHNYm1AjYn7A==
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr4964800edu.100.1615404221964; 
- Wed, 10 Mar 2021 11:23:41 -0800 (PST)
+ bh=Pcd1m2NC4VwbRyf9cPBN7WkrmDonr/2ABTYfeew9jPY=;
+ b=PqxU5e1QctXtRGj9lkFLhwK0PQYTWr2Y0yQdl9Ivp+SJHCt28J7N3+/vCTIx/BO52l
+ JfkZ38n7P+d5oGgcPafTuyicRHYDTKxllNNvrufSsNdivbXXD7lsmtUTF9vggNpH3Dk1
+ g3ere61tSouJefOZIODSzwFzCjCYHB0tMS6qEw2tZyAAm1ue85B8twqZdNawYlOCdDZL
+ KEH6Zj8cH2sGCf+3alNoyc4iZvgFhdWVyoFgPBXguBkKsLxwmYPDoq1cQawSSdDrAtHI
+ xHDvvBXLSkFbtVeUlAHFFG1lle2Djd8bHIPRkJDeSELGfy4DDc8A12o/Ubezjnb8aO/t
+ QgVA==
+X-Gm-Message-State: AOAM532no2OXb3r2y7ICDK2fz9pIMKZf4I/hFgokL011BD8zW3xrZJcm
+ Al+xBluIi7hMtjEVdfAtY/6ubQ==
+X-Google-Smtp-Source: ABdhPJynHBfUpYQuzfXBY3e8a/lq8gZyU3GwdQn1/XmZ7LYejoHVvysiMBG0a4wWOsfgms3ZiwiQ7g==
+X-Received: by 2002:a17:906:1a4b:: with SMTP id j11mr5944ejf.55.1615404220021; 
+ Wed, 10 Mar 2021 11:23:40 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm106695edd.16.2021.03.10.11.23.34
+ by smtp.gmail.com with ESMTPSA id hd37sm165994ejc.114.2021.03.10.11.23.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Mar 2021 11:23:38 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 77D521FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 8CA2C1FF93;
  Wed, 10 Mar 2021 19:23:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/7] tests/tcg: Use Hexagon Docker image
-Date: Wed, 10 Mar 2021 19:23:30 +0000
-Message-Id: <20210310192331.29284-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 7/7] gitlab: add build-user-hexagon test
+Date: Wed, 10 Mar 2021 19:23:31 +0000
+Message-Id: <20210310192331.29284-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310192331.29284-1-alex.bennee@linaro.org>
 References: <20210310192331.29284-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,40 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Alessandro Di Federico <ale@rev.ng>, berrange@redhat.com,
- f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+We special case this as the container with the cross compiler for the
+tests takes so long to build it is manually uploaded into the
+registry.
 
-[PMD: Split from 'Add Hexagon Docker image' patch]
-
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210228222314.304787-5-f4bug@amsat.org>
-Message-Id: <20210305092328.31792-6-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
 ---
- tests/tcg/configure.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+ .gitlab-ci.yml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 36b8a73a54..f70fd7435d 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -124,6 +124,10 @@ for target in $target_list; do
-       container_image=fedora-cris-cross
-       container_cross_cc=cris-linux-gnu-gcc
-       ;;
-+    hexagon-*)
-+      container_image=debian-hexagon-cross
-+      container_cross_cc=hexagon-unknown-linux-musl-clang
-+      ;;
-     hppa-*)
-       container_image=debian-hppa-cross
-       container_cross_cc=hppa-linux-gnu-gcc
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index b23364bf3a..5625265ef8 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -421,6 +421,17 @@ build-user-static:
+     CONFIGURE_ARGS: --disable-tools --disable-system --static
+     MAKE_CHECK_ARGS: check-tcg
+ 
++# Because the hexagon cross-compiler takes so long to build we don't rely
++# on the CI system to build it and hence this job has no dependency
++# declared. The image is manually uploaded.
++build-user-hexagon:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-hexagon-cross
++    TARGETS: hexagon-linux-user
++    CONFIGURE_ARGS: --disable-tools --disable-docs --enable-debug-tcg
++    MAKE_CHECK_ARGS: check-tcg
++
+ # Only build the softmmu targets we have check-tcg tests for
+ build-some-softmmu:
+   <<: *native_build_job_definition
 -- 
 2.20.1
 
