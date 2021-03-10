@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D86D33459E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:49:51 +0100 (CET)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AA6334633
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:02:23 +0100 (CET)
+Received: from localhost ([::1]:44400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2xx-0005kI-52
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:49:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
+	id 1lK3A6-00024J-H7
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:02:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lK2me-0003VH-Bl
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:38:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lK2mc-0007dG-N5
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:38:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615397885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r45yB0Gk79dZCwm9RU+UvVcQGzGqdYTPa4IZJqp7dKU=;
- b=iv1z6Gdcv/XVvbGXeVDZjSGhV9oRo5BPZQQ8Fp5Sei0UGltiW8tDcpcNEunieGVYXBOwAz
- 2Smuq5MZiZaWWPr0S52Vycz9qMgn9IVkXj1xRkox7fo7QDVzxLngUZfHKC2T8sw6QeEjrf
- x/QfxY02nwcHQEYCUGgbr/ZvnoxQM8E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-WD_fbUb4Pc2B4G1by6byPw-1; Wed, 10 Mar 2021 12:38:02 -0500
-X-MC-Unique: WD_fbUb4Pc2B4G1by6byPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E83BF26865;
- Wed, 10 Mar 2021 17:38:00 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-29.ams2.redhat.com [10.36.114.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC6F05D6D7;
- Wed, 10 Mar 2021 17:37:59 +0000 (UTC)
-Date: Wed, 10 Mar 2021 18:37:58 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: fam@euphon.net
-Subject: Re: [PATCH] block: Introduce zero-co:// and zero-aio://
-Message-ID: <20210310173758.GG6076@merkur.fritz.box>
-References: <20210310141752.5113-1-fam@euphon.net>
-MIME-Version: 1.0
-In-Reply-To: <20210310141752.5113-1-fam@euphon.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lK2fK-0006Cp-L1
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:30:34 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51442
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lK2fB-0006Uc-E7
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:30:33 -0500
+HMM_SOURCE_IP: 172.18.0.48:64581.1501305303
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.3?logid-0f9132e31a8249f5bd425f9e1b7fbe7b
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 323C628008E;
+ Thu, 11 Mar 2021 01:30:12 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by App0024 with ESMTP id 0f9132e31a8249f5bd425f9e1b7fbe7b for
+ qemu-devel@nongnu.org; Thu Mar 11 01:30:15 2021
+X-Transaction-ID: 0f9132e31a8249f5bd425f9e1b7fbe7b
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] tests/migration: fix unix socket batch migration
+Date: Thu, 11 Mar 2021 01:29:55 +0800
+Message-Id: <c3fc438993b87a6ab0bea3d07f6ca0260d29936e.1615397103.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,30 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Hyman <huangy81@chinatelecom.cn>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.03.2021 um 15:17 hat fam@euphon.net geschrieben:
-> From: Fam Zheng <famzheng@amazon.com>
-> 
-> null-co:// has a read-zeroes=off default, when used to in security
-> analysis, this can cause false positives because the driver doesn't
-> write to the read buffer.
-> 
-> null-co:// has the highest possible performance as a block driver, so
-> let's keep it that way. This patch introduces zero-co:// and
-> zero-aio://, largely similar with null-*://, but have read-zeroes=on by
-> default, so it's more suitable in cases than null-co://.
-> 
-> Signed-off-by: Fam Zheng <fam@euphon.net>
-> ---
->  block/null.c | 91 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+From: Hyman <huangy81@chinatelecom.cn>
 
-If we're adding new block drivers, there should certainly be some QAPI
-schema updates here.
+when execute the following test command:
+"guestperf-batch.py --dst-host localhost --transport unix ..."
+test aborts and error message as the following be throwed:
+"launching VM Failed: [Errno 98] Address already in use".
 
-Kevin
+The reason is that batch script use the same monitor socket
+in all test cases and do not remove the socket file. The second
+migration test will launch vm use the same socket file as
+the first, so we get the error message. To fix it, just remove
+the socket file each time we have done the migration test.
+
+Signed-off-by: Hyman <huangy81@chinatelecom.cn>
+---
+ tests/migration/guestperf/engine.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 83bfc3b..5189cf9 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -407,6 +407,13 @@ def run(self, hardware, scenario, result_dir=os.getcwd()):
+             vcpu_timings = ret[2]
+             if uri[0:5] == "unix:":
+                 os.remove(uri[5:])
++
++            if os.path.exists(srcmonaddr):
++                os.remove(srcmonaddr)
++
++            if self._dst_host == "localhost" and os.path.exists(dstmonaddr):
++                os.remove(dstmonaddr)
++
+             if self._verbose:
+                 print("Finished migration")
+ 
+-- 
+1.8.3.1
 
 
