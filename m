@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5DB3340FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 16:01:36 +0100 (CET)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685703340FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 16:01:04 +0100 (CET)
+Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK0L9-00069k-02
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 10:01:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42886)
+	id 1lK0Kd-0005fi-9x
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 10:01:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lK0IS-0003oY-OV
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:58:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lK0IP-00007y-Vb
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:58:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615388324;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3OGphF3PDtlKT2Fb73K7UQ0HPa5hfx/4zjbwbt8NseY=;
- b=BtTURNtIwKLlAl0tcJEYuHvwb9IsxMGsViLHxqjQ/BHwhFnZzkleKJvHMqEElO5izshFC1
- xzafnygT+PM0CpbGq2LNdORPy7JdNgkbzTa+1C6EI9Cq/7+SsA+wNT1eoU4KIXJ9eI23jG
- W90kR1taz6wGPkcMdCtggGgmdwofRJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-XpgVjsQfMKuJhl7xktSGSg-1; Wed, 10 Mar 2021 09:58:41 -0500
-X-MC-Unique: XpgVjsQfMKuJhl7xktSGSg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C962A18568C1;
- Wed, 10 Mar 2021 14:58:39 +0000 (UTC)
-Received: from [10.36.112.254] (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 477021000320;
- Wed, 10 Mar 2021 14:58:38 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] hw/arm/virt: KVM: The IPA lower bound is 32
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20210310135218.255205-1-drjones@redhat.com>
- <20210310135218.255205-3-drjones@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <1e161cc6-cbfb-5c89-5f3a-c76298d3748a@redhat.com>
-Date: Wed, 10 Mar 2021 15:58:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <famforupstream@gmail.com>)
+ id 1lK0Iy-0004NS-Jo; Wed, 10 Mar 2021 09:59:21 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:43489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <famforupstream@gmail.com>)
+ id 1lK0Is-0000Nl-PR; Wed, 10 Mar 2021 09:59:18 -0500
+Received: by mail-lf1-x134.google.com with SMTP id d3so33904470lfg.10;
+ Wed, 10 Mar 2021 06:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sXAFcMELB67T0uqfz4Xc7e82yM8sCTK7pvJQu9oUl8k=;
+ b=RfzWUyRzMTAvqFLIk/ZAbb6GLuwu6GmHmeQGCvU/EbBP1W/bX229u4fSDyNWNEjBrS
+ uze2Dt5qys+l8nTFlRyWrpqTj7c8klMHViQQ4jud0HjzSuhBs5jBuEbzTQ21rFDsQ7VL
+ np9BxONMk1HSNZqaUDaNHwm5hXSF/5SmjyQ6gqzaUHOXQDnOfCPaY4VbE5WGTyF1z9t2
+ aheYayoxxwLRHieP355ck5O+2yHiBjUok/kzSO9xsVDFI7layWdfiOjGUBBwk33eQsOz
+ i81ibLVXgBH29CDBiIrcysDv1j0pbIMDcM6JfepzR+Epugjl2rJOl8KCQDOznIagn8Wa
+ /AdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sXAFcMELB67T0uqfz4Xc7e82yM8sCTK7pvJQu9oUl8k=;
+ b=gxgsNTwGqoejgcK+hzpv20HtRB53MFFuGCtYdWtSDTi7pptvoIT5fSRCFgMtlxS13/
+ V3H70hBSBmnqq8fPgsZFm4vapnRf6TN0a4Kd3BheoIRllJlYNOZdE9cVQTDV5eOK3cmV
+ Dmhp5r4w4y5SdZX7KksBKdfTRDtuvmmD8+l0NmKNJvUu0GJ7DiYqNwpjsvfAYZ2xJlSG
+ P4sB2MR7it7UFXCp2AvZZAjTtHTQY+civpG01gZgNTlIYTst0mRTKSX2PMr71jZDuPLU
+ 42+edJkTu/xLzh9OrnpOnrlPHJ47MIPLcJUVQTrC3aICS1SXM+kw9TfVeSMlLFKYCjMK
+ +bsA==
+X-Gm-Message-State: AOAM533tdYvbaFGEW9Q3/r/IBv5wo35K8t76zVDGh+Ys4m3XxxGW6xD1
+ tQ62nK0eSaeddBRmKjfVhjAd+i4M4dvbg2M7Y7M=
+X-Google-Smtp-Source: ABdhPJwWu2Yn9pkRki9hNp/92mGQ398Lo6z/nApeh1fD1QzdfU7V41ryO5q2wTkd7EKtyITFUKuLEhnrCvF0iqrA08I=
+X-Received: by 2002:a05:6512:405:: with SMTP id
+ u5mr2179587lfk.574.1615388351141; 
+ Wed, 10 Mar 2021 06:59:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210310135218.255205-3-drjones@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210310141752.5113-1-fam@euphon.net>
+ <d16dce2d-f844-5e58-6ae1-bbf366e74b60@redhat.com>
+ <CAGNx5+34xWD33-YQmS_Tw-bV3nFMJSpB72c6paGpN4pdmmPkAg@mail.gmail.com>
+ <557f59ec-ccbe-64a5-a21f-ab24dc818f2b@redhat.com>
+In-Reply-To: <557f59ec-ccbe-64a5-a21f-ab24dc818f2b@redhat.com>
+From: Fam Zheng <famforupstream@gmail.com>
+Date: Wed, 10 Mar 2021 14:59:00 +0000
+Message-ID: <CAGNx5+23ehs_CMYZUgRKcjRs2C5RMRjn3grCaG35MduDXJY2iA@mail.gmail.com>
+Subject: Re: [PATCH] block: Introduce zero-co:// and zero-aio://
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d819db05bd2fe860"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=famforupstream@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,134 +78,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com, maz@kernel.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+--000000000000d819db05bd2fe860
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/10/21 2:52 PM, Andrew Jones wrote:
-> The virt machine already checks KVM_CAP_ARM_VM_IPA_SIZE to get the
-> upper bound of the IPA size. If that bound is lower than the highest
-> possible GPA for the machine, then QEMU will error out. However, the
-> IPA is set to 40 when the highest GPA is less than or equal to 40,
-> even when KVM may support an IPA limit as low as 32. This means KVM
-> may fail the VM creation unnecessarily. Additionally, 40 is selected
-> with the value 0, which means use the default, and that gets around
-> a check in some versions of KVM, causing a difficult to debug fail.
-> Always use the IPA size that corresponds to the highest possible GPA,
-> unless it's lower than 32, in which case use 32. Also, we must still
-> use 0 when KVM only supports the legacy fixed 40 bit IPA.
-> 
-> Suggested-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+On Wed, 10 Mar 2021 at 14:51, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
 
-Thanks
+> On 3/10/21 3:28 PM, Fam Zheng wrote:
+> > On Wed, 10 Mar 2021 at 14:24, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com
+> > <mailto:philmd@redhat.com>> wrote:
+> >
+> >     On 3/10/21 3:17 PM, fam@euphon.net <mailto:fam@euphon.net> wrote:
+> >     > From: Fam Zheng <famzheng@amazon.com <mailto:famzheng@amazon.com>=
+>
+> >     >
+> >     > null-co:// has a read-zeroes=3Doff default, when used to in secur=
+ity
+> >     > analysis, this can cause false positives because the driver doesn=
+'t
+> >     > write to the read buffer.
+> >     >
+> >     > null-co:// has the highest possible performance as a block driver=
+,
+> so
+> >     > let's keep it that way. This patch introduces zero-co:// and
+> >     > zero-aio://, largely similar with null-*://, but have
+> >     read-zeroes=3Don by
+> >     > default, so it's more suitable in cases than null-co://.
+> >
+> >     Thanks!
+> >
+> >     >
+> >     > Signed-off-by: Fam Zheng <fam@euphon.net <mailto:fam@euphon.net>>
+> >     > ---
+> >     >  block/null.c | 91
+> >     ++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >     >  1 file changed, 91 insertions(+)
+> >
+> >     > +static int zero_file_open(BlockDriverState *bs, QDict *options,
+> >     int flags,
+> >     > +                          Error **errp)
+> >     > +{
+> >     > +    QemuOpts *opts;
+> >     > +    BDRVNullState *s =3D bs->opaque;
+> >     > +    int ret =3D 0;
+> >     > +
+> >     > +    opts =3D qemu_opts_create(&runtime_opts, NULL, 0, &error_abo=
+rt);
+> >     > +    qemu_opts_absorb_qdict(opts, options, &error_abort);
+> >     > +    s->length =3D
+> >     > +        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 1 << 30);
+> >
+> >     Please do not use this magic default value, let's always explicit t=
+he
+> >     size.
+> >
+> >         s->length =3D qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 0);
+> >         if (s->length < 0) {
+> >             error_setg(errp, "%s is invalid", BLOCK_OPT_SIZE);
+> >             ret =3D -EINVAL;
+> >         }
+> >
+> >
+> > Doesn't that result in a bare
+> >
+> >   -blockdev zero-co://
+> >
+> > would have 0 byte in size?
+>
+> Yes, this will display an error.
+>
+> Maybe better something like:
+>
+>     if (s->length =3D=3D 0) {
+>         error_append_hint(errp, "Usage: zero-co://,size=3DNUM");
+>         error_setg(errp, "size must be specified");
+>         ret =3D -EINVAL;
+>     } else if (s->length < 0) {
+>         error_setg(errp, "%s is invalid", BLOCK_OPT_SIZE);
+>         ret =3D -EINVAL;
+>     }
+>
+> >
+> > I'm copying what null-co:// does today, and it's convenient for tests.
+> > Why is a default size bad?
+>
+> We learned default are almost always bad because you can not get
+> rid of them. Also because we have reports of errors when using
+> floppy and another one (can't remember) with null-co because of
+> invalid size and we have to explain "the default is 1GB, you have
+> to explicit your size".
+>
 
-Eric
-> ---
+Yeah I think that makes sense. I'll revise.
 
->  hw/arm/virt.c        | 23 ++++++++++++++++-------
->  target/arm/kvm.c     |  4 +++-
->  target/arm/kvm_arm.h |  6 ++++--
->  3 files changed, 23 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 371147f3ae9c..3ed94d24d70b 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2534,27 +2534,36 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
->  static int virt_kvm_type(MachineState *ms, const char *type_str)
->  {
->      VirtMachineState *vms = VIRT_MACHINE(ms);
-> -    int max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms);
-> -    int requested_pa_size;
-> +    int max_vm_pa_size, requested_pa_size;
-> +    bool fixed_ipa;
-> +
-> +    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
->  
->      /* we freeze the memory map to compute the highest gpa */
->      virt_set_memmap(vms);
->  
->      requested_pa_size = 64 - clz64(vms->highest_gpa);
->  
-> +    /*
-> +     * KVM requires the IPA size to be at least 32 bits.
-> +     */
-> +    if (requested_pa_size < 32) {
-> +        requested_pa_size = 32;
-> +    }
-> +
->      if (requested_pa_size > max_vm_pa_size) {
->          error_report("-m and ,maxmem option values "
->                       "require an IPA range (%d bits) larger than "
->                       "the one supported by the host (%d bits)",
->                       requested_pa_size, max_vm_pa_size);
-> -       exit(1);
-> +        exit(1);
->      }
->      /*
-> -     * By default we return 0 which corresponds to an implicit legacy
-> -     * 40b IPA setting. Otherwise we return the actual requested PA
-> -     * logsize
-> +     * We return the requested PA log size, unless KVM only supports
-> +     * the implicit legacy 40b IPA setting, in which case the kvm_type
-> +     * must be 0.
->       */
-> -    return requested_pa_size > 40 ? requested_pa_size : 0;
-> +    return fixed_ipa ? 0 : requested_pa_size;
->  }
->  
->  static void virt_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index 00e124c81239..1fcab0e1d37b 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -230,12 +230,14 @@ bool kvm_arm_pmu_supported(void)
->      return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
->  }
->  
-> -int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
-> +int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
->  {
->      KVMState *s = KVM_STATE(ms->accelerator);
->      int ret;
->  
->      ret = kvm_check_extension(s, KVM_CAP_ARM_VM_IPA_SIZE);
-> +    *fixed_ipa = ret <= 0;
-> +
->      return ret > 0 ? ret : 40;
->  }
->  
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index eb81b7059eb1..d36d76403ff2 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -311,10 +311,12 @@ bool kvm_arm_sve_supported(void);
->  /**
->   * kvm_arm_get_max_vm_ipa_size:
->   * @ms: Machine state handle
-> + * @fixed_ipa: True when the IPA limit is fixed at 40. This is the case
-> + * for legacy KVM.
->   *
->   * Returns the number of bits in the IPA address space supported by KVM
->   */
-> -int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
-> +int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa);
->  
->  /**
->   * kvm_arm_sync_mpstate_to_kvm:
-> @@ -409,7 +411,7 @@ static inline void kvm_arm_add_vcpu_properties(Object *obj)
->      g_assert_not_reached();
->  }
->  
-> -static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
-> +static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms, bool *fixed_ipa)
->  {
->      g_assert_not_reached();
->  }
-> 
+Thanks,
+Fam
 
+--000000000000d819db05bd2fe860
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 10 Mar 2021 at 14:51, Philipp=
+e Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On 3/10/21 3:28 PM, Fam Zheng wrote:<br>
+&gt; On Wed, 10 Mar 2021 at 14:24, Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a><br>
+&gt; &lt;mailto:<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">phil=
+md@redhat.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 3/10/21 3:17 PM, <a href=3D"mailto:fam@euphon.ne=
+t" target=3D"_blank">fam@euphon.net</a> &lt;mailto:<a href=3D"mailto:fam@eu=
+phon.net" target=3D"_blank">fam@euphon.net</a>&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; From: Fam Zheng &lt;<a href=3D"mailto:famzheng=
+@amazon.com" target=3D"_blank">famzheng@amazon.com</a> &lt;mailto:<a href=
+=3D"mailto:famzheng@amazon.com" target=3D"_blank">famzheng@amazon.com</a>&g=
+t;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; null-co:// has a read-zeroes=3Doff default, wh=
+en used to in security<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; analysis, this can cause false positives becau=
+se the driver doesn&#39;t<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; write to the read buffer.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; null-co:// has the highest possible performanc=
+e as a block driver, so<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; let&#39;s keep it that way. This patch introdu=
+ces zero-co:// and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; zero-aio://, largely similar with null-*://, b=
+ut have<br>
+&gt;=C2=A0 =C2=A0 =C2=A0read-zeroes=3Don by<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; default, so it&#39;s more suitable in cases th=
+an null-co://.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks!<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Signed-off-by: Fam Zheng &lt;<a href=3D"mailto=
+:fam@euphon.net" target=3D"_blank">fam@euphon.net</a> &lt;mailto:<a href=3D=
+"mailto:fam@euphon.net" target=3D"_blank">fam@euphon.net</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; ---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 block/null.c | 91<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+++++++++++++++++++++++++++++++++++++++++++++++++++=
++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 1 file changed, 91 insertions(+)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +static int zero_file_open(BlockDriverState *b=
+s, QDict *options,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0int flags,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 QemuOpts *opts;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 BDRVNullState *s =3D bs-&gt;opa=
+que;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 int ret =3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 opts =3D qemu_opts_create(&amp;=
+runtime_opts, NULL, 0, &amp;error_abort);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 qemu_opts_absorb_qdict(opts, op=
+tions, &amp;error_abort);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 s-&gt;length =3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opt_get_size=
+(opts, BLOCK_OPT_SIZE, 1 &lt;&lt; 30);<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Please do not use this magic default value, let&#39=
+;s always explicit the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0size.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 s-&gt;length =3D qemu_opt_get_size(op=
+ts, BLOCK_OPT_SIZE, 0);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 if (s-&gt;length &lt; 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;=
+%s is invalid&quot;, BLOCK_OPT_SIZE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 }<br>
+&gt; <br>
+&gt; <br>
+&gt; Doesn&#39;t that result in a bare<br>
+&gt; <br>
+&gt; =C2=A0 -blockdev zero-co://<br>
+&gt; <br>
+&gt; would have 0 byte in size?<br>
+<br>
+Yes, this will display an error.<br>
+<br>
+Maybe better something like:<br>
+<br>
+=C2=A0 =C2=A0 if (s-&gt;length =3D=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_append_hint(errp, &quot;Usage: zero-co://=
+,size=3DNUM&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;size must be specified&q=
+uot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -EINVAL;<br>
+=C2=A0 =C2=A0 } else if (s-&gt;length &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;%s is invalid&quot;, BLO=
+CK_OPT_SIZE);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -EINVAL;<br>
+=C2=A0 =C2=A0 }<br>
+<br>
+&gt; <br>
+&gt; I&#39;m copying what null-co:// does today, and it&#39;s convenient fo=
+r tests.<br>
+&gt; Why is a default size bad?<br>
+<br>
+We learned default are almost always bad because you can not get<br>
+rid of them. Also because we have reports of errors when using<br>
+floppy and another one (can&#39;t remember) with null-co because of<br>
+invalid size and we have to explain &quot;the default is 1GB, you have<br>
+to explicit your size&quot;.<br></blockquote><div>=C2=A0</div><div>Yeah I t=
+hink that makes sense. I&#39;ll revise.</div><div><br>Thanks,</div><div>Fam=
+</div></div></div>
+
+--000000000000d819db05bd2fe860--
 
