@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EF4334B7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:22:48 +0100 (CET)
-Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B44334B8C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:26:01 +0100 (CET)
+Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK7E6-0004Gg-Jw
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:22:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
+	id 1lK7HE-0006aJ-Aq
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:26:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lK6rz-0006QT-7L
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 16:59:55 -0500
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:40746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lK6rw-0002lb-58
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 16:59:54 -0500
-Received: by mail-qv1-xf2f.google.com with SMTP id a14so1613532qvj.7
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 13:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GUn4kUvUN9HZ5OWofuz5zx/E+kceRjyBd/xxvqEusHU=;
- b=sR6ETms0H3ATh7FqCaPfU0OnxFjdkEDJXM+j+sXEbtPb7KuevXUHmRYheXV0pY23lZ
- 4L5fKrf4es7iiDLL+kruPJQfxSZSptJUbimsRKr/I1gcgedS74WGj1ZxiE2Gg+0DSWd/
- IjjjNzkN4fMuNnsrujfidbOIKMJjjiocokctw1j4VaWeRgDPRMKfY9zyyqCOspHCMr4L
- icHsmFMrTHYJLMCfeOXg1sbSLZcMIYkaotRgJcPlXhuwZwQXbLweDQVVVa2Pg4EisLQt
- /3xsZkORfWM29++v/3RUzZExFTwCyVPeXP0JySW4YmMJIqF3vGAi9T9CAQm0qOZMTPwT
- 5RYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GUn4kUvUN9HZ5OWofuz5zx/E+kceRjyBd/xxvqEusHU=;
- b=eVn6/7mgxvBLQ8nqzj4Yeffgc40xgRbxSV9Q9tQUQ7oTZp/SZ2xqnlBxMq9AhnuXDB
- sGz4eXvImnpD+2jN2bBPVa2DFCydOeYDjQvjGHrTwm1Aa7ZN4OD09M9jbWWbi27N2ald
- NQdLS6BFoCQfB9FTBcmOwEO+zX+axWjgCwEf0Yl0A8Eu0+VBNpxc3E+g9VoFOWTlw0NI
- K3bDczO9o1hR/ECr7OONSahVqxOn5Jm3KdBDoxDs2a0C0lCdG7UBQKp3q527jyAFEqEv
- pLLsHz2Qm8izFTeYnb5CHKC/AQop88bzg8zvua+mu8kBZj4WMGXtehEdtQI2oThqPo1c
- B7Tg==
-X-Gm-Message-State: AOAM533TDhQm4zAUXija+czSJuQ5V1HfwJ+bN53W+4UtY7Dq7nzdEeUy
- Bl3V0L4WoqBh1S3FBFU/BZc5qMnxmlTqcaF4TDpTCQZ3ZlWaOsw0/uihFqwzohIAZjii2V8P1VO
- Sg7Dw88DfeSK9ng9RP21TJjVzbFdA7/A2Z3hbYdXWi71Wqu+a8Fq8EbyAE5aYOpr1PDKJ9/c=
-X-Google-Smtp-Source: ABdhPJz+YKONW/ll70GzccujBEyVNKDmdaHB6b/YL6T/p2Oeg2bpkbQHog185/GyAZ0ejj4E3QY04g==
-X-Received: by 2002:ad4:44a9:: with SMTP id n9mr5156585qvt.60.1615413590397;
- Wed, 10 Mar 2021 13:59:50 -0800 (PST)
-Received: from [10.0.10.142] (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id x36sm474091qte.1.2021.03.10.13.59.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 13:59:50 -0800 (PST)
-Subject: Re: [PATCH v3 1/3] target/arm: Add support for FEAT_TLBIRANGE
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20210310002917.8876-1-rebecca@nuviainc.com>
- <20210310002917.8876-2-rebecca@nuviainc.com>
- <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
-From: Rebecca Cran <rebecca@nuviainc.com>
-Message-ID: <35b847ab-b064-248d-adf4-143ae8d7a19d@nuviainc.com>
-Date: Wed, 10 Mar 2021 14:59:48 -0700
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lK6st-0007Pc-TF
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 17:00:57 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51394
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lK6sj-0003IK-KC
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 17:00:49 -0500
+Received: from host86-140-100-136.range86-140.btcentralplus.com
+ ([86.140.100.136] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lK6sd-0004ek-Jb; Wed, 10 Mar 2021 22:00:35 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+References: <20210305235414.2358144-1-f4bug@amsat.org>
+ <20210305235414.2358144-3-f4bug@amsat.org> <20210308234025.GP397383@xz-x1>
+ <f3bda42d-759f-dbcd-04f0-45375e3eb9fd@amsat.org>
+ <c524c45f-695e-fed5-bd24-f3d4deff4016@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <f1401c74-2907-374c-e230-be36137d0d31@ilande.co.uk>
+Date: Wed, 10 Mar 2021 22:00:32 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
+In-Reply-To: <c524c45f-695e-fed5-bd24-f3d4deff4016@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=rebecca@nuviainc.com; helo=mail-qv1-xf2f.google.com
+X-SA-Exim-Connect-IP: 86.140.100.136
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/3] memory: Provide 'base address' argument to
+ mtree_print_mr()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,106 +69,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 12:24 PM, Richard Henderson wrote:
-> On 3/9/21 6:29 PM, Rebecca Cran wrote:
->> +void tlb_flush_page_range_by_mmuidx(CPUState *cpu, target_ulong addr,
->> +                                    unsigned int num_pages, uint16_t 
->> idxmap)
-> 
-> I am not keen on this interface.  I think you should take either 
-> start+end addresses (inclusive) or start+length (in bytes).
-> 
-> Using num_pages, and as an unsigned int, seems too easy to fail when 
-> applied to a different guest.
-> 
->> +{
->> +  /*
->> +   * We currently do a full flush, but for performance this should be
->> +   * updated to only flush the requested pages, taking TBI into account.
->> +   */
->> +    tlb_flush_by_mmuidx(cpu, idxmap);
->> +}
-> 
-> And if you're going to cop-out like this, you might as well just do it 
-> in target/arm and not add these new interfaces at all.
-> 
->> +#ifdef TARGET_AARCH64
->> +static unsigned int tlbi_aa64_range_get_num_pages(CPUARMState *env,
->> +                                                  uint64_t value,
->> +                                                  uint64_t addr)
->> +{
->> +    unsigned int page_size;
->> +    unsigned int page_shift;
->> +    unsigned int page_size_granule;
->> +    uint64_t num;
->> +    uint64_t scale;
->> +    uint64_t exponent;
->> +    uint64_t high_addr;
->> +
->> +    num = (value >> 39) & 0xF;
->> +    scale = (value >> 44) & 0x3;
->> +    page_size_granule = (value >> 46) & 0x3;
-> 
-> extract64()
-> 
->> +
->> +    switch (page_size_granule) {
->> +    case 1:
->> +      page_size = 4096;
->> +      page_shift = 12;
->> +      break;
->> +    case 2:
->> +      page_size = 16384;
->> +      page_shift = 14;
->> +      break;
->> +    case 3:
->> +      page_size = 65536;
->> +      page_shift = 16;
->> +      break;
->> +    default:
->> +      qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
->> +                    page_size_granule);
->> +
->> +      raise_exception(env, EXCP_UDEF, syn_uncategorized(),
->> +                      exception_target_el(env));
-> 
-> You can't raise an exception from here, because you don't have all of 
-> the context for unwinding the tcg state.  Which you cannot access from 
-> within the callback of an ARMCPRegInfo.
-> 
-> The manual says that if TG does not correspond to the granule size of 
-> the actual translation then "the architecture does not require that the 
-> instruction invalidates any entries".  "Reserved" can be safely assumed 
-> to "not correspond", so I think you could just as easily return 0 here, 
-> after logging the guest error.
-> 
-> 
->> +    high_addr = addr + (((num + 1) << exponent) * page_size);
->> +
->> +    return (high_addr - addr) >> page_shift;
-> 
-> I'll note that it would be much easier for you to return a byte value 
-> for the length, and that you don't actually need to pass in addr at all.
-> 
->> +    uint64_t addr = (value & 0xFFFFFFFFFUL) << TARGET_PAGE_BITS;
-> 
-> The manual does not explicitly say, but I'm certain that this should be 
-> a signed address, when regime_has_2_ranges().  Otherwise it would be 
-> impossible to flush a range of kernel addresses.
-> 
-> But all of this is moot if we're just going to flush all pages.  At 
-> which point you might as well simply re-use tlbi_aa64_vmalle1_write et 
-> al.  Place your TODO comment in front of tlbirange_reginfo[] instead of 
-> buried n-levels further down.
+On 09/03/2021 21:54, Philippe Mathieu-Daudé wrote:
 
-Thanks for the comments. I'll continue working on the full/proper 
-implementation (including changing the interface to remove num_pages) 
-and send out a v4.
+> +Peter/Mark/Edgar for SoC modelling
+> 
+> On 3/9/21 10:39 AM, Philippe Mathieu-Daudé wrote:
+>> Hi Peter,
+>>
+>> On 3/9/21 12:40 AM, Peter Xu wrote:> On Sat, Mar 06, 2021 at 12:54:13AM
+>> +0100, Philippe Mathieu-Daudé wrote:
+>>>> @@ -3188,14 +3188,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+>>>>   
+>>>>       QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+>>>>           qemu_printf("address-space: %s\n", as->name);
+>>>> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
+>>>> +        mtree_print_mr(as->root, 1, 0, as->root->addr,
+>>>
+>>> Root MR of any address space should have mr->addr==0, right?
+>>>
+>>> I'm slightly confused on what this patch wanted to do if so, since then "base"
+>>> will always be zero..  Or am I wrong?
+>>
+>> That is what I am expecting too... Maybe the problem is elsewhere
+>> when I create the address space... The simpler way to
+>> figure it out is add an assertion. I haven't figure out my
+>> issue yet, I'll follow up later with a proof-of-concept series
+>> which triggers the assertion.
+> 
+> To trigger I simply use:
+> 
+> mydevice_realize()
+> {
+>    memory_region_init(&mr, obj, name, size);
+> 
+>    address_space_init(&as, &mr, name);
+>    // here we have as.root.addr = 0
+> 
+>    sysbus_init_mmio(sbd, &mr);
+> }
+> 
+> soc_realize()
+> {
+>      ...
+>      sysbus_realize(SYS_BUS_DEVICE(&mydevice), &error_abort);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&mydevice), 0, NONZERO_ADDRESS);
+>      ...
+> }
+> 
+> sysbus_mmio_map
+> -> sysbus_mmio_map_common
+>     -> memory_region_add_subregion
+>        -> memory_region_add_subregion_common
+> 
+> Which does:
+> 
+> static void memory_region_add_subregion_common(MemoryRegion *mr,
+>                                                 hwaddr offset,
+>                                                 MemoryRegion *subregion)
+> {
+>      assert(!subregion->container);
+>      subregion->container = mr;
+>      subregion->addr = offset;
+>      // subregion = &as.root
+>      // offset = NONZERO_ADDRESS
+>      // so here as.root.addr becomes non-zero
+> 
+> Is that use case incorrect? If so:
+> - where to add the proper assertions to avoid having address spaces
+>    with non-zero base address?
+> - what is the proper design?
+> 
+> Else what should we fix?
 
--- 
-Rebecca Cran
+I think I've seen something like this before with the sun4u IOMMU - I tried to get 
+the offset of the IOMMU address space memory region from its parent in 
+sun4u_translate_iommu() but I ended up getting back an absolute address instead. I 
+think the conclusion I came to was that it wouldn't work with a memory region at the 
+root of an address space, so I'd be interested to know what the behaviour here should be.
+
+In terms of soc_realize() I believe there are 2 options for getting the memory 
+region: 1) use object_resolve_path_component() to retrieve the memory region as a QOM 
+property or 2) use sysbus_mmio_get_region(). Once you have a reference to the memory 
+region you can add it to the parent using memory_region_add_subregion() as needed. 
+There is an existing example of 2) in hw/sparc64/sun4u.c in ebus_realize().
+
+
+ATB,
+
+Mark.
 
