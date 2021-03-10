@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9410F333444
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:15:01 +0100 (CET)
-Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF50333456
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:21:08 +0100 (CET)
+Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqFQ-0001d7-Kw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:15:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
+	id 1lJqLL-00031U-8B
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:21:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAt-0003XN-MQ; Tue, 09 Mar 2021 23:10:19 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:46873)
+ id 1lJqAv-0003YD-6c; Tue, 09 Mar 2021 23:10:22 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37053 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAp-0004AK-GU; Tue, 09 Mar 2021 23:10:19 -0500
+ id 1lJqAp-0004AE-I7; Tue, 09 Mar 2021 23:10:20 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWd4llSz9sWk; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWd55ZDz9sWl; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349405;
- bh=qGRtth8AG1yIZEl7POTTF1M9jfJA3TCZ89tWJmhyp/k=;
+ bh=eQUX6ay0aol2kTGvcnnrcbxBcIo1BZ2oHa9zhrP+hP0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l2AgfdWZypufFM60p510D22xnZlKePQ3XnUyIYhARc97AJN0jK/06Z0ojfWGn6vJ4
- b+yD4CYry/lfv6EiUL6mTqTLI64BQaM7s5/vIY1LkHdMtSWXIVWdHZkI/7omyh3Lih
- rVjYRqIr5rKCKI7047CWwlzG97Y8d+JYYu3agHMA=
+ b=flb1dwiJXjSf15kx2YodxbGiGFJFxxB6T0SCNrPHdwu2CcCHHSOrq03Cbc9PUFnz/
+ M1OqbD6rZtVDu9aPMLW3GjKzla6A/hwTITNmFWaOXFZ2BAaGhic6DluBsHpHGHOzVV
+ AwZYsDGVNyzAeG9BhaFl4QKrFnxM52oK01ZlXqig=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 07/20] spapr: rename spapr_drc_detach() to
- spapr_drc_unplug_request()
-Date: Wed, 10 Mar 2021 15:09:49 +1100
-Message-Id: <20210310041002.333813-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/20] docs/system: Extend PPC section
+Date: Wed, 10 Mar 2021 15:09:50 +1100
+Message-Id: <20210310041002.333813-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_OTHER_BAD_TLD=1.999, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,144 +59,398 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-spapr_drc_detach() is not the best name for what the function does. The
-function does not detach the DRC, it makes an uncommited attempt to do
-it.  It'll mark the DRC as pending unplug, via the 'unplug_request'
-flag, and only if the DRC state is drck->empty_state it will detach the
-DRC, via spapr_drc_release().
+This moves the current documentation in files specific to each
+platform family. PowerNV machine is updated, the other machines need
+to be done.
 
-This is a contrast with its pair spapr_drc_attach(), where the function
-is indeed creating the DRC QOM object. If you know what
-spapr_drc_attach() does, you can be misled into thinking that
-spapr_drc_detach() is removing the DRC from QEMU internal state, which
-isn't true.
-
-The current role of this function is better described as a request for
-detach, since there's no guarantee that we're going to detach the DRC in
-the end.  Rename the function to spapr_drc_unplug_request to reflect
-what is is doing.
-
-The initial idea was to change the name to spapr_drc_detach_request(),
-and later on change the unplug_request flag to detach_request. However,
-unplug_request is a migratable boolean for a long time now and renaming
-it is not worth the trouble. spapr_drc_unplug_request() setting
-drc->unplug_request is more natural than spapr_drc_detach_request
-setting drc->unplug_request.
-
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210222133956.156001-1-clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210222194531.62717-3-danielhb413@gmail.com>
+[dwg: Trivial capitalization fix]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c             | 6 +++---
- hw/ppc/spapr_drc.c         | 4 ++--
- hw/ppc/spapr_pci.c         | 4 ++--
- hw/ppc/trace-events        | 2 +-
- include/hw/ppc/spapr_drc.h | 2 +-
- 5 files changed, 9 insertions(+), 9 deletions(-)
+ docs/system/ppc/embedded.rst |  10 ++
+ docs/system/ppc/powermac.rst |  34 ++++++
+ docs/system/ppc/powernv.rst  | 193 +++++++++++++++++++++++++++++++++++
+ docs/system/ppc/prep.rst     |  18 ++++
+ docs/system/ppc/pseries.rst  |  12 +++
+ docs/system/target-ppc.rst   |  53 +++-------
+ 6 files changed, 282 insertions(+), 38 deletions(-)
+ create mode 100644 docs/system/ppc/embedded.rst
+ create mode 100644 docs/system/ppc/powermac.rst
+ create mode 100644 docs/system/ppc/powernv.rst
+ create mode 100644 docs/system/ppc/prep.rst
+ create mode 100644 docs/system/ppc/pseries.rst
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 85fe65f894..b066df68cb 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3654,7 +3654,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
-                               addr / SPAPR_MEMORY_BLOCK_SIZE);
-         g_assert(drc);
+diff --git a/docs/system/ppc/embedded.rst b/docs/system/ppc/embedded.rst
+new file mode 100644
+index 0000000000..cfffbda24d
+--- /dev/null
++++ b/docs/system/ppc/embedded.rst
+@@ -0,0 +1,10 @@
++Embedded family boards
++======================
++
++- ``bamboo``               bamboo
++- ``mpc8544ds``            mpc8544ds
++- ``ppce500``              generic paravirt e500 platform
++- ``ref405ep``             ref405ep
++- ``sam460ex``             aCube Sam460ex
++- ``taihu``                taihu
++- ``virtex-ml507``         Xilinx Virtex ML507 reference design
+diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
+new file mode 100644
+index 0000000000..04334ba210
+--- /dev/null
++++ b/docs/system/ppc/powermac.rst
+@@ -0,0 +1,34 @@
++PowerMac family boards (``g3beige``, ``mac99``)
++==================================================================
++
++Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
++PowerPC system.
++
++- ``g3beige``              Heathrow based PowerMAC
++- ``mac99``                Mac99 based PowerMAC
++
++Supported devices
++-----------------
++
++QEMU emulates the following PowerMac peripherals:
++
++ *  UniNorth or Grackle PCI Bridge
++ *  PCI VGA compatible card with VESA Bochs Extensions
++ *  2 PMAC IDE interfaces with hard disk and CD-ROM support
++ *  NE2000 PCI adapters
++ *  Non Volatile RAM
++ *  VIA-CUDA with ADB keyboard and mouse.
++
++
++Missing devices
++---------------
++
++ * To be identified
++
++Firmware
++--------
++
++Since version 0.9.1, QEMU uses OpenBIOS https://www.openbios.org/ for
++the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
++(GPL v2) portable firmware implementation. The goal is to implement a
++100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
+diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
+new file mode 100644
+index 0000000000..43c58bc32e
+--- /dev/null
++++ b/docs/system/ppc/powernv.rst
+@@ -0,0 +1,193 @@
++PowerNV family boards (``powernv8``, ``powernv9``)
++==================================================================
++
++PowerNV (as Non-Virtualized) is the "baremetal" platform using the
++OPAL firmware. It runs Linux on IBM and OpenPOWER systems and it can
++be used as an hypervisor OS, running KVM guests, or simply as a host
++OS.
++
++The PowerNV QEMU machine tries to emulate a PowerNV system at the
++level of the skiboot firmware, which loads the OS and provides some
++runtime services. Power Systems have a lower firmware (HostBoot) that
++does low level system initialization, like DRAM training. This is
++beyond the scope of what QEMU addresses today.
++
++Supported devices
++-----------------
++
++ * Multi processor support for POWER8, POWER8NVL and POWER9.
++ * XSCOM, serial communication sideband bus to configure chiplets
++ * Simple LPC Controller
++ * Processor Service Interface (PSI) Controller
++ * Interrupt Controller, XICS (POWER8) and XIVE (POWER9)
++ * POWER8 PHB3 PCIe Host bridge and POWER9 PHB4 PCIe Host bridge
++ * Simple OCC is an on-chip microcontroller used for power management
++   tasks
++ * iBT device to handle BMC communication, with the internal BMC
++   simulator provided by QEMU or an external BMC such as an Aspeed
++   QEMU machine.
++ * PNOR containing the different firmware partitions.
++
++Missing devices
++---------------
++
++A lot is missing, among which :
++
++ * POWER10 processor
++ * XIVE2 (POWER10) interrupt controller
++ * I2C controllers (yet to be merged)
++ * NPU/NPU2/NPU3 controllers
++ * EEH support for PCIe Host bridge controllers
++ * NX controller
++ * VAS controller
++ * chipTOD (Time Of Day)
++ * Self Boot Engine (SBE).
++ * FSI bus
++
++Firmware
++--------
++
++The OPAL firmware (OpenPower Abstraction Layer) for OpenPower systems
++includes the runtime services `skiboot` and the bootloader kernel and
++initramfs `skiroot`. Source code can be found on GitHub:
++
++  https://github.com/open-power.
++
++Prebuilt images of `skiboot` and `skiboot` are made available on the `OpenPOWER <https://openpower.xyz/job/openpower/job/openpower-op-build/>`__ site. To boot a POWER9 machine, use the `witherspoon <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=witherspoon/lastSuccessfulBuild/>`__ images. For POWER8, use
++the `palmetto <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=palmetto/lastSuccessfulBuild/>`__ images.
++
++QEMU includes a prebuilt image of `skiboot` which is updated when a
++more recent version is required by the models.
++
++Boot options
++------------
++
++Here is a simple setup with one e1000e NIC :
++
++.. code-block:: bash
++
++  $ qemu-system-ppc64 -m 2G -machine powernv9 -smp 2,cores=2,threads=1 \
++  -accel tcg,thread=single \
++  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=pcie.0,addr=0x0 \
++  -netdev user,id=net0,hostfwd=::20022-:22,hostname=pnv \
++  -kernel ./zImage.epapr  \
++  -initrd ./rootfs.cpio.xz \
++  -nographic
++
++and a SATA disk :
++
++.. code-block:: bash
++
++  -device ich9-ahci,id=sata0,bus=pcie.1,addr=0x0 \
++  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive0,format=qcow2,cache=none \
++  -device ide-hd,bus=sata0.0,unit=0,drive=drive0,id=ide,bootindex=1 \
++
++Complex PCIe configuration
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++Six PHBs are defined per chip (POWER9) but no default PCI layout is
++provided (to be compatible with libvirt). One PCI device can be added
++on any of the available PCIe slots using command line options such as:
++
++.. code-block:: bash
++
++  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=pcie.0,addr=0x0
++  -netdev bridge,id=net0,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=hostnet0
++
++  -device megasas,id=scsi0,bus=pcie.0,addr=0x0
++  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none
++  -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=2
++
++Here is a full example with two different storage controllers on
++different PHBs, each with a disk, the second PHB is empty :
++
++.. code-block:: bash
++
++  $ qemu-system-ppc64 -m 2G -machine powernv9 -smp 2,cores=2,threads=1 -accel tcg,thread=single \
++  -kernel ./zImage.epapr -initrd ./rootfs.cpio.xz -bios ./skiboot.lid \
++  \
++  -device megasas,id=scsi0,bus=pcie.0,addr=0x0 \
++  -drive file=./rhel7-ppc64le.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
++  -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=2 \
++  \
++  -device pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0 \
++  \
++  -device ich9-ahci,id=sata0,bus=bridge1,addr=0x1 \
++  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive0,format=qcow2,cache=none \
++  -device ide-hd,bus=sata0.0,unit=0,drive=drive0,id=ide,bootindex=1 \
++  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=bridge1,addr=0x2 \
++  -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
++  -device nec-usb-xhci,bus=bridge1,addr=0x7 \
++  \
++  -serial mon:stdio -nographic
++
++You can also use VIRTIO devices :
++
++.. code-block:: bash
++
++  -drive file=./fedora-ppc64le.qcow2,if=none,snapshot=on,id=drive0 \
++  -device virtio-blk-pci,drive=drive0,id=blk0,bus=pcie.0 \
++  \
++  -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,br=virbr0,id=netdev0 \
++  -device virtio-net-pci,netdev=netdev0,id=net0,bus=pcie.1 \
++  \
++  -fsdev local,id=fsdev0,path=$HOME,security_model=passthrough \
++  -device virtio-9p-pci,fsdev=fsdev0,mount_tag=host,bus=pcie.2
++
++Multi sockets
++~~~~~~~~~~~~~
++
++The number of sockets is deduced from the number of CPUs and the
++number of cores. ``-smp 2,cores=1`` will define a machine with 2
++sockets of 1 core, whereas ``-smp 2,cores=2`` will define a machine
++with 1 socket of 2 cores. ``-smp 8,cores=2``, 4 sockets of 2 cores.
++
++BMC configuration
++~~~~~~~~~~~~~~~~~
++
++OpenPOWER systems negotiate the shutdown and reboot with their
++BMC. The QEMU PowerNV machine embeds an IPMI BMC simulator using the
++iBT interface and should offer the same power features.
++
++If you want to define your own BMC, use ``-nodefaults`` and specify
++one on the command line :
++
++.. code-block:: bash
++
++  -device ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10
++
++The files `palmetto-SDR.bin <http://www.kaod.org/qemu/powernv/palmetto-SDR.bin>`__
++and `palmetto-FRU.bin <http://www.kaod.org/qemu/powernv/palmetto-FRU.bin>`__
++define a Sensor Data Record repository and a Field Replaceable Unit
++inventory for a palmetto BMC. They can be used to extend the QEMU BMC
++simulator.
++
++.. code-block:: bash
++
++  -device ipmi-bmc-sim,sdrfile=./palmetto-SDR.bin,fruareasize=256,frudatafile=./palmetto-FRU.bin,id=bmc0 \
++  -device isa-ipmi-bt,bmc=bmc0,irq=10
++
++The PowerNV machine can also be run with an external IPMI BMC device
++connected to a remote QEMU machine acting as BMC, using these options
++:
++
++.. code-block:: bash
++
++  -chardev socket,id=ipmi0,host=localhost,port=9002,reconnect=10 \
++  -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0 \
++  -device isa-ipmi-bt,bmc=bmc0,irq=10 \
++  -nodefaults
++
++NVRAM
++~~~~~
++
++Use a MTD drive to add a PNOR to the machine, and get a NVRAM :
++
++.. code-block:: bash
++
++  -drive file=./witherspoon.pnor,format=raw,if=mtd
++
++CAVEATS
++-------
++
++ * No support for multiple HW threads (SMT=1). Same as pseries.
++ * CPU can hang when doing intensive I/Os. Use ``-append powersave=off`` in that case.
+diff --git a/docs/system/ppc/prep.rst b/docs/system/ppc/prep.rst
+new file mode 100644
+index 0000000000..bd9eb8eabd
+--- /dev/null
++++ b/docs/system/ppc/prep.rst
+@@ -0,0 +1,18 @@
++Prep machine (``40p``)
++==================================================================
++
++Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PREP)
++
++Supported devices
++-----------------
++
++QEMU emulates the following 40P (PREP) peripherals:
++
++ *  PCI Bridge
++ *  PCI VGA compatible card with VESA Bochs Extensions
++ *  2 IDE interfaces with hard disk and CD-ROM support
++ *  Floppy disk
++ *  PCnet network adapters
++ *  Serial port
++ *  PREP Non Volatile RAM
++ *  PC compatible keyboard and mouse.
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+new file mode 100644
+index 0000000000..932d4dd17d
+--- /dev/null
++++ b/docs/system/ppc/pseries.rst
+@@ -0,0 +1,12 @@
++pSeries family boards (``pseries``)
++===================================
++
++Supported devices
++-----------------
++
++Missing devices
++---------------
++
++
++Firmware
++--------
+diff --git a/docs/system/target-ppc.rst b/docs/system/target-ppc.rst
+index a2f04c533c..67905b8f2a 100644
+--- a/docs/system/target-ppc.rst
++++ b/docs/system/target-ppc.rst
+@@ -3,45 +3,22 @@
+ PowerPC System emulator
+ -----------------------
  
--        spapr_drc_detach(drc);
-+        spapr_drc_unplug_request(drc);
-         addr += SPAPR_MEMORY_BLOCK_SIZE;
-     }
+-Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PREP)
+-or PowerMac PowerPC system.
++Board-specific documentation
++============================
  
-@@ -3722,7 +3722,7 @@ void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
-     g_assert(drc);
+-QEMU emulates the following PowerMac peripherals:
++You can get a complete list by running ``qemu-system-ppc64 --machine
++help``.
  
-     if (!spapr_drc_unplug_requested(drc)) {
--        spapr_drc_detach(drc);
-+        spapr_drc_unplug_request(drc);
-         spapr_hotplug_req_remove_by_index(drc);
-     }
- }
-@@ -3985,7 +3985,7 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
-     assert(drc);
+--  UniNorth or Grackle PCI Bridge
++..
++   This table of contents should be kept sorted alphabetically
++   by the title text of each file, which isn't the same ordering
++   as an alphabetical sort by filename.
  
-     if (!spapr_drc_unplug_requested(drc)) {
--        spapr_drc_detach(drc);
-+        spapr_drc_unplug_request(drc);
-         spapr_hotplug_req_remove_by_index(drc);
-     }
- }
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 555a25517d..67041fb212 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -386,11 +386,11 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
-                              NULL, 0);
- }
+--  PCI VGA compatible card with VESA Bochs Extensions
++.. toctree::
++   :maxdepth: 1
  
--void spapr_drc_detach(SpaprDrc *drc)
-+void spapr_drc_unplug_request(SpaprDrc *drc)
- {
-     SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
- 
--    trace_spapr_drc_detach(spapr_drc_index(drc));
-+    trace_spapr_drc_unplug_request(spapr_drc_index(drc));
- 
-     g_assert(drc->dev);
- 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index f1c7479816..b00e9609ae 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1723,12 +1723,12 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
-                      * functions, even if their unplug weren't requested
-                      * beforehand.
-                      */
--                    spapr_drc_detach(func_drc);
-+                    spapr_drc_unplug_request(func_drc);
-                 }
-             }
-         }
- 
--        spapr_drc_detach(drc);
-+        spapr_drc_unplug_request(drc);
- 
-         /* if this isn't func 0, defer unplug event. otherwise signal removal
-          * for all present functions
-diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-index 1e91984526..b4bbfbb013 100644
---- a/hw/ppc/trace-events
-+++ b/hw/ppc/trace-events
-@@ -50,7 +50,7 @@ spapr_drc_set_allocation_state(uint32_t index, int state) "drc: 0x%"PRIx32", sta
- spapr_drc_set_allocation_state_finalizing(uint32_t index) "drc: 0x%"PRIx32
- spapr_drc_set_configured(uint32_t index) "drc: 0x%"PRIx32
- spapr_drc_attach(uint32_t index) "drc: 0x%"PRIx32
--spapr_drc_detach(uint32_t index) "drc: 0x%"PRIx32
-+spapr_drc_unplug_request(uint32_t index) "drc: 0x%"PRIx32
- spapr_drc_awaiting_quiesce(uint32_t index) "drc: 0x%"PRIx32
- spapr_drc_reset(uint32_t index) "drc: 0x%"PRIx32
- spapr_drc_realize(uint32_t index) "drc: 0x%"PRIx32
-diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index 8982927d5c..02a63b3666 100644
---- a/include/hw/ppc/spapr_drc.h
-+++ b/include/hw/ppc/spapr_drc.h
-@@ -243,7 +243,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
-  * beforehand (eg. check drc->dev at pre-plug).
-  */
- void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
--void spapr_drc_detach(SpaprDrc *drc);
-+void spapr_drc_unplug_request(SpaprDrc *drc);
- 
- /*
-  * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
+--  2 PMAC IDE interfaces with hard disk and CD-ROM support
+-
+--  NE2000 PCI adapters
+-
+--  Non Volatile RAM
+-
+--  VIA-CUDA with ADB keyboard and mouse.
+-
+-QEMU emulates the following 40P (PREP) peripherals:
+-
+--  PCI Bridge
+-
+--  PCI VGA compatible card with VESA Bochs Extensions
+-
+--  2 IDE interfaces with hard disk and CD-ROM support
+-
+--  Floppy disk
+-
+--  PCnet network adapters
+-
+--  Serial port
+-
+--  PREP Non Volatile RAM
+-
+--  PC compatible keyboard and mouse.
+-
+-Since version 0.9.1, QEMU uses OpenBIOS https://www.openbios.org/ for
+-the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
+-(GPL v2) portable firmware implementation. The goal is to implement a
+-100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
+-
+-More information is available at
+-http://perso.magic.fr/l_indien/qemu-ppc/.
++   ppc/embedded
++   ppc/powermac
++   ppc/powernv
++   ppc/prep
++   ppc/pseries
 -- 
 2.29.2
 
