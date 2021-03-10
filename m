@@ -2,57 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D614E334B67
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:20:22 +0100 (CET)
-Received: from localhost ([::1]:53304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EF4334B7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:22:48 +0100 (CET)
+Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK7Bl-0001jX-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:20:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35042)
+	id 1lK7E6-0004Gg-Jw
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:22:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6lN-0005k3-UQ; Wed, 10 Mar 2021 16:53:06 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:48075)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6lL-0007gz-6s; Wed, 10 Mar 2021 16:53:05 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MKuGD-1l1Bna3TWn-00LIkp; Wed, 10 Mar 2021 22:53:00 +0100
-Subject: Re: [PULL 00/22] Trivial branch for 6.0 patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210310214504.1183162-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0a9adc53-f0ec-f3fe-ad1f-197ec89fd491@vivier.eu>
-Date: Wed, 10 Mar 2021 22:52:58 +0100
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lK6rz-0006QT-7L
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 16:59:55 -0500
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:40746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lK6rw-0002lb-58
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 16:59:54 -0500
+Received: by mail-qv1-xf2f.google.com with SMTP id a14so1613532qvj.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 13:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GUn4kUvUN9HZ5OWofuz5zx/E+kceRjyBd/xxvqEusHU=;
+ b=sR6ETms0H3ATh7FqCaPfU0OnxFjdkEDJXM+j+sXEbtPb7KuevXUHmRYheXV0pY23lZ
+ 4L5fKrf4es7iiDLL+kruPJQfxSZSptJUbimsRKr/I1gcgedS74WGj1ZxiE2Gg+0DSWd/
+ IjjjNzkN4fMuNnsrujfidbOIKMJjjiocokctw1j4VaWeRgDPRMKfY9zyyqCOspHCMr4L
+ icHsmFMrTHYJLMCfeOXg1sbSLZcMIYkaotRgJcPlXhuwZwQXbLweDQVVVa2Pg4EisLQt
+ /3xsZkORfWM29++v/3RUzZExFTwCyVPeXP0JySW4YmMJIqF3vGAi9T9CAQm0qOZMTPwT
+ 5RYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GUn4kUvUN9HZ5OWofuz5zx/E+kceRjyBd/xxvqEusHU=;
+ b=eVn6/7mgxvBLQ8nqzj4Yeffgc40xgRbxSV9Q9tQUQ7oTZp/SZ2xqnlBxMq9AhnuXDB
+ sGz4eXvImnpD+2jN2bBPVa2DFCydOeYDjQvjGHrTwm1Aa7ZN4OD09M9jbWWbi27N2ald
+ NQdLS6BFoCQfB9FTBcmOwEO+zX+axWjgCwEf0Yl0A8Eu0+VBNpxc3E+g9VoFOWTlw0NI
+ K3bDczO9o1hR/ECr7OONSahVqxOn5Jm3KdBDoxDs2a0C0lCdG7UBQKp3q527jyAFEqEv
+ pLLsHz2Qm8izFTeYnb5CHKC/AQop88bzg8zvua+mu8kBZj4WMGXtehEdtQI2oThqPo1c
+ B7Tg==
+X-Gm-Message-State: AOAM533TDhQm4zAUXija+czSJuQ5V1HfwJ+bN53W+4UtY7Dq7nzdEeUy
+ Bl3V0L4WoqBh1S3FBFU/BZc5qMnxmlTqcaF4TDpTCQZ3ZlWaOsw0/uihFqwzohIAZjii2V8P1VO
+ Sg7Dw88DfeSK9ng9RP21TJjVzbFdA7/A2Z3hbYdXWi71Wqu+a8Fq8EbyAE5aYOpr1PDKJ9/c=
+X-Google-Smtp-Source: ABdhPJz+YKONW/ll70GzccujBEyVNKDmdaHB6b/YL6T/p2Oeg2bpkbQHog185/GyAZ0ejj4E3QY04g==
+X-Received: by 2002:ad4:44a9:: with SMTP id n9mr5156585qvt.60.1615413590397;
+ Wed, 10 Mar 2021 13:59:50 -0800 (PST)
+Received: from [10.0.10.142] (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id x36sm474091qte.1.2021.03.10.13.59.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Mar 2021 13:59:50 -0800 (PST)
+Subject: Re: [PATCH v3 1/3] target/arm: Add support for FEAT_TLBIRANGE
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+References: <20210310002917.8876-1-rebecca@nuviainc.com>
+ <20210310002917.8876-2-rebecca@nuviainc.com>
+ <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
+From: Rebecca Cran <rebecca@nuviainc.com>
+Message-ID: <35b847ab-b064-248d-adf4-143ae8d7a19d@nuviainc.com>
+Date: Wed, 10 Mar 2021 14:59:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9to1miQTg2dtmvPAszWWXQP+ZYZ/L0ZOUp6Of6YmldmjOAhTcvh
- 5yt2M9V7fCdrEWL/8ibTWmo+MutjBStc15BDK5jVKlN5GPNxbQUaeXWcY3HlRcHJI/xDjMo
- 8+MX6c1LLxHKoGQg3Fazh4YzzvTAHvCwVG1XqMXJecxhuVVI1Q/MdIyfUoN5c0S7BrZmOtV
- hjx2jFPDZvyRHlj2juweQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V3zwHgB2XtA=:2vwk0G7YKimeAd+LOp0rJ3
- TVrrwdzUVJxSYXQAoD7zOdBS29sgdP/Ylgytj2A78DUTgdTPPAlGBiyMiVW5Z3Nok2uvY38V0
- HleCD4IIhkk9VupdPvFbEfEB5vQCE2fwwdLMz+aO9qzLpqe1DVbpjivMkqGfxmLVwSU/q3N8a
- 87iyxrrK+UjTSDXdEZ+uoUv2TR3lSagFxwmS7ZTMuu7o6anWdK+8pFwyHC4YVSkxfu7GunFe3
- mFSod3NrqpllSMMEBqhZ0tFTl2Iq6PxF84tPI+VoI5mlP78T1Mz/AUKABzz5aGpFIXUbMCzeF
- mZXmMOpyISPIwIM8bJBkiGgD9ZiRnkdGczLItbaD00/oGLu2czKKv2Ce+tdMgVwZma5RkcnW8
- XqwIh2bok5NlHkJ1UHkrhmcexS9jBIJZ46kXHPvDmDB/D9jVP/fa1NnAReutl+K7+O/Ki0iL2
- 1cV1QgVv2A==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=rebecca@nuviainc.com; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,169 +91,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter,
+On 3/10/21 12:24 PM, Richard Henderson wrote:
+> On 3/9/21 6:29 PM, Rebecca Cran wrote:
+>> +void tlb_flush_page_range_by_mmuidx(CPUState *cpu, target_ulong addr,
+>> +                                    unsigned int num_pages, uint16_t 
+>> idxmap)
+> 
+> I am not keen on this interface.  I think you should take either 
+> start+end addresses (inclusive) or start+length (in bytes).
+> 
+> Using num_pages, and as an unsigned int, seems too easy to fail when 
+> applied to a different guest.
+> 
+>> +{
+>> +  /*
+>> +   * We currently do a full flush, but for performance this should be
+>> +   * updated to only flush the requested pages, taking TBI into account.
+>> +   */
+>> +    tlb_flush_by_mmuidx(cpu, idxmap);
+>> +}
+> 
+> And if you're going to cop-out like this, you might as well just do it 
+> in target/arm and not add these new interfaces at all.
+> 
+>> +#ifdef TARGET_AARCH64
+>> +static unsigned int tlbi_aa64_range_get_num_pages(CPUARMState *env,
+>> +                                                  uint64_t value,
+>> +                                                  uint64_t addr)
+>> +{
+>> +    unsigned int page_size;
+>> +    unsigned int page_shift;
+>> +    unsigned int page_size_granule;
+>> +    uint64_t num;
+>> +    uint64_t scale;
+>> +    uint64_t exponent;
+>> +    uint64_t high_addr;
+>> +
+>> +    num = (value >> 39) & 0xF;
+>> +    scale = (value >> 44) & 0x3;
+>> +    page_size_granule = (value >> 46) & 0x3;
+> 
+> extract64()
+> 
+>> +
+>> +    switch (page_size_granule) {
+>> +    case 1:
+>> +      page_size = 4096;
+>> +      page_shift = 12;
+>> +      break;
+>> +    case 2:
+>> +      page_size = 16384;
+>> +      page_shift = 14;
+>> +      break;
+>> +    case 3:
+>> +      page_size = 65536;
+>> +      page_shift = 16;
+>> +      break;
+>> +    default:
+>> +      qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
+>> +                    page_size_granule);
+>> +
+>> +      raise_exception(env, EXCP_UDEF, syn_uncategorized(),
+>> +                      exception_target_el(env));
+> 
+> You can't raise an exception from here, because you don't have all of 
+> the context for unwinding the tcg state.  Which you cannot access from 
+> within the callback of an ARMCPRegInfo.
+> 
+> The manual says that if TG does not correspond to the granule size of 
+> the actual translation then "the architecture does not require that the 
+> instruction invalidates any entries".  "Reserved" can be safely assumed 
+> to "not correspond", so I think you could just as easily return 0 here, 
+> after logging the guest error.
+> 
+> 
+>> +    high_addr = addr + (((num + 1) << exponent) * page_size);
+>> +
+>> +    return (high_addr - addr) >> page_shift;
+> 
+> I'll note that it would be much easier for you to return a byte value 
+> for the length, and that you don't actually need to pass in addr at all.
+> 
+>> +    uint64_t addr = (value & 0xFFFFFFFFFUL) << TARGET_PAGE_BITS;
+> 
+> The manual does not explicitly say, but I'm certain that this should be 
+> a signed address, when regime_has_2_ranges().  Otherwise it would be 
+> impossible to flush a range of kernel addresses.
+> 
+> But all of this is moot if we're just going to flush all pages.  At 
+> which point you might as well simply re-use tlbi_aa64_vmalle1_write et 
+> al.  Place your TODO comment in front of tlbirange_reginfo[] instead of 
+> buried n-levels further down.
 
-my "git publish" has failed at patch 20 with:
+Thanks for the comments. I'll continue working on the full/proper 
+implementation (including changing the interface to remove num_pages) 
+and send out a v4.
 
-Requested action aborted
-Mails per session limit exceeded.
-
-I think my email provider has added new limits :(
-
-can you merge this PR without I have to resend it?
-
-Thanks,
-Laurent
-
-Le 10/03/2021 à 22:44, Laurent Vivier a écrit :
-> The following changes since commit b2ae1009d7cca2701e17eae55ae2d44fd22c942a:
-> 
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210307' in=
-> to staging (2021-03-09 13:50:35 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.0-pull-request
-> 
-> for you to fetch changes up to 538f049704e9b7a07eeaf326af772fdd30d89576:
-> 
->   sysemu: Let VMChangeStateHandler take boolean 'running' argument (2021-03-0=
-> 9 23:13:57 +0100)
-> 
-> ----------------------------------------------------------------
-> Pull request trivial patches 20210310
-> 
-> ----------------------------------------------------------------
-> 
-> Alexander Bulekov (1):
->   fuzz-test: remove unneccessary debugging flags
-> 
-> Eric Blake (1):
->   scsi: Silence gcc warning
-> 
-> Markus Armbruster (2):
->   backends/dbus-vmstate: Fix short read error handling
->   vhost_user_gpu: Drop dead check for g_malloc() failure
-> 
-> Michael Tokarev (1):
->   Various spelling fixes
-> 
-> Peter Maydell (1):
->   qemu-common.h: Update copyright string to 2021
-> 
-> Philippe Mathieu-Daud=C3=A9 (13):
->   hw/elf_ops: Fix a typo
->   target/hexagon/gen_tcg_funcs: Fix a typo
->   exec/memory: Use struct Object typedef
->   ui: Replace the word 'whitelist'
->   scripts/tracetool: Replace the word 'whitelist'
->   seccomp: Replace the word 'blacklist'
->   qemu-options: Replace the word 'blacklist'
->   tests/fp/fp-test: Replace the word 'blacklist'
->   hw/lm32/Kconfig: Introduce CONFIG_LM32_EVR for lm32-evr/uclinux boards
->   hw/lm32/Kconfig: Rename CONFIG_LM32 -> CONFIG_LM32_DEVICES
->   hw/lm32/Kconfig: Have MILKYMIST select LM32_DEVICES
->   sysemu/runstate: Let runstate_is_running() return bool
->   sysemu: Let VMChangeStateHandler take boolean 'running' argument
-> 
-> Thomas Huth (1):
->   net: Use id_generate() in the network subsystem, too
-> 
-> Wainer dos Santos Moschetta (1):
->   MAINTAINERS: Fix the location of tools manuals
-> 
-> lijiejun (1):
->   virtio-gpu: Adjust code space style
-> 
->  MAINTAINERS                              | 10 ++++----
->  accel/xen/xen-all.c                      |  2 +-
->  audio/audio.c                            |  2 +-
->  backends/dbus-vmstate.c                  |  5 +++-
->  block/block-backend.c                    |  2 +-
->  default-configs/devices/lm32-softmmu.mak |  2 +-
->  disas/nanomips.cpp                       |  2 +-
->  gdbstub.c                                |  2 +-
->  hw/block/pflash_cfi01.c                  |  2 +-
->  hw/block/virtio-blk.c                    |  2 +-
->  hw/char/meson.build                      |  4 +--
->  hw/display/qxl.c                         |  2 +-
->  hw/display/vhost-user-gpu.c              |  1 -
->  hw/display/virtio-gpu-3d.c               |  3 +--
->  hw/i386/kvm/clock.c                      |  2 +-
->  hw/i386/kvm/i8254.c                      |  2 +-
->  hw/i386/kvmvapic.c                       |  2 +-
->  hw/i386/xen/xen-hvm.c                    |  2 +-
->  hw/ide/core.c                            |  2 +-
->  hw/intc/arm_gicv3_its_kvm.c              |  2 +-
->  hw/intc/arm_gicv3_kvm.c                  |  2 +-
->  hw/intc/meson.build                      |  2 +-
->  hw/intc/spapr_xive_kvm.c                 |  2 +-
->  hw/lm32/Kconfig                          | 10 +++++---
->  hw/lm32/meson.build                      |  2 +-
->  hw/misc/mac_via.c                        |  2 +-
->  hw/misc/trace-events                     |  2 +-
->  hw/net/allwinner-sun8i-emac.c            |  2 +-
->  hw/net/e1000e_core.c                     |  2 +-
->  hw/nvram/spapr_nvram.c                   |  2 +-
->  hw/ppc/pnv_bmc.c                         |  2 +-
->  hw/ppc/pnv_xscom.c                       |  2 +-
->  hw/ppc/ppc.c                             |  2 +-
->  hw/ppc/ppc_booke.c                       |  2 +-
->  hw/s390x/tod-kvm.c                       |  2 +-
->  hw/scsi/scsi-bus.c                       |  2 +-
->  hw/scsi/scsi-disk.c                      |  1 +
->  hw/timer/meson.build                     |  2 +-
->  hw/usb/ccid-card-emulated.c              |  2 +-
->  hw/usb/hcd-ehci.c                        |  2 +-
->  hw/usb/hcd-ohci.c                        |  2 +-
->  hw/usb/host-libusb.c                     |  2 +-
->  hw/usb/redirect.c                        |  2 +-
->  hw/vfio/migration.c                      |  2 +-
->  hw/virtio/vhost.c                        |  2 +-
->  hw/virtio/virtio-rng.c                   |  2 +-
->  hw/virtio/virtio.c                       |  2 +-
->  include/exec/memory.h                    | 32 ++++++++++++------------
->  include/hw/elf_ops.h                     |  2 +-
->  include/hw/ppc/pnv_xscom.h               |  2 +-
->  include/hw/s390x/css.h                   |  2 +-
->  include/qemu-common.h                    |  2 +-
->  include/qemu/id.h                        |  1 +
->  include/sysemu/runstate.h                | 12 ++++++---
->  net/net.c                                |  8 +++---
->  qemu-options.hx                          | 10 ++++----
->  scripts/tracetool/__init__.py            |  2 +-
->  softmmu/memory.c                         | 14 +++++------
->  softmmu/qemu-seccomp.c                   | 16 ++++++------
->  softmmu/runstate.c                       |  4 +--
->  target/arm/kvm.c                         |  2 +-
->  target/arm/kvm_arm.h                     |  2 +-
->  target/hexagon/gen_tcg_funcs.py          | 14 +++++------
->  target/i386/cpu.c                        |  2 +-
->  target/i386/kvm/kvm.c                    |  2 +-
->  target/i386/machine.c                    |  2 +-
->  target/i386/sev.c                        |  2 +-
->  target/i386/whpx/whpx-all.c              |  2 +-
->  target/m68k/op_helper.c                  |  2 +-
->  target/mips/kvm.c                        |  4 +--
->  target/ppc/cpu-qom.h                     |  2 +-
->  target/riscv/cpu.c                       |  2 +-
->  tests/fp/fp-test.c                       |  8 +++---
->  tests/qtest/fuzz-test.c                  |  3 +--
->  ui/console.c                             |  2 +-
->  ui/gtk.c                                 |  2 +-
->  ui/spice-core.c                          |  2 +-
->  ui/vnc-auth-sasl.c                       |  4 +--
->  util/id.c                                |  1 +
->  79 files changed, 147 insertions(+), 134 deletions(-)
-> 
-> --=20
-> 2.29.2
-> 
-> 
-
+-- 
+Rebecca Cran
 
