@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5183F333FD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:02:27 +0100 (CET)
-Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883DF333FE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:05:47 +0100 (CET)
+Received: from localhost ([::1]:46728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJzPu-0007mP-9M
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:02:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1lJzT8-0001gl-KK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:05:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJzN4-0006Kt-1w
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:59:30 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJzMz-0007bW-9i
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:59:29 -0500
-Received: by mail-ej1-x633.google.com with SMTP id bm21so38880827ejb.4
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 05:59:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0LrANqHdqYx8BSQh+nfnL5xgto1AbhjTeXjKx6Wb0AI=;
- b=jhYbf62YR1BBS7GZM2eag0MEBnwp2XtmOCISQYWP3s14JPe9syhzTK7/RZQVSzWTNG
- hYPZo/DwwxoV88uCjPRAfU7RMYrFMn2Fa7a5TPTJ0Q3q8AAPGfBJ9Q4vTmcMggWWgzxS
- fi33HEzK+cT3eV5Ox9RmPbHgYmBXdaPbfNcFllfXwriFH65TmC++/eufT1HJI6zaNoLt
- LNdhzQl8QJ0wTzTiNaLu3uDO7Ebr+53f9UoqECb51MjBmSTJ1RafkImgcWHlLLeA85Ke
- 3UdPqPN37Pn6nd3DAa7JJ88NOvP3eBwC0pJmsdAzXB/fvdZuv4Rf5yL7kdRa+gxvjnag
- yTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0LrANqHdqYx8BSQh+nfnL5xgto1AbhjTeXjKx6Wb0AI=;
- b=fPvB7w4KIpkXymchBbj7IIQrYHp66DcCKX0HfEZk0TI+GNNKCNs0a3lQBbLezIeuPv
- kgGHImmyIokiHvHpx73pAKsU3gOle1BBXUTz94cB0OPxaAdq5wmQCD5Ve4m7DwLibgKk
- SfbLtsxGsjzFDssWY1b2o2GcA5GQurjYzD3Ztq2FnqInQSO9JIVtfkZpq/pdT1Mnmx9v
- Q3/fTugyANV788mG+ks9TmDl9+ZBhqPfkJj28Vlr5UdxvzFHnWSq3G1qSyRa+MDT+t86
- S94mVXeI8xAxxcWe9is4oOI7gVwbxx18kHZsncGL051O31rH9Qg2KIDkY8mshCsERn/d
- kIKg==
-X-Gm-Message-State: AOAM531lYiNazOOYSsIAxqAYAOZ3No+2bjOnXy+kxShKuNNpTa3no8Iw
- YzLrSv75iZH7+Hglw45qb9KuwR07g2yuQco/IR4uSA==
-X-Google-Smtp-Source: ABdhPJyy1qvaWKrM7oHzaHscY6EBvdEaCB0z9ySaRjEDgQUiS7FmDSB0CgM5kWcjop8pTq+fmc6VTpeJecusfMhF21A=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr3842828ejg.482.1615384763357; 
- Wed, 10 Mar 2021 05:59:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJzNy-0007Jr-Qm; Wed, 10 Mar 2021 09:00:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJzNw-00085O-69; Wed, 10 Mar 2021 09:00:26 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 83038AD72;
+ Wed, 10 Mar 2021 14:00:21 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210221222617.2579610-1-f4bug@amsat.org>
+ <20210221222617.2579610-2-f4bug@amsat.org>
+ <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
+ <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
+ <c1b1838e-4b91-5411-42f6-cea97e1f0e81@suse.de>
+ <68796aa5-1c75-8a74-fc98-7d929df9478d@amsat.org>
+ <c7a46e45-1682-ad76-a9eb-a155729e8d8f@suse.de>
+Message-ID: <b79d147d-85e8-6631-53dd-9feecb3e7729@suse.de>
+Date: Wed, 10 Mar 2021 15:00:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20210303135254.3970-1-bmeng.cn@gmail.com>
- <20210303135254.3970-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210303135254.3970-2-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Mar 2021 13:59:05 +0000
-Message-ID: <CAFEAcA814mW91KMVBUhhspXvwCvv_EAQaFkCpu5F8-yNv_noLQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/5] hw/dma: Implement a Xilinx CSU DMA model
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <c7a46e45-1682-ad76-a9eb-a155729e8d8f@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,57 +62,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Mar 2021 at 13:53, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->
-> ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> crash. This is observed when testing VxWorks 7.
->
-> This adds a Xilinx CSU DMA model and the implementation is based on
-> https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c.
-> The DST part of the model is verified along with ZynqMP GQSPI model.
->
+On 3/10/21 2:45 PM, Claudio Fontana wrote:
+> On 3/10/21 2:42 PM, Philippe Mathieu-Daudé wrote:
+>> On 3/10/21 12:46 PM, Claudio Fontana wrote:
+>>> On 3/9/21 3:18 PM, Philippe Mathieu-Daudé wrote:
+>>>> On 3/9/21 2:41 PM, Claudio Fontana wrote:
+>>>>> On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
+>>>>>> IDAU is specific to M-profile. KVM only supports A-profile.
+>>>>>> Restrict this interface to TCG, as it is pointless (and
+>>>>>> confusing) on a KVM-only build.
+>>>>>>
+>>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>
+>>>>>
+>>>>> This one breaks the KVM tests hard though (most of them).
+>>>>>
+>>>>> I will try to figure out why.
+>>>>>
+>>>>> Ciao,
+>>>>>
+>>>>> Claudio
+>>>>>
+>>>>>
+>>>>>> ---
+>>>>>>  target/arm/cpu.c     | 7 -------
+>>>>>>  target/arm/cpu_tcg.c | 8 ++++++++
+>>>>>>  2 files changed, 8 insertions(+), 7 deletions(-)
+>>>>>>
+>>>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>>>>>> index b8bc89e71fc..a772fd4926f 100644
+>>>>>> --- a/target/arm/cpu.c
+>>>>>> +++ b/target/arm/cpu.c
+>>>>>> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
+>>>>>>      .class_init = arm_cpu_class_init,
+>>>>>>  };
+>>>>>>  
+>>>>>> -static const TypeInfo idau_interface_type_info = {
+>>>>>> -    .name = TYPE_IDAU_INTERFACE,
+>>>>>> -    .parent = TYPE_INTERFACE,
+>>>>
+>>>> Hmm this is an interface...
+>>>>
+>>>> Is a CPU/machine trying to resolve it?
+>>>
+>>> Well, this fails horribly at any qemu-system-aarch64 startup for the kvm-only build:
+>>>
+>>> in my view we cannot remove the idau interface until we have removed all the TCG-only boards fronm the build.
+>>
+>> Yes, this is a similar bug to the one fixed by commit 8d0bceba24c
+>> ("hw/nvram: Always register FW_CFG_DATA_GENERATOR_INTERFACE").
+>>
+>>>
+>>> When calling qemu_init(), and we get into select_machine(),
+>>>
+>>> the object_class_get_list() tries to initialize all machine types.
+>>>
+>>> When it does that, it tries to initialize the IDAU interface, and fails.
+>>>
+>>> #0  0x0000ffffb9e51828 in raise () at /lib64/libc.so.6
+>>> #1  0x0000ffffb9e52e4c in abort () at /lib64/libc.so.6
+>>> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
+>>> #3  0x0000aaaae042c06c in object_class_foreach_tramp (key=0xaaaaf0cb3940, value=0xaaaaf0cb37c0, opaque=0xfffff9f2bac8)
+>>>     at ../qom/object.c:1069
+>>> #4  0x0000ffffbb3d4248 in g_hash_table_foreach () at /usr/lib64/libglib-2.0.so.0
+>>> #5  0x0000aaaae042c180 in object_class_foreach (fn=
+>>>     0xaaaae042c324 <object_class_get_list_tramp>, implements_type=0xaaaae089cc90 "machine", include_abstract=false, opaque=0xfffff9f2bb10)
+>>>     at ../qom/object.c:1091
+>>> #6  0x0000aaaae042c3a8 in object_class_get_list (implements_type=0xaaaae089cc90 "machine", include_abstract=false) at ../qom/object.c:1148
+>>> #7  0x0000aaaae03863d8 in select_machine () at ../softmmu/vl.c:1607
+>>> #8  0x0000aaaae038ad74 in qemu_init (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/vl.c:3489
+>>> #9  0x0000aaaadfdcf5a0 in main (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/main.c:49
+>>>
+>>>
+>>> (gdb) frame 2
+>>> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
+>>> 333                     abort();
+>>> (gdb) p ti[0]
+>>> $1 = {name = 0xaaaaf0cb3940 "mps2tz", class_size = 408, instance_size = 202224, instance_align = 0, class_init = 
+>>>     0xaaaae0273408 <mps2tz_class_init>, class_base_init = 0x0, class_data = 0x0, instance_init = 0x0, instance_post_init = 0x0, 
+>>>   instance_finalize = 0x0, abstract = true, parent = 0xaaaaf0cb3960 "machine", parent_type = 0xaaaaf0cad860, class = 0xaaaaf0d0d830, 
+>>>   num_interfaces = 1, interfaces = {{typename = 0xaaaaf0cb3980 "idau-interface"}, {typename = 0x0} <repeats 31 times>}}
+>>>
+>>>
+>>> In my view we should revert this until all incompatible boards are disabled
+>>
+>> My view is this is a QOM design problem. Others might hit the
+>> same issue. It is hard to debug. It should be fixed upfront.
 
-> +/* len is in bytes */
-> +static uint32_t xlnx_csu_dma_read(XlnxCSUDMA *s, uint8_t *buf, uint32_t len)
-> +{
-> +    hwaddr addr = (hwaddr)s->regs[R_ADDR_MSB] << 32 | s->regs[R_ADDR];
-> +    MemTxResult result = MEMTX_OK;
-> +
-> +    if (xlnx_csu_dma_burst_is_fixed(s)) {
-> +        uint32_t i;
-> +
-> +        for (i = 0; i < len && (result == MEMTX_OK); i += s->width) {
-> +            uint32_t mlen = MIN(len - i, s->width);
-> +
-> +            result = address_space_rw(s->dma_as, addr, s->attr,
-> +                                      buf + i, mlen, false);
-> +        }
-> +    } else {
-> +        result = address_space_rw(s->dma_as, addr, s->attr, buf, len, false);
-> +    }
-> +
-> +    if (result == MEMTX_OK) {
-> +        xlnx_csu_dma_data_process(s, buf, len);
-> +    } else {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad address 0x%lx for mem read",
-> +                      __func__, addr);
+What is the QOM design problem to fix exactly?
 
-Using %lx to print a hwaddr (or other 64-bit values) won't compile
-on 32-bit hosts or on OSX. For hwaddr you need to use TARGET_FMT_plx.
+And in any case, I think this small change "target/arm: Restrict v8M IDAU to TCG",
+when applied on its own, does not get us any closer to the goal, it actually hinders us, as we do not have a working buildable and testable kvm-only build to base on.
 
-I've fixed up these issues in the pullreq.
+That is why I added a revert of this to my series.
 
-thanks
--- PMM
+My suggestion is just to postpone your change to later on,
+when we have the other pieces in place (ie after we can disable incompabile boards).
+
+A working kvm-only build is a good starting point I think.
+
+After we are able to disable incompatible boards,
+we can reapply "target/arm: Restrict v8M IDAU to TCG",
+and we can also remove a lot of additional stubs and V7M-only code and such from the KVM-only build.
+
+But I'd rather have a functional, make check-able starting point..
+
+Ciao,
+
+CLaudio
+
+
+>>
+>>> In this case, the one failing is MPS2, so the offender is
+>>>
+>>> devices/arm-softmmu.mak:CONFIG_MPS2=y
+>>>
+>>> from the point of view of the kvm-only build.
+>>>
+>>> What I'd suggest is (but I am open to alternatives):
+>>>
+>>> * revert this one
+>>> * complete my arm cleanup series, with now all tests passing
+>>> * disable the non-KVM boards for KVM-only builds (basically your series)
+>>> * apply the accelerator classes specializations to ARM
+>>
+>> MPS2TZ uses a Cortex-M33 which is requires TCG.
+>> The machine shouldn't be present if TCG is not built-in.
+>>
+>> Previous attempt which you acked :)
+>> "target/arm: Restrict ARMv7 M-profile cpus to TCG accel"
+>> https://www.mail-archive.com/qemu-block@nongnu.org/msg79943.html
+>>
+> 
+> Yes, I would absolutely like to proceed with all of this,
+> 
+> and have only the right configuration for KVM be built,
+> 
+> but I am a bit lost with all these different series.
+> 
+> Ciao,
+> 
+> CLaudio
+> 
+
 
