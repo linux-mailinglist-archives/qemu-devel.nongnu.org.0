@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC27334A34
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:57:54 +0100 (CET)
-Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E26334A38
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:58:46 +0100 (CET)
+Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK6q0-0002QM-Ec
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
+	id 1lK6qq-0003QT-Tp
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:58:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6e6-0003Bh-PR; Wed, 10 Mar 2021 16:45:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:54173)
+ id 1lK6e7-0003CG-OT; Wed, 10 Mar 2021 16:45:37 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:59493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6dz-0004SD-EQ; Wed, 10 Mar 2021 16:45:31 -0500
+ id 1lK6dy-0004Rz-V9; Wed, 10 Mar 2021 16:45:35 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N6szR-1loDlw2LFP-018Mn1; Wed, 10 Mar 2021 22:45:19 +0100
+ id 1MNtny-1l4kY424Do-00OGfo; Wed, 10 Mar 2021 22:45:20 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/22] virtio-gpu: Adjust code space style
-Date: Wed, 10 Mar 2021 22:44:53 +0100
-Message-Id: <20210310214504.1183162-12-laurent@vivier.eu>
+Subject: [PULL 12/22] ui: Replace the word 'whitelist'
+Date: Wed, 10 Mar 2021 22:44:54 +0100
+Message-Id: <20210310214504.1183162-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
 References: <20210310214504.1183162-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jtIHLvM0rzoNyJNruV+OaDD9miqzPrBvpDAa3meYeWE2QCyAvai
- BE+edA7l65OCnYH9RrrMwBRkIQmmoafpio5SDLrxCKBt/kpX8Uwnhn04p+M/FDk0D3Kfxzt
- RJGqODDW2a8p8Uwr5+rk2QzSvWt9SdHSPshjD+zRnvlhWxfZFDvpUIUGndz1jNXA7x3/hgW
- ydRTEYS3EEGqr6+31Q5PA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gwvaEEdYeQ4=:q2EY8HjIijEeL0/1I3nlu4
- 6O9UxTmnfPLav4pcladrJ7cAtvS7eME7YKzAp0MvZvDdzmX5jGn7oTyTWfjN4/W4HICC1nHbJ
- pk17eCSrKqz1TKQGQ6GTx2etiWBH6wHNBR+9WDLsg3+PluCNxA7UsD0T0a8MKVElOkQU80P+z
- UVNovNfKCLPdx97INpYVVR+wrEJ29149JErz2JBEjG9RMM/qlGfCiqf2SzSJanwmc7eiml2eu
- BF+dBmy+9YBN4/Zkr1qNMbfgraqf1zXMgyK0khG04IJY5VSqvVUOeG3hSelKbTqbe4voEbwD8
- bz4XOQxzaCgsDDpbLzI1AsP6N3FuqXj7c4VklbeP7T+l7zklfxR06d/XoQTBn1vOLRYoxPpB6
- Gf1PZJA+S+hXzcGcSKLAw8IkZoonL5f4QlRt3RrCzQcr42E48J2KGwRbuZ62o
+X-Provags-ID: V03:K1:L/vv0OoqUw5KlydYVcs6xppIXMa53CcIZ9qKVc6zKeZ1pL5tUKH
+ kSqRDJ95csz1HqlcIhNOoCo+53FmkdQfzIf/yjB0YyrI8q8Oelglfn0KisTb5xFzDk46YvF
+ zukcImXjfbMtXJwpAyjcUKHEgVGq7Zq3tmtA7PoDpp1kefmOYnScfi0Hegl33vqZZq+PaGQ
+ TA7lm9crJ0bYUmqwA6VaQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9MikpEA61eY=:+pngVyoQht5OvdesxKOAJW
+ K6s6un7LxbQgP0RnFmYZZm+H0X3wHPaHS/reELcZILfkeNPhJ6sMzkbc8vkr+tdGhuIDvqiJZ
+ FP5xCJbJkYZFn+rrwThv859tYkMbn0FVaF4PP/tF2b4chRbprtJdGT0eSdiyfs41FJN3cy8iN
+ dQEHkiml2bgMFxz3J2CH5uLOsGHRdO0ZKZG//5XvzJK4gv10+W4rlunwPiKy7Kmqt1CBcvQYo
+ BvY1KncT38v9tVB4UVJ9rAOeft5gYjSZKQDK6XYOKwaZ6UaXPZq7WBF88FInTJ7o+8uW+h3wr
+ QnHhuL4KLbulEo0zPkdGlD3FXvk2j5/6CbLObtpFZ5AUiEkipS4YBAUYiLaC2Tt8SAQ0G4eMx
+ 4cAkWqN8qJHa08dOszmkXiy5uYpDp5E9JZMcmDTYaTd7K2noS+SsifMjOpj66hOhOBndi6LuS
+ a0O7kdI9qg==
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -61,45 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, lijiejun <a_lijiejun@163.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lijiejun <a_lijiejun@163.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix code style. Operator needs align with eight spaces, and delete line space.
+Follow the inclusive terminology from the "Conscious Language in your
+Open Source Projects" guidelines [*] and replace the words "whitelist"
+appropriately.
 
-Signed-off-by: lijiejun <a_lijiejun@163.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <1615292050-108748-1-git-send-email-a_lijiejun@163.com>
+[*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
+
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210303184644.1639691-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/virtio-gpu-3d.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ ui/console.c       | 2 +-
+ ui/vnc-auth-sasl.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index 9eb489077b17..d98964858e13 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -438,7 +438,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-         break;
-     case VIRTIO_GPU_CMD_RESOURCE_FLUSH:
-         virgl_cmd_resource_flush(g, cmd);
--       break;
-+        break;
-     case VIRTIO_GPU_CMD_RESOURCE_UNREF:
-         virgl_cmd_resource_unref(g, cmd);
-         break;
-@@ -456,7 +456,6 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-     case VIRTIO_GPU_CMD_GET_CAPSET:
-         virgl_cmd_get_capset(g, cmd);
-         break;
--
-     case VIRTIO_GPU_CMD_GET_DISPLAY_INFO:
-         virtio_gpu_get_display_info(g, cmd);
-         break;
+diff --git a/ui/console.c b/ui/console.c
+index 171a7bf14b94..c2fdf975b6b3 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1724,7 +1724,7 @@ bool dpy_gfx_check_format(QemuConsole *con,
+                 return false;
+             }
+         } else {
+-            /* default is to whitelist native 32 bpp only */
++            /* default is to allow native 32 bpp only */
+             if (format != qemu_default_pixman_format(32, true)) {
+                 return false;
+             }
+diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
+index f67111a3662a..df7dc08e9fc5 100644
+--- a/ui/vnc-auth-sasl.c
++++ b/ui/vnc-auth-sasl.c
+@@ -288,7 +288,7 @@ static int protocol_client_auth_sasl_step(VncState *vs, uint8_t *data, size_t le
+             goto authreject;
+         }
+ 
+-        /* Check username whitelist ACL */
++        /* Check the username access control list */
+         if (vnc_auth_sasl_check_access(vs) < 0) {
+             goto authreject;
+         }
+@@ -409,7 +409,7 @@ static int protocol_client_auth_sasl_start(VncState *vs, uint8_t *data, size_t l
+             goto authreject;
+         }
+ 
+-        /* Check username whitelist ACL */
++        /* Check the username access control list */
+         if (vnc_auth_sasl_check_access(vs) < 0) {
+             goto authreject;
+         }
 -- 
 2.29.2
 
