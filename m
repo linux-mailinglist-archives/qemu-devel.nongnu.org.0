@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622A83345B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:51:49 +0100 (CET)
-Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E8A334551
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:44:24 +0100 (CET)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2zs-0008Kv-Dw
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:51:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
+	id 1lK2sh-0007NJ-VN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:44:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lK2Vs-0004Da-8Q
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:20:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38144)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2YX-0006mB-2D
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:23:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lK2Vo-0004aO-V0
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:20:46 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2YV-0005Mb-6N
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:23:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615396843;
+ s=mimecast20190719; t=1615397010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OHPxz0Aw12RBX9p+WEUKKiT6PRman//prRXV8zZ7xgc=;
- b=Lcrx7pS/y7fwhP5ZSim3pEjUp0t2ZvYRQ9tMDyA6trCU8V33Use7na3BuJxM2OWUk7XaZw
- GaWq1OWBFYiuEwGN0vRys9h1ZTDxIzVORsXMzy753CQH9usg6Q09jgxeWn6RoN+zuD+nEF
- sE8sUY6xcR9Zl9jm3cyaRQdEM5W9jGE=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-6eABNIXrN4Oi95gbsKjNsQ-1; Wed, 10 Mar 2021 12:20:41 -0500
-X-MC-Unique: 6eABNIXrN4Oi95gbsKjNsQ-1
-Received: by mail-ua1-f71.google.com with SMTP id l26so1414431uap.16
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:20:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OHPxz0Aw12RBX9p+WEUKKiT6PRman//prRXV8zZ7xgc=;
- b=EC9N5ywEHsvhp6NpNw3Xiyse1il4Vh9Tw3JYe0bPlJz3Bhgfi/uf+y5obRA92QV2Q5
- ZDu5aqssdFKw95DiQlGRMQs/HCd0rmOe9mm3McDPkbuutChg07SBao6lS+1TRsKK0tZz
- bNl0GH5TrtgKrekwj9BHIv5U+R9GsPCBGSW5eNxjLlgYWrAubMJnaDsUEDGIAH316U9R
- VjM0SpE23hhkN45eAvbsHgzzMB+OMePNh9OkqDw76jQwLZTB/SUBdVT2UmvbFpS0LNqO
- 92JSTTZIKH778gJVw4aYHRyktYXrz+cgkhURxpGrCmGxb2UU95ERxv1k783SAVQvsFql
- Bnjg==
-X-Gm-Message-State: AOAM532Q85BQikfZNasjDnRbsY0CE6zxG32f3I35WqX54HCfZmA9cRM2
- iQm6LzaQS8BJcs8ObyzimEHvWV+r2aIz2Ns0XlNPZ8Jp8uByAoZjX3koc8Y+JV/XSihDfBt083w
- OfTNOuLVz/ZcvOlV32SmIYfCASbrjLJU=
-X-Received: by 2002:ab0:684f:: with SMTP id a15mr1581863uas.133.1615396840508; 
- Wed, 10 Mar 2021 09:20:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzEiDwz/A36woXPBsOJzGz3WE3rJuKAzFcHHYgH3nelA8XgiQkfPXcVqq9QABuW9iTfCoNPsLKyc0gu6PY7nIE=
-X-Received: by 2002:ab0:684f:: with SMTP id a15mr1581836uas.133.1615396840273; 
- Wed, 10 Mar 2021 09:20:40 -0800 (PST)
+ bh=WCHS3dmZA+yPkKG1ZjaP/iWTDQ2xiyfhURRDEZIWU1U=;
+ b=PeMiKE31gQxV5wncbhH73M+DrH7FEVxJKpSQA6mU8W24YuKjlNVorDpQiS5dBrJOapU9aR
+ nxqsjXs6ZCdMO0QL+vVp1GeFkUcAbOcfTBlxtKB8SCYZjswV7L+JgjsgXv+ITyLJFNBsuy
+ xL7+iD59IJmWeWw1c+lSHjMEIJp0ciU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-J--jOUC-OC6_dgL42fDd4Q-1; Wed, 10 Mar 2021 12:23:26 -0500
+X-MC-Unique: J--jOUC-OC6_dgL42fDd4Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BE5A801596;
+ Wed, 10 Mar 2021 17:23:25 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-19.ams2.redhat.com [10.36.112.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8F5860CE9;
+ Wed, 10 Mar 2021 17:23:16 +0000 (UTC)
+Subject: Re: [PATCH] baum: Fix crash when Braille output is not available
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
+References: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <8624f8c8-d541-051a-13f6-f05d685fefde@redhat.com>
+Date: Wed, 10 Mar 2021 18:23:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210310164612.285362-1-pbonzini@redhat.com>
-In-Reply-To: <20210310164612.285362-1-pbonzini@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 10 Mar 2021 14:20:14 -0300
-Message-ID: <CAKJDGDY9r-mRv2Au=C1deZdHRGsUAvWxGS3107xG6KCO3o84tw@mail.gmail.com>
-Subject: Re: [PATCH] tests: remove "make check-speed" in favor of "make bench"
-To: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,26 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 1:46 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> "make check-speed" has been broken since the removal of ninja2make
-> last October.  It was just a backwards-compatibility alias for
-> "make bench-speed", which in turn is in principle a subset of
-> "make bench".  Advertise the latter and drop "make check-speed"
-> completely since no one has noticed.
->
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Supersedes: <20210310094936.1318317-1-thuth@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 10/03/2021 17.08, Samuel Thibault wrote:
+> When Braille output is not available, the backend properly reports being
+> unable to be created, but 5f8e93c3e262 ("util/qemu-timer: Make timer_free()
+> imply timer_del()") made the timer_free() call now refuse any NULL
+> parameter. char_braille_finalize thus now has to be more careful with
+> calling it on baum->cellCount_timer.
+> 
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 > ---
->  tests/Makefile.include | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
+>   chardev/baum.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/chardev/baum.c b/chardev/baum.c
+> index 5deca778bc..aca5bf12fb 100644
+> --- a/chardev/baum.c
+> +++ b/chardev/baum.c
+> @@ -631,7 +631,9 @@ static void char_braille_finalize(Object *obj)
+>   {
+>       BaumChardev *baum = BAUM_CHARDEV(obj);
+>   
+> -    timer_free(baum->cellCount_timer);
+> +    if (baum->cellCount_timer) {
+> +        timer_free(baum->cellCount_timer);
+> +    }
+>       if (baum->brlapi) {
+>           brlapi__closeConnection(baum->brlapi);
+>           g_free(baum->brlapi);
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+I just tried to debug this problem, too, and came to the same conclusion.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
