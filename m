@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275293341CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 16:44:46 +0100 (CET)
-Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31E13341DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 16:46:48 +0100 (CET)
+Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK10v-0005A3-7X
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 10:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
+	id 1lK12t-0006E7-FH
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 10:46:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lK109-0004g7-S9
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 10:43:57 -0500
-Received: from hera.aquilenet.fr ([185.233.100.1]:38118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lK107-0003B9-W5
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 10:43:57 -0500
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 95565242;
- Wed, 10 Mar 2021 16:43:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id U5MWVnpiA116; Wed, 10 Mar 2021 16:43:52 +0100 (CET)
-Received: from begin.home (unknown
- [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 34311AC;
- Wed, 10 Mar 2021 16:43:51 +0100 (CET)
-Received: from samy by begin.home with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1lK101-00EIDU-HH; Wed, 10 Mar 2021 16:43:49 +0100
-Date: Wed, 10 Mar 2021 16:43:49 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
- audio which gets removed)
-Message-ID: <20210310154349.cfi5wc4t3t5h5ltp@begin>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lK115-0005gh-8H
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 10:44:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lK111-0003gL-8e
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 10:44:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615391088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zWmyU2lC/AbkBkxrih63FL5NoDug6l/pt072NyvGa0w=;
+ b=a5l7LPF6ScvO+TeHQUDgtoAeIP8sMi32oCDYqioN0yHjGFVK0FiL5k2Rcnvosxo3wMLpVm
+ vb+idWe33TNwmPQ917ImMIV+KcsO2KOcTz1H0OaiIIEjRk0ncMRrS4X5tyX4FJOpPeKKLf
+ 14D9lJOa92mWFc5ohgxZRsrJzTpV5/M=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-mO0yERKONOumGx9CCX20ow-1; Wed, 10 Mar 2021 10:44:46 -0500
+X-MC-Unique: mO0yERKONOumGx9CCX20ow-1
+Received: by mail-pj1-f70.google.com with SMTP id w2so4913217pjk.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 07:44:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zWmyU2lC/AbkBkxrih63FL5NoDug6l/pt072NyvGa0w=;
+ b=hQ63vz7p5C3b9Wr8sE6wkMLaGKxWsuSExdmgAYmIT/xC+BNw3QqhtF1NvmoFZBYH5+
+ PxB6+XJGTWMeUcEIixQnbzkZXGuNygaQ0BXNL3mEQtkXmf9jxbgRZd9OJB8DyZDS2HKI
+ NeGuw2CvxMQCV8YNmzmssCZFKH1ZAYIji3RR1LGaN/cySKqk+xVagh/7pPeAPLI17fOu
+ urskdqZC/mZnMz9dDXy8ybEbOLqQ0l312FMqhGVmdmTlnqjnvlgVrVP3WDLOTj6ZlJOX
+ DKEcCCLMNMCt5nisVyQf1wO746eEqto+axm75wM1SPWvC3t/rSVhdYjGLf5M+bB503Yj
+ BOxQ==
+X-Gm-Message-State: AOAM530A0+928Fmlgby3XDJswCfiaZ6PjhrMkW0Bb97/oM+UE5It043v
+ AML5QGCNkUPwuchJ7IPQzmQ+2ikLK03TUoZgihi56dH9oFkDP8De6DkoD4eUvkSMzVkBBCMfXMU
+ bq7VrHTWd76e7G3A/KYmS2lS3F+hcPRs=
+X-Received: by 2002:a17:902:a607:b029:e4:c03e:3a9f with SMTP id
+ u7-20020a170902a607b02900e4c03e3a9fmr3605758plq.14.1615391085766; 
+ Wed, 10 Mar 2021 07:44:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz9OtSOcNyxTbZR7bd9DIxyFyEe1wLM1KEeBFy20jiiQ2KM5rhMJ/wCwFHDYTJWUxbR4MuO8/lGxCE5DJhc8/0=
+X-Received: by 2002:a17:902:a607:b029:e4:c03e:3a9f with SMTP id
+ u7-20020a170902a607b02900e4c03e3a9fmr3605739plq.14.1615391085447; Wed, 10 Mar
+ 2021 07:44:45 -0800 (PST)
+MIME-Version: 1.0
 References: <20210309165035.967853-1-thuth@redhat.com>
  <87y2ev2lmr.fsf@dusky.pond.sub.org>
- <20210310150209.nie5fifqi5od3r5u@begin>
- <5139e2b3-447e-2373-71b7-6fb5af020867@redhat.com>
- <YEjmZOoQJv6XRQc3@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YEjmZOoQJv6XRQc3@redhat.com>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 95565242
-X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[6];
- HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=185.233.100.1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <87y2ev2lmr.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 10 Mar 2021 16:44:34 +0100
+Message-ID: <CABgObfZPLEam+b-_o+U40B7ingd8e09y6C1xkSJgxBE2FOe-dA@mail.gmail.com>
+Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
+ audio which gets removed)
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +91,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrangé, le mer. 10 mars 2021 15:31:48 +0000, a ecrit:
-> On Wed, Mar 10, 2021 at 04:26:46PM +0100, Paolo Bonzini wrote:
-> > On 10/03/21 16:02, Samuel Thibault wrote:
-> > > > > When trying to remove the -usbdevice option, there were complaints that
-> > > > > "-usbdevice braille" is still a very useful shortcut for some people.
-> > > > Pointer?  I missed it.
-> > > 
-> > > For instance
-> > > https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00693.html
-> > 
-> > In one sentence: "Braille is worth a special case because a subset of our
-> > user base (blind people) will use it 100% of the time, plus it is not
-> > supported by libvirt and hence virt-manager".
-> 
-> If simplicity of enabling braille support is critical, we could get
-> something even simpler than "-usbdevice braille", and just provide
-> a bare  "-braille" with no args required as a "do the right thing"
-> option ?
+On Wed, Mar 10, 2021 at 2:17 PM Markus Armbruster <armbru@redhat.com> wrote:
+> One more has crept in: "u2f-key" (commit bb014a810, v5.2).  It's buggy:
+>
+>     $ qemu-system-x86_64 -S -usbdevice u2f-key
+>     qemu-system-x86_64: -usbdevice u2f-key: '-usbdevice' is deprecated, please use '-device usb-...' instead
+>     **
+>     ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
+>     Bail out! ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
+>     Aborted (core dumped)
+>
+> Broken right in the commit that added the stuff.  The sugar never
+> worked, and should be taken out again.
 
-That was discussed a bit earlier in the thread:
+Agreed.
 
-https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00681.html
-https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00686.html
-https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00687.html
+> "braille" is the only driver with a factory.  "-usbdevice braille" is
+> sugar for
+>
+>   -device usb-braille,chardev=braille -chardev braille,id=braille
+>   -machine usb=on
+>
+> It's buggy:
+>
+>     $ qemu-system-x86_64 -S -usbdevice braille
+>     qemu-system-x86_64: -usbdevice braille: '-usbdevice' is deprecated, please use '-device usb-...' instead
+> [three seconds tick by...]
+>     Segmentation fault (core dumped)
 
-Just like keyboard/mouse, one would still want to specify whether the
-braille device is to be connected through usb or serial, so at least
-"-braille usb" and "-braille serial".
+Also breaks in the same way with "./qemu-system-x86_64 -S -chardev
+braille,id=b", so it's irrelevant.
 
-Note
+> It neglects to actually parse PARAMS:
+>
+>     $ qemu-system-x86_64 -S -usbdevice braille:"I'm a Little Teapot"
+>     qemu-system-x86_64: -usbdevice braille:I'm a Little Teapot: '-usbdevice' is deprecated, please use '-device usb-...' instead
+> [three seconds tick by...]
+>     Segmentation fault (core dumped)
+>
+> The whole machinery in support of optional PARAMS has long become
+> useless.
 
-https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00689.html
+Agreed. But if parameters and u2f-key are removed, in a separate patch
+even, then -usbdevice can be kept as it is in wide use in the wild and
+there are no specific issues to be worried about.
 
-Paolo wrote:
-> Adding magic to "-device usb-braille" that creates both a
-> front-end and a back-end is completely the opposite of sane...
+Paolo
 
-The thing is: creating one without the other does not make sense.
-
-Samuel
 
