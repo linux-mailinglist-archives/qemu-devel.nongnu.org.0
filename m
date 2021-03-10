@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA82333A84
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:46:39 +0100 (CET)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E027B333A16
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:33:52 +0100 (CET)
+Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwMQ-00024J-Up
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1lJwA3-0007Cn-VW
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJw4G-0000ko-Ca
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:27:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37200)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJw5X-00036r-Fp
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:29:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJw4E-0007a9-2g
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:27:52 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lJw5U-0008Rc-D5
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:29:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615372069;
+ s=mimecast20190719; t=1615372147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sZVLAh3BFFzcld+blEspBApKbK4CdFhuHrYJ5ShPRI0=;
- b=dBP+y3ndzKwTIVY1UgVzfbNslaAkvlkT4A2FrkHwv5z3anuw+tNVp2t/mtL3wybp0CfGiH
- VnXE6gRSkjWIJxA0VoidAAgof8QmN/zaZfcqxxiacZU+Ao7GbEHe6uCN4aGyw+GfnSxPTu
- N8eX/Omju/N17f7MqQmRGvYhFsuNHE8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-eKqGvTr1OrirVoPknMIsgA-1; Wed, 10 Mar 2021 05:27:47 -0500
-X-MC-Unique: eKqGvTr1OrirVoPknMIsgA-1
-Received: by mail-wm1-f69.google.com with SMTP id c7so2459750wml.8
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:27:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sZVLAh3BFFzcld+blEspBApKbK4CdFhuHrYJ5ShPRI0=;
- b=m5zjHwOx2XAWQ43waN7Zz1rgQMKUbQzlElKl5Hy6gKD4Mt30UBroMvGA0LfjbZxiJ+
- qcRdsmlP3AKBXu+aT1sUeQWE+LmMXME0LVqCj4wTBhOQqskqrW2XacUMAZKmOV6wZ1FC
- kkuuL4YlpCrkFlQ5ok2aMXXJTsHYfekaZGOMy1j85U7+9Rm1QunBrlWTC5OIgfeeqOlA
- 85yopCVfyFmR6ucUrgJj/NAxkG/ecrWT8cePZYeQKRehD/Hxhw//JU48LymH/VWa569J
- XqDnE0g8OjmasEjSZKy7xGPgtLmoWYPBaRw0xUAhBaXRU3y08FT4GxqPV2TuHHcRfGBN
- 53sA==
-X-Gm-Message-State: AOAM533TM3JovuPn92aml9Hrjn/s1nMQVn6+wlkRTCkMpUEgMCZxfG8t
- 9abk61uzGA9tFXyb7LEct0TrpG27OtgpEHjRgINjq9zZ7gaUGwz8GF55GWoUxUULdYiatpUGqSL
- rkf2fZzfHCy3g4f8=
-X-Received: by 2002:a05:6000:23c:: with SMTP id
- l28mr2826735wrz.251.1615372066559; 
- Wed, 10 Mar 2021 02:27:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYHMQ6qc+vxhhuV5882sAF22w7yD5Q6/59JJr+W8i2v/FnI8lsdIkMZNv7PZo+tUFcumsHRA==
-X-Received: by 2002:a05:6000:23c:: with SMTP id
- l28mr2826723wrz.251.1615372066406; 
- Wed, 10 Mar 2021 02:27:46 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v7sm8668373wme.47.2021.03.10.02.27.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 02:27:45 -0800 (PST)
-Subject: Re: [PATCH] hw/i8254: fix vmstate load
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <161537170060.6654.9430112746749476215.stgit@pasha-ThinkPad-X280>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4c69851d-1582-f3ab-1ee5-c5883bf2d370@redhat.com>
-Date: Wed, 10 Mar 2021 11:27:44 +0100
+ bh=q+9ruO+lsPVCnistGF7gVdnqH0r/SJhW5KWVWk6jPEQ=;
+ b=BOVNXcsHHEXAkNVniJ+JEQy9mjL0WDqshFl5qWA0HzuJE8AAF+ikT1MlMRoJoAIz6CjvoG
+ tBJx6TBoSh/OWf6pCQxzUwh3T89PY/RuOfacqP1Ss3c6BHESLXtvgA9Grs3/LPDYvasI9A
+ IU4hPxshd89/wMRxtBVPVpV3GCY6tqs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-rL9C--A4Nga6xWqKg0CPmw-1; Wed, 10 Mar 2021 05:29:04 -0500
+X-MC-Unique: rL9C--A4Nga6xWqKg0CPmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27A7D1932481;
+ Wed, 10 Mar 2021 10:29:02 +0000 (UTC)
+Received: from [10.36.114.87] (ovpn-114-87.ams2.redhat.com [10.36.114.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C19B51037E82;
+ Wed, 10 Mar 2021 10:28:57 +0000 (UTC)
+Subject: Re: [PATCH v3 11/12] util/mmap-alloc: Support RAM_NORESERVE via
+ MAP_NORESERVE
+To: qemu-devel@nongnu.org
+References: <20210308150600.14440-1-david@redhat.com>
+ <20210308150600.14440-12-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <ba7a08d4-3cef-6c0a-5fb7-4f8837eb8d65@redhat.com>
+Date: Wed, 10 Mar 2021 11:28:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <161537170060.6654.9430112746749476215.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <20210308150600.14440-12-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -101,39 +83,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, Marcel Apfelbaum <mapfelba@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/03/21 11:21, Pavel Dovgalyuk wrote:
-> QEMU timer of channel 0 in i8254 is used to raise irq
-> at the specified moment of time. This irq can be disabled
-> with irq_disabled flag. But when vmstate of the pit is
-> loaded, timer may be rearmed despite the disabled interrupts.
-> This patch adds irq_disabled flag check to fix that.
+On 08.03.21 16:05, David Hildenbrand wrote:
+> Let's support RAM_NORESERVE via MAP_NORESERVE. At least on Linux,
+> the flag has no effect on most shared mappings - except for hugetlbfs
+> and anonymous memory.
 > 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Linux man page:
+>    "MAP_NORESERVE: Do not reserve swap space for this mapping. When swap
+>    space is reserved, one has the guarantee that it is possible to modify
+>    the mapping. When swap space is not reserved one might get SIGSEGV
+>    upon a write if no physical memory is available. See also the discussion
+>    of the file /proc/sys/vm/overcommit_memory in proc(5). In kernels before
+>    2.6, this flag had effect only for private writable mappings."
+> 
+> Note that the "guarantee" part is wrong with memory overcommit in Linux.
+> 
+> Also, in Linux hugetlbfs is treated differently - we configure reservation
+> of huge pages from the pool, not reservation of swap space (huge pages
+> cannot be swapped).
+> 
+> The rough behavior is [1]:
+> a) !Hugetlbfs:
+> 
+>    1) Without MAP_NORESERVE *or* with memory overcommit under Linux
+>       disabled ("/proc/sys/vm/overcommit_memory == 2"), the following
+>       accounting/reservation happens:
+>        For a file backed map
+>         SHARED or READ-only - 0 cost (the file is the map not swap)
+>         PRIVATE WRITABLE - size of mapping per instance
+> 
+>        For an anonymous or /dev/zero map
+>         SHARED   - size of mapping
+>         PRIVATE READ-only - 0 cost (but of little use)
+>         PRIVATE WRITABLE - size of mapping per instance
+> 
+>    2) With MAP_NORESERVE, no accounting/reservation happens.
+> 
+> b) Hugetlbfs:
+> 
+>    1) Without MAP_NORESERVE, huge pages are reserved.
+> 
+>    2) With MAP_NORESERVE, no huge pages are reserved.
+> 
+> Note: With "/proc/sys/vm/overcommit_memory == 0", we were already able
+> to configure it for !hugetlbfs globally; this toggle now allows
+> configuring it more fine-grained, not for the whole system.
+> 
+> The target use case is virtio-mem, which dynamically exposes memory
+> inside a large, sparse memory area to the VM.
+> 
+> [1] https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   hw/timer/i8254.c |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   softmmu/physmem.c |  1 +
+>   util/mmap-alloc.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 66 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
-> index c01ee2c72a..c8388ea432 100644
-> --- a/hw/timer/i8254.c
-> +++ b/hw/timer/i8254.c
-> @@ -324,7 +324,7 @@ static void pit_post_load(PITCommonState *s)
->   {
->       PITChannelState *sc = &s->channels[0];
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index dcc1fb74aa..199c5a4985 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2229,6 +2229,7 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
+>                   flags = MAP_FIXED;
+>                   flags |= block->flags & RAM_SHARED ?
+>                            MAP_SHARED : MAP_PRIVATE;
+> +                flags |= block->flags & RAM_NORESERVE ? MAP_NORESERVE : 0;
+>                   if (block->fd >= 0) {
+>                       area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
+>                                   flags, block->fd, offset);
+> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> index ecace41ad5..c511a68bbe 100644
+> --- a/util/mmap-alloc.c
+> +++ b/util/mmap-alloc.c
+> @@ -20,6 +20,7 @@
+>   #include "qemu/osdep.h"
+>   #include "qemu/mmap-alloc.h"
+>   #include "qemu/host-utils.h"
+> +#include "qemu/cutils.h"
+>   #include "qemu/error-report.h"
 >   
-> -    if (sc->next_transition_time != -1) {
-> +    if (sc->next_transition_time != -1 && !sc->irq_disabled) {
->           timer_mod(sc->irq_timer, sc->next_transition_time);
->       } else {
->           timer_del(sc->irq_timer);
-> 
+>   #define HUGETLBFS_MAGIC       0x958458f6
+> @@ -125,6 +126,7 @@ static void *mmap_activate(void *ptr, size_t size, int fd, uint32_t mmap_flags,
+>       const bool readonly = mmap_flags & QEMU_RAM_MMAP_READONLY;
+>       const bool shared = mmap_flags & QEMU_RAM_MMAP_SHARED;
+>       const bool is_pmem = mmap_flags & QEMU_RAM_MMAP_PMEM;
+> +    const bool noreserve = mmap_flags & QEMU_RAM_MMAP_NORESERVE;
+>       const int prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
+>       int map_sync_flags = 0;
+>       int flags = MAP_FIXED;
+> @@ -132,6 +134,7 @@ static void *mmap_activate(void *ptr, size_t size, int fd, uint32_t mmap_flags,
+>   
+>       flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+>       flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+> +    flags |= noreserve ? MAP_NORESERVE : 0;
+>       if (shared && is_pmem) {
+>           map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
+>       }
+> @@ -174,6 +177,66 @@ static inline size_t mmap_guard_pagesize(int fd)
+>   #endif
+>   }
+>   
+> +#define OVERCOMMIT_MEMORY_PATH "/proc/sys/vm/overcommit_memory"
+> +static bool map_noreserve_effective(int fd, uint32_t mmap_flags)
+> +{
+> +#if defined(__linux__)
+> +    const bool readonly = mmap_flags & QEMU_RAM_MMAP_READONLY;
+> +    const bool shared = mmap_flags & QEMU_RAM_MMAP_SHARED;
+> +    gchar *content = NULL;
+> +    const char *endptr;
+> +    unsigned int tmp;
+> +
+> +    /*
+> +     * hugeltb accounting is different than ordinary swap reservation:
+> +     * a) Hugetlb pages from the pool are reserved for both private and
+> +     *    shared mappings. For shared mappings, reservations are tracked
+> +     *    per file -- all mappers have to specify MAP_NORESERVE.
+> +     * b) MAP_NORESERVE is not affected by /proc/sys/vm/overcommit_memory.
+> +     */
+> +    if (qemu_fd_getpagesize(fd) != qemu_real_host_page_size) {
+> +        return true;
+> +    }
+> +
+> +    /*
+> +     * Accountable mappings in the kernel that can be affected by MAP_NORESEVE
+> +     * are private writable mappings (see mm/mmap.c:accountable_mapping() in
+> +     * Linux). For all shared or readonly mappings, MAP_NORESERVE is always
+> +     * implicitly active -- no reservation; this includes shmem. The only
+> +     * exception is shared anonymous memory, it is accounted like private
+> +     * anonymous memory.
+> +     */
+> +    if (readonly || (shared && fd >= 0)) {
+> +        return true;
+> +    }
+> +
+> +    /*
+> +     * MAP_NORESERVE is globally ignored for private writable mappings when
+> +     * overcommit is set to "never". Sparse memory regions aren't really
+> +     * possible in this system configuration.
+> +     *
+> +     * Bail out now instead of silently committing way more memory than
+> +     * currently desired by the user.
+> +     */
+> +    if (g_file_get_contents(OVERCOMMIT_MEMORY_PATH, &content, NULL, NULL) &&
+> +        !qemu_strtoui(content, &endptr, 0, &tmp) &&
+> +        (!endptr || *endptr == '\n')) {
+> +        if (tmp == 2) {
+> +            error_report("Skipping reservation of swap space is not supported:"
+> +                         " \"" OVERCOMMIT_MEMORY_PATH "\" is \"2\"");
+> +            return false;
+> +        }
+> +        return true;
+> +    }
+> +    /* this interface has been around since Linux 2.6 */
+> +    error_report("Skipping reservation of swap space is not supported:"
+> +                 " Could not read: \"" OVERCOMMIT_MEMORY_PATH "\"");
+> +    return false;
+> +#else
 
-Queued, thanks.
+I'll return "false" here for now after learning that e.g., FreeBSD never 
+implemented the flag and removed it a while ago
+	https://github.com/Clozure/ccl/issues/17
 
-Paolo
+So I'll unlock it only for Linux - which makes sense, because I only 
+test there (and only care about Linux with MAP_NORESERVE)
+
+> +    return true;
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
