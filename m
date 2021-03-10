@@ -2,79 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAAE333A4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:42:52 +0100 (CET)
-Received: from localhost ([::1]:34410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B717F333A1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:35:53 +0100 (CET)
+Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwIl-0006yr-Ri
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:42:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
+	id 1lJwC0-0000tv-PC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:35:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpf-0001Wz-Bz
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:47 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33180)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lJvxR-0000Cy-Eq; Wed, 10 Mar 2021 05:20:49 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:55837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpc-00075f-BQ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:47 -0500
-Received: by mail-ed1-x532.google.com with SMTP id x9so27140248edd.0
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=0iiOMnMZhhPH5hS1v6PwOOCna3BJGccVCrXKXmjrMKc=;
- b=mJbv9EQC5huEQ13sJ0YQHlnIBRtKheDs5CLCySrMPFtkj3n11t2zF6mjyX7QfkmtR7
- fSe/hvUccQUHpUOv9APF0YM1TySTDLkEai4/oa10ck/ayDAkvgHSmlNeNHAI8G8vdu/U
- kRpqcz0wIrKPZ3JToCYV8l7rG4d1QxVvsTgNCZM7qPl8IS6kU678Cw85n1iYcr8IrRju
- yThqy4zRhTvq4HHNUYCqeOQZDN15HTF8BRZqEMqqVpGs4jBbUYLYM034BGRTqo3PTVi+
- APFGDOn0ZTeIaJm4KtpRKm7MaLvlOGWVd8brR+ydVdBXPoEYmg6sZqLT6C/foQLjpVtM
- v7PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0iiOMnMZhhPH5hS1v6PwOOCna3BJGccVCrXKXmjrMKc=;
- b=ky3NJGQuMA0eBzxgUL1xnNnDICSqz6P4DnuW1+DPtqVHntfekz92xYNqF2RJfmtfmk
- YUZe08uxVlLkyMv0VJH0BVdw/iw+EFsKflnl9XKxA1yHWZbcMlQZ+GMTgWO1Ohs52oeY
- s0SSa4eJbj4xguljQ6KP+dEW84TR3PosPZz5q87EAENqGIGG6wvuakl5BuR3Y0YQAjUM
- oMIfgoVHvZyiLeqaBmutQGxMQ+iDeptbYGXEXBuCti5+LgWmVQjzuTj58GmyqNUU2fl+
- c0GWal17jgzFFnl3c+spmy7B+2bwK+/AmsPvEV3n1IoZYY8xa6ss8sqGrN9sf6bkjH5A
- Ej7g==
-X-Gm-Message-State: AOAM5321dH1VuOm/JikWFacUy316RQul1APSWMvnju9UjbX0yDQdAQ0R
- J5yY3UVncuXnwlhphh+a560=
-X-Google-Smtp-Source: ABdhPJyy/E8Yt9W3PqtRntwuOAmEWlUGwdabiZFSXC5ntg1OuS/9rAPTpMB8eN6gC6Pya8EzR8hHnA==
-X-Received: by 2002:a05:6402:34c8:: with SMTP id
- w8mr2453600edc.235.1615371162951; 
- Wed, 10 Mar 2021 02:12:42 -0800 (PST)
-Received: from pek-vx-bsp9.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 02:12:42 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH 10/10] hw/net: sunhme: Remove the logic of padding short
- frames in the receive path
-Date: Wed, 10 Mar 2021 18:11:57 +0800
-Message-Id: <20210310101157.15136-11-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210310101157.15136-1-bmeng.cn@gmail.com>
-References: <20210310101157.15136-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lJvxP-0003X9-N4; Wed, 10 Mar 2021 05:20:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=n2pW/Th+PLzh29euhNkUYcR6ik+NQLpCYYtFwPmBmuQ=; 
+ b=q/EzmvdK2j+BeM3phJXm+Yy6GBHVUcuh45UrGynTNm3IhPUNrjJrQ7X2y2dMomyXwNcQn0GMaO2nMYfzBdpy+qLKPiWPYlKUKzEFSaBRUx2s1EuqNmjPenzkHGXbGR9SE9xuwH+7OJGN56VzcGE93pYdeGspu+9uBkifiIq1BiYlyPXg2U6dPxSfLXhHcMHZlmKBb5dFh/Bkts5glDwCtV3VFQ4mt7wFxkZzU4sXHsWJFfw546mTiA3vxrWX9ACsKurkZ5CQJWHFWARYCihQL/KqQwKAdf+qjaPthAHCPXufnDrALn1je7DPJsmOpZTISZzbsm0ic+3jMicvlhUkKQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1lJvxL-0005QA-Qr; Wed, 10 Mar 2021 11:20:43 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1lJvxL-0001BN-Hq; Wed, 10 Mar 2021 11:20:43 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH] stream: Don't crash when node permission is denied
+In-Reply-To: <20210309173451.45152-1-kwolf@redhat.com>
+References: <20210309173451.45152-1-kwolf@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 10 Mar 2021 11:20:43 +0100
+Message-ID: <w51im5z5mys.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,56 +59,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, ngu@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have implemented unified short frames padding in the
-QEMU networking codes, remove the same logic in the NIC codes.
+On Tue 09 Mar 2021 06:34:51 PM CET, Kevin Wolf <kwolf@redhat.com> wrote:
+> The image streaming block job restricts shared permissions of the nodes
+> it accesses. This can obviously fail when other users already got these
+> permissions. &error_abort is therefore wrong and can crash. Handle these
+> errors gracefully and just fail starting the block job.
+>
+> Reported-by: Nini Gu <ngu@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
----
-
- hw/net/sunhme.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index fc34905f87..6971796e57 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -714,8 +714,6 @@ static inline void sunhme_set_rx_ring_nr(SunHMEState *s, int i)
-     s->erxregs[HME_ERXI_RING >> 2] = ring;
- }
- 
--#define MIN_BUF_SIZE 60
--
- static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-                               size_t size)
- {
-@@ -724,7 +722,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-     dma_addr_t rb, addr;
-     uint32_t intstatus, status, buffer, buffersize, sum;
-     uint16_t csum;
--    uint8_t buf1[60];
-     int nr, cr, len, rxoffset, csum_offset;
- 
-     trace_sunhme_rx_incoming(size);
-@@ -775,14 +772,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
- 
-     trace_sunhme_rx_filter_accept();
- 
--    /* If too small buffer, then expand it */
--    if (size < MIN_BUF_SIZE) {
--        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
--        buf = buf1;
--        size = MIN_BUF_SIZE;
--    }
--
-     rb = s->erxregs[HME_ERXI_RING >> 2] & HME_ERXI_RING_ADDR;
-     nr = sunhme_get_rx_ring_count(s);
-     cr = sunhme_get_rx_ring_nr(s);
--- 
-2.17.1
-
+Berto
 
