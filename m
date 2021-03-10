@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51701333D1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:57:30 +0100 (CET)
-Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FD4333D44
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:06:08 +0100 (CET)
+Received: from localhost ([::1]:43394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJyP2-0001W9-OI
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:57:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40732)
+	id 1lJyXP-0003tP-9p
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:06:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJyNs-0000yA-Ei
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:56:16 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:56741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJyNq-0005Km-6Y
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:56:16 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M59am-1lL4qJ2R6q-001ACL; Wed, 10 Mar 2021 13:56:07 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
- <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
- <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
-Message-ID: <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
-Date: Wed, 10 Mar 2021 13:56:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lJyWO-0003N2-DU
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:05:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lJyWL-0001oX-Nm
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:05:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615381500;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HDhYvrzjMa95RNqzrSuxKZCYg7yOomNx9i6ZIAM46SE=;
+ b=CuuehnWrc3YrILvUUQGNhnntC0mjonqYLyhQrkcfXKVZUfgJ7Vk0uLPUqr5NWRpEvQlBVf
+ vg5/a7zYbcr/Q3GI9ZKov/+YDc3wlcwi7lRBoKVTQnqUIWvlcvZY2uIOP8B2I8cclq/st6
+ JbxxrcB6/H48qEdUTw5NmkoTCbRANxc=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-82c4ZgCrPVuN5N0l5HbXQw-1; Wed, 10 Mar 2021 08:04:56 -0500
+X-MC-Unique: 82c4ZgCrPVuN5N0l5HbXQw-1
+Received: by mail-vk1-f200.google.com with SMTP id q20so3412413vkb.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 05:04:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HDhYvrzjMa95RNqzrSuxKZCYg7yOomNx9i6ZIAM46SE=;
+ b=laNkJw/RccTK95hwFPCm4J3gq0BZzcPSoh4LzkYjzcaWKVFAOpO5KVTEZjFcmEHInW
+ spfVfyIpyEgSgviqer28n2GbdSX9AdMRoubHiAeP1AvsiY6s7C+Xz827RaZah+CJybLv
+ 42dzCbHQGvn699s7S8MGS2jVxlgM4G8z7ZXu5JYGjm7mQO8Ix7W6o0BD33T4Q87dHsEB
+ F4AqfCLlNQcyB+69zFdncEaHTF/9CKxxnlEoK7SXpDZ6ZubhBisQUvkP+Ydmh6Ewo8n2
+ YSL0Rb8ovTor4XDnCXAGo8BnPjWxpUoFL35V6KSK2Uh5Xt5tJs7Qg4Td27tsGEtHiOeO
+ IZxg==
+X-Gm-Message-State: AOAM531Nr/rKEjzXOg9podM9VCUqOUZokimNQDkau//bJldbYPt7+8D6
+ Bd/SMNh83jIaeEhAL5yxDazYKDRd6+hxTIoOrnmskYS5vHU773LjglVgcmo1Tcw8TEF0QmtDhsM
+ h45hI/1rCmT/89phvPQzVsjiSv/ep9s8=
+X-Received: by 2002:a67:c80e:: with SMTP id u14mr1275422vsk.39.1615381496201; 
+ Wed, 10 Mar 2021 05:04:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6ljUwTOglQJH81LcQWG9kHZusb4jQoA8ZWNzfd461jISG3NJAUh1m0rNPBH06P75LYD3qQOaarI+HUEmfeBQ=
+X-Received: by 2002:a67:c80e:: with SMTP id u14mr1275398vsk.39.1615381496001; 
+ Wed, 10 Mar 2021 05:04:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:E6G98J+USV6ZG5g2QsXqQwJZtFXu1hEtLHWaI9MxjQFsqr76bIb
- 3ddTRTz/asgbs2kTOnXcA8WU1iio6rsN2cOJgelGoPzCwdCG6MpouVyL1Uu2T+VG56hSlDs
- LAQUUw37aJbKh+5BaI+sKQUBlstq/C0QVYmDGk97ISPNlzfkjb/n9m+irbne4IwTzp1q/lf
- cOpJYelhjX54UjXM8I2QA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hW0h5M4xWe0=:RkrBVNb7Khg43FX9kZpDqp
- 6+yQNw+NmIY4MpJeVKQGXFu1UdapftUPnL4Us3fJXyY17fCFkAcFkj+v9kJrBbzSLC0jS79kL
- 9t4H7gVDWsh+4iMV5orufnqeXiqwF/CXLDiKnWU3/qKelw4/rIMPKfwMIiaWn6B9uJkD8rwL3
- OPUHG0UOPPXx7JVXJMIfiL1Vw4Akfnm37XqqpMcZk04PZF9tMhvRi78TFGMExrsRdQGyuNfU1
- xlU5hPvndD+OLhHwGhzGyhYz9cS40nmipCn+oR2kB3cMFdgKdz2fwACDwhdpuZiwiZg9/YuZq
- 3HKichNTloceguI8MvZkIjJ8ZvLKU9j+7sTbcSTMDKjkuejuoE5yCkj1IUHI7yoHwCYzTpnZ8
- ZItu4zUXWUu7ejeJxovf7FKGkzya8D237OVGSR53IRNOrwNKycZx0Kku0miaP
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210309112356.737266-1-thuth@redhat.com>
+In-Reply-To: <20210309112356.737266-1-thuth@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 10 Mar 2021 10:04:30 -0300
+Message-ID: <CAKJDGDZrGZVKYgjRfM24XC5vKc=a-miEU93iUqPo9OSQVazZzA@mail.gmail.com>
+Subject: Re: [PATCH v3] MAINTAINERS: Merge the Gitlab-CI section into the
+ generic CI section
+To: Thomas Huth <thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,42 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
-> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
->> interval should be measured in ns, and therefore its period is a thousand
->> times too short.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->> hw/misc/mac_via.c | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
->> index f994fefa7c..c6e1552a59 100644
->> --- a/hw/misc/mac_via.c
->> +++ b/hw/misc/mac_via.c
->> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
->>     MOS6522State *s = MOS6522(v1s);
->>
->>     /* 60 Hz irq */
->> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
->> -                          16630 * 16630;
->> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
->> +                          16630000 * 16630000;
-> 
-> Can you put this magic number in a #define maybe also rewriting it in a way that shows it
-> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in include/qemu/timer.h
-> that could be used for that, there's also SCALE_MS that might replace 1000 * 1000 elsewhere in this
-> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used here instead?
+On Tue, Mar 9, 2021 at 8:24 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> The status of the gitlab-CI files is currently somewhat confusing, and
+> it is often not quite clear whether a patch should go via my tree or
+> via the testing tree of Alex. That situation has grown historically...
+> Initially, I was the only one using the gitlab-CI, just for my private
+> repository there. But in the course of time, the gitlab-CI switched to
+> use the containers from tests/docker/ (which is not part of the gitlab-CI
+> section in the MAINTAINERS file), and QEMU now even switched to gitlab.com
+> completely for the repository and will soon use it as its gating CI, too,
+> so it makes way more sense if the gitlab-ci.yml files belong to the people
+> who are owning the qemu-project on gitlab.com and take care of the gitlab
+> CI there. Thus let's merge the gitlab-ci section into the common "test and
+> build automation" section.
+>
+> And while we're at it, I'm also removing the line with Fam there for now,
+> since he was hardly active during the last years in this area anymore.
+> If he ever gets more time for this part again in the future, we surely
+> can add the line back again. I'm also removing the Patchew URL from this
+> section now since Patchew's files are not tracked in the main QEMU repo
+> and it is also not maintained by Alex, Philippe and myself.
+> The maintainers of Patchew are still listed more accurately in the wiki on
+> https://wiki.qemu.org/AdminContacts & https://wiki.qemu.org/Testing/CI/Patchew
+> instead.
+>
+> Now to avoid that Alex is listed here in this section alone, Philippe and
+> I agreed to help as backup maintainers here, too. And Willian volunteered
+> to be an additional reviewer.
+>
+> Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Acked-by: Willian Rampazzo <willianr@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  MAINTAINERS | 23 ++++++++---------------
+>  1 file changed, 8 insertions(+), 15 deletions(-)
+>
 
-In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, in kernel 60.15 Hz.
-I Think there are several ways to compute it...
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-Thanks,
-Laurent
 
