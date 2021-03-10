@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5AB33344A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:17:14 +0100 (CET)
-Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19947333443
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:14:09 +0100 (CET)
+Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqHZ-0004vv-1U
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
+	id 1lJqEa-0000e5-42
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:14:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAn-0003UC-E9; Tue, 09 Mar 2021 23:10:15 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53019 helo=ozlabs.org)
+ id 1lJqAl-0003Ti-D2; Tue, 09 Mar 2021 23:10:13 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54035 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAk-000479-Bb; Tue, 09 Mar 2021 23:10:12 -0500
+ id 1lJqAi-00047A-QD; Tue, 09 Mar 2021 23:10:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWd2bB8z9sWR; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWd2yPpz9sWT; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349405;
- bh=HP6BC7ZgaqPiHS+GRbApM2a5OYHOkhJ4BhBo3OvB/GQ=;
+ bh=uxtevDW1LKqCTh9ft/IK1UJZ8brhnol69QHZu/WwkrY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ViKCR+QB8jJwL648gkhqmescYVZKdsUVfqZddXvvocBWnFQoku8fTJI7dvd2T2hb4
- lDWbj0dDfVGGbEjtUZx5+0vZKUs7i+indkrrVxPDq8byaJpI6eP82Rza1S1EaZKxOw
- rWTW99QCxK3QUjE/G8V5kroprGJTgAD/+7jYzJkY=
+ b=PrV2Vj2rc3mxXqCT1PivFRcQztLbNfH9Mf7t52mb6Mr4FqNdJaxgkAvO4r2qkjTfb
+ te4NHYLJmG2E5iRvh8zw7/lRmXP1I2886x/ZAjoFTO5RclbTpyaEIO9qmKnrPKb9Rq
+ gYsoKCYZfqGPkldUeGXdm9PI6dBy5gvKml2tteY0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 03/20] hw/display/sm501: Inline template header into C file
-Date: Wed, 10 Mar 2021 15:09:45 +1100
-Message-Id: <20210310041002.333813-4-david@gibson.dropbear.id.au>
+Subject: [PULL 04/20] spapr_drc.c: do not call spapr_drc_detach() in
+ drc_isolate_logical()
+Date: Wed, 10 Mar 2021 15:09:46 +1100
+Message-Id: <20210310041002.333813-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
@@ -57,231 +58,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-We no longer need to include sm501_template.h multiple times, so
-we can simply inline its contents into sm501.c.
+drc_isolate_logical() is used to move the DRC from the "Configured" to
+the "Available" state, erroring out if the DRC is in the unexpected
+"Unisolate" state and doing nothing (with RTAS_OUT_SUCCESS) if the DRC
+is already in "Available" or in "Unusable" state.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210212180653.27588-4-peter.maydell@linaro.org>
-Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+When moving from "Configured" to "Available", the DRC is moved to the
+LOGICAL_AVAILABLE state, a drc->unplug_requested check is done and, if
+true, spapr_drc_detach() is called.
+
+What spapr_drc_detach() does then is:
+
+- set drc->unplug_requested to true. In fact, this is the only place
+where unplug_request is set to true;
+- does nothing else if drc->state != drck->empty_state. If the DRC
+state is equal to drck->empty_state, spapr_drc_release() is
+called. For logical DRCs, drck->empty_state = LOGICAL_UNUSABLE.
+
+In short, calling spapr_drc_detach() in drc_isolate_logical() does
+nothing. It'll set unplug_request to true again ('again' since it was
+already true - otherwise the function wouldn't be called), and will
+return without calling spapr_drc_release() because the DRC is not in
+LOGICAL_UNUSABLE, since drc_isolate_logical() just moved it to
+LOGICAL_AVAILABLE. The only place where the logical DRC is released is
+when called from drc_set_unusable(), when it is moved to the
+"Unusable" state.  As it should, according to PAPR.
+
+Even though calling spapr_drc_detach() in drc_isolate_logical() is
+benign, removing it will avoid further thought about the matter. So
+let's go ahead and do that.
+
+As a note, this logic was introduced in commit bbf5c878ab76. Since
+then, the DRC handling code was refactored and enhanced, and PAPR
+itself went through some changes in the DRC area as well. It is
+expected that some assumptions we had back then are now deprecated.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210211225246.17315-2-danielhb413@gmail.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/display/sm501.c          |  83 +++++++++++++++++++++++++++-
- hw/display/sm501_template.h | 105 ------------------------------------
- 2 files changed, 81 insertions(+), 107 deletions(-)
- delete mode 100644 hw/display/sm501_template.h
+ hw/ppc/spapr_drc.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index aba447c18b..8789722ef2 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1558,8 +1558,87 @@ typedef void draw_hwc_line_func(uint8_t *d, const uint8_t *s,
-                                 int width, const uint8_t *palette,
-                                 int c_x, int c_y);
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 8571d5bafe..84bd3c881f 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -132,19 +132,6 @@ static uint32_t drc_isolate_logical(SpaprDrc *drc)
  
--#define DEPTH 32
--#include "sm501_template.h"
-+static void draw_line8_32(uint8_t *d, const uint8_t *s, int width,
-+                          const uint32_t *pal)
-+{
-+    uint8_t v, r, g, b;
-+    do {
-+        v = ldub_p(s);
-+        r = (pal[v] >> 16) & 0xff;
-+        g = (pal[v] >>  8) & 0xff;
-+        b = (pal[v] >>  0) & 0xff;
-+        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
-+        s++;
-+        d += 4;
-+    } while (--width != 0);
-+}
-+
-+static void draw_line16_32(uint8_t *d, const uint8_t *s, int width,
-+                           const uint32_t *pal)
-+{
-+    uint16_t rgb565;
-+    uint8_t r, g, b;
-+
-+    do {
-+        rgb565 = lduw_le_p(s);
-+        r = (rgb565 >> 8) & 0xf8;
-+        g = (rgb565 >> 3) & 0xfc;
-+        b = (rgb565 << 3) & 0xf8;
-+        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
-+        s += 2;
-+        d += 4;
-+    } while (--width != 0);
-+}
-+
-+static void draw_line32_32(uint8_t *d, const uint8_t *s, int width,
-+                           const uint32_t *pal)
-+{
-+    uint8_t r, g, b;
-+
-+    do {
-+        r = s[2];
-+        g = s[1];
-+        b = s[0];
-+        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
-+        s += 4;
-+        d += 4;
-+    } while (--width != 0);
-+}
-+
-+/**
-+ * Draw hardware cursor image on the given line.
-+ */
-+static void draw_hwc_line_32(uint8_t *d, const uint8_t *s, int width,
-+                             const uint8_t *palette, int c_x, int c_y)
-+{
-+    int i;
-+    uint8_t r, g, b, v, bitset = 0;
-+
-+    /* get cursor position */
-+    assert(0 <= c_y && c_y < SM501_HWC_HEIGHT);
-+    s += SM501_HWC_WIDTH * c_y / 4;  /* 4 pixels per byte */
-+    d += c_x * 4;
-+
-+    for (i = 0; i < SM501_HWC_WIDTH && c_x + i < width; i++) {
-+        /* get pixel value */
-+        if (i % 4 == 0) {
-+            bitset = ldub_p(s);
-+            s++;
-+        }
-+        v = bitset & 3;
-+        bitset >>= 2;
-+
-+        /* write pixel */
-+        if (v) {
-+            v--;
-+            r = palette[v * 3 + 0];
-+            g = palette[v * 3 + 1];
-+            b = palette[v * 3 + 2];
-+            *(uint32_t *)d = rgb_to_pixel32(r, g, b);
-+        }
-+        d += 4;
-+    }
-+}
+     drc->state = SPAPR_DRC_STATE_LOGICAL_AVAILABLE;
  
- static void sm501_update_display(void *opaque)
- {
-diff --git a/hw/display/sm501_template.h b/hw/display/sm501_template.h
-deleted file mode 100644
-index 28537a05d9..0000000000
---- a/hw/display/sm501_template.h
-+++ /dev/null
-@@ -1,105 +0,0 @@
--/*
-- * Pixel drawing function templates for QEMU SM501 Device
-- *
-- * Copyright (c) 2008 Shin-ichiro KAWASAKI
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--static void draw_line8_32(uint8_t *d, const uint8_t *s, int width,
--                          const uint32_t *pal)
--{
--    uint8_t v, r, g, b;
--    do {
--        v = ldub_p(s);
--        r = (pal[v] >> 16) & 0xff;
--        g = (pal[v] >>  8) & 0xff;
--        b = (pal[v] >>  0) & 0xff;
--        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
--        s++;
--        d += 4;
--    } while (--width != 0);
--}
--
--static void draw_line16_32(uint8_t *d, const uint8_t *s, int width,
--                           const uint32_t *pal)
--{
--    uint16_t rgb565;
--    uint8_t r, g, b;
--
--    do {
--        rgb565 = lduw_le_p(s);
--        r = (rgb565 >> 8) & 0xf8;
--        g = (rgb565 >> 3) & 0xfc;
--        b = (rgb565 << 3) & 0xf8;
--        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
--        s += 2;
--        d += 4;
--    } while (--width != 0);
--}
--
--static void draw_line32_32(uint8_t *d, const uint8_t *s, int width,
--                           const uint32_t *pal)
--{
--    uint8_t r, g, b;
--
--    do {
--        r = s[2];
--        g = s[1];
--        b = s[0];
--        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
--        s += 4;
--        d += 4;
--    } while (--width != 0);
--}
--
--/**
-- * Draw hardware cursor image on the given line.
-- */
--static void draw_hwc_line_32(uint8_t *d, const uint8_t *s, int width,
--                             const uint8_t *palette, int c_x, int c_y)
--{
--    int i;
--    uint8_t r, g, b, v, bitset = 0;
--
--    /* get cursor position */
--    assert(0 <= c_y && c_y < SM501_HWC_HEIGHT);
--    s += SM501_HWC_WIDTH * c_y / 4;  /* 4 pixels per byte */
--    d += c_x * 4;
--
--    for (i = 0; i < SM501_HWC_WIDTH && c_x + i < width; i++) {
--        /* get pixel value */
--        if (i % 4 == 0) {
--            bitset = ldub_p(s);
--            s++;
--        }
--        v = bitset & 3;
--        bitset >>= 2;
--
--        /* write pixel */
--        if (v) {
--            v--;
--            r = palette[v * 3 + 0];
--            g = palette[v * 3 + 1];
--            b = palette[v * 3 + 2];
--            *(uint32_t *)d = rgb_to_pixel32(r, g, b);
--        }
--        d += 4;
+-    /* if we're awaiting release, but still in an unconfigured state,
+-     * it's likely the guest is still in the process of configuring
+-     * the device and is transitioning the devices to an ISOLATED
+-     * state as a part of that process. so we only complete the
+-     * removal when this transition happens for a device in a
+-     * configured state, as suggested by the state diagram from PAPR+
+-     * 2.7, 13.4
+-     */
+-    if (drc->unplug_requested) {
+-        uint32_t drc_index = spapr_drc_index(drc);
+-        trace_spapr_drc_set_isolation_state_finalizing(drc_index);
+-        spapr_drc_detach(drc);
 -    }
--}
+     return RTAS_OUT_SUCCESS;
+ }
+ 
 -- 
 2.29.2
 
