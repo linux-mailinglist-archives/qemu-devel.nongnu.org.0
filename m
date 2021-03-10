@@ -2,65 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F7A3338EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 10:37:16 +0100 (CET)
-Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029693338E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 10:36:52 +0100 (CET)
+Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJvHH-0004OL-Dz
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 04:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
+	id 1lJvGu-00041y-1O
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 04:36:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lJvD0-0000XS-GH; Wed, 10 Mar 2021 04:32:50 -0500
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:59506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lJvCv-0000AT-Hd; Wed, 10 Mar 2021 04:32:49 -0500
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 311032E1555;
- Wed, 10 Mar 2021 12:32:34 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- HnJ4JUYbfD-WXKOJaJ9; Wed, 10 Mar 2021 12:32:34 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1615368754; bh=s/3/5VPscsbTLxqh5HxRk6YBz0RzzaiKwDqRLCVEq/U=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=JuhvsN+j7eUQwnJe3nVMoXwYepH3gy1doIobW67nhRLYK99lpYCzahZlFbT0vv778
- L2dvlVFSTQWLoFzxHBdjrrpFH7sglfLgcFkeg/9SdB3Cq1ZLbQdAGiXM+nDLjN0Xkr
- 7YchAkiQcrYYctABCXMAuR+r1osCuo4+TOIksCQU=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b080:7210::1:12])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ynDaBzDdI0-WXnGafVq; Wed, 10 Mar 2021 12:32:33 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [RFC] nbd: decouple reconnect from drain
-Date: Wed, 10 Mar 2021 12:32:32 +0300
-Message-Id: <20210310093232.519585-1-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJvFc-0002qO-SH
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 04:35:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJvFT-0001xs-AG
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 04:35:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615368922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Imr+gHTgpkhAAlzvDUwJu9pcFlTphdWrY0+YyKfrvTg=;
+ b=BAzNMx3RIDgBxZ8oNFU6xevZXKacUfdVgZ7RhsxSF4qCak5TogYPnASZbAQQHTZdd3IKN5
+ /M8aa4Pw/jOj7VKgPvxTmLk0r4nbgmfI8mD0pnsu/inN9SLPh/Gldnc8WP4MX46jgmPRR7
+ gGtiGlQVoGhYvO0WMLCFAsvLD2anoaA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-jdqdPPf_OdeU_dMJgywv7g-1; Wed, 10 Mar 2021 04:35:19 -0500
+X-MC-Unique: jdqdPPf_OdeU_dMJgywv7g-1
+Received: by mail-wr1-f70.google.com with SMTP id e13so7718327wrg.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 01:35:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Imr+gHTgpkhAAlzvDUwJu9pcFlTphdWrY0+YyKfrvTg=;
+ b=W9XX5c7Ld0RtOVfhbUVRAnUPuxRxoo2+RVCiVKQYcrHA1PzRBefFV+uSfjBMQvD1Db
+ b+ZVxU+v5554gi6pIcJEIhi72xF5Hh9IzEt/Qrdl6PLDA4T32diWvEdgrIBATcUl1YoX
+ cIIuzbHqh1JLjhBRhvxd698pDjtFe6Yip+qP66Ra3kPclPiKL6TvCSnEXi/jUrBX7uKa
+ xSKzOIR+YCqSliX3mAa5OTLZuly3Nm6drpaVQ4vxXaghMJ7OU6yfutPJLbTu46Tb145P
+ ED+PCDfUerzTqMsVo9imQ4w2h84FFKa7WpWBWqDvkbuoK+Zl7+KAW31O7hRJ/82wKbED
+ /PGA==
+X-Gm-Message-State: AOAM530ubz5tZ7mrvFUnI8gf8pNHFx6SU7fYcIQI0Ku5TVp3JFrKmqc5
+ ZgmEU/aU1m5bkvHa4yxPFc15vPmvQOKp/jBsMK8mRADyruQ3bhKT6MysaGtqVfSiJ4pAv1ys3WM
+ iF0TMK/3oxGR/MhU=
+X-Received: by 2002:adf:fbce:: with SMTP id d14mr2475855wrs.44.1615368917933; 
+ Wed, 10 Mar 2021 01:35:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzxVrVgsJcrs8TeKpKlu8xruithInHLe5fC3Z5UK+qC4XTiDReKwGnnkfzWar/Nntg4uGvGMA==
+X-Received: by 2002:adf:fbce:: with SMTP id d14mr2475817wrs.44.1615368917536; 
+ Wed, 10 Mar 2021 01:35:17 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id x11sm8184567wmi.3.2021.03.10.01.35.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Mar 2021 01:35:17 -0800 (PST)
+Date: Wed, 10 Mar 2021 10:35:15 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 4/6] net/eth: Check rt_hdr size before casting to
+ ip6_ext_hdr
+Message-ID: <20210310093515.rdbilg6zd7j5oauu@steredhat>
+References: <20210309182709.810955-1-philmd@redhat.com>
+ <20210309182709.810955-5-philmd@redhat.com>
+ <20210310090501.baq6kzw6lfsmaujs@steredhat>
 MIME-Version: 1.0
+In-Reply-To: <20210310090501.baq6kzw6lfsmaujs@steredhat>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,313 +99,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- yc-core@yandex-team.ru, Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NBD connect coroutine takes an extra in_flight reference as if it's a
-request handler.  This prevents drain from completion until the
-connection coroutine is releases the reference.
+On Wed, Mar 10, 2021 at 10:05:01AM +0100, Stefano Garzarella wrote:
+>On Tue, Mar 09, 2021 at 07:27:07PM +0100, Philippe Mathieu-Daudé wrote:
+>>Do not cast our ip6_ext_hdr pointer to ip6_ext_hdr_routing if there
+>>isn't enough data in the buffer for a such structure.
+>>
+>>This fix a 2 bytes buffer overrun in eth_parse_ipv6_hdr() reported
+>>by QEMU fuzzer:
+>>
+>> $ cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 \
+>>   -accel qtest -monitor none \
+>>   -serial none -nographic -qtest stdio
+>> outl 0xcf8 0x80001010
+>> outl 0xcfc 0xe1020000
+>> outl 0xcf8 0x80001004
+>> outw 0xcfc 0x7
+>> write 0x25 0x1 0x86
+>> write 0x26 0x1 0xdd
+>> write 0x4f 0x1 0x2b
+>> write 0xe1020030 0x4 0x190002e1
+>> write 0xe102003a 0x2 0x0807
+>> write 0xe1020048 0x4 0x12077cdd
+>> write 0xe1020400 0x4 0xba077cdd
+>> write 0xe1020420 0x4 0x190002e1
+>> write 0xe1020428 0x4 0x3509d807
+>> write 0xe1020438 0x1 0xe2
+>> EOF
+>> =================================================================
+>> ==2859770==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffdef904902 at pc 0x561ceefa78de bp 0x7ffdef904820 sp 0x7ffdef904818
+>> READ of size 1 at 0x7ffdef904902 thread T0
+>>     #0 0x561ceefa78dd in _eth_get_rss_ex_dst_addr net/eth.c:410:17
+>>     #1 0x561ceefa41fb in eth_parse_ipv6_hdr net/eth.c:532:17
+>>     #2 0x561cef7de639 in net_tx_pkt_parse_headers hw/net/net_tx_pkt.c:228:14
+>>     #3 0x561cef7dbef4 in net_tx_pkt_parse hw/net/net_tx_pkt.c:273:9
+>>     #4 0x561ceec29f22 in e1000e_process_tx_desc hw/net/e1000e_core.c:730:29
+>>     #5 0x561ceec28eac in e1000e_start_xmit hw/net/e1000e_core.c:927:9
+>>     #6 0x561ceec1baab in e1000e_set_tdt hw/net/e1000e_core.c:2444:9
+>>     #7 0x561ceebf300e in e1000e_core_write hw/net/e1000e_core.c:3256:9
+>>     #8 0x561cef3cd4cd in e1000e_mmio_write hw/net/e1000e.c:110:5
+>>
+>> Address 0x7ffdef904902 is located in stack of thread T0 at offset 34 in frame
+>>     #0 0x561ceefa320f in eth_parse_ipv6_hdr net/eth.c:486
+>>
+>>   This frame has 1 object(s):
+>>     [32, 34) 'ext_hdr' (line 487) <== Memory access at offset 34 overflows this variable
+>> HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+>>       (longjmp and C++ exceptions *are* supported)
+>> SUMMARY: AddressSanitizer: stack-buffer-overflow net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+>> Shadow bytes around the buggy address:
+>>   0x10003df188d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df188e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df188f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18910: 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1
+>> =>0x10003df18920:[02]f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18930: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>>   0x10003df18970: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>> Shadow byte legend (one shadow byte represents 8 application bytes):
+>>   Addressable:           00
+>>   Partially addressable: 01 02 03 04 05 06 07
+>>   Stack left redzone:      f1
+>>   Stack right redzone:     f3
+>> ==2859770==ABORTING
+>>
+>>Add the corresponding qtest case with the fuzzer reproducer.
+>>
+>>FWIW GCC 11 similarly reported:
+>>
+>> net/eth.c: In function 'eth_parse_ipv6_hdr':
+>> net/eth.c:410:15: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+>>   410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>>       |          ~~~~~^~~~~~~
+>> net/eth.c:485:24: note: while referencing 'ext_hdr'
+>>   485 |     struct ip6_ext_hdr ext_hdr;
+>>       |                        ^~~~~~~
+>> net/eth.c:410:38: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+>>   410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>>       |                                 ~~~~~^~~~~~~~~
+>> net/eth.c:485:24: note: while referencing 'ext_hdr'
+>>   485 |     struct ip6_ext_hdr ext_hdr;
+>>       |                        ^~~~~~~
+>>
+>>Cc: qemu-stable@nongnu.org
+>>Buglink: https://bugs.launchpad.net/qemu/+bug/1879531
+>>Reported-by: Alexander Bulekov <alxndr@bu.edu>
+>>Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+>>Fixes: eb700029c78 ("net_pkt: Extend packet abstraction as required by e1000e functionality")
+>>Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>---
+>>net/eth.c                      |  7 ++++-
+>>tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++
+>>MAINTAINERS                    |  1 +
+>>tests/qtest/meson.build        |  1 +
+>>4 files changed, 61 insertions(+), 1 deletion(-)
+>>create mode 100644 tests/qtest/fuzz-e1000e-test.c
+>>
+>>diff --git a/net/eth.c b/net/eth.c
+>>index 77af2b673bb..f0c8dfe8df7 100644
+>>--- a/net/eth.c
+>>+++ b/net/eth.c
+>>@@ -406,7 +406,12 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+>>                        struct in6_address *dst_addr)
+>>{
+>>    size_t input_size = iov_size(pkt, pkt_frags);
+>>-    struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+>>+    struct ip6_ext_hdr_routing *rthdr;
+>>+
+>>+    if (input_size < ext_hdr_offset + sizeof(*rthdr)) {
+>>+        return false;
+>>+    }
+>>+    rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+>
+>Also if we check 'input_size', I think this cast keeps having the 2 
+>bytes buffer overrun issue since 'ext_hdr' contains only the first 2 
+>bytes.
+>I think we can remove the 'input_size' check and we should fix in this 
+>way:
+>
+>    struct ip6_ext_hdr_routing rthdr;
+>
+>    bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset, &rthdr,
+>                            sizeof(rthdr);
+>    if (bytes_read < sizeof(rthdr)) {
+>        return false;
+>    }
+>
 
-When NBD is configured to reconnect, however, this appears to be fatal
-to the reconnection idea: the drain procedure wants the reconnection to
-be suspended, but this is only possible if the in-flight requests are
-canceled.
+Just saw that was what you had done in v3 :-)
 
-Fix this by making the connection coroutine stop messing with the
-in-flight counter.  Instead, certain care is taken to properly move the
-reconnection stuff from one aio_context to another in
-.bdrv_{attach,detach}_aio_context callbacks.
+I think we need to call iov_to_buf 2 times, once to read rthdr and once 
+to read dst_addr.
 
-Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-This patch passes the regular make check but fails some extra iotests,
-in particular 277.  It obviously lacks more robust interaction with the
-connection thread (which in general is fairly complex and hard to reason
-about), and perhaps has some other drawbacks, so I'll work on this
-further, but I'd appreciate some feedback on whether the idea is sound.
-
- block/nbd.c  | 134 ++++++++++++++++-----------------------------------
- nbd/client.c |   2 -
- 2 files changed, 41 insertions(+), 95 deletions(-)
-
-diff --git a/block/nbd.c b/block/nbd.c
-index c26dc5a54f..5319e543ab 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -117,8 +117,6 @@ typedef struct BDRVNBDState {
-     Coroutine *connection_co;
-     Coroutine *teardown_co;
-     QemuCoSleepState *connection_co_sleep_ns_state;
--    bool drained;
--    bool wait_drained_end;
-     int in_flight;
-     NBDClientState state;
-     int connect_status;
-@@ -126,6 +124,7 @@ typedef struct BDRVNBDState {
-     bool wait_in_flight;
- 
-     QEMUTimer *reconnect_delay_timer;
-+    int64_t reconnect_expire_time_ns;
- 
-     NBDClientRequest requests[MAX_NBD_REQUESTS];
-     NBDReply reply;
-@@ -165,6 +164,18 @@ static void nbd_clear_bdrvstate(BDRVNBDState *s)
-     s->x_dirty_bitmap = NULL;
- }
- 
-+static bool nbd_client_connecting(BDRVNBDState *s)
-+{
-+    NBDClientState state = qatomic_load_acquire(&s->state);
-+    return state == NBD_CLIENT_CONNECTING_WAIT ||
-+        state == NBD_CLIENT_CONNECTING_NOWAIT;
-+}
-+
-+static bool nbd_client_connecting_wait(BDRVNBDState *s)
-+{
-+    return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTING_WAIT;
-+}
-+
- static void nbd_channel_error(BDRVNBDState *s, int ret)
- {
-     if (ret == -EIO) {
-@@ -217,10 +228,6 @@ static void reconnect_delay_timer_cb(void *opaque)
- 
- static void reconnect_delay_timer_init(BDRVNBDState *s, uint64_t expire_time_ns)
- {
--    if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTING_WAIT) {
--        return;
--    }
--
-     assert(!s->reconnect_delay_timer);
-     s->reconnect_delay_timer = aio_timer_new(bdrv_get_aio_context(s->bs),
-                                              QEMU_CLOCK_REALTIME,
-@@ -233,8 +240,20 @@ static void nbd_client_detach_aio_context(BlockDriverState *bs)
- {
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
- 
--    /* Timer is deleted in nbd_client_co_drain_begin() */
--    assert(!s->reconnect_delay_timer);
-+    /*
-+     * This runs in the (old, about to be detached) aio context of the @bs so
-+     * accessing the stuff on @s is concurrency-free.
-+     */
-+    assert(qemu_get_current_aio_context() == bdrv_get_aio_context(bs));
-+
-+    /*
-+     * Preserve the expiration time of the reconnect_delay_timer in order to
-+     * resume it on the new aio context.
-+     */
-+    s->reconnect_expire_time_ns = s->reconnect_delay_timer ?
-+        timer_expire_time_ns(s->reconnect_delay_timer) : -1;
-+    reconnect_delay_timer_del(s);
-+
-     /*
-      * If reconnect is in progress we may have no ->ioc.  It will be
-      * re-instantiated in the proper aio context once the connection is
-@@ -250,6 +269,16 @@ static void nbd_client_attach_aio_context_bh(void *opaque)
-     BlockDriverState *bs = opaque;
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
- 
-+    /*
-+     * This runs in the (new, just attached) aio context of the @bs so
-+     * accessing the stuff on @s is concurrency-free.
-+     */
-+    assert(qemu_get_current_aio_context() == bdrv_get_aio_context(bs));
-+
-+    if (nbd_client_connecting_wait(s) && s->reconnect_expire_time_ns >= 0) {
-+        reconnect_delay_timer_init(s, s->reconnect_expire_time_ns);
-+    }
-+
-     if (s->connection_co) {
-         /*
-          * The node is still drained, so we know the coroutine has yielded in
-@@ -259,7 +288,6 @@ static void nbd_client_attach_aio_context_bh(void *opaque)
-          */
-         qemu_aio_coroutine_enter(bs->aio_context, s->connection_co);
-     }
--    bdrv_dec_in_flight(bs);
- }
- 
- static void nbd_client_attach_aio_context(BlockDriverState *bs,
-@@ -275,7 +303,6 @@ static void nbd_client_attach_aio_context(BlockDriverState *bs,
-         qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), new_context);
-     }
- 
--    bdrv_inc_in_flight(bs);
- 
-     /*
-      * Need to wait here for the BH to run because the BH must run while the
-@@ -284,37 +311,6 @@ static void nbd_client_attach_aio_context(BlockDriverState *bs,
-     aio_wait_bh_oneshot(new_context, nbd_client_attach_aio_context_bh, bs);
- }
- 
--static void coroutine_fn nbd_client_co_drain_begin(BlockDriverState *bs)
--{
--    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
--
--    s->drained = true;
--    if (s->connection_co_sleep_ns_state) {
--        qemu_co_sleep_wake(s->connection_co_sleep_ns_state);
--    }
--
--    nbd_co_establish_connection_cancel(bs, false);
--
--    reconnect_delay_timer_del(s);
--
--    if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTING_WAIT) {
--        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
--        qemu_co_queue_restart_all(&s->free_sema);
--    }
--}
--
--static void coroutine_fn nbd_client_co_drain_end(BlockDriverState *bs)
--{
--    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
--
--    s->drained = false;
--    if (s->wait_drained_end) {
--        s->wait_drained_end = false;
--        aio_co_wake(s->connection_co);
--    }
--}
--
--
- static void nbd_teardown_connection(BlockDriverState *bs)
- {
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-@@ -346,18 +342,6 @@ static void nbd_teardown_connection(BlockDriverState *bs)
-     assert(!s->connection_co);
- }
- 
--static bool nbd_client_connecting(BDRVNBDState *s)
--{
--    NBDClientState state = qatomic_load_acquire(&s->state);
--    return state == NBD_CLIENT_CONNECTING_WAIT ||
--        state == NBD_CLIENT_CONNECTING_NOWAIT;
--}
--
--static bool nbd_client_connecting_wait(BDRVNBDState *s)
--{
--    return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTING_WAIT;
--}
--
- static void connect_bh(void *opaque)
- {
-     BDRVNBDState *state = opaque;
-@@ -624,21 +608,9 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-         goto out;
-     }
- 
--    bdrv_dec_in_flight(s->bs);
- 
-     ret = nbd_client_handshake(s->bs, &local_err);
- 
--    if (s->drained) {
--        s->wait_drained_end = true;
--        while (s->drained) {
--            /*
--             * We may be entered once from nbd_client_attach_aio_context_bh
--             * and then from nbd_client_co_drain_end. So here is a loop.
--             */
--            qemu_coroutine_yield();
--        }
--    }
--    bdrv_inc_in_flight(s->bs);
- 
- out:
-     s->connect_status = ret;
-@@ -666,26 +638,10 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
-     nbd_reconnect_attempt(s);
- 
-     while (nbd_client_connecting(s)) {
--        if (s->drained) {
--            bdrv_dec_in_flight(s->bs);
--            s->wait_drained_end = true;
--            while (s->drained) {
--                /*
--                 * We may be entered once from nbd_client_attach_aio_context_bh
--                 * and then from nbd_client_co_drain_end. So here is a loop.
--                 */
--                qemu_coroutine_yield();
--            }
--            bdrv_inc_in_flight(s->bs);
--        } else {
--            qemu_co_sleep_ns_wakeable(QEMU_CLOCK_REALTIME, timeout,
--                                      &s->connection_co_sleep_ns_state);
--            if (s->drained) {
--                continue;
--            }
--            if (timeout < max_timeout) {
--                timeout *= 2;
--            }
-+        qemu_co_sleep_ns_wakeable(QEMU_CLOCK_REALTIME, timeout,
-+                                  &s->connection_co_sleep_ns_state);
-+        if (timeout < max_timeout) {
-+            timeout *= 2;
-         }
- 
-         nbd_reconnect_attempt(s);
-@@ -766,7 +722,6 @@ static coroutine_fn void nbd_connection_entry(void *opaque)
- 
-     qemu_co_queue_restart_all(&s->free_sema);
-     nbd_recv_coroutines_wake_all(s);
--    bdrv_dec_in_flight(s->bs);
- 
-     s->connection_co = NULL;
-     if (s->ioc) {
-@@ -2314,7 +2269,6 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
-     nbd_init_connect_thread(s);
- 
-     s->connection_co = qemu_coroutine_create(nbd_connection_entry, s);
--    bdrv_inc_in_flight(bs);
-     aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
- 
-     return 0;
-@@ -2490,8 +2444,6 @@ static BlockDriver bdrv_nbd = {
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
--    .bdrv_co_drain_begin        = nbd_client_co_drain_begin,
--    .bdrv_co_drain_end          = nbd_client_co_drain_end,
-     .bdrv_refresh_filename      = nbd_refresh_filename,
-     .bdrv_co_block_status       = nbd_client_co_block_status,
-     .bdrv_dirname               = nbd_dirname,
-@@ -2519,8 +2471,6 @@ static BlockDriver bdrv_nbd_tcp = {
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
--    .bdrv_co_drain_begin        = nbd_client_co_drain_begin,
--    .bdrv_co_drain_end          = nbd_client_co_drain_end,
-     .bdrv_refresh_filename      = nbd_refresh_filename,
-     .bdrv_co_block_status       = nbd_client_co_block_status,
-     .bdrv_dirname               = nbd_dirname,
-@@ -2548,8 +2498,6 @@ static BlockDriver bdrv_nbd_unix = {
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
--    .bdrv_co_drain_begin        = nbd_client_co_drain_begin,
--    .bdrv_co_drain_end          = nbd_client_co_drain_end,
-     .bdrv_refresh_filename      = nbd_refresh_filename,
-     .bdrv_co_block_status       = nbd_client_co_block_status,
-     .bdrv_dirname               = nbd_dirname,
-diff --git a/nbd/client.c b/nbd/client.c
-index 0c2db4bcba..30d5383cb1 100644
---- a/nbd/client.c
-+++ b/nbd/client.c
-@@ -1434,9 +1434,7 @@ nbd_read_eof(BlockDriverState *bs, QIOChannel *ioc, void *buffer, size_t size,
- 
-         len = qio_channel_readv(ioc, &iov, 1, errp);
-         if (len == QIO_CHANNEL_ERR_BLOCK) {
--            bdrv_dec_in_flight(bs);
-             qio_channel_yield(ioc, G_IO_IN);
--            bdrv_inc_in_flight(bs);
-             continue;
-         } else if (len < 0) {
-             return -EIO;
--- 
-2.29.2
+Thanks,
+Stefano
 
 
