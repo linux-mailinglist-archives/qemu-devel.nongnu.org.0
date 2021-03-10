@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEDF33339B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:08:02 +0100 (CET)
-Received: from localhost ([::1]:39484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A540C33338C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:05:32 +0100 (CET)
+Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJpCc-0001id-1X
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:08:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
+	id 1lJpAB-0006pM-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:05:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lJp7z-00059L-0J; Tue, 09 Mar 2021 22:03:15 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4375)
+ id 1lJp82-0005Ac-Mn; Tue, 09 Mar 2021 22:03:19 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lJp7u-0002vD-Tw; Tue, 09 Mar 2021 22:03:14 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwH0F6C7Hz17HcP;
- Wed, 10 Mar 2021 11:01:17 +0800 (CST)
+ id 1lJp7y-0002y1-94; Tue, 09 Mar 2021 22:03:17 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwH0L6dVXz17Hcg;
+ Wed, 10 Mar 2021 11:01:22 +0800 (CST)
 Received: from DESKTOP-7FEPK9S.china.huawei.com (10.174.184.135) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Mar 2021 11:02:59 +0800
+ 14.3.498.0; Wed, 10 Mar 2021 11:03:01 +0800
 From: Shenming Lu <lushenming@huawei.com>
 To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
  <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH v4 2/3] vfio: Set the priority of the VFIO VM state change
- handler explicitly
-Date: Wed, 10 Mar 2021 11:02:32 +0800
-Message-ID: <20210310030233.1133-3-lushenming@huawei.com>
+Subject: [PATCH v4 3/3] vfio: Avoid disabling and enabling vectors repeatedly
+ in VFIO migration
+Date: Wed, 10 Mar 2021 11:02:33 +0800
+Message-ID: <20210310030233.1133-4-lushenming@huawei.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20210310030233.1133-1-lushenming@huawei.com>
 References: <20210310030233.1133-1-lushenming@huawei.com>
@@ -67,36 +67,58 @@ Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the VFIO VM state change handler when stopping the VM, the _RUNNING
-bit in device_state is cleared which makes the VFIO device stop, including
-no longer generating interrupts. Then we can save the pending states of
-all interrupts in the GIC VM state change handler (on ARM).
-
-So we have to set the priority of the VFIO VM state change handler
-explicitly (like virtio devices) to ensure it is called before the
-GIC's in saving.
+In VFIO migration resume phase and some guest startups, there are
+already unmasked vectors in the vector table when calling
+vfio_msix_enable(). So in order to avoid inefficiently disabling
+and enabling vectors repeatedly, let's allocate all needed vectors
+first and then enable these unmasked vectors one by one without
+disabling.
 
 Signed-off-by: Shenming Lu <lushenming@huawei.com>
-Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/migration.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/vfio/pci.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index f5bf67f642..b74982e3e6 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -862,7 +862,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-     register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
-                          vbasedev);
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index f74be78209..fece8c2504 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -569,6 +569,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
  
--    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
-+    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
-+                                                           vfio_vmstate_change,
-                                                            vbasedev);
-     migration->migration_state.notify = vfio_migration_state_notifier;
-     add_migration_state_change_notifier(&migration->migration_state);
+ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+ {
++    PCIDevice *pdev = &vdev->pdev;
++    unsigned int nr, max_vec = 0;
++
+     vfio_disable_interrupts(vdev);
+ 
+     vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
+@@ -587,11 +590,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+      * triggering to userspace, then immediately release the vector, leaving
+      * the physical device with no vectors enabled, but MSI-X enabled, just
+      * like the guest view.
++     * If there are already unmasked vectors (in migration resume phase and
++     * some guest startups) which will be enabled soon, we can allocate all
++     * of them here to avoid inefficiently disabling and enabling vectors
++     * repeatedly later.
+      */
+-    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
+-    vfio_msix_vector_release(&vdev->pdev, 0);
++    if (!pdev->msix_function_masked) {
++        for (nr = 0; nr < msix_nr_vectors_allocated(pdev); nr++) {
++            if (!msix_is_masked(pdev, nr)) {
++                max_vec = nr;
++            }
++        }
++    }
++    vfio_msix_vector_do_use(pdev, max_vec, NULL, NULL);
++    vfio_msix_vector_release(pdev, max_vec);
+ 
+-    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
++    if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
+                                   vfio_msix_vector_release, NULL)) {
+         error_report("vfio: msix_set_vector_notifiers failed");
+     }
 -- 
 2.19.1
 
