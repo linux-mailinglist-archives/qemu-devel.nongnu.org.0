@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BC333343C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:11:56 +0100 (CET)
-Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CAC333442
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:14:08 +0100 (CET)
+Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqCR-0005NQ-R9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:11:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48076)
+	id 1lJqEZ-0000be-3C
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAj-0003Te-Tc; Tue, 09 Mar 2021 23:10:11 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:44097)
+ id 1lJqAl-0003Tp-FM; Tue, 09 Mar 2021 23:10:13 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:56169 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAi-00046X-11; Tue, 09 Mar 2021 23:10:09 -0500
+ id 1lJqAj-00046u-DP; Tue, 09 Mar 2021 23:10:11 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWd0qH2z9sVS; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWd15hVz9sS8; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349405;
- bh=eDB5sFOEhqdpsmbTGGku3dsikC0LwplPwsp4xGXiTJI=;
- h=From:To:Cc:Subject:Date:From;
- b=bfwzpJyTRZNfmJ44Onj74Ogl564fRfHL7bjtlUkEAmhIsfrMCo+jTDh1cE1PcJWHk
- nx2+9hTsQFkbhrgZtXJxY+BA38IJnBYfufudaSC79QHvqoodsgslfWswk6PtTPf3C3
- v1IHQ9oWHD6+ZI6XMNxm5vmknxw8eokypSEAjsCY=
+ bh=Q6YsQnQ2NHBT3n+G/C9i0pub6lxo+cLVM7w8a9XTAsM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=KGhojhca97gCNoft/CunYWbI1HFyiO2GvjHwWwMxIe1buWhbOcxS1sLIUJExNZUoN
+ rrU5tDj0Gpja+qQxHlnB3b4tg0yWDzocTgNEzhttqFozcgaGLQi6UKIpUm+LBlvT8E
+ QBRhHjCN7+mJpAlz3THAYHKCDrb4pLT6Balzh1Ok=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 00/20] ppc-for-6.0 queue 20210310
-Date: Wed, 10 Mar 2021 15:09:42 +1100
-Message-Id: <20210310041002.333813-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/20] hw/display/sm501: Remove dead code for non-32-bit RGB
+ surfaces
+Date: Wed, 10 Mar 2021 15:09:43 +1100
+Message-Id: <20210310041002.333813-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
+References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -56,105 +58,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b2ae1009d7cca2701e17eae55ae2d44fd22c942a:
+From: Peter Maydell <peter.maydell@linaro.org>
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210307' into staging (2021-03-09 13:50:35 +0000)
+For a long time now the UI layer has guaranteed that the console
+surface is always 32 bits per pixel RGB. Remove the legacy dead
+code from the sm501 display device which was handling the
+possibility that the console surface was some other format.
 
-are available in the Git repository at:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210212180653.27588-2-peter.maydell@linaro.org>
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/display/sm501.c | 91 +++-------------------------------------------
+ 1 file changed, 6 insertions(+), 85 deletions(-)
 
-  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210310
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index 8966b69bc7..aba447c18b 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -1558,89 +1558,9 @@ typedef void draw_hwc_line_func(uint8_t *d, const uint8_t *s,
+                                 int width, const uint8_t *palette,
+                                 int c_x, int c_y);
+ 
+-#define DEPTH 8
+-#include "sm501_template.h"
+-
+-#define DEPTH 15
+-#include "sm501_template.h"
+-
+-#define BGR_FORMAT
+-#define DEPTH 15
+-#include "sm501_template.h"
+-
+-#define DEPTH 16
+-#include "sm501_template.h"
+-
+-#define BGR_FORMAT
+-#define DEPTH 16
+-#include "sm501_template.h"
+-
+ #define DEPTH 32
+ #include "sm501_template.h"
+ 
+-#define BGR_FORMAT
+-#define DEPTH 32
+-#include "sm501_template.h"
+-
+-static draw_line_func *draw_line8_funcs[] = {
+-    draw_line8_8,
+-    draw_line8_15,
+-    draw_line8_16,
+-    draw_line8_32,
+-    draw_line8_32bgr,
+-    draw_line8_15bgr,
+-    draw_line8_16bgr,
+-};
+-
+-static draw_line_func *draw_line16_funcs[] = {
+-    draw_line16_8,
+-    draw_line16_15,
+-    draw_line16_16,
+-    draw_line16_32,
+-    draw_line16_32bgr,
+-    draw_line16_15bgr,
+-    draw_line16_16bgr,
+-};
+-
+-static draw_line_func *draw_line32_funcs[] = {
+-    draw_line32_8,
+-    draw_line32_15,
+-    draw_line32_16,
+-    draw_line32_32,
+-    draw_line32_32bgr,
+-    draw_line32_15bgr,
+-    draw_line32_16bgr,
+-};
+-
+-static draw_hwc_line_func *draw_hwc_line_funcs[] = {
+-    draw_hwc_line_8,
+-    draw_hwc_line_15,
+-    draw_hwc_line_16,
+-    draw_hwc_line_32,
+-    draw_hwc_line_32bgr,
+-    draw_hwc_line_15bgr,
+-    draw_hwc_line_16bgr,
+-};
+-
+-static inline int get_depth_index(DisplaySurface *surface)
+-{
+-    switch (surface_bits_per_pixel(surface)) {
+-    default:
+-    case 8:
+-        return 0;
+-    case 15:
+-        return 1;
+-    case 16:
+-        return 2;
+-    case 32:
+-        if (is_surface_bgr(surface)) {
+-            return 4;
+-        } else {
+-            return 3;
+-        }
+-    }
+-}
+-
+ static void sm501_update_display(void *opaque)
+ {
+     SM501State *s = (SM501State *)opaque;
+@@ -1652,7 +1572,6 @@ static void sm501_update_display(void *opaque)
+     int height = get_height(s, crt);
+     int src_bpp = get_bpp(s, crt);
+     int dst_bpp = surface_bytes_per_pixel(surface);
+-    int dst_depth_index = get_depth_index(surface);
+     draw_line_func *draw_line = NULL;
+     draw_hwc_line_func *draw_hwc_line = NULL;
+     int full_update = 0;
+@@ -1662,6 +1581,8 @@ static void sm501_update_display(void *opaque)
+     uint8_t hwc_palette[3 * 3];
+     uint8_t *hwc_src = NULL;
+ 
++    assert(dst_bpp == 4); /* Output is always 32-bit RGB */
++
+     if (!((crt ? s->dc_crt_control : s->dc_panel_control)
+           & SM501_DC_CRT_CONTROL_ENABLE)) {
+         return;
+@@ -1674,13 +1595,13 @@ static void sm501_update_display(void *opaque)
+     /* choose draw_line function */
+     switch (src_bpp) {
+     case 1:
+-        draw_line = draw_line8_funcs[dst_depth_index];
++        draw_line = draw_line8_32;
+         break;
+     case 2:
+-        draw_line = draw_line16_funcs[dst_depth_index];
++        draw_line = draw_line16_32;
+         break;
+     case 4:
+-        draw_line = draw_line32_funcs[dst_depth_index];
++        draw_line = draw_line32_32;
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "sm501: update display"
+@@ -1691,7 +1612,7 @@ static void sm501_update_display(void *opaque)
+     /* set up to draw hardware cursor */
+     if (is_hwc_enabled(s, crt)) {
+         /* choose cursor draw line function */
+-        draw_hwc_line = draw_hwc_line_funcs[dst_depth_index];
++        draw_hwc_line = draw_hwc_line_32;
+         hwc_src = get_hwc_address(s, crt);
+         c_x = get_hwc_x(s, crt);
+         c_y = get_hwc_y(s, crt);
+-- 
+2.29.2
 
-for you to fetch changes up to eb7f80fd26d73e7e1af105431da58971b1dba517:
-
-  spapr.c: send QAPI event when memory hotunplug fails (2021-03-10 09:07:09 +1100)
-
-----------------------------------------------------------------
-ppc patch queue for 2021-03-10
-
-Next batch of patches for the ppc target and machine types.  Includes:
- * Several cleanups for sm501 from Peter Maydell
- * An update to the SLOF guest firmware
- * Improved handling of hotplug failures in spapr, associated cleanups
-   to the hotplug handling code
- * Several etsec fixes and cleanups from Bin Meng
- * Assorted other fixes and cleanups
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
-
-Bin Meng (2):
-      hw/net: fsl_etsec: Fix build error when HEX_DUMP is on
-      hw/ppc: e500: Add missing <ranges> in the eTSEC node
-
-Cédric Le Goater (1):
-      docs/system: Extend PPC section
-
-Daniel Henrique Barboza (11):
-      spapr_drc.c: do not call spapr_drc_detach() in drc_isolate_logical()
-      spapr_drc.c: use spapr_drc_release() in isolate_physical/set_unusable
-      spapr: rename spapr_drc_detach() to spapr_drc_unplug_request()
-      spapr_drc.c: introduce unplug_timeout_timer
-      spapr_drc.c: add hotunplug timeout for CPUs
-      spapr_drc.c: use DRC reconfiguration to cleanup DIMM unplug state
-      spapr.c: add 'unplug already in progress' message for PHB unplug
-      spapr_pci.c: add 'unplug already in progress' message for PCI unplug
-      qemu_timer.c: add timer_deadline_ms() helper
-      spapr.c: remove duplicated assert in spapr_memory_unplug_request()
-      spapr.c: send QAPI event when memory hotunplug fails
-
-Fabiano Rosas (1):
-      target/ppc: Fix bcdsub. emulation when result overflows
-
-Peter Maydell (3):
-      hw/display/sm501: Remove dead code for non-32-bit RGB surfaces
-      hw/display/sm501: Expand out macros in template header
-      hw/display/sm501: Inline template header into C file
-
-Vitaly Cheptsov (1):
-      target/ppc: fix icount support on Book-e vms accessing SPRs
-
- docs/system/ppc/embedded.rst      |  10 ++
- docs/system/ppc/powermac.rst      |  34 +++++++
- docs/system/ppc/powernv.rst       | 193 ++++++++++++++++++++++++++++++++++++++
- docs/system/ppc/prep.rst          |  18 ++++
- docs/system/ppc/pseries.rst       |  12 +++
- docs/system/target-ppc.rst        |  53 +++--------
- hw/display/sm501.c                | 160 +++++++++++++++----------------
- hw/display/sm501_template.h       | 131 --------------------------
- hw/net/fsl_etsec/etsec.c          |   1 +
- hw/net/fsl_etsec/rings.c          |   1 +
- hw/ppc/e500.c                     |   1 +
- hw/ppc/spapr.c                    |  67 ++++++++++++-
- hw/ppc/spapr_drc.c                | 110 ++++++++++++++++------
- hw/ppc/spapr_pci.c                |   8 +-
- hw/ppc/trace-events               |   2 +-
- include/hw/ppc/spapr.h            |   1 +
- include/hw/ppc/spapr_drc.h        |   7 +-
- include/qemu/timer.h              |   8 ++
- pc-bios/README                    |   2 +-
- pc-bios/slof.bin                  | Bin 968368 -> 968888 bytes
- roms/SLOF                         |   2 +-
- target/ppc/int_helper.c           |  13 ++-
- target/ppc/translate_init.c.inc   |  36 +++++++
- tests/tcg/configure.sh            |   6 ++
- tests/tcg/ppc64/Makefile.target   |  13 +++
- tests/tcg/ppc64le/Makefile.target |  12 +++
- tests/tcg/ppc64le/bcdsub.c        | 130 +++++++++++++++++++++++++
- util/qemu-timer.c                 |  13 +++
- 28 files changed, 751 insertions(+), 293 deletions(-)
- create mode 100644 docs/system/ppc/embedded.rst
- create mode 100644 docs/system/ppc/powermac.rst
- create mode 100644 docs/system/ppc/powernv.rst
- create mode 100644 docs/system/ppc/prep.rst
- create mode 100644 docs/system/ppc/pseries.rst
- delete mode 100644 hw/display/sm501_template.h
- create mode 100644 tests/tcg/ppc64/Makefile.target
- create mode 100644 tests/tcg/ppc64le/Makefile.target
- create mode 100644 tests/tcg/ppc64le/bcdsub.c
 
