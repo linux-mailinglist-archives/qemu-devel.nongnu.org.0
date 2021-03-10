@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893D03342FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:25:31 +0100 (CET)
-Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E0F3342A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:12:03 +0100 (CET)
+Received: from localhost ([::1]:46892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK1eM-00032x-E9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:25:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1lK1RK-0006QI-Pg
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:12:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK1Fu-0004Q4-RA
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:14 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34574)
+ id 1lK1Fy-0004Wk-S1
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:18 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK1Fs-0002a0-NP
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:14 -0500
-Received: by mail-ej1-x634.google.com with SMTP id hs11so39729793ejc.1
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:00:12 -0800 (PST)
+ id 1lK1Fw-0002da-Fc
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:18 -0500
+Received: by mail-ej1-x629.google.com with SMTP id mj10so39694607ejb.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:00:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HHpsRwO6vST0yf6ATL7Kbq1Uv+qWDZ8yZxsOzY/cYlI=;
- b=OUtskioKpUT6gq7xHfrVqR3gBkb0hxh5udrgw9qDFPBUC+bH+zBwh345q0sWuOlANn
- pDEavZo5qw6Aw4Gw4f7nwlkdSpxR76m2PetagbbB/MDb6hn22cxC+kIS6M4UIyRuGPxP
- pUYvq/WxZd5DI1vdGsgimn+s6PhjIm7H1qA8wELtsLen2E1IIHtvlAzsJFe49kcdokjx
- xsyQnNHcglVVGrzc/hBAF/FdULMk1TWUCNMFMy2sIp0fVVud8V+Y+cRS1FnhNuvUOuoT
- yIkD3IJCX/yOvPCExX3Pqy5H46iF7bFZVGD0Y8IuzU4l3RFboBTUhGnHJ7bIXldxLMSX
- e1IA==
+ bh=BD2BGoLYoCF2ln1sjTH9tzIFeeIkbRtfrQqCp8IPVOg=;
+ b=P15qt0l73JI/0NhG9gGZhfbgDc1zUTL7bupzjdiHKj7B5dtZU7Z9ni37Y8rxgp6kfz
+ 6I0VdkKbUv6YjpZhI+BVFaAWzqwKVuuoWfT4tC6n6QWGvhk98ue7ww6xy7tPy5a5oi3c
+ G1CFsYIUHT9JmqUpSolSFuUG2saQ7O8YOlz2m+mW68b69sCTbpyRZ2MRj85pcLooGdhr
+ BqE6BoC6DC1u9krtO3hP39WDkyaojLtjrqcEJmm9tdkOsgzVuUsAoNldY/R+Ej02i14i
+ hWegO0MBqCGsr9HMRDL/RsT8lIqUDAwM8MylKaA5Qxl9Zy+AaEWzGC/ynkfslFhHY5xP
+ GtqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HHpsRwO6vST0yf6ATL7Kbq1Uv+qWDZ8yZxsOzY/cYlI=;
- b=S1GL9nMq9QUz43gPe8PCz3lbpsIuSTlDrLGc4amB3BG/zBQYb+YlTKtayezvHyQlLD
- YA5HLDDij2LvPqYePTveHFhP2myNo+g/74Jg50/FIWtiHWo9Jwzq3ged4tYpBBi4cMRK
- 5E+Fqf22zakT+gG2pvQkaQELFfF+nrBjvEdTQxc2CmGCvSRDMc0jB4Oij8wewQ7ei7d2
- DEni+ElV5naZ3pK0yitMLyfbvs4v+rmrLXfrdTdQIyAnk2RkBvOKs90uXsfP4oGLMGsn
- 3fmpyiKtPBGyfKkltG7BpTHPePMSSR/laR3l6TgzK1Omx30lSM462TqjGVn6gIBf/PcZ
- ynvQ==
-X-Gm-Message-State: AOAM5336occPx4dzQFKSi21TojpteKFncyVVNPIiCwpjObucWTc3kBhT
- ZsCQhahUVpN+OquG/AhJDHdI8Q==
-X-Google-Smtp-Source: ABdhPJxT1aIv3bUSqoM1d0Ge4jXMg+7ALZJskdhVASI1b88MusFxlD8v6Y2FFwP1SCCLq4YRGul7mA==
-X-Received: by 2002:a17:906:3388:: with SMTP id
- v8mr4487060eja.278.1615392008187; 
- Wed, 10 Mar 2021 08:00:08 -0800 (PST)
+ bh=BD2BGoLYoCF2ln1sjTH9tzIFeeIkbRtfrQqCp8IPVOg=;
+ b=FgfQcM+o5Ya/MsX9i59PHpnRhbG8Pu7KcVpHujxNw9WCNaWwIiXdXX/R2fDpLNjCfA
+ J/f18OMMwAqENivGD5e+GYCINZTDgDY8AV9s8a3VKMsrRWKvxKBD7kLlpTO7UXu46Wsy
+ OEmxjxIReidN9fNrX6DjlQfYibrjvC8CQwDET2Gkj1a8OLs0zOrOSYqcoXE+0L9n4SfL
+ ZcvhPBcOcPrZYfH66PqraE3tr7MpFm6NlC4WcaGMNS2Wet+Cf/NdLiiF7oy76ElNsvb7
+ Kzku/6MUNN/eOcnw8sDDibJmgECeVMLKqBtd/VYv/T2BgF48Pq6WAz+YZ+E0HgMS0jDy
+ koyA==
+X-Gm-Message-State: AOAM530ZOGFsBjoNbF4D1ou0uJ+3WKCJB4eVDuzb1gj56/aTgQDklioS
+ wvhmxlQT8ynvl+pnHiYT1c2VlQ==
+X-Google-Smtp-Source: ABdhPJwTOhVT9BZSB7WMzyioG1vVujvvq6HUun2wNwS1aK2O2KOPDT0pxcC5gPvisYqhjfp/qV6opg==
+X-Received: by 2002:a17:906:9152:: with SMTP id
+ y18mr4406277ejw.19.1615392010277; 
+ Wed, 10 Mar 2021 08:00:10 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k26sm10149391ejk.29.2021.03.10.08.00.03
+ by smtp.gmail.com with ESMTPSA id t15sm11757447edc.34.2021.03.10.08.00.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 08:00:03 -0800 (PST)
+ Wed, 10 Mar 2021 08:00:06 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D4E9C1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id EB2081FF90;
  Wed, 10 Mar 2021 16:00:02 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 03/15] gitlab-ci.yml: Allow custom # of parallel linkers
-Date: Wed, 10 Mar 2021 15:59:50 +0000
-Message-Id: <20210310160002.11659-4-alex.bennee@linaro.org>
+Subject: [PULL v2 04/15] gitlab-ci.yml: Add jobs to test CFI flags
+Date: Wed, 10 Mar 2021 15:59:51 +0000
+Message-Id: <20210310160002.11659-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310160002.11659-1-alex.bennee@linaro.org>
 References: <20210310160002.11659-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,55 +88,161 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 
-Define a new variable LD_JOBS, that can be used to select
-the maximum number of linking jobs to be executed in parallel.
-If the variable is not defined, maintain the default given by
-make -j
+QEMU has had options to enable control-flow integrity features
+for a few months now. Add two sets of build/check/acceptance
+jobs to ensure the binary produced is working fine.
 
-Currently, make parallelism at build time is based on the number
-of cpus available.
+The three sets allow testing of x86_64 binaries for x86_64, s390x,
+ppc64 and aarch64 targets
 
-This doesn't work well with LTO at linking, because with LTO the
-linker has to load in memory all the intermediate object files
-for optimization.
-The end result is that, if the gitlab runner happens to run two
-linking processes at the same time, the job will fail with an
-out-of-memory error,
-
-This patch leverages the ability to maintain high parallelism at
-compile time, but limit the number of linkers executed in parallel.
+[AJB: tweak job names to avoid brands]
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210304030948.9367-2-dbuono@linux.vnet.ibm.com>
-Message-Id: <20210305092328.31792-8-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210304030948.9367-3-dbuono@linux.vnet.ibm.com>
+Message-Id: <20210305092328.31792-9-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 8b6d495288..814f51873f 100644
+index 814f51873f..b23364bf3a 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -27,6 +27,10 @@ include:
-       else
-         ../configure --enable-werror $CONFIGURE_ARGS ;
-       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-+    - if test -n "$LD_JOBS";
-+      then
-+        meson configure . -Dbackend_max_links="$LD_JOBS" ;
-+      fi || exit 1;
-     - make -j"$JOBS"
-     - if test -n "$MAKE_CHECK_ARGS";
-       then
+@@ -483,6 +483,125 @@ clang-user:
+       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+     MAKE_CHECK_ARGS: check-unit check-tcg
+ 
++# Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
++# On gitlab runners, default value sometimes end up calling 2 lds concurrently and
++# triggers an Out-Of-Memory error
++#
++# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
++# with QEMU and linked as a static library to avoid false positives in CFI checks.
++# This can be accomplished by using -enable-slirp=git, which avoids the use of
++# a system-wide version of the library
++#
++# Split in three sets of build/check/acceptance to limit the execution time of each
++# job
++build-cfi-aarch64:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: aarch64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-aarch64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-aarch64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-aarch64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-aarch64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
++build-cfi-ppc64-s390x:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: ppc64-softmmu s390x-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-ppc64-s390x:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-ppc64-s390x
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-ppc64-s390x:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-ppc64-s390x
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
++build-cfi-x86_64:
++  <<: *native_build_job_definition
++  needs:
++  - job: amd64-fedora-container
++  variables:
++    LD_JOBS: 1
++    AR: llvm-ar
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
++      --enable-safe-stack --enable-slirp=git
++    TARGETS: x86_64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-cfi-x86_64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-x86_64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check
++
++acceptance-cfi-x86_64:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-cfi-x86_64
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
+ tsan-build:
+   <<: *native_build_job_definition
+   variables:
 -- 
 2.20.1
 
