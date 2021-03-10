@@ -2,56 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09023332E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:59:10 +0100 (CET)
-Received: from localhost ([::1]:57592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C44333300
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 03:14:50 +0100 (CET)
+Received: from localhost ([::1]:37734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJo7y-00057V-11
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:59:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1lJoN7-0001Hh-CT
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 21:14:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJo6m-0004a3-IT; Tue, 09 Mar 2021 20:57:56 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:4045)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lJoMM-0000jF-C9; Tue, 09 Mar 2021 21:14:02 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lJo6j-0007lj-Ra; Tue, 09 Mar 2021 20:57:56 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DwFYG4Rt3zkWMw;
- Wed, 10 Mar 2021 09:56:18 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Mar 2021 09:57:38 +0800
-Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
- kvm_log_clear_one_slot
-To: Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
- <20201217014941.22872-3-zhukeqian1@huawei.com>
- <65c92236-5212-f725-047a-cb1d231eff25@redhat.com>
- <759785ef-f29e-f05f-9f2f-357e71ae3680@huawei.com>
- <11854ebf-ed88-496d-8381-5385ef1b403a@redhat.com> <YEeM8eUUzm9AlaFI@work-vm>
- <20210309160814.GA763132@xz-x1>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <5405458f-bc77-e477-badf-0011359e7d0b@huawei.com>
-Date: Wed, 10 Mar 2021 09:57:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lJoMJ-00065u-91; Tue, 09 Mar 2021 21:14:02 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DwFvS0PJWzrSk8;
+ Wed, 10 Mar 2021 10:12:04 +0800 (CST)
+Received: from [10.174.185.226] (10.174.185.226) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 10 Mar 2021 10:13:42 +0800
+To: Auger Eric <eric.auger@redhat.com>, <qemu-devel@nongnu.org>
+References: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
+ <e37590d0-d65f-e4e4-ec59-92eb3166d9d9@redhat.com>
+From: Wang Xingang <wangxingang5@huawei.com>
+Subject: Re: [RFC RESEND PATCH 0/4] hw/arm/virt-acpi-build: Introduce iommu
+ option for pci root bus
+Message-ID: <697b7fcd-c75e-71c9-baf9-64ef610d9efb@huawei.com>
+Date: Wed, 10 Mar 2021 10:13:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20210309160814.GA763132@xz-x1>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
+In-Reply-To: <e37590d0-d65f-e4e4-ec59-92eb3166d9d9@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.185.226]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhukeqian1@huawei.com;
- helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangxingang5@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,102 +60,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- jiangkunkun@huawei.com, Andrew Jones <drjones@redhat.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- wanghaibin.wang@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: xieyingtai@huawei.com, peter.maydell@linaro.org, cenjiahui@huawei.com,
+ mst@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Eric,
 
-
-On 2021/3/10 0:08, Peter Xu wrote:
-> On Tue, Mar 09, 2021 at 02:57:53PM +0000, Dr. David Alan Gilbert wrote:
->> * Thomas Huth (thuth@redhat.com) wrote:
->>> On 09/03/2021 15.05, Keqian Zhu wrote:
->>>>
->>>>
->>>> On 2021/3/9 21:48, Thomas Huth wrote:
->>>>> On 17/12/2020 02.49, Keqian Zhu wrote:
-[...]
-
->>>
->>> #0  0x00007ffff2c1584f in raise () at /lib64/libc.so.6
->>> #1  0x00007ffff2bffc45 in abort () at /lib64/libc.so.6
->>> #2  0x00007ffff2bffb19 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
->>> #3  0x00007ffff2c0de36 in .annobin_assert.c_end () at /lib64/libc.so.6
->>> #4  0x0000555555ba25f3 in kvm_log_clear_one_slot
->>>     (size=6910080, start=0, as_id=0, mem=0x555556e1ee00)
->>>     at ../../devel/qemu/accel/kvm/kvm-all.c:691
->>> #5  0x0000555555ba25f3 in kvm_physical_log_clear
->>>     (section=0x7fffffffd0b0, section=0x7fffffffd0b0, kml=0x555556dbaac0)
->>>     at ../../devel/qemu/accel/kvm/kvm-all.c:843
->>> #6  0x0000555555ba25f3 in kvm_log_clear (listener=0x555556dbaac0, section=0x7fffffffd0b0)
->>>     at ../../devel/qemu/accel/kvm/kvm-all.c:1253
->>> #7  0x0000555555b023d8 in memory_region_clear_dirty_bitmap
->>>     (mr=mr@entry=0x5555573394c0, start=start@entry=0, len=len@entry=6910080)
->>>     at ../../devel/qemu/softmmu/memory.c:2132
->>> #8  0x0000555555b313d9 in cpu_physical_memory_snapshot_and_clear_dirty
->>>     (mr=mr@entry=0x5555573394c0, offset=offset@entry=0, length=length@entry=6910080, client=client@entry=0) at ../../devel/qemu/softmmu/physmem.c:1109
->>> #9  0x0000555555b02483 in memory_region_snapshot_and_clear_dirty
->>>     (mr=mr@entry=0x5555573394c0, addr=addr@entry=0, size=size@entry=6910080, client=client@entry=0)
->>>     at ../../devel/qemu/softmmu/memory.c:2146
+On 2021/3/9 22:36, Auger Eric wrote:
+> Hi,
+> On 2/27/21 9:33 AM, Wang Xingang wrote:
+>> From: Xingang Wang <wangxingang5@huawei.com>
 >>
->> Could you please figure out which memory region this is?
->> WTH is that size? Is that really the problem that the size is just
->> crazy?
+>> These patches add support for configure iommu on/off for pci root bus,
+>> including primary bus and pxb root bus. At present, All root bus will go
+>> through iommu when iommu is configured, which is not flexible.
+>>
+>> So this add option to enable/disable iommu for primary bus and pxb root bus.
+>> When iommu is enabled for the root bus, devices attached to it will go
+>> through iommu. When iommu is disabled for the root bus, devices will not
+>> go through iommu accordingly.
 > 
-> It seems vga_draw_graphic() could call memory_region_snapshot_and_clear_dirty()
-> with not-page-aligned size.  cpu_physical_memory_snapshot_and_clear_dirty()
-> actually took care of most of it on alignment, however still the "length"
-> parameter got passed in without alignment check or so.
+> Please could you give an example of the qemu command line for which the
+> new option is useful for you. This would help me to understand your
+> pcie/pci topology and also make sure I test it with the smmu.
 > 
-> Cc Gerd too.
+> Thank you in advance
 > 
-> I'm not sure how many use cases are there like this.. if there're a lot maybe
-> we can indeed drop this assert patch, but instead in kvm_log_clear_one_slot()
-> we should ALIGN_DOWN the size to smallest host page size. Say, if we need to
-> clear dirty bit for range (0, 0x1020), we should only clean (0, 0x1000) since
-> there can still be dirty data on range (0x1020, 0x2000).
-Right, the @start and @size should be properly aligned by kvm_log_clear_one_slot().
-We shouldn't clear areas that beyond what caller expected.
+> Best Regards
+> 
+> Eric
+>>
+>> Xingang Wang (4):
+>>    pci: Add PCI_BUS_IOMMU property
+>>    hw/pci: Add iommu option for pci root bus
+>>    hw/pci: Add pci_root_bus_max_bus
+>>    hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
+>>
+>>   hw/arm/virt-acpi-build.c            | 92 +++++++++++++++++++++--------
+>>   hw/arm/virt.c                       | 29 +++++++++
+>>   hw/pci-bridge/pci_expander_bridge.c |  6 ++
+>>   hw/pci/pci.c                        | 35 ++++++++++-
+>>   include/hw/arm/virt.h               |  1 +
+>>   include/hw/pci/pci.h                |  1 +
+>>   include/hw/pci/pci_bus.h            | 13 ++++
+>>   7 files changed, 153 insertions(+), 24 deletions(-)
+>>
+> 
+> .
+> 
 
-An assert here is not properly.
+Thanks for your advice.
+
+I test this with the following script, in which i add two options.
+
+The option `primary_bus_iommu=false(or true)` for `-machine 
+virt,iommu=smmuv3`, this helps to enable/disable whether primary bus go 
+through iommu.
+
+The other option `iommu=false` or `iommu=true` for `-device pxb-pcie` 
+helps to enable/disable whether pxb root bus go through iommu.
+
+> #!/bin/sh
+> 
+> /path/to/qemu/build/aarch64-softmmu/qemu-system-aarch64 \
+> -enable-kvm \
+> -cpu host \
+> -kernel /path/to/linux/arch/arm64/boot/Image \
+> -m 16G \
+> -smp 8,sockets=8,cores=1,threads=1 \
+> -machine virt,kernel_irqchip=on,gic-version=3,iommu=smmuv3,primary_bus_iommu=false \
+> -drive file=./QEMU_EFI-pflash.raw,if=pflash,format=raw,unit=0,readonly=on \
+> -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3.0x1,iommu=false \
+> -device pxb-pcie,bus_nr=0x20,id=pci.20,bus=pcie.0,addr=0x3.0x2,iommu=true \
+> -device pxb-pcie,bus_nr=0x23,id=pci.30,bus=pcie.0,addr=0x3.0x3,iommu=true \
+> -device pxb-pcie,bus_nr=0x40,id=pci.40,bus=pcie.0,addr=0x3.0x4,iommu=false \
+> -device pcie-pci-bridge,id=pci.11,bus=pci.10,addr=0x1 \
+> -device pcie-pci-bridge,id=pci.21,bus=pci.20,addr=0x1 \
+> -device pcie-root-port,port=0x20,chassis=10,id=pci.2,bus=pcie.0,addr=0x2 \
+> -device pcie-root-port,port=0x20,chassis=11,id=pci.12,bus=pci.10,addr=0x2 \
+> -device pcie-root-port,port=0x20,chassis=19,id=pci.19,bus=pci.11,addr=0x3 \
+> -device pcie-root-port,port=0x20,chassis=12,id=pci.22,bus=pci.20,addr=0x2 \
+> -device pcie-root-port,port=0x20,chassis=13,id=pci.42,bus=pci.40,addr=0x2 \
+> -device virtio-scsi-pci,id=scsi0,bus=pci.12,addr=0x1 \
+> -device vfio-pci,host=b5:00.2,bus=pci.42,addr=0x0,id=acc2 \
+> -net none \
+> -initrd /path/to/rootfs.cpio.gz \
+> -nographic \
+> -append "rdinit=init console=ttyAMA0 earlycon=pl011,0x9000000 nokaslr" \
+
+I test the command line with an accelerator. The IORT table will have 
+some changes, so only the root bus with iommu=true will go through smmuv3.
 
 Thanks,
-Keqian
-> 
-> Thanks,
-> 
->>
->> Dave
->>
->>> #10 0x0000555555babe99 in vga_draw_graphic (full_update=0, s=0x5555573394b0)
->>>     at ../../devel/qemu/hw/display/vga.c:1661
->>> #11 0x0000555555babe99 in vga_update_display (opaque=0x5555573394b0)
->>>     at ../../devel/qemu/hw/display/vga.c:1784
->>> #12 0x0000555555babe99 in vga_update_display (opaque=0x5555573394b0)
->>>     at ../../devel/qemu/hw/display/vga.c:1757
->>> #13 0x00005555558ddd32 in graphic_hw_update (con=0x555556a11800)
->>>     at ../../devel/qemu/ui/console.c:279
->>> #14 0x00005555558dccd2 in dpy_refresh (s=0x555556c17da0) at ../../devel/qemu/ui/console.c:1742
->>> #15 0x00005555558dccd2 in gui_update (opaque=opaque@entry=0x555556c17da0)
->>>     at ../../devel/qemu/ui/console.c:209
->>> #16 0x0000555555dbd520 in timerlist_run_timers (timer_list=0x555556937c50)
->>>     at ../../devel/qemu/util/qemu-timer.c:574
->>> #17 0x0000555555dbd520 in timerlist_run_timers (timer_list=0x555556937c50)
->>>     at ../../devel/qemu/util/qemu-timer.c:499
->>> #18 0x0000555555dbd74a in qemu_clock_run_timers (type=<optimized out>)
->>>     at ../../devel/qemu/util/qemu-timer.c:670
->>> #19 0x0000555555dbd74a in qemu_clock_run_all_timers () at ../../devel/qemu/util/qemu-timer.c:670
->>>
->>> Looks like something in the vga code calls this with size=6910080
->>> and thus triggers the alignment assertion?
->>>
->>>  Thomas
->> -- 
->> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->>
-> 
+Xingang
+.
 
