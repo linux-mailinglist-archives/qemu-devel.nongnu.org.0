@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D07333709
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:11:06 +0100 (CET)
-Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F11333717
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:15:07 +0100 (CET)
+Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJtvt-00070C-89
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:11:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
+	id 1lJtzm-0003xw-Dc
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:15:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuV-0005LX-3y
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:40 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49980
+ id 1lJtuc-0005NT-Cj
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:46 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49986
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuS-00007M-Sn
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:38 -0500
+ id 1lJtuW-00008v-Jf
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:44 -0500
 Received: from host86-140-100-136.range86-140.btcentralplus.com
  ([86.140.100.136] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuP-0006rB-Iz; Wed, 10 Mar 2021 08:09:37 +0000
+ id 1lJtuT-0006rB-TX; Wed, 10 Mar 2021 08:09:41 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Wed, 10 Mar 2021 08:09:05 +0000
-Message-Id: <20210310080908.11861-5-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 10 Mar 2021 08:09:06 +0000
+Message-Id: <20210310080908.11861-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
 References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.100.136
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 4/7] mac_via: don't re-inject ADB response when switching to
- IDLE state
+Subject: [PATCH 5/7] mac_via: rename VBL timer to 60Hz timer
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,141 +64,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current workaround for the Linux ADB state machine in kernels < 5.6 switching
-the VIA back to IDLE state between send and receive modes is to re-inject the
-first byte of the response in the IDLE state, and then force the state machine
-into generating an autopoll reply.
+According to the "Guide To The Macintosh Family Hardware", the 60Hz VIA1 timer
+on newer Macs such as the Quadra only exists for compatibility with old software
+and is no longer synced to the VBL interval.
 
-In fact what is happening is much simpler: analysis of traces from a real Quadra
-suggest that the existing data is returned as the first autopoll response rather
-than generating an immediate response starting whilst still in IDLE state.
-
-Update the ADB receive code to work in the same way, which allows the re-injection
-code to be completely removed from adb_via_receive() and for adb_via_poll() to
-be simplified accordingly.
+Rename the VBL timer to 60Hz timer to emphasise this and to prevent confusion
+when the real VBL interrupt (now handled as a NuBus slot interrupt) is added in
+future.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mac_via.c | 78 ++++++++++++++++-------------------------------
- 1 file changed, 27 insertions(+), 51 deletions(-)
+ hw/misc/mac_via.c         | 41 ++++++++++++++++++++-------------------
+ include/hw/misc/mac_via.h |  8 ++++----
+ 2 files changed, 25 insertions(+), 24 deletions(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index f38d6e2f6e..76f31b8cae 100644
+index 76f31b8cae..f994fefa7c 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -609,7 +609,6 @@ static void adb_via_poll(void *opaque)
-     uint8_t obuf[9];
-     uint8_t *data = &s->sr;
-     int olen;
--    uint16_t pending;
+@@ -297,18 +297,18 @@ enum {
+     REG_EMPTY = 0xff,
+ };
+ 
+-static void via1_VBL_update(MOS6522Q800VIA1State *v1s)
++static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
+ {
+     MOS6522State *s = MOS6522(v1s);
+ 
+     /* 60 Hz irq */
+-    v1s->next_VBL = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
+-                    16630 * 16630;
++    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
++                          16630 * 16630;
+ 
+-    if (s->ier & VIA1_IRQ_VBLANK) {
+-        timer_mod(v1s->VBL_timer, v1s->next_VBL);
++    if (s->ier & VIA1_IRQ_60HZ) {
++        timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
+     } else {
+-        timer_del(v1s->VBL_timer);
++        timer_del(v1s->sixty_hz_timer);
+     }
+ }
+ 
+@@ -325,16 +325,16 @@ static void via1_one_second_update(MOS6522Q800VIA1State *v1s)
+     }
+ }
+ 
+-static void via1_VBL(void *opaque)
++static void via1_sixty_hz(void *opaque)
+ {
+     MOS6522Q800VIA1State *v1s = opaque;
+     MOS6522State *s = MOS6522(v1s);
+     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+ 
+-    s->ifr |= VIA1_IRQ_VBLANK;
++    s->ifr |= VIA1_IRQ_60HZ;
+     mdc->update_irq(s);
+ 
+-    via1_VBL_update(v1s);
++    via1_sixty_hz_update(v1s);
+ }
+ 
+ static void via1_one_second(void *opaque)
+@@ -897,12 +897,12 @@ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
  
      /*
-      * Setting vADBInt below indicates that an autopoll reply has been
-@@ -618,36 +617,36 @@ static void adb_via_poll(void *opaque)
+      * If IRQs are disabled, timers are disabled, but we need to update
+-     * VIA1_IRQ_VBLANK and VIA1_IRQ_ONE_SECOND bits in the IFR
++     * VIA1_IRQ_60HZ and VIA1_IRQ_ONE_SECOND bits in the IFR
       */
-     adb_autopoll_block(adb_bus);
  
--    m->adb_data_in_index = 0;
--    m->adb_data_out_index = 0;
--    olen = adb_poll(adb_bus, obuf, adb_bus->autopoll_mask);
--
--    if (olen > 0) {
--        /* Autopoll response */
--        *data = obuf[0];
--        olen--;
--        memcpy(m->adb_data_in, &obuf[1], olen);
--        m->adb_data_in_size = olen;
-+    if (m->adb_data_in_size > 0 && m->adb_data_in_index == 0) {
-+        /*
-+         * For older Linux kernels that switch to IDLE mode after sending the
-+         * ADB command, detect if there is an existing response and return that
-+         * as a a "fake" autopoll reply or bus timeout accordingly
-+         */
-+        *data = m->adb_data_out[0];
-+        olen = m->adb_data_in_size;
- 
-         s->b &= ~VIA1B_vADBInt;
-         qemu_irq_raise(m->adb_data_ready);
--    } else if (olen < 0) {
--        /* Bus timeout (device does not exist) */
--        *data = 0xff;
--        s->b |= VIA1B_vADBInt;
--        adb_autopoll_unblock(adb_bus);
-     } else {
--        pending = adb_bus->pending & ~(1 << (m->adb_autopoll_cmd >> 4));
-+        /*
-+         * Otherwise poll as normal
-+         */
-+        m->adb_data_in_index = 0;
-+        m->adb_data_out_index = 0;
-+        olen = adb_poll(adb_bus, obuf, adb_bus->autopoll_mask);
-+
-+        if (olen > 0) {
-+            /* Autopoll response */
-+            *data = obuf[0];
-+            olen--;
-+            memcpy(m->adb_data_in, &obuf[1], olen);
-+            m->adb_data_in_size = olen;
- 
--        if (pending) {
--            /*
--             * Bus timeout (device exists but another device has data). Block
--             * autopoll so the OS can read out the first EVEN and first ODD
--             * byte to determine bus timeout and SRQ status
--             */
--            *data = m->adb_autopoll_cmd;
-             s->b &= ~VIA1B_vADBInt;
--
-+            qemu_irq_raise(m->adb_data_ready);
-+        } else {
-+            *data = m->adb_autopoll_cmd;
-             obuf[0] = 0xff;
-             obuf[1] = 0xff;
-             olen = 2;
-@@ -655,12 +654,8 @@ static void adb_via_poll(void *opaque)
-             memcpy(m->adb_data_in, obuf, olen);
-             m->adb_data_in_size = olen;
- 
-+            s->b &= ~VIA1B_vADBInt;
-             qemu_irq_raise(m->adb_data_ready);
--        } else {
--            /* Bus timeout (device exists but no other device has data) */
--            *data = 0;
--            s->b |= VIA1B_vADBInt;
--            adb_autopoll_unblock(adb_bus);
-         }
+-    if (now >= s->next_VBL) {
+-        ms->ifr |= VIA1_IRQ_VBLANK;
+-        via1_VBL_update(s);
++    if (now >= s->next_sixty_hz) {
++        ms->ifr |= VIA1_IRQ_60HZ;
++        via1_sixty_hz_update(s);
+     }
+     if (now >= s->next_second) {
+         ms->ifr |= VIA1_IRQ_ONE_SECOND;
+@@ -933,7 +933,7 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
      }
  
-@@ -783,27 +778,8 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
-         return;
+     via1_one_second_update(v1s);
+-    via1_VBL_update(v1s);
++    via1_sixty_hz_update(v1s);
+ }
  
-     case ADB_STATE_IDLE:
--        /*
--         * Since adb_request() will have already consumed the data from the
--         * device, we must detect this extra state change and re-inject the
--         * reponse as either a "fake" autopoll reply or bus timeout
--         * accordingly
--         */
--        if (s->adb_data_in_index == 0) {
--            if (adb_bus->status & ADB_STATUS_BUSTIMEOUT) {
--                *data = 0xff;
--                ms->b |= VIA1B_vADBInt;
--                qemu_irq_raise(s->adb_data_ready);
--            } else if (s->adb_data_in_size > 0) {
--                adb_bus->status = ADB_STATUS_POLLREPLY;
--                *data = s->adb_autopoll_cmd;
--                ms->b &= ~VIA1B_vADBInt;
--                qemu_irq_raise(s->adb_data_ready);
--            }
--        } else {
--            ms->b |= VIA1B_vADBInt;
--            adb_autopoll_unblock(adb_bus);
--        }
-+        ms->b |= VIA1B_vADBInt;
-+        adb_autopoll_unblock(adb_bus);
+ static const MemoryRegionOps mos6522_q800_via1_ops = {
+@@ -983,8 +983,8 @@ static void mac_via_reset(DeviceState *dev)
  
-         trace_via1_adb_receive("IDLE", *data,
-                         (ms->b & VIA1B_vADBInt) ? "+" : "-", adb_bus->status,
+     adb_set_autopoll_enabled(adb_bus, true);
+ 
+-    timer_del(v1s->VBL_timer);
+-    v1s->next_VBL = 0;
++    timer_del(v1s->sixty_hz_timer);
++    v1s->next_sixty_hz = 0;
+     timer_del(v1s->one_second_timer);
+     v1s->next_second = 0;
+ 
+@@ -1026,8 +1026,9 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+     m->mos6522_via1.one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
+                                                      via1_one_second,
+                                                      &m->mos6522_via1);
+-    m->mos6522_via1.VBL_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via1_VBL,
+-                                              &m->mos6522_via1);
++    m->mos6522_via1.sixty_hz_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                                  via1_sixty_hz,
++                                                  &m->mos6522_via1);
+ 
+     qemu_get_timedate(&tm, 0);
+     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
+@@ -1116,8 +1117,8 @@ static const VMStateDescription vmstate_mac_via = {
+         VMSTATE_BUFFER(mos6522_via1.PRAM, MacVIAState),
+         VMSTATE_TIMER_PTR(mos6522_via1.one_second_timer, MacVIAState),
+         VMSTATE_INT64(mos6522_via1.next_second, MacVIAState),
+-        VMSTATE_TIMER_PTR(mos6522_via1.VBL_timer, MacVIAState),
+-        VMSTATE_INT64(mos6522_via1.next_VBL, MacVIAState),
++        VMSTATE_TIMER_PTR(mos6522_via1.sixty_hz_timer, MacVIAState),
++        VMSTATE_INT64(mos6522_via1.next_sixty_hz, MacVIAState),
+         VMSTATE_STRUCT(mos6522_via2.parent_obj, MacVIAState, 0, vmstate_mos6522,
+                        MOS6522State),
+         /* RTC */
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index a59f0bd422..3058b30685 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -17,7 +17,7 @@
+ 
+ /* VIA 1 */
+ #define VIA1_IRQ_ONE_SECOND_BIT 0
+-#define VIA1_IRQ_VBLANK_BIT     1
++#define VIA1_IRQ_60HZ_BIT       1
+ #define VIA1_IRQ_ADB_READY_BIT  2
+ #define VIA1_IRQ_ADB_DATA_BIT   3
+ #define VIA1_IRQ_ADB_CLOCK_BIT  4
+@@ -25,7 +25,7 @@
+ #define VIA1_IRQ_NB             8
+ 
+ #define VIA1_IRQ_ONE_SECOND (1 << VIA1_IRQ_ONE_SECOND_BIT)
+-#define VIA1_IRQ_VBLANK     (1 << VIA1_IRQ_VBLANK_BIT)
++#define VIA1_IRQ_60HZ       (1 << VIA1_IRQ_60HZ_BIT)
+ #define VIA1_IRQ_ADB_READY  (1 << VIA1_IRQ_ADB_READY_BIT)
+ #define VIA1_IRQ_ADB_DATA   (1 << VIA1_IRQ_ADB_DATA_BIT)
+ #define VIA1_IRQ_ADB_CLOCK  (1 << VIA1_IRQ_ADB_CLOCK_BIT)
+@@ -45,8 +45,8 @@ struct MOS6522Q800VIA1State {
+     /* external timers */
+     QEMUTimer *one_second_timer;
+     int64_t next_second;
+-    QEMUTimer *VBL_timer;
+-    int64_t next_VBL;
++    QEMUTimer *sixty_hz_timer;
++    int64_t next_sixty_hz;
+ };
+ 
+ 
 -- 
 2.20.1
 
