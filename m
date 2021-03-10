@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC03333AAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:51:27 +0100 (CET)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979AD333AB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:52:55 +0100 (CET)
+Received: from localhost ([::1]:54596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwR4-0005LX-24
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:51:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42468)
+	id 1lJwSU-0007mC-Kz
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:52:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lJwPQ-0003w8-KD
+ id 1lJwPQ-0003vd-E6
  for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:49:44 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46737)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lJwPO-0003lf-Fr
+ id 1lJwPO-0003lh-WF
  for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:49:44 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- d139-20020a1c1d910000b029010b895cb6f2so10407500wmd.5
+Received: by mail-wm1-x330.google.com with SMTP id
+ f22-20020a7bc8d60000b029010c024a1407so10723232wml.2
  for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:49:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8aIi9JEi52GeymGLHsSl0KqKUj727bZKUwmsTmAeWbE=;
- b=DRx8TbHh/RbkAihyMWmZiodqvNbyqJfpBWmIzphoV5yDmb3cgjsge99xyIzbf9tFoK
- h6r7tYl/W0Icf9A0xMzuTEGsYOxzdsDxTp+EOsvi9etvpvO+LzVtPzlqOuz+zP/2g04J
- UmS8Co+A3m0N6+IhEwQusgsp9t5X9D7gTzSVv8NslyZimhz8Mb16G6LMVXO8yz9IZXrx
- W8CzYlYbeXJZmzakJ0gH7IsWIrdJ77ydbYclH/1YrQMBKdfSjiIPDhXJoigbHPNJ/D4T
- E2rga6x/vTnT5riEBg4vZ4n8C9Jf+bW7t2XPpHuvDek6/zR5ity8Vb7e6y9eRGv1FDWV
- ZTAg==
+ bh=YhBo1ZSoIBwZQ5KKbNpd+bGBZNvKDhx/Uj/CIpS1xWc=;
+ b=bCrgZCxeii031vCKUZxH/XL9c/zKCMM24Rhg07B765uxrd//6J/Qiq9yzYZPz+J9Tg
+ PWrahUCEFV3WGP93MKKnAovwULXMixW+nAlxGpESgUZZF5hSs0jjEco7a3nT0lG0zPaT
+ OKFgi6pESRDmWymGbXOrlRyBsg+qeFatrj0wXBEbrz0RnXQZ0hVIG0PS+BH1DS1L4vT1
+ 1wOO6gZBB5jdSbBNKstLbnsO8yop7xha19E/c1pyE1RFrXmju+hyX2G+h+Vc1+w/zKPp
+ OioJzTgRjgmpg8ayoskNzKjz6RyUK7fpIW70lIL7w/JhrIL2FywK5mnXVPO7MlIlKasE
+ tbbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8aIi9JEi52GeymGLHsSl0KqKUj727bZKUwmsTmAeWbE=;
- b=ebE9G6XyG5aBsTkRbp6pGxQEA/i4k0Y/GsabAhUDTX6sAHqi0iN7Ldkpnx0CmJHuK4
- 62426hC7dQfRX/+/7InPs77rqtQ9F2txRudW13C/cHLm4uBSWrmU1hr+Z7AQAtpHej4P
- iNor3UYgS1Si9terL2IS4vnwjf7IGxtFl4/QzZgswC9YDqZp0Sd+v4dJneARcjhUlaW/
- H262I5Ry6sJlgAyDafZFaRbDcN7ibSQSotePRBs8yXWOLq42k1VDnqbW3ZRNPNgEgPMc
- bjZybJRARfO/Jh4acd1JHTNqsPNZib/w5NzqAhGscBrb7T0FX/WzOk8MuOhSb2nav2NV
- y4wA==
-X-Gm-Message-State: AOAM530GEfBxS1uy7Lb1YfsFQbnBBUVhPUw73fe+I5qJmieooFIsiaLt
- XgWvwVxx6Tqyho2QFSpGMkt1eqiyfN8=
-X-Google-Smtp-Source: ABdhPJzfw4Xm/nNBpt4ZNYAOFFtwf5s591NmR2FkabNS4GoWN0EnyDXhZTr3K7+dPUfS2v7kDutfgQ==
-X-Received: by 2002:a7b:c0c7:: with SMTP id s7mr2755189wmh.5.1615373381251;
+ bh=YhBo1ZSoIBwZQ5KKbNpd+bGBZNvKDhx/Uj/CIpS1xWc=;
+ b=IoylaMXbh1J8XTeGB/DAq5HuIPliobYDRQ9Kx/ZsfW1PpplGeI0bOFXie1/+1DYzGM
+ uwKedaq3wHXoDtWgdEKcdcLSJ+k9LOC5nTXrWHgenNLQf+SwjKtuqJ9ho/hCbfxVxQ56
+ Y3f5IIkTJVVuIZxVUBidDBGqPZhBtzGYIVwrL740HwUPBUpJh2WP8emSDdEs1QlfWvwz
+ VQb7f0sdpETn2KNlIqsc5Um2WTdQ7s15ifX7gsgZi8tDhlZrWXDekpHkEdDqrJC1P4B3
+ YRB5ms/b+bpDhGJU/4Tj7sOqu9uoS3jrxrDCBOsNKjc/+THn3Pyy70hIHmahCcUam6p6
+ Gpsg==
+X-Gm-Message-State: AOAM533Q5bdMPe8rhodf9sGapNA1qXSUJCLl2nyY0/Fj5r2F58/kN4eg
+ 6dHJL+vmlLol3xiyhqLn/hEPLcW1hTM=
+X-Google-Smtp-Source: ABdhPJwF56Zt0kX2hxpER6h+6X3U9+0rBeeUJKqDZQiJ7T5XmP0N4hPOxJwk14eqAky1c1cmy9OQOg==
+X-Received: by 2002:a1c:f701:: with SMTP id v1mr2741186wmh.182.1615373381780; 
  Wed, 10 Mar 2021 02:49:41 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- s11sm9060808wme.22.2021.03.10.02.49.40
+ s11sm9060808wme.22.2021.03.10.02.49.41 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 02:49:40 -0800 (PST)
+ Wed, 10 Mar 2021 02:49:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] meson: switch minimum meson version to 0.57.0
-Date: Wed, 10 Mar 2021 11:49:36 +0100
-Message-Id: <20210310104937.253532-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] hexagon: use env keyword argument to pass PYTHONPATH
+Date: Wed, 10 Mar 2021 11:49:37 +0100
+Message-Id: <20210310104937.253532-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310104937.253532-1-pbonzini@redhat.com>
 References: <20210310104937.253532-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,271 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson 0.57.0 does not need b_staticpic=$pie anymore, and has
-stabilized the keyval module.  Remove the workaround and use a few
-replacements for features deprecated in the 0.57.0 release cycle.
+This feature is new in meson 0.57 and allows getting rid of the "env" wrapper.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     |  7 +----
- docs/meson.build              | 12 ++++----
- meson.build                   | 54 ++++++++++++++++-------------------
- plugins/meson.build           |  4 +--
- tests/meson.build             |  2 +-
- tests/qapi-schema/meson.build |  4 +--
- tests/qtest/meson.build       |  2 +-
- trace/meson.build             |  4 +--
- 8 files changed, 40 insertions(+), 49 deletions(-)
+ target/hexagon/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 34fccaa2ba..899922ca47 100755
---- a/configure
-+++ b/configure
-@@ -1945,7 +1945,7 @@ python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0]
- python="$python -B"
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index bb0b4fb621..aaeee11ac1 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -156,7 +156,8 @@ dectree_generated = custom_target(
+     'dectree_generated.h.inc',
+     output: 'dectree_generated.h.inc',
+     depends: [iset_py],
+-    command: ['env', 'PYTHONPATH=' + meson.current_build_dir(), files('dectree.py'), '@OUTPUT@'],
++    env: {'PYTHONPATH': meson.current_build_dir()},
++    command: [python, files('dectree.py'), '@OUTPUT@'],
+ )
+ hexagon_ss.add(dectree_generated)
  
- if test -z "$meson"; then
--    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.3; then
-+    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.57.0; then
-         meson=meson
-     elif test $git_submodules_action != 'ignore' ; then
-         meson=git
-@@ -6384,10 +6384,6 @@ fi
- mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
--unset staticpic
--if ! version_ge "$($meson --version)" 0.56.0; then
--  staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi)
--fi
- NINJA=$ninja $meson setup \
-         --prefix "$prefix" \
-         --libdir "$libdir" \
-@@ -6407,7 +6403,6 @@ NINJA=$ninja $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
--        ${staticpic:+-Db_staticpic=$staticpic} \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-         -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
-         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
-diff --git a/docs/meson.build b/docs/meson.build
-index f84306ba7e..0aa98719af 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -38,12 +38,12 @@ endif
- if build_docs
-   SPHINX_ARGS += ['-Dversion=' + meson.project_version(), '-Drelease=' + config_host['PKGVERSION']]
- 
--  sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
--                          meson.source_root() / 'docs/sphinx/hxtool.py',
--                          meson.source_root() / 'docs/sphinx/kerneldoc.py',
--                          meson.source_root() / 'docs/sphinx/kernellog.py',
--                          meson.source_root() / 'docs/sphinx/qapidoc.py',
--                          meson.source_root() / 'docs/sphinx/qmp_lexer.py',
-+  sphinx_extn_depends = [ meson.current_source_dir() / 'sphinx/depfile.py',
-+                          meson.current_source_dir() / 'sphinx/hxtool.py',
-+                          meson.current_source_dir() / 'sphinx/kerneldoc.py',
-+                          meson.current_source_dir() / 'sphinx/kernellog.py',
-+                          meson.current_source_dir() / 'sphinx/qapidoc.py',
-+                          meson.current_source_dir() / 'sphinx/qmp_lexer.py',
-                           qapi_gen_depends ]
- 
-   have_ga = have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
-diff --git a/meson.build b/meson.build
-index adeec153d9..9e2a3242ca 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,14 +1,10 @@
--project('qemu', ['c'], meson_version: '>=0.55.0',
--        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
--                         (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
--        version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
-+project('qemu', ['c'], meson_version: '>=0.57.0',
-+        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto',
-+                          'b_staticpic=false'],
-+        version: files('VERSION'))
- 
- not_found = dependency('', required: false)
--if meson.version().version_compare('>=0.56.0')
--  keyval = import('keyval')
--else
--  keyval = import('unstable-keyval')
--endif
-+keyval = import('keyval')
- ss = import('sourceset')
- fs = import('fs')
- 
-@@ -1646,21 +1642,21 @@ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
- hxtool = find_program('scripts/hxtool')
- shaderinclude = find_program('scripts/shaderinclude.pl')
- qapi_gen = find_program('scripts/qapi-gen.py')
--qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
--                     meson.source_root() / 'scripts/qapi/commands.py',
--                     meson.source_root() / 'scripts/qapi/common.py',
--                     meson.source_root() / 'scripts/qapi/error.py',
--                     meson.source_root() / 'scripts/qapi/events.py',
--                     meson.source_root() / 'scripts/qapi/expr.py',
--                     meson.source_root() / 'scripts/qapi/gen.py',
--                     meson.source_root() / 'scripts/qapi/introspect.py',
--                     meson.source_root() / 'scripts/qapi/parser.py',
--                     meson.source_root() / 'scripts/qapi/schema.py',
--                     meson.source_root() / 'scripts/qapi/source.py',
--                     meson.source_root() / 'scripts/qapi/types.py',
--                     meson.source_root() / 'scripts/qapi/visit.py',
--                     meson.source_root() / 'scripts/qapi/common.py',
--                     meson.source_root() / 'scripts/qapi-gen.py'
-+qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
-+                     meson.current_source_dir() / 'scripts/qapi/commands.py',
-+                     meson.current_source_dir() / 'scripts/qapi/common.py',
-+                     meson.current_source_dir() / 'scripts/qapi/error.py',
-+                     meson.current_source_dir() / 'scripts/qapi/events.py',
-+                     meson.current_source_dir() / 'scripts/qapi/expr.py',
-+                     meson.current_source_dir() / 'scripts/qapi/gen.py',
-+                     meson.current_source_dir() / 'scripts/qapi/introspect.py',
-+                     meson.current_source_dir() / 'scripts/qapi/parser.py',
-+                     meson.current_source_dir() / 'scripts/qapi/schema.py',
-+                     meson.current_source_dir() / 'scripts/qapi/source.py',
-+                     meson.current_source_dir() / 'scripts/qapi/types.py',
-+                     meson.current_source_dir() / 'scripts/qapi/visit.py',
-+                     meson.current_source_dir() / 'scripts/qapi/common.py',
-+                     meson.current_source_dir() / 'scripts/qapi-gen.py'
- ]
- 
- tracetool = [
-@@ -2204,14 +2200,14 @@ foreach target : target_dirs
-   if target.endswith('-softmmu')
-     execs = [{
-       'name': 'qemu-system-' + target_name,
--      'gui': false,
-+      'win_subsystem': 'console',
-       'sources': files('softmmu/main.c'),
-       'dependencies': []
-     }]
-     if targetos == 'windows' and (sdl.found() or gtk.found())
-       execs += [{
-         'name': 'qemu-system-' + target_name + 'w',
--        'gui': true,
-+        'win_subsystem': 'windows',
-         'sources': files('softmmu/main.c'),
-         'dependencies': []
-       }]
-@@ -2220,7 +2216,7 @@ foreach target : target_dirs
-       specific_fuzz = specific_fuzz_ss.apply(config_target, strict: false)
-       execs += [{
-         'name': 'qemu-fuzz-' + target_name,
--        'gui': false,
-+        'win_subsystem': 'console',
-         'sources': specific_fuzz.sources(),
-         'dependencies': specific_fuzz.dependencies(),
-       }]
-@@ -2228,7 +2224,7 @@ foreach target : target_dirs
-   else
-     execs = [{
-       'name': 'qemu-' + target_name,
--      'gui': false,
-+      'win_subsystem': 'console',
-       'sources': [],
-       'dependencies': []
-     }]
-@@ -2248,7 +2244,7 @@ foreach target : target_dirs
-                link_language: link_language,
-                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
-                link_args: link_args,
--               gui_app: exe['gui'])
-+               win_subsystem: exe['win_subsystem'])
- 
-     if exe_sign
-       emulators += {exe['name'] : custom_target(exe['name'],
-diff --git a/plugins/meson.build b/plugins/meson.build
-index e77723010e..d58efc980e 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -1,7 +1,7 @@
- if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
--  plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.build_root() / 'qemu-plugins-ld.symbols')]
-+  plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.project_build_root() / 'qemu-plugins-ld.symbols')]
- elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
--  plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.build_root() / 'qemu-plugins-ld64.symbols')]
-+  plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.project_build_root() / 'qemu-plugins-ld64.symbols')]
- else
-   plugin_ldflags = []
- endif
-diff --git a/tests/meson.build b/tests/meson.build
-index 656d211e25..c45f5e2275 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -112,7 +112,7 @@ tests = {
-   'test-keyval': [testqapi],
-   'test-logging': [],
-   'test-uuid': [],
--  'ptimer-test': ['ptimer-test-stubs.c', meson.source_root() / 'hw/core/ptimer.c'],
-+  'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
-   'test-qapi-util': [],
- }
- 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index 304ef939bd..26588396d2 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -1,5 +1,5 @@
- test_env = environment()
--test_env.set('PYTHONPATH', meson.source_root() / 'scripts')
-+test_env.set('PYTHONPATH', meson.project_source_root() / 'scripts')
- test_env.set('PYTHONIOENCODING', 'utf-8')
- 
- schemas = [
-@@ -240,7 +240,7 @@ if build_docs
-                                # clutter up the build dir with the cache.
-                                command: [SPHINX_ARGS,
-                                          '-b', 'text', '-E',
--                                         '-c', meson.source_root() / 'docs',
-+                                         '-c', meson.project_source_root() / 'docs',
-                                          '-D', 'master_doc=doc-good',
-                                          meson.current_source_dir(),
-                                          meson.current_build_dir()])
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 58efc46144..eb254341eb 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -260,7 +260,7 @@ foreach dir : target_dirs
-     qtest_env.set('QTEST_QEMU_IMG', './qemu-img')
-     test_deps += [qemu_img]
-   endif
--  qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
-+  qtest_env.set('G_TEST_DBUS_DAEMON', meson.project_source_root() / 'tests/dbus-vmstate-daemon.sh')
-   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
-   
-   foreach test : target_qtests
-diff --git a/trace/meson.build b/trace/meson.build
-index 08f83a15c3..317b557915 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -3,7 +3,7 @@ specific_ss.add(files('control-target.c'))
- 
- trace_events_files = []
- foreach dir : [ '.' ] + trace_events_subdirs
--  trace_events_file = meson.source_root() / dir / 'trace-events'
-+  trace_events_file = meson.project_source_root() / dir / 'trace-events'
-   trace_events_files += [ trace_events_file ]
-   group_name = dir == '.' ? 'root' : dir.underscorify()
-   group = '--group=' + group_name
-@@ -69,7 +69,7 @@ foreach d : [
- ]
-   gen = custom_target(d[0],
-                 output: d[0],
--                input: meson.source_root() / 'trace-events',
-+                input: meson.project_source_root() / 'trace-events',
-                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@', '@OUTPUT@' ],
-                 depend_files: tracetool_depends)
-   specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
 -- 
 2.29.2
-
 
 
