@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CB333426E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:06:24 +0100 (CET)
-Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC282334283
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:09:27 +0100 (CET)
+Received: from localhost ([::1]:38418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK1Lr-0006tY-TF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34616)
+	id 1lK1Oo-0002vX-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:09:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK1G3-0004cw-IA
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:23 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:33621)
+ id 1lK1G5-0004gH-UR
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:25 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lK1G1-0002jx-Mv
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:23 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id jt13so39766020ejb.0
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:00:21 -0800 (PST)
+ id 1lK1G3-0002kh-QZ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:00:25 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id p7so28324902eju.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:00:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IR6vFLzUACk+G2n73bw/zv7txMf+sDqfwEPpB5jBt2E=;
- b=gf7eH1U0fD3i/L4Cn77E7dK5yphSv1EyV1ndkFrUyjClzXVcrFMpyygN1j/hbweuZg
- d6iHu7gEfG4bdNUGdV+ElkDb95bRHq8vT4CCW1oZjaDBix0hn/hOG9VBCHA90AL5DeNk
- opCu8Dml657lniNj8MjI4b4gWdE4E3oHrRRH5gDodcWFSKy3o3wzEg6eiQh9PhBX63Vz
- LnjZ7H2iCtasPPimHVHBGUwFMjPJaF7QDdkqLeDtPYmYVJpm+6mLrRIwZ3tQxpZlHWZ6
- mTjLcObi2vopkYSJkTsq/pQnSnt+pL4c4KFP0+PJIbjsMU1qjIgyU1DjVwpPsvoA9niT
- IIPg==
+ bh=pvLRFhKRZ46zoLGE2Of04xq5NWvYqMo8l3LmqWGUFBQ=;
+ b=IwK8gjMnOpzsE2avGNlBQ5w7FERzLBKlt+MKY4ckwx+ztKXQKA0q2XQhOMOqp0LRPC
+ 3y3M9Pwdmh/iYNsQg3scHK5lTjUwER1XCoCwv8zW0ziKRQcQEvCmltDSI/eyLFPNPJ0A
+ SOuDH2Oglx5EzM+YDmUCRM0zHtdBRS6Z0mPUNC162FFxWA2wyShrD09galSqFsh3/Bvi
+ UelD45/gQIOfckOVeJ0qJYrvWPZ7G3WNZHMU5+OueKBVZDMdk07MAIw/zFvYu9dLnkAQ
+ 2F9fVDjMW8QCtsNO6nHe/0NgWMj6EoY/d11gm0Z4zBSJDHElmoS51oz/yE2Ctm1S8cJm
+ 7hqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IR6vFLzUACk+G2n73bw/zv7txMf+sDqfwEPpB5jBt2E=;
- b=Ux6Uw4aYtjRCo5VrTpxc6TdqkAP5gAb62/c6Pz25PmRj3itEGsIGbV9c3LzI1xxsQt
- ZV8EsUR4iO1IgUiWUj+CY1Wp8FyP5L/SDS/qF8feMnS3hfmFp1/jF3yUIDM8+QzQvrPm
- EZva3+VsbtyVzWaTnhBvMmCHWy+0Fpu0reLFb8AJHIAadoGdoTybwJgpFjNNDCdRwSjK
- iSb5c6TD7G2dZJr9zuVSplU9t0lnZ7nL25459kjkAVnLO2wNm8P0kJ3RMlQNbjigUCZV
- Gz7jrtapmOG9Xd6ZopAVYTH/N7SoaSmp2p9m/IOlktY/s0/fKkBC9tOuyJpctCqw0ozO
- Q4Ug==
-X-Gm-Message-State: AOAM530+FB9E4xGyw33M/xhAINunf1stn3VPOC91u6DZAzQUwtKYKplL
- NtPjchcOGNh5kvFE3MrjPY4TUw==
-X-Google-Smtp-Source: ABdhPJxMg4tVsNupsiitJHNHfj3d3oi4GJc74XwtG4DmhBuMLgifratdY97DbczToMlA9ZdFygu8ug==
-X-Received: by 2002:a17:906:72d1:: with SMTP id
- m17mr4407947ejl.118.1615392015229; 
- Wed, 10 Mar 2021 08:00:15 -0800 (PST)
+ bh=pvLRFhKRZ46zoLGE2Of04xq5NWvYqMo8l3LmqWGUFBQ=;
+ b=FM3TebXA8wsNlubBgSbVxoHjsH7ilDG0Bcn0HQk+/YNO0HOZVsRy52o/RzeLEIWkhi
+ HKmtMWiNnp0gnVvZBO6feCGU3pnCCsVUYABFF2y+2Xxv0qMF8AmEK/b195s/2nSVwHmn
+ iVlMOLrJBVqaEfPtXkxT4x/hJ5Z6YVeruM2uUKG27fE2TQDE8mwm3uQyylDvvG47SMi5
+ oMsBmoBD7S0hdzogDNbqHOQFIeALbHiN9SYRZcChFokv92l9m75kjB0zGI0YNTEZmTFt
+ 1uI2GiBtlXVZ7dgzMwomIHSEcYjIH2+HLcOM+qXb472AuT2vhuRNki0KcpdO51PMaU3j
+ YT9A==
+X-Gm-Message-State: AOAM530M3XPueFKwark5/AJJJ52SlfVAFkCrnvJFEuCI8vBSCkrGSxoO
+ Q6Rz0ivb78MNJp0A4cC1Ai/mTA==
+X-Google-Smtp-Source: ABdhPJwsUIR9EyMy13g5THHDTjDjO6qooH5yrs+pJSpXEh0RWz7n+DiGDKONgiXdR0wOjGqbHOzx/A==
+X-Received: by 2002:a17:906:f44:: with SMTP id
+ h4mr4375981ejj.204.1615392021038; 
+ Wed, 10 Mar 2021 08:00:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q20sm10259207ejs.41.2021.03.10.08.00.08
+ by smtp.gmail.com with ESMTPSA id jv19sm10355768ejc.74.2021.03.10.08.00.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 08:00:10 -0800 (PST)
+ Wed, 10 Mar 2021 08:00:12 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BC7DD1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id D3E941FF9C;
  Wed, 10 Mar 2021 16:00:03 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 12/15] docs: add some documentation for the guest-loader
-Date: Wed, 10 Mar 2021 15:59:59 +0000
-Message-Id: <20210310160002.11659-13-alex.bennee@linaro.org>
+Subject: [PULL v2 13/15] tests/avocado: add boot_xen tests
+Date: Wed, 10 Mar 2021 16:00:00 +0000
+Message-Id: <20210310160002.11659-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310160002.11659-1-alex.bennee@linaro.org>
 References: <20210310160002.11659-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,99 +87,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210303173642.3805-7-alex.bennee@linaro.org>
+These tests make sure we can boot the Xen hypervisor with a Dom0
+kernel using the guest-loader. We currently have to use a kernel I
+built myself because there are issues using the Debian kernel images.
 
-diff --git a/docs/system/guest-loader.rst b/docs/system/guest-loader.rst
-new file mode 100644
-index 0000000000..37d03cbd89
---- /dev/null
-+++ b/docs/system/guest-loader.rst
-@@ -0,0 +1,54 @@
-+..
-+   Copyright (c) 2020, Linaro
-+
-+Guest Loader
-+------------
-+
-+The guest loader is similar to the `generic-loader` although it is
-+aimed at a particular use case of loading hypervisor guests. This is
-+useful for debugging hypervisors without having to jump through the
-+hoops of firmware and boot-loaders.
-+
-+The guest loader does two things:
-+
-+  - load blobs (kernels and initial ram disks) into memory
-+  - sets platform FDT data so hypervisors can find and boot them
-+
-+This is what is typically done by a boot-loader like grub using it's
-+multi-boot capability. A typical example would look like:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| -kernel ~/xen.git/xen/xen \
-+    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
-+    -device guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen" \
-+    -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
-+
-+In the above example the Xen hypervisor is loaded by the -kernel
-+parameter and passed it's boot arguments via -append. The Dom0 guest
-+is loaded into the areas of memory. Each blob will get
-+`/chosen/module@<addr>` entry in the FDT to indicate it's location and
-+size. Additional information can be passed with by using additional
-+arguments.
-+
-+Currently the only supported machines which use FDT data to boot are
-+the ARM and RiscV `virt` machines.
-+
-+Arguments
-+^^^^^^^^^
-+
-+The full syntax of the guest-loader is::
-+
-+  -device guest-loader,addr=<addr>[,kernel=<file>,[bootargs=<args>]][,initrd=<file>]
-+
-+``addr=<addr>``
-+  This is mandatory and indicates the start address of the blob.
-+
-+``kernel|initrd=<file>``
-+  Indicates the filename of the kernel or initrd blob. Both blobs will
-+  have the "multiboot,module" compatibility string as well as
-+  "multiboot,kernel" or "multiboot,ramdisk" as appropriate.
-+
-+``bootargs=<args>``
-+  This is an optional field for kernel blobs which will pass command
-+  like via the `/chosen/module@<addr>/bootargs` node.
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index cee1c83540..6ad9c93806 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -26,6 +26,7 @@ Contents:
-    ivshmem
-    linuxboot
-    generic-loader
-+   guest-loader
-    vnc-security
-    tls
-    gdb
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20210303173642.3805-8-alex.bennee@linaro.org>
+
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a1170bad5a..2ad004fed5 100644
+index 2ad004fed5..ea200aae1d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2026,6 +2026,7 @@ Guest Loader
- M: Alex Bennée <alex.bennee@linaro.org>
+@@ -2027,6 +2027,7 @@ M: Alex Bennée <alex.bennee@linaro.org>
  S: Maintained
  F: hw/core/guest-loader.c
-+F: docs/system/guest-loader.rst
+ F: docs/system/guest-loader.rst
++F: tests/acceptance/boot_xen.py
  
  Intel Hexadecimal Object File Loader
  M: Su Hang <suhang16@mails.ucas.ac.cn>
+diff --git a/tests/acceptance/boot_xen.py b/tests/acceptance/boot_xen.py
+new file mode 100644
+index 0000000000..75c2d44492
+--- /dev/null
++++ b/tests/acceptance/boot_xen.py
+@@ -0,0 +1,118 @@
++# Functional test that boots a Xen hypervisor with a domU kernel and
++# checks the console output is vaguely sane .
++#
++# Copyright (c) 2020 Linaro
++#
++# Author:
++#  Alex Bennée <alex.bennee@linaro.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++
++from avocado import skipIf
++from avocado_qemu import wait_for_console_pattern
++from boot_linux_console import LinuxKernelTest
++
++
++class BootXenBase(LinuxKernelTest):
++    """
++    Boots a Xen hypervisor with a Linux DomU kernel.
++    """
++
++    timeout = 90
++    XEN_COMMON_COMMAND_LINE = 'dom0_mem=128M loglvl=all guest_loglvl=all'
++
++    def fetch_guest_kernel(self):
++        # Using my own built kernel - which works
++        kernel_url = ('https://fileserver.linaro.org/'
++                      's/JSsewXGZ6mqxPr5/download?path=%2F&files='
++                      'linux-5.9.9-arm64-ajb')
++        kernel_sha1 = '4f92bc4b9f88d5ab792fa7a43a68555d344e1b83'
++        kernel_path = self.fetch_asset(kernel_url,
++                                       asset_hash=kernel_sha1)
++
++        return kernel_path
++
++    def launch_xen(self, xen_path):
++        """
++        Launch Xen with a dom0 guest kernel
++        """
++        self.log.info("launch with xen_path: %s", xen_path)
++        kernel_path = self.fetch_guest_kernel()
++
++        self.vm.set_console()
++
++        xen_command_line = self.XEN_COMMON_COMMAND_LINE
++        self.vm.add_args('-machine', 'virtualization=on',
++                         '-cpu', 'cortex-a57',
++                         '-m', '768',
++                         '-kernel', xen_path,
++                         '-append', xen_command_line,
++                         '-device',
++                         'guest-loader,addr=0x47000000,kernel=%s,bootargs=console=hvc0'
++                         % (kernel_path))
++
++        self.vm.launch()
++
++        console_pattern = 'VFS: Cannot open root device'
++        wait_for_console_pattern(self, console_pattern, "Panic on CPU 0:")
++
++
++class BootXen(BootXenBase):
++
++    def test_arm64_xen_411_and_dom0(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=accel:tcg
++        :avocado: tags=cpu:cortex-a57
++        :avocado: tags=machine:virt
++        """
++
++        # archive of file from https://deb.debian.org/debian/pool/main/x/xen/
++        xen_url = ('https://fileserver.linaro.org/s/JSsewXGZ6mqxPr5/'
++                   'download?path=%2F&files='
++                   'xen-hypervisor-4.11-arm64_4.11.4%2B37-g3263f257ca-1_arm64.deb')
++        xen_sha1 = '034e634d4416adbad1212d59b62bccdcda63e62a'
++        xen_deb = self.fetch_asset(xen_url, asset_hash=xen_sha1)
++        xen_path = self.extract_from_deb(xen_deb, "/boot/xen-4.11-arm64")
++
++        self.launch_xen(xen_path)
++
++    def test_arm64_xen_414_and_dom0(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=accel:tcg
++        :avocado: tags=cpu:cortex-a57
++        :avocado: tags=machine:virt
++        """
++
++        # archive of file from https://deb.debian.org/debian/pool/main/x/xen/
++        xen_url = ('https://fileserver.linaro.org/s/JSsewXGZ6mqxPr5/'
++                   'download?path=%2F&files='
++                   'xen-hypervisor-4.14-arm64_4.14.0%2B80-gd101b417b7-1_arm64.deb')
++        xen_sha1 = 'b9d209dd689ed2b393e625303a225badefec1160'
++        xen_deb = self.fetch_asset(xen_url, asset_hash=xen_sha1)
++        xen_path = self.extract_from_deb(xen_deb, "/boot/xen-4.14-arm64")
++
++        self.launch_xen(xen_path)
++
++    def test_arm64_xen_415_and_dom0(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=accel:tcg
++        :avocado: tags=cpu:cortex-a57
++        :avocado: tags=machine:virt
++        """
++
++        xen_url = ('https://fileserver.linaro.org/'
++                   's/JSsewXGZ6mqxPr5/download'
++                   '?path=%2F&files=xen-upstream-4.15-unstable.deb')
++        xen_sha1 = 'fc191172b85cf355abb95d275a24cc0f6d6579d8'
++        xen_deb = self.fetch_asset(xen_url, asset_hash=xen_sha1)
++        xen_path = self.extract_from_deb(xen_deb, "/boot/xen-4.15-unstable")
++
++        self.launch_xen(xen_path)
 -- 
 2.20.1
 
