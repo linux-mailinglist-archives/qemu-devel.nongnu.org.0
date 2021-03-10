@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0934C333993
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:10:55 +0100 (CET)
-Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03E53339DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:23:42 +0100 (CET)
+Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJvnp-0006GI-Tu
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:10:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
+	id 1lJw0D-0000cG-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJvXk-0007gv-FN; Wed, 10 Mar 2021 04:54:18 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:52465)
+ id 1lJvXg-0007fJ-Mb; Wed, 10 Mar 2021 04:54:13 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:50979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lJvXb-0005Bu-0H; Wed, 10 Mar 2021 04:54:14 -0500
+ id 1lJvXc-0005EN-Rr; Wed, 10 Mar 2021 04:54:11 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1B64B5C009C;
- Wed, 10 Mar 2021 04:54:06 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 8B9F15C0150;
+ Wed, 10 Mar 2021 04:54:07 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 10 Mar 2021 04:54:06 -0500
+ by compute4.internal (MEProxy); Wed, 10 Mar 2021 04:54:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Wr8FMSuzAInyU
- L9nTeQ8MgcMnz0QdgEpTUBW1cUQAGI=; b=JTIQJe1wzx1AMAaTHCUdCBNkHiO5P
- e5bwrRhbR6BkXHF69qLSswq6vKRD8ie4x1lkGk6N5KGQKsOFPhGEtJ/djxo4JjzS
- ce2gd1yXgJiuvdcGFVB+HI17RhDY6nom1HgteAEBxZ8eXmfMiUax+L2nt1h6kI/Y
- yQeZlBcQTnn/7DJ72rkUMO3ek0eZXOG4k6kVLyhCNpB8jQCDY903mdKA7xj3A7k3
- C3GuvCQpmscAxwlFiNzOst+ynnPbTG6RoztCRJ3W6T5TbPK+QjkypiSHYuGUl9Rw
- GupL7fFXJTGb1KZHfrtn1Evo4oUmj/NdqS7MfC9O1/o3Mq73/hRInSsuQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=U3XFZKcHaCB1J
+ baduMA0HjLrKExKXD+kY3/SkYJLjy0=; b=rsc/132OfuBOfJyusPubJoYJtR0xR
+ RqhZ9BxyGsrVf78N9QlExohqOjP8DYWPfdR6SgwBmJWkPeZIV3Syf3+PrTu0ZN+W
+ MUlLeYQ+HxYxixl/3p2Br4hgvAX0UB7f6NdhqzA1REpZHwu6AQt3F15+4SBQYfXz
+ 8jeUge5djy0PduaEZdP8c6va6qQvi6Gj4XSRKkfzfnuxMmG0Acedo4CUY7bW4/rR
+ WXkict58g+qNhJrwNJzvzjxeHTkNQGTz62/PKPoT20O6lwZL7qugddyjES2INuvN
+ aHOQ2QzWNdUFgQxFFfg4B+/alzDs/RGmb/hAcZsm+Hol8Ewl3wbR5UuiQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Wr8FMSuzAInyUL9nTeQ8MgcMnz0QdgEpTUBW1cUQAGI=; b=hBhHoTcF
- ofEsAAqG++4pdeM/Py86Q5kk4KsfWa8+t2XYNyiQy1SmHhSTNW86x/7okxEKkEp1
- U8kBUM/jTges8xJePxIBd13LMklGC0q8nu51SsTB+MhkkKLLsmnfTmMZkNNGbYz5
- Su95uGhQbPkkhEKGD5uMOwuHRW9g4Up9KpW/JWHgG2zuWEzb1CR06sR2Q6cD8INB
- xlwtyRlrTAz2OPNkPwyk2GL5Zgw3rlogjYr71Iv1bMICKKah8a2JJIudxpsrw7Yg
- un5Rdf1wpcR3tEynfR159xoqr0sz9kloWRRh2Theu3Jq6DiM+GAdYDukCTA4XS+S
- MrXVHqJasEFQzw==
-X-ME-Sender: <xms:PZdIYOk7J1JeaDtKYYJNyIStZuDBu1gCNoWAIa8Z4P9wJugNU_YYHg>
- <xme:PZdIYF30SctXBslwP3UHg7sN9q6_HNYt7NCf8sZhAs0JK5AsLES9EXdyQRhfqUypt
- Qrag4HxCdILZQoh1JQ>
+ fm2; bh=U3XFZKcHaCB1JbaduMA0HjLrKExKXD+kY3/SkYJLjy0=; b=biVU9afc
+ C2DvDoACEL4m7fEOwDRHLCHzwUYgzZOgDh48UV5fF9ev3tLuyXQ9krrgGBWla4VG
+ iGP7b1nbi1omLJzXOB483JCjvQ6sE3hioKDQAUQ1TFJL4+5rxXL8ieiSQOg00+ty
+ f0mDt/vgFD/JLNM7Ccd0PL2qi9hNm0j67368vUBLuXcPb6i5rV9mrJZtJijloe43
+ kgPppLlhxqk4+NfeEmScVSFX6YvriLYpEq68HMtGh5qN165o9SRDMjVRTOGESQYa
+ 7qgM8qcShNSlSHZVkkp28tWkEFL53HPFJCbjRtt04AgEH4Th7x6cl4w6X3+6i/FF
+ N3PfaDR+oCcISw==
+X-ME-Sender: <xms:P5dIYAYtxBXXJxO2ioLMvv6gzLmf0PS6SaW_T5o10avjkMbFXFryeQ>
+ <xme:P5dIYLareILDEb8LE774JUMpTbKTjnDmYbCQr9Uu8so2SMAVfrPXLVytu5A-Jb9Dp
+ E76DWaxNmVl4iomZmo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgtdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgtdelucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeejne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:PpdIYMrxJOO1GJQpUasQjXQrCF81JqBSsv3pj04FoBXb9mh4mQCotQ>
- <xmx:PpdIYCnbET8DQkbdVXsHtTQrOZUKJNJydPM8_BEPO_V6TI7aw-zqHA>
- <xmx:PpdIYM3qkLngnFhv7zVR_YwJMEBwT29DG1U2bzWPiaodCn0bGg4MgQ>
- <xmx:PpdIYNlPPb5IwpuD8Y603Vcc-AUOqUgCmicXOxCzIlBJrNRFs2eefw>
+X-ME-Proxy: <xmx:P5dIYK_4zg4m3tjAK4_XjI9zr9GKJwN6OJXmwxGX0v4AjUwAD5DZ-Q>
+ <xmx:P5dIYKqIxIlLFZ7AjGkZFqm7v6J-JRos3Kk2pQmmTHGWBkrMw2KVbQ>
+ <xmx:P5dIYLqwcuBUunGVpgMczT_bCsJaI5eq1NRWuStOl9OG3BDGZKwPVA>
+ <xmx:P5dIYHKP3BKe4c6iEj6r_PEmbN8thSpAZ33ZzoLLGpf7ej5QunhnQg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B31D3240057;
- Wed, 10 Mar 2021 04:54:04 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2C482240057;
+ Wed, 10 Mar 2021 04:54:06 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/13] hw/block/nvme: remove invalid zone resource checks
-Date: Wed, 10 Mar 2021 10:53:44 +0100
-Message-Id: <20210310095347.682395-11-its@irrelevant.dk>
+Subject: [PATCH v5 11/13] hw/block/nvme: move zoned constraints checks
+Date: Wed, 10 Mar 2021 10:53:45 +0100
+Message-Id: <20210310095347.682395-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210310095347.682395-1-its@irrelevant.dk>
 References: <20210310095347.682395-1-its@irrelevant.dk>
@@ -102,38 +102,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-It is not an error to report more active/open zones supported than the
-number of zones in the namespace.
+Validation of the max_active and max_open zoned parameters are
+independent of any other state, so move them to the early
+nvme_ns_check_constraints parameter checks.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ hw/block/nvme-ns.c | 52 +++++++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 24 deletions(-)
 
 diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 1e8ef36ba5ae..5995d475ecdd 100644
+index 5995d475ecdd..192c6c923ab4 100644
 --- a/hw/block/nvme-ns.c
 +++ b/hw/block/nvme-ns.c
-@@ -214,19 +214,6 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
+@@ -214,30 +214,6 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
          return -1;
      }
  
--    if (ns->params.max_open_zones > ns->num_zones) {
--        error_setg(errp,
--                   "max_open_zones value %u exceeds the number of zones %u",
--                   ns->params.max_open_zones, ns->num_zones);
--        return -1;
--    }
--    if (ns->params.max_active_zones > ns->num_zones) {
--        error_setg(errp,
--                   "max_active_zones value %u exceeds the number of zones %u",
--                   ns->params.max_active_zones, ns->num_zones);
--        return -1;
+-    if (ns->params.max_active_zones) {
+-        if (ns->params.max_open_zones > ns->params.max_active_zones) {
+-            error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
+-                       ns->params.max_open_zones, ns->params.max_active_zones);
+-            return -1;
+-        }
+-
+-        if (!ns->params.max_open_zones) {
+-            ns->params.max_open_zones = ns->params.max_active_zones;
+-        }
 -    }
 -
-     if (ns->params.max_active_zones) {
-         if (ns->params.max_open_zones > ns->params.max_active_zones) {
-             error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
+-    if (ns->params.zd_extension_size) {
+-        if (ns->params.zd_extension_size & 0x3f) {
+-            error_setg(errp,
+-                "zone descriptor extension size must be a multiple of 64B");
+-            return -1;
+-        }
+-        if ((ns->params.zd_extension_size >> 6) > 0xff) {
+-            error_setg(errp, "zone descriptor extension size is too large");
+-            return -1;
+-        }
+-    }
+-
+     return 0;
+ }
+ 
+@@ -386,6 +362,34 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
+ 
++    if (ns->params.zoned) {
++        if (ns->params.max_active_zones) {
++            if (ns->params.max_open_zones > ns->params.max_active_zones) {
++                error_setg(errp, "max_open_zones (%u) exceeds "
++                           "max_active_zones (%u)", ns->params.max_open_zones,
++                           ns->params.max_active_zones);
++                return -1;
++            }
++
++            if (!ns->params.max_open_zones) {
++                ns->params.max_open_zones = ns->params.max_active_zones;
++            }
++        }
++
++        if (ns->params.zd_extension_size) {
++            if (ns->params.zd_extension_size & 0x3f) {
++                error_setg(errp, "zone descriptor extension size must be a "
++                           "multiple of 64B");
++                return -1;
++            }
++            if ((ns->params.zd_extension_size >> 6) > 0xff) {
++                error_setg(errp,
++                           "zone descriptor extension size is too large");
++                return -1;
++            }
++        }
++    }
++
+     return 0;
+ }
+ 
 -- 
 2.30.1
 
