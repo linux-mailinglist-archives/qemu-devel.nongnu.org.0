@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CEC333B06
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:06:26 +0100 (CET)
-Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C98333B0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:07:48 +0100 (CET)
+Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwfZ-0001V4-3s
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1lJwgt-0002a3-8x
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:07:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJweb-0000wT-35
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:05:25 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:36648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lJweX-0004Zu-Rg
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:05:24 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id e19so37877433ejt.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 03:05:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o2gmTIazz7XgYLpJAw/8SmT9+kU+rnaCNREIY9Qoc+A=;
- b=DUoCFI5bANnS4zwAlzq1B3y8fCDul7dW2Uen9QrSM8hFYDWbw/dVYY7AYNcUMwyn0Z
- WiPlJbw1RZexYXyV0iRph4gTN4J2uCfoGqy8+D6LSfXlrnplJP9EEhQnCLaLQMq6XrwN
- gZflGreiJSpHIyuhjdOGSvB+BGl3hqfvSoS29+nla2B6MBSzqDAlVuAWxDmk2hWX0w5P
- q2wy5Tc1/GiANaoC4bwJU/c1YjmZ7TdrMEdQnNJ8xJtIPIpAdooxVDChzIJHe7eHoGW8
- dSSDHQ+QJ4LXsoGY/iPzwMKhRstP5/B1l9IfuUitOrCgURW4yZjEOunEblJx2gEREx/o
- vyTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o2gmTIazz7XgYLpJAw/8SmT9+kU+rnaCNREIY9Qoc+A=;
- b=Airsmy+eFm+utr9m0CpJjjy8g1JLqsGyhxtcXhNeuScsIG7e+YVKT8f2NukOOEgzA0
- yS1lsurq74VYjv47na3eJQAIZG3DPB+Bo/4fDWsajZucb/kC3IPzr/sfSyGdF9kq6hrH
- Hx/hidkV04PUB05sKOzE/dzJ+441+gPGMMb5Vf6+fAK/5e39vh8UP8FnSc11t2AwRIKH
- LqFZ0vGwJ+r2d6bFLw9QwkJFc5y+lEXoR1IYigj6/v5JPSP4+bt5lbB/UjaR0SVzFHLI
- adF+P4GqxeA1a9r7yDuTu39SFpWOHLcGEWgHpaVtSrULVEmCMOfY+bYmZhe+IA/K3cel
- b2ug==
-X-Gm-Message-State: AOAM533FJtOSejpigmQISNm5KWV7ZeY2FAG6tq4rpOg75jdPQ4GQ0L3N
- rKiEgNP2/e/nwgDk4E61hGCsSljMxI/3suQbrtv9kQ==
-X-Google-Smtp-Source: ABdhPJyeuyFoLW8MPxAd/VBUVe67etsa0Lt2W1N7WozCEVUAWWCPFDgOLp17mBv/p+kNcMLSMT9yLU624bbcVEKqTYQ=
-X-Received: by 2002:a17:906:b14d:: with SMTP id
- bt13mr2980117ejb.407.1615374308934; 
- Wed, 10 Mar 2021 03:05:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJwed-0000xJ-BM; Wed, 10 Mar 2021 06:05:28 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:33987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJweZ-0004gb-M7; Wed, 10 Mar 2021 06:05:26 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 2F6F81776;
+ Wed, 10 Mar 2021 06:05:17 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 10 Mar 2021 06:05:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=f9HtnkMiYFin5GnhOqoLBOTgix88mg+8Zu6/QJA5z
+ pY=; b=mNSkkJrCNI08fv6jz+vh7dPKg1uJ7wrxgHph69PcWldea+Cnd7IDUF4Se
+ QsPB9Ez3MfQPXx7ZHgeDWEy9eGnX73xDf7nEtliVhDCHKCxffIYZTEAkszrwRIWj
+ o/UC/L0uNBOIATbq2QAHpyNwxRs6eonuX+oISjUYzU8qrdnutca6ySmyl2Zj6KLg
+ bt4RIFAfY8TfFvkXTsj37DasPYzhma/aw5Vm3GEto/27GX8wd9P4al6f+PqN3iUY
+ VdVBShYWzfUyukZE49/lQ7aUKYBL1dNJQjh2FbACQ7es5hIfvHLKCKTtEQJhvZRw
+ mN75OdE+U/RzSlJocsIGaFk4Bsv6g==
+X-ME-Sender: <xms:66dIYKxVsUCi_sjDeF-Ptiqv36z-3AKxgkQ4UETBPelzHznvm1slaw>
+ <xme:66dIYBtQoE9uqAEtCHxSiwpRvPQPDJlUy_7dtuLjbsQeABBOO384M6jB35fRf1Ex8
+ 7fxfg86fyNrhEsuI2A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvffujghfhfffkfggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghvihgu
+ ucfgughmohhnughsohhnuceouggrvhhiugdrvggumhhonhgushhonhesohhrrggtlhgvrd
+ gtohhmqeenucggtffrrghtthgvrhhnpeekiedvtdfguedttdffhfeihfeffedttdekkedt
+ leduheejgfeghfdujeelveduhfenucfkphepkedurddukeejrddviedrvdefkeenucevlh
+ hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghvihgurdgv
+ ughmohhnughsohhnsehorhgrtghlvgdrtghomh
+X-ME-Proxy: <xmx:66dIYP1wCboRhfwBUZAw-b2-aYsx46yjRMV6y796u2jC0bXplj2wDw>
+ <xmx:66dIYE9Q8Vv0jlup2PinRNiad-x-BRx4pgJUi3OzljrJFmQmCfwzJw>
+ <xmx:66dIYIO-zCFCp14RBpHTPG4mRXarTiJ5GFaA-HuPy9FOFOUiIMqDig>
+ <xmx:7KdIYCexJDR18IESNgcCfZe8DjScU4IeZOgalfKDp6bX8C-WQEDj-A>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BB3F51080059;
+ Wed, 10 Mar 2021 06:05:14 -0500 (EST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 6260bc61;
+ Wed, 10 Mar 2021 11:05:14 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 9/9] hw/block/pflash_cfi01: Extract
+ pflash_mode_read_array()
+In-Reply-To: <20210309235028.912078-10-philmd@redhat.com>
+References: <20210309235028.912078-1-philmd@redhat.com>
+ <20210309235028.912078-10-philmd@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <david.edmondson@oracle.com>
+Date: Wed, 10 Mar 2021 11:05:13 +0000
+Message-ID: <m2ft13fevq.fsf@oracle.com>
 MIME-Version: 1.0
-References: <20210308170233.387812-1-kwolf@redhat.com>
-In-Reply-To: <20210308170233.387812-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Mar 2021 11:04:50 +0000
-Message-ID: <CAFEAcA8sC_KHXO2SJPBXUmRMNxchqEuuDcKjk3ASesTw0nQOig@mail.gmail.com>
-Subject: Re: [PULL v2 00/30] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=64.147.123.20;
+ envelope-from=david.edmondson@oracle.com; helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,41 +91,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Mar 2021 at 17:02, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 138d2931979cb7ee4a54a434a54088231f6980ff:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210308' into staging (2021-03-08 11:57:36 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to ef2e38a1a1d2915b148c4a49f61626e62c46fbb6:
->
->   blockdev: Clarify error messages pertaining to 'node-name' (2021-03-08 14:56:55 +0100)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - qemu-storage-daemon: add --pidfile option
-> - qemu-storage-daemon: CLI error messages include the option name now
-> - vhost-user-blk export: Misc fixes
-> - docs: Improvements for qemu-storage-daemon documentation
-> - parallels: load bitmap extension
-> - backup-top: Don't crash on post-finalize accesses
-> - Improve error messages related to node-name options
-> - iotests improvements
+On Wednesday, 2021-03-10 at 00:50:28 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
+> The same pattern is used when setting the flash in READ_ARRAY mode:
+> - Set the state machine command to READ_ARRAY
+> - Reset the write_cycle counter
+> - Reset the memory region in ROMD
+>
+> Refactor the current code by extracting this pattern.
+> It is used three times:
+>
+> - On a read access (on invalid command).
+>
+> - On a write access (on command failure, error, or explicitly asked)
+>
+> - When the device is initialized. Here the ROMD mode is hidden
+>   by the memory_region_init_rom_device() call.
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Applied, thanks.
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+> ---
+>  hw/block/pflash_cfi01.c | 40 +++++++++++++++++-----------------------
+>  1 file changed, 17 insertions(+), 23 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 2618e00926d..32c9b289715 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -115,6 +115,19 @@ static const VMStateDescription vmstate_pflash =3D {
+>      }
+>  };
+>=20=20
+> +static void pflash_mode_read_array(PFlashCFI01 *pfl)
+> +{
+> +    trace_pflash_mode_read_array();
+> +    /*
+> +     * The command 0x00 is not assigned by the CFI open standard,
+> +     * but QEMU historically uses it for the READ_ARRAY command (0xff).
+> +     */
+> +    trace_pflash_mode_read_array();
+> +    pfl->cmd =3D 0x00;
+> +    pfl->wcycle =3D 0;
+> +    memory_region_rom_device_set_romd(&pfl->mem, true);
+> +}
+> +
+>  /*
+>   * Perform a CFI query based on the bank width of the flash.
+>   * If this code is called we know we have a device_width set for
+> @@ -283,12 +296,7 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr=
+ offset,
+>      default:
+>          /* This should never happen : reset state & treat it as a read */
+>          DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+> -        pfl->wcycle =3D 0;
+> -        /*
+> -         * The command 0x00 is not assigned by the CFI open standard,
+> -         * but QEMU historically uses it for the READ_ARRAY command (0xf=
+f).
+> -         */
+> -        pfl->cmd =3D 0x00;
+> +        pflash_mode_read_array(pfl);
+>          /* fall through to read code */
+>      case 0x00: /* This model reset value for READ_ARRAY (not CFI complia=
+nt) */
+>          /* Flash area read */
+> @@ -663,10 +671,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
+fset,
+>                    "\n", __func__, offset, pfl->wcycle, pfl->cmd, value);
+>=20=20
+>   mode_read_array:
+> -    trace_pflash_mode_read_array();
+> -    memory_region_rom_device_set_romd(&pfl->mem, true);
+> -    pfl->wcycle =3D 0;
+> -    pfl->cmd =3D 0x00; /* This model reset value for READ_ARRAY (not CFI=
+) */
+> +    pflash_mode_read_array(pfl);
+>  }
+>=20=20
+>=20=20
+> @@ -872,13 +877,8 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
+rror **errp)
+>          pfl->max_device_width =3D pfl->device_width;
+>      }
+>=20=20
+> -    pfl->wcycle =3D 0;
+> -    /*
+> -     * The command 0x00 is not assigned by the CFI open standard,
+> -     * but QEMU historically uses it for the READ_ARRAY command (0xff).
+> -     */
+> -    pfl->cmd =3D 0x00;
+>      pfl->status =3D 0x80; /* WSM ready */
+> +    pflash_mode_read_array(pfl);
+>      pflash_cfi01_fill_cfi_table(pfl);
+>  }
+>=20=20
+> @@ -887,13 +887,7 @@ static void pflash_cfi01_system_reset(DeviceState *d=
+ev)
+>      PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
+>=20=20
+>      trace_pflash_reset();
+> -    /*
+> -     * The command 0x00 is not assigned by the CFI open standard,
+> -     * but QEMU historically uses it for the READ_ARRAY command (0xff).
+> -     */
+> -    pfl->cmd =3D 0x00;
+> -    pfl->wcycle =3D 0;
+> -    memory_region_rom_device_set_romd(&pfl->mem, true);
+> +    pflash_mode_read_array(pfl);
+>      /*
+>       * The WSM ready timer occurs at most 150ns after system reset.
+>       * This model deliberately ignores this delay.
+> --=20
+> 2.26.2
 
--- PMM
+dme.
+--=20
+Would you offer your throat to the wolf with the red roses?
 
