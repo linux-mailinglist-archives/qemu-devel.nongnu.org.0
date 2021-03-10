@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A540C33338C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:05:32 +0100 (CET)
-Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFAC3333DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 04:33:45 +0100 (CET)
+Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJpAB-0006pM-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:05:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
+	id 1lJpbT-0008OW-RX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 22:33:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lJp82-0005Ac-Mn; Tue, 09 Mar 2021 22:03:19 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lJp7y-0002y1-94; Tue, 09 Mar 2021 22:03:17 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwH0L6dVXz17Hcg;
- Wed, 10 Mar 2021 11:01:22 +0800 (CST)
-Received: from DESKTOP-7FEPK9S.china.huawei.com (10.174.184.135) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Mar 2021 11:03:01 +0800
-From: Shenming Lu <lushenming@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH v4 3/3] vfio: Avoid disabling and enabling vectors repeatedly
- in VFIO migration
-Date: Wed, 10 Mar 2021 11:02:33 +0800
-Message-ID: <20210310030233.1133-4-lushenming@huawei.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20210310030233.1133-1-lushenming@huawei.com>
-References: <20210310030233.1133-1-lushenming@huawei.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJpZq-0007wl-55
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 22:32:02 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJpZl-0007n7-4V
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 22:32:01 -0500
+Received: by mail-ej1-x633.google.com with SMTP id mm21so34693390ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 19:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mT+PfgykajyaJ6cM6VtVMeKq6nD7l24p6sUhzL4I27E=;
+ b=nSelrU3T3p/KwS2Heujv1BZPVOKSR8h0psKGGL3STqFzrruv1n1xo9wuFznILSyRe7
+ vxa7veC1AUlrayj8+TpYTgj9xUbz1OJyG8DN9X6OnvAWpXuQGfRWBEHkGX8IOJDpFVY2
+ ZJQJGQfXioQ/n6NVStgNEMoLYxvwskMhOY+3LHPmWM46Ymvnj26ZAI620aF8C8wWvt2P
+ o+N3tJJXxM6L4ooFHKC2oOXsBpcS/6JePeg+ZfZM0bFDzxM1E2CfQzboJ5V8rwdztfRW
+ e1sS6u1P6gvT+1wgp9nUn2TtFQJ1MfjmlPjjRJSS4pOyS0Whmqo60WbeXoMHM1kZX1WQ
+ sEeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mT+PfgykajyaJ6cM6VtVMeKq6nD7l24p6sUhzL4I27E=;
+ b=RcHmAotqaOkvFs1jFyXqYWcbEsVjSFxE2h/meZuKsAHXt48F6vGzmrKF9gssvLFQQt
+ 3maQ/3hVgZ4eWtEtWWIA1lYI3Sie2v9amWH0KY196+fCfguhZRr0/F4eXuLYweUECYK7
+ 0B7I1mQ7SSgyi9nIALuaKOixNxVadun+hIV2Btg43FExnp/Rqj7f2W7iPapXbXr/kcD8
+ iwyEqfVYT3NblygzWsLPw61adJY5PpjXfa4tzijX8YANby2U/+votS67A6A9mugQ2IK4
+ M/mAA55pLUAXGBFifPo6jWJwIqvKaQnExtAHXg90JMYXkF38YDaxmwFwuHl5IPzcBEWt
+ rUgQ==
+X-Gm-Message-State: AOAM533lXG3DcZzjZNsiQ4Qys8WOcy5w1JR4+TcsQv/wL9KgT+bO6vPl
+ 0rTOH7GByjBZybo5RX3Yo2LfXm5stjyPsuiBQwE=
+X-Google-Smtp-Source: ABdhPJzF0twGQk32ipvmj/NjN+G9gWb/ps7mvNdh6OFjzRKgUOP4bfeHQHMvKalihebNBck69I7eLQdOLw84+ZiEa0g=
+X-Received: by 2002:a17:906:b6cc:: with SMTP id
+ ec12mr1293091ejb.520.1615347115523; 
+ Tue, 09 Mar 2021 19:31:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.135]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=lushenming@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210309122226.23117-1-akihiko.odaki@gmail.com>
+ <20210309122226.23117-2-akihiko.odaki@gmail.com>
+ <30b88283-8d6b-502b-9032-33c81e26d97@eik.bme.hu>
+In-Reply-To: <30b88283-8d6b-502b-9032-33c81e26d97@eik.bme.hu>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Wed, 10 Mar 2021 12:31:44 +0900
+Message-ID: <CAMVc7JWO0o9NUwPaE6wBMG+u7zHocWDPxr-6o3OcS5Zm0oT+HA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ui/cocoa: Do not rely on the first argument
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,67 +81,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- mst@redhat.com, Marc Zyngier <maz@kernel.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com, lushenming@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In VFIO migration resume phase and some guest startups, there are
-already unmasked vectors in the vector table when calling
-vfio_msix_enable(). So in order to avoid inefficiently disabling
-and enabling vectors repeatedly, let's allocate all needed vectors
-first and then enable these unmasked vectors one by one without
-disabling.
+2021=E5=B9=B43=E6=9C=889=E6=97=A5(=E7=81=AB) 22:10 BALATON Zoltan <balaton@=
+eik.bme.hu>:
+>
+> On Tue, 9 Mar 2021, Akihiko Odaki wrote:
+> > The first argument of the executable was used to get its path, but it i=
+s
+> > not reliable because the executer can specify any arbitrary string. Use=
+ the
+> > interfaces provided by QEMU and the platform to get those paths.
+> >
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> > ---
+> > ui/cocoa.m | 29 +++++++++++++++--------------
+> > 1 file changed, 15 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/ui/cocoa.m b/ui/cocoa.m
+> > index d8eacea6d22..6e94301c0d6 100644
+> > --- a/ui/cocoa.m
+> > +++ b/ui/cocoa.m
+> > @@ -1414,20 +1414,21 @@ - (void)make_about_window
+> >     [superView addSubview: picture_view];
+> >
+> >     /* Make the name label */
+> > -    x =3D 0;
+> > -    y =3D y - 25;
+> > -    int name_width =3D about_width, name_height =3D 20;
+> > -    NSRect name_rect =3D NSMakeRect(x, y, name_width, name_height);
+> > -    NSTextField *name_label =3D [[NSTextField alloc] initWithFrame: na=
+me_rect];
+> > -    [name_label setEditable: NO];
+> > -    [name_label setBezeled: NO];
+> > -    [name_label setDrawsBackground: NO];
+> > -    [name_label setAlignment: NSTextAlignmentCenter];
+> > -    NSString *qemu_name =3D [[NSString alloc] initWithCString: gArgv[0=
+]
+> > -                                            encoding: NSASCIIStringEnc=
+oding];
+> > -    qemu_name =3D [qemu_name lastPathComponent];
+> > -    [name_label setStringValue: qemu_name];
+> > -    [superView addSubview: name_label];
+> > +    NSBundle *bundle =3D [NSBundle mainBundle];
+> > +    if (bundle) {
+>
+> Does this break about window if the executable is not in a bundle (like
+> when run from the command line after compiling)? Shouldn't you only put
+> the qemu_name in this if and have some default name if bundle is not
+> available (or fall back to argv[0] in that case?
+>
+> Regards,
+> BALATON Zoltan
+>
 
-Signed-off-by: Shenming Lu <lushenming@huawei.com>
----
- hw/vfio/pci.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+No, it just doesn't show the application name. Everything else is fine.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index f74be78209..fece8c2504 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -569,6 +569,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- 
- static void vfio_msix_enable(VFIOPCIDevice *vdev)
- {
-+    PCIDevice *pdev = &vdev->pdev;
-+    unsigned int nr, max_vec = 0;
-+
-     vfio_disable_interrupts(vdev);
- 
-     vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
-@@ -587,11 +590,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-      * triggering to userspace, then immediately release the vector, leaving
-      * the physical device with no vectors enabled, but MSI-X enabled, just
-      * like the guest view.
-+     * If there are already unmasked vectors (in migration resume phase and
-+     * some guest startups) which will be enabled soon, we can allocate all
-+     * of them here to avoid inefficiently disabling and enabling vectors
-+     * repeatedly later.
-      */
--    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
--    vfio_msix_vector_release(&vdev->pdev, 0);
-+    if (!pdev->msix_function_masked) {
-+        for (nr = 0; nr < msix_nr_vectors_allocated(pdev); nr++) {
-+            if (!msix_is_masked(pdev, nr)) {
-+                max_vec = nr;
-+            }
-+        }
-+    }
-+    vfio_msix_vector_do_use(pdev, max_vec, NULL, NULL);
-+    vfio_msix_vector_release(pdev, max_vec);
- 
--    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
-+    if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
-                                   vfio_msix_vector_release, NULL)) {
-         error_report("vfio: msix_set_vector_notifiers failed");
-     }
--- 
-2.19.1
-
+Regards,
+Akihiko Odaki
 
