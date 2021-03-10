@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49E433487A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 21:02:01 +0100 (CET)
-Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620FC334879
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 21:01:59 +0100 (CET)
+Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK51s-0008Gs-Mg
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 15:02:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56014)
+	id 1lK51q-0008D5-9y
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 15:01:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lK4ye-0006QX-IN; Wed, 10 Mar 2021 14:58:40 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42672)
+ id 1lK4ye-0006Ql-R6; Wed, 10 Mar 2021 14:58:42 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:41809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lK4yb-0001dY-80; Wed, 10 Mar 2021 14:58:40 -0500
-Received: by mail-ej1-x636.google.com with SMTP id c10so41127853ejx.9;
- Wed, 10 Mar 2021 11:58:36 -0800 (PST)
+ id 1lK4yc-0001eC-Fp; Wed, 10 Mar 2021 14:58:40 -0500
+Received: by mail-ed1-x534.google.com with SMTP id b7so29987046edz.8;
+ Wed, 10 Mar 2021 11:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Of1z6geDv8kZk9LnBbpOQsAJfxsJJ8cv34uRwfRRCqs=;
- b=uLO1oWwr4M2KPBRBm4/e2GWaSrNlNOMJy6j4Q+FWGiML36RS03hNkgZ9CpGS6OsqHU
- DNqRuA7TxnlYP2cW5XRmcDv72oIKWIyDEzpvGu8+yPPGHnp4baprYJq69BES9ygjzHq8
- t3DmVlOy4UpGBC07p2WhDyU1M9UqYJFiEMTqVXVuRmii6um5dJyWotpIuGxE4dr/FJwY
- ED6Z1pjL/LZm0ZB7lVpgCSTuqKqMfQV+PcglrwohHavg4bNC9bQIMrD7kaqwWR9nZtDp
- DM2hWd51ncZld4cy6BkM4nZUWnudzYGf9Ob7E5Y+9nZGYYJ+P5NgMKPw7XsSfihN5uNU
- D1GA==
+ bh=7+Rz9VtTzj18ZejGjRujsTac3478spKZatBuoAAa8Eg=;
+ b=hd3dKjrSHCktVDN9LoDJzWPU2IjNkEeFaFoDrr4NkC8d3XmVfxfZZLrSa8jiulaIOB
+ rwkewxRF++CmFQyo+hTkqf/P/zLPbKVAR6GEz+HwZj9Y3IxjPaYKddNf2tOvH/YO5i1w
+ gRIPZt5LDg31YrMc+Juk1rGKQXD54u7NFqLUnh8l9EiYvygxD72yM5RE+JtCUJTebr7Q
+ kZOne9UCzdXrnC3KFhofKI7GKRYrohdWxz5TH0/aAG3KWSLTyvGv8fUD1ysleP2lVcpa
+ FN+OayVyb+6XgVdhktE0Rds7Vv8dZFNi0NDnO2yMJS+Hxoiv01/DThfIUcTHxIzZkpK5
+ zxSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Of1z6geDv8kZk9LnBbpOQsAJfxsJJ8cv34uRwfRRCqs=;
- b=tZaptFQi8pE7sBlxPRMD7c6rFj2f/Mu6cIXmSXWhpXcJn6+d9G/h6bAI7VaXbGxbw0
- Ho+YlCOFJS1NLPKC3VrzdVsDtxtaEOjr7BAAYoM98ILu2Inzq/Pfg4bAspPNmzvHA0pF
- zX+dKdUIENDnFs2ch8fM+2k68wHPQIPj2MCo/FrtnfU79xt7gYFJPor+oujbiQVtBY9Q
- xI+IhF1s2g60XSgtSsB0R3e/FZ19upJMMVI7chyIDRO7rcJg4Ng4+/4FZYzEwhkOWeRJ
- DIBZeFOUDvhkKVWrlB10z3wULnQoKNFtvYIEhmJwXmLQP/VCWHjV2Iiw7B+mdecvj3iA
- p+xQ==
-X-Gm-Message-State: AOAM533oh/j26+FsHfy5+OlUm4WK65/W+V18DinAIQiZ+ONyflc0nJHm
- L4OBqqQ0GEYW6WtPRZTTxw0z7/cP/dABew==
-X-Google-Smtp-Source: ABdhPJxqWhgn+938auNRsa3GKcEXVcXLOdCIp1XOfuEusHqnMOYQOiA+emhZCW+NYh7daXhqLIbKxw==
-X-Received: by 2002:a17:906:3856:: with SMTP id
- w22mr109769ejc.77.1615406315631; 
- Wed, 10 Mar 2021 11:58:35 -0800 (PST)
+ bh=7+Rz9VtTzj18ZejGjRujsTac3478spKZatBuoAAa8Eg=;
+ b=jOKjlmnOtCD/IlD13/WljDOBGeWSYcPtlgwhVO8Vy9l+rSOZ69i4ouMXkehYXaTBHD
+ uWZtHh/iy42bhVxIxEUkjW6pkFR8zHDGFyM+3k/Cu7Zg+j2S+5N4EwBawdLOhiVgJUiJ
+ e/2GuuIlMXIy03lT6QuEqi0On6MBTjdXfrtQHoUnN0/UkYwpS7hKFjHm6Hga98rdNG9Y
+ hB46dsDQnd/LfjBoP++Joppcq+el1InkqHYhvasYFFegxDHXZ1Q8Sh1D+UnWFSXmeXRO
+ c1jx0N9SywtfB0ZXXxzBMaEtqICwu19g6dk/s84yKen9b/fgN+1zGUSA9CT7hWbwTdI0
+ b3Dw==
+X-Gm-Message-State: AOAM530PIDdrgOFYIkUwzbKqdmAxJIyo0VjUrrx5C7znThSdkTuhDGYt
+ uVGLQMP+2BiICk7lHYIDj/e6eFxYwVGUAQ==
+X-Google-Smtp-Source: ABdhPJwV7cSq7b2YuBsZ5au6h5iwvVAgl6SSuUr97o+IJ2lbWVTJ786P3j9YUlSFQTlzu0XzBo794Q==
+X-Received: by 2002:a05:6402:57:: with SMTP id
+ f23mr5021977edu.323.1615406316871; 
+ Wed, 10 Mar 2021 11:58:36 -0800 (PST)
 Received: from tuf.home (2a02-a456-6be8-1-d8ed-76d3-94d3-2909.fixed6.kpn.net.
  [2a02:a456:6be8:1:d8ed:76d3:94d3:2909])
- by smtp.gmail.com with ESMTPSA id h13sm133570edz.71.2021.03.10.11.58.34
+ by smtp.gmail.com with ESMTPSA id h13sm133570edz.71.2021.03.10.11.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 11:58:35 -0800 (PST)
+ Wed, 10 Mar 2021 11:58:36 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] tests/acceptance/boot_linux_console: remove Armbian
- 19.11.3 bionic test for orangepi-pc machine
-Date: Wed, 10 Mar 2021 20:58:17 +0100
-Message-Id: <20210310195820.21950-3-nieklinnenbank@gmail.com>
+Subject: [PATCH v4 3/5] tests/acceptance/boot_linux_console: change URL for
+ test_arm_orangepi_bionic_20_08
+Date: Wed, 10 Mar 2021 20:58:18 +0100
+Message-Id: <20210310195820.21950-4-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210310195820.21950-1-nieklinnenbank@gmail.com>
 References: <20210310195820.21950-1-nieklinnenbank@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,108 +92,33 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The image for Armbian 19.11.3 bionic has been removed from the armbian server.
-Without the image as input the test arm_orangepi_bionic_19_11 cannot run.
+Update the download URL of the Armbian 20.08 Bionic image for
+test_arm_orangepi_bionic_20_08 of the orangepi-pc machine.
 
-This commit removes the test completely and merges the code of the generic function
-do_test_arm_orangepi_uboot_armbian back with the 20.08 test.
+The archive.armbian.com URL contains more images and should keep stable
+for a longer period of time than dl.armbian.com.
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 72 ++++++++------------------
- 1 file changed, 23 insertions(+), 49 deletions(-)
+ tests/acceptance/boot_linux_console.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index eb01286799..9fadea9958 100644
+index 9fadea9958..4a7a6830ca 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):
-         # Wait for VM to shut down gracefully
-         self.vm.wait()
+@@ -816,7 +816,7 @@ def test_arm_orangepi_bionic_20_08(self):
+         # to 1036 MiB, but the underlying filesystem is 1552 MiB...
+         # As we expand it to 2 GiB we are safe.
  
--    def do_test_arm_orangepi_uboot_armbian(self, image_path):
-+    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
-+                'Test artifacts fetched from unreliable apt.armbian.com')
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-+    def test_arm_orangepi_bionic_20_08(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:orangepi-pc
-+        :avocado: tags=device:sd
-+        """
-+
-+        # This test download a 275 MiB compressed image and expand it
-+        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
-+        # As we expand it to 2 GiB we are safe.
-+
-+        image_url = ('https://dl.armbian.com/orangepipc/archive/'
-+                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
-+        image_hash = ('b4d6775f5673486329e45a0586bf06b6'
-+                      'dbe792199fd182ac6b9c7bb6c7d3e6dd')
-+        image_path_xz = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                         algorithm='sha256')
-+        image_path = archive.extract(image_path_xz, self.workdir)
-+        image_pow2ceil_expand(image_path)
-+
-         self.vm.set_console()
-         self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
-                          '-nic', 'user',
-@@ -828,54 +850,6 @@ def do_test_arm_orangepi_uboot_armbian(self, image_path):
-                                       'to <orangepipc>')
-         self.wait_for_console_pattern('Starting Load Kernel Modules...')
- 
--    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
--                'Test artifacts fetched from unreliable apt.armbian.com')
--    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
--    @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
--    def test_arm_orangepi_bionic_19_11(self):
--        """
--        :avocado: tags=arch:arm
--        :avocado: tags=machine:orangepi-pc
--        :avocado: tags=device:sd
--        """
--
--        # This test download a 196MB compressed image and expand it to 1GB
 -        image_url = ('https://dl.armbian.com/orangepipc/archive/'
--                     'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
--        image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
--        image_path_7z = self.fetch_asset(image_url, asset_hash=image_hash)
--        image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
--        image_path = os.path.join(self.workdir, image_name)
--        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
--        image_pow2ceil_expand(image_path)
--
--        self.do_test_arm_orangepi_uboot_armbian(image_path)
--
--    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
--                'Test artifacts fetched from unreliable apt.armbian.com')
--    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
--    def test_arm_orangepi_bionic_20_08(self):
--        """
--        :avocado: tags=arch:arm
--        :avocado: tags=machine:orangepi-pc
--        :avocado: tags=device:sd
--        """
--
--        # This test download a 275 MiB compressed image and expand it
--        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
--        # As we expand it to 2 GiB we are safe.
--
--        image_url = ('https://dl.armbian.com/orangepipc/archive/'
--                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
--        image_hash = ('b4d6775f5673486329e45a0586bf06b6'
--                      'dbe792199fd182ac6b9c7bb6c7d3e6dd')
--        image_path_xz = self.fetch_asset(image_url, asset_hash=image_hash,
--                                         algorithm='sha256')
--        image_path = archive.extract(image_path_xz, self.workdir)
--        image_pow2ceil_expand(image_path)
--
--        self.do_test_arm_orangepi_uboot_armbian(image_path)
--
-     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-     def test_arm_orangepi_uboot_netbsd9(self):
-         """
++        image_url = ('https://archive.armbian.com/orangepipc/archive/'
+                      'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
+         image_hash = ('b4d6775f5673486329e45a0586bf06b6'
+                       'dbe792199fd182ac6b9c7bb6c7d3e6dd')
 -- 
 2.25.1
 
