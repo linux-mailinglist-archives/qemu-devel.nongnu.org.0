@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCF6333445
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:15:37 +0100 (CET)
-Received: from localhost ([::1]:53000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A61333457
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:22:50 +0100 (CET)
+Received: from localhost ([::1]:50522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqG0-0002ea-Aw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:15:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
+	id 1lJqMz-0005z5-Kf
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:22:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAv-0003Y8-5o; Tue, 09 Mar 2021 23:10:22 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33217 helo=ozlabs.org)
+ id 1lJqAw-0003YQ-VM; Tue, 09 Mar 2021 23:10:23 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:55963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAt-0004Ci-DF; Tue, 09 Mar 2021 23:10:20 -0500
+ id 1lJqAv-0004E7-Au; Tue, 09 Mar 2021 23:10:22 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWf05W4z9sWv; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWf0SZYz9sX2; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349406;
- bh=3paUsi6KnBsr8WjgCeruHmBju+Ztd+zKZLwU9qHUkXU=;
+ bh=uJfNzO/IH/PKiESK8g5yg4+400F3gnzkruuBjogzggs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jWKR5mVDFPgs+hEyzQa/oF0P35CTw7qPcheTUHrX6P/o3FIF/2QJpq4N8wooqRTlc
- EnwpBvNgE1KOv2UiTU1A6JzNChZo0JL50ck8IiSRtvOBQkI0HkQN7mNdXZbd6/5i20
- UdLmMqtggv660pnYtdQYxQyil3+XXCIwAfgPqDxw=
+ b=eLCNl026PJj7kOhBi77/2+xRX8xoKd2J7qP85C2mWAzbl2vEH7TD1Fi/6rJGnkuuT
+ DdhF07d+6I4WebKLs/VyuABBp3plbYHTAjo3bxJ+Ltni7NHxj7OEs+tIvunVb0ERS1
+ GD+zMwvL5GUhugyR0QpI12iFO5/US+U3MFeCGhYc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 13/20] hw/net: fsl_etsec: Fix build error when HEX_DUMP is on
-Date: Wed, 10 Mar 2021 15:09:55 +1100
-Message-Id: <20210310041002.333813-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/20] hw/ppc: e500: Add missing <ranges> in the eTSEC node
+Date: Wed, 10 Mar 2021 15:09:56 +1100
+Message-Id: <20210310041002.333813-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,41 +64,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-"qemu-common.h" should be included to provide the forward declaration
-of qemu_hexdump() when HEX_DUMP is on.
+The eTSEC node should provide an empty <ranges> property in the
+eTSEC node, otherwise of_translate_address() in the Linux kernel
+fails to get the eTSEC register base, reporting:
 
+  OF: ** translation for device /platform@f00000000/ethernet@0/queue-group **
+  OF: bus is default (na=1, ns=1) on /platform@f00000000/ethernet@0
+  OF: translating address: 00000000
+  OF: parent bus is default (na=1, ns=1) on /platform@f00000000
+  OF: no ranges; cannot translate
+
+Per devicetree spec v0.3 [1] chapter 2.3.8:
+
+  If the property is not present in a bus node, it is assumed that
+  no mapping exists between children of the node and the parent
+  address space.
+
+This is why of_translate_address() aborts the address translation.
+Apparently U-Boot devicetree parser seems to be tolerant with
+missing <ranges> as this was not noticed when testing with U-Boot.
+The empty <ranges> property is present in all kernel shipped dtsi
+files for eTSEC, Let's add it to conform with the spec.
+
+[1] https://github.com/devicetree-org/devicetree-specification/releases/download/v0.3/devicetree-specification-v0.3.pdf
+
+Fixes: fdfb7f2cdb2d ("e500: Add support for eTSEC in device tree")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20210228050431.24647-1-bmeng.cn@gmail.com>
+Message-Id: <1614158919-9473-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/net/fsl_etsec/etsec.c | 1 +
- hw/net/fsl_etsec/rings.c | 1 +
- 2 files changed, 2 insertions(+)
+ hw/ppc/e500.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-index 93886bba60..bd9d62b559 100644
---- a/hw/net/fsl_etsec/etsec.c
-+++ b/hw/net/fsl_etsec/etsec.c
-@@ -27,6 +27,7 @@
-  */
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 01517a6c6c..1d94485ac8 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -231,6 +231,7 @@ static int create_devtree_etsec(SysBusDevice *sbdev, PlatformDevtreeData *data)
+     assert(irq2 >= 0);
  
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "hw/sysbus.h"
- #include "hw/irq.h"
- #include "hw/ptimer.h"
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index fe055d3381..d6be0d7d18 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -22,6 +22,7 @@
-  * THE SOFTWARE.
-  */
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "net/checksum.h"
- #include "qemu/log.h"
- #include "etsec.h"
+     qemu_fdt_add_subnode(fdt, node);
++    qemu_fdt_setprop(fdt, node, "ranges", NULL, 0);
+     qemu_fdt_setprop_string(fdt, node, "device_type", "network");
+     qemu_fdt_setprop_string(fdt, node, "compatible", "fsl,etsec2");
+     qemu_fdt_setprop_string(fdt, node, "model", "eTSEC");
 -- 
 2.29.2
 
