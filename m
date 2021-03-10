@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D461333BD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:56:53 +0100 (CET)
-Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F5D333BDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:56:54 +0100 (CET)
+Received: from localhost ([::1]:44326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJxSO-0000jQ-4f
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
+	id 1lJxSP-0000kK-Af
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:56:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJxQq-00085a-Vu
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:55:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31812)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJxR9-0008BD-Jq
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:55:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lJxQn-0001TE-NW
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:55:16 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lJxR5-0001k4-27
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:55:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615377312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1615377329;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gW2Gto4m4/LHLqaB67AaAl3WHxdSNEbvB6gA13w4JY0=;
- b=E+qR3aS+0Cci+wdff/Iz1pSi3IlwfRuckWjb4K5jeuEPnnhFcG1gIWddsk0Yb6BqYXUk3S
- 9GHelA5urx5XAsccIZw809bDAaaCxHbNGLlfMv2QIm8Pq2/5gBNaC4nlF4wKsWIPZSmwXV
- y0I10Ew7LL0wxx1ZM1RVY5YtlOA2irQ=
+ bh=8QGC/DPgxXyUgAXUb1EA6Nf6GOujkxbj4PAGUCVF9UA=;
+ b=Fl3C9WH3K5kOqZqkRsKuotHah7UJM4IOLvAZH6rawqDecSdOEiOqo5nuCP5rc1Zy4ef1LQ
+ ol9IPQCazsAynvwLrluykujGCXDBUES0ZtGDSaSIpfit+iZZhEhmT4UA+Q3y9JOz+5J0dH
+ MBYhGg8SJazfLgL/C/NCx3n53yUyQfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-HM2LZjEbNxKdx931-DBuYA-1; Wed, 10 Mar 2021 06:55:11 -0500
-X-MC-Unique: HM2LZjEbNxKdx931-DBuYA-1
+ us-mta-184-UYc5JKffPuSrRXBhUTu8Qw-1; Wed, 10 Mar 2021 06:55:25 -0500
+X-MC-Unique: UYc5JKffPuSrRXBhUTu8Qw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC86A108BD07;
- Wed, 10 Mar 2021 11:55:09 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-29.ams2.redhat.com [10.36.114.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C99E60CFA;
- Wed, 10 Mar 2021 11:55:08 +0000 (UTC)
-Date: Wed, 10 Mar 2021 12:55:06 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 15/36] block: use topological sort for permission update
-Message-ID: <20210310115506.GC6076@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-16-vsementsov@virtuozzo.com>
- <20210127183809.GD6090@merkur.fritz.box>
- <ef4f43d2-a8b8-932e-78e4-6ffc9d8e7d3e@virtuozzo.com>
- <20210128171356.GE5361@merkur.fritz.box>
- <5e6e28e0-133c-9094-1c48-532090453cb1@virtuozzo.com>
- <20210203183829.GG5507@merkur.fritz.box>
- <61c15d60-6d32-3f18-8f17-1104cb7bf683@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D12E108BD08;
+ Wed, 10 Mar 2021 11:55:24 +0000 (UTC)
+Received: from redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B02FB6F130;
+ Wed, 10 Mar 2021 11:55:18 +0000 (UTC)
+Date: Wed, 10 Mar 2021 11:55:15 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/3] block: Introduce the 'zeroes-co' driver to help
+ security reports
+Message-ID: <YEizo2E9CB36wSUS@redhat.com>
+References: <20210310114314.1068957-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <61c15d60-6d32-3f18-8f17-1104cb7bf683@virtuozzo.com>
+In-Reply-To: <20210310114314.1068957-1-philmd@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,124 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.03.2021 um 12:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 03.02.2021 21:38, Kevin Wolf wrote:
-> > Am 28.01.2021 um 19:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > 28.01.2021 20:13, Kevin Wolf wrote:
-> > > > Am 28.01.2021 um 10:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > > > 27.01.2021 21:38, Kevin Wolf wrote:
-> > > > > > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > > > > > -static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > > > > > -                           uint64_t cumulative_perms,
-> > > > > > > -                           uint64_t cumulative_shared_perms,
-> > > > > > > -                           GSList *ignore_children, Error **errp)
-> > > > > > > +static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > > > > > +                                uint64_t cumulative_perms,
-> > > > > > > +                                uint64_t cumulative_shared_perms,
-> > > > > > > +                                GSList *ignore_children, Error **errp)
-> > > > > > >     {
-> > > > > > >         BlockDriver *drv = bs->drv;
-> > > > > > >         BdrvChild *c;
-> > > > > > > @@ -2166,21 +2193,43 @@ static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > > > > >         /* Check all children */
-> > > > > > >         QLIST_FOREACH(c, &bs->children, next) {
-> > > > > > >             uint64_t cur_perm, cur_shared;
-> > > > > > > -        GSList *cur_ignore_children;
-> > > > > > >             bdrv_child_perm(bs, c->bs, c, c->role, q,
-> > > > > > >                             cumulative_perms, cumulative_shared_perms,
-> > > > > > >                             &cur_perm, &cur_shared);
-> > > > > > > +        bdrv_child_set_perm_safe(c, cur_perm, cur_shared, NULL);
-> > > > > > 
-> > > > > > This "added" line is actually old code. What is removed here is the
-> > > > > > recursive call of bdrv_check_update_perm(). This is what the code below
-> > > > > > will have to replace.
-> > > > > 
-> > > > > yes, we'll use explicit loop instead of recursion
-> > > > > 
-> > > > > > 
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    return 0;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > > > > > +                           uint64_t cumulative_perms,
-> > > > > > > +                           uint64_t cumulative_shared_perms,
-> > > > > > > +                           GSList *ignore_children, Error **errp)
-> > > > > > > +{
-> > > > > > > +    int ret;
-> > > > > > > +    BlockDriverState *root = bs;
-> > > > > > > +    g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, root);
-> > > > > > > +
-> > > > > > > +    for ( ; list; list = list->next) {
-> > > > > > > +        bs = list->data;
-> > > > > > > +
-> > > > > > > +        if (bs != root) {
-> > > > > > > +            if (!bdrv_check_parents_compliance(bs, ignore_children, errp)) {
-> > > > > > > +                return -EINVAL;
-> > > > > > > +            }
-> > > > > > 
-> > > > > > At this point bs still had the old permissions, but we don't access
-> > > > > > them. As we're going in topological order, the parents have already been
-> > > > > > updated if they were a child covered in bdrv_node_check_perm(), so we're
-> > > > > > checking the relevant values. Good.
-> > > > > > 
-> > > > > > What about the root node? If I understand correctly, the parents of the
-> > > > > > root nodes wouldn't have been checked in the old code. In the new state,
-> > > > > > the parent BdrvChild already has to contain the new permission.
-> > > > > > 
-> > > > > > In bdrv_refresh_perms(), we already check parent conflicts, so no change
-> > > > > > for all callers going through it. Good.
-> > > > > > 
-> > > > > > bdrv_reopen_multiple() is less obvious. It passes permissions from the
-> > > > > > BDRVReopenState, without applying the permissions first.
-> > > > > 
-> > > > > It will be changed in the series
-> > > > > 
-> > > > > > Do we check the
-> > > > > > old parent permissions instead of the new state here?
-> > > > > 
-> > > > > We use given (new) cumulative permissions for bs, and recalculate
-> > > > > permissions for bs subtree.
-> > > > 
-> > > > Where do we actually set them? I would expect a
-> > > > bdrv_child_set_perm_safe() call somewhere, but I can't see it in the
-> > > > call path from bdrv_reopen_multiple().
-> > > 
-> > > You mean parent BdrvChild objects? Then this question applies as well
-> > > to pre-patch code.
-> > 
-> > I don't think so. The pre-patch code doesn't rely on the permissions
-> > already being set in the BdrvChild object, but it gets them passed in
-> > parameters. Changing the graph first and relying on the information in
-> > BdrvChild is the new approach that you're introducing.
+On Wed, Mar 10, 2021 at 12:43:11PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> New code still pass permissions as parameters for root node. And only
-> inside subtree we rely on updated parents. But that's correct due to
-> topological order of updating.
+> This is an alternative approach to changing null-co driver
+> default 'read-zeroes' option to true:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg80873.html
 > 
-> 
-> OK, that's incorrect for the following case: when one of the parents (X)
-> of inner node in bs subtree IS NOT in the bs subtree but IS in reopen queue.
-> And we'll use wrong permission of X. Still:
-> 
-> 1. It's preexisting. bdrv_check_update_perm() doesn't take reopen queue
-> in mind when calculate cumulative permissions (and ignore_children doesn't
-> help for the described case
-> 
-> 2. We can hope that on next permission update, started from node X, permissions
-> will become more correct
-> 
-> 3. At the end of series permission calculation in bdrv_reopen_multiple is
-> rewritten anyway.
+> Instead we introduce yet another block driver with an explicit
+> name: 'zeroes-co'. We then clarify in secure-coding-practices.rst
+> that security reports have to be sent using this new driver.
 
-Yes, I think 3. is the strongest argument in favour of the patch.
+IMHO introducing a new block driver, when this can be solved by
+simply adding a property to the existing driver, just feels mad
+Your previous series made much more sense, and despite the long
+thread, I didn't see anyone suggest a real world blocker with
+making it read zeros by default.
 
-Kevin
+I think Max's last mail sums it up pretty well
+
+  https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg07173.html
+
+[quote]
+In cases where we have a test that just wants a simple block node that
+doesn’t use disk space, the memset() can’t be noticeable. But it’s just
+a test, so do we even need the memset()? Strictly speaking, perhaps not,
+but if someone is to run it via Valgrind or something, they may get
+false positives, so just doing the memset() is the right thing to do.
+
+For performance tests, it must be possible to set read-zeroes=off,
+because even though “that memset() isn’t noticeable in a functional
+test”, in a hard-core performance test, it will be.
+
+So we need a switch. It should default to memset(), because (1) making
+tools like Valgrind happy seems like a reasonable objective to me, and
+(2) in the majority of cases, the memset() cannot have a noticeable
+impact.
+[/quote]
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
