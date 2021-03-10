@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883DF333FE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:05:47 +0100 (CET)
-Received: from localhost ([::1]:46728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96872333FFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:11:24 +0100 (CET)
+Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJzT8-0001gl-KK
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:05:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
+	id 1lJzYZ-0003mb-HB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:11:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJzNy-0007Jr-Qm; Wed, 10 Mar 2021 09:00:26 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53046)
+ (Exim 4.90_1) (envelope-from <ivan@vmfacility.fr>)
+ id 1lJzXJ-0003Ay-Kv; Wed, 10 Mar 2021 09:10:05 -0500
+Received: from db04.iswnet.net ([2001:bc8:3515:300::1]:57866
+ helo=db04.ivansoftware.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lJzNw-00085O-69; Wed, 10 Mar 2021 09:00:26 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 83038AD72;
- Wed, 10 Mar 2021 14:00:21 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210221222617.2579610-1-f4bug@amsat.org>
- <20210221222617.2579610-2-f4bug@amsat.org>
- <51ae2fad-f20e-27f2-2f7b-b7dca331dea3@suse.de>
- <75ce7727-caec-fd63-b2e6-9344e22cfa75@amsat.org>
- <c1b1838e-4b91-5411-42f6-cea97e1f0e81@suse.de>
- <68796aa5-1c75-8a74-fc98-7d929df9478d@amsat.org>
- <c7a46e45-1682-ad76-a9eb-a155729e8d8f@suse.de>
-Message-ID: <b79d147d-85e8-6631-53dd-9feecb3e7729@suse.de>
-Date: Wed, 10 Mar 2021 15:00:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <ivan@vmfacility.fr>)
+ id 1lJzXG-0004hx-Ur; Wed, 10 Mar 2021 09:10:05 -0500
+Received: from [IPv6:2a01:cb19:19d:dd00:64ef:c955:8a97:71f6] (unknown
+ [IPv6:2a01:cb19:19d:dd00:64ef:c955:8a97:71f6])
+ by db04.ivansoftware.com (Postfix) with ESMTPSA id 11BEABE3243;
+ Wed, 10 Mar 2021 15:09:48 +0100 (CET)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at db04
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vmfacility.fr;
+ s=mail; t=1615385388;
+ bh=RqJsuMNnM2bKN6wCNA+sGgLSIaNwzCmKj5byTXNHMjo=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=mLzofKpkXanYGpmqldZaNe74LhYrxr5TPvStMFSH8R8BSki1FMGM9hA0/0p8fcxaH
+ 9BFlY+YmTd6MRdwVXprHbpESUpSJIbV/49HASPE75pl2nnIuMlo39Qzcwdni6sQlet
+ 3d5RdkWq2aZH0h4WEJQtKYP1CKdIMGlAwu7EKyCQYaMWwke+pvUIyVptjXUNxYUsWv
+ rdBxc1td2BwR1VPgN7hqS1vgNWDar+520yw2bUFwhHsfugj/8mOEW3AKGDDbgYl6tQ
+ mTmZ0+NjgfA2XR06fxy+G2+YiOMXnzFtY+0tW/xF47vOxF2uQASFpz/FbOkAOeoIXO
+ LO9VfT9JM0vIg==
+Subject: Re: [PULL 00/20] ppc-for-6.0 queue 20210310
+To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org,
+ groug@kaod.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
+From: Ivan Warren <ivan@vmfacility.fr>
+Message-ID: <503c3c5e-3dd2-adba-2d2c-2e5f8618fc3a@vmfacility.fr>
+Date: Wed, 10 Mar 2021 15:09:46 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <c7a46e45-1682-ad76-a9eb-a155729e8d8f@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="------------ms070208020005030809040109"
+Received-SPF: pass client-ip=2001:bc8:3515:300::1;
+ envelope-from=ivan@vmfacility.fr; helo=db04.ivansoftware.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,155 +68,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 2:45 PM, Claudio Fontana wrote:
-> On 3/10/21 2:42 PM, Philippe Mathieu-Daudé wrote:
->> On 3/10/21 12:46 PM, Claudio Fontana wrote:
->>> On 3/9/21 3:18 PM, Philippe Mathieu-Daudé wrote:
->>>> On 3/9/21 2:41 PM, Claudio Fontana wrote:
->>>>> On 2/21/21 11:26 PM, Philippe Mathieu-Daudé wrote:
->>>>>> IDAU is specific to M-profile. KVM only supports A-profile.
->>>>>> Restrict this interface to TCG, as it is pointless (and
->>>>>> confusing) on a KVM-only build.
->>>>>>
->>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>
->>>>>
->>>>> This one breaks the KVM tests hard though (most of them).
->>>>>
->>>>> I will try to figure out why.
->>>>>
->>>>> Ciao,
->>>>>
->>>>> Claudio
->>>>>
->>>>>
->>>>>> ---
->>>>>>  target/arm/cpu.c     | 7 -------
->>>>>>  target/arm/cpu_tcg.c | 8 ++++++++
->>>>>>  2 files changed, 8 insertions(+), 7 deletions(-)
->>>>>>
->>>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->>>>>> index b8bc89e71fc..a772fd4926f 100644
->>>>>> --- a/target/arm/cpu.c
->>>>>> +++ b/target/arm/cpu.c
->>>>>> @@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
->>>>>>      .class_init = arm_cpu_class_init,
->>>>>>  };
->>>>>>  
->>>>>> -static const TypeInfo idau_interface_type_info = {
->>>>>> -    .name = TYPE_IDAU_INTERFACE,
->>>>>> -    .parent = TYPE_INTERFACE,
->>>>
->>>> Hmm this is an interface...
->>>>
->>>> Is a CPU/machine trying to resolve it?
->>>
->>> Well, this fails horribly at any qemu-system-aarch64 startup for the kvm-only build:
->>>
->>> in my view we cannot remove the idau interface until we have removed all the TCG-only boards fronm the build.
->>
->> Yes, this is a similar bug to the one fixed by commit 8d0bceba24c
->> ("hw/nvram: Always register FW_CFG_DATA_GENERATOR_INTERFACE").
->>
->>>
->>> When calling qemu_init(), and we get into select_machine(),
->>>
->>> the object_class_get_list() tries to initialize all machine types.
->>>
->>> When it does that, it tries to initialize the IDAU interface, and fails.
->>>
->>> #0  0x0000ffffb9e51828 in raise () at /lib64/libc.so.6
->>> #1  0x0000ffffb9e52e4c in abort () at /lib64/libc.so.6
->>> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
->>> #3  0x0000aaaae042c06c in object_class_foreach_tramp (key=0xaaaaf0cb3940, value=0xaaaaf0cb37c0, opaque=0xfffff9f2bac8)
->>>     at ../qom/object.c:1069
->>> #4  0x0000ffffbb3d4248 in g_hash_table_foreach () at /usr/lib64/libglib-2.0.so.0
->>> #5  0x0000aaaae042c180 in object_class_foreach (fn=
->>>     0xaaaae042c324 <object_class_get_list_tramp>, implements_type=0xaaaae089cc90 "machine", include_abstract=false, opaque=0xfffff9f2bb10)
->>>     at ../qom/object.c:1091
->>> #6  0x0000aaaae042c3a8 in object_class_get_list (implements_type=0xaaaae089cc90 "machine", include_abstract=false) at ../qom/object.c:1148
->>> #7  0x0000aaaae03863d8 in select_machine () at ../softmmu/vl.c:1607
->>> #8  0x0000aaaae038ad74 in qemu_init (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/vl.c:3489
->>> #9  0x0000aaaadfdcf5a0 in main (argc=15, argv=0xfffff9f2be08, envp=0xfffff9f2be88) at ../softmmu/main.c:49
->>>
->>>
->>> (gdb) frame 2
->>> #2  0x0000aaaae042a484 in type_initialize (ti=0xaaaaf0cb37c0) at ../qom/object.c:333
->>> 333                     abort();
->>> (gdb) p ti[0]
->>> $1 = {name = 0xaaaaf0cb3940 "mps2tz", class_size = 408, instance_size = 202224, instance_align = 0, class_init = 
->>>     0xaaaae0273408 <mps2tz_class_init>, class_base_init = 0x0, class_data = 0x0, instance_init = 0x0, instance_post_init = 0x0, 
->>>   instance_finalize = 0x0, abstract = true, parent = 0xaaaaf0cb3960 "machine", parent_type = 0xaaaaf0cad860, class = 0xaaaaf0d0d830, 
->>>   num_interfaces = 1, interfaces = {{typename = 0xaaaaf0cb3980 "idau-interface"}, {typename = 0x0} <repeats 31 times>}}
->>>
->>>
->>> In my view we should revert this until all incompatible boards are disabled
->>
->> My view is this is a QOM design problem. Others might hit the
->> same issue. It is hard to debug. It should be fixed upfront.
+This is a cryptographically signed message in MIME format.
 
-What is the QOM design problem to fix exactly?
+--------------ms070208020005030809040109
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-And in any case, I think this small change "target/arm: Restrict v8M IDAU to TCG",
-when applied on its own, does not get us any closer to the goal, it actually hinders us, as we do not have a working buildable and testable kvm-only build to base on.
+Hey there,
 
-That is why I added a revert of this to my series.
+Any chance the MSR[SF] mixed code issue fix gets addressed at some point =
+?
 
-My suggestion is just to postpone your change to later on,
-when we have the other pieces in place (ie after we can disable incompabile boards).
+(Apparently there was a fix but it was breaking some tests for some=20
+unknown reason)...
 
-A working kvm-only build is a good starting point I think.
+--Ivan
 
-After we are able to disable incompatible boards,
-we can reapply "target/arm: Restrict v8M IDAU to TCG",
-and we can also remove a lot of additional stubs and V7M-only code and such from the KVM-only build.
+On 3/10/2021 5:09 AM, David Gibson wrote:
+> The following changes since commit b2ae1009d7cca2701e17eae55ae2d44fd22c=
+942a:
+>
+>    Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210=
+307' into staging (2021-03-09 13:50:35 +0000)
+>
+> are available in the Git repository at:
+>
+>    https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210310
+>
+> for you to fetch changes up to eb7f80fd26d73e7e1af105431da58971b1dba517=
+:
+>
+>    spapr.c: send QAPI event when memory hotunplug fails (2021-03-10 09:=
+07:09 +1100)
+>
+> ----------------------------------------------------------------
+> ppc patch queue for 2021-03-10
+>
+> Next batch of patches for the ppc target and machine types.  Includes:
+>   * Several cleanups for sm501 from Peter Maydell
+>   * An update to the SLOF guest firmware
+>   * Improved handling of hotplug failures in spapr, associated cleanups=
 
-But I'd rather have a functional, make check-able starting point..
+>     to the hotplug handling code
+>   * Several etsec fixes and cleanups from Bin Meng
+>   * Assorted other fixes and cleanups
+>
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>        pseries: Update SLOF firmware image
+>
+> Bin Meng (2):
+>        hw/net: fsl_etsec: Fix build error when HEX_DUMP is on
+>        hw/ppc: e500: Add missing <ranges> in the eTSEC node
+>
+> C=C3=A9dric Le Goater (1):
+>        docs/system: Extend PPC section
+>
+> Daniel Henrique Barboza (11):
+>        spapr_drc.c: do not call spapr_drc_detach() in drc_isolate_logic=
+al()
+>        spapr_drc.c: use spapr_drc_release() in isolate_physical/set_unu=
+sable
+>        spapr: rename spapr_drc_detach() to spapr_drc_unplug_request()
+>        spapr_drc.c: introduce unplug_timeout_timer
+>        spapr_drc.c: add hotunplug timeout for CPUs
+>        spapr_drc.c: use DRC reconfiguration to cleanup DIMM unplug stat=
+e
+>        spapr.c: add 'unplug already in progress' message for PHB unplug=
 
-Ciao,
+>        spapr_pci.c: add 'unplug already in progress' message for PCI un=
+plug
+>        qemu_timer.c: add timer_deadline_ms() helper
+>        spapr.c: remove duplicated assert in spapr_memory_unplug_request=
+()
+>        spapr.c: send QAPI event when memory hotunplug fails
+>
+> Fabiano Rosas (1):
+>        target/ppc: Fix bcdsub. emulation when result overflows
+>
+> Peter Maydell (3):
+>        hw/display/sm501: Remove dead code for non-32-bit RGB surfaces
+>        hw/display/sm501: Expand out macros in template header
+>        hw/display/sm501: Inline template header into C file
+>
+> Vitaly Cheptsov (1):
+>        target/ppc: fix icount support on Book-e vms accessing SPRs
+>
+>   docs/system/ppc/embedded.rst      |  10 ++
+>   docs/system/ppc/powermac.rst      |  34 +++++++
+>   docs/system/ppc/powernv.rst       | 193 +++++++++++++++++++++++++++++=
++++++++++
+>   docs/system/ppc/prep.rst          |  18 ++++
+>   docs/system/ppc/pseries.rst       |  12 +++
+>   docs/system/target-ppc.rst        |  53 +++--------
+>   hw/display/sm501.c                | 160 +++++++++++++++--------------=
+--
+>   hw/display/sm501_template.h       | 131 --------------------------
+>   hw/net/fsl_etsec/etsec.c          |   1 +
+>   hw/net/fsl_etsec/rings.c          |   1 +
+>   hw/ppc/e500.c                     |   1 +
+>   hw/ppc/spapr.c                    |  67 ++++++++++++-
+>   hw/ppc/spapr_drc.c                | 110 ++++++++++++++++------
+>   hw/ppc/spapr_pci.c                |   8 +-
+>   hw/ppc/trace-events               |   2 +-
+>   include/hw/ppc/spapr.h            |   1 +
+>   include/hw/ppc/spapr_drc.h        |   7 +-
+>   include/qemu/timer.h              |   8 ++
+>   pc-bios/README                    |   2 +-
+>   pc-bios/slof.bin                  | Bin 968368 -> 968888 bytes
+>   roms/SLOF                         |   2 +-
+>   target/ppc/int_helper.c           |  13 ++-
+>   target/ppc/translate_init.c.inc   |  36 +++++++
+>   tests/tcg/configure.sh            |   6 ++
+>   tests/tcg/ppc64/Makefile.target   |  13 +++
+>   tests/tcg/ppc64le/Makefile.target |  12 +++
+>   tests/tcg/ppc64le/bcdsub.c        | 130 +++++++++++++++++++++++++
+>   util/qemu-timer.c                 |  13 +++
+>   28 files changed, 751 insertions(+), 293 deletions(-)
+>   create mode 100644 docs/system/ppc/embedded.rst
+>   create mode 100644 docs/system/ppc/powermac.rst
+>   create mode 100644 docs/system/ppc/powernv.rst
+>   create mode 100644 docs/system/ppc/prep.rst
+>   create mode 100644 docs/system/ppc/pseries.rst
+>   delete mode 100644 hw/display/sm501_template.h
+>   create mode 100644 tests/tcg/ppc64/Makefile.target
+>   create mode 100644 tests/tcg/ppc64le/Makefile.target
+>   create mode 100644 tests/tcg/ppc64le/bcdsub.c
+>
 
-CLaudio
 
+--------------ms070208020005030809040109
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
->>
->>> In this case, the one failing is MPS2, so the offender is
->>>
->>> devices/arm-softmmu.mak:CONFIG_MPS2=y
->>>
->>> from the point of view of the kvm-only build.
->>>
->>> What I'd suggest is (but I am open to alternatives):
->>>
->>> * revert this one
->>> * complete my arm cleanup series, with now all tests passing
->>> * disable the non-KVM boards for KVM-only builds (basically your series)
->>> * apply the accelerator classes specializations to ARM
->>
->> MPS2TZ uses a Cortex-M33 which is requires TCG.
->> The machine shouldn't be present if TCG is not built-in.
->>
->> Previous attempt which you acked :)
->> "target/arm: Restrict ARMv7 M-profile cpus to TCG accel"
->> https://www.mail-archive.com/qemu-block@nongnu.org/msg79943.html
->>
-> 
-> Yes, I would absolutely like to proceed with all of this,
-> 
-> and have only the right configuration for KVM be built,
-> 
-> but I am a bit lost with all these different series.
-> 
-> Ciao,
-> 
-> CLaudio
-> 
-
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
+CykwggURMIID+aADAgECAhABSzGLseyYaS5Q+y8WzDO3MA0GCSqGSIb3DQEBCwUAMIGWMQsw
+CQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxm
+b3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENs
+aWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDcwNDAwMDAw
+MFoXDTIyMDcwMzIzNTk1OVowIzEhMB8GCSqGSIb3DQEJARYSaXZhbkB2bWZhY2lsaXR5LmZy
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA16J+MNpaqIEV5b2WoLC+l2PP5n3W
+CtXrhU04ursB8Ib+TIGaJQQigdKp2pX7xwY9F/h1vukcYHNxILOvpop8AYyFbCMwmh0r2vZs
+hDpYA1adv7wGsL3tbV155FTk0RewY8//18CaQ/SwVMRiUtqwbsUlbHkHtQRm32r/Otpzjd4/
+vcTshpsPRIcxEib2UMRP6WGjHurC4rd/3pcWlP/GsjA/aGNb9yaNunHBTJzVaqSeiwwYObco
+sJi1199wNBePGrZK6WF3XumgA6++kTKEieJ6hSj2amTR80VaYIzKyjCu4SklI7+ouBL/8UsN
+ljRrIL8sCLkyBlYjWYNsQR3ZbQIDAQABo4IByzCCAccwHwYDVR0jBBgwFoAUCcDy/AvalNtf
+/ivfqJlCz8ngrQAwHQYDVR0OBBYEFEmwhbO6wfSTbflKHMQwSp7HWMGvMA4GA1UdDwEB/wQE
+AwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMEBggrBgEFBQcDAjBABgNV
+HSAEOTA3MDUGDCsGAQQBsjEBAgEBATAlMCMGCCsGAQUFBwIBFhdodHRwczovL3NlY3RpZ28u
+Y29tL0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3Rp
+Z29SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3JsMIGKBggrBgEF
+BQcBAQR+MHwwVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JT
+QUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwIwYIKwYBBQUHMAGG
+F2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMB0GA1UdEQQWMBSBEml2YW5Adm1mYWNpbGl0eS5m
+cjANBgkqhkiG9w0BAQsFAAOCAQEAPXjOtK7xHfpAU3HUn5hIlaWUzkbaMI1R8tiefaJsHJks
+4dkh/IqQhI+3yCjPybY38NP+ctwgpOZo7ARK/lLKo4+yooYs+5MrwCvP2Kw2RKPp+ZjhJIWX
+DVcoVUxkONrVJH/VuTB3zeJDZ9nrODK9D3X1W2+8srQKgDjlx0sLYuBQEwNDEft9Ag9rL4/5
+X1nlZJZbR8KWM0BxpHYTi7iGL2Gk8GE+beHDmyCAJHolkcs6G3GXwsp03hm300PGbEVsuWgA
+5zHW90OSi/5CnrN15TaOC2yd9nRsobe5ajJAUjvCyVrl+tLmiM/KYJ24/R5Mb+CF6HhhiUa4
+IwbWGZZbgzCCBhAwggP4oAMCAQICEE2ULBDUO+CUCcWBLTorBk8wDQYJKoZIhvcNAQEMBQAw
+gYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkg
+Q2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1
+c3QgUlNBIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTE4MTEwMjAwMDAwMFoXDTMwMTIz
+MTIzNTk1OVowgZYxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIx
+EDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoTD1NlY3RpZ28gTGltaXRlZDE+MDwGA1UEAxM1
+U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0Ew
+ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDKPO2UCkH/3vlGuejWO+bakr8rEE6q
+GryCvb4mHCkqKtLNnFCBP22ULvOXqGfV9eNKjkypdR8i0yW2sxpepwRIm4rx20rno0JKuriI
+Mpoqr03E5cWapdfbM3wccaNDZvZe/S/Uvk2TUxA8oDX3F5ZBykYQYVRR3SQ36gejH4v1pXWu
+N82IKPdsmTqQlo49ps+LbnTeef8hNfl7xZ8+cbDhW5nv0qGPVgGt/biTkR7WwtMewu2mIr06
+MbiJBEF2rpn9OVXH+EYB7PmHfpsEkzGp0cul3AhSROpPyx7d53Q97ANyH/yQc+jl9mXm7UHR
+5ymr+wM3/mwIbnYOz5BTk7kTAgMBAAGjggFkMIIBYDAfBgNVHSMEGDAWgBRTeb9aqitKz1SA
+4dibwJ3ysgNmyzAdBgNVHQ4EFgQUCcDy/AvalNtf/ivfqJlCz8ngrQAwDgYDVR0PAQH/BAQD
+AgGGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwME
+MBEGA1UdIAQKMAgwBgYEVR0gADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0
+cnVzdC5jb20vVVNFUlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYB
+BQUHAQEEajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
+dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVz
+dC5jb20wDQYJKoZIhvcNAQEMBQADggIBAEFEdQCrOcIV9d6OlW0ycWiMAN0X13ocEDiQyOOx
+vRcxkfO244K0oX7GzCGHYaqRbklCszzNWVT4DZU/vYrLaeVEDUbCYg+Ci7vhNn9dNqscbzN0
+xKBoOuRVjPPWDechU70geT3pXCxpwi8EXwl+oiz7xpYfY99JSs3E/piztTSxljHitcPr5yoW
+r9lbkFR8KU3+uGTZ11BfKfuSSaRrZFBv133SeY0d2AqvB9Dj2ZDaFZA0OQkkhfAqNgDpVRH9
+9lQV4JSKx0N7/QAEtMj6OF5dRXV6hhXuU3A0Eql4d0247oBpxvnfcmV95QfG8HP059hZSJe7
+T2wwC+IzXVDQO4xnnvrQJ07ZWemxc/grFpgiG+o+pQxapF1bKftysi02Rl6uhdp5wbTeLeYz
+t2SI9oKSChwGDQQFixtkNnxuwbdrTwvASwvViDPdIGzIQJrTBqriE5/9nzkXbDZmld8/7Dyr
+iJ/A73RIZllX4dH8mHqsRpU8NEX8IQZWpHWGK5A5nVgvl7MxNfRlIvCvKZQTSnCL8oNqJgHX
+m6zCB4gBwDonM8V/2kuQAUVazVA3I376eIWGwzjuqh3H88v7mNHzubLHm5h0ERCSQNz6UoHV
+Zy3q5xeqbYSaxpDQz3lCNObL6sNaOQNh3DcyzqZJYTcGfuLlmC3AIteAAh7lbybJszYnMYIE
+MjCCBC4CAQEwgaswgZYxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0
+ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoTD1NlY3RpZ28gTGltaXRlZDE+MDwGA1UE
+AxM1U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwg
+Q0ECEAFLMYux7JhpLlD7LxbMM7cwDQYJYIZIAWUDBAIBBQCgggJXMBgGCSqGSIb3DQEJAzEL
+BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIxMDMxMDE0MDk0NlowLwYJKoZIhvcNAQkE
+MSIEIP7SLE2eW+CdOhUbQ8BdHj7yzEX4i5A08uVCiju92EtXMGwGCSqGSIb3DQEJDzFfMF0w
+CwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAw
+DQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgbwGCSsGAQQBgjcQBDGB
+rjCBqzCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
+A1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0
+aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIQAUsx
+i7HsmGkuUPsvFswztzCBvgYLKoZIhvcNAQkQAgsxga6ggaswgZYxCzAJBgNVBAYTAkdCMRsw
+GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
+D1NlY3RpZ28gTGltaXRlZDE+MDwGA1UEAxM1U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRp
+Y2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEAFLMYux7JhpLlD7LxbMM7cwDQYJKoZIhvcN
+AQEBBQAEggEAFFXJq6BquibVjat4by3To8hIkYD/pcROhH6VScU+qLzM3qu3yuNGqCBamjjz
+6PkORnJQyxeybKSDKgCUFMALP18sqWmQpQkiaVtUFAVBvBMfi3bg+MosXDE2qZyCgh+wpyqU
+tOlNMrlquDsibHi4Vn/Xftzj5CadYo4h2CaEoBvgrdX1oCRHLzNWFgMEusa4O+T0qis6YRcK
+9Vg7kuy7PV3KpuBMyBsV/unY0Rc7XaM/cc9xvtBSOfvGdf5J88o41SxP18WIaqwBVjxecRik
+juN8kofq0Q6YaOleyIeRKkMPmVTDBV1/VyHY7euUxc2n7fOEt5Gwvx6uHIoERxHVCQAAAAAA
+AA==
+--------------ms070208020005030809040109--
 
