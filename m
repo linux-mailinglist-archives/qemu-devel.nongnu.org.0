@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7368333DE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:33:43 +0100 (CET)
-Received: from localhost ([::1]:51074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44387333DE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:33:22 +0100 (CET)
+Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJyy6-0003q4-Om
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:33:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
+	id 1lJyxl-0003Kz-7i
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJyu7-00018I-Uv
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:29:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJyu6-0007B0-0F
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:29:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615382970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8ScCgNxIqd6sDHI2X3m9zVzuFaT/EbwN3SJtZcuNZOs=;
- b=TF5vT4upci6BY2Sp3UPFeGJDM4TgU2vU6s/VeiXwnsQazLbYXo9Ksv5kXOzBVvt8P3DUim
- ipeMGqE4oZbPyw9asiG3zGwkkID+H/y693iJccpWzJzmHkJeoI+JrazoMlqb6sRbjsfQz4
- rzZJ9DFIWoFTUw/fxaL0rlf+d7MThmw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-Dot55fPuPren7dHkeTzhxQ-1; Wed, 10 Mar 2021 08:29:27 -0500
-X-MC-Unique: Dot55fPuPren7dHkeTzhxQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA0FB57;
- Wed, 10 Mar 2021 13:29:25 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FE565C648;
- Wed, 10 Mar 2021 13:29:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8741F18000AC; Wed, 10 Mar 2021 14:29:20 +0100 (CET)
-Date: Wed, 10 Mar 2021 14:29:20 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2 2/2] virtio-gpu: Respect UI refresh rate for EDID
-Message-ID: <20210310132920.6rv5f62ineowzscq@sirius.home.kraxel.org>
-References: <20210303152948.59943-1-akihiko.odaki@gmail.com>
- <20210303152948.59943-2-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJyuz-0001tE-JN; Wed, 10 Mar 2021 08:30:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lJyuv-0007hK-BS; Wed, 10 Mar 2021 08:30:29 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 004AFAD72;
+ Wed, 10 Mar 2021 13:30:18 +0000 (UTC)
+Subject: Re: [PATCH 00/10] target: Provide target-specific Kconfig
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210131111316.232778-1-f4bug@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <2eca1e78-073f-ae5d-6f82-73f4d21c4e72@suse.de>
+Date: Wed, 10 Mar 2021 14:30:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210303152948.59943-2-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210131111316.232778-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,34 +57,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- qemu Developers <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: qemu-ppc@nongnu.org, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Chris Wulff <crwulff@gmail.com>, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-riscv@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi all, where are we with this series?
 
-> -static void xenfb_update_interval(void *opaque, uint64_t interval)
-> +static void xenfb_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+I am trying to figure out how to apply the whole thing,
+in order to build only compatible ARM boards and devices for KVM-only builds.
 
-> -    .update_interval = xenfb_update_interval,
-> +    .ui_info     = xenfb_ui_info,
+Ie, I would like to combine this with:
 
-Hmm, I suspect xenfb really wants the actual refresh rate, even in case
-vnc/sdl change it dynamically.  Anthony?  Stefano?
+"arm cleanup experiment for kvm-only build"
 
-I guess we should just leave the update_interval callback as-is, for
-those who want know, and use ui_info->refresh_rate for the virtual edid
-refresh rate (which may not match the actual update interval in case of
-dynamic changes).  Adding a comment explaining the difference to
-console.h is a good idea too.
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg02790.html
 
-Otherwise looks good to me overall.  Splitting the ui/gtk update to a
-separate patch is probably a good idea.
+My series there gets us to a buildable and working KVM-only ARM target, with all make check tests passing.
 
-take care,
-  Gerd
+However, in order to be able to remove more code, remove stubs etc,
+I found the presence of incompatible ARM boards and devices as blocking additional cleanups.
+
+Therefore, in order to proceed with additional cleanup in arm, and adding the accel-specific extensions to the cpu class,
+I see being able to disable incompatible boards for KVM as necessary.
+
+IIUC there are:
+
+* This series "target: Provide target-specific Kconfig"
+* Support disabling TCG on ARM ?
+* Support disabling TCG on ARM (part 2) ?
+
+What is the current state here?
+
+Thanks,
+
+Claudio
+
+
+On 1/31/21 12:13 PM, Philippe Mathieu-Daudé wrote:
+> Hi,
+> 
+> This series add a Kconfig file to each target, allowing
+> to select target-specific features there, instead of from
+> the hardware Kconfig.
+> 
+> This simplifies managing multi-arch features such semihosting.
+> 
+> Series organization:
+> 
+> 1/ Some targets use the architecture symbol to select boards and
+> peripherals (SH4 and LM32), we need to clean that first.
+> 
+> 2/ Introduce empty target Kconfig, update meson.
+> 
+> 3/ Move architectural features out of hardware:
+>    - x86 SEV
+>    - ARM v7m
+>    - generic semihosting
+> 
+> [following only important to patchew, unrelated to this series]
+> Based-on: <20210131105918.228787-1-f4bug@amsat.org>
+> 
+> Philippe Mathieu-Daudé (10):
+>   hw/sh4/Kconfig: Rename CONFIG_SH4 -> CONFIG_SH4_PERIPHERALS
+>   hw/lm32/Kconfig: Introduce CONFIG_LM32_EVR for lm32-evr/uclinux boards
+>   hw/sh4/Kconfig: Rename CONFIG_LM32 -> CONFIG_LM32_PERIPHERALS
+>   hw/lm32/Kconfig: Have MILKYMIST select LM32_PERIPHERALS
+>   meson: Introduce target-specific Kconfig
+>   target/i386: Move SEV feature to target Kconfig
+>   target/arm: Move V7M feature to target Kconfig
+>   default-configs: Remove unnecessary SEMIHOSTING selection
+>   target: Move ARM_COMPATIBLE_SEMIHOSTING feature to target Kconfig
+>   target: Move SEMIHOSTING feature to target Kconfig
+> 
+>  default-configs/devices/arm-softmmu.mak       |  2 --
+>  default-configs/devices/lm32-softmmu.mak      |  4 +---
+>  default-configs/devices/m68k-softmmu.mak      |  2 --
+>  .../devices/mips-softmmu-common.mak           |  3 ---
+>  default-configs/devices/nios2-softmmu.mak     |  2 --
+>  default-configs/devices/riscv32-softmmu.mak   |  2 --
+>  default-configs/devices/riscv64-softmmu.mak   |  2 --
+>  default-configs/devices/unicore32-softmmu.mak |  1 -
+>  default-configs/devices/xtensa-softmmu.mak    |  2 --
+>  meson.build                                   |  3 ++-
+>  Kconfig                                       |  1 +
+>  hw/arm/Kconfig                                |  4 ----
+>  hw/block/meson.build                          |  2 +-
+>  hw/char/meson.build                           |  6 ++---
+>  hw/i386/Kconfig                               |  4 ----
+>  hw/intc/meson.build                           |  4 ++--
+>  hw/lm32/Kconfig                               | 10 +++++---
+>  hw/lm32/meson.build                           |  2 +-
+>  hw/sh4/Kconfig                                |  6 ++---
+>  hw/timer/meson.build                          |  4 ++--
+>  target/Kconfig                                | 23 +++++++++++++++++++
+>  target/alpha/Kconfig                          |  2 ++
+>  target/arm/Kconfig                            | 11 +++++++++
+>  target/avr/Kconfig                            |  2 ++
+>  target/cris/Kconfig                           |  2 ++
+>  target/hppa/Kconfig                           |  2 ++
+>  target/i386/Kconfig                           |  9 ++++++++
+>  target/lm32/Kconfig                           |  3 +++
+>  target/m68k/Kconfig                           |  3 +++
+>  target/microblaze/Kconfig                     |  2 ++
+>  target/mips/Kconfig                           |  7 ++++++
+>  target/moxie/Kconfig                          |  2 ++
+>  target/nios2/Kconfig                          |  3 +++
+>  target/openrisc/Kconfig                       |  2 ++
+>  target/ppc/Kconfig                            |  5 ++++
+>  target/riscv/Kconfig                          |  7 ++++++
+>  target/rx/Kconfig                             |  2 ++
+>  target/s390x/Kconfig                          |  2 ++
+>  target/sh4/Kconfig                            |  2 ++
+>  target/sparc/Kconfig                          |  5 ++++
+>  target/tilegx/Kconfig                         |  2 ++
+>  target/tricore/Kconfig                        |  2 ++
+>  target/unicore32/Kconfig                      |  3 +++
+>  target/xtensa/Kconfig                         |  3 +++
+>  44 files changed, 129 insertions(+), 43 deletions(-)
+>  create mode 100644 target/Kconfig
+>  create mode 100644 target/alpha/Kconfig
+>  create mode 100644 target/arm/Kconfig
+>  create mode 100644 target/avr/Kconfig
+>  create mode 100644 target/cris/Kconfig
+>  create mode 100644 target/hppa/Kconfig
+>  create mode 100644 target/i386/Kconfig
+>  create mode 100644 target/lm32/Kconfig
+>  create mode 100644 target/m68k/Kconfig
+>  create mode 100644 target/microblaze/Kconfig
+>  create mode 100644 target/mips/Kconfig
+>  create mode 100644 target/moxie/Kconfig
+>  create mode 100644 target/nios2/Kconfig
+>  create mode 100644 target/openrisc/Kconfig
+>  create mode 100644 target/ppc/Kconfig
+>  create mode 100644 target/riscv/Kconfig
+>  create mode 100644 target/rx/Kconfig
+>  create mode 100644 target/s390x/Kconfig
+>  create mode 100644 target/sh4/Kconfig
+>  create mode 100644 target/sparc/Kconfig
+>  create mode 100644 target/tilegx/Kconfig
+>  create mode 100644 target/tricore/Kconfig
+>  create mode 100644 target/unicore32/Kconfig
+>  create mode 100644 target/xtensa/Kconfig
+> 
 
 
