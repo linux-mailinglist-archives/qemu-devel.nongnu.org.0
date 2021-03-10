@@ -2,93 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7DD333C9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:31:15 +0100 (CET)
-Received: from localhost ([::1]:44890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81D1333CAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:34:29 +0100 (CET)
+Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJxze-00077o-05
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:31:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
+	id 1lJy2m-00010S-D6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:34:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJxyC-0006Yc-Rb
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:29:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJxyA-00066I-8A
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:29:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615379380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RCoPIhTooj2/WoCTVm8TnFdOSS8ZDIAdwE34b0WcpXo=;
- b=O9RV6HIpHBobqTprv8NgQth46qUPC5ugQO/XrOSyz+8W1FEe8fGLXD+luDY+HemwPaRjlC
- CNGVasdFyMZ44RfjulHOf/mxDjucfQqT54zYgU5GDEy4+jpCf9C9/DMaqHAVWrJBBgBUxM
- p8EyrjtQ2fuTIe1vv7jFu+1BtLQMAGM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-N1sCPCwOMQa-4rOxWZEQUQ-1; Wed, 10 Mar 2021 07:29:38 -0500
-X-MC-Unique: N1sCPCwOMQa-4rOxWZEQUQ-1
-Received: by mail-ed1-f71.google.com with SMTP id q2so8234957edt.16
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 04:29:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <famforupstream@gmail.com>)
+ id 1lJy1S-00006j-Si; Wed, 10 Mar 2021 07:33:06 -0500
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:37460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <famforupstream@gmail.com>)
+ id 1lJy1R-00088N-22; Wed, 10 Mar 2021 07:33:06 -0500
+Received: by mail-lf1-x142.google.com with SMTP id n16so33182382lfb.4;
+ Wed, 10 Mar 2021 04:33:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jPUpRn0F6/k/OsOOeiNMtE1/tySRxUWTl0ra42QnME8=;
+ b=ZIIDxpoMVx5ww7zDIwk2jINRYRTDlbrmNmIASV17WvaNhwNZlbcMl+mD+9U4YU9VDw
+ nEENQVOckX/JdvNZzgJ75agv3N6xjA3CPuPrE6cFIvUD71u1Uju3yZ9ORO26iPtJ8CND
+ nqYKUI7ZtBly8mpBt91w0+75rej2KqYdTt89bQD1bhVHrKslGh5aNYJ3EA75Srubrufh
+ 2syepSTD20LGY2zF+fEQ2mxcXnXE0nIc4Xd5sDqmnwLFK1l9UEz2iCuNaoh6VmDPSQJa
+ YMM1600/k0iJ0Y/pfIkUOE8E9g2TLCYdKXDuLC4VOaJK2k2jCKRBFywimoXzwMAEofsS
+ G1RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RCoPIhTooj2/WoCTVm8TnFdOSS8ZDIAdwE34b0WcpXo=;
- b=UWUZJ0AZ3Yzg3JmHAne1CgZiy4Vj873L83HjMMLSL4hdz93VdVgzSND1xFSHpkccdE
- 4QuBa2KzRTysnfVzfrU8nzcAxtmB7TwgbX4fLKkBVsD/u/xbnl6LCbf8gp7ZTgcN+AwZ
- wneiwrwGnoYv2K7myrFSHI5uksZ9OV/yeFLPu5Jd7m1E6VjyywpZu6VEoUNzrcoSn9na
- xZ7hB+tSaXsEqZHMSgG7R9/e5Y0EwQ/2vExCvTYcjsXrKIV2GZ/NtiPoso9LTZ+Ig7h9
- /0pYcQOi7zfoMmlMoe25myWipKXon9Etl6+KV04Ab/ULr9D/VsfKZL93bdOIpcSIr0sf
- apOw==
-X-Gm-Message-State: AOAM5324NSHsyDTPuYVXaRabrST/JXRUzAXv2MAFKZ8YUI7lap3Oqs2s
- nPW7JBCJQpqZgA3R3wl+Q8sjup9p8zYctZt8FdvRbGX9o5ZoZSk7wARikgBegxQ3FAhalAbaWeZ
- nRH/QyonbYg01Alc=
-X-Received: by 2002:a05:6402:1283:: with SMTP id
- w3mr2957956edv.340.1615379377166; 
- Wed, 10 Mar 2021 04:29:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdO5o6S26EWcX8egoljTCas19YIXxmxolRDORqGhbaNviorDq7PwoV578KIbTa8KuhQtLYRA==
-X-Received: by 2002:a05:6402:1283:: with SMTP id
- w3mr2957920edv.340.1615379376954; 
- Wed, 10 Mar 2021 04:29:36 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id b6sm9539848ejb.8.2021.03.10.04.29.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 04:29:36 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jPUpRn0F6/k/OsOOeiNMtE1/tySRxUWTl0ra42QnME8=;
+ b=NyZnR1kLDrQ9FokMbDNITPt/ZFxxIGM5G2JXCsn1HST2Lqd44+fzonKsanuW32g4h/
+ 3aJcGvdDnAEm1kTySEzkyTpfG3m26eIce2GDJq3giw2WyjBfedgP+t+c85hWEWBqIx4P
+ KuoYTnO486M/6UAv2D0pdv6Jk/FxXd/IqfpklP8HPTxls1kF8dLD+ho1tNz4XG+WSHgU
+ 5E77sHQZ/GQ+/+VOa5Bsqgdu3P1Te28b/xgddUuCqbWwSsACj6jvLnvuPpwvRK54WNOp
+ 5HDBJkdKR7TZDmjJfhe2D8sDOMVf2zA85mCa6Guj3vgXd+2L+/ppDxbREMPn7JKy9xlA
+ ywGg==
+X-Gm-Message-State: AOAM531pEeMHEO8+NQgvpLTI+FKBqCf9hKLK8lcKvJVZz/wEZqLwgLKT
+ UqGOmQ6IxKwNVyJgWrdRU8JqzOKms3gdzDw3C1Q=
+X-Google-Smtp-Source: ABdhPJyLboMzCB02+uU/WOHrxOYJn8mwug+odI5uVsfYff5KEhxuOAC7hz5hEzdK/pDpPFx/lTAWgIkOpYjtVUaOxgk=
+X-Received: by 2002:ac2:46db:: with SMTP id p27mr1913234lfo.396.1615379581948; 
+ Wed, 10 Mar 2021 04:33:01 -0800 (PST)
+MIME-Version: 1.0
+References: <20210310114314.1068957-1-philmd@redhat.com>
+In-Reply-To: <20210310114314.1068957-1-philmd@redhat.com>
+From: Fam Zheng <famforupstream@gmail.com>
+Date: Wed, 10 Mar 2021 12:32:51 +0000
+Message-ID: <CAGNx5+11ngxmX0CYKL3q_FRsZCQbT15-HfuuFgLd=MyEXo_h9g@mail.gmail.com>
 Subject: Re: [PATCH 0/3] block: Introduce the 'zeroes-co' driver to help
  security reports
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210310114314.1068957-1-philmd@redhat.com>
- <YEizo2E9CB36wSUS@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <69ac819a-2e16-de72-780b-1cd6edadf5b3@redhat.com>
-Date: Wed, 10 Mar 2021 13:29:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <YEizo2E9CB36wSUS@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000028d74905bd2ddeca"
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=famforupstream@gmail.com; helo=mail-lf1-x142.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,51 +83,121 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 12:55 PM, Daniel P. Berrangé wrote:
-> On Wed, Mar 10, 2021 at 12:43:11PM +0100, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> This is an alternative approach to changing null-co driver
->> default 'read-zeroes' option to true:
->> https://www.mail-archive.com/qemu-block@nongnu.org/msg80873.html
->>
->> Instead we introduce yet another block driver with an explicit
->> name: 'zeroes-co'. We then clarify in secure-coding-practices.rst
->> that security reports have to be sent using this new driver.
-> 
-> IMHO introducing a new block driver, when this can be solved by
-> simply adding a property to the existing driver, just feels mad
-> Your previous series made much more sense, and despite the long
-> thread, I didn't see anyone suggest a real world blocker with
-> making it read zeros by default.
-> 
-> I think Max's last mail sums it up pretty well
-> 
->   https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg07173.html
-> 
-> [quote]
-> In cases where we have a test that just wants a simple block node that
-> doesn’t use disk space, the memset() can’t be noticeable. But it’s just
-> a test, so do we even need the memset()? Strictly speaking, perhaps not,
-> but if someone is to run it via Valgrind or something, they may get
-> false positives, so just doing the memset() is the right thing to do.
-> 
-> For performance tests, it must be possible to set read-zeroes=off,
-> because even though “that memset() isn’t noticeable in a functional
-> test”, in a hard-core performance test, it will be.
-> 
-> So we need a switch. It should default to memset(), because (1) making
-> tools like Valgrind happy seems like a reasonable objective to me, and
-> (2) in the majority of cases, the memset() cannot have a noticeable
-> impact.
-> [/quote]
+--00000000000028d74905bd2ddeca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes I totally agree with Max, but Fam is the maintainer.
+On Wed, 10 Mar 2021 at 11:44, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
 
-I'll keep looking for alternatives. Maybe simply documentation.
+> Hi,
+>
+> This is an alternative approach to changing null-co driver
+> default 'read-zeroes' option to true:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg80873.html
+>
+> Instead we introduce yet another block driver with an explicit
+> name: 'zeroes-co'. We then clarify in secure-coding-practices.rst
+> that security reports have to be sent using this new driver.
+>
+> The 2nd patch is RFC because I won't spend time converting the
+> tests until the first patch is discussed, as I already spent enough
+> time doing that in the previous mentioned series.
+>
+> Regards,
+>
+> Phil.
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   block: Introduce the 'zeroes-co' driver
+>   tests/test-blockjob: Use zeroes-co instead of null-co,read-zeroes=3Don
+>   docs/secure-coding-practices: Describe null-co/zeroes-co block drivers
+>
+>  docs/devel/secure-coding-practices.rst |   7 +
+>  block/zeroes.c                         | 306 +++++++++++++++++++++++++
+>
 
-Thanks,
 
-Phil.
+Why not add another BlockDriver struct to block/null.c and set the
+read_zeroes field in the .bdrv_file_open callback? It would make the patch
+much simpler.
 
+Fam
+
+
+>  tests/test-blockjob.c                  |   4 +-
+>  block/meson.build                      |   1 +
+>  4 files changed, 315 insertions(+), 3 deletions(-)
+>  create mode 100644 block/zeroes.c
+>
+> --
+> 2.26.2
+>
+>
+>
+>
+
+--00000000000028d74905bd2ddeca
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 10 Mar 2021 at 11:44, Philipp=
+e Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Hi,<br>
+<br>
+This is an alternative approach to changing null-co driver<br>
+default &#39;read-zeroes&#39; option to true:<br>
+<a href=3D"https://www.mail-archive.com/qemu-block@nongnu.org/msg80873.html=
+" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-bl=
+ock@nongnu.org/msg80873.html</a><br>
+<br>
+Instead we introduce yet another block driver with an explicit<br>
+name: &#39;zeroes-co&#39;. We then clarify in secure-coding-practices.rst<b=
+r>
+that security reports have to be sent using this new driver.<br>
+<br>
+The 2nd patch is RFC because I won&#39;t spend time converting the<br>
+tests until the first patch is discussed, as I already spent enough<br>
+time doing that in the previous mentioned series.<br>
+<br>
+Regards,<br>
+<br>
+Phil.<br>
+<br>
+Philippe Mathieu-Daud=C3=A9 (3):<br>
+=C2=A0 block: Introduce the &#39;zeroes-co&#39; driver<br>
+=C2=A0 tests/test-blockjob: Use zeroes-co instead of null-co,read-zeroes=3D=
+on<br>
+=C2=A0 docs/secure-coding-practices: Describe null-co/zeroes-co block drive=
+rs<br>
+<br>
+=C2=A0docs/devel/secure-coding-practices.rst |=C2=A0 =C2=A07 +<br>
+=C2=A0block/zeroes.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 306 +++++++++++++++++++++++++<br></blo=
+ckquote><div><br></div><div><br></div><div>Why not add another BlockDriver =
+struct to block/null.c and set the read_zeroes field in the .bdrv_file_open=
+ callback? It would make the patch much simpler.</div><font color=3D"#88888=
+8"><div class=3D"gmail_quote"><font color=3D"#888888"><br></font></div>Fam<=
+br></font><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+=C2=A0tests/test-blockjob.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A0block/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A04 files changed, 315 insertions(+), 3 deletions(-)<br>
+=C2=A0create mode 100644 block/zeroes.c<br>
+<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--00000000000028d74905bd2ddeca--
 
