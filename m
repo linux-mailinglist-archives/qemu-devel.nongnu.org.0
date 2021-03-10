@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8E13337DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:54:32 +0100 (CET)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887143337D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:52:01 +0100 (CET)
+Received: from localhost ([::1]:54918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJubv-0005F1-6g
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:54:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
+	id 1lJuZU-00037E-HM
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:52:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJuWU-0008C3-Pu; Wed, 10 Mar 2021 03:48:54 -0500
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:34817)
+ id 1lJuWX-0008Lg-L2; Wed, 10 Mar 2021 03:48:57 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:47044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJuWT-0007zW-1R; Wed, 10 Mar 2021 03:48:54 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id p186so17056687ybg.2;
- Wed, 10 Mar 2021 00:48:51 -0800 (PST)
+ id 1lJuWU-0007zp-IF; Wed, 10 Mar 2021 03:48:57 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id h82so16974233ybc.13;
+ Wed, 10 Mar 2021 00:48:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=I9+335SXYDezG8Yo9E+0yqTNKjeMieiZ8blkq7Sl4qg=;
- b=pfr7u4hvsU57TPA5jtqTK7Pkwdk2LVH7SsyNXIlYyfODsBZqAF979X+yCza/wMdo5Q
- HpuZXUCadV0hFOgy47gI8INO0m70kk6PFvSjBcV8lLgBUSxgXeLaG0iXtFwP4B7av+2E
- +C0UCmkZRhMfibD+FqIes23waNQBV3C0vCvWpIaY/o9lMINs4bXNJWWkFO1caT4GivOC
- V6DGiVZ72bJHzUGnB6cveyM/JJ9ku/X4WiovceeRpV6Oxod9QtMMWV3o3jxuwWRoUQfP
- lGAQ3MB5mAjaba1sWC031Z+0xCXMtugSoV/LY6ChJyGuwoRTvgqJWEFaGt9aP5aP3+jS
- WG7g==
+ bh=9CzsEx8p7QL01ZrqtKj6ByxfBALbGPdHj05TOav/S6U=;
+ b=MRkI1FE58F7UoV4KJb1uDVyCXLZdyLCu1P4Rv5mDF5kj3cyGVJ2T7bVjlthPvx1EdG
+ a3eQE//J8TOiLuwOh8y8ovEn2jTLJCxH+OaOAtQFrtZhkn0TTKdgsuXCDN+3Dwbo73vX
+ MkEDDOwiA1HuUd8+22C+rRuFGUmu390sjomPgkAMyibg6YPKmFg8nAzG5I/tjEJU/Ph9
+ OrKlcgcknyuMKxcIdlKU82/4lZnmhED/J3cRoARBcPOJzcx0Tn1bjJ5vIYtodFZ/ubjx
+ DYyh5cbquJe99u0m+xANqjBj8f2F4cDglLbpgKgteW9J+GnoqVpJKPbItviwuUlIEZhF
+ pWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=I9+335SXYDezG8Yo9E+0yqTNKjeMieiZ8blkq7Sl4qg=;
- b=Jm3YuY8tLnNyYLCG8Nx+deAyflHdtduQ2/JWuIOzlt3pgayBaACeEOtAaqV28Dzig2
- gpNhipGrzTXWEfQGPyw6rMG+JzIDEsAYapdII2i6QdzCAJIzzD5J/vXXu2Q5fu+ybkC9
- S1b3FNj511ZQGbae9yGR7qASem9wlN7qO1cEDtzHa1iRRJ7HnlrXRprXmN+mkdR8p6yQ
- H+PoLsvKPy3m+5qC/2KJlX9FEXvYKsA19hHjbqP/5Sj33Ik+olrcD1L39imifmxo8PRK
- 3yRgHmgP1XkdfVXMtMXkVR1vV1Xz2efir+VPNUSNZW0CAYOPxvQzQwMBnbfPxDsVzeGU
- sRkA==
-X-Gm-Message-State: AOAM532Q4V3q7cfUiPU3BxP2MoqTyGRVrVHsyiAyy4TKWGmUX3pI/JH9
- mO9m3OaqjL3ZUAKybe+b3apLAF42frK5z6Yd4jU=
-X-Google-Smtp-Source: ABdhPJxxn8MxX+6iQXyF8YJ24eOV+js573mLHQ9rTAc6tD/cSfOuvQlD4h3tKqT+2Qkw26E2bacwMf54RnfT3etYLiA=
-X-Received: by 2002:a25:c090:: with SMTP id c138mr2589532ybf.314.1615366131368; 
- Wed, 10 Mar 2021 00:48:51 -0800 (PST)
+ bh=9CzsEx8p7QL01ZrqtKj6ByxfBALbGPdHj05TOav/S6U=;
+ b=E/A2ZPwOFA9JvoyQEh5TxQ1upxQ0XjoJG5Ht56mxwdm9UIQuOIhLRxLvEPE4i6O68Q
+ SQOfRL587YjygS8aUN0WJFlB28T9pUczU908gA8oLnTsH8tpm1EZu5RaDvYEDcJd9mML
+ 75WCckfMbbaz+/eIgmoMe+qpibpdKkIjpvSE6xor3rK5/HDNG6CauqBzh9Ir3aTDxTcz
+ n+Apw+TeQiNHklMd3Jq/qYeyhpXwZBWGef6Y3gL4ua4xq5xoMhmJia+Z7JbOlfTe/lhG
+ NItN2+RZY6ESuyUiWQ8lVsdc77S2EMkZedVTtsvZBeI6a1KrzrBWCWcDEVF5+lFzBPmW
+ TCXg==
+X-Gm-Message-State: AOAM533rRLACxT+j5z4+kX2xmvjzrNq7/GXWMCwcoxk5FFcR+qEf1Oka
+ d/Zj3a195sSYZEuznQCvy7Imzq6XQJBnoqNZ44k=
+X-Google-Smtp-Source: ABdhPJy7WAaHRpcsqK+23N9dnDnXli7nE3sXmh5UU+eGZsE5bH98TvLxuN79ZrG2EmfUD4AWBLTCz91kAn1VlKcUobc=
+X-Received: by 2002:a25:d08d:: with SMTP id h135mr2827439ybg.122.1615366133379; 
+ Wed, 10 Mar 2021 00:48:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20210309235028.912078-1-philmd@redhat.com>
- <20210309235028.912078-6-philmd@redhat.com>
-In-Reply-To: <20210309235028.912078-6-philmd@redhat.com>
+ <20210309235028.912078-7-philmd@redhat.com>
+In-Reply-To: <20210309235028.912078-7-philmd@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 10 Mar 2021 16:48:39 +0800
-Message-ID: <CAEUhbmVBjnZ9mFN0MkvRK_LVxVMiZc5ApkNkPf1gqqJEf8EwVQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] hw/block/pflash_cfi02: Open-code
- pflash_register_memory(rom=false)
+Date: Wed, 10 Mar 2021 16:48:41 +0800
+Message-ID: <CAEUhbmWNQxNnvGnvOfUTjppjRcb3jeT9axFDV81CD_jJfnvgSw@mail.gmail.com>
+Subject: Re: [PATCH 6/9] hw/block/pflash_cfi02: Rename register_memory(true)
+ as mode_read_array
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,18 +87,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 7:51 AM Philippe Mathieu-Daud=C3=A9
+On Wed, Mar 10, 2021 at 7:53 AM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> There is only one call to pflash_register_memory() with
-> rom_mode =3D=3D false. As we want to modify pflash_register_memory()
-> in the next patch, open-code this trivial function in place for
-> the 'rom_mode =3D=3D false' case.
+> The same pattern is used when setting the flash in READ_ARRAY mode:
+> - Set the state machine command to READ_ARRAY
+> - Reset the write_cycle counter
+> - Reset the memory region in ROMD
+>
+> Refactor the current code by extracting this pattern.
+> It is used three times:
+>
+> - When the timer expires and not in bypass mode
+>
+> - On a read access (on invalid command).
+>
+> - When the device is initialized. Here the ROMD mode is hidden
+>   by the memory_region_init_rom_device() call.
+>
+> pflash_register_memory(rom_mode=3Dtrue) already sets the ROM device
+> in "read array" mode (from I/O device to ROM one). Explicit that
+> by renaming the function as pflash_mode_read_array(), adding
+> a trace event and resetting wcycle.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/block/pflash_cfi02.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  hw/block/pflash_cfi02.c | 18 +++++++++---------
+>  hw/block/trace-events   |  1 +
+>  2 files changed, 10 insertions(+), 9 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
