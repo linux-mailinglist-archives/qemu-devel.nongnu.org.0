@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3657D333D74
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:15:54 +0100 (CET)
-Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F425333D92
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 14:24:25 +0100 (CET)
+Received: from localhost ([::1]:33828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJygr-000113-9W
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:15:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
+	id 1lJyp6-0004mV-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 08:24:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lJyfC-00004x-Nu
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:14:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56006)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJyiw-00026k-0N
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:18:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lJyf6-0007YH-Nj
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:14:10 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lJyit-0001LM-60
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 08:18:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615382044;
+ s=mimecast20190719; t=1615382278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ClPMmDn1r1tvHVuc3T1MsX7s1mRwCDCHu/jgRovzGjQ=;
- b=R+pVkrs8B9ceph8kirN9pUAbpvc/xv3EdVUUdsV/XckWtaVe8ETX5qy6ooun+sthqxRJ4m
- 52EzLLBvWK5VTKNZtRsRPILQ/OuBRFWSB92Uh3Ti6ocU8Z+yjYz9bSZWXi+48gXlAts9pI
- G8btYb/n60ZMW5d5ZX928x5S9qi0tmA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-Za3sKDMNOCO3aoyhliau4g-1; Wed, 10 Mar 2021 08:14:01 -0500
-X-MC-Unique: Za3sKDMNOCO3aoyhliau4g-1
-Received: by mail-ed1-f69.google.com with SMTP id r19so7913403edv.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 05:14:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=ClPMmDn1r1tvHVuc3T1MsX7s1mRwCDCHu/jgRovzGjQ=;
- b=k4Kw61532tavYruTFXDeEnouQUb45Le3ELOBv/pmqd+45Ox3w9N39Kt4iEics6btxJ
- Sw94+X9kFqDAZNsrSkKPofcoQ1WBva2wneeZdaa4VnVzBTGqoLjLNqHyd/B/n6+ban/b
- 024jrHWBIItt7ZT1XUkv5YqVOkQe1MttEKgRbgsbgpjEgnB/PBi+RygAGcCEXy6lq1DJ
- 0iNoKPmYV6bYmKxoJZXVqxOglIhRMonacFJk7rnKmN5IPY2qeO7BBugtuYUYzmYspG41
- EtRLp1gE+2QF7Fyq6VHIAC5uCSetMRo0SyLFc/zCbItUPF9rXINgTw7Oo7jneaT9M3bt
- foGw==
-X-Gm-Message-State: AOAM531bimjGfWWxH4l/O3M1I9ErQftCiHfWgaOgYJVqY9ZZXTsPcLfi
- 433CKh7agI9AayXKxyVnHFP7g8Nll3iuskweLqvTPbQhe+EBXtEgXhYeowUW7ZNd3GjwN0DJ8ry
- ApCdWTcnCRufsyYI=
-X-Received: by 2002:a17:907:1692:: with SMTP id
- hc18mr3578939ejc.265.1615382040295; 
- Wed, 10 Mar 2021 05:14:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUbypr8J2VHgxpuhoZ6yU3287JbnqUHEYMVJpjbC5dhOHL0aO6TmAvhdKonCfbF6AhrwaWYA==
-X-Received: by 2002:a17:907:1692:: with SMTP id
- hc18mr3578919ejc.265.1615382040081; 
- Wed, 10 Mar 2021 05:14:00 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id i10sm9936607ejv.106.2021.03.10.05.13.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 05:13:59 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/5] i386: move hyperv_vendor_id initialization to
- x86_cpu_realizefn()
-In-Reply-To: <22cf2456-433e-b39f-aca5-2a260b4a8ad7@suse.de>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-2-vkuznets@redhat.com>
- <ebfd3385-6e68-cd44-b0bb-464ae56d5b59@suse.de>
- <87v99z9qto.fsf@vitty.brq.redhat.com>
- <22cf2456-433e-b39f-aca5-2a260b4a8ad7@suse.de>
-Date: Wed, 10 Mar 2021 14:13:59 +0100
-Message-ID: <87sg539mnc.fsf@vitty.brq.redhat.com>
+ bh=aptCxkAEzZJ5m/wupd4/9tFNhMatcIFI1bCVGDXFqdM=;
+ b=RVslItGdMtXsb05c/cI2awlY0w3BC+u4dVs9PNi6agBPkO2MavC8ahZsiBfd13LmXOSkx8
+ HbEzEtCinxZiivvsFHSWALWATOO3Wc3ze+slSSxqsVDopJ2Sgw6nLXXOyjGEq+qsA4zVX/
+ rvazeWHMA5KrgLm3F5tHKDuF6zo8GEU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-Jb3sCd8_N7yrgHOEl4I2rQ-1; Wed, 10 Mar 2021 08:17:54 -0500
+X-MC-Unique: Jb3sCd8_N7yrgHOEl4I2rQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E5931005D45;
+ Wed, 10 Mar 2021 13:17:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BADEC5C1A1;
+ Wed, 10 Mar 2021 13:17:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2169E1132C12; Wed, 10 Mar 2021 14:17:48 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
+ audio which gets removed)
+References: <20210309165035.967853-1-thuth@redhat.com>
+Date: Wed, 10 Mar 2021 14:17:48 +0100
+In-Reply-To: <20210309165035.967853-1-thuth@redhat.com> (Thomas Huth's message
+ of "Tue, 9 Mar 2021 17:50:35 +0100")
+Message-ID: <87y2ev2lmr.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -98,221 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 3/10/21 12:43 PM, Vitaly Kuznetsov wrote:
->> Claudio Fontana <cfontana@suse.de> writes:
->> 
->>> On 11/19/20 11:32 AM, Vitaly Kuznetsov wrote:
->>>> As a preparation to expanding Hyper-V CPU features early, move
->>>> hyperv_vendor_id initialization to x86_cpu_realizefn(). Introduce
->>>> x86_cpu_hyperv_realize() to not not pollute x86_cpu_realizefn()
->>>> itself.
->>>>
->>>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->>>
->>>
->>> Hi Vitaly,
->>>
->>> If building for TCG-only, does the x86_cpu_hyperv_realize function and other hyperv related functions
->>> make sense to keep in the build?
->>>
->>> Now that we have per-accelerator subdirs in target/i386, should the hyperv code be moved over?
->>>
->> 
->> Hi Claudio,
->> 
->> I'm not exactly sure. On one hand, we only implement Hyper-V emulation
->> with KVM now.
->
->
-> Hi Vitaly,
->
->
->> On the other hand Hyper-V specific CPU options are
->> available even without it (and as Igor feels strongly against
->> introducing custom option parsers, I don't see how we can forbid to use
->> them without KVM). x86_cpu_hyperv_realize() is the bare minimum which is
->> only needed to set our internal Hyper-V related data in a sane way,
->> e.g. set the default to 'cpu->hyperv_vendor_id'. The actual enablement
->> code is in target/i386/kvm.c already. Do you see anything besides
->> x86_cpu_hyperv_realize() which we could move there?
->
-> Currently I don't,
-> I see a lot of PROPs (hyperv_features), but I assume those are the ones you mention cannot be moved right?
->
+> When trying to remove the -usbdevice option, there were complaints that
+> "-usbdevice braille" is still a very useful shortcut for some people.
 
-Right, not without introducing a custom parser checking if KVM is in use.
+Pointer?  I missed it.
 
+> Thus we never remove this option. Since it's not such a big burden to
+> keep it around, and it's also convenient in the sense that you don't
+> have to worry to enable a host controller explicitly with this option,
+> we should remove it from he deprecation list again, and rather properly
+> document the possible device for this option instead.
 >
->> Could you please
->> take a look at v5
->> (https://mail.gnu.org/archive/html/qemu-devel/2021-03/msg00158.html)?
+> However, there is one exception: "-usbdevice audio" should go away, since
+> audio devices without "audiodev=..." parameter are also on the deprecation
+> list and you cannot use "-usbdevice audio" with "audiodev".
 >
->
-> I took a look at the series you pointed me to, and it seems it is all pretty much kvm/ work to me.
->
-> Which hypervisors do you think would theoretically make sense when looking at hyperv emulation in the future?
->
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-In theory, I don't see why we can't emulate hyper-v in TCG, I'm just not
-sure how practical that would be). There was a Windows Hypervisor
-Platform accelerator (whpx) which uses genuine Hyper-V and can use
-Hyper-V enlightenment option to set guest visible CPUIDs but honestly I
-don't know much about whpx.
+To be frank, I don't like this.  At all.
 
-> Looking at the current code and your patches, in the series you link to,
-> I'd be tempted to suggest moving the hyperv realize function inside
-> kvm_cpu_realizefn in kvm/kvm-cpu.c .
+-usbdevice comes with its own ad hoc mini-language, parsed by
+usbdevice_create().  Syntax is DRIVER[:PARAMS], where PARAMS defaults to
+"" and is parsed by an optional DRIVER-specific LegacyUSBFactory.
 
-No problem, I wouldn't be against that. I'm waiting for some feedback on
-v5 and if I am to do v6 I'll include that. In case I got luck and v5 is
-to get merged, I can send a follow-up patch.
+We already dropped multiple drivers: "host", "serial", "disk", "net"
+(commit 99761176e, v2.12), and "bt" (commit 43d68d0a9, v5.0).
 
->
-> Ciao,
->
-> Claudio
->
->
->
->> 
->> Thanks!
->> 
->> 
->>> Thanks,
->>>
->>> Claudio
->>>
->>>
->>>> ---
->>>>  target/i386/cpu.c | 23 ++++++++++++++++++++++-
->>>>  target/i386/cpu.h |  3 ++-
->>>>  target/i386/kvm.c | 25 ++++++++++---------------
->>>>  3 files changed, 34 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>>> index 5a8c96072e41..2a6885753378 100644
->>>> --- a/target/i386/cpu.c
->>>> +++ b/target/i386/cpu.c
->>>> @@ -6509,6 +6509,25 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->>>>      }
->>>>  }
->>>>  
->>>> +static void x86_cpu_hyperv_realize(X86CPU *cpu)
->>>> +{
->>>> +    size_t len;
->>>> +
->>>> +    /* Hyper-V vendor id */
->>>> +    if (!cpu->hyperv_vendor) {
->>>> +        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
->>>> +    } else {
->>>> +        len = strlen(cpu->hyperv_vendor);
->>>> +
->>>> +        if (len > 12) {
->>>> +            warn_report("hv-vendor-id truncated to 12 characters");
->>>> +            len = 12;
->>>> +        }
->>>> +        memset(cpu->hyperv_vendor_id, 0, 12);
->>>> +        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
->>>> +    }
->>>> +}
->>>> +
->>>>  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>>>  {
->>>>      CPUState *cs = CPU(dev);
->>>> @@ -6680,6 +6699,8 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>>>          env->cache_info_amd.l3_cache = &legacy_l3_cache;
->>>>      }
->>>>  
->>>> +    /* Process Hyper-V enlightenments */
->>>> +    x86_cpu_hyperv_realize(cpu);
->>>>  
->>>>      cpu_exec_realizefn(cs, &local_err);
->>>>      if (local_err != NULL) {
->>>> @@ -7198,7 +7219,7 @@ static Property x86_cpu_properties[] = {
->>>>      DEFINE_PROP_UINT32("min-xlevel2", X86CPU, env.cpuid_min_xlevel2, 0),
->>>>      DEFINE_PROP_UINT64("ucode-rev", X86CPU, ucode_rev, 0),
->>>>      DEFINE_PROP_BOOL("full-cpuid-auto-level", X86CPU, full_cpuid_auto_level, true),
->>>> -    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor_id),
->>>> +    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor),
->>>>      DEFINE_PROP_BOOL("cpuid-0xb", X86CPU, enable_cpuid_0xb, true),
->>>>      DEFINE_PROP_BOOL("lmce", X86CPU, enable_lmce, false),
->>>>      DEFINE_PROP_BOOL("l3-cache", X86CPU, enable_l3_cache, true),
->>>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->>>> index 88e8586f8fb4..be640bf45c29 100644
->>>> --- a/target/i386/cpu.h
->>>> +++ b/target/i386/cpu.h
->>>> @@ -1655,11 +1655,12 @@ struct X86CPU {
->>>>      uint64_t ucode_rev;
->>>>  
->>>>      uint32_t hyperv_spinlock_attempts;
->>>> -    char *hyperv_vendor_id;
->>>> +    char *hyperv_vendor;
->>>>      bool hyperv_synic_kvm_only;
->>>>      uint64_t hyperv_features;
->>>>      bool hyperv_passthrough;
->>>>      OnOffAuto hyperv_no_nonarch_cs;
->>>> +    uint32_t hyperv_vendor_id[3];
->>>>  
->>>>      bool check_cpuid;
->>>>      bool enforce_cpuid;
->>>> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
->>>> index a2934dda027c..788a2cf2ec51 100644
->>>> --- a/target/i386/kvm.c
->>>> +++ b/target/i386/kvm.c
->>>> @@ -1205,6 +1205,13 @@ static int hyperv_handle_properties(CPUState *cs,
->>>>          memcpy(cpuid_ent, &cpuid->entries[0],
->>>>                 cpuid->nent * sizeof(cpuid->entries[0]));
->>>>  
->>>> +        c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
->>>> +        if (c) {
->>>> +            cpu->hyperv_vendor_id[0] = c->ebx;
->>>> +            cpu->hyperv_vendor_id[1] = c->ecx;
->>>> +            cpu->hyperv_vendor_id[2] = c->edx;
->>>> +        }
->>>> +
->>>>          c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
->>>>          if (c) {
->>>>              env->features[FEAT_HYPERV_EAX] = c->eax;
->>>> @@ -1279,23 +1286,11 @@ static int hyperv_handle_properties(CPUState *cs,
->>>>  
->>>>      c = &cpuid_ent[cpuid_i++];
->>>>      c->function = HV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
->>>> -    if (!cpu->hyperv_vendor_id) {
->>>> -        memcpy(signature, "Microsoft Hv", 12);
->>>> -    } else {
->>>> -        size_t len = strlen(cpu->hyperv_vendor_id);
->>>> -
->>>> -        if (len > 12) {
->>>> -            error_report("hv-vendor-id truncated to 12 characters");
->>>> -            len = 12;
->>>> -        }
->>>> -        memset(signature, 0, 12);
->>>> -        memcpy(signature, cpu->hyperv_vendor_id, len);
->>>> -    }
->>>>      c->eax = hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ?
->>>>          HV_CPUID_NESTED_FEATURES : HV_CPUID_IMPLEMENT_LIMITS;
->>>> -    c->ebx = signature[0];
->>>> -    c->ecx = signature[1];
->>>> -    c->edx = signature[2];
->>>> +    c->ebx = cpu->hyperv_vendor_id[0];
->>>> +    c->ecx = cpu->hyperv_vendor_id[1];
->>>> +    c->edx = cpu->hyperv_vendor_id[2];
->>>>  
->>>>      c = &cpuid_ent[cpuid_i++];
->>>>      c->function = HV_CPUID_INTERFACE;
->>>>
->>>
->> 
->
+We've kept "audio" (dropped in this patch), "tablet", "mouse",
+"keyboard", "braille", "ccid", and "wacom-tablet".  Only "mouse",
+"tablet", "braille" are documented (fixed in this patch).
 
--- 
-Vitaly
+One more has crept in: "u2f-key" (commit bb014a810, v5.2).  It's buggy:
+
+    $ qemu-system-x86_64 -S -usbdevice u2f-key
+    qemu-system-x86_64: -usbdevice u2f-key: '-usbdevice' is deprecated, please use '-device usb-...' instead
+    **
+    ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
+    Bail out! ERROR:../qom/object.c:508:object_initialize_with_type: assertion failed: (type->abstract == false)
+    Aborted (core dumped)
+
+Broken right in the commit that added the stuff.  The sugar never
+worked, and should be taken out again.
+
+Without a factory, "-usbdevice BAR" is sugar for
+
+    -device BAZ -machine usb=on
+
+"braille" is the only driver with a factory.  "-usbdevice braille" is
+sugar for
+
+  -device usb-braille,chardev=braille -chardev braille,id=braille
+  -machine usb=on
+
+It's buggy:
+
+    $ qemu-system-x86_64 -S -usbdevice braille
+    qemu-system-x86_64: -usbdevice braille: '-usbdevice' is deprecated, please use '-device usb-...' instead
+[three seconds tick by...]
+    Segmentation fault (core dumped)
+
+It neglects to actually parse PARAMS:
+
+    $ qemu-system-x86_64 -S -usbdevice braille:"I'm a Little Teapot"
+    qemu-system-x86_64: -usbdevice braille:I'm a Little Teapot: '-usbdevice' is deprecated, please use '-device usb-...' instead
+[three seconds tick by...]
+    Segmentation fault (core dumped)
+
+The whole machinery in support of optional PARAMS has long become
+useless.
+
+I fail to see why we could drop the sugar for serial, disk, net and host
+devices, but not for the others.
+
+The only one that has something approaching a leg to stand on is
+braille.  Still, I fail to see why having to specify a backend is fine
+for any number of other devices, but not for braille.
+
+Does QEMU really need more ways to do the same things?  Underdocumented
+and undertested ways.
+
+Let's drop -usbdevice as planned.
+
+If users need more time, we can extend the grace period.
 
 
