@@ -2,161 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BD5333B31
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:14:11 +0100 (CET)
-Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6A8333B67
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 12:29:50 +0100 (CET)
+Received: from localhost ([::1]:41516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwn4-0006nw-V2
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:14:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
+	id 1lJx2D-0002jX-Ge
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 06:29:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1lJwmG-0006OS-RQ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:13:20 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:36540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1lJwmE-00015B-E1
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:13:20 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12AB6a5f096912;
- Wed, 10 Mar 2021 11:12:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2020-01-29;
- bh=ID4vtAnoJuU07L09oNI2Tcq8cqpccm3EvkHlXVdBF/o=;
- b=Uj6hjFcHFXhR4zmGBEy8bBAJI3RpaoK/sei7WvVxyiSSItHW1/h3EdybgDWtDr0AVV02
- AQhI3NS82dfJYsw7/VpslAshP2M0x3yompYZClvk945NnbmD5LmHS3VhyUt/B8r1Omrl
- gRN5bHWHS9LS4OnDEZFTYCbqsdAjU+CuX3XVrESIioHiJV2LD74VoG034T2R45d3ksQj
- Qr2h/yHl1ciEioVi9qL7zpUfRt0QxafxCpcSs3E4vu90g24C8UCKkbBg/GguPdpOug7a
- XYDhNMVR5S1zUSPiuQNSm+7gYL1Pm6Pc0MFu7UrmC207j7kl8x3GFNqH5Gpix8rj60Wb PQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 373y8btqxh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Mar 2021 11:12:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ABB3d9173283;
- Wed, 10 Mar 2021 11:12:57 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by userp3020.oracle.com with ESMTP id 374kgt6sc2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Mar 2021 11:12:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d42StpXRCFdDQzGepf/eca5ypHT+1iOfpdXvZu+io0OAJzXsdlLSszVzGYDY5y8d4ajPb4jLMftyGsOnjDlrfvARmxQtpCTjConBTs8vFTHqdBzy48HHEMrzI6SBqNJoLA9PdfhZpEvOImy2Be/P2pW1O4dDWeMIiRNETxcP+V7OKFO1wfwoJGmJUWMAtIjqPLqVg4qAMdX6VgeF/FL//gt00aURKF1yqnrF3kJ2UwELRVA598PfDvlT/F2hz97jAy2VDNAWMZ5rq7+7H7srjDs+r4NxMW+jl3g91Qb3KqbVVtXPLCP10d7P9/NaBUKlEhcfBzuv2wT1iUfL2KRmjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ID4vtAnoJuU07L09oNI2Tcq8cqpccm3EvkHlXVdBF/o=;
- b=adp0cBINRV9h4tbGe2IGQQkLZsaOttdHc2J3qbZ6W3QmBRs1L3xs88uSQm7f2Fwit0wOM+viC+4RDILmeZLREZXwG2JWHakS1ywtrpNNSu3Snf8EZvNvDvJTQ2Wq8RPAhec9D9UioF7nZ9MrRvhiQitCA2V/g1GGgZEn6JfyUzseMTvlUYsGfXjxXkKcHcpba8UE+TE8aZRKU0fIAGYeDwPSHh5HuW4/9ejXMKOf/b+aT/EMCKlokPYVkp+h89iv/BLl3TbnPs0Vxb1icPUMA8+RQwGbo8IW8asgiY+mgQwft393DunQa6K+Ul7+G6uQOocodU5+VpmzfXmJDli+UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ID4vtAnoJuU07L09oNI2Tcq8cqpccm3EvkHlXVdBF/o=;
- b=tThqqQbzh4SbhWCeQvMbo3ijQumoX6W+ldhq08sncMcuALxZAGpHNJaKs6NQ7iH8RZv/RYa7ib26+YahAHxhdcLh20imoRcl3Uly4ZSc+3DqAy6io52K+UusjyoCSSjaZ7WIO52O0lKDXCnzR7uus5mX8L24thKLaMqmwkYtyD8=
-Authentication-Results: bu.edu; dkim=none (message not signed)
- header.d=none;bu.edu; dmarc=none action=none header.from=oracle.com;
-Received: from DM6PR10MB2857.namprd10.prod.outlook.com (2603:10b6:5:64::25) by
- DM5PR10MB1433.namprd10.prod.outlook.com (2603:10b6:3:e::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.28; Wed, 10 Mar 2021 11:12:55 +0000
-Received: from DM6PR10MB2857.namprd10.prod.outlook.com
- ([fe80::fca8:448b:525f:7873]) by DM6PR10MB2857.namprd10.prod.outlook.com
- ([fe80::fca8:448b:525f:7873%7]) with mapi id 15.20.3890.039; Wed, 10 Mar 2021
- 11:12:55 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] fuzz: don't leave orphan llvm-symbolizers around
-In-Reply-To: <20210310061236.947182-1-alxndr@bu.edu>
-References: <20210310061236.947182-1-alxndr@bu.edu>
-Date: Wed, 10 Mar 2021 11:12:50 +0000
-Message-ID: <m2pn07tg7h.fsf@oracle.com>
-Content-Type: text/plain
-X-Originating-IP: [79.97.215.145]
-X-ClientProxiedBy: DB6PR0301CA0055.eurprd03.prod.outlook.com
- (2603:10a6:4:54::23) To DM6PR10MB2857.namprd10.prod.outlook.com
- (2603:10b6:5:64::25)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJx07-0001ll-QS
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:27:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lJx03-0001rv-H9
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 06:27:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615375652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=paw8U0tutoBFuUP4kNiheO8Su6pFRov/I48Q3Z00Tkc=;
+ b=Sw3YbU9Tzr2FArMWLWQnzIpBpk7o7JqrG64HPBsWE2v9Go1BxwpOZfwpjQENkuagtaRMl+
+ 6iC6irQ3gfTVbeGAb3zRUvwDqDqi+QX4PHgxMS13voV+f+9R7NlJrcgqfnrMYGHqxmiQ8Q
+ /qqJCOiopQKYG2x1ZppNR0B+yUun7/A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-RJ5PgvZKPVu8UHschc9SFg-1; Wed, 10 Mar 2021 06:27:28 -0500
+X-MC-Unique: RJ5PgvZKPVu8UHschc9SFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE49810866A9;
+ Wed, 10 Mar 2021 11:27:27 +0000 (UTC)
+Received: from localhost (ovpn-114-250.ams2.redhat.com [10.36.114.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2F8B5945E;
+ Wed, 10 Mar 2021 11:27:17 +0000 (UTC)
+Date: Wed, 10 Mar 2021 11:27:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 2/4] vhost-user: Convert slave channel to QIOChannelSocket
+Message-ID: <YEitFGfB3SnG5Y+x@stefanha-x1.localdomain>
+References: <20210308123141.26444-1-groug@kaod.org>
+ <20210308123141.26444-3-groug@kaod.org>
+ <YEeRgY2WEFSw+1qG@stefanha-x1.localdomain>
+ <20210309212322.3ab5809d@bahia.lan>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from oracle.com (79.97.215.145) by
- DB6PR0301CA0055.eurprd03.prod.outlook.com (2603:10a6:4:54::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17 via Frontend Transport; Wed, 10 Mar 2021 11:12:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d24aedc4-515d-498c-2931-08d8e3b573fd
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1433:
-X-Microsoft-Antispam-PRVS: <DM5PR10MB1433EAAB8303184368DA6EC7F4919@DM5PR10MB1433.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i7qdY2NJhee1fWKgdqPxn97H7xDV83lgKk+AjVZMkEuX6KfBWCmOxqO100Fu+aSHOPySEaVJ9yIFe6sdEOWKWvhx2WWMFBHV7xTYo9HtXqVVtxy6CflQ2M3Dkm4csUKSIw+7gzaP7NR2uWTPWPJG+9ihZaPwRF+n9YMct0y4Yf4RZr5mIlwGJ7hdH5Oaxqoimn09GIDfbHZLJrytWoCOB45zbuZHOlEuLnc04YF/qo+oVYzmNLPUNvVWHXyj8S2RdeLRODgLPeKR+Q+BYMwSjsAmzaJea34cMDL3Jxb3MB9/lIFG+nKJ5dvjCk03opVTmhzHS0W4PGI+nZvOXz3Qr8hzFQbDBeKUvlcTbj1iOZKXEQDCBuaWD3dJoymLNdvq6p6IohnJKuXUn8mYIyRXbvboY11LJtEyw8LzmOta218xKo+zwNZwBMBby5g50sTHF+myD6AxmLirW2F78mznn55ZRv8eAl2JiEozKZu5wWLf9JgvJowEVGnzRzEYxDAMdtM5ohVAxfa/jB74t8EnpQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR10MB2857.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(39860400002)(366004)(396003)(376002)(346002)(2906002)(55016002)(478600001)(8676002)(6666004)(26005)(8886007)(86362001)(186003)(16526019)(83380400001)(8936002)(36756003)(52116002)(7696005)(316002)(44832011)(54906003)(66556008)(66946007)(66476007)(4326008)(956004)(5660300002)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?cQubl8+Kp7WWfJPYe+TtpWdzE/0z4P3ePxDjNxogWEKshN6ABvldqdqZOEg/?=
- =?us-ascii?Q?6wlfDIWDbZD6OqAXSIR3YA7Agwh/rvHnuYLex1f9Yh3R/Lx4yLxPI5KHb454?=
- =?us-ascii?Q?BTCpql+BByXd/EJwo2q2lBRhqR36PgErELcpe8Ac0U+sBLeUy9rPdYMlKB5L?=
- =?us-ascii?Q?F9mq4UKV+jSgzjAE+sDtBkD/cSNpxSwYPKMVSPcydb2b74Q31vYf4G/q6WHg?=
- =?us-ascii?Q?ULjjtADfvKPNESxdbuwGjBt+TuPxUkzQWPUrj6M5kvL9kNwvgLH6Wy5RghiJ?=
- =?us-ascii?Q?KGEZ3fd2K+7t7a3IyDl5CRQI2Um46nM3DS1IN5WbMiwYPeGWCboYGYuaSOo/?=
- =?us-ascii?Q?/XGKSIQexbOC71V/pkBkUyVXiG/RQbmmVngYHdV4VLkREhLhbg294+OeCmtV?=
- =?us-ascii?Q?Jxjn5cSJO0lXCDVc8vbUtFOBCJpRKc7plWxosR1jCWRnOxkEhTxdXYdLl8Ff?=
- =?us-ascii?Q?E+i768pWFyR8Q+4VPGgIwwmTIdUsGhq72m8Wzy0UQkKqTsiKXS84GIKFqxht?=
- =?us-ascii?Q?aY79XkcKYe2ZlLnSAgH3QkxW53T9mhjEw3Bo124R89nrve8XqP/xD0RAGVyp?=
- =?us-ascii?Q?SiQVwdyZy68TmJ2sutLCEDVqt9BXbA8VYwUu27yK513y38DYemCHzv0KrRld?=
- =?us-ascii?Q?OKa+9/4ZXvEY9Us4gcU3czMDrBjoKv+VKZafp47iMbUgcAtNLojy+p5mvbkU?=
- =?us-ascii?Q?RTYvE/Z4RFUHVeEGQG0E+dCsKFXlIGngw9QdjYg3vDZd/a5RnWcHF/9Rpf8B?=
- =?us-ascii?Q?rFCfhCUVkC570qW73JXQuDK4GhLhceacGmrXkoDgWvW9wvrS/VrooCqoFOUR?=
- =?us-ascii?Q?uoLixNuPoZ8wwnEthXJZBp9pgqKe5tFQYSj1Tvqc3+vS5l0EvhSkPTdhheWC?=
- =?us-ascii?Q?31D1Xx8wz/w05GI0RKIoJzm25gBXcGs5CwFNFhCXrWoQ3mNpJQbJYsCDxuyB?=
- =?us-ascii?Q?0vGaUJPxOI7LdTnD9/Pn3d+8fZg4klEXsC1oTvnMRdgP+SWWj2gurHpWU5ym?=
- =?us-ascii?Q?h0IKoOUIb4DzJGFaf1+Kwxg2yyqeDVXS3zRQU8UjiZ4ussyYGLKXoOglH3Nx?=
- =?us-ascii?Q?+9hvdSrIdac64zoSbJwZrkYCJMLqGnYt5C6kei3E68hLVamACnsXv6aCRsXi?=
- =?us-ascii?Q?00xAdF6ltsCxR7DbXXr1AZa8271R4eU6oHsRV43+ikbFax4XIh9bQsXWhadV?=
- =?us-ascii?Q?K8sHW/LtdMER8YGSSHnjNVlzxnyrDX10pOODlwtf9ycOyRmtsyfZEa6GA0Gs?=
- =?us-ascii?Q?+1lVGvL/XMUo45jscEwh5zePDZfy1u7EvB7GB8h42Fy8vCMUkNHS57BtIUEG?=
- =?us-ascii?Q?kLqFFcko881TFBSY+AZIem7d?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d24aedc4-515d-498c-2931-08d8e3b573fd
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2857.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2021 11:12:54.9650 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hr9JkIHQksEPeK+h+vX0ZoZ8BMK0Mph6kMaN+nHoROYOvowofxICCHwI0KduozQqkBRs3GHcGxlogMRh8SDPeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1433
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9918
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- adultscore=0
- malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103100054
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9918
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- mlxscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103100053
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210309212322.3ab5809d@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="e50NnACVf93bpZ5z"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -169,56 +81,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2021-03-10 at 01:12:36 -05, Alexander Bulekov wrote:
-> I noticed that with a sufficiently small timeout, the fuzzer fork-server
-> sometimes locks up. On closer inspection, the issue appeared to be
-> caused by entering our SIGALRM handler, while libfuzzer is in it's crash
-> handlers. Because libfuzzer relies on pipe communication with an
-> external child process to print out stack-traces, we shouldn't exit
-> early, and leave an orphan child. Check for children in the SIGALRM
-> handler to avoid this issue.
->
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+--e50NnACVf93bpZ5z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+On Tue, Mar 09, 2021 at 09:23:22PM +0100, Greg Kurz wrote:
+> On Tue, 9 Mar 2021 15:17:21 +0000
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> > On Mon, Mar 08, 2021 at 01:31:39PM +0100, Greg Kurz wrote:
+> > > +    g_autofree int *fd =3D NULL;
+> > > +    size_t fdsize =3D 0;
+> > > +    int i;
+> > > =20
+> > >      /* Read header */
+> > >      iov.iov_base =3D &hdr;
+> > >      iov.iov_len =3D VHOST_USER_HDR_SIZE;
+> > > =20
+> > >      do {
+> > > -        size =3D recvmsg(u->slave_fd, &msgh, 0);
+> > > -    } while (size < 0 && (errno =3D=3D EINTR || errno =3D=3D EAGAIN)=
+);
+> > > +        size =3D qio_channel_readv_full(ioc, &iov, 1, &fd, &fdsize, =
+NULL);
+> > > +    } while (size =3D=3D QIO_CHANNEL_ERR_BLOCK);
+> >=20
+> > Is it possible to leak file descriptors and fd[] memory if we receive a
+> > short message and then loop around? qio_channel_readv_full() will
+> > overwrite &fd and that's how the leak occurs.
+> >=20
+>=20
+> qio_channel_readv_full() only returns QIO_CHANNEL_ERR_BLOCK when the
+> channel is non-blocking mode and no data is available. Under the hood,
+> this translates to this code in qio_channel_socket_readv():
+>=20
+>  retry:
+>     ret =3D recvmsg(sioc->fd, &msg, sflags);
+>     if (ret < 0) {
+>         if (errno =3D=3D EAGAIN) {
+>             return QIO_CHANNEL_ERR_BLOCK;
+>         }
+>         if (errno =3D=3D EINTR) {
+>             goto retry;
+>         }
+>=20
+>         error_setg_errno(errp, errno,
+>                          "Unable to read from socket");
+>         return -1;
+>     }
+>=20
+> This is strictly equivalent to what we currently have. This cannot
+> leak file descriptors because we would only loop until the first
+> byte of real data is available and ancillary data cannot fly without
+> real data, i.e. no file descriptors when recvmsg() returns EAGAIN.
+>=20
+> > On the other hand, it looks like ioc is in blocking mode. I'm not sure
+> > QIO_CHANNEL_ERR_BLOCK can occur?
+> >=20
+>=20
+> You're right but the existing code is ready to handle the non-blocking
+> case, so I just kept this behavior.
 
-> ---
->  tests/qtest/fuzz/generic_fuzz.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index ee8c17a04c..387ae2020a 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -583,6 +583,21 @@ static void handle_timeout(int sig)
->          fprintf(stderr, "[Timeout]\n");
->          fflush(stderr);
->      }
-> +
-> +    /*
-> +     * If there is a crash, libfuzzer/ASAN forks a child to run an
-> +     * "llvm-symbolizer" process for printing out a pretty stacktrace. It
-> +     * communicates with this child using a pipe.  If we timeout+Exit, while
-> +     * libfuzzer is still communicating with the llvm-symbolizer child, we will
-> +     * be left with an orphan llvm-symbolizer process. Sometimes, this appears
-> +     * to lead to a deadlock in the forkserver. Use waitpid to check if there
-> +     * are any waitable children. If so, exit out of the signal-handler, and
-> +     * let libfuzzer finish communicating with the child, and exit, on its own.
-> +     */
-> +    if (waitpid(-1, NULL, WNOHANG) == 0) {
-> +        return;
-> +    }
-> +
->      _Exit(0);
->  }
->  
-> -- 
-> 2.28.0
+I'm confused by this tentative non-blocking support because if we set
+the fd to non-blocking, then qio_channel_readv_full() can return less
+than size bytes (a short read) and that will cause a failure:
+
+  if (size !=3D VHOST_USER_HDR_SIZE) {
+      error_report("Failed to read from slave.");
+      goto err;
+  }
+
+So although the while QIO_CHANNEL_ERR_BLOCK loop suggests the code
+supports non-blocking, it doesn't really support it :).
+
+I think it would be clearer to remove the while QIO_CHANNEL_ERR_BLOCK
+loop. However, this is not directly related to the bug that this series
+fixes, so if you prefer to keep it, feel free.
+
+--e50NnACVf93bpZ5z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBIrRQACgkQnKSrs4Gr
+c8iLQAf8DR+nOc1xVktI4UbQkwBXW/eC6CyKxr2wF+i5LDkODI2GQ40RrG1rIax7
+Xj+X4NXXsiyCBNaf/n9VrLi7jedzVQr3Udyni+YJv18XCYI5DbOBi8IuSWqfCcI+
+QYTB2TJGZ7UNi2DyOeVfX64CXr+E0WXH6iYfm4UotNa/8b0LprVpSggKWM4xkOwn
+xlQGsJGuhKaujhsOho/IKq5UGhHiLTTJQMeBbHnedgyBKQcs0iJe6U7WK89L7BY6
+S+KRvCBNd7OWMi3JoiES/jzqsmh2nAiTDEdS9THmoYlmXJB7HbO7K8sBBXIgMmcY
+tkYx3z2byz57aqkEX+c7u1x5jIaCSw==
+=lHvw
+-----END PGP SIGNATURE-----
+
+--e50NnACVf93bpZ5z--
+
 
