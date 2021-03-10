@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8A6334696
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:21:44 +0100 (CET)
-Received: from localhost ([::1]:42734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC223346A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:27:11 +0100 (CET)
+Received: from localhost ([::1]:48064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK3Sp-0007Xj-G5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:21:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57268)
+	id 1lK3Y6-0002Dq-Cd
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:27:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK3RL-00072p-RC
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:20:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK3RJ-0007zS-VM
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:20:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615400409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8sA2mqZf+3WYQGKkltj2/s8QCuX8Oa4ycOsmtK5oSKc=;
- b=X2tTF5SgfSS7hMAkfwvINq3BcTvqxP4teCzxSyuXGJbHzeJ2K50e4N+lkIUJNVfOlCEknx
- OfvFGMFL5rQANIXSNNIIxpw0dDss548WHv/CCEqTNT6+qQWY8OYevr0t31eYQtnSZl2AVN
- 6xfHFTeZ0+Q3a+ooimZn6sz7d/ZzClQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-lLa2eE7tOkeG5_7qkyqvIA-1; Wed, 10 Mar 2021 13:20:05 -0500
-X-MC-Unique: lLa2eE7tOkeG5_7qkyqvIA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27A811005D4C;
- Wed, 10 Mar 2021 18:20:04 +0000 (UTC)
-Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 418975D6D7;
- Wed, 10 Mar 2021 18:20:00 +0000 (UTC)
-Subject: Re: [PATCH 1/4] usb: remove support for -usbdevice parameters
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20210310173323.1422754-1-thuth@redhat.com>
- <20210310173323.1422754-2-thuth@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ed21ce06-b4ce-45c5-04a4-9d9fb56ed466@redhat.com>
-Date: Wed, 10 Mar 2021 12:19:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lK3WV-0001Bs-Rt
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:25:31 -0500
+Resent-Date: Wed, 10 Mar 2021 13:25:31 -0500
+Resent-Message-Id: <E1lK3WV-0001Bs-Rt@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21321)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lK3WS-00011h-NJ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:25:31 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1615400698; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Eoo1fI1CsbcNjxl25JJCf7ULWhxDfObR10TS0hsAN5SLGb+vfJJ75zIaETodLsoXr6suoZVPXk41DDkWZuAx9znwVTN9mqftYKg3Cm9vykLYzejoU8fmGyCPeQ0V/jIjG0oLIL9+lYoOe1HMvomlJv0Yg+k/xi3GpQDs1Q+vmxg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615400698;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=GosbIcOdS1fQ7Q9HkeEzTTYSbpS4oItw0g3WaCipgkk=; 
+ b=BlY2GGSPu4zwu2BL9tA60Qpa5MSMr/SqXU8FTDe2sKLwyYOV0ipMhjJhIsQr10VnN1eculA2TLIQrAAG5r5yttN/Xhnki2QrW6fYvBtXxXVr0USsXZGUVUBly+HbiD7Wezv6yVxxzvInH80RlNOdF8CLcEBFbQO+pfKSiDZFAyE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615400683678992.4891599022453;
+ Wed, 10 Mar 2021 10:24:43 -0800 (PST)
+In-Reply-To: <726fc52e2f4ae6914ae43263bc02721a6c0eb6e7.1615398669.git.huangy81@chinatelecom.cn>
+Subject: Re: [RFC] tests/migration: introduce multifd into guestperf toolkit
+Message-ID: <161540068259.3874.1699795445911271818@f3770d8ad632>
 MIME-Version: 1.0
-In-Reply-To: <20210310173323.1422754-2-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: huangy81@chinatelecom.cn
+Date: Wed, 10 Mar 2021 10:24:43 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +67,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: crosa@redhat.com, huangy81@chinatelecom.cn, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 11:33 AM, Thomas Huth wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> No device needs them anymore and in fact they're undocumented.
-> Remove the code.  The only change in behavior is that "-usbdevice
-> braille:hello" now reports an error, which is a bugfix.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/usb/bus.c        | 32 +++++++-------------------------
->  hw/usb/dev-serial.c |  2 +-
->  include/hw/usb.h    |  2 +-
->  3 files changed, 9 insertions(+), 27 deletions(-)
-> 
-
-> +    if (strchr(driver, ':')) {
-> +        error_report("usbdevice parameters are not supported anymore");
-
-Although wiktionary says it is a valid word in the US, 'anymore' feels
-colloquial compared to 'any more'.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS83MjZmYzUyZTJmNGFlNjkxNGFl
+NDMyNjNiYzAyNzIxYTZjMGViNmU3LjE2MTUzOTg2NjkuZ2l0Lmh1YW5neTgxQGNoaW5hdGVsZWNv
+bS5jbi8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxl
+IHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTog
+c2VyaWVzCk1lc3NhZ2UtaWQ6IDcyNmZjNTJlMmY0YWU2OTE0YWU0MzI2M2JjMDI3MjFhNmMwZWI2
+ZTcuMTYxNTM5ODY2OS5naXQuaHVhbmd5ODFAY2hpbmF0ZWxlY29tLmNuClN1YmplY3Q6IFtSRkNd
+IHRlc3RzL21pZ3JhdGlvbjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtp
+dAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJh
+c2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxp
+bWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1t
+YWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5
+YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
+cGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMx
+MDE3MzAwNC40MjAxOTAtMS1zdGVmYW5oYUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTAx
+NzMwMDQuNDIwMTkwLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBw
+YXRjaGV3LzcyNmZjNTJlMmY0YWU2OTE0YWU0MzI2M2JjMDI3MjFhNmMwZWI2ZTcuMTYxNTM5ODY2
+OS5naXQuaHVhbmd5ODFAY2hpbmF0ZWxlY29tLmNuIC0+IHBhdGNoZXcvNzI2ZmM1MmUyZjRhZTY5
+MTRhZTQzMjYzYmMwMjcyMWE2YzBlYjZlNy4xNjE1Mzk4NjY5LmdpdC5odWFuZ3k4MUBjaGluYXRl
+bGVjb20uY24KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0MjRmYWQ3IHRlc3RzL21p
+Z3JhdGlvbjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtpdAoKPT09IE9V
+VFBVVCBCRUdJTiA9PT0KRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTk6IEZJTEU6
+IHRlc3RzL21pZ3JhdGlvbi9ndWVzdHBlcmYvc2hlbGwucHk6MTI1OgorICAgICAgICBwYXJzZXIu
+YWRkX2FyZ3VtZW50KCItLW11bHRpZmQiLCBkZXN0PSJtdWx0aWZkIiwgZGVmYXVsdD1GYWxzZSwg
+YWN0aW9uPSJzdG9yZV90cnVlIikKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTIw
+OiBGSUxFOiB0ZXN0cy9taWdyYXRpb24vZ3Vlc3RwZXJmL3NoZWxsLnB5OjEyNjoKKyAgICAgICAg
+cGFyc2VyLmFkZF9hcmd1bWVudCgiLS1tdWx0aWZkLWNoYW5uZWxzIiwgZGVzdD0ibXVsdGlmZF9j
+aGFubmVscyIsIGRlZmF1bHQ9MiwgdHlwZT1pbnQpCgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDkzIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0MjRmYWQ3ZmJjM2YgKHRlc3RzL21pZ3JhdGlv
+bjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtpdCkgaGFzIHN0eWxlIHBy
+b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
+cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
+biBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
+dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvNzI2ZmM1MmUyZjRhZTY5MTRhZTQzMjYzYmMwMjcyMWE2YzBlYjZlNy4xNjE1Mzk4
+NjY5LmdpdC5odWFuZ3k4MUBjaGluYXRlbGVjb20uY24vdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
