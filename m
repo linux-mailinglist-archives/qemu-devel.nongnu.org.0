@@ -2,93 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982103340D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:54:03 +0100 (CET)
-Received: from localhost ([::1]:37818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9F63340D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:55:32 +0100 (CET)
+Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK0Dq-00088j-Mt
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40674)
+	id 1lK0FH-0000fj-L4
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:55:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK0A4-0005wX-A3
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:50:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK0A2-0003YH-BE
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:50:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615387805;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PRtWNy/NDok7f1iWfLBivzp/rU/ybv4EUVehPR/t8lg=;
- b=WX+U+qIZorfdBwGqKza5kITsp+kIfaLUzNrR+kAY+M7m8j+k1ttcH+zhHUYwmwFSuA67bh
- rLmiS0CegFBsAx1RVYJkc1r0RMvaZlmRJ/B2/0wsm88rJXvO2XD4MGn03WpyUEjAm0XsTp
- XoRyIxaHF5y0Dsah9yUM4ZHWBEPNi5k=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-Xro9cix9OWqHDA9g5GtAjw-1; Wed, 10 Mar 2021 09:49:16 -0500
-X-MC-Unique: Xro9cix9OWqHDA9g5GtAjw-1
-Received: by mail-ej1-f69.google.com with SMTP id 11so7297480ejz.20
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 06:49:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PRtWNy/NDok7f1iWfLBivzp/rU/ybv4EUVehPR/t8lg=;
- b=nR6YDa4tTUNl8GZNp3+a+Y+6UCwdPLLXuo7f0NinenRSE8BPqL4zVFn3YSwLwXUqX3
- shDKBVhCmWhd0sg8PiyXQEP3RpXbHTIajJPQ7OD6s5ZC6+x2NL41OvS68UAFPEmj7SCu
- 6an3JbdrTRfHJi+5bekcljBxh+B6YZp6y+eW69n+vItk9YWPSw5lQ+UN2v1dYJYdQJhN
- hw72PZCUJ2l6mjyAW+PWT2oG/OdGCoXgssphcoKDTXvmWSeOdgxINth6qjneJft81Lxz
- uDBKs9fkhczKOqL2CCqvbVffvMPTCry+QqtQcNA+N66aaXGHeG+PLSC+178NtlX9oiOl
- ARNA==
-X-Gm-Message-State: AOAM530h91N+B+gOEmdeesyC4thTftwnHOo2M9AxTSIj1D+1E1qeSbxB
- lyJdxtMHd29B7tC6Bq2ESEofFa8czuvZ0zKiqkyOG0GdjyuQWwZ3tlX70Tv5ke1gdXzzrrY+l+w
- frvWfLfjTZP81K6s=
-X-Received: by 2002:a05:6402:3122:: with SMTP id
- dd2mr3656259edb.253.1615387755476; 
- Wed, 10 Mar 2021 06:49:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwheH7GaYr5x45eIGSXQ/rXqn/CVN91HcdOZDNFloG5VEdggpfvGdisgV+ckFib2PyhxF15yw==
-X-Received: by 2002:a05:6402:3122:: with SMTP id
- dd2mr3656240edb.253.1615387755307; 
- Wed, 10 Mar 2021 06:49:15 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d6sm10218155eje.20.2021.03.10.06.49.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 06:49:14 -0800 (PST)
-Subject: Re: [PATCH] block: Introduce zero-co:// and zero-aio://
-To: Fam Zheng <famforupstream@gmail.com>
-References: <20210310141752.5113-1-fam@euphon.net>
- <d16dce2d-f844-5e58-6ae1-bbf366e74b60@redhat.com>
- <CAGNx5+34xWD33-YQmS_Tw-bV3nFMJSpB72c6paGpN4pdmmPkAg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <557f59ec-ccbe-64a5-a21f-ab24dc818f2b@redhat.com>
-Date: Wed, 10 Mar 2021 15:49:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lK0C2-0007cB-9i
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:52:10 -0500
+Received: from foss.arm.com ([217.140.110.172]:40516)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lK0By-0004on-KJ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:52:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E28E731B;
+ Wed, 10 Mar 2021 06:52:03 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 43E663F793;
+ Wed, 10 Mar 2021 06:52:01 -0800 (PST)
+Subject: Re: [PATCH v9 2/6] arm64: kvm: Introduce MTE VM feature
+To: Marc Zyngier <maz@kernel.org>
+References: <20210301142315.30920-1-steven.price@arm.com>
+ <20210301142315.30920-3-steven.price@arm.com> <87im60xnn4.wl-maz@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <c8478448-7717-d9ac-de0f-e9574f0c7006@arm.com>
+Date: Wed, 10 Mar 2021 14:52:49 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAGNx5+34xWD33-YQmS_Tw-bV3nFMJSpB72c6paGpN4pdmmPkAg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <87im60xnn4.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,89 +58,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 3:28 PM, Fam Zheng wrote:
-> On Wed, 10 Mar 2021 at 14:24, Philippe Mathieu-Daudé <philmd@redhat.com
-> <mailto:philmd@redhat.com>> wrote:
+On 09/03/2021 17:06, Marc Zyngier wrote:
+> On Mon, 01 Mar 2021 14:23:11 +0000,
+> Steven Price <steven.price@arm.com> wrote:
+>>
+>> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+>> for a VM. This will expose the feature to the guest and automatically
+>> tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+>> storage) to ensure that the guest cannot see stale tags, and so that
+>> the tags are correctly saved/restored across swap.
+>>
+>> Actually exposing the new capability to user space happens in a later
+>> patch.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   arch/arm64/include/asm/kvm_emulate.h |  3 +++
+>>   arch/arm64/include/asm/kvm_host.h    |  3 +++
+>>   arch/arm64/kvm/hyp/exception.c       |  3 ++-
+>>   arch/arm64/kvm/mmu.c                 | 16 ++++++++++++++++
+>>   arch/arm64/kvm/sys_regs.c            |  3 ++-
+>>   include/uapi/linux/kvm.h             |  1 +
+>>   6 files changed, 27 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+>> index f612c090f2e4..6bf776c2399c 100644
+>> --- a/arch/arm64/include/asm/kvm_emulate.h
+>> +++ b/arch/arm64/include/asm/kvm_emulate.h
+>> @@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+>>   	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+>>   	    vcpu_el1_is_32bit(vcpu))
+>>   		vcpu->arch.hcr_el2 |= HCR_TID2;
+>> +
+>> +	if (kvm_has_mte(vcpu->kvm))
+>> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+>>   }
+>>   
+>>   static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>> index 3d10e6527f7d..1170ee137096 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -132,6 +132,8 @@ struct kvm_arch {
+>>   
+>>   	u8 pfr0_csv2;
+>>   	u8 pfr0_csv3;
+>> +	/* Memory Tagging Extension enabled for the guest */
+>> +	bool mte_enabled;
+>>   };
+>>   
+>>   struct kvm_vcpu_fault_info {
+>> @@ -767,6 +769,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+>>   #define kvm_arm_vcpu_sve_finalized(vcpu) \
+>>   	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+>>   
+>> +#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+>>   #define kvm_vcpu_has_pmu(vcpu)					\
+>>   	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+>>   
+>> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+>> index 73629094f903..56426565600c 100644
+>> --- a/arch/arm64/kvm/hyp/exception.c
+>> +++ b/arch/arm64/kvm/hyp/exception.c
+>> @@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>>   	new |= (old & PSR_C_BIT);
+>>   	new |= (old & PSR_V_BIT);
+>>   
+>> -	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+>> +	if (kvm_has_mte(vcpu->kvm))
+>> +		new |= PSR_TCO_BIT;
+>>   
+>>   	new |= (old & PSR_DIT_BIT);
+>>   
+>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>> index 77cb2d28f2a4..fdb6ab604fd0 100644
+>> --- a/arch/arm64/kvm/mmu.c
+>> +++ b/arch/arm64/kvm/mmu.c
+>> @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>   	if (vma_pagesize == PAGE_SIZE && !force_pte)
+>>   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+>>   							   &pfn, &fault_ipa);
+>> +
+>> +	if (kvm_has_mte(kvm) && pfn_valid(pfn)) {
+>> +		/*
+>> +		 * VM will be able to see the page's tags, so we must ensure
+>> +		 * they have been initialised. if PG_mte_tagged is set, tags
+>> +		 * have already been initialised.
+>> +		 */
+>> +		struct page *page = pfn_to_page(pfn);
+>> +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
+>> +
+>> +		for (i = 0; i < nr_pages; i++, page++) {
+>> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+>> +				mte_clear_page_tags(page_address(page));
+>> +		}
+>> +	}
 > 
->     On 3/10/21 3:17 PM, fam@euphon.net <mailto:fam@euphon.net> wrote:
->     > From: Fam Zheng <famzheng@amazon.com <mailto:famzheng@amazon.com>>
->     >
->     > null-co:// has a read-zeroes=off default, when used to in security
->     > analysis, this can cause false positives because the driver doesn't
->     > write to the read buffer.
->     >
->     > null-co:// has the highest possible performance as a block driver, so
->     > let's keep it that way. This patch introduces zero-co:// and
->     > zero-aio://, largely similar with null-*://, but have
->     read-zeroes=on by
->     > default, so it's more suitable in cases than null-co://.
-> 
->     Thanks!
-> 
->     >
->     > Signed-off-by: Fam Zheng <fam@euphon.net <mailto:fam@euphon.net>>
->     > ---
->     >  block/null.c | 91
->     ++++++++++++++++++++++++++++++++++++++++++++++++++++
->     >  1 file changed, 91 insertions(+)
-> 
->     > +static int zero_file_open(BlockDriverState *bs, QDict *options,
->     int flags,
->     > +                          Error **errp)
->     > +{
->     > +    QemuOpts *opts;
->     > +    BDRVNullState *s = bs->opaque;
->     > +    int ret = 0;
->     > +
->     > +    opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
->     > +    qemu_opts_absorb_qdict(opts, options, &error_abort);
->     > +    s->length =
->     > +        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 1 << 30);
-> 
->     Please do not use this magic default value, let's always explicit the
->     size.
-> 
->         s->length = qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 0);
->         if (s->length < 0) {
->             error_setg(errp, "%s is invalid", BLOCK_OPT_SIZE);
->             ret = -EINVAL;
->         }
-> 
-> 
-> Doesn't that result in a bare
-> 
->   -blockdev zero-co://
-> 
-> would have 0 byte in size?
+> Is there any reason to do this dance for anything but a translation
+> fault?
 
-Yes, this will display an error.
+Good point I guess this should have a (fault_status != FSC_PERM) in the 
+test to match the other paths.
 
-Maybe better something like:
-
-    if (s->length == 0) {
-        error_append_hint(errp, "Usage: zero-co://,size=NUM");
-        error_setg(errp, "size must be specified");
-        ret = -EINVAL;
-    } else if (s->length < 0) {
-        error_setg(errp, "%s is invalid", BLOCK_OPT_SIZE);
-        ret = -EINVAL;
-    }
-
+>> +
+>>   	if (writable)
+>>   		prot |= KVM_PGTABLE_PROT_W;
+>>   
+>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+>> index 4f2f1e3145de..e09dbc00b0a2 100644
+>> --- a/arch/arm64/kvm/sys_regs.c
+>> +++ b/arch/arm64/kvm/sys_regs.c
+>> @@ -1046,7 +1046,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+>>   		val |= FIELD_PREP(FEATURE(ID_AA64PFR0_CSV3), (u64)vcpu->kvm->arch.pfr0_csv3);
+>>   		break;
+>>   	case SYS_ID_AA64PFR1_EL1:
+>> -		val &= ~FEATURE(ID_AA64PFR1_MTE);
+>> +		if (!kvm_has_mte(vcpu->kvm))
+>> +			val &= ~FEATURE(ID_AA64PFR1_MTE);
 > 
-> I'm copying what null-co:// does today, and it's convenient for tests.
-> Why is a default size bad?
+> Are we happy to expose *any* of the MTE flavours? Or should we
+> restrict it in any way?
 
-We learned default are almost always bad because you can not get
-rid of them. Also because we have reports of errors when using
-floppy and another one (can't remember) with null-co because of
-invalid size and we have to explain "the default is 1GB, you have
-to explicit your size".
+Another good point - it would make sense to restrict this in case 
+another MTE flavour is invented.
 
-Phil.
+Thanks,
+
+Steve
+
+>>   		break;
+>>   	case SYS_ID_AA64ISAR1_EL1:
+>>   		if (!vcpu_has_ptrauth(vcpu))
+>> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>> index 8b281f722e5b..05618a4abf7e 100644
+>> --- a/include/uapi/linux/kvm.h
+>> +++ b/include/uapi/linux/kvm.h
+>> @@ -1078,6 +1078,7 @@ struct kvm_ppc_resize_hpt {
+>>   #define KVM_CAP_DIRTY_LOG_RING 192
+>>   #define KVM_CAP_X86_BUS_LOCK_EXIT 193
+>>   #define KVM_CAP_PPC_DAWR1 194
+>> +#define KVM_CAP_ARM_MTE 195
+>>   
+>>   #ifdef KVM_CAP_IRQ_ROUTING
+>>   
+>> -- 
+>> 2.20.1
+>>
+>>
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
 
