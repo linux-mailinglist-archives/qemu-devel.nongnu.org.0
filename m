@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92D433454A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:42:07 +0100 (CET)
-Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB333455D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:46:40 +0100 (CET)
+Received: from localhost ([::1]:34670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2qU-0005yK-Pe
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:42:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
+	id 1lK2ut-0001lW-KG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:46:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iN-0007hi-0t
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55416)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iU-0007vg-5e
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iH-0006yY-7Y
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iS-0006zb-7W
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615397616;
+ s=mimecast20190719; t=1615397627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+zve30dje/9XnSdNB4el5HXg0L8IB4L2l+Yz29v9zhM=;
- b=AZxSLMU3is10lfBt+v4ZKmAWwdRLmH/GTVvEuZ01uutjOBqJZ6yJHjxKWHhAIR6yr8cQOF
- 1aqi02M+WFl4LRfxWZVQY/n6oqAbzAn5tYTGVyENigA/ykIDOT0xFnRw0Q/s/W/K7zxdLd
- aSdgGaUc99C23mt63M2bkdeeZGT+4XI=
+ bh=ESwvUl8BPHoSVP5Q/+iTnqilXi27SdTEHWwvSZi2vzQ=;
+ b=YJmU5PRW0nBhwZp7vXDR04jYQSjXIm2IDYh4KT4nFKEL34TTWr/YeTrK937XRqQ0BO1fiG
+ GxHDV1Eveg8k9TfWo5Fgy1JamxCxy/XG+ccMIe+SC7cQQ3WVVomc0/6Tv9/V8xBTpGtQWu
+ 5IGVajHOUh3ERmViKbWlDcGD7XJVxkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-LK4Ejn5GMM2fx0PpjUnjYA-1; Wed, 10 Mar 2021 12:33:34 -0500
-X-MC-Unique: LK4Ejn5GMM2fx0PpjUnjYA-1
+ us-mta-603-8BjV5uE5Pc-GOcDirYs29w-1; Wed, 10 Mar 2021 12:33:42 -0500
+X-MC-Unique: 8BjV5uE5Pc-GOcDirYs29w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 883CF801817;
- Wed, 10 Mar 2021 17:33:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 689B5801817;
+ Wed, 10 Mar 2021 17:33:41 +0000 (UTC)
 Received: from thuth.com (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F1E860C13;
- Wed, 10 Mar 2021 17:33:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15E0C60C13;
+ Wed, 10 Mar 2021 17:33:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/4] usb: remove support for -usbdevice parameters
-Date: Wed, 10 Mar 2021 18:33:20 +0100
-Message-Id: <20210310173323.1422754-2-thuth@redhat.com>
+Subject: [PATCH 3/4] usb: Un-deprecate -usbdevice (except for -usbdevice audio
+ which gets removed)
+Date: Wed, 10 Mar 2021 18:33:22 +0100
+Message-Id: <20210310173323.1422754-4-thuth@redhat.com>
 In-Reply-To: <20210310173323.1422754-1-thuth@redhat.com>
 References: <20210310173323.1422754-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,116 +85,89 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+When trying to remove the -usbdevice option, there were complaints that
+"-usbdevice braille" is still a very useful shortcut for some people.
+Thus we never remove this option. Since it's not such a big burden to
+keep it around, and it's also convenient in the sense that you don't
+have to worry to enable a host controller explicitly with this option,
+we should remove it from he deprecation list again.
 
-No device needs them anymore and in fact they're undocumented.
-Remove the code.  The only change in behavior is that "-usbdevice
-braille:hello" now reports an error, which is a bugfix.
+However, there is one exception: "-usbdevice audio" should go away, since
+audio devices without "audiodev=..." parameter are also on the deprecation
+list and you cannot use "-usbdevice audio" with "audiodev".
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/usb/bus.c        | 32 +++++++-------------------------
- hw/usb/dev-serial.c |  2 +-
- include/hw/usb.h    |  2 +-
- 3 files changed, 9 insertions(+), 27 deletions(-)
+ docs/system/deprecated.rst       | 9 ---------
+ docs/system/removed-features.rst | 8 ++++++++
+ hw/usb/dev-audio.c               | 1 -
+ softmmu/vl.c                     | 2 --
+ 4 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index 064f94e9c3..4b8882427d 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -312,13 +312,13 @@ typedef struct LegacyUSBFactory
- {
-     const char *name;
-     const char *usbdevice_name;
--    USBDevice *(*usbdevice_init)(const char *params);
-+    USBDevice *(*usbdevice_init)(void);
- } LegacyUSBFactory;
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index cfabe69846..816eb4084f 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -21,15 +21,6 @@ deprecated.
+ System emulator command line arguments
+ --------------------------------------
  
- static GSList *legacy_usb_factory;
+-``-usbdevice`` (since 2.10.0)
+-'''''''''''''''''''''''''''''
+-
+-The ``-usbdevice DEV`` argument is now a synonym for setting
+-the ``-device usb-DEV`` argument instead. The deprecated syntax
+-would automatically enable USB support on the machine type.
+-If using the new syntax, USB support must be explicitly
+-enabled via the ``-machine usb=on`` argument.
+-
+ ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
- void usb_legacy_register(const char *typename, const char *usbdevice_name,
--                         USBDevice *(*usbdevice_init)(const char *params))
-+                         USBDevice *(*usbdevice_init)(void))
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index c8481cafbd..ea28904e5f 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -38,6 +38,14 @@ or ``-display default,show-cursor=on`` instead.
+ QEMU 5.0 introduced an alternative syntax to specify the size of the translation
+ block cache, ``-accel tcg,tb-size=``.
+ 
++``-usbdevice audio`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''
++
++This option lacked the possibility to specify an audio backend device.
++Use ``-device usb-audio`` now instead (and specify a corresponding USB
++host controller or ``-usb`` if necessary).
++
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index e1486f81e0..f5cb246792 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -1024,7 +1024,6 @@ static const TypeInfo usb_audio_info = {
+ static void usb_audio_register_types(void)
  {
-     if (usbdevice_name) {
-         LegacyUSBFactory *f = g_malloc0(sizeof(*f));
-@@ -663,27 +663,17 @@ void hmp_info_usb(Monitor *mon, const QDict *qdict)
+     type_register_static(&usb_audio_info);
+-    usb_legacy_register(TYPE_USB_AUDIO, "audio", NULL);
  }
  
- /* handle legacy -usbdevice cmd line option */
--USBDevice *usbdevice_create(const char *cmdline)
-+USBDevice *usbdevice_create(const char *driver)
- {
-     USBBus *bus = usb_bus_find(-1 /* any */);
-     LegacyUSBFactory *f = NULL;
-     Error *err = NULL;
-     GSList *i;
--    char driver[32];
--    const char *params;
--    int len;
-     USBDevice *dev;
- 
--    params = strchr(cmdline,':');
--    if (params) {
--        params++;
--        len = params - cmdline;
--        if (len > sizeof(driver))
--            len = sizeof(driver);
--        pstrcpy(driver, len, cmdline);
--    } else {
--        params = "";
--        pstrcpy(driver, sizeof(driver), cmdline);
-+    if (strchr(driver, ':')) {
-+        error_report("usbdevice parameters are not supported anymore");
-+        return NULL;
-     }
- 
-     for (i = legacy_usb_factory; i; i = i->next) {
-@@ -707,15 +697,7 @@ USBDevice *usbdevice_create(const char *cmdline)
-         return NULL;
-     }
- 
--    if (f->usbdevice_init) {
--        dev = f->usbdevice_init(params);
--    } else {
--        if (*params) {
--            error_report("usbdevice %s accepts no params", driver);
--            return NULL;
--        }
--        dev = usb_new(f->name);
--    }
-+    dev = f->usbdevice_init ? f->usbdevice_init() : usb_new(f->name);
-     if (!dev) {
-         error_report("Failed to create USB device '%s'", f->name);
-         return NULL;
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index b58c4eb908..63047d79cf 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -614,7 +614,7 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
- }
- 
--static USBDevice *usb_braille_init(const char *unused)
-+static USBDevice *usb_braille_init(void)
- {
-     USBDevice *dev;
-     Chardev *cdrv;
-diff --git a/include/hw/usb.h b/include/hw/usb.h
-index abfbfc5284..08684bcd27 100644
---- a/include/hw/usb.h
-+++ b/include/hw/usb.h
-@@ -500,7 +500,7 @@ void usb_bus_new(USBBus *bus, size_t bus_size,
- void usb_bus_release(USBBus *bus);
- USBBus *usb_bus_find(int busnr);
- void usb_legacy_register(const char *typename, const char *usbdevice_name,
--                         USBDevice *(*usbdevice_init)(const char *params));
-+                         USBDevice *(*usbdevice_init)(void));
- USBDevice *usb_new(const char *name);
- bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
- USBDevice *usb_create_simple(USBBus *bus, const char *name);
+ type_init(usb_audio_register_types)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ff488ea3e7..76ebe7bb7a 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3180,8 +3180,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 break;
+             case QEMU_OPTION_usbdevice:
+-                error_report("'-usbdevice' is deprecated, please use "
+-                             "'-device usb-...' instead");
+                 olist = qemu_find_opts("machine");
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 add_device_config(DEV_USB, optarg);
 -- 
 2.27.0
 
