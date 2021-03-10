@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E853334AEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:05:38 +0100 (CET)
-Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC43334A49
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:01:36 +0100 (CET)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK6xV-0001bk-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:05:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
+	id 1lK6tb-00072c-T6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:01:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6eB-0003FT-C0; Wed, 10 Mar 2021 16:45:39 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:37851)
+ id 1lK6eA-0003CV-5p; Wed, 10 Mar 2021 16:45:38 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:60819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6e3-0004TV-Qd; Wed, 10 Mar 2021 16:45:39 -0500
+ id 1lK6e3-0004TP-Qe; Wed, 10 Mar 2021 16:45:37 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mr8SG-1m8Eh01aLO-00oEZi; Wed, 10 Mar 2021 22:45:24 +0100
+ id 1M8hEd-1lODEy0nx3-004gQL; Wed, 10 Mar 2021 22:45:25 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/22] tests/fp/fp-test: Replace the word 'blacklist'
-Date: Wed, 10 Mar 2021 22:44:58 +0100
-Message-Id: <20210310214504.1183162-17-laurent@vivier.eu>
+Subject: [PULL 17/22] qemu-common.h: Update copyright string to 2021
+Date: Wed, 10 Mar 2021 22:44:59 +0100
+Message-Id: <20210310214504.1183162-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
 References: <20210310214504.1183162-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:A+Q/w2Ck9Mm8oiHHM5SogxE2dKCRGjoNHmFPTCi8o35kVlzcMjs
- FM7K6a/sIsIOSniSWyAn2vpw+ECphvI3BmNQy3l9VfQMEm6mce6oIVQsbn71jWK1SOzVCqS
- p7Z+BcCqHQfruBcmYPFbn3gs7bXwX96k2GogX4vLzKGlPmV8T6AQpIkt1bdp2zocnvLOvNT
- sF3sz+eeHmHbCvu+KthGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7Q5m8vQbm1E=:toMlx6VYrvo7s6QFGTIl5u
- Zq8rZy+VA9eZ+OyGYQK8G7JGvgOsOtqGCXnMQJpM2MV3sPlKnvwbgIA37Ac45OfHpe0tiHt+s
- YkFY0N9uPP8UzBrT71bjIpifWTqQc4cOn+F5HCpoEx/Oj5WTdk6cBWpKwOKU06073uymgfTvE
- 3VR3iMx932XjeyAIqKOtrTVt5poTRoPNzPSQ4Ly1QkptFKztDrr5vRyCAivvdWO/Eh1cv6g5n
- g+VNEdb7VYDqgXlrDZ7DBWtTB8Arhl0Aal6D0FOVEO5P+FeAI/McEulaghsAkg+GWlPwQGHYf
- Mwi6r+cVVERrqIJ8ojTlgPkWKeaGThKDGAEDhEKHm++q5bRwsUAEuP8jxrJcPtjfWlzGpn48f
- V5SW6OilQfvyevmqaqO5T8O2nI/85Pw60Huf+J6Fx42mjYAaPO8R6G5P/eAGdKiHFGq0oUd19
- PLYXguWGPg==
+X-Provags-ID: V03:K1:KwmlUpqRcQzY4R/tRkHoVqRPTyi5mx0LYp0jJgzzutNPwWS5Uzt
+ AaYqTJOwos4Fle+E8G12vP7ajNv68BPqk+1GHBEH1pANhw1BH2sfIWlWROMinyp0kmp4oLe
+ AAUx66CYW7k2LKV1wZQAUG8yCFxPtphZuPEyCp5BWDABpPTnTEEny5BBkLFo9a6t87eUPjd
+ tOC7za23EY5/zCZLhe1iQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rNLk5RauKIU=:n6dyawkb6z9g40AC/2BqBU
+ 482h3+nnv4KQmDKEQFpRudsgb+/BI425aSFYC/8xIc9iITpJe8olDhA8409uXZDNjvnuHofwe
+ ZlJdK1+a0hDq6u3bYIcgmpz8wF4gAZC9eQ5kbp1p29AGdKGegcWhx4dh7JiYPaH0qgLw8bv+z
+ q1H4U0kQIhWo1JZKzZ5qkYmKrH8Ql0r9PpXMlqbfN96CzwNf6YRIJOgqKQXOVWGpFeKfUa9z1
+ PMAQqY7iCcEMWYxcNWkV2wdLKb2jRBIghW/Iea3tqLRUC2iQHzEFw2+Hn5PhbzdhqUTzn0zba
+ lQmCOJy9yIlMZesSQch5XcU/YqpdDwwIgIwHXdA2JesG/nRCpP3XW29wO0iJ+UvpmA7uMXb3h
+ 1lwhA+ASe8Oa6UThX2d2FLePg16cQmTWh1XZH36NWiiNjMf3CM+Vse3f58Kfbwb1StlXpufCs
+ hzHzQYZNKQ==
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -63,68 +63,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Follow the inclusive terminology from the "Conscious Language in your
-Open Source Projects" guidelines [*] and replace the word "blacklist"
-appropriately.
+Update the common copyright string that we use in
+-version reports, About dialogs, etc, to 2021.
 
-[*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
-
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210303184644.1639691-6-philmd@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210309162258.28633-1-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/fp/fp-test.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/qemu-common.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-index 06ffebd6db17..5a4cad8c8b23 100644
---- a/tests/fp/fp-test.c
-+++ b/tests/fp/fp-test.c
-@@ -123,7 +123,7 @@ static void not_implemented(void)
-     fprintf(stderr, "Not implemented.\n");
- }
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 654621444ecf..73bcf763ed82 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -13,7 +13,7 @@
+ #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
  
--static bool blacklisted(unsigned op, int rmode)
-+static bool is_allowed(unsigned op, int rmode)
- {
-     /* odd has not been implemented for any 80-bit ops */
-     if (rmode == softfloat_round_odd) {
-@@ -161,10 +161,10 @@ static bool blacklisted(unsigned op, int rmode)
-         case F32_TO_EXTF80:
-         case F64_TO_EXTF80:
-         case F128_TO_EXTF80:
--            return true;
-+            return false;
-         }
-     }
--    return false;
-+    return true;
- }
+ /* Copyright string for -version arguments, About dialogs, etc */
+-#define QEMU_COPYRIGHT "Copyright (c) 2003-2020 " \
++#define QEMU_COPYRIGHT "Copyright (c) 2003-2021 " \
+     "Fabrice Bellard and the QEMU Project developers"
  
- static void do_testfloat(int op, int rmode, bool exact)
-@@ -194,7 +194,7 @@ static void do_testfloat(int op, int rmode, bool exact)
-     verCases_writeFunctionName(stderr);
-     fputs("\n", stderr);
- 
--    if (blacklisted(op, rmode)) {
-+    if (!is_allowed(op, rmode)) {
-         not_implemented();
-         return;
-     }
+ /* Bug reporting information for --help arguments, About dialogs, etc */
 -- 
 2.29.2
 
