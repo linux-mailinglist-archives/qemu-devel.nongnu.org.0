@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4F33346AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:27:41 +0100 (CET)
-Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED07D3346C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:33:09 +0100 (CET)
+Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK3Ya-00040B-JP
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:27:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
+	id 1lK3ds-0005JI-LC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3XQ-0002DL-9o
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:26:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3XN-0001NK-9x
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:26:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615400783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3CX6FEaDF/frgN5weaBQW7SY7MrxKP6zDFB3rFh7RI0=;
- b=EsoZitD8Xxi7V0OFQFOFreNeWuTR840AmHAyGUWj8c/hXu40kp502FPrCwdlIibZlfZMaq
- xYk/Y2lYvEcCOZcfs7+74oherfAxV96FDqm8RwDfUuVfH7EZpSZq8ecMb8d8Zd/eaMH0j0
- J0T1fopHM5/EUSsgimREEDhrKz/GMA8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-p7jQ6Oy-ONi2iu13v34lOA-1; Wed, 10 Mar 2021 13:26:22 -0500
-X-MC-Unique: p7jQ6Oy-ONi2iu13v34lOA-1
-Received: by mail-ej1-f72.google.com with SMTP id bg7so1563061ejb.12
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 10:26:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lK3bU-0004mv-3x
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:30:40 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lK3bR-0002kP-Ja
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:30:39 -0500
+Received: by mail-ed1-x529.google.com with SMTP id l12so29616086edt.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 10:30:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=dgT924STmCtbac0RrU1vSECs+ABRYe1cvyiQaIMcPRI=;
+ b=KtyyG67lynkxz/CZVnDv3N6ntvLSWP7PCAzNwPANZmiZSmoGCwiXnsPrVA4XfBAdCg
+ +Q8l1dpx0miEtjXi0/FT5ink6nsk39u6lPwiuwXGenukuxlb6rxwUKn0vxs3jQrK6hbi
+ IJGMmga3AgbCNO6PcbirHp2oo6e73Q+x+VL+acpIMprLR2U0nuo3XBsC7hMxDzXBPNaR
+ yYRbdi7IbJyAxHI3icIuB0jYSOoGV9rr+p6dacsyfNaVVh6mdSzzrN0atRDFVwRp+G5C
+ DguQzSyI0L829g1g/9eZAMOKenOS84QBwV5AzaxTLQw2eHTLVCmGj/Wm0xoyok+n3E63
+ UqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3CX6FEaDF/frgN5weaBQW7SY7MrxKP6zDFB3rFh7RI0=;
- b=ihWZ6POsFQzH50qoYHCMSaIkuExLEnUS9NO9EFS98x9M1TMqfT8aAEmaoDXRZbiebu
- PktHT8POAaToHbeIHEMxU9BPj+8b+rsblKoPBwwktX4a86wuyKyWAEsQARfybTFgcwBB
- nXwWC3rFh8JjLBbeRJtI+wzA/cb9ihHVTW0onaIHtxtNRVsucG6Rs6aFY7geIeWiefeu
- 6sGqfx6Sd+yL2aAX+W23j0ird3wsF1C2xETsV5CRsWoiIvrgZeyoAwx8QHhC0ov+3Ua/
- 9tPNRKgob2sK6Uijj3iSHtdxo5ZrbD1+ztEH9QrgcSkAujiS/PPX7bfcGTIl45V9/rKU
- 2tuQ==
-X-Gm-Message-State: AOAM5318UuPwin5UeYCNitpuDCA3n7Gl/bwxt2HmKQjjZ48FWohqm/Sp
- c0N6VmvIv7pWsPIjBGrDyOW/z7ZkWnahDeg2/K6Fcy3WWtQ9f7O63YiTIUjWo0n0vClsvyuZb8y
- r5qxP4yS7+Ss098A=
-X-Received: by 2002:a17:906:f10c:: with SMTP id
- gv12mr5017606ejb.53.1615400780968; 
- Wed, 10 Mar 2021 10:26:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzle/KqTveQTQ7CP9mNAgSPkBjcP30Maiacegd0pvV6PS0O20fvOHO72LCdqVCGMoIlDFGdBg==
-X-Received: by 2002:a17:906:f10c:: with SMTP id
- gv12mr5017590ejb.53.1615400780767; 
- Wed, 10 Mar 2021 10:26:20 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e18sm122414eji.111.2021.03.10.10.26.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 10:26:20 -0800 (PST)
-Subject: Re: [PATCH v5 5/7] net/eth: Check iovec has enough data earlier
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20210310160135.1148272-1-philmd@redhat.com>
- <20210310160135.1148272-6-philmd@redhat.com>
- <20210310165327.w27noda3nva2yfcg@steredhat>
- <0a62edf6-9842-13df-2093-cbf8926a1b17@redhat.com>
-Message-ID: <823478a4-11cc-befb-e296-41a19821c959@redhat.com>
-Date: Wed, 10 Mar 2021 19:26:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=dgT924STmCtbac0RrU1vSECs+ABRYe1cvyiQaIMcPRI=;
+ b=FGGKi/vONjHxgdpiVFhOCgqg0PtSZn4sWElHVwuejGoudtKGKVdfR7r4JpbVErhC18
+ tJ/V19yVzX9PvBzkxX4QdoieYSwTNt3y40c+5IQknAHpVN6KuXIzt/eAq+u1oR+LKKP/
+ hLEkucr6viZJZywV41Zpj/ZicS9SJULCAbwQ9ediey6mZlu5yOQ3WMJVkCxcJaJnqhDq
+ XSidniypdYaoq5wq/8XCG7hESQEE8QRt8qw3TcAHfSKEi4qYozDfZV/GIcRXR/s7Ke6e
+ 1LtKwr0eZyE1dzMTveqDOnEq9nHmCJxjIbYM+2UtnVncjGucjNHCSwWfu5ixdcbrXVXU
+ 93VA==
+X-Gm-Message-State: AOAM530/07K19Hu2xwipoffFbC8AfRZdNzS1dzBN9x/0UHr/xFfh4eFB
+ r55LiRvplE1wszJWR/scCxCESn60ukaW+g==
+X-Google-Smtp-Source: ABdhPJxLolowda5hqDLZX8co44XLwiH3VCBsVRJE1QGQC/nKPPFvSY9UggwkeKOF1FmGmBH6xT0KTg==
+X-Received: by 2002:aa7:c0c7:: with SMTP id j7mr4810337edp.298.1615401034690; 
+ Wed, 10 Mar 2021 10:30:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id bx24sm139872ejc.88.2021.03.10.10.30.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Mar 2021 10:30:33 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BE6541FF7E;
+ Wed, 10 Mar 2021 18:30:32 +0000 (GMT)
+References: <20200812115816.4454-1-matthias@weckbecker.name>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Matthias Weckbecker <matthias@weckbecker.name>
+Subject: Re: [PATCH] plugins: new syscalls plugin
+Date: Wed, 10 Mar 2021 18:26:53 +0000
+In-reply-to: <20200812115816.4454-1-matthias@weckbecker.name>
+Message-ID: <87sg527tfb.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <0a62edf6-9842-13df-2093-cbf8926a1b17@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,60 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 6:57 PM, Philippe Mathieu-Daudé wrote:
-> On 3/10/21 5:53 PM, Stefano Garzarella wrote:
->> On Wed, Mar 10, 2021 at 05:01:33PM +0100, Philippe Mathieu-Daudé wrote:
->>> We want to check fields from ip6_ext_hdr_routing structure
->>> and if correct read the full in6_address. Let's directly check
->>> if our iovec contains enough data for everything, else return
->>> early.
->>>
->>> Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> net/eth.c | 2 +-
->>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/net/eth.c b/net/eth.c
->>> index e870d02b0df..28cdc843a69 100644
->>> --- a/net/eth.c
->>> +++ b/net/eth.c
->>> @@ -409,7 +409,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
->>> int pkt_frags,
->>>     size_t input_size = iov_size(pkt, pkt_frags);
->>>     size_t bytes_read;
->>>
->>> -    if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
->>> +    if (input_size < ext_hdr_offset + sizeof(*rthdr) +
->>> sizeof(*dst_addr)) {
->>>         return false;
->>>     }
->>
->> If you have to respin, maybe we should also fix the offset in
->> iov_to_buf() in this patch and queue it for stable:
->>
->> @@ -415,7 +415,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
->> int pkt_frags,
->>  
->>      if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
->>          bytes_read = iov_to_buf(pkt, pkt_frags,
->> -                                ext_hdr_offset + sizeof(*ext_hdr),
->> +                                ext_hdr_offset + sizeof(*rthdr),
->>                                  dst_addr, sizeof(*dst_addr));
-> 
-> Oh, so we always screwed the address by 4 bytes...
-> 
-> This code never worked correctly :(
 
-Confirmed with commit 4555ca6816c ("net: fix incorrect
-argument to iov_to_buf") when it then returns incorrect
-value until b2caa3b82ed ("net/eth: fix incorrect check
-of iov_to_buf() return value") one year later.
+Matthias Weckbecker <matthias@weckbecker.name> writes:
 
+> This commit adds a new syscalls plugin that displays the syscalls
+> as they are executed and returned. This plugin outputs the number
+> of the syscall as well as the syscall return value.
+>
+> Works in *-user only.
+>
+> Essentially, this commit restores:
+>
+>   https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg00846.html
+>
+> by using the new QEMU plugin API.
+
+Sorry I missed this last year, I've queued to plugins/next. That said in
+it's current form you basically replicate what you already have with
+-strace:
+
+  ./qemu-aarch64 -strace -d plugin -plugin ./tests/plugin/libsyscall.so ./t=
+ests/tcg/aarch64-linux-user/testthread
+  syscall #214
+  13165 brk(NULL) =3D 0x000000000049a000
+  syscall #214 returned -> 4825088
+  syscall #214
+  13165 brk(0x000000000049af90) =3D 0x000000000049af90
+  syscall #214 returned -> 4829072
+  syscall #160
+  13165 uname(0x5500800498) =3D 0
+  syscall #160 returned -> 0
+  syscall #96
+  13165 set_tid_address(4825296,0,4294967293,4826880,4825088,253) =3D 13165
+  syscall #96 returned -> 13165
+
+So it would be nice to make the default maybe do something more useful
+(like emulate strace -C output). You could certainly keep the verbose
+output controlled by a flag.
+
+Still as it is it at least ensures we exercise the code ;-)
+
+--=20
+Alex Benn=C3=A9e
 
