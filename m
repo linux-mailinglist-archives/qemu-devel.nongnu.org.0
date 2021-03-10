@@ -2,57 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2EC3337CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:49:21 +0100 (CET)
-Received: from localhost ([::1]:46280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA143337D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:51:30 +0100 (CET)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJuWu-0007UU-42
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:49:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
+	id 1lJuYz-0002bm-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:51:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJuV0-0006Zp-UF
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:47:24 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:35393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lJuUz-0007BT-EQ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:47:22 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MSqbe-1lAfO51kVy-00UKtB; Wed, 10 Mar 2021 09:47:19 +0100
-Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
- <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <5d6ba4c7-0ad8-1987-890a-2faea335827c@vivier.eu>
-Date: Wed, 10 Mar 2021 09:47:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lJuWO-00086Q-5F; Wed, 10 Mar 2021 03:48:52 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:35834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lJuWL-0007uh-I6; Wed, 10 Mar 2021 03:48:47 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id p186so17056036ybg.2;
+ Wed, 10 Mar 2021 00:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=72l9CliPYnYznlFEcqth+eaGJqyTX8oYfvLaXJ+NqKc=;
+ b=VxlQd5KJW/H4aO8Eb0rkUsy2oivLnQJK6XeRo9mUfgMNS08+Ufx2x3pGu+nj4I8nOV
+ c5K5mW38+3WQR3/ZoTR4/9MfgmzWGpexofvU+3qMvIabgcZOfPc1UuYDMNiNkw1fxhbR
+ CJAwx1BiMzqgl9L5SXokB3qXAeGN9VCaXU9vq+FwzO/9GlM3We1FMBch/qEZ5OqVXxHm
+ ae/ayS2DLnnFg8Uj7q0/ycoxhzXP7CMxzDoAWu6CMMPAXhKgaDVswdwq5OxbAFBnniXn
+ Qboux3QEuAld+DNiLHbVrX3XexDrKdiQ3d/Rk8c7sYk2X5rdu/UahB4v5YLbKg4/1z0i
+ D4ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=72l9CliPYnYznlFEcqth+eaGJqyTX8oYfvLaXJ+NqKc=;
+ b=EwNHNzl6jS4Pso6sPpK2z5QylPk3b4S2kxbocdO8ZivmAknXFdj/jcStXcL2ra8P4p
+ SHXzpECt1WT7XCXBevwOJDU4mN2qW4RY3bpaoYutqZrsRfu9l2BxZGMaljoy6SQDxjP8
+ 0Ug0w6kNM2HQ7F+6jdVf+A3zBYXbJlC5gMuZ7BpkPz5nMrYFv5Zc9HYnXPaHg2fjfwWE
+ kl4eJwgES0MbuIC9s7e+ZR7rtMtnbcIaSg0W3lotEB4tP/PcGuder1TapJdzLdZHmC8W
+ eIaFsv5ks5CarmAF/N4WtVkBYybieQh3iz2kgwLNVQ6tZb9ow9d9YYwi81O7wd4F+tS6
+ ROmQ==
+X-Gm-Message-State: AOAM532sRzu9DJAxXBLACgj9GPFKm4mp+9/yi7teK9xBZBq5WNMorotS
+ fw3vMGDgzDhD1TLnpSYcN0q+aH7VMmJbXqHiQbk=
+X-Google-Smtp-Source: ABdhPJxDWEDQLpiPmUr3f8vWz7DA0hgYdAxWY+vbKTJHSBGpG0lacjKDhe0IYSnBLDWAjV29fiw+gtXNmyPAYimVC90=
+X-Received: by 2002:a25:abce:: with SMTP id v72mr2914735ybi.152.1615366120519; 
+ Wed, 10 Mar 2021 00:48:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ui5KyukR4w5lSPgcA8o1jowOH5kpR5bCeCYLBkMUk9VgVec6pKc
- IlSxAs0Q8YO5OycqjsgveUGPVaJQU5ffuL3N5X+N6Ce90ZQrhQ17YlK//pM7g8fUUpQB4c6
- 9Xs82pjfZrq2xo+EnzErQQM9vDBVvVXf8YRmj75bgB4WYv/OYLkCHGWncWZEkwQ70hcqgBE
- W+h7Ox0SLHfat08k6V2AQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ESYoYX39Isw=:YGTheJCq5Vya5VWimT50cQ
- 6waau1Pct+oXkNdhv2yRaAZaghoi6JatgXmXUW5M46A4i5w0HGiuEvFPiHaNDDEeC4XPnRDa0
- SkPnLuua8r8LpO/msCSLnytNBSWoSoIBBrVFVGf3oqH8XA8ALQTbtC4CoJuU/IV5t0M7DKECA
- MuEUll2+i8qCVavrU56oSJFb3I6HKuJQIsBnzVpfDcs97JG2OZQCzvJYd+bNPsU8XZSO8SxtM
- z99SMNDtx6L/QBn0vE81ZXVa5pID6KPxAUK+OhWYSCNFtk2iiL1FPUt8NosPIrDsjSPgzBldo
- hT7LP18UZdPqzZaR2Ax7smKtO09i3XqM4pA+NRnb/hgBtV1hr6LzFZuXlR1/aHRBrxVF7GLfI
- rBr+BOzZXxvVrEUKbVrDY5s/9QY58PXVrY81YAHX9C4V/rswh3RJD/kQyb4Ea
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210309235028.912078-1-philmd@redhat.com>
+ <20210309235028.912078-2-philmd@redhat.com>
+In-Reply-To: <20210309235028.912078-2-philmd@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 10 Mar 2021 16:48:28 +0800
+Message-ID: <CAEUhbmVcvNN1QTWi3dKmn1RRd5Tu55beueScNHBt1EJZJ-RbCA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] hw/block/pflash_cfi: Fix code style for checkpatch.pl
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,35 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2021 à 09:09, Mark Cave-Ayland a écrit :
-> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
-> interval should be measured in ns, and therefore its period is a thousand
-> times too short.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On Wed, Mar 10, 2021 at 7:50 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> We are going to move this code, fix its style first.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/misc/mac_via.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-> index f994fefa7c..c6e1552a59 100644
-> --- a/hw/misc/mac_via.c
-> +++ b/hw/misc/mac_via.c
-> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
->      MOS6522State *s = MOS6522(v1s);
->  
->      /* 60 Hz irq */
-> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
-> -                          16630 * 16630;
-> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
-> +                          16630000 * 16630000;
->  
->      if (s->ier & VIA1_IRQ_60HZ) {
->          timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
-> 
+>  hw/block/pflash_cfi01.c | 36 ++++++++++++++++++++++++------------
+>  hw/block/pflash_cfi02.c |  9 ++++++---
+>  2 files changed, 30 insertions(+), 15 deletions(-)
+>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.Eu>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
