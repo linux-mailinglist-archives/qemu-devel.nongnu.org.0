@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8EC3332AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:15:18 +0100 (CET)
-Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8733332B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 02:24:57 +0100 (CET)
+Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJnRV-0002b2-5j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:15:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
+	id 1lJnaq-0004nh-85
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 20:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lJnQA-00029p-HN
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:13:54 -0500
-Received: from hera.aquilenet.fr ([185.233.100.1]:50168)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJnZd-0004Mh-Ql
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:23:41 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1lJnQ9-0004NS-01
- for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:13:54 -0500
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 897413AE;
- Wed, 10 Mar 2021 02:13:50 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PWAuys97vFO3; Wed, 10 Mar 2021 02:13:49 +0100 (CET)
-Received: from begin.home (unknown
- [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 9DF5776;
- Wed, 10 Mar 2021 02:13:48 +0100 (CET)
-Received: from samy by begin.home with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1lJnQ3-00CaJk-Dq; Wed, 10 Mar 2021 02:13:47 +0100
-Date: Wed, 10 Mar 2021 02:13:47 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Joelle van Dyne <j@getutm.app>
-Subject: Re: [PATCH v2 4/4] slirp: feature detection for smbd
-Message-ID: <20210310011347.rs4f622uf5nd2af2@begin>
-References: <20210309002741.85057-1-j@getutm.app>
- <20210309002741.85057-5-j@getutm.app>
- <b1c93f8e-5c4c-9ad8-e9b3-a846fe9f5661@redhat.com>
- <CA+E+eSCPTbqsXYqtfVKbVDVCHjF12keOoSYnKFdu0+ugyuj12Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lJnZa-0000Uy-GK
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 20:23:41 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DwDmr18qjz5Zbm;
+ Wed, 10 Mar 2021 09:21:16 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 10 Mar 2021 09:23:30 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Wed, 10 Mar 2021 09:23:30 +0800
+Subject: Re: [PATCH v3 2/3] migration/ram: Reduce unnecessary rate limiting
+To: Peter Xu <peterx@redhat.com>
+References: <20210305075035.1852-1-jiangkunkun@huawei.com>
+ <20210305075035.1852-3-jiangkunkun@huawei.com>
+ <20210305142250.GE397383@xz-x1>
+ <a4c34c08-b686-8ec1-8e8d-2770e26e38c5@huawei.com>
+ <20210308211255.GL397383@xz-x1>
+ <b426bf66-f5d9-c5ea-fb2f-24b615743075@huawei.com>
+ <20210309161500.GB763132@xz-x1>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <5e8d85fd-b173-0cc3-90d4-5b70be8e7824@huawei.com>
+Date: Wed, 10 Mar 2021 09:23:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+E+eSCPTbqsXYqtfVKbVDVCHjF12keOoSYnKFdu0+ugyuj12Q@mail.gmail.com>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 897413AE
-X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; HAS_ORG_HEADER(0.00)[];
- RCVD_COUNT_THREE(0.00)[3]; TO_DN_ALL(0.00)[];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=185.233.100.1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210309161500.GB763132@xz-x1>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +72,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC
+ here" <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Joelle van Dyne, le mar. 09 mars 2021 10:11:31 -0800, a ecrit:
-> On Tue, Mar 9, 2021 at 6:09 AM Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> > On 3/9/21 1:27 AM, Joelle van Dyne wrote:
-> > > Replace Windows specific macro with a more generic feature detection
-> > > macro. Allows slirp smb feature to be disabled manually as well.
-> > >
-> > > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > > ---
-> > >  configure   | 26 +++++++++++++++++++++++---
-> > >  meson.build |  2 +-
-> > >  net/slirp.c | 16 ++++++++--------
-> > >  3 files changed, 32 insertions(+), 12 deletions(-)
-> >
-> > Hmm v1 had: Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> > did you change something to not include Samuel A-b tag?
-> 
-> Sorry, I must have missed it!
+Hi,
 
-NP :)
+On 2021/3/10 0:15, Peter Xu wrote:
+> On Tue, Mar 09, 2021 at 10:33:04PM +0800, Kunkun Jiang wrote:
+>> Hi,
+>>
+>> On 2021/3/9 5:12, Peter Xu wrote:
+>>> On Mon, Mar 08, 2021 at 06:34:58PM +0800, Kunkun Jiang wrote:
+>>>> Hi,
+>>>>
+>>>> On 2021/3/5 22:22, Peter Xu wrote:
+>>>>> Kunkun,
+>>>>>
+>>>>> On Fri, Mar 05, 2021 at 03:50:34PM +0800, Kunkun Jiang wrote:
+>>>>>> When the host page is a huge page and something is sent in the
+>>>>>> current iteration, the migration_rate_limit() should be executed.
+>>>>>> If not, this function can be omitted to save time.
+>>>>>>
+>>>>>> Rename tmppages to pages_this_iteration to express its meaning
+>>>>>> more clearly.
+>>>>>>
+>>>>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>>>>>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>>>>>> ---
+>>>>>>     migration/ram.c | 21 ++++++++++++++-------
+>>>>>>     1 file changed, 14 insertions(+), 7 deletions(-)
+>>>>>>
+>>>>>> diff --git a/migration/ram.c b/migration/ram.c
+>>>>>> index a168da5cdd..9fc5b2997c 100644
+>>>>>> --- a/migration/ram.c
+>>>>>> +++ b/migration/ram.c
+>>>>>> @@ -1988,7 +1988,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+>>>>>>     static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>>>>>                                   bool last_stage)
+>>>>>>     {
+>>>>>> -    int tmppages, pages = 0;
+>>>>>> +    int pages = 0;
+>>>>>>         size_t pagesize_bits =
+>>>>>>             qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+>>>>>>         unsigned long start_page = pss->page;
+>>>>>> @@ -2000,21 +2000,28 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>>>>>>         }
+>>>>>>         do {
+>>>>>> +        int pages_this_iteration = 0;
+>>>>>> +
+>>>>>>             /* Check if the page is dirty and send it if it is */
+>>>>>>             if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+>>>>>>                 pss->page++;
+>>>>>>                 continue;
+>>>>>>             }
+>>>>>> -        tmppages = ram_save_target_page(rs, pss, last_stage);
+>>>>>> -        if (tmppages < 0) {
+>>>>>> -            return tmppages;
+>>>>>> +        pages_this_iteration = ram_save_target_page(rs, pss, last_stage);
+>>>>>> +        if (pages_this_iteration < 0) {
+>>>>>> +            return pages_this_iteration;
+>>>>>>             }
+>>>>>> -        pages += tmppages;
+>>>>>> +        pages += pages_this_iteration;
+>>>>> To me, both names are okay, it's just that the new name doesn't really provide
+>>>>> a lot more new information, while it's even longer...
+>>>>>
+>>>>> Since you seem to prefer cleaning up tmppages, I'm actually thinking whether
+>>>>> it should be called as "pages" at all since ram_save_target_page() majorly only
+>>>>> returns either 1 if succeeded or <0 if error.  There's only one very corner
+>>>>> case of xbzrle where it can return 0 in save_xbzrle_page():
+>>>>>
+>>>>>        if (encoded_len == 0) {
+>>>>>            trace_save_xbzrle_page_skipping();
+>>>>>            return 0;
+>>>>>        }
+>>>>>
+>>>>> I think it means the page didn't change at all, then I'm also wondering maybe
+>>>>> it can also return 1 showing one page migrated (though actually skipped!) which
+>>>>> should still be fine for the callers, e.g., ram_find_and_save_block() who will
+>>>>> finally check this "pages" value.
+>>>>>
+>>>>> So I think _maybe_ that's a nicer cleanup to change that "return 0" to "return
+>>>>> 1", then another patch to make the return value to be (1) return 0 if page
+>>>>> saved, or (2) return <0 if error.  Then here in ram_save_host_page() tmppages
+>>>>> can be renamed to "ret" or "succeed".
+>>>> Thanks for your advice.
+>>>> change "return 0" to "return 1" would have a slight effect on
+>>>> 'rs->target_page_count += pages'
+>>>> in ram_save_iterate(). This may lead to consider more complex situations.
+>>>> What do you think of
+>>>> this?
+>>> I don't think we should change the meaning of ram_save_host_page()'s return
+>>> value, but only ram_save_target_page(); ram_save_host_page() could return >1
+>>> for huge pages.  Thanks,
+>>>
+>> I am not sure I have got your point. If I change "return 0" to "return 1"
+>> (actually skipped),
+>> the "pages" in the ram_save_host_page() will add 1(original add 0). Then it
+>> will end the
+>> loop in the ram_find_and_save_block.
+> Frankly I even think it's a bug - when return 0 it could mean the xbzrle page
+> is the same as before even if dirty bit set (the page just got written with the
+> same data, that's why dirty bit set but xbzrle calculated with no diff).
+> However it shouldn't mean "done==1" which is a sign of "migration complete"
+> imho..
+Thanks for your explanation, I get it.
+>> And then in the ram_save_iterate(), the
+>> modify may
+>> have a effect on "rs->target_page_count += page".
+>> I haven't done enough research on this part of code. Do you think this
+>> change will have
+>> a big impact?
+> Maybe, but I don't expect it to change anything real.  If to change it we'd
+> definitely better smoke xbzrle a bit.  It's a pure idea I got in mind to
+> cleanup the code, but feel free to ignore it too.
+>
+> For your current series, I think the last patch is the most appealing.  So
+> maybe we can focus on that first.
+>
+> Thanks,
+>
+You are right. The change here may be not worth it.
 
-Samuel
+Thanks,
+
+Kunkun Jiang
+
 
