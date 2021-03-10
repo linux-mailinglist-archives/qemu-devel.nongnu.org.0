@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44C2334651
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:11:38 +0100 (CET)
-Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F18334679
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:19:07 +0100 (CET)
+Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK3J3-0001gn-P1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:11:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49698)
+	id 1lK3QI-0006RB-6G
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:19:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lK36K-0007Py-Py
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:58:29 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:50495
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lK36H-0002lD-MJ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:58:28 -0500
-HMM_SOURCE_IP: 172.18.0.218:60388.1129081652
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.43.3?logid-443ee2a1cd8f4527b16653978d24c618
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 3D235280083;
- Thu, 11 Mar 2021 01:58:14 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by App0025 with ESMTP id 443ee2a1cd8f4527b16653978d24c618 for
- qemu-devel@nongnu.org; Thu Mar 11 01:58:21 2021
-X-Transaction-ID: 443ee2a1cd8f4527b16653978d24c618
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [RFC] tests/migration: introduce multifd into guestperf toolkit
-Date: Thu, 11 Mar 2021 01:57:46 +0800
-Message-Id: <726fc52e2f4ae6914ae43263bc02721a6c0eb6e7.1615398669.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK3P4-0005xT-3h
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:17:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38291)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lK3P1-0007Ki-57
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:17:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615400265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hqSmK//XM4QFEoJy/a+nPOwOPa4nQBwrasYpXY5UBkM=;
+ b=IMKs3B7SiEcm1W3hBH13DKYVf/qBkudgrSiHOykRbuSqP6vOz7UeXS7cc3SNZ2MHxdINO7
+ XcPrHMLWWM1dubymLMb3zBgfEq38amEjJvtTZQSL3VV2Jo63PV5oRh9SmoIzfEoU+VC9DQ
+ H+G9iTEIS8NdkEMBnpnP05zVQlTutjY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-DBrRt8jGM46ew5sw9CKemQ-1; Wed, 10 Mar 2021 13:17:12 -0500
+X-MC-Unique: DBrRt8jGM46ew5sw9CKemQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240B88015BA
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 18:17:11 +0000 (UTC)
+Received: from [10.3.112.36] (ovpn-112-36.phx2.redhat.com [10.3.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C9F250D0E;
+ Wed, 10 Mar 2021 18:17:04 +0000 (UTC)
+Subject: Re: [PATCH] sockets: update SOCKET_ADDRESS_TYPE_FD listen(2) backlog
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210310173004.420190-1-stefanha@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d8543cf8-832d-6fb6-63b8-d978be38d9b9@redhat.com>
+Date: Wed, 10 Mar 2021 12:17:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210310173004.420190-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,143 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman <huangy81@chinatelecom.cn>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman <huangy81@chinatelecom.cn>
+On 3/10/21 11:30 AM, Stefan Hajnoczi wrote:
+> socket_get_fd() fails with the error "socket_get_fd: too many
+> connections" if the given listen backlog value is not 1.
+> 
+> Not all callers set the backlog to 1. For example, commit
+> 582d4210eb2f2ab5baac328fe4b479cd86da1647 ("qemu-nbd: Use SOMAXCONN for
+> socket listen() backlog") uses SOMAXCONN. This will always fail with in
+> socket_get_fd().
+> 
+> This patch calls listen(2) on the fd to update the backlog value. The
+> socket may already be in the listen state. I have tested that this works
+> on Linux 5.10 and macOS Catalina.
+> 
+> As a bonus this allows us to detect when the fd cannot listen. Now we'll
+> be able to catch unbound or connected fds in socket_listen().
+> 
+> Drop the num argument from socket_get_fd() since this function is also
+> called by socket_connect() where a listen backlog value does not make
+> sense.
+> 
+> Fixes: e5b6353cf25c99c3f08bf51e29933352f7140e8f ("socket: Add backlog parameter to socket_listen")
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  util/qemu-sockets.c | 29 ++++++++++++++++++++++-------
+>  1 file changed, 22 insertions(+), 7 deletions(-)
 
-Current guestperf tool does not support multifd migration,
-introducing it is good idea so that we can compare the
-performence of all type of migration.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Hyman <huangy81@chinatelecom.cn>
----
- tests/migration/guestperf/comparison.py | 14 ++++++++++++++
- tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
- tests/migration/guestperf/scenario.py   | 12 ++++++++++--
- tests/migration/guestperf/shell.py      |  8 +++++++-
- 4 files changed, 47 insertions(+), 3 deletions(-)
-
-diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
-index ba2edbe..088e1a7 100644
---- a/tests/migration/guestperf/comparison.py
-+++ b/tests/migration/guestperf/comparison.py
-@@ -121,4 +121,18 @@ def __init__(self, name, scenarios):
-         Scenario("compr-xbzrle-cache-50",
-                  compression_xbzrle=True, compression_xbzrle_cache=50),
-     ]),
-+
-+
-+    # Looking at effect of multifd with
-+    # varying numbers of channels
-+    Comparison("compr-multifd", scenarios = [
-+        Scenario("compr-multifd-channels-2",
-+                 multifd=True, multifd_channels=2),
-+        Scenario("compr-multifd-channels-32",
-+                 multifd=True, multifd_channels=32),
-+        Scenario("compr-multifd-channels-64",
-+                 multifd=True, multifd_channels=64),
-+        Scenario("compr-multifd-channels-128",
-+                 multifd=True, multifd_channels=128),
-+    ]),
- ]
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 83bfc3b..2a7f1ac 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -186,6 +186,22 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                value=(hardware._mem * 1024 * 1024 * 1024 / 100 *
-                                       scenario._compression_xbzrle_cache))
- 
-+        if scenario._multifd:
-+            resp = src.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = src.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+            resp = dst.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = dst.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+
-         resp = src.command("migrate", uri=connect_uri)
- 
-         post_copy = False
-diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
-index 28ef36c..de70d9b 100644
---- a/tests/migration/guestperf/scenario.py
-+++ b/tests/migration/guestperf/scenario.py
-@@ -29,7 +29,8 @@ def __init__(self, name,
-                  post_copy=False, post_copy_iters=5,
-                  auto_converge=False, auto_converge_step=10,
-                  compression_mt=False, compression_mt_threads=1,
--                 compression_xbzrle=False, compression_xbzrle_cache=10):
-+                 compression_xbzrle=False, compression_xbzrle_cache=10,
-+                 multifd=False, multifd_channels=2):
- 
-         self._name = name
- 
-@@ -56,6 +57,9 @@ def __init__(self, name,
-         self._compression_xbzrle = compression_xbzrle
-         self._compression_xbzrle_cache = compression_xbzrle_cache # percentage of guest RAM
- 
-+        self._multifd = multifd
-+        self._multifd_channels = multifd_channels
-+
-     def serialize(self):
-         return {
-             "name": self._name,
-@@ -73,6 +77,8 @@ def serialize(self):
-             "compression_mt_threads": self._compression_mt_threads,
-             "compression_xbzrle": self._compression_xbzrle,
-             "compression_xbzrle_cache": self._compression_xbzrle_cache,
-+            "multifd": self._multifd,
-+            "multifd_channels": self._multifd_channels,
-         }
- 
-     @classmethod
-@@ -92,4 +98,6 @@ def deserialize(cls, data):
-             data["compression_mt"],
-             data["compression_mt_threads"],
-             data["compression_xbzrle"],
--            data["compression_xbzrle_cache"])
-+            data["compression_xbzrle_cache"],
-+            data["multifd"],
-+            data["multifd_channels"])
-diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index f838888..20c8a25 100644
---- a/tests/migration/guestperf/shell.py
-+++ b/tests/migration/guestperf/shell.py
-@@ -122,6 +122,9 @@ def __init__(self):
-         parser.add_argument("--compression-xbzrle", dest="compression_xbzrle", default=False, action="store_true")
-         parser.add_argument("--compression-xbzrle-cache", dest="compression_xbzrle_cache", default=10, type=int)
- 
-+        parser.add_argument("--multifd", dest="multifd", default=False, action="store_true")
-+        parser.add_argument("--multifd-channels", dest="multifd_channels", default=2, type=int)
-+
-     def get_scenario(self, args):
-         return Scenario(name="perfreport",
-                         downtime=args.downtime,
-@@ -142,7 +145,10 @@ def get_scenario(self, args):
-                         compression_mt_threads=args.compression_mt_threads,
- 
-                         compression_xbzrle=args.compression_xbzrle,
--                        compression_xbzrle_cache=args.compression_xbzrle_cache)
-+                        compression_xbzrle_cache=args.compression_xbzrle_cache,
-+
-+                        multifd=args.multifd,
-+                        multifd_channels=args.multifd_channels)
- 
-     def run(self, argv):
-         args = self._parser.parse_args(argv)
 -- 
-1.8.3.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
