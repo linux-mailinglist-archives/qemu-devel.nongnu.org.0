@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A98233370B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:12:33 +0100 (CET)
-Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEEA33370F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:12:47 +0100 (CET)
+Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJtxI-00013k-GS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35456)
+	id 1lJtxW-0001Vn-6U
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuf-0005OR-Ne
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:50 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49990
+ id 1lJtuj-0005Wo-8c
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:53 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49996
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtub-0000Bf-Mz
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:48 -0500
+ id 1lJtuh-0000E8-Db
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:09:53 -0500
 Received: from host86-140-100-136.range86-140.btcentralplus.com
  ([86.140.100.136] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lJtuX-0006rB-7j; Wed, 10 Mar 2021 08:09:45 +0000
+ id 1lJtuc-0006rB-0J; Wed, 10 Mar 2021 08:09:52 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Wed, 10 Mar 2021 08:09:07 +0000
-Message-Id: <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 10 Mar 2021 08:09:08 +0000
+Message-Id: <20210310080908.11861-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
 References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.100.136
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
+Subject: [PATCH 7/7] mac_via: remove VIA1 timer optimisations
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,30 +64,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 60Hz timer is initialised using timer_new_ns() meaning that the timer
-interval should be measured in ns, and therefore its period is a thousand
-times too short.
+The original implementation of the Macintosh VIA devices in commit 6dca62a000
+"hw/m68k: add VIA support" used timer optimisations to reduce high CPU usage on
+the host when booting Linux. These optimisations worked by waiting until VIA1
+port B was accessed before re-arming the timers.
+
+The MacOS toolbox ROM constantly writes to VIA1 port B which calls
+via1_one_second_update() and via1_sixty_hz_update() to calculate the new expiry
+time, causing the timers to constantly reset and never fire. The effect of this
+is that the Ticks (0x16a) global variable holding the number of 60Hz timer ticks
+since reset is never incremented by the interrupt causing time to stand still.
+
+Whilst the code was introduced as a performance optimisation, it is likely that
+the high CPU usage was actually caused by the incorrect 60Hz timer interval
+fixed in the previous patch. Remove the optimisation to keep everything simple
+and enable the MacOS toolbox ROM to start keeping time.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mac_via.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/misc/mac_via.c | 43 ++++---------------------------------------
+ 1 file changed, 4 insertions(+), 39 deletions(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index f994fefa7c..c6e1552a59 100644
+index c6e1552a59..23b11dd522 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
-     MOS6522State *s = MOS6522(v1s);
+@@ -299,30 +299,17 @@ enum {
  
+ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
+ {
+-    MOS6522State *s = MOS6522(v1s);
+-
      /* 60 Hz irq */
--    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
--                          16630 * 16630;
-+    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
-+                          16630000 * 16630000;
+     v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
+                           16630000 * 16630000;
+-
+-    if (s->ier & VIA1_IRQ_60HZ) {
+-        timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
+-    } else {
+-        timer_del(v1s->sixty_hz_timer);
+-    }
++    timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
+ }
  
-     if (s->ier & VIA1_IRQ_60HZ) {
-         timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
+ static void via1_one_second_update(MOS6522Q800VIA1State *v1s)
+ {
+-    MOS6522State *s = MOS6522(v1s);
+-
+     v1s->next_second = (qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1000) /
+                        1000 * 1000;
+-    if (s->ier & VIA1_IRQ_ONE_SECOND) {
+-        timer_mod(v1s->one_second_timer, v1s->next_second);
+-    } else {
+-        timer_del(v1s->one_second_timer);
+-    }
++    timer_mod(v1s->one_second_timer, v1s->next_second);
+ }
+ 
+ static void via1_sixty_hz(void *opaque)
+@@ -893,21 +880,6 @@ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
+     MOS6522State *ms = MOS6522(s);
+-    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+-
+-    /*
+-     * If IRQs are disabled, timers are disabled, but we need to update
+-     * VIA1_IRQ_60HZ and VIA1_IRQ_ONE_SECOND bits in the IFR
+-     */
+-
+-    if (now >= s->next_sixty_hz) {
+-        ms->ifr |= VIA1_IRQ_60HZ;
+-        via1_sixty_hz_update(s);
+-    }
+-    if (now >= s->next_second) {
+-        ms->ifr |= VIA1_IRQ_ONE_SECOND;
+-        via1_one_second_update(s);
+-    }
+ 
+     addr = (addr >> 9) & 0xf;
+     return mos6522_read(ms, addr, size);
+@@ -931,9 +903,6 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
+         v1s->last_b = ms->b;
+         break;
+     }
+-
+-    via1_one_second_update(v1s);
+-    via1_sixty_hz_update(v1s);
+ }
+ 
+ static const MemoryRegionOps mos6522_q800_via1_ops = {
+@@ -978,16 +947,10 @@ static const MemoryRegionOps mos6522_q800_via2_ops = {
+ static void mac_via_reset(DeviceState *dev)
+ {
+     MacVIAState *m = MAC_VIA(dev);
+-    MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
+     ADBBusState *adb_bus = &m->adb_bus;
+ 
+     adb_set_autopoll_enabled(adb_bus, true);
+ 
+-    timer_del(v1s->sixty_hz_timer);
+-    v1s->next_sixty_hz = 0;
+-    timer_del(v1s->one_second_timer);
+-    v1s->next_second = 0;
+-
+     m->cmd = REG_EMPTY;
+     m->alt = REG_EMPTY;
+ }
+@@ -1026,9 +989,11 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+     m->mos6522_via1.one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
+                                                      via1_one_second,
+                                                      &m->mos6522_via1);
++    via1_one_second_update(&m->mos6522_via1);
+     m->mos6522_via1.sixty_hz_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+                                                   via1_sixty_hz,
+                                                   &m->mos6522_via1);
++    via1_sixty_hz_update(&m->mos6522_via1);
+ 
+     qemu_get_timedate(&tm, 0);
+     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
 -- 
 2.20.1
 
