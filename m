@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00267334A0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:48:18 +0100 (CET)
-Received: from localhost ([::1]:52450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E677334A2B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:54:15 +0100 (CET)
+Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK6gj-0005nb-UX
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:48:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33174)
+	id 1lK6mT-0006AS-Vp
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:54:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6dv-00036D-As; Wed, 10 Mar 2021 16:45:23 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:34755)
+ id 1lK6dv-00036p-Tw; Wed, 10 Mar 2021 16:45:24 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:51985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6ds-0004M3-Mj; Wed, 10 Mar 2021 16:45:23 -0500
+ id 1lK6ds-0004MR-Or; Wed, 10 Mar 2021 16:45:23 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MxmJs-1lfjSm08eE-00zG7S; Wed, 10 Mar 2021 22:45:14 +0100
+ id 1MBmI6-1lRl4Q3uxQ-00C9jg; Wed, 10 Mar 2021 22:45:15 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/22] vhost_user_gpu: Drop dead check for g_malloc() failure
-Date: Wed, 10 Mar 2021 22:44:48 +0100
-Message-Id: <20210310214504.1183162-7-laurent@vivier.eu>
+Subject: [PULL 07/22] MAINTAINERS: Fix the location of tools manuals
+Date: Wed, 10 Mar 2021 22:44:49 +0100
+Message-Id: <20210310214504.1183162-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
 References: <20210310214504.1183162-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:joF+7Op07AnlQ2ARWcILEwHspJJyNNJB14om5MzuapInB4JfnvA
- k7FKzLTGb8yzljyN5Ob7TmUS3e3gH5XCqvt9vIxw43NbSHxh19XHi5YI72F2wPSIYW8R69K
- jvV0bGiamwHkINVOfnCaZzjG0cfq90eQ36WsGVFt521XE0EZKvC7xHBin4JdeMTzM8w+/3s
- t3a138Zs4GA2ltF4Pojzg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zjYCjs1DAWA=:sAR3mfqVmCh5R40lAGMHE4
- ImGemp3jPig0XKObzYPh4cjoyKPxtEmyxyJDrIY8G/xTE10or4WR5kKrO7a/8tSeISHFDgn1f
- d7N/G03sBCVs3UkhoKBjgLanMBdDjx3aib7mM89dwpTwsuFajAAMsV1w5r0xjzdUYR5TeSBro
- pvpYYoGINfsnK3ocQbNI5cflqtFOkJQTJwgYnFHOMFmoHhLloWtqWTlv/zdzBu3xnr8myKn+/
- KUlvPMlYRyx/kEZuJJ3j/znqtUCzIu1YPYaEH2qi46p3SYyxsEGaIBk7+yjgM5z5ne6e+1B/M
- nKF7dxVMIM44nHvFhDcKe5VMydEx+QrN/8m8MbY8ncri+YaRaJYfFU4bpAW3eVciTT/QSS3+I
- 8/+62FIS8DEtVBhQi+izbeDZywnzgGNlwEop5wOicevEJiBELm8+fAIS2TOBIeTXGLzsFPn7w
- flaXwg73Sg==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:5S3BHfmH+cZoCWU96j+1BtpSKXtNI6dbT54elfjsdSh/fumgHF3
+ yt/DrDmwXalxwHlsN+LT7j7PrNvqnWuUeyWwWLBKuchrS4rp7+MzXZSdUL/3RI8j6rF2f2m
+ b7L4TZKWICfiQ7GADoYXQ5eqK4i43iC+alKEy82QdgW9VcXVy8WsoSNs71SNDFE0/pF+4Dy
+ +PdOxUZYHQ6z0LadqtuAg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gibBpayhKSM=:W+n62gAkJtQlMig62Ilgmy
+ VGPow3u0OdPtL0Xrg6OWjgEw1vi/5rBr6b67bq0anH53OcLRtoFiQsA90NhlLwBCh76AefQhP
+ APwqez9WT2zf6hS1jzqVxinSN4INcF/jUg/t5gHqIou058Wb7sEgOYvlGhaBG8KYiORlangbA
+ 9yRQkUfCojcXRln3jlXV3jzdsxsGuBJ/4Bcs67qcwJNgujKdd8YYH+lgmS+Ou8yWbnaNQ/2jz
+ n3VIF53JD+roiWKRW4lkRIWPecnSEgjCnLSg0hlKwQiRtbeWOwYZHWhHpvUv8oNtiLtTfDqWN
+ uK/BzXjKBFT2EfHLEfBpnEyZg4NdhBjg4mfeeJKX+fQRDWt3PAq+4KxUNIHtP+Wa2pkH6StTg
+ R1MvXFgEZl8mqF1RhDQxolaBHLDhuJpWVfMXDEqrEfNculNyefleAjhLscPM/QD/j3pAbuV3E
+ tzF09s4Klw==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,36 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20210126124240.2081959-3-armbru@redhat.com>
+The qemu-img.rst, qemu-nbd.rst, virtfs-proxy-helper.rst, qemu-trace-stap.rst,
+and virtiofsd.rst manuals were moved to docs/tools, so this update MAINTAINERS
+accordingly.
+
+Fixes: a08b4a9fe6c ("docs: Move tools documentation to tools manual")
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210204135425.1380280-1-wainersm@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/vhost-user-gpu.c | 1 -
- 1 file changed, 1 deletion(-)
+ MAINTAINERS | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index a01f9315e199..6cdaa1c73b9b 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -325,7 +325,6 @@ vhost_user_gpu_chr_read(void *opaque)
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f22d83c17823..ad28f37bc5ff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1862,7 +1862,7 @@ S: Odd Fixes
+ F: hw/9pfs/
+ X: hw/9pfs/xen-9p*
+ F: fsdev/
+-F: docs/interop/virtfs-proxy-helper.rst
++F: docs/tools/virtfs-proxy-helper.rst
+ F: tests/qtest/virtio-9p-test.c
+ T: git https://gitlab.com/gkurz/qemu.git 9p-next
+ T: git https://github.com/cschoenebeck/qemu.git 9p.next
+@@ -1893,7 +1893,7 @@ S: Supported
+ F: tools/virtiofsd/*
+ F: hw/virtio/vhost-user-fs*
+ F: include/hw/virtio/vhost-user-fs.h
+-F: docs/interop/virtiofsd.rst
++F: docs/tools/virtiofsd.rst
  
-     msg = g_malloc(VHOST_USER_GPU_HDR_SIZE + size);
--    g_return_if_fail(msg != NULL);
+ virtio-input
+ M: Gerd Hoffmann <kraxel@redhat.com>
+@@ -2200,7 +2200,7 @@ F: block/
+ F: hw/block/
+ F: include/block/
+ F: qemu-img*
+-F: docs/interop/qemu-img.rst
++F: docs/tools/qemu-img.rst
+ F: qemu-io*
+ F: tests/qemu-iotests/
+ F: util/qemu-progress.c
+@@ -2656,7 +2656,7 @@ F: qapi/trace.json
+ F: scripts/tracetool.py
+ F: scripts/tracetool/
+ F: scripts/qemu-trace-stap*
+-F: docs/interop/qemu-trace-stap.rst
++F: docs/tools/qemu-trace-stap.rst
+ F: docs/devel/tracing.txt
+ T: git https://github.com/stefanha/qemu.git tracing
  
-     r = qemu_chr_fe_read_all(&g->vhost_chr,
-                              (uint8_t *)&msg->payload, size);
+@@ -3047,7 +3047,7 @@ F: include/block/nbd*
+ F: qemu-nbd.*
+ F: blockdev-nbd.c
+ F: docs/interop/nbd.txt
+-F: docs/interop/qemu-nbd.rst
++F: docs/tools/qemu-nbd.rst
+ T: git https://repo.or.cz/qemu/ericb.git nbd
+ 
+ NFS
 -- 
 2.29.2
 
