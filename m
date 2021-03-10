@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56F5333224
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 01:02:33 +0100 (CET)
-Received: from localhost ([::1]:40836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25E2333227
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 01:04:04 +0100 (CET)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJmJ6-0001hE-6H
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 19:02:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
+	id 1lJmKZ-0002hY-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 19:04:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJmEt-0006z2-4O; Tue, 09 Mar 2021 18:58:13 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33563)
+ id 1lJmJ8-00024H-MW; Tue, 09 Mar 2021 19:02:34 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJmEr-00041v-NN; Tue, 09 Mar 2021 18:58:10 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id x9so24110770edd.0;
- Tue, 09 Mar 2021 15:58:08 -0800 (PST)
+ id 1lJmJ6-00061U-5T; Tue, 09 Mar 2021 19:02:33 -0500
+Received: by mail-ej1-x636.google.com with SMTP id e19so33215554ejt.3;
+ Tue, 09 Mar 2021 16:02:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BAeoxk8WtwXA84724n/YU1LojmuwurWf8oFjYdUc+rc=;
- b=IUczFDdIOpSMqDEC7u2uwAipEhjFUr3ERl6A5VlcIbfOQcDjpPGZkEmP/2mq72X04Z
- bQUG+ngv3XxscQLaClnEDbeVxeYSBRMyV6jNCtNtrEGlVQotj7hB0smWmRMl+FdEUw4b
- V6US1TaeofLvK+ILPXSw95KBs+HQIyergkDYBpKVMzp2Ti091TaN9FmzBwb9HjFDNXYk
- I1VBjl4NiQi4JF6nIRtqO086ejv+0Da6/MNsYv8D1UkKzjX3efC7dyRAggtiIm5KQ+R1
- R6W8KhjPjipMx7POCAeTqVPHmQfZW7C7Ec1QcouUec7VodM0WvckevojXozNulJl8BrP
- 14LA==
+ bh=Dmrmk3YY7MxD8gdEMf3O+iiiMp9WkFXxJeet/SAEDYI=;
+ b=CeheNKZn186toVtpz6RXj6FALqcKJ6UFMenNk0huoGqKQ9WujBzx/MNcq9bBXwvwtL
+ BzZWoMb/HELSW8JxO+9eT27r/cX/kfycKWeYeUtPMCse1SNgCRU/OfF/4LZV7EHdvM80
+ wNsI4C375LQJbuLjWPJFyR+pa6o65Yfss3eeVDHzMM9aiLkshO5K89/rU6oYZlIEgTGs
+ Oi03azwcWLpamoxsfPL6wO//HCRsIgswtovJp3REKQMcf3BcuBj3N24Zv0TpUdRxVvbM
+ 3yR1RnP7xC55/t3/hOZ9yf2RDoQn9YfrwJYxqQGmGS870N5tRBYs14vzlbsZqN5WP4Wm
+ MsLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BAeoxk8WtwXA84724n/YU1LojmuwurWf8oFjYdUc+rc=;
- b=Eyw3Z7BH9AtFMdYpHj6BYIrtwsfIWf2KFyN+zq55xla3JlT0TTYbZoiXHtO78J9K/n
- zuMKgW1nffO4EqXF3gXv1aGGcVik2BKVHKs2/DT8g6HhGC8uJLVsZHME8aenaevDPEFT
- v9VZWe9PIy+/jecfRaDDzX4Rtf7+rC5X3VfKukSpX7ngfiQEPctAAMhfiWcRJairEkYV
- Vg1JSyOGpA70Iil90BBvRWc/k8aYlHo2pkIZbCh475NttJFebhwFGqVpP+O88vUpwS75
- weZ1CAuVbkgbLPYfXrrXH/tP9zMbu7vM+pZ5KjJy2+W0D0mYBjuwYItOzfgitPSz5Tqv
- SCuw==
-X-Gm-Message-State: AOAM533gKoD7cXHK5Fkj26krpkVEt03EHnk9UeEVzHvRPWS475mIyUTs
- eerTDt+7CvDgfgWzTZqOWm4=
-X-Google-Smtp-Source: ABdhPJwXOeUxyeNl5+kDZSud6DffJ7AiHRWE9XUaZGL3ZnugU+Ba8cs/YAhQSXzp5nMd/fMSFXbDuA==
-X-Received: by 2002:a05:6402:1103:: with SMTP id
- u3mr175923edv.205.1615334287708; 
- Tue, 09 Mar 2021 15:58:07 -0800 (PST)
+ bh=Dmrmk3YY7MxD8gdEMf3O+iiiMp9WkFXxJeet/SAEDYI=;
+ b=U699tSYcmQcY7COTEApkFGAcYL7jsC9aWINT2sf/POY/sh8ytF34tm3cfSBckFtZx2
+ Q2oHl7QeNHuiLhXO1rRaMvR8B9neTtDGaAmY+DMK7w4WKNMzFMMxH4PZFfWmLLUszpFM
+ iwTAUjBKVy1ZECgRy8ULnrVfjxsJCJsxTY2c4EQ5AqbBKf4isCSknYc3pmchwxXZnEQg
+ iGHO8CHQnEzwmC287XEI/LSburiIALi42vrdCw995kkrSBEup3lK1ImEFginEgRYcy0h
+ BPu24XZZnxdUAKLCaIXPPndfkBzini2XkfPcVc2ewKQ/E0w17IXgWnYDvlqmne8dMD3F
+ NxHQ==
+X-Gm-Message-State: AOAM53099cLpyc5BGw9Oe7DmwCXGliukm/dTj9QC8EmXRaOeu9aGxjXH
+ mkpK3VS4n+nHF4hQq2KsIz0=
+X-Google-Smtp-Source: ABdhPJxtw7fH+SZSvuiUHIsvO+O9luholD8VEjXllhrlSfl8eL4vXESrxTTxPPBRx888dohOOpQEPQ==
+X-Received: by 2002:a17:906:4f02:: with SMTP id
+ t2mr586996eju.121.1615334549953; 
+ Tue, 09 Mar 2021 16:02:29 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u16sm10094192edq.4.2021.03.09.15.58.06
+ by smtp.gmail.com with ESMTPSA id t17sm9901225edr.36.2021.03.09.16.02.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 15:58:07 -0800 (PST)
-Subject: Re: [PATCH v6 2/8] vt82c686: QOM-ify superio related functionality
+ Tue, 09 Mar 2021 16:02:29 -0800 (PST)
+Subject: Re: [PATCH v6 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and base
+ vt82c686b_isa on it
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1615321729.git.balaton@eik.bme.hu>
- <80bbf52721592742e7ca8ac5d4eea3ddd0c125b6.1615321729.git.balaton@eik.bme.hu>
+ <ffd30415332be2d23f72072dc256cc6eee170f3d.1615321729.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4657f73d-570a-77df-6272-704a1cc128cd@amsat.org>
-Date: Wed, 10 Mar 2021 00:58:05 +0100
+Message-ID: <18602f6c-a1d1-bf02-26cf-c3f1cba52294@amsat.org>
+Date: Wed, 10 Mar 2021 01:02:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <80bbf52721592742e7ca8ac5d4eea3ddd0c125b6.1615321729.git.balaton@eik.bme.hu>
+In-Reply-To: <ffd30415332be2d23f72072dc256cc6eee170f3d.1615321729.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,38 +97,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/21 9:28 PM, BALATON Zoltan wrote:
-> Collect superio functionality and its controlling config registers
-> handling in an abstract VIA_SUPERIO class that is a subclass of
-> ISA_SUPERIO and put vt82c686b specific parts in a subclass of this
-> abstract class.
+> To allow reusing ISA bridge emulation for vt8231_isa move the device
+> state of vt82c686b_isa emulation in an abstract via_isa class. This
+> change breaks migration back compatibility but this is not an issue
+> for Fuloong2E machine which is not versioned or migration supported.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/vt82c686.c         | 240 ++++++++++++++++++++++++--------------
->  include/hw/isa/vt82c686.h |   1 -
->  2 files changed, 150 insertions(+), 91 deletions(-)
+>  hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
+>  include/hw/pci/pci_ids.h |  2 +-
+>  2 files changed, 40 insertions(+), 32 deletions(-)
 
->  static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
->                                      int offs)
-> @@ -270,10 +279,76 @@ static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
->      return mr;
->  }
->  
-> -static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-> -                              unsigned size)
-> +static void via_superio_realize(DeviceState *d, Error **errp)
-> +{
-> +    ViaSuperIOState *s = VIA_SUPERIO(d);
-> +    ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
-> +    int i;
-> +
-> +    assert(s->io_ops);
-> +    ic->parent_realize(d, errp);
-> +    if (*errp) {
+This should be OK if this other series is accepted:
+"hw/usb: Extract Extract VT82C686 UHCI PCI function into new unit"
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg03083.html
 
-Unfortunately this doesn't work because errp can be NULL...
-This is described in "qapi/error.h". You have to use a local_err.
-
-> +        return;
-> +    }
+I'll come back to this patch after the former series is reviewed.
 
