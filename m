@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E70333455
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:20:54 +0100 (CET)
-Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC8A33345F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:28:05 +0100 (CET)
+Received: from localhost ([::1]:33450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqL7-0002hb-8C
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
+	id 1lJqS4-0002MW-3r
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:28:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAw-0003YI-Q9; Tue, 09 Mar 2021 23:10:22 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38577 helo=ozlabs.org)
+ id 1lJqBH-0004BY-QL; Tue, 09 Mar 2021 23:10:43 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33263 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAv-0004E4-AW; Tue, 09 Mar 2021 23:10:22 -0500
+ id 1lJqBG-0004F1-2O; Tue, 09 Mar 2021 23:10:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWf0tGWz9sXG; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
+ id 4DwJWf1X15z9sXN; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349406;
- bh=4oySvY0VN7t1ZKMssZ+OTi1q2plRJDlm+3pnVW+mj8I=;
+ bh=3AWS7FrYmGGQRJ+786Ab9WyJLHqat13pZhoq+1nqIjQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pnY38UJYMEnwJUS5xbV1ZdgF1mKkJrOPhCcn+KoaldEV+RUjSGynsE9y2X3yrRRfr
- 60qQC5F6vMZ8aVWwhdEnYlgr7NofyPzEIyuMDUKmiQCdSIHl+YTno4+kXR0gnFUBQ8
- 0OE5K+2T082LSjhUHgviCeaBU21WOFW2UpKt+6QA=
+ b=laoFRDlwyy8NCL7QCUeCiPYefEcKhnT8ucoJMtaTkAzQ7H5IErai5H7DQznLKRhrP
+ 08O0+fhO+AxazAlapz+2lIna4FWZXJMwFbNrK3Q2JP1cz7j0iFrWmCyy/p6gqyodUK
+ 9C2uj8IUZJmfIA6FAfhIeDnMlCPEN75nVQ9NH++U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 15/20] spapr.c: add 'unplug already in progress' message for
- PHB unplug
-Date: Wed, 10 Mar 2021 15:09:57 +1100
-Message-Id: <20210310041002.333813-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/20] spapr_pci.c: add 'unplug already in progress' message
+ for PCI unplug
+Date: Wed, 10 Mar 2021 15:09:58 +1100
+Message-Id: <20210310041002.333813-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
@@ -65,32 +65,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Both CPU hotunplug and PC_DIMM unplug reports an user warning,
-mentioning that the hotunplug is in progress, if consecutive
-'device_del' are issued in quick succession.
-
-Do the same for PHBs in spapr_phb_unplug_request().
+Hotunplug for all other devices are warning the user when the hotunplug
+is already in progress. Do the same for PCI devices in
+spapr_pci_unplug_request().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210226163301.419727-4-danielhb413@gmail.com>
+Message-Id: <20210226163301.419727-5-danielhb413@gmail.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 4 ++++
+ hw/ppc/spapr_pci.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6eaddb12cb..aca3ef9d58 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4034,6 +4034,10 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
-     if (!spapr_drc_unplug_requested(drc)) {
-         spapr_drc_unplug_request(drc);
-         spapr_hotplug_req_remove_by_index(drc);
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index b00e9609ae..feba18cb12 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1743,6 +1743,10 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
+                 }
+             }
+         }
 +    } else {
 +        error_setg(errp,
-+                   "PCI Host Bridge unplug already in progress for device %s",
-+                   dev->id);
++                   "PCI device unplug already in progress for device %s",
++                   drc->dev->id);
      }
  }
  
