@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6022233403C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:22:27 +0100 (CET)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CD9334044
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 15:24:34 +0100 (CET)
+Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJzjG-0001z9-Ez
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:22:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1lJzlJ-0003B6-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 09:24:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJzh3-0008T6-Fa
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:20:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27249)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJzjo-0002VV-JD
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:23:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lJzh0-0002YS-Gf
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:20:08 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJzjm-0004OZ-4F
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 09:23:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615386005;
+ s=mimecast20190719; t=1615386177;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l7LmQBfCB56xYWGzxOi/G9Q22x0btSnVpD6FOjxKX/4=;
- b=SYyAHJ9E10Q6bc7uwS9ILkwODNgYklXcOJQu1BkdhHNqb5s+1aNz7QpFRvQFdShk+jxTvz
- 8Jh+qbeNY7tLBVOXuG1MtfB3z9Lj9D8jBWrYn1JbB5FfrbnXsxqPku8veGLW3yzE5kPYC+
- gijeew1jTU9Mozoj8CeaHmtwBjZ1Qag=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-QU68CYCuN9S9w-MQasnDGA-1; Wed, 10 Mar 2021 09:20:03 -0500
-X-MC-Unique: QU68CYCuN9S9w-MQasnDGA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0EF8804331;
- Wed, 10 Mar 2021 14:20:01 +0000 (UTC)
-Received: from [10.36.112.254] (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B15A101E24A;
- Wed, 10 Mar 2021 14:20:00 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] accel: kvm: Fix kvm_type invocation
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20210310135218.255205-1-drjones@redhat.com>
- <20210310135218.255205-2-drjones@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <f35899be-38f7-8648-fe65-d0555a4001de@redhat.com>
-Date: Wed, 10 Mar 2021 15:19:58 +0100
+ bh=rN9yx1KsYEECkKH5LZNy9OuWKp5o+zFlpkEIvakNdVU=;
+ b=KCD9Av2m0CzGAF5rfyJYff8EtrJl5CtQIa886a2lKiyQ+Mwdjit4bUHs+R+9LikYpnQJbT
+ ZwAgQJd9scQ6HOA/QYpbPIaAD8+ADErbwAG10KwG21QcLLPZW65MOzU6A2DuiI8o9zVLlT
+ k98Ypq2pMBDXokPlUQVWrhhmCVVwG9E=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-kCAdt6lSOvOwunfRByfw1g-1; Wed, 10 Mar 2021 09:22:55 -0500
+X-MC-Unique: kCAdt6lSOvOwunfRByfw1g-1
+Received: by mail-ej1-f70.google.com with SMTP id sa29so7285091ejb.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 06:22:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rN9yx1KsYEECkKH5LZNy9OuWKp5o+zFlpkEIvakNdVU=;
+ b=Ap8xO9Jjf/7/7x6xIKp3PtfRe3HXewOCpRw/AuuIIm7no2VLc8W8opL7MYsRsHN6SN
+ gL3vIzOwhU8/4WkcmS7nLWnT7VkLwC0DopaGC0CwgzzZj8cW23F5J/r9uIpGpPe3VKmQ
+ tE3raZHbRb+tOBI38f27DXns4Sx8+VFL9zNCK8PhGDGGRgCRme3X2nvE/qHjf6quxOLQ
+ aCraOOgKKCbfzm78Srzmi8K9IpwYezn1HcV00rDw4xEt9/cebAOp9LCl7VDIDqTapuzX
+ b4n801IRmMo2AD58Q8+QrUMPr2tJFdabgIdCr0SiW7t7hPuOfxFDkhGpDS5myibTAjCo
+ gBVg==
+X-Gm-Message-State: AOAM533a0qaeON2uDTjuS+gFvXiadWvq+WRPzSipbgHouQ9JXs1uZcH7
+ jHhbaDTU2KO1BLeMme9hoQ7hC15bVMCwOJBeOQ8XjO8odZxBWeJFm9dZP/hst8jKpLmG528LL8w
+ f0UbJcDTZJwpGl9U=
+X-Received: by 2002:a17:906:f44:: with SMTP id
+ h4mr3882042ejj.204.1615386174580; 
+ Wed, 10 Mar 2021 06:22:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZunoFL1kME5WahohY7ThbwPrP6NCdFhIhAzPScz0jUseQBp6Xt1I0+BdcexjNJdD0mKY8QQ==
+X-Received: by 2002:a17:906:f44:: with SMTP id
+ h4mr3882032ejj.204.1615386174453; 
+ Wed, 10 Mar 2021 06:22:54 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u59sm11073488edc.73.2021.03.10.06.22.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Mar 2021 06:22:54 -0800 (PST)
+Subject: Re: [PATCH] block: Introduce zero-co:// and zero-aio://
+To: fam@euphon.net, qemu-devel@nongnu.org
+References: <20210310141752.5113-1-fam@euphon.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d16dce2d-f844-5e58-6ae1-bbf366e74b60@redhat.com>
+Date: Wed, 10 Mar 2021 15:22:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210310135218.255205-2-drjones@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210310141752.5113-1-fam@euphon.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,58 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com, maz@kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
-
-On 3/10/21 2:52 PM, Andrew Jones wrote:
-> Prior to commit f2ce39b4f067 a MachineClass kvm_type method
-> only needed to be registered to ensure it would be executed.
-> With commit f2ce39b4f067 a kvm-type machine property must also
-> be specified. hw/arm/virt relies on the kvm_type method to pass
-> its selected IPA limit to KVM, but this is not exposed as a
-> machine property. Restore the previous functionality of invoking
-> kvm_type when it's present.
-
-Ouch, good catch for this regression
+On 3/10/21 3:17 PM, fam@euphon.net wrote:
+> From: Fam Zheng <famzheng@amazon.com>
 > 
-> Fixes: f2ce39b4f067 ("vl: make qemu_get_machine_opts static")
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> null-co:// has a read-zeroes=off default, when used to in security
+> analysis, this can cause false positives because the driver doesn't
+> write to the read buffer.
+> 
+> null-co:// has the highest possible performance as a block driver, so
+> let's keep it that way. This patch introduces zero-co:// and
+> zero-aio://, largely similar with null-*://, but have read-zeroes=on by
+> default, so it's more suitable in cases than null-co://.
+
+Thanks!
+
+> 
+> Signed-off-by: Fam Zheng <fam@euphon.net>
 > ---
->  accel/kvm/kvm-all.c | 2 ++
->  include/hw/boards.h | 1 +
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index f88a52393fe0..37b0a1861e72 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2068,6 +2068,8 @@ static int kvm_init(MachineState *ms)
->                                                              "kvm-type",
->                                                              &error_abort);
->          type = mc->kvm_type(ms, kvm_type);
-> +    } else if (mc->kvm_type) {
-> +        type = mc->kvm_type(ms, NULL);
->      }
->  
->      do {
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index a46dfe5d1a6a..327949967609 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -128,6 +128,7 @@ typedef struct {
->   * @kvm_type:
->   *    Return the type of KVM corresponding to the kvm-type string option or
->   *    computed based on other criteria such as the host kernel capabilities.
-> + *    kvm-type may be NULL if it is not needed.
->   * @numa_mem_supported:
->   *    true if '--numa node.mem' option is supported and false otherwise
->   * @smp_parse:
-> 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>  block/null.c | 91 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 91 insertions(+)
 
-Eric
+> +static int zero_file_open(BlockDriverState *bs, QDict *options, int flags,
+> +                          Error **errp)
+> +{
+> +    QemuOpts *opts;
+> +    BDRVNullState *s = bs->opaque;
+> +    int ret = 0;
+> +
+> +    opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+> +    qemu_opts_absorb_qdict(opts, options, &error_abort);
+> +    s->length =
+> +        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 1 << 30);
+
+Please do not use this magic default value, let's always explicit the
+size.
+
+    s->length = qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 0);
+    if (s->length < 0) {
+        error_setg(errp, "%s is invalid", BLOCK_OPT_SIZE);
+        ret = -EINVAL;
+    }
+
+> +    s->latency_ns =
+> +        qemu_opt_get_number(opts, NULL_OPT_LATENCY, 0);
+> +    if (s->latency_ns < 0) {
+> +        error_setg(errp, "latency-ns is invalid");
+> +        ret = -EINVAL;
+> +    }
+> +    s->read_zeroes = true;
+> +    qemu_opts_del(opts);
+> +    bs->supported_write_flags = BDRV_REQ_FUA;
+> +    return ret;
+> +}
+
+Otherwise LGTM :)
 
 
