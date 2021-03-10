@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CA73335DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 07:36:34 +0100 (CET)
-Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782AE3335D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 07:32:02 +0100 (CET)
+Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJsSP-0004PV-QW
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 01:36:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44890)
+	id 1lJsO1-0002Q3-IO
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 01:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJsRa-0003uB-Ba
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 01:35:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lJsRX-0002E3-MN
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 01:35:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lJsRU-0000dc-Nh
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 06:35:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B12E62E8071
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 06:35:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJsMi-0001ac-Au
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 01:30:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lJsMg-0007do-2G
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 01:30:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615357837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bw2bmU0rWIucuNsRVX45Zv78XBiPkhLe8Y/J+DUlyO0=;
+ b=e7BB17wh8mfyaYIBxVi9ivnKptm4LGZW//88dfF7Y20Pl5K9M3jAvTck3pP1WsbC+Fj+kj
+ 8BQRvaKZ+BJJLPaVFcefnMZdCiDSXOU90W6t3U7sv2A5QbmZUioqhgJOQ+6nrl2PDXu4r9
+ Rr/mLSJZk6OKb3/g/bpbcJL5krBZNSI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-o8g-ojUvOMOAXJOwBkOZeQ-1; Wed, 10 Mar 2021 01:30:34 -0500
+X-MC-Unique: o8g-ojUvOMOAXJOwBkOZeQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71F71192CC41;
+ Wed, 10 Mar 2021 06:30:33 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-19.ams2.redhat.com [10.36.112.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC13860C0F;
+ Wed, 10 Mar 2021 06:30:24 +0000 (UTC)
+Subject: Re: [PATCH] fuzz: don't leave orphan llvm-symbolizers around
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210310061236.947182-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a5f16baa-3cb3-93be-c0f8-9469fc37a7b2@redhat.com>
+Date: Wed, 10 Mar 2021 07:30:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Mar 2021 06:24:49 -0000
-From: Alexander Bulekov <1918321@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <161531961935.11554.15835639895023157218.malonedeb@chaenomeles.canonical.com>
-Message-Id: <20210310062046.isnnnwzjj7dbhjas@mozz.bu.edu>
-Subject: Re: [Bug 1918321] [NEW] [OSS-Fuzz] Issue 31875 megasas: Null-ptr
- dereference in megasas_finish_dcmd
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7100fef41f9a5d5fd53de99e6c59312f81a744cf"; Instance="production"
-X-Launchpad-Hash: 096eda7d60d45942fc24ab5a6857fd83f4f2f736
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210310061236.947182-1-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,394 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918321 <1918321@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, f4bug@amsat.org,
+ darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I posted a reproducer for a different bug. Here are the correct
-reproducer and stacktrace:
+On 10/03/2021 07.12, Alexander Bulekov wrote:
+> I noticed that with a sufficiently small timeout, the fuzzer fork-server
+> sometimes locks up. On closer inspection, the issue appeared to be
+> caused by entering our SIGALRM handler, while libfuzzer is in it's crash
+> handlers. Because libfuzzer relies on pipe communication with an
+> external child process to print out stack-traces, we shouldn't exit
+> early, and leave an orphan child. Check for children in the SIGALRM
+> handler to avoid this issue.
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   tests/qtest/fuzz/generic_fuzz.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+> 
+> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> index ee8c17a04c..387ae2020a 100644
+> --- a/tests/qtest/fuzz/generic_fuzz.c
+> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> @@ -583,6 +583,21 @@ static void handle_timeout(int sig)
+>           fprintf(stderr, "[Timeout]\n");
+>           fflush(stderr);
+>       }
+> +
+> +    /*
+> +     * If there is a crash, libfuzzer/ASAN forks a child to run an
+> +     * "llvm-symbolizer" process for printing out a pretty stacktrace. It
+> +     * communicates with this child using a pipe.  If we timeout+Exit, while
+> +     * libfuzzer is still communicating with the llvm-symbolizer child, we will
+> +     * be left with an orphan llvm-symbolizer process. Sometimes, this appears
+> +     * to lead to a deadlock in the forkserver. Use waitpid to check if there
+> +     * are any waitable children. If so, exit out of the signal-handler, and
+> +     * let libfuzzer finish communicating with the child, and exit, on its own.
+> +     */
+> +    if (waitpid(-1, NULL, WNOHANG) == 0) {
+> +        return;
+> +    }
+> +
+>       _Exit(0);
+>   }
 
-/*
- * Autogenerated Fuzzer Test Case
- */
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-#include "qemu/osdep.h"
-
-#include "libqos/libqtest.h"
-
-/*
- * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest \
- * -m 512M -machine q35 -nodefaults -device megasas -device \
- * scsi-cd,drive=3Dnull0 -blockdev \
- * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
- * outl 0xcf8 0x80000801
- * outl 0xcfc 0x05000000
- * outl 0xcf8 0x80000816
- * outl 0xcfc 0x19000000
- * write 0x1e1ed300 0x1 0x01
- * write 0x1e1ed307 0x1 0x01
- * write 0x1e1ed316 0x1 0x01
- * write 0x1e1ed328 0x1 0x01
- * write 0x1e1ed32f 0x1 0x01
- * outl 0x1940 0x1e1ed300
- * outl 0x1940 0x1e1ed300
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * clock_step
- * outb 0x1940 0x0
- * write 0x0 0x1 0x01
- * write 0x7 0x1 0x01
- * write 0x16 0x1 0x01
- * write 0x28 0x1 0x01
- * write 0x2f 0x1 0x01
- * outb 0x1940 0x0
- * write 0x0 0x1 0x05
- * write 0x7 0x1 0x01
- * write 0x19 0x1 0x02
- * write 0x1a 0x1 0x01
- * write 0x1b 0x1 0x08
- * write 0x2f 0x1 0x01
- * outb 0x1940 0x0
- * EOF
- */
-static void
-null_deref_megasas_finish_dcmd(void)
-{
-    QTestState *s =3D qtest_init(
-        "-display none , -m 512M -machine q35 -nodefaults -device "
-        "megasas -device scsi-cd,drive=3Dnull0 -blockdev "
-        "driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 ");
-    qtest_outl(s, 0xcf8, 0x80000801);
-    qtest_outl(s, 0xcfc, 0x05000000);
-    qtest_outl(s, 0xcf8, 0x80000816);
-    qtest_outl(s, 0xcfc, 0x19000000);
-    qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
-    qtest_outl(s, 0x1940, 0x1e1ed300);
-    qtest_outl(s, 0x1940, 0x1e1ed300);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_clock_step_next(s);
-    qtest_outb(s, 0x1940, 0x0);
-    qtest_bufwrite(s, 0x0, "\x01", 0x1);
-    qtest_bufwrite(s, 0x7, "\x01", 0x1);
-    qtest_bufwrite(s, 0x16, "\x01", 0x1);
-    qtest_bufwrite(s, 0x28, "\x01", 0x1);
-    qtest_bufwrite(s, 0x2f, "\x01", 0x1);
-    qtest_outb(s, 0x1940, 0x0);
-    qtest_bufwrite(s, 0x0, "\x05", 0x1);
-    qtest_bufwrite(s, 0x7, "\x01", 0x1);
-    qtest_bufwrite(s, 0x19, "\x02", 0x1);
-    qtest_bufwrite(s, 0x1a, "\x01", 0x1);
-    qtest_bufwrite(s, 0x1b, "\x08", 0x1);
-    qtest_bufwrite(s, 0x2f, "\x01", 0x1);
-    qtest_outb(s, 0x1940, 0x0);
-    qtest_quit(s);
-}
-int main(int argc, char **argv)
-{
-    const char *arch =3D qtest_get_arch();
-
-    g_test_init(&argc, &argv, NULL);
-
-    if (strcmp(arch, "i386") =3D=3D 0) {
-        qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
-                       null_deref_megasas_finish_dcmd);
-    }
-
-    return g_test_run();
-}
-
-
-=3D=3D=3D Stack Trace =3D=3D=3D
-../hw/scsi/megasas.c:726:25: runtime error: member access within null point=
-er of type 'union mfi_frame'
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasas.=
-c:726:25 in
-../hw/scsi/megasas.c:726:25: runtime error: member access within null point=
-er of type 'struct mfi_dcmd_frame'
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasas.=
-c:726:25 in
-AddressSanitizer:DEADLYSIGNAL
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=3D=3D966650=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
-00002c (pc 0x55abf56c7955 bp 0x7fff888f64d0 sp 0x7fff888f6400 T0)
-=3D=3D966650=3D=3DThe signal is caused by a WRITE memory access.
-=3D=3D966650=3D=3DHint: address points to the zero page.
-#0 0x55abf56c7955 in megasas_finish_dcmd build/../hw/scsi/megasas.c
-#1 0x55abf56b97c1 in megasas_handle_dcmd build/../hw/scsi/megasas.c:1601:9
-#2 0x55abf56b97c1 in megasas_handle_frame build/../hw/scsi/megasas.c:1965:24
-#3 0x55abf56b0e54 in megasas_mmio_write build/../hw/scsi/megasas.c:2129:9
-#4 0x55abf6a867f6 in memory_region_write_accessor build/../softmmu/memory.c=
-:491:5
-#5 0x55abf6a86263 in access_with_adjusted_size build/../softmmu/memory.c:55=
-2:18
-#6 0x55abf6a85ac0 in memory_region_dispatch_write build/../softmmu/memory.c
-#7 0x55abf6696d86 in flatview_write_continue build/../softmmu/physmem.c:277=
-6:23
-#8 0x55abf668c74b in flatview_write build/../softmmu/physmem.c:2816:14
-#9 0x55abf668c74b in address_space_write build/../softmmu/physmem.c:2908:18
-#10 0x55abf67e6571 in cpu_outb build/../softmmu/ioport.c:60:5
-#11 0x55abf6b68ec9 in qtest_process_command build/../softmmu/qtest.c:479:13
-#12 0x55abf6b66d6f in qtest_process_inbuf build/../softmmu/qtest.c:797:9
-#13 0x55abf6d4c65e in fd_chr_read build/../chardev/char-fd.c:68:9
-#14 0x7f976e846aae in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/li=
-bglib-2.0.so.0+0x51aae)
-#15 0x55abf76eba3c in glib_pollfds_poll build/../util/main-loop.c:232:9
-#16 0x55abf76eba3c in os_host_main_loop_wait build/../util/main-loop.c:255:5
-#17 0x55abf76eba3c in main_loop_wait build/../util/main-loop.c:531:11
-#18 0x55abf69398a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
-#19 0x55abf54071e5 in main build/../softmmu/main.c:50:5
-#20 0x7f976d674d09 in __libc_start_main csu/../csu/libc-start.c:308:16
-#21 0x55abf535abb9 in _start (system-i386+0x2b5fbb9)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918321
-
-Title:
-  [OSS-Fuzz] Issue 31875 megasas: Null-ptr dereference in
-  megasas_finish_dcmd
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  =3D=3D QTest Reproducer =3D=3D
-  /* =
-
-   * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, =
--m \
-   * 512M -machine q35 -nodefaults -device megasas -device \
-   * scsi-cd,drive=3Dnull0 -blockdev \
-   * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
-   * outl 0xcf8 0x80000801
-   * outl 0xcfc 0x05000000
-   * outl 0xcf8 0x80000816
-   * outl 0xcfc 0x19000000
-   * write 0x1e1ed300 0x1 0x01
-   * write 0x1e1ed307 0x1 0x01
-   * write 0x1e1ed316 0x1 0x01
-   * write 0x1e1ed328 0x1 0x01
-   * write 0x1e1ed32f 0x1 0x01
-   * outl 0x1940 0x1e1ed300
-   * outl 0x19c0 0x00
-   * EOF
-   */
-  static void null_deref_megasas_finish_dcmd(void)
-  {
-      QTestState *s =3D qtest_init(
-          "-display none , -m 512M -machine q35 -nodefaults -device megasas=
- -device "
-          "scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Do=
-n,node-name=3Dnull0 ");
-      qtest_outl(s, 0xcf8, 0x80000801);
-      qtest_outl(s, 0xcfc, 0x05000000);
-      qtest_outl(s, 0xcf8, 0x80000816);
-      qtest_outl(s, 0xcfc, 0x19000000);
-      qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
-      qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
-      qtest_outl(s, 0x1940, 0x1e1ed300);
-      qtest_outl(s, 0x19c0, 0x00);
-      qtest_quit(s);
-  }
-  int main(int argc, char **argv)
-  {
-      const char *arch =3D qtest_get_arch();
-
-      g_test_init(&argc, &argv, NULL);
-
-      if (strcmp(arch, "i386") =3D=3D 0) {
-          qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
-                         null_deref_megasas_finish_dcmd);
-      }
-
-      return g_test_run();
-  }
-
-  =3D=3D Stack Trace =3D=3D
-  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
-inter of type 'union mfi_frame'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
-s.c:1884:21 in
-  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
-inter of type 'struct mfi_frame_header'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
-s.c:1884:21 in
-  AddressSanitizer:DEADLYSIGNAL
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D314546=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
-00000003 (pc 0x55b1b4f4de73 bp 0x7ffcfc5a8bb0 sp 0x7ffcfc5a8900 T0)
-  =3D=3D314546=3D=3DThe signal is caused by a WRITE memory access.
-  =3D=3D314546=3D=3DHint: address points to the zero page.
-  #0 0x55b1b4f4de73 in megasas_command_complete build/../hw/scsi/megasas.c:=
-1884:40
-  #1 0x55b1b5613914 in scsi_req_complete build/../hw/scsi/scsi-bus.c:1515:5
-  #2 0x55b1b5448aeb in scsi_dma_complete_noio build/../hw/scsi/scsi-disk.c:=
-345:9
-  #3 0x55b1b5446fc7 in scsi_dma_complete build/../hw/scsi/scsi-disk.c:366:5
-  #4 0x55b1b4fffc56 in dma_complete build/../softmmu/dma-helpers.c:121:9
-  #5 0x55b1b4fffc56 in dma_blk_cb build/../softmmu/dma-helpers.c:139:9
-  #6 0x55b1b6856016 in blk_aio_complete build/../block/block-backend.c:1412=
-:9
-  #7 0x55b1b6f48b06 in aio_bh_poll build/../util/async.c:164:13
-  #8 0x55b1b6f08cec in aio_dispatch build/../util/aio-posix.c:381:5
-  #9 0x55b1b6f4d59c in aio_ctx_dispatch build/../util/async.c:306:5
-  #10 0x7fd88c098baa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/=
-libglib-2.0.so.0+0x51baa)
-  #11 0x55b1b6f59a3c in glib_pollfds_poll build/../util/main-loop.c:232:9
-  #12 0x55b1b6f59a3c in os_host_main_loop_wait build/../util/main-loop.c:25=
-5:5
-  #13 0x55b1b6f59a3c in main_loop_wait build/../util/main-loop.c:531:11
-  #14 0x55b1b61a78a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
-  #15 0x55b1b4c751e5 in main build/../softmmu/main.c:50:5
-  #16 0x7fd88aec6d09 in __libc_start_main csu/../csu/libc-start.c:308:16
-  #17 0x55b1b4bc8bb9 in _start (system-i386+0x2b5fbb9)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918321/+subscriptions
 
