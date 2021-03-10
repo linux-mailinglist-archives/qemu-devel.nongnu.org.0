@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E677334A2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:54:15 +0100 (CET)
-Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359A2334A21
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:51:18 +0100 (CET)
+Received: from localhost ([::1]:32992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK6mT-0006AS-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:54:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1lK6jd-0001oA-6a
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6dv-00036p-Tw; Wed, 10 Mar 2021 16:45:24 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:51985)
+ id 1lK6dx-00039E-6X; Wed, 10 Mar 2021 16:45:25 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:45505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6ds-0004MR-Or; Wed, 10 Mar 2021 16:45:23 -0500
+ id 1lK6ds-0004O8-NL; Wed, 10 Mar 2021 16:45:24 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MBmI6-1lRl4Q3uxQ-00C9jg; Wed, 10 Mar 2021 22:45:15 +0100
+ id 1N6szR-1loDm03Cn9-018Mn1; Wed, 10 Mar 2021 22:45:16 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/22] MAINTAINERS: Fix the location of tools manuals
-Date: Wed, 10 Mar 2021 22:44:49 +0100
-Message-Id: <20210310214504.1183162-8-laurent@vivier.eu>
+Subject: [PULL 08/22] net: Use id_generate() in the network subsystem, too
+Date: Wed, 10 Mar 2021 22:44:50 +0100
+Message-Id: <20210310214504.1183162-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
 References: <20210310214504.1183162-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5S3BHfmH+cZoCWU96j+1BtpSKXtNI6dbT54elfjsdSh/fumgHF3
- yt/DrDmwXalxwHlsN+LT7j7PrNvqnWuUeyWwWLBKuchrS4rp7+MzXZSdUL/3RI8j6rF2f2m
- b7L4TZKWICfiQ7GADoYXQ5eqK4i43iC+alKEy82QdgW9VcXVy8WsoSNs71SNDFE0/pF+4Dy
- +PdOxUZYHQ6z0LadqtuAg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gibBpayhKSM=:W+n62gAkJtQlMig62Ilgmy
- VGPow3u0OdPtL0Xrg6OWjgEw1vi/5rBr6b67bq0anH53OcLRtoFiQsA90NhlLwBCh76AefQhP
- APwqez9WT2zf6hS1jzqVxinSN4INcF/jUg/t5gHqIou058Wb7sEgOYvlGhaBG8KYiORlangbA
- 9yRQkUfCojcXRln3jlXV3jzdsxsGuBJ/4Bcs67qcwJNgujKdd8YYH+lgmS+Ou8yWbnaNQ/2jz
- n3VIF53JD+roiWKRW4lkRIWPecnSEgjCnLSg0hlKwQiRtbeWOwYZHWhHpvUv8oNtiLtTfDqWN
- uK/BzXjKBFT2EfHLEfBpnEyZg4NdhBjg4mfeeJKX+fQRDWt3PAq+4KxUNIHtP+Wa2pkH6StTg
- R1MvXFgEZl8mqF1RhDQxolaBHLDhuJpWVfMXDEqrEfNculNyefleAjhLscPM/QD/j3pAbuV3E
- tzF09s4Klw==
+X-Provags-ID: V03:K1:2THXLhKTv2m2BgJoW55y68cAsSqRCnshR9rWcogj8cZ2QsejhEX
+ Iv32xErGmZJbEer5eTgZdSJK0Zx9v9khG73QfLqJV22lIJl2U77xE7FIosYZ1k4Jyh4yNbU
+ A0gfGg74oVX4BBY0f5h8G12+dqKBPE+GfLOofmH8vmVTqX5sckdEkt8OthXNsPk2aM3X9MM
+ GVwu8x9jBULzAk18QIM6g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A8bqMzIaJNg=:49zAExsW9SdlGi7Phb0tx5
+ 47PHl2JNLB74oFa2enEaQqdC9l/tuVLGOVaVtGKz2ME5g2vPfq6D6I2TfhzJtTe+qOvNOaCeS
+ Kj67CXoAhOP1L9Sb1M7ZedV+VLdh08SFpcMXCRfV+cqpBRZ2zytAUehnLCdmL+0POIJV9/QM3
+ QxnODoAoLX6mS/5xFTevQL55AFyH/eX7YVB/8b/0GXXiQMGs3aUNuaYFbJobvMqf07/VUH/NK
+ ciP92vaZU1GskEDHuKyB0BN60/FHAl+tpQvjCYEmFqOjDx2RPJAf5rP/lWyG6pacjYcr1cgEq
+ wApIEGhfoDAj7ziFXMZUNY4v5c8UdXoWVFUpnBamek91lwQIyM5fkHfkdUIDrLBqCy8n/talV
+ Jvjz1gx3HFyJXpcGaq0oKle4xi47P6IIR3pHlVdE/sMYCH/yBKgJoDhHzLfag5napJ1Ja+82D
+ RiNXG5/Fsw==
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -62,79 +62,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The qemu-img.rst, qemu-nbd.rst, virtfs-proxy-helper.rst, qemu-trace-stap.rst,
-and virtiofsd.rst manuals were moved to docs/tools, so this update MAINTAINERS
-accordingly.
+We already got a global function called id_generate() to create unique
+IDs within QEMU. Let's use it in the network subsytem, too, instead of
+inventing our own ID scheme here.
 
-Fixes: a08b4a9fe6c ("docs: Move tools documentation to tools manual")
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210204135425.1380280-1-wainersm@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210215090225.1046239-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/qemu/id.h | 1 +
+ net/net.c         | 6 +++---
+ util/id.c         | 1 +
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f22d83c17823..ad28f37bc5ff 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1862,7 +1862,7 @@ S: Odd Fixes
- F: hw/9pfs/
- X: hw/9pfs/xen-9p*
- F: fsdev/
--F: docs/interop/virtfs-proxy-helper.rst
-+F: docs/tools/virtfs-proxy-helper.rst
- F: tests/qtest/virtio-9p-test.c
- T: git https://gitlab.com/gkurz/qemu.git 9p-next
- T: git https://github.com/cschoenebeck/qemu.git 9p.next
-@@ -1893,7 +1893,7 @@ S: Supported
- F: tools/virtiofsd/*
- F: hw/virtio/vhost-user-fs*
- F: include/hw/virtio/vhost-user-fs.h
--F: docs/interop/virtiofsd.rst
-+F: docs/tools/virtiofsd.rst
+diff --git a/include/qemu/id.h b/include/qemu/id.h
+index b55c406e69db..46b759b284f3 100644
+--- a/include/qemu/id.h
++++ b/include/qemu/id.h
+@@ -5,6 +5,7 @@ typedef enum IdSubSystems {
+     ID_QDEV,
+     ID_BLOCK,
+     ID_CHR,
++    ID_NET,
+     ID_MAX      /* last element, used as array size */
+ } IdSubSystems;
  
- virtio-input
- M: Gerd Hoffmann <kraxel@redhat.com>
-@@ -2200,7 +2200,7 @@ F: block/
- F: hw/block/
- F: include/block/
- F: qemu-img*
--F: docs/interop/qemu-img.rst
-+F: docs/tools/qemu-img.rst
- F: qemu-io*
- F: tests/qemu-iotests/
- F: util/qemu-progress.c
-@@ -2656,7 +2656,7 @@ F: qapi/trace.json
- F: scripts/tracetool.py
- F: scripts/tracetool/
- F: scripts/qemu-trace-stap*
--F: docs/interop/qemu-trace-stap.rst
-+F: docs/tools/qemu-trace-stap.rst
- F: docs/devel/tracing.txt
- T: git https://github.com/stefanha/qemu.git tracing
+diff --git a/net/net.c b/net/net.c
+index fb7b7dcc2528..ca30df963d77 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -43,6 +43,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
++#include "qemu/id.h"
+ #include "qemu/iov.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/main-loop.h"
+@@ -1111,8 +1112,7 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
  
-@@ -3047,7 +3047,7 @@ F: include/block/nbd*
- F: qemu-nbd.*
- F: blockdev-nbd.c
- F: docs/interop/nbd.txt
--F: docs/interop/qemu-nbd.rst
-+F: docs/tools/qemu-nbd.rst
- T: git https://repo.or.cz/qemu/ericb.git nbd
+     /* Create an ID for -net if the user did not specify one */
+     if (!is_netdev && !qemu_opts_id(opts)) {
+-        static int idx;
+-        qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i", idx++));
++        qemu_opts_set_id(opts, id_generate(ID_NET));
+     }
  
- NFS
+     if (visit_type_Netdev(v, NULL, &object, errp)) {
+@@ -1467,7 +1467,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+     /* Create an ID if the user did not specify one */
+     nd_id = g_strdup(qemu_opts_id(opts));
+     if (!nd_id) {
+-        nd_id = g_strdup_printf("__org.qemu.nic%i", idx);
++        nd_id = id_generate(ID_NET);
+         qemu_opts_set_id(opts, nd_id);
+     }
+ 
+diff --git a/util/id.c b/util/id.c
+index 5addb4460ea0..ded41c5025e4 100644
+--- a/util/id.c
++++ b/util/id.c
+@@ -35,6 +35,7 @@ static const char *const id_subsys_str[ID_MAX] = {
+     [ID_QDEV]  = "qdev",
+     [ID_BLOCK] = "block",
+     [ID_CHR] = "chr",
++    [ID_NET] = "net",
+ };
+ 
+ /*
 -- 
 2.29.2
 
