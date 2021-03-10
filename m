@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25E2333227
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 01:04:04 +0100 (CET)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14E633322B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 01:08:07 +0100 (CET)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJmKZ-0002hY-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 19:04:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35840)
+	id 1lJmOU-000443-PK
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 19:08:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJmJ8-00024H-MW; Tue, 09 Mar 2021 19:02:34 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36426)
+ id 1lJmNT-0003P8-OE
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 19:07:03 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:47070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lJmJ6-00061U-5T; Tue, 09 Mar 2021 19:02:33 -0500
-Received: by mail-ej1-x636.google.com with SMTP id e19so33215554ejt.3;
- Tue, 09 Mar 2021 16:02:31 -0800 (PST)
+ id 1lJmNR-00082O-RM
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 19:07:03 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id w9so24097532edt.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 16:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Dmrmk3YY7MxD8gdEMf3O+iiiMp9WkFXxJeet/SAEDYI=;
- b=CeheNKZn186toVtpz6RXj6FALqcKJ6UFMenNk0huoGqKQ9WujBzx/MNcq9bBXwvwtL
- BzZWoMb/HELSW8JxO+9eT27r/cX/kfycKWeYeUtPMCse1SNgCRU/OfF/4LZV7EHdvM80
- wNsI4C375LQJbuLjWPJFyR+pa6o65Yfss3eeVDHzMM9aiLkshO5K89/rU6oYZlIEgTGs
- Oi03azwcWLpamoxsfPL6wO//HCRsIgswtovJp3REKQMcf3BcuBj3N24Zv0TpUdRxVvbM
- 3yR1RnP7xC55/t3/hOZ9yf2RDoQn9YfrwJYxqQGmGS870N5tRBYs14vzlbsZqN5WP4Wm
- MsLQ==
+ bh=PrIJjUieMbzLc7izy+e/izvagzlBXlkVPMOD/AdlrHA=;
+ b=tMQSnkRYmY2zMjTZPfSXYGOoyMEt5NIvXfQDxdFgeqjodQGtPNRayt0NHxhm9M950U
+ pBLFWo8OifpBvO1cdPn5W0tUCPIDcvuXRYXvOp9fm+zqxaFZ9XW/xtXRr/1hUMrP9NTP
+ zj0b240MUpy62zbmCJWOHak/pG+I2lwXHcoplGkX2d82nn2CrVzRlux/6tRA3fuobmcr
+ k4Hjn5DnOMB0G9sYUcBjoauCPG+SoCfaZu7zG7a3XbCRZiWP/sTi6oWOCE/a4MBu60Y2
+ YMK6B5ehGG17NMqJuX88ie/3Jo4m4Xo+qOYP46x3Fm5jCcvlW+SdyY/HjvCC9HXvl1YL
+ rlTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Dmrmk3YY7MxD8gdEMf3O+iiiMp9WkFXxJeet/SAEDYI=;
- b=U699tSYcmQcY7COTEApkFGAcYL7jsC9aWINT2sf/POY/sh8ytF34tm3cfSBckFtZx2
- Q2oHl7QeNHuiLhXO1rRaMvR8B9neTtDGaAmY+DMK7w4WKNMzFMMxH4PZFfWmLLUszpFM
- iwTAUjBKVy1ZECgRy8ULnrVfjxsJCJsxTY2c4EQ5AqbBKf4isCSknYc3pmchwxXZnEQg
- iGHO8CHQnEzwmC287XEI/LSburiIALi42vrdCw995kkrSBEup3lK1ImEFginEgRYcy0h
- BPu24XZZnxdUAKLCaIXPPndfkBzini2XkfPcVc2ewKQ/E0w17IXgWnYDvlqmne8dMD3F
- NxHQ==
-X-Gm-Message-State: AOAM53099cLpyc5BGw9Oe7DmwCXGliukm/dTj9QC8EmXRaOeu9aGxjXH
- mkpK3VS4n+nHF4hQq2KsIz0=
-X-Google-Smtp-Source: ABdhPJxtw7fH+SZSvuiUHIsvO+O9luholD8VEjXllhrlSfl8eL4vXESrxTTxPPBRx888dohOOpQEPQ==
-X-Received: by 2002:a17:906:4f02:: with SMTP id
- t2mr586996eju.121.1615334549953; 
- Tue, 09 Mar 2021 16:02:29 -0800 (PST)
+ bh=PrIJjUieMbzLc7izy+e/izvagzlBXlkVPMOD/AdlrHA=;
+ b=uIZdrShwy49IPnBYTa04jracqNB6dAu5ePXPsdR6VqqxEiELsMiqIkxMpOrrpJK+2G
+ c1f0bsiSECOg7g7ch6CzzEiJa5Thnooqbx2ZLirqLTm4fO0wrhccKrHMI43fAQIbfbh5
+ jyfXtSIRMSk4PqXAM0t1/ZiIcX/KoPjb6xgIowjcsn5ITGJIjtyk1xzyJGNEy1AdEwCW
+ q+6gB696P+Bjwg0A9zbF/xgy88XQuUXNO5TMcUn3W1L7io0w33IqzC3VPt5x0Lh9atzJ
+ QAk9Zcte/QM9e5OgHgZHa+bqU6gA8BIzQ+fdxhBX/TDkvZvci6J1l4Icbd4c6bD3I3WP
+ GWuw==
+X-Gm-Message-State: AOAM531G5IFEzgr0cq6JzkBl3+8q3C08hDhgskmQkcHvHblb96BuJoTI
+ C6U3V7xsOd1BHt+Xfdsbx78=
+X-Google-Smtp-Source: ABdhPJz2sFkXZ+tpYcvSD0hZOPhZnngByjkXDGkiEHr2x7YCyZcqK7iFJK7EfpChGpt64u5sImr/sw==
+X-Received: by 2002:a05:6402:b70:: with SMTP id
+ cb16mr226818edb.11.1615334820157; 
+ Tue, 09 Mar 2021 16:07:00 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t17sm9901225edr.36.2021.03.09.16.02.28
+ by smtp.gmail.com with ESMTPSA id hy25sm8971365ejc.119.2021.03.09.16.06.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Mar 2021 16:02:29 -0800 (PST)
-Subject: Re: [PATCH v6 4/8] vt82c686: Introduce abstract TYPE_VIA_ISA and base
- vt82c686b_isa on it
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1615321729.git.balaton@eik.bme.hu>
- <ffd30415332be2d23f72072dc256cc6eee170f3d.1615321729.git.balaton@eik.bme.hu>
+ Tue, 09 Mar 2021 16:06:59 -0800 (PST)
+Subject: Re: [PATCH 3/3] hw/usb: Extract VT82C686 UHCI PCI function into a new
+ unit
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210309190802.830969-1-f4bug@amsat.org>
+ <20210309190802.830969-4-f4bug@amsat.org>
+ <4ffa2641-2b53-467-337d-38926c02b4b@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <18602f6c-a1d1-bf02-26cf-c3f1cba52294@amsat.org>
-Date: Wed, 10 Mar 2021 01:02:27 +0100
+Message-ID: <fd9c7195-1396-f622-4867-6dec8527dfd3@amsat.org>
+Date: Wed, 10 Mar 2021 01:06:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <ffd30415332be2d23f72072dc256cc6eee170f3d.1615321729.git.balaton@eik.bme.hu>
+In-Reply-To: <4ffa2641-2b53-467-337d-38926c02b4b@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,27 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 9:28 PM, BALATON Zoltan wrote:
-> To allow reusing ISA bridge emulation for vt8231_isa move the device
-> state of vt82c686b_isa emulation in an abstract via_isa class. This
-> change breaks migration back compatibility but this is not an issue
-> for Fuloong2E machine which is not versioned or migration supported.
+On 3/9/21 9:13 PM, BALATON Zoltan wrote:
+> On Tue, 9 Mar 2021, Philippe Mathieu-Daudé wrote:
+>> Extract the VT82C686 PCI UHCI function into a new unit so
+>> it is only build when the VT82C686 south bridge is selected.
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
->  include/hw/pci/pci_ids.h |  2 +-
->  2 files changed, 40 insertions(+), 32 deletions(-)
+> I'm not sure it's worth separating just this one device from the other
+> similar usb devices when the others that are also part of south bridge
+> chips are left there. Maybe you could just set user_creatable = false so
+> it can only be created as part of the chips that contain it or just
+> don't bother and leave it as it is which is the least likely to break
+> anything that may rely on it as removing it from the device list may
+> need to go through deprecation.
+> 
+> But I don't really mind, so if others like this approach I don't want to
+> block the patch. I think it's unlikely anybody would use this device
+> other than part of fuloong2e or pegasos2 so probably it's unlikely to
+> break anything if it suddenly goes away from a new build.
 
-This should be OK if this other series is accepted:
-"hw/usb: Extract Extract VT82C686 UHCI PCI function into new unit"
-https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg03083.html
+OK. As I sent this series to help you with your Pegasos2 board, do you
+mind sending a patch then?
 
-I'll come back to this patch after the former series is reviewed.
+I suppose you mean using "#include CONFIG_DEVICES" and checking for the
+CONFIG_VT82C686 symbol to register the QOM type?
+
+Thanks,
+
+Phil.
 
