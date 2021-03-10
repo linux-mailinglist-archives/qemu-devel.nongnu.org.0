@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D11A3343BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:54:11 +0100 (CET)
-Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06BD3343DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:56:44 +0100 (CET)
+Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK266-0003Sx-4C
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:54:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
+	id 1lK28Z-0005wx-NW
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lK1vD-0003iZ-Ds
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:43:00 -0500
-Received: from mail-il1-f177.google.com ([209.85.166.177]:40589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lK1v7-0000kf-Tv
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:42:52 -0500
-Received: by mail-il1-f177.google.com with SMTP id e7so16132050ile.7
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:42:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1xT-0004xz-Em
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:45:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1xE-0001OU-1F
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:45:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615394693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ssUB4LnlKafY2Hi0GzG++/8DsVMnIR/0MqSJeDcwb+M=;
+ b=eRRwOSdHQU+Kao3KmycAe8fLUaCkiRyNvtmioQiuuoC4jNNoIo24JGXwNvibnESXkQUk4b
+ IdSMFeoiJSUm/S2M0279vu3qkBRkf6VauHbxTEcLVvnoIOuvZzn54dMnM9Biix9SV/Wk5o
+ 6uKHssVs1qD/FICksYFpih+AwNdIAMQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-8np_hNGrPtCb8MgyK2TS5Q-1; Wed, 10 Mar 2021 11:44:48 -0500
+X-MC-Unique: 8np_hNGrPtCb8MgyK2TS5Q-1
+Received: by mail-ej1-f69.google.com with SMTP id h14so7507203ejg.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:44:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qOojLKN2e4/5Hpfa5z6WmRjSQ4HMB6OSn+/XN+7CWpw=;
- b=kwfFpwrpsk6XUSl/R82SWo2PGEHI++xyJWleWtpo77HCoBlOAkqyJ2kl4KRByzjfHo
- UB0aO/jhXU6gfa3cqjJ8+1ySGiBpNrqe7PaBm2Hdgb3WdgRt12odz1mEv5rpiJZE4VdZ
- ns+irtKnLzdZ/XuIwxCdLcmobMnfZnDxnOv+PEB39Iv7dgUEyEWKlAKdace7zRbGHgRf
- XYUqKV71ysGT18U8Rbaa1IBAM2XV0yoWZPWC5qqgV20MX39RMPQsHIrtiqECE37Tm5Fa
- KEK7kbGOj+hRWqeYD459M9O/F4+wl2Igx2upAHvd7dw66tRAaybeWkv1ZuY97okflELZ
- 4Fiw==
-X-Gm-Message-State: AOAM533i/u1OCAfKPhx1fUjvxwHL73rJnTjdUFMwmyVJTVm8sUCzMFEz
- R+b9lIuL1XVjcrPbaCScte4Pa0WhuFs=
-X-Google-Smtp-Source: ABdhPJzarT8hHTxGq5lmXDGiAI/iOWxYjXW/VGD9UCMiKk44NkOjR70ee7/tRkVyQZR+HTbGr2hsig==
-X-Received: by 2002:a92:b002:: with SMTP id x2mr3275688ilh.248.1615394567972; 
- Wed, 10 Mar 2021 08:42:47 -0800 (PST)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
- [209.85.166.182])
- by smtp.gmail.com with ESMTPSA id s14sm9536329ilj.83.2021.03.10.08.42.47
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ssUB4LnlKafY2Hi0GzG++/8DsVMnIR/0MqSJeDcwb+M=;
+ b=XELGQGrMS94GOqY20ToueCdLpuxlbYNhPLWQQGlHXQJlqKp8U/m4bkJXFaC/9RLC2g
+ 0cCkl2Q3eDMKdhgyNo14iSoDleZ+54Jf++kfh/PO8t6cbACtAT8P/AA+oa91g20b3mjP
+ NRYR+EJuuwIEwy5EIWJQJrCS99fvk1KoiLFuLHIiZC5JgbrmlH4NU9vKSJsb9PC1px2d
+ YRbwTxgpoBLiJkJQe3aeawWUVckphGgBvEkzIWyzcz8rQzEmRJKCMdAGGD9fg7FWvkva
+ v+n+mgZLwZkl5/Nhewy9Lm7P4OKMVFTqRYHnIzGCqsnUJ+ft4Sva9ntsLGK/3ZOBnpCE
+ tG9g==
+X-Gm-Message-State: AOAM531UWAVE6bapzSjyEv9Snox/1g4uFjrCOZGKP0u6P4581nT2NILC
+ LpycDv98bDR1XI03bjQCks8fe1xMjgBEhxhfdNEACtM5YYmKIQY+FDFgJUqDV2ebC82PurWM9Nb
+ Gg0aZHsowLUcdMp8=
+X-Received: by 2002:a17:907:9e6:: with SMTP id
+ ce6mr4470192ejc.207.1615394687305; 
+ Wed, 10 Mar 2021 08:44:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxnfc959OqQiaE+PjGiRNRZ6IGTJL93vzaBWJMKnrh9EUoJYVoZ4tLs80760PzND5scql8nlw==
+X-Received: by 2002:a17:907:9e6:: with SMTP id
+ ce6mr4470174ejc.207.1615394687085; 
+ Wed, 10 Mar 2021 08:44:47 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id x21sm10880561eds.53.2021.03.10.08.44.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 08:42:47 -0800 (PST)
-Received: by mail-il1-f182.google.com with SMTP id s1so16131136ilh.12
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:42:47 -0800 (PST)
-X-Received: by 2002:a05:6e02:20e4:: with SMTP id
- q4mr3403297ilv.197.1615394567353; 
- Wed, 10 Mar 2021 08:42:47 -0800 (PST)
+ Wed, 10 Mar 2021 08:44:46 -0800 (PST)
+Subject: Re: [PATCH 7/9] hw/block/pflash_cfi02: Factor out DeviceReset method
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210309235028.912078-1-philmd@redhat.com>
+ <20210309235028.912078-8-philmd@redhat.com>
+ <CAEUhbmXrFygOQ_7HnapLYsyUeRc7sXt9z03fQngAhom0qwkh9w@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1f4c8594-efa1-a969-c058-be20ef1dae71@redhat.com>
+Date: Wed, 10 Mar 2021 17:44:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210309213513.12925-1-j@getutm.app>
- <20210310095126.fqxigwoczqkckosp@sirius.home.kraxel.org>
- <5b8a28d1-5a66-9634-f6fb-5b2bdfcf96f8@redhat.com>
-In-Reply-To: <5b8a28d1-5a66-9634-f6fb-5b2bdfcf96f8@redhat.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Wed, 10 Mar 2021 08:42:36 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSDoUWh+U9vENzbB0NCZPWwkBHWmy0grdpUPkZTGZjZfUA@mail.gmail.com>
-Message-ID: <CA+E+eSDoUWh+U9vENzbB0NCZPWwkBHWmy0grdpUPkZTGZjZfUA@mail.gmail.com>
-Subject: Re: [RFC] hw/display: add virtio-ramfb device
-To: Laszlo Ersek <lersek@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.177; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f177.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAEUhbmXrFygOQ_7HnapLYsyUeRc7sXt9z03fQngAhom0qwkh9w@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,122 +101,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Joelle van Dyne <j@getutm.app>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 4:45 AM Laszlo Ersek <lersek@redhat.com> wrote:
->
-> On 03/10/21 10:51, Gerd Hoffmann wrote:
-> > On Tue, Mar 09, 2021 at 01:35:13PM -0800, Joelle van Dyne wrote:
-> >> Like virtio-vga, but using ramfb instead of legacy vga.
-> >> Useful for booting from OVMF (with updated drivers) into Windows
-> >> ARM which expects a linear FB that the virtio-gpu driver in OVMF
-> >> does not provide.
-> >
-> > What is wrong with "-device ramfb" for that use case?
-> >
-> >> This code was originally written by Gerd Hoffmann and was
-> >> updated to contain later changes to the display driver tree.
-> >
-> > Well, the tricky part with that is OVMF driver binding.  We don't
-> > want two drivers bind to the same device.
-> >
-> > We have QemuRamfbDxe + QemuVideoDxe + VirtioGpuDxe.
-> >
-> >  - QemuRamfbDxe handles ramfb.
-> >  - QemuVideoDxe handles all vga devices (including virtio-vga)
-> >    plus bochs-display.
-> >  - VirtioGpuDxe handles all virtio-gpu devices (except virtio-vga).
-> >
-> > VirtioGpuDxe could easily handle virtio-vga too but doesn't to avoid
-> > the conflict with QemuVideoDxe.  It detects that by looking at the pci
-> > class code.  virtio-vga is tagged as display/vga whereas virtio-gpu-pci
-> > is display/other.
-> >
-> > Problem of the virtio-ramfb device is that the guest can't figure
-> > whenever the virtio-gpu device comes with ramfb support or not.
-> > Merging this is a non-starter unless we have a solution for that
-> > problem.
-> >
-> > A use case which actually needs that would be helpful to drive that
-> > effort.  I don't see one.  If your guest comes with virtio-gpu drivers
-> > you don't need ramfb support.  The VirtioGpuDxe driver covers the boot
-> > loader, and the guest driver everything else.  If your guest has no
-> > virtio-gpu drivers the virtio-ramfb combo device is useless, you can
-> > simply use standalone ramfb instead.
->
-> Thanks for the CC and the summary, and I agree.
->
->
-> Two (tangential) additions:
->
-> - The arbitration between VirtioGpuDxe and QemuVideoDxe, on a virtio-vga
-> device, happens actually in Virtio10Dxe (the virtio-1.0 transport
-> driver). When Virtio10Dxe recognizes virtio-vga, it does not expose it
-> as a virtio device at all.
->
-> The reason for this is that VirtioGpuDxe consumes VIRTIO_DEVICE_PROTOCOL
-> (does not deal with PCI [*]), and QemuVideoDxe consumes
-> EFI_PCI_IO_PROTOCOL (does not deal with virtio). Therefore, the
-> arbitration needs to happen in a layer that deals with both of those
-> abstractions at the same time; and that's the virtio transport driver,
-> which produces VIRTIO_DEVICE_PROTOCOL on top of EFI_PCI_IO_PROTOCOL.
->
-> [*] I'm lying a bit here; it does consume PciIo momentarily. But, for
-> nothing relevant to the UEFI driver model. VirtioGpuDxe *attempts* using
-> PciIo for formatting the human-readable device name, with the B/D/F in
-> it; but even if that fails, the driver works just fine (with a less
-> detailed human-readable device name).
->
-> - QemuRamfbDxe is a platform DXE driver, not a UEFI driver that follows
-> the UEFI driver model. The reason is that the fw_cfg stuff underlying
-> ramfb is a "platform device" (a singleton one at that), not an
-> enumerable device.
->
->
-> So, if you combined ramfb with any other (enumerable) display device
-> into a single device, that would allow the QemuRamfbDxe platform driver
-> and the other (UEFI) driver to bind the *same display hardware* via
-> different interfaces at the same time.
->
-> And arbitrating between such drivers is practically impossible without
-> violating the UEFI driver model: first, the QemuRamfbDxe platform driver
-> has no way of knowing whether the same display hardware qualifies for
-> the other (UEFI) driver though PCI (or another enumerable interface);
-> second, the other (UEFI) driver would have to check for a platform
-> device (fw_cfg in this case), which is *wrong*. (Consider e.g. what
-> happens if we have multiple (separate) PCI-based display devices, plus
-> one ramfb device -- if ramfb were allowed to share the underlying
-> hardware with one of the PCI ones, how would we tell which PCI device
-> the ramfb device belonged to?)
->
-> (... In fact, the second argument is akin to why I keep rejecting
-> various manifestations of a GVT-g driver for OVMF -- refer to
-> <https://bugzilla.tianocore.org/show_bug.cgi?id=935>. Due to the
-> opregion being based on fw_cfg, the hardware itself is a fusion of a PCI
-> device and a platform device -- and that's wrong for both a platform DXE
-> driver, and a UEFI driver that follows the UEFI driver model. It's not
-> that the driver is impossible to implement (three variants have been
-> written already, mutually independently of each other), but that any
-> such driver involves a layering / driver model violation one way or
-> another. But, I digress.)
->
-> Thanks
-> Laszlo
->
+On 3/10/21 9:48 AM, Bin Meng wrote:
+> On Wed, Mar 10, 2021 at 7:55 AM Philippe Mathieu-Daudé
+> <philmd@redhat.com> wrote:
+>>
+>> There is multiple places doing a device reset. Factor that
+>> out in a common method which matches the DeviceReset prototype,
+>> so we can also remove the reset code from the DeviceRealize()
+>> handler. Explicit the device is set in "read array" mode on
+>> reset.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  hw/block/pflash_cfi02.c | 16 +++++++++++-----
+>>  1 file changed, 11 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+>> index 2ba77a0171b..484b056b898 100644
+>> --- a/hw/block/pflash_cfi02.c
+>> +++ b/hw/block/pflash_cfi02.c
+>> @@ -193,6 +193,14 @@ static void pflash_mode_read_array(PFlashCFI02 *pfl)
+>>      memory_region_rom_device_set_romd(&pfl->orig_mem, true);
+>>  }
+>>
+>> +static void pflash_cfi02_reset(DeviceState *dev)
+>> +{
+>> +    PFlashCFI02 *pfl = PFLASH_CFI02(dev);
+>> +
+>> +    trace_pflash_reset();
+>> +    pflash_mode_read_array(pfl);
+>> +}
+>> +
+>>  static size_t pflash_regions_count(PFlashCFI02 *pfl)
+>>  {
+>>      return pfl->cfi_table[0x2c];
+>> @@ -330,8 +338,7 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
+>>      default:
+>>          /* This should never happen : reset state & treat it as a read*/
+>>          DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+>> -        pfl->wcycle = 0;
+>> -        pfl->cmd = 0;
+>> +        pflash_cfi02_reset(DEVICE(pfl));
+>>          /* fall through to the read code */
+>>      case 0x80: /* Erase (unlock) */
+>>          /* We accept reads during second unlock sequence... */
+>> @@ -710,10 +717,8 @@ static void pflash_write(void *opaque, hwaddr offset, uint64_t value,
+>>
+>>      /* Reset flash */
+>>   reset_flash:
+>> -    trace_pflash_reset();
+>>      pfl->bypass = 0;
+>> -    pfl->wcycle = 0;
+>> -    pfl->cmd = 0;
+>> +    pflash_cfi02_reset(DEVICE(pfl));
+> 
+> The old codes did not set pfl->rom_mode to true, but the new codes
+> pflash_cfi02_reset() do. Is this correct?
 
-Thanks for the feedback, Laszlo and Gerd. To avoid the XY problem
-here, what I am trying to solve is that currently there is no good way
-to boot into Windows ARM with virtio-gpu without using ramfb first to
-install the drivers. The only solutions I can think of is:
+Hmmm let's be precautious indeed. I'll better split this change.
 
-* Implement a linear FB in virtio-gpu
-* Hack in ramfb in virtio-gpu
-
-And the second one seems easier. But perhaps I'm missing some other solutions?
-
--j
 
