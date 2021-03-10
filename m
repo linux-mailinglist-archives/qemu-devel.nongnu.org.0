@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F50333465
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:32:00 +0100 (CET)
-Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4765A333468
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:33:35 +0100 (CET)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqVr-0005Gr-PP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:31:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48440)
+	id 1lJqXO-00069q-BK
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:33:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqC4-00063y-LJ; Tue, 09 Mar 2021 23:11:34 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:38359)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqC2-00050h-P3; Tue, 09 Mar 2021 23:11:32 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJYC6D1Pz9sVS; Wed, 10 Mar 2021 15:11:27 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1615349487;
- bh=+8/CZbY679IWcjpoppt29IyZpYE5N74xAfnyTu5q9gc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kY1IhKqAaSPGPkYyozO9IWQsR2JH6HGz8qcWjJapEyYdjxqbABYKvDP+bPNbuH4GM
- COuPZCUKwrt7kC227GDsV63ojji+TRQGVxdK9s9odwK2aHqjLlZeaxge5qR1yfTz3p
- Axd9JxZFZAryN8LMnilX28WcJQZ6mQf5DgnmmsIg=
-Date: Wed, 10 Mar 2021 15:11:19 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v14] spapr: Implement Open Firmware client interface
-Message-ID: <YEhG55fkPxHpQPfW@yekko.fritz.box>
-References: <20210224054130.4540-1-aik@ozlabs.ru>
- <YD2yd42dv/7/m94f@yekko.fritz.box>
- <08781378-b4ba-12bf-2ae8-f3da9db9342c@ozlabs.ru>
- <YEcHxEvVPPO85BGE@yekko.fritz.box>
- <19bc153a-027c-d5ca-6849-ae33315c62af@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJqO7-0007wj-U1
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 23:23:59 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lJqO5-0003tJ-Ua
+ for qemu-devel@nongnu.org; Tue, 09 Mar 2021 23:23:59 -0500
+Received: by mail-pl1-x629.google.com with SMTP id j6so7835346plx.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Mar 2021 20:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=81/zDxGA/GAe20UdlArsvzRltxNMvMaxAmiGKLao1cM=;
+ b=mEYadOwRzd4++rNi6Xt8SA10ZZ5rqOYDm7iuIj+TpDKPwmxxyH9AEW1Zc0WuQ2Zgtg
+ VjdP/rs2ALlUK1nEXHiUrUASCVOwxfcjT8Lz6l0H5dEjAO0ECM7i/91acfsKrn0TfsqK
+ obZw6Jn1DQomzhGu1wizsi/oQw6eVBJF6oH+In3SEZt0ruJ44Q4EQXOG3lat0gzRRtji
+ R4G8M3wR3xCiOpx50uIK8oJlToWdlg3Db9zcMYglUZVsgblIOfgeysc5lfn9+vg2Loyg
+ Vwm5D4j58hGs9RCSqujxZ+dmCtfCZITDY1woEa7UpUC9ePcEOxNawFqHyj0zqpkaS6nj
+ ROAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=81/zDxGA/GAe20UdlArsvzRltxNMvMaxAmiGKLao1cM=;
+ b=aV3GHniH47+7XHtDpd/hHoBU0ycOSrn0l1VI4E1CkEICNdVx/9Ay7zHTQE5hUJ3Ydw
+ T3NGJEu3sDsw6AVppTjY/idwVS1ol38em+Qb7wxHlfbCvUYEEprYggi007gunNwZHAsq
+ m7/IBoRwNhWMIAE9GluNxlAqh3tsZZyjuLNc9WineruDJpVB9w7KzKexdfrVEZApUOLB
+ Ph/IA2jMZy50K3GwnCv2fsWHz/8Jo09g1ARH850N+fkgnZ9Li/lDsZ7HMsLqkP8XFBSn
+ sqZlHAlhoAstsG+HjCpWvS8RPckxtu8LvGHOwuyLQTmFoeHPkVCfkOXCHSllv74aBr2Y
+ wsQQ==
+X-Gm-Message-State: AOAM530kTT7agHi0zm0ZCBmkDToHLu71/fIU9ysO4QaXvVjyyinJLtgp
+ J5eH3Ihl8QkPG+WCr7Vhr/Ge0v1bxOTVPA==
+X-Google-Smtp-Source: ABdhPJz1HPWOPqVivMsgX3QjirrTR2V5/VkiOHUN1MoquqVcFlrm/axbiU7LK4XRrDFclGtmsPFipg==
+X-Received: by 2002:a17:90a:fd0b:: with SMTP id
+ cv11mr1471898pjb.183.1615350235382; 
+ Tue, 09 Mar 2021 20:23:55 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:681d:e6e5:d1b0:3153])
+ by smtp.gmail.com with ESMTPSA id l15sm4380652pjq.9.2021.03.09.20.23.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Mar 2021 20:23:54 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2] ui/cocoa: Clear modifiers whenever possible
+Date: Wed, 10 Mar 2021 13:23:48 +0900
+Message-Id: <20210310042348.21931-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/GrUe9PVAN5JEkEo"
-Content-Disposition: inline
-In-Reply-To: <19bc153a-027c-d5ca-6849-ae33315c62af@ozlabs.ru>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,118 +82,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ui/cocoa does not receive NSEventTypeFlagsChanged when it is not active,
+and the modifier state can be desynchronized in such a situation.
 
---/GrUe9PVAN5JEkEo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[NSEvent -modifierFlags] tells whether a modifier is *not* pressed, so
+check it whenever receiving an event and clear the modifier if it is not
+pressed.
 
-On Tue, Mar 09, 2021 at 06:28:44PM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 09/03/2021 16:29, David Gibson wrote:
->=20
->=20
-> > > > > +struct ClientArchitectureSupportClass {
-> > > > > +    InterfaceClass parent;
-> > > > > +    target_ulong (*cas)(CPUState *cs, target_ulong vec);
-> > > > > +    void (*quiesce)(void);
-> > > >=20
-> > > > Is there actually any real connection of quiesce behaviour to cas
-> > > > behaviour?  Basically, I'm wondering if this is not so much about
-> > > > client-architecture-support fundamentally as just about
-> > > > machine-specific parts of the VOF behaviour.  Which would be fine, =
-but
-> > > > suggests a different name for the interface.
-> > >=20
-> > > The most canonical way would be having 2 interfaces.
-> >=20
-> > Why?  I don't see any reason these shouldn't be a single interface, it
-> > just has a bad name.
->=20
-> I renamed it to SpaprVofInterface for now.
+Note that [NSEvent -modifierFlags] does not tell if a certain modifier
+*is* pressed because the documented mask for [NSEvent -modifierFlags]
+generalizes left shift and right shift, for example. CapsLock is the
+only exception. The pressed state is synchronized only with
+NSEventTypeFlagsChanged.
 
-It doesn't really have anything to do with PAPR, though.  Well, I
-guess the CAS part does, but quiesce doesn't.  I'd suggest
-"VofMachineInterface" - it represents where VOF needs to interact with
-machine type specifics.
+This change also removes modifier keys from keycode map. If they
+are input with NSEventTypeKeyDown or NSEventTypeKeyUp, it leads to
+desynchronization. Although such a situation is not observed, they are
+removed just in case.
 
-> > [snip]
-> > > > > +typedef int size_t;
-> > > > > +typedef void client(void);
-> > > > > +
-> > > > > +/* globals */
-> > > > > +extern void _prom_entry(void); /* OF CI entry point (i.e. this f=
-irmware) */
-> > > > > +
-> > > > > +void do_boot(unsigned long addr, unsigned long r3, unsigned long=
- r4);
-> > > > > +
-> > > > > +/* libc */
-> > > > > +int strlen(const char *s);
-> > > > > +int strcmp(const char *s1, const char *s2);
-> > > > > +void *memcpy(void *dest, const void *src, size_t n);
-> > > > > +int memcmp(const void *ptr1, const void *ptr2, size_t n);
-> > > > > +void *memmove(void *dest, const void *src, size_t n);
-> > > > > +void *memset(void *dest, int c, size_t size);
-> > > > > +
-> > > > > +/* Prom */
-> > > > > +typedef unsigned long prom_arg_t;
-> > > > > +int call_prom(const char *service, int nargs, int nret, ...);
-> > > >=20
-> > > > AIUI this isn't so much about calling the PROM, since this *is* the
-> > > > PROM code, but rather about calling the parts that are implemented =
-on
-> > > > the qemu side.  Different names might clarify that.
-> > >=20
-> > > "call_ci"?
-> >=20
-> > Works for me.
->=20
-> call_ci() it is then.
->=20
-> About builtins such as memcmp() - turns out these are not really builtins=
- as
-> they are not inlined and gcc/ld still want to link against libc which is
-> trickier for such firmware (not quite sure how to do this and keep it sma=
-ll
-> and not pull other libc stuff in), gcc just knows about them a bit more.
-> This is different from, for example, __builtin_ctz which is inlined. So I=
- am
-> keeping my libc.o for now.
->=20
->=20
->=20
+Thanks to Konstantin Nazarov for testing and finding a bug in this
+change:
+https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gistcomment-3659419
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 148 +++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 92 insertions(+), 56 deletions(-)
 
---/GrUe9PVAN5JEkEo
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index f27beb30e6e..2b6aea429f8 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -189,14 +189,6 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+     [kVK_ANSI_Comma] = Q_KEY_CODE_COMMA,
+     [kVK_ANSI_Period] = Q_KEY_CODE_DOT,
+     [kVK_ANSI_Slash] = Q_KEY_CODE_SLASH,
+-    [kVK_Shift] = Q_KEY_CODE_SHIFT,
+-    [kVK_RightShift] = Q_KEY_CODE_SHIFT_R,
+-    [kVK_Control] = Q_KEY_CODE_CTRL,
+-    [kVK_RightControl] = Q_KEY_CODE_CTRL_R,
+-    [kVK_Option] = Q_KEY_CODE_ALT,
+-    [kVK_RightOption] = Q_KEY_CODE_ALT_R,
+-    [kVK_Command] = Q_KEY_CODE_META_L,
+-    [0x36] = Q_KEY_CODE_META_R, /* There is no kVK_RightCommand */
+     [kVK_Space] = Q_KEY_CODE_SPC,
+ 
+     [kVK_ANSI_Keypad0] = Q_KEY_CODE_KP_0,
+@@ -615,9 +607,24 @@ - (void) toggleModifier: (int)keycode {
+     qemu_input_event_send_key_qcode(dcl.con, keycode, modifiers_state[keycode]);
+ }
+ 
+-- (void) toggleStatefulModifier: (int)keycode {
++- (void) clearModifier: (int)keycode {
++    if (!modifiers_state[keycode]) {
++        return;
++    }
++
++    // Clear the stored state.
++    modifiers_state[keycode] = NO;
++    // Send a keyup.
++    qemu_input_event_send_key_qcode(dcl.con, keycode, false);
++}
++
++- (void) setStatefulModifier: (int)keycode down:(BOOL)down {
++    if (down == modifiers_state[keycode]) {
++        return;
++    }
++
+     // Toggle the stored state.
+-    modifiers_state[keycode] = !modifiers_state[keycode];
++    modifiers_state[keycode] = down;
+     // Generate keydown and keyup.
+     qemu_input_event_send_key_qcode(dcl.con, keycode, true);
+     qemu_input_event_send_key_qcode(dcl.con, keycode, false);
+@@ -714,57 +721,86 @@ - (bool) handleEventLocked:(NSEvent *)event
+     static bool switched_to_fullscreen = false;
+     // Location of event in virtual screen coordinates
+     NSPoint p = [self screenLocationOfEvent:event];
++    NSUInteger modifiers = [event modifierFlags];
+ 
+-    switch ([event type]) {
+-        case NSEventTypeFlagsChanged:
+-            if ([event keyCode] == 0) {
+-                // When the Cocoa keyCode is zero that means keys should be
+-                // synthesized based on the values in in the eventModifiers
+-                // bitmask.
+-
+-                if (qemu_console_is_graphic(NULL)) {
+-                    NSUInteger modifiers = [event modifierFlags];
++    // emulate caps lock keydown and keyup
++    [self setStatefulModifier:Q_KEY_CODE_CAPS_LOCK down:!!(modifiers & NSEventModifierFlagCapsLock)];
+ 
+-                    if (!!(modifiers & NSEventModifierFlagCapsLock) != !!modifiers_state[Q_KEY_CODE_CAPS_LOCK]) {
+-                        [self toggleStatefulModifier:Q_KEY_CODE_CAPS_LOCK];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagShift) != !!modifiers_state[Q_KEY_CODE_SHIFT]) {
+-                        [self toggleModifier:Q_KEY_CODE_SHIFT];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagControl) != !!modifiers_state[Q_KEY_CODE_CTRL]) {
+-                        [self toggleModifier:Q_KEY_CODE_CTRL];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagOption) != !!modifiers_state[Q_KEY_CODE_ALT]) {
+-                        [self toggleModifier:Q_KEY_CODE_ALT];
+-                    }
+-                    if (!!(modifiers & NSEventModifierFlagCommand) != !!modifiers_state[Q_KEY_CODE_META_L]) {
+-                        [self toggleModifier:Q_KEY_CODE_META_L];
+-                    }
+-                }
+-            } else {
+-                keycode = cocoa_keycode_to_qemu([event keyCode]);
+-            }
+-
+-            if ((keycode == Q_KEY_CODE_META_L || keycode == Q_KEY_CODE_META_R)
+-               && !isMouseGrabbed) {
+-              /* Don't pass command key changes to guest unless mouse is grabbed */
+-              keycode = 0;
+-            }
++    if (qemu_console_is_graphic(NULL)) {
++        if (!(modifiers & NSEventModifierFlagShift)) {
++            [self clearModifier:Q_KEY_CODE_SHIFT];
++            [self clearModifier:Q_KEY_CODE_SHIFT_R];
++        }
++        if (!(modifiers & NSEventModifierFlagControl)) {
++            [self clearModifier:Q_KEY_CODE_CTRL];
++            [self clearModifier:Q_KEY_CODE_CTRL_R];
++        }
++        if (!(modifiers & NSEventModifierFlagOption)) {
++            [self clearModifier:Q_KEY_CODE_ALT];
++            [self clearModifier:Q_KEY_CODE_ALT_R];
++        }
++        if (!(modifiers & NSEventModifierFlagCommand)) {
++            [self clearModifier:Q_KEY_CODE_META_L];
++            [self clearModifier:Q_KEY_CODE_META_R];
++        }
++    }
+ 
+-            if (keycode) {
+-                // emulate caps lock and num lock keydown and keyup
+-                if (keycode == Q_KEY_CODE_CAPS_LOCK ||
+-                    keycode == Q_KEY_CODE_NUM_LOCK) {
+-                    [self toggleStatefulModifier:keycode];
+-                } else if (qemu_console_is_graphic(NULL)) {
+-                    if (switched_to_fullscreen) {
+-                        switched_to_fullscreen = false;
+-                    } else {
+-                        [self toggleModifier:keycode];
+-                    }
++    switch ([event type]) {
++        case NSEventTypeFlagsChanged:
++            if (qemu_console_is_graphic(NULL)) {
++                switch ([event keyCode]) {
++                    case kVK_Shift:
++                        if (!!(modifiers & NSEventModifierFlagShift)) {
++                            [self toggleModifier:Q_KEY_CODE_SHIFT];
++                        }
++                        break;
++
++                    case kVK_RightShift:
++                        if (!!(modifiers & NSEventModifierFlagShift)) {
++                            [self toggleModifier:Q_KEY_CODE_SHIFT_R];
++                        }
++                        break;
++
++                    case kVK_Control:
++                        if (!!(modifiers & NSEventModifierFlagControl)) {
++                            [self toggleModifier:Q_KEY_CODE_CTRL];
++                        }
++                        break;
++
++                    case kVK_RightControl:
++                        if (!!(modifiers & NSEventModifierFlagControl)) {
++                            [self toggleModifier:Q_KEY_CODE_CTRL_R];
++                        }
++                        break;
++
++                    case kVK_Option:
++                        if (!!(modifiers & NSEventModifierFlagOption)) {
++                            [self toggleModifier:Q_KEY_CODE_ALT];
++                        }
++                        break;
++
++                    case kVK_RightOption:
++                        if (!!(modifiers & NSEventModifierFlagOption)) {
++                            [self toggleModifier:Q_KEY_CODE_ALT_R];
++                        }
++                        break;
++
++                    /* Don't pass command key changes to guest unless mouse is grabbed */
++                    case kVK_Command:
++                        if (isMouseGrabbed &&
++                            !!(modifiers & NSEventModifierFlagCommand)) {
++                            [self toggleModifier:Q_KEY_CODE_META_L];
++                        }
++                        break;
++
++                    case kVK_RightCommand:
++                        if (isMouseGrabbed &&
++                            !!(modifiers & NSEventModifierFlagCommand)) {
++                            [self toggleModifier:Q_KEY_CODE_META_R];
++                        }
++                        break;
+                 }
+             }
+-
+             break;
+         case NSEventTypeKeyDown:
+             keycode = cocoa_keycode_to_qemu([event keyCode]);
+-- 
+2.24.3 (Apple Git-128)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBIRucACgkQbDjKyiDZ
-s5JvPRAAj0eDUrB0QYJ+8IZKV7S1TLp318uj+cJhehoIGbe2uCuSECGyQoNapIUA
-fc6ErdP98GIR6dAKQC4J2kzisGzrg65qUJJT334+m0ONrs+4oSiD60hLzXvPVRId
-erlwrkbyoDPgDZLGEkDX/y6Xx2wUJ8Q68HJZK4pWvZDb7dNQn07aWh3iz2qKhPqh
-WhUsFyUzZvyPulILbb60JNpv2uDTZkcmflfAQqrkRcbqLLDD2oBtu1+TkSQJMBnT
-GT6b7POkw2ArE8Zcd21P8G7zjPTbAqo1yS8QEorGMt9fO4qffyBl3Pl37Zrjxstr
-7vrKeZ7LTIWgk+jzmAGuk2ltifHXrIenWHoCLk6L/Sy1kG8JRBMb/4ScYSbtpgnf
-S2IsdQnMNAIeaLVan17qaIP/9rYjSLO+RcM2BQAWkCcet36DRyafzEblaAn4rzfH
-R+nRroLahikGN6jCbGGVwzh3DpGg5VJomcRgLsKJ9ws7uuAMm9T9qseWvkSQ2AGp
-EObkd7Iu65IS9mVwdIreknWepURePYPJ2dCZF8k0yOuds4ZJryiipPEOheNDfk6u
-YQ8GqnGYb38+aa81qrfija/JrjKsTmrp33+hxG/Whhq0Oslw/nM0Bi5oA0+rnTLD
-w1N4r23YzcMSVpntDKyKIC4YRy/UHLTc2aBoFlIVKYMKQyVSNkQ=
-=WSAC
------END PGP SIGNATURE-----
-
---/GrUe9PVAN5JEkEo--
 
