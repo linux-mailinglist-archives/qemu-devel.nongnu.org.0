@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8D033345A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:25:44 +0100 (CET)
-Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667F6333460
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:29:49 +0100 (CET)
+Received: from localhost ([::1]:35806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqPn-00014D-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:25:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1lJqTk-0003M4-FX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:29:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAz-0003cm-Fm; Tue, 09 Mar 2021 23:10:25 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58943 helo=ozlabs.org)
+ id 1lJqBJ-0004GV-Pk; Tue, 09 Mar 2021 23:10:45 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55091 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAx-0004FY-Qk; Tue, 09 Mar 2021 23:10:25 -0500
+ id 1lJqBH-0004FU-MY; Tue, 09 Mar 2021 23:10:45 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWf2kCtz9shn; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
+ id 4DwJWf3NNZz9sj0; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349406;
- bh=Pvi76breuEyFm035IaxECDDmYM+pX4UKxGtWO8tdvFM=;
+ bh=MUfs4+JETeZLAXM9XzFlrhnaPX5y/Vtl3oI/tTgM+sw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lKuxTZyUKnxjxQWi9f+DOI61fjPbSmJ5tQo9hA+TvUHVHg8iyDwvK5T9Cwwvmu5QG
- VKcGxiI5w4xshlPzH75Q1Upm2odY+316JRhDRH/nTFgCIVWshnFIUk8Q5npTaL921Z
- QLY5Qx+hqAC05wHe/Y5aMdANbM5npnZ67lJlNjSo=
+ b=MpeWv7ee6r98bXNw+a2bQmkKFbW5AWRMwbRFVq1ArWL2je6+Kcf2PLmQEIon4Nm/t
+ njU+DBDeX3nPvsbu/5sw0AjMnm9nXH30YtUU8plR4te4i/Ns4wIWwpoU2H0pHeqZPh
+ FKVefwpJI88ZZz/rZ+i/QNaVDYs+cGsGG4m73Jsk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 19/20] spapr.c: remove duplicated assert in
- spapr_memory_unplug_request()
-Date: Wed, 10 Mar 2021 15:10:01 +1100
-Message-Id: <20210310041002.333813-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/20] spapr.c: send QAPI event when memory hotunplug fails
+Date: Wed, 10 Mar 2021 15:10:02 +1100
+Message-Id: <20210310041002.333813-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,31 +64,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-We are asserting the existence of the first DRC LMB after sending unplug
-requests to all LMBs of the DIMM, where every DRC is being asserted
-inside the loop. This means that the first DRC is being asserted twice.
+Recent changes allowed the pSeries machine to rollback the hotunplug
+process for the DIMM when the guest kernel signals, via a
+reconfiguration of the DR connector, that it's not going to release the
+LMBs.
 
-Remove the duplicated assert.
+Let's also warn QAPI listerners about it. One place to do it would be
+right after the unplug state is cleaned up,
+spapr_clear_pending_dimm_unplug_state(). This would mean that the
+function is now doing more than cleaning up the pending dimm state
+though.
 
+This patch does the following changes in spapr.c:
+
+- send a QAPI event to inform that we experienced a failure in the
+  hotunplug of the DIMM;
+
+- rename spapr_clear_pending_dimm_unplug_state() to
+  spapr_memory_unplug_rollback(). This is a better fit for what the
+  function is now doing, and it makes callers care more about what the
+  function goal is and less about spapr.c internals such as clearing
+  the pending dimm unplug state.
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210302141019.153729-2-danielhb413@gmail.com>
+Message-Id: <20210302141019.153729-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/ppc/spapr.c         | 13 +++++++++++--
+ hw/ppc/spapr_drc.c     |  5 ++---
+ include/hw/ppc/spapr.h |  3 +--
+ 3 files changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index aca3ef9d58..b579830832 100644
+index b579830832..d56418ca29 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3703,7 +3703,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
- 
-     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
--    g_assert(drc);
-     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
-                                               nr_lmbs, spapr_drc_index(drc));
+@@ -28,6 +28,7 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-events-machine.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/hostmem.h"
+@@ -3575,14 +3576,14 @@ static SpaprDimmState *spapr_recover_pending_dimm_state(SpaprMachineState *ms,
+     return spapr_pending_dimm_unplugs_add(ms, avail_lmbs, dimm);
  }
+ 
+-void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+-                                           DeviceState *dev)
++void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
+ {
+     SpaprDimmState *ds;
+     PCDIMMDevice *dimm;
+     SpaprDrc *drc;
+     uint32_t nr_lmbs;
+     uint64_t size, addr_start, addr;
++    g_autofree char *qapi_error = NULL;
+     int i;
+ 
+     if (!dev) {
+@@ -3616,6 +3617,14 @@ void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+         drc->unplug_requested = false;
+         addr += SPAPR_MEMORY_BLOCK_SIZE;
+     }
++
++    /*
++     * Tell QAPI that something happened and the memory
++     * hotunplug wasn't successful.
++     */
++    qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
++                                 "for device %s", dev->id);
++    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
+ }
+ 
+ /* Callback to be called during DRC release. */
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 98b626acf9..8a71b03800 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -1231,12 +1231,11 @@ static void rtas_ibm_configure_connector(PowerPCCPU *cpu,
+ 
+     /*
+      * This indicates that the kernel is reconfiguring a LMB due to
+-     * a failed hotunplug. Clear the pending unplug state for the whole
+-     * DIMM.
++     * a failed hotunplug. Rollback the DIMM unplug process.
+      */
+     if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB &&
+         drc->unplug_requested) {
+-        spapr_clear_pending_dimm_unplug_state(spapr, drc->dev);
++        spapr_memory_unplug_rollback(spapr, drc->dev);
+     }
+ 
+     if (!drc->fdt) {
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index d6edeaaaff..47cebaf3ac 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -847,8 +847,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+ int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp);
+ void spapr_clear_pending_events(SpaprMachineState *spapr);
+ void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+-void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+-                                           DeviceState *dev);
++void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev);
+ int spapr_max_server_number(SpaprMachineState *spapr);
+ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+                       uint64_t pte0, uint64_t pte1);
 -- 
 2.29.2
 
