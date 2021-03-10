@@ -2,93 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07593343B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:52:16 +0100 (CET)
-Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F30033434C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:42:51 +0100 (CET)
+Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK24F-0000WG-ON
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:52:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
+	id 1lK1v8-0002G4-HI
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:42:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1mr-0003Vp-4S
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1mp-0005vj-PL
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615394055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8IJTg1Opjf9btKZST6m7Btr+ilCpeaD24GbYdLo1RjY=;
- b=CzzT5EiOTXuK794ISYOJJM9WKcP6E4Ft6eZiqq6zGu9dCqLpr8UCo5b6QykaA1i3kPsBsj
- oqY6FUWm/CCsFuVa1kFScqPiSwpTARqN/Alx0vnS36mAzJjoGv0RsZFbQdTpYYgtuSVZBy
- VaHW5MaZ/Ud70UYJRG+GoQt6PehYZko=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-aYfsH90SMHmdDhmRgVKLhQ-1; Wed, 10 Mar 2021 11:34:11 -0500
-X-MC-Unique: aYfsH90SMHmdDhmRgVKLhQ-1
-Received: by mail-ej1-f71.google.com with SMTP id mj6so7492903ejb.11
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:34:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8IJTg1Opjf9btKZST6m7Btr+ilCpeaD24GbYdLo1RjY=;
- b=kK8efM0v2ysvp6Y2xLYM7cFMsfRrNKkvl+vMEnUGfw2xQAXbpImBGaxH0bEv4K6IHz
- mSabadapvt713CyzhZASRD/ytFd0sOa0cKvmrrAAw6Wovm/1zNTpewDXw+f6nBedJhsr
- 9H1ND4emRXB/X7SMNxJjUMhQMvfyCEv5ppigpLxiJWhIOcGFt16nvf+wp6d9hDQZ19j1
- eIrkJkYLMEnQOI8Zq7DMfeNPpDb1GawcGwGppeosvdo2Ue2yzx2qe6BBhLb60NQ8EqjW
- /t6IB9/cweU31NxxjfsvNw4l9LK3ddUdx0tYfkzxsXwVxQx+GriygCmPf7uW6cqoXIsN
- wnrA==
-X-Gm-Message-State: AOAM531TZfMf6VUtPlhu7T0bB4tJU/PZQNmpJzYa8qGAYZ4RANSl22tE
- fZlRtlBvGzDR79fmdUS5LIT5YsFRhmd0NCjtuoYP7OKQYTpAIcdOlqg/GnIWgivoLotM8Ufvz+C
- i7b2Fxz0ZaTEfj20=
-X-Received: by 2002:a17:906:4015:: with SMTP id
- v21mr4659526ejj.433.1615394050003; 
- Wed, 10 Mar 2021 08:34:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyANs51R39StovbU7MRLoz0mQ/CIyB2tItY07eDeKqppyImGh5KlZLpe6VauvvJqENts/6gMA==
-X-Received: by 2002:a17:906:4015:: with SMTP id
- v21mr4659511ejj.433.1615394049849; 
- Wed, 10 Mar 2021 08:34:09 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id b19sm11092487edu.51.2021.03.10.08.34.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 08:34:09 -0800 (PST)
-Subject: Re: [PATCH 4/9] hw/block/pflash_cfi02: Set rom_mode to true in
- pflash_setup_mappings()
-To: David Edmondson <dme@dme.org>, qemu-devel@nongnu.org
-References: <20210309235028.912078-1-philmd@redhat.com>
- <20210309235028.912078-5-philmd@redhat.com> <m2r1knff73.fsf@dme.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cc8c72aa-c625-61a4-750a-496500b5c47b@redhat.com>
-Date: Wed, 10 Mar 2021 17:34:08 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lK1nI-0003dp-Hb
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:44 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:35539)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lK1nF-000645-Ty
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:34:44 -0500
+Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1McXs5-1lsGc2452T-00d2Al; Wed, 10 Mar 2021 17:34:36 +0100
+Subject: Re: [PULL 18/40] linux-user: Fix types in uaccess.c
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210216161658.29881-1-peter.maydell@linaro.org>
+ <20210216161658.29881-19-peter.maydell@linaro.org>
+ <ec051472-7511-62da-d485-17f7573aa460@vivier.eu>
+ <CAFEAcA87oLDyFJovHvppa+zwO=XJoFOt3Q5V9Y5+7BU+zDQsVw@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <b87c934e-ab46-d862-7fcc-736d6e3442b2@vivier.eu>
+Date: Wed, 10 Mar 2021 17:34:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <m2r1knff73.fsf@dme.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA87oLDyFJovHvppa+zwO=XJoFOt3Q5V9Y5+7BU+zDQsVw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Provags-ID: V03:K1:Oy7U66iEPsd+rW4/Vwys25nWt8AIK+2vVf0FaMLDQcVsM2jfD/R
+ MDbMSxk75I7Pfi2E4RI46s2Zm6RBG9zuFKChUnMLuEaHRq9mpyFt8hCMTUw1h3EU5GLqP33
+ sgc5qCDAkxY2cu6CXDQB9I2bJXXs8TE6zBSONGw2I6t5JK4StmQeuH7RQAZ8k74FBS4tLH+
+ Etidmv/6bGcRrvA1bNA8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4r4lwz4e894=:2InOkXSboLZcqjtQ+hRApw
+ EA9+8gtk64OmNc5muTQ4Sp/6w0rkabvPx83VNJjWtOI3Wp3gYeWFpa0N2exlyVL/joBlNxkCd
+ SYO3io4xcI8biLX4DpubAA4ENTqj2gsqWvMtm+buLG6xpGc012SJ0W3kFQMEerb1O+0UVPz0P
+ kg9OhCIg3KQNWlNLvQE8bpFLMUYIAuoaPhEM8JARuTh246hK3o2Ut6u7FOAqbjzXMRt374xrS
+ J+x0cKFhlMhKN+3YIQqDu6AZflr0AIITwnI5VpmA2OLPXHMmltuT1KH3SzblEx5h++A0RiLMJ
+ T9djfkiu5M2GH5vse58wTAxrETurPdOqvJIC/juCPTrJa6AY+rLU9Myh+LU/JcUaHuXWy8eX0
+ wmWpq8pWVCXvIx0yqqRPC27ADUNo2w1Ud77MRzcI4Ckq2Ch/waMl246pvP2JZ
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,37 +67,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 11:58 AM, David Edmondson wrote:
-> On Wednesday, 2021-03-10 at 00:50:23 +01, Philippe Mathieu-Daudé wrote:
-> 
->> There is only one call to pflash_setup_mappings(). Convert 'rom_mode'
->> to boolean and set it to true directly within pflash_setup_mappings().
+Le 10/03/2021 à 16:48, Peter Maydell a écrit :
+> On Fri, 19 Feb 2021 at 09:21, Laurent Vivier <laurent@vivier.eu> wrote:
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/block/pflash_cfi02.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> Hi Richard,
 >>
->> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
->> index 845f50ed99b..5f949b4c792 100644
->> --- a/hw/block/pflash_cfi02.c
->> +++ b/hw/block/pflash_cfi02.c
->> @@ -108,7 +108,7 @@ struct PFlashCFI02 {
->>      MemoryRegion mem;
->>      MemoryRegion *mem_mappings;    /* array; one per mapping */
->>      MemoryRegion orig_mem;
->> -    int rom_mode;
->> +    bool rom_mode;
+>> I think this commit is the cause of CID 1446711.
+>>
+>> There is no concistancy between the various declarations of unlock_user():
+>>
+>> bsd-user/qemu.h
+>>
+>> static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
+>>                                long len)
+>>
+>> include/exec/softmmu-semi.h
+>>
+>> static void softmmu_unlock_user(CPUArchState *env, void *p, target_ulong addr,
+>>                                 target_ulong len)
+>> ...
+>> #define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
+>>
+>> linux-user/qemu.h
+>>
+>> #ifndef DEBUG_REMAP
+>> static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
+>> { }
+>> #else
+>> void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
+>> #endif
+>>
+>> To take a signed long here allows to unconditionnaly call the unlock_user() function after the
+>> syscall and not to copy the buffer if the value is negative.
 > 
-> Given this, doesn't the second argument to pflash_register_memory() need
-> to change to bool, affecting its callers?
+> Hi; what was the conclusion here about how best to fix the Coverity issue?
 
-Indeed, thanks.
+For what I know, there is no conclusion.
+
+> To save people looking it up, Coverity complains because in the
+> TARGET_NR_readlinkat case for linux-user we do:
+>             void *p2;
+>             p  = lock_user_string(arg2);
+>             p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
+>             if (!p || !p2) {
+>                 ret = -TARGET_EFAULT;
+>             } else if (is_proc_myself((const char *)p, "exe")) {
+>                 char real[PATH_MAX], *temp;
+>                 temp = realpath(exec_path, real);
+>                 ret = temp == NULL ? get_errno(-1) : strlen(real) ;
+>                 snprintf((char *)p2, arg4, "%s", real);
+>             } else {
+>                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+>             }
+>             unlock_user(p2, arg3, ret);
+>             unlock_user(p, arg2, 0);
+> 
+> and in the "ret = -TARGET_EFAULT" and also the get_errno(readlinkat(...))
+> codepaths we can set ret to a negative number, which Coverity thinks
+> is suspicious given that unlock_user()'s new prototype says it
+> is an unsigned value. It's correct to be suspicious, because we really
+> did change from doing a >=0 to a !=0 check on the length.
+> 
+> Unless we really want to audit all the unlock_user() callsites,
+> going back to the previous semantics seems sensible.
+
+I agree with that.
+
+Thanks,
+Laurent
 
 
