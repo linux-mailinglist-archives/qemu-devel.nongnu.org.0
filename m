@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478023345C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:55:46 +0100 (CET)
-Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4113345C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:54:40 +0100 (CET)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK33h-0003LK-B1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:55:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
+	id 1lK32d-0001r2-PV
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:54:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lK2fB-00068s-4l
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:30:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lK2f8-0006XM-Gm
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:30:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615397420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gb5rQs4qgMFQU9uP6U3Hzen8MciKVUJAaBQygwm38pA=;
- b=FWouAwXZ1XBEzrAyZATY8iz5PIruqzm53pCKGkbTWTbnGNi8Xev4V7jnI9z+rC/8x3ZwEG
- DAiXRDSPfNrHUclRYrBBSc79u+zCfMFb/SXRVd66qbpib/m+WTc2BXypHb35fdyd6MmLQD
- QNcBVJytkM3XcJiS66ExkoH4RVlktxw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-NxfZ19CPM_GMeR9iQ01h_Q-1; Wed, 10 Mar 2021 12:30:13 -0500
-X-MC-Unique: NxfZ19CPM_GMeR9iQ01h_Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744E4108BD10
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 17:30:12 +0000 (UTC)
-Received: from localhost (ovpn-114-250.ams2.redhat.com [10.36.114.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D94A75C255;
- Wed, 10 Mar 2021 17:30:05 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] sockets: update SOCKET_ADDRESS_TYPE_FD listen(2) backlog
-Date: Wed, 10 Mar 2021 17:30:04 +0000
-Message-Id: <20210310173004.420190-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lK2fb-0006lT-N0; Wed, 10 Mar 2021 12:30:56 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lK2fZ-0006cH-Ob; Wed, 10 Mar 2021 12:30:51 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 7FC392F07;
+ Wed, 10 Mar 2021 12:30:44 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 10 Mar 2021 12:30:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=DsllWM25Xi5GY+KTxy3+6Ttkln9HBIgcAKjb3qeeU
+ cA=; b=oUJCJg5WZSGgWjpL03oX/hXlSnueK9U54UrOYGaTwd5rAlgVlED90HJFJ
+ pI330v1C4cGAsQ4ErSIShQPxriSjSn9QAQ0IHDA6Coba7XYWeWLygUVq73wx02jj
+ bq7GpebTCh7YdK479dHeoqUUnjopRaPFOo6Yx4OKcTO1Z6SrOMhScmdcvtjamgRZ
+ NdpzN9wIfl2NXBky2GcfFFrXUq9Ch4f0dJ9pO1uASt2Ac6vcD+VcpW/U6GcZdUIT
+ dDz4gGmZ+3gU/ekN/6bzgYNXUGAycpt/hAx1qHmgvXTZyKkMM9Rm0Ng5oCAO5GbA
+ yBZn8a+TwUF6gWIcZQZ3vqzFBMQdA==
+X-ME-Sender: <xms:QwJJYIuU59_Y0b1TH7yZ5PvdysekzTbOkGwSrFCCsf8n9tY8JXEXTw>
+ <xme:QwJJYFc9KSf80rrUTBJF7l6O5pMJcLRlS3plMQRZwYjrJ7WPpHoIlhA5QVrYOMNhl
+ M7IRfMKh66Fe8wHTDQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedguddtvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefvufgjfhfhfffkgggtgfesthhqredttddtjeenucfhrhhomhepffgrvhhi
+ ugcugfgumhhonhgushhonhcuoegurghvihgurdgvughmohhnughsohhnsehorhgrtghlvg
+ drtghomheqnecuggftrfgrthhtvghrnhepkeeivddtgfeutddtfffhiefhfeeftddtkeek
+ tdeludehjefggefhudejleevudfhnecukfhppeekuddrudekjedrvdeirddvfeeknecuve
+ hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggrvhhiugdr
+ vggumhhonhgushhonhesohhrrggtlhgvrdgtohhm
+X-ME-Proxy: <xmx:QwJJYDygP69y4UHauVwAesw6c_ToxU4KtbFEyFGBsK7J2TA8ZqZYfQ>
+ <xmx:QwJJYLONQMwpevhNtY_p6koJrjXZ-TuY-R1sz7SOWobs2Ws0uWTqyg>
+ <xmx:QwJJYI_rEg40sqBG_AIFlE8n_vYzKA5sVsPptwCMkeuWpN0PxL53Gw>
+ <xmx:RAJJYCdUyXhN10Rglj-VMGNiUSClK40ExnrK5j0pVVyO36t6zzw9WA>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6A09724005C;
+ Wed, 10 Mar 2021 12:30:42 -0500 (EST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 874c4f40;
+ Wed, 10 Mar 2021 17:30:41 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 04/12] hw/block/pflash_cfi02: Set rom_mode to true in
+ pflash_setup_mappings()
+In-Reply-To: <20210310170528.1184868-5-philmd@redhat.com>
+References: <20210310170528.1184868-1-philmd@redhat.com>
+ <20210310170528.1184868-5-philmd@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <david.edmondson@oracle.com>
+Date: Wed, 10 Mar 2021 17:30:40 +0000
+Message-ID: <m27dmegblr.fsf@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=64.147.123.25;
+ envelope-from=david.edmondson@oracle.com; helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +91,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-c29ja2V0X2dldF9mZCgpIGZhaWxzIHdpdGggdGhlIGVycm9yICJzb2NrZXRfZ2V0X2ZkOiB0b28g
-bWFueQpjb25uZWN0aW9ucyIgaWYgdGhlIGdpdmVuIGxpc3RlbiBiYWNrbG9nIHZhbHVlIGlzIG5v
-dCAxLgoKTm90IGFsbCBjYWxsZXJzIHNldCB0aGUgYmFja2xvZyB0byAxLiBGb3IgZXhhbXBsZSwg
-Y29tbWl0CjU4MmQ0MjEwZWIyZjJhYjViYWFjMzI4ZmU0YjQ3OWNkODZkYTE2NDcgKCJxZW11LW5i
-ZDogVXNlIFNPTUFYQ09OTiBmb3IKc29ja2V0IGxpc3RlbigpIGJhY2tsb2ciKSB1c2VzIFNPTUFY
-Q09OTi4gVGhpcyB3aWxsIGFsd2F5cyBmYWlsIHdpdGggaW4Kc29ja2V0X2dldF9mZCgpLgoKVGhp
-cyBwYXRjaCBjYWxscyBsaXN0ZW4oMikgb24gdGhlIGZkIHRvIHVwZGF0ZSB0aGUgYmFja2xvZyB2
-YWx1ZS4gVGhlCnNvY2tldCBtYXkgYWxyZWFkeSBiZSBpbiB0aGUgbGlzdGVuIHN0YXRlLiBJIGhh
-dmUgdGVzdGVkIHRoYXQgdGhpcyB3b3JrcwpvbiBMaW51eCA1LjEwIGFuZCBtYWNPUyBDYXRhbGlu
-YS4KCkFzIGEgYm9udXMgdGhpcyBhbGxvd3MgdXMgdG8gZGV0ZWN0IHdoZW4gdGhlIGZkIGNhbm5v
-dCBsaXN0ZW4uIE5vdyB3ZSdsbApiZSBhYmxlIHRvIGNhdGNoIHVuYm91bmQgb3IgY29ubmVjdGVk
-IGZkcyBpbiBzb2NrZXRfbGlzdGVuKCkuCgpEcm9wIHRoZSBudW0gYXJndW1lbnQgZnJvbSBzb2Nr
-ZXRfZ2V0X2ZkKCkgc2luY2UgdGhpcyBmdW5jdGlvbiBpcyBhbHNvCmNhbGxlZCBieSBzb2NrZXRf
-Y29ubmVjdCgpIHdoZXJlIGEgbGlzdGVuIGJhY2tsb2cgdmFsdWUgZG9lcyBub3QgbWFrZQpzZW5z
-ZS4KCkZpeGVzOiBlNWI2MzUzY2YyNWM5OWMzZjA4YmY1MWUyOTkzMzM1MmY3MTQwZThmICgic29j
-a2V0OiBBZGQgYmFja2xvZyBwYXJhbWV0ZXIgdG8gc29ja2V0X2xpc3RlbiIpClJlcG9ydGVkLWJ5
-OiBSaWNoYXJkIFcuTS4gSm9uZXMgPHJqb25lc0ByZWRoYXQuY29tPgpDYzogSnVhbiBRdWludGVs
-YSA8cXVpbnRlbGFAcmVkaGF0LmNvbT4KQ2M6IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0t
-LQogdXRpbC9xZW11LXNvY2tldHMuYyB8IDI5ICsrKysrKysrKysrKysrKysrKysrKystLS0tLS0t
-CiAxIGZpbGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS91dGlsL3FlbXUtc29ja2V0cy5jIGIvdXRpbC9xZW11LXNvY2tldHMuYwppbmRleCA4
-YWYwMjc4ZjE1Li4yNDYzYzQ5NzczIDEwMDY0NAotLS0gYS91dGlsL3FlbXUtc29ja2V0cy5jCisr
-KyBiL3V0aWwvcWVtdS1zb2NrZXRzLmMKQEAgLTExMTYsMTQgKzExMTYsMTAgQEAgZmFpbDoKICAg
-ICByZXR1cm4gTlVMTDsKIH0KIAotc3RhdGljIGludCBzb2NrZXRfZ2V0X2ZkKGNvbnN0IGNoYXIg
-KmZkc3RyLCBpbnQgbnVtLCBFcnJvciAqKmVycnApCitzdGF0aWMgaW50IHNvY2tldF9nZXRfZmQo
-Y29uc3QgY2hhciAqZmRzdHIsIEVycm9yICoqZXJycCkKIHsKICAgICBNb25pdG9yICpjdXJfbW9u
-ID0gbW9uaXRvcl9jdXIoKTsKICAgICBpbnQgZmQ7Ci0gICAgaWYgKG51bSAhPSAxKSB7Ci0gICAg
-ICAgIGVycm9yX3NldGdfZXJybm8oZXJycCwgRUlOVkFMLCAic29ja2V0X2dldF9mZDogdG9vIG1h
-bnkgY29ubmVjdGlvbnMiKTsKLSAgICAgICAgcmV0dXJuIC0xOwotICAgIH0KICAgICBpZiAoY3Vy
-X21vbikgewogICAgICAgICBmZCA9IG1vbml0b3JfZ2V0X2ZkKGN1cl9tb24sIGZkc3RyLCBlcnJw
-KTsKICAgICAgICAgaWYgKGZkIDwgMCkgewpAQCAtMTE1OSw3ICsxMTU1LDcgQEAgaW50IHNvY2tl
-dF9jb25uZWN0KFNvY2tldEFkZHJlc3MgKmFkZHIsIEVycm9yICoqZXJycCkKICAgICAgICAgYnJl
-YWs7CiAKICAgICBjYXNlIFNPQ0tFVF9BRERSRVNTX1RZUEVfRkQ6Ci0gICAgICAgIGZkID0gc29j
-a2V0X2dldF9mZChhZGRyLT51LmZkLnN0ciwgMSwgZXJycCk7CisgICAgICAgIGZkID0gc29ja2V0
-X2dldF9mZChhZGRyLT51LmZkLnN0ciwgZXJycCk7CiAgICAgICAgIGJyZWFrOwogCiAgICAgY2Fz
-ZSBTT0NLRVRfQUREUkVTU19UWVBFX1ZTT0NLOgpAQCAtMTE4Nyw3ICsxMTgzLDI2IEBAIGludCBz
-b2NrZXRfbGlzdGVuKFNvY2tldEFkZHJlc3MgKmFkZHIsIGludCBudW0sIEVycm9yICoqZXJycCkK
-ICAgICAgICAgYnJlYWs7CiAKICAgICBjYXNlIFNPQ0tFVF9BRERSRVNTX1RZUEVfRkQ6Ci0gICAg
-ICAgIGZkID0gc29ja2V0X2dldF9mZChhZGRyLT51LmZkLnN0ciwgbnVtLCBlcnJwKTsKKyAgICAg
-ICAgZmQgPSBzb2NrZXRfZ2V0X2ZkKGFkZHItPnUuZmQuc3RyLCBlcnJwKTsKKyAgICAgICAgaWYg
-KGZkIDwgMCkgeworICAgICAgICAgICAgcmV0dXJuIC0xOworICAgICAgICB9CisKKyAgICAgICAg
-LyoKKyAgICAgICAgICogSWYgdGhlIHNvY2tldCBpcyBub3QgeWV0IGluIHRoZSBsaXN0ZW4gc3Rh
-dGUsIHRoZW4gdHJhbnNpdGlvbiBpdCB0bworICAgICAgICAgKiB0aGUgbGlzdGVuIHN0YXRlIG5v
-dy4KKyAgICAgICAgICoKKyAgICAgICAgICogSWYgaXQncyBhbHJlYWR5IGxpc3RlbmluZyB0aGVu
-IHRoaXMgdXBkYXRlcyB0aGUgYmFja2xvZyB2YWx1ZSBhcworICAgICAgICAgKiByZXF1ZXN0ZWQu
-CisgICAgICAgICAqCisgICAgICAgICAqIElmIHRoaXMgc29ja2V0IGNhbm5vdCBsaXN0ZW4gYmVj
-YXVzZSBpdCdzIGFscmVhZHkgaW4gYW5vdGhlciBzdGF0ZQorICAgICAgICAgKiAoZS5nLiB1bmJv
-dW5kIG9yIGNvbm5lY3RlZCkgdGhlbiB3ZSdsbCBjYXRjaCB0aGUgZXJyb3IgaGVyZS4KKyAgICAg
-ICAgICovCisgICAgICAgIGlmIChsaXN0ZW4oZmQsIG51bSkgIT0gMCkgeworICAgICAgICAgICAg
-ZXJyb3Jfc2V0Z19lcnJubyhlcnJwLCBlcnJubywgIkZhaWxlZCB0byBsaXN0ZW4gb24gZmQgc29j
-a2V0Iik7CisgICAgICAgICAgICBjbG9zZXNvY2tldChmZCk7CisgICAgICAgICAgICByZXR1cm4g
-LTE7CisgICAgICAgIH0KICAgICAgICAgYnJlYWs7CiAKICAgICBjYXNlIFNPQ0tFVF9BRERSRVNT
-X1RZUEVfVlNPQ0s6Ci0tIAoyLjI5LjIKCg==
+On Wednesday, 2021-03-10 at 18:05:20 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
+> There is only one call to pflash_setup_mappings(). Convert 'rom_mode'
+> to boolean and set it to true directly within pflash_setup_mappings().
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+
+> ---
+> v2: Convert to bool in pflash_register_memory (David)
+> ---
+>  hw/block/pflash_cfi02.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 845f50ed99b..0eb868ecd3d 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -108,7 +108,7 @@ struct PFlashCFI02 {
+>      MemoryRegion mem;
+>      MemoryRegion *mem_mappings;    /* array; one per mapping */
+>      MemoryRegion orig_mem;
+> -    int rom_mode;
+> +    bool rom_mode;
+>      int read_counter; /* used for lazy switch-back to rom mode */
+>      int sectors_to_erase;
+>      uint64_t erase_time_remaining;
+> @@ -181,12 +181,13 @@ static void pflash_setup_mappings(PFlashCFI02 *pfl)
+>                                   "pflash-alias", &pfl->orig_mem, 0, size=
+);
+>          memory_region_add_subregion(&pfl->mem, i * size, &pfl->mem_mappi=
+ngs[i]);
+>      }
+> +    pfl->rom_mode =3D true;
+>  }
+>=20=20
+>  static void pflash_register_memory(PFlashCFI02 *pfl, int rom_mode)
+>  {
+>      memory_region_rom_device_set_romd(&pfl->orig_mem, rom_mode);
+> -    pfl->rom_mode =3D rom_mode;
+> +    pfl->rom_mode =3D !!rom_mode;
+>  }
+>=20=20
+>  static size_t pflash_regions_count(PFlashCFI02 *pfl)
+> @@ -927,7 +928,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      pfl->sector_erase_map =3D bitmap_new(pfl->total_sectors);
+>=20=20
+>      pflash_setup_mappings(pfl);
+> -    pfl->rom_mode =3D 1;
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
+>=20=20
+>      timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+> --=20
+> 2.26.2
+
+dme.
+--=20
+Everyone I know, goes away in the end.
 
