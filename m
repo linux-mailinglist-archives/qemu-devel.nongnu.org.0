@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CA53342F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:20:48 +0100 (CET)
-Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1623342F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 17:22:14 +0100 (CET)
+Received: from localhost ([::1]:40646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK1Zn-0005bq-AC
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:20:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
+	id 1lK1bB-0007nS-Gq
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 11:22:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1I0-0005S3-0O
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1I0-0005T7-NK
  for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:02:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52416)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1Hq-0003WJ-HW
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:02:23 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK1Hu-0003b9-Ag
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:02:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615392123;
+ s=mimecast20190719; t=1615392137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B3xaH0TWbEO7Mh01q5cRC27I0HaUzq5ELvE0IDN8LPc=;
- b=F1wyuvJQqlk/h/OzPgxvAZEp6YXv6ZHbbgxWTKQxtZ2dD6+GWvu6IAcvCp6kWnJMe/SNKc
- 333zhbLryMCfkmbaROGDFLovW3LWb0tnOXbD7Agem+V1R08uUuAMxrRR0ZJlrbi1An3RS8
- qQuxs71DgokjixRrdyQT94ye3pUui84=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-m0r-UiyUMAS0A4qE3H361A-1; Wed, 10 Mar 2021 11:02:00 -0500
-X-MC-Unique: m0r-UiyUMAS0A4qE3H361A-1
-Received: by mail-ej1-f69.google.com with SMTP id li22so2910908ejb.18
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:02:00 -0800 (PST)
+ bh=0zxcBphhiOETeSJ3HAp76zLwbki6XNRBCYQIOVB2vCU=;
+ b=STeJDMAOb6yLnRz1QBvV5bIjuu13o3ljNzz48aptdSQ8dSd/Qlv2Iwoh0MsxQBnPMphwjg
+ vX0h/doKrifHIGwyu7h0Cg127CeVC079+UuFufjsfdDctn19GP/JzBUwcwqE3YoBvHu3ZR
+ BPO3IAVZz6SJ57s5ef0Gn1BeJcEMH2Q=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-Pzn0xth5MTOKRtGqA0BOOQ-1; Wed, 10 Mar 2021 11:02:15 -0500
+X-MC-Unique: Pzn0xth5MTOKRtGqA0BOOQ-1
+Received: by mail-ed1-f72.google.com with SMTP id v27so8597100edx.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:02:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B3xaH0TWbEO7Mh01q5cRC27I0HaUzq5ELvE0IDN8LPc=;
- b=qKcIqkYxTq9xw0MUz/gHzFjSbsvXXOHeLNLQYPgIN+e0E2F+Mq08apmHQQo6z66n7/
- MHukAxkfJ9MvEczRthZ+czfmHnLLdGgzKbKWnMylCCN1DF5ZtuwAZkkLs7bF+uVc8Tlq
- W7VgErry7exxZKRZgapbqzHz7Cv5wmGsqd4q6qwO17sRg++j7LEmyg222NT/L7yxAcNH
- hzsYrEo5QdqGUokz9Vg5kNLiGe9KoNCqt1iv+1ZI4ePqaEMtKVhoefjKklkSksOr8K1i
- kB5U5eK/aM61IgYoyJM8Dx+QddP59CeklpeXNPlC0Jzg1CcBxPL1HcNW/y1oJanvZ/BD
- YmZQ==
-X-Gm-Message-State: AOAM533r3vvVKi6UMQafUTtm79BZJSJ6tCV+8iIsZvCWlRJFPWdLzWHr
- lj+2/YhtjyrjZ5yW+OaXU0XHRqGfL5AxqkONeVCBOxu+mGEMNm7QNer5Ee1h6Lb6elwFGSVeOst
- SUe38y2SXswQIN3DnY6jpSlXK5nrSLhYQCVPEITImkI7eulbs6dLjsc0cjWL3dI7O
-X-Received: by 2002:a17:906:684b:: with SMTP id
- a11mr4252097ejs.329.1615392114669; 
- Wed, 10 Mar 2021 08:01:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJya64dRK5SMgu8YnTkmqmESDBriI7BUsWzsvLm+e3mD1nvxOWGHfnNrQ5WFAKM3XvdVx4ATgA==
-X-Received: by 2002:a17:906:684b:: with SMTP id
- a11mr4252033ejs.329.1615392114018; 
- Wed, 10 Mar 2021 08:01:54 -0800 (PST)
+ bh=0zxcBphhiOETeSJ3HAp76zLwbki6XNRBCYQIOVB2vCU=;
+ b=ukQdfnpPRBGMgTz0ho97m2TRgE28w8B9nndjR/SVtCBqIndaPD8+f4YrgZ1FoAyoDk
+ g7tNGvNLPRCSmMNfyy9wXkfXx95TNUanunxQXVvZe+VbO4P8dX+Y1u5MdLsrSPjZslVX
+ 0b/fiWug3f099wZHgtogGoGMtlr9N3lnovOOyegX+7p4kCY52I+PO71nGS5Zm9vl9uBO
+ UqkkT8iZkG5xGbw8F8wCuOjfJMpi3NSTiVUGqe749CWttoIYNyJxMl7B1XlvxylX9eg3
+ nnG1SB/e2fMwFTEdit0HjlzAlaeiCvjRa6GXEDhap5We6VMA+thAqYS+xGiyDAUJ4BD5
+ ytIA==
+X-Gm-Message-State: AOAM5332KXe8lp0nbcspMISSag7GL0/Vc+BWDpvPgYXsGBOEFLtd22i1
+ rNlFAvQ4GrCH9BZMIwq6boUTc3AYIUuB1a6ARtyiQXodpnHJarE1kCcsqCyZanAbFaNIBCTnUO7
+ +rmgnJ+bJJAf6TkzLpWgE4vsZfMwwUaXKv3aMmLoP4lIk2gM0OC6ZIAsvS+1ugGff
+X-Received: by 2002:a17:906:94ca:: with SMTP id
+ d10mr4372147ejy.107.1615392129649; 
+ Wed, 10 Mar 2021 08:02:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyQDDoDqFQvJ/MhGgNGsJegguM7SM+nDrBu9m6mmuFSl9OYZYU6/QgAPFOGYMuO6YxPmbEjFg==
+X-Received: by 2002:a17:906:94ca:: with SMTP id
+ d10mr4371599ejy.107.1615392124499; 
+ Wed, 10 Mar 2021 08:02:04 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e26sm11940282edj.29.2021.03.10.08.01.52
+ by smtp.gmail.com with ESMTPSA id w18sm10194493ejn.23.2021.03.10.08.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 08:01:53 -0800 (PST)
+ Wed, 10 Mar 2021 08:02:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/7] net/eth: Make ip6_ext_hdr *ext_hdr pointer to const
-Date: Wed, 10 Mar 2021 17:01:31 +0100
-Message-Id: <20210310160135.1148272-4-philmd@redhat.com>
+Subject: [PATCH v5 5/7] net/eth: Check iovec has enough data earlier
+Date: Wed, 10 Mar 2021 17:01:33 +0100
+Message-Id: <20210310160135.1148272-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210310160135.1148272-1-philmd@redhat.com>
 References: <20210310160135.1148272-1-philmd@redhat.com>
@@ -103,27 +103,30 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the callee doesn't need to modify the ext_hdr buffer,
-mark it const.
+We want to check fields from ip6_ext_hdr_routing structure
+and if correct read the full in6_address. Let's directly check
+if our iovec contains enough data for everything, else return
+early.
 
+Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
  net/eth.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/eth.c b/net/eth.c
-index 6a5a1d04e0b..7c47a267a7a 100644
+index e870d02b0df..28cdc843a69 100644
 --- a/net/eth.c
 +++ b/net/eth.c
-@@ -402,7 +402,7 @@ eth_is_ip6_extension_header_type(uint8_t hdr_type)
- static bool
- _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
-                         size_t ext_hdr_offset,
--                        struct ip6_ext_hdr *ext_hdr,
-+                        const struct ip6_ext_hdr *ext_hdr,
-                         struct in6_address *dst_addr)
- {
-     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+@@ -409,7 +409,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+     size_t input_size = iov_size(pkt, pkt_frags);
+     size_t bytes_read;
+ 
+-    if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
++    if (input_size < ext_hdr_offset + sizeof(*rthdr) + sizeof(*dst_addr)) {
+         return false;
+     }
+ 
 -- 
 2.26.2
 
