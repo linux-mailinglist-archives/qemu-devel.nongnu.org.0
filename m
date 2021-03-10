@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2543345FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:58:56 +0100 (CET)
-Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92D433454A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:42:07 +0100 (CET)
+Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK36l-0006s1-W8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:58:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41368)
+	id 1lK2qU-0005yK-Pe
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:42:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1lK2gm-0007HE-I9; Wed, 10 Mar 2021 12:32:04 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33993)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1lK2gk-0006pU-Pn; Wed, 10 Mar 2021 12:32:04 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id D9F8D2BED;
- Wed, 10 Mar 2021 12:31:59 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 10 Mar 2021 12:32:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=au7Ta6bzKPD7+xwB3OlDBgCBrThZudorngh2osyCX
- g8=; b=U8Z/jDfErQPMY692qdnjzhiB9Z9Sni3WOlQ9vOLr1jMRzpMHeZlBaigfM
- 5WwSufONR7domtXJoh3g00QSUZOu6xdeLlswfAYzZYjgP8dk7XHEddt2lU4bWeo3
- nENJeUEAXgqAQwfi6vQWMnWoi3hU37xxgIjy/t/dOyFXqEOJUqGB3Rvniy01SXXv
- 3jxMadLCAsPRzazE3ceCa9m07dLaH37nA0WVAmkNt3TXsR4U4MIVCBigSlGQkNnp
- C6Mec38HwVpvxs/Nx+fkPtpfhJx11ShmJNb5kCLXahXSOAQo+iTKy9Ja4nCGeA7V
- KlYW+AIJXf4CbTpKxqM6VatGJjS/w==
-X-ME-Sender: <xms:jwJJYH-JN_49iGMk9_Mr8cpX3Gpl89ldvZe7ANNVwjKLEJmrJxtiXQ>
- <xme:jwJJYDvBN07aC4_NUPy4ehpAWVTS98BtWGtTNcWO0RYcAIB6XFDYmBylAaDWYp6YG
- ttjfR1j0uwcPufr08k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedguddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefvufgjfhfhfffkgggtgfesthhqredttddtjeenucfhrhhomhepffgrvhhi
- ugcugfgumhhonhgushhonhcuoegurghvihgurdgvughmohhnughsohhnsehorhgrtghlvg
- drtghomheqnecuggftrfgrthhtvghrnhepkeeivddtgfeutddtfffhiefhfeeftddtkeek
- tdeludehjefggefhudejleevudfhnecukfhppeekuddrudekjedrvdeirddvfeeknecuve
- hluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepuggrvhhiugdr
- vggumhhonhgushhonhesohhrrggtlhgvrdgtohhm
-X-ME-Proxy: <xmx:jwJJYFCgHKmviPPQojUkG6CuESOnVRBGCkqUmIPef6Cc2maE8cuLWA>
- <xmx:jwJJYDeO2yf4EWbcNewvqEYvgxC2p0jl5nWjGD6bD0YywwqbHVh2pw>
- <xmx:jwJJYMO7OEOqccMJvGqrJ7Hvh7dWtK0eTduoBJrAgUhYUfgxrRGE7A>
- <xmx:jwJJYImeMHBTGSckj4q0sfAJypj8vphR9SMo6FJopa2nZpXjImtOGQ>
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
- [81.187.26.238])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6CEE71080054;
- Wed, 10 Mar 2021 12:31:58 -0500 (EST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 184cebb9;
- Wed, 10 Mar 2021 17:31:57 +0000 (UTC)
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 08/12] hw/block/pflash_cfi02: Add DeviceReset method
-In-Reply-To: <20210310170528.1184868-9-philmd@redhat.com>
-References: <20210310170528.1184868-1-philmd@redhat.com>
- <20210310170528.1184868-9-philmd@redhat.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <david.edmondson@oracle.com>
-Date: Wed, 10 Mar 2021 17:31:57 +0000
-Message-ID: <m2y2euewz6.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iN-0007hi-0t
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lK2iH-0006yY-7Y
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:33:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615397616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+zve30dje/9XnSdNB4el5HXg0L8IB4L2l+Yz29v9zhM=;
+ b=AZxSLMU3is10lfBt+v4ZKmAWwdRLmH/GTVvEuZ01uutjOBqJZ6yJHjxKWHhAIR6yr8cQOF
+ 1aqi02M+WFl4LRfxWZVQY/n6oqAbzAn5tYTGVyENigA/ykIDOT0xFnRw0Q/s/W/K7zxdLd
+ aSdgGaUc99C23mt63M2bkdeeZGT+4XI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-LK4Ejn5GMM2fx0PpjUnjYA-1; Wed, 10 Mar 2021 12:33:34 -0500
+X-MC-Unique: LK4Ejn5GMM2fx0PpjUnjYA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 883CF801817;
+ Wed, 10 Mar 2021 17:33:33 +0000 (UTC)
+Received: from thuth.com (ovpn-112-19.ams2.redhat.com [10.36.112.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F1E860C13;
+ Wed, 10 Mar 2021 17:33:31 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 1/4] usb: remove support for -usbdevice parameters
+Date: Wed, 10 Mar 2021 18:33:20 +0100
+Message-Id: <20210310173323.1422754-2-thuth@redhat.com>
+In-Reply-To: <20210310173323.1422754-1-thuth@redhat.com>
+References: <20210310173323.1422754-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=64.147.123.25;
- envelope-from=david.edmondson@oracle.com; helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
- UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,55 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2021-03-10 at 18:05:24 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+No device needs them anymore and in fact they're undocumented.
+Remove the code.  The only change in behavior is that "-usbdevice
+braille:hello" now reports an error, which is a bugfix.
 
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/usb/bus.c        | 32 +++++++-------------------------
+ hw/usb/dev-serial.c |  2 +-
+ include/hw/usb.h    |  2 +-
+ 3 files changed, 9 insertions(+), 27 deletions(-)
 
-> ---
->  hw/block/pflash_cfi02.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index aea47a99c61..c40febd2a41 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -942,6 +942,13 @@ static void pflash_cfi02_realize(DeviceState *dev, E=
-rror **errp)
->      pflash_cfi02_fill_cfi_table(pfl, nb_regions);
->  }
->=20=20
-> +static void pflash_cfi02_reset(DeviceState *dev)
-> +{
-> +    PFlashCFI02 *pfl =3D PFLASH_CFI02(dev);
-> +
-> +    pflash_reset_state_machine(pfl);
-> +}
-> +
->  static Property pflash_cfi02_properties[] =3D {
->      DEFINE_PROP_DRIVE("drive", PFlashCFI02, blk),
->      DEFINE_PROP_UINT32("num-blocks", PFlashCFI02, uniform_nb_blocs, 0),
-> @@ -979,6 +986,7 @@ static void pflash_cfi02_class_init(ObjectClass *klas=
-s, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->=20=20
->      dc->realize =3D pflash_cfi02_realize;
-> +    dc->reset =3D pflash_cfi02_reset;
->      dc->unrealize =3D pflash_cfi02_unrealize;
->      device_class_set_props(dc, pflash_cfi02_properties);
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> --=20
-> 2.26.2
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index 064f94e9c3..4b8882427d 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -312,13 +312,13 @@ typedef struct LegacyUSBFactory
+ {
+     const char *name;
+     const char *usbdevice_name;
+-    USBDevice *(*usbdevice_init)(const char *params);
++    USBDevice *(*usbdevice_init)(void);
+ } LegacyUSBFactory;
+ 
+ static GSList *legacy_usb_factory;
+ 
+ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+-                         USBDevice *(*usbdevice_init)(const char *params))
++                         USBDevice *(*usbdevice_init)(void))
+ {
+     if (usbdevice_name) {
+         LegacyUSBFactory *f = g_malloc0(sizeof(*f));
+@@ -663,27 +663,17 @@ void hmp_info_usb(Monitor *mon, const QDict *qdict)
+ }
+ 
+ /* handle legacy -usbdevice cmd line option */
+-USBDevice *usbdevice_create(const char *cmdline)
++USBDevice *usbdevice_create(const char *driver)
+ {
+     USBBus *bus = usb_bus_find(-1 /* any */);
+     LegacyUSBFactory *f = NULL;
+     Error *err = NULL;
+     GSList *i;
+-    char driver[32];
+-    const char *params;
+-    int len;
+     USBDevice *dev;
+ 
+-    params = strchr(cmdline,':');
+-    if (params) {
+-        params++;
+-        len = params - cmdline;
+-        if (len > sizeof(driver))
+-            len = sizeof(driver);
+-        pstrcpy(driver, len, cmdline);
+-    } else {
+-        params = "";
+-        pstrcpy(driver, sizeof(driver), cmdline);
++    if (strchr(driver, ':')) {
++        error_report("usbdevice parameters are not supported anymore");
++        return NULL;
+     }
+ 
+     for (i = legacy_usb_factory; i; i = i->next) {
+@@ -707,15 +697,7 @@ USBDevice *usbdevice_create(const char *cmdline)
+         return NULL;
+     }
+ 
+-    if (f->usbdevice_init) {
+-        dev = f->usbdevice_init(params);
+-    } else {
+-        if (*params) {
+-            error_report("usbdevice %s accepts no params", driver);
+-            return NULL;
+-        }
+-        dev = usb_new(f->name);
+-    }
++    dev = f->usbdevice_init ? f->usbdevice_init() : usb_new(f->name);
+     if (!dev) {
+         error_report("Failed to create USB device '%s'", f->name);
+         return NULL;
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index b58c4eb908..63047d79cf 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -614,7 +614,7 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+ }
+ 
+-static USBDevice *usb_braille_init(const char *unused)
++static USBDevice *usb_braille_init(void)
+ {
+     USBDevice *dev;
+     Chardev *cdrv;
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index abfbfc5284..08684bcd27 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -500,7 +500,7 @@ void usb_bus_new(USBBus *bus, size_t bus_size,
+ void usb_bus_release(USBBus *bus);
+ USBBus *usb_bus_find(int busnr);
+ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+-                         USBDevice *(*usbdevice_init)(const char *params));
++                         USBDevice *(*usbdevice_init)(void));
+ USBDevice *usb_new(const char *name);
+ bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
+ USBDevice *usb_create_simple(USBBus *bus, const char *name);
+-- 
+2.27.0
 
-dme.
---=20
-Stop the music and go home.
 
