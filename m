@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54419333458
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:23:09 +0100 (CET)
-Received: from localhost ([::1]:51730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8D033345A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:25:44 +0100 (CET)
+Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqNI-0006TG-DT
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:23:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
+	id 1lJqPn-00014D-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:25:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqBL-0004Jm-9e; Tue, 09 Mar 2021 23:10:47 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:60833 helo=ozlabs.org)
+ id 1lJqAz-0003cm-Fm; Tue, 09 Mar 2021 23:10:25 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58943 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqBH-0004FT-N7; Tue, 09 Mar 2021 23:10:46 -0500
+ id 1lJqAx-0004FY-Qk; Tue, 09 Mar 2021 23:10:25 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWf2QfLz9sf9; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
+ id 4DwJWf2kCtz9shn; Wed, 10 Mar 2021 15:10:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349406;
- bh=RDDaoxGlqZ067yRviJA7gZVjML6Hf1+QMpsvVlDJQto=;
+ bh=Pvi76breuEyFm035IaxECDDmYM+pX4UKxGtWO8tdvFM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VFruNws5cnc9GidZp4B8EsTjLOmUovgYF8gktlEqJs/s32fgC2ND1MQHNiE2aBCXS
- 8aBUQab91vnDp28CEGrJiP6+9B+ZBcZXf1OVzMJsfSMSOl69MWuUp7wym/4AKPIxDG
- h/4xf8mERAs8siBQ4LhwWtJ9uqjPb84IEZVY1o0o=
+ b=lKuxTZyUKnxjxQWi9f+DOI61fjPbSmJ5tQo9hA+TvUHVHg8iyDwvK5T9Cwwvmu5QG
+ VKcGxiI5w4xshlPzH75Q1Upm2odY+316JRhDRH/nTFgCIVWshnFIUk8Q5npTaL921Z
+ QLY5Qx+hqAC05wHe/Y5aMdANbM5npnZ67lJlNjSo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 18/20] target/ppc: fix icount support on Book-e vms accessing
- SPRs
-Date: Wed, 10 Mar 2021 15:10:00 +1100
-Message-Id: <20210310041002.333813-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/20] spapr.c: remove duplicated assert in
+ spapr_memory_unplug_request()
+Date: Wed, 10 Mar 2021 15:10:01 +1100
+Message-Id: <20210310041002.333813-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,104 +58,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Cheptsov <cheptsov@ispras.ru>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Cheptsov <cheptsov@ispras.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Failing to guard SPR access with gen_io_start/gen_stop_exception
-causes "Bad icount read" exceptions when running VMs with
-e500mc and e500v2 CPUs with an icount parameter.
+We are asserting the existence of the first DRC LMB after sending unplug
+requests to all LMBs of the DIMM, where every DRC is being asserted
+inside the loop. This means that the first DRC is being asserted twice.
 
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
-Message-Id: <20210303140851.78383-1-cheptsov@ispras.ru>
+Remove the duplicated assert.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210302141019.153729-2-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate_init.c.inc | 36 +++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ hw/ppc/spapr.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index e7324e85cd..09c9ae2c98 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -567,35 +567,71 @@ static void spr_write_601_ubatl(DisasContext *ctx, int sprn, int gprn)
- #if !defined(CONFIG_USER_ONLY)
- static void spr_read_40x_pit(DisasContext *ctx, int gprn, int sprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_load_40x_pit(cpu_gpr[gprn], cpu_env);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index aca3ef9d58..b579830832 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3703,7 +3703,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
  
- static void spr_write_40x_pit(DisasContext *ctx, int sprn, int gprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_store_40x_pit(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+-    g_assert(drc);
+     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                               nr_lmbs, spapr_drc_index(drc));
  }
- 
- static void spr_write_40x_dbcr0(DisasContext *ctx, int sprn, int gprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_store_spr(sprn, cpu_gpr[gprn]);
-     gen_helper_store_40x_dbcr0(cpu_env, cpu_gpr[gprn]);
-     /* We must stop translation as we may have rebooted */
-     gen_stop_exception(ctx);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
- 
- static void spr_write_40x_sler(DisasContext *ctx, int sprn, int gprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_store_40x_sler(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
- 
- static void spr_write_booke_tcr(DisasContext *ctx, int sprn, int gprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_store_booke_tcr(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
- 
- static void spr_write_booke_tsr(DisasContext *ctx, int sprn, int gprn)
- {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_store_booke_tsr(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
- #endif
- 
 -- 
 2.29.2
 
