@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9ED5333720
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:17:42 +0100 (CET)
-Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7118333797
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 09:43:35 +0100 (CET)
+Received: from localhost ([::1]:36506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJu2H-0006zD-P6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:17:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
+	id 1lJuRK-0002wJ-F2
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 03:43:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJu0P-0005yo-GE
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:15:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20909)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJuPT-0002H0-S8
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:41:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lJu0N-000420-NM
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:15:45 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lJuPQ-0003gP-K3
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 03:41:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615364142;
+ s=mimecast20190719; t=1615365692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aD+Ndapj8ftPcJPgNUbouFAeQUeWIC3+WSriRRwq3yU=;
- b=fFCt/PcoTzHpWzrxAx5t8m6mhM79bjkeuRpz+atO/VyNdbiFUYdQQuvDWmDFK3KkQBjB1o
- yDKtENL8nAn2Kcm2DPlqDUHaAY7rHEF5+IvR8I+8dnxltcnmNwo2ynnwbocZbEBeqlzVnT
- gHFpLiIK1J5GvZ51Rj3PYa8mvGTp+Dg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-Qp92G0p-NM27CWsK0pTdhA-1; Wed, 10 Mar 2021 03:15:41 -0500
-X-MC-Unique: Qp92G0p-NM27CWsK0pTdhA-1
-Received: by mail-wm1-f69.google.com with SMTP id y9so842554wma.4
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 00:15:41 -0800 (PST)
+ bh=fz+f9xCzdgrNQHKYQpPfOo00xD3uufzSBmcEzRJMZ7c=;
+ b=J3LiUgbMWH0zRiHoPKeeOPdVO9Qsjf7en3dkc2DYwQs3oBTkzNVvG3ZC3fwqt4xM4PFTsH
+ i1gArjsZWeeF/S1CPONlfqYfeoHES681HEI/3KEzWxbHDSRfiKebcvknGwJ6TP5Pe7JN8v
+ oxYEODsSIMHhsY5rhcNzO2HQKKuNENU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-7LnBcapkP-6WvRfX8ZTn3g-1; Wed, 10 Mar 2021 03:41:30 -0500
+X-MC-Unique: 7LnBcapkP-6WvRfX8ZTn3g-1
+Received: by mail-wm1-f71.google.com with SMTP id n25so2358136wmk.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 00:41:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aD+Ndapj8ftPcJPgNUbouFAeQUeWIC3+WSriRRwq3yU=;
- b=oj+N5rcdSc0g8xhzPYzMthINAm37HhC5j5Y1hrMiJq9BxUZQFcL/eLjAhme1dd8oqF
- BmGDnQR6XpMWlGEioZF/gAbeaxlGrHcp3ZNCU2UAdbExw9T6yKS20mMh17sPxGwRBbQt
- aWZrBNGL581KVMMSqrRz2zlImHpg2OM6zNembG4rCZf7Z7ps1uBzKJa2TRqgWXTxiS2R
- g0Z79zPw2KvW7fEGFV4l70Mous2cJp+qooAFPbf2DVAhvO6OVbJfcrI0qIpSjR91QE8o
- sXuKdgGbDVbWUwvkuAl/F2PbKKFeCkqIp9RL+pKVN8PsZ7gJqL3h2l0kuRuPwgo+kENy
- 7SKQ==
-X-Gm-Message-State: AOAM532+tPEtPeC8LFhND//eiozCD/+moCZjTHHQ0ipwpezBhFlUWlt4
- QJQfnR3hPk3VS/cY9hCmKPCgtADkVU05ZtW1Q/cDAm2dt0fb/WKclX/eL2+R953A0v/2QHnZ9DN
- IEsCvn+MVez+Qews=
-X-Received: by 2002:a1c:7f84:: with SMTP id a126mr2090012wmd.151.1615364140039; 
- Wed, 10 Mar 2021 00:15:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBPMML+J22E4qHVoK89yP4UfUvN6/oMnGkXqL4PBJIR9NaKNrUtjL1i7LIln3v87bgFXIn4w==
-X-Received: by 2002:a1c:7f84:: with SMTP id a126mr2090000wmd.151.1615364139887; 
- Wed, 10 Mar 2021 00:15:39 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c9sm131303wml.42.2021.03.10.00.15.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 00:15:39 -0800 (PST)
-Subject: Re: [PATCH] tests: Move unit tests into a separate directory
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210310063314.1049838-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d684cc63-d60d-b346-3a78-edc94a0dade9@redhat.com>
-Date: Wed, 10 Mar 2021 09:15:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=fz+f9xCzdgrNQHKYQpPfOo00xD3uufzSBmcEzRJMZ7c=;
+ b=cMQRTRwGBV49S5MxrbyNT2CkITCmkXeMC1cUDubWCmPnZN9oWu1ne6smXv31X1yvNl
+ 0g2bHUj0HyEPnY2S4LN2TATs6gedt7ad9x9oUPqc35dTWuR9z2SDSbukPPZnUoxAdNX2
+ nmwcNIbuoHzTsb7QdAapJ41LyL+BJapanaDn68aO049pIVxwJbg7zJe7win+BSZbn/0v
+ dE78+TAxOO68Ed3eWEzkRh8lFtPFifZMLLRss7RpVu2SEp9snnBo7kZRxS3qMC5T58Vi
+ daYNft+IZapWtjk9E3jip70aWs0m8zPTd9Oz1imffO33y4WP96KIcglROCSVcf5u4TqI
+ ntZQ==
+X-Gm-Message-State: AOAM531W7qKRFTlfhIjipueriXUhDxI/memM6zqNmYoVWfrZ7mJ55jQ0
+ 7NaXJ38+5bny9IV34V2WUTj0zvbnUvls5DK3jCapUiCYCtKRqgkl50jn/RGnXMnptpcrbEaHZr6
+ OdRfGnAtZraWA/QY=
+X-Received: by 2002:a1c:7d4e:: with SMTP id y75mr2197003wmc.168.1615365689280; 
+ Wed, 10 Mar 2021 00:41:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwEXlQdW75IJkk7AS1nO3Dp6r7sYdE940cyYuU5e61rsM8O2cXEm+Hnd8wYMJeeatchIjorUw==
+X-Received: by 2002:a1c:7d4e:: with SMTP id y75mr2196983wmc.168.1615365689138; 
+ Wed, 10 Mar 2021 00:41:29 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id t8sm29646494wrr.10.2021.03.10.00.41.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Mar 2021 00:41:28 -0800 (PST)
+Date: Wed, 10 Mar 2021 09:41:26 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 2/6] net/eth: Better describe
+ _eth_get_rss_ex_dst_addr's offset argument
+Message-ID: <20210310084126.h6tiehk37osc5nuo@steredhat>
+References: <20210309182709.810955-1-philmd@redhat.com>
+ <20210309182709.810955-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210310063314.1049838-1-thuth@redhat.com>
+In-Reply-To: <20210309182709.810955-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,26 +98,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/03/21 07:33, Thomas Huth wrote:
-> The main tests directory still looks very crowded, and it's not
-> clear which files are part of a unit tests and which belong to
-> a different test subsystem. Let's clean up the mess and move the
-> unit tests to a separate directory.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
+On Tue, Mar 09, 2021 at 07:27:05PM +0100, Philippe Mathieu-Daudé wrote:
+>The 'offset' argument represents the offset to the ip6_ext_hdr
+>header, rename it as 'ext_hdr_offset'.
+>
+>Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>---
+> net/eth.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Looks good, I would have moved benchmarks as well but anyway it can be 
-done separately.
-
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
