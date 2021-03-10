@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14773345AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:51:14 +0100 (CET)
-Received: from localhost ([::1]:47264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41E13345C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:56:56 +0100 (CET)
+Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2zJ-0007aK-O1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:51:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36346)
+	id 1lK34p-0004v0-LN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:56:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lK2Tj-0001ax-Ks
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:18:37 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42482)
+ id 1lK2VK-0003li-0c
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:20:14 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lK2Tg-00048T-5a
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:18:35 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id c10so40156949ejx.9
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:18:30 -0800 (PST)
+ id 1lK2VI-0004R6-2M
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:20:13 -0500
+Received: by mail-ej1-x629.google.com with SMTP id ci14so40140910ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DMBI/PfElUf548TVsJFxfmWhz9UswWna3wkX93XAh50=;
- b=KqwUs80O533JnWblBrQlRzpgO0TRJ/MfXd7LIHBWnUHDQPV1ut+1wOkg03ax70FpW4
- kGvpmq+lS2u6099Mw72SE6zxAYLlD5cU3cTa91LI6CjHTmA66tyrGFPCljsw1m5CIWpC
- p1Gy4QD7AQoh6aFHEe3/4j0vCDcLyguDaAe5TeKXVaSpgi1/bx3c9jAh7NLpMxBgwPlk
- F2ItgrUWVDI84beeJFYSvYPVemi0dVHIUra8UoBbwx+ZSAbqVN8bozKfOBWQciPMyrI1
- a27COcWI869yf7n41+NcxBUjJMEAxxfeAG5sj6Dxr9sIMet11e/qmaXtKcmIFILVwNS4
- pZVw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=ceovYVIymUofTEh4MBQXFN+G6MKpNNM6t4sR9rLXkQg=;
+ b=pLMRRKYtkI1kDgWz0PEKQbI3+nvLu57C8NlJoTjraHzd0B0GoYdwlpWlfmdq0h/nIZ
+ DlIRLZPtyh8DUo7TdJh/ttecy6im7QJxV2mBZCSKwh/RMGPgT9LcV4iyklXJ2qGBdLSw
+ G9BhV0v1cjFZCEeug0n1yx4IFYTLcqk/3r/ubLr4VgDdFZi1zzqiUZyonV2LF7gK30w7
+ A++L5NvTYtMNkMz2MzOAP8/9Z9pLaBael+f/zzMTEuLwVfD/V64ef2o+dOhG1Cd5ktnq
+ ahK7AhFXcYKLeyzLuHjd2eZWFd3AgsEFu3BuyHYhDcH2rVwK+eyMnnaYpcJ6dYOEmb4m
+ YNXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DMBI/PfElUf548TVsJFxfmWhz9UswWna3wkX93XAh50=;
- b=PxDSwWy0+uk9bhtlN9Skm1Espahe1CeYVD9FbO/WAdYvOsUYV1kUzBqAJ1Dg2aBs19
- 1r0fPbe+9YH4Mi57AcG8fUI/Rzsr5SU/NiwaqI8viK2Q+qkqt5DaIdSLC1lk6dRCamGN
- 4vC1nqPnrRAgYgP2+CXC0y42Ut/gE6cjc6XXbf3ZbZmCi2KxsUlE1LFUiS9NFHf6wCLW
- Oi/w4/RXtualEs81DcC1Hcfoq62MyQFBzj0DaAiUkqQhw7VuGl1X82tYDJbojAuWu4vW
- 3+qrtc2mLOnduCAbwXG7M4ptgrlwcX+vz/v/2qFHqR4xcCrxVxePQmbmarRFto2dNtbm
- nSnw==
-X-Gm-Message-State: AOAM53343sCmwKYNxEVl8mW0cld07FkvdLn4zr2PsVUIcHjw0u9kndTc
- zzZ3uK4/ixwgVqhUMO0856JPra1IFEtThKfxm7WwQQ==
-X-Google-Smtp-Source: ABdhPJw1xO4x8SpVNXk9Kz0u/Wia/kNwLfxfQzDTygcIs3OZEH6GCBJev1dDffO8cdIL4bMTVmSIV0VPphEPobzTDec=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr4781772ejd.85.1615396709820; 
- Wed, 10 Mar 2021 09:18:29 -0800 (PST)
+ :message-id:subject:to;
+ bh=ceovYVIymUofTEh4MBQXFN+G6MKpNNM6t4sR9rLXkQg=;
+ b=ifyjmreJ5uLSdN4AM68JxFKbvoPTpDnknzW1BIhqOD+xZ4SXqNhlxZK8A3NyorXQz5
+ Hx52P98ld7JL3yJlLta4rI1SOc+GGyrGZypeXTgdYOES8rJhKKlkVP39zJiw18TnM/Fq
+ mg5pKPEcnCRNkTmYgv/b3p1wV9EPdAnlrarmbT8wp4IdHCkmiamM4uqolL/FsVCty1cz
+ 3UYVujugQI8RK8a8gRxJ8P5fjq9eSVynB3osrjY3FFA6hVf8rosG7qrm0btSbFIHV4Pw
+ r3aeaCH3oTl5S2zbukMoREvwmJ0Aa5OiwJrMxPCjkI9bDXzPRvSU3r57aaZiEhVYr7NS
+ IxfA==
+X-Gm-Message-State: AOAM531Hbz2fgprOQ+ufEFDlOXFbwaRte9M87jTcGDZSFRbRyQLi/1/f
+ 9mwWQuxr39Ls6IA1b2yZlacb30o1rN5y9/COyNxLFRla/3o=
+X-Google-Smtp-Source: ABdhPJwMtsV5X7BtopGUrIA1/m/p6GyHxXLcXSbFmxGAmyRBGtfqsw9R0Wc5YFvvaDi0lBUIbCzL1TGc4sOCvjQxgoI=
+X-Received: by 2002:a17:907:10ce:: with SMTP id
+ rv14mr4869698ejb.56.1615396810487; 
+ Wed, 10 Mar 2021 09:20:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
-In-Reply-To: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
+References: <20210310135719.29084-1-peter.maydell@linaro.org>
+In-Reply-To: <20210310135719.29084-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Mar 2021 17:18:11 +0000
-Message-ID: <CAFEAcA-mgsMd4roQc_7QYkMMMqXeFyXiQGtCGp1Bju1P2MCi5w@mail.gmail.com>
-Subject: Re: [PATCH] baum: Fix crash when Braille output is not available
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date: Wed, 10 Mar 2021 17:19:52 +0000
+Message-ID: <CAFEAcA9hdLxM_vd3obX9Uafw1uQxLyD0UR=4C2n_fLbBHBw1=g@mail.gmail.com>
+Subject: Re: [PULL v2 00/54] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,24 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021 at 16:08, Samuel Thibault
-<samuel.thibault@ens-lyon.org> wrote:
+On Wed, 10 Mar 2021 at 13:57, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> When Braille output is not available, the backend properly reports being
-> unable to be created, but 5f8e93c3e262 ("util/qemu-timer: Make timer_free()
-> imply timer_del()") made the timer_free() call now refuse any NULL
-> parameter. char_braille_finalize thus now has to be more careful with
-> calling it on baum->cellCount_timer.
+> v1->v2: fix format-string errors on 32-bit hosts in xilinx csu dma model.
+>
+> -- PMM
+>
+> The following changes since commit 0436c55edf6b357ff56e2a5bf688df8636f83456:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-03-08 13:51:41 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210310
+>
+> for you to fetch changes up to 81b3ddaf8772ec6f88d372e52f9b433cfa46bc46:
+>
+>   hw/timer/renesas_tmr: Fix use of uninitialized data in read_tcnt() (2021-03-10 13:54:51 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Add new mps3-an547 board
+>  * target/arm: Restrict v7A TCG cpus to TCG accel
+>  * Implement a Xilinx CSU DMA model
+>  * hw/timer/renesas_tmr: Fix use of uninitialized data in read_tcnt()
 
-It wasn't the intention of that commit to make freeing a NULL
-timer invalid; I think Paolo's patch restoring the ability to
-timer_free(NULL) is probably the right thing here:
-https://patchew.org/QEMU/20210310154526.463850-1-pbonzini@redhat.com/
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
 -- PMM
 
