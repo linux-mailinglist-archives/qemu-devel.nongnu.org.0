@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FD0333C6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:17:11 +0100 (CET)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A60333C70
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 13:17:31 +0100 (CET)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJxm2-0007tp-6q
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
+	id 1lJxmM-0008LW-6w
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 07:17:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJxjd-0006Cg-3w
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:14:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48849)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJxkV-0007IG-Kb
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:15:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJxja-0005QR-PC
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:14:40 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lJxkU-00064l-1F
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 07:15:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615378477;
+ s=mimecast20190719; t=1615378532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GMdRioU6UerZwvwJNVxrjIvUI39vUXP36ajgjTJO2o0=;
- b=gRS4RmfvwHIKaxAZGIjUX6zZv4FOLsNVROPqCFQ+u3hGcCpCri50D24N1nEWVkbkxlEHh6
- ec9FhDERD6wj59B5CSV1WdeLlM2aPJKdPSgV5O0XN8y3CI4JjerMH3i81GhU5QY9UO8X0r
- PEghogq5rS6WkYiLz7X+NBxGNPA1/xI=
+ bh=lxhAQ0nvt+uoxWHl5hEtz2RIz6C2xbHwB9rAyVBaOeU=;
+ b=focwLV2Csfu/NjSmJYy+/3Z2+Jp7uezK0Pv5w9aUEckNlqoZDS2sHnwuswp2xK7mCAv31l
+ xRUq8I1bhybZvfC2bXr1c9QFWAfZb3hdmONHZlFoWJ6ma+5maVPjAvn9FAvyEOA5FNtlMZ
+ yN3KOZgs+eO6pFxdccRVUFEG02Lf+qU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-tD7wRQwaNfqA-DRkBqu8xQ-1; Wed, 10 Mar 2021 07:14:36 -0500
-X-MC-Unique: tD7wRQwaNfqA-DRkBqu8xQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-336-hJi1rHgNNAuscrH0si8i5w-1; Wed, 10 Mar 2021 07:15:31 -0500
+X-MC-Unique: hJi1rHgNNAuscrH0si8i5w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66D931005D5B;
- Wed, 10 Mar 2021 12:14:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23FCA192CC45
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 12:15:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2709860C0F;
- Wed, 10 Mar 2021 12:14:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6A331002EF0;
+ Wed, 10 Mar 2021 12:15:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 38A4618000AC; Wed, 10 Mar 2021 13:14:20 +0100 (CET)
-Date: Wed, 10 Mar 2021 13:14:20 +0100
+ id D617118000AC; Wed, 10 Mar 2021 13:15:27 +0100 (CET)
+Date: Wed, 10 Mar 2021 13:15:27 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] usb: Un-deprecate -usbdevice (except for -usbdevice
- audio which gets removed)
-Message-ID: <20210310121420.azxanmpqlqof46si@sirius.home.kraxel.org>
-References: <20210309165035.967853-1-thuth@redhat.com>
- <88c7a101-7cac-ed49-c45c-11fb7d7158d8@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v2] hw/input: expand trace info reported for ps2 device
+Message-ID: <20210310121527.rx5eplpfg5cth43r@sirius.home.kraxel.org>
+References: <20210309155804.306051-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <88c7a101-7cac-ed49-c45c-11fb7d7158d8@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210309155804.306051-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -80,26 +80,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 09, 2021 at 06:21:03PM +0100, Paolo Bonzini wrote:
-> On 09/03/21 17:50, Thomas Huth wrote:
-> > +``-usbdevice audio`` (removed in 6.0)
-> > +'''''''''''''''''''''''''''''''''''''
-> > +
-> > +This option lacked the possibility to specify an audio backend device.
-> > +Use ``-device usb-audio`` now instead (and specify a corresponding USB
-> > +host controller if necessary).
+On Tue, Mar 09, 2021 at 03:58:04PM +0000, Daniel P. Berrangé wrote:
+> It is interesting to know if the PS2 keyboard is in translated mode, and
+> which of the three scancode sets are in use.
 > 
-> Perhaps "a corresponding USB host controller or ``-usb``.  No need to send
-> v3 if you send it through your own pull request.
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Fixed & added to usb queue.
+Added to input queue.
 
 thanks,
   Gerd
