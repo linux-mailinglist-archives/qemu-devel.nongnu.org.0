@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1A23338C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 10:33:10 +0100 (CET)
-Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9628E3338C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 10:32:57 +0100 (CET)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJvDJ-0000HZ-M5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 04:33:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
+	id 1lJvD6-0008Mh-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 04:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lJvAe-0007Vf-M3
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 04:30:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lJvAc-0007VV-KC
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 04:30:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615368621;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=w8D0xMHs3rc1NThb9Ss4gYcN4EfOcIT8vjB0dmp4sXA=;
- b=Y4FrkuUcmbI88uW4CNYb6bms3LhtMOPrs5pZAtnNzQo4yR6m07X/aeTDHtHrOb/y55rUGi
- CvM2F0R6cDEofMfpH6mFkd6q61eOfb1Miq1iLNnzEQ22p2WekmW3bbzvAG3ip31+Tz66kx
- BtONFcXE2b8j5/Y6kjJFYrhJykJb4m4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-iPQLa7W0PZ261yqLOk6kiw-1; Wed, 10 Mar 2021 04:30:18 -0500
-X-MC-Unique: iPQLa7W0PZ261yqLOk6kiw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4521005D4C;
- Wed, 10 Mar 2021 09:30:17 +0000 (UTC)
-Received: from redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F3741037EB0;
- Wed, 10 Mar 2021 09:30:02 +0000 (UTC)
-Date: Wed, 10 Mar 2021 09:29:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Joelle van Dyne <j@getutm.app>
-Subject: Re: [PATCH] coroutine: add libucontext as external library
-Message-ID: <YEiRlrCo40oQlNih@redhat.com>
-References: <20210309032637.41778-1-j@getutm.app>
- <YEeWimKd1QVd176N@stefanha-x1.localdomain>
- <CA+E+eSBiPAYtWyhMx07g8+ovON8hfF1kaoOLhUTUc0vWpYOtYA@mail.gmail.com>
- <CA+E+eSAdKg2_8KNnM89v5XWf8=RJ+gi4HzgyySOYEROtYxU6rw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJvAT-0007Jg-M7; Wed, 10 Mar 2021 04:30:13 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:56345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1lJvAR-0007IJ-0Z; Wed, 10 Mar 2021 04:30:13 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 0A37F16AE;
+ Wed, 10 Mar 2021 04:30:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 10 Mar 2021 04:30:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=uEHEwiOVWDXs1Yei7ffgIDM7hxONDGtyFwqkCRS79
+ VA=; b=SngsHkjYXSoS5bybACcP4Kn2ckMTp4DjJs+pGBLnE5W+6zfLEC0DcCgj3
+ kzj4z4slqaXviqbKqRxuN2tyqHHmwEesI3JuJ2E9JLErdohKJqIKGlfO1j97a28b
+ NzC/lw9F50lx8ev2sEYJRWZ41nTDk556pG/pvV33GtDbqAMAMZPfIq+5X0g8P/bn
+ f61Va56w4G11dCP67KSMZZJFbiskaIQ3J1BajCkg3xGVhDdZ1nUJ2aYYZB0w2CMt
+ EzHLuGqNUzBzNaYsAW73lwzjheppVUXdv8ZuYPcr3Twy5N1rvGVofC8V4qMth25e
+ fMCwbhufGdUDcEQ8GEXt3boNlakRg==
+X-ME-Sender: <xms:nZFIYMqzHB6Qy5Ru8psqIpsVMYZ8ixLpH4-UuSVd8vyiYQcTcHjlQA>
+ <xme:nZFIYCol7s2hSZ47dbDh-9TBzoKdhETh5v2wmkj4ZPB_ZGIIPM68mzkjT4B7wZ6yZ
+ so0NXP7YXd_Yhih-N0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgtdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvffujghfhfffkfggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghvihgu
+ ucfgughmohhnughsohhnuceouggrvhhiugdrvggumhhonhgushhonhesohhrrggtlhgvrd
+ gtohhmqeenucggtffrrghtthgvrhhnpeekiedvtdfguedttdffhfeihfeffedttdekkedt
+ leduheejgfeghfdujeelveduhfenucfkphepkedurddukeejrddviedrvdefkeenucevlh
+ hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghvihgurdgv
+ ughmohhnughsohhnsehorhgrtghlvgdrtghomh
+X-ME-Proxy: <xmx:nZFIYBPn4Uk5S0Ubl2xPCwVaz2eUVVH81MlbqcIpHqRSUw-o2x1u3Q>
+ <xmx:nZFIYD7hMS_HP6A1FeA19AmENRTamNTbtSzfahX9Z7zIsroM3DgMqg>
+ <xmx:nZFIYL5fBo44dFFFcC18Zo2VlSXspAR3i3bUinR119dGB_DlyiPUaQ>
+ <xmx:npFIYDyRUHOLv7PVrrZCz9BBjBKM1iXtdzMYJSWKqSQl3KOnBoHe5Q>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BE558108006E;
+ Wed, 10 Mar 2021 04:30:04 -0500 (EST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 47e06211;
+ Wed, 10 Mar 2021 09:30:01 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/9] hw/block/pflash_cfi: Fix code style for checkpatch.pl
+In-Reply-To: <20210309235028.912078-2-philmd@redhat.com>
+References: <20210309235028.912078-1-philmd@redhat.com>
+ <20210309235028.912078-2-philmd@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <david.edmondson@oracle.com>
+Date: Wed, 10 Mar 2021 09:30:01 +0000
+Message-ID: <m235x3gxuu.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+E+eSAdKg2_8KNnM89v5XWf8=RJ+gi4HzgyySOYEROtYxU6rw@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=64.147.123.24;
+ envelope-from=david.edmondson@oracle.com; helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,134 +90,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:raw" <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 09, 2021 at 01:21:29PM -0800, Joelle van Dyne wrote:
-> On Tue, Mar 9, 2021 at 10:24 AM Joelle van Dyne <j@getutm.app> wrote:
-> >
-> > On Tue, Mar 9, 2021 at 7:38 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Mon, Mar 08, 2021 at 07:26:36PM -0800, Joelle van Dyne wrote:
-> > > > iOS does not support ucontext natively for aarch64 and the sigaltstack is
-> > > > also unsupported (even worse, it fails silently, see:
-> > > > https://openradar.appspot.com/13002712 )
-> > > >
-> > > > As a workaround we include a library implementation of ucontext and add it
-> > > > as a build option.
-> > > >
-> > > > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > > > ---
-> > > >  configure                 | 21 ++++++++++++++++++---
-> > > >  meson.build               | 12 +++++++++++-
-> > > >  util/coroutine-ucontext.c |  9 +++++++++
-> > > >  .gitmodules               |  3 +++
-> > > >  MAINTAINERS               |  6 ++++++
-> > > >  meson_options.txt         |  2 ++
-> > > >  subprojects/libucontext   |  1 +
-> > > >  7 files changed, 50 insertions(+), 4 deletions(-)
-> > > >  create mode 160000 subprojects/libucontext
-> > > >
-> > > > diff --git a/configure b/configure
-> > > > index 34fccaa2ba..5f225894a9 100755
-> > > > --- a/configure
-> > > > +++ b/configure
-> > > > @@ -1773,7 +1773,7 @@ Advanced options (experts only):
-> > > >    --oss-lib                path to OSS library
-> > > >    --cpu=CPU                Build for host CPU [$cpu]
-> > > >    --with-coroutine=BACKEND coroutine backend. Supported options:
-> > > > -                           ucontext, sigaltstack, windows
-> > > > +                           ucontext, libucontext, sigaltstack, windows
-> > >
-> > > This approach mixes the concept of the coroutine backend (ucontext,
-> > > sigaltstack, etc) with the optional libucontext library dependency.
-> > >
-> > > libucontext is not a coroutine backend. The patch had to introduce
-> > > $coroutine_impl in addition to $coroutine in order to work around this.
-> > > Let's avoid combining these two independent concepts into
-> > > --with-coroutine=.
-> > >
-> > > I suggest treating libucontext as an optional library dependency in
-> > > ./configure with explicit --enable-libucontext/--disable-libucontext
-> > > options. Most of the time neither option will be provided by the user
-> > > and ./configure should automatically decide whether libucontext is
-> > > needed or not.
-> > >
-> > > > +case $coroutine in
-> > > > +libucontext)
-> > > > +  git_submodules="${git_submodules} subprojects/libucontext"
-> > > > +  mkdir -p libucontext
-> > >
-> > > Why is this mkdir necessary?
-> >
-> > That is a typo, will fix.
-> >
-> > Thanks to all the feedback in this thread. I will shelve this patchset
-> > for now and see if it's possible to fix ucontext on Darwin. Or if we
-> > go with gcoroutine that would work as well. Either way it seems like
-> > this isn't ready yet.
-> >
-> > -j
-> 
-> The following is enough to get ucontext working on macOS 11 (Apple
-> seems to have fixed it when they added ARM64 support for M1 Macs).
-> However, ucontext still does not work (no symbols) on iOS so there's
-> not much point in switching from sigaltstack.
-> 
-> -j
-> 
-> diff --git a/configure b/configure
-> index a2736ecf16..042f4e87a5 100755
-> --- a/configure
-> +++ b/configure
-> @@ -774,7 +774,8 @@ Darwin)
->    audio_possible_drivers="coreaudio sdl"
->    # Disable attempts to use ObjectiveC features in os/object.h since they
->    # won't work when we're compiling with gcc as a C compiler.
-> -  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
-> +  # _XOPEN_SOURCE and _DARWIN_C_SOURCE needed for ucontext
-> +  QEMU_CFLAGS="-D_XOPEN_SOURCE=500 -D_DARWIN_C_SOURCE
-> -DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
->  ;;
->  SunOS)
->    solaris="yes"
-> @@ -4486,17 +4487,15 @@ fi
->  # specific one.
-> 
->  ucontext_works=no
-> -if test "$darwin" != "yes"; then
-> -  cat > $TMPC << EOF
-> +cat > $TMPC << EOF
->  #include <ucontext.h>
->  #ifdef __stub_makecontext
->  #error Ignoring glibc stub makecontext which will always fail
->  #endif
->  int main(void) { makecontext(0, 0, 0); return 0; }
->  EOF
-> -  if compile_prog "" "" ; then
-> -    ucontext_works=yes
-> -  fi
-> +if compile_prog "" "" ; then
-> +  ucontext_works=yes
->  fi
-> 
->  if test "$coroutine" = ""; then
+On Wednesday, 2021-03-10 at 00:50:20 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
-I have tried doing this before, and while it was enough for the compile
-to succeed, I found that tests failed / hung when running the macOS CI
-jobs.  Did you actually try running tests with this change directly,
-and/or under Cirrus CI ?
+> We are going to move this code, fix its style first.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> ---
+>  hw/block/pflash_cfi01.c | 36 ++++++++++++++++++++++++------------
+>  hw/block/pflash_cfi02.c |  9 ++++++---
+>  2 files changed, 30 insertions(+), 15 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 22287a1522e..b6919bbe474 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -115,7 +115,8 @@ static const VMStateDescription vmstate_pflash =3D {
+>      }
+>  };
+>=20=20
+> -/* Perform a CFI query based on the bank width of the flash.
+> +/*
+> + * Perform a CFI query based on the bank width of the flash.
+>   * If this code is called we know we have a device_width set for
+>   * this flash.
+>   */
+> @@ -125,7 +126,8 @@ static uint32_t pflash_cfi_query(PFlashCFI01 *pfl, hw=
+addr offset)
+>      uint32_t resp =3D 0;
+>      hwaddr boff;
+>=20=20
+> -    /* Adjust incoming offset to match expected device-width
+> +    /*
+> +     * Adjust incoming offset to match expected device-width
+>       * addressing. CFI query addresses are always specified in terms of
+>       * the maximum supported width of the device.  This means that x8
+>       * devices and x8/x16 devices in x8 mode behave differently.  For
+> @@ -141,7 +143,8 @@ static uint32_t pflash_cfi_query(PFlashCFI01 *pfl, hw=
+addr offset)
+>      if (boff >=3D sizeof(pfl->cfi_table)) {
+>          return 0;
+>      }
+> -    /* Now we will construct the CFI response generated by a single
+> +    /*
+> +     * Now we will construct the CFI response generated by a single
+>       * device, then replicate that for all devices that make up the
+>       * bus.  For wide parts used in x8 mode, CFI query responses
+>       * are different than native byte-wide parts.
+> @@ -185,7 +188,8 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl, =
+hwaddr offset)
+>      uint32_t resp;
+>      hwaddr boff;
+>=20=20
+> -    /* Adjust incoming offset to match expected device-width
+> +    /*
+> +     * Adjust incoming offset to match expected device-width
+>       * addressing. Device ID read addresses are always specified in
+>       * terms of the maximum supported width of the device.  This means
+>       * that x8 devices and x8/x16 devices in x8 mode behave
+> @@ -198,7 +202,8 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl, =
+hwaddr offset)
+>      boff =3D offset >> (ctz32(pfl->bank_width) +
+>                        ctz32(pfl->max_device_width) - ctz32(pfl->device_w=
+idth));
+>=20=20
+> -    /* Mask off upper bits which may be used in to query block
+> +    /*
+> +     * Mask off upper bits which may be used in to query block
+>       * or sector lock status at other addresses.
+>       * Offsets 2/3 are block lock status, is not emulated.
+>       */
+> @@ -297,7 +302,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>      case 0x60: /* Block /un)lock */
+>      case 0x70: /* Status Register */
+>      case 0xe8: /* Write block */
+> -        /* Status register read.  Return status from each device in
+> +        /*
+> +         * Status register read.  Return status from each device in
+>           * bank.
+>           */
+>          ret =3D pfl->status;
+> @@ -308,7 +314,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>                  shift +=3D pfl->device_width * 8;
+>              }
+>          } else if (!pfl->device_width && width > 2) {
+> -            /* Handle 32 bit flash cases where device width is not
+> +            /*
+> +             * Handle 32 bit flash cases where device width is not
+>               * set. (Existing behavior before device width added.)
+>               */
+>              ret |=3D pfl->status << 16;
+> @@ -340,7 +347,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>                  break;
+>              }
+>          } else {
+> -            /* If we have a read larger than the bank_width, combine mul=
+tiple
+> +            /*
+> +             * If we have a read larger than the bank_width, combine mul=
+tiple
+>               * manufacturer/device ID queries into a single response.
+>               */
+>              int i;
+> @@ -367,7 +375,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>                  ret =3D 0;
+>              }
+>          } else {
+> -            /* If we have a read larger than the bank_width, combine mul=
+tiple
+> +            /*
+> +             * If we have a read larger than the bank_width, combine mul=
+tiple
+>               * CFI queries into a single response.
+>               */
+>              int i;
+> @@ -544,7 +553,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>=20=20
+>              break;
+>          case 0xe8:
+> -            /* Mask writeblock size based on device width, or bank width=
+ if
+> +            /*
+> +             * Mask writeblock size based on device width, or bank width=
+ if
+>               * device width not specified.
+>               */
+>              /* FIXME check @offset, @width */
+> @@ -718,7 +728,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+>=20=20
+>      total_len =3D pfl->sector_len * pfl->nb_blocs;
+>=20=20
+> -    /* These are only used to expose the parameters of each device
+> +    /*
+> +     * These are only used to expose the parameters of each device
+>       * in the cfi_table[].
+>       */
+>      num_devices =3D pfl->device_width ? (pfl->bank_width / pfl->device_w=
+idth) : 1;
+> @@ -763,7 +774,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+>          }
+>      }
+>=20=20
+> -    /* Default to devices being used at their maximum device width. This=
+ was
+> +    /*
+> +     * Default to devices being used at their maximum device width. This=
+ was
+>       * assumed before the device_width support was added.
+>       */
+>      if (!pfl->max_device_width) {
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 7962cff7455..fa981465e12 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -100,7 +100,8 @@ struct PFlashCFI02 {
+>      uint16_t unlock_addr1;
+>      uint8_t cfi_table[0x4d];
+>      QEMUTimer timer;
+> -    /* The device replicates the flash memory across its memory space.  =
+Emulate
+> +    /*
+> +     * The device replicates the flash memory across its memory space.  =
+Emulate
+>       * that by having a container (.mem) filled with an array of aliases
+>       * (.mem_mappings) pointing to the flash memory (.orig_mem).
+>       */
+> @@ -884,8 +885,10 @@ static void pflash_cfi02_realize(DeviceState *dev, E=
+rror **errp)
+>      pfl->cfi_table[0x28] =3D 0x02;
+>      pfl->cfi_table[0x29] =3D 0x00;
+>      /* Max number of bytes in multi-bytes write */
+> -    /* XXX: disable buffered write as it's not supported */
+> -    //    pfl->cfi_table[0x2A] =3D 0x05;
+> +    /*
+> +     * XXX: disable buffered write as it's not supported
+> +     * pfl->cfi_table[0x2A] =3D 0x05;
+> +     */
+>      pfl->cfi_table[0x2A] =3D 0x00;
+>      pfl->cfi_table[0x2B] =3D 0x00;
+>      /* Number of erase block regions */
+> --=20
+> 2.26.2
 
+dme.
+--=20
+You're like my yo-yo, that glowed in the dark.
 
