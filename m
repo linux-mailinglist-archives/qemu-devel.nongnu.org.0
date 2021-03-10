@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5750334A3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 23:00:36 +0100 (CET)
-Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3699E334A11
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 22:49:03 +0100 (CET)
+Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK6sd-0005xx-8F
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 17:00:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1lK6hR-0006Gh-Pg
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 16:49:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6e6-0003Bp-Vj; Wed, 10 Mar 2021 16:45:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:59397)
+ id 1lK6dv-00036a-Lf; Wed, 10 Mar 2021 16:45:23 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:54883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lK6dz-0004Ss-GH; Wed, 10 Mar 2021 16:45:34 -0500
+ id 1lK6dr-0004Lo-6f; Wed, 10 Mar 2021 16:45:23 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpDa5-1m5ket1eTX-00qhPj; Wed, 10 Mar 2021 22:45:12 +0100
+ id 1MVMJ7-1lCiEA0jqR-00SST9; Wed, 10 Mar 2021 22:45:13 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/22] target/hexagon/gen_tcg_funcs: Fix a typo
-Date: Wed, 10 Mar 2021 22:44:46 +0100
-Message-Id: <20210310214504.1183162-5-laurent@vivier.eu>
+Subject: [PULL 05/22] backends/dbus-vmstate: Fix short read error handling
+Date: Wed, 10 Mar 2021 22:44:47 +0100
+Message-Id: <20210310214504.1183162-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
 References: <20210310214504.1183162-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1HzP3T3i5x3/c3U0QIy+yUdr7gwAjaZFljgqVcu9j1yJDZqXcfS
- tL899QeJcbu4IqFP/8Hyhh3z1mcOYc70xagT4BaMDqt3AFpSkDAVRdJuRPQKkRpJ1c5b8yL
- rVHGY+3Zl0ByfUlnpZgc+4ASitvzW1QzfqPMbi2iKsBJPlJPXEkk19iIByoZVBZDoTW/fsn
- YcgU8xuS+W71wVjqIdCNg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eiFzHUNU1rk=:s2IUdHCKg3+qW6nToRsJ2C
- eI+5epYVxfoeI2meTcF5X1RQRXzwebfB4FwTGNXsvf7eXvK5tBgFQSVYPYKiGt4H73jDVo5ud
- CnpiUdqTL+aC0T9Pz7Cd94Dk5tmtzlzYpa9QyDzSobhdwxvwIgT5DHjzLYSnEJuITx6E3PJ1b
- HuKkSASMLGh+RizUmHAYU79JczqOe2qv/eZI8uxYhLr/idc4Pj2+3GdmumaqN+dNO4Z8ncnN6
- VgJAQexnn0MH2JGsQtsz8n0Gkmxd0lb4e2MwdhvDcSQRvRm1POksFvrwPZGQk1EKK5D99b8W0
- 4B5ZT8nRZ8l+i08Uzrlqis1O4js9NLzTQg2lZeFsoUzGN3yWM/HEEUyR8dtxbXtP2IfplCILx
- f931dLEBTPiznB6MEMptKE2m0WrPQjX0h0LgnmxD272Z7O4uACnMi0z3ueA7DGMxA46Qmqino
- 6Nc+BIHf4A==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:WjANhdw/2agENRN9J8Z7PO4tw24Gqhlpq3JP5DEEKsjsCGRttIN
+ mq49Efs6ywmZxcr9ZqRKx56ZXERmCFWzHWMTzvWyEMpVrlbP+fW80YrpF8bOyjguBfRr9ok
+ SPGQOducyjJyZVl8vbCVQTxcphPQVCDkTdZl7TVgKjR45AOEJigR5IyAD+AT9lXjRgX2dQw
+ 6DQf2gx2ScRV3me1TF5NQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2OwTnDDlQF8=:QGmsS9UFNanGL2IPZwRwGM
+ 9G8krr8E0AHF8jLMdaq744JjzJJ4QYMUciiS2omA3YCrc9fMtH/O1Zihlvagd/oBmnYTnw6h1
+ 1Vj63g0DJW1r0owXvabJ2aYHuKzDfm6iEK7FFjhP9TlffnLozvQHzvHIzDhqqmiXvMFODlVB0
+ +5/YglGpgrjdkEYgdUDXOFWVlH+9NuuqGXiOcpGo1a4IoFcr6GuQnOzm9k/qOodqke/HXG65a
+ crH16CD2cC8L9LIBq1s9z6uP7EZXRzSEywsm1EWlUd84TzSDM32TzpWERNazWgW3xI43DmfgG
+ syM+vluSIRHtQkr3fnCXSnkigrF68sV7ez/kxtsni4oqgR5a06iQEb+MvHmaetIyO2uXPgNV+
+ 8n38B7W47L2g1KsJXuJjJGVYc5WmexFXBGnA0jv9yudYP6CYge1T3vTX63nu8xPyCKC65aPsH
+ 5D4kegT+dA==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,85 +62,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Taylor Simpson <tsimpson@quicinc.com>,
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <20210225181507.3624509-1-f4bug@amsat.org>
+When dbus_vmstate_post_load() fails, it complains to stderr.  Except
+on short read, where it checks with g_return_val_if_fail().  This
+fails silently if G_DISABLE_CHECKS is undefined (it should be), or
+else pads the short read with uninitialized bytes.
+
+Replace g_return_val_if_fail() by a proper error check.
+
+Fixes: 5010cec2bc87dafab39b3913c8ca91f88df9c540
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210126124240.2081959-2-armbru@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/hexagon/gen_tcg_funcs.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ backends/dbus-vmstate.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
-index fe4d8e57303a..db9f663a778e 100755
---- a/target/hexagon/gen_tcg_funcs.py
-+++ b/target/hexagon/gen_tcg_funcs.py
-@@ -35,7 +35,7 @@ def gen_decl_ea_tcg(f, tag):
- def gen_free_ea_tcg(f):
-     f.write("    tcg_temp_free(EA);\n")
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+index bd050e8e9cab..2a0d2e4a31c0 100644
+--- a/backends/dbus-vmstate.c
++++ b/backends/dbus-vmstate.c
+@@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, int version_id)
+                                      &bytes_read, NULL, &err)) {
+             goto error;
+         }
+-        g_return_val_if_fail(bytes_read == len, -1);
++        if (bytes_read != len) {
++            error_report("%s: Short read", __func__);
++            return -1;
++        }
+         id[len] = 0;
  
--def genptr_decl_pair_writeble(f, tag, regtype, regid, regno):
-+def genptr_decl_pair_writable(f, tag, regtype, regid, regno):
-     regN="%s%sN" % (regtype,regid)
-     f.write("    TCGv_i64 %s%sV = tcg_temp_local_new_i64();\n" % \
-         (regtype, regid))
-@@ -54,7 +54,7 @@ def genptr_decl_pair_writeble(f, tag, regtype, regid, regno):
-                              (regN, regN))
-         f.write("    }\n")
- 
--def genptr_decl_writeble(f, tag, regtype, regid, regno):
-+def genptr_decl_writable(f, tag, regtype, regid, regno):
-     regN="%s%sN" % (regtype,regid)
-     f.write("    TCGv %s%sV = tcg_temp_local_new();\n" % \
-         (regtype, regid))
-@@ -78,12 +78,12 @@ def genptr_decl(f, tag, regtype, regid, regno):
-             f.write("    const int %s = insn->regno[%d];\n" % \
-                 (regN, regno))
-         elif (regid in {"dd", "ee", "xx", "yy"}):
--            genptr_decl_pair_writeble(f, tag, regtype, regid, regno)
-+            genptr_decl_pair_writable(f, tag, regtype, regid, regno)
-         elif (regid in {"s", "t", "u", "v"}):
-             f.write("    TCGv %s%sV = hex_gpr[insn->regno[%d]];\n" % \
-                 (regtype, regid, regno))
-         elif (regid in {"d", "e", "x", "y"}):
--            genptr_decl_writeble(f, tag, regtype, regid, regno)
-+            genptr_decl_writable(f, tag, regtype, regid, regno)
-         else:
-             print("Bad register parse: ", regtype, regid)
-     elif (regtype == "P"):
-@@ -91,7 +91,7 @@ def genptr_decl(f, tag, regtype, regid, regno):
-             f.write("    TCGv %s%sV = hex_pred[insn->regno[%d]];\n" % \
-                 (regtype, regid, regno))
-         elif (regid in {"d", "e", "x"}):
--            genptr_decl_writeble(f, tag, regtype, regid, regno)
-+            genptr_decl_writable(f, tag, regtype, regid, regno)
-         else:
-             print("Bad register parse: ", regtype, regid)
-     elif (regtype == "C"):
-@@ -101,14 +101,14 @@ def genptr_decl(f, tag, regtype, regid, regno):
-             f.write("    const int %s = insn->regno[%d] + HEX_REG_SA0;\n" % \
-                 (regN, regno))
-         elif (regid == "dd"):
--            genptr_decl_pair_writeble(f, tag, regtype, regid, regno)
-+            genptr_decl_pair_writable(f, tag, regtype, regid, regno)
-         elif (regid == "s"):
-             f.write("    TCGv %s%sV = tcg_temp_local_new();\n" % \
-                 (regtype, regid))
-             f.write("    const int %s%sN = insn->regno[%d] + HEX_REG_SA0;\n" % \
-                 (regtype, regid, regno))
-         elif (regid == "d"):
--            genptr_decl_writeble(f, tag, regtype, regid, regno)
-+            genptr_decl_writable(f, tag, regtype, regid, regno)
-         else:
-             print("Bad register parse: ", regtype, regid)
-     elif (regtype == "M"):
+         trace_dbus_vmstate_loading(id);
 -- 
 2.29.2
 
