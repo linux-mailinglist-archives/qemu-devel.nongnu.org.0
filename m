@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236793339EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:26:53 +0100 (CET)
-Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E113339D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:20:11 +0100 (CET)
+Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJw3I-0006yc-5S
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:26:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1lJvwo-0007KQ-5l
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:20:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvp8-0000p5-6l
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:14 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46571)
+ id 1lJvp9-0000qD-U0
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:15 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvp4-0006kS-2t
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:13 -0500
-Received: by mail-ej1-x636.google.com with SMTP id r17so37499832ejy.13
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:09 -0800 (PST)
+ id 1lJvp7-0006md-Ti
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:15 -0500
+Received: by mail-ej1-x632.google.com with SMTP id ci14so37434023ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0QCCBJaEXUVn3N/pVsDnKfdh8WE+LKtRP9bM2lE2mKk=;
- b=ZS6OYKXT2FLtkuHWA+MAFbDQlzvNtclKF97hOat107LOpuftFpxILvPexZNw3gvQ6z
- vGgEXdRihhr2v1oGjOmYg1OufRDE0Pb1mZ9q8JQDM9AESEy4+UQzyvqjnvXHoy3I0vb6
- c73tmodEVfGrOya2160Gx/Cq/7ets07zCt2HjsBt5SU60WColdwWmTSdz7bfowvZOwTJ
- n0kQaPA4Iz2Drc8SDBRU1an6bd52hkVsBfiIHL/C1oURgwdlY0LR4/D3mJiRC6v1khVE
- 0Lxxq6hNOPuiaqDkhO/TPbTeywU+vFWs5i32kTllqjWikA7HNupiSvwGeUYynfceoV+Q
- +Apg==
+ bh=lkRZyfD9QooRn1+sjjF0FxwBKOhdL98WsYjA2hcSBME=;
+ b=Rg6KB72/zM9bDZISWRtAjiKON4Vy8QJGZ1pU2sUXHXsbMmPus6g6oY5LQABxqR8Imf
+ ORmfWTN4SEEgndXT5eRLqymzQ68GpR6bh4iExTOhJixERQAYJfQ/EAhHDpbpuJj9QvaT
+ r4tfOINTfBHFZWeOXxXbbOPmR+WArjJEw8nQdMOG+HAlWpNMSm80Vj6XQKR11fC7Uxb4
+ bELOQcbbkxuqR0O/ir0Dy8MO1An85ZCTIF2hxSkDpUyNJizdgUJuLgEMTdbqq+6z2eyo
+ t6cQ0VCZPVR0T3SH293VOdJhYxm+iMmkHuMo6WR8SqUazZDV/BfuyZP9NEgjYxWzro8L
+ by3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0QCCBJaEXUVn3N/pVsDnKfdh8WE+LKtRP9bM2lE2mKk=;
- b=fhXuAtKyyqZEjiOnMVAwsiBwiQzY8vSvUn9PWW1es6IW506Kl05WsG+tlZqdDwQcn6
- npEknBEO3lp2p26QDOXd2AajHAJkHcEmXzHFyAgFEDRJlH7/81RVRUSQgYeitvicnZLE
- 3WXSwsArT8GzGKVrlIfEaWk9wUpD+6b2l6TLfSrtYmRHog6ClRG/98lJIKgj6QiFzBIz
- 2LUgEERpcOxwxW+kyyjrPs1Lux2XUOckXN+0DHd3WQZxeGPQdQcB52zwUaKX+HilRzW5
- 23ksPnJlYq2rY0nhKKu2QnVSbiQfekeax458Oy1SQ2szuPHauEXtdvYG+DkNxGGEkO8i
- pTNg==
-X-Gm-Message-State: AOAM531c5Y7BV5TFOqUjfSLU3aWw4jZdZfSiCLBHdZMeAjE6arAjJ5DM
- Y+gB7Oeu7jcFDbwq4b1HMHo=
-X-Google-Smtp-Source: ABdhPJzwdokbrIDg7zoYyRhrdldeOOz6Zu/3+PjYm7cgxZZBdOsBhbznOgN+wnHj9s/hzNnKkg7jPA==
-X-Received: by 2002:a17:906:1352:: with SMTP id
- x18mr2734235ejb.545.1615371128479; 
- Wed, 10 Mar 2021 02:12:08 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lkRZyfD9QooRn1+sjjF0FxwBKOhdL98WsYjA2hcSBME=;
+ b=EGtb0CtmJ4dGsAboudTWf2W2FsZBP2rI8li9ccxFWwzSQlISRuymXu3/2bWQoDUnmk
+ 6ya6+kLRIsNf92mJRREqyNJneuJbjNMB4T23CKWLysYkBbnfXjqB1JffzGyoOAZITsjM
+ W19ZxRDUNHLjmS6AqtBuyWLolWLRfKlqDAXt1Z+A2429p8EV1yaTfr1b6ukgOIxhB/Rc
+ pmYPQrQFsJIIZIOWj72OcDvZoD15an5L/fV8GQXpZLBb+4CK5njQHfMX6G9MkwTQWMKJ
+ KoZ3tEHB09cr9YHBe+YrSvlUMINetfV0vdsOrhRjTmmUwjeF/quMiKjmsnNWu5N7dd26
+ eHLA==
+X-Gm-Message-State: AOAM5319PK056fZGj5MbqgVGlYJSSA+4PTV9uduTYI/ebuMM0lmIB/3h
+ 9hZKWAQlHgZBifa0uXIWFrSSCywFtT0=
+X-Google-Smtp-Source: ABdhPJyOrP9gc1Ik0L0BmVMsg2L/PRepO2fvcCklEqkx8UQM4sGr4dLrnbcbh5JUx6s6IAzJmIcICQ==
+X-Received: by 2002:a17:906:2710:: with SMTP id
+ z16mr2887292ejc.176.1615371131890; 
+ Wed, 10 Mar 2021 02:12:11 -0800 (PST)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.05
+ by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 02:12:08 -0800 (PST)
+ Wed, 10 Mar 2021 02:12:11 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH 00/10] net: Pad short frames for network backends
-Date: Wed, 10 Mar 2021 18:11:47 +0800
-Message-Id: <20210310101157.15136-1-bmeng.cn@gmail.com>
+Subject: [PATCH 01/10] net: Use 'struct iovec' in
+ qemu_send_packet_async_with_flags()
+Date: Wed, 10 Mar 2021 18:11:48 +0800
+Message-Id: <20210310101157.15136-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210310101157.15136-1-bmeng.cn@gmail.com>
+References: <20210310101157.15136-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,72 +91,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum Ethernet frame length is 60 bytes. For short frames with
-smaller length like ARP packets (only 42 bytes), on a real world NIC
-it can choose either padding its length to the minimum required 60
-bytes, or sending it out directly to the wire. Such behavior can be
-hardcoded or controled by a register bit. Similarly on the receive
-path, NICs can choose either dropping such short frames directly or
-handing them over to software to handle.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-On the other hand, for the network backends like SLiRP/TAP, they
-don't expose a way to control the short frame behavior. As of today
-they just send/receive data from/to the other end connected to them,
-which means any sized packet is acceptable. So they can send and
-receive short frames without any problem. It is observed that ARP
-packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-these ARP packets to the other end which might be a NIC model that
-does not allow short frames to pass through.
+Directly use iovec structure in qemu_send_packet_async_with_flags()
+by inlining filter_receive() and using qemu_net_queue_send_iov()
+instead of qemu_net_queue_send().
 
-To provide better compatibility, for packets sent from QEMU network
-backends, we change to pad short frames before sending it out to the
-other end. This ensures a backend as an Ethernet sender does not
-violate the spec. But with this change, the behavior of dropping
-short frames in the NIC model cannot be emulated because it always
-receives a packet that is spec complaint. The capability of sending
-short frames from NIC models cannot be supported as well.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210303191205.1656980-2-philmd@redhat.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
 
-This series should be able to fix the issue as reported with some
-NIC models before, that ARP requests get dropped, preventing the
-guest from becoming visible on the network. It was workarounded in
-these NIC models on the receive path, that when a short frame is
-received, it is padded up to 60 bytes.
+ net/net.c | 33 ++++++++++++---------------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-
-Bin Meng (9):
-  net: Pad short frames to minimum size before send
-  hw/net: e1000: Remove the logic of padding short frames in the receive
-    path
-  hw/net: vmxnet3: Remove the logic of padding short frames in the
-    receive path
-  hw/net: i82596: Remove the logic of padding short frames in the
-    receive path
-  hw/net: ne2000: Remove the logic of padding short frames in the
-    receive path
-  hw/net: pcnet: Remove the logic of padding short frames in the receive
-    path
-  hw/net: rtl8139: Remove the logic of padding short frames in the
-    receive path
-  hw/net: sungem: Remove the logic of padding short frames in the
-    receive path
-  hw/net: sunhme: Remove the logic of padding short frames in the
-    receive path
-
-Philippe Mathieu-Daudé (1):
-  net: Use 'struct iovec' in qemu_send_packet_async_with_flags()
-
- hw/net/e1000.c    | 11 +----------
- hw/net/i82596.c   | 18 ------------------
- hw/net/ne2000.c   | 12 ------------
- hw/net/pcnet.c    |  9 ---------
- hw/net/rtl8139.c  | 12 ------------
- hw/net/sungem.c   | 14 --------------
- hw/net/sunhme.c   | 11 -----------
- hw/net/vmxnet3.c  | 10 ----------
- include/net/eth.h |  1 +
- net/net.c         | 44 +++++++++++++++++++++++---------------------
- 10 files changed, 25 insertions(+), 117 deletions(-)
-
+diff --git a/net/net.c b/net/net.c
+index 32d71c1172..bb1d455005 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -582,22 +582,6 @@ static ssize_t filter_receive_iov(NetClientState *nc,
+     return ret;
+ }
+ 
+-static ssize_t filter_receive(NetClientState *nc,
+-                              NetFilterDirection direction,
+-                              NetClientState *sender,
+-                              unsigned flags,
+-                              const uint8_t *data,
+-                              size_t size,
+-                              NetPacketSent *sent_cb)
+-{
+-    struct iovec iov = {
+-        .iov_base = (void *)data,
+-        .iov_len = size
+-    };
+-
+-    return filter_receive_iov(nc, direction, sender, flags, &iov, 1, sent_cb);
+-}
+-
+ void qemu_purge_queued_packets(NetClientState *nc)
+ {
+     if (!nc->peer) {
+@@ -639,6 +623,13 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+ {
+     NetQueue *queue;
+     int ret;
++    int iovcnt = 1;
++    struct iovec iov[] = {
++        [0] = {
++            .iov_base = (void *)buf,
++            .iov_len = size,
++        },
++    };
+ 
+ #ifdef DEBUG_NET
+     printf("qemu_send_packet_async:\n");
+@@ -650,21 +641,21 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+     }
+ 
+     /* Let filters handle the packet first */
+-    ret = filter_receive(sender, NET_FILTER_DIRECTION_TX,
+-                         sender, flags, buf, size, sent_cb);
++    ret = filter_receive_iov(sender, NET_FILTER_DIRECTION_TX,
++                             sender, flags, iov, iovcnt, sent_cb);
+     if (ret) {
+         return ret;
+     }
+ 
+-    ret = filter_receive(sender->peer, NET_FILTER_DIRECTION_RX,
+-                         sender, flags, buf, size, sent_cb);
++    ret = filter_receive_iov(sender->peer, NET_FILTER_DIRECTION_RX,
++                             sender, flags, iov, iovcnt, sent_cb);
+     if (ret) {
+         return ret;
+     }
+ 
+     queue = sender->peer->incoming_queue;
+ 
+-    return qemu_net_queue_send(queue, sender, flags, buf, size, sent_cb);
++    return qemu_net_queue_send_iov(queue, sender, flags, iov, iovcnt, sent_cb);
+ }
+ 
+ ssize_t qemu_send_packet_async(NetClientState *sender,
 -- 
 2.17.1
 
