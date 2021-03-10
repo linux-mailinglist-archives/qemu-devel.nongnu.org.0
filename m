@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E959333AD7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:58:08 +0100 (CET)
-Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5E5333AE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:59:47 +0100 (CET)
+Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJwXX-0002jd-JO
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:58:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1lJwZ8-0004sM-K4
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:59:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJwVi-0001vq-W4
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:56:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lJwVg-0007pQ-7F
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:56:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615373770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h7jRBOxcKa/xDnSKlkjiQmT6gERezMoaxQYlVVr0oYo=;
- b=TKM2kpjEBrFqVwdmTmwAjDY6WREetC6AmMsrtAdFXP6PF5k2BjosPW/XlomU+3+MnSc4s2
- y9oqOqiqk7XGhGGfmYjtiYekLvYX0KWQpt4IhWT9kDqNnJxvVNg/IG0MF/B1V5MiO+9k/b
- LW5gg46954vsdglKCAYFqcJwvHdUkJY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-TzlF79IcMX-tmjJsKk5xKw-1; Wed, 10 Mar 2021 05:56:08 -0500
-X-MC-Unique: TzlF79IcMX-tmjJsKk5xKw-1
-Received: by mail-ej1-f70.google.com with SMTP id si4so7083845ejb.23
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:56:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h7jRBOxcKa/xDnSKlkjiQmT6gERezMoaxQYlVVr0oYo=;
- b=LrcvgiLrmpDOF5TxJz8/cbSu3U02x+LnvzJi3SXHhHvmoXkXEvE9MgHRWBsYuOx90o
- Ihxc44C4OFUpm2pxKb7ENSBUFL7q1Gi2Jhx1SfZUP5yY5jVuziD8h69ZEi64brv+SLZF
- OEnfbq6DUaVX9Zk2uDWXAjuZcvkxedBLGcoMrftxohKAM/zqeRf0/FeRIJSKwdeDaet9
- E548U/KOs86cxy9GYAo7fHg+UQ19AlPt0SsKwehr5bdiZPW0rXTPDtlGMirRtKPICfPW
- rXmiK6M+btsKWTZhI1MjeNMOmXeIH3eLXsq/LEOhdSCTaRpFPdhh40dBOgghVW9Wv0Lb
- GX9A==
-X-Gm-Message-State: AOAM531OMbQGKAXfO+7b59sUzuSWYICALiVPjaTWo4I8oA/N8eO8ZTUm
- z9zmsV/rvxF5qn38XI+hJW5umsR+a+T043u5VkqgpCMvye/JDuSCRPixnsDP+cLVJsbhH3dzeax
- wvL4xomtQUSuc/tHJUkVGMUJu3qgHwAmghy4u5Vru9HOuhNCBxQYMdBka+4BjjasM
-X-Received: by 2002:a05:6402:104c:: with SMTP id
- e12mr2493508edu.108.1615373766955; 
- Wed, 10 Mar 2021 02:56:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxlxwdqbdaJ4ImU/pwNi2pXpx22HbjP0XjPeRcwaDZ3VPkvYVp0pxS7QbJX+BQIm+gjwyrUzg==
-X-Received: by 2002:a05:6402:104c:: with SMTP id
- e12mr2493493edu.108.1615373766737; 
- Wed, 10 Mar 2021 02:56:06 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d3sm10447611edp.43.2021.03.10.02.56.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Mar 2021 02:56:06 -0800 (PST)
-Subject: Re: [PATCH 1/4] hexagon: do not specify Python scripts as inputs
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210310104937.253532-1-pbonzini@redhat.com>
- <20210310104937.253532-2-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c143c927-1ad8-2564-0230-22b05331e53b@redhat.com>
-Date: Wed, 10 Mar 2021 11:56:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>)
+ id 1lJwXy-0003tG-0k; Wed, 10 Mar 2021 05:58:34 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:39975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>)
+ id 1lJwXu-0000cO-C9; Wed, 10 Mar 2021 05:58:33 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id F13AD1740;
+ Wed, 10 Mar 2021 05:58:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 10 Mar 2021 05:58:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=PNPkoOVJkRlgNDLz4OYprqd8fT7fbF22R4LkPE2zv
+ iY=; b=SRKwhPc3MKKv2qf9Q6lB9iq0+pdYyaSmIi5eUkkOxMmL5vbIcSO6qvHoF
+ WPirOCThToCayW+HaUH3/rE5FQ2pRxPappRLz9FA0/AKp8yDG7c7ZTszXI0ezVro
+ aUGrhMkXyLV1dxDd4Vgcjai3JAdU9AgPcAabSgiku4cl/LZRRLDyLM9r8zIPvPl7
+ a0JlwDzeqK8KQsTTDDWirpaMA25Tdyw/ugJ2xbU985vgWdPcskpNZ2KczdX7HyFP
+ q/2SuRBqQbGti97JAAdj56wOx2SJmY0M//8FuwC1rIy/fbzOGEUzB6uRe0CeiCl0
+ cMu+Y5uyDkIy3EBYQtZmRRlTdtlnw==
+X-ME-Sender: <xms:UqZIYCS3-o59Ok-EIcxWmQfpLj6z2Axv6EltePtvdq9P_IXKCMGExA>
+ <xme:UqZIYHxucHav3mxiYz2NB9KtnDzDeTKAcMEx1lgRcZM0FRBJ-u0Mwwp61LAlAgKYH
+ tbCKWzF-LWLeDzPETA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddukedgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvffujghfhfffkfggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghvihgu
+ ucfgughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnh
+ epteevgeeuvedvjefhkefffeffveekvdekffehueeludfgteefheeljeetuddvkefhnecu
+ kfhppeekuddrudekjedrvdeirddvfeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepughmvgesughmvgdrohhrgh
+X-ME-Proxy: <xmx:UqZIYP3K0sqZeWBppj6ltwxIkAeEUPYTtezILhvNsf9V1ZAzLKSeJw>
+ <xmx:UqZIYOAnP4qjMx2lewP1aLtCuOC04RWsti5K-t6KDxFIeeCy_dTJTQ>
+ <xmx:UqZIYLj-etlvPx5PeZ0Ic5f7DwnqoIJH_m4BVTmQXuwcDoYYO0B4Ig>
+ <xmx:U6ZIYGUt1GordseRXMi8qymDQumwsFDXxouA5xrFZz5T-dPGgfsZ8A>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0336B24005A;
+ Wed, 10 Mar 2021 05:58:25 -0500 (EST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 06823673;
+ Wed, 10 Mar 2021 10:58:25 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 4/9] hw/block/pflash_cfi02: Set rom_mode to true in
+ pflash_setup_mappings()
+In-Reply-To: <20210309235028.912078-5-philmd@redhat.com>
+References: <20210309235028.912078-1-philmd@redhat.com>
+ <20210309235028.912078-5-philmd@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 10 Mar 2021 10:58:24 +0000
+Message-ID: <m2r1knff73.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <20210310104937.253532-2-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=64.147.123.20; envelope-from=dme@dme.org;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_NEUTRAL=0.779,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,23 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/21 11:49 AM, Paolo Bonzini wrote:
-> Python scripts are not inputs, and putting them in @INPUT@.  This
-> puts requirements on the command line format, keeping all inputs
-> close to the name of the script.  Avoid that by not including the
-> script in the command and not in the inputs.
-> 
-> Also wrap "PYTHONPATH" usage with "env", since setting the environment
-> this way is not valid under Windows.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Wednesday, 2021-03-10 at 00:50:23 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+
+> There is only one call to pflash_setup_mappings(). Convert 'rom_mode'
+> to boolean and set it to true directly within pflash_setup_mappings().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  target/hexagon/meson.build | 30 ++++++++++--------------------
->  1 file changed, 10 insertions(+), 20 deletions(-)
+>  hw/block/pflash_cfi02.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 845f50ed99b..5f949b4c792 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -108,7 +108,7 @@ struct PFlashCFI02 {
+>      MemoryRegion mem;
+>      MemoryRegion *mem_mappings;    /* array; one per mapping */
+>      MemoryRegion orig_mem;
+> -    int rom_mode;
+> +    bool rom_mode;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Given this, doesn't the second argument to pflash_register_memory() need
+to change to bool, affecting its callers?
 
+>      int read_counter; /* used for lazy switch-back to rom mode */
+>      int sectors_to_erase;
+>      uint64_t erase_time_remaining;
+> @@ -181,6 +181,7 @@ static void pflash_setup_mappings(PFlashCFI02 *pfl)
+>                                   "pflash-alias", &pfl->orig_mem, 0, size=
+);
+>          memory_region_add_subregion(&pfl->mem, i * size, &pfl->mem_mappi=
+ngs[i]);
+>      }
+> +    pfl->rom_mode =3D true;
+>  }
+>=20=20
+>  static void pflash_register_memory(PFlashCFI02 *pfl, int rom_mode)
+> @@ -927,7 +928,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      pfl->sector_erase_map =3D bitmap_new(pfl->total_sectors);
+>=20=20
+>      pflash_setup_mappings(pfl);
+> -    pfl->rom_mode =3D 1;
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
+>=20=20
+>      timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+> --=20
+> 2.26.2
+
+dme.
+--=20
+And you can't hold me down, 'cause I belong to the hurricane.
 
