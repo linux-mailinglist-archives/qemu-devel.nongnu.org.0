@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174F43346F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:40:17 +0100 (CET)
-Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0040F33479F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 20:11:58 +0100 (CET)
+Received: from localhost ([::1]:60462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK3km-0003qV-4v
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:40:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
+	id 1lK4FP-000718-BV
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 14:11:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3cx-0005qh-Up
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:32:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3cr-0003EG-EP
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:32:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615401124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AL0j1J/qe/7XitsoK9+V0I0JiSKNuHRh+kEClor55V0=;
- b=RD7wWrlFfCJWGWQFPs4EEPc0ia+Qw8yFA5tCITZ121xW12dXexPkmBLH8hxrHBbzcD77pO
- Wp7dYdZzY3bBH5T2XPMSdT/ct2LdrL8PTDoIFoQy3s9vCJHhvAWRmD0/61L0gEjqZHj56Q
- 1oXOEODXUqeMXwjqXSjKhrzJaPsoTBM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-WyKWPLTiMEyiPG-1VtjOqw-1; Wed, 10 Mar 2021 13:32:03 -0500
-X-MC-Unique: WyKWPLTiMEyiPG-1VtjOqw-1
-Received: by mail-ej1-f69.google.com with SMTP id mj6so7638925ejb.11
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 10:32:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lK4Dd-0006XW-Oa
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 14:10:05 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lK4Db-0005ly-FH
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 14:10:05 -0500
+Received: by mail-ed1-x536.google.com with SMTP id h10so29771993edl.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 11:10:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KWZoiTMV4vrHqkSSYvjDqUOT4xEd7Gk2QYzPwlibwlM=;
+ b=s5XFTDkdp3UJ0Nro6ix4mMwgAN+7/qHnbDi5EZJj8qYNo5C657LZYtmzSCyuprhFmX
+ gq22YMNjQBTUm719pjApMLogi00DAWSCIQfGf8XdGgZFWhfGgxfLosPcl/KpV+CL7fkh
+ afMCjqvi4osvzPYfGJZxTEyeW0qId3HNlEUmL1BjpbXwvvs7SOirw5ZvCqXFBtXTQX/Z
+ bxnrJayUvxHlmwbMTaNlB9TNsrfU5xEJV/kTr1BPukDz+X1T9ypZ2TRwFIEOaqWJFB7t
+ 78pMmAFdGNf+X+skfXp0BOMxnriXIEPKm10f9tumDFEcG1NFnFU8QAl2I9qbRhBka8w2
+ I5bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AL0j1J/qe/7XitsoK9+V0I0JiSKNuHRh+kEClor55V0=;
- b=q74dn1qWKSy7SHohk2dsBFh3E+fORnX/ZED+irphtfDWA4BFpsMD5VgVfrzQLbi3XB
- C72vfjesO7OLrIn04iCEncxUoyw0XeIU7RJR9zEWsQxUmXTZa+qn8AqUDpAPEHg3aliL
- 17vqg91lgcqPuL1O7cF7RXZc3P4Pdk3kJfEOwVtDE3bJ2kP8n764N3IHrSEHeW5FRXRV
- F9CBJw1AHw/n7e2f/B4y/97GCbTh05FfLM/2+Hx2Y313v9GXON1BY6zAZ4gPbKfy6BC7
- DymC1/d+kmB+pUL6bFUuln+R9J2o4yF0msWxBA2jv7k0jVC1zdUpBWnsRSutA8w8a0yD
- p8+w==
-X-Gm-Message-State: AOAM530IpTO5SHOG3UcLzCJLEYm4cjbZMPq3PoHNoFXes/mPJBr8SPqR
- egeIEEi+ltxYNHDxJ+6YlFFPCw4mguowGsoQqb0IE0CLr3Yc7pk6oTb9ZSy7ZKYEuX+OaLyEj1w
- 6Qll/JAXFoqPYuPyOh2KG4KvG1tXmQh3aH8sbJy+YjrXtLSJlqC7VOxa49BDlkzgc
-X-Received: by 2002:aa7:c4cc:: with SMTP id p12mr4666936edr.325.1615401121833; 
- Wed, 10 Mar 2021 10:32:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxKNj+qW2K71MVh/nPK8L/+yxc1cWWElb7IG3ciBrD3rEW2oU0jbxDk5sx1CbFoPi2bOUhNEA==
-X-Received: by 2002:aa7:c4cc:: with SMTP id p12mr4666918edr.325.1615401121702; 
- Wed, 10 Mar 2021 10:32:01 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KWZoiTMV4vrHqkSSYvjDqUOT4xEd7Gk2QYzPwlibwlM=;
+ b=A0oewzXAIY/OC5BTdNuXDcF49G/ZshDncpk3/mxKK1kWssilk8cU2rGRra9DdCa7vh
+ 17Rdh4eaA9BtIXWqjL1SSVwfhs19FP//DdzWWNbJ28Fi1pI1CKN6tkdVMdjccGYYTJ99
+ 31YnrF6W+7XEBME4XjM3QUBlTsJ2Uq8rwSpC87rQi4AqakerfAOh5tDjE9gp45f6nxGO
+ IPDnkiMZxPhkbc116IRD/dOUpJAEqtniVQ3kN07nh3gTR+MDrS5+bUeAs1kZFYvaZUdO
+ nsKSFLDRfm10WKPatODybOfTBFrsaLn+7dxVVLurSwLDakgCxs5KSoUC2cuY1SCl+Wqq
+ IKrQ==
+X-Gm-Message-State: AOAM533Xf7KTSJI92v1PpAC/QCnIA6okqrHtlgtIdAJeM3jEsCJqZuvB
+ jDJ486p+SVOBnTXJFbID+D0=
+X-Google-Smtp-Source: ABdhPJwZxpHW4JxspQJP8XqcEh3utZjPAA0+s2bYs20fUemt1TnFCGqruNnt8l4EZYPm4iQy/YosDg==
+X-Received: by 2002:a50:ee19:: with SMTP id g25mr4991238eds.351.1615403401527; 
+ Wed, 10 Mar 2021 11:10:01 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l18sm131048ejk.86.2021.03.10.10.32.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 10:32:01 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 7/7] net/eth: Add an assert() and invert if() statement to
- simplify code
-Date: Wed, 10 Mar 2021 19:31:23 +0100
-Message-Id: <20210310183123.1212612-8-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210310183123.1212612-1-philmd@redhat.com>
-References: <20210310183123.1212612-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id y12sm163866ejb.104.2021.03.10.11.10.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Mar 2021 11:10:00 -0800 (PST)
+Subject: Re: [PATCH 2/3] memory: Provide 'base address' argument to
+ mtree_print_mr()
+To: Peter Xu <peterx@redhat.com>
+References: <20210305235414.2358144-1-f4bug@amsat.org>
+ <20210305235414.2358144-3-f4bug@amsat.org> <20210308234025.GP397383@xz-x1>
+ <f3bda42d-759f-dbcd-04f0-45375e3eb9fd@amsat.org>
+ <c524c45f-695e-fed5-bd24-f3d4deff4016@amsat.org>
+ <20210310170621.GC6530@xz-x1>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
+Date: Wed, 10 Mar 2021 20:09:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210310170621.GC6530@xz-x1>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,52 +93,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To simplify the function body, invert the if() statement, returning
-earlier.
-Since we already checked there is enough data in the iovec buffer,
-simply add an assert() call to consume the bytes_read variable.
+On 3/10/21 6:06 PM, Peter Xu wrote:
+> Phil,
+> 
+> On Tue, Mar 09, 2021 at 10:54:18PM +0100, Philippe Mathieu-Daudé wrote:
+>> +Peter/Mark/Edgar for SoC modelling
+>>
+>> On 3/9/21 10:39 AM, Philippe Mathieu-Daudé wrote:
+>>> Hi Peter,
+>>>
+>>> On 3/9/21 12:40 AM, Peter Xu wrote:> On Sat, Mar 06, 2021 at 12:54:13AM
+>>> +0100, Philippe Mathieu-Daudé wrote:
+>>>>> @@ -3188,14 +3188,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+>>>>>  
+>>>>>      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+>>>>>          qemu_printf("address-space: %s\n", as->name);
+>>>>> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
+>>>>> +        mtree_print_mr(as->root, 1, 0, as->root->addr,
+>>>>
+>>>> Root MR of any address space should have mr->addr==0, right?
+>>>>
+>>>> I'm slightly confused on what this patch wanted to do if so, since then "base"
+>>>> will always be zero..  Or am I wrong?
+>>>
+>>> That is what I am expecting too... Maybe the problem is elsewhere
+>>> when I create the address space... The simpler way to
+>>> figure it out is add an assertion. I haven't figure out my
+>>> issue yet, I'll follow up later with a proof-of-concept series
+>>> which triggers the assertion.
+>>
+>> To trigger I simply use:
+>>
+>> mydevice_realize()
+>> {
+>>   memory_region_init(&mr, obj, name, size);
+>>
+>>   address_space_init(&as, &mr, name);
+> 
+> Could I ask why you need to set this sysbus mmio region as root MR of as?
+> What's AS used for here?
+> 
+> Btw, normally I see these regions should be initialized with
+> memory_region_init_io(), since normally that MR will need a MemoryRegionOps
+> bound to it to trap MMIOs, iiuc.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- net/eth.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+This is the pattern for buses:
 
-diff --git a/net/eth.c b/net/eth.c
-index 284ade4ab0b..f5fde6d83e3 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -416,15 +416,14 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
-     bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset,
-                             &rt_hdr, sizeof(rt_hdr));
-     assert(bytes_read == sizeof(rt_hdr));
--
--    if ((rt_hdr.rtype == 2) && (rt_hdr.segleft == 1)) {
--        bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset + sizeof(rt_hdr),
--                                dst_addr, sizeof(*dst_addr));
--
--        return bytes_read == sizeof(*dst_addr);
-+    if ((rt_hdr.rtype != 2) || (rt_hdr.segleft != 1)) {
-+        return false;
-     }
-+    bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset + sizeof(rt_hdr),
-+                            dst_addr, sizeof(*dst_addr));
-+    assert(bytes_read == sizeof(*dst_addr));
- 
--    return false;
-+    return true;
- }
- 
- static bool
--- 
-2.26.2
+static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+                                         const char *name, int devfn,
+                                         Error **errp)
+{
+    ...
+    memory_region_init(&pci_dev->bus_master_container_region,
+                       OBJECT(pci_dev),
+                       "bus master container", UINT64_MAX);
+    address_space_init(&pci_dev->bus_master_as,
+                       &pci_dev->bus_master_container_region,
+                       pci_dev->name);
+    ....
 
+AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+{
+    AUXBus *bus;
+    Object *auxtoi2c;
+
+    bus = AUX_BUS(qbus_create(TYPE_AUX_BUS, parent, name));
+    auxtoi2c = object_new_with_props(TYPE_AUXTOI2C, OBJECT(bus), "i2c",
+                                     &error_abort, NULL);
+
+    bus->bridge = AUXTOI2C(auxtoi2c);
+
+    /* Memory related. */
+    bus->aux_io = g_malloc(sizeof(*bus->aux_io));
+    memory_region_init(bus->aux_io, OBJECT(bus), "aux-io", 1 * MiB);
+    address_space_init(&bus->aux_addr_space, bus->aux_io, "aux-io");
+    return bus;
+}
+
+static void artist_realizefn(DeviceState *dev, Error **errp)
+{
+    ...
+    memory_region_init(&s->mem_as_root, OBJECT(dev), "artist", ~0ull);
+    address_space_init(&s->as, &s->mem_as_root, "artist");
+
+PCI host:
+
+PCIBus *gt64120_register(qemu_irq *pic)
+{
+    ...
+    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
+    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
+
+Also:
+
+static void pnv_xive_realize(DeviceState *dev, Error **errp)
+{
+    ...
+    /*
+     * The XiveSource and XiveENDSource objects are realized with the
+     * maximum allowed HW configuration. The ESB MMIO regions will be
+     * resized dynamically when the controller is configured by the FW
+     * to limit accesses to resources not provisioned.
+     */
+    memory_region_init(&xive->ipi_mmio, OBJECT(xive), "xive-vc-ipi",
+                       PNV9_XIVE_VC_SIZE);
+    address_space_init(&xive->ipi_as, &xive->ipi_mmio, "xive-vc-ipi");
+    memory_region_init(&xive->end_mmio, OBJECT(xive), "xive-vc-end",
+                       PNV9_XIVE_VC_SIZE);
+    address_space_init(&xive->end_as, &xive->end_mmio, "xive-vc-end");
+
+And:
+
+static void memory_map_init(void)
+{
+    ...
+    memory_region_init(system_memory, NULL, "system", UINT64_MAX);
+    address_space_init(&address_space_memory, system_memory, "memory");
+
+Or:
+
+static AddressSpace *amdvi_host_dma_iommu(PCIBus *bus, void *opaque,
+                                          int devfn)
+{
+    ...
+    /*
+     * Memory region relationships looks like (Address range shows
+     * only lower 32 bits to make it short in length...):
+     *
+     * |-----------------+-------------------+----------|
+     * | Name            | Address range     | Priority |
+     * |-----------------+-------------------+----------+
+     * | amdvi_root      | 00000000-ffffffff |        0 |
+     * |  amdvi_iommu    | 00000000-ffffffff |        1 |
+     * |  amdvi_iommu_ir | fee00000-feefffff |       64 |
+     * |-----------------+-------------------+----------|
+     */
+    memory_region_init(&amdvi_dev_as->root, OBJECT(s),
+                       "amdvi_root", UINT64_MAX);
+    address_space_init(&amdvi_dev_as->as, &amdvi_dev_as->root, name);
+    memory_region_init_io(&amdvi_dev_as->iommu_ir, OBJECT(s),
+                          &amdvi_ir_ops, s, "amd_iommu_ir",
+                          AMDVI_INT_ADDR_SIZE);
+    memory_region_add_subregion_overlap(&amdvi_dev_as->root,
+                                        AMDVI_INT_ADDR_FIRST,
+                                        &amdvi_dev_as->iommu_ir,
+                                        64);
+    memory_region_add_subregion_overlap(&amdvi_dev_as->root, 0,
+                           MEMORY_REGION(&amdvi_dev_as->iommu), 1);
+
+I'll send a reproducer.
 
