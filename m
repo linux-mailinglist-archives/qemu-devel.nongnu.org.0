@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A9B33453F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:37:39 +0100 (CET)
-Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14773345AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:51:14 +0100 (CET)
+Received: from localhost ([::1]:47264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2mA-0001Ve-4l
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:37:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
+	id 1lK2zJ-0007aK-O1
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:51:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK2I1-00063w-NV
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lK2Hz-0000MV-PF
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615395987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ML5jSqeUx3BWxfCj3mPJlKjZ8LD1vyh74i+dcmNlDmE=;
- b=Qckm/eRpcWXMXjqSHHUTxIxDBb0PRilWvcjd04cnsLqW3IIoreY/is8M0z9xLy34YP4GOE
- 0b28vKqwaq5LEKUhjt4/bpsS61ULIrlrtHGAPn17N04u0KcVAd3JRT2ztIXP9bpQr9fjHj
- GUs4J+iyVKVUNhPCJf/J5on2GKc75eM=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-P3in3dSJPuSoBGshYUCDHQ-1; Wed, 10 Mar 2021 12:06:25 -0500
-X-MC-Unique: P3in3dSJPuSoBGshYUCDHQ-1
-Received: by mail-qt1-f199.google.com with SMTP id l13so2121782qtu.6
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:06:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lK2Tj-0001ax-Ks
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:18:37 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lK2Tg-00048T-5a
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:18:35 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id c10so40156949ejx.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DMBI/PfElUf548TVsJFxfmWhz9UswWna3wkX93XAh50=;
+ b=KqwUs80O533JnWblBrQlRzpgO0TRJ/MfXd7LIHBWnUHDQPV1ut+1wOkg03ax70FpW4
+ kGvpmq+lS2u6099Mw72SE6zxAYLlD5cU3cTa91LI6CjHTmA66tyrGFPCljsw1m5CIWpC
+ p1Gy4QD7AQoh6aFHEe3/4j0vCDcLyguDaAe5TeKXVaSpgi1/bx3c9jAh7NLpMxBgwPlk
+ F2ItgrUWVDI84beeJFYSvYPVemi0dVHIUra8UoBbwx+ZSAbqVN8bozKfOBWQciPMyrI1
+ a27COcWI869yf7n41+NcxBUjJMEAxxfeAG5sj6Dxr9sIMet11e/qmaXtKcmIFILVwNS4
+ pZVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ML5jSqeUx3BWxfCj3mPJlKjZ8LD1vyh74i+dcmNlDmE=;
- b=FT4coNiZqyLyAcwRFrb11ugAgq082XGaPngSv3y7Ghx7ndqB/SzXmG7GbF0r39xQnG
- OSroM++zeOczh4jreWMtgdD9vbOVfdnnsXvewAVAssF84ZxeY3B99C4QFbT5c7mZ1HT9
- g1n8urx6XEkHswFKtkEg0yJb9V7I6APv+T4qhFYKNaVXEsEu+oP8xZsWlDTFN9n1JYQ2
- Bp0vlxQlcAfJ1ydwzU5WTfQon2CFPV5b6okkoY1dDC5KG21i/4hfTScaFNiWUbsZ2eqn
- Rm+33eo6GYjwDI0B9oywGy6fmkY5WF2/RcuLnfrWAixUhFXGPyCnrdufXDE9rAd8g+Pp
- B8QA==
-X-Gm-Message-State: AOAM533LXkRngIEZTiCH1Ho3iEU0kAFMQvsB/dE0JzV/Q/mK6lOaAa/l
- hQBX2P+FkUmrTKvzW02pocHzuZYXkgCg9GMXaxA+Mqzwq3KN5l59tgAIUAh7iQUf2sbqa+pib9a
- C8jgw5pP5t/Mlm6U=
-X-Received: by 2002:aed:3781:: with SMTP id j1mr1294157qtb.88.1615395984691;
- Wed, 10 Mar 2021 09:06:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnYsNV9Mw+vKnoXR3bfCvnG2ZJYKHvWTvG3+G+dgwp9sHkpUp0tW6XTDkUhwc+MoF5ReY4hg==
-X-Received: by 2002:aed:3781:: with SMTP id j1mr1294127qtb.88.1615395984450;
- Wed, 10 Mar 2021 09:06:24 -0800 (PST)
-Received: from xz-x1 ([142.126.89.138])
- by smtp.gmail.com with ESMTPSA id m3sm3533628qkk.15.2021.03.10.09.06.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 09:06:23 -0800 (PST)
-Date: Wed, 10 Mar 2021 12:06:21 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/3] memory: Provide 'base address' argument to
- mtree_print_mr()
-Message-ID: <20210310170621.GC6530@xz-x1>
-References: <20210305235414.2358144-1-f4bug@amsat.org>
- <20210305235414.2358144-3-f4bug@amsat.org>
- <20210308234025.GP397383@xz-x1>
- <f3bda42d-759f-dbcd-04f0-45375e3eb9fd@amsat.org>
- <c524c45f-695e-fed5-bd24-f3d4deff4016@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DMBI/PfElUf548TVsJFxfmWhz9UswWna3wkX93XAh50=;
+ b=PxDSwWy0+uk9bhtlN9Skm1Espahe1CeYVD9FbO/WAdYvOsUYV1kUzBqAJ1Dg2aBs19
+ 1r0fPbe+9YH4Mi57AcG8fUI/Rzsr5SU/NiwaqI8viK2Q+qkqt5DaIdSLC1lk6dRCamGN
+ 4vC1nqPnrRAgYgP2+CXC0y42Ut/gE6cjc6XXbf3ZbZmCi2KxsUlE1LFUiS9NFHf6wCLW
+ Oi/w4/RXtualEs81DcC1Hcfoq62MyQFBzj0DaAiUkqQhw7VuGl1X82tYDJbojAuWu4vW
+ 3+qrtc2mLOnduCAbwXG7M4ptgrlwcX+vz/v/2qFHqR4xcCrxVxePQmbmarRFto2dNtbm
+ nSnw==
+X-Gm-Message-State: AOAM53343sCmwKYNxEVl8mW0cld07FkvdLn4zr2PsVUIcHjw0u9kndTc
+ zzZ3uK4/ixwgVqhUMO0856JPra1IFEtThKfxm7WwQQ==
+X-Google-Smtp-Source: ABdhPJw1xO4x8SpVNXk9Kz0u/Wia/kNwLfxfQzDTygcIs3OZEH6GCBJev1dDffO8cdIL4bMTVmSIV0VPphEPobzTDec=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr4781772ejd.85.1615396709820; 
+ Wed, 10 Mar 2021 09:18:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c524c45f-695e-fed5-bd24-f3d4deff4016@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
+In-Reply-To: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 10 Mar 2021 17:18:11 +0000
+Message-ID: <CAFEAcA-mgsMd4roQc_7QYkMMMqXeFyXiQGtCGp1Bju1P2MCi5w@mail.gmail.com>
+Subject: Re: [PATCH] baum: Fix crash when Braille output is not available
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,65 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Phil,
+On Wed, 10 Mar 2021 at 16:08, Samuel Thibault
+<samuel.thibault@ens-lyon.org> wrote:
+>
+> When Braille output is not available, the backend properly reports being
+> unable to be created, but 5f8e93c3e262 ("util/qemu-timer: Make timer_free()
+> imply timer_del()") made the timer_free() call now refuse any NULL
+> parameter. char_braille_finalize thus now has to be more careful with
+> calling it on baum->cellCount_timer.
 
-On Tue, Mar 09, 2021 at 10:54:18PM +0100, Philippe Mathieu-Daudé wrote:
-> +Peter/Mark/Edgar for SoC modelling
-> 
-> On 3/9/21 10:39 AM, Philippe Mathieu-Daudé wrote:
-> > Hi Peter,
-> > 
-> > On 3/9/21 12:40 AM, Peter Xu wrote:> On Sat, Mar 06, 2021 at 12:54:13AM
-> > +0100, Philippe Mathieu-Daudé wrote:
-> >>> @@ -3188,14 +3188,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
-> >>>  
-> >>>      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-> >>>          qemu_printf("address-space: %s\n", as->name);
-> >>> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
-> >>> +        mtree_print_mr(as->root, 1, 0, as->root->addr,
-> >>
-> >> Root MR of any address space should have mr->addr==0, right?
-> >>
-> >> I'm slightly confused on what this patch wanted to do if so, since then "base"
-> >> will always be zero..  Or am I wrong?
-> > 
-> > That is what I am expecting too... Maybe the problem is elsewhere
-> > when I create the address space... The simpler way to
-> > figure it out is add an assertion. I haven't figure out my
-> > issue yet, I'll follow up later with a proof-of-concept series
-> > which triggers the assertion.
-> 
-> To trigger I simply use:
-> 
-> mydevice_realize()
-> {
->   memory_region_init(&mr, obj, name, size);
-> 
->   address_space_init(&as, &mr, name);
+It wasn't the intention of that commit to make freeing a NULL
+timer invalid; I think Paolo's patch restoring the ability to
+timer_free(NULL) is probably the right thing here:
+https://patchew.org/QEMU/20210310154526.463850-1-pbonzini@redhat.com/
 
-Could I ask why you need to set this sysbus mmio region as root MR of as?
-What's AS used for here?
-
-Btw, normally I see these regions should be initialized with
-memory_region_init_io(), since normally that MR will need a MemoryRegionOps
-bound to it to trap MMIOs, iiuc.
-
-Thanks,
-
->   // here we have as.root.addr = 0
-> 
->   sysbus_init_mmio(sbd, &mr);
-> }
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
