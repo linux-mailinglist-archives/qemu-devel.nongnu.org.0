@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82CE3344E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:14:38 +0100 (CET)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80673334504
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:21:27 +0100 (CET)
+Received: from localhost ([::1]:39388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2Pt-0004FS-PB
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:14:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60274)
+	id 1lK2WU-0003Lr-GO
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2HH-0004bJ-Vh
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:05:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47924)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2Hc-000507-56
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2HE-0008SG-Hk
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:05:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2HR-0008Vj-Vk
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615395939;
+ s=mimecast20190719; t=1615395952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1lkAbNMznYy5sWjl9s/cdzvTCo04j/BVeg1zFkCfsN0=;
- b=AThUigeViVw2YUmmNyTUj5kRFyj1FeOaQY4urFzNNt/ylfDRGg2QkEzGlccAOaxlPIN0hs
- 33072ieYFEZgky8XyAHe+HPx5b8mbc621AL8eJhsW29Jj+N/6eeronljAYcO4G/FD98UJI
- sr12H5D+b+rGs0gP97WQjJ2x4nQ5cHI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-puizjuklMYaiEao4DeWScw-1; Wed, 10 Mar 2021 12:05:38 -0500
-X-MC-Unique: puizjuklMYaiEao4DeWScw-1
-Received: by mail-ej1-f69.google.com with SMTP id m4so7493828ejc.14
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:05:37 -0800 (PST)
+ bh=0p2T4LOlo1WwNURg6exWZWmw0vfUpBnGF9RSkW5uJpI=;
+ b=OOv/uDY826rb5otwCdKhheFSHLzGZWJvqTknaFATDrmpzQod9498ODKdC8UzyExrKlBDH/
+ iYCO9cGa/a7qHAUrrRfd9tIBjfLJ5pICCe48hwx6NSSxUw2gG4FF6iF6V+pzyV3uYoAkiS
+ k+iouX12Adf6LgkayS5bkbedCcXvzyM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-5sW6A_XcNnyGHwdjmylUzw-1; Wed, 10 Mar 2021 12:05:49 -0500
+X-MC-Unique: 5sW6A_XcNnyGHwdjmylUzw-1
+Received: by mail-ej1-f71.google.com with SMTP id v10so7500593ejh.15
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:05:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1lkAbNMznYy5sWjl9s/cdzvTCo04j/BVeg1zFkCfsN0=;
- b=RrkhHCVZbk8L17XyjLrxOT/16ts4EczSt3hVOYx8Sgv2mYOWHZ15TPh31XYZM7Qj4l
- fSiFsxv/jwS3MbNXa3FdZYGRnJBm2vIqys1o3fDqi1bwXEoyECh+ykdQk2giHS7GDSKz
- g9aYI7FwDdzP1HMOc6gSPiXJcUi6Q2qH5kd3zLBysQPFRi6AIYe8MQ4AVClXMWIjIZue
- G8oqHHnzKhqEZ2RNXmXItIOrd3OKD6If/FwFAa8wqsXAyxbuqPxY9Fmi3uOqINT3tQfz
- eJZp8t1j2ljQTAPu5lq4AsmeqTuueQm3AmhiFr9jNkHUeCVbHqplJmXnoIjzJ/7XjQNH
- I/2A==
-X-Gm-Message-State: AOAM532m2dI8685a9xS+R/2btqGIozJeU/5/NnVLrX+Wv23ddA7LKek1
- UD8O5gJak+yRH5ImhLBrqq+7uYbrgUHUNuNDnxWhZuuSMeYKU0If6eFR7Pn4gKUn3rNRjkBRKSL
- SEHR8DoJdof9TrFMtRKRn7yPOBEGgf80riT1tx08IxCzwqa3nzcOfYFIBbtlD5U68
-X-Received: by 2002:a05:6402:278b:: with SMTP id
- b11mr4451935ede.380.1615395936470; 
- Wed, 10 Mar 2021 09:05:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzWFXqW5lobH1Y+HAtKnbFld9GonmGKh3V0LkGYjtPT47Xs2abr3fXUWpN8CBqUwYRLy7JDrA==
-X-Received: by 2002:a05:6402:278b:: with SMTP id
- b11mr4451905ede.380.1615395936199; 
- Wed, 10 Mar 2021 09:05:36 -0800 (PST)
+ bh=0p2T4LOlo1WwNURg6exWZWmw0vfUpBnGF9RSkW5uJpI=;
+ b=iJbzJge51r4tJOt4o7sriWv/dXde4ZLSGatAL+0cuAqJLTiSEpifeL1TRTzpXci4sY
+ HzE1sJ/dzs02t/JsnnmNp2kDIspLx09A04r7ksa3HOp+GIEt4tRin/ooLZxNo8CT/50H
+ VtAM3i6GF43ANC3dsKFZ1pdlKQxY4eo8GwH5OX2avLRBfZ5sCMbHhM6p+WGIWMgm0JEl
+ bt5G6ZkRz5hGnLl2t/6iiDx7gJFdWhfzLHcOXmLnR2CTxLdb3n1I2wqH0ZxBoeN/xgJ7
+ EJVQmyod1VOn/OzfyiTuNOV9GixCI3vasWufdcHP1w6W5xizZQkmmmWovxHBtEawsHFS
+ MfCQ==
+X-Gm-Message-State: AOAM530CYceMT1qUf7/dlrpr7IMdjfPYzGe3YV1pMnMHpAOdS8Tpn8IX
+ VLVfBqHXrSQBJN4Qh84rpQ64AxagFaoV1CszSrTnyq0BVS8Do8ZHQA7VJpgsIDMY4VSHAgkL+nZ
+ nkG/eyZXg4ohg8S3J4+R2xarcfgnCUSWTrHwDd9h5DLK3whC6LbdNqsfhobvI1VKG
+X-Received: by 2002:a17:906:2504:: with SMTP id
+ i4mr4733034ejb.115.1615395947775; 
+ Wed, 10 Mar 2021 09:05:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzL4BGaDaskaudXSodstxoWEbJ5WyVz6yHWXhY64YFw++K8wXpzcP/22nWHKUMz9pVrVyyLmw==
+X-Received: by 2002:a17:906:2504:: with SMTP id
+ i4mr4732978ejb.115.1615395947286; 
+ Wed, 10 Mar 2021 09:05:47 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d23sm1675567edt.19.2021.03.10.09.05.34
+ by smtp.gmail.com with ESMTPSA id r17sm2642145edm.89.2021.03.10.09.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 09:05:35 -0800 (PST)
+ Wed, 10 Mar 2021 09:05:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/12] hw/block/pflash_cfi: Fix code style for checkpatch.pl
-Date: Wed, 10 Mar 2021 18:05:17 +0100
-Message-Id: <20210310170528.1184868-2-philmd@redhat.com>
+Subject: [PATCH v2 03/12] hw/block/pflash_cfi02: Extract
+ pflash_cfi02_fill_cfi_table()
+Date: Wed, 10 Mar 2021 18:05:19 +0100
+Message-Id: <20210310170528.1184868-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210310170528.1184868-1-philmd@redhat.com>
 References: <20210310170528.1184868-1-philmd@redhat.com>
@@ -103,167 +104,227 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to move this code, fix its style first.
+Fill the CFI table in out of DeviceRealize() in a new function:
+pflash_cfi02_fill_cfi_table().
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 36 ++++++++++++++++++++++++------------
- hw/block/pflash_cfi02.c |  9 ++++++---
- 2 files changed, 30 insertions(+), 15 deletions(-)
+ hw/block/pflash_cfi02.c | 193 +++++++++++++++++++++-------------------
+ 1 file changed, 99 insertions(+), 94 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 22287a1522e..b6919bbe474 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -115,7 +115,8 @@ static const VMStateDescription vmstate_pflash = {
-     }
- };
- 
--/* Perform a CFI query based on the bank width of the flash.
-+/*
-+ * Perform a CFI query based on the bank width of the flash.
-  * If this code is called we know we have a device_width set for
-  * this flash.
-  */
-@@ -125,7 +126,8 @@ static uint32_t pflash_cfi_query(PFlashCFI01 *pfl, hwaddr offset)
-     uint32_t resp = 0;
-     hwaddr boff;
- 
--    /* Adjust incoming offset to match expected device-width
-+    /*
-+     * Adjust incoming offset to match expected device-width
-      * addressing. CFI query addresses are always specified in terms of
-      * the maximum supported width of the device.  This means that x8
-      * devices and x8/x16 devices in x8 mode behave differently.  For
-@@ -141,7 +143,8 @@ static uint32_t pflash_cfi_query(PFlashCFI01 *pfl, hwaddr offset)
-     if (boff >= sizeof(pfl->cfi_table)) {
-         return 0;
-     }
--    /* Now we will construct the CFI response generated by a single
-+    /*
-+     * Now we will construct the CFI response generated by a single
-      * device, then replicate that for all devices that make up the
-      * bus.  For wide parts used in x8 mode, CFI query responses
-      * are different than native byte-wide parts.
-@@ -185,7 +188,8 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl, hwaddr offset)
-     uint32_t resp;
-     hwaddr boff;
- 
--    /* Adjust incoming offset to match expected device-width
-+    /*
-+     * Adjust incoming offset to match expected device-width
-      * addressing. Device ID read addresses are always specified in
-      * terms of the maximum supported width of the device.  This means
-      * that x8 devices and x8/x16 devices in x8 mode behave
-@@ -198,7 +202,8 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl, hwaddr offset)
-     boff = offset >> (ctz32(pfl->bank_width) +
-                       ctz32(pfl->max_device_width) - ctz32(pfl->device_width));
- 
--    /* Mask off upper bits which may be used in to query block
-+    /*
-+     * Mask off upper bits which may be used in to query block
-      * or sector lock status at other addresses.
-      * Offsets 2/3 are block lock status, is not emulated.
-      */
-@@ -297,7 +302,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
-     case 0x60: /* Block /un)lock */
-     case 0x70: /* Status Register */
-     case 0xe8: /* Write block */
--        /* Status register read.  Return status from each device in
-+        /*
-+         * Status register read.  Return status from each device in
-          * bank.
-          */
-         ret = pfl->status;
-@@ -308,7 +314,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
-                 shift += pfl->device_width * 8;
-             }
-         } else if (!pfl->device_width && width > 2) {
--            /* Handle 32 bit flash cases where device width is not
-+            /*
-+             * Handle 32 bit flash cases where device width is not
-              * set. (Existing behavior before device width added.)
-              */
-             ret |= pfl->status << 16;
-@@ -340,7 +347,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
-                 break;
-             }
-         } else {
--            /* If we have a read larger than the bank_width, combine multiple
-+            /*
-+             * If we have a read larger than the bank_width, combine multiple
-              * manufacturer/device ID queries into a single response.
-              */
-             int i;
-@@ -367,7 +375,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
-                 ret = 0;
-             }
-         } else {
--            /* If we have a read larger than the bank_width, combine multiple
-+            /*
-+             * If we have a read larger than the bank_width, combine multiple
-              * CFI queries into a single response.
-              */
-             int i;
-@@ -544,7 +553,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
- 
-             break;
-         case 0xe8:
--            /* Mask writeblock size based on device width, or bank width if
-+            /*
-+             * Mask writeblock size based on device width, or bank width if
-              * device width not specified.
-              */
-             /* FIXME check @offset, @width */
-@@ -718,7 +728,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
- 
-     total_len = pfl->sector_len * pfl->nb_blocs;
- 
--    /* These are only used to expose the parameters of each device
-+    /*
-+     * These are only used to expose the parameters of each device
-      * in the cfi_table[].
-      */
-     num_devices = pfl->device_width ? (pfl->bank_width / pfl->device_width) : 1;
-@@ -763,7 +774,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    /* Default to devices being used at their maximum device width. This was
-+    /*
-+     * Default to devices being used at their maximum device width. This was
-      * assumed before the device_width support was added.
-      */
-     if (!pfl->max_device_width) {
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 7962cff7455..fa981465e12 100644
+index fa981465e12..845f50ed99b 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -100,7 +100,8 @@ struct PFlashCFI02 {
-     uint16_t unlock_addr1;
-     uint8_t cfi_table[0x4d];
-     QEMUTimer timer;
--    /* The device replicates the flash memory across its memory space.  Emulate
-+    /*
-+     * The device replicates the flash memory across its memory space.  Emulate
-      * that by having a container (.mem) filled with an array of aliases
-      * (.mem_mappings) pointing to the flash memory (.orig_mem).
-      */
-@@ -884,8 +885,10 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-     pfl->cfi_table[0x28] = 0x02;
-     pfl->cfi_table[0x29] = 0x00;
-     /* Max number of bytes in multi-bytes write */
--    /* XXX: disable buffered write as it's not supported */
--    //    pfl->cfi_table[0x2A] = 0x05;
+@@ -724,6 +724,104 @@ static const MemoryRegionOps pflash_cfi02_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++static void pflash_cfi02_fill_cfi_table(PFlashCFI02 *pfl, int nb_regions)
++{
++    /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
++    const uint16_t pri_ofs = 0x40;
++    /* Standard "QRY" string */
++    pfl->cfi_table[0x10] = 'Q';
++    pfl->cfi_table[0x11] = 'R';
++    pfl->cfi_table[0x12] = 'Y';
++    /* Command set (AMD/Fujitsu) */
++    pfl->cfi_table[0x13] = 0x02;
++    pfl->cfi_table[0x14] = 0x00;
++    /* Primary extended table address */
++    pfl->cfi_table[0x15] = pri_ofs;
++    pfl->cfi_table[0x16] = pri_ofs >> 8;
++    /* Alternate command set (none) */
++    pfl->cfi_table[0x17] = 0x00;
++    pfl->cfi_table[0x18] = 0x00;
++    /* Alternate extended table (none) */
++    pfl->cfi_table[0x19] = 0x00;
++    pfl->cfi_table[0x1A] = 0x00;
++    /* Vcc min */
++    pfl->cfi_table[0x1B] = 0x27;
++    /* Vcc max */
++    pfl->cfi_table[0x1C] = 0x36;
++    /* Vpp min (no Vpp pin) */
++    pfl->cfi_table[0x1D] = 0x00;
++    /* Vpp max (no Vpp pin) */
++    pfl->cfi_table[0x1E] = 0x00;
++    /* Timeout per single byte/word write (128 ms) */
++    pfl->cfi_table[0x1F] = 0x07;
++    /* Timeout for min size buffer write (NA) */
++    pfl->cfi_table[0x20] = 0x00;
++    /* Typical timeout for block erase (512 ms) */
++    pfl->cfi_table[0x21] = 0x09;
++    /* Typical timeout for full chip erase (4096 ms) */
++    pfl->cfi_table[0x22] = 0x0C;
++    /* Reserved */
++    pfl->cfi_table[0x23] = 0x01;
++    /* Max timeout for buffer write (NA) */
++    pfl->cfi_table[0x24] = 0x00;
++    /* Max timeout for block erase */
++    pfl->cfi_table[0x25] = 0x0A;
++    /* Max timeout for chip erase */
++    pfl->cfi_table[0x26] = 0x0D;
++    /* Device size */
++    pfl->cfi_table[0x27] = ctz32(pfl->chip_len);
++    /* Flash device interface (8 & 16 bits) */
++    pfl->cfi_table[0x28] = 0x02;
++    pfl->cfi_table[0x29] = 0x00;
++    /* Max number of bytes in multi-bytes write */
 +    /*
 +     * XXX: disable buffered write as it's not supported
 +     * pfl->cfi_table[0x2A] = 0x05;
 +     */
-     pfl->cfi_table[0x2A] = 0x00;
-     pfl->cfi_table[0x2B] = 0x00;
-     /* Number of erase block regions */
++    pfl->cfi_table[0x2A] = 0x00;
++    pfl->cfi_table[0x2B] = 0x00;
++    /* Number of erase block regions */
++    pfl->cfi_table[0x2c] = nb_regions;
++    /* Erase block regions */
++    for (int i = 0; i < nb_regions; ++i) {
++        uint32_t sector_len_per_device = pfl->sector_len[i];
++        pfl->cfi_table[0x2d + 4 * i] = pfl->nb_blocs[i] - 1;
++        pfl->cfi_table[0x2e + 4 * i] = (pfl->nb_blocs[i] - 1) >> 8;
++        pfl->cfi_table[0x2f + 4 * i] = sector_len_per_device >> 8;
++        pfl->cfi_table[0x30 + 4 * i] = sector_len_per_device >> 16;
++    }
++    assert(0x2c + 4 * nb_regions < pri_ofs);
++
++    /* Extended */
++    pfl->cfi_table[0x00 + pri_ofs] = 'P';
++    pfl->cfi_table[0x01 + pri_ofs] = 'R';
++    pfl->cfi_table[0x02 + pri_ofs] = 'I';
++
++    /* Extended version 1.0 */
++    pfl->cfi_table[0x03 + pri_ofs] = '1';
++    pfl->cfi_table[0x04 + pri_ofs] = '0';
++
++    /* Address sensitive unlock required. */
++    pfl->cfi_table[0x05 + pri_ofs] = 0x00;
++    /* Erase suspend to read/write. */
++    pfl->cfi_table[0x06 + pri_ofs] = 0x02;
++    /* Sector protect not supported. */
++    pfl->cfi_table[0x07 + pri_ofs] = 0x00;
++    /* Temporary sector unprotect not supported. */
++    pfl->cfi_table[0x08 + pri_ofs] = 0x00;
++
++    /* Sector protect/unprotect scheme. */
++    pfl->cfi_table[0x09 + pri_ofs] = 0x00;
++
++    /* Simultaneous operation not supported. */
++    pfl->cfi_table[0x0a + pri_ofs] = 0x00;
++    /* Burst mode not supported. */
++    pfl->cfi_table[0x0b + pri_ofs] = 0x00;
++    /* Page mode not supported. */
++    pfl->cfi_table[0x0c + pri_ofs] = 0x00;
++    assert(0x0c + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
++}
++
+ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+ {
+     ERRP_GUARD();
+@@ -837,100 +935,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+     pfl->cmd = 0;
+     pfl->status = 0;
+ 
+-    /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
+-    const uint16_t pri_ofs = 0x40;
+-    /* Standard "QRY" string */
+-    pfl->cfi_table[0x10] = 'Q';
+-    pfl->cfi_table[0x11] = 'R';
+-    pfl->cfi_table[0x12] = 'Y';
+-    /* Command set (AMD/Fujitsu) */
+-    pfl->cfi_table[0x13] = 0x02;
+-    pfl->cfi_table[0x14] = 0x00;
+-    /* Primary extended table address */
+-    pfl->cfi_table[0x15] = pri_ofs;
+-    pfl->cfi_table[0x16] = pri_ofs >> 8;
+-    /* Alternate command set (none) */
+-    pfl->cfi_table[0x17] = 0x00;
+-    pfl->cfi_table[0x18] = 0x00;
+-    /* Alternate extended table (none) */
+-    pfl->cfi_table[0x19] = 0x00;
+-    pfl->cfi_table[0x1A] = 0x00;
+-    /* Vcc min */
+-    pfl->cfi_table[0x1B] = 0x27;
+-    /* Vcc max */
+-    pfl->cfi_table[0x1C] = 0x36;
+-    /* Vpp min (no Vpp pin) */
+-    pfl->cfi_table[0x1D] = 0x00;
+-    /* Vpp max (no Vpp pin) */
+-    pfl->cfi_table[0x1E] = 0x00;
+-    /* Timeout per single byte/word write (128 ms) */
+-    pfl->cfi_table[0x1F] = 0x07;
+-    /* Timeout for min size buffer write (NA) */
+-    pfl->cfi_table[0x20] = 0x00;
+-    /* Typical timeout for block erase (512 ms) */
+-    pfl->cfi_table[0x21] = 0x09;
+-    /* Typical timeout for full chip erase (4096 ms) */
+-    pfl->cfi_table[0x22] = 0x0C;
+-    /* Reserved */
+-    pfl->cfi_table[0x23] = 0x01;
+-    /* Max timeout for buffer write (NA) */
+-    pfl->cfi_table[0x24] = 0x00;
+-    /* Max timeout for block erase */
+-    pfl->cfi_table[0x25] = 0x0A;
+-    /* Max timeout for chip erase */
+-    pfl->cfi_table[0x26] = 0x0D;
+-    /* Device size */
+-    pfl->cfi_table[0x27] = ctz32(pfl->chip_len);
+-    /* Flash device interface (8 & 16 bits) */
+-    pfl->cfi_table[0x28] = 0x02;
+-    pfl->cfi_table[0x29] = 0x00;
+-    /* Max number of bytes in multi-bytes write */
+-    /*
+-     * XXX: disable buffered write as it's not supported
+-     * pfl->cfi_table[0x2A] = 0x05;
+-     */
+-    pfl->cfi_table[0x2A] = 0x00;
+-    pfl->cfi_table[0x2B] = 0x00;
+-    /* Number of erase block regions */
+-    pfl->cfi_table[0x2c] = nb_regions;
+-    /* Erase block regions */
+-    for (int i = 0; i < nb_regions; ++i) {
+-        uint32_t sector_len_per_device = pfl->sector_len[i];
+-        pfl->cfi_table[0x2d + 4 * i] = pfl->nb_blocs[i] - 1;
+-        pfl->cfi_table[0x2e + 4 * i] = (pfl->nb_blocs[i] - 1) >> 8;
+-        pfl->cfi_table[0x2f + 4 * i] = sector_len_per_device >> 8;
+-        pfl->cfi_table[0x30 + 4 * i] = sector_len_per_device >> 16;
+-    }
+-    assert(0x2c + 4 * nb_regions < pri_ofs);
+-
+-    /* Extended */
+-    pfl->cfi_table[0x00 + pri_ofs] = 'P';
+-    pfl->cfi_table[0x01 + pri_ofs] = 'R';
+-    pfl->cfi_table[0x02 + pri_ofs] = 'I';
+-
+-    /* Extended version 1.0 */
+-    pfl->cfi_table[0x03 + pri_ofs] = '1';
+-    pfl->cfi_table[0x04 + pri_ofs] = '0';
+-
+-    /* Address sensitive unlock required. */
+-    pfl->cfi_table[0x05 + pri_ofs] = 0x00;
+-    /* Erase suspend to read/write. */
+-    pfl->cfi_table[0x06 + pri_ofs] = 0x02;
+-    /* Sector protect not supported. */
+-    pfl->cfi_table[0x07 + pri_ofs] = 0x00;
+-    /* Temporary sector unprotect not supported. */
+-    pfl->cfi_table[0x08 + pri_ofs] = 0x00;
+-
+-    /* Sector protect/unprotect scheme. */
+-    pfl->cfi_table[0x09 + pri_ofs] = 0x00;
+-
+-    /* Simultaneous operation not supported. */
+-    pfl->cfi_table[0x0a + pri_ofs] = 0x00;
+-    /* Burst mode not supported. */
+-    pfl->cfi_table[0x0b + pri_ofs] = 0x00;
+-    /* Page mode not supported. */
+-    pfl->cfi_table[0x0c + pri_ofs] = 0x00;
+-    assert(0x0c + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
++    pflash_cfi02_fill_cfi_table(pfl, nb_regions);
+ }
+ 
+ static Property pflash_cfi02_properties[] = {
 -- 
 2.26.2
 
