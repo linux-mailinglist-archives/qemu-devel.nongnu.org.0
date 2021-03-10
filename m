@@ -2,89 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5993344DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:12:09 +0100 (CET)
-Received: from localhost ([::1]:48624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BCD3344F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:19:03 +0100 (CET)
+Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2NU-0002AM-Oj
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:12:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50870)
+	id 1lK2UA-0000ev-4h
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:19:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lK1za-0006Uq-6M
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:47:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lK1zY-0002Qc-Lp
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:47:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615394844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GtwrLMyFvm3y/aDOJrVBmn73PCZazXnsPxq1nHXEoHQ=;
- b=IHhjD579BB5GEOBtpp/owhnD6H3MkGMQ5m0mkwSSWZfDrR7WqkC+zHAjO9TxB8+Msowvko
- Bzi4Cstlos8frTCgR+kxwkX/2uDUfSXjDZMnbrJCOIdhG4Rx3wkJGMTRn8H42wCLH6OpYT
- JdI47xZbZwbBmtLD6tgU/cVl4EULifo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-2JKwjWoRNgSt6UYKTRnFWA-1; Wed, 10 Mar 2021 11:47:22 -0500
-X-MC-Unique: 2JKwjWoRNgSt6UYKTRnFWA-1
-Received: by mail-wm1-f71.google.com with SMTP id a65so1270645wmh.1
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 08:47:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GtwrLMyFvm3y/aDOJrVBmn73PCZazXnsPxq1nHXEoHQ=;
- b=sen+a0HDU4ydRpSWYVudzYh/TuwEbsF/3UVwcnwD448uqTJ/DVtnajBIc/xefSdomd
- xcwEBAiQ9MC5wYvtDdfMv8oHPDJgJQfrF+4OU8UVQfjlGPCKxgf6ln8r5yxQ+TqooEya
- 2OhLsQC0bvKGrNvjkiQeF+Wg0LP34OtjAqjt+01KA3MAJ09/h2rhUj7NHXx4ulY7DZBl
- mUHJeygtVawGJEMG7lEW7ak0U5rkB+1wQCoULsIWldXI8crcs6gceLmu36XFLM9dNpin
- BIT8BQ+Ul+wEcBiRyZR8CQZ95NNXtgNA7NadUnBQkS05j/EQ58UbDgOY2gIfzq6c6CqM
- Wmfg==
-X-Gm-Message-State: AOAM5324omcmkNBTfmS7zGjTaAM8MWVSJrRzxCNwI2M8YNGo0Vwb2lYy
- a+N+k2ShgnI6rWe/FVSrcWNEr0pxcBp/uJZj8A6kfp8KzSMIHLHAHDTILKO2Li0cff4OIx8zKQc
- hbFhE/hKft5eyfsg=
-X-Received: by 2002:adf:f78f:: with SMTP id q15mr4316878wrp.383.1615394841210; 
- Wed, 10 Mar 2021 08:47:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzbcputMpirCbf3jJ6RS1QVsqJMBzKgK2Tnjv9Af9ce9KRachiZrwEKJ+844+czDQ+qFLW1LA==
-X-Received: by 2002:adf:f78f:: with SMTP id q15mr4316867wrp.383.1615394841074; 
- Wed, 10 Mar 2021 08:47:21 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id m17sm30820021wrx.92.2021.03.10.08.47.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 08:47:20 -0800 (PST)
-Date: Wed, 10 Mar 2021 17:47:18 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 4/7] net/eth: Check the size earlier
-Message-ID: <20210310164718.62pco4jyvq2o5735@steredhat>
-References: <20210310160135.1148272-1-philmd@redhat.com>
- <20210310160135.1148272-5-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lK1zP-0006C6-Nh
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:47:15 -0500
+Received: from foss.arm.com ([217.140.110.172]:42328)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lK1zM-0002KK-Mu
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 11:47:14 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB7E21FB;
+ Wed, 10 Mar 2021 08:47:10 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 512933F800;
+ Wed, 10 Mar 2021 08:47:08 -0800 (PST)
+Subject: Re: [PATCH v9 5/6] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Marc Zyngier <maz@kernel.org>
+References: <20210301142315.30920-1-steven.price@arm.com>
+ <20210301142315.30920-6-steven.price@arm.com> <87ft14xl9e.wl-maz@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <9f90acc8-54b1-460a-dc25-d2d84e70c9d1@arm.com>
+Date: Wed, 10 Mar 2021 16:47:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210310160135.1148272-5-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87ft14xl9e.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,50 +58,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 05:01:32PM +0100, Philippe Mathieu-Daudé wrote:
->Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->---
-> net/eth.c | 14 ++++++--------
-> 1 file changed, 6 insertions(+), 8 deletions(-)
+On 09/03/2021 17:57, Marc Zyngier wrote:
+> On Mon, 01 Mar 2021 14:23:14 +0000,
+> Steven Price <steven.price@arm.com> wrote:
+>>
+>> The VMM may not wish to have it's own mapping of guest memory mapped
+>> with PROT_MTE because this causes problems if the VMM has tag checking
+>> enabled (the guest controls the tags in physical RAM and it's unlikely
+>> the tags are correct for the VMM).
+>>
+>> Instead add a new ioctl which allows the VMM to easily read/write the
+>> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+>> while the VMM can still read/write the tags for the purpose of
+>> migration.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   arch/arm64/include/uapi/asm/kvm.h | 13 +++++++
+>>   arch/arm64/kvm/arm.c              | 57 +++++++++++++++++++++++++++++++
+>>   include/uapi/linux/kvm.h          |  1 +
+>>   3 files changed, 71 insertions(+)
+>>
+>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>> index 24223adae150..5fc2534ac5df 100644
+>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>> @@ -184,6 +184,19 @@ struct kvm_vcpu_events {
+>>   	__u32 reserved[12];
+>>   };
+>>   
+>> +struct kvm_arm_copy_mte_tags {
+>> +	__u64 guest_ipa;
+>> +	__u64 length;
+>> +	union {
+>> +		void __user *addr;
+>> +		__u64 padding;
+>> +	};
+>> +	__u64 flags;
+> 
+> I'd be keen on a couple of reserved __64s. Just in case...
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Fair enough, I'll add a __u64 reserved[2];
 
->
->diff --git a/net/eth.c b/net/eth.c
->index 7c47a267a7a..e870d02b0df 100644
->--- a/net/eth.c
->+++ b/net/eth.c
->@@ -406,16 +406,14 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
->                         struct in6_address *dst_addr)
-> {
->     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
->+    size_t input_size = iov_size(pkt, pkt_frags);
->+    size_t bytes_read;
->+
->+    if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
->+        return false;
->+    }
->
->     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
->-
->-        size_t input_size = iov_size(pkt, pkt_frags);
->-        size_t bytes_read;
->-
->-        if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
->-            return false;
->-        }
->-
->         bytes_read = iov_to_buf(pkt, pkt_frags,
->                                 ext_hdr_offset + sizeof(*ext_hdr),
->                                 dst_addr, sizeof(*dst_addr));
->-- 
->2.26.2
->
+>> +};
+>> +
+>> +#define KVM_ARM_TAGS_TO_GUEST		0
+>> +#define KVM_ARM_TAGS_FROM_GUEST		1
+>> +
+>>   /* If you need to interpret the index values, here is the key: */
+>>   #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>>   #define KVM_REG_ARM_COPROC_SHIFT	16
+>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>> index 46bf319f6cb7..01d404833e24 100644
+>> --- a/arch/arm64/kvm/arm.c
+>> +++ b/arch/arm64/kvm/arm.c
+>> @@ -1297,6 +1297,53 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>>   	}
+>>   }
+>>   
+>> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+>> +{
+>> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+>> +	size_t length = copy_tags->length;
+>> +	void __user *tags = copy_tags->addr;
+>> +	gpa_t gfn;
+>> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+>> +
+>> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+>> +		return -EINVAL;
+>> +
+>> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+>> +		return -EINVAL;
+> 
+> It is a bit odd to require userspace to provide a page-aligned
+> addr/size, as it now has to find out about the kernel's page
+> size. MTE_GRANULE_SIZE-aligned values would make more sense. Is there
+> an underlying reason for this?
+
+No fundamental reason, my thoughts were:
+
+  * It's likely user space is naturally going to be using page-aligned 
+quantities during migration, so it already has to care about this.
+
+  * It makes the loop below easier.
+
+  * It's easy to relax the restriction in the future if it becomes a 
+problem, much harder to tighten it without breaking anything.
+
+But I can switch to MTE_GRANULE_SIZE if you'd prefer, let me know.
+
+>> +
+>> +	gfn = gpa_to_gfn(guest_ipa);
+>> +
+>> +	while (length > 0) {
+>> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+>> +		void *maddr;
+>> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
+>> +
+>> +		if (is_error_noslot_pfn(pfn))
+>> +			return -ENOENT;
+>> +
+>> +		maddr = page_address(pfn_to_page(pfn));
+>> +
+>> +		if (!write) {
+>> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+>> +			kvm_release_pfn_clean(pfn);
+>> +		} else {
+>> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+>> +							   num_tags);
+>> +			kvm_release_pfn_dirty(pfn);
+>> +		}
+>> +
+> 
+> Is it actually safe to do this without holding any lock, without
+> checking anything against the mmu_notifier_seq? What if the pages are
+> being swapped out? Or the memslot removed from under your feet?
+> 
+> It looks... dangerous. Do you even want to allow this while vcpus are
+> actually running?
+
+Umm... yeah I'm not sure how I managed to forgot the locks. This should 
+be holding kvm->slots_lock to prevent the slot going under our feet. I 
+was surprised that lockdep didn't catch that, until I noticed I'd 
+disabled it and discovered why (the model makes it incredibly slow). 
+However I've done a run with it enabled now - and with the 
+kvm->slots_lock taken it's happy.
+
+gfn_to_pfn_prot() internally calls a variant of get_user_pages() - so 
+swapping out shouldn't be a problem.
+
+In terms of running with the vcpus running - given this is going to be 
+used for migration I think that's pretty much a requirement. We want to 
+be able to dump the tags while executing to enable early transfer of the 
+memory.
+
+Steve
+
+>> +		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE)
+>> +			return -EFAULT;
+>> +
+>> +		gfn++;
+>> +		tags += num_tags;
+>> +		length -= PAGE_SIZE;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   long kvm_arch_vm_ioctl(struct file *filp,
+>>   		       unsigned int ioctl, unsigned long arg)
+>>   {
+>> @@ -1333,6 +1380,16 @@ long kvm_arch_vm_ioctl(struct file *filp,
+>>   
+>>   		return 0;
+>>   	}
+>> +	case KVM_ARM_MTE_COPY_TAGS: {
+>> +		struct kvm_arm_copy_mte_tags copy_tags;
+>> +
+>> +		if (!kvm_has_mte(kvm))
+>> +			return -EINVAL;
+>> +
+>> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
+>> +			return -EFAULT;
+>> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
+>> +	}
+>>   	default:
+>>   		return -EINVAL;
+>>   	}
+>> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>> index 05618a4abf7e..b75af0f9ba55 100644
+>> --- a/include/uapi/linux/kvm.h
+>> +++ b/include/uapi/linux/kvm.h
+>> @@ -1423,6 +1423,7 @@ struct kvm_s390_ucas_mapping {
+>>   /* Available with KVM_CAP_PMU_EVENT_FILTER */
+>>   #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
+>>   #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
+>> +#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
+>>   
+>>   /* ioctl for vm fd */
+>>   #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
+>> -- 
+>> 2.20.1
+>>
+>>
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
 
