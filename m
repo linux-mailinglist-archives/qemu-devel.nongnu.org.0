@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A547334521
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:29:56 +0100 (CET)
-Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42B23344F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 18:19:04 +0100 (CET)
+Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK2eg-0004Tp-1U
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60414)
+	id 1lK2UB-0000er-UA
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 12:19:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2Hc-00050M-9Z
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43701)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2Hh-0005EW-FJ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2HW-000050-5t
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:04 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK2He-000079-S1
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 12:06:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615395957;
+ s=mimecast20190719; t=1615395966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qQO9biHCPAJnw7a1zkeuv52hwPL+u8u+MaxlaPRiSEo=;
- b=cAQ9IFuS/tNv/SyvpIs1rAq+jRWpcs6Pw6k2CsgPSlVLR3iR9S1JPZEY/qR6nMvBqeH+Ox
- N9Ch+dGXCmNBJuneY3lWNSxCUzlY+aeM2kHbu+ebaC4uj7fW7w3dRvVJOkf3LArgcAzQ2L
- HJcGVPh31nDF+MjHa9dNzMTCYuC1538=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-DDf-FvH7PRCy2XGWWdHz5w-1; Wed, 10 Mar 2021 12:05:55 -0500
-X-MC-Unique: DDf-FvH7PRCy2XGWWdHz5w-1
-Received: by mail-ej1-f70.google.com with SMTP id gv58so7491045ejc.6
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:05:53 -0800 (PST)
+ bh=LR/j1VN7s/QFD9E6lrCkzOBzVHMc/rhGkpQ4k1/cX1U=;
+ b=XT6WgocUHx5kRNpXlEisr8rr/wyjjui5gJppb0SYE/PyqVRTiB4PKmgiNTcYsin4+7e3O4
+ gLuIVEmeIEGBG32+ldjikkvFOW4PFeh3N5OtDUf0PUK97uPJW5Vk+KTa9CeULgUGYM66Ae
+ 7Sz+JeyYrrcwSqpo9pk69vtwK1oQErw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481--tuSy_yePYmSYbDSDKLLqQ-1; Wed, 10 Mar 2021 12:06:04 -0500
+X-MC-Unique: -tuSy_yePYmSYbDSDKLLqQ-1
+Received: by mail-ej1-f69.google.com with SMTP id n25so7509201ejd.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 09:06:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qQO9biHCPAJnw7a1zkeuv52hwPL+u8u+MaxlaPRiSEo=;
- b=BJDNstLNSPr7+HD5azYHOC+LxiOSJoBlqwhSp5PqOgfLS1QLHq94VundK/GFAruaZg
- bD4ShNtqzlRIdlgwv4VLnNe4vzVgd9BI7tTLLLisgkRIUOWQMDq34x0bT7tpV7T9WV6Y
- Tf7dns+49AsnEjVD3jZrg8dUx3Fs4km1xh8L2ghj84f+uGQgB6DzwFBFGnwFlOb9mGVf
- n2bUo9Fo8C5uzwPiB6xQSRgK/pCESSkUVj9o4s3OHCm3hB6nncydQj+07Z50laLTTV7Z
- 4toS3PuFuSuDhAFeHnousnrlnh1LClL4F7ZCz5PamPcGuR+Tjj900Afrs65qSNEzTzk7
- YhYQ==
-X-Gm-Message-State: AOAM533gGmEVhbDY8uoKveg4C2MYY+VAsAxEGNgIC2lKmZMKgSFzPig8
- 5SQMk3IYeHGtiTjEW+PukGQAGcPLvz+TUTUNvlVaYnIdg8mMseKZVmvecCXzEMUHYFChPZu6ncW
- iinosau4oFI8rwNKpa5Qg5lbPRVjbb4BRHZDRoyGM21zBKfsWboY8a07JjIMK3NkY
-X-Received: by 2002:aa7:d54a:: with SMTP id u10mr4492806edr.316.1615395952691; 
- Wed, 10 Mar 2021 09:05:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyOS4qzLs41HF0mG0I98Zsnk1nUUB2p++d/C4PaiupWqwDHXzFLG3McwoL7dZ0NHmtP/kR64A==
-X-Received: by 2002:aa7:d54a:: with SMTP id u10mr4492778edr.316.1615395952563; 
- Wed, 10 Mar 2021 09:05:52 -0800 (PST)
+ bh=LR/j1VN7s/QFD9E6lrCkzOBzVHMc/rhGkpQ4k1/cX1U=;
+ b=Iodq0eXUdmVASNyZAPS3Ciq3Q8GVz/rduqZSk65GhankpVXPY4Wt85esxKYFQLdL3v
+ CwleA0aHh6Jz0M0rmtXV6YjefWzNKdp5zSbUOmx4brOOuI0EgWDExu7h9UoLTY5CGlwx
+ r28gm1Lolok8s2zG0b9RD4Nrr2gOknxxB93fZfY9TEdc4UEA2SdbnaqalGSbVO2FCPjg
+ xViMtr/gmsLynGVlKM1QchNbOTN1cLnGJBFib5aoGWnpOl+wygAaEow9yAo2nYV/hel/
+ GaA2fYg4jThUdmL7XAAuANE85jdnSfqvByPKCqBVugrUMNJjUgFnupE9OsyS4z5r3qp5
+ jaKg==
+X-Gm-Message-State: AOAM5336ai7XQSa+J+I+GZvApMo6HwX3ZOclyg4zNKcBpb69fzRivMAX
+ QNI6g12AmdbdS1ATc3v0XLY5WXAtVKISEqzKEJdvLaKI1FQENEQTVKQn7CDxZhn/lBhuUqrvd+f
+ hhk2zqmBBvMsIcUdj37xrRS0BBYz398j0jTnKVkVTDa/YeetXNZhMmxyVD8i66L17
+X-Received: by 2002:a17:907:7651:: with SMTP id
+ kj17mr4688231ejc.127.1615395963352; 
+ Wed, 10 Mar 2021 09:06:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcgQ4k7EAo12NZMdHKfK0JyvmHm3LyG9gf53KUEjA1sdHOQq5GK6kh+fZZ1vaKTS7RKleplQ==
+X-Received: by 2002:a17:907:7651:: with SMTP id
+ kj17mr4688202ejc.127.1615395963145; 
+ Wed, 10 Mar 2021 09:06:03 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v12sm18597ejh.94.2021.03.10.09.05.51
+ by smtp.gmail.com with ESMTPSA id x10sm23962ejd.69.2021.03.10.09.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 09:05:52 -0800 (PST)
+ Wed, 10 Mar 2021 09:06:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/12] hw/block/pflash_cfi02: Set rom_mode to true in
- pflash_setup_mappings()
-Date: Wed, 10 Mar 2021 18:05:20 +0100
-Message-Id: <20210310170528.1184868-5-philmd@redhat.com>
+Subject: [PATCH v2 06/12] hw/block/pflash_cfi02: Rename register_memory(true)
+ as mode_read_array
+Date: Wed, 10 Mar 2021 18:05:22 +0100
+Message-Id: <20210310170528.1184868-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210310170528.1184868-1-philmd@redhat.com>
 References: <20210310170528.1184868-1-philmd@redhat.com>
@@ -102,53 +104,99 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is only one call to pflash_setup_mappings(). Convert 'rom_mode'
-to boolean and set it to true directly within pflash_setup_mappings().
+The same pattern is used when setting the flash in READ_ARRAY mode:
+- Set the state machine command to READ_ARRAY
+- Reset the write_cycle counter
+- Reset the memory region in ROMD
+
+Refactor the current code by extracting this pattern.
+It is used three times:
+
+- When the timer expires and not in bypass mode
+
+- On a read access (on invalid command).
+
+- When the device is initialized. Here the ROMD mode is hidden
+  by the memory_region_init_rom_device() call.
+
+pflash_register_memory(rom_mode=true) already sets the ROM device
+in "read array" mode (from I/O device to ROM one). Explicit that
+by renaming the function as pflash_mode_read_array(), adding
+a trace event and resetting wcycle.
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v2: Convert to bool in pflash_register_memory (David)
----
- hw/block/pflash_cfi02.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/block/pflash_cfi02.c | 18 +++++++++---------
+ hw/block/trace-events   |  1 +
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 845f50ed99b..0eb868ecd3d 100644
+index 897b7333222..2ba77a0171b 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -108,7 +108,7 @@ struct PFlashCFI02 {
-     MemoryRegion mem;
-     MemoryRegion *mem_mappings;    /* array; one per mapping */
-     MemoryRegion orig_mem;
--    int rom_mode;
-+    bool rom_mode;
-     int read_counter; /* used for lazy switch-back to rom mode */
-     int sectors_to_erase;
-     uint64_t erase_time_remaining;
-@@ -181,12 +181,13 @@ static void pflash_setup_mappings(PFlashCFI02 *pfl)
-                                  "pflash-alias", &pfl->orig_mem, 0, size);
-         memory_region_add_subregion(&pfl->mem, i * size, &pfl->mem_mappings[i]);
-     }
-+    pfl->rom_mode = true;
+@@ -184,10 +184,13 @@ static void pflash_setup_mappings(PFlashCFI02 *pfl)
+     pfl->rom_mode = true;
  }
  
- static void pflash_register_memory(PFlashCFI02 *pfl, int rom_mode)
+-static void pflash_register_memory(PFlashCFI02 *pfl, int rom_mode)
++static void pflash_mode_read_array(PFlashCFI02 *pfl)
  {
-     memory_region_rom_device_set_romd(&pfl->orig_mem, rom_mode);
--    pfl->rom_mode = rom_mode;
-+    pfl->rom_mode = !!rom_mode;
+-    memory_region_rom_device_set_romd(&pfl->orig_mem, rom_mode);
+-    pfl->rom_mode = !!rom_mode;
++    trace_pflash_mode_read_array();
++    pfl->cmd = 0x00;
++    pfl->wcycle = 0;
++    pfl->rom_mode = true;
++    memory_region_rom_device_set_romd(&pfl->orig_mem, true);
  }
  
  static size_t pflash_regions_count(PFlashCFI02 *pfl)
-@@ -927,7 +928,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-     pfl->sector_erase_map = bitmap_new(pfl->total_sectors);
+@@ -249,11 +252,10 @@ static void pflash_timer(void *opaque)
+     toggle_dq7(pfl);
+     if (pfl->bypass) {
+         pfl->wcycle = 2;
++        pfl->cmd = 0;
+     } else {
+-        pflash_register_memory(pfl, 1);
+-        pfl->wcycle = 0;
++        pflash_mode_read_array(pfl);
+     }
+-    pfl->cmd = 0;
+ }
  
-     pflash_setup_mappings(pfl);
--    pfl->rom_mode = 1;
+ /*
+@@ -315,7 +317,7 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
+     /* Lazy reset to ROMD mode after a certain amount of read accesses */
+     if (!pfl->rom_mode && pfl->wcycle == 0 &&
+         ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
+-        pflash_register_memory(pfl, 1);
++        pflash_mode_read_array(pfl);
+     }
+     offset &= pfl->chip_len - 1;
+     boff = offset & 0xFF;
+@@ -933,8 +935,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
  
      timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+-    pfl->wcycle = 0;
+-    pfl->cmd = 0;
+     pfl->status = 0;
+ 
+     pflash_cfi02_fill_cfi_table(pfl, nb_regions);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index d32475c3989..f16d6e90cfd 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -7,6 +7,7 @@ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
+ # pflash_cfi01.c
+ # pflash_cfi02.c
+ pflash_reset(void) "reset"
++pflash_mode_read_array(void) "mode: read array"
+ pflash_timer_expired(uint8_t cmd) "command 0x%02x done"
+ pflash_io_read(uint64_t offset, unsigned size, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" size:%u value:0x%04x cmd:0x%02x wcycle:%u"
+ pflash_io_write(uint64_t offset, unsigned size, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" size:%u value:0x%04x wcycle:%u"
 -- 
 2.26.2
 
