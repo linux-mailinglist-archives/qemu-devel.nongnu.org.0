@@ -2,58 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC223346A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:27:11 +0100 (CET)
-Received: from localhost ([::1]:48064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4F33346AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 19:27:41 +0100 (CET)
+Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK3Y6-0002Dq-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:27:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58480)
+	id 1lK3Ya-00040B-JP
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 13:27:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lK3WV-0001Bs-Rt
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:25:31 -0500
-Resent-Date: Wed, 10 Mar 2021 13:25:31 -0500
-Resent-Message-Id: <E1lK3WV-0001Bs-Rt@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lK3WS-00011h-NJ
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:25:31 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615400698; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Eoo1fI1CsbcNjxl25JJCf7ULWhxDfObR10TS0hsAN5SLGb+vfJJ75zIaETodLsoXr6suoZVPXk41DDkWZuAx9znwVTN9mqftYKg3Cm9vykLYzejoU8fmGyCPeQ0V/jIjG0oLIL9+lYoOe1HMvomlJv0Yg+k/xi3GpQDs1Q+vmxg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615400698;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=GosbIcOdS1fQ7Q9HkeEzTTYSbpS4oItw0g3WaCipgkk=; 
- b=BlY2GGSPu4zwu2BL9tA60Qpa5MSMr/SqXU8FTDe2sKLwyYOV0ipMhjJhIsQr10VnN1eculA2TLIQrAAG5r5yttN/Xhnki2QrW6fYvBtXxXVr0USsXZGUVUBly+HbiD7Wezv6yVxxzvInH80RlNOdF8CLcEBFbQO+pfKSiDZFAyE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615400683678992.4891599022453;
- Wed, 10 Mar 2021 10:24:43 -0800 (PST)
-In-Reply-To: <726fc52e2f4ae6914ae43263bc02721a6c0eb6e7.1615398669.git.huangy81@chinatelecom.cn>
-Subject: Re: [RFC] tests/migration: introduce multifd into guestperf toolkit
-Message-ID: <161540068259.3874.1699795445911271818@f3770d8ad632>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3XQ-0002DL-9o
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:26:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lK3XN-0001NK-9x
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 13:26:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615400783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3CX6FEaDF/frgN5weaBQW7SY7MrxKP6zDFB3rFh7RI0=;
+ b=EsoZitD8Xxi7V0OFQFOFreNeWuTR840AmHAyGUWj8c/hXu40kp502FPrCwdlIibZlfZMaq
+ xYk/Y2lYvEcCOZcfs7+74oherfAxV96FDqm8RwDfUuVfH7EZpSZq8ecMb8d8Zd/eaMH0j0
+ J0T1fopHM5/EUSsgimREEDhrKz/GMA8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-p7jQ6Oy-ONi2iu13v34lOA-1; Wed, 10 Mar 2021 13:26:22 -0500
+X-MC-Unique: p7jQ6Oy-ONi2iu13v34lOA-1
+Received: by mail-ej1-f72.google.com with SMTP id bg7so1563061ejb.12
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 10:26:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3CX6FEaDF/frgN5weaBQW7SY7MrxKP6zDFB3rFh7RI0=;
+ b=ihWZ6POsFQzH50qoYHCMSaIkuExLEnUS9NO9EFS98x9M1TMqfT8aAEmaoDXRZbiebu
+ PktHT8POAaToHbeIHEMxU9BPj+8b+rsblKoPBwwktX4a86wuyKyWAEsQARfybTFgcwBB
+ nXwWC3rFh8JjLBbeRJtI+wzA/cb9ihHVTW0onaIHtxtNRVsucG6Rs6aFY7geIeWiefeu
+ 6sGqfx6Sd+yL2aAX+W23j0ird3wsF1C2xETsV5CRsWoiIvrgZeyoAwx8QHhC0ov+3Ua/
+ 9tPNRKgob2sK6Uijj3iSHtdxo5ZrbD1+ztEH9QrgcSkAujiS/PPX7bfcGTIl45V9/rKU
+ 2tuQ==
+X-Gm-Message-State: AOAM5318UuPwin5UeYCNitpuDCA3n7Gl/bwxt2HmKQjjZ48FWohqm/Sp
+ c0N6VmvIv7pWsPIjBGrDyOW/z7ZkWnahDeg2/K6Fcy3WWtQ9f7O63YiTIUjWo0n0vClsvyuZb8y
+ r5qxP4yS7+Ss098A=
+X-Received: by 2002:a17:906:f10c:: with SMTP id
+ gv12mr5017606ejb.53.1615400780968; 
+ Wed, 10 Mar 2021 10:26:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzle/KqTveQTQ7CP9mNAgSPkBjcP30Maiacegd0pvV6PS0O20fvOHO72LCdqVCGMoIlDFGdBg==
+X-Received: by 2002:a17:906:f10c:: with SMTP id
+ gv12mr5017590ejb.53.1615400780767; 
+ Wed, 10 Mar 2021 10:26:20 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id e18sm122414eji.111.2021.03.10.10.26.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Mar 2021 10:26:20 -0800 (PST)
+Subject: Re: [PATCH v5 5/7] net/eth: Check iovec has enough data earlier
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <20210310160135.1148272-1-philmd@redhat.com>
+ <20210310160135.1148272-6-philmd@redhat.com>
+ <20210310165327.w27noda3nva2yfcg@steredhat>
+ <0a62edf6-9842-13df-2093-cbf8926a1b17@redhat.com>
+Message-ID: <823478a4-11cc-befb-e296-41a19821c959@redhat.com>
+Date: Wed, 10 Mar 2021 19:26:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: huangy81@chinatelecom.cn
-Date: Wed, 10 Mar 2021 10:24:43 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <0a62edf6-9842-13df-2093-cbf8926a1b17@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,49 +102,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: crosa@redhat.com, huangy81@chinatelecom.cn, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS83MjZmYzUyZTJmNGFlNjkxNGFl
-NDMyNjNiYzAyNzIxYTZjMGViNmU3LjE2MTUzOTg2NjkuZ2l0Lmh1YW5neTgxQGNoaW5hdGVsZWNv
-bS5jbi8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxl
-IHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTog
-c2VyaWVzCk1lc3NhZ2UtaWQ6IDcyNmZjNTJlMmY0YWU2OTE0YWU0MzI2M2JjMDI3MjFhNmMwZWI2
-ZTcuMTYxNTM5ODY2OS5naXQuaHVhbmd5ODFAY2hpbmF0ZWxlY29tLmNuClN1YmplY3Q6IFtSRkNd
-IHRlc3RzL21pZ3JhdGlvbjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtp
-dAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJh
-c2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxp
-bWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1t
-YWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5
-YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
-cGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMx
-MDE3MzAwNC40MjAxOTAtMS1zdGVmYW5oYUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTAx
-NzMwMDQuNDIwMTkwLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBw
-YXRjaGV3LzcyNmZjNTJlMmY0YWU2OTE0YWU0MzI2M2JjMDI3MjFhNmMwZWI2ZTcuMTYxNTM5ODY2
-OS5naXQuaHVhbmd5ODFAY2hpbmF0ZWxlY29tLmNuIC0+IHBhdGNoZXcvNzI2ZmM1MmUyZjRhZTY5
-MTRhZTQzMjYzYmMwMjcyMWE2YzBlYjZlNy4xNjE1Mzk4NjY5LmdpdC5odWFuZ3k4MUBjaGluYXRl
-bGVjb20uY24KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0MjRmYWQ3IHRlc3RzL21p
-Z3JhdGlvbjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtpdAoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTk6IEZJTEU6
-IHRlc3RzL21pZ3JhdGlvbi9ndWVzdHBlcmYvc2hlbGwucHk6MTI1OgorICAgICAgICBwYXJzZXIu
-YWRkX2FyZ3VtZW50KCItLW11bHRpZmQiLCBkZXN0PSJtdWx0aWZkIiwgZGVmYXVsdD1GYWxzZSwg
-YWN0aW9uPSJzdG9yZV90cnVlIikKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTIw
-OiBGSUxFOiB0ZXN0cy9taWdyYXRpb24vZ3Vlc3RwZXJmL3NoZWxsLnB5OjEyNjoKKyAgICAgICAg
-cGFyc2VyLmFkZF9hcmd1bWVudCgiLS1tdWx0aWZkLWNoYW5uZWxzIiwgZGVzdD0ibXVsdGlmZF9j
-aGFubmVscyIsIGRlZmF1bHQ9MiwgdHlwZT1pbnQpCgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDkzIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0MjRmYWQ3ZmJjM2YgKHRlc3RzL21pZ3JhdGlv
-bjogaW50cm9kdWNlIG11bHRpZmQgaW50byBndWVzdHBlcmYgdG9vbGtpdCkgaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
-dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
-b3JnL2xvZ3MvNzI2ZmM1MmUyZjRhZTY5MTRhZTQzMjYzYmMwMjcyMWE2YzBlYjZlNy4xNjE1Mzk4
-NjY5LmdpdC5odWFuZ3k4MUBjaGluYXRlbGVjb20uY24vdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+On 3/10/21 6:57 PM, Philippe Mathieu-Daudé wrote:
+> On 3/10/21 5:53 PM, Stefano Garzarella wrote:
+>> On Wed, Mar 10, 2021 at 05:01:33PM +0100, Philippe Mathieu-Daudé wrote:
+>>> We want to check fields from ip6_ext_hdr_routing structure
+>>> and if correct read the full in6_address. Let's directly check
+>>> if our iovec contains enough data for everything, else return
+>>> early.
+>>>
+>>> Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> net/eth.c | 2 +-
+>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/net/eth.c b/net/eth.c
+>>> index e870d02b0df..28cdc843a69 100644
+>>> --- a/net/eth.c
+>>> +++ b/net/eth.c
+>>> @@ -409,7 +409,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
+>>> int pkt_frags,
+>>>     size_t input_size = iov_size(pkt, pkt_frags);
+>>>     size_t bytes_read;
+>>>
+>>> -    if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
+>>> +    if (input_size < ext_hdr_offset + sizeof(*rthdr) +
+>>> sizeof(*dst_addr)) {
+>>>         return false;
+>>>     }
+>>
+>> If you have to respin, maybe we should also fix the offset in
+>> iov_to_buf() in this patch and queue it for stable:
+>>
+>> @@ -415,7 +415,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
+>> int pkt_frags,
+>>  
+>>      if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>>          bytes_read = iov_to_buf(pkt, pkt_frags,
+>> -                                ext_hdr_offset + sizeof(*ext_hdr),
+>> +                                ext_hdr_offset + sizeof(*rthdr),
+>>                                  dst_addr, sizeof(*dst_addr));
+> 
+> Oh, so we always screwed the address by 4 bytes...
+> 
+> This code never worked correctly :(
+
+Confirmed with commit 4555ca6816c ("net: fix incorrect
+argument to iov_to_buf") when it then returns incorrect
+value until b2caa3b82ed ("net/eth: fix incorrect check
+of iov_to_buf() return value") one year later.
+
 
