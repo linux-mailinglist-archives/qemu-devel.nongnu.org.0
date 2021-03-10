@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF50333456
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:21:08 +0100 (CET)
-Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2D733343F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 05:12:56 +0100 (CET)
+Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJqLL-00031U-8B
-	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:21:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
+	id 1lJqDP-00073l-So
+	for lists+qemu-devel@lfdr.de; Tue, 09 Mar 2021 23:12:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAv-0003YD-6c; Tue, 09 Mar 2021 23:10:22 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37053 helo=ozlabs.org)
+ id 1lJqAs-0003Wo-9o; Tue, 09 Mar 2021 23:10:19 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52309 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lJqAp-0004AE-I7; Tue, 09 Mar 2021 23:10:20 -0500
+ id 1lJqAp-0004AI-GY; Tue, 09 Mar 2021 23:10:18 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DwJWd55ZDz9sWl; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
+ id 4DwJWd5WJZz9sWm; Wed, 10 Mar 2021 15:10:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1615349405;
- bh=eQUX6ay0aol2kTGvcnnrcbxBcIo1BZ2oHa9zhrP+hP0=;
+ bh=Yx8ESnsJE3vs1w3ajs3bxZmdzxPCWN7CoE8nMMMBGJg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=flb1dwiJXjSf15kx2YodxbGiGFJFxxB6T0SCNrPHdwu2CcCHHSOrq03Cbc9PUFnz/
- M1OqbD6rZtVDu9aPMLW3GjKzla6A/hwTITNmFWaOXFZ2BAaGhic6DluBsHpHGHOzVV
- AwZYsDGVNyzAeG9BhaFl4QKrFnxM52oK01ZlXqig=
+ b=ovIgFI+cHFOIlxA6ejTwf1kUzupByRUhPmKAS0/x1QbPhRyyhob59vUmp+CjX8rQ1
+ K6Ov4+Qo3NfQ3XzkaL5zAeOMCPhOGscdPXgZ2653jjqpIbvftoMJs4KyLy8kL3PWiS
+ CYyi14x4hR0ZZvEBsk1OZzN8P/IiZlwNTxHuDl2k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 08/20] docs/system: Extend PPC section
-Date: Wed, 10 Mar 2021 15:09:50 +1100
-Message-Id: <20210310041002.333813-9-david@gibson.dropbear.id.au>
+Subject: [PULL 09/20] target/ppc: Fix bcdsub. emulation when result overflows
+Date: Wed, 10 Mar 2021 15:09:51 +1100
+Message-Id: <20210310041002.333813-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_OTHER_BAD_TLD=1.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,398 +57,317 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Paul Clarke <pc@us.ibm.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-This moves the current documentation in files specific to each
-platform family. PowerNV machine is updated, the other machines need
-to be done.
+The commit d03b174a83 (target/ppc: simplify bcdadd/sub functions)
+meant to simplify some of the code but it inadvertently altered the
+way the CR6 field is set after the operation has overflowed.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210222133956.156001-1-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-[dwg: Trivial capitalization fix]
+The CR6 bits are set based on the *unbounded* result of the operation,
+so we need to look at the result before returning from bcd_add_mag,
+otherwise we will look at 0 when it overflows.
+
+Consider the following subtraction:
+
+v0 = 0x9999999999999999999999999999999c (maximum positive BCD value)
+v1 = 0x0000000000000000000000000000001d (negative one BCD value)
+bcdsub. v0,v0,v1,0
+
+The Power ISA 2.07B says:
+If the unbounded result is greater than zero, do the following.
+  If PS=0, the sign code of the result is set to 0b1100.
+  If PS=1, the sign code of the result is set to 0b1111.
+  If the operation overflows, CR field 6 is set to 0b0101. Otherwise,
+  CR field 6 is set to 0b0100.
+
+POWER9 hardware:
+vr0 = 0x0000000000000000000000000000000c (positive zero BCD value)
+cr6 = 0b0101 (0x5) (positive, overflow)
+
+QEMU:
+vr0 = 0x0000000000000000000000000000000c (positive zero BCD value)
+cr6 = 0b0011 (0x3) (zero, overflow) <--- wrong
+
+This patch reverts the part of d03b174a83 that introduced the
+problem and adds a test-case to avoid further regressions:
+
+before:
+$ make run-tcg-tests-ppc64le-linux-user
+(...)
+  TEST    bcdsub on ppc64le
+bcdsub: qemu/tests/tcg/ppc64le/bcdsub.c:58: test_bcdsub_gt:
+Assertion `(cr >> 4) == ((1 << 2) | (1 << 0))' failed.
+
+Fixes: d03b174a83 (target/ppc: simplify bcdadd/sub functions)
+Reported-by: Paul Clarke <pc@us.ibm.com>
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Message-Id: <20210222194035.2723056-1-farosas@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- docs/system/ppc/embedded.rst |  10 ++
- docs/system/ppc/powermac.rst |  34 ++++++
- docs/system/ppc/powernv.rst  | 193 +++++++++++++++++++++++++++++++++++
- docs/system/ppc/prep.rst     |  18 ++++
- docs/system/ppc/pseries.rst  |  12 +++
- docs/system/target-ppc.rst   |  53 +++-------
- 6 files changed, 282 insertions(+), 38 deletions(-)
- create mode 100644 docs/system/ppc/embedded.rst
- create mode 100644 docs/system/ppc/powermac.rst
- create mode 100644 docs/system/ppc/powernv.rst
- create mode 100644 docs/system/ppc/prep.rst
- create mode 100644 docs/system/ppc/pseries.rst
+ target/ppc/int_helper.c           |  13 ++-
+ tests/tcg/configure.sh            |   6 ++
+ tests/tcg/ppc64/Makefile.target   |  13 +++
+ tests/tcg/ppc64le/Makefile.target |  12 +++
+ tests/tcg/ppc64le/bcdsub.c        | 130 ++++++++++++++++++++++++++++++
+ 5 files changed, 171 insertions(+), 3 deletions(-)
+ create mode 100644 tests/tcg/ppc64/Makefile.target
+ create mode 100644 tests/tcg/ppc64le/Makefile.target
+ create mode 100644 tests/tcg/ppc64le/bcdsub.c
 
-diff --git a/docs/system/ppc/embedded.rst b/docs/system/ppc/embedded.rst
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 0b682a1f94..429de28494 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -2175,14 +2175,17 @@ static int bcd_cmp_mag(ppc_avr_t *a, ppc_avr_t *b)
+     return 0;
+ }
+ 
+-static void bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
++static int bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
+                        int *overflow)
+ {
+     int carry = 0;
+     int i;
++    int is_zero = 1;
++
+     for (i = 1; i <= 31; i++) {
+         uint8_t digit = bcd_get_digit(a, i, invalid) +
+                         bcd_get_digit(b, i, invalid) + carry;
++        is_zero &= (digit == 0);
+         if (digit > 9) {
+             carry = 1;
+             digit -= 10;
+@@ -2194,6 +2197,7 @@ static void bcd_add_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
+     }
+ 
+     *overflow = carry;
++    return is_zero;
+ }
+ 
+ static void bcd_sub_mag(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, int *invalid,
+@@ -2225,14 +2229,15 @@ uint32_t helper_bcdadd(ppc_avr_t *r,  ppc_avr_t *a, ppc_avr_t *b, uint32_t ps)
+     int sgnb = bcd_get_sgn(b);
+     int invalid = (sgna == 0) || (sgnb == 0);
+     int overflow = 0;
++    int zero = 0;
+     uint32_t cr = 0;
+     ppc_avr_t result = { .u64 = { 0, 0 } };
+ 
+     if (!invalid) {
+         if (sgna == sgnb) {
+             result.VsrB(BCD_DIG_BYTE(0)) = bcd_preferred_sgn(sgna, ps);
+-            bcd_add_mag(&result, a, b, &invalid, &overflow);
+-            cr = bcd_cmp_zero(&result);
++            zero = bcd_add_mag(&result, a, b, &invalid, &overflow);
++            cr = (sgna > 0) ? CRF_GT : CRF_LT;
+         } else {
+             int magnitude = bcd_cmp_mag(a, b);
+             if (magnitude > 0) {
+@@ -2255,6 +2260,8 @@ uint32_t helper_bcdadd(ppc_avr_t *r,  ppc_avr_t *a, ppc_avr_t *b, uint32_t ps)
+         cr = CRF_SO;
+     } else if (overflow) {
+         cr |= CRF_SO;
++    } else if (zero) {
++        cr |= CRF_EQ;
+     }
+ 
+     *r = result;
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 36b8a73a54..ce304f4933 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -251,6 +251,12 @@ for target in $target_list; do
+                 echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
+             fi
+         ;;
++        ppc*)
++            if do_compiler "$target_compiler" $target_compiler_cflags \
++               -mpower8-vector -o $TMPE $TMPC; then
++                echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
++            fi
++        ;;
+     esac
+ 
+     enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
 new file mode 100644
-index 0000000000..cfffbda24d
+index 0000000000..0c6a4585fc
 --- /dev/null
-+++ b/docs/system/ppc/embedded.rst
-@@ -0,0 +1,10 @@
-+Embedded family boards
-+======================
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -0,0 +1,13 @@
++# -*- Mode: makefile -*-
++#
++# ppc64 specific tweaks
 +
-+- ``bamboo``               bamboo
-+- ``mpc8544ds``            mpc8544ds
-+- ``ppce500``              generic paravirt e500 platform
-+- ``ref405ep``             ref405ep
-+- ``sam460ex``             aCube Sam460ex
-+- ``taihu``                taihu
-+- ``virtex-ml507``         Xilinx Virtex ML507 reference design
-diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
++VPATH += $(SRC_PATH)/tests/tcg/ppc64
++VPATH += $(SRC_PATH)/tests/tcg/ppc64le
++
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
++PPC64_TESTS=bcdsub
++endif
++bcdsub: CFLAGS += -mpower8-vector
++
++TESTS += $(PPC64_TESTS)
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
 new file mode 100644
-index 0000000000..04334ba210
+index 0000000000..1acfcff94a
 --- /dev/null
-+++ b/docs/system/ppc/powermac.rst
-@@ -0,0 +1,34 @@
-+PowerMac family boards (``g3beige``, ``mac99``)
-+==================================================================
-+
-+Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
-+PowerPC system.
-+
-+- ``g3beige``              Heathrow based PowerMAC
-+- ``mac99``                Mac99 based PowerMAC
-+
-+Supported devices
-+-----------------
-+
-+QEMU emulates the following PowerMac peripherals:
-+
-+ *  UniNorth or Grackle PCI Bridge
-+ *  PCI VGA compatible card with VESA Bochs Extensions
-+ *  2 PMAC IDE interfaces with hard disk and CD-ROM support
-+ *  NE2000 PCI adapters
-+ *  Non Volatile RAM
-+ *  VIA-CUDA with ADB keyboard and mouse.
-+
-+
-+Missing devices
-+---------------
-+
-+ * To be identified
-+
-+Firmware
-+--------
-+
-+Since version 0.9.1, QEMU uses OpenBIOS https://www.openbios.org/ for
-+the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
-+(GPL v2) portable firmware implementation. The goal is to implement a
-+100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
-diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
-new file mode 100644
-index 0000000000..43c58bc32e
---- /dev/null
-+++ b/docs/system/ppc/powernv.rst
-@@ -0,0 +1,193 @@
-+PowerNV family boards (``powernv8``, ``powernv9``)
-+==================================================================
-+
-+PowerNV (as Non-Virtualized) is the "baremetal" platform using the
-+OPAL firmware. It runs Linux on IBM and OpenPOWER systems and it can
-+be used as an hypervisor OS, running KVM guests, or simply as a host
-+OS.
-+
-+The PowerNV QEMU machine tries to emulate a PowerNV system at the
-+level of the skiboot firmware, which loads the OS and provides some
-+runtime services. Power Systems have a lower firmware (HostBoot) that
-+does low level system initialization, like DRAM training. This is
-+beyond the scope of what QEMU addresses today.
-+
-+Supported devices
-+-----------------
-+
-+ * Multi processor support for POWER8, POWER8NVL and POWER9.
-+ * XSCOM, serial communication sideband bus to configure chiplets
-+ * Simple LPC Controller
-+ * Processor Service Interface (PSI) Controller
-+ * Interrupt Controller, XICS (POWER8) and XIVE (POWER9)
-+ * POWER8 PHB3 PCIe Host bridge and POWER9 PHB4 PCIe Host bridge
-+ * Simple OCC is an on-chip microcontroller used for power management
-+   tasks
-+ * iBT device to handle BMC communication, with the internal BMC
-+   simulator provided by QEMU or an external BMC such as an Aspeed
-+   QEMU machine.
-+ * PNOR containing the different firmware partitions.
-+
-+Missing devices
-+---------------
-+
-+A lot is missing, among which :
-+
-+ * POWER10 processor
-+ * XIVE2 (POWER10) interrupt controller
-+ * I2C controllers (yet to be merged)
-+ * NPU/NPU2/NPU3 controllers
-+ * EEH support for PCIe Host bridge controllers
-+ * NX controller
-+ * VAS controller
-+ * chipTOD (Time Of Day)
-+ * Self Boot Engine (SBE).
-+ * FSI bus
-+
-+Firmware
-+--------
-+
-+The OPAL firmware (OpenPower Abstraction Layer) for OpenPower systems
-+includes the runtime services `skiboot` and the bootloader kernel and
-+initramfs `skiroot`. Source code can be found on GitHub:
-+
-+  https://github.com/open-power.
-+
-+Prebuilt images of `skiboot` and `skiboot` are made available on the `OpenPOWER <https://openpower.xyz/job/openpower/job/openpower-op-build/>`__ site. To boot a POWER9 machine, use the `witherspoon <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=witherspoon/lastSuccessfulBuild/>`__ images. For POWER8, use
-+the `palmetto <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=palmetto/lastSuccessfulBuild/>`__ images.
-+
-+QEMU includes a prebuilt image of `skiboot` which is updated when a
-+more recent version is required by the models.
-+
-+Boot options
-+------------
-+
-+Here is a simple setup with one e1000e NIC :
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-ppc64 -m 2G -machine powernv9 -smp 2,cores=2,threads=1 \
-+  -accel tcg,thread=single \
-+  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=pcie.0,addr=0x0 \
-+  -netdev user,id=net0,hostfwd=::20022-:22,hostname=pnv \
-+  -kernel ./zImage.epapr  \
-+  -initrd ./rootfs.cpio.xz \
-+  -nographic
-+
-+and a SATA disk :
-+
-+.. code-block:: bash
-+
-+  -device ich9-ahci,id=sata0,bus=pcie.1,addr=0x0 \
-+  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive0,format=qcow2,cache=none \
-+  -device ide-hd,bus=sata0.0,unit=0,drive=drive0,id=ide,bootindex=1 \
-+
-+Complex PCIe configuration
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Six PHBs are defined per chip (POWER9) but no default PCI layout is
-+provided (to be compatible with libvirt). One PCI device can be added
-+on any of the available PCIe slots using command line options such as:
-+
-+.. code-block:: bash
-+
-+  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=pcie.0,addr=0x0
-+  -netdev bridge,id=net0,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=hostnet0
-+
-+  -device megasas,id=scsi0,bus=pcie.0,addr=0x0
-+  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none
-+  -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=2
-+
-+Here is a full example with two different storage controllers on
-+different PHBs, each with a disk, the second PHB is empty :
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-ppc64 -m 2G -machine powernv9 -smp 2,cores=2,threads=1 -accel tcg,thread=single \
-+  -kernel ./zImage.epapr -initrd ./rootfs.cpio.xz -bios ./skiboot.lid \
-+  \
-+  -device megasas,id=scsi0,bus=pcie.0,addr=0x0 \
-+  -drive file=./rhel7-ppc64le.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
-+  -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=2 \
-+  \
-+  -device pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0 \
-+  \
-+  -device ich9-ahci,id=sata0,bus=bridge1,addr=0x1 \
-+  -drive file=./ubuntu-ppc64le.qcow2,if=none,id=drive0,format=qcow2,cache=none \
-+  -device ide-hd,bus=sata0.0,unit=0,drive=drive0,id=ide,bootindex=1 \
-+  -device e1000e,netdev=net0,mac=C0:FF:EE:00:00:02,bus=bridge1,addr=0x2 \
-+  -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
-+  -device nec-usb-xhci,bus=bridge1,addr=0x7 \
-+  \
-+  -serial mon:stdio -nographic
-+
-+You can also use VIRTIO devices :
-+
-+.. code-block:: bash
-+
-+  -drive file=./fedora-ppc64le.qcow2,if=none,snapshot=on,id=drive0 \
-+  -device virtio-blk-pci,drive=drive0,id=blk0,bus=pcie.0 \
-+  \
-+  -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,br=virbr0,id=netdev0 \
-+  -device virtio-net-pci,netdev=netdev0,id=net0,bus=pcie.1 \
-+  \
-+  -fsdev local,id=fsdev0,path=$HOME,security_model=passthrough \
-+  -device virtio-9p-pci,fsdev=fsdev0,mount_tag=host,bus=pcie.2
-+
-+Multi sockets
-+~~~~~~~~~~~~~
-+
-+The number of sockets is deduced from the number of CPUs and the
-+number of cores. ``-smp 2,cores=1`` will define a machine with 2
-+sockets of 1 core, whereas ``-smp 2,cores=2`` will define a machine
-+with 1 socket of 2 cores. ``-smp 8,cores=2``, 4 sockets of 2 cores.
-+
-+BMC configuration
-+~~~~~~~~~~~~~~~~~
-+
-+OpenPOWER systems negotiate the shutdown and reboot with their
-+BMC. The QEMU PowerNV machine embeds an IPMI BMC simulator using the
-+iBT interface and should offer the same power features.
-+
-+If you want to define your own BMC, use ``-nodefaults`` and specify
-+one on the command line :
-+
-+.. code-block:: bash
-+
-+  -device ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10
-+
-+The files `palmetto-SDR.bin <http://www.kaod.org/qemu/powernv/palmetto-SDR.bin>`__
-+and `palmetto-FRU.bin <http://www.kaod.org/qemu/powernv/palmetto-FRU.bin>`__
-+define a Sensor Data Record repository and a Field Replaceable Unit
-+inventory for a palmetto BMC. They can be used to extend the QEMU BMC
-+simulator.
-+
-+.. code-block:: bash
-+
-+  -device ipmi-bmc-sim,sdrfile=./palmetto-SDR.bin,fruareasize=256,frudatafile=./palmetto-FRU.bin,id=bmc0 \
-+  -device isa-ipmi-bt,bmc=bmc0,irq=10
-+
-+The PowerNV machine can also be run with an external IPMI BMC device
-+connected to a remote QEMU machine acting as BMC, using these options
-+:
-+
-+.. code-block:: bash
-+
-+  -chardev socket,id=ipmi0,host=localhost,port=9002,reconnect=10 \
-+  -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0 \
-+  -device isa-ipmi-bt,bmc=bmc0,irq=10 \
-+  -nodefaults
-+
-+NVRAM
-+~~~~~
-+
-+Use a MTD drive to add a PNOR to the machine, and get a NVRAM :
-+
-+.. code-block:: bash
-+
-+  -drive file=./witherspoon.pnor,format=raw,if=mtd
-+
-+CAVEATS
-+-------
-+
-+ * No support for multiple HW threads (SMT=1). Same as pseries.
-+ * CPU can hang when doing intensive I/Os. Use ``-append powersave=off`` in that case.
-diff --git a/docs/system/ppc/prep.rst b/docs/system/ppc/prep.rst
-new file mode 100644
-index 0000000000..bd9eb8eabd
---- /dev/null
-+++ b/docs/system/ppc/prep.rst
-@@ -0,0 +1,18 @@
-+Prep machine (``40p``)
-+==================================================================
-+
-+Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PREP)
-+
-+Supported devices
-+-----------------
-+
-+QEMU emulates the following 40P (PREP) peripherals:
-+
-+ *  PCI Bridge
-+ *  PCI VGA compatible card with VESA Bochs Extensions
-+ *  2 IDE interfaces with hard disk and CD-ROM support
-+ *  Floppy disk
-+ *  PCnet network adapters
-+ *  Serial port
-+ *  PREP Non Volatile RAM
-+ *  PC compatible keyboard and mouse.
-diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
-new file mode 100644
-index 0000000000..932d4dd17d
---- /dev/null
-+++ b/docs/system/ppc/pseries.rst
++++ b/tests/tcg/ppc64le/Makefile.target
 @@ -0,0 +1,12 @@
-+pSeries family boards (``pseries``)
-+===================================
++# -*- Mode: makefile -*-
++#
++# ppc64le specific tweaks
 +
-+Supported devices
-+-----------------
++VPATH += $(SRC_PATH)/tests/tcg/ppc64le
 +
-+Missing devices
-+---------------
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
++PPC64LE_TESTS=bcdsub
++endif
++bcdsub: CFLAGS += -mpower8-vector
++
++TESTS += $(PPC64LE_TESTS)
+diff --git a/tests/tcg/ppc64le/bcdsub.c b/tests/tcg/ppc64le/bcdsub.c
+new file mode 100644
+index 0000000000..8c188cae6d
+--- /dev/null
++++ b/tests/tcg/ppc64le/bcdsub.c
+@@ -0,0 +1,130 @@
++#include <assert.h>
++#include <unistd.h>
++#include <signal.h>
++
++#define CRF_LT  (1 << 3)
++#define CRF_GT  (1 << 2)
++#define CRF_EQ  (1 << 1)
++#define CRF_SO  (1 << 0)
++#define UNDEF   0
++
++#define BCDSUB(vra, vrb, ps)                    \
++    asm ("bcdsub. %1,%2,%3,%4;"                 \
++         "mfocrf %0,0b10;"                      \
++         : "=r" (cr), "=v" (vrt)                \
++         : "v" (vra), "v" (vrb), "i" (ps)       \
++         : );
++
++#define TEST(vra, vrb, ps, exp_res, exp_cr6)    \
++    do {                                        \
++        __int128 vrt = 0;                       \
++        int cr = 0;                             \
++        BCDSUB(vra, vrb, ps);                   \
++        if (exp_res)                            \
++            assert(vrt == exp_res);             \
++        assert((cr >> 4) == exp_cr6);           \
++    } while (0)
 +
 +
-+Firmware
-+--------
-diff --git a/docs/system/target-ppc.rst b/docs/system/target-ppc.rst
-index a2f04c533c..67905b8f2a 100644
---- a/docs/system/target-ppc.rst
-+++ b/docs/system/target-ppc.rst
-@@ -3,45 +3,22 @@
- PowerPC System emulator
- -----------------------
- 
--Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PREP)
--or PowerMac PowerPC system.
-+Board-specific documentation
-+============================
- 
--QEMU emulates the following PowerMac peripherals:
-+You can get a complete list by running ``qemu-system-ppc64 --machine
-+help``.
- 
---  UniNorth or Grackle PCI Bridge
-+..
-+   This table of contents should be kept sorted alphabetically
-+   by the title text of each file, which isn't the same ordering
-+   as an alphabetical sort by filename.
- 
---  PCI VGA compatible card with VESA Bochs Extensions
-+.. toctree::
-+   :maxdepth: 1
- 
---  2 PMAC IDE interfaces with hard disk and CD-ROM support
--
---  NE2000 PCI adapters
--
---  Non Volatile RAM
--
---  VIA-CUDA with ADB keyboard and mouse.
--
--QEMU emulates the following 40P (PREP) peripherals:
--
---  PCI Bridge
--
---  PCI VGA compatible card with VESA Bochs Extensions
--
---  2 IDE interfaces with hard disk and CD-ROM support
--
---  Floppy disk
--
---  PCnet network adapters
--
---  Serial port
--
---  PREP Non Volatile RAM
--
---  PC compatible keyboard and mouse.
--
--Since version 0.9.1, QEMU uses OpenBIOS https://www.openbios.org/ for
--the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
--(GPL v2) portable firmware implementation. The goal is to implement a
--100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
--
--More information is available at
--http://perso.magic.fr/l_indien/qemu-ppc/.
-+   ppc/embedded
-+   ppc/powermac
-+   ppc/powernv
-+   ppc/prep
-+   ppc/pseries
++/*
++ * Unbounded result is equal to zero:
++ *   sign = (PS) ? 0b1111 : 0b1100
++ *   CR6 = 0b0010
++ */
++void test_bcdsub_eq(void)
++{
++    __int128 a, b;
++
++    /* maximum positive BCD value */
++    a = b = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
++
++    TEST(a, b, 0, 0xc, CRF_EQ);
++    TEST(a, b, 1, 0xf, CRF_EQ);
++}
++
++/*
++ * Unbounded result is greater than zero:
++ *   sign = (PS) ? 0b1111 : 0b1100
++ *   CR6 = (overflow) ? 0b0101 : 0b0100
++ */
++void test_bcdsub_gt(void)
++{
++    __int128 a, b, c;
++
++    /* maximum positive BCD value */
++    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
++
++    /* negative one BCD value */
++    b = (__int128) 0x1d;
++
++    TEST(a, b, 0, 0xc, (CRF_GT | CRF_SO));
++    TEST(a, b, 1, 0xf, (CRF_GT | CRF_SO));
++
++    c = (((__int128) 0x9999999999999999) << 64 | 0x999999999999998c);
++
++    TEST(c, b, 0, a, CRF_GT);
++    TEST(c, b, 1, (a | 0x3), CRF_GT);
++}
++
++/*
++ * Unbounded result is less than zero:
++ *   sign = 0b1101
++ *   CR6 = (overflow) ? 0b1001 : 0b1000
++ */
++void test_bcdsub_lt(void)
++{
++    __int128 a, b;
++
++    /* positive zero BCD value */
++    a = (__int128) 0xc;
++
++    /* positive one BCD value */
++    b = (__int128) 0x1c;
++
++    TEST(a, b, 0, 0x1d, CRF_LT);
++    TEST(a, b, 1, 0x1d, CRF_LT);
++
++    /* maximum negative BCD value */
++    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999d);
++
++    /* positive one BCD value */
++    b = (__int128) 0x1c;
++
++    TEST(a, b, 0, 0xd, (CRF_LT | CRF_SO));
++    TEST(a, b, 1, 0xd, (CRF_LT | CRF_SO));
++}
++
++void test_bcdsub_invalid(void)
++{
++    __int128 a, b;
++
++    /* positive one BCD value */
++    a = (__int128) 0x1c;
++    b = 0xf00;
++
++    TEST(a, b, 0, UNDEF, CRF_SO);
++    TEST(a, b, 1, UNDEF, CRF_SO);
++
++    TEST(b, a, 0, UNDEF, CRF_SO);
++    TEST(b, a, 1, UNDEF, CRF_SO);
++
++    a = 0xbad;
++
++    TEST(a, b, 0, UNDEF, CRF_SO);
++    TEST(a, b, 1, UNDEF, CRF_SO);
++}
++
++int main(void)
++{
++    struct sigaction action;
++
++    action.sa_handler = _exit;
++    sigaction(SIGABRT, &action, NULL);
++
++    test_bcdsub_eq();
++    test_bcdsub_gt();
++    test_bcdsub_lt();
++    test_bcdsub_invalid();
++
++    return 0;
++}
 -- 
 2.29.2
 
