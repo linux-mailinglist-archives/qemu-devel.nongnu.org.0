@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708BC3339BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:14:13 +0100 (CET)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354683339F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Mar 2021 11:28:49 +0100 (CET)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lJvr2-0002fJ-H5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:14:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
+	id 1lJw5A-0001j6-91
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 05:28:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpD-0000r1-2p
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:19 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41902)
+ id 1lJvpJ-0000vv-7E
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:25 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:45448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lJvpB-0006os-07
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:18 -0500
-Received: by mail-ed1-x529.google.com with SMTP id b7so27200376edz.8
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:16 -0800 (PST)
+ id 1lJvpH-0006so-ME
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 05:12:24 -0500
+Received: by mail-ed1-x536.google.com with SMTP id dm26so27097036edb.12
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 02:12:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=HxFFXAbZcWSQYuiy3ELtMKaSRJK0/t+aYYLt3NELl6I=;
- b=ZpNRBJ1VrVBG31idwVgJKuFl9JhtzyEv1AvAdknhbGunrYW715ursxwhCL1NF/NZwB
- YrQM2exkcp0AbtLDYVlRf63YJIqYBC6NL3KzB9ScG2J5HlS2isrqRhgpzwqwy4XXASww
- LmoRxnyU8BR+QNqpFKpXkwjTiX/GBAPQkK1Tt0ERjGLMdsG7TnR0ylGGo0vXv2Sd59Lc
- JaW9FF+OlU02K+EhM06YdIcAR8xC78GWzk1LqdmDK1CYEDdL9yjFE1njri7Q7itw42Jm
- MisGxtrqcP7F3u0MmhzKlLoouybm2lV0vjgMKHZnuvjfeI/fhfnfsP6ijmBBhvBvpJmF
- TpLg==
+ h=from:to:subject:date:message-id:in-reply-to:references;
+ bh=8uMScMInLLrhbLvH0rTF7XrH2CwqIBpkKtpIern7QYI=;
+ b=OVY0S84goTKr1zxytdNcf41mCz477BvDKyJ6S8tCtE1XdO/MJa9Vw+CfORqixh7xYS
+ pn7GjeEwOJJgUguHfQyxRWwAQ8hXZ2QEwx9nwPLul5nXobKex4dAc7nV5sW21A47jRGw
+ m2X8ifnKSGI0DFbmtrh8DNhoS+P5X2DbpazV1nqlwoC7hmS5gn4cIMyWJGhOXLtThk1w
+ VVC4+xRl+uA9DpZs3uaUqF0s34Ep4ghCSJfQo1lPpx+Tl2KVpIyCY+ifR7zExEp7X5Hf
+ IRGvpBOiba9/oLmAuRY6/XJjgCMHSOmbnATrv4bLgfOZ54SrVivJ26eZHc5le1cZOzCO
+ E0yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HxFFXAbZcWSQYuiy3ELtMKaSRJK0/t+aYYLt3NELl6I=;
- b=oIyqmBZCOX25227o8+dIoN8LOTLAi1Dd0+G8NLaGoi/u1+9e3KVQ8vXLCmzBBo8k7z
- 5quN01TtnqkAXCSvzwcAD4rKozgXKeEt7k+bzXvw0Sn9lKq7w4QKFWNIgnxVjhdKXO0x
- 9H7Y7M1Ep+K1EsksDgsoFDdsPhvGo5U1vCoiAuGpFno6whTv3/K+CaXovyYjsUm5zwdA
- 04CFg4Krih3fBpGJrKEU/YYe8405r55ByMuzxqtCViUiCv7SYyYgMt8Hw1i5fv9q83uB
- gWJ7fJGRfGZa2xmv9SLzNGeWaNbzDwFv+zvRhYXYcvmGd4hmjAO6MXXQ5sbKqdPvLR7g
- a9OQ==
-X-Gm-Message-State: AOAM532G1nLXLkpNL5r7PMp38C5MAyO020P8Xqy3MUOz9VvneDZD9zr+
- wZlekw/nnM+SyIZAYFr8EtY=
-X-Google-Smtp-Source: ABdhPJwvgvPEQo5Thrg8S340Cwp2ItEYNUgBT9IbyrtoBJ8UYCajYhGRMuM7ppazxf2hlHSWtpjegQ==
-X-Received: by 2002:a05:6402:13ca:: with SMTP id
- a10mr2393163edx.320.1615371135509; 
- Wed, 10 Mar 2021 02:12:15 -0800 (PST)
+ :references;
+ bh=8uMScMInLLrhbLvH0rTF7XrH2CwqIBpkKtpIern7QYI=;
+ b=DRE1anvnrdEyu7trGdYAjQWHC45JJ0jFSJCGEU0s0FOfouH37SsZze3QFluRTs6uDP
+ kTDiMxCFlr+JvF5UuUkNASanHuXiRdLt9fQG5fPu7+SiYI1JXd4b4JaLGlD/5gl9A1x/
+ xtf1dTnLrnpT3c0jkcwhaZ6zSTAvmf5C1G8ALDe/31mO2ckOCm3GBenlcL4/VU1DecWX
+ C0xmTFCj8GUFDoRJxuv4xMwPGYOZ/kT9FaXo/0aDFPyLcWgMB4u4klb1xgLDXk2vj/4Q
+ TCnLhYh+sdRst5objPoovYxAkB7H4WarSM3Ll9aYUmbXGvEo3dHZgi29cYsFMFWxJ8Ht
+ 3j0g==
+X-Gm-Message-State: AOAM530+VYBREr7tKyLu7dlBKf5ZEpZ7PZ1uBf+WZLNvIz98tA7owOgN
+ NVFOZfBMyzmLvgYlwhbzTmA=
+X-Google-Smtp-Source: ABdhPJzRiWmi71P3S6vzs81ecqxahjy7EwPkCcsTObktXWhEJi/EpthC8R+HU0GKigWOUfUWKbRgXw==
+X-Received: by 2002:aa7:da46:: with SMTP id w6mr2429489eds.40.1615371142440;
+ Wed, 10 Mar 2021 02:12:22 -0800 (PST)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.12
+ by smtp.gmail.com with ESMTPSA id n26sm5966864eds.22.2021.03.10.02.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 02:12:15 -0800 (PST)
+ Wed, 10 Mar 2021 02:12:22 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH 02/10] net: Pad short frames to minimum size before send
-Date: Wed, 10 Mar 2021 18:11:49 +0800
-Message-Id: <20210310101157.15136-3-bmeng.cn@gmail.com>
+Subject: [PATCH 04/10] hw/net: vmxnet3: Remove the logic of padding short
+ frames in the receive path
+Date: Wed, 10 Mar 2021 18:11:51 +0800
+Message-Id: <20210310101157.15136-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210310101157.15136-1-bmeng.cn@gmail.com>
 References: <20210310101157.15136-1-bmeng.cn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,100 +86,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum Ethernet frame length is 60 bytes. For short frames with
-smaller length like ARP packets (only 42 bytes), on a real world NIC
-it can choose either padding its length to the minimum required 60
-bytes, or sending it out directly to the wire. Such behavior can be
-hardcoded or controled by a register bit. Similarly on the receive
-path, NICs can choose either dropping such short frames directly or
-handing them over to software to handle.
+Now that we have implemented unified short frames padding in the
+QEMU networking codes, remove the same logic in the NIC codes.
 
-On the other hand, for the network backends like SLiRP/TAP, they
-don't expose a way to control the short frame behavior. As of today
-they just send/receive data from/to the other end connected to them,
-which means any sized packet is acceptable. So they can send and
-receive short frames without any problem. It is observed that ARP
-packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-these ARP packets to the other end which might be a NIC model that
-does not allow short frames to pass through.
-
-To provide better compatibility, for packets sent from QEMU network
-backends, we change to pad short frames before sending it out to the
-other end. This ensures a backend as an Ethernet sender does not
-violate the spec. But with this change, the behavior of dropping
-short frames in the NIC model cannot be emulated because it always
-receives a packet that is spec complaint. The capability of sending
-short frames from NIC models cannot be supported as well.
-
-This commit should be able to fix the issue as reported with some
-NIC models before, that ARP requests get dropped, preventing the
-guest from becoming visible on the network. It was workarounded in
-these NIC models on the receive path, that when a short frame is
-received, it is padded up to 60 bytes.
-
-The following 2 commits seem to be the one to workaround this issue
-in e1000 and vmxenet3 before, and should probably be reverted.
-
-  commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-  commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+This actually reverts commit 40a87c6c9b11ef9c14e0301f76abf0eb2582f08e.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-[PMD: Use struct iovec for zero-copy]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 
- include/net/eth.h |  1 +
- net/net.c         | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+ hw/net/vmxnet3.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 0671be6916..7c825ecb2f 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -31,6 +31,7 @@
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index eff299f629..d993cce097 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -39,7 +39,6 @@
  
- #define ETH_ALEN 6
- #define ETH_HLEN 14
-+#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+ #define PCI_DEVICE_ID_VMWARE_VMXNET3_REVISION 0x1
+ #define VMXNET3_MSIX_BAR_SIZE 0x2000
+-#define MIN_BUF_SIZE 60
  
- struct eth_header {
-     uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
-diff --git a/net/net.c b/net/net.c
-index bb1d455005..96a6d30474 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -621,6 +621,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
-                                                  const uint8_t *buf, int size,
-                                                  NetPacketSent *sent_cb)
+ /* Compatibility flags for migration */
+ #define VMXNET3_COMPAT_FLAG_OLD_MSI_OFFSETS_BIT 0
+@@ -1951,7 +1950,6 @@ vmxnet3_receive(NetClientState *nc, const uint8_t *buf, size_t size)
  {
-+    static const uint8_t null_buf[ETH_ZLEN] = { };
-     NetQueue *queue;
-     int ret;
-     int iovcnt = 1;
-@@ -629,6 +630,10 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
-             .iov_base = (void *)buf,
-             .iov_len = size,
-         },
-+        [1] = {
-+            .iov_base = (void *)null_buf,
-+            .iov_len = ETH_ZLEN,
-+        },
-     };
+     VMXNET3State *s = qemu_get_nic_opaque(nc);
+     size_t bytes_indicated;
+-    uint8_t min_buf[MIN_BUF_SIZE];
  
- #ifdef DEBUG_NET
-@@ -640,6 +645,12 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
-         return size;
+     if (!vmxnet3_can_receive(nc)) {
+         VMW_PKPRN("Cannot receive now");
+@@ -1964,14 +1962,6 @@ vmxnet3_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+         size -= sizeof(struct virtio_net_hdr);
      }
  
-+    /* Pad to minimum Ethernet frame length */
-+    if (size < ETH_ZLEN) {
-+        iov[1].iov_len = ETH_ZLEN - size;
-+        iovcnt = 2;
-+    }
-+
-     /* Let filters handle the packet first */
-     ret = filter_receive_iov(sender, NET_FILTER_DIRECTION_TX,
-                              sender, flags, iov, iovcnt, sent_cb);
+-    /* Pad to minimum Ethernet frame length */
+-    if (size < sizeof(min_buf)) {
+-        memcpy(min_buf, buf, size);
+-        memset(&min_buf[size], 0, sizeof(min_buf) - size);
+-        buf = min_buf;
+-        size = sizeof(min_buf);
+-    }
+-
+     net_rx_pkt_set_packet_type(s->rx_pkt,
+         get_eth_packet_type(PKT_GET_ETH_HDR(buf)));
+ 
 -- 
 2.17.1
 
