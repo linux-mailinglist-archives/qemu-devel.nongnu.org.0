@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1029B33770A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:23:40 +0100 (CET)
-Received: from localhost ([::1]:41312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9A73376CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:19:16 +0100 (CET)
+Received: from localhost ([::1]:54108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNA3-0005W0-2k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:23:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42240)
+	id 1lKN5n-0007OB-8f
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:19:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcA-00054D-NQ
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcA-00053C-CB
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55895)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMc6-0002q4-94
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMc8-0002s3-9f
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474113;
+ s=mimecast20190719; t=1615474115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z/vboMepvXCSr+CJObpxnLUf3DTg5UTQZvCZD2IGg0I=;
- b=UyKQXGsOORoqn08HvZjvDUX/2qlBBSvib69TpMoWIDFa8NBK8x6D/os66IscipagWdkBLY
- wzDvCrIKGJ+BLMK4icSbQbgwzg9ZN0ZS6AHc46Q60mAn/cCNewGF9LinHInYo+nwTR00Nv
- WLyBFlLFbbdVdjHRYsU46dEHN0pAqW0=
+ bh=zjs/EOvZ6oxfyVmQMJDl9MP6YHcslInDXyZxTB17y3o=;
+ b=WkYeJAKLl6j2HP0hKV07JppVgTa7tk8zoW0xhtmAKjbYSrEKViC0kvs23qvvAqS9ALWGSu
+ w62vyE0PqS5zISiwueBojlYd4JinDeDj7ZPtx8KG0wxGZjv9shQEExWJ4RyUUoqy3DbYFg
+ DVGp2biKU7odz6lW6fBneo2g2FGf1RY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-1mM9AtWqNo6UnxmnhRPzkA-1; Thu, 11 Mar 2021 09:48:31 -0500
-X-MC-Unique: 1mM9AtWqNo6UnxmnhRPzkA-1
+ us-mta-487-GJBqA3zSNhSh5EqNVLjnrw-1; Thu, 11 Mar 2021 09:48:33 -0500
+X-MC-Unique: GJBqA3zSNhSh5EqNVLjnrw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FE8F100C620;
- Thu, 11 Mar 2021 14:48:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9842107ACCA;
+ Thu, 11 Mar 2021 14:48:31 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70D955D9F2;
- Thu, 11 Mar 2021 14:48:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CECB85D9F2;
+ Thu, 11 Mar 2021 14:48:30 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/38] tests/qtest: add multi-queue test case to
- vhost-user-blk-test
-Date: Thu, 11 Mar 2021 15:47:41 +0100
-Message-Id: <20210311144811.313451-9-kwolf@redhat.com>
+Subject: [PULL 09/38] vhost-user-blk-test: test discard/write zeroes invalid
+ inputs
+Date: Thu, 11 Mar 2021 15:47:42 +0100
+Message-Id: <20210311144811.313451-10-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,140 +83,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
+Exercise input validation code paths in
+block/export/vhost-user-blk-server.c.
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210309094106.196911-4-stefanha@redhat.com>
+Message-Id: <20210309094106.196911-5-stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 81 +++++++++++++++++++++++++++++--
- 1 file changed, 76 insertions(+), 5 deletions(-)
+ tests/qtest/vhost-user-blk-test.c | 124 ++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
 
 diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index f0fb09893e..61beee52d3 100644
+index 61beee52d3..dc9d7a31ae 100644
 --- a/tests/qtest/vhost-user-blk-test.c
 +++ b/tests/qtest/vhost-user-blk-test.c
-@@ -563,6 +563,67 @@ static void pci_hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
+@@ -94,6 +94,124 @@ static uint64_t virtio_blk_request(QGuestAllocator *alloc, QVirtioDevice *d,
+     return addr;
  }
  
-+static void multiqueue(void *obj, void *data, QGuestAllocator *t_alloc)
++static void test_invalid_discard_write_zeroes(QVirtioDevice *dev,
++                                              QGuestAllocator *alloc,
++                                              QTestState *qts,
++                                              QVirtQueue *vq,
++                                              uint32_t type)
 +{
-+    QVirtioPCIDevice *pdev1 = obj;
-+    QVirtioDevice *dev1 = &pdev1->vdev;
-+    QVirtioPCIDevice *pdev8;
-+    QVirtioDevice *dev8;
-+    QTestState *qts = pdev1->pdev->bus->qts;
-+    uint64_t features;
-+    uint16_t num_queues;
++    QVirtioBlkReq req;
++    struct virtio_blk_discard_write_zeroes dwz_hdr;
++    struct virtio_blk_discard_write_zeroes dwz_hdr2[2];
++    uint64_t req_addr;
++    uint32_t free_head;
++    uint8_t status;
 +
-+    /*
-+     * The primary device has 1 queue and VIRTIO_BLK_F_MQ is not enabled. The
-+     * VIRTIO specification allows VIRTIO_BLK_F_MQ to be enabled when there is
-+     * only 1 virtqueue, but --device vhost-user-blk-pci doesn't do this (which
-+     * is also spec-compliant).
-+     */
-+    features = qvirtio_get_features(dev1);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ), ==, 0);
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI));
-+    qvirtio_set_features(dev1, features);
++    /* More than one dwz is not supported */
++    req.type = type;
++    req.data = (char *) dwz_hdr2;
++    dwz_hdr2[0].sector = 0;
++    dwz_hdr2[0].num_sectors = 1;
++    dwz_hdr2[0].flags = 0;
++    dwz_hdr2[1].sector = 1;
++    dwz_hdr2[1].num_sectors = 1;
++    dwz_hdr2[1].flags = 0;
 +
-+    /* Hotplug a secondary device with 8 queues */
-+    qtest_qmp_device_add(qts, "vhost-user-blk-pci", "drv1",
-+                         "{'addr': %s, 'chardev': 'char2', 'num-queues': 8}",
-+                         stringify(PCI_SLOT_HP) ".0");
++    virtio_blk_fix_dwz_hdr(dev, &dwz_hdr2[0]);
++    virtio_blk_fix_dwz_hdr(dev, &dwz_hdr2[1]);
 +
-+    pdev8 = virtio_pci_new(pdev1->pdev->bus,
-+                           &(QPCIAddress) {
-+                               .devfn = QPCI_DEVFN(PCI_SLOT_HP, 0)
-+                           });
-+    g_assert_nonnull(pdev8);
-+    g_assert_cmpint(pdev8->vdev.device_type, ==, VIRTIO_ID_BLOCK);
++    req_addr = virtio_blk_request(alloc, dev, &req, sizeof(dwz_hdr2));
 +
-+    qos_object_start_hw(&pdev8->obj);
++    free_head = qvirtqueue_add(qts, vq, req_addr, 16, false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16, sizeof(dwz_hdr2), false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16 + sizeof(dwz_hdr2), 1, true,
++                   false);
 +
-+    dev8 = &pdev8->vdev;
-+    features = qvirtio_get_features(dev8);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ),
-+                    ==,
-+                    (1u << VIRTIO_BLK_F_MQ));
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI) |
-+                            (1u << VIRTIO_BLK_F_MQ));
-+    qvirtio_set_features(dev8, features);
++    qvirtqueue_kick(qts, dev, vq, free_head);
 +
-+    num_queues = qvirtio_config_readw(dev8,
-+            offsetof(struct virtio_blk_config, num_queues));
-+    g_assert_cmpint(num_queues, ==, 8);
++    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
++                           QVIRTIO_BLK_TIMEOUT_US);
++    status = readb(req_addr + 16 + sizeof(dwz_hdr2));
++    g_assert_cmpint(status, ==, VIRTIO_BLK_S_UNSUPP);
 +
-+    qvirtio_pci_device_disable(pdev8);
-+    qos_object_destroy(&pdev8->obj);
++    guest_free(alloc, req_addr);
 +
-+    /* unplug secondary disk */
-+    qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
++    /* num_sectors must be less than config->max_write_zeroes_sectors */
++    req.type = type;
++    req.data = (char *) &dwz_hdr;
++    dwz_hdr.sector = 0;
++    dwz_hdr.num_sectors = 0xffffffff;
++    dwz_hdr.flags = 0;
++
++    virtio_blk_fix_dwz_hdr(dev, &dwz_hdr);
++
++    req_addr = virtio_blk_request(alloc, dev, &req, sizeof(dwz_hdr));
++
++    free_head = qvirtqueue_add(qts, vq, req_addr, 16, false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16, sizeof(dwz_hdr), false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16 + sizeof(dwz_hdr), 1, true,
++                   false);
++
++    qvirtqueue_kick(qts, dev, vq, free_head);
++
++    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
++                           QVIRTIO_BLK_TIMEOUT_US);
++    status = readb(req_addr + 16 + sizeof(dwz_hdr));
++    g_assert_cmpint(status, ==, VIRTIO_BLK_S_IOERR);
++
++    guest_free(alloc, req_addr);
++
++    /* sector must be less than the device capacity */
++    req.type = type;
++    req.data = (char *) &dwz_hdr;
++    dwz_hdr.sector = TEST_IMAGE_SIZE / 512 + 1;
++    dwz_hdr.num_sectors = 1;
++    dwz_hdr.flags = 0;
++
++    virtio_blk_fix_dwz_hdr(dev, &dwz_hdr);
++
++    req_addr = virtio_blk_request(alloc, dev, &req, sizeof(dwz_hdr));
++
++    free_head = qvirtqueue_add(qts, vq, req_addr, 16, false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16, sizeof(dwz_hdr), false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16 + sizeof(dwz_hdr), 1, true,
++                   false);
++
++    qvirtqueue_kick(qts, dev, vq, free_head);
++
++    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
++                           QVIRTIO_BLK_TIMEOUT_US);
++    status = readb(req_addr + 16 + sizeof(dwz_hdr));
++    g_assert_cmpint(status, ==, VIRTIO_BLK_S_IOERR);
++
++    guest_free(alloc, req_addr);
++
++    /* reserved flag bits must be zero */
++    req.type = type;
++    req.data = (char *) &dwz_hdr;
++    dwz_hdr.sector = 0;
++    dwz_hdr.num_sectors = 1;
++    dwz_hdr.flags = ~VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP;
++
++    virtio_blk_fix_dwz_hdr(dev, &dwz_hdr);
++
++    req_addr = virtio_blk_request(alloc, dev, &req, sizeof(dwz_hdr));
++
++    free_head = qvirtqueue_add(qts, vq, req_addr, 16, false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16, sizeof(dwz_hdr), false, true);
++    qvirtqueue_add(qts, vq, req_addr + 16 + sizeof(dwz_hdr), 1, true,
++                   false);
++
++    qvirtqueue_kick(qts, dev, vq, free_head);
++
++    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
++                           QVIRTIO_BLK_TIMEOUT_US);
++    status = readb(req_addr + 16 + sizeof(dwz_hdr));
++    g_assert_cmpint(status, ==, VIRTIO_BLK_S_UNSUPP);
++
++    guest_free(alloc, req_addr);
 +}
 +
- /*
-  * Check that setting the vring addr on a non-existent virtqueue does
-  * not crash.
-@@ -682,7 +743,8 @@ static void quit_storage_daemon(void *data)
-     g_free(data);
- }
- 
--static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
-+static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
-+                                 int num_queues)
+ /* Returns the request virtqueue so the caller can perform further tests */
+ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
  {
-     const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-     int i;
-@@ -707,8 +769,8 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
-         g_string_append_printf(storage_daemon_command,
-             "--blockdev driver=file,node-name=disk%d,filename=%s "
-             "--export type=vhost-user-blk,id=disk%d,addr.type=unix,addr.path=%s,"
--            "node-name=disk%i,writable=on ",
--            i, img_path, i, sock_path, i);
-+            "node-name=disk%i,writable=on,num-queues=%d ",
-+            i, img_path, i, sock_path, i, num_queues);
+@@ -235,6 +353,9 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+         g_free(data);
  
-         g_string_append_printf(cmd_line, "-chardev socket,id=char%d,path=%s ",
-                                i + 1, sock_path);
-@@ -742,7 +804,7 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances)
- 
- static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- {
--    start_vhost_user_blk(cmd_line, 1);
-+    start_vhost_user_blk(cmd_line, 1, 1);
-     return arg;
- }
- 
-@@ -756,7 +818,13 @@ static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- static void *vhost_user_blk_hotplug_test_setup(GString *cmd_line, void *arg)
- {
-     /* "-chardev socket,id=char2" is used for pci_hotplug*/
--    start_vhost_user_blk(cmd_line, 2);
-+    start_vhost_user_blk(cmd_line, 2, 1);
-+    return arg;
-+}
+         guest_free(alloc, req_addr);
 +
-+static void *vhost_user_blk_multiqueue_test_setup(GString *cmd_line, void *arg)
-+{
-+    start_vhost_user_blk(cmd_line, 2, 8);
-     return arg;
- }
++        test_invalid_discard_write_zeroes(dev, alloc, qts, vq,
++                                          VIRTIO_BLK_T_WRITE_ZEROES);
+     }
  
-@@ -783,6 +851,9 @@ static void register_vhost_user_blk_test(void)
+     if (features & (1u << VIRTIO_BLK_F_DISCARD)) {
+@@ -263,6 +384,9 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+         g_assert_cmpint(status, ==, 0);
  
-     opts.before = vhost_user_blk_hotplug_test_setup;
-     qos_add_test("hotplug", "vhost-user-blk-pci", pci_hotplug, &opts);
+         guest_free(alloc, req_addr);
 +
-+    opts.before = vhost_user_blk_multiqueue_test_setup;
-+    qos_add_test("multiqueue", "vhost-user-blk-pci", multiqueue, &opts);
- }
++        test_invalid_discard_write_zeroes(dev, alloc, qts, vq,
++                                          VIRTIO_BLK_T_DISCARD);
+     }
  
- libqos_init(register_vhost_user_blk_test);
+     if (features & (1u << VIRTIO_F_ANY_LAYOUT)) {
 -- 
 2.29.2
 
