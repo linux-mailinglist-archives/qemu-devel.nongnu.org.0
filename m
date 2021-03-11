@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F07336944
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:53:32 +0100 (CET)
-Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FE333699C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 02:26:42 +0100 (CET)
+Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9Zz-0002KR-F3
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:53:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
+	id 1lKA64-0008P8-Uu
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 20:26:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lK9Yk-0001sJ-6M
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:52:14 -0500
-Resent-Date: Wed, 10 Mar 2021 19:52:14 -0500
-Resent-Message-Id: <E1lK9Yk-0001sJ-6M@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21359)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lKA4O-0007YV-D6
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 20:24:56 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lK9Yh-0005YF-H3
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:52:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615423923; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YBpnMT/sPm8zTOcnRWgniUvSksrYKsCYvax8lAmnqQVgXbSx2d+g5d18kmUekdxfjvTkeuGGqU7mp/sM1lA/vjkQeta6XqxwRYqEkZCQ2tZzSXQWik45lVtSEQNdvYeAQZ8Umw56VWXcsmq+UQfCjRtxgzO0TdslFH9VmCw5lBE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615423923;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=T33cZigErL6pn1KY3LUNRMXkJkSB4SLQlIc1+5vpIR4=; 
- b=BRo+HjinqvV7UZwMT7ZCHMW68znQn56a2D/fJY7kn2uTvqgKvMdNgmlpuKez5vZjRTuQYc0iYQNHjALosrBcyI8XYt4XqfPdg1rgqujb+y+fGYUzzC6OpExIaVatngFiRX+LadhjiYEr49h5VW0/MdtyJe/Zj3GnspzoyR6HD8w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615423920438636.0886600012556;
- Wed, 10 Mar 2021 16:52:00 -0800 (PST)
-In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/26] tcg: Workaround macOS 11.2 mprotect bug
-Message-ID: <161542391831.3874.180599776411839950@f3770d8ad632>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lKA4K-0002aT-PS
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 20:24:56 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Dwrm96Fjvz17JSx;
+ Thu, 11 Mar 2021 09:22:49 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 11 Mar 2021 09:24:31 +0800
+Subject: Re: [PATCH] vfio: Support host translation granule size
+To: Alex Williamson <alex.williamson@redhat.com>, Kunkun Jiang
+ <jiangkunkun@huawei.com>
+References: <20210304133446.1521-1-jiangkunkun@huawei.com>
+ <20210309161713.1cc8ad2f@omen.home.shazbot.org>
+ <40a933ef-25bb-d4e2-2284-639e446ee8bc@huawei.com>
+ <20210310132446.26a621f9@omen.home.shazbot.org>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <381428a7-2e6b-0464-16fc-23b48f9e9924@huawei.com>
+Date: Thu, 11 Mar 2021 09:24:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Wed, 10 Mar 2021 16:52:00 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210310132446.26a621f9@omen.home.shazbot.org>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,187 +63,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: r.bolshakov@yadro.com, qemu-devel@nongnu.org, j@getutm.app
+Cc: Liu Yi L <yi.l.liu@intel.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ shameerali.kolothum.thodi@huawei.com, Eric Auger <eric.auger@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxMTAwMjE1Ni4yNTM3
-MTEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTEw
-MDIxNTYuMjUzNzExLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggMDAvMjZdIHRjZzogV29ya2Fyb3VuZCBtYWNPUyAxMS4yIG1wcm90ZWN0IGJ1ZwoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxMTAwMjE1Ni4y
-NTM3MTEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTAzMTEw
-MDIxNTYuMjUzNzExLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBh
-IG5ldyBicmFuY2ggJ3Rlc3QnCjYyNzA0NDQgdGNnOiBXaGVuIGFsbG9jYXRpbmcgZm9yICFzcGxp
-dHd4LCBiZWdpbiB3aXRoIFBST1RfTk9ORQoyMGRkNTU0IHRjZzogTWVyZ2UgYnVmZmVyIHByb3Rl
-Y3Rpb24gYW5kIGd1YXJkIHBhZ2UgcHJvdGVjdGlvbgo5OTY0MTdiIHV0aWwvb3NkZXA6IEFkZCBx
-ZW11X21wcm90ZWN0X3J3CmYzOTBmZDEgdGNnOiBEbyBub3Qgc2V0IGd1YXJkIHBhZ2VzIGluIHRo
-ZSByeCBidWZmZXIKY2VjNTExOSB0Y2c6IFNpbmsgcWVtdV9tYWR2aXNlIGNhbGwgdG8gY29tbW9u
-IGNvZGUKZWY4ZmE0MiB0Y2c6IFJldHVybiB0aGUgbWFwIHByb3RlY3Rpb24gZnJvbSBhbGxvY19j
-b2RlX2dlbl9idWZmZXIKM2M5Y2Y0ZSB0Y2c6IEFsbG9jYXRlIGNvZGVfZ2VuX2J1ZmZlciBpbnRv
-IHN0cnVjdCB0Y2dfcmVnaW9uX3N0YXRlCjFkNzFlZDIgdGNnOiBUaWR5IHNwbGl0X2Nyb3NzXzI1
-Nm1iCmYyODhhM2EgdGNnOiBUaWR5IHRjZ19uX3JlZ2lvbnMKYWY1Zjk3MyB0Y2c6IFJlcGxhY2Ug
-cmVnaW9uLmVuZCB3aXRoIHJlZ2lvbi50b3RhbF9zaXplCjQzNmU3ZGQgdGNnOiBNb3ZlIE1BWF9D
-T0RFX0dFTl9CVUZGRVJfU0laRSB0byB0Y2ctdGFyZ2V0LmgKOWQ5YTNhOCB0Y2c6IEludHJvZHVj
-ZSB0Y2dfbWF4X2N0eHMKYzkwN2Y0MSBhY2NlbC90Y2c6IFBhc3MgZG93biBtYXhfY3B1cyB0byB0
-Y2dfaW5pdApjYWRjYzVkIGFjY2VsL3RjZzogTWVyZ2UgdGNnX2V4ZWNfaW5pdCBpbnRvIHRjZ19p
-bml0X21hY2hpbmUKMzliOGRjYyB0Y2c6IENyZWF0ZSB0Y2dfaW5pdApmMTk0NDcyIGFjY2VsL3Rj
-ZzogUmVuYW1lIHRjZ19pbml0IHRvIHRjZ19pbml0X21hY2hpbmUKNzUyYzAwMyBhY2NlbC90Y2c6
-IE1vdmUgYWxsb2NfY29kZV9nZW5fYnVmZmVyIHRvIHRjZy9yZWdpb24uYwo4OGU4OGVkIGFjY2Vs
-L3RjZzogSW5saW5lIGNwdV9nZW5faW5pdAo2OGMwMjBhIHRjZzogU3BsaXQgb3V0IHJlZ2lvbi5j
-CmYyNDY4ZjMgdGNnOiBTcGxpdCBvdXQgdGNnX3JlZ2lvbl9wcm9sb2d1ZV9zZXQKOTI2MGEyYiB0
-Y2c6IFNwbGl0IG91dCB0Y2dfcmVnaW9uX2luaXRpYWxfYWxsb2MKZDM4ODVmMSB0Y2c6IFJlbW92
-ZSBlcnJvciByZXR1cm4gZnJvbSB0Y2dfcmVnaW9uX2luaXRpYWxfYWxsb2NfX2xvY2tlZAozOTkw
-NWNjIHRjZzogUmUtb3JkZXIgdGNnX3JlZ2lvbl9pbml0IHZzIHRjZ19wcm9sb2d1ZV9pbml0CjU2
-YTRlMTEgbWVzb246IFNwbGl0IG91dCBmcHUvbWVzb24uYnVpbGQKYmM1OTdhMiBtZXNvbjogTW92
-ZSBkaXNhcy90Y2kuYyB0byBkaXNhcy9tZXNvbi5idWlsZAo5MGU1MTk4IG1lc29uOiBTcGxpdCBv
-dXQgdGNnL21lc29uLmJ1aWxkCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI2IENoZWNraW5nIGNv
-bW1pdCA5MGU1MTk4NGVjMWUgKG1lc29uOiBTcGxpdCBvdXQgdGNnL21lc29uLmJ1aWxkKQpVc2Ug
-b2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5nIGVxIGF0
-IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQsIG1vdmVk
-IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDM6
-IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzNSBs
-aW5lcyBjaGVja2VkCgpQYXRjaCAxLzI2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvMjYg
-Q2hlY2tpbmcgY29tbWl0IGJjNTk3YTIyNWVjMCAobWVzb246IE1vdmUgZGlzYXMvdGNpLmMgdG8g
-ZGlzYXMvbWVzb24uYnVpbGQpCjMvMjYgQ2hlY2tpbmcgY29tbWl0IDU2YTRlMTE2ZDNlZCAobWVz
-b246IFNwbGl0IG91dCBmcHUvbWVzb24uYnVpbGQpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVl
-ICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
-b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
-Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMv
-MjYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNC8yNiBDaGVja2luZyBjb21taXQgMzk5MDVj
-YzllMTE4ICh0Y2c6IFJlLW9yZGVyIHRjZ19yZWdpb25faW5pdCB2cyB0Y2dfcHJvbG9ndWVfaW5p
-dCkKNS8yNiBDaGVja2luZyBjb21taXQgZDM4ODVmMTdmNzY5ICh0Y2c6IFJlbW92ZSBlcnJvciBy
-ZXR1cm4gZnJvbSB0Y2dfcmVnaW9uX2luaXRpYWxfYWxsb2NfX2xvY2tlZCkKNi8yNiBDaGVja2lu
-ZyBjb21taXQgOTI2MGEyYmU2OWY0ICh0Y2c6IFNwbGl0IG91dCB0Y2dfcmVnaW9uX2luaXRpYWxf
-YWxsb2MpCjcvMjYgQ2hlY2tpbmcgY29tbWl0IGYyNDY4ZjMxZmI4ZSAodGNnOiBTcGxpdCBvdXQg
-dGNnX3JlZ2lvbl9wcm9sb2d1ZV9zZXQpCjgvMjYgQ2hlY2tpbmcgY29tbWl0IDY4YzAyMGE4Yzky
-OSAodGNnOiBTcGxpdCBvdXQgcmVnaW9uLmMpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRh
-Y3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-bGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
-b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDExODkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8y
-NiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzI2IENoZWNraW5nIGNvbW1pdCA4OGU4OGVk
-MjY1ODcgKGFjY2VsL3RjZzogSW5saW5lIGNwdV9nZW5faW5pdCkKMTAvMjYgQ2hlY2tpbmcgY29t
-bWl0IDc1MmMwMDM1ZDA2NSAoYWNjZWwvdGNnOiBNb3ZlIGFsbG9jX2NvZGVfZ2VuX2J1ZmZlciB0
-byB0Y2cvcmVnaW9uLmMpCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyog
-b24gYSBzZXBhcmF0ZSBsaW5lCiM0OTk6IEZJTEU6IHRjZy9yZWdpb24uYzo0MTE6CisvKiBNaW5p
-bXVtIHNpemUgb2YgdGhlIGNvZGUgZ2VuIGJ1ZmZlci4gIFRoaXMgbnVtYmVyIGlzIHJhbmRvbWx5
-IGNob3NlbiwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
-ZXMKIzUwMDogRklMRTogdGNnL3JlZ2lvbi5jOjQxMjoKKy8qIE1pbmltdW0gc2l6ZSBvZiB0aGUg
-Y29kZSBnZW4gYnVmZmVyLiAgVGhpcyBudW1iZXIgaXMgcmFuZG9tbHkgY2hvc2VuLAorICAgYnV0
-IG5vdCBzbyBzbWFsbCB0aGF0IHdlIGNhbid0IGhhdmUgYSBmYWlyIG51bWJlciBvZiBUQidzIGxp
-dmUuICAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBz
-ZXBhcmF0ZSBsaW5lCiM1MDA6IEZJTEU6IHRjZy9yZWdpb24uYzo0MTI6CisgICBidXQgbm90IHNv
-IHNtYWxsIHRoYXQgd2UgY2FuJ3QgaGF2ZSBhIGZhaXIgbnVtYmVyIG9mIFRCJ3MgbGl2ZS4gICov
-CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUg
-bGluZQojNTAzOiBGSUxFOiB0Y2cvcmVnaW9uLmM6NDE1OgorLyogTWF4aW11bSBzaXplIG9mIHRo
-ZSBjb2RlIGdlbiBidWZmZXIgd2UnZCBsaWtlIHRvIHVzZS4gIFVubGVzcyBvdGhlcndpc2UKCldB
-Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzUwNDogRklM
-RTogdGNnL3JlZ2lvbi5jOjQxNjoKKy8qIE1heGltdW0gc2l6ZSBvZiB0aGUgY29kZSBnZW4gYnVm
-ZmVyIHdlJ2QgbGlrZSB0byB1c2UuICBVbmxlc3Mgb3RoZXJ3aXNlCisgICBpbmRpY2F0ZWQsIHRo
-aXMgaXMgY29uc3RyYWluZWQgYnkgdGhlIHJhbmdlIG9mIGRpcmVjdCBicmFuY2hlcyBvbiB0aGUK
-CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUg
-bGluZQojNTA1OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NDE3OgorICAgaG9zdCBjcHUsIGFzIHVzZWQg
-YnkgdGhlIFRDRyBpbXBsZW1lbnRhdGlvbiBvZiBnb3RvX3RiLiAgKi8KCldBUk5JTkc6IGFyY2hp
-dGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM1MDY6IEZJTEU6IHRj
-Zy9yZWdpb24uYzo0MTg6CisjaWYgZGVmaW5lZChfX3g4Nl82NF9fKQoKV0FSTklORzogQmxvY2sg
-Y29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzUyMDogRklMRTog
-dGNnL3JlZ2lvbi5jOjQzMjoKKyAgLyogV2UgaGF2ZSBhIDI1Nk1CIGJyYW5jaCByZWdpb24sIGJ1
-dCBsZWF2ZSByb29tIHRvIG1ha2Ugc3VyZSB0aGUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
-ZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzUyMTogRklMRTogdGNnL3JlZ2lvbi5jOjQzMzoKKyAg
-LyogV2UgaGF2ZSBhIDI1Nk1CIGJyYW5jaCByZWdpb24sIGJ1dCBsZWF2ZSByb29tIHRvIG1ha2Ug
-c3VyZSB0aGUKKyAgICAgbWFpbiBleGVjdXRhYmxlIGlzIGFsc28gd2l0aGluIHRoYXQgcmVnaW9u
-LiAgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2Vw
-YXJhdGUgbGluZQojNTIxOiBGSUxFOiB0Y2cvcmVnaW9uLmM6NDMzOgorICAgICBtYWluIGV4ZWN1
-dGFibGUgaXMgYWxzbyB3aXRoaW4gdGhhdCByZWdpb24uICAqLwoKV0FSTklORzogYXJjaGl0ZWN0
-dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzU3OTogRklMRTogdGNnL3Jl
-Z2lvbi5jOjQ5MToKKyNpZmRlZiBfX21pcHNfXwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
-IGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzU4MDogRklMRTogdGNnL3JlZ2lvbi5j
-OjQ5MjoKKy8qIEluIG9yZGVyIHRvIHVzZSBKIGFuZCBKQUwgd2l0aGluIHRoZSBjb2RlX2dlbl9i
-dWZmZXIsIHdlIHJlcXVpcmUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNl
-cXVlbnQgbGluZXMKIzU4MTogRklMRTogdGNnL3JlZ2lvbi5jOjQ5MzoKKy8qIEluIG9yZGVyIHRv
-IHVzZSBKIGFuZCBKQUwgd2l0aGluIHRoZSBjb2RlX2dlbl9idWZmZXIsIHdlIHJlcXVpcmUKKyAg
-IHRoYXQgdGhlIGJ1ZmZlciBub3QgY3Jvc3MgYSAyNTZNQiBib3VuZGFyeS4gICovCgpXQVJOSU5H
-OiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzU4
-MTogRklMRTogdGNnL3JlZ2lvbi5jOjQ5MzoKKyAgIHRoYXQgdGhlIGJ1ZmZlciBub3QgY3Jvc3Mg
-YSAyNTZNQiBib3VuZGFyeS4gICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFk
-aW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNTg3OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NDk5Ogor
-LyogV2Ugd2VyZW4ndCBhYmxlIHRvIGFsbG9jYXRlIGEgYnVmZmVyIHdpdGhvdXQgY3Jvc3Npbmcg
-dGhhdCBib3VuZGFyeSwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVl
-bnQgbGluZXMKIzU4ODogRklMRTogdGNnL3JlZ2lvbi5jOjUwMDoKKy8qIFdlIHdlcmVuJ3QgYWJs
-ZSB0byBhbGxvY2F0ZSBhIGJ1ZmZlciB3aXRob3V0IGNyb3NzaW5nIHRoYXQgYm91bmRhcnksCisg
-ICBzbyBtYWtlIGRvIHdpdGggdGhlIGxhcmdlciBwb3J0aW9uIG9mIHRoZSBidWZmZXIgdGhhdCBk
-b2Vzbid0IGNyb3NzLgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8g
-b24gYSBzZXBhcmF0ZSBsaW5lCiM1ODk6IEZJTEU6IHRjZy9yZWdpb24uYzo1MDE6CisgICBSZXR1
-cm5zIHRoZSBuZXcgYmFzZSBvZiB0aGUgYnVmZmVyLCBhbmQgYWRqdXN0cyBjb2RlX2dlbl9idWZm
-ZXJfc2l6ZS4gICovCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91
-bGQgYmUgYXZvaWRlZAojNjM0OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NTQ2OgorI2lmZGVmIF9fbWlw
-c19fCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZv
-aWRlZAojNjg2OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NTk4OgorI2lmZGVmIF9fbWlwc19fCgpXQVJO
-SU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNzM2
-OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NjQ4OgorI2lmZGVmIF9fbWlwc19fCgpXQVJOSU5HOiBhcmNo
-aXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNzUzOiBGSUxFOiB0
-Y2cvcmVnaW9uLmM6NjY1OgorI2lmZGVmIF9fbWlwc19fCgpFUlJPUjogZXh0ZXJucyBzaG91bGQg
-YmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojNzk1OiBGSUxFOiB0Y2cvcmVnaW9uLmM6NzA3OgorZXh0
-ZXJuIGtlcm5fcmV0dXJuX3QgbWFjaF92bV9yZW1hcCh2bV9tYXBfdCB0YXJnZXRfdGFzaywKCnRv
-dGFsOiAxIGVycm9ycywgMjEgd2FybmluZ3MsIDg5NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8y
-NiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTEvMjYgQ2hlY2tpbmcgY29tbWl0IGYxOTQ0
-NzJlNDIwMiAoYWNjZWwvdGNnOiBSZW5hbWUgdGNnX2luaXQgdG8gdGNnX2luaXRfbWFjaGluZSkK
-MTIvMjYgQ2hlY2tpbmcgY29tbWl0IDM5YjhkY2MxMzg4OSAodGNnOiBDcmVhdGUgdGNnX2luaXQp
-CjEzLzI2IENoZWNraW5nIGNvbW1pdCBjYWRjYzVkM2E2OTkgKGFjY2VsL3RjZzogTWVyZ2UgdGNn
-X2V4ZWNfaW5pdCBpbnRvIHRjZ19pbml0X21hY2hpbmUpCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
-IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM1NjogRklMRTogYWNjZWwvdGNn
-L3RjZy1hbGwuYzoxMjE6CisgICAgLyogVGhlcmUncyBubyBndWVzdCBiYXNlIHRvIHRha2UgaW50
-byBhY2NvdW50LCBzbyBnbyBhaGVhZCBhbmQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAq
-IG9uIHN1YnNlcXVlbnQgbGluZXMKIzU3OiBGSUxFOiBhY2NlbC90Y2cvdGNnLWFsbC5jOjEyMjoK
-KyAgICAvKiBUaGVyZSdzIG5vIGd1ZXN0IGJhc2UgdG8gdGFrZSBpbnRvIGFjY291bnQsIHNvIGdv
-IGFoZWFkIGFuZAorICAgICAgIGluaXRpYWxpemUgdGhlIHByb2xvZ3VlIG5vdy4gICovCgpXQVJO
-SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
-IzU3OiBGSUxFOiBhY2NlbC90Y2cvdGNnLWFsbC5jOjEyMjoKKyAgICAgICBpbml0aWFsaXplIHRo
-ZSBwcm9sb2d1ZSBub3cuICAqLwoKdG90YWw6IDAgZXJyb3JzLCAzIHdhcm5pbmdzLCA4MSBsaW5l
-cyBjaGVja2VkCgpQYXRjaCAxMy8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
-ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
-dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNC8yNiBD
-aGVja2luZyBjb21taXQgYzkwN2Y0MThhYWQ5IChhY2NlbC90Y2c6IFBhc3MgZG93biBtYXhfY3B1
-cyB0byB0Y2dfaW5pdCkKMTUvMjYgQ2hlY2tpbmcgY29tbWl0IDlkOWEzYThhZTY1MiAodGNnOiBJ
-bnRyb2R1Y2UgdGNnX21heF9jdHhzKQoxNi8yNiBDaGVja2luZyBjb21taXQgNDM2ZTdkZDkzYTc1
-ICh0Y2c6IE1vdmUgTUFYX0NPREVfR0VOX0JVRkZFUl9TSVpFIHRvIHRjZy10YXJnZXQuaCkKMTcv
-MjYgQ2hlY2tpbmcgY29tbWl0IGFmNWY5NzNjMWMyYiAodGNnOiBSZXBsYWNlIHJlZ2lvbi5lbmQg
-d2l0aCByZWdpb24udG90YWxfc2l6ZSkKMTgvMjYgQ2hlY2tpbmcgY29tbWl0IGYyODhhM2E4Yjhi
-ZCAodGNnOiBUaWR5IHRjZ19uX3JlZ2lvbnMpCjE5LzI2IENoZWNraW5nIGNvbW1pdCAxZDcxZWQy
-MDI2NzEgKHRjZzogVGlkeSBzcGxpdF9jcm9zc18yNTZtYikKMjAvMjYgQ2hlY2tpbmcgY29tbWl0
-IDNjOWNmNGU3ZWYxMiAodGNnOiBBbGxvY2F0ZSBjb2RlX2dlbl9idWZmZXIgaW50byBzdHJ1Y3Qg
-dGNnX3JlZ2lvbl9zdGF0ZSkKMjEvMjYgQ2hlY2tpbmcgY29tbWl0IGVmOGZhNDI3MzIzOSAodGNn
-OiBSZXR1cm4gdGhlIG1hcCBwcm90ZWN0aW9uIGZyb20gYWxsb2NfY29kZV9nZW5fYnVmZmVyKQoy
-Mi8yNiBDaGVja2luZyBjb21taXQgY2VjNTExOTU3NTUzICh0Y2c6IFNpbmsgcWVtdV9tYWR2aXNl
-IGNhbGwgdG8gY29tbW9uIGNvZGUpCjIzLzI2IENoZWNraW5nIGNvbW1pdCBmMzkwZmQxODlkMGEg
-KHRjZzogRG8gbm90IHNldCBndWFyZCBwYWdlcyBpbiB0aGUgcnggYnVmZmVyKQoyNC8yNiBDaGVj
-a2luZyBjb21taXQgOTk2NDE3YjBlM2YyICh1dGlsL29zZGVwOiBBZGQgcWVtdV9tcHJvdGVjdF9y
-dykKMjUvMjYgQ2hlY2tpbmcgY29tbWl0IDIwZGQ1NTQ2YzkxNyAodGNnOiBNZXJnZSBidWZmZXIg
-cHJvdGVjdGlvbiBhbmQgZ3VhcmQgcGFnZSBwcm90ZWN0aW9uKQoyNi8yNiBDaGVja2luZyBjb21t
-aXQgNjI3MDQ0NGNjMTgwICh0Y2c6IFdoZW4gYWxsb2NhdGluZyBmb3IgIXNwbGl0d3gsIGJlZ2lu
-IHdpdGggUFJPVF9OT05FKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQg
-d2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
-dy5vcmcvbG9ncy8yMDIxMDMxMTAwMjE1Ni4yNTM3MTEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5h
-cm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
-dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
-c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi Alex,
+
+On 2021/3/11 4:24, Alex Williamson wrote:
+> On Wed, 10 Mar 2021 15:19:33 +0800
+> Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+> 
+>> Hi Alex,
+>>
+>> On 2021/3/10 7:17, Alex Williamson wrote:
+>>> On Thu, 4 Mar 2021 21:34:46 +0800
+>>> Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+>>>  
+>>>> The cpu_physical_memory_set_dirty_lebitmap() can quickly deal with
+>>>> the dirty pages of memory by bitmap-traveling, regardless of whether
+>>>> the bitmap is aligned correctly or not.
+>>>>
+>>>> cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>>>> host page size. So it'd better to set bitmap_pgsize to host page size
+>>>> to support more translation granule sizes.
+>>>>
+>>>> Fixes: 87ea529c502 (vfio: Get migration capability flags for container)
+>>>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>>>> ---
+>>>>   hw/vfio/common.c | 44 ++++++++++++++++++++++----------------------
+>>>>   1 file changed, 22 insertions(+), 22 deletions(-)
+>>>>
+>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>>> index 6ff1daa763..69fb5083a4 100644
+>>>> --- a/hw/vfio/common.c
+>>>> +++ b/hw/vfio/common.c
+>>>> @@ -378,7 +378,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>>>   {
+>>>>       struct vfio_iommu_type1_dma_unmap *unmap;
+>>>>       struct vfio_bitmap *bitmap;
+>>>> -    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
+>>>> +    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size;
+>>>>       int ret;
+>>>>   
+>>>>       unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+>>>> @@ -390,12 +390,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>>>       bitmap = (struct vfio_bitmap *)&unmap->data;
+>>>>   
+>>>>       /*
+>>>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>>>> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
+>>>> -     * TARGET_PAGE_SIZE.
+>>>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>>>> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
+>>>> +     * to qemu_real_host_page_size.  
+>>>
+>>> I don't see that this change is well supported by the code,
+>>> cpu_physical_memory_set_dirty_lebitmap() seems to operate on  
+>> Yes, cpu_physical_memory_set_dirty_lebitmap() is finally to operate on
+>> TARGET_PAGE_SIZE. But actually it supports pages in bitmap of
+>> qemu_real_host_page_size to mark those dirty. It uses
+>> "hpratio = qemu_real_host_page_size / TARGET_PAGE_SIZE" to adapt to
+>> different translation granule size(e.g. 4K 2M 1G).
+> 
+> Thanks for the explanation, it becomes more clear but I'm still a
+> little confused.  It appears that
+> cpu_physical_memory_set_dirty_lebitmap() requires a bitmap in terms of
+> qemu_real_host_page_size which is translated to target pages using
+> hpratio.  It's not clear to me by the explanation here and in the
+> commit log that we're technically using the wrong page size reference
+> for this function.
+> 
+>>> TARGET_PAGE_SIZE, and the next three patch chunks take a detour through
+>>> memory listener code that seem unrelated to the change described in the
+>>> commit log.  This claims to fix something, what is actually broken?
+>>> Thanks,
+>>>
+>>> Alex  
+>> This patch 87ea529c502 (vfio: Get migration capability flags for container)
+>> is the start of the bug. The code of [1](marked below) restricts the host
+>> page size must be TARGET_PAGE_SIZE(e.g. 4K) to set
+>> container->dirty_pages_supported = true. It is inappropriate to limit the
+>> page size to TARGET_PAGE_SIZE.
+> 
+> Right, the noted code requires that vfio supports the target page size,
+> which for all practical purposes implies an hpratio = 1 currently.
+> That unnecessarily restricts migration support to cases where target and
+> host use the same page size, but this change allows migration in any
+> case where vfio dirty bitmap supports the host page size, which is
+> effectively any case where the device supports migration.  However, the
+> hpratio calculation requires that qemu_real_host_page_size is >=
+> TARGET_PAGE_SIZE, otherwise the value becomes zero and it appears we'd
+> only ever dirty the target zero page.  Is this configuration restricted
+> elsewhere, ex. 64K guest on 4K host?  Exchanging an unnecessary
+> restriction for allowing a buggy configuration isn't a good trade-off.
+> Thanks,
+FYI, The restriction that (qemu_real_host_page_size is >= TARGET_PAGE_SIZE) has already
+existed. As in the kvm_init(), we have an assert: assert(TARGET_PAGE_SIZE <= qemu_real_host_page_size);
+
+As I understand, the TARGET_PAGE_SIZE is an architecture specific value,
+and not affected by the page size of guest OS. For arm64, it is fixed to be
+12 bit(4K), while the qemu_real_host_page_size depends on host kernel configuration,
+it can be 4K, 16K or 64K.
+
+IIUC, the kernel vfio/iommu_type1 actually reports supported page_size of dirty log
+to be host_page_size, so if host use 16K or 64K, Qemu will refuse to support vfio migration.
+
+Thanks,
+Keqian
+
+
+
+> 
+> Alex
+> 
+>>>>        */
+>>>>   
+>>>> -    bitmap->pgsize = TARGET_PAGE_SIZE;
+>>>> +    bitmap->pgsize = qemu_real_host_page_size;
+>>>>       bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>>>>                      BITS_PER_BYTE;
+>>>>   
+>>>> @@ -674,16 +674,16 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>>>>           return;
+>>>>       }
+>>>>   
+>>>> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>>>> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+>>>> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
+>>>> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+>>>>           error_report("%s received unaligned region", __func__);
+>>>>           return;
+>>>>       }
+>>>>   
+>>>> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+>>>> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+>>>>       llend = int128_make64(section->offset_within_address_space);
+>>>>       llend = int128_add(llend, section->size);
+>>>> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+>>>> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+>>>>   
+>>>>       if (int128_ge(int128_make64(iova), llend)) {
+>>>>           return;
+>>>> @@ -892,8 +892,8 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>>>>           return;
+>>>>       }
+>>>>   
+>>>> -    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>>>> -                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+>>>> +    if (unlikely((section->offset_within_address_space & ~qemu_real_host_page_mask) !=
+>>>> +                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+>>>>           error_report("%s received unaligned region", __func__);
+>>>>           return;
+>>>>       }
+>>>> @@ -921,10 +921,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>>>>            */
+>>>>       }
+>>>>   
+>>>> -    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+>>>> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+>>>>       llend = int128_make64(section->offset_within_address_space);
+>>>>       llend = int128_add(llend, section->size);
+>>>> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+>>>> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+>>>>   
+>>>>       if (int128_ge(int128_make64(iova), llend)) {
+>>>>           return;
+>>>> @@ -1004,13 +1004,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>>>       range->size = size;
+>>>>   
+>>>>       /*
+>>>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>>>> -     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
+>>>> -     * TARGET_PAGE_SIZE.
+>>>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>>>> +     * qemu_real_host_page_size to mark those dirty. Hence set bitmap's pgsize
+>>>> +     * to qemu_real_host_page_size.
+>>>>        */
+>>>> -    range->bitmap.pgsize = TARGET_PAGE_SIZE;
+>>>> +    range->bitmap.pgsize = qemu_real_host_page_size;
+>>>>   
+>>>> -    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
+>>>> +    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size;
+>>>>       range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>>>>                                            BITS_PER_BYTE;
+>>>>       range->bitmap.data = g_try_malloc0(range->bitmap.size);
+>>>> @@ -1114,7 +1114,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+>>>>                  section->offset_within_region;
+>>>>   
+>>>>       return vfio_get_dirty_bitmap(container,
+>>>> -                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
+>>>> +                       REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
+>>>>                          int128_get64(section->size), ram_addr);
+>>>>   }
+>>>>   
+>>>> @@ -1655,10 +1655,10 @@ static void vfio_get_iommu_info_migration(VFIOContainer *container,
+>>>>                               header);
+>>>>   
+>>>>       /*
+>>>> -     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+>>>> -     * TARGET_PAGE_SIZE to mark those dirty.
+>>>> +     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>>>> +     * qemu_real_host_page_size to mark those dirty.
+>>>>        */
+>>>> -    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
+>>>> +    if (cap_mig->pgsize_bitmap & qemu_real_host_page_size) {  
+>> [1]
+>>>>           container->dirty_pages_supported = true;
+>>>>           container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
+>>>>           container->dirty_pgsizes = cap_mig->pgsize_bitmap;  
+>>> .  
+>>
+>>
+> 
+> .
+> 
 
