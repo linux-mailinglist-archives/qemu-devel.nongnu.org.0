@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8EF337942
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:25:19 +0100 (CET)
-Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3C433792C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:22:08 +0100 (CET)
+Received: from localhost ([::1]:44974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKO7i-0004GH-4l
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:25:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
+	id 1lKO4d-0000Sg-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:22:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lKNoy-0005Pk-7z
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:05:57 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:40612
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lKNos-0006IC-Un
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:05:55 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6F90FDA129E;
- Thu, 11 Mar 2021 17:05:46 +0100 (CET)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210311143958.562625-1-richard.henderson@linaro.org>
- <20210311143958.562625-2-richard.henderson@linaro.org>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v5 01/57] tcg/tci: Remove ifdefs for
- TCG_TARGET_HAS_ext32[us]_i64
-Message-ID: <0c44bb82-c3e1-4a6c-813a-e02d756971f1@weilnetz.de>
-Date: Thu, 11 Mar 2021 17:05:54 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKO23-0006cs-U1
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:19:27 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKO21-0003D3-MQ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:19:27 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lKO1y-000093-Ov
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 16:19:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BAFC72E815C
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 16:19:22 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210311143958.562625-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 11 Mar 2021 16:06:03 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1523811@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: assert fuzzer usb
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: cwmyung janitor joveler philmd th-huth
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <20151208084519.14688.79647.malonedeb@wampee.canonical.com>
+Message-Id: <161547876390.15716.14691335899346302911.malone@gac.canonical.com>
+Subject: [Bug 1523811] Re: USB assert failure on dev-storage.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: 4d4fdce044cb14062fe658b32c48c9c45c3f2659
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,58 +72,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, f4bug@amsat.org
+Reply-To: Bug 1523811 <1523811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.03.21 um 15:39 schrieb Richard Henderson:
+Looking at commit 0659879e6e5 ("usb-storage: remove MSDState->residue")
+this assert seems a left-over, CSW residue should be irrelevant in CBW
+path...
+Gerd, can we simply remove it?
 
-> These operations are always available under different names:
-> INDEX_op_ext_i32_i64 and INDEX_op_extu_i32_i64, so we remove
-> no code with the ifdef.
+** Changed in: qemu
+       Status: Expired =3D> Confirmed
 
+-- =
 
-Is that really so? Depending on how the compiler implements the case=20
-statements, it either needs additional conditional statements (which=20
-require both code space and execution time) or larger jump tables=20
-(unless the table is filled anyway). Even if the compiler uses a binary=20
-search the time for searching will increase. Adding two more cases only=20
-has no effect on speed and memory if the compiler uses jump tables=20
-without holes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1523811
 
-Anyway, it would be good to get all these patches into master even if I=20
-have a different opinion on some details. Therefore
+Title:
+  USB assert failure on dev-storage.c
 
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  On executing the attached python script in the guest OS, QEMU dies
+  with assert failure:
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/tci.c | 4 ----
->   1 file changed, 4 deletions(-)
->
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index 3ccd30c39c..6a0bdf028b 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -774,17 +774,13 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUAr=
-chState *env,
->                   continue;
->               }
->               break;
-> -#if TCG_TARGET_HAS_ext32s_i64
->           case INDEX_op_ext32s_i64:
-> -#endif
->           case INDEX_op_ext_i32_i64:
->               t0 =3D *tb_ptr++;
->               t1 =3D tci_read_r(regs, &tb_ptr);
->               tci_write_reg(regs, t0, (int32_t)t1);
->               break;
-> -#if TCG_TARGET_HAS_ext32u_i64
->           case INDEX_op_ext32u_i64:
-> -#endif
->           case INDEX_op_extu_i32_i64:
->               t0 =3D *tb_ptr++;
->               t1 =3D tci_read_r(regs, &tb_ptr);
+  [run python script in guest root shell]
+  # python a.py
 
+  [host message]
+  qemu-system-x86_64: hw/usb/dev-storage.c:445: usb_msd_handle_data: Assert=
+ion `le32_to_cpu(s->csw.residue) =3D=3D 0' failed.
+  Aborted (core dumped)
+
+  When I detach the kernel driver and send CBW and reattach it again, witho=
+ut conforming to the command/data/status protocol, QEMU dies.
+  I think this is due to misimplementation of Command/Data/Status protocol =
+in Bulk-only transfer.
+  This kind of assert failure can be misused by malwares to avoid being ana=
+lyzed by terminating only in the virtual environments and still execute the=
+ malicious code in real machines.
+  Before running python script, make sure to change a.py that it should poi=
+nts to usb mass storage's vid and pid.
+
+  QEMU was running on these environment :
+  [CPU model]    Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
+  [qemu version] QEMU 2.5.0-rc2 (compiled from source, gcc 4.8.4)
+  [host info]    Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
+  [guest info]   Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
+  [QEMU argument]
+  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2.5 \
+  =C2=A0-m 512 \
+  =C2=A0--usbdevice disk:format=3Dqcow2:../usb.img.5 \
+  =C2=A0--enable-kvm
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1523811/+subscriptions
 
