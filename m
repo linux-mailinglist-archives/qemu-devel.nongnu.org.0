@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49354337D29
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:06:05 +0100 (CET)
-Received: from localhost ([::1]:50540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A23337D86
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:19:56 +0100 (CET)
+Received: from localhost ([::1]:36594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQdI-0008VN-9I
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34574)
+	id 1lKQqg-0000Li-St
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:19:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKQTK-0000sD-9X
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53708)
+ id 1lKQTL-0000vU-Kc
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKQTI-0001zF-BP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:46 -0500
+ id 1lKQTJ-00020a-Gr
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lKQTG-0000qO-EM
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:42 +0000
+ id 1lKQTI-0000kj-Ef
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 69DD32E8157
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6DA8D2E8157
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Mar 2021 18:46:14 -0000
-From: Peter Maydell <1917082@bugs.launchpad.net>
+Date: Thu, 11 Mar 2021 18:49:04 -0000
+From: Peter Maydell <1914696@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public Security
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pmaydell zhijianli88
+X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161436793911.24762.6802305911122378058.malonedeb@gac.canonical.com>
-Message-Id: <161548837470.15474.16115522892274643605.launchpad@gac.canonical.com>
-Subject: [Bug 1917082] Re: [OSS-Fuzz] Issue 27574 e1000: Loopback-related
- stack-overflow
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
+Message-Id: <161548854501.18320.6135760142013636264.malone@soybean.canonical.com>
+Subject: [Bug 1914696] Re: aarch64: migration failed: Segmentation fault (core
+ dumped)
+X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: 8e79cdc320f50f6e2dcb67a1eeb6e8ded8f1446c
+X-Launchpad-Hash: baa6da0c3838534c3be104cb42defbdfd22e1390
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,182 +71,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917082 <1917082@bugs.launchpad.net>
+Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: fuzzer
+Fix now in master: commit af903caed9fc62cc6
+
+
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917082
+devel-ml, which is subscribed to the bug report.
+https://bugs.launchpad.net/bugs/1914696
 
 Title:
-  [OSS-Fuzz] Issue 27574 e1000: Loopback-related stack-overflow
+  aarch64: migration failed: Segmentation fault (core dumped)
 
 Status in QEMU:
-  New
+  Fix Committed
 
 Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
-  512M -M q35 -nodefaults -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
-0 \
-  -qtest /dev/null -qtest stdio
-  outl 0xcf8 0x80000813
-  outl 0xcfc 0xfe
-  outl 0xcf8 0x80000803
-  outw 0xcfc 0x0600
-  write 0xfe000102 0x1 0x0a
-  writel 0xfe000020 0x420ff00
-  write 0xfe00280a 0x2 0x0828
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  write 0xfe00281b 0x1 0x08
-  write 0xf9b 0x1 0x01
-  write 0x2170 0x1 0x14
-  write 0x2171 0x1 0x38
-  write 0x2173 0x1 0xfe
-  write 0xfe000402 0x1 0x02
-  write 0xfe00380a 0x2 0x0210
-  write 0xfe003818 0x1 0xfa
-  EOF
+  reproduce:
 
-  =3D=3D=3D Stack-trace =3D=3D=3D
-  =3D=3D288216=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-ff51c96f48 (pc 0x56247061af36 bp 0x7fff51c97790 sp 0x7fff51c96f50 T0)
-  #0 0x56247061af36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
-emu-system-i386+0x2baff36)
-  #1 0x5624718eb70d in flatview_read_continue /home/alxndr/Development/qemu=
-/build/../softmmu/physmem.c:2846:13
-  #2 0x5624718ecd1b in flatview_read /home/alxndr/Development/qemu/build/..=
-/softmmu/physmem.c:2879:12
-  #3 0x5624718ecd1b in address_space_read_full /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2892:18
-  #4 0x562470bcb75b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:88:12
-  #5 0x562470bcb75b in dma_memory_rw /home/alxndr/Development/qemu/include/=
-sysemu/dma.h:127:12
-  #6 0x562470bcb75b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
-pci/pci.h:803:12
-  #7 0x562470bcb75b in pci_dma_read /home/alxndr/Development/qemu/include/h=
-w/pci/pci.h:821:12
-  #8 0x562470bcb75b in e1000_receive_iov /home/alxndr/Development/qemu/buil=
-d/../hw/net/e1000.c:954:9
-  #9 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/..=
-/hw/net/e1000.c:1025:12
-  #10 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  #11 0x562470bc7dd8 in xmit_seg /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c
-  #12 0x562470bc4dfe in process_tx_desc /home/alxndr/Development/qemu/build=
-/../hw/net/e1000.c:701:9
-  #13 0x562470bc4dfe in start_xmit /home/alxndr/Development/qemu/build/../h=
-w/net/e1000.c:756:9
-  #14 0x562470bc4dfe in set_tctl /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c:1127:5
-  #15 0x5624719ef2f6 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:491:5
-  #16 0x5624719eed63 in access_with_adjusted_size /home/alxndr/Development/=
-qemu/build/../softmmu/memory.c:552:18
-  #17 0x5624719ee5c0 in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c
-  #18 0x5624718f7776 in flatview_write_continue /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2776:23
-  #19 0x5624718ed13b in flatview_write /home/alxndr/Development/qemu/build/=
-../softmmu/physmem.c:2816:14
-  #20 0x5624718ed13b in address_space_write /home/alxndr/Development/qemu/b=
-uild/../softmmu/physmem.c:2908:18
-  #21 0x562470bcba6b in dma_memory_rw_relaxed /home/alxndr/Development/qemu=
-/include/sysemu/dma.h:88:12
-  #22 0x562470bcba6b in dma_memory_rw /home/alxndr/Development/qemu/include=
-/sysemu/dma.h:127:12
-  #23 0x562470bcba6b in pci_dma_rw /home/alxndr/Development/qemu/include/hw=
-/pci/pci.h:803:12
-  #24 0x562470bcba6b in pci_dma_write /home/alxndr/Development/qemu/include=
-/hw/pci/pci.h:839:12
-  #25 0x562470bcba6b in e1000_receive_iov /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:967:21
-  #26 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/.=
-./hw/net/e1000.c:1025:12
-  #27 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  ...
+  arch: aarch64
+  source qemu: v4.2.0
+  destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+
+  cmdline:
+  source: =
+
+  $ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -ma=
+chine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024=
+      -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor st=
+dio
+  (qemu) =
+
+  (qemu) migrate -d tcp:10.19.241.167:888
+  (qemu) info status
+  VM status: paused (postmigrate)
+
+  destination: =
+
+  ./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -mach=
+ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
+    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdi=
+o -incoming tcp:0:888
+  QEMU 5.2.50 monitor - type 'help' for more information
+  (qemu) Segmentation fault (core dumped)
+
+  =
+
+  i have bisected and confirmed that the first bad commit is: [f9506e162c33=
+e87b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
+
+  bisect log:
+  git bisect log
+  # bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking b=
+ranch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
+  git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+  # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.=
+2.0 release
+  git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
+  # bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ib=
+ex UART to use the registerfields API
+  git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
+  # bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA sup=
+port for AST2600
+  git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
+  # good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking =
+branch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
+  git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
+  # bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking b=
+ranch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
+  git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
+  # good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_f=
+eature function for testing AA32HPD feature
+  git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
+  # good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a li=
+ttle more forgiving on the size test
+  git bisect good 002375895c10df40615fc615e2639f49e0c442fe
+  # good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate =
+TIME CSRs for privileged mode
+  git bisect good c695724868ce4049fd79c5a509880dbdf171e744
+  # good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_f=
+eature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
+  git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
+  # bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v=
+8.4-RCPC
+  git bisect bad a1229109dec4375259d3fff99f362405aab7917a
+  # bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats=
+ for some vfp 2 and 3-register insns
+  git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
+  # good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace AR=
+M_FEATURE_VFP4 with isar_feature_aa32_simdfmac
+  git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
+  # good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the v=
+fp decodetree calls next to the base isa
+  git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
+  # bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_=
+FEATURE_VFP*
+  git bisect bad f9506e162c33e87b609549157dd8431fcc732085
+  # good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replac=
+e ARM_FEATURE_VFP* tests for HWCAP
+  git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
+  # first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm=
+: Remove ARM_FEATURE_VFP*
+
+  =
+
+  the root cause is that, some feature bit is not consistent any more with =
+below changes in this commit:
+  diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+  index b29b0eddfc..05aa9711cd 100644
+  --- a/target/arm/cpu.h
+  +++ b/target/arm/cpu.h
+  @@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr)=
+ <=3D R_V7M_CSSELR_INDEX_MASK);
+    * mapping in linux-user/elfload.c:get_elf_hwcap().
+    */
+   enum arm_features {
+  -    ARM_FEATURE_VFP,
+       ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
+       ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
+       ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
+  @@ -1889,7 +1888,6 @@ enum arm_features {
+       ARM_FEATURE_V7,
+       ARM_FEATURE_THUMB2,
+       ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
+  -    ARM_FEATURE_VFP3,
+       ARM_FEATURE_NEON,
+       ARM_FEATURE_M, /* Microcontroller profile.  */
+       ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
+  @@ -1900,7 +1898,6 @@ enum arm_features {
+       ARM_FEATURE_V5,
+       ARM_FEATURE_STRONGARM,
+       ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
+  -    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
+       ARM_FEATURE_GENERIC_TIMER,
+       ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
+       ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917082/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914696/+subscriptions
 
