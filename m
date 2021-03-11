@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB18338035
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:23:48 +0100 (CET)
-Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41645338036
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:23:49 +0100 (CET)
+Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTid-0008PJ-FD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
+	id 1lKTie-0008PL-AH
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:23:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdh-0004JM-Cw
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:41 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:55263)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdi-0004KU-8E
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:42 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:46663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00049h-Tm
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:41 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTda-00049q-7b
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:42 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MKMIR-1l1Zbk3Bwl-00Lqta; Thu, 11 Mar 2021 23:18:31 +0100
+ id 1MoNMu-1m4Ywi0tWS-00okY5; Thu, 11 Mar 2021 23:18:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] target/m68k: don't set SSW ATC bit for physical bus errors
-Date: Thu, 11 Mar 2021 23:18:25 +0100
-Message-Id: <20210311221827.2595898-3-laurent@vivier.eu>
+Subject: [PULL 3/4] target/m68k: reformat m68k_features enum
+Date: Thu, 11 Mar 2021 23:18:26 +0100
+Message-Id: <20210311221827.2595898-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311221827.2595898-1-laurent@vivier.eu>
 References: <20210311221827.2595898-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aziqEioKNGz8LrR5YjW7FPKJaB65L1LkFeuDWZlEiJ+UFC40APB
- QE/I3qjaTCwId0jqi45vEGeD6to+dYV3lgJr5jyTJRI4ay9daFgVLIBCgjO4CfSiR3C94Ix
- BH3qMv8uFHwdZ7MkGfD8DFDdJaW0OsMEAjszt2b6xpPSJgqAfxwclGaeo1/cr7lN+8UToD6
- q7WCY0QP7wwUtxxA5AFPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+pfpjRs9zEA=:eVn7Z4cScjlgMNyEwmLXfb
- n6SirhHWSoVptHi5WxNiq5Y1xutT64gm8rfluGRFDsyMkN1/TAFAnZDsQu93NVG8zY++9i6R4
- KXu/TdQetqEgbfyIF1RP/HS0GXS7AaxGJz35DrTTDGEaY6dKGday1GKPhMExs92nHzMm1lBuE
- n2TvJVRkqTjeW3vK2IRBc/GUUifwX1JjGbW7HN3+v2/VQSyJFm4KbmRjeD1z0jt0SBD0VxFq8
- b3Rod1hO9Vux/kvufegOyXVoCKXWEPxfyBFGJfxgv2OWGLPIYSsbzUvhY0alcs2qCAyWHjB21
- WWk/Xg9QUNmO8LE/GmGNi4GZWdq44z0+3erYtDCkE8jp+WaPevLz0ZPjMiJZy/WS0Xa9NZjpE
- UkqbqEbNyCgJ70aEeKdRQ/b8h6ziSjzpNz6MDVV5Zfn39HTDHG3bAdaSJRcZjvtOcnj0fHM7f
- y2awSK2ZGg==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jJhmzEZMbApwm0FdxCVUj2ShjGahmvaTThpZVfciltqosyktFOJ
+ 1Lqijb9k5dqpzlaDXCdU9EK3sHFkUFHJNsxO9UvBALCcnJZVBci+S08gbg3/G69CORJQ4Tm
+ aoPw2BbmaH9fBMoOfmT/JfnDqa12j3yQYq/bZxsb5IyfgKFqT5jdnJxAPzI0xJc6gNFyl6D
+ 7udu6YBBnX/PdcZZruCMQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4xQ3q7aL+Ys=:2I1JS8rSrT5gyOaIxptZcP
+ g6IftZRbKdcV4eCHBu3hhg8eK1lKUC7vgOlQqYJ/CcY6B2KnBlAVBVENiRiS3EFosMGzQOEgF
+ /5mA0qJWEj2jOdZHbotAet/YsgWGwhh19l6Rpl6X83pre4BmNVQx7V8d3WLfnsHhE9E8fSCL/
+ zJ4dFr9rVAHwZBb/DMWmpOtK+lA6wMFpialo0whbfYApRLBs8swUWalWB260BHAOv/zcATeOL
+ tKDVuwKzR/u785axbaBTwJoM9G97z1/Q2Ddpbg6FqTevnZN+R64f3nHgicvskQSfpnfwWZYxb
+ lEabMsTz5wC61ZQTs+aMQoSwFOPHVhiQsLky5YJ+79HNdUkCG2nznOClMTsyj/6ZjxpJgNdbl
+ YMDRU3NlryCtRmeZIBRYBnE30ojkR/8hkishtfkVFjAzMAH5SmURvucSuUcSPnH0krTC8LSZy
+ OF1WsKwlHg==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,57 +62,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-If a NuBus slot doesn't contain a card, the Quadra hardware generates a physical
-bus error if the CPU attempts to access the slot address space. Both Linux and
-MacOS use a separate bus error handler during NuBus accesses in order to detect
-and recover when addressing empty slots.
-
-According to the MC68040 users manual the ATC bit of the SSW is used to
-distinguish between ATC faults and physical bus errors. MacOS specifically checks
-the stack frame generated by a NuBus error and panics if the SSW ATC bit is set.
-
-Update m68k_cpu_transaction_failed() so that the SSW ATC bit is not set if the
-memory API returns MEMTX_DECODE_ERROR which will be used to indicate that an
-access to an empty NuBus slot occurred.
+Move the feature comment from after the feature name to the preceding line to
+allow for longer feature names and descriptions without hitting the 80
+character line limit.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210308121155.2476-2-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210308121155.2476-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/op_helper.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ target/m68k/cpu.h | 66 +++++++++++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 22 deletions(-)
 
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 730cdf774445..5f981e5bf628 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -468,7 +468,17 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 7c3feeaf8a64..ce558e9b03e7 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -475,36 +475,58 @@ void do_m68k_semihosting(CPUM68KState *env, int nr);
+  */
  
-     if (m68k_feature(env, M68K_FEATURE_M68040)) {
-         env->mmu.mmusr = 0;
--        env->mmu.ssw |= M68K_ATC_040;
-+
-+        /*
-+         * According to the MC68040 users manual the ATC bit of the SSW is
-+         * used to distinguish between ATC faults and physical bus errors.
-+         * In the case of a bus error e.g. during nubus read from an empty
-+         * slot this bit should not be set
-+         */
-+        if (response != MEMTX_DECODE_ERROR) {
-+            env->mmu.ssw |= M68K_ATC_040;
-+        }
-+
-         /* FIXME: manage MMU table access error */
-         env->mmu.ssw &= ~M68K_TM_040;
-         if (env->sr & SR_S) { /* SUPERVISOR */
+ enum m68k_features {
+-    M68K_FEATURE_M68000,   /* Base m68k instruction set */
++    /* Base m68k instruction set */
++    M68K_FEATURE_M68000,
+     M68K_FEATURE_M68010,
+     M68K_FEATURE_M68020,
+     M68K_FEATURE_M68030,
+     M68K_FEATURE_M68040,
+     M68K_FEATURE_M68060,
+-    M68K_FEATURE_CF_ISA_A, /* Base Coldfire set Rev A. */
+-    M68K_FEATURE_CF_ISA_B, /* (ISA B or C). */
+-    M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
+-    M68K_FEATURE_BRAL, /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
++    /* Base Coldfire set Rev A. */
++    M68K_FEATURE_CF_ISA_A,
++    /* (ISA B or C). */
++    M68K_FEATURE_CF_ISA_B,
++    /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
++    M68K_FEATURE_CF_ISA_APLUSC,
++    /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
++    M68K_FEATURE_BRAL,
+     M68K_FEATURE_CF_FPU,
+     M68K_FEATURE_CF_MAC,
+     M68K_FEATURE_CF_EMAC,
+-    M68K_FEATURE_CF_EMAC_B,   /* Revision B EMAC (dual accumulate). */
+-    M68K_FEATURE_USP, /* User Stack Pointer. (680[012346]0, ISA A+, B or C).*/
+-    M68K_FEATURE_MSP, /* Master Stack Pointer. (680[234]0) */
+-    M68K_FEATURE_EXT_FULL,    /* 68020+ full extension word. */
+-    M68K_FEATURE_WORD_INDEX,  /* word sized address index registers. */
+-    M68K_FEATURE_SCALED_INDEX, /* scaled address index registers. */
+-    M68K_FEATURE_LONG_MULDIV, /* 32 bit mul/div. (680[2346]0, and CPU32) */
+-    M68K_FEATURE_QUAD_MULDIV, /* 64 bit mul/div. (680[2346]0, and CPU32) */
+-    M68K_FEATURE_BCCL,  /* Bcc with Long branches. (680[2346]0, and CPU32) */
+-    M68K_FEATURE_BITFIELD, /* BFxxx Bit field insns. (680[2346]0) */
+-    M68K_FEATURE_FPU,   /* fpu insn. (680[46]0) */
+-    M68K_FEATURE_CAS,   /* CAS/CAS2[WL] insns. (680[2346]0) */
+-    M68K_FEATURE_BKPT,  /* BKPT insn. (680[12346]0, and CPU32) */
+-    M68K_FEATURE_RTD,   /* RTD insn. (680[12346]0, and CPU32) */
+-    M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
+-    M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
+-    M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
++    /* Revision B EMAC (dual accumulate). */
++    M68K_FEATURE_CF_EMAC_B,
++    /* User Stack Pointer. (680[012346]0, ISA A+, B or C). */
++    M68K_FEATURE_USP,
++    /* Master Stack Pointer. (680[234]0) */
++    M68K_FEATURE_MSP,
++    /* 68020+ full extension word. */
++    M68K_FEATURE_EXT_FULL,
++    /* word sized address index registers. */
++    M68K_FEATURE_WORD_INDEX,
++    /* scaled address index registers. */
++    M68K_FEATURE_SCALED_INDEX,
++    /* 32 bit mul/div. (680[2346]0, and CPU32) */
++    M68K_FEATURE_LONG_MULDIV,
++    /* 64 bit mul/div. (680[2346]0, and CPU32) */
++    M68K_FEATURE_QUAD_MULDIV,
++    /* Bcc with Long branches. (680[2346]0, and CPU32) */
++    M68K_FEATURE_BCCL,
++    /* BFxxx Bit field insns. (680[2346]0) */
++    M68K_FEATURE_BITFIELD,
++    /* fpu insn. (680[46]0) */
++    M68K_FEATURE_FPU,
++    /* CAS/CAS2[WL] insns. (680[2346]0) */
++    M68K_FEATURE_CAS,
++    /* BKPT insn. (680[12346]0, and CPU32) */
++    M68K_FEATURE_BKPT,
++    /* RTD insn. (680[12346]0, and CPU32) */
++    M68K_FEATURE_RTD,
++    /* CHK2 insn. (680[2346]0, and CPU32) */
++    M68K_FEATURE_CHK2,
++    /* MOVEP insn. (680[01234]0, and CPU32) */
++    M68K_FEATURE_MOVEP,
++    /* MOVEC insn. (from 68010) */
++    M68K_FEATURE_MOVEC,
+ };
+ 
+ static inline int m68k_feature(CPUM68KState *env, int feature)
 -- 
 2.29.2
 
