@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8ED337D20
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:02:04 +0100 (CET)
-Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D9F337D23
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:02:10 +0100 (CET)
+Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQZP-0005ss-7i
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:02:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1lKQZV-0005zf-JU
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:02:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKQTA-0000UG-4J
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:36 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44025)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lKQVs-00048n-8M
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:58:24 -0500
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:34383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKQT0-0001pg-RU
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:35 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id e7so4397708edu.10
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:55:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lKQVq-0003XE-EK
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:58:24 -0500
+Received: by mail-qt1-x836.google.com with SMTP id c6so1947644qtc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=V4Y3RzYqbumd5LZEz9u72t0cfxuDn7uQjedkdu8KLrE=;
- b=fdM0lsfTYMry17dk9HSJu+2oQsCtMNXUV0LMQcCvSMP6BthIfr+5rLNF/MNV1LBs7J
- abJ5d+6Ayhsg0cUOJ9z3R9QMCFvH7EnWBNsGtbvtm4MqfBZ05hhzQFp8QRytOt9oxHy7
- HSu9MI79y/+TTKi90XG6M+H/CCV/ViYbYVEQtT/lCwZyAyu28FGZT5rSMWjcuD2a47FQ
- BJnOt9gdADfrQWmgfaADmKyuhP2+/6ozI97BgZN1JMmCllT+JG0nGzCp26S7UGFxT3xS
- S8fPSoLhIzNy+a42rJfr7CBm0G1qn2Jz+tmeFmVXo5uvN1QBURvoC2c9JT8ncDPN6pVo
- NOYQ==
+ :cc; bh=c6ge1U3DfXS7QFpowJsAl87wYaACjboeO+Y+QhWbSt4=;
+ b=fgjmdQ4PlfuwnwnYhOote8pC4Tv2X10qg+qC7rrTi18Vye2isCPyh2I9h+n+hkrTd8
+ /Fmf9S609awET+zkU3G8y4M2CGxiV6tduyO7Fwl9nqPrdEnh5O/B37UYWfJWlhnwpHTe
+ 2o6bX8xdofNo/NpGk+vzHf5NipLEjSTo1lsbDS47kdkw9mu1Zava7GJZh9ks5zkMEcSo
+ mePbk5nFUDAsJP2JmB2c+zr6pvpQcu2vngWaW1Of4dm3gem1nqUKYiFkBs5lAItIZ315
+ j3RhbB4XEnIZgzcuE/DlI/4PpW/LkgopBs7GrjZHLOxap6bV9Nsq9QKJ831IyZ6fZHQD
+ EJjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=V4Y3RzYqbumd5LZEz9u72t0cfxuDn7uQjedkdu8KLrE=;
- b=oXZ78AYfa0J/LpWvJQKIbYYIicXeviq/HFSBPjFY1z6K0IyweEcmgmv07XolSwJl/k
- QrdRMf0+937YFRxY3gsACMhduEW/fcYGKpyNFJnJ1gF+Uja858gTkLNUbCighXhByA60
- H+kVNsSHoU6vgRPPb7ePANaJPlNt35RMmr+1je02BP0BQftXtY2S8itROaLXBPXFftMX
- Yj29ZcK8SST/wrLf9ouEKlAqfFhHGNhFAlB8jYB+dGi/UHzM8OpbVSTpQzmpER+xZFvG
- vlEJvYHz4U7EjJwYJ+JUGG1KAsH2/9kNeSjqraW0Er7mv293z4Aq1qpCAOTJAitdX44I
- ek6A==
-X-Gm-Message-State: AOAM532/8krOiau8W6MBCCPf5uLqecV/1OlqcrELwwuEYvmQh769IwfO
- TnHKHNGVyNQ6zWol8JMrWmEuwbBgPu/f8sczcl+8KA==
-X-Google-Smtp-Source: ABdhPJyGIGO7WHn3YvzFc9rpkl5Fd2s+cQOXGUjbwq+TNEToYqfG4viadIZA7Rn5A2q8Wt5XM4EEKCcncnKnBBKW4Fw=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr9845006edt.251.1615488924887; 
- Thu, 11 Mar 2021 10:55:24 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=c6ge1U3DfXS7QFpowJsAl87wYaACjboeO+Y+QhWbSt4=;
+ b=SEdNOJjddtWrWIhc3KQ/1JVmi4HiBrIq9tq8SlXSxltQLldz1Mn6whQ0uneqbylsOt
+ xDt2cPCgfmus0kAgpKJh4Br2+q6HUZ5WzuS9by+anPVbjXSm1V/fXuswYFkTiwBhBwWt
+ tyouy7HOLr28UpT7HdqbZmUkJ5gjFzj+r0z01CjarPnq3UuRuHizINa5F5J5AOVYaKCX
+ GB/j0oc/cJJ53q1YuuR8B/Q9ly0jFcuINjFDMji2a/xQqWD2uwx1Dkj6Njm473gR9Sc+
+ VyMGQSsC24Fpt7szoccI3b9+5lrXqEqsf5mCURrzm8vLzd1lSn/x9Bem9RQd5LvNyC7R
+ WpBw==
+X-Gm-Message-State: AOAM5303fUnAuBRNXP7RQkFfR2jlHVFWQuCdGPGgyLBeWmFIjdEj6rC5
+ j400TlwNRmpgQtgzr6mokb3nwPp+hJF89tcbjgA=
+X-Google-Smtp-Source: ABdhPJyOzUYmTvvJSksVtUqlZDH1EIQzInTZNgpiQ31dfh9S10tEo51STU8Q4unb0s+rDESxPkrHWZG6d4mnzt2pd/Y=
+X-Received: by 2002:ac8:71d2:: with SMTP id i18mr8662226qtp.371.1615489100809; 
+ Thu, 11 Mar 2021 10:58:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20210310160002.11659-1-alex.bennee@linaro.org>
-In-Reply-To: <20210310160002.11659-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 18:55:06 +0000
-Message-ID: <CAFEAcA_kJsE5+-CmymRX075uO==WtcFHH_iyojiXF_7Ek_uVxA@mail.gmail.com>
-Subject: Re: [PULL v2 00/15] testing, docs, semihosting move and guest-loader
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+References: <20210311135539.10206-1-niteesh.gs@gmail.com>
+In-Reply-To: <20210311135539.10206-1-niteesh.gs@gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Thu, 11 Mar 2021 20:57:44 +0200
+Message-ID: <CAK4993ijE2p1UVVWF+C80oHX7U21AGjDjKe9wk-DVtkwiosJnQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] AVR GPIO Emulation and Arduino D13 LED
+To: G S Niteesh Babu <niteesh.gs@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000fe08da05bd475dc6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=mrolnik@gmail.com; helo=mail-qt1-x836.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,48 +74,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+--000000000000fe08da05bd475dc6
+Content-Type: text/plain; charset="UTF-8"
+
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+
+On Thu, Mar 11, 2021 at 3:55 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+wrote:
+
+> Hello,
 >
-> v2 drops the hexagon docker patches.
+> The following series of the patches add a basic AVR GPIO emulation
+> to QEMU. The AVR GPIO emulation patch was originally written by
+> Heecheol Yang and was posted on the mailing list around 5 months ago.
+> I am re-publishing the patch with some bug fixes along with my own
+> patch, Adding the D13 onboard LED.
 >
-> The following changes since commit a557b00469bca61a058fc1db4855503cac1c32=
-19:
+> G S Niteesh Babu (2):
+>   hw/gpio/avr_gpio.c: add tracing for read and writes
+>   avr/arduino: Add D13 LED
 >
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2021-03-09 21:31:18 +0000)
+> Heecheol Yang (1):
+>   hw/avr: Add limited support for avr gpio registers
 >
-> are available in the Git repository at:
+>  hw/avr/Kconfig             |   2 +
+>  hw/avr/arduino.c           |  15 ++++
+>  hw/avr/atmega.c            |   7 +-
+>  hw/avr/atmega.h            |   2 +
+>  hw/gpio/Kconfig            |   3 +
+>  hw/gpio/avr_gpio.c         | 148 +++++++++++++++++++++++++++++++++++++
+>  hw/gpio/meson.build        |   1 +
+>  hw/gpio/trace-events       |   6 ++
+>  include/hw/gpio/avr_gpio.h |  53 +++++++++++++
+>  9 files changed, 235 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/gpio/avr_gpio.c
+>  create mode 100644 include/hw/gpio/avr_gpio.h
 >
->   https://github.com/stsquad/qemu.git tags/pull-testing-docs-xen-updates-=
-100321-2
+> --
+> 2.17.1
 >
-> for you to fetch changes up to 8df9f0c3d7f53c5a123ebb873d1c22daec003c22:
->
->   semihosting: Move hw/semihosting/ -> semihosting/ (2021-03-10 15:34:12 =
-+0000)
->
-> ----------------------------------------------------------------
-> Testing, guest-loader and other misc tweaks
->
->   - add warning text to quickstart example
->   - add CFI tests to CI
->   - use --arch-only for docker pre-requisites
->   - fix .editorconfig for emacs
->   - add guest-loader for Xen-like hypervisor testing
->   - move generic-loader docs into manual proper
->   - move semihosting out of hw/
 >
 
+-- 
+Best Regards,
+Michael Rolnik
 
-Applied, thanks.
+--000000000000fe08da05bd475dc6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+<div dir=3D"ltr">Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@=
+gmail.com">mrolnik@gmail.com</a>&gt;</div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 11, 2021 at 3:55 PM G S Nit=
+eesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">H=
+ello,<br>
+<br>
+The following series of the patches add a basic AVR GPIO emulation<br>
+to QEMU. The AVR GPIO emulation patch was originally written by<br>
+Heecheol Yang and was posted on the mailing list around 5 months ago.<br>
+I am re-publishing the patch with some bug fixes along with my own<br>
+patch, Adding the D13 onboard LED.<br>
+<br>
+G S Niteesh Babu (2):<br>
+=C2=A0 hw/gpio/avr_gpio.c: add tracing for read and writes<br>
+=C2=A0 avr/arduino: Add D13 LED<br>
+<br>
+Heecheol Yang (1):<br>
+=C2=A0 hw/avr: Add limited support for avr gpio registers<br>
+<br>
+=C2=A0hw/avr/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ =C2=A02 +<br>
+=C2=A0hw/avr/arduino.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 15 +=
++++<br>
+=C2=A0hw/avr/atmega.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A07 +-<br>
+=C2=A0hw/avr/atmega.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 +<br>
+=C2=A0hw/gpio/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A03 +<br>
+=C2=A0hw/gpio/avr_gpio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 148 +++++++++++=
+++++++++++++++++++++++++++<br>
+=C2=A0hw/gpio/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0hw/gpio/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 ++<br>
+=C2=A0include/hw/gpio/avr_gpio.h |=C2=A0 53 +++++++++++++<br>
+=C2=A09 files changed, 235 insertions(+), 2 deletions(-)<br>
+=C2=A0create mode 100644 hw/gpio/avr_gpio.c<br>
+=C2=A0create mode 100644 include/hw/gpio/avr_gpio.h<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
 
--- PMM
+--000000000000fe08da05bd475dc6--
 
