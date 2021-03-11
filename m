@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB214337595
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:25:13 +0100 (CET)
-Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CE033757C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:24:02 +0100 (CET)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMFU-00055t-UW
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:25:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
+	id 1lKMEL-0002qO-2J
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMD0-0001UV-T7
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51073)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCy-0001TA-V6
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCu-0003fZ-Ov
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCu-0003fd-PS
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615472551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=59UYqawuM2kT8SX9wDj+2cOuVfeiUzcd6cnjTA70Qvk=;
- b=NpjyWrny+XlSm+LvYt9rXR1Q60ceFU4ZtrfxzhaQ5HeaLjuSuSfrY8c6d6jvhiBl4NevwA
- 72R4mAwzIHPYQZlP66DrbmCBbqQlhVNX5TTsozB+U3DELkcK9QSSV1WCQBtxcgqnZBnt6R
- SqggxgubiBroZ6P4zo0SYQrYCaE4RKw=
+ bh=yvuv+//bg3lavqtySYSTPCS/fs0OVB90YHQ16QmnxCs=;
+ b=FMI2e4OSsMJQJlmqS1RtEvGVXk5W4teysHavcbQrA0pHXvzW/t3FOh9dTVugduiRQaBO/u
+ p/BLRujPqFbYEFTcztM0b/PbINm+GLvZ/nr1LEEEbs0TtLJkckEgHYRMS8WG4J95cpuQ7J
+ VNBgWdZEORoTAoqAFdWuB1PYhPMCEos=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-Bj_5IL0_M4ei1eycWM1KKg-1; Thu, 11 Mar 2021 09:22:28 -0500
-X-MC-Unique: Bj_5IL0_M4ei1eycWM1KKg-1
+ us-mta-337-J32ff5gjPxam2eT8t9iKdg-1; Thu, 11 Mar 2021 09:22:30 -0500
+X-MC-Unique: J32ff5gjPxam2eT8t9iKdg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE2B418D6A39;
- Thu, 11 Mar 2021 14:22:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E596A100C660;
+ Thu, 11 Mar 2021 14:22:28 +0000 (UTC)
 Received: from thuth.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEB372BFF1;
- Thu, 11 Mar 2021 14:22:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84D9518AAB;
+ Thu, 11 Mar 2021 14:22:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 3/4] gitlab-ci.yml: Merge one of the coroutine jobs with the
- tcg-disabled job
-Date: Thu, 11 Mar 2021 15:22:10 +0100
-Message-Id: <20210311142211.1547864-4-thuth@redhat.com>
+Subject: [PATCH 4/4] gitlab-ci.yml: Merge check-crypto-old jobs into the
+ build-crypto-old jobs
+Date: Thu, 11 Mar 2021 15:22:11 +0100
+Message-Id: <20210311142211.1547864-5-thuth@redhat.com>
 In-Reply-To: <20210311142211.1547864-1-thuth@redhat.com>
 References: <20210311142211.1547864-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,56 +84,100 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our gitlab-ci got quite slow in the past weeks, due to the immense amount
-of jobs that we have, so we should try to reduce the number of jobs.
-Since we already have a job that builds without TCG, we can merge
-one of the "build-coroutine" jobs with it to get rid of at least one
-job.
+Both, the build-crypto-old and the check-crypto-old jobs finish reasonably
+fast, and the build artifacts are only used for the single corresponding
+check jobs, so there is no reason for doing the check step in a separate
+job here. Thus let's stop wasting artifacts space and job scheduler over-
+head by simply merging the test step into the build jobs.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ .gitlab-ci.yml | 45 ++++-----------------------------------------
+ 1 file changed, 4 insertions(+), 41 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a98f5674d6..45303cafdd 100644
+index 45303cafdd..0ada3dbb90 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -366,6 +366,8 @@ build-disabled:
- # Xen accelerator is not detected / selected. As result it build the
- # i386-softmmu and x86_64-softmmu with KVM being the single accelerator
- # available.
-+# Also use a different coroutine implementation (which is only really of
-+# interest to KVM users, i.e. with TCG disabled)
- build-tcg-disabled:
+@@ -585,7 +585,7 @@ build-coroutine-sigaltstack:
+ #
+ # These jobs test old gcrypt and nettle from RHEL7
+ # which had some API differences.
+-build-crypto-old-nettle:
++crypto-old-nettle:
    <<: *native_build_job_definition
    needs:
-@@ -375,7 +377,8 @@ build-tcg-disabled:
-   script:
-     - mkdir build
-     - cd build
--    - ../configure --disable-tcg --audio-drv-list="" || { cat config.log meson-logs/meson-log.txt && exit 1; }
-+    - ../configure --disable-tcg --audio-drv-list="" --with-coroutine=ucontext
-+      || { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - make -j"$JOBS"
-     - make check-unit
-     - make check-qapi-schema
-@@ -569,15 +572,6 @@ build-tci:
- 
- # Alternate coroutines implementations are only really of interest to KVM users
- # However we can't test against KVM on Gitlab-CI so we can only run unit tests
--build-coroutine-ucontext:
--  <<: *native_build_job_definition
--  needs:
--    job: amd64-ubuntu2004-container
--  variables:
--    IMAGE: ubuntu2004
--    CONFIGURE_ARGS: --with-coroutine=ucontext --disable-tcg
--    MAKE_CHECK_ARGS: check-unit
+     job: amd64-centos7-container
+@@ -593,22 +593,9 @@ build-crypto-old-nettle:
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
+     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+-    MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    paths:
+-      - build
 -
- build-coroutine-sigaltstack:
+-check-crypto-old-nettle:
+-  <<: *native_test_job_definition
+-  needs:
+-    - job: build-crypto-old-nettle
+-      artifacts: true
+-  variables:
+-    IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
+-
+-build-crypto-old-gcrypt:
++crypto-old-gcrypt:
    <<: *native_build_job_definition
    needs:
+     job: amd64-centos7-container
+@@ -616,22 +603,9 @@ build-crypto-old-gcrypt:
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
+     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+-    MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    paths:
+-      - build
+-
+-check-crypto-old-gcrypt:
+-  <<: *native_test_job_definition
+-  needs:
+-    - job: build-crypto-old-gcrypt
+-      artifacts: true
+-  variables:
+-    IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
+-
+-build-crypto-only-gnutls:
++crypto-only-gnutls:
+   <<: *native_build_job_definition
+   needs:
+     job: amd64-centos7-container
+@@ -639,20 +613,9 @@ build-crypto-only-gnutls:
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
+     CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
+-    MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    paths:
+-      - build
+-
+-check-crypto-only-gnutls:
+-  <<: *native_test_job_definition
+-  needs:
+-    - job: build-crypto-only-gnutls
+-      artifacts: true
+-  variables:
+-    IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
++
+ # We don't need to exercise every backend with every front-end
+ build-trace-multi-user:
+   <<: *native_build_job_definition
 -- 
 2.27.0
 
