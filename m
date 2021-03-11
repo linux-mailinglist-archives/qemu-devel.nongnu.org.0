@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A17233688D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:24:00 +0100 (CET)
-Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F493368A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:31:16 +0100 (CET)
+Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK97P-0006Nb-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:23:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54948)
+	id 1lK9ER-00082U-NK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:31:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95d-0004dc-4d
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:09 -0500
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:35427)
+ id 1lK95g-0004fa-Vb
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:12 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:41402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95a-0001Je-SO
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
-Received: by mail-oo1-xc2e.google.com with SMTP id
- c13-20020a4ab18d0000b02901b5b67cff5eso258647ooo.2
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:06 -0800 (PST)
+ id 1lK95c-0001Kf-7G
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:12 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id y131so18360497oia.8
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FmC8iYRkWhLwRAAr0jAUHUkiHiVReoHwdP1IZnbye6k=;
- b=ulaYSTPhoHVN8RqwVwZKpD5x5BO4+YAqM2Rme/dAT9N8sVdaIn4LPfxsfKF2uPGhmB
- UzXzOjGbGv+rR6/gGaaJmxbCwhIMBjHBCTqs1n/6P92gCdJP0HZk/dVLtT9V6dw5KAld
- 7WnNE41a2Q+5a+K2hiJ9Iy3LNg6ckJVeV7YXkz3o8PZus+vl3kYTS5ot3NraFFlTI2BC
- bMP/MVjBx8KRynJOV6oSWv2OVJwTsSZvirZ84rEAEeKLQmaqJ5uo1woMyZaVd1+UKPzA
- 5ehhw0v4qseXlBXjQD0By9Dv/DnsvFypubxyfaM7uaU1oKQnCSbBfu8NSA0BRGfbRGQT
- uPWw==
+ bh=36uzHkl7+IX2hopk8rVzdZIi+gPh2gDVUz4jl8wQF7M=;
+ b=ADhtVdMl0V6DD1DqDevtc0nxPpMyDW2sGCw6uNTSL1TGtLdwCJnJGtGmODOeN0ak1A
+ Z4ipYV2j+0tcLakD3RNm9eXgA0U2boKBbV9SWyQ4FGSSkWNUH7vTWb1yk3Pnkm0yrsJT
+ ChAsVfReenzKNx9I9MTyiX8KD8V37m6KYXPjeCEfAq/0nz9RgVhHxGhKctyEltTs2njg
+ 4xgilhP3u4qDbz5gBHQc386p32ELLxgkf6JgrPMbeJcZNf1qtjW/ZEraf7WeK8wbgnRw
+ qoYmhdjhTL1XZsaKkkJERRrYd4kMvqiPijqvVgMvHr2YILhqOQuZU74rV5708C6x89JE
+ rMgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FmC8iYRkWhLwRAAr0jAUHUkiHiVReoHwdP1IZnbye6k=;
- b=FFpZ+32fuz1/hI+Spb/64OirUAmebw25WsYDh5kn6O084u9yWqmGoIO5pBuCxBajVs
- Kbtlkf6XvOyO5EifMTU8/f474t9LYbUnnDRJFxFi3E9iXkF+14/ufvEYJyzUv489MAGl
- RNPp1Z/hWs6jhqoQO2qWxVMEqeJBtaZ+N8D6bjAbFGF/EilFzPEz6G0Ya9+T9XJRIwtU
- ngmtzPLfe8JBKzRzdjWFFPoqeIvRBxGwqixWsKNQivrwsP2shA12XuF3eUi1OrCgWfPw
- modAyJr3da9YCQTf+J9nPo5lwGlsvbhvRDhwyVDRLXQDolQHEMnrVW4MoFfeRhVDfVHW
- CNuQ==
-X-Gm-Message-State: AOAM531Gg1G7UfLa2tUTjRMUG0iYR6Tfaxznhj1gOzummTLthL4hJV+m
- CP/jCI6dCcjy65OPYR4vs9OQSnDhBxK4KjdS
-X-Google-Smtp-Source: ABdhPJy7YoZexAe9c700RHdqeqbxPZyB6CK0GW/NnCvLsgQ4ZeG6P0QnsC4m8Nq50mGjjsoONe5UhA==
-X-Received: by 2002:a4a:37c5:: with SMTP id r188mr4415049oor.77.1615422125868; 
- Wed, 10 Mar 2021 16:22:05 -0800 (PST)
+ bh=36uzHkl7+IX2hopk8rVzdZIi+gPh2gDVUz4jl8wQF7M=;
+ b=SnsuMb2TBQ8tXOqmj05GSqK61YqLv8UEVA9pSS0iWyWktJ6tBwGIkhQ268/pXWbMeN
+ 8vfXL9wdYAEsMNU7Mr+LsBMk11RYa1RosD5DVeVMMHPhxDbaWdJzgY4Nxb7LD+sxwwUN
+ C1lNDvB/9YZPyC1gDk/1pkxjoy+VdNMPDv3/JQuOC05w07ko034P28EGOJ0SmCdSEMG6
+ VS8hlsfNmVGFKScuiaTm4NqYU/mLJUlecziQ1URjl7gfUSkHTA/c7yf8mRH2izeqDeCm
+ m+iiRS7zPteKJXS+2DbVFmE0sFqof/5gLg663F8M8RDnQOrr/9seAgzjX0Iqr4hPWG10
+ DouQ==
+X-Gm-Message-State: AOAM530OrDxXwrxYRFkkWd+UiI7dxdjuFCm/NhZC+ffYaCctJFXSghlc
+ Hs0BM+ssMDBKf1JfvZJltcwgPfFivARMwioS
+X-Google-Smtp-Source: ABdhPJydrj8LiHE5jzK3y6V/r2c+96PpAwdKP8icu0DiCgSbqT81cVbBLJTNP7gUI6tvB4ubigUcNA==
+X-Received: by 2002:aca:4e55:: with SMTP id c82mr4263801oib.43.1615422126944; 
+ Wed, 10 Mar 2021 16:22:06 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.04
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:05 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/26] tcg: Remove error return from
- tcg_region_initial_alloc__locked
-Date: Wed, 10 Mar 2021 18:21:35 -0600
-Message-Id: <20210311002156.253711-6-richard.henderson@linaro.org>
+Subject: [PATCH 06/26] tcg: Split out tcg_region_initial_alloc
+Date: Wed, 10 Mar 2021 18:21:36 -0600
+Message-Id: <20210311002156.253711-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,73 +87,45 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers immediately assert on error, so move the assert
-into the function itself.
+This has only one user, and currently needs an ifdef,
+but will make more sense after some code motion.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ tcg/tcg.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 0a2e5710de..2b631fccdf 100644
+index 2b631fccdf..3316a22bde 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -720,9 +720,10 @@ static bool tcg_region_alloc(TCGContext *s)
-  * Perform a context's first region allocation.
-  * This function does _not_ increment region.agg_size_full.
-  */
--static inline bool tcg_region_initial_alloc__locked(TCGContext *s)
-+static void tcg_region_initial_alloc__locked(TCGContext *s)
- {
--    return tcg_region_alloc__locked(s);
-+    bool err = tcg_region_alloc__locked(s);
-+    g_assert(!err);
+@@ -726,6 +726,15 @@ static void tcg_region_initial_alloc__locked(TCGContext *s)
+     g_assert(!err);
  }
  
++#ifndef CONFIG_USER_ONLY
++static void tcg_region_initial_alloc(TCGContext *s)
++{
++    qemu_mutex_lock(&region.lock);
++    tcg_region_initial_alloc__locked(s);
++    qemu_mutex_unlock(&region.lock);
++}
++#endif
++
  /* Call from a safe-work context */
-@@ -737,9 +738,7 @@ void tcg_region_reset_all(void)
- 
-     for (i = 0; i < n_ctxs; i++) {
-         TCGContext *s = qatomic_read(&tcg_ctxs[i]);
--        bool err = tcg_region_initial_alloc__locked(s);
--
--        g_assert(!err);
-+        tcg_region_initial_alloc__locked(s);
+ void tcg_region_reset_all(void)
+ {
+@@ -957,9 +966,7 @@ void tcg_register_thread(void)
      }
-     qemu_mutex_unlock(&region.lock);
- 
-@@ -874,11 +873,7 @@ void tcg_region_init(void)
- 
-     /* In user-mode we support only one ctx, so do the initial allocation now */
- #ifdef CONFIG_USER_ONLY
--    {
--        bool err = tcg_region_initial_alloc__locked(tcg_ctx);
--
--        g_assert(!err);
--    }
-+    tcg_region_initial_alloc__locked(tcg_ctx);
- #endif
- }
- 
-@@ -940,7 +935,6 @@ void tcg_register_thread(void)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     TCGContext *s = g_malloc(sizeof(*s));
-     unsigned int i, n;
--    bool err;
- 
-     *s = tcg_init_ctx;
- 
-@@ -964,8 +958,7 @@ void tcg_register_thread(void)
  
      tcg_ctx = s;
-     qemu_mutex_lock(&region.lock);
--    err = tcg_region_initial_alloc__locked(tcg_ctx);
--    g_assert(!err);
-+    tcg_region_initial_alloc__locked(s);
-     qemu_mutex_unlock(&region.lock);
+-    qemu_mutex_lock(&region.lock);
+-    tcg_region_initial_alloc__locked(s);
+-    qemu_mutex_unlock(&region.lock);
++    tcg_region_initial_alloc(s);
  }
  #endif /* !CONFIG_USER_ONLY */
+ 
 -- 
 2.25.1
 
