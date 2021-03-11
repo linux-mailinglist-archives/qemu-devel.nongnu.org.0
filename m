@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263EB336A69
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 04:08:33 +0100 (CET)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE59336A78
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 04:13:53 +0100 (CET)
+Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKBge-0003Ul-4n
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 22:08:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
+	id 1lKBlo-0000AY-2C
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 22:13:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lKBdl-0001Sw-AV; Wed, 10 Mar 2021 22:05:33 -0500
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43090)
+ id 1lKBkP-0007vv-Rq
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:12:25 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lKBdi-0004nD-IW; Wed, 10 Mar 2021 22:05:33 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id u75so20154569ybi.10;
- Wed, 10 Mar 2021 19:05:28 -0800 (PST)
+ id 1lKBkN-0007jb-RF
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:12:25 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id b10so20226644ybn.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 19:12:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=1ptbtlIP36bOSFRDtZzIYVX/sw4w/I3HupOmWNFPq6Q=;
- b=Q8JS7utTsrKEAOXLwi5RlPDeIBGKI4LBzjZizXSx79G2YmzTA4+3gBHPNjxndTvNhJ
- FbrEADjNBJXBfTW5FglIyfU2a7rRYvPoI9V4L0t2fkSHzBDIgMcGumgKLm7Oje5G+0DH
- wmNFWIHHMjvwamnS0CZzOhi834mIFolycEl6ZqjB+j6kL7Rs7WiEADjkirUXTgqMu8DT
- QMX5qJge3YJzEP5OV8HRAyYVBTwe/Kw5nwzGYyrfxfU5A2UAumaJxjTUTH5rgex1lW0f
- R303BSmHYBhm6Qg7DIg9AzStJevc/IMKNAFxFYHmrU8pTbBf0P12rxMNDhDAzDKOgJNc
- kvmg==
+ bh=UpmFqUlcpPUxNYqZ/E+6okbuZOqTn6bIrb73hqxQzwM=;
+ b=ZZhXuhg3VLvWOQwF5vV9T5IW5wTaJ24Raaskw1wJeoDT2q8w8RojbrNeT06ACJATVx
+ VvLT+gWXkW/VrtsHkWMxZePisOTrMmGcALiytfr3LNdAUPS5hHjGrf1SnPTqSWb08iFN
+ XAWaOB2aSgHypVBqk8PUYFDmhI3A0wSjb6FkYDqCyE+c/w4eKplMZTS98dCjqolRbSgG
+ DO7Wfjw/2//0a0j0tvoPpHgT4RzMIL5XIvwR67SyJSWluhVxdyfrlIBe1t368XGOcK8l
+ geNSei4IjgPwhlS3G/kHsGloN4A/VDAzCcXmGaKcwy4PRLJcXDsi4yoUoL6P2PBL287B
+ yewg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=1ptbtlIP36bOSFRDtZzIYVX/sw4w/I3HupOmWNFPq6Q=;
- b=TNflqCKVDIJ5vTXtRXZq6TY8XqQu522QM2ZB5DQ1hlE7sbi2Rx2i8Lt6bzkxy3hvy8
- dejrrNd7SiTQWNCdjgX9C0b990tJI5fnTU8rkt/UOPmiCzyzW+w6J8dj3lsa8eGBk5PN
- P2LYiqCVO8xXnt2Z4e54o5kYIE8+rVFtZ3gQzt6FH4bJ95JCE8jKN5YoNFl93kg+CuKc
- WRcM+KyP1/pqEhCIjGJdI6IdYvI37btEuni9VjkJs/OtOOC/y2qYXoISsnZhNFXbUh33
- 5es7nDM74pMIgzXoU+OWmaAvr9B1jtwcTc0Ef5v07+RWQ4JfWoiWOOdI8hZrQ4EeapDn
- /2Ug==
-X-Gm-Message-State: AOAM533ggyKjt2pSLMpPYR063Eud6pssQHv6U1uQBHuqPrlNsccRH1en
- oskicjxHakdgyr23D5roZpl6tsiz2fFFGcqbQFA=
-X-Google-Smtp-Source: ABdhPJyGiVfJ5dig7hSMmnEEqUz34SX9wMAe4XiOVdcfIbmIphSGnvKg6sU3Uzy/Sfgr4zPNDOTGSE2EOFlNYu/QJg4=
-X-Received: by 2002:a25:d28b:: with SMTP id j133mr8107498ybg.517.1615431928185; 
- Wed, 10 Mar 2021 19:05:28 -0800 (PST)
+ bh=UpmFqUlcpPUxNYqZ/E+6okbuZOqTn6bIrb73hqxQzwM=;
+ b=CVWkxnDhCVObUqv2HFnIIdwNXRgDDjVQusFE7hctF6g+QFldIzU8ISNTHVTnW51C+P
+ /eW4+PXqenb8HEIcTngTIxKZ1Tkj7CHsUbhdGahfaSF3JjJbVS3s+dovn+bsaREyfIYZ
+ ST1t7Ed7O7dPbfT58kKsTt8GqQ6O0rVg2LMm9qPfAVs93nxS6myOOq85pA0fmxboRjK3
+ l242cLRngt+g7D2eHGpTqfsYGPTmF1uDzZqYIf3sToTN8NGqDmKeVRFPs9iwI93MA3zZ
+ qE2kubCMmGnD4vppCRKGNqqQNTILt1CxTw4fxmR9HuoL1MuEjG0OP6Gba/PUy58QyfUW
+ QP5Q==
+X-Gm-Message-State: AOAM532ld360iC2VAgNrGg+eGENtT4oeOG9RoWQQGfNNrzO0+xTLizEA
+ gLZ8eOAAv+xVTEpPoOfWs42c1oOy5RK4Qc5UoA4=
+X-Google-Smtp-Source: ABdhPJx+ARgwu5TORTB9FEjVy+eIfDjvpGq6LmexOn30DcoeAQAY3oJ7xfoJ9RFtHZ/4MWYAoyh5UwgQCsRq1ViAPhU=
+X-Received: by 2002:a25:d28b:: with SMTP id j133mr8134100ybg.517.1615432342763; 
+ Wed, 10 Mar 2021 19:12:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20210310170528.1184868-1-philmd@redhat.com>
- <20210310170528.1184868-13-philmd@redhat.com>
-In-Reply-To: <20210310170528.1184868-13-philmd@redhat.com>
+References: <20210303191205.1656980-1-philmd@redhat.com>
+ <20210303191205.1656980-3-philmd@redhat.com>
+ <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+ <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
+ <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
+ <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
+ <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
+ <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
+ <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
+ <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
+ <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
+In-Reply-To: <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 11 Mar 2021 11:05:15 +0800
-Message-ID: <CAEUhbmUHHkuSK6P8fgUYhAwzdE-+d_X-J=iQHunYY2qG4vmy8g@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] hw/block/pflash_cfi: Replace DPRINTF with trace
- events
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 11 Mar 2021 11:12:11 +0800
+Message-ID: <CAEUhbmWVpTN4CofUOCYkdFBvyBDQui-wkJtVjrj5Y+E7tDCWRw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,34 +89,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 1:43 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Thu, Mar 11, 2021 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> From: David Edmondson <david.edmondson@oracle.com>
 >
-> Rather than having a device specific debug implementation in
-> pflash_cfi01.c and pflash_cfi02.c, use the standard tracing facility.
+> On 2021/3/9 6:13 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
+> > On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >> Hi Jason,
+> >>
+> >> On Tue, Mar 9, 2021 at 5:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>> Hi Jason,
+> >>>
+> >>> On Tue, Mar 9, 2021 at 4:57 PM Jason Wang <jasowang@redhat.com> wrote=
+:
+> >>>>
+> >>>> On 2021/3/9 4:35 =E4=B8=8B=E5=8D=88, Bin Meng wrote:
+> >>>>> Hi Jason,
+> >>>>>
+> >>>>> On Tue, Mar 9, 2021 at 4:23 PM Jason Wang <jasowang@redhat.com> wro=
+te:
+> >>>>>> On 2021/3/8 6:22 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
+> >>>>>>> I think the key thing we need to do here is make a decision
+> >>>>>>> and be clear about what we're doing. There are three options
+> >>>>>>> I can see:
+> >>>>>>>
+> >>>>>>> (1) we say that the net API demands that backends pad
+> >>>>>>> packets they emit to the minimum ethernet frame length
+> >>>>>>> unless they specifically are intending to emit a short frame,
+> >>>>>>> and we fix any backends that don't comply (or equivalently,
+> >>>>>>> add support in the core code for a backend to mark itself
+> >>>>>>> as "I don't pad; please do it for me").
+> >>>>>>>
+> >>>>>>> (2) we say that the networking subsystem doesn't support
+> >>>>>>> short packets, and just have the common code always enforce
+> >>>>>>> padding short frames to the minimum length somewhere between
+> >>>>>>> when it receives a packet from a backend and passes it to
+> >>>>>>> a NIC model.
+> >>>>>>>
+> >>>>>>> (3) we say that it's the job of the NIC models to pad
+> >>>>>>> short frames as they see them coming in.
+> >>>>>> I'm not sure how much value we can gain from (1). So (2) looks bet=
+ter to me.
+> >>>>>>
+> >>>>>> Bin or Philippe, want to send a new version?
+> >>>>>>
+> >>>>> I think this series does what (2) asks for. Or am I missing anythin=
+g?
+> >>>>
+> >>>> It only did the padding for user/TAP.
+> >> (hit send too soon ...)
+> >>
+> >> Ah, so we want this:
+> >>
+> >> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
+> >>
+> >> correct?
+> > No, option (2) is "always pad short packets regardless of
+> > sender->info->type". Even if a NIC driver sends out a short
+> > packet, we want to pad it, because we might be feeding it to
+> > something that assumes it does not see short packets.
+> >
+> > thanks
+> > -- PMM
 >
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Message-Id: <20210216142721.1985543-2-david.edmondson@oracle.com>
-> [PMD: Rebased]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/block/pflash_cfi01.c | 81 +++++++++++++++++------------------------
->  hw/block/pflash_cfi02.c | 78 ++++++++++++++++-----------------------
->  hw/block/trace-events   | 41 ++++++++++++++++-----
->  3 files changed, 95 insertions(+), 105 deletions(-)
+>
+> So I'm not sure this is correct. There're NIC that has its own logic
+> that choose whether to pad the frame during TX (e.g e1000).
+
+Yes, that's why I mentioned in v2's cover letter that we should
+probably only do the padding for SLiRP and TAP. For NIC models, we can
+still support sending short frames in QEMU.
+
+>
+> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
+> keep the padding logic in the NIC itself (probably with a generic helper
+> in the core). Since 1) the padding is only required for ethernet 2)
+> virito-net doesn't need that (it can pass incomplete packet by design).
 >
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+I did read this discussion before working on this patch series.
+Providing a helper for NICs to call does NOT fix the issue for SLiRP
+and TAP.
+
+> Thanks
+>
+> [1]
+> https://patchwork.ozlabs.org/project/qemu-devel/patch/1284842625-13920-1-=
+git-send-email-stefanha@linux.vnet.ibm.com/
+>
+
+Regards,
+Bin
 
