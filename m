@@ -2,47 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D166F3374CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 14:58:33 +0100 (CET)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EB63374D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:00:08 +0100 (CET)
+Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKLpg-0003yl-IS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 08:58:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
+	id 1lKLrD-0006Dn-Mq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:00:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPG-00013a-Fc
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:14 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPB-0006ra-CR
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:14 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A435CAEFE;
- Thu, 11 Mar 2021 13:30:44 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKLPD-0000zL-SA
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKLP6-0006vU-PN
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615469463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SRj1l+bwCvP3CiMeCbwYqe6lUqNgI5BX7FjzvZu/5YI=;
+ b=Y1qiq1O929vHwbtBTCOHTmGfIA0DfRha9UbhmnGPfycFR0f+izhjxVs1vsRfgttYyiuwLh
+ 3ooARuZ0WIkuRGEynNHMZwQBEM2LK2RKCCMnIRyyk+9jGMFaVFkDahif0zf+ffs1DI10L9
+ oR2ov83IF4HB3KhQzIfTU/JF8c+7PJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-s0o96xxlM_SUIxcomigDjg-1; Thu, 11 Mar 2021 08:31:00 -0500
+X-MC-Unique: s0o96xxlM_SUIxcomigDjg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3AA783DD21;
+ Thu, 11 Mar 2021 13:30:58 +0000 (UTC)
+Received: from [10.36.115.26] (ovpn-115-26.ams2.redhat.com [10.36.115.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39CDA10016FC;
+ Thu, 11 Mar 2021 13:30:57 +0000 (UTC)
+Subject: Re: [PATCH] s390x/cpu_model: use official name for 8562
+To: Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v6 32/38] tests: restrict TCG-only arm-cpu-features tests to TCG
- builds
-Date: Thu, 11 Mar 2021 14:30:20 +0100
-Message-Id: <20210311133026.14052-33-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210311133026.14052-1-cfontana@suse.de>
-References: <20210311133026.14052-1-cfontana@suse.de>
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>
+References: <20210311132746.1777754-1-cohuck@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <64f83360-d079-3f76-8ca1-e4facb8795dd@redhat.com>
+Date: Thu, 11 Mar 2021 14:30:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210311132746.1777754-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,64 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sve_tests_sve_max_vq_8,
-sve_tests_sve_off,
-test_query_cpu_model_expansion
+On 11.03.21 14:27, Cornelia Huck wrote:
+> The single-frame z15 is called "z15 T02".
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>   target/s390x/cpu_models.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index dd474c5e9ad1..b59ed4135615 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -87,7 +87,7 @@ static S390CPUDef s390_cpu_defs[] = {
+>       CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
+>       CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
+>       CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
+> -    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
+> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
 
-all require TCG to run. Skip them for KVM-only builds.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- tests/qtest/arm-cpu-features.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 8252b85bb8..e793bffcaa 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -352,6 +352,11 @@ static void sve_tests_sve_max_vq_8(const void *data)
- {
-     QTestState *qts;
- 
-+#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_max_vq_8");
-+    return;
-+#endif /* CONFIG_TCG */
-+
-     qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
- 
-     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
-@@ -387,6 +392,11 @@ static void sve_tests_sve_off(const void *data)
- {
-     QTestState *qts;
- 
-+#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_off");
-+    return;
-+#endif /* CONFIG_TCG */
-+
-     qts = qtest_init(MACHINE "-cpu max,sve=off");
- 
-     /* SVE is off, so the map should be empty. */
-@@ -443,6 +453,11 @@ static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
- 
-+#ifndef CONFIG_TCG
-+    g_test_skip("TCG disabled, skipping tcg_only test_query_cpu_model_expansion");
-+    return;
-+#endif /* CONFIG_TCG */
-+
-     qts = qtest_init(MACHINE "-cpu max");
- 
-     /* Test common query-cpu-model-expansion input validation */
 -- 
-2.26.2
+Thanks,
+
+David / dhildenb
 
 
