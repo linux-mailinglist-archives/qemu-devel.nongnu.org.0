@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE59336A78
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 04:13:53 +0100 (CET)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DDE336AA1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 04:24:37 +0100 (CET)
+Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKBlo-0000AY-2C
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 22:13:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56076)
+	id 1lKBwB-0002tk-K7
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 22:24:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lKBkP-0007vv-Rq
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:12:25 -0500
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36065)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lKBkN-0007jb-RF
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:12:25 -0500
-Received: by mail-yb1-xb2a.google.com with SMTP id b10so20226644ybn.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 19:12:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UpmFqUlcpPUxNYqZ/E+6okbuZOqTn6bIrb73hqxQzwM=;
- b=ZZhXuhg3VLvWOQwF5vV9T5IW5wTaJ24Raaskw1wJeoDT2q8w8RojbrNeT06ACJATVx
- VvLT+gWXkW/VrtsHkWMxZePisOTrMmGcALiytfr3LNdAUPS5hHjGrf1SnPTqSWb08iFN
- XAWaOB2aSgHypVBqk8PUYFDmhI3A0wSjb6FkYDqCyE+c/w4eKplMZTS98dCjqolRbSgG
- DO7Wfjw/2//0a0j0tvoPpHgT4RzMIL5XIvwR67SyJSWluhVxdyfrlIBe1t368XGOcK8l
- geNSei4IjgPwhlS3G/kHsGloN4A/VDAzCcXmGaKcwy4PRLJcXDsi4yoUoL6P2PBL287B
- yewg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UpmFqUlcpPUxNYqZ/E+6okbuZOqTn6bIrb73hqxQzwM=;
- b=CVWkxnDhCVObUqv2HFnIIdwNXRgDDjVQusFE7hctF6g+QFldIzU8ISNTHVTnW51C+P
- /eW4+PXqenb8HEIcTngTIxKZ1Tkj7CHsUbhdGahfaSF3JjJbVS3s+dovn+bsaREyfIYZ
- ST1t7Ed7O7dPbfT58kKsTt8GqQ6O0rVg2LMm9qPfAVs93nxS6myOOq85pA0fmxboRjK3
- l242cLRngt+g7D2eHGpTqfsYGPTmF1uDzZqYIf3sToTN8NGqDmKeVRFPs9iwI93MA3zZ
- qE2kubCMmGnD4vppCRKGNqqQNTILt1CxTw4fxmR9HuoL1MuEjG0OP6Gba/PUy58QyfUW
- QP5Q==
-X-Gm-Message-State: AOAM532ld360iC2VAgNrGg+eGENtT4oeOG9RoWQQGfNNrzO0+xTLizEA
- gLZ8eOAAv+xVTEpPoOfWs42c1oOy5RK4Qc5UoA4=
-X-Google-Smtp-Source: ABdhPJx+ARgwu5TORTB9FEjVy+eIfDjvpGq6LmexOn30DcoeAQAY3oJ7xfoJ9RFtHZ/4MWYAoyh5UwgQCsRq1ViAPhU=
-X-Received: by 2002:a25:d28b:: with SMTP id j133mr8134100ybg.517.1615432342763; 
- Wed, 10 Mar 2021 19:12:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ivan@vmfacility.fr>)
+ id 1lKBua-0002Kl-AG; Wed, 10 Mar 2021 22:22:56 -0500
+Received: from db04.ivansoftware.com ([163.172.81.229]:51204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ivan@vmfacility.fr>)
+ id 1lKBuV-0003P2-Fe; Wed, 10 Mar 2021 22:22:55 -0500
+Received: from [IPv6:2a01:cb19:19d:dd00:64ef:c955:8a97:71f6] (unknown
+ [IPv6:2a01:cb19:19d:dd00:64ef:c955:8a97:71f6])
+ by db04.ivansoftware.com (Postfix) with ESMTPSA id 1133BBE3F67;
+ Thu, 11 Mar 2021 04:22:48 +0100 (CET)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at db04
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vmfacility.fr;
+ s=mail; t=1615432968;
+ bh=1RAbMiGFOyA9lkEjZm9ELe2ImU4sDKhIOgEwHBa+tQc=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=B+ig1+pbBDgGaw6MEDgIGfc2kyQsmjKC7idzMy41rfuXw192u2MaQe0+UEhZoz0gt
+ VKTqRri/s5titeSpRGcwSx4ui30jmpnMeE6aqsNVNtxmIU4BkxHUUsU904A0PFVVN2
+ iOuTcfVvZRKu1NMlVmusdyZrv4Fyk16BVeJNHgbNyRTDyFDPRs9z367FJ3M6su86vi
+ 2GsPr+9kseztrtGcryV4nNBzdKfqxuzZynAKhaM+mT5Sfdw/ww8My67hx+BbwM/3oo
+ JDhGicHl+6ThVl3iPcGcjrCNpqLJuaF9oMDqog+2MT/Iy1aVK1Yjtvo6x6PA7Ens0v
+ n6Nx/WjNImn0g==
+Subject: Re: [PULL 00/20] ppc-for-6.0 queue 20210310
+To: David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
+ <503c3c5e-3dd2-adba-2d2c-2e5f8618fc3a@vmfacility.fr>
+ <YEl2rC3TOetSiqh8@yekko.fritz.box>
+From: Ivan Warren <ivan@vmfacility.fr>
+Message-ID: <e6bee42f-661b-a5a6-bb45-0b93167fb227@vmfacility.fr>
+Date: Thu, 11 Mar 2021 04:22:44 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
- <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
- <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
- <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
- <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
- <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
- <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
-In-Reply-To: <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 11 Mar 2021 11:12:11 +0800
-Message-ID: <CAEUhbmWVpTN4CofUOCYkdFBvyBDQui-wkJtVjrj5Y+E7tDCWRw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+In-Reply-To: <YEl2rC3TOetSiqh8@yekko.fritz.box>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="------------ms020903000306040207060607"
+Received-SPF: pass client-ip=163.172.81.229; envelope-from=ivan@vmfacility.fr;
+ helo=db04.ivansoftware.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,103 +69,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/3/9 6:13 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
-> > On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >> Hi Jason,
-> >>
-> >> On Tue, Mar 9, 2021 at 5:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>> Hi Jason,
-> >>>
-> >>> On Tue, Mar 9, 2021 at 4:57 PM Jason Wang <jasowang@redhat.com> wrote=
-:
-> >>>>
-> >>>> On 2021/3/9 4:35 =E4=B8=8B=E5=8D=88, Bin Meng wrote:
-> >>>>> Hi Jason,
-> >>>>>
-> >>>>> On Tue, Mar 9, 2021 at 4:23 PM Jason Wang <jasowang@redhat.com> wro=
-te:
-> >>>>>> On 2021/3/8 6:22 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
-> >>>>>>> I think the key thing we need to do here is make a decision
-> >>>>>>> and be clear about what we're doing. There are three options
-> >>>>>>> I can see:
-> >>>>>>>
-> >>>>>>> (1) we say that the net API demands that backends pad
-> >>>>>>> packets they emit to the minimum ethernet frame length
-> >>>>>>> unless they specifically are intending to emit a short frame,
-> >>>>>>> and we fix any backends that don't comply (or equivalently,
-> >>>>>>> add support in the core code for a backend to mark itself
-> >>>>>>> as "I don't pad; please do it for me").
-> >>>>>>>
-> >>>>>>> (2) we say that the networking subsystem doesn't support
-> >>>>>>> short packets, and just have the common code always enforce
-> >>>>>>> padding short frames to the minimum length somewhere between
-> >>>>>>> when it receives a packet from a backend and passes it to
-> >>>>>>> a NIC model.
-> >>>>>>>
-> >>>>>>> (3) we say that it's the job of the NIC models to pad
-> >>>>>>> short frames as they see them coming in.
-> >>>>>> I'm not sure how much value we can gain from (1). So (2) looks bet=
-ter to me.
-> >>>>>>
-> >>>>>> Bin or Philippe, want to send a new version?
-> >>>>>>
-> >>>>> I think this series does what (2) asks for. Or am I missing anythin=
-g?
-> >>>>
-> >>>> It only did the padding for user/TAP.
-> >> (hit send too soon ...)
-> >>
-> >> Ah, so we want this:
-> >>
-> >> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
-> >>
-> >> correct?
-> > No, option (2) is "always pad short packets regardless of
-> > sender->info->type". Even if a NIC driver sends out a short
-> > packet, we want to pad it, because we might be feeding it to
-> > something that assumes it does not see short packets.
-> >
-> > thanks
-> > -- PMM
->
->
-> So I'm not sure this is correct. There're NIC that has its own logic
-> that choose whether to pad the frame during TX (e.g e1000).
+This is a cryptographically signed message in MIME format.
 
-Yes, that's why I mentioned in v2's cover letter that we should
-probably only do the padding for SLiRP and TAP. For NIC models, we can
-still support sending short frames in QEMU.
+--------------ms020903000306040207060607
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
->
-> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
-> keep the padding logic in the NIC itself (probably with a generic helper
-> in the core). Since 1) the padding is only required for ethernet 2)
-> virito-net doesn't need that (it can pass incomplete packet by design).
->
 
-I did read this discussion before working on this patch series.
-Providing a helper for NICs to call does NOT fix the issue for SLiRP
-and TAP.
-
-> Thanks
+On 3/11/2021 2:47 AM, David Gibson wrote:
 >
-> [1]
-> https://patchwork.ozlabs.org/project/qemu-devel/patch/1284842625-13920-1-=
-git-send-email-stefanha@linux.vnet.ibm.com/
->
+> Sorry, I've forgotten this issue.  If you had a patch, can you resend
+> it please.
 
-Regards,
-Bin
+Not mine.. (I reported it, but can't remember who sent it)...
+
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+
+index 2609e4082e..4a05e4e544 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2396,8 +2396,8 @@ static inline void=20
+cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+ =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 target_ulong *cs_base,=20
+uint32_t *flags)
+ =A0{
+ =A0=A0=A0=A0 *pc =3D env->nip;
+-=A0=A0=A0 *cs_base =3D 0;
+-=A0=A0=A0 *flags =3D env->hflags;
++=A0=A0=A0 *cs_base =3D env->hflags;
++=A0=A0=A0 *flags =3D 0;
+ =A0}
+
+ =A0void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t excepti=
+on);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 0984ce637b..1eb2e1b0c6 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7879,47 +7879,37 @@ static void=20
+ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ =A0{
+ =A0=A0=A0=A0 DisasContext *ctx =3D container_of(dcbase, DisasContext, ba=
+se);
+ =A0=A0=A0=A0 CPUPPCState *env =3D cs->env_ptr;
++=A0=A0=A0 target_ulong hflags =3D ctx->base.tb->cs_base;
+ =A0=A0=A0=A0 int bound;
+
+ =A0=A0=A0=A0 ctx->exception =3D POWERPC_EXCP_NONE;
+ =A0=A0=A0=A0 ctx->spr_cb =3D env->spr_cb;
+-=A0=A0=A0 ctx->pr =3D msr_pr;
++=A0=A0=A0 ctx->pr =3D (hflags >> MSR_PR) & 1;
+ =A0=A0=A0=A0 ctx->mem_idx =3D env->dmmu_idx;
+-=A0=A0=A0 ctx->dr =3D msr_dr;
+-#if !defined(CONFIG_USER_ONLY)
+-=A0=A0=A0 ctx->hv =3D msr_hv || !env->has_hv_mode;
++=A0=A0=A0 ctx->dr =3D (hflags >> MSR_DR) & 1;
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++=A0=A0=A0 ctx->hv =3D (hflags >> MSR_HV) & 1;
+ =A0#endif
+ =A0=A0=A0=A0 ctx->insns_flags =3D env->insns_flags;
+ =A0=A0=A0=A0 ctx->insns_flags2 =3D env->insns_flags2;
+ =A0=A0=A0=A0 ctx->access_type =3D -1;
+ =A0=A0=A0=A0 ctx->need_access_type =3D !mmu_is_64bit(env->mmu_model);
+-=A0=A0=A0 ctx->le_mode =3D !!(env->hflags & (1 << MSR_LE));
++=A0=A0=A0 ctx->le_mode =3D (hflags >> MSR_LE) & 1;
+ =A0=A0=A0=A0 ctx->default_tcg_memop_mask =3D ctx->le_mode ? MO_LE : MO_B=
+E;
+ =A0=A0=A0=A0 ctx->flags =3D env->flags;
+ =A0#if defined(TARGET_PPC64)
+-=A0=A0=A0 ctx->sf_mode =3D msr_is_64bit(env, env->msr);
++=A0=A0=A0 ctx->sf_mode =3D (hflags >> MSR_SF) & 1;
+ =A0=A0=A0=A0 ctx->has_cfar =3D !!(env->flags & POWERPC_FLAG_CFAR);
+ =A0#endif
+ =A0=A0=A0=A0 ctx->lazy_tlb_flush =3D env->mmu_model =3D=3D POWERPC_MMU_3=
+2B
+ =A0=A0=A0=A0=A0=A0=A0=A0 || env->mmu_model =3D=3D POWERPC_MMU_601
+ =A0=A0=A0=A0=A0=A0=A0=A0 || env->mmu_model & POWERPC_MMU_64;
+
+-=A0=A0=A0 ctx->fpu_enabled =3D !!msr_fp;
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_SPE) && msr_spe) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->spe_enabled =3D !!msr_spe;
+-=A0=A0=A0 } else {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->spe_enabled =3D false;
+-=A0=A0=A0 }
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_VRE) && msr_vr) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->altivec_enabled =3D !!msr_vr;
+-=A0=A0=A0 } else {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->altivec_enabled =3D false;
+-=A0=A0=A0 }
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_VSX) && msr_vsx) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->vsx_enabled =3D !!msr_vsx;
+-=A0=A0=A0 } else {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->vsx_enabled =3D false;
+-=A0=A0=A0 }
++=A0=A0=A0 ctx->fpu_enabled =3D (hflags >> MSR_FP) & 1;
++=A0=A0=A0 ctx->spe_enabled =3D (hflags >> MSR_SPE) & 1;
++=A0=A0=A0 ctx->altivec_enabled =3D (hflags >> MSR_VR) & 1;
++=A0=A0=A0 ctx->vsx_enabled =3D (hflags >> MSR_VSX) & 1;
++=A0=A0=A0 /* FIXME: This needs to be stored in env->hflags_nmsr. */
+ =A0=A0=A0=A0 if ((env->flags & POWERPC_FLAG_SCV)
+ =A0=A0=A0=A0=A0=A0=A0=A0 && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {=
+
+ =A0=A0=A0=A0=A0=A0=A0=A0 ctx->scv_enabled =3D true;
+@@ -7927,23 +7917,21 @@ static void=20
+ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ =A0=A0=A0=A0=A0=A0=A0=A0 ctx->scv_enabled =3D false;
+ =A0=A0=A0=A0 }
+ =A0#if defined(TARGET_PPC64)
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_TM) && msr_tm) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->tm_enabled =3D !!msr_tm;
+-=A0=A0=A0 } else {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->tm_enabled =3D false;
+-=A0=A0=A0 }
++=A0=A0=A0 ctx->tm_enabled =3D (hflags >> MSR_TM) & 1;
+ =A0#endif
++=A0=A0=A0 /* FIXME: This needs to be stored in env->hflags_nmsr. */
+ =A0=A0=A0=A0 ctx->gtse =3D !!(env->spr[SPR_LPCR] & LPCR_GTSE);
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_SE) && msr_se) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled =3D CPU_SINGLE_STEP;
+-=A0=A0=A0 } else {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled =3D 0;
+-=A0=A0=A0 }
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_BE) && msr_be) {
+-=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
+-=A0=A0=A0 }
+-=A0=A0=A0 if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
++
++=A0=A0=A0 ctx->singlestep_enabled =3D ((hflags >> MSR_SE) & 1 ? CPU_SING=
+LE_STEP=20
+: 0)
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 | ((hflags >> MSR_BE) & 1 ? CPU_BRANCH_STEP=20
+: 0);
++
++=A0=A0=A0 if ((hflags >> MSR_DE) & 1) {
+ =A0=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled =3D 0;
++=A0=A0=A0=A0=A0=A0=A0 /*
++=A0=A0=A0=A0=A0=A0=A0=A0 * FIXME: This needs to be stored in env->hflags=
+_nmsr,
++=A0=A0=A0=A0=A0=A0=A0=A0 * probably overlapping MSR_SE/MSR_BE like we do=
+ for
++=A0=A0=A0=A0=A0=A0=A0=A0 * MSR_LE and the ppc 601.
++=A0=A0=A0=A0=A0=A0=A0=A0 */
+ =A0=A0=A0=A0=A0=A0=A0=A0 target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0=
+];
+ =A0=A0=A0=A0=A0=A0=A0=A0 if (dbcr0 & DBCR0_ICMP) {
+ =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled |=3D CPU_SI=
+NGLE_STEP;
+@@ -7956,10 +7944,6 @@ static void=20
+ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ =A0=A0=A0=A0 if (unlikely(ctx->base.singlestep_enabled)) {
+ =A0=A0=A0=A0=A0=A0=A0=A0 ctx->singlestep_enabled |=3D GDBSTUB_SINGLE_STE=
+P;
+ =A0=A0=A0=A0 }
+
+
+
+--------------ms020903000306040207060607
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
+CykwggURMIID+aADAgECAhABSzGLseyYaS5Q+y8WzDO3MA0GCSqGSIb3DQEBCwUAMIGWMQsw
+CQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxm
+b3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENs
+aWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDcwNDAwMDAw
+MFoXDTIyMDcwMzIzNTk1OVowIzEhMB8GCSqGSIb3DQEJARYSaXZhbkB2bWZhY2lsaXR5LmZy
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA16J+MNpaqIEV5b2WoLC+l2PP5n3W
+CtXrhU04ursB8Ib+TIGaJQQigdKp2pX7xwY9F/h1vukcYHNxILOvpop8AYyFbCMwmh0r2vZs
+hDpYA1adv7wGsL3tbV155FTk0RewY8//18CaQ/SwVMRiUtqwbsUlbHkHtQRm32r/Otpzjd4/
+vcTshpsPRIcxEib2UMRP6WGjHurC4rd/3pcWlP/GsjA/aGNb9yaNunHBTJzVaqSeiwwYObco
+sJi1199wNBePGrZK6WF3XumgA6++kTKEieJ6hSj2amTR80VaYIzKyjCu4SklI7+ouBL/8UsN
+ljRrIL8sCLkyBlYjWYNsQR3ZbQIDAQABo4IByzCCAccwHwYDVR0jBBgwFoAUCcDy/AvalNtf
+/ivfqJlCz8ngrQAwHQYDVR0OBBYEFEmwhbO6wfSTbflKHMQwSp7HWMGvMA4GA1UdDwEB/wQE
+AwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMEBggrBgEFBQcDAjBABgNV
+HSAEOTA3MDUGDCsGAQQBsjEBAgEBATAlMCMGCCsGAQUFBwIBFhdodHRwczovL3NlY3RpZ28u
+Y29tL0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3Rp
+Z29SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3JsMIGKBggrBgEF
+BQcBAQR+MHwwVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JT
+QUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwIwYIKwYBBQUHMAGG
+F2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMB0GA1UdEQQWMBSBEml2YW5Adm1mYWNpbGl0eS5m
+cjANBgkqhkiG9w0BAQsFAAOCAQEAPXjOtK7xHfpAU3HUn5hIlaWUzkbaMI1R8tiefaJsHJks
+4dkh/IqQhI+3yCjPybY38NP+ctwgpOZo7ARK/lLKo4+yooYs+5MrwCvP2Kw2RKPp+ZjhJIWX
+DVcoVUxkONrVJH/VuTB3zeJDZ9nrODK9D3X1W2+8srQKgDjlx0sLYuBQEwNDEft9Ag9rL4/5
+X1nlZJZbR8KWM0BxpHYTi7iGL2Gk8GE+beHDmyCAJHolkcs6G3GXwsp03hm300PGbEVsuWgA
+5zHW90OSi/5CnrN15TaOC2yd9nRsobe5ajJAUjvCyVrl+tLmiM/KYJ24/R5Mb+CF6HhhiUa4
+IwbWGZZbgzCCBhAwggP4oAMCAQICEE2ULBDUO+CUCcWBLTorBk8wDQYJKoZIhvcNAQEMBQAw
+gYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkg
+Q2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1
+c3QgUlNBIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTE4MTEwMjAwMDAwMFoXDTMwMTIz
+MTIzNTk1OVowgZYxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIx
+EDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoTD1NlY3RpZ28gTGltaXRlZDE+MDwGA1UEAxM1
+U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0Ew
+ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDKPO2UCkH/3vlGuejWO+bakr8rEE6q
+GryCvb4mHCkqKtLNnFCBP22ULvOXqGfV9eNKjkypdR8i0yW2sxpepwRIm4rx20rno0JKuriI
+Mpoqr03E5cWapdfbM3wccaNDZvZe/S/Uvk2TUxA8oDX3F5ZBykYQYVRR3SQ36gejH4v1pXWu
+N82IKPdsmTqQlo49ps+LbnTeef8hNfl7xZ8+cbDhW5nv0qGPVgGt/biTkR7WwtMewu2mIr06
+MbiJBEF2rpn9OVXH+EYB7PmHfpsEkzGp0cul3AhSROpPyx7d53Q97ANyH/yQc+jl9mXm7UHR
+5ymr+wM3/mwIbnYOz5BTk7kTAgMBAAGjggFkMIIBYDAfBgNVHSMEGDAWgBRTeb9aqitKz1SA
+4dibwJ3ysgNmyzAdBgNVHQ4EFgQUCcDy/AvalNtf/ivfqJlCz8ngrQAwDgYDVR0PAQH/BAQD
+AgGGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwME
+MBEGA1UdIAQKMAgwBgYEVR0gADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0
+cnVzdC5jb20vVVNFUlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYB
+BQUHAQEEajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
+dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVz
+dC5jb20wDQYJKoZIhvcNAQEMBQADggIBAEFEdQCrOcIV9d6OlW0ycWiMAN0X13ocEDiQyOOx
+vRcxkfO244K0oX7GzCGHYaqRbklCszzNWVT4DZU/vYrLaeVEDUbCYg+Ci7vhNn9dNqscbzN0
+xKBoOuRVjPPWDechU70geT3pXCxpwi8EXwl+oiz7xpYfY99JSs3E/piztTSxljHitcPr5yoW
+r9lbkFR8KU3+uGTZ11BfKfuSSaRrZFBv133SeY0d2AqvB9Dj2ZDaFZA0OQkkhfAqNgDpVRH9
+9lQV4JSKx0N7/QAEtMj6OF5dRXV6hhXuU3A0Eql4d0247oBpxvnfcmV95QfG8HP059hZSJe7
+T2wwC+IzXVDQO4xnnvrQJ07ZWemxc/grFpgiG+o+pQxapF1bKftysi02Rl6uhdp5wbTeLeYz
+t2SI9oKSChwGDQQFixtkNnxuwbdrTwvASwvViDPdIGzIQJrTBqriE5/9nzkXbDZmld8/7Dyr
+iJ/A73RIZllX4dH8mHqsRpU8NEX8IQZWpHWGK5A5nVgvl7MxNfRlIvCvKZQTSnCL8oNqJgHX
+m6zCB4gBwDonM8V/2kuQAUVazVA3I376eIWGwzjuqh3H88v7mNHzubLHm5h0ERCSQNz6UoHV
+Zy3q5xeqbYSaxpDQz3lCNObL6sNaOQNh3DcyzqZJYTcGfuLlmC3AIteAAh7lbybJszYnMYIE
+MjCCBC4CAQEwgaswgZYxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0
+ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoTD1NlY3RpZ28gTGltaXRlZDE+MDwGA1UE
+AxM1U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwg
+Q0ECEAFLMYux7JhpLlD7LxbMM7cwDQYJYIZIAWUDBAIBBQCgggJXMBgGCSqGSIb3DQEJAzEL
+BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIxMDMxMTAzMjI0NVowLwYJKoZIhvcNAQkE
+MSIEIM6xz1MOLs0Yufeo6dp9/chLy0hSvhG7SA59eTfT9mcBMGwGCSqGSIb3DQEJDzFfMF0w
+CwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAw
+DQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgbwGCSsGAQQBgjcQBDGB
+rjCBqzCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
+A1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0
+aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIQAUsx
+i7HsmGkuUPsvFswztzCBvgYLKoZIhvcNAQkQAgsxga6ggaswgZYxCzAJBgNVBAYTAkdCMRsw
+GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
+D1NlY3RpZ28gTGltaXRlZDE+MDwGA1UEAxM1U2VjdGlnbyBSU0EgQ2xpZW50IEF1dGhlbnRp
+Y2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEAFLMYux7JhpLlD7LxbMM7cwDQYJKoZIhvcN
+AQEBBQAEggEAgtD3OocQj2M6CNHtjBfhLbZFgFZiMsGAFGP4G11QZgS87IUrcJqKhEDs+Yoz
+AWLZMGedMzjBJ3Y6Jb8d8gbaxyBrIoVX7DvT3o8ync0v+TJhxUrk09r8RSahLLvbrs465PCT
+BrGnURLI7dpMgOPM2B5cniGPYhrNSyx8a111/aC3z0TPSJEHC0ygjTlAd8BfxRrj/bmQ+oSf
+vo2JJUYUN66NlHRyoIxGODGrIX6ueyqZRq732pFcFJF5WqgAu/0M7rYXqN5YjcUoOmIMx5O3
+fmys0qXNuww2O3Fxv1V8rHxtDwZQYd4JhkoETuGs3qfkvfF5v1ipHwezkwYWd74J2gAAAAAA
+AA==
+--------------ms020903000306040207060607--
 
