@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B14337640
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:56:22 +0100 (CET)
-Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8843933764B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:58:43 +0100 (CET)
+Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMjd-0007Vb-5h
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:56:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39844)
+	id 1lKMlu-0002wy-Go
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUF-0003SN-IZ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:27 -0500
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:40775)
+ id 1lKMUG-0003Tm-4T
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:28 -0500
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:39898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUD-0006Qe-8G
+ id 1lKMUE-0006Rj-G0
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:27 -0500
-Received: by mail-qt1-x82d.google.com with SMTP id r14so1262430qtt.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:24 -0800 (PST)
+Received: by mail-qv1-xf2f.google.com with SMTP id h13so2639416qvu.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cto0meToeqhl4dng/D5GTO+M9plTBCVNCtbljoyaQQ8=;
- b=hVZoQLATVz5KDqzQr+QxlFEHazpfyEYtOr1ikPMdPTW+6GlRcaf5U+nWXfbpesLs5W
- YUU95/OV1OS+WzsYfggc0X3+tx91+erv+C6nxq+nzZhd2kBRp1t8pet1IOrK28KE3be7
- fDJ5+fcEzNC3WNWaVePmUQtFDhEPXk2jtt6+YSoezAa45SDypG1Nv4FXrPKBOqxbR9se
- PcUkZWXy8pkkntXiPWOYA5GZEsSBTLPnJc1myuQlMZmnz2FZxjQ4unbZ9XF+OQfClobm
- 0d0Dwdkv0Wb9Kbjw6e3t9toUMZxwhwF4gYY+WdHvO47oGLByQ64LrSLDqyaDFCT5qmvS
- r72A==
+ bh=7AU7AuzkprD1DzoX758oP/Mpq/Dm/wXzaoKexxvkWBk=;
+ b=taIYp6GIXruXuOpTyExN9I1E8oiXiNbd84BuAjb0FjXOEfOvweHULJEliy2i8YQKNI
+ EBHe4ClPfcgdTzE6h/VrAmhme9vcaSqR3z+QWYuw8AEDh/sqOgPaFBqfaFM5B1zA50kc
+ PkRi/uk1Wq4qdszcQYHBVpX82XpnrVuqVlaaQMHCAd4c7/UToKsj317BCCoJMXlhY2P2
+ /To33MGq6uL0kNgx8YBxqXMXLNcYJJTQ3m+wREAFBAd4fyE2kiKxbG5GUWW0/q8AHe88
+ wmWP5ClpEVbLW2OhkUR5Gmo/RYh74vFbsbKTu9pI0Mm1FNINKWgtN2ip4cxPA8eBeucL
+ aR/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cto0meToeqhl4dng/D5GTO+M9plTBCVNCtbljoyaQQ8=;
- b=i5xOsBe0Tx93EThqfjsAMIlWRMawpPcvY4MSQOnT9BlJ4iuLB4M3UVJI7KBPAnJtq3
- 5ytk3TURPosUanjskHUyccuDHmE4r4go7nHEfSmGU60G2qwA5lq+pVw3uvYSPpY2DPBi
- D6Gv3r/EVsh5TIvl+vzyDCh9jAL+/R8AE4EP90nrGklQ5NcfsU8Nv8s6szffsJq0lVq/
- /llyKYrJ9VqqrPgSSsQcX745DGGw/Lv8mTHrOrRvNLQnX2Ao1JeNY51XATuyK6lDqVhw
- kiT5lpMOdxuREkU6uuXIG3F3Jcq4nzbOSOkBmaljSvc/HXR1yPLYdGIwDeH3ungmvULB
- Kmgg==
-X-Gm-Message-State: AOAM532ssW9M/2l0swGGrx05cIXMgj1Zfy4/o+Xa1cC8bVqq86tFuyp1
- XtLvPZ4p8KO+zTwyqi4Vxt+G3Fm71A3TEsgw
-X-Google-Smtp-Source: ABdhPJzwU7pRq2GoAzx6yqlpn+qkcCHhCScH+cffCA8loGGkCA6Vv7218RyfJ6Sgtzn+JrKt2DjYnw==
-X-Received: by 2002:ac8:4918:: with SMTP id e24mr7586433qtq.79.1615473623860; 
- Thu, 11 Mar 2021 06:40:23 -0800 (PST)
+ bh=7AU7AuzkprD1DzoX758oP/Mpq/Dm/wXzaoKexxvkWBk=;
+ b=IF478/8xGA7KPZqftMjH/YuUhrE1qLleDYPBThk3Ec+lSwlhGIGQWXD/ZQl2Lnr3nf
+ S2ypWVJrd67fST4C/YostliZkQWh7T0QDbGx668grVgEJZnxz3NHWLz1xrDr4GFo/0Nw
+ SifZdZ5+Sl1cDwv+SY4uCy6qnQQnNE2zdtuSqpKdGKY9+IchdNd4fku58snYv9gMz+7v
+ BZoBQUVPZ9+h2lpHe6iKFFQsJU7GFgbBAfz4qedWAdwtlW9hT6XfEj9PhwI6h13gH0yJ
+ Q/KOZDv/NrB2YwHzhsb5ls522CH5cH26O8L9ukBgNinGn3YdNe/1r+2SJJYjQ7hxh5WR
+ kLGQ==
+X-Gm-Message-State: AOAM530KzeigyzUcLSEhkibWzRbJgNWxbpdRLEtCLcaHvrCNprwwm502
+ BLa2nUpUT4skzrxJaxBCyLz/KMl0kkgL2Bm2
+X-Google-Smtp-Source: ABdhPJzKDTuNW4HQklq9XNBA8RJ7UQPmzStymYgwoujr8Wye2RrZds8DgMGQfEUZ0I5FwNCWe3gPeg==
+X-Received: by 2002:a05:6214:c27:: with SMTP id
+ a7mr7756881qvd.54.1615473625345; 
+ Thu, 11 Mar 2021 06:40:25 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.22
+ by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:40:23 -0800 (PST)
+ Thu, 11 Mar 2021 06:40:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/57] tcg/tci: Hoist op_size checking into tci_args_*
-Date: Thu, 11 Mar 2021 08:39:20 -0600
-Message-Id: <20210311143958.562625-20-richard.henderson@linaro.org>
+Subject: [PATCH v5 20/57] tcg/tci: Remove tci_disas
+Date: Thu, 11 Mar 2021 08:39:21 -0600
+Message-Id: <20210311143958.562625-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FUZZY_BITCOIN=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,311 +88,49 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This performs the size check while reading the arguments,
-which means that we don't have to arrange for it to be
-done after the operation.  Which tidies all of the branches.
+This function is unused.  It's not even the disassembler,
+which is print_insn_tci, located in disas/tci.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 87 ++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 73 insertions(+), 14 deletions(-)
+ tcg/tci/tcg-target.h     |  2 --
+ tcg/tci/tcg-target.c.inc | 10 ----------
+ 2 files changed, 12 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index f6cc5a3ab0..6b63beea28 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -24,7 +24,7 @@
- #if defined(CONFIG_DEBUG_TCG)
- # define tci_assert(cond) assert(cond)
- #else
--# define tci_assert(cond) ((void)0)
-+# define tci_assert(cond) ((void)(cond))
- #endif
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 9285c930a2..52af6d8bc5 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -163,8 +163,6 @@ typedef enum {
+ #define TCG_TARGET_CALL_STACK_OFFSET    0
+ #define TCG_TARGET_STACK_ALIGN          16
  
- #include "qemu-common.h"
-@@ -135,146 +135,217 @@ static tcg_target_ulong tci_read_label(const uint8_t **tb_ptr)
-  *   s = signed ldst offset
-  */
+-void tci_disas(uint8_t opc);
+-
+ #define HAVE_TCG_QEMU_TB_EXEC
  
-+static void check_size(const uint8_t *start, const uint8_t **tb_ptr)
-+{
-+    const uint8_t *old_code_ptr = start - 2;
-+    uint8_t op_size = old_code_ptr[1];
-+    tci_assert(*tb_ptr == old_code_ptr + op_size);
-+}
-+
- static void tci_args_l(const uint8_t **tb_ptr, void **l0)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *l0 = (void *)tci_read_label(tb_ptr);
-+
-+    check_size(start, tb_ptr);
+ /* We could notice __i386__ or __s390x__ and reduce the barriers depending
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 6c187a25cc..7fb3b04eaf 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -253,16 +253,6 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+     return true;
  }
  
- static void tci_args_rr(const uint8_t **tb_ptr,
-                         TCGReg *r0, TCGReg *r1)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_ri(const uint8_t **tb_ptr,
-                         TCGReg *r0, tcg_target_ulong *i1)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *i1 = tci_read_i32(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- #if TCG_TARGET_REG_BITS == 64
- static void tci_args_rI(const uint8_t **tb_ptr,
-                         TCGReg *r0, tcg_target_ulong *i1)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *i1 = tci_read_i(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- #endif
- 
- static void tci_args_rrm(const uint8_t **tb_ptr,
-                          TCGReg *r0, TCGReg *r1, TCGMemOpIdx *m2)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *m2 = tci_read_i32(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrr(const uint8_t **tb_ptr,
-                          TCGReg *r0, TCGReg *r1, TCGReg *r2)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrs(const uint8_t **tb_ptr,
-                          TCGReg *r0, TCGReg *r1, int32_t *i2)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *i2 = tci_read_s32(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrcl(const uint8_t **tb_ptr,
-                           TCGReg *r0, TCGReg *r1, TCGCond *c2, void **l3)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *c2 = tci_read_b(tb_ptr);
-     *l3 = (void *)tci_read_label(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrc(const uint8_t **tb_ptr,
-                           TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGCond *c3)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *c3 = tci_read_b(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrm(const uint8_t **tb_ptr,
-                           TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGMemOpIdx *m3)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *m3 = tci_read_i32(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrbb(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-                            TCGReg *r2, uint8_t *i3, uint8_t *i4)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *i3 = tci_read_b(tb_ptr);
-     *i4 = tci_read_b(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrrm(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-                            TCGReg *r2, TCGReg *r3, TCGMemOpIdx *m4)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *r3 = tci_read_r(tb_ptr);
-     *m4 = tci_read_i32(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- #if TCG_TARGET_REG_BITS == 32
- static void tci_args_rrrr(const uint8_t **tb_ptr,
-                           TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGReg *r3)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *r3 = tci_read_r(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrrcl(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGCond *c4, void **l5)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *r3 = tci_read_r(tb_ptr);
-     *c4 = tci_read_b(tb_ptr);
-     *l5 = (void *)tci_read_label(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrrrc(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGCond *c5)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *r3 = tci_read_r(tb_ptr);
-     *r4 = tci_read_r(tb_ptr);
-     *c5 = tci_read_b(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- 
- static void tci_args_rrrrrr(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGReg *r5)
- {
-+    const uint8_t *start = *tb_ptr;
-+
-     *r0 = tci_read_r(tb_ptr);
-     *r1 = tci_read_r(tb_ptr);
-     *r2 = tci_read_r(tb_ptr);
-     *r3 = tci_read_r(tb_ptr);
-     *r4 = tci_read_r(tb_ptr);
-     *r5 = tci_read_r(tb_ptr);
-+
-+    check_size(start, tb_ptr);
- }
- #endif
- 
-@@ -423,10 +494,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- 
-     for (;;) {
-         TCGOpcode opc = tb_ptr[0];
--#if defined(CONFIG_DEBUG_TCG) && !defined(NDEBUG)
--        uint8_t op_size = tb_ptr[1];
--        const uint8_t *old_code_ptr = tb_ptr;
+-#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+-/* Show current bytecode. Used by tcg interpreter. */
+-void tci_disas(uint8_t opc)
+-{
+-    const TCGOpDef *def = &tcg_op_defs[opc];
+-    fprintf(stderr, "TCG %s %u, %u, %u\n",
+-            def->name, def->nb_oargs, def->nb_iargs, def->nb_cargs);
+-}
 -#endif
-         TCGReg r0, r1, r2, r3;
-         tcg_target_ulong t1;
-         TCGCond condition;
-@@ -476,7 +543,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             break;
-         case INDEX_op_br:
-             tci_args_l(&tb_ptr, &ptr);
--            tci_assert(tb_ptr == old_code_ptr + op_size);
-             tb_ptr = ptr;
-             continue;
-         case INDEX_op_setcond_i32:
-@@ -629,9 +695,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_brcond_i32:
-             tci_args_rrcl(&tb_ptr, &r0, &r1, &condition, &ptr);
-             if (tci_compare32(regs[r0], regs[r1], condition)) {
--                tci_assert(tb_ptr == old_code_ptr + op_size);
-                 tb_ptr = ptr;
--                continue;
-             }
-             break;
- #if TCG_TARGET_REG_BITS == 32
-@@ -652,7 +716,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             T1 = tci_uint64(regs[r1], regs[r0]);
-             T2 = tci_uint64(regs[r3], regs[r2]);
-             if (tci_compare64(T1, T2, condition)) {
--                tci_assert(tb_ptr == old_code_ptr + op_size);
-                 tb_ptr = ptr;
-                 continue;
-             }
-@@ -786,9 +849,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_brcond_i64:
-             tci_args_rrcl(&tb_ptr, &r0, &r1, &condition, &ptr);
-             if (tci_compare64(regs[r0], regs[r1], condition)) {
--                tci_assert(tb_ptr == old_code_ptr + op_size);
-                 tb_ptr = ptr;
--                continue;
-             }
-             break;
-         case INDEX_op_ext32s_i64:
-@@ -817,9 +878,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- 
-         case INDEX_op_goto_tb:
-             tci_args_l(&tb_ptr, &ptr);
--            tci_assert(tb_ptr == old_code_ptr + op_size);
-             tb_ptr = *(void **)ptr;
--            continue;
-+            break;
- 
-         case INDEX_op_qemu_ld_i32:
-             if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
-@@ -997,6 +1057,5 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         default:
-             g_assert_not_reached();
-         }
--        tci_assert(tb_ptr == old_code_ptr + op_size);
-     }
- }
+-
+ /* Write value (native size). */
+ static void tcg_out_i(TCGContext *s, tcg_target_ulong v)
+ {
 -- 
 2.25.1
 
