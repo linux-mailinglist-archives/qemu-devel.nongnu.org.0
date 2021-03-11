@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B162336D81
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:09:23 +0100 (CET)
-Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3367336D87
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:12:50 +0100 (CET)
+Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKGNl-0003Qj-Ks
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:09:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1lKGR7-00056n-OC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lKGMe-0002Zl-5B
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:08:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50085)
+ id 1lKGOX-0004AE-D2
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:10:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lKGMb-0007tG-TF
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:08:11 -0500
+ id 1lKGOV-0000Vs-OV
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:10:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615450088;
+ s=mimecast20190719; t=1615450206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BrU5OrHw/R0SbfXDTT5Jw7YdNM1mHOPRgVwKm2q0VHQ=;
- b=gYnKks3dygycRNRFVq3+mqkvKVPGnrBDWUEnkZLNpMmdhQYinKyJHmworMmN+aC1HBU5mD
- QDriCnsBwr1LqUU0wvgYOQCelzQFTWEug7PsqrXFr/Wj9G0DqQeOFKZ/xza/MdWlGDA2Mc
- d7IFvMF+Qz058skDXABXhL75g8pzUeE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-NK_s3h2yNB2JkFwkp1al0g-1; Thu, 11 Mar 2021 03:08:06 -0500
-X-MC-Unique: NK_s3h2yNB2JkFwkp1al0g-1
-Received: by mail-wm1-f70.google.com with SMTP id i14so3669971wmq.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 00:08:06 -0800 (PST)
+ bh=Xp4ISbv7X5rAt3azXsUHnFj2plMsYN6k/nB0TuV7tOs=;
+ b=c8PMhPuui8NeifmKoysa1rosxG2oV9Yf0tQvYhrVa+mJYFVMZVR/6IjhMWBONbzBpsdFzK
+ ci5/+w9rGOCjdXSDQC7ssKyz41EdIKNC9F9X4u/XZHcrzcqpgLMo+VIWHlzONhjqeE9Hv2
+ fUG/eSoZrXHfKXVLz5iQpusBtkKcpqg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-VNT1SM9uO9--LeTp3oPLDw-1; Thu, 11 Mar 2021 03:10:05 -0500
+X-MC-Unique: VNT1SM9uO9--LeTp3oPLDw-1
+Received: by mail-wr1-f72.google.com with SMTP id e29so9156606wra.12
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 00:10:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=BrU5OrHw/R0SbfXDTT5Jw7YdNM1mHOPRgVwKm2q0VHQ=;
- b=YWkHdAUaDh9Yrn0vFT9+LgvcTx/CB2QauRB0Oo6cqJ2Nhw8gYKqObKZ8LEGILbu/4E
- Nc6VUQ+zlpLfEyZ6kWJqVtKCcv5/QU1+jWTjbbl7B2cFwId7+ryImccIkSxPO6unB91o
- n2p8lE6ZQ4AyUug3RP81P3qPb98DZ9TqUPQiYA88Re39JmIhB/MYxzgSIf49HDa70bW+
- YBhT9F1lCNpYT7wxQ/PwL+2gDMkMMzls67wh1gDRUHynvjV6Rju5fFu9XG8rETg3ttly
- EvlmTyn8jj5tMh1WAdWrt8tXYjINI09/uIzK3MFCLqtoIHigOKGQ6D6pBh5tvKBsQyWP
- nYSQ==
-X-Gm-Message-State: AOAM5305PrQOEJMhVH/Udq4xD51MRc9zkfJMvth3BKpVxvgxY5i+vlbV
- tA1orbyqhP6YFKdRPjFKcZ9nmo57co9p2JXbylhUZ+/UzQJtbQ12f8dHsa0P2uYfCuc08LLDaR4
- QUbL5VL4VN/U7XXE=
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr7309319wro.337.1615450085674; 
- Thu, 11 Mar 2021 00:08:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwav1cuxueCIjaJPLho3GW15HF8ore3SwVa6GumUwOneE4ls4o5cF4W1DCG4DgfQ+Pu3l+WJQ==
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr7309297wro.337.1615450085491; 
- Thu, 11 Mar 2021 00:08:05 -0800 (PST)
+ bh=Xp4ISbv7X5rAt3azXsUHnFj2plMsYN6k/nB0TuV7tOs=;
+ b=Kc43c4sp3Qg9hrUyogkv78q0Or/Wa8TaLTXpp6UdX2yJmUPG3Qkdk7qn02WnHm1mRM
+ wRgMvEzYG4qF+wvVGf4asorp6MVKUAqwjYZ6hEG4xVZir1EZbVDA4IMSEUQ2uIZ3qMYA
+ 3RXnjnsvGdqMfsfcR6xX2nX5Sibfbw8JpQS2oIditnhOLmXBY+Z2QUlS6y/VrrDxJd6v
+ EG5dKsYdrI/8zcUt3qbvc2J0zCg7mr3xaxR4/OLFyh89ht8TvtKPzSdJTC8glh0JW5/W
+ w9RlEMtKcnvhAp4A38qdeCHRyl+9LxUhgvppeHy/FPmNmHx/ETZ/3SjtPqSISeNOkXxf
+ 9+fw==
+X-Gm-Message-State: AOAM532g4/nm8Lo+b+hl3WNJGwGZ5iKtFi/UVyr3CopIGY52iZxq9+UF
+ u/Wta4Pfyn+9k7r42KWtXtYNDkU94Q5+stWEdS/b7hZfO4W2Txo66Z3NkwqMYLe7lRuxCVlnlEw
+ V24FZQKe+3qCAHbk=
+X-Received: by 2002:a5d:58ce:: with SMTP id o14mr2146730wrf.4.1615450204027;
+ Thu, 11 Mar 2021 00:10:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKVC+rDlPUt7XrDSjCwaS2DaP8DFCFJBupgHl7DUZQyj718CbtaiRzKqgvbNNeTUXB59cI3A==
+X-Received: by 2002:a5d:58ce:: with SMTP id o14mr2146712wrf.4.1615450203840;
+ Thu, 11 Mar 2021 00:10:03 -0800 (PST)
 Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
  [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id p17sm2269111wmd.42.2021.03.11.00.08.04
+ by smtp.gmail.com with ESMTPSA id v18sm2899489wrf.41.2021.03.11.00.10.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 00:08:05 -0800 (PST)
-Date: Thu, 11 Mar 2021 09:08:02 +0100
+ Thu, 11 Mar 2021 00:10:03 -0800 (PST)
+Date: Thu, 11 Mar 2021 09:10:01 +0100
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 5/7] net/eth: Check iovec has enough data earlier
-Message-ID: <20210311080802.oy6aa5pxcjxd2gwi@steredhat>
-References: <20210310160135.1148272-1-philmd@redhat.com>
- <20210310160135.1148272-6-philmd@redhat.com>
- <20210310165327.w27noda3nva2yfcg@steredhat>
- <0a62edf6-9842-13df-2093-cbf8926a1b17@redhat.com>
- <823478a4-11cc-befb-e296-41a19821c959@redhat.com>
+Subject: Re: [PATCH v6 1/7] net/eth: Use correct in6_address offset in
+ _eth_get_rss_ex_dst_addr()
+Message-ID: <20210311081001.fgfssff4f67lyujw@steredhat>
+References: <20210310183123.1212612-1-philmd@redhat.com>
+ <20210310183123.1212612-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <823478a4-11cc-befb-e296-41a19821c959@redhat.com>
+In-Reply-To: <20210310183123.1212612-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,67 +98,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 10, 2021 at 07:26:19PM +0100, Philippe Mathieu-Daudé wrote:
->On 3/10/21 6:57 PM, Philippe Mathieu-Daudé wrote:
->> On 3/10/21 5:53 PM, Stefano Garzarella wrote:
->>> On Wed, Mar 10, 2021 at 05:01:33PM +0100, Philippe Mathieu-Daudé wrote:
->>>> We want to check fields from ip6_ext_hdr_routing structure
->>>> and if correct read the full in6_address. Let's directly check
->>>> if our iovec contains enough data for everything, else return
->>>> early.
->>>>
->>>> Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>> net/eth.c | 2 +-
->>>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/net/eth.c b/net/eth.c
->>>> index e870d02b0df..28cdc843a69 100644
->>>> --- a/net/eth.c
->>>> +++ b/net/eth.c
->>>> @@ -409,7 +409,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
->>>> int pkt_frags,
->>>>     size_t input_size = iov_size(pkt, pkt_frags);
->>>>     size_t bytes_read;
->>>>
->>>> -    if (input_size < ext_hdr_offset + sizeof(*ext_hdr)) {
->>>> +    if (input_size < ext_hdr_offset + sizeof(*rthdr) +
->>>> sizeof(*dst_addr)) {
->>>>         return false;
->>>>     }
->>>
->>> If you have to respin, maybe we should also fix the offset in
->>> iov_to_buf() in this patch and queue it for stable:
->>>
->>> @@ -415,7 +415,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt,
->>> int pkt_frags,
->>>  
->>>      if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
->>>          bytes_read = iov_to_buf(pkt, pkt_frags,
->>> -                                ext_hdr_offset + sizeof(*ext_hdr),
->>> +                                ext_hdr_offset + sizeof(*rthdr),
->>>                                  dst_addr, sizeof(*dst_addr));
->>
->> Oh, so we always screwed the address by 4 bytes...
->>
->> This code never worked correctly :(
+On Wed, Mar 10, 2021 at 07:31:17PM +0100, Philippe Mathieu-Daudé wrote:
+>The in6_address comes after the ip6_ext_hdr_routing header,
+>not after the ip6_ext_hdr one. Fix the offset.
 >
->Confirmed with commit 4555ca6816c ("net: fix incorrect
->argument to iov_to_buf") when it then returns incorrect
->value until b2caa3b82ed ("net/eth: fix incorrect check
->of iov_to_buf() return value") one year later.
->
+>Cc: qemu-stable@nongnu.org
+>Reported-by: Stefano Garzarella <sgarzare@redhat.com>
+>Fixes: eb700029c78 ("net_pkt: Extend packet abstraction as required by e1000e functionality")
+>Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>---
+> net/eth.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ooooh, I agree, it never worked but I have no idea how to test...
-
-Thanks for fixing this code,
-Stefano
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
