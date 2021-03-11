@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B23337070
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:49:10 +0100 (CET)
-Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0CC33707D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:51:12 +0100 (CET)
+Received: from localhost ([::1]:51930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKIsQ-0005L4-1J
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:49:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51286)
+	id 1lKIuN-0006n3-EW
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:51:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKIqf-0003N3-15
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:47:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKIqT-0005mx-Tf
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:47:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615459629;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=51JhgV2X20kkH17ArReRYPvnbx3P0msJTxvPsFHD91M=;
- b=hfSQfvnw68r5XI8kf0VxLbY0nSBES07dCyQ2wbxsAz00I1Y4UkR+Jv2lU1jjPnmgVDuekR
- +05VkDv894alD2MRmF20/8/NqEibu8F5AA2QNV/i7Sg/W4rY6p6ZUY6bLwldtDM7sM+Xuy
- vRPClq+DXknIjJU+sVnuAitcfvOneao=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-ZQ-05d4nMmWST4_6JPaNEg-1; Thu, 11 Mar 2021 05:47:05 -0500
-X-MC-Unique: ZQ-05d4nMmWST4_6JPaNEg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FBB880432E;
- Thu, 11 Mar 2021 10:47:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 466FE6A965;
- Thu, 11 Mar 2021 10:46:37 +0000 (UTC)
-Date: Thu, 11 Mar 2021 10:46:34 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 10/14] hw/scsi: remove 'scsi-disk' device
-Message-ID: <YEn1CneqjU9hK9hQ@redhat.com>
-References: <20210224131142.1952027-1-berrange@redhat.com>
- <20210224131142.1952027-11-berrange@redhat.com>
- <007eb811-6c4f-b456-2536-40dfb254ff14@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lKIse-00069L-5W
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:49:24 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:53321)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lKIsb-00079s-VR
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:49:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=BYizOT9dUfHktlagf9MIgomr+zf4PRe15NfuDnSjGZg=; b=Frs/Bejdu4w8XsjuKrZ51fIOtp
+ a7Ej00MNI/1bR4fkfQ2Ct3YOyyusu2tOS+0bSWxiaeVBRsSajirVgw47A1bRgAL9SOUVfsBFbnuTz
+ UHYj0eQsYWuXkTorZzEd3eMBf2ObhLtlvJqKZz5oongkap/3RRvvUwYvlG5yaaErV7rVSZB6364p7
+ 7MPy8VoRVMhgPjBfjcq5qF4wa06scsXJnZRezCVslDX9PbSF8XD2/F86BoNt2L/8HyLI7DcfLoj0S
+ kd/9gJ1fNZDyhjSEG+tW9JRXI+Jm1cCbLA3cT/jHT03Eq/hn/hWLwUTkZ+aJBjMmseCspBFZuDbwy
+ YXh8/cXLacpIHmj/7JYhSv+6aqxJLhwJ2dA0neZCoKxwak8CJ4rEupO9NPfgK0J0+EIwigtnpxJiS
+ ntW+BmZ728iJk2Tz0olm7N1Ld74fH0mB3invr/DjKBuY8E4NbytSZxN+N68aGTq6g8a/qfoIYE4ZF
+ XdoKCBx0mMtT1J+BD4X21F4aK1quJTPUj/OaCpn+TiDZZJg6SwbkHh1Lw9+MjP0UOm0K1sONGBnPi
+ IrY+/DVUZGkqQJjiROyAAr/kNPP9DG6vCOMxMLtwEcxYL+g9axleSU9jkKJ1jOdmiWDofHtrjviXq
+ lHyX8oHLkc5SOJ8AKZy43nBHp8TLE2yJ3bjERSWp4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
+ QEMU_LOCK_GUARD
+Date: Thu, 11 Mar 2021 11:49:06 +0100
+Message-ID: <2248579.lIZarMFqrv@silver>
+In-Reply-To: <20210311031538.5325-9-ma.mandourr@gmail.com>
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
+ <20210311031538.5325-9-ma.mandourr@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <007eb811-6c4f-b456-2536-40dfb254ff14@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,71 +66,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 03:26:59PM +0100, Thomas Huth wrote:
-> On 24/02/2021 14.11, Daniel P. Berrangé wrote:
-> > The 'scsi-hd' and 'scsi-cd' devices provide suitable alternatives.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >   docs/system/deprecated.rst       |  9 -----
-> >   docs/system/removed-features.rst |  6 ++++
-> >   hw/i386/pc.c                     |  1 -
-> >   hw/scsi/scsi-disk.c              | 62 --------------------------------
-> >   hw/sparc64/sun4u.c               |  1 -
-> >   scripts/device-crash-test        |  1 -
-> >   tests/qemu-iotests/051           |  2 --
-> >   tests/qemu-iotests/051.pc.out    | 10 ------
-> >   8 files changed, 6 insertions(+), 86 deletions(-)
-> 
-> I see some occurrances of "scsi-disk" in the config files in the
-> docs/config/ directory, too ... I guess they should also be removed?
+On Donnerstag, 11. M=E4rz 2021 04:15:37 CET Mahmoud Mandour wrote:
+> Replaced a call to qemu_mutex_lock and its respective call to
+> qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their place.
+> This simplifies the code by removing the call required to unlock
+> and also eliminates goto paths.
+>=20
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  hw/9pfs/9p-synth.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index 7eb210ffa8..473ef914b0 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int
+> mode, if (!parent) {
+>          parent =3D &synth_root;
+>      }
+> -    qemu_mutex_lock(&synth_mutex);
+> +    QEMU_LOCK_GUARD(&synth_mutex);
+>      QLIST_FOREACH(tmp, &parent->child, sibling) {
+>          if (!strcmp(tmp->name, name)) {
+>              ret =3D EEXIST;
+> -            goto err_out;
+> +            return ret;
+>          }
+>      }
+>      /* Add the name */
+> @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mo=
+de,
+> node->attr, node->attr->inode);
+>      *result =3D node;
+>      ret =3D 0;
+> -err_out:
+> -    qemu_mutex_unlock(&synth_mutex);
+>      return ret;
+>  }
+>=20
+> @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent,
+> int mode, parent =3D &synth_root;
+>      }
+>=20
+> -    qemu_mutex_lock(&synth_mutex);
+> +    QEMU_LOCK_GUARD(&synth_mutex);
+>      QLIST_FOREACH(tmp, &parent->child, sibling) {
+>          if (!strcmp(tmp->name, name)) {
+>              ret =3D EEXIST;
+> -            goto err_out;
+> +            return ret;
+>          }
+>      }
+>      /* Add file type and remove write bits */
+> @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, i=
+nt
+> mode, pstrcpy(node->name, sizeof(node->name), name);
+>      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
+>      ret =3D 0;
+> -err_out:
+> -    qemu_mutex_unlock(&synth_mutex);
+>      return ret;
+>  }
 
-Those aren't referring to the "scsi-disk" device type, they are qdev
-IDs, and do indeed already use "scsi-hd" as the  device type.
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-> 
-> > diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> > index d7c27144ba..cda7df36e3 100644
-> > --- a/hw/sparc64/sun4u.c
-> > +++ b/hw/sparc64/sun4u.c
-> > @@ -749,7 +749,6 @@ static char *sun4u_fw_dev_path(FWPathProvider *p, BusState *bus,
-> >                                  DeviceState *dev)
-> >   {
-> >       PCIDevice *pci;
-> > -    int bus_id;
-> >       if (!strcmp(object_get_typename(OBJECT(dev)), "pbm-bridge")) {
-> >           pci = PCI_DEVICE(dev);
-> 
-> This lonely hunk should be squashed into the previous (ide-disk) patch instead.
-> 
->  Thomas
+Greg, I suggest I'll push this onto my queue as you seem to be busy.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Best regards,
+Christian Schoenebeck
+
 
 
