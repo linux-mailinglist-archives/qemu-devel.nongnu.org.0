@@ -2,49 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293B933693A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:50:45 +0100 (CET)
-Received: from localhost ([::1]:34566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B3F33693C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:51:06 +0100 (CET)
+Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9XI-0000Qd-7i
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:50:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
+	id 1lK9Xd-0000rQ-7s
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:51:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lK9Pi-0002Hy-0k
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:42:54 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:65193)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lK9Vh-0007u3-75
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:49:05 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:33215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lK9Pc-0001N5-E7
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:42:52 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 822497456E3;
- Thu, 11 Mar 2021 01:42:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 482667456B8; Thu, 11 Mar 2021 01:42:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 46FAA7456B7;
- Thu, 11 Mar 2021 01:42:43 +0100 (CET)
-Date: Thu, 11 Mar 2021 01:42:43 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 16/26] tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
-In-Reply-To: <20210311002156.253711-17-richard.henderson@linaro.org>
-Message-ID: <c9ff5811-353-b226-d338-2df1a9fed4b@eik.bme.hu>
-References: <20210311002156.253711-1-richard.henderson@linaro.org>
- <20210311002156.253711-17-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lK9Vf-00046V-HJ
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:49:05 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id F1724580E76;
+ Wed, 10 Mar 2021 19:48:57 -0500 (EST)
+Received: from imap1 ([10.202.2.51])
+ by compute2.internal (MEProxy); Wed, 10 Mar 2021 19:48:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type:content-transfer-encoding; s=fm1; bh=WoUgN
+ vmu12jCEEoKvmDv98x1aFyjdlskZJ5ObvwMYTk=; b=t925w/LHa/oqskGb0aMy/
+ IMCgdFXZsy8lPlxy8kZ+r00vLR2Vo+RoRleKO1d/SzpbOrBHnJpJl0ZOTaaGaooo
+ nR2tgu05LcbLEjZkCZQs5e4WK14kSuUjh1El2JJIIroxWdVGOfMVS/ubaROeDeJk
+ i/iTCP4m4U+b2NrU0WnHGNOkey+nRv3AW4+53ESdtR8Tzkoi5ur+Z9H8crLYHv++
+ Wi1uJQyFSelCACGtCThf2lw5pB9DnJ+Bbv7wHHYKNqasV4dUDLfelI3L5ugxCr4H
+ iB7abk8A/StJXIVg+WOOjKEH1LshyvPvu+O3MLG4Z7+2OBfipsexnj4KZlv++XCR
+ w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=WoUgNvmu12jCEEoKvmDv98x1aFyjdlskZJ5ObvwMY
+ Tk=; b=r0NQu0rULuVXXmBoPaJ2DSJNFd3wsEWVN2TQ7zMBxJUp1ODXzsh3/32Yi
+ wGhl6/fjfko5Ff5vWnm+hvsJ8bNdpHKJTR2/AeeyHW83u5myJUi9w9TQMn7CDSv8
+ l6BWoQ3m2L7Jwxh5alIq+bFkf5qf2NjZ4Zk9DO+1pc22xa0LdvZYKq8GNff7xrEA
+ RwxidZuk+HlsXop7kN618z+WONnzk8cafE2joh+tv2B5Vyw8HpvICV/G8dzNUKzi
+ b912JYAD8ibqvyDqr1aK+kE7tvFRVSMBAMo0bonj++zdy1+Cmt66oDAhyjIKyyDw
+ 2Cey3n6MBbA/R34BhY4PkWG/k71FQ==
+X-ME-Sender: <xms:-GhJYKxMe4xVSPMJUUGGKzVNge2Vm8cwxTg8QCRo1ct2Te-Mt80Ieg>
+ <xme:-GhJYGRJ6LWgr-89fuDXuOSdlyxZdyGSWNxKypvgCUrOAzEfC8LNTLz2WR7po52dt
+ neMHIjERNqY0PIGljk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudduledgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
+ rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+ eqnecuggftrfgrthhtvghrnhepfffhudevfeeuvedtueegieejvdekudeuffekgeejkeek
+ feeggeejkeekkeeijeehnecuffhomhgrihhnpehvihhrthhurghllhihfhhunhdrtghomh
+ enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgr
+ gihunhgphigrnhhgodhmvghsmhhtphhouhhtghhoihhnghdqjhhirgiguhhnrdihrghngh
+ eppehflhihghhorghtrdgtohhmsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:-GhJYMVvZ30K3AM0_pEYzS8JpdeJfGyR_7L_YN_iVWPcKXPnjFCqiA>
+ <xmx:-GhJYAgB9XduN4dwPIqYW9Hx8Ok5fdLpehlfJ6_F750wJ4MeX3T1gw>
+ <xmx:-GhJYMBk4lHjpPxUngRD2jdw2D7sooEzALQYx58qUpmygBB1BnnI0A>
+ <xmx:-WhJYMtz7PPhgaZnqs3z1DMVnBfXIPFb3-4dbFqikvSS-NobD6hasA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 78E31130005E; Wed, 10 Mar 2021 19:48:56 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-206-g078a48fda5-fm-20210226.001-g078a48fd
+Mime-Version: 1.0
+Message-Id: <25887538-808a-4839-a9f6-3466c2f1783e@www.fastmail.com>
+In-Reply-To: <20210310191255.1229848-1-f4bug@amsat.org>
+References: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
+ <20210310191255.1229848-1-f4bug@amsat.org>
+Date: Thu, 11 Mar 2021 08:48:35 +0800
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Peter Xu" <peterx@redhat.com>, "BALATON Zoltan via" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 1/2] hw/mips/jazz: Use generic I/O bus via get_system_io()
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.221;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,201 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, qemu-devel@nongnu.org, j@getutm.app
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021, Richard Henderson wrote:
-> Remove the ifdef ladder and move each define into the
-> appropriate header file.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+On Thu, Mar 11, 2021, at 3:12 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> No need to create a local ISA I/O MemoryRegion, use get_system_io().
+>=20
+> This partly reverts commit 5c63bcf7501527b844f61624957bdba254d75bfc.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+No luck to boot arcboot with current jazz :-(
+
+https://virtuallyfun.com/wordpress/2011/03/06/windows-nt-4-0-mips-revisi=
+ted/
+
 > ---
-> tcg/aarch64/tcg-target.h |  1 +
-> tcg/arm/tcg-target.h     |  1 +
-> tcg/i386/tcg-target.h    |  2 ++
-> tcg/mips/tcg-target.h    |  6 ++++++
-> tcg/ppc/tcg-target.h     |  2 ++
-> tcg/riscv/tcg-target.h   |  1 +
-> tcg/s390/tcg-target.h    |  3 +++
-> tcg/sparc/tcg-target.h   |  1 +
-> tcg/tci/tcg-target.h     |  1 +
-> tcg/region.c             | 32 ++++++--------------------------
-> 10 files changed, 24 insertions(+), 26 deletions(-)
+>  hw/mips/jazz.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
 >
-> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-> index 5ec30dba25..ef55f7c185 100644
-> --- a/tcg/aarch64/tcg-target.h
-> +++ b/tcg/aarch64/tcg-target.h
-> @@ -15,6 +15,7 @@
->
-> #define TCG_TARGET_INSN_UNIT_SIZE  4
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
-> +#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> #undef TCG_TARGET_STACK_GROWSUP
->
-> typedef enum {
-> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-> index 8d1fee6327..b9a85d0f83 100644
-> --- a/tcg/arm/tcg-target.h
-> +++ b/tcg/arm/tcg-target.h
-> @@ -60,6 +60,7 @@ extern int arm_arch;
-> #undef TCG_TARGET_STACK_GROWSUP
-> #define TCG_TARGET_INSN_UNIT_SIZE 4
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
-> +#define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
->
-> typedef enum {
->     TCG_REG_R0 = 0,
-> diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-> index b693d3692d..ac10066c3e 100644
-> --- a/tcg/i386/tcg-target.h
-> +++ b/tcg/i386/tcg-target.h
-> @@ -31,9 +31,11 @@
-> #ifdef __x86_64__
-> # define TCG_TARGET_REG_BITS  64
-> # define TCG_TARGET_NB_REGS   32
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> #else
-> # define TCG_TARGET_REG_BITS  32
-> # define TCG_TARGET_NB_REGS   24
-> +# define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
-> #endif
->
-> typedef enum {
-> diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-> index c2c32fb38f..e81e824cab 100644
-> --- a/tcg/mips/tcg-target.h
-> +++ b/tcg/mips/tcg-target.h
-> @@ -39,6 +39,12 @@
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
-> #define TCG_TARGET_NB_REGS 32
->
-> +/*
-> + * We have a 256MB branch region, but leave room to make sure the
-> + * main executable is also within that region.
-> + */
-> +#define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-> +
-> typedef enum {
->     TCG_REG_ZERO = 0,
->     TCG_REG_AT,
-> diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-> index d1339afc66..c13ed5640a 100644
-> --- a/tcg/ppc/tcg-target.h
-> +++ b/tcg/ppc/tcg-target.h
-> @@ -27,8 +27,10 @@
->
-> #ifdef _ARCH_PPC64
-> # define TCG_TARGET_REG_BITS  64
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> #else
-> # define TCG_TARGET_REG_BITS  32
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
-> #endif
->
-> #define TCG_TARGET_NB_REGS 64
-> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-> index 727c8df418..87ea94666b 100644
-> --- a/tcg/riscv/tcg-target.h
-> +++ b/tcg/riscv/tcg-target.h
-> @@ -34,6 +34,7 @@
-> #define TCG_TARGET_INSN_UNIT_SIZE 4
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 20
-> #define TCG_TARGET_NB_REGS 32
-> +#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
->
-> typedef enum {
->     TCG_REG_ZERO,
-> diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-> index 641464eea4..b04b72b7eb 100644
-> --- a/tcg/s390/tcg-target.h
-> +++ b/tcg/s390/tcg-target.h
-> @@ -28,6 +28,9 @@
-> #define TCG_TARGET_INSN_UNIT_SIZE 2
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 19
->
-> +/* We have a +- 4GB range on the branches; leave some slop.  */
-> +#define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
-> +
-> typedef enum TCGReg {
->     TCG_REG_R0 = 0,
->     TCG_REG_R1,
-> diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-> index f66f5d07dc..86bb9a2d39 100644
-> --- a/tcg/sparc/tcg-target.h
-> +++ b/tcg/sparc/tcg-target.h
-> @@ -30,6 +30,7 @@
-> #define TCG_TARGET_INSN_UNIT_SIZE 4
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
-> #define TCG_TARGET_NB_REGS 32
-> +#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->
-> typedef enum {
->     TCG_REG_G0 = 0,
-> diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-> index 9c0021a26f..03cf527cb4 100644
-> --- a/tcg/tci/tcg-target.h
-> +++ b/tcg/tci/tcg-target.h
-> @@ -43,6 +43,7 @@
-> #define TCG_TARGET_INTERPRETER 1
-> #define TCG_TARGET_INSN_UNIT_SIZE 1
-> #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
-> +#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
->
-> #if UINTPTR_MAX == UINT32_MAX
-> # define TCG_TARGET_REG_BITS 32
-> diff --git a/tcg/region.c b/tcg/region.c
-> index e3fbf6a7e7..8fba0724e5 100644
-> --- a/tcg/region.c
-> +++ b/tcg/region.c
-> @@ -398,34 +398,14 @@ static size_t tcg_n_regions(unsigned max_cpus)
-> #endif
-> }
->
-> -/* Minimum size of the code gen buffer.  This number is randomly chosen,
-> -   but not so small that we can't have a fair number of TB's live.  */
-> +/*
-> + * Minimum size of the code gen buffer.  This number is randomly chosen,
-> + * but not so small that we can't have a fair number of TB's live.
-> + *
-> + * Maximum size is defined in tcg-target.h.
-> + */
-> #define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
->
-> -/* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
-> -   indicated, this is constrained by the range of direct branches on the
-> -   host cpu, as used by the TCG implementation of goto_tb.  */
-
-This comment about constraints seems to have been lost. Should it be 
-preserved above?
-
-Regards,
-BALATON Zoltan
-
-> -#if defined(__x86_64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> -#elif defined(__sparc__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> -#elif defined(__powerpc64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> -#elif defined(__powerpc__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
-> -#elif defined(__aarch64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-> -#elif defined(__s390x__)
-> -  /* We have a +- 4GB range on the branches; leave some slop.  */
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
-> -#elif defined(__mips__)
-> -  /* We have a 256MB branch region, but leave room to make sure the
-> -     main executable is also within that region.  */
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-> -#else
-> -# define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
-> -#endif
-> -
-> #if TCG_TARGET_REG_BITS == 32
-> #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
-> #ifdef CONFIG_USER_ONLY
->
+--=20
+- Jiaxun
 
