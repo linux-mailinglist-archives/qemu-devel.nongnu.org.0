@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3810A337B48
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:45:14 +0100 (CET)
-Received: from localhost ([::1]:58412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710E9337B2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:43:31 +0100 (CET)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKPN3-0005EF-9N
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:45:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
+	id 1lKPLO-00033G-7b
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:43:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lKPE8-000520-Du
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:36:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32473)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lKPE6-0005oQ-DB
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:36:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615484156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z9BAfz9Bjabg1I30s9BkUrYl8Zg6yUfheJ5XQOedF6E=;
- b=Bv+EQXi6S7k8HrSWR+js4vixn5FyF3u9gfkD3CnN7k3ixQU5sunJMVHHfDaAxbDEJmiowC
- xpFXN4Da24Znj/al0+NgM597YtyU7JsU+6pU2YhertD/snBi0sg2Dy+67kUtUvkgBASfI5
- qWBQrXZDI0HjsWFlG2folzlXYkknht8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-NQfiGKUJORydZxbqj2RPGw-1; Thu, 11 Mar 2021 12:35:55 -0500
-X-MC-Unique: NQfiGKUJORydZxbqj2RPGw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 179BD1084CA7;
- Thu, 11 Mar 2021 17:35:54 +0000 (UTC)
-Received: from localhost (ovpn-2-69.rdu2.redhat.com [10.22.2.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D311F5D742;
- Thu, 11 Mar 2021 17:35:53 +0000 (UTC)
-Date: Thu, 11 Mar 2021 12:35:53 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: arm: "max" CPU class hierarchy changes possible?
-Message-ID: <20210311173553.GP3139005@habkost.net>
-References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
- <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
- <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
- <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lKPI5-0001Hd-G4
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:40:06 -0500
+Resent-Date: Thu, 11 Mar 2021 12:40:05 -0500
+Resent-Message-Id: <E1lKPI5-0001Hd-G4@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lKPI0-0007Sh-4b
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:40:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1615484388; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZpVyGyB9QGtVU643IXC11zkHevjvKies31zdIZLQ1vIvmIVT32vatIXN8Sy/t3AzpXcib57L3XrmBdUqtdEPpJpBJx9ciG+suAPBIrd3ZIWknM21fb/5KQ3ZkKGd4AzntuC45pv8TKfDVCkrw1nstV5zXMN5WzRV9YbUJgcU7ko=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615484388;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=zYey82SnSJE1xIbzPkLEkB5VHceBZcIuApYTHjhpBpk=; 
+ b=ehdml/+AYYzYqrkXGhXyDl/LA10eB+uxFGYWk5/qUXy31vqZtP/uGhAkXleDVpXNjSubpogA21akWX56UsFwCULQf1/ecnSsUB8s9POK4HRx/0vZQG2n7MBATAn6KNhRZdtUmbFgeZQ++tDLqvoNDbClNq8EVLqufQ0zDNAsc7w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615484386571751.8691360216945;
+ Thu, 11 Mar 2021 09:39:46 -0800 (PST)
+In-Reply-To: <20210311172459.990281-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 0/3] vl: QAPIfy -object
+Message-ID: <161548438525.22837.11422848720480793024@f3770d8ad632>
 MIME-Version: 1.0
-In-Reply-To: <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Thu, 11 Mar 2021 09:39:46 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 06:16:52PM +0100, Claudio Fontana wrote:
-> On 3/11/21 5:18 PM, Paolo Bonzini wrote:
-> > On 11/03/21 16:02, Peter Maydell wrote:
-> >> On Thu, 11 Mar 2021 at 14:27, Claudio Fontana <cfontana@suse.de> wrote:
-> >>> the "max" cpu in x86 and s390 is a class,
-> >>>
-> >>> and then "host" has "max" as parent.
-> >>>
-> >>> This would be a convenient setup for ARM too, as it would allow to put common code between kvm and tcg in the "max" class,
-> >>> and allow "host" to specialize the behavior for KVM (and in the future HVF probably).
-> >>>
-> >>> Would changing the class hierarchy this way be acceptable, cause any problems?
-> >>
-> >> It's not clear to me why 'host' would be a subtype of 'max':
-> >> that doesn't seem like an obvious relationship.
-> > 
-> > On x86, "-cpu host" is essentially the same as "-cpu max" with the only 
-> > difference that it errors out on TCG.  So:
-> > 
-> > - with TCG: "-cpu max" enables all that can be emulated, "-cpu host" fails
-> > 
-> > - with KVM: "-cpu max" enables all that can be virtualized, "-cpu host" 
-> > does the same
-> > 
-> > Paolo
-> > 
-> 
-> Maybe Peter you could clarify similarly what the intended meaning of "max" is on ARM?
-> 
-> TCG: for aarch64, the starting point seems to be Cortex-A57, and then lots of other features are added on top of it,
-> and for non-aarch64, the starting point seems to be Cortex-A15, plus "old-style VFP short-vector support".
-> 
-> Is the intention to enable all that can be emulated here too, like for X86?
-> 
-> 
-> KVM: (aarch64-only): aarch64_max_initfn():
-> 
-> The following comment in the code seems wrong to me:
-> 
-> /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host); */
-> 
-> This is not exactly true:
-> 
-> "-cpu max" calls kvm_arm_set_cpu_features_from_host(), (which checks "dtb_compatible", and if not set gets the features from the host, if set ...?)
-> After that, calls aarch64_add_sve_properties() and then adds also "svw-max-vq". This code is common with TCG.
-> 
-> In the case of cpu host instead,
-> 
-> "-cpu host" calls kvm_arm_set_cpu_features_from_host(), same as max, then calls aarch64_add_sve_properties() but does NOT add "svw-max-vq".
-> 
-> Is this a bug?
-> 
-> Are "max" and "host" for KVM supposed to be the same like with x86?
-
-Note that even on x86 "max" and "host" are allowed to be
-different, because they have different purposes.
-
-This can happen if a feature is supported by the host software
-and hardware (so it will be included in "max") but can't be
-enabled by default on "host" for some reason (e.g. if a feature
-doesn't work out of the box without extra configuration options).
-
--- 
-Eduardo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxMTE3MjQ1OS45OTAy
+ODEtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTExNzI0NTkuOTkw
+MjgxLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSB2bDogUUFQSWZ5
+IC1vYmplY3QKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1w
+YXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNo
+LnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAz
+YzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRo
+dWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcv
+MjAyMTAzMTAxNTQ1MjYuNDYzODUwLTEtcGJvbnppbmlAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIw
+MjEwMzEwMTU0NTI2LjQ2Mzg1MC0xLXBib256aW5pQHJlZGhhdC5jb20KICogW25ldyB0YWddICAg
+ICAgICAgcGF0Y2hldy8yMDIxMDMxMTE3MjQ1OS45OTAyODEtMS1wYm9uemluaUByZWRoYXQuY29t
+IC0+IHBhdGNoZXcvMjAyMTAzMTExNzI0NTkuOTkwMjgxLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpT
+d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjU2ZDE1NzUgdmw6IGFsbG93IHBhc3Npbmcg
+SlNPTiB0byAtb2JqZWN0CjMyMGQ1YjMgcW9tOiBtb3ZlIHVzZXJfY3JlYXRhYmxlX2FkZF9vcHRz
+IGxvZ2ljIHRvIHZsLmMgYW5kIFFBUElmeSBpdAo2NDVmOWRmIHRlc3RzOiBjb252ZXJ0IGNoZWNr
+LXFvbS1wcm9wbGlzdCB0byBrZXl2YWwKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2lu
+ZyBjb21taXQgNjQ1ZjlkZmFlYTA1ICh0ZXN0czogY29udmVydCBjaGVjay1xb20tcHJvcGxpc3Qg
+dG8ga2V5dmFsKQoyLzMgQ2hlY2tpbmcgY29tbWl0IDMyMGQ1YjMwMTk2OCAocW9tOiBtb3ZlIHVz
+ZXJfY3JlYXRhYmxlX2FkZF9vcHRzIGxvZ2ljIHRvIHZsLmMgYW5kIFFBUElmeSBpdCkKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE5MjogRklMRTogc29mdG1tdS92bC5jOjE0NToK
+K3N0YXRpYyBRVEFJTFFfSEVBRCgsIE9iamVjdE9wdGlvbikgb2JqZWN0X29wdHMgPSBRVEFJTFFf
+SEVBRF9JTklUSUFMSVpFUihvYmplY3Rfb3B0cyk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
+Y3RlcnMKIzIwMDogRklMRTogc29mdG1tdS92bC5jOjE2OTQ6CitzdGF0aWMgdm9pZCBvYmplY3Rf
+b3B0aW9uX2ZvcmVhY2hfYWRkKGJvb2wgKCp0eXBlX29wdF9wcmVkaWNhdGUpKGNvbnN0IGNoYXIg
+KiksIEVycm9yICoqZXJycCkKCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgMjUzIGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy8zIENoZWNr
+aW5nIGNvbW1pdCA1NmQxNTc1YmNlMWUgKHZsOiBhbGxvdyBwYXNzaW5nIEpTT04gdG8gLW9iamVj
+dCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
+MTAzMTExNzI0NTkuOTkwMjgxLTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
