@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82433372EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:43:07 +0100 (CET)
-Received: from localhost ([::1]:55462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A4A3372FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:46:21 +0100 (CET)
+Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKKeg-0003qn-TE
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:43:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52236)
+	id 1lKKho-0006m9-3c
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:46:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKWH-0003gN-10
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKWF-0003gC-IX
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:34:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34123)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKWA-0006WG-6H
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:34:24 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKWA-0006WH-6P
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:34:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615466056;
+ s=mimecast20190719; t=1615466057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5G1omCn4ptjXrwk/awhGBOcQJU+c3/g3eaqF0LyzqjY=;
- b=aP23+JmW2XlqOiAtMjB16j4NN5fk9vKhEJZcjDZROeV27RheVwHzfrZH7xzeyO8a0zrpC6
- OWEW5YdDVfBA05ooVtZQl/GXCwwvGi6aLVhc4oltBpDmHjxjQPmyppVaJ6mdYSJ9ytfZvp
- nTJqv2keeVQL1kxE5ldYT3YgWU4N3vE=
+ bh=To8A17QUJLYh0uveAu5VbheglTSlu/oogbKxNVlHls4=;
+ b=IIUREMwfkC0EGzOYzBvLLBFaGta+uc/vJl0h7I+Y2bIXIAwRayjUWhhIozGx73hJBWIeUT
+ mTCDSYjBPy+32V62MZz866JptxiKq96Bbc3Z61slSufI/9bHqarR685rNWnpcnjcKQJ8hr
+ AyP0qmao23XcnzNCHmN31NylIrcza2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-MxoYDDdaPZiiyy3YW04Raw-1; Thu, 11 Mar 2021 07:34:12 -0500
-X-MC-Unique: MxoYDDdaPZiiyy3YW04Raw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-117-T65FOOrCMn6kWe14KlaHnA-1; Thu, 11 Mar 2021 07:34:13 -0500
+X-MC-Unique: T65FOOrCMn6kWe14KlaHnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BFB8030A0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCBA1100C61A;
  Thu, 11 Mar 2021 12:34:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DD45196E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C68F60853;
  Thu, 11 Mar 2021 12:34:08 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0764E1800913; Thu, 11 Mar 2021 13:34:02 +0100 (CET)
+ id 1245C1800914; Thu, 11 Mar 2021 13:34:02 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] ui/cocoa: Mark variables static
-Date: Thu, 11 Mar 2021 13:34:00 +0100
-Message-Id: <20210311123401.340122-8-kraxel@redhat.com>
+Subject: [PULL 8/8] ui/cocoa: Fix mouse association state
+Date: Thu, 11 Mar 2021 13:34:01 +0100
+Message-Id: <20210311123401.340122-9-kraxel@redhat.com>
 In-Reply-To: <20210311123401.340122-1-kraxel@redhat.com>
 References: <20210311123401.340122-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,52 +86,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
+ui/cocoa deassociates the mouse input and the mouse cursor
+position only when relative movement inputs are expected. Such
+inputs may let the mouse cursor leave the view and cause undesired
+side effects if they are associated. On the other hand, the
+problem does not occur when inputting absolute points, and the
+association allows seamless cursor movement across views.
+
+However, the synchronization of the association and the expected
+input type was only done when grabbing the mouse. In reality, the
+state whether the emulated input device expects absolute pointing
+inputs or relative movement inputs can vary dynamically due to
+USB device hot-plugging, for example.
+
+This change adds association state updates according to input type
+expectation changes. It also removes an internal flag representing
+the association state because the state can now be determined with
+the current input type expectation and it only adds the
+complexity of the state tracking.
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20210225084202.39601-1-akihiko.odaki@gmail.com>
+Message-Id: <20210222150714.21766-1-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/cocoa.m | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ ui/cocoa.m | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index f71c59711fa6..3af167f0712f 100644
+index 3af167f0712f..a7848ae0a30e 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -82,7 +82,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- 
- static void cocoa_refresh(DisplayChangeListener *dcl);
- 
--NSWindow *normalWindow, *about_window;
-+static NSWindow *normalWindow, *about_window;
- static const DisplayChangeListenerOps dcl_ops = {
-     .dpy_name          = "cocoa",
-     .dpy_gfx_update = cocoa_update,
-@@ -95,11 +95,11 @@ static DisplayChangeListener dcl = {
- static int last_buttons;
- static int cursor_hide = 1;
- 
--int gArgc;
--char **gArgv;
--bool stretch_video;
--NSTextField *pauseLabel;
--NSArray * supportedImageFileTypes;
-+static int gArgc;
-+static char **gArgv;
-+static bool stretch_video;
-+static NSTextField *pauseLabel;
-+static NSArray * supportedImageFileTypes;
- 
- static QemuSemaphore display_init_sem;
- static QemuSemaphore app_started_sem;
-@@ -137,7 +137,7 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+@@ -304,7 +304,6 @@ static void handleAnyDeviceErrors(Error * err)
+     BOOL isMouseGrabbed;
+     BOOL isFullscreen;
+     BOOL isAbsoluteEnabled;
+-    BOOL isMouseDeassociated;
+ }
+ - (void) switchSurface:(pixman_image_t *)image;
+ - (void) grabMouse;
+@@ -321,14 +320,9 @@ static void handleAnyDeviceErrors(Error * err)
+  * isMouseGrabbed tracks whether GUI events are directed to the guest;
+  *   it controls whether special keys like Cmd get sent to the guest,
+  *   and whether we capture the mouse when in non-absolute mode.
+- * isMouseDeassociated tracks whether we've told MacOSX to disassociate
+- *   the mouse and mouse cursor position by calling
+- *   CGAssociateMouseAndMouseCursorPosition(FALSE)
+- *   (which basically happens if we grab in non-absolute mode).
+  */
+ - (BOOL) isMouseGrabbed;
+ - (BOOL) isAbsoluteEnabled;
+-- (BOOL) isMouseDeassociated;
+ - (float) cdx;
+ - (float) cdy;
+ - (QEMUScreen) gscreen;
+@@ -972,10 +966,7 @@ QemuCocoaView *cocoaView;
+             [normalWindow setTitle:@"QEMU - (Press ctrl + alt + g to release Mouse)"];
+     }
+     [self hideCursor];
+-    if (!isAbsoluteEnabled) {
+-        isMouseDeassociated = TRUE;
+-        CGAssociateMouseAndMouseCursorPosition(FALSE);
+-    }
++    CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
+     isMouseGrabbed = TRUE; // while isMouseGrabbed = TRUE, QemuCocoaApp sends all events to [cocoaView handleEvent:]
  }
  
- // Mac to QKeyCode conversion
--const int mac_to_qkeycode_map[] = {
-+static const int mac_to_qkeycode_map[] = {
-     [kVK_ANSI_A] = Q_KEY_CODE_A,
-     [kVK_ANSI_B] = Q_KEY_CODE_B,
-     [kVK_ANSI_C] = Q_KEY_CODE_C,
+@@ -990,17 +981,18 @@ QemuCocoaView *cocoaView;
+             [normalWindow setTitle:@"QEMU"];
+     }
+     [self unhideCursor];
+-    if (isMouseDeassociated) {
+-        CGAssociateMouseAndMouseCursorPosition(TRUE);
+-        isMouseDeassociated = FALSE;
+-    }
++    CGAssociateMouseAndMouseCursorPosition(TRUE);
+     isMouseGrabbed = FALSE;
+ }
+ 
+-- (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {isAbsoluteEnabled = tIsAbsoluteEnabled;}
++- (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
++    isAbsoluteEnabled = tIsAbsoluteEnabled;
++    if (isMouseGrabbed) {
++        CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
++    }
++}
+ - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
+ - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
+-- (BOOL) isMouseDeassociated {return isMouseDeassociated;}
+ - (float) cdx {return cdx;}
+ - (float) cdy {return cdy;}
+ - (QEMUScreen) gscreen {return screen;}
 -- 
 2.29.2
 
