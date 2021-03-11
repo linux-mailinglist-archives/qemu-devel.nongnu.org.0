@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AD4336E57
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:57:14 +0100 (CET)
-Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA22336E60
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:59:37 +0100 (CET)
+Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKH85-0003NV-Q7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:57:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
+	id 1lKHAO-0004VN-UD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:59:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH7F-0002sq-Ch
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42398)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH9W-0003vE-VZ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:58:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH7E-0002nb-0n
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:56:21 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH9U-0004HP-TR
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:58:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615452979;
+ s=mimecast20190719; t=1615453120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ABTWdydiL2UNHoS46gkkXZJDeu7Jg+NiHaWcDl4Ri5c=;
- b=FEYjWneobOCoHwyoA/vmpiRL8cKgoy7s5zhVJBwEtyoDRQSs6sGaXUKUsGnB/VDC+G3iVL
- LXifYT4A8UcyKOL8WgGpKtf2r2FCpYt/JWf1ug7ZyW27JceFQgPAjHN6601aR1gUGqHSHM
- RLVPNSQBs4LMsV7esntw9NaVuny6wOk=
+ bh=MxHhSOWt9lEJj0FjTZhJIIWlqxaMJ5I/bHKEwexA4lE=;
+ b=ST7BEaJvfdXJ5f4hNoQSW05lu+KoQ5dH+W43Db071cie1DlI+IR1q2/aCWnPBlfIEVWR5z
+ stBUPMc064SfSLWK76U8ggWdL/DX74YGlCSHkhphWxo7d9DNCGOvXCzNE6wdtM1LnTJ8of
+ ERg9SCMR3ggb6cmIZu4Uk6btrc9CKBI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-6VvdJBIGNcCViY0fYl7SGg-1; Thu, 11 Mar 2021 03:56:17 -0500
-X-MC-Unique: 6VvdJBIGNcCViY0fYl7SGg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-598-L9nr-WYSOPGcXT9kQpaNdA-1; Thu, 11 Mar 2021 03:58:38 -0500
+X-MC-Unique: L9nr-WYSOPGcXT9kQpaNdA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85E1F801817;
- Thu, 11 Mar 2021 08:56:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B32A8015BA;
+ Thu, 11 Mar 2021 08:58:37 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F1E95D9DB;
- Thu, 11 Mar 2021 08:56:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7F41421F;
+ Thu, 11 Mar 2021 08:58:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B007F180087E; Thu, 11 Mar 2021 09:56:14 +0100 (CET)
-Date: Thu, 11 Mar 2021 09:56:14 +0100
+ id 313B9180087E; Thu, 11 Mar 2021 09:58:35 +0100 (CET)
+Date: Thu, 11 Mar 2021 09:58:35 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Mark variables static
-Message-ID: <20210311085614.ork5tjoqfqtfnjj7@sirius.home.kraxel.org>
-References: <20210225084202.39601-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2] ui/cocoa: Fix mouse association state
+Message-ID: <20210311085835.dgvcu3c3wkl3yjdn@sirius.home.kraxel.org>
+References: <CAFEAcA9bP5TTroWz8k4kkB6bAj81zRBFgR4Uzi0L3BjoNd9JkA@mail.gmail.com>
+ <20210222150714.21766-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210225084202.39601-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210222150714.21766-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,10 +83,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 25, 2021 at 05:42:02PM +0900, Akihiko Odaki wrote:
+On Tue, Feb 23, 2021 at 12:07:14AM +0900, Akihiko Odaki wrote:
+> ui/cocoa deassociates the mouse input and the mouse cursor
+> position only when relative movement inputs are expected. Such
+> inputs may let the mouse cursor leave the view and cause undesired
+> side effects if they are associated. On the other hand, the
+> problem does not occur when inputting absolute points, and the
+> association allows seamless cursor movement across views.
+> 
+> However, the synchronization of the association and the expected
+> input type was only done when grabbing the mouse. In reality, the
+> state whether the emulated input device expects absolute pointing
+> inputs or relative movement inputs can vary dynamically due to
+> USB device hot-plugging, for example.
+> 
+> This change adds association state updates according to input type
+> expectation changes. It also removes an internal flag representing
+> the association state because the state can now be determined with
+> the current input type expectation and it only adds the
+> complexity of the state tracking.
+> 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Added to UI queue.
+Added to usb queue.
 
 thanks,
   Gerd
