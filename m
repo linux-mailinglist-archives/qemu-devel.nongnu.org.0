@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B46E336F12
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:43:59 +0100 (CET)
-Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7437F336F1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:45:48 +0100 (CET)
+Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHrJ-00065o-IT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:43:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
+	id 1lKHt5-0007dO-46
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:45:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKHoe-0003zz-SC
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:41:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKHoa-0005dn-Ax
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:41:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615455666;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Y5SoJT8iDhNIm/NRHvrr1gM4tOupNO9rJYa4LwpFZKM=;
- b=g5Ob3tjrAKlih0MKwpeIruMTgjB1XP5Li5N6z+45A6i1mN1Sw9daCLvRfi39zDBWMI8WMc
- FyDvL9L4iNwAkHAbIE0bE4ySrmRgxD3utO7V1UeCIhQSnvArnsV9//2HX64DsmchEHsja2
- OysCXfydRNJi7clceXbVHcf7Jo4qBAQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-dyd1bK2wMGWi4jAtHoC1rg-1; Thu, 11 Mar 2021 04:40:54 -0500
-X-MC-Unique: dyd1bK2wMGWi4jAtHoC1rg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E04283DD25;
- Thu, 11 Mar 2021 09:40:52 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2355D69321;
- Thu, 11 Mar 2021 09:40:44 +0000 (UTC)
-Date: Thu, 11 Mar 2021 09:40:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 1/1] docs/devel: Add VFIO device migration documentation
-Message-ID: <YEnlmqNuvIxAB9mc@redhat.com>
-References: <20210310192009.53848-1-targupta@nvidia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKHrN-0006hl-BB
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:01 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35513)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKHrL-0007Qj-FW
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:00 -0500
+Received: by mail-ed1-x533.google.com with SMTP id dm8so1769787edb.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 01:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sB2aHs0Y+3AFLBBaf7KmmINMm7Tiz5ZCMdeTFQx2y5w=;
+ b=KMyoIXE3vAN4iEG4DYf2Wgl6CIfIdlXgkESM25x7qpeqJG+QOqLOmP2b01dEOejUNG
+ QOppCZpJm4pSdJem08Ix6sSbYYJt0D0NPHkNKd2cOrdRbASk1Yyv/ZFw7Ti2nCcrWml8
+ T9oeMAUUV5oVNvVgOGfyuzqTmzWL0wnC21S9DSmt6VTyFehdYtnG/Ps0JBeuIU0+WjKa
+ 1DGH3zzDfU7rLP1FjVbKDpsHdwU3hnnuq4x6uvHyFz7nrpoF8C8NgIajIC8YD5EOqtHQ
+ bTtSlozIUZVMU7u4JyP0DmJOicneTFx6CTvSTrF2eR+09dbCWEN5qQSq8O3lZMuD+V8H
+ H4jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sB2aHs0Y+3AFLBBaf7KmmINMm7Tiz5ZCMdeTFQx2y5w=;
+ b=KavpGrmtL+YHAZEvw7uGvEDZTS5fAz/Dnx/b8w5N57rY7fUp6J1JeGPrHdjZSo9x1c
+ SkHE4RYGyleZeIkxxMfr21Pz6/AHxPm11Zb6S/ha0YDP+PwOBe/zpboWwHir6gKb5te+
+ i0rt+zgd8uMAMQbDXqcSaJ9THOUsKrTubicVxs2uiHvwKScuEWmMaYUNT8TOvePfxDfW
+ PDALppnF0u9DVtxPqM/O5ei2I6OpmAN5FiD7F2w80VFnT6vhs6CNjwgNOhYQxLnLT3P7
+ +Ur7fB0ZGFI0ji29REL4la8aaEf3eOFG1j82Z7yDGqaGvRY8yDlVXpocKdcgYmMHMXsp
+ 3TfA==
+X-Gm-Message-State: AOAM532GW/bJHghU0HuFs01oILUMM9ZL1wqWf1U6cynmRbnGhUhJbjNK
+ HXmkBeCK/Dr3SWqkwv+wb/e72b5OcDhnYYmpLhuqnQ==
+X-Google-Smtp-Source: ABdhPJweKpd8aHGJ7yBGjVN1+RjQVVMJ+owta1mniN1D5l4mJPwj0xT7XdySekTHQJVvgSuxjZ75pk6Bb0toqx58shc=
+X-Received: by 2002:aa7:d686:: with SMTP id d6mr7831914edr.146.1615455837410; 
+ Thu, 11 Mar 2021 01:43:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210310192009.53848-1-targupta@nvidia.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210303191205.1656980-1-philmd@redhat.com>
+ <20210303191205.1656980-3-philmd@redhat.com>
+ <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+ <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
+ <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
+ <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
+ <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
+ <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
+ <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
+ <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
+ <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
+In-Reply-To: <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Mar 2021 09:43:39 +0000
+Message-ID: <CAFEAcA8_j6q8PweuoUVyW+BAGojZ8HdNnedrZwQNcBFWbn9Kbg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,55 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kevin.tian@intel.com, cjia@nvidia.com, quintela@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org,
- Kirti Wankhede <kwankhede@nvidia.com>, dgilbert@redhat.com,
- lushenming@huawei.com, alex.williamson@redhat.com, dnigam@nvidia.com,
- yan.y.zhao@intel.com, philmd@redhat.com
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 12:50:09AM +0530, Tarun Gupta wrote:
-> Document interfaces used for VFIO device migration. Added flow of state changes
-> during live migration with VFIO device. Tested by building docs with the new
-> vfio-migration.rst file.
-> 
-> v2:
-> - Included the new vfio-migration.rst file in index.rst
-> - Updated dirty page tracking section, also added details about
->   'pre-copy-dirty-page-tracking' opt-out option.
-> - Incorporated comments around wording of doc.
-> 
-> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> ---
->  MAINTAINERS                   |   1 +
->  docs/devel/index.rst          |   1 +
->  docs/devel/vfio-migration.rst | 135 ++++++++++++++++++++++++++++++++++
->  3 files changed, 137 insertions(+)
->  create mode 100644 docs/devel/vfio-migration.rst
+On Thu, 11 Mar 2021 at 03:01, Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/3/9 6:13 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
+> > On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >> Ah, so we want this:
+> >>
+> >> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
+> >>
+> >> correct?
 
+> > No, option (2) is "always pad short packets regardless of
+> > sender->info->type". Even if a NIC driver sends out a short
+> > packet, we want to pad it, because we might be feeding it to
+> > something that assumes it does not see short packets.
+>
+> So I'm not sure this is correct. There're NIC that has its own logic
+> that choose whether to pad the frame during TX (e.g e1000).
 
-> +Postcopy
-> +========
-> +
-> +Postcopy migration is not supported for VFIO devices.
+Yes; that would be dead-code if we go for "always pad", the same
+as the code in devices to handle incoming short packets would also
+be dead.
 
-What is the problem here and is there any plan for how to address it ?
+> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
+> keep the padding logic in the NIC itself (probably with a generic helper
+> in the core). Since 1) the padding is only required for ethernet 2)
+> virito-net doesn't need that (it can pass incomplete packet by design).
 
-Postcopy is essentially the only migration mechanism that can reliably
-complete, so it really should be considered the default approach to
-migration for all mgmt apps wanting to do migration, except in special
-cases.   IOW, if we want VFIO migration to be viable, we need postcopy
-support.
+Like I said, we need to decide; either:
 
+ (1) we do want to support short packets in the net core:
+every sender needs to either pad, or to have some flag to say
+"my implementation can't pad, please can the net core do it for me",
+unless they are deliberately sending a short packet. Every
+receiver needs to be able to cope with short packets, at least
+in the sense of not crashing (they should report them as a rx
+error if they have that kind of error reporting status register).
+I think we have mostly implemented our NIC models this way.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ (2) we simply don't support short packets in the net core:
+nobody (not NICs, not network backends) needs to pad, because
+they can rely on the core to do it. Some existing senders and
+receivers may have now-dead code to do their own padding which
+could be removed.
 
+MST is advocating for (1) in that old thread. That's a coherent
+position. You've said earlier that we want (2). That's also
+a coherent position. A mix of the two doesn't seem to
+me to be very workable.
+
+thanks
+-- PMM
 
