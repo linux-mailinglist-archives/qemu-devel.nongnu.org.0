@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7437F336F1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:45:48 +0100 (CET)
-Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E9E336F28
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:46:39 +0100 (CET)
+Received: from localhost ([::1]:43880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHt5-0007dO-46
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:45:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1lKHtu-0000dZ-QO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:46:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKHrN-0006hl-BB
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:01 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKHrL-0007Qj-FW
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:00 -0500
-Received: by mail-ed1-x533.google.com with SMTP id dm8so1769787edb.2
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 01:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sB2aHs0Y+3AFLBBaf7KmmINMm7Tiz5ZCMdeTFQx2y5w=;
- b=KMyoIXE3vAN4iEG4DYf2Wgl6CIfIdlXgkESM25x7qpeqJG+QOqLOmP2b01dEOejUNG
- QOppCZpJm4pSdJem08Ix6sSbYYJt0D0NPHkNKd2cOrdRbASk1Yyv/ZFw7Ti2nCcrWml8
- T9oeMAUUV5oVNvVgOGfyuzqTmzWL0wnC21S9DSmt6VTyFehdYtnG/Ps0JBeuIU0+WjKa
- 1DGH3zzDfU7rLP1FjVbKDpsHdwU3hnnuq4x6uvHyFz7nrpoF8C8NgIajIC8YD5EOqtHQ
- bTtSlozIUZVMU7u4JyP0DmJOicneTFx6CTvSTrF2eR+09dbCWEN5qQSq8O3lZMuD+V8H
- H4jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sB2aHs0Y+3AFLBBaf7KmmINMm7Tiz5ZCMdeTFQx2y5w=;
- b=KavpGrmtL+YHAZEvw7uGvEDZTS5fAz/Dnx/b8w5N57rY7fUp6J1JeGPrHdjZSo9x1c
- SkHE4RYGyleZeIkxxMfr21Pz6/AHxPm11Zb6S/ha0YDP+PwOBe/zpboWwHir6gKb5te+
- i0rt+zgd8uMAMQbDXqcSaJ9THOUsKrTubicVxs2uiHvwKScuEWmMaYUNT8TOvePfxDfW
- PDALppnF0u9DVtxPqM/O5ei2I6OpmAN5FiD7F2w80VFnT6vhs6CNjwgNOhYQxLnLT3P7
- +Ur7fB0ZGFI0ji29REL4la8aaEf3eOFG1j82Z7yDGqaGvRY8yDlVXpocKdcgYmMHMXsp
- 3TfA==
-X-Gm-Message-State: AOAM532GW/bJHghU0HuFs01oILUMM9ZL1wqWf1U6cynmRbnGhUhJbjNK
- HXmkBeCK/Dr3SWqkwv+wb/e72b5OcDhnYYmpLhuqnQ==
-X-Google-Smtp-Source: ABdhPJweKpd8aHGJ7yBGjVN1+RjQVVMJ+owta1mniN1D5l4mJPwj0xT7XdySekTHQJVvgSuxjZ75pk6Bb0toqx58shc=
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr7831914edr.146.1615455837410; 
- Thu, 11 Mar 2021 01:43:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKHrt-0007Is-Hl
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:33 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:41463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKHrr-0007mi-6X
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:33 -0500
+Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N8GhM-1lorUn2vCq-0148jQ; Thu, 11 Mar 2021 10:44:25 +0100
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
+ <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
+ <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
+ <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
+ <24d71ce3-b5b9-28fa-74c2-b22076bef287@vivier.eu>
+ <762713e4-96a8-e989-fa76-2febad83afce@vivier.eu>
+ <4d88313a-c067-163d-2d80-c60786bc9d85@ilande.co.uk>
+ <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
+ <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
+Message-ID: <34f75085-feed-ede5-e17c-df4553b630b4@vivier.eu>
+Date: Thu, 11 Mar 2021 10:44:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
- <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
- <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
- <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
- <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
- <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
- <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
-In-Reply-To: <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 09:43:39 +0000
-Message-ID: <CAFEAcA8_j6q8PweuoUVyW+BAGojZ8HdNnedrZwQNcBFWbn9Kbg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:lm0rYpRL3oXKns73RfUG1lW2I5hUmb2uduSjJmu1EIvhFaLsWHq
+ Jc1Tt9h2DladDBAUC4eig9JHXNtxfUXtQV6+TZx4bDmIY84I/tiSJ437Iw9Iywn89LdyU5i
+ DQqBuDA0AvRYErcUyknb83yW7aPFgCAHCiByh1pbCxQk9uH5n73BHJM8RMeH8WgM+6Y4Y0a
+ E3JHbbt7B4M6XuSZMIXJg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pfRIZHlrXAI=:V1FzXf3UVIWk9LNhz6Ppza
+ 5e0KlaBttKAKXyv/KDD6wrvc6hhCNP65mf59EdWQ/0WEiHce3dV+yBCrHUbEXDwnYioYrgBqH
+ K/myGYJ/lSUfG56/nCp3P+v+AtEjjx7Ywxm2MbIwr3tILB/P3dNkjU0pj1GlhQ9Wc6mmN9EWP
+ OgqngiVPGUD84l+Ix8WE6cdX4eZPFrMrUS1ystd3Jj7Ar/Cxh9KQtHNYdP5Zd3MqdulR6GPnv
+ 3nb77LfZoNSEfKi4OCQo3ytTHN+Ob76Yw22xAZkCehyRJz+v6fJCDOeCDc1Knrx/3g8CmJGHz
+ SHvTZ4UCu15GKG/ZaNgI658JxuFVwQOx3Iraclz1xh/NrWqIVmG1bIbOpcvsxp/R6Jx8Fepom
+ IerdiUKx5Y18q64NXYcuf6xDSJAL+CcyYshsR7JsTXPVHHGCpv6mquueMxGhnOm0bdTrkmtBj
+ UTGnSukjSQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,64 +74,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 03:01, Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/3/9 6:13 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
-> > On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >> Ah, so we want this:
-> >>
-> >> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
-> >>
-> >> correct?
+Le 11/03/2021 à 10:04, Mark Cave-Ayland a écrit :
+> On 11/03/2021 00:15, BALATON Zoltan wrote:
+> 
+>> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
+>>> On 10/03/2021 13:24, Laurent Vivier wrote:
+>>>> Le 10/03/2021 à 14:10, Laurent Vivier a écrit :
+>>>>> Le 10/03/2021 à 13:56, Laurent Vivier a écrit :
+>>>>>> Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
+>>>>>>> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
+>>>>>>>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
+>>>>>>>> interval should be measured in ns, and therefore its period is a thousand
+>>>>>>>> times too short.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>>>>> ---
+>>>>>>>> hw/misc/mac_via.c | 4 ++--
+>>>>>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>>>>>>>> index f994fefa7c..c6e1552a59 100644
+>>>>>>>> --- a/hw/misc/mac_via.c
+>>>>>>>> +++ b/hw/misc/mac_via.c
+>>>>>>>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
+>>>>>>>>      MOS6522State *s = MOS6522(v1s);
+>>>>>>>>
+>>>>>>>>      /* 60 Hz irq */
+>>>>>>>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
+>>>>>>>> -                          16630 * 16630;
+>>>>>>>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
+>>>>>>>> +                          16630000 * 16630000;
+>>>>>>>
+>>>>>>> Can you put this magic number in a #define maybe also rewriting it in a way that shows it
+>>>>>>> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in include/qemu/timer.h
+>>>>>>> that could be used for that, there's also SCALE_MS that might replace 1000 * 1000 elsewhere
+>>>>>>> in this
+>>>>>>> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used here instead?
+>>>>>>
+>>>>>> In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, in kernel
+>>>>>> 60.15 Hz.
+>>>>>> I Think there are several ways to compute it...
+>>>>>>
+>>>>>
+>>>>> In fact, we can read:
+>>>>>
+>>>>> "the vertical retrace frequency is approximately 60.15 Hz, resulting in a period of approximately
+>>>>> 16.63 milliseconds"
+>>>>>
+>>>>> https://developer.apple.com/library/archive/documentation/mac/pdf/Processes/Vertical_Retrace_Mgr.pdf
+>>>>>
+>>>>
+>>>> The exact value is 16625800 ns
+>>>>
+>>>> "Macintosh Family Hardware Reference" ISBN 0-201-19255-1
+>>>> "The video interface"
+>>>> p. 13-3
+>>>>
+>>>> "[...] This means the full frame is redisplayed every 370 scan lines, or once every 166625.8 µs."
+>>>
+>>> Thanks Laurent! Given that the exact precision is 6 digits I don't think it's possible to make
+>>> use of conversion macros without either making it harder to read or reducing the precision.
+>>>
+>>> I think the best solution here would be to #define VIA1_60HZ_TIMER_PERIOD_NS with a comment
+>>> containing the above reference, and use that in the period calculation. Would that be sufficient?
+>>
+>> Yes, I think that would make this a lot clearer than having this number without explanation so
+>> that would be sufficient.
+>>
+>> Is this referred to as 60Hz timer in the hardware docs? Because that name is a bit misleading when
+>> it's actually not exactly 60Hz. But in the previous patch VBlank which this was called before was
+>> also found misleading so I can't think of a better name. Not sure if calling it compat_vblank
+>> would be too verbose or any better. Maybe you can just add a comment explaining what this is
+>> somewhere where it's defined or near the update function and then it does not matter what you call
+>> it, the comment should explain why it's not quite sixty_hz. I'm also OK with calling it sixty_hz
+>> just though if there's a way to give it a less confusing name you could consider that but I don't
+>> have a better name either so feel free to ignore this.
+> 
+> Yes indeed, depending upon the documentation it is referred to as either the 60Hz or the 60.15Hz
+> timer. Certainly that's enough information for anyone familiar with Mac internals to understand
+> exactly what you are referring to. There are also plenty of examples of this elsewhere e.g. for
+> graphics cards the high level claim will be that it supports over 16 million colours whereas the
+> engineers know specifically that the exact number is 16777216.
+> 
+> I'll write up a suitable comment with a #define and send through a v2, perhaps altering the comment
+> on the timer itself to read 60.15Hz as that's what the reference cited by Laurent also uses.
 
-> > No, option (2) is "always pad short packets regardless of
-> > sender->info->type". Even if a NIC driver sends out a short
-> > packet, we want to pad it, because we might be feeding it to
-> > something that assumes it does not see short packets.
->
-> So I'm not sure this is correct. There're NIC that has its own logic
-> that choose whether to pad the frame during TX (e.g e1000).
+If you want more details, this is also in "Apple Guide to the Macintosh Family Hardware", 2nd
+edition, Chapter 12, "Displays", p. 401 (p.440 of the following PDF):
 
-Yes; that would be dead-code if we go for "always pad", the same
-as the code in devices to handle incoming short packets would also
-be dead.
+https://archive.org/details/apple-guide-macintosh-family-hardware
 
-> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
-> keep the padding logic in the NIC itself (probably with a generic helper
-> in the core). Since 1) the padding is only required for ethernet 2)
-> virito-net doesn't need that (it can pass incomplete packet by design).
-
-Like I said, we need to decide; either:
-
- (1) we do want to support short packets in the net core:
-every sender needs to either pad, or to have some flag to say
-"my implementation can't pad, please can the net core do it for me",
-unless they are deliberately sending a short packet. Every
-receiver needs to be able to cope with short packets, at least
-in the sense of not crashing (they should report them as a rx
-error if they have that kind of error reporting status register).
-I think we have mostly implemented our NIC models this way.
-
- (2) we simply don't support short packets in the net core:
-nobody (not NICs, not network backends) needs to pad, because
-they can rely on the core to do it. Some existing senders and
-receivers may have now-dead code to do their own padding which
-could be removed.
-
-MST is advocating for (1) in that old thread. That's a coherent
-position. You've said earlier that we want (2). That's also
-a coherent position. A mix of the two doesn't seem to
-me to be very workable.
-
-thanks
--- PMM
+Thanks,
+Laurent
 
