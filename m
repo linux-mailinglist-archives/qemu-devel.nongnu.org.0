@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C9C3368E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:37:24 +0100 (CET)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD973368C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:34:10 +0100 (CET)
+Received: from localhost ([::1]:58508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9KN-0005z4-Qi
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
+	id 1lK9HF-0002Mb-1g
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:34:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95y-0004z1-A8
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:30 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:37391)
+ id 1lK95x-0004we-4h
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:29 -0500
+Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:34422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95r-0001Nf-If
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:29 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id u198so16280917oia.4
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:19 -0800 (PST)
+ id 1lK95r-0001Nl-Ge
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:28 -0500
+Received: by mail-oo1-xc33.google.com with SMTP id
+ j10-20020a4ad18a0000b02901b677a0ba98so260470oor.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nOcCqouDns092uF55tQtl1fDm3cEeRkhfT79EV17jr8=;
- b=hBW5CB2EptuCGCE+tUnukw7WDKmYleGUbcY3WXv+zhtaku2/CqGo8mx6/GWrXL75F8
- 5swztmubnkVY01a/JLDU1veJPXbRzeDZ6+etEqwNeeQv/IfXSDEHDwklEa9EHmhdGPLk
- JcMGJLVCUOB0J4qyEUGTUyJHYjT/0LczB2pXsbqeX303rqRm0gRkbtaKLZAjxhAsu2t4
- 9hdC4d4evq4CgP4h5TQY+C56CwRxbWAFPXdXHg3LgJUwAm31T4GRQF7fQku0XKVNKZf6
- satkUchGJ4HA8WwjfgRkVYPCIFVeESlKwfJYPswygXVp4cPq4xjY3WOe/rnMxSoX2RiM
- 5t0A==
+ bh=Bg/ftYJpZmIv5dqq+Yn+4tV/QrT7/G+XyqQDNfj556Y=;
+ b=Z1Yz6zNb9Piac7DRb1/1IngOm+HfFt82DkqzxWKny/D+jvd5vQthm6UO0kd5f9AN1o
+ B2FsFVcABK2Rz49pc1bus9Q4NJmlTTNEpxAhQXvAAaifSLbULJc8i82A1alTaH3XGHD4
+ PAmDkj6+pTeQ+74uhdgO8/bqqiH02zw74QIl7Cbq8w2+7zBLD+td0X8bCabmDtfq2/6m
+ rhM+YA0JBf2tCeF9IdqSjOIx0T+MZbewFUldcsa/YnSpX1jT3HzqWcLf+JnkohxMveTg
+ RlYAdSkggKqyllFe3yfXnaNhCnqF7qkKQbFD4mkAKu8MaU/fqP3pG66vVqEOSoDDvaPf
+ fq7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nOcCqouDns092uF55tQtl1fDm3cEeRkhfT79EV17jr8=;
- b=ftS+89aryNzOnOxIUj2sRKHXIkcXOhJQu9TSgQoBkOljrc9tTtTGOlpZ5W458ST2nX
- Ka/DgcqzpgO4kdcHkvVQlQVLINKzRws3lhCT4MqYWaYgvPQEOBkzqHFPuVqO9vD7wETk
- dlEwBNSMNIxZ/sblCttQFwoNANHrPodWCoKt7bWusogXUsSfahzd0zRjrmtr2I+3cVH3
- hNMgGR6raVX7BEIFK4qCVDO6PGWs2tIjVaVaIe6Vv86qszMleVuNDm1ONdp466yVCDGL
- wwMQZRUvCfoTrrAIyRqIZdfhoWSSuKAPpXx74MrwGf6itHyOgtRse4iroo0j8MoqGiSa
- Ve6w==
-X-Gm-Message-State: AOAM5318RjiDv0P+lvmnKQLISbiu97pmslxUD4ap33SKjuSzhNwSHNEE
- ngJZ7koR9kGiNnU5dKKbh/mVEFFkr5rTT75j
-X-Google-Smtp-Source: ABdhPJzpUsYFAbKN+hPZsei6jRmnnDD2GQbAArxW6usnZf/FTyBp/1wOpWcGHVkaEJjcBH4Q1bYJPw==
-X-Received: by 2002:a54:4010:: with SMTP id x16mr4270808oie.151.1615422139220; 
- Wed, 10 Mar 2021 16:22:19 -0800 (PST)
+ bh=Bg/ftYJpZmIv5dqq+Yn+4tV/QrT7/G+XyqQDNfj556Y=;
+ b=C3rBok2wf9/xC20mtj8kZagy3gq6pJbFtPTJhE7xO7TMYYOVKTvcjFfGvvroqQd5N2
+ v5KkMj/b7OPEv3atjvpRSKcbF2tQuj/WZifkztlXZ/jaAaWQTkIstvaX3zaWEAxNItAK
+ 6PnxzxGLoWTfjoTUMhDKC1Eoc02LK6gzRpGB5Y1Js19fyx9SombQf2T6pbZUQjc3cz75
+ BVBXMLowoEpEPMf0l2ojETPWIRTJGI9ZhHcrKeDUA1c/+dwoBoZSWtVxrBGXT6VAwsgk
+ BJS5uu+Azix/6a7uDiMHmbJxnA+t58ZwFFJONANqidtPETcdpu9GDpLGeZg/peucDbG9
+ Z6UA==
+X-Gm-Message-State: AOAM530sNjZpKEqnMk6cdIXDWRKkZooJVKCjKZa9a7XMIc0DNioOcc9p
+ 5CRCHXsy2NXcES7kit6eAhusc0A9XjbDw4wl
+X-Google-Smtp-Source: ABdhPJwVm+7yAO/40hVJHwRFVQFgWE+5lZ15z7Xa4AAqAs5Cir2P9+YjGSEQr8svy/b7pElpxUam1w==
+X-Received: by 2002:a4a:a1a1:: with SMTP id k33mr4446752ool.34.1615422140306; 
+ Wed, 10 Mar 2021 16:22:20 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.18
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:18 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/26] tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
-Date: Wed, 10 Mar 2021 18:21:46 -0600
-Message-Id: <20210311002156.253711-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/26] tcg: Replace region.end with region.total_size
+Date: Wed, 10 Mar 2021 18:21:47 -0600
+Message-Id: <20210311002156.253711-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,190 +88,107 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the ifdef ladder and move each define into the
-appropriate header file.
+A size is easier to work with than an end point,
+particularly during initial buffer allocation.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h |  1 +
- tcg/arm/tcg-target.h     |  1 +
- tcg/i386/tcg-target.h    |  2 ++
- tcg/mips/tcg-target.h    |  6 ++++++
- tcg/ppc/tcg-target.h     |  2 ++
- tcg/riscv/tcg-target.h   |  1 +
- tcg/s390/tcg-target.h    |  3 +++
- tcg/sparc/tcg-target.h   |  1 +
- tcg/tci/tcg-target.h     |  1 +
- tcg/region.c             | 32 ++++++--------------------------
- 10 files changed, 24 insertions(+), 26 deletions(-)
+ tcg/region.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 5ec30dba25..ef55f7c185 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -15,6 +15,7 @@
- 
- #define TCG_TARGET_INSN_UNIT_SIZE  4
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
-+#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #undef TCG_TARGET_STACK_GROWSUP
- 
- typedef enum {
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 8d1fee6327..b9a85d0f83 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -60,6 +60,7 @@ extern int arm_arch;
- #undef TCG_TARGET_STACK_GROWSUP
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
-+#define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
- 
- typedef enum {
-     TCG_REG_R0 = 0,
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index b693d3692d..ac10066c3e 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -31,9 +31,11 @@
- #ifdef __x86_64__
- # define TCG_TARGET_REG_BITS  64
- # define TCG_TARGET_NB_REGS   32
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #else
- # define TCG_TARGET_REG_BITS  32
- # define TCG_TARGET_NB_REGS   24
-+# define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
- #endif
- 
- typedef enum {
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index c2c32fb38f..e81e824cab 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -39,6 +39,12 @@
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- #define TCG_TARGET_NB_REGS 32
- 
-+/*
-+ * We have a 256MB branch region, but leave room to make sure the
-+ * main executable is also within that region.
-+ */
-+#define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-+
- typedef enum {
-     TCG_REG_ZERO = 0,
-     TCG_REG_AT,
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index d1339afc66..c13ed5640a 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -27,8 +27,10 @@
- 
- #ifdef _ARCH_PPC64
- # define TCG_TARGET_REG_BITS  64
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #else
- # define TCG_TARGET_REG_BITS  32
-+# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
- #endif
- 
- #define TCG_TARGET_NB_REGS 64
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index 727c8df418..87ea94666b 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -34,6 +34,7 @@
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 20
- #define TCG_TARGET_NB_REGS 32
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO,
-diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-index 641464eea4..b04b72b7eb 100644
---- a/tcg/s390/tcg-target.h
-+++ b/tcg/s390/tcg-target.h
-@@ -28,6 +28,9 @@
- #define TCG_TARGET_INSN_UNIT_SIZE 2
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 19
- 
-+/* We have a +- 4GB range on the branches; leave some slop.  */
-+#define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
-+
- typedef enum TCGReg {
-     TCG_REG_R0 = 0,
-     TCG_REG_R1,
-diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-index f66f5d07dc..86bb9a2d39 100644
---- a/tcg/sparc/tcg-target.h
-+++ b/tcg/sparc/tcg-target.h
-@@ -30,6 +30,7 @@
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
- #define TCG_TARGET_NB_REGS 32
-+#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- 
- typedef enum {
-     TCG_REG_G0 = 0,
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 9c0021a26f..03cf527cb4 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -43,6 +43,7 @@
- #define TCG_TARGET_INTERPRETER 1
- #define TCG_TARGET_INSN_UNIT_SIZE 1
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- #if UINTPTR_MAX == UINT32_MAX
- # define TCG_TARGET_REG_BITS 32
 diff --git a/tcg/region.c b/tcg/region.c
-index e3fbf6a7e7..8fba0724e5 100644
+index 8fba0724e5..7fb24f6b60 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -398,34 +398,14 @@ static size_t tcg_n_regions(unsigned max_cpus)
- #endif
+@@ -48,7 +48,7 @@ struct tcg_region_state {
+     /* fields set at init time */
+     void *start;
+     void *start_aligned;
+-    void *end;
++    size_t total_size; /* size of entire buffer */
+     size_t n;
+     size_t size; /* size of one region */
+     size_t stride; /* .size + guard size */
+@@ -279,7 +279,7 @@ static void tcg_region_bounds(size_t curr_region, void **pstart, void **pend)
+         start = region.start;
+     }
+     if (curr_region == region.n - 1) {
+-        end = region.end;
++        end = region.start_aligned + region.total_size;
+     }
+ 
+     *pstart = start;
+@@ -810,8 +810,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+  */
+ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+ {
+-    void *buf, *aligned;
+-    size_t size;
++    void *buf, *aligned, *end;
++    size_t total_size;
+     size_t page_size;
+     size_t region_size;
+     size_t n_regions;
+@@ -824,19 +824,20 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+     assert(ok);
+ 
+     buf = tcg_init_ctx.code_gen_buffer;
+-    size = tcg_init_ctx.code_gen_buffer_size;
++    total_size = tcg_init_ctx.code_gen_buffer_size;
+     page_size = qemu_real_host_page_size;
+     n_regions = tcg_n_regions(max_cpus);
+ 
+     /* The first region will be 'aligned - buf' bytes larger than the others */
+     aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
+-    g_assert(aligned < tcg_init_ctx.code_gen_buffer + size);
++    g_assert(aligned < tcg_init_ctx.code_gen_buffer + total_size);
++
+     /*
+      * Make region_size a multiple of page_size, using aligned as the start.
+      * As a result of this we might end up with a few extra pages at the end of
+      * the buffer; we will assign those to the last region.
+      */
+-    region_size = (size - (aligned - buf)) / n_regions;
++    region_size = (total_size - (aligned - buf)) / n_regions;
+     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
+ 
+     /* A region must have at least 2 pages; one code, one guard */
+@@ -850,9 +851,11 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+     region.start = buf;
+     region.start_aligned = aligned;
+     /* page-align the end, since its last page will be a guard page */
+-    region.end = QEMU_ALIGN_PTR_DOWN(buf + size, page_size);
++    end = QEMU_ALIGN_PTR_DOWN(buf + total_size, page_size);
+     /* account for that last guard page */
+-    region.end -= page_size;
++    end -= page_size;
++    total_size = end - aligned;
++    region.total_size = total_size;
+ 
+     /* set guard pages */
+     splitwx_diff = tcg_splitwx_diff;
+@@ -890,7 +893,7 @@ void tcg_region_prologue_set(TCGContext *s)
+ 
+     /* Register the balance of the buffer with gdb. */
+     tcg_register_jit(tcg_splitwx_to_rx(region.start),
+-                     region.end - region.start);
++                     region.start_aligned + region.total_size - region.start);
  }
  
--/* Minimum size of the code gen buffer.  This number is randomly chosen,
--   but not so small that we can't have a fair number of TB's live.  */
-+/*
-+ * Minimum size of the code gen buffer.  This number is randomly chosen,
-+ * but not so small that we can't have a fair number of TB's live.
-+ *
-+ * Maximum size is defined in tcg-target.h.
-+ */
- #define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
+ /*
+@@ -931,8 +934,10 @@ size_t tcg_code_capacity(void)
  
--/* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
--   indicated, this is constrained by the range of direct branches on the
--   host cpu, as used by the TCG implementation of goto_tb.  */
--#if defined(__x86_64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__sparc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__powerpc64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__powerpc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
--#elif defined(__aarch64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__s390x__)
--  /* We have a +- 4GB range on the branches; leave some slop.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
--#elif defined(__mips__)
--  /* We have a 256MB branch region, but leave room to make sure the
--     main executable is also within that region.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
--#else
--# define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
--#endif
--
- #if TCG_TARGET_REG_BITS == 32
- #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
- #ifdef CONFIG_USER_ONLY
+     /* no need for synchronization; these variables are set at init time */
+     guard_size = region.stride - region.size;
+-    capacity = region.end + guard_size - region.start;
+-    capacity -= region.n * (guard_size + TCG_HIGHWATER);
++    capacity = region.total_size;
++    capacity -= (region.n - 1) * guard_size;
++    capacity -= region.n * TCG_HIGHWATER;
++
+     return capacity;
+ }
+ 
 -- 
 2.25.1
 
