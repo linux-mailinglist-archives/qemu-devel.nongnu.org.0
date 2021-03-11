@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D897337557
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:22:21 +0100 (CET)
-Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4EE33757A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:23:59 +0100 (CET)
+Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMCi-0000yI-HM
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:22:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53528)
+	id 1lKMEI-0002lG-BN
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKLzH-000117-LF
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:08:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52065)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCw-0001Rm-2I
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKLzE-0002FM-Bx
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:08:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCp-0003cb-6x
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615471703;
+ s=mimecast20190719; t=1615472544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IjJtPH/4jYI7VpVZaQ2xwJY/9rG6S/IX/JjWoQdmnsU=;
- b=bzr2BKf4Yr3ab/1nyir9ICo4g5AWBnRfo6QJZcDMkaPdKAnDZz81OT2MBZGbzWRxJRdeAs
- pixYq3fvSbztPXLibhwhz00aTntm3n2E7V2DZxIKn4kSUUkN7WZhyOm42wqm/AU81hNF2/
- /ZU1mZxuOb0cV8sWL84Pq6jPD6nj0Qs=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=r5ZtgF+BNU30u2JT6LhTLX1xIaKvJt8mBxAqme7Wg6k=;
+ b=LDJvCE7bMCEpm9bVi+dNyrOLc7Ni0uZRMrfewLGKnK/2Af/gDggDDLSD6IjzixFO15whtN
+ CvnuOfcfPJ4dwbMwR3q3LHknrF25Y/iXqP08+LL6und15Bx0JhUFtO+CvVqMCHO5igrRxC
+ iDa5BI3oihHYhS3gXmNcqhcrZd5vbMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-9E9zLbvzNaWyjAKwwUHH0w-1; Thu, 11 Mar 2021 09:08:21 -0500
-X-MC-Unique: 9E9zLbvzNaWyjAKwwUHH0w-1
+ us-mta-451-B2Sr7Pj6OtaNrXRX6m6Rvg-1; Thu, 11 Mar 2021 09:22:22 -0500
+X-MC-Unique: B2Sr7Pj6OtaNrXRX6m6Rvg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B750100C61A;
- Thu, 11 Mar 2021 14:08:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF89318AAB;
- Thu, 11 Mar 2021 14:08:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3A8CE1132C12; Thu, 11 Mar 2021 15:08:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
-References: <20210308165440.386489-1-kwolf@redhat.com>
- <YEjWQnWKbr5teciB@angien.pipo.sk>
- <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
- <20210310173044.GF6076@merkur.fritz.box>
- <87ft12q8kf.fsf@dusky.pond.sub.org>
- <e98a5eb7-4716-a0f4-0ad2-adaa4cd9cefa@redhat.com>
-Date: Thu, 11 Mar 2021 15:08:12 +0100
-In-Reply-To: <e98a5eb7-4716-a0f4-0ad2-adaa4cd9cefa@redhat.com> (Paolo
- Bonzini's message of "Thu, 11 Mar 2021 12:00:12 +0100")
-Message-ID: <87h7lhbx6b.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9692F8030DB;
+ Thu, 11 Mar 2021 14:22:21 +0000 (UTC)
+Received: from thuth.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5510F2BFF1;
+ Thu, 11 Mar 2021 14:22:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH 0/4] gitlab-ci improvements
+Date: Thu, 11 Mar 2021 15:22:07 +0100
+Message-Id: <20210311142211.1547864-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,48 +75,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
- Peter Krempa <pkrempa@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, dgilbert@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Move the build-tools-and-docs-debian to a better place, add dependencies
+and merge some jobs to speed up the CI.
 
-> On 11/03/21 11:38, Markus Armbruster wrote:
->> Here's a differently terrible hack.  We have
->>           keyval_parse()       visitor
->>      optarg --------> QObject --------> QAPI type
->> Idea: hack the QObject.  If we're working for -object, and QObject
->> maps
->> key "qom-type" to value "memory-backend-ram", get the value of
->> host-nodes, and if it's a string, parse it into a list like the opts
->> visitor does, and put that back, replacing the string value.
->> Same for other uses of Memdev and NumaNodeOptions with -object, if
->> they
->> exist.
->
-> This doesn't help with backwards compatibility, since keyval loses the
-> first of host-nodes=0,host-nodes=4.
+Thomas Huth (4):
+  gitlab-ci.yml: Move build-tools-and-docs-debian to a better place
+  gitlab-ci.yml: Add some missing dependencies to the jobs
+  gitlab-ci.yml: Merge one of the coroutine jobs with the tcg-disabled
+    job
+  gitlab-ci.yml: Merge check-crypto-old jobs into the build-crypto-old
+    jobs
 
-You're right, I missed the fact that we rely on both hacks working
-together for the full syntax.
+ .gitlab-ci.yml | 95 ++++++++++++++++----------------------------------
+ 1 file changed, 31 insertions(+), 64 deletions(-)
 
-> I would rather keep the OptsVisitor here.  Do the same check for JSON
-> syntax that you have in qobject_input_visitor_new_str, and whenever
-> you need to walk all -object arguments, use something like this:
->
->     typedef struct ObjectArgument {
->         const char *id;
->         QDict *json;    /* or NULL for QemuOpts */
->         QSIMPLEQ_ENTRY(ObjectArgument) next;
->     }
->
-> I already had patches in my queue to store -object in a GSList of
-> dictionaries, changing it to use the above is easy enough.
-
-I think I'd prefer following -display's precedence.  See my reply to
-Kevin for details.
+-- 
+2.27.0
 
 
