@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0299D337B04
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:38:25 +0100 (CET)
-Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27484337AE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:34:35 +0100 (CET)
+Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKPGS-0006Vj-0R
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:38:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36968)
+	id 1lKPCk-0002Y8-2s
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:34:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP5j-0005nH-Ez
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:27:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34928)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP6N-0006OU-7N
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:27:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP5g-0002si-3j
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:27:19 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP6J-00036g-KT
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:27:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615483635;
+ s=mimecast20190719; t=1615483674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XDRPOhjyqGDEeDS9xr1SxQsefqd+Cwy2DSwDQ0NsU/w=;
- b=MEiIUjZkFD2GX/mRJlTVDba/cAOFUZveN51uFRWdboRZ0AEsPe/lVYltO9//wlo9Abl1Hp
- WGXWQKd8F6Qpn3waIjhwoSHVWC3p7IOoSfdmPIuSfNqgoXxxfAL0x4gjTRTYiAKn1smHYY
- eO7lBTvJwSl0WiZbmwMQ4wM7zWuaBMU=
+ bh=UTreVqTZ+UfW91Fsn5Nu+DxDjvCb3Sk4DQaybDK1ywA=;
+ b=hY93bZYIcwbf7OGMzrq4qUTLdUCu91KTK2ixnigodazhwoKgmQntnjqUXNn855eGzBz6xz
+ onx5Rw0l7hf5GWtrfsmsP2agkWZvV4riy60KHSaDpz6dB9urXaA8zSxNeeWrHdiltMf2D7
+ IwStkIrjKWygmOGG8j+qlBdsCde+T30=
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
  [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-dO08zRbFPPW8RG70qfdflQ-1; Thu, 11 Mar 2021 12:27:13 -0500
-X-MC-Unique: dO08zRbFPPW8RG70qfdflQ-1
-Received: by mail-qk1-f197.google.com with SMTP id c184so550307qkb.17
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 09:27:13 -0800 (PST)
+ us-mta-280-gXX8tJRpOvu7A7RmP8iYGA-1; Thu, 11 Mar 2021 12:27:47 -0500
+X-MC-Unique: gXX8tJRpOvu7A7RmP8iYGA-1
+Received: by mail-qk1-f197.google.com with SMTP id b127so14314510qkf.19
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 09:27:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=XDRPOhjyqGDEeDS9xr1SxQsefqd+Cwy2DSwDQ0NsU/w=;
- b=R0YM910fPb4X8bNaw5ZSUav5U3UXujC4SpErSu3VLCdugsLgY6WyIX+HeVWMnG1K9f
- zmpzhxU1Uj1wuyJypefUDhqRUpxLiuz3uDpTfyANASeA8ntSU/BFSiSLwP20WzeiBQ0f
- mDsu2ZNqsRfOaM3aqvpvUwBcDZIaudLHywMHqoS0MpcBC18YUoAYcRMZIxqqwUMtXupU
- SDAfpCjQy3HkJaYamTKcz7Op0RAECoyR4ddwBrDeNfnKy1g3i7mwCshOImE1w/UMwV7t
- p8woFig8wkRkjEH8IFVUYhSo1uw5s/VRVlve6EpEWxD95CxSnPb8fOmQOW7lWi8Dd6Hb
- Hn9g==
-X-Gm-Message-State: AOAM5311S1lJ2KLMv8JM8YFCmiOwwsQclU12PJF/JYo6CSdTs4ztNJwL
- Koxqf0zx8iIlgC9nf5uSEi2SHuexdaNquV/uacc8ChDfnXm/7NiK2REwYzuBIXga/QGBPkkxz5Q
- UkopVM3BL9PcyqLY=
-X-Received: by 2002:a05:620a:819:: with SMTP id
- s25mr9087714qks.485.1615483633220; 
- Thu, 11 Mar 2021 09:27:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjt9i5EkfTx9eYqo+jex3rbn0UoBlzbZuZ+j+6xfaEBepdMk2DYwdzs7pW/EEDLbR5gKq2PQ==
-X-Received: by 2002:a05:620a:819:: with SMTP id
- s25mr9087684qks.485.1615483632879; 
- Thu, 11 Mar 2021 09:27:12 -0800 (PST)
+ bh=HqvpyYan55AKqxoJj0T7i6e+K5kYldsJqJf9ie4TgBc=;
+ b=bHYkTbnxXWGdkyBC64T8+sJCYwX0vBSgIcxJYenAxyRpVmuQfuTTaPwS0iPH2BUpa8
+ zwqGX8DPR8pSoUWT5q6gTcifaydlRsceCq8BVRbtpSF6PJHrFlkoXehUzEs8uohcTFO9
+ 1VUhVwJ/y88fsiK7c0Tg/wTYkmRVE0q1hwAZs2570yQ5BCYP7moP2IcU/5hxGWawxbHd
+ FMYIxOwjkyU/MHcsaznCiMs3HI6I/se11Rcj99K5ir5WmqgSI9PUeubTez0ubBdlrrEc
+ MjPr/fSXqHLR+tQ2z0QHqT3VQ9bqS05TNIIRHy4CoK0zhZZvF5uHhLZ6A7mTSVT/vE6/
+ AWtA==
+X-Gm-Message-State: AOAM5326tcArn11n6VjMN7ZJxPpnLD9R236vqDGqIVgWdr6hGvd/5c0H
+ zJ8t68OSD5flGdAs7h4lVlk0us1IhHSoC0+wMfIuoiJeNgDxBDshkEJrgK2OFUHyrVmZStBfm/e
+ U98NZq8QFB7A8m6U=
+X-Received: by 2002:aed:2068:: with SMTP id 95mr8499446qta.181.1615483666999; 
+ Thu, 11 Mar 2021 09:27:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTA/IE/SNkmAAmMMrRnJZzXbJzT62zcd0lATv4sBRfzKq/NHz0TOmiixhhAQ2eCy30kCJH/g==
+X-Received: by 2002:aed:2068:: with SMTP id 95mr8499432qta.181.1615483666787; 
+ Thu, 11 Mar 2021 09:27:46 -0800 (PST)
 Received: from xz-x1 ([142.126.89.138])
- by smtp.gmail.com with ESMTPSA id z5sm2211310qtc.42.2021.03.11.09.27.11
+ by smtp.gmail.com with ESMTPSA id a9sm2104340qtx.96.2021.03.11.09.27.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 09:27:12 -0800 (PST)
-Date: Thu, 11 Mar 2021 12:27:10 -0500
+ Thu, 11 Mar 2021 09:27:46 -0800 (PST)
+Date: Thu, 11 Mar 2021 12:27:44 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Subject: Re: [PATCH 1/2] hw/mips/jazz: Use generic I/O bus via get_system_io()
-Message-ID: <20210311172710.GH194839@xz-x1>
+Message-ID: <20210311172744.GI194839@xz-x1>
 References: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
  <20210310191255.1229848-1-f4bug@amsat.org>
  <20210310194924.GF6530@xz-x1>
@@ -77,17 +74,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/mixed; boundary="8t9RHnE3ZwKMSgU+"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,39 +110,12 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--8t9RHnE3ZwKMSgU+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
 On Thu, Mar 11, 2021 at 05:21:49PM +0100, Philippe Mathieu-Daudé wrote:
-> +Aspeed team
-> 
-> On 3/11/21 1:18 PM, Philippe Mathieu-Daudé wrote:
-> > On 3/10/21 9:29 PM, Peter Xu wrote:
-> 
-> >> Yeah no worry - it's just that I feel one memory_region_init_alias() call is
-> >> probably missing in your huge series somewhere, so that you'll take that alias
-> >> MR as subregion rather than the real MR (which is the root of one AS).
-> > 
-> > OK, with your earlier comments start + Mark other comment I start
-> > to understand better.
-> > 
-> > So far:
-> > 
-> > (1a) AddressSpace is a physical view, its base address must be zero
-> > 
-> > (1b) AddressSpace aperture is fixed (depends on hardware design,
-> > not changeable at runtime
-> > 
-> > Therefore due to (1a):
-> > (2) AddressSpace root MemoryRegion is a container and must not be
-> > mmio-mapped anywhere (in particular not on SysBus).
-> > 
-> > (3) If hardware has a MMIO view of an AddressSpace, it has to be
-> > via a MemoryRegion alias. That way the alias handles paddr offset
-> > adjustment to the zero-based AddressSpace root container MR.
-> > Aliasing allows resizing the alias size without modifying the AS
-> > aperture size (1b).
-> > 
-> > I'll start adding assertions for (1a) and (2) in the code base and
-> > see if (3) adjustments are required.
-> 
 > So using:
 > 
 > -- >8 --
@@ -169,69 +138,67 @@ On Thu, Mar 11, 2021 at 05:21:49PM +0100, Philippe Mathieu-Daudé wrote:
 > 
 >          return mr;
 >      }
-> ---
 
-Maybe it works, but it looks a bit odd to test here.  What I meant was
-something like attached.
-
-> 
-> I get:
-> 
-> $ ./qemu-system-arm -M ast2600-evb
-> qemu-system-arm: Detected flatview root memory region
-> 'aspeed.fmc-ast2600.flash' with non-zero base address (0x20000000): aborting
-> Aborted (core dumped)
-> 
-> Indeed:
-> 
-> $ ./qemu-system-arm -M ast2600-evb -S -monitor stdio
-> QEMU 5.2.50 monitor - type 'help' for more information
-> (qemu) info mtree
-> address-space: dma-dram
->   0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
->     0000000080000000-00000000bfffffff (prio 0, ram): ram
->     00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-> 
-> address-space: aspeed.fmc-ast2600-dma-flash
->   0000000020000000-000000002fffffff (prio 0, i/o): aspeed.fmc-ast2600.flash
->     0000000020000000-0000000027ffffff (prio 0, i/o): aspeed.fmc-ast2600.0
->     0000000028000000-000000002fffffff (prio 0, i/o): aspeed.fmc-ast2600.1
-> 
-> address-space: aspeed.fmc-ast2600-dma-dram
->   0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
->     0000000080000000-00000000bfffffff (prio 0, ram): ram
->     00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-> 
-> address-space: aspeed.spi1-ast2600-dma-flash
->   0000000030000000-000000003fffffff (prio 0, i/o): aspeed.spi1-ast2600.flash
->     0000000030000000-0000000037ffffff (prio 0, i/o): aspeed.spi1-ast2600.0
-> 
-> address-space: aspeed.spi1-ast2600-dma-dram
->   0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
->     0000000080000000-00000000bfffffff (prio 0, ram): ram
->     00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-> 
-> address-space: aspeed.spi2-ast2600-dma-flash
->   0000000050000000-000000005fffffff (prio 0, i/o): aspeed.spi2-ast2600.flash
->     0000000050000000-0000000057ffffff (prio 0, i/o): aspeed.spi2-ast2600.0
-> 
-> address-space: aspeed.spi2-ast2600-dma-dram
->   0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
->     0000000080000000-00000000bfffffff (prio 0, ram): ram
->     00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-> 
-> Many address spaces not zero-based...
-
-Maybe it's still legal to make the root mr a subregion of another, so maybe I'm
-completely wrong... then the patch attached won't make any sense either.  It's
-just that in my mind each MR should have a "parent" - for normal MR it's the
-container MR, then for root MR it's easier to see the AS as its "parent".
-
-Maybe Paolo could clarify this..
-
-Thanks,
+(Attaching again...)
 
 -- 
 Peter Xu
+
+--8t9RHnE3ZwKMSgU+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-memory-Make-sure-root-MR-won-t-be-added-as-subregion.patch"
+
+From 4fe7614f2087117aa912fd3d33d43ba02f2b50b1 Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Thu, 11 Mar 2021 11:40:21 -0500
+Subject: [PATCH] memory: Make sure root MR won't be added as subregion
+
+Add a bool for MR to mark whether this MR is a root MR of an AS.  We bail out
+asap if this MR is added as a subregion of another MR.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ include/exec/memory.h | 1 +
+ softmmu/memory.c      | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index c6fb714e499..211f10e877e 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -477,6 +477,7 @@ struct MemoryRegion {
+     bool ram_device;
+     bool enabled;
+     bool warning_printed; /* For reservations */
++    bool is_root_mr;
+     uint8_t vga_logging_count;
+     MemoryRegion *alias;
+     hwaddr alias_offset;
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 874a8fccdee..aebaa956258 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2442,6 +2442,7 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
+                                                MemoryRegion *subregion)
+ {
+     assert(!subregion->container);
++    assert(!subregion->is_root_mr);
+     subregion->container = mr;
+     subregion->addr = offset;
+     memory_region_update_container_subregions(subregion);
+@@ -2819,6 +2820,7 @@ void address_space_init(AddressSpace *as, MemoryRegion *root, const char *name)
+ {
+     memory_region_ref(root);
+     as->root = root;
++    root->is_root_mr = true;
+     as->current_map = NULL;
+     as->ioeventfd_nb = 0;
+     as->ioeventfds = NULL;
+-- 
+2.26.2
+
+
+--8t9RHnE3ZwKMSgU+--
 
 
