@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1122E337031
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:40:14 +0100 (CET)
-Received: from localhost ([::1]:56718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6957933701D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:36:55 +0100 (CET)
+Received: from localhost ([::1]:48342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKIjl-0003Tv-2j
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:40:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46890)
+	id 1lKIgY-000887-Ft
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:36:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKIcw-0002ap-Vt
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:33:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55624)
+ id 1lKIcw-0002Yt-00
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:33:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKIct-0005f0-AT
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:33:10 -0500
+ id 1lKIct-0005fp-O2
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:33:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615458786;
+ s=mimecast20190719; t=1615458787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TAodmZ+Do/ZOTZrVCcOUAmzLxA2scUdv9ira0Sq1dLM=;
- b=XcBjxCVizF0K2ScFdkzHkbMoK6/EBx9p6yehDOaDirkBd1MFKdSt5qV0pu8wH22Yd0TVb3
- GfDBG1WvbxGcz6tdiL7l5DT4MbQQEgq4UEgMKhuHR1YZ6rzZb7+aNtUuZZvTFmGxPHjvTK
- OKakVyC4ctY9sRkT7JFN5kknbZ23oJU=
+ bh=hnxlQsHD1/OtTtkYAeS1gwTtMqtRpxPUf0HOhg5GQCA=;
+ b=F8N7AgNyDO8cp90lD+EMhknu/Et9CC2ftkvTP+KguuQIH4CSToomzS8nxY8EQXs0IFeC3E
+ OTZ4fDcVgiJQECc9yDdGsOOocZIKmjcI1LYhIX712oUSPBDSBnRrnLn2fkXjMh+QuGZJ6s
+ X8jc9TK6M/JdfZ/waP1IGjeAzS/PIzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-4r4PHRvmOrq3ARCwdDSMzA-1; Thu, 11 Mar 2021 05:33:04 -0500
-X-MC-Unique: 4r4PHRvmOrq3ARCwdDSMzA-1
+ us-mta-231-Rt323LmYPCSUFmj2DfVWhg-1; Thu, 11 Mar 2021 05:33:05 -0500
+X-MC-Unique: Rt323LmYPCSUFmj2DfVWhg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCCB11015C84
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:33:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6800419200C0
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:33:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7778D5DF26;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0277029400;
  Thu, 11 Mar 2021 10:33:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] docs: vhost-user: rename message names from "SLAVE" to
- "BACKEND"
-Date: Thu, 11 Mar 2021 05:32:47 -0500
-Message-Id: <20210311103250.532191-5-pbonzini@redhat.com>
+Subject: [PATCH 5/7] vhost-user: rename message names from "SLAVE" to "BACKEND"
+Date: Thu, 11 Mar 2021 05:32:48 -0500
+Message-Id: <20210311103250.532191-6-pbonzini@redhat.com>
 In-Reply-To: <20210311103250.532191-1-pbonzini@redhat.com>
 References: <20210311103250.532191-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,164 +83,292 @@ Cc: marcandre.lureau@redhat.com, stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow the terminology that is used in the rest of the document.
+Follow the terminology that is used in the specification.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/interop/vhost-user.rst | 40 ++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ hw/virtio/vhost-user.c | 96 +++++++++++++++++++++---------------------
+ 1 file changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 96be549127..84c05dfb91 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -290,7 +290,7 @@ in the ancillary data:
- * ``VHOST_USER_SET_VRING_KICK``
- * ``VHOST_USER_SET_VRING_CALL``
- * ``VHOST_USER_SET_VRING_ERR``
--* ``VHOST_USER_SET_SLAVE_REQ_FD``
-+* ``VHOST_USER_SET_BACKEND_REQ_FD``
- * ``VHOST_USER_SET_INFLIGHT_FD`` (if ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD``)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 2fdd5daf74..dff420fce9 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -37,7 +37,7 @@
  
- If *frontend* is unable to send the full message or receives a wrong
-@@ -479,7 +479,7 @@ expected to reply with a zero payload, non-zero otherwise.
+ #define VHOST_MEMORY_BASELINE_NREGIONS    8
+ #define VHOST_USER_F_PROTOCOL_FEATURES 30
+-#define VHOST_USER_SLAVE_MAX_FDS     8
++#define VHOST_USER_BACKEND_MAX_FDS     8
  
- The backend relies on the backend communication channel (see :ref:`Back-end
- communication <backend_communication>` section below) to send IOTLB miss
--and access failure events, by sending ``VHOST_USER_SLAVE_IOTLB_MSG``
-+and access failure events, by sending ``VHOST_USER_BACKEND_IOTLB_MSG``
- requests to the frontend with a ``struct vhost_iotlb_msg`` as
- payload. For miss events, the iotlb payload has to be filled with the
- miss message type (1), the I/O virtual address and the permissions
-@@ -503,15 +503,15 @@ Back-end communication
- ----------------------
+ /*
+  * Set maximum number of RAM slots supported to
+@@ -68,12 +68,12 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_RARP = 2,
+     VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
+     VHOST_USER_PROTOCOL_F_NET_MTU = 4,
+-    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
++    VHOST_USER_PROTOCOL_F_BACKEND_REQ = 5,
+     VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
+     VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
+     VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
+     VHOST_USER_PROTOCOL_F_CONFIG = 9,
+-    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
++    VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD = 10,
+     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
+     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+@@ -106,7 +106,7 @@ typedef enum VhostUserRequest {
+     VHOST_USER_SET_VRING_ENABLE = 18,
+     VHOST_USER_SEND_RARP = 19,
+     VHOST_USER_NET_SET_MTU = 20,
+-    VHOST_USER_SET_SLAVE_REQ_FD = 21,
++    VHOST_USER_SET_BACKEND_REQ_FD = 21,
+     VHOST_USER_IOTLB_MSG = 22,
+     VHOST_USER_SET_VRING_ENDIAN = 23,
+     VHOST_USER_GET_CONFIG = 24,
+@@ -128,11 +128,11 @@ typedef enum VhostUserRequest {
+ } VhostUserRequest;
  
- An optional communication channel is provided if the backend declares
--``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` protocol feature, to allow the
-+``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` protocol feature, to allow the
- backend to make requests to the frontend.
+ typedef enum VhostUserSlaveRequest {
+-    VHOST_USER_SLAVE_NONE = 0,
+-    VHOST_USER_SLAVE_IOTLB_MSG = 1,
+-    VHOST_USER_SLAVE_CONFIG_CHANGE_MSG = 2,
+-    VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
+-    VHOST_USER_SLAVE_MAX
++    VHOST_USER_BACKEND_NONE = 0,
++    VHOST_USER_BACKEND_IOTLB_MSG = 1,
++    VHOST_USER_BACKEND_CONFIG_CHANGE_MSG = 2,
++    VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG = 3,
++    VHOST_USER_BACKEND_MAX
+ }  VhostUserSlaveRequest;
  
--The fd is provided via ``VHOST_USER_SET_SLAVE_REQ_FD`` ancillary data.
-+The fd is provided via ``VHOST_USER_SET_BACKEND_REQ_FD`` ancillary data.
+ typedef struct VhostUserMemoryRegion {
+@@ -237,7 +237,7 @@ struct vhost_user {
+     struct vhost_dev *dev;
+     /* Shared between vhost devs of the same virtio device */
+     VhostUserState *user;
+-    int slave_fd;
++    int backend_fd;
+     NotifierWithReturn postcopy_notifier;
+     struct PostCopyFD  postcopy_fd;
+     uint64_t           postcopy_client_bases[VHOST_USER_MAX_RAM_SLOTS];
+@@ -1317,7 +1317,7 @@ static int vhost_user_reset_device(struct vhost_dev *dev)
+     return 0;
+ }
  
--A backend may then send ``VHOST_USER_SLAVE_*`` messages to the frontend
-+A backend may then send ``VHOST_USER_BACKEND_*`` messages to the frontend
- using this fd communication channel.
+-static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
++static int vhost_user_backend_handle_config_change(struct vhost_dev *dev)
+ {
+     int ret = -1;
  
--If ``VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD`` protocol feature is
-+If ``VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD`` protocol feature is
- negotiated, backend can send file descriptors (at most 8 descriptors in
- each message) to frontend via ancillary data using this fd communication
- channel.
-@@ -798,7 +798,7 @@ Note that due to the fact that too many messages on the sockets can
- cause the sending application(s) to block, it is not advised to use
- this feature unless absolutely necessary. It is also considered an
- error to negotiate this feature without also negotiating
--``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` and ``VHOST_USER_PROTOCOL_F_REPLY_ACK``,
-+``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` and ``VHOST_USER_PROTOCOL_F_REPLY_ACK``,
- the former is necessary for getting a message channel from the backend
- to the frontend, while the latter needs to be used with the in-band
- notification messages to block until they are processed, both to avoid
-@@ -818,12 +818,12 @@ Protocol features
-   #define VHOST_USER_PROTOCOL_F_RARP                  2
-   #define VHOST_USER_PROTOCOL_F_REPLY_ACK             3
-   #define VHOST_USER_PROTOCOL_F_MTU                   4
--  #define VHOST_USER_PROTOCOL_F_SLAVE_REQ             5
-+  #define VHOST_USER_PROTOCOL_F_BACKEND_REQ           5
-   #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN          6
-   #define VHOST_USER_PROTOCOL_F_CRYPTO_SESSION        7
-   #define VHOST_USER_PROTOCOL_F_PAGEFAULT             8
-   #define VHOST_USER_PROTOCOL_F_CONFIG                9
--  #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD        10
-+  #define VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD      10
-   #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER        11
-   #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD       12
-   #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
-@@ -1023,8 +1023,8 @@ reply is sent by the backend.
-   in the ancillary data. This signals that polling will be used
-   instead of waiting for the call. Note that if the protocol features
-   ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
--  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
--  isn't necessary as the ``VHOST_USER_SLAVE_VRING_CALL`` message can be
-+  ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` have been negotiated this message
-+  isn't necessary as the ``VHOST_USER_BACKEND_VRING_CALL`` message can be
-   used, it may however still be used to set an event file descriptor
-   or to enable polling.
+@@ -1332,9 +1332,9 @@ static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
+     return ret;
+ }
  
-@@ -1041,8 +1041,8 @@ reply is sent by the backend.
-   invalid FD flag. This flag is set when there is no file descriptor
-   in the ancillary data. Note that if the protocol features
-   ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
--  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
--  isn't necessary as the ``VHOST_USER_SLAVE_VRING_ERR`` message can be
-+  ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` have been negotiated this message
-+  isn't necessary as the ``VHOST_USER_BACKEND_VRING_ERR`` message can be
-   used, it may however still be used to set an event file descriptor
-   (which will be preferred over the message).
+-static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+-                                                       VhostUserVringArea *area,
+-                                                       int fd)
++static int vhost_user_backend_handle_vring_host_notifier(struct vhost_dev *dev,
++                                                         VhostUserVringArea *area,
++                                                         int fd)
+ {
+     int queue_idx = area->u64 & VHOST_USER_VRING_IDX_MASK;
+     size_t page_size = qemu_real_host_page_size;
+@@ -1392,7 +1392,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     return 0;
+ }
  
-@@ -1103,7 +1103,7 @@ reply is sent by the backend.
-   respond with zero in case the specified MTU is valid, or non-zero
-   otherwise.
+-static void slave_read(void *opaque)
++static void backend_read(void *opaque)
+ {
+     struct vhost_dev *dev = opaque;
+     struct vhost_user *u = dev->opaque;
+@@ -1401,7 +1401,7 @@ static void slave_read(void *opaque)
+     int size, ret = 0;
+     struct iovec iov;
+     struct msghdr msgh;
+-    int fd[VHOST_USER_SLAVE_MAX_FDS];
++    int fd[VHOST_USER_BACKEND_MAX_FDS];
+     char control[CMSG_SPACE(sizeof(fd))];
+     struct cmsghdr *cmsg;
+     int i, fdsize = 0;
+@@ -1419,11 +1419,11 @@ static void slave_read(void *opaque)
+     iov.iov_len = VHOST_USER_HDR_SIZE;
  
--``VHOST_USER_SET_SLAVE_REQ_FD``
-+``VHOST_USER_SET_BACKEND_REQ_FD``
-   :id: 21
-   :equivalent ioctl: N/A
-   :request payload: N/A
-@@ -1114,7 +1114,7 @@ reply is sent by the backend.
+     do {
+-        size = recvmsg(u->slave_fd, &msgh, 0);
++        size = recvmsg(u->backend_fd, &msgh, 0);
+     } while (size < 0 && (errno == EINTR || errno == EAGAIN));
  
-   This request should be sent only when
-   ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, and protocol
--  feature bit ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` bit is present in
-+  feature bit ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` bit is present in
-   ``VHOST_USER_GET_PROTOCOL_FEATURES``.  If
-   ``VHOST_USER_PROTOCOL_F_REPLY_ACK`` is negotiated, the backend must
-   respond with zero for success, non-zero otherwise.
-@@ -1377,7 +1377,7 @@ Back-end message types
- For this type of message, the request is sent by the backend and the reply
- is sent by the frontend.
+     if (size != VHOST_USER_HDR_SIZE) {
+-        error_report("Failed to read from slave.");
++        error_report("Failed to read from backend.");
+         goto err;
+     }
  
--``VHOST_USER_SLAVE_IOTLB_MSG``
-+``VHOST_USER_BACKEND_IOTLB_MSG``
-   :id: 1
-   :equivalent ioctl: N/A (equivalent to ``VHOST_IOTLB_MSG`` message type)
-   :request payload: ``struct vhost_iotlb_msg``
-@@ -1392,7 +1392,7 @@ is sent by the frontend.
-   ``VIRTIO_F_IOMMU_PLATFORM`` feature has been successfully
-   negotiated.
+@@ -1451,24 +1451,24 @@ static void slave_read(void *opaque)
  
--``VHOST_USER_SLAVE_CONFIG_CHANGE_MSG``
-+``VHOST_USER_BACKEND_CONFIG_CHANGE_MSG``
-   :id: 2
-   :equivalent ioctl: N/A
-   :request payload: N/A
-@@ -1407,7 +1407,7 @@ is sent by the frontend.
-   ``VHOST_USER_NEED_REPLY`` flag, the frontend must respond with zero when
-   operation is successfully completed, or non-zero otherwise.
+     /* Read payload */
+     do {
+-        size = read(u->slave_fd, &payload, hdr.size);
++        size = read(u->backend_fd, &payload, hdr.size);
+     } while (size < 0 && (errno == EINTR || errno == EAGAIN));
  
--``VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG``
-+``VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG``
-   :id: 3
-   :equivalent ioctl: N/A
-   :request payload: vring area description
-@@ -1430,7 +1430,7 @@ is sent by the frontend.
-   ``VHOST_USER_PROTOCOL_F_HOST_NOTIFIER`` protocol feature has been
-   successfully negotiated.
+     if (size != hdr.size) {
+-        error_report("Failed to read payload from slave.");
++        error_report("Failed to read payload from backend.");
+         goto err;
+     }
  
--``VHOST_USER_SLAVE_VRING_CALL``
-+``VHOST_USER_BACKEND_VRING_CALL``
-   :id: 4
-   :equivalent ioctl: N/A
-   :request payload: vring state description
-@@ -1444,7 +1444,7 @@ is sent by the frontend.
+     switch (hdr.request) {
+-    case VHOST_USER_SLAVE_IOTLB_MSG:
++    case VHOST_USER_BACKEND_IOTLB_MSG:
+         ret = vhost_backend_handle_iotlb_msg(dev, &payload.iotlb);
+         break;
+-    case VHOST_USER_SLAVE_CONFIG_CHANGE_MSG :
+-        ret = vhost_user_slave_handle_config_change(dev);
++    case VHOST_USER_BACKEND_CONFIG_CHANGE_MSG :
++        ret = vhost_user_backend_handle_config_change(dev);
+         break;
+-    case VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG:
+-        ret = vhost_user_slave_handle_vring_host_notifier(dev, &payload.area,
+-                                                          fd[0]);
++    case VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG:
++        ret = vhost_user_backend_handle_vring_host_notifier(dev, &payload.area,
++                                                            fd[0]);
+         break;
+     default:
+         error_report("Received unexpected msg type: %d.", hdr.request);
+@@ -1502,11 +1502,11 @@ static void slave_read(void *opaque)
+         iovec[1].iov_len = hdr.size;
  
-   The state.num field is currently reserved and must be set to 0.
+         do {
+-            size = writev(u->slave_fd, iovec, ARRAY_SIZE(iovec));
++            size = writev(u->backend_fd, iovec, ARRAY_SIZE(iovec));
+         } while (size < 0 && (errno == EINTR || errno == EAGAIN));
  
--``VHOST_USER_SLAVE_VRING_ERR``
-+``VHOST_USER_BACKEND_VRING_ERR``
-   :id: 5
-   :equivalent ioctl: N/A
-   :request payload: vring state description
+         if (size != VHOST_USER_HDR_SIZE + hdr.size) {
+-            error_report("Failed to send msg reply to slave.");
++            error_report("Failed to send msg reply to backend.");
+             goto err;
+         }
+     }
+@@ -1514,9 +1514,9 @@ static void slave_read(void *opaque)
+     return;
+ 
+ err:
+-    qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-    close(u->slave_fd);
+-    u->slave_fd = -1;
++    qemu_set_fd_handler(u->backend_fd, NULL, NULL, NULL);
++    close(u->backend_fd);
++    u->backend_fd = -1;
+     for (i = 0; i < fdsize; i++) {
+         if (fd[i] != -1) {
+             close(fd[i]);
+@@ -1525,10 +1525,10 @@ err:
+     return;
+ }
+ 
+-static int vhost_setup_slave_channel(struct vhost_dev *dev)
++static int vhost_setup_backend_channel(struct vhost_dev *dev)
+ {
+     VhostUserMsg msg = {
+-        .hdr.request = VHOST_USER_SET_SLAVE_REQ_FD,
++        .hdr.request = VHOST_USER_SET_BACKEND_REQ_FD,
+         .hdr.flags = VHOST_USER_VERSION,
+     };
+     struct vhost_user *u = dev->opaque;
+@@ -1537,7 +1537,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+                                               VHOST_USER_PROTOCOL_F_REPLY_ACK);
+ 
+     if (!virtio_has_feature(dev->protocol_features,
+-                            VHOST_USER_PROTOCOL_F_SLAVE_REQ)) {
++                            VHOST_USER_PROTOCOL_F_BACKEND_REQ)) {
+         return 0;
+     }
+ 
+@@ -1546,8 +1546,8 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+         return -1;
+     }
+ 
+-    u->slave_fd = sv[0];
+-    qemu_set_fd_handler(u->slave_fd, slave_read, NULL, dev);
++    u->backend_fd = sv[0];
++    qemu_set_fd_handler(u->backend_fd, backend_read, NULL, dev);
+ 
+     if (reply_supported) {
+         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+@@ -1565,9 +1565,9 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+ out:
+     close(sv[1]);
+     if (ret) {
+-        qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-        close(u->slave_fd);
+-        u->slave_fd = -1;
++        qemu_set_fd_handler(u->backend_fd, NULL, NULL, NULL);
++        close(u->backend_fd);
++        u->backend_fd = -1;
+     }
+ 
+     return ret;
+@@ -1804,7 +1804,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+ 
+     u = g_new0(struct vhost_user, 1);
+     u->user = opaque;
+-    u->slave_fd = -1;
++    u->backend_fd = -1;
+     u->dev = dev;
+     dev->opaque = u;
+ 
+@@ -1851,11 +1851,11 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+ 
+         if (virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM) &&
+                 !(virtio_has_feature(dev->protocol_features,
+-                    VHOST_USER_PROTOCOL_F_SLAVE_REQ) &&
++                    VHOST_USER_PROTOCOL_F_BACKEND_REQ) &&
+                  virtio_has_feature(dev->protocol_features,
+                     VHOST_USER_PROTOCOL_F_REPLY_ACK))) {
+             error_report("IOMMU support requires reply-ack and "
+-                         "slave-req protocol features.");
++                         "backend-req protocol features.");
+             return -1;
+         }
+ 
+@@ -1890,7 +1890,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+     }
+ 
+     if (dev->vq_index == 0) {
+-        err = vhost_setup_slave_channel(dev);
++        err = vhost_setup_backend_channel(dev);
+         if (err < 0) {
+             return err;
+         }
+@@ -1919,10 +1919,10 @@ static int vhost_user_backend_cleanup(struct vhost_dev *dev)
+         close(u->postcopy_fd.fd);
+         u->postcopy_fd.handler = NULL;
+     }
+-    if (u->slave_fd >= 0) {
+-        qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-        close(u->slave_fd);
+-        u->slave_fd = -1;
++    if (u->backend_fd >= 0) {
++        qemu_set_fd_handler(u->backend_fd, NULL, NULL, NULL);
++        close(u->backend_fd);
++        u->backend_fd = -1;
+     }
+     g_free(u->region_rb);
+     u->region_rb = NULL;
+@@ -2016,7 +2016,7 @@ static int vhost_user_net_set_mtu(struct vhost_dev *dev, uint16_t mtu)
+         return -1;
+     }
+ 
+-    /* If reply_ack supported, slave has to ack specified MTU is valid */
++    /* If reply_ack supported, backend has to ack specified MTU is valid */
+     if (reply_supported) {
+         return process_message_reply(dev, &msg);
+     }
 -- 
 2.26.2
 
