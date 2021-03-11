@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A383337C59
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:19:51 +0100 (CET)
-Received: from localhost ([::1]:50192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02824337C83
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:25:12 +0100 (CET)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKPuY-000174-L6
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:19:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51636)
+	id 1lKPzj-0005IC-1M
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:25:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKPrZ-0008Do-1p
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:16:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31760)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKPto-0001Yl-4z
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:19:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKPrM-0004iM-DK
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:16:42 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKPtm-00065f-Dc
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:19:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615486590;
+ s=mimecast20190719; t=1615486741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PAx/akGp1SmQYkLiwdHfFLD+Hsn3RTisxe5LTpfOoNM=;
- b=gLIWJQ4Mg+ZVBax1ZtMmz5w41lcS/UCoouguEE2fa8NMOby6V/MyucLHL3LEBtia5fQYZQ
- e7amNxJ4YKMDFaY2AxhiN6lKad0jE9ovd/05V8vnwNVkXu8XsK607S0P9qM8Pc7tbIQCsI
- uh5AKEbv+NfQqwct0XZUkW0I941EdN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-rZxeKoETMdKjfrPLpU1tCQ-1; Thu, 11 Mar 2021 13:16:28 -0500
-X-MC-Unique: rZxeKoETMdKjfrPLpU1tCQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC424760C0;
- Thu, 11 Mar 2021 18:16:27 +0000 (UTC)
-Received: from [10.36.115.26] (ovpn-115-26.ams2.redhat.com [10.36.115.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3EA319C78;
- Thu, 11 Mar 2021 18:16:26 +0000 (UTC)
-Subject: Re: [PATCH v5 1/2] target/s390x: Implement the MVPG
- condition-code-option bit
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210311161747.129834-1-david@redhat.com>
- <20210311161747.129834-2-david@redhat.com>
- <39285cf8-2214-2257-679d-231e0c6a0652@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <5b929a10-4561-d596-b43b-33ca4022ea54@redhat.com>
-Date: Thu, 11 Mar 2021 19:16:25 +0100
+ bh=QsyVvT34Sm0wTS0w+xEzoSD9G05m+sOISVanOX4IPVk=;
+ b=QVlue9OlmztQC5O/Nor85rb0T2jKtPjEOwTJpr0RkDgIQSIwQoirs2vm6ljr6Hg5ohqwCr
+ jfd6t1cFg5vINrX+fpiMuwGvZgpney7Wmx2nQtlwCtYRtkNmADIWHzE2dlJnPDo5vUEqDn
+ UCKFeEnJUGWMenuZFBBgfQptCcHkQt4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-6ZF5tOkNPzKq1ScO8aFRmQ-1; Thu, 11 Mar 2021 13:18:57 -0500
+X-MC-Unique: 6ZF5tOkNPzKq1ScO8aFRmQ-1
+Received: by mail-wr1-f71.google.com with SMTP id p15so9793676wre.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:18:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QsyVvT34Sm0wTS0w+xEzoSD9G05m+sOISVanOX4IPVk=;
+ b=TuFNGQSdcW93reVBtIhdVkQydQZrmvYIpSzQZak/ddkYf0UqFpZSR+/F9F7FSTF9If
+ jqP5s4UFQkBKM0Yst2xngsq8VO8Qjb3RKL5ROJDtqgpL2c5V8T7LDbc8D+ly3F8+4vO2
+ kCAjlqj9A3A7CKClUFXcbBhacM7hBFMXir56vw7VwEWe35X8H/gPNdG8vEIGX8uHRKtY
+ nAeGkaXRCYNS3cUS+7xwhiu+t+fV2iIM7JsQOyc2o8mIA7+7Wpmzbo19tjscsjO/DU8D
+ JDTC9kengBkdg/AzXgBCD76CpWpODEO+fWj6VgMYv0lyQ6nDbtR8VJ3qvVjUULocNWXl
+ KCkw==
+X-Gm-Message-State: AOAM533EaMbIoMTwHhrO9ZdNiT4YO6g+9LSli0qppZx/CMiQmk5oD67D
+ V5KYqenxCa4Hc5OpDoDMdZzdSJRkAUxI5S5upBvvf6wA+wEXH0Azq+shHOk0XCBY+3w4fMqXZ5+
+ jieQ0UmfT6EGfBqQ=
+X-Received: by 2002:adf:d851:: with SMTP id k17mr10233366wrl.254.1615486736466; 
+ Thu, 11 Mar 2021 10:18:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzg8DnNpAeCYuddOtd61FrJmd3fwtEGQ+WB/cqt+Y5MzUht+sheLwvxnhbJZdNciCNJaHltWQ==
+X-Received: by 2002:adf:d851:: with SMTP id k17mr10233320wrl.254.1615486736221; 
+ Thu, 11 Mar 2021 10:18:56 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v6sm5034881wrx.32.2021.03.11.10.18.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Mar 2021 10:18:55 -0800 (PST)
+Subject: Re: [PATCH 05/14] migrate: remove QMP/HMP commands for speed,
+ downtime and cache size
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-6-berrange@redhat.com> <YEoE7NdH+LNzDlXW@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1e211782-d0c6-6026-6a4e-b5eb626b8fb3@redhat.com>
+Date: Thu, 11 Mar 2021 19:18:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <39285cf8-2214-2257-679d-231e0c6a0652@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YEoE7NdH+LNzDlXW@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,72 +102,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.03.21 18:52, Richard Henderson wrote:
-> On 3/11/21 10:17 AM, David Hildenbrand wrote:
->> +#if !defined(CONFIG_USER_ONLY)
->> +    /*
->> +     * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
->> +     * to detect if there was an exception during tlb_fill().
->> +     */
->> +    env->tlb_fill_exc = 0;
->> +#endif
->> +    flags = probe_access_flags(env, vaddr1, access_type, mmu_idx,
->> +                               nofault, &haddr1, ra);
->> +#if !defined(CONFIG_USER_ONLY)
->> +    if (env->tlb_fill_exc) {
->> +        return env->tlb_fill_exc;
->> +    }
->> +#else
->> +    if (!haddr1) {
->> +        env->__excp_addr = vaddr1;
->> +        return PGM_ADDRESSING;
->> +    }
->> +#endif
+On 11/03/21 12:54, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+>> The generic 'migrate_set_parameters' command handle all types of param.
+>>
+>> Only the QMP commands were documented in the deprecations page, but the
+>> rationale for deprecating applies equally to HMP, and the replacements
+>> exist. Furthermore the HMP commands are just shims to the QMP commands,
+>> so removing the latter breaks the former unless they get re-implemented.
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> The assumption of PGM_ADDRESSING is incorrect here -- it could still be
-> PGM_PROTECTION, depending on how the page is mapped.
-> 
+> Yes OK; ouch that's going to break my 7 years of instinctive
+> 'migrate_set_speed 10G' typing, but it's probably the right thing to do.
 
-Interesting, I was only looking at the s390x tlb_fill() implementation. 
-But I assume these checks are performed in common code.
+migrate_set_speed should remain if it is not changed to have a sane default.
 
-> I guess this should be done like
-> 
-> #ifdef CONFIG_USER_ONLY
->       flags = page_get_flags(vaddr1);
->       if (!flags & (access_type == MMU_DATA_LOAD
->                     ? PAGE_READ : PAGE_WRITE)) {
->           env->__excp_addr = vaddr1;
->           if (nofault) {
->               return (flags & PAGE_VALID
->                   ? PGM_PROTECTION : PGM_ADDRESSING);
->           }
->           raise exception.
->       }
->       haddr1 = g2h(vaddr1);
-> #else
->       env->tlb_fill_exc = 0;
->       flags = probe_access_flags(...);
->       if (env->tlb_fill_exc) {
->           return env->tlb_fill_exc;
->       }
-> #endif
-> 
-> which is pretty ugly, but no worse than what you have above.
-
-Thanks, maybe I can factor that out in a nice way. I guess we could do 
-the access via probe_access_flags() and only on error do the 
-page_get_flags()?
-
-
--- 
-Thanks,
-
-David / dhildenb
+Paolo
 
 
