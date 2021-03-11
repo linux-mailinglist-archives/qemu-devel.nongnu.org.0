@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3436B33754B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:18:55 +0100 (CET)
-Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DFC337552
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:20:16 +0100 (CET)
+Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKM9O-0006XQ-9i
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:18:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48932)
+	id 1lKMAh-0007d2-VX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:20:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lKLnp-0002z7-Hg
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:56:37 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33679)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKLoG-0003eT-H1
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:57:05 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lKLnn-0003WP-Sz
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:56:37 -0500
-Received: by mail-pf1-x433.google.com with SMTP id y13so11082536pfr.0
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 05:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HdXHfF0esxqgy+KWP8ooxVtoJqVDo9Tm/88wrB+K/2Q=;
- b=TxIw5lNGwW49OH8v+7e2nB0JQFHEH2sQAh5dIgvfK8vqskuCe2DhNiBCo7FLFwpmvf
- N5/ghmBWngGbyHDwz9fddASPwIc9P50J0XIPCwfY6aSwWtFAKTylcS85o9wdkZi1p/vY
- 3Ug3Gr41ftGX4z6B604OreSMMUOf4Fxfrmxv1OrC6chKieyo9FK7L1D7Q6UFAyWt6xYl
- Nw/vcOJePTvjf2NqtWCHwt6MlJwb2MOVYtSrUPbBv0m0/1vU3dzIjvQfX0FRh5OZe81m
- l2eJJH8MJuCoKwa+v1E8GXppKLjQGuodvowd4SN+WxyduamYVe1Poz6z0Cxio4gF/Ntx
- imgg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKLoE-0003pD-O6
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:57:04 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id i61so2869210edd.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 05:57:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lt6W0DL25DD4fkY17KrpKAIssrwOr6WNuWnERU+QiP8=;
+ b=fDwET5KODp1CoibrKFi/XJurFuwznITo4nV125xWZWtPcacxt5iQn4bbtL+ngWmnu1
+ yrxeUi3zFo/D+NpPUx8yWf2RZUM8c48khKoLbZeDppnBN3MNUesCBbYaLq8b5NSygVVS
+ 7PUCD6eH+Ifce0ZSGRT8W/a5pRhH3CKFxt5TZgNN3WI26dvTkzDlCK6brsamx6mWV0/G
+ sckbp+cpXU//XGsySJ21q9Kda2viputltVZwom+ilqLjLVMG71UGVVEchIO2D5WegMkV
+ /RbQp6EDLtlpHSK5qjUo9dTcq/arhtOjA+eINtyfk85OYGTkANnuizO+7A39SVNb0yvU
+ S1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=HdXHfF0esxqgy+KWP8ooxVtoJqVDo9Tm/88wrB+K/2Q=;
- b=WsWHsDY8DcVv89MLRHqN0rHyzcz+FMinwUquu12vgp8vTGE9VyZK9Oy0hKBQm+V/w+
- UX09ElJKUjbhI+ZRTa16vaZQETMfYiPwDEmJpG8Mwy72y9Wq5DPQm8pH8JIJ9qUvBTQL
- Jb4bLy0PzuvNP7CjqrG2IGRJIr95K4x6ExgGknFizKVJj5VA7mj4f3WYLICsXWNxz7ZV
- y9u04esyPR++vvsGXp9gZ1A1bhPmaKCDv/DaldHdPxxB97ss3QaNexJPuuN5kVN4atDc
- sbGcEvVPfDuQoxUai7y/++GDISyaBTAFaqa9BoJE+dMEt/bf4zd/S75l/yE/U+ZlX3Ot
- WCDQ==
-X-Gm-Message-State: AOAM530dGTuu3FcJJpekF7v8Uaun6z6p1ycHr8flX2p59xx2rUuIWgbb
- NYUIEF1cSwCxXw/cnyzqcViLvV34QTBxgg==
-X-Google-Smtp-Source: ABdhPJwjqm8D2qVW1xZU8+YessZEZ2XrRpQkRWFiCdL73dRHZAn1Av4mvjFyT8skgX1iQ4t1xjFyQQ==
-X-Received: by 2002:aa7:829a:0:b029:1c1:1a3f:db25 with SMTP id
- s26-20020aa7829a0000b02901c11a3fdb25mr7609175pfm.60.1615470994332; 
- Thu, 11 Mar 2021 05:56:34 -0800 (PST)
-Received: from localhost.localdomain ([120.138.12.210])
- by smtp.gmail.com with ESMTPSA id a7sm2582392pfo.105.2021.03.11.05.56.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 05:56:34 -0800 (PST)
-From: G S Niteesh Babu <niteesh.gs@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] avr/arduino: Add D13 LED
-Date: Thu, 11 Mar 2021 19:25:39 +0530
-Message-Id: <20210311135539.10206-4-niteesh.gs@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210311135539.10206-1-niteesh.gs@gmail.com>
-References: <20210311135539.10206-1-niteesh.gs@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=niteesh.gs@gmail.com; helo=mail-pf1-x433.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lt6W0DL25DD4fkY17KrpKAIssrwOr6WNuWnERU+QiP8=;
+ b=lejNom8Ve8HoxxL3VNnuL17Pv6T65Jf78GtZFk6U9rplo5+VvkAK9mfuruhgOSK5IU
+ KV2qG/f/SOzJBtoYBP65O0XovwbmOESd5YyGCttLeSk8I+JB+m8HX0HRR6L6HYEvpA5q
+ VQULh5jz/7dGFeCxrZs8+HSoduAMcnX9ZbqqQx+T6NaLQBhvt94WUJz61rLrzGgxR2p/
+ 64CQ/ZIctM9LtXWiynkMnMZLBpyb8w8TMmGYZoH/XF7S2YOIoEoFwE9VlZ8/3/dJh713
+ jiYo4dIU/gFJCtCL6RxFGV+LdBFNug+lduViLh3PS8cyGuyH+3iyQnUYxqu5W7YJcxH7
+ riug==
+X-Gm-Message-State: AOAM531Kt+2PMDjeQC3Gibuzlzr0LMfUbNr4I3RMjq4GsGqIGH5YjPmf
+ kl0pbNBaGI+CsYHe9I9uAzKAC7fWMKE25w7DJxZ/ug==
+X-Google-Smtp-Source: ABdhPJz3O/psFDbeFPugVfxZVzrIhj5xssYiFjimKc4EPDkYBFvH+LMd5fsyEFAiKAyqchGGSrSTz3c24193eii5U/A=
+X-Received: by 2002:aa7:c3cd:: with SMTP id l13mr8508581edr.52.1615471021014; 
+ Thu, 11 Mar 2021 05:57:01 -0800 (PST)
+MIME-Version: 1.0
+References: <20210309131641.2709380-1-clg@kaod.org>
+In-Reply-To: <20210309131641.2709380-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Mar 2021 13:56:42 +0000
+Message-ID: <CAFEAcA8fXS2xEhE60qDDXHhicOVJJyKax+erKJ2Ks64TDP09uA@mail.gmail.com>
+Subject: Re: [PULL 0/7] aspeed queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,67 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: S.E.Harris@kent.ac.uk, mrolnik@gmail.com, f4bug@amsat.org,
- G S Niteesh Babu <niteesh.gs@gmail.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
----
- hw/avr/Kconfig   |  1 +
- hw/avr/arduino.c | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
+On Tue, 9 Mar 2021 at 13:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The following changes since commit 229a834518b950d56fd1bc94923276504d0ee9=
+d4:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-202103=
+06' into staging (2021-03-08 15:45:48 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210309
+>
+> for you to fetch changes up to c59f781e3bcca4a80aef5d229488fd45dbfdbd9a:
+>
+>   hw/misc: Model KCS devices in the Aspeed LPC controller (2021-03-09 12:=
+01:28 +0100)
+>
+> ----------------------------------------------------------------
+> Aspeed patches :
+>
+> * New model for the Aspeed LPC controller
+> * Misc cleanups
+>
 
-diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-index 16a57ced11..e0d4fc5537 100644
---- a/hw/avr/Kconfig
-+++ b/hw/avr/Kconfig
-@@ -8,3 +8,4 @@ config AVR_ATMEGA_MCU
- config ARDUINO
-     select AVR_ATMEGA_MCU
-     select UNIMP
-+    select LED
-diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
-index 3c8388490d..5cdba3201c 100644
---- a/hw/avr/arduino.c
-+++ b/hw/avr/arduino.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/boards.h"
-+#include "hw/misc/led.h"
- #include "atmega.h"
- #include "boot.h"
- #include "qom/object.h"
-@@ -22,6 +23,8 @@ struct ArduinoMachineState {
-     MachineState parent_obj;
-     /*< public >*/
-     AtmegaMcuState mcu;
-+
-+    LEDState *onboard_led;
- };
- typedef struct ArduinoMachineState ArduinoMachineState;
- 
-@@ -49,6 +52,18 @@ static void arduino_machine_init(MachineState *machine)
-                              amc->xtal_hz, &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&ams->mcu), &error_abort);
- 
-+    ams->onboard_led = led_create_simple(OBJECT(ams),
-+                                         GPIO_POLARITY_ACTIVE_HIGH,
-+                                         LED_COLOR_BLUE,
-+                                         "D13 LED");
-+
-+    /* TODO: Add macro or function to map pins to ports */
-+    /* The onboard led is connected to PIN 13 in all boards currently supported
-+     * in QEMU. And PIN 13 is mapped to PORT B BIT 5.
-+     */
-+    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[1]), 5,
-+                          qdev_get_gpio_in(DEVICE(ams->onboard_led), 0));
-+
-     if (machine->firmware) {
-         if (!avr_load_firmware(&ams->mcu.cpu, machine,
-                                &ams->mcu.flash, machine->firmware)) {
--- 
-2.17.1
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
