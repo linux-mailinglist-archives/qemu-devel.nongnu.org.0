@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F77337FEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:52:00 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF17C337FF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:59:16 +0100 (CET)
+Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTDr-0002cx-C1
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
+	id 1lKTKt-00069R-EH
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:59:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKTC6-0001Jv-60
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:50:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34835)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKTC4-0007OR-0w
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:50:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615499405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=av6GL7plIQqVBmkecT2IcusHP8f0jgwys+zzL6x1jUo=;
- b=VjedTe+5qvtXvl9WEJy4Dn6xSonRoW6PiLhsUSDhDVmcBgKXQ95pmsJNebGwnatZrkP5JL
- AsoE6T/sCwMUC92NbEb+6z8tXkRdwG8BAqXkXMXOUgGUZfrs5eHOVMs6vIDEbCU0xcUTtA
- AZ3QrcfqFZETUttNEhd7rYqvqs+MVVA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-t606DMFfPSewLeuBx3YOjw-1; Thu, 11 Mar 2021 16:50:04 -0500
-X-MC-Unique: t606DMFfPSewLeuBx3YOjw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E704100C662;
- Thu, 11 Mar 2021 21:50:02 +0000 (UTC)
-Received: from [10.36.115.26] (ovpn-115-26.ams2.redhat.com [10.36.115.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 895DD60853;
- Thu, 11 Mar 2021 21:49:47 +0000 (UTC)
-Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
- to handle shared anonymous memory
-To: Peter Xu <peterx@redhat.com>
-References: <20210308150600.14440-1-david@redhat.com>
- <20210308150600.14440-3-david@redhat.com> <20210311213756.GL194839@xz-x1>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <3bc7c6e6-88d6-907b-2ae3-bd333cccc917@redhat.com>
-Date: Thu, 11 Mar 2021 22:49:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKTJR-0005EE-Uy
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:57:45 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKTJP-0002if-Tr
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:57:45 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id o19so5103592edc.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 13:57:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=d9xYkY2MxCvGymt8wYifB4E4QgydH71gNppjF1geobI=;
+ b=UP2eHvbGqYj8xNXuJenXf2iYIuyNujAq9Mpttzm7a8lTMgPAe4aqHCp9DOT/Nn474o
+ DTpTJyNvPZmSItmoydznsTG3iPIx9Ov7+jOBJj/rLbGW+Ztik1Xh0vdk1CRRZocAdta6
+ DBilAPiKLKlUC5lYbvs1Yf0+tEI8k9j4KA35CETsqAd8oA4BGfq94irfyJBPTfnAiFWl
+ kaGS1IU/dUrbQdDRnSNMkSiAubj1YJeVfPbk6Lp33GuHJY3dgQv6xjsRvxtYH+4txFth
+ hFGLpOLRjyjCCbZiwO7C/SwQXmOf2zBdReb5CxX5Bu+6OrBLxKgX8mCXjtWQN54eXFE4
+ Hcog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=d9xYkY2MxCvGymt8wYifB4E4QgydH71gNppjF1geobI=;
+ b=THOfUaAlhS1JM0eYlikLvS5t+S9ZJHBn6knynWWEN3YoEoyWLECn9bFyzEWxWihXNQ
+ SPeTOcinJBqjd9dMnlsZADGOcMUGZqCFi2xgCxN9Hj1wSd+1KFIavhUGVt8nKdjDgynk
+ 0YGnUT6RLxXN1mMqfgwS1gLDudIOEdIxyFNugJrkfW7LZ/lG+QF8STkOeHO3yAM5V1bP
+ Grd6CE2nhznovuXAOGuCM9Kg7ZhUn7hiWTGQ+yOo45pFztbfacQwepy8BMK7xiWvCApH
+ qM8HzO7fULIUaq6fg1ssm/szUFntz3CABon6TWIk8ttt5WG144sqD1ryyetlEjUxm5/c
+ GqKg==
+X-Gm-Message-State: AOAM533ZWMyhpO0qhQGk/RVmxbQYojEcd/rwKQfbT9rSBo0ZpBGHsvhS
+ Yyp1D/NDv523d3iC65dx1P7uqdk7Fqwk6swJe7Topg==
+X-Google-Smtp-Source: ABdhPJzG7GKgkgSlNtJeVlAIukwTeuGAMk+w1v7p2ldj413nmiSibDsUJQCUet51w0pBflqXDAp/W9MeS6qTg2n+SF8=
+X-Received: by 2002:aa7:c804:: with SMTP id a4mr10560218edt.251.1615499862189; 
+ Thu, 11 Mar 2021 13:57:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210311213756.GL194839@xz-x1>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210311210934.1935587-1-laurent@vivier.eu>
+ <20210311210934.1935587-6-laurent@vivier.eu>
+In-Reply-To: <20210311210934.1935587-6-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Mar 2021 21:57:22 +0000
+Message-ID: <CAFEAcA8jAYc06s8N4hsYYDN2=PSB4SxQwvoBeAea7_4Yj1XptQ@mail.gmail.com>
+Subject: Re: [PULL 5/9] char: add goldfish-tty
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,52 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.03.21 22:37, Peter Xu wrote:
-> On Mon, Mar 08, 2021 at 04:05:50PM +0100, David Hildenbrand wrote:
->> We can create shared anonymous memory via
->>      "-object memory-backend-ram,share=on,..."
->> which is, for example, required by PVRDMA for mremap() to work.
->>
->> Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
->> have to use MADV_REMOVE. MADV_DONTNEED fails silently and does nothing.
->>
->> Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
-> 
-> I'm thinking whether we should keep this fixes - it's valid, however it could
-> unveil issues if those remapped ranges didn't get unmapped in time.  After all
-> "not releasing some memory existed" seems not a huge deal for stable.  No
-> strong opinion, just raise it up as a pure question.
-> 
+On Thu, 11 Mar 2021 at 21:22, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Implement the goldfish tty device as defined in
+>
+> https://android.googlesource.com/platform/external/qemu/+/master/docs/GOL=
+DFISH-VIRTUAL-HARDWARE.TXT
+>
+> and based on the kernel driver code:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/tty/goldfish.c
+>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Message-Id: <20210309195941.763896-2-laurent@vivier.eu>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 
-If someone would be using it along with postcopy (which should work 
-apart from that issue) you could be in trouble. That's why i think at 
-least the Fixes: tag is valid. CC: stable might be debatable indeed.
+I didn't notice this earlier, but this looks odd:
 
->> Signed-off-by: David Hildenbrand <david@redhat.com>
-> 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> 
+> +static uint64_t goldfish_tty_read(void *opaque, hwaddr addr,
+> +                                  unsigned size)
+> +{
+> +    GoldfishTTYState *s =3D opaque;
+> +    uint64_t value =3D 0;
+> +
+> +    switch (addr) {
+> +    case REG_BYTES_READY:
+> +        value =3D fifo8_num_used(&s->rx_fifo);
+> +        break;
+> +    case REG_VERSION:
+> +        value =3D 0;
 
-Thanks!
+You report as a version 0 Goldfish TTY device.
+This is the old kind that used guest virtual addresses,
+unlike the more sensible version 1 ("ranchu") kind that uses
+physical addresses.
 
--- 
-Thanks,
+You can see this in the kernel driver code:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/tty/goldfish.c
+where it looks at qtty->version.
 
-David / dhildenb
+> +    case CMD_WRITE_BUFFER:
+> +        len =3D s->data_len;
+> +        ptr =3D s->data_ptr;
+> +        while (len) {
+> +            to_copy =3D MIN(GOLFISH_TTY_BUFFER_SIZE, len);
+> +
+> +            address_space_rw(&address_space_memory, ptr,
+> +                             MEMTXATTRS_UNSPECIFIED, data_out, to_copy, =
+0);
+> +            qemu_chr_fe_write_all(&s->chr, data_out, to_copy);
+> +
+> +            len -=3D to_copy;
+> +            ptr +=3D to_copy;
+> +        }
+> +        break;
+> +    case CMD_READ_BUFFER:
+> +        len =3D s->data_len;
+> +        ptr =3D s->data_ptr;
+> +        while (len && !fifo8_is_empty(&s->rx_fifo)) {
+> +            buf =3D (uint8_t *)fifo8_pop_buf(&s->rx_fifo, len, &to_copy)=
+;
+> +            address_space_rw(&address_space_memory, ptr,
+> +                            MEMTXATTRS_UNSPECIFIED, buf, to_copy, 1);
+> +
+> +            len -=3D to_copy;
+> +            ptr +=3D to_copy;
+> +        }
 
+...but here you're treating the data pointer value from the
+guest like a physical address. I'm not sure how this works.
+
+(This is one of the areas where you need to be really cautious about
+using the goldfish devices -- "device model gets virtual addresses from
+guest OS" is a really bad design.)
+
+thanks
+-- PMM
 
