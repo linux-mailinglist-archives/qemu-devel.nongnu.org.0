@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E66A337E75
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:48:20 +0100 (CET)
-Received: from localhost ([::1]:52476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87728337E76
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:50:50 +0100 (CET)
+Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKRIB-0005Xp-2w
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:48:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49530)
+	id 1lKRKb-0007hM-J7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:50:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKREk-00048t-3t
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:44:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57170)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKREo-0004Cw-HM
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:44:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKREe-0004oN-Av
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:44:45 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKREi-0004pw-Hi
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:44:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615491878;
+ s=mimecast20190719; t=1615491882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R10Uma00jiRRBhn6TPY6a32UuH6QsCQ1QGjdoym9uAs=;
- b=ThDNtip6A4yAcEOMvxnFyJCRodxWx8wwlAIQxf2gEQW83t+osbeZ+6K5LEGmf7qPVUHOI9
- IDdlA9F3Qf5qziqmzCtupPLWqX0dYZlNn+AtP8pySpeq8eYalHDnTk1rq1PH0YZWE8vbso
- iR56GgcC5qtW+bEziBZlPRzADD8hbjk=
+ bh=gPyTnK8drWGKx08hCta/jzRZOcpd9YHnuXwKCnOyWR8=;
+ b=Ats8OnXD5cxqEDtaIOqowWcglblbnVy/f1mqU1NfwwNkNgM1TY6U1S5L7DCICPHwxdU7CK
+ na/FXQxgiqZavyqgwHwXX7PKKwJwmlW+2IJ+jrlQ6sTFFTX/2FiIyXVfgpMZqNHxgMQQQq
+ FD7NH4ciivvtGmGLE1/GP2yAirRMRic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-mHvh02NrPhCBRscUIaSoeA-1; Thu, 11 Mar 2021 14:44:34 -0500
-X-MC-Unique: mHvh02NrPhCBRscUIaSoeA-1
+ us-mta-560-n6-evUIeMhmw6aLQKrX86w-1; Thu, 11 Mar 2021 14:44:38 -0500
+X-MC-Unique: n6-evUIeMhmw6aLQKrX86w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 397CC817471;
- Thu, 11 Mar 2021 19:44:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB29C100C61C;
+ Thu, 11 Mar 2021 19:44:37 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-26.ams2.redhat.com [10.36.115.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B85A15D9F0;
- Thu, 11 Mar 2021 19:44:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8585A5D9F0;
+ Thu, 11 Mar 2021 19:44:33 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 1/2] target/s390x: Implement the MVPG condition-code-option
- bit
-Date: Thu, 11 Mar 2021 20:44:25 +0100
-Message-Id: <20210311194426.149044-2-david@redhat.com>
+Subject: [PATCH v6 2/2] target/s390x: Store r1/r2 for page-translation
+ exceptions during MVPG
+Date: Thu, 11 Mar 2021 20:44:26 +0100
+Message-Id: <20210311194426.149044-3-david@redhat.com>
 In-Reply-To: <20210311194426.149044-1-david@redhat.com>
 References: <20210311194426.149044-1-david@redhat.com>
 MIME-Version: 1.0
@@ -83,223 +83,149 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+The PoP states:
 
-If the CCO bit is set, MVPG should not generate an exception but
-report page translation faults via a CC code.
+    When EDAT-1 does not apply, and a program interruption due to a
+    page-translation exception is recognized by the MOVE PAGE
+    instruction, the contents of the R1 field of the instruction are
+    stored in bit positions 0-3 of location 162, and the contents of
+    the R2 field are stored in bit positions 4-7.
 
-Create a new helper, access_prepare_nf, which can use probe_access_flags
-in non-faulting mode, and then handle watchpoints.
+    If [...] an ASCE-type, region-first-translation,
+    region-second-translation, region-third-translation, or
+    segment-translation exception was recognized, the contents of
+    location 162 are unpredictable.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[thuth: Added logic to still inject protection exceptions]
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-[david: Look at env->tlb_fill_exc to determine if there was an exception]
+So we have to write r1/r2 into the lowcore on page-translation
+exceptions. Simply handle all exceptions inside our mvpg helper now.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu.h         |   5 ++
- target/s390x/excp_helper.c |   3 +
- target/s390x/mem_helper.c  | 136 ++++++++++++++++++++++++++++++-------
- 3 files changed, 121 insertions(+), 23 deletions(-)
+ target/s390x/helper.h      |  2 +-
+ target/s390x/insn-data.def |  2 +-
+ target/s390x/mem_helper.c  | 46 +++++++++++++++++++++++---------------
+ target/s390x/translate.c   |  7 +++++-
+ 4 files changed, 36 insertions(+), 21 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 60d434d5ed..468b4430f3 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -114,6 +114,11 @@ struct CPUS390XState {
- 
-     uint64_t diag318_info;
- 
-+#if !defined(CONFIG_USER_ONLY)
-+    uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
-+    int tlb_fill_exc;        /* exception number seen during tlb_fill */
-+#endif
-+
-     /* Fields up to this point are cleared by a CPU reset */
-     struct {} end_reset_fields;
- 
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index ce16af394b..c48cd6b46f 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -164,6 +164,9 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         tec = 0; /* unused */
-     }
- 
-+    env->tlb_fill_exc = excp;
-+    env->tlb_fill_tec = tec;
-+
-     if (!excp) {
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s: set tlb %" PRIx64 " -> %" PRIx64 " (%x)\n",
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 55bd1551e6..d4e4f3388f 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -18,7 +18,7 @@ DEF_HELPER_3(srstu, void, env, i32, i32)
+ DEF_HELPER_4(clst, i64, env, i64, i64, i64)
+ DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+-DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
++DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i32, i32)
+ DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_3(mvst, i32, env, i32, i32)
+ DEF_HELPER_4(ex, void, env, i32, i64, i64)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index e5b6efabf3..0bb1886a2e 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -641,7 +641,7 @@
+ /* MOVE NUMERICS */
+     C(0xd100, MVN,     SS_a,  Z,   la1, a2, 0, 0, mvn, 0)
+ /* MOVE PAGE */
+-    C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
++    C(0xb254, MVPG,    RRE,   Z,   0, 0, 0, 0, mvpg, 0)
+ /* MOVE STRING */
+     C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
+ /* MOVE WITH OPTIONAL SPECIFICATION */
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 25cfede806..6f6e2f80f4 100644
+index 6f6e2f80f4..12e84a4285 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -130,28 +130,103 @@ typedef struct S390Access {
-     int mmu_idx;
- } S390Access;
- 
--static S390Access access_prepare(CPUS390XState *env, vaddr vaddr, int size,
--                                 MMUAccessType access_type, int mmu_idx,
--                                 uintptr_t ra)
-+/*
-+ * With nonfault=1, return the PGM_ exception that would have been injected
-+ * into the guest; return 0 if no exception was detected.
-+ *
-+ * For !CONFIG_USER_ONLY, the TEC is stored stored to env->tlb_fill_tec.
-+ * For CONFIG_USER_ONLY, the faulting address is stored to env->__excp_addr.
-+ */
-+static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
-+                             MMUAccessType access_type, int mmu_idx,
-+                             bool nonfault, void **phost, uintptr_t ra)
- {
--    S390Access access = {
--        .vaddr1 = vaddr,
--        .size1 = MIN(size, -(vaddr | TARGET_PAGE_MASK)),
--        .mmu_idx = mmu_idx,
--    };
-+    int flags;
- 
--    g_assert(size > 0 && size <= 4096);
--    access.haddr1 = probe_access(env, access.vaddr1, access.size1, access_type,
--                                 mmu_idx, ra);
-+#if defined(CONFIG_USER_ONLY)
-+    flags = page_get_flags(addr);
-+    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE))) {
-+        env->__excp_addr = addr;
-+        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
-+        if (nonfault) {
-+            return flags;
-+        }
-+        tcg_s390_program_interrupt(env, flags, ra);
-+    }
-+    *phost = g2h(env_cpu(env), addr);
-+#else
-+    /*
-+     * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
-+     * to detect if there was an exception during tlb_fill().
-+     */
-+    env->tlb_fill_exc = 0;
-+    flags = probe_access_flags(env, addr, access_type, mmu_idx, nonfault, phost,
-+                               ra);
-+    if (env->tlb_fill_exc) {
-+        return env->tlb_fill_exc;
-+    }
- 
--    if (unlikely(access.size1 != size)) {
--        /* The access crosses page boundaries. */
--        access.vaddr2 = wrap_address(env, vaddr + access.size1);
--        access.size2 = size - access.size1;
--        access.haddr2 = probe_access(env, access.vaddr2, access.size2,
--                                     access_type, mmu_idx, ra);
-+    if (unlikely(flags & TLB_WATCHPOINT)) {
-+        /* S390 does not presently use transaction attributes. */
-+        cpu_check_watchpoint(env_cpu(env), addr, size,
-+                             MEMTXATTRS_UNSPECIFIED,
-+                             (access_type == MMU_DATA_STORE
-+                              ? BP_MEM_WRITE : BP_MEM_READ), ra);
-     }
--    return access;
-+#endif
-+    return 0;
-+}
-+
-+static int access_prepare_nf(S390Access *access, CPUS390XState *env,
-+                             bool nonfault, vaddr vaddr1, int size,
-+                             MMUAccessType access_type,
-+                             int mmu_idx, uintptr_t ra)
-+{
-+    void *haddr1, *haddr2 = NULL;
-+    int size1, size2, exc;
-+    vaddr vaddr2 = 0;
-+
-+    assert(size > 0 && size <= 4096);
-+
-+    size1 = MIN(size, -(vaddr1 | TARGET_PAGE_MASK)),
-+    size2 = size - size1;
-+
-+    exc = s390_probe_access(env, vaddr1, size1, access_type, mmu_idx, nonfault,
-+                            &haddr1, ra);
-+    if (exc) {
-+        return exc;
-+    }
-+    if (unlikely(size2)) {
-+        /* The access crosses page boundaries. */
-+        vaddr2 = wrap_address(env, vaddr1 + size1);
-+        exc = s390_probe_access(env, vaddr2, size2, access_type, mmu_idx,
-+                                nonfault, &haddr2, ra);
-+        if (exc) {
-+            return exc;
-+        }
-+    }
-+
-+    *access = (S390Access) {
-+        .vaddr1 = vaddr1,
-+        .vaddr2 = vaddr2,
-+        .haddr1 = haddr1,
-+        .haddr2 = haddr2,
-+        .size1 = size1,
-+        .size2 = size2,
-+        .mmu_idx = mmu_idx
-+    };
-+    return 0;
-+}
-+
-+static S390Access access_prepare(CPUS390XState *env, vaddr vaddr, int size,
-+                                 MMUAccessType access_type, int mmu_idx,
-+                                 uintptr_t ra)
-+{
-+    S390Access ret;
-+    int exc = access_prepare_nf(&ret, env, false, vaddr, size,
-+                                access_type, mmu_idx, ra);
-+    assert(!exc);
-+    return ret;
+@@ -915,8 +915,10 @@ uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
  }
  
- /* Helper to handle memset on a single page. */
-@@ -845,8 +920,10 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+ /* move page */
+-uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
++uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint32_t r1, uint32_t r2)
+ {
++    const uint64_t src = get_address(env, r2) & TARGET_PAGE_MASK;
++    const uint64_t dst = get_address(env, r1) & TARGET_PAGE_MASK;
      const int mmu_idx = cpu_mmu_index(env, false);
      const bool f = extract64(r0, 11, 1);
      const bool s = extract64(r0, 10, 1);
-+    const bool cco = extract64(r0, 8, 1);
-     uintptr_t ra = GETPC();
-     S390Access srca, desta;
-+    int exc;
- 
-     if ((f && s) || extract64(r0, 12, 4)) {
+@@ -929,34 +931,42 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
          tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-@@ -858,13 +935,26 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+     }
+ 
+-    r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
+-    r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
+-
      /*
-      * TODO:
-      * - Access key handling
--     * - CC-option with surpression of page-translation exceptions
-      * - Store r1/r2 register identifiers at real location 162
+-     * TODO:
+-     * - Access key handling
+-     * - Store r1/r2 register identifiers at real location 162
++     * We always manually handle exceptions such that we can properly store
++     * r1/r2 to the lowcore on page-translation exceptions.
++     *
++     * TODO: Access key handling
       */
--    srca = access_prepare(env, r2, TARGET_PAGE_SIZE, MMU_DATA_LOAD, mmu_idx,
--                          ra);
--    desta = access_prepare(env, r1, TARGET_PAGE_SIZE, MMU_DATA_STORE, mmu_idx,
--                           ra);
-+    exc = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
-+                            MMU_DATA_LOAD, mmu_idx, ra);
-+    if (exc) {
-+        return 2;
-+    }
-+    exc = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
-+                            MMU_DATA_STORE, mmu_idx, ra);
-+    if (exc) {
-+#if !defined(CONFIG_USER_ONLY)
-+        if (exc == PGM_PROTECTION) {
-+            stq_phys(env_cpu(env)->as,
-+                     env->psa + offsetof(LowCore, trans_exc_code),
-+                     env->tlb_fill_tec);
-+            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
+-    exc = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
++    exc = access_prepare_nf(&srca, env, true, src, TARGET_PAGE_SIZE,
+                             MMU_DATA_LOAD, mmu_idx, ra);
+     if (exc) {
+-        return 2;
++        if (cco) {
++            return 2;
 +        }
-+#endif
-+        return 1;
-+    }
++        goto inject_exc;
+     }
+-    exc = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
++    exc = access_prepare_nf(&desta, env, true, dst, TARGET_PAGE_SIZE,
+                             MMU_DATA_STORE, mmu_idx, ra);
+     if (exc) {
+-#if !defined(CONFIG_USER_ONLY)
+-        if (exc == PGM_PROTECTION) {
+-            stq_phys(env_cpu(env)->as,
+-                     env->psa + offsetof(LowCore, trans_exc_code),
+-                     env->tlb_fill_tec);
+-            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
++        if (cco && exc != PGM_PROTECTION) {
++            return 1;
+         }
+-#endif
+-        return 1;
++        goto inject_exc;
+     }
      access_memmove(env, &desta, &srca, ra);
      return 0; /* data moved */
++inject_exc:
++#if !defined(CONFIG_USER_ONLY)
++    if (exc != PGM_ADDRESSING) {
++        stq_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, trans_exc_code),
++                 env->tlb_fill_tec);
++    }
++    if (exc == PGM_PAGE_TRANS) {
++        stb_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, op_access_id),
++                 r1 << 4 | r2);
++    }
++#endif
++    tcg_s390_program_interrupt(env, exc, ra);
+ }
+ 
+ /* string copy */
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 61dd0341e4..4f953ddfba 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -3513,7 +3513,12 @@ static DisasJumpType op_mvo(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_mvpg(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_mvpg(cc_op, cpu_env, regs[0], o->in1, o->in2);
++    TCGv_i32 t1 = tcg_const_i32(get_field(s, r1));
++    TCGv_i32 t2 = tcg_const_i32(get_field(s, r2));
++
++    gen_helper_mvpg(cc_op, cpu_env, regs[0], t1, t2);
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
+     set_cc_static(s);
+     return DISAS_NEXT;
  }
 -- 
 2.29.2
