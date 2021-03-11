@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E3E3376AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:17:31 +0100 (CET)
-Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B853376E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:22:35 +0100 (CET)
+Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKN46-00051p-Ax
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:17:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
+	id 1lKN90-0004Nm-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:22:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMVe-0004Sf-RQ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:41:56 -0500
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36440)
+ id 1lKMVb-0004RZ-4K
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:41:52 -0500
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:46722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMVU-000719-60
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:41:54 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id 6so1263487qty.3
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:41:43 -0800 (PST)
+ id 1lKMVV-00071q-FZ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:41:50 -0500
+Received: by mail-qv1-xf34.google.com with SMTP id j17so2639311qvo.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:41:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EtFk4wSnOwjuUh6hagaoKS0TCdHIiNtFe13FGIUqDnw=;
- b=qegANKqnPL3vmUImMmOUkpCnyCrG4ZA4S0RJpMy3bzJ10QpDUTaA/55RA2LxognTVu
- YbBaOhZ0Vfo1gnY7VlmyV6Y9m1GbQj0IOPpTm0AwK5jG85IZp5og8nYAeH+EC6MRHeSF
- yb3yEeeGlP7PBDi9uagYIdrjjDq2bxmvP5SX7sd1YwHxnop30VTY+ZAcO5YUX231YUoE
- sRJw2ugJAypwbAnPsAjOpz+pHpSZRzFib/KSId6NqyDsT0GUOw05cE4dEl6SSYUSVZs3
- 0gY7fSqpPH1A1KC/SVsrfw+/Zzhhv1+1uh+hb2uPNFif3b04bZ7Os2y8DvfYpE2ikQyK
- TY7g==
+ bh=LH70RiyHzxdek5Q28EGrMxuIKiWy1oDfjvApqs9uX0o=;
+ b=xEBWWNapVaqd1o/zyqW0r+61BPvt8LidmifM2j+6j+ysMZ/WPPHEOM5Ln3X8YG+rFl
+ TiedAt/dOC+FczHPAseudQv0TT521EuazRTnwmTAXFKKaA6Z3wlF1B3C3GKqr4AyWa+5
+ 1O5LCZNeVZTjcAi0oSmzYM9C/nxr81BRdGnMTSYR/REeoY7AFLL1RN7Vtc45QQ1y8eRS
+ ibyBThvIDYJWwpVuPT5dt+P47/z+4osHLNNI2RwoTvQpHXPY3rlVSgkdZUznG0i3Qm6R
+ ewf6xmwidv1OYAXceF0NXdUaK4GBq4ZQ2bOvVwZNHqj1hDvsRIohxjzSatuxGRYze1IG
+ 45+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EtFk4wSnOwjuUh6hagaoKS0TCdHIiNtFe13FGIUqDnw=;
- b=XPG57gs7RpY2JUBK5T66P+b8EygnW/w36I8INfdI4aVa4Fg+3S5LoNDyDrsqHofAMn
- JQAhW6npDF019SB005nRv4pmjTrGuCPARNqzA8bJe7x9QWyPnn90OoVA3vRBu2whk3Wc
- UkUWB+KBHimBCMO57lphoKpn7vC53dSBMCpIODcXQJpWdHvqxAF1G5uiaNUyc1hJ8axW
- AKmRVKuCvn9Y46CdhNfXIUP3MuqKf/PXhO2yhMhesAPX/Sf7kJgUedIn7rsl8ghvhCcJ
- 7nhhusrwbdz9Zwbm+PpUuSbnjR4QaB8kTJ1+u3r2ZQqrJnW37f+Sp/Ry6BBKFg4Hjnuj
- HXqQ==
-X-Gm-Message-State: AOAM531cehj+Rf9N14mX8JQAJniwxYezRf9/sdLfd1gOZGruC5VWzaOZ
- 1KIm/GIxmIKn+omkkFlo2G8VwqVuq3cUIaSR
-X-Google-Smtp-Source: ABdhPJyN2+T3nTBk+3D+Qpyaykq3GH8HciuvZgKTDKMoV5jh0BU4lA2Lxuw8LsO1jC1f9H9zZhKSeA==
-X-Received: by 2002:ac8:3a41:: with SMTP id w59mr7776294qte.8.1615473703228;
- Thu, 11 Mar 2021 06:41:43 -0800 (PST)
+ bh=LH70RiyHzxdek5Q28EGrMxuIKiWy1oDfjvApqs9uX0o=;
+ b=uVZ11wKj3T2iz+nsjB2HNOH3ecVOw82jBYSTgzzG5XYfI6PJHXUpv4EOweTFPfqNKu
+ WrS9pFmmbJ+gl7rkXO1AMPMABfIi8XZciykxSd07KWiv8bzCBLkthtIPt6churUaTj+c
+ 8mftXhBMaA35MNXs5KrYnigyxWUqPVjVL56+wTjfIo6Ft9K/y0XMtoRhL7WASa9cH/fB
+ kcMvDtH/8B/9LHRHH2leIxUyYyTL4ZRMR3IuMYiNrijib741dx0KWTJp3Cg/wxyXGvsi
+ QygouXa4T4pU6vg5ZrpMgYcRcU5ytHP6tc+dQ7PpSWX+hDlBfZlIGfIDMjHYVYGGkd1n
+ E9Mw==
+X-Gm-Message-State: AOAM532F/VT5ZoMslBxhy77+/sJ3jpUc4sUPvLd7QtkeOIjfCigF9wLd
+ IswSVoKlw/Q6zwebxrCXe08k69NOpdkM4YT9
+X-Google-Smtp-Source: ABdhPJzO4zlpxjwdbfGiutO/tAsWSq41uccp/Ju72G28l/4wsGnmgBm1+DauTnonRy21KarDkN7m9Q==
+X-Received: by 2002:ad4:4745:: with SMTP id c5mr8090071qvx.39.1615473704360;
+ Thu, 11 Mar 2021 06:41:44 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id g14sm1962421qkm.98.2021.03.11.06.41.42
+ by smtp.gmail.com with ESMTPSA id g14sm1962421qkm.98.2021.03.11.06.41.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:41:42 -0800 (PST)
+ Thu, 11 Mar 2021 06:41:44 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 55/57] tests/tcg: Increase timeout for TCI
-Date: Thu, 11 Mar 2021 08:39:56 -0600
-Message-Id: <20210311143958.562625-56-richard.henderson@linaro.org>
+Subject: [PATCH v5 56/57] gitlab: Rename ACCEL_CONFIGURE_OPTS to
+ EXTRA_CONFIGURE_OPTS
+Date: Thu, 11 Mar 2021 08:39:57 -0600
+Message-Id: <20210311143958.562625-57-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,47 +89,58 @@ Cc: sw@weilnetz.de, Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The longest test at the moment seems to be a (slower)
-aarch64 host, for which test-mmap takes 64 seconds.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure                 | 3 +++
- tests/tcg/Makefile.target | 6 ++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/configure b/configure
-index 34fccaa2ba..5ce5b5b136 100755
---- a/configure
-+++ b/configure
-@@ -5792,6 +5792,9 @@ fi
- if test "$optreset" = "yes" ; then
-   echo "HAVE_OPTRESET=y" >> $config_host_mak
- fi
-+if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
-+  echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
-+fi
- if test "$fdatasync" = "yes" ; then
-   echo "CONFIG_FDATASYNC=y" >> $config_host_mak
- fi
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 24d75a5801..fa5813192a 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -77,8 +77,10 @@ LDFLAGS=
- QEMU_OPTS=
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index d5098c986b..d573e431e5 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -16,7 +16,7 @@
+ #
+ # Set the $ACCEL variable to select the specific accelerator (default to
+ # KVM), and set extra options (such disabling other accelerators) via the
+-# $ACCEL_CONFIGURE_OPTS variable.
++# $EXTRA_CONFIGURE_OPTS variable.
+ .cross_accel_build_job:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+@@ -26,7 +26,7 @@
+     - cd build
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-tools
+-        --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
++        --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
+     - make -j$(expr $(nproc) + 1) all check-build
  
+ .cross_user_build_job:
+@@ -173,7 +173,7 @@ cross-s390x-kvm-only:
+     job: s390x-debian-cross-container
+   variables:
+     IMAGE: debian-s390x-cross
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg
++    EXTRA_CONFIGURE_OPTS: --disable-tcg
  
--# If TCG debugging is enabled things are a lot slower
--ifeq ($(CONFIG_DEBUG_TCG),y)
-+# If TCG debugging, or TCI is enabled things are a lot slower
-+ifneq ($(CONFIG_TCG_INTERPRETER),)
-+TIMEOUT=90
-+else ifneq ($(CONFIG_DEBUG_TCG),)
- TIMEOUT=60
- else
- TIMEOUT=15
+ cross-win32-system:
+   extends: .cross_system_build_job
+@@ -196,7 +196,7 @@ cross-amd64-xen-only:
+   variables:
+     IMAGE: debian-amd64-cross
+     ACCEL: xen
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+ 
+ cross-arm64-xen-only:
+   extends: .cross_accel_build_job
+@@ -205,4 +205,4 @@ cross-arm64-xen-only:
+   variables:
+     IMAGE: debian-arm64-cross
+     ACCEL: xen
+-    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
 -- 
 2.25.1
 
