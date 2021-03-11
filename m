@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8B9337A32
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:59:32 +0100 (CET)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511E6337A74
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:07:11 +0100 (CET)
+Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKOeo-0002QN-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:59:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55584)
+	id 1lKOmD-00080B-Si
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:07:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKOdI-0000j7-HP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:57:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKOdD-0000XG-Go
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:57:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615481866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=huH4ShnWcb1ZGTcud79ZhzJpVLMwEGcDSQv3N79PtSc=;
- b=Wzp6Sxi/CP8sNn9AduUloLAytX2B4ozyONGG2MOALIX4Foti9ffBGWz2N4H1E4EOe5tvG5
- j0k4oTx4HpChuXtM26OasRiQQurJVJef9dH6PwdX+/5MlwWQ+/A8rgY5BRt1zcVSJ3KZnA
- bMFbZKaduf7qyPF7WTqYhNuBTFCiapY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-kGrxNT5MMe26APsqEAY-Yg-1; Thu, 11 Mar 2021 11:57:45 -0500
-X-MC-Unique: kGrxNT5MMe26APsqEAY-Yg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12965193248A;
- Thu, 11 Mar 2021 16:57:44 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 474E75C1CF;
- Thu, 11 Mar 2021 16:57:42 +0000 (UTC)
-Subject: Re: [PATCH v3 1/6] block-jobs: flush target at the end of .run()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-2-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <33bf5c5b-f48f-813a-acc8-b3129bc85714@redhat.com>
-Date: Thu, 11 Mar 2021 17:57:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKOfB-0003vI-Ip
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:59:53 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKOf9-0001EP-Bq
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:59:53 -0500
+Received: by mail-wm1-x342.google.com with SMTP id
+ r15-20020a05600c35cfb029010e639ca09eso13723363wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 08:59:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T0zImBtoun0eeL/svOPB9aOBwXK5I7jGOfv+NPuDNrM=;
+ b=JNJbNh9Bq2mhKFiOUkc+PD1JZB79bBdNaQQhfyK93vn2BOj0JfcPkgnqApR5SekDYA
+ 7b1rHKnKZxgBMZcYyzyykWinxJlvbWJscxhP1mLupdjzInmx4UiYQBXjAJkk3A8d5sKv
+ l/TCv+aNnhfALSmjei3EW/bC3/2fA2u7NatDcg2BzCobF/0ot4kR5nlFMNzq03q+e1Rs
+ 7y9yGvNVzgXTeHjAtq1ZqfCAm38D7F2STFVH0dl0LwrWvIg9MHteGn2GoHvEHbKU9SD/
+ pIt2YVpRomFYTm5Y5oL/PwSwYkDQZ7UNdf878gsV2yuM7qvKxs2gy2FEKOZoJ4oUCjGg
+ 2Psw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T0zImBtoun0eeL/svOPB9aOBwXK5I7jGOfv+NPuDNrM=;
+ b=PtnZTK8ic8RKeW4JL/VeHyK/hQ8zYSVLaNLPO9yHsAhtef1FCCVOQE+cERgfhPIfCQ
+ /bxs8qO4DSsU1HNzzceIh+qDMOUNaFj9dyoHy3go9/fIWEv3/5+0DSb15StoBN8xSTFj
+ +c6nDUYxILwnqGOUo/v7We4TCT3RnQS7dn+hmpuR+lPM1pOWV8jtl68SIyVa+PhYyHBM
+ qd9vzm3ZwY6DCkj53Q0CXQXMmpNzVg4QtDJyp7GCI2h+WvhlP5/tE72qWsruh9yvKOjL
+ 4VRN7fgkwLkcYmDxYrrlpFJVLyD45aTNGDyC5eeMfPB6Y8K6bxQo8ArN2Qs2xMVn+cly
+ a4WA==
+X-Gm-Message-State: AOAM531Jd7eWOgrrbIfwjQTA1Dxx8aLs3XP8Ph2TWPKEwujYLEukvakN
+ NHjm8T2qvP5g0YrWY1nLs7eG+w==
+X-Google-Smtp-Source: ABdhPJyPkpWLLtVAbaZzU3HepBREqbNv9RmUb8PjOj4WVmDlKO695ZW4HKVEMmJ+me4GlMB42ftEGg==
+X-Received: by 2002:a1c:8005:: with SMTP id b5mr9302806wmd.130.1615481989625; 
+ Thu, 11 Mar 2021 08:59:49 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id q19sm4190551wmc.44.2021.03.11.08.59.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Mar 2021 08:59:49 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Make number of counters in PMCR follow the CPU
+Date: Thu, 11 Mar 2021 16:59:47 +0000
+Message-Id: <20210311165947.27470-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210305173507.393137-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,61 +82,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, crosa@redhat.com
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to implement compressed write cache to improve performance
-> of compressed backup when target is opened in O_DIRECT mode. We
-> definitely want to flush the cache at backup finish, and if flush fails
-> it should be reported as block-job failure, not simply ignored in
-> bdrv_close(). So, teach all block-jobs to flush their targets at the
-> end.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/blockjob_int.h | 18 ++++++++++++++++++
->   block/backup.c               |  8 +++++---
->   block/commit.c               |  2 ++
->   block/mirror.c               |  2 ++
->   block/stream.c               |  2 ++
->   blockjob.c                   | 16 ++++++++++++++++
->   6 files changed, 45 insertions(+), 3 deletions(-)
+Currently we give all the v7-and-up CPUs a PMU with 4 counters.  This
+means that we don't provide the 6 counters that are required by the
+Arm BSA (Base System Architecture) specification if the CPU supports
+the Virtualization extensions.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Instead of having a single PMCR_NUM_COUNTERS, make each CPU type
+specify the PMCR reset value (obtained from the appropriate TRM), and
+use the 'N' field of that value to define the number of counters
+provided.
 
-Just a nit on the function’s description.
+This means that we now supply 6 counters for Cortex-A53, A57, A72,
+A15 and A9 as well as '-cpu max'; Cortex-A7 and A8 stay at 4; and
+Cortex-R5 goes down to 3.
 
-> diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
-> index 6633d83da2..6ef3123120 100644
-> --- a/include/block/blockjob_int.h
-> +++ b/include/block/blockjob_int.h
-> @@ -119,4 +119,22 @@ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n);
->   BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
->                                           int is_read, int error);
->   
-> +/**
-> + * block_job_final_target_flush:
-> + * @job: The job to signal an error for if flush failed.
-> + * @target_bs: The bs to flush.
-> + * @ret: Will be updated (to return code of bdrv_flush()) only if it is zero
-> + *       now. This is a bit unusual interface but all callers are comfortable
-> + *       with it.
-> + *
-> + * The function is intended to be called at the end of .run() for any data
-> + * copying job.
-> + *
-> + * There are may be some internal caches in format layers of target,
--are, *in the format layers of the target
+Note that because we now use the PMCR reset value of the specific
+implementation, we no longer set the LC bit out of reset.  This has
+an UNKNOWN value out of reset for all cores with any AArch32 support,
+so guest software should be setting it anyway if it wants it.
 
-> + * like compressed_cache in qcow2 format. So we should call flush to
-> + * be sure that all data reached the destination protocol layer.
-> + */
-> +void block_job_final_target_flush(BlockJob *job, BlockDriverState *target_bs,
-> +                                  int *ret);
-> +
->   #endif
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This is pretty much untested (I just checked Linux still boots;
+haven't tried it with KVM either). It's an alternative to
+just bumping PMCR_NUM_COUNTERS to 6.
+---
+ target/arm/cpu.h     |  1 +
+ target/arm/cpu64.c   |  3 +++
+ target/arm/cpu_tcg.c |  5 +++++
+ target/arm/helper.c  | 29 +++++++++++++++++------------
+ target/arm/kvm64.c   |  2 ++
+ 5 files changed, 28 insertions(+), 12 deletions(-)
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 193a49ec7fa..fe68f464b3a 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -942,6 +942,7 @@ struct ARMCPU {
+         uint64_t id_aa64mmfr2;
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
++        uint64_t reset_pmcr_el0;
+     } isar;
+     uint64_t midr;
+     uint32_t revidr;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index f0a9e968c9c..5d9d56a33c3 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -141,6 +141,7 @@ static void aarch64_a57_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
++    cpu->isar.reset_pmcr_el0 = 0x41013000;
+     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+ }
+ 
+@@ -194,6 +195,7 @@ static void aarch64_a53_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
++    cpu->isar.reset_pmcr_el0 = 0x41033000;
+     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+ }
+ 
+@@ -245,6 +247,7 @@ static void aarch64_a72_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
++    cpu->isar.reset_pmcr_el0 = 0x41023000;
+     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+ }
+ 
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 046e476f65f..8252fd29f90 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -301,6 +301,7 @@ static void cortex_a8_initfn(Object *obj)
+     cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
+     cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
+     cpu->reset_auxcr = 2;
++    cpu->isar.reset_pmcr_el0 = 0x41002000;
+     define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
+ }
+ 
+@@ -373,6 +374,7 @@ static void cortex_a9_initfn(Object *obj)
+     cpu->clidr = (1 << 27) | (1 << 24) | 3;
+     cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
+     cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
++    cpu->isar.reset_pmcr_el0 = 0x41093000;
+     define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
+ }
+ 
+@@ -443,6 +445,7 @@ static void cortex_a7_initfn(Object *obj)
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+     cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
++    cpu->isar.reset_pmcr_el0 = 0x41072000;
+     define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
+ }
+ 
+@@ -485,6 +488,7 @@ static void cortex_a15_initfn(Object *obj)
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+     cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
++    cpu->isar.reset_pmcr_el0 = 0x410F3000;
+     define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
+ }
+ 
+@@ -717,6 +721,7 @@ static void cortex_r5_initfn(Object *obj)
+     cpu->isar.id_isar6 = 0x0;
+     cpu->mp_is_up = true;
+     cpu->pmsav7_dregion = 16;
++    cpu->isar.reset_pmcr_el0 = 0x41151800;
+     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
+ }
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 904b0927cd2..2f3867cad79 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -38,7 +38,6 @@
+ #endif
+ 
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+-#define PMCR_NUM_COUNTERS 4 /* QEMU IMPDEF choice */
+ 
+ #ifndef CONFIG_USER_ONLY
+ 
+@@ -1149,7 +1148,9 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+ 
+ static inline uint32_t pmu_num_counters(CPUARMState *env)
+ {
+-  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
++    ARMCPU *cpu = env_archcpu(env);
++
++    return (cpu->isar.reset_pmcr_el0 & PMCRN_MASK) >> PMCRN_SHIFT;
+ }
+ 
+ /* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
+@@ -5753,13 +5754,6 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .resetvalue = 0,
+       .writefn = gt_hyp_ctl_write, .raw_writefn = raw_write },
+ #endif
+-    /* The only field of MDCR_EL2 that has a defined architectural reset value
+-     * is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
+-     */
+-    { .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
+-      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
+-      .access = PL2_RW, .resetvalue = PMCR_NUM_COUNTERS,
+-      .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2), },
+     { .name = "HPFAR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
+       .access = PL2_RW, .accessfn = access_el3_aa32ns,
+@@ -6689,7 +6683,7 @@ static void define_pmu_regs(ARMCPU *cpu)
+      * field as main ID register, and we implement four counters in
+      * addition to the cycle count register.
+      */
+-    unsigned int i, pmcrn = PMCR_NUM_COUNTERS;
++    unsigned int i, pmcrn = pmu_num_counters(&cpu->env);
+     ARMCPRegInfo pmcr = {
+         .name = "PMCR", .cp = 15, .crn = 9, .crm = 12, .opc1 = 0, .opc2 = 0,
+         .access = PL0_RW,
+@@ -6704,10 +6698,10 @@ static void define_pmu_regs(ARMCPU *cpu)
+         .access = PL0_RW, .accessfn = pmreg_access,
+         .type = ARM_CP_IO,
+         .fieldoffset = offsetof(CPUARMState, cp15.c9_pmcr),
+-        .resetvalue = (cpu->midr & 0xff000000) | (pmcrn << PMCRN_SHIFT) |
+-                      PMCRLC,
++        .resetvalue = cpu->isar.reset_pmcr_el0,
+         .writefn = pmcr_write, .raw_writefn = raw_write,
+     };
++
+     define_one_arm_cp_reg(cpu, &pmcr);
+     define_one_arm_cp_reg(cpu, &pmcr64);
+     for (i = 0; i < pmcrn; i++) {
+@@ -7825,6 +7819,17 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .fieldoffset = offsetof(CPUARMState, cp15.vmpidr_el2) },
+             REGINFO_SENTINEL
+         };
++        /*
++         * The only field of MDCR_EL2 that has a defined architectural reset
++         * value is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
++         */
++        ARMCPRegInfo mdcr_el2 = {
++            .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
++            .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
++            .access = PL2_RW, .resetvalue = pmu_num_counters(env),
++            .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2),
++        };
++        define_one_arm_cp_reg(cpu, &mdcr_el2);
+         define_arm_cp_regs(cpu, vpidr_regs);
+         define_arm_cp_regs(cpu, el2_cp_reginfo);
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index dff85f6db94..581335e49d3 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -566,6 +566,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+                               ARM64_SYS_REG(3, 0, 0, 7, 1));
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
+                               ARM64_SYS_REG(3, 0, 0, 7, 2));
++        err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
++                              ARM64_SYS_REG(3, 3, 9, 12, 0));
+ 
+         /*
+          * Note that if AArch32 support is not present in the host,
+-- 
+2.20.1
 
 
