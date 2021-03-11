@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B23336AC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 04:36:44 +0100 (CET)
-Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8F9336B4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 06:02:32 +0100 (CET)
+Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKC7u-0005Pw-VB
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 22:36:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
+	id 1lKDSx-0001v9-BS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 00:02:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKC6V-0004uG-7a
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:35:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22782)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKDQv-0001HN-N0
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:00:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKC5K-0007WH-Bj
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:35:14 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKDQs-0006ex-GA
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:00:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615433640;
+ s=mimecast20190719; t=1615438819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U6KrSltbnetG5K66cM2kyRNpIeQIE+vlOqtXyl78rAI=;
- b=ikx4k/Zf3lxGOH6aGt0JJEsO36T5uG6fgOepCLKaHKbLEDp+i40ES/ZuKVRnY4cNcoyDM4
- ajWRx4hj1qU8sTtHfOxFaOHvvsZQdVzIfKoMbwaH24U+v2YZs1HQvfDQBJ/JDHu7+wejFu
- f23yX9iA8wvkUiY0vULvaoDSV9RHTDg=
+ bh=yyAQG965YfXeIPXXU5WKQ1pReiP0bD2CW3xXzJYDX/c=;
+ b=JgH9ifwJ1a6rWzcfVE1F7RmFhE0WfZTxKlDKWpA3ht0iydDgfV4wja30lmJdjyCtA/jRFI
+ dhjLd9a5B/57J5JCta4obtUhie1xMymHWuA1FVPLAihIL92mHYYlERzSMXxSBmxbu9CEXO
+ q20tXEGT9AJT939xw6EIh18RRqSv7/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-l8GbICyYPK-1-G5vcsTJ2g-1; Wed, 10 Mar 2021 22:33:56 -0500
-X-MC-Unique: l8GbICyYPK-1-G5vcsTJ2g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-522-_BnRVblCNPSdx22m_sI5VA-1; Thu, 11 Mar 2021 00:00:16 -0500
+X-MC-Unique: _BnRVblCNPSdx22m_sI5VA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FCAC83DD20;
- Thu, 11 Mar 2021 03:33:55 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-9.pek2.redhat.com
- [10.72.13.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8059260240;
- Thu, 11 Mar 2021 03:33:49 +0000 (UTC)
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
- <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
- <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
- <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
- <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
- <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
- <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
- <CAEUhbmWVpTN4CofUOCYkdFBvyBDQui-wkJtVjrj5Y+E7tDCWRw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <f5d819f2-16f1-9ffd-74be-c2a2614dc52d@redhat.com>
-Date: Thu, 11 Mar 2021 11:33:48 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E911005D4F;
+ Thu, 11 Mar 2021 05:00:15 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 246A41B49D;
+ Thu, 11 Mar 2021 05:00:11 +0000 (UTC)
+Subject: Re: [PATCH v3 4/4] blockdev: Drop deprecated bogus -drive interface
+ type
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210309161214.1402527-1-armbru@redhat.com>
+ <20210309161214.1402527-5-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <11ec870c-9b72-8b87-bfb9-b296d6762ccc@redhat.com>
+Date: Thu, 11 Mar 2021 00:00:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWVpTN4CofUOCYkdFBvyBDQui-wkJtVjrj5Y+E7tDCWRw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210309161214.1402527-5-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,7 +69,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,123 +82,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, libvir-list@redhat.com, berrange@redhat.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/9/21 11:12 AM, Markus Armbruster wrote:
+> Drop the crap deprecated in commit a1b40bda08 "blockdev: Deprecate
+> -drive with bogus interface type" (v5.1.0).
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   docs/system/deprecated.rst       |  7 ------
+>   docs/system/removed-features.rst |  7 ++++++
+>   include/sysemu/blockdev.h        |  1 -
+>   blockdev.c                       | 37 +++++++++++++-------------------
+>   softmmu/vl.c                     |  8 +------
+>   5 files changed, 23 insertions(+), 37 deletions(-)
+> 
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 601e9647a5..664ed60e9f 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -94,13 +94,6 @@ QEMU 5.1 has three options:
+>         to the user to load all the images they need.
+>    3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
+>   
+> -``-drive`` with bogus interface type (since 5.1)
+> -''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Drives with interface types other than ``if=none`` are for onboard
+> -devices.  It is possible to use drives the board doesn't pick up with
+> --device.  This usage is now deprecated.  Use ``if=none`` instead.
+> -
+>   Short-form boolean options (since 6.0)
+>   ''''''''''''''''''''''''''''''''''''''
+>   
+> diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+> index 77e7ba1339..e6d2fbe798 100644
+> --- a/docs/system/removed-features.rst
+> +++ b/docs/system/removed-features.rst
+> @@ -87,6 +87,13 @@ becomes
+>       -device isa-fdc,...
+>       -device floppy,unit=1,drive=...
+>   
+> +``-drive`` with bogus interface type (removed in 6.0)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Drives with interface types other than ``if=none`` are for onboard
+> +devices.  Drives the board doesn't pick up can no longer be used with
+> +-device.  Use ``if=none`` instead.
+> +
+>   QEMU Machine Protocol (QMP) commands
+>   ------------------------------------
+>   
+> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+> index 3b5fcda08d..32c2d6023c 100644
+> --- a/include/sysemu/blockdev.h
+> +++ b/include/sysemu/blockdev.h
+> @@ -35,7 +35,6 @@ struct DriveInfo {
+>       bool is_default;            /* Added by default_drive() ?  */
+>       int media_cd;
+>       QemuOpts *opts;
+> -    bool claimed_by_board;
+>       QTAILQ_ENTRY(DriveInfo) next;
+>   };
+>   
+> diff --git a/blockdev.c b/blockdev.c
+> index cd438e60e3..2e01889cff 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -240,19 +240,10 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
+>       return NULL;
+>   }
+>   
+> -void drive_mark_claimed_by_board(void)
+> -{
+> -    BlockBackend *blk;
+> -    DriveInfo *dinfo;
+> -
+> -    for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+> -        dinfo = blk_legacy_dinfo(blk);
+> -        if (dinfo && blk_get_attached_dev(blk)) {
+> -            dinfo->claimed_by_board = true;
+> -        }
+> -    }
+> -}
+> -
+> +/*
+> + * Check board claimed all -drive that are meant to be claimed.
+> + * Fatal error if any remain unclaimed.
+> + */
+>   void drive_check_orphaned(void)
+>   {
+>       BlockBackend *blk;
+> @@ -262,7 +253,17 @@ void drive_check_orphaned(void)
+>   
+>       for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+>           dinfo = blk_legacy_dinfo(blk);
+> -        if (dinfo->is_default || dinfo->type == IF_NONE) {
+> +        /*
+> +         * Ignore default drives, because we create certain default
+> +         * drives unconditionally, then leave them unclaimed.  Not the
+> +         * users fault.
 
-On 2021/3/11 11:12 上午, Bin Meng wrote:
-> On Thu, Mar 11, 2021 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> On 2021/3/9 6:13 下午, Peter Maydell wrote:
->>> On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
->>>> Hi Jason,
->>>>
->>>> On Tue, Mar 9, 2021 at 5:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>>> Hi Jason,
->>>>>
->>>>> On Tue, Mar 9, 2021 at 4:57 PM Jason Wang <jasowang@redhat.com> wrote:
->>>>>> On 2021/3/9 4:35 下午, Bin Meng wrote:
->>>>>>> Hi Jason,
->>>>>>>
->>>>>>> On Tue, Mar 9, 2021 at 4:23 PM Jason Wang <jasowang@redhat.com> wrote:
->>>>>>>> On 2021/3/8 6:22 下午, Peter Maydell wrote:
->>>>>>>>> I think the key thing we need to do here is make a decision
->>>>>>>>> and be clear about what we're doing. There are three options
->>>>>>>>> I can see:
->>>>>>>>>
->>>>>>>>> (1) we say that the net API demands that backends pad
->>>>>>>>> packets they emit to the minimum ethernet frame length
->>>>>>>>> unless they specifically are intending to emit a short frame,
->>>>>>>>> and we fix any backends that don't comply (or equivalently,
->>>>>>>>> add support in the core code for a backend to mark itself
->>>>>>>>> as "I don't pad; please do it for me").
->>>>>>>>>
->>>>>>>>> (2) we say that the networking subsystem doesn't support
->>>>>>>>> short packets, and just have the common code always enforce
->>>>>>>>> padding short frames to the minimum length somewhere between
->>>>>>>>> when it receives a packet from a backend and passes it to
->>>>>>>>> a NIC model.
->>>>>>>>>
->>>>>>>>> (3) we say that it's the job of the NIC models to pad
->>>>>>>>> short frames as they see them coming in.
->>>>>>>> I'm not sure how much value we can gain from (1). So (2) looks better to me.
->>>>>>>>
->>>>>>>> Bin or Philippe, want to send a new version?
->>>>>>>>
->>>>>>> I think this series does what (2) asks for. Or am I missing anything?
->>>>>> It only did the padding for user/TAP.
->>>> (hit send too soon ...)
->>>>
->>>> Ah, so we want this:
->>>>
->>>> if (sender->info->type != NET_CLIENT_DRIVER_NIC)
->>>>
->>>> correct?
->>> No, option (2) is "always pad short packets regardless of
->>> sender->info->type". Even if a NIC driver sends out a short
->>> packet, we want to pad it, because we might be feeding it to
->>> something that assumes it does not see short packets.
->>>
->>> thanks
->>> -- PMM
->>
->> So I'm not sure this is correct. There're NIC that has its own logic
->> that choose whether to pad the frame during TX (e.g e1000).
-> Yes, that's why I mentioned in v2's cover letter that we should
-> probably only do the padding for SLiRP and TAP.
+"user's" ?
 
+> +         * Ignore IF_VIRTIO, because it gets desugared into -device,
+> +         * so we can leave failing to -device.
+> +         * Ignore IF_NONE, because leaving unclaimed IF_NONE remains
+> +         * available for device_add is a feature.
 
-Actually it's a partail implementation of Peter's method 1. If we go 
-that way, you need to make sure the packet is padded for every ethernet 
-backend not just TAP and SLIRP.
+Do you mean "as a feature" ?
 
+> +         */
+> +        if (dinfo->is_default || dinfo->type == IF_VIRTIO
+> +            || dinfo->type == IF_NONE) {
+>               continue;
+>           }
+>           if (!blk_get_attached_dev(blk)) {
+> @@ -273,14 +274,6 @@ void drive_check_orphaned(void)
+>                            if_name[dinfo->type], dinfo->bus, dinfo->unit);
+>               loc_pop(&loc);
+>               orphans = true;
+> -            continue;
+> -        }
+> -        if (!dinfo->claimed_by_board && dinfo->type != IF_VIRTIO) {
+> -            loc_push_none(&loc);
+> -            qemu_opts_loc_restore(dinfo->opts);
+> -            warn_report("bogus if=%s is deprecated, use if=none",
+> -                        if_name[dinfo->type]);
+> -            loc_pop(&loc);
+>           }
+>       }
+>   
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7..7453611152 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2460,13 +2460,7 @@ static void qemu_init_board(void)
+>       /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+>       machine_run_board_init(current_machine);
+>   
+> -    /*
+> -     * TODO To drop support for deprecated bogus if=..., move
+> -     * drive_check_orphaned() here, replacing this call.  Also drop
+> -     * its deprecation warning, along with DriveInfo member
+> -     * @claimed_by_board.
+> -     */
+> -    drive_mark_claimed_by_board();
+> +    drive_check_orphaned();
+>   
+>       realtime_init();
+>   
+> 
 
->   For NIC models, we can
-> still support sending short frames in QEMU.
+Rest looks okay as far as I am concerned, pending your response to Dan's 
+remark.
 
+(Sorry for being AWOL here. Thank you for taking the time to clean it up 
+as you have; it feels like closing a book on some of the first reviews I 
+ever got @ RH when I put the first orphan check in aeons ago! I think 
+only the whitespace is left by now, haha.)
 
-Then it will be padded as well.
-
-
->
->> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
->> keep the padding logic in the NIC itself (probably with a generic helper
->> in the core). Since 1) the padding is only required for ethernet 2)
->> virito-net doesn't need that (it can pass incomplete packet by design).
->>
-> I did read this discussion before working on this patch series.
-> Providing a helper for NICs to call does NOT fix the issue for SLiRP
-> and TAP.
-
-
-I'm not sure I get here.
-
-For TX, the padding is controlled by the guest driver. So we just need 
-to emulate what real NIC did, pad only when it was required explicitly 
-by the driver.
-
-For RX, if we receive short frames from an ethternet backend, we simply 
-pad them to make sure it won't be dropped by the NIC model.
-
-So we're actually fine here?
-
-Thanks
-
-
->
->> Thanks
->>
->> [1]
->> https://patchwork.ozlabs.org/project/qemu-devel/patch/1284842625-13920-1-git-send-email-stefanha@linux.vnet.ibm.com/
->>
-> Regards,
-> Bin
->
+--js
 
 
