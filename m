@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8ED3377C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:32:05 +0100 (CET)
-Received: from localhost ([::1]:41260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8B43377EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:36:51 +0100 (CET)
+Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNIC-0001bZ-8V
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:32:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42478)
+	id 1lKNMo-0000xj-6v
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:36:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcO-0005ML-SB
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58034)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcY-0005Ya-Nh
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:49:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcK-0002zX-D0
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:52 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcQ-00037N-Fg
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:49:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474127;
+ s=mimecast20190719; t=1615474133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RJCpcCfupCNh4sqyYU04AyDS7Rp+4ua4nQRd569CmYw=;
- b=fwJ9UgoMWOq2iV8OoBUndftYShL1KQZTa/N66f1Gk8gozX/bNW9PG586JzoR7bYDiMSjx2
- SqdS/VoZB5JlYLMYGConiylB4Yu5KZPrZ4TLWH/E5SV6bp68phlfoHM7S6cX1AI0SB1QcS
- 8eKyPAH9busDaJ+TbB/H1u41XzUlGCw=
+ bh=qZIW4/wLaZKB59Ele6a7ReSFkaavF3TY6ugYHy3g6X0=;
+ b=Nm3ES6E4duZtWptROQF+/zpDRf+e27XCUONJ7KChl42mwbqdodEZ/LeKPvkDHoAPJksos1
+ E2IxL6cQ1KK5e3w8alP3jtsajk543SlFSjVuJvXyLXwJvgF0Shx/EsyYpWr0wudz0mLOJd
+ fwoaMD8ltHTt8N21Cj3ZVgoRPejsmm8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-tAzDbAzpMWmrRRC3Hl2mxw-1; Thu, 11 Mar 2021 09:48:45 -0500
-X-MC-Unique: tAzDbAzpMWmrRRC3Hl2mxw-1
+ us-mta-215-35gzoGgMMTywOnAjzVd6Cw-1; Thu, 11 Mar 2021 09:48:49 -0500
+X-MC-Unique: 35gzoGgMMTywOnAjzVd6Cw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C9FD100C61B;
- Thu, 11 Mar 2021 14:48:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9F1A100C61A;
+ Thu, 11 Mar 2021 14:48:48 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 807405D9F2;
- Thu, 11 Mar 2021 14:48:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA9E25D9F2;
+ Thu, 11 Mar 2021 14:48:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/38] qapi/qom: Add ObjectOptions for throttle-group
-Date: Thu, 11 Mar 2021 15:47:51 +0100
-Message-Id: <20210311144811.313451-19-kwolf@redhat.com>
+Subject: [PULL 21/38] qapi/qom: Add ObjectOptions for can-*
+Date: Thu, 11 Mar 2021 15:47:54 +0100
+Message-Id: <20210311144811.313451-22-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,96 +80,62 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the throttle-group object.
+This adds a QAPI schema for the properties of the can-* objects.
 
-The only purpose of the x-* properties is to make the nested options in
-'limits' available for a command line parser that doesn't support
-structs. Any parser that will use the QAPI schema will supports structs,
-though, so they will not be needed in the schema in the future.
-
-To keep the conversion straightforward, add them to the schema anyway.
-We can then remove the options and adjust documentation, test cases etc.
-in a separate patch.
+can-bus doesn't have any properties, so it only needs to be added to the
+ObjectType enum without adding a new branch to ObjectOptions.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-core.json | 27 +++++++++++++++++++++++++++
- qapi/qom.json        |  7 +++++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+ qapi/qom.json | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9f555d5c1d..a67fa0cc59 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2504,6 +2504,33 @@
-             '*bps-write-max' : 'int', '*bps-write-max-length' : 'int',
-             '*iops-size' : 'int' } }
- 
-+##
-+# @ThrottleGroupProperties:
-+#
-+# Properties for throttle-group objects.
-+#
-+# The options starting with x- are aliases for the same key without x- in
-+# the @limits object. As indicated by the x- prefix, this is not a stable
-+# interface and may be removed or changed incompatibly in the future. Use
-+# @limits for a supported stable interface.
-+#
-+# @limits: limits to apply for this throttle group
-+#
-+# Since: 2.11
-+##
-+{ 'struct': 'ThrottleGroupProperties',
-+  'data': { '*limits': 'ThrottleLimits',
-+            '*x-iops-total' : 'int', '*x-iops-total-max' : 'int',
-+            '*x-iops-total-max-length' : 'int', '*x-iops-read' : 'int',
-+            '*x-iops-read-max' : 'int', '*x-iops-read-max-length' : 'int',
-+            '*x-iops-write' : 'int', '*x-iops-write-max' : 'int',
-+            '*x-iops-write-max-length' : 'int', '*x-bps-total' : 'int',
-+            '*x-bps-total-max' : 'int', '*x-bps-total-max-length' : 'int',
-+            '*x-bps-read' : 'int', '*x-bps-read-max' : 'int',
-+            '*x-bps-read-max-length' : 'int', '*x-bps-write' : 'int',
-+            '*x-bps-write-max' : 'int', '*x-bps-write-max-length' : 'int',
-+            '*x-iops-size' : 'int' } }
-+
- ##
- # @block-stream:
- #
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 7fb243c3ab..fa56083a0b 100644
+index 5f397d197a..b600b1b7a7 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -5,6 +5,7 @@
- # See the COPYING file in the top-level directory.
+@@ -207,6 +207,21 @@
+   'returns': [ 'ObjectPropertyInfo' ],
+   'allow-preconfig': true }
  
- { 'include': 'authz.json' }
-+{ 'include': 'block-core.json' }
- { 'include': 'common.json' }
- 
++##
++# @CanHostSocketcanProperties:
++#
++# Properties for can-host-socketcan objects.
++#
++# @if: interface name of the host system CAN bus to connect to
++#
++# @canbus: object ID of the can-bus object to connect to the host interface
++#
++# Since: 2.12
++##
++{ 'struct': 'CanHostSocketcanProperties',
++  'data': { 'if': 'str',
++            'canbus': 'str' } }
++
  ##
-@@ -451,7 +452,8 @@
-     'memory-backend-ram',
-     'rng-builtin',
-     'rng-egd',
--    'rng-random'
-+    'rng-random',
-+    'throttle-group'
-   ] }
- 
- ##
-@@ -486,7 +488,8 @@
-       'memory-backend-ram':         'MemoryBackendProperties',
-       'rng-builtin':                'RngProperties',
-       'rng-egd':                    'RngEgdProperties',
--      'rng-random':                 'RngRandomProperties'
-+      'rng-random':                 'RngRandomProperties',
-+      'throttle-group':             'ThrottleGroupProperties'
-   } }
- 
- ##
+ # @CryptodevBackendProperties:
+ #
+@@ -441,6 +456,8 @@
+     'authz-listfile',
+     'authz-pam',
+     'authz-simple',
++    'can-bus',
++    'can-host-socketcan',
+     'cryptodev-backend',
+     'cryptodev-backend-builtin',
+     { 'name': 'cryptodev-vhost-user',
+@@ -483,6 +500,7 @@
+       'authz-listfile':             'AuthZListFileProperties',
+       'authz-pam':                  'AuthZPAMProperties',
+       'authz-simple':               'AuthZSimpleProperties',
++      'can-host-socketcan':         'CanHostSocketcanProperties',
+       'cryptodev-backend':          'CryptodevBackendProperties',
+       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
 -- 
 2.29.2
 
