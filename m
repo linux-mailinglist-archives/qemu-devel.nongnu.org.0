@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8230A33706E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:48:32 +0100 (CET)
-Received: from localhost ([::1]:46206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B23337070
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:49:10 +0100 (CET)
+Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKIrn-00044w-7x
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:48:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
+	id 1lKIsQ-0005L4-1J
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:49:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lKIpU-0002EL-Fo
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:46:09 -0500
-Resent-Date: Thu, 11 Mar 2021 05:46:08 -0500
-Resent-Message-Id: <E1lKIpU-0002EL-Fo@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lKIpP-0005DK-9k
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:46:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615459552; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=l9RN97YgKctWef6l1qnYAt/ng2RrxMIcDmGMN9gDBVliURLOGNC4U4iwR1z1iqUxEngrblhCTTtRgFiAViDYIlgQJ7Z2KniDW1N2khe+K0FYdOtRQ/sImGDLLmiDwAgudFqFOa1gYyefvslY+v173didAFq/Vh9ZOaOD+9lhByk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615459552;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=LdYazlbd3auGwAkgwptnGNXnSDcHneNJrmXyEw5PiuA=; 
- b=KFTA3tNOX7JXn2mnCt7oA9usJjabx61tolHNhbi9I0BTzLsMW+yyQn0WPlxPLZI1LnwnP8R2ftvXMZptdZUeTtR3eRJxvTTCHZkJ9ZaIoCU0/tBmXgb8eFBsgUCCgrrIqtCH56OWhiLKfw2PVHVFnbiNjAe+giGXsaY8z3zH/6Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615459548359149.14282760632568;
- Thu, 11 Mar 2021 02:45:48 -0800 (PST)
-In-Reply-To: <20210311103250.532191-1-pbonzini@redhat.com>
-Subject: Re: [PATCH v2 0/7] vhost: replace master/slave with more accurate
- wording
-Message-ID: <161545954710.16483.11416369004249468061@f3770d8ad632>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lKIqf-0003N3-15
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:47:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lKIqT-0005mx-Tf
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:47:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615459629;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=51JhgV2X20kkH17ArReRYPvnbx3P0msJTxvPsFHD91M=;
+ b=hfSQfvnw68r5XI8kf0VxLbY0nSBES07dCyQ2wbxsAz00I1Y4UkR+Jv2lU1jjPnmgVDuekR
+ +05VkDv894alD2MRmF20/8/NqEibu8F5AA2QNV/i7Sg/W4rY6p6ZUY6bLwldtDM7sM+Xuy
+ vRPClq+DXknIjJU+sVnuAitcfvOneao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-ZQ-05d4nMmWST4_6JPaNEg-1; Thu, 11 Mar 2021 05:47:05 -0500
+X-MC-Unique: ZQ-05d4nMmWST4_6JPaNEg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FBB880432E;
+ Thu, 11 Mar 2021 10:47:03 +0000 (UTC)
+Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 466FE6A965;
+ Thu, 11 Mar 2021 10:46:37 +0000 (UTC)
+Date: Thu, 11 Mar 2021 10:46:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 10/14] hw/scsi: remove 'scsi-disk' device
+Message-ID: <YEn1CneqjU9hK9hQ@redhat.com>
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-11-berrange@redhat.com>
+ <007eb811-6c4f-b456-2536-40dfb254ff14@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 11 Mar 2021 02:45:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <007eb811-6c4f-b456-2536-40dfb254ff14@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,75 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxMTEwMzI1MC41MzIx
-OTEtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTExMDMyNTAuNTMy
-MTkxLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjIgMC83XSB2aG9zdDog
-cmVwbGFjZSBtYXN0ZXIvc2xhdmUgd2l0aCBtb3JlIGFjY3VyYXRlIHdvcmRpbmcKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMTExMDMyNTAuNTMy
-MTkxLTEtcGJvbnppbmlAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzExMTAzMjUwLjUzMjE5
-MS0xLXBib256aW5pQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo3
-NDM1MTJhIGxpYnZob3N0LXVzZXI6IHJlbmFtZSBzdHJ1Y3QgVnVEZXYgZmllbGRzIGZyb20gInNs
-YXZlIiB0byAiYmFja2VuZCIKZDQxYTIyNiBsaWJ2aG9zdC11c2VyOiByZW5hbWUgbWVzc2FnZSBu
-YW1lcyBmcm9tICJTTEFWRSIgdG8gIkJBQ0tFTkQiCjUwNTMzYTYgdmhvc3QtdXNlcjogcmVuYW1l
-IG1lc3NhZ2UgbmFtZXMgZnJvbSAiU0xBVkUiIHRvICJCQUNLRU5EIgowOTFjMjkzIGRvY3M6IHZo
-b3N0LXVzZXI6IHJlbmFtZSBtZXNzYWdlIG5hbWVzIGZyb20gIlNMQVZFIiB0byAiQkFDS0VORCIK
-NTIyZTA0NCBkb2NzOiB2aG9zdC11c2VyOiByZXBsYWNlIG1hc3Rlci9zbGF2ZSB3aXRoIGZyb250
-ZW5kL2JhY2tlbmQKYTMxYzY3OCBkb2NzOiB2aG9zdC11c2VyOiByZXdyaXRlIHNlY3Rpb24gb24g
-cmluZyBzdGF0ZSBtYWNoaW5lCjg2NWQyZmIgZG9jczogdmhvc3QtdXNlcjogY2xlYW4gdXAgcmVx
-dWVzdC9yZXBseSBkZXNjcmlwdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS83IENoZWNraW5n
-IGNvbW1pdCA4NjVkMmZiNWM3NWYgKGRvY3M6IHZob3N0LXVzZXI6IGNsZWFuIHVwIHJlcXVlc3Qv
-cmVwbHkgZGVzY3JpcHRpb24pCjIvNyBDaGVja2luZyBjb21taXQgYTMxYzY3ODAyN2EyIChkb2Nz
-OiB2aG9zdC11c2VyOiByZXdyaXRlIHNlY3Rpb24gb24gcmluZyBzdGF0ZSBtYWNoaW5lKQozLzcg
-Q2hlY2tpbmcgY29tbWl0IDUyMmUwNDRjMzk3NyAoZG9jczogdmhvc3QtdXNlcjogcmVwbGFjZSBt
-YXN0ZXIvc2xhdmUgd2l0aCBmcm9udGVuZC9iYWNrZW5kKQo0LzcgQ2hlY2tpbmcgY29tbWl0IDA5
-MWMyOTNkMzI2MCAoZG9jczogdmhvc3QtdXNlcjogcmVuYW1lIG1lc3NhZ2UgbmFtZXMgZnJvbSAi
-U0xBVkUiIHRvICJCQUNLRU5EIikKNS83IENoZWNraW5nIGNvbW1pdCA1MDUzM2E2MGRjY2UgKHZo
-b3N0LXVzZXI6IHJlbmFtZSBtZXNzYWdlIG5hbWVzIGZyb20gIlNMQVZFIiB0byAiQkFDS0VORCIp
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM5NjogRklMRTogaHcvdmlydGlvL3Zo
-b3N0LXVzZXIuYzoxMzM2OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgVmhvc3RVc2VyVnJpbmdBcmVhICphcmVhLAoKRVJST1I6IHNwYWNl
-IHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgJzonIChjdHg6V3hFKQojMTU0OiBGSUxFOiBody92aXJ0
-aW8vdmhvc3QtdXNlci5jOjE0NjY6CisgICAgY2FzZSBWSE9TVF9VU0VSX0JBQ0tFTkRfQ09ORklH
-X0NIQU5HRV9NU0cgOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgMjUzIGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDUvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi83IENoZWNraW5nIGNvbW1pdCBk
-NDFhMjI2MjUzNDUgKGxpYnZob3N0LXVzZXI6IHJlbmFtZSBtZXNzYWdlIG5hbWVzIGZyb20gIlNM
-QVZFIiB0byAiQkFDS0VORCIpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNjg6
-IEZJTEU6IHN1YnByb2plY3RzL2xpYnZob3N0LXVzZXIvbGlidmhvc3QtdXNlci5oOjEzNDoKKyAg
-ICBWSE9TVF9VU0VSX1NMQVZFX1ZSSU5HX0hPU1RfTk9USUZJRVJfTVNHID0gVkhPU1RfVVNFUl9C
-QUNLRU5EX1ZSSU5HX0hPU1RfTk9USUZJRVJfTVNHLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
-YXJhY3RlcnMKIzE3OTogRklMRTogc3VicHJvamVjdHMvbGlidmhvc3QtdXNlci9saWJ2aG9zdC11
-c2VyLmg6MzEzOgorICAgICAqIHNpemUuIFRoZSBiYWNrZW5kIGNvdWxkIGdldCBpdCBmcm9tIHF1
-ZXVlIHNpemUgZmllbGQgb2YgVmhvc3RVc2VySW5mbGlnaHQuICovCgpXQVJOSU5HOiBCbG9jayBj
-b21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzE3OTogRklMRTog
-c3VicHJvamVjdHMvbGlidmhvc3QtdXNlci9saWJ2aG9zdC11c2VyLmg6MzEzOgorICAgICAqIHNp
-emUuIFRoZSBiYWNrZW5kIGNvdWxkIGdldCBpdCBmcm9tIHF1ZXVlIHNpemUgZmllbGQgb2YgVmhv
-c3RVc2VySW5mbGlnaHQuICovCgp0b3RhbDogMCBlcnJvcnMsIDMgd2FybmluZ3MsIDE0NSBsaW5l
-cyBjaGVja2VkCgpQYXRjaCA2LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy83IENoZWNr
-aW5nIGNvbW1pdCA3NDM1MTJhMjBjODMgKGxpYnZob3N0LXVzZXI6IHJlbmFtZSBzdHJ1Y3QgVnVE
-ZXYgZmllbGRzIGZyb20gInNsYXZlIiB0byAiYmFja2VuZCIpCj09PSBPVVRQVVQgRU5EID09PQoK
-VGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzExMTAzMjUwLjUzMjE5MS0xLXBi
-b256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
-bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
-b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
-Y29t
+On Wed, Feb 24, 2021 at 03:26:59PM +0100, Thomas Huth wrote:
+> On 24/02/2021 14.11, Daniel P. Berrangé wrote:
+> > The 'scsi-hd' and 'scsi-cd' devices provide suitable alternatives.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   docs/system/deprecated.rst       |  9 -----
+> >   docs/system/removed-features.rst |  6 ++++
+> >   hw/i386/pc.c                     |  1 -
+> >   hw/scsi/scsi-disk.c              | 62 --------------------------------
+> >   hw/sparc64/sun4u.c               |  1 -
+> >   scripts/device-crash-test        |  1 -
+> >   tests/qemu-iotests/051           |  2 --
+> >   tests/qemu-iotests/051.pc.out    | 10 ------
+> >   8 files changed, 6 insertions(+), 86 deletions(-)
+> 
+> I see some occurrances of "scsi-disk" in the config files in the
+> docs/config/ directory, too ... I guess they should also be removed?
+
+Those aren't referring to the "scsi-disk" device type, they are qdev
+IDs, and do indeed already use "scsi-hd" as the  device type.
+
+> 
+> > diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+> > index d7c27144ba..cda7df36e3 100644
+> > --- a/hw/sparc64/sun4u.c
+> > +++ b/hw/sparc64/sun4u.c
+> > @@ -749,7 +749,6 @@ static char *sun4u_fw_dev_path(FWPathProvider *p, BusState *bus,
+> >                                  DeviceState *dev)
+> >   {
+> >       PCIDevice *pci;
+> > -    int bus_id;
+> >       if (!strcmp(object_get_typename(OBJECT(dev)), "pbm-bridge")) {
+> >           pci = PCI_DEVICE(dev);
+> 
+> This lonely hunk should be squashed into the previous (ide-disk) patch instead.
+> 
+>  Thomas
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
