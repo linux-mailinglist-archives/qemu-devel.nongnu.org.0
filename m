@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51168337943
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:26:07 +0100 (CET)
-Received: from localhost ([::1]:55204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC933378DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:11:45 +0100 (CET)
+Received: from localhost ([::1]:45062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKO8U-00051X-CQ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35402)
+	id 1lKNua-0004uM-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:11:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKNll-0001Fs-Hg
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:02:37 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:32834)
+ id 1lKNmh-0002yT-7w
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:03:36 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKNlj-00043R-IL
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:02:37 -0500
-Received: by mail-ej1-x634.google.com with SMTP id jt13so47326361ejb.0
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 08:02:34 -0800 (PST)
+ id 1lKNmd-0004nu-79
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:03:34 -0500
+Received: by mail-ej1-x633.google.com with SMTP id ci14so47129291ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 08:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xpuvIhnTyLj3u0gKnS/722TUFWYedGu3c43M4i1wwOA=;
- b=TrTqTT1FZ3Zz0RRbqkYxOdOhBdMbEGKOBatTjr+fNgvH3YF4fi8RJAShhghuA4+tTv
- 8apiDMgQHo/7TlVBrTJ+EfVBkNDYK7MCWfehuUSQebd/vnLvPMBUB/zKrSxZGwUl38g4
- xFEyuWh8cM6z+f26a4oqgc0qWSkMBri4V01qJRxFjI0CCmxbjlxzoEviAoZtA0O69hlI
- lCBk+MbuLBQHTLci884rKkw6TaUevE6zVfOT9hT/7aOq6/+46K0w+wtzAxHJ8dKyo9Pe
- Ogz3tao/1bcLq/qrHOfegEnKutcg52oV6+miEpi9Rmh5zu/USTgO6vwuivsLBeWohUq0
- NpRw==
+ :cc; bh=xIltOnOw0OhbOnQOlY5JdwnZyQr1khAI58+TcTygT0E=;
+ b=fL2cVV+vEHecfg3Oz0EpxRxULpbLJRxLMIHEEQ0+uM92mbMjOOgrJUffJCtQWWtncO
+ TPIeGyzkYrZvWf47Gl21NCvtgszj1UFXEFGt8CKGxcH3vz2f7x7kwEL5a6t9VYx9K9G8
+ B9L0GUOBwJu+1Ub6/6Qaiqz+aThrRccZ9LCuqmPy1MU67HlVFbVPN+l1/JKJYQW5ZS+C
+ wTcDWHVHGGjoEfVDyFpyVvOlsgqAjnsnrhKQ1ccZW3De3JnFRgaKX7CQCnf20JsGE9+v
+ Dyb8p1nluprhiPIb1UZL9owCIrEQDB2qJ/hWsPW5CfAQw52X7uYL+4DhAyEO2jASrWbD
+ TNmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xpuvIhnTyLj3u0gKnS/722TUFWYedGu3c43M4i1wwOA=;
- b=aFxMqnTeSJ72LJRkZADnVoj8tySiVsiVFDyq3xcR9KwpTI6I7Ko+RcxczqfWAgcVII
- TYL5u8ZhqlOHNj1SMMflM+PeRaCrsNjwi/bvGjJhseXIOdLVXpIDFsr+ARLxGtS5ab2+
- sn1ZK4g9xcl4Mi3TqdFA1Vi11jdIsIDFHddcN9r1eMMczF1ym+QZQdvNn5aRySR+3MT0
- dJ3Y4HooHBM/kAEHQIyWgJNUYeRbbCA9g9iZidTPjWJCFc9xoCL+gtbJEcjN8xN9xfUP
- GK1mHFNrg/4FnzFMSZExWfSWc8EUmaGJdvSy1pUr7OUNUnXXUSEAgaP2W3NAWhDzMtEY
- zKWQ==
-X-Gm-Message-State: AOAM530zRcFUmsgPXmpQuby7NJzrykKCokw+OSDYUAjnEVN5CU80LC5P
- MKYPodTzpAMNKDNwmECf9sfEsgukhUOF/HOLY0/iiQ==
-X-Google-Smtp-Source: ABdhPJyWyz4ujZ2wCNJLKdE3luILvBiCxy0NTY9OJYGCEFkQJjNGJQYI5Bd0a70wS5Mr0eTEBuV0ejN1ksMMOWnPZd4=
+ bh=xIltOnOw0OhbOnQOlY5JdwnZyQr1khAI58+TcTygT0E=;
+ b=j3m7pPtJWj330EPBFf9PpjNCAaJDTObYv1jcOj7WJcolDnIoyOu+dpP8mxGFa6EI0p
+ wfY3RuZik8mVeKCnesE97bczNpEDmPkpKIyL+8uqvu5viOL5PxyS1k1P/QTAL7cEjtTs
+ JGa4hvIfdFb0v6iKWL8n+O+D8XJrVL3mwFqOrWYfiwJKqdHxGlrDWY/QBhKZDFosIsHX
+ jkBwIeLPmX838xQkQ+hpMQrdrazPr1qZNT8Yt4a3Dc+CMDusI0CxWzRYfIZf8jgvvscu
+ Ng417ybv76yAnJA2dGO+SVttvHNhnZNaG03AAPT0vMK93Iz5BgizwcUe83ijZsu6KGa0
+ kWVQ==
+X-Gm-Message-State: AOAM532haot+P/RGr81r8uTY7SKYDpON90hn0Tg7ShB2JyNpNQOZYelV
+ FMq/oUdknINQtYhgVVxelf7MVR9Xf/vFB9TVnMDOaA==
+X-Google-Smtp-Source: ABdhPJxNsMaALr13Avj6H5m4Lq3HTet8Ed1sZ72o3VBfML1xEIwoZVyaP8eTgcDtO5qy6pONJ7NdAmdjANIuYOPU5Hg=
 X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr3777745ejg.482.1615478553617; 
- Thu, 11 Mar 2021 08:02:33 -0800 (PST)
+ y18mr3782681ejg.482.1615478608825; 
+ Thu, 11 Mar 2021 08:03:28 -0800 (PST)
 MIME-Version: 1.0
-References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
- <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
- <e7520c77-16a8-0fda-c138-b411c20f0389@suse.de>
-In-Reply-To: <e7520c77-16a8-0fda-c138-b411c20f0389@suse.de>
+References: <20210311151512.22096-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20210311151512.22096-1-akihiko.odaki@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 16:02:14 +0000
-Message-ID: <CAFEAcA9RiWvYdh_xAu4iF+Gq2PBGSMk7YkT0UKmeDmrDRxvSww@mail.gmail.com>
-Subject: Re: arm: "max" CPU class hierarchy changes possible?
-To: Claudio Fontana <cfontana@suse.de>
+Date: Thu, 11 Mar 2021 16:03:10 +0000
+Message-ID: <CAFEAcA9_Oe0gsy-nazOF73Cxs0HC0b+gf2R1BxKbMh67ZK__pg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] coreaudio: Drop support for macOS older than 10.6
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,20 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 15:21, Claudio Fontana <cfontana@suse.de> wrote:
-> If there is no blocker on _any_ change to the hierarchy I will put it in the RFC series,
-> so we can discuss the merits there and investigate alternatives,
-> if there is no immediate blocker to any change in the object hierarchy.
+On Thu, 11 Mar 2021 at 15:56, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> Mac OS X 10.6 was released in 2009.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  audio/coreaudio.c | 103 ----------------------------------------------
+>  1 file changed, 103 deletions(-)
 
-Well, the blocker is lack of justification. The right place for
-"common code between kvm and tcg" is in the base class TYPE_ARM_CPU.
+Yep. We already assume newer macOS versions than this in ui/cocoa.m.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
