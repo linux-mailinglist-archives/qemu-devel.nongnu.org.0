@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B0D3370B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:59:28 +0100 (CET)
-Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9DC3370A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:57:14 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKJ2N-0004KJ-MX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:59:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
+	id 1lKJ0D-0002KU-Vq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:57:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKIy3-0000nK-3b
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:54:59 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3932)
+ id 1lKIy4-0000nT-2j
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:55:00 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKIxz-0002AI-IG
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:54:58 -0500
+ id 1lKIxz-0002AJ-Iz
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:54:59 -0500
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dx5PY5yz2zNl8Q;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dx5PY6HvmzNl8p;
  Thu, 11 Mar 2021 18:52:33 +0800 (CST)
 Received: from DESKTOP-F1615D3.china.huawei.com (10.174.186.85) by
  DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 11 Mar 2021 18:54:40 +0800
+ 14.3.498.0; Thu, 11 Mar 2021 18:54:41 +0800
 From: Zihao Chang <changzihao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 2/3] vnc: support reload x509 certificates for vnc
-Date: Thu, 11 Mar 2021 18:54:23 +0800
-Message-ID: <20210311105424.1370-3-changzihao1@huawei.com>
+Subject: [PATCH v5 3/3] qmp: add new qmp display-reload
+Date: Thu, 11 Mar 2021 18:54:24 +0800
+Message-ID: <20210311105424.1370-4-changzihao1@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 In-Reply-To: <20210311105424.1370-1-changzihao1@huawei.com>
 References: <20210311105424.1370-1-changzihao1@huawei.com>
@@ -64,66 +64,66 @@ Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, changzihao1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add vnc_display_reload_certs() to support
-update x509 certificates.
+This patch provides a new qmp to reload display configuration
+without restart VM, but only reloading the vnc tls certificates
+is implemented.
+Example:
+{"execute": "display-reload", "arguments":{"vnc-tls-certs": true}}
 
 Signed-off-by: Zihao Chang <changzihao1@huawei.com>
 ---
- include/ui/console.h |  1 +
- ui/vnc.c             | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ monitor/qmp-cmds.c | 13 +++++++++++++
+ qapi/ui.json       | 19 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index c960b7066ccd..2714038a0fae 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -476,6 +476,7 @@ int vnc_display_password(const char *id, const char *password);
- int vnc_display_pw_expire(const char *id, time_t expires);
- void vnc_parse(const char *str);
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-+bool vnc_display_reload_certs(const char *id,  Error **errp);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index c7df8c0ee268..0f791f974f30 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -334,3 +334,16 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
  
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 310abc937812..381e21a87563 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -584,6 +584,34 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-     return prev;
+     return mem_info;
  }
- 
-+bool vnc_display_reload_certs(const char *id, Error **errp)
++
++void qmp_display_reload(bool has_vnc_tls_certs, bool vnc_tls_certs,
++                        Error **errp)
 +{
-+    VncDisplay *vd = vnc_display_find(id);
-+    QCryptoTLSCredsClass *creds = NULL;
++    Error *local_err = NULL;
 +
-+    if (!vd) {
-+        error_setg(errp, "Can not find vnc display");
-+        return false;
++    if (has_vnc_tls_certs && vnc_tls_certs) {
++        if (!vnc_display_reload_certs(NULL, &local_err)) {
++            error_propagate(errp, local_err);
++            return;
++        }
 +    }
-+
-+    if (!vd->tlscreds) {
-+        error_setg(errp, "vnc tls is not enable");
-+        return false;
-+    }
-+
-+    creds = QCRYPTO_TLS_CREDS_GET_CLASS(OBJECT(vd->tlscreds));
-+    if (creds->reload == NULL) {
-+        error_setg(errp, "%s doesn't support to reload TLS credential",
-+                   object_get_typename(OBJECT(vd->tlscreds)));
-+        return false;
-+    }
-+    if (!creds->reload(vd->tlscreds, errp)) {
-+        return false;
-+    }
-+
-+    return true;
 +}
+diff --git a/qapi/ui.json b/qapi/ui.json
+index d08d72b43923..97b38aa1666e 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1179,3 +1179,22 @@
+ ##
+ { 'command': 'query-display-options',
+   'returns': 'DisplayOptions' }
 +
- /* TODO
-    1) Get the queue working for IO.
-    2) there is some weirdness when using the -S option (the screen is grey
++##
++# @display-reload:
++#
++# Reload display configuration
++#
++# Returns: Nothing on success
++#
++# Since: 6.0
++#
++# Example:
++#
++# -> { "execute": "display-reload",
++#      "arguments": { "vnc-tls-certs": true } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'display-reload',
++  'data': { '*vnc-tls-certs': 'bool' } }
 -- 
 2.28.0
 
