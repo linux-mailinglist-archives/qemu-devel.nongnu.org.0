@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475393372EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:43:14 +0100 (CET)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D713372F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:44:42 +0100 (CET)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKKen-00046X-AM
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:43:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53490)
+	id 1lKKgD-0005QD-Fk
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:44:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKbx-0001FI-01
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:40:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54696)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKdn-0003xA-AQ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:42:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKbv-0001OV-Fk
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:40:16 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKKdl-0002dD-P8
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:42:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615466414;
+ s=mimecast20190719; t=1615466528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tbHdFWkd0CHQqRXTlPYLVmb5yugF+yPxjIhRV6/H5pw=;
- b=KM2k2rWyNCnmvb4Y/ghpvpL/ex2r3aEHzJcI6fCGQIbZ69ZfZY3Bxp3T04YSxDGF9GIQuA
- vJr0gJdy3p/sIaMmpAyHKU7e0kL5xfInMuW4yA5CfYXMbteqO3Moz2jMBjdorLAGF8MhFo
- UbMOGyK7bxWZYB2X/8YTipQiWTSuwU4=
+ bh=2DXxC2wb4klFl0j2774wCpcxUpYHTqFVtHlzzR9Ykc8=;
+ b=e1FGmr44mQQ0ZCxIrcq1bXw3BWW5fi+5DW3CAxsSThaskQYVWMuo9FqUkdSBizYwjWF7wI
+ YOxgPn6nFcGxSiqA8cBDHNR8Wq5nsswdNr3kTvfdUr8I86GBvbBZVMbm5Fhu/VYClqW0yV
+ WYfNEtwLlZd2XehNVjx2JVS+bEPs3c0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-BmKdmkrVPtST8-Dopnl6Fg-1; Thu, 11 Mar 2021 07:40:13 -0500
-X-MC-Unique: BmKdmkrVPtST8-Dopnl6Fg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-222-yHWI3UpRP0CbRqQPYvJGMg-1; Thu, 11 Mar 2021 07:42:06 -0500
+X-MC-Unique: yHWI3UpRP0CbRqQPYvJGMg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C5B419253C0
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 12:40:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A31D519253C0;
+ Thu, 11 Mar 2021 12:42:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E34E41001281;
- Thu, 11 Mar 2021 12:40:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 831BF19C99;
+ Thu, 11 Mar 2021 12:42:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 54CFA180087E; Thu, 11 Mar 2021 13:40:07 +0100 (CET)
-Date: Thu, 11 Mar 2021 13:40:07 +0100
+ id EA0D7180087E; Thu, 11 Mar 2021 13:42:01 +0100 (CET)
+Date: Thu, 11 Mar 2021 13:42:01 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 0/3] ui: add support for 'secret' object to provide
- VNC/SPICE passwords
-Message-ID: <20210311124007.d3mtxfgnkbvztspo@sirius.home.kraxel.org>
-References: <20210311114343.439820-1-berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/3] hw/southbridge: Add missing Kconfig dependency
+ VT82C686 on USB_UHCI
+Message-ID: <20210311124201.pfvsmu3kbjcy5ssm@sirius.home.kraxel.org>
+References: <20210309190802.830969-1-f4bug@amsat.org>
+ <20210309190802.830969-2-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210311114343.439820-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210309190802.830969-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,24 +82,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 11:43:40AM +0000, Daniel P. Berrangé wrote:
-> This fixes a long standing limitation of the VNC/SPICE code which was
-> unable to securely accept passswords on the CLI, instead requiring use
-> of separate monitor commands after startup.
+On Tue, Mar 09, 2021 at 08:08:00PM +0100, Philippe Mathieu-Daudé wrote:
+> The VT82C686 south bridge provides a USB UHCI bus via a PCI function.
 > 
-> In v2:
-> 
->  - Dropped patch removing ACL commands, as it will move to a bigger
->    deprecation cleanup series
->  - Rebased and resolved conflicts
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Added to UI queue.
+Added to usb queue.
 
 thanks,
   Gerd
