@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5D433688E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:24:02 +0100 (CET)
-Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A17233688D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:24:00 +0100 (CET)
+Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK97R-0006PM-HG
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54970)
+	id 1lK97P-0006Nb-Bq
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:23:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95e-0004eA-3F
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:10 -0500
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:42565)
+ id 1lK95d-0004dc-4d
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:09 -0500
+Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:35427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95a-0001JI-1M
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:09 -0500
-Received: by mail-oo1-xc32.google.com with SMTP id
- h3-20020a4ae8c30000b02901b68b39e2d3so258736ooe.9
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:05 -0800 (PST)
+ id 1lK95a-0001Je-SO
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ c13-20020a4ab18d0000b02901b5b67cff5eso258647ooo.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zo0Axh7LGw4WyjdfTcLkZAEZsIuFs0M9C89s4USb0+Y=;
- b=Jdzg4iTMFxZXQZi+QEi0vFtUYWngp7sS2lrb0JFuIkK85kKLgejVPqolV7OwAAkxJx
- lMsHKGP9xyKnoMZ1YLUB/LdsYR+rMgapGngj7jrK/nfGzy15+EGIpKQatQWKBDkspFc7
- Le6AivoQfyTlZSoIr7x+KyPsIicfXO11VuMQKvhl0pCcBBayEvTY/Reto/x7eSrbaJd0
- bLGyIQKFJdMyrF7Iq6WrjV92Opvzl2m21LNOqcGvj14aBBHAvIzR0EmxUWHQitUfP8Id
- HTm5eF53BJUDYGajvbTjg5fOFnltCPVSAHSDmPR7b2b1DMeCNktNkbQtabCB2rmt/e9Z
- hoiw==
+ bh=FmC8iYRkWhLwRAAr0jAUHUkiHiVReoHwdP1IZnbye6k=;
+ b=ulaYSTPhoHVN8RqwVwZKpD5x5BO4+YAqM2Rme/dAT9N8sVdaIn4LPfxsfKF2uPGhmB
+ UzXzOjGbGv+rR6/gGaaJmxbCwhIMBjHBCTqs1n/6P92gCdJP0HZk/dVLtT9V6dw5KAld
+ 7WnNE41a2Q+5a+K2hiJ9Iy3LNg6ckJVeV7YXkz3o8PZus+vl3kYTS5ot3NraFFlTI2BC
+ bMP/MVjBx8KRynJOV6oSWv2OVJwTsSZvirZ84rEAEeKLQmaqJ5uo1woMyZaVd1+UKPzA
+ 5ehhw0v4qseXlBXjQD0By9Dv/DnsvFypubxyfaM7uaU1oKQnCSbBfu8NSA0BRGfbRGQT
+ uPWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zo0Axh7LGw4WyjdfTcLkZAEZsIuFs0M9C89s4USb0+Y=;
- b=Lzl/w31XvjuVCvMcRd+909Slr/6saCK7VO0+LUZ1RQsmUlF3h3SbvU5pdjEflsam46
- KOPSmFzBElynz9Pj643/Vlrps3DTWVpFwd7+6cUjQtxkRqVvxt/7yrkpP2AkDPYZ2VoG
- jAKCigO4Gk6jsH/7x5PzlIvpPgulGFd8xudFfLiqaq9Y3OGqNgPcFWEBYhkDuhVXrucE
- fMvNolOxyqlT4kzFMzqLgt7V2ApiFpCr7b81R6bEe4VhdHBa21BWtak6W2VQkjE5MrBC
- 8U+nlLZDfAaMTITZHeY8I84w1s4KbizjeV976XmNMJ+z9VBUJN80rcOPwpPGXk5n+JA4
- LXmA==
-X-Gm-Message-State: AOAM531nn7rr2sI0hrQ10OuBiFEBNbN4uHdt3/LqsDoAKQ8U/mvk+uq1
- CxfjcWA7rLnhDUpop1FXHevamqaon94tB8dH
-X-Google-Smtp-Source: ABdhPJzMxNhVPQHcGNRtdxrlcu0p9MJSgFtEzpuChLisWGLigJUbVmIua4lYsxFCQsWsRSfzt+WWZQ==
-X-Received: by 2002:a4a:d48b:: with SMTP id o11mr4425367oos.2.1615422124637;
- Wed, 10 Mar 2021 16:22:04 -0800 (PST)
+ bh=FmC8iYRkWhLwRAAr0jAUHUkiHiVReoHwdP1IZnbye6k=;
+ b=FFpZ+32fuz1/hI+Spb/64OirUAmebw25WsYDh5kn6O084u9yWqmGoIO5pBuCxBajVs
+ Kbtlkf6XvOyO5EifMTU8/f474t9LYbUnnDRJFxFi3E9iXkF+14/ufvEYJyzUv489MAGl
+ RNPp1Z/hWs6jhqoQO2qWxVMEqeJBtaZ+N8D6bjAbFGF/EilFzPEz6G0Ya9+T9XJRIwtU
+ ngmtzPLfe8JBKzRzdjWFFPoqeIvRBxGwqixWsKNQivrwsP2shA12XuF3eUi1OrCgWfPw
+ modAyJr3da9YCQTf+J9nPo5lwGlsvbhvRDhwyVDRLXQDolQHEMnrVW4MoFfeRhVDfVHW
+ CNuQ==
+X-Gm-Message-State: AOAM531Gg1G7UfLa2tUTjRMUG0iYR6Tfaxznhj1gOzummTLthL4hJV+m
+ CP/jCI6dCcjy65OPYR4vs9OQSnDhBxK4KjdS
+X-Google-Smtp-Source: ABdhPJy7YoZexAe9c700RHdqeqbxPZyB6CK0GW/NnCvLsgQ4ZeG6P0QnsC4m8Nq50mGjjsoONe5UhA==
+X-Received: by 2002:a4a:37c5:: with SMTP id r188mr4415049oor.77.1615422125868; 
+ Wed, 10 Mar 2021 16:22:05 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.03
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:04 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/26] tcg: Re-order tcg_region_init vs tcg_prologue_init
-Date: Wed, 10 Mar 2021 18:21:34 -0600
-Message-Id: <20210311002156.253711-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/26] tcg: Remove error return from
+ tcg_region_initial_alloc__locked
+Date: Wed, 10 Mar 2021 18:21:35 -0600
+Message-Id: <20210311002156.253711-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,176 +89,73 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of delaying tcg_region_init until after tcg_prologue_init
-is complete, do tcg_region_init first and let tcg_prologue_init
-shrink the first region by the size of the generated prologue.
+All callers immediately assert on error, so move the assert
+into the function itself.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-all.c       | 11 ---------
- accel/tcg/translate-all.c |  3 +++
- bsd-user/main.c           |  1 -
- linux-user/main.c         |  1 -
- tcg/tcg.c                 | 52 ++++++++++++++-------------------------
- 5 files changed, 22 insertions(+), 46 deletions(-)
+ tcg/tcg.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e378c2db73..f132033999 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -111,17 +111,6 @@ static int tcg_init(MachineState *ms)
- 
-     tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
-     mttcg_enabled = s->mttcg_enabled;
--
--    /*
--     * Initialize TCG regions only for softmmu.
--     *
--     * This needs to be done later for user mode, because the prologue
--     * generation needs to be delayed so that GUEST_BASE is already set.
--     */
--#ifndef CONFIG_USER_ONLY
--    tcg_region_init();
--#endif /* !CONFIG_USER_ONLY */
--
-     return 0;
- }
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index f32df8b240..b9057567f4 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1339,6 +1339,9 @@ void tcg_exec_init(unsigned long tb_size, int splitwx)
-                                splitwx, &error_fatal);
-     assert(ok);
- 
-+    /* TODO: allocating regions is hand-in-glove with code_gen_buffer. */
-+    tcg_region_init();
-+
- #if defined(CONFIG_SOFTMMU)
-     /* There's no guest base to take into account, so go ahead and
-        initialize the prologue now.  */
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 798aba512c..3669d2b89e 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -994,7 +994,6 @@ int main(int argc, char **argv)
-        generating the prologue until now so that the prologue can take
-        the real value of GUEST_BASE into account.  */
-     tcg_prologue_init(tcg_ctx);
--    tcg_region_init();
- 
-     /* build Task State */
-     memset(ts, 0, sizeof(TaskState));
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 4f4746dce8..1bc48ca954 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -850,7 +850,6 @@ int main(int argc, char **argv, char **envp)
-        generating the prologue until now so that the prologue can take
-        the real value of GUEST_BASE into account.  */
-     tcg_prologue_init(tcg_ctx);
--    tcg_region_init();
- 
-     target_cpu_copy_regs(env, regs);
- 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 2991112829..0a2e5710de 100644
+index 0a2e5710de..2b631fccdf 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -1204,32 +1204,18 @@ TranslationBlock *tcg_tb_alloc(TCGContext *s)
- 
- void tcg_prologue_init(TCGContext *s)
+@@ -720,9 +720,10 @@ static bool tcg_region_alloc(TCGContext *s)
+  * Perform a context's first region allocation.
+  * This function does _not_ increment region.agg_size_full.
+  */
+-static inline bool tcg_region_initial_alloc__locked(TCGContext *s)
++static void tcg_region_initial_alloc__locked(TCGContext *s)
  {
--    size_t prologue_size, total_size;
--    void *buf0, *buf1;
-+    size_t prologue_size;
+-    return tcg_region_alloc__locked(s);
++    bool err = tcg_region_alloc__locked(s);
++    g_assert(!err);
+ }
  
-     /* Put the prologue at the beginning of code_gen_buffer.  */
--    buf0 = s->code_gen_buffer;
--    total_size = s->code_gen_buffer_size;
--    s->code_ptr = buf0;
--    s->code_buf = buf0;
-+    tcg_region_assign(s, 0);
-+    s->code_ptr = s->code_gen_ptr;
-+    s->code_buf = s->code_gen_ptr;
-     s->data_gen_ptr = NULL;
+ /* Call from a safe-work context */
+@@ -737,9 +738,7 @@ void tcg_region_reset_all(void)
  
--    /*
--     * The region trees are not yet configured, but tcg_splitwx_to_rx
--     * needs the bounds for an assert.
--     */
--    region.start = buf0;
--    region.end = buf0 + total_size;
+     for (i = 0; i < n_ctxs; i++) {
+         TCGContext *s = qatomic_read(&tcg_ctxs[i]);
+-        bool err = tcg_region_initial_alloc__locked(s);
 -
- #ifndef CONFIG_TCG_INTERPRETER
--    tcg_qemu_tb_exec = (tcg_prologue_fn *)tcg_splitwx_to_rx(buf0);
-+    tcg_qemu_tb_exec = (tcg_prologue_fn *)tcg_splitwx_to_rx(s->code_ptr);
- #endif
- 
--    /* Compute a high-water mark, at which we voluntarily flush the buffer
--       and start over.  The size here is arbitrary, significantly larger
--       than we expect the code generation for any one opcode to require.  */
--    s->code_gen_highwater = s->code_gen_buffer + (total_size - TCG_HIGHWATER);
--
- #ifdef TCG_TARGET_NEED_POOL_LABELS
-     s->pool_labels = NULL;
- #endif
-@@ -1246,32 +1232,32 @@ void tcg_prologue_init(TCGContext *s)
+-        g_assert(!err);
++        tcg_region_initial_alloc__locked(s);
      }
+     qemu_mutex_unlock(&region.lock);
+ 
+@@ -874,11 +873,7 @@ void tcg_region_init(void)
+ 
+     /* In user-mode we support only one ctx, so do the initial allocation now */
+ #ifdef CONFIG_USER_ONLY
+-    {
+-        bool err = tcg_region_initial_alloc__locked(tcg_ctx);
+-
+-        g_assert(!err);
+-    }
++    tcg_region_initial_alloc__locked(tcg_ctx);
  #endif
+ }
  
--    buf1 = s->code_ptr;
-+    prologue_size = tcg_current_code_size(s);
-+
- #ifndef CONFIG_TCG_INTERPRETER
--    flush_idcache_range((uintptr_t)tcg_splitwx_to_rx(buf0), (uintptr_t)buf0,
--                        tcg_ptr_byte_diff(buf1, buf0));
-+    flush_idcache_range((uintptr_t)tcg_splitwx_to_rx(s->code_buf),
-+                        (uintptr_t)s->code_buf, prologue_size);
- #endif
+@@ -940,7 +935,6 @@ void tcg_register_thread(void)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     TCGContext *s = g_malloc(sizeof(*s));
+     unsigned int i, n;
+-    bool err;
  
--    /* Deduct the prologue from the buffer.  */
--    prologue_size = tcg_current_code_size(s);
--    s->code_gen_ptr = buf1;
--    s->code_gen_buffer = buf1;
--    s->code_buf = buf1;
--    total_size -= prologue_size;
--    s->code_gen_buffer_size = total_size;
-+    /* Deduct the prologue from the first region.  */
-+    region.start = s->code_ptr;
+     *s = tcg_init_ctx;
  
--    tcg_register_jit(tcg_splitwx_to_rx(s->code_gen_buffer), total_size);
-+    /* Recompute boundaries of the first region. */
-+    tcg_region_assign(s, 0);
-+
-+    tcg_register_jit(tcg_splitwx_to_rx(region.start),
-+                     region.end - region.start);
+@@ -964,8 +958,7 @@ void tcg_register_thread(void)
  
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
-         FILE *logfile = qemu_log_lock();
-         qemu_log("PROLOGUE: [size=%zu]\n", prologue_size);
-         if (s->data_gen_ptr) {
--            size_t code_size = s->data_gen_ptr - buf0;
-+            size_t code_size = s->data_gen_ptr - s->code_gen_ptr;
-             size_t data_size = prologue_size - code_size;
-             size_t i;
- 
--            log_disas(buf0, code_size);
-+            log_disas(s->code_gen_ptr, code_size);
- 
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-@@ -1285,7 +1271,7 @@ void tcg_prologue_init(TCGContext *s)
-                 }
-             }
-         } else {
--            log_disas(buf0, prologue_size);
-+            log_disas(s->code_gen_ptr, prologue_size);
-         }
-         qemu_log("\n");
-         qemu_log_flush();
+     tcg_ctx = s;
+     qemu_mutex_lock(&region.lock);
+-    err = tcg_region_initial_alloc__locked(tcg_ctx);
+-    g_assert(!err);
++    tcg_region_initial_alloc__locked(s);
+     qemu_mutex_unlock(&region.lock);
+ }
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.25.1
 
