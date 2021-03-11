@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336F2336914
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:42:28 +0100 (CET)
-Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6B633691B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:45:58 +0100 (CET)
+Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9PH-0000N3-8H
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:42:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
+	id 1lK9Sf-0004Gc-BK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:45:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK966-0005As-Qd
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:38 -0500
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:38133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95z-0001S2-NS
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:38 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id a17so18336375oto.5
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SnKrls1+jQeMnbtcWOCxxqr551UwIJX44aUioNe0+w8=;
- b=GSnVI2UmlYGsBFij1afNzXFNYqlg+/qMoA32FIYsrzm7D7F7pUGIiOIw6DYJ7kM1jX
- bgAMNDhpFEvBazFJ5Ad1YuHp6OHvK1tAxuNzdE6ZymqKVDyFLx62UUu/1dM0lNbjakwK
- cDPqD/oqD3LRAHNt/qWAykhFCTwwgcFrkNXuhS++T72IPxd/o9wjGfzrMqY2l4nWkdDz
- hciqwbJ4t6+PtixV5dlOSsYSuMlkd3oG4BQhB7UBTx3scqhADJuEwYkLN3cT7l+7FmPT
- wYa4Uos65HV91etw8xFVpwyTbIWKfehybnOeR/TjXQcLHmF+mCXNQRLXHsX+rEisuWWY
- FECQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SnKrls1+jQeMnbtcWOCxxqr551UwIJX44aUioNe0+w8=;
- b=fgqgSt47p4cc073dmJ8HWGEm18j4+aX7DPSFtAk5qV4KgOdZgce7ParVA6IhZh5/fh
- F59MDJQwgXFApibneqwD5atxPB7PbRT1Dl29o/5HHoUvFZuwbERfuSOZUg6DhmsWjRRI
- HrNWdjDlYizx9J22kMGSs+XUBOB+2zSu5h3/gqj9GIKAoeayds1L+gcFhdE8GBi9r+QM
- uBzv4iTvXjAMCQLsJsPM7zMcUxsxlOjQ1rgp6oA2MA0dh2vzkUm9D7UUTi9zKzKMNN3I
- 96IvCRYKZcRlbj1nj4agL2bphQZruhxfadX9K7/ANKwuHGK7m7poOjP/QbsrSa7zWaK3
- rtGA==
-X-Gm-Message-State: AOAM531ht6jkdwzNZZqe+eATJG7Z+3sH3f//I7HJiTa1OGVwHQCpbEuT
- 07OHL5P8yb8phht+NhIhAmyQ7KwqyvIW7W/f
-X-Google-Smtp-Source: ABdhPJyrp4PsbuaiPrjCbmQfXiKcLUfjU1xsicpz+9M6zz3oZweb+FP4swQdlHPslgrhquNa9OJp5g==
-X-Received: by 2002:a9d:42c:: with SMTP id 41mr4581196otc.108.1615422150420;
- Wed, 10 Mar 2021 16:22:30 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:29 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 26/26] tcg: When allocating for !splitwx, begin with PROT_NONE
-Date: Wed, 10 Mar 2021 18:21:56 -0600
-Message-Id: <20210311002156.253711-27-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
-References: <20210311002156.253711-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lK9Ey-00010Z-8O
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:31:48 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:45262
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lK9Et-0005Dg-SO
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:31:48 -0500
+HMM_SOURCE_IP: 172.18.0.92:1518.1621953540
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.3?logid-ad7c2f5970754e5c95e3a32d5c54bd47
+ (unknown [172.18.0.92])
+ by chinatelecom.cn (HERMES) with SMTP id 4A2922800C3;
+ Thu, 11 Mar 2021 08:31:33 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.92])
+ by App0021 with ESMTP id ad7c2f5970754e5c95e3a32d5c54bd47 for
+ qemu-devel@nongnu.org; Thu Mar 11 08:31:35 2021
+X-Transaction-ID: ad7c2f5970754e5c95e3a32d5c54bd47
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.92
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [RFC] tests/migration: introduce multifd into guestperf toolkit
+Date: Thu, 11 Mar 2021 08:30:59 +0800
+Message-Id: <7226d34ca2ef1bc7c97d2cf1a517ea3a982968f5.1615422504.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,51 +59,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Cc: Hyman <huangy81@chinatelecom.cn>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's a change in mprotect() behaviour [1] in the latest macOS
-on M1 and it's not yet clear if it's going to be fixed by Apple.
+From: Hyman <huangy81@chinatelecom.cn>
 
-In this case, instead of changing permissions of N guard pages,
-we change permissions of N rwx regions.  The same number of
-syscalls are required either way.
+Current guestperf tool does not support multifd migration,
+introducing it is good idea so that we can compare the
+performence of all type of migration.
 
-[1] https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1914849
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Hyman <huangy81@chinatelecom.cn>
 ---
- tcg/region.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ tests/migration/guestperf/comparison.py | 14 ++++++++++++++
+ tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
+ tests/migration/guestperf/scenario.py   | 12 ++++++++++--
+ tests/migration/guestperf/shell.py      | 10 +++++++++-
+ 4 files changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/region.c b/tcg/region.c
-index 5b46172fb5..3ffea215a2 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -749,12 +749,15 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-         error_free_or_abort(errp);
-     }
+diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
+index ba2edbe..088e1a7 100644
+--- a/tests/migration/guestperf/comparison.py
++++ b/tests/migration/guestperf/comparison.py
+@@ -121,4 +121,18 @@ def __init__(self, name, scenarios):
+         Scenario("compr-xbzrle-cache-50",
+                  compression_xbzrle=True, compression_xbzrle_cache=50),
+     ]),
++
++
++    # Looking at effect of multifd with
++    # varying numbers of channels
++    Comparison("compr-multifd", scenarios = [
++        Scenario("compr-multifd-channels-2",
++                 multifd=True, multifd_channels=2),
++        Scenario("compr-multifd-channels-32",
++                 multifd=True, multifd_channels=32),
++        Scenario("compr-multifd-channels-64",
++                 multifd=True, multifd_channels=64),
++        Scenario("compr-multifd-channels-128",
++                 multifd=True, multifd_channels=128),
++    ]),
+ ]
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 83bfc3b..2a7f1ac 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -186,6 +186,22 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+                                value=(hardware._mem * 1024 * 1024 * 1024 / 100 *
+                                       scenario._compression_xbzrle_cache))
  
--    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
-+    /*
-+     * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
-+     * rejects a permission change from RWX -> NONE when reserving the
-+     * guard pages later.  We can go the other way with the same number
-+     * of syscalls, so always begin with PROT_NONE.
-+     */
-+    prot = PROT_NONE;
-     flags = MAP_PRIVATE | MAP_ANONYMOUS;
--#ifdef CONFIG_TCG_INTERPRETER
--    /* The tcg interpreter does not need execute permission. */
--    prot = PROT_READ | PROT_WRITE;
--#elif defined(CONFIG_DARWIN)
-+#ifdef CONFIG_DARWIN
-     /* Applicable to both iOS and macOS (Apple Silicon). */
-     if (!splitwx) {
-         flags |= MAP_JIT;
++        if scenario._multifd:
++            resp = src.command("migrate-set-capabilities",
++                               capabilities = [
++                                   { "capability": "multifd",
++                                     "state": True }
++                               ])
++            resp = src.command("migrate-set-parameters",
++                               multifd_channels=scenario._multifd_channels)
++            resp = dst.command("migrate-set-capabilities",
++                               capabilities = [
++                                   { "capability": "multifd",
++                                     "state": True }
++                               ])
++            resp = dst.command("migrate-set-parameters",
++                               multifd_channels=scenario._multifd_channels)
++
+         resp = src.command("migrate", uri=connect_uri)
+ 
+         post_copy = False
+diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
+index 28ef36c..de70d9b 100644
+--- a/tests/migration/guestperf/scenario.py
++++ b/tests/migration/guestperf/scenario.py
+@@ -29,7 +29,8 @@ def __init__(self, name,
+                  post_copy=False, post_copy_iters=5,
+                  auto_converge=False, auto_converge_step=10,
+                  compression_mt=False, compression_mt_threads=1,
+-                 compression_xbzrle=False, compression_xbzrle_cache=10):
++                 compression_xbzrle=False, compression_xbzrle_cache=10,
++                 multifd=False, multifd_channels=2):
+ 
+         self._name = name
+ 
+@@ -56,6 +57,9 @@ def __init__(self, name,
+         self._compression_xbzrle = compression_xbzrle
+         self._compression_xbzrle_cache = compression_xbzrle_cache # percentage of guest RAM
+ 
++        self._multifd = multifd
++        self._multifd_channels = multifd_channels
++
+     def serialize(self):
+         return {
+             "name": self._name,
+@@ -73,6 +77,8 @@ def serialize(self):
+             "compression_mt_threads": self._compression_mt_threads,
+             "compression_xbzrle": self._compression_xbzrle,
+             "compression_xbzrle_cache": self._compression_xbzrle_cache,
++            "multifd": self._multifd,
++            "multifd_channels": self._multifd_channels,
+         }
+ 
+     @classmethod
+@@ -92,4 +98,6 @@ def deserialize(cls, data):
+             data["compression_mt"],
+             data["compression_mt_threads"],
+             data["compression_xbzrle"],
+-            data["compression_xbzrle_cache"])
++            data["compression_xbzrle_cache"],
++            data["multifd"],
++            data["multifd_channels"])
+diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
+index f838888..5ee0369 100644
+--- a/tests/migration/guestperf/shell.py
++++ b/tests/migration/guestperf/shell.py
+@@ -122,6 +122,11 @@ def __init__(self):
+         parser.add_argument("--compression-xbzrle", dest="compression_xbzrle", default=False, action="store_true")
+         parser.add_argument("--compression-xbzrle-cache", dest="compression_xbzrle_cache", default=10, type=int)
+ 
++        parser.add_argument("--multifd", dest="multifd", default=False,\
++                            action="store_true")
++        parser.add_argument("--multifd-channels", dest="multifd_channels",
++                            default=2, type=int)
++
+     def get_scenario(self, args):
+         return Scenario(name="perfreport",
+                         downtime=args.downtime,
+@@ -142,7 +147,10 @@ def get_scenario(self, args):
+                         compression_mt_threads=args.compression_mt_threads,
+ 
+                         compression_xbzrle=args.compression_xbzrle,
+-                        compression_xbzrle_cache=args.compression_xbzrle_cache)
++                        compression_xbzrle_cache=args.compression_xbzrle_cache,
++
++                        multifd=args.multifd,
++                        multifd_channels=args.multifd_channels)
+ 
+     def run(self, argv):
+         args = self._parser.parse_args(argv)
 -- 
-2.25.1
+1.8.3.1
 
 
