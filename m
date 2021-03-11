@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0934F336F97
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:07:57 +0100 (CET)
-Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40686336F9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:11:49 +0100 (CET)
+Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKIEW-0007Dw-2g
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:07:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
+	id 1lKIIG-0003IH-4y
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:11:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKIC7-0005Nh-BN
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:05:27 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52284
+ id 1lKICC-0005Yw-JE
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:05:32 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52292
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKIC4-0004Oi-7F
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:05:27 -0500
+ id 1lKICA-0004WP-CO
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 05:05:32 -0500
 Received: from host86-140-100-136.range86-140.btcentralplus.com
  ([86.140.100.136] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKIC0-0001He-O3; Thu, 11 Mar 2021 10:05:25 +0000
+ id 1lKIC5-0001He-HD; Thu, 11 Mar 2021 10:05:31 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 11 Mar 2021 10:05:00 +0000
-Message-Id: <20210311100505.22596-3-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 11 Mar 2021 10:05:01 +0000
+Message-Id: <20210311100505.22596-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210311100505.22596-1-mark.cave-ayland@ilande.co.uk>
 References: <20210311100505.22596-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.100.136
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 2/7] mac_via: fix up adb_via_receive() trace events
+Subject: [PATCH v2 3/7] mac_via: allow long accesses to VIA registers
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,107 +64,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The use of the post-increment operator on adb_data_in_index meant that the
-trace-event was accidentally displaying the next byte in the incoming ADB
-data buffer rather than the current byte.
+The MacOS SCSI driver uses a long access to read the VIA registers rather than
+just a single byte during the message out phase.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/misc/mac_via.c | 41 ++++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ hw/misc/mac_via.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 488d086a17..0f6586e102 100644
+index 0f6586e102..f38d6e2f6e 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -816,33 +816,37 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
-         switch (s->adb_data_in_index) {
-         case 0:
-             /* First EVEN byte: vADBInt indicates bus timeout */
--            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
--                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
--                                   adb_bus->status, s->adb_data_in_index,
--                                   s->adb_data_in_size);
--
--            *data = s->adb_data_in[s->adb_data_in_index++];
-+            *data = s->adb_data_in[s->adb_data_in_index];
-             if (adb_bus->status & ADB_STATUS_BUSTIMEOUT) {
-                 ms->b &= ~VIA1B_vADBInt;
-             } else {
-                 ms->b |= VIA1B_vADBInt;
-             }
--            break;
+@@ -966,7 +966,7 @@ static const MemoryRegionOps mos6522_q800_via1_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+-        .max_access_size = 1,
++        .max_access_size = 4,
+     },
+ };
  
--        case 1:
--            /* First ODD byte: vADBInt indicates SRQ */
-             trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
-                                    *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
-                                    adb_bus->status, s->adb_data_in_index,
-                                    s->adb_data_in_size);
- 
--            *data = s->adb_data_in[s->adb_data_in_index++];
-+            s->adb_data_in_index++;
-+            break;
-+
-+        case 1:
-+            /* First ODD byte: vADBInt indicates SRQ */
-+            *data = s->adb_data_in[s->adb_data_in_index];
-             pending = adb_bus->pending & ~(1 << (s->adb_autopoll_cmd >> 4));
-             if (pending) {
-                 ms->b &= ~VIA1B_vADBInt;
-             } else {
-                 ms->b |= VIA1B_vADBInt;
-             }
-+
-+            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
-+                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
-+                                   adb_bus->status, s->adb_data_in_index,
-+                                   s->adb_data_in_size);
-+
-+            s->adb_data_in_index++;
-             break;
- 
-         default:
-@@ -852,14 +856,9 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
-              * end of the poll reply, so provide these extra bytes below to
-              * keep it happy
-              */
--            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
--                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
--                                   adb_bus->status, s->adb_data_in_index,
--                                   s->adb_data_in_size);
--
-             if (s->adb_data_in_index < s->adb_data_in_size) {
-                 /* Next data byte */
--                *data = s->adb_data_in[s->adb_data_in_index++];
-+                *data = s->adb_data_in[s->adb_data_in_index];
-                 ms->b |= VIA1B_vADBInt;
-             } else if (s->adb_data_in_index == s->adb_data_in_size) {
-                 if (adb_bus->status & ADB_STATUS_BUSTIMEOUT) {
-@@ -869,7 +868,6 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
-                     /* Return 0x0 after reply */
-                     *data = 0;
-                 }
--                s->adb_data_in_index++;
-                 ms->b &= ~VIA1B_vADBInt;
-             } else {
-                 /* Bus timeout (no more data) */
-@@ -878,6 +876,15 @@ static void adb_via_receive(MacVIAState *s, int state, uint8_t *data)
-                 adb_bus->status = 0;
-                 adb_autopoll_unblock(adb_bus);
-             }
-+
-+            trace_via1_adb_receive(state == ADB_STATE_EVEN ? "EVEN" : " ODD",
-+                                   *data, (ms->b & VIA1B_vADBInt) ? "+" : "-",
-+                                   adb_bus->status, s->adb_data_in_index,
-+                                   s->adb_data_in_size);
-+
-+            if (s->adb_data_in_index <= s->adb_data_in_size) {
-+                s->adb_data_in_index++;
-+            }
-             break;
-         }
+@@ -995,7 +995,7 @@ static const MemoryRegionOps mos6522_q800_via2_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+-        .max_access_size = 1,
++        .max_access_size = 4,
+     },
+ };
  
 -- 
 2.20.1
