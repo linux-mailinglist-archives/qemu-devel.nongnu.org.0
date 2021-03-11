@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F509337F6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:13:42 +0100 (CET)
-Received: from localhost ([::1]:42042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EB5337F78
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:15:25 +0100 (CET)
+Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKScn-0002FO-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:13:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45576)
+	id 1lKSeR-000562-GA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:15:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYz-0006c3-L7
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:46 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:33381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYw-0004xm-1Q
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYy-0006bv-V5
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:45 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:54131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYw-0004xr-Cx
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:44 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MYeV3-1lFu0e39tL-00VgRv; Thu, 11 Mar 2021 22:09:39 +0100
+ id 1N4i3d-1lldrf1GNT-011hsV; Thu, 11 Mar 2021 22:09:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] target/m68k: reformat m68k_features enum
-Date: Thu, 11 Mar 2021 22:09:28 +0100
-Message-Id: <20210311210934.1935587-4-laurent@vivier.eu>
+Subject: [PULL 4/9] target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature
+Date: Thu, 11 Mar 2021 22:09:29 +0100
+Message-Id: <20210311210934.1935587-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311210934.1935587-1-laurent@vivier.eu>
 References: <20210311210934.1935587-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sKmoVwHrc2rugZUczC7p1JGt/bStYchDJ8ABrsELnYydaCsCnju
- 1al+MuKjbcNYwG9pHwHc8slHJJqJF3hMmcL4V5zqGdlXss345CnfhglRFO2sXW/BSPpwjMt
- yttqeawepxNOQ9+MeAudKTSHVWcuaOEVXDqRIGGYHeQ7oLmzQTGMw7LKtOuqs/MeJxWwYkI
- mUI7za93RIJS+I+Nj3DDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6IMlN5zMgQw=:cR7eEYKnGUOkcqUAsUuYAs
- NW5TnrEsRrTjzhWxxc9fo6Gy+qnImpzlgW/p3TlUTq28EPMYrBiBwoFfPH9gi3hvhWMGowR1e
- DriDJZImcQXsUZ+pwbEAMA51heIuRKwEWzYOm+o1+tQxZQV5vePPldGlYPyKC/Hdi2AIeEWWh
- DJGLpX0hZ4ptvQWvYky9UzMx8x+kIAex9F1q6iUqsNaD+Zd1s/ExTJWKIDWbZnclwaxmy7xag
- KWxaZ0KBi+Ia+ombEiybEIsoSC2BkP8hy2uLfpzXUmd7sfxHAh805IE95zFLkVdahRK8ZwE+P
- Nx2VPiHYABUO6MpCfE1UL0l4YsUqeHRww1LCi5N/dUrCB5/N+SmreMrUzmmABwnpbCsJSmEWd
- 4TONphindNSJv503X8c7BY8dHQUMwGst98pQaZMZQcFKP1eYN2YYlRYA9TWu/VfWXO4yworT7
- 0pDwskFn3w==
+X-Provags-ID: V03:K1:ZmKagHLy5yAoXzTTIYZc4qWkGeOV/lHRoHAr9M+imcANBCizrWq
+ i0v1mWkBMYV+ZNAEJHjs9ap4YI/H/j4dZJy4Fe4u4X4FL+mcE9HSq2pfiH8gRYiILtZkHh6
+ Givkl0cKsuokfFoiHE6gFSvlYFyiBYpilchvMovm1olnQXFG7OgbT2L9BBlhtZNg0qh5wWL
+ A71zfHSeVRonGldLYTbsQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GyYSxtjEftc=:1dz21aK63cnJb0KSJmHfFz
+ P2cEQcgUJFMEuoea8b6znWatSphDn4bYlJa60yiZc7w9VYSl1cICd/ErbqTrgVwE3o8eUCpU2
+ /C1j8BM+SD3yOgItsVNm0ME3DE/Bf0g6rthUVdXZljS2xz7i/obIp1W76yAYHHn3Q52ka26Gj
+ OmmY0UeXQqhVDC3y+GoPheS+P5j33/tYelilPGf9AAQi0w1Wc4VhDf4DeB6vR8+R9VsggRcTw
+ EBExETEktQ4sivoSw5CpbBTFtiONTroDhtdy2JbbsjSKv67EvnN34uuQgTXSsR5R7sIO2hu1t
+ xUmgrifUCu/kUjjt9oB6A2KENhUNqqh9U86rLSLjO6BjV3QrW/1u8vtXNktgCR5gJwcLQg8fG
+ SB1TVg7qeY+okXGOYolM/e2blIYBZlKLUljSAJ+JPMn0+Esd0g3+X879uf41zh7E3oKNRlPqI
+ GOKLLoaZJQ==
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,104 +70,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Move the feature comment from after the feature name to the preceding line to
-allow for longer feature names and descriptions without hitting the 80
-character line limit.
+According to the M68040UM Appendix D the requirement for data accesses to be
+word aligned is only for the 68000, 68008 and 68010 CPUs. Later CPUs from the
+68020 onwards will allow unaligned data accesses but at the cost of being less
+efficient.
+
+Add a new M68K_FEATURE_UNALIGNED_DATA feature to specify that data accesses are
+not required to be word aligned, and don't perform the alignment on the stack
+pointer when taking an exception if this feature is not selected.
+
+This is required because the MacOS DAFB driver attempts to call an A-trap
+with a byte-aligned stack pointer during initialisation and without this the
+stack pointer is off by one when the A-trap returns.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210308121155.2476-3-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210308121155.2476-4-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.h | 66 +++++++++++++++++++++++++++++++----------------
- 1 file changed, 44 insertions(+), 22 deletions(-)
+ target/m68k/cpu.h       | 2 ++
+ target/m68k/cpu.c       | 1 +
+ target/m68k/op_helper.c | 5 ++++-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 7c3feeaf8a64..ce558e9b03e7 100644
+index ce558e9b03e7..402c86c8769e 100644
 --- a/target/m68k/cpu.h
 +++ b/target/m68k/cpu.h
-@@ -475,36 +475,58 @@ void do_m68k_semihosting(CPUM68KState *env, int nr);
-  */
- 
- enum m68k_features {
--    M68K_FEATURE_M68000,   /* Base m68k instruction set */
-+    /* Base m68k instruction set */
-+    M68K_FEATURE_M68000,
-     M68K_FEATURE_M68010,
-     M68K_FEATURE_M68020,
-     M68K_FEATURE_M68030,
-     M68K_FEATURE_M68040,
-     M68K_FEATURE_M68060,
--    M68K_FEATURE_CF_ISA_A, /* Base Coldfire set Rev A. */
--    M68K_FEATURE_CF_ISA_B, /* (ISA B or C). */
--    M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
--    M68K_FEATURE_BRAL, /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
-+    /* Base Coldfire set Rev A. */
-+    M68K_FEATURE_CF_ISA_A,
-+    /* (ISA B or C). */
-+    M68K_FEATURE_CF_ISA_B,
-+    /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
-+    M68K_FEATURE_CF_ISA_APLUSC,
-+    /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
-+    M68K_FEATURE_BRAL,
-     M68K_FEATURE_CF_FPU,
-     M68K_FEATURE_CF_MAC,
-     M68K_FEATURE_CF_EMAC,
--    M68K_FEATURE_CF_EMAC_B,   /* Revision B EMAC (dual accumulate). */
--    M68K_FEATURE_USP, /* User Stack Pointer. (680[012346]0, ISA A+, B or C).*/
--    M68K_FEATURE_MSP, /* Master Stack Pointer. (680[234]0) */
--    M68K_FEATURE_EXT_FULL,    /* 68020+ full extension word. */
--    M68K_FEATURE_WORD_INDEX,  /* word sized address index registers. */
--    M68K_FEATURE_SCALED_INDEX, /* scaled address index registers. */
--    M68K_FEATURE_LONG_MULDIV, /* 32 bit mul/div. (680[2346]0, and CPU32) */
--    M68K_FEATURE_QUAD_MULDIV, /* 64 bit mul/div. (680[2346]0, and CPU32) */
--    M68K_FEATURE_BCCL,  /* Bcc with Long branches. (680[2346]0, and CPU32) */
--    M68K_FEATURE_BITFIELD, /* BFxxx Bit field insns. (680[2346]0) */
--    M68K_FEATURE_FPU,   /* fpu insn. (680[46]0) */
--    M68K_FEATURE_CAS,   /* CAS/CAS2[WL] insns. (680[2346]0) */
--    M68K_FEATURE_BKPT,  /* BKPT insn. (680[12346]0, and CPU32) */
--    M68K_FEATURE_RTD,   /* RTD insn. (680[12346]0, and CPU32) */
--    M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
--    M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
--    M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
-+    /* Revision B EMAC (dual accumulate). */
-+    M68K_FEATURE_CF_EMAC_B,
-+    /* User Stack Pointer. (680[012346]0, ISA A+, B or C). */
-+    M68K_FEATURE_USP,
-+    /* Master Stack Pointer. (680[234]0) */
-+    M68K_FEATURE_MSP,
-+    /* 68020+ full extension word. */
-+    M68K_FEATURE_EXT_FULL,
-+    /* word sized address index registers. */
-+    M68K_FEATURE_WORD_INDEX,
-+    /* scaled address index registers. */
-+    M68K_FEATURE_SCALED_INDEX,
-+    /* 32 bit mul/div. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_LONG_MULDIV,
-+    /* 64 bit mul/div. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_QUAD_MULDIV,
-+    /* Bcc with Long branches. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_BCCL,
-+    /* BFxxx Bit field insns. (680[2346]0) */
-+    M68K_FEATURE_BITFIELD,
-+    /* fpu insn. (680[46]0) */
-+    M68K_FEATURE_FPU,
-+    /* CAS/CAS2[WL] insns. (680[2346]0) */
-+    M68K_FEATURE_CAS,
-+    /* BKPT insn. (680[12346]0, and CPU32) */
-+    M68K_FEATURE_BKPT,
-+    /* RTD insn. (680[12346]0, and CPU32) */
-+    M68K_FEATURE_RTD,
-+    /* CHK2 insn. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_CHK2,
-+    /* MOVEP insn. (680[01234]0, and CPU32) */
-+    M68K_FEATURE_MOVEP,
-+    /* MOVEC insn. (from 68010) */
-+    M68K_FEATURE_MOVEC,
+@@ -527,6 +527,8 @@ enum m68k_features {
+     M68K_FEATURE_MOVEP,
+     /* MOVEC insn. (from 68010) */
+     M68K_FEATURE_MOVEC,
++    /* Unaligned data accesses (680[2346]0) */
++    M68K_FEATURE_UNALIGNED_DATA,
  };
  
  static inline int m68k_feature(CPUM68KState *env, int feature)
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 37d2ed9dc79c..a14874b4da28 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -161,6 +161,7 @@ static void m68020_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_CAS);
+     m68k_set_feature(env, M68K_FEATURE_CHK2);
+     m68k_set_feature(env, M68K_FEATURE_MSP);
++    m68k_set_feature(env, M68K_FEATURE_UNALIGNED_DATA);
+ }
+ 
+ /*
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 5f981e5bf628..46ff81acc9f5 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -348,7 +348,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+     cpu_m68k_set_sr(env, sr);
+     sp = env->aregs[7];
+ 
+-    sp &= ~1;
++    if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
++        sp &= ~1;
++    }
++
+     if (cs->exception_index == EXCP_ACCESS) {
+         if (env->mmu.fault) {
+             cpu_abort(cs, "DOUBLE MMU FAULT\n");
 -- 
 2.29.2
 
