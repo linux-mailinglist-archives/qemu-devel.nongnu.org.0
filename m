@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E9E336F28
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:46:39 +0100 (CET)
-Received: from localhost ([::1]:43880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216E9336F2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:47:25 +0100 (CET)
+Received: from localhost ([::1]:46364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHtu-0000dZ-QO
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
+	id 1lKHue-0001gn-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:47:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKHrt-0007Is-Hl
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:33 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:41463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKHrr-0007mi-6X
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:44:33 -0500
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N8GhM-1lorUn2vCq-0148jQ; Thu, 11 Mar 2021 10:44:25 +0100
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
- <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
- <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
- <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
- <24d71ce3-b5b9-28fa-74c2-b22076bef287@vivier.eu>
- <762713e4-96a8-e989-fa76-2febad83afce@vivier.eu>
- <4d88313a-c067-163d-2d80-c60786bc9d85@ilande.co.uk>
- <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
- <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
-Message-ID: <34f75085-feed-ede5-e17c-df4553b630b4@vivier.eu>
-Date: Thu, 11 Mar 2021 10:44:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKHsS-0007z5-Bl
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:45:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKHsK-00086k-3Y
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:45:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615455896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H7PO1qHRvrRqVgK7pl6jIQ1XmckEJKhSc3PQPKDxpmI=;
+ b=Xg0xLL63XIJ0RK+yOPQ7sL2CeBbqHxygeQz30DY38TP2BsBl2naMlhj1Ap4qW8yve8Dsvy
+ +KnVQwxUnwalC0puFuiuAcO/VrFaCRyhPi1TU8eHXM6gXmKNiKJyJp88GIACvrkOVOr0e+
+ 712mjM4AsQp74Tr3Ezj/1lIa+QlEplE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-Tw7fVqjvMDyNRsXa4OhBLg-1; Thu, 11 Mar 2021 04:44:54 -0500
+X-MC-Unique: Tw7fVqjvMDyNRsXa4OhBLg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D6D18015BE;
+ Thu, 11 Mar 2021 09:44:53 +0000 (UTC)
+Received: from work-vm (ovpn-115-29.ams2.redhat.com [10.36.115.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94866669EB;
+ Thu, 11 Mar 2021 09:44:52 +0000 (UTC)
+Date: Thu, 11 Mar 2021 09:44:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 6/9] migration: Replaced qemu_mutex_lock calls with
+ QEMU_LOCK_GUARD
+Message-ID: <YEnmkpUm6QelXVcU@work-vm>
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
+ <20210311031538.5325-7-ma.mandourr@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lm0rYpRL3oXKns73RfUG1lW2I5hUmb2uduSjJmu1EIvhFaLsWHq
- Jc1Tt9h2DladDBAUC4eig9JHXNtxfUXtQV6+TZx4bDmIY84I/tiSJ437Iw9Iywn89LdyU5i
- DQqBuDA0AvRYErcUyknb83yW7aPFgCAHCiByh1pbCxQk9uH5n73BHJM8RMeH8WgM+6Y4Y0a
- E3JHbbt7B4M6XuSZMIXJg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pfRIZHlrXAI=:V1FzXf3UVIWk9LNhz6Ppza
- 5e0KlaBttKAKXyv/KDD6wrvc6hhCNP65mf59EdWQ/0WEiHce3dV+yBCrHUbEXDwnYioYrgBqH
- K/myGYJ/lSUfG56/nCp3P+v+AtEjjx7Ywxm2MbIwr3tILB/P3dNkjU0pj1GlhQ9Wc6mmN9EWP
- OgqngiVPGUD84l+Ix8WE6cdX4eZPFrMrUS1ystd3Jj7Ar/Cxh9KQtHNYdP5Zd3MqdulR6GPnv
- 3nb77LfZoNSEfKi4OCQo3ytTHN+Ob76Yw22xAZkCehyRJz+v6fJCDOeCDc1Knrx/3g8CmJGHz
- SHvTZ4UCu15GKG/ZaNgI658JxuFVwQOx3Iraclz1xh/NrWqIVmG1bIbOpcvsxp/R6Jx8Fepom
- IerdiUKx5Y18q64NXYcuf6xDSJAL+CcyYshsR7JsTXPVHHGCpv6mquueMxGhnOm0bdTrkmtBj
- UTGnSukjSQ==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210311031538.5325-7-ma.mandourr@gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,100 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/03/2021 à 10:04, Mark Cave-Ayland a écrit :
-> On 11/03/2021 00:15, BALATON Zoltan wrote:
+* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
+> Replaced various qemu_mutex_lock calls and their respective
+> qemu_mutex_unlock calls with QEMU_LOCK_GUARD macro. This simplifies
+> the code by eliminating the respective qemu_mutex_unlock calls.
 > 
->> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->>> On 10/03/2021 13:24, Laurent Vivier wrote:
->>>> Le 10/03/2021 à 14:10, Laurent Vivier a écrit :
->>>>> Le 10/03/2021 à 13:56, Laurent Vivier a écrit :
->>>>>> Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
->>>>>>> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->>>>>>>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
->>>>>>>> interval should be measured in ns, and therefore its period is a thousand
->>>>>>>> times too short.
->>>>>>>>
->>>>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>>>> ---
->>>>>>>> hw/misc/mac_via.c | 4 ++--
->>>>>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
->>>>>>>> index f994fefa7c..c6e1552a59 100644
->>>>>>>> --- a/hw/misc/mac_via.c
->>>>>>>> +++ b/hw/misc/mac_via.c
->>>>>>>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
->>>>>>>>      MOS6522State *s = MOS6522(v1s);
->>>>>>>>
->>>>>>>>      /* 60 Hz irq */
->>>>>>>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
->>>>>>>> -                          16630 * 16630;
->>>>>>>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
->>>>>>>> +                          16630000 * 16630000;
->>>>>>>
->>>>>>> Can you put this magic number in a #define maybe also rewriting it in a way that shows it
->>>>>>> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in include/qemu/timer.h
->>>>>>> that could be used for that, there's also SCALE_MS that might replace 1000 * 1000 elsewhere
->>>>>>> in this
->>>>>>> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used here instead?
->>>>>>
->>>>>> In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, in kernel
->>>>>> 60.15 Hz.
->>>>>> I Think there are several ways to compute it...
->>>>>>
->>>>>
->>>>> In fact, we can read:
->>>>>
->>>>> "the vertical retrace frequency is approximately 60.15 Hz, resulting in a period of approximately
->>>>> 16.63 milliseconds"
->>>>>
->>>>> https://developer.apple.com/library/archive/documentation/mac/pdf/Processes/Vertical_Retrace_Mgr.pdf
->>>>>
->>>>
->>>> The exact value is 16625800 ns
->>>>
->>>> "Macintosh Family Hardware Reference" ISBN 0-201-19255-1
->>>> "The video interface"
->>>> p. 13-3
->>>>
->>>> "[...] This means the full frame is redisplayed every 370 scan lines, or once every 166625.8 µs."
->>>
->>> Thanks Laurent! Given that the exact precision is 6 digits I don't think it's possible to make
->>> use of conversion macros without either making it harder to read or reducing the precision.
->>>
->>> I think the best solution here would be to #define VIA1_60HZ_TIMER_PERIOD_NS with a comment
->>> containing the above reference, and use that in the period calculation. Would that be sufficient?
->>
->> Yes, I think that would make this a lot clearer than having this number without explanation so
->> that would be sufficient.
->>
->> Is this referred to as 60Hz timer in the hardware docs? Because that name is a bit misleading when
->> it's actually not exactly 60Hz. But in the previous patch VBlank which this was called before was
->> also found misleading so I can't think of a better name. Not sure if calling it compat_vblank
->> would be too verbose or any better. Maybe you can just add a comment explaining what this is
->> somewhere where it's defined or near the update function and then it does not matter what you call
->> it, the comment should explain why it's not quite sixty_hz. I'm also OK with calling it sixty_hz
->> just though if there's a way to give it a less confusing name you could consider that but I don't
->> have a better name either so feel free to ignore this.
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/migration.c | 6 ++----
+>  migration/ram.c       | 6 ++----
+>  2 files changed, 4 insertions(+), 8 deletions(-)
 > 
-> Yes indeed, depending upon the documentation it is referred to as either the 60Hz or the 60.15Hz
-> timer. Certainly that's enough information for anyone familiar with Mac internals to understand
-> exactly what you are referring to. There are also plenty of examples of this elsewhere e.g. for
-> graphics cards the high level claim will be that it supports over 16 million colours whereas the
-> engineers know specifically that the exact number is 16777216.
+> diff --git a/migration/migration.c b/migration/migration.c
+> index a5ddf43559..36768391b6 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -323,7 +323,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+>      int ret = 0;
+>  
+>      trace_migrate_send_rp_message((int)message_type, len);
+> -    qemu_mutex_lock(&mis->rp_mutex);
+> +    QEMU_LOCK_GUARD(&mis->rp_mutex);
+>  
+>      /*
+>       * It's possible that the file handle got lost due to network
+> @@ -331,7 +331,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+>       */
+>      if (!mis->to_src_file) {
+>          ret = -EIO;
+> -        goto error;
+> +        return ret;
+>      }
+>  
+>      qemu_put_be16(mis->to_src_file, (unsigned int)message_type);
+> @@ -342,8 +342,6 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+>      /* It's possible that qemu file got error during sending */
+>      ret = qemu_file_get_error(mis->to_src_file);
+>  
+> -error:
+> -    qemu_mutex_unlock(&mis->rp_mutex);
+>      return ret;
+>  }
+>  
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 72143da0ac..52537f14ac 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -819,7 +819,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+>  {
+>      bool ret;
+>  
+> -    qemu_mutex_lock(&rs->bitmap_mutex);
+> +    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
+>  
+>      /*
+>       * Clear dirty bitmap if needed.  This _must_ be called before we
+> @@ -852,7 +852,6 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+>      if (ret) {
+>          rs->migration_dirty_pages--;
+>      }
+> -    qemu_mutex_unlock(&rs->bitmap_mutex);
+>  
+>      return ret;
+>  }
+> @@ -3275,7 +3274,7 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
+>      int idx, thread_count;
+>  
+>      thread_count = migrate_decompress_threads();
+> -    qemu_mutex_lock(&decomp_done_lock);
+> +    QEMU_LOCK_GUARD(&decomp_done_lock);
+>      while (true) {
+>          for (idx = 0; idx < thread_count; idx++) {
+>              if (decomp_param[idx].done) {
+> @@ -3295,7 +3294,6 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
+>              qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
+>          }
+>      }
+> -    qemu_mutex_unlock(&decomp_done_lock);
+>  }
+>  
+>   /*
+> -- 
+> 2.25.1
 > 
-> I'll write up a suitable comment with a #define and send through a v2, perhaps altering the comment
-> on the timer itself to read 60.15Hz as that's what the reference cited by Laurent also uses.
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-If you want more details, this is also in "Apple Guide to the Macintosh Family Hardware", 2nd
-edition, Chapter 12, "Displays", p. 401 (p.440 of the following PDF):
-
-https://archive.org/details/apple-guide-macintosh-family-hardware
-
-Thanks,
-Laurent
 
