@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BCE337CFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:56:29 +0100 (CET)
-Received: from localhost ([::1]:59858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0040D337CD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:44:12 +0100 (CET)
+Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQU0-0000HT-Kx
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:56:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
+	id 1lKQI7-0004PT-C8
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:44:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKQBP-0007Cr-Gp
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:37:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25855)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKQD4-0000bv-2y
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:39:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKQBN-0008MH-Ph
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:37:15 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKQCx-0000od-VV
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:38:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615487832;
+ s=mimecast20190719; t=1615487930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zM/9fraMj8OnaYBGOntlbrGYD8QDbcBNpdB2+s+G9zc=;
- b=BYxCzYhHv5DC865/CiLEie7l9JSjv/nOpz3UaDp9TQF65kRx7+Tpt+LgmEuMm1eRTZA5dk
- ioole2p3hTI7vkVJPoT0Z9UeuO5rzxtVLJFgr0ApbDckDqdQQke0s1X+LXchGoOpxhe9AG
- nKuN4B7pIZBmXhwysHvV7V5I9GDuFag=
+ bh=DLNFxFIR5Ikcbt2h/kx0CvcnF5y2ntSNEd/HOl0I/OA=;
+ b=dvjduVkhj/MOyTfIfO5weql4Uq+InDFVCHdL+cqBaysREucunwr9zK3xjH8hU0e/x2xMjA
+ S9dAZHe183xiIGUrzghvv0xsIHOw6r1s+ia+G7NAUEBq6BZbF61Ofv8KzwX/PUFCgzUT6W
+ MJenVpP53P39Kq/Y2veoxlz1187CFtM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-TFW_PYEhPBaMil4rnfBfcw-1; Thu, 11 Mar 2021 13:37:11 -0500
-X-MC-Unique: TFW_PYEhPBaMil4rnfBfcw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-101-3VG7Yc79OjubvI6N9lB4hg-1; Thu, 11 Mar 2021 13:38:49 -0500
+X-MC-Unique: 3VG7Yc79OjubvI6N9lB4hg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE8A6100C66F
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:37:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 347B210866A3
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:38:48 +0000 (UTC)
 Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DDB460853;
- Thu, 11 Mar 2021 18:37:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D56AB5D742;
+ Thu, 11 Mar 2021 18:38:47 +0000 (UTC)
+Subject: Re: [PATCH 3/3] vl: allow passing JSON to -object
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20210311172459.990281-1-pbonzini@redhat.com>
- <20210311172459.990281-3-pbonzini@redhat.com>
+ <20210311172459.990281-4-pbonzini@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Subject: Re: [PATCH 2/3] qom: move user_creatable_add_opts logic to vl.c and
- QAPIfy it
-Message-ID: <d99739a6-93e1-1d44-653a-d9ff8f3ae677@redhat.com>
-Date: Thu, 11 Mar 2021 12:37:08 -0600
+Message-ID: <1727bd5b-e065-3e1b-d8b8-9cdf4f68d4a7@redhat.com>
+Date: Thu, 11 Mar 2021 12:38:47 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311172459.990281-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210311172459.990281-4-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -88,71 +87,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/11/21 11:24 AM, Paolo Bonzini wrote:
-> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
-> to parse the -object command line option.  This has one extra feature,
-> compared to keyval, which is automatic conversion of integers to lists
-> as well as support for lists as repeated options:
-> 
->   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
-> 
-> So we cannot replace OptsVisitor with keyval right now.  Still, this
-> patch moves the user_creatable_add_opts logic to vl.c since it is
-> not needed anywhere else, and makes it go through user_creatable_add_qapi.
-> 
-> In order to minimize code changes, the predicate still takes a string.
-> This can be changed later to use the ObjectType QAPI enum directly.
+> Extend the ObjectOption code that was added in the previous patch to
+> enable passing JSON to -object.  Even though we cannot yet add
+> non-scalar properties with the human-friendly comma-separated syntax,
+> they can now be added as JSON.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  include/qom/object_interfaces.h | 50 ++--------------------
->  qom/object_interfaces.c         | 57 +------------------------
->  softmmu/vl.c                    | 73 +++++++++++++++++++++++++--------
->  3 files changed, 60 insertions(+), 120 deletions(-)
+>  softmmu/vl.c | 27 ++++++++++++++++++---------
+>  1 file changed, 18 insertions(+), 9 deletions(-)
 > 
-
-> @@ -1684,6 +1691,48 @@ static int machine_set_property(void *opaque,
->      return object_parse_property_opt(opaque, name, value, "type", errp);
->  }
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index b245e912e5..7b07f19de7 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qjson.h"
+>  #include "qemu-version.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/help_option.h"
+> @@ -1714,19 +1715,27 @@ static void object_option_parse(const char *optarg)
+>      const char *type;
+>      Visitor *v;
 >  
-> +static void object_option_foreach_add(bool (*type_opt_predicate)(const char *), Error **errp)
+> -    opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+> -                                   optarg, true);
+> -    if (!opts) {
+> -        exit(1);
+> -    }
+> +    if (optarg[0] == '{') {
+> +        QObject *obj = qobject_from_json(optarg, &error_fatal);
+>  
+> -    type = qemu_opt_get(opts, "qom-type");
+> -    if (user_creatable_print_help(type, opts)) {
+> -        exit(0);
+> +        v = qobject_input_visitor_new(obj);
+> +        qobject_unref(obj);
 
-Should this return a bool...
+Interesting note: the JSON form has no way to access help text.  But
+that's not a show-stopper.
 
-> +{
-> +    ObjectOption *opt, *next;
-> +
-> +    QTAILQ_FOREACH_SAFE(opt, &object_opts, next, next) {
-> +        const char *type = ObjectType_str(opt->opts->qom_type);
-> +        if (type_opt_predicate(type)) {
-> +            if (!user_creatable_add_qapi(opt->opts, errp)) {
-> +                return;
-
-with return false here,
-
-> +            }
-> +            qapi_free_ObjectOptions(opt->opts);
-> +            QTAILQ_REMOVE(&object_opts, opt, next);
+> +    } else {
+> +        opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+> +                                       optarg, true);
+> +        if (!opts) {
+> +            exit(1);
 > +        }
-> +    }
-
-and true here, to make it easier for callers to detect failure without
-having to inspect errp?
-
-> +}
 > +
-> +static void object_option_parse(const char *optarg)
-
-> @@ -1815,9 +1860,7 @@ static void qemu_create_early_backends(void)
->          exit(1);
+> +        type = qemu_opt_get(opts, "qom-type");
+> +        if (user_creatable_print_help(type, opts)) {
+> +            exit(0);
+> +        }
+> +
+> +        v = opts_visitor_new(opts);
 >      }
 >  
-> -    qemu_opts_foreach(qemu_find_opts("object"),
-> -                      user_creatable_add_opts_foreach,
-> -                      object_create_early, &error_fatal);
-> +    object_option_foreach_add(object_create_early, &error_fatal);
-
-Then again, since the only callers pass error_fatal, we never reach the
-early return.
+>      opt = g_new0(ObjectOption, 1);
+> -    v = opts_visitor_new(opts);
+>      visit_type_ObjectOptions(v, NULL, &opt->opts, &error_fatal);
+>      visit_free(v);
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
