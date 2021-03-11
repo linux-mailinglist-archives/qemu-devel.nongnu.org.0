@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19F0337C58
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:19:46 +0100 (CET)
-Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8B4337C5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:21:56 +0100 (CET)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKPuT-0000xT-Jn
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:19:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
+	id 1lKPwZ-0003No-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:21:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3wFxKYAgKCqshfSLZedSRZZRWP.NZXbPXf-OPgPWYZYRYf.ZcR@flex--wuhaotsh.bounces.google.com>)
- id 1lKPkD-0007DA-5e
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:09:13 -0500
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:50814)
+ <3wlxKYAgKCq0jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com>)
+ id 1lKPkQ-0007TA-5f
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:09:23 -0500
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:57246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3wFxKYAgKCqshfSLZedSRZZRWP.NZXbPXf-OPgPWYZYRYf.ZcR@flex--wuhaotsh.bounces.google.com>)
- id 1lKPkA-0000dF-Eg
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:09:08 -0500
-Received: by mail-pg1-x54a.google.com with SMTP id e4so11878751pgt.17
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:09:05 -0800 (PST)
+ <3wlxKYAgKCq0jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com>)
+ id 1lKPkB-0000e9-NS
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:09:20 -0500
+Received: by mail-yb1-xb49.google.com with SMTP id j4so26356049ybt.23
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=rkYYucWMn4F4axWZnGzQOMkDRtHuB/4pu2dUy2RZ63U=;
- b=ufu5stm6SqFCw38ZBq0SljoCniPHzfzriU/K3yyyFf1ecPPX+34KYh72cbZFUs7Yhb
- EdgkWNb4bwRKFES71CePDyRNr4dffPK5vgSDEasjQoBgpvRIeKYmq6foWbl2Anob0yab
- ciPT12kygyU0QBWQfSDpNYmFhZ46xaM/0e9/tFLyTROSXVdjfu3NiqDbZhSoX2QNplUc
- 3MQ9stSU7djmGLYa3kNQjvKQ+m99WQxqAy+MQdrG2nkAjYT1FkSLcXd3HzIzJ6JkI7xw
- iZMW6T7HCwegOhRMXcxcOqIUHpE8t6knSItEFztvTKuRuWt0LnU78k4h19/PGbkoYnHT
- jUUA==
+ :cc; bh=0U267s31mBfPlv69OkohRCSrgnObHijB5eQN+3dFv20=;
+ b=s1QlVMn/q9sXZlsCVeQ4irZRkM2TWPCO1hRxCCG6cSaSyHUPYMV+gV50KwLT3jlDwk
+ uCyarQ6iknN9q5lucUWXguQGp8ekhzEdTLR7UU0C8HPkRWDWhllelsPfWe+QzpfmcIFJ
+ LzKZpydamhWlxGpnxY/AD5wA4rDsBmGLwm3dL9Wx1tNhBwDRsMdNBZEoTZN45N5wDLX/
+ yXGHV3aCw7lLHS9iv/clJ9AfAPDNIYwC25oV9SNVLlnEMJhuhvTk85VQGOSUiMnu8ium
+ 5FCplFlXiCFI1GHYRmUxCfG9HsxTv4rQz5+7PSxJIflNQhkZXESx+x8sw6umuCcUehNa
+ X+bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=rkYYucWMn4F4axWZnGzQOMkDRtHuB/4pu2dUy2RZ63U=;
- b=WQxO0y1Kkb01+8QgJOa4Bu2QA2HdiYP8qDJF3KGEmDXfd1N5oJNUKxRBaaepv3vCXC
- NmEbTSlneWCtbRiAVFxKEvMNDpy18wHpXCNZ87njMQ4bDDVsTdqySmbI8LgJnPoi5f9/
- QOVlaF+AnISfbqNW1cSDrxVFlzsNSHcmlnsxxzug90Qe+konvg3MWRFiTOhmofYhzAdC
- GvQwohP7+OlPBMgFPVnieIpqzRKPFRRhUtNzAMPBAoAxe+2ZAxGM87a1+u4/+i+iTBXy
- 7PKuJblANjLn/aYrXCy84sSnpJxLMyUxglwB7QMwI9XOg1jKKj91qZFBRn+WMnzduMgC
- gpNg==
-X-Gm-Message-State: AOAM530ma5VnMsmuHMpNBqgryTjqOTuw0q4nbfCQk7TNJpQ538fmcdtl
- aCMUqOokEWmho4uE1T8ouD7kffKyg5Oflw==
-X-Google-Smtp-Source: ABdhPJxTg83ppmTrUlCyN3kTZWEJiNiPlnGKFcZTWYzOuEjsC8EpeYDa6gkMOMx0C0uCl17ehLkC/3j/RE03gg==
+ bh=0U267s31mBfPlv69OkohRCSrgnObHijB5eQN+3dFv20=;
+ b=b4p/XycLsJHE5mHOjZBTe3Ayi3yIFwaRWR7l4ESR9kz5eux9BWRZS66dVSvTHWc44B
+ Z06oKb2F3Bjlh3zIrzHKoga8mSurCDpgrYmKDey01VH5wfKyOnavj432NbFWbMxrjeI2
+ rYEo41jqdsFSoq3/nJXHyt38a+TnyPQAi5ajMURB9lMHoQH9dtXVpveNLyO+w2Z2o0h8
+ WJzWIY+zDslE0JMZ8nwRCV0ZTK7b/HcZGS3d8pvFuZbaVM8fJYN0Wls0tezNq+o7sI/3
+ zC1IlzAc+vYcVcjemZQMnFMDdDi7nXeStJPmqg5pW5UbOO4CBAzixctqhYMGsM8DH8L+
+ xBfA==
+X-Gm-Message-State: AOAM531CiyDbzIUcKquD9XCvRfBoTNLTmJosmvWefrF66eT6W65QqxB8
+ MjJvfHobTiAPm2q2t8KiDAc/AZ1q9sYxtA==
+X-Google-Smtp-Source: ABdhPJy+vMKC3wSyMULA3B7TBnELluSb5R8ZHMOhF2qQPQHvz0z4jJgS2utJ/35hIdaRodng3pbcTupA86GiEA==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:902:6845:b029:e4:4d0f:c207 with SMTP
- id f5-20020a1709026845b02900e44d0fc207mr9163967pln.36.1615486144315; Thu, 11
- Mar 2021 10:09:04 -0800 (PST)
-Date: Thu, 11 Mar 2021 10:08:54 -0800
+ (user=wuhaotsh job=sendgmr) by 2002:a25:dc94:: with SMTP id
+ y142mr12733726ybe.346.1615486146095; Thu, 11 Mar 2021 10:09:06 -0800 (PST)
+Date: Thu, 11 Mar 2021 10:08:55 -0800
 In-Reply-To: <20210311180855.149764-1-wuhaotsh@google.com>
-Message-Id: <20210311180855.149764-5-wuhaotsh@google.com>
+Message-Id: <20210311180855.149764-6-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20210311180855.149764-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
-Subject: [PATCH v2 4/5] hw/arm: Connect PWM fans in NPCM7XX boards
+Subject: [PATCH v2 5/5] tests/qtest: Test PWM fan RPM using MFT in PWM test
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
  kfting@nuvoton.com, wuhaotsh@google.com, hskinnemoen@google.com, 
  venture@google.com, dje@google.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3wFxKYAgKCqshfSLZedSRZZRWP.NZXbPXf-OPgPWYZYRYf.ZcR@flex--wuhaotsh.bounces.google.com;
- helo=mail-pg1-x54a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3wlxKYAgKCq0jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,205 +87,319 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds fan_splitters (split IRQs) in NPCM7XX boards. Each fan
-splitter corresponds to 1 PWM output and can connect to multiple fan
-inputs (MFT devices).
-In NPCM7XX boards(NPCM750 EVB and Quanta GSJ boards), we initializes
-these splitters and connect them to their corresponding modules
-according their specific device trees.
+This patch adds testing of PWM fan RPMs in the existing npcm7xx pwm
+test. It tests whether the MFT module can measure correct fan values
+for a PWM fan in NPCM7XX boards.
 
 Reviewed-by: Doug Evans <dje@google.com>
 Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/npcm7xx_boards.c  | 99 ++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/npcm7xx.h | 11 ++++-
- 2 files changed, 109 insertions(+), 1 deletion(-)
+ tests/qtest/npcm7xx_pwm-test.c | 205 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 199 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index fbf6ce8e02..e22fe4bf8f 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -21,6 +21,7 @@
- #include "hw/core/cpu.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/loader.h"
-+#include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu-common.h"
-@@ -116,6 +117,64 @@ static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
-     i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
+diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
+index 3d82654b81..72317f4c81 100644
+--- a/tests/qtest/npcm7xx_pwm-test.c
++++ b/tests/qtest/npcm7xx_pwm-test.c
+@@ -45,6 +45,7 @@
+ #define PLL_FBDV(rv)    extract32((rv), 16, 12)
+ #define PLL_OTDV1(rv)   extract32((rv), 8, 3)
+ #define PLL_OTDV2(rv)   extract32((rv), 13, 3)
++#define APB4CKDIV(rv)   extract32((rv), 30, 2)
+ #define APB3CKDIV(rv)   extract32((rv), 28, 2)
+ #define CLK2CKDIV(rv)   extract32((rv), 0, 1)
+ #define CLK4CKDIV(rv)   extract32((rv), 26, 2)
+@@ -52,6 +53,49 @@
+ 
+ #define MAX_DUTY        1000000
+ 
++/* MFT (PWM fan) related */
++#define MFT_BA(n)       (0xf0180000 + ((n) * 0x1000))
++#define MFT_IRQ(n)      (96 + (n))
++#define MFT_CNT1        0x00
++#define MFT_CRA         0x02
++#define MFT_CRB         0x04
++#define MFT_CNT2        0x06
++#define MFT_PRSC        0x08
++#define MFT_CKC         0x0a
++#define MFT_MCTRL       0x0c
++#define MFT_ICTRL       0x0e
++#define MFT_ICLR        0x10
++#define MFT_IEN         0x12
++#define MFT_CPA         0x14
++#define MFT_CPB         0x16
++#define MFT_CPCFG       0x18
++#define MFT_INASEL      0x1a
++#define MFT_INBSEL      0x1c
++
++#define MFT_MCTRL_ALL   0x64
++#define MFT_ICLR_ALL    0x3f
++#define MFT_IEN_ALL     0x3f
++#define MFT_CPCFG_EQ_MODE 0x44
++
++#define MFT_CKC_C2CSEL  BIT(3)
++#define MFT_CKC_C1CSEL  BIT(0)
++
++#define MFT_ICTRL_TFPND BIT(5)
++#define MFT_ICTRL_TEPND BIT(4)
++#define MFT_ICTRL_TDPND BIT(3)
++#define MFT_ICTRL_TCPND BIT(2)
++#define MFT_ICTRL_TBPND BIT(1)
++#define MFT_ICTRL_TAPND BIT(0)
++
++#define MFT_MAX_CNT     0xffff
++#define MFT_TIMEOUT     0x5000
++
++#define DEFAULT_RPM     19800
++#define DEFAULT_PRSC    255
++#define MFT_PULSE_PER_REVOLUTION 2
++
++#define MAX_ERROR       1
++
+ typedef struct PWMModule {
+     int irq;
+     uint64_t base_addr;
+@@ -210,19 +254,36 @@ static uint64_t pwm_get_duty(QTestState *qts, int module_index, int pwm_index)
+     return pwm_qom_get(qts, path, name);
  }
  
-+static void npcm7xx_init_pwm_splitter(NPCM7xxMachine *machine,
-+                                      NPCM7xxState *soc, const int *fan_counts)
++static void mft_qom_set(QTestState *qts, int index, const char *name,
++                        uint32_t value)
 +{
-+    SplitIRQ *splitters = machine->fan_splitter;
++    QDict *response;
++    char *path = g_strdup_printf("/machine/soc/mft[%d]", index);
 +
-+    /*
-+     * PWM 0~3 belong to module 0 output 0~3.
-+     * PWM 4~7 belong to module 1 output 0~3.
-+     */
-+    for (int i = 0; i < NPCM7XX_NR_PWM_MODULES; ++i) {
-+        for (int j = 0; j < NPCM7XX_PWM_PER_MODULE; ++j) {
-+            int splitter_no = i * NPCM7XX_PWM_PER_MODULE + j;
-+            DeviceState *splitter;
-+
-+            if (fan_counts[splitter_no] < 1) {
-+                continue;
-+            }
-+            object_initialize_child(OBJECT(machine), "fan-splitter[*]",
-+                                    &splitters[splitter_no], TYPE_SPLIT_IRQ);
-+            splitter = DEVICE(&splitters[splitter_no]);
-+            qdev_prop_set_uint16(splitter, "num-lines",
-+                                 fan_counts[splitter_no]);
-+            qdev_realize(splitter, NULL, &error_abort);
-+            qdev_connect_gpio_out_named(DEVICE(&soc->pwm[i]), "duty-gpio-out",
-+                                        j, qdev_get_gpio_in(splitter, 0));
-+        }
-+    }
++    g_test_message("Setting properties %s of mft[%d] with value %u",
++                   name, index, value);
++    response = qtest_qmp(qts, "{ 'execute': 'qom-set',"
++            " 'arguments': { 'path': %s, "
++            " 'property': %s, 'value': %u}}",
++            path, name, value);
++    /* The qom set message returns successfully. */
++    g_assert_true(qdict_haskey(response, "return"));
 +}
 +
-+static void npcm7xx_connect_pwm_fan(NPCM7xxState *soc, SplitIRQ *splitter,
-+                                    int fan_no, int output_no)
+ static uint32_t get_pll(uint32_t con)
+ {
+     return REF_HZ * PLL_FBDV(con) / (PLL_INDV(con) * PLL_OTDV1(con)
+             * PLL_OTDV2(con));
+ }
+ 
+-static uint64_t read_pclk(QTestState *qts)
++static uint64_t read_pclk(QTestState *qts, bool mft)
+ {
+     uint64_t freq = REF_HZ;
+     uint32_t clksel = qtest_readl(qts, CLK_BA + CLKSEL);
+     uint32_t pllcon;
+     uint32_t clkdiv1 = qtest_readl(qts, CLK_BA + CLKDIV1);
+     uint32_t clkdiv2 = qtest_readl(qts, CLK_BA + CLKDIV2);
++    uint32_t apbdiv = mft ? APB4CKDIV(clkdiv2) : APB3CKDIV(clkdiv2);
+ 
+     switch (CPUCKSEL(clksel)) {
+     case 0:
+@@ -241,7 +302,7 @@ static uint64_t read_pclk(QTestState *qts)
+         g_assert_not_reached();
+     }
+ 
+-    freq >>= (CLK2CKDIV(clkdiv1) + CLK4CKDIV(clkdiv1) + APB3CKDIV(clkdiv2));
++    freq >>= (CLK2CKDIV(clkdiv1) + CLK4CKDIV(clkdiv1) + apbdiv);
+ 
+     return freq;
+ }
+@@ -267,7 +328,7 @@ static uint32_t pwm_selector(uint32_t csr)
+ static uint64_t pwm_compute_freq(QTestState *qts, uint32_t ppr, uint32_t csr,
+         uint32_t cnr)
+ {
+-    return read_pclk(qts) / ((ppr + 1) * pwm_selector(csr) * (cnr + 1));
++    return read_pclk(qts, false) / ((ppr + 1) * pwm_selector(csr) * (cnr + 1));
+ }
+ 
+ static uint64_t pwm_compute_duty(uint32_t cnr, uint32_t cmr, bool inverted)
+@@ -301,6 +362,28 @@ static void pwm_write(QTestState *qts, const TestData *td, unsigned offset,
+     qtest_writel(qts, td->module->base_addr + offset, value);
+ }
+ 
++static uint8_t mft_readb(QTestState *qts, int index, unsigned offset)
 +{
-+    DeviceState *fan;
-+    int fan_input;
-+    qemu_irq fan_duty_gpio;
++    return qtest_readb(qts, MFT_BA(index) + offset);
++}
 +
-+    g_assert(fan_no >= 0 && fan_no <= NPCM7XX_MFT_MAX_FAN_INPUT);
-+    /*
-+     * Fan 0~1 belong to module 0 input 0~1.
-+     * Fan 2~3 belong to module 1 input 0~1.
-+     * ...
-+     * Fan 14~15 belong to module 7 input 0~1.
-+     * Fan 16~17 belong to module 0 input 2~3.
-+     * Fan 18~19 belong to module 1 input 2~3.
-+     */
-+    if (fan_no < 16) {
-+        fan = DEVICE(&soc->mft[fan_no / 2]);
-+        fan_input = fan_no % 2;
++static uint16_t mft_readw(QTestState *qts, int index, unsigned offset)
++{
++    return qtest_readw(qts, MFT_BA(index) + offset);
++}
++
++static void mft_writeb(QTestState *qts, int index, unsigned offset,
++                        uint8_t value)
++{
++    qtest_writeb(qts, MFT_BA(index) + offset, value);
++}
++
++static void mft_writew(QTestState *qts, int index, unsigned offset,
++                        uint16_t value)
++{
++    return qtest_writew(qts, MFT_BA(index) + offset, value);
++}
++
+ static uint32_t pwm_read_ppr(QTestState *qts, const TestData *td)
+ {
+     return extract32(pwm_read(qts, td, PPR), ppr_base[pwm_index(td->pwm)], 8);
+@@ -351,11 +434,116 @@ static void pwm_write_cmr(QTestState *qts, const TestData *td, uint32_t value)
+     pwm_write(qts, td, td->pwm->cmr_offset, value);
+ }
+ 
++static int mft_compute_index(const TestData *td)
++{
++    int index = pwm_module_index(td->module) * ARRAY_SIZE(pwm_list) +
++                pwm_index(td->pwm);
++
++    g_assert_cmpint(index, <,
++                    ARRAY_SIZE(pwm_module_list) * ARRAY_SIZE(pwm_list));
++
++    return index;
++}
++
++static void mft_reset_counters(QTestState *qts, int index)
++{
++    mft_writew(qts, index, MFT_CNT1, MFT_MAX_CNT);
++    mft_writew(qts, index, MFT_CNT2, MFT_MAX_CNT);
++    mft_writew(qts, index, MFT_CRA, MFT_MAX_CNT);
++    mft_writew(qts, index, MFT_CRB, MFT_MAX_CNT);
++    mft_writew(qts, index, MFT_CPA, MFT_MAX_CNT - MFT_TIMEOUT);
++    mft_writew(qts, index, MFT_CPB, MFT_MAX_CNT - MFT_TIMEOUT);
++}
++
++static void mft_init(QTestState *qts, const TestData *td)
++{
++    int index = mft_compute_index(td);
++
++    /* Enable everything */
++    mft_writeb(qts, index, MFT_CKC, 0);
++    mft_writeb(qts, index, MFT_ICLR, MFT_ICLR_ALL);
++    mft_writeb(qts, index, MFT_MCTRL, MFT_MCTRL_ALL);
++    mft_writeb(qts, index, MFT_IEN, MFT_IEN_ALL);
++    mft_writeb(qts, index, MFT_INASEL, 0);
++    mft_writeb(qts, index, MFT_INBSEL, 0);
++
++    /* Set cpcfg to use EQ mode, same as kernel driver */
++    mft_writeb(qts, index, MFT_CPCFG, MFT_CPCFG_EQ_MODE);
++
++    /* Write default counters, timeout and prescaler */
++    mft_reset_counters(qts, index);
++    mft_writeb(qts, index, MFT_PRSC, DEFAULT_PRSC);
++
++    /* Write default max rpm via QMP */
++    mft_qom_set(qts, index, "max_rpm[0]", DEFAULT_RPM);
++    mft_qom_set(qts, index, "max_rpm[1]", DEFAULT_RPM);
++}
++
++static int32_t mft_compute_cnt(uint32_t rpm, uint64_t clk)
++{
++    uint64_t cnt;
++
++    if (rpm == 0) {
++        return -1;
++    }
++
++    cnt = clk * 60 / ((DEFAULT_PRSC + 1) * rpm * MFT_PULSE_PER_REVOLUTION);
++    if (cnt >= MFT_TIMEOUT) {
++        return -1;
++    }
++    return MFT_MAX_CNT - cnt;
++}
++
++static void mft_verify_rpm(QTestState *qts, const TestData *td, uint64_t duty)
++{
++    int index = mft_compute_index(td);
++    uint16_t cnt, cr;
++    uint32_t rpm = DEFAULT_RPM * duty / MAX_DUTY;
++    uint64_t clk = read_pclk(qts, true);
++    int32_t expected_cnt = mft_compute_cnt(rpm, clk);
++
++    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
++    g_test_message(
++        "verifying rpm for mft[%d]: clk: %lu, duty: %lu, rpm: %u, cnt: %d",
++        index, clk, duty, rpm, expected_cnt);
++
++    /* Verify rpm for fan A */
++    /* Stop capture */
++    mft_writeb(qts, index, MFT_CKC, 0);
++    mft_writeb(qts, index, MFT_ICLR, MFT_ICLR_ALL);
++    mft_reset_counters(qts, index);
++    g_assert_cmphex(mft_readw(qts, index, MFT_CNT1), ==, MFT_MAX_CNT);
++    g_assert_cmphex(mft_readw(qts, index, MFT_CRA), ==, MFT_MAX_CNT);
++    g_assert_cmphex(mft_readw(qts, index, MFT_CPA), ==,
++                    MFT_MAX_CNT - MFT_TIMEOUT);
++    /* Start capture */
++    mft_writeb(qts, index, MFT_CKC, MFT_CKC_C1CSEL);
++    g_assert_true(qtest_get_irq(qts, MFT_IRQ(index)));
++    if (expected_cnt == -1) {
++        g_assert_cmphex(mft_readb(qts, index, MFT_ICTRL), ==, MFT_ICTRL_TEPND);
 +    } else {
-+        fan = DEVICE(&soc->mft[(fan_no - 16) / 2]);
-+        fan_input = fan_no % 2 + 2;
++        g_assert_cmphex(mft_readb(qts, index, MFT_ICTRL), ==, MFT_ICTRL_TAPND);
++        cnt = mft_readw(qts, index, MFT_CNT1);
++        /*
++         * Due to error in clock measurement and rounding, we might have a small
++         * error in measuring RPM.
++         */
++        g_assert_cmphex(cnt + MAX_ERROR, >=, expected_cnt);
++        g_assert_cmphex(cnt, <=, expected_cnt + MAX_ERROR);
++        cr = mft_readw(qts, index, MFT_CRA);
++        g_assert_cmphex(cnt, ==, cr);
 +    }
 +
-+    /* Connect the Fan to PWM module */
-+    fan_duty_gpio = qdev_get_gpio_in_named(fan, "duty", fan_input);
-+    qdev_connect_gpio_out(DEVICE(splitter), output_no, fan_duty_gpio);
++    /* Verify rpm for fan B */
++
++    qtest_irq_intercept_out(qts, "/machine/soc/a9mpcore/gic");
 +}
 +
- static void npcm750_evb_i2c_init(NPCM7xxState *soc)
+ /* Check pwm registers can be reset to default value */
+ static void test_init(gconstpointer test_data)
  {
-     /* lm75 temperature sensor on SVB, tmp105 is compatible */
-@@ -128,6 +187,30 @@ static void npcm750_evb_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 6), "tmp105", 0x48);
- }
+     const TestData *td = test_data;
+-    QTestState *qts = qtest_init("-machine quanta-gsj");
++    QTestState *qts = qtest_init("-machine npcm750-evb");
+     int module = pwm_module_index(td->module);
+     int pwm = pwm_index(td->pwm);
  
-+static void npcm750_evb_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
-+{
-+    SplitIRQ *splitter = machine->fan_splitter;
-+    static const int fan_counts[] = {2, 2, 2, 2, 2, 2, 2, 2};
-+
-+    npcm7xx_init_pwm_splitter(machine, soc, fan_counts);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[0], 0x00, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[0], 0x01, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[1], 0x02, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[1], 0x03, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[2], 0x04, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[2], 0x05, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[3], 0x06, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[3], 0x07, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[4], 0x08, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[4], 0x09, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[5], 0x0a, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[5], 0x0b, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[6], 0x0c, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[6], 0x0d, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[7], 0x0e, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[7], 0x0f, 1);
-+}
-+
- static void quanta_gsj_i2c_init(NPCM7xxState *soc)
+@@ -369,7 +557,7 @@ static void test_init(gconstpointer test_data)
+ static void test_oneshot(gconstpointer test_data)
  {
-     /* GSJ machine have 4 max31725 temperature sensors, tmp105 is compatible. */
-@@ -142,6 +225,20 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
-     /* TODO: Add additional i2c devices. */
- }
- 
-+static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
-+{
-+    SplitIRQ *splitter = machine->fan_splitter;
-+    static const int fan_counts[] = {2, 2, 2, 0, 0, 0, 0, 0};
-+
-+    npcm7xx_init_pwm_splitter(machine, soc, fan_counts);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[0], 0x00, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[0], 0x01, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[1], 0x02, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[1], 0x03, 1);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[2], 0x04, 0);
-+    npcm7xx_connect_pwm_fan(soc, &splitter[2], 0x05, 1);
-+}
-+
- static void npcm750_evb_init(MachineState *machine)
+     const TestData *td = test_data;
+-    QTestState *qts = qtest_init("-machine quanta-gsj");
++    QTestState *qts = qtest_init("-machine npcm750-evb");
+     int module = pwm_module_index(td->module);
+     int pwm = pwm_index(td->pwm);
+     uint32_t ppr, csr, pcr;
+@@ -400,13 +588,15 @@ static void test_oneshot(gconstpointer test_data)
+ static void test_toggle(gconstpointer test_data)
  {
-     NPCM7xxState *soc;
-@@ -153,6 +250,7 @@ static void npcm750_evb_init(MachineState *machine)
-     npcm7xx_load_bootrom(machine, soc);
-     npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0, 0));
-     npcm750_evb_i2c_init(soc);
-+    npcm750_evb_fan_init(NPCM7XX_MACHINE(machine), soc);
-     npcm7xx_load_kernel(machine, soc);
- }
+     const TestData *td = test_data;
+-    QTestState *qts = qtest_init("-machine quanta-gsj");
++    QTestState *qts = qtest_init("-machine npcm750-evb");
+     int module = pwm_module_index(td->module);
+     int pwm = pwm_index(td->pwm);
+     uint32_t ppr, csr, pcr, cnr, cmr;
+     int i, j, k, l;
+     uint64_t expected_freq, expected_duty;
  
-@@ -168,6 +266,7 @@ static void quanta_gsj_init(MachineState *machine)
-     npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e",
-                           drive_get(IF_MTD, 0, 0));
-     quanta_gsj_i2c_init(soc);
-+    quanta_gsj_fan_init(NPCM7XX_MACHINE(machine), soc);
-     npcm7xx_load_kernel(machine, soc);
- }
- 
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index 3f70554d0f..61ecc57ab9 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -18,6 +18,7 @@
- 
- #include "hw/boards.h"
- #include "hw/adc/npcm7xx_adc.h"
-+#include "hw/core/split-irq.h"
- #include "hw/cpu/a9mpcore.h"
- #include "hw/gpio/npcm7xx_gpio.h"
- #include "hw/i2c/npcm7xx_smbus.h"
-@@ -48,8 +49,16 @@
- #define NPCM7XX_GIC_CPU_IF_ADDR         (0xf03fe100)  /* GIC within A9 */
- #define NPCM7XX_BOARD_SETUP_ADDR        (0xffff1000)  /* Boot ROM */
- 
-+#define NPCM7XX_NR_PWM_MODULES 2
++    mft_init(qts, td);
 +
- typedef struct NPCM7xxMachine {
-     MachineState        parent;
-+    /*
-+     * PWM fan splitter. each splitter connects to one PWM output and
-+     * multiple MFT inputs.
-+     */
-+    SplitIRQ            fan_splitter[NPCM7XX_NR_PWM_MODULES *
-+                                     NPCM7XX_PWM_PER_MODULE];
- } NPCM7xxMachine;
+     pcr = CH_EN | CH_MOD;
+     for (i = 0; i < ARRAY_SIZE(ppr_list); ++i) {
+         ppr = ppr_list[i];
+@@ -440,6 +630,9 @@ static void test_toggle(gconstpointer test_data)
+                                 ==, expected_freq);
+                     }
  
- #define TYPE_NPCM7XX_MACHINE MACHINE_TYPE_NAME("npcm7xx")
-@@ -82,7 +91,7 @@ typedef struct NPCM7xxState {
-     NPCM7xxCLKState     clk;
-     NPCM7xxTimerCtrlState tim[3];
-     NPCM7xxADCState     adc;
--    NPCM7xxPWMState     pwm[2];
-+    NPCM7xxPWMState     pwm[NPCM7XX_NR_PWM_MODULES];
-     NPCM7xxMFTState     mft[8];
-     NPCM7xxOTPState     key_storage;
-     NPCM7xxOTPState     fuse_array;
++                    /* Test MFT's RPM is correct. */
++                    mft_verify_rpm(qts, td, expected_duty);
++
+                     /* Test inverted mode */
+                     expected_duty = pwm_compute_duty(cnr, cmr, true);
+                     pwm_write_pcr(qts, td, pcr | CH_INV);
 -- 
 2.31.0.rc2.261.g7f71774620-goog
 
