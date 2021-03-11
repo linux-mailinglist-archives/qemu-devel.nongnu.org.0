@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3BA337C9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:26:45 +0100 (CET)
-Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EC7337CAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:33:14 +0100 (CET)
+Received: from localhost ([::1]:42364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQ1E-000790-VY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
+	id 1lKQ7U-0002J7-U9
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKPzW-0005qK-0e
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:24:58 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:35397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKPzS-00012E-GH
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:24:57 -0500
-Received: by mail-oi1-x230.google.com with SMTP id u6so16791224oic.2
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 10:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s3vmQb3Efpoif6R05/Yeq9FvioH8dm93x4wDI6v1mCM=;
- b=mOxkZjMyJ7j8dIqeW06Ktz8lkt61t2z+MKOECedIalxPnnnwCKBjtxkj7OWcA+/ClQ
- B3cSChCLn1Y+st7NHbntgUwsVWtEc8JtSaSIWQEet2REQcjMwA7XQzWdy4Gxpb981YP/
- HsrKWmD7z7Gcl1FO8qWtsQuSsfYy31lMlWiWQARMNf9kGR6HYR9b/Ds70CwvjyJoJzdN
- bNI0VwrGh5MTUZ4vva1UMR/mWVYUeo6uKhF1Vqs0NrBysYZrR1ABxoHAtACHn2K1JAEe
- mtvPH3qHwZGcWUm/IHY84o98WnUGDVldk7xvd7bq+TqKULgCPfScGD9oeuYyrcUbVCXP
- RHSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s3vmQb3Efpoif6R05/Yeq9FvioH8dm93x4wDI6v1mCM=;
- b=NvzUYi99XJeJWIvhFcwAGW2j03JV+hmYhoo6JEojpz5u5+C2/kPCWErns01lTFduin
- YKXY4eJ3k7yV7xYebAym88JRKd45B2haN9okQr7JQzs/b9ti1cFCw7L7GHVX6UMfOQ/V
- MU1kJIOUe8H0oAB6A3TSg4bx0yWf73xVLpZntU3A597wDvn9UVTQDdkqdL8vIwJ9zweP
- +f1ZrrU4TYGHaE+VeqSN8ZzGW0MQmfIax30I9Z8tGKKjaxUmIY9iXgZccVtXRaszZfCI
- KVhvwMTnmI2LTudjKN7iwcWxlsMajRcPz5Qsl/pFAf9U6+3dBpqGK4FT508hEajvup7l
- n7YA==
-X-Gm-Message-State: AOAM530n12XdEz4DqyJivgNZ2sTe59/set9estUTWA8S78DqMhIpS6sR
- UbEessxhXrDH9nE70g4dkRmArg==
-X-Google-Smtp-Source: ABdhPJyd7d+ZbJgupYy7aOVfBEtrj3yTKTc8ZGQYsQrKr9UR9wnzrNiIcUwifco4fig3s3eULzXVbg==
-X-Received: by 2002:a05:6808:2d0:: with SMTP id
- a16mr7188991oid.83.1615487093278; 
- Thu, 11 Mar 2021 10:24:53 -0800 (PST)
-Received: from [192.168.3.43] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id y194sm686234ooa.19.2021.03.11.10.24.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 10:24:52 -0800 (PST)
-Subject: Re: [PATCH v5 1/2] target/s390x: Implement the MVPG
- condition-code-option bit
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210311161747.129834-1-david@redhat.com>
- <20210311161747.129834-2-david@redhat.com>
- <39285cf8-2214-2257-679d-231e0c6a0652@linaro.org>
- <5b929a10-4561-d596-b43b-33ca4022ea54@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <94081af4-2d90-4e6d-10f3-63c58a9b326d@linaro.org>
-Date: Thu, 11 Mar 2021 12:24:50 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKQ3e-0000nC-T9
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:29:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKQ3a-0003un-2g
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:29:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615487348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Krq+JyQNtwrTnECSYNvI/8vGLITw7wKdKrxzYHJUZMs=;
+ b=QSWMSR72okaeC3PAYTA9GiEihNgSVhM5lLEmM3Ml87VoVRWlbZY3JgTGtCxmKSGzfoX6lS
+ 3DDLGcrUbmcXkSQ4wNcVbZaA9hVCVR/T/8Ose2bnopgt3yiEqwtKsuFQdBh+c1dH7zGXse
+ L/aJGl2Ji8lXNflmBmUNkE4LQq49sZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-Pi_Z-hGuPLOsjcSm1ZE8UQ-1; Thu, 11 Mar 2021 13:29:04 -0500
+X-MC-Unique: Pi_Z-hGuPLOsjcSm1ZE8UQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BAF51923761;
+ Thu, 11 Mar 2021 18:29:03 +0000 (UTC)
+Received: from work-vm (ovpn-115-29.ams2.redhat.com [10.36.115.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A63295C1C5;
+ Thu, 11 Mar 2021 18:29:00 +0000 (UTC)
+Date: Thu, 11 Mar 2021 18:28:57 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] migration: Remove time_t cast for OpenBSD
+Message-ID: <YEphaTV6uzhDEY7R@work-vm>
+References: <YDNdAiOkEYOfmbhT@humpty.home.comstyle.com>
+ <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
+ <26c9c34a-3872-c044-4b01-06d2eb4bfbb1@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <5b929a10-4561-d596-b43b-33ca4022ea54@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <26c9c34a-3872-c044-4b01-06d2eb4bfbb1@vivier.eu>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,53 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 12:16 PM, David Hildenbrand wrote:
-> On 11.03.21 18:52, Richard Henderson wrote:
->> On 3/11/21 10:17 AM, David Hildenbrand wrote:
->>> +#if !defined(CONFIG_USER_ONLY)
->>> +Â Â Â  /*
->>> +Â Â Â Â  * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or 
->>> haddr==NULL
->>> +Â Â Â Â  * to detect if there was an exception during tlb_fill().
->>> +Â Â Â Â  */
->>> +Â Â Â  env->tlb_fill_exc = 0;
->>> +#endif
->>> +Â Â Â  flags = probe_access_flags(env, vaddr1, access_type, mmu_idx,
->>> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  nofault, &haddr1, ra);
->>> +#if !defined(CONFIG_USER_ONLY)
->>> +Â Â Â  if (env->tlb_fill_exc) {
->>> +Â Â Â Â Â Â Â  return env->tlb_fill_exc;
->>> +Â Â Â  }
->>> +#else
->>> +Â Â Â  if (!haddr1) {
->>> +Â Â Â Â Â Â Â  env->__excp_addr = vaddr1;
->>> +Â Â Â Â Â Â Â  return PGM_ADDRESSING;
->>> +Â Â Â  }
->>> +#endif
->>
->> The assumption of PGM_ADDRESSING is incorrect here -- it could still be
->> PGM_PROTECTION, depending on how the page is mapped.
->>
+* Laurent Vivier (laurent@vivier.eu) wrote:
+> Le 08/03/2021 à 12:46, Thomas Huth a écrit :
+> > On 22/02/2021 08.28, Brad Smith wrote:
+> >> OpenBSD has supported 64-bit time_t across all archs since 5.5 released in 2014.
+> >>
+> >> Remove a time_t cast that is no longer necessary.
+> >>
+> >>
+> >> Signed-off-by: Brad Smith <brad@comstyle.com>
+> >>
+> >> diff --git a/migration/savevm.c b/migration/savevm.c
+> >> index 52e2d72e4b..9557f85ba9 100644
+> >> --- a/migration/savevm.c
+> >> +++ b/migration/savevm.c
+> >> @@ -2849,8 +2849,7 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
+> >>       if (name) {
+> >>           pstrcpy(sn->name, sizeof(sn->name), name);
+> >>       } else {
+> >> -        /* cast below needed for OpenBSD where tv_sec is still 'long' */
+> >> -        localtime_r((const time_t *)&tv.tv_sec, &tm);
+> >> +        localtime_r(&tv.tv_sec, &tm);
+> >>           strftime(sn->name, sizeof(sn->name), "vm-%Y%m%d%H%M%S", &tm);
+> >>       }
+> > 
 > 
-> Interesting, I was only looking at the s390x tlb_fill() implementation. But I 
-> assume these checks are performed in common code.
+> but the qemu_timeval from "include/sysemu/os-win32.h" still uses a long: is this file compiled for
+> win32?
 
-Actually, no.  It's a common bug in our linux-user targets, where we don't fill 
-in the SIGSEGV si_code correctly.
+Yep this fails for me when built with x86_64-w64-mingw32- (it's fine
+with i686-w64-mingw32- )
 
-See e.g. 8db94ab4e5d.
+Dave
 
-> Thanks, maybe I can factor that out in a nice way. I guess we could do the 
-> access via probe_access_flags() and only on error do the page_get_flags()?
+> Thanks,
+> Laurent
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Yes, we could do that.  It's certainly better for !nofault, which is the 
-common-case user of this function.
-
-
-r~
 
