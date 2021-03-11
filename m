@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4258C338033
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:21:11 +0100 (CET)
-Received: from localhost ([::1]:56094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB18338035
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:23:48 +0100 (CET)
+Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTg6-0005iV-8U
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:21:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
+	id 1lKTid-0008PJ-FD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdg-0004IO-B2
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:40 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:59441)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdh-0004JM-Cw
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:41 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:55263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00049f-Jn
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:40 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00049h-Tm
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:41 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MidPj-1lyjnU1SsR-00fh3e; Thu, 11 Mar 2021 23:18:31 +0100
+ id 1MKMIR-1l1Zbk3Bwl-00Lqta; Thu, 11 Mar 2021 23:18:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] target/m68k: implement rtr instruction
-Date: Thu, 11 Mar 2021 23:18:24 +0100
-Message-Id: <20210311221827.2595898-2-laurent@vivier.eu>
+Subject: [PULL 2/4] target/m68k: don't set SSW ATC bit for physical bus errors
+Date: Thu, 11 Mar 2021 23:18:25 +0100
+Message-Id: <20210311221827.2595898-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311221827.2595898-1-laurent@vivier.eu>
 References: <20210311221827.2595898-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ftA5stcrvlAqhsHWa+A3/poNsjhxo42xmGxWM2QJ+EXFC1V9wO3
- ZJYbGJF86Wek8dPa3l+EJY66ZbXDlmcUKAZ3uDYfpIiIW1OEzKWLL5+I5x4NVxnIgF25srW
- djVPipRAubtxTkHVbo+jCfLoPIjvXrlxkmrlfHqnNMrbMBLOOaS3VwCPi137Ot5n9bUZsb5
- eu8foNfr74DY+rHF17eJA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:05nLqMf9n3s=:kPMQ+wTapfgqCmYBh2pSyM
- ctJz48JF/iAQdL8IzDfya6JhRQigO/b1njB5g3Ee9567xG+siOiQCvpi4xyyvdYUyZ05sRNSk
- DxZE8KnPsmV3GpTOgS6viJ7rd6gZyR02E0uB0TJjSb05boapOHeCyfVfcFMUvZ3qiO0szdyMv
- imaH742dAGB9V+QUbANNBLkJF99WLGaJp6aShSOYViI2atzyvV+Ti+8e2zKmxYH0MoaDGArc5
- gY0rTBionHRtazXqkCUEMKg0x+7TOO39yAoiVDtcULncFtzEc8uPIw3w8695MtXXQjWkd5rcc
- oq91SsAdv/VJPtiPrFtZLp8dvpHSJPIHKvukExGqjsh5qCfNlcfMrMXtDPlR8c7U8BLFGMAlg
- PM3AQwzGW526Q55pUuKRIhONYJYMhyFzGe+PSXh/Lp97htiLRM+HUC7YXMqtJH4/px4nRvCfO
- 03w7/Ox9zw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:aziqEioKNGz8LrR5YjW7FPKJaB65L1LkFeuDWZlEiJ+UFC40APB
+ QE/I3qjaTCwId0jqi45vEGeD6to+dYV3lgJr5jyTJRI4ay9daFgVLIBCgjO4CfSiR3C94Ix
+ BH3qMv8uFHwdZ7MkGfD8DFDdJaW0OsMEAjszt2b6xpPSJgqAfxwclGaeo1/cr7lN+8UToD6
+ q7WCY0QP7wwUtxxA5AFPA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+pfpjRs9zEA=:eVn7Z4cScjlgMNyEwmLXfb
+ n6SirhHWSoVptHi5WxNiq5Y1xutT64gm8rfluGRFDsyMkN1/TAFAnZDsQu93NVG8zY++9i6R4
+ KXu/TdQetqEgbfyIF1RP/HS0GXS7AaxGJz35DrTTDGEaY6dKGday1GKPhMExs92nHzMm1lBuE
+ n2TvJVRkqTjeW3vK2IRBc/GUUifwX1JjGbW7HN3+v2/VQSyJFm4KbmRjeD1z0jt0SBD0VxFq8
+ b3Rod1hO9Vux/kvufegOyXVoCKXWEPxfyBFGJfxgv2OWGLPIYSsbzUvhY0alcs2qCAyWHjB21
+ WWk/Xg9QUNmO8LE/GmGNi4GZWdq44z0+3erYtDCkE8jp+WaPevLz0ZPjMiJZy/WS0Xa9NZjpE
+ UkqbqEbNyCgJ70aEeKdRQ/b8h6ziSjzpNz6MDVV5Zfn39HTDHG3bAdaSJRcZjvtOcnj0fHM7f
+ y2awSK2ZGg==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,72 +62,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed to boot MacOS ROM.
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Pull the condition code and the program counter from the stack.
+If a NuBus slot doesn't contain a card, the Quadra hardware generates a physical
+bus error if the CPU attempts to access the slot address space. Both Linux and
+MacOS use a separate bus error handler during NuBus accesses in order to detect
+and recover when addressing empty slots.
 
-Operation:
+According to the MC68040 users manual the ATC bit of the SSW is used to
+distinguish between ATC faults and physical bus errors. MacOS specifically checks
+the stack frame generated by a NuBus error and panics if the SSW ATC bit is set.
 
-    (SP) -> CCR
-    SP + 2 -> SP
-    (SP) -> PC
-    SP + 4 -> SP
+Update m68k_cpu_transaction_failed() so that the SSW ATC bit is not set if the
+memory API returns MEMTX_DECODE_ERROR which will be used to indicate that an
+access to an empty NuBus slot occurred.
 
-This operation is not privileged.
-
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210308121155.2476-2-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210307212552.523552-1-laurent@vivier.eu>
 ---
- target/m68k/translate.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ target/m68k/op_helper.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index ac936ebe8f14..200018ae6a63 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -2969,6 +2969,25 @@ DISAS_INSN(rtd)
-     gen_jmp(s, tmp);
- }
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 730cdf774445..5f981e5bf628 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -468,7 +468,17 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
  
-+DISAS_INSN(rtr)
-+{
-+    TCGv tmp;
-+    TCGv ccr;
-+    TCGv sp;
+     if (m68k_feature(env, M68K_FEATURE_M68040)) {
+         env->mmu.mmusr = 0;
+-        env->mmu.ssw |= M68K_ATC_040;
 +
-+    sp = tcg_temp_new();
-+    ccr = gen_load(s, OS_WORD, QREG_SP, 0, IS_USER(s));
-+    tcg_gen_addi_i32(sp, QREG_SP, 2);
-+    tmp = gen_load(s, OS_LONG, sp, 0, IS_USER(s));
-+    tcg_gen_addi_i32(QREG_SP, sp, 4);
-+    tcg_temp_free(sp);
++        /*
++         * According to the MC68040 users manual the ATC bit of the SSW is
++         * used to distinguish between ATC faults and physical bus errors.
++         * In the case of a bus error e.g. during nubus read from an empty
++         * slot this bit should not be set
++         */
++        if (response != MEMTX_DECODE_ERROR) {
++            env->mmu.ssw |= M68K_ATC_040;
++        }
 +
-+    gen_set_sr(s, ccr, true);
-+    tcg_temp_free(ccr);
-+
-+    gen_jmp(s, tmp);
-+}
-+
- DISAS_INSN(rts)
- {
-     TCGv tmp;
-@@ -6015,6 +6034,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
-     BASE(rts,       4e75, ffff);
-+    INSN(rtr,       4e77, ffff, M68000);
-     BASE(jump,      4e80, ffc0);
-     BASE(jump,      4ec0, ffc0);
-     INSN(addsubq,   5000, f080, M68000);
+         /* FIXME: manage MMU table access error */
+         env->mmu.ssw &= ~M68K_TM_040;
+         if (env->sr & SR_S) { /* SUPERVISOR */
 -- 
 2.29.2
 
