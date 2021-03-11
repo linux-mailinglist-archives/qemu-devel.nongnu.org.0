@@ -2,74 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8F9336B4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 06:02:32 +0100 (CET)
-Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20DF336BB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 06:38:44 +0100 (CET)
+Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKDSx-0001v9-BS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 00:02:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1lKE1z-0007aa-AW
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 00:38:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKDQv-0001HN-N0
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:00:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKDQs-0006ex-GA
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:00:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615438819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yyAQG965YfXeIPXXU5WKQ1pReiP0bD2CW3xXzJYDX/c=;
- b=JgH9ifwJ1a6rWzcfVE1F7RmFhE0WfZTxKlDKWpA3ht0iydDgfV4wja30lmJdjyCtA/jRFI
- dhjLd9a5B/57J5JCta4obtUhie1xMymHWuA1FVPLAihIL92mHYYlERzSMXxSBmxbu9CEXO
- q20tXEGT9AJT939xw6EIh18RRqSv7/U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-_BnRVblCNPSdx22m_sI5VA-1; Thu, 11 Mar 2021 00:00:16 -0500
-X-MC-Unique: _BnRVblCNPSdx22m_sI5VA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E911005D4F;
- Thu, 11 Mar 2021 05:00:15 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 246A41B49D;
- Thu, 11 Mar 2021 05:00:11 +0000 (UTC)
-Subject: Re: [PATCH v3 4/4] blockdev: Drop deprecated bogus -drive interface
- type
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210309161214.1402527-1-armbru@redhat.com>
- <20210309161214.1402527-5-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <11ec870c-9b72-8b87-bfb9-b296d6762ccc@redhat.com>
-Date: Thu, 11 Mar 2021 00:00:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lKDzt-0006Sh-RH
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:36:33 -0500
+Received: from mail-co1nam11on2133.outbound.protection.outlook.com
+ ([40.107.220.133]:22657 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lKDzs-0003ph-0W
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 00:36:33 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bEFDteSjZgZXC7bfmmUFJ7QvbBxPm8XtLyIfjUzY1ODqixObY9ckCUK6qCFKrgnK9Gma5gK89kjldzqVmofEfIKVlhp2uBrIKIYopfmU6TPGRWanaYnaGGzEqfen5W4diahiDQtLRhgxGhy/DZ2pZNdWiI4zXKk6R9oq3/0y45c5EZLEk6BJ0NJ12BuOcMO0/PbS+xkBtH61GOX6jq/Q3QYbiau6XIyVq6sOc0uTydZxxyOSR7flEuHRSDn26tw5ozZwcxGqmX2fmdOnC4bZfvkm3lcz+9ie9WBg45JNlWwyTc3mBCEgagEORMEh5hYt3Tienx41Nqtqmj+LJlW0eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FfcoPE65MdzG5Eh5m+X6j5RuI9Lm0SYfbS/XNgdHQOQ=;
+ b=gg6gWf/yrPyTMTzqjuYyf2SuwXOktfN2pi3Bx18zyG5lWwDP3VtXicLOSjN5kfjBQcu4dlArmCvA/3cTCWdwUleKrbYiBPtJ5LdiiUYofISvRh+clvE06Ic6wxxWLo/qeyez1pG2/BKIVm6FQDhwruJTsuBKkr9A4NQoAVpVLPnJetY3a1hYUNf0rPeNCI4H1dJ7cV8o+lBbUeEGQeKVAYkK1qUISk7ANRQALp3tdYTs0aYGDxTVtsKWDuRT5d+3MAJmN8syf41IbrXDwOl4BY/DzE5QByxb43AWRDrtpknVkNR987wUThctNyVIt2cdlkYaONgHA8UC+l1SZR1eaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FfcoPE65MdzG5Eh5m+X6j5RuI9Lm0SYfbS/XNgdHQOQ=;
+ b=C2sYdieXwaLmb16lP2EpFGSopyLMKUEzd9hBV5t3IbM9uyUCAVPnMQ1mCV8n+9kH1E0KYIbS2h7CeVOK+IGvtcPjN/XoJYK5Nbuxiq+bKb0twP6/pbjqqZzz2CnJWRXNDTZNYRSKDTqT8DZ9+kJwIVm93Tsl3PqYiRI1VDfXbKc=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3869.namprd03.prod.outlook.com (2603:10b6:805:68::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.19; Thu, 11 Mar
+ 2021 05:36:27 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6%6]) with mapi id 15.20.3912.030; Thu, 11 Mar 2021
+ 05:36:27 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] fuzz: Add a sparse-memory device to accelerate fuzzing
+Date: Thu, 11 Mar 2021 00:36:11 -0500
+Message-Id: <20210311053614.940352-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [72.74.210.193]
+X-ClientProxiedBy: MN2PR14CA0021.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::26) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-In-Reply-To: <20210309161214.1402527-5-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ MN2PR14CA0021.namprd14.prod.outlook.com (2603:10b6:208:23e::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Thu, 11 Mar 2021 05:36:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3715a60d-ddb0-4695-a91f-08d8e44f9d6f
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3869:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB38694BB3DFDF53C624150519BA909@SN6PR03MB3869.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZFD9B3kmWrpiVOKDCfzQhXscYoYddD9voGlh/1EGh1LfDvJ3fTA5gbQ7E4tTbiTHpbAwARqYRoG6hzhFL8RYF4KnlWC5KxGx7Yf22IHuzPn2tSkoUjM3+uw0SlIGoKVDA4hq+QL/wf15+D9qMluZ90jyh1doKh0viZjQVUqIlGras+oT5DSpw+iGGK9rgm29/PGDBK49Sdu3FSfgRc1LUqdIEnia1f+55sXB15oNQDP5rCGBh2q6ZyYRlqnKKyBEl/7gJh4HlNKeXObKHxS9ec4kNGdUPZz1RC+7jiQk5CL72MA0P36UsPe3VQF24OUXKaU/5MrqW1NMNhwwO7do7ialmFmnrTZFxHVXwS6P5gYypJyQneI6+WOL9Pxu97t0ZnienTtjxuxMsmbuEMrsmTT8Dpg4bl1Mo39L5zVLzMHuZK5iu2o8BMqU+BUsZ9T/8sB7lbSR141U8p5aTmsyPzXIY8FHi5ywk4dPOqo/6JZBb8rBHHSPPgzOl71r9WhVyoGg/r+2wWhDOBykhVpX6g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(396003)(136003)(366004)(376002)(2906002)(786003)(6916009)(6512007)(83380400001)(36756003)(26005)(86362001)(6486002)(186003)(16526019)(1076003)(66946007)(66556008)(4326008)(66476007)(52116002)(6666004)(5660300002)(8936002)(75432002)(6506007)(8676002)(478600001)(316002)(956004)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Bna8TbX+p+wq2qy3y2BKNb1QVRQnOAgcE0ZBksMZPXVgvwbf8CbXfZi8d7YT?=
+ =?us-ascii?Q?KyniqaIXk9zL8w508cGgYmXpxUP88sPv/EBHsx5BHIMC34oGYl6YQf3ZuwpO?=
+ =?us-ascii?Q?/11FGQXHgaIloLKr08l1FmGRrWlV82EW/mZcGXsYPr8oonpQ4K655B5QCEcu?=
+ =?us-ascii?Q?blFeM55i5j/1UDTweXzujgCRByClDL8xhO6t1rZKcmWGqtO7YF2nWez1vHek?=
+ =?us-ascii?Q?zjjUiHaAZd0IK4dDB2qnY/tSMEAqRlfp1aIx4EzGpVhKux8ZIVEreJo0eJsc?=
+ =?us-ascii?Q?gJZapGdtZZp0FM8XhFYMFKJ3Kn+nYTRG0Y25aR/5kS7V7v2GJAkFPQq/7CrK?=
+ =?us-ascii?Q?iQjNOXSAneHJ4q/V1ACKqAMihw/eNjRs0t9Gptr/QrpfsucUsQADHlnNVIje?=
+ =?us-ascii?Q?s6IFTI10lOi6ly1IrBqN/WkuYHwy1+YPHaKxZRXUaAz1vEt+pzuLXZzI0iUM?=
+ =?us-ascii?Q?8XvVytAzYBMsAu0bmb3B9zrbRsniv3iMLpsySiYWp3jFbrR4cX/NppSkrKJ2?=
+ =?us-ascii?Q?YLETaWd7acXGQMvYzYkis/dBLtc9kAMF7A/3eFtJla+xmOXWiMsv6mC9BvWM?=
+ =?us-ascii?Q?LtboqdevVwnszVrqXts2AoJkgBZtCb5rHkw4808xTCC/YOvi5ulj9EoLL1ln?=
+ =?us-ascii?Q?ccGJupIq8hlHihzYaxSNri4zeQd1D3vP8BQdL4dA/kcetEN/tXQMkwqIGtTA?=
+ =?us-ascii?Q?nxGmkI+zLuysmotPZ1agHT/sSgGVF0NNujY0vDm084xEvGH9f3K1vttMIVFa?=
+ =?us-ascii?Q?xQ5C/RyLiGsnTe7AkhWjAV+TBo0MCGGmHrxQEZnGyvfI7OoE5101Iq7WBX3u?=
+ =?us-ascii?Q?SQjRSc5NthOB7iP8jRyWkFe71qOOE5zAPJMdP+eK06BJW3ThToO9kxrs3wfL?=
+ =?us-ascii?Q?Q8mGaYOeVZJDQgHMT77+WBbwLipUiSmysh04sKBS3v4x9lSytXjr/QaFqyTg?=
+ =?us-ascii?Q?Il2KVoFeBoZ9Ckc1HyIhjdP0HCXfn+OBsNv6T5AYtIhH5cG46SG3DiERN8Tu?=
+ =?us-ascii?Q?seyiKE5VX6iUwtqy+H78zHUceOtDa6x9H8agsyc2746HXnQpo4fT0t2OTOYj?=
+ =?us-ascii?Q?Ho+hWZHRH2Devcudz4ijYYvVVDQOTYV7TCWsrXHigrSo5kDSXoeTsA080ypy?=
+ =?us-ascii?Q?HjwWrhteoUjR55uhfinafa/pFyMLr/knBWkI80sZeZndu14YDIvZmJ/xoEyd?=
+ =?us-ascii?Q?lrP9zqohdMtVADm2nT0McpnqHFbMh4QHlFhwYo0kjCGzKvTYIu2s3sdeKiUB?=
+ =?us-ascii?Q?/KxkUZLExG23nD0bYcbi5d6ASXzEhvsangkYj2+ycYfscST5XrGUay4QNC8V?=
+ =?us-ascii?Q?yD2Mx/TZOc51zM7GMMFRSLop?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3715a60d-ddb0-4695-a91f-08d8e44f9d6f
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2021 05:36:26.9571 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MC3K96uLXfpDUWXa1WLxsNX6q4PyFIzs5JITpYFLcZ8MI0Bg8KtmOjJeFkwkPxH3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3869
+Received-SPF: pass client-ip=40.107.220.133; envelope-from=alxndr@bu.edu;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,169 +131,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, libvir-list@redhat.com, berrange@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, lidong.chen@oracle.com,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 11:12 AM, Markus Armbruster wrote:
-> Drop the crap deprecated in commit a1b40bda08 "blockdev: Deprecate
-> -drive with bogus interface type" (v5.1.0).
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   docs/system/deprecated.rst       |  7 ------
->   docs/system/removed-features.rst |  7 ++++++
->   include/sysemu/blockdev.h        |  1 -
->   blockdev.c                       | 37 +++++++++++++-------------------
->   softmmu/vl.c                     |  8 +------
->   5 files changed, 23 insertions(+), 37 deletions(-)
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 601e9647a5..664ed60e9f 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -94,13 +94,6 @@ QEMU 5.1 has three options:
->         to the user to load all the images they need.
->    3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
->   
-> -``-drive`` with bogus interface type (since 5.1)
-> -''''''''''''''''''''''''''''''''''''''''''''''''
-> -
-> -Drives with interface types other than ``if=none`` are for onboard
-> -devices.  It is possible to use drives the board doesn't pick up with
-> --device.  This usage is now deprecated.  Use ``if=none`` instead.
-> -
->   Short-form boolean options (since 6.0)
->   ''''''''''''''''''''''''''''''''''''''
->   
-> diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-> index 77e7ba1339..e6d2fbe798 100644
-> --- a/docs/system/removed-features.rst
-> +++ b/docs/system/removed-features.rst
-> @@ -87,6 +87,13 @@ becomes
->       -device isa-fdc,...
->       -device floppy,unit=1,drive=...
->   
-> +``-drive`` with bogus interface type (removed in 6.0)
-> +'''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Drives with interface types other than ``if=none`` are for onboard
-> +devices.  Drives the board doesn't pick up can no longer be used with
-> +-device.  Use ``if=none`` instead.
-> +
->   QEMU Machine Protocol (QMP) commands
->   ------------------------------------
->   
-> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-> index 3b5fcda08d..32c2d6023c 100644
-> --- a/include/sysemu/blockdev.h
-> +++ b/include/sysemu/blockdev.h
-> @@ -35,7 +35,6 @@ struct DriveInfo {
->       bool is_default;            /* Added by default_drive() ?  */
->       int media_cd;
->       QemuOpts *opts;
-> -    bool claimed_by_board;
->       QTAILQ_ENTRY(DriveInfo) next;
->   };
->   
-> diff --git a/blockdev.c b/blockdev.c
-> index cd438e60e3..2e01889cff 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -240,19 +240,10 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
->       return NULL;
->   }
->   
-> -void drive_mark_claimed_by_board(void)
-> -{
-> -    BlockBackend *blk;
-> -    DriveInfo *dinfo;
-> -
-> -    for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
-> -        dinfo = blk_legacy_dinfo(blk);
-> -        if (dinfo && blk_get_attached_dev(blk)) {
-> -            dinfo->claimed_by_board = true;
-> -        }
-> -    }
-> -}
-> -
-> +/*
-> + * Check board claimed all -drive that are meant to be claimed.
-> + * Fatal error if any remain unclaimed.
-> + */
->   void drive_check_orphaned(void)
->   {
->       BlockBackend *blk;
-> @@ -262,7 +253,17 @@ void drive_check_orphaned(void)
->   
->       for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
->           dinfo = blk_legacy_dinfo(blk);
-> -        if (dinfo->is_default || dinfo->type == IF_NONE) {
-> +        /*
-> +         * Ignore default drives, because we create certain default
-> +         * drives unconditionally, then leave them unclaimed.  Not the
-> +         * users fault.
+Hello,
 
-"user's" ?
+The generic-fuzzer often provides virtual-devices with bogus DMA
+addresses (e.g. 0x4141414141414141). The probability that these fuzzed
+addresses actually land within RAM is quite small. The fuzzer eventually
+finds valid addresses, however, this takes some time, and this problem is
+compounded when the device accesses multiple DMA regions. This series
+adds a "sparse" memory device, and configures it for the generic-fuzzer.
+This allows us to simulate 16 EB ram (only a tiny portion actually
+populated). Thus, almost any randomly generated 64-bit address will land
+in memory that the fuzzer can populate with data.
 
-> +         * Ignore IF_VIRTIO, because it gets desugared into -device,
-> +         * so we can leave failing to -device.
-> +         * Ignore IF_NONE, because leaving unclaimed IF_NONE remains
-> +         * available for device_add is a feature.
+Patch 1 adds the sparse-mem device
+Patch 2 adds tests for the device
+Patch 3 configures the generic-fuzzer to use the sparse-mem device
 
-Do you mean "as a feature" ?
+-Alex
 
-> +         */
-> +        if (dinfo->is_default || dinfo->type == IF_VIRTIO
-> +            || dinfo->type == IF_NONE) {
->               continue;
->           }
->           if (!blk_get_attached_dev(blk)) {
-> @@ -273,14 +274,6 @@ void drive_check_orphaned(void)
->                            if_name[dinfo->type], dinfo->bus, dinfo->unit);
->               loc_pop(&loc);
->               orphans = true;
-> -            continue;
-> -        }
-> -        if (!dinfo->claimed_by_board && dinfo->type != IF_VIRTIO) {
-> -            loc_push_none(&loc);
-> -            qemu_opts_loc_restore(dinfo->opts);
-> -            warn_report("bogus if=%s is deprecated, use if=none",
-> -                        if_name[dinfo->type]);
-> -            loc_pop(&loc);
->           }
->       }
->   
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ff488ea3e7..7453611152 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2460,13 +2460,7 @@ static void qemu_init_board(void)
->       /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
->       machine_run_board_init(current_machine);
->   
-> -    /*
-> -     * TODO To drop support for deprecated bogus if=..., move
-> -     * drive_check_orphaned() here, replacing this call.  Also drop
-> -     * its deprecation warning, along with DriveInfo member
-> -     * @claimed_by_board.
-> -     */
-> -    drive_mark_claimed_by_board();
-> +    drive_check_orphaned();
->   
->       realtime_init();
->   
-> 
+Alexander Bulekov (3):
+  memory: add a sparse memory device
+  memory: add tests for the sparse-mem device
+  fuzz: configure a sparse-mem device, by default
 
-Rest looks okay as far as I am concerned, pending your response to Dan's 
-remark.
+ MAINTAINERS                     |   2 +
+ hw/mem/meson.build              |   1 +
+ hw/mem/sparse-mem.c             | 154 ++++++++++++++++++++++++++++++++
+ tests/qtest/fuzz/generic_fuzz.c |   2 +-
+ tests/qtest/meson.build         |   3 +-
+ tests/qtest/sparse-mem-test.c   |  88 ++++++++++++++++++
+ 6 files changed, 248 insertions(+), 2 deletions(-)
+ create mode 100644 hw/mem/sparse-mem.c
+ create mode 100644 tests/qtest/sparse-mem-test.c
 
-(Sorry for being AWOL here. Thank you for taking the time to clean it up 
-as you have; it feels like closing a book on some of the first reviews I 
-ever got @ RH when I put the first orphan check in aeons ago! I think 
-only the whitespace is left by now, haha.)
-
---js
+-- 
+2.28.0
 
 
