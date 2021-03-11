@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D79C337F88
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:19:05 +0100 (CET)
-Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA12337F6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:13:53 +0100 (CET)
+Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKSi0-0008TG-FD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45596)
+	id 1lKScy-0002e0-FY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:13:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZ3-0006jK-SY
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:49 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:47737)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZ9-0006rn-Rq
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:55 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:41619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZ1-00050r-P9
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:49 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZ6-00053s-92
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:55 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M2fDl-1lJ5Nx0tg7-004CKd; Thu, 11 Mar 2021 22:09:42 +0100
+ id 1MqrsF-1m72rX3QUT-00mwPx; Thu, 11 Mar 2021 22:09:43 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] m68k: add an interrupt controller
-Date: Thu, 11 Mar 2021 22:09:32 +0100
-Message-Id: <20210311210934.1935587-8-laurent@vivier.eu>
+Subject: [PULL 8/9] m68k: add a system controller
+Date: Thu, 11 Mar 2021 22:09:33 +0100
+Message-Id: <20210311210934.1935587-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311210934.1935587-1-laurent@vivier.eu>
 References: <20210311210934.1935587-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aPHYcmrBYA31GDNzZdUglHIBWk5YQ8MhpGtT0EXSlTHE9D+NNi0
- aPmWvsoxNZOKs3gSUXEObxv7Mm1a2BqOk1yT3mugC3+eaLgKaiL7bRMpw9aVaz5yivWNSyo
- 5ifOjS6qIeqtjwAJs8WhjFdXS3tOhjSC7Ga26u1edcDQ6ixv/Ccrh28UR2xNm/7Bk47wel/
- 5Ep9o9NDwRgXSzuT7hDMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iGjctBiLpwE=:/BsT9v+McJR1pj+zUIfGym
- GqIPz87qxAi+v9xo4mJ6MzUOPtEj4V97Y/F0FqcGobCgMjySvfbKmz2cD1/Dr9ajHNn3vVaYm
- JBeMMWoz5g1rsH9FZ9vV3QgUjJlTY8N08rm0HnwU/gR8sQtaOzAwt5yEB+RUaqGUpyHKHwH4N
- zPjxW98ehXKTLr9IVYQDBRe75dax/tRQcKeMfYNAICwV7SIw2sxqQBG9DwbkJNAyEa2cC4Iyv
- 41BxEr7zSCbyx07BdLrDgCcS0pbtt/Mww60WVacc5VOtiBBdDnVtlKxLnMPBkJe0qXPdOzX8G
- I1K2lJQyAOx0Hp6OYJy6jIXVDWVnzSzk1kEx+Ehr5zq6sZlL6h3z92wBfbpUMpAk1V0bj63WE
- ABaxpbSd2qILBUOs9p3223zbFZ7cpWWmkwvNWFY3K6XvfYxTvfYWasILok88/850OdNLtU5WN
- MPubvBCM0A==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:QSIRdpNJ6FO19xn6LfAizCbwrBdV+N3TBINhEf0qNSpX8SV/v5C
+ lDZWjEdSI/WJM5I/9+SuzZvYcC3WSEGMT8uxD7ehiQhe4KKl3rUqA8910fZltuJQpHxjKcL
+ IL9csZutWz4XSbpp3mYmAPS1EXgc74uJK+IGA+qGeoK03TySCY9rYE14+PRpSXyWA4cVcmD
+ EprOKe5KgtfQ49cbgb/nQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lMLNVK7C9GQ=:CGSK0ruNeTs4YbM96bZZf5
+ sKv92FpSiDpMwv0zkYbAL92+o/NT5N8rEgz1R00tTPuP+ERwGb9XrozdIQikuialXthxIFDlI
+ ZEUXUNasGawplPNXDTzH5jUtxo0NYlVPll6LQrKtmiWxlyRJnDKU/nQluLUgeynEuXlKYzHuG
+ X2TNmkh0azDlr2YhWJwjiFshmMzrgO44C59qbq5Biuhs2PyxPe1d0PlkdC5DFHmnB5RDnL5qx
+ /dZnNInaBICDjEHFqVV5AYpgnTVTm1zNCVeykvD8XPbUIR0IKzvQaJ7WmBq4GpU9ukyUORTrK
+ nepRDU5m9L2iN9zgLleODtpVTNt4/WbcAfTutwsEj2KHqILYdyRuBlOCnuiyqAF8WINDJCNwm
+ Sy2VuW2U9gAfy0AAGrbgxLQn3K4Z6Dlc7n6io18K59hHmkWFjbOwLxMkpBFcX
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,218 +68,285 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A (generic) copy of the GLUE device we already have for q800 to use with
-the m68k-virt machine.
-The q800 one would disappear in the future as q800 uses actually the djMEMC
-controller.
+Add a system controller for the m68k-virt machine.
+This controller allows the kernel to power off or reset the machine.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210309195941.763896-4-laurent@vivier.eu>
+Message-Id: <20210309195941.763896-5-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/intc/m68k_irqc.h |  41 +++++++++++++
- hw/intc/m68k_irqc.c         | 119 ++++++++++++++++++++++++++++++++++++
- hw/intc/Kconfig             |   3 +
- hw/intc/meson.build         |   1 +
- 4 files changed, 164 insertions(+)
- create mode 100644 include/hw/intc/m68k_irqc.h
- create mode 100644 hw/intc/m68k_irqc.c
+ docs/specs/virt-ctlr.txt    |  26 +++++++
+ include/hw/misc/virt_ctrl.h |  22 ++++++
+ hw/misc/virt_ctrl.c         | 151 ++++++++++++++++++++++++++++++++++++
+ hw/misc/Kconfig             |   3 +
+ hw/misc/meson.build         |   3 +
+ hw/misc/trace-events        |   7 ++
+ 6 files changed, 212 insertions(+)
+ create mode 100644 docs/specs/virt-ctlr.txt
+ create mode 100644 include/hw/misc/virt_ctrl.h
+ create mode 100644 hw/misc/virt_ctrl.c
 
-diff --git a/include/hw/intc/m68k_irqc.h b/include/hw/intc/m68k_irqc.h
+diff --git a/docs/specs/virt-ctlr.txt b/docs/specs/virt-ctlr.txt
 new file mode 100644
-index 000000000000..dbcfcfc2e000
+index 000000000000..24d38084f7fd
 --- /dev/null
-+++ b/include/hw/intc/m68k_irqc.h
-@@ -0,0 +1,41 @@
++++ b/docs/specs/virt-ctlr.txt
+@@ -0,0 +1,26 @@
++Virtual System Controller
++=========================
++
++This device is a simple interface defined for the pure virtual machine with no
++hardware reference implementation to allow the guest kernel to send command
++to the host hypervisor.
++
++The specification can evolve, the current state is defined as below.
++
++This is a MMIO mapped device using 256 bytes.
++
++Two 32bit registers are defined:
++
++1- the features register (read-only, address 0x00)
++
++   This register allows the device to report features supported by the
++   controller.
++   The only feature supported for the moment is power control (0x01).
++
++2- the command register (write-only, address 0x04)
++
++   This register allows the kernel to send the commands to the hypervisor.
++   The implemented commands are part of the power control feature and
++   are reset (1), halt (2) and panic (3).
++   A basic command, no-op (0), is always present and can be used to test the
++   register access. This command has no effect.
+diff --git a/include/hw/misc/virt_ctrl.h b/include/hw/misc/virt_ctrl.h
+new file mode 100644
+index 000000000000..edfadc469505
+--- /dev/null
++++ b/include/hw/misc/virt_ctrl.h
+@@ -0,0 +1,22 @@
 +/*
 + * SPDX-License-Identifer: GPL-2.0-or-later
 + *
-+ * QEMU Motorola 680x0 IRQ Controller
-+ *
-+ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
-+ *
++ * Virt system Controller
 + */
 +
-+#ifndef M68K_IRQC_H
-+#define M68K_IRQC_H
++#ifndef VIRT_CTRL_H
++#define VIRT_CTRL_H
 +
-+#include "hw/sysbus.h"
++#define TYPE_VIRT_CTRL "virt-ctrl"
++OBJECT_DECLARE_SIMPLE_TYPE(VirtCtrlState, VIRT_CTRL)
 +
-+#define TYPE_M68K_IRQC "m68k-irq-controller"
-+#define M68K_IRQC(obj) OBJECT_CHECK(M68KIRQCState, (obj), \
-+                                    TYPE_M68K_IRQC)
-+
-+#define M68K_IRQC_AUTOVECTOR_BASE 25
-+
-+enum {
-+    M68K_IRQC_LEVEL_1 = 0,
-+    M68K_IRQC_LEVEL_2,
-+    M68K_IRQC_LEVEL_3,
-+    M68K_IRQC_LEVEL_4,
-+    M68K_IRQC_LEVEL_5,
-+    M68K_IRQC_LEVEL_6,
-+    M68K_IRQC_LEVEL_7,
-+};
-+#define M68K_IRQC_LEVEL_NUM (M68K_IRQC_LEVEL_7 - M68K_IRQC_LEVEL_1 + 1)
-+
-+typedef struct M68KIRQCState {
++struct VirtCtrlState {
 +    SysBusDevice parent_obj;
 +
-+    uint8_t ipr;
++    MemoryRegion iomem;
++    qemu_irq irq;
 +
-+    /* statistics */
-+    uint64_t stats_irq_count[M68K_IRQC_LEVEL_NUM];
-+} M68KIRQCState;
++    uint32_t irq_enabled;
++};
 +
 +#endif
-diff --git a/hw/intc/m68k_irqc.c b/hw/intc/m68k_irqc.c
+diff --git a/hw/misc/virt_ctrl.c b/hw/misc/virt_ctrl.c
 new file mode 100644
-index 000000000000..2133d2a698ab
+index 000000000000..2ea01bd7a1f0
 --- /dev/null
-+++ b/hw/intc/m68k_irqc.c
-@@ -0,0 +1,119 @@
++++ b/hw/misc/virt_ctrl.c
+@@ -0,0 +1,151 @@
 +/*
 + * SPDX-License-Identifer: GPL-2.0-or-later
 + *
-+ * QEMU Motorola 680x0 IRQ Controller
-+ *
-+ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
-+ *
++ * Virt system Controller
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cpu.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
 +#include "migration/vmstate.h"
-+#include "monitor/monitor.h"
-+#include "hw/nmi.h"
-+#include "hw/intc/intc.h"
-+#include "hw/intc/m68k_irqc.h"
++#include "qemu/log.h"
++#include "trace.h"
++#include "sysemu/runstate.h"
++#include "hw/misc/virt_ctrl.h"
 +
++enum {
++    REG_FEATURES = 0x00,
++    REG_CMD      = 0x04,
++};
 +
-+static bool m68k_irqc_get_statistics(InterruptStatsProvider *obj,
-+                                     uint64_t **irq_counts, unsigned int *nb_irqs)
++#define FEAT_POWER_CTRL 0x00000001
++
++enum {
++    CMD_NOOP,
++    CMD_RESET,
++    CMD_HALT,
++    CMD_PANIC,
++};
++
++static uint64_t virt_ctrl_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    M68KIRQCState *s = M68K_IRQC(obj);
++    VirtCtrlState *s = opaque;
++    uint64_t value = 0;
 +
-+    *irq_counts = s->stats_irq_count;
-+    *nb_irqs = ARRAY_SIZE(s->stats_irq_count);
-+    return true;
-+}
-+
-+static void m68k_irqc_print_info(InterruptStatsProvider *obj, Monitor *mon)
-+{
-+    M68KIRQCState *s = M68K_IRQC(obj);
-+    monitor_printf(mon, "m68k-irqc: ipr=0x%x\n", s->ipr);
-+}
-+
-+static void m68k_set_irq(void *opaque, int irq, int level)
-+{
-+    M68KIRQCState *s = opaque;
-+    M68kCPU *cpu = M68K_CPU(first_cpu);
-+    int i;
-+
-+    if (level) {
-+        s->ipr |= 1 << irq;
-+        s->stats_irq_count[irq]++;
-+    } else {
-+        s->ipr &= ~(1 << irq);
++    switch (addr) {
++    case REG_FEATURES:
++        value = FEAT_POWER_CTRL;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
 +    }
 +
-+    for (i = M68K_IRQC_LEVEL_7; i >= M68K_IRQC_LEVEL_1; i--) {
-+        if ((s->ipr >> i) & 1) {
-+            m68k_set_irq_level(cpu, i + 1, i + M68K_IRQC_AUTOVECTOR_BASE);
-+            return;
++    trace_virt_ctrl_write(s, addr, size, value);
++
++    return value;
++}
++
++static void virt_ctrl_write(void *opaque, hwaddr addr, uint64_t value,
++                            unsigned size)
++{
++    VirtCtrlState *s = opaque;
++
++    trace_virt_ctrl_write(s, addr, size, value);
++
++    switch (addr) {
++    case REG_CMD:
++        switch (value) {
++        case CMD_NOOP:
++            break;
++        case CMD_RESET:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            break;
++        case CMD_HALT:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        case CMD_PANIC:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
++            break;
 +        }
-+    }
-+    m68k_set_irq_level(cpu, 0, 0);
-+}
-+
-+static void m68k_irqc_reset(DeviceState *d)
-+{
-+    M68KIRQCState *s = M68K_IRQC(d);
-+    int i;
-+
-+    s->ipr = 0;
-+    for (i = 0; i < ARRAY_SIZE(s->stats_irq_count); i++) {
-+        s->stats_irq_count[i] = 0;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
 +    }
 +}
 +
-+static void m68k_irqc_instance_init(Object *obj)
++static const MemoryRegionOps virt_ctrl_ops = {
++    .read = virt_ctrl_read,
++    .write = virt_ctrl_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.max_access_size = 4,
++    .impl.max_access_size = 4,
++};
++
++static void virt_ctrl_reset(DeviceState *dev)
 +{
-+    qdev_init_gpio_in(DEVICE(obj), m68k_set_irq, M68K_IRQC_LEVEL_NUM);
++    VirtCtrlState *s = VIRT_CTRL(dev);
++
++    trace_virt_ctrl_reset(s);
 +}
 +
-+static void m68k_nmi(NMIState *n, int cpu_index, Error **errp)
++static void virt_ctrl_realize(DeviceState *dev, Error **errp)
 +{
-+    m68k_set_irq(n, M68K_IRQC_LEVEL_7, 1);
++    VirtCtrlState *s = VIRT_CTRL(dev);
++
++    trace_virt_ctrl_instance_init(s);
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &virt_ctrl_ops, s,
++                          "virt-ctrl", 0x100);
 +}
 +
-+static const VMStateDescription vmstate_m68k_irqc = {
-+    .name = "m68k-irqc",
++static const VMStateDescription vmstate_virt_ctrl = {
++    .name = "virt-ctrl",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ipr, M68KIRQCState),
++        VMSTATE_UINT32(irq_enabled, VirtCtrlState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void m68k_irqc_class_init(ObjectClass *oc, void *data)
-+ {
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    NMIClass *nc = NMI_CLASS(oc);
-+    InterruptStatsProviderClass *ic = INTERRUPT_STATS_PROVIDER_CLASS(oc);
++static void virt_ctrl_instance_init(Object *obj)
++{
++    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
++    VirtCtrlState *s = VIRT_CTRL(obj);
 +
-+    nc->nmi_monitor_handler = m68k_nmi;
-+    dc->reset = m68k_irqc_reset;
-+    dc->vmsd = &vmstate_m68k_irqc;
-+    ic->get_statistics = m68k_irqc_get_statistics;
-+    ic->print_info = m68k_irqc_print_info;
++    trace_virt_ctrl_instance_init(s);
++
++    sysbus_init_mmio(dev, &s->iomem);
++    sysbus_init_irq(dev, &s->irq);
 +}
 +
-+static const TypeInfo m68k_irqc_type_info = {
-+    .name = TYPE_M68K_IRQC,
++static void virt_ctrl_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->reset = virt_ctrl_reset;
++    dc->realize = virt_ctrl_realize;
++    dc->vmsd = &vmstate_virt_ctrl;
++}
++
++static const TypeInfo virt_ctrl_info = {
++    .name = TYPE_VIRT_CTRL,
 +    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(M68KIRQCState),
-+    .instance_init = m68k_irqc_instance_init,
-+    .class_init = m68k_irqc_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+         { TYPE_NMI },
-+         { TYPE_INTERRUPT_STATS_PROVIDER },
-+         { }
-+    },
++    .class_init = virt_ctrl_class_init,
++    .instance_init = virt_ctrl_instance_init,
++    .instance_size = sizeof(VirtCtrlState),
 +};
 +
-+static void q800_irq_register_types(void)
++static void virt_ctrl_register_types(void)
 +{
-+    type_register_static(&m68k_irqc_type_info);
++    type_register_static(&virt_ctrl_info);
 +}
 +
-+type_init(q800_irq_register_types);
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 186cb5daa0ff..f4694088a483 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -70,3 +70,6 @@ config SIFIVE_PLIC
- 
- config GOLDFISH_PIC
++type_init(virt_ctrl_register_types)
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 5426b9b1a1ad..c71ed2582046 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -183,4 +183,7 @@ config SIFIVE_U_OTP
+ config SIFIVE_U_PRCI
      bool
-+
-+config M68K_IRQC
+ 
++config VIRT_CTRL
 +    bool
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index ad22fdc5deb9..4ab911e71bb9 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -58,3 +58,4 @@ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- 		if_true: files('spapr_xive_kvm.c'))
- specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
-+specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++
+ source macio/Kconfig
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 00356cf12ec7..f44d068e2dbd 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -24,6 +24,9 @@ softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+ # Mac devices
+ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+ 
++# virt devices
++softmmu_ss.add(when: 'CONFIG_VIRT_CTRL', if_true: files('virt_ctrl.c'))
++
+ # RISC-V devices
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_IOSCB', if_true: files('mchp_pfsoc_ioscb.c'))
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 4b15db8ca488..e77d63f4e9b4 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -247,3 +247,10 @@ pca955x_gpio_change(const char *description, unsigned id, unsigned prev_state, u
+ bcm2835_cprman_read(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
+ bcm2835_cprman_write(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
+ bcm2835_cprman_write_invalid_magic(uint64_t offset, uint64_t value) "offset:0x%" PRIx64 " value:0x%" PRIx64
++
++# virt_ctrl.c
++virt_ctrl_read(void *dev, unsigned int addr, unsigned int size, uint64_t value) "ctrl: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++virt_ctrl_write(void *dev, unsigned int addr, unsigned int size, uint64_t value) "ctrl: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++virt_ctrl_reset(void *dev) "ctrl: %p"
++virt_ctrl_realize(void *dev) "ctrl: %p"
++virt_ctrl_instance_init(void *dev) "ctrl: %p"
 -- 
 2.29.2
 
