@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A3133776A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:27:22 +0100 (CET)
-Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF893377B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:29:08 +0100 (CET)
+Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNDd-0001zW-8r
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42302)
+	id 1lKNFL-0006CS-Vd
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcE-0005CY-0I
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41327)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcM-0005KD-81
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcC-0002vG-6E
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:41 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcK-0002yU-CR
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474119;
+ s=mimecast20190719; t=1615474123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D++ld9tx5l311lRUlHKZdnJ/jhNhNyPUSlsuea7lX2Q=;
- b=d6YoaQJwzDzlP1kUIf5fKylTHCnHHs8VLNfldLiSsvutKz7e9G6bYmH7t2iV3NqsNLMv5L
- IyPBjCw/goXi7qEgZMw6oXScdXIUYVy2imwjOU5lll6ozy2+Dqhp+KMrET9qgYMGfdneZh
- cjNfGiMVvobCIGO4ZoJKhmCXb6NTfsc=
+ bh=h6Lt9BO3u7tjkM4gJSyp80K5a8U4RKyj/CdxGNt+IOg=;
+ b=MZqoafYTHYYtLpEhp+ECnwHn453Bg/f2VKIyIDLvhSgs3Npt3Htc75xLwBm7lC7i0V+k2d
+ mZrp5Atip7pXwx3DT8Dp9erksKtv7A4xBu04dPSds4bPwbJtnMZw3SMQvJ0I3oM/A/JjKG
+ Z876rGESf/jKUZln9u/3KKihDrcsYX8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-5sdOpjdBOGCy0VxHy0CvyQ-1; Thu, 11 Mar 2021 09:48:37 -0500
-X-MC-Unique: 5sdOpjdBOGCy0VxHy0CvyQ-1
+ us-mta-441-IwiR-xYXM42o6mb5-QSwFQ-1; Thu, 11 Mar 2021 09:48:40 -0500
+X-MC-Unique: IwiR-xYXM42o6mb5-QSwFQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FFE8100C618;
- Thu, 11 Mar 2021 14:48:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26B084BA42;
+ Thu, 11 Mar 2021 14:48:38 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D2375D9F2;
- Thu, 11 Mar 2021 14:48:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D96875D9F2;
+ Thu, 11 Mar 2021 14:48:37 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/38] qapi/qom: Add ObjectOptions for iothread
-Date: Thu, 11 Mar 2021 15:47:45 +0100
-Message-Id: <20210311144811.313451-13-kwolf@redhat.com>
+Subject: [PULL 14/38] qapi/qom: Add ObjectOptions for cryptodev-*
+Date: Thu, 11 Mar 2021 15:47:47 +0100
+Message-Id: <20210311144811.313451-15-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,84 +80,82 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an ObjectOptions union that will eventually describe the options of
-all user creatable object types. As unions can't exist without any
-branches, also add the first object type.
+This adds a QAPI schema for the properties of the cryptodev-* objects.
 
-This adds a QAPI schema for the properties of the iothread object.
+These interfaces have some questionable aspects (cryptodev-backend is
+really an abstract base class without function, and the queues option
+only makes sense for cryptodev-vhost-user), but as the goal is to
+represent the existing interface in QAPI, leave these things in place.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/qom.json | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ qapi/qom.json | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 96c91c1faf..bf2ecb34be 100644
+index 30ed179bc1..499280fa60 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -202,6 +202,59 @@
+@@ -204,6 +204,34 @@
    'returns': [ 'ObjectPropertyInfo' ],
    'allow-preconfig': true }
  
 +##
-+# @IothreadProperties:
++# @CryptodevBackendProperties:
 +#
-+# Properties for iothread objects.
++# Properties for cryptodev-backend and cryptodev-backend-builtin objects.
 +#
-+# @poll-max-ns: the maximum number of nanoseconds to busy wait for events.
-+#               0 means polling is disabled (default: 32768 on POSIX hosts,
-+#               0 otherwise)
++# @queues: the number of queues for the cryptodev backend. Ignored for
++#          cryptodev-backend and must be 1 for cryptodev-backend-builtin.
++#          (default: 1)
 +#
-+# @poll-grow: the multiplier used to increase the polling time when the
-+#             algorithm detects it is missing events due to not polling long
-+#             enough. 0 selects a default behaviour (default: 0)
-+#
-+# @poll-shrink: the divisor used to decrease the polling time when the
-+#               algorithm detects it is spending too long polling without
-+#               encountering events. 0 selects a default behaviour (default: 0)
-+#
-+# Since: 2.0
++# Since: 2.8
 +##
-+{ 'struct': 'IothreadProperties',
-+  'data': { '*poll-max-ns': 'int',
-+            '*poll-grow': 'int',
-+            '*poll-shrink': 'int' } }
++{ 'struct': 'CryptodevBackendProperties',
++  'data': { '*queues': 'uint32' } }
 +
 +##
-+# @ObjectType:
++# @CryptodevVhostUserProperties:
 +#
-+# Since: 6.0
++# Properties for cryptodev-vhost-user objects.
++#
++# @chardev: the name of a Unix domain socket character device that connects to
++#           the vhost-user server
++#
++# Since: 2.12
 +##
-+{ 'enum': 'ObjectType',
-+  'data': [
-+    'iothread'
-+  ] }
-+
-+##
-+# @ObjectOptions:
-+#
-+# Describes the options of a user creatable QOM object.
-+#
-+# @qom-type: the class name for the object to be created
-+#
-+# @id: the name of the new object
-+#
-+# Since: 6.0
-+##
-+{ 'union': 'ObjectOptions',
-+  'base': { 'qom-type': 'ObjectType',
-+            'id': 'str' },
-+  'discriminator': 'qom-type',
-+  'data': {
-+      'iothread':                   'IothreadProperties'
-+  } }
++{ 'struct': 'CryptodevVhostUserProperties',
++  'base': 'CryptodevBackendProperties',
++  'data': { 'chardev': 'str' } }
 +
  ##
- # @object-add:
+ # @IothreadProperties:
  #
+@@ -239,6 +267,10 @@
+     'authz-listfile',
+     'authz-pam',
+     'authz-simple',
++    'cryptodev-backend',
++    'cryptodev-backend-builtin',
++    { 'name': 'cryptodev-vhost-user',
++      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
+     'iothread'
+   ] }
+ 
+@@ -262,6 +294,10 @@
+       'authz-listfile':             'AuthZListFileProperties',
+       'authz-pam':                  'AuthZPAMProperties',
+       'authz-simple':               'AuthZSimpleProperties',
++      'cryptodev-backend':          'CryptodevBackendProperties',
++      'cryptodev-backend-builtin':  'CryptodevBackendProperties',
++      'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
++                                      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
+       'iothread':                   'IothreadProperties'
+   } }
+ 
 -- 
 2.29.2
 
