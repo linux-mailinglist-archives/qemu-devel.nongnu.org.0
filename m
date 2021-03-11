@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C2C337D2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:06:49 +0100 (CET)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AD9337D79
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:14:46 +0100 (CET)
+Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQe0-0000Lp-JL
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37068)
+	id 1lKQlg-0004B7-TX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:14:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKQZk-0007MF-OR
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:02:24 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39530)
+ id 1lKQbQ-0000Sz-Ei
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:04:08 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKQZi-0005mO-T0
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:02:24 -0500
-Received: by mail-ed1-x535.google.com with SMTP id bf3so4422040edb.6
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 11:02:22 -0800 (PST)
+ id 1lKQbM-0006oj-Rt
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:04:06 -0500
+Received: by mail-ej1-x634.google.com with SMTP id hs11so48491659ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 11:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8/1PNj1Vli8WWjlAmGN4nSSTwtAD0DKv3QVuweQhcZI=;
- b=zrpCuGBovwSCLP3ixxc234aT0XGB+UaXYatZZ9Fwxkji6enzowffNBhyfCNy79I2YQ
- jQ3/znPX/qfWD2hkHJd+cnuYMX6wcFCUSo2WoDy7slyfkpCImmWPmm9Qvr5TJctxP6bk
- u5g4qiqGAygVxqxjN4/df2hzJEyH29RDY2Gm2eeXtapoUpjfD2rea8DhJbd1KcI6eQqc
- hu3gwEqYcMPrhinxk/rkhroi1ALfwD0oi/kPhRFQCkwq+bZ5lmFmhA+1cqc29yWeecRw
- shTGZ9mjVEhub2AtgQVylBIhsk1DWk6RpwBqjjRk9JLglKTiTL11wHmCyf5VYHnI+s5U
- tnGQ==
+ :cc; bh=wPrPjCtHr/VVuVBVxvmWBB0IFWWKURKt2u5lBkFC14c=;
+ b=pItZojk+ozYF8Kq35MCsEWQ0E9NDuje4jhFIM9nkASEX8kLfoJJ8oEhzAIzIRLgvWe
+ KIX7nxq7FErCdl4BgiXBwkAvplpaatI6uAu/o8DyYYdLr50+2Af87eLcsFQrWDrdPI3t
+ w6/8gxNA6ORb/PIwiUydcIczZhjWH/h7Dvc1D4Hxv9cIo9J0NX1IODDyVipKxHpKq9Z/
+ D9fVLvoJr/BwDINog9rkFC5/Gn2cajX7XmHdmldh5YFwb8lvGgbvc8QW2WAkJ8+KS4y3
+ 8HNIW7O/dl2jmWNSj7ktEcI9qEGGX3Ln0G1Hg6je3mmjaeNWGZ+4gB3Y/kqGhhn5PSR3
+ 0irQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8/1PNj1Vli8WWjlAmGN4nSSTwtAD0DKv3QVuweQhcZI=;
- b=nqXL6bm/xuw8XET6kBGAlUexb602976qPiLjYQ0pSBu+Gv/vbToJutxM6tml8VQczp
- umaU+YUrodMy9OlhL233qoWT65+lXyGCk5CLOYxeM8oOtAGUQ4KPChE5YfxHzyORajQP
- V8Bv0JKuV9q6yIXvYPTjDuidboyWbVCTXyIfLLuiDVsy8PkQcKdnRvAK9gcqU+0pQuni
- 4iwsPs8fps55UBfLB3VOEKvW3qyB6gXB5LVVYzo8qZqBRjEXDJmbbUUVeUhSQgVcmmW+
- O43hghkgNAutoE/Ppcu1Rolo2oisUwV86K9/XSDEhrFVckaJGyhSDlZusZR9qGXvYQZO
- HUVQ==
-X-Gm-Message-State: AOAM532tEUe/rEu56ThdiORE3QeHz2YctAouy8F4sO5iiVQj66kKrYNh
- waata/uLFYcJimCd/0dG+qtN3jHjcbJcNkuNouKt2w==
-X-Google-Smtp-Source: ABdhPJxxICil1XQpS8aQek8HHk/EZhcDP0cuFKyMzIb1HnNKLj36KpcKcJPCGxKsMdENERI1k+hpcM0Q+O0X8gA5ykE=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr9873574edt.251.1615489341131; 
- Thu, 11 Mar 2021 11:02:21 -0800 (PST)
+ bh=wPrPjCtHr/VVuVBVxvmWBB0IFWWKURKt2u5lBkFC14c=;
+ b=d5Xeox9PVbyOuev4Ajdnbis/5e1s01XY+fN/zZOeJGUpM270u7Xmk6rzS/dvBemTry
+ +YQqGttsU6bDWVogsGzm60lw9Asu8WL1oK0AwfUbkaujAmlj59lisK9t+4UF4d91YPUx
+ 32FAUFlEzNiL+8xPlEDbKY49MMrdBaVGP/gTBspW9GQJJwX5BD2TxanWwxCMaIi67OlX
+ ab9IZVGgfQmwrsBSHl7zPEGMN8/bAxDS+0PfBdRgmXQS2+LoOqk6jijdtiIlJK/GXt+V
+ QuFaVb6SriF6v9uciumHbcCjCwQQPtXxe6tAWS1H2dKtsiGjSq+cL3e3anD2SgtbyxLm
+ zhrw==
+X-Gm-Message-State: AOAM532kD6aRKrEA1i4vEYp79eJtCI7d1XF8eAtWMCqgo78+uxOrSKXn
+ 55P3YJbaMWhDefQzm5B3FtuixNtQfJwgSJhCQPF3xw==
+X-Google-Smtp-Source: ABdhPJzCj/z+QX5tXSwEj1nz8e4NZ7UPdDsbzrH6S6gM4QJv4POwwQSimVcfLd8L22w71u+sSkT6SfMRWhu8aLtzCiE=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr4575790ejd.85.1615489443305; 
+ Thu, 11 Mar 2021 11:04:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20210309155202.1312571-1-eblake@redhat.com>
-In-Reply-To: <20210309155202.1312571-1-eblake@redhat.com>
+References: <20210310214504.1183162-1-laurent@vivier.eu>
+ <0a9adc53-f0ec-f3fe-ad1f-197ec89fd491@vivier.eu>
+In-Reply-To: <0a9adc53-f0ec-f3fe-ad1f-197ec89fd491@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 19:02:02 +0000
-Message-ID: <CAFEAcA9dSR_yvsxERtFcC1BApWMH0vqqcn1d89bgW1S_9xmYPQ@mail.gmail.com>
-Subject: Re: [PULL 00/17] NBD patches through 2021-03-09
-To: Eric Blake <eblake@redhat.com>
+Date: Thu, 11 Mar 2021 19:03:44 +0000
+Message-ID: <CAFEAcA-OcKZEFvpZk4hPXF8FWLq6qzWRq9e2hF31KfQ_gv_nhg@mail.gmail.com>
+Subject: Re: [PULL 00/22] Trivial branch for 6.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,46 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 at 16:23, Eric Blake <eblake@redhat.com> wrote:
+On Wed, 10 Mar 2021 at 21:53, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> The following changes since commit 0436c55edf6b357ff56e2a5bf688df8636f83456:
+> Peter,
 >
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-03-08 13:51:41 +0000)
+> my "git publish" has failed at patch 20 with:
 >
-> are available in the Git repository at:
+> Requested action aborted
+> Mails per session limit exceeded.
 >
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-03-09
+> I think my email provider has added new limits :(
 >
-> for you to fetch changes up to 1184b411016bce7590723170aa6b5984518707ec:
->
->   block/qcow2: refactor qcow2_update_options_prepare error paths (2021-03-08 16:04:46 -0600)
->
-> ----------------------------------------------------------------
-> nbd patches for 2021-03-09
->
-> - Add Vladimir as NBD co-maintainer
-> - Fix reporting of holes in NBD_CMD_BLOCK_STATUS
-> - Improve command-line parsing accuracy of large numbers (anything going
-> through qemu_strtosz), including the deprecation of hex+suffix
-> - Improve some error reporting in the block layer
->
-> ----------------------------------------------------------------
+> can you merge this PR without I have to resend it?
 
-This broke the gitlab cross-i386-user job:
-https://gitlab.com/qemu-project/qemu/-/jobs/1090685134
+Yeah, the cover letter is the only bit that's critical to the
+process; the rest is just archive/information for other list
+subscribers about what went in.
 
-ERROR:../tests/test-cutils.c:2290:test_qemu_strtosz_metric: assertion
-failed (res == 12345000): (12344999 == 12345000)
-
-Could you have a look, please?
-
-(It's in master anyway, because at the time gitlab CI was lagging
-massively and I wasn't waiting around for it to finish before merging.)
-
-thanks
 -- PMM
 
