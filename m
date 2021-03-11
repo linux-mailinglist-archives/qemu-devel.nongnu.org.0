@@ -2,75 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6DC336F2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:48:37 +0100 (CET)
-Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B222336F36
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:49:37 +0100 (CET)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHvo-0002Xm-9N
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:48:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58828)
+	id 1lKHwm-0003oR-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:49:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKHsW-00082E-3i
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:45:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKHsU-0008EB-9K
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:45:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615455909;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uFhLBPJSfMrqNdquCOQC04glOq2wezAHsw30+J4FjUI=;
- b=h6blvvc3EzkDo31TZ2dEhhc51LbFq0sY1E18mYmz334nJW5spyWH9M+tq9NfI4qwaSsJ4+
- CydV89W6onfmKXyL9i2vBTSqmPlRlKODlR4RE9nEDs5LmgdhNmpC4BP/pc3NVpm9cl+xjg
- hPjYZd2l1O34IKctWR35a/4jJa4bEZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-uZERIcfzPReHKp811WxnLQ-1; Thu, 11 Mar 2021 04:45:06 -0500
-X-MC-Unique: uZERIcfzPReHKp811WxnLQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63711940929;
- Thu, 11 Mar 2021 09:45:05 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3477F3CC7;
- Thu, 11 Mar 2021 09:44:59 +0000 (UTC)
-Date: Thu, 11 Mar 2021 09:44:57 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 4/4] blockdev: Drop deprecated bogus -drive interface
- type
-Message-ID: <YEnmmT35/MYBI1qQ@redhat.com>
-References: <20210311075221.1795266-1-armbru@redhat.com>
- <20210311075221.1795266-5-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lKHvJ-0002qd-SY; Thu, 11 Mar 2021 04:48:05 -0500
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:56843
+ helo=mx.kernkonzept.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lKHvH-0001jq-Kp; Thu, 11 Mar 2021 04:48:05 -0500
+Received: from [86.56.46.35] (helo=broc.lan)
+ by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) id 1lKHv8-0005Te-7L; Thu, 11 Mar 2021 10:47:54 +0100
+From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: Fix read and write accesses to vsip and vsie
+Date: Thu, 11 Mar 2021 10:47:38 +0100
+Message-Id: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210311075221.1795266-5-armbru@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=georg.kotheimer@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.02,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,36 +49,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- jsnow@redhat.com
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 08:52:21AM +0100, Markus Armbruster wrote:
-> Drop the crap deprecated in commit a1b40bda08 "blockdev: Deprecate
-> -drive with bogus interface type" (v5.1.0).
-> 
-> drive_check_orphaned() no longer depends on qemu_create_cli_devices().
-> Call it right after board initialization for clarity.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  docs/system/deprecated.rst       |  7 ------
->  docs/system/removed-features.rst |  7 ++++++
->  include/sysemu/blockdev.h        |  1 -
->  blockdev.c                       | 37 +++++++++++++-------------------
->  softmmu/vl.c                     | 11 +---------
->  5 files changed, 23 insertions(+), 40 deletions(-)
+The previous implementation was broken in many ways:
+ - Used mideleg instead of hideleg to mask accesses
+ - Used MIP_VSSIP instead of VS_MODE_INTERRUPTS to mask writes to vsie
+ - Did not shift between S bits and VS bits (VSEIP <-> SEIP, ...)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+---
+ target/riscv/csr.c | 68 +++++++++++++++++++++++-----------------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
-Regards,
-Daniel
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fd2e6363f3..4a5b362ec1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -748,30 +748,42 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
+     return write_mstatus(env, CSR_MSTATUS, newval);
+ }
+ 
++static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    /* Shift the VS bits to their S bit location in vsie */
++    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
++    return 0;
++}
++
+ static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     if (riscv_cpu_virt_enabled(env)) {
+-        /* Tell the guest the VS bits, shifted to the S bit locations */
+-        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
++        read_vsie(env, CSR_VSIE, val);
+     } else {
+         *val = env->mie & env->mideleg;
+     }
+     return 0;
+ }
+ 
+-static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
++static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
+ {
+-    target_ulong newval;
++    /* Shift the S bits to their VS bit location in mie */
++    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
++                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
++    return write_mie(env, CSR_MIE, newval);
++}
+ 
++static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
++{
+     if (riscv_cpu_virt_enabled(env)) {
+-        /* Shift the guests S bits to VS */
+-        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
+-                 ((val << 1) & VS_MODE_INTERRUPTS);
++        write_vsie(env, CSR_VSIE, val);
+     } else {
+-        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
++        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
++                              (val & S_MODE_INTERRUPTS);
++        write_mie(env, CSR_MIE, newval);
+     }
+ 
+-    return write_mie(env, CSR_MIE, newval);
++    return 0;
+ }
+ 
+ static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
+@@ -852,17 +864,25 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
++                    target_ulong new_value, target_ulong write_mask)
++{
++    /* Shift the S bits to their VS bit location in mip */
++    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
++                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
++    *ret_value &= VS_MODE_INTERRUPTS;
++    /* Shift the VS bits to their S bit location in vsip */
++    *ret_value >>= 1;
++    return ret;
++}
++
+ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+     int ret;
+ 
+     if (riscv_cpu_virt_enabled(env)) {
+-        /* Shift the new values to line up with the VS bits */
+-        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
+-                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
+-        ret &= vsip_writable_mask;
+-        ret >>= 1;
++        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
+     } else {
+         ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
+                       write_mask & env->mideleg & sip_writable_mask);
+@@ -1121,26 +1141,6 @@ static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
+-static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+-                    target_ulong new_value, target_ulong write_mask)
+-{
+-    int ret = rmw_mip(env, 0, ret_value, new_value,
+-                      write_mask & env->mideleg & vsip_writable_mask);
+-    return ret;
+-}
+-
+-static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
+-{
+-    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
+-    return 0;
+-}
+-
+-static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
+-{
+-    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
+-    return write_mie(env, CSR_MIE, newval);
+-}
+-
+ static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     *val = env->vstvec;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.30.1
 
 
