@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008AF33739A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 14:19:36 +0100 (CET)
-Received: from localhost ([::1]:42098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B353373B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 14:23:35 +0100 (CET)
+Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKLDz-00011s-24
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 08:19:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
+	id 1lKLHq-0003Vt-7O
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 08:23:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKLCP-000065-GK
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:17:57 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35631)
+ id 1lKLH4-0002pM-P9
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:22:46 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKLCN-0007kt-HY
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:17:57 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id dm8so2696201edb.2
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 05:17:55 -0800 (PST)
+ id 1lKLH3-0002Eb-B0
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:22:46 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id e19so46238365ejt.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 05:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=82Fq3ANnZ7FDeJV4ftQb0Bhb3Lo0p10QDVCrvWXGqx8=;
- b=FO+3VnI34h/JVgDcE8sagTcwjZUMDclsOZbaSWfZE4o2+j095UemeX3tJ5DSBrjm5Z
- q8lN9V613Bx0CrQU4AavNt3dTH+v5XdGLZ4ORmcAIJlCrlUQDTyYDYPCHn725mo9tS3j
- UP+yFYXNkdojvF+aEvGTficy3I5gHUm3GKO/gkI5ehh8Dq3l5zcJzUQFBeahsVwBKR0v
- j4l2hi9wriOxs5K5J1wyHj2HFFk5M2Wo0h17pBH2mjayxzfW1Z06HB9iui+5We7NTurN
- 1dQ05hb8yW7Dau/Cv7rdjWuVx4M5DN+un/C/bMqDx2nM+A9iVI33HPjrUWsvo2nunEl/
- ddJA==
+ :cc; bh=g2qf1auwqgFAwhWsO5uoVF1AymNgQO/Vvu396aZ6C5o=;
+ b=B7Qf/OMOxKxsUZuBx67RCbGUJVauPVRNE1NWxV8qP1iqHyuDppnHErkCJZaOX1nE5k
+ PnqdoKmwuUgxA3HWuU++QpcqEG28dqOIpoCPopKRDE7Ozc6jn6ez8MAkPGZChf6dlf1R
+ YYCPUrhAbxeNoLq0sqjaOoUHMZmx8Xfk7tEqq6dYLjdKG2p47AoLnasHmeno/PeUSsHm
+ Xp26I1vaP5JHIg1dpJxy6u6mMHM0aSHtts89Gib/BGkoD11xSPgOEt4j8x9rd30lf16Z
+ 3lpxshiKAbh6Op854l61ybjQu9ogkfENlOjrfiwl/UmKTaUWcQxJbIHVsdFLriK1TUpc
+ Z8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=82Fq3ANnZ7FDeJV4ftQb0Bhb3Lo0p10QDVCrvWXGqx8=;
- b=D1521RcZhSSml0nMLUzuIxl/xRC2vS++KRkI3QiX6j1wuuFjuhKMbuiqxyOhFlCOE6
- 0bBdt4UNxeJB+SZezlyGdlE9Hm0FqYQrh6W3fhI6IK0uO0E7n2h21rPhRZiNpBaBHlat
- K2VSFtmgav3kD/YUsLqzmdnA/9463px1euanjDbX29QtZ2WasCXtLUFWTmLKh+bVB3sk
- 6wS3PO5Bse6K87B66stHyXmVQ6+U7oz0X9aE7kHiv0VsvGcv3WAUEgU6pex1TsAnXK6c
- kOpJ8UOhtWUXmPKr20Vs1nySG0c/cyCE9LCtbcC0Lem9Iybed53/AZQQI0A/cfz1j1R+
- /P3g==
-X-Gm-Message-State: AOAM531AAaxL5v7cWHyZKOFUawZ/g++nXzLwu0q6JZHzYc4eR+ySHSnz
- nOixOnj6j8oQCvI6BPLP6HOZw2u3RjX+3G+AtY5FHoJrm4w=
-X-Google-Smtp-Source: ABdhPJyOC35VSju2hJVtROrz+1QPSq7+DU8daF7vmMTpCFGLGe/LyndAuodqmDSfmHC2AaQBie7pCHkoIHwmosMmTCU=
-X-Received: by 2002:a50:d307:: with SMTP id g7mr8458928edh.204.1615468673371; 
- Thu, 11 Mar 2021 05:17:53 -0800 (PST)
+ bh=g2qf1auwqgFAwhWsO5uoVF1AymNgQO/Vvu396aZ6C5o=;
+ b=N5EGWGn74Ba6Bo2r3UBvApnEAu7raFNotG1ll06H1pq7qihYj+zKETVA2Z4xBxRUrx
+ HD/3cyr5yNcGwN9Q1rc12Qf9PlF8PfB6wKk/aG89opNQt5dVThMpMFfn4K5sKzOfx91s
+ jSkaeSphMD0ycQ4rQTkwUfptqwhBbCZJ/mnp9Hy10h7taAv2e4F7IlCU+DYcHwkV9aWs
+ KBaobfPcYSrmOVU8+ZRD1qm31aeIieqyTzC5VBQHxQsiQY+PLeEfk0vefhceaxPLkVRi
+ AJuqejm0i31WS9vhpADXGWECtvdExTJWbmQnzUyxBMZSoa4MPKsHXA40Qh/BaywUe1qo
+ F6Eg==
+X-Gm-Message-State: AOAM532Vz8P6XCOQeUXeOF3MQwS8OP44Q+jNXxLi3ajnNGDzm+AmLgeL
+ lRKu2n/HaPrkjtoUq21q2NLM332eMXgX3p8GAzAK4w==
+X-Google-Smtp-Source: ABdhPJxV5DoADqkpPYE9q3j5Ws4MLr1KwOpb4Ut3loz43Bi9u9CM1bHmQRTp0ixkFr+Gz+LbGgXXhp0h9sMu5FWPfcQ=
+X-Received: by 2002:a17:906:c301:: with SMTP id
+ s1mr3005666ejz.382.1615468963868; 
+ Thu, 11 Mar 2021 05:22:43 -0800 (PST)
 MIME-Version: 1.0
-References: <b9b0e381-c045-bab1-eea7-b8112526e5e8@c-sky.com>
- <CAFEAcA_jnLzZN-nA+Cf_HwGjxvOaxUzZ44LYxqpcmw=3eAU6qg@mail.gmail.com>
- <3edf7903-94a7-c16e-2b9e-644e1a41a77d@c-sky.com>
-In-Reply-To: <3edf7903-94a7-c16e-2b9e-644e1a41a77d@c-sky.com>
+References: <20210309102742.30442-1-eric.auger@redhat.com>
+In-Reply-To: <20210309102742.30442-1-eric.auger@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 13:17:34 +0000
-Message-ID: <CAFEAcA8UqE65Qxy=c53CCPdYnVrwvBZGxU9SH9qk7Q6vGKDgyg@mail.gmail.com>
-Subject: Re: Question about edge-triggered interrupt
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Date: Thu, 11 Mar 2021 13:22:25 +0000
+Message-ID: <CAFEAcA-jKEGi_EUo2OH1uJWz7cAGP=uyfMjcOAAiB6XWaPEkrg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] Some vIOMMU fixes
+To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,27 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ vivek.gautam@arm.com, qemu-arm <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 12:59, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> From the specification, I find that software will not clean the pending bit on interrupt controller via a register write.
+On Tue, 9 Mar 2021 at 10:28, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> "When a vectored interrupt is selected and serviced, the hardware will automatically clear the
+> Hi,
 >
-> corresponding pending bit in edge-triggered mode. In this case, software does not need to clear
+> Here is a set of vIOMMU fixes:
 >
-> pending bit at all in the service routine."
+> SMMUv3:
+> - top SID computation overflow when handling SMMU_CMD_CFGI_ALL
+> - internal IOTLB handling (changes related to range invalidation)
+>   - smmu_iotlb_inv_iova with asid = -1
+>   - non power of 2 invalidation range handling.
 >
-> Hardware can always select a pending interrupt as it is cycle-driven. But QEMU is event-driven.
-> I don't know if there is a chance to select other pending interrupts after serving the selected interrupt.
+> VIRTIO-IOMMU:
+>   - non power of 2 invalidation range handling.
 
-Something must change that the hardware (and thus the model) can use to
-determine that it needs to do something else. The interrupt controller
-must be able to tell when the interrupt is "selected and serviced"
-somehow.
 
-thanks
+
+
+Applied to target-arm.next, thanks.
+
 -- PMM
 
