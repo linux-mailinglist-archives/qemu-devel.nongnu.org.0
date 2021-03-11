@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FC83377C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:33:51 +0100 (CET)
-Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1683377C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:33:22 +0100 (CET)
+Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNJu-0003Rj-Br
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:33:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42170)
+	id 1lKNJR-0002de-2S
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMc6-0004tc-KI
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52355)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcE-0005Cg-16
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMc4-0002o5-6L
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:34 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcC-0002vR-AP
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474111;
+ s=mimecast20190719; t=1615474119;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qNuYyO8RQWQIGmb6N7G+mxr28BNMtrXB1kqWF0BZJ5g=;
- b=aGTeNjR90hjVGmXzOn6/h5cJPlOmxIPuSOLaWPLkMaesZBHLYygCYrKxc6STO2hgKoU12u
- bZUpJQ/gGygHAA3SZXvzMxhbahnwO6J3UtaJ5ceYiuJw/QchNKyzhS21LIYeNJoNcKY1ht
- hzLpOxadELO+ME9disyaskGGRbKmlO4=
+ bh=vv7Lg1DiVZVrnjGIoxkhoIi3/dLpEHPaFKcPW7hYIAs=;
+ b=Aexhyye0Gtw6NpNjyKRZ4BxYPGySTfguhG7rTYwMmg/q3TejSP03tJ8J9QDcbBmgBrDH4j
+ cNL5j9B/Nwho9CFxuNvV3JNzA9r3t4mvlQHewlXw5WrbLMX9UnYLDlQk/04YnTNo54YpOv
+ NHbknSUCR2hcsEPeGcwVqxe8/eYNdoo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-JpCkhKNCOQCyU_eFSeqtFA-1; Thu, 11 Mar 2021 09:48:26 -0500
-X-MC-Unique: JpCkhKNCOQCyU_eFSeqtFA-1
+ us-mta-316-7wgF4C_MOoq8ZG08wsEl8g-1; Thu, 11 Mar 2021 09:48:35 -0500
+X-MC-Unique: 7wgF4C_MOoq8ZG08wsEl8g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD28F92502;
- Thu, 11 Mar 2021 14:48:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD7EA92505;
+ Thu, 11 Mar 2021 14:48:34 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B71645D9F2;
- Thu, 11 Mar 2021 14:48:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F3DB5DDAD;
+ Thu, 11 Mar 2021 14:48:33 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/38] curl: Disconnect sockets from CURLState
-Date: Thu, 11 Mar 2021 15:47:38 +0100
-Message-Id: <20210311144811.313451-6-kwolf@redhat.com>
+Subject: [PULL 11/38] qapi/qom: Drop deprecated 'props' from object-add
+Date: Thu, 11 Mar 2021 15:47:44 +0100
+Message-Id: <20210311144811.313451-12-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,178 +80,107 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+The option has been deprecated in QEMU 5.0, remove it.
 
-When a curl transfer is finished, that does not mean that CURL lets go
-of all the sockets it used for it.  We therefore must not free a
-CURLSocket object before CURL has invoked curl_sock_cb() to tell us to
-remove it.  Otherwise, we may get a use-after-free, as described in this
-bug report: https://bugs.launchpad.net/qemu/+bug/1916501
-
-(Reproducer from that report:
-  $ qemu-img convert -f qcow2 -O raw \
-  https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img \
-  out.img
-)
-
-(Alternatively, it might seem logical to force-drop all sockets that
-have been used for a state when the respective transfer is done, kind of
-like it is done now, but including unsetting the AIO handlers.
-Unfortunately, doing so makes the driver just hang instead of crashing,
-which seems to evidence that CURL still uses those sockets.)
-
-Make the CURLSocket object independent of "its" CURLState by putting all
-sockets into a hash table belonging to the BDRVCURLState instead of a
-list that belongs to a CURLState.  Do not touch any sockets in
-curl_clean_state().
-
-Testing, it seems like all sockets are indeed gone by the time the curl
-BDS is closed, so it seems like there really was no point in freeing any
-socket just because a transfer is done.  libcurl does invoke
-curl_sock_cb() with CURL_POLL_REMOVE for every socket it has.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1916501
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210309130541.37540-3-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: Peter Krempa <pkrempa@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/curl.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ qapi/qom.json                    |  6 +-----
+ docs/system/deprecated.rst       |  5 -----
+ docs/system/removed-features.rst |  5 +++++
+ qom/qom-qmp-cmds.c               | 21 ---------------------
+ 4 files changed, 6 insertions(+), 31 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index 43c79bcf36..50e741a0d7 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -79,7 +79,6 @@ typedef struct CURLAIOCB {
- typedef struct CURLSocket {
-     int fd;
-     struct BDRVCURLState *s;
--    QLIST_ENTRY(CURLSocket) next;
- } CURLSocket;
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 0b0b92944b..96c91c1faf 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -211,10 +211,6 @@
+ #
+ # @id: the name of the new object
+ #
+-# @props: a dictionary of properties to be passed to the backend. Deprecated
+-#         since 5.0, specify the properties on the top level instead. It is an
+-#         error to specify the same option both on the top level and in @props.
+-#
+ # Additional arguments depend on qom-type and are passed to the backend
+ # unchanged.
+ #
+@@ -232,7 +228,7 @@
+ #
+ ##
+ { 'command': 'object-add',
+-  'data': {'qom-type': 'str', 'id': 'str', '*props': 'any'},
++  'data': {'qom-type': 'str', 'id': 'str'},
+   'gen': false } # so we can get the additional arguments
  
- typedef struct CURLState
-@@ -87,7 +86,6 @@ typedef struct CURLState
-     struct BDRVCURLState *s;
-     CURLAIOCB *acb[CURL_NUM_ACB];
-     CURL *curl;
--    QLIST_HEAD(, CURLSocket) sockets;
-     char *orig_buf;
-     uint64_t buf_start;
-     size_t buf_off;
-@@ -102,6 +100,7 @@ typedef struct BDRVCURLState {
-     QEMUTimer timer;
-     uint64_t len;
-     CURLState states[CURL_NUM_STATES];
-+    GHashTable *sockets; /* GINT_TO_POINTER(fd) -> socket */
-     char *url;
-     size_t readahead_size;
-     bool sslverify;
-@@ -120,6 +119,21 @@ typedef struct BDRVCURLState {
- static void curl_clean_state(CURLState *s);
- static void curl_multi_do(void *arg);
+ ##
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 241b28a521..e6c2ba2d4d 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -219,11 +219,6 @@ Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
  
-+static gboolean curl_drop_socket(void *key, void *value, void *opaque)
-+{
-+    CURLSocket *socket = value;
-+    BDRVCURLState *s = socket->s;
+ Use arguments ``base-node`` and ``top-node`` instead.
+ 
+-``object-add`` option ``props`` (since 5.0)
+-'''''''''''''''''''''''''''''''''''''''''''
+-
+-Specify the properties for the object as top-level arguments instead.
+-
+ ``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].status (since 4.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 4dcf4f924c..5aa623ee65 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -58,6 +58,11 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
+ 
+ Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
+ 
++``object-add`` option ``props`` (removed in 6.0)
++''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+    aio_set_fd_handler(s->aio_context, socket->fd, false,
-+                       NULL, NULL, NULL, NULL);
-+    return true;
-+}
++Specify the properties for the object as top-level arguments instead.
 +
-+static void curl_drop_all_sockets(GHashTable *sockets)
-+{
-+    g_hash_table_foreach_remove(sockets, curl_drop_socket, NULL);
-+}
-+
- /* Called from curl_multi_do_locked, with s->mutex held.  */
- static int curl_timer_cb(CURLM *multi, long timeout_ms, void *opaque)
+ Human Monitor Protocol (HMP) commands
+ -------------------------------------
+ 
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index b40ac39f30..19fd5e117f 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -225,27 +225,6 @@ ObjectPropertyInfoList *qmp_qom_list_properties(const char *typename,
+ 
+ void qmp_object_add(QDict *qdict, QObject **ret_data, Error **errp)
  {
-@@ -147,16 +161,12 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
-     curl_easy_getinfo(curl, CURLINFO_PRIVATE, (char **)&state);
-     s = state->s;
- 
--    QLIST_FOREACH(socket, &state->sockets, next) {
--        if (socket->fd == fd) {
--            break;
+-    QObject *props;
+-    QDict *pdict;
+-
+-    props = qdict_get(qdict, "props");
+-    if (props) {
+-        pdict = qobject_to(QDict, props);
+-        if (!pdict) {
+-            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict");
+-            return;
 -        }
--    }
-+    socket = g_hash_table_lookup(s->sockets, GINT_TO_POINTER(fd));
-     if (!socket) {
-         socket = g_new0(CURLSocket, 1);
-         socket->fd = fd;
-         socket->s = s;
--        QLIST_INSERT_HEAD(&state->sockets, socket, next);
-+        g_hash_table_insert(s->sockets, GINT_TO_POINTER(fd), socket);
-     }
- 
-     trace_curl_sock_cb(action, (int)fd);
-@@ -180,8 +190,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
-     }
- 
-     if (action == CURL_POLL_REMOVE) {
--        QLIST_REMOVE(socket, next);
--        g_free(socket);
-+        g_hash_table_remove(s->sockets, GINT_TO_POINTER(fd));
-     }
- 
-     return 0;
-@@ -498,7 +507,6 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
- #endif
-     }
- 
--    QLIST_INIT(&state->sockets);
-     state->s = s;
- 
-     return 0;
-@@ -515,13 +523,6 @@ static void curl_clean_state(CURLState *s)
-     if (s->s->multi)
-         curl_multi_remove_handle(s->s->multi, s->curl);
- 
--    while (!QLIST_EMPTY(&s->sockets)) {
--        CURLSocket *socket = QLIST_FIRST(&s->sockets);
--
--        QLIST_REMOVE(socket, next);
--        g_free(socket);
+-        qobject_ref(pdict);
+-        qdict_del(qdict, "props");
+-        qdict_join(qdict, pdict, false);
+-        if (qdict_size(pdict) != 0) {
+-            error_setg(errp, "Option in 'props' conflicts with top level");
+-            qobject_unref(pdict);
+-            return;
+-        }
+-        qobject_unref(pdict);
 -    }
 -
-     s->in_use = 0;
- 
-     qemu_co_enter_next(&s->s->free_state_waitq, &s->s->mutex);
-@@ -539,6 +540,7 @@ static void curl_detach_aio_context(BlockDriverState *bs)
-     int i;
- 
-     WITH_QEMU_LOCK_GUARD(&s->mutex) {
-+        curl_drop_all_sockets(s->sockets);
-         for (i = 0; i < CURL_NUM_STATES; i++) {
-             if (s->states[i].in_use) {
-                 curl_clean_state(&s->states[i]);
-@@ -745,6 +747,7 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     qemu_co_queue_init(&s->free_state_waitq);
-     s->aio_context = bdrv_get_aio_context(bs);
-     s->url = g_strdup(file);
-+    s->sockets = g_hash_table_new_full(NULL, NULL, NULL, g_free);
-     qemu_mutex_lock(&s->mutex);
-     state = curl_find_state(s);
-     qemu_mutex_unlock(&s->mutex);
-@@ -818,6 +821,8 @@ out_noclean:
-     g_free(s->username);
-     g_free(s->proxyusername);
-     g_free(s->proxypassword);
-+    curl_drop_all_sockets(s->sockets);
-+    g_hash_table_destroy(s->sockets);
-     qemu_opts_del(opts);
-     return -EINVAL;
+     user_creatable_add_dict(qdict, false, errp);
  }
-@@ -916,6 +921,7 @@ static void curl_close(BlockDriverState *bs)
-     curl_detach_aio_context(bs);
-     qemu_mutex_destroy(&s->mutex);
  
-+    g_hash_table_destroy(s->sockets);
-     g_free(s->cookie);
-     g_free(s->url);
-     g_free(s->username);
 -- 
 2.29.2
 
