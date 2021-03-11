@@ -2,95 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C3E33800A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:05:47 +0100 (CET)
-Received: from localhost ([::1]:35290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17AB338032
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:21:10 +0100 (CET)
+Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTRC-0000P9-St
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:05:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59322)
+	id 1lKTg4-0005ft-D6
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:21:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKTPk-0007oR-Cx
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:04:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKTPh-0005Tm-2J
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:04:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615500251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/8wmSEsNFf2s0GrRSOOCIkF27LJLhiH2Xr0IlBgUmmk=;
- b=da77rQUfXSfVi31FloyCEcu/k4EDVrC2/T0DN2ackFIpDtYXuK9jCyrJD6slVRfjbzwsM4
- L+l7+7txKtfAX9yrcK4XpvkyBYbfp/W/DvFiIZQ2uoYcBaL1+AqWnudG9+PAE26NGICEUO
- 7oAU7QQ1hv6CjcPE6QzO5HiutErJFjQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-g-WZVZrANPOYX62pPibqfw-1; Thu, 11 Mar 2021 17:04:09 -0500
-X-MC-Unique: g-WZVZrANPOYX62pPibqfw-1
-Received: by mail-wm1-f70.google.com with SMTP id w10so2681399wmk.1
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 14:04:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/8wmSEsNFf2s0GrRSOOCIkF27LJLhiH2Xr0IlBgUmmk=;
- b=LC90w0+QHdK9e6RFwNFRtdg8WP6P9XuZvEkqon5BK9zpNg6Q5k9BRRzmoNKMMnC2Ra
- 8nqQliomnuIQyZ6jg7cUfFu6hEdohAXaYhNKOP0VdL1oUctWgNpUqTT23dkGuc57wCm6
- 06g4k2z8KFrqp4kMZUo6Wfe23heNt/WnA8Q1dNMVaeNFj4U6tK6IF3+QKHFpvRDKHRPQ
- IaK1FLkZls8NZKSNIdYocwGtV3FlkLEnlirgyPw7wj7V7IVKQB3BSBzUDEs6o6Oh64P6
- dFEvkLR1SlNoElgCa8gOozR850psaPqylcSAj/ltjXSgkg/7a5C7oJd0n8qKUL3DOaHF
- UrcQ==
-X-Gm-Message-State: AOAM533NeKIYvWQya9KsWBne61Tt2lVfwUIR7Eu53jqLntlSTAEbNTue
- 4p7NSyovlKigXDJlDO2L9ZenN65R7XQnIs4R9g7hYm7Y0VdMVy06VYZ/M90ZNomQN9iUGZJA7m1
- k/Dr1FIi/vWEwlzw=
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr9951456wmi.28.1615500248147; 
- Thu, 11 Mar 2021 14:04:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUrIX3rqDRbQavtz/3YgbcEEvOhWk+CwacOhK/x+nwLWoduV9MSTiIBGDw9Itpjkt7f16u4A==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr9951427wmi.28.1615500247971; 
- Thu, 11 Mar 2021 14:04:07 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id z2sm6519487wrm.0.2021.03.11.14.04.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 14:04:07 -0800 (PST)
-Subject: Re: [PATCH 05/14] migrate: remove QMP/HMP commands for speed,
- downtime and cache size
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210224131142.1952027-1-berrange@redhat.com>
- <20210224131142.1952027-6-berrange@redhat.com> <YEoE7NdH+LNzDlXW@work-vm>
- <1e211782-d0c6-6026-6a4e-b5eb626b8fb3@redhat.com>
- <YEpilXGj9m4cCSY0@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c0540b42-2a83-2121-03fa-f4aa1c45b4d1@redhat.com>
-Date: Thu, 11 Mar 2021 23:04:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdf-0004Gm-BP
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:39 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:48279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00048w-Jl
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:39 -0500
+Received: from localhost.localdomain ([82.142.6.26]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MaHOX-1lHX633Wnl-00WF9w; Thu, 11 Mar 2021 23:18:31 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] M68k for 6.0 patches
+Date: Thu, 11 Mar 2021 23:18:23 +0100
+Message-Id: <20210311221827.2595898-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <YEpilXGj9m4cCSY0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2Y5jFcMx+1N7zRbl5YVOTSArrqnSrJod5kfTyXnWpn+qafnjjHs
+ NE8/GaELNPny5KV0mWfF3g12Z2HWGicZSXhIqWmEE23bSLW/qReF0tS5DtJvWq5YDYDM21n
+ QEt0s14+LE44kSbo3co2z3qeUgaXsNPmw1IXzYBb5vLKnb8qKqaYGMXRZCUYv5lTniNoknR
+ p1N8AsXOj8Q/hp31d0e3w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:q7e80M6gvpI=:4S4fHxNID/O3DS8uOTuZg2
+ vg19RXOQoj2QVih4IrLkuSkg6lnLo9rDeieFhzdQAlxL5SQECupvYH+vgE/Si4ctCPnCgpQmj
+ BDqmW/3xhVEWiJ2HMQI197+wo977/rEnzPLEqVmjH5fKkj7r7pNz4mu2YC2zH8nuRP5lttIK4
+ Evc7xPBpJNO/CVXHT2PbwkAeSFocTQhSVrLgf4F1UyujL1+kwO3BmVrvSULkooGnCeIWutO74
+ TqBmPzS7VKxrGIwNjinuZprAUo6ssKmM7VwAvNm2msjtDe0Jg/t3ck6poeUBz9LKBoe3FbSE9
+ h9XzZeidnobu1Y4e5kQSHI1dJdN7akFEqJqWhRkxkYynRGPc3X1ReB78cVGcMAltEzcgehVtp
+ P+7tAvswWXhXyL6tEae0hyNdg+vgbXiWa8eYeGkF7q+wdaz8lNbjZyh7YGsSzM72S1YTOs5e4
+ T1+0lXZpiA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,53 +61,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/03/21 19:33, Daniel P. Berrangé wrote:
-> On Thu, Mar 11, 2021 at 07:18:54PM +0100, Paolo Bonzini wrote:
->> On 11/03/21 12:54, Dr. David Alan Gilbert wrote:
->>> * Daniel P. Berrangé (berrange@redhat.com) wrote:
->>>> The generic 'migrate_set_parameters' command handle all types of param.
->>>>
->>>> Only the QMP commands were documented in the deprecations page, but the
->>>> rationale for deprecating applies equally to HMP, and the replacements
->>>> exist. Furthermore the HMP commands are just shims to the QMP commands,
->>>> so removing the latter breaks the former unless they get re-implemented.
->>>>
->>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>>
->>> Yes OK; ouch that's going to break my 7 years of instinctive
->>> 'migrate_set_speed 10G' typing, but it's probably the right thing to do.
->>
->> migrate_set_speed should remain if it is not changed to have a sane default.
-> 
-> Define sane ?   The default is 1 Gib/s since:
-> 
->    commit 7590a2ae091fde8bb72d5df93977ab9707e23242
->    Author: Laurent Vivier <lvivier@redhat.com>
->    Date:   Mon Sep 21 16:49:57 2020 +0200
-> 
->      migration: increase max-bandwidth to 128 MiB/s (1 Gib/s)
-
-Oh, I missed that!  I was still thinking of the old 32 MiB/s value.
-
-Paolo
-
+The following changes since commit f4abdf32714d1845b7c01ec136dd2b04c2f7db47=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-docs-xen-=
+up=3D=0D
+dates-100321-2' into staging (2021-03-11 16:20:58 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request=0D
+=0D
+for you to fetch changes up to a9431a03f70c8c711a870d4c1a0439bdbb4703cf:=0D
+=0D
+  target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature (2021-03-11 21:12:32=
+ +=3D=0D
+0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Prepare MacOS ROM support:=0D
+  - add RTR instruction=0D
+  - fix unaligned access requirement=0D
+  - fix ATC bit (68040 MMU)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Laurent Vivier (1):=0D
+  target/m68k: implement rtr instruction=0D
+=0D
+Mark Cave-Ayland (3):=0D
+  target/m68k: don't set SSW ATC bit for physical bus errors=0D
+  target/m68k: reformat m68k_features enum=0D
+  target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature=0D
+=0D
+ target/m68k/cpu.h       | 68 ++++++++++++++++++++++++++++-------------=0D
+ target/m68k/cpu.c       |  1 +=0D
+ target/m68k/op_helper.c | 17 +++++++++--=0D
+ target/m68k/translate.c | 20 ++++++++++++=0D
+ 4 files changed, 82 insertions(+), 24 deletions(-)=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
