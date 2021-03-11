@@ -2,66 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483CB336D8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:14:18 +0100 (CET)
-Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE82336D8D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:15:19 +0100 (CET)
+Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKGSX-0006ha-BP
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:14:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36624)
+	id 1lKGTW-00087S-JS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:15:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lKGPV-0004ig-Ls; Thu, 11 Mar 2021 03:11:13 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:48668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lKGPQ-0000z5-Hk; Thu, 11 Mar 2021 03:11:07 -0500
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6341C2E12E6;
- Thu, 11 Mar 2021 11:10:58 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 4BjyelXDVl-AvJigbUR; Thu, 11 Mar 2021 11:10:58 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1615450258; bh=ZAAxQw+hV7ULwbSEGCBLkxAmhg3CAGfvkMSJiyjgB8E=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=HtDGDT/f2+iNavo8KNKkufWEVJpz+TW698sOgcsJql02Swv4qzZ0ELadLREpWiznX
- BlS5jB03dxECvGrZSI4BtEJFdBA2J17WEWSWuaPn0DKNamnQwANOXWdDm4BxGB1Ri9
- 6FmGtJJCUeFCmsDCFwQ2nw8h7XlIOM4JM5jmzabI=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8818::1:8])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 78PiAB5f07-AvnuYLbl; Thu, 11 Mar 2021 11:10:57 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] vhost-user-blk: use different event handlers on init and
- operation
-Date: Thu, 11 Mar 2021 11:10:45 +0300
-Message-Id: <20210311081045.271217-1-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKGSY-00076c-MX
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:14:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKGSV-0002mc-Rj
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:14:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615450454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ndCW6Va7mJC6zu8s4/0e8iYmeTIrPY9JbLY8pmnxdNM=;
+ b=RyCBgdb5pDl/XuxJbUnFJyCBy/4RB6H3uEa6h2dkThE4oa8trbWfpEBLcXjIpWsMuFtTwz
+ ZGqAr5DRAS78StfXeFT+hoOZr6FYKu7QqGbB7TG4ev8BH71+mE/T/4H3kB+tY8+qanSD9H
+ 52yCZICPCyU/4jP125b4Y1fgTZFsmW4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-_JWHT4_3PV-0ICi0qXLm4Q-1; Thu, 11 Mar 2021 03:14:12 -0500
+X-MC-Unique: _JWHT4_3PV-0ICi0qXLm4Q-1
+Received: by mail-ed1-f69.google.com with SMTP id q2so9498795edt.16
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 00:14:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ndCW6Va7mJC6zu8s4/0e8iYmeTIrPY9JbLY8pmnxdNM=;
+ b=AMIViACcwymCojz/f6c6r82CWzMFwTy3KUuc+oTgNBDnvA5hwXqbhT2mdvfnt2tXuR
+ E2srKF0jkpq0opT8RkFn+dHde3d27fK389Q0aOO+U0osqZw4rr59BCCoIQjNovCE9m4G
+ CdRxQhqAJJ/xKczVzWkyYbfdzcrkNWBJMHe8m05IunG6Q0xh9EYoG7ZD+KzcC0+aselV
+ /F6U7dIt2XnqRsfc/6tLPQezasvVU3wF9HssW7uvLofwzFxDt6hhnOClQ6z7KlJQLY9X
+ 6rtliMfg/uXTupfsWQUxRUk1Z1lqmIshdt4cuLpIUJCN69O/nwoQKMwPrwripzH3ciG0
+ i9oA==
+X-Gm-Message-State: AOAM533tXCNkbIaiaLLGIW0Q+ZQiuP6roOR+YkMe+TXKbUQk6ha26tUS
+ uC/lMgHUtWvGXdbjxVoVaL7gveq5edif++wqooY6PIa7j7UJRnpjiYkSVYnGt08OALqL9veFNRW
+ TsH1pBuw97VtU/Rg=
+X-Received: by 2002:a05:6402:2d0:: with SMTP id
+ b16mr7421130edx.194.1615450451561; 
+ Thu, 11 Mar 2021 00:14:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxiFJz+a0e/uiaLyJXcscaaof0CxN+naKWc7HtHViczF4Xp2CKb4BYYCmUZNktDA0LplQo6LQ==
+X-Received: by 2002:a05:6402:2d0:: with SMTP id
+ b16mr7421100edx.194.1615450451253; 
+ Thu, 11 Mar 2021 00:14:11 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id c20sm892839eja.22.2021.03.11.00.14.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Mar 2021 00:14:10 -0800 (PST)
+Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210308165440.386489-1-kwolf@redhat.com>
+ <YEjWQnWKbr5teciB@angien.pipo.sk>
+ <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
+ <20210310173044.GF6076@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ad85d8d9-74a7-9e8f-8287-b6ce66670ed3@redhat.com>
+Date: Thu, 11 Mar 2021 09:14:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210310173044.GF6076@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,183 +104,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- raphael.norwitz@nutanix.com, yc-core@yandex-team.ru, mreitz@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, Peter Krempa <pkrempa@redhat.com>,
+ ehabkost@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a1a20d06b73e "vhost-user-blk: delay vhost_user_blk_disconnect"
-introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
-because of connection problems with vhost-blk daemon.
+On 10/03/21 18:30, Kevin Wolf wrote:
+> Am 10.03.2021 um 15:31 hat Paolo Bonzini geschrieben:
+>> On 10/03/21 15:22, Peter Krempa wrote:
+>>> I've stumbled upon a regression with this patchset applied:
+>>>
+>>> error: internal error: process exited while connecting to monitor: qemu-system-x86_64: -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind: Invalid parameter type for 'host-nodes', expected: array
+>>
+>> This is the magic conversion of "string containing a list of integers"
+>> to "list of integers".
+> 
+> Ah, crap. This one wouldn't have been a problem when converting only
+> object-add, and I trusted your audit that user creatable objects don't
+> depend on any QemuOpts magic. I should have noticed it, too, of course,
+> but during the convertion I didn't have QemuOpts in mind, only QOM and
+> QAPI.
 
-However, it introdues a new problem. Now, any communication errors
-during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
-lead to qemu abort on assert in vhost_dev_get_config().
+Yeah, let's just drop the -object conversion for now. It will just 
+remove a few patches.
 
-This happens because vhost_user_blk_disconnect() is postponed but
-it should have dropped s->connected flag by the time
-vhost_user_blk_device_realize() performs a new connection opening.
-On the connection opening, vhost_dev initialization in
-vhost_user_blk_connect() relies on s->connection flag and
-if it's not dropped, it skips vhost_dev initialization and returns
-with success. Then, vhost_user_blk_device_realize()'s execution flow
-goes to vhost_dev_get_config() where it's aborted on the assert.
+Who is going to include this series in the next pull request, Markus or 
+myself?  The time is ticking for soft freeze.
 
-It seems connection/disconnection processing should happen
-differently on initialization and operation of vhost-user-blk.
-On initialization (in vhost_user_blk_device_realize()) we fully
-control the initialization process. At that point, nobody can use the
-device since it isn't initialized and we don't need to postpone any
-cleanups, so we can do cleanup right away when there is communication
-problems with the vhost-blk daemon.
-On operation the disconnect may happen when the device is in use, so
-the device users may want to use vhost_dev's data to do rollback before
-vhost_dev is re-initialized (e.g. in vhost_dev_set_log()), so we
-postpone the cleanup.
+Paolo
 
-The patch splits those two cases, and performs the cleanup immediately on
-initialization, and postpones cleanup when the device is initialized and
-in use.
-
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- hw/block/vhost-user-blk.c | 88 ++++++++++++++++++++++++---------------
- 1 file changed, 54 insertions(+), 34 deletions(-)
-
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index b870a50e6b20..84940122b8ca 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -362,7 +362,17 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     vhost_dev_cleanup(&s->dev);
- }
- 
--static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-+static void vhost_user_blk_event(void *opaque, QEMUChrEvent event, bool init);
-+
-+static void vhost_user_blk_event_init(void *opaque, QEMUChrEvent event)
-+{
-+    vhost_user_blk_event(opaque, event, true);
-+}
-+
-+static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
-+{
-+    vhost_user_blk_event(opaque, event, false);
-+}
- 
- static void vhost_user_blk_chr_closed_bh(void *opaque)
- {
-@@ -371,11 +381,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaque)
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
- 
-     vhost_user_blk_disconnect(dev);
--    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
--            NULL, opaque, NULL, true);
-+    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
-+            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
- }
- 
--static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-+static void vhost_user_blk_event(void *opaque, QEMUChrEvent event, bool init)
- {
-     DeviceState *dev = opaque;
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -390,38 +400,42 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-         break;
-     case CHR_EVENT_CLOSED:
-         /*
--         * A close event may happen during a read/write, but vhost
--         * code assumes the vhost_dev remains setup, so delay the
--         * stop & clear. There are two possible paths to hit this
--         * disconnect event:
--         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
--         * vhost_user_blk_device_realize() is a caller.
--         * 2. In tha main loop phase after VM start.
--         *
--         * For p2 the disconnect event will be delayed. We can't
--         * do the same for p1, because we are not running the loop
--         * at this moment. So just skip this step and perform
--         * disconnect in the caller function.
--         *
--         * TODO: maybe it is a good idea to make the same fix
--         * for other vhost-user devices.
-+         * Closing the connection should happen differently on device
-+         * initialization and operation stages.
-+         * On initalization, we want to re-start vhost_dev initialization
-+         * from the very beginning right away when the connection is closed,
-+         * so we clean up vhost_dev on each connection closing.
-+         * On operation, we want to postpone vhost_dev cleanup to let the
-+         * other code perform its own cleanup sequence using vhost_dev data
-+         * (e.g. vhost_dev_set_log).
-          */
--        if (runstate_is_running()) {
-+        if (init) {
-+            vhost_user_blk_disconnect(dev);
-+        } else {
-+            /*
-+             * A close event may happen during a read/write, but vhost
-+             * code assumes the vhost_dev remains setup, so delay the
-+             * stop & clear.
-+             */
-             AioContext *ctx = qemu_get_current_aio_context();
- 
--            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
--                    NULL, NULL, false);
--            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
-+            /*
-+             * Prevent any re-connection until cleanup is done in
-+             * vhost_user_blk_chr_closed_bh
-+             */
-+             qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
-+                     NULL, NULL, false);
-+             aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
-+
-+            /*
-+             * Move vhost device to the stopped state. The vhost-user device
-+             * will be clean up and disconnected in BH. This can be useful in
-+             * the vhost migration code. If disconnect was caught there is an
-+             * option for the general vhost code to get the dev state without
-+             * knowing its type (in this case vhost-user).
-+             */
-+            s->dev.started = false;
-         }
--
--        /*
--         * Move vhost device to the stopped state. The vhost-user device
--         * will be clean up and disconnected in BH. This can be useful in
--         * the vhost migration code. If disconnect was caught there is an
--         * option for the general vhost code to get the dev state without
--         * knowing its type (in this case vhost-user).
--         */
--        s->dev.started = false;
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-@@ -473,8 +487,10 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-     s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
-     s->connected = false;
- 
--    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, vhost_user_blk_event,
--                             NULL, (void *)dev, NULL, true);
-+    /* set the handler performing immediate cleanup on each disconnect */
-+    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-+                             vhost_user_blk_event_init, NULL, (void *)dev,
-+                             NULL, true);
- 
- reconnect:
-     if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
-@@ -494,6 +510,10 @@ reconnect:
-         goto reconnect;
-     }
- 
-+    /* we're fully initialized, now we can operate, so change the handler */
-+    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-+                             vhost_user_blk_event_oper, NULL, (void *)dev,
-+                             NULL, true);
-     return;
- 
- virtio_err:
--- 
-2.25.1
+> I checked all object types, and it seems this is the only one that is
+> affected. We have a second list in AuthZListProperties, but it contains
+> structs, so it was never supported on the command line anyway.
+> 
+>> The relevant code is in qapi/string-input-visitor.c, but I'm not sure where
+>> to stick it in the keyval-based parsing flow (i.e.
+>> qobject_input_visitor_new_keyval).  Markus, any ideas?
+> 
+> The best I can think of at the moment would be adding a flag to the
+> keyval parser that would enable the feature only for -object (and only
+> in the system emulator, because memory-backend-ram doesn't exist in the
+> tools):
+> 
+> The keyval parser would create a list if multiple values are given for
+> the same key. Some care needs to be taken to avoid mixing the magic
+> list feature with the normal indexed list options.
+> 
+> The QAPI schema would then use an alternate between 'int' and ['int'],
+> with the the memory-backend-ram implementation changed accordingly.
+> 
+> We could consider immediately deprecating the syntax and printing a
+> warning in the keyval parser when it automatically creates a list from
+> two values for a key, so that users don't start using this syntax
+> instead of the normal list syntax in other places. We'd probably still
+> leave the implementation around for -device and other users of the same
+> magic.
+> 
+> Kevin
+> 
 
 
