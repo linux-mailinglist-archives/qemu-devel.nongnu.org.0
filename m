@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5773336E53
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:55:49 +0100 (CET)
-Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AD4336E57
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:57:14 +0100 (CET)
+Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKH6i-0002LX-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:55:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47184)
+	id 1lKH85-0003NV-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:57:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH4t-0001sb-C4
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:53:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28751)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH7F-0002sq-Ch
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:56:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH4n-0001IK-94
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:53:55 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKH7E-0002nb-0n
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:56:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615452827;
+ s=mimecast20190719; t=1615452979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PGJxA5RMmoY3lkyIUx5BzvndPMIyt6d1ASEyY+v+K60=;
- b=dYLuZyGFJrgTMN7H7bdI2O5qJJeGMfvgdCRFueZ6dZJ8XjpgQVCnS2VNkMF2bxkj+dtZAl
- 8lwdRRLqphrGKzHoSrZWEAW9yevDyYRDikBy+opYepm6DLgmzb2aYl21WAM4r/jos8EukI
- OObifwHXjsrEAXRerU6Jp7jzn0ELfQA=
+ bh=ABTWdydiL2UNHoS46gkkXZJDeu7Jg+NiHaWcDl4Ri5c=;
+ b=FEYjWneobOCoHwyoA/vmpiRL8cKgoy7s5zhVJBwEtyoDRQSs6sGaXUKUsGnB/VDC+G3iVL
+ LXifYT4A8UcyKOL8WgGpKtf2r2FCpYt/JWf1ug7ZyW27JceFQgPAjHN6601aR1gUGqHSHM
+ RLVPNSQBs4LMsV7esntw9NaVuny6wOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-TFvpVB_fMDyh79IAFF-F4g-1; Thu, 11 Mar 2021 03:53:45 -0500
-X-MC-Unique: TFvpVB_fMDyh79IAFF-F4g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-314-6VvdJBIGNcCViY0fYl7SGg-1; Thu, 11 Mar 2021 03:56:17 -0500
+X-MC-Unique: 6VvdJBIGNcCViY0fYl7SGg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27BF28B7D12;
- Thu, 11 Mar 2021 08:53:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85E1F801817;
+ Thu, 11 Mar 2021 08:56:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5B02101F961;
- Thu, 11 Mar 2021 08:53:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F1E95D9DB;
+ Thu, 11 Mar 2021 08:56:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2B92C180087E; Thu, 11 Mar 2021 09:53:33 +0100 (CET)
-Date: Thu, 11 Mar 2021 09:53:33 +0100
+ id B007F180087E; Thu, 11 Mar 2021 09:56:14 +0100 (CET)
+Date: Thu, 11 Mar 2021 09:56:14 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v3] ui/cocoa: Clear modifiers whenever possible
-Message-ID: <20210311085333.s3ww3jrdqp5fkg3i@sirius.home.kraxel.org>
-References: <20210310144602.58528-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Mark variables static
+Message-ID: <20210311085614.ork5tjoqfqtfnjj7@sirius.home.kraxel.org>
+References: <20210225084202.39601-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210310144602.58528-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210225084202.39601-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,25 +78,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Konstantin Nazarov <mail@knazarov.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Thu, Feb 25, 2021 at 05:42:02PM +0900, Akihiko Odaki wrote:
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-> +            switch ([event keyCode]) {
-> +                case kVK_Shift:
-> +                    if (!!(modifiers & NSEventModifierFlagShift)) {
-> +                        [self toggleKey:Q_KEY_CODE_SHIFT];
-> +                    }
-
-Ah, nice, this should get left-shift toggles while holding right-shift
-right.
-
-A comment describing the NSEventTypeFlagsChanged quirks would be nice to
-make it easier to understand the logic of this code.  Can go as separate
-patch, I'll add this to the UI queue.
+Added to UI queue.
 
 thanks,
   Gerd
