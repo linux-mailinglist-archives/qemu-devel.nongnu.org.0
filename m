@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6F133688B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:23:55 +0100 (CET)
-Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5D433688E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:24:02 +0100 (CET)
+Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK97K-0006Jl-0P
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:23:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
+	id 1lK97R-0006PM-HG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95c-0004dJ-B0
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35899)
+ id 1lK95e-0004eA-3F
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:10 -0500
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:42565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95Z-0001JD-Ia
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id o22so11499377oic.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:03 -0800 (PST)
+ id 1lK95a-0001JI-1M
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:09 -0500
+Received: by mail-oo1-xc32.google.com with SMTP id
+ h3-20020a4ae8c30000b02901b68b39e2d3so258736ooe.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ew8qZdu81WnFij1k26f+T5scId3naFPXGZ2aYVLbpZU=;
- b=kFkBvYI+LK4qKlnbc+hsAhBJReaMyFbeIRbRLtkjYq3N0BIPtZOMyIxE7aB/RX2GOC
- d8k5txEiogEfOpPjPESDG/lh6Dh285IhzrztpOsfIadwPOn0kU1lxIERxKiSoBeaWpU6
- 6NJWyVr5RfmPMqkUkEDZ/m0RCmJ0DdHUDg4QcRpnrsI6XvJclf9zaJNTOZ2BKi3C0YNg
- SKc8Bwrum1BbU4lKZge5emlAr00L04s5n6wJlDHAtmqniBeXQcsiE232kja9mGKDYVCJ
- YidD0ZM0m8AH4VvEf7mLPF7JtxPihcdDIb1KiBD5pnoZoBW+JkWYqo/A42kBCq39VDtX
- yiHg==
+ bh=Zo0Axh7LGw4WyjdfTcLkZAEZsIuFs0M9C89s4USb0+Y=;
+ b=Jdzg4iTMFxZXQZi+QEi0vFtUYWngp7sS2lrb0JFuIkK85kKLgejVPqolV7OwAAkxJx
+ lMsHKGP9xyKnoMZ1YLUB/LdsYR+rMgapGngj7jrK/nfGzy15+EGIpKQatQWKBDkspFc7
+ Le6AivoQfyTlZSoIr7x+KyPsIicfXO11VuMQKvhl0pCcBBayEvTY/Reto/x7eSrbaJd0
+ bLGyIQKFJdMyrF7Iq6WrjV92Opvzl2m21LNOqcGvj14aBBHAvIzR0EmxUWHQitUfP8Id
+ HTm5eF53BJUDYGajvbTjg5fOFnltCPVSAHSDmPR7b2b1DMeCNktNkbQtabCB2rmt/e9Z
+ hoiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ew8qZdu81WnFij1k26f+T5scId3naFPXGZ2aYVLbpZU=;
- b=tgGGEzJKIB5R+VbL2pc4IjnIgGG5tHy1CnW0yAYaNrfJkqg48Sw8PqrMn35DipBR8b
- hGkjgqaMfewb7Uo4EvjADwcn8RPPEms4z2JSV3juAze7EfEmNVkPPOzAP+zPNYCSODU0
- oQ7emDRHOi/300StCg+MB94sKVYBplssoyRGJyoKZ/9jQTPzS0MFzR1HRD+fZRoMssAG
- gUmSN/yYQSRPWoBI9qsjRL/w6r0fAPe0TQktmr+RNB9Yfc5qunPoDEAuSJqzziY55XKf
- IKeTNc55i4qVn7/IzrxENWIad8RCQkk3JkuqqqhcgX6+q4we+qwSZKPDSOX9l/lKZAoE
- oapg==
-X-Gm-Message-State: AOAM533gBGALpf9OdBp7jplWHBAnxYCVRgRtKuaG4As4iBO6Zfg+1tA4
- a9kILgeFfWrgOqGBYRW75BYpaFPaoP/LxfIp
-X-Google-Smtp-Source: ABdhPJz7PVGwhXtfJa1kZ6oBN+iBZ9V7xSXQmB0NZN77Z1Hu+eTFJHzML4XdB+9nRmJD2sYGfGyT1g==
-X-Received: by 2002:aca:3507:: with SMTP id c7mr4322139oia.26.1615422123321;
- Wed, 10 Mar 2021 16:22:03 -0800 (PST)
+ bh=Zo0Axh7LGw4WyjdfTcLkZAEZsIuFs0M9C89s4USb0+Y=;
+ b=Lzl/w31XvjuVCvMcRd+909Slr/6saCK7VO0+LUZ1RQsmUlF3h3SbvU5pdjEflsam46
+ KOPSmFzBElynz9Pj643/Vlrps3DTWVpFwd7+6cUjQtxkRqVvxt/7yrkpP2AkDPYZ2VoG
+ jAKCigO4Gk6jsH/7x5PzlIvpPgulGFd8xudFfLiqaq9Y3OGqNgPcFWEBYhkDuhVXrucE
+ fMvNolOxyqlT4kzFMzqLgt7V2ApiFpCr7b81R6bEe4VhdHBa21BWtak6W2VQkjE5MrBC
+ 8U+nlLZDfAaMTITZHeY8I84w1s4KbizjeV976XmNMJ+z9VBUJN80rcOPwpPGXk5n+JA4
+ LXmA==
+X-Gm-Message-State: AOAM531nn7rr2sI0hrQ10OuBiFEBNbN4uHdt3/LqsDoAKQ8U/mvk+uq1
+ CxfjcWA7rLnhDUpop1FXHevamqaon94tB8dH
+X-Google-Smtp-Source: ABdhPJzMxNhVPQHcGNRtdxrlcu0p9MJSgFtEzpuChLisWGLigJUbVmIua4lYsxFCQsWsRSfzt+WWZQ==
+X-Received: by 2002:a4a:d48b:: with SMTP id o11mr4425367oos.2.1615422124637;
+ Wed, 10 Mar 2021 16:22:04 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.02
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:02 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/26] meson: Split out fpu/meson.build
-Date: Wed, 10 Mar 2021 18:21:33 -0600
-Message-Id: <20210311002156.253711-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/26] tcg: Re-order tcg_region_init vs tcg_prologue_init
+Date: Wed, 10 Mar 2021 18:21:34 -0600
+Message-Id: <20210311002156.253711-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,42 +88,176 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Instead of delaying tcg_region_init until after tcg_prologue_init
+is complete, do tcg_region_init first and let tcg_prologue_init
+shrink the first region by the size of the generated prologue.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build     | 4 +---
- fpu/meson.build | 1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
- create mode 100644 fpu/meson.build
+ accel/tcg/tcg-all.c       | 11 ---------
+ accel/tcg/translate-all.c |  3 +++
+ bsd-user/main.c           |  1 -
+ linux-user/main.c         |  1 -
+ tcg/tcg.c                 | 52 ++++++++++++++-------------------------
+ 5 files changed, 22 insertions(+), 46 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index f884a62682..c8a5ca65e5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1934,9 +1934,6 @@ subdir('softmmu')
- common_ss.add(capstone)
- specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
- specific_ss.add(files('exec-vary.c'))
--specific_ss.add(when: 'CONFIG_TCG', if_true: files(
--  'fpu/softfloat.c',
--))
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index e378c2db73..f132033999 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -111,17 +111,6 @@ static int tcg_init(MachineState *ms)
  
- subdir('backends')
- subdir('disas')
-@@ -1946,6 +1943,7 @@ subdir('net')
- subdir('replay')
- subdir('hw')
- subdir('tcg')
-+subdir('fpu')
- subdir('accel')
- subdir('plugins')
- subdir('bsd-user')
-diff --git a/fpu/meson.build b/fpu/meson.build
-new file mode 100644
-index 0000000000..1a9992ded5
---- /dev/null
-+++ b/fpu/meson.build
-@@ -0,0 +1 @@
-+specific_ss.add(when: 'CONFIG_TCG', if_true: files('softfloat.c'))
+     tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
+     mttcg_enabled = s->mttcg_enabled;
+-
+-    /*
+-     * Initialize TCG regions only for softmmu.
+-     *
+-     * This needs to be done later for user mode, because the prologue
+-     * generation needs to be delayed so that GUEST_BASE is already set.
+-     */
+-#ifndef CONFIG_USER_ONLY
+-    tcg_region_init();
+-#endif /* !CONFIG_USER_ONLY */
+-
+     return 0;
+ }
+ 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index f32df8b240..b9057567f4 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1339,6 +1339,9 @@ void tcg_exec_init(unsigned long tb_size, int splitwx)
+                                splitwx, &error_fatal);
+     assert(ok);
+ 
++    /* TODO: allocating regions is hand-in-glove with code_gen_buffer. */
++    tcg_region_init();
++
+ #if defined(CONFIG_SOFTMMU)
+     /* There's no guest base to take into account, so go ahead and
+        initialize the prologue now.  */
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 798aba512c..3669d2b89e 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -994,7 +994,6 @@ int main(int argc, char **argv)
+        generating the prologue until now so that the prologue can take
+        the real value of GUEST_BASE into account.  */
+     tcg_prologue_init(tcg_ctx);
+-    tcg_region_init();
+ 
+     /* build Task State */
+     memset(ts, 0, sizeof(TaskState));
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 4f4746dce8..1bc48ca954 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -850,7 +850,6 @@ int main(int argc, char **argv, char **envp)
+        generating the prologue until now so that the prologue can take
+        the real value of GUEST_BASE into account.  */
+     tcg_prologue_init(tcg_ctx);
+-    tcg_region_init();
+ 
+     target_cpu_copy_regs(env, regs);
+ 
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 2991112829..0a2e5710de 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1204,32 +1204,18 @@ TranslationBlock *tcg_tb_alloc(TCGContext *s)
+ 
+ void tcg_prologue_init(TCGContext *s)
+ {
+-    size_t prologue_size, total_size;
+-    void *buf0, *buf1;
++    size_t prologue_size;
+ 
+     /* Put the prologue at the beginning of code_gen_buffer.  */
+-    buf0 = s->code_gen_buffer;
+-    total_size = s->code_gen_buffer_size;
+-    s->code_ptr = buf0;
+-    s->code_buf = buf0;
++    tcg_region_assign(s, 0);
++    s->code_ptr = s->code_gen_ptr;
++    s->code_buf = s->code_gen_ptr;
+     s->data_gen_ptr = NULL;
+ 
+-    /*
+-     * The region trees are not yet configured, but tcg_splitwx_to_rx
+-     * needs the bounds for an assert.
+-     */
+-    region.start = buf0;
+-    region.end = buf0 + total_size;
+-
+ #ifndef CONFIG_TCG_INTERPRETER
+-    tcg_qemu_tb_exec = (tcg_prologue_fn *)tcg_splitwx_to_rx(buf0);
++    tcg_qemu_tb_exec = (tcg_prologue_fn *)tcg_splitwx_to_rx(s->code_ptr);
+ #endif
+ 
+-    /* Compute a high-water mark, at which we voluntarily flush the buffer
+-       and start over.  The size here is arbitrary, significantly larger
+-       than we expect the code generation for any one opcode to require.  */
+-    s->code_gen_highwater = s->code_gen_buffer + (total_size - TCG_HIGHWATER);
+-
+ #ifdef TCG_TARGET_NEED_POOL_LABELS
+     s->pool_labels = NULL;
+ #endif
+@@ -1246,32 +1232,32 @@ void tcg_prologue_init(TCGContext *s)
+     }
+ #endif
+ 
+-    buf1 = s->code_ptr;
++    prologue_size = tcg_current_code_size(s);
++
+ #ifndef CONFIG_TCG_INTERPRETER
+-    flush_idcache_range((uintptr_t)tcg_splitwx_to_rx(buf0), (uintptr_t)buf0,
+-                        tcg_ptr_byte_diff(buf1, buf0));
++    flush_idcache_range((uintptr_t)tcg_splitwx_to_rx(s->code_buf),
++                        (uintptr_t)s->code_buf, prologue_size);
+ #endif
+ 
+-    /* Deduct the prologue from the buffer.  */
+-    prologue_size = tcg_current_code_size(s);
+-    s->code_gen_ptr = buf1;
+-    s->code_gen_buffer = buf1;
+-    s->code_buf = buf1;
+-    total_size -= prologue_size;
+-    s->code_gen_buffer_size = total_size;
++    /* Deduct the prologue from the first region.  */
++    region.start = s->code_ptr;
+ 
+-    tcg_register_jit(tcg_splitwx_to_rx(s->code_gen_buffer), total_size);
++    /* Recompute boundaries of the first region. */
++    tcg_region_assign(s, 0);
++
++    tcg_register_jit(tcg_splitwx_to_rx(region.start),
++                     region.end - region.start);
+ 
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+         FILE *logfile = qemu_log_lock();
+         qemu_log("PROLOGUE: [size=%zu]\n", prologue_size);
+         if (s->data_gen_ptr) {
+-            size_t code_size = s->data_gen_ptr - buf0;
++            size_t code_size = s->data_gen_ptr - s->code_gen_ptr;
+             size_t data_size = prologue_size - code_size;
+             size_t i;
+ 
+-            log_disas(buf0, code_size);
++            log_disas(s->code_gen_ptr, code_size);
+ 
+             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
+                 if (sizeof(tcg_target_ulong) == 8) {
+@@ -1285,7 +1271,7 @@ void tcg_prologue_init(TCGContext *s)
+                 }
+             }
+         } else {
+-            log_disas(buf0, prologue_size);
++            log_disas(s->code_gen_ptr, prologue_size);
+         }
+         qemu_log("\n");
+         qemu_log_flush();
 -- 
 2.25.1
 
