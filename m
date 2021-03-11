@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AAD337F98
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:23:50 +0100 (CET)
-Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DD9337F90
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:20:12 +0100 (CET)
+Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKSmb-0005tG-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:23:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
+	id 1lKSj5-0000td-2n
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:20:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZB-0006tJ-Ot
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:59 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:58713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSZ6-00053w-L8
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:57 -0500
-Received: from localhost.localdomain ([82.142.6.26]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MIxBc-1l0Bcj1odO-00KLda; Thu, 11 Mar 2021 22:09:43 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] m68k: add Virtual M68k Machine
-Date: Thu, 11 Mar 2021 22:09:34 +0100
-Message-Id: <20210311210934.1935587-10-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210311210934.1935587-1-laurent@vivier.eu>
-References: <20210311210934.1935587-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lKSbW-0001l9-H8
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:12:22 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:38596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lKSbU-0006EV-4X
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:12:22 -0500
+Received: by mail-ej1-x636.google.com with SMTP id mj10so49139248ejb.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 13:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eohplvbTQMp8CzehnA67s2fpqWrwwAnrPyEuEFVuUJ0=;
+ b=krV78SRser1M1pkTqYjFMUJzlqJexj1+Kaw6FK/BUePtMHvukudBDqcG8PSrHsbVZt
+ 47zjc7Ho9Ms0OEeBY23ivWTECV7CQR6xL7w45mRmx2irZe4isJ+yW5S4K1YvJgj7r8SN
+ zEoo3DgBqsP3qzcOcwl7LxU6jyW5+qFPaNXhh4GT/0PKn8gWdrwPqmEXVbhe7tgsZ+Ki
+ B215VFZ/BH8eGq6V0mex4BLcE5dlQLdTrdx6Gg4T3Zjs9PsMBbG49bynR2b7k6260Sv0
+ /4vxJEWid3rVwHxX4A94cytQB+lKMzOAoQNl2n7pPWZKrTXr2ppasCw3fS/qvb+nzh3v
+ dTIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eohplvbTQMp8CzehnA67s2fpqWrwwAnrPyEuEFVuUJ0=;
+ b=oORfDp6sIImhx9IhOpKZGIZVVZ17/T+MwRcuFhtl3w4uEb+6dNOpvADrcnh9AkSdHL
+ DPB1F83W9FE82j+xsyqmfddovhFzZF1kiBMaYH8yqq9Fv/h2DiWXVLZ2bDiMW/ykBtQg
+ JKhCgdfUDisimiKjrfMKPr8s2eC/uE6rMY8EyLp/n1jkzwzkcvKwHHWWhzyNTbQqKWhE
+ yxdgQzOugkVBWKaVeCZ/BF55lS40g0GiaIfg5OTWdNE1Dzx9seDxnSnVaYQPJTA8rbX5
+ HQrckqq1zVgTuYH81Q4Qrp/tr+8qJoGrN9oji0XY+/31s9U7bP6TKHgV8PirnBbuMc3f
+ Oxlg==
+X-Gm-Message-State: AOAM532Jq2caOtpjYEo2H9TLsk0koIUe6k6clvbjoCirSVMrzFdJzu50
+ S1pIPztadvH03KUdZ5MEjkNjLdfxX1053YR8irw=
+X-Google-Smtp-Source: ABdhPJyWu/eu0p9eW6i25F9Ih1ApudHLnJyhM5Oo55X37/5NXaFdG2BCv8jJoycAoLOa1p26KUE9/y7B9Nj2ZrFG2OU=
+X-Received: by 2002:a17:906:a1c8:: with SMTP id
+ bx8mr4868183ejb.381.1615497138343; 
+ Thu, 11 Mar 2021 13:12:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:E6BilKKcTi5+/9SlmpqPVwc5aqsvieR+dLlne1HvvgLvWF9AUw1
- PrM3oGVPYVNqs56o/bEJJnd/sHAi264hEMAkE0lIJw6yDeLWd7T1Ni0FXq3GnsR1bjCs5u5
- xU3C4QtfUr9mU8MqPksCSaKw1RsxFvXySfidRrbngK6HH0GKgxIv+5xWDSUDW9TAKgAPfuX
- ycFEjuTObM/zlLtcd82vw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:b3ZBN+ILLKY=:OjirhMZvJMxIjDUphBpEXO
- tJ1t5SJ+OIvTTU0CUy97VGZSG0CSstjl21Z2+Q8qEZ+JcWszdXXzjbSPNJPvbeGz7OYPh38cT
- La9sHLkXCsLuQXK7ZcmoVcCHig3WXq25bacEvIhu2799sN5R8JPSK4gXI/rh1PTZcFjygNeuh
- 7E/Pbmr4UaPn0K+K+fZ7EM9R++QtmMR1FNFoOiizJYK+0E3s6dDX+1Yf72beSQ6mQi0Va4mbA
- FZr8LfrfhmS+J1gBGsSMHJWDfEgnp5GsNxh4u3A/XftK4KCVHTfPa5vgMb+H+fsbZOcIEyfBT
- /I/h83b4sG8dmN3oegvhLaaNdt56xYY8rlhEthLoeatvIUnK9OqGSjU+yhewL3f3e3pldQhMy
- zxCi8VYeHf7nUS4VyuXUv+tHDnOonC9sgK3djdzA+TLlbaGZu/lSxnWWBlava
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210311182957.486939-1-berrange@redhat.com>
+ <20210311182957.486939-2-berrange@redhat.com>
+In-Reply-To: <20210311182957.486939-2-berrange@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 12 Mar 2021 01:12:06 +0400
+Message-ID: <CAJ+F1CKyo3BdsK4_0vc8Nfbqj=eB8q63qodQ51E9S14Xm5sbuA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ui: add more trace points for VNC client/server
+ messages
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001113a805bd493def"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,440 +79,396 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The machine is based on Goldfish interfaces defined by Google
-for Android simulator. It uses Goldfish-rtc (timer and RTC),
-Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
+--0000000000001113a805bd493def
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The machine is created with 128 virtio-mmio bus, and they can
-be used to use serial console, GPU, disk, NIC, HID, ...
+On Thu, Mar 11, 2021 at 10:43 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om>
+wrote:
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210309195941.763896-6-laurent@vivier.eu>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> This adds trace points for desktop size and audio related messages.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 ---
- default-configs/devices/m68k-softmmu.mak      |   1 +
- .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +
- hw/m68k/virt.c                                | 313 ++++++++++++++++++
- MAINTAINERS                                   |  13 +
- hw/m68k/Kconfig                               |   9 +
- hw/m68k/meson.build                           |   1 +
- 6 files changed, 355 insertions(+)
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
- create mode 100644 hw/m68k/virt.c
+>  ui/trace-events |  9 +++++++++
+>  ui/vnc.c        | 21 +++++++++++++++++++--
+>  2 files changed, 28 insertions(+), 2 deletions(-)
+>
+> diff --git a/ui/trace-events b/ui/trace-events
+> index 0ffcdb4408..bd8f8a9d18 100644
+> --- a/ui/trace-events
+> +++ b/ui/trace-events
+> @@ -37,6 +37,15 @@ vnc_key_event_ext(bool down, int sym, int keycode,
+> const char *name) "down %d, s
+>  vnc_key_event_map(bool down, int sym, int keycode, const char *name)
+> "down %d, sym 0x%x -> keycode 0x%x [%s]"
+>  vnc_key_sync_numlock(bool on) "%d"
+>  vnc_key_sync_capslock(bool on) "%d"
+> +vnc_msg_server_audio_begin(void *state, void *ioc) "VNC server msg audio
+> begin state=3D%p ioc=3D%p"
+> +vnc_msg_server_audio_end(void *state, void *ioc) "VNC server msg audio
+> end state=3D%p ioc=3D%p"
+> +vnc_msg_server_audio_data(void *state, void *ioc, const void *buf, size_=
+t
+> len) "VNC server msg audio data state=3D%p ioc=3D%p buf=3D%p len=3D%zd"
+> +vnc_msg_server_desktop_resize(void *state, void *ioc, int width, int
+> height) "VNC server msg ext resize state=3D%p ioc=3D%p size=3D%dx%d"
+> +vnc_msg_server_ext_desktop_resize(void *state, void *ioc, int width, int
+> height, int reason) "VNC server msg ext resize state=3D%p ioc=3D%p size=
+=3D%dx%d
+> reason=3D%d"
+> +vnc_msg_client_audio_enable(void *state, void *ioc) "VNC client msg audi=
+o
+> enable state=3D%p ioc=3D%p"
+> +vnc_msg_client_audio_disable(void *state, void *ioc) "VNC client msg
+> audio disable state=3D%p ioc=3D%p"
+> +vnc_msg_client_audio_format(void *state, void *ioc, int fmt, int
+> channels, int freq) "VNC client msg audio format state=3D%p ioc=3D%p fmt=
+=3D%d
+> channels=3D%d freq=3D%d"
+> +vnc_msg_client_set_desktop_size(void *state, void *ioc, int width, int
+> height, int screens) "VNC client msg set desktop size  state=3D%p ioc=3D%=
+p
+> size=3D%dx%d screens=3D%d"
+>  vnc_client_eof(void *state, void *ioc) "VNC client EOF state=3D%p ioc=3D=
+%p"
+>  vnc_client_io_error(void *state, void *ioc, const char *msg) "VNC client
+> I/O error state=3D%p ioc=3D%p errmsg=3D%s"
+>  vnc_client_connect(void *state, void *ioc) "VNC client connect state=3D%=
+p
+> ioc=3D%p"
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index e8e3426a65..7291429c04 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -659,6 +659,9 @@ void vnc_framebuffer_update(VncState *vs, int x, int
+> y, int w, int h,
+>
+>  static void vnc_desktop_resize_ext(VncState *vs, int reject_reason)
+>  {
+> +    trace_vnc_msg_server_ext_desktop_resize(
+> +        vs, vs->ioc, vs->client_width, vs->client_height, reject_reason)=
+;
+> +
+>      vnc_lock_output(vs);
+>      vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
+>      vnc_write_u8(vs, 0);
+> @@ -705,6 +708,9 @@ static void vnc_desktop_resize(VncState *vs)
+>          return;
+>      }
+>
+> +    trace_vnc_msg_server_desktop_resize(
+> +        vs, vs->ioc, vs->client_width, vs->client_height);
+> +
+>      vnc_lock_output(vs);
+>      vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
+>      vnc_write_u8(vs, 0);
+> @@ -1182,6 +1188,7 @@ static void audio_capture_notify(void *opaque,
+> audcnotification_e cmd)
+>      assert(vs->magic =3D=3D VNC_MAGIC);
+>      switch (cmd) {
+>      case AUD_CNOTIFY_DISABLE:
+> +        trace_vnc_msg_server_audio_end(vs, vs->ioc);
+>          vnc_lock_output(vs);
+>          vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);
+>          vnc_write_u8(vs, VNC_MSG_SERVER_QEMU_AUDIO);
+> @@ -1191,6 +1198,7 @@ static void audio_capture_notify(void *opaque,
+> audcnotification_e cmd)
+>          break;
+>
+>      case AUD_CNOTIFY_ENABLE:
+> +        trace_vnc_msg_server_audio_begin(vs, vs->ioc);
+>          vnc_lock_output(vs);
+>          vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);
+>          vnc_write_u8(vs, VNC_MSG_SERVER_QEMU_AUDIO);
+> @@ -1210,6 +1218,7 @@ static void audio_capture(void *opaque, const void
+> *buf, int size)
+>      VncState *vs =3D opaque;
+>
+>      assert(vs->magic =3D=3D VNC_MAGIC);
+> +    trace_vnc_msg_server_audio_data(vs, vs->ioc, buf, size);
+>      vnc_lock_output(vs);
+>      if (vs->output.offset < vs->throttle_output_offset) {
+>          vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);
+> @@ -2454,9 +2463,11 @@ static int protocol_client_msg(VncState *vs,
+> uint8_t *data, size_t len)
+>
+>              switch (read_u16 (data, 2)) {
+>              case VNC_MSG_CLIENT_QEMU_AUDIO_ENABLE:
+> +                trace_vnc_msg_client_audio_enable(vs, vs->ioc);
+>                  audio_add(vs);
+>                  break;
+>              case VNC_MSG_CLIENT_QEMU_AUDIO_DISABLE:
+> +                trace_vnc_msg_client_audio_disable(vs, vs->ioc);
+>                  audio_del(vs);
+>                  break;
+>              case VNC_MSG_CLIENT_QEMU_AUDIO_SET_FORMAT:
+> @@ -2492,6 +2503,8 @@ static int protocol_client_msg(VncState *vs, uint8_=
+t
+> *data, size_t len)
+>                      break;
+>                  }
+>                  vs->as.freq =3D freq;
+> +                trace_vnc_msg_client_audio_format(
+> +                    vs, vs->ioc, vs->as.fmt, vs->as.nchannels,
+> vs->as.freq);
+>                  break;
+>              default:
+>                  VNC_DEBUG("Invalid audio message %d\n", read_u8(data, 4)=
+);
+> @@ -2510,6 +2523,7 @@ static int protocol_client_msg(VncState *vs, uint8_=
+t
+> *data, size_t len)
+>      {
+>          size_t size;
+>          uint8_t screens;
+> +        int w, h;
+>
+>          if (len < 8) {
+>              return 8;
+> @@ -2520,12 +2534,15 @@ static int protocol_client_msg(VncState *vs,
+> uint8_t *data, size_t len)
+>          if (len < size) {
+>              return size;
+>          }
+> +        w =3D read_u16(data, 2);
+> +        h =3D read_u16(data, 4);
+>
+> +        trace_vnc_msg_client_set_desktop_size(vs, vs->ioc, w, h, screens=
+);
+>          if (dpy_ui_info_supported(vs->vd->dcl.con)) {
+>              QemuUIInfo info;
+>              memset(&info, 0, sizeof(info));
+> -            info.width =3D read_u16(data, 2);
+> -            info.height =3D read_u16(data, 4);
+> +            info.width =3D w;
+> +            info.height =3D h;
+>              dpy_set_ui_info(vs->vd->dcl.con, &info);
+>              vnc_desktop_resize_ext(vs, 4 /* Request forwarded */);
+>          } else {
+> --
+> 2.29.2
+>
+>
+>
 
-diff --git a/default-configs/devices/m68k-softmmu.mak b/default-configs/devices/m68k-softmmu.mak
-index 6629fd2aa330..7f8619e42786 100644
---- a/default-configs/devices/m68k-softmmu.mak
-+++ b/default-configs/devices/m68k-softmmu.mak
-@@ -8,3 +8,4 @@ CONFIG_AN5206=y
- CONFIG_MCF5208=y
- CONFIG_NEXTCUBE=y
- CONFIG_Q800=y
-+CONFIG_M68K_VIRT=y
-diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
-new file mode 100644
-index 000000000000..81be1e092497
---- /dev/null
-+++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+** asm/bootinfo-virt.h -- Virtual-m68k-specific boot information definitions
-+*/
-+
-+#ifndef _UAPI_ASM_M68K_BOOTINFO_VIRT_H
-+#define _UAPI_ASM_M68K_BOOTINFO_VIRT_H
-+
-+#define BI_VIRT_QEMU_VERSION	0x8000
-+#define BI_VIRT_GF_PIC_BASE	0x8001
-+#define BI_VIRT_GF_RTC_BASE	0x8002
-+#define BI_VIRT_GF_TTY_BASE	0x8003
-+#define BI_VIRT_VIRTIO_BASE	0x8004
-+#define BI_VIRT_CTRL_BASE	0x8005
-+
-+#define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
-+
-+#endif /* _UAPI_ASM_M68K_BOOTINFO_MAC_H */
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-new file mode 100644
-index 000000000000..e9a5d4c69b97
---- /dev/null
-+++ b/hw/m68k/virt.c
-@@ -0,0 +1,313 @@
-+/*
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ *
-+ * QEMU Vitual M68K Machine
-+ *
-+ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu-common.h"
-+#include "sysemu/sysemu.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/boards.h"
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "elf.h"
-+#include "hw/loader.h"
-+#include "ui/console.h"
-+#include "exec/address-spaces.h"
-+#include "hw/sysbus.h"
-+#include "standard-headers/asm-m68k/bootinfo.h"
-+#include "standard-headers/asm-m68k/bootinfo-virt.h"
-+#include "bootinfo.h"
-+#include "net/net.h"
-+#include "qapi/error.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/reset.h"
-+
-+#include "hw/intc/m68k_irqc.h"
-+#include "hw/misc/virt_ctrl.h"
-+#include "hw/char/goldfish_tty.h"
-+#include "hw/rtc/goldfish_rtc.h"
-+#include "hw/intc/goldfish_pic.h"
-+#include "hw/virtio/virtio-mmio.h"
-+#include "hw/virtio/virtio-blk.h"
-+
-+/*
-+ * 6 goldfish-pic for CPU IRQ #1 to IRQ #6
-+ * CPU IRQ #1 -> PIC #1
-+ *               IRQ #1 to IRQ #31 -> unused
-+ *               IRQ #32 -> goldfish-tty
-+ * CPU IRQ #2 -> PIC #2
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 1 to 32
-+ * CPU IRQ #3 -> PIC #3
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 33 to 64
-+ * CPU IRQ #4 -> PIC #4
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 65 to 96
-+ * CPU IRQ #5 -> PIC #5
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 97 to 128
-+ * CPU IRQ #6 -> PIC #6
-+ *               IRQ #1 -> goldfish-rtc
-+ *               IRQ #2 to IRQ #32 -> unused
-+ * CPU IRQ #7 -> NMI
-+ */
-+
-+#define PIC_IRQ_BASE(num)     (8 + (num - 1) * 32)
-+#define PIC_IRQ(num, irq)     (PIC_IRQ_BASE(num) + irq - 1)
-+#define PIC_GPIO(pic_irq)     (qdev_get_gpio_in(pic_dev[(pic_irq - 8) / 32], \
-+                                                (pic_irq - 8) % 32))
-+
-+#define VIRT_GF_PIC_MMIO_BASE 0xff000000     /* MMIO: 0xff000000 - 0xff005fff */
-+#define VIRT_GF_PIC_IRQ_BASE  1              /* IRQ: #1 -> #6 */
-+#define VIRT_GF_PIC_NB        6
-+
-+/* 2 goldfish-rtc (and timer) */
-+#define VIRT_GF_RTC_MMIO_BASE 0xff006000     /* MMIO: 0xff006000 - 0xff007fff */
-+#define VIRT_GF_RTC_IRQ_BASE  PIC_IRQ(6, 1)  /* PIC: #6, IRQ: #1 */
-+#define VIRT_GF_RTC_NB        2
-+
-+/* 1 goldfish-tty */
-+#define VIRT_GF_TTY_MMIO_BASE 0xff008000     /* MMIO: 0xff008000 - 0xff008fff */
-+#define VIRT_GF_TTY_IRQ_BASE  PIC_IRQ(1, 32) /* PIC: #1, IRQ: #32 */
-+
-+/* 1 virt-ctrl */
-+#define VIRT_CTRL_MMIO_BASE 0xff009000    /* MMIO: 0xff009000 - 0xff009fff */
-+#define VIRT_CTRL_IRQ_BASE  PIC_IRQ(1, 1) /* PIC: #1, IRQ: #1 */
-+
-+/*
-+ * virtio-mmio size is 0x200 bytes
-+ * we use 4 goldfish-pic to attach them,
-+ * we can attach 32 virtio devices / goldfish-pic
-+ * -> we can manage 32 * 4 = 128 virtio devices
-+ */
-+#define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
-+#define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    M68kCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    cpu_reset(cs);
-+    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
-+    cpu->env.pc = ldl_phys(cs->as, 4);
-+}
-+
-+static void virt_init(MachineState *machine)
-+{
-+    M68kCPU *cpu = NULL;
-+    int32_t kernel_size;
-+    uint64_t elf_entry;
-+    ram_addr_t initrd_base;
-+    int32_t initrd_size;
-+    ram_addr_t ram_size = machine->ram_size;
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *initrd_filename = machine->initrd_filename;
-+    const char *kernel_cmdline = machine->kernel_cmdline;
-+    hwaddr parameters_base;
-+    DeviceState *dev;
-+    DeviceState *irqc_dev;
-+    DeviceState *pic_dev[VIRT_GF_PIC_NB];
-+    SysBusDevice *sysbus;
-+    hwaddr io_base;
-+    int i;
-+
-+    if (ram_size > 3399672 * KiB) {
-+        /*
-+         * The physical memory can be up to 4 GiB - 16 MiB, but linux
-+         * kernel crashes after this limit (~ 3.2 GiB)
-+         */
-+        error_report("Too much memory for this machine: %" PRId64 " KiB, "
-+                     "maximum 3399672 KiB", ram_size / KiB);
-+        exit(1);
-+    }
-+
-+    /* init CPUs */
-+    cpu = M68K_CPU(cpu_create(machine->cpu_type));
-+    qemu_register_reset(main_cpu_reset, cpu);
-+
-+    /* RAM */
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-+
-+    /* IRQ Controller */
-+
-+    irqc_dev = qdev_new(TYPE_M68K_IRQC);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(irqc_dev), &error_fatal);
-+
-+    /*
-+     * 6 goldfish-pic
-+     *
-+     * map: 0xff000000 - 0xff006fff = 28 KiB
-+     * IRQ: #1 (lower priority) -> #6 (higher priority)
-+     *
-+     */
-+    io_base = VIRT_GF_PIC_MMIO_BASE;
-+    for (i = 0; i < VIRT_GF_PIC_NB; i++) {
-+        pic_dev[i] = qdev_new(TYPE_GOLDFISH_PIC);
-+        sysbus = SYS_BUS_DEVICE(pic_dev[i]);
-+        qdev_prop_set_uint8(pic_dev[i], "index", i);
-+        sysbus_realize_and_unref(sysbus, &error_fatal);
-+
-+        sysbus_mmio_map(sysbus, 0, io_base);
-+        sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(irqc_dev, i));
-+
-+        io_base += 0x1000;
-+    }
-+
-+    /* goldfish-rtc */
-+    io_base = VIRT_GF_RTC_MMIO_BASE;
-+    for (i = 0; i < VIRT_GF_RTC_NB; i++) {
-+        dev = qdev_new(TYPE_GOLDFISH_RTC);
-+        sysbus = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(sysbus, &error_fatal);
-+        sysbus_mmio_map(sysbus, 0, io_base);
-+        sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_RTC_IRQ_BASE + i));
-+
-+        io_base += 0x1000;
-+    }
-+
-+    /* goldfish-tty */
-+    dev = qdev_new(TYPE_GOLDFISH_TTY);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
-+    sysbus_realize_and_unref(sysbus, &error_fatal);
-+    sysbus_mmio_map(sysbus, 0, VIRT_GF_TTY_MMIO_BASE);
-+    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_TTY_IRQ_BASE));
-+
-+    /* virt controller */
-+    dev = qdev_new(TYPE_VIRT_CTRL);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(sysbus, &error_fatal);
-+    sysbus_mmio_map(sysbus, 0, VIRT_CTRL_MMIO_BASE);
-+    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_CTRL_IRQ_BASE));
-+
-+    /* virtio-mmio */
-+    io_base = VIRT_VIRTIO_MMIO_BASE;
-+    for (i = 0; i < 128; i++) {
-+        dev = qdev_new(TYPE_VIRTIO_MMIO);
-+        qdev_prop_set_bit(dev, "force-legacy", false);
-+        sysbus = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(sysbus, &error_fatal);
-+        sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_VIRTIO_IRQ_BASE + i));
-+        sysbus_mmio_map(sysbus, 0, io_base);
-+        io_base += 0x200;
-+    }
-+
-+    if (kernel_filename) {
-+        CPUState *cs = CPU(cpu);
-+        uint64_t high;
-+
-+        kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-+                               &elf_entry, NULL, &high, NULL, 1,
-+                               EM_68K, 0, 0);
-+        if (kernel_size < 0) {
-+            error_report("could not load kernel '%s'", kernel_filename);
-+            exit(1);
-+        }
-+        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
-+        parameters_base = (high + 1) & ~1;
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
-+        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
-+        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
-+        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
-+        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
-+                  ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
-+                   (QEMU_VERSION_MICRO << 8)));
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
-+                  VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
-+                  VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
-+                  VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
-+                  VIRT_CTRL_MMIO_BASE, VIRT_CTRL_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
-+                  VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
-+
-+        if (kernel_cmdline) {
-+            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+                        kernel_cmdline);
-+        }
-+
-+        /* load initrd */
-+        if (initrd_filename) {
-+            initrd_size = get_image_size(initrd_filename);
-+            if (initrd_size < 0) {
-+                error_report("could not load initial ram disk '%s'",
-+                             initrd_filename);
-+                exit(1);
-+            }
-+
-+            initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-+            load_image_targphys(initrd_filename, initrd_base,
-+                                ram_size - initrd_base);
-+            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+                      initrd_size);
-+        } else {
-+            initrd_base = 0;
-+            initrd_size = 0;
-+        }
-+        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+    }
-+}
-+
-+static void virt_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    mc->desc = "QEMU M68K Virtual Machine";
-+    mc->init = virt_init;
-+    mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
-+    mc->max_cpus = 1;
-+    mc->no_floppy = 1;
-+    mc->no_parallel = 1;
-+    mc->default_ram_id = "m68k_virt.ram";
-+}
-+
-+static const TypeInfo virt_machine_info = {
-+    .name       = MACHINE_TYPE_NAME("virt"),
-+    .parent     = TYPE_MACHINE,
-+    .abstract   = true,
-+    .class_init = virt_machine_class_init,
-+};
-+
-+static void virt_machine_register_types(void)
-+{
-+    type_register_static(&virt_machine_info);
-+}
-+
-+type_init(virt_machine_register_types)
-+
-+#define DEFINE_VIRT_MACHINE(major, minor, latest) \
-+    static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-+                                                    void *data) \
-+    { \
-+        MachineClass *mc = MACHINE_CLASS(oc); \
-+        virt_machine_##major##_##minor##_options(mc); \
-+        mc->desc = "QEMU " # major "." # minor " M68K Virtual Machine"; \
-+        if (latest) { \
-+            mc->alias = "virt"; \
-+        } \
-+    } \
-+    static const TypeInfo machvirt_##major##_##minor##_info = { \
-+        .name = MACHINE_TYPE_NAME("virt-" # major "." # minor), \
-+        .parent = MACHINE_TYPE_NAME("virt"), \
-+        .class_init = virt_##major##_##minor##_class_init, \
-+    }; \
-+    static void machvirt_machine_##major##_##minor##_init(void) \
-+    { \
-+        type_register_static(&machvirt_##major##_##minor##_info); \
-+    } \
-+    type_init(machvirt_machine_##major##_##minor##_init);
-+
-+static void virt_machine_6_0_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE(6, 0, true)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7da465dcdbc8..dab193e86feb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1130,6 +1130,19 @@ F: include/hw/nubus/*
- F: include/hw/display/macfb.h
- F: include/hw/block/swim.h
- 
-+virt
-+M: Laurent Vivier <laurent@vivier.eu>
-+S: Maintained
-+F: hw/m68k/virt.c
-+F: hw/char/goldfish_tty.c
-+F: hw/intc/goldfish_pic.c
-+F: hw/intc/m68k_irqc.c
-+F: hw/misc/virt_ctrl.c
-+F: include/hw/char/goldfish_tty.h
-+F: include/hw/intc/goldfish_pic.h
-+F: include/hw/intc/m68k_irqc.h
-+F: include/hw/misc/virt_ctrl.h
-+
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index 60d7bcfb8f2b..f839f8a03064 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -23,3 +23,12 @@ config Q800
-     select ESP
-     select DP8393X
-     select OR_IRQ
-+
-+config M68K_VIRT
-+    bool
-+    select M68K_IRQC
-+    select VIRT_CTRL
-+    select GOLDFISH_PIC
-+    select GOLDFISH_TTY
-+    select GOLDFISH_RTC
-+    select VIRTIO_MMIO
-diff --git a/hw/m68k/meson.build b/hw/m68k/meson.build
-index ca0044c652d3..31248641d301 100644
---- a/hw/m68k/meson.build
-+++ b/hw/m68k/meson.build
-@@ -3,5 +3,6 @@ m68k_ss.add(when: 'CONFIG_AN5206', if_true: files('an5206.c', 'mcf5206.c'))
- m68k_ss.add(when: 'CONFIG_MCF5208', if_true: files('mcf5208.c', 'mcf_intc.c'))
- m68k_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-kbd.c', 'next-cube.c'))
- m68k_ss.add(when: 'CONFIG_Q800', if_true: files('q800.c'))
-+m68k_ss.add(when: 'CONFIG_M68K_VIRT', if_true: files('virt.c'))
- 
- hw_arch += {'m68k': m68k_ss}
--- 
-2.29.2
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--0000000000001113a805bd493def
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 11, 2021 at 10:43 PM Dani=
+el P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">This adds trace points for desktop size and audio related messages.<=
+br>
+<br>
+Signed-off-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redha=
+t.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br></blockquote><div><=
+br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
+candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></d=
+iv><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0ui/trace-events |=C2=A0 9 +++++++++<br>
+=C2=A0ui/vnc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 21 +++++++++++++++++++--<br>
+=C2=A02 files changed, 28 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/ui/trace-events b/ui/trace-events<br>
+index 0ffcdb4408..bd8f8a9d18 100644<br>
+--- a/ui/trace-events<br>
++++ b/ui/trace-events<br>
+@@ -37,6 +37,15 @@ vnc_key_event_ext(bool down, int sym, int keycode, const=
+ char *name) &quot;down %d, s<br>
+=C2=A0vnc_key_event_map(bool down, int sym, int keycode, const char *name) =
+&quot;down %d, sym 0x%x -&gt; keycode 0x%x [%s]&quot;<br>
+=C2=A0vnc_key_sync_numlock(bool on) &quot;%d&quot;<br>
+=C2=A0vnc_key_sync_capslock(bool on) &quot;%d&quot;<br>
++vnc_msg_server_audio_begin(void *state, void *ioc) &quot;VNC server msg au=
+dio begin state=3D%p ioc=3D%p&quot;<br>
++vnc_msg_server_audio_end(void *state, void *ioc) &quot;VNC server msg audi=
+o end state=3D%p ioc=3D%p&quot;<br>
++vnc_msg_server_audio_data(void *state, void *ioc, const void *buf, size_t =
+len) &quot;VNC server msg audio data state=3D%p ioc=3D%p buf=3D%p len=3D%zd=
+&quot;<br>
++vnc_msg_server_desktop_resize(void *state, void *ioc, int width, int heigh=
+t) &quot;VNC server msg ext resize state=3D%p ioc=3D%p size=3D%dx%d&quot;<b=
+r>
++vnc_msg_server_ext_desktop_resize(void *state, void *ioc, int width, int h=
+eight, int reason) &quot;VNC server msg ext resize state=3D%p ioc=3D%p size=
+=3D%dx%d reason=3D%d&quot;<br>
++vnc_msg_client_audio_enable(void *state, void *ioc) &quot;VNC client msg a=
+udio enable state=3D%p ioc=3D%p&quot;<br>
++vnc_msg_client_audio_disable(void *state, void *ioc) &quot;VNC client msg =
+audio disable state=3D%p ioc=3D%p&quot;<br>
++vnc_msg_client_audio_format(void *state, void *ioc, int fmt, int channels,=
+ int freq) &quot;VNC client msg audio format state=3D%p ioc=3D%p fmt=3D%d c=
+hannels=3D%d freq=3D%d&quot;<br>
++vnc_msg_client_set_desktop_size(void *state, void *ioc, int width, int hei=
+ght, int screens) &quot;VNC client msg set desktop size=C2=A0 state=3D%p io=
+c=3D%p size=3D%dx%d screens=3D%d&quot;<br>
+=C2=A0vnc_client_eof(void *state, void *ioc) &quot;VNC client EOF state=3D%=
+p ioc=3D%p&quot;<br>
+=C2=A0vnc_client_io_error(void *state, void *ioc, const char *msg) &quot;VN=
+C client I/O error state=3D%p ioc=3D%p errmsg=3D%s&quot;<br>
+=C2=A0vnc_client_connect(void *state, void *ioc) &quot;VNC client connect s=
+tate=3D%p ioc=3D%p&quot;<br>
+diff --git a/ui/vnc.c b/ui/vnc.c<br>
+index e8e3426a65..7291429c04 100644<br>
+--- a/ui/vnc.c<br>
++++ b/ui/vnc.c<br>
+@@ -659,6 +659,9 @@ void vnc_framebuffer_update(VncState *vs, int x, int y,=
+ int w, int h,<br>
+<br>
+=C2=A0static void vnc_desktop_resize_ext(VncState *vs, int reject_reason)<b=
+r>
+=C2=A0{<br>
++=C2=A0 =C2=A0 trace_vnc_msg_server_ext_desktop_resize(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vs, vs-&gt;ioc, vs-&gt;client_width, vs-&gt;cl=
+ient_height, reject_reason);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0vnc_lock_output(vs);<br>
+=C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);<br=
+>
+=C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, 0);<br>
+@@ -705,6 +708,9 @@ static void vnc_desktop_resize(VncState *vs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 trace_vnc_msg_server_desktop_resize(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vs, vs-&gt;ioc, vs-&gt;client_width, vs-&gt;cl=
+ient_height);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0vnc_lock_output(vs);<br>
+=C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);<br=
+>
+=C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, 0);<br>
+@@ -1182,6 +1188,7 @@ static void audio_capture_notify(void *opaque, audcno=
+tification_e cmd)<br>
+=C2=A0 =C2=A0 =C2=A0assert(vs-&gt;magic =3D=3D VNC_MAGIC);<br>
+=C2=A0 =C2=A0 =C2=A0switch (cmd) {<br>
+=C2=A0 =C2=A0 =C2=A0case AUD_CNOTIFY_DISABLE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_server_audio_end(vs, vs-&gt;ioc)=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_lock_output(vs);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_QEMU_AUDI=
+O);<br>
+@@ -1191,6 +1198,7 @@ static void audio_capture_notify(void *opaque, audcno=
+tification_e cmd)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0case AUD_CNOTIFY_ENABLE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_server_audio_begin(vs, vs-&gt;io=
+c);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_lock_output(vs);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_QEMU_AUDI=
+O);<br>
+@@ -1210,6 +1218,7 @@ static void audio_capture(void *opaque, const void *b=
+uf, int size)<br>
+=C2=A0 =C2=A0 =C2=A0VncState *vs =3D opaque;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0assert(vs-&gt;magic =3D=3D VNC_MAGIC);<br>
++=C2=A0 =C2=A0 trace_vnc_msg_server_audio_data(vs, vs-&gt;ioc, buf, size);<=
+br>
+=C2=A0 =C2=A0 =C2=A0vnc_lock_output(vs);<br>
+=C2=A0 =C2=A0 =C2=A0if (vs-&gt;output.offset &lt; vs-&gt;throttle_output_of=
+fset) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, VNC_MSG_SERVER_QEMU);<br=
+>
+@@ -2454,9 +2463,11 @@ static int protocol_client_msg(VncState *vs, uint8_t=
+ *data, size_t len)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (read_u16 (data, 2))=
+ {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VNC_MSG_CLIENT_QEMU_AU=
+DIO_ENABLE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_clie=
+nt_audio_enable(vs, vs-&gt;ioc);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0audio_add(vs)=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VNC_MSG_CLIENT_QEMU_AU=
+DIO_DISABLE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_clie=
+nt_audio_disable(vs, vs-&gt;ioc);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0audio_del(vs)=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VNC_MSG_CLIENT_QEMU_AU=
+DIO_SET_FORMAT:<br>
+@@ -2492,6 +2503,8 @@ static int protocol_client_msg(VncState *vs, uint8_t =
+*data, size_t len)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vs-&gt;as.fre=
+q =3D freq;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_clie=
+nt_audio_format(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vs, =
+vs-&gt;ioc, vs-&gt;as.fmt, vs-&gt;as.nchannels, vs-&gt;as.freq);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VNC_DEBUG(&qu=
+ot;Invalid audio message %d\n&quot;, read_u8(data, 4));<br>
+@@ -2510,6 +2523,7 @@ static int protocol_client_msg(VncState *vs, uint8_t =
+*data, size_t len)<br>
+=C2=A0 =C2=A0 =C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t size;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t screens;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int w, h;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (len &lt; 8) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 8;<br>
+@@ -2520,12 +2534,15 @@ static int protocol_client_msg(VncState *vs, uint8_=
+t *data, size_t len)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (len &lt; size) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return size;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 w =3D read_u16(data, 2);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 h =3D read_u16(data, 4);<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vnc_msg_client_set_desktop_size(vs, vs-&=
+gt;ioc, w, h, screens);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dpy_ui_info_supported(vs-&gt;vd-&gt;d=
+cl.con)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QemuUIInfo info;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(&amp;info, 0, sizeof=
+(info));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.width =3D read_u16(data, 2)=
+;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.height =3D read_u16(data, 4=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.width =3D w;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.height =3D h;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpy_set_ui_info(vs-&gt;vd-&=
+gt;dcl.con, &amp;info);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_desktop_resize_ext(vs, =
+4 /* Request forwarded */);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000001113a805bd493def--
 
