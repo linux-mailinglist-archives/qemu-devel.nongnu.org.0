@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE51337F61
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:11:21 +0100 (CET)
-Received: from localhost ([::1]:35562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0F7337F6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:13:41 +0100 (CET)
+Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKSaW-0007tt-IS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:11:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1lKScm-0002FL-A3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:13:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYx-0006bZ-Gt
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYy-0006bb-49
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:44 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:39755)
+Received: from mout.kundenserver.de ([212.227.17.10]:51903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYu-0004wp-SM
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKSYv-0004xX-Nn
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:09:43 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M5fUy-1lM8Jn3gtu-007Eba; Thu, 11 Mar 2021 22:09:38 +0100
+ id 1McY0J-1lshO3336b-00czBV; Thu, 11 Mar 2021 22:09:38 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] M68k for 6.0 patches
-Date: Thu, 11 Mar 2021 22:09:25 +0100
-Message-Id: <20210311210934.1935587-1-laurent@vivier.eu>
+Subject: [PULL 1/9] target/m68k: implement rtr instruction
+Date: Thu, 11 Mar 2021 22:09:26 +0100
+Message-Id: <20210311210934.1935587-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210311210934.1935587-1-laurent@vivier.eu>
+References: <20210311210934.1935587-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bhb/hAvdKNEvOQapHBKG3i0lNpK0L9+6adzM/sxLsXPsvLhx2K7
- icaAE0LcWiAvaaTQARliQWMZwaYD+afLzgn2bqMLtt+f0EkRVCj18rniz/d52v+O1Q9gU/i
- FJU2/600mYw9b+h1f6rGaJA6RLLdNGhRK8ELtI43fgbuwA8VD4gPKp3pyhfaERAQ0Cp4OQi
- owHpczc7oIyITD6Q23v6A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:edKjApS5h24=:C/PMKkxcOSomJDC+pMWNVQ
- MkGQTHlBpzNfeQevnsgTF+JD4aaFcaAvWVgp3K+0zSquStNf99UOv5B7oxXDu1PQfe2iFQjj6
- lw21jJMYZUtHRq7Y4GYCXhBs3obpMySeSPZayXRq/YboRWndS/LgKQGNQC6NiJkGky6MDYNCg
- FMpix17Tg/pNGgHueIPXCwumaM+c6jrM07/aaDIg7B8+x85fINKf1LMHxXPEnjJKMNHVWi6tu
- S26vRKujtVshTQBm2qOsfua0l0lQXsy8RYipjXKmCrS17kjkS4IJjU0oXFiu5z3EFvoxpo9Py
- ItoDMBJ+zy+91NCAtIYaXNu8H7B0SsUjDtlG6ADJXWoJ+9hMXqq++/qU1q/9ZrBtIgY7lzOGd
- 9ToxJ8OVCo9B0mLyXYJR6tbU3E8JYVyRdZkIyKUPWiOxUKMr72OxBedVajfgKy9qV9/OLzo3r
- CmOUu69j4A==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:dLwuW91EHnI+SPKPMwSFv2b8hryoWJFSd8qaDOclf4lQA/cuaoB
+ 6nCCiJ9Us5/RBKUofkLJbgfXkQaWACwokZ17H9fzBjMYDxjPIpyaRWZ7VsiB2BmKaRWnhnD
+ bN7+0YyAsjR38+XTZBuKj9yQGBICltw8s9f9DHmauZ3iaE8dBJ6JL74LjIM3HkwYTrOYT1a
+ iwtTWh+rugvyUBKvZsgdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:r2kmfd/yGKE=:DE2Mz97Q3gMwKe0+MbgLh+
+ /gQO2EPP8wDwi+5QpAZu5172N+M5DPx7OSGGNTq6WxqZIkm+U/4pNHbFeNCgBv9gYXB0tX2kG
+ 5I2cF/43PXTNCssAC0k54wYKChAXdn5T9ouOqKOtKqHaM96ApBFx1pggRRHOCOaI1/T0UZzKa
+ sSaGdGGRzI8RpdkqZ5g0wH1QCVvNKQPXMlCOewDvu5uvYuCQyOTgQFNfzpSJWoGrQkPhBtryU
+ Vb1TqaGOexc2OZnXxW8n4/7YeoDp3b+fkjMozTMS03i29fZTP25YiIaL7vFeL4LAcuIRGd1qw
+ ogz47orK/SMfrs/5DD38ddhcPHkWNJrLHE0sgREdkG2ELBcBHkM+B1NICxNqB2YdCGF7JxnuL
+ XGTgsr/HHnQZROCE1a4aXj4EXFarMZgCClu2GC6LiG6r5l4R+3rUSfZI9D2aECF8rNszwqS5f
+ p496MaYqCw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,89 +62,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f4abdf32714d1845b7c01ec136dd2b04c2f7db47=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-docs-xen-=
-up=3D=0D
-dates-100321-2' into staging (2021-03-11 16:20:58 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to dcb5d042fe7901155e9428ce313b3033ccd2312e:=0D
-=0D
-  m68k: add Virtual M68k Machine (2021-03-11 21:13:00 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Introduce the m68k virt machine=0D
-Prepare MacOS ROM support:=0D
-  - add RTR instruction=0D
-  - fix unaligned access requirement=0D
-  - fix ATC bit (68040 MMU)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (6):=0D
-  target/m68k: implement rtr instruction=0D
-  char: add goldfish-tty=0D
-  intc: add goldfish-pic=0D
-  m68k: add an interrupt controller=0D
-  m68k: add a system controller=0D
-  m68k: add Virtual M68k Machine=0D
-=0D
-Mark Cave-Ayland (3):=0D
-  target/m68k: don't set SSW ATC bit for physical bus errors=0D
-  target/m68k: reformat m68k_features enum=0D
-  target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature=0D
-=0D
- docs/specs/virt-ctlr.txt                      |  26 ++=0D
- default-configs/devices/m68k-softmmu.mak      |   1 +=0D
- include/hw/char/goldfish_tty.h                |  35 ++=0D
- include/hw/intc/goldfish_pic.h                |  33 ++=0D
- include/hw/intc/m68k_irqc.h                   |  41 +++=0D
- include/hw/misc/virt_ctrl.h                   |  22 ++=0D
- .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +=0D
- target/m68k/cpu.h                             |  68 ++--=0D
- hw/char/goldfish_tty.c                        | 283 ++++++++++++++++=0D
- hw/intc/goldfish_pic.c                        | 219 ++++++++++++=0D
- hw/intc/m68k_irqc.c                           | 119 +++++++=0D
- hw/m68k/virt.c                                | 313 ++++++++++++++++++=0D
- hw/misc/virt_ctrl.c                           | 151 +++++++++=0D
- target/m68k/cpu.c                             |   1 +=0D
- target/m68k/op_helper.c                       |  17 +-=0D
- target/m68k/translate.c                       |  20 ++=0D
- MAINTAINERS                                   |  13 +=0D
- hw/char/Kconfig                               |   3 +=0D
- hw/char/meson.build                           |   2 +=0D
- hw/char/trace-events                          |  10 +=0D
- hw/intc/Kconfig                               |   6 +=0D
- hw/intc/meson.build                           |   2 +=0D
- hw/intc/trace-events                          |   8 +=0D
- hw/m68k/Kconfig                               |   9 +=0D
- hw/m68k/meson.build                           |   1 +=0D
- hw/misc/Kconfig                               |   3 +=0D
- hw/misc/meson.build                           |   3 +=0D
- hw/misc/trace-events                          |   7 +=0D
- 28 files changed, 1410 insertions(+), 24 deletions(-)=0D
- create mode 100644 docs/specs/virt-ctlr.txt=0D
- create mode 100644 include/hw/char/goldfish_tty.h=0D
- create mode 100644 include/hw/intc/goldfish_pic.h=0D
- create mode 100644 include/hw/intc/m68k_irqc.h=0D
- create mode 100644 include/hw/misc/virt_ctrl.h=0D
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
- create mode 100644 hw/char/goldfish_tty.c=0D
- create mode 100644 hw/intc/goldfish_pic.c=0D
- create mode 100644 hw/intc/m68k_irqc.c=0D
- create mode 100644 hw/m68k/virt.c=0D
- create mode 100644 hw/misc/virt_ctrl.c=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+This is needed to boot MacOS ROM.
+
+Pull the condition code and the program counter from the stack.
+
+Operation:
+
+    (SP) -> CCR
+    SP + 2 -> SP
+    (SP) -> PC
+    SP + 4 -> SP
+
+This operation is not privileged.
+
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210307212552.523552-1-laurent@vivier.eu>
+---
+ target/m68k/translate.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index ac936ebe8f14..200018ae6a63 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -2969,6 +2969,25 @@ DISAS_INSN(rtd)
+     gen_jmp(s, tmp);
+ }
+ 
++DISAS_INSN(rtr)
++{
++    TCGv tmp;
++    TCGv ccr;
++    TCGv sp;
++
++    sp = tcg_temp_new();
++    ccr = gen_load(s, OS_WORD, QREG_SP, 0, IS_USER(s));
++    tcg_gen_addi_i32(sp, QREG_SP, 2);
++    tmp = gen_load(s, OS_LONG, sp, 0, IS_USER(s));
++    tcg_gen_addi_i32(QREG_SP, sp, 4);
++    tcg_temp_free(sp);
++
++    gen_set_sr(s, ccr, true);
++    tcg_temp_free(ccr);
++
++    gen_jmp(s, tmp);
++}
++
+ DISAS_INSN(rts)
+ {
+     TCGv tmp;
+@@ -6015,6 +6034,7 @@ void register_m68k_insns (CPUM68KState *env)
+     BASE(nop,       4e71, ffff);
+     INSN(rtd,       4e74, ffff, RTD);
+     BASE(rts,       4e75, ffff);
++    INSN(rtr,       4e77, ffff, M68000);
+     BASE(jump,      4e80, ffc0);
+     BASE(jump,      4ec0, ffc0);
+     INSN(addsubq,   5000, f080, M68000);
+-- 
+2.29.2
+
 
