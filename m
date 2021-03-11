@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F075C3377EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:35:39 +0100 (CET)
-Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08B43377EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:35:57 +0100 (CET)
+Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNLe-0006rS-Un
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:35:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42344)
+	id 1lKNLw-0007fO-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:35:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcF-0005Gi-Hx
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59238)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcM-0005KB-3U
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcC-0002vn-Rf
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:43 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcF-0002yI-UD
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474120;
+ s=mimecast20190719; t=1615474123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8iq+Lwem06w8zQPBpLH1erUWrBdaoCXlYfnHc2joV1w=;
- b=KIKMPIT5B0RBUH0lxjUdm4QicHiz34qO6ZZF92u+U1W93oomcNmeKdAYfEb3sySofO1Rqd
- M1NGvb/EPPePp4zSGXjuHfaUIDSk0kZ8ha8obPLEoW3iBLJqbzEQ303eRFNZHWyJMsmYSI
- eT77UHr6IZn7KMpJYwsYggwtF2gmACI=
+ bh=i4ucwd2f2zBUR39AjRMBUwlIu4Iz8ZcSuj+DnaWWghs=;
+ b=g2jhcT32Cl11waYtCwmchOMjcD3BOmE88dfxI/w64JyUVKulst9MxmFmIkRqE7NpZJwyPy
+ YzNNGunJm+6y35E2UVlEsf2X80JyqC+veQ1zVmSezV3OrlWBNKmCK/rmDE68DxhQnIQuuW
+ h1td/LvTLHccUniMcDnISrb/S4ZOsYQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-D-9xkjOcPda7dlu_yFhjRg-1; Thu, 11 Mar 2021 09:48:38 -0500
-X-MC-Unique: D-9xkjOcPda7dlu_yFhjRg-1
+ us-mta-393-tZ55CET5NFGmGUxCljhCgg-1; Thu, 11 Mar 2021 09:48:41 -0500
+X-MC-Unique: tZ55CET5NFGmGUxCljhCgg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8947418460E2;
- Thu, 11 Mar 2021 14:48:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D97A92502;
+ Thu, 11 Mar 2021 14:48:40 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 719275D9F2;
- Thu, 11 Mar 2021 14:48:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4874A5D9F2;
+ Thu, 11 Mar 2021 14:48:39 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/38] qapi/qom: Add ObjectOptions for authz-*
-Date: Thu, 11 Mar 2021 15:47:46 +0100
-Message-Id: <20210311144811.313451-14-kwolf@redhat.com>
+Subject: [PULL 15/38] qapi/qom: Add ObjectOptions for dbus-vmstate
+Date: Thu, 11 Mar 2021 15:47:48 +0100
+Message-Id: <20210311144811.313451-16-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,139 +80,62 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the authz-* objects.
+This adds a QAPI schema for the properties of the dbus-vmstate object.
+
+A list represented as a comma separated string is clearly not very
+QAPI-like, but for now just describe the existing interface.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
-Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/authz.json                      | 61 +++++++++++++++++++++++++---
- qapi/qom.json                        | 10 +++++
- storage-daemon/qapi/qapi-schema.json |  1 +
- 3 files changed, 67 insertions(+), 5 deletions(-)
+ qapi/qom.json | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/qapi/authz.json b/qapi/authz.json
-index 42afe752d1..51845e37cc 100644
---- a/qapi/authz.json
-+++ b/qapi/authz.json
-@@ -50,12 +50,63 @@
-            '*format': 'QAuthZListFormat'}}
- 
- ##
--# @QAuthZListRuleListHack:
-+# @AuthZListProperties:
- #
--# Not exposed via QMP; hack to generate QAuthZListRuleList
--# for use internally by the code.
-+# Properties for authz-list objects.
-+#
-+# @policy: Default policy to apply when no rule matches (default: deny)
-+#
-+# @rules: Authorization rules based on matching user
-+#
-+# Since: 4.0
-+##
-+{ 'struct': 'AuthZListProperties',
-+  'data': { '*policy': 'QAuthZListPolicy',
-+            '*rules': ['QAuthZListRule'] } }
-+
-+##
-+# @AuthZListFileProperties:
-+#
-+# Properties for authz-listfile objects.
-+#
-+# @filename: File name to load the configuration from. The file must
-+#            contain valid JSON for AuthZListProperties.
-+#
-+# @refresh: If true, inotify is used to monitor the file, automatically
-+#           reloading changes. If an error occurs during reloading, all
-+#           authorizations will fail until the file is next successfully
-+#           loaded. (default: true if the binary was built with
-+#           CONFIG_INOTIFY1, false otherwise)
-+#
-+# Since: 4.0
-+##
-+{ 'struct': 'AuthZListFileProperties',
-+  'data': { 'filename': 'str',
-+            '*refresh': 'bool' } }
-+
-+##
-+# @AuthZPAMProperties:
-+#
-+# Properties for authz-pam objects.
-+#
-+# @service: PAM service name to use for authorization
-+#
-+# Since: 4.0
-+##
-+{ 'struct': 'AuthZPAMProperties',
-+  'data': { 'service': 'str' } }
-+
-+##
-+# @AuthZSimpleProperties:
-+#
-+# Properties for authz-simple objects.
-+#
-+# @identity: Identifies the allowed user. Its format depends on the network
-+#            service that authorization object is associated with. For
-+#            authorizing based on TLS x509 certificates, the identity must be
-+#            the x509 distinguished name.
- #
- # Since: 4.0
- ##
--{ 'struct': 'QAuthZListRuleListHack',
--  'data': { 'unused': ['QAuthZListRule'] } }
-+{ 'struct': 'AuthZSimpleProperties',
-+  'data': { 'identity': 'str' } }
 diff --git a/qapi/qom.json b/qapi/qom.json
-index bf2ecb34be..30ed179bc1 100644
+index 499280fa60..6f0ffd4e2f 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -4,6 +4,8 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or later.
- # See the COPYING file in the top-level directory.
+@@ -232,6 +232,22 @@
+   'base': 'CryptodevBackendProperties',
+   'data': { 'chardev': 'str' } }
  
-+{ 'include': 'authz.json' }
++##
++# @DBusVMStateProperties:
++#
++# Properties for dbus-vmstate objects.
++#
++# @addr: the name of the DBus bus to connect to
++#
++# @id-list: a comma separated list of DBus IDs of helpers whose data should be
++#           included in the VM state on migration
++#
++# Since: 5.0
++##
++{ 'struct': 'DBusVMStateProperties',
++  'data': { 'addr': 'str' ,
++            '*id-list': 'str' } }
 +
  ##
- # = QEMU Object Model (QOM)
- ##
-@@ -233,6 +235,10 @@
- ##
- { 'enum': 'ObjectType',
-   'data': [
-+    'authz-list',
-+    'authz-listfile',
-+    'authz-pam',
-+    'authz-simple',
+ # @IothreadProperties:
+ #
+@@ -271,6 +287,7 @@
+     'cryptodev-backend-builtin',
+     { 'name': 'cryptodev-vhost-user',
+       'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
++    'dbus-vmstate',
      'iothread'
    ] }
  
-@@ -252,6 +258,10 @@
-             'id': 'str' },
-   'discriminator': 'qom-type',
-   'data': {
-+      'authz-list':                 'AuthZListProperties',
-+      'authz-listfile':             'AuthZListFileProperties',
-+      'authz-pam':                  'AuthZPAMProperties',
-+      'authz-simple':               'AuthZSimpleProperties',
+@@ -298,6 +315,7 @@
+       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
+                                       'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
++      'dbus-vmstate':               'DBusVMStateProperties',
        'iothread':                   'IothreadProperties'
    } }
  
-diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
-index 28117c3aac..67749d1101 100644
---- a/storage-daemon/qapi/qapi-schema.json
-+++ b/storage-daemon/qapi/qapi-schema.json
-@@ -26,6 +26,7 @@
- { 'include': '../../qapi/crypto.json' }
- { 'include': '../../qapi/introspect.json' }
- { 'include': '../../qapi/job.json' }
-+{ 'include': '../../qapi/authz.json' }
- { 'include': '../../qapi/qom.json' }
- { 'include': '../../qapi/sockets.json' }
- { 'include': '../../qapi/transaction.json' }
 -- 
 2.29.2
 
