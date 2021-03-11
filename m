@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7D1336919
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:45:29 +0100 (CET)
-Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336F2336914
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:42:28 +0100 (CET)
+Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9SC-0003sM-6d
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:45:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55286)
+	id 1lK9PH-0000N3-8H
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK961-000587-RR
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:33 -0500
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:36352)
+ id 1lK966-0005As-Qd
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:38 -0500
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:38133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95y-0001RG-Ex
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:33 -0500
-Received: by mail-ot1-x332.google.com with SMTP id t16so18307027ott.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:29 -0800 (PST)
+ id 1lK95z-0001S2-NS
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:38 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id a17so18336375oto.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N5ebAqjISG3PFrvVB60Fr8uPDBumPcXXPBy24caHmmA=;
- b=ixZ4ZPOxXJNH6Tomd5TMawuXBmZblxZXjOZ+Cyof5Mrlre+WHdKrL5xYwmaJrzTUj0
- vVXuyJWjA3zhTZeaueLnQT+AWhLnRtuu1ZByYLtPS+9rvfstZPqsGjF1W9PuKuYZXXa3
- gCB2JVVea3ClfTQCQgjRIuTqKJgZBidACT2ZgfhMcDwoU0bQy8QKbEM6jBsk45FCq1CX
- uA7Ei0D4NpRHVj3nYwx9yJIz+bqun7Ku2LmIXn9Czq546d+DIBPMEpNUSfAZzeC3F5Es
- aqxIf683Ov6+r4dllkcl7FoucJ/a04XNi4WsSdrL4LO59sHDph5VHzZUESmtjZFyhUGJ
- EX8Q==
+ bh=SnKrls1+jQeMnbtcWOCxxqr551UwIJX44aUioNe0+w8=;
+ b=GSnVI2UmlYGsBFij1afNzXFNYqlg+/qMoA32FIYsrzm7D7F7pUGIiOIw6DYJ7kM1jX
+ bgAMNDhpFEvBazFJ5Ad1YuHp6OHvK1tAxuNzdE6ZymqKVDyFLx62UUu/1dM0lNbjakwK
+ cDPqD/oqD3LRAHNt/qWAykhFCTwwgcFrkNXuhS++T72IPxd/o9wjGfzrMqY2l4nWkdDz
+ hciqwbJ4t6+PtixV5dlOSsYSuMlkd3oG4BQhB7UBTx3scqhADJuEwYkLN3cT7l+7FmPT
+ wYa4Uos65HV91etw8xFVpwyTbIWKfehybnOeR/TjXQcLHmF+mCXNQRLXHsX+rEisuWWY
+ FECQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N5ebAqjISG3PFrvVB60Fr8uPDBumPcXXPBy24caHmmA=;
- b=OfEN12v/XIuSEqkJS9+btnVGMr2BuV/GSrcHYsjNHdoOe+7KKVIr9rdkFJdyYa9c/i
- t2vhsbujCDrex6mwVc5wx/4/42xxLkZexOa5Hz4rq6+qVYFlxYqnqO8wjt3JbC0dMEsX
- e2Ned32hvuCAm3053TVKxaaKVsDm7lRzGnXfJO3CDq3d2MtRGhMhqqqWiQhoVAnxPo9G
- OKXtO/dQ6wP9BBfSO5jj4+qt0KAqzCDPPWiutX/o6DgxIwgSok/s2Cs6/fsgolv3Hgud
- F3WC6O75bl//ksK1PeY9MtvQiBSBBKWcnR1mvsL5ZEheze5SiBVBW6ngccRPBQU0pHQ1
- 0hDw==
-X-Gm-Message-State: AOAM530vfuKnsX7AgNnF9GfHENEvO2wrEcH5ZyHGn6AEPXFhWN3JtTFo
- 82TYMz1p1WOotQbe2XYMLdPyNn/qAq5FOTGC
-X-Google-Smtp-Source: ABdhPJwnMKJcSMLNwK3JjELpzrEHl3BBWEX7DTkNqLDUYij2GLJVyUIOpEtawBMwk/u13jILr+JVaw==
-X-Received: by 2002:a05:6830:149:: with SMTP id
- j9mr4627024otp.66.1615422149295; 
- Wed, 10 Mar 2021 16:22:29 -0800 (PST)
+ bh=SnKrls1+jQeMnbtcWOCxxqr551UwIJX44aUioNe0+w8=;
+ b=fgqgSt47p4cc073dmJ8HWGEm18j4+aX7DPSFtAk5qV4KgOdZgce7ParVA6IhZh5/fh
+ F59MDJQwgXFApibneqwD5atxPB7PbRT1Dl29o/5HHoUvFZuwbERfuSOZUg6DhmsWjRRI
+ HrNWdjDlYizx9J22kMGSs+XUBOB+2zSu5h3/gqj9GIKAoeayds1L+gcFhdE8GBi9r+QM
+ uBzv4iTvXjAMCQLsJsPM7zMcUxsxlOjQ1rgp6oA2MA0dh2vzkUm9D7UUTi9zKzKMNN3I
+ 96IvCRYKZcRlbj1nj4agL2bphQZruhxfadX9K7/ANKwuHGK7m7poOjP/QbsrSa7zWaK3
+ rtGA==
+X-Gm-Message-State: AOAM531ht6jkdwzNZZqe+eATJG7Z+3sH3f//I7HJiTa1OGVwHQCpbEuT
+ 07OHL5P8yb8phht+NhIhAmyQ7KwqyvIW7W/f
+X-Google-Smtp-Source: ABdhPJyrp4PsbuaiPrjCbmQfXiKcLUfjU1xsicpz+9M6zz3oZweb+FP4swQdlHPslgrhquNa9OJp5g==
+X-Received: by 2002:a9d:42c:: with SMTP id 41mr4581196otc.108.1615422150420;
+ Wed, 10 Mar 2021 16:22:30 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.28
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:28 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/26] tcg: Merge buffer protection and guard page protection
-Date: Wed, 10 Mar 2021 18:21:55 -0600
-Message-Id: <20210311002156.253711-26-richard.henderson@linaro.org>
+Subject: [PATCH 26/26] tcg: When allocating for !splitwx, begin with PROT_NONE
+Date: Wed, 10 Mar 2021 18:21:56 -0600
+Message-Id: <20210311002156.253711-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,84 +87,46 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not handle protections on a case-by-case basis in the
-various alloc_code_gen_buffer instances; do it within a
-single loop in tcg_region_init.
+There's a change in mprotect() behaviour [1] in the latest macOS
+on M1 and it's not yet clear if it's going to be fixed by Apple.
 
+In this case, instead of changing permissions of N guard pages,
+we change permissions of N rwx regions.  The same number of
+syscalls are required either way.
+
+[1] https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1914849
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/region.c | 40 +++++++++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ tcg/region.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/tcg/region.c b/tcg/region.c
-index 93d03076d1..5b46172fb5 100644
+index 5b46172fb5..3ffea215a2 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -514,11 +514,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+@@ -749,12 +749,15 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+         error_free_or_abort(errp);
      }
- #endif
  
--    if (qemu_mprotect_rwx(buf, size)) {
--        error_setg_errno(errp, errno, "mprotect of jit buffer");
--        return false;
--    }
--
-     region.start_aligned = buf;
-     region.total_size = size;
- 
-@@ -802,8 +797,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
- {
-     size_t page_size;
-     size_t region_size;
--    size_t i;
--    int have_prot;
-+    int have_prot, need_prot;
- 
-     have_prot = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
-                                       splitwx, &error_fatal);
-@@ -844,14 +838,38 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
-     /* init the region struct */
-     qemu_mutex_init(&region.lock);
- 
--    /* Set guard pages.  No need to do this for the rx_buf, only the rw_buf. */
--    for (i = 0; i < region.n; i++) {
+-    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
 +    /*
-+     * Set guard pages.  No need to do this for the rx_buf, only the rw_buf.
-+     * Work with the page protections set up with the initial mapping.
++     * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
++     * rejects a permission change from RWX -> NONE when reserving the
++     * guard pages later.  We can go the other way with the same number
++     * of syscalls, so always begin with PROT_NONE.
 +     */
-+    need_prot = PAGE_READ | PAGE_WRITE;
-+#ifndef CONFIG_TCG_INTERPRETER
-+    if (tcg_splitwx_diff == 0) {
-+        need_prot |= PAGE_EXEC;
-+    }
-+#endif
-+    for (size_t i = 0, n = region.n; i < n; i++) {
-         void *start, *end;
-         int rc;
- 
-         tcg_region_bounds(i, &start, &end);
--        rc = qemu_mprotect_none(end, page_size);
--        g_assert(!rc);
-+        if (have_prot != need_prot) {
-+            if (need_prot == (PAGE_READ | PAGE_WRITE | PAGE_EXEC)) {
-+                rc = qemu_mprotect_rwx(start, end - start);
-+            } else if (need_prot == (PAGE_READ | PAGE_WRITE)) {
-+                rc = qemu_mprotect_rw(start, end - start);
-+            } else {
-+                g_assert_not_reached();
-+            }
-+            if (rc) {
-+                error_setg_errno(&error_fatal, errno,
-+                                 "mprotect of jit buffer");
-+            }
-+        }
-+        if (have_prot != 0) {
-+            /* If guard-page permissions don't change, it isn't fatal. */
-+            (void)qemu_mprotect_none(end, page_size);
-+        }
-     }
- 
-     tcg_region_trees_init();
++    prot = PROT_NONE;
+     flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-#ifdef CONFIG_TCG_INTERPRETER
+-    /* The tcg interpreter does not need execute permission. */
+-    prot = PROT_READ | PROT_WRITE;
+-#elif defined(CONFIG_DARWIN)
++#ifdef CONFIG_DARWIN
+     /* Applicable to both iOS and macOS (Apple Silicon). */
+     if (!splitwx) {
+         flags |= MAP_JIT;
 -- 
 2.25.1
 
