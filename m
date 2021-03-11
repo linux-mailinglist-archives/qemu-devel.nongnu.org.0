@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E33F336E71
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:06:11 +0100 (CET)
-Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D0336EAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:18:02 +0100 (CET)
+Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHGj-0008Po-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:06:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1lKHSD-0004TW-2s
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:18:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKHFc-0007oV-TU
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:05:00 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52146
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKHFa-0008MP-Pe
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:05:00 -0500
-Received: from host86-140-100-136.range86-140.btcentralplus.com
- ([86.140.100.136] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lKHFT-0000to-Sz; Thu, 11 Mar 2021 09:04:57 +0000
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
- <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
- <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
- <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
- <24d71ce3-b5b9-28fa-74c2-b22076bef287@vivier.eu>
- <762713e4-96a8-e989-fa76-2febad83afce@vivier.eu>
- <4d88313a-c067-163d-2d80-c60786bc9d85@ilande.co.uk>
- <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
-Date: Thu, 11 Mar 2021 09:04:30 +0000
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKHOl-0002D0-KH
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:14:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKHOi-0005t3-Fy
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:14:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615454063;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h9jVNMXhWgcV0pRpQoYDU/9/R2t5WMafCotaQp2KZm4=;
+ b=XEENFfMIzFvxyzpZytHCon5i/v1DWyAP5V7fpaSqSIXJCD/ENR0CZtD/efezd33wx1EzV5
+ xESAVBVabIDgic5kNcLs6Pnh8CMLpcrwWfT4tNO2dgt03V0f1TLqh1bkxQ3fIph2SMQot3
+ jiXgdXr2WpoeRE5WNM9+ZygZd4h5svI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-5ADIeP4COL24Cj2SB2Vd_g-1; Thu, 11 Mar 2021 04:14:21 -0500
+X-MC-Unique: 5ADIeP4COL24Cj2SB2Vd_g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ABDB100C660;
+ Thu, 11 Mar 2021 09:14:20 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-33.ams2.redhat.com [10.36.112.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E015810429F0;
+ Thu, 11 Mar 2021 09:14:15 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210310173323.1422754-1-thuth@redhat.com>
+ <20210310173323.1422754-4-thuth@redhat.com>
+ <87y2euqe4j.fsf@dusky.pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 3/4] usb: Un-deprecate -usbdevice (except for -usbdevice
+ audio which gets removed)
+Message-ID: <1f5ff060-5ec6-22bb-8b23-a558d6520894@redhat.com>
+Date: Thu, 11 Mar 2021 10:14:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
+In-Reply-To: <87y2euqe4j.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.100.136
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,106 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/03/2021 00:15, BALATON Zoltan wrote:
-
-> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->> On 10/03/2021 13:24, Laurent Vivier wrote:
->>> Le 10/03/2021 à 14:10, Laurent Vivier a écrit :
->>>> Le 10/03/2021 à 13:56, Laurent Vivier a écrit :
->>>>> Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
->>>>>> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
->>>>>>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
->>>>>>> interval should be measured in ns, and therefore its period is a thousand
->>>>>>> times too short.
->>>>>>>
->>>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>>> ---
->>>>>>> hw/misc/mac_via.c | 4 ++--
->>>>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
->>>>>>> index f994fefa7c..c6e1552a59 100644
->>>>>>> --- a/hw/misc/mac_via.c
->>>>>>> +++ b/hw/misc/mac_via.c
->>>>>>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
->>>>>>>      MOS6522State *s = MOS6522(v1s);
->>>>>>>
->>>>>>>      /* 60 Hz irq */
->>>>>>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
->>>>>>> -                          16630 * 16630;
->>>>>>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
->>>>>>> +                          16630000 * 16630000;
->>>>>>
->>>>>> Can you put this magic number in a #define maybe also rewriting it in a way 
->>>>>> that shows it
->>>>>> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in 
->>>>>> include/qemu/timer.h
->>>>>> that could be used for that, there's also SCALE_MS that might replace 1000 * 
->>>>>> 1000 elsewhere in this
->>>>>> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used 
->>>>>> here instead?
->>>>>
->>>>> In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, 
->>>>> in kernel 60.15 Hz.
->>>>> I Think there are several ways to compute it...
->>>>>
->>>>
->>>> In fact, we can read:
->>>>
->>>> "the vertical retrace frequency is approximately 60.15 Hz, resulting in a period 
->>>> of approximately
->>>> 16.63 milliseconds"
->>>>
->>>> https://developer.apple.com/library/archive/documentation/mac/pdf/Processes/Vertical_Retrace_Mgr.pdf 
->>>>
->>>
->>> The exact value is 16625800 ns
->>>
->>> "Macintosh Family Hardware Reference" ISBN 0-201-19255-1
->>> "The video interface"
->>> p. 13-3
->>>
->>> "[...] This means the full frame is redisplayed every 370 scan lines, or once 
->>> every 166625.8 µs."
->>
->> Thanks Laurent! Given that the exact precision is 6 digits I don't think it's 
->> possible to make use of conversion macros without either making it harder to read 
->> or reducing the precision.
->>
->> I think the best solution here would be to #define VIA1_60HZ_TIMER_PERIOD_NS with a 
->> comment containing the above reference, and use that in the period calculation. 
->> Would that be sufficient?
+On 11/03/2021 09.38, Markus Armbruster wrote:
+> Thomas Huth <thuth@redhat.com> writes:
 > 
-> Yes, I think that would make this a lot clearer than having this number without 
-> explanation so that would be sufficient.
+>> When trying to remove the -usbdevice option, there were complaints that
+>> "-usbdevice braille" is still a very useful shortcut for some people.
+>> Thus we never remove this option. Since it's not such a big burden to
+>> keep it around, and it's also convenient in the sense that you don't
+>> have to worry to enable a host controller explicitly with this option,
+>> we should remove it from he deprecation list again.
+>>
+>> However, there is one exception: "-usbdevice audio" should go away, since
+>> audio devices without "audiodev=..." parameter are also on the deprecation
+>> list and you cannot use "-usbdevice audio" with "audiodev".
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > 
-> Is this referred to as 60Hz timer in the hardware docs? Because that name is a bit 
-> misleading when it's actually not exactly 60Hz. But in the previous patch VBlank 
-> which this was called before was also found misleading so I can't think of a better 
-> name. Not sure if calling it compat_vblank would be too verbose or any better. Maybe 
-> you can just add a comment explaining what this is somewhere where it's defined or 
-> near the update function and then it does not matter what you call it, the comment 
-> should explain why it's not quite sixty_hz. I'm also OK with calling it sixty_hz just 
-> though if there's a way to give it a less confusing name you could consider that but 
-> I don't have a better name either so feel free to ignore this.
+> I accept the complaint that the replacement of "-usbdevice braille" is
+> less convenient.  This is not the case for the -usbdevice tablet, mouse,
+> keyboard, ccid, and wacom-tablet.
 
-Yes indeed, depending upon the documentation it is referred to as either the 60Hz or 
-the 60.15Hz timer. Certainly that's enough information for anyone familiar with Mac 
-internals to understand exactly what you are referring to. There are also plenty of 
-examples of this elsewhere e.g. for graphics cards the high level claim will be that 
-it supports over 16 million colours whereas the engineers know specifically that the 
-exact number is 16777216.
+Well, if we keep "-usbdevice braille" (which we should unless somebody comes 
+up with another easy to use replacement for blind people), then it also does 
+not hurt too much to keep tablet, mouse, keyboard and wacom-tablet, since 
+the code for these is rather simple and thus not a great burden to maintain. 
+And these are mentioned in a lot of documents, scripts and howtos out there, 
+so users are used to them.
 
-I'll write up a suitable comment with a #define and send through a v2, perhaps 
-altering the comment on the timer itself to read 60.15Hz as that's what the reference 
-cited by Laurent also uses.
+However, searching for "-usbdevice ccid", I hardly get any results, so I 
+guess we could also simply remove that one.
 
+>  It is arguably the case for disk,
+> serial, net, and host, yet we removed those anyway, to make the regular
+> and more expressive interface the only one.
 
-ATB,
+The problem with those devices was that they used their own parameter 
+parsing code, including bugs we had to take care about, so there was a 
+higher level of maintenance involved there. I think that alone justified 
+their removal.
 
-Mark.
+> However, "braille is special" is only an argument for *braille* sugar.
+> It doesn't extend to -usbdevice tablet, mouse etc.  I am against
+> undeprecating these.
+> 
+> If we decide we want braille sugar, we then need to decide whether it
+> should be -usbdevice braille or something else, like -braille.
+
+I've raised that question three years ago already. Nobody stepped forward to 
+implement -braille, so I think we should keep -usbdevice braille for now.
+
+> If we can't make up our minds, keep it deprecated until we do.
+
+We didn't make up our minds for three years now. In my eyes that's a 
+decision for keeping -usbdevice braille around.
+
+  Thomas
+
 
