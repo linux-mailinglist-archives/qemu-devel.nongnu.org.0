@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52003378CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:09:04 +0100 (CET)
-Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C3A3378D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:11:36 +0100 (CET)
+Received: from localhost ([::1]:44606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNrz-0000zo-PS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:09:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
+	id 1lKNuR-0004it-UR
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:11:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcz-00062u-Bx
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:49:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcn-0003KG-7p
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:49:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XdZjZYRgOSQ1Y9v3qSeD7VinfXsqZsDf2vIBHSlrWoE=;
- b=AHVxU+x6rbOz4Qi/iLZNL/fTeISg+8BjnBxsVMkro7LCVPly/5OkxLf3DF7PzocYd6XJKm
- CFeXQpuUnLJ8AX8+5S6Lh1q2LUj3T06AJ6l7Kck465QykxOv8P0F4lb80AE9PvtJOP9V5f
- wbd75bSWzoZMHRLV23gUQBiNTvwLYT0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-CquZve6VOeaoytkkMWr8qw-1; Thu, 11 Mar 2021 09:49:14 -0500
-X-MC-Unique: CquZve6VOeaoytkkMWr8qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6571618460E0;
- Thu, 11 Mar 2021 14:49:13 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 682525D9F2;
- Thu, 11 Mar 2021 14:49:12 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 38/38] qom: Add user_creatable_parse_str()
-Date: Thu, 11 Mar 2021 15:48:11 +0100
-Message-Id: <20210311144811.313451-39-kwolf@redhat.com>
-In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
-References: <20210311144811.313451-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lKMxo-0006nG-Bt
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:11:00 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lKMxm-0007Tm-HT
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:11:00 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id g4so13853279pgj.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 07:10:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=anyCAYqAgG3lqh7aDIWMSEATvybpz6UcJ2ql2ol2c0I=;
+ b=KYNfc1J0xKXGlEAxnqoXWWAANRQc/3rRLaE7e1Lssjy8M8mfhC2qWT3R2salRtEHJn
+ fcU0u28S1hwo/nXdBuE0afPgfDSBOcGBW/IL9oKjO8Y8l2/GCcu1Lwc8yF1WnIBz/Ff9
+ sLvU2PsEEp7nu66brNA5qjKdcQLc5EdiaD6gyhzNmZVFlFIz7I7kWUchHnu1Auu+HM7z
+ 9yKcn8SVbNBZT920tQbdqocnNwmgUccQX+0DznoD/vXPRrgQHwzzUqlfHYhzZma3vw9j
+ qEN9IFpCS0RbfrzK0eOTIv0HhvzwPuGug7ZfhG3s3LbqAnZUNozIkI6jyJglrZGAGym1
+ SxDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=anyCAYqAgG3lqh7aDIWMSEATvybpz6UcJ2ql2ol2c0I=;
+ b=lO0UgpxI/McECok/tpwnfFkuykCJKV4VmWo+U/gON28MK6Aco8ccCH9yhbryz+QehI
+ 3QDHMsAiZXMdgiZs74+zhL5eTlj5qzUCnbzrw0OAG+LgcRwmnen8LKZCz6OKsilqTY9X
+ XUvpT348DVoJ/IkuOI0ib3F+0AAnTE7InwEhdxU90j7anfSt1etQOC4y7kSUwDra6qtb
+ SBBxW6uwmXVJM7murXlMYDS6HkhP+q9233+isZZ4DSyIPhjM6cPDpodaBIGrlIEy9fGe
+ iOcn7MRJuPPN6C4thXhMSHy+KmjAfS/L6AFF9GmqGH0w7vDTslbP4Wl8fpdHHkLYOekD
+ Vb8g==
+X-Gm-Message-State: AOAM532Ul5rGbb0FPmfH7tyauQpBZrWow3Bl+kINIEHYXIVNFbKm9SmV
+ SqyvgAgnVf2rvGQNmtTa90mETYMlKYTTlg==
+X-Google-Smtp-Source: ABdhPJzkzjeGiTFWoKnETBO/iSUc8mX8IAZbxjPyqh7+a7vIXKcY9liTbRiYUS3z9u0njDsURfRGUA==
+X-Received: by 2002:a63:4462:: with SMTP id t34mr7486874pgk.389.1615475456281; 
+ Thu, 11 Mar 2021 07:10:56 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:a00f:6b19:eaae:a18e])
+ by smtp.gmail.com with ESMTPSA id d20sm2720398pjv.47.2021.03.11.07.10.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 11 Mar 2021 07:10:55 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] ui/cocoa: Comment about modifier key input quirks
+Date: Fri, 12 Mar 2021 00:10:42 +0900
+Message-Id: <20210311151042.21743-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,104 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Konstantin Nazarov <mail@knazarov.com>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The system emulator has a more complicated way of handling command line
-options in that it reorders options before it processes them. This means
-that parsing object options and creating the object happen at two
-different points. Split the parsing part into a separate function that
-can be reused by the system emulator command line.
-
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Acked-by: Peter Krempa <pkrempa@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Based-on: <20210310042348.21931-1-akihiko.odaki@gmail.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- include/qom/object_interfaces.h | 15 +++++++++++++++
- qom/object_interfaces.c         | 20 ++++++++++++++------
- 2 files changed, 29 insertions(+), 6 deletions(-)
+ ui/cocoa.m | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
-index 07511e6cff..fb32330901 100644
---- a/include/qom/object_interfaces.h
-+++ b/include/qom/object_interfaces.h
-@@ -144,6 +144,21 @@ typedef bool (*user_creatable_add_opts_predicate)(const char *type);
- int user_creatable_add_opts_foreach(void *opaque,
-                                     QemuOpts *opts, Error **errp);
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 035f96aab04..b0649c0c50a 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -700,13 +700,35 @@ - (bool) handleEventLocked:(NSEvent *)event
+     NSPoint p = [self screenLocationOfEvent:event];
+     NSUInteger modifiers = [event modifierFlags];
  
-+/**
-+ * user_creatable_parse_str:
-+ * @optarg: the object definition string as passed on the command line
-+ * @errp: if an error occurs, a pointer to an area to store the error
-+ *
-+ * Parses the option for the user creatable object with a keyval parser and
-+ * implicit key 'qom-type', converting the result to ObjectOptions.
-+ *
-+ * If a help option is given, print help instead.
-+ *
-+ * Returns: ObjectOptions on success, NULL when an error occurred (*errp is set
-+ * then) or help was printed (*errp is not set).
-+ */
-+ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp);
-+
- /**
-  * user_creatable_add_from_str:
-  * @optarg: the object definition string as passed on the command line
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 6dcab60f09..62d7db7629 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -292,7 +292,7 @@ static void user_creatable_print_help_from_qdict(QDict *args)
-     }
- }
- 
--bool user_creatable_add_from_str(const char *optarg, Error **errp)
-+ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp)
- {
-     ERRP_GUARD();
-     QDict *args;
-@@ -302,12 +302,12 @@ bool user_creatable_add_from_str(const char *optarg, Error **errp)
- 
-     args = keyval_parse(optarg, "qom-type", &help, errp);
-     if (*errp) {
--        return false;
-+        return NULL;
-     }
-     if (help) {
-         user_creatable_print_help_from_qdict(args);
-         qobject_unref(args);
--        return false;
-+        return NULL;
+-    // emulate caps lock keydown and keyup
++    /*
++     * If -[NSEvent modifierFlags] has NSEventModifierFlagCapsLock,
++     * toggle the current CapsLock state by firing "up" and "down" events in
++     * sequence.
++     */
+     if (!!(modifiers & NSEventModifierFlagCapsLock) !=
+         qkbd_state_modifier_get(kbd, QKBD_MOD_CAPSLOCK)) {
+         qkbd_state_key_event(kbd, Q_KEY_CODE_CAPS_LOCK, true);
+         qkbd_state_key_event(kbd, Q_KEY_CODE_CAPS_LOCK, false);
      }
  
-     v = qobject_input_visitor_new_keyval(QOBJECT(args));
-@@ -315,12 +315,20 @@ bool user_creatable_add_from_str(const char *optarg, Error **errp)
-     visit_free(v);
-     qobject_unref(args);
++    /*
++     * Check for other flags of -[NSEvent modifierFlags].
++     * 
++     * If a flag is not set, fire "up" events for all keys which correspond to
++     * the flag. Note that "down" events are not fired here because the flags
++     * checked here do not tell what exact keys are down.
++     *
++     * These operations are performed for any events because the modifier state
++     * may change while the application is inactive (i.e. no events fire) and
++     * we want to detect it as early as possible.
++     *
++     * Up events corresponding to a modifier flag update the current modifier
++     * state tracked with QKbdState but they are not fired unless all keys which
++     * match to the flag are up. Therefore, it cannot synchornize Cocoa and
++     * QkbdState if one of the keys is down. It is still nice that any
++     * desynchronization can be fixed by completely leaving your hands from the
++     * keyboard.
++     */
+     if (!(modifiers & NSEventModifierFlagShift)) {
+         qkbd_state_key_event(kbd, Q_KEY_CODE_SHIFT, false);
+         qkbd_state_key_event(kbd, Q_KEY_CODE_SHIFT_R, false);
+@@ -726,6 +748,14 @@ - (bool) handleEventLocked:(NSEvent *)event
  
--    if (*errp) {
--        goto out;
-+    return options;
-+}
-+
-+bool user_creatable_add_from_str(const char *optarg, Error **errp)
-+{
-+    ERRP_GUARD();
-+    ObjectOptions *options;
-+
-+    options = user_creatable_parse_str(optarg, errp);
-+    if (!options) {
-+        return false;
-     }
- 
-     user_creatable_add_qapi(options, errp);
--out:
-     qapi_free_ObjectOptions(options);
-     return !*errp;
- }
+     switch ([event type]) {
+         case NSEventTypeFlagsChanged:
++            /*
++             * If the state of the key corresponding to -[NSEvent keyCode] is
++             * not updated by checking -[NSEvent modifierFlags], update it here.
++             * It means -[NSEvent keyCode] does not represent CapsLock and
++             * the corresponding modifier flag is set.
++             * [self toggleKey] peeks QkbdState so it correctly works only when
++             * it is synchornized with Cocoa.
++             */
+             switch ([event keyCode]) {
+                 case kVK_Shift:
+                     if (!!(modifiers & NSEventModifierFlagShift)) {
 -- 
-2.29.2
+2.24.3 (Apple Git-128)
 
 
