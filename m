@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7B2336E66
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:01:21 +0100 (CET)
-Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E33F336E71
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:06:11 +0100 (CET)
+Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHC4-0005b0-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:01:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48300)
+	id 1lKHGj-0008Po-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lKHAM-0004pK-66
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:59:34 -0500
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:35374)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lKHFc-0007oV-TU
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:05:00 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52146
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lKHAI-0004fK-Gu
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:59:32 -0500
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 1884E2E15EC;
- Thu, 11 Mar 2021 11:59:25 +0300 (MSK)
-Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
- (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Y8I071V31I-xOx0NUGZ; Thu, 11 Mar 2021 11:59:25 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1615453165; bh=FxpCeXiidvNJwE7rPl521PmAEY8PSOl29Hl4evXKyn0=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=qALzcKz0kbtwfMPT6CxRjYJZ6er7Sm2fMEoXUn0y0Ewa7jaX29hsFP+l3qZgaBV8M
- GwTOo+3IwDUywSpBoyH2JQztUaNiTgTQdDfKFRwWVLaD8DZV3wgT2LqoiNdXh0RNvk
- mx1IUp6TsiWRHwoZDySuVRmCAXrzJD0VRUcmj7bE=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8818::1:8])
- by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- C5N1gh1pOz-xOoiAqvH; Thu, 11 Mar 2021 11:59:24 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] softmmu/vl: make default prealloc-threads work w/o
- -mem-prealloc
-Date: Thu, 11 Mar 2021 11:59:18 +0300
-Message-Id: <20210311085918.284903-1-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lKHFa-0008MP-Pe
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:05:00 -0500
+Received: from host86-140-100-136.range86-140.btcentralplus.com
+ ([86.140.100.136] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lKHFT-0000to-Sz; Thu, 11 Mar 2021 09:04:57 +0000
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210310080908.11861-1-mark.cave-ayland@ilande.co.uk>
+ <20210310080908.11861-7-mark.cave-ayland@ilande.co.uk>
+ <78a760-65e9-3689-b0b7-cb80b7af81a@eik.bme.hu>
+ <f58c7e62-5518-98cd-44eb-8eab5ab736d8@vivier.eu>
+ <24d71ce3-b5b9-28fa-74c2-b22076bef287@vivier.eu>
+ <762713e4-96a8-e989-fa76-2febad83afce@vivier.eu>
+ <4d88313a-c067-163d-2d80-c60786bc9d85@ilande.co.uk>
+ <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <65f60989-fa2e-1440-e32a-4aae16b1f137@ilande.co.uk>
+Date: Thu, 11 Mar 2021 09:04:30 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <6bf78d5d-d0d-807d-c35-5a5c40c4b977@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 86.140.100.136
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 6/7] mac_via: fix 60Hz VIA1 timer interval
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,56 +70,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, yc-core@yandex-team.ru
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preallocation in memory backends can be specified with either global
-QEMU option "-mem-prealloc", or with per-backend property
-"prealloc=true".  In the latter case, however, the default for the
-number of preallocation threads is not set to the number of vcpus, but
-remains at 1 instead.
+On 11/03/2021 00:15, BALATON Zoltan wrote:
 
-Fix it by setting the "prealloc-threads" sugar property of
-"memory-backend" to the number of vcpus unconditionally.
+> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
+>> On 10/03/2021 13:24, Laurent Vivier wrote:
+>>> Le 10/03/2021 à 14:10, Laurent Vivier a écrit :
+>>>> Le 10/03/2021 à 13:56, Laurent Vivier a écrit :
+>>>>> Le 10/03/2021 à 13:32, BALATON Zoltan a écrit :
+>>>>>> On Wed, 10 Mar 2021, Mark Cave-Ayland wrote:
+>>>>>>> The 60Hz timer is initialised using timer_new_ns() meaning that the timer
+>>>>>>> interval should be measured in ns, and therefore its period is a thousand
+>>>>>>> times too short.
+>>>>>>>
+>>>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>>>> ---
+>>>>>>> hw/misc/mac_via.c | 4 ++--
+>>>>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>>>>>>> index f994fefa7c..c6e1552a59 100644
+>>>>>>> --- a/hw/misc/mac_via.c
+>>>>>>> +++ b/hw/misc/mac_via.c
+>>>>>>> @@ -302,8 +302,8 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
+>>>>>>>      MOS6522State *s = MOS6522(v1s);
+>>>>>>>
+>>>>>>>      /* 60 Hz irq */
+>>>>>>> -    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
+>>>>>>> -                          16630 * 16630;
+>>>>>>> +    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630000) /
+>>>>>>> +                          16630000 * 16630000;
+>>>>>>
+>>>>>> Can you put this magic number in a #define maybe also rewriting it in a way 
+>>>>>> that shows it
+>>>>>> corresponds to a 60 Hz interval. (There's NANOSECONDS_PER_SECOND defined in 
+>>>>>> include/qemu/timer.h
+>>>>>> that could be used for that, there's also SCALE_MS that might replace 1000 * 
+>>>>>> 1000 elsewhere in this
+>>>>>> file). Also NANOSECONDS_PER_SECOND / 60 is 16666666, should that value be used 
+>>>>>> here instead?
+>>>>>
+>>>>> In fact, the Mac Frequency is not exactly 60 Hz, in docs we can find 60.147 Hz, 
+>>>>> in kernel 60.15 Hz.
+>>>>> I Think there are several ways to compute it...
+>>>>>
+>>>>
+>>>> In fact, we can read:
+>>>>
+>>>> "the vertical retrace frequency is approximately 60.15 Hz, resulting in a period 
+>>>> of approximately
+>>>> 16.63 milliseconds"
+>>>>
+>>>> https://developer.apple.com/library/archive/documentation/mac/pdf/Processes/Vertical_Retrace_Mgr.pdf 
+>>>>
+>>>
+>>> The exact value is 16625800 ns
+>>>
+>>> "Macintosh Family Hardware Reference" ISBN 0-201-19255-1
+>>> "The video interface"
+>>> p. 13-3
+>>>
+>>> "[...] This means the full frame is redisplayed every 370 scan lines, or once 
+>>> every 166625.8 µs."
+>>
+>> Thanks Laurent! Given that the exact precision is 6 digits I don't think it's 
+>> possible to make use of conversion macros without either making it harder to read 
+>> or reducing the precision.
+>>
+>> I think the best solution here would be to #define VIA1_60HZ_TIMER_PERIOD_NS with a 
+>> comment containing the above reference, and use that in the period calculation. 
+>> Would that be sufficient?
+> 
+> Yes, I think that would make this a lot clearer than having this number without 
+> explanation so that would be sufficient.
+> 
+> Is this referred to as 60Hz timer in the hardware docs? Because that name is a bit 
+> misleading when it's actually not exactly 60Hz. But in the previous patch VBlank 
+> which this was called before was also found misleading so I can't think of a better 
+> name. Not sure if calling it compat_vblank would be too verbose or any better. Maybe 
+> you can just add a comment explaining what this is somewhere where it's defined or 
+> near the update function and then it does not matter what you call it, the comment 
+> should explain why it's not quite sixty_hz. I'm also OK with calling it sixty_hz just 
+> though if there's a way to give it a less confusing name you could consider that but 
+> I don't have a better name either so feel free to ignore this.
 
-Fixes: ffac16fab3 ("hostmem: introduce "prealloc-threads" property")
+Yes indeed, depending upon the documentation it is referred to as either the 60Hz or 
+the 60.15Hz timer. Certainly that's enough information for anyone familiar with Mac 
+internals to understand exactly what you are referring to. There are also plenty of 
+examples of this elsewhere e.g. for graphics cards the high level claim will be that 
+it supports over 16 million colours whereas the engineers know specifically that the 
+exact number is 16777216.
 
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- softmmu/vl.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+I'll write up a suitable comment with a #define and send through a v2, perhaps 
+altering the comment on the timer itself to read 60.15Hz as that's what the reference 
+cited by Laurent also uses.
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ff488ea3e7db..e392e226a2d3 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2300,14 +2300,17 @@ static void qemu_validate_options(void)
- 
- static void qemu_process_sugar_options(void)
- {
--    if (mem_prealloc) {
--        char *val;
-+    char *val;
- 
--        val = g_strdup_printf("%d",
--                 (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
--        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
--                                   false);
--        g_free(val);
-+    val = g_strdup_printf("%d",
-+              (uint32_t) qemu_opt_get_number(
-+                             qemu_find_opts_singleton("smp-opts"), "cpus", 1));
-+
-+    object_register_sugar_prop("memory-backend", "prealloc-threads", val,
-+                                false);
-+    g_free(val);
-+
-+    if (mem_prealloc) {
-         object_register_sugar_prop("memory-backend", "prealloc", "on", false);
-     }
- 
--- 
-2.25.1
 
+ATB,
+
+Mark.
 
