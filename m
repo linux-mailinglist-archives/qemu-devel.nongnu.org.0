@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80695337E3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:33:12 +0100 (CET)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC88337E3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:34:39 +0100 (CET)
+Received: from localhost ([::1]:40046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKR3X-00054F-J3
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:33:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43368)
+	id 1lKR4w-0007OL-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:34:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKQxk-0001jY-Ph
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:27:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42368)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKR0r-00044I-Vy
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:30:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKQxg-00020m-1L
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:27:11 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKR0h-00040f-Ex
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:30:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615490826;
+ s=mimecast20190719; t=1615491014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=Ptub5yPMaAvKgdDu/UvtVxoAwkzecy3eN3RPQo/6VOU=;
- b=fYyLF7bjARqMJVGMj6bwOzmX+/e98aksToug4ChQr5pfw2MvKvPuwOVhBe3HYkbirwq48P
- jFsg0kiExgOEeuMCvVS0enFZX3pSVIhBldSHix/CmWK38mcAjzwO9UDvhXQ263T/KgPE6C
- eCMWnt3njlcLA/M3dP7S5YsKQ8D3xWA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-UIfo_STLPOKUFpHokcphWA-1; Thu, 11 Mar 2021 14:27:04 -0500
-X-MC-Unique: UIfo_STLPOKUFpHokcphWA-1
-Received: by mail-wr1-f71.google.com with SMTP id n16so8913105wro.1
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 11:27:03 -0800 (PST)
+ bh=GcEqEmej+eAfJ0qyKnp2VJXW8vNyKdRM5vBtvmN5s9c=;
+ b=R+o3L3gOokPA+mzBH1HcS7B5YdJL6p3Dn5vud9ZKzMPmiTZigol9RfhaiqkRC5sOZyr3Zm
+ QL/zRq6g6RC2D/+gnrjbAHbk4xS8c977AuiwBcxc9fgck/rRYiTt6zo/IzrJfAbQ0Oxlg6
+ S6GvBpo9Ij0KLI0S/IGpy+ZGzCNQq+w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3--RwqsZDVOF6Kxu8RMwXtCA-1; Thu, 11 Mar 2021 14:30:10 -0500
+X-MC-Unique: -RwqsZDVOF6Kxu8RMwXtCA-1
+Received: by mail-wr1-f69.google.com with SMTP id s10so9986000wre.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 11:30:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Ptub5yPMaAvKgdDu/UvtVxoAwkzecy3eN3RPQo/6VOU=;
- b=szetKPaVhy34aF6sKRgqokVviHIVNOcmgH3yHb0Ai+lrA4Ur50Cmz3x8LdNxUnGTx3
- EgDt046i905AgLPJ+E5oCFMcy+98wr0a0r7fSbcelm97FmzuuC7SKo007BZxJc2HkFYL
- LuVYWvA8U7XKkmDVMuml4VdEtA9qR+3Gfgaf0+4l74DRChcNHFbWNJuiyDnkwkPPLqzS
- SBv8SXyx1lsWq/5oHEk6lX19fJWDpN7SSHf4TaNBCkE5NH//1/Gtdcw+Bz37FmOFo8o/
- cNWc/W0yN6OvuFYssJJJY2Wwg5USLx0p7304O8Le1eiKY+261RTnkVa7GKBV80dZf6K/
- SscA==
-X-Gm-Message-State: AOAM533VvSsz7MQKmv89e596DXhTRsnhM+ROHpe1VhB979/ZbtF3Rlrm
- sdE43klQdQKDNUNhhhyBEhgXKhyoMRDwZjT77PrURxPp4qzbQZtzXlyrA8zqltvMX2WHovKDltE
- OELQ8goKC0CCZCOjFU9heLDpuoyUmvZQxWPZ5MkBjDPKI+qYLNalUAG/5N11ilwTj
-X-Received: by 2002:a5d:4e83:: with SMTP id e3mr10428829wru.82.1615490822588; 
- Thu, 11 Mar 2021 11:27:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw4Ke12Hf2QaAL/5Xiky1GBemQdLDZx6Hn0+VPGKW2l3K7b3CnKsOh+pUQsQmriMpKeo7QNNg==
-X-Received: by 2002:a5d:4e83:: with SMTP id e3mr10428806wru.82.1615490822327; 
- Thu, 11 Mar 2021 11:27:02 -0800 (PST)
+ bh=GcEqEmej+eAfJ0qyKnp2VJXW8vNyKdRM5vBtvmN5s9c=;
+ b=EVW91SP2F+HAGL/OMqFlCr+ZKkDbCpiSfRo/86R4/m1v0VL00Z44Kw3uV0UqTwOnzK
+ K71s81aplmb3YtVGC+ReG2E+/qKHp0/T/Z77FAQMYgvW31x2XYyusBHL85JGp65jU4OK
+ fvdBgbr67bZGRxYZUT24PlzxoE/FUbDlfrG5Z7d6HBbsATqlZAC14aGPjy//N2fq2Kyz
+ d1iS4DFp4QxUwf439aEONJsfmWbleDRJx2Wsl5uiWzmcJ3uNi5gx2bahCq1mB9R9hL5q
+ tGcI6Ov29GvLwnl5bJj73ub115NhzYMtQ/3F1x98oI1yBXr9leUTVN2VlwWXd/0zyHbY
+ G6ew==
+X-Gm-Message-State: AOAM533aJn4EMr6BiYrt2sc5Wdi4VyQkHjAHgav4R47NzHZRCNZSh33r
+ kFRiViC23GU4nbDRSlPRxYQ4nrIr3skhU08ecAV+GrizHPlv2CsFto1LVLttnbvV3Z7oAX0fVRN
+ ap6lkNT4TNjbajGiaqeA7x2wEkO/JUJbxgD0Trdwy3tiQ/stIGLYMYNl8AfKsg22T
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr10755724wrk.146.1615491009347; 
+ Thu, 11 Mar 2021 11:30:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzrLX0i1VXw7xm0QjrA9Nl6BM2gNPWxcjPoetDWw0KPkucsH5HjLpUulsJIa0HBf94m+Zp1g==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr10755698wrk.146.1615491009063; 
+ Thu, 11 Mar 2021 11:30:09 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id h22sm5712684wmb.36.2021.03.11.11.27.01
+ by smtp.gmail.com with ESMTPSA id o14sm4930675wri.48.2021.03.11.11.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 11:27:01 -0800 (PST)
+ Thu, 11 Mar 2021 11:30:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] scripts/coccinelle: Catch dubious code after
- &error_abort/&error_fatal
-Date: Thu, 11 Mar 2021 20:27:00 +0100
-Message-Id: <20210311192700.1441263-1-philmd@redhat.com>
+Subject: [PATCH] gitlab-ci: Add a job to run common coccinelle checks
+Date: Thu, 11 Mar 2021 20:30:06 +0100
+Message-Id: <20210311193006.1442775-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -70,14 +69,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,76 +90,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Calls passing &error_abort or &error_fatal don't return.
-Any code after such use is dubious. Add a coccinelle patch
-to detect such pattern.
+Add a job to run common coccinelle checks.
 
-Inspired-by: Kevin Wolf <kwolf@redhat.com>
+We use spatch tool from Fedora 32 (Docker image) because
+more recent versions are failing.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .../use-after-abort-fatal-errp.cocci          | 33 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 scripts/coccinelle/use-after-abort-fatal-errp.cocci
+Based-on: <20210311192700.1441263-1-philmd@redhat.com>
+---
+ .gitlab-ci.d/containers.yml                   |  5 ++++
+ .gitlab-ci.yml                                | 26 +++++++++++++++++++
+ .../dockerfiles/fedora-coccinelle.docker      | 16 ++++++++++++
+ 3 files changed, 47 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/fedora-coccinelle.docker
 
-diff --git a/scripts/coccinelle/use-after-abort-fatal-errp.cocci b/scripts/coccinelle/use-after-abort-fatal-errp.cocci
-new file mode 100644
-index 00000000000..ead9de5826a
---- /dev/null
-+++ b/scripts/coccinelle/use-after-abort-fatal-errp.cocci
-@@ -0,0 +1,33 @@
-+/* Find dubious code use after error_abort/error_fatal
-+ *
-+ * Inspired by this patch:
-+ * https://www.mail-archive.com/qemu-devel@nongnu.org/msg789501.html
-+ *
-+ * Copyright (C) 2121 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  Philippe Mathieu-Daudé
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 33e4046e233..8f14afdccab 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -249,3 +249,8 @@ amd64-opensuse-leap-container:
+   <<: *container_job_definition
+   variables:
+     NAME: opensuse-leap
 +
-+@@
-+identifier func_with_errp;
-+@@
-+(
-+ if (func_with_errp(..., &error_fatal)) {
-+    /* Used for displaying help message */
-+    ...
-+    exit(...);
-+  }
-+|
-+*if (func_with_errp(..., &error_fatal)) {
-+    /* dubious code */
-+    ...
-+  }
-+|
-+*if (func_with_errp(..., &error_abort)) {
-+    /* dubious code */
-+    ...
-+  }
-+)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e15dab8cd4..db6596eb06d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2368,6 +2368,7 @@ F: scripts/coccinelle/error_propagate_null.cocci
- F: scripts/coccinelle/remove_local_err.cocci
- F: scripts/coccinelle/use-error_fatal.cocci
- F: scripts/coccinelle/errp-guard.cocci
-+F: scripts/coccinelle/use-after-abort-fatal-errp.cocci
++cocci-fedora-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-coccinelle
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 07202f6ffb2..615a0b98fe2 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -746,6 +746,32 @@ build-libvhost-user:
+     - meson
+     - ninja
  
- GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
++check-cocci:
++  stage: build
++  needs: ['cocci-fedora-container']
++  image: $CI_REGISTRY_IMAGE/qemu/fedora-coccinelle:latest
++  script:
++    - for script in
++            scripts/coccinelle/errp-guard.cocci
++            scripts/coccinelle/exec_rw_const.cocci
++            scripts/coccinelle/inplace-byteswaps.cocci
++            scripts/coccinelle/overflow_muldiv64.cocci
++            scripts/coccinelle/qom-parent-type.cocci
++            scripts/coccinelle/qom-parent-type.cocci
++            scripts/coccinelle/remove_local_err.cocci
++            scripts/coccinelle/remove_muldiv64.cocci
++            scripts/coccinelle/return_directly.cocci
++            scripts/coccinelle/typecast.cocci
++            scripts/coccinelle/use-after-abort-fatal-errp.cocci
++      ; do
++        spatch --macro-file scripts/cocci-macro-file.h
++               --sp-file $script
++               --timeout 137
++               --jobs 2
++               --use-gitgrep
++               --dir .
++      ; done
++
+ # Prepare for GitLab pages deployment. Anything copied into the
+ # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
+ pages:
+diff --git a/tests/docker/dockerfiles/fedora-coccinelle.docker b/tests/docker/dockerfiles/fedora-coccinelle.docker
+new file mode 100644
+index 00000000000..5392c73fcb2
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-coccinelle.docker
+@@ -0,0 +1,16 @@
++#
++# Docker image to run Coccinelle spatch
++# (program matching and transformation engine)
++#
++# Copyright (C) 2021 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++FROM fedora:32
++
++# Please keep this list sorted alphabetically
++RUN dnf install -y \
++    coccinelle \
++    diffutils \
++    findutils \
++    git-core
 -- 
 2.26.2
 
