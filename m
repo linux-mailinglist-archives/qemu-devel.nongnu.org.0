@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268A133766D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:03:59 +0100 (CET)
-Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7206033765E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:01:17 +0100 (CET)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMr0-0003C4-4X
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:03:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39954)
+	id 1lKMoO-0007Y8-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:01:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUU-0003kL-IA
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:47 -0500
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:40816)
+ id 1lKMUa-0003la-6J
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:50 -0500
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:41581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUR-0006ZJ-TP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:42 -0500
-Received: by mail-qk1-x731.google.com with SMTP id l132so20782345qke.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:38 -0800 (PST)
+ id 1lKMUS-0006Zx-9m
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:43 -0500
+Received: by mail-qk1-x735.google.com with SMTP id x10so20776691qkm.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=akuogNqTsRbdFKyineyOU7+0wNNNt+eZ2/k7lVk1LqY=;
- b=TD5sfoMwi9HZhVYVL7CLcKKqV8L3KdWO9Ksz0SMPKl+40jJ6Te6T5zO2NzHQOQCktB
- 3VOhmm26xnS42PnrA5dYwE0tthinuW/o8AWlY21cmcobspgGfRkKAzjPIeRSu+pkvcof
- WB4us0s4p8InsJ6zWwSIbpa7sW8Sc8wQMOh/UzoAXAa03Di9qvU2hW6ZC0zBppha4RJG
- O9s8YCuVbXuJ+4bRL0e4tn+U18yiEXTsmtibsFxy2FukXyiamEYMHYKOLreHacvpiK/g
- 9IBu/OdQyRvUcx9Q3kxEinYPbT1PE5RnXg/il/fuz4nIaRlmk7DF2pKPaXNn6VdXQj1D
- Wuyg==
+ bh=r51gde6XQroUTuOp18Wacrk/m6aRKZagEOpI8SD7K0E=;
+ b=J9yt/Z/4gdHNHp8hCuRVEoLsOKs/es7tBUbo3ECj9pTlUqgneNaMRkgxb57H85QouJ
+ juFkMOLS6ojBFW7MybsUZdWa/RjcIseBZgClQeBD06eTSEP4xvL/8KvNfUm1VYsZ+7MY
+ dhwe1yIRwkvHoats1rC0rl4bsbpoppCrDeVaD9WCHbfLgc4n8cojeafD0SjrZ1SbCYuT
+ W+OJc4xZjZs6VHM2y4shamwF9rH4YzNbXkLkDHT1zfGTVlSJoSSyMG0G1c2/xMbYPgs4
+ NCeIgoSEObDHA7zHfkIKwcCNR5Q9/0ylviaHPKAUV1SC19cGdOXtdhFHEl0W1iw2RLO3
+ WggA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=akuogNqTsRbdFKyineyOU7+0wNNNt+eZ2/k7lVk1LqY=;
- b=j7od8BOFUFx4MYQRLcjeyj/GuLyO8GiiGMEplB/2Ux84Hy+cDJQgsPI5NFvdiTr5HS
- isF+4C0QHLNz4IodVjsKmGb8YbBbOKr8Axu39Pss61jivbducDDLtgpm5/UhsxLZPqHo
- bT8yHNeqQvh9QfaCVr5Ra1yU0huFN4OXULU1JP06VK+jbxpSi+fKbq25dOyEZutZ+iZt
- 4tMZ3XAJo50SfaCQ1uma1eEl+X7AUwQeqxTeauO9qHRIiSKrD1iDSgbdkX0EAlQGG9EH
- R+v8lD/QV2ra6mS+8wWPOfITfrFGaJP6zeWkIB3X4pj4iH33noUOrOz8pr8zk2Iks29y
- CYSw==
-X-Gm-Message-State: AOAM530ZAHxOb4YxY80RYIYa0yPxeqYRV/wscBFgo+xwuO1RbD3vBJrN
- ZPXXv3ekCyK9hT+dUZXLLBbSjPZRu+H4rbMk
-X-Google-Smtp-Source: ABdhPJzTsen1qpQ/qiS2T02Sm4J80Sy4LVad3FhUz8q9NiIk4AwGOaGL+swi+CLSz774/ACBgJ3fnw==
-X-Received: by 2002:a37:8c1:: with SMTP id 184mr165437qki.472.1615473632630;
- Thu, 11 Mar 2021 06:40:32 -0800 (PST)
+ bh=r51gde6XQroUTuOp18Wacrk/m6aRKZagEOpI8SD7K0E=;
+ b=CRPMS4de00q9scw1bacqTyNlKx3XBed2EpY3I5nB90OfdXSvjqS98J4J/SYjzae76B
+ T6RqHjK/sBMDuK1XhkpCSMC5n8MG1tRHyRXr8xF2OHn2v6foB/LthBPF8cp51wH9HHag
+ jbPNJwqYrcnOTSEiEBrwpXRryeF9ZBIJRa1tVU7Cm7xZts7FpSM871iHOIG6LejJq2q8
+ xLA8N6Oqbt/3eMclYhz+GjYMam7pzw+PuHERX9cqDLytgCTL0U4DYyASJns5l/d2C5L0
+ WCRpasiaT/LE408K7UDXIT1nueNUhrd8GU+MazzWHnHlCBUxuGeEsurA37AjpJrziBIf
+ Myxw==
+X-Gm-Message-State: AOAM5304b+4xSLMiSUiKBLgMOV0d+pe3RflpAHj1YULL879txjq9nheS
+ 34pLN9pKOHSe8z1yAu2Q0+k4Hlqzx8sMZhPV
+X-Google-Smtp-Source: ABdhPJx9rrFC7GYc4sEZpZgQkth3N6W+FC1OPDF724ZIyv8e6gpMQ9K0ZofFv09XwffbjdNOlA4GJw==
+X-Received: by 2002:a05:620a:1593:: with SMTP id
+ d19mr7562338qkk.83.1615473639073; 
+ Thu, 11 Mar 2021 06:40:39 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.31
+ by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:40:32 -0800 (PST)
+ Thu, 11 Mar 2021 06:40:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 26/57] tcg/tci: Push opcode emit into each case
-Date: Thu, 11 Mar 2021 08:39:27 -0600
-Message-Id: <20210311143958.562625-27-richard.henderson@linaro.org>
+Subject: [PATCH v5 27/57] tcg/tci: Split out tcg_out_op_rrs
+Date: Thu, 11 Mar 2021 08:39:28 -0600
+Message-Id: <20210311143958.562625-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,197 +88,130 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to split out bytecode output into helpers, but
-we can't do that one at a time if tcg_out_op_t is being done
-outside of the switch.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target.c.inc | 35 ++++++++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
+ tcg/tci/tcg-target.c.inc | 84 +++++++++++++++++++---------------------
+ 1 file changed, 39 insertions(+), 45 deletions(-)
 
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 53edc50a3b..050d514853 100644
+index 050d514853..707f801099 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -385,40 +385,48 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+@@ -283,32 +283,38 @@ static void stack_bounds_check(TCGReg base, target_long offset)
+     }
+ }
+ 
+-static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+-                       intptr_t arg2)
++static void tcg_out_op_rrs(TCGContext *s, TCGOpcode op,
++                           TCGReg r0, TCGReg r1, intptr_t i2)
  {
      uint8_t *old_code_ptr = s->code_ptr;
  
--    tcg_out_op_t(s, opc);
--
-     switch (opc) {
-     case INDEX_op_exit_tb:
-+        tcg_out_op_t(s, opc);
-         tcg_out_i(s, args[0]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
+-    stack_bounds_check(arg1, arg2);
+-    if (type == TCG_TYPE_I32) {
+-        tcg_out_op_t(s, INDEX_op_ld_i32);
+-        tcg_out_r(s, ret);
+-        tcg_out_r(s, arg1);
+-        tcg_out32(s, arg2);
+-    } else {
+-        tcg_debug_assert(type == TCG_TYPE_I64);
+-#if TCG_TARGET_REG_BITS == 64
+-        tcg_out_op_t(s, INDEX_op_ld_i64);
+-        tcg_out_r(s, ret);
+-        tcg_out_r(s, arg1);
+-        tcg_debug_assert(arg2 == (int32_t)arg2);
+-        tcg_out32(s, arg2);
+-#else
+-        TODO();
+-#endif
+-    }
++    tcg_out_op_t(s, op);
++    tcg_out_r(s, r0);
++    tcg_out_r(s, r1);
++    tcg_debug_assert(i2 == (int32_t)i2);
++    tcg_out32(s, i2);
++
+     old_code_ptr[1] = s->code_ptr - old_code_ptr;
+ }
  
-     case INDEX_op_goto_tb:
-         tcg_debug_assert(s->tb_jmp_insn_offset == 0);
-         /* indirect jump method. */
-+        tcg_out_op_t(s, opc);
-         tcg_out_i(s, (uintptr_t)(s->tb_jmp_target_addr + args[0]));
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         set_jmp_reset_offset(s, args[0]);
-         break;
- 
-     case INDEX_op_br:
-+        tcg_out_op_t(s, opc);
-         tci_out_label(s, arg_label(args[0]));
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     CASE_32_64(setcond)
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         tcg_out8(s, args[3]);   /* condition */
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
- #if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_setcond2_i32:
-         /* setcond2_i32 cond, t0, t1_low, t1_high, t2_low, t2_high */
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         tcg_out_r(s, args[3]);
-         tcg_out_r(s, args[4]);
-         tcg_out8(s, args[5]);   /* condition */
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- #endif
- 
-@@ -436,10 +444,12 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
++static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg val, TCGReg base,
++                       intptr_t offset)
++{
++    stack_bounds_check(base, offset);
++    switch (type) {
++    case TCG_TYPE_I32:
++        tcg_out_op_rrs(s, INDEX_op_ld_i32, val, base, offset);
++        break;
++#if TCG_TARGET_REG_BITS == 64
++    case TCG_TYPE_I64:
++        tcg_out_op_rrs(s, INDEX_op_ld_i64, val, base, offset);
++        break;
++#endif
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
+ {
+     uint8_t *old_code_ptr = s->code_ptr;
+@@ -444,12 +450,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
      CASE_64(st32)
      CASE_64(st)
          stack_bounds_check(args[1], args[2]);
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_debug_assert(args[2] == (int32_t)args[2]);
-         tcg_out32(s, args[2]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
+-        tcg_out_op_t(s, opc);
+-        tcg_out_r(s, args[0]);
+-        tcg_out_r(s, args[1]);
+-        tcg_debug_assert(args[2] == (int32_t)args[2]);
+-        tcg_out32(s, args[2]);
+-        old_code_ptr[1] = s->code_ptr - old_code_ptr;
++        tcg_out_op_rrs(s, opc, args[0], args[1], args[2]);
          break;
  
      CASE_32_64(add)
-@@ -462,12 +472,15 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     CASE_32_64(divu)     /* Optional (TCG_TARGET_HAS_div_*). */
-     CASE_32_64(rem)      /* Optional (TCG_TARGET_HAS_div_*). */
-     CASE_32_64(remu)     /* Optional (TCG_TARGET_HAS_div_*). */
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
+@@ -597,29 +598,22 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+     }
+ }
  
-     CASE_32_64(deposit)  /* Optional (TCG_TARGET_HAS_deposit_*). */
-+        tcg_out_op_t(s, opc);
-         {
-             TCGArg pos = args[3], len = args[4];
-             TCGArg max = opc == INDEX_op_deposit_i32 ? 32 : 64;
-@@ -481,13 +494,16 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-             tcg_out8(s, pos);
-             tcg_out8(s, len);
-         }
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     CASE_32_64(brcond)
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out8(s, args[2]);           /* condition */
-         tci_out_label(s, arg_label(args[3]));
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     CASE_32_64(neg)      /* Optional (TCG_TARGET_HAS_neg_*). */
-@@ -503,48 +519,59 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     CASE_32_64(bswap16)  /* Optional (TCG_TARGET_HAS_bswap16_*). */
-     CASE_32_64(bswap32)  /* Optional (TCG_TARGET_HAS_bswap32_*). */
-     CASE_64(bswap64)     /* Optional (TCG_TARGET_HAS_bswap64_i64). */
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
- #if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_add2_i32:
-     case INDEX_op_sub2_i32:
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         tcg_out_r(s, args[3]);
-         tcg_out_r(s, args[4]);
-         tcg_out_r(s, args[5]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
-     case INDEX_op_brcond2_i32:
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         tcg_out_r(s, args[3]);
-         tcg_out8(s, args[4]);           /* condition */
-         tci_out_label(s, arg_label(args[5]));
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
-     case INDEX_op_mulu2_i32:
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_out_r(s, args[2]);
-         tcg_out_r(s, args[3]);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
+-static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg, TCGReg arg1,
+-                       intptr_t arg2)
++static void tcg_out_st(TCGContext *s, TCGType type, TCGReg val, TCGReg base,
++                       intptr_t offset)
+ {
+-    uint8_t *old_code_ptr = s->code_ptr;
+-
+-    stack_bounds_check(arg1, arg2);
+-    if (type == TCG_TYPE_I32) {
+-        tcg_out_op_t(s, INDEX_op_st_i32);
+-        tcg_out_r(s, arg);
+-        tcg_out_r(s, arg1);
+-        tcg_out32(s, arg2);
+-    } else {
+-        tcg_debug_assert(type == TCG_TYPE_I64);
++    stack_bounds_check(base, offset);
++    switch (type) {
++    case TCG_TYPE_I32:
++        tcg_out_op_rrs(s, INDEX_op_st_i32, val, base, offset);
++        break;
+ #if TCG_TARGET_REG_BITS == 64
+-        tcg_out_op_t(s, INDEX_op_st_i64);
+-        tcg_out_r(s, arg);
+-        tcg_out_r(s, arg1);
+-        tcg_out32(s, arg2);
+-#else
+-        TODO();
++    case TCG_TYPE_I64:
++        tcg_out_op_rrs(s, INDEX_op_st_i64, val, base, offset);
++        break;
  #endif
- 
-     case INDEX_op_qemu_ld_i32:
-     case INDEX_op_qemu_st_i32:
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, *args++);
-         tcg_out_r(s, *args++);
-         if (TARGET_LONG_BITS > TCG_TARGET_REG_BITS) {
-             tcg_out_r(s, *args++);
-         }
-         tcg_out32(s, *args++);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     case INDEX_op_qemu_ld_i64:
-     case INDEX_op_qemu_st_i64:
-+        tcg_out_op_t(s, opc);
-         tcg_out_r(s, *args++);
-         if (TCG_TARGET_REG_BITS == 32) {
-             tcg_out_r(s, *args++);
-@@ -554,9 +581,12 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-             tcg_out_r(s, *args++);
-         }
-         tcg_out32(s, *args++);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     case INDEX_op_mb:
-+        tcg_out_op_t(s, opc);
-+        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-         break;
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-@@ -565,7 +595,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     default:
-         tcg_abort();
++    default:
++        g_assert_not_reached();
      }
 -    old_code_ptr[1] = s->code_ptr - old_code_ptr;
  }
  
- static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg, TCGReg arg1,
+ static inline bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
 -- 
 2.25.1
 
