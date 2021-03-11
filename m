@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9F7337305
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:50:30 +0100 (CET)
-Received: from localhost ([::1]:38494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F863372E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 13:41:35 +0100 (CET)
+Received: from localhost ([::1]:51894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKKlp-000119-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:50:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1lKKdC-0001uV-G1
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 07:41:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lKKWV-00045K-QT
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:34:39 -0500
-Received: from foss.arm.com ([217.140.110.172]:55762)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lKKWT-0006gE-5j
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:34:39 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9572AED1;
- Thu, 11 Mar 2021 04:34:35 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 074673F793;
- Thu, 11 Mar 2021 04:34:32 -0800 (PST)
-Subject: Re: [PATCH v9 6/6] KVM: arm64: Document MTE capability and ioctl
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210301142315.30920-1-steven.price@arm.com>
- <20210301142315.30920-7-steven.price@arm.com>
- <CAFEAcA8pkvWeGV19QEaZx+pENDpUTO3=p-euPjkjeiU8OGtZzw@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <1ea52603-2e99-1e81-92b3-0e14cf1e2d1e@arm.com>
-Date: Thu, 11 Mar 2021 12:35:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lKKaT-0008Rc-IV
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:38:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lKKaP-0000fA-O2
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 07:38:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615466321;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/NiLm+4V8XkFxuy6WUlkaCP0kqpA1pBrQPShiLjs2sc=;
+ b=f+wBjVo70xBCo6P3x5fLKo9MtIslmTDB87tILJkxWNy4TTtAusbnT8ZQPQXgKkQywNEicl
+ wXcRVZEOgBIEc+vwOpomPXN0Zw3ueSukPxKWkVEB6JrSvqmA4uPmHD/9Xwc4xI+K1MlNQ/
+ MnxBbTdQJ5ODG13awkK2heA5yGpZlIM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-QWpiVfmBN62vOkRrCLtVDw-1; Thu, 11 Mar 2021 07:38:37 -0500
+X-MC-Unique: QWpiVfmBN62vOkRrCLtVDw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC0A107ACCD;
+ Thu, 11 Mar 2021 12:38:36 +0000 (UTC)
+Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF4DA5D6D1;
+ Thu, 11 Mar 2021 12:38:34 +0000 (UTC)
+Date: Thu, 11 Mar 2021 12:38:30 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 01/33] migration: push Error **errp into
+ qemu_loadvm_state()
+Message-ID: <YEoPRup0EF+smoFy@redhat.com>
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204171907.901471-2-berrange@redhat.com>
+ <74407f84-c670-cc87-27fe-f3d9d38bda33@redhat.com>
+ <20210205093345.GA908621@redhat.com>
+ <CAP+75-XnReuDAXw6N28-ckzCtu88A8pn92RH1UgsBMWcN=oYAw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8pkvWeGV19QEaZx+pENDpUTO3=p-euPjkjeiU8OGtZzw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAP+75-XnReuDAXw6N28-ckzCtu88A8pn92RH1UgsBMWcN=oYAw@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,175 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/2021 11:01, Peter Maydell wrote:
-> On Mon, 1 Mar 2021 at 14:23, Steven Price <steven.price@arm.com> wrote:
->>
->> A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
->> granting a guest access to the tags, and provides a mechanism for the
->> VMM to enable it.
->>
->> A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
->> access the tags of a guest without having to maintain a PROT_MTE mapping
->> in userspace. The above capability gates access to the ioctl.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>   Documentation/virt/kvm/api.rst | 37 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 37 insertions(+)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index aed52b0fc16e..1406ea138127 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -4939,6 +4939,23 @@ KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO
->>   Allows Xen vCPU attributes to be read. For the structure and types,
->>   see KVM_XEN_VCPU_SET_ATTR above.
->>
->> +4.131 KVM_ARM_MTE_COPY_TAGS
->> +---------------------------
->> +
->> +:Capability: KVM_CAP_ARM_MTE
->> +:Architectures: arm64
->> +:Type: vm ioctl
->> +:Parameters: struct kvm_arm_copy_mte_tags
->> +:Returns: 0 on success, < 0 on error
->> +
->> +Copies Memory Tagging Extension (MTE) tags to/from guest tag memory.
+On Fri, Feb 05, 2021 at 10:35:28AM +0100, Philippe Mathieu-Daudé wrote:
+> On Fri, Feb 5, 2021 at 10:33 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > On Thu, Feb 04, 2021 at 10:57:20PM +0100, Philippe Mathieu-Daudé wrote:
+> > > On 2/4/21 6:18 PM, Daniel P. Berrangé wrote:
+> > > > This is an incremental step in converting vmstate loading code to report
+> > > > via Error objects instead of printing directly to the console/monitor.
+> > > >
+> > > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > ---
+> > > >  migration/migration.c |  4 ++--
+> > > >  migration/savevm.c    | 36 ++++++++++++++++++++----------------
+> > > >  migration/savevm.h    |  2 +-
+> > > >  3 files changed, 23 insertions(+), 19 deletions(-)
+> > > ...
+> > >
+> > > > diff --git a/migration/savevm.c b/migration/savevm.c
+> > > > index 6b320423c7..c8d93eee1e 100644
+> > > > --- a/migration/savevm.c
+> > > > +++ b/migration/savevm.c
+> > > > @@ -2638,40 +2638,49 @@ out:
+> > > >      return ret;
+> > > >  }
+> > > >
+> > > > -int qemu_loadvm_state(QEMUFile *f)
+> > > > +int qemu_loadvm_state(QEMUFile *f, Error **errp)
+> > > >  {
+> > > >      MigrationIncomingState *mis = migration_incoming_get_current();
+> > > > -    Error *local_err = NULL;
+> > > >      int ret;
+> > > >
+> > > > -    if (qemu_savevm_state_blocked(&local_err)) {
+> > > > -        error_report_err(local_err);
+> > > > -        return -EINVAL;
+> > > > +    if (qemu_savevm_state_blocked(errp)) {
+> > > > +        return -1;
+> > > >      }
+> > > >
+> > > >      ret = qemu_loadvm_state_header(f);
+> > > >      if (ret) {
+> > > > -        return ret;
+> > > > +        error_setg(errp, "Error %d while loading VM state", ret);
+> > >
+> > > Using error_setg_errno() instead (multiple occurences):
+> >
+> > I don't think we want todo that in general, because the code is
+> > already not reliable at actually returning an errno value, sometimes
+> > returning just "-1". At the end of this series it will almost always
+> > be returning "-1", not an errno.  There are some places where an
+> > errno is relevant though - specificially qemu_get_file_error calls.
 > 
-> Mostly virt/kvm/api.rst seems to include documentation of the
-> associated structs, something like:
-> 
-> ::
-> 
->    struct kvm_arm_copy_mte_tags {
->           __u64 guest_ipa;
->           __u64 length;
->           union {
->                   void __user *addr;
->                   __u64 padding;
->           };
->           __u64 flags;
->    };
-> 
-> 
-> which saves the reader having to cross-reference against the header file.
+> Fair. Ignore my other same comments in this. R-b tag stands.
 
-Good point - I'll add that.
+On further investigation you are right. Not using error_setg_errno
+has caused a regression in error quality as shown by Dave in a later
+patch in this series.
 
-> It also means you can more naturally use the actual field names in the doc,
-> eg:
-> 
->> +The
->> +starting address and length of guest memory must be ``PAGE_SIZE`` aligned.
-> 
-> you could say "The guest_ipa and length fields" here.
-> 
-> Also "The addr field must point to a buffer which the tags will
-> be copied to or from." I assume.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Indeed - I'll add the clarification.
-
->> +The size of the buffer to store the tags is ``(length / MTE_GRANULE_SIZE)``
->> +bytes (i.e. 1/16th of the corresponding size).
-> 
->> + Each byte contains a single tag
->> +value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
->> +``PTRACE_POKEMTETAGS``.
-> 
-> What are the valid values for 'flags' ? It looks like they specify which
-> direction the copy is, which we definitely need to document here.
-
-Yes either KVM_ARM_TAGS_TO_GUEST or KVM_ARM_TAGS_FROM_GUEST - again I'll 
-clarify that.
-
-> What happens if the caller requests a tag copy for an area of guest
-> address space which doesn't have tags (eg it has nothing mapped),
-> or for an area of guest addres space which has tags in some parts
-> but not in others ?
-
-Guest memory either exists (and has tags) or doesn't exist (assuming MTE 
-is enabled for the guest). So the cases this can fail are:
-
-  * The region isn't completely covered with memslots
-  * The region isn't completely writable (and KVM_ARM_TAGS_TO_GUEST is 
-specified).
-  * User space doesn't have access to the memory (i.e. the memory would 
-SIGSEGV or similar if the VMM accessed it).
-
-Currently all the above produce the error -ENOENT, which now I come to 
-enumerate the cases doesn't seem like a great error code (it's really 
-only appropriate for the first)! Perhaps -EFAULT would be better.
-
->> +
->>   5. The kvm_run structure
->>   ========================
->>
->> @@ -6227,6 +6244,25 @@ KVM_RUN_BUS_LOCK flag is used to distinguish between them.
->>   This capability can be used to check / enable 2nd DAWR feature provided
->>   by POWER10 processor.
->>
->> +7.23 KVM_CAP_ARM_MTE
->> +--------------------
->> +
->> +:Architectures: arm64
->> +:Parameters: none
->> +
->> +This capability indicates that KVM (and the hardware) supports exposing the
->> +Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
->> +VMM before the guest will be granted access.
->> +
->> +When enabled the guest is able to access tags associated with any memory given
->> +to the guest. KVM will ensure that the pages are flagged ``PG_mte_tagged`` so
->> +that the tags are maintained during swap or hibernation of the host, however
-> 
-> s/,/;/
-
-Yep
-
->> +the VMM needs to manually save/restore the tags as appropriate if the VM is
->> +migrated.
->> +
->> +When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
->> +perform a bulk copy of tags to/from the guest
-> 
-> "guest."
-
-Good spot.
-
->> +
->>   8. Other capabilities.
->>   ======================
->>
->> @@ -6716,3 +6752,4 @@ KVM_XEN_HVM_SET_ATTR, KVM_XEN_HVM_GET_ATTR, KVM_XEN_VCPU_SET_ATTR and
->>   KVM_XEN_VCPU_GET_ATTR ioctls, as well as the delivery of exception vectors
->>   for event channel upcalls when the evtchn_upcall_pending field of a vcpu's
->>   vcpu_info is set.
->> +
->> --
->> 2.20.1
-> 
-> 
-> Stray whitespace change ?
-
-Not sure how that got there - but will remove.
-
-Thanks,
-
-Steve
 
