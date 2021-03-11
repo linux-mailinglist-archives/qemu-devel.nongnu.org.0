@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E22337891
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:56:30 +0100 (CET)
-Received: from localhost ([::1]:56378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CD9337898
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:58:46 +0100 (CET)
+Received: from localhost ([::1]:35738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNfp-0000rQ-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:56:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
+	id 1lKNi1-0004Bs-NP
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:58:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lKN2D-0003EX-9r
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:15:33 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40608)
+ id 1lKN2E-0003HP-FW
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:15:34 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:39183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lKN28-0001Pq-HK
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:15:33 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id x7so11235485pfi.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 07:15:27 -0800 (PST)
+ id 1lKN2C-0001Qf-7D
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 10:15:34 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id j6so10339977plx.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 07:15:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=od/ubjSu0OOHMmkpTjRC1G/py4pzQgwR44+oIjfe5mM=;
- b=jGonowbcqcECP+YxjQ5MESN98M7w1e6Zwag+IiLFceBznq3oSbrPqERkV3X+R4Hmsr
- elm5h+JAyWJq3Rlmjtpny9UB9n1UwFTVH4ZdPAcZa6cI4pbJkEuhQ0no41OqN21RLxAP
- JcoT/BG+BJ1CyshQ4xGdimNg8AJlV3dbOb6OIScxYBF+sJgQmkfrQ6RI2Q0rZiX1scsb
- BxA5vb6VD/lqnDLtgtJPnlONK1mM771pVVN5vzNuo9wN07X85/smGseTz3kdylYv06tr
- JVVUqcR+T/qhNxBEKPg8WKvUXN/EOY/lPUzvLJLNKQWyNOM7nwiOr38RZ3yjYVtOWTQS
- Wi8Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zq2ofas2Lo2xsLPCq2xe7AqeSOMcLrLc5dBPspvq3x0=;
+ b=Y13KqT0C/loY+f56a1wkE6eCS9dqCmTCKUOPDNoEEOJAoP7w48tNlT2pzDq2TGo0KG
+ NTsxL+yG0rI/gffwj0xT0rXBej3gbzIWOAWiwcMsWxT8G80OUp21I/k3RGLeiYUy1cQL
+ zkr502TNWdeBqdgKhBVJGQCSCTqBbXfmTIM4QvLxUe/3M/FubGUzr8yFDTObgSJeki/k
+ wK/ZIYJk3dz8CBE04/x/vPxm9Z1ogZ/DQ6i8um3JWvwV3PSNjybDP44WJ3wzkleNf60n
+ wMZsGUS5iRjnJHuPZ49hvFYTiERQw9ou0UtemDOJySnAYRaE69p38wPpyYzr7xqbpQv9
+ shtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=od/ubjSu0OOHMmkpTjRC1G/py4pzQgwR44+oIjfe5mM=;
- b=ifBc6XpJFuIq0T+93lnux+n+/da6y3t71HOqCSa0jEmAQt3JaqY3BKmQXf4LnwZoZZ
- PIWC+qlwuw7e+/qx24yDhYlq+QRCK5P4lvjdvTZXXp74HCIbQNWENVX7QLp5GTm/WCXT
- QMdUryjZfXgmbkBMTqyFZvoosCLS908hwnC93lDvdvCk+CXa4Dw7iUWEYhLBmY6Yoi4e
- 8OJrFp+grHYTRaL0KsfEZoVyL6maH+A5QDDgr9z+dn8l0AV35bND6ZBjnA2YTGSa9kjg
- LcQ4zCQzbU+42g2qQD+7pFhYqklj4pwiY8PGR8hDaIcPzUSl2b2016i+NHpwafpfzU2b
- 7R3w==
-X-Gm-Message-State: AOAM532Bpr6TebkEKibTH2emCxUe4B5t/pYEyJp/zvYBl5iopst0dq7G
- yy/JROHFLVI88ECKT0uXUxUFlsQROfuMrw==
-X-Google-Smtp-Source: ABdhPJwUiyqGZ8TXVNGRorLOBpk4h+PAGfaSyTKR3qOtyjiK1j9nmi+IL3xeBuyJls4Asrxan3wfmQ==
-X-Received: by 2002:a63:e511:: with SMTP id r17mr7634839pgh.163.1615475726613; 
- Thu, 11 Mar 2021 07:15:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zq2ofas2Lo2xsLPCq2xe7AqeSOMcLrLc5dBPspvq3x0=;
+ b=czi5wbVk9T8crjRPKWLeO5tmHb9kFtirJNyHGk+pfiO65o/CZzQh9eNizykhZBWKxD
+ p8iuJtvIe9QmyNee3ZC6oq/MURHtW/6o7pNr7NN6Y2ZEAk1BuILvmKhGtplLbEqIbA/D
+ APJBauyALsZi1+MR8jQThsBkfj0abA/crcFAD6wqagVUGH4JXyGEZUiFCJ8oFs0KnNWh
+ mya92PZgJFgRXktw7ehrL9B7BLLtOmsAzQ/KgsyyTJ/dI45UfnSd5DmBAPXWA66eW80y
+ rZc+L3MCL+5Lr4WRfrkV1aNy16jpIaJC9MXfCHC6aYLb9iaKOh97ReuRhz3VApeFH0CI
+ R3vQ==
+X-Gm-Message-State: AOAM532A6OmoW3lP+zjfVcUfT4e/OiH/g6C9EegqkRNDoH/ro8y4YoHs
+ dBGjnkbeHbQx7z3KUzX9Zk8XI15WfNgOyg==
+X-Google-Smtp-Source: ABdhPJy6xHdaW6CWfMhSksoIThqoAcSJpqWnCVNlKcmYkw6WWK5DnC9DGBK5s5D6YciCHR4vyOi8wA==
+X-Received: by 2002:a17:90a:bb95:: with SMTP id
+ v21mr9136391pjr.30.1615475729929; 
+ Thu, 11 Mar 2021 07:15:29 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:a00f:6b19:eaae:a18e])
- by smtp.gmail.com with ESMTPSA id j3sm2716732pjf.36.2021.03.11.07.15.25
+ by smtp.gmail.com with ESMTPSA id j3sm2716732pjf.36.2021.03.11.07.15.28
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Mar 2021 07:15:26 -0800 (PST)
+ Thu, 11 Mar 2021 07:15:29 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2 1/3] coreaudio: Drop support for macOS older than 10.6
-Date: Fri, 12 Mar 2021 00:15:10 +0900
-Message-Id: <20210311151512.22096-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v2 2/3] coreaudio: Extract device operations
+Date: Fri, 12 Mar 2021 00:15:11 +0900
+Message-Id: <20210311151512.22096-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20210311151512.22096-1-akihiko.odaki@gmail.com>
+References: <20210311151512.22096-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,141 +89,246 @@ Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mac OS X 10.6 was released in 2009.
+This change prepare to support dynamic device changes, which requires to
+perform device initialization/deinitialization multiple times.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- audio/coreaudio.c | 103 ----------------------------------------------
- 1 file changed, 103 deletions(-)
+ audio/coreaudio.c | 137 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 80 insertions(+), 57 deletions(-)
 
 diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index b7c02e0e516..c5f0b615d64 100644
+index c5f0b615d64..ab43cdcac19 100644
 --- a/audio/coreaudio.c
 +++ b/audio/coreaudio.c
-@@ -32,10 +32,6 @@
- #define AUDIO_CAP "coreaudio"
- #include "audio_int.h"
- 
--#ifndef MAC_OS_X_VERSION_10_6
--#define MAC_OS_X_VERSION_10_6 1060
--#endif
--
- typedef struct coreaudioVoiceOut {
+@@ -36,6 +36,8 @@ typedef struct coreaudioVoiceOut {
      HWVoiceOut hw;
      pthread_mutex_t mutex;
-@@ -45,9 +41,6 @@ typedef struct coreaudioVoiceOut {
+     AudioDeviceID outputDeviceID;
++    int frameSizeSetting;
++    uint32_t bufferCount;
+     UInt32 audioDevicePropertyBufferFrameSize;
+     AudioStreamBasicDescription outputStreamBasicDescription;
      AudioDeviceIOProcID ioprocid;
- } coreaudioVoiceOut;
- 
--#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
--/* The APIs used here only become available from 10.6 */
--
- static OSStatus coreaudio_get_voice(AudioDeviceID *id)
- {
-     UInt32 size = sizeof(*id);
-@@ -169,102 +162,6 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
-                                       &size,
-                                       result);
+@@ -253,6 +255,9 @@ static void GCC_FMT_ATTR (3, 4) coreaudio_logerr2 (
+     coreaudio_logstatus (status);
  }
--#else
--/* Legacy versions of functions using deprecated APIs */
--
--static OSStatus coreaudio_get_voice(AudioDeviceID *id)
--{
--    UInt32 size = sizeof(*id);
--
--    return AudioHardwareGetProperty(
--        kAudioHardwarePropertyDefaultOutputDevice,
--        &size,
--        id);
--}
--
--static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
--                                             AudioValueRange *framerange)
--{
--    UInt32 size = sizeof(*framerange);
--
--    return AudioDeviceGetProperty(
--        id,
--        0,
--        0,
--        kAudioDevicePropertyBufferFrameSizeRange,
--        &size,
--        framerange);
--}
--
--static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
--{
--    UInt32 size = sizeof(*framesize);
--
--    return AudioDeviceGetProperty(
--        id,
--        0,
--        false,
--        kAudioDevicePropertyBufferFrameSize,
--        &size,
--        framesize);
--}
--
--static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
--{
--    UInt32 size = sizeof(*framesize);
--
--    return AudioDeviceSetProperty(
--        id,
--        NULL,
--        0,
--        false,
--        kAudioDevicePropertyBufferFrameSize,
--        size,
--        framesize);
--}
--
--static OSStatus coreaudio_get_streamformat(AudioDeviceID id,
--                                           AudioStreamBasicDescription *d)
--{
--    UInt32 size = sizeof(*d);
--
--    return AudioDeviceGetProperty(
--        id,
--        0,
--        false,
--        kAudioDevicePropertyStreamFormat,
--        &size,
--        d);
--}
--
--static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
--                                           AudioStreamBasicDescription *d)
--{
--    UInt32 size = sizeof(*d);
--
--    return AudioDeviceSetProperty(
--        id,
--        0,
--        0,
--        0,
--        kAudioDevicePropertyStreamFormat,
--        size,
--        d);
--}
--
--static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
--{
--    UInt32 size = sizeof(*result);
--
--    return AudioDeviceGetProperty(
--        id,
--        0,
--        0,
--        kAudioDevicePropertyDeviceIsRunning,
--        &size,
--        result);
--}
--#endif
  
- static void coreaudio_logstatus (OSStatus status)
++#define coreaudio_playback_logerr(status, ...) \
++    coreaudio_logerr2(status, "playback", __VA_ARGS__)
++
+ static inline UInt32 isPlaying (AudioDeviceID outputDeviceID)
  {
+     OSStatus status;
+@@ -368,126 +373,100 @@ static OSStatus audioDeviceIOProc(
+     return 0;
+ }
+ 
+-static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+-                              void *drv_opaque)
++static OSStatus init_out_device(coreaudioVoiceOut *core)
+ {
+     OSStatus status;
+-    coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+-    int err;
+-    const char *typ = "playback";
+     AudioValueRange frameRange;
+-    Audiodev *dev = drv_opaque;
+-    AudiodevCoreaudioPerDirectionOptions *cpdo = dev->u.coreaudio.out;
+-    int frames;
+-    struct audsettings obt_as;
+-
+-    /* create mutex */
+-    err = pthread_mutex_init(&core->mutex, NULL);
+-    if (err) {
+-        dolog("Could not create mutex\nReason: %s\n", strerror (err));
+-        return -1;
+-    }
+-
+-    obt_as = *as;
+-    as = &obt_as;
+-    as->fmt = AUDIO_FORMAT_F32;
+-    audio_pcm_init_info (&hw->info, as);
+ 
+     status = coreaudio_get_voice(&core->outputDeviceID);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ,
+-                           "Could not get default output Device\n");
+-        return -1;
++        coreaudio_playback_logerr (status,
++                                   "Could not get default output Device\n");
++        return status;
+     }
+     if (core->outputDeviceID == kAudioDeviceUnknown) {
+-        dolog ("Could not initialize %s - Unknown Audiodevice\n", typ);
+-        return -1;
++        dolog ("Could not initialize playback - Unknown Audiodevice\n");
++        return status;
+     }
+ 
+     /* get minimum and maximum buffer frame sizes */
+     status = coreaudio_get_framesizerange(core->outputDeviceID,
+                                           &frameRange);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ,
+-                           "Could not get device buffer frame range\n");
+-        return -1;
++        coreaudio_playback_logerr (status,
++                                    "Could not get device buffer frame range\n");
++        return status;
+     }
+ 
+-    frames = audio_buffer_frames(
+-        qapi_AudiodevCoreaudioPerDirectionOptions_base(cpdo), as, 11610);
+-    if (frameRange.mMinimum > frames) {
++    if (frameRange.mMinimum > core->frameSizeSetting) {
+         core->audioDevicePropertyBufferFrameSize = (UInt32) frameRange.mMinimum;
+         dolog ("warning: Upsizing Buffer Frames to %f\n", frameRange.mMinimum);
+-    } else if (frameRange.mMaximum < frames) {
++    } else if (frameRange.mMaximum < core->frameSizeSetting) {
+         core->audioDevicePropertyBufferFrameSize = (UInt32) frameRange.mMaximum;
+         dolog ("warning: Downsizing Buffer Frames to %f\n", frameRange.mMaximum);
+     } else {
+-        core->audioDevicePropertyBufferFrameSize = frames;
++        core->audioDevicePropertyBufferFrameSize = core->frameSizeSetting;
+     }
+ 
+     /* set Buffer Frame Size */
+     status = coreaudio_set_framesize(core->outputDeviceID,
+                                      &core->audioDevicePropertyBufferFrameSize);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ,
+-                           "Could not set device buffer frame size %" PRIu32 "\n",
+-                           (uint32_t)core->audioDevicePropertyBufferFrameSize);
+-        return -1;
++        coreaudio_playback_logerr (status,
++                                    "Could not set device buffer frame size %" PRIu32 "\n",
++                                    (uint32_t)core->audioDevicePropertyBufferFrameSize);
++        return status;
+     }
+ 
+     /* get Buffer Frame Size */
+     status = coreaudio_get_framesize(core->outputDeviceID,
+                                      &core->audioDevicePropertyBufferFrameSize);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ,
+-                           "Could not get device buffer frame size\n");
+-        return -1;
++        coreaudio_playback_logerr (status,
++                                    "Could not get device buffer frame size\n");
++        return status;
+     }
+-    hw->samples = (cpdo->has_buffer_count ? cpdo->buffer_count : 4) *
+-        core->audioDevicePropertyBufferFrameSize;
++    core->hw.samples = core->bufferCount * core->audioDevicePropertyBufferFrameSize;
+ 
+     /* get StreamFormat */
+     status = coreaudio_get_streamformat(core->outputDeviceID,
+                                         &core->outputStreamBasicDescription);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ,
+-                           "Could not get Device Stream properties\n");
++        coreaudio_playback_logerr (status,
++                                    "Could not get Device Stream properties\n");
+         core->outputDeviceID = kAudioDeviceUnknown;
+-        return -1;
++        return status;
+     }
+ 
+     /* set Samplerate */
+-    core->outputStreamBasicDescription.mSampleRate = (Float64) as->freq;
+-
+     status = coreaudio_set_streamformat(core->outputDeviceID,
+                                         &core->outputStreamBasicDescription);
+     if (status != kAudioHardwareNoError) {
+-        coreaudio_logerr2 (status, typ, "Could not set samplerate %d\n",
+-                           as->freq);
++        coreaudio_playback_logerr (status,
++                                   "Could not set samplerate %lf\n",
++                                   core->outputStreamBasicDescription.mSampleRate);
+         core->outputDeviceID = kAudioDeviceUnknown;
+-        return -1;
++        return status;
+     }
+ 
+     /* set Callback */
+     core->ioprocid = NULL;
+     status = AudioDeviceCreateIOProcID(core->outputDeviceID,
+                                        audioDeviceIOProc,
+-                                       hw,
++                                       &core->hw,
+                                        &core->ioprocid);
+     if (status != kAudioHardwareNoError || core->ioprocid == NULL) {
+-        coreaudio_logerr2 (status, typ, "Could not set IOProc\n");
++        coreaudio_playback_logerr (status, "Could not set IOProc\n");
+         core->outputDeviceID = kAudioDeviceUnknown;
+-        return -1;
++        return status;
+     }
+ 
+     return 0;
+ }
+ 
+-static void coreaudio_fini_out (HWVoiceOut *hw)
++static void fini_out_device(coreaudioVoiceOut *core)
+ {
+     OSStatus status;
+-    int err;
+-    coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+ 
+     /* stop playback */
+     if (isPlaying(core->outputDeviceID)) {
+@@ -504,6 +483,50 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
+         coreaudio_logerr(status, "Could not remove IOProc\n");
+     }
+     core->outputDeviceID = kAudioDeviceUnknown;
++}
++
++static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
++                              void *drv_opaque)
++{
++    OSStatus status;
++    coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
++    int err;
++    Audiodev *dev = drv_opaque;
++    AudiodevCoreaudioPerDirectionOptions *cpdo = dev->u.coreaudio.out;
++    struct audsettings obt_as;
++
++    /* create mutex */
++    err = pthread_mutex_init(&core->mutex, NULL);
++    if (err) {
++        dolog("Could not create mutex\nReason: %s\n", strerror (err));
++        return -1;
++    }
++
++    obt_as = *as;
++    as = &obt_as;
++    as->fmt = AUDIO_FORMAT_F32;
++    audio_pcm_init_info (&hw->info, as);
++
++    core->frameSizeSetting = audio_buffer_frames(
++        qapi_AudiodevCoreaudioPerDirectionOptions_base(cpdo), as, 11610);
++
++    core->bufferCount = cpdo->has_buffer_count ? cpdo->buffer_count : 4;
++    core->outputStreamBasicDescription.mSampleRate = (Float64) as->freq;
++
++    if (init_out_device(core)) {
++        return -1;
++    }
++
++    return 0;
++}
++
++static void coreaudio_fini_out (HWVoiceOut *hw)
++{
++    OSStatus status;
++    int err;
++    coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
++
++    fini_out_device(core);
+ 
+     /* destroy mutex */
+     err = pthread_mutex_destroy(&core->mutex);
 -- 
 2.24.3 (Apple Git-128)
 
