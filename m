@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CBF3379B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:43:10 +0100 (CET)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D597E3379C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:44:21 +0100 (CET)
+Received: from localhost ([::1]:55640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKOOy-00019p-EF
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:43:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49302)
+	id 1lKOQ8-0002B2-Rd
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:44:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lKOLv-0007Rj-L3
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:39:59 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:56769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lKOLn-00024v-5O
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:39:59 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08002073|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.288338-0.00270184-0.70896;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.Jjaqfg3_1615480778; 
-Received: from 30.39.164.94(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Jjaqfg3_1615480778)
- by smtp.aliyun-inc.com(10.147.42.135);
- Fri, 12 Mar 2021 00:39:38 +0800
-Subject: Re: Question about edge-triggered interrupt
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <b9b0e381-c045-bab1-eea7-b8112526e5e8@c-sky.com>
- <CAFEAcA_jnLzZN-nA+Cf_HwGjxvOaxUzZ44LYxqpcmw=3eAU6qg@mail.gmail.com>
- <3edf7903-94a7-c16e-2b9e-644e1a41a77d@c-sky.com>
- <CAFEAcA8UqE65Qxy=c53CCPdYnVrwvBZGxU9SH9qk7Q6vGKDgyg@mail.gmail.com>
- <50fb9541-095d-18e8-1145-662f594600b6@c-sky.com>
- <CAFEAcA-zRB8t4h7eLsw5FbFtyBp6Ow16P4vvk2eA9t7Jcr42TQ@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <854d74fd-ef10-af51-93c0-2d66792e604c@c-sky.com>
-Date: Fri, 12 Mar 2021 00:39:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKOMX-00080J-Cp
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:40:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lKOMU-0002Tm-GA
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:40:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615480831;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=19PTjMD4ZzAFaRn8dtIsJuEWDjjZnezIxNtfsGMJ3dM=;
+ b=YJkRSY/KHSSeESwqTiR4QNm4d7C17mr7cAliGHQiMb/1+bhl4MNU/Vw+LpvQD1nSLRWQGD
+ G40JkrawYQUeB8RjpzPHx6c+HVUrNjj9hQnvZ0SxJhbJKD8/JlI5/oTFiFruyXVNeurk0L
+ YWivcAGeE+/CpDyV43M0e5/vwQRi29M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-seoCmCvkMfq9s66Nd1HPzw-1; Thu, 11 Mar 2021 11:40:28 -0500
+X-MC-Unique: seoCmCvkMfq9s66Nd1HPzw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53C671932493;
+ Thu, 11 Mar 2021 16:40:26 +0000 (UTC)
+Received: from work-vm (ovpn-115-29.ams2.redhat.com [10.36.115.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCC5A6787D;
+ Thu, 11 Mar 2021 16:39:50 +0000 (UTC)
+Date: Thu, 11 Mar 2021 16:39:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
+ to handle shared anonymous memory
+Message-ID: <YEpH1FAabcILd38K@work-vm>
+References: <20210308150600.14440-1-david@redhat.com>
+ <20210308150600.14440-3-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-zRB8t4h7eLsw5FbFtyBp6Ow16P4vvk2eA9t7Jcr42TQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210308150600.14440-3-david@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,55 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, Marcel Apfelbaum <mapfelba@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* David Hildenbrand (david@redhat.com) wrote:
+> We can create shared anonymous memory via
+>     "-object memory-backend-ram,share=on,..."
+> which is, for example, required by PVRDMA for mremap() to work.
+> 
+> Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
+> have to use MADV_REMOVE. MADV_DONTNEED fails silently and does nothing.
+
+OK, I wonder how stable these rules are; is it defined anywhere that
+it's required?
+
+Still,
 
 
-On 2021/3/12 0:07, Peter Maydell wrote:
-> On Thu, 11 Mar 2021 at 16:01, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->> That's a case I can't understand.
->>
->> 1.  An device causes an edge-triggered interrupt A.
->> 2.  The interrupt controller sample the interrupt A, and setting pending
->> bit for A.
->> 3.  The interrupt controller select the interrupt  A to CPU and clean
->> the pending bit for A(according to the specification).
->> 4.  CPU start to execute the A's service routine.
->> 5.  Another device causes interrupt B.
->> 6.  The interrupt controller sample the interrupt B, and setting pending
->> bit for B.
->> 7.  As B's priority is lower than A, it can't preempt  A's service routine.
->> 8.  A's service routine return.
->> 9. No other interrupt comes after B.
->>
->> After the sequence, B is pending in interrupt controller, and has no
->> chance to be selected by interrupt controller.
->> A's service routine will neither write interrupt controller's register
->> nor device's register.
-> I'm pretty sure that there is some interaction between the CPU and the
-> interrupt controller on a return-from-interrupt that you are
-> missing.
-I have asked my CPU design workmates. They said, "you have to pull a 
-pending interrupt at the interrupt return instruction".
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-But I don't want to do this way, because it influences the interrupt 
-return instruction's behavior. The specification doesn't
-point that explicitly. It's just our CPU implementation.
-
-If I lock the iothread in interrupt return instruction helper function, 
-and pull a pending interrupt. It really works, but I don't think
-it will be appropriate for other CPU implementation.
-> There are several ways to do it in principle;
-I am curious about the ways. If you like, a simple list please.
-> you need
-> a risc-v expert to answer your question more specifically.
-Thanks for your advice.
-
-Zhiwei
->
-> thanks
-> -- PMM
+> Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  softmmu/physmem.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 62ea4abbdd..2ba815fec6 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -3506,6 +3506,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+>          /* The logic here is messy;
+>           *    madvise DONTNEED fails for hugepages
+>           *    fallocate works on hugepages and shmem
+> +         *    shared anonymous memory requires madvise REMOVE
+>           */
+>          need_madvise = (rb->page_size == qemu_host_page_size);
+>          need_fallocate = rb->fd != -1;
+> @@ -3539,7 +3540,11 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+>               * fallocate'd away).
+>               */
+>  #if defined(CONFIG_MADVISE)
+> -            ret =  madvise(host_startaddr, length, MADV_DONTNEED);
+> +            if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> +                ret = madvise(host_startaddr, length, MADV_REMOVE);
+> +            } else {
+> +                ret = madvise(host_startaddr, length, MADV_DONTNEED);
+> +            }
+>              if (ret) {
+>                  ret = -errno;
+>                  error_report("ram_block_discard_range: Failed to discard range "
+> -- 
+> 2.29.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
