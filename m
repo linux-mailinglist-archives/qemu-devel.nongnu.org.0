@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCF7337659
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:00:28 +0100 (CET)
-Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6643D33764D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:59:08 +0100 (CET)
+Received: from localhost ([::1]:44580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMnb-0006Th-5P
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:00:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39892)
+	id 1lKMmJ-0003zP-FK
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:59:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUM-0003aw-Kn
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:34 -0500
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:34272)
+ id 1lKMUO-0003ff-E3
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:36 -0500
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:38716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUG-0006V5-SF
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:34 -0500
-Received: by mail-qk1-x72e.google.com with SMTP id t4so20833893qkp.1
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:28 -0800 (PST)
+ id 1lKMUL-0006Vm-OU
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:36 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id t5so2638812qvs.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gmwGO0qEHYSo9Z61qij4y5Ji4Cvw+K/34YSzYTurmeE=;
- b=Bn+cX3Svf+VwJQHQZmrHRctkBzE//rCk1cjeCkMjbpwY/5T17rEkbTaLJKzOkUkdxH
- QrQOLmUJpnX7PcuyLZaTQlSNmo7VAuoi9KAsjbW1fcOqW8NlbYq0Fz05RIuA15qjkUIj
- h+ZiI0oiDYhHInP2V5TR9EqSAWD8sXXb6Jd7ilTWf4AYuxdh54Eywis+WQJuY7vbZ48A
- 5DoRW0vBX4fR3QVMECen4K5Y54NwtUn+7IH5wijygQWNsjvQBqqishYICI2CGPQ2p88B
- d6gr1oKhtcCtDJHn9ADhrlyn3AaAtI+c5QkSRGvF37ToLRovKZzjBSks+x5fWY0Zf90s
- /bbA==
+ bh=gGw3KxVq5Tq8weV/0bnuBl/4JXq/wSN4ULQQQb9LWe0=;
+ b=tDk+ycSfxG1/3pn9soSW62rSZBbhD2aQx/G5jHCCoc3GrVJyXu7JvL7YiojbRIaHVX
+ hoy25P3mQthzHrXtr478UzJ04CIC7ccmCHZkHjo9kL9hjzyAwptCF5aDMHvyUXndVf3K
+ vgTzaX+vbnPC4iX2AGoEQvWEszyXOe/BZmVPMJ5iwy5bJ0HEhyNNw0B2EyKMKKfqdgZu
+ rDIakF/8D4KU97I2zecNLLfGFdSRtiSkt6NhM23tfYw6fQji8kQ1zZuXRRBj12Kjvx/B
+ FfjiW7wt4bmOU8YDWuxlZfG3GDxKF3CKy1m38bHefziKbMqrgBgyYMOFVOcdMzkr+xrN
+ hEVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gmwGO0qEHYSo9Z61qij4y5Ji4Cvw+K/34YSzYTurmeE=;
- b=bjeOAAXsmnPe8/t/AzscTtGCl6iqqU0qoEkfo4sc3uoIPUxCq+N7cCqkS3B7T3rYta
- P4RfriWDURHtXluQmiH+ntGpOs14hDUDoNJFsUaN2i2pdXoJTTWemw/QmFOU3r4qURdC
- I0nvRD5UZfyS0Fj4Gmh03gRViTeXx3Icnl8+cRDHELOXd2cT7DeW4XYZxmRbX/E66x3A
- tOet/+haesVS5ek8W0QSqxylqpwJY6ck42/jICEmtZmTv4HVKJ95xW4qk9JGlxgL2OG1
- +ABX7EsxlKby8hlSOQQmwDgf6SrNggLquolc+zJTzuLwQKxwInxYi1IBDS4GjLu7aAjn
- 9aRw==
-X-Gm-Message-State: AOAM530wwKtWpwsjSwh5dllfT+vx1ThNd7wLDNGf/M4QUM9m2rIREDGX
- QbEQ/ywxxy3rH2vBwf7xhE1BH3+f4qnXMapu
-X-Google-Smtp-Source: ABdhPJxG457/V/GwW9BCyyfRKeEy7QIwjH6sV/PSefPmBVZTYrTmOB3SYtH20npGKYHYzJXjkN6tpg==
-X-Received: by 2002:a37:9e88:: with SMTP id h130mr8051791qke.301.1615473627843; 
- Thu, 11 Mar 2021 06:40:27 -0800 (PST)
+ bh=gGw3KxVq5Tq8weV/0bnuBl/4JXq/wSN4ULQQQb9LWe0=;
+ b=IpFLdMVB48Mbe5SF9fgkqCChmJOvUwRUN/y8X0Y2xyIvk8GnOlYEvg+uUWsuaqMwBB
+ 1MSTfoV/Abf/77sJ5T+TrlkAleIgygpPDuv+b6fH67um+s8CgNOQ54JrFl6K+BEOjyBY
+ 6xYyuodD+MVZFbeMbNE+vox7xbwwzB4XbkmvKyZLE1vMy2bfzKOk516WYI3p4ZFX9vBP
+ WQA5EjoSnX1ciYCBjS5rfBZzwiIazuBwjbu9Dc0dWfsLyVtHbHvQTr+tfP7DaycpVr21
+ Xt99vGxEBFJZGfjosE74zzP9GtFxdFpCuInfylBhUEymsdT5O25hIheC750Hl+SPqsYd
+ kPmQ==
+X-Gm-Message-State: AOAM533j7+TXBFD3SDR/yShRPVgobb331DO+cyb1ZB/aJxXRKAHNEWA9
+ S72lbJjPJeucz5bBLf4Tl6Tm5TOXk4xpIwxW
+X-Google-Smtp-Source: ABdhPJx4mdPdaDj8qx5AtMGJHETC9dze0WU/IgjQuX2qRp3/kRdRZVbtU3zhBE3DhtUZ6F/RughrpA==
+X-Received: by 2002:a05:6214:f69:: with SMTP id
+ iy9mr7799637qvb.15.1615473629055; 
+ Thu, 11 Mar 2021 06:40:29 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.26
+ by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:40:27 -0800 (PST)
+ Thu, 11 Mar 2021 06:40:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 22/57] tcg: Build ffi data structures for helpers
-Date: Thu, 11 Mar 2021 08:39:23 -0600
-Message-Id: <20210311143958.562625-23-richard.henderson@linaro.org>
+Subject: [PATCH v5 23/57] tcg/tci: Use ffi for calls
+Date: Thu, 11 Mar 2021 08:39:24 -0600
+Message-Id: <20210311143958.562625-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,383 +88,444 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will shortly use libffi for tci, as that is the only
-portable way of calling arbitrary functions.
+This requires adjusting where arguments are stored.
+Place them on the stack at left-aligned positions.
+Adjust the stack frame to be at entirely positive offsets.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                            |   9 +-
- include/exec/helper-ffi.h              | 115 +++++++++++++++++++++++++
- include/exec/helper-tcg.h              |  24 ++++--
- target/hppa/helper.h                   |   2 +
- target/i386/ops_sse_header.h           |   6 ++
- target/m68k/helper.h                   |   1 +
- target/ppc/helper.h                    |   3 +
- tcg/tcg.c                              |  20 +++++
- tests/docker/dockerfiles/fedora.docker |   1 +
- 9 files changed, 172 insertions(+), 9 deletions(-)
- create mode 100644 include/exec/helper-ffi.h
+ include/tcg/tcg.h        |   1 +
+ tcg/tci/tcg-target.h     |   2 +-
+ tcg/tcg.c                |  72 ++++++++++++--------
+ tcg/tci.c                | 138 +++++++++++++++++++++++----------------
+ tcg/tci/tcg-target.c.inc |  50 +++++++-------
+ 5 files changed, 150 insertions(+), 113 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index fda86ab8ce..e16b890546 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1943,7 +1943,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'tcg/tcg-op.c',
-   'tcg/tcg.c',
- ))
--specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
-+
-+if get_option('tcg_interpreter')
-+  libffi = dependency('libffi', version: '>=3.0',
-+                      static: enable_static, method: 'pkg-config',
-+                      required: true)
-+  specific_ss.add(libffi)
-+  specific_ss.add(files('tcg/tci.c'))
-+endif
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 0f0695e90d..e5573a9877 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -53,6 +53,7 @@
+ #define MAX_OPC_PARAM (4 + (MAX_OPC_PARAM_PER_ARG * MAX_OPC_PARAM_ARGS))
  
- subdir('backends')
- subdir('disas')
-diff --git a/include/exec/helper-ffi.h b/include/exec/helper-ffi.h
-new file mode 100644
-index 0000000000..3af1065af3
---- /dev/null
-+++ b/include/exec/helper-ffi.h
-@@ -0,0 +1,115 @@
-+/*
-+ * Helper file for declaring TCG helper functions.
-+ * This one defines data structures private to tcg.c.
-+ */
-+
-+#ifndef HELPER_FFI_H
-+#define HELPER_FFI_H 1
-+
-+#include "exec/helper-head.h"
-+
-+#define dh_ffitype_i32  &ffi_type_uint32
-+#define dh_ffitype_s32  &ffi_type_sint32
-+#define dh_ffitype_int  &ffi_type_sint
-+#define dh_ffitype_i64  &ffi_type_uint64
-+#define dh_ffitype_s64  &ffi_type_sint64
-+#define dh_ffitype_f16  &ffi_type_uint32
-+#define dh_ffitype_f32  &ffi_type_uint32
-+#define dh_ffitype_f64  &ffi_type_uint64
-+#ifdef TARGET_LONG_BITS
-+# if TARGET_LONG_BITS == 32
-+#  define dh_ffitype_tl &ffi_type_uint32
-+# else
-+#  define dh_ffitype_tl &ffi_type_uint64
-+# endif
-+#endif
-+#define dh_ffitype_ptr  &ffi_type_pointer
-+#define dh_ffitype_cptr &ffi_type_pointer
-+#define dh_ffitype_void &ffi_type_void
-+#define dh_ffitype_noreturn &ffi_type_void
-+#define dh_ffitype_env  &ffi_type_pointer
-+#define dh_ffitype(t) glue(dh_ffitype_, t)
-+
-+#define DEF_HELPER_FLAGS_0(NAME, FLAGS, ret)    \
-+    static ffi_cif glue(cif_,NAME) = {          \
-+        .rtype = dh_ffitype(ret), .nargs = 0,   \
-+    };
-+
-+#define DEF_HELPER_FLAGS_1(NAME, FLAGS, ret, t1)                        \
-+    static ffi_type *glue(cif_args_,NAME)[1] = { dh_ffitype(t1) };      \
-+    static ffi_cif glue(cif_,NAME) = {                                  \
-+        .rtype = dh_ffitype(ret), .nargs = 1,                           \
-+        .arg_types = glue(cif_args_,NAME),                              \
-+    };
-+
-+#define DEF_HELPER_FLAGS_2(NAME, FLAGS, ret, t1, t2)    \
-+    static ffi_type *glue(cif_args_,NAME)[2] = {        \
-+        dh_ffitype(t1), dh_ffitype(t2)                  \
-+    };                                                  \
-+    static ffi_cif glue(cif_,NAME) = {                  \
-+        .rtype = dh_ffitype(ret), .nargs = 2,           \
-+        .arg_types = glue(cif_args_,NAME),              \
-+    };
-+
-+#define DEF_HELPER_FLAGS_3(NAME, FLAGS, ret, t1, t2, t3)        \
-+    static ffi_type *glue(cif_args_,NAME)[3] = {                \
-+        dh_ffitype(t1), dh_ffitype(t2), dh_ffitype(t3)          \
-+    };                                                          \
-+    static ffi_cif glue(cif_,NAME) = {                          \
-+        .rtype = dh_ffitype(ret), .nargs = 3,                   \
-+        .arg_types = glue(cif_args_,NAME),                      \
-+    };
-+
-+#define DEF_HELPER_FLAGS_4(NAME, FLAGS, ret, t1, t2, t3, t4)            \
-+    static ffi_type *glue(cif_args_,NAME)[4] = {                        \
-+        dh_ffitype(t1), dh_ffitype(t2), dh_ffitype(t3), dh_ffitype(t4)  \
-+    };                                                                  \
-+    static ffi_cif glue(cif_,NAME) = {                                  \
-+        .rtype = dh_ffitype(ret), .nargs = 4,                           \
-+        .arg_types = glue(cif_args_,NAME),                              \
-+    };
-+
-+#define DEF_HELPER_FLAGS_5(NAME, FLAGS, ret, t1, t2, t3, t4, t5)        \
-+    static ffi_type *glue(cif_args_,NAME)[5] = {                        \
-+        dh_ffitype(t1), dh_ffitype(t2), dh_ffitype(t3),                 \
-+        dh_ffitype(t4), dh_ffitype(t5)                                  \
-+    };                                                                  \
-+    static ffi_cif glue(cif_,NAME) = {                                  \
-+        .rtype = dh_ffitype(ret), .nargs = 5,                           \
-+        .arg_types = glue(cif_args_,NAME),                              \
-+    };
-+
-+#define DEF_HELPER_FLAGS_6(NAME, FLAGS, ret, t1, t2, t3, t4, t5, t6)    \
-+    static ffi_type *glue(cif_args_,NAME)[6] = {                        \
-+        dh_ffitype(t1), dh_ffitype(t2), dh_ffitype(t3),                 \
-+        dh_ffitype(t4), dh_ffitype(t5), dh_ffitype(t6)                  \
-+    };                                                                  \
-+    static ffi_cif glue(cif_,NAME) = {                                  \
-+        .rtype = dh_ffitype(ret), .nargs = 6,                           \
-+        .arg_types = glue(cif_args_,NAME),                              \
-+    };
-+
-+#define DEF_HELPER_FLAGS_7(NAME, FLAGS, ret, t1, t2, t3, t4, t5, t6, t7) \
-+    static ffi_type *glue(cif_args_,NAME)[7] = {                        \
-+        dh_ffitype(t1), dh_ffitype(t2), dh_ffitype(t3),                 \
-+        dh_ffitype(t4), dh_ffitype(t5), dh_ffitype(t6), dh_ffitype(t7)  \
-+    };                                                                  \
-+    static ffi_cif glue(cif_,NAME) = {                                  \
-+        .rtype = dh_ffitype(ret), .nargs = 7,                           \
-+        .arg_types = glue(cif_args_,NAME),                              \
-+    };
-+
-+#include "helper.h"
-+#include "trace/generated-helpers.h"
-+#include "tcg-runtime.h"
-+
-+#undef DEF_HELPER_FLAGS_0
-+#undef DEF_HELPER_FLAGS_1
-+#undef DEF_HELPER_FLAGS_2
-+#undef DEF_HELPER_FLAGS_3
-+#undef DEF_HELPER_FLAGS_4
-+#undef DEF_HELPER_FLAGS_5
-+#undef DEF_HELPER_FLAGS_6
-+#undef DEF_HELPER_FLAGS_7
-+
-+#endif /* HELPER_FFI_H */
-diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
-index 27870509a2..a71b848576 100644
---- a/include/exec/helper-tcg.h
-+++ b/include/exec/helper-tcg.h
-@@ -10,50 +10,57 @@
-    to get all the macros expanded first.  */
- #define str(s) #s
+ #define CPU_TEMP_BUF_NLONGS 128
++#define TCG_STATIC_FRAME_SIZE  (CPU_TEMP_BUF_NLONGS * sizeof(long))
  
-+#ifdef CONFIG_TCG_INTERPRETER
-+# define DO_CIF(NAME)  .cif = &cif_##NAME,
-+#else
-+# define DO_CIF(NAME)
-+#endif
-+
- #define DEF_HELPER_FLAGS_0(NAME, FLAGS, ret) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) },
+ /* Default target word size to pointer size.  */
+ #ifndef TCG_TARGET_REG_BITS
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 52af6d8bc5..4df10e2e83 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -161,7 +161,7 @@ typedef enum {
  
- #define DEF_HELPER_FLAGS_1(NAME, FLAGS, ret, t1) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) },
+ /* Used for function call generation. */
+ #define TCG_TARGET_CALL_STACK_OFFSET    0
+-#define TCG_TARGET_STACK_ALIGN          16
++#define TCG_TARGET_STACK_ALIGN          8
  
- #define DEF_HELPER_FLAGS_2(NAME, FLAGS, ret, t1, t2) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) },
+ #define HAVE_TCG_QEMU_TB_EXEC
  
- #define DEF_HELPER_FLAGS_3(NAME, FLAGS, ret, t1, t2, t3) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) },
- 
- #define DEF_HELPER_FLAGS_4(NAME, FLAGS, ret, t1, t2, t3, t4) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) },
- 
- #define DEF_HELPER_FLAGS_5(NAME, FLAGS, ret, t1, t2, t3, t4, t5) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) \
-     | dh_sizemask(t5, 5) },
- 
- #define DEF_HELPER_FLAGS_6(NAME, FLAGS, ret, t1, t2, t3, t4, t5, t6) \
--  { .func = HELPER(NAME), .name = str(NAME), \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-     .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) \
-     | dh_sizemask(t5, 5) | dh_sizemask(t6, 6) },
- 
- #define DEF_HELPER_FLAGS_7(NAME, FLAGS, ret, t1, t2, t3, t4, t5, t6, t7) \
--  { .func = HELPER(NAME), .name = str(NAME), .flags = FLAGS, \
-+  { .func = HELPER(NAME), DO_CIF(NAME) .name = str(NAME), \
-+    .flags = FLAGS | dh_callflag(ret), \
-     .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
-     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) \
-     | dh_sizemask(t5, 5) | dh_sizemask(t6, 6) | dh_sizemask(t7, 7) },
-@@ -64,6 +71,7 @@
- #include "plugin-helpers.h"
- 
- #undef str
-+#undef DO_CIF
- #undef DEF_HELPER_FLAGS_0
- #undef DEF_HELPER_FLAGS_1
- #undef DEF_HELPER_FLAGS_2
-diff --git a/target/hppa/helper.h b/target/hppa/helper.h
-index 2d483aab58..35c612f09d 100644
---- a/target/hppa/helper.h
-+++ b/target/hppa/helper.h
-@@ -1,9 +1,11 @@
- #if TARGET_REGISTER_BITS == 64
- # define dh_alias_tr     i64
- # define dh_is_64bit_tr  1
-+# define dh_ffitype_tr   dh_ffitype_i64
- #else
- # define dh_alias_tr     i32
- # define dh_is_64bit_tr  0
-+# define dh_ffitype_tr   dh_ffitype_i32
- #endif
- #define dh_ctype_tr      target_ureg
- #define dh_is_signed_tr  0
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index 6c0c849347..cae50f77eb 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -27,13 +27,19 @@
- #define dh_alias_Reg ptr
- #define dh_alias_ZMMReg ptr
- #define dh_alias_MMXReg ptr
-+
- #define dh_ctype_Reg Reg *
- #define dh_ctype_ZMMReg ZMMReg *
- #define dh_ctype_MMXReg MMXReg *
-+
- #define dh_is_signed_Reg dh_is_signed_ptr
- #define dh_is_signed_ZMMReg dh_is_signed_ptr
- #define dh_is_signed_MMXReg dh_is_signed_ptr
- 
-+#define dh_ffitype_Reg  dh_ffitype_ptr
-+#define dh_ffitype_ZMMReg  dh_ffitype_ptr
-+#define dh_ffitype_MMXReg  dh_ffitype_ptr
-+
- DEF_HELPER_3(glue(psrlw, SUFFIX), void, env, Reg, Reg)
- DEF_HELPER_3(glue(psraw, SUFFIX), void, env, Reg, Reg)
- DEF_HELPER_3(glue(psllw, SUFFIX), void, env, Reg, Reg)
-diff --git a/target/m68k/helper.h b/target/m68k/helper.h
-index 77808497a9..672c99d5de 100644
---- a/target/m68k/helper.h
-+++ b/target/m68k/helper.h
-@@ -18,6 +18,7 @@ DEF_HELPER_4(cas2l_parallel, void, env, i32, i32, i32)
- #define dh_alias_fp ptr
- #define dh_ctype_fp FPReg *
- #define dh_is_signed_fp dh_is_signed_ptr
-+#define dh_ffitype_fp dh_ffitype_ptr
- 
- DEF_HELPER_3(exts32, void, env, fp, s32)
- DEF_HELPER_3(extf32, void, env, fp, f32)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 6a4dccf70c..bbd4700064 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -108,10 +108,12 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
- #define dh_alias_avr ptr
- #define dh_ctype_avr ppc_avr_t *
- #define dh_is_signed_avr dh_is_signed_ptr
-+#define dh_ffitype_avr dh_ffitype_ptr
- 
- #define dh_alias_vsr ptr
- #define dh_ctype_vsr ppc_vsr_t *
- #define dh_is_signed_vsr dh_is_signed_ptr
-+#define dh_ffitype_vsr dh_ffitype_ptr
- 
- DEF_HELPER_3(vavgub, void, avr, avr, avr)
- DEF_HELPER_3(vavguh, void, avr, avr, avr)
-@@ -696,6 +698,7 @@ DEF_HELPER_3(store_601_batu, void, env, i32, tl)
- #define dh_alias_fprp ptr
- #define dh_ctype_fprp ppc_fprp_t *
- #define dh_is_signed_fprp dh_is_signed_ptr
-+#define dh_ffitype_fprp dh_ffitype_ptr
- 
- DEF_HELPER_4(dadd, void, env, fprp, fprp, fprp)
- DEF_HELPER_4(daddq, void, env, fprp, fprp, fprp)
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 2991112829..6382112215 100644
+index 6382112215..92aec0d238 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -66,6 +66,10 @@
- #include "exec/log.h"
- #include "sysemu/sysemu.h"
+@@ -208,6 +208,18 @@ static size_t tree_size;
+ static TCGRegSet tcg_target_available_regs[TCG_TYPE_COUNT];
+ static TCGRegSet tcg_target_call_clobber_regs;
  
-+#ifdef CONFIG_TCG_INTERPRETER
-+#include <ffi.h>
-+#endif
-+
- /* Forward declarations for functions declared in tcg-target.c.inc and
-    used here. */
- static void tcg_target_init(TCGContext *s);
-@@ -1082,6 +1086,9 @@ void tcg_pool_reset(TCGContext *s)
- 
- typedef struct TCGHelperInfo {
-     void *func;
++typedef struct TCGHelperInfo {
++    void *func;
 +#ifdef CONFIG_TCG_INTERPRETER
 +    ffi_cif *cif;
 +#endif
-     const char *name;
-     unsigned flags;
-     unsigned sizemask;
-@@ -1089,6 +1096,10 @@ typedef struct TCGHelperInfo {
++    const char *name;
++    unsigned flags;
++    unsigned sizemask;
++} TCGHelperInfo;
++
++static GHashTable *helper_table;
++
+ #if TCG_TARGET_INSN_UNIT_SIZE == 1
+ static __attribute__((unused)) inline void tcg_out8(TCGContext *s, uint8_t v)
+ {
+@@ -1084,16 +1096,6 @@ void tcg_pool_reset(TCGContext *s)
+     s->pool_current = NULL;
+ }
  
+-typedef struct TCGHelperInfo {
+-    void *func;
+-#ifdef CONFIG_TCG_INTERPRETER
+-    ffi_cif *cif;
+-#endif
+-    const char *name;
+-    unsigned flags;
+-    unsigned sizemask;
+-} TCGHelperInfo;
+-
  #include "exec/helper-proto.h"
  
-+#ifdef CONFIG_TCG_INTERPRETER
-+#include "exec/helper-ffi.h"
-+#endif
-+
+ #ifdef CONFIG_TCG_INTERPRETER
+@@ -1103,7 +1105,6 @@ typedef struct TCGHelperInfo {
  static const TCGHelperInfo all_helpers[] = {
  #include "exec/helper-tcg.h"
  };
-@@ -1136,6 +1147,15 @@ void tcg_context_init(TCGContext *s)
-                             (gpointer)&all_helpers[i]);
-     }
+-static GHashTable *helper_table;
  
-+#ifdef CONFIG_TCG_INTERPRETER
-+    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
-+        ffi_cif *cif = all_helpers[i].cif;
-+        ffi_status ok = ffi_prep_cif(cif, FFI_DEFAULT_ABI, cif->nargs,
-+                                     cif->rtype, cif->arg_types);
-+        tcg_debug_assert(ok == FFI_OK);
-+    }
-+#endif
+ static int indirect_reg_alloc_order[ARRAY_SIZE(tcg_target_reg_alloc_order)];
+ static void process_op_defs(TCGContext *s);
+@@ -2081,25 +2082,38 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+ 
+     real_args = 0;
+     for (i = 0; i < nargs; i++) {
+-        int is_64bit = sizemask & (1 << (i+1)*2);
+-        if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
+-#ifdef TCG_TARGET_CALL_ALIGN_ARGS
+-            /* some targets want aligned 64 bit args */
+-            if (real_args & 1) {
+-                op->args[pi++] = TCG_CALL_DUMMY_ARG;
+-                real_args++;
+-            }
++        bool is_64bit = sizemask & (1 << (i+1)*2);
++        bool want_align = false;
 +
-     tcg_target_init(s);
-     process_op_defs(s);
++#if defined(CONFIG_TCG_INTERPRETER)
++        /*
++         * Align all arguments, so that they land in predictable places
++         * for passing off to ffi_call.
++         */
++        want_align = true;
++#elif defined(TCG_TARGET_CALL_ALIGN_ARGS)
++        /* Some targets want aligned 64 bit args */
++        want_align = is_64bit;
+ #endif
+-           /* If stack grows up, then we will be placing successive
+-              arguments at lower addresses, which means we need to
+-              reverse the order compared to how we would normally
+-              treat either big or little-endian.  For those arguments
+-              that will wind up in registers, this still works for
+-              HPPA (the only current STACK_GROWSUP target) since the
+-              argument registers are *also* allocated in decreasing
+-              order.  If another such target is added, this logic may
+-              have to get more complicated to differentiate between
+-              stack arguments and register arguments.  */
++
++        if (TCG_TARGET_REG_BITS < 64 && want_align && (real_args & 1)) {
++            op->args[pi++] = TCG_CALL_DUMMY_ARG;
++            real_args++;
++        }
++
++        if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
++           /*
++            * If stack grows up, then we will be placing successive
++            * arguments at lower addresses, which means we need to
++            * reverse the order compared to how we would normally
++            * treat either big or little-endian.  For those arguments
++            * that will wind up in registers, this still works for
++            * HPPA (the only current STACK_GROWSUP target) since the
++            * argument registers are *also* allocated in decreasing
++            * order.  If another such target is added, this logic may
++            * have to get more complicated to differentiate between
++            * stack arguments and register arguments.
++            */
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TCG_TARGET_STACK_GROWSUP)
+             op->args[pi++] = temp_arg(args[i] + 1);
+             op->args[pi++] = temp_arg(args[i]);
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 41d73edc3a..5718fc42a6 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -18,6 +18,13 @@
+  */
  
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 915fdc1845..8140fe67b2 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -32,6 +32,7 @@ ENV PACKAGES \
-     libcurl-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libffi-devel \
-     libiscsi-devel \
-     libjpeg-devel \
-     libpmem-devel \
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
++#include "exec/cpu_ldst.h"
++#include "tcg/tcg-op.h"
++#include "qemu/compiler.h"
++#include <ffi.h>
++
+ 
+ /* Enable TCI assertions only when debugging TCG (and without NDEBUG defined).
+  * Without assertions, the interpreter runs much faster. */
+@@ -27,36 +34,8 @@
+ # define tci_assert(cond) ((void)(cond))
+ #endif
+ 
+-#include "qemu-common.h"
+-#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+-#include "exec/cpu_ldst.h"
+-#include "tcg/tcg-op.h"
+-#include "qemu/compiler.h"
+-
+-#if MAX_OPC_PARAM_IARGS != 6
+-# error Fix needed, number of supported input arguments changed!
+-#endif
+-#if TCG_TARGET_REG_BITS == 32
+-typedef uint64_t (*helper_function)(tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong);
+-#else
+-typedef uint64_t (*helper_function)(tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong,
+-                                    tcg_target_ulong, tcg_target_ulong);
+-#endif
+-
+ __thread uintptr_t tci_tb_ptr;
+ 
+-static tcg_target_ulong tci_read_reg(const tcg_target_ulong *regs, TCGReg index)
+-{
+-    tci_assert(index < TCG_TARGET_NB_REGS);
+-    return regs[index];
+-}
+-
+ static void
+ tci_write_reg(tcg_target_ulong *regs, TCGReg index, tcg_target_ulong value)
+ {
+@@ -131,6 +110,7 @@ static tcg_target_ulong tci_read_label(const uint8_t **tb_ptr)
+  *   i = immediate (uint32_t)
+  *   I = immediate (tcg_target_ulong)
+  *   m = immediate (TCGMemOpIdx)
++ *   n = immediate (call return length)
+  *   r = register
+  *   s = signed ldst offset
+  */
+@@ -151,6 +131,16 @@ static void tci_args_l(const uint8_t **tb_ptr, void **l0)
+     check_size(start, tb_ptr);
+ }
+ 
++static void tci_args_nl(const uint8_t **tb_ptr, uint8_t *n0, void **l1)
++{
++    const uint8_t *start = *tb_ptr;
++
++    *n0 = tci_read_b(tb_ptr);
++    *l1 = (void *)tci_read_label(tb_ptr);
++
++    check_size(start, tb_ptr);
++}
++
+ static void tci_args_rr(const uint8_t **tb_ptr,
+                         TCGReg *r0, TCGReg *r1)
+ {
+@@ -474,6 +464,7 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
+ # define CASE_64(x)
+ #endif
+ 
++
+ /* Interpret pseudo code in tb. */
+ /*
+  * Disable CFI checks.
+@@ -485,11 +476,13 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+ {
+     const uint8_t *tb_ptr = v_tb_ptr;
+     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
+-    long tcg_temps[CPU_TEMP_BUF_NLONGS];
+-    uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
++    uint64_t stack[(TCG_STATIC_CALL_ARGS_SIZE + TCG_STATIC_FRAME_SIZE)
++                   / sizeof(uint64_t)];
++    void *call_slots[TCG_STATIC_CALL_ARGS_SIZE / sizeof(uint64_t)];
+ 
+     regs[TCG_AREG0] = (tcg_target_ulong)env;
+-    regs[TCG_REG_CALL_STACK] = sp_value;
++    regs[TCG_REG_CALL_STACK] = (uintptr_t)stack;
++    call_slots[0] = NULL;
+     tci_assert(tb_ptr);
+ 
+     for (;;) {
+@@ -514,33 +507,60 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+ 
+         switch (opc) {
+         case INDEX_op_call:
+-            tci_args_l(&tb_ptr, &ptr);
++            /*
++             * We are passed a pointer to the TCGHelperInfo, which contains
++             * the function pointer followed by the ffi_cif pointer.
++             */
++            tci_args_nl(&tb_ptr, &len, &ptr);
++
++            /* Helper functions may need to access the "return address" */
+             tci_tb_ptr = (uintptr_t)tb_ptr;
+-#if TCG_TARGET_REG_BITS == 32
+-            tmp64 = ((helper_function)ptr)(tci_read_reg(regs, TCG_REG_R0),
+-                                           tci_read_reg(regs, TCG_REG_R1),
+-                                           tci_read_reg(regs, TCG_REG_R2),
+-                                           tci_read_reg(regs, TCG_REG_R3),
+-                                           tci_read_reg(regs, TCG_REG_R4),
+-                                           tci_read_reg(regs, TCG_REG_R5),
+-                                           tci_read_reg(regs, TCG_REG_R6),
+-                                           tci_read_reg(regs, TCG_REG_R7),
+-                                           tci_read_reg(regs, TCG_REG_R8),
+-                                           tci_read_reg(regs, TCG_REG_R9),
+-                                           tci_read_reg(regs, TCG_REG_R10),
+-                                           tci_read_reg(regs, TCG_REG_R11));
+-            tci_write_reg(regs, TCG_REG_R0, tmp64);
+-            tci_write_reg(regs, TCG_REG_R1, tmp64 >> 32);
+-#else
+-            tmp64 = ((helper_function)ptr)(tci_read_reg(regs, TCG_REG_R0),
+-                                           tci_read_reg(regs, TCG_REG_R1),
+-                                           tci_read_reg(regs, TCG_REG_R2),
+-                                           tci_read_reg(regs, TCG_REG_R3),
+-                                           tci_read_reg(regs, TCG_REG_R4),
+-                                           tci_read_reg(regs, TCG_REG_R5));
+-            tci_write_reg(regs, TCG_REG_R0, tmp64);
+-#endif
++
++            /*
++             * Set up the ffi_avalue array once, delayed until now
++             * because many TB's do not make any calls. In tcg_gen_callN,
++             * we arranged for every real argument to be "left-aligned"
++             * in each 64-bit slot.
++             */
++            if (call_slots[0] == NULL) {
++                for (int i = 0; i < ARRAY_SIZE(call_slots); ++i) {
++                    call_slots[i] = &stack[i];
++                }
++            }
++
++            /*
++             * Call the helper function.  Any result winds up
++             * "left-aligned" in the stack[0] slot.
++             */
++            {
++                void **pptr = ptr;
++                ffi_call(pptr[1], pptr[0], stack, call_slots);
++            }
++            switch (len) {
++            case 0: /* void */
++                break;
++            case 1: /* uint32_t */
++                /*
++                 * Note that libffi has an odd special case in that it will
++                 * always widen an integral result to ffi_arg.
++                 */
++                if (sizeof(ffi_arg) == 4) {
++                    regs[TCG_REG_R0] = *(uint32_t *)stack;
++                    break;
++                }
++                /* fall through */
++            case 2: /* uint64_t */
++                if (TCG_TARGET_REG_BITS == 32) {
++                    tci_write_reg64(regs, TCG_REG_R1, TCG_REG_R0, stack[0]);
++                } else {
++                    regs[TCG_REG_R0] = stack[0];
++                }
++                break;
++            default:
++                g_assert_not_reached();
++            }
+             break;
++
+         case INDEX_op_br:
+             tci_args_l(&tb_ptr, &ptr);
+             tb_ptr = ptr;
+@@ -1145,13 +1165,17 @@ int print_insn_tci(bfd_vma addr, disassemble_info *info)
+ 
+     switch (op) {
+     case INDEX_op_br:
+-    case INDEX_op_call:
+     case INDEX_op_exit_tb:
+     case INDEX_op_goto_tb:
+         tci_args_l(&tb_ptr, &ptr);
+         info->fprintf_func(info->stream, "%-12s  %p", op_name, ptr);
+         break;
+ 
++    case INDEX_op_call:
++        tci_args_nl(&tb_ptr, &len, &ptr);
++        info->fprintf_func(info->stream, "%-12s  %d,%p", op_name, len, ptr);
++        break;
++
+     case INDEX_op_brcond_i32:
+     case INDEX_op_brcond_i64:
+         tci_args_rrcl(&tb_ptr, &r0, &r1, &c, &ptr);
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 7fb3b04eaf..8d75482546 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -192,23 +192,8 @@ static const int tcg_target_reg_alloc_order[] = {
+ # error Fix needed, number of supported input arguments changed!
+ #endif
+ 
+-static const int tcg_target_call_iarg_regs[] = {
+-    TCG_REG_R0,
+-    TCG_REG_R1,
+-    TCG_REG_R2,
+-    TCG_REG_R3,
+-    TCG_REG_R4,
+-    TCG_REG_R5,
+-#if TCG_TARGET_REG_BITS == 32
+-    /* 32 bit hosts need 2 * MAX_OPC_PARAM_IARGS registers. */
+-    TCG_REG_R6,
+-    TCG_REG_R7,
+-    TCG_REG_R8,
+-    TCG_REG_R9,
+-    TCG_REG_R10,
+-    TCG_REG_R11,
+-#endif
+-};
++/* No call arguments via registers.  All will be stored on the "stack". */
++static const int tcg_target_call_iarg_regs[] = { };
+ 
+ static const int tcg_target_call_oarg_regs[] = {
+     TCG_REG_R0,
+@@ -292,8 +277,9 @@ static void tci_out_label(TCGContext *s, TCGLabel *label)
+ static void stack_bounds_check(TCGReg base, target_long offset)
+ {
+     if (base == TCG_REG_CALL_STACK) {
+-        tcg_debug_assert(offset < 0);
+-        tcg_debug_assert(offset >= -(CPU_TEMP_BUF_NLONGS * sizeof(long)));
++        tcg_debug_assert(offset >= 0);
++        tcg_debug_assert(offset < (TCG_STATIC_CALL_ARGS_SIZE +
++                                   TCG_STATIC_FRAME_SIZE));
+     }
+ }
+ 
+@@ -360,11 +346,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+     old_code_ptr[1] = s->code_ptr - old_code_ptr;
+ }
+ 
+-static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
++static void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
+ {
+     uint8_t *old_code_ptr = s->code_ptr;
++    const TCGHelperInfo *info;
++    uint8_t which;
++
++    info = g_hash_table_lookup(helper_table, (gpointer)arg);
++    if (info->cif->rtype == &ffi_type_void) {
++        which = 0;
++    } else if (info->cif->rtype->size == 4) {
++        which = 1;
++    } else {
++        tcg_debug_assert(info->cif->rtype->size == 8);
++        which = 2;
++    }
+     tcg_out_op_t(s, INDEX_op_call);
+-    tcg_out_i(s, (uintptr_t)arg);
++    tcg_out8(s, which);
++    tcg_out_i(s, (uintptr_t)info);
++
+     old_code_ptr[1] = s->code_ptr - old_code_ptr;
+ }
+ 
+@@ -629,11 +629,9 @@ static void tcg_target_init(TCGContext *s)
+     s->reserved_regs = 0;
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
+ 
+-    /* We use negative offsets from "sp" so that we can distinguish
+-       stores that might pretend to be call arguments.  */
+-    tcg_set_frame(s, TCG_REG_CALL_STACK,
+-                  -CPU_TEMP_BUF_NLONGS * sizeof(long),
+-                  CPU_TEMP_BUF_NLONGS * sizeof(long));
++    /* The call arguments come first, followed by the temp storage. */
++    tcg_set_frame(s, TCG_REG_CALL_STACK, TCG_STATIC_CALL_ARGS_SIZE,
++                  TCG_STATIC_FRAME_SIZE);
+ }
+ 
+ /* Generate global QEMU prologue and epilogue code. */
 -- 
 2.25.1
 
