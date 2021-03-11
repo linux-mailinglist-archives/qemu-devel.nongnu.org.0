@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6643D33764D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:59:08 +0100 (CET)
-Received: from localhost ([::1]:44580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3AD337642
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:56:53 +0100 (CET)
+Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMmJ-0003zP-FK
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:59:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
+	id 1lKMk7-0000Dt-4O
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:56:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUO-0003ff-E3
+ id 1lKMUO-0003eh-1P
  for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:36 -0500
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:38716)
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:41577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMUL-0006Vm-OU
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:36 -0500
-Received: by mail-qv1-xf36.google.com with SMTP id t5so2638812qvs.5
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:29 -0800 (PST)
+ id 1lKMUL-0006Vw-PU
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:40:35 -0500
+Received: by mail-qk1-x732.google.com with SMTP id x10so20776230qkm.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:40:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gGw3KxVq5Tq8weV/0bnuBl/4JXq/wSN4ULQQQb9LWe0=;
- b=tDk+ycSfxG1/3pn9soSW62rSZBbhD2aQx/G5jHCCoc3GrVJyXu7JvL7YiojbRIaHVX
- hoy25P3mQthzHrXtr478UzJ04CIC7ccmCHZkHjo9kL9hjzyAwptCF5aDMHvyUXndVf3K
- vgTzaX+vbnPC4iX2AGoEQvWEszyXOe/BZmVPMJ5iwy5bJ0HEhyNNw0B2EyKMKKfqdgZu
- rDIakF/8D4KU97I2zecNLLfGFdSRtiSkt6NhM23tfYw6fQji8kQ1zZuXRRBj12Kjvx/B
- FfjiW7wt4bmOU8YDWuxlZfG3GDxKF3CKy1m38bHefziKbMqrgBgyYMOFVOcdMzkr+xrN
- hEVw==
+ bh=LAWykP8xawhD0n2LEjnvxt6U+It9ZnMCGaTxxtC6jn0=;
+ b=oNlNtMSCDmzuODVHYxXWDmhLsQ5EpnXZaj/Q5XduNTVYHm1J7xS6wNnDXvXkqt3Uwa
+ JN9FL4Nueyr9AiMp/+ZLY3N3tjo0dxavsse5YGaPyVIJzJZ+47OIQR5ckLVQvcKf25R+
+ kaxKYcAd9PtNZ1qlU8pxq8jcg5gkTAM64CwZOMawkJIGm5UMJrHFp48GsY2b7IZwYKva
+ BwGcb8J/N1nU4I0wTHP/Zz2zFJ4KpH9+UEwqsUDaVpxRsS03ghX1j3IAdd6Vm7d6M+1U
+ QBTO1sF5dTMH9mEl8py20S9SQM3EoyfpY2jDSFtUmMOXAKD5ERGih2oRc4AZ7TjBAXQ9
+ MzqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gGw3KxVq5Tq8weV/0bnuBl/4JXq/wSN4ULQQQb9LWe0=;
- b=IpFLdMVB48Mbe5SF9fgkqCChmJOvUwRUN/y8X0Y2xyIvk8GnOlYEvg+uUWsuaqMwBB
- 1MSTfoV/Abf/77sJ5T+TrlkAleIgygpPDuv+b6fH67um+s8CgNOQ54JrFl6K+BEOjyBY
- 6xYyuodD+MVZFbeMbNE+vox7xbwwzB4XbkmvKyZLE1vMy2bfzKOk516WYI3p4ZFX9vBP
- WQA5EjoSnX1ciYCBjS5rfBZzwiIazuBwjbu9Dc0dWfsLyVtHbHvQTr+tfP7DaycpVr21
- Xt99vGxEBFJZGfjosE74zzP9GtFxdFpCuInfylBhUEymsdT5O25hIheC750Hl+SPqsYd
- kPmQ==
-X-Gm-Message-State: AOAM533j7+TXBFD3SDR/yShRPVgobb331DO+cyb1ZB/aJxXRKAHNEWA9
- S72lbJjPJeucz5bBLf4Tl6Tm5TOXk4xpIwxW
-X-Google-Smtp-Source: ABdhPJx4mdPdaDj8qx5AtMGJHETC9dze0WU/IgjQuX2qRp3/kRdRZVbtU3zhBE3DhtUZ6F/RughrpA==
-X-Received: by 2002:a05:6214:f69:: with SMTP id
- iy9mr7799637qvb.15.1615473629055; 
- Thu, 11 Mar 2021 06:40:29 -0800 (PST)
+ bh=LAWykP8xawhD0n2LEjnvxt6U+It9ZnMCGaTxxtC6jn0=;
+ b=ZAcVz0xT8q5YLEyVL2wTmIg4XcDwDoJd03X6A/93olprJ0HyTl1FNy5+xwj3iU1G3d
+ PCsEAvadSvDRxv8b8Vh2Xg2tqfdlwCcjLVZZd6M77R6erTbQD9OqCo6HmZGE0QCa2gf8
+ tt5x5Yo5WF6K7GzEavu5V4M1RXyP8+ULsGUz5gUvqusPbixcTFBLm+MrRn26udxMb+41
+ d82y0uG3TpyjW+SWGmbYABzQ+AuNuw0Iy1EzzWY4zraSQt6G2GGEHnApV6byb5LDKK9p
+ b/Hdqa0om0StbmC8lamUTZ0FHp7hSqzZ/hPGxILtTCqRMJqmBeh6tcTA2J8JZWsDaumV
+ 0iOg==
+X-Gm-Message-State: AOAM531+DCriCviLuK9pbJM7cEll+vGpMIZlx3VhP1klqytGHVY968Mo
+ xbUxp5DlUKJMF5uLhW8SwIm7jd1rlqkBQQ9R
+X-Google-Smtp-Source: ABdhPJxylS51BSaE7IXSkyvupk1M7UpkZ4Z5DnsTjJgge79dPuoKyLlbgfLqY41ZZLm6nEyBqN0NEg==
+X-Received: by 2002:a37:8703:: with SMTP id j3mr7631455qkd.308.1615473631433; 
+ Thu, 11 Mar 2021 06:40:31 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.28
+ by smtp.gmail.com with ESMTPSA id d84sm2070324qke.53.2021.03.11.06.40.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:40:28 -0800 (PST)
+ Thu, 11 Mar 2021 06:40:31 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 23/57] tcg/tci: Use ffi for calls
-Date: Thu, 11 Mar 2021 08:39:24 -0600
-Message-Id: <20210311143958.562625-24-richard.henderson@linaro.org>
+Subject: [PATCH v5 25/57] tcg/tci: Move call-return regs to end of
+ tcg_target_reg_alloc_order
+Date: Thu, 11 Mar 2021 08:39:26 -0600
+Message-Id: <20210311143958.562625-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,444 +88,36 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This requires adjusting where arguments are stored.
-Place them on the stack at left-aligned positions.
-Adjust the stack frame to be at entirely positive offsets.
+As the only call-clobbered regs for TCI, these should
+receive the least priority.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h        |   1 +
- tcg/tci/tcg-target.h     |   2 +-
- tcg/tcg.c                |  72 ++++++++++++--------
- tcg/tci.c                | 138 +++++++++++++++++++++++----------------
- tcg/tci/tcg-target.c.inc |  50 +++++++-------
- 5 files changed, 150 insertions(+), 113 deletions(-)
+ tcg/tci/tcg-target.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 0f0695e90d..e5573a9877 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -53,6 +53,7 @@
- #define MAX_OPC_PARAM (4 + (MAX_OPC_PARAM_PER_ARG * MAX_OPC_PARAM_ARGS))
- 
- #define CPU_TEMP_BUF_NLONGS 128
-+#define TCG_STATIC_FRAME_SIZE  (CPU_TEMP_BUF_NLONGS * sizeof(long))
- 
- /* Default target word size to pointer size.  */
- #ifndef TCG_TARGET_REG_BITS
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 52af6d8bc5..4df10e2e83 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -161,7 +161,7 @@ typedef enum {
- 
- /* Used for function call generation. */
- #define TCG_TARGET_CALL_STACK_OFFSET    0
--#define TCG_TARGET_STACK_ALIGN          16
-+#define TCG_TARGET_STACK_ALIGN          8
- 
- #define HAVE_TCG_QEMU_TB_EXEC
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 6382112215..92aec0d238 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -208,6 +208,18 @@ static size_t tree_size;
- static TCGRegSet tcg_target_available_regs[TCG_TYPE_COUNT];
- static TCGRegSet tcg_target_call_clobber_regs;
- 
-+typedef struct TCGHelperInfo {
-+    void *func;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    ffi_cif *cif;
-+#endif
-+    const char *name;
-+    unsigned flags;
-+    unsigned sizemask;
-+} TCGHelperInfo;
-+
-+static GHashTable *helper_table;
-+
- #if TCG_TARGET_INSN_UNIT_SIZE == 1
- static __attribute__((unused)) inline void tcg_out8(TCGContext *s, uint8_t v)
- {
-@@ -1084,16 +1096,6 @@ void tcg_pool_reset(TCGContext *s)
-     s->pool_current = NULL;
- }
- 
--typedef struct TCGHelperInfo {
--    void *func;
--#ifdef CONFIG_TCG_INTERPRETER
--    ffi_cif *cif;
--#endif
--    const char *name;
--    unsigned flags;
--    unsigned sizemask;
--} TCGHelperInfo;
--
- #include "exec/helper-proto.h"
- 
- #ifdef CONFIG_TCG_INTERPRETER
-@@ -1103,7 +1105,6 @@ typedef struct TCGHelperInfo {
- static const TCGHelperInfo all_helpers[] = {
- #include "exec/helper-tcg.h"
- };
--static GHashTable *helper_table;
- 
- static int indirect_reg_alloc_order[ARRAY_SIZE(tcg_target_reg_alloc_order)];
- static void process_op_defs(TCGContext *s);
-@@ -2081,25 +2082,38 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
- 
-     real_args = 0;
-     for (i = 0; i < nargs; i++) {
--        int is_64bit = sizemask & (1 << (i+1)*2);
--        if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
--#ifdef TCG_TARGET_CALL_ALIGN_ARGS
--            /* some targets want aligned 64 bit args */
--            if (real_args & 1) {
--                op->args[pi++] = TCG_CALL_DUMMY_ARG;
--                real_args++;
--            }
-+        bool is_64bit = sizemask & (1 << (i+1)*2);
-+        bool want_align = false;
-+
-+#if defined(CONFIG_TCG_INTERPRETER)
-+        /*
-+         * Align all arguments, so that they land in predictable places
-+         * for passing off to ffi_call.
-+         */
-+        want_align = true;
-+#elif defined(TCG_TARGET_CALL_ALIGN_ARGS)
-+        /* Some targets want aligned 64 bit args */
-+        want_align = is_64bit;
- #endif
--           /* If stack grows up, then we will be placing successive
--              arguments at lower addresses, which means we need to
--              reverse the order compared to how we would normally
--              treat either big or little-endian.  For those arguments
--              that will wind up in registers, this still works for
--              HPPA (the only current STACK_GROWSUP target) since the
--              argument registers are *also* allocated in decreasing
--              order.  If another such target is added, this logic may
--              have to get more complicated to differentiate between
--              stack arguments and register arguments.  */
-+
-+        if (TCG_TARGET_REG_BITS < 64 && want_align && (real_args & 1)) {
-+            op->args[pi++] = TCG_CALL_DUMMY_ARG;
-+            real_args++;
-+        }
-+
-+        if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
-+           /*
-+            * If stack grows up, then we will be placing successive
-+            * arguments at lower addresses, which means we need to
-+            * reverse the order compared to how we would normally
-+            * treat either big or little-endian.  For those arguments
-+            * that will wind up in registers, this still works for
-+            * HPPA (the only current STACK_GROWSUP target) since the
-+            * argument registers are *also* allocated in decreasing
-+            * order.  If another such target is added, this logic may
-+            * have to get more complicated to differentiate between
-+            * stack arguments and register arguments.
-+            */
- #if defined(HOST_WORDS_BIGENDIAN) != defined(TCG_TARGET_STACK_GROWSUP)
-             op->args[pi++] = temp_arg(args[i] + 1);
-             op->args[pi++] = temp_arg(args[i]);
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 41d73edc3a..5718fc42a6 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -18,6 +18,13 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
-+#include "exec/cpu_ldst.h"
-+#include "tcg/tcg-op.h"
-+#include "qemu/compiler.h"
-+#include <ffi.h>
-+
- 
- /* Enable TCI assertions only when debugging TCG (and without NDEBUG defined).
-  * Without assertions, the interpreter runs much faster. */
-@@ -27,36 +34,8 @@
- # define tci_assert(cond) ((void)(cond))
- #endif
- 
--#include "qemu-common.h"
--#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
--#include "exec/cpu_ldst.h"
--#include "tcg/tcg-op.h"
--#include "qemu/compiler.h"
--
--#if MAX_OPC_PARAM_IARGS != 6
--# error Fix needed, number of supported input arguments changed!
--#endif
--#if TCG_TARGET_REG_BITS == 32
--typedef uint64_t (*helper_function)(tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong);
--#else
--typedef uint64_t (*helper_function)(tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong,
--                                    tcg_target_ulong, tcg_target_ulong);
--#endif
--
- __thread uintptr_t tci_tb_ptr;
- 
--static tcg_target_ulong tci_read_reg(const tcg_target_ulong *regs, TCGReg index)
--{
--    tci_assert(index < TCG_TARGET_NB_REGS);
--    return regs[index];
--}
--
- static void
- tci_write_reg(tcg_target_ulong *regs, TCGReg index, tcg_target_ulong value)
- {
-@@ -131,6 +110,7 @@ static tcg_target_ulong tci_read_label(const uint8_t **tb_ptr)
-  *   i = immediate (uint32_t)
-  *   I = immediate (tcg_target_ulong)
-  *   m = immediate (TCGMemOpIdx)
-+ *   n = immediate (call return length)
-  *   r = register
-  *   s = signed ldst offset
-  */
-@@ -151,6 +131,16 @@ static void tci_args_l(const uint8_t **tb_ptr, void **l0)
-     check_size(start, tb_ptr);
- }
- 
-+static void tci_args_nl(const uint8_t **tb_ptr, uint8_t *n0, void **l1)
-+{
-+    const uint8_t *start = *tb_ptr;
-+
-+    *n0 = tci_read_b(tb_ptr);
-+    *l1 = (void *)tci_read_label(tb_ptr);
-+
-+    check_size(start, tb_ptr);
-+}
-+
- static void tci_args_rr(const uint8_t **tb_ptr,
-                         TCGReg *r0, TCGReg *r1)
- {
-@@ -474,6 +464,7 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
- # define CASE_64(x)
- #endif
- 
-+
- /* Interpret pseudo code in tb. */
- /*
-  * Disable CFI checks.
-@@ -485,11 +476,13 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- {
-     const uint8_t *tb_ptr = v_tb_ptr;
-     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
--    long tcg_temps[CPU_TEMP_BUF_NLONGS];
--    uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
-+    uint64_t stack[(TCG_STATIC_CALL_ARGS_SIZE + TCG_STATIC_FRAME_SIZE)
-+                   / sizeof(uint64_t)];
-+    void *call_slots[TCG_STATIC_CALL_ARGS_SIZE / sizeof(uint64_t)];
- 
-     regs[TCG_AREG0] = (tcg_target_ulong)env;
--    regs[TCG_REG_CALL_STACK] = sp_value;
-+    regs[TCG_REG_CALL_STACK] = (uintptr_t)stack;
-+    call_slots[0] = NULL;
-     tci_assert(tb_ptr);
- 
-     for (;;) {
-@@ -514,33 +507,60 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- 
-         switch (opc) {
-         case INDEX_op_call:
--            tci_args_l(&tb_ptr, &ptr);
-+            /*
-+             * We are passed a pointer to the TCGHelperInfo, which contains
-+             * the function pointer followed by the ffi_cif pointer.
-+             */
-+            tci_args_nl(&tb_ptr, &len, &ptr);
-+
-+            /* Helper functions may need to access the "return address" */
-             tci_tb_ptr = (uintptr_t)tb_ptr;
--#if TCG_TARGET_REG_BITS == 32
--            tmp64 = ((helper_function)ptr)(tci_read_reg(regs, TCG_REG_R0),
--                                           tci_read_reg(regs, TCG_REG_R1),
--                                           tci_read_reg(regs, TCG_REG_R2),
--                                           tci_read_reg(regs, TCG_REG_R3),
--                                           tci_read_reg(regs, TCG_REG_R4),
--                                           tci_read_reg(regs, TCG_REG_R5),
--                                           tci_read_reg(regs, TCG_REG_R6),
--                                           tci_read_reg(regs, TCG_REG_R7),
--                                           tci_read_reg(regs, TCG_REG_R8),
--                                           tci_read_reg(regs, TCG_REG_R9),
--                                           tci_read_reg(regs, TCG_REG_R10),
--                                           tci_read_reg(regs, TCG_REG_R11));
--            tci_write_reg(regs, TCG_REG_R0, tmp64);
--            tci_write_reg(regs, TCG_REG_R1, tmp64 >> 32);
--#else
--            tmp64 = ((helper_function)ptr)(tci_read_reg(regs, TCG_REG_R0),
--                                           tci_read_reg(regs, TCG_REG_R1),
--                                           tci_read_reg(regs, TCG_REG_R2),
--                                           tci_read_reg(regs, TCG_REG_R3),
--                                           tci_read_reg(regs, TCG_REG_R4),
--                                           tci_read_reg(regs, TCG_REG_R5));
--            tci_write_reg(regs, TCG_REG_R0, tmp64);
--#endif
-+
-+            /*
-+             * Set up the ffi_avalue array once, delayed until now
-+             * because many TB's do not make any calls. In tcg_gen_callN,
-+             * we arranged for every real argument to be "left-aligned"
-+             * in each 64-bit slot.
-+             */
-+            if (call_slots[0] == NULL) {
-+                for (int i = 0; i < ARRAY_SIZE(call_slots); ++i) {
-+                    call_slots[i] = &stack[i];
-+                }
-+            }
-+
-+            /*
-+             * Call the helper function.  Any result winds up
-+             * "left-aligned" in the stack[0] slot.
-+             */
-+            {
-+                void **pptr = ptr;
-+                ffi_call(pptr[1], pptr[0], stack, call_slots);
-+            }
-+            switch (len) {
-+            case 0: /* void */
-+                break;
-+            case 1: /* uint32_t */
-+                /*
-+                 * Note that libffi has an odd special case in that it will
-+                 * always widen an integral result to ffi_arg.
-+                 */
-+                if (sizeof(ffi_arg) == 4) {
-+                    regs[TCG_REG_R0] = *(uint32_t *)stack;
-+                    break;
-+                }
-+                /* fall through */
-+            case 2: /* uint64_t */
-+                if (TCG_TARGET_REG_BITS == 32) {
-+                    tci_write_reg64(regs, TCG_REG_R1, TCG_REG_R0, stack[0]);
-+                } else {
-+                    regs[TCG_REG_R0] = stack[0];
-+                }
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-             break;
-+
-         case INDEX_op_br:
-             tci_args_l(&tb_ptr, &ptr);
-             tb_ptr = ptr;
-@@ -1145,13 +1165,17 @@ int print_insn_tci(bfd_vma addr, disassemble_info *info)
- 
-     switch (op) {
-     case INDEX_op_br:
--    case INDEX_op_call:
-     case INDEX_op_exit_tb:
-     case INDEX_op_goto_tb:
-         tci_args_l(&tb_ptr, &ptr);
-         info->fprintf_func(info->stream, "%-12s  %p", op_name, ptr);
-         break;
- 
-+    case INDEX_op_call:
-+        tci_args_nl(&tb_ptr, &len, &ptr);
-+        info->fprintf_func(info->stream, "%-12s  %d,%p", op_name, len, ptr);
-+        break;
-+
-     case INDEX_op_brcond_i32:
-     case INDEX_op_brcond_i64:
-         tci_args_rrcl(&tb_ptr, &r0, &r1, &c, &ptr);
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 7fb3b04eaf..8d75482546 100644
+index 4dae09deda..53edc50a3b 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -192,23 +192,8 @@ static const int tcg_target_reg_alloc_order[] = {
- # error Fix needed, number of supported input arguments changed!
- #endif
+@@ -170,8 +170,6 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ }
  
--static const int tcg_target_call_iarg_regs[] = {
+ static const int tcg_target_reg_alloc_order[] = {
 -    TCG_REG_R0,
 -    TCG_REG_R1,
--    TCG_REG_R2,
--    TCG_REG_R3,
--    TCG_REG_R4,
--    TCG_REG_R5,
--#if TCG_TARGET_REG_BITS == 32
--    /* 32 bit hosts need 2 * MAX_OPC_PARAM_IARGS registers. */
--    TCG_REG_R6,
--    TCG_REG_R7,
--    TCG_REG_R8,
--    TCG_REG_R9,
--    TCG_REG_R10,
--    TCG_REG_R11,
--#endif
--};
-+/* No call arguments via registers.  All will be stored on the "stack". */
-+static const int tcg_target_call_iarg_regs[] = { };
+     TCG_REG_R2,
+     TCG_REG_R3,
+     TCG_REG_R4,
+@@ -186,6 +184,8 @@ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_R13,
+     TCG_REG_R14,
+     TCG_REG_R15,
++    TCG_REG_R1,
++    TCG_REG_R0,
+ };
  
- static const int tcg_target_call_oarg_regs[] = {
-     TCG_REG_R0,
-@@ -292,8 +277,9 @@ static void tci_out_label(TCGContext *s, TCGLabel *label)
- static void stack_bounds_check(TCGReg base, target_long offset)
- {
-     if (base == TCG_REG_CALL_STACK) {
--        tcg_debug_assert(offset < 0);
--        tcg_debug_assert(offset >= -(CPU_TEMP_BUF_NLONGS * sizeof(long)));
-+        tcg_debug_assert(offset >= 0);
-+        tcg_debug_assert(offset < (TCG_STATIC_CALL_ARGS_SIZE +
-+                                   TCG_STATIC_FRAME_SIZE));
-     }
- }
- 
-@@ -360,11 +346,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
-     old_code_ptr[1] = s->code_ptr - old_code_ptr;
- }
- 
--static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
-+static void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
- {
-     uint8_t *old_code_ptr = s->code_ptr;
-+    const TCGHelperInfo *info;
-+    uint8_t which;
-+
-+    info = g_hash_table_lookup(helper_table, (gpointer)arg);
-+    if (info->cif->rtype == &ffi_type_void) {
-+        which = 0;
-+    } else if (info->cif->rtype->size == 4) {
-+        which = 1;
-+    } else {
-+        tcg_debug_assert(info->cif->rtype->size == 8);
-+        which = 2;
-+    }
-     tcg_out_op_t(s, INDEX_op_call);
--    tcg_out_i(s, (uintptr_t)arg);
-+    tcg_out8(s, which);
-+    tcg_out_i(s, (uintptr_t)info);
-+
-     old_code_ptr[1] = s->code_ptr - old_code_ptr;
- }
- 
-@@ -629,11 +629,9 @@ static void tcg_target_init(TCGContext *s)
-     s->reserved_regs = 0;
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
- 
--    /* We use negative offsets from "sp" so that we can distinguish
--       stores that might pretend to be call arguments.  */
--    tcg_set_frame(s, TCG_REG_CALL_STACK,
--                  -CPU_TEMP_BUF_NLONGS * sizeof(long),
--                  CPU_TEMP_BUF_NLONGS * sizeof(long));
-+    /* The call arguments come first, followed by the temp storage. */
-+    tcg_set_frame(s, TCG_REG_CALL_STACK, TCG_STATIC_CALL_ARGS_SIZE,
-+                  TCG_STATIC_FRAME_SIZE);
- }
- 
- /* Generate global QEMU prologue and epilogue code. */
+ #if MAX_OPC_PARAM_IARGS != 6
 -- 
 2.25.1
 
