@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0058337683
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:08:47 +0100 (CET)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF4B3376A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:16:17 +0100 (CET)
+Received: from localhost ([::1]:43846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMve-0002DJ-Pe
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:08:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
+	id 1lKN2u-0002p0-2o
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:16:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMVi-0004Tr-TP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:42:00 -0500
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:40792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKMVW-00073D-Bl
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:41:58 -0500
-Received: by mail-qt1-x834.google.com with SMTP id r14so1265921qtt.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mIbW7tk8kzPtUH9Z3cL5eHd0L1fqZoXvXXJa8VSBNBo=;
- b=uyPzs3WJIEtWsnJCLDudzCIZd3ffQv7vP7+YxAfmppXFmWpqoOVj/1x9YQEMsGtSUy
- 2kq/j1utYzALm/zU9oxp1uI+RGTr8HjpwB+rjuZ9ozlNfMhzTk4BEDX3zb3qzEMRA5Bo
- UDuWTfd9m/kmILcGZtu4Cpq5fLwDVVnvuH43ID9f1fuyaGG3VjBeDrQWhcNAxLP0WgFc
- 5WJbXVQ7OHNKZBeka4FPQ4cqZpHZFmGO//WROTPMHa5VOsNu1FjLlvQh02lhDa1F8YAt
- dQxdElze5HGCUzwdcVyw7k6iOGWfeYYwi1cvpbU6kREOMx0HeNmhXbWUA6cO9mWfrlSO
- ONrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mIbW7tk8kzPtUH9Z3cL5eHd0L1fqZoXvXXJa8VSBNBo=;
- b=sfAuUUeNQJ1SCVPMZ02N8r2T5aW1sq8tbR3CLb5PmXl3oB8EQ3Wpgto41MtUdlJ7qV
- 6NOQvWDDiS6Bw6H4QbWVeHMuxXFh6NpLZL5GF+rMpu4WTCR8qhNkg/UJDq/Hu/gDPnWy
- aq7uewPUI5f+jYtR0lLBgWcCQd6AFZQPdKKaFz2JSb7a8oAaOulmRZ2lzCLGt4IppJin
- nq6aBfC2Uezbo+L3mgWbttIsL8eVKReeQ9112vjWAPacJR+1x7Ak2X/3+DUIY6C7Ogbi
- 9g6SxwtMQtWLO3KaCq5HqExPv/DOEWG1AzT/nEI8fGPQovKkdYLl/fyorWfNLQbrXQ3S
- j/lw==
-X-Gm-Message-State: AOAM533XmDpqJMj2ACGFP5667KNmRjKrSDUvbbesgECAlIzpdEJkU66k
- zDiTULbp9gu5rjkAAzJp9WdVUsFJAqOC6QuU
-X-Google-Smtp-Source: ABdhPJwHJrHl8TVlzolNHqrbhyzYHZeO5DiZvPnaPqQwb758sUL9GIqFzIlpUiWSxr4ZvW/QMimO0w==
-X-Received: by 2002:aed:2ce3:: with SMTP id g90mr7600377qtd.308.1615473705455; 
- Thu, 11 Mar 2021 06:41:45 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id g14sm1962421qkm.98.2021.03.11.06.41.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 06:41:45 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 57/57] gitlab: Enable cross-i386 builds of TCI
-Date: Thu, 11 Mar 2021 08:39:58 -0600
-Message-Id: <20210311143958.562625-58-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210311143958.562625-1-richard.henderson@linaro.org>
-References: <20210311143958.562625-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMc3-0004mA-Kk
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMbz-0002iv-Bd
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615474102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KLTXYgLxudgxMmIa76HqlGYGC+BNCInMUDA/ZF7UnBA=;
+ b=ImgtwWqNMktmpWznBBteVMTKDCJvJa7Y2QueCXbFplteFd5sAG72TTpLkWgMhPl+UcU7gT
+ 8f9w/6KAs6WHiU+ppGUhbI4wyBnfTcXiB5kMTFw0snSQvrYSEnfr00DFENZUcXT+tGCV33
+ urjkTxItcxOy+uVkV7Ed1YtMioYLtvc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-WpGSBUStOE-8nRruJ5gTCw-1; Thu, 11 Mar 2021 09:48:20 -0500
+X-MC-Unique: WpGSBUStOE-8nRruJ5gTCw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AD1C801817;
+ Thu, 11 Mar 2021 14:48:18 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 467CA5D9F2;
+ Thu, 11 Mar 2021 14:48:15 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/38] Block layer patches and object-add QAPIfication
+Date: Thu, 11 Mar 2021 15:47:33 +0100
+Message-Id: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,65 +73,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- f4bug@amsat.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're currently only testing TCI with a 64-bit host -- also test
-with a 32-bit host.  Enable a selection of softmmu and user-only
-targets, 32-bit LE, 64-bit LE, 32-bit BE, as there are ifdefs for each.
+The following changes since commit d689ecad073e0289afa8ca863e45879d719e5c21:
 
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- .gitlab-ci.d/crossbuilds.yml                      | 11 ++++++++++-
- tests/docker/dockerfiles/fedora-i386-cross.docker |  1 +
- 2 files changed, 11 insertions(+), 1 deletion(-)
+  Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-03-10 20:11:33 +0000)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index d573e431e5..099f2ef2e5 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -27,7 +27,7 @@
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-tools
-         --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- .cross_user_build_job:
-   stage: build
-@@ -97,6 +97,15 @@ cross-i386-user:
-     IMAGE: fedora-i386-cross
-     MAKE_CHECK_ARGS: check
- 
-+cross-i386-tci:
-+  extends: .cross_accel_build_job
-+  timeout: 60m
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    ACCEL: tcg-interpreter
-+    EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
-+    MAKE_CHECK_ARGS: check check-tcg
-+
- cross-mips-system:
-   extends: .cross_system_build_job
-   needs:
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 966072c08e..b620d7664d 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -5,6 +5,7 @@ ENV PACKAGES \
-     findutils \
-     gcc \
-     git \
-+    libffi-devel.i686 \
-     libtasn1-devel.i686 \
-     libzstd-devel.i686 \
-     make \
--- 
-2.25.1
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to 4756658df7d5104b36ee2f40f30f2d0f10225a53:
+
+  qom: Add user_creatable_parse_str() (2021-03-11 13:13:49 +0100)
+
+----------------------------------------------------------------
+Block layer patches and object-add QAPIfication
+
+- QAPIfy object-add and --object for tools
+- Add vhost-user-blk-test
+- stream: Fail gracefully if permission is denied
+- storage-daemon: Fix crash on quit when job is still running
+- curl: Fix use after free
+- Fix image creation option defaults that exist in both the format and
+  the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
+  default was incorrectly applied to the rbd layer)
+
+----------------------------------------------------------------
+Coiby Xu (1):
+      test: new qTest case to test the vhost-user-blk-server
+
+Kevin Wolf (31):
+      storage-daemon: Call job_cancel_sync_all() on shutdown
+      stream: Don't crash when node permission is denied
+      tests: Drop 'props' from object-add calls
+      qapi/qom: Drop deprecated 'props' from object-add
+      qapi/qom: Add ObjectOptions for iothread
+      qapi/qom: Add ObjectOptions for authz-*
+      qapi/qom: Add ObjectOptions for cryptodev-*
+      qapi/qom: Add ObjectOptions for dbus-vmstate
+      qapi/qom: Add ObjectOptions for memory-backend-*
+      qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
+      qapi/qom: Add ObjectOptions for throttle-group
+      qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
+      qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
+      qapi/qom: Add ObjectOptions for can-*
+      qapi/qom: Add ObjectOptions for colo-compare
+      qapi/qom: Add ObjectOptions for filter-*
+      qapi/qom: Add ObjectOptions for pr-manager-helper
+      qapi/qom: Add ObjectOptions for confidential-guest-support
+      qapi/qom: Add ObjectOptions for input-*
+      qapi/qom: Add ObjectOptions for x-remote-object
+      qapi/qom: QAPIfy object-add
+      qom: Make "object" QemuOptsList optional
+      qemu-storage-daemon: Implement --object with qmp_object_add()
+      qom: Remove user_creatable_add_dict()
+      qom: Factor out user_creatable_process_cmdline()
+      qemu-io: Use user_creatable_process_cmdline() for --object
+      qemu-nbd: Use user_creatable_process_cmdline() for --object
+      qom: Add user_creatable_add_from_str()
+      qemu-img: Use user_creatable_process_cmdline() for --object
+      hmp: QAPIfy object_add
+      qom: Add user_creatable_parse_str()
+
+Max Reitz (2):
+      curl: Store BDRVCURLState pointer in CURLSocket
+      curl: Disconnect sockets from CURLState
+
+Stefan Hajnoczi (3):
+      block/export: disable VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD for now
+      tests/qtest: add multi-queue test case to vhost-user-blk-test
+      vhost-user-blk-test: test discard/write zeroes invalid inputs
+
+Stefano Garzarella (1):
+      block: remove format defaults from QemuOpts in bdrv_create_file()
+
+ qapi/authz.json                       |  61 ++-
+ qapi/block-core.json                  |  27 +
+ qapi/common.json                      |  52 ++
+ qapi/crypto.json                      | 159 ++++++
+ qapi/machine.json                     |  22 +-
+ qapi/net.json                         |  20 -
+ qapi/qom.json                         | 646 +++++++++++++++++++++-
+ qapi/ui.json                          |  13 +-
+ docs/system/deprecated.rst            |  25 +-
+ docs/system/removed-features.rst      |   5 +
+ docs/tools/qemu-img.rst               |   2 +-
+ include/qom/object_interfaces.h       |  85 +--
+ tests/qtest/libqos/vhost-user-blk.h   |  48 ++
+ block.c                               |  36 +-
+ block/curl.c                          |  50 +-
+ block/export/vhost-user-blk-server.c  |   3 +-
+ block/stream.c                        |  15 +-
+ hw/block/xen-block.c                  |  16 +-
+ monitor/hmp-cmds.c                    |  17 +-
+ monitor/misc.c                        |   2 -
+ qemu-img.c                            | 251 ++-------
+ qemu-io.c                             |  33 +-
+ qemu-nbd.c                            |  34 +-
+ qom/object_interfaces.c               | 109 ++--
+ qom/qom-qmp-cmds.c                    |  28 +-
+ storage-daemon/qemu-storage-daemon.c  |  28 +-
+ tests/qtest/libqos/vhost-user-blk.c   | 130 +++++
+ tests/qtest/qmp-cmd-test.c            |  16 +-
+ tests/qtest/test-netfilter.c          |  54 +-
+ tests/qtest/vhost-user-blk-test.c     | 983 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                           |   2 +
+ hmp-commands.hx                       |   2 +-
+ storage-daemon/qapi/qapi-schema.json  |   1 +
+ tests/qemu-iotests/tests/qsd-jobs     |  86 +++
+ tests/qemu-iotests/tests/qsd-jobs.out |  32 ++
+ tests/qtest/libqos/meson.build        |   1 +
+ tests/qtest/meson.build               |   4 +
+ 37 files changed, 2554 insertions(+), 544 deletions(-)
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+ create mode 100644 tests/qtest/vhost-user-blk-test.c
+ create mode 100755 tests/qemu-iotests/tests/qsd-jobs
+ create mode 100644 tests/qemu-iotests/tests/qsd-jobs.out
 
 
