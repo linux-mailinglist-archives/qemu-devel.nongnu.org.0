@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC30A33750E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:07:11 +0100 (CET)
-Received: from localhost ([::1]:59832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C5133751B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:08:56 +0100 (CET)
+Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKLy2-0006Pq-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:07:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42158)
+	id 1lKLzj-0000cN-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:08:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPC-0000wV-PY
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42682)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPF-00010h-8L
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:13 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLP6-0006ow-Is
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:10 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLP9-0006pa-9l
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:12 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0186FAEE6;
- Thu, 11 Mar 2021 13:30:42 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0FB14AF2B;
+ Thu, 11 Mar 2021 13:30:43 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v6 27/38] target/arm: remove kvm include file for PSCI and
- arm-powerctl
-Date: Thu, 11 Mar 2021 14:30:15 +0100
-Message-Id: <20210311133026.14052-28-cfontana@suse.de>
+Subject: [RFC v6 29/38] target/arm: cleanup cpu includes
+Date: Thu, 11 Mar 2021 14:30:17 +0100
+Message-Id: <20210311133026.14052-30-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210311133026.14052-1-cfontana@suse.de>
 References: <20210311133026.14052-1-cfontana@suse.de>
@@ -64,40 +63,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 
-The QEMU PSCI implementation is not used for KVM,
-we do not need the kvm constants header.
+cpu.c,
+cpu32.c,
+cpu64.c,
+tcg/sysemu/tcg-cpu.c,
+
+all need a good cleanup when it comes to included header files.
 
 Signed-off-by: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 ---
- target/arm/arm-powerctl.h | 2 --
- target/arm/psci.c         | 1 -
- 2 files changed, 3 deletions(-)
+ target/arm/cpu.c                |  8 ++------
+ target/arm/cpu32.c              | 14 --------------
+ target/arm/cpu64.c              |  6 ------
+ target/arm/tcg/sysemu/tcg-cpu.c | 22 +---------------------
+ 4 files changed, 3 insertions(+), 47 deletions(-)
 
-diff --git a/target/arm/arm-powerctl.h b/target/arm/arm-powerctl.h
-index 37c8a04f0a..35e048ce14 100644
---- a/target/arm/arm-powerctl.h
-+++ b/target/arm/arm-powerctl.h
-@@ -11,8 +11,6 @@
- #ifndef QEMU_ARM_POWERCTL_H
- #define QEMU_ARM_POWERCTL_H
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 97cb6ec8a8..3491e615c3 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -19,28 +19,24 @@
+  */
  
--#include "kvm-consts.h"
--
- #define QEMU_ARM_POWERCTL_RET_SUCCESS QEMU_PSCI_RET_SUCCESS
- #define QEMU_ARM_POWERCTL_INVALID_PARAM QEMU_PSCI_RET_INVALID_PARAMS
- #define QEMU_ARM_POWERCTL_ALREADY_ON QEMU_PSCI_RET_ALREADY_ON
-diff --git a/target/arm/psci.c b/target/arm/psci.c
-index 6709e28013..800c4a55d8 100644
---- a/target/arm/psci.c
-+++ b/target/arm/psci.c
-@@ -19,7 +19,6 @@
  #include "qemu/osdep.h"
+-#include "qemu/qemu-print.h"
+ #include "qemu-common.h"
+ #include "target/arm/idau.h"
+-#include "qemu/module.h"
+ #include "qapi/error.h"
+-#include "qapi/visitor.h"
  #include "cpu.h"
- #include "exec/helper-proto.h"
--#include "kvm-consts.h"
- #include "qemu/main-loop.h"
- #include "sysemu/runstate.h"
- #include "internals.h"
+ #include "cpregs.h"
++
+ #ifdef CONFIG_TCG
+ #include "tcg/tcg-cpu.h"
+ #endif /* CONFIG_TCG */
+ #include "cpu32.h"
+-#include "internals.h"
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #if !defined(CONFIG_USER_ONLY)
+ #include "hw/loader.h"
+ #include "hw/boards.h"
+ #endif
+-#include "sysemu/sysemu.h"
++
+ #include "sysemu/tcg.h"
+-#include "sysemu/hw_accel.h"
+ #include "kvm/kvm_arm.h"
+ #include "disas/capstone.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
+index 655f0a4263..52b5411af6 100644
+--- a/target/arm/cpu32.c
++++ b/target/arm/cpu32.c
+@@ -20,26 +20,12 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/qemu-print.h"
+-#include "qemu-common.h"
+-#include "target/arm/idau.h"
+ #include "qemu/module.h"
+-#include "qapi/error.h"
+-#include "qapi/visitor.h"
+ #include "cpu.h"
+ #include "cpregs.h"
+-#include "internals.h"
+-#include "exec/exec-all.h"
+-#include "hw/qdev-properties.h"
+ #if !defined(CONFIG_USER_ONLY)
+-#include "hw/loader.h"
+ #include "hw/boards.h"
+ #endif
+-#include "sysemu/sysemu.h"
+-#include "sysemu/tcg.h"
+-#include "sysemu/hw_accel.h"
+-#include "kvm/kvm_arm.h"
+-#include "disas/capstone.h"
+-#include "fpu/softfloat.h"
+ #include "cpu-mmu.h"
+ #include "cpu32.h"
+ 
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index d7e9a812cd..b3475a93cc 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -22,13 +22,7 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+-#ifdef CONFIG_TCG
+-#include "hw/core/tcg-cpu-ops.h"
+-#endif /* CONFIG_TCG */
+ #include "qemu/module.h"
+-#if !defined(CONFIG_USER_ONLY)
+-#include "hw/loader.h"
+-#endif
+ #include "sysemu/kvm.h"
+ #include "kvm/kvm_arm.h"
+ #include "qapi/visitor.h"
+diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
+index ed030678f3..664a7ee206 100644
+--- a/target/arm/tcg/sysemu/tcg-cpu.c
++++ b/target/arm/tcg/sysemu/tcg-cpu.c
+@@ -19,29 +19,9 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/qemu-print.h"
+-#include "qemu-common.h"
+-#include "target/arm/idau.h"
+-#include "qemu/module.h"
+-#include "qapi/error.h"
+-#include "qapi/visitor.h"
+ #include "cpu.h"
+-#include "hw/core/tcg-cpu-ops.h"
+ #include "hw/semihosting/common-semi.h"
+-#include "cpregs.h"
+-#include "internals.h"
+-#include "exec/exec-all.h"
+-#include "hw/qdev-properties.h"
+-#if !defined(CONFIG_USER_ONLY)
+-#include "hw/loader.h"
+-#include "hw/boards.h"
+-#endif
+-#include "sysemu/sysemu.h"
+-#include "sysemu/tcg.h"
+-#include "sysemu/hw_accel.h"
+-#include "disas/capstone.h"
+-#include "fpu/softfloat.h"
+-#include "cpu-mmu.h"
++#include "qemu/log.h"
+ #include "tcg/tcg-cpu.h"
+ 
+ /*
 -- 
 2.26.2
 
