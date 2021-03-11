@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D583371AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 12:48:43 +0100 (CET)
-Received: from localhost ([::1]:41776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E043371A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 12:47:53 +0100 (CET)
+Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKJo2-0001xr-Ez
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 06:48:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1lKJnE-0000hR-6D
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 06:47:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKJjX-0005uF-II
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:44:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKJjV-000051-T2
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:44:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615463041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UPKVZUDm59nOyHgfstHTf3KS/nqwcbJYL53kaAQc4mk=;
- b=GsseswmtjncKMComxh2jfTGn5EvuROFSzEqOP8Gpu4UgHgdPMPc5AsT8dYtSRnIF8y1liA
- rVpwgjrGznrMmJ3QNb8Zwg69kcgb5NhtqaSMIbiMhLa5KduBwhVd/N51pFxGbd4y3EosUP
- sbjx9diV/UVJhqeJegJlEp3wnTfrgfk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-bmoL8NprO6O2qd_oYc8tig-1; Thu, 11 Mar 2021 06:43:59 -0500
-X-MC-Unique: bmoL8NprO6O2qd_oYc8tig-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 913F08030DB
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 11:43:58 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-115-85.ams2.redhat.com
- [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E26D360875;
- Thu, 11 Mar 2021 11:43:56 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] ui: deprecate "password" option for SPICE server
-Date: Thu, 11 Mar 2021 11:43:43 +0000
-Message-Id: <20210311114343.439820-4-berrange@redhat.com>
-In-Reply-To: <20210311114343.439820-1-berrange@redhat.com>
-References: <20210311114343.439820-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lKJkh-0007Kz-I9
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:45:15 -0500
+Received: from hera.aquilenet.fr ([185.233.100.1]:40084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1lKJkf-0000pv-Vd
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:45:15 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id B1D531E3;
+ Thu, 11 Mar 2021 12:45:10 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id WNRVkzC8NCVS; Thu, 11 Mar 2021 12:45:10 +0100 (CET)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 028B44E;
+ Thu, 11 Mar 2021 12:45:10 +0100 (CET)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1lKJka-00HHC0-Nw; Thu, 11 Mar 2021 12:45:08 +0100
+Date: Thu, 11 Mar 2021 12:45:08 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 3/4] usb: Un-deprecate -usbdevice (except for -usbdevice
+ audio which gets removed)
+Message-ID: <20210311114508.vq5cvpr3lpqnvrfw@begin>
+References: <20210310173323.1422754-1-thuth@redhat.com>
+ <20210310173323.1422754-4-thuth@redhat.com>
+ <87y2euqe4j.fsf@dusky.pond.sub.org>
+ <1f5ff060-5ec6-22bb-8b23-a558d6520894@redhat.com>
+ <20210311113738.exhvhskqnpguafyz@sirius.home.kraxel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210311113738.exhvhskqnpguafyz@sirius.home.kraxel.org>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: B1D531E3
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_FIVE(0.00)[6];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +79,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC5CZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the new "password-secret" option, there is no reason to use the old
-inecure "password" option with -spice, so it can be deprecated.
+Gerd Hoffmann, le jeu. 11 mars 2021 12:37:38 +0100, a ecrit:
+> Which would also drop support for serial braille devices.  Not sure
+> how much of a problem that would be these days.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- docs/system/deprecated.rst | 8 ++++++++
- qemu-options.hx            | 4 ++++
- ui/spice-core.c            | 2 ++
- 3 files changed, 14 insertions(+)
+It is an important concern: we also need to be able to test braille
+devices connected through serial.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 241b28a521..e742c8d311 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -166,6 +166,14 @@ Using ``-M kernel-irqchip=off`` with x86 machine types that include a local
- APIC is deprecated.  The ``split`` setting is supported, as is using
- ``-M kernel-irqchip=off`` with the ISA PC machine type.
- 
-+``-spice password=string`` (since 6.0)
-+''''''''''''''''''''''''''''''''''''''
-+
-+This option is insecure because the SPICE password remains visible in
-+the process listing. This is replaced by the new ``password-secret``
-+option which lets the password be securely provided on the command
-+line using a ``secret`` object instance.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 77bb834e37..48382a8a2a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1928,6 +1928,10 @@ SRST
-     ``password=<string>``
-         Set the password you need to authenticate.
- 
-+        This option is deprecated and insecure because it leaves the
-+        password visible in the process listing. Use ``password-secret``
-+        instead.
-+
-     ``password-secret=<secret-id>``
-         Set the ID of the ``secret`` object containing the password
-         you need to authenticate.
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 7f0e005ca9..235d61f0c1 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -686,6 +686,8 @@ static void qemu_spice_init(void)
-     } else {
-         str = qemu_opt_get(opts, "password");
-         if (str) {
-+            warn_report("'password' option is deprecated and insecure, "
-+                        "use 'password-secret' instead");
-             password = g_strdup(str);
-         }
-     }
--- 
-2.29.2
-
+Samuel
 
