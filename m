@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4AC337FC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:39:32 +0100 (CET)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76352337FD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:44:35 +0100 (CET)
+Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKT1m-00046q-KC
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52550)
+	id 1lKT6g-0006O3-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:44:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKT0R-0003Oq-Qs
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:38:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKT0O-0001mv-PP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:38:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615498683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kZrF/yQsMXm77PiXx1P+0D1I3GZC7MxcJm8SALcL6AU=;
- b=f+pShEY6xQOugH5lxWbRl5TXf8Elf1HwkNDiz8swLVTEfSDIla196M5VupbFJQcpLs6kcs
- 62rTI+amq2qnUh/IATFRRNHR8HHE6crjKw0UANW98YjxxZXEcxnC6Ap6UUzQz52AV5Wd2I
- U3lPIMzFg9fkdBswEi77XVVpnaA4H68=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-NiPskGXzOJagRrQ7KE9LRQ-1; Thu, 11 Mar 2021 16:37:59 -0500
-X-MC-Unique: NiPskGXzOJagRrQ7KE9LRQ-1
-Received: by mail-qt1-f198.google.com with SMTP id l13so5306442qtu.6
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 13:37:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lKT5X-0005j3-0T; Thu, 11 Mar 2021 16:43:23 -0500
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:44235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lKT5V-00048r-Du; Thu, 11 Mar 2021 16:43:22 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id 81so23544640iou.11;
+ Thu, 11 Mar 2021 13:43:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qywYbhsLgzrHCXc6c6o7KQhf8hv4FYtFnKoH6Pq5Wu4=;
+ b=bhX0m7mHvzizSw+QR9KymuGuNg9pxR8k3q3+8QdLyCRO5vSsd6LbCG69YhnOILV9U3
+ QWxstKsc/dVOS2Vs6Y5T+w9opyfXzpVnJ2DZAEfwdty4qxBziA66K/stNOapzdSTQk8t
+ +gnaqpX9/odcTJu65y2krch8A+TbjtR3jnOXpiHvZP88QbK78EJ+wngv51ozeLhu9iXR
+ FqvmewL97EjMcuwKIZFn2Oocw8YkEqSqIoxMjNEO2z03AIsw3nqQZlWBqbErx1Zgvw3S
+ cB4TVTRfdH+Pu08LfzhfE9LT7qK5DKDvYsx954V6x6GOsXgkUcpQsi2DlOViYe7IAnut
+ 2TVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kZrF/yQsMXm77PiXx1P+0D1I3GZC7MxcJm8SALcL6AU=;
- b=ZS+mwxN0ug1w6HQ6/aKWwMFY+z3P74TgWEGatbQvzOYF1bZqyNni0pDTqE7pnf5qb2
- ZRm4Gb7ijPRkRS5mq/QiAS439RcLhRZgT+CzLo4kzquXpE0Xevbdq2dvmrQYYz+ZQ52T
- ksFVmAWnwakHtvXWdoK6lloTHuBKTF+1PrG49DjU+3O4jHnfvBR/p+gE+8d64nM7yfYB
- Wec9r51sOcLQYZ7RLh6l5wKAB4gZqijLwpPb+3AaFDMV3DeuVzojJEb73CYJZui43/HH
- CdhLI2YeSY4zlOoZWBEidhImPDPg1Jny/zl890bIQ5JVbIblCIdalAmyEw0BfXx7kjI8
- D6PQ==
-X-Gm-Message-State: AOAM532mNcnrOt0oPt1U976teUbed4dCA7ul4IchH4jVHWHV7QJDGFFv
- zVEYng49QqtCAtMP/VqKm/TTUL5kxX/9ALn8gaPxoWfmA5YQ7F+JcctP3Wtcih2mmE4lsYQByGs
- zmSUp0CjYLKM94PY=
-X-Received: by 2002:ae9:df46:: with SMTP id t67mr9712419qkf.269.1615498678929; 
- Thu, 11 Mar 2021 13:37:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxzk8F5sAa0ODlfPqw065h+75qA59f5F93azcxZn+clFkMLmwBnLoqMnsG17TZH9oferSHAZw==
-X-Received: by 2002:ae9:df46:: with SMTP id t67mr9712396qkf.269.1615498678736; 
- Thu, 11 Mar 2021 13:37:58 -0800 (PST)
-Received: from xz-x1 ([142.126.89.138])
- by smtp.gmail.com with ESMTPSA id l129sm2878892qkd.76.2021.03.11.13.37.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 13:37:58 -0800 (PST)
-Date: Thu, 11 Mar 2021 16:37:56 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
- to handle shared anonymous memory
-Message-ID: <20210311213756.GL194839@xz-x1>
-References: <20210308150600.14440-1-david@redhat.com>
- <20210308150600.14440-3-david@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qywYbhsLgzrHCXc6c6o7KQhf8hv4FYtFnKoH6Pq5Wu4=;
+ b=rd7j+Xhrpes1zC6/STgrkkVeJE0OlrT7AdYasQ2gp3rh4TJBQLXfCJM/76j0OTByMo
+ oye7+OBeowPGfwzu65LNnV7EJDeIZH4Z3Ngxf/sbKro2cy0Ov3t3Yqtwnhwc8VKdDLWl
+ OuSz2KA9TNmMYU+zK450CpQD2BuXh+TOsoooY6PC+eMGVILhF3+qwSPW1AvsMxt7Ri0H
+ 6HrM8+bev1MxSPvceMbSx1Aje4ASY92lvmtOpK1Yf4ySBJWB3y/2HCFYN0U2PLbyRKMf
+ JdRPMm5ROjN2x3mbh9l67f/yCyCpePBMX9zdGlC2LMIp6weTWB4LeCgV2sWd/YSLv5Hk
+ RcfQ==
+X-Gm-Message-State: AOAM531RBLJzVlox/KAkcSuRoIPlDZsop2IbkoQDZ5jKC3OrJLScebKU
+ TZaJue8HMWUDLzAAzxZ38zzSsuZxxaR4ayGuupY=
+X-Google-Smtp-Source: ABdhPJy/XjFYpBe4Ry6tyZaMPHfsWT9FR69AUs9pHVezV5Nl3s94vZbZ8L2vKSrzb5cIaLe81rupi/fW+oUw41EuQhA=
+X-Received: by 2002:a5d:9459:: with SMTP id x25mr8006985ior.176.1615499000080; 
+ Thu, 11 Mar 2021 13:43:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210308150600.14440-3-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210310221208.167990-1-alexander.wagner@ulal.de>
+In-Reply-To: <20210310221208.167990-1-alexander.wagner@ulal.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 11 Mar 2021 16:41:58 -0500
+Message-ID: <CAKmqyKP_TnxAnqRbgLWbcu3s9fQKingHfX1ADWG=_3hYTHk2VA@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: Fix OT IBEX reset vector
+To: Alexander Wagner <alexander.wagner@ulal.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,41 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 08, 2021 at 04:05:50PM +0100, David Hildenbrand wrote:
-> We can create shared anonymous memory via
->     "-object memory-backend-ram,share=on,..."
-> which is, for example, required by PVRDMA for mremap() to work.
-> 
-> Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
-> have to use MADV_REMOVE. MADV_DONTNEED fails silently and does nothing.
-> 
-> Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
+On Wed, Mar 10, 2021 at 5:23 PM Alexander Wagner
+<alexander.wagner@ulal.de> wrote:
+>
+> The IBEX documentation [1] specifies the reset vector to be "the most
+> significant 3 bytes of the boot address and the reset value (0x80) as
+> the least significant byte".
+>
+> [1] https://github.com/lowRISC/ibex/blob/master/doc/03_reference/exception_interrupts.rst
+>
+> Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
 
-I'm thinking whether we should keep this fixes - it's valid, however it could
-unveil issues if those remapped ranges didn't get unmapped in time.  After all
-"not releasing some memory existed" seems not a huge deal for stable.  No
-strong opinion, just raise it up as a pure question.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Alistair
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
-
+> ---
+>  hw/riscv/opentitan.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index e168bffe69..ca4c1be6f6 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -120,7 +120,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>                              &error_abort);
+>      object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+>                              &error_abort);
+> -    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8090, &error_abort);
+> +    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+>      sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
+>
+>      /* Boot ROM */
+> --
+> 2.25.1
+>
+>
 
