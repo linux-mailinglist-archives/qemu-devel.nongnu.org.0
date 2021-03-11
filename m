@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E03F337AD4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:29:41 +0100 (CET)
-Received: from localhost ([::1]:55766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3284C337AD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:29:39 +0100 (CET)
+Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKP80-0006yF-2j
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:29:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
+	id 1lKP7y-0006tE-6D
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP1I-0001TG-Rp
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:22:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33141)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKP3s-0003eA-D4
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:25:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKP1G-0001YS-TK
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:22:44 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKP3Z-0002DF-5n
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:25:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615483361;
+ s=mimecast20190719; t=1615483503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ynQYSBffFl9XMvv00ZkHK2cVQG4D8EfqcjcOjsrQDxg=;
- b=U+oTc7XqG8HNqFIpUtRSC8bYsRwRFI2F8KkP/29GrL23L0932Y3Z2P3hdYyGE/hsiuF4t/
- o4CvyMSoaC9HQu9tMqcJ1C2SezE1IrfwZltR+PtpSyrNM2e0JllL5XwlwR1eFdu/syxs2H
- m+cqq4+tq96ygyvAp/5gqMB0gNYA+zQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-Ar8nNNHRPGOZoytw6v1cvA-1; Thu, 11 Mar 2021 12:22:40 -0500
-X-MC-Unique: Ar8nNNHRPGOZoytw6v1cvA-1
-Received: by mail-qk1-f200.google.com with SMTP id h126so16048934qkd.4
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 09:22:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ynQYSBffFl9XMvv00ZkHK2cVQG4D8EfqcjcOjsrQDxg=;
- b=py5blPCxODjvCJKCsGq+1ZMeZ2VXUqoT2aimx773Uhu99WPrBTjvMX4FN9QVdp27mP
- FHeWNDk27FSbuBo3L39Gir9BCkOHBZGT9kFYiODtThOrcNI68oB1+sC6tgfM+CA4Cybf
- o/cqG/0ycPlfWAd7EOoTyRihLcctcgta6wcsRj9rsAv09MLbeEPornb907SU0yFHshft
- NyH93EN6V+K8N6Esdqp7ALY27ZUgNwFEfyZI00f4jfq6QS7HlpjF8l8x57VIk+OtwGga
- iPPFCICLP29tWA0ahM2t7JapezQ/zk9hjMEvJ6IqwIM9EUDqtZB1Mp7OFPL5YjXMp3A/
- AEmA==
-X-Gm-Message-State: AOAM530tI3VoNNpUMfCJ2A1ocoskMmnopGR298LmrYvcNUUQuDBn6DZQ
- UQU+10bEYm7vLv/CqY++XU4VJ17c8FCW2EF1wkjTpJjCqz2voASKT91jIjYy9E99bWU4szpbSnA
- mGhkCIutDl/JX0YI=
-X-Received: by 2002:a05:6214:1144:: with SMTP id
- b4mr8771867qvt.12.1615483359524; 
- Thu, 11 Mar 2021 09:22:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy8mshgg/0L30aXCuIEK/e/kasHDCVKsTgLCNdiIRDLs1wgoybQJrClHsg8u2sJjcTMIlmNUQ==
-X-Received: by 2002:a05:6214:1144:: with SMTP id
- b4mr8771834qvt.12.1615483359302; 
- Thu, 11 Mar 2021 09:22:39 -0800 (PST)
-Received: from xz-x1 ([142.126.89.138])
- by smtp.gmail.com with ESMTPSA id k126sm2473549qkb.4.2021.03.11.09.22.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 09:22:38 -0800 (PST)
-Date: Thu, 11 Mar 2021 12:22:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
- to handle shared anonymous memory
-Message-ID: <20210311172236.GG194839@xz-x1>
-References: <20210308150600.14440-1-david@redhat.com>
- <20210308150600.14440-3-david@redhat.com>
- <YEpH1FAabcILd38K@work-vm>
- <df216a57-d45a-9563-5e88-0f2ebf6b0a7e@redhat.com>
- <20210311171153.GF194839@xz-x1>
- <26d2c57a-971d-3abd-6ec3-1a38fb47a398@redhat.com>
+ bh=LEZwvbfHEtLnGI9bIkYjKinbrzcrh0VBOs7JP2Anc6k=;
+ b=B2DivmMA1LE6FLanLDR6V5xIpd09uVUNWR1Lq286aWim5r63QQRStWOSRhtyof9oRfMB3R
+ 5Ip9ZbVxE4wHBDRVgHcO2W4eMOn80kqAIDloImOOf6Hdc9yiMpyJ5rYi4HqDhYtH8CYS9E
+ ixBd8q0lwGTGy/ODYCmBU54QHabbv6M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-mHxzGtXaPbuumM7WKyY78Q-1; Thu, 11 Mar 2021 12:25:01 -0500
+X-MC-Unique: mHxzGtXaPbuumM7WKyY78Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45BD19067E6
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 17:25:00 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63AD560615;
+ Thu, 11 Mar 2021 17:25:00 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/3] tests: convert check-qom-proplist to keyval
+Date: Thu, 11 Mar 2021 12:24:57 -0500
+Message-Id: <20210311172459.990281-2-pbonzini@redhat.com>
+In-Reply-To: <20210311172459.990281-1-pbonzini@redhat.com>
+References: <20210311172459.990281-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <26d2c57a-971d-3abd-6ec3-1a38fb47a398@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -98,63 +79,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+Cc: kwolf@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 06:15:15PM +0100, David Hildenbrand wrote:
-> On 11.03.21 18:11, Peter Xu wrote:
-> > On Thu, Mar 11, 2021 at 05:45:46PM +0100, David Hildenbrand wrote:
-> > > On 11.03.21 17:39, Dr. David Alan Gilbert wrote:
-> > > > * David Hildenbrand (david@redhat.com) wrote:
-> > > > > We can create shared anonymous memory via
-> > > > >       "-object memory-backend-ram,share=on,..."
-> > > > > which is, for example, required by PVRDMA for mremap() to work.
-> > > > > 
-> > > > > Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
-> > > > > have to use MADV_REMOVE. MADV_DONTNEED fails silently and does nothing.
-> > > > 
-> > > > OK, I wonder how stable these rules are; is it defined anywhere that
-> > > > it's required?
-> > > > 
-> > > 
-> > > I had a look at the Linux implementation: it's essentially shmem ... but we
-> > > don't have an fd exposed, so we cannot use fallocate() ... :)
-> > > 
-> > > MADV_REMOVE documents (man):
-> > > 
-> > > "In the initial implementation, only tmpfs(5) was supported MADV_REMOVE; but
-> > > since Linux 3.5, any filesystem which supports the fallocate(2)
-> > > FALLOC_FL_PUNCH_HOLE mode also supports MADV_REMOVE."
-> > 
-> > Hmm, I see that MADV_DONTNEED will still tear down all mappings even for
-> > anonymous shmem.. what did I miss?
-> 
-> Where did you see that?
+The command-line creation test is using QemuOpts.  Switch it to keyval,
+since the emulator has some special needs and thus the last user of
+user_creatable_add_opts will go away with the next patch.
 
-I see madvise_dontneed_free() calls zap_page_range().
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/check-qom-proplist.c | 74 ++++++++++++++++++++++++++------------
+ 1 file changed, 52 insertions(+), 22 deletions(-)
 
-> 
-> > 
-> 
-> MADV_DONTNEED only invalidates private copies in the pagecache. It's
-> essentially useless for any kind of shared mappings.
-
-Since it's about zapping page tables, then I don't understand why it won't work
-for shmem..
-
+diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
+index 1b76581980..73472944a0 100644
+--- a/tests/check-qom-proplist.c
++++ b/tests/check-qom-proplist.c
+@@ -21,6 +21,9 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qapi/error.h"
++#include "qapi/qobject-input-visitor.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qobject.h"
+ #include "qom/object.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+@@ -398,44 +401,71 @@ static void test_dummy_createlist(void)
+     object_unparent(OBJECT(dobj));
+ }
+ 
++static bool test_create_obj(QDict *qdict, Error **errp)
++{
++    Visitor *v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
++    Object *obj = user_creatable_add_type(TYPE_DUMMY, "dev0", qdict, v, errp);
++
++    visit_free(v);
++    object_unref(obj);
++    return !!obj;
++}
++
+ static void test_dummy_createcmdl(void)
+ {
+-    QemuOpts *opts;
++    QDict *qdict;
+     DummyObject *dobj;
+     Error *err = NULL;
+-    const char *params = TYPE_DUMMY \
+-                         ",id=dev0," \
+-                         "bv=yes,sv=Hiss hiss hiss,av=platypus";
++    bool help;
++    const char *params = "bv=yes,sv=Hiss hiss hiss,av=platypus";
+ 
++    /* Needed for user_creatable_del.  */
+     qemu_add_opts(&qemu_object_opts);
+-    opts = qemu_opts_parse(&qemu_object_opts, params, true, &err);
++
++    qdict = keyval_parse(params, "qom-type", &help, &err);
+     g_assert(err == NULL);
+-    g_assert(opts);
++    g_assert(qdict);
++    g_assert(!help);
+ 
+-    dobj = DUMMY_OBJECT(user_creatable_add_opts(opts, &err));
++    g_assert(test_create_obj(qdict, &err));
+     g_assert(err == NULL);
++    qobject_unref(qdict);
++
++    dobj = DUMMY_OBJECT(object_resolve_path_component(object_get_objects_root(),
++                                                      "dev0"));
+     g_assert(dobj);
+     g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
+     g_assert(dobj->bv == true);
+     g_assert(dobj->av == DUMMY_PLATYPUS);
+ 
++    qdict = keyval_parse(params, "qom-type", &help, &err);
++    g_assert(!test_create_obj(qdict, &err));
++    g_assert(err);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == OBJECT(dobj));
++    qobject_unref(qdict);
++    error_free(err);
++    err = NULL;
++
++    qdict = keyval_parse(params, "qom-type", &help, &err);
+     user_creatable_del("dev0", &error_abort);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == NULL);
+ 
+-    object_unref(OBJECT(dobj));
+-
+-    /*
+-     * cmdline-parsing via qemu_opts_parse() results in a QemuOpts entry
+-     * corresponding to the Object's ID to be added to the QemuOptsList
+-     * for objects. To avoid having this entry conflict with future
+-     * Objects using the same ID (which can happen in cases where
+-     * qemu_opts_parse() is used to parse the object params, such as
+-     * with hmp_object_add() at the time of this comment), we need to
+-     * check for this in user_creatable_del() and remove the QemuOpts if
+-     * it is present.
+-     *
+-     * The below check ensures this works as expected.
+-     */
+-    g_assert_null(qemu_opts_find(&qemu_object_opts, "dev0"));
++    g_assert(test_create_obj(qdict, &err));
++    g_assert(err == NULL);
++    qobject_unref(qdict);
++
++    dobj = DUMMY_OBJECT(object_resolve_path_component(object_get_objects_root(),
++                                                      "dev0"));
++    g_assert(dobj);
++    g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
++    g_assert(dobj->bv == true);
++    g_assert(dobj->av == DUMMY_PLATYPUS);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == OBJECT(dobj));
++
++    object_unparent(OBJECT(dobj));
+ }
+ 
+ static void test_dummy_badenum(void)
 -- 
-Peter Xu
+2.26.2
+
 
 
