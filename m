@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F114E337985
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:37:23 +0100 (CET)
-Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099203379B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:42:45 +0100 (CET)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKOJO-0004Nf-2r
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:37:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
+	id 1lKOOZ-00005B-RD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKO4S-0001Of-Hm
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:21:56 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKO4Q-0004Ft-Kv
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:21:56 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so13619041wml.2
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 08:21:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0Snh2OlaCVFNcJJABeM3DD3IraPGb4OCn2OPy6eZzZ4=;
- b=SJqYlTHV6RqnJCOceokYrM2N2MUs2OmfpEA2JHn4+sk8sNNysgQW6KLhwf/IkTvKD1
- gF3RK6bEnAxHsrulF5mWPbVkmAwOX1TIBb9brLhXBVoPiD47pv/OI41K4G3Lfbw2Ut6u
- CBIIVDWzRb5Rh2168dbkY5dLHHpHjHfU9aqmFwUVeWoLfQpGOxU2//5b4AntoxDPJF0X
- u7BoaNcXW0shJRRDc9jmd1OVoo2MKsnuKXI84v0cNNrMYjqaOXAQVO1LSEBdyGbBRCHz
- +okc+8wRKaBX9+pTe8e0dy87xybYYx/mlPsLs48sfN1Uh2VtFO6po8fgv+nk2UqDDR3f
- 2Tjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0Snh2OlaCVFNcJJABeM3DD3IraPGb4OCn2OPy6eZzZ4=;
- b=tASA652y+XBRGJ6/PgmAeSPzkJCvyI/p6U4HZppSJPEF38qC+g1yr0EZKox3WEyF5Q
- CLOcCvXS4CbEzivL/2q6Sv56hZ1HmcOltWiufgU0L7E/PXVxaLkobQpDnlzQ1rE7k9UL
- jaRqkKdU7XiiGl6soBv7AuXtvJLL3px0RzMsMJkXZwyeYvseDFEUXlYOB0CpE5GsbMP+
- JxRV7++FZRx+5ag+a1+38JKNxZHriO+3wfQsnYF0u22el+U0RxJw8FzRV1Pgqs3VxRtR
- RQQS5yyNgyZQYk865Ibkcb93h+lsb6PwK3zoTW9x3+lwpSEJXXiilWutgkhMpGUaQizZ
- uRUg==
-X-Gm-Message-State: AOAM531vkcRm/mKOUn1IFkTGx4OHllA+z7gjBLzQ6QuSi7KWpRpAWE4w
- SfuxNo/Sf2WcgqoElkBhCUg=
-X-Google-Smtp-Source: ABdhPJyQrjPxFeGI6cjScjsemoddeGeNsaOfVPAbUrZxJ3PATBEhJfONuo0p0S1BRZl2GJ6ZdpGu5w==
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr8970017wma.18.1615479711933;
- Thu, 11 Mar 2021 08:21:51 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id 7sm4086777wmk.8.2021.03.11.08.21.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 08:21:51 -0800 (PST)
-Subject: Re: [PATCH 1/2] hw/mips/jazz: Use generic I/O bus via get_system_io()
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Peter Xu <peterx@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
- <20210310191255.1229848-1-f4bug@amsat.org> <20210310194924.GF6530@xz-x1>
- <5e53b99f-548c-8da9-f6fd-9c764642350b@amsat.org>
- <20210310202919.GH6530@xz-x1>
- <a97eb0b5-d3fd-ca44-4490-c5e5bc796699@amsat.org>
-Message-ID: <a64ff8f0-5db1-c338-b99b-7a74a150a770@amsat.org>
-Date: Thu, 11 Mar 2021 17:21:49 +0100
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKO9U-0006cS-E0
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:27:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKO9P-000613-8L
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:27:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615480022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y+F8pF2j2ki1mIn/oldXTb1EJpokv68LugYoCRCeSo8=;
+ b=ZSYH1vSfOwOh9c4YQmPSsN6Vd9vr1EDWDTBoRUphLgVDcg5i7pQtgjf6KNqD1aecw73Rk8
+ J/4qRzdI4SNs19u7nkkn1qALGIlWTW5VDWyXgp4vHiwbAc+pskfEPQwM4YUi3l6VxZ2b75
+ yU3K6RthsiNBJp7qXg8R9yWEsJK/0q4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-Bg-_qVO7PSyts_pzUXbINw-1; Thu, 11 Mar 2021 11:27:00 -0500
+X-MC-Unique: Bg-_qVO7PSyts_pzUXbINw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB011015C86;
+ Thu, 11 Mar 2021 16:26:59 +0000 (UTC)
+Received: from [10.36.115.26] (ovpn-115-26.ams2.redhat.com [10.36.115.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53F3210013D6;
+ Thu, 11 Mar 2021 16:26:58 +0000 (UTC)
+Subject: Re: [PATCH v5 2/2] target/s390x: Store r1/r2 for page-translation
+ exceptions during MVPG
+To: qemu-devel@nongnu.org
+References: <20210311161747.129834-1-david@redhat.com>
+ <20210311161747.129834-3-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <79a33419-2290-af39-b7ae-7b86717ed210@redhat.com>
+Date: Thu, 11 Mar 2021 17:26:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <a97eb0b5-d3fd-ca44-4490-c5e5bc796699@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210311161747.129834-3-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,118 +83,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Joel Stanley <joel@jms.id.au>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Aspeed team
-
-On 3/11/21 1:18 PM, Philippe Mathieu-Daudé wrote:
-> On 3/10/21 9:29 PM, Peter Xu wrote:
-
->> Yeah no worry - it's just that I feel one memory_region_init_alias() call is
->> probably missing in your huge series somewhere, so that you'll take that alias
->> MR as subregion rather than the real MR (which is the root of one AS).
+On 11.03.21 17:17, David Hildenbrand wrote:
+> The PoP states:
 > 
-> OK, with your earlier comments start + Mark other comment I start
-> to understand better.
+>      When EDAT-1 does not apply, and a program interruption due to a
+>      page-translation exception is recognized by the MOVE PAGE
+>      instruction, the contents of the R1 field of the instruction are
+>      stored in bit positions 0-3 of location 162, and the contents of
+>      the R2 field are stored in bit positions 4-7.
 > 
-> So far:
+>      If [...] an ASCE-type, region-first-translation,
+>      region-second-translation, region-third-translation, or
+>      segment-translation exception was recognized, the contents of
+>      location 162 are unpredictable.
 > 
-> (1a) AddressSpace is a physical view, its base address must be zero
+> So we have to write r1/r2 into the lowcore on page-translation
+> exceptions. Simply handle all exceptions inside our mvpg helper now.
 > 
-> (1b) AddressSpace aperture is fixed (depends on hardware design,
-> not changeable at runtime
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   target/s390x/helper.h      |  2 +-
+>   target/s390x/insn-data.def |  2 +-
+>   target/s390x/mem_helper.c  | 44 ++++++++++++++++++++++----------------
+>   target/s390x/translate.c   |  7 +++++-
+>   4 files changed, 34 insertions(+), 21 deletions(-)
 > 
-> Therefore due to (1a):
-> (2) AddressSpace root MemoryRegion is a container and must not be
-> mmio-mapped anywhere (in particular not on SysBus).
-> 
-> (3) If hardware has a MMIO view of an AddressSpace, it has to be
-> via a MemoryRegion alias. That way the alias handles paddr offset
-> adjustment to the zero-based AddressSpace root container MR.
-> Aliasing allows resizing the alias size without modifying the AS
-> aperture size (1b).
-> 
-> I'll start adding assertions for (1a) and (2) in the code base and
-> see if (3) adjustments are required.
+> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+> index 55bd1551e6..d4e4f3388f 100644
+> --- a/target/s390x/helper.h
+> +++ b/target/s390x/helper.h
+> @@ -18,7 +18,7 @@ DEF_HELPER_3(srstu, void, env, i32, i32)
+>   DEF_HELPER_4(clst, i64, env, i64, i64, i64)
+>   DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+>   DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+> -DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
+> +DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i32, i32)
+>   DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+>   DEF_HELPER_3(mvst, i32, env, i32, i32)
+>   DEF_HELPER_4(ex, void, env, i32, i64, i64)
+> diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+> index e5b6efabf3..0bb1886a2e 100644
+> --- a/target/s390x/insn-data.def
+> +++ b/target/s390x/insn-data.def
+> @@ -641,7 +641,7 @@
+>   /* MOVE NUMERICS */
+>       C(0xd100, MVN,     SS_a,  Z,   la1, a2, 0, 0, mvn, 0)
+>   /* MOVE PAGE */
+> -    C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
+> +    C(0xb254, MVPG,    RRE,   Z,   0, 0, 0, 0, mvpg, 0)
+>   /* MOVE STRING */
+>       C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
+>   /* MOVE WITH OPTIONAL SPECIFICATION */
+> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+> index ebb55884c9..432c1a4954 100644
+> --- a/target/s390x/mem_helper.c
+> +++ b/target/s390x/mem_helper.c
+> @@ -905,8 +905,10 @@ uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
+>   }
+>   
+>   /* move page */
+> -uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+> +uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint32_t r1, uint32_t r2)
+>   {
+> +    const uint64_t src = get_address(env, r2) & TARGET_PAGE_MASK;
+> +    const uint64_t dst = get_address(env, r1) & TARGET_PAGE_MASK;
+>       const int mmu_idx = cpu_mmu_index(env, false);
+>       const bool f = extract64(r0, 11, 1);
+>       const bool s = extract64(r0, 10, 1);
+> @@ -919,34 +921,40 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+>           tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
+>       }
+>   
+> -    r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
+> -    r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
+> -
+>       /*
+> -     * TODO:
+> -     * - Access key handling
+> -     * - Store r1/r2 register identifiers at real location 162
+> +     * We always manually handle exceptions such that we can properly store
+> +     * r1/r2 to the lowcore on page-translation exceptions.
+> +     *
+> +     * TODO: Access key handling
+>        */
+> -    exc = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
+> +    exc = access_prepare_nf(&srca, env, true, src, TARGET_PAGE_SIZE,
+>                               MMU_DATA_LOAD, mmu_idx, ra);
+>       if (exc) {
+> -        return 2;
+> +        if (cco) {
+> +            return 2;
+> +        }
+> +        goto inject_exc;
+>       }
+> -    exc = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
+> +    exc = access_prepare_nf(&desta, env, true, dst, TARGET_PAGE_SIZE,
+>                               MMU_DATA_STORE, mmu_idx, ra);
+>       if (exc) {
+> -#if !defined(CONFIG_USER_ONLY)
+> -        if (exc == PGM_PROTECTION) {
+> -            stq_phys(env_cpu(env)->as,
+> -                     env->psa + offsetof(LowCore, trans_exc_code),
+> -                     env->tlb_fill_tec);
+> -            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
+> +        if (cco && exc != PGM_PROTECTION) {
+> +            return 1;
+>           }
+> -#endif
+> -        return 1;
+> +        goto inject_exc;
+>       }
+>       access_memmove(env, &desta, &srca, ra);
+>       return 0; /* data moved */
+> +inject_exc:
+> +#if !defined(CONFIG_USER_ONLY)
+> +    stq_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, trans_exc_code),
+> +             env->tlb_fill_tec);
 
-So using:
+Just realized, we want a
 
--- >8 --
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 874a8fccdee..8ce2d7f83b9 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -713,6 +713,12 @@ static MemoryRegion
-*memory_region_get_flatview_root(MemoryRegion *mr)
-                 continue;
-             }
-         }
-+        if (mr && mr->addr) {
-+            error_report("Detected flatview root memory region '%s' with"
-+                         " non-zero base address (0x%"HWADDR_PRIx"):
-aborting",
-+                         memory_region_name(mr), mr->addr);
-+            abort();
-+        }
+if (exc != PGM_ADDRESSING) {
 
-         return mr;
-     }
----
+for this case. But let's hear other feedback first :)
 
-I get:
 
-$ ./qemu-system-arm -M ast2600-evb
-qemu-system-arm: Detected flatview root memory region
-'aspeed.fmc-ast2600.flash' with non-zero base address (0x20000000): aborting
-Aborted (core dumped)
+-- 
+Thanks,
 
-Indeed:
+David / dhildenb
 
-$ ./qemu-system-arm -M ast2600-evb -S -monitor stdio
-QEMU 5.2.50 monitor - type 'help' for more information
-(qemu) info mtree
-address-space: dma-dram
-  0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
-    0000000080000000-00000000bfffffff (prio 0, ram): ram
-    00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-
-address-space: aspeed.fmc-ast2600-dma-flash
-  0000000020000000-000000002fffffff (prio 0, i/o): aspeed.fmc-ast2600.flash
-    0000000020000000-0000000027ffffff (prio 0, i/o): aspeed.fmc-ast2600.0
-    0000000028000000-000000002fffffff (prio 0, i/o): aspeed.fmc-ast2600.1
-
-address-space: aspeed.fmc-ast2600-dma-dram
-  0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
-    0000000080000000-00000000bfffffff (prio 0, ram): ram
-    00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-
-address-space: aspeed.spi1-ast2600-dma-flash
-  0000000030000000-000000003fffffff (prio 0, i/o): aspeed.spi1-ast2600.flash
-    0000000030000000-0000000037ffffff (prio 0, i/o): aspeed.spi1-ast2600.0
-
-address-space: aspeed.spi1-ast2600-dma-dram
-  0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
-    0000000080000000-00000000bfffffff (prio 0, ram): ram
-    00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-
-address-space: aspeed.spi2-ast2600-dma-flash
-  0000000050000000-000000005fffffff (prio 0, i/o): aspeed.spi2-ast2600.flash
-    0000000050000000-0000000057ffffff (prio 0, i/o): aspeed.spi2-ast2600.0
-
-address-space: aspeed.spi2-ast2600-dma-dram
-  0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
-    0000000080000000-00000000bfffffff (prio 0, ram): ram
-    00000000c0000000-00000000ffffffff (prio 0, i/o): max_ram
-
-Many address spaces not zero-based...
 
