@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60258338066
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:36:00 +0100 (CET)
-Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEE8338122
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 00:14:24 +0100 (CET)
+Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTuQ-000449-Rf
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:35:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1lKUVa-0003Q4-J1
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 18:14:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKTt7-0003ZU-2Q
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:34:37 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKTt5-0003aN-9L
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:34:36 -0500
-Received: by mail-wr1-x435.google.com with SMTP id l11so3720105wrp.7
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 14:34:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O9dC/4jSLDXtNqDy3lRrloyibr/BJp0uaASdHBBupvs=;
- b=Ujyc4QmlXAynEIlRBfPpB9bYtfBuLyf/MfJqyX+zTPCXSyoi9VImnASlUa3ImiBin+
- DdH2tqXu+S4j1K8kokDHb60CYRUxln9pDIen4xVN95Gl+LUY+zyXJLPRBrXvjXtyLHlR
- 3MpTk6Zqy937BqW/kMgFO9ExVMtBmbyiw4MLgs/cvgr/avIIBbQo9a6cPRHN1oxaiENO
- qAKRcQXr14LQEusnK2/vwm0dBzUr8FTOIbFG8fLPYM5fojdwTZC5+VpCe2SGo5vd8iJO
- 1SN5EWhcZCQ32KJI6XSJS7ax8AOvZJg1kqEJwqu7KjCg6wSIqkb4EmoqzpydpXLxS5Pr
- /Z3g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKUTf-0001h5-DN
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 18:12:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKUTU-0004zW-UJ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 18:12:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615504331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LJW/mzHGQ1NGtCTMOxz9c/B6EOk6c5uZ3kaLug/0I0I=;
+ b=Bh3nkSCaGu2FPnzR+eErwJeFCaKRw/aeWK8x3HRkIsSJ+awtmx/xyhM422/CpRB4lSCajE
+ k9XgwklP1kDBfaK2kivCRH43hxU45tcTya7f6e5bC7/8PpjAcLL2+neh20s7b3AxFXadHL
+ jxYb+qcsKl8i0jkjuyQUz8F6E3z6YD8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-603-V1hzM8ZPNF6YxmKxIdC19Q-1; Thu, 11 Mar 2021 18:12:07 -0500
+X-MC-Unique: V1hzM8ZPNF6YxmKxIdC19Q-1
+Received: by mail-wm1-f71.google.com with SMTP id z26so4651355wml.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 15:12:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=O9dC/4jSLDXtNqDy3lRrloyibr/BJp0uaASdHBBupvs=;
- b=daVtbHmUjCwlNE46n+kVPCn51bcB/SMIfj6A5fEldCFlXq83kVHx8kxxTgObwhlZdT
- fIMjRv1o0rmwvQNAQpGpKBlo8gjPwxw0B4pnzLivGIDtd64xFKCZzncffq3y6DC08iRk
- sdaob8UCo5BGsFGg4tS0VGVoJ3sNWGnM69VR4VEg+0GlIEWx3b4FBejBAZ4r/JiJWhiY
- Wp7nc0kmsemE88yVlscBIdQwqzeSu0/VtlNCAfXa43tK2mcLIz6DYgh+UisybYHtpZ60
- hFx1eIlRxDQ9H9w8ali28Gh0mvj4KMhtfIODqCOyKcm3CLylX9kaRnMcMyI3ZUMd7Voj
- IFPA==
-X-Gm-Message-State: AOAM53258vB+BIpJ6y5dzQYgeFPhtzUjHMt+j/bT0Mpkm8iXuAqibPil
- p6m4sPDvQiKwEznoK1H7K+y+98dPCL4=
-X-Google-Smtp-Source: ABdhPJyWZ/0zqd3a3eu92uP/Rj21okaq/qY7DROlczUc4xT+DHPU1vIwbVqAEiITjGBBegLpXZM8hA==
-X-Received: by 2002:adf:e805:: with SMTP id o5mr11238841wrm.196.1615502073005; 
- Thu, 11 Mar 2021 14:34:33 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ bh=8zfR7RPcuNDHDQ2aIvmkGMVu3VLHkTVnh2kI0ZtOC34=;
+ b=hrbpu9IXsL15OisD7qMkHcSbArPx8PRAgIEsEz5EM8BP4DHEu468hSRuzrfm518l5O
+ Kc4mguV0wOEZiJ0e2lPacxZ6S/womZX0PAopMo5lFtK4xWj/xdTroZSAimaJbsjItmkq
+ gCYX5D+A+x2YI911Uq5h0hTljQpjTfKRZZcpV+R8opRO6funmbxJIib9sYiqDMAHgbRF
+ LHspHgieZdhWQkhXl+Seh0V9qdE+6LN7LnF4T3C9VP5GzxV6ounF9JzSvBEjdVaOamPb
+ 8hni0XClRWBaVFaYkiyP7MRqC5KC2HkPs3Ek20G06UutyKWE0qHfE2EM0KhOouzRodSC
+ MQvw==
+X-Gm-Message-State: AOAM530Wdt4mRW0HtR+1fDZzKjD/0DpDfe6Mn3uCnlc6MsTQK+fwVQC1
+ lAt4nHG6hjHATX9p3lcljeEIp+LxzLYO/HHGHx7LgT9ku2LH6vwH4AbtcGLU6I9nOXuX0xPdITz
+ TclEzUtXHU776zwfK1gxcEpUYFNbnC0pSVEIYvZtVk9aj1up4W7b6sm8TULXmkNR0
+X-Received: by 2002:a5d:6cab:: with SMTP id a11mr11015031wra.419.1615504325746; 
+ Thu, 11 Mar 2021 15:12:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzeIoNsvTgux076Hpo4thhl3nyOVbzR4DxO3eGy6Lb5WVNPIogfkMioFZGYGf5cNWA1sDaypg==
+X-Received: by 2002:a5d:6cab:: with SMTP id a11mr11014997wra.419.1615504325317; 
+ Thu, 11 Mar 2021 15:12:05 -0800 (PST)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id r2sm5465704wrt.8.2021.03.11.14.34.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 14:34:32 -0800 (PST)
-Subject: Re: [PULL 5/9] char: add goldfish-tty
-To: Laurent Vivier <laurent@vivier.eu>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210311210934.1935587-1-laurent@vivier.eu>
- <20210311210934.1935587-6-laurent@vivier.eu>
- <CAFEAcA8jAYc06s8N4hsYYDN2=PSB4SxQwvoBeAea7_4Yj1XptQ@mail.gmail.com>
- <e52c7b57-8aa8-42b8-1002-dc52a80658ed@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <302a7840-b7f5-2abf-68ab-2b44aeb44402@amsat.org>
-Date: Thu, 11 Mar 2021 23:34:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by smtp.gmail.com with ESMTPSA id z13sm5663674wrh.65.2021.03.11.15.12.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Mar 2021 15:12:04 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Claudio Fontana <cfontana@suse.de>
+Subject: [PATCH 0/6] qtests: Check accelerator available at runtime via QMP
+ 'query-accels'
+Date: Fri, 12 Mar 2021 00:11:56 +0100
+Message-Id: <20210311231202.1536040-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <e52c7b57-8aa8-42b8-1002-dc52a80658ed@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,92 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 11:04 PM, Laurent Vivier wrote:
-> Le 11/03/2021 à 22:57, Peter Maydell a écrit :
->> On Thu, 11 Mar 2021 at 21:22, Laurent Vivier <laurent@vivier.eu> wrote:
->>>
->>> Implement the goldfish tty device as defined in
->>>
->>> https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
->>>
->>> and based on the kernel driver code:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
->>>
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> Message-Id: <20210309195941.763896-2-laurent@vivier.eu>
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>
->> I didn't notice this earlier, but this looks odd:
->>
->>> +static uint64_t goldfish_tty_read(void *opaque, hwaddr addr,
->>> +                                  unsigned size)
->>> +{
->>> +    GoldfishTTYState *s = opaque;
->>> +    uint64_t value = 0;
->>> +
->>> +    switch (addr) {
->>> +    case REG_BYTES_READY:
->>> +        value = fifo8_num_used(&s->rx_fifo);
->>> +        break;
->>> +    case REG_VERSION:
->>> +        value = 0;
->>
->> You report as a version 0 Goldfish TTY device.
->> This is the old kind that used guest virtual addresses,
->> unlike the more sensible version 1 ("ranchu") kind that uses
->> physical addresses.
->>
->> You can see this in the kernel driver code:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
->> where it looks at qtty->version.
+Hi,=0D
+=0D
+This series aims at having accelerator-independent qtests=0D
+by querying a QEMU instance at runtime to check the list=0D
+of built-in accelerators.=0D
+=0D
+First we add the 'query-accels' QMP command,=0D
+then we add the qtest_probe_accel() method to libqtest,=0D
+finally we use this new method to allow running=0D
+bios-tables-test and arm-cpu-features on KVM-only builds.=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  accel: Introduce 'query-accels' QMP command=0D
+  tests/qtest: Add qtest_probe_accel() method=0D
+  qtest/bios-tables-test: Make test build-independent from accelerator=0D
+  qtest/arm-cpu-features: Check KVM availability at runtime=0D
+  qtest/arm-cpu-features: Check TCG availability at runtime=0D
+  tests/qtest: Do not restrict bios-tables-test to Aarch64 hosts anymore=0D
+=0D
+ qapi/machine.json              | 55 ++++++++++++++++++++++++++++++++++=0D
+ tests/qtest/libqos/libqtest.h  |  9 ++++++=0D
+ accel/accel-qmp.c              | 47 +++++++++++++++++++++++++++++=0D
+ tests/qtest/arm-cpu-features.c | 35 ++++++++++++++++++----=0D
+ tests/qtest/bios-tables-test.c | 13 ++++----=0D
+ tests/qtest/libqtest.c         | 24 +++++++++++++++=0D
+ accel/meson.build              |  2 +-=0D
+ tests/qtest/meson.build        |  3 +-=0D
+ 8 files changed, 173 insertions(+), 15 deletions(-)=0D
+ create mode 100644 accel/accel-qmp.c=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-
->>
->>> +    case CMD_WRITE_BUFFER:
->>> +        len = s->data_len;
->>> +        ptr = s->data_ptr;
->>> +        while (len) {
->>> +            to_copy = MIN(GOLFISH_TTY_BUFFER_SIZE, len);
->>> +
->>> +            address_space_rw(&address_space_memory, ptr,
->>> +                             MEMTXATTRS_UNSPECIFIED, data_out, to_copy, 0);
->>> +            qemu_chr_fe_write_all(&s->chr, data_out, to_copy);
->>> +
->>> +            len -= to_copy;
->>> +            ptr += to_copy;
->>> +        }
->>> +        break;
->>> +    case CMD_READ_BUFFER:
->>> +        len = s->data_len;
->>> +        ptr = s->data_ptr;
->>> +        while (len && !fifo8_is_empty(&s->rx_fifo)) {
->>> +            buf = (uint8_t *)fifo8_pop_buf(&s->rx_fifo, len, &to_copy);
->>> +            address_space_rw(&address_space_memory, ptr,
->>> +                            MEMTXATTRS_UNSPECIFIED, buf, to_copy, 1);
->>> +
->>> +            len -= to_copy;
->>> +            ptr += to_copy;
->>> +        }
->>
->> ...but here you're treating the data pointer value from the
->> guest like a physical address. I'm not sure how this works.
->>
->> (This is one of the areas where you need to be really cautious about
->> using the goldfish devices -- "device model gets virtual addresses from
->> guest OS" is a really bad design.)
-> 
-> Thank you Peter.
-> 
-> I will resend the pull request without the virt m68k machine part.
-
-Laurent, if the issue Peter reported is only for the goldfish-tty,
-you might consider merging the m68k-virt with only virtio-serial
-console for 6.0...
 
