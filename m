@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A140E336EE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:31:03 +0100 (CET)
-Received: from localhost ([::1]:46264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075D6336EE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:31:46 +0100 (CET)
+Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHeo-0004yY-Jw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:31:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
+	id 1lKHfV-00064B-1g
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKHcY-0003Ij-PC
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:28:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKHcW-00060X-4w
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:28:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615454918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fa23qDEwmXsSX6yfRYssVCKS7s8Xcn4NLnmr57AjFJU=;
- b=B05i+/zJIuUm8mh0i3i4+EDwVS61gxiLrhzXHmmx/hHSOMy9901DDAYZ6m2Dtir/TJWlnW
- EsvFw3HP7qnb/4V3ZkOup6eYvjGPNsMe/o52eLcgbduvB4qT3wEnoc3z7dsfs59JVPkYb0
- dCvwPz59V//qOYlInUdOd6jBVTxQb+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-5SfKT7q9MYS629QtAWPlDQ-1; Thu, 11 Mar 2021 04:28:36 -0500
-X-MC-Unique: 5SfKT7q9MYS629QtAWPlDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB24101F000
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 09:28:35 +0000 (UTC)
-Received: from thuth.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BACE5C1CF;
- Thu, 11 Mar 2021 09:28:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 5/4] usb: Remove "-usbdevice ccid"
-Date: Thu, 11 Mar 2021 10:28:29 +0100
-Message-Id: <20210311092829.1479051-1-thuth@redhat.com>
-In-Reply-To: <20210310173323.1422754-1-thuth@redhat.com>
-References: <20210310173323.1422754-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lKBnr-0001OT-0i
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:15:59 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lKBnp-0000i5-1t
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:15:58 -0500
+Received: by mail-wm1-x334.google.com with SMTP id g8so406330wmd.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 19:15:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4hPYLRC98/V0CrldtlN5ml4tC4ItQ/Hc4HiTL1mRUx0=;
+ b=DqWVV3WzUaufIlIBPpHRDb+UOnahPrnSYQz2fGYLcQ7naDprcL/fcTgxbO/OZHmu2N
+ IxSwUxolXfSy4++1bNR1SLBZGl97vR4xAKsjWmrSeSx8X1cFMZeuQ4qUU3w8E4MJuzW2
+ bhq0q5FIHQZvRmBSLcyPk3y+CK/KDjn71P/syYUM5QT7LXGL42EOFuezR/hlrf5/DZVI
+ vGKJ+lzRqkq4TQKWUEYU8ci0gJbtAjzoCKMuByYzEftkAg06brJmBxP2T0MbTq72L5ew
+ 9vz7Qyip6F6f7eDCfXpEoExE6P5RcSfgVIwCpzgs6ZxQTvyntbf7dJRrULAkAcZj0WDr
+ BYZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4hPYLRC98/V0CrldtlN5ml4tC4ItQ/Hc4HiTL1mRUx0=;
+ b=GGymZb9TuiR6QResfFRuPrDXxn/NuESzEu3W4cDNVvTa0GxHD1wbOy/M/eMbZ5Vu/E
+ ebeI1X2Ph5TAwiGgGRC5QXZUlnQp2E5LWeri/q7ozisvS2yi0o7Ig2JdiIdpyE20ytrr
+ MGuQPaLMO9nghuOOxZu4pJ+Og6xxYSkmC3GUVvZ+mvYZywujDrisQaTthmf9+dCUyMBr
+ q6HpWG8Lx5j4yIFNNspRGg8WMVT22TYMC3CZ88N8dsyHwTdjdir72rGGcmBeXMVfbQK0
+ 5ROEH6Cw7kRzWTjpDTYAZ3gN15iWaJhJgaeUJv3O1utRSySOoBb9CYYBD0aMlXNkdUB8
+ 7roQ==
+X-Gm-Message-State: AOAM532xvS/qsLeufDvUUvD0DCegP3wPybXpcszGmvPZ99Ja71veiNPJ
+ yGHFJkiwf6uDmiE6TJx8oILgHBoScPVDxl4rwkQ=
+X-Google-Smtp-Source: ABdhPJxKgk07ohn5Al6DHslhm1V8A60Ybe5DJbhwem5UsI1PYTnIbW17FRuzyNzdboFLAWbsgLpXQA==
+X-Received: by 2002:a1c:3c8b:: with SMTP id j133mr6047926wma.164.1615432554064; 
+ Wed, 10 Mar 2021 19:15:54 -0800 (PST)
+Received: from localhost.localdomain ([197.61.47.225])
+ by smtp.googlemail.com with ESMTPSA id o188sm1450416wme.7.2021.03.10.19.15.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Mar 2021 19:15:53 -0800 (PST)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 4/9] util: Replaced qemu_mutex_lock with QEMU_LOCK_GUARDs
+Date: Thu, 11 Mar 2021 05:15:33 +0200
+Message-Id: <20210311031538.5325-5-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210311031538.5325-1-ma.mandourr@gmail.com>
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 11 Mar 2021 04:24:52 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,65 +83,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"-usbdevice ccid" was not documented and -usbdevice itself was marked
-as deprecated before QEMU v6.0. And searching for "-usbdevice ccid"
-in the internet does not show any useful results, so likely nobody
-was using the ccid device via the -usbdevice option. Remove it now.
+Removed various qemu_mutex_lock calls and their respective
+qemu_mutex_unlock calls and used QEMU_LOCK_GUARD. This simplifies
+the code by eliminating various goto paths and removes
+qemu_mutex_unlock calls.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- docs/system/removed-features.rst | 6 ++++++
- hw/usb/dev-smartcard-reader.c    | 1 -
- qemu-options.hx                  | 3 ---
- 3 files changed, 6 insertions(+), 4 deletions(-)
+ util/filemonitor-inotify.c | 24 ++++++++----------------
+ util/vfio-helpers.c        | 23 ++++++++++-------------
+ 2 files changed, 18 insertions(+), 29 deletions(-)
 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index ea28904e5f..335d8a5f2f 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -45,6 +45,12 @@ This option lacked the possibility to specify an audio backend device.
- Use ``-device usb-audio`` now instead (and specify a corresponding USB
- host controller or ``-usb`` if necessary).
+diff --git a/util/filemonitor-inotify.c b/util/filemonitor-inotify.c
+index 2c45f7f176..0e1a196088 100644
+--- a/util/filemonitor-inotify.c
++++ b/util/filemonitor-inotify.c
+@@ -59,10 +59,9 @@ static void qemu_file_monitor_watch(void *arg)
+     int used = 0;
+     int len;
  
-+``-usbdevice ccid`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''
-+
-+This option was undocumented and not used in the field.
-+Use `-device usb-ccid`` instead.
-+
+-    qemu_mutex_lock(&mon->lock);
++    QEMU_LOCK_GUARD(&mon->lock);
  
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 80109fa551..bc3d94092a 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -1492,7 +1492,6 @@ static void ccid_register_types(void)
-     type_register_static(&ccid_bus_info);
-     type_register_static(&ccid_card_type_info);
-     type_register_static(&ccid_info);
--    usb_legacy_register(TYPE_USB_CCID_DEV, "ccid", NULL);
+     if (mon->fd == -1) {
+-        qemu_mutex_unlock(&mon->lock);
+         return;
+     }
+ 
+@@ -72,11 +71,11 @@ static void qemu_file_monitor_watch(void *arg)
+         if (errno != EAGAIN) {
+             error_report("Failure monitoring inotify FD '%s',"
+                          "disabling events", strerror(errno));
+-            goto cleanup;
++            return;
+         }
+ 
+         /* no more events right now */
+-        goto cleanup;
++        return;
+     }
+ 
+     /* Loop over all events in the buffer */
+@@ -142,9 +141,6 @@ static void qemu_file_monitor_watch(void *arg)
+             }
+         }
+     }
+-
+- cleanup:
+-    qemu_mutex_unlock(&mon->lock);
  }
  
- type_init(ccid_register_types)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index fdecee758a..8f4ede1e11 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1743,9 +1743,6 @@ SRST
-         corresponding ``braille`` chardev automatically beside the
-         ``usb-braille`` USB device).
  
--    ``ccid``
--        Smartcard reader device
+@@ -250,7 +246,8 @@ qemu_file_monitor_add_watch(QFileMonitor *mon,
+     QFileMonitorWatch watch;
+     int64_t ret = -1;
+ 
+-    qemu_mutex_lock(&mon->lock);
++    QEMU_LOCK_GUARD(&mon->lock);
++
+     dir = g_hash_table_lookup(mon->dirs, dirpath);
+     if (!dir) {
+         int rv = inotify_add_watch(mon->fd, dirpath,
+@@ -259,7 +256,7 @@ qemu_file_monitor_add_watch(QFileMonitor *mon,
+ 
+         if (rv < 0) {
+             error_setg_errno(errp, errno, "Unable to watch '%s'", dirpath);
+-            goto cleanup;
++            return ret;
+         }
+ 
+         trace_qemu_file_monitor_enable_watch(mon, dirpath, rv);
+@@ -290,8 +287,6 @@ qemu_file_monitor_add_watch(QFileMonitor *mon,
+ 
+     ret = watch.id;
+ 
+- cleanup:
+-    qemu_mutex_unlock(&mon->lock);
+     return ret;
+ }
+ 
+@@ -303,13 +298,13 @@ void qemu_file_monitor_remove_watch(QFileMonitor *mon,
+     QFileMonitorDir *dir;
+     gsize i;
+ 
+-    qemu_mutex_lock(&mon->lock);
++    QEMU_LOCK_GUARD(&mon->lock);
+ 
+     trace_qemu_file_monitor_remove_watch(mon, dirpath, id);
+ 
+     dir = g_hash_table_lookup(mon->dirs, dirpath);
+     if (!dir) {
+-        goto cleanup;
++        return;
+     }
+ 
+     for (i = 0; i < dir->watches->len; i++) {
+@@ -333,7 +328,4 @@ void qemu_file_monitor_remove_watch(QFileMonitor *mon,
+             qemu_set_fd_handler(mon->fd, NULL, NULL, NULL);
+         }
+     }
 -
-     ``keyboard``
-         Standard USB keyboard. Will override the PS/2 keyboard (if present).
+- cleanup:
+-    qemu_mutex_unlock(&mon->lock);
+ }
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 97dfa3fd57..dc05755ef1 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -748,41 +748,41 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+     assert(QEMU_PTR_IS_ALIGNED(host, qemu_real_host_page_size));
+     assert(QEMU_IS_ALIGNED(size, qemu_real_host_page_size));
+     trace_qemu_vfio_dma_map(s, host, size, temporary, iova);
+-    qemu_mutex_lock(&s->lock);
++    QEMU_LOCK_GUARD(&s->lock);
+     mapping = qemu_vfio_find_mapping(s, host, &index);
+     if (mapping) {
+         iova0 = mapping->iova + ((uint8_t *)host - (uint8_t *)mapping->host);
+     } else {
+         if (s->high_water_mark - s->low_water_mark + 1 < size) {
+             ret = -ENOMEM;
+-            goto out;
++            return ret;
+         }
+         if (!temporary) {
+             if (qemu_vfio_find_fixed_iova(s, size, &iova0)) {
+                 ret = -ENOMEM;
+-                goto out;
++                return ret;
+             }
  
+             mapping = qemu_vfio_add_mapping(s, host, size, index + 1, iova0);
+             if (!mapping) {
+                 ret = -ENOMEM;
+-                goto out;
++                return ret;
+             }
+             assert(qemu_vfio_verify_mappings(s));
+             ret = qemu_vfio_do_mapping(s, host, size, iova0);
+             if (ret) {
+                 qemu_vfio_undo_mapping(s, mapping, NULL);
+-                goto out;
++                return ret;
+             }
+             qemu_vfio_dump_mappings(s);
+         } else {
+             if (qemu_vfio_find_temp_iova(s, size, &iova0)) {
+                 ret = -ENOMEM;
+-                goto out;
++                return ret;
+             }
+             ret = qemu_vfio_do_mapping(s, host, size, iova0);
+             if (ret) {
+-                goto out;
++                return ret;
+             }
+         }
+     }
+@@ -790,8 +790,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+     if (iova) {
+         *iova = iova0;
+     }
+-out:
+-    qemu_mutex_unlock(&s->lock);
++
+     return ret;
+ }
+ 
+@@ -826,14 +825,12 @@ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host)
+     }
+ 
+     trace_qemu_vfio_dma_unmap(s, host);
+-    qemu_mutex_lock(&s->lock);
++    QEMU_LOCK_GUARD(&s->lock);
+     m = qemu_vfio_find_mapping(s, host, &index);
+     if (!m) {
+-        goto out;
++        return;
+     }
+     qemu_vfio_undo_mapping(s, m, NULL);
+-out:
+-    qemu_mutex_unlock(&s->lock);
+ }
+ 
+ static void qemu_vfio_reset(QEMUVFIOState *s)
 -- 
-2.27.0
+2.25.1
 
 
