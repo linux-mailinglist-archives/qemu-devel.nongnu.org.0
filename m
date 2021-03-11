@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A23337D86
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:19:56 +0100 (CET)
-Received: from localhost ([::1]:36594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0C2337D2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:06:11 +0100 (CET)
+Received: from localhost ([::1]:51020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQqg-0000Li-St
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:19:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1lKQdO-0000GZ-89
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKQTL-0000vU-Kc
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53760)
+ id 1lKQYM-0006I0-GK
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:01:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKQTJ-00020a-Gr
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:47 -0500
+ id 1lKQYG-000507-Vf
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 14:00:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lKQTI-0000kj-Ef
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:44 +0000
+ id 1lKQYF-0001OB-2S
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 19:00:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DA8D2E8157
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C9522E8157
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 19:00:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Mar 2021 18:49:04 -0000
-From: Peter Maydell <1914696@bugs.launchpad.net>
+Date: Thu, 11 Mar 2021 18:52:21 -0000
+From: Peter Maydell <1913915@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer virt
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: pmaydell zhijianli88
-X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
-Message-Id: <161548854501.18320.6135760142013636264.malone@soybean.canonical.com>
-Subject: [Bug 1914696] Re: aarch64: migration failed: Segmentation fault (core
- dumped)
-X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
+X-Launchpad-Bug-Duplicate: 1914353
+References: <161205944589.3833.15789206648891646681.malonedeb@soybean.canonical.com>
+Message-Id: <161548874217.16245.15079855649813971059.launchpad@gac.canonical.com>
+Subject: [Bug 1913915] Re: aarc64-virt: Null-ptr dereference through
+ virtio_write_config
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: baa6da0c3838534c3be104cb42defbdfd22e1390
+X-Launchpad-Hash: 558a7c8ee530b142585eacaba76e8c0710786221
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,149 +72,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
+Reply-To: Bug 1913915 <1913915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix now in master: commit af903caed9fc62cc6
+*** This bug is a duplicate of bug 1914353 ***
+    https://bugs.launchpad.net/bugs/1914353
 
-
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+** This bug has been marked a duplicate of bug 1914353
+   QEMU: aarch64: :GIC: out-of-bounds access via interrupt ID
 
 -- =
 
 You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to the bug report.
-https://bugs.launchpad.net/bugs/1914696
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913915
 
 Title:
-  aarch64: migration failed: Segmentation fault (core dumped)
+  aarc64-virt: Null-ptr dereference through virtio_write_config
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  reproduce:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 \
+  -machine virt,accel=3Dqtest -qtest stdio
+  writel 0x8000f00 0x81818191
+  write 0x4010008004 0x1 0x06
+  EOF
 
-  arch: aarch64
-  source qemu: v4.2.0
-  destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+  Stacktrace:
+  ../hw/intc/arm_gic.c:1498:13: runtime error: index 401 out of bounds for =
+type 'uint8_t [16][8]'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gi=
+c.c:1498:13 in
+  OK
+  [S +0.048579] OK
+  [R +0.048593] write 0x4010008004 0x1 0x06
+  ../softmmu/memory.c:834:35: runtime error: member access within null poin=
+ter of type 'MemoryRegionIoeventfd' (aka 'struct MemoryRegionIoeventfd')
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../softmmu/memory=
+.c:834:35 in
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D637204=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000000 (pc 0x55b2560417c1 bp 0x7ffefc928270 sp 0x7ffefc928020 T0)
+  =3D=3D637204=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D637204=3D=3DHint: address points to the zero page.
+      #0 0x55b2560417c1 in addrrange_shift /home/alxndr/Development/qemu/bu=
+ild/../softmmu/memory.c:80:44
+      #1 0x55b2560417c1 in address_space_update_ioeventfds /home/alxndr/Dev=
+elopment/qemu/build/../softmmu/memory.c:834:19
+      #2 0x55b2560408c7 in memory_region_transaction_commit /home/alxndr/De=
+velopment/qemu/build/../softmmu/memory.c:1100:17
+      #3 0x55b25481e065 in pci_update_mappings /home/alxndr/Development/qem=
+u/build/../hw/pci/pci.c:1363:13
+      #4 0x55b25481cec7 in pci_default_write_config /home/alxndr/Developmen=
+t/qemu/build/../hw/pci/pci.c:1423:9
+      #5 0x55b254806227 in virtio_write_config /home/alxndr/Development/qem=
+u/build/../hw/virtio/virtio-pci.c:608:5
+      #6 0x55b2551f6e65 in pci_host_config_write_common /home/alxndr/Develo=
+pment/qemu/build/../hw/pci/pci_host.c:83:5
+      #7 0x55b2560481fe in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c:491:5
+      #8 0x55b256047bfb in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:552:18
+      #9 0x55b256047467 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c
+      #10 0x55b2563d7ffb in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/build/../softmmu/physmem.c:2759:23
+      #11 0x55b2563cd71b in flatview_write /home/alxndr/Development/qemu/bu=
+ild/../softmmu/physmem.c:2799:14
+      #12 0x55b2563cd71b in address_space_write /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2891:18
+      #13 0x55b256039d35 in qtest_process_command /home/alxndr/Development/=
+qemu/build/../softmmu/qtest.c:654:9
+      #14 0x55b256032b97 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/build/../softmmu/qtest.c:797:9
+      #15 0x55b256883286 in fd_chr_read /home/alxndr/Development/qemu/build=
+/../chardev/char-fd.c:68:9
+      #16 0x7f8d8faf5aae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x51aae)
+      #17 0x55b256ede363 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/build/../util/main-loop.c:232:9
+      #18 0x55b256ede363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #19 0x55b256ede363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #20 0x55b255f99599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #21 0x55b2542261fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #22 0x7f8d8f59acc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #23 0x55b254179bc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
 
-  cmdline:
-  source: =
-
-  $ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -ma=
-chine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024=
-      -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor st=
-dio
-  (qemu) =
-
-  (qemu) migrate -d tcp:10.19.241.167:888
-  (qemu) info status
-  VM status: paused (postmigrate)
-
-  destination: =
-
-  ./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -mach=
-ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
-    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdi=
-o -incoming tcp:0:888
-  QEMU 5.2.50 monitor - type 'help' for more information
-  (qemu) Segmentation fault (core dumped)
-
-  =
-
-  i have bisected and confirmed that the first bad commit is: [f9506e162c33=
-e87b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
-
-  bisect log:
-  git bisect log
-  # bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking b=
-ranch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
-  git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
-  # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.=
-2.0 release
-  git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
-  # bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ib=
-ex UART to use the registerfields API
-  git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
-  # bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA sup=
-port for AST2600
-  git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
-  # good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking =
-branch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
-  git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
-  # bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking b=
-ranch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
-  git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
-  # good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_f=
-eature function for testing AA32HPD feature
-  git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
-  # good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a li=
-ttle more forgiving on the size test
-  git bisect good 002375895c10df40615fc615e2639f49e0c442fe
-  # good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate =
-TIME CSRs for privileged mode
-  git bisect good c695724868ce4049fd79c5a509880dbdf171e744
-  # good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_f=
-eature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
-  git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
-  # bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v=
-8.4-RCPC
-  git bisect bad a1229109dec4375259d3fff99f362405aab7917a
-  # bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats=
- for some vfp 2 and 3-register insns
-  git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
-  # good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace AR=
-M_FEATURE_VFP4 with isar_feature_aa32_simdfmac
-  git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
-  # good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the v=
-fp decodetree calls next to the base isa
-  git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
-  # bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_=
-FEATURE_VFP*
-  git bisect bad f9506e162c33e87b609549157dd8431fcc732085
-  # good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replac=
-e ARM_FEATURE_VFP* tests for HWCAP
-  git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
-  # first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm=
-: Remove ARM_FEATURE_VFP*
-
-  =
-
-  the root cause is that, some feature bit is not consistent any more with =
-below changes in this commit:
-  diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-  index b29b0eddfc..05aa9711cd 100644
-  --- a/target/arm/cpu.h
-  +++ b/target/arm/cpu.h
-  @@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr)=
- <=3D R_V7M_CSSELR_INDEX_MASK);
-    * mapping in linux-user/elfload.c:get_elf_hwcap().
-    */
-   enum arm_features {
-  -    ARM_FEATURE_VFP,
-       ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
-       ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
-       ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
-  @@ -1889,7 +1888,6 @@ enum arm_features {
-       ARM_FEATURE_V7,
-       ARM_FEATURE_THUMB2,
-       ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
-  -    ARM_FEATURE_VFP3,
-       ARM_FEATURE_NEON,
-       ARM_FEATURE_M, /* Microcontroller profile.  */
-       ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
-  @@ -1900,7 +1898,6 @@ enum arm_features {
-       ARM_FEATURE_V5,
-       ARM_FEATURE_STRONGARM,
-       ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
-  -    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
-       ARM_FEATURE_GENERIC_TIMER,
-       ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
-       ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/build/../so=
+ftmmu/memory.c:80:44 in addrrange_shift
+  =3D=3D637204=3D=3DABORTING
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914696/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913915/+subscriptions
 
