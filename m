@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CE033757C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:24:02 +0100 (CET)
-Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D774E3375A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:27:16 +0100 (CET)
+Received: from localhost ([::1]:33214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKMEL-0002qO-2J
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
+	id 1lKMHT-0007Bq-UN
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:27:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCy-0001TA-V6
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60696)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKMG5-0006T9-EI
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:25:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKMCu-0003fd-PS
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:22:36 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKMFy-0005tZ-Iv
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:25:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615472551;
+ s=mimecast20190719; t=1615472741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yvuv+//bg3lavqtySYSTPCS/fs0OVB90YHQ16QmnxCs=;
- b=FMI2e4OSsMJQJlmqS1RtEvGVXk5W4teysHavcbQrA0pHXvzW/t3FOh9dTVugduiRQaBO/u
- p/BLRujPqFbYEFTcztM0b/PbINm+GLvZ/nr1LEEEbs0TtLJkckEgHYRMS8WG4J95cpuQ7J
- VNBgWdZEORoTAoqAFdWuB1PYhPMCEos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-J32ff5gjPxam2eT8t9iKdg-1; Thu, 11 Mar 2021 09:22:30 -0500
-X-MC-Unique: J32ff5gjPxam2eT8t9iKdg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E596A100C660;
- Thu, 11 Mar 2021 14:22:28 +0000 (UTC)
-Received: from thuth.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84D9518AAB;
- Thu, 11 Mar 2021 14:22:27 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 4/4] gitlab-ci.yml: Merge check-crypto-old jobs into the
- build-crypto-old jobs
-Date: Thu, 11 Mar 2021 15:22:11 +0100
-Message-Id: <20210311142211.1547864-5-thuth@redhat.com>
-In-Reply-To: <20210311142211.1547864-1-thuth@redhat.com>
-References: <20210311142211.1547864-1-thuth@redhat.com>
+ bh=mTXe2fhxThE43tksZ51ysfc9HetPtBAMq5kccsIxNBI=;
+ b=NsOKcP4g/r+1z6eNzokTMKanElGpsI3B4T7tbb8x24tzfW0xNcLlYCKEuUi7Tx8RcZpVwf
+ 0gI7RujFoQf/edXBbyu9sgeylp9+STbm1QipMw7iJv+Cy5AVzLIrVXzk7dPtq+HUKOs07i
+ uXGhq0ky2o8dyqpzL7pDbPLMhm5RA+c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-8_tZb_aENc6PIMpVecOvpw-1; Thu, 11 Mar 2021 09:25:40 -0500
+X-MC-Unique: 8_tZb_aENc6PIMpVecOvpw-1
+Received: by mail-wr1-f72.google.com with SMTP id i5so9601091wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 06:25:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mTXe2fhxThE43tksZ51ysfc9HetPtBAMq5kccsIxNBI=;
+ b=cCjMZ0rwMthGeDjrABYqsWr41PRos35gr6PbfOnXzMbU1CooH7MV/3Wz/RIBLJEth4
+ CjDSsV1mjr9koynFb4oO1VKtOI45umVzdpvXHtojAqPY0U4P20RSYTQaA9R+/RSKtQbB
+ fxHO2riTAgeNL3UX0lp9rgwssmQFLhHq/s5DuAfVMuQgR116YLibUa41TKmcEwV/hOh9
+ FfgiyxMd5kZk45uwUJ2vGzM2pM1z8kydVofxf36pAD2M+boI6V/AKMhEZXtUg3Nny599
+ 9Rkd6zdCYZ2T9QuivK0qZINvukMjXMye5G551PYEuY9nKs3jXQmkvb6GY1Pbjug6nmsH
+ uovA==
+X-Gm-Message-State: AOAM5336G+hzaGGmIhWQjmC8IrXbUb8kvKZDsjZBzFjFaF9z2tSIcGIn
+ QhFlKNasKZgDi1A3jXPu11dKWNrNybRGotwJIUuXLYiIyfpQD/aPR234AAc5l7LsU6kvg9iSBye
+ dVVxWgkwcj7GZ0PM=
+X-Received: by 2002:adf:9b82:: with SMTP id d2mr8961514wrc.193.1615472737846; 
+ Thu, 11 Mar 2021 06:25:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwxmIBDcA6HEWqmqeJ63ihE1bhgNKHxXIsNs7i8gy6QokB7InIHYNjdx6u2vzbcA4yeTkXJvQ==
+X-Received: by 2002:adf:9b82:: with SMTP id d2mr8961493wrc.193.1615472737585; 
+ Thu, 11 Mar 2021 06:25:37 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id 4sm4325004wma.0.2021.03.11.06.25.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Mar 2021 06:25:37 -0800 (PST)
+Subject: Re: [PATCH 1/3] memory: add a sparse memory device
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>
+References: <20210311053614.940352-1-alxndr@bu.edu>
+ <20210311053614.940352-2-alxndr@bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4f410e96-77f0-91f9-3303-3e303ab15c09@redhat.com>
+Date: Thu, 11 Mar 2021 15:25:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210311053614.940352-2-alxndr@bu.edu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,106 +99,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, lidong.chen@oracle.com,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both, the build-crypto-old and the check-crypto-old jobs finish reasonably
-fast, and the build artifacts are only used for the single corresponding
-check jobs, so there is no reason for doing the check step in a separate
-job here. Thus let's stop wasting artifacts space and job scheduler over-
-head by simply merging the test step into the build jobs.
+On 3/11/21 6:36 AM, Alexander Bulekov wrote:
+> For testing, it can be useful to simulate an enormous amount of memory
+> (e.g. 2^64 RAM). This adds an MMIO device that acts as sparse memory.
+> When something writes a nonzero value to a sparse-mem address, we
+> allocate a block of memory. This block is kept around, until all of the
+> bytes within the block are zero-ed. The device has a very low priority
+> (so it can be mapped beneath actual RAM, and virtual device MMIO
+> regions).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.yml | 45 ++++-----------------------------------------
- 1 file changed, 4 insertions(+), 41 deletions(-)
+I'm not convinced we need this, but still added some comments while
+reviewing.
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 45303cafdd..0ada3dbb90 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -585,7 +585,7 @@ build-coroutine-sigaltstack:
- #
- # These jobs test old gcrypt and nettle from RHEL7
- # which had some API differences.
--build-crypto-old-nettle:
-+crypto-old-nettle:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -593,22 +593,9 @@ build-crypto-old-nettle:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
--
--check-crypto-old-nettle:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-old-nettle
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
- 
--
--build-crypto-old-gcrypt:
-+crypto-old-gcrypt:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -616,22 +603,9 @@ build-crypto-old-gcrypt:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
--
--check-crypto-old-gcrypt:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-old-gcrypt
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
- 
--
--build-crypto-only-gnutls:
-+crypto-only-gnutls:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -639,20 +613,9 @@ build-crypto-only-gnutls:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
--
--check-crypto-only-gnutls:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-only-gnutls
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
- 
-+
- # We don't need to exercise every backend with every front-end
- build-trace-multi-user:
-   <<: *native_build_job_definition
--- 
-2.27.0
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  MAINTAINERS         |   1 +
+>  hw/mem/meson.build  |   1 +
+>  hw/mem/sparse-mem.c | 154 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 156 insertions(+)
+>  create mode 100644 hw/mem/sparse-mem.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f22d83c178..9e3d8b1401 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2618,6 +2618,7 @@ R: Thomas Huth <thuth@redhat.com>
+>  S: Maintained
+>  F: tests/qtest/fuzz/
+>  F: scripts/oss-fuzz/
+> +F: hw/mem/sparse-mem.c
+>  F: docs/devel/fuzzing.rst
+>  
+>  Register API
+> diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+> index 0d22f2b572..732f459e0a 100644
+> --- a/hw/mem/meson.build
+> +++ b/hw/mem/meson.build
+> @@ -1,5 +1,6 @@
+>  mem_ss = ss.source_set()
+>  mem_ss.add(files('memory-device.c'))
+> +mem_ss.add(files('sparse-mem.c'))
+>  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+>  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+>  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+> diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
+> new file mode 100644
+> index 0000000000..ffda6f76b4
+> --- /dev/null
+> +++ b/hw/mem/sparse-mem.c
+> @@ -0,0 +1,154 @@
+> +/*
+> + * A sparse memory device
+> + *
+> + * Copyright Red Hat Inc., 2021
+> + *
+> + * Authors:
+> + *  Alexander Bulekov   <alxndr@bu.edu>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "exec/address-spaces.h"
+> +#include "hw/qdev-properties.h"
+> +
+> +#define TYPE_SPARSE_MEM "sparse-mem"
+> +#define SPARSE_MEM(obj) OBJECT_CHECK(SparseMemState, (obj), TYPE_SPARSE_MEM)
+> +
+> +#define SPARSE_BLOCK_SIZE 0x1000
+> +
+> +typedef struct SparseMemState {
+> +    DeviceState parent_obj;
+> +    MemoryRegion mmio;
+> +    uint64_t baseaddr;
+> +    uint64_t length;
+> +    uint64_t usage;
+
+usage -> size_used?
+
+> +    uint64_t maxsize;
+> +    GHashTable *mapped;
+> +} SparseMemState;
+> +
+> +typedef struct sparse_mem_block {
+> +    uint16_t nonzeros;
+> +    uint8_t data[SPARSE_BLOCK_SIZE];
+> +} sparse_mem_block;
+> +
+
+> +static const MemoryRegionOps sparse_mem_ops = {
+> +    .read = sparse_mem_read,
+> +    .write = sparse_mem_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +            .min_access_size = 1,
+> +            .max_access_size = 8,
+> +            .unaligned = false,
+
+Why restrict unaligned accesses?
+
+> +        },
+> +};
+> +
+> +static Property sparse_mem_properties[] = {
+> +    /* The base address of the memory */
+> +    DEFINE_PROP_UINT64("baseaddr", SparseMemState, baseaddr, 0x0),
+> +    /* The length of the sparse memory region */
+> +    DEFINE_PROP_UINT64("length", SparseMemState, length, UINT64_MAX),
+> +    /* Max amount of actual memory that can be used to back the sparse memory */
+> +    DEFINE_PROP_UINT64("maxsize", SparseMemState, maxsize, 0x100000),
+
+0x100000 -> 1 * MiB
+
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void sparse_mem_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SparseMemState *s = SPARSE_MEM(dev);
+
+Anyhow, we should restrict this device to QTest accelerator, right?
+
+Maybe:
+    if (!qtest_enabled()) {
+        error_setg(errp, "sparse_mem device requires QTest");
+        return;
+    }
+
+> +
+> +    assert(s->baseaddr + s->length > s->baseaddr);
+
+Don't you need more than 64-bit to do this check?
+
+> +
+> +    s->mapped = g_hash_table_new(NULL, NULL);
+> +    memory_region_init_io(&(s->mmio), OBJECT(s), &sparse_mem_ops, s,
+> +                          "sparse-mem", s->length);
+> +    memory_region_add_subregion_overlap(get_system_memory(), s->baseaddr,
+> +                                        &(s->mmio), -100);
+
+mr_add() to sysmem from a non-sysbus device is odd... Maybe it is
+acceptable, I don't know enough.
+
+> +}
+> +
 
 
