@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5870D336F4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:53:52 +0100 (CET)
-Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCF2336F65
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 11:00:04 +0100 (CET)
+Received: from localhost ([::1]:36172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKI0t-0007WT-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
+	id 1lKI6t-0001ez-LE
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 05:00:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKHz7-0005x0-Q6
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:52:01 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:44848)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lKI5S-00015u-8I
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:58:34 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:40395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKHz1-0003u0-Oh
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:52:01 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id j3so1801908edp.11
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 01:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lKI5Q-00088p-LB
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 04:58:33 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id c131so21086753ybf.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 01:58:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wJ3WyaEJpEE2ahj8fy06mQl0tlHWoOJxzj9Ke3gF9Jw=;
- b=y0KZfUJhvaMz7eggQof85GFcbovheAvKAUlojN87C+gn3yu150ZFMGB0TcLHHwxA8v
- XAPttBTA72Msk8V2mEExlJkSQryxEiIYJTT/DPpuQ6/8kLf2ZeFqqGz/8pwVilnndQOf
- ZFtu00qR5WWYe6KwmgMorK+XFxQiuilqaX3dzRs08tkA/UCAAvNX8JjLuq9EYRi1Rweh
- D6fHxBdyg1hWzFu5INq1pnTZ/d8SMz2JQxBc1H+iSsVCOSUQOLDuwPe0G1008rC/8HVR
- zvj8UzQjPJ69FLKiKt8XI7A/BvM83huIlhELFOdzjZ6hjsSR6jlBieB5KNnIEQWL49fO
- vyRA==
+ :cc:content-transfer-encoding;
+ bh=LvcU97UmRDhfmkrSoseZQvgmKRnl43gU1f4zxjsWOTU=;
+ b=aZeWdPORLq5Vmty32i5MWttJsU8XEW4pwL2KIJ9DGLGqpVPohL4Xe4xICYKicsQUQc
+ qEYIE2r0PIBMeZjBu9oVjEcIG+3G3XAX8qXlQ+VmnDx8ruObK79KHvM8ljJUirpltryV
+ iM+cw65KKVFRU4+nEi0JNJKKfMAOwF7tSMJRPu2blKWjMhqC99f9JIjiJ7kPYUoGSYqa
+ eWizMSpVEt7KZtJ3J7S/fCb9RkNZcWXT8pWcMeum9EIhOeIQDPBF3grn+BNr5kW3Qi6R
+ hncSkyzGTGmQdpF3NgawETMoPHwdMx/axbMhqWCT/f86gIy4ZDkokdeiDJLVgnykuvFO
+ QDgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wJ3WyaEJpEE2ahj8fy06mQl0tlHWoOJxzj9Ke3gF9Jw=;
- b=Fz2hzZQFkMT0OsIUvBx00L+THn/yeouMUEyDHcQ1u60ZgBOf5/HTqOEtqsmBgZkBsp
- QSNViSMZ36FNuUEWWlwLnVmyUyF1nIZaIRyW16CFkOLAUT3R99Vjo5/y/jqZZFAdw9Uu
- WX5SiqG6iDCXzLP6UM8DLi7LK727dmdQHn+jmSHo4RZObMoXmzpLIHaPVd/sJq6pddjO
- NV41w4ghX+BIk7vfxFreM7/69zIZr1mQvrmiPv5XRCiFVvnEnrYaJBvxCdvgetqkOBn5
- PhdbQVNMJlu8+j6wCVlb3WSJuzPT+CNZoqBvGEXQNk3FvpbHLWsQiY5my2oWBLYEkMdj
- Tysg==
-X-Gm-Message-State: AOAM530ueB+6F/pS3IxOc0cD218f6BIfIlKiK1xApvVq22sryhJZDCPI
- ZH2S9NUHZaauh6UgFCnBRmCvxyQUq/kfdIted4jr9w==
-X-Google-Smtp-Source: ABdhPJxqFTLQxJ3k5q68f4Gh3WME7ecA1yVDGbT6tvKLMtLhj9Y/q8/Y68N3g0BjP/ZxBDccRm3PeSa7Eh90InClZCc=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr7545042edu.100.1615456313119; 
- Thu, 11 Mar 2021 01:51:53 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LvcU97UmRDhfmkrSoseZQvgmKRnl43gU1f4zxjsWOTU=;
+ b=eYtcvtIsB0w+hx8V1jZuSXFXQKOeZieqxq0uzQuDenL7Zv8etJmEhzovbyPbVR7ZD1
+ UQmkeX9W34NQ35FP/PG4De8jMi0oJFgHDkgteiIgRXp9UJi0GVf86IxxJt6c1hxJdCD+
+ QwE6DwJf95Y/ogoLlM5SlrAvPK1JB+z4mQeW4BkpLfpb5RVK9w5f1xGyyFF+WJFKreio
+ oe3VDPDslIh+qpUAPAfe4msjjGD0AamfeQ4I9xxIi6kYJAM+CKl9H7pvIejVGHht67Tp
+ 7L9gerChFfb1fynHTmNmGDjofPEjZOXE7moIvZ1Ndn6nuvgCMYSaEzCXqkQ9oFY8W7Cf
+ jl8A==
+X-Gm-Message-State: AOAM532bLGy4eZvVaV0pO4M6U0dhPnj67CsUC+9Lg+SGje/wvQDL3Wah
+ ccFXPuCeyQ1yauwpb5JIqHALE+9951S1E1jMyZw=
+X-Google-Smtp-Source: ABdhPJzZCkFwU9wU45rSQmmwfVpZ7cHPyPqS85md2gNRvp/TsUy4uHz+rEWnpIL7of5Rbr8kgkjMtWkjHvsNI/MoHlU=
+X-Received: by 2002:a25:c090:: with SMTP id
+ c138mr10048441ybf.314.1615456711220; 
+ Thu, 11 Mar 2021 01:58:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20210309114512.536489-1-its@irrelevant.dk>
-In-Reply-To: <20210309114512.536489-1-its@irrelevant.dk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 09:51:34 +0000
-Message-ID: <CAFEAcA8sFHNQWEDVKapG-eTJ6g6wHKEB_tbR3dnM5vikrVfkuw@mail.gmail.com>
-Subject: Re: [PULL v2 00/38] emulated nvme device updates
-To: Klaus Jensen <its@irrelevant.dk>
+References: <20210303191205.1656980-1-philmd@redhat.com>
+ <20210303191205.1656980-3-philmd@redhat.com>
+ <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
+ <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
+ <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
+ <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
+ <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
+ <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
+ <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
+ <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
+ <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
+ <CAFEAcA8_j6q8PweuoUVyW+BAGojZ8HdNnedrZwQNcBFWbn9Kbg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8_j6q8PweuoUVyW+BAGojZ8HdNnedrZwQNcBFWbn9Kbg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 11 Mar 2021 17:58:19 +0800
+Message-ID: <CAEUhbmW1pz0=TgwF12j5pQUaCGSLPumb5-yiy32PKfdTvvdpVQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
+ send from SLiRP/TAP
+To: Peter Maydell <peter.maydell@linaro.org>, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,49 +93,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 at 11:45, Klaus Jensen <its@irrelevant.dk> wrote:
+On Thu, Mar 11, 2021 at 5:43 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
 >
-> From: Klaus Jensen <k.jensen@samsung.com>
+> On Thu, 11 Mar 2021 at 03:01, Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > On 2021/3/9 6:13 =E4=B8=8B=E5=8D=88, Peter Maydell wrote:
+> > > On Tue, 9 Mar 2021 at 09:01, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >> Ah, so we want this:
+> > >>
+> > >> if (sender->info->type !=3D NET_CLIENT_DRIVER_NIC)
+> > >>
+> > >> correct?
 >
-> The following changes since commit 229a834518b950d56fd1bc94923276504d0ee9d4:
+> > > No, option (2) is "always pad short packets regardless of
+> > > sender->info->type". Even if a NIC driver sends out a short
+> > > packet, we want to pad it, because we might be feeding it to
+> > > something that assumes it does not see short packets.
+> >
+> > So I'm not sure this is correct. There're NIC that has its own logic
+> > that choose whether to pad the frame during TX (e.g e1000).
 >
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-20210306' into staging (2021-03-08 15:45:48 +0000)
+> Yes; that would be dead-code if we go for "always pad", the same
+> as the code in devices to handle incoming short packets would also
+> be dead.
 >
-> are available in the Git repository at:
+> > And after a discussion 10 years ago [1]. Michael (cced) seems to want t=
+o
+> > keep the padding logic in the NIC itself (probably with a generic helpe=
+r
+> > in the core). Since 1) the padding is only required for ethernet 2)
+> > virito-net doesn't need that (it can pass incomplete packet by design).
 >
->   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+> Like I said, we need to decide; either:
 >
-> for you to fetch changes up to 23fb7dfeca17c55e4329ca98459d33fc204c1f59:
+>  (1) we do want to support short packets in the net core:
+> every sender needs to either pad, or to have some flag to say
+> "my implementation can't pad, please can the net core do it for me",
+> unless they are deliberately sending a short packet. Every
+> receiver needs to be able to cope with short packets, at least
+> in the sense of not crashing (they should report them as a rx
+> error if they have that kind of error reporting status register).
+> I think we have mostly implemented our NIC models this way.
 >
->   hw/block/nvme: support Identify NS Attached Controller List (2021-03-09 11:00:58 +0100)
+>  (2) we simply don't support short packets in the net core:
+> nobody (not NICs, not network backends) needs to pad, because
+> they can rely on the core to do it. Some existing senders and
+> receivers may have now-dead code to do their own padding which
+> could be removed.
 >
-> ----------------------------------------------------------------
-> hw/block/nvme updates
->
-> * NVMe subsystem support (`-device nvme-subsys`) (Minwoo Im)
-> * Namespace (De|At)tachment support (Minwoo Im)
-> * Simple Copy command support (Klaus Jensen)
-> * Flush broadcast support (Gollu Appalanaidu)
-> * QEMUIOVector/QEMUSGList duality refactoring (Klaus Jensen)
->
-> plus various fixes from Minwoo, Gollu, Dmitry and me.
->
-> v2:
->   - add `nqn` nvme-subsys device parameter instead of using `id`.
->     (Paolo)
+> MST is advocating for (1) in that old thread. That's a coherent
+> position.
 
+But it's a wrong approach. As Edgar and Stefan also said in the old
+discussion thread, padding in the RX is wrong as real world NICs don't
+do this.
 
-Applied, thanks.
+> You've said earlier that we want (2). That's also
+> a coherent position. A mix of the two doesn't seem to
+> me to be very workable.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+Regards,
+Bin
 
