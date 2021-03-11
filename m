@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFA333794A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:27:47 +0100 (CET)
-Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D076337915
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 17:19:42 +0100 (CET)
+Received: from localhost ([::1]:37992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKOA6-0006Mr-Jh
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:27:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37380)
+	id 1lKO2H-0005rx-GK
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 11:19:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKNrA-0000Ss-Up
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:08:12 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:32918)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKNr9-0007pq-5Z
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:08:12 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id jt13so47369579ejb.0
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 08:08:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JC0PtddIRV5/7yV9JvUqMCuvvqt/dnLTrEw4IUY/jx8=;
- b=t8MQMte9cIMKSdmk2uf81NKVSmbdpSKFbqHyeyhv6i44U1lu4Z/A5maFXrPOz+Deb7
- WffSSblfiOsP7Bid8ox4bPrunugm6/hGIRJVXRQlBt+8gEhyVRFbd2zgNNqFoOsXX3Ng
- 9WjPLVP+hbyw31/JKogn0sSJHsJgivBgbKkWjE4JtaEvHQaRPxnPzVKpeaXmTOtVaPfX
- YhSX6Fs9CDHdnM1GgtjlpKfNYiU65vKdRMA1TVKzDF30Naft6m//kCqRv2BkeA0sG9wg
- oyOv7y3OjM2agWzdIXBFYyxtAaUeZw0u9oONf1iyOxpfP2jj+Ydkluj7TarEGASZaIZV
- 1ijw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JC0PtddIRV5/7yV9JvUqMCuvvqt/dnLTrEw4IUY/jx8=;
- b=OX56x+GbuL1B9t3575M5gVg/664wctF0zHZBTAyBi7emlnZf4zr18/oCotX8+ECVmV
- XsugTQ4E155rubbt5qYofJncdLwjFQyn9pDZoDSORfmfrYYlAeP4gAgqPYelX2U/kO4g
- 7jLvVrDbaZWCmtKLG1tvP9ZVpryFyaXG14Zmeg1n7DT6ZJPR6IlhjFYViOvIrMl70fio
- sCAL8JPJF+polhVk9hFJEzLCgC6pOjTtfPtf9izZ0/a67e2TLD7bGFAdrPIouWbTIQMF
- QR2NwK0wlGKCzRkjxqOEBnzpOhBcrAX3pVdAgbfVnuPMpfS6T2GFb5gZacs0Aj91BFFJ
- g/5g==
-X-Gm-Message-State: AOAM533WMyFrHNPnCCO3HGZev0QnmsOQ/y4Dif3+MaCKzQiTQxOUOFLI
- DQFKeSVa7we4HjSF73bOnf3F9HDpMpyShoKuUmIJO8EHTYNIjA==
-X-Google-Smtp-Source: ABdhPJxAHw3+eXzk+hVJpS5AhOrf/QEBGAqgVXC7WL/CdDui0KodX/dekppJ0VOxPHSzXqEDphw6Us8M82BBKv/Kc3g=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr3888972ejc.250.1615478889387; 
- Thu, 11 Mar 2021 08:08:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKO0j-000452-77
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:18:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKO0h-0002fx-5g
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 11:18:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615479480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zs2nUFsInhPIJEY+eitd68h57soEVovZP0V1TfxprsE=;
+ b=cPPPdq4cjsIgekntRi09267D+GP1n/6hTaB9o/0LnjslSXxN+2TqF4cjCldNvIadLxn+U1
+ z8E6WsxbzCFiIc50gqfAbKzaRvvMyPP7zsAGiy4HW9qfgmGW88+o4r3nwRfYsOopUnKorb
+ l0eTsWrvmYAnK6HZBqAy6L0/z9hwox0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-SXUoTS-oN5m5nzFxAyVkhw-1; Thu, 11 Mar 2021 11:17:58 -0500
+X-MC-Unique: SXUoTS-oN5m5nzFxAyVkhw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 356E219200C0;
+ Thu, 11 Mar 2021 16:17:57 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-26.ams2.redhat.com [10.36.115.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF9841000358;
+ Thu, 11 Mar 2021 16:17:55 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 2/2] target/s390x: Store r1/r2 for page-translation
+ exceptions during MVPG
+Date: Thu, 11 Mar 2021 17:17:47 +0100
+Message-Id: <20210311161747.129834-3-david@redhat.com>
+In-Reply-To: <20210311161747.129834-1-david@redhat.com>
+References: <20210311161747.129834-1-david@redhat.com>
 MIME-Version: 1.0
-References: <b9b0e381-c045-bab1-eea7-b8112526e5e8@c-sky.com>
- <CAFEAcA_jnLzZN-nA+Cf_HwGjxvOaxUzZ44LYxqpcmw=3eAU6qg@mail.gmail.com>
- <3edf7903-94a7-c16e-2b9e-644e1a41a77d@c-sky.com>
- <CAFEAcA8UqE65Qxy=c53CCPdYnVrwvBZGxU9SH9qk7Q6vGKDgyg@mail.gmail.com>
- <50fb9541-095d-18e8-1145-662f594600b6@c-sky.com>
-In-Reply-To: <50fb9541-095d-18e8-1145-662f594600b6@c-sky.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Mar 2021 16:07:50 +0000
-Message-ID: <CAFEAcA-zRB8t4h7eLsw5FbFtyBp6Ow16P4vvk2eA9t7Jcr42TQ@mail.gmail.com>
-Subject: Re: Question about edge-triggered interrupt
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +77,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 16:01, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> That's a case I can't understand.
->
-> 1.  An device causes an edge-triggered interrupt A.
-> 2.  The interrupt controller sample the interrupt A, and setting pending
-> bit for A.
-> 3.  The interrupt controller select the interrupt  A to CPU and clean
-> the pending bit for A(according to the specification).
-> 4.  CPU start to execute the A's service routine.
-> 5.  Another device causes interrupt B.
-> 6.  The interrupt controller sample the interrupt B, and setting pending
-> bit for B.
-> 7.  As B's priority is lower than A, it can't preempt  A's service routine.
-> 8.  A's service routine return.
-> 9. No other interrupt comes after B.
->
-> After the sequence, B is pending in interrupt controller, and has no
-> chance to be selected by interrupt controller.
-> A's service routine will neither write interrupt controller's register
-> nor device's register.
+The PoP states:
 
-I'm pretty sure that there is some interaction between the CPU and the
-interrupt controller on a return-from-interrupt that you are
-missing. There are several ways to do it in principle; you need
-a risc-v expert to answer your question more specifically.
+    When EDAT-1 does not apply, and a program interruption due to a
+    page-translation exception is recognized by the MOVE PAGE
+    instruction, the contents of the R1 field of the instruction are
+    stored in bit positions 0-3 of location 162, and the contents of
+    the R2 field are stored in bit positions 4-7.
 
-thanks
--- PMM
+    If [...] an ASCE-type, region-first-translation,
+    region-second-translation, region-third-translation, or
+    segment-translation exception was recognized, the contents of
+    location 162 are unpredictable.
+
+So we have to write r1/r2 into the lowcore on page-translation
+exceptions. Simply handle all exceptions inside our mvpg helper now.
+
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/helper.h      |  2 +-
+ target/s390x/insn-data.def |  2 +-
+ target/s390x/mem_helper.c  | 44 ++++++++++++++++++++++----------------
+ target/s390x/translate.c   |  7 +++++-
+ 4 files changed, 34 insertions(+), 21 deletions(-)
+
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 55bd1551e6..d4e4f3388f 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -18,7 +18,7 @@ DEF_HELPER_3(srstu, void, env, i32, i32)
+ DEF_HELPER_4(clst, i64, env, i64, i64, i64)
+ DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+-DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
++DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i32, i32)
+ DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_3(mvst, i32, env, i32, i32)
+ DEF_HELPER_4(ex, void, env, i32, i64, i64)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index e5b6efabf3..0bb1886a2e 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -641,7 +641,7 @@
+ /* MOVE NUMERICS */
+     C(0xd100, MVN,     SS_a,  Z,   la1, a2, 0, 0, mvn, 0)
+ /* MOVE PAGE */
+-    C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
++    C(0xb254, MVPG,    RRE,   Z,   0, 0, 0, 0, mvpg, 0)
+ /* MOVE STRING */
+     C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
+ /* MOVE WITH OPTIONAL SPECIFICATION */
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index ebb55884c9..432c1a4954 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -905,8 +905,10 @@ uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
+ }
+ 
+ /* move page */
+-uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
++uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint32_t r1, uint32_t r2)
+ {
++    const uint64_t src = get_address(env, r2) & TARGET_PAGE_MASK;
++    const uint64_t dst = get_address(env, r1) & TARGET_PAGE_MASK;
+     const int mmu_idx = cpu_mmu_index(env, false);
+     const bool f = extract64(r0, 11, 1);
+     const bool s = extract64(r0, 10, 1);
+@@ -919,34 +921,40 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
+         tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
+     }
+ 
+-    r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
+-    r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
+-
+     /*
+-     * TODO:
+-     * - Access key handling
+-     * - Store r1/r2 register identifiers at real location 162
++     * We always manually handle exceptions such that we can properly store
++     * r1/r2 to the lowcore on page-translation exceptions.
++     *
++     * TODO: Access key handling
+      */
+-    exc = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
++    exc = access_prepare_nf(&srca, env, true, src, TARGET_PAGE_SIZE,
+                             MMU_DATA_LOAD, mmu_idx, ra);
+     if (exc) {
+-        return 2;
++        if (cco) {
++            return 2;
++        }
++        goto inject_exc;
+     }
+-    exc = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
++    exc = access_prepare_nf(&desta, env, true, dst, TARGET_PAGE_SIZE,
+                             MMU_DATA_STORE, mmu_idx, ra);
+     if (exc) {
+-#if !defined(CONFIG_USER_ONLY)
+-        if (exc == PGM_PROTECTION) {
+-            stq_phys(env_cpu(env)->as,
+-                     env->psa + offsetof(LowCore, trans_exc_code),
+-                     env->tlb_fill_tec);
+-            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
++        if (cco && exc != PGM_PROTECTION) {
++            return 1;
+         }
+-#endif
+-        return 1;
++        goto inject_exc;
+     }
+     access_memmove(env, &desta, &srca, ra);
+     return 0; /* data moved */
++inject_exc:
++#if !defined(CONFIG_USER_ONLY)
++    stq_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, trans_exc_code),
++             env->tlb_fill_tec);
++    if (exc == PGM_PAGE_TRANS) {
++        stb_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, op_access_id),
++                 r1 << 4 | r2);
++    }
++#endif
++    tcg_s390_program_interrupt(env, exc, ra);
+ }
+ 
+ /* string copy */
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 61dd0341e4..4f953ddfba 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -3513,7 +3513,12 @@ static DisasJumpType op_mvo(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_mvpg(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_mvpg(cc_op, cpu_env, regs[0], o->in1, o->in2);
++    TCGv_i32 t1 = tcg_const_i32(get_field(s, r1));
++    TCGv_i32 t2 = tcg_const_i32(get_field(s, r2));
++
++    gen_helper_mvpg(cc_op, cpu_env, regs[0], t1, t2);
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+-- 
+2.29.2
+
 
