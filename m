@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4549E336DDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:33:22 +0100 (CET)
-Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F234A336DEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:39:07 +0100 (CET)
+Received: from localhost ([::1]:46648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKGkz-0000hY-B2
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
+	id 1lKGqY-0002mc-W5
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:39:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKGjJ-0000BB-O7
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:31:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37197)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKGpP-0001kD-4D
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:37:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKGjH-0005LJ-EZ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:31:36 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKGpM-0000oi-3Y
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:37:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615451493;
+ s=mimecast20190719; t=1615451871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=q+UOy8kagaOecyDUixAgtAzyRmdN/HSuSMoinjhJvNM=;
- b=ClZxdCfB/3fs8W5zzly87mO8OsMmh+tcH/JMt+OhQ6lP3YBfPEUGE+K/q16AXQBPGgtqwf
- jgJ2sdmFmGP7un4CUgSavaJhhALO7ewJEG2MJM1QcioogfR7Py6QCqZRrEwTONKJuckhnT
- 2DNRbNi3Wi+7oF1668L+8rdsbZDOxv8=
+ bh=4Gg2JQ15BPsz1HOaSDxblwYIG5aQfFu5ea5LlIEC+oY=;
+ b=BXIWIf5/wcTX47tsJJDTvzN9e7V+UFSNEVWOhgmlafEp3QDee74qtv22q4/4sG7vNaIqen
+ 0akDFdCy1Amjhdjw/z51IpGhYmBvbBZW369rjcgPWwa/WLV6BMV3a7vNur7/Thq8UBkMH7
+ eh6KteXWNq1kpM6SGOh6sQz2HwMY0is=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-_dZmqNN9N_C5ALrBvOcEmA-1; Thu, 11 Mar 2021 03:31:31 -0500
-X-MC-Unique: _dZmqNN9N_C5ALrBvOcEmA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-141-MvOKk4YvMQGlmRNTvOOIrg-1; Thu, 11 Mar 2021 03:37:49 -0500
+X-MC-Unique: MvOKk4YvMQGlmRNTvOOIrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50A1926860;
- Thu, 11 Mar 2021 08:31:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 333F41970D;
- Thu, 11 Mar 2021 08:31:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6CFE3180087E; Thu, 11 Mar 2021 09:31:27 +0100 (CET)
-Date: Thu, 11 Mar 2021 09:31:27 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH 2/2] ui/cocoa: Do not rely on the first argument
-Message-ID: <20210311083127.uxnrqxokyy6esb2k@sirius.home.kraxel.org>
-References: <20210309122226.23117-1-akihiko.odaki@gmail.com>
- <20210309122226.23117-2-akihiko.odaki@gmail.com>
- <30b88283-8d6b-502b-9032-33c81e26d97@eik.bme.hu>
- <CAMVc7JWO0o9NUwPaE6wBMG+u7zHocWDPxr-6o3OcS5Zm0oT+HA@mail.gmail.com>
- <20210310122223.fq3zae5y42kmpl66@sirius.home.kraxel.org>
- <CAMVc7JUX2yqC0-gVhWAJt2rf6x9uJx=eGcABZBFGQrgWVNSyJQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 111892686A;
+ Thu, 11 Mar 2021 08:37:48 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C33FE5DEF9;
+ Thu, 11 Mar 2021 08:37:13 +0000 (UTC)
+Date: Thu, 11 Mar 2021 09:37:11 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
+Message-ID: <20210311083711.GA9008@merkur.fritz.box>
+References: <20210308165440.386489-1-kwolf@redhat.com>
+ <YEjWQnWKbr5teciB@angien.pipo.sk>
+ <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
+ <20210310173044.GF6076@merkur.fritz.box>
+ <YEnK9rgRRz+0qyGh@angien.pipo.sk>
 MIME-Version: 1.0
-In-Reply-To: <CAMVc7JUX2yqC0-gVhWAJt2rf6x9uJx=eGcABZBFGQrgWVNSyJQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YEnK9rgRRz+0qyGh@angien.pipo.sk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -70,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,27 +79,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, libvir-list@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > Having a fallback would still be nice, even if it is just the fixed
-> > string "qemu".  Starting a fresh build without installing it first is
-> > common while developing.
-> >
-> > take care,
-> >   Gerd
-> >
+Am 11.03.2021 um 08:47 hat Peter Krempa geschrieben:
+> On Wed, Mar 10, 2021 at 18:30:44 +0100, Kevin Wolf wrote:
+> > Am 10.03.2021 um 15:31 hat Paolo Bonzini geschrieben:
+> > > On 10/03/21 15:22, Peter Krempa wrote:
 > 
-> It shows "QEMU emulator version %s" just below. Also, it can show the
-> name even in a build tree without installing so it should be ok.
+> [...]
+> 
+> > The keyval parser would create a list if multiple values are given for
+> > the same key. Some care needs to be taken to avoid mixing the magic
+> > list feature with the normal indexed list options.
+> > 
+> > The QAPI schema would then use an alternate between 'int' and ['int'],
+> > with the the memory-backend-ram implementation changed accordingly.
+> > 
+> > We could consider immediately deprecating the syntax and printing a
+> > warning in the keyval parser when it automatically creates a list from
+> > two values for a key, so that users don't start using this syntax
+> 
+> By 'creating a list from two values for a key' you mean:
+> 
+> host-nodes=0,host-nodes=1
+> 
+> to be converted into [0, 1] ?
+> 
+> > instead of the normal list syntax in other places. We'd probably still
+> > leave the implementation around for -device and other users of the same
+> > magic.
+> 
+> There's three options actually that libvirt uses, visible in one our
+> test files [1]
+> 
+> For a single value we format:
+> 
+> -object memory-backend-ram,id=ram-node0,size=20971520,host-nodes=3,policy=preferred
+> 
+> For a contiguous list:
+> 
+> -object memory-backend-ram,id=ram-node1,size=676331520,host-nodes=0-7,policy=bind
+> 
+> And for an interleaved list:
+> 
+> -object memory-backend-ram,id=ram-node2,size=24578621440,host-nodes=1-2,host-nodes=5,host-nodes=7,policy=bind
 
-Fair enough.  Added to UI queue.
+Oh, we have ranges, too... That makes the compatibility code even
+nastier to write. I doubt that we can implement this in the keyval
+parser alone without touching the visitor. :-/
 
-thanks,
-  Gerd
+> If any of the above is to be deprecated we'll need to adjust our
+> JSON->commandline generator accordignly.
+> 
+> Luckily the 'host-nodes' is storeable as a bitmap and the generator is
+> actually modular to allow plugging an array interpretor which actually
+> does the above conversion from a JSON array.
+> 
+> So, what is the preferred syntax here? Additionally we might need a
+> witness property to detect when to use the new syntax if basing it on
+> the object-add qapification will not be enough.
+
+The list syntax supported by the keyval parser is the one you know from
+-blockdev: host-nodes.0=3,host-nodes.1=7, ...
+
+Kevin
 
 
