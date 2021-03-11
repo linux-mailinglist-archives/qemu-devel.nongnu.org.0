@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D763370CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 12:06:08 +0100 (CET)
-Received: from localhost ([::1]:45764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782913370DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 12:09:45 +0100 (CET)
+Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKJ8p-0000Wi-8j
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 06:06:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56142)
+	id 1lKJCK-00020S-JI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 06:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKJ7Y-0008FH-V4
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:04:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47123)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKJAo-0001Rb-C7
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:08:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lKJ7X-00081X-8j
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:04:48 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKJAm-0001wk-TI
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 06:08:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615460686;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1615460887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QbJh+6BUn83PEhnE1jwbpq0XZTGKPBO3ZlU+Nk7cb9o=;
- b=ftNeQ/lGNjr2/MpA7xh4MHqMLMCop3MWPB/drAoXwgGylMpQflmuZsHpMy5MJtrSaQjRcJ
- hM/+osufeEgSj8odTZFA22rJ/zu7D3+OY0P49bEBp8fjePy5OLeL/dR4WjWAXUtEuuu7jS
- TJ3EAkctAhUbndO792msxqyAtbVmKqM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-TNLkPOtWMvqrhQr8i1ajmw-1; Thu, 11 Mar 2021 06:04:44 -0500
-X-MC-Unique: TNLkPOtWMvqrhQr8i1ajmw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98D5A26862;
- Thu, 11 Mar 2021 11:04:43 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 219711B471;
- Thu, 11 Mar 2021 11:04:38 +0000 (UTC)
-Date: Thu, 11 Mar 2021 11:04:36 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/3] qapi, audio: respect build time conditions in audio
- schema
-Message-ID: <YEn5RCpPbszAb/x1@redhat.com>
-References: <20210302175524.1290840-1-berrange@redhat.com>
- <20210302175524.1290840-3-berrange@redhat.com>
- <20210303070059.sx5t3y3d76f2aflo@sirius.home.kraxel.org>
- <YD9g4WVdkTpUGyR8@redhat.com> <87czwd50oi.fsf@dusky.pond.sub.org>
+ bh=z6fUXd8m9PfuYnYPm2Gj5RI3RQ1uCqtVpOmhU/Ne34c=;
+ b=Z7UEl3Bs+tUJtSg+f1flcrJxnWKjwvsVi7XEcF3MqKlFCV9wWL1knSdOnCtj/fwbGT3xsi
+ AEsF1fq0KNXWNmnVAbzJWBoPwe7v1Nd0xYHCCTotZF3uwwM501mL/4Ex6QZv6GSG2VSq/U
+ GCXTfpI69b/UGbARrPnGfH3OKELSsTw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-OKycMRqeOsebz1xjgeOT1A-1; Thu, 11 Mar 2021 06:08:06 -0500
+X-MC-Unique: OKycMRqeOsebz1xjgeOT1A-1
+Received: by mail-ej1-f69.google.com with SMTP id gv58so8532019ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 03:08:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z6fUXd8m9PfuYnYPm2Gj5RI3RQ1uCqtVpOmhU/Ne34c=;
+ b=bCKZNL3V2SQ+L87Mp5d2VahGPhi7gAMPG7M04bkPFkSeFO6AmqvxxDNEPDIAv4vqEJ
+ U2Vjfb0/NdIsMtsPS4LzdW3bllqtck+ZSIFR8DTyp9bWe16AUiVC1dRA1iCsX9BfdEs1
+ idv9sXPcFlGb7KkKs0DectmjlgwH0ocl1riPYy1F0TbSFblgEmBnMXLBOht6BdrejSW3
+ MhxnLYqnDlmCoSFIxAry0sb72TE4N/vz1vu92kf5YW2kB4TSIU7wvXLPxlgnE0VFDeMX
+ YcReo5auqZVQ4pL3c7hi/RHdEEZ/FIBVziDxxMpP0RYLq4mk9Mpzs93urQhCPCgYaPT1
+ qqCg==
+X-Gm-Message-State: AOAM531tiQdho173gm4B3leTGZN0XNDgF4SrWLiqH08fCGKMJ9kP/bfQ
+ tliZpehBEXGBEyQf4CVEs01CdXyNLkCgviLMKO4fQfhuHTGzi56hIyXtdvu1YQxFwmOqXxlJvVA
+ GTQKGol6QWx0ljsU=
+X-Received: by 2002:a17:906:e2d4:: with SMTP id
+ gr20mr2570470ejb.432.1615460884965; 
+ Thu, 11 Mar 2021 03:08:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0gBl7j52baIM5NA3Ll+wiVCJE16tKmAfHo7DhMvSXDGgE48gSfEUPUF6y2jQKmeTg/qS1aw==
+X-Received: by 2002:a17:906:e2d4:: with SMTP id
+ gr20mr2570450ejb.432.1615460884709; 
+ Thu, 11 Mar 2021 03:08:04 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id z9sm1144266edr.75.2021.03.11.03.08.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Mar 2021 03:08:04 -0800 (PST)
+Subject: Re: [PATCH v2 0/7] vhost: replace master/slave with more accurate
+ wording
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20210311103250.532191-1-pbonzini@redhat.com>
+ <CAMxuvaxwDujPJN=JjADGE+=wDiBWjhFX+omJ_D8bmXJMPxRaZA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4c5c32a6-a646-a6dd-f60d-6e7a831b674b@redhat.com>
+Date: Thu, 11 Mar 2021 12:08:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <87czwd50oi.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAMxuvaxwDujPJN=JjADGE+=wDiBWjhFX+omJ_D8bmXJMPxRaZA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,77 +103,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Michael Roth <michael.roth@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 05, 2021 at 11:56:13AM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
+On 11/03/21 11:51, Marc-André Lureau wrote:
 > 
-> > On Wed, Mar 03, 2021 at 08:00:59AM +0100, Gerd Hoffmann wrote:
-> >> On Tue, Mar 02, 2021 at 05:55:23PM +0000, Daniel P. Berrangé wrote:
-> >> > Currently the -audiodev accepts any audiodev type regardless of what is
-> >> > built in to QEMU. An error only occurs later at runtime when a sound
-> >> > device tries to use the audio backend.
-> >> > 
-> >> > With this change QEMU will immediately reject -audiodev args that are
-> >> > not compiled into the binary. The QMP schema will also be introspectable
-> >> > to identify what is compiled in.
-> >> 
-> >> Note that audio backends are modularized, so "compiled with
-> >> CONFIG_AUDIO_ALSA" doesn't imply "alsa support is available".
-> >
-> > AFAIK, there's no way to handle this with QAPI schema reporting. We
-> > can only conditionalize based on what's available at compile time,
-> > not what's installed at runtime.
 > 
-> Correct.  The schema is fixed at compile-time.  query-qmp-schema
-> reflects what we compiled into the binary or modules we built along with
-> the binary.  It cannot tell which of the modules the binary can load.
+> What about renaming  VhostUserSlaveRequest too ?
+> (subprojects/libvhost-user/libvhost-user.h & hw/virtio/vhost-user.c)
 > 
-> I'd like the commit message to discuss how the patch interacts with
-> modules, because my own memory of the details is rather uncertain :)
-> 
-> I guess we can configure which audio backends to build, and whether to
-> build them as modules.
-> 
-> When not building them as modules, the patch compiles out some useless
-> code.  Correct?
 
-Yes.
+I missed it in vhost-user.c (I did rename the values but not the enum), 
+while in libvhost-user.h I'm keeping it for backwards compatibility as I 
+don't want to break the API.
 
-> When building them as modules, the patch compiles out code for modules
-> we don't build.  Correct?
-
-Yes.
-
-> Such code is useless, unless you somehow manage to supply the resulting
-> binary with working modules from another build.  Which is probably a bad
-> idea.  Compiling out the code stops this (questionable) usage cold.  No
-> objection, but the commit message should at least hint at it.
-> 
-> > To get runtime info, we would have to introduce an explicit
-> > "query-audiodev-types" command where just report the backends
-> > that have been installed.
-> 
-> TTOCTOU.  Harmless one.  Still, the robust check for "can module M be
-> loaded?" is to try loading it.
-
-Ultimately from libvirt's POV, the introspection is merely used to
-let libvirt report errors about unsupported configurations earlier.
-So if we don't deal with compiled-but-not-installed modules, then
-the effect is that libvirt won't report errors if user requests
-'alsa', but QEMU will eventually report such an error when it
-starts. So I'm not too worried about optimizing to cope with
-modules.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
