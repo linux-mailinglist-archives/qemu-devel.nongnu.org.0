@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D95336D9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:19:39 +0100 (CET)
-Received: from localhost ([::1]:57692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB5E336DB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 09:20:50 +0100 (CET)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKGXi-00025X-S7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
+	id 1lKGYr-0003FT-VI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 03:20:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKGV4-0000le-3D
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:16:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKGV2-0004S6-Nw
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 03:16:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615450611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e4NvwzLjYgWefBDG/uwSsBLO21463UsderpN3qQQrkw=;
- b=WgFlvPw9ezk6KsR8dpjgZVN5yDa5GKBdS+Zula9D+Dj1ZLf5Tbz0bpQRiNzRIhdVcnCBBG
- jb98ZEmipBQnKhkIYkHncKpcNme3zxZREq0Zz/krb14Sy/ihgd2PPWXnBpYLybMfuQ//98
- JYQxFs2v0DO/Iz3aOYOBWkAU5Ky4tJY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-PR5zydDRO-WYseCaHwbSUw-1; Thu, 11 Mar 2021 03:16:50 -0500
-X-MC-Unique: PR5zydDRO-WYseCaHwbSUw-1
-Received: by mail-ej1-f71.google.com with SMTP id gn30so8332505ejc.3
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 00:16:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lKGX3-00022x-Ds; Thu, 11 Mar 2021 03:18:57 -0500
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:37544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lKGX1-0005mb-U8; Thu, 11 Mar 2021 03:18:57 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id p193so20846706yba.4;
+ Thu, 11 Mar 2021 00:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kJHZ/I1taX87aQi8hWkjWKQfuEnfavktVblmx1jQZLM=;
+ b=A0u8kWt334c+nYqWdAli+kA+GUcblx1NHbfV4CPCT5yPs944hqFgcetGynXEfPxHGP
+ 7At1WwF2FTtrnZ2ohHeGDsQHfSi5XC6QiyjGaN2evqfqY/blgzJlnqWNSrXuz5hFF6AI
+ IhJdAnfhJzpqZDOeZeqY9q7kM8S8kJaBYB7Xd61oU0uhU//MTiJnF32q4eAeF5XpUDjN
+ ewHCXpXhBCeAYNXSZCbsuQJWgmB4Axo/ZGXl8GSVTs+aZx06Dq/FOxYMrbxv42y7qN49
+ b58mrGWRGtVfLlnVvbr/Iyi3C/kxYRLJPu8X6J8y4BoAItJArJuhVBA4RujyTczb1mA8
+ gDWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e4NvwzLjYgWefBDG/uwSsBLO21463UsderpN3qQQrkw=;
- b=F2sIiUKOLLmNiB1cMPJb8+482VdzSVd6Tb2QoZ3drYXSl4sViO1pMXezWh/35GIHUi
- jI95nzgACvcU+MmO5I0xEcdNgLLZw5CIf6IWinoT8cFt8cr2LDVWbWY0RluG5jJRHYNf
- si8UG/IrMyogEg5UtXQn9mNxZgmHDaF1rIEwA2fGucJNspeXCrUN7pG1g/vnYwX4r5Gg
- dhsaFbgoP/6jLrp9HkkpMsOTb+dRywqoo2gM7Rufsdc1J7Co4wQqr3K61heJkqqOH4Nf
- Fkm5iB0KY7Vd6gqhDNXz2KEI/Fu9w9a+DfUH2MkOrc3ZSTIiBoo+e7UD1tC2Vc1ccjc3
- XKRQ==
-X-Gm-Message-State: AOAM533/dabQyT8hVpLgwzBqoEnPBw35BaJkdmV0PwSmgq5cnM75U8S7
- DAfpUBNqPib6MNNmFW57R4y1UUuySvabfxeyZcUh8StrGVOUx+DvlVTWWtTkclrBuil2HLtWaLq
- s8c7QQYLhVvxNYps=
-X-Received: by 2002:a17:906:78d:: with SMTP id l13mr865528ejc.97.1615450609109; 
- Thu, 11 Mar 2021 00:16:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztz7dTWL6sfzv5HABCsj+iphC5cHtZRPngeZvWO4sgkpSxtdEHgmaXS2WRxLGAUZz4wSEAJQ==
-X-Received: by 2002:a17:906:78d:: with SMTP id l13mr865509ejc.97.1615450608941; 
- Thu, 11 Mar 2021 00:16:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id 90sm855412edr.69.2021.03.11.00.16.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 00:16:48 -0800 (PST)
-Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
-To: Peter Krempa <pkrempa@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20210308165440.386489-1-kwolf@redhat.com>
- <YEjWQnWKbr5teciB@angien.pipo.sk>
- <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
- <20210310173044.GF6076@merkur.fritz.box> <YEnK9rgRRz+0qyGh@angien.pipo.sk>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7384fb64-49aa-2b20-34cf-794f642e558e@redhat.com>
-Date: Thu, 11 Mar 2021 09:16:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kJHZ/I1taX87aQi8hWkjWKQfuEnfavktVblmx1jQZLM=;
+ b=W54JwY7lF+Z+eJCRDfRSiHNy8Wr7dtAWk/cZo1Zv3ZQDMpOa2Su7+Q0WSj3m8O7zj3
+ HPO4u+gJjV7uzB+LEuquOciui978f9vwVxpNn2+VHUsuDQol4MKCbwIhKbsDMaSk/D2i
+ yHIBsCZjz6/BeFYBcUcmb6Hpap+hkEb8lZRJmjUYfUkDX+8esPYw8f/zAjMyOkAaczUO
+ AykVaiRydiE/JUEWiRy/OLR5sEeWruqF/VHM1iH92EYUi2qT+9ysU67R+X6uvDlL7o76
+ QRR7vYsMmmf6AG/sDessBtCeTWXt7PVasZwgIY3xlfkjcjidjUPsm9qZB5/oAUoxNgHD
+ LuLA==
+X-Gm-Message-State: AOAM531VVQgrZzTrnsimUDVfPE+O9+vgx74iaLrIkdP5iBW7Z52xvuoh
+ x4RmDfuZchSO5gCY0ZIVmbmlOF/fHihsDKfW2Sw=
+X-Google-Smtp-Source: ABdhPJzEZ+kNKuC4yQCyF6+Qp6onlehY2sAD6GUxgwOawu0gIxrZ5b/LpXR6ICrpdnqKGGaURugTbhqEG6E+Zu0rsU8=
+X-Received: by 2002:a25:8712:: with SMTP id a18mr10086936ybl.306.1615450734520; 
+ Thu, 11 Mar 2021 00:18:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YEnK9rgRRz+0qyGh@angien.pipo.sk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210306060152.7250-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210306060152.7250-1-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 11 Mar 2021 16:18:43 +0800
+Message-ID: <CAEUhbmVQZpT1bXkmV==rXqaq5u+oqPd4fT5LROUCwGUhmx_XCA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/block: m25p80: Support fast read for SST flashes
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,21 +74,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, libvir-list@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/03/21 08:47, Peter Krempa wrote:
-> And for an interleaved list:
-> 
-> -object memory-backend-ram,id=ram-node2,size=24578621440,host-nodes=1-2,host-nodes=5,host-nodes=7,policy=bind
+On Sat, Mar 6, 2021 at 2:01 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Per SST25VF016B datasheet [1], SST flash requires a dummy byte after
+> the address bytes. Note only SPI mode is supported by SST flashes.
+>
+> [1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> ---
+>
+> Changes in v2:
+> - rebase on qemu/master
+>
+>  hw/block/m25p80.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
 
-Uhm, I doubt this works?  I would have expected "host-nodes=1-2,,5,,7" 
-instead.
-
-Paolo
-
+Ping?
 
