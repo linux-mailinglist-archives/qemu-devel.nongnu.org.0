@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17AB338032
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:21:10 +0100 (CET)
-Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4258C338033
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 23:21:11 +0100 (CET)
+Received: from localhost ([::1]:56094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKTg4-0005ft-D6
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:21:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35800)
+	id 1lKTg6-0005iV-8U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 17:21:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdf-0004Gm-BP
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:48279)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdg-0004IO-B2
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:40 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:59441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00048w-Jl
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:39 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lKTdZ-00049f-Jn
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 17:18:40 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MaHOX-1lHX633Wnl-00WF9w; Thu, 11 Mar 2021 23:18:31 +0100
+ id 1MidPj-1lyjnU1SsR-00fh3e; Thu, 11 Mar 2021 23:18:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] M68k for 6.0 patches
-Date: Thu, 11 Mar 2021 23:18:23 +0100
-Message-Id: <20210311221827.2595898-1-laurent@vivier.eu>
+Subject: [PULL 1/4] target/m68k: implement rtr instruction
+Date: Thu, 11 Mar 2021 23:18:24 +0100
+Message-Id: <20210311221827.2595898-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210311221827.2595898-1-laurent@vivier.eu>
+References: <20210311221827.2595898-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2Y5jFcMx+1N7zRbl5YVOTSArrqnSrJod5kfTyXnWpn+qafnjjHs
- NE8/GaELNPny5KV0mWfF3g12Z2HWGicZSXhIqWmEE23bSLW/qReF0tS5DtJvWq5YDYDM21n
- QEt0s14+LE44kSbo3co2z3qeUgaXsNPmw1IXzYBb5vLKnb8qKqaYGMXRZCUYv5lTniNoknR
- p1N8AsXOj8Q/hp31d0e3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:q7e80M6gvpI=:4S4fHxNID/O3DS8uOTuZg2
- vg19RXOQoj2QVih4IrLkuSkg6lnLo9rDeieFhzdQAlxL5SQECupvYH+vgE/Si4ctCPnCgpQmj
- BDqmW/3xhVEWiJ2HMQI197+wo977/rEnzPLEqVmjH5fKkj7r7pNz4mu2YC2zH8nuRP5lttIK4
- Evc7xPBpJNO/CVXHT2PbwkAeSFocTQhSVrLgf4F1UyujL1+kwO3BmVrvSULkooGnCeIWutO74
- TqBmPzS7VKxrGIwNjinuZprAUo6ssKmM7VwAvNm2msjtDe0Jg/t3ck6poeUBz9LKBoe3FbSE9
- h9XzZeidnobu1Y4e5kQSHI1dJdN7akFEqJqWhRkxkYynRGPc3X1ReB78cVGcMAltEzcgehVtp
- P+7tAvswWXhXyL6tEae0hyNdg+vgbXiWa8eYeGkF7q+wdaz8lNbjZyh7YGsSzM72S1YTOs5e4
- T1+0lXZpiA==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ftA5stcrvlAqhsHWa+A3/poNsjhxo42xmGxWM2QJ+EXFC1V9wO3
+ ZJYbGJF86Wek8dPa3l+EJY66ZbXDlmcUKAZ3uDYfpIiIW1OEzKWLL5+I5x4NVxnIgF25srW
+ djVPipRAubtxTkHVbo+jCfLoPIjvXrlxkmrlfHqnNMrbMBLOOaS3VwCPi137Ot5n9bUZsb5
+ eu8foNfr74DY+rHF17eJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:05nLqMf9n3s=:kPMQ+wTapfgqCmYBh2pSyM
+ ctJz48JF/iAQdL8IzDfya6JhRQigO/b1njB5g3Ee9567xG+siOiQCvpi4xyyvdYUyZ05sRNSk
+ DxZE8KnPsmV3GpTOgS6viJ7rd6gZyR02E0uB0TJjSb05boapOHeCyfVfcFMUvZ3qiO0szdyMv
+ imaH742dAGB9V+QUbANNBLkJF99WLGaJp6aShSOYViI2atzyvV+Ti+8e2zKmxYH0MoaDGArc5
+ gY0rTBionHRtazXqkCUEMKg0x+7TOO39yAoiVDtcULncFtzEc8uPIw3w8695MtXXQjWkd5rcc
+ oq91SsAdv/VJPtiPrFtZLp8dvpHSJPIHKvukExGqjsh5qCfNlcfMrMXtDPlR8c7U8BLFGMAlg
+ PM3AQwzGW526Q55pUuKRIhONYJYMhyFzGe+PSXh/Lp97htiLRM+HUC7YXMqtJH4/px4nRvCfO
+ 03w7/Ox9zw==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,50 +62,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f4abdf32714d1845b7c01ec136dd2b04c2f7db47=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-docs-xen-=
-up=3D=0D
-dates-100321-2' into staging (2021-03-11 16:20:58 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to a9431a03f70c8c711a870d4c1a0439bdbb4703cf:=0D
-=0D
-  target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature (2021-03-11 21:12:32=
- +=3D=0D
-0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Prepare MacOS ROM support:=0D
-  - add RTR instruction=0D
-  - fix unaligned access requirement=0D
-  - fix ATC bit (68040 MMU)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (1):=0D
-  target/m68k: implement rtr instruction=0D
-=0D
-Mark Cave-Ayland (3):=0D
-  target/m68k: don't set SSW ATC bit for physical bus errors=0D
-  target/m68k: reformat m68k_features enum=0D
-  target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature=0D
-=0D
- target/m68k/cpu.h       | 68 ++++++++++++++++++++++++++++-------------=0D
- target/m68k/cpu.c       |  1 +=0D
- target/m68k/op_helper.c | 17 +++++++++--=0D
- target/m68k/translate.c | 20 ++++++++++++=0D
- 4 files changed, 82 insertions(+), 24 deletions(-)=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+This is needed to boot MacOS ROM.
+
+Pull the condition code and the program counter from the stack.
+
+Operation:
+
+    (SP) -> CCR
+    SP + 2 -> SP
+    (SP) -> PC
+    SP + 4 -> SP
+
+This operation is not privileged.
+
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210307212552.523552-1-laurent@vivier.eu>
+---
+ target/m68k/translate.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index ac936ebe8f14..200018ae6a63 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -2969,6 +2969,25 @@ DISAS_INSN(rtd)
+     gen_jmp(s, tmp);
+ }
+ 
++DISAS_INSN(rtr)
++{
++    TCGv tmp;
++    TCGv ccr;
++    TCGv sp;
++
++    sp = tcg_temp_new();
++    ccr = gen_load(s, OS_WORD, QREG_SP, 0, IS_USER(s));
++    tcg_gen_addi_i32(sp, QREG_SP, 2);
++    tmp = gen_load(s, OS_LONG, sp, 0, IS_USER(s));
++    tcg_gen_addi_i32(QREG_SP, sp, 4);
++    tcg_temp_free(sp);
++
++    gen_set_sr(s, ccr, true);
++    tcg_temp_free(ccr);
++
++    gen_jmp(s, tmp);
++}
++
+ DISAS_INSN(rts)
+ {
+     TCGv tmp;
+@@ -6015,6 +6034,7 @@ void register_m68k_insns (CPUM68KState *env)
+     BASE(nop,       4e71, ffff);
+     INSN(rtd,       4e74, ffff, RTD);
+     BASE(rts,       4e75, ffff);
++    INSN(rtr,       4e77, ffff, M68000);
+     BASE(jump,      4e80, ffc0);
+     BASE(jump,      4ec0, ffc0);
+     INSN(addsubq,   5000, f080, M68000);
+-- 
+2.29.2
+
 
