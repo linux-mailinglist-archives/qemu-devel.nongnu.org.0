@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980D2337D0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 19:59:06 +0100 (CET)
-Received: from localhost ([::1]:39342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E128337D5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 20:13:16 +0100 (CET)
+Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKQWX-0003cQ-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 13:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
+	id 1lKQkF-0003bi-3E
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 14:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lKQQS-0006BP-MU
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:52:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lKQQL-0000Py-Lf
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:52:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615488759;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t/Ua4EX5DV5NRY6Lr7zTw+lomYG0jfFKC9Iqa2m00KE=;
- b=i4zc6eK40M+ahXcg+DLlEWL3gc83IkDDCcea8cA3hXArolHDZOn0taEuBVDhHLz8fCAby9
- kIb32w/DZx+5vKe0vhHr16IDulNOvXOsMEVuq9rnwRMX8yhdJHd86QgQWCn2VpjVxvpM4S
- /tSgsDaNK8/2m/TxxDgcsxGxdLwlJWE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-9YXYZ0PGPumgtHWHKcZqMg-1; Thu, 11 Mar 2021 13:52:37 -0500
-X-MC-Unique: 9YXYZ0PGPumgtHWHKcZqMg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00621800D55;
- Thu, 11 Mar 2021 18:52:37 +0000 (UTC)
-Received: from work-vm (ovpn-115-29.ams2.redhat.com [10.36.115.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9D2F102AE7E;
- Thu, 11 Mar 2021 18:52:20 +0000 (UTC)
-Date: Thu, 11 Mar 2021 18:52:17 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 07/24] DAX: virtio-fs: Add vhost-user slave
- commands for mapping
-Message-ID: <YEpm4YCYN2zuyD8w@work-vm>
-References: <20210209190224.62827-1-dgilbert@redhat.com>
- <20210209190224.62827-8-dgilbert@redhat.com>
- <CAJFHJrqioXu7K8Z=dFgMQDWoKoNK3pddcgf9znCS72BR4WHSYA@mail.gmail.com>
- <YEoJzfLRy/Kk6SOf@work-vm> <20210311135050.GA145441@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKQTK-0000tV-Qp
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKQTH-0001yu-8C
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 13:55:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lKQTF-0000kd-Iy
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8B7CD2E815F
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 18:55:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210311135050.GA145441@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Mar 2021 18:46:00 -0000
+From: Peter Maydell <1917085@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161436919438.19312.17751990850754413614.malonedeb@soybean.canonical.com>
+Message-Id: <161548836102.3005.15089343669474960244.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1917085] Re: [OSS-Fuzz] Issue 30588 pcnet: Loopback-related
+ stack-overflow
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: 8d00a702b5753437f9125f5257281a3a8a72a3a8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,132 +71,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, Chirantan Ekbote <chirantan@chromium.org>,
- qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, marcandre.lureau@redhat.com
+Reply-To: Bug 1917085 <1917085@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Thu, Mar 11, 2021 at 12:15:09PM +0000, Dr. David Alan Gilbert wrote:
-> > * Chirantan Ekbote (chirantan@chromium.org) wrote:
-> > > On Wed, Feb 10, 2021 at 4:04 AM Dr. David Alan Gilbert (git)
-> > > <dgilbert@redhat.com> wrote:
-> > > >
-> > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > > +
-> > > > +typedef struct {
-> > > > +    /* Offsets within the file being mapped */
-> > > > +    uint64_t fd_offset[VHOST_USER_FS_SLAVE_ENTRIES];
-> > > > +    /* Offsets within the cache */
-> > > > +    uint64_t c_offset[VHOST_USER_FS_SLAVE_ENTRIES];
-> > > > +    /* Lengths of sections */
-> > > > +    uint64_t len[VHOST_USER_FS_SLAVE_ENTRIES];
-> > > > +    /* Flags, from VHOST_USER_FS_FLAG_* */
-> > > > +    uint64_t flags[VHOST_USER_FS_SLAVE_ENTRIES];
-> > > > +} VhostUserFSSlaveMsg;
-> > > > +
-> > > 
-> > > Is it too late to change this?  This struct allocates space for up to
-> > > 8 entries but most of the time the server will only try to set up one
-> > > mapping at a time so only 32 out of the 256 bytes in the message are
-> > > actually being used.  We're just wasting time memcpy'ing bytes that
-> > > will never be used.  Is there some reason this can't be dynamically
-> > > sized?  Something like:
-> > > 
-> > > typedef struct {
-> > >     /* Number of mapping requests */
-> > >     uint16_t num_requests;
-> > >     /* `num_requests` mapping requests */
-> > >    MappingRequest requests[];
-> > > } VhostUserFSSlaveMsg;
-> > > 
-> > > typedef struct {
-> > >     /* Offset within the file being mapped */
-> > >     uint64_t fd_offset;
-> > >     /* Offset within the cache */
-> > >     uint64_t c_offset;
-> > >     /* Length of section */
-> > >     uint64_t len;
-> > >     /* Flags, from VHOST_USER_FS_FLAG_* */
-> > >     uint64_t flags;
-> > > } MappingRequest;
-> > > 
-> > > The current pre-allocated structure both wastes space when there are
-> > > fewer than 8 requests and requires extra messages to be sent when
-> > > there are more than 8 requests.  I realize that in the grand scheme of
-> > > things copying 224 extra bytes is basically not noticeable but it just
-> > > irks me that we could fix this really easily before it gets propagated
-> > > to too many other places.
-> > 
-> > So this has come out as:
-> > 
-> > typedef struct {
-> >     /* Offsets within the file being mapped */
-> >     uint64_t fd_offset;
-> >     /* Offsets within the cache */
-> >     uint64_t c_offset;
-> >     /* Lengths of sections */
-> >     uint64_t len;
-> >     /* Flags, from VHOST_USER_FS_FLAG_* */
-> >     uint64_t flags;
-> > } VhostUserFSSlaveMsgEntry;
-> >  
-> > typedef struct {
-> >     /* Generic flags for the overall message */
-> >     uint32_t flags;
-> >     /* Number of entries */
-> >     uint16_t count;
-> >     /* Spare */
-> >     uint16_t align;
-> >  
-> >     VhostUserFSSlaveMsgEntry entries[];
-> > } VhostUserFSSlaveMsg;
-> > 
-> > which seems to work OK.
-> > I've still got a:
-> > #define VHOST_USER_FS_SLAVE_MAX_ENTRIES 8
-> 
-> Hi Dave,
-> 
-> So if we were to raise this limit down the line, will it be just a matter
-> of changing this numebr and recompile qemu + virtiofsd? Or this is just
-> a limit on sender and qemu does not care.
+** Tags added: fuzzer
 
-They have to agree; 
-> If qemu cares about number of entries, then it will be good to raise this
-> limit to say 32 or 64.
+-- =
 
-I've bumped it to 32.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917085
 
-Dave
+Title:
+   [OSS-Fuzz] Issue 30588 pcnet: Loopback-related stack-overflow
 
-> Otherwise new definitions look good.
-> 
-> Thanks
-> Vivek
-> 
-> > 
-> > to limit the size VhostUserFSSlaveMsg can get to.
-> > The variable length array makes the union in the reader a bit more
-> > hairy, but it's OK.
-> > 
-> > Dave
-> > 
-> > > Chirantan
-> > > 
-> > > > --
-> > > > 2.29.2
-> > > >
-> > > > _______________________________________________
-> > > > Virtio-fs mailing list
-> > > > Virtio-fs@redhat.com
-> > > > https://www.redhat.com/mailman/listinfo/virtio-fs
-> > > >
-> > > 
-> > -- 
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Status in QEMU:
+  New
 
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
+  512M -machine q35 -nodefaults -device pcnet,netdev=3Dnet0 -netdev \
+  user,id=3Dnet0 -qtest /dev/null -qtest stdio
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xc001
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  outl 0xc011 0xff14ff
+  outl 0xcf8 0x80000815
+  outl 0xcfc 0xffffffff
+  outl 0xc015 0x35a
+  inl 0xc012
+  outw 0xc010 0x6165
+  outw 0xc010 0x1127
+  write 0x0 0x1 0x56
+  write 0x2 0x1 0xff
+  write 0x15 0x1 0xff
+  write 0x16 0x1 0xff
+  write 0x17 0x1 0xff
+  write 0x18 0x1 0xfd
+  write 0x19 0x1 0x59
+  write 0x1a 0x1 0xfe
+  write 0x1b 0x1 0xff
+  outw 0xc010 0x1db
+  EOF
+
+  =3D=3D=3D Stack-trace =3D=3D=3D
+  =3D=3D312573=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
+fd5bb4cec8 (pc 0x55a8f1c9cf36 bp 0x7ffd5bb4d710 sp 0x7ffd5bb4ced0 T0)
+  #0 0x55a8f1c9cf36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
+emu-system-i386+0x2baff36)
+  #1 0x55a8f2f54ddf in flatview_do_translate /home/alxndr/Development/qemu/=
+build/../softmmu/physmem.c:518:12
+  #2 0x55a8f2f6ec8e in flatview_translate /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:568:15
+  #3 0x55a8f2f6ec8e in flatview_read /home/alxndr/Development/qemu/build/..=
+/softmmu/physmem.c:2878:10
+  #4 0x55a8f2f6ec8e in address_space_read_full /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2892:18
+  #5 0x55a8f273036e in pcnet_rmd_load /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:381:9
+  #6 0x55a8f272e386 in pcnet_rdte_poll /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:896:9
+  #7 0x55a8f27299d0 in pcnet_receive /home/alxndr/Development/qemu/build/..=
+/hw/net/pcnet.c:1016:9
+  #8 0x55a8f27406be in pcnet_transmit /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:1253:13
+  #9 0x55a8f2735b4c in pcnet_poll_timer /home/alxndr/Development/qemu/build=
+/../hw/net/pcnet.c:1322:9
+  #10 0x55a8f273c353 in pcnet_ioport_readl /home/alxndr/Development/qemu/bu=
+ild/../hw/net/pcnet.c:1660:5
+  #11 0x55a8f2727361 in pcnet_ioport_read /home/alxndr/Development/qemu/bui=
+ld/../hw/net/pcnet-pci.c:107:20
+  #12 0x55a8f309e9f6 in memory_region_read_accessor /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:442:11
+  #13 0x55a8f3070d63 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/build/../softmmu/memory.c:552:18
+  #14 0x55a8f306f222 in memory_region_dispatch_read1 /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c
+  #15 0x55a8f306f222 in memory_region_dispatch_read /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:1449:9
+  #16 0x55a8f2f6d88f in flatview_read_continue /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2839:23
+  #17 0x55a8f2f6ed1b in flatview_read /home/alxndr/Development/qemu/build/.=
+./softmmu/physmem.c:2879:12
+  #18 0x55a8f2f6ed1b in address_space_read_full /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2892:18
+  #19 0x55a8f273036e in pcnet_rmd_load /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:381:9
+  #20 0x55a8f2729d97 in pcnet_receive /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:1028:17
+  #21 0x55a8f27406be in pcnet_transmit /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:1253:13
+  #22 0x55a8f2735b4c in pcnet_poll_timer /home/alxndr/Development/qemu/buil=
+d/../hw/net/pcnet.c:1322:9
+  #23 0x55a8f273c353 in pcnet_ioport_readl /home/alxndr/Development/qemu/bu=
+ild/../hw/net/pcnet.c:1660:5
+  #24 0x55a8f2727361 in pcnet_ioport_read /home/alxndr/Development/qemu/bui=
+ld/../hw/net/pcnet-pci.c:107:20
+  #25 0x55a8f309e9f6 in memory_region_read_accessor /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:442:11
+  #26 0x55a8f3070d63 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/build/../softmmu/memory.c:552:18
+  #27 0x55a8f306f222 in memory_region_dispatch_read1 /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c
+  #28 0x55a8f306f222 in memory_region_dispatch_read /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:1449:9
+  #29 0x55a8f2f6d88f in flatview_read_continue /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2839:23
+  #30 0x55a8f2f6ed1b in flatview_read /home/alxndr/Development/qemu/build/.=
+./softmmu/physmem.c:2879:12
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917085/+subscriptions
 
