@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6643337F95
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:23:32 +0100 (CET)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AF8337F9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 22:26:30 +0100 (CET)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKSmK-0004Xt-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:23:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47806)
+	id 1lKSpB-0000Ad-Sq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 16:26:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lKSiP-0001Hz-5x
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:19:29 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lKSiI-0000wM-MH
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:19:28 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id mj10so49175192ejb.5
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 13:19:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c859OltOaeUBULxtm/ETukQThVCbFAR7OWGbv+mGxXY=;
- b=EnqJEiqN4lFGby77l7rlTCaO7MyAoNrYJoTt/9/q2DiEf0+l1/R6Y8eCdAy0+8c3W/
- t9D+mXjqak9xJsu02LmL+4EoVhyY/Xuh34N/4JnHXDJoh8cOUwD6aCOQMGLh5szFzX3l
- d0fXpT/vlxk6bjthtLReslo/RRSyv4LVbyYLlkTC5X3nm8UuFqV0luAZG6D91Lu9Ifgf
- /YS7VNeDTKepSYhzjhQptOF8KoHRUIcL2DBAv89pFoLZhKWt3g5X/O2zio4DplH6KkqE
- WXUS+p17oZRzj6F+iAwJKKwKmT90X8x3SUFyC8Jf9nkn8D65Ky28l/BBoLoYWiV8VXjh
- Rmxw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKSnz-0007mi-QQ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:25:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lKSnw-0003aL-JI
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 16:25:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615497910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SI9Cd+F/EoZ6JbOVOMbCkIAvXnFvdA7omopBRBlkjtg=;
+ b=DtauHmuz/nlHMKFeBdfT/YjTVSOYbOwDSIPFxp35XcnSPktIuPzWQs8mjjVKYLUhyEX2h8
+ pUjGQZ+upQ6rKtZ0ffyq7q+GIk1r8VGtkNFuK3QnkOGVe03XiT/81wU6ytdimrSQy9m5b8
+ pujxl/Hf9yaEKrd3lMUDic8Tm5SmKWw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-tTpmMo-BPJazURVS7jWxug-1; Thu, 11 Mar 2021 16:25:09 -0500
+X-MC-Unique: tTpmMo-BPJazURVS7jWxug-1
+Received: by mail-qk1-f197.google.com with SMTP id b78so16658825qkg.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 13:25:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c859OltOaeUBULxtm/ETukQThVCbFAR7OWGbv+mGxXY=;
- b=akqVSrN9NeLKnZq8xXRkLXTqinOul8nIn7DcI/K0IePisK6Vp37rS8sY8uRsVMdp08
- HGvVhqG1BRdNhJn/fhp+VJVoVrKgTcVXEt9ZEsI+q0hF8jzVxTy9TskoAOB1WwMgLwt5
- qu8OMpSatAubb/EFGWpTVXPFDOGf178OiKg1tt+GQ4+hZnnWK61qHoL2rJFI88v1nq4S
- WfsK/ysgCIWD85+SVIq31Z1N9UQZS4okXQEReLJGLG+Omt6OMz6e6cQzOg+C9cOESCQ6
- ukTesllTxviPDutHAqh6Dm935C41EqZ6F15JAJRiumu2NU4wfoIWspjocD3OGttj+o24
- uDOg==
-X-Gm-Message-State: AOAM5328ljBoDJVhMaj2m48qpxyTAAlrmuQZ1siPb7eQNz/cv9oKmwIY
- Cn7Z5onTFeqGM9f5O01MP2v+wZbvU3J+nELcptI=
-X-Google-Smtp-Source: ABdhPJye6gW0Kp94Z2mWrH0tEpynEEh8V3GY0ATg/5mprFKp5AYQ3RnelR95cFsv4AlxzL0dda67aaDNEBgtHaRa1eE=
-X-Received: by 2002:a17:906:40c7:: with SMTP id
- a7mr5038328ejk.109.1615497561157; 
- Thu, 11 Mar 2021 13:19:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SI9Cd+F/EoZ6JbOVOMbCkIAvXnFvdA7omopBRBlkjtg=;
+ b=dg3SQ/ja6pEcwQOfxzsgcxlwsOBQ+5M5LdPDdJqg54UCfgk9tjQKxNG3oJ9VSLAFl6
+ /mJOilUwmX+Wcx70+PUWZl6auccR7JJLSNOBagQydtu2kJQV+nNKY7lsxFW6Iczorr1w
+ VizZu3tOMYYonjAwRz+jSmG5ewRz///am74ywu5AmqPMoSYs2SQ+DssHTu5Xk5Y4JTwX
+ T8xxYvm0KjiJOHmeyNfDGPnjJG1yqVm+XoS+qUPhnscy+6dd5G86ncbOAru2VVbF5uei
+ ZVpsgj23C8Z/O1YBBotGucpUYJbyttDRwjGEtebnQ8/gum8suTP+sDofMCK7DrJTQddF
+ JxFQ==
+X-Gm-Message-State: AOAM5336ouv6eawSEY2PHsxDWwkbY5d6rqB7L/tyaxBQOJAgivefmphx
+ sk8EwYcgMi+ohClCMAQ3SXKWVV4Qhvf4hlFuLVyBJVNXq5M/hW456CamnvKDBkopOzmv0pzL/2h
+ ed3TdiUIR7SsK4OU=
+X-Received: by 2002:ac8:7281:: with SMTP id v1mr1626263qto.302.1615497908773; 
+ Thu, 11 Mar 2021 13:25:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoEkJJ0ZACUEQEKnxUE67lnlmb2xAEhk3N6n/rcaLS9W6OEdtCTH/pbjV13y8kR5HcMIMwNw==
+X-Received: by 2002:ac8:7281:: with SMTP id v1mr1626251qto.302.1615497908537; 
+ Thu, 11 Mar 2021 13:25:08 -0800 (PST)
+Received: from xz-x1 ([142.126.89.138])
+ by smtp.gmail.com with ESMTPSA id e190sm2859925qkd.122.2021.03.11.13.25.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Mar 2021 13:25:07 -0800 (PST)
+Date: Thu, 11 Mar 2021 16:25:05 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
+ to handle shared anonymous memory
+Message-ID: <20210311212505.GJ194839@xz-x1>
+References: <20210308150600.14440-1-david@redhat.com>
+ <20210308150600.14440-3-david@redhat.com>
+ <YEpH1FAabcILd38K@work-vm>
+ <df216a57-d45a-9563-5e88-0f2ebf6b0a7e@redhat.com>
+ <20210311171153.GF194839@xz-x1>
+ <26d2c57a-971d-3abd-6ec3-1a38fb47a398@redhat.com>
+ <20210311172236.GG194839@xz-x1>
+ <d0a57921-61ab-82a5-ed58-061961dfa6a3@redhat.com>
 MIME-Version: 1.0
-References: <20210311182957.486939-1-berrange@redhat.com>
- <20210311182957.486939-4-berrange@redhat.com>
-In-Reply-To: <20210311182957.486939-4-berrange@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 12 Mar 2021 01:19:09 +0400
-Message-ID: <CAJ+F1CJhURwFsUMUvEVn66JA4ffpOV4S9qbLGP8v4CL4KqUUqg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ui: use client width/height in WMVi message
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000044b57b05bd4956fe"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d0a57921-61ab-82a5-ed58-061961dfa6a3@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,109 +98,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000044b57b05bd4956fe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Mar 11, 2021 at 06:41:29PM +0100, David Hildenbrand wrote:
+> It zaps the page tables but the shmem pages are still referenced (in the
+> pagecache AFAIU). On next user space access, you would fill the page tables
+> with the previous content.
+> 
+> That's why MADV_DONTNEED works properly on private anonymous memory, but not
+> on shared anonymous memory - the only valid references are in the page
+> tables in case of private mappings (well, unless we have other references
+> like GUP etc.).
 
-On Thu, Mar 11, 2021 at 10:46 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om>
-wrote:
+For some reason I thought anonymous shared memory could do auto-recycle, but
+after a second thought what you said makes perfect sense.
 
-> The WMVi message is supposed to provide the same width/height
-> information as the regular desktop resize and extended desktop
-> resize messages. There can be times where the client width and
-> height are different from the pixman surface dimensions.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
+> 
+> 
+> I did wonder, however, if there is benefit in doing both:
+> 
+> MADV_REMOVE followed by MADV_DONTNEED or the other way around. Like, will
+> the extra MADV_DONTNEED also remove page tables and not just invalidate/zap
+> the entries. Doesn't make a difference functionality-wise, but
+> memory-consumption-wise.
+> 
+> I'll still have to have a look.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+I saw your other email - that'll be another topic of course.  For now I believe
+it's not necessary, and your current patch looks valid.
 
----
->  ui/vnc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 7291429c04..8c9890b3cd 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -2319,8 +2319,8 @@ static void vnc_colordepth(VncState *vs)
->          vnc_write_u8(vs, 0);
->          vnc_write_u16(vs, 1); /* number of rects */
->          vnc_framebuffer_update(vs, 0, 0,
-> -                               pixman_image_get_width(vs->vd->server),
-> -                               pixman_image_get_height(vs->vd->server),
-> +                               vs->client_width,
-> +                               vs->client_height,
->                                 VNC_ENCODING_WMVi);
->          pixel_format_message(vs);
->          vnc_unlock_output(vs);
-> --
-> 2.29.2
->
->
->
+I just hope when qemu decides to disgard the range, we're sure the rdma
+mremap() region have been unmaped - iiuc that's the only use case of that.
+Otherwise data would corrupt.
 
---=20
-Marc-Andr=C3=A9 Lureau
+-- 
+Peter Xu
 
---00000000000044b57b05bd4956fe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 11, 2021 at 10:46 PM Dani=
-el P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">The WMVi message is supposed to provide the same width/height<br>
-information as the regular desktop resize and extended desktop<br>
-resize messages. There can be times where the client width and<br>
-height are different from the pixman surface dimensions.<br>
-<br>
-Signed-off-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redha=
-t.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br></blockquote><div><=
-br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
-candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></d=
-iv><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0ui/vnc.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/ui/vnc.c b/ui/vnc.c<br>
-index 7291429c04..8c9890b3cd 100644<br>
---- a/ui/vnc.c<br>
-+++ b/ui/vnc.c<br>
-@@ -2319,8 +2319,8 @@ static void vnc_colordepth(VncState *vs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u8(vs, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_write_u16(vs, 1); /* number of rects =
-*/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_framebuffer_update(vs, 0, 0,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pixman_image_get_width(vs-&gt;vd-&gt;=
-server),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pixman_image_get_height(vs-&gt;vd-&gt=
-;server),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vs-&gt;client_width,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vs-&gt;client_height,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VNC_ENCODING_WMVi);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pixel_format_message(vs);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vnc_unlock_output(vs);<br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000044b57b05bd4956fe--
 
