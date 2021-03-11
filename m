@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56166336922
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:47:42 +0100 (CET)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7D1336919
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:45:29 +0100 (CET)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9UL-00060Y-B3
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:47:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1lK9SC-0003sM-6d
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:45:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK962-0005A2-J4
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:34 -0500
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:42829)
+ id 1lK961-000587-RR
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:33 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:36352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95x-0001R1-9D
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:34 -0500
-Received: by mail-ot1-x332.google.com with SMTP id e45so18297578ote.9
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:28 -0800 (PST)
+ id 1lK95y-0001RG-Ex
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:33 -0500
+Received: by mail-ot1-x332.google.com with SMTP id t16so18307027ott.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hRDKBlkrkH0wPjjBxkhifgdz+KlBpVlUTlAscxlmvqk=;
- b=GsYC70hk9ndl6hZhnlOx9eCG4SHBgGWkrHbwm4i0V8+1hxYGqxnG6s3gWoKHokYhZz
- TYopvvE9PgXFnXCkjf7Tx+NTGzvWBkoQMPLF7Inl/q6TGDBrAVsle4lOkNkBYoq0AKiQ
- XXgxG9NkvzfkOdA+j8oTsuZeWuJPv8NImlFWEQlrnOWB480CwgvO3KY4e70f5voTXwPN
- vaow8BldsnTcI4NV6jThbuVa4WDS+NVZnMlWPVC8DK7yGpyfPQtJIuNMM9NIq2rZLDCY
- kK93mGbjxS6z1MWpw+GK66Q58aNkwFy+UYgxQZrp/abjbn3xMwvi/8aQph78O6blT2os
- ZK8g==
+ bh=N5ebAqjISG3PFrvVB60Fr8uPDBumPcXXPBy24caHmmA=;
+ b=ixZ4ZPOxXJNH6Tomd5TMawuXBmZblxZXjOZ+Cyof5Mrlre+WHdKrL5xYwmaJrzTUj0
+ vVXuyJWjA3zhTZeaueLnQT+AWhLnRtuu1ZByYLtPS+9rvfstZPqsGjF1W9PuKuYZXXa3
+ gCB2JVVea3ClfTQCQgjRIuTqKJgZBidACT2ZgfhMcDwoU0bQy8QKbEM6jBsk45FCq1CX
+ uA7Ei0D4NpRHVj3nYwx9yJIz+bqun7Ku2LmIXn9Czq546d+DIBPMEpNUSfAZzeC3F5Es
+ aqxIf683Ov6+r4dllkcl7FoucJ/a04XNi4WsSdrL4LO59sHDph5VHzZUESmtjZFyhUGJ
+ EX8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hRDKBlkrkH0wPjjBxkhifgdz+KlBpVlUTlAscxlmvqk=;
- b=YxkNqISgUUI7q8qz82v79GchyioiqD833zFilv/wWcEBdkK39BJbh2qqJAXU/n2MdI
- iqFFi9lETN6XBb2gkcyFVs0IvIoQe+oMMwb7cVMP7VdEYmvor5mw/6XUOo/0cbo32b7V
- IS89FuH5usJ7NarL+25j8IzSTG2EehXQh1JyKKjsrsyRYJ0ZrHbBEM7XBzE3Zds7+FxG
- 3d3OgeCTz5+7R48bJQJCy0HJJNe1Dhl/QGtLzRsy6NEhJQLOzahzznRo8O42TdpXS0tc
- xt1yKmUbf6dqa5X629vWRaN1uKqExaUY2rkBJqtjJwp1vE3TbuIFe2w8SMkMdA88yURK
- 8HDA==
-X-Gm-Message-State: AOAM531WpaTNVZEqBAOHVddWEeNm5KjIyKor5nd4LdYz9UKb5++sATic
- mTH/1NAWzFiWkOpBt0F6cOgIT3YmfLsHi/XS
-X-Google-Smtp-Source: ABdhPJyyvW0K35FkcTtJz+HA+0PCQh0CnWnnlndv7wqvr6j8xqm/znUcj8KyBeAA508kSXeAtoHtMA==
-X-Received: by 2002:a05:6830:1352:: with SMTP id
- r18mr4893827otq.283.1615422148231; 
- Wed, 10 Mar 2021 16:22:28 -0800 (PST)
+ bh=N5ebAqjISG3PFrvVB60Fr8uPDBumPcXXPBy24caHmmA=;
+ b=OfEN12v/XIuSEqkJS9+btnVGMr2BuV/GSrcHYsjNHdoOe+7KKVIr9rdkFJdyYa9c/i
+ t2vhsbujCDrex6mwVc5wx/4/42xxLkZexOa5Hz4rq6+qVYFlxYqnqO8wjt3JbC0dMEsX
+ e2Ned32hvuCAm3053TVKxaaKVsDm7lRzGnXfJO3CDq3d2MtRGhMhqqqWiQhoVAnxPo9G
+ OKXtO/dQ6wP9BBfSO5jj4+qt0KAqzCDPPWiutX/o6DgxIwgSok/s2Cs6/fsgolv3Hgud
+ F3WC6O75bl//ksK1PeY9MtvQiBSBBKWcnR1mvsL5ZEheze5SiBVBW6ngccRPBQU0pHQ1
+ 0hDw==
+X-Gm-Message-State: AOAM530vfuKnsX7AgNnF9GfHENEvO2wrEcH5ZyHGn6AEPXFhWN3JtTFo
+ 82TYMz1p1WOotQbe2XYMLdPyNn/qAq5FOTGC
+X-Google-Smtp-Source: ABdhPJwnMKJcSMLNwK3JjELpzrEHl3BBWEX7DTkNqLDUYij2GLJVyUIOpEtawBMwk/u13jILr+JVaw==
+X-Received: by 2002:a05:6830:149:: with SMTP id
+ j9mr4627024otp.66.1615422149295; 
+ Wed, 10 Mar 2021 16:22:29 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.27
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:27 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/26] util/osdep: Add qemu_mprotect_rw
-Date: Wed, 10 Mar 2021 18:21:54 -0600
-Message-Id: <20210311002156.253711-25-richard.henderson@linaro.org>
+Subject: [PATCH 25/26] tcg: Merge buffer protection and guard page protection
+Date: Wed, 10 Mar 2021 18:21:55 -0600
+Message-Id: <20210311002156.253711-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
@@ -88,46 +88,84 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For --enable-tcg-interpreter on Windows, we will need this.
+Do not handle protections on a case-by-case basis in the
+various alloc_code_gen_buffer instances; do it within a
+single loop in tcg_region_init.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/osdep.h | 1 +
- util/osdep.c         | 9 +++++++++
- 2 files changed, 10 insertions(+)
+ tcg/region.c | 40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index ba15be9c56..5cc2e57bdf 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -494,6 +494,7 @@ void sigaction_invoke(struct sigaction *action,
+diff --git a/tcg/region.c b/tcg/region.c
+index 93d03076d1..5b46172fb5 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -514,11 +514,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+     }
  #endif
  
- int qemu_madvise(void *addr, size_t len, int advice);
-+int qemu_mprotect_rw(void *addr, size_t size);
- int qemu_mprotect_rwx(void *addr, size_t size);
- int qemu_mprotect_none(void *addr, size_t size);
+-    if (qemu_mprotect_rwx(buf, size)) {
+-        error_setg_errno(errp, errno, "mprotect of jit buffer");
+-        return false;
+-    }
+-
+     region.start_aligned = buf;
+     region.total_size = size;
  
-diff --git a/util/osdep.c b/util/osdep.c
-index 66d01b9160..42a0a4986a 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -97,6 +97,15 @@ static int qemu_mprotect__osdep(void *addr, size_t size, int prot)
- #endif
- }
- 
-+int qemu_mprotect_rw(void *addr, size_t size)
-+{
-+#ifdef _WIN32
-+    return qemu_mprotect__osdep(addr, size, PAGE_READWRITE);
-+#else
-+    return qemu_mprotect__osdep(addr, size, PROT_READ | PROT_WRITE);
-+#endif
-+}
-+
- int qemu_mprotect_rwx(void *addr, size_t size)
+@@ -802,8 +797,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
  {
- #ifdef _WIN32
+     size_t page_size;
+     size_t region_size;
+-    size_t i;
+-    int have_prot;
++    int have_prot, need_prot;
+ 
+     have_prot = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
+                                       splitwx, &error_fatal);
+@@ -844,14 +838,38 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+     /* init the region struct */
+     qemu_mutex_init(&region.lock);
+ 
+-    /* Set guard pages.  No need to do this for the rx_buf, only the rw_buf. */
+-    for (i = 0; i < region.n; i++) {
++    /*
++     * Set guard pages.  No need to do this for the rx_buf, only the rw_buf.
++     * Work with the page protections set up with the initial mapping.
++     */
++    need_prot = PAGE_READ | PAGE_WRITE;
++#ifndef CONFIG_TCG_INTERPRETER
++    if (tcg_splitwx_diff == 0) {
++        need_prot |= PAGE_EXEC;
++    }
++#endif
++    for (size_t i = 0, n = region.n; i < n; i++) {
+         void *start, *end;
+         int rc;
+ 
+         tcg_region_bounds(i, &start, &end);
+-        rc = qemu_mprotect_none(end, page_size);
+-        g_assert(!rc);
++        if (have_prot != need_prot) {
++            if (need_prot == (PAGE_READ | PAGE_WRITE | PAGE_EXEC)) {
++                rc = qemu_mprotect_rwx(start, end - start);
++            } else if (need_prot == (PAGE_READ | PAGE_WRITE)) {
++                rc = qemu_mprotect_rw(start, end - start);
++            } else {
++                g_assert_not_reached();
++            }
++            if (rc) {
++                error_setg_errno(&error_fatal, errno,
++                                 "mprotect of jit buffer");
++            }
++        }
++        if (have_prot != 0) {
++            /* If guard-page permissions don't change, it isn't fatal. */
++            (void)qemu_mprotect_none(end, page_size);
++        }
+     }
+ 
+     tcg_region_trees_init();
 -- 
 2.25.1
 
