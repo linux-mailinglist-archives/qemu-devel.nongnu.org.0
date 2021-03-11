@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFC4336ED8
+	by mail.lfdr.de (Postfix) with ESMTPS id B9756336ED9
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 10:29:13 +0100 (CET)
-Received: from localhost ([::1]:40872 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKHd2-0002mn-9P
+	id 1lKHd2-0002pt-P7
 	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 04:29:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56792)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lKBnq-0001OC-Sk
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:15:58 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53802)
+ id 1lKBo2-0001SO-K7
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:16:10 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:45952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lKBno-0000i3-V7
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:15:58 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id g20so406514wmk.3
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 19:15:56 -0800 (PST)
+ id 1lKBnw-0000kR-Rf
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 22:16:10 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ r10-20020a05600c35cab029010c946c95easo11905898wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 19:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UF2uIEk2a+ZLtiqF+PRF7HpxKroPVBJ9bM3hn+fhcM0=;
- b=p7r8dUNkzKckPl+pLRABtoFa1fJbcoI/OZjUiydMahx/Z2ZbFuX+0b1z5GGi9+ADur
- m0wfbB5GghB96y9fHussnLVzTpe+97yhaxuaZyb74b6O0dCVp+Pt4rsgW+dPS8FA7Wjg
- ncm6bmwX6XWq2e+lnoILOpzaPQXjp3nDkwyIzM6eQiSSxOOI5//XDStbmGqPuepqivyv
- uDvkazWvMtaluVTo8Mi3XzvQb5VKkLhlc4FDDfWXeJHrdBabXE5GnBql5zz12lOHdfMF
- 1B5jzu+OPAY7IXo/Nn9hnD12npKmAceUvheXMeXHJH00SIjc/VEsmg+QECON2v6UobZj
- pzFw==
+ bh=rt7Yoj3Wqvxxfhd2fdBXz/8HCzsyO5MYxMXGF410eTI=;
+ b=AMBjqtFPmUKv7qdJjGztV+Dhf7Sy0EbsQA13UCRvr/XqLY2HIrEYgaoUkOylnmBUvf
+ Bs7JYtGXMTu0Zczb6zGkvxs6WPj6VqYUpZyP2jQHGMCfwdcT9vo4lxTQwth4l79tboJH
+ r+TfqLnhkdwZBB7njk4ddTbuHKWcHH4hl14PitQuoh9+UeetW6W2aU/NkDHhal03Fnbl
+ jzQXbZy6ELirMa6XYoI13cJ9ph7B6gkqSKJgIV8HM0JltawBN1IJhJOVbueuMK3h2Guo
+ sLno8lvquBrs0L9tdnRxRfehU6fKanIlzuQBXBGk2E58xly/brecuJcYp26W1L22y6MD
+ 3GHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UF2uIEk2a+ZLtiqF+PRF7HpxKroPVBJ9bM3hn+fhcM0=;
- b=Ot7H326fm97vNQ2WphSpY/LmuaBLJuJ65kq2TNKqr2BKIA6vCqdFujscAMAoqMrCjE
- UpkviehI737VAYw3KAmJl8keJgJpD4sz29d3dMdYTlvbq6YctcyA5yiuJChlt58FyM1x
- 9EEHYGuE+H/NeDkJwu6L9lmqyGEQuNlBMbCURRINMV+X/6kxSTMIUhSQyAFWbJeeZWzU
- wq68w7IupVRmHbqIyemgzp+NsP87nYwnSXN2sfBvb4lejQpvkdpKN1o2p7HQDdOp/dwx
- +0U5P7dW8xxCovnzowtl5CvPfRV6sBxinuYLFtRwH/jdLvXs6jX2oawMHF/BxHqFCjJ7
- 5jMQ==
-X-Gm-Message-State: AOAM531RZGA5vpSCjoly05kLUVONfTupCKjSIbHSy52nh0jwNZe9sK5/
- aQrj4STGfShH0xTS80/nOJIsOfWcpb8TrLPi8xQ=
-X-Google-Smtp-Source: ABdhPJzkMbMUsyT4HZ2GJfhA/mkSxRJne8Pg2hcHgamvknhMnPlMaW/4QY6emjnYWr1gKt2fhEswhg==
-X-Received: by 2002:a1c:a916:: with SMTP id s22mr6247078wme.82.1615432555262; 
- Wed, 10 Mar 2021 19:15:55 -0800 (PST)
+ bh=rt7Yoj3Wqvxxfhd2fdBXz/8HCzsyO5MYxMXGF410eTI=;
+ b=N7Y7ABGp3OZclXy+J6acUermaPidrRrmgMd9IAV+Az0PR0J8nI3Ql/D4sY9ZiXllMA
+ EPNfP/ybvJdVbYd89XKaBH6iC68BbG0p8wqrXz0xSGpxtk+fX0cTQF9JED6hWbDS2wir
+ fRmsP8kduxmg7rR6XHIy3Fampr1Zm5T4wpZTGMPKbHVetBOLTtjO0Fy30XQv2hplptzx
+ kx/bkg/T2/j3jyFLFyF+b7GJKrFegfS6OY9VAvT28OWVYLlAjkluRNqLbdjaJk3P9Ikx
+ rvJA3Wd8qEX122CZ3AmWT7rlhKJxyLyWr7Jhc4jju3+tHol1WWLdgfb3Hqm6goAso+ht
+ uGdA==
+X-Gm-Message-State: AOAM5317s4GkI9EepdWvgyvdNaqih36hA6ijPf38WIJMVTOYIb4XEl/M
+ mtsM3w/8Co+Cp5PxDUn4l8p9ISRkrj9loTB83TY=
+X-Google-Smtp-Source: ABdhPJz3AYUnICiSdcNSOreCpjFwc1zEBRngTkbby+k/5qVu9sNXixyW8i7BEe8uczQZ3h3klF5pkQ==
+X-Received: by 2002:a1c:e4d4:: with SMTP id b203mr5787965wmh.105.1615432559640; 
+ Wed, 10 Mar 2021 19:15:59 -0800 (PST)
 Received: from localhost.localdomain ([197.61.47.225])
- by smtp.googlemail.com with ESMTPSA id o188sm1450416wme.7.2021.03.10.19.15.54
+ by smtp.googlemail.com with ESMTPSA id o188sm1450416wme.7.2021.03.10.19.15.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 19:15:54 -0800 (PST)
+ Wed, 10 Mar 2021 19:15:59 -0800 (PST)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] monitor: Replaced qemu_mutex_lock calls with
+Subject: [PATCH 9/9] hw/hyperv/vmbus: replaced qemu_mutex_lock with
  QEMU_LOCK_GUARD
-Date: Thu, 11 Mar 2021 05:15:34 +0200
-Message-Id: <20210311031538.5325-6-ma.mandourr@gmail.com>
+Date: Thu, 11 Mar 2021 05:15:38 +0200
+Message-Id: <20210311031538.5325-10-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311031538.5325-1-ma.mandourr@gmail.com>
 References: <20210311031538.5325-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -72,7 +73,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 11 Mar 2021 04:24:53 -0500
+X-Mailman-Approved-At: Thu, 11 Mar 2021 04:25:10 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,155 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removed various qemu_mutex_lock and their respective qemu_mutex_unlock
-calls and used lock guard macros (QEMU_LOCK_GUARD and
-WITH_QEMU_LOCK_GUARD). This simplifies the code by
-eliminating qemu_mutex_unlock calls.
+Replaced some calls to qemu_mutex_lock and their respective
+qemu_mutex_unlock calls with QEMU_LOCK_GUARD macro. This simplifies
+the code by removing the calls to qemu_mutex_unlock and eliminates
+goto paths.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- monitor/monitor.c |  8 ++------
- monitor/qmp.c     | 51 ++++++++++++++++++++++-------------------------
- 2 files changed, 26 insertions(+), 33 deletions(-)
+ hw/hyperv/vmbus.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index e94f532cf5..640496e562 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -349,7 +349,7 @@ monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
-     evconf = &monitor_qapi_event_conf[event];
-     trace_monitor_protocol_event_queue(event, qdict, evconf->rate);
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index 984caf898d..7c966ae399 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -1616,11 +1616,11 @@ static int enqueue_incoming_message(VMBus *vmbus,
+     int ret = 0;
+     uint8_t idx, prev_size;
  
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
+-    qemu_mutex_lock(&vmbus->rx_queue_lock);
++    QEMU_LOCK_GUARD(&vmbus->rx_queue_lock);
  
-     if (!evconf->rate) {
-         /* Unthrottled event */
-@@ -391,8 +391,6 @@ monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
-             timer_mod_ns(evstate->timer, now + evconf->rate);
-         }
-     }
--
--    qemu_mutex_unlock(&monitor_lock);
- }
- 
- void qapi_event_emit(QAPIEvent event, QDict *qdict)
-@@ -447,7 +445,7 @@ static void monitor_qapi_event_handler(void *opaque)
-     MonitorQAPIEventConf *evconf = &monitor_qapi_event_conf[evstate->event];
- 
-     trace_monitor_protocol_event_handler(evstate->event, evstate->qdict);
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
- 
-     if (evstate->qdict) {
-         int64_t now = qemu_clock_get_ns(monitor_get_event_clock());
-@@ -462,8 +460,6 @@ static void monitor_qapi_event_handler(void *opaque)
-         timer_free(evstate->timer);
-         g_free(evstate);
-     }
--
--    qemu_mutex_unlock(&monitor_lock);
- }
- 
- static unsigned int qapi_event_throttle_hash(const void *key)
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 2326bd7f9b..2b0308f933 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -76,7 +76,7 @@ static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
- 
- static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
- {
--    qemu_mutex_lock(&mon->qmp_queue_lock);
-+    QEMU_LOCK_GUARD(&mon->qmp_queue_lock);
- 
-     /*
-      * Same condition as in monitor_qmp_dispatcher_co(), but before
-@@ -103,7 +103,6 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
-         monitor_resume(&mon->common);
+     if (vmbus->rx_queue_size == HV_MSG_QUEUE_LEN) {
+         ret = -ENOBUFS;
+-        goto out;
++        return ret;
      }
  
--    qemu_mutex_unlock(&mon->qmp_queue_lock);
+     prev_size = vmbus->rx_queue_size;
+@@ -1632,8 +1632,7 @@ static int enqueue_incoming_message(VMBus *vmbus,
+     if (!prev_size) {
+         vmbus_resched(vmbus);
+     }
+-out:
+-    qemu_mutex_unlock(&vmbus->rx_queue_lock);
++
+     return ret;
  }
  
- void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
-@@ -179,7 +178,7 @@ static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-     Monitor *mon;
-     MonitorQMP *qmp_mon;
+@@ -2189,10 +2188,10 @@ static void process_message(VMBus *vmbus)
+     void *msgdata;
+     uint32_t msglen;
  
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
+-    qemu_mutex_lock(&vmbus->rx_queue_lock);
++    QEMU_LOCK_GUARD(&vmbus->rx_queue_lock);
  
-     QTAILQ_FOREACH(mon, &mon_list, entry) {
-         if (!monitor_is_qmp(mon)) {
-@@ -205,8 +204,6 @@ static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-         QTAILQ_INSERT_TAIL(&mon_list, mon, entry);
+     if (!vmbus->rx_queue_size) {
+-        goto unlock;
++        return;
      }
  
--    qemu_mutex_unlock(&monitor_lock);
--
-     return req_obj;
+     hv_msg = &vmbus->rx_queue[vmbus->rx_queue_head];
+@@ -2241,8 +2240,6 @@ out:
+     vmbus->rx_queue_head %= HV_MSG_QUEUE_LEN;
+ 
+     vmbus_resched(vmbus);
+-unlock:
+-    qemu_mutex_unlock(&vmbus->rx_queue_lock);
  }
  
-@@ -376,30 +373,30 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-     req_obj->err = err;
- 
-     /* Protect qmp_requests and fetching its length. */
--    qemu_mutex_lock(&mon->qmp_queue_lock);
-+    WITH_QEMU_LOCK_GUARD(&mon->qmp_queue_lock) {
- 
--    /*
--     * Suspend the monitor when we can't queue more requests after
--     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
--     * monitor_qmp_cleanup_queue_and_resume() will resume it.
--     * Note that when OOB is disabled, we queue at most one command,
--     * for backward compatibility.
--     */
--    if (!qmp_oob_enabled(mon) ||
--        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
--        monitor_suspend(&mon->common);
--    }
-+        /*
-+         * Suspend the monitor when we can't queue more requests after
-+         * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
-+         * monitor_qmp_cleanup_queue_and_resume() will resume it.
-+         * Note that when OOB is disabled, we queue at most one command,
-+         * for backward compatibility.
-+         */
-+        if (!qmp_oob_enabled(mon) ||
-+            mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
-+            monitor_suspend(&mon->common);
-+        }
- 
--    /*
--     * Put the request to the end of queue so that requests will be
--     * handled in time order.  Ownership for req_obj, req,
--     * etc. will be delivered to the handler side.
--     */
--    trace_monitor_qmp_in_band_enqueue(req_obj, mon,
--                                      mon->qmp_requests->length);
--    assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
--    g_queue_push_tail(mon->qmp_requests, req_obj);
--    qemu_mutex_unlock(&mon->qmp_queue_lock);
-+        /*
-+         * Put the request to the end of queue so that requests will be
-+         * handled in time order.  Ownership for req_obj, req,
-+         * etc. will be delivered to the handler side.
-+         */
-+        trace_monitor_qmp_in_band_enqueue(req_obj, mon,
-+                                          mon->qmp_requests->length);
-+        assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
-+        g_queue_push_tail(mon->qmp_requests, req_obj);
-+    }
- 
-     /* Kick the dispatcher routine */
-     if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
+ static const struct {
 -- 
 2.25.1
 
