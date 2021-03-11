@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B30337511
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:07:59 +0100 (CET)
-Received: from localhost ([::1]:34178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAA43374D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 15:01:23 +0100 (CET)
+Received: from localhost ([::1]:43670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKLyn-0007Wc-OV
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:07:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1lKLsQ-0006gp-Pj
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 09:01:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPK-0001E6-KC
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:18 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42736)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPI-000188-7j
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPC-0006s4-S9
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:18 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKLPC-0006s5-KO
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 08:31:15 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2C6F1AF00;
+ by mx2.suse.de (Postfix) with ESMTP id A78B7AC24;
  Thu, 11 Mar 2021 13:30:45 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v6 33/38] tests: do not run test-hmp on all machines for ARM
- KVM-only
-Date: Thu, 11 Mar 2021 14:30:21 +0100
-Message-Id: <20210311133026.14052-34-cfontana@suse.de>
+Subject: [RFC v6 34/38] tests: device-introspect-test: cope with ARM TCG-only
+ devices
+Date: Thu, 11 Mar 2021 14:30:22 +0100
+Message-Id: <20210311133026.14052-35-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210311133026.14052-1-cfontana@suse.de>
 References: <20210311133026.14052-1-cfontana@suse.de>
@@ -63,27 +63,29 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-on ARM we currently list and build all machines, even when
-building KVM-only, without TCG.
+Skip the test_device_intro_concrete for now for ARM KVM-only build,
+as on ARM we currently build devices for ARM that are not
+compatible with a KVM-only build.
 
-Until we fix this (and we only list and build machines that are
-compatible with KVM), only test specifically using the "virt"
-machine in this case.
+We can remove this workaround when we fix this in KConfig etc,
+and we only list and build machines that are compatible with KVM
+for KVM-only builds.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/test-hmp.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ tests/qtest/device-introspect-test.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index 94a8023173..d8b3357280 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -157,8 +157,28 @@ int main(int argc, char **argv)
- 
-     g_test_init(&argc, &argv, NULL);
- 
+diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
+index bbec166dbc..1ff15e2247 100644
+--- a/tests/qtest/device-introspect-test.c
++++ b/tests/qtest/device-introspect-test.c
+@@ -329,12 +329,30 @@ int main(int argc, char **argv)
+     qtest_add_func("device/introspect/none", test_device_intro_none);
+     qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
+     qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
++
 +    /*
 +     * XXX currently we build also boards for ARM that are incompatible with KVM.
 +     * We therefore need to check this explicitly, and only test virt for kvm-only
@@ -94,21 +96,22 @@ index 94a8023173..d8b3357280 100644
 +#ifndef CONFIG_TCG
 +    {
 +        const char *arch = qtest_get_arch();
-+
 +        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
-+            add_machine_test_case("virt");
 +            goto add_machine_test_done;
 +        }
 +    }
 +#endif /* !CONFIG_TCG */
-+
-     qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
+     if (g_test_quick()) {
+         qtest_add_data_func("device/introspect/concrete/defaults/none",
+                             g_strdup(common_args), test_device_intro_concrete);
+     } else {
+         qtest_cb_for_every_machine(add_machine_test_case, true);
+     }
 +    goto add_machine_test_done;
  
 + add_machine_test_done:
-     /* as none machine has no memory by default, add a test case with memory */
-     qtest_add_data_func("hmp/none+2MB", g_strdup("none -m 2"), test_machine);
- 
+     return g_test_run();
+ }
 -- 
 2.26.2
 
