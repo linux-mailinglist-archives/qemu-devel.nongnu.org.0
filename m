@@ -2,87 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61985337B59
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:49:04 +0100 (CET)
-Received: from localhost ([::1]:34956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83912337B60
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 18:51:44 +0100 (CET)
+Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKPQl-0007kY-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:49:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41204)
+	id 1lKPTL-0000M7-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 12:51:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKPJY-0002HS-74
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:41:38 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKPJT-000843-Ea
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:41:34 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id g20so1908843wmk.3
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 09:41:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RcXpCfak6JR8G+sCrCcTBvtMeyg1k5q/Cvd8tQdEYBU=;
- b=RvKlrj1T7HbQ+3ecsMLShVZjKkn6OMAnH2wLi3mUBQiC6j3+f5dZmw0uGArdG3ZDOv
- qZ/aRaKYsTfKdE29U75Hl9Z+TdgOQeQZhKAZpvLdj+6zOoqv6LvedZvXM38kj5q36xl+
- 4m6RmMmEjzw0QJAExn+p3FAxmEi5z7hiBQ+ZlJD7O5+0icZqAkVdEeQnXyQFubLZ5lX/
- 38iNE0z7fOxAbtywmKRg/yAkdm29R4XdF4BH0f896+DvsuNwxW4JXGK2voL9axfOXq+o
- BTmV3WIt6SpbbokpErTAcc7W7UhBSYSJT9cMWdHLwfs1+MGU/YstR+aicxRGZNMi10SH
- xuUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RcXpCfak6JR8G+sCrCcTBvtMeyg1k5q/Cvd8tQdEYBU=;
- b=T/91G+JbRalDJXg1CGoOFtDCZYRR0naUb2ZOc5obIJq21c5Jr/hlxDysnG3npzcC2k
- zxvAjobKbraRYVBQmIeWnSI9SYbr0HNthYcotthwQ+qyDrqFSI2P4BDd7CsgzYYcdtMF
- AeZP3GXeb7s9vPKukTNQTO0noEZc6SlbQVuiOLkI/LHY+rMPVNGn1V36ZrxJkVq3KcSQ
- CO1aV/DnJdS8258jMMz2aFm27e78K/G/iNE/CLHEfpejZAiOBwoXfOI4TeMFxDReixeh
- 2rH6todvaN+ZcFTZvdk/2dBk1hwVd9kTKissJpmyWImBDiPU2HyYkWbPsjqiupc5wYni
- wRsw==
-X-Gm-Message-State: AOAM530D0lsH/QUIrkQnOHG5yZ/tBvQSnOdluTeHJZs+YvfXU3R35uz6
- GotyuQcHE2Mg/RfH1Hlrc/8=
-X-Google-Smtp-Source: ABdhPJwJDLN95e4nGZU5Ivdhi2xiVOmCah2HAkgfUlreGJw3jMVQhZPSwGdSSGRiMwvnR9wLPnkWoA==
-X-Received: by 2002:a05:600c:21ca:: with SMTP id
- x10mr9420094wmj.48.1615484488978; 
- Thu, 11 Mar 2021 09:41:28 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a124sm3547536wmh.39.2021.03.11.09.41.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 09:41:28 -0800 (PST)
-Subject: Re: [PATCH 1/2] hw/mips/jazz: Use generic I/O bus via get_system_io()
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Peter Xu <peterx@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <f776956e-dd3b-98f8-4b99-0cd234d227c0@amsat.org>
- <20210310191255.1229848-1-f4bug@amsat.org> <20210310194924.GF6530@xz-x1>
- <5e53b99f-548c-8da9-f6fd-9c764642350b@amsat.org>
- <20210310202919.GH6530@xz-x1>
- <a97eb0b5-d3fd-ca44-4490-c5e5bc796699@amsat.org>
- <a64ff8f0-5db1-c338-b99b-7a74a150a770@amsat.org>
-Message-ID: <1f25782b-abcb-a3bc-fddc-0b585536ffcf@amsat.org>
-Date: Thu, 11 Mar 2021 18:41:26 +0100
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKPJe-0002KH-BE
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:41:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKPJb-0008Be-AG
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 12:41:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615484497;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q1XFpHlwkbpds72atcixnzjLheiZKADvnuhs6GR30m4=;
+ b=IiY9XPIAi+swVpziUZFmzb1MczCJB4P1Yz9WVWYXGqCGDTLX9ItR86IkVi++nPJGxSTOU5
+ SivAC3BbNN9P84O1I5p43OXEtofWvtLgQtnFiHFjkRLSxrkinP2KkYbk1Q3cdMdLtVhYvf
+ 7NPi/Lz+cQc7ztzqYD88UgiKJb4trcs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-PhXjl9q2MPChqe83ITerug-1; Thu, 11 Mar 2021 12:41:36 -0500
+X-MC-Unique: PhXjl9q2MPChqe83ITerug-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C2C1108BD0A;
+ Thu, 11 Mar 2021 17:41:34 +0000 (UTC)
+Received: from [10.36.115.26] (ovpn-115-26.ams2.redhat.com [10.36.115.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC7A5C23E;
+ Thu, 11 Mar 2021 17:41:30 +0000 (UTC)
+To: Peter Xu <peterx@redhat.com>
+References: <20210308150600.14440-1-david@redhat.com>
+ <20210308150600.14440-3-david@redhat.com> <YEpH1FAabcILd38K@work-vm>
+ <df216a57-d45a-9563-5e88-0f2ebf6b0a7e@redhat.com>
+ <20210311171153.GF194839@xz-x1>
+ <26d2c57a-971d-3abd-6ec3-1a38fb47a398@redhat.com>
+ <20210311172236.GG194839@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v3 02/12] softmmu/physmem: Fix ram_block_discard_range()
+ to handle shared anonymous memory
+Message-ID: <d0a57921-61ab-82a5-ed58-061961dfa6a3@redhat.com>
+Date: Thu, 11 Mar 2021 18:41:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <a64ff8f0-5db1-c338-b99b-7a74a150a770@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210311172236.GG194839@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,123 +87,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Joel Stanley <joel@jms.id.au>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 5:21 PM, Philippe Mathieu-Daudé wrote:
-> +Aspeed team
-> 
-> On 3/11/21 1:18 PM, Philippe Mathieu-Daudé wrote:
->> On 3/10/21 9:29 PM, Peter Xu wrote:
-> 
->>> Yeah no worry - it's just that I feel one memory_region_init_alias() call is
->>> probably missing in your huge series somewhere, so that you'll take that alias
->>> MR as subregion rather than the real MR (which is the root of one AS).
+On 11.03.21 18:22, Peter Xu wrote:
+> On Thu, Mar 11, 2021 at 06:15:15PM +0100, David Hildenbrand wrote:
+>> On 11.03.21 18:11, Peter Xu wrote:
+>>> On Thu, Mar 11, 2021 at 05:45:46PM +0100, David Hildenbrand wrote:
+>>>> On 11.03.21 17:39, Dr. David Alan Gilbert wrote:
+>>>>> * David Hildenbrand (david@redhat.com) wrote:
+>>>>>> We can create shared anonymous memory via
+>>>>>>        "-object memory-backend-ram,share=on,..."
+>>>>>> which is, for example, required by PVRDMA for mremap() to work.
+>>>>>>
+>>>>>> Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
+>>>>>> have to use MADV_REMOVE. MADV_DONTNEED fails silently and does nothing.
+>>>>>
+>>>>> OK, I wonder how stable these rules are; is it defined anywhere that
+>>>>> it's required?
+>>>>>
+>>>>
+>>>> I had a look at the Linux implementation: it's essentially shmem ... but we
+>>>> don't have an fd exposed, so we cannot use fallocate() ... :)
+>>>>
+>>>> MADV_REMOVE documents (man):
+>>>>
+>>>> "In the initial implementation, only tmpfs(5) was supported MADV_REMOVE; but
+>>>> since Linux 3.5, any filesystem which supports the fallocate(2)
+>>>> FALLOC_FL_PUNCH_HOLE mode also supports MADV_REMOVE."
+>>>
+>>> Hmm, I see that MADV_DONTNEED will still tear down all mappings even for
+>>> anonymous shmem.. what did I miss?
 >>
->> OK, with your earlier comments start + Mark other comment I start
->> to understand better.
->>
->> So far:
->>
->> (1a) AddressSpace is a physical view, its base address must be zero
->>
->> (1b) AddressSpace aperture is fixed (depends on hardware design,
->> not changeable at runtime
->>
->> Therefore due to (1a):
->> (2) AddressSpace root MemoryRegion is a container and must not be
->> mmio-mapped anywhere (in particular not on SysBus).
->>
->> (3) If hardware has a MMIO view of an AddressSpace, it has to be
->> via a MemoryRegion alias. That way the alias handles paddr offset
->> adjustment to the zero-based AddressSpace root container MR.
->> Aliasing allows resizing the alias size without modifying the AS
->> aperture size (1b).
->>
->> I'll start adding assertions for (1a) and (2) in the code base and
->> see if (3) adjustments are required.
+>> Where did you see that?
 > 
-> So using:
+> I see madvise_dontneed_free() calls zap_page_range().
 > 
-> -- >8 --
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 874a8fccdee..8ce2d7f83b9 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -713,6 +713,12 @@ static MemoryRegion
-> *memory_region_get_flatview_root(MemoryRegion *mr)
->                  continue;
->              }
->          }
-> +        if (mr && mr->addr) {
-> +            error_report("Detected flatview root memory region '%s' with"
-> +                         " non-zero base address (0x%"HWADDR_PRIx"):
-> aborting",
-> +                         memory_region_name(mr), mr->addr);
-> +            abort();
-> +        }
-> 
->          return mr;
->      }
-> ---
-> 
-> I get:
-> 
-> $ ./qemu-system-arm -M ast2600-evb
-> qemu-system-arm: Detected flatview root memory region
-> 'aspeed.fmc-ast2600.flash' with non-zero base address (0x20000000): aborting
-> Aborted (core dumped)
+>>
+>>>
+>>
+>> MADV_DONTNEED only invalidates private copies in the pagecache. It's
+>> essentially useless for any kind of shared mappings.
 
-Another one (PPC):
+Let me rephrase because it was wrong: MADV_DONTNEED invalidates private 
+COW pages referenced in the page tables :)
 
-$ ./qemu-system-ppc -S -monitor stdio -M 40p
-QEMU 5.2.50 monitor - type 'help' for more information
-(qemu) qemu-system-ppc: Detected flatview root memory region 'pci-io'
-with non-zero base address (0x80000000): aborting
-Aborted (core dumped)
+> 
+> Since it's about zapping page tables, then I don't understand why it won't work
+> for shmem..
 
-$ ./qemu-system-ppc -S -monitor stdio -M 40p
-QEMU 5.2.50 monitor - type 'help' for more information
-(qemu) info mtree
-address-space: raven-io
-  0000000080000000-00000000bf7fffff (prio 0, i/o): pci-io
-    0000000080000000-0000000080000007 (prio 0, i/o): dma-chan
-    0000000080000008-000000008000000f (prio 0, i/o): dma-cont
-    0000000080000020-0000000080000021 (prio 0, i/o): pic
-    0000000080000040-0000000080000043 (prio 0, i/o): pit
-    0000000080000060-0000000080000060 (prio 0, i/o): i8042-data
-    0000000080000061-0000000080000061 (prio 0, i/o): pcspk
-    0000000080000064-0000000080000064 (prio 0, i/o): i8042-cmd
-    0000000080000070-0000000080000071 (prio 0, i/o): rtc
-      0000000080000070-0000000080000070 (prio 0, i/o): rtc-index
-    0000000080000074-0000000080000077 (prio 0, i/o): m48t59
-    0000000080000081-0000000080000083 (prio 0, i/o): dma-page
-    0000000080000087-0000000080000087 (prio 0, i/o): dma-page
-    ...
+It zaps the page tables but the shmem pages are still referenced (in the 
+pagecache AFAIU). On next user space access, you would fill the page 
+tables with the previous content.
 
-address-space: lsi-pci-io
-  0000000080000000-00000000bf7fffff (prio 0, i/o): pci-io
-    0000000080000000-0000000080000007 (prio 0, i/o): dma-chan
-    0000000080000008-000000008000000f (prio 0, i/o): dma-cont
-    0000000080000020-0000000080000021 (prio 0, i/o): pic
-    0000000080000040-0000000080000043 (prio 0, i/o): pit
-    0000000080000060-0000000080000060 (prio 0, i/o): i8042-data
-    0000000080000061-0000000080000061 (prio 0, i/o): pcspk
-    0000000080000064-0000000080000064 (prio 0, i/o): i8042-cmd
-    0000000080000070-0000000080000071 (prio 0, i/o): rtc
-      0000000080000070-0000000080000070 (prio 0, i/o): rtc-index
-      ...
+That's why MADV_DONTNEED works properly on private anonymous memory, but 
+not on shared anonymous memory - the only valid references are in the 
+page tables in case of private mappings (well, unless we have other 
+references like GUP etc.).
 
-memory-region: pci-memory
-  00000000c0000000-00000000feffffff (prio 0, i/o): pci-memory
-    00000000c00a0000-00000000c00bffff (prio 1, i/o): vga-lowmem
+
+I did wonder, however, if there is benefit in doing both:
+
+MADV_REMOVE followed by MADV_DONTNEED or the other way around. Like, 
+will the extra MADV_DONTNEED also remove page tables and not just 
+invalidate/zap the entries. Doesn't make a difference 
+functionality-wise, but memory-consumption-wise.
+
+I'll still have to have a look.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
