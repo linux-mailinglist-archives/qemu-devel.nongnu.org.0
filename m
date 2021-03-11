@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5DE3377DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:34:49 +0100 (CET)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A116D3377FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 16:39:03 +0100 (CET)
+Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKNKq-0005lN-Et
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:34:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1lKNOw-0003Bb-ML
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 10:39:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcU-0005QT-4i
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20024)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcV-0005Rn-Rj
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:49:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcK-0002zT-IJ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:57 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKMcK-0002zj-JE
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 09:48:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615474126;
+ s=mimecast20190719; t=1615474127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DAV/d8SRDt2+7Ud4O15eT2UKZCNfxvFdLxCfWZgvtm8=;
- b=Tw1xcR0OuVmIhxly5rGb9mGlHpnnEkvtXjJFvLbgW6PV91IBtJeSHthUSG4qT03CL7yRY8
- BWUYXB5wQ2H6ygoesbaoKXGIgBfI+bER0sGfJRH00o5/8NSGW5vis4nGh8STw7oj2S7BfM
- VZKAop+rQcDMxgSqR9omj8qorxQuAdM=
+ bh=ZhOb3Q2T0Fkbtx6XRQumGJd54yKpuGrtOOvBk1OSvgs=;
+ b=StYvodxaHjDYQmriLk2Y6BxwcYzuYPqSsHpneLupWRWNzG9cnqB+McLBtjJ/SPWAKUHD/l
+ ux0k8vrYyXof9nRxQpVM9HXQwy7p4o5il1rgUzQ7VwH+YZ/CNkHo3p3E1ntG6I6JFQ5A2s
+ IaS66ytb02PZ5baxd6GSHKZLEBuJNjQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-B6FU0UtbPUS5wwISPOijpg-1; Thu, 11 Mar 2021 09:48:43 -0500
-X-MC-Unique: B6FU0UtbPUS5wwISPOijpg-1
+ us-mta-42-bXOGKm6ZNF6xQLX4dYD7iw-1; Thu, 11 Mar 2021 09:48:44 -0500
+X-MC-Unique: bXOGKm6ZNF6xQLX4dYD7iw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D08DC808259;
- Thu, 11 Mar 2021 14:48:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31EC0801817;
+ Thu, 11 Mar 2021 14:48:43 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4CC65D9F2;
- Thu, 11 Mar 2021 14:48:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 29B935DAA5;
+ Thu, 11 Mar 2021 14:48:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/38] qapi/qom: Add ObjectOptions for memory-backend-*
-Date: Thu, 11 Mar 2021 15:47:49 +0100
-Message-Id: <20210311144811.313451-17-kwolf@redhat.com>
+Subject: [PULL 17/38] qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
+Date: Thu, 11 Mar 2021 15:47:50 +0100
+Message-Id: <20210311144811.313451-18-kwolf@redhat.com>
 In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
 References: <20210311144811.313451-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,245 +80,126 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the memory-backend-*
-objects.
+This adds a QAPI schema for the properties of the rng-* objects.
 
-HostMemPolicy has to be moved to an include file that can be used by the
-storage daemon, too, because ObjectOptions must be the same in all
-binaries if we don't want to compile the whole code multiple times.
+The 'opened' property doesn't seem to make sense as an external
+interface: It is automatically set to true in ucc->complete, and
+explicitly setting it to true earlier just means that trying to set
+additional options will result in an error. After the property has once
+been set to true (i.e. when the object construction has completed), it
+can never be reset to false. In other words, the 'opened' property is
+useless. Mark it as deprecated in the schema from the start.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Acked-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/common.json  |  20 ++++++++
- qapi/machine.json |  22 +--------
- qapi/qom.json     | 122 +++++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 142 insertions(+), 22 deletions(-)
+ qapi/qom.json              | 56 ++++++++++++++++++++++++++++++++++++--
+ docs/system/deprecated.rst |  9 ++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/common.json b/qapi/common.json
-index 716712d4b3..2dad4fadc3 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -145,3 +145,23 @@
- ##
- { 'enum': 'PCIELinkWidth',
-   'data': [ '1', '2', '4', '8', '12', '16', '32' ] }
-+
-+##
-+# @HostMemPolicy:
-+#
-+# Host memory policy types
-+#
-+# @default: restore default policy, remove any nondefault policy
-+#
-+# @preferred: set the preferred host nodes for allocation
-+#
-+# @bind: a strict policy that restricts memory allocation to the
-+#        host nodes specified
-+#
-+# @interleave: memory allocations are interleaved across the set
-+#              of host nodes specified
-+#
-+# Since: 2.1
-+##
-+{ 'enum': 'HostMemPolicy',
-+  'data': [ 'default', 'preferred', 'bind', 'interleave' ] }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 330189efe3..4322aee782 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -8,6 +8,8 @@
- # = Machines
- ##
- 
-+{ 'include': 'common.json' }
-+
- ##
- # @SysEmuTarget:
- #
-@@ -897,26 +899,6 @@
-    'policy': 'HmatCacheWritePolicy',
-    'line': 'uint16' }}
- 
--##
--# @HostMemPolicy:
--#
--# Host memory policy types
--#
--# @default: restore default policy, remove any nondefault policy
--#
--# @preferred: set the preferred host nodes for allocation
--#
--# @bind: a strict policy that restricts memory allocation to the
--#        host nodes specified
--#
--# @interleave: memory allocations are interleaved across the set
--#              of host nodes specified
--#
--# Since: 2.1
--##
--{ 'enum': 'HostMemPolicy',
--  'data': [ 'default', 'preferred', 'bind', 'interleave' ] }
--
- ##
- # @memsave:
- #
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 6f0ffd4e2f..79525f64a1 100644
+index 79525f64a1..7fb243c3ab 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -5,6 +5,7 @@
- # See the COPYING file in the top-level directory.
- 
- { 'include': 'authz.json' }
-+{ 'include': 'common.json' }
- 
- ##
- # = QEMU Object Model (QOM)
-@@ -272,6 +273,115 @@
-             '*poll-grow': 'int',
-             '*poll-shrink': 'int' } }
+@@ -382,6 +382,52 @@
+             '*hugetlbsize': 'size',
+             '*seal': 'bool' } }
  
 +##
-+# @MemoryBackendProperties:
++# @RngProperties:
 +#
-+# Properties for objects of classes derived from memory-backend.
++# Properties for objects of classes derived from rng.
 +#
-+# @merge: if true, mark the memory as mergeable (default depends on the machine
-+#         type)
++# @opened: if true, the device is opened immediately when applying this option
++#          and will probably fail when processing the next option. Don't use;
++#          only provided for compatibility. (default: false)
 +#
-+# @dump: if true, include the memory in core dumps (default depends on the
-+#        machine type)
++# Features:
++# @deprecated: Member @opened is deprecated.  Setting true doesn't make sense,
++#              and false is already the default.
 +#
-+# @host-nodes: the list of NUMA host nodes to bind the memory to
-+#
-+# @policy: the NUMA policy (default: 'default')
-+#
-+# @prealloc: if true, preallocate memory (default: false)
-+#
-+# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
-+#
-+# @share: if false, the memory is private to QEMU; if true, it is shared
-+#         (default: false)
-+#
-+# @size: size of the memory region in bytes
-+#
-+# @x-use-canonical-path-for-ramblock-id: if true, the canoncial path is used
-+#                                        for ramblock-id. Disable this for 4.0
-+#                                        machine types or older to allow
-+#                                        migration with newer QEMU versions.
-+#                                        This option is considered stable
-+#                                        despite the x- prefix. (default:
-+#                                        false generally, but true for machine
-+#                                        types <= 4.0)
-+#
-+# Since: 2.1
++# Since: 1.3
 +##
-+{ 'struct': 'MemoryBackendProperties',
-+  'data': { '*dump': 'bool',
-+            '*host-nodes': ['uint16'],
-+            '*merge': 'bool',
-+            '*policy': 'HostMemPolicy',
-+            '*prealloc': 'bool',
-+            '*prealloc-threads': 'uint32',
-+            '*share': 'bool',
-+            'size': 'size',
-+            '*x-use-canonical-path-for-ramblock-id': 'bool' } }
++{ 'struct': 'RngProperties',
++  'data': { '*opened': { 'type': 'bool', 'features': ['deprecated'] } } }
 +
 +##
-+# @MemoryBackendFileProperties:
++# @RngEgdProperties:
 +#
-+# Properties for memory-backend-file objects.
++# Properties for rng-egd objects.
 +#
-+# @align: the base address alignment when QEMU mmap(2)s @mem-path. Some
-+#         backend stores specified by @mem-path require an alignment different
-+#         than the default one used by QEMU, e.g. the device DAX /dev/dax0.0
-+#         requires 2M alignment rather than 4K. In such cases, users can
-+#         specify the required alignment via this option.
-+#         0 selects a default alignment (currently the page size). (default: 0)
++# @chardev: the name of a character device backend that provides the connection
++#           to the RNG daemon
 +#
-+# @discard-data: if true, the file contents can be destroyed when QEMU exits,
-+#                to avoid unnecessarily flushing data to the backing file. Note
-+#                that ``discard-data`` is only an optimization, and QEMU might
-+#                not discard file contents if it aborts unexpectedly or is
-+#                terminated using SIGKILL. (default: false)
-+#
-+# @mem-path: the path to either a shared memory or huge page filesystem mount
-+#
-+# @pmem: specifies whether the backing file specified by @mem-path is in
-+#        host persistent memory that can be accessed using the SNIA NVM
-+#        programming model (e.g. Intel NVDIMM).
-+#
-+# @readonly: if true, the backing file is opened read-only; if false, it is
-+#            opened read-write. (default: false)
-+#
-+# Since: 2.1
++# Since: 1.3
 +##
-+{ 'struct': 'MemoryBackendFileProperties',
-+  'base': 'MemoryBackendProperties',
-+  'data': { '*align': 'size',
-+            '*discard-data': 'bool',
-+            'mem-path': 'str',
-+            '*pmem': { 'type': 'bool', 'if': 'defined(CONFIG_LIBPMEM)' },
-+            '*readonly': 'bool' } }
++{ 'struct': 'RngEgdProperties',
++  'base': 'RngProperties',
++  'data': { 'chardev': 'str' } }
 +
 +##
-+# @MemoryBackendMemfdProperties:
++# @RngRandomProperties:
 +#
-+# Properties for memory-backend-memfd objects.
++# Properties for rng-random objects.
 +#
-+# The @share boolean option is true by default with memfd.
++# @filename: the filename of the device on the host to obtain entropy from
++#            (default: "/dev/urandom")
 +#
-+# @hugetlb: if true, the file to be created resides in the hugetlbfs filesystem
-+#           (default: false)
-+#
-+# @hugetlbsize: the hugetlb page size on systems that support multiple hugetlb
-+#               page sizes (it must be a power of 2 value supported by the
-+#               system). 0 selects a default page size. This option is ignored
-+#               if @hugetlb is false. (default: 0)
-+#
-+# @seal: if true, create a sealed-file, which will block further resizing of
-+#        the memory (default: true)
-+#
-+# Since: 2.12
++# Since: 1.3
 +##
-+{ 'struct': 'MemoryBackendMemfdProperties',
-+  'base': 'MemoryBackendProperties',
-+  'data': { '*hugetlb': 'bool',
-+            '*hugetlbsize': 'size',
-+            '*seal': 'bool' } }
++{ 'struct': 'RngRandomProperties',
++  'base': 'RngProperties',
++  'data': { '*filename': 'str' } }
 +
  ##
  # @ObjectType:
  #
-@@ -288,7 +398,11 @@
-     { 'name': 'cryptodev-vhost-user',
-       'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
-     'dbus-vmstate',
--    'iothread'
-+    'iothread',
-+    'memory-backend-file',
-+    { 'name': 'memory-backend-memfd',
-+      'if': 'defined(CONFIG_LINUX)' },
-+    'memory-backend-ram'
+@@ -402,7 +448,10 @@
+     'memory-backend-file',
+     { 'name': 'memory-backend-memfd',
+       'if': 'defined(CONFIG_LINUX)' },
+-    'memory-backend-ram'
++    'memory-backend-ram',
++    'rng-builtin',
++    'rng-egd',
++    'rng-random'
    ] }
  
  ##
-@@ -316,7 +430,11 @@
-       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
-                                       'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
-       'dbus-vmstate':               'DBusVMStateProperties',
--      'iothread':                   'IothreadProperties'
-+      'iothread':                   'IothreadProperties',
-+      'memory-backend-file':        'MemoryBackendFileProperties',
-+      'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
-+                                      'if': 'defined(CONFIG_LINUX)' },
-+      'memory-backend-ram':         'MemoryBackendProperties'
+@@ -434,7 +483,10 @@
+       'memory-backend-file':        'MemoryBackendFileProperties',
+       'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
+                                       'if': 'defined(CONFIG_LINUX)' },
+-      'memory-backend-ram':         'MemoryBackendProperties'
++      'memory-backend-ram':         'MemoryBackendProperties',
++      'rng-builtin':                'RngProperties',
++      'rng-egd':                    'RngEgdProperties',
++      'rng-random':                 'RngRandomProperties'
    } }
  
  ##
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e6c2ba2d4d..3ce4fe7581 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -166,6 +166,15 @@ Using ``-M kernel-irqchip=off`` with x86 machine types that include a local
+ APIC is deprecated.  The ``split`` setting is supported, as is using
+ ``-M kernel-irqchip=off`` with the ISA PC machine type.
+ 
++``opened`` property of ``rng-*`` objects (since 6.0.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The only effect of specifying ``opened=on`` in the command line or QMP
++``object-add`` is that the device is opened immediately, possibly before all
++other options have been processed.  This will either have no effect (if
++``opened`` was the last option) or cause errors.  The property is therefore
++useless and should not be specified.
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
 -- 
 2.29.2
 
