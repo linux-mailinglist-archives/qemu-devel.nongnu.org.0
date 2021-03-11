@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B37D336891
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:26:51 +0100 (CET)
-Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6F133688B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Mar 2021 01:23:55 +0100 (CET)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lK9AA-0001Nh-6w
-	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:26:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54992)
+	id 1lK97K-0006Jl-0P
+	for lists+qemu-devel@lfdr.de; Wed, 10 Mar 2021 19:23:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95f-0004ep-T4
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:12 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:41408)
+ id 1lK95c-0004dJ-B0
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lK95Z-0001J8-Ie
- for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:11 -0500
-Received: by mail-oi1-x232.google.com with SMTP id y131so18360268oia.8
- for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:02 -0800 (PST)
+ id 1lK95Z-0001JD-Ia
+ for qemu-devel@nongnu.org; Wed, 10 Mar 2021 19:22:08 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id o22so11499377oic.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Mar 2021 16:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WjgWEUKMGfZOQb1lvpL8VH2dhbBkx98443ZCMCCi+VM=;
- b=dC/y0W1LvIXGR3ZgiUt3HQqVPYIX6nixkE0ToxOeC+TtXs+zL2L3RrAJJv2snwHhXW
- C8pXKFDOfkMOu9C5TZsjlEWdHpdktGtSPGXMg5MRI1vYCilBigjkJxN3WHxHCmTgK07z
- Y2ytwz5w4LEd/S+23GGtKpvyPupTOa2rpHkCRIYGspaX2cB4sdPHHZjSnZw71fhfG27s
- zBjAc3vcp9TrcYA9EAIuyoBVGheo5Slgm3vAZExvUmr4upKcQ1jYHJUcFYAj3sxueevb
- U8yIMc/L9mjwuqRZ3504dr9YgEu1/u3BwUUYtnbuSXmyo44r4ZmEKtng6PtwN8GboL4G
- WnfA==
+ bh=ew8qZdu81WnFij1k26f+T5scId3naFPXGZ2aYVLbpZU=;
+ b=kFkBvYI+LK4qKlnbc+hsAhBJReaMyFbeIRbRLtkjYq3N0BIPtZOMyIxE7aB/RX2GOC
+ d8k5txEiogEfOpPjPESDG/lh6Dh285IhzrztpOsfIadwPOn0kU1lxIERxKiSoBeaWpU6
+ 6NJWyVr5RfmPMqkUkEDZ/m0RCmJ0DdHUDg4QcRpnrsI6XvJclf9zaJNTOZ2BKi3C0YNg
+ SKc8Bwrum1BbU4lKZge5emlAr00L04s5n6wJlDHAtmqniBeXQcsiE232kja9mGKDYVCJ
+ YidD0ZM0m8AH4VvEf7mLPF7JtxPihcdDIb1KiBD5pnoZoBW+JkWYqo/A42kBCq39VDtX
+ yiHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WjgWEUKMGfZOQb1lvpL8VH2dhbBkx98443ZCMCCi+VM=;
- b=uhYn+Am+AGXuLqXl9shnJnbN147mBxyFB4glTjVCxeaK/DKgev+k9sCLRJLkYwwruI
- ZesD/OOWkhDdGHHl9A5hv59yOYF5073+qxy/v3ONh7UKPRsyvRGPEAh7IjwuvvtYtRZP
- KbL+jOx1Vo9u92ZpvkvY/9Rs6QS+NffAVwumc3VukfUa7CH5a/znqXvrihFEMd+PVW5U
- ti1swG7cwdrLH+5IhQq2Dk6k2iyls7AFKJ70KA+AbrCzs0sAbkYTq7NJckH58N1488k5
- mdK6YirbccwHjNniWZwPpArMMlKtQ9cANaKd9Ub6KVDx4HQ/apfS/0Zpmq8bEksdSum4
- 7RYw==
-X-Gm-Message-State: AOAM531gV0gFDPOegQmHNMIx6hhL4HC9TVT1lLHFmQYy0jRODQhTNQxH
- mSfkrs74UyhE1182gQToHcqQs6C5cGRcOiBb
-X-Google-Smtp-Source: ABdhPJzR19o8YBepVZBIwZ7o1ox7XnMnKKCSbYZ7oGN0yx/29FJ+8pJ47Q6rH5Udx8lJ5PUTRMfi7g==
-X-Received: by 2002:a05:6808:b21:: with SMTP id
- t1mr4327886oij.35.1615422122152; 
- Wed, 10 Mar 2021 16:22:02 -0800 (PST)
+ bh=ew8qZdu81WnFij1k26f+T5scId3naFPXGZ2aYVLbpZU=;
+ b=tgGGEzJKIB5R+VbL2pc4IjnIgGG5tHy1CnW0yAYaNrfJkqg48Sw8PqrMn35DipBR8b
+ hGkjgqaMfewb7Uo4EvjADwcn8RPPEms4z2JSV3juAze7EfEmNVkPPOzAP+zPNYCSODU0
+ oQ7emDRHOi/300StCg+MB94sKVYBplssoyRGJyoKZ/9jQTPzS0MFzR1HRD+fZRoMssAG
+ gUmSN/yYQSRPWoBI9qsjRL/w6r0fAPe0TQktmr+RNB9Yfc5qunPoDEAuSJqzziY55XKf
+ IKeTNc55i4qVn7/IzrxENWIad8RCQkk3JkuqqqhcgX6+q4we+qwSZKPDSOX9l/lKZAoE
+ oapg==
+X-Gm-Message-State: AOAM533gBGALpf9OdBp7jplWHBAnxYCVRgRtKuaG4As4iBO6Zfg+1tA4
+ a9kILgeFfWrgOqGBYRW75BYpaFPaoP/LxfIp
+X-Google-Smtp-Source: ABdhPJz7PVGwhXtfJa1kZ6oBN+iBZ9V7xSXQmB0NZN77Z1Hu+eTFJHzML4XdB+9nRmJD2sYGfGyT1g==
+X-Received: by 2002:aca:3507:: with SMTP id c7mr4322139oia.26.1615422123321;
+ Wed, 10 Mar 2021 16:22:03 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.01
+ by smtp.gmail.com with ESMTPSA id a6sm300962otq.79.2021.03.10.16.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Mar 2021 16:22:01 -0800 (PST)
+ Wed, 10 Mar 2021 16:22:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/26] meson: Move disas/tci.c to disas/meson.build
-Date: Wed, 10 Mar 2021 18:21:32 -0600
-Message-Id: <20210311002156.253711-3-richard.henderson@linaro.org>
+Subject: [PATCH 03/26] meson: Split out fpu/meson.build
+Date: Wed, 10 Mar 2021 18:21:33 -0600
+Message-Id: <20210311002156.253711-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311002156.253711-1-richard.henderson@linaro.org>
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +87,42 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no reason to do this in the main meson.build.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build       | 1 -
- disas/meson.build | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ meson.build     | 4 +---
+ fpu/meson.build | 1 +
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+ create mode 100644 fpu/meson.build
 
 diff --git a/meson.build b/meson.build
-index 8bc472ddeb..f884a62682 100644
+index f884a62682..c8a5ca65e5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1937,7 +1937,6 @@ specific_ss.add(files('exec-vary.c'))
- specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'fpu/softfloat.c',
- ))
--specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c'))
+@@ -1934,9 +1934,6 @@ subdir('softmmu')
+ common_ss.add(capstone)
+ specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+ specific_ss.add(files('exec-vary.c'))
+-specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'fpu/softfloat.c',
+-))
  
  subdir('backends')
  subdir('disas')
-diff --git a/disas/meson.build b/disas/meson.build
-index 4c8da01877..b7b659bf88 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -23,3 +23,5 @@ common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
- common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
- common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
- common_ss.add(when: capstone, if_true: files('capstone.c'))
-+
-+specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tci.c'))
+@@ -1946,6 +1943,7 @@ subdir('net')
+ subdir('replay')
+ subdir('hw')
+ subdir('tcg')
++subdir('fpu')
+ subdir('accel')
+ subdir('plugins')
+ subdir('bsd-user')
+diff --git a/fpu/meson.build b/fpu/meson.build
+new file mode 100644
+index 0000000000..1a9992ded5
+--- /dev/null
++++ b/fpu/meson.build
+@@ -0,0 +1 @@
++specific_ss.add(when: 'CONFIG_TCG', if_true: files('softfloat.c'))
 -- 
 2.25.1
 
