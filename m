@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2265633966F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:28:28 +0100 (CET)
-Received: from localhost ([::1]:42794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA43D339630
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:22:17 +0100 (CET)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmWP-0002NL-OG
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:28:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
+	id 1lKmQS-00026i-RP
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaf-00043X-0P
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:45 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:34568)
+ id 1lKlae-00042K-FT
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:44 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaN-0002C3-71
+ id 1lKlaN-0002C7-PJ
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:44 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id y6so9031581eds.1
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:26 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id bm21so54815017ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5JNRepraAPHTlu3+kN/T3414bS3r0zFc9RKsC+Bnhh0=;
- b=Jm22Vkh5yJbiYY4PmYX8BRxsYtvCVvxfF2/ZTKDgmD2SnF5QdzNhNWFnJZ/E7oRctn
- S8UuumFnLPlY75R3nNXvn4HQOeel7hTZ5X0nIMtrtCuAdD4ZG4KYF+3XlVPdbDm21LWb
- 1ZqjuFzraoPZkx9rMuOs+OWP8uVp4SxA+yo0R4vJwvm6NBJVV3tqK+mvYdXgdU767LLi
- O2O1UCRqpvMiGBeF6X4dsrcy8vZLJ5lXOqmNbV731XcyaOop5ap8u6+g9w4MRorD3KbV
- NaTY68n9WjkpEz7qyvxmVWR25lr254uLThCosRMsIfRQ4XVGHRkrY+em2tvSLEWcfMuY
- C1gA==
+ bh=Tgg01WFzYZWxtwMF3RzuONdmzCofqm4lYuJbp66nklY=;
+ b=e9U5fnctqAaxTymmQbwTZNVKbCIAQrVQxTID9Ip8sWTCNHES88Sea+6VcDWvDJEsR3
+ UZYgek/HGQkqDDznOn5mHiHFGWO5d9wJfBaI8ZApBhwbSRRDlkuDML9tlRLC9x+wUlbn
+ p/DtguzS2vnjtIyOIkRlCjJr6mNvQJE8sTwJYRKMvAePIPpKMpziIrUGo3V/GH9r30pw
+ glfUQAXLHByXsIdN974w12G+luUCrcxzYH89uGvL6om5CV3hNQEYZ608ZLGMq7FuB2Gv
+ 06TuIZQWo4CY70EES/udU9AkziZgISgyOam4F3BNtGKf7QknEqi4wX/aNve73n3U5bbt
+ bZrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5JNRepraAPHTlu3+kN/T3414bS3r0zFc9RKsC+Bnhh0=;
- b=nL14Ska2MxnfnTJ+OY6s6cAkDGU9SLd6+wFR4pfeeHp9fAyoNkB1cGfZsw6dt94k3T
- 7BDfExgffr6N35Qzx0PMyKYwaeBOe50I05otiaMcUuTJV/tTOqcdg373VCwTmA09jz2q
- EsrrZtSzSkG3Lj89iiUqUtNN9GL5typXqb5wMfqnb+cQHiMxzZSd9OZQdo3KPOk36ntD
- TLosVGy80IYCe05HdRlmN99U6wVeG47EQ1ri0UktqS+1zcdjJLdfwLR2e8BAug6yCw9H
- bgMYIpLwWZyjMNA4ZGBDs+pxk/dimUkgvNm1oyhqPoXIoa0dWJQRcSGe6gS6rrwnVAGL
- HGtg==
-X-Gm-Message-State: AOAM530TmofQY/IpEGMSQhYmbJehCu3n57PL1yX8awLPPPsrWmWlut0/
- Zl8ZlAS6aUln+J2NpGfs7Vz+JQ==
-X-Google-Smtp-Source: ABdhPJzki7ZMYY1WatOhrepc23lJzgh5aFTrE5beDjhqgfZr9lQz+W9j+NDiNFOUnT0e9VKf01dzYg==
-X-Received: by 2002:a05:6402:6cb:: with SMTP id
- n11mr15772141edy.198.1615570105853; 
- Fri, 12 Mar 2021 09:28:25 -0800 (PST)
+ bh=Tgg01WFzYZWxtwMF3RzuONdmzCofqm4lYuJbp66nklY=;
+ b=GjuAIoB8Hqet/pog0EDuCE7Sqmz1hxmtktVFbHrCk9Xwj/T+mIwcwoq6VKmP5P6S7d
+ 34kBV9G9hzpmy9MGpqlKfVWiikNY7nGUez3tmPz+PgQ39QAlBHgK8E/HtRazm2kNfe9e
+ kuVGvZRTlUyDEVZ4L2WPsYBt5WQHHlIHaedCOUJWv7eWw6q0m1/T7K3IoJT0SIMKlISr
+ TYbMPhTgALLYvnPNj3w+3xd5xdC1h7M1U8+5NKcujIhKo3BPEYzC3NkFDO9mR2LBjIVx
+ usDV2IumRYDsaC2lXZimPngmPt0Zh/iOppcXmMHaPnoyUnP+AsMME5jDbisko8kOjrey
+ PdPQ==
+X-Gm-Message-State: AOAM531psw29jMDdpsN5kA8xA506E9DQkuIPTtHj6kCnunBTwOlViaWV
+ G0euiBP1loeQwBB6WxzzcssAUQ==
+X-Google-Smtp-Source: ABdhPJzAZLhBnEXET17Ag+qIErmus0UvOM6NFlY/0Q+jxghxQrm5/VPwFYvhQKt+qAk/oLqhK5AtwQ==
+X-Received: by 2002:a17:907:d8a:: with SMTP id
+ go10mr9892867ejc.46.1615570106553; 
+ Fri, 12 Mar 2021 09:28:26 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 90sm3555711edr.69.2021.03.12.09.28.22
+ by smtp.gmail.com with ESMTPSA id rs24sm3108929ejb.75.2021.03.12.09.28.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 09:28:22 -0800 (PST)
+ Fri, 12 Mar 2021 09:28:23 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E037C1FF8C;
- Fri, 12 Mar 2021 17:28:21 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0155C1FF8F;
+ Fri, 12 Mar 2021 17:28:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/14] plugins: Expose physical addresses instead of device
- offsets
-Date: Fri, 12 Mar 2021 17:28:09 +0000
-Message-Id: <20210312172821.31647-3-alex.bennee@linaro.org>
+Subject: [PATCH v1 03/14] docs/devel: include the plugin API information from
+ the headers
+Date: Fri, 12 Mar 2021 17:28:10 +0000
+Message-Id: <20210312172821.31647-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312172821.31647-1-alex.bennee@linaro.org>
 References: <20210312172821.31647-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,151 +94,30 @@ Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
+We have kerneldoc tags for the headers so we might as well extract
+them into our developer documentation whilst we are at it.
 
-This allows plugins to query for full virtual-to-physical address
-translation for a given `qemu_plugin_hwaddr` and stops exposing the
-offset within the device itself. As this change breaks the API,
-QEMU_PLUGIN_VERSION is incremented.
-
-Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210309202802.211756-1-aaron@os.amperecomputing.com>
 ---
- include/qemu/qemu-plugin.h  | 32 +++++++++++++++++++++++++-------
- contrib/plugins/hotpages.c  |  2 +-
- contrib/plugins/hwprofile.c |  2 +-
- plugins/api.c               | 17 ++++++++++++-----
- 4 files changed, 39 insertions(+), 14 deletions(-)
+ docs/devel/tcg-plugins.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index c66507fe8f..3303dce862 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -47,7 +47,7 @@ typedef uint64_t qemu_plugin_id_t;
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 39ce86ed96..18c6581d85 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -63,6 +63,11 @@ valid during the lifetime of the callback so it is important that any
+ information that is needed is extracted during the callback and saved
+ by the plugin.
  
- extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
- 
--#define QEMU_PLUGIN_VERSION 0
-+#define QEMU_PLUGIN_VERSION 1
- 
- typedef struct {
-     /* string describing architecture */
-@@ -307,8 +307,8 @@ bool qemu_plugin_mem_is_sign_extended(qemu_plugin_meminfo_t info);
- bool qemu_plugin_mem_is_big_endian(qemu_plugin_meminfo_t info);
- bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info);
- 
--/*
-- * qemu_plugin_get_hwaddr():
-+/**
-+ * qemu_plugin_get_hwaddr() - return handle for memory operation
-  * @vaddr: the virtual address of the memory operation
-  *
-  * For system emulation returns a qemu_plugin_hwaddr handle to query
-@@ -323,12 +323,30 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-                                                   uint64_t vaddr);
- 
- /*
-- * The following additional queries can be run on the hwaddr structure
-- * to return information about it. For non-IO accesses the device
-- * offset will be into the appropriate block of RAM.
-+ * The following additional queries can be run on the hwaddr structure to
-+ * return information about it - namely whether it is for an IO access and the
-+ * physical address associated with the access.
-+ */
++API
++===
 +
-+/**
-+ * qemu_plugin_hwaddr_is_io() - query whether memory operation is IO
-+ * @haddr: address handle from qemu_plugin_get_hwaddr()
-+ *
-+ * Returns true if the handle's memory operation is to memory-mapped IO, or
-+ * false if it is to RAM
-  */
- bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
--uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
++.. kernel-doc:: include/qemu/qemu-plugin.h
 +
-+/**
-+ * qemu_plugin_hwaddr_phys_addr() - query physical address for memory operation
-+ * @haddr: address handle from qemu_plugin_get_hwaddr()
-+ *
-+ * Returns the physical address associated with the memory operation
-+ *
-+ * Note that the returned physical address may not be unique if you are dealing
-+ * with multiple address spaces.
-+ */
-+uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
+ Usage
+ =====
  
- /*
-  * Returns a string representing the device. The string is valid for
-diff --git a/contrib/plugins/hotpages.c b/contrib/plugins/hotpages.c
-index eacc678eac..bf53267532 100644
---- a/contrib/plugins/hotpages.c
-+++ b/contrib/plugins/hotpages.c
-@@ -122,7 +122,7 @@ static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         }
-     } else {
-         if (hwaddr && !qemu_plugin_hwaddr_is_io(hwaddr)) {
--            page = (uint64_t) qemu_plugin_hwaddr_device_offset(hwaddr);
-+            page = (uint64_t) qemu_plugin_hwaddr_phys_addr(hwaddr);
-         } else {
-             page = vaddr;
-         }
-diff --git a/contrib/plugins/hwprofile.c b/contrib/plugins/hwprofile.c
-index 6dac1d5f85..faf216ac00 100644
---- a/contrib/plugins/hwprofile.c
-+++ b/contrib/plugins/hwprofile.c
-@@ -201,7 +201,7 @@ static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         return;
-     } else {
-         const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
--        uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
-+        uint64_t off = qemu_plugin_hwaddr_phys_addr(hwaddr);
-         bool is_write = qemu_plugin_mem_is_store(meminfo);
-         DeviceCounts *counts;
- 
-diff --git a/plugins/api.c b/plugins/api.c
-index 0b04380d57..3c7dc406e3 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -40,6 +40,7 @@
- #include "sysemu/sysemu.h"
- #include "tcg/tcg.h"
- #include "exec/exec-all.h"
-+#include "exec/ram_addr.h"
- #include "disas/disas.h"
- #include "plugin.h"
- #ifndef CONFIG_USER_ONLY
-@@ -298,19 +299,25 @@ bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr)
- #endif
- }
- 
--uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr)
-+uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
- {
- #ifdef CONFIG_SOFTMMU
-     if (haddr) {
-         if (!haddr->is_io) {
--            ram_addr_t ram_addr = qemu_ram_addr_from_host((void *) haddr->v.ram.hostaddr);
--            if (ram_addr == RAM_ADDR_INVALID) {
-+            RAMBlock *block;
-+            ram_addr_t offset;
-+            void *hostaddr = (void *) haddr->v.ram.hostaddr;
-+
-+            block = qemu_ram_block_from_host(hostaddr, false, &offset);
-+            if (!block) {
-                 error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
-                 abort();
-             }
--            return ram_addr;
-+
-+            return block->offset + offset + block->mr->addr;
-         } else {
--            return haddr->v.io.offset;
-+            MemoryRegionSection *mrs = haddr->v.io.section;
-+            return haddr->v.io.offset + mrs->mr->addr;
-         }
-     }
- #endif
 -- 
 2.20.1
 
