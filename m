@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F39339192
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:40:57 +0100 (CET)
-Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C947833919F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:44:30 +0100 (CET)
+Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjuK-0001Ks-45
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:40:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
+	id 1lKjxl-000829-L9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:44:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKjkS-0008Ry-Rx
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:30:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49442)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjm0-0001dU-RS
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKjkP-0001Gi-K1
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:30:44 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjlw-00024t-Eb
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615563039;
+ s=mimecast20190719; t=1615563135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JCWJqJJO00nSspxEemYBxF+WIg8B2Obf4vPuxyUE+uM=;
- b=I5phb3o0LCmWkGvpOATsln66oPdEYdPCSlo8mOBH5HuaIgGlnNhnZEfsSimaWzbc3+fkfq
- 6uGBogSmqMPurW2PvFtenn9ljWgS6bFLfb2Z2z9QYaAm1oeR2+H3DAK9vTGQX5zUn5bjzX
- YYueuSeTnLlg33Dl1ndb8e45p6DsgHo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-m6uwql30N86QWSDj7W0ycQ-1; Fri, 12 Mar 2021 10:30:37 -0500
-X-MC-Unique: m6uwql30N86QWSDj7W0ycQ-1
-Received: by mail-wr1-f70.google.com with SMTP id g2so11309984wrx.20
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:30:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JCWJqJJO00nSspxEemYBxF+WIg8B2Obf4vPuxyUE+uM=;
- b=Jfya4L2cjabzG85QcnmDkoNPY/u+OUk0vXO2DackWRH/By6EhJGSQqSCqkuF3MgxJC
- lN1HUo4NU05LMI1kL58AdisVlXiQ7Mp731v+DxtTIqfzUlhm/P56Vfi4d9NVKhm5Oc8z
- /FZhMj/JkYxjrrpV4mYp3oC1Yf1wGWNSDLFhqWYrbiU47mhagfpccnFYYBOGsd1SIXGM
- ROL+Ohmf4nBEY5I1ni5NeVt/f4UrCkVfwWZHuY1EMvQYAzbE72Gt/RLCMiIvhvUIW9cp
- ok7K5YkXvY85vRtexgXl717vv50s55VDRlB37muE7Jr2JD4Jry0o9CCjFUuIKvZwrDB3
- KNRA==
-X-Gm-Message-State: AOAM53305/40UONENe2LqHBQufUUEp2BBiARE5CvKpENh1NnVSBAMa+n
- jzjjwQvwobfK0dQZ7FqvXuGdJKQU/YN6RR+Ul5qDnCgcb9WW9WXF9Ht9ZGcx2Opu5HIxuLGxXje
- QBJK5fdDzSFOUFHo=
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr13602530wmc.126.1615563036636; 
- Fri, 12 Mar 2021 07:30:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzqEkMU+fFJ2anDERAWPYCl0zK9Vs620Gg61pbAp8PJBoHty+O5xi20tUekxc6CxYpeJtt8jw==
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr13602504wmc.126.1615563036429; 
- Fri, 12 Mar 2021 07:30:36 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g5sm8060030wrq.30.2021.03.12.07.30.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 07:30:35 -0800 (PST)
-Subject: Re: [PATCH v1] configure: add option to implicitly enable/disable
- libgio
-To: Denis Plotnikov <den-plotnikov@yandex-team.ru>, qemu-devel@nongnu.org
-References: <20210312151440.405776-1-den-plotnikov@yandex-team.ru>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <56ddd7bb-b64f-3df8-ffa9-28fc5ca769bf@redhat.com>
-Date: Fri, 12 Mar 2021 16:30:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=yPFBI6Ls0cDy5c5Ba2DEzMLC/LQxs/TE9x0y8BI0IUs=;
+ b=cDxBQtadBfk7cnOl8n2iVwHFtxXXREqzqIoW4SiWH/dbqaxFCg2dhSpMF++I1Ryo6Pu1Aw
+ tNpUDOcedfwI9KRKMzy+RS5p3ZBWkzy07KfybHUdf8aF0yeLoEMzVm0WRMpVQ6JBvf0lqO
+ b7qUHybkLxU9cnEvFRYNSB1dX8yqQOE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-2rh_hh6MM-GuGL2oZ7If5A-1; Fri, 12 Mar 2021 10:32:13 -0500
+X-MC-Unique: 2rh_hh6MM-GuGL2oZ7If5A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2767C1966325;
+ Fri, 12 Mar 2021 15:32:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B888F1001281;
+ Fri, 12 Mar 2021 15:32:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 41C551132C13; Fri, 12 Mar 2021 16:32:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 01/10] qemu-options: New -compat to set policy for
+ deprecated interfaces
+Date: Fri, 12 Mar 2021 16:32:01 +0100
+Message-Id: <20210312153210.2810514-2-armbru@redhat.com>
+In-Reply-To: <20210312153210.2810514-1-armbru@redhat.com>
+References: <20210312153210.2810514-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210312151440.405776-1-den-plotnikov@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,125 +80,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, yc-core@yandex-team.ru
+Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/03/21 16:14, Denis Plotnikov wrote:
-> Now, compilation of util/dbus is implicit and depends
-> on libgio presence on the building host.
-> The patch adds options to manage libgio dependencies explicitly.
-> 
-> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-> ---
->   configure | 60 ++++++++++++++++++++++++++++++++++++-------------------
->   1 file changed, 39 insertions(+), 21 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 34fccaa2bae6..23eed988be81 100755
-> --- a/configure
-> +++ b/configure
-> @@ -465,6 +465,7 @@ fuse_lseek="auto"
->   multiprocess="auto"
->   
->   malloc_trim="auto"
-> +gio="$default_feature"
->   
->   # parse CC options second
->   for opt do
-> @@ -1560,6 +1561,10 @@ for opt do
->     ;;
->     --disable-multiprocess) multiprocess="disabled"
->     ;;
-> +  --enable-gio) gio=yes
-> +  ;;
-> +  --disable-gio) gio=no
-> +  ;;
->     *)
->         echo "ERROR: unknown option $opt"
->         echo "Try '$0 --help' for more information"
-> @@ -1913,6 +1918,7 @@ disabled with --disable-FEATURE, default is enabled if available
->     fuse            FUSE block device export
->     fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
->     multiprocess    Out of process device emulation support
-> +  gio             libgio support
->   
->   NOTE: The object files are built at the place where configure is launched
->   EOF
-> @@ -3319,17 +3325,19 @@ if test "$static" = yes && test "$mingw32" = yes; then
->       glib_cflags="-DGLIB_STATIC_COMPILATION $glib_cflags"
->   fi
->   
-> -if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
-> -    gio_cflags=$($pkg_config --cflags gio-2.0)
-> -    gio_libs=$($pkg_config --libs gio-2.0)
-> -    gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
-> -    if [ ! -x "$gdbus_codegen" ]; then
-> -        gdbus_codegen=
-> -    fi
-> -    # Check that the libraries actually work -- Ubuntu 18.04 ships
-> -    # with pkg-config --static --libs data for gio-2.0 that is missing
-> -    # -lblkid and will give a link error.
-> -    cat > $TMPC <<EOF
-> +if ! test "$gio" = "no"; then
-> +    pass=no
-> +    if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
-> +        gio_cflags=$($pkg_config --cflags gio-2.0)
-> +        gio_libs=$($pkg_config --libs gio-2.0)
-> +        gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
-> +        if [ ! -x "$gdbus_codegen" ]; then
-> +            gdbus_codegen=
-> +        fi
-> +        # Check that the libraries actually work -- Ubuntu 18.04 ships
-> +        # with pkg-config --static --libs data for gio-2.0 that is missing
-> +        # -lblkid and will give a link error.
-> +        cat > $TMPC <<EOF
->   #include <gio/gio.h>
->   int main(void)
->   {
-> @@ -3337,18 +3345,28 @@ int main(void)
->       return 0;
->   }
->   EOF
-> -    if compile_prog "$gio_cflags" "$gio_libs" ; then
-> -        gio=yes
-> -    else
-> -        gio=no
-> +        if compile_prog "$gio_cflags" "$gio_libs" ; then
-> +            pass=yes
-> +        else
-> +            pass=no
-> +        fi
-> +
-> +        if test "$pass" = "yes" &&
-> +            $pkg_config --atleast-version=$glib_req_ver gio-unix-2.0; then
-> +            gio_cflags="$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
-> +            gio_libs="$gio_libs $($pkg_config --libs gio-unix-2.0)"
-> +        fi
->       fi
-> -else
-> -    gio=no
-> -fi
->   
-> -if $pkg_config --atleast-version=$glib_req_ver gio-unix-2.0; then
-> -    gio_cflags="$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
-> -    gio_libs="$gio_libs $($pkg_config --libs gio-unix-2.0)"
-> +    if test "$pass" = "no"; then
-> +        if test "$gio" = "yes"; then
-> +            feature_not_found "gio" "Install libgio >= 2.0"
-> +        else
-> +            gio=no
-> +        fi
-> +    else
-> +        gio=yes
-> +    fi
->   fi
->   
->   # Sanity check that the current size_t matches the
-> 
+New option -compat lets you configure what to do when deprecated
+interfaces get used.  This is intended for testing users of the
+management interfaces.  It is experimental.
 
-Queued, thanks.
+-compat deprecated-input=<input-policy> configures what to do when
+deprecated input is received.  Input policy can be "accept" (accept
+silently), or "reject" (reject the request with an error).
 
-Paolo
+-compat deprecated-output=<out-policy> configures what to do when
+deprecated output is sent.  Output policy can be "accept" (pass on
+unchanged), or "hide" (filter out the deprecated parts).
+
+Default is "accept".  Policies other than "accept" are implemented
+later in this series.
+
+For now, -compat covers only syntactic aspects of QMP, i.e. stuff
+tagged with feature 'deprecated'.  We may want to extend it to cover
+semantic aspects, CLI, and experimental features.
+
+Note that there is no good way for management application to detect
+presence of -compat: it's not visible output of query-qmp-schema or
+query-command-line-options.  Tolerable, because it's meant for
+testing.  If running with -compat fails, skip the test.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ qapi/compat.json             | 51 ++++++++++++++++++++++++++++++++++++
+ qapi/qapi-schema.json        |  1 +
+ include/qapi/compat-policy.h | 20 ++++++++++++++
+ qapi/qmp-dispatch.c          |  3 +++
+ softmmu/vl.c                 | 17 ++++++++++++
+ qapi/meson.build             |  1 +
+ qemu-options.hx              | 20 ++++++++++++++
+ 7 files changed, 113 insertions(+)
+ create mode 100644 qapi/compat.json
+ create mode 100644 include/qapi/compat-policy.h
+
+diff --git a/qapi/compat.json b/qapi/compat.json
+new file mode 100644
+index 0000000000..d2c02a21aa
+--- /dev/null
++++ b/qapi/compat.json
+@@ -0,0 +1,51 @@
++# -*- Mode: Python -*-
++
++##
++# = Compatibility policy
++##
++
++##
++# @CompatPolicyInput:
++#
++# Policy for handling "funny" input.
++#
++# @accept: Accept silently
++# @reject: Reject with an error
++#
++# Since: 5.2
++##
++{ 'enum': 'CompatPolicyInput',
++  'data': [ 'accept', 'reject' ] }
++
++##
++# @CompatPolicyOutput:
++#
++# Policy for handling "funny" output.
++#
++# @accept: Pass on unchanged
++# @hide: Filter out
++#
++# Since: 5.2
++##
++{ 'enum': 'CompatPolicyOutput',
++  'data': [ 'accept', 'hide' ] }
++
++##
++# @CompatPolicy:
++#
++# Policy for handling deprecated management interfaces.
++#
++# This is intended for testing users of the management interfaces.
++#
++# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
++# with feature 'deprecated'.  We may want to extend it to cover
++# semantic aspects, CLI, and experimental features.
++#
++# @deprecated-input: how to handle deprecated input (default 'accept')
++# @deprecated-output: how to handle deprecated output (default 'accept')
++#
++# Since: 5.2
++##
++{ 'struct': 'CompatPolicy',
++  'data': { '*deprecated-input': 'CompatPolicyInput',
++            '*deprecated-output': 'CompatPolicyOutput' } }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 3441c9a9ae..4912b9744e 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -79,6 +79,7 @@
+ { 'include': 'migration.json' }
+ { 'include': 'transaction.json' }
+ { 'include': 'trace.json' }
++{ 'include': 'compat.json' }
+ { 'include': 'control.json' }
+ { 'include': 'introspect.json' }
+ { 'include': 'qom.json' }
+diff --git a/include/qapi/compat-policy.h b/include/qapi/compat-policy.h
+new file mode 100644
+index 0000000000..b8c6638156
+--- /dev/null
++++ b/include/qapi/compat-policy.h
+@@ -0,0 +1,20 @@
++/*
++ * Policy for handling "funny" management interfaces
++ *
++ * Copyright (C) 2020 Red Hat, Inc.
++ *
++ * Authors:
++ *  Markus Armbruster <armbru@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++
++#ifndef QAPI_COMPAT_POLICY_H
++#define QAPI_COMPAT_POLICY_H
++
++#include "qapi/qapi-types-compat.h"
++
++extern CompatPolicy compat_policy;
++
++#endif
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0a2b20a4e4..45090f881a 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -14,6 +14,7 @@
+ #include "qemu/osdep.h"
+ 
+ #include "block/aio.h"
++#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/dispatch.h"
+ #include "qapi/qmp/qdict.h"
+@@ -23,6 +24,8 @@
+ #include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ 
++CompatPolicy compat_policy;
++
+ static QDict *qmp_dispatch_check_obj(QDict *dict, bool allow_oob,
+                                      Error **errp)
+ {
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b7673b9613..4c53b2940c 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -29,6 +29,7 @@
+ #include "exec/cpu-common.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
++#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu-version.h"
+@@ -113,6 +114,7 @@
+ #include "sysemu/replay.h"
+ #include "qapi/qapi-events-run-state.h"
+ #include "qapi/qapi-visit-block-core.h"
++#include "qapi/qapi-visit-compat.h"
+ #include "qapi/qapi-visit-ui.h"
+ #include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qapi-commands-migration.h"
+@@ -3413,6 +3415,21 @@ void qemu_init(int argc, char **argv, char **envp)
+                 enable_mlock = qemu_opt_get_bool(opts, "mem-lock", false);
+                 enable_cpu_pm = qemu_opt_get_bool(opts, "cpu-pm", false);
+                 break;
++            case QEMU_OPTION_compat:
++                {
++                    CompatPolicy *opts;
++                    Visitor *v;
++
++                    v = qobject_input_visitor_new_str(optarg, NULL,
++                                                      &error_fatal);
++
++                    visit_type_CompatPolicy(v, NULL, &opts, &error_fatal);
++                    QAPI_CLONE_MEMBERS(CompatPolicy, &compat_policy, opts);
++
++                    qapi_free_CompatPolicy(opts);
++                    visit_free(v);
++                    break;
++                }
+             case QEMU_OPTION_msg:
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("msg"), optarg,
+                                                false);
+diff --git a/qapi/meson.build b/qapi/meson.build
+index fcb15a78f1..376f4ceafe 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -24,6 +24,7 @@ qapi_all_modules = [
+   'block-export',
+   'char',
+   'common',
++  'compat',
+   'control',
+   'crypto',
+   'dump',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 90801286c6..2be2feed32 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3470,6 +3470,26 @@ DEFHEADING()
+ 
+ DEFHEADING(Debug/Expert options:)
+ 
++DEF("compat", HAS_ARG, QEMU_OPTION_compat,
++    "-compat [deprecated-input=accept|reject][,deprecated-output=accept|hide]\n"
++    "                Policy for handling deprecated management interfaces\n",
++    QEMU_ARCH_ALL)
++SRST
++``-compat [deprecated-input=@var{input-policy}][,deprecated-output=@var{output-policy}]``
++    Set policy for handling deprecated management interfaces (experimental):
++
++    ``deprecated-input=accept`` (default)
++        Accept deprecated commands and arguments
++    ``deprecated-input=reject``
++        Reject deprecated commands and arguments
++    ``deprecated-output=accept`` (default)
++        Emit deprecated command results and events
++    ``deprecated-output=hide``
++        Suppress deprecated command results and events
++
++    Limitation: covers only syntactic aspects of QMP.
++ERST
++
+ DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
+     "-fw_cfg [name=]<name>,file=<file>\n"
+     "                add named fw_cfg entry with contents from file\n"
+-- 
+2.26.2
 
 
