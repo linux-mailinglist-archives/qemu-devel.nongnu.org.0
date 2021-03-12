@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914EE3389C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:13:00 +0100 (CET)
-Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B50C338A10
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:27:24 +0100 (CET)
+Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKemx-00057t-HN
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:12:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
+	id 1lKf0t-0001r8-Gl
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:27:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lKees-0001y6-JU
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:04:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60239)
+ id 1lKef6-0002Gv-DT
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:04:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lKeeq-0003pI-Qm
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:04:38 -0500
+ id 1lKef3-0003wQ-3c
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:04:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615543476;
+ s=mimecast20190719; t=1615543487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29uN9b+TR+Ruixt9pZtraK6VYZFptSAxO2ZoujOTlps=;
- b=YNaeS1apmZVlOrFfPERBBP3QfBvkY570DQVDd7jprqEGotHyP2HwDYtkLtykzgcqrCChWc
- o9cay8D9gPURyXXo4qSAQbmSGi+BAD8PQF5c42n7b/OdNRGlSD6dpDQPm6zsGwuaFt4mma
- 0KJLYmfQq8QLl7OQ4Cla2oAg1XECO+o=
+ bh=58c+YZnAcY8nmu25pTsnfz7IsqwKksSTHctTkETWfcU=;
+ b=DN7zF1kjkO5m2g7d9leLbmLKqTM9OCu5AaNXxxUglCbmGWeyk8OintH787k1KiasI8Gh+N
+ IcH+MLjIFEM/+4JyS1bWBRwMfapupu5y3fzkV1a/skpRsd0pPvcHtfbiWO+wNT6uxRuqZP
+ a7LP3KZTjY/GMIhd49/XUME1vigzGX8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271--sNotPwCOPmCavaSvDuFMw-1; Fri, 12 Mar 2021 05:04:34 -0500
-X-MC-Unique: -sNotPwCOPmCavaSvDuFMw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-319-6EkO0w7TM2WFxblO2U4vqQ-1; Fri, 12 Mar 2021 05:04:46 -0500
+X-MC-Unique: 6EkO0w7TM2WFxblO2U4vqQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B08319200C0
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:04:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10AC881744F
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:04:45 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8DF5C1C5;
- Fri, 12 Mar 2021 10:04:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06B7410016FD;
+ Fri, 12 Mar 2021 10:04:37 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/27] vhost-user-gpu: add vg_send_dmabuf_update()
-Date: Fri, 12 Mar 2021 14:00:59 +0400
-Message-Id: <20210312100108.2706195-19-marcandre.lureau@redhat.com>
+Subject: [PATCH 19/27] vhost-user-gpu: add vg_send_scanout()
+Date: Fri, 12 Mar 2021 14:01:00 +0400
+Message-Id: <20210312100108.2706195-20-marcandre.lureau@redhat.com>
 In-Reply-To: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
 References: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,99 +88,66 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- contrib/vhost-user-gpu/vugpu.h          |  6 +++++
- contrib/vhost-user-gpu/vhost-user-gpu.c | 32 +++++++++++++++----------
- contrib/vhost-user-gpu/virgl.c          | 11 +--------
- 3 files changed, 27 insertions(+), 22 deletions(-)
+ contrib/vhost-user-gpu/vugpu.h          |  1 +
+ contrib/vhost-user-gpu/vhost-user-gpu.c | 27 ++++++++++++++++---------
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
 diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
-index 759de56502..f2e80d255d 100644
+index f2e80d255d..bf513e9295 100644
 --- a/contrib/vhost-user-gpu/vugpu.h
 +++ b/contrib/vhost-user-gpu/vugpu.h
-@@ -188,5 +188,11 @@ void    vg_send_dmabuf_scanout(VuGpu *g,
-                                int fd_drm_fourcc,
-                                uint32_t fd_flags,
-                                int fd);
-+void    vg_send_dmabuf_update(VuGpu *g,
-+                              uint32_t scanout_id,
-+                              uint32_t x,
-+                              uint32_t y,
-+                              uint32_t width,
-+                              uint32_t height);
+@@ -194,5 +194,6 @@ void    vg_send_dmabuf_update(VuGpu *g,
+                               uint32_t y,
+                               uint32_t width,
+                               uint32_t height);
++void    vg_send_scanout(VuGpu *g, uint32_t scanout_id);
  
  #endif
 diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-gpu/vhost-user-gpu.c
-index 8c3ee8aad8..fc8e62f20e 100644
+index fc8e62f20e..a11f406350 100644
 --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
 +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-@@ -618,6 +618,25 @@ vg_send_dmabuf_scanout(VuGpu *g,
-     vg_send_msg(g, &msg, fd);
+@@ -638,6 +638,22 @@ vg_send_dmabuf_update(VuGpu *g,
+     vg_send_msg(g, &msg, -1);
  }
  
 +void
-+vg_send_dmabuf_update(VuGpu *g,
-+                      uint32_t scanout_id,
-+                      uint32_t x,
-+                      uint32_t y,
-+                      uint32_t width,
-+                      uint32_t height)
++vg_send_scanout(VuGpu *g, uint32_t scanout_id)
 +{
++    struct virtio_gpu_scanout *scanout = &g->scanout[scanout_id];
 +    VhostUserGpuMsg msg = {
-+        .request = VHOST_USER_GPU_DMABUF_UPDATE,
-+        .size = sizeof(VhostUserGpuUpdate),
-+        .payload.update.scanout_id = scanout_id,
-+        .payload.update.x = x,
-+        .payload.update.y = y,
-+        .payload.update.width = width,
-+        .payload.update.height = height
++        .request = VHOST_USER_GPU_SCANOUT,
++        .size = sizeof(VhostUserGpuScanout),
++        .payload.scanout = (VhostUserGpuScanout) {
++            .scanout_id = scanout_id,
++            .width = scanout->width,
++            .height = scanout->height
++        }
 +    };
 +    vg_send_msg(g, &msg, -1);
 +}
- 
++
  static void
  vg_set_scanout(VuGpu *g,
-@@ -765,18 +784,7 @@ vg_resource_flush(VuGpu *g,
-         size_t height = extents->y2 - extents->y1;
- 
-         if (vugbm_buffer_can_get_dmabuf_fd(&res->buffer)) {
--            VhostUserGpuMsg vmsg = {
--                .request = VHOST_USER_GPU_DMABUF_UPDATE,
--                .size = sizeof(VhostUserGpuUpdate),
--                .payload.update = (VhostUserGpuUpdate) {
--                    .scanout_id = i,
--                    .x = extents->x1,
--                    .y = extents->y1,
--                    .width = width,
--                    .height = height,
--                }
--            };
--            vg_send_msg(g, &vmsg, -1);
-+            vg_send_dmabuf_update(g, i, extents->x1, extents->y1, width, height);
-             vg_wait_ok(g);
-         } else {
-             size_t bpp =
-diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-index 0c7f118556..b17cf22986 100644
---- a/contrib/vhost-user-gpu/virgl.c
-+++ b/contrib/vhost-user-gpu/virgl.c
-@@ -370,16 +370,7 @@ virgl_cmd_resource_flush(VuGpu *g,
-         if (g->scanout[i].resource_id != rf.resource_id) {
-             continue;
+                struct virtio_gpu_ctrl_command *cmd)
+@@ -714,16 +730,7 @@ vg_set_scanout(VuGpu *g,
+             close(fd);
          }
+     } else {
 -        VhostUserGpuMsg msg = {
--            .request = VHOST_USER_GPU_DMABUF_UPDATE,
--            .size = sizeof(VhostUserGpuUpdate),
--            .payload.update.scanout_id = i,
--            .payload.update.x = rf.r.x,
--            .payload.update.y = rf.r.y,
--            .payload.update.width = rf.r.width,
--            .payload.update.height = rf.r.height
+-            .request = VHOST_USER_GPU_SCANOUT,
+-            .size = sizeof(VhostUserGpuScanout),
+-            .payload.scanout = (VhostUserGpuScanout) {
+-                .scanout_id = ss.scanout_id,
+-                .width = scanout->width,
+-                .height = scanout->height
+-            }
 -        };
 -        vg_send_msg(g, &msg, -1);
-+        vg_send_dmabuf_update(g, i, rf.r.x, rf.r.y, rf.r.width, rf.r.height);
-         vg_wait_ok(g);
++        vg_send_scanout(g, ss.scanout_id);
      }
  }
+ 
 -- 
 2.29.0
 
