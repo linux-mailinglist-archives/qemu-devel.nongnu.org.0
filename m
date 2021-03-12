@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2614A33961B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:19:12 +0100 (CET)
-Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45674339634
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:22:49 +0100 (CET)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmNT-0006BM-2j
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
+	id 1lKmQy-0002xB-97
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:22:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWO-0007kI-Vd
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlWP-0007kb-BO
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWN-0000jq-2l
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615569858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y3u9YRTJCNnnkPJFIhYEMaW1mD5nSFM7ktrkKODAAss=;
- b=DAGcd65ThBAG01bTX9/WJV8+2Z/ScB2G3EPV8yPpsHGgUD/ScG/G8vS7lRdR5oX+IwAFw0
- nU3RBOoeML9Eu925yM+M5LHl66Yknp8PDgM8m0FxybvBFLGrp5ieujgHiybFNye8wsvmNP
- ExEkqKGO2hS7W+sHwy/RCfwDWT9/x0E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-rpAR-kYbMu2uUOMFkWbZvQ-1; Fri, 12 Mar 2021 12:24:13 -0500
-X-MC-Unique: rpAR-kYbMu2uUOMFkWbZvQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD0FA1966320;
- Fri, 12 Mar 2021 17:24:12 +0000 (UTC)
-Received: from thuth.com (ovpn-112-83.ams2.redhat.com [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F3319744;
- Fri, 12 Mar 2021 17:24:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 9/9] README: Add Documentation blurb
-Date: Fri, 12 Mar 2021 18:23:56 +0100
-Message-Id: <20210312172356.968219-10-thuth@redhat.com>
-In-Reply-To: <20210312172356.968219-1-thuth@redhat.com>
-References: <20210312172356.968219-1-thuth@redhat.com>
+Received: from mx2.suse.de ([195.135.220.15]:33998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlWN-0000eX-EB
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:21 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 36C49AF4D;
+ Fri, 12 Mar 2021 17:24:08 +0000 (UTC)
+Subject: Re: all class init functions for all types in QEMU are called in
+ select_machine(). Expected?
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <bdc8dbaf-8d63-833a-3e57-7e823a321486@suse.de>
+ <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
+ <ec7f83ae-8529-3a0e-4b00-73c856b28a3e@suse.de>
+ <be88d88a-dd9d-547d-9f3d-7444f0f8bbc6@redhat.com>
+ <3b7c6a4e-c191-063c-affa-0e179227a633@suse.de>
+ <26c2b88b-4c9e-09a0-a1c0-350a01e9a697@redhat.com>
+ <d66078f1-9fa0-c3ed-d54c-3d3ada2027e5@suse.de>
+ <683d1ccc-503d-3218-2539-a3ed48fee5fb@redhat.com>
+ <8ca3a983-05ad-a0de-31e9-65b6c41a2b4c@suse.de>
+ <6f2e5a50-c548-28c5-1ce0-e583bf90eaf1@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <e0c5eeaa-55f5-80e6-5cac-9717159f3903@suse.de>
+Date: Fri, 12 Mar 2021 18:24:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <6f2e5a50-c548-28c5-1ce0-e583bf90eaf1@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,46 +65,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+On 3/12/21 6:04 PM, Paolo Bonzini wrote:
+> On 12/03/21 14:40, Claudio Fontana wrote:
+>>      /*
+>>       * double dispatch. The first callback allows the accel cpu
+>>       * to run initializations for the CPU,
+>>       * the second one allows the CPU to customize the accel cpu
+>>       * behavior according to the CPU.
+>>       *
+>>       * The second is currently only used by TCG, to specialize the
+>>       * TCGCPUOps depending on the CPU type.
+>>       */
+>>      cc->accel_cpu = accel_cpu;
+>>      if (accel_cpu->cpu_class_init) {
+>>          accel_cpu->cpu_class_init(cc);
+>>      }
+>>      if (cc->init_accel_cpu) {
+>>          cc->init_accel_cpu(accel_cpu, cc);
+>>      }
+>> }
+>>
+>> .. but maybe this is premature, and should wait for actual users of this beyond TCG on ARM?
+> 
+> I prefer to single out TCG and have the call in cpu_class_init.  The 
+> idea of double dispatch (as opposed to an if/else chain with checks on 
+> the class of the argument) is that the first caller uses different 
+> "method names" to tell its type name to the target.
+> 
+> See for example 
+> https://en.wikipedia.org/wiki/Double_dispatch#Example_in_Ruby.
+> 
+> Paolo
+> 
 
-Add it in a prominent place: Right after figuring out what QEMU is,
-users may wish to know how to use it more than they want to know how to
-build their own version of it.
+Ah, just saw this. I already sent the series, but we can rework and rethink this.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20201104193032.1319248-1-jsnow@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- README.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Ciao, thanks,
 
-diff --git a/README.rst b/README.rst
-index 91aa1e314c..a92c7394b7 100644
---- a/README.rst
-+++ b/README.rst
-@@ -31,6 +31,17 @@ QEMU as a whole is released under the GNU General Public License,
- version 2. For full licensing details, consult the LICENSE file.
- 
- 
-+Documentation
-+=============
-+
-+Documentation can be found hosted online at
-+`<https://www.qemu.org/documentation/>`_. The documentation for the
-+current development version that is available at
-+`<https://www.qemu.org/docs/master/>`_ is generated from the ``docs/``
-+folder in the source tree, and is built by `Sphinx
-+<https://www.sphinx-doc.org/en/master/>_`.
-+
-+
- Building
- ========
- 
--- 
-2.27.0
-
+Claudio
 
