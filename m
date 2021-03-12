@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838B23396D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:45:47 +0100 (CET)
-Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A833396C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:41:35 +0100 (CET)
+Received: from localhost ([::1]:47050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmnC-0007jZ-Gi
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:45:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59816)
+	id 1lKmj8-0002km-9v
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:41:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKlbh-0005Wa-Ly
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:29:49 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41782)
+ id 1lKlbg-0005TG-Dj
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:29:48 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKlbd-0002fX-2T
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:29:49 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso15611583wmi.0
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:29:42 -0800 (PST)
+ id 1lKlbb-0002g0-GV
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:29:48 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so15636902wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n2+FoxPUsl3ql0sfBkfX+WZgRl9gRX3YL+B1LkTue4Q=;
- b=fk+vk82TQVMMoImoExwzAFGQk9qrBU+Uu5Axj6WtqT7+bT/1AebGG+OflNucHgdqre
- c2TEntJhJgIL7CnGjXlQ/sD19+gwdRFXY5/B/Pk6YoCuLsHsrprRjDVJ7SRGT6vMy4g+
- 35I0Xw62nba0IyvflR0m33UXARkTkUeVUg0dV5m6tNkGbCKsrf2uT84RSzCJIW10B1oE
- I3aozwKPkBeDuQp+cxmwuG+B2B2MixUmc/UQqg5vNQqn0ML98GRpkmjka0OmzxJxLt2V
- 7R0jXumJ7s5d0EuGM9A7fRPq3RHDRuqSk8iW0ZCNeGW4BhjmgTPf18nG++F19mjmcXwv
- G5vg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FdVDED8kKnbt0t9rcpUoiyt06STJfiA/Zd4Bwc57Y8s=;
+ b=hFY6aiFV596TJ8mRkE54kxP7Hq8Bne2Gl5B/yE5QkwiYbMPtyTSHGDBSWRDdMSDhk/
+ IK0YleMIff7FjwcHCa5bVHX97jK7kIUcUtTQ8sbdoUA+1tGNc91wYqcmTfFSFcQCq4e3
+ +ir0U4uqctisXEKMA8YjOzVMmegfbLY5rXmERkvVS+qtfS+qE/oIWMpaCiI790t5vseI
+ rliQsMmSWthDenmoaEpMIYEH16PYnw52enyAdoEuhCkVoI+8MCgq8khHKZc7LaN403lz
+ kQyOMJwNm2rXJWUiuP8QAT0W0Ob2uuc52k1rgjEdGthezZEmIy4KcQp52QmErur7yuD/
+ r75A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n2+FoxPUsl3ql0sfBkfX+WZgRl9gRX3YL+B1LkTue4Q=;
- b=OGAHIGt3CSHroHwXI+fktS8kyfozdfclMjXicX5ubDBKiFQovDOX6LfJ0mPTnHfm+8
- Rys4punstSj6s6U7ZTUf7WLi37zR+z25YlLCOpq4QKkJCYCde7h7miB46L0clyjdFAWu
- FoQW3uH02nrxo8DAJUpriyI2cVpTpqCplSDYDMM08N6Lpi7ThcGTQB8RIEri8vwR7JRM
- b4J2oi1lllfzgpvkLj4/ny2nxujfN9fkz24z841o3a9IwpJ/c1zMP9yRdBuT98SFi7eb
- ogHz3EC5hNW5wJpV81BPLJQ/OFFYUx5ohL3StfLGVLgg+MPQJfxCYfrF+UcJHHX6AMco
- SjgQ==
-X-Gm-Message-State: AOAM532Nn9h4UmOzI7VtAybHqEzlWwgxCKbiQ3c+qH9vDXOE18GgfXRY
- dmUZbSY6AqSGzmliK2HAVTV3UA==
-X-Google-Smtp-Source: ABdhPJwZ0QzQq9rhxJnK8QysJzuRdH43oy6KqxKCb4ZmVLLTkuxK4r/V+dKGd+7fvIxAb6wqEewOKA==
-X-Received: by 2002:a1c:7916:: with SMTP id l22mr13884675wme.86.1615570181495; 
- Fri, 12 Mar 2021 09:29:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FdVDED8kKnbt0t9rcpUoiyt06STJfiA/Zd4Bwc57Y8s=;
+ b=fXwn/bLtawIswQ1lMaRBZZ0VNu5pY1cBH7E1wJmLbh8flBt1GUY2J0UWUhtqdH0dXy
+ 5h615/id72ZDlZc3nKSJr+VtvPwNarvX5n3b3UTtJuvuu4pgwY5gFCrWO5VpOZxLcR8K
+ jlHvkcLm6PfZwvlQX8AXCdJpNYpw8RefkmG0aYxzAkVin/nwrDjAD+64Vc2GQMk9PLyT
+ rDLJAXK/qicvtOaNHRXkk9Pws2T57/HyijOAorSudt01idH6+gENodhmdiXuBo9QKFKU
+ ine/GZlkSbd/+AWFkrKZu7GmVR1Fxh1UnYg62neyVoUliRmxiVQUbjDLRoPCADZLBk+O
+ nhgw==
+X-Gm-Message-State: AOAM533bzoe7Tj9orWVa0x+1FtU1e146tlqIca6SLHqjXB+faeiEC4lX
+ C6hhuqgLlHnhuQ2sGdz2Ksp//Q==
+X-Google-Smtp-Source: ABdhPJzQ89JN2fTIh/ppkmnbRidq7/Xv7MHtTF7ee2D+MnttGNNUzrgtMOEP60iy2c7Ws/R5taSxmA==
+X-Received: by 2002:a1c:3c02:: with SMTP id j2mr14101898wma.92.1615570182187; 
+ Fri, 12 Mar 2021 09:29:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m132sm2679001wmf.45.2021.03.12.09.29.40
+ by smtp.gmail.com with ESMTPSA id m132sm2679001wmf.45.2021.03.12.09.29.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 12 Mar 2021 09:29:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 0/2] arm: Make M-profile VTOR loads on reset handle
- memory aliasing
-Date: Fri, 12 Mar 2021 17:29:37 +0000
-Message-Id: <20210312172939.695-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0 1/2] memory: Add offset_in_region to flatview_cb
+ arguments
+Date: Fri, 12 Mar 2021 17:29:38 +0000
+Message-Id: <20210312172939.695-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210312172939.695-1-peter.maydell@linaro.org>
+References: <20210312172939.695-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,55 +89,66 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Kumar Gala <kumar.gala@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For Arm M-profile CPUs, on reset the CPU must load its initial PC and
-SP from a vector table in guest memory.  Because we can't guarantee
-reset ordering, we have to handle the possibility that the ROM blob
-loader's reset function has not yet run when the CPU resets, in which
-case the data in an ELF file specified by the user won't be in guest
-memory to be read yet.
+The function flatview_for_each_range() calls a callback for each
+range in a FlatView.  Currently the callback gets the start and
+length of the range and the MemoryRegion involved, but not the offset
+within the MemoryRegion.  Add this to the callback's arguments; we're
+going to want it for a new use in the next commit.
 
-We work around the reset ordering problem by checking whether the ROM
-blob loader has any data for the address where the vector table is,
-using rom_ptr().  Unfortunately this does not handle the possibility
-of memory aliasing.  For many M-profile boards, memory can be accessed
-via multiple possible physical addresses; if the board has the vector
-table at address X but the user's ELF file loads data via a different
-address Y which is an alias to the same underlying guest RAM then
-rom_ptr() will not find it.
+While we're editing the flatview_cb typedef, add names for the
+arguments that were missing names.
 
-This series handles the possibility of aliasing by iterating through
-the whole FlatView of the CPU's address space checking for other
-mappings of the MemoryRegion corresponding to the location of the
-vector table.  If we find any aliases we use rom_ptr() to see if the
-ROM blob loader has any data there.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/exec/memory.h           | 4 +++-
+ softmmu/memory.c                | 3 ++-
+ tests/qtest/fuzz/generic_fuzz.c | 4 +++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-I still think that long-term the preferable option is going to be to
-sort out our reset handling so that we can use three-phase-reset
-everywhere and then have the rom blob loader write data in phase 2
-which the CPU reset can read in phase 3. But that doesn't work today
-because CPUs are not on any qbus and so they must be manually reset
-outside the standard "system reset by resetting the qbus tree", using
-qemu_register_reset(). The ROM blob loader also registers its reset
-via qemu_register_reset(). Sadly qemu_register_reset() has no support
-for three-phase-reset currently. That all adds up to "fixing reset
-handling sufficiently for this approach to solve the problem is going
-to take a long time", so for the moment this series is a reasonably
-self-contained way to allow QEMU to run guest images linked to an
-alias of the vector table address.
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  memory: Add offset_in_region to flatview_cb arguments
-  target/arm: Make M-profile VTOR loads on reset handle memory aliasing
-
- include/exec/memory.h           |  4 +-
- softmmu/memory.c                |  3 +-
- target/arm/cpu.c                | 68 ++++++++++++++++++++++++++++++++-
- tests/qtest/fuzz/generic_fuzz.c |  4 +-
- 4 files changed, 75 insertions(+), 4 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 54ccf1a5f09..0c3ddf2bb9a 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -778,7 +778,9 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ 
+ typedef int (*flatview_cb)(Int128 start,
+                            Int128 len,
+-                           const MemoryRegion*, void*);
++                           const MemoryRegion *mr,
++                           hwaddr offset_in_region,
++                           void *opaque);
+ 
+ void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 9db47b7db6b..3cc78862c79 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -671,7 +671,8 @@ void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
+     assert(cb);
+ 
+     FOR_EACH_FLAT_RANGE(fr, fv) {
+-        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
++        if (cb(fr->addr.start, fr->addr.size, fr->mr,
++               fr->offset_in_region, opaque))
+             break;
+     }
+ }
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index ee8c17a04c4..c10a19316f5 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -96,7 +96,9 @@ struct get_io_cb_info {
+ };
+ 
+ static int get_io_address_cb(Int128 start, Int128 size,
+-                          const MemoryRegion *mr, void *opaque) {
++                             const MemoryRegion *mr,
++                             hwaddr offset_in_region,
++                             void *opaque) {
+     struct get_io_cb_info *info = opaque;
+     if (g_hash_table_lookup(fuzzable_memoryregions, mr)) {
+         if (info->index == 0) {
 -- 
 2.20.1
 
