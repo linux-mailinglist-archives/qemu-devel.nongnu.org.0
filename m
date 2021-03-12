@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF1B339588
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 18:51:07 +0100 (CET)
-Received: from localhost ([::1]:55804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D55339592
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 18:53:56 +0100 (CET)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKlwH-0006Gq-Vw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 12:51:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58032)
+	id 1lKlz1-0001o7-6U
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 12:53:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlW1-0006uY-Vy
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:23:58 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33726)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlW4-0006we-Ga
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlVp-0000IM-2Y
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:23:57 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlVq-0000JG-Qr
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:00 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 95A59AFC1;
- Fri, 12 Mar 2021 17:22:59 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 377A3AFC9;
+ Fri, 12 Mar 2021 17:23:01 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v7 36/42] Revert "target/arm: Restrict v8M IDAU to TCG"
-Date: Fri, 12 Mar 2021 18:22:37 +0100
-Message-Id: <20210312172243.25334-37-cfontana@suse.de>
+Subject: [RFC v7 40/42] accel: add double dispatch mechanism for class
+ initialization
+Date: Fri, 12 Mar 2021 18:22:41 +0100
+Message-Id: <20210312172243.25334-41-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210312172243.25334-1-cfontana@suse.de>
 References: <20210312172243.25334-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -55,83 +55,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 6e937ba7f8fb90d66cb3781f7fed32fb4239556a
+while on x86 all CPU classes can use the same set of TCGCPUOps,
+on ARM the right accel behavior depends on the type of the CPU.
 
-This change breaks quickly at startup, as all interfaces in boards
-are checked in vl.c in select_machine():
-{
-  GSList *machines = object_class_get_list(TYPE_MACHINE, false);
-}
-
-In order to restrict v8M IDAU to TCG,
-we need to first disable all incompatible boards when building
-only KVM.
+So we need a way to specialize the accel behavior according to
+the CPU. Therefore, add a second initialization, after the
+accel_cpu->cpu_class_init, that allows to do this.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/arm/cpu.c                | 7 +++++++
- target/arm/tcg/tcg-cpu-models.c | 8 --------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ include/hw/core/cpu.h     |  6 ++++++
+ accel/accel-common.c      | 12 ++++++++++++
+ target/i386/tcg/tcg-cpu.c |  8 +++++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 31f1b3df09..353cd652bc 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1510,9 +1510,16 @@ static const TypeInfo arm_cpu_type_info = {
-     .class_init = arm_cpu_class_init,
- };
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index c68bc3ba8a..d45f78290e 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -192,6 +192,12 @@ struct CPUClass {
  
-+static const TypeInfo idau_interface_type_info = {
-+    .name = TYPE_IDAU_INTERFACE,
-+    .parent = TYPE_INTERFACE,
-+    .class_size = sizeof(IDAUInterfaceClass),
-+};
+     /* when TCG is not available, this pointer is NULL */
+     struct TCGCPUOps *tcg_ops;
 +
- static void arm_cpu_register_types(void)
- {
-     type_register_static(&arm_cpu_type_info);
-+    type_register_static(&idau_interface_type_info);
- 
- #ifdef CONFIG_KVM
-     type_register_static(&host_arm_cpu_type_info);
-diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
-index f4eea544b3..16ab5d5364 100644
---- a/target/arm/tcg/tcg-cpu-models.c
-+++ b/target/arm/tcg/tcg-cpu-models.c
-@@ -12,7 +12,6 @@
- #include "tcg-cpu.h"
- 
- #include "internals.h"
--#include "target/arm/idau.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/boards.h"
- #endif
-@@ -987,17 +986,10 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
- #endif
++    /*
++     * if not NULL, this is called in order for the CPUClass to initialize
++     * class data that depends on the accelerator, see accel/accel-common.c.
++     */
++    void (*init_accel_cpu)(struct AccelCPUClass *accel_cpu, CPUClass *cc);
  };
  
--static const TypeInfo idau_interface_type_info = {
--    .name = TYPE_IDAU_INTERFACE,
--    .parent = TYPE_INTERFACE,
--    .class_size = sizeof(IDAUInterfaceClass),
--};
--
- static void arm_tcg_cpu_register_types(void)
- {
-     size_t i;
+ /*
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index d77c09d7b5..2103397d5e 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -54,10 +54,22 @@ static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
+     CPUClass *cc = CPU_CLASS(klass);
+     AccelCPUClass *accel_cpu = opaque;
  
--    type_register_static(&idau_interface_type_info);
-     for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
-         arm32_cpu_register(&arm_tcg_cpus[i]);
++    /*
++     * double dispatch. The first callback allows the accel cpu
++     * to run initializations for the CPU,
++     * the second one allows the CPU to customize the accel cpu
++     * behavior according to the CPU.
++     *
++     * The second is currently only used by TCG, to specialize the
++     * TCGCPUOps depending on the CPU type.
++     */
+     cc->accel_cpu = accel_cpu;
+     if (accel_cpu->cpu_class_init) {
+         accel_cpu->cpu_class_init(cc);
      }
++    if (cc->init_accel_cpu) {
++        cc->init_accel_cpu(accel_cpu, cc);
++    }
+ }
+ 
+ /* initialize the arch-specific accel CpuClass interfaces */
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index e311f52855..ba39531aa5 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -69,11 +69,17 @@ static struct TCGCPUOps x86_tcg_ops = {
+ #endif /* !CONFIG_USER_ONLY */
+ };
+ 
+-static void tcg_cpu_class_init(CPUClass *cc)
++static void tcg_cpu_init_ops(AccelCPUClass *accel_cpu, CPUClass *cc)
+ {
++    /* for x86, all cpus use the same set of operations */
+     cc->tcg_ops = &x86_tcg_ops;
+ }
+ 
++static void tcg_cpu_class_init(CPUClass *cc)
++{
++    cc->init_accel_cpu = tcg_cpu_init_ops;
++}
++
+ /*
+  * TCG-specific defaults that override all CPU models when using TCG
+  */
 -- 
 2.26.2
 
