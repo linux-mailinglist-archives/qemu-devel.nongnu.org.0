@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D7433855C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:29:45 +0100 (CET)
-Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A1233852F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:27:08 +0100 (CET)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKaMq-0001d0-II
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:29:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51598)
+	id 1lKaKJ-0006v4-3u
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIb-0004uS-07
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:21 -0500
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIg-00055Y-2E
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:26 -0500
 Received: from mga05.intel.com ([192.55.52.43]:4921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIZ-0006dL-CA
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:20 -0500
-IronPort-SDR: dFLT2eGXoJSqPnjuUmbGTXWasT5vk3aV8vC/n7TudVAKuh0Xz83Z1Tm24cgiDCXIrJbMQvvJUT
- uBZv3LVgu+CQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826906"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826906"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaId-0006dL-79
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:25 -0500
+IronPort-SDR: 29sNGDTZ34O8l+/9paQCByuHDBQZ4RDmpeZJ4RaiijrYwXWrp2D2cKsZsimnUS+oVu5rrSmZD8
+ 3S6TYl/SUKcA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826912"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826912"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 21:25:18 -0800
-IronPort-SDR: irBvidiZDUHTNN9KE/BIk8QBfr1NqMFQPU1CuJurbqGvCew+s7nnO3z2JVLa6fqlpYQtdvpGaF
- N1xZzpTMD0Wg==
+ 11 Mar 2021 21:25:22 -0800
+IronPort-SDR: YXiWo7Va/MA5OzypavOpJcjb/zZaEVRxSHaqawoXiRtsCcuidXxZ/M+H4b+fBK3XQaOM8ttdIc
+ AHKCWrF+vPWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481915"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481925"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:15 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:19 -0800
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v2 03/10] Optimize the function of filter_send
-Date: Fri, 12 Mar 2021 13:02:56 +0800
-Message-Id: <1615525383-59071-4-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v2 04/10] Remove migrate_set_block_enabled in checkpoint
+Date: Fri, 12 Mar 2021 13:02:57 +0800
+Message-Id: <1615525383-59071-5-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
 References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
@@ -66,50 +66,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-The iov_size has been calculated in filter_send(). we can directly
-return the size.In this way, this is no need to repeat calculations
-in filter_redirector_receive_iov();
+We can detect disk migration in migrate_prepare, if disk migration
+is enabled in COLO mode, we can directly report an error.and there
+is no need to disable block migration at every checkpoint.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/filter-mirror.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/colo.c      | 6 ------
+ migration/migration.c | 4 ++++
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index f8e6500..f20240c 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -88,7 +88,7 @@ static int filter_send(MirrorState *s,
-         goto err;
+diff --git a/migration/colo.c b/migration/colo.c
+index de27662..1aaf316 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -435,12 +435,6 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     if (failover_get_state() != FAILOVER_STATUS_NONE) {
+         goto out;
+     }
+-
+-    /* Disable block migration */
+-    migrate_set_block_enabled(false, &local_err);
+-    if (local_err) {
+-        goto out;
+-    }
+     qemu_mutex_lock_iothread();
+ 
+ #ifdef CONFIG_REPLICATION
+diff --git a/migration/migration.c b/migration/migration.c
+index a5ddf43..785a331 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2221,6 +2221,10 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
      }
  
--    return 0;
-+    return size;
- 
- err:
-     return ret < 0 ? ret : -EIO;
-@@ -159,7 +159,7 @@ static ssize_t filter_mirror_receive_iov(NetFilterState *nf,
-     int ret;
- 
-     ret = filter_send(s, iov, iovcnt);
--    if (ret) {
-+    if (ret < 0) {
-         error_report("filter mirror send failed(%s)", strerror(-ret));
-     }
- 
-@@ -182,10 +182,10 @@ static ssize_t filter_redirector_receive_iov(NetFilterState *nf,
- 
-     if (qemu_chr_fe_backend_connected(&s->chr_out)) {
-         ret = filter_send(s, iov, iovcnt);
--        if (ret) {
-+        if (ret < 0) {
-             error_report("filter redirector send failed(%s)", strerror(-ret));
-         }
--        return iov_size(iov, iovcnt);
-+        return ret;
-     } else {
-         return 0;
-     }
+     if (blk || blk_inc) {
++        if (migrate_colo_enabled()) {
++            error_setg(errp, "No disk migration is required in COLO mode");
++            return false;
++        }
+         if (migrate_use_block() || migrate_use_block_incremental()) {
+             error_setg(errp, "Command options are incompatible with "
+                        "current migration capabilities");
 -- 
 1.8.3.1
 
