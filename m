@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B543C3390E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:13:05 +0100 (CET)
-Received: from localhost ([::1]:50590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D98339103
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:18:38 +0100 (CET)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjTM-0005c6-6u
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:13:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37196)
+	id 1lKjYi-0000Fk-2l
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjQd-0002pQ-6q
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:10:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjQa-0006jw-4t
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:10:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615561811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TPAu90u6+mEI/JDHG2chE7vt3mYR12113ozKhMwZ87E=;
- b=KqBAjPW9zDCsCIkTJHp9jnlEc4gPG2VtQgtNRCG9OC14P68uqNOiQx8H1tQYvGk+eeO31u
- LtB02KP8lqgdqexdV2z7Sv3OJ9qbK3gok2QBUMcCSZ1Frxk0reobeSJvjqZNkkfi/crDdG
- FwE9t5d1D2usNpROhJeSU6jaO9RQZy8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-ftdWpw8oMS-OGwLbU781vA-1; Fri, 12 Mar 2021 10:10:07 -0500
-X-MC-Unique: ftdWpw8oMS-OGwLbU781vA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A2FF3E741;
- Fri, 12 Mar 2021 15:10:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
- [10.36.113.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32DA319705;
- Fri, 12 Mar 2021 15:10:02 +0000 (UTC)
-Subject: Re: [PATCH v3 3/6] block/qcow2: introduce inflight writes counters:
- fix discard
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-4-vsementsov@virtuozzo.com>
- <72a42f79-a608-6605-c0e1-8f35303b9c81@redhat.com>
- <3f4e3e81-8750-cbe2-0d54-d7c9e0055d38@virtuozzo.com>
- <a1656b5e-8333-885f-f0c6-0a4e6dec8bd2@redhat.com>
- <89d3bfd8-3a22-a9da-dbb8-370aa6ac2653@virtuozzo.com>
- <dcc0caaa-f8b6-6139-a02c-643397f0a787@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <4ff8a576-9713-7c06-8ab5-a5232314507d@redhat.com>
-Date: Fri, 12 Mar 2021 16:10:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lKjQd-0002rX-Sc; Fri, 12 Mar 2021 10:10:15 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:50577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lKjQa-0006ix-SZ; Fri, 12 Mar 2021 10:10:15 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 0CCED1A74;
+ Fri, 12 Mar 2021 10:10:07 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 12 Mar 2021 10:10:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=v+9Rxum35oBZlqxIDCQU0rV/lBf
+ 9eDGJ3KTzryUVvNU=; b=Ayvyryj31IR0gETAmMnVmr0PJC18zz/bNDAg4I9Cifo
+ uHcGMKXyrQDYHLvkA2rWlsLcezcxE9ffwxgc3sltpmP+ieIfHxDhuuPdnu/+qq9M
+ B7nyHLjQxSA5kczkUxb7Nk9qPVRZuyMHN0Whuabff1aDRZ6A3EneFGAhVQdvAqjg
+ arPmdfQbeQIOI7CeuY8N9EwEGq9MsqDmh2Z2eRykZTwMXWo/LKt5+xkSIV5KBDup
+ 8oeINOZh9ljWj3Kd0mXS0ZTmYXmMGBxRS3ENQjq2d5/Bc5FKnUa4QvA68jm/OrrH
+ ZX/cs+SiykR+y4iAhyLiEpTFusKf/iWSkeiwSJknL4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=v+9Rxu
+ m35oBZlqxIDCQU0rV/lBf9eDGJ3KTzryUVvNU=; b=uX8maqX8Mw6cENWR6ZvpjU
+ SzWBRnwVBKj8a50ZuERLx4ddGM+xGckbswT1KMV0xjQJyuphbHIj9Z6RP3v+L6BB
+ neVBp0QGDibWBkewz0H/6k1x8vXW2Q/k9ODmz8LurxYATb3g/CUVtCl+ODN6MkY7
+ GnZl+vFOAVFNNtYkiPyOlWh80OdRbVeVTLZqN7dC/eC2cUN4aPVHLWNmRj8AZOMY
+ fiS1AYVgVeyolJooaRtZWr7ENmqj3LKZxwhvFqNMV1FGXm7KSI3xywuPHp3BHOP9
+ SevT2oOYv824f5P7IyqA5M7NY/XwT3hLgRM0UxQezRYmnh27a/1NOsnfxSpQkyWQ
+ ==
+X-ME-Sender: <xms:ToRLYDxNuNa_H3dznM8aGqt6mZdg4xh3GyVNSzwlJdr--ahcnPSm-w>
+ <xme:ToRLYLTmIoXizkbRAOocX4z69tVbfpzE5zUkrpUe9HulHqxmB709stJ3955NK3p59
+ fIo_nRBUZol6jVNcUs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvvddgjedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:ToRLYNVKcsiAGJ3x5QMR0QRlaauylNTGmIAKHW42-BsWXANf9CvWYQ>
+ <xmx:ToRLYNimJP-QkLgbhsngaKVOK2cpG8VAwHsigxpKnwrU9JzFwycmcQ>
+ <xmx:ToRLYFDe5OvyCPxl-5jypZBKY62j23rUoRVk9x1G8mUqD6S0fw9P_w>
+ <xmx:T4RLYJ2Szck-q6McInb4kgj5dqPnpp4L1RLqzrXUb-ccuWromw-ue7OTyKw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8D65F108005C;
+ Fri, 12 Mar 2021 10:10:04 -0500 (EST)
+Date: Fri, 12 Mar 2021 16:10:01 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 36/38] hw/block/nvme: support namespace attachment
+ command
+Message-ID: <YEuESYmwkbr+aGMz@apples.localdomain>
+References: <20210309114512.536489-1-its@irrelevant.dk>
+ <20210309114512.536489-37-its@irrelevant.dk>
+ <CAFEAcA8TiJQJaamiVZbzbnxtzmfYTkVd3HEJUU6mrd8dyWnSug@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <dcc0caaa-f8b6-6139-a02c-643397f0a787@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IkTtX5oO9i7cFOYg"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8TiJQJaamiVZbzbnxtzmfYTkVd3HEJUU6mrd8dyWnSug@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,154 +96,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, crosa@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.03.21 13:46, Vladimir Sementsov-Ogievskiy wrote:
-> 12.03.2021 15:32, Vladimir Sementsov-Ogievskiy wrote:
->> 12.03.2021 14:17, Max Reitz wrote:
->>> On 12.03.21 10:09, Vladimir Sementsov-Ogievskiy wrote:
->>>> 11.03.2021 22:58, Max Reitz wrote:
->>>>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> There is a bug in qcow2: host cluster can be discarded (refcount
->>>>>> becomes 0) and reused during data write. In this case data write may
->>
->> [..]
->>
->>>>>> @@ -885,6 +1019,13 @@ static int QEMU_WARN_UNUSED_RESULT 
->>>>>> update_refcount(BlockDriverState *bs,
->>>>>>           if (refcount == 0) {
->>>>>>               void *table;
->>>>>> +            Qcow2InFlightRefcount *infl = find_infl_wr(s, 
->>>>>> cluster_index);
->>>>>> +
->>>>>> +            if (infl) {
->>>>>> +                infl->refcount_zero = true;
->>>>>> +                infl->type = type;
->>>>>> +                continue;
->>>>>> +            }
->>>>>
->>>>> I don’t understand what this is supposed to do exactly.  It seems 
->>>>> like it wants to keep metadata structures in the cache that are 
->>>>> still in use (because dropping them from the caches is what happens 
->>>>> next), but users of metadata structures won’t set in-flight 
->>>>> counters for those metadata structures, will they?
->>>>
->>>> Don't follow.
->>>>
->>>> We want the code in "if (refcount == 0)" to be triggered only when 
->>>> full reference count of the host cluster becomes 0, including 
->>>> inflight-write-cnt. So, if at this point inflight-write-cnt is not 
->>>> 0, we postpone freeing the host cluster, it will be done later from 
->>>> "slow path" in update_inflight_write_cnt().
->>>
->>> But the code under “if (refcount == 0)” doesn’t free anything, does 
->>> it?  All I can see is code to remove metadata structures from the 
->>> metadata caches (if the discarded cluster was an L2 table or a 
->>> refblock), and finally the discard on the underlying file.  I don’t 
->>> see how that protocol-level discard has anything to do with our 
->>> problem, though.
->>
->> Hmm. Still, if we do this discard, and then our in-flight write, we'll 
->> have data instead of a hole. Not a big deal, but seems better to 
->> postpone discard.
->>
->> On the other hand, clearing caches is OK, as its related only to 
->> qcow2-refcount, not to inflight-write-cnt
->>
->>>
->>> As far as I understand, the freeing happens immediately above the “if 
->>> (refcount == 0)” block by s->set_refcount() setting the refcount to 
->>> 0. (including updating s->free_cluster_index if the refcount is 0).
->>
->> Hmm.. And that (setting s->free_cluster_index) what I should actually 
->> prevent until total reference count becomes zero.
->>
->> And about s->set_refcount(): it only update a refcount itself, and 
->> don't free anything.
->>
->>
-> 
-> So, it is more correct like this:
-> 
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index 464d133368..1da282446d 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -1012,21 +1012,12 @@ static int QEMU_WARN_UNUSED_RESULT 
-> update_refcount(BlockDriverState *bs,
->           } else {
->               refcount += addend;
->           }
-> -        if (refcount == 0 && cluster_index < s->free_cluster_index) {
-> -            s->free_cluster_index = cluster_index;
-> -        }
->           s->set_refcount(refcount_block, block_index, refcount);
-> 
->           if (refcount == 0) {
->               void *table;
->               Qcow2InFlightRefcount *infl = find_infl_wr(s, cluster_index);
-> 
-> -            if (infl) {
-> -                infl->refcount_zero = true;
-> -                infl->type = type;
-> -                continue;
-> -            }
-> -
->               table = qcow2_cache_is_table_offset(s->refcount_block_cache,
->                                                   offset);
->               if (table != NULL) {
-> @@ -1040,6 +1031,16 @@ static int QEMU_WARN_UNUSED_RESULT 
-> update_refcount(BlockDriverState *bs,
->                   qcow2_cache_discard(s->l2_table_cache, table);
->               }
-> 
-> +            if (infl) {
-> +                infl->refcount_zero = true;
-> +                infl->type = type;
-> +                continue;
-> +            }
-> +
-> +            if (cluster_index < s->free_cluster_index) {
-> +                s->free_cluster_index = cluster_index;
-> +            }
-> +
->               if (s->discard_passthrough[type]) {
->                   update_refcount_discard(bs, cluster_offset, 
-> s->cluster_size);
->               }
 
-I don’t think I like using s->free_cluster_index as a protection against 
-allocating something before it.
+--IkTtX5oO9i7cFOYg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-First, it comes back the problem I just described in my mail from 15:58 
-GMT+1, which is that you’re changing the definition of what a free 
-cluster is.  With this proposal, you’re proposing yet a new definition: 
-A free cluster is anything with refcount == 0 after free_cluster_index.
+On Mar 12 13:12, Peter Maydell wrote:
+> On Tue, 9 Mar 2021 at 11:46, Klaus Jensen <its@irrelevant.dk> wrote:
+> >
+> > From: Minwoo Im <minwoo.im.dev@gmail.com>
+> >
+> > This patch supports Namespace Attachment command for the pre-defined
+> > nvme-ns device nodes.  Of course, attach/detach namespace should only be
+> > supported in case 'subsys' is given.  This is because if we detach a
+> > namespace from a controller, somebody needs to manage the detached, but
+> > allocated namespace in the NVMe subsystem.
+> >
+> > As command effect for the namespace attachment command is registered,
+> > the host will be notified that namespace inventory is changed so that
+> > host will rescan the namespace inventory after this command.  For
+> > example, kernel driver manages this command effect via passthru IOCTL.
+>=20
+> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> > index 85a7b5a14f4e..1287bc2cd17a 100644
+> > --- a/hw/block/nvme.h
+> > +++ b/hw/block/nvme.h
+> > @@ -235,6 +235,11 @@ static inline void nvme_ns_attach(NvmeCtrl *n, Nvm=
+eNamespace *ns)
+> >      n->namespaces[nvme_nsid(ns) - 1] =3D ns;
+> >  }
+> >
+> > +static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
+> > +{
+> > +    n->namespaces[nvme_nsid(ns) - 1] =3D NULL;
+> > +}
+>=20
+> Hi; Coverity complains about a possible array overflow both here
+> in nvme_ns_detach() (CID 1450757) and in nvme_ns_attach() (CID 1450758):
+> nvme_nsid() can return -1, but this code does not check for that.
+>=20
+> If these functions both assume that their ns argument is non-NULL,
+> then adding an "assert(ns)" would probably placate Coverity and also
+> would mean that any bugs elsewhere resulting in accidentally passing
+> a NULL pointer would result in a clean assertion failure rather than
+> memory corruption. (Or you could directly assert that the array index
+> is in-bounds, I guess.)
+>=20
 
-Now looking only at the allocation functions, it may look like that kind 
-of is the definition already.  But I don’t think that was the intention 
-when free_cluster_index was introduced, so we’d have to check every 
-place that sets free_cluster_index, to see whether it adheres to this 
-definition.
+Hi Peter,
 
-And I think it’s clear that there is a place that won’t adhere to this 
-definition, and that is this very place here, in update_refcount().  Say 
-free_cluster_index is 42.  Then you free cluster 39, but there is a 
-write to it, so free_cluster_index isn’t update.  Then you free cluster 
-38, and there are writes to that cluster, so free_cluster_index is 
-updated to 38.  Suddenly, 39 is free to be allocated, too.
+Thanks!
 
-(The precise problem is that with this new definition decreasing 
-free_cluster_index suddenly has the power to free any cluster between 
-its new and all value.  With the old definition, changing 
-free_cluster_index would never free any cluster.  So when you decrease 
-free_cluster_index, you suddenly have to be sure that all clusters 
-between the new and old value that have refcount 0 are indeed to be 
-considered free.)
+As far as I can tell, we never reach this without nsid being a valid
+value or ns being NULL, but as you say, future misuse would be bad. I
+will post a fix to make sure such misuse does not happen in the future.
 
-Max
+--IkTtX5oO9i7cFOYg
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBLhEgACgkQTeGvMW1P
+DenFIQf8CD+5hw9bUE16PgC2IfhSXVz5OVsDcN4UfChs9O1a+aOKkAdeG9wVUjiE
+NJVUDtsTfHbRzbZnUcn2BvW6XydfPE01okWc8E0DSdspoAblRthNKoBbQzPBDudp
+pZrUHLoh610YcRprerZ5Nn8TVkxkV+CflGe1yRMm8zvExhvJnkq/PbmTMkEyruro
+H7Zi6sXy7VYoCdrh3IxOgNBTnZ8em8WJ+2mn+W5yXXdxmBxj/UvNpI68a5Ui6Vo/
+bAXG3hDsQ4S/F94rKGQ8uECDFAuXmK6HBiv+jPUuZEUXLd2ViZW3WtVRYuLEIZAX
+zi82YOBd6yhaYBY+RScGEnFK6gUpMA==
+=jw7K
+-----END PGP SIGNATURE-----
+
+--IkTtX5oO9i7cFOYg--
 
