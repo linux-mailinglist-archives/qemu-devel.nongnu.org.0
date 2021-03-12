@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF27C3383F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 03:49:14 +0100 (CET)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CC5338444
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 04:11:10 +0100 (CET)
+Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKXrV-0003bi-C6
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 21:49:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48238)
+	id 1lKYCi-0000U6-UB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 22:11:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lKXqe-00039V-6R
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 21:48:20 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:4094)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lKYBA-0008Mr-J8
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 22:09:32 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:55305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1lKXqa-0007Pf-Lg
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 21:48:19 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DxVYw25JNz8wmH;
- Fri, 12 Mar 2021 10:46:12 +0800 (CST)
-Received: from [10.174.184.135] (10.174.184.135) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 12 Mar 2021 10:47:50 +0800
-Subject: Re: [PATCH v1 1/1] vfio: Make migration support non experimental by
- default.
-To: Alex Williamson <alex.williamson@redhat.com>, Tarun Gupta
- <targupta@nvidia.com>
-References: <20210308160949.4290-1-targupta@nvidia.com>
- <20210308155117.035c1408@omen.home.shazbot.org>
-From: Shenming Lu <lushenming@huawei.com>
-Message-ID: <c428fba8-d84a-d1bc-bba3-276f60e7ff94@huawei.com>
-Date: Fri, 12 Mar 2021 10:47:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lKYB8-0000xg-Nm
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 22:09:32 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12C388Zq012010
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 11 Mar 2021 22:08:11 -0500
+Date: Thu, 11 Mar 2021 22:08:08 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/3] memory: add a sparse memory device
+Message-ID: <20210312030808.f2vuko2xxzscbspc@mozz.bu.edu>
+References: <20210311053614.940352-1-alxndr@bu.edu>
+ <20210311053614.940352-2-alxndr@bu.edu>
+ <4f410e96-77f0-91f9-3303-3e303ab15c09@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210308155117.035c1408@omen.home.shazbot.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.135]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=lushenming@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4f410e96-77f0-91f9-3303-3e303ab15c09@redhat.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,106 +57,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
- cjia@nvidia.com, quintela@redhat.com, Keqian Zhu <zhukeqian1@huawei.com>,
- cohuck@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, dnigam@nvidia.com,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Yan Zhao <yan.y.zhao@intel.com>,
- philmd@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, lidong.chen@oracle.com, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/3/9 6:51, Alex Williamson wrote:
-> [Cc +Intel]
+On 210311 1525, Philippe Mathieu-Daudé wrote:
+> On 3/11/21 6:36 AM, Alexander Bulekov wrote:
+> > For testing, it can be useful to simulate an enormous amount of memory
+> > (e.g. 2^64 RAM). This adds an MMIO device that acts as sparse memory.
+> > When something writes a nonzero value to a sparse-mem address, we
+> > allocate a block of memory. This block is kept around, until all of the
+> > bytes within the block are zero-ed. The device has a very low priority
+> > (so it can be mapped beneath actual RAM, and virtual device MMIO
+> > regions).
 > 
-> On Mon, 8 Mar 2021 21:39:49 +0530
-> Tarun Gupta <targupta@nvidia.com> wrote:
+> I'm not convinced we need this, but still added some comments while
+> reviewing.
 > 
->> VFIO migration support in QEMU is experimental as of now, which was done to
->> provide soak time and resolve concerns regarding bit-stream.
->> But, with the patches discussed in
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg784931.html , we have
->> corrected ordering of saving PCI config space and bit-stream.
->>
->> So, this patch proposes to make vfio migration support in QEMU to be enabled
->> by default. Tested by successfully migrating mdev device.
->>
->> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
->> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->> ---
->>  hw/vfio/pci.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index f74be78209..15e26f460b 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -3199,7 +3199,7 @@ static Property vfio_pci_dev_properties[] = {
->>      DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
->>                      VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
->>      DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
->> -                     vbasedev.enable_migration, false),
->> +                     vbasedev.enable_migration, true),
->>      DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
->>      DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
->>                       vbasedev.ram_block_discard_allowed, false),
+> > 
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  MAINTAINERS         |   1 +
+> >  hw/mem/meson.build  |   1 +
+> >  hw/mem/sparse-mem.c | 154 ++++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 156 insertions(+)
+> >  create mode 100644 hw/mem/sparse-mem.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f22d83c178..9e3d8b1401 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2618,6 +2618,7 @@ R: Thomas Huth <thuth@redhat.com>
+> >  S: Maintained
+> >  F: tests/qtest/fuzz/
+> >  F: scripts/oss-fuzz/
+> > +F: hw/mem/sparse-mem.c
+> >  F: docs/devel/fuzzing.rst
+> >  
+> >  Register API
+> > diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+> > index 0d22f2b572..732f459e0a 100644
+> > --- a/hw/mem/meson.build
+> > +++ b/hw/mem/meson.build
+> > @@ -1,5 +1,6 @@
+> >  mem_ss = ss.source_set()
+> >  mem_ss.add(files('memory-device.c'))
+> > +mem_ss.add(files('sparse-mem.c'))
+> >  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+> >  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+> >  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+> > diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
+> > new file mode 100644
+> > index 0000000000..ffda6f76b4
+> > --- /dev/null
+> > +++ b/hw/mem/sparse-mem.c
+> > @@ -0,0 +1,154 @@
+> > +/*
+> > + * A sparse memory device
+> > + *
+> > + * Copyright Red Hat Inc., 2021
+> > + *
+> > + * Authors:
+> > + *  Alexander Bulekov   <alxndr@bu.edu>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "exec/address-spaces.h"
+> > +#include "hw/qdev-properties.h"
+> > +
+> > +#define TYPE_SPARSE_MEM "sparse-mem"
+> > +#define SPARSE_MEM(obj) OBJECT_CHECK(SparseMemState, (obj), TYPE_SPARSE_MEM)
+> > +
+> > +#define SPARSE_BLOCK_SIZE 0x1000
+> > +
+> > +typedef struct SparseMemState {
+> > +    DeviceState parent_obj;
+> > +    MemoryRegion mmio;
+> > +    uint64_t baseaddr;
+> > +    uint64_t length;
+> > +    uint64_t usage;
 > 
-> Looking back at the commit where this was added:
+> usage -> size_used?
 > 
-> commit cf254988a50d4164c86a356c80b8d3ae0ccaa005
-> Author: Alex Williamson <alex.williamson@redhat.com>
-> Date:   Mon Nov 9 11:56:02 2020 -0700
-> 
->     vfio: Make migration support experimental
->     
->     Support for migration of vfio devices is still in flux.  Developers
->     are attempting to add support for new devices and new architectures,
->     but none are yet readily available for validation.  We have concerns
->     whether we're transferring device resources at the right point in the
->     migration, whether we're guaranteeing that updates during pre-copy are
->     migrated, and whether we can provide bit-stream compatibility should
->     any of this change.  Even the question of whether devices should
->     participate in dirty page tracking during pre-copy seems contentious.
->     In short, migration support has not had enough soak time and it feels
->     premature to mark it as supported.
->     
->     Create an experimental option such that we can continue to develop.
->     
->     [Retaining previous acks/reviews for a previously identical code
->      change with different specifics in the commit log.]
->     
->     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->     Acked-by: Cornelia Huck <cohuck@redhat.com>
->     Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> 
-> 
-> What has tangibly changed since then?  I think we have patches on-list
-> to address the known issue of PCI config space (MSI) ordering, which
-> related to enabling migration on ARM platforms.  Do we have
-> significantly more confidence in our ability to make compatible
-> enhancement to the migration bitstream?  This was a particularly
-> troublesome point for me if we have any hope of calling this
-> supportable.  As far as I know, there are still no open source vendor
-> drivers supporting migration for community testing.  We're also still
-> missing the documentation that was promised previously, as Connie noted.
-> 
-> Huawei and Intel, what's your confidence level and what can you share
-> regarding support for this implementation?  Thanks,
 
-We have sent a number of patches regarding VFIO migration from our own test
-(the support for this in our accelerator driver is still in experiment),
-some of them are still on-list []...
+Ok - that's nicer.
 
-[] https://lore.kernel.org/qemu-devel/20210310094106.2191-2-jiangkunkun@huawei.com/
-   https://lore.kernel.org/linux-arm-kernel/20210126124444.27136-1-zhukeqian1@huawei.com/
+> > +    uint64_t maxsize;
+> > +    GHashTable *mapped;
+> > +} SparseMemState;
+> > +
+> > +typedef struct sparse_mem_block {
+> > +    uint16_t nonzeros;
+> > +    uint8_t data[SPARSE_BLOCK_SIZE];
+> > +} sparse_mem_block;
+> > +
+> 
+> > +static const MemoryRegionOps sparse_mem_ops = {
+> > +    .read = sparse_mem_read,
+> > +    .write = sparse_mem_write,
+> > +    .endianness = DEVICE_LITTLE_ENDIAN,
+> > +    .valid = {
+> > +            .min_access_size = 1,
+> > +            .max_access_size = 8,
+> > +            .unaligned = false,
+> 
+> Why restrict unaligned accesses?
+> 
 
-Thanks,
-Shenming
+It is mostly a shortcut to avoid dealing with accesses that span
+multiple "blocks". E.g. a read from (uint32_t*)0x1ffe would require
+looking both at the 0x1000 and 0x2000 blocks.
+
+> > +        },
+> > +};
+> > +
+> > +static Property sparse_mem_properties[] = {
+> > +    /* The base address of the memory */
+> > +    DEFINE_PROP_UINT64("baseaddr", SparseMemState, baseaddr, 0x0),
+> > +    /* The length of the sparse memory region */
+> > +    DEFINE_PROP_UINT64("length", SparseMemState, length, UINT64_MAX),
+> > +    /* Max amount of actual memory that can be used to back the sparse memory */
+> > +    DEFINE_PROP_UINT64("maxsize", SparseMemState, maxsize, 0x100000),
+> 
+> 0x100000 -> 1 * MiB
+> 
+
+Ok.
+
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> > +
+> > +static void sparse_mem_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    SparseMemState *s = SPARSE_MEM(dev);
+> 
+> Anyhow, we should restrict this device to QTest accelerator, right?
+> 
+> Maybe:
+>     if (!qtest_enabled()) {
+>         error_setg(errp, "sparse_mem device requires QTest");
+>         return;
+>     }
+> 
+> > +
+> > +    assert(s->baseaddr + s->length > s->baseaddr);
+> 
+> Don't you need more than 64-bit to do this check?
+
+The check is to make sure that baseaddr + length doesn't overflow the
+64-bit address-space.
 
 > 
-> Alex
+> > +
+> > +    s->mapped = g_hash_table_new(NULL, NULL);
+> > +    memory_region_init_io(&(s->mmio), OBJECT(s), &sparse_mem_ops, s,
+> > +                          "sparse-mem", s->length);
+> > +    memory_region_add_subregion_overlap(get_system_memory(), s->baseaddr,
+> > +                                        &(s->mmio), -100);
 > 
-> .
+> mr_add() to sysmem from a non-sysbus device is odd... Maybe it is
+> acceptable, I don't know enough.
+> 
+
+I will try to find a more standard way to do this.
+Thanks
+-Alex
+
+> > +}
+> > +
 > 
 
