@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96226338893
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:26:10 +0100 (CET)
-Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E508F338891
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:25:47 +0100 (CET)
+Received: from localhost ([::1]:37496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKe3d-0005z5-HZ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:26:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
+	id 1lKe3G-0005iV-Qq
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:25:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0F-00008o-Vt
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:22:39 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47134)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0G-000090-4j
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:22:40 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:48430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0E-000401-2r
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0E-000409-F2
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:22:39 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-PQuxDDBiNhWs1NVmHYjAaw-1; Fri, 12 Mar 2021 04:22:26 -0500
-X-MC-Unique: PQuxDDBiNhWs1NVmHYjAaw-1
+ us-mta-459-InTwP6w2OBag4EFlCAYI-g-1; Fri, 12 Mar 2021 04:22:29 -0500
+X-MC-Unique: InTwP6w2OBag4EFlCAYI-g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D00B683DD61;
- Fri, 12 Mar 2021 09:22:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7089814256;
+ Fri, 12 Mar 2021 09:22:27 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EFD16A967;
- Fri, 12 Mar 2021 09:22:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 480956A046;
+ Fri, 12 Mar 2021 09:22:25 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] vhost-user: Drop misleading EAGAIN checks in
- slave_read()
-Date: Fri, 12 Mar 2021 10:22:06 +0100
-Message-Id: <20210312092212.782255-2-groug@kaod.org>
+Subject: [PATCH v2 2/7] vhost-user: Fix double-close on slave_read() error path
+Date: Fri, 12 Mar 2021 10:22:07 +0100
+Message-Id: <20210312092212.782255-3-groug@kaod.org>
 In-Reply-To: <20210312092212.782255-1-groug@kaod.org>
 References: <20210312092212.782255-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -71,51 +70,64 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-slave_read() checks EAGAIN when reading or writing to the socket
-fails. This gives the impression that the slave channel is in
-non-blocking mode, which is certainly not the case with the current
-code base. And the rest of the code isn't actually ready to cope
-with non-blocking I/O.
+Some message types, e.g. VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG,
+can convey file descriptors. These must be closed before returning
+from slave_read() to avoid being leaked. This can currently be done
+in two different places:
 
-Just drop the checks everywhere in this function for the sake of
-clarity.
+[1] just after the request has been processed
+
+[2] on the error path, under the goto label err:
+
+These path are supposed to be mutually exclusive but they are not
+actually. If the VHOST_USER_NEED_REPLY_MASK flag was passed and the
+sending of the reply fails, both [1] and [2] are performed with the
+same descriptor values. This can potentially cause subtle bugs if one
+of the descriptor was recycled by some other thread in the meantime.
+
+This code duplication complicates rollback for no real good benefit.
+Do the closing in a unique place, under a new fdcleanup: goto label
+at the end of the function.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/virtio/vhost-user.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/virtio/vhost-user.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2fdd5daf74bb..6af9b43a7232 100644
+index 6af9b43a7232..acde1d293684 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -1420,7 +1420,7 @@ static void slave_read(void *opaque)
+@@ -1475,13 +1475,6 @@ static void slave_read(void *opaque)
+         ret =3D -EINVAL;
+     }
 =20
-     do {
-         size =3D recvmsg(u->slave_fd, &msgh, 0);
--    } while (size < 0 && (errno =3D=3D EINTR || errno =3D=3D EAGAIN));
-+    } while (size < 0 && errno =3D=3D EINTR);
+-    /* Close the remaining file descriptors. */
+-    for (i =3D 0; i < fdsize; i++) {
+-        if (fd[i] !=3D -1) {
+-            close(fd[i]);
+-        }
+-    }
+-
+     /*
+      * REPLY_ACK feature handling. Other reply types has to be managed
+      * directly in their request handlers.
+@@ -1511,12 +1504,14 @@ static void slave_read(void *opaque)
+         }
+     }
 =20
-     if (size !=3D VHOST_USER_HDR_SIZE) {
-         error_report("Failed to read from slave.");
-@@ -1452,7 +1452,7 @@ static void slave_read(void *opaque)
-     /* Read payload */
-     do {
-         size =3D read(u->slave_fd, &payload, hdr.size);
--    } while (size < 0 && (errno =3D=3D EINTR || errno =3D=3D EAGAIN));
-+    } while (size < 0 && errno =3D=3D EINTR);
+-    return;
++    goto fdcleanup;
 =20
-     if (size !=3D hdr.size) {
-         error_report("Failed to read payload from slave.");
-@@ -1503,7 +1503,7 @@ static void slave_read(void *opaque)
-=20
-         do {
-             size =3D writev(u->slave_fd, iovec, ARRAY_SIZE(iovec));
--        } while (size < 0 && (errno =3D=3D EINTR || errno =3D=3D EAGAIN));
-+        } while (size < 0 && errno =3D=3D EINTR);
-=20
-         if (size !=3D VHOST_USER_HDR_SIZE + hdr.size) {
-             error_report("Failed to send msg reply to slave.");
+ err:
+     qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+     close(u->slave_fd);
+     u->slave_fd =3D -1;
++
++fdcleanup:
+     for (i =3D 0; i < fdsize; i++) {
+         if (fd[i] !=3D -1) {
+             close(fd[i]);
 --=20
 2.26.2
 
