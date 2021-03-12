@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A499433929C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:00:58 +0100 (CET)
-Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2ACE3392B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:07:34 +0100 (CET)
+Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkDh-00050K-LG
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:00:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50316)
+	id 1lKkK5-0005Je-UK
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:07:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKk35-0000Bh-AK
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:49:59 -0500
-Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:54524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKk33-0003lq-7b
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:49:59 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.93])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id E95CD271E04;
- Fri, 12 Mar 2021 16:49:52 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 12 Mar
- 2021 16:49:52 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R00445c91745-d321-4795-ae03-4821099f8952,
- 691A38DB5CB01A665C0D074ECDE31926393917AC) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 12 Mar 2021 16:49:51 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 1/3] virtiofsd: Don't allow empty paths in
- lookup_name()
-Message-ID: <20210312164951.3d5b5ab9@bahia.lan>
-In-Reply-To: <d2b63edf-8326-a645-659e-67ad04a6db0b@redhat.com>
-References: <20210312141003.819108-1-groug@kaod.org>
- <20210312141003.819108-2-groug@kaod.org>
- <d2b63edf-8326-a645-659e-67ad04a6db0b@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKk8I-0007vZ-Dg
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:22 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKk8F-000774-VF
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:22 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id z2so2052030wrl.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2E59w2rPYa9Wi4/3MeopBpeqlsRLPnmVSy6mfQnrimE=;
+ b=dw/mGZ8o3+Fg3AkCfoEa62oPh8GT0Ju5eSd0x+VLCBu1Z7yUguYqa5z3H+eMfGiM/M
+ rHoVLjIaaSGpaWeoieAW+N7tB/rpMo/0xLBvtK+Bsh9O9hRVUHeXptMQNVoBKOyN+FRy
+ qdfHFirFkeCq39/dOW7gi2xlGEb63TffKxr+BPW2J/RFPnySYWHS43n1i2IAMJeVXD1L
+ QmYqw0/jh0C+dLyTU1TaHevtXL2s2iNH5Wq8e3zPfLXfzcTmvRKLEvHTSj8rHIwD8R67
+ Z7rzz1a6sr+26vHp+T6Fd9+wNRklrakTXH+2mA7rGrKiCFcAv3PtwqwKVM2bas9uawxS
+ Fj+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=2E59w2rPYa9Wi4/3MeopBpeqlsRLPnmVSy6mfQnrimE=;
+ b=V53UWaEQBg7UOZ7duoNjRDV2LRhhlkJPIAmOWmdl6Ma9DALTnuQ5tB3/TGorNUV+08
+ N8TOzjqOtbXR4Uu+pefEyuKDInQ/915p5mXlYwdcnGn1afahX1XPBV0B2y+rYy03erds
+ EMc744dqNU8TzNmGzY/RoJWXO2r/AjwdaxO/TNtgzOl+21dcO11oAexRhWoVvXY4NqBE
+ obiLFev42ocOKuW5EOq4FNfYb9WJfGkX61zFpPQ2qSTVMeUctYXqv0Y8Kar+OwFMgEV9
+ nK0M+xXcaRzmdb9+LGR4ffcFvw1FQVzg5XC+13OHvl7SJyh7DaMSx4cShYmtiNCZTgO2
+ 1DEg==
+X-Gm-Message-State: AOAM533S0j2Sl3MCQwYYZgh0slzqj9Rfb7GnEdEY8kovlTj4h+9GuRbp
+ N7jJd/P43okMdD9OZAkb3Mn1TzvuytM=
+X-Google-Smtp-Source: ABdhPJw1xlKPvLv6cui2V8BVQzuMRUlFXLTo+z1eJR4EYOtjkdgGbpRI6gxQ4/ZSnA2TvN1sKYZ1BQ==
+X-Received: by 2002:adf:e809:: with SMTP id o9mr15018770wrm.110.1615564516040; 
+ Fri, 12 Mar 2021 07:55:16 -0800 (PST)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id s83sm2565435wmf.26.2021.03.12.07.55.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 07:55:15 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] MAINTAINERS: Mark Renesas hardware emulation orphan
+Date: Fri, 12 Mar 2021 16:55:11 +0100
+Message-Id: <20210312155513.1849109-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 400ecd03-387d-4e4b-8e3b-510736f7654a
-X-Ovh-Tracer-Id: 10205156757459409373
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvvddgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhirhhtihhoqdhfshesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=groug@kaod.org;
- helo=9.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,91 +83,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Magnus Damm <magnus.damm@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Mar 2021 09:13:36 -0600
-Connor Kuehl <ckuehl@redhat.com> wrote:
-
-> On 3/12/21 8:10 AM, Greg Kurz wrote:
-> > When passed an empty filename, lookup_name() returns the inode of
-> > the parent directory, unless the parent is the root in which case
-> > the st_dev doesn't match and lo_find() returns NULL. This is
-> > because lookup_name() passes AT_EMPTY_PATH down to fstatat() or
-> > statx().
-> > 
-> > This behavior doesn't quite make sense because users of lookup_name()
-> > then pass the name to unlinkat(), renameat() or renameat2(), all of
-> > which will always fail on empty names.
-> > 
-> > Drop AT_EMPTY_PATH from the flags in lookup_name() so that it has
-> > the consistent behavior of "returning an existing child inode or
-> > NULL" for all directories.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >   tools/virtiofsd/passthrough_ll.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index fc7e1b1e8e2b..27a6c636dcaf 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -1308,8 +1308,7 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
-> >           return NULL;
-> >       }
-> >   
-> > -    res = do_statx(lo, dir->fd, name, &attr,
-> > -                   AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW, &mnt_id);
-> > +    res = do_statx(lo, dir->fd, name, &attr, AT_SYMLINK_NOFOLLOW, &mnt_id);
-> >       lo_inode_put(lo, &dir);
-> >       if (res == -1) {
-> >           return NULL;
-> > 
-> 
-> Should the statx() in lo_do_lookup() have this flag removed as well? I 
-
-This is different.
-
-    newfd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
-    if (newfd == -1) {
-        goto out_err;
-    }
-
-    res = do_statx(lo, newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
-                   &mnt_id);
-    if (res == -1) {
-        goto out_err;
-    }
-
-No client originated name is passed to do_statx() in this case. On the
-contrary, AT_EMPTY_PATH is provided on purpose since the third argument
-is "". The goal here is to get the attributes of the entry newfd points
-to.
-
-Same stands for other occurences of AT_EMPTY_PATH with fstatat() in
-lo_getattr() and lo_link(), fchownat() in lo_setattr() or do_statx()
-again in setup_root().
-
-> don't think its callers will pass in an empty name because:
-> 
->    - One of your later patches prevents lo_mknod_symlink() from doing so
->    - lo_create() will fail an earlier call against the host file system 
-> (open)
->    - lo_do_readdir() shouldn't be reading empty names because that 
-> implies someone was able to pull off making an entry with an empty name
-> 
-> However, I don't know if there will one day be future callers to 
-> lo_do_lookup() that will depend on that flag.
-> 
-> If the answer to the above is no, then:
-> 
-
-It is :)
-
-> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
-> 
-
-Thanks !
+Yoshinori Sato doesn't have time to manage QEMU reviews.=0D
+=0D
+The code is in good shape and hasn't started to bitrot,=0D
+so mark the corresponding sections as orphan to give the=0D
+possibility to any contributor to step in and fill the gap.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  MAINTAINERS: Mark RX hardware emulation orphan=0D
+  MAINTAINERS: Mark SH-4 hardware emulation orphan=0D
+=0D
+ MAINTAINERS | 22 +++++++++++-----------=0D
+ 1 file changed, 11 insertions(+), 11 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
