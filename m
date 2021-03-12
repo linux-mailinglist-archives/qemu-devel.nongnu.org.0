@@ -2,48 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE3333898D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:02:25 +0100 (CET)
-Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE3933898E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:02:48 +0100 (CET)
+Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKeci-00067j-JP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:02:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32934)
+	id 1lKed5-0006PP-ID
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:02:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKeYk-0004Gf-4I
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:58:18 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKeYi-0000ig-50
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:58:17 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B6E86AF59;
- Fri, 12 Mar 2021 09:58:10 +0000 (UTC)
-Subject: Re: all class init functions for all types in QEMU are called in
- select_machine(). Expected?
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <bdc8dbaf-8d63-833a-3e57-7e823a321486@suse.de>
- <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ec7f83ae-8529-3a0e-4b00-73c856b28a3e@suse.de>
-Date: Fri, 12 Mar 2021 10:58:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lKeYs-0004YL-H9
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:58:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lKeYp-0000na-Pm
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:58:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615543102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/jep6r4fhcJbdNKUY/3DZPyIkCPpwWNfJTKNpaIcyI=;
+ b=XFIK1mxdiJYRa99v5BkJIaAvyEIWWrITAXweAew/BsLKX27pu3OLdMtJca6pmPUz4dTcqD
+ lzM9wCnQ2hsJF/9OK2mAvV3iQufqrBoSBDHhTjA7g+72pGXuiVWIdA8EAmJE16XHUNreB+
+ FeMJF774bkkhkCpbS3nmZA6mwe67aMo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-31_Gss0ZMfmyo_08URB9GA-1; Fri, 12 Mar 2021 04:58:20 -0500
+X-MC-Unique: 31_Gss0ZMfmyo_08URB9GA-1
+Received: by mail-wr1-f70.google.com with SMTP id e13so10912721wrg.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 01:58:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=j/jep6r4fhcJbdNKUY/3DZPyIkCPpwWNfJTKNpaIcyI=;
+ b=YWBsne7tKnzJ+Z6PRKgXzyeD+2frezc4tlawuIVaicG2a6Qax5E2Ew8aAbvuyKVqmw
+ sK6XPsm6G/U8ZYGVs//qtPsZFPm6cDII2culou/swOiyrCevEsopoFfuQ5WVeqfbJH/A
+ clW7kZsCdONFpBiDCZ8iJGs9wIgIMHDPLGz97J/5lCMdiCZF+ecfWjpDKLTLELZGBU6f
+ ojYMNwcQgkJkCxWRQdseqxNM7jwM+2/2ES8uG03uVo0wCEUlCIunK0kWFiRe7oKNuQRv
+ H5mMOFaixjRIYWyfyIHm4tr+KEkgu1pho48wWPuUNy14NBRwOv0EHqGV5+EVEL+8Ey48
+ q2cg==
+X-Gm-Message-State: AOAM533a95TIMcMxpjfbMBuaKWWb/fwYHAaldk8ChCsitZ4VYBMmbu9L
+ oJDVUsm1SdbocqD+NHyP5tLBKlLukkf+TDP1LJCVEvBX6p+WU2nUrL2X7XcaWov6TUdC7X0w+GF
+ FOduHyG18fmHedrc=
+X-Received: by 2002:adf:a2d3:: with SMTP id t19mr13010270wra.299.1615543099598; 
+ Fri, 12 Mar 2021 01:58:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDO4kJdgK66RmqvQ0705ZGvPPepS6G2jySR6AnSbTHnBojJpHFydHGGMjkFyEkG1/1ftpR2w==
+X-Received: by 2002:adf:a2d3:: with SMTP id t19mr13010259wra.299.1615543099375; 
+ Fri, 12 Mar 2021 01:58:19 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id 3sm8304150wry.72.2021.03.12.01.58.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 01:58:19 -0800 (PST)
+Date: Fri, 12 Mar 2021 10:58:17 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 0/7] vhost: replace master/slave with more accurate
+ wording
+Message-ID: <20210312095817.yctikaqtienzcnhq@steredhat>
+References: <20210311103250.532191-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210311103250.532191-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,88 +94,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 10:45 AM, Philippe Mathieu-Daudé wrote:
-> On 3/12/21 10:31 AM, Claudio Fontana wrote:
->> Hello Paolo and all,
->>
->> while debugging a class init ordering issue, I noticed that
->>
->> _all_ class init functions for all types registered in the QEMU QOM are called in select_machine().
->> Expected?
->>
->> In particular it happens here:
->>
->> static MachineClass *select_machine(void)
->> {
->>     GSList *machines = object_class_get_list(TYPE_MACHINE, false);
->>
->>
->> object_class_get_list() ->
->>   object_class_foreach() ->
->>     g_hash_table_foreach() ->
->>       object_class_foreach_tramp ->
->>         type_initialize(type);
->>
->>
->> Is this really desired? It looks suspect to me.
->>
->> (gdb) bt
->> #0  0x0000555555db613f in arm_v7m_class_init (oc=0x555556dca320, data=0x555556a926e0 <arm_tcg_cpus+288>)
->>     at ../target/arm/tcg/tcg-cpu-models.c:849
->> #1  0x0000555555f1deba in type_initialize (ti=0x555556d5b2f0) at ../qom/object.c:364
->> #2  0x0000555555f1f62a in object_class_foreach_tramp (key=0x555556d5b470, value=0x555556d5b2f0, opaque=0x7fffffffda20)
->>     at ../qom/object.c:1069
->> #3  0x00007ffff6562000 in g_hash_table_foreach () at /usr/lib64/libglib-2.0.so.0
->> #4  0x0000555555f1f709 in object_class_foreach (fn=
->>     0x555555f1f866 <object_class_get_list_tramp>, implements_type=0x555556381b09 "machine", include_abstract=false, opaque=0x7fffffffda70)
->>     at ../qom/object.c:1091
->> #5  0x0000555555f1f8e4 in object_class_get_list (implements_type=0x555556381b09 "machine", include_abstract=false) at ../qom/object.c:1148
->> #6  0x0000555555debe94 in select_machine () at ../softmmu/vl.c:1607
->>
->>
->> If not here, where should be the right place, for example, for CPU class inits to be called?
->>
->> At the very least I would put a comment there around the beginning of select_machine() saying:
->>
->> /* all types, all classes in QOM are initialized here, as a result of the object_class_get_list call */
->>
->> Wdyt?
-> 
-> Are you trying to register types conditionally?
-> 
+On Thu, Mar 11, 2021 at 05:32:43AM -0500, Paolo Bonzini wrote:
+>Compared to v1, which only affected the prose of the documentation, I
+>am also changing the message names in the docs and code now.
+>
+>Patch 2 was also adjusted according to Stefan's documentation, and
+>"frontend/backend" (with no hyphen) is used consistently.
 
-Not really, but I have been using the accel class init function on x86 to register the TCG OPS,
+A few "Back-end[s]" words (hyphenated, maybe those with a capital B) 
+remained in the patch 3.
+If you don't have to respin the series, I can send a followup patch if 
+you want.
 
-and this instead requires a bit more thought for ARM,
+Anyway the series LGTM:
 
-because we currently register for the ARM M Profile the TCG Ops at arm_v7m_class_init time,
-which is called already at select_machine() time,
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-so when we select the accelerator, and we call the tcg_cpu_class_init, we run the risk of overriding the existing tcg_ops,
-with the current result that we have to do:
 
-static void tcg_cpu_class_init(CPUClass *cc)
-{
-    /*                                                                                                                                      
-     * do not overwrite the TCG ops, if already set by the                                                                                  
-     * arm cpu class (this is the case for the M profile CPUs).                                                                             
-     *                                                                                                                                      
-     * Otherwise, provide the default ARM TCG behavior here.                                                                                
-     */
-    if (!cc->tcg_ops) {
-        cc->tcg_ops = &arm_tcg_ops;
-    }
-}
+Thanks,
+Stefano
 
-It's a fine result for me, but we do have an "if" inside a class_init.
-
-Ideas? Looks horrible?
-
-THanks,
-
-Claudio
 
