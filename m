@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFFD338350
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:54:33 +0100 (CET)
-Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB47338352
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:56:01 +0100 (CET)
+Received: from localhost ([::1]:43898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKX0a-0002Ld-JO
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:54:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35512)
+	id 1lKX21-0004JV-1Z
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:56:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lKWwc-0005oN-PQ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:28 -0500
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:42111)
+ id 1lKWx4-0006jU-HZ
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:54 -0500
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lKWwa-0004bQ-Bh
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:26 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id u20so24086058iot.9
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 17:50:23 -0800 (PST)
+ id 1lKWx2-0004sT-Ts
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:54 -0500
+Received: by mail-io1-xd33.google.com with SMTP id f20so24065153ioo.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 17:50:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YKXrHldIIBsjvr3+URYqe96BijLsBRBaJyF4AeZ6as8=;
- b=Jfj/dyFChhSxyt8t3Sg5gNnEf7hpE5JVlvJPjcZFowbwKeT1sFeYb8HUaANIQN7jKw
- qpPsvJUdN5QhZ7le+pK7VsCfwna5If8ZKM7IgWOuw7uKxID4RpGREd7UFZxOpNWkZzYi
- D5zYcOdf6w82its0jrYaEdbjmCnVOJ7rzx33DHnLHdVbqWlHX+DKYZXwgJckmxVZ717q
- jVkUe/nANGUD9QrJEBKsm3WEm51rnp9oJ5zNqJzn6xB6b9iVH5PUTTl4FwBwQsepOyvP
- 7wlnE0tVhsvp+eRusC1xPE4JS0IW6V+21O23k8kTmhbo/BKSerVjxK1kd3KT2oqSIaix
- GnuA==
+ :cc; bh=Ys9tyKqq+EAULptKrtt9gwkDywWx+osLDvjO5MVWHEE=;
+ b=o//6fq5erUEBkljgmsJJ+ZyZiY7jD6nXoROIPUtOomUgsFlIeYcnF37Hj1/lXcUFWx
+ eWyVxOz17K3kux5SDmzOs0VdzC8n5l50ThILcpHqFcMdVR1T3MOEbfwRHdWTt8DwK8Qi
+ XR/+Q9PN5/j8tp9ZsxAA6t+PP6cGxThtjNpuwVdjqFRLOMA+N35wvhFoSXfzPo2GODG1
+ StxZFOLuDDLfgVIRrOz0l1qEECOCL1W9v4TsViS8iXj/hyu7VYoW/EC9QNPMziipDCmc
+ x6VLV4IEShqkVN3NC4yHdf6YUbpG63asGO7XdQi9Zp70nWMYNp9O2PXJdZasj7Sdoav9
+ r1dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YKXrHldIIBsjvr3+URYqe96BijLsBRBaJyF4AeZ6as8=;
- b=epNEfHLcR/Kf79RBHvaQVKVNnsm4okOwDNE5SomISZGYBdTdnpqvHr6hqR+a8oIjo9
- TRu7y/g2aLy5s3S2CghEM1g2XgzCB2aRdQj/Ghxpa3Jp9w7T6UFVK5DrLhB0PSKLDRpO
- ZUDy5/Z/XoSHFcdRGR+2FoI37+I7z31xwD/B6M7Iq5eU2P+PAih+ZZEYUggyOg0PXvG/
- /PdX0o6MwVMw0vnavMMXR3CLesKBvLcYoLvSD81AVDelX8YooP/4yGdaceQXFwfPY5qK
- FGmLb9XCeyAeJqc2COuCX1PBmeyl2NaE+PWCDJleoloDmfdsq9ZJtGa1oIe1G+SgelKV
- vIpA==
-X-Gm-Message-State: AOAM532HSP6lt2onjNYUEy34k2QfafsJWE6LjPY5xfbGOXVAr/v+dMUp
- DkMHpWKn5uhPbyVaa3ddIVXig45kzSFFgRBneaxu
-X-Google-Smtp-Source: ABdhPJwbp4LF4RHl6B81wkcymjpKHtAAe8yCfa5w5WdC/5/A/4KElF8Twy9TiKeEMN3F0Hx8aJaPxz68XQwZlZ/BYvw=
-X-Received: by 2002:a5e:9612:: with SMTP id a18mr8525268ioq.13.1615513823084; 
- Thu, 11 Mar 2021 17:50:23 -0800 (PST)
+ bh=Ys9tyKqq+EAULptKrtt9gwkDywWx+osLDvjO5MVWHEE=;
+ b=d0sHkW+lk7HxVO7c2AZEm5Hts6m9Fwhm+kpIQbLC3A6LHDT+HsILMjk+HFJ6q+mwvb
+ RI/QN1VtS4DMOlQjmWebOofOkOuC1qolBOWkVBKNHmCl/taYE5Ouixu5rjK0Ucl/Np3T
+ ETe+o6VwKjeCDHQ0RjCAZGiQ5yoa6bsF3dwVFqd/+GkpNCT2wUjxk9pFdPggRRD9o71z
+ c2nbFlvJy7NqINwv0vO2fy2pd0VHnCG3TnaMOLC5j6OJHP5HsnU5uaOHTrNHeB+LfHNZ
+ oagDx8wlImYb4gNBwcWSNJAncvGFwCDEEEHt1vrdX2M/H0vACoS3z2QAni01gdqV4ft4
+ QlIg==
+X-Gm-Message-State: AOAM533mbkYCY2whXtSGzpxZj6G56vIFJq+tuoYN8FredHaJPRr4NInO
+ uGiQlgnBKscgithNjttc0MCISN3MOjGA3h0/VQYE
+X-Google-Smtp-Source: ABdhPJx4mI5ulYvN/lZkjAZF8GxV/XFIsd140NrxrEu/YuMJVBAzO8jVsiD9glouz5OUYXY3B6rmJGgV0s9L+JPRmek=
+X-Received: by 2002:a02:a303:: with SMTP id q3mr6518372jai.32.1615513851737;
+ Thu, 11 Mar 2021 17:50:51 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1612747873.git.haibo.xu@linaro.org>
- <ae69254130370fff4c9a38673deb1e3a27609e9c.1612747873.git.haibo.xu@linaro.org>
-In-Reply-To: <ae69254130370fff4c9a38673deb1e3a27609e9c.1612747873.git.haibo.xu@linaro.org>
+ <25a922038d256e47f3eb99683c5e3bd9c34753ac.1612747873.git.haibo.xu@linaro.org>
+ <ae0326e2-8766-803a-ef89-1155d45fdd2a@linaro.org>
+ <CAJc+Z1EERnkp1QhZu0Xkrxuw3u8bFM02x0=QVfXYxCRSbXiZeA@mail.gmail.com>
+ <eaa33646-f25b-a5df-a5f7-0c0ed9fd847b@linaro.org>
+In-Reply-To: <eaa33646-f25b-a5df-a5f7-0c0ed9fd847b@linaro.org>
 From: Haibo Xu <haibo.xu@linaro.org>
-Date: Fri, 12 Mar 2021 09:50:11 +0800
-Message-ID: <CAJc+Z1HST_3w_Cgm+7D_LUw_s5iEz2J0ey2JkSeZACHCkyj8pQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] Add APIs to get/set MTE tags
-To: Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
+Date: Fri, 12 Mar 2021 09:50:40 +0800
+Message-ID: <CAJc+Z1FZAuf6=JiDSW4A0kXZ0kvBOS0qKNaonZTK2kQorFXmBA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/5] Add migration support for KVM guest with MTE
+To: Richard Henderson <richard.henderson@linaro.org>, 
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,7 +82,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -88,70 +91,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ++ more migration experts!
 
-On Mon, 8 Feb 2021 at 11:20, Haibo Xu <haibo.xu@linaro.org> wrote:
+On Tue, 23 Feb 2021 at 06:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> MTE spec provide instructions to retrieve the memory tags:
-> (1) LDG, at 16 bytes granularity, and available in both user
->     and kernel space;
-> (2) LDGM, at 256 bytes granularity in maximum, and only
->     available in kernel space
+> On 2/22/21 1:46 AM, Haibo Xu wrote:
+> > As I mentioned in the cover later, the reason to let the tag go with the
+> > memory data together is to make it easier to sync with each other. I think
+> > if we migratie them separately, it would be hard to keep the tags to sync
+> > with the data.
+> Well, maybe, maybe not.  See below.
 >
-> To improve the performance, KVM has exposed the LDGM capability
-> to user space by providing a new APIs. This patch is just a
-> wrapper for the KVM APIs.
 >
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-> ---
->  target/arm/kvm64.c   | 24 ++++++++++++++++++++++++
->  target/arm/kvm_arm.h |  2 ++
->  2 files changed, 26 insertions(+)
+> > Saying if we migration all the data first, then the tags. If the data got
+> > dirty during the migration of the tag memory, we may need to send the data
+> > again, or freeze the source VM after data migration? What's more, the
+> > KVM_GET_DIRTY_LOG API may not be able to differentiate between a tag and
+> > data changes.
+> I would certainly expect KVM_GET_DIRTY_LOG to only care about the normal
+> memory.  That is, pages as viewed by the guest.
 >
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 23f34034db..4a6790d53b 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -1608,3 +1608,27 @@ bool kvm_arm_verify_ext_dabt_pending(CPUState *cs)
->      }
->      return false;
->  }
-> +
-> +int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
-> +{
-> +    struct kvm_arm_copy_mte_tags args = {
-> +        .guest_ipa = ipa,
-> +        .length = len,
-> +        .addr = buf,
-> +        .flags = KVM_ARM_TAGS_FROM_GUEST,
-> +    };
-> +
-> +    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
-> +}
-> +
-> +int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
-> +{
-> +    struct kvm_arm_copy_mte_tags args = {
-> +        .guest_ipa = ipa,
-> +        .length = len,
-> +        .addr = buf,
-> +        .flags = KVM_ARM_TAGS_TO_GUEST,
-> +    };
-> +
-> +    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
-> +}
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index eb81b7059e..1b94dbe7c8 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -358,6 +358,8 @@ int kvm_arm_vgic_probe(void);
+> I would expect the separate tag_memory block to be private to the host.  If a
+> normal page is dirty, then we would read the tags into the tag_memory and
+> manually mark that dirty.  Migration would continue as normal, and eventually
+> both normal and tag memory would all be clean and migrated.
 >
->  void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
->  void kvm_arm_pmu_init(CPUState *cs);
-> +int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
-> +int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
+> But I'll admit that it does require that we retain a buffer 1/16 the size of
+> main memory, which is otherwise unused, and thus this is less than ideal.  So
+> if we do it your way, we should arrange for tcg to migrate the tag data in the
+> same way.
 >
->  /**
->   * kvm_arm_pvtime_init:
-> --
-> 2.17.1
+> I'll still wait for migration experts, of which I am not one.
 >
+>
+> r~
 
