@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47927338A96
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:52:26 +0100 (CET)
-Received: from localhost ([::1]:40710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E02338A75
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:45:45 +0100 (CET)
+Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKfP7-00044J-AI
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:52:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42972)
+	id 1lKfIe-0004HW-Ph
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:45:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKf5m-00026n-9z
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:32:26 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:41608)
+ id 1lKf9P-0007O0-T1
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:36:11 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:36363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKf5j-00046f-Ep
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:32:26 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id lr13so52433919ejb.8
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 02:32:22 -0800 (PST)
+ id 1lKf9M-0006Qb-6o
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:36:11 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id e19so52496054ejt.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 02:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=xW/OLYeeQPD+vP4TJ82gujvOsb8Ulam83lpLmGem+1E=;
- b=OkcU6Biq9KP+qKqQXNfTMcf47LVfBYtq0gBS1r8EsoM5Qzdf/mLogJ5KkrCZAith4Q
- K7JNhhUzqkdNNHsmU0LexMortmi4nqplmyxDOzCp6ktjLTKyEB4uRao2A6Ev8/gYl63b
- e9683dv3LEneppvCuTPO7wdgBMExPorECy3oGjcz3DbOnIN4WwteORf2ZhZ/c9jjg7pw
- UwnU/iMMMxSia0SeI2rQZqm1Twk2xaDHPfoLcjhzljem++/YtJzoDi04Ty4vkIu6UvPg
- uDMiVz/TJJP2MMKOLysaMaXGEGw4o4pMo+3VrXTkfR0WrG7Mft5uVou/Tf+9uFGDwQIB
- hjPA==
+ bh=QIlk9LvhQp53wile749dfAuASdvHoE4JnQgGoddGVB4=;
+ b=Mqcl9s7Dgn8+/gDxpUKbBCgMIOZVwudNDLam7vNLMIdVEaMTCex7C8zyfhs9qgezxa
+ Xhd5+pj3McheVojDJu5wEOHLD0rZpJbOqQktqY31/09aQbqDyXZx55N9sY+LQSRF8+/K
+ 7OXyVreZNM4SDchw4RbuqAd4sDSR49/kRsbANb+slk+biN5vKjNAtqfMzbo3+zh1OZNc
+ XK/ovrhVZZtHEZQKQW4b1x5BWUYYfAmjPtoodk3L/O4ybUcjzeLIxA0hGDE96eWpAmAh
+ JGM3f0k9QH3fBoUtVAb0UomiDDXZYzLb5esHTad+afD91yC/RVfABkT51Tse8htLXnS5
+ dspw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=xW/OLYeeQPD+vP4TJ82gujvOsb8Ulam83lpLmGem+1E=;
- b=JmLqYxvcmAPM7G81AJMVTzKc8038sz1DuEXgQWUl3W1V4L1zOFTlA1ZvgDv9ntYVcv
- RuRm5Nn00SNOgu1diIBEgaseJekEe+Po7EPTDHoZ7x2bJLh70zJDmKWiIPFVX/eKXF3d
- m0ATToh9lxQxYNRW1iXHdfEm+Da0VY+qIRAdSEI/iMbRytHsnAVkFfbuERM3Y5kfYI2p
- aPH1/9md29HWHhPfMJt1x+hlqtmBBRDiF59i3xfMByBoHRfSPKwDAVdizZlWOiE53Wn5
- hLM2PB8Vm/J8y9lF3cYCYopDRga9+ahDGgNsnwa2FSdd85hpArJs1TgiyBLhdoQbJ24d
- oKeQ==
-X-Gm-Message-State: AOAM5339Fpa3x3FNMChFBENPybHoKUpEyEY5H0mtnFuOa9aUYzV0o6iG
- LCLRXjrhi8qCGT4wc9nADrRhvJ4OhUHDWWiN8PnLfg==
-X-Google-Smtp-Source: ABdhPJyJQlZwaqobrG5ig7GgkT2qsSjIKZ7zgSX7RqurfPYwA1FTsWJAdZX21rSBVOL7YVbMCgKYzqoqPouRTPophiQ=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr7885207ejd.85.1615545141929; 
- Fri, 12 Mar 2021 02:32:21 -0800 (PST)
+ bh=QIlk9LvhQp53wile749dfAuASdvHoE4JnQgGoddGVB4=;
+ b=baBffLmw8H2OfDiKVi3LfZ8RhRNKEK+9G3agTUBQfesvvpi3XNijjhbNOjjX/0dVUZ
+ 8CBcOF8+pHFUV5xlzQzZU6MOGfb1xyJrYwFrXPszYQ9uLd/7Ln1ZVA6oxIo5cqZo6hFP
+ IGEoJkHrPcVkTCI0PRObLbcDhxlv83sEpwQnaJYEu3gRij9fR1xcllVxD1ZSoaJJJG5C
+ QLYxD0L4+29p5gFGv+UDfZoyIodmlssGq9TSMwDiBrU3ZlJMTLco84Gfh2TGv/Mxspc0
+ 5e9e5EuzE8xkVmKr4u6u6zZS+Q/mLvg4vur/5Idp9Irtw2osgPXevIntLYh6JkD/PDxf
+ FrSA==
+X-Gm-Message-State: AOAM5315I4wiGYhzUAyVxwmi7fn7o2p9UwyxDcpxnXGr4venwBRbMP8t
+ duzjCnWe0r8zeFHpxt5TmmTHObM/hgHBDS+XEYTJUw==
+X-Google-Smtp-Source: ABdhPJw4USVVOR0Ybr8IytlIxpvuZYKIy+f2+7nt008f5Bo+OuGCccA0jkBRcayal0C4WaLq5B4xVgMgwBTay4ShYq4=
+X-Received: by 2002:a17:906:c301:: with SMTP id
+ s1mr7624608ejz.382.1615545366716; 
+ Fri, 12 Mar 2021 02:36:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20210312102029.17017-1-alex.bennee@linaro.org>
- <20210312102029.17017-4-alex.bennee@linaro.org>
-In-Reply-To: <20210312102029.17017-4-alex.bennee@linaro.org>
+ <20210312102029.17017-6-alex.bennee@linaro.org>
+In-Reply-To: <20210312102029.17017-6-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Mar 2021 10:32:03 +0000
-Message-ID: <CAFEAcA8JP9venwOkUT9cSLTkTFFmGxVN46nekk0mr4c8PUhxNw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] semihosting/arm-compat-semi: don't use SET_ARG to
- report SYS_HEAPINFO
+Date: Fri, 12 Mar 2021 10:35:48 +0000
+Message-ID: <CAFEAcA_7OKauefw7ehAnqF6jmaqWPvNyVba+G2wg+xxsUgpZhQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/5] tests/tcg: add HeapInfo checking to semihosting
+ test
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,34 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1915925 <1915925@bugs.launchpad.net>, Keith Packard <keithp@keithp.com>,
- qemu-arm <qemu-arm@nongnu.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+Cc: Keith Packard <keithp@keithp.com>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Mar 2021 at 10:29, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+On Fri, 12 Mar 2021 at 10:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
 te:
 >
-> As per the spec:
->
->   the PARAMETER REGISTER contains the address of a pointer to a
->   four-field data block.
->
-> So we need to follow arg0 and place the results of SYS_HEAPINFO there.
->
-> Fixes: 3c37cfe0b1 ("semihosting: Change internal common-semi interfaces t=
-o use CPUState *")
-> Bug: https://bugs.launchpad.net/bugs/1915925
-> Cc: Bug 1915925 <1915925@bugs.launchpad.net>
-> Cc: Keith Packard <keithp@keithp.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> ---
-> v3
->   - just revert the old behaviour
+> Query the SYS_HEAPINFO semicall and do some basic verification of the
+> information via libc calls.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Are we both testing system emulation and linux-user, or just one of the two=
+?
+(Not that I want to hold this up if we're only testing one, but coverage
+of both, including M-profile, seems like it would be useful; cf also
+https://bugs.launchpad.net/qemu/+bug/1918302 which is M-profile system-emul=
+ation
+SYS_HEAPINFO being broken in 5.2.)
 
 thanks
 -- PMM
