@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2292D338853
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:13:03 +0100 (CET)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B2A33883E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:07:13 +0100 (CET)
+Received: from localhost ([::1]:45158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKdqw-0005ZE-5C
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:13:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47604)
+	id 1lKdlI-0005bQ-FF
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:07:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKdio-00039Y-Al
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:04:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31133)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKdim-00035f-A6
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:04:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKdil-0001jb-Sa
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:04:38 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKdij-0001iL-Ti
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:04:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615539875;
+ s=mimecast20190719; t=1615539873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CoRPUG24Tw9/OvkXRpZwvuO3KdQLX7bpR/po3jAZDMY=;
- b=CLCbD26OCnqp6A7hXATXSVZYju5Pl9K9GKySopIsJ+0b2pm9QNyFcydJRNzMsBOrvx4k6q
- G6AeTiJIR2rj/8hPZOAh2GehwOdrP6h9Cc6H57foe3oFGl/Aacf6gQY+RzrzUuABwf/GmT
- 6UFbsiN10n3T2SiJ3vRHxnsvfmZAW80=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-zxHWZXYeNXKdHUcKbdnFtQ-1; Fri, 12 Mar 2021 04:04:33 -0500
-X-MC-Unique: zxHWZXYeNXKdHUcKbdnFtQ-1
-Received: by mail-wr1-f69.google.com with SMTP id l10so10873679wry.16
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 01:04:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CoRPUG24Tw9/OvkXRpZwvuO3KdQLX7bpR/po3jAZDMY=;
- b=NCfHmj/TwVkvmNcuJ1B2CUo/VqOp3PhHZ5PdtOFdEKG9zwk0tFGtnPvsL9HyRcMTmB
- G1psg49k0jrMr9zBN1nVgOiPSQy8RBVNGPNh/za9kn55arCmln3V3QwNlsyiTJstluZW
- Ns7LtBJU4c7ayoY59wF1Ksx3jL35PAe92l2oSUkQqaKfMygyGx5844yBll2//y0En+GS
- T+v5G+gZCTaTdeyhTvRZV4GPjw3ZwwgJRn9Ab1pNZ1zsu7ZhOWK/yKFlRZznALSXi2/g
- FN1gtatHpkSput0zhCPk8hsR5FJWxJHxcWK7rUohRrM6uRG9GcfJa6J8RxAqzLSc48xk
- ZS9A==
-X-Gm-Message-State: AOAM531RrypDpj4Jhr/2U4eFCloTWMVm+OO93rXvgnfY2cNULU1DJ1TU
- lkl7n7Sq0cZ4de735qhHFURB0kjtxMiHO5QVRSQhbKgTgiwskQT5J+SeCkIRmRW8Cgh+i3VN5rr
- JtdFuUx9O/fYKxko=
-X-Received: by 2002:a5d:6989:: with SMTP id g9mr13500324wru.198.1615539872295; 
- Fri, 12 Mar 2021 01:04:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQ7qy3mUFbDReMxBDqMwOqApddxsPg5rjQiFBI/GQbsS0/n/UhU2LZVluAzywIUNxiFC1P7A==
-X-Received: by 2002:a5d:6989:: with SMTP id g9mr13500299wru.198.1615539872086; 
- Fri, 12 Mar 2021 01:04:32 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id r2sm6784461wrt.8.2021.03.12.01.04.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 01:04:31 -0800 (PST)
-Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-2-philmd@redhat.com>
- <CAJ+F1CLu=A4CaL+KbsSuOr9A36DX_9PpkVNg7PH7-4hCzpfoFg@mail.gmail.com>
- <b0eabd3c-b044-0420-d7e7-175c8f2b8206@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e611d7bd-49af-39e6-2cb3-cbce0c89e050@redhat.com>
+ bh=asDzs7ckBBTZB46B145DPz/+vNIgsPI8vkijvqq/aRI=;
+ b=T/pL33grGPmspBuy/QTzNzDB9G28Tnn48IpEIZyNHRJfNJgWim3SvWfbZC5MpYbxWQHwXw
+ YUaiVeO49rQSY7scpeX3bFmyC8zTwxFZ7vAPJMezm3cwfJwjPfdz/SLa/OIhV97sn0i6ed
+ WxXUVwoMAfBU8EI+PaEESi/mXo5Tw3k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-F8y0fbXfPziV_9SKGBGrkQ-1; Fri, 12 Mar 2021 04:04:31 -0500
+X-MC-Unique: F8y0fbXfPziV_9SKGBGrkQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A86E18397A1
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:04:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
+ [10.36.112.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF5595C26D;
+ Fri, 12 Mar 2021 09:04:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 570D7180039D; Fri, 12 Mar 2021 10:04:25 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 3/4] usb/storage move usb-storage device to separate source
+ file
 Date: Fri, 12 Mar 2021 10:04:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Message-Id: <20210312090425.772900-4-kraxel@redhat.com>
+In-Reply-To: <20210312090425.772900-1-kraxel@redhat.com>
+References: <20210312090425.772900-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b0eabd3c-b044-0420-d7e7-175c8f2b8206@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,24 +80,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, "open list:ARM" <qemu-arm@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/03/21 09:46, Claudio Fontana wrote:
-> 
-> Maybe for clarity this could be 'query-accels-available' (which is probably the goal of this series).
-> Possibly a separate one would be 'query-accel-enabled'?
+Pure code motion, no functional change.
 
-The accelerator object is not included in the QOM tree.  I think it 
-should be added to /machine/accel so that you can get the enabled 
-accelerator with "qom-get /machine/accel type".
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/dev-storage-classic.c | 156 +++++++++++++++++++++++++++++++++++
+ hw/usb/dev-storage.c         | 135 ------------------------------
+ hw/usb/meson.build           |   1 +
+ 3 files changed, 157 insertions(+), 135 deletions(-)
+ create mode 100644 hw/usb/dev-storage-classic.c
 
-Paolo
+diff --git a/hw/usb/dev-storage-classic.c b/hw/usb/dev-storage-classic.c
+new file mode 100644
+index 000000000000..00cb34b22f02
+--- /dev/null
++++ b/hw/usb/dev-storage-classic.c
+@@ -0,0 +1,156 @@
++/*
++ * USB Mass Storage Device emulation
++ *
++ * Copyright (c) 2006 CodeSourcery.
++ * Written by Paul Brook
++ *
++ * This code is licensed under the LGPL.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/typedefs.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "hw/usb.h"
++#include "hw/usb/desc.h"
++#include "hw/usb/msd.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/block-backend.h"
++
++static const struct SCSIBusInfo usb_msd_scsi_info_storage = {
++    .tcq = false,
++    .max_target = 0,
++    .max_lun = 0,
++
++    .transfer_data = usb_msd_transfer_data,
++    .complete = usb_msd_command_complete,
++    .cancel = usb_msd_request_cancelled,
++    .load_request = usb_msd_load_request,
++};
++
++static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
++{
++    MSDState *s = USB_STORAGE_DEV(dev);
++    BlockBackend *blk = s->conf.blk;
++    SCSIDevice *scsi_dev;
++
++    if (!blk) {
++        error_setg(errp, "drive property not set");
++        return;
++    }
++
++    if (!blkconf_blocksizes(&s->conf, errp)) {
++        return;
++    }
++
++    if (!blkconf_apply_backend_options(&s->conf, !blk_supports_write_perm(blk),
++                                       true, errp)) {
++        return;
++    }
++
++    /*
++     * Hack alert: this pretends to be a block device, but it's really
++     * a SCSI bus that can serve only a single device, which it
++     * creates automatically.  But first it needs to detach from its
++     * blockdev, or else scsi_bus_legacy_add_drive() dies when it
++     * attaches again. We also need to take another reference so that
++     * blk_detach_dev() doesn't free blk while we still need it.
++     *
++     * The hack is probably a bad idea.
++     */
++    blk_ref(blk);
++    blk_detach_dev(blk, DEVICE(s));
++    s->conf.blk = NULL;
++
++    usb_desc_create_serial(dev);
++    usb_desc_init(dev);
++    scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
++                 &usb_msd_scsi_info_storage, NULL);
++    scsi_dev = scsi_bus_legacy_add_drive(&s->bus, blk, 0, !!s->removable,
++                                         s->conf.bootindex, s->conf.share_rw,
++                                         s->conf.rerror, s->conf.werror,
++                                         dev->serial,
++                                         errp);
++    blk_unref(blk);
++    if (!scsi_dev) {
++        return;
++    }
++    usb_msd_handle_reset(dev);
++    s->scsi_dev = scsi_dev;
++}
++
++static Property msd_properties[] = {
++    DEFINE_BLOCK_PROPERTIES(MSDState, conf),
++    DEFINE_BLOCK_ERROR_PROPERTIES(MSDState, conf),
++    DEFINE_PROP_BOOL("removable", MSDState, removable, false),
++    DEFINE_PROP_BOOL("commandlog", MSDState, commandlog, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void usb_msd_class_storage_initfn(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    USBDeviceClass *uc = USB_DEVICE_CLASS(klass);
++
++    uc->realize = usb_msd_storage_realize;
++    device_class_set_props(dc, msd_properties);
++}
++
++static void usb_msd_get_bootindex(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
++{
++    USBDevice *dev = USB_DEVICE(obj);
++    MSDState *s = USB_STORAGE_DEV(dev);
++
++    visit_type_int32(v, name, &s->conf.bootindex, errp);
++}
++
++static void usb_msd_set_bootindex(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
++{
++    USBDevice *dev = USB_DEVICE(obj);
++    MSDState *s = USB_STORAGE_DEV(dev);
++    int32_t boot_index;
++    Error *local_err = NULL;
++
++    if (!visit_type_int32(v, name, &boot_index, errp)) {
++        return;
++    }
++    /* check whether bootindex is present in fw_boot_order list  */
++    check_boot_index(boot_index, &local_err);
++    if (local_err) {
++        goto out;
++    }
++    /* change bootindex to a new one */
++    s->conf.bootindex = boot_index;
++
++    if (s->scsi_dev) {
++        object_property_set_int(OBJECT(s->scsi_dev), "bootindex", boot_index,
++                                &error_abort);
++    }
++
++out:
++    error_propagate(errp, local_err);
++}
++
++static void usb_msd_instance_init(Object *obj)
++{
++    object_property_add(obj, "bootindex", "int32",
++                        usb_msd_get_bootindex,
++                        usb_msd_set_bootindex, NULL, NULL);
++    object_property_set_int(obj, "bootindex", -1, NULL);
++}
++
++static const TypeInfo msd_info = {
++    .name          = "usb-storage",
++    .parent        = TYPE_USB_STORAGE,
++    .class_init    = usb_msd_class_storage_initfn,
++    .instance_init = usb_msd_instance_init,
++};
++
++static void register_types(void)
++{
++    type_register_static(&msd_info);
++}
++
++type_init(register_types)
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 3e613ecc886b..7b587ad051ff 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -19,9 +19,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/scsi/scsi.h"
+ #include "migration/vmstate.h"
+-#include "sysemu/sysemu.h"
+-#include "sysemu/block-backend.h"
+-#include "qapi/visitor.h"
+ #include "qemu/cutils.h"
+ #include "qom/object.h"
+ #include "trace.h"
+@@ -540,68 +537,6 @@ void *usb_msd_load_request(QEMUFile *f, SCSIRequest *req)
+     return NULL;
+ }
+ 
+-static const struct SCSIBusInfo usb_msd_scsi_info_storage = {
+-    .tcq = false,
+-    .max_target = 0,
+-    .max_lun = 0,
+-
+-    .transfer_data = usb_msd_transfer_data,
+-    .complete = usb_msd_command_complete,
+-    .cancel = usb_msd_request_cancelled,
+-    .load_request = usb_msd_load_request,
+-};
+-
+-static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
+-{
+-    MSDState *s = USB_STORAGE_DEV(dev);
+-    BlockBackend *blk = s->conf.blk;
+-    SCSIDevice *scsi_dev;
+-
+-    if (!blk) {
+-        error_setg(errp, "drive property not set");
+-        return;
+-    }
+-
+-    if (!blkconf_blocksizes(&s->conf, errp)) {
+-        return;
+-    }
+-
+-    if (!blkconf_apply_backend_options(&s->conf, !blk_supports_write_perm(blk),
+-                                       true, errp)) {
+-        return;
+-    }
+-
+-    /*
+-     * Hack alert: this pretends to be a block device, but it's really
+-     * a SCSI bus that can serve only a single device, which it
+-     * creates automatically.  But first it needs to detach from its
+-     * blockdev, or else scsi_bus_legacy_add_drive() dies when it
+-     * attaches again. We also need to take another reference so that
+-     * blk_detach_dev() doesn't free blk while we still need it.
+-     *
+-     * The hack is probably a bad idea.
+-     */
+-    blk_ref(blk);
+-    blk_detach_dev(blk, DEVICE(s));
+-    s->conf.blk = NULL;
+-
+-    usb_desc_create_serial(dev);
+-    usb_desc_init(dev);
+-    scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
+-                 &usb_msd_scsi_info_storage, NULL);
+-    scsi_dev = scsi_bus_legacy_add_drive(&s->bus, blk, 0, !!s->removable,
+-                                         s->conf.bootindex, s->conf.share_rw,
+-                                         s->conf.rerror, s->conf.werror,
+-                                         dev->serial,
+-                                         errp);
+-    blk_unref(blk);
+-    if (!scsi_dev) {
+-        return;
+-    }
+-    usb_msd_handle_reset(dev);
+-    s->scsi_dev = scsi_dev;
+-}
+-
+ static const VMStateDescription vmstate_usb_msd = {
+     .name = "usb-storage",
+     .version_id = 1,
+@@ -620,14 +555,6 @@ static const VMStateDescription vmstate_usb_msd = {
+     }
+ };
+ 
+-static Property msd_properties[] = {
+-    DEFINE_BLOCK_PROPERTIES(MSDState, conf),
+-    DEFINE_BLOCK_ERROR_PROPERTIES(MSDState, conf),
+-    DEFINE_PROP_BOOL("removable", MSDState, removable, false),
+-    DEFINE_PROP_BOOL("commandlog", MSDState, commandlog, false),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void usb_msd_class_initfn_common(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -645,52 +572,6 @@ static void usb_msd_class_initfn_common(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_usb_msd;
+ }
+ 
+-static void usb_msd_class_storage_initfn(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    USBDeviceClass *uc = USB_DEVICE_CLASS(klass);
+-
+-    uc->realize = usb_msd_storage_realize;
+-    device_class_set_props(dc, msd_properties);
+-}
+-
+-static void usb_msd_get_bootindex(Object *obj, Visitor *v, const char *name,
+-                                  void *opaque, Error **errp)
+-{
+-    USBDevice *dev = USB_DEVICE(obj);
+-    MSDState *s = USB_STORAGE_DEV(dev);
+-
+-    visit_type_int32(v, name, &s->conf.bootindex, errp);
+-}
+-
+-static void usb_msd_set_bootindex(Object *obj, Visitor *v, const char *name,
+-                                  void *opaque, Error **errp)
+-{
+-    USBDevice *dev = USB_DEVICE(obj);
+-    MSDState *s = USB_STORAGE_DEV(dev);
+-    int32_t boot_index;
+-    Error *local_err = NULL;
+-
+-    if (!visit_type_int32(v, name, &boot_index, errp)) {
+-        return;
+-    }
+-    /* check whether bootindex is present in fw_boot_order list  */
+-    check_boot_index(boot_index, &local_err);
+-    if (local_err) {
+-        goto out;
+-    }
+-    /* change bootindex to a new one */
+-    s->conf.bootindex = boot_index;
+-
+-    if (s->scsi_dev) {
+-        object_property_set_int(OBJECT(s->scsi_dev), "bootindex", boot_index,
+-                                &error_abort);
+-    }
+-
+-out:
+-    error_propagate(errp, local_err);
+-}
+-
+ static const TypeInfo usb_storage_dev_type_info = {
+     .name = TYPE_USB_STORAGE,
+     .parent = TYPE_USB_DEVICE,
+@@ -699,25 +580,9 @@ static const TypeInfo usb_storage_dev_type_info = {
+     .class_init = usb_msd_class_initfn_common,
+ };
+ 
+-static void usb_msd_instance_init(Object *obj)
+-{
+-    object_property_add(obj, "bootindex", "int32",
+-                        usb_msd_get_bootindex,
+-                        usb_msd_set_bootindex, NULL, NULL);
+-    object_property_set_int(obj, "bootindex", -1, NULL);
+-}
+-
+-static const TypeInfo msd_info = {
+-    .name          = "usb-storage",
+-    .parent        = TYPE_USB_STORAGE,
+-    .class_init    = usb_msd_class_storage_initfn,
+-    .instance_init = usb_msd_instance_init,
+-};
+-
+ static void usb_msd_register_types(void)
+ {
+     type_register_static(&usb_storage_dev_type_info);
+-    type_register_static(&msd_info);
+ }
+ 
+ type_init(usb_msd_register_types)
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index f7fa16a864af..7291021bf3b6 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -41,6 +41,7 @@ softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hid.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_TABLET_WACOM', if_true: files('dev-wacom.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage-bot.c'))
++softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage-classic.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_STORAGE_UAS', if_true: files('dev-uas.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_AUDIO', if_true: files('dev-audio.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_SERIAL', if_true: files('dev-serial.c'))
+-- 
+2.29.2
 
 
