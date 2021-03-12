@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347A833935F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:28:42 +0100 (CET)
-Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58C4339362
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:29:11 +0100 (CET)
+Received: from localhost ([::1]:37586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkeX-0000aE-5M
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:28:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60398)
+	id 1lKkf0-00016C-Mu
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:29:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKkXr-00033M-9e
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:21:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKkXo-0003h3-7d
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:21:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615566102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+fEnHmDQVtrIPjtFQWRCvttPiQEvfI4qnjR10TK4rTU=;
- b=Dykgzt5gqXpKSS75n2TC8NMU4i2OlA5gu6IYYEjzkeRornYT/PKvt6eMAl2YNIhHEoRzip
- RkhrwmaZHzDWirNY2Y3sn4SyRCfd3jbYPE8xz/d86D1Iv6kVvrzSsCSD/9Cn5HhVV0a3Q6
- 4phsBRupobpMvo5alI+OFIj3UVuASeE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-f4w-i5YqN_i2vp-6WDRWbQ-1; Fri, 12 Mar 2021 11:21:39 -0500
-X-MC-Unique: f4w-i5YqN_i2vp-6WDRWbQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74CC3760C0;
- Fri, 12 Mar 2021 16:21:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D8B75D9CC;
- Fri, 12 Mar 2021 16:21:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CB0D31132C12; Fri, 12 Mar 2021 17:21:33 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zihao Chang <changzihao1@huawei.com>
-Subject: Re: [PATCH v6 3/3] qmp: add new qmp display-reload
-References: <20210312103106.1368-1-changzihao1@huawei.com>
- <20210312103106.1368-4-changzihao1@huawei.com>
-Date: Fri, 12 Mar 2021 17:21:33 +0100
-In-Reply-To: <20210312103106.1368-4-changzihao1@huawei.com> (Zihao Chang's
- message of "Fri, 12 Mar 2021 18:31:06 +0800")
-Message-ID: <878s6s1gxe.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKkaf-0005rI-52
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:44 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKkad-00053A-HC
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:40 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id l19so4151398wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:24:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QfMWHYEE2mBNNhjNUaW8YRhjOJTj8OsnuYK4a3Lc2Rw=;
+ b=JSWLgxpDD7tFO4Ixc7eJ8zhmbjT54WcX4ieElh5+NgwS15l1yZfcZRrHCKHLWQ6FCD
+ B5uelaUMy4+wIcLF82SYVzPpQMH4yRPoWJYaogVFapq8aeYcW9TMXAIUnDOWSczhq039
+ 5B1io3f6AajPvVooZhADwNLYKHt32jGo6d8rkZaTPSA2wkLrQCLqYSANe1S4SCqS5NhW
+ Ui7Kef7ED5XNSctBTJ+P+SWI6Ioxk2Hv4ov9G31vlMTe4fYfQi9a+Ed3y3dEg1c3IvRR
+ Cpue8OXjCouU/pmE8hIcaAPVl60W3ptv9XMwmFKe8ll/Rs6oLv0ldnMP36WnybLmIQRL
+ vt0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QfMWHYEE2mBNNhjNUaW8YRhjOJTj8OsnuYK4a3Lc2Rw=;
+ b=EqfEfrXU1B65GIdoMX13PFO262nSjW+iVfUq4c3ae05sO1FsPVsCGi+X1eWf3aEET3
+ zXvl+RbhlXRhGzw4A8ldiPLiQmDcKxroKX8ax28uL7xZxrHdfoEyuJXi7RE3V4eJa/kt
+ z2ooIGB6DPRZRAIs9b8WW21n3h0AMjs/wNB+h2WLdsrte/QAxX2WEkGsNdxu/OmSpL5F
+ WeQXeCalhrKhyEgy0SD1Xk2UshJedZp6syc6zTaMdx7+7Lcy5ekCjKFW6CBBvW5b8X8l
+ pt0QFw+5MepShOKKD2EDVXFTAAxvyzV+tl8zuXrNwbr7XJpV/VngQhZYaM/Mz2N8++3U
+ aYUw==
+X-Gm-Message-State: AOAM532skTxxDeB0xlJx7QN7jRifHTou8MPaskMPqNQk/0huyzHfV6xV
+ mngkhiVHWbvbxzW3YuBU6UQBaGd1EjU=
+X-Google-Smtp-Source: ABdhPJyapQ+C6Ahsaq2Vm06yE25ECCEa6qxmwrkCz7xRezOLZ9qpWLofCiaqprB6tiJvF2ZmbZ7yJw==
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr13895900wmj.76.1615566276955; 
+ Fri, 12 Mar 2021 08:24:36 -0800 (PST)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id h20sm2501681wmp.38.2021.03.12.08.24.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 08:24:36 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] target/mips: Reintroduce the R5900 CPU
+Date: Fri, 12 Mar 2021 17:24:29 +0100
+Message-Id: <20210312162434.1869129-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,126 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com, yebiaoxiang@huawei.com,
- kraxel@redhat.com
+Cc: Fredrik Noring <noring@nocrew.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zihao Chang <changzihao1@huawei.com> writes:
-
-> This patch provides a new qmp to reload display configuration
-> without restart VM, but only reloading the vnc tls certificates
-> is implemented.
-> Example:
-> {"execute": "display-reload", "arguments":{"type": "vnc", "tls-certs": true}}
->
-> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-> ---
->  monitor/qmp-cmds.c | 15 +++++++++++
->  qapi/ui.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 77 insertions(+)
->
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index c7df8c0ee268..cd5bc477345e 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -334,3 +334,18 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
->  
->      return mem_info;
->  }
-> +
-> +void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
-> +{
-> +    switch (arg->type) {
-> +    case DISPLAY_RELOAD_TYPE_VNC:
-> +        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
-> +            vnc_display_reload_certs(NULL, errp);
-> +        }
-> +        break;
-> +
-> +    default:
-> +        error_setg(errp, "unsupported DisplayReloadType");
-> +
-
-Misuse of error_setg() for a programming error.  Use abort().
-
-> +    }
-> +}
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d08d72b43923..298267bf96d2 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1179,3 +1179,65 @@
->  ##
->  { 'command': 'query-display-options',
->    'returns': 'DisplayOptions' }
-> +
-> +##
-> +# @DisplayReloadType:
-> +#
-> +# Available DisplayReload types.
-> +#
-> +# @vnc: VNC display
-> +#
-> +# Since: 6.0
-> +#
-> +##
-> +{ 'enum': 'DisplayReloadType',
-> +  'data': ['vnc'] }
-> +
-> +##
-> +# @DisplayReloadOptionsVNC:
-> +#
-> +# Specify the VNC reload options.
-> +#
-> +# @tls-certs: reload tls certs or not.
-> +#
-> +# Since: 6.0
-> +#
-> +##
-> +{ 'struct': 'DisplayReloadOptionsVNC',
-> +  'data': { '*tls-certs': 'bool' } }
-> +
-> +##
-> +# @DisplayReloadOptions:
-> +#
-> +# Options of the display configuration reload.
-> +#
-> +# @type: Specify the display type.
-> +#
-> +# Since: 6.0
-> +#
-> +##
-> +{ 'union': 'DisplayReloadOptions',
-> +  'base': {'type': 'DisplayReloadType'},
-> +  'discriminator': 'type',
-> +  'data': { 'vnc': 'DisplayReloadOptionsVNC' }}
-> +
-> +##
-> +# @display-reload:
-> +#
-> +# Reload display configuration.
-> +#
-> +# Returns: Nothing on success.
-> +#
-> +# Since: 6.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "display-reload",
-> +#      "arguments": { "type": "vnc", "tls-certs": true  } }
-> +# <- { "return": {}  }
-> +#
-> +##
-> +{ 'command': 'display-reload',
-> +  'data': 'DisplayReloadOptions',
-> +  'boxed' : true }
-> +
-
-Trim the blank line at the end of the file, please.
-
-With these tidied up:
-Acked-by: Markus Armbruster <armbru@redhat.com>
-
+I'm running out of time to address Richard's comments on the new=0D
+opcodes, so let's KISS and only fix RDHWR (after adding LQ/SQ).=0D
+=0D
+Missing review: 3 & 5=0D
+- target/mips/tx79: Move RDHWR usermode kludge to trans_SQ()=0D
+- tests/tcg/mips: Test user mode DMULT for the R5900=0D
+=0D
+Based-on: mips-next=0D
+Supersedes: <20210309145653.743937-1-f4bug@amsat.org>=0D
+=0D
+Fredrik Noring (1):=0D
+  tests/tcg/mips: Test user mode DMULT for the R5900=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  target/mips/tx79: Introduce LQ opcode (Load Quadword)=0D
+  target/mips/tx79: Introduce SQ opcode (Store Quadword)=0D
+  target/mips/tx79: Move RDHWR usermode kludge to trans_SQ()=0D
+  target/mips: Reintroduce the R5900 CPU=0D
+=0D
+ target/mips/tx79.decode           | 12 ++++=0D
+ target/mips/translate.c           | 72 +-----------------------=0D
+ target/mips/tx79_translate.c      | 93 +++++++++++++++++++++++++++++++=0D
+ tests/tcg/mips/test-r5900-dmult.c | 40 +++++++++++++=0D
+ target/mips/cpu-defs.c.inc        | 59 ++++++++++++++++++++=0D
+ tests/tcg/mips/Makefile.target    | 11 +++-=0D
+ 6 files changed, 214 insertions(+), 73 deletions(-)=0D
+ create mode 100644 tests/tcg/mips/test-r5900-dmult.c=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
