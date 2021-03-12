@@ -2,72 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE4E339195
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:42:02 +0100 (CET)
-Received: from localhost ([::1]:55772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6AF339231
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:49:16 +0100 (CET)
+Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjvN-000479-HT
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:42:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44282)
+	id 1lKk2N-0006ja-UM
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjm2-0001f8-NX
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjly-00025r-G6
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615563137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n6zUoRStw/Wf5FlusgUHiaUeDqHKLjQdmJ56NPXW3cI=;
- b=haOLI2yEdWcao4SgOKwd926ZZ6Xm2SBfqbUHtL4kHVAw5fCBp8IRU6EZ+wNIco1+7Tv4YM
- V49Ch+QB8W+XUwXuF7+yB4Gjr9Curfb5J+2l0RhLYTcGwZchfP4Jw0XSN6641gM/zkIdLu
- 5HU8+TY76vEGJey7CBD0cIq6xyzttcE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-J-X7bUWGMziftRXRUtPeCA-1; Fri, 12 Mar 2021 10:32:15 -0500
-X-MC-Unique: J-X7bUWGMziftRXRUtPeCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB7511966321;
- Fri, 12 Mar 2021 15:32:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 811FD5275D;
- Fri, 12 Mar 2021 15:32:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5CE9F112689A; Fri, 12 Mar 2021 16:32:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 09/10] qapi: Implement deprecated-input=reject for QMP
- command arguments
-Date: Fri, 12 Mar 2021 16:32:09 +0100
-Message-Id: <20210312153210.2810514-10-armbru@redhat.com>
-In-Reply-To: <20210312153210.2810514-1-armbru@redhat.com>
-References: <20210312153210.2810514-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lKjsr-0000uv-0M; Fri, 12 Mar 2021 10:39:25 -0500
+Received: from mail-eopbgr60125.outbound.protection.outlook.com
+ ([40.107.6.125]:29349 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lKjsl-0006BC-BS; Fri, 12 Mar 2021 10:39:23 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UvCIzh9zxgId9J6qz2F8AXB34kwnVzyuQxlHswo5fK73KS77DIDBhjG+oyVYQxxWK6xa5TOKvOsVCWksy78jK2lHSkotuLU6MtLApByMvvlIi6HDK3VCD8HWRSyafXJWd+cglBf3FnDShfNdWz4AOSekHzMNQMSjhe6yhInhND/xnsgkPoJBmTgc3NkNNRZM6zPCE4lYjmt+93p6WrqbPfRwXKDQy8j+FOtN/FHD5SB1+7nkxtPfYA6vYaHuYK4cdnGF+Jerh7ISxOVzwcYA0/5CLfD6QtIcuzX+YMgw/FT5WrvW6PO6TXQmL0NgwAQX48eQIaNfS/KBTLSOy4RZuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oSt2IOuGeaZzySlLNfoYhDUtFYPEENXIdNJHgd2DyWI=;
+ b=MSFMj8os/dLc9BqUDiZbFhk6LkuRMd7H58ePUfLpihAAzC/pME3a6/g3Au31Zmqwsktwap3DhAx+9c1FtEyFuyJgatrbp8a8NymasEFxUw5nzvvJuCyCxL7Isr7ecdd3HeHBnZo3ea6EySI/h98vQ9svNKqRuR7f7HwRu5Yk4qDlcwLy+hypgggXl0DGs9FHi9/jtnwBlRlo3jW+NZecUH5GRIoHFup04R6LZZ8kjC46kSErxkrDED168nYtDySQX60i0OGIZn3OUBmVQCLcdOoCND6emU2T31i2p7A5FbJR8rZad3DuEGqW6B4RAL664y3wzOZbvB5VnkHr6VWjww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oSt2IOuGeaZzySlLNfoYhDUtFYPEENXIdNJHgd2DyWI=;
+ b=B1QEFaJS8kr+Mtye2dy8bgSVWVOEA+X9IfgRKWAPyK5gAkfhqjEBcDQPdiJogU+oXstH+SQfgSSfCkrB/khste6RKg+A08ppbABiZ+FAiqmRA0QcwyrJocwwtyylsDNvU97rYq1qFzmwWxjRkavG+x57fi7Hqt8mtnsW871amOc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2418.eurprd08.prod.outlook.com (2603:10a6:203:9f::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.33; Fri, 12 Mar
+ 2021 15:39:16 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3912.030; Fri, 12 Mar 2021
+ 15:39:16 +0000
+Subject: Re: [PATCH v3 3/6] block/qcow2: introduce inflight writes counters:
+ fix discard
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-4-vsementsov@virtuozzo.com>
+ <72a42f79-a608-6605-c0e1-8f35303b9c81@redhat.com>
+ <3f4e3e81-8750-cbe2-0d54-d7c9e0055d38@virtuozzo.com>
+ <a1656b5e-8333-885f-f0c6-0a4e6dec8bd2@redhat.com>
+ <89d3bfd8-3a22-a9da-dbb8-370aa6ac2653@virtuozzo.com>
+ <3035e3f2-ea1b-550a-0d3d-52aaa18d7bc9@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <fe615f6b-7415-1dcb-e17d-c18043e10301@virtuozzo.com>
+Date: Fri, 12 Mar 2021 18:39:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <3035e3f2-ea1b-550a-0d3d-52aaa18d7bc9@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [185.215.60.202]
+X-ClientProxiedBy: AM0PR03CA0011.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.202) by
+ AM0PR03CA0011.eurprd03.prod.outlook.com (2603:10a6:208:14::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.17 via Frontend Transport; Fri, 12 Mar 2021 15:39:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4a1ede5d-7ca5-442d-9255-08d8e56cfe42
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2418:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2418D19DB9D8700FB0C43D41C16F9@AM5PR0802MB2418.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KBf8RGK1azO6YsbYljIaz1hPl3ImToDhicKqW/2c2GaZcVfWvzGbzSlaE/cTf13u2OiSx2dCWCJ1C3YCI381cMUnUl8hTPTH2SzYX7hWhvblykeLiaptDYF5kCGiVi1VRAEXPDagK9HYL9A6M+urdc0PcPVyGwaBsBnONF0SOFLQxA/CcIta5AloGUfJjeJO7DG3ZKHxB5f7cu6w+rVzUGDyOiUSUzDJae4C/sfw+dVtyCH2A4d7hviBrx1xO+3pbU7k73fq3AgkSscHeh0YOFsBRO/D1BcwmJWWdwTP5LXgQ58lMDbiClXte5DIAI/v1aiGI8VcL6gKnz0yilcM5YWuVBswEctwh9aGhDry77a3gEwskmg6dtXseaiUr5AFRoNTMon/E/Gi0EiBPmPsn95FWc4TB2S+qRY4U52Lu0UwhIW1CewX6R3r7+Clhp0Cp4HoGMlbzLMOtbJg44zhTAEsPG72lmSNB2SVivzAlKJ/zrbVnobu5iaHYA2ZGvthskR4cj1cKvaBBt2piQbwt3gWmiw0J0eyG8fM1yZbI02xw/ThqrTPl7LjXFXyiipygVLVjzZ8Z4/D+ON78OC0RGmeigiHGe+kDTY41k2bQX8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(396003)(39840400004)(346002)(136003)(26005)(31686004)(83380400001)(31696002)(316002)(8936002)(2906002)(19627235002)(16576012)(36756003)(956004)(52116002)(186003)(478600001)(4326008)(6486002)(2616005)(86362001)(16526019)(8676002)(66946007)(5660300002)(66476007)(66556008)(53546011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UjdjeFdKYm9yUUprREVubEcvY05MVjIwaWd5a1pQc1pPdXR6R3pvdm9oN3hw?=
+ =?utf-8?B?WC9qUWpCbXYwTHduY2RvN3BLWlVSTDJNY1FNcmJYOEtYSTF6RWx3UWROZVpj?=
+ =?utf-8?B?VnpORWYzbXVscU5uWkY4bFVaek9YVHZtQVo0aTNWbTBnWXg2d3hyNFlhWmRl?=
+ =?utf-8?B?OS95MEhtUEQzZmdYbS9iVVdUSVRYc1ErUjVqdm1vVWFNS0Zmejl3ZWNmMkFu?=
+ =?utf-8?B?amtpc2pXVUZkVWFsYzBKSG5nY2w2YTluWEZtcGVVbXYxbXVGc2JJWHJoVFN5?=
+ =?utf-8?B?RE1ZZzNhU0N6NG54UndDdVpwTlROV0NrMVFGdDAwNE1ERFVJZGRYQm94aHd5?=
+ =?utf-8?B?WXdMVk5aUm5GclQ1Y0tWYjV4MVZNbEV1RFlIbG0zRXNmdlJsWDg0bXN1bVRk?=
+ =?utf-8?B?OFFPWVF0TUIyR0xxY2pkZzZsc0VTY2h2S1doajZ2azdYVXIrT1hOc05KdlNv?=
+ =?utf-8?B?dnFyY1VwN0VSaUplcmcxWEpDdWthWUVOWHNnNGcvOTJhaHZrTGJicys3ZDBu?=
+ =?utf-8?B?WEhsUThQSXJYMXU1Nmp5Yk1tcU9Vc0hPTjJIbFpiZGkyNXJsc1FWNTRTMUlD?=
+ =?utf-8?B?b1JwaHQ1amJaNi9IRXlRcFlEUDRXNXdtYnU5dEdWNHNqVnV4THJ5ZTZ3R0Vv?=
+ =?utf-8?B?emhDWm5jRXMrK295VXhnQjlXVGlnZGlWRmNsTmhKU1dyU1dJZks0RWk0Z0U3?=
+ =?utf-8?B?QmtieVhvOFhuMTU2K2twV0tvRmR4K1JNeU9RWW1TT0ZwK3kyNVZDMWI5S0F6?=
+ =?utf-8?B?TnVQSFB3T1dQd2NwMDVQNXZUZFpqaEQrV3hWeldteTI2Qy9QV0JzNTJZS2ZZ?=
+ =?utf-8?B?VktoNTVsYUtnaDN2MEgvMUg4ZDdtRWJOVGNOdGVsdWtyVGoxb3RzdEJnekFo?=
+ =?utf-8?B?MEQ3Rk9WL3M3ZGVvUFVReGljeEV6eVlQYWdxdHVKVkJ5WjNVZC9nWE8rSXN4?=
+ =?utf-8?B?dW9tNW0rdEhOZjVuZzFnNWpWTDNjUlYzMGNCSlJKZ3kxWHpMcWdmblhwVjhZ?=
+ =?utf-8?B?Vm9rNFl0OHdJTkxhTEhZeDlaWVdkaGZIb3d0d0FXc2creTJmc3V4UEdXcUwy?=
+ =?utf-8?B?VDIvUk5CUll2SHRVK2U1RS9uK09tZDNzVG1pSlFFdHN6emt1Z1grOUF4SldC?=
+ =?utf-8?B?RXdlVFNnd252V2lyYnd3eG8rbzl6bzFXeEVVa1VtTlE3MldEZ3dobHhXVml2?=
+ =?utf-8?B?c05iU3JqR29mN1dyU2NCYml5ZzlzUDlIcGlNNEFvQ2dVZ3VvQlNGcGJmMTFZ?=
+ =?utf-8?B?UmRHUWRFaHpzOSsvbzBDRHlKRmFNbU5wSURCR3U2R0pDYTl4SlA0UWpheXZJ?=
+ =?utf-8?B?SHdYUUpGamk5dU5QNGg5dHZabit1NjgvVVpzdmhWOXlDNXVuK2hqSG5MNVp3?=
+ =?utf-8?B?bFdTdDlFbWJEMTd3V01ra2xETkthckdUSk9xRkY0UU1PMFpRTlROMGl1bTNR?=
+ =?utf-8?B?Y0xDYnJqdlM0MGdWODdNQjJPTkRZODNLTTJxOW40aEFNanVad1VkNEtHRzJ0?=
+ =?utf-8?B?VVAwdFErZzJrbG5LTlVmbUlXc3RobUo3ZlhwcHBzMDdUMzd4a2ZBMlhRekJK?=
+ =?utf-8?B?czlJQllhUEhXYSttVDhNd1RUMVRXZUtTMElRYTlwdHJPd1BKVldqVGtHQW1v?=
+ =?utf-8?B?ZklneDFLT01XT3ZBNyt1dWZnSmlHRWlydXpzVWFXSFZNSXNTdnBhSE5HdXhu?=
+ =?utf-8?B?cUtUM2ptaU0xeDY2VkxSVFBSbHNkdTluZzhBSzJKSDZpS2wwVUpkY2NyQ2g3?=
+ =?utf-8?Q?fB3hBTbds+3DoCZcj2DMbsdDarzHbGm+MN6HJuO?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a1ede5d-7ca5-442d-9255-08d8e56cfe42
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 15:39:15.9328 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lfG+Dn8LOEc4LUY6bU1NY00BeYUQQih4T/HlcnqRBT0XtiQ289WOPn3Y7LqPUeSkJTibuVhAU403WuvGXjGzbk360fsb672Duz/CX3nQEzg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2418
+Received-SPF: pass client-ip=40.107.6.125;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,263 +150,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy rejects deprecated input, and thus permits "testing the
-future".  Implement it for QMP command arguments: reject commands with
-deprecated ones.  Example: when QEMU is run with -compat
-deprecated-input=reject, then
+12.03.2021 17:58, Max Reitz wrote:
+> On 12.03.21 13:32, Vladimir Sementsov-Ogievskiy wrote:
+>> 12.03.2021 14:17, Max Reitz wrote:
+>>> On 12.03.21 10:09, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 11.03.2021 22:58, Max Reitz wrote:
+>>>>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> There is a bug in qcow2: host cluster can be discarded (refcount
+>>>>>> becomes 0) and reused during data write. In this case data write may
+>>
+>> [..]
+>>
+>>>>>> @@ -885,6 +1019,13 @@ static int QEMU_WARN_UNUSED_RESULT update_refcount(BlockDriverState *bs,
+>>>>>>           if (refcount == 0) {
+>>>>>>               void *table;
+>>>>>> +            Qcow2InFlightRefcount *infl = find_infl_wr(s, cluster_index);
+>>>>>> +
+>>>>>> +            if (infl) {
+>>>>>> +                infl->refcount_zero = true;
+>>>>>> +                infl->type = type;
+>>>>>> +                continue;
+>>>>>> +            }
+>>>>>
+>>>>> I don’t understand what this is supposed to do exactly.  It seems like it wants to keep metadata structures in the cache that are still in use (because dropping them from the caches is what happens next), but users of metadata structures won’t set in-flight counters for those metadata structures, will they?
+>>>>
+>>>> Don't follow.
+>>>>
+>>>> We want the code in "if (refcount == 0)" to be triggered only when full reference count of the host cluster becomes 0, including inflight-write-cnt. So, if at this point inflight-write-cnt is not 0, we postpone freeing the host cluster, it will be done later from "slow path" in update_inflight_write_cnt().
+>>>
+>>> But the code under “if (refcount == 0)” doesn’t free anything, does it?  All I can see is code to remove metadata structures from the metadata caches (if the discarded cluster was an L2 table or a refblock), and finally the discard on the underlying file.  I don’t see how that protocol-level discard has anything to do with our problem, though.
+>>
+>> Hmm. Still, if we do this discard, and then our in-flight write, we'll have data instead of a hole. Not a big deal, but seems better to postpone discard.
+>>
+>> On the other hand, clearing caches is OK, as its related only to qcow2-refcount, not to inflight-write-cnt
+>>
+>>>
+>>> As far as I understand, the freeing happens immediately above the “if (refcount == 0)” block by s->set_refcount() setting the refcount to 0. (including updating s->free_cluster_index if the refcount is 0).
+>>
+>> Hmm.. And that (setting s->free_cluster_index) what I should actually prevent until total reference count becomes zero.
+>>
+>> And about s->set_refcount(): it only update a refcount itself, and don't free anything.
+> 
+> That is what freeing is, though.  I consider something to be free when allocation functions will allocate it.  The allocation functions look at the refcount, so once a cluster’s refcount is 0, it is free.
 
-    {"execute": "eject", "arguments": {"device": "cd"}}
+And with this patch I try to update allocation function to look also at inflight-write-counters. If I missed something its a bug in the patch.
 
-fails like this
+> 
+> If that isn’t what freeing is, nothing in update_refcount() frees anything (when looking at how data clusters are handled).  Passing the discard through to the protocol layer isn’t “freeing”, because it’s independent of qcow2.
+> 
+> Now, your patch adds an additional check to the allocation functions (whether there are ongoing writes on the cluster), so it’s indeed possible that a cluster can have a refcount of 0 but still won’t be used by allocation functions.
+> 
+> But that means you’ve just changed the definition of what a free cluster is.  In fact, that means that nothing in update_refcount() can free a cluster that has active writes to it, because now a cluster is only free if there are no such writes.  It follows that you needn’t change update_refcount() to prevent clusters with such writes from being freed, because with this new definition of what a free cluster is, it’s impossible for update_refcount() to free them.
 
-    {"error": {"class": "GenericError", "desc": "Deprecated parameter 'device' disabled by policy"}}
+But as I noted somewhere else, update_refcount should not discard the host cluster in parallel with inflight write. It's not completely wrong, but it's inefficient.
 
-When the deprecated parameter is removed, the error will change to
+> 
+> (Yes, you’re right that it would be nice to postpone the protocol-level discard still, but not doing so wouldn’t be a catastrophe – which shows that it has little to do with actually freeing something, as far as qcow2 is concerned.
+> 
+> If it’s just about postponing the discard, we can do exactly that: Let update_refcount() skip discarding for clusters that are still in use, and then let update_inflight_write_cnt() only do that discard instead of invoking all of qcow2_update_cluster_refcount().)
 
-    {"error": {"class": "GenericError", "desc": "Parameter 'device' is unexpected"}}
+Agree, yes.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- include/qapi/qobject-input-visitor.h |  9 +++++++++
- include/qapi/visitor-impl.h          |  3 +++
- include/qapi/visitor.h               |  9 +++++++++
- qapi/qapi-visit-core.c               |  9 +++++++++
- qapi/qobject-input-visitor.c         | 28 ++++++++++++++++++++++++++++
- tests/test-qmp-cmds.c                | 25 +++++++++++++++++++++++++
- qapi/trace-events                    |  1 +
- scripts/qapi/commands.py             |  2 +-
- scripts/qapi/visit.py                |  3 +++
- 9 files changed, 88 insertions(+), 1 deletion(-)
+> 
+> Alternatively, we could also not change the definition of what a free cluster is, which means we wouldn’t need to change the allocation functions, but instead postpone the refcount update that update_refcount() does.  That would mean we’d actually need to really drop the refcount in update_inflight_write_cnt() instead of doing a -0.
+> 
 
-diff --git a/include/qapi/qobject-input-visitor.h b/include/qapi/qobject-input-visitor.h
-index 95985e25e5..cbc54de4ac 100644
---- a/include/qapi/qobject-input-visitor.h
-+++ b/include/qapi/qobject-input-visitor.h
-@@ -58,6 +58,15 @@ typedef struct QObjectInputVisitor QObjectInputVisitor;
-  */
- Visitor *qobject_input_visitor_new(QObject *obj);
- 
-+/*
-+ * Create a QObject input visitor for @obj for use with QMP
-+ *
-+ * This is like qobject_input_visitor_new(), except it obeys the
-+ * policy for handling deprecated management interfaces set with
-+ * -compat.
-+ */
-+Visitor *qobject_input_visitor_new_qmp(QObject *obj);
-+
- /*
-  * Create a QObject input visitor for @obj for use with keyval_parse()
-  *
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 2d853255a3..3b950f6e3d 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -113,6 +113,9 @@ struct Visitor
-        The core takes care of the return type in the public interface. */
-     void (*optional)(Visitor *v, const char *name, bool *present);
- 
-+    /* Optional */
-+    bool (*deprecated_accept)(Visitor *v, const char *name, Error **errp);
-+
-     /* Optional */
-     bool (*deprecated)(Visitor *v, const char *name);
- 
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index 4d23b59853..b3c9ef7a81 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -459,6 +459,15 @@ void visit_end_alternate(Visitor *v, void **obj);
-  */
- bool visit_optional(Visitor *v, const char *name, bool *present);
- 
-+/*
-+ * Should we reject deprecated member @name?
-+ *
-+ * @name must not be NULL.  This function is only useful between
-+ * visit_start_struct() and visit_end_struct(), since only objects
-+ * have deprecated members.
-+ */
-+bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp);
-+
- /*
-  * Should we visit deprecated member @name?
-  *
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index d9726ecaa1..a641adec51 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -135,6 +135,15 @@ bool visit_optional(Visitor *v, const char *name, bool *present)
-     return *present;
- }
- 
-+bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp)
-+{
-+    trace_visit_deprecated_accept(v, name);
-+    if (v->deprecated_accept) {
-+        return v->deprecated_accept(v, name, errp);
-+    }
-+    return true;
-+}
-+
- bool visit_deprecated(Visitor *v, const char *name)
- {
-     trace_visit_deprecated(v, name);
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 23843b242e..1b8fa1f2f6 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include <math.h>
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/visitor-impl.h"
-@@ -43,6 +44,7 @@ typedef struct StackObject {
- 
- struct QObjectInputVisitor {
-     Visitor visitor;
-+    CompatPolicyInput deprecated_policy;
- 
-     /* Root of visit at visitor creation. */
-     QObject *root;
-@@ -662,6 +664,23 @@ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
-     *present = true;
- }
- 
-+static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
-+                                            Error **errp)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+
-+    switch (qiv->deprecated_policy) {
-+    case COMPAT_POLICY_INPUT_ACCEPT:
-+        return true;
-+    case COMPAT_POLICY_INPUT_REJECT:
-+        error_setg(errp, "Deprecated parameter '%s' disabled by policy",
-+                   name);
-+        return false;
-+    default:
-+        abort();
-+    }
-+}
-+
- static void qobject_input_free(Visitor *v)
- {
-     QObjectInputVisitor *qiv = to_qiv(v);
-@@ -696,6 +715,7 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
-     v->visitor.end_list = qobject_input_end_list;
-     v->visitor.start_alternate = qobject_input_start_alternate;
-     v->visitor.optional = qobject_input_optional;
-+    v->visitor.deprecated_accept = qobject_input_deprecated_accept;
-     v->visitor.free = qobject_input_free;
- 
-     v->root = qobject_ref(obj);
-@@ -718,6 +738,14 @@ Visitor *qobject_input_visitor_new(QObject *obj)
-     return &v->visitor;
- }
- 
-+Visitor *qobject_input_visitor_new_qmp(QObject *obj)
-+{
-+    QObjectInputVisitor *v = to_qiv(qobject_input_visitor_new(obj));
-+
-+    v->deprecated_policy = compat_policy.deprecated_input;
-+    return &v->visitor;
-+}
-+
- Visitor *qobject_input_visitor_new_keyval(QObject *obj)
- {
-     QObjectInputVisitor *v = qobject_input_visitor_base_new(obj);
-diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index cba982154b..266db074b4 100644
---- a/tests/test-qmp-cmds.c
-+++ b/tests/test-qmp-cmds.c
-@@ -303,6 +303,29 @@ static void test_dispatch_cmd_deprecated(void)
-     do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
- }
- 
-+static void test_dispatch_cmd_arg_deprecated(void)
-+{
-+    const char *cmd = "{ 'execute': 'test-features0',"
-+        " 'arguments': { 'fs1': { 'foo': 42 } } }";
-+    QDict *ret;
-+
-+    memset(&compat_policy, 0, sizeof(compat_policy));
-+
-+    /* accept */
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 1);
-+    qobject_unref(ret);
-+
-+    compat_policy.has_deprecated_input = true;
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_ACCEPT;
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 1);
-+    qobject_unref(ret);
-+
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_REJECT;
-+    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR, cmd);
-+}
-+
- static void test_dispatch_cmd_ret_deprecated(void)
- {
-     const char *cmd = "{ 'execute': 'test-features0' }";
-@@ -403,6 +426,8 @@ int main(int argc, char **argv)
-                     test_dispatch_cmd_success_response);
-     g_test_add_func("/qmp/dispatch_cmd_deprecated",
-                     test_dispatch_cmd_deprecated);
-+    g_test_add_func("/qmp/dispatch_cmd_arg_deprecated",
-+                    test_dispatch_cmd_arg_deprecated);
-     g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
-                     test_dispatch_cmd_ret_deprecated);
-     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
-diff --git a/qapi/trace-events b/qapi/trace-events
-index eff1fbd199..3cabe912ae 100644
---- a/qapi/trace-events
-+++ b/qapi/trace-events
-@@ -17,6 +17,7 @@ visit_start_alternate(void *v, const char *name, void *obj, size_t size) "v=%p n
- visit_end_alternate(void *v, void *obj) "v=%p obj=%p"
- 
- visit_optional(void *v, const char *name, bool *present) "v=%p name=%s present=%p"
-+visit_deprecated_accept(void *v, const char *name) "v=%p name=%s"
- visit_deprecated(void *v, const char *name) "v=%p name=%s"
- 
- visit_type_enum(void *v, const char *name, int *obj) "v=%p name=%s obj=%p"
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index f5d97454af..8ccd1d9224 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -154,7 +154,7 @@ def gen_marshal(name: str,
- 
-     ret += mcgen('''
- 
--    v = qobject_input_visitor_new(QOBJECT(args));
-+    v = qobject_input_visitor_new_qmp(QOBJECT(args));
-     if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-         goto out;
-     }
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 9d83bf650f..9e96f3c566 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -87,6 +87,9 @@ def gen_visit_object_members(name: str,
-             indent.increase()
-         if deprecated:
-             ret += mcgen('''
-+    if (!visit_deprecated_accept(v, "%(name)s", errp)) {
-+        return false;
-+    }
-     if (visit_deprecated(v, "%(name)s")) {
- ''',
-                          name=memb.name)
+Hmm, that should work too. Do you think it is better? With first approach meaning of zero refcount is changed (it's not a free cluster now, keep in mind inflight-write-cnt too). So we should update functions interested in zero refcount. With second approach refcount=1 changes the meaning (it my be actually referenced by inflight-write-cnt object, not by some qcow2 metadata object).. Shouldn't we update some functions that are interested in refcount=1? Intuitively it seems safe enough. Nothing dangerous is in refcount=1 for cluster which is actually unused at all.
+
+
 -- 
-2.26.2
-
+Best regards,
+Vladimir
 
