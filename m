@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F183396D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:44:31 +0100 (CET)
-Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DC83396E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:48:25 +0100 (CET)
+Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmly-0006ef-3k
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:44:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
+	id 1lKmpk-0003HG-TF
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKmX1-0005KD-Bn; Fri, 12 Mar 2021 13:29:03 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46143)
+ id 1lKmXB-0005mW-Vp; Fri, 12 Mar 2021 13:29:14 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:45016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKmWz-0004tg-Pm; Fri, 12 Mar 2021 13:29:03 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a18so5306119wrc.13;
- Fri, 12 Mar 2021 10:29:00 -0800 (PST)
+ id 1lKmXA-000529-D6; Fri, 12 Mar 2021 13:29:13 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so15734078wmi.3; 
+ Fri, 12 Mar 2021 10:29:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9MjJyVV/hMhFIu1Hswys1HIyZDTyxmxZhi30bZ2BoFk=;
- b=GrTyctvg6diIqExCQcxbWffDQdHX8KVQZumxnsK/j3fM7Hg7CJs6xlAYzscwRpyT4N
- mkKXAJR+m3d2dtN0Si0HInZ/D4DdsCsMEkM36p6ScmNyHwwQEQrSP/ZEuaxo711pO9ih
- 4XsHhXn7unePstbgu3QYuabpQxpYe6THsFQcGb29Gn0/LEUdyWskmL7XZxoGEdCh9mMu
- psATY9d0se6uTSu//UcnkZIhmSnxLKPDdY7d7oJh5tFKLxhyET+ASLJBNXzq3rdep9Sm
- EoaSSrXxJUF8bsTmywam+ffKLYu4zir9G98y537ACSlT6jnu/fXnXW85T1r7xK6uPqsx
- T7Jg==
+ bh=qIcXZtBMSY7WdLGhZgrXmgrdR0gt1Xm1ku0prQAncBw=;
+ b=upx6kE0FvZScn1zsi7b3F3azwotDuEqN1ElJX4jYPvwGCAzXROnzixckn55/tjiIyt
+ gZSEYgxJwQQ8Eyq8WjBT7Rp5xSUbvaIXJQfAuOFhyCW6KgWYiopY83igYv/XM9cW6i0t
+ HcBYIQ8HJoCK7jkF03HlBEPXjPRHsl0arQZP5MmarUejKHWPWyIGDXA4XtAegSNB7+wH
+ DSJ/mIbYyW/24VZbZ8eCtc6zGNUuMtNAfepNKHrodzcl625iAUPE1MKFlvP1ZuIuYKSt
+ 0+iGbVl5L25w/CbuU2RYzlkLvvI+2O19mS5LYw0O9OP+sPxaMpXSpcnig7P+CppIT+bG
+ biBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9MjJyVV/hMhFIu1Hswys1HIyZDTyxmxZhi30bZ2BoFk=;
- b=pPvh2+NX4NmLpHOY/BRROvIVPwNuy92L8f6VDAThVGOP3WFgsp42zOcq3mnv6vFK7x
- mtlUNxMgXdlW0FpgBd4EhpK2WjH7YQHq+NodqEFTPGvVc6vd4h52wUlZ7OE07iepau6I
- QwIauU2A1g8mQy41QhwFkDLvBWlXNnpMdHyfaBVYKL/czNSbgp2gAAweqpHWompCw2rD
- 20cNe32pmAtGS5YvJoGeJQ+V3E+tJXHh1vFBBgZIibk//5TpbV6CTuJwfUiomIC8rJG6
- Bjb4mmNLji8wMdxbBdXByilzULdREpWRAj3HoGFAAvZgR6QkPh/VcqZIXFUEVbYOi2G7
- SSSQ==
-X-Gm-Message-State: AOAM530InxviuwMceHeQQ/RospEq85J0q90x0Ny64rv8kC0cM+/sGUFw
- qCPnqQiP6Nh+Sz//1CMEs1mOTjYlLtI=
-X-Google-Smtp-Source: ABdhPJzP84qOkAaGfhRxvOkhoTcolHtBz+XnGVQOcTkffpWZPHqLggjGsz1tK8hTBh9v66Uqk3Bf0Q==
-X-Received: by 2002:adf:fd91:: with SMTP id d17mr15531540wrr.0.1615573739465; 
- Fri, 12 Mar 2021 10:28:59 -0800 (PST)
+ bh=qIcXZtBMSY7WdLGhZgrXmgrdR0gt1Xm1ku0prQAncBw=;
+ b=c2TwfEFv6Dl1NQcM4mY6tmkVsbolmM1KhEJgsKeVTDBVTANlUj8tP4WNvxd7wkEYbg
+ TwlP8FNPvCexTv/ztD1rdRwTz2PdC1JH6foi4H1zEFaeL3nMecv2WEt8rVrPx4njT8Ob
+ 7Wi8sTyyQIRIPSdrJw0fQNYxWweEKlREGdfOoLoVO3JqJ0MEh/IMlS21FXZlgHnu6fJr
+ XWaAhWaqxy28w8xFIilGMAwLKMqzGg1EN68IXzBOaZDFXXaMzqef2ibmMXRLcrVtd1k2
+ 2nWTQDz5akKmihpUumlu0w8IBeW4BO8ivQ+98abhrA2LW0I+GCtp6zwj3xV69noBLXlr
+ /RvQ==
+X-Gm-Message-State: AOAM530kJTrVxUW6bR/YqLIzs8OjB/0UN20vzSqXnqXFsYi841QL9aaF
+ N3vJk5EJKp9ogWvlozyC8esYtyDZMQo=
+X-Google-Smtp-Source: ABdhPJwF3LNiiuFOlpBxuoky2PI7H5mj0PPPFzJZyyxa2rsN03n/7rvz6er8LXYzsCiO1EleLsV9pA==
+X-Received: by 2002:a1c:2857:: with SMTP id o84mr14286897wmo.181.1615573750064; 
+ Fri, 12 Mar 2021 10:29:10 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id f22sm3013964wmc.33.2021.03.12.10.28.58
+ by smtp.gmail.com with ESMTPSA id j14sm8946589wrw.69.2021.03.12.10.29.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 10:28:59 -0800 (PST)
+ Fri, 12 Mar 2021 10:29:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] hw/arm/aspeed: Do not directly map ram container onto
- main address bus
-Date: Fri, 12 Mar 2021 19:28:47 +0100
-Message-Id: <20210312182851.1922972-2-f4bug@amsat.org>
+Subject: [PATCH 3/5] hw/pci-host/prep: Remove unuseful memory region mapping
+Date: Fri, 12 Mar 2021 19:28:49 +0100
+Message-Id: <20210312182851.1922972-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210312182851.1922972-1-f4bug@amsat.org>
 References: <20210312182851.1922972-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,41 +96,52 @@ Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RAM container is exposed as an AddressSpace.
-AddressSpaces root MemoryRegion must not be mapped into other
-MemoryRegion, therefore map the RAM container using an alias.
+The pci_io_non_contiguous region is mapped on top of pci_io
+with higher priority, but simply dispatch into this region
+address space. Simplify by directly registering the former
+region in place, and adapt the address space dispatch offsets.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/aspeed.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/pci-host/prep.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a17b75f4940..daeef5b32a2 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -40,6 +40,7 @@ struct AspeedMachineState {
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index 0a9162fba97..00a28c2d18c 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -159,8 +159,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr addr,
+     uint8_t buf[4];
  
-     AspeedSoCState soc;
-     MemoryRegion ram_container;
-+    MemoryRegion ram_container_alias;
-     MemoryRegion max_ram;
-     bool mmio_exec;
-     char *fmc_model;
-@@ -339,9 +340,12 @@ static void aspeed_machine_init(MachineState *machine)
+     addr = raven_io_address(s, addr);
+-    address_space_read(&s->pci_io_as, addr + 0x80000000,
+-                       MEMTXATTRS_UNSPECIFIED, buf, size);
++    address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
+ 
+     if (size == 1) {
+         return buf[0];
+@@ -191,8 +190,7 @@ static void raven_io_write(void *opaque, hwaddr addr,
+         g_assert_not_reached();
      }
-     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
  
-+    memory_region_init_alias(&bmc->ram_container_alias, NULL,
-+                             "ram-container-alias", &bmc->ram_container, 0,
-+                             memory_region_size(&bmc->ram_container));
-     memory_region_add_subregion(get_system_memory(),
-                                 sc->memmap[ASPEED_DEV_SDRAM],
--                                &bmc->ram_container);
-+                                &bmc->ram_container_alias);
+-    address_space_write(&s->pci_io_as, addr + 0x80000000,
+-                        MEMTXATTRS_UNSPECIFIED, buf, size);
++    address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
+ }
  
-     max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
-                                             &error_abort);
+ static const MemoryRegionOps raven_io_ops = {
+@@ -294,9 +292,8 @@ static void raven_pcihost_initfn(Object *obj)
+     address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
+ 
+     /* CPU address space */
+-    memory_region_add_subregion(address_space_mem, 0x80000000, &s->pci_io);
+-    memory_region_add_subregion_overlap(address_space_mem, 0x80000000,
+-                                        &s->pci_io_non_contiguous, 1);
++    memory_region_add_subregion(address_space_mem, 0x80000000,
++                                &s->pci_io_non_contiguous);
+     memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci_memory);
+     pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj), NULL,
+                              &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS);
 -- 
 2.26.2
 
