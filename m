@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD70338841
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:07:44 +0100 (CET)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8CB33885C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:13:58 +0100 (CET)
+Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKdln-00067d-2g
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:07:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
+	id 1lKdrp-0006fz-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:13:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKdjE-0003Ys-HP
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:05:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21712)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKdjk-00043s-09
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:05:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKdjC-00022O-O7
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:05:04 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKdjc-0002ID-3U
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:05:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615539902;
+ s=mimecast20190719; t=1615539926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cXgBgz+doeZeSgvfc0Muq5eRjHAOdqIlqvwlS0Ozy98=;
- b=U12cdtWdx1irmSmFPvbpKIR5ox3+mbgYSDv4pma6Igu9o8g+xrk08S05WRvL/xOvBpVajm
- dPqBejQ9ZXLO0Dspl4FZf25qYBD+GmjpXhNWRmFyZMT6QYClT7gdE1MrTMF+9z3tFbTHJ1
- dDu0oRpsTHg7edlHz6Z8PlYczwOqPXs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-svqTSaUdMqC35zQ9YIs8gA-1; Fri, 12 Mar 2021 04:04:58 -0500
-X-MC-Unique: svqTSaUdMqC35zQ9YIs8gA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E089D18397A1;
- Fri, 12 Mar 2021 09:04:56 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-83.ams2.redhat.com [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03FFD5C255;
- Fri, 12 Mar 2021 09:04:48 +0000 (UTC)
-Subject: Re: [PATCH v6 2/2] target/s390x: Store r1/r2 for page-translation
- exceptions during MVPG
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210311194426.149044-1-david@redhat.com>
- <20210311194426.149044-3-david@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <90a0baa4-2b9f-1f63-68ba-e584be026843@redhat.com>
-Date: Fri, 12 Mar 2021 10:04:48 +0100
+ bh=fe92s7IKjpl47+82irgS4fyv88IJ50ODiafDLNyUkqk=;
+ b=eQwGjcZakp+6Izxj3Mzp0a58Rf97wYh8mnAwjzWN2rgWJgwJNKRBscAGsI15S4MYChq187
+ LyHLlkr9trcC/PwpCz26FRkKdVKHkJULE4cF0IxsYJTJGVO1MPy9TsznPLaP3jeZ4V5U6t
+ g3TsF45zvk4/99h0dMNmmPNTeUtcJqk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-GEh0XuucPOaUX51z1UUq8Q-1; Fri, 12 Mar 2021 04:05:22 -0500
+X-MC-Unique: GEh0XuucPOaUX51z1UUq8Q-1
+Received: by mail-wm1-f70.google.com with SMTP id m17so1855980wml.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 01:05:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fe92s7IKjpl47+82irgS4fyv88IJ50ODiafDLNyUkqk=;
+ b=MUzhAVBXdeuzqePXD1vsJQbXbwMybEeyuE1Mq8RjEvok2uFFMSNzg4ZJ5LHmhL/Vl+
+ gTTqDno3++e6cf7s9rarS9OX5PBBltgxgeVdQc+JbtY1tiF++jWbgcllXyIZQgqE8/DT
+ /Q/HtpTKoDh7uBdohCIFPIFBD2CqZOVkXJ1SsEIL+vTgOnzS65ACvZUebfGCYn2ye0Bp
+ ciCXtyIhOQf+/XOnX4325Ty0IY3TLZDKccZmjXAGUcLPB+plVY4JMZ6ibTErSFnFuWTk
+ RPBpZRgNn9YRNg46lGNSPMJ5d9APHrkPRB40ibjSOFB6466cImEVb6Jt02IlksTGU5+2
+ 5onQ==
+X-Gm-Message-State: AOAM533DY8SsHkrkD78gTv1/UVK5K6iSR6AYApd0UKyiZsobH0jSVqV2
+ ZbOpB3/D6aHU7tJ1j0kuwJHRUt+7Zp/1jC0z13hd+EjSzscaOjh0HBDIlVt9K7FOps7cgUzudCB
+ j7WJ5M/jjX/Nbs7M=
+X-Received: by 2002:adf:d4d0:: with SMTP id w16mr13042058wrk.406.1615539921111; 
+ Fri, 12 Mar 2021 01:05:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7swixmC+aIMj0OKbMW7S3ImhC4CI6+LSJeKQAyuX3u923EIuReURQRcrqYjWAjn4jZtg1nw==
+X-Received: by 2002:adf:d4d0:: with SMTP id w16mr13042039wrk.406.1615539920981; 
+ Fri, 12 Mar 2021 01:05:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id j203sm1481696wmj.40.2021.03.12.01.05.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 01:05:20 -0800 (PST)
+Subject: Re: [PATCH 4/6] qtest/arm-cpu-features: Check KVM availability at
+ runtime
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
+References: <20210311231202.1536040-1-philmd@redhat.com>
+ <20210311231202.1536040-5-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4c8f9841-1fda-db4f-57fd-bf764f3a0962@redhat.com>
+Date: Fri, 12 Mar 2021 10:05:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210311194426.149044-3-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210311231202.1536040-5-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,160 +102,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/03/2021 20.44, David Hildenbrand wrote:
-> The PoP states:
-> 
->      When EDAT-1 does not apply, and a program interruption due to a
->      page-translation exception is recognized by the MOVE PAGE
->      instruction, the contents of the R1 field of the instruction are
->      stored in bit positions 0-3 of location 162, and the contents of
->      the R2 field are stored in bit positions 4-7.
-> 
->      If [...] an ASCE-type, region-first-translation,
->      region-second-translation, region-third-translation, or
->      segment-translation exception was recognized, the contents of
->      location 162 are unpredictable.
-> 
-> So we have to write r1/r2 into the lowcore on page-translation
-> exceptions. Simply handle all exceptions inside our mvpg helper now.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   target/s390x/helper.h      |  2 +-
->   target/s390x/insn-data.def |  2 +-
->   target/s390x/mem_helper.c  | 46 +++++++++++++++++++++++---------------
->   target/s390x/translate.c   |  7 +++++-
->   4 files changed, 36 insertions(+), 21 deletions(-)
-> 
-> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-> index 55bd1551e6..d4e4f3388f 100644
-> --- a/target/s390x/helper.h
-> +++ b/target/s390x/helper.h
-> @@ -18,7 +18,7 @@ DEF_HELPER_3(srstu, void, env, i32, i32)
->   DEF_HELPER_4(clst, i64, env, i64, i64, i64)
->   DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32, i64, i64)
->   DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
-> -DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i64, i64)
-> +DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i32, i32)
->   DEF_HELPER_FLAGS_4(mvz, TCG_CALL_NO_WG, void, env, i32, i64, i64)
->   DEF_HELPER_3(mvst, i32, env, i32, i32)
->   DEF_HELPER_4(ex, void, env, i32, i64, i64)
-> diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-> index e5b6efabf3..0bb1886a2e 100644
-> --- a/target/s390x/insn-data.def
-> +++ b/target/s390x/insn-data.def
-> @@ -641,7 +641,7 @@
->   /* MOVE NUMERICS */
->       C(0xd100, MVN,     SS_a,  Z,   la1, a2, 0, 0, mvn, 0)
->   /* MOVE PAGE */
-> -    C(0xb254, MVPG,    RRE,   Z,   r1_o, r2_o, 0, 0, mvpg, 0)
-> +    C(0xb254, MVPG,    RRE,   Z,   0, 0, 0, 0, mvpg, 0)
->   /* MOVE STRING */
->       C(0xb255, MVST,    RRE,   Z,   0, 0, 0, 0, mvst, 0)
->   /* MOVE WITH OPTIONAL SPECIFICATION */
-> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> index 6f6e2f80f4..12e84a4285 100644
-> --- a/target/s390x/mem_helper.c
-> +++ b/target/s390x/mem_helper.c
-> @@ -915,8 +915,10 @@ uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
->   }
->   
->   /* move page */
-> -uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
-> +uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint32_t r1, uint32_t r2)
->   {
-> +    const uint64_t src = get_address(env, r2) & TARGET_PAGE_MASK;
-> +    const uint64_t dst = get_address(env, r1) & TARGET_PAGE_MASK;
->       const int mmu_idx = cpu_mmu_index(env, false);
->       const bool f = extract64(r0, 11, 1);
->       const bool s = extract64(r0, 10, 1);
-> @@ -929,34 +931,42 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0, uint64_t r1, uint64_t r2)
->           tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
->       }
->   
-> -    r1 = wrap_address(env, r1 & TARGET_PAGE_MASK);
-> -    r2 = wrap_address(env, r2 & TARGET_PAGE_MASK);
-> -
->       /*
-> -     * TODO:
-> -     * - Access key handling
-> -     * - Store r1/r2 register identifiers at real location 162
-> +     * We always manually handle exceptions such that we can properly store
-> +     * r1/r2 to the lowcore on page-translation exceptions.
-> +     *
-> +     * TODO: Access key handling
->        */
-> -    exc = access_prepare_nf(&srca, env, cco, r2, TARGET_PAGE_SIZE,
-> +    exc = access_prepare_nf(&srca, env, true, src, TARGET_PAGE_SIZE,
->                               MMU_DATA_LOAD, mmu_idx, ra);
->       if (exc) {
-> -        return 2;
-> +        if (cco) {
-> +            return 2;
-> +        }
-> +        goto inject_exc;
->       }
-> -    exc = access_prepare_nf(&desta, env, cco, r1, TARGET_PAGE_SIZE,
-> +    exc = access_prepare_nf(&desta, env, true, dst, TARGET_PAGE_SIZE,
->                               MMU_DATA_STORE, mmu_idx, ra);
->       if (exc) {
-> -#if !defined(CONFIG_USER_ONLY)
-> -        if (exc == PGM_PROTECTION) {
-> -            stq_phys(env_cpu(env)->as,
-> -                     env->psa + offsetof(LowCore, trans_exc_code),
-> -                     env->tlb_fill_tec);
-> -            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
-> +        if (cco && exc != PGM_PROTECTION) {
-> +            return 1;
->           }
-> -#endif
-> -        return 1;
-> +        goto inject_exc;
->       }
->       access_memmove(env, &desta, &srca, ra);
->       return 0; /* data moved */
-> +inject_exc:
-> +#if !defined(CONFIG_USER_ONLY)
-> +    if (exc != PGM_ADDRESSING) {
-> +        stq_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, trans_exc_code),
-> +                 env->tlb_fill_tec);
-> +    }
-> +    if (exc == PGM_PAGE_TRANS) {
-> +        stb_phys(env_cpu(env)->as, env->psa + offsetof(LowCore, op_access_id),
-> +                 r1 << 4 | r2);
-> +    }
-> +#endif
-> +    tcg_s390_program_interrupt(env, exc, ra);
->   }
->   
->   /* string copy */
-> diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-> index 61dd0341e4..4f953ddfba 100644
-> --- a/target/s390x/translate.c
-> +++ b/target/s390x/translate.c
-> @@ -3513,7 +3513,12 @@ static DisasJumpType op_mvo(DisasContext *s, DisasOps *o)
->   
->   static DisasJumpType op_mvpg(DisasContext *s, DisasOps *o)
->   {
-> -    gen_helper_mvpg(cc_op, cpu_env, regs[0], o->in1, o->in2);
-> +    TCGv_i32 t1 = tcg_const_i32(get_field(s, r1));
-> +    TCGv_i32 t2 = tcg_const_i32(get_field(s, r2));
-> +
-> +    gen_helper_mvpg(cc_op, cpu_env, regs[0], t1, t2);
-> +    tcg_temp_free_i32(t1);
-> +    tcg_temp_free_i32(t2);
->       set_cc_static(s);
->       return DISAS_NEXT;
->   }
-> 
+On 12/03/21 00:12, Philippe Mathieu-Daudé wrote:
+> -#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
+> +#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
 
-Looks fine to me.
+Wouldn't qtest_init simply fail here if KVM is not available?
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Paolo
 
 
