@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E9233872E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 09:18:14 +0100 (CET)
-Received: from localhost ([::1]:50898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739A233877C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 09:36:49 +0100 (CET)
+Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKczt-0007pO-9w
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 03:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60608)
+	id 1lKdHr-0007Qh-T9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 03:36:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKcy7-0006QH-SR
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 03:16:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30707)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKdGF-0006NR-RW
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 03:35:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKcy1-0005Pw-Fi
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 03:16:23 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKdGD-00012U-4v
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 03:35:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615536976;
+ s=mimecast20190719; t=1615538103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=djhwfvanJrQsHYbs1FX23KzOT+bFXFonPYugzWeOyzk=;
- b=Oj1ITsoCiUUmvMAsV7czfHEhsQDXo4QNiTbHJh4LdaP1IlOR92N6YTQ8BbGo9QBHhEFAB/
- JoAGtHyhagb35U7wy5zlTf+QBu2yBM3oozVGXqrU/zOOWH6o34UCERA6XIJDT1VuxbJSY/
- AQsPL6/7giJ+60jlVujVV1awh1ASOOc=
+ bh=8NB6IkmDuJqn16YVO6+F5aDbwq2r7Ua+OWHi/giJB4U=;
+ b=hONS4IS0rA9tLkzJ2fc3WfAAJDb3Vp8MnqJ1zD3DeErkc8z8XPpUpcagzBTTn6NsBIdsZv
+ 6PPPq7XitIGqPugcyZrqHisZt9JVZCYKyFLeigDJITU66IY9c3FqrmYfG/l4HM1RZ0AtuB
+ WdyBxXwr1GNXKstVqIQjdr5eBqbOtnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-nt9enLupNaOokk7YQD4YrA-1; Fri, 12 Mar 2021 03:16:13 -0500
-X-MC-Unique: nt9enLupNaOokk7YQD4YrA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-509-gQ7Li10XOP6KEMBTq3WqAw-1; Fri, 12 Mar 2021 03:35:01 -0500
+X-MC-Unique: gQ7Li10XOP6KEMBTq3WqAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5037E5760;
- Fri, 12 Mar 2021 08:16:11 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-83.ams2.redhat.com [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F7DF19C47;
- Fri, 12 Mar 2021 08:16:02 +0000 (UTC)
-Subject: Re: [PATCH 2/6] tests/qtest: Add qtest_probe_accel() method
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-3-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8814a4d5-f26d-3645-4e64-eb5b8f8bf973@redhat.com>
-Date: Fri, 12 Mar 2021 09:16:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A309192377A
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:35:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0680D60C5F;
+ Fri, 12 Mar 2021 08:34:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7346B1132C12; Fri, 12 Mar 2021 09:34:58 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 0/3] char: Deprecate backend aliases
+References: <20210311164253.338723-1-kwolf@redhat.com>
+Date: Fri, 12 Mar 2021 09:34:58 +0100
+In-Reply-To: <20210311164253.338723-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Thu, 11 Mar 2021 17:42:50 +0100")
+Message-ID: <87wnuc6a8d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210311231202.1536040-3-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,89 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/03/2021 00.11, Philippe Mathieu-Daudé wrote:
-> Introduce the qtest_probe_accel() method which allows
-> to query at runtime if a QEMU instance has an accelerator
-> built-in.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/qtest/libqos/libqtest.h |  9 +++++++++
->   tests/qtest/libqtest.c        | 24 ++++++++++++++++++++++++
->   2 files changed, 33 insertions(+)
-> 
-> diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-> index a68dcd79d44..ebedb82ec98 100644
-> --- a/tests/qtest/libqos/libqtest.h
-> +++ b/tests/qtest/libqos/libqtest.h
-> @@ -763,6 +763,15 @@ void qmp_expect_error_and_unref(QDict *rsp, const char *class);
->    */
->   bool qtest_probe_child(QTestState *s);
->   
-> +/**
-> + * qtest_probe_accel:
-> + * @s: QTestState instance to operate on.
-> + * @name: Accelerator name to check for.
-> + *
-> + * Returns: true if the accelerator is built in.
-> + */
-> +bool qtest_probe_accel(QTestState *s, const char *name);
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Maybe better qtest_has_accel() ? ... that makes it clear right from the 
-start what the return type is about.
+> A small series from November that has fallen through the cracks...
 
->   /**
->    * qtest_set_expected_status:
->    * @s: QTestState instance to operate on.
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 71e359efcd3..57e7e55b9cc 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -872,6 +872,30 @@ void qtest_qmp_eventwait(QTestState *s, const char *event)
->       qobject_unref(response);
->   }
->   
-> +bool qtest_probe_accel(QTestState *s, const char *name)
-> +{
-> +    bool has_accel = false;
-> +    QDict *response;
-> +    QList *accels;
-> +    QListEntry *accel;
-> +
-> +    response = qtest_qmp(s, "{'execute': 'query-accels'}");
-> +    accels = qdict_get_qlist(response, "return");
-> +
-> +    QLIST_FOREACH_ENTRY(accels, accel) {
-> +        QDict *accel_dict = qobject_to(QDict, qlist_entry_obj(accel));
-> +        const char *accel_name = qdict_get_str(accel_dict, "name");
-> +
-> +        if (!strcmp(name, accel_name)) {
+Glad you remembered!
 
-I'd prefer g_str_equal() ... that's easier to read.
+> These aliases only work the command line, but not in QMP. Command line
+> QAPIfication involves writing some compatibility glue for them, which
+> I'm doing, but I think it's desirable to unify accepted values of both
+> paths. So deprecate the aliases so that we can drop the compatibility
+> glue later.
+>
+> v2:
+> - Don't mention deprecated options in the help [Markus]
+>
+> - Added third patch to simplify the code again. Markus had suggested
+>   not complicating it in the first place, but then I would have to merge
+>   patches 1 and 2 even though they address different points, so this
+>   didn't feel very desirable.
 
-> +            has_accel = true;
-> +            break;
-> +        }
-> +    }
-> +    qobject_unref(response);
-> +
-> +    return has_accel;
-> +}
-> +
->   char *qtest_vhmp(QTestState *s, const char *fmt, va_list ap)
->   {
->       char *cmd;
-> 
+Complicated review a bit, but I'm not sure the alternative would've been
+easier.
 
-  Thomas
+Series
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+Thanks!
 
 
