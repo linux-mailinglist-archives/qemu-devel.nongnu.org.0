@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3979D33855E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:30:04 +0100 (CET)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C6533855B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:29:33 +0100 (CET)
+Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKaN9-000222-52
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:30:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1lKaMe-0001X4-Iw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:29:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIo-0005Nj-9i
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:34 -0500
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIy-0005dH-DU
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:44 -0500
 Received: from mga05.intel.com ([192.55.52.43]:4921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIm-0006dL-BO
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:34 -0500
-IronPort-SDR: ZYPDkTNxmh1vO9scZgBVHhfPrvs1cDx2pbWn9Fl9hOXMY+CXTPIci8KlETKlVvK1BMb+isNNSs
- KGMCQDutuxtQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826925"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826925"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIv-0006dL-1P
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:44 -0500
+IronPort-SDR: HznS43ecIf9pWshvth5T9ZwcKe4ZTDHsIFWXv+VmC20PuTTJc0lwyiSaHVpsuB3ZX3ytKn3cCH
+ Clql+DgrrfOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826942"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826942"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 21:25:31 -0800
-IronPort-SDR: WGuq3kkbDR8WWVsl/qb69tBHoQtNDQmOHYptWh+vE+J56+1UXGX1iPUUif9Q2QI76yBQw3WDNI
- 3SIggtXmZfSw==
+ 11 Mar 2021 21:25:40 -0800
+IronPort-SDR: 9YRfhr8z4CeV1AtP0qTvQaFPofRqzi4K7YRVWUa0i0sRR5kKJPChI6Oh4gN93hChwgiJpw/OtU
+ A34PecUhl3oA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481948"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481972"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:28 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:36 -0800
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v2 06/10] Add the function of colo_compare_cleanup
-Date: Fri, 12 Mar 2021 13:02:59 +0800
-Message-Id: <1615525383-59071-7-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v2 08/10] Reduce the PVM stop time during Checkpoint
+Date: Fri, 12 Mar 2021 13:03:01 +0800
+Message-Id: <1615525383-59071-9-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
 References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
@@ -66,93 +66,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-This patch fixes the following:
-    #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-    #1  0x00007f6ae4559859 in __GI_abort () at abort.c:79
-    #2  0x0000559aaa386720 in error_exit (err=16, msg=0x559aaa5973d0 <__func__.16227> "qemu_mutex_destroy") at util/qemu-thread-posix.c:36
-    #3  0x0000559aaa3868c5 in qemu_mutex_destroy (mutex=0x559aabffe828) at util/qemu-thread-posix.c:69
-    #4  0x0000559aaa2f93a8 in char_finalize (obj=0x559aabffe800) at chardev/char.c:285
-    #5  0x0000559aaa23318a in object_deinit (obj=0x559aabffe800, type=0x559aabfd7d20) at qom/object.c:606
-    #6  0x0000559aaa2331b8 in object_deinit (obj=0x559aabffe800, type=0x559aabfd9060) at qom/object.c:610
-    #7  0x0000559aaa233200 in object_finalize (data=0x559aabffe800) at qom/object.c:620
-    #8  0x0000559aaa234202 in object_unref (obj=0x559aabffe800) at qom/object.c:1074
-    #9  0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0dac10, name=0x559aac778760 "compare0-0", opaque=0x559aabffe800) at qom/object.c:1584
-    #10 0x0000559aaa232f70 in object_property_del_all (obj=0x559aac0dac10) at qom/object.c:557
-    #11 0x0000559aaa2331ed in object_finalize (data=0x559aac0dac10) at qom/object.c:619
-    #12 0x0000559aaa234202 in object_unref (obj=0x559aac0dac10) at qom/object.c:1074
-    #13 0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0c75c0, name=0x559aac0dadc0 "chardevs", opaque=0x559aac0dac10) at qom/object.c:1584
-    #14 0x0000559aaa233071 in object_property_del_child (obj=0x559aac0c75c0, child=0x559aac0dac10, errp=0x0) at qom/object.c:580
-    #15 0x0000559aaa233155 in object_unparent (obj=0x559aac0dac10) at qom/object.c:599
-    #16 0x0000559aaa2fb721 in qemu_chr_cleanup () at chardev/char.c:1159
-    #17 0x0000559aa9f9b110 in main (argc=54, argv=0x7ffeb62fa998, envp=0x7ffeb62fab50) at vl.c:4539
-
-When chardev is cleaned up, chr_write_lock needs to be destroyed. But
-the colo-compare module is not cleaned up normally before it when the
-guest poweroff. It is holding chr_write_lock at this time. This will
-cause qemu crash.So we add the function of colo_compare_cleanup() before
-qemu_chr_cleanup() to fix the bug.
+When flushing memory from ram cache to ram during every checkpoint
+on secondary VM, we can copy continuous chunks of memory instead of
+4096 bytes per time to reduce the time of VM stop during checkpoint.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- net/colo-compare.c | 10 ++++++++++
- net/colo-compare.h |  1 +
- net/net.c          |  4 ++++
- 3 files changed, 15 insertions(+)
+ migration/ram.c | 44 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 41 insertions(+), 3 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 8bdf5a8..06f2c28 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1404,6 +1404,16 @@ static void colo_compare_init(Object *obj)
-                              compare_set_vnet_hdr);
+diff --git a/migration/ram.c b/migration/ram.c
+index e795a8d..b269637 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -823,6 +823,39 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+     return next;
  }
  
-+void colo_compare_cleanup(void)
++/*
++ * colo_bitmap_find_diry:find contiguous dirty pages from start
++ *
++ * Returns the page offset within memory region of the start of the contiguout
++ * dirty page
++ *
++ * @rs: current RAM state
++ * @rb: RAMBlock where to search for dirty pages
++ * @start: page where we start the search
++ * @num: the number of contiguous dirty pages
++ */
++static inline
++unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
++                                     unsigned long start, unsigned long *num)
 +{
-+    CompareState *tmp = NULL;
-+    CompareState *n = NULL;
++    unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
++    unsigned long *bitmap = rb->bmap;
++    unsigned long first, next;
 +
-+    QTAILQ_FOREACH_SAFE(tmp, &net_compares, next, n) {
-+        object_unparent(OBJECT(tmp));
++    if (ramblock_is_ignored(rb)) {
++        return size;
 +    }
++
++    first = find_next_bit(bitmap, size, start);
++    if (first >= size) {
++        return first;
++    }
++    next = find_next_zero_bit(bitmap, size, first + 1);
++    assert(next >= first);
++    *num = next - first;
++    return first;
 +}
 +
- static void colo_compare_finalize(Object *obj)
- {
-     CompareState *s = COLO_COMPARE(obj);
-diff --git a/net/colo-compare.h b/net/colo-compare.h
-index 22ddd51..b055270 100644
---- a/net/colo-compare.h
-+++ b/net/colo-compare.h
-@@ -20,5 +20,6 @@
- void colo_notify_compares_event(void *opaque, int event, Error **errp);
- void colo_compare_register_notifier(Notifier *notify);
- void colo_compare_unregister_notifier(Notifier *notify);
-+void colo_compare_cleanup(void);
+ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+                                                 RAMBlock *rb,
+                                                 unsigned long page)
+@@ -3669,6 +3702,8 @@ void colo_flush_ram_cache(void)
+     void *dst_host;
+     void *src_host;
+     unsigned long offset = 0;
++    unsigned long num = 0;
++    unsigned long i = 0;
  
- #endif /* QEMU_COLO_COMPARE_H */
-diff --git a/net/net.c b/net/net.c
-index fb7b7dc..3a94a27 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -53,6 +53,7 @@
- #include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-+#include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
+     memory_global_dirty_log_sync();
+     WITH_RCU_READ_LOCK_GUARD() {
+@@ -3682,19 +3717,22 @@ void colo_flush_ram_cache(void)
+         block = QLIST_FIRST_RCU(&ram_list.blocks);
  
-@@ -1375,6 +1376,9 @@ void net_cleanup(void)
- {
-     NetClientState *nc;
+         while (block) {
+-            offset = migration_bitmap_find_dirty(ram_state, block, offset);
++            offset = colo_bitmap_find_dirty(ram_state, block, offset, &num);
  
-+    /*cleanup colo compare module for COLO*/
-+    colo_compare_cleanup();
-+
-     /* We may del multiple entries during qemu_del_net_client(),
-      * so QTAILQ_FOREACH_SAFE() is also not safe here.
-      */
+             if (((ram_addr_t)offset) << TARGET_PAGE_BITS
+                 >= block->used_length) {
+                 offset = 0;
++                num = 0;
+                 block = QLIST_NEXT_RCU(block, next);
+             } else {
+-                migration_bitmap_clear_dirty(ram_state, block, offset);
++                for (i = 0; i < num; i++) {
++                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
++                }
+                 dst_host = block->host
+                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+                 src_host = block->colo_cache
+                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+-                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
++                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
+             }
+         }
+     }
 -- 
 1.8.3.1
 
