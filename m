@@ -2,46 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCA03395EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:12:54 +0100 (CET)
-Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575833395F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:15:25 +0100 (CET)
+Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmHN-0007Oh-9d
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
+	id 1lKmJo-0001rZ-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:15:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlW5-0006zl-Sz
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:01 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlVr-0000JN-6e
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:01 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8FCB9AFCB;
- Fri, 12 Mar 2021 17:23:01 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v7 41/42] target/arm: add tcg cpu accel class
-Date: Fri, 12 Mar 2021 18:22:42 +0100
-Message-Id: <20210312172243.25334-42-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210312172243.25334-1-cfontana@suse.de>
-References: <20210312172243.25334-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWE-0007JV-4H
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWA-0000aD-4p
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615569844;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FZVFZJFBCSTWt3vdqMXGGm5nmMRHiY4R5WIgvUhyqP8=;
+ b=B7cBhqkD++8whC+zDRX+q91L7pU6FyvqSsKOxM1FNo0sZ0w0x5oEenxn5SfZd6c2KzzRbc
+ KoCitvAVnFrLG/o8z1Eqk+xSi3RfUlJtE4YVFXsANNdll+rI6VgZLUbVCX11r9ZH2sgHzV
+ 5MoOQshVr+ciozT2uzFFtyGcfNGb/fc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-559-Os_DsHm3PAOFyUltrsG9gg-1; Fri, 12 Mar 2021 12:24:01 -0500
+X-MC-Unique: Os_DsHm3PAOFyUltrsG9gg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE986100C661;
+ Fri, 12 Mar 2021 17:23:59 +0000 (UTC)
+Received: from thuth.com (ovpn-112-83.ams2.redhat.com [10.36.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92C5B19744;
+ Fri, 12 Mar 2021 17:23:58 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/9] Gitlab-CI, tests and docs
+Date: Fri, 12 Mar 2021 18:23:47 +0100
+Message-Id: <20210312172356.968219-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,261 +74,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-start by moving minimal init and realizefn code.
+The following changes since commit 363fc963054d8e82cfd55fa9b9aa130692a8dbd7:
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- target/arm/tcg/tcg-cpu.h        |  4 ++-
- target/arm/cpu.c                | 38 +++------------------------
- target/arm/tcg/sysemu/tcg-cpu.c | 27 +++++++++++++++++++
- target/arm/tcg/tcg-cpu-models.c | 11 +++++---
- target/arm/tcg/tcg-cpu.c        | 46 +++++++++++++++++++++++++++++++--
- 5 files changed, 85 insertions(+), 41 deletions(-)
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-aspeed-20210309' into staging (2021-03-11 11:18:27 +0000)
 
-diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
-index d93c6a6749..dd08587949 100644
---- a/target/arm/tcg/tcg-cpu.h
-+++ b/target/arm/tcg/tcg-cpu.h
-@@ -22,15 +22,17 @@
- 
- #include "cpu.h"
- #include "hw/core/tcg-cpu-ops.h"
-+#include "hw/core/accel-cpu.h"
- 
- void arm_cpu_synchronize_from_tb(CPUState *cs,
-                                  const TranslationBlock *tb);
- 
--extern struct TCGCPUOps arm_tcg_ops;
-+void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
- 
- #ifndef CONFIG_USER_ONLY
- /* Do semihosting call and set the appropriate return value. */
- void tcg_handle_semihosting(CPUState *cs);
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
- 
- #endif /* !CONFIG_USER_ONLY */
- 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index ac01fa0bae..09c1db604a 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -582,10 +582,6 @@ static void arm_cpu_initfn(Object *obj)
-     cpu->psci_version = 1; /* By default assume PSCI v0.1 */
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
- 
--    if (tcg_enabled()) {
--        cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
--    }
--
-     /* if required, do accelerator-specific cpu initializations */
-     accel_cpu_instance_init(CPU(obj));
- }
-@@ -873,34 +869,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
-     bool no_aa32 = false;
- 
--    /*
--     * If we needed to query the host kernel for the CPU features
--     * then it's possible that might have failed in the initfn, but
--     * this is the first point where we can report it.
--     */
--    if (cpu->host_cpu_probe_failed) {
--        error_setg(errp, "The 'host' CPU type can only be used with KVM");
--        return;
--    }
--
--#ifndef CONFIG_USER_ONLY
--    /* The NVIC and M-profile CPU are two halves of a single piece of
--     * hardware; trying to use one without the other is a command line
--     * error and will result in segfaults if not caught here.
--     */
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        if (!env->nvic) {
--            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
--            return;
--        }
--    } else {
--        if (env->nvic) {
--            error_setg(errp, "This board can only be used with Cortex-M CPUs");
--            return;
--        }
--    }
--
--#ifdef CONFIG_TCG
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-     {
-         uint64_t scale;
- 
-@@ -926,8 +895,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-                                                   arm_gt_hvtimer_cb, cpu);
-     }
--#endif /* CONFIG_TCG */
--#endif /* !CONFIG_USER_ONLY */
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
- 
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-@@ -1463,7 +1431,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = arm_disas_set_info;
- 
- #ifdef CONFIG_TCG
--    cc->tcg_ops = &arm_tcg_ops;
-+    cc->init_accel_cpu = tcg_arm_init_accel_cpu;
- #endif /* CONFIG_TCG */
- 
-     arm32_cpu_class_init(oc, data);
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index 664a7ee206..c5b8f136ee 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -19,10 +19,13 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/timer.h"
- #include "cpu.h"
- #include "hw/semihosting/common-semi.h"
- #include "qemu/log.h"
- #include "tcg/tcg-cpu.h"
-+#include "internals.h"
- 
- /*
-  * Do semihosting call and set the appropriate return value. All the
-@@ -50,3 +53,27 @@ void tcg_handle_semihosting(CPUState *cs)
-         env->regs[15] += env->thumb ? 2 : 4;
-     }
- }
-+
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+
-+    /*
-+     * The NVIC and M-profile CPU are two halves of a single piece of
-+     * hardware; trying to use one without the other is a command line
-+     * error and will result in segfaults if not caught here.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        if (!env->nvic) {
-+            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
-+            return false;
-+        }
-+    } else {
-+        if (env->nvic) {
-+            error_setg(errp, "This board can only be used with Cortex-M CPUs");
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
-index 16ab5d5364..2f44fd1b41 100644
---- a/target/arm/tcg/tcg-cpu-models.c
-+++ b/target/arm/tcg/tcg-cpu-models.c
-@@ -844,15 +844,20 @@ static struct TCGCPUOps arm_v7m_tcg_ops = {
- #endif /* !CONFIG_USER_ONLY */
- };
- 
-+static void arm_v7m_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
-+{
-+    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) == OBJECT_CLASS(accel_cpu));
-+
-+    cc->tcg_ops = &arm_v7m_tcg_ops;
-+}
-+
- static void arm_v7m_class_init(ObjectClass *oc, void *data)
- {
-     ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
- 
-     acc->info = data;
--#ifdef CONFIG_TCG
--    cc->tcg_ops = &arm_v7m_tcg_ops;
--#endif /* CONFIG_TCG */
-+    cc->init_accel_cpu = arm_v7m_init_accel_cpu;
- 
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
-diff --git a/target/arm/tcg/tcg-cpu.c b/target/arm/tcg/tcg-cpu.c
-index 9fd996d908..b5e530e7ab 100644
---- a/target/arm/tcg/tcg-cpu.c
-+++ b/target/arm/tcg/tcg-cpu.c
-@@ -20,8 +20,8 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "tcg-cpu.h"
--#include "hw/core/tcg-cpu-ops.h"
- #include "cpregs.h"
- #include "internals.h"
- #include "exec/exec-all.h"
-@@ -212,7 +212,7 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     return true;
- }
- 
--struct TCGCPUOps arm_tcg_ops = {
-+static struct TCGCPUOps arm_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = arm_cpu_exec_interrupt,
-@@ -227,3 +227,45 @@ struct TCGCPUOps arm_tcg_ops = {
-     .debug_check_watchpoint = arm_debug_check_watchpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
-+
-+void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
-+{
-+    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) == OBJECT_CLASS(accel_cpu));
-+
-+    cc->tcg_ops = &arm_tcg_ops;
-+}
-+
-+static void tcg_cpu_instance_init(CPUState *cs)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    /*
-+     * this would be the place to move TCG-specific props
-+     * in future refactoring of cpu properties.
-+     */
-+
-+    cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
-+}
-+
-+static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
-+
-+#ifndef CONFIG_USER_ONLY
-+    acc->cpu_realizefn = tcg_cpu_realizefn;
-+#endif /* CONFIG_USER_ONLY */
-+
-+    acc->cpu_instance_init = tcg_cpu_instance_init;
-+}
-+static const TypeInfo tcg_cpu_accel_type_info = {
-+    .name = ACCEL_CPU_NAME("tcg"),
-+
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_init = tcg_cpu_accel_class_init,
-+    .abstract = true,
-+};
-+static void tcg_cpu_accel_register_types(void)
-+{
-+    type_register_static(&tcg_cpu_accel_type_info);
-+}
-+type_init(tcg_cpu_accel_register_types);
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2021-03-12
+
+for you to fetch changes up to 33bf47291ed575847d7de26b503c50e72f5aa6c3:
+
+  README: Add Documentation blurb (2021-03-12 15:46:30 +0100)
+
+----------------------------------------------------------------
+* Move unit and bench tests into separate directories
+* Clean-up and improve gitlab-ci jobs
+* Drop the non-working "check-speed" makefile target
+* Minor documentation updates
+----------------------------------------------------------------
+
+John Snow (1):
+  README: Add Documentation blurb
+
+Paolo Bonzini (1):
+  tests: remove "make check-speed" in favor of "make bench"
+
+Thomas Huth (7):
+  tests: Move unit tests into a separate directory
+  tests: Move benchmarks into a separate folder
+  gitlab-ci.yml: Move build-tools-and-docs-debian to a better place
+  gitlab-ci.yml: Add some missing dependencies to the jobs
+  gitlab-ci.yml: Merge one of the coroutine jobs with the tcg-disabled
+    job
+  gitlab-ci.yml: Merge check-crypto-old jobs into the build-crypto-old
+    jobs
+  MAINTAINERS: Merge the Gitlab-CI section into the generic CI section
+
+ .gitlab-ci.yml                                |  95 +++-----
+ MAINTAINERS                                   |  93 ++++----
+ README.rst                                    |  11 +
+ tests/Makefile.include                        |   8 +-
+ tests/{ => bench}/atomic64-bench.c            |   0
+ tests/{ => bench}/atomic_add-bench.c          |   0
+ tests/{ => bench}/benchmark-crypto-cipher.c   |   0
+ tests/{ => bench}/benchmark-crypto-hash.c     |   0
+ tests/{ => bench}/benchmark-crypto-hmac.c     |   0
+ tests/bench/meson.build                       |  34 +++
+ tests/{ => bench}/qht-bench.c                 |   0
+ tests/meson.build                             | 216 +-----------------
+ tests/{ => unit}/check-block-qdict.c          |   0
+ tests/{ => unit}/check-qdict.c                |   0
+ tests/{ => unit}/check-qjson.c                |   0
+ tests/{ => unit}/check-qlist.c                |   0
+ tests/{ => unit}/check-qlit.c                 |   0
+ tests/{ => unit}/check-qnull.c                |   0
+ tests/{ => unit}/check-qnum.c                 |   0
+ tests/{ => unit}/check-qobject.c              |   0
+ tests/{ => unit}/check-qom-interface.c        |   0
+ tests/{ => unit}/check-qom-proplist.c         |   0
+ tests/{ => unit}/check-qstring.c              |   0
+ tests/{ => unit}/crypto-tls-psk-helpers.c     |   0
+ tests/{ => unit}/crypto-tls-psk-helpers.h     |   0
+ tests/{ => unit}/crypto-tls-x509-helpers.c    |   0
+ tests/{ => unit}/crypto-tls-x509-helpers.h    |   0
+ tests/{ => unit}/io-channel-helpers.c         |   0
+ tests/{ => unit}/io-channel-helpers.h         |   0
+ tests/{ => unit}/iothread.c                   |   0
+ tests/{ => unit}/iothread.h                   |   0
+ tests/unit/meson.build                        | 184 +++++++++++++++
+ tests/{ => unit}/pkix_asn1_tab.c              |   2 +-
+ tests/{ => unit}/ptimer-test-stubs.c          |   0
+ tests/{ => unit}/ptimer-test.c                |   0
+ tests/{ => unit}/ptimer-test.h                |   0
+ tests/{ => unit}/rcutorture.c                 |   0
+ tests/{ => unit}/socket-helpers.c             |   0
+ tests/{ => unit}/socket-helpers.h             |   0
+ tests/{ => unit}/test-aio-multithread.c       |   0
+ tests/{ => unit}/test-aio.c                   |   0
+ tests/{ => unit}/test-authz-list.c            |   0
+ tests/{ => unit}/test-authz-listfile.c        |   0
+ tests/{ => unit}/test-authz-pam.c             |   0
+ tests/{ => unit}/test-authz-simple.c          |   0
+ tests/{ => unit}/test-base64.c                |   0
+ tests/{ => unit}/test-bdrv-drain.c            |   0
+ tests/{ => unit}/test-bdrv-graph-mod.c        |   0
+ tests/{ => unit}/test-bitcnt.c                |   0
+ tests/{ => unit}/test-bitmap.c                |   0
+ tests/{ => unit}/test-bitops.c                |   0
+ tests/{ => unit}/test-block-backend.c         |   0
+ tests/{ => unit}/test-block-iothread.c        |   0
+ tests/{ => unit}/test-blockjob-txn.c          |   0
+ tests/{ => unit}/test-blockjob.c              |   0
+ tests/{ => unit}/test-bufferiszero.c          |   0
+ tests/{ => unit}/test-char.c                  |   0
+ tests/{ => unit}/test-clone-visitor.c         |   0
+ tests/{ => unit}/test-coroutine.c             |   0
+ tests/{ => unit}/test-crypto-afsplit.c        |   0
+ tests/{ => unit}/test-crypto-block.c          |   0
+ tests/{ => unit}/test-crypto-cipher.c         |   0
+ tests/{ => unit}/test-crypto-hash.c           |   0
+ tests/{ => unit}/test-crypto-hmac.c           |   0
+ tests/{ => unit}/test-crypto-ivgen.c          |   0
+ tests/{ => unit}/test-crypto-pbkdf.c          |   0
+ tests/{ => unit}/test-crypto-secret.c         |   0
+ tests/{ => unit}/test-crypto-tlscredsx509.c   |   0
+ tests/{ => unit}/test-crypto-tlssession.c     |   0
+ tests/{ => unit}/test-crypto-xts.c            |   0
+ tests/{ => unit}/test-cutils.c                |   0
+ tests/{ => unit}/test-fdmon-epoll.c           |   0
+ tests/{ => unit}/test-hbitmap.c               |   0
+ tests/{ => unit}/test-image-locking.c         |   0
+ tests/{ => unit}/test-int128.c                |   0
+ tests/{ => unit}/test-io-channel-buffer.c     |   0
+ tests/{ => unit}/test-io-channel-command.c    |   0
+ tests/{ => unit}/test-io-channel-file.c       |   0
+ tests/{ => unit}/test-io-channel-socket.c     |   0
+ tests/{ => unit}/test-io-channel-tls.c        |   0
+ tests/{ => unit}/test-io-task.c               |   0
+ tests/{ => unit}/test-iov.c                   |   0
+ tests/{ => unit}/test-keyval.c                |   0
+ tests/{ => unit}/test-logging.c               |   0
+ tests/{ => unit}/test-mul64.c                 |   0
+ tests/{ => unit}/test-opts-visitor.c          |   0
+ tests/{ => unit}/test-qapi-util.c             |   0
+ tests/{ => unit}/test-qdev-global-props.c     |   0
+ tests/{ => unit}/test-qdist.c                 |   0
+ tests/{ => unit}/test-qemu-opts.c             |   0
+ tests/{ => unit}/test-qga.c                   |   2 +-
+ tests/{ => unit}/test-qgraph.c                |   4 +-
+ tests/{ => unit}/test-qht.c                   |   0
+ tests/{ => unit}/test-qmp-cmds.c              |   0
+ tests/{ => unit}/test-qmp-event.c             |   0
+ tests/{ => unit}/test-qobject-input-visitor.c |   0
+ .../{ => unit}/test-qobject-output-visitor.c  |   0
+ tests/{ => unit}/test-rcu-list.c              |   0
+ tests/{ => unit}/test-rcu-simpleq.c           |   0
+ tests/{ => unit}/test-rcu-slist.c             |   0
+ tests/{ => unit}/test-rcu-tailq.c             |   0
+ tests/{ => unit}/test-replication.c           |   0
+ tests/{ => unit}/test-shift128.c              |   0
+ tests/{ => unit}/test-string-input-visitor.c  |   0
+ tests/{ => unit}/test-string-output-visitor.c |   0
+ tests/{ => unit}/test-thread-pool.c           |   0
+ tests/{ => unit}/test-throttle.c              |   0
+ tests/{ => unit}/test-timed-average.c         |   0
+ tests/{ => unit}/test-util-filemonitor.c      |   0
+ tests/{ => unit}/test-util-sockets.c          |   0
+ tests/{ => unit}/test-uuid.c                  |   0
+ tests/{ => unit}/test-visitor-serialization.c |   0
+ tests/{ => unit}/test-vmstate.c               |   0
+ tests/{ => unit}/test-write-threshold.c       |   0
+ tests/{ => unit}/test-x86-cpuid.c             |   0
+ tests/{ => unit}/test-xbzrle.c                |   0
+ 116 files changed, 311 insertions(+), 338 deletions(-)
+ rename tests/{ => bench}/atomic64-bench.c (100%)
+ rename tests/{ => bench}/atomic_add-bench.c (100%)
+ rename tests/{ => bench}/benchmark-crypto-cipher.c (100%)
+ rename tests/{ => bench}/benchmark-crypto-hash.c (100%)
+ rename tests/{ => bench}/benchmark-crypto-hmac.c (100%)
+ create mode 100644 tests/bench/meson.build
+ rename tests/{ => bench}/qht-bench.c (100%)
+ rename tests/{ => unit}/check-block-qdict.c (100%)
+ rename tests/{ => unit}/check-qdict.c (100%)
+ rename tests/{ => unit}/check-qjson.c (100%)
+ rename tests/{ => unit}/check-qlist.c (100%)
+ rename tests/{ => unit}/check-qlit.c (100%)
+ rename tests/{ => unit}/check-qnull.c (100%)
+ rename tests/{ => unit}/check-qnum.c (100%)
+ rename tests/{ => unit}/check-qobject.c (100%)
+ rename tests/{ => unit}/check-qom-interface.c (100%)
+ rename tests/{ => unit}/check-qom-proplist.c (100%)
+ rename tests/{ => unit}/check-qstring.c (100%)
+ rename tests/{ => unit}/crypto-tls-psk-helpers.c (100%)
+ rename tests/{ => unit}/crypto-tls-psk-helpers.h (100%)
+ rename tests/{ => unit}/crypto-tls-x509-helpers.c (100%)
+ rename tests/{ => unit}/crypto-tls-x509-helpers.h (100%)
+ rename tests/{ => unit}/io-channel-helpers.c (100%)
+ rename tests/{ => unit}/io-channel-helpers.h (100%)
+ rename tests/{ => unit}/iothread.c (100%)
+ rename tests/{ => unit}/iothread.h (100%)
+ create mode 100644 tests/unit/meson.build
+ rename tests/{ => unit}/pkix_asn1_tab.c (99%)
+ rename tests/{ => unit}/ptimer-test-stubs.c (100%)
+ rename tests/{ => unit}/ptimer-test.c (100%)
+ rename tests/{ => unit}/ptimer-test.h (100%)
+ rename tests/{ => unit}/rcutorture.c (100%)
+ rename tests/{ => unit}/socket-helpers.c (100%)
+ rename tests/{ => unit}/socket-helpers.h (100%)
+ rename tests/{ => unit}/test-aio-multithread.c (100%)
+ rename tests/{ => unit}/test-aio.c (100%)
+ rename tests/{ => unit}/test-authz-list.c (100%)
+ rename tests/{ => unit}/test-authz-listfile.c (100%)
+ rename tests/{ => unit}/test-authz-pam.c (100%)
+ rename tests/{ => unit}/test-authz-simple.c (100%)
+ rename tests/{ => unit}/test-base64.c (100%)
+ rename tests/{ => unit}/test-bdrv-drain.c (100%)
+ rename tests/{ => unit}/test-bdrv-graph-mod.c (100%)
+ rename tests/{ => unit}/test-bitcnt.c (100%)
+ rename tests/{ => unit}/test-bitmap.c (100%)
+ rename tests/{ => unit}/test-bitops.c (100%)
+ rename tests/{ => unit}/test-block-backend.c (100%)
+ rename tests/{ => unit}/test-block-iothread.c (100%)
+ rename tests/{ => unit}/test-blockjob-txn.c (100%)
+ rename tests/{ => unit}/test-blockjob.c (100%)
+ rename tests/{ => unit}/test-bufferiszero.c (100%)
+ rename tests/{ => unit}/test-char.c (100%)
+ rename tests/{ => unit}/test-clone-visitor.c (100%)
+ rename tests/{ => unit}/test-coroutine.c (100%)
+ rename tests/{ => unit}/test-crypto-afsplit.c (100%)
+ rename tests/{ => unit}/test-crypto-block.c (100%)
+ rename tests/{ => unit}/test-crypto-cipher.c (100%)
+ rename tests/{ => unit}/test-crypto-hash.c (100%)
+ rename tests/{ => unit}/test-crypto-hmac.c (100%)
+ rename tests/{ => unit}/test-crypto-ivgen.c (100%)
+ rename tests/{ => unit}/test-crypto-pbkdf.c (100%)
+ rename tests/{ => unit}/test-crypto-secret.c (100%)
+ rename tests/{ => unit}/test-crypto-tlscredsx509.c (100%)
+ rename tests/{ => unit}/test-crypto-tlssession.c (100%)
+ rename tests/{ => unit}/test-crypto-xts.c (100%)
+ rename tests/{ => unit}/test-cutils.c (100%)
+ rename tests/{ => unit}/test-fdmon-epoll.c (100%)
+ rename tests/{ => unit}/test-hbitmap.c (100%)
+ rename tests/{ => unit}/test-image-locking.c (100%)
+ rename tests/{ => unit}/test-int128.c (100%)
+ rename tests/{ => unit}/test-io-channel-buffer.c (100%)
+ rename tests/{ => unit}/test-io-channel-command.c (100%)
+ rename tests/{ => unit}/test-io-channel-file.c (100%)
+ rename tests/{ => unit}/test-io-channel-socket.c (100%)
+ rename tests/{ => unit}/test-io-channel-tls.c (100%)
+ rename tests/{ => unit}/test-io-task.c (100%)
+ rename tests/{ => unit}/test-iov.c (100%)
+ rename tests/{ => unit}/test-keyval.c (100%)
+ rename tests/{ => unit}/test-logging.c (100%)
+ rename tests/{ => unit}/test-mul64.c (100%)
+ rename tests/{ => unit}/test-opts-visitor.c (100%)
+ rename tests/{ => unit}/test-qapi-util.c (100%)
+ rename tests/{ => unit}/test-qdev-global-props.c (100%)
+ rename tests/{ => unit}/test-qdist.c (100%)
+ rename tests/{ => unit}/test-qemu-opts.c (100%)
+ rename tests/{ => unit}/test-qga.c (99%)
+ rename tests/{ => unit}/test-qgraph.c (99%)
+ rename tests/{ => unit}/test-qht.c (100%)
+ rename tests/{ => unit}/test-qmp-cmds.c (100%)
+ rename tests/{ => unit}/test-qmp-event.c (100%)
+ rename tests/{ => unit}/test-qobject-input-visitor.c (100%)
+ rename tests/{ => unit}/test-qobject-output-visitor.c (100%)
+ rename tests/{ => unit}/test-rcu-list.c (100%)
+ rename tests/{ => unit}/test-rcu-simpleq.c (100%)
+ rename tests/{ => unit}/test-rcu-slist.c (100%)
+ rename tests/{ => unit}/test-rcu-tailq.c (100%)
+ rename tests/{ => unit}/test-replication.c (100%)
+ rename tests/{ => unit}/test-shift128.c (100%)
+ rename tests/{ => unit}/test-string-input-visitor.c (100%)
+ rename tests/{ => unit}/test-string-output-visitor.c (100%)
+ rename tests/{ => unit}/test-thread-pool.c (100%)
+ rename tests/{ => unit}/test-throttle.c (100%)
+ rename tests/{ => unit}/test-timed-average.c (100%)
+ rename tests/{ => unit}/test-util-filemonitor.c (100%)
+ rename tests/{ => unit}/test-util-sockets.c (100%)
+ rename tests/{ => unit}/test-uuid.c (100%)
+ rename tests/{ => unit}/test-visitor-serialization.c (100%)
+ rename tests/{ => unit}/test-vmstate.c (100%)
+ rename tests/{ => unit}/test-write-threshold.c (100%)
+ rename tests/{ => unit}/test-x86-cpuid.c (100%)
+ rename tests/{ => unit}/test-xbzrle.c (100%)
+
 -- 
-2.26.2
+2.27.0
 
 
