@@ -2,76 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85D933822A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 01:20:07 +0100 (CET)
-Received: from localhost ([::1]:37174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27115338274
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 01:33:54 +0100 (CET)
+Received: from localhost ([::1]:44578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKVXC-00071s-7z
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 19:20:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45198)
+	id 1lKVkW-0002xP-PY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 19:33:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKVW0-0006Ql-Er; Thu, 11 Mar 2021 19:18:52 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKVVy-0004Uv-UG; Thu, 11 Mar 2021 19:18:52 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- m20-20020a7bcb940000b029010cab7e5a9fso14767686wmi.3; 
- Thu, 11 Mar 2021 16:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ro2t9KYjjz9CCAnsd96braIE+NeDdsOkzjCPjxJPjjM=;
- b=srNIc/OFvdRu/wLKAzJAnzNg4c4mzJew0YXCJ+10f+umaf5GeSVSvOpfsCFh5VpsZ8
- fFDlPmSKKaYuJNYwJHdEWha32aSHzdcnOmAmX8p5U29/FEF9tee6WpgDh2GfWSsbgaMu
- ZJeH9L0mqFlle4brixjTcj0MYNNiQNWgWpRS7pEWKQSwSHRMRsIxj7LCFFcna1k9mB6p
- /UPqpENopY4weIfYzqOVnFltWu54Jhir66WbJTHcZHN3eIHIKWMPCBm8vtp7Nmjm97NH
- 8qWt7GcFDQ1n8kC9kBFyO2v6uq33PnB7pKbGLktzMjAjR3qBXmuFFv5Oyi7ss0bsMFgQ
- gArg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ro2t9KYjjz9CCAnsd96braIE+NeDdsOkzjCPjxJPjjM=;
- b=HEhfsu6RhiAQpHzVEWXX41nfVvr+kEJNe5SU18eIR86Yv5Glw8IECJq8OjVGpCsxwS
- n0HVGRrI4YRMMS1+8MvgfR7JQnXp2yHyysR38tLsuUJVA9/07oYrYZnRoim3OTuq5Rx/
- uBx30ejuTGS5UcCvpRlOHJMPUI7TYLQFM/N9xa/O4go4pGjvOgUGRlF7YvbWHMo4qjNH
- 5N4FGCnI1YtaJKwDJVGPL0kh08a3uSsB+H0eqOchKMRHOMBdDsGKlpkDtb6ixozANl9/
- rTodG6pejFJd4Pft6k7+e0pVEvAI291Jea/qmMYTp09tVGDZgJ7tM/vq99qh/Foh3Q6E
- ojuQ==
-X-Gm-Message-State: AOAM532H/UrxGasCHYcWn5oTD8GS+eh/X6yBvGwZIJVGupr/XKOh1jK+
- hc+QSN5nSOEl+UVY4cWSwZpKiQ+B34Q=
-X-Google-Smtp-Source: ABdhPJzVEeIiqQADSYW2T2J0FHdWWSLwWyHPxX7Wyh4nQgBuWiteNR5xC8nHZpPibBRpHXboAfaKVw==
-X-Received: by 2002:a05:600c:284:: with SMTP id
- 4mr10643683wmk.24.1615508327937; 
- Thu, 11 Mar 2021 16:18:47 -0800 (PST)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id f16sm5895407wrt.21.2021.03.11.16.18.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 16:18:47 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/timer/sse-timer: Propagate eventual error in
- sse_timer_realize()
-Date: Fri, 12 Mar 2021 01:18:45 +0100
-Message-Id: <20210312001845.1562670-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lKVjK-0002RR-3M; Thu, 11 Mar 2021 19:32:38 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:54148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lKVjE-0002cr-DG; Thu, 11 Mar 2021 19:32:37 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 784497456E3;
+ Fri, 12 Mar 2021 01:32:25 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 33C2B7456B8; Fri, 12 Mar 2021 01:32:25 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 303C27456B7;
+ Fri, 12 Mar 2021 01:32:25 +0100 (CET)
+Date: Fri, 12 Mar 2021 01:32:25 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v7 2/8] vt82c686: QOM-ify superio related functionality
+In-Reply-To: <5f591429-69df-fd29-6ed8-83d1dbe38afc@amsat.org>
+Message-ID: <bcafad2f-46cb-56bd-6f6f-af21db11eea2@eik.bme.hu>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <f8e8d80ee6f5ff7cfe6522c9ef6ddcc16db35a92.1615345138.git.balaton@eik.bme.hu>
+ <5f591429-69df-fd29-6ed8-83d1dbe38afc@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: multipart/mixed;
+ boundary="3866299591-1010748589-1615509145=:81828"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,35 +57,436 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the SSECounter link is absent, we set an error message
-in sse_timer_realize() but forgot to propagate this error.
-Add the missing 'return'.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Fixes: CID 1450755 (Null pointer dereferences)
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/timer/sse-timer.c | 1 +
- 1 file changed, 1 insertion(+)
+--3866299591-1010748589-1615509145=:81828
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/hw/timer/sse-timer.c b/hw/timer/sse-timer.c
-index 8dbe6ac651e..f959cb9d603 100644
---- a/hw/timer/sse-timer.c
-+++ b/hw/timer/sse-timer.c
-@@ -415,6 +415,7 @@ static void sse_timer_realize(DeviceState *dev, Error **errp)
- 
-     if (!s->counter) {
-         error_setg(errp, "counter property was not set");
-+        return;
-     }
- 
-     s->counter_notifier.notify = sse_timer_counter_callback;
--- 
-2.26.2
+On Fri, 12 Mar 2021, Philippe Mathieu-Daudé wrote:
+> On 3/10/21 3:58 AM, BALATON Zoltan wrote:
+>> Collect superio functionality and its controlling config registers
+>> handling in an abstract VIA_SUPERIO class that is a subclass of
+>> ISA_SUPERIO and put vt82c686b specific parts in a subclass of this
+>> abstract class.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/isa/vt82c686.c         | 242 ++++++++++++++++++++++++--------------
+>>  include/hw/isa/vt82c686.h |   1 -
+>>  2 files changed, 152 insertions(+), 91 deletions(-)
+>>
+>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>> index a3353ec5db..e89dbf43da 100644
+>> --- a/hw/isa/vt82c686.c
+>> +++ b/hw/isa/vt82c686.c
+>> @@ -249,12 +249,21 @@ static const TypeInfo vt8231_pm_info = {
+>>  };
+>>
+>>
+>> -typedef struct SuperIOConfig {
+>> +#define TYPE_VIA_SUPERIO "via-superio"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(ViaSuperIOState, VIA_SUPERIO)
+>> +
+>> +struct ViaSuperIOState {
+>> +    ISASuperIODevice superio;
+>>      uint8_t regs[0x100];
+>> +    const MemoryRegionOps *io_ops;
+>>      MemoryRegion io;
+>> -    ISASuperIODevice *superio;
+>>      MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+>> -} SuperIOConfig;
+>> +};
+>> +
+>> +static inline void via_superio_io_enable(ViaSuperIOState *s, bool enable)
+>> +{
+>> +    memory_region_set_enabled(&s->io, enable);
+>> +}
+>>
+>>  static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
+>>                                      int offs)
+>> @@ -270,10 +279,78 @@ static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
+>>      return mr;
+>>  }
+>>
+>> -static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>> -                              unsigned size)
+>> +static void via_superio_realize(DeviceState *d, Error **errp)
+>> +{
+>> +    ViaSuperIOState *s = VIA_SUPERIO(d);
+>> +    ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
+>> +    Error *local_err = NULL;
+>> +    int i;
+>> +
+>> +    assert(s->io_ops);
+>> +    ic->parent_realize(d, &local_err);
+>> +    if (local_err) {
+>> +        error_propagate(errp, local_err);
+>> +        return;
+>> +    }
+>> +    /* Grab io regions of serial devices so we can control them */
+>> +    for (i = 0; i < ic->serial.count; i++) {
+>> +        ISADevice *sd = s->superio.serial[i];
+>> +        MemoryRegion *io = isa_address_space_io(sd);
+>> +        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
+>> +        if (!mr) {
+>> +            error_setg(errp, "Could not get io region for serial %d", i);
+>> +            return;
+>> +        }
+>> +        s->serial_io[i] = mr;
+>
+> Don't we need to memory_region_ref(mr) here?
 
+I don't think so. The ISA device still owns the memory region, we just 
+snatch it to be able to enable/disable and move it around but otherwise 
+don't take it over from the device. The memory region would be destroyed 
+with the device and after that we don't want to keep the memory region as 
+that's not useful without the device. (This is all theoretical though as 
+in practice the device is created at startup and never destroyed until 
+exit.) If we increased ref count here we would also have to decrease it 
+somewhere but since the serial device is child of this south bridge it 
+should not go away before via-superio so no separate reference should be 
+needed here. We own ISASuperIO which owns the isa-serial which owns the 
+memory region so it should stay there during the lifetime of this object 
+without increasing ref count.
+
+Regards,
+BALATON Zoltan
+
+>> +    }
+>> +
+>> +    memory_region_init_io(&s->io, OBJECT(d), s->io_ops, s, "via-superio", 2);
+>> +    memory_region_set_enabled(&s->io, false);
+>> +    /* The floppy also uses 0x3f0 and 0x3f1 but this seems to work anyway */
+>> +    memory_region_add_subregion(isa_address_space_io(ISA_DEVICE(s)), 0x3f0,
+>> +                                &s->io);
+>> +}
+>> +
+>> +static uint64_t via_superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+>> +{
+>> +    ViaSuperIOState *sc = opaque;
+>> +    uint8_t idx = sc->regs[0];
+>> +    uint8_t val = sc->regs[idx];
+>> +
+>> +    if (addr == 0) {
+>> +        return idx;
+>> +    }
+>> +    if (addr == 1 && idx == 0) {
+>> +        val = 0; /* reading reg 0 where we store index value */
+>> +    }
+>> +    trace_via_superio_read(idx, val);
+>> +    return val;
+>> +}
+>> +
+>> +static void via_superio_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+>> +
+>> +    sc->parent_realize = dc->realize;
+>> +    dc->realize = via_superio_realize;
+>> +}
+>> +
+>> +static const TypeInfo via_superio_info = {
+>> +    .name          = TYPE_VIA_SUPERIO,
+>> +    .parent        = TYPE_ISA_SUPERIO,
+>> +    .instance_size = sizeof(ViaSuperIOState),
+>> +    .class_size    = sizeof(ISASuperIOClass),
+>> +    .class_init    = via_superio_class_init,
+>> +    .abstract      = true,
+>> +};
+>> +
+>> +#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+>> +
+>> +static void vt82c686b_superio_cfg_write(void *opaque, hwaddr addr,
+>> +                                        uint64_t data, unsigned size)
+>>  {
+>> -    SuperIOConfig *sc = opaque;
+>> +    ViaSuperIOState *sc = opaque;
+>>      uint8_t idx = sc->regs[0];
+>>
+>>      if (addr == 0) { /* config index register */
+>> @@ -295,29 +372,29 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>>      case 0xfd ... 0xff:
+>>          /* ignore write to read only registers */
+>>          return;
+>> -    case 0xe2:
+>> +    case 0xe2: /* Function select */
+>>      {
+>>          data &= 0x1f;
+>>          if (data & BIT(2)) { /* Serial port 1 enable */
+>> -            ISADevice *dev = sc->superio->serial[0];
+>> +            ISADevice *dev = sc->superio.serial[0];
+>>              if (!memory_region_is_mapped(sc->serial_io[0])) {
+>>                  memory_region_add_subregion(isa_address_space_io(dev),
+>>                                              dev->ioport_id, sc->serial_io[0]);
+>>              }
+>>          } else {
+>> -            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
+>> +            MemoryRegion *io = isa_address_space_io(sc->superio.serial[0]);
+>>              if (memory_region_is_mapped(sc->serial_io[0])) {
+>>                  memory_region_del_subregion(io, sc->serial_io[0]);
+>>              }
+>>          }
+>>          if (data & BIT(3)) { /* Serial port 2 enable */
+>> -            ISADevice *dev = sc->superio->serial[1];
+>> +            ISADevice *dev = sc->superio.serial[1];
+>>              if (!memory_region_is_mapped(sc->serial_io[1])) {
+>>                  memory_region_add_subregion(isa_address_space_io(dev),
+>>                                              dev->ioport_id, sc->serial_io[1]);
+>>              }
+>>          } else {
+>> -            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
+>> +            MemoryRegion *io = isa_address_space_io(sc->superio.serial[1]);
+>>              if (memory_region_is_mapped(sc->serial_io[1])) {
+>>                  memory_region_del_subregion(io, sc->serial_io[1]);
+>>              }
+>> @@ -327,7 +404,7 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>>      case 0xe7: /* Serial port 1 io base address */
+>>      {
+>>          data &= 0xfe;
+>> -        sc->superio->serial[0]->ioport_id = data << 2;
+>> +        sc->superio.serial[0]->ioport_id = data << 2;
+>>          if (memory_region_is_mapped(sc->serial_io[0])) {
+>>              memory_region_set_address(sc->serial_io[0], data << 2);
+>>          }
+>> @@ -336,7 +413,7 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>>      case 0xe8: /* Serial port 2 io base address */
+>>      {
+>>          data &= 0xfe;
+>> -        sc->superio->serial[1]->ioport_id = data << 2;
+>> +        sc->superio.serial[1]->ioport_id = data << 2;
+>>          if (memory_region_is_mapped(sc->serial_io[1])) {
+>>              memory_region_set_address(sc->serial_io[1], data << 2);
+>>          }
+>> @@ -350,25 +427,9 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>>      sc->regs[idx] = data;
+>>  }
+>>
+>> -static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+>> -{
+>> -    SuperIOConfig *sc = opaque;
+>> -    uint8_t idx = sc->regs[0];
+>> -    uint8_t val = sc->regs[idx];
+>> -
+>> -    if (addr == 0) {
+>> -        return idx;
+>> -    }
+>> -    if (addr == 1 && idx == 0) {
+>> -        val = 0; /* reading reg 0 where we store index value */
+>> -    }
+>> -    trace_via_superio_read(idx, val);
+>> -    return val;
+>> -}
+>> -
+>> -static const MemoryRegionOps superio_cfg_ops = {
+>> -    .read = superio_cfg_read,
+>> -    .write = superio_cfg_write,
+>> +static const MemoryRegionOps vt82c686b_superio_cfg_ops = {
+>> +    .read = via_superio_cfg_read,
+>> +    .write = vt82c686b_superio_cfg_write,
+>>      .endianness = DEVICE_NATIVE_ENDIAN,
+>>      .impl = {
+>>          .min_access_size = 1,
+>> @@ -376,13 +437,66 @@ static const MemoryRegionOps superio_cfg_ops = {
+>>      },
+>>  };
+>>
+>> +static void vt82c686b_superio_reset(DeviceState *dev)
+>> +{
+>> +    ViaSuperIOState *s = VIA_SUPERIO(dev);
+>> +
+>> +    memset(s->regs, 0, sizeof(s->regs));
+>> +    /* Device ID */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe0, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0x3c, 1);
+>> +    /* Function select - all disabled */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe2, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0x03, 1);
+>> +    /* Floppy ctrl base addr */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe3, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0xfc, 1);
+>> +    /* Parallel port base addr */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe6, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0xde, 1);
+>> +    /* Serial port 1 base addr */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe7, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0xfe, 1);
+>> +    /* Serial port 2 base addr */
+>> +    vt82c686b_superio_cfg_write(s, 0, 0xe8, 1);
+>> +    vt82c686b_superio_cfg_write(s, 1, 0xbe, 1);
+>> +
+>> +    vt82c686b_superio_cfg_write(s, 0, 0, 1);
+>> +}
+>> +
+>> +static void vt82c686b_superio_init(Object *obj)
+>> +{
+>> +    VIA_SUPERIO(obj)->io_ops = &vt82c686b_superio_cfg_ops;
+>> +}
+>> +
+>> +static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+>> +
+>> +    dc->reset = vt82c686b_superio_reset;
+>> +    sc->serial.count = 2;
+>> +    sc->parallel.count = 1;
+>> +    sc->ide.count = 0; /* emulated by via-ide */
+>> +    sc->floppy.count = 1;
+>> +}
+>> +
+>> +static const TypeInfo vt82c686b_superio_info = {
+>> +    .name          = TYPE_VT82C686B_SUPERIO,
+>> +    .parent        = TYPE_VIA_SUPERIO,
+>> +    .instance_size = sizeof(ViaSuperIOState),
+>> +    .instance_init = vt82c686b_superio_init,
+>> +    .class_size    = sizeof(ISASuperIOClass),
+>> +    .class_init    = vt82c686b_superio_class_init,
+>> +};
+>> +
+>>
+>>  OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+>>
+>>  struct VT82C686BISAState {
+>>      PCIDevice dev;
+>>      qemu_irq cpu_intr;
+>> -    SuperIOConfig superio_cfg;
+>> +    ViaSuperIOState *via_sio;
+>>  };
+>>
+>>  static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+>> @@ -400,7 +514,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+>>      pci_default_write_config(d, addr, val, len);
+>>      if (addr == 0x85) {
+>>          /* BIT(1): enable or disable superio config io ports */
+>> -        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+>> +        via_superio_io_enable(s->via_sio, val & BIT(1));
+>>      }
+>>  }
+>>
+>> @@ -432,13 +546,6 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+>>      pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
+>>      pci_conf[0x5f] = 0x04;
+>>      pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
+>> -
+>> -    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
+>> -    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
+>> -    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
+>> -    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
+>> -    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
+>> -    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
+>>  }
+>>
+>>  static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>> @@ -447,7 +554,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>>      DeviceState *dev = DEVICE(d);
+>>      ISABus *isa_bus;
+>>      qemu_irq *isa_irq;
+>> -    ISASuperIOClass *ic;
+>>      int i;
+>>
+>>      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+>> @@ -457,9 +563,8 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>>      isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+>>      i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>>      i8257_dma_init(isa_bus, 0);
+>> -    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
+>> -                                                      TYPE_VT82C686B_SUPERIO));
+>> -    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+>> +    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus,
+>> +                                               TYPE_VT82C686B_SUPERIO));
+>>      mc146818_rtc_init(isa_bus, 2000, NULL);
+>>
+>>      for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+>> @@ -467,31 +572,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>>              d->wmask[i] = 0;
+>>          }
+>>      }
+>> -
+>> -    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
+>> -                          &s->superio_cfg, "superio_cfg", 2);
+>> -    memory_region_set_enabled(&s->superio_cfg.io, false);
+>> -    /*
+>> -     * The floppy also uses 0x3f0 and 0x3f1.
+>> -     * But we do not emulate a floppy, so just set it here.
+>> -     */
+>> -    memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+>> -                                &s->superio_cfg.io);
+>> -
+>> -    /* Grab io regions of serial devices so we can control them */
+>> -    for (i = 0; i < ic->serial.count; i++) {
+>> -        ISADevice *sd = s->superio_cfg.superio->serial[i];
+>> -        MemoryRegion *io = isa_address_space_io(sd);
+>> -        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
+>> -        if (!mr) {
+>> -            error_setg(errp, "Could not get io region for serial %d", i);
+>> -            return;
+>> -        }
+>> -        s->superio_cfg.serial_io[i] = mr;
+>> -        if (memory_region_is_mapped(mr)) {
+>> -            memory_region_del_subregion(io, mr);
+>> -        }
+>> -    }
+>>  }
+>>
+>>  static void via_class_init(ObjectClass *klass, void *data)
+>> @@ -527,32 +607,14 @@ static const TypeInfo via_info = {
+>>  };
+>>
+>>
+>> -static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+>> -{
+>> -    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+>> -
+>> -    sc->serial.count = 2;
+>> -    sc->parallel.count = 1;
+>> -    sc->ide.count = 0;
+>> -    sc->floppy.count = 1;
+>> -}
+>> -
+>> -static const TypeInfo via_superio_info = {
+>> -    .name          = TYPE_VT82C686B_SUPERIO,
+>> -    .parent        = TYPE_ISA_SUPERIO,
+>> -    .instance_size = sizeof(ISASuperIODevice),
+>> -    .class_size    = sizeof(ISASuperIOClass),
+>> -    .class_init    = vt82c686b_superio_class_init,
+>> -};
+>> -
+>> -
+>>  static void vt82c686b_register_types(void)
+>>  {
+>>      type_register_static(&via_pm_info);
+>>      type_register_static(&vt82c686b_pm_info);
+>>      type_register_static(&vt8231_pm_info);
+>> -    type_register_static(&via_info);
+>>      type_register_static(&via_superio_info);
+>> +    type_register_static(&vt82c686b_superio_info);
+>> +    type_register_static(&via_info);
+>>  }
+>>
+>>  type_init(vt82c686b_register_types)
+>> diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+>> index 9b6d610e83..0692b9a527 100644
+>> --- a/include/hw/isa/vt82c686.h
+>> +++ b/include/hw/isa/vt82c686.h
+>> @@ -2,7 +2,6 @@
+>>  #define HW_VT82C686_H
+>>
+>>  #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+>> -#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+>>  #define TYPE_VT82C686B_PM "vt82c686b-pm"
+>>  #define TYPE_VT8231_PM "vt8231-pm"
+>>  #define TYPE_VIA_AC97 "via-ac97"
+>>
+>
+>
+--3866299591-1010748589-1615509145=:81828--
 
