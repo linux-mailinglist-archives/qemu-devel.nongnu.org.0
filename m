@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9388533852C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:26:55 +0100 (CET)
-Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E40933852D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:27:00 +0100 (CET)
+Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKaK6-0006FC-HO
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:26:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
+	id 1lKaKB-0006WK-6H
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:26:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIU-0004kJ-AZ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:14 -0500
-Received: from mga03.intel.com ([134.134.136.65]:6476)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIY-0004oT-0K
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:18 -0500
+Received: from mga05.intel.com ([192.55.52.43]:4921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIS-0006YQ-5s
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:13 -0500
-IronPort-SDR: bsNVvPymLeDmpDeJ+il406H3RBIxAxbBI7Ndsh+T+tTgS9Obaa3qMW41FVznW3CV4iPVUPlBkF
- 0cgMw5ULNpnA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="188827050"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="188827050"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIW-0006dL-7c
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:17 -0500
+IronPort-SDR: AAkeyOZP9IRx2GSiulsY/LjGWAjKMqHEm0cWwnzb5M6k9re8gDp3bGrsg5uTB/GknEMhH5xlW3
+ f1CfduyTaQuQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826899"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826899"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 21:25:07 -0800
-IronPort-SDR: zpuqn1BgI8ARSUUDhLbgJYE9JpV3O8NoADF/EqXedKVN+jKaqEYhXngJ0vmY2u11ODkFocHfYE
- TO5JhsqAsWZw==
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2021 21:25:13 -0800
+IronPort-SDR: FdjtkUkQaq3JoFQ3qhdkpNVTh2hiwO04lQYhncrPuWcD30YjT2UxQ/Oiqa7zjBGSjAA4f4xsS+
+ 9ohZFSysW+xQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481886"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481902"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:05 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:10 -0800
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v2 01/10] Remove some duplicate trace code.
-Date: Fri, 12 Mar 2021 13:02:54 +0800
-Message-Id: <1615525383-59071-2-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v2 02/10] Fix the qemu crash when guest shutdown during
+ checkpoint
+Date: Fri, 12 Mar 2021 13:02:55 +0800
+Message-Id: <1615525383-59071-3-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
 References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=lei.rao@intel.com;
- helo=mga03.intel.com
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=lei.rao@intel.com;
+ helo=mga05.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -66,37 +67,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-There is the same trace code in the colo_compare_packet_payload.
+This patch fixes the following:
+    qemu-system-x86_64: invalid runstate transition: 'colo' ->'shutdown'
+    Aborted (core dumped)
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- net/colo-compare.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ softmmu/runstate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 84db497..9e18baa 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -590,19 +590,6 @@ static int colo_packet_compare_other(Packet *spkt, Packet *ppkt)
-     uint16_t offset = ppkt->vnet_hdr_len;
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 2874417..884f8fa 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -126,6 +126,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
  
-     trace_colo_compare_main("compare other");
--    if (trace_event_get_state_backends(TRACE_COLO_COMPARE_IP_INFO)) {
--        char pri_ip_src[20], pri_ip_dst[20], sec_ip_src[20], sec_ip_dst[20];
--
--        strcpy(pri_ip_src, inet_ntoa(ppkt->ip->ip_src));
--        strcpy(pri_ip_dst, inet_ntoa(ppkt->ip->ip_dst));
--        strcpy(sec_ip_src, inet_ntoa(spkt->ip->ip_src));
--        strcpy(sec_ip_dst, inet_ntoa(spkt->ip->ip_dst));
--
--        trace_colo_compare_ip_info(ppkt->size, pri_ip_src,
--                                   pri_ip_dst, spkt->size,
--                                   sec_ip_src, sec_ip_dst);
--    }
--
-     if (ppkt->size != spkt->size) {
-         trace_colo_compare_main("Other: payload size of packets are different");
-         return -1;
+     { RUN_STATE_COLO, RUN_STATE_RUNNING },
++    { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+ 
+     { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
+     { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
 -- 
 1.8.3.1
 
