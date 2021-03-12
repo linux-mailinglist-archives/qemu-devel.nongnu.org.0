@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAA1339034
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:42:19 +0100 (CET)
-Received: from localhost ([::1]:32770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416DC33903D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:46:47 +0100 (CET)
+Received: from localhost ([::1]:43198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKiza-0006k3-4s
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:42:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
+	id 1lKj3u-0004CP-AQ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:46:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUi-0002hy-Gs
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:24 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:58326)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKiWk-00060p-Ub
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:12:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUg-0003wq-TA
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:24 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lKiWg-0005D1-Lp
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:12:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615558345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C5gxy7fH9Xgf2OfVqQnB5fvwF7VQSLrBMlHRFUsnjsI=;
+ b=BJDDnbGbQQS32X/7ATDyjtZoc3w1kucXPB8O+eVKTCwUiOqyedTwpGhz0+avFp12e4LkHD
+ oZuNhS0f1TOPHPs/dcwGrCGTjGUHXOqx42bdLfwCg2/YGZS/0ev0GeGLnWwPhG+zQzUicg
+ ZyVYrE3mo2rC8uBL2Cshop+YdSIl6Fc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-2MY1dohRM4-VGnZJoCtmeQ-1; Fri, 12 Mar 2021 09:10:18 -0500
-X-MC-Unique: 2MY1dohRM4-VGnZJoCtmeQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-40-K368lLcLMS2GTGc9dn4RMQ-1; Fri, 12 Mar 2021 09:12:23 -0500
+X-MC-Unique: K368lLcLMS2GTGc9dn4RMQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB07EC1A2;
- Fri, 12 Mar 2021 14:10:17 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B4AF5D6D7;
- Fri, 12 Mar 2021 14:10:15 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] virtiofsd: Convert some functions to return bool
-Date: Fri, 12 Mar 2021 15:10:02 +0100
-Message-Id: <20210312141003.819108-3-groug@kaod.org>
-In-Reply-To: <20210312141003.819108-1-groug@kaod.org>
-References: <20210312141003.819108-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33FA518460E3;
+ Fri, 12 Mar 2021 14:12:22 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7806190F0;
+ Fri, 12 Mar 2021 14:12:20 +0000 (UTC)
+Subject: Re: [PATCH] s390x/cpu_model: use official name for 8562
+To: Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20210311132746.1777754-1-cohuck@redhat.com>
+ <2dd31caa-0263-191d-f7ed-8471282403b2@de.ibm.com>
+ <20210312145516.6d7a9a63.cohuck@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <0990f757-1aaa-790b-641c-698aa9859657@redhat.com>
+Date: Fri, 12 Mar 2021 15:12:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210312145516.6d7a9a63.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,49 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both currently only return 0 or 1.
+On 12.03.21 14:55, Cornelia Huck wrote:
+> On Fri, 12 Mar 2021 14:48:17 +0100
+> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> 
+>> On 11.03.21 14:27, Cornelia Huck wrote:
+>>> The single-frame z15 is called "z15 T02".
+>>>
+>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>
+>> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>>> ---
+>>>    target/s390x/cpu_models.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+>>> index dd474c5e9ad1..b59ed4135615 100644
+>>> --- a/target/s390x/cpu_models.c
+>>> +++ b/target/s390x/cpu_models.c
+>>> @@ -87,7 +87,7 @@ static S390CPUDef s390_cpu_defs[] = {
+>>>        CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
+>>>        CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
+>>>        CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
+>>
+>> you could also change that formn "z15" to "z15 T01"
+>>> -    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
+>>> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
+>>>    };
+>>>    
+>>>    #define QEMU_MAX_CPU_TYPE 0x2964
+>>>    
+>>
+> 
+> I now have:
+> 
+> Author: Cornelia Huck <cohuck@redhat.com>
+> Date:   Thu Mar 11 14:27:46 2021 +0100
+> 
+>      s390x/cpu_model: use official name for 8562
+>      
+>      The single-frame z15 is called "z15 T02" (and the multi-frame z15
+>      "z15 T01").
+>      
+>      Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>      Reviewed-by: David Hildenbrand <david@redhat.com>
+>      Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>      Message-Id: <20210311132746.1777754-1-cohuck@redhat.com>
+> 
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index dd474c5e9ad1..050dcf2d42d2 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -86,8 +86,8 @@ static S390CPUDef s390_cpu_defs[] = {
+>       CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
+>       CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
+>       CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
+> -    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
+> -    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
+> +    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 T01 GA1"),
+> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
+>   };
+>   
+>   #define QEMU_MAX_CPU_TYPE 0x2964
+> 
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tools/virtiofsd/passthrough_ll.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+LGTM
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 27a6c636dcaf..f63016d35626 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -221,17 +221,17 @@ static struct lo_inode *lo_find(struct lo_data *lo, s=
-truct stat *st,
- static int xattr_map_client(const struct lo_data *lo, const char *client_n=
-ame,
-                             char **out_name);
-=20
--static int is_dot_or_dotdot(const char *name)
-+static bool is_dot_or_dotdot(const char *name)
- {
-     return name[0] =3D=3D '.' &&
-            (name[1] =3D=3D '\0' || (name[1] =3D=3D '.' && name[2] =3D=3D '=
-\0'));
- }
-=20
- /* Is `path` a single path component that is not "." or ".."? */
--static int is_safe_path_component(const char *path)
-+static bool is_safe_path_component(const char *path)
- {
-     if (strchr(path, '/')) {
--        return 0;
-+        return false;
-     }
-=20
-     return !is_dot_or_dotdot(path);
---=20
-2.26.2
+-- 
+Thanks,
+
+David / dhildenb
 
 
