@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77FC339762
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:27:17 +0100 (CET)
-Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFED833970D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:04:48 +0100 (CET)
+Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKnRM-0005zX-Sq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:27:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
+	id 1lKn5b-00077z-SG
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:04:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1lKl3W-0000xO-Mr
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:54:30 -0500
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:43018)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKlsq-0003vQ-6B
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:47:32 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:41781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1lKl3U-0002eL-PM
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:54:30 -0500
-Received: by mail-lf1-x134.google.com with SMTP id d3so46743379lfg.10
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=nhMqPgfJL5skTQ1f1DYuFP99P7jRowKYGS0QCo5fYT4=;
- b=gjH5V1n0JZa2mCip8ltjXEQL/9/ut4OtrImU8N0LgYKiYY3nhY+sVf8enUBov1Lw8B
- yEHrJMlq6e1QKcZ/0HhrQKE12C5/D/M4RAKaIKffQflDE2rwgFZ02Xr9SIa+GQJdt5Uy
- b/nYdZ8yMGjxMq3Nfx73oZ6hex66zQaXTF6soa8cA0Vga52kj1jdVN97VGPrUI/wf8Di
- r/guROGmoEm8LMfuN7o/3+4AkAlg6UfNuLcOMmQBsgOnT/0Da1qy08IntrqlXEmqgRYE
- vdaCsmTTPL+zsQMaMd9WWYKbl0ZeuG7r+Zdt8cM6CqsApD1sojRcInBEevnCXYyHa9lY
- oX/w==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lKlsm-00021V-2X
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:47:31 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id z1so9150385edb.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:47:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nQ3QZrGQHFcGMfVcKdDS/n9iBQ+MgSkkyAEPKyWfRow=;
+ b=y3D3+97dHWlW++4lrW/IxMZ9crCZzpaatP7RxH3OTbYyXGKRIuoVp1pBDq24DNSxUZ
+ ycopy12Mhff+Eu3+fPmbpehbUp7bNb+zN6fE+w6FcmTVVTbL11035vzT9Rm43L7y9Nhp
+ iJIhWYeYvCoGixsj6q+bZ7k9tgTQNhOxtsr4RzZWEA/3BdZ4YiUq7rKZLXwb1AXSifiM
+ kTE4yt/OcYcsXkwfiKmxj9ShYt2+FRR4OUIn9gspJ9qEI/fx8UfmW3l5loVE4cZq8pIP
+ +hAwPXJDdZOGWYUGAtm3mO93gfL5p3i4uGPhoJkl1zpf8PrVGp6SXGAQcfMPVqmvwHRp
+ Wqkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=nhMqPgfJL5skTQ1f1DYuFP99P7jRowKYGS0QCo5fYT4=;
- b=COV0AzfQoVNQFZJIhZMH3+h+bQyV+JpL6XruoHAcYRrCcEJ5QAsCRKJW+qQkpsHlcH
- Z9/7ixD9/z09vH7ezrYv32aF6RRsmUfZQbELqPNLHvEV4LTW456WQWbZK/UqjC1cDWi/
- 4F11vKE7Q4ozwGEdcujqJakTcuewZSZiWXQA49EW7Nv1C+6/8R1yeVaojkOu9zAZ1RRR
- XSLkTB1xqWQUVWBUUSu6BFh42IIP3JB3vGgUBGqLsA6HZ+CsK5eS7RM0xEliyPGjUlbG
- 74u2I3C1Bsv+VxNQ5AEbVPLhotf0wBtVzNN8b+jsWUCVwrtuxpcDaUUBFEsxXYwnFwa0
- 5hAQ==
-X-Gm-Message-State: AOAM533n0oIVzrMwhlw6SP3iTvWnKh2laKgBQm8GJn2eE3VwsfYw+NRj
- Q9is358Y5hNLNYhKnplokhCtDPqVI9d7fg==
-X-Google-Smtp-Source: ABdhPJxk+1cLDcumrnCGr6KEaf0mKajBTXphGEESeCUnrQ+nXLHott/+ah7jQh3CiZBZvmBP7hPFXg==
-X-Received: by 2002:a19:4116:: with SMTP id o22mr106745lfa.272.1615568066168; 
- Fri, 12 Mar 2021 08:54:26 -0800 (PST)
-Received: from localhost.localdomain ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id p16sm1785133lft.147.2021.03.12.08.54.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 08:54:25 -0800 (PST)
-From: Arkadiy <arkaisp2021@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/avr: Fix interrupt execution
-Date: Fri, 12 Mar 2021 19:47:54 +0300
-Message-Id: <20210312164754.18437-1-arkaisp2021@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nQ3QZrGQHFcGMfVcKdDS/n9iBQ+MgSkkyAEPKyWfRow=;
+ b=eeiILdCuGZXeHoxP91TwlaQ1EXb+mJytCZMGAxD9Db/qZ5/0uGQycC7IecB/P+WPs0
+ KBCaeH0k+XhojamVOvJx3oGenBEy4Lv4S/50kfGNuyvdo+9rNKNuvdB7lrt/SgrU4XtS
+ ww1kj9pOMyY55Ulig0l60nVGq52qTj/YTpV/OgbhsOGahcYkIfErL+LS82Dsjwq3O4GB
+ cu6UWNMlZMSR0jc8ugOxB1eXCrzodIGEl+j03A7MpNZQeDQmfJDK5piLJXu6OIitlTbj
+ GVMATURUSri0ungP5+SSzLtxUK8Zl7mnXe5uQoxLHY3uq/RvWGRp8frLd31H9GfS+jIL
+ vBlQ==
+X-Gm-Message-State: AOAM533mzO8VQ17LMYHGRcaFeHOc/wvm4wAvLL0yTKxfVyfRxpBpNHfw
+ U46zA2ZLysiQYkpy/decXG8WGDvAXdyUn2xNaqVYbw==
+X-Google-Smtp-Source: ABdhPJwI3avZFc0Bcj+oVdSccxTbX4S7N58JCyvS6JEvYeUCOB+Wfj6jr7z+qgW4MdgyKe1n6OJgs2SelSNKrr4HHi0=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr3954503edb.204.1615571243967; 
+ Fri, 12 Mar 2021 09:47:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20210311123401.340122-1-kraxel@redhat.com>
+In-Reply-To: <20210311123401.340122-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Mar 2021 17:47:05 +0000
+Message-ID: <CAFEAcA92efSt4wv7ToEXb5VZ-DcS7SqHoNPxXp9-_NZ8kj5hRw@mail.gmail.com>
+Subject: Re: [PULL 0/8] Ui 20210311 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 12 Mar 2021 13:58:14 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,37 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: NDNF <arkaisp2021@gmail.com>, S.E.Harris@kent.ac.uk,
- Arkasha <ivanovrkasha@gmail.com>, mrolnik@gmail.com, f4bug@amsat.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: NDNF <arkaisp2021@gmail.com>
+On Thu, 11 Mar 2021 at 12:34, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 821e7ed167f11f482d2d1a8eaf114a667295a581:
+>
+>   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-0=
+> 3-09' into staging (2021-03-10 17:22:45 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/ui-20210311-pull-request
+>
+> for you to fetch changes up to d1929069e355afb809a50a7f6b6affdea399cc8c:
+>
+>   ui/cocoa: Fix mouse association state (2021-03-11 13:33:20 +0100)
+>
+> ----------------------------------------------------------------
+> ui: mostly cocoa fixes
+>
+> ----------------------------------------------------------------
+>
 
-Only one interrupt is in progress at the moment.It is necessary to set to
-reset interrupt_request only after all interrupts have been executed
 
-Signed-off-by: Arkasha <ivanovrkasha@gmail.com>
----
- target/avr/helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index 65880b9928..9f20cc198e 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -49,7 +49,9 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             cc->tcg_ops->do_interrupt(cs);
- 
-             env->intsrc &= env->intsrc - 1; /* clear the interrupt */
--            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+            if (!env->intsrc) {
-+                cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+            }
- 
-             ret = true;
-         }
--- 
-2.17.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
