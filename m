@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DCB3395D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:08:48 +0100 (CET)
-Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64827339621
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:19:57 +0100 (CET)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmDP-0002Hb-7k
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:08:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58260)
+	id 1lKmOC-0007GX-A6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:19:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWJ-0007Yv-Io
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34745)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWL-0007db-Q4
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWG-0000hR-RQ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:15 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWI-0000hd-LT
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615569852;
+ s=mimecast20190719; t=1615569853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uuIO2eGdt8JVyaXO9PJS3Ksym7cL+qi7MdjQn9vGnDk=;
- b=h8Am7k0UIyo11L/DMvldRZkkf7fAXcBMayjlddwKO7A/d0vQjSEb6uEIW76FDtEb/4F6uw
- ncCq03NQwuP1mEsWT/RgJb+sqfb1h60femzRvDIHIFmouODrjA/ctsvGEkJsZ5S59E0DtF
- 9iuXB/n4/f3/+jB7IrpF4/2ysbcqtKI=
+ bh=PvcW1ai/Mc/z4nsjUH9/J6ybTbghIn0A68e75ujdf2g=;
+ b=hwp8TSiCSSOJx3cSOuFELbU6zQWUyu0zkK7Mq+DwTpSXCYuthxJpu1aeIegJb2aJ7TJMKY
+ 1fbwXnDxSlTRpVJFaQidIb08aPNM7WVRin6uXSxxhu2KQaqP7VYpQCjmV3RqsNdCGKhx6V
+ OfM1sHOSls4lo0roCFGq/EyjL+bJGDE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-o5nBp8IYM9OSg762wz38SA-1; Fri, 12 Mar 2021 12:24:09 -0500
-X-MC-Unique: o5nBp8IYM9OSg762wz38SA-1
+ us-mta-280-aTmk42IQN1ui9hQRjCpitg-1; Fri, 12 Mar 2021 12:24:11 -0500
+X-MC-Unique: aTmk42IQN1ui9hQRjCpitg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A08F4800D62;
- Fri, 12 Mar 2021 17:24:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AF06100C663;
+ Fri, 12 Mar 2021 17:24:10 +0000 (UTC)
 Received: from thuth.com (ovpn-112-83.ams2.redhat.com [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 942BF19744;
- Fri, 12 Mar 2021 17:24:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0982D19704;
+ Fri, 12 Mar 2021 17:24:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/9] gitlab-ci.yml: Merge check-crypto-old jobs into the
- build-crypto-old jobs
-Date: Fri, 12 Mar 2021 18:23:53 +0100
-Message-Id: <20210312172356.968219-7-thuth@redhat.com>
+Subject: [PULL 7/9] tests: remove "make check-speed" in favor of "make bench"
+Date: Fri, 12 Mar 2021 18:23:54 +0100
+Message-Id: <20210312172356.968219-8-thuth@redhat.com>
 In-Reply-To: <20210312172356.968219-1-thuth@redhat.com>
 References: <20210312172356.968219-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,102 +81,53 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both, the build-crypto-old and the check-crypto-old jobs finish reasonably
-fast, and the build artifacts are only used for the single corresponding
-check jobs, so there is no reason for doing the check step in a separate
-job here. Thus let's stop wasting artifacts space and job scheduler over-
-head by simply merging the test step into the build jobs.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Message-Id: <20210311142211.1547864-5-thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+"make check-speed" has been broken since the removal of ninja2make
+last October.  It was just a backwards-compatibility alias for
+"make bench-speed", which in turn is in principle a subset of
+"make bench".  Advertise the latter and drop "make check-speed"
+completely since no one has noticed.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210310164612.285362-1-pbonzini@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 45 ++++-----------------------------------------
- 1 file changed, 4 insertions(+), 41 deletions(-)
+ tests/Makefile.include | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 45303cafdd..0ada3dbb90 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -585,7 +585,7 @@ build-coroutine-sigaltstack:
- #
- # These jobs test old gcrypt and nettle from RHEL7
- # which had some API differences.
--build-crypto-old-nettle:
-+crypto-old-nettle:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -593,22 +593,9 @@ build-crypto-old-nettle:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
--
--check-crypto-old-nettle:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-old-nettle
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 799e47169c..8f220e15d1 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -3,13 +3,13 @@
+ .PHONY: check-help
+ check-help:
+ 	@echo "Regression testing targets:"
+-	@echo
+ 	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
++	@echo " $(MAKE) bench                Run speed tests"
+ 	@echo
++	@echo "Individual test suites:"
+ 	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
+ 	@echo " $(MAKE) check-qtest          Run qtest tests"
+ 	@echo " $(MAKE) check-unit           Run qobject tests"
+-	@echo " $(MAKE) check-speed          Run qobject speed tests"
+ 	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
+ 	@echo " $(MAKE) check-block          Run block tests"
+ ifneq ($(filter $(all-check-targets), check-softfloat),)
+@@ -155,8 +155,4 @@ check-clean:
  
--
--build-crypto-old-gcrypt:
-+crypto-old-gcrypt:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -616,22 +603,9 @@ build-crypto-old-gcrypt:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
--
--check-crypto-old-gcrypt:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-old-gcrypt
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
+ clean: check-clean
  
+-# For backwards compatibility
 -
--build-crypto-only-gnutls:
-+crypto-only-gnutls:
-   <<: *native_build_job_definition
-   needs:
-     job: amd64-centos7-container
-@@ -639,20 +613,9 @@ build-crypto-only-gnutls:
-     IMAGE: centos7
-     TARGETS: x86_64-softmmu x86_64-linux-user
-     CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
--    MAKE_CHECK_ARGS: check-build
--  artifacts:
--    paths:
--      - build
+-check-speed: bench-speed
 -
--check-crypto-only-gnutls:
--  <<: *native_test_job_definition
--  needs:
--    - job: build-crypto-only-gnutls
--      artifacts: true
--  variables:
--    IMAGE: centos7
-     MAKE_CHECK_ARGS: check
- 
-+
- # We don't need to exercise every backend with every front-end
- build-trace-multi-user:
-   <<: *native_build_job_definition
+ endif
 -- 
 2.27.0
 
