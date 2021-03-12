@@ -2,102 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467A9338F23
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:50:57 +0100 (CET)
-Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBF2338F27
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:52:28 +0100 (CET)
+Received: from localhost ([::1]:42698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKiBr-0000aC-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:50:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
+	id 1lKiDL-0001VZ-TS
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:52:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lKi9X-0008Kt-2G; Fri, 12 Mar 2021 08:48:31 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lKi9V-0008RO-0J; Fri, 12 Mar 2021 08:48:30 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12CDXArE033830; Fri, 12 Mar 2021 08:48:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=MBUoVoguLFxckl4sA3H/XgucSP1bdkqs8CrLOdggb2E=;
- b=F8Mavoy09es0V9ragMAo8dnOb3f4frRA0s5KmZulcu9NEnvQeVzDgYtmNqyqDEa8kHih
- 0J3H7e68+aoWEbijaaHrNAF+he/9dbUlBvCi0+4uSSaG/lJuxKHT7XeirrAl2TjGBbfK
- wTDupJ7cY/nNUOakHVdePIwUPOGCFwWTS8Yj1/SyoNwQwqs7Q2nfCx61vxGl+eInHboD
- 0I0Tel7oOBCgYGsi0hMcCbVRaByF3B3+aI3I8A5BLrWGO71AYmy0u/vsO6n2vrBmqrbX
- b7kSi07NhVpeaMIIiHJSQddkQ/1xN1xXY2UNMJ+qK5QSLVODyPYxepUSeQ7X2DqMdsoZ hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3774mfg3j6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Mar 2021 08:48:24 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12CDYqOG042296;
- Fri, 12 Mar 2021 08:48:23 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3774mfg3h7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Mar 2021 08:48:23 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12CDm7wf029427;
- Fri, 12 Mar 2021 13:48:20 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma05fra.de.ibm.com with ESMTP id 3768va1j6r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Mar 2021 13:48:20 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12CDmI9i45416754
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Mar 2021 13:48:18 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86128A404D;
- Fri, 12 Mar 2021 13:48:18 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A18A9A4051;
- Fri, 12 Mar 2021 13:48:17 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.8.27])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 12 Mar 2021 13:48:17 +0000 (GMT)
-Subject: Re: [PATCH] s390x/cpu_model: use official name for 8562
-To: Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
-References: <20210311132746.1777754-1-cohuck@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <2dd31caa-0263-191d-f7ed-8471282403b2@de.ibm.com>
-Date: Fri, 12 Mar 2021 14:48:17 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKiAR-0000KZ-FZ
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:49:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKiAO-0000TK-Iy
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:49:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615556963;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zL6CegdiYeoe+1TCwRhpefstyzcKUHltE+o1NHslSOg=;
+ b=FMw8u+Jn++zCXw6IeF8fKpyLjlOH4XfZ0AgTlbRrvQQrtgSU79JWISgsk+l0RmskNAQIw7
+ kTuxkpzRBoctoFMFwChy62ZJ3HI3EKK0cHkKPZaCGg+8huZZ4IVMtThWo7c8hN0Sc5kOTg
+ dBZBnDw+dJlXXCBcN36y8m81iTRVuWw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-NWRfqCLuNB-IrEBaA3SYHA-1; Fri, 12 Mar 2021 08:49:19 -0500
+X-MC-Unique: NWRfqCLuNB-IrEBaA3SYHA-1
+Received: by mail-wr1-f72.google.com with SMTP id r12so11197239wro.15
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:49:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zL6CegdiYeoe+1TCwRhpefstyzcKUHltE+o1NHslSOg=;
+ b=NkqA99htnsV/dEng7RsGaEy+IsuNLCwWtYM5L4dOCZiiY0MsmoBVDFEXGTbtmfTE+0
+ VIU0vYAMruVNvdTAoC4rvJ9z2NvwL2p1iKGPhNpp1gEu1iYUFABONvlj/kBw5jGQTCuM
+ G23/9ECGQg+DlekjFqwtz6ZMiKHtwWqZ3CcdXLnsUptY1UB0WjdG9Y3cRW8EkKg7YCjE
+ n3ta0pdt/OCQTZe/KXk9WbovJCTZPIzlZWQlFTran/CvRkGh+KYaiQD3U0m92eeEsOEv
+ GTG412Zmz/zLuodZpQLqAPKK7M2VeHaWUsrhAitrweUTCj5PRYXHFGFyotvH5A0oHcWt
+ idtg==
+X-Gm-Message-State: AOAM532pPrDfwqS5TK3PYU7ZuWoLOICW4BqnVqjyCzayzudVlPsKO6YR
+ 6zkbZkM2G+NO4S/sZsIdJ/xZWmS7m4gDhb8VAyMqXrFwaaWakBsoFuz+S7+kTv0MHaj8JjB85hJ
+ HxiYk9hki1hkUzCM=
+X-Received: by 2002:adf:d0c9:: with SMTP id z9mr14547747wrh.396.1615556958385; 
+ Fri, 12 Mar 2021 05:49:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxvgmVJbOpBUcLP0IVDaZFOfip/FH0CKMpeL6UBhd00dykFcsGap5sFRJXyPddnuCf7E/n1PQ==
+X-Received: by 2002:adf:d0c9:: with SMTP id z9mr14547728wrh.396.1615556958223; 
+ Fri, 12 Mar 2021 05:49:18 -0800 (PST)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id k4sm10266411wrd.9.2021.03.12.05.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 05:49:17 -0800 (PST)
+Subject: Re: [PATCH] Add missing initialization for g_autofree variables
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+References: <20210312120309.138913-1-mrezanin@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a93e4e14-bc86-ef7f-26dd-83d3a0754732@redhat.com>
+Date: Fri, 12 Mar 2021 14:49:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311132746.1777754-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210312120309.138913-1-mrezanin@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-12_03:2021-03-10,
- 2021-03-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- clxscore=1011 malwarescore=0 phishscore=0 adultscore=0 mlxscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103120096
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,36 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Zenghui Yu <yuzenghui@huawei.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11.03.21 14:27, Cornelia Huck wrote:
-> The single-frame z15 is called "z15 T02".
+On 3/12/21 1:03 PM, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> When declaring g_autofree variable without inicialization, compiler
+> will raise "may be used uninitialized in this function" warning due
+> to automatic free handling. This usage can cause gfree using unknown.
+> Such behavior can be dangerous and exploitable.
 
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Will we be able to catch that earlier when building using
+the Fedora/rawhide Docker image?
+
+> 
+> Add inicialization to NULL for these declaration to ensure uninitialized
+> value is not used.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 > ---
->   target/s390x/cpu_models.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/remote/memory.c       | 2 +-
+>  hw/remote/proxy.c        | 2 +-
+>  hw/s390x/s390-pci-vfio.c | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-> index dd474c5e9ad1..b59ed4135615 100644
-> --- a/target/s390x/cpu_models.c
-> +++ b/target/s390x/cpu_models.c
-> @@ -87,7 +87,7 @@ static S390CPUDef s390_cpu_defs[] = {
->       CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
->       CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
->       CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
+> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> index 32085b1e05..bf0047a81b 100644
+> --- a/hw/remote/memory.c
+> +++ b/hw/remote/memory.c
+> @@ -43,7 +43,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+>      remote_sysmem_reset();
+>  
+>      for (region = 0; region < msg->num_fds; region++) {
+> -        g_autofree char *name;
+> +        g_autofree char *name = NULL;
+>          subregion = g_new(MemoryRegion, 1);
+>          name = g_strdup_printf("remote-mem-%u", suffix++);
 
-you could also change that formn "z15" to "z15 T01"
-> -    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
-> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
->   };
->   
->   #define QEMU_MAX_CPU_TYPE 0x2964
-> 
+There is a reviewed patch for this one:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg787631.html
+
 
