@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE64338560
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:32:02 +0100 (CET)
-Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E87A33856D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:33:39 +0100 (CET)
+Received: from localhost ([::1]:54750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKaP3-0004dI-87
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:32:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51670)
+	id 1lKaQc-0006Qb-8q
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:33:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIj-0005CP-Nd
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:29 -0500
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIs-0005XX-AJ
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:38 -0500
 Received: from mga05.intel.com ([192.55.52.43]:4921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIh-0006dL-RT
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:29 -0500
-IronPort-SDR: rqR79SDcJmE+Zm6bjXDPdB3iOXehRGRswiGVEq2g4JmCmdgVSzSpB+MDqsu70IgZ+xBoXv442M
- sqUMzcblTJBA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826919"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826919"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaIq-0006dL-FE
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:25:38 -0500
+IronPort-SDR: ywDsrLWSWbEa2NPGHKkOLO1SHhjKr/k+yyllScBqKYCrPGhddBLhsW1mlfNYM18pgfrH6rVi4f
+ L00G03aXyNSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="273826929"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="273826929"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 21:25:27 -0800
-IronPort-SDR: XzuwBC1/mM0x90oJmRdWYRWSjWKB5uDzfep++Rr+aCHlHgjZfYyk/EnwDmZCYlCYvTKSqKoMtd
- VCRKLkshroZw==
+ 11 Mar 2021 21:25:35 -0800
+IronPort-SDR: HRd8QW2IqSvwy/R9fyuquOlY7avoBeRnDWTS6zaGL29dCRxZcr9F1LGpICsf78SHGKckiryfmj
+ 0nGC8QSmrenA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481936"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481955"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:23 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:32 -0800
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v2 05/10] Optimize the function of packet_new
-Date: Fri, 12 Mar 2021 13:02:58 +0800
-Message-Id: <1615525383-59071-6-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v2 07/10] Reset the auto-converge counter at every checkpoint.
+Date: Fri, 12 Mar 2021 13:03:00 +0800
+Message-Id: <1615525383-59071-8-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
 References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
@@ -66,85 +66,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-if we put the data copy outside the packet_new(), then for the
-filter-rewrite module, there will be one less memory copy in the
-processing of each network packet.
+if we don't reset the auto-converge counter,
+it will continue to run with COLO running,
+and eventually the system will hang due to the
+CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- net/colo-compare.c    | 7 +++++--
- net/colo.c            | 4 ++--
- net/colo.h            | 2 +-
- net/filter-rewriter.c | 1 -
- 4 files changed, 8 insertions(+), 6 deletions(-)
+ migration/colo.c |  4 ++++
+ migration/ram.c  | 10 ++++++++++
+ migration/ram.h  |  1 +
+ 3 files changed, 15 insertions(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 9e18baa..8bdf5a8 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -247,14 +247,17 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     ConnectionKey key;
-     Packet *pkt = NULL;
-     Connection *conn;
-+    char *data = NULL;
-     int ret;
- 
-     if (mode == PRIMARY_IN) {
--        pkt = packet_new(s->pri_rs.buf,
-+        data = g_memdup(s->pri_rs.buf, s->pri_rs.packet_len);
-+        pkt = packet_new(data,
-                          s->pri_rs.packet_len,
-                          s->pri_rs.vnet_hdr_len);
-     } else {
--        pkt = packet_new(s->sec_rs.buf,
-+        data = g_memdup(s->sec_rs.buf, s->sec_rs.packet_len);
-+        pkt = packet_new(data,
-                          s->sec_rs.packet_len,
-                          s->sec_rs.vnet_hdr_len);
+diff --git a/migration/colo.c b/migration/colo.c
+index 1aaf316..723ffb8 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     if (ret < 0) {
+         goto out;
      }
-diff --git a/net/colo.c b/net/colo.c
-index ef00609..08fb37e 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -155,11 +155,11 @@ void connection_destroy(void *opaque)
-     g_slice_free(Connection, conn);
++
++    if (migrate_auto_converge()) {
++        mig_throttle_counter_reset();
++    }
+     /*
+      * Only save VM's live state, which not including device state.
+      * TODO: We may need a timeout mechanism to prevent COLO process
+diff --git a/migration/ram.c b/migration/ram.c
+index 72143da..e795a8d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -652,6 +652,16 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+     }
  }
  
--Packet *packet_new(const void *data, int size, int vnet_hdr_len)
-+Packet *packet_new(void *data, int size, int vnet_hdr_len)
- {
-     Packet *pkt = g_slice_new(Packet);
++void mig_throttle_counter_reset(void)
++{
++    RAMState *rs = ram_state;
++
++    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    rs->num_dirty_pages_period = 0;
++    rs->bytes_xfer_prev = ram_counters.transferred;
++    cpu_throttle_stop();
++}
++
+ /**
+  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
+  *
+diff --git a/migration/ram.h b/migration/ram.h
+index 6378bb3..3f78175 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+ int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
++void mig_throttle_counter_reset(void);
  
--    pkt->data = g_memdup(data, size);
-+    pkt->data = data;
-     pkt->size = size;
-     pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     pkt->vnet_hdr_len = vnet_hdr_len;
-diff --git a/net/colo.h b/net/colo.h
-index 573ab91..bd2d719 100644
---- a/net/colo.h
-+++ b/net/colo.h
-@@ -100,7 +100,7 @@ Connection *connection_get(GHashTable *connection_track_table,
- bool connection_has_tracked(GHashTable *connection_track_table,
-                             ConnectionKey *key);
- void connection_hashtable_reset(GHashTable *connection_track_table);
--Packet *packet_new(const void *data, int size, int vnet_hdr_len);
-+Packet *packet_new(void *data, int size, int vnet_hdr_len);
- void packet_destroy(void *opaque, void *user_data);
- void packet_destroy_partial(void *opaque, void *user_data);
- 
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index 10fe393..599f0c3 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -271,7 +271,6 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
-     }
- 
-     pkt = packet_new(buf, size, vnet_hdr_len);
--    g_free(buf);
- 
-     /*
-      * if we get tcp packet
+ uint64_t ram_pagesize_summary(void);
+ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
 -- 
 1.8.3.1
 
