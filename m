@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F02E338FA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:18:19 +0100 (CET)
-Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC51338FB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:21:41 +0100 (CET)
+Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKicM-0003v6-1R
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:18:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
+	id 1lKifc-0007kC-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:21:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiDE-00034m-Lq
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:21 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:42848)
+ id 1lKiDH-00035R-5z
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:23 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiCz-00022E-3b
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:20 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- b2-20020a7bc2420000b029010be1081172so15231206wmj.1
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:52:04 -0800 (PST)
+ id 1lKiCz-00023j-O6
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:22 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id v15so4855410wrx.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:52:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=94AIdONaJ8Aeyrc61sf1NamnLldX1HANeff/tomcr3M=;
- b=PsVQoisS6rDia3IkII+OrcphTUxkM/MR+iU+lBCj7cpzMGBrS46bm8Wxp+r5lrvvwf
- aIdj9xvV0NYU5A76GbFtVPPZkHVykhIFZ+O5UvJv8cteK64E63UaoOJg09ZR/bxK6lMJ
- 52Y99doW/dLen0P8W9856s/X9RbWTd/h5gH/izEBQWQuUVynLOpzesmYgmh/7Y9K1JkJ
- a792R+qNSi2EN5HVMlVjiVTcCzS0uyoFKQlkXCRDwoCUuEkdr8lI/CC++LXATfKbVF9a
- /ZG0toLvy6EqjkUZqasL2PWcsCVDEge12BSG7N90wezF0xgo02kB4LS6EaAj2MsiFqc2
- YMGQ==
+ bh=t2MJ2MOlhaSaGMke11ZrdYhAijhTK3ZryyA5oGf00LM=;
+ b=wdbnFFHzOaJcxfUobMS5VXsLX/StPpJYDiB8xfJN5wp1s8q1UlgAcaVwfC95o9mteA
+ OQT5+fiN2s4rhem6j5mpw9cW5iemWZrl5h9oHynQDH3uH6BW+x4SJJPHegzN3rrGiVlp
+ c8/QuIUG4xtXFmdq62hS16ao/hnnU0fq8s98riDZ/NyKjaZGOJ8bLkBeIMdCvPCwgrnO
+ exjFA0IajKechBr2IUtkdwYxVepWkWf0tF8MaYXZbTubOenQXaT/GLoEvKnN0JIiHPNI
+ 0e4MxjgRQ2+T3KTyR3TYh8NJCCQDWZJiap9/MRR4SxNM5e1Y5nz0p+WPA/TnXT4R0wFF
+ pspw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=94AIdONaJ8Aeyrc61sf1NamnLldX1HANeff/tomcr3M=;
- b=AZEwXnxky8aEV5Tc7uNxibCRBupTUvXRMaiFk46c/AaGqNh7RtpmR5aHq8xd0RY9jk
- hweAHtjeBMXydt4kemdD+qCskrBUcWmnh4tZQbGjxQxydjNwVdJl23dhFm3Ms2lxwhTM
- fqSL+tWfQxp/7awhTSPCJ7GQGE4Y+CaiYQp3KbrGRi6Ut0wrHxD0DPb0NQUFLZlXa2a2
- P97FqMQyfMIFmTH32F7bdVf4ctPgo+HCn5Ox0+p+5t/HVvf7Q5M5p1dkT5DOMu2sbHTf
- 5Oixi7m50X5vdMa5GMTMX1O18+noy37dhuz2pOiX16UfhHQPEm2MeGq570qJrSl54K2W
- M6rw==
-X-Gm-Message-State: AOAM533pXZut0L6hxcXCgaH1nqI52Bz6r92TWXB1HsCjZwoDMXsvYgEP
- RWF8LKF7kyZlBMm7+GSCqQl14lqCxG/HQ1rn
-X-Google-Smtp-Source: ABdhPJwNK0gYdBjJgx3F6wOTvlUmx36y+dQQQmBqF1LmI1Zh0QzMrFVJFcjPBcK2Haiwl5yF+ZQBRw==
-X-Received: by 2002:a05:600c:35cd:: with SMTP id
- r13mr13346881wmq.186.1615557123712; 
- Fri, 12 Mar 2021 05:52:03 -0800 (PST)
+ bh=t2MJ2MOlhaSaGMke11ZrdYhAijhTK3ZryyA5oGf00LM=;
+ b=jysJH3qLNlf+y8TipWe8JxRql498a4IE/pyT5y48zcvVHIawQzZ27TWCox/l+FwRrd
+ ++QKs2qSvdyKMjEuSD7GUQtU53jzZGUeuwYGjJjcSjLFXM8At5QgOCWCkh0JgXVblMZe
+ wU/dKuaBKnTc1bAN4wr/5KZHgrORyOBVw9TySTEALZQ4JUQ/MmdMuS1H6AI9k5EFsh0A
+ tPhORfm0TJZFvYpxPhU5sdZYITLEIVJjyzN/t928Vz7zEH6FCEG7nz/5oj+Ugam09Y3d
+ lz88msBpbtTCBnRFg/tpGjPQW0KgKKtQSZemATQa1oPdjy4ltfWZhLJRwwFZCXri4kLS
+ NqSg==
+X-Gm-Message-State: AOAM530NpsH3YLCHhUJOBTAlBfffh4WPQU9YMux5bUjPQ+/+BwIvRHp6
+ q/VoTDN26+mY5DjkWaAH/e1lM0taxrcVukkt
+X-Google-Smtp-Source: ABdhPJxkwc2gtkJOzenLLaaVKIY3WsdSwTz9gJBzVZ9pInTPFuRwz1XkeRtsK5iLhEsfj3y0qy5Xlg==
+X-Received: by 2002:a5d:6147:: with SMTP id y7mr14092032wrt.306.1615557124348; 
+ Fri, 12 Mar 2021 05:52:04 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.52.02
+ by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.52.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 05:52:03 -0800 (PST)
+ Fri, 12 Mar 2021 05:52:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/39] tests/qtest: Test PWM fan RPM using MFT in PWM test
-Date: Fri, 12 Mar 2021 13:51:31 +0000
-Message-Id: <20210312135140.1099-31-peter.maydell@linaro.org>
+Subject: [PULL 31/39] hw/display/pl110: Remove dead code for non-32-bpp
+ surfaces
+Date: Fri, 12 Mar 2021 13:51:32 +0000
+Message-Id: <20210312135140.1099-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312135140.1099-1-peter.maydell@linaro.org>
 References: <20210312135140.1099-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,323 +87,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hao Wu <wuhaotsh@google.com>
+For a long time now the UI layer has guaranteed that the console
+surface is always 32 bits per pixel. Remove the legacy dead
+code from the pl110 display device which was handling the
+possibility that the console surface was some other format.
 
-This patch adds testing of PWM fan RPMs in the existing npcm7xx pwm
-test. It tests whether the MFT module can measure correct fan values
-for a PWM fan in NPCM7XX boards.
-
-Reviewed-by: Doug Evans <dje@google.com>
-Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210311180855.149764-6-wuhaotsh@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20210211141515.8755-2-peter.maydell@linaro.org
 ---
- tests/qtest/npcm7xx_pwm-test.c | 205 ++++++++++++++++++++++++++++++++-
- 1 file changed, 199 insertions(+), 6 deletions(-)
+ hw/display/pl110.c | 53 +++++++---------------------------------------
+ 1 file changed, 8 insertions(+), 45 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
-index 3d82654b81a..72317f4c812 100644
---- a/tests/qtest/npcm7xx_pwm-test.c
-+++ b/tests/qtest/npcm7xx_pwm-test.c
-@@ -45,6 +45,7 @@
- #define PLL_FBDV(rv)    extract32((rv), 16, 12)
- #define PLL_OTDV1(rv)   extract32((rv), 8, 3)
- #define PLL_OTDV2(rv)   extract32((rv), 13, 3)
-+#define APB4CKDIV(rv)   extract32((rv), 30, 2)
- #define APB3CKDIV(rv)   extract32((rv), 28, 2)
- #define CLK2CKDIV(rv)   extract32((rv), 0, 1)
- #define CLK4CKDIV(rv)   extract32((rv), 26, 2)
-@@ -52,6 +53,49 @@
+diff --git a/hw/display/pl110.c b/hw/display/pl110.c
+index 02b0d45f062..a0d4126ce7f 100644
+--- a/hw/display/pl110.c
++++ b/hw/display/pl110.c
+@@ -123,14 +123,6 @@ static const unsigned char *idregs[] = {
+     pl111_id
+ };
  
- #define MAX_DUTY        1000000
+-#define BITS 8
+-#include "pl110_template.h"
+-#define BITS 15
+-#include "pl110_template.h"
+-#define BITS 16
+-#include "pl110_template.h"
+-#define BITS 24
+-#include "pl110_template.h"
+ #define BITS 32
+ #include "pl110_template.h"
  
-+/* MFT (PWM fan) related */
-+#define MFT_BA(n)       (0xf0180000 + ((n) * 0x1000))
-+#define MFT_IRQ(n)      (96 + (n))
-+#define MFT_CNT1        0x00
-+#define MFT_CRA         0x02
-+#define MFT_CRB         0x04
-+#define MFT_CNT2        0x06
-+#define MFT_PRSC        0x08
-+#define MFT_CKC         0x0a
-+#define MFT_MCTRL       0x0c
-+#define MFT_ICTRL       0x0e
-+#define MFT_ICLR        0x10
-+#define MFT_IEN         0x12
-+#define MFT_CPA         0x14
-+#define MFT_CPB         0x16
-+#define MFT_CPCFG       0x18
-+#define MFT_INASEL      0x1a
-+#define MFT_INBSEL      0x1c
-+
-+#define MFT_MCTRL_ALL   0x64
-+#define MFT_ICLR_ALL    0x3f
-+#define MFT_IEN_ALL     0x3f
-+#define MFT_CPCFG_EQ_MODE 0x44
-+
-+#define MFT_CKC_C2CSEL  BIT(3)
-+#define MFT_CKC_C1CSEL  BIT(0)
-+
-+#define MFT_ICTRL_TFPND BIT(5)
-+#define MFT_ICTRL_TEPND BIT(4)
-+#define MFT_ICTRL_TDPND BIT(3)
-+#define MFT_ICTRL_TCPND BIT(2)
-+#define MFT_ICTRL_TBPND BIT(1)
-+#define MFT_ICTRL_TAPND BIT(0)
-+
-+#define MFT_MAX_CNT     0xffff
-+#define MFT_TIMEOUT     0x5000
-+
-+#define DEFAULT_RPM     19800
-+#define DEFAULT_PRSC    255
-+#define MFT_PULSE_PER_REVOLUTION 2
-+
-+#define MAX_ERROR       1
-+
- typedef struct PWMModule {
-     int irq;
-     uint64_t base_addr;
-@@ -210,19 +254,36 @@ static uint64_t pwm_get_duty(QTestState *qts, int module_index, int pwm_index)
-     return pwm_qom_get(qts, path, name);
- }
+@@ -144,9 +136,7 @@ static void pl110_update_display(void *opaque)
+     PL110State *s = (PL110State *)opaque;
+     SysBusDevice *sbd;
+     DisplaySurface *surface = qemu_console_surface(s->con);
+-    drawfn* fntable;
+     drawfn fn;
+-    int dest_width;
+     int src_width;
+     int bpp_offset;
+     int first;
+@@ -158,33 +148,6 @@ static void pl110_update_display(void *opaque)
  
-+static void mft_qom_set(QTestState *qts, int index, const char *name,
-+                        uint32_t value)
-+{
-+    QDict *response;
-+    char *path = g_strdup_printf("/machine/soc/mft[%d]", index);
-+
-+    g_test_message("Setting properties %s of mft[%d] with value %u",
-+                   name, index, value);
-+    response = qtest_qmp(qts, "{ 'execute': 'qom-set',"
-+            " 'arguments': { 'path': %s, "
-+            " 'property': %s, 'value': %u}}",
-+            path, name, value);
-+    /* The qom set message returns successfully. */
-+    g_assert_true(qdict_haskey(response, "return"));
-+}
-+
- static uint32_t get_pll(uint32_t con)
- {
-     return REF_HZ * PLL_FBDV(con) / (PLL_INDV(con) * PLL_OTDV1(con)
-             * PLL_OTDV2(con));
- }
+     sbd = SYS_BUS_DEVICE(s);
  
--static uint64_t read_pclk(QTestState *qts)
-+static uint64_t read_pclk(QTestState *qts, bool mft)
- {
-     uint64_t freq = REF_HZ;
-     uint32_t clksel = qtest_readl(qts, CLK_BA + CLKSEL);
-     uint32_t pllcon;
-     uint32_t clkdiv1 = qtest_readl(qts, CLK_BA + CLKDIV1);
-     uint32_t clkdiv2 = qtest_readl(qts, CLK_BA + CLKDIV2);
-+    uint32_t apbdiv = mft ? APB4CKDIV(clkdiv2) : APB3CKDIV(clkdiv2);
- 
-     switch (CPUCKSEL(clksel)) {
-     case 0:
-@@ -241,7 +302,7 @@ static uint64_t read_pclk(QTestState *qts)
-         g_assert_not_reached();
+-    switch (surface_bits_per_pixel(surface)) {
+-    case 0:
+-        return;
+-    case 8:
+-        fntable = pl110_draw_fn_8;
+-        dest_width = 1;
+-        break;
+-    case 15:
+-        fntable = pl110_draw_fn_15;
+-        dest_width = 2;
+-        break;
+-    case 16:
+-        fntable = pl110_draw_fn_16;
+-        dest_width = 2;
+-        break;
+-    case 24:
+-        fntable = pl110_draw_fn_24;
+-        dest_width = 3;
+-        break;
+-    case 32:
+-        fntable = pl110_draw_fn_32;
+-        dest_width = 4;
+-        break;
+-    default:
+-        fprintf(stderr, "pl110: Bad color depth\n");
+-        exit(1);
+-    }
+     if (s->cr & PL110_CR_BGR)
+         bpp_offset = 0;
+     else
+@@ -218,12 +181,13 @@ static void pl110_update_display(void *opaque)
+         }
      }
  
--    freq >>= (CLK2CKDIV(clkdiv1) + CLK4CKDIV(clkdiv1) + APB3CKDIV(clkdiv2));
-+    freq >>= (CLK2CKDIV(clkdiv1) + CLK4CKDIV(clkdiv1) + apbdiv);
- 
-     return freq;
- }
-@@ -267,7 +328,7 @@ static uint32_t pwm_selector(uint32_t csr)
- static uint64_t pwm_compute_freq(QTestState *qts, uint32_t ppr, uint32_t csr,
-         uint32_t cnr)
- {
--    return read_pclk(qts) / ((ppr + 1) * pwm_selector(csr) * (cnr + 1));
-+    return read_pclk(qts, false) / ((ppr + 1) * pwm_selector(csr) * (cnr + 1));
- }
- 
- static uint64_t pwm_compute_duty(uint32_t cnr, uint32_t cmr, bool inverted)
-@@ -301,6 +362,28 @@ static void pwm_write(QTestState *qts, const TestData *td, unsigned offset,
-     qtest_writel(qts, td->module->base_addr + offset, value);
- }
- 
-+static uint8_t mft_readb(QTestState *qts, int index, unsigned offset)
-+{
-+    return qtest_readb(qts, MFT_BA(index) + offset);
-+}
-+
-+static uint16_t mft_readw(QTestState *qts, int index, unsigned offset)
-+{
-+    return qtest_readw(qts, MFT_BA(index) + offset);
-+}
-+
-+static void mft_writeb(QTestState *qts, int index, unsigned offset,
-+                        uint8_t value)
-+{
-+    qtest_writeb(qts, MFT_BA(index) + offset, value);
-+}
-+
-+static void mft_writew(QTestState *qts, int index, unsigned offset,
-+                        uint16_t value)
-+{
-+    return qtest_writew(qts, MFT_BA(index) + offset, value);
-+}
-+
- static uint32_t pwm_read_ppr(QTestState *qts, const TestData *td)
- {
-     return extract32(pwm_read(qts, td, PPR), ppr_base[pwm_index(td->pwm)], 8);
-@@ -351,11 +434,116 @@ static void pwm_write_cmr(QTestState *qts, const TestData *td, uint32_t value)
-     pwm_write(qts, td, td->pwm->cmr_offset, value);
- }
- 
-+static int mft_compute_index(const TestData *td)
-+{
-+    int index = pwm_module_index(td->module) * ARRAY_SIZE(pwm_list) +
-+                pwm_index(td->pwm);
-+
-+    g_assert_cmpint(index, <,
-+                    ARRAY_SIZE(pwm_module_list) * ARRAY_SIZE(pwm_list));
-+
-+    return index;
-+}
-+
-+static void mft_reset_counters(QTestState *qts, int index)
-+{
-+    mft_writew(qts, index, MFT_CNT1, MFT_MAX_CNT);
-+    mft_writew(qts, index, MFT_CNT2, MFT_MAX_CNT);
-+    mft_writew(qts, index, MFT_CRA, MFT_MAX_CNT);
-+    mft_writew(qts, index, MFT_CRB, MFT_MAX_CNT);
-+    mft_writew(qts, index, MFT_CPA, MFT_MAX_CNT - MFT_TIMEOUT);
-+    mft_writew(qts, index, MFT_CPB, MFT_MAX_CNT - MFT_TIMEOUT);
-+}
-+
-+static void mft_init(QTestState *qts, const TestData *td)
-+{
-+    int index = mft_compute_index(td);
-+
-+    /* Enable everything */
-+    mft_writeb(qts, index, MFT_CKC, 0);
-+    mft_writeb(qts, index, MFT_ICLR, MFT_ICLR_ALL);
-+    mft_writeb(qts, index, MFT_MCTRL, MFT_MCTRL_ALL);
-+    mft_writeb(qts, index, MFT_IEN, MFT_IEN_ALL);
-+    mft_writeb(qts, index, MFT_INASEL, 0);
-+    mft_writeb(qts, index, MFT_INBSEL, 0);
-+
-+    /* Set cpcfg to use EQ mode, same as kernel driver */
-+    mft_writeb(qts, index, MFT_CPCFG, MFT_CPCFG_EQ_MODE);
-+
-+    /* Write default counters, timeout and prescaler */
-+    mft_reset_counters(qts, index);
-+    mft_writeb(qts, index, MFT_PRSC, DEFAULT_PRSC);
-+
-+    /* Write default max rpm via QMP */
-+    mft_qom_set(qts, index, "max_rpm[0]", DEFAULT_RPM);
-+    mft_qom_set(qts, index, "max_rpm[1]", DEFAULT_RPM);
-+}
-+
-+static int32_t mft_compute_cnt(uint32_t rpm, uint64_t clk)
-+{
-+    uint64_t cnt;
-+
-+    if (rpm == 0) {
-+        return -1;
-+    }
-+
-+    cnt = clk * 60 / ((DEFAULT_PRSC + 1) * rpm * MFT_PULSE_PER_REVOLUTION);
-+    if (cnt >= MFT_TIMEOUT) {
-+        return -1;
-+    }
-+    return MFT_MAX_CNT - cnt;
-+}
-+
-+static void mft_verify_rpm(QTestState *qts, const TestData *td, uint64_t duty)
-+{
-+    int index = mft_compute_index(td);
-+    uint16_t cnt, cr;
-+    uint32_t rpm = DEFAULT_RPM * duty / MAX_DUTY;
-+    uint64_t clk = read_pclk(qts, true);
-+    int32_t expected_cnt = mft_compute_cnt(rpm, clk);
-+
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    g_test_message(
-+        "verifying rpm for mft[%d]: clk: %lu, duty: %lu, rpm: %u, cnt: %d",
-+        index, clk, duty, rpm, expected_cnt);
-+
-+    /* Verify rpm for fan A */
-+    /* Stop capture */
-+    mft_writeb(qts, index, MFT_CKC, 0);
-+    mft_writeb(qts, index, MFT_ICLR, MFT_ICLR_ALL);
-+    mft_reset_counters(qts, index);
-+    g_assert_cmphex(mft_readw(qts, index, MFT_CNT1), ==, MFT_MAX_CNT);
-+    g_assert_cmphex(mft_readw(qts, index, MFT_CRA), ==, MFT_MAX_CNT);
-+    g_assert_cmphex(mft_readw(qts, index, MFT_CPA), ==,
-+                    MFT_MAX_CNT - MFT_TIMEOUT);
-+    /* Start capture */
-+    mft_writeb(qts, index, MFT_CKC, MFT_CKC_C1CSEL);
-+    g_assert_true(qtest_get_irq(qts, MFT_IRQ(index)));
-+    if (expected_cnt == -1) {
-+        g_assert_cmphex(mft_readb(qts, index, MFT_ICTRL), ==, MFT_ICTRL_TEPND);
+-    if (s->cr & PL110_CR_BEBO)
+-        fn = fntable[s->bpp + 8 + bpp_offset];
+-    else if (s->cr & PL110_CR_BEPO)
+-        fn = fntable[s->bpp + 16 + bpp_offset];
+-    else
+-        fn = fntable[s->bpp + bpp_offset];
++    if (s->cr & PL110_CR_BEBO) {
++        fn = pl110_draw_fn_32[s->bpp + 8 + bpp_offset];
++    } else if (s->cr & PL110_CR_BEPO) {
++        fn = pl110_draw_fn_32[s->bpp + 16 + bpp_offset];
 +    } else {
-+        g_assert_cmphex(mft_readb(qts, index, MFT_ICTRL), ==, MFT_ICTRL_TAPND);
-+        cnt = mft_readw(qts, index, MFT_CNT1);
-+        /*
-+         * Due to error in clock measurement and rounding, we might have a small
-+         * error in measuring RPM.
-+         */
-+        g_assert_cmphex(cnt + MAX_ERROR, >=, expected_cnt);
-+        g_assert_cmphex(cnt, <=, expected_cnt + MAX_ERROR);
-+        cr = mft_readw(qts, index, MFT_CRA);
-+        g_assert_cmphex(cnt, ==, cr);
++        fn = pl110_draw_fn_32[s->bpp + bpp_offset];
 +    }
-+
-+    /* Verify rpm for fan B */
-+
-+    qtest_irq_intercept_out(qts, "/machine/soc/a9mpcore/gic");
-+}
-+
- /* Check pwm registers can be reset to default value */
- static void test_init(gconstpointer test_data)
- {
-     const TestData *td = test_data;
--    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    QTestState *qts = qtest_init("-machine npcm750-evb");
-     int module = pwm_module_index(td->module);
-     int pwm = pwm_index(td->pwm);
  
-@@ -369,7 +557,7 @@ static void test_init(gconstpointer test_data)
- static void test_oneshot(gconstpointer test_data)
- {
-     const TestData *td = test_data;
--    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    QTestState *qts = qtest_init("-machine npcm750-evb");
-     int module = pwm_module_index(td->module);
-     int pwm = pwm_index(td->pwm);
-     uint32_t ppr, csr, pcr;
-@@ -400,13 +588,15 @@ static void test_oneshot(gconstpointer test_data)
- static void test_toggle(gconstpointer test_data)
- {
-     const TestData *td = test_data;
--    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    QTestState *qts = qtest_init("-machine npcm750-evb");
-     int module = pwm_module_index(td->module);
-     int pwm = pwm_index(td->pwm);
-     uint32_t ppr, csr, pcr, cnr, cmr;
-     int i, j, k, l;
-     uint64_t expected_freq, expected_duty;
+     src_width = s->cols;
+     switch (s->bpp) {
+@@ -247,7 +211,6 @@ static void pl110_update_display(void *opaque)
+         src_width <<= 2;
+         break;
+     }
+-    dest_width *= s->cols;
+     first = 0;
+     if (s->invalidate) {
+         framebuffer_update_memory_section(&s->fbsection,
+@@ -258,7 +221,7 @@ static void pl110_update_display(void *opaque)
  
-+    mft_init(qts, td);
-+
-     pcr = CH_EN | CH_MOD;
-     for (i = 0; i < ARRAY_SIZE(ppr_list); ++i) {
-         ppr = ppr_list[i];
-@@ -440,6 +630,9 @@ static void test_toggle(gconstpointer test_data)
-                                 ==, expected_freq);
-                     }
- 
-+                    /* Test MFT's RPM is correct. */
-+                    mft_verify_rpm(qts, td, expected_duty);
-+
-                     /* Test inverted mode */
-                     expected_duty = pwm_compute_duty(cnr, cmr, true);
-                     pwm_write_pcr(qts, td, pcr | CH_INV);
+     framebuffer_update_display(surface, &s->fbsection,
+                                s->cols, s->rows,
+-                               src_width, dest_width, 0,
++                               src_width, s->cols * 4, 0,
+                                s->invalidate,
+                                fn, s->palette,
+                                &first, &last);
 -- 
 2.20.1
 
