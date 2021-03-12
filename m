@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC163390F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:15:39 +0100 (CET)
-Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6563390F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:16:07 +0100 (CET)
+Received: from localhost ([::1]:57516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjVq-0008Ce-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:15:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37272)
+	id 1lKjWB-0000C3-Nm
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:16:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKjQo-00034v-IH
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:10:28 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKjQm-0006wH-ON
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:10:26 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d15so5000587wrv.5
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eqvzIFsMhCwpru8NaLQWYSctOoWczpdqXoyz98aeHns=;
- b=rf5GFMK05VhfaMW+2Lh5wLGwPKDQisJO541UPuk9kQl1xQN77YQybN1IXd6UN1WwE/
- r2U8QecR+vcNnVSCTGoHm+1erzsB93U7R+ZjWN50hNTwVSgBRlKw9NqUvmB5Cpz/Ihwq
- kh6fQOMrfpFPk3WV+/QtkSfN3ACysD4kAKo5Lmup8g9uHBJzVGvuVXm+SPNPydnL5wJm
- SQgNi2VXt2u4z/rv2kr74N0KEQymVDF7BRPn31wLh1OU6fbmRGSHXZwQA6yZ1+y0EOiR
- w3N/8uNSwvsLt96wTYkBacCz70BNCNd+83+8GAamlS/PwpIF5C5pBXnCmKR6fhs/WeGv
- 0Nug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eqvzIFsMhCwpru8NaLQWYSctOoWczpdqXoyz98aeHns=;
- b=IyVj/ZTKd7WB6R07pDr2A76MYeZwLYVXgAr2DYf+pbhxYRYR8WeDjGmxRrkSwZsaDs
- k6pZjB3BPPdOTGS4UtvzbCRLXjYH2sTIc9710K9juQ1ZmUwGy3XtVf37a8HrXsPriwQ8
- kaLRHd+PMYBYGuCPoBtKWkKbZ1zjZU5pUrQYGJ3q3HiHFtBcNObacQw4vK9Wangdpo+k
- ANTV6t3qTM+O8L/R5DHiai8+Nb8UqKb75Ppb9PNTBEGi7z/lPCu6f3oQX/bL6VskTOyV
- NHRn220RYgjFYa0XsoqhtLjabtnj10UuHe0lfBRATxWPYV3j09Q6LAQ6cKu4ywttWurH
- D4zg==
-X-Gm-Message-State: AOAM530ezriaVSEjgYnIo59Lh7Wa02+MY0qIG+Ca2kB02AF876hO6tRg
- BptRXOrCuBsuFuFCb5r7jkc=
-X-Google-Smtp-Source: ABdhPJypf5v6vnGPDNGJk4a4DK2hrJhYsJJ1qe7BqIqMoqKecEbU4KaNuPXM16i6fOAfSxTNG0/Zow==
-X-Received: by 2002:adf:c64a:: with SMTP id u10mr14474092wrg.412.1615561822120; 
- Fri, 12 Mar 2021 07:10:22 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v7sm2383102wme.47.2021.03.12.07.10.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 07:10:20 -0800 (PST)
-Subject: Re: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Fredrik Noring <noring@nocrew.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-33-f4bug@amsat.org>
- <20210215115957.GG1542881@redhat.com> <YCp7Ce6ELbLFvRXZ@sx9>
- <ebbdecd9-e599-1a4b-60e8-3464afa4a20e@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <21217ef4-91d8-6877-5d78-bb78e00773d8@amsat.org>
-Date: Fri, 12 Mar 2021 16:10:19 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjU1-00075G-1H
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:13:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjTy-0000Kj-TW
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:13:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615562022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jCfdjtLlM2fztly+RUtxUkASATiuDH4cqCLwzOYuBRE=;
+ b=UpsIHGiX0rX0oNObCZyYwYfBjOSLt9PyZPP05lqpROLb9+RB03yguMDQf6j6YCq1NtSqRI
+ m0GxoGeaHvjNWANCJB2vP+XSCALelClbMiz7r5WDPNNrU8UfY0GS/z110OBOnRzVNAfnPD
+ MWUp/Eb46IovG8sAkbdKBcvdmkLyTyw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-ndnl9mR1PV2yGrTuMpPG1A-1; Fri, 12 Mar 2021 10:13:40 -0500
+X-MC-Unique: ndnl9mR1PV2yGrTuMpPG1A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18008101F003;
+ Fri, 12 Mar 2021 15:13:39 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
+ [10.36.113.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAEE81001281;
+ Fri, 12 Mar 2021 15:13:37 +0000 (UTC)
+Subject: Re: [PATCH v3 4/6] util: implement seqcache
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-5-vsementsov@virtuozzo.com>
+ <d9a75e53-0791-2cd7-f530-d07ea59fbe59@redhat.com>
+ <f0acd8b3-4f43-1a37-b08c-27f710fb3a60@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <f53fc06c-38df-f9fe-e927-b4f1b9bd5263@redhat.com>
+Date: Fri, 12 Mar 2021 16:13:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <ebbdecd9-e599-1a4b-60e8-3464afa4a20e@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <f0acd8b3-4f43-1a37-b08c-27f710fb3a60@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,61 +85,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/20/21 9:01 PM, Philippe Mathieu-Daudé wrote:
-> On 2/15/21 2:45 PM, Fredrik Noring wrote:
->> On Mon, Feb 15, 2021 at 11:59:57AM +0000, Daniel P. Berrangé wrote:
->>> On Sun, Feb 14, 2021 at 06:59:02PM +0100, Philippe Mathieu-Daudé wrote:
->>>> Add a Docker image providing cross toolchain for the MIPS R5900 CPU
->>>> (used on the Sony PS2).
->>>>
->>>> This image is based on Gentoo and the toolchain is built using crossdev.
+On 12.03.21 15:37, Vladimir Sementsov-Ogievskiy wrote:
+> 12.03.2021 16:41, Max Reitz wrote:
+>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
+>>> Implement cache for small sequential unaligned writes, so that they may
+>>> be cached until we get a complete cluster and then write it.
 >>>
->>> Is there any way we can do this with a distro that isn't Gentoo
->>> so that we can get a container build that is fast enough to be
->>> useful for CI ?
-
-Using the Debian cross image I get:
-
-/home/phil/source/qemu/tests/docker/docker.py --engine auto cc --cc
-mips64el-linux-gnuabi64-gcc -i qemu/debian-mips64el-cross -s
-/home/phil/source/qemu --   -Wall -Werror -O0 -g -fno-strict-aliasing
--mabi=n32 -march=r5900
-/home/phil/source/qemu/tests/tcg/mips/test-r5900-dmult.c -o
-test-r5900-dmult  -static
-cc1: error: unsupported combination: -march=r5900 -mhard-float
--mdouble-float
-
-No clue what is setting '-mhard-float -mdouble-float' yet.
-
+>>> The cache is intended to be used for backup to qcow2 compressed target
+>>> opened in O_DIRECT mode, but can be reused for any similar (even not
+>>> block-layer related) task.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   include/qemu/seqcache.h |  42 +++++
+>>>   util/seqcache.c         | 361 ++++++++++++++++++++++++++++++++++++++++
+>>>   MAINTAINERS             |   6 +
+>>>   util/meson.build        |   1 +
+>>>   4 files changed, 410 insertions(+)
+>>>   create mode 100644 include/qemu/seqcache.h
+>>>   create mode 100644 util/seqcache.c
 >>
->> Is it necessary to rebuild the toolchain every time?
+>> Looks quite good to me, thanks.  Nice explanations, too. :)
+>>
+>> The only design question I have is whether there’s a reason you’re 
+>> using a list again instead of a hash table.  I suppose we do need the 
+>> list anyway because of the next_flush iterator, so using a hash table 
+>> would only complicate the implementation, but still.
 > 
-> No.
+> Yes, it seems correct for flush iterator go in same order as writes 
+> comes, so we need a list. We can add a hash table, it will only help on 
+> read.. But for compressed cache in qcow2 we try to flush often enough, 
+> so there should not be many clusters in the cache. So I think addition 
+> of hash table may be done later if needed.
+
+Sure.  The problem I see is that we’ll probably never reach the point of 
+it really being needed. O:)
+
+So I think it’s a question of now or never.
+
+[...]
+
+>>> + */
+>>> +bool seqcache_get_next_flush(SeqCache *s, int64_t *offset, int64_t 
+>>> *bytes,
+>>> +                             uint8_t **buf, bool *unfinished)
+>>
+>> Could be “uint8_t *const *buf”, I suppose.  Don’t know how much the 
+>> callers would hate that, though.
 > 
->> Also, perhaps a
->> generic MIPS suite can be used; it shouldn't to necessary to have one
->> specifically made for the R5900 (except libc, if needed, I guess).
+> Will do. And actually I wrote quite big explanation but missed the fact 
+> that caller don't get ownership on buf, it should be mentioned.
+
+Great, thanks.
+
+>>> +{
+>>> +    Cluster *req = s->next_flush;
+>>> +
+>>> +    if (s->next_flush) {
+>>> +        *unfinished = false;
+>>> +        req = s->next_flush;
+>>> +        s->next_flush = QSIMPLEQ_NEXT(req, entry);
+>>> +        if (s->next_flush == s->cur_write) {
+>>> +            s->next_flush = NULL;
+>>> +        }
+>>> +    } else if (s->cur_write && *unfinished) {
+>>> +        req = s->cur_write;
+>>
+>> I was wondering whether flushing an unfinished cluster wouldn’t kind 
+>> of finalize it, but I suppose the problem with that would be that you 
+>> can’t add data to a finished cluster, which wouldn’t be that great if 
+>> you’re just flushing the cache without wanting to drop it all.
+>>
+>> (The problem I see is that flushing it later will mean all the data 
+>> that already has been written here will have to be rewritten.  Not 
+>> that bad, I suppose.)
 > 
-> We want it to build TCG tests. If we can link them, that should be OK.
+> Yes that's all correct. Also there is additional strong reason: qcow2 
+> depends on the fact that clusters become "finished" by defined rules: 
+> only when it really finished up the the end or when qcow2 starts writing 
+> another cluster.
 > 
->> As an alternative, TobiX at Github made an R5900 Docker image last year
->> <https://github.com/frno7/linux/issues/33#issuecomment-632284209>,
->> perhaps it could be useful somehow?
+> For "finished" clusters with unaligned end we can safely align this end 
+> up to some good alignment writing a bit more data than needed. It's safe 
+> because tail of the cluster is never used. And we'll perform better with 
+> aligned write avoiding RMW.
 > 
-> Thanks, I'll have a look.
-> 
-> Regards,
-> 
-> Phil.
-> 
+> But when flushing "unfinished" cluster, we should write exactly what we 
+> have in the cache, as there may happen parallel write to the same 
+> cluster, which will continue the sequential process.
+
+OK, thanks for the explanation.
+
+Max
 
 
