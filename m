@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EFA338F48
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:59:35 +0100 (CET)
-Received: from localhost ([::1]:37132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B9D338F46
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:59:26 +0100 (CET)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKiKE-0004WL-6A
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:59:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
+	id 1lKiK5-0004Ja-4v
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:59:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiCx-0002ns-Rc
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:03 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46208)
+ id 1lKiCz-0002rp-C4
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:05 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiCo-0001xZ-HU
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:03 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id a18so4822778wrc.13
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:49 -0800 (PST)
+ id 1lKiCo-0001xx-O4
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:05 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id z2so1818568wrl.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ADa2Wj1PlQ9ggdEw9lEa7PJRf39fQP9+k6DKUg3dPXg=;
- b=R6P0UQ9I5kfExOgNO7QTQu0u/QahF1ChGcB601DThufUPDmIIi8r/L2WumONyMYT92
- eg4dcJKIC0IQbjVI01w357cVUXy7mjhMe0WK1L7Jg3rbD/s1n3EJUco2h0tXZ/vJLAP6
- NRplmjludKwJ+dlSd3AZYig6eRtCjXfvxlaLNtJ0b4of1sVVjkJWERWhY5RTy+j1mVqP
- wj/XRh7p29ndAlnPmIX5yN1M5r2ROShGLhxcEpC1kxoKuEnK89aLJocNZtll97GXRT3H
- OUSaRu3ckri/1/qWPBAexHxMpS7GQsFPphJiaobqdF8zgKIk0tuddxjZ8RCxgxtb8zwk
- HPxQ==
+ bh=gHhH0oC34XDRQ67z50q6f3yLDcstY1QG62tp62hpTuI=;
+ b=fZnrWDDIyA/b/e+Kj/hVAMWvzrg8s4TqVwQFJrhAfInHPf2UnUFo6Hwmevdb4Wc/Qm
+ YHo9VwqoGaNw5/oUWgfmQMp8XqIm+IwnRnHTZBZvEUeNaIVgJMphMmNeMzmCw0GsN6H6
+ 95Z/P1MuvABZkg+97Bn4X2Y+Iw3GYLPazBnh0v2IF2xWNodzvS9BJ0zf/KEGODm5FHuv
+ b7VnjOa5vpGiZts0kXOeGMitd6+/S/oXQz49JIMigUGQhOUFJ8eBST/s+LxqHW+WbYzS
+ 95v4b0nZDU2i5QuozxlSPrMNlepGU8obOsKm4/6Qv6P5/1vjK52jTVnJSe8zy4O1qB7+
+ BXpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ADa2Wj1PlQ9ggdEw9lEa7PJRf39fQP9+k6DKUg3dPXg=;
- b=IKFNyIjYzq/99UN8Gorr4Ng47NPEFr1ggoTmimgtnGjGASJgqDXwIIugZF3Da3EbE/
- +CepabsX24tTwyZxbO5TQvsuHagrvVQ16V4HhekcXZYq5rBkMyxK/4M/GxKT25obqtZI
- 6Oo5av7lS0jHEy6jV3RAWBjdJ6eqWIOpitjIu9b51cgu7JvCQoYl13IoWu9lxiGp/CtT
- Y5kvJ/5IQsJwJlVFYqwHwbHH/Yo6XtyRCNI6qFgDTGCECTZLNdiZBBWMkMwtI5PVqG8Q
- qNVkVfjknnNgoCaurF8Y0EQ2784yI2RIOEzhXiB0UF2cvUqnROC4gc3Nvpd84A5ZCnxu
- TWdw==
-X-Gm-Message-State: AOAM53101fJ2UxdpcgA3ekBBM1R1nD0AKqQ81qLaWZ+gfICggpVGvHtT
- Wg9s6h/RpktCIMdujiNPaWrmbWsSmsZCsZXN
-X-Google-Smtp-Source: ABdhPJxRT+KSkexTnfTfuZ9HRap2peisVp1R/eurp1nKZhfpX1Kyud9daw7zxfOOlvB4EVzfwZ5ncA==
-X-Received: by 2002:a5d:4e85:: with SMTP id e5mr14439553wru.218.1615557108858; 
- Fri, 12 Mar 2021 05:51:48 -0800 (PST)
+ bh=gHhH0oC34XDRQ67z50q6f3yLDcstY1QG62tp62hpTuI=;
+ b=Y4hEuLOnn+cKcq83+/NXCkrqUTf8+ok5JzsMFpyd9hCkUd3kZw/T2cno+3sBCk9j2U
+ SqH3Q92GfRCip/LPul5TNcHOWhRgANfEbyoqhux6pmO2JSCt1CGJKKq6ATCbTjwis4Ed
+ yoXR8pP5B/nEkta7bmwTVaEzYozCyN1PwLEdIUCw26eT6MY+ZWCppL1Zl96DpmHqr2v6
+ ubvesPbeRrFOYebl9VE7xE7t+mS6oVzqXIJuoYIm0eIe5XbvU3R6HC7L1w3wMUsrNkB5
+ Dzg60fbw+qm5evP8OHC8v4pFeXPOxyjk+LfZV3XmItbkeu5StbMCT6lytj3CxwUgOMHC
+ MBpQ==
+X-Gm-Message-State: AOAM532BVpWN+Hi/Hu6kg82SsRpcswGqYmzvE9G8CsgJeKBVJzC/DwFs
+ c0jySuUtsLLqjR2O0AoYKhCqPutCqTyKAqtG
+X-Google-Smtp-Source: ABdhPJwWnNlpfACsuB0DF//IgBUoQtkdWbYw8J8CkvBB8l0kfuCtlQ+bj3pwwPQfkDJb9saZ1JGZMw==
+X-Received: by 2002:adf:a4d0:: with SMTP id h16mr14016692wrb.52.1615557111374; 
+ Fri, 12 Mar 2021 05:51:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.51.48
+ by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.51.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 05:51:48 -0800 (PST)
+ Fri, 12 Mar 2021 05:51:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/39] hw/arm/smmuv3: Uniformize sid traces
-Date: Fri, 12 Mar 2021 13:51:10 +0000
-Message-Id: <20210312135140.1099-10-peter.maydell@linaro.org>
+Subject: [PULL 13/39] target/arm: Update find_last_active for PREDDESC
+Date: Fri, 12 Mar 2021 13:51:14 +0000
+Message-Id: <20210312135140.1099-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312135140.1099-1-peter.maydell@linaro.org>
 References: <20210312135140.1099-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,61 +86,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Convert all sid printouts to sid=0x%x.
+Since b64ee454a4a0, all predicate operations should be
+using these field macros for predicates.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210309102742.30442-8-eric.auger@redhat.com
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210309155305.11301-5-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/trace-events | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ target/arm/sve_helper.c    | 6 +++---
+ target/arm/translate-sve.c | 7 +++----
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/trace-events b/hw/arm/trace-events
-index a335ee891db..b79a91af5fb 100644
---- a/hw/arm/trace-events
-+++ b/hw/arm/trace-events
-@@ -29,26 +29,26 @@ smmuv3_cmdq_opcode(const char *opcode) "<--- %s"
- smmuv3_cmdq_consume_out(uint32_t prod, uint32_t cons, uint8_t prod_wrap, uint8_t cons_wrap) "prod:%d, cons:%d, prod_wrap:%d, cons_wrap:%d "
- smmuv3_cmdq_consume_error(const char *cmd_name, uint8_t cmd_error) "Error on %s command execution: %d"
- smmuv3_write_mmio(uint64_t addr, uint64_t val, unsigned size, uint32_t r) "addr: 0x%"PRIx64" val:0x%"PRIx64" size: 0x%x(%d)"
--smmuv3_record_event(const char *type, uint32_t sid) "%s sid=%d"
--smmuv3_find_ste(uint16_t sid, uint32_t features, uint16_t sid_split) "SID:0x%x features:0x%x, sid_split:0x%x"
-+smmuv3_record_event(const char *type, uint32_t sid) "%s sid=0x%x"
-+smmuv3_find_ste(uint16_t sid, uint32_t features, uint16_t sid_split) "sid=0x%x features:0x%x, sid_split:0x%x"
- smmuv3_find_ste_2lvl(uint64_t strtab_base, uint64_t l1ptr, int l1_ste_offset, uint64_t l2ptr, int l2_ste_offset, int max_l2_ste) "strtab_base:0x%"PRIx64" l1ptr:0x%"PRIx64" l1_off:0x%x, l2ptr:0x%"PRIx64" l2_off:0x%x max_l2_ste:%d"
- smmuv3_get_ste(uint64_t addr) "STE addr: 0x%"PRIx64
--smmuv3_translate_disable(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d bypass (smmu disabled) iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_bypass(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d STE bypass iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_abort(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=%d abort on iova:0x%"PRIx64" is_write=%d"
--smmuv3_translate_success(const char *n, uint16_t sid, uint64_t iova, uint64_t translated, int perm) "%s sid=%d iova=0x%"PRIx64" translated=0x%"PRIx64" perm=0x%x"
-+smmuv3_translate_disable(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x bypass (smmu disabled) iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_bypass(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x STE bypass iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_abort(const char *n, uint16_t sid, uint64_t addr, bool is_write) "%s sid=0x%x abort on iova:0x%"PRIx64" is_write=%d"
-+smmuv3_translate_success(const char *n, uint16_t sid, uint64_t iova, uint64_t translated, int perm) "%s sid=0x%x iova=0x%"PRIx64" translated=0x%"PRIx64" perm=0x%x"
- smmuv3_get_cd(uint64_t addr) "CD addr: 0x%"PRIx64
- smmuv3_decode_cd(uint32_t oas) "oas=%d"
- smmuv3_decode_cd_tt(int i, uint32_t tsz, uint64_t ttb, uint32_t granule_sz, bool had) "TT[%d]:tsz:%d ttb:0x%"PRIx64" granule_sz:%d had:%d"
--smmuv3_cmdq_cfgi_ste(int streamid) "streamid =%d"
-+smmuv3_cmdq_cfgi_ste(int streamid) "streamid= 0x%x"
- smmuv3_cmdq_cfgi_ste_range(int start, int end) "start=0x%x - end=0x%x"
--smmuv3_cmdq_cfgi_cd(uint32_t sid) "streamid = %d"
--smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache HIT for sid %d (hits=%d, misses=%d, hit rate=%d)"
--smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache MISS for sid %d (hits=%d, misses=%d, hit rate=%d)"
--smmuv3_s1_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid =%d asid =%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
-+smmuv3_cmdq_cfgi_cd(uint32_t sid) "sid=0x%x"
-+smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache HIT for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
-+smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache MISS for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
-+smmuv3_s1_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid=%d asid=%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
- smmuv3_cmdq_tlbi_nh(void) ""
- smmuv3_cmdq_tlbi_nh_asid(uint16_t asid) "asid=%d"
--smmuv3_config_cache_inv(uint32_t sid) "Config cache INV for sid %d"
-+smmuv3_config_cache_inv(uint32_t sid) "Config cache INV for sid=0x%x"
- smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s"
- smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
- smmuv3_inv_notifiers_iova(const char *name, uint16_t asid, uint64_t iova, uint8_t tg, uint64_t num_pages) "iommu mr=%s asid=%d iova=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 981895a17c6..224c767944c 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -2237,10 +2237,10 @@ void HELPER(sve_compact_d)(void *vd, void *vn, void *vg, uint32_t desc)
+  */
+ int32_t HELPER(sve_last_active_element)(void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
+-    intptr_t esz = extract32(pred_desc, SIMD_DATA_SHIFT, 2);
++    intptr_t words = DIV_ROUND_UP(FIELD_EX32(pred_desc, PREDDESC, OPRSZ), 8);
++    intptr_t esz = FIELD_EX32(pred_desc, PREDDESC, ESZ);
+ 
+-    return last_active_element(vg, DIV_ROUND_UP(oprsz, 8), esz);
++    return last_active_element(vg, words, esz);
+ }
+ 
+ void HELPER(sve_splice)(void *vd, void *vn, void *vm, void *vg, uint32_t desc)
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 27402af23c0..cac8082156a 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -2302,11 +2302,10 @@ static void find_last_active(DisasContext *s, TCGv_i32 ret, int esz, int pg)
+      */
+     TCGv_ptr t_p = tcg_temp_new_ptr();
+     TCGv_i32 t_desc;
+-    unsigned vsz = pred_full_reg_size(s);
+-    unsigned desc;
++    unsigned desc = 0;
+ 
+-    desc = vsz - 2;
+-    desc = deposit32(desc, SIMD_DATA_SHIFT, 2, esz);
++    desc = FIELD_DP32(desc, PREDDESC, OPRSZ, pred_full_reg_size(s));
++    desc = FIELD_DP32(desc, PREDDESC, ESZ, esz);
+ 
+     tcg_gen_addi_ptr(t_p, cpu_env, pred_full_reg_offset(s, pg));
+     t_desc = tcg_const_i32(desc);
 -- 
 2.20.1
 
