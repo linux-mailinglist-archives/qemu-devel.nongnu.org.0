@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1253385CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 07:25:59 +0100 (CET)
-Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF3D3385DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 07:28:27 +0100 (CET)
+Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKbFG-0003zz-RZ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 01:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34020)
+	id 1lKbHe-0007sl-6r
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 01:28:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKbCb-0002EJ-7A
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:23:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44280)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKbCa-0002Cz-I6
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:23:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKbCZ-0001HM-AS
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lKbCY-0001G9-Kh
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:23:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615530190;
+ s=mimecast20190719; t=1615530189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j6YV1/V89fSTJ9phlXpvTyC0V9+WxasCflts+Ckkp0k=;
- b=SaQ5JP2arHpx5oibW3NyEKB7ZJ6liEW4azF9OgI7YXBHDwMb2lFpc/Q1VgciRIDtZJxb7J
- zpDDpm8B5IrHxmQyeU3xnnAe9ZtdvcYcB3Wg6lSWNiWnKZjNH0MMvaoaAtuy6EcAAsNSVI
- vSLWaIonDLTs3Anpx28WncBgiHOYZxI=
+ bh=A8zKfwBA7jczki+7h5Nm5ZrTgLo6WQIW3eShBX+IkT4=;
+ b=GD3h9dSA1av3TIPbkIrgND5RtDtGD2ewZDD8u1aHG1b12l41nJ3q26QSvhbt8z9nzdMH/p
+ gCuQqWZS3kFgYYhlchTcnzzoiTnlw9MBUA6dT9800MsaNPcMy/Jwh1FKGscnQt16En756C
+ 16BcCyRCMImVM82dT/lOGIwbtQxoyXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-CMlvpCcNNoe-6tVdOtwqXQ-1; Fri, 12 Mar 2021 01:23:07 -0500
-X-MC-Unique: CMlvpCcNNoe-6tVdOtwqXQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-432-RIQGOPkMMW-BJNQGRn_oyA-1; Fri, 12 Mar 2021 01:23:06 -0500
+X-MC-Unique: RIQGOPkMMW-BJNQGRn_oyA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DC41107ACCA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1443817468;
  Fri, 12 Mar 2021 06:23:05 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-33.pek2.redhat.com
- [10.72.13.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 349D25D9F2;
- Fri, 12 Mar 2021 06:22:56 +0000 (UTC)
-Subject: Re: [RFC PATCH v3 02/10] net: Pad short frames to minimum size before
- send from SLiRP/TAP
-To: Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210303191205.1656980-1-philmd@redhat.com>
- <20210303191205.1656980-3-philmd@redhat.com>
- <36123f35-06ab-d0da-37d2-6f8324e7f582@redhat.com>
- <CAFEAcA-REYy45Jmean0PhVerG9d_CpqgaFtxuWBMBrGDdyzvdA@mail.gmail.com>
- <edce617c-3591-a172-ad18-3bf138af26e0@redhat.com>
- <CAEUhbmU-KDUBADcX+bZHjH0thhddTSQ=Qtb56GztdRzPKE4Xhw@mail.gmail.com>
- <a26ef919-2e00-ae5b-c016-83e811ea5cdd@redhat.com>
- <CAEUhbmWdn8ZV1vNku_7dQfNg68xL6p3f-BCzq31jj5QAKmjj0w@mail.gmail.com>
- <CAEUhbmUY89OEpBpxCZzya=KKb1U5KBO=rPArn8yre7fmZe1q5A@mail.gmail.com>
- <CAFEAcA89xLMogR5-tUH-LW37Lr+py3LXQRgaO9_P8r8w-0gfzA@mail.gmail.com>
- <f682a3a0-cdb1-4746-ceed-c900c3f669ed@redhat.com>
- <CAFEAcA8_j6q8PweuoUVyW+BAGojZ8HdNnedrZwQNcBFWbn9Kbg@mail.gmail.com>
- <CAEUhbmW1pz0=TgwF12j5pQUaCGSLPumb5-yiy32PKfdTvvdpVQ@mail.gmail.com>
- <CAFEAcA8gwa2NGF2s3f=hO+EaVSJNDJrKz7xG60eSm68-CXf-mw@mail.gmail.com>
- <CAEUhbmWPWA_0wWBzacu1K2Kx+A2dgmFs89TQrbcG52mX=P5o7Q@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <4cc1bcb9-2288-ac03-4a5f-a1ebad4d34ef@redhat.com>
-Date: Fri, 12 Mar 2021 14:22:54 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 719CC5C1C5;
+ Fri, 12 Mar 2021 06:23:05 +0000 (UTC)
+Subject: Re: qemu broke booting of old RedHat floppies
+To: Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
+References: <0bca1cd0-69c3-c07a-b4cf-015dcdbc6d61@msgid.tls.msk.ru>
+ <b7f858e1-5fdf-44c5-cc4e-033c43df9c4e@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <a72265ef-979d-e23d-f6a4-3f950b1d50c0@redhat.com>
+Date: Fri, 12 Mar 2021 01:23:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWPWA_0wWBzacu1K2Kx+A2dgmFs89TQrbcG52mX=P5o7Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <b7f858e1-5fdf-44c5-cc4e-033c43df9c4e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,95 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/3/11 6:27 下午, Bin Meng wrote:
-> On Thu, Mar 11, 2021 at 6:22 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> On Thu, 11 Mar 2021 at 09:58, Bin Meng <bmeng.cn@gmail.com> wrote:
->>> On Thu, Mar 11, 2021 at 5:43 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>>> On Thu, 11 Mar 2021 at 03:01, Jason Wang <jasowang@redhat.com> wrote:
->>>>> And after a discussion 10 years ago [1]. Michael (cced) seems to want to
->>>>> keep the padding logic in the NIC itself (probably with a generic helper
->>>>> in the core). Since 1) the padding is only required for ethernet 2)
->>>>> virito-net doesn't need that (it can pass incomplete packet by design).
->>>> Like I said, we need to decide; either:
->>>>
->>>>   (1) we do want to support short packets in the net core:
->>>> every sender needs to either pad, or to have some flag to say
->>>> "my implementation can't pad, please can the net core do it for me",
->>>> unless they are deliberately sending a short packet. Every
->>>> receiver needs to be able to cope with short packets, at least
->>>> in the sense of not crashing (they should report them as a rx
->>>> error if they have that kind of error reporting status register).
->>>> I think we have mostly implemented our NIC models this way.
->>>>
->>>>   (2) we simply don't support short packets in the net core:
->>>> nobody (not NICs, not network backends) needs to pad, because
->>>> they can rely on the core to do it. Some existing senders and
->>>> receivers may have now-dead code to do their own padding which
->>>> could be removed.
->>>>
->>>> MST is advocating for (1) in that old thread. That's a coherent
->>>> position.
->>> But it's a wrong approach. As Edgar and Stefan also said in the old
->>> discussion thread, padding in the RX is wrong as real world NICs don't
->>> do this.
->> Neither option (1) nor option (2) involve padding in RX.
-> Correct. What I referred to is the current approach used in many NIC
-> modes, which is wrong, and we have to correct this.
->
->> Option (1) is:
->>   * no NIC implementation pads on TX, except as defined
->>     by whatever NIC-specific config registers or h/w behaviour
->>     might require (ie if the guest wants to send a short packet
->>     it can do that)
->>   * non-NIC sources like slirp need to pad on TX unless they're
->>     deliberately trying to send a short packet
->>   * all receivers of packets need to cope with being given a
->>     short packet; this is usually going to mean "flag it to the
->>     guest as an RX error", but exact behaviour is NIC-dependent
+On 1/20/21 10:41 AM, Thomas Huth wrote:
+> On 20/01/2021 16.11, Michael Tokarev wrote:
+>> As someone noticed on IRC, old (2.x) RedHat floppies does not boot
+>> in current qemu.  When qemu is booted from floppy image at
+>>   https://archive.org/details/RedHatLinuxBootDisk521998
+>> (download the "ISO image" link there, it really is an 1.44 floppy),
+>> seabios says Boot failed and that's it.
 >>
-> My patch series in RFC v2/v3 does almost exactly this option (1),
-> except "flag it to the guest as an RX error".
-
-
-Is it? You did it at net core instead of netdevs if I read the code 
-correctly.
-
-
->
->> Option (2) is:
->>   * the net core code pads any packet that goes through it
->>   * no NIC implementation needs to pad on TX (it is harmless if they do)
->>   * non-NIC sources don't need to pad on TX
->>   * no receivers of packets need to cope with being given short packets
+>> I run git bisect with it, knowing that qemu 2.1 works fine, and
+>> it pointed out to this commit which is oldish qemu-2.5+:
+> [...]
+>> Now, I don't even know where to put that "type=144/288/auto" thing,
+>> I tried this:
 >>
->> Option 1 is what the real world does. Option 2 is a simplification
->> which throws away the ability to emulate handling of short packets,
->> in exchange for not having to sort out senders like slirp and not
->> having to be so careful about short-packet handling in NIC models.
+>>   -drive 
+>> file=RedHatLinuxBootDisk521998.disk1of1.img,if=floppy,format=raw,type=144
 >>
->> If MST is correct that some use cases require short-packet support,
->> then we need to go for option 1, I think.
+>> but it says that format=raw does not support "type=144" option.
+> 
+> Try:
+> 
+>   qemu-system-x86_64 -drive 
+> if=none,file=RedHatLinuxBootDisk521998.disk1of1.img,format=raw,id=dr1 
+> -device floppy,drive-type=144,drive=dr1
+> 
+>> And it's even more: I don't remember which size should be an 1.44Mb 
+>> floppy :))
+>> The file size of that image is 1492992 bytes which does not look like 
+>> it is of
+>> standard size, but I can't find which size it should be.
+> 
+> As mentioned on IRC already, it's likely a disk with 81 tracks instead 
+> of 80 tracks, so it's bigger than the usual 1.44 MB floppy disk images 
+> and thus QEMU likely misdetects it by default.
+> 
+>   Thomas
+> 
+> 
+
+Whoops, yes, the auto-detection doesn't really seem to understand what's 
+going on here.
+
+./i386-softmmu/qemu-system-i386 -drive 
+if=none,format=raw,file=../../../../Downloads/RedHatLinuxBootDisk521998.disk1of1.img,id=dr1 
+-device floppy,drive-type=auto,drive=dr1
+
+this fails, as does drive-type=288.
+drive-type=144 works, though.
+
+Digging a tiny bit:
+
+- auto chooses a (36, 80, 1) geometry (It assumes the 288 type.)
+- 288 chooses the same geometry.
+- 144 chooses (18, 80, 1) => 2880 sectors
+
+None of these choices actually get the geometry right, because the 
+fd_formats[] table just ... doesn't have that geometry in the table. It 
+only works under the 144 type because when it just gives up and picks a 
+geometry, it picks the first geometry under the 1.44MB section.
+
+When it defaults to 2.88 instead, it picks the first geometry under the 
+2.88MB section.
+
+Adding an explicit (18, 81, 1) choice improves our mileage:
+
+- auto -> (18, 81, 1)
+- 144 -> (18, 81, 1)
+- 288 -> (18, 81, 1)
+
+and fixes the boot.
 
 
-For NIC RX, I wonder whether we can introduce a boolean to whether it 
-requries padding. And then the netdevs can only do the padding when it's 
-required. E.g virito-net doesn't need padding.
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 198940e737..4269c0c754 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -122,6 +122,7 @@ static const FDFormat fd_formats[] = {
+      /* First entry is default format */
+      /* 1.44 MB 3"1/2 floppy disks */
+      { FLOPPY_DRIVE_TYPE_144, 18, 80, 1, FDRIVE_RATE_500K, }, /* 3.5" 
+2880 */
++    { FLOPPY_DRIVE_TYPE_144, 18, 81, 1, FDRIVE_RATE_500K, },
+      { FLOPPY_DRIVE_TYPE_144, 20, 80, 1, FDRIVE_RATE_500K, }, /* 3.5" 
+3200 */
+      { FLOPPY_DRIVE_TYPE_144, 21, 80, 1, FDRIVE_RATE_500K, },
+      { FLOPPY_DRIVE_TYPE_144, 21, 82, 1, FDRIVE_RATE_500K, },
 
-Thanks
 
 
-> Regards,
-> Bin
->
+Do you have the name of the person who reported this on IRC so I can add 
+a credit?
+
+--js
 
 
