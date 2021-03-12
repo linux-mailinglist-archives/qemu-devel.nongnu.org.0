@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086373396BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:37:23 +0100 (CET)
-Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E8E3396B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:36:53 +0100 (CET)
+Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmf3-0007Yr-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59504)
+	id 1lKmea-0006K5-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:36:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlak-0004Hm-MR
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:50 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46841)
+ id 1lKlam-0004Ml-Ma
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:52 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaQ-0002Cm-6t
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:50 -0500
-Received: by mail-ed1-x533.google.com with SMTP id h10so9043654edt.13
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:29 -0800 (PST)
+ id 1lKlaY-0002DZ-FB
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:52 -0500
+Received: by mail-ej1-x636.google.com with SMTP id r17so54797194ejy.13
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gxzdJY5GtdkEi5yLqsd1wrt/9eSlH3NwjXudTzLe0d8=;
- b=QCnMUO1d4RM9McroQ6nZRuJIkmEK80fVQGRb1rAnLSnee6ANXF/e7SjJaZ91p3Gm5B
- MZEcOhjIe/4HmVhAADoZyGI7MnTRe9fEiFEYeVQmWFaMqrWoM13+EMrAbEm4tGo3nYmE
- buthkhzJw7b/npo0XYGLchdo1/pu9P1ZRl28jNc+6QsD72FADH/dMdTTgF+4cMWH6mMh
- KFR07Y5qvJ+lPb0TTk4oU36HmD4ab/50MUufD7aH+Y/+90S8H/cBZTSRTsLvMC+1IuCH
- A06dL2ZWX7J1S7BeQz2dLJ7MtE9UufOR1FjLgziDZcRlAg3Q0Zh2duHVjdN05Ok+7+ro
- 8zzg==
+ bh=k8DQFH+cYnnVYfj1j2PU6D1luYpEilshUOxymY5Gvs8=;
+ b=X3O1VLbhV2KYysJkJqtWs4oE28mJ/rEngWw87+elV5KdSm+JW9gQ+KN+G1kV2O6Fwm
+ MkWUytZWB2Z1EPTVpKg2dRS/H1FY34wRrZT9GO45xaw7ECHyTZiHkDWAaYUis97jX9EZ
+ 9kOhPjXSAqAimDWl4wOPy/ZAH0D81QFvsSTDBjErZFKMkBRL4O4+UDBAZaYh2O+r8GMc
+ ThAtT8LBakZRZYmr+9HNZyf3nbtk8F2G0mRxNiy2kdWK3oMhJwo3eLKrDRp0Lnc6exWW
+ SDBcBi4sFtOk3gh2v0rCs+CyMLJdwjWvEdnPt6iehyCl448yqvKkq6RvOR9AWxYu7uNc
+ E03A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gxzdJY5GtdkEi5yLqsd1wrt/9eSlH3NwjXudTzLe0d8=;
- b=MEPTHS/npSu3tSSg4cVIaKrSHd1ewb6DirO4a3cs27LA7TGzW7iuoTkE3NVhPTXmeC
- 7V3qABloniub08F62jMzfsBxeUyxboMQ7RV9WhbJGo6eLADazZSUCiNSdq3cYpXZYKic
- 4HZzEN0UYKHv7MK6GmdiN+NMZF7Tj6RE4uh0hQ33g0IrlnmVY4+6c03qs7ChF4jbRmNQ
- TXxBYVrFN/NhjzKercagoQWy1IX0zFj1zDWxRm5DOOc3VlG9r9mLWoc7A6HrCVF3KzMe
- 5b/BhabOLHV1IYTaAi9w9iSvWvmDk3wwYVBQnzpf+CbtaypMba5FfjVd/OAM4HSbLPvE
- a2jQ==
-X-Gm-Message-State: AOAM531s9uloGUg3XuftvwUeSI2emPl31E43XjbJ1Z3PDQJ71o/nJdjN
- 4u9Yux0KzoBcz9GFRTg+HY67XQ==
-X-Google-Smtp-Source: ABdhPJz/5QAaJBccKOsOTsdbB7hzHpIzut/+GJl/WYZ/0PPNbdhjEE/pqTd0HJXckNvZ65o9q8kBAQ==
-X-Received: by 2002:a05:6402:84b:: with SMTP id
- b11mr15270597edz.56.1615570108849; 
- Fri, 12 Mar 2021 09:28:28 -0800 (PST)
+ bh=k8DQFH+cYnnVYfj1j2PU6D1luYpEilshUOxymY5Gvs8=;
+ b=FZmeOffstyat5uREo9iakPMXRZ2v3B2+64mvfSFppjIFtyK3n4FjPF6xg7NiBQtK1o
+ Y71VydtPh29ig32Ow+LCm159VkgQJAqSXBGKs6wKtnicoCEFVoQt0IBDiwZL8Ah2crMV
+ ppZhM5yGRNV2JcXxqK2Di2O10uOe7JFRxCexFgSXSlmLeOgjlAGZ/jIpamvDwCpuz6cT
+ iQVlg5V1cNPv189xDklXrAk1mJGY1YmFUoL0soJFr6Akla8k9CuN47D963zT0FQVtsQj
+ ytoq4H3MByOu8eKUQBk4GQSTkvq2a2+a/8wVj4q492bGkwUz2QsrcMuK4J/uGMDWN+0+
+ 98Hw==
+X-Gm-Message-State: AOAM530ZjAiU/b7NWELCu9nCH7/Z1v3c/xrhyzOc4ynxnNKmMRoKGuCW
+ DeH3mVloi7GsTZp7pg91Oy3gEQ==
+X-Google-Smtp-Source: ABdhPJxPBNKxyH7KvUyYyV5kAUX2lBxn7iiXrbta43dwAD8YXbYv1lJTEv+Bk3pbDCihIfIWlN+YAA==
+X-Received: by 2002:a17:906:7f84:: with SMTP id
+ f4mr9423469ejr.525.1615570117135; 
+ Fri, 12 Mar 2021 09:28:37 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id kj3sm3103716ejc.117.2021.03.12.09.28.22
+ by smtp.gmail.com with ESMTPSA id jj16sm3117925ejc.19.2021.03.12.09.28.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 09:28:25 -0800 (PST)
+ Fri, 12 Mar 2021 09:28:28 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1CDC31FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 896211FF98;
  Fri, 12 Mar 2021 17:28:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 04/14] plugins: expand kernel-doc for qemu_info_t
-Date: Fri, 12 Mar 2021 17:28:11 +0000
-Message-Id: <20210312172821.31647-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/14] plugins: add qemu_plugin_id_t to kernel-doc
+Date: Fri, 12 Mar 2021 17:28:16 +0000
+Message-Id: <20210312172821.31647-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312172821.31647-1-alex.bennee@linaro.org>
 References: <20210312172821.31647-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,56 +93,25 @@ Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems kernel-doc struggles a bit with typedef structs but with
-enough encouragement we can get something out of it.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/qemu/qemu-plugin.h | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ include/qemu/qemu-plugin.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 3303dce862..4b84c6c293 100644
+index c98866a637..5ac6fe5f02 100644
 --- a/include/qemu/qemu-plugin.h
 +++ b/include/qemu/qemu-plugin.h
-@@ -49,22 +49,30 @@ extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
+@@ -32,6 +32,9 @@
+   #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
+ #endif
  
- #define QEMU_PLUGIN_VERSION 1
- 
--typedef struct {
--    /* string describing architecture */
 +/**
-+ * struct qemu_info_t - system information for plugins
-+ *
-+ * This structure provides for some limited information about the
-+ * system to allow the plugin to make decisions on how to proceed. For
-+ * example it might only be suitable for running on some guest
-+ * architectures or when under full system emulation.
++ * typedef qemu_plugin_id_t - Unique plugin ID
 + */
-+typedef struct qemu_info_t {
-+    /** @target_name: string describing architecture */
-     const char *target_name;
-+    /** @version: minimum and current plugin API level */
-     struct {
-         int min;
-         int cur;
-     } version;
--    /* is this a full system emulation? */
-+    /** @system_emulation: is this a full system emulation? */
-     bool system_emulation;
-     union {
--        /*
--         * smp_vcpus may change if vCPUs can be hot-plugged, max_vcpus
--         * is the system-wide limit.
--         */
-+        /** @system: information relevant to system emulation */
-         struct {
-+            /** @system.smp_vcpus: initial number of vCPUs */
-             int smp_vcpus;
-+            /** @system.max_vcpus: maximum possible number of vCPUs */
-             int max_vcpus;
-         } system;
-     };
+ typedef uint64_t qemu_plugin_id_t;
+ 
+ /*
 -- 
 2.20.1
 
