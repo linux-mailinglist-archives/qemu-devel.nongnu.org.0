@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636AD33831C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:21:44 +0100 (CET)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47942338326
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:25:53 +0100 (CET)
+Received: from localhost ([::1]:44284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKWUp-0000ml-DD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:21:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56948)
+	id 1lKWYq-0002Ps-BN
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:25:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lKWSx-00005U-D2; Thu, 11 Mar 2021 20:19:47 -0500
-Received: from ozlabs.org ([203.11.71.1]:32881)
+ id 1lKWXH-0001wg-AB; Thu, 11 Mar 2021 20:24:15 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52443 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lKWSu-0007FL-1w; Thu, 11 Mar 2021 20:19:47 -0500
+ id 1lKWXE-0000uj-KQ; Thu, 11 Mar 2021 20:24:15 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DxSf254Xfz9sVw; Fri, 12 Mar 2021 12:19:38 +1100 (AEDT)
+ id 4DxSlD3WLCz9sW4; Fri, 12 Mar 2021 12:24:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1615511978;
- bh=M+w9UjJoqaSbWHSyVHdvsp5keL1d2LjhcoVznQ9Ik3A=;
+ d=gibson.dropbear.id.au; s=201602; t=1615512248;
+ bh=hlFk5kiyLpMF793LoHbPsPwJ4htztunCmXarUYrHbcE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HTS3QnDX9MHK7+IYoj1vBSYjz5Gc/M2eWhi0f9ByJnA9qwNlQTDEE7bm+PJuorLnE
- XXvw/zsYXKiuxqDyuZMRPyRB4ftOHt+3qW0uSgEr6UkbztI1f6VG6LTJEgU5st2RBb
- m0pEukNhz4s16t09wZDYS1/k9nYPwZcMqaLzzYI0=
-Date: Fri, 12 Mar 2021 12:19:33 +1100
+ b=myxO1XMLGd5t3/mR4BUk5m8nEboKurSuN0lfUx6kEBuqMhkWJ5SQHNlwBKc8q22eu
+ THkW9e2qnI1ATPnJUD7mz5q9lqdVv3gQdKXGnC9BRawJzMrEmfs8dGo9LmhovYEEIG
+ jRlEZRZgb+ErcZpl5DegwHn/BaGdzuCD/LWaBZok=
+Date: Fri, 12 Mar 2021 12:20:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [RFC] adding a generic QAPI event for failed device hotunplug
-Message-ID: <YErBpf7w25xho1so@yekko.fritz.box>
-References: <155911cc-8764-1a65-4bb3-2fc0628d52e5@gmail.com>
- <877dmkrcpl.fsf@dusky.pond.sub.org>
- <d9567bf3-8740-e8fe-b29b-a3b0ebdb5809@gmail.com>
- <87blbt60hc.fsf@dusky.pond.sub.org>
- <8b79c207-f653-9eec-77f1-ea46c7c75ad5@gmail.com>
- <YEbp4wKK/QY7uKYw@yekko.fritz.box>
- <87mtvczvzw.fsf@dusky.pond.sub.org>
- <98d44670-5a63-1feb-aad8-9dbc62cf2e7a@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v7 1/8] vt82c686: Implement control of serial port io
+ ranges via config regs
+Message-ID: <YErB4WOuqwaAZd5E@yekko.fritz.box>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
+ <3c1c3d6b-44e4-66e1-366e-e40245589f7e@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/85zIeRl38jyKNXG"
+ protocol="application/pgp-signature"; boundary="eDrVpvzkDffO7C4+"
 Content-Disposition: inline
-In-Reply-To: <98d44670-5a63-1feb-aad8-9dbc62cf2e7a@gmail.com>
+In-Reply-To: <3c1c3d6b-44e4-66e1-366e-e40245589f7e@amsat.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,345 +60,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, michael.roth@amd.com,
- Julia Suvorova <jusual@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, Laine Stump <laine@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/85zIeRl38jyKNXG
-Content-Type: text/plain; charset=us-ascii
+--eDrVpvzkDffO7C4+
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 11, 2021 at 05:50:42PM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 3/9/21 3:22 AM, Markus Armbruster wrote:
-> > Cc: Paolo and Julia in addition to Igor, because the thread is wandering
-> > towards DeviceState member pending_deleted_event.
-> >=20
-> > Cc: Laine for libvirt expertise.  Laine, if you're not the right person,
-> > please loop in the right person.
-> >=20
-> > David Gibson <david@gibson.dropbear.id.au> writes:
-> >=20
-> > > On Mon, Mar 08, 2021 at 03:01:53PM -0300, Daniel Henrique Barboza wro=
-te:
-> > > >=20
-> > > >=20
-> > > > On 3/8/21 2:04 PM, Markus Armbruster wrote:
-> > > > > Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> > > > >=20
-> > > > > > On 3/6/21 3:57 AM, Markus Armbruster wrote:
-> > [...]
-> > > > > > > We should document the event's reliability.  Are there unplug=
- operations
-> > > > > > > where we can't detect failure?  Are there unplug operations w=
-here we
-> > > > > > > could, but haven't implemented the event?
-> > > > > >=20
-> > > > > > The current version of the PowerPC spec that the pseries machin=
-e implements
-> > > > > > (LOPAR) does not predict a way for the virtual machine to repor=
-t a hotunplug
-> > > > > > error back to the hypervisor. If something fails, the hyperviso=
-r is left
-> > > > > > in the dark.
-> > > > > >=20
-> > > > > > What happened in the 6.0.0 dev cycle is that we faced a reliabl=
-e way of
-> > > > >=20
-> > > > > Do you mean "unreliable way"?
-> > > >=20
-> > > > I guess a better word would be 'reproducible', as in we discovered =
-a reproducible
-> > > > way of getting the guest kernel to refuse the CPU hotunplug.
-> > >=20
-> > > Right.  It's worth noting here that in the PAPR model, there are no
-> > > "forced" unplugs.  Unplugs always consist of a request to the guest,
-> > > which is then resposible for offlining the device and signalling back
-> > > to the hypervisor that it's done with it.
-> > >=20
-> > > > > > making CPU hotunplug fail in the guest (trying to hotunplug the=
- last online
-> > > > > > CPU) and the pseries machine was unprepared for dealing with it=
-=2E We ended up
-> > > > > > implementing a hotunplug timeout and, if the timeout kicks in, =
-we're assuming
-> > > > > > that the CPU hotunplug failed in the guest. This is the first s=
-cenario we have
-> > > > > > today where we want to send a QAPI event informing the CPU hotu=
-nplug error,
-> > > > > > but this event does not exist in QEMU ATM.
-> > > > >=20
-> > > > > When the timeout kicks in, how can you know the operation failed?=
-  You
-> > > > > better be sure when you send an error event.  In other words: what
-> > > > > prevents the scenario where the operation is much slower than you
-> > > > > expect, the timeout expires, the error event is sent, and then the
-> > > > > operation completes successfully?
-> > > >=20
-> > > > A CPU hotunplug in a pseries guest takes no more than a couple of s=
-econds, even
-> > > > if the guest is under heavy load. The timeout is set to 15 seconds.
-> > >=20
-> > > Right.  We're well aware that a timeout is an ugly hack, since it's
-> > > not really possible to distinguish it from a guest that's just being
-> > > really slow.
-> >=20
-> > As long as unplug failure cannot be detected reliably, we need a timeout
-> > *somewhere*.  I vaguely recall libvirt has one.  Laine?
->=20
-> Yeah, Libvirt has a timeout for hotunplug operations. I agree that QEMU d=
-oing
-> the timeout makes more sense since it has more information about the
-> conditions/mechanics involved.
+On Fri, Mar 12, 2021 at 12:47:54AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> ping for review?
 
-Right.  In particular, I can't really see how libvirt can fully
-implement that timeout.  AFAIK qemu has no way of listing or
-cancelling "in flight" unplug requests, so it's entirely possible that
-the unplug could still complete after libvirt's has "timed out".
+I'm not sure who you're asking for a review from.
 
-> At this moment, the only case I know of hotunplug operations timing out in
-> QEMU is what we did with CPU hotunplug in pseries though. I can't tell if
-> unplug timeout is desirable mechanism for other machines/device types.
 >=20
-> > Putting the timeout in QEMU might be better.  QEMU might be in a better
-> > position to pick a suitable timeout.
+> On 3/10/21 3:58 AM, BALATON Zoltan wrote:
+> > In VIA super south bridge the io ranges of superio components
+> > (parallel and serial ports and FDC) can be controlled by superio
+> > config registers to set their base address and enable/disable them.
+> > This is not easy to implement in QEMU because ISA emulation is only
+> > designed to set io base address once on creating the device and io
+> > ranges are registered at creation and cannot easily be disabled or
+> > moved later.
 > >=20
-> > > It was the best thing we could come up with in the short term though.
-> > > Without the changes we're suggesting here, the guest can positively
-> > > assert the unplug is complete, but it has no way to signal failure.
-> > > So, without a timeout qemu is stuck waiting indefinitely (or at least
-> > > until the next machine reset) on the guest for an unplug that might
-> > > never complete.
-> > >=20
-> > > It's particularly nasty if the guest does really fail the hotplug
-> > > internally, but then conditions change so that the same unplug could
-> > > now succeed.  The unplug request is just a message - there's no guest
-> > > visible persistent state saying we want the device unplugged, so if
-> > > conditions change the guest won't then re-attempt the unplug.
-> > > Meanwhile the user can't re-attempt the device_del, because on the
-> > > qemu side it's still stuck in a pending unplug waiting on the guest.
+> > In this patch we hack around that but only for serial ports because
+> > those have a single io range at port base that's relatively easy to
+> > handle and it's what guests actually use and set address different
+> > than the default.
 > >=20
-> > "Can't re-attempt" feels like a bug.  Let me explain.
-
-You may be right.  Perhaps we should just send another unplug message
-if we get a device_del on something that's already pending deletion.
-AFAICT repeated unplug messages for the same device should be
-harmless.
-
-> So, what David mentioned above is related to pseries internals I believe.
->=20
-> Up to 5.2.0 the pseries machine were silently ignoring all 'device_del'
-> issued for devices that were in the middle of the unplug process, with the
-> exception of DIMMs where we bothered to throw an error message back to the
-> user.
->=20
-> In 6.0.0 the code was reworked, and now we're always letting the user know
-> when the 'device_del' was ignored due to an ongoing hotunplug of the devi=
-ce.
-> And for CPUs we also tell the timeout remaining. We're still not sending
-> multiple hotunplug IRQ pulses to the guest, but at least the user is now
-> informed about it.
->=20
-> As for the commit mentioned below:
->=20
+> > We do not attempt to handle controlling the parallel and FDC regions
+> > because those have multiple io ranges so handling them would be messy
+> > and guests either don't change their deafult or don't care. We could
+> > even get away with disabling and not emulating them, but since they
+> > are already there, this patch leaves them mapped at their default
+> > address just in case this could be useful for a guest in the future.
 > >=20
-> > Depending on the device, device_del can complete the unplug, or merely
-> > initiate it.  Documentation:
+> > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > ---
+> >  hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 82 insertions(+), 2 deletions(-)
 > >=20
-> > # Notes: When this command completes, the device may not be removed fro=
-m the
-> > #        guest.  Hot removal is an operation that requires guest cooper=
-ation.
-> > #        This command merely requests that the guest begin the hot remo=
-val
-> > #        process.  Completion of the device removal process is signaled=
- with a
-> > #        DEVICE_DELETED event. Guest reset will automatically complete =
-removal
-> > #        for all devices.
-> >=20
-> > This is not as accurate as it could be.  Behavior depends on the device.
-> >=20
-> > For some kinds of devices, the command completes the unplug before it
-> > sends its reply.  Example: USB devices.  Fine print: the DEVICE_DELETED
-> > event gets send with a slight delay because device cleanup uses RCU.
-> >=20
-> > For others, notably PCI devices, the command only pokes the guest to do
-> > its bit.  QEMU reacts to the guest's actions, which eventually leads to
-> > the actual unplug.  DEVICE_DELETED gets sent then.  If the guest doesn't
-> > play ball to the end, the event doesn't get send.
-> >=20
-> > The "can't retry unplug" behavior is new.  Another device_del used to
-> > simply poke the guest again.
-
-Maybe on x86.  I think a repeated device_del was at best a no-op on
-PAPR.
-
-> > I think this regressed in commit
-> > cce8944cc9 "qdev-monitor: Forbid repeated device_del", 2020-02-25.
-> > Feels like a must-fix for 6.0.
->=20
->=20
-> This doesn't directly affect pseries code because we're not using
-> dev->pending_deleted_event to track the pending unplug status. We're
-
-Huh... I didn't know about pending_deleted_event.  Maybe we *should*
-be using that.  Handling the migration will be painful, of course.
-
-> using an internal flag that is related to the DRC (the 'hotplug state'
-> of the device).
->=20
-> The commit seems a bit odd because it is making a change in the common co=
-de
-> inside qmp_device_del() based on a PCI-e specific behavior. In the end th=
-is
-> doesn't impact any other device but PCI-e (it is the only device that uses
-> dev->pending_deleted_event to mark the start and finish of the unplug pro=
-cess),
-> but it's not something that I might expect in that function.
->=20
-> IMO this verification should be removed from qmp_device_del and moved to
-> pcie_cap_slot_unplug_request_cb(). This would fix the problem for PCIe de=
-vices
-> without making assumptions about everything else.
->=20
->=20
-> >=20
-> > > As we're discussing we think we have a better way, but it relies on
-> > > guest changes, so we can't assume we already have that on the qemu
-> > > side.
-> > >=20
-> > > > I'm aware that there's always that special use case, that we haven'=
-t seen yet,
-> > > > where this assumption is no longer valid. The plan is to change the=
- spec and the
-> > > > guest kernel to signal the CPU hotunplug error back to QEMU before =
-the dragon
-> > > > lands. For now, timing out the CPU hotunplug process when we're alm=
-ost certain
-> > > > (but not 100%) that it failed in the guest is the best can do.
-> > > >=20
-> > > > For both cases I want to use DEVICE_UNPLUG_ERROR right from the sta=
-rt, avoiding
-> > > > guest visible changes when we change how we're detecting the unplug=
- errors.
-> > > >=20
-> > > > > > The second scenario is a memory hotunplug error. I found out th=
-at the pseries
-> > > > > > guest kernel does a reconfiguration step when re-attaching the =
-DIMM right
-> > > > > > after refusing the hotunplug, and this reconfiguration is visib=
-le to QEMU.
-> > > > > > I proceeded to make the pseries machine detect this error case,=
- rollback the
-> > > > > > unplug operation and fire up the MEM_UNPLUG_ERROR. This case is=
- already covered
-> > > > > > by QAPI, but if we add a DEVICE_UNPLUG_ERROR event I would use =
-it in this case as
-> > > > > > well instead of the MEM specific one.
-> > > > > >=20
-> > > > > > This investigation and work in the mem hotunplug error path tri=
-ggered a
-> > > > > > discussion in qemu-ppc, where we're considering whether we shou=
-ld do the same
-> > > > > > signalling the kernel does for the DIMM hotunplug error for all=
- other device
-> > > > > > hotunplug errors, given that the reconfiguration per se is not =
-forbidden by LOPAR
-> > > > > > and it's currently a no-op. We would make a LOPAR spec change t=
-o make this an
-> > > > > > official hotunplug error report mechanism, and all pseries hotu=
-nplug operations,
-> > > > > > for all devices, would report DEVICE_UNPLUG_ERROR QAPI events i=
-n the error path.
-> > > > > >=20
-> > > > > > Granted, the spec change + Kernel change is not something that =
-we will be able
-> > > > > > to nail down in the 6.0.0 cycle, but having the DEVICE_UNPLUG_E=
-RROR QAPI event
-> > > > > > already in place would make it easier for the future as well.
-> > > > > >=20
-> > > > > >=20
-> > > > > > I have a doc draft of these changes/infos that I forgot to post=
-=2E I would post
-> > > > > > it as docs/system/ppc-spapr-hotunplug-notes.rst. I can add the =
-QAPI events
-> > > > > > information there as well. Does that work for you as far as doc=
-umentation
-> > > > > > goes?
-> > > > >=20
-> > > > > A DEVICE_UNPLUG_ERROR event makes perfect sense regardless of mac=
-hine
-> > > > > and device.
-> > >=20
-> > > Ack.  Fwiw, I don't think this can ever be more than a "best effort"
-> > > notification.  Even with a machine and OS that should support it, a
-> > > guest bug or hang could mean that it never acks *or* nacks an unplug
-> > > request.
-> >=20
-> > Since the success event is named DEVICE_DELETED, I'd name the
-> > probably-failed event DEVICE_NOT_DELETED.  Bonus: can read it as a
-> > statement of fact "still not deleted" instead of an error (that just
-> > might not be one).
->=20
->=20
-> "DEVICE_NOT_DELETED" sounds way better for what we want to express in the
-> pseries case when we can't be 100% sure of a guest side error. However,
-> there is at least one case where I'm sure of a guest side error (where I'm
-> using MEM_UNPLUG_ERROR), so DEVICE_UNPLUG_ERROR seems fitting in that cas=
-e.
->=20
->=20
-> Should we add both DEVICE_NOT_DELETED and DEVICE_UNPLUG_ERROR then? I can=
- use
-> both in pseries-6.0.0.
->=20
->=20
->=20
->=20
-> Thanks,
->=20
->=20
-> DHB
->=20
->=20
-> >=20
-> > > > > I'm not asking you to to implement it for all machines and device=
-s.  But
-> > > > > I want its design to support growth towards that goal, and its
-> > > > > documentation reflect its current state.
-> > > > >=20
-> > > > > In particular, the doc comment in the QAPI schema should list the
-> > > > > limitation.  If the event is only implemented for LOPAR for now, =
-say so.
-> > > > > If it's only implemented for certain devices, say so.
-> > > > >=20
-> > > > > Questions?
-> > > >=20
-> > > >=20
-> > > > Nope. Thanks for the pointers. I'll add the DEVICE_UNPLUG_ERROR QAP=
-I event
-> > > > in a way that it can be used by other machines in the future, and d=
-ocumenting
-> > > > where the event is being used ATM.
-> > > >=20
-> > > >=20
-> > > > Thanks,
-> > > >=20
-> > > >=20
-> > > > DHB
-> > > >=20
-> > > >=20
-> > > > >=20
-> > > >=20
+> > diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> > index 05d084f698..a3353ec5db 100644
+> > --- a/hw/isa/vt82c686.c
+> > +++ b/hw/isa/vt82c686.c
+> > @@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info =3D {
+> >  typedef struct SuperIOConfig {
+> >      uint8_t regs[0x100];
+> >      MemoryRegion io;
+> > +    ISASuperIODevice *superio;
+> > +    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+> >  } SuperIOConfig;
+> > =20
+> > +static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
+> > +                                    int offs)
+> > +{
+> > +    MemoryRegion *subregion, *mr =3D NULL;
+> > +
+> > +    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
+> > +        if (subregion->addr =3D=3D offs) {
+> > +            mr =3D subregion;
+> > +            break;
+> > +        }
+> > +    }
+> > +    return mr;
+> > +}
+> > +
+> >  static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+> >                                unsigned size)
+> >  {
+> > @@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr=
+ addr, uint64_t data,
+> >      case 0xfd ... 0xff:
+> >          /* ignore write to read only registers */
+> >          return;
+> > -    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial=
+ */
+> > +    case 0xe2:
+> > +    {
+> > +        data &=3D 0x1f;
+> > +        if (data & BIT(2)) { /* Serial port 1 enable */
+> > +            ISADevice *dev =3D sc->superio->serial[0];
+> > +            if (!memory_region_is_mapped(sc->serial_io[0])) {
+> > +                memory_region_add_subregion(isa_address_space_io(dev),
+> > +                                            dev->ioport_id, sc->serial=
+_io[0]);
+> > +            }
+> > +        } else {
+> > +            MemoryRegion *io =3D isa_address_space_io(sc->superio->ser=
+ial[0]);
+> > +            if (memory_region_is_mapped(sc->serial_io[0])) {
+> > +                memory_region_del_subregion(io, sc->serial_io[0]);
+> > +            }
+> > +        }
+> > +        if (data & BIT(3)) { /* Serial port 2 enable */
+> > +            ISADevice *dev =3D sc->superio->serial[1];
+> > +            if (!memory_region_is_mapped(sc->serial_io[1])) {
+> > +                memory_region_add_subregion(isa_address_space_io(dev),
+> > +                                            dev->ioport_id, sc->serial=
+_io[1]);
+> > +            }
+> > +        } else {
+> > +            MemoryRegion *io =3D isa_address_space_io(sc->superio->ser=
+ial[1]);
+> > +            if (memory_region_is_mapped(sc->serial_io[1])) {
+> > +                memory_region_del_subregion(io, sc->serial_io[1]);
+> > +            }
+> > +        }
+> > +        break;
+> > +    }
+> > +    case 0xe7: /* Serial port 1 io base address */
+> > +    {
+> > +        data &=3D 0xfe;
+> > +        sc->superio->serial[0]->ioport_id =3D data << 2;
+> > +        if (memory_region_is_mapped(sc->serial_io[0])) {
+> > +            memory_region_set_address(sc->serial_io[0], data << 2);
+> > +        }
+> > +        break;
+> > +    }
+> > +    case 0xe8: /* Serial port 2 io base address */
+> > +    {
+> > +        data &=3D 0xfe;
+> > +        sc->superio->serial[1]->ioport_id =3D data << 2;
+> > +        if (memory_region_is_mapped(sc->serial_io[1])) {
+> > +            memory_region_set_address(sc->serial_io[1], data << 2);
+> > +        }
+> > +        break;
+> > +    }
+> >      default:
+> >          qemu_log_mask(LOG_UNIMP,
+> >                        "via_superio_cfg: unimplemented register 0x%x\n"=
+, idx);
+> > @@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error *=
+*errp)
+> >      DeviceState *dev =3D DEVICE(d);
+> >      ISABus *isa_bus;
+> >      qemu_irq *isa_irq;
+> > +    ISASuperIOClass *ic;
+> >      int i;
+> > =20
+> >      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+> > @@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error *=
+*errp)
+> >      isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+> >      i8254_pit_init(isa_bus, 0x40, 0, NULL);
+> >      i8257_dma_init(isa_bus, 0);
+> > -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+> > +    s->superio_cfg.superio =3D ISA_SUPERIO(isa_create_simple(isa_bus,
+> > +                                                      TYPE_VT82C686B_S=
+UPERIO));
+> > +    ic =3D ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+> >      mc146818_rtc_init(isa_bus, 2000, NULL);
+> > =20
+> >      for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+> > @@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error =
+**errp)
+> >       */
+> >      memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+> >                                  &s->superio_cfg.io);
+> > +
+> > +    /* Grab io regions of serial devices so we can control them */
+> > +    for (i =3D 0; i < ic->serial.count; i++) {
+> > +        ISADevice *sd =3D s->superio_cfg.superio->serial[i];
+> > +        MemoryRegion *io =3D isa_address_space_io(sd);
+> > +        MemoryRegion *mr =3D find_subregion(sd, io, sd->ioport_id);
+> > +        if (!mr) {
+> > +            error_setg(errp, "Could not get io region for serial %d", =
+i);
+> > +            return;
+> > +        }
+> > +        s->superio_cfg.serial_io[i] =3D mr;
+> > +        if (memory_region_is_mapped(mr)) {
+> > +            memory_region_del_subregion(io, mr);
+> > +        }
+> > +    }
+> >  }
+> > =20
+> >  static void via_class_init(ObjectClass *klass, void *data)
 > >=20
 >=20
 
@@ -412,25 +250,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/85zIeRl38jyKNXG
+--eDrVpvzkDffO7C4+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBKwaIACgkQbDjKyiDZ
-s5Juiw/+P/WQilAgik09lIMO0IJFjoMTs9HAqVhfuWaYei+kJHm0XSjUGED0g0tu
-DpTts88qv6uCnYtDYtQDeMeU7dE7qVDwMy17HmIm78xK4USCdBwqnrHzhtdqvXrt
-O1+u0o2qXznebDLQ16tM+39pspxsyuGqL+s/ffPLC1D3VY6q2Mg/BvolTa2gqKSC
-HtZrDS87O9ynRqJED86JRoU/gZOm0bETXU/LLsLZYxWvIkRzMBgsUDuFvBbe+3J7
-OayIKOW10SDM+eeUHukPV4xUVga1azbef6mWlNELAFuR2+aJK80dCaDK66RXqoiW
-0fiwUJ5V2fIMjUsCqPRq+RbW8VPKeq5PwcNdmoRQ6CCAlBQpjxqzPfMsrAzmqPm1
-JshVwzwedX6fhWgy+4YvxFW0gs2R9rCZMz8DO/REHajJ9pXqP+bQW0v3af+0HkEg
-xGJLsmxC2NBsY0F8W8wxDdtjLtkMWNEDWkWPoPWXJnxROJ6IAQ7YyI/wMNO8QJjC
-PtIp5qoqCFdYEv+F/T8/P8XdYIgORHDDl9RWvxQDg+lPTlJo1Z9IhUCyh/Ot3SL3
-wLRaxKYN460QBLErruOBH4/JSuyn2NkaHnqUVx/EqeXFx6w8ff8HSOwslmsNQdN4
-q2/CeAVh/InXiZ9CEYDHNOTaFjz3VCyPixUSY7W+PTLypq+JDVY=
-=LVLQ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBKweAACgkQbDjKyiDZ
+s5KIYhAAlVef/YXDe7rYkqsaROt14YA8RdzrNwwk68hLYNkEMljF0okZTYJtFCm3
+YhCo6S644Sk/DKOGCYb9vJTbj9VdlZxUYRkPeH0c2bdlf0Jyb48cvE7YFRQwiSK3
+gwkiSySPW5OoihBsNZNtHHiAMP7i7Zw8U6k8XOmGuoJ+yRXhgneSOdWa1lFw9LbC
+rvQlVaa3/8cqbWr8QizeXlNcsozkmE7sqDoHxNxnaH/rnn0y9zwJcMYl8aiktJLs
+Bkpa9XgI03QqkMJTcqWIYcFswlt/QDwdFJX26hjqtgSS7ZMeqlIEx2M4oFqD/7ma
+JYyWz7Sijr0u3oLpN8gEkQqGkjLUDxOF7PljFrHd+DIukE8vboZG/UPiy1c/73zw
+ckDDrf7hHcTrEy6IMPVFXufZ2K/qc/yb2z/ZJzZtAZax4IDAqBcyQqi79WDtRYf4
+YPamfvt1WnsZWSCOvBotqDOR9XsVViBPV1YVXu5YnG/tpD9aKmLqO0+Q97E33zHI
+VlvaAZshA9qvsZy/wgDgR/2oXciibs0GCJ2FfTpBpWmGn/hP3ce9eTqOFTn3o4FT
+rq/Iwjk2LIljiETc/6JGX9CiEpPi9ZGg1F+3bhlsI5Y3zoynvLv6IvE5wFld39ns
+mOs7h9yM3VFauxkAd8ZXQB62l9+P/Jt31vugI84UUZyAy/OluGM=
+=AxJt
 -----END PGP SIGNATURE-----
 
---/85zIeRl38jyKNXG--
+--eDrVpvzkDffO7C4+--
 
