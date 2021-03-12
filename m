@@ -2,46 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E41339152
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:32:38 +0100 (CET)
-Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560AD33917F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:37:52 +0100 (CET)
+Received: from localhost ([::1]:44638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjmH-0000yB-67
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:32:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
+	id 1lKjrL-0006YA-C6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:37:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lKjZd-0004ro-9m
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:33 -0500
-Received: from foss.arm.com ([217.140.110.172]:48176)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lKjZb-0003rR-0r
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:33 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C1531FB;
- Fri, 12 Mar 2021 07:19:30 -0800 (PST)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56CCE3F7D7;
- Fri, 12 Mar 2021 07:19:27 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v10 6/6] KVM: arm64: Document MTE capability and ioctl
-Date: Fri, 12 Mar 2021 15:19:02 +0000
-Message-Id: <20210312151902.17853-7-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210312151902.17853-1-steven.price@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKjbE-0006vL-Mh
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:21:12 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKjbC-0004ol-Nt
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:21:12 -0500
+Received: by mail-wr1-x434.google.com with SMTP id f12so5009624wrx.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:21:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3RKQma1l7Rl7FkdhJhcWopqorchNx7lcyhOmW3wkAf4=;
+ b=nhA60YIpoVF+gz95EPN2kVsbRQaMNm4hXqSo6dQjNtb8IyAXNgUqsQP63Z75dhTndg
+ IjI3D/2NtBxAh9xbWvY/mmTU+0UWivD0VLDTBV67qlpslYSXJshB6i5ARwiutplmT7rs
+ ZhVXib/F5jOrwIaeb+Ole/wgw24/hTFYGckvfvmVAGqzJdCFWArAWnZ5YrE3maVjK7wL
+ zVw2uwCiJpyv0amnQgDVQQX+uZxO3pK4IC3ZKkIrqGe8e8Fv033tyrVO2GD3fcfo8HpH
+ ksV/q549Xahjk77hpLDQbzrhCIpWTipfwcZhKPA7Nl8cAXtbmWn9VFRX6CsqNQi1YRRt
+ q/Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=3RKQma1l7Rl7FkdhJhcWopqorchNx7lcyhOmW3wkAf4=;
+ b=IwZjLEce8Rs08eZTHojjQDVRylPy29FFyhMFlcVExPBXBZ3Jv07B/vI+IY/Xc12NR1
+ n03Lj/V90yRMMUoED2HZLjD2jvlhv6vjtnQKhlNq8ftl/g410PI0hkcrrEveHWwaQcR/
+ ddEj8xCF98h6BIwkTtE7I+7ANthr64gwI7UzWpyUQKx5GQASYq8l44cAYlNdJ7wZbZvZ
+ NFHuIMZHOM84cNApXkI3BmALKNyDLcj3aBplNUqS3psI9VI0OjNcUUofVuhtarbIjxRQ
+ yetyRaNRsBBsojtE+0fvarBwawfKNfuU2a9j2Ud3L7r/u3geQEx1wQ04O9lhAuNtbywM
+ pmjQ==
+X-Gm-Message-State: AOAM533zmHtZozkIGfBktG8m7rhUaJ9UYPZadCk9r7zoERQzSrLhIApI
+ dzcV6l5LXfzdtnFu8bjef7u+OrqfvAI=
+X-Google-Smtp-Source: ABdhPJxyAcH7zlQqvHiuAcWnT7QZwfvFe0aqG5jkm9F08OT5NmETWiwjV0dzMK3ajWjU7jTkxGeomA==
+X-Received: by 2002:a5d:640b:: with SMTP id z11mr14169105wru.327.1615562468097; 
+ Fri, 12 Mar 2021 07:21:08 -0800 (PST)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id j136sm2564398wmj.35.2021.03.12.07.21.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 07:21:07 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg: Run tests on arch variants again
+Date: Fri, 12 Mar 2021 16:21:05 +0100
+Message-Id: <20210312152105.1836543-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,105 +83,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
-granting a guest access to the tags, and provides a mechanism for the
-VMM to enable it.
+We used to run the TCG tests for various QEMU targets, but at
+some points it got restricted to base directories in tests/tcg/.
+For example, armeb/mipsel/mips64/... targets are currently skipped.
 
-A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
-access the tags of a guest without having to maintain a PROT_MTE mapping
-in userspace. The above capability gates access to the ioctl.
+The configuration Makefiles in default-configs/targets/ provide all
+the required information, in particular TARGET_BASE_ARCH.
 
-Signed-off-by: Steven Price <steven.price@arm.com>
+Source the target default-configs.mak and optionally process the
+TARGET_ARCH / TARGET_BASE_ARCH Makefiles (if these variables differ
+from TARGET_NAME).
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- Documentation/virt/kvm/api.rst | 53 ++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ tests/tcg/Makefile.target | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 1a2b5210cdbf..ccc84f21ba5e 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4938,6 +4938,40 @@ see KVM_XEN_VCPU_SET_ATTR above.
- The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
- with the KVM_XEN_VCPU_GET_ATTR ioctl.
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 24d75a5801f..677b247328f 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -85,6 +85,10 @@ TIMEOUT=15
+ endif
  
-+4.131 KVM_ARM_MTE_COPY_TAGS
-+---------------------------
+ ifdef CONFIG_USER_ONLY
 +
-+:Capability: KVM_CAP_ARM_MTE
-+:Architectures: arm64
-+:Type: vm ioctl
-+:Parameters: struct kvm_arm_copy_mte_tags
-+:Returns: 0 on success, < 0 on error
++# FIXME bsd-user?
++include $(SRC_PATH)/default-configs/targets/$(TARGET_NAME)-linux-user.mak
 +
-+::
-+
-+  struct kvm_arm_copy_mte_tags {
-+	__u64 guest_ipa;
-+	__u64 length;
-+	union {
-+		void __user *addr;
-+		__u64 padding;
-+	};
-+	__u64 flags;
-+	__u64 reserved[2];
-+  };
-+
-+Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
-+``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
-+fieldmust point to a buffer which the tags will be copied to or from.
-+
-+``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
-+``KVM_ARM_TAGS_FROM_GUEST``.
-+
-+The size of the buffer to store the tags is ``(length / MTE_GRANULE_SIZE)``
-+bytes (i.e. 1/16th of the corresponding size). Each byte contains a single tag
-+value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
-+``PTRACE_POKEMTETAGS``.
-+
- 5. The kvm_run structure
- ========================
+ # The order we include is important. We include multiarch first and
+ # then the target. If there are common tests shared between
+ # sub-targets (e.g. ARM & AArch64) then it is up to
+@@ -92,6 +96,16 @@ ifdef CONFIG_USER_ONLY
+ # architecture in its VPATH.
+ -include $(SRC_PATH)/tests/tcg/multiarch/Makefile.target
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.target
++ifneq ($(TARGET_ARCH),)
++ifneq ($(TARGET_ARCH),$(TARGET_NAME))
++-include $(SRC_PATH)/tests/tcg/$(TARGET_ARCH)/Makefile.target
++endif
++endif
++ifneq ($(TARGET_BASE_ARCH),)
++ifneq ($(TARGET_BASE_ARCH),$(TARGET_ARCH))
++-include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.target
++endif
++endif
  
-@@ -6227,6 +6261,25 @@ KVM_RUN_BUS_LOCK flag is used to distinguish between them.
- This capability can be used to check / enable 2nd DAWR feature provided
- by POWER10 processor.
+ # Add the common build options
+ CFLAGS+=-Wall -Werror -O0 -g -fno-strict-aliasing
+@@ -102,12 +116,25 @@ endif
+ %: %.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ else
++
++include $(SRC_PATH)/default-configs/targets/$(TARGET_NAME)-softmmu.mak
++
+ # For softmmu targets we include a different Makefile fragement as the
+ # build options for bare programs are usually pretty different. They
+ # are expected to provide their own build recipes.
+ -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
+ -include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
++ifneq ($(TARGET_ARCH),)
++ifneq ($(TARGET_ARCH),$(TARGET_NAME))
++-include $(SRC_PATH)/tests/tcg/$(TARGET_ARCH)/Makefile.softmmu-target
++endif
++endif
++ifneq ($(TARGET_BASE_ARCH),)
++ifneq ($(TARGET_BASE_ARCH),$(TARGET_ARCH))
++-include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
++endif
++endif
  
-+7.23 KVM_CAP_ARM_MTE
-+--------------------
-+
-+:Architectures: arm64
-+:Parameters: none
-+
-+This capability indicates that KVM (and the hardware) supports exposing the
-+Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
-+VMM before the guest will be granted access.
-+
-+When enabled the guest is able to access tags associated with any memory given
-+to the guest. KVM will ensure that the pages are flagged ``PG_mte_tagged`` so
-+that the tags are maintained during swap or hibernation of the host; however
-+the VMM needs to manually save/restore the tags as appropriate if the VM is
-+migrated.
-+
-+When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
-+perform a bulk copy of tags to/from the guest.
-+
- 8. Other capabilities.
- ======================
+ endif
  
 -- 
-2.20.1
+2.26.2
 
 
