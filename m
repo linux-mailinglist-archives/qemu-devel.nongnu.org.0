@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4BB3385DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 07:27:51 +0100 (CET)
-Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC113385E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 07:29:41 +0100 (CET)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKbH4-0006wr-Sq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 01:27:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60516)
+	id 1lKbIq-0001Gs-70
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 01:29:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKb6X-0000TB-TH
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:16:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50532)
+ id 1lKb6a-0000WU-NT
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:17:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lKb6V-0005qK-39
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:16:57 -0500
+ id 1lKb6X-0005rk-Kq
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 01:17:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615529814;
+ s=mimecast20190719; t=1615529816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RyNIINoBz1Hi6Rbx/YwEruYvIrkhCW2bFy+35okkCBk=;
- b=Cgqq9WjPXXBrDyi7wzK+esjo3b2ZXQHWJW/NVUsuT5x4+dPeb0416C3LQ4Vgtb/4X4ZMf0
- tTJhM52O7cFqOVlcE+evf5exBOWF6+kYDi6YctpuN6YhVlHdiieHf4jkb+sXvOgYda9XeW
- bKTJBbKM5bsSrlVmR5eyIZAWE538dRk=
+ bh=RdcJWZ6DHPuuQFJeMiOmCH7fjRe4vlISaTRE6TS3Riw=;
+ b=frt1JI5OU6MF8G1skQE9fy1Oh1UxRYFkzXyLHzmzK71kYyd/r1ob1oANXbiWb73kznw3Gr
+ +BxYMlnicaNzd5rUhHu64O7PaVDhZ45FtviCK3EhJkDvdnhcrKOqwflr9/F33e+SRVzwWS
+ rOc7Nb7O+LnRu+fg1zckT8HZxiddQYg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-Y3ADGl_0OY2Bv25XCaGY-w-1; Fri, 12 Mar 2021 01:16:52 -0500
-X-MC-Unique: Y3ADGl_0OY2Bv25XCaGY-w-1
+ us-mta-504-QnewdyGmO9uLuLvCL90zWg-1; Fri, 12 Mar 2021 01:16:54 -0500
+X-MC-Unique: QnewdyGmO9uLuLvCL90zWg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53C24107ACCD;
- Fri, 12 Mar 2021 06:16:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1B9D81744F;
+ Fri, 12 Mar 2021 06:16:53 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-126.pek2.redhat.com
  [10.72.12.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65EC7101F501;
- Fri, 12 Mar 2021 06:16:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D38AA101F501;
+ Fri, 12 Mar 2021 06:16:51 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/16] msf2-mac: switch to use qemu_receive_packet() for
- loopback
-Date: Fri, 12 Mar 2021 14:16:19 +0800
-Message-Id: <1615529786-30763-10-git-send-email-jasowang@redhat.com>
+Subject: [PULL 10/16] sungem: switch to use qemu_receive_packet() for loopback
+Date: Fri, 12 Mar 2021 14:16:20 +0800
+Message-Id: <1615529786-30763-11-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1615529786-30763-1-git-send-email-jasowang@redhat.com>
 References: <1615529786-30763-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -92,25 +91,27 @@ This is intended to address CVE-2021-3416.
 
 Cc: Prasad J Pandit <ppandit@redhat.com>
 Cc: qemu-stable@nongnu.org
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/msf2-emac.c | 2 +-
+ hw/net/sungem.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/msf2-emac.c b/hw/net/msf2-emac.c
-index 32ba9e8..3e62060 100644
---- a/hw/net/msf2-emac.c
-+++ b/hw/net/msf2-emac.c
-@@ -158,7 +158,7 @@ static void msf2_dma_tx(MSF2EmacState *s)
-          * R_CFG1 bit 0 is set.
-          */
-         if (s->regs[R_CFG1] & R_CFG1_LB_EN_MASK) {
--            nc->info->receive(nc, buf, size);
-+            qemu_receive_packet(nc, buf, size);
-         } else {
-             qemu_send_packet(nc, buf, size);
-         }
+diff --git a/hw/net/sungem.c b/hw/net/sungem.c
+index 33c3722..3684a4d 100644
+--- a/hw/net/sungem.c
++++ b/hw/net/sungem.c
+@@ -306,7 +306,7 @@ static void sungem_send_packet(SunGEMState *s, const uint8_t *buf,
+     NetClientState *nc = qemu_get_queue(s->nic);
+ 
+     if (s->macregs[MAC_XIFCFG >> 2] & MAC_XIFCFG_LBCK) {
+-        nc->info->receive(nc, buf, size);
++        qemu_receive_packet(nc, buf, size);
+     } else {
+         qemu_send_packet(nc, buf, size);
+     }
 -- 
 2.7.4
 
