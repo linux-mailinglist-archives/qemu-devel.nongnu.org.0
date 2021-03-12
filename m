@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25A9338F67
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:07:13 +0100 (CET)
-Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320ED338F85
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:11:52 +0100 (CET)
+Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKiRd-0004DO-0V
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:07:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
+	id 1lKiW7-0003ep-7q
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:11:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiD2-0002zJ-NB
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:08 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40880)
+ id 1lKiD9-00032m-ES
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:15 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiCr-0001yg-I4
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:08 -0500
-Received: by mail-wr1-x433.google.com with SMTP id v11so1815344wro.7
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:55 -0800 (PST)
+ id 1lKiCt-0001zI-Q9
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:15 -0500
+Received: by mail-wr1-x444.google.com with SMTP id d15so4849344wrv.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9bWo2icBFqcJOrcIH29uZTN7h9AGM1WV1HrIrT+eHqI=;
- b=fpC0nkmA0IDlkGu9trb0h/Jdbam5lyAlJrK5wTatDbRap07zlb2Xw9SUXYRvS8O8z1
- v3V/t1CnKOqovU6/FoRRIZ8+JWlHt0XMsL4wFbcVg+cbjel5ryatxvACkhlTyljGfaAz
- 8h7N3MvsvuIPEz29crhRKfh+KvZ1eU2gMxz6P4cbajNuRK++90ZxFuVrTzyLX/2PZiy2
- DvBkqvTmcX3zjiecMTu/vBuxbU+jYSwB0avM2hp6L1ZjMer7GDXpvgf/Kj2Oo7WJNyJ5
- qkOKkBaWxrwF9+196w0YZ4bEj31BVCC+QPPbQQfECll+zvgSmfRuleqerEEHiZ9kbe8O
- PSRg==
+ bh=pVJCCTXEBFCdTpdgMvxQ3MowdcBHA8h6sYnGpHGOj7E=;
+ b=Tb/SRBOo+2UCT8dIVnGCxaxb2E+0FDQHyfheKmVHeBuM71zJMAkHJ0RKdUSD/Uy63A
+ Focow3Y/KjsRC+NcIMwSPynQk7SjHK+s1epWIO+yFn0SF/ATz2ibJzj2aBDDzeR7qxFG
+ bqWbKZ/+e96j2XH9Yt+qbMqAO/Z0Bxrwo2e9S9mB4cTL2jfx2CWbOCew1HGwpIgApBMx
+ SmZPd1P57LAw8xPaRf5y1A7vQlHQZOXpqFTh1vc4riZnfkWO0CoHeGDZuiCENQ2JOmdh
+ wSMuwyTPJOqApO4DJWKs0qhGaxf1HeVWgreL5Bq5GBsvccZ9Q2d/SJG5lUbliVepED9d
+ RlEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9bWo2icBFqcJOrcIH29uZTN7h9AGM1WV1HrIrT+eHqI=;
- b=cgNyGH7MVneglJAtw+OOZkiti0rESA8//8X+r4SZKM1to3A0K4vWoLgGUqorJfhXsJ
- B05mHmhyKjB/2j8fbjp5SmOIWBr41rNwnLO8IkoLN0QY1FML4fXTbk2sRpCB/2cQcEcN
- HNNBMjypGl7wcNHdvdqVV/8yLWdv7VXr8iZL3msw77SAad7LcVQRS7V5YJ2WkRK53zbw
- umkAfQpKc/YViepiRxw2gplmOsploZHJr0pSh2m4BxlBRfDyjnHdQwl9NHDQ4HZlfv5m
- jlP7f5VBEcNbr/TaUBtufidYcoZpJyt+IpzVBlxlYAeA4Ko6Wx2A/qdUlHqMfObhxWWn
- 2IFw==
-X-Gm-Message-State: AOAM530kRt/85H9C9s4Gk7L2f4okHvivuf3AP53wtZ45LUIlaZG0I3f+
- FXcE6Vlah4Vfn2bsdUKqB20CbKYI6FvRZIiP
-X-Google-Smtp-Source: ABdhPJyPoqXOLetPIq2EU4vexpbQZ332PwyNU+bYZQxYSXl4Dfw1clP0qmvvkPipL17MiJtvwVKn7g==
-X-Received: by 2002:adf:fac1:: with SMTP id a1mr14482530wrs.98.1615557114796; 
- Fri, 12 Mar 2021 05:51:54 -0800 (PST)
+ bh=pVJCCTXEBFCdTpdgMvxQ3MowdcBHA8h6sYnGpHGOj7E=;
+ b=maK6IiHRNV1qgEPeUnrvOEU09+5qdlHU1g9KxSwhj4OCQnGJmnrgl8jBK48CQNNFpS
+ PG6xSIUWyLSC1pbTuv+cKYGQbXeaDv6UJUM5ge/B8gvN61nNEe2nnW2Fkenv0rJshKTH
+ uUd6HVLNvW9Pf3p+ccj3dS1xt2GTI6rbCMHGjqkIMJtWJkOPCZjTtL4MVO7jfb3/6ckk
+ URTSxCVITYVPXNcCuys1H4ikUvcMVFTgs2PbvmeRINa90VHcSATOJKmsesqu1CSvESbL
+ ce+6LYzGaavweDs8jecU/GU2SnKlpxUMh725El2ltQojfkvYYhu3JoavOOVqcn8FkomN
+ soBQ==
+X-Gm-Message-State: AOAM530w+7edM8qYc3H90pSj8C907WhRkTWwoq6lQ2mPNQwUr5J4kx4K
+ 1OicNnXK899kJRqqKMPnb6AhQnpR/t7tq2KZ
+X-Google-Smtp-Source: ABdhPJxRcGizCR9zB7NKuBDYKS9twJMlW/Frh3TegeNLf5qJnnXzuNMLB5FpyO5hRHp5fBftIKp/mQ==
+X-Received: by 2002:adf:8545:: with SMTP id 63mr13854517wrh.128.1615557115590; 
+ Fri, 12 Mar 2021 05:51:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.51.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 05:51:54 -0800 (PST)
+ Fri, 12 Mar 2021 05:51:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/39] hw/net/allwinner-sun8i-emac: traverse transmit queue
- using TX_CUR_DESC register value
-Date: Fri, 12 Mar 2021 13:51:19 +0000
-Message-Id: <20210312135140.1099-19-peter.maydell@linaro.org>
+Subject: [PULL 19/39] tests/acceptance/boot_linux_console: remove Armbian
+ 19.11.3 bionic test for orangepi-pc machine
+Date: Fri, 12 Mar 2021 13:51:20 +0000
+Message-Id: <20210312135140.1099-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312135140.1099-1-peter.maydell@linaro.org>
 References: <20210312135140.1099-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,146 +89,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-Currently the emulated EMAC for sun8i always traverses the transmit queue
-from the head when transferring packets. It searches for a list of consecutive
-descriptors whichs are flagged as ready for processing and transmits their payloads
-accordingly. The controller stops processing once it finds a descriptor that is not
-marked ready.
+The image for Armbian 19.11.3 bionic has been removed from the armbian server.
+Without the image as input the test arm_orangepi_bionic_19_11 cannot run.
 
-While the above behaviour works in most situations, it is not the same as the actual
-EMAC in hardware. Actual hardware uses the TX_CUR_DESC register value to keep track
-of the last position in the transmit queue and continues processing from that position
-when software triggers the start of DMA processing. The currently emulated behaviour can
-lead to packet loss on transmit when software fills the transmit queue with ready
-descriptors that overlap the tail of the circular list.
-
-This commit modifies the emulated EMAC for sun8i such that it processes
-the transmit queue using the TX_CUR_DESC register in the same way as hardware.
+This commit removes the test completely and merges the code of the generic function
+do_test_arm_orangepi_uboot_armbian back with the 20.08 test.
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210310195820.21950-2-nieklinnenbank@gmail.com
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-id: 20210310195820.21950-3-nieklinnenbank@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/allwinner-sun8i-emac.c | 62 +++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+ tests/acceptance/boot_linux_console.py | 72 ++++++++------------------
+ 1 file changed, 23 insertions(+), 49 deletions(-)
 
-diff --git a/hw/net/allwinner-sun8i-emac.c b/hw/net/allwinner-sun8i-emac.c
-index bf91803d65a..ff611f18fbd 100644
---- a/hw/net/allwinner-sun8i-emac.c
-+++ b/hw/net/allwinner-sun8i-emac.c
-@@ -339,35 +339,40 @@ static void allwinner_sun8i_emac_update_irq(AwSun8iEmacState *s)
-     qemu_set_irq(s->irq, (s->int_sta & s->int_en) != 0);
- }
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index eb012867997..9fadea99586 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -802,7 +802,29 @@ def test_arm_orangepi_sd(self):
+         # Wait for VM to shut down gracefully
+         self.vm.wait()
  
--static uint32_t allwinner_sun8i_emac_next_desc(AwSun8iEmacState *s,
--                                               FrameDescriptor *desc,
--                                               size_t min_size)
-+static bool allwinner_sun8i_emac_desc_owned(FrameDescriptor *desc,
-+                                            size_t min_buf_size)
- {
--    uint32_t paddr = desc->next;
--
--    dma_memory_read(&s->dma_as, paddr, desc, sizeof(*desc));
--
--    if ((desc->status & DESC_STATUS_CTL) &&
--        (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
--        return paddr;
--    } else {
--        return 0;
--    }
-+    return (desc->status & DESC_STATUS_CTL) && (min_buf_size == 0 ||
-+           (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_buf_size);
- }
- 
--static uint32_t allwinner_sun8i_emac_get_desc(AwSun8iEmacState *s,
--                                              FrameDescriptor *desc,
--                                              uint32_t start_addr,
--                                              size_t min_size)
-+static void allwinner_sun8i_emac_get_desc(AwSun8iEmacState *s,
-+                                          FrameDescriptor *desc,
-+                                          uint32_t phys_addr)
-+{
-+    dma_memory_read(&s->dma_as, phys_addr, desc, sizeof(*desc));
-+}
+-    def do_test_arm_orangepi_uboot_armbian(self, image_path):
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
++    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
++    def test_arm_orangepi_bionic_20_08(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:orangepi-pc
++        :avocado: tags=device:sd
++        """
 +
-+static uint32_t allwinner_sun8i_emac_next_desc(AwSun8iEmacState *s,
-+                                               FrameDescriptor *desc)
-+{
-+    const uint32_t nxt = desc->next;
-+    allwinner_sun8i_emac_get_desc(s, desc, nxt);
-+    return nxt;
-+}
++        # This test download a 275 MiB compressed image and expand it
++        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
++        # As we expand it to 2 GiB we are safe.
 +
-+static uint32_t allwinner_sun8i_emac_find_desc(AwSun8iEmacState *s,
-+                                               FrameDescriptor *desc,
-+                                               uint32_t start_addr,
-+                                               size_t min_size)
- {
-     uint32_t desc_addr = start_addr;
++        image_url = ('https://dl.armbian.com/orangepipc/archive/'
++                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
++        image_hash = ('b4d6775f5673486329e45a0586bf06b6'
++                      'dbe792199fd182ac6b9c7bb6c7d3e6dd')
++        image_path_xz = self.fetch_asset(image_url, asset_hash=image_hash,
++                                         algorithm='sha256')
++        image_path = archive.extract(image_path_xz, self.workdir)
++        image_pow2ceil_expand(image_path)
++
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
+                          '-nic', 'user',
+@@ -828,54 +850,6 @@ def do_test_arm_orangepi_uboot_armbian(self, image_path):
+                                       'to <orangepipc>')
+         self.wait_for_console_pattern('Starting Load Kernel Modules...')
  
-     /* Note that the list is a cycle. Last entry points back to the head. */
-     while (desc_addr != 0) {
--        dma_memory_read(&s->dma_as, desc_addr, desc, sizeof(*desc));
-+        allwinner_sun8i_emac_get_desc(s, desc, desc_addr);
- 
--        if ((desc->status & DESC_STATUS_CTL) &&
--            (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
-+        if (allwinner_sun8i_emac_desc_owned(desc, min_size)) {
-             return desc_addr;
-         } else if (desc->next == start_addr) {
-             break;
-@@ -383,14 +388,14 @@ static uint32_t allwinner_sun8i_emac_rx_desc(AwSun8iEmacState *s,
-                                              FrameDescriptor *desc,
-                                              size_t min_size)
- {
--    return allwinner_sun8i_emac_get_desc(s, desc, s->rx_desc_curr, min_size);
-+    return allwinner_sun8i_emac_find_desc(s, desc, s->rx_desc_curr, min_size);
- }
- 
- static uint32_t allwinner_sun8i_emac_tx_desc(AwSun8iEmacState *s,
--                                             FrameDescriptor *desc,
--                                             size_t min_size)
-+                                             FrameDescriptor *desc)
- {
--    return allwinner_sun8i_emac_get_desc(s, desc, s->tx_desc_head, min_size);
-+    allwinner_sun8i_emac_get_desc(s, desc, s->tx_desc_curr);
-+    return s->tx_desc_curr;
- }
- 
- static void allwinner_sun8i_emac_flush_desc(AwSun8iEmacState *s,
-@@ -470,7 +475,8 @@ static ssize_t allwinner_sun8i_emac_receive(NetClientState *nc,
-         bytes_left -= desc_bytes;
- 
-         /* Move to the next descriptor */
--        s->rx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc, 64);
-+        s->rx_desc_curr = allwinner_sun8i_emac_find_desc(s, &desc, desc.next,
-+                                                         AW_SUN8I_EMAC_MIN_PKT_SZ);
-         if (!s->rx_desc_curr) {
-             /* Not enough buffer space available */
-             s->int_sta |= INT_STA_RX_BUF_UA;
-@@ -495,10 +501,10 @@ static void allwinner_sun8i_emac_transmit(AwSun8iEmacState *s)
-     size_t transmitted = 0;
-     static uint8_t packet_buf[2048];
- 
--    s->tx_desc_curr = allwinner_sun8i_emac_tx_desc(s, &desc, 0);
-+    s->tx_desc_curr = allwinner_sun8i_emac_tx_desc(s, &desc);
- 
-     /* Read all transmit descriptors */
--    while (s->tx_desc_curr != 0) {
-+    while (allwinner_sun8i_emac_desc_owned(&desc, 0)) {
- 
-         /* Read from physical memory into packet buffer */
-         bytes = desc.status2 & DESC_STATUS2_BUF_SIZE_MASK;
-@@ -524,7 +530,7 @@ static void allwinner_sun8i_emac_transmit(AwSun8iEmacState *s)
-             packet_bytes = 0;
-             transmitted++;
-         }
--        s->tx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc, 0);
-+        s->tx_desc_curr = allwinner_sun8i_emac_next_desc(s, &desc);
-     }
- 
-     /* Raise transmit completed interrupt */
+-    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+-                'Test artifacts fetched from unreliable apt.armbian.com')
+-    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+-    @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
+-    def test_arm_orangepi_bionic_19_11(self):
+-        """
+-        :avocado: tags=arch:arm
+-        :avocado: tags=machine:orangepi-pc
+-        :avocado: tags=device:sd
+-        """
+-
+-        # This test download a 196MB compressed image and expand it to 1GB
+-        image_url = ('https://dl.armbian.com/orangepipc/archive/'
+-                     'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
+-        image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
+-        image_path_7z = self.fetch_asset(image_url, asset_hash=image_hash)
+-        image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
+-        image_path = os.path.join(self.workdir, image_name)
+-        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
+-        image_pow2ceil_expand(image_path)
+-
+-        self.do_test_arm_orangepi_uboot_armbian(image_path)
+-
+-    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+-                'Test artifacts fetched from unreliable apt.armbian.com')
+-    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+-    def test_arm_orangepi_bionic_20_08(self):
+-        """
+-        :avocado: tags=arch:arm
+-        :avocado: tags=machine:orangepi-pc
+-        :avocado: tags=device:sd
+-        """
+-
+-        # This test download a 275 MiB compressed image and expand it
+-        # to 1036 MiB, but the underlying filesystem is 1552 MiB...
+-        # As we expand it to 2 GiB we are safe.
+-
+-        image_url = ('https://dl.armbian.com/orangepipc/archive/'
+-                     'Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz')
+-        image_hash = ('b4d6775f5673486329e45a0586bf06b6'
+-                      'dbe792199fd182ac6b9c7bb6c7d3e6dd')
+-        image_path_xz = self.fetch_asset(image_url, asset_hash=image_hash,
+-                                         algorithm='sha256')
+-        image_path = archive.extract(image_path_xz, self.workdir)
+-        image_pow2ceil_expand(image_path)
+-
+-        self.do_test_arm_orangepi_uboot_armbian(image_path)
+-
+     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+     def test_arm_orangepi_uboot_netbsd9(self):
+         """
 -- 
 2.20.1
 
