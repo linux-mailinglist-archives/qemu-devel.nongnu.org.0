@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB61338A1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:29:48 +0100 (CET)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1BB3389D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:18:03 +0100 (CET)
+Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKf3D-0005SM-Ry
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35294)
+	id 1lKerq-0003Ro-SQ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:18:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lKefJ-0002Pl-BX
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:05:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29234)
+ id 1lKefX-0002rC-Mz
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:05:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lKefH-000470-H6
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:05:05 -0500
+ id 1lKefU-0004Ed-Eg
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:05:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615543501;
+ s=mimecast20190719; t=1615543515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eJIXxnKvWoutgHnZL1y3kNVVV/NbgaNgiGk58iEOQgU=;
- b=Nr9umOeAQRr+7zkJOc9xzkoXczCDMZwBbsVUlzVdbT07wHmkmqGfcozzlO/cZS684C80Xd
- T5u5XjEmEuEOhMY5D3FqD/5g0JzWUqBO37w+dl1NqDhT6ltZ7ktCli2hcYwlJYUkHcu0Zs
- sY58Hg2Ro3NAAvBIj35zAHtNExxSWTk=
+ bh=tXEZqmWWPXX4nkjljdJFPSS++pDg79FX4p5JF5FGaL0=;
+ b=hjkPgm5I34kF3dxI2DIErrMt6Han4H+0lbVhWMcNGprlvSbsZDnXMMq5tF+Zk/HYA+JNop
+ gGPviSoLmAfCH8iMGCD8U9BRYJKGrCoJAkmQGsyxfepHHJXVYIEkNCQQ9vuPp7je58yeM2
+ v0PCTCjeId9wqPrAM+nZl7cCNdgITx0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-QrX3NiLRP_CfZ-NKSsObbg-1; Fri, 12 Mar 2021 05:05:00 -0500
-X-MC-Unique: QrX3NiLRP_CfZ-NKSsObbg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-377-_DL60FNiM8WUtKri1w6Pvg-1; Fri, 12 Mar 2021 05:05:14 -0500
+X-MC-Unique: _DL60FNiM8WUtKri1w6Pvg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55D5919200C0
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:04:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09DE781746B
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:05:13 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9546D5C1C5;
- Fri, 12 Mar 2021 10:04:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6A041F065;
+ Fri, 12 Mar 2021 10:05:03 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/27] vhost-user-gpu: add vg_send_cursor_update()
-Date: Fri, 12 Mar 2021 14:01:01 +0400
-Message-Id: <20210312100108.2706195-21-marcandre.lureau@redhat.com>
+Subject: [PATCH 21/27] vhost-user-gpu: add vg_send_cursor_pos()
+Date: Fri, 12 Mar 2021 14:01:02 +0400
+Message-Id: <20210312100108.2706195-22-marcandre.lureau@redhat.com>
 In-Reply-To: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
 References: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,91 +88,67 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- contrib/vhost-user-gpu/vugpu.h          |  4 ++-
- contrib/vhost-user-gpu/vhost-user-gpu.c | 46 +++++++++++++++----------
- 2 files changed, 31 insertions(+), 19 deletions(-)
+ contrib/vhost-user-gpu/vugpu.h          |  3 +++
+ contrib/vhost-user-gpu/vhost-user-gpu.c | 28 +++++++++++++++----------
+ 2 files changed, 20 insertions(+), 11 deletions(-)
 
 diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
-index bf513e9295..02a22bae34 100644
+index 02a22bae34..1927fb4f24 100644
 --- a/contrib/vhost-user-gpu/vugpu.h
 +++ b/contrib/vhost-user-gpu/vugpu.h
-@@ -195,5 +195,7 @@ void    vg_send_dmabuf_update(VuGpu *g,
-                               uint32_t width,
-                               uint32_t height);
- void    vg_send_scanout(VuGpu *g, uint32_t scanout_id);
--
-+void    vg_send_cursor_update(VuGpu *g,
-+                              const struct virtio_gpu_update_cursor *cursor,
-+                              const void *data);
+@@ -198,4 +198,7 @@ void    vg_send_scanout(VuGpu *g, uint32_t scanout_id);
+ void    vg_send_cursor_update(VuGpu *g,
+                               const struct virtio_gpu_update_cursor *cursor,
+                               const void *data);
++void    vg_send_cursor_pos(VuGpu *g,
++                           const struct virtio_gpu_update_cursor *cursor);
++
  #endif
 diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-gpu/vhost-user-gpu.c
-index a11f406350..32bcbaa9a1 100644
+index 32bcbaa9a1..4972448dbc 100644
 --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
 +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-@@ -935,6 +935,30 @@ update_cursor_data_simple(VuGpu *g, uint32_t resource_id, gpointer data)
-     memcpy(data, pixman_image_get_data(res->image), 64 * 64 * sizeof(uint32_t));
+@@ -959,23 +959,29 @@ vg_send_cursor_update(VuGpu *g,
+     vg_send_msg(g, &msg, -1);
  }
  
 +void
-+vg_send_cursor_update(VuGpu *g,
-+                      const struct virtio_gpu_update_cursor *cursor,
-+                      const void *data)
++vg_send_cursor_pos(VuGpu *g, const struct virtio_gpu_update_cursor *cursor)
 +{
 +    VhostUserGpuMsg msg = {
-+        .request = VHOST_USER_GPU_CURSOR_UPDATE,
-+        .size = sizeof(VhostUserGpuCursorUpdate),
-+        .payload.cursor_update = {
-+            .pos = {
-+                .scanout_id = cursor->pos.scanout_id,
-+                .x = cursor->pos.x,
-+                .y = cursor->pos.y,
-+            },
-+            .hot_x = cursor->hot_x,
-+            .hot_y = cursor->hot_y,
++        .request = cursor->resource_id ?
++        VHOST_USER_GPU_CURSOR_POS : VHOST_USER_GPU_CURSOR_POS_HIDE,
++        .size = sizeof(VhostUserGpuCursorPos),
++        .payload.cursor_pos = {
++            .scanout_id = cursor->pos.scanout_id,
++            .x = cursor->pos.x,
++            .y = cursor->pos.y,
 +        }
 +    };
-+    /* we can afford that cursor copy */
-+    memcpy(msg.payload.cursor_update.data, data,
-+           sizeof(msg.payload.cursor_update.data));
 +    vg_send_msg(g, &msg, -1);
 +}
 +
  static void
  vg_process_cursor_cmd(VuGpu *g, struct virtio_gpu_update_cursor *cursor)
  {
-@@ -955,28 +979,14 @@ vg_process_cursor_cmd(VuGpu *g, struct virtio_gpu_update_cursor *cursor)
+     switch (cursor->hdr.type) {
+     case VIRTIO_GPU_CMD_MOVE_CURSOR: {
+-        VhostUserGpuMsg msg = {
+-            .request = cursor->resource_id ?
+-                VHOST_USER_GPU_CURSOR_POS : VHOST_USER_GPU_CURSOR_POS_HIDE,
+-            .size = sizeof(VhostUserGpuCursorPos),
+-            .payload.cursor_pos = {
+-                .scanout_id = cursor->pos.scanout_id,
+-                .x = cursor->pos.x,
+-                .y = cursor->pos.y,
+-            }
+-        };
+         g_debug("%s: move", G_STRFUNC);
+-        vg_send_msg(g, &msg, -1);
++        vg_send_cursor_pos(g, cursor);
          break;
      }
      case VIRTIO_GPU_CMD_UPDATE_CURSOR: {
--        VhostUserGpuMsg msg = {
--            .request = VHOST_USER_GPU_CURSOR_UPDATE,
--            .size = sizeof(VhostUserGpuCursorUpdate),
--            .payload.cursor_update = {
--                .pos = {
--                    .scanout_id = cursor->pos.scanout_id,
--                    .x = cursor->pos.x,
--                    .y = cursor->pos.y,
--                },
--                .hot_x = cursor->hot_x,
--                .hot_y = cursor->hot_y,
--            }
--        };
-+        uint32_t data[64 * 64] = { 0, };
-         g_debug("%s: update", G_STRFUNC);
-         if (g->virgl) {
--            vg_virgl_update_cursor_data(g, cursor->resource_id,
--                                        msg.payload.cursor_update.data);
-+            vg_virgl_update_cursor_data(g, cursor->resource_id, data);
-         } else {
--            update_cursor_data_simple(g, cursor->resource_id,
--                                      msg.payload.cursor_update.data);
-+            update_cursor_data_simple(g, cursor->resource_id, data);
-         }
--        vg_send_msg(g, &msg, -1);
-+        vg_send_cursor_update(g, cursor, data);
-         break;
-     }
-     default:
 -- 
 2.29.0
 
