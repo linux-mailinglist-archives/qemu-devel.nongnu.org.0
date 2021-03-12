@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A29D338997
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:05:15 +0100 (CET)
-Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9933389A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:07:02 +0100 (CET)
+Received: from localhost ([::1]:33030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKefR-0001Q4-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:05:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
+	id 1lKehB-0004G6-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:07:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKeaE-0005YZ-P9
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:59:52 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKea6-0001KQ-Eg
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:59:50 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id lr13so52251493ejb.8
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 01:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5dDQABMaTprCsRbhCVLhXU6zH90nj3FDfajnq6VWCrE=;
- b=dta4TNXxiOdYby91NrmmntN/uWTVHMdSgpgR3SRpdnrrQa6gjdwFqT9Q45GGHz/RUD
- HqxUF/ogqyXXCRL1XkdtBP29KRgR038wyujYAv5q30hk1Veyt/LavYPsoXncwcRBRGFi
- AUmUr31h06uk3M6BdBSuC3xUbfFSKAUpqKVZOdh97u3f2e1Nz240ggil2GPIo3Uatsbt
- scJica420LuENSpCz+HwvzmwspaSvrliROFnWPZWukpqJu5Z15wDNWRpp//FsFV6FAY/
- hnKmuZ3wLuuWMJFl21/Np3gykGyHVKaaM4xx95xFUECaa8VdieuGXA5Z7JlRMxfXNX8s
- pbIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5dDQABMaTprCsRbhCVLhXU6zH90nj3FDfajnq6VWCrE=;
- b=Nd1ahzjr5chU3SzPL2cTpsF6vgd8yUmWmLgpb5rozPrbZxbsf5l9v6MV09H3fmOAOv
- Hae+hXogpyKaz/OuTjkU6hgvTxdNs9bOtUPym8yqI2IiuUvawB4cb5wGixkkpp934Skl
- 2vlDTa3ovxo6pZJWhvpugiBK03JzCAYvoix5GjN5onxIBSI/LN40I93Fx9pS9CDPVDje
- b5xAvmB6I/oaIpWYXdxp3fQHhhTX/er5Xo6puI59mLNKz+RSVHPuIdRhxhLdF0UvNU2+
- jkyKzOG6m2FsS1ZJ4yFhpHWcG2D1qNXjbfAUS1ViGGjLcLz3TvckI8NEneFQTSJQtrJS
- Z3Sw==
-X-Gm-Message-State: AOAM531cARK5G2m6N3gq3KkdReTl5Z9xN79G1xthGHsfjEIyuUSCmvw4
- fI/ILaokBEvLtsoUZHoSmLsSoxsjVzflC6O4IuDXrw==
-X-Google-Smtp-Source: ABdhPJxyFozcLZ7UC9+z1+0lVD3kd8GyDrSMqzvv5HLWbsotBD6mIoAclnyCppKXUwSxjIIfKBf34AcMehwNLSYCSnc=
-X-Received: by 2002:a17:906:c301:: with SMTP id
- s1mr7481157ejz.382.1615543180863; 
- Fri, 12 Mar 2021 01:59:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lKebh-0006g5-2o
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:01:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lKebe-00026O-H3
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:01:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615543276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g7GC7xTANrk8qUdoz0xzRx9F9lUA/F1fg1X7rVLrWBY=;
+ b=Ux7VaJjQFX47yHDzSBs6OwdVMCod/rjUe1JaxaWOcRIivDVTIA1e8lY3UiAPQlKslmdZgs
+ X33pZktowR+JLnKSOu0o9j8gcJrB7fFEaw4kSafY4F8dlwCw+vkKIDjfZyYInOTIuE0s7K
+ 4WfxTezZTJVJST9tX6Sl/JowNmghr24=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-lswlFmMWPQajsCA8HJ0_kw-1; Fri, 12 Mar 2021 05:01:14 -0500
+X-MC-Unique: lswlFmMWPQajsCA8HJ0_kw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69726814270
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:01:13 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DBFF610AE;
+ Fri, 12 Mar 2021 10:01:11 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/27] Add D-Bus display backend
+Date: Fri, 12 Mar 2021 14:00:41 +0400
+Message-Id: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20210310214504.1183162-1-laurent@vivier.eu>
-In-Reply-To: <20210310214504.1183162-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Mar 2021 09:59:22 +0000
-Message-ID: <CAFEAcA-9GNdUZ3os2Dqi7ojkLKA6bzh-+rFH1XPcJHZjtMF=mA@mail.gmail.com>
-Subject: Re: [PULL 00/22] Trivial branch for 6.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +76,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021 at 21:47, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit b2ae1009d7cca2701e17eae55ae2d44fd22c942a:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210307' in=
-> to staging (2021-03-09 13:50:35 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.0-pull-request
->
-> for you to fetch changes up to 538f049704e9b7a07eeaf326af772fdd30d89576:
->
->   sysemu: Let VMChangeStateHandler take boolean 'running' argument (2021-03-0=
-> 9 23:13:57 +0100)
->
-> ----------------------------------------------------------------
-> Pull request trivial patches 20210310
->
-> ----------------------------------------------------------------
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
+Hi,=0D
+=0D
+Both Spice and VNC are relatively complex and inefficient for local-only=0D
+display/console export. The goal of this display backend is to export over =
+D-Bus=0D
+an interface close to the QEMU internal console API. Any -display or -audio=
+=0D
+backend should be possible to implement externally that way. D-Bus is the=
+=0D
+protocol of choice for the desktop, it has many convenient bindings for var=
+ious=0D
+languages, or tools (d-feet, busctl etc). Data blob transfer is more effici=
+ent=0D
+than QMP too.=0D
+=0D
+This implementation makes use of p2p connections for data streaming, and a =
+bus=0D
+for basic introspection & interactions. It is currently Unix-only, but it s=
+hould=0D
+be possible to port to other systems relatively easily (minus fd-passing, w=
+hich=0D
+will have to use fallback or different methods).=0D
+=0D
+This will allow to lift some task from the QEMU process (Spice or VNC aren'=
+t=0D
+trivial!). Backends can come and go. You can have several display opened (s=
+ay=0D
+Boxes & virt-manager), while exporting the display over VNC for example.=0D
+=0D
+An IPC interface is an easy starting point for writing backends in differen=
+t=0D
+languages. I started a Gtk4 & VNC backends in Rust. Rather than rewrite exi=
+sting=0D
+backends, it would be more interesting to develop new ones imho, such as a =
+RDP=0D
+backend (based on IronRDP & freerdp). An option is also to build the QEMU=
+=0D
+backends as D-Bus backends (maybe not too difficult).=0D
+=0D
+Given the current goals, the D-Bus interface is not meant to be stable.=0D
+Clients/backends should be shipped together with QEMU. QEMU could ship its =
+own=0D
+Gtk4 widget/library (ideally written in Rust, with an exposed C/GIR API).=
+=0D
+=0D
+The last part of the series modify vhost-user-gpu to notify directly the cl=
+ient=0D
+of display changes, bypassing QEMU (VGA-time will be blank, atm)=0D
+=0D
+Basic testing:=0D
+$ qemu-system- ... -display dbus=0D
+=0D
+And after git clone https://gitlab.com/marcandre.lureau/qemu-display.git=0D
+$ cargo run --bin qemu-gtk4=0D
+=0D
+Better to use with gl=3Don and virgl. You may also export audio with "-audi=
+odev=0D
+dbus" (see related patch).=0D
+=0D
+Marc-Andr=C3=A9 Lureau (27):=0D
+  ui: fold qemu_alloc_display in only caller=0D
+  vhost-user-gpu: glFlush before notifying clients=0D
+  vhost-user-gpu: fix vugbm_device_init fallback=0D
+  vhost-user-gpu: fix cursor move/update=0D
+  ui: factor out qemu_console_set_display_gl_ctx()=0D
+  ui: associate GL context outside of display listener registration=0D
+  ui: make gl_block use a counter=0D
+  ui: add a gl-unblock warning timer=0D
+  ui: simplify gl unblock & flush=0D
+  ui: dispatch GL events to all listeners=0D
+  ui: split the GL context in a different object=0D
+  ui: move qemu_spice_fill_device_address to ui/util.c=0D
+  console: save current scanout details=0D
+  ui: add a D-Bus display backend=0D
+  audio: add dbusaudio backend=0D
+  vhost-user-gpu: add vg_send_disable_scanout()=0D
+  vhost-user-gpu: add vg_send_scanout_dmabuf()=0D
+  vhost-user-gpu: add vg_send_dmabuf_update()=0D
+  vhost-user-gpu: add vg_send_scanout()=0D
+  vhost-user-gpu: add vg_send_cursor_update()=0D
+  vhost-user-gpu: add vg_send_cursor_pos()=0D
+  vhost-user-gpu: add vg_send_update()=0D
+  vhost-user: add VHOST_USER_GPU_QEMU_DBUS_LISTENER=0D
+  ui: add GraphicHwOps.register_dbus_listener()=0D
+  vhost-user-gpu: implement register_dbus_listener()=0D
+  vhost-user-gpu: check the PIXMAN format is supported=0D
+  vhost-user-gpu: implement GPU_QEMU_DBUS_LISTENER=0D
+=0D
+ docs/interop/vhost-user.rst               |  10 +=0D
+ meson.build                               |   5 +=0D
+ qapi/audio.json                           |   3 +-=0D
+ qapi/ui.json                              |  27 +-=0D
+ audio/audio_int.h                         |   7 +=0D
+ audio/audio_template.h                    |   2 +=0D
+ contrib/vhost-user-gpu/vugbm.h            |   2 +-=0D
+ contrib/vhost-user-gpu/vugpu.h            |  37 +-=0D
+ include/hw/virtio/vhost-backend.h         |   2 +=0D
+ include/hw/virtio/virtio-gpu.h            |   1 +=0D
+ include/qemu/dbus.h                       |  20 +=0D
+ include/ui/console.h                      |  68 ++-=0D
+ include/ui/egl-context.h                  |   6 +-=0D
+ include/ui/gtk.h                          |  11 +-=0D
+ include/ui/sdl2.h                         |   7 +-=0D
+ include/ui/spice-display.h                |   5 +-=0D
+ subprojects/libvhost-user/libvhost-user.h |   5 +=0D
+ ui/dbus.h                                 |  69 +++=0D
+ audio/audio.c                             |   1 +=0D
+ audio/dbusaudio.c                         | 649 ++++++++++++++++++++++=0D
+ contrib/vhost-user-gpu/vhost-user-gpu.c   | 580 +++++++++++++++----=0D
+ contrib/vhost-user-gpu/virgl.c            |  45 +-=0D
+ contrib/vhost-user-gpu/vugbm.c            |  44 +-=0D
+ hw/display/qxl.c                          |   5 +-=0D
+ hw/display/vhost-user-gpu.c               |  35 +-=0D
+ hw/display/virtio-gpu-base.c              |  19 +-=0D
+ hw/display/virtio-vga.c                   |  13 +-=0D
+ hw/virtio/vhost-user.c                    |  23 +=0D
+ ui/console.c                              | 312 +++++++----=0D
+ ui/dbus-console.c                         | 460 +++++++++++++++=0D
+ ui/dbus-error.c                           |  45 ++=0D
+ ui/dbus-listener.c                        | 480 ++++++++++++++++=0D
+ ui/dbus.c                                 | 290 ++++++++++=0D
+ ui/egl-context.c                          |   6 +-=0D
+ ui/egl-headless.c                         |  20 +-=0D
+ ui/gtk-egl.c                              |  11 +-=0D
+ ui/gtk-gl-area.c                          |   9 +-=0D
+ ui/gtk.c                                  |  25 +-=0D
+ ui/sdl2-gl.c                              |  12 +-=0D
+ ui/sdl2.c                                 |  14 +-=0D
+ ui/spice-core.c                           |  50 --=0D
+ ui/spice-display.c                        |  25 +-=0D
+ ui/util.c                                 |  75 +++=0D
+ util/module.c                             |   3 +=0D
+ audio/meson.build                         |   3 +-=0D
+ audio/trace-events                        |   5 +=0D
+ contrib/vhost-user-gpu/meson.build        |   6 +-=0D
+ qemu-options.hx                           |  11 +=0D
+ ui/dbus-display1.xml                      | 205 +++++++=0D
+ ui/meson.build                            |  18 +=0D
+ ui/trace-events                           |  11 +=0D
+ 51 files changed, 3386 insertions(+), 411 deletions(-)=0D
+ create mode 100644 ui/dbus.h=0D
+ create mode 100644 audio/dbusaudio.c=0D
+ create mode 100644 ui/dbus-console.c=0D
+ create mode 100644 ui/dbus-error.c=0D
+ create mode 100644 ui/dbus-listener.c=0D
+ create mode 100644 ui/dbus.c=0D
+ create mode 100644 ui/util.c=0D
+ create mode 100644 ui/dbus-display1.xml=0D
+=0D
+--=20=0D
+2.29.0=0D
+=0D
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
