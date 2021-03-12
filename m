@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C44339085
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:58:32 +0100 (CET)
-Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CEB339090
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:00:52 +0100 (CET)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjFH-0000A8-Qg
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:58:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
+	id 1lKjHX-0002Vk-L3
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:00:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lKjE8-00084e-73
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:57:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32449)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjFq-0001XV-AU
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:59:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lKjE6-0006un-1j
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:57:19 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lKjFo-0007yD-BR
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:59:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615561037;
+ s=mimecast20190719; t=1615561143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ke8EkIUxZ3n3rR8HVL7rps1Oq7Lj7zszQBCeFx5FrG4=;
- b=gWKWKws8yLKcNczn4L0XeKh/1tG98hBg6WQKNs0CfZk7l1abY+PXKJi6P/hPxNTwBqGyh+
- N7Kek5fEXyiEH18zv+IF0wTBKq+QOmWwupm9dOv+gudFeWeFPymc5RWVpY3w+ZmtNt+rR5
- Mckh+8YlY9pK2oHDyYybM0RGsCS0Ymo=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-ZWN-ly-KOeGU57lRgeeBjQ-1; Fri, 12 Mar 2021 09:57:14 -0500
-X-MC-Unique: ZWN-ly-KOeGU57lRgeeBjQ-1
-Received: by mail-il1-f199.google.com with SMTP id h17so18304527ila.12
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 06:57:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ke8EkIUxZ3n3rR8HVL7rps1Oq7Lj7zszQBCeFx5FrG4=;
- b=bIbFGO7NK10vBB/uwVmWf9TyMcqphfp+odvDq/LUrAntCEjuyScBC7daTZ3TZ1Wy6t
- 8FMOq5KDONyhPcMYRUXJvk/NQ42NvEX8lgtZoTKxOy1yNjljpwA8Dxew1JQexb1caXDW
- 7eCYvJ45UxQxHzDpCJ+daX0JFo04bSdh/lM2VKxCtOwUHGI7RyLuC7AKIbGXE4Z7tyKp
- Utm4lTrjeAEvx23cpdjghxiC6XL+PIMDLxfdOUOKJ5Fg3a3nC6S7D40ATaLqzL/IDjfT
- 06i9ON7VnjLrWxpwqbanfKSu2HoMaT+tJ2I98nyqL1mD4+ndaK5bg7tAl9fmcX6++U5c
- xl9Q==
-X-Gm-Message-State: AOAM530paiy32QNWoLhX1+KR+t2q2VhEILIvSdsTYU7DidmGfiMouSig
- UpaeQuXs869/W7MoR5Mkd9KuZKNuxbVDZUY0puEA2D6Kt3XFjyIelqjGS4EDJkki+NKYRq2AI8x
- 4S9vgmGSqE35txTJ5swFFjkC0L4X0/7I=
-X-Received: by 2002:a05:6e02:216c:: with SMTP id
- s12mr3032332ilv.161.1615561034310; 
- Fri, 12 Mar 2021 06:57:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+ZuwmNC/k5qsfDumO2Xn93Bb+B7f4sHSPvH9BUJjYO692EquOhqYuej2Bl3aMxk40zZ+g3EL2ifP2iGBKmDI=
-X-Received: by 2002:a05:6e02:216c:: with SMTP id
- s12mr3032325ilv.161.1615561034060; 
- Fri, 12 Mar 2021 06:57:14 -0800 (PST)
+ bh=iRDzsHdJN3e0TGa7uWfEbbNiJE9rveeQkwHWsXydE7I=;
+ b=bRzpBVNcWMK7TpL04yAU6sIOjxLzNdO1BESIgQPqYFWW5Re8NJc1vcK2uZlM1D4XoiPftq
+ 6Vrze5dIr6q+ituzM16eNoLUKt+TTSIODoq4bqW0oovrQiOUf/gE2jJjlRzhM2rc1uMUI2
+ 9nz8pB0aGIvsgqaGon9WG40Y1PkbiNI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-IddQFQ87Mz2zG7V6ysBtHw-1; Fri, 12 Mar 2021 09:59:01 -0500
+X-MC-Unique: IddQFQ87Mz2zG7V6ysBtHw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33250108BD12;
+ Fri, 12 Mar 2021 14:59:00 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
+ [10.36.113.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 781BB610A8;
+ Fri, 12 Mar 2021 14:58:58 +0000 (UTC)
+Subject: Re: [PATCH v3 3/6] block/qcow2: introduce inflight writes counters:
+ fix discard
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-4-vsementsov@virtuozzo.com>
+ <72a42f79-a608-6605-c0e1-8f35303b9c81@redhat.com>
+ <3f4e3e81-8750-cbe2-0d54-d7c9e0055d38@virtuozzo.com>
+ <a1656b5e-8333-885f-f0c6-0a4e6dec8bd2@redhat.com>
+ <89d3bfd8-3a22-a9da-dbb8-370aa6ac2653@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3035e3f2-ea1b-550a-0d3d-52aaa18d7bc9@redhat.com>
+Date: Fri, 12 Mar 2021 15:58:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
- <20210312111806.zdh2c63cxaiyabyp@sirius.home.kraxel.org>
- <CAMxuvayh_8=bp4=_CZ9ezEjE6god+35RJ9dBx6TBF34NnO_+zw@mail.gmail.com>
- <20210312143727.sllpme4pgdhoj4ja@sirius.home.kraxel.org>
-In-Reply-To: <20210312143727.sllpme4pgdhoj4ja@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 12 Mar 2021 18:57:03 +0400
-Message-ID: <CAMxuvayVFMMDY6Ssn2Ca24VeuZGuyH5CQu5TJ-zu5J3C=BvcDQ@mail.gmail.com>
-Subject: Re: [PATCH 00/27] Add D-Bus display backend
-To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <89d3bfd8-3a22-a9da-dbb8-370aa6ac2653@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000008c66a005bd581db7"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,89 +88,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008c66a005bd581db7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 12.03.21 13:32, Vladimir Sementsov-Ogievskiy wrote:
+> 12.03.2021 14:17, Max Reitz wrote:
+>> On 12.03.21 10:09, Vladimir Sementsov-Ogievskiy wrote:
+>>> 11.03.2021 22:58, Max Reitz wrote:
+>>>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> There is a bug in qcow2: host cluster can be discarded (refcount
+>>>>> becomes 0) and reused during data write. In this case data write may
+> 
+> [..]
+> 
+>>>>> @@ -885,6 +1019,13 @@ static int QEMU_WARN_UNUSED_RESULT 
+>>>>> update_refcount(BlockDriverState *bs,
+>>>>>           if (refcount == 0) {
+>>>>>               void *table;
+>>>>> +            Qcow2InFlightRefcount *infl = find_infl_wr(s, 
+>>>>> cluster_index);
+>>>>> +
+>>>>> +            if (infl) {
+>>>>> +                infl->refcount_zero = true;
+>>>>> +                infl->type = type;
+>>>>> +                continue;
+>>>>> +            }
+>>>>
+>>>> I don’t understand what this is supposed to do exactly.  It seems 
+>>>> like it wants to keep metadata structures in the cache that are 
+>>>> still in use (because dropping them from the caches is what happens 
+>>>> next), but users of metadata structures won’t set in-flight counters 
+>>>> for those metadata structures, will they?
+>>>
+>>> Don't follow.
+>>>
+>>> We want the code in "if (refcount == 0)" to be triggered only when 
+>>> full reference count of the host cluster becomes 0, including 
+>>> inflight-write-cnt. So, if at this point inflight-write-cnt is not 0, 
+>>> we postpone freeing the host cluster, it will be done later from 
+>>> "slow path" in update_inflight_write_cnt().
+>>
+>> But the code under “if (refcount == 0)” doesn’t free anything, does 
+>> it?  All I can see is code to remove metadata structures from the 
+>> metadata caches (if the discarded cluster was an L2 table or a 
+>> refblock), and finally the discard on the underlying file.  I don’t 
+>> see how that protocol-level discard has anything to do with our 
+>> problem, though.
+> 
+> Hmm. Still, if we do this discard, and then our in-flight write, we'll 
+> have data instead of a hole. Not a big deal, but seems better to 
+> postpone discard.
+> 
+> On the other hand, clearing caches is OK, as its related only to 
+> qcow2-refcount, not to inflight-write-cnt
+> 
+>>
+>> As far as I understand, the freeing happens immediately above the “if 
+>> (refcount == 0)” block by s->set_refcount() setting the refcount to 0. 
+>> (including updating s->free_cluster_index if the refcount is 0).
+> 
+> Hmm.. And that (setting s->free_cluster_index) what I should actually 
+> prevent until total reference count becomes zero.
+> 
+> And about s->set_refcount(): it only update a refcount itself, and don't 
+> free anything.
 
-Hi
+That is what freeing is, though.  I consider something to be free when 
+allocation functions will allocate it.  The allocation functions look at 
+the refcount, so once a cluster’s refcount is 0, it is free.
 
-On Fri, Mar 12, 2021 at 6:37 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+If that isn’t what freeing is, nothing in update_refcount() frees 
+anything (when looking at how data clusters are handled).  Passing the 
+discard through to the protocol layer isn’t “freeing”, because it’s 
+independent of qcow2.
 
-> > On Fri, Mar 12, 2021 at 3:18 PM Gerd Hoffmann <kraxel@redhat.com> wrote=
-:
-> >
-> > > On Fri, Mar 12, 2021 at 02:00:41PM +0400, marcandre.lureau@redhat.com
-> > > wrote:
-> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > The whole series calls for a splitup.  First the bugfixes, which we
-> > > should be able to fast-track for 6.0.  Next the ui opengl changes.  F=
-or
-> > > those a cover letter would be nice, describing the overall direction
-> and
-> > > motivation for the change.  Make sure these don't re-introduce a open=
-gl
-> > > dependency to core qemu for modular builds.  Finally the new display
-> > > backend patches / discussion.
-> > >
-> >
-> > I agree, what about reviewing and queuing the first patches? Then I can
-> > resend up to the second part.
->
-> Can cherry-pick them.  First four patches I assume?
->
->
-Yes, those are clearly fixes. The following GL context/events patches could
-be upstream too, if you agree with it, even if they don't really have need
-until a display backend makes real use of them.
+Now, your patch adds an additional check to the allocation functions 
+(whether there are ongoing writes on the cluster), so it’s indeed 
+possible that a cluster can have a refcount of 0 but still won’t be used 
+by allocation functions.
 
---0000000000008c66a005bd581db7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+But that means you’ve just changed the definition of what a free cluster 
+is.  In fact, that means that nothing in update_refcount() can free a 
+cluster that has active writes to it, because now a cluster is only free 
+if there are no such writes.  It follows that you needn’t change 
+update_refcount() to prevent clusters with such writes from being freed, 
+because with this new definition of what a free cluster is, it’s 
+impossible for update_refcount() to free them.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 12, 2021 at 6:37 PM Ger=
-d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; O=
-n Fri, Mar 12, 2021 at 3:18 PM Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@r=
-edhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Fri, Mar 12, 2021 at 02:00:41PM +0400, <a href=3D"mailto:marca=
-ndre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a><b=
-r>
-&gt; &gt; wrote:<br>
-&gt; &gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
-.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; The whole series calls for a splitup.=C2=A0 First the bugfixes, w=
-hich we<br>
-&gt; &gt; should be able to fast-track for 6.0.=C2=A0 Next the ui opengl ch=
-anges.=C2=A0 For<br>
-&gt; &gt; those a cover letter would be nice, describing the overall direct=
-ion and<br>
-&gt; &gt; motivation for the change.=C2=A0 Make sure these don&#39;t re-int=
-roduce a opengl<br>
-&gt; &gt; dependency to core qemu for modular builds.=C2=A0 Finally the new=
- display<br>
-&gt; &gt; backend patches / discussion.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; I agree, what about reviewing and queuing the first patches? Then I ca=
-n<br>
-&gt; resend up to the second part.<br>
-<br>
-Can cherry-pick them.=C2=A0 First four patches I assume?<br>
-<br></blockquote><div><br></div><div>Yes, those are clearly fixes. The foll=
-owing GL context/events patches could be upstream too, if you agree with it=
-, even if they don&#39;t really have need until a display backend makes rea=
-l use of them.<br></div></div></div>
+(Yes, you’re right that it would be nice to postpone the protocol-level 
+discard still, but not doing so wouldn’t be a catastrophe – which shows 
+that it has little to do with actually freeing something, as far as 
+qcow2 is concerned.
 
---0000000000008c66a005bd581db7--
+If it’s just about postponing the discard, we can do exactly that: Let 
+update_refcount() skip discarding for clusters that are still in use, 
+and then let update_inflight_write_cnt() only do that discard instead of 
+invoking all of qcow2_update_cluster_refcount().)
+
+Alternatively, we could also not change the definition of what a free 
+cluster is, which means we wouldn’t need to change the allocation 
+functions, but instead postpone the refcount update that 
+update_refcount() does.  That would mean we’d actually need to really 
+drop the refcount in update_inflight_write_cnt() instead of doing a -0.
+
+Max
 
 
