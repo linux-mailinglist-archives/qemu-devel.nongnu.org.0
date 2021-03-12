@@ -2,103 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E69338D28
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:34:37 +0100 (CET)
-Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E31338D37
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:39:23 +0100 (CET)
+Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKh00-0006Cx-PF
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:34:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50392)
+	id 1lKh4b-0000mY-TH
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:39:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lKgyK-0005UP-0h; Fri, 12 Mar 2021 07:32:52 -0500
-Received: from mail-eopbgr80108.outbound.protection.outlook.com
- ([40.107.8.108]:41066 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1lKh0v-0006vK-49; Fri, 12 Mar 2021 07:35:33 -0500
+Received: from mail-eopbgr10102.outbound.protection.outlook.com
+ ([40.107.1.102]:8222 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lKgyG-0005UR-EQ; Fri, 12 Mar 2021 07:32:51 -0500
+ id 1lKh0t-00075B-3M; Fri, 12 Mar 2021 07:35:32 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kun+1PhwQOxG74HdS6/Qd764dk6aaIcg4gFdz0rQ9NRTiviX6jwEo+Y0a2OICVtIEQCL6q03GqQuk9Fvhg/zDtLjnFgascQ3ZDaotxpLaEjzsdzHmwffKJFGU/umU/3V02I05xECXmEp5MkW+c356XznKX4jRE5hKsECWNCIeU5e83RlRibUMawq7uWy9SWeko0qvLdYrPBny3I1ZPcvuxLn8ejqfpMYT7uDdo3pu4fgZ0K1pQnmGQK3D7R742BGfJfej/nzkYhlWF01MVej8C9FLFeY6wAaLg3Ay1x3pNi5j/NFDk8F/6gdlLj3Fw68ipG/fEwgE/Iuk8e7MDhd4A==
+ b=RKfoNOiR7krGSYMF6PDW0PzLSpONZQRnKlU29hBrzUGtFeOJiyO99NlzUUJKg++ATqMnoax/r6iAWLfSbWV3SQLh7DpLTrknsSX1QA/A2xYpwJMhyaLN3SriUAQ3kqEDORH728i5jVGAsyjEsFUHFjTMtw6L730JEEF0Lvif4jXnhTn+polezc38sNN9Hu3nDi51g/pFWnaQ4/U7p7bICNh0nHj63LJ89fRVI7gkUY53/gCLnCy1hDzrzjfSzThsydHvNw74S3GckuayW1uWEqJk2q3nT4fWPbhSAW6VmoH+HskTqOn8tOrmFBdd1BVGcfVlDHtd7p5SEwY6ihC8MA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BfIbs7+eIvo55Cmq7o24N7IavlJti/N+52W0MCImqyE=;
- b=dNm8Nvh8qIQQflAZf4LcLveupwnWHbqNSEAkEjSGwK+k4i42EL6MxlTc1cL7abe8HBS5otEI2v/w0TYPioNkMN+nzc9SxE1ZlJkyORT5xRIqth/8Ovdziydy3eqKAVKOVeqL4EyTvRhnMfSHTecZdvMAjOt8GIZ6dIsLGV/ejWNxRvp0S283AxVJeDksfKDTS8I/0V1HKjZNrkUpbtGGCwUoChsxMjFd+WgYaMMyCxS2Jh1MX3QQoeUv2Ab+rvKk8xrpULQIvEaiIV27HC9001rM9aE0uK5aupURhqODfvq2LOHq16g7anD6qvs3h/6Y1qHLjWiH+RWrxIfDD7kiJw==
+ bh=0akp1hZGD0DsuuPCWzAuLMv0C+ltmGwp6UsvgEEfz18=;
+ b=d24P2kv7nPwHIgmHT97znB7RbOCr8RU4tuGonI6C3j1k11EbP9UDvpuqMzpAA+XYV/n7AC5BP/kYQQiftsx3RHKBFJYqf2aJWYEIqJKylfKEfrOvh/yxmupQ0/Fdg1B6cshgi3EvRn1NxQdBZkOjVTwiljNlsgmymiuSlN68vREzczzMxDdTW8565w436LIuXBuPKYmx9dwm7gaHZg6UCDAhfaF8JAAs92Spy6x6o04w6SBGY9IBygeNs/wHXuezY+g7rmVWEcHAZsI1ZfWtb1nc2sulWgsZVXy0w71Evp68S4wkYSnhmOBp31DnkOnzht03iZxM6waZZcuyphfS1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BfIbs7+eIvo55Cmq7o24N7IavlJti/N+52W0MCImqyE=;
- b=NDBR0JdcpG+qH5Quna7lRic2Dytans32KZqyt6ArWW3HPvj+Us3yAVDhClXTnqhVPKkYjrSaxulWQpfOHmu7J6cU9bJ9+7otf28jXRf3nmdn3SDMh93hb5f08hFqD/BKquWDgKGXmmiQNZNzlp/leKHYHxE2f0OJTPfNuM5h+Dc=
+ bh=0akp1hZGD0DsuuPCWzAuLMv0C+ltmGwp6UsvgEEfz18=;
+ b=Mi02J+l382UNUein6SIgPovlnJ+YeBA2Gj2/my1Qes5ESvTF2wfSQg1BIxDpFanA3lBcuVbPmhmRYwHaVKuEpFw/aaG0LBz9mmVbDHKjCn5YXIOFgqQXcHldYqBzf3ClhLpJcQL/5uZh/C2t65urc5Ziu/BnbUwpHUCFpLEQ3uU=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4342.eurprd08.prod.outlook.com (2603:10a6:20b:b4::22)
+ by AS8PR08MB6806.eurprd08.prod.outlook.com (2603:10a6:20b:39b::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Fri, 12 Mar
- 2021 12:32:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
+ 2021 12:35:27 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3912.030; Fri, 12 Mar 2021
- 12:32:44 +0000
-Subject: Re: [PATCH v3 3/6] block/qcow2: introduce inflight writes counters:
- fix discard
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-4-vsementsov@virtuozzo.com>
- <72a42f79-a608-6605-c0e1-8f35303b9c81@redhat.com>
- <3f4e3e81-8750-cbe2-0d54-d7c9e0055d38@virtuozzo.com>
- <a1656b5e-8333-885f-f0c6-0a4e6dec8bd2@redhat.com>
+ 12:35:27 +0000
+Subject: Re: [RFC] nbd: decouple reconnect from drain
+To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ yc-core@yandex-team.ru, Max Reitz <mreitz@redhat.com>
+References: <20210310093232.519585-1-rvkagan@yandex-team.ru>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <89d3bfd8-3a22-a9da-dbb8-370aa6ac2653@virtuozzo.com>
-Date: Fri, 12 Mar 2021 15:32:42 +0300
+Message-ID: <a1d202b2-ddb6-e173-c0a7-e3199b641499@virtuozzo.com>
+Date: Fri, 12 Mar 2021 15:35:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-In-Reply-To: <a1656b5e-8333-885f-f0c6-0a4e6dec8bd2@redhat.com>
+In-Reply-To: <20210310093232.519585-1-rvkagan@yandex-team.ru>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: AM0P190CA0010.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM3PR07CA0101.eurprd07.prod.outlook.com
+ (2603:10a6:207:7::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.202) by
- AM0P190CA0010.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::20) with Microsoft
+ AM3PR07CA0101.eurprd07.prod.outlook.com (2603:10a6:207:7::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17 via Frontend Transport; Fri, 12 Mar 2021 12:32:43 +0000
+ 15.20.3955.11 via Frontend Transport; Fri, 12 Mar 2021 12:35:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 327110b5-16a5-4bb6-5083-08d8e552efb0
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4342:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB43424D04C97B122363DAAD6CC16F9@AM6PR08MB4342.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Office365-Filtering-Correlation-Id: 1756708b-7468-4dc6-ac06-08d8e553508f
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6806:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6806513CFB50734811B18214C16F9@AS8PR08MB6806.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MQLAbtlUieYBTN0QsDpe1ecFLN1B7dLCFABUWuMqPCiPGkYID7KMJcwUG8hfTrFoBLFA6iFN+E9UMmLytbFmQePmqZ83tJ3xueNuXGjeAmjNTe9RnxHt54cyoQQxg8KZlBmqfK8mlmHkZ6D+1Q5ESclMuLmsHkvCyChKXhVAW/qZw23XOpxiTQ0iAiQ/2OgFQQ97B27QkCVcQjWpUiaXGPZ/8UUW0lA1x3vWb6Cn/6XNtlqxqb80KmSDlNa1x8UjB0sXLwI+NeBC78QvGl7iaCqlSYQ95cx54tnR13wqA6IfKICukf9GR5vlSNW+SHV92Wec6Bqp3kHyN80t3SpZwZtr++BKxg5IlVbdiuMVLTtaYvqxsO2QheFgcbNjfRbbe+SMETks1ZOXcKh7IK3LwsnfRogEu8z+Udgik12c9zit8Szovj6T/EKOI11AyHZmlwE7Y+jVfTAQ97xEjg48pTVxUnVJmm6GD1G8pmcRBNQwPuxpQNlkuyVUtOv03gA9b9bUUICCU013Rn4HgXKyITLuPTjOPSolyGVXmwaFz/vV6973tqa7xr1C5rsG+R7o4fnIRBGWKC/PsoIX46+XR/QOAGO8dTiVPESJSU9xxRk=
+X-Microsoft-Antispam-Message-Info: HEjdlG1bLu1cv2AfEHRwWGuGU2GHjoTiY7OS2AnqzDG4KgbaFHDo5asQYJhaX2SbB1F3eBJnyt6jxrgLL+MbW1FENlrgNjt0jo09uCZx+FQ4NTx3GbFp2oTzcIlIF9cqc1ZdCnH5MIjguZdvuCduTSlDZFueStwJGyGoQVAhLa85EeCY8eZteikpZk+WzxevR8EE716WLs6W+gyoJepSb5/mPhnKFgomhZL8xevH4DF5LUFG2Kn00tbMdU8CXdmEo3fum4vS6hDa0FxvTISH5rcDjmFBqzTztbQJTASUA5eRV3s/02ck7z3wvtzJERaEdjPsbPGF0XOsNuitGq3cDivtZPdHopS0DPpk5ZkJKFJ0uSBECAbs63o1SxokK1RVQBTvEHqP6SUiIrZVoI5PwzIKKKC9L2R4V9014onDYHKU1b/d0xXO4yYH1XWVIB+YjYwfCKTu1VaY6tMG8NilHMSo+731nN0+jsIuTw69lW6uoGCvjN/CtrEA5G0k0XX+xN0vOtlIjsgIV9xGeY+mDlw2Fl+ROLI/JdB9gqn6T9qeps9lpTPgpc1zSBBmgwEnsV9eZOPzw1NTi5FPBlWkSfRDgD5GwTDh3HKN+qYzGw5N+Pd44ZGWmUgpPd7r70+RTSDrv/tAowCaWSt8hMbtvg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(396003)(346002)(366004)(39840400004)(186003)(4326008)(31686004)(2616005)(16526019)(478600001)(5660300002)(31696002)(26005)(86362001)(2906002)(36756003)(8936002)(316002)(8676002)(16576012)(83380400001)(6486002)(19627235002)(956004)(52116002)(66476007)(66556008)(53546011)(66946007)(45980500001)(43740500002);
+ SFS:(4636009)(39840400004)(366004)(396003)(136003)(346002)(376002)(8936002)(66946007)(478600001)(66556008)(8676002)(66476007)(5660300002)(956004)(2616005)(16526019)(4326008)(186003)(2906002)(26005)(31686004)(36756003)(31696002)(83380400001)(86362001)(54906003)(16576012)(316002)(6486002)(52116002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: fBCpOjf8z81xkazm82BJj7xg9wIejyA0qiERpfw+KzmSUetDE81O6/GHdG2th+qUcBcSMjit/Ge967Lm3+Vuob+Wr4jLTWDm6fdjTZWLEsfB7QsGo0/pmFeaoUHlc4geKI98sH4ZHEE+qsuJtO9xwFs7ukHpw39b74IHjiGJJtTyDjApJ+DZyX8UX/NvGoHZJvOyejKsOO/CSjTgO5dkOARvDkJFiiOkN3zOJoIguFk9mMelSy/KAsHAC2sj/QJHV+dm8zGMapuTdEwyg6RUxnA+2Ca5BVWiJUOSdO4NKdeCv4ZZxP1r6gizPVOYwx3Jer/GuEXj5FnSOFcE+XzNhuz8dwgD5+z5mwh1TK2w4DPELqZ1lc/kFem0syAT3BEmw75+Kxsca5NIB8sLHD+HjRfNA+K0I3WDtA29njboi+RGJlTmU32HAWOGlXHlhm+AySy6iEnxNvaSzviYPfNIUONT5lEPJmyuwLRNrRSO//qJ+4IHC3eWnTM1/83tKwZWIuUqoWXUNlh2nMi1pS8oHIW9wogtK19f0VR0qTAWPBS5yZpvzZ7djMqVQt0aHKie3vmHkWaGB/OeQ1c7kmNHOX57kDBfdE5ylyS+pVoaDkbOS03EuAK0A4i09sTAB2Q6d41RYeSyQfN0g5q+1HDxt0MdzcbdDc/txD78PR38Yrz3Dd0H55Ehfn7DB3kPVGNMxPXFGXlDsPW7vHpsv8ht41ucPdNQr1ZzQ3kJHFf8IEzM88NqNsdbox1FzqVhUo/P
+X-MS-Exchange-AntiSpam-MessageData: cHGRoPnoAGcrBfIkr3yoLr3in80xu7+3ltIj+uYuq5cl3jz00G3Fj62Ny4CWLPpIivPQyL8mo2SUHuWP4JGhU2fs4UUULYTBVkY3LyAR1j9FwiCd6Zf5TZz++pKxnmjQd3UK7GDly2da1XnwbViLHrCV/W75zlj2xqzZfOW+u9qyxVsn1i3IPKzrn6ImHpC2kA+mMyDpMLXJ4ZeXyLG4yAPT22afkV087g7ZETnkHObFrT/dFr3tciAPfg+msCvZOymronRFZwLTql0O0kpGI23FObJvpCBDEOB8yeaC41AWOhS45BZHfIDOBW7pShWTM9Ltfn/W5VcLQXkv4dJQdWE0Zo4EO2sjNBELEr4yhvVNdZLooz7ttsnekpE7h5fNOB76OTmms6H/qhrj4XLB9VfXWL3JIdydjaBlfZiK7bn7SBvlCSWTtSD4agVeJk4obnWqYzIuFo74paUaCzl+tPDlQL4hMVzTyiQpjn1IxCFrr+J6Cq9/qQpfLh/t/OIrkHFNkleg5XjW4CaVvWGMiqFigtqRj+9z/XADt4NQncwffb/VL/09YB02Ruvq/CKxuVI+nsUdyNq39Lbj3Psx66uFvNLu7ntX5oUI6B+hwXrFXWmKWXTZt2/75cSUCvzW6D5P30E2MxFtnYRuO3npyZw4jfRl4HPbSo4Tz/Ts//YA7iZEC0vDAJHwVVDKHeBy8d9ctdkyYtdTG2oAZV8LAmKC7G+/EDu1H8EqYzTgXqj3IFGXZG5/I23w4IzKwesC
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 327110b5-16a5-4bb6-5083-08d8e552efb0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1756708b-7468-4dc6-ac06-08d8e553508f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 12:32:44.6494 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 12:35:27.1316 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xV7j9L0ZHXhUZ2d1L3LGmgaSgsQ4oVTEMkapnBGizer1DdYJtPWG+NDUJ6cEQit8aT9iuaKKo8XU97PeyeY8t+8woR8S5bBXT2Zwn0+2Pvc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4342
-Received-SPF: pass client-ip=40.107.8.108;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7EkfBsmR15gUA3Xb6tCLIbnaSKHivQMycyz5L0em0e9housHCKl3qWBxV+He5Dlw7moprY5y1Td5GZlhBTSClo0mR+OqirDjfzYLSHiDvok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6806
+Received-SPF: pass client-ip=40.107.1.102;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -122,44 +117,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.03.2021 14:17, Max Reitz wrote:
-> On 12.03.21 10:09, Vladimir Sementsov-Ogievskiy wrote:
->> 11.03.2021 22:58, Max Reitz wrote:
->>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
->>>> There is a bug in qcow2: host cluster can be discarded (refcount
->>>> becomes 0) and reused during data write. In this case data write may
-
-[..]
-
->>>> @@ -885,6 +1019,13 @@ static int QEMU_WARN_UNUSED_RESULT update_refcount(BlockDriverState *bs,
->>>>           if (refcount == 0) {
->>>>               void *table;
->>>> +            Qcow2InFlightRefcount *infl = find_infl_wr(s, cluster_index);
->>>> +
->>>> +            if (infl) {
->>>> +                infl->refcount_zero = true;
->>>> +                infl->type = type;
->>>> +                continue;
->>>> +            }
->>>
->>> I don’t understand what this is supposed to do exactly.  It seems like it wants to keep metadata structures in the cache that are still in use (because dropping them from the caches is what happens next), but users of metadata structures won’t set in-flight counters for those metadata structures, will they?
->>
->> Don't follow.
->>
->> We want the code in "if (refcount == 0)" to be triggered only when full reference count of the host cluster becomes 0, including inflight-write-cnt. So, if at this point inflight-write-cnt is not 0, we postpone freeing the host cluster, it will be done later from "slow path" in update_inflight_write_cnt().
+10.03.2021 12:32, Roman Kagan wrote:
+> NBD connect coroutine takes an extra in_flight reference as if it's a
+> request handler.  This prevents drain from completion until the
+> connection coroutine is releases the reference.
 > 
-> But the code under “if (refcount == 0)” doesn’t free anything, does it?  All I can see is code to remove metadata structures from the metadata caches (if the discarded cluster was an L2 table or a refblock), and finally the discard on the underlying file.  I don’t see how that protocol-level discard has anything to do with our problem, though.
+> When NBD is configured to reconnect, however, this appears to be fatal
+> to the reconnection idea: the drain procedure wants the reconnection to
+> be suspended, but this is only possible if the in-flight requests are
+> canceled.
 
-Hmm. Still, if we do this discard, and then our in-flight write, we'll have data instead of a hole. Not a big deal, but seems better to postpone discard.
+As I remember from our conversation, the problem is not that we don't reconnect during drained section, but exactly that we cancel requests on drained begins starting from 8c517de24a8a1dcbeb.
 
-On the other hand, clearing caches is OK, as its related only to qcow2-refcount, not to inflight-write-cnt
+This is not a problem in scenarios when reconnect is rare case and failed request is acceptable. But if we have bad connection and requests should often wait for reconnect (so, it may be considered as a kind of "latency") then really, cancelling the waiting requests on any drain() kills the reconnect feature.
 
 > 
-> As far as I understand, the freeing happens immediately above the “if (refcount == 0)” block by s->set_refcount() setting the refcount to 0. (including updating s->free_cluster_index if the refcount is 0).
+> Fix this by making the connection coroutine stop messing with the
+> in-flight counter.  Instead, certain care is taken to properly move the
+> reconnection stuff from one aio_context to another in
+> .bdrv_{attach,detach}_aio_context callbacks.
+> 
+> Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
+> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> ---
+> This patch passes the regular make check but fails some extra iotests,
+> in particular 277.  It obviously lacks more robust interaction with the
+> connection thread (which in general is fairly complex and hard to reason
+> about), and perhaps has some other drawbacks, so I'll work on this
+> further, but I'd appreciate some feedback on whether the idea is sound.
+> 
 
-Hmm.. And that (setting s->free_cluster_index) what I should actually prevent until total reference count becomes zero.
+In general I like the idea. The logic around drain in nbd is overcomplicated. And I never liked the fact that nbd_read_eof() does dec-inc inflight section. Some notes:
 
-And about s->set_refcount(): it only update a refcount itself, and don't free anything.
+1. I hope, the patch can be divided into several ones, as there are several things done:
+
+- removing use of in_flight counter introduced by 5ad81b4946
+- do reconnect during drained section
+- stop cancelling requests on .drained_begin
+
+2. 5ad81b4946 was needed to make nbd_client_attach_aio_context() reenter connection_co only in one (or two) possible places, not on any yield.. And I don't see how it is achieved now.. This should be described in commit msg..
+
+3. About cancelling requests on drained_begin. The behavior was introduced by 8c517de24a8a1dcbeb, to fix a deadlock. So, if now the deadlock is fixed another way, let's change the logic (don't cancel requests) in a separate patch, and note 8c517de24a8a1dcbeb commit and the commit that fixes deadlock the other way in the commit message.
 
 
 -- 
