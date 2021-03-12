@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45674339634
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:22:49 +0100 (CET)
-Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5AFF33964D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:24:39 +0100 (CET)
+Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmQy-0002xB-97
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:22:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58314)
+	id 1lKmSk-0006C5-NA
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlWP-0007kb-BO
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:21 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlWN-0000eX-EB
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:21 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 36C49AF4D;
- Fri, 12 Mar 2021 17:24:08 +0000 (UTC)
-Subject: Re: all class init functions for all types in QEMU are called in
- select_machine(). Expected?
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <bdc8dbaf-8d63-833a-3e57-7e823a321486@suse.de>
- <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
- <ec7f83ae-8529-3a0e-4b00-73c856b28a3e@suse.de>
- <be88d88a-dd9d-547d-9f3d-7444f0f8bbc6@redhat.com>
- <3b7c6a4e-c191-063c-affa-0e179227a633@suse.de>
- <26c2b88b-4c9e-09a0-a1c0-350a01e9a697@redhat.com>
- <d66078f1-9fa0-c3ed-d54c-3d3ada2027e5@suse.de>
- <683d1ccc-503d-3218-2539-a3ed48fee5fb@redhat.com>
- <8ca3a983-05ad-a0de-31e9-65b6c41a2b4c@suse.de>
- <6f2e5a50-c548-28c5-1ce0-e583bf90eaf1@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <e0c5eeaa-55f5-80e6-5cac-9717159f3903@suse.de>
-Date: Fri, 12 Mar 2021 18:24:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lKlag-00046i-Eo
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:46 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lKlaL-0002Bm-De
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:46 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id w18so9064972edc.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=83FeQyVxN11QJLouXcPIlZEi2ssR8LeMCCehcEY0YWY=;
+ b=iPuMCbFl5UIm2Bx3xiC5YOPzDzDro1R204qz3rQVrL5GzMxM7tykwhPAcYOJ77tQW6
+ VUkzlIYArMmqiA33TaLKVohJFNpVj4ni2ehsdT+UCk/CC3iqQA7JE5zoOL2uJKZtxna4
+ 2GZHGReGDlU6spECB7IEzCfpqrnxXkaUdjlY2zZH0nB4w93EUJrfGtT7qQbTrN4OMSgE
+ JuWZ/zITuVyd1i4epvKxSHnpB8vvt8vvr5nfBRTh6fvWxFc7COHKgrcOlKqUetzjyvBR
+ cyKq1Qu7Z4noG4KnyYliI7sI40BZvF7dtDPaWq+sj6DBfB899L4W3CxBNIMzpe690zR1
+ TenA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=83FeQyVxN11QJLouXcPIlZEi2ssR8LeMCCehcEY0YWY=;
+ b=BCLZU8JXMnJNEPtsls/zki6GW7NXYP39qJq6/J/LxlCvlYsFSwlO0j2QUyhbSKdSTR
+ oKgagG8bwl1l3yejkf7YpIxtsv2Rl9oQPXENXTrzpQ7tWSW/KYmU1vzO/iM3IyskagZh
+ diwtaA2sygJ29Pg14rHNRMdtjsaEPILqORb0tfqTnqR8htCEeH34rGG6EdpiXR1nc6Fn
+ GZ8x6dZ3bW9s1Z4ZA0sh36ylA9/AaCxP7+2gK7V9Wd/uV3p/GWRGh7Q9qwQ5BmuBgmvw
+ jvGwyMMpWFGO0f+n2N2UXYFVRFmoEmHqxk2DNKMfvzMeEjogxShJ4PyP2Opgyf3MueJj
+ CJcw==
+X-Gm-Message-State: AOAM53109gAirbibKegWT8YNOxPbA/aToRKfANOv2rLy1I3t8/Q8vgEh
+ g87EMPpn5NkGRGNE87v7OH/6MQ==
+X-Google-Smtp-Source: ABdhPJyZtzD+SpFq3FmIfPVWgqtReKXKaf84IkltO30oJfZzh//fuKuu5OBUTxrc91BEuIQfAl2RfQ==
+X-Received: by 2002:aa7:db4f:: with SMTP id n15mr15367318edt.12.1615570103883; 
+ Fri, 12 Mar 2021 09:28:23 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b17sm2949274ejj.9.2021.03.12.09.28.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 09:28:22 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A8A051FF7E;
+ Fri, 12 Mar 2021 17:28:21 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/14] plugins/next (phys addr, syscalls, lots of docs)
+Date: Fri, 12 Mar 2021 17:28:07 +0000
+Message-Id: <20210312172821.31647-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6f2e5a50-c548-28c5-1ce0-e583bf90eaf1@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,46 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 6:04 PM, Paolo Bonzini wrote:
-> On 12/03/21 14:40, Claudio Fontana wrote:
->>      /*
->>       * double dispatch. The first callback allows the accel cpu
->>       * to run initializations for the CPU,
->>       * the second one allows the CPU to customize the accel cpu
->>       * behavior according to the CPU.
->>       *
->>       * The second is currently only used by TCG, to specialize the
->>       * TCGCPUOps depending on the CPU type.
->>       */
->>      cc->accel_cpu = accel_cpu;
->>      if (accel_cpu->cpu_class_init) {
->>          accel_cpu->cpu_class_init(cc);
->>      }
->>      if (cc->init_accel_cpu) {
->>          cc->init_accel_cpu(accel_cpu, cc);
->>      }
->> }
->>
->> .. but maybe this is premature, and should wait for actual users of this beyond TCG on ARM?
-> 
-> I prefer to single out TCG and have the call in cpu_class_init.  The 
-> idea of double dispatch (as opposed to an if/else chain with checks on 
-> the class of the argument) is that the first caller uses different 
-> "method names" to tell its type name to the target.
-> 
-> See for example 
-> https://en.wikipedia.org/wiki/Double_dispatch#Example_in_Ruby.
-> 
-> Paolo
-> 
+Hi,
 
-Ah, just saw this. I already sent the series, but we can rework and rethink this.
+This is rolling up the plugins changes for 6.0. A couple of fixes and
+I've also spent some time cleaning up the kernel-doc comments for the
+developer manual.
 
-Ciao, thanks,
+The following need review:
 
-Claudio
+  - plugins: expand kernel-doc for memory query and instrumentation
+  - plugins: expand kernel-doc for instruction query and instrumentation
+  - plugins: expand inline exec kernel-doc documentation.
+  - plugins: add qemu_plugin_id_t to kernel-doc
+  - plugins: add qemu_plugin_cb_flags to kernel-doc
+  - plugins: expand the typedef kernel-docs for translation
+  - plugins: expand the callback typedef kernel-docs
+  - plugins: cleanup kernel-doc for qemu_plugin_install
+  - plugins: expand kernel-doc for qemu_info_t
+  - docs/devel: include the plugin API information from the headers
+
+
+Aaron Lindsay (1):
+  plugins: Expose physical addresses instead of device offsets
+
+Alex Bennée (10):
+  docs/devel: include the plugin API information from the headers
+  plugins: expand kernel-doc for qemu_info_t
+  plugins: cleanup kernel-doc for qemu_plugin_install
+  plugins: expand the callback typedef kernel-docs
+  plugins: expand the typedef kernel-docs for translation
+  plugins: add qemu_plugin_cb_flags to kernel-doc
+  plugins: add qemu_plugin_id_t to kernel-doc
+  plugins: expand inline exec kernel-doc documentation.
+  plugins: expand kernel-doc for instruction query and instrumentation
+  plugins: expand kernel-doc for memory query and instrumentation
+
+Matthias Weckbecker (1):
+  plugins: new syscalls plugin
+
+Yonggang Luo (2):
+  plugins: getting qemu_plugin_get_hwaddr only expose one function
+    prototype
+  plugins: Fixes typo in qemu-plugin.h
+
+ docs/devel/tcg-plugins.rst  |   5 +
+ include/qemu/qemu-plugin.h  | 230 +++++++++++++++++++++++++++++-------
+ contrib/plugins/hotpages.c  |   2 +-
+ contrib/plugins/hwprofile.c |   2 +-
+ plugins/api.c               |  25 ++--
+ tests/plugin/syscall.c      |  49 ++++++++
+ tests/plugin/meson.build    |   2 +-
+ 7 files changed, 257 insertions(+), 58 deletions(-)
+ create mode 100644 tests/plugin/syscall.c
+
+-- 
+2.20.1
+
 
