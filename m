@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0836433976D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:29:30 +0100 (CET)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCC9339754
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:21:37 +0100 (CET)
+Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKnTU-0000dj-W4
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:29:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54056)
+	id 1lKnLs-0007kL-AK
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKmy2-0007fF-Vo
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:57:00 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36933)
+ id 1lKn1M-0003nb-5z
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 14:00:25 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:41498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKmxs-0004ie-FS
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:56:56 -0500
-Received: by mail-ej1-x633.google.com with SMTP id bm21so55291926ejb.4
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:56:47 -0800 (PST)
+ id 1lKn1E-0006m9-Qs
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 14:00:21 -0500
+Received: by mail-ed1-x536.google.com with SMTP id z1so9433731edb.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 11:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bpha2JVkn8ZG8wzc9Sw4T/4lgCTCqh0xVR5yJelZ+Xc=;
- b=QofulE+66kjerqgYja+9iGfwvt0UBev5FQWAD8x0qnfQumssaIDxqPCs2Ro4bkFdD8
- lNLBw8WHiqCDYSeoXZx3jJk4m1ggWyOlsjZf1sKIG7W1YJX3FZGzfpfv1dkcPAiQOmDH
- XktsTJPaapZNovMhsZJw6YRUN399p4lvkOKBxrhL/BVQNfFXuqIUp7t8/Oe0PRuNTxWO
- IWI1/6n9aF9BynG1DUmZUVLGMNmt9Nb0dZ5aR+rzG2DxKxiw4SshincYO0oYX+WlreSR
- QeHxDde85umlz+y5LB/8TSF9p3hOg+SpUuyZYveNIT4RKaIFXO2zGlnvQ/pTATwj8r1P
- PXIw==
+ :cc; bh=xce/217S+3uw/F3kMvIeNoXlNiGWQQZxZcAWy8z1N0k=;
+ b=nqFhVTXGBlv1w1QPpEavmpCgialq1+ZcUT2rzY8TQYC9s+i4bvRUqHWgJCthObLcQH
+ Jh3mkzD9mZfAJUn+X1neApJV7tD8LeXOGlVgWu8nRzHyt+yRIto5ajHDPjbDFWtafcWH
+ Q0dmAbHFsIcvyssqpL7oAL8Xr9hNLAvCrcGx0glFe/5HSpRahskEBAWrhWgA/mrIV4cy
+ WUqJ6AiKmiEuNlTL38BJYyJKZpVsFdRtUYC+Q2AedTIgMwqz1s8B3JAVrpejiDO0bbI8
+ zUD6NpyhT3dqx+Ni0my7SLEB9+jYvlLiacshY3D/IRn6QgLEOLIvzBTcUkGmH3tjb2ic
+ ceYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Bpha2JVkn8ZG8wzc9Sw4T/4lgCTCqh0xVR5yJelZ+Xc=;
- b=qbyQfJbU9fCfHZQnrX4ULUCKk99Ppplcfimac05fgYgU0BmUVJQT+3UoLgM/dgE1xz
- uVaF3whO+sabw7I5dvgpm06CGWxOMJbaBtD6XI+YhHunIOt/YmvEko5mhGit/XyWWkEh
- HUzWGJDBSSfwwBi6eIVcagchtt9TNc0HLvztgU6uWLOwZO4PNz34yHaIhHKCEmOtUbMa
- 77bxsy1je0q9IbDTqyTggpfENew9RUHFK+7IIxaMTEHFNv8BCZqQqSyX5l/yg7rT6um5
- TlatTiGjsVaFhk4ktmD+9zIBSwQGFiv6mwvbmHpjXEzwWtXS7p8jsMu8YXlqtBe2wMPL
- 1XKA==
-X-Gm-Message-State: AOAM532T4nQx/H1bsjyYUvBH4RSs4swp5pXCK9c8HpC8IXMg928ZPAJ/
- TJnrpteHCmVS5gnch3CZB1pDJSJ0GWmsaOqKwpbOfA==
-X-Google-Smtp-Source: ABdhPJzf79Xpbu/bPF47Y+cnEfUA/EGkiFXwip3OfGQPzwysVpNn1K2PK0z6+CJGHBddmrKRpovzZKMtiT/1lQrJzkc=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr10374478ejc.250.1615575406029; 
- Fri, 12 Mar 2021 10:56:46 -0800 (PST)
+ bh=xce/217S+3uw/F3kMvIeNoXlNiGWQQZxZcAWy8z1N0k=;
+ b=acK0KcGBGql8eGqi+EmeYh7OTpQ8tA4xgQa+2HwY+ac7doEUyetxnokSI5YhfwLTRY
+ r/RokJ5u4tJyNiEt0kAFnFSytD5qxTXJoPqBJphv/X6jfuWWSCfEQ/kW5o/RXlvfiqq4
+ +GxlYHoAb919pWAWwhdDguItFThsxa2n4JUUf0VfpxsNg8eUeXIn8BRibPSr9ugtI8jG
+ n/RU7rOtAEA84kwaLED2qHwVmQtBiYELuazGvuk2dwW/lEtR4o8CO9cgf6AtgzS3HJ3w
+ zEHEsIUBODeqJj/YX6RcXI46Dq+xRvpU++sFO7Y4HRtj7eYAk5oCn4ZU4VBjo7qK2nX9
+ 5G+A==
+X-Gm-Message-State: AOAM530kTKc+6b2xb/M4ga/4W9Dy281jxYhkjsCYRwU2t35ZEGgO1ZMn
+ c5q6OC77K3Yo8uAr6IlkE5l9G8qvXJWw1scLqVMdB/uHxy1u9g==
+X-Google-Smtp-Source: ABdhPJygERAH7ZWqv4x5oq7YC9+YADhLP68TK/ZeWhW08tLrAPy1ZDFwENLKC6E30bdSdf9FEekPV7aNUYkVDFdKZpk=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr15700725edu.100.1615575612479; 
+ Fri, 12 Mar 2021 11:00:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20210311144811.313451-1-kwolf@redhat.com>
-In-Reply-To: <20210311144811.313451-1-kwolf@redhat.com>
+References: <20210312172939.695-1-peter.maydell@linaro.org>
+In-Reply-To: <20210312172939.695-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Mar 2021 18:56:27 +0000
-Message-ID: <CAFEAcA-RkqptbD6Cie_iMr9RgXT-B0mCVcyTwh6NV41EfX+N1g@mail.gmail.com>
-Subject: Re: [PULL 00/38] Block layer patches and object-add QAPIfication
-To: Kevin Wolf <kwolf@redhat.com>
+Date: Fri, 12 Mar 2021 18:59:53 +0000
+Message-ID: <CAFEAcA8PN3EQN_E8zo0qUP=F7cAg=XvuUc2V6iop8YOOYxMGxQ@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 0/2] arm: Make M-profile VTOR loads on reset
+ handle memory aliasing
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,49 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Kumar Gala <kumar.gala@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 14:48, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit d689ecad073e0289afa8ca863e45879d719e5c21:
->
->   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-03-10 20:11:33 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 4756658df7d5104b36ee2f40f30f2d0f10225a53:
->
->   qom: Add user_creatable_parse_str() (2021-03-11 13:13:49 +0100)
->
-> ----------------------------------------------------------------
-> Block layer patches and object-add QAPIfication
->
-> - QAPIfy object-add and --object for tools
-> - Add vhost-user-blk-test
-> - stream: Fail gracefully if permission is denied
-> - storage-daemon: Fix crash on quit when job is still running
-> - curl: Fix use after free
-> - Fix image creation option defaults that exist in both the format and
->   the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
->   default was incorrectly applied to the rbd layer)
->
+On Fri, 12 Mar 2021 at 17:29, Peter Maydell <peter.maydell@linaro.org> wrote:
+> This series handles the possibility of aliasing by iterating through
+> the whole FlatView of the CPU's address space checking for other
+> mappings of the MemoryRegion corresponding to the location of the
+> vector table.  If we find any aliases we use rom_ptr() to see if the
+> ROM blob loader has any data there.
 
-This generates new warnings in 'make check':
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-G_TEST_SRCDIR=/home/petmay01/linaro/qemu-for-merges/tests G_TEST
-_BUILDDIR=/home/petmay01/linaro/qemu-for-merges/build/all/tests
-tests/test-char --tap -k
-warning: The alias 'tty' is deprecated, use 'serial' instead
-PASS 1 test-char /char/null
-PASS 2 test-char /char/invalid
-PASS 3 test-char /char/ringbuf
-PASS 4 test-char /char/mux
-[etc]
+The other possible place we could put this code would be
+to put it into rom_ptr() itself. You'd have to change the
+callsites to pass an AddressSpace to rom_ptr(), but really
+we ought to do that anyway, because a Rom has an AddressSpace
+that we should be checking as well as the address.
 
-thanks
 -- PMM
 
