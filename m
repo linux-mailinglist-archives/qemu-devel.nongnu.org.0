@@ -2,46 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132E3339139
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:29:08 +0100 (CET)
-Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355A333915A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:33:55 +0100 (CET)
+Received: from localhost ([::1]:58840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjit-0006Cz-2V
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:29:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41146)
+	id 1lKjnV-0007xl-S7
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:33:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lKjZa-0004lS-Ap
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:30 -0500
-Received: from foss.arm.com ([217.140.110.172]:48152)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lKjZY-0003pc-1m
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:30 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17F161063;
- Fri, 12 Mar 2021 07:19:27 -0800 (PST)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 402213F7D7;
- Fri, 12 Mar 2021 07:19:24 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v10 5/6] KVM: arm64: ioctl to fetch/store tags in a guest
-Date: Fri, 12 Mar 2021 15:19:01 +0000
-Message-Id: <20210312151902.17853-6-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210312151902.17853-1-steven.price@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lKjS2-0004rd-4t; Fri, 12 Mar 2021 10:11:42 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:44339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lKjRx-0007cC-9M; Fri, 12 Mar 2021 10:11:41 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id D4939D2E;
+ Fri, 12 Mar 2021 10:11:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 12 Mar 2021 10:11:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=o11I/n6/YaU/BE038VmvNfpiNbn
+ Uv/dYNuOsbl1uyRI=; b=FDZcKhuhdPzvBfWt20nWHXJGRenlzkzj2IJJ2FIQM9R
+ bgIv1zgI16EQTtAcmhrpL3pP4aqZavGAyixR9gfZ5MSqtHZsKW3BuETU1QKExf2y
+ lKWzZOO8JpSZu7N7gr7VYsbi/sNmprVpLFQdxanWOo2sYR/vFHMMELMD39ZTY7Jr
+ XbBiftDzcQaiQpvd86zqbYfrtcRfuEtr4LghtUwnTQqS9a5iAqnhfYhScxkHTak9
+ QD0k2jfSeOamo1lFAcSIIfuifIu2xdFsNQx6QI6cXUDQFwK4hPJ7mKev7JfeliXC
+ qBXfDbw7cyuASG0I3Szco01ElR9f7b3XVTJP7JzomlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=o11I/n
+ 6/YaU/BE038VmvNfpiNbnUv/dYNuOsbl1uyRI=; b=BFWO++X5sp9t/8fay4ZaD7
+ GkrQaRN1z9WxYBn/prRiFy/w0G1LyH+z7H37CCaIpv0obvOoo7vgHgPyRfUEMPPd
+ QolkPfs7HaT46+Re2YxNvJvj1Al9F1xtNJkR4dDArS1Dhy6xQVhox2fclnUsVL+e
+ w8f3WiyDY528/nedRKWhafkavC2jIHHtquV8hVNcO8qo3b51sjbBxUkHDkw0nbOs
+ bGzfIUzDUfoltiZpFYZHu+tWwa7IJPrCEcZckCzwt9uAV1VVXkigHC5iADlVzPws
+ DszTrTJfwtFQLk/LW6oC7LGDdPWmx708L28jGvy/6AkIasKDJe16tSRioTq9JBgA
+ ==
+X-ME-Sender: <xms:pIRLYLdOUFZL9cCoSWej-QagP0cV76MDTtCsbbwNJsNzJP7UYUaA6w>
+ <xme:pIRLYBJvE5Jut_4YDuEA7fAhqN84iHR41x-9Fk3ZYP9Q_oHrNb2MLO4LXcdPPz9zS
+ gOqTJED_amIN26KSZI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvvddgjeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:pIRLYBZszUkA4zMEgYz7Q26mHY6K-OBFLeaMTNNl0CJabv9FZgDSKA>
+ <xmx:pIRLYEu2hXWG_WtFwdl0FTJ-TuiFgOOOBc0WixwDgFLJyIrdIh3vYA>
+ <xmx:pIRLYGsJ2VHLAIdmHwEKWRDPdUNG0rwkpgKvOyBdSePI1Maa1FABJw>
+ <xmx:poRLYASn6bPAvOiqcAAWgDiVoWdh4XvTL4VEL9Yqx478sMB4TDGS8A>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 755E5240054;
+ Fri, 12 Mar 2021 10:11:31 -0500 (EST)
+Date: Fri, 12 Mar 2021 16:11:29 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 19/38] hw/block/nvme: align zoned.zasl with mdts
+Message-ID: <YEuEoQL0O5fvhESA@apples.localdomain>
+References: <20210309114512.536489-1-its@irrelevant.dk>
+ <20210309114512.536489-20-its@irrelevant.dk>
+ <CAFEAcA_1ro7DRp0BJdv5Lt0ehRH9Vwy9oCvwn0kOprmB8h6vAw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MkY1L6j6xEJqTHPr"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_1ro7DRp0BJdv5Lt0ehRH9Vwy9oCvwn0kOprmB8h6vAw@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,162 +95,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VMM may not wish to have it's own mapping of guest memory mapped
-with PROT_MTE because this causes problems if the VMM has tag checking
-enabled (the guest controls the tags in physical RAM and it's unlikely
-the tags are correct for the VMM).
 
-Instead add a new ioctl which allows the VMM to easily read/write the
-tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
-while the VMM can still read/write the tags for the purpose of
-migration.
+--MkY1L6j6xEJqTHPr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/uapi/asm/kvm.h | 14 +++++++
- arch/arm64/kvm/arm.c              | 69 +++++++++++++++++++++++++++++++
- include/uapi/linux/kvm.h          |  1 +
- 3 files changed, 84 insertions(+)
+On Mar 12 13:07, Peter Maydell wrote:
+> On Tue, 9 Mar 2021 at 11:45, Klaus Jensen <its@irrelevant.dk> wrote:
+> >
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >
+> > ZASL (Zone Append Size Limit) is defined exactly like MDTS (Maximum Data
+> > Transfer Size), that is, it is a value in units of the minimum memory
+> > page size (CAP.MPSMIN) and is reported as a power of two.
+> >
+> > The 'mdts' nvme device parameter is specified as in the spec, but the
+> > 'zoned.append_size_limit' parameter is specified in bytes. This is
+> > suboptimal for a number of reasons:
+> >
+> >   1. It is just plain confusing wrt. the definition of mdts.
+> >   2. There is a lot of complexity involved in validating the value; it
+> >      must be a power of two, it should be larger than 4k, if it is zero
+> >      we set it internally to mdts, but still report it as zero.
+> >   3. While "hw/block/nvme: improve invalid zasl value reporting"
+> >      slightly improved the handling of the parameter, the validation is
+> >      still wrong; it does not depend on CC.MPS, it depends on
+> >      CAP.MPSMIN. And we are not even checking that it is actually less
+> >      than or equal to MDTS, which is kinda the *one* condition it must
+> >      satisfy.
+> >
+> > Fix this by defining zasl exactly like mdts and checking the one thing
+> > that it must satisfy (that it is less than or equal to mdts). Also,
+> > change the default value from 128KiB to 0 (aka, whatever mdts is).
+>=20
+> > @@ -2144,10 +2142,9 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeR=
+equest *req, bool append,
+> >                  goto invalid;
+> >              }
+> >
+> > -            if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+> > -                trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl=
+);
+> > -                status =3D NVME_INVALID_FIELD;
+> > -                goto invalid;
+> > +            if (n->params.zasl && data_size > n->page_size << n->param=
+s.zasl) {
+> > +                trace_pci_nvme_err_zasl(data_size);
+> > +                return NVME_INVALID_FIELD | NVME_DNR;
+> >              }
+> >
+> >              slba =3D zone->w_ptr;
+>=20
+> Hi; Coverity points out a possible overflow here (CID 1450756):
+> n->page_size is a uint32_t, and n->params.zasl is a uint8_t, so
+> the "n->page_size << n->params.zasl" will be done as 32-bit arithmetic;
+> but it is then compared against a uint64_t data_size.
+>=20
+> Is this an overflow that can never happen (ie a false positive), or
+> should the RHS of the comparison be done as 64-bit arithmetic by
+> adding a cast ?
+>=20
 
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index 24223adae150..2b85a047c37d 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -184,6 +184,20 @@ struct kvm_vcpu_events {
- 	__u32 reserved[12];
- };
- 
-+struct kvm_arm_copy_mte_tags {
-+	__u64 guest_ipa;
-+	__u64 length;
-+	union {
-+		void __user *addr;
-+		__u64 padding;
-+	};
-+	__u64 flags;
-+	__u64 reserved[2];
-+};
-+
-+#define KVM_ARM_TAGS_TO_GUEST		0
-+#define KVM_ARM_TAGS_FROM_GUEST		1
-+
- /* If you need to interpret the index values, here is the key: */
- #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
- #define KVM_REG_ARM_COPROC_SHIFT	16
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index 46bf319f6cb7..9a6b26d37236 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -1297,6 +1297,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
- 	}
- }
- 
-+static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-+				      struct kvm_arm_copy_mte_tags *copy_tags)
-+{
-+	gpa_t guest_ipa = copy_tags->guest_ipa;
-+	size_t length = copy_tags->length;
-+	void __user *tags = copy_tags->addr;
-+	gpa_t gfn;
-+	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
-+	int ret = 0;
-+
-+	if (copy_tags->reserved[0] || copy_tags->reserved[1])
-+		return -EINVAL;
-+
-+	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
-+		return -EINVAL;
-+
-+	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
-+		return -EINVAL;
-+
-+	gfn = gpa_to_gfn(guest_ipa);
-+
-+	mutex_lock(&kvm->slots_lock);
-+
-+	while (length > 0) {
-+		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
-+		void *maddr;
-+		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
-+
-+		if (is_error_noslot_pfn(pfn)) {
-+			ret = -EFAULT;
-+			goto out;
-+		}
-+
-+		maddr = page_address(pfn_to_page(pfn));
-+
-+		if (!write) {
-+			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
-+			kvm_release_pfn_clean(pfn);
-+		} else {
-+			num_tags = mte_copy_tags_from_user(maddr, tags,
-+							   num_tags);
-+			kvm_release_pfn_dirty(pfn);
-+		}
-+
-+		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE) {
-+			ret = -EFAULT;
-+			goto out;
-+		}
-+
-+		gfn++;
-+		tags += num_tags;
-+		length -= PAGE_SIZE;
-+	}
-+
-+out:
-+	mutex_unlock(&kvm->slots_lock);
-+	return ret;
-+}
-+
- long kvm_arch_vm_ioctl(struct file *filp,
- 		       unsigned int ioctl, unsigned long arg)
- {
-@@ -1333,6 +1392,16 @@ long kvm_arch_vm_ioctl(struct file *filp,
- 
- 		return 0;
- 	}
-+	case KVM_ARM_MTE_COPY_TAGS: {
-+		struct kvm_arm_copy_mte_tags copy_tags;
-+
-+		if (!kvm_has_mte(kvm))
-+			return -EINVAL;
-+
-+		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
-+			return -EFAULT;
-+		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
-+	}
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 6dc16c09a2d1..470c122f4c2d 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1424,6 +1424,7 @@ struct kvm_s390_ucas_mapping {
- /* Available with KVM_CAP_PMU_EVENT_FILTER */
- #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
- #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
-+#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
- 
- /* ioctl for vm fd */
- #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
--- 
-2.20.1
+Thanks!
 
+I think a cast is in order. I will get a fix out.
+
+--MkY1L6j6xEJqTHPr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBLhKAACgkQTeGvMW1P
+DenHXgf/XRLZI4Nk21/RV+kpcTTQZjGEkEBF46n4WdIoBDWXlODu/IqNZNY0l6La
+72hTQ3QVF54WhK15gOo3hXcbiHyjLfXH5FYa++mTIsr+aCMGpXvXCIVSjTbn73aP
+FNREnXPe/jcmxKz1n6FObMlBfA/jJFIiLfA1Qe9oGf9EnXzt4hi2pbjR+ylyrAh5
+hvVpR5nbnAg84ywB4bH61+QC4SACvuW2tzxVGWYMf1kQBMsxckbm4PnU7wlvbyIf
+KyrLwg/0bBtBVKc4cDJeuNazd4zjCKCpt2e4Le1huFEd330y6UaLX3BwTccu3siM
+j12hfSU5xFws9lnV5R/paB05CpNFkQ==
+=8hmM
+-----END PGP SIGNATURE-----
+
+--MkY1L6j6xEJqTHPr--
 
