@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C34338869
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:17:15 +0100 (CET)
-Received: from localhost ([::1]:42018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C3533885B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:13:55 +0100 (CET)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKdv0-0001EY-UN
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:17:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48218)
+	id 1lKdrm-0006V1-CF
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKdkx-0006Q8-10
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:06:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39938)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKdlY-0007KB-UI
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:07:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKdkv-00039g-Cf
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:06:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKdlX-0003ZX-3h
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:07:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615540008;
+ s=mimecast20190719; t=1615540046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OiBm9NEUVeB8/YnYDXgZaCnBIddAzE5H+i7j3Te2Hdc=;
- b=EYppLv/id1CFkI52APtPpC/23Eglmf3S0dClSOSsPz8ZrIXoPHgHrSnU3phxGkev1e1aat
- qi6vc6e3Wzq3XlfM7u7Ne6NFb/Z387pFOlTBaGW3zggnw6OsnGnedkC1eTWNB+nQ2sPZc8
- TYLxh/dm1nLFViRcB4FQk+4lPQZ0tkA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-d1lVdi-YNT2lU5j4yD-ReA-1; Fri, 12 Mar 2021 04:06:47 -0500
-X-MC-Unique: d1lVdi-YNT2lU5j4yD-ReA-1
-Received: by mail-wm1-f72.google.com with SMTP id a65so1860466wmh.1
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 01:06:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OiBm9NEUVeB8/YnYDXgZaCnBIddAzE5H+i7j3Te2Hdc=;
- b=ED6EQzqHOTRE1bnkG7DIL2/2vYmdFTAFUJnrEZsO/NI/TLfIxihJLmEE0hX81876AD
- F1ROeybaR6rhNKxo5xDMr7t6xcEYfnvUguJEQUlDMUV6E6uwQMw8qgayNAJ8MMWxD0aP
- MP+8dsjcvWUuCaJ1fzkadbN1rGS3H/UYw92cyK5P+OP2l4g17vIQ6B6EcCqPa3CP3DLh
- gUsNN11Klmjs53rejJXoBxUmnJf3v4rtu8lM5UTLcyNlr8CG0J74zlRsafRyxh3xx4Dl
- OUql53MZNsig409kY9R3x4XbQlhBQxwUtxOl+OHwCwjxNR6A2RWZwZEP1gXTUWb7ktvP
- BgQw==
-X-Gm-Message-State: AOAM532htQJiYyLFtxRma87K9puzv3hU4loILis9rbfcB2PivLaOi+5w
- gxuFujqBYc7Q5aLFrXhb2yOvToFCoi+dysi3F07JD5tIKPhaIO1Xf2fa6FDO+TZK09i+GMYFj86
- i5Q0+VLpysr2swis=
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr12792631wrr.274.1615540005794; 
- Fri, 12 Mar 2021 01:06:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzz2bemVdqAPz1NjZjmBtClPzDXzuVv09N2/2whjl+QVgmvE/pYf1rQsthiO9dmhQ4kZU9OUg==
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr12792603wrr.274.1615540005613; 
- Fri, 12 Mar 2021 01:06:45 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id 12sm1403925wmw.43.2021.03.12.01.06.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 01:06:44 -0800 (PST)
-Subject: Re: [PATCH 6/6] tests/qtest: Do not restrict bios-tables-test to
- Aarch64 hosts anymore
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-7-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <24b4b31c-8e38-edd0-567e-1ab7f9b1b56e@redhat.com>
-Date: Fri, 12 Mar 2021 10:06:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=uPwWdXHLPr/0jf1XfhB5sA15IUGWUEPtEodn1rN7ZW8=;
+ b=iyy5BmehU/lDuu8oOi46HpPTYk+5WrO1xeCFSiR2uI9TEaA+3cRMKNpP7wAHbunz//pY69
+ 454YKbQIHblOy2mIzZDpVTK6PhRh/5HoT0skoc6ee0P4XHFWxxSYYlPUcvqZHLjhNJqp2t
+ lexbQM+xW7yvdNyKm/mUPnnxY2QBTJo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-MtpGE9lXPGug_BgL4q1BsA-1; Fri, 12 Mar 2021 04:07:22 -0500
+X-MC-Unique: MtpGE9lXPGug_BgL4q1BsA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2E8418397A1;
+ Fri, 12 Mar 2021 09:07:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA5B1F064;
+ Fri, 12 Mar 2021 09:07:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 554FD1132C12; Fri, 12 Mar 2021 10:07:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] gitlab-ci: Add a job to run common coccinelle checks
+References: <20210311193006.1442775-1-philmd@redhat.com>
+Date: Fri, 12 Mar 2021 10:07:16 +0100
+In-Reply-To: <20210311193006.1442775-1-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 11 Mar 2021 20:30:06
+ +0100")
+Message-ID: <878s6s68qj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210311231202.1536040-7-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,39 +82,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/03/21 00:12, Philippe Mathieu-Daudé wrote:
-> Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
-> 32-bit Arm hosts") we can remove the comment / check added in
-> commit ab6b6a77774 and directly run the bios-tables-test.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Add a job to run common coccinelle checks.
+
+This makes sense only for coccinelle scripts that come up clean and have
+a reasonably high confidence.
+
+Come up clean: we get no reports for master.  Otherwise new reports will
+drown in the old reports, and soon enough nobody will bother to look.
+
+Reasonably high confidence: when the scripts complain, the complaint is
+valid often enough, and when they propose a change, the change is good
+enough often enough.
+
+How do the scripts proposed in this patch score?
+
+> We use spatch tool from Fedora 32 (Docker image) because
+> more recent versions are failing.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   tests/qtest/meson.build | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 2688e1bfad7..405ae7a5602 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -170,14 +170,13 @@
->      'boot-serial-test',
->      'hexloader-test']
->   
-> -# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
->   qtests_aarch64 = \
-> -  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+> Based-on: <20210311192700.1441263-1-philmd@redhat.com>
+> ---
+>  .gitlab-ci.d/containers.yml                   |  5 ++++
+>  .gitlab-ci.yml                                | 26 +++++++++++++++++++
+>  .../dockerfiles/fedora-coccinelle.docker      | 16 ++++++++++++
+>  3 files changed, 47 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/fedora-coccinelle.docker
+>
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> index 33e4046e233..8f14afdccab 100644
+> --- a/.gitlab-ci.d/containers.yml
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -249,3 +249,8 @@ amd64-opensuse-leap-container:
+>    <<: *container_job_definition
+>    variables:
+>      NAME: opensuse-leap
+> +
+> +cocci-fedora-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: fedora-coccinelle
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 07202f6ffb2..615a0b98fe2 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -746,6 +746,32 @@ build-libvhost-user:
+>      - meson
+>      - ninja
+> =20
+> +check-cocci:
+> +  stage: build
+> +  needs: ['cocci-fedora-container']
+> +  image: $CI_REGISTRY_IMAGE/qemu/fedora-coccinelle:latest
+> +  script:
+> +    - for script in
+> +            scripts/coccinelle/errp-guard.cocci
 
-I don't understand, has aarch64-on-ARM TCG been fixed?
+I doubt the tree's state permits this one.  Its output should not be
+applied blindly.
 
-Paolo
+> +            scripts/coccinelle/exec_rw_const.cocci
+> +            scripts/coccinelle/inplace-byteswaps.cocci
+> +            scripts/coccinelle/overflow_muldiv64.cocci
+> +            scripts/coccinelle/qom-parent-type.cocci
+> +            scripts/coccinelle/qom-parent-type.cocci
+> +            scripts/coccinelle/remove_local_err.cocci
+> +            scripts/coccinelle/remove_muldiv64.cocci
+> +            scripts/coccinelle/return_directly.cocci
+> +            scripts/coccinelle/typecast.cocci
+> +            scripts/coccinelle/use-after-abort-fatal-errp.cocci
+> +      ; do
+> +        spatch --macro-file scripts/cocci-macro-file.h
+> +               --sp-file $script
+> +               --timeout 137
+> +               --jobs 2
+> +               --use-gitgrep
+> +               --dir .
+> +      ; done
+> +
+>  # Prepare for GitLab pages deployment. Anything copied into the
+>  # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
+>  pages:
+> diff --git a/tests/docker/dockerfiles/fedora-coccinelle.docker b/tests/do=
+cker/dockerfiles/fedora-coccinelle.docker
+> new file mode 100644
+> index 00000000000..5392c73fcb2
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/fedora-coccinelle.docker
+> @@ -0,0 +1,16 @@
+> +#
+> +# Docker image to run Coccinelle spatch
+> +# (program matching and transformation engine)
+> +#
+> +# Copyright (C) 2021 Red Hat, Inc.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +FROM fedora:32
+> +
+> +# Please keep this list sorted alphabetically
+> +RUN dnf install -y \
+> +    coccinelle \
+> +    diffutils \
+> +    findutils \
+> +    git-core
 
 
