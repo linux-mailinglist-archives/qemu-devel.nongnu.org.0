@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3544338FA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:17:22 +0100 (CET)
-Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147BF338FB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:20:25 +0100 (CET)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKibR-0002xi-Km
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:17:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
+	id 1lKieN-0006tm-U6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:20:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiEb-000557-H7
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:53:45 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiEY-0002tu-PX
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:53:45 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id x21so8051525eds.4
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TtbBjqrBF+oWOY9s4lbcp/qOT9jlVezhJoihPdEOHCQ=;
- b=FE3jRQQiBVXjoHeoyC/T02PXkar43tg3U0nAYYzP0bqNx9amgJGqnrV5vgRZw6UMTk
- /jBlyGLJWXHWBQGzm5iBTCDODIh7mIACIW8U5nHZ74kdeNzSGQ0UH7+Va/ND2TfsQ1Wo
- VGBZWuzfhQY0PbRTJPP23XYf752Eg7fOk8ItcOasyskJkxBw1dfbDVDdlXG6RRuaYE83
- h4BomT+YOFDxBQz2wld428xU9jA9R3w/sSXM1SSic4w4Ylq7i+Qwg0QwhyDblKrVJdEs
- DyZNzhmPMZhvoWjSKb2h6rQgV+yKtEm7hJE1HOKFagCyz4IDQYbiJ2khU+nHfQHYY0M7
- 3vTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TtbBjqrBF+oWOY9s4lbcp/qOT9jlVezhJoihPdEOHCQ=;
- b=EFpRy/+9amyIrpsQM27xfh1dB2KI7dQHCEkYsHZygXSsFk9llV1Sb0ZR6VcFWuju4S
- +qA+PM3TOJWAcaTMW5dGZg5YPBcFBWql7ikCIDNGlaIs5ya2c98K/GVbM8+aXpoAOpHJ
- nkF2mMJIhQ08mYWp1ko6wochnWtLtTUtTbZP76i7BCEUrpnV3s0d+kL0hf4Oof21hVVY
- +KqWVA+XBFhMyySr30NCuDeOeFtZvvZzDJmzsiLpJGanXu4c52dv7DZOyHY/VhZ7iBti
- inAa4zwaTLIeG2nGbl7ElMvUV8cmknNhfwzJe5t2buPKaRui4SSv0Dh9iDn6FlFU1pfW
- /DwA==
-X-Gm-Message-State: AOAM530uSmvMN1w+r465rP6No5TSDg0Q8H8u8gi/vPB17EJSfUBnz+41
- xf9KTgSh3ZsgZuVodJtdnuNdOuT1nxvAJVCOaCvXcw==
-X-Google-Smtp-Source: ABdhPJzd2df3Pe5ifJ1ck5YKEl/IJOnfstqK4O4rE5lh/6ZCNdxUIG5poj1GoR9P6pFN7hGgTkhopJ9LZhP93UoQrS4=
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr14605660edr.146.1615557221232; 
- Fri, 12 Mar 2021 05:53:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKiJy-0005Kw-Dc
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:59:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lKiJw-00065G-LL
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:59:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615557555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=47lorvPJYeezGrCV7YBBuEKhYGjG0/v9tAIP5t/Oteo=;
+ b=KLkI0zVX4WHCGvnk9tiNumQU+5reaWLSHC79llUib7dBdGZauYK6Ew+PuYx1BweGbX87bu
+ WqZMz1/f5bgKmLKMnmrN/8lKSKVMtxjTpGEswKWqgHfEMnqNyCmMmUpqIpZXjfVvJc44RK
+ Vgf9AClR41ksyjSSsjKzrNdbrY26Mqg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-SIKgNNO2NuSxC32h2Kh_ug-1; Fri, 12 Mar 2021 08:59:11 -0500
+X-MC-Unique: SIKgNNO2NuSxC32h2Kh_ug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79141101F015
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 13:59:06 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 168A219704;
+ Fri, 12 Mar 2021 13:59:06 +0000 (UTC)
+Subject: Re: [PATCH] qom: Support JSON in user_creatable_parse_str()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20210312131921.421023-1-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d34b0a01-c655-8f09-fca3-15fc7db0cee7@redhat.com>
+Date: Fri, 12 Mar 2021 07:59:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210310041002.333813-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20210310041002.333813-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Mar 2021 13:53:22 +0000
-Message-ID: <CAFEAcA-AN4YwsZdX16+a0yX8krMLq7tbL0v5vgLW+aDYO+O=ZA@mail.gmail.com>
-Subject: Re: [PULL 00/20] ppc-for-6.0 queue 20210310
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210312131921.421023-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,43 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, pkrempa@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021 at 04:10, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit b2ae1009d7cca2701e17eae55ae2d44fd22c942a:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210307' into staging (2021-03-09 13:50:35 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210310
->
-> for you to fetch changes up to eb7f80fd26d73e7e1af105431da58971b1dba517:
->
->   spapr.c: send QAPI event when memory hotunplug fails (2021-03-10 09:07:09 +1100)
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2021-03-10
->
-> Next batch of patches for the ppc target and machine types.  Includes:
->  * Several cleanups for sm501 from Peter Maydell
->  * An update to the SLOF guest firmware
->  * Improved handling of hotplug failures in spapr, associated cleanups
->    to the hotplug handling code
->  * Several etsec fixes and cleanups from Bin Meng
->  * Assorted other fixes and cleanups
->
-> ----------------------------------------------------------------
+On 3/12/21 7:19 AM, Kevin Wolf wrote:
+> Support JSON for --object in all tools and in HMP object_add in the same
+> way as it is supported in qobject_input_visitor_new_str().
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+> Based-on: <20210311144811.313451-1-kwolf@redhat.com>
+> 
+>  qom/object_interfaces.c | 32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
+> 
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Applied, thanks.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
