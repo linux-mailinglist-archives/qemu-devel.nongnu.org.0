@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB813394A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 18:26:28 +0100 (CET)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CD93394B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 18:29:55 +0100 (CET)
+Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKlYR-0000NO-Rc
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 12:26:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
+	id 1lKlbm-0004GC-N4
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 12:29:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlV4-0006AI-9Q
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:23:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:32844)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlVI-0006FL-6S
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:23:12 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlUy-0008Ms-FM
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:22:58 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKlV4-0008QR-0V
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:23:09 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5BBECAF72;
+ by mx2.suse.de (Postfix) with ESMTP id C4A75AF74;
  Fri, 12 Mar 2021 17:22:46 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v7 04/42] target/arm: tcg: add sysemu and user subsirs
-Date: Fri, 12 Mar 2021 18:22:05 +0100
-Message-Id: <20210312172243.25334-5-cfontana@suse.de>
+Subject: [RFC v7 05/42] target/arm: only build psci for TCG
+Date: Fri, 12 Mar 2021 18:22:06 +0100
+Message-Id: <20210312172243.25334-6-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210312172243.25334-1-cfontana@suse.de>
 References: <20210312172243.25334-1-cfontana@suse.de>
@@ -54,50 +54,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/arm/tcg/meson.build        | 3 +++
- target/arm/tcg/sysemu/meson.build | 3 +++
- target/arm/tcg/user/meson.build   | 3 +++
- 3 files changed, 9 insertions(+)
- create mode 100644 target/arm/tcg/sysemu/meson.build
- create mode 100644 target/arm/tcg/user/meson.build
+We do not move psci.c to tcg/ because we expect other
+hypervisors to use it (waiting for HVF enablement).
 
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 3b4146d079..abc9d27b63 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -36,3 +36,6 @@ arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
-   'pauth_helper.c',
-   'sve_helper.c',
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Alexander Graf <agraf@csgraf.de>
+---
+ target/arm/meson.build | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 0172937b40..a9fdada0cc 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -19,8 +19,12 @@ arm_softmmu_ss.add(files(
+   'arm-powerctl.c',
+   'machine.c',
+   'monitor.c',
++))
++
++arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'psci.c',
  ))
 +
-+subdir('user')
-+subdir('sysemu')
-diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
-new file mode 100644
-index 0000000000..bc11678a0a
---- /dev/null
-+++ b/target/arm/tcg/sysemu/meson.build
-@@ -0,0 +1,3 @@
-+
-+arm_softmmu_ss.add(when: ['CONFIG_TCG','CONFIG_SOFTMMU'], if_true: files(
-+))
-diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
-new file mode 100644
-index 0000000000..d70a51ea9a
---- /dev/null
-+++ b/target/arm/tcg/user/meson.build
-@@ -0,0 +1,3 @@
-+
-+arm_user_ss.add(when: ['CONFIG_TCG','CONFIG_USER_ONLY'], if_true: files(
-+))
+ arm_user_ss = ss.source_set()
+ 
+ subdir('tcg')
 -- 
 2.26.2
 
