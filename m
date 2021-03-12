@@ -2,149 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88A2338A32
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:34:37 +0100 (CET)
-Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926A0338A70
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:42:58 +0100 (CET)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKf7s-0003eU-Un
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:34:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
+	id 1lKfFx-0001WL-J0
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:42:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lKf25-0004vf-Ts
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:28:37 -0500
-Received: from esa3.fujitsucc.c3s2.iphmx.com ([68.232.151.212]:49547)
+ (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
+ id 1lKf2h-0005qd-29
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:29:15 -0500
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:40788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lKf23-0001gI-NN
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:28:37 -0500
-IronPort-SDR: 88q1wyioJyBAH7k9DxPQmasadncaHRnnYIQHrWYO9pTRmri2fCOV2oy0aSsUQCtkyhhH78ILyP
- dl0HnRgLSxwvc1O+aTpNcNlRgFnsNqeTxWKdQFSZbjtUhEbIEiJd/jIXs0iVGQFLZ8ZNio+tXr
- qtqiJEhIzNhxr73J1vgHr2CfOcESVyIJ5DHiKzAgirAFTp5MXU9xf7/DwKiCbJGxbJdeWkmmrX
- A37EOLvII1HzUhNF0Y4eiFlP3KiJAhQ3gykh+nbJ33AwBEvW4/scqcs0bE1A55RukWHF+/Gioo
- 5aE=
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="35827370"
-X-IronPort-AV: E=Sophos;i="5.81,243,1610377200"; d="scan'208";a="35827370"
-Received: from mail-ty1jpn01lp2058.outbound.protection.outlook.com (HELO
- JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.58])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 19:28:31 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C22mJ7jl7PopbkfhKIaxQVcC00V2yY3H1PezBr6KTpIUKYo7g1uD2N9WQ09DjcVPg4JSXdnjqFyayHtfXXJ1v9fYPOSrZWwxTkYpnNQPqHtTMACatZWfiMmgyFV5JrkBOolNZqs+NQnELc7FpeXMR7THMI+Zr/3aOYPJjD50cE9hzstD7ZDnr6XycfedFR9SB130PkxPdj/2DEf1ZJDGLgwYfkDSjEbZ82pfUXL6EJZLAPiMwk+tfbURQymBqfQtskwnHxt+lm25jqhtnhv3qWSunD+1O2+oYzpOv142eNwa6nYBJHT1DG8X66bdg9TAH27kLvRpnu0evRWEpx/1VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CkvSCFsXTH7+xd3dTQgNOqUDYYf0CX+i6Fls14ZBUvE=;
- b=cYcSGMAkLx0knA9dhkp5zhftKP/fVZL5TZEoqjEyaIGpCvYT22QfZngmSUZu+4Nc4PycZX2j/EC4BO6I9VH3KbA8/N+HQjo2u21N3dgWwFhdrl2Qg2YCgVF0uNEU1TK+szCCEaFuRDDmMFO6vh8oonY0GepCIOkR9aYRPx7KXu7CttPZ6A3UGRuNiRkAv9KVtldDFZsSXJJdrY0qPgYScl1TLGFbVhDJnVTt3/sKkS8Alp+MonKU4F2PBsgOW4m7lc3tPwxnsQQZo5a6+aeoKl0HErHIcjMlc1TjE0GAvLlT5bliccw3EbkTkoyMInHnRMQRtrQybjC0XerolTinAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CkvSCFsXTH7+xd3dTQgNOqUDYYf0CX+i6Fls14ZBUvE=;
- b=nkaMpyQ2Mm6We3FyRY2meFDIYtuhcG6Jee7dQ7iuZAd18PrMiuKAmsLmjMm2uuatLRObLDM8h5Ufji2+UbHl7Ql1zDAZ4rI/GgDpxPy+ExGW15f8rrMTB5UiZynQSLMMO84RkGviPLg7FUXkky5/SFv77Ve7K5k+s6wfFmqZF2c=
-Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com (2603:1096:404:6b::12)
- by TYAPR01MB6425.jpnprd01.prod.outlook.com (2603:1096:400:a0::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Fri, 12 Mar
- 2021 10:28:29 +0000
-Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com
- ([fe80::d9a8:f990:73a0:c21a]) by TY2PR01MB2571.jpnprd01.prod.outlook.com
- ([fe80::d9a8:f990:73a0:c21a%3]) with mapi id 15.20.3933.031; Fri, 12 Mar 2021
- 10:28:29 +0000
-From: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
-To: leirao <lei.rao@intel.com>, "chen.zhang@intel.com" <chen.zhang@intel.com>, 
- "jasowang@redhat.com" <jasowang@redhat.com>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "lukasstraub2@web.de"
- <lukasstraub2@web.de>
-Subject: Re: [PATCH v2 09/10] Add the function of colo_bitmap_clear_diry
-Thread-Topic: [PATCH v2 09/10] Add the function of colo_bitmap_clear_diry
-Thread-Index: AQHXFwA5H3vYB4UEIkK/NUqQFyeoWKqAJtuA
-Date: Fri, 12 Mar 2021 10:28:28 +0000
-Message-ID: <8920b744-8e77-41a8-379c-e94c7e732ece@fujitsu.com>
-References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
- <1615525383-59071-10-git-send-email-lei.rao@intel.com>
-In-Reply-To: <1615525383-59071-10-git-send-email-lei.rao@intel.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [180.96.28.100]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 915e0205-9c0a-4d22-ec68-08d8e54193f3
-x-ms-traffictypediagnostic: TYAPR01MB6425:
-x-microsoft-antispam-prvs: <TYAPR01MB642542D781F616F9E4B80BE7A56F9@TYAPR01MB6425.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2803;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: D5+1KCcNIaFDJ+p7d4E+7nb1AfSKabhc9FmiGWXYObgeVrl52LwYI6qMKMBVv5FWFnNmK4BwK0NfTHXwg+6tghZmQuuPt+Kxa1VTkygWfeQlRyWoNtKSCx+c+LPibo1Cpi/M8HhnBqCvb9jqmw+SXF8bsTrLHZXFq2EWI70sSKfRquofxxagJdsOWISSW8l2tnHTbC7ZiVKibsoEJiMDbB9jeCjv2/KCvnsBcoPucRapD7xiqCJHKQ/RB3vcqvreyzZ8cjTE5GzLnvpwUrykU91NGOjIA0GfJP7AiH5BR2s3uwrw2nAY1YlViZjWoT/NG/0/pktpHNsoyX/80esHLjYu0beXb2q3twyTvH5s/0a6OF5wZ1nn78QdKmLraSVqgTuTDZNzcmObaitTLEmlOfFWDf6zKq3PWpb7oNnU8z93n7fLjGSCuymlUUzU60AgefcSjapFGUPFgFWdtesT6ZdMTnRXGU9f4kaKw47MIKoajIrDmD+rGGgC/3e1CgUiGW4TNIkAHGNtUPwEtzFfVFTGpHTlEa5m4648i7zM1AvqF1nfaVxwRG1dabZfx2iVGJeJiLZSSTRTgDBlhQVR+ChCEydLF4TnYe4ur53W6v1k0RM2Jh1F31g+iwr4LO9U
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY2PR01MB2571.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(2906002)(6486002)(5660300002)(6506007)(6512007)(91956017)(76116006)(66946007)(66446008)(64756008)(66556008)(66476007)(53546011)(4326008)(83380400001)(2616005)(478600001)(8936002)(8676002)(71200400001)(110136005)(31686004)(316002)(85182001)(86362001)(26005)(186003)(31696002)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?gb2312?B?eFpiOVR1K3FRZGx3QjRML3NJSGNBT2tUTUVONXV0aENXMUZJNVdhWk1ZcGR1?=
- =?gb2312?B?MlI5cDBMTjgrOHlEYjRYVlR4RWJrYkYzNmtmZXNOTXgwS1kweGtNSUpwV0Vm?=
- =?gb2312?B?TmM4RUxsUnU2T0ZyZ0tYaS9IM0JQMWF3SnRJNFJzeVJYMWZFaGtJYlZkYVM0?=
- =?gb2312?B?cDFldzdMY1dIT3JXWm9EODBPYnJXWXBEWlR1NStobVlnTGhWclprSVBHQW5u?=
- =?gb2312?B?QnJNYmk3M2NucmxNWWVhd0J3czc3cVlyVUo5OFVXdWZTdmdpWkp5M09kSFFi?=
- =?gb2312?B?VnZtSkJxcG1CUFgxc3ZFcDZac0JjNkt5cVhCODN5aStrZit0UWZJbFczVSs5?=
- =?gb2312?B?aG1XVzgzUmZ3aUh0WW9CVEcyZFBrdzE1T0FYUEc0Y3FiNnB6YWQwN3BwT0F2?=
- =?gb2312?B?NzBrbHVzM3haZVZvN1Y1clA0cktZdVo3SFFCVEhCZFl6N1hpMTVaTGNqcmsw?=
- =?gb2312?B?b2hTSS9weHYwV0lDSDBIalRwcjFMdjdkeDV0T1Y2UE91S0kwUDZCNUppa3Qz?=
- =?gb2312?B?S2JEQm5PMjBEbFRqRjNPQjZidjZ1WVVBeEhMTStKc09iYlJMRzBEZXpZNzgz?=
- =?gb2312?B?V25JRWdZNFdVNUk0MkpJcCsyVnVYYTdLNFI5SEtmSEdiR25CcFFPTnh6enhx?=
- =?gb2312?B?c25MMmxQdllZdVh0dmRxR0pHL2drUWpaaDZVSVVPVEhTajA5ZXFMUXJodDZm?=
- =?gb2312?B?MWpyM2NjU1VCSzBWdlExUFFZeWVqMkQ0MHU0cjkzVGxJNWgyYjJ3OUVsenpx?=
- =?gb2312?B?ZGpDSkhjaG9OMFkzU3E3OFFacFhXcjEwRmxndUhITUVkRGFjVkl4R2NYZkE5?=
- =?gb2312?B?UWNVaFpQb3p6aUtKY2lWdHNOczdBSm9GRlFVb0NvdFYwMDZtMGpDYk92eG5o?=
- =?gb2312?B?MEEycmkyZWQyRkM5cE9WNmJzRmtDeEwyMmRURTNsMmVFT1ZWaG1wVUxNSW05?=
- =?gb2312?B?bTB4eHllY0xXcEpyYlB1ZjdHV1hUMzVHMnA0Z21YSHArbnJPZHArakhaeklE?=
- =?gb2312?B?THIyUU5pS1NZalA4TmIxMktMWVhkN0wvUHRWWi9LQ1hnNXEzNDlDeXpLeDZM?=
- =?gb2312?B?aDdTZlNCelJUbURyYmNMaHpxUTFXRDh2bzYyb3c3aU1qS2w4UjMxbUZBZ0d2?=
- =?gb2312?B?aFZwT1lFSVlJTTFma3dtSkdJNm5uM1p0VEpVc29iK29sNlVvQUlHb2xLWkI0?=
- =?gb2312?B?ZjNFSmlrdzRUZ0pNUWdCZkNOMnlKYmdxdk8yR0JFeDZvQ25HWWFhb1lYS1k5?=
- =?gb2312?B?Z3pWR1l5Y1NoY0l6WnJwZnZwVHJDelkzVXMvODJhUG5mOXp5eDJ2YmdlU1Zy?=
- =?gb2312?B?OTR1aVYwMGx0RU1jNFZKS1YySkppM1dJRG5WeDFoSVpwWUYydkMwUVB3Nmsr?=
- =?gb2312?B?S3grbTRWZ2pkNFVjQ0NoYkIxNUozR09DMk1Yd0ZIVkhScW96TkNxVmVYdUdU?=
- =?gb2312?B?TlRjWGVpeGp0NVlad1BOdUtjUi85TnE2RDlBbStvTXNSVEptRks4VURxbXhp?=
- =?gb2312?B?VEpaNGRKM2wydUxiaGdrUkI4N3lVNUZQbmRsanlRanlDLzBCL0ZCTnU0dVBW?=
- =?gb2312?B?S0paYkhUQ1UvQUxnRnlmZ3JNdXRiS3dhcDhMZ0V0ZDI2eUhlWWljNXlxVnZl?=
- =?gb2312?B?Z2FWL0NVdExtNmp1cEljTDJpWiszQ3A1bitxSndWRGVYU3paRU10UVV6VmZS?=
- =?gb2312?B?OXRSeXE3b1ZKU3UzVXNVVFRCVU5PcnBzTmFNQVpmMHVnVHoxUExYZ0hQQ0w2?=
- =?gb2312?Q?PFUETAV/nU5gij2KZNq67Y+hvcZifDjqEJU1cJo?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="gb2312"
-Content-ID: <1A3DD19A2BC3FE45BECA32F9F0EACBDC@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
+ id 1lKf2c-0001xq-5M
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:29:13 -0500
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 83F722E11CD;
+ Fri, 12 Mar 2021 13:29:02 +0300 (MSK)
+Received: from mail.yandex-team.ru (mail.yandex-team.ru [5.255.223.100])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ eSTCI30xQeA1-T1xOOk00; Fri, 12 Mar 2021 13:29:02 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1615544942; bh=vlZFGZPWD0GFhxyZili3SYVtAffMSqSg9sin0+OeFHY=;
+ h=Cc:Subject:Date:References:To:From:Message-Id;
+ b=NEzkEWLk07ZYEqTlK/ZFrENpIVaE54u1lCSNA3oqBLRPnHdaFb5r/UiN1U0HVH+O2
+ ZEDEUTeRcSCQMB1uIfc20MKa0rUOXNJg3xldlyOD9uJ0lLJUuccVifqfuL+U1YHfeq
+ l/ms2wKqtbpGdEzrtXxoqh1EhPmZlJAIInLbXrSk=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000161690
+X-Yandex-Avir: 1
+Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
+ (vla1-fdfb804fb3f3.qloud-c.yandex.net [2a02:6b8:c0d:3199:0:640:fdfb:804f])
+ by sas1-c3eab8bf7b15.qloud-c.yandex.net with LMTP id fGbK2v0HT4-SXSKEVvi
+ for <lekiravi@yandex-team.ru>; Fri, 12 Mar 2021 13:28:51 +0300
+Received: by vla1-4ea76ba32639.qloud-c.yandex.net with HTTP;
+ Fri, 12 Mar 2021 13:28:50 +0300
+From: Alexey Kirillov <lekiravi@yandex-team.ru>
+To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <20210303095910.78277-1-lekiravi@yandex-team.ru>
+Subject: Re: [PATCH v7 0/5] Introducing QMP query-netdev command
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB2571.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 915e0205-9c0a-4d22-ec68-08d8e54193f3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2021 10:28:28.9767 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: djVVPVKSXt3gBkjCbMEN2zMXCxE5PWbFfpFozRcGA74oWFQeRowZDO2GuQ9bbZ/jxroHhT0YKEtlEYXrwzZyIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6425
-Received-SPF: pass client-ip=68.232.151.212;
- envelope-from=lizhijian@fujitsu.com; helo=esa3.fujitsucc.c3s2.iphmx.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Fri, 12 Mar 2021 13:29:00 +0300
+Message-Id: <32641615544652@mail.yandex-team.ru>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -153,39 +76,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paul Durrant <paul@xen.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDMvMTIvMjEgMTowMyBQTSwgbGVpcmFvIHdyb3RlOg0KPiBGcm9tOiAiUmFvLCBMZWki
-IDxsZWkucmFvQGludGVsLmNvbT4NCj4NCj4gV2hlbiB3ZSB1c2UgY29udGludW91cyBkaXJ0eSBt
-ZW1vcnkgY29weSBmb3IgZmx1c2hpbmcgcmFtIGNhY2hlIG9uDQo+IHNlY29uZGFyeSBWTSwgd2Ug
-Y2FuIGFsc28gY2xlYW4gdXAgdGhlIGJpdG1hcCBvZiBjb250aWd1b3VzIGRpcnR5DQo+IHBhZ2Ug
-bWVtb3J5LiBUaGlzIGFsc28gY2FuIHJlZHVjZSB0aGUgVk0gc3RvcCB0aW1lIGR1cmluZyBjaGVj
-a3BvaW50Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBMZWkgUmFvIDxsZWkucmFvQGludGVsLmNvbT4N
-Cj4gLS0tDQo+ICAgbWlncmF0aW9uL3JhbS5jIHwgMjkgKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMo
-LSkNCj4NCj4gZGlmZiAtLWdpdCBhL21pZ3JhdGlvbi9yYW0uYyBiL21pZ3JhdGlvbi9yYW0uYw0K
-PiBpbmRleCBiMjY5NjM3Li4wMDhhMjZlIDEwMDY0NA0KPiAtLS0gYS9taWdyYXRpb24vcmFtLmMN
-Cj4gKysrIGIvbWlncmF0aW9uL3JhbS5jDQo+IEBAIC04NTYsNiArODU2LDMwIEBAIHVuc2lnbmVk
-IGxvbmcgY29sb19iaXRtYXBfZmluZF9kaXJ0eShSQU1TdGF0ZSAqcnMsIFJBTUJsb2NrICpyYiwN
-Cj4gICAgICAgcmV0dXJuIGZpcnN0Ow0KPiAgIH0NCj4gICANCj4gKy8qKg0KPiArICogY29sb19i
-aXRtYXBfY2xlYXJfZGlydHk6d2hlbiB3ZSBmbHVzaCByYW0gY2FjaGUgdG8gcmFtLCB3ZSB3aWxs
-IHVzZQ0KPiArICogY29udGludW91cyBtZW1vcnkgY29weSwgc28gd2UgY2FuIGFsc28gY2xlYW4g
-dXAgdGhlIGJpdG1hcCBvZiBjb250aWd1b3VzDQo+ICsgKiBkaXJ0eSBtZW1vcnkuDQo+ICsgKi8N
-Cj4gK3N0YXRpYyBpbmxpbmUgYm9vbCBjb2xvX2JpdG1hcF9jbGVhcl9kaXJ0eShSQU1TdGF0ZSAq
-cnMsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUkFNQmxv
-Y2sgKnJiLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVu
-c2lnbmVkIGxvbmcgc3RhcnQsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgdW5zaWduZWQgbG9uZyBudW0pDQo+ICt7DQo+ICsgICAgYm9vbCByZXQ7DQo+ICsg
-ICAgdW5zaWduZWQgbG9uZyBpID0gMDsNCj4gKw0KPiArICAgIHFlbXVfbXV0ZXhfbG9jaygmcnMt
-PmJpdG1hcF9tdXRleCk7DQo+ICsgICAgZm9yIChpID0gMDsgaSA8IG51bTsgaSsrKSB7DQo+ICsg
-ICAgICAgIHJldCA9IHRlc3RfYW5kX2NsZWFyX2JpdChzdGFydCArIGksIHJiLT5ibWFwKTsNCj4g
-KyAgICAgICAgaWYgKHJldCkgew0KPiArICAgICAgICAgICAgcnMtPm1pZ3JhdGlvbl9kaXJ0eV9w
-YWdlcy0tOw0KPiArICAgICAgICB9DQo+ICsgICAgfQ0KPiArICAgIHFlbXVfbXV0ZXhfdW5sb2Nr
-KCZycy0+Yml0bWFwX211dGV4KTsNCj4gKyAgICByZXR1cm4gcmV0Ow0KPiArfQ0KDQppJ20gbm90
-IHN1cmUgd2hldGhlciB3ZSBzaG91bGQgY2xlYXIgdGhlIGRpcnR5X2xvZyBpbiBrdm0gc2lkZSBs
-aWtlIG1lbW9yeV9yZWdpb25fY2xlYXJfZGlydHlfYml0bWFwKCkgZG9lcyA/DQpzb3JyeSBhYm91
-dCB0aGF0LCBpIGhhdmUgbWlzc2VkIHFlbXUgZm9yIGEgbG9uZyB0aW1lLi4uDQoNClRoYW5rcw0K
-Wmhpamlhbg0K
+ping
+
+Patchew page: https://patchew.org/QEMU/20210303095910.78277-1-lekiravi@yandex-team.ru
+
+03.03.2021, 13:01, "Alexey Kirillov" <lekiravi@yandex-team.ru>:
+> This patch series introduces a new QMP command "query-netdev" to get
+> information about currently attached backend network devices (netdevs).
+>
+> Also, since the "info_str" field of "NetClientState" is now deprecated,
+> we no longer use it for netdevs, only for NIC/hubports.
+>
+> The HMP command "info network" now also uses QAPI structure inside.
+>
+> Usage example:
+>
+> -> { "execute": "query-netdev" }
+> <- { "return": [
+>          {
+>              "listen": "127.0.0.1:90",
+>              "type": "socket",
+>              "peer-id": "hub0port1",
+>              "id": "__org.qemu.net1"
+>          },
+>          {
+>              "script": "/etc/qemu-ifup",
+>              "downscript": "/etc/qemu-ifdown",
+>              "ifname": "tap0",
+>              "type": "tap",
+>              "peer-id": "net5",
+>              "vnet_hdr": true,
+>              "id": "tap0"
+>          },
+>          {
+>              "ipv6": true,
+>              "ipv4": true,
+>              "host": "10.0.2.2",
+>              "ipv6-dns": "fec0::3",
+>              "ipv6-prefix": "fec0::",
+>              "net": "10.0.2.0/255.255.255.0",
+>              "ipv6-host": "fec0::2",
+>              "type": "user",
+>              "peer-id": "net0",
+>              "dns": "10.0.2.3",
+>              "hostfwd": [
+>                  {
+>                      "str": "tcp::20004-:22"
+>                  }
+>              ],
+>              "ipv6-prefixlen": 64,
+>              "id": "netdev0",
+>              "restrict": false
+>          }
+>      ]
+>    }
+>
+> v6->v7:
+> - Use macroses QAPI_LIST_PREPEND and QAPI_LIST_APPEND for lists.
+> - Reorder NetBackend entries in alphabetical order.
+>
+> v5->v6:
+> - Add QAPI visitor to generate info_str replacement directly from NetdevInfo.
+> - Make info_str dynamically allocated.
+> - Make commit messages more meaningful.
+>
+> v4->v5:
+> - Enable qtest of query-netdevs for AVR and RX archs.
+> - Bump "Since" version in QAPI to 6.0.
+>
+> v3->v4:
+> - Rename "query-netdevs" to "query-netdev".
+> - Copy netdev drivers to new QAPI enum "NetBackend".
+>
+> v2->v3:
+> - Remove NIC and hubports from query-netdevs.
+> - Remove several fields from NetdevInfo since they are unnecessary.
+> - Rename field @peer to @peer-id.
+> - Add support of vhost-vdpa.
+> - Keep "info_str" for NIC/hubports, but remove it for netdevs.
+>
+> v1->v2:
+> - Rewrite HMP "info network" to get information from results of QMP command.
+> - Remove obsolete field "info_str" from "NetClientState".
+>
+> Alexey Kirillov (5):
+>   qapi: net: Add query-netdev command
+>   tests: Add tests for query-netdev command
+>   net: Move NetClientState.info_str to dynamic allocations
+>   hmp: Use QAPI NetdevInfo in hmp_info_network
+>   net: Do not fill legacy info_str for backends
+>
+>  hw/net/xen_nic.c | 5 +-
+>  include/net/net.h | 5 +-
+>  include/qapi/hmp-output-visitor.h | 30 +++++
+>  net/l2tpv3.c | 8 +-
+>  net/net.c | 73 +++++++++--
+>  net/netmap.c | 7 ++
+>  net/slirp.c | 124 ++++++++++++++++++-
+>  net/socket.c | 92 ++++++++++----
+>  net/tap-win32.c | 10 +-
+>  net/tap.c | 107 +++++++++++++++--
+>  net/vde.c | 25 +++-
+>  net/vhost-user.c | 20 +++-
+>  net/vhost-vdpa.c | 15 ++-
+>  qapi/hmp-output-visitor.c | 193 ++++++++++++++++++++++++++++++
+>  qapi/meson.build | 1 +
+>  qapi/net.json | 80 +++++++++++++
+>  tests/qtest/meson.build | 3 +
+>  tests/qtest/test-query-netdev.c | 120 +++++++++++++++++++
+>  18 files changed, 856 insertions(+), 62 deletions(-)
+>  create mode 100644 include/qapi/hmp-output-visitor.h
+>  create mode 100644 qapi/hmp-output-visitor.c
+>  create mode 100644 tests/qtest/test-query-netdev.c
+>
+> --
+> 2.25.1
+
+
+-- 
+Alexey Kirillov
+Yandex.Cloud
+
 
