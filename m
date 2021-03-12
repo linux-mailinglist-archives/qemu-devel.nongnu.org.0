@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B46C339379
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:34:00 +0100 (CET)
-Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193D4339387
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:38:10 +0100 (CET)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkjf-0006WU-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1lKkng-0001po-UX
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:38:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKkak-0005un-6f
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:46 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45927)
+ id 1lKkao-000612-WF
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:51 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKkai-000559-Iu
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:45 -0500
-Received: by mail-wr1-x431.google.com with SMTP id 61so2101640wrm.12
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:24:43 -0800 (PST)
+ id 1lKkam-00056q-VK
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:50 -0500
+Received: by mail-wr1-x431.google.com with SMTP id 7so5141841wrz.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:24:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cj7xaGDPrgy2UUgO8dM6PRrVcsRJS/AQHkPM7IdHo58=;
- b=Oy+8h9Urgsi8flv6zMXCr8t3k4HIqX9EM+KD3MldAL45NjN8bfWVD9CAn3HRPLNS96
- FXcjO1+I1xir0DYHbvrXv5y0XBekACXWuWlNmaNyCoNsJ3dGFnV66bh02M67hDBjlNYL
- Bwxgd4e+dWOTMKgeJArLIVy3SzLPAsSOEm2DX3QwauEpNZN4AmJ61+71KRag/pXw5i6u
- P8cR+XkeeifaNHu6z7DpLw4fjgC20gQBIOrQ5FhgnHHWS11C6YfspXjF83GAyMQf84ix
- ETq/SmYKyay6bXIaj4uWQ3KlvOC3XKCXOKLIL+a65aR4SpciMqJPUWOzE9zOk/YH0yXZ
- ytUA==
+ bh=MFJpIurynqRyhm6WKyjjaiH7G1UzD6b8NLnAxQpA8KU=;
+ b=vFbABkIwCdoK19IPc/6UZIPdJakyJst5vRSLQCfdlDjSyX0Sw+efqZK+TlSkDNHO5r
+ ZXFx8UxoAixlU7gVsOrt/R+mcvFxn2gZPQ8NZkqkK62ZuA37sfcDf1T5b61B7K/HSmr+
+ +5tGgW1LLesfl5c6ESVrlyCUskNjGIZzom/YDaDEnNZIhqmbV/ckicXn5Zv4xkTZZqBe
+ Cqtrr52eT45Qp4tyYMf7mUb3RHEpZy6q/cPsahBcQ/zB3wyrxaASj313ps9WqN/xYGNt
+ tKe4efJoITMzBVi+2/50BiJKLfq7shwLT6eMM5tgLnVBBiXgbSbwP5wts59xipcUU+FJ
+ 8Afg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cj7xaGDPrgy2UUgO8dM6PRrVcsRJS/AQHkPM7IdHo58=;
- b=ffIJ/6T0/SZTm53cZSOm4cKTz+VKQad6LmkLEgiGaoFlyL/Jk+PKf5sUoFkCr3RA+h
- AFLeuxOAuuPomgRyzMcXlu+Si0CJC8Vzbn8KTYxSW53g1FYKnt/z/ozVKQkYNnJZO7hL
- aoDFoee6GG7M/WOFukuXL2QIfOSLqm+GQS3a/Ow6Is1lGqVZ0OwmdPsCcuctHB+WTjVk
- e1xfOf1GkEnJrL6/bI/RWI7CMxoWD27JQ3qI8rh9qtHI4eXWbCH+YaR7M780pYH3OiYz
- dR519viekYCCoLBwu6ZAEQg1pRfwSEm0MpNk5VBknd0qTkf4MukJsZVl1rhZSbio+IDP
- FElA==
-X-Gm-Message-State: AOAM532PvyjYJT+fQcEhprLZ0xB1/Ab473VpkCyaajRT05kO4mg14oFo
- qDcHqAGIPVH7EuIl6cC3gRc5XhJ8S1I=
-X-Google-Smtp-Source: ABdhPJwXptNh9KrFE+vicYo0lLqav6YOgn1veqRUNAkRTGtFTzaEzhcgj9xnuyOsnzUcpOfWXwxENg==
-X-Received: by 2002:adf:e68e:: with SMTP id r14mr14602282wrm.273.1615566282091; 
- Fri, 12 Mar 2021 08:24:42 -0800 (PST)
+ bh=MFJpIurynqRyhm6WKyjjaiH7G1UzD6b8NLnAxQpA8KU=;
+ b=meHDEaiAoNe+pJa+rBU5RkrknfmAm2W1m9aWmW1A0QIy6QxasT8P8WqlEAqWK7zuYN
+ 4WG1sbUOHbSgil2pvz8N7WCngDO+Hl0JsiqLOOz5RaprYM6owNxzEc6T5q43pHIC6o+w
+ UEN33koEhg2PevmlBPsCcPsuZFI16GUROUzLU7ILQ2iZorfd3xHZ+0pI6P6JYNgjZc5I
+ TPRAnvTzldT50u+YXhw4bEiI+v7/hfCv4dowIDszoOoWGYNS0188mVUqKSQvB5WHQQst
+ rENp2MJIUQOwQEO+NvSGmmAnQarGuhIt7sZ5NQXflo02vRKs8fHwC4KNJUKzjYSYVsQ8
+ 38Vw==
+X-Gm-Message-State: AOAM530e7e6fJEQpyO7zQ/LXyl7EWKwSgLHJojU1AoejLJrBH7l3wmtu
+ 9wOCuxOJpkJrbWyuvCPV97z6zfQ1XLI=
+X-Google-Smtp-Source: ABdhPJxJlwsre6e/xO37BMerFwaJ76nFWEMAvLNhrq5mWYEVqaVCpN4rH27bTHOoS4BLjiFxvdkdew==
+X-Received: by 2002:a5d:49ca:: with SMTP id t10mr6723713wrs.76.1615566287171; 
+ Fri, 12 Mar 2021 08:24:47 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a5sm8254544wrs.35.2021.03.12.08.24.40
+ by smtp.gmail.com with ESMTPSA id h20sm2647242wmm.19.2021.03.12.08.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 08:24:41 -0800 (PST)
+ Fri, 12 Mar 2021 08:24:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] target/mips/tx79: Introduce LQ opcode (Load Quadword)
-Date: Fri, 12 Mar 2021 17:24:30 +0100
-Message-Id: <20210312162434.1869129-2-f4bug@amsat.org>
+Subject: [PATCH v3 2/5] target/mips/tx79: Introduce SQ opcode (Store Quadword)
+Date: Fri, 12 Mar 2021 17:24:31 +0100
+Message-Id: <20210312162434.1869129-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210312162434.1869129-1-f4bug@amsat.org>
 References: <20210312162434.1869129-1-f4bug@amsat.org>
@@ -94,109 +94,38 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the LQ opcode (Load Quadword) and remove unreachable code.
+Introduce the SQ opcode (Store Quadword).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210214175912.732946-26-f4bug@amsat.org>
+Message-Id: <20210214175912.732946-27-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tx79.decode      |  8 ++++++++
- target/mips/translate.c      | 16 ++--------------
- target/mips/tx79_translate.c | 35 +++++++++++++++++++++++++++++++++++
- 3 files changed, 45 insertions(+), 14 deletions(-)
+ target/mips/tx79.decode      |  1 +
+ target/mips/tx79_translate.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
 diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index 0f748b53a64..f1f17470a00 100644
+index f1f17470a00..0756b13149e 100644
 --- a/target/mips/tx79.decode
 +++ b/target/mips/tx79.decode
-@@ -13,6 +13,8 @@
+@@ -45,3 +45,4 @@ PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
+ # SPECIAL
  
- &rtype           rs rt rd sa
- 
-+&itype           base rt offset
-+
- ###########################################################################
- # Named instruction formats.  These are generally used to
- # reduce the amount of duplication between instruction patterns.
-@@ -22,6 +24,8 @@
- @rs             ...... rs:5  ..... ..........  ......   &rtype rt=0 rd=0 sa=0
- @rd             ...... ..........  rd:5  ..... ......   &rtype rs=0 rt=0 sa=0
- 
-+@ldst            ...... base:5 rt:5 offset:16            &itype
-+
- ###########################################################################
- 
- MFHI1           011100 0000000000  ..... 00000 010000   @rd
-@@ -37,3 +41,7 @@ PCPYLD          011100 ..... ..... ..... 01110 001001   @rs_rt_rd
- 
- PCPYUD          011100 ..... ..... ..... 01110 101001   @rs_rt_rd
- PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
-+
-+# SPECIAL
-+
-+LQ              011110 ..... ..... ................     @ldst
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index c518bf3963b..c822083f031 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -1167,7 +1167,6 @@ enum {
- 
- enum {
-     MMI_OPC_CLASS_MMI = 0x1C << 26,    /* Same as OPC_SPECIAL2 */
--    MMI_OPC_LQ        = 0x1E << 26,    /* Same as OPC_MSA */
-     MMI_OPC_SQ        = 0x1F << 26,    /* Same as OPC_SPECIAL3 */
- };
- 
-@@ -24429,11 +24428,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
--static void gen_mmi_lq(CPUMIPSState *env, DisasContext *ctx)
--{
--    gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_LQ */
--}
--
- static void gen_mmi_sq(DisasContext *ctx, int base, int rt, int offset)
- {
-     gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_SQ */
-@@ -25332,14 +25326,8 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
-             gen_compute_branch(ctx, op, 4, rs, rt, offset, 4);
-         }
-         break;
--    case OPC_MDMX: /* MMI_OPC_LQ */
--        if (ctx->insn_flags & INSN_R5900) {
--#if defined(TARGET_MIPS64)
--            gen_mmi_lq(env, ctx);
--#endif
--        } else {
--            /* MDMX: Not implemented. */
--        }
-+    case OPC_MDMX:
-+        /* MDMX: Not implemented. */
-         break;
-     case OPC_PCREL:
-         check_insn(ctx, ISA_MIPS_R6);
+ LQ              011110 ..... ..... ................     @ldst
++SQ              011111 ..... ..... ................     @ldst
 diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index ad83774b977..b5a9eb3de76 100644
+index b5a9eb3de76..d840dfdb9cc 100644
 --- a/target/mips/tx79_translate.c
 +++ b/target/mips/tx79_translate.c
-@@ -177,6 +177,41 @@ static bool trans_MTLO1(DisasContext *ctx, arg_rtype *a)
-  * SQ      rt, offset(base)  Store Quadword
-  */
+@@ -212,6 +212,33 @@ static bool trans_LQ(DisasContext *ctx, arg_itype *a)
+     return true;
+ }
  
-+static bool trans_LQ(DisasContext *ctx, arg_itype *a)
++static bool trans_SQ(DisasContext *ctx, arg_itype *a)
 +{
-+    TCGv_i64 t0;
-+    TCGv addr;
-+
-+    if (a->rt == 0) {
-+        /* nop */
-+        return true;
-+    }
-+
-+    t0 = tcg_temp_new_i64();
-+    addr = tcg_temp_new();
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv addr = tcg_temp_new();
 +
 +    gen_base_offset_addr(ctx, addr, a->base, a->offset);
 +    /*
@@ -206,16 +135,16 @@ index ad83774b977..b5a9eb3de76 100644
 +    tcg_gen_andi_tl(addr, addr, ~0xf);
 +
 +    /* Lower half */
-+    tcg_gen_qemu_ld_i64(t0, addr, ctx->mem_idx, MO_TEQ);
-+    gen_store_gpr(t0, a->rt);
++    gen_load_gpr(t0, a->rt);
++    tcg_gen_qemu_st_i64(t0, addr, ctx->mem_idx, MO_TEQ);
 +
 +    /* Upper half */
 +    tcg_gen_addi_i64(addr, addr, 8);
-+    tcg_gen_qemu_ld_i64(t0, addr, ctx->mem_idx, MO_TEQ);
-+    gen_store_gpr_hi(t0, a->rt);
++    gen_load_gpr_hi(t0, a->rt);
++    tcg_gen_qemu_st_i64(t0, addr, ctx->mem_idx, MO_TEQ);
 +
-+    tcg_temp_free(t0);
 +    tcg_temp_free(addr);
++    tcg_temp_free(t0);
 +
 +    return true;
 +}
