@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D473389FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:24:29 +0100 (CET)
-Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6DA338A11
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:28:37 +0100 (CET)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKey4-0005Lt-Kj
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:24:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38356)
+	id 1lKf24-0003bJ-7o
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:28:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKesM-0005I7-NF
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:18:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKesK-0003xe-2e
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:18:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615544309;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bxPW18QGEy0UdqiwyFcNaIc/LRdPkPSa1Akf2tzh58k=;
- b=fHJDkfqyzwsCWIRDWw8uiCoP6RvI6Rjofh0jfi8vvbW1sSDVh7Y4F5nfw9bUQNHEOMAhaN
- YClIrP3pEHw7zIZtswJBAaLt+bLJ/5aoKSRhOjnGxYYdCXqcLg16FmzZ6HC2F0Rqk+E8EB
- P120jbgKdUhtUU8nriGb1CPai+VddfQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-8O-reVqiN0KKWgXIaVnuRw-1; Fri, 12 Mar 2021 05:18:27 -0500
-X-MC-Unique: 8O-reVqiN0KKWgXIaVnuRw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16A6C100C61C
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:18:27 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-110.ams2.redhat.com [10.36.114.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38F2662463;
- Fri, 12 Mar 2021 10:18:26 +0000 (UTC)
-Date: Fri, 12 Mar 2021 11:18:24 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/3] qom: move user_creatable_add_opts logic to vl.c and
- QAPIfy it
-Message-ID: <YEs/8NKaJpEp0bcn@merkur.fritz.box>
-References: <20210311172459.990281-1-pbonzini@redhat.com>
- <20210311172459.990281-3-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lKeuT-00007M-7F
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:20:46 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lKeuJ-0005ED-PI
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:20:44 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id bm21so52317532ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 02:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7m175x/89IYovvE0alvawrCLn8AfRPZq9j4HkwrcQjw=;
+ b=xsvsydy9RgYTkTqEOR95wHyEbC/b+PyZWO8z8wMObfnQTZnUiTaaS8JPlMS2bNm/4e
+ HNrUkGGdNNjkEa3DV/cu+C84A6yRWTUC3f/XHcHMk12wyp44r3YDn4GDQNLYqdR9GkmU
+ 1EDOVpfN0Wk6eJKFeccq0bSsmm+roSIN7Sa1NEzqz8DP7A/oGriwqAcFAbwRQXLM2KwK
+ bw9x8I3Aa9oAudDJlo8jdgKQOQhl8Qk9Jx3mmKOcgrybjU8h6kRF3t8Pe0lOslQS49mC
+ 9Lvr8tch2MnvtuKQnH/HfuyxROCu9drSxIOoEd0DLka3LIntmAh1YVYyXjcM6+IyArYo
+ HKvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7m175x/89IYovvE0alvawrCLn8AfRPZq9j4HkwrcQjw=;
+ b=PWfQ7a9ijcESNSU0x9DMbr1NOs9uakZR7q+itSnS3CX2UiXm/lw19eot7Sy+AbH3NI
+ CK+W2aLVzkv+fo53B/slBRkPaEzD98T49nXkuODYDFIAgwBvPCj2vuhPujkvSBv6f+L3
+ Q6h4dm5DJj5imbUM4UqRdNyLz1h8NpQK9kLysNUvcMj7N/GGLQkiqDAqyj0zQvC4xm2W
+ 0vnlfYanJcVXYdFrbFJrHec36jJbMYt5fgAWFFwiFsQ/lqzS10HDSsmci/N/HkzmBGTZ
+ wDxM0tn/bGt2xjYqBbzw5Ntq88GT+Orw5s/kK+xzJCKh05V4H8mzFqbs3weKMCHbu4Yh
+ pqhg==
+X-Gm-Message-State: AOAM530+EfMbRQrjlQ9k8ehrrrvy2NBg8/uercCkAgBGlMOYCvxoMg09
+ 7eeEe1mcfCV/vZr7pBxfuDQhsQ==
+X-Google-Smtp-Source: ABdhPJxqqTS7Mfqn6VvqKeUPhAjLiwMdhdXjcDcUxCwZ4eufo7LJ/XnThml6O8OLffkg7hu2+wmwGA==
+X-Received: by 2002:a17:906:19d9:: with SMTP id
+ h25mr7994557ejd.453.1615544431614; 
+ Fri, 12 Mar 2021 02:20:31 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id qo25sm2528274ejb.93.2021.03.12.02.20.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 02:20:30 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 96EFF1FF7E;
+ Fri, 12 Mar 2021 10:20:29 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v5 0/5] semihosting/next (SYS_HEAPINFO)
+Date: Fri, 12 Mar 2021 10:20:24 +0000
+Message-Id: <20210312102029.17017-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210311172459.990281-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,120 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, keithp@keithp.com,
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.03.2021 um 18:24 hat Paolo Bonzini geschrieben:
-> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
-> to parse the -object command line option.  This has one extra feature,
-> compared to keyval, which is automatic conversion of integers to lists
-> as well as support for lists as repeated options:
-> 
->   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
-> 
-> So we cannot replace OptsVisitor with keyval right now.  Still, this
-> patch moves the user_creatable_add_opts logic to vl.c since it is
-> not needed anywhere else, and makes it go through user_creatable_add_qapi.
-> 
-> In order to minimize code changes, the predicate still takes a string.
-> This can be changed later to use the ObjectType QAPI enum directly.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Hi,
 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ff488ea3e7..b245e912e5 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -117,6 +117,7 @@
->  #include "qapi/qapi-commands-block-core.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-visit-qom.h"
->  #include "qapi/qapi-commands-ui.h"
->  #include "qapi/qmp/qerror.h"
->  #include "sysemu/iothread.h"
-> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
->  
->  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
->  
-> +typedef struct ObjectOption {
-> +    ObjectOptions *opts;
-> +    QTAILQ_ENTRY(ObjectOption) next;
-> +} ObjectOption;
-> +
->  static const char *cpu_option;
->  static const char *mem_path;
->  static const char *incoming;
->  static const char *loadvm;
-> +static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
->  static ram_addr_t maxram_size;
->  static uint64_t ram_slots;
->  static int display_remote;
-> @@ -1684,6 +1691,48 @@ static int machine_set_property(void *opaque,
->      return object_parse_property_opt(opaque, name, value, "type", errp);
->  }
->  
-> +static void object_option_foreach_add(bool (*type_opt_predicate)(const char *), Error **errp)
-> +{
-> +    ObjectOption *opt, *next;
-> +
-> +    QTAILQ_FOREACH_SAFE(opt, &object_opts, next, next) {
-> +        const char *type = ObjectType_str(opt->opts->qom_type);
-> +        if (type_opt_predicate(type)) {
-> +            if (!user_creatable_add_qapi(opt->opts, errp)) {
-> +                return;
+Change from the last version include tweaking the test to be a little
+less asnprintf heavy and also don't rely on brk() to do it's job. It
+also threw up a linux-user failure for RiscV which didn't have the
+needed TaskState info set. The series now applies cleanly to master.
 
-Technically, this leaks things, though all callers pass &error_fatal
-anyway, so this branch is dead code.
+The following patches need review:
 
-Should we just drop the errp parameter and explicitly use &error_fatal
-here?
+ - tests/tcg: add HeapInfo checking to semihosting test
+ - linux-user/riscv: initialise the TaskState heap/stack info
+ - semihosting/arm-compat-semi: don't use SET_ARG to report SYS_HEAPINFO
+ - semihosting: move semihosting tests to multiarch
 
-> +            }
-> +            qapi_free_ObjectOptions(opt->opts);
-> +            QTAILQ_REMOVE(&object_opts, opt, next);
-> +        }
-> +    }
-> +}
-> +
-> +static void object_option_parse(const char *optarg)
-> +{
-> +    ObjectOption *opt;
-> +    QemuOpts *opts;
-> +    const char *type;
-> +    Visitor *v;
-> +
-> +    opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
-> +                                   optarg, true);
-> +    if (!opts) {
-> +        exit(1);
-> +    }
-> +
-> +    type = qemu_opt_get(opts, "qom-type");
-> +    if (user_creatable_print_help(type, opts)) {
+Alex Bennée (5):
+  semihosting: move semihosting tests to multiarch
+  semihosting/arm-compat-semi: unify GET/SET_ARG helpers
+  semihosting/arm-compat-semi: don't use SET_ARG to report SYS_HEAPINFO
+  linux-user/riscv: initialise the TaskState heap/stack info
+  tests/tcg: add HeapInfo checking to semihosting test
 
-type needs a NULL check.
+ tests/tcg/aarch64/semicall.h                  | 18 +++++
+ tests/tcg/arm/semicall.h                      | 15 +---
+ tests/tcg/riscv64/semicall.h                  | 22 ++++++
+ linux-user/riscv/cpu_loop.c                   |  5 ++
+ semihosting/arm-compat-semi.c                 | 62 +++++++---------
+ tests/tcg/arm/semihosting.c                   | 26 -------
+ .../arm-compat-semi}/semiconsole.c            |  2 +
+ .../multiarch/arm-compat-semi/semihosting.c   | 71 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ tests/tcg/Makefile.target                     |  3 +
+ tests/tcg/aarch64/Makefile.target             | 18 -----
+ tests/tcg/arm/Makefile.target                 | 16 +----
+ tests/tcg/multiarch/Makefile.target           | 31 ++++++++
+ 13 files changed, 180 insertions(+), 110 deletions(-)
+ create mode 100644 tests/tcg/aarch64/semicall.h
+ create mode 100644 tests/tcg/riscv64/semicall.h
+ delete mode 100644 tests/tcg/arm/semihosting.c
+ rename tests/tcg/{arm => multiarch/arm-compat-semi}/semiconsole.c (93%)
+ create mode 100644 tests/tcg/multiarch/arm-compat-semi/semihosting.c
 
-Before this patch:
-$ build/qemu-system-x86_64 -object id=foo
-qemu-system-x86_64: -object id=foo: Parameter 'qom-type' is missing
-
-After the patch:
-$ build/qemu-system-x86_64 -object id=foo
-Segmentation fault (core dumped)
-
-> +        exit(0);
-> +    }
-> +
-> +    opt = g_new0(ObjectOption, 1);
-> +    v = opts_visitor_new(opts);
-> +    visit_type_ObjectOptions(v, NULL, &opt->opts, &error_fatal);
-> +    visit_free(v);
-> +
-> +    QTAILQ_INSERT_TAIL(&object_opts, opt, next);
-> +}
-
-Kevin
+-- 
+2.20.1
 
 
