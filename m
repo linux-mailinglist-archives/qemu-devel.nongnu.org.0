@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D42D3392AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:06:28 +0100 (CET)
-Received: from localhost ([::1]:50114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7368A3392D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:14:18 +0100 (CET)
+Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkIw-0003so-AF
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:06:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44360)
+	id 1lKkQb-0000wE-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:14:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjm7-0001mi-MO
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35075)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKjo1-0003aX-De
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:34:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKjm0-00026D-AR
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:32:27 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKjnz-00039d-La
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:34:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615563138;
+ s=mimecast20190719; t=1615563262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D9D3aB59k2menoLZdEd7UHxcbxrb4VJT2K6RGZ2RJno=;
- b=aqguhGVR51ghY0vMOEoCZT7McqYV3B8R9+AzuaE6XEX3qmpRcrDXniXoW6nrwQIx0kRz/M
- GZFdfQ2E8mARdUU7o1iXoTw7kFxP5q/XbZo3H7DZmWeSWfQWy6QOh0jVOsHS+1jcNnHbEm
- n85pH1641Gxj3/HDOjyvfFzc97yCcjI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-xPEHy8UFPH6mhmbzHl4g2Q-1; Fri, 12 Mar 2021 10:32:15 -0500
-X-MC-Unique: xPEHy8UFPH6mhmbzHl4g2Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08AA183DD20;
- Fri, 12 Mar 2021 15:32:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCDDE610AE;
- Fri, 12 Mar 2021 15:32:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6027F11268A1; Fri, 12 Mar 2021 16:32:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/10] qapi: New -compat deprecated-input=crash
-Date: Fri, 12 Mar 2021 16:32:10 +0100
-Message-Id: <20210312153210.2810514-11-armbru@redhat.com>
-In-Reply-To: <20210312153210.2810514-1-armbru@redhat.com>
-References: <20210312153210.2810514-1-armbru@redhat.com>
+ bh=g9FFzhQWqTUg1il6FN2MrDyWgZ/JgEoDGRCAYgsHyZw=;
+ b=NIh7FRayg3NkTiPFCXxvo5Pow7Se4svjjYL/wl5X/tzgt2Nskpb1bW2DnJc5cSQ1C4Ttd2
+ Q2Y6HQeW0qcgJnCu9+NEvZE9cUziKUwK/sRAqZaSiYM670vHqVO5udG6IBswRdVqHjv6Ck
+ frH+A+xHSVWFGQ7TcxMzHwGyNDdnVVo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-lGHaw4hENSqeBhefV4Xryg-1; Fri, 12 Mar 2021 10:34:21 -0500
+X-MC-Unique: lGHaw4hENSqeBhefV4Xryg-1
+Received: by mail-wm1-f70.google.com with SMTP id a3so2179012wmm.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:34:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g9FFzhQWqTUg1il6FN2MrDyWgZ/JgEoDGRCAYgsHyZw=;
+ b=alV3FPMQGyrsW5E3Xo6NNvGGiiF7nazgy0QSU/KRHkg9AZ6jq1QlRE6AuaCL9kPcYH
+ K+/wXjQ6rD8huoJ4/hqZR6Kuctgs3jU0g/7Eiq6XPq7Eg5CUi5TMdQoIKRD62/2aOQ4f
+ B4pXz0a2SS6+dcoB3mjXHqwDQ3f+pxavJyJNSeMIUqW1IenKmTD/C9Dz/89hP6gAbbFV
+ R4ETPFLfvP0LxA+XtoXFPt3Ji9vAlNzwPlpotU9pQcRkxPBotACsByCaRNNZPW9F12DI
+ biIE15GV0yZBXqqR3VQAfBoiL/PW7Ka8ePKXicaSC0rDb7s3NKWr8cI3p3Q15qNSdtGa
+ cz1w==
+X-Gm-Message-State: AOAM5312Te/DHVDPqku93YZhtU1NeLufVdslphuvLjYYEgXvgjwriy7G
+ wWUcTCsJ9DbhHWNQ9mNdm9mGezCgoTe/CgS2nII6x5DYIBymyZvSka1BoQ/GNaS6hoRney8aUEL
+ W3KYQ4jpJQgrKEKQ=
+X-Received: by 2002:a1c:a7d3:: with SMTP id q202mr13527168wme.93.1615563260080; 
+ Fri, 12 Mar 2021 07:34:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyjwCcJT5T6KeOKlF0z3n/5uJ7jl3cKVnOmFhyaEZty6dwWlMI/VON1DzGq072jIcdHwEszrg==
+X-Received: by 2002:a1c:a7d3:: with SMTP id q202mr13527161wme.93.1615563259956; 
+ Fri, 12 Mar 2021 07:34:19 -0800 (PST)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id j30sm9412322wrj.62.2021.03.12.07.34.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 07:34:19 -0800 (PST)
+Subject: Re: [PATCH 05/27] ui: factor out qemu_console_set_display_gl_ctx()
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
+ <20210312100108.2706195-6-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dd67f04b-8f94-7cef-0a76-13b2c9e84876@redhat.com>
+Date: Fri, 12 Mar 2021 16:34:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210312100108.2706195-6-marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +98,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Policy "crash" calls abort() when deprecated input is received.
+On 3/12/21 11:00 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The next patch will make use of this function to dissociate
+> DisplayChangeListener from GL context.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  include/ui/console.h |  2 ++
+>  ui/console.c         | 21 +++++++++++++--------
+>  2 files changed, 15 insertions(+), 8 deletions(-)
 
-Bugs in integration tests may mask the error from policy "reject".
-Provide a larger hammer: crash outright.  Masking that seems unlikely.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- qapi/compat.json             | 9 +++++----
- qapi/qmp-dispatch.c          | 1 +
- qapi/qobject-input-visitor.c | 1 +
- qemu-options.hx              | 4 +++-
- 4 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/qapi/compat.json b/qapi/compat.json
-index d2c02a21aa..ae3afc22df 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -11,11 +11,12 @@
- #
- # @accept: Accept silently
- # @reject: Reject with an error
-+# @crash: abort() the process
- #
--# Since: 5.2
-+# Since: 6.0
- ##
- { 'enum': 'CompatPolicyInput',
--  'data': [ 'accept', 'reject' ] }
-+  'data': [ 'accept', 'reject', 'crash' ] }
- 
- ##
- # @CompatPolicyOutput:
-@@ -25,7 +26,7 @@
- # @accept: Pass on unchanged
- # @hide: Filter out
- #
--# Since: 5.2
-+# Since: 6.0
- ##
- { 'enum': 'CompatPolicyOutput',
-   'data': [ 'accept', 'hide' ] }
-@@ -44,7 +45,7 @@
- # @deprecated-input: how to handle deprecated input (default 'accept')
- # @deprecated-output: how to handle deprecated output (default 'accept')
- #
--# Since: 5.2
-+# Since: 6.0
- ##
- { 'struct': 'CompatPolicy',
-   'data': { '*deprecated-input': 'CompatPolicyInput',
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index cbc4452341..12657d635e 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -167,6 +167,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-                       "Deprecated command %s disabled by policy",
-                       command);
-             goto out;
-+        case COMPAT_POLICY_INPUT_CRASH:
-         default:
-             abort();
-         }
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 1b8fa1f2f6..baad0dcd3c 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -676,6 +676,7 @@ static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
-         error_setg(errp, "Deprecated parameter '%s' disabled by policy",
-                    name);
-         return false;
-+    case COMPAT_POLICY_INPUT_CRASH:
-     default:
-         abort();
-     }
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2be2feed32..165fa048e9 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3471,7 +3471,7 @@ DEFHEADING()
- DEFHEADING(Debug/Expert options:)
- 
- DEF("compat", HAS_ARG, QEMU_OPTION_compat,
--    "-compat [deprecated-input=accept|reject][,deprecated-output=accept|hide]\n"
-+    "-compat [deprecated-input=accept|reject|crash][,deprecated-output=accept|hide]\n"
-     "                Policy for handling deprecated management interfaces\n",
-     QEMU_ARCH_ALL)
- SRST
-@@ -3482,6 +3482,8 @@ SRST
-         Accept deprecated commands and arguments
-     ``deprecated-input=reject``
-         Reject deprecated commands and arguments
-+    ``deprecated-input=crash``
-+        Crash on deprecated commands and arguments
-     ``deprecated-output=accept`` (default)
-         Emit deprecated command results and events
-     ``deprecated-output=hide``
--- 
-2.26.2
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
