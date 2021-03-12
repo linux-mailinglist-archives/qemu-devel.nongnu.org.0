@@ -2,163 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A76338BDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 12:52:25 +0100 (CET)
-Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C869338BF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 12:55:05 +0100 (CET)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKgLA-0001KU-88
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 06:52:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37952)
+	id 1lKgNk-0003Mv-Ax
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 06:55:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKgJE-0000fQ-Jw
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:50:24 -0500
-Received: from mga09.intel.com ([134.134.136.24]:50914)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lKgLY-0001xu-2Z
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:52:48 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKgJ6-0003fe-R3
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:50:24 -0500
-IronPort-SDR: WYC6fAJfJXZMXebPQnkMuTIfStsNCySF0qg5ALKMU4tm4PE7ff/v7+uJXnz/WfcTFn9oAjeCdh
- yru6hKq5/Qrg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="188916693"
-X-IronPort-AV: E=Sophos;i="5.81,243,1610438400"; d="scan'208";a="188916693"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 03:50:10 -0800
-IronPort-SDR: +P3gPKzSPGqQUUctYW2pL8+p7hTfxk82YV5uoIk6c91/xGi1P9zEx632Stz8IjtWwKt5D8Kdua
- lm4RLxg48ruw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,243,1610438400"; d="scan'208";a="387329201"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga002.jf.intel.com with ESMTP; 12 Mar 2021 03:50:09 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lKgLT-0005ho-To
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:52:47 -0500
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DxkbH3VC6z67yCj;
+ Fri, 12 Mar 2021 19:48:11 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 12 Mar 2021 03:50:09 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Fri, 12 Mar 2021 03:50:09 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Fri, 12 Mar 2021 03:50:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nuB1k5dENAOH/QgaKw+lr+AdL6NP2eVOHe1sEP6diwmQAfoGTwgAZPpOaNmnGpRAxmUtqUsF0XJQEZMlqdGikzpwDgW/jvU6iCYIpHxF5LaY+C6/pFerYF0tXC48jMKKf4EJiDSxaWNi0jWJPXykJOSDsPwB0oLmuxrzJN8lNSa8x2bONEceB7ZLvHZtPrieoSpYsDv8oo0HYdzNGgCHE541G07Iiz8ijkHh0sVN+CSvHHRvvFXTyuwvoVsNrFAC6ma7i9XoHhke+xXu0x/izsrr7pjZEiTCLhdiZTWB1nYr+JdFDc1hOEWUQYSCZ03CYTUoMcCCWQEXAz8a916/VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XJiRhG61xhWj1I026JmX8bDnu7ULrBfpTJI90IwJx4k=;
- b=ctZ2hd++Ls6Od60Ks47fw8jai2Zn96TlutiAn1OrjYdqrMDvksT6QY4uqjtYmKswulNQ5Hdd/OZQBMrnHzQPGVBuTCqIRpy6cHhKFSrSnT9xyhYLYnygTzW76DeQsaVkY+KBcKOjDFbOqWcCsW599lKi5VFyLRN0gItLBNh7MUP3X+CcOTjorP+HNqTMcZMKgRGvgj+VpBuP+Rj/qeMzQosbEKrfbwcwBguX/d6y5Itqk+wTM9N319sUPhqQw0pP+CpkBW4vjtjab2PsDdQv3HY6l9vKUJxTRcSq6oTf6WZ3KkGzLjUb9r56JJV5nzQp/crMdvNfFI/RxQo1s/f96Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XJiRhG61xhWj1I026JmX8bDnu7ULrBfpTJI90IwJx4k=;
- b=DM6nm+EUPiyr64vxvwufIZ0nHwk82GmUvpxJwocbk5uzT1BZhldt8pZtUwNfTZwPUlqKXCqDUqJzFB1gxJKwfg/ID/fivA4Lw7JlUtU5wJDhVAlvrolTirvBLdxnDGo9R3YFQKYHQlZpr61AzyhPnrxB1SUg0ceFZrIHeVtHlAw=
-Received: from SN6PR11MB3103.namprd11.prod.outlook.com (2603:10b6:805:d7::13)
- by SA2PR11MB5116.namprd11.prod.outlook.com (2603:10b6:806:fa::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
- 2021 11:50:04 +0000
-Received: from SN6PR11MB3103.namprd11.prod.outlook.com
- ([fe80::c9c2:8157:5bef:9b2]) by SN6PR11MB3103.namprd11.prod.outlook.com
- ([fe80::c9c2:8157:5bef:9b2%6]) with mapi id 15.20.3912.030; Fri, 12 Mar 2021
- 11:50:04 +0000
-From: "Rao, Lei" <lei.rao@intel.com>
-To: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>, "Zhang, Chen"
- <chen.zhang@intel.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>, "dgilbert@redhat.com"
- <dgilbert@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "lukasstraub2@web.de" <lukasstraub2@web.de>
-Subject: RE: [PATCH v2 05/10] Optimize the function of packet_new
-Thread-Topic: [PATCH v2 05/10] Optimize the function of packet_new
-Thread-Index: AQHXFwAfZGOfsue6xEKjW/ZC7yr6YKp/6rSAgAAwGjCAAAqggIAAFyow
-Date: Fri, 12 Mar 2021 11:50:04 +0000
-Message-ID: <SN6PR11MB3103EF4BE891A07762464F2DFD6F9@SN6PR11MB3103.namprd11.prod.outlook.com>
-References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
- <1615525383-59071-6-git-send-email-lei.rao@intel.com>
- <e5247376-5319-64d0-850c-5a28415c1c41@fujitsu.com>
- <SN6PR11MB31033DC95CB2E555414AA186FD6F9@SN6PR11MB3103.namprd11.prod.outlook.com>
- <6f74403c-911d-722c-7b7e-00f2bce6f815@fujitsu.com>
-In-Reply-To: <6f74403c-911d-722c-7b7e-00f2bce6f815@fujitsu.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: fujitsu.com; dkim=none (message not signed)
- header.d=none;fujitsu.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.207]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b68cabd-843f-4848-f13f-08d8e54cf9ea
-x-ms-traffictypediagnostic: SA2PR11MB5116:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SA2PR11MB5116E8DA1DDA9610162DFD91FD6F9@SA2PR11MB5116.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KoSzWkrMRJIilihXjeolblXeo/BPOIFNHS4eNkhcOFDEsSyUylmNR687QLqblmlpz9brWwOwFEJpdPyaXbS1WJ0VbrSqtmEm5iMB+tAcfQbq+avE64/z60BTNJIMt/OT33YGsptUlXBccMkqonFOaGjwjnsqyHinxceKfLyLoOTUp2AItiMl9EsS58Z0IujrhtPSuih/8DQPmYwa3Nf+hkQ30fgEGzz0W1VCYJoHZJ7rPVCrpkD1iOJ2PSRA4eSc+YscsSHj7eu6SXpCMgIvsV3abAOOugkao+U8rA7qnfAYtmgLg1trxOuE0YlmLaEPRs1PJrL9cjkp749ltQagHfNjvWfcRmPuB/xLh/cCns5Rpqpqvou4drYjV2H82XleJ/3Fa6it3q40X4aBuWo5pklQADSQ9/VjfaAOkNZ5Sd9P5MhDpmBaVsqVnJ8oRZR0Kd5byJdvzQpZ7UBJ3nPbq3r6GuO9+uCEkQoKpSvPnS/0Pr5og5a5jfQB3ApW0n9fjNApmh0YenIJQuCyrpYurXr1oepalUolGvqz+f00oa1QQlbMUCoywGHQkyjGYD8Q
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR11MB3103.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(136003)(366004)(376002)(346002)(396003)(478600001)(186003)(52536014)(53546011)(66446008)(7696005)(6506007)(8676002)(5660300002)(66946007)(64756008)(110136005)(33656002)(66556008)(2906002)(66476007)(26005)(4326008)(316002)(8936002)(83380400001)(76116006)(9686003)(55016002)(86362001)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?RDNSaWVZVmxVRHlpN3B4VkxOSkl6RlZPZSttcEdnbHRuTUV1eTRUMCtmTWln?=
- =?utf-8?B?MkZkM0dEYTFsN21tZFlvSjdCeFpQQm5HZEdvYy93SXhKUlZyWS9laHFZVXox?=
- =?utf-8?B?cXp4SUJYUmlObEhvWEVIakpNR29zTlpzRVIxY0RVSFFNTnFTRGh6NVpGd21U?=
- =?utf-8?B?ajMwRGR2dC84aXpVc2RyNWxEdDlXNDVjMHR5b2hIdzlMUWVkM1ZvWU16Ukkx?=
- =?utf-8?B?cWJmcitLQ0pYTTJpQVlNYTA2SURPWDZPUURBWWYvY0VTNG1vbFFqajFiVC9H?=
- =?utf-8?B?Mmx6ajlWK2xjMzBFbnkvR2FPT3ZoSlQzUFNreGMxanhaWTBMc21mZ2hra2pk?=
- =?utf-8?B?U044Z2pkWjNqZEhTNEdFOXJ0NTZUaUsvZGxnMjM4a3YxTXFyNk1BZWtyYUl1?=
- =?utf-8?B?b0Y2akw4WE8waSsxY3NoWDNsbUtJUUM0MEl2U1VtVWl2TmpteDlLaXBEQmt5?=
- =?utf-8?B?dGx6NnJaQmVDTHlFbGpBZEZSVzdJMGJOWkNrbXJKbGw3T3R2bThNTEZHK0ZN?=
- =?utf-8?B?TEN0ZGU2QWloT3hTdDRVQXBBNEUrMzVldUdjZmtLck8rU1RGMm1xZEhHaEI5?=
- =?utf-8?B?SGp1dThBTHYyL2UzelhLd2I5VVFEdURDNitEbGo5Zk9MRXUrT1d5OWVsT3Br?=
- =?utf-8?B?aHVvK0UxVThaMklxcXZJd3hjalZSWUtDZ2FJTGNTbjlkbUUzTHFuRTlReTNU?=
- =?utf-8?B?V3RYcFlUNUp5clFoNGI0N3k1eUkrUHpZQTR2N2NTSkVOaVhIR2MyaHg1MkVJ?=
- =?utf-8?B?cU9YRTdlZDRVT2YzczM3cTMrZWJyQ0MzdlFFSHl1YnVxOXhNTzZBM204MmxK?=
- =?utf-8?B?Lysxa29ZZ2dwejBNSlFkS2U1TE5kbmJvMElhY0tia29FSmRWbmJQZGVxSVZM?=
- =?utf-8?B?NFFwREJyOGdidkpqTlFvQmhvRnBrZm1QdG11Q1ZtV2dFeEpUUENwVGxPK1NT?=
- =?utf-8?B?b0tNMlhoUlArZ25YR0JCYlJlaDZ1VDFWT2trbTk4dTA2ZlIrcWdrZzNLMEl5?=
- =?utf-8?B?NFBRRVFnbWRBeW9yekZrNGNVR1NIMkM2RlBTRTJiRGprVC8vR2RmV29iQ3VJ?=
- =?utf-8?B?S3dXVDZmeXF6a1Z1ald2Y0lQY1B6NGNncHRrbGNFdlJjSWpCVFQrQkJiZDlL?=
- =?utf-8?B?ZUdieUFoeEwxdXZGQXY0Yk5VbHk0WkZVRHdURnp6RzllQ0lIWVFBeVhJY3cr?=
- =?utf-8?B?SSs5enZON3lieDJzdUdSWjNrcm1kSTJhbkdsOTh3L29JOEoxdlhsQ3ByNFk2?=
- =?utf-8?B?d2Y5cUNWQ2tUSkkrK3lLL1JIdTllUkxvejhjT3Ixd2prQU5aT1l6QlkxQ0Zy?=
- =?utf-8?B?MTJMWmpwNGg5d3ZhalRYSXhmV2Y5ZlBEY2tobVg2bjZoekdPd0sreUl4NGJE?=
- =?utf-8?B?YzlvdlNJOURzUTBJd2RWVnlnNU9WdE41cWg3MGJYY05DK0x1aTQ3TFBuZDZT?=
- =?utf-8?B?eFpJSWdYd2laQS9zbU9KYzhYb2s1ZU1tY29Pem5hWWpFOTYyM3kxRzZ6dDJ4?=
- =?utf-8?B?UkowRnhnd2dRZmRZUDQ2QVoybmMwS1AwK3FSSkZCaDVQUDdlRnBWdmFFaFRC?=
- =?utf-8?B?S3FHREw3WkxXZ2Jybnc3L2p4T2FaQVFnbWVwN1hFZHVOVVJ1UVdsa0VuODNF?=
- =?utf-8?B?em9LMHoycExvc3VhYzNEcGZDd1RkcC9QZk16ekkyYzhXV3pLYW5zenNlN0xt?=
- =?utf-8?B?d255RVNJemhSUmlla0JzYVVNZ2pib0JpMjlaWUs4UDBnMWovTDRXcG1ISVFM?=
- =?utf-8?Q?hmnuzOD2Az018arSvK3V9S6okJOJ33cltMWZ24W?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ 15.1.2106.2; Fri, 12 Mar 2021 12:52:38 +0100
+Received: from localhost (10.47.81.238) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 12 Mar
+ 2021 11:52:37 +0000
+Date: Fri, 12 Mar 2021 11:51:23 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [RFC PATCH v3 cxl-2.0-doe 2/2] CXL DOE support for CDAT and
+ Compliance Mode
+Message-ID: <20210312115123.000078e4@Huawei.com>
+In-Reply-To: <1615323876-17716-1-git-send-email-cbrowy@avery-design.com>
+References: <1615322029-13038-1-git-send-email-cbrowy@avery-design.com>
+ <1615323876-17716-1-git-send-email-cbrowy@avery-design.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3103.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b68cabd-843f-4848-f13f-08d8e54cf9ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2021 11:50:04.5534 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mLslmyvTLotUMzDF2jTKs4z56TzL5hTo7El1mXftbw2y+w5HoKJYS/mTUsiAvNtf0WKBcvn5c6YdnCQT9qBXaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5116
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=lei.rao@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.81.238]
+X-ClientProxiedBy: lhreml754-chm.china.huawei.com (10.201.108.204) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -171,32 +67,637 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: ben.widawsky@intel.com, david@redhat.com, vishal.l.verma@intel.com,
+ jgroves@micron.com, qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
+ armbru@redhat.com, mst@redhat.com, tyshao@avery-design.com.tw,
+ hchkuo@avery-design.com.tw, imammedo@redhat.com, dan.j.williams@intel.com,
+ ira.weiny@intel.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T2gsIEkgdW5kZXJzdGFuZCB3aGF0IHlvdSBtZWFuLCBhbmQgd2lsbCBjaGFuZ2UgaXQgaW4gVjMu
-DQoNClRoYW5rcywNCkxlaS4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IGxp
-emhpamlhbkBmdWppdHN1LmNvbSA8bGl6aGlqaWFuQGZ1aml0c3UuY29tPiANClNlbnQ6IEZyaWRh
-eSwgTWFyY2ggMTIsIDIwMjEgNjoyMyBQTQ0KVG86IFJhbywgTGVpIDxsZWkucmFvQGludGVsLmNv
-bT47IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT47IGphc293YW5nQHJlZGhhdC5j
-b207IHF1aW50ZWxhQHJlZGhhdC5jb207IGRnaWxiZXJ0QHJlZGhhdC5jb207IHBib256aW5pQHJl
-ZGhhdC5jb207IGx1a2Fzc3RyYXViMkB3ZWIuZGUNCkNjOiBxZW11LWRldmVsQG5vbmdudS5vcmcN
-ClN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMDUvMTBdIE9wdGltaXplIHRoZSBmdW5jdGlvbiBvZiBw
-YWNrZXRfbmV3DQoNCg0KDQo+ICsgICAgICAgICAgICBvZmZzZXQgPSBjb2xvX2JpdG1hcF9maW5k
-X2RpcnR5KHJhbV9zdGF0ZSwgYmxvY2ssIG9mZnNldCwgDQo+ICsgJm51bSk7DQpJSVVDLCB0aGlz
-IHJldHVybiB2YWx1ZSB3b3VsZCBwYXNzIHRvIHRoZSBuZXh0IHJvdW5kIGFzIHN0YXJ0IGluZGV4
-LMKgIHNvIHlvdSBzaG91bGQgc2tpcCB0aGUgYWxyZWFkeSBjaGVja2VkIG9uZS4NCg0KDQpUaGFu
-a3MNCg0KDQpPbiAzLzEyLzIxIDU6NTYgUE0sIFJhbywgTGVpIHdyb3RlOg0KPiBIb3cgYWJvdXQg
-cmVkZWZpbmUgYSBmdW5jdGlvbiBuYW1lZCBwYWNrZXRfbmV3X25vY29weT8NCj4gSW4gY29tbWVu
-dHMsIHdlIGNhbiB0ZWxsIHRoZSBjYWxsZXIgZG9uJ3QgcmVsZWFzZSB0aGUgYnVmZmVyIGFuZCB0
-aGUgcGFja2V0X2Rlc3Ryb3kgd2lsbCByZWxlYXNlIGl0Lg0KPg0KPiBUaGFua3MsDQo+IExlaS4N
-Cj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTpsaXpoaWppYW5AZnVqaXRzdS5j
-b20gIDxsaXpoaWppYW5AZnVqaXRzdS5jb20+DQo+IFNlbnQ6IEZyaWRheSwgTWFyY2ggMTIsIDIw
-MjEgMjo1MyBQTQ0KPiBUbzogUmFvLCBMZWk8bGVpLnJhb0BpbnRlbC5jb20+OyBaaGFuZywgDQo+
-IENoZW48Y2hlbi56aGFuZ0BpbnRlbC5jb20+O2phc293YW5nQHJlZGhhdC5jb207cXVpbnRlbGFA
-cmVkaGF0LmNvbTtkZ2kNCj4gbGJlcnRAcmVkaGF0LmNvbTtwYm9uemluaUByZWRoYXQuY29tO2x1
-a2Fzc3RyYXViMkB3ZWIuZGUNCj4gQ2M6cWVtdS1kZXZlbEBub25nbnUub3JnDQo+IFN1YmplY3Q6
-IFJlOiBbUEFUQ0ggdjIgMDUvMTBdIE9wdGltaXplIHRoZSBmdW5jdGlvbiBvZiBwYWNrZXRfbmV3
-DQo+DQo+DQo=
+On Tue, 9 Mar 2021 16:04:36 -0500
+Chris Browy <cbrowy@avery-design.com> wrote:
+
+Hi Chris,
+
+As for patch 1, description needed here.  Let's move this series towards
+the form needed for a final submission.
+
+2 features, 2 patches...  If nothing else makes each one small enough to be
+suitable for review with morning coffee :)
+
+
+> ---
+>  hw/cxl/cxl-component-utils.c   |  93 ++++++++++++
+>  hw/mem/cxl_type3.c             | 184 ++++++++++++++++++++++++
+>  include/hw/cxl/cxl_cdat.h      | 127 +++++++++++++++++
+>  include/hw/cxl/cxl_compl.h     | 252 +++++++++++++++++++++++++++++++++
+>  include/hw/cxl/cxl_component.h |  74 ++++++++++
+>  include/hw/cxl/cxl_device.h    |   4 +
+>  include/hw/cxl/cxl_pci.h       |   2 +
+>  7 files changed, 736 insertions(+)
+>  create mode 100644 include/hw/cxl/cxl_cdat.h
+>  create mode 100644 include/hw/cxl/cxl_compl.h
+> 
+> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+> index 41d36f802a..1a2408dc76 100644
+> --- a/hw/cxl/cxl-component-utils.c
+> +++ b/hw/cxl/cxl-component-utils.c
+
+...
+
+> +void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp)
+> +{
+> +    uint8_t sum = 0;
+> +    int i, curr = 0, ent = 0;
+> +    CDATStruct cdat_st[1024];
+> +    struct cdat_sub_header hdr;
+> +    FILE *fp;
+> +    uint8_t iasl_hdr[IASL_HEADER_LEN];
+> +    size_t rcount;
+> +
+> +    fp = fopen(cxl_cstate->cdat_filename, "r");
+> +
+> +    if (fp) {
+> +        /* Read iASL header */
+> +        rcount= fread(&iasl_hdr, sizeof(iasl_hdr), 1, fp);
+> +	if (rcount == 0)
+> +            error_setg(errp, "File read failed");
+> +	    
+> +
+> +        for (i = 0; i < IASL_HEADER_LEN; i++) {
+> +            sum += iasl_hdr[i];
+> +        }
+> +        sum = (~sum + 1) & 0xFF;
+> +
+> +        curr = ftell(fp);
+> +
+> +        /* Read CDAT structures */
+> +        while (fread(&hdr, sizeof(hdr), 1, fp)) {
+> +            cdat_len_check(&hdr, errp);
+> +
+> +            cdat_st[ent].base2 = curr;
+> +            cdat_st[ent].length = hdr.length;
+> +            ent++;
+> +
+> +            fseek(fp, curr + hdr.length, SEEK_SET);
+> +            curr = ftell(fp);
+> +        }
+> +        /* Check the last structure */
+> +        fseek(fp, 0, SEEK_END);
+> +        assert(curr == ftell(fp));
+> +    } else {
+> +        error_setg(errp, "Please specify the CDAT file by using ',cdat='");
+
+It definitely wants to be optional.  Fine to not provide one.
+I'd hope we can generate one that makes 'sense' for whatever memory etc
+is configured though and have that as the fallback if one isn't provided.
+That will be a lot more convenient if people are working on other aspects
+of support and don't happen to care about exactly what is in CDAT on
+a given day.
+
+> +    }
+> +    cxl_cstate->cdat_file = fp;
+> +
+> +    cxl_cstate->cdat_ent_len = ent;
+> +    cxl_cstate->cdat_ent = g_malloc0(sizeof(CDATStruct) * ent);
+> +    memcpy(cxl_cstate->cdat_ent, cdat_st, sizeof(CDATStruct) * ent);
+> +
+> +    /* Set CDAT header, ent = 0 */
+> +    cxl_cstate->cdat_header.revision = CXL_CDAT_REV;
+> +    cxl_cstate->cdat_header.sequence = 0;
+> +    cxl_cstate->cdat_header.length += curr + sizeof(cxl_cstate->cdat_header);
+> +
+> +    sum += cxl_cstate->cdat_header.revision +
+> +           cxl_cstate->cdat_header.sequence + cxl_cstate->cdat_header.length;
+> +
+> +    cxl_cstate->cdat_header.checksum = ~sum + 1;
+> +}
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index bf33ddb915..33f571e1a5 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -13,6 +13,156 @@
+>  #include "qemu/rcu.h"
+>  #include "sysemu/hostmem.h"
+>  #include "hw/cxl/cxl.h"
+> +#include "hw/pci/msi.h"
+> +#include "hw/pci/msix.h"
+> +
+> +uint32_t cxl_doe_compliance_init(DOECap *doe_cap)
+> +{
+> +    CXLComponentState *cxl_cstate = &CT3(doe_cap->pdev)->cxl_cstate;
+> +    uint32_t req;
+> +    uint32_t byte_cnt = 0;
+> +
+> +    DOE_DBG(">> %s\n",  __func__);
+> +
+> +    req = ((struct cxl_compliance_mode_cap *)pcie_doe_get_req(doe_cap))
+> +        ->req_header.req_code;
+> +    switch (req) {
+> +    case CXL_COMP_MODE_CAP:
+> +        byte_cnt = sizeof(struct cxl_compliance_mode_cap_rsp);
+> +        cxl_cstate->doe_resp.cap_rsp.header.vendor_id = CXL_VENDOR_ID;
+> +        cxl_cstate->doe_resp.cap_rsp.header.doe_type = CXL_DOE_COMPLIANCE;
+> +        cxl_cstate->doe_resp.cap_rsp.header.reserved = 0x0;
+> +        cxl_cstate->doe_resp.cap_rsp.header.length =
+> +            DIV_ROUND_UP(sizeof(struct cxl_compliance_mode_cap_rsp), 4);
+> +        cxl_cstate->doe_resp.cap_rsp.rsp_header.rsp_code = 0x0;
+> +        cxl_cstate->doe_resp.cap_rsp.rsp_header.version = 0x1;
+> +        cxl_cstate->doe_resp.cap_rsp.rsp_header.length = 0x1c;
+> +        cxl_cstate->doe_resp.cap_rsp.status = 0x0;
+> +        cxl_cstate->doe_resp.cap_rsp.available_cap_bitmask = 0x3;
+> +        cxl_cstate->doe_resp.cap_rsp.enabled_cap_bitmask = 0x3;
+> +        break;
+> +    case CXL_COMP_MODE_STATUS:
+> +        byte_cnt = sizeof(struct cxl_compliance_mode_status_rsp);
+> +        cxl_cstate->doe_resp.status_rsp.header.vendor_id = CXL_VENDOR_ID;
+> +        cxl_cstate->doe_resp.status_rsp.header.doe_type = CXL_DOE_COMPLIANCE;
+> +        cxl_cstate->doe_resp.status_rsp.header.reserved = 0x0;
+> +        cxl_cstate->doe_resp.status_rsp.header.length =
+> +            DIV_ROUND_UP(sizeof(struct cxl_compliance_mode_status_rsp), 4);
+> +        cxl_cstate->doe_resp.status_rsp.rsp_header.rsp_code = 0x1;
+> +        cxl_cstate->doe_resp.status_rsp.rsp_header.version = 0x1;
+> +        cxl_cstate->doe_resp.status_rsp.rsp_header.length = 0x14;
+> +        cxl_cstate->doe_resp.status_rsp.cap_bitfield = 0x3;
+> +        cxl_cstate->doe_resp.status_rsp.cache_size = 0;
+> +        cxl_cstate->doe_resp.status_rsp.cache_size_units = 0;
+> +        break;
+
+Given there are only two types in reality.  Can we get rid of all the others
+in the big union?  Right now it looks like those aren't handled, but reality
+is they are the same as the ones here.
+
+
+> +    default:
+> +        break;
+> +    }
+> +
+> +    DOE_DBG("  REQ=%x, RSP BYTE_CNT=%d\n", req, byte_cnt);
+> +    DOE_DBG("<< %s\n",  __func__);
+> +    return byte_cnt;
+> +}
+> +
+> +
+> +bool cxl_doe_compliance_rsp(DOECap *doe_cap)
+> +{
+> +    CXLComponentState *cxl_cstate = &CT3(doe_cap->pdev)->cxl_cstate;
+> +    uint32_t byte_cnt;
+> +    uint32_t dw_cnt;
+> +
+> +    DOE_DBG(">> %s\n",  __func__);
+> +
+> +    byte_cnt = cxl_doe_compliance_init(doe_cap);
+> +    dw_cnt = byte_cnt / 4;
+> +    memcpy(doe_cap->read_mbox,
+> +           cxl_cstate->doe_resp.data_byte, byte_cnt);
+> +
+> +    doe_cap->read_mbox_len += dw_cnt;
+> +
+> +    DOE_DBG("  LEN=%x, RD MBOX[%d]=%x\n", dw_cnt - 1,
+> +            doe_cap->read_mbox_len,
+> +            *(doe_cap->read_mbox + dw_cnt - 1));
+> +
+> +    DOE_DBG("<< %s\n",  __func__);
+> +
+> +    return true;
+> +}
+> +
+> +bool cxl_doe_cdat_rsp(DOECap *doe_cap)
+> +{
+> +    CXLComponentState *cxl_cstate = &CT3(doe_cap->pdev)->cxl_cstate;
+> +    uint16_t ent;
+> +    uint32_t base = 0;
+> +    uint32_t len = 0 ;
+> +    size_t rcount;
+> +    struct cxl_cdat *req = pcie_doe_get_req(doe_cap);
+> +
+> +    ent = req->entry_handle;
+> +    if (ent == 0) {
+> +        len = sizeof(cxl_cstate->cdat_header);
+> +    } else if (ent <= cxl_cstate->cdat_ent_len) {
+> +        base = cxl_cstate->cdat_ent[ent - 1].base2;
+> +        len = cxl_cstate->cdat_ent[ent - 1].length;
+> +    }
+> +
+> +    struct cxl_cdat_rsp rsp = {
+> +        .header = {
+> +            .vendor_id = CXL_VENDOR_ID,
+> +            .doe_type = CXL_DOE_TABLE_ACCESS,
+> +            .reserved = 0x0,
+> +            .length = (sizeof(struct cxl_cdat_rsp) + len) / 4,
+> +        },
+> +        .req_code = CXL_DOE_TAB_RSP,
+> +        .table_type = CXL_DOE_TAB_TYPE_CDAT,
+> +        .entry_handle = (ent < cxl_cstate->cdat_ent_len) ? ent + 1 : CXL_DOE_TAB_ENT_MAX,
+> +    };
+> +
+> +    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
+> +
+> +    if (ent == 0) {
+> +        memcpy(doe_cap->read_mbox + sizeof(rsp) / 4,
+> +               &cxl_cstate->cdat_header, len);
+> +    } else if (ent <= cxl_cstate->cdat_ent_len) {
+> +        fseek(cxl_cstate->cdat_file, base, SEEK_SET);
+> +        rcount= fread(doe_cap->read_mbox + sizeof(rsp) / 4, len, 1, cxl_cstate->cdat_file);
+> +	if (rcount == 0)
+> +	    DOE_DBG("fread returned 0\n");
+> +    }
+> +
+> +    doe_cap->read_mbox_len += rsp.header.length;
+> +    DOE_DBG("%s: INCR RD_MBOX OFF=%x\n", __func__, doe_cap->read_mbox_len);
+> +
+> +    for (int i = 0; i < doe_cap->read_mbox_len; i++) {
+> +        DOE_DBG("  RD_MBOX[%d]=%08x\n", i, doe_cap->read_mbox[i]);
+> +    }
+
+It's trivial to sanity check this isn't broken by just doing the read, so
+I'd drop the debug now you have it working.
+
+> +
+> +    return true;
+> +}
+> +
+
+
+>  
+>  static void build_dvsecs(CXLType3Dev *ct3d)
+>  {
+> @@ -134,6 +284,8 @@ static void ct3_finalize(Object *obj)
+>  
+>      g_free((void *)regs->special_ops);
+>      g_free(ct3d->cxl_dstate.pmem);
+> +
+> +    fclose(cxl_cstate->cdat_file);
+
+cdat will be small, perhaps we just read it in once and cache it?
+That lets us not keep the file handle around or the file open once we have read it.
+
+>  }
+>  
+>  static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+> @@ -203,6 +355,19 @@ static MemoryRegion *cxl_md_get_memory_region(MemoryDeviceState *md,
+>      return ct3d->cxl_dstate.pmem;
+>  }
+>  
+> +static DOEProtocol doe_comp_prot[] = {
+> +    {PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_CMA, pcie_doe_cma_rsp},
+> +    {CXL_VENDOR_ID, CXL_DOE_COMPLIANCE, cxl_doe_compliance_rsp},
+> +    {CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp},
+
+This is kind of useful for exercising software paths, but I'm not sure
+why any real hardware would do this.
+
+Generic software is likely to stop at the first DOE that supports what
+it wants, so it'll never reach the CDAT only one.
+
+> +    { /* End of array */ },
+> +};
+> +
+> +static DOEProtocol doe_cdat_prot[] = {
+> +    {PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_CMA, pcie_doe_cma_rsp},
+
+Not allowed to do that according to CMA ECN.
+
+> +    {CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp},
+> +    { /* End of array */ },
+> +};
+> +
+>  static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>  {
+>      CXLType3Dev *ct3d = CT3(pci_dev);
+> @@ -210,6 +375,8 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>      ComponentRegisters *regs = &cxl_cstate->crb;
+>      MemoryRegion *mr = &regs->component_registers;
+>      uint8_t *pci_conf = pci_dev->config;
+> +    unsigned short msix_num = 2;
+> +    int i;
+>  
+>      if (!ct3d->cxl_dstate.pmem) {
+>          cxl_setup_memory(ct3d, errp);
+> @@ -239,6 +406,19 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>                       PCI_BASE_ADDRESS_SPACE_MEMORY |
+>                           PCI_BASE_ADDRESS_MEM_TYPE_64,
+>                       &ct3d->cxl_dstate.device_registers);
+> +
+> +    /* MSI(-X) Initailization */
+> +    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
+> +    for (i = 0; i < msix_num; i++) {
+> +        msix_vector_use(pci_dev, i);
+> +    }
+> +    /* msi_init(pci_dev, 0x60, 16, true, false, NULL); */
+> +
+> +    /* DOE Initailization */
+> +    pcie_doe_init(pci_dev, &ct3d->doe_comp, 0x160, doe_comp_prot, true, 0);
+> +    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 1);
+> +
+> +    cxl_doe_cdat_init(cxl_cstate, errp);
+>  }
+>  
+>  static uint64_t cxl_md_get_addr(const MemoryDeviceState *md)
+> @@ -275,6 +455,7 @@ static Property ct3_props[] = {
+>                       HostMemoryBackend *),
+>      DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
+>                       HostMemoryBackend *),
+> +    DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat_filename),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -357,6 +538,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+>      PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
+>      MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
+> +
+> +    pc->config_write = ct3d_config_write;
+> +    pc->config_read = ct3d_config_read;
+>      CXLType3Class *cvc = CXL_TYPE3_DEV_CLASS(oc);
+>  
+>      pc->realize = ct3_realize;
+> diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+> new file mode 100644
+> index 0000000000..edd994d410
+> --- /dev/null
+> +++ b/include/hw/cxl/cxl_cdat.h
+> @@ -0,0 +1,127 @@
+
+...
+
+> +
+> +/* Read Entry Request, 8.1.11.1 Table 134 */
+> +struct cxl_cdat {
+> +    DOEHeader header;
+> +    uint8_t req_code;
+> +    uint8_t table_type;
+> +    uint16_t entry_handle;
+> +} QEMU_PACKED;
+> +
+> +/* Read Entry Response, 8.1.11.1 Table 135 */
+> +#define cxl_cdat_rsp    cxl_cdat    /* Same as request */
+
+The header is the same as the request, but lots of data that this
+is implying doesn't exist.  Also it doesn't have a request code
+so at very least just make that field code in the structure.
+
+
+> +
+> +/*
+> + * CDAT Table Structure (CDAT Spec)
+> + */
+> +#define CXL_CDAT_REV 1
+> +
+> +/* Data object header */
+> +struct cdat_table_header {
+> +    uint32_t length;    /* Length of table in bytes, including this header */
+> +    uint8_t revision;   /* ACPI Specification minor version number */
+
+No.  CDAT specification revision number. This isn't an ACPI table.
+
+> +    uint8_t checksum;   /* To make sum of entire table == 0 */
+> +    uint8_t reserved[6];
+> +    uint32_t sequence;  /* ASCII table signature */
+
+Not what the sequence number is at all.
+
+
+> +} QEMU_PACKED;
+> +
+
+
+...
+
+> +#endif /* CXL_CDAT_H */
+> diff --git a/include/hw/cxl/cxl_compl.h b/include/hw/cxl/cxl_compl.h
+> new file mode 100644
+> index 0000000000..5edeaa5f27
+> --- /dev/null
+> +++ b/include/hw/cxl/cxl_compl.h
+> @@ -0,0 +1,252 @@
+> +/*
+> + * CXL Compliance Structure
+> + *
+> + * Copyright (C) 2020 Avery Design Systems, Inc.
+
+Time for an update to include 2021.
+
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+
+...
+
+> +
+> +struct status_rsp {
+> +    DOEHeader header;
+> +    CompRspHeader rsp_header;
+> +    uint8_t status;
+> +} QEMU_PACKED;
+> +
+> +struct len_rsvd_rsp {
+
+Prefix these so they don't look like generic things.
+Also for this one, the naming made me wonder if CXL really had defined
+a length field then marked it reserved (which would be odd). 
+I would go with two versions of the header and name this differently.
+
+struct compliance_rsp_header_no_len {
+    uint8_t rsp_code;
+    uint8_t version;
+} QEMU_PACKED;
+
+struct comp_no_data_resp {
+   DOEHeader header;
+   struct compliance_rsp_header_no_len resp_header; /* typedefs if you like are fine */
+   uint8_t reserved[6];
+} QEMU_PACKED;
+
+> +    DOEHeader header;
+> +    /* The length field in rsp_header is reserved. */
+> +    CompRspHeader rsp_header;
+> +    uint8_t reserved[5];
+> +} QEMU_PACKED;
+> +
+...
+
+> +
+> +/* 14.16.4.10 */
+> +struct cxl_compliance_mode_toggle_cache_flush {
+> +    DOEHeader header;
+> +    CompReqHeader req_header;
+> +    uint8_t inj_flow_control;
+
+?
+
+> +} QEMU_PACKED;
+> +
+> +#define cxl_compliance_mode_toggle_cache_flush_rsp status_rsp
+> +
+
+...
+
+> +
+> +#endif /* CXL_COMPL_H */
+> diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+> index acc0730d96..1294d74d78 100644
+> --- a/include/hw/cxl/cxl_component.h
+> +++ b/include/hw/cxl/cxl_component.h
+> @@ -18,6 +18,7 @@
+>  #include "qemu/range.h"
+>  #include "qemu/typedefs.h"
+>  #include "hw/register.h"
+> +#include "qapi/error.h"
+>  
+>  enum reg_type {
+>      CXL2_DEVICE,
+> @@ -160,6 +161,11 @@ typedef struct component_registers {
+>      MemoryRegionOps *special_ops;
+>  } ComponentRegisters;
+>  
+> +typedef struct cdat_struct {
+> +    void *base;
+> +    uint32_t base2;
+
+Given base vs base2 isn't obvious naming, add some comments or
+give it a more meaningful name.
+
+> +    uint32_t length;
+> +} CDATStruct;
+>  /*
+>   * A CXL component represents all entities in a CXL hierarchy. This includes,
+>   * host bridges, root ports, upstream/downstream switch ports, and devices
+> @@ -173,6 +179,70 @@ typedef struct cxl_component {
+>              struct PCIDevice *pdev;
+>          };
+>      };
+> +
+> +    /*
+> +     * SW write write mailbox and GO on last DW
+> +     * device sets READY of offset DW in DO types to copy
+> +     * to read mailbox register on subsequent cfg_read
+> +     * of read mailbox register and then on cfg_write to
+> +     * denote success read increments offset to next DW
+> +     */
+
+Comment doesn't seem to have anything to do with any code around here, so drop it.
+
+> +
+> +    union doe_request_u {
+> +        /* Compliance DOE Data Objects Type=0*/
+Space before */
+> +        struct cxl_compliance_mode_cap mode_cap;
+> +        struct cxl_compliance_mode_status mode_status;
+> +        struct cxl_compliance_mode_halt mode_halt;
+> +        struct cxl_compliance_mode_multiple_write_streaming
+> +            multiple_write_streaming;
+> +        struct cxl_compliance_mode_producer_consumer producer_consumer;
+> +        struct cxl_compliance_mode_inject_bogus_writes inject_bogus_writes;
+> +        struct cxl_compliance_mode_inject_poison inject_poison;
+> +        struct cxl_compliance_mode_inject_crc inject_crc;
+> +        struct cxl_compliance_mode_inject_flow_control inject_flow_control;
+> +        struct cxl_compliance_mode_toggle_cache_flush toggle_cache_flush;
+> +        struct cxl_compliance_mode_inject_mac_delay inject_mac_delay;
+> +        struct cxl_compliance_mode_insert_unexp_mac insert_unexp_mac;
+> +        struct cxl_compliance_mode_inject_viral inject_viral;
+> +        struct cxl_compliance_mode_inject_almp inject_almp;
+> +        struct cxl_compliance_mode_ignore_almp ignore_almp;
+> +        struct cxl_compliance_mode_inject_bit_error ignore_bit_error;
+> +        char data_byte[128];
+
+We aren't accessing this as a byte anywhere, so just use a pointer
+to the whole structure.  That will avoid padding this to a meaningless
+length. (closer inspection this one isn't even referenced, but resp below is)
+
+> +    } doe_request;
+> +
+> +    union doe_resp_u {
+> +        /* Compliance DOE Data Objects Type=0*/
+
+Space before */
+
+> +        struct cxl_compliance_mode_cap_rsp cap_rsp;
+
+I wonder if we can make this all shorter by using an abbreviation?
+
+cxl_cmpl_mode_stat_rsp
+
+and similar?
+
+It's nice to match spec names where possible, but sometimes they just
+end up as stupidly long/
+
+> +        struct cxl_compliance_mode_status_rsp status_rsp;
+> +        struct cxl_compliance_mode_halt_rsp halt_rsp;
+> +        struct cxl_compliance_mode_multiple_write_streaming_rsp
+> +            multiple_write_streaming_rsp;
+> +        struct cxl_compliance_mode_producer_consumer_rsp producer_consumer_rsp;
+> +        struct cxl_compliance_mode_inject_bogus_writes_rsp
+> +            inject_bogus_writes_rsp;
+> +        struct cxl_compliance_mode_inject_poison_rsp inject_poison_rsp;
+> +        struct cxl_compliance_mode_inject_crc_rsp inject_crc_rsp;
+> +        struct cxl_compliance_mode_inject_flow_control_rsp
+> +            inject_flow_control_rsp;
+> +        struct cxl_compliance_mode_toggle_cache_flush_rsp
+> +            toggle_cache_flush_rsp;
+> +        struct cxl_compliance_mode_inject_mac_delay_rsp inject_mac_delay_rsp;
+> +        struct cxl_compliance_mode_insert_unexp_mac_rsp insert_unexp_mac_rsp;
+> +        struct cxl_compliance_mode_inject_viral inject_viral_rsp;
+> +        struct cxl_compliance_mode_inject_almp_rsp inject_almp_rsp;
+> +        struct cxl_compliance_mode_ignore_almp_rsp ignore_almp_rsp;
+> +        struct cxl_compliance_mode_inject_bit_error_rsp ignore_bit_error_rsp;
+> +        char data_byte[520 * 4];
+
+As above, I can't see a reason to have this.  If individual structures can be
+variable length, put the maximums in them, not here.
+
+> +    } doe_resp;
+> +
+> +    /* Table entry types */
+> +    struct cdat_table_header cdat_header;
+> +
+> +    CDATStruct *cdat_ent;
+> +    int cdat_ent_len;
+> +
+> +    char *cdat_filename;
+> +    FILE *cdat_file;
+>  } CXLComponentState;
+>  
+>  void cxl_component_register_block_init(Object *obj,
+> @@ -184,4 +254,8 @@ void cxl_component_register_init_common(uint32_t *reg_state,
+>  void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
+>                                  uint16_t type, uint8_t rev, uint8_t *body);
+>  
+> +uint32_t cxl_doe_compliance_init(DOECap *doe_cap);
+> +bool cxl_doe_compliance_rsp(DOECap *doe_cap);
+> +void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
+> +bool cxl_doe_cdat_rsp(DOECap *doe_cap);
+>  #endif
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index 057c5b85c6..de006ff463 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -236,6 +236,10 @@ typedef struct cxl_type3_dev {
+>      /* State */
+>      CXLComponentState cxl_cstate;
+>      CXLDeviceState cxl_dstate;
+> +
+> +    /* DOE */
+> +    DOECap doe_comp;
+> +    DOECap doe_cdat;
+>  } CXLType3Dev;
+>  
+>  #ifndef TYPE_CXL_TYPE3_DEV
+> diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+> index e8235b10cc..a0df324a1f 100644
+> --- a/include/hw/cxl/cxl_pci.h
+> +++ b/include/hw/cxl/cxl_pci.h
+> @@ -12,6 +12,8 @@
+>  
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pcie.h"
+> +#include "hw/cxl/cxl_cdat.h"
+> +#include "hw/cxl/cxl_compl.h"
+>  
+>  #define CXL_VENDOR_ID 0x1e98
+>  
+
 
