@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24A5338562
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:32:36 +0100 (CET)
-Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1306F338588
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 06:48:35 +0100 (CET)
+Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKaPb-0005Eo-S6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:32:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
+	id 1lKaf3-0005IY-I7
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 00:48:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaJK-0005r5-Ga
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:26:06 -0500
-Received: from mga18.intel.com ([134.134.136.126]:29334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKaJH-0007Eb-HJ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:26:06 -0500
-IronPort-SDR: Br/Nm4o6IVlfFhoqRO8baOQHdX7dtVcVI5NYRUJomPwXfeNVD+vqwF7OL1aVkVoPkH9aNBQgnQ
- 7E2ew9e6tx9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="176376604"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="176376604"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 21:25:51 -0800
-IronPort-SDR: 2EJ2iB4TSH/50psFQHh+qodQzLwwfUY3ddhgYZDy33MU8yUehgq5GiCBVQbQjiJhdNMdm3mXdm
- BnICA5fc10Qg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; d="scan'208";a="600481995"
-Received: from unknown (HELO localhost.localdomain.bj.intel.com)
- ([10.240.192.103])
- by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2021 21:25:47 -0800
-From: leirao <lei.rao@intel.com>
-To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
- lukasstraub2@web.de
-Subject: [PATCH v2 10/10] Fixed calculation error of pkt->header_size in
- fill_pkt_tcp_info()
-Date: Fri, 12 Mar 2021 13:03:03 +0800
-Message-Id: <1615525383-59071-11-git-send-email-lei.rao@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
-References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
-Received-SPF: pass client-ip=134.134.136.126; envelope-from=lei.rao@intel.com;
- helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lKadu-0004nu-Mz
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:47:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lKadr-0003pp-V6
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 00:47:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615528037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5CmP+wlBRC8xpy3EKlpEc4xBvmHlFYDLEr0657RoHoM=;
+ b=ACBfhfARvk4q4iUtV73X6OUM7uG+/AFRHbXWIaB+nOSw0iGqzrR3HL0Wyxj0HNgdF38o0S
+ wqAKF6OFkg0u0ETIhKtolcbdn8w6oOzJbdqjw2T19bD06hQ2dwaReHlSYPvwClkt3BgSea
+ DZR/6F3MjLL7z5UzEqXJxFqzkljtnf8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-KkBnnEHJNlS9pS_-8i8MHg-1; Fri, 12 Mar 2021 00:47:15 -0500
+X-MC-Unique: KkBnnEHJNlS9pS_-8i8MHg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2405363A1;
+ Fri, 12 Mar 2021 05:47:13 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-33.pek2.redhat.com
+ [10.72.13.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1FF16A032;
+ Fri, 12 Mar 2021 05:47:05 +0000 (UTC)
+Subject: Re: [PATCH V2] virtio-net: calculating proper msix vectors on init
+To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com
+References: <20210309042314.45817-1-jasowang@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <5eec6dd1-3008-a202-8089-cab6805b3b84@redhat.com>
+Date: Fri, 12 Mar 2021 13:47:04 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210309042314.45817-1-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,38 +83,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Rao, Lei" <lei.rao@intel.com>, qemu-devel@nongnu.org
+Cc: philmd@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Rao, Lei" <lei.rao@intel.com>
 
-The data pointer has skipped vnet_hdr_len in the function of
-parse_packet_early().So, we can not subtract vnet_hdr_len again
-when calculating pkt->header_size in fill_pkt_tcp_info(). Otherwise,
-it will cause network packet comparsion errors and greatly increase
-the frequency of checkpoints.
+On 2021/3/9 12:23 下午, Jason Wang wrote:
+> Currently, the default msix vectors for virtio-net-pci is 3 which is
+> obvious not suitable for multiqueue guest, so we depends on the user
+> or management tools to pass a correct vectors parameter. In fact, we
+> can simplifying this by calculating the number of vectors on realize.
+>
+> Consider we have N queues, the number of vectors needed is 2*N + 2
+> (#queue pairs + plus one config interrupt and control vq). We didn't
+> check whether or not host support control vq because it was added
+> unconditionally by qemu to avoid breaking legacy guests such as Minix.
+>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo-compare.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 06f2c28..af30490 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -211,7 +211,7 @@ static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
-     pkt->tcp_ack = ntohl(tcphd->th_ack);
-     *max_ack = *max_ack > pkt->tcp_ack ? *max_ack : pkt->tcp_ack;
-     pkt->header_size = pkt->transport_header - (uint8_t *)pkt->data
--                       + (tcphd->th_off << 2) - pkt->vnet_hdr_len;
-+                       + (tcphd->th_off << 2);
-     pkt->payload_size = pkt->size - pkt->header_size;
-     pkt->seq_end = pkt->tcp_seq + pkt->payload_size;
-     pkt->flags = tcphd->th_flags;
--- 
-1.8.3.1
+Applied.
+
+Thanks
+
+
+> ---
+> Changes since v1:
+> - Fix typo in the commit log
+> - Explain the magic number during vectors calculation
+> ---
+>   hw/core/machine.c          |  1 +
+>   hw/virtio/virtio-net-pci.c | 10 +++++++++-
+>   2 files changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 4386f57b5c..979133f8b7 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -39,6 +39,7 @@
+>   GlobalProperty hw_compat_5_2[] = {
+>       { "ICH9-LPC", "smm-compat", "on"},
+>       { "PIIX4_PM", "smm-compat", "on"},
+> +    { "virtio-net-pci", "vectors", "3"},
+>   };
+>   const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+>   
+> diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
+> index 292d13d278..aa0b3caecb 100644
+> --- a/hw/virtio/virtio-net-pci.c
+> +++ b/hw/virtio/virtio-net-pci.c
+> @@ -41,7 +41,8 @@ struct VirtIONetPCI {
+>   static Property virtio_net_properties[] = {
+>       DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
+>                       VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
+> -    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
+> +    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
+> +                       DEV_NVECTORS_UNSPECIFIED),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> @@ -50,6 +51,13 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>       DeviceState *qdev = DEVICE(vpci_dev);
+>       VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
+>       DeviceState *vdev = DEVICE(&dev->vdev);
+> +    VirtIONet *net = VIRTIO_NET(vdev);
+> +
+> +    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+> +        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1)
+> +            + 1 /* Config interrupt */
+> +            + 1 /* Control vq */;
+> +    }
+>   
+>       virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+>                                     object_get_typename(OBJECT(qdev)));
 
 
