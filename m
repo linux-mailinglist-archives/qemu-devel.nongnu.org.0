@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C071F338A66
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:41:04 +0100 (CET)
-Received: from localhost ([::1]:39290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC69338A63
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:40:45 +0100 (CET)
+Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKfE7-00070A-Q4
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:41:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38696)
+	id 1lKfDo-0006Oj-37
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:40:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKetN-0007Fx-SN
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:19:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lKetM-0004cK-5f
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:19:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615544375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xsqoq+5fLaJaBSusGTNNswg6sbrgi93veptlot0bqsU=;
- b=UNN6feAo8FE1in/cw4RBja1Ss6WKDI7gpdx2pHS/XSa6gWmDRVMAZR5N0XteG1EYVBkbB4
- MI/diKQcZI5Sfyklu+w/li8RNaB5wdZSBeVqEwUQtc3XC3E9SVuCNsXl1yxFoJyVl+jljY
- QjNLoJGpfN55pOgWxWpVOQHA8f+FB20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-SJwgVWqYOLu9v8aRrxqIqg-1; Fri, 12 Mar 2021 05:19:31 -0500
-X-MC-Unique: SJwgVWqYOLu9v8aRrxqIqg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98797CC625;
- Fri, 12 Mar 2021 10:19:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CC141002388;
- Fri, 12 Mar 2021 10:19:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C633A18000B4; Fri, 12 Mar 2021 11:19:28 +0100 (CET)
-Date: Fri, 12 Mar 2021 11:19:28 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Comment about modifier key input quirks
-Message-ID: <20210312101928.bqp2mx6zag2krg5t@sirius.home.kraxel.org>
-References: <20210311151203.21902-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKezQ-0000Tl-Dc
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:25:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lKezE-0008NP-J1
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:25:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lKezC-0002fT-1v
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0D7872E815D
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 10:25:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210311151203.21902-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 12 Mar 2021 10:20:27 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1915925@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: semihosting testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee inver7 keithp pmaydell
+X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
+Message-Id: <20210312102029.17017-4-alex.bennee@linaro.org>
+Subject: [Bug 1915925] [PATCH v5 3/5] semihosting/arm-compat-semi: don't use
+ SET_ARG to report SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: e7453fe183adb8c91dcbf762f21144b1070ca5cf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,67 +72,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Konstantin Nazarov <mail@knazarov.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 12, 2021 at 12:12:03AM +0900, Akihiko Odaki wrote:
-> Based-on: <20210310042348.21931-1-akihiko.odaki@gmail.com>
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+As per the spec:
 
-Well, the comments should not describe what the code is doing, that is
-usually pretty clear from reading the code.  The comment should say
-*why* the code is doing that, i.e. describe the problem we have to deal
-with.
+  the PARAMETER REGISTER contains the address of a pointer to a
+  four-field data block.
 
-In this case specifically the NSEventTypeFlagsChanged event quirks we
-have to deal with:
+So we need to follow arg0 and place the results of SYS_HEAPINFO there.
 
-  (1) we get the keyCode but *not* whenever it was a up or down event.
-  (2) we get the modifierFlags but we have only one bit for both shift
-      keys so you can't tell whenever the left or right or both shift
-      keys are down.
+Fixes: 3c37cfe0b1 ("semihosting: Change internal common-semi interfaces to =
+use CPUState *")
+Bug: https://bugs.launchpad.net/bugs/1915925
+Cc: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: Keith Packard <keithp@keithp.com>
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-We handle this by using the modifierFlags plus our own state tracking to
-generate "up" events, and we have to check both keyCode and
-modifierFlags for "down" events.
+---
+v3
+  - just revert the old behaviour
+---
+ semihosting/arm-compat-semi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> -    // emulate caps lock keydown and keyup
-> +    /*
-> +     * If -[NSEvent modifierFlags] has NSEventModifierFlagCapsLock,
-> +     * toggle the current CapsLock state by firing "up" and "down" events in
-> +     * sequence.
-> +     */
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 0f0e129a7c..fe079ca93a 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -1214,7 +1214,11 @@ target_ulong do_common_semihosting(CPUState *cs)
+             for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
+                 bool fail;
+ =
 
-Not very helpful.
+-                fail =3D SET_ARG(i, retvals[i]);
++                if (is_64bit_semihosting(env)) {
++                    fail =3D put_user_u64(retvals[i], arg0 + i * 8);
++                } else {
++                    fail =3D put_user_u32(retvals[i], arg0 + i * 4);
++                }
+ =
 
-> +    /*
-> +     * Check for other flags of -[NSEvent modifierFlags].
-> +     *
-> +     * If a flag is not set, fire "up" events for all keys which correspond to
-> +     * the flag. Note that "down" events are not fired here because the flags
-> +     * checked here do not tell what exact keys are down.
-> +     *
-> +     * These operations are performed for any events because the modifier state
-> +     * may change while the application is inactive (i.e. no events fire) and
-> +     * we want to detect it as early as possible.
+                 if (fail) {
+                     /* Couldn't write back to argument block */
+-- =
 
-Ah, right, (3) for the list above: no updates for inactive apps.
+2.20.1
 
-> +     * Up events corresponding to a modifier flag update the current modifier
-> +     * state tracked with QKbdState but they are not fired unless all keys which
-> +     * match to the flag are up. Therefore, it cannot synchornize Cocoa and
-> +     * QkbdState if one of the keys is down. It is still nice that any
-> +     * desynchronization can be fixed by completely leaving your hands from the
-> +     * keyboard.
-> +     */
+-- =
 
-Better, but description of the NSEventTypeFlagsChanged event issues
-should be added to make the motivation for that logic clear.  Feel free
-to cut+paste from my lines above.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915925
 
-take care,
-  Gerd
+Title:
+  ARM semihosting HEAPINFO results wrote to wrong address
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  This affects latest development branch of QEMU.
+
+  According to the ARM spec of the HEAPINFO semihosting call:
+
+  https://developer.arm.com/documentation/100863/0300/Semihosting-
+  operations/SYS-HEAPINFO--0x16-?lang=3Den
+
+  > the PARAMETER REGISTER contains the address of a pointer to a four-
+  field data block.
+
+  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
+  field data block directly.
+
+  Here is a simple program that can demonstrate this problem:
+  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
+  newlib
+
+  This code links with newlib with semihosting mode, which will call the
+  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+  may crash the program either because of invalid write or memory
+  curruption, depending on the compiled program structure.
+
+  Also refer to my discussion with newlib folks:
+  https://sourceware.org/pipermail/newlib/2021/018260.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
