@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF447338C5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:06:20 +0100 (CET)
-Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E270338C7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:16:01 +0100 (CET)
+Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKgYd-0001Op-Qn
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42720)
+	id 1lKghz-0006Dg-Bi
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:15:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1lKgVq-0008Vp-6v
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:03:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43052)
+ id 1lKggX-0005j1-8L
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:14:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1lKgVg-0003zQ-BZ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:03:25 -0500
+ id 1lKggT-0002Pq-MI
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:14:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615550593;
+ s=mimecast20190719; t=1615551263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=5Dxd9jL3320Hf0LGI2OTGoGcNCm49MRnexQ8seuB0Ng=;
- b=AzDd+wWu32biY3Y98GRLhsVt9e2mUh8sHV0xAVcsEqpMLwYEBQsaO4FYLO7O+rx/8qxaqP
- YU7BT6lN7DUc2zkHB00r0QF/N/ArpRHVwDLtUkLVKIXo8cX1ShxjPbV69qduXCSpSgPQ7w
- nGZw2NLjI6HFM1RFFG9AaPSRZNn6CkY=
+ bh=B0peDkQbMtE8sT+qKKLS48eBdnC984PWbLP5OZI15o4=;
+ b=FHKk6ITVzTNLV5v+5CYLzqvCfLL0iShmVaeS6aIMtX5pjDvuZxUA2GQcIzezc77UHpwfBG
+ x7xy33gL8CK/ycYgQG6EuG+IzyodKAewhO4NMIF/Dq61z9AjY9DGfy6RB1uX9hK3oX243/
+ kDWzmSBvlGuhsPWT1A+RW+MfwRMSYKU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-mai7fW78M4WXgKBBS4a4RQ-1; Fri, 12 Mar 2021 07:03:12 -0500
-X-MC-Unique: mai7fW78M4WXgKBBS4a4RQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-544-_sEUn3HdOomtdMhPQUs4fQ-1; Fri, 12 Mar 2021 07:14:22 -0500
+X-MC-Unique: _sEUn3HdOomtdMhPQUs4fQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CCD4E5761
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 12:03:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 143921084C95
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 12:14:21 +0000 (UTC)
 Received: from workimage2020.rezanina.moe.rezanina.moe (unknown [10.40.193.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CF1D60864
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 12:03:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A5385C1C4;
+ Fri, 12 Mar 2021 12:14:19 +0000 (UTC)
 From: mrezanin@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Add missing initialization for g_autofree variables
-Date: Fri, 12 Mar 2021 13:03:09 +0100
-Message-Id: <20210312120309.138913-1-mrezanin@redhat.com>
+Subject: [PATCH] Use identical prototype for tcg_out_vec_op and tcg_out_op
+ function
+Date: Fri, 12 Mar 2021 13:14:18 +0100
+Message-Id: <20210312121418.139093-1-mrezanin@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mrezanin@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mrezanin@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,74 +76,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Miroslav Rezanina <mrezanin@redhat.com>
 
-When declaring g_autofree variable without inicialization, compiler
-will raise "may be used uninitialized in this function" warning due
-to automatic free handling. This usage can cause gfree using unknown.
-Such behavior can be dangerous and exploitable.
+There are two different versions of prototype for tcg_out_op and
+tcg_out_vec_op functions:
 
-Add inicialization to NULL for these declaration to ensure uninitialized
-value is not used.
+1) using const TCGArg *args and const int *const_args arguments
+2) using const TCGArg args[TCG_MAX_OP_ARGS] and const int const_args[TCG_MAX_OP_ARGS]
+   aguments.
+
+This duality cause warning on GCC 11 and prevent build using --enable-werror.
+
+As second version provides more information, unify functions prototypes to
+this variant.
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
----
- hw/remote/memory.c       | 2 +-
- hw/remote/proxy.c        | 2 +-
- hw/s390x/s390-pci-vfio.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/remote/memory.c b/hw/remote/memory.c
-index 32085b1e05..bf0047a81b 100644
---- a/hw/remote/memory.c
-+++ b/hw/remote/memory.c
-@@ -43,7 +43,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
-     remote_sysmem_reset();
+--
+Note: These changes were send to mailing list before:
+
+- First sending by me using first variant
+- Several iterations sended by Philippe Mathieu-Daudé with additional fixes
+  that were not accepted.
+---
+ tcg/aarch64/tcg-target.c.inc |  3 ++-
+ tcg/i386/tcg-target.c.inc    |  6 ++++--
+ tcg/mips/tcg-target.c.inc    |  3 ++-
+ tcg/ppc/tcg-target.c.inc     |  8 +++++---
+ tcg/riscv/tcg-target.c.inc   |  3 ++-
+ tcg/s390/tcg-target.c.inc    |  3 ++-
+ tcg/tcg.c                    | 19 +++++++++++--------
+ tcg/tci/tcg-target.c.inc     |  5 +++--
+ 8 files changed, 31 insertions(+), 19 deletions(-)
+
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index fcaa5aface..f07ba98aa4 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2286,7 +2286,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
  
-     for (region = 0; region < msg->num_fds; region++) {
--        g_autofree char *name;
-+        g_autofree char *name = NULL;
-         subregion = g_new(MemoryRegion, 1);
-         name = g_strdup_printf("remote-mem-%u", suffix++);
-         memory_region_init_ram_from_fd(subregion, NULL,
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index 4fa4be079d..253c1aa7ec 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -347,7 +347,7 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
-                    PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
- 
-         if (size) {
--            g_autofree char *name;
-+            g_autofree char *name = NULL;
-             pdev->region[i].dev = pdev;
-             pdev->region[i].present = true;
-             if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index ead4f222d5..0ee7dc21f2 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -29,7 +29,7 @@
-  */
- bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
  {
--    g_autofree struct vfio_iommu_type1_info *info;
-+    g_autofree struct vfio_iommu_type1_info *info = NULL;
-     uint32_t argsz;
+     static const AArch64Insn cmp_vec_insn[16] = {
+         [TCG_COND_EQ] = I3616_CMEQ,
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 40326c2806..415c5c0796 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -2177,7 +2177,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
+ }
  
-     assert(avail);
-@@ -230,7 +230,7 @@ static void s390_pci_read_pfip(S390PCIBusDevice *pbdev,
-  */
- void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
+ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+-                              const TCGArg *args, const int *const_args)
++                              const TCGArg args[TCG_MAX_OP_ARGS],
++                              const int const_args[TCG_MAX_OP_ARGS])
  {
--    g_autofree struct vfio_device_info *info;
-+    g_autofree struct vfio_device_info *info = NULL;
-     VFIOPCIDevice *vfio_pci;
-     uint32_t argsz;
-     int fd;
+     TCGArg a0, a1, a2;
+     int c, const_a2, vexop, rexw = 0;
+@@ -2613,7 +2614,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+ 
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
+ {
+     static int const add_insn[4] = {
+         OPC_PADDB, OPC_PADDW, OPC_PADDD, OPC_PADDQ
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index ab55f3109b..8738a3a581 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -1651,7 +1651,8 @@ static void tcg_out_clz(TCGContext *s, MIPSInsn opcv2, MIPSInsn opcv6,
+ }
+ 
+ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+-                              const TCGArg *args, const int *const_args)
++                              const TCGArg args[TCG_MAX_OP_ARGS],
++                              const int const_args[TCG_MAX_OP_ARGS])
+ {
+     MIPSInsn i1, i2;
+     TCGArg a0, a1, a2;
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 4377d15d62..838ccfa42d 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -2319,8 +2319,9 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out32(s, BCLR | BO_ALWAYS);
+ }
+ 
+-static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+-                       const int *const_args)
++static void tcg_out_op(TCGContext *s, TCGOpcode opc,
++                       const TCGArg args[TCG_MAX_OP_ARGS],
++                       const int const_args[TCG_MAX_OP_ARGS])
+ {
+     TCGArg a0, a1, a2;
+     int c;
+@@ -3115,7 +3116,8 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+ 
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
+ {
+     static const uint32_t
+         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index e700c52067..ef43147040 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -1212,7 +1212,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+ static const tcg_insn_unit *tb_ret_addr;
+ 
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+-                       const TCGArg *args, const int *const_args)
++                       const TCGArg args[TCG_MAX_OP_ARGS],
++                       const int const_args[TCG_MAX_OP_ARGS])
+ {
+     TCGArg a0 = args[0];
+     TCGArg a1 = args[1];
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index 695d7ee652..af8dfe81ac 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -1705,7 +1705,8 @@ static void tcg_out_qemu_st(TCGContext* s, TCGReg data_reg, TCGReg addr_reg,
+         case glue(glue(INDEX_op_,x),_i64)
+ 
+ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+-                const TCGArg *args, const int *const_args)
++                              const TCGArg args[TCG_MAX_OP_ARGS],
++                              const int const_args[TCG_MAX_OP_ARGS])
+ {
+     S390Opcode op, op2;
+     TCGArg a0, a1, a2;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 2991112829..de91bb6e9e 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -107,8 +107,9 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
+ static void tcg_out_movi(TCGContext *s, TCGType type,
+                          TCGReg ret, tcg_target_long arg);
+-static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+-                       const int *const_args);
++static void tcg_out_op(TCGContext *s, TCGOpcode opc,
++                       const TCGArg args[TCG_MAX_OP_ARGS],
++                       const int const_args[TCG_MAX_OP_ARGS]);
+ #if TCG_TARGET_MAYBE_vec
+ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                             TCGReg dst, TCGReg src);
+@@ -116,9 +117,10 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg dst, TCGReg base, intptr_t offset);
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg dst, int64_t arg);
+-static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+-                           unsigned vece, const TCGArg *args,
+-                           const int *const_args);
++static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
++                           unsigned vecl, unsigned vece,
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS]);
+ #else
+ static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                                    TCGReg dst, TCGReg src)
+@@ -135,9 +137,10 @@ static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
+ {
+     g_assert_not_reached();
+ }
+-static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+-                                  unsigned vece, const TCGArg *args,
+-                                  const int *const_args)
++static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
++                                  unsigned vecl, unsigned vece,
++                                  const TCGArg args[TCG_MAX_OP_ARGS],
++                                  const int const_args[TCG_MAX_OP_ARGS])
+ {
+     g_assert_not_reached();
+ }
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index c79f9c32d8..221ad7150f 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -392,8 +392,9 @@ static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
+ # define CASE_64(x)
+ #endif
+ 
+-static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+-                       const int *const_args)
++static void tcg_out_op(TCGContext *s, TCGOpcode opc,
++                       const TCGArg args[TCG_MAX_OP_ARGS],
++                       const int const_args[TCG_MAX_OP_ARGS])
+ {
+     uint8_t *old_code_ptr = s->code_ptr;
+ 
 -- 
 2.27.0
 
