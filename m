@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E522338F4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:01:51 +0100 (CET)
-Received: from localhost ([::1]:40004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B28338F68
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:07:37 +0100 (CET)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKiMQ-0005mT-Fy
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43736)
+	id 1lKiS0-0005Hg-MQ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:07:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiD3-00030g-JZ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:09 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41990)
+ id 1lKiD0-0002vb-La
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:06 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKiCr-0001xu-WF
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:09 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id j2so4841198wrx.9
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:51 -0800 (PST)
+ id 1lKiCp-0001y3-W1
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:52:06 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id j7so1816793wrd.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:51:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6fDdrR9WOa5+xYNyVXA0v2UZHrXBRHVTM/hJJzhmfuk=;
- b=AA0sk8/0eHsTJHQNIimB+ZLCS8R0y4PAFLF785VVDu3AybmSli2/h2Ab1uROVfIXnq
- rnnNkA6DxomZM0UlHqj6TjWdvSd4bdbpcNSXpe3Z38SxPYC3dQ1z5mqRz+hmT9xNsO0+
- tEPs/ZIIsUCqkC79hU9meqzk84cr+74dyiioKWVqEcQ53BUMR1chJvT+q0QU/LViRncI
- 1B++bO0U3MEfkFZ7GtKBkUSKCDtzMxj/g9RDjPSSi/MBxlP3fUikZ3sqH1zVXmUNELtX
- 8GsTjDSoaYB/0WVdLkp24qDpSmhOSxLay9ZAzrQ08ZRQSzutfSC7pHs81cKTHhFYFiED
- qv5g==
+ bh=7YfKL+QT2RIAfcsCmY4W1T45mDb3n37lzR7TWySDUmM=;
+ b=zYaff7ejN8izGBM31pRcTn27Vn5nIiFmwN5+LCtGF5c8Kf23mWbam8t3jKhGYGnXDv
+ gfeL3yg+Pi4J+tfB1c4E8LuaiqLr1drTLie/5q6Z7h7VvbjFVN4EULY56uPu31QeIMeZ
+ bi1/hkaRnGFr45SXUhRvrhRHleJ70epetd7I2NOOIy1nYlZ5KG8P4PHTMrBWRU+agyn7
+ urLeQ4YZTd9/utWxPXbhfbj/s6MpOEMsUrZNKDAsiPA7ZSnMTWq/8fiXB2UTR6YmKKw/
+ m8vrK/RvQ5PbBrsAQxO37cbA35jMRJEmCJDg2+nGqKWrBdtUf4aQVALvL8evLWE62fiM
+ JrcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6fDdrR9WOa5+xYNyVXA0v2UZHrXBRHVTM/hJJzhmfuk=;
- b=agDVQdNlW/01OIepdwiXB1VPhQ8hQTX805LOE6hS62mDDh8A1AAvxzNnYR3gvG07y1
- yfFSo/IC6xHFBsY3LT07cCQ1hE6pdvC2y391UyZ34CIwvXj2yU3xTIrIGE0BTPs/3U8Z
- cGJWmFCGt8D9oWM6A300yrWMW4p1OF5Ju1QTUP4vKXZyi8wyw5FSUTWSRxa1ZVhHI5Kl
- xnaZjsbPBM54QVnFULTUUT7Syeo28o0Eo6z3k7f5YlQdvJYSqGXXD4JZKLCO8/pUVOA8
- KC/d5plLHgKudbZFljvCU14Y9sIxMqlqxVPIfh5IenhkIM8G2vOWYSv6YB2bk7i11xgO
- 3ugA==
-X-Gm-Message-State: AOAM531IpQRpT5x05Itn2C8+2MzCMa6MydCQvLpqLuIuj3oNV5xaOnX8
- efyZzwq5GPhjQvpnu7hLGVhK4xtKwcP+T51F
-X-Google-Smtp-Source: ABdhPJycfpCubRVJrFBWNdVZeY+AWGBT+/1iQzMSeFPtgGGlu4E8KIM+wDZ8trLb9YUob1Q0Rizzmg==
-X-Received: by 2002:a05:6000:1a8c:: with SMTP id
- f12mr14048044wry.173.1615557110758; 
- Fri, 12 Mar 2021 05:51:50 -0800 (PST)
+ bh=7YfKL+QT2RIAfcsCmY4W1T45mDb3n37lzR7TWySDUmM=;
+ b=HgtmxWm/1LS5mnc3oNxRbSw3/I2OLTUnrIKMdZ1aFhDmHLrYewdK2woeSHd98JhuEX
+ i/FqJnPTvIjWqFMF3cwADwL9JjKkmOsgs7xMYZ/2Ut9MX69cYuWSSvkNDOB3oO4NBtgw
+ WD1cNV4lqKNU+UclSbPz9AzUeSVnIntYy2EzQ6vMQV8QBJcwkss9GEotmMw2xa0rEYAJ
+ wEtlecRnlMUGHbX22PdDP1chgdTfHkb+PD269VPCvI30hxWh13zKpeYxwVHfN8p9rx5G
+ 9au1eihC2OO1rS1FjelZzfav7YBv3hw0i/QtraGA5HGw17uJ01nftJ+YyEZJXrXZrLR7
+ agtA==
+X-Gm-Message-State: AOAM530qOIccKVwp82CXFGOpooWQPJI2m8bavfFeFMfleQ4NxwXqGZer
+ jyTeWYBaFkjtU20Th8bhiEYdE8zchmefy0X+
+X-Google-Smtp-Source: ABdhPJzaX8ddCPTDJH5dsYmBDj37pGu3jD+jJ8VZWxleS8f5g7zEbF36DEEvBrkIwsqeOomsTXEUSQ==
+X-Received: by 2002:adf:df10:: with SMTP id y16mr14191448wrl.372.1615557112129; 
+ Fri, 12 Mar 2021 05:51:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.51.50
+ by smtp.gmail.com with ESMTPSA id m6sm7964994wrv.73.2021.03.12.05.51.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 05:51:50 -0800 (PST)
+ Fri, 12 Mar 2021 05:51:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/39] target/arm: Fix sve_punpk_p vs odd vector lengths
-Date: Fri, 12 Mar 2021 13:51:13 +0000
-Message-Id: <20210312135140.1099-13-peter.maydell@linaro.org>
+Subject: [PULL 14/39] target/arm: Update BRKA, BRKB, BRKN for PREDDESC
+Date: Fri, 12 Mar 2021 13:51:15 +0000
+Message-Id: <20210312135140.1099-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312135140.1099-1-peter.maydell@linaro.org>
 References: <20210312135140.1099-1-peter.maydell@linaro.org>
@@ -89,35 +88,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Wrote too much with punpk1 with vl % 512 != 0.
+Since b64ee454a4a0, all predicate operations should be
+using these field macros for predicates.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210309155305.11301-4-richard.henderson@linaro.org
+Message-id: 20210309155305.11301-6-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/sve_helper.c    | 30 ++++++++++++++----------------
+ target/arm/translate-sve.c |  4 ++--
+ 2 files changed, 16 insertions(+), 18 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 2fb4b2c1ea2..981895a17c6 100644
+index 224c767944c..8e0a5d30a53 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -2105,11 +2105,11 @@ void HELPER(sve_punpk_p)(void *vd, void *vn, uint32_t pred_desc)
-             high = oprsz >> 1;
-         }
+@@ -2710,7 +2710,7 @@ static uint32_t do_zero(ARMPredicateReg *d, intptr_t oprsz)
+ void HELPER(sve_brkpa)(void *vd, void *vn, void *vm, void *vg,
+                        uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (last_active_pred(vn, vg, oprsz)) {
+         compute_brk_z(vd, vm, vg, oprsz, true);
+     } else {
+@@ -2721,7 +2721,7 @@ void HELPER(sve_brkpa)(void *vd, void *vn, void *vm, void *vg,
+ uint32_t HELPER(sve_brkpas)(void *vd, void *vn, void *vm, void *vg,
+                             uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (last_active_pred(vn, vg, oprsz)) {
+         return compute_brks_z(vd, vm, vg, oprsz, true);
+     } else {
+@@ -2732,7 +2732,7 @@ uint32_t HELPER(sve_brkpas)(void *vd, void *vn, void *vm, void *vg,
+ void HELPER(sve_brkpb)(void *vd, void *vn, void *vm, void *vg,
+                        uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (last_active_pred(vn, vg, oprsz)) {
+         compute_brk_z(vd, vm, vg, oprsz, false);
+     } else {
+@@ -2743,7 +2743,7 @@ void HELPER(sve_brkpb)(void *vd, void *vn, void *vm, void *vg,
+ uint32_t HELPER(sve_brkpbs)(void *vd, void *vn, void *vm, void *vg,
+                             uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (last_active_pred(vn, vg, oprsz)) {
+         return compute_brks_z(vd, vm, vg, oprsz, false);
+     } else {
+@@ -2753,56 +2753,55 @@ uint32_t HELPER(sve_brkpbs)(void *vd, void *vn, void *vm, void *vg,
  
--        if ((high & 3) == 0) {
-+        if ((oprsz & 7) == 0) {
-             uint32_t *n = vn;
-             high >>= 2;
+ void HELPER(sve_brka_z)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     compute_brk_z(vd, vn, vg, oprsz, true);
+ }
  
--            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
-+            for (i = 0; i < oprsz / 8; i++) {
-                 uint64_t nn = n[H4(high + i)];
-                 d[i] = expand_bits(nn, 0);
-             }
+ uint32_t HELPER(sve_brkas_z)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     return compute_brks_z(vd, vn, vg, oprsz, true);
+ }
+ 
+ void HELPER(sve_brkb_z)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     compute_brk_z(vd, vn, vg, oprsz, false);
+ }
+ 
+ uint32_t HELPER(sve_brkbs_z)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     return compute_brks_z(vd, vn, vg, oprsz, false);
+ }
+ 
+ void HELPER(sve_brka_m)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     compute_brk_m(vd, vn, vg, oprsz, true);
+ }
+ 
+ uint32_t HELPER(sve_brkas_m)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     return compute_brks_m(vd, vn, vg, oprsz, true);
+ }
+ 
+ void HELPER(sve_brkb_m)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     compute_brk_m(vd, vn, vg, oprsz, false);
+ }
+ 
+ uint32_t HELPER(sve_brkbs_m)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     return compute_brks_m(vd, vn, vg, oprsz, false);
+ }
+ 
+ void HELPER(sve_brkn)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
+-
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (!last_active_pred(vn, vg, oprsz)) {
+         do_zero(vd, oprsz);
+     }
+@@ -2827,8 +2826,7 @@ static uint32_t predtest_ones(ARMPredicateReg *d, intptr_t oprsz,
+ 
+ uint32_t HELPER(sve_brkns)(void *vd, void *vn, void *vg, uint32_t pred_desc)
+ {
+-    intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
+-
++    intptr_t oprsz = FIELD_EX32(pred_desc, PREDDESC, OPRSZ);
+     if (last_active_pred(vn, vg, oprsz)) {
+         return predtest_ones(vd, oprsz, -1);
+     } else {
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index cac8082156a..c0212e6b08a 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -2850,7 +2850,7 @@ static bool do_brk3(DisasContext *s, arg_rprr_s *a,
+     TCGv_ptr n = tcg_temp_new_ptr();
+     TCGv_ptr m = tcg_temp_new_ptr();
+     TCGv_ptr g = tcg_temp_new_ptr();
+-    TCGv_i32 t = tcg_const_i32(vsz - 2);
++    TCGv_i32 t = tcg_const_i32(FIELD_DP32(0, PREDDESC, OPRSZ, vsz));
+ 
+     tcg_gen_addi_ptr(d, cpu_env, pred_full_reg_offset(s, a->rd));
+     tcg_gen_addi_ptr(n, cpu_env, pred_full_reg_offset(s, a->rn));
+@@ -2884,7 +2884,7 @@ static bool do_brk2(DisasContext *s, arg_rpr_s *a,
+     TCGv_ptr d = tcg_temp_new_ptr();
+     TCGv_ptr n = tcg_temp_new_ptr();
+     TCGv_ptr g = tcg_temp_new_ptr();
+-    TCGv_i32 t = tcg_const_i32(vsz - 2);
++    TCGv_i32 t = tcg_const_i32(FIELD_DP32(0, PREDDESC, OPRSZ, vsz));
+ 
+     tcg_gen_addi_ptr(d, cpu_env, pred_full_reg_offset(s, a->rd));
+     tcg_gen_addi_ptr(n, cpu_env, pred_full_reg_offset(s, a->rn));
 -- 
 2.20.1
 
