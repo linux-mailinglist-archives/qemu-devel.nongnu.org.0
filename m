@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA36F338E83
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:15:38 +0100 (CET)
-Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADC3338EAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:22:49 +0100 (CET)
+Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKhdf-0001Fd-OB
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:15:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33032)
+	id 1lKhkc-0005ez-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:22:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKhb9-0008IK-E9
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:12:59 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lKhb6-0003yz-BD
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:12:59 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id bf3so7871902edb.6
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jNMdsRh9OZ1j1JWhbi6sVjs2GbZtsfoTLPIo0juJRjs=;
- b=w2xZvzIm0nAiOgMa4KH3QtJ+xvdvJ+GP2BDtmTBFjT6vI6d64F96jii8jz3Gl3KQlB
- fqLWFgATcMXYgkIbu07UEBrb+60wHarB8bwXP0jUOu17873BsFAs8tbTB8HlwNWq2kJv
- pzXfcoQc9zoQL8wnKFDgkVpcujy2MQbex8KfMF/8trkDLf2LiCGnSozABq9dbm7AKAP0
- UjGli4SgP1N3N6Gk3MwvTTqSXJ84XihI72is5Oswq5PLVh4G5KApHTUKWkqTe1n1UqTA
- 3NYk2T3XovyK7gaUwdvGZUNbQmPPnOTx2FV1MWDq38u2GxlV9PWHPq9cUOGFJvLvDbeL
- oaJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jNMdsRh9OZ1j1JWhbi6sVjs2GbZtsfoTLPIo0juJRjs=;
- b=bcpr92kL2VeFOETm//ZJ2jHB9VVJHXNhhJcHC8a+Rq8r3GjxsYKqvOFt2woIp7HdaS
- t9nUgWc2yreNjf7rexfOT6OPWlExHl+O/yxClJtTZ5BGOM6CyqrM9IK+KdoZwSz59M75
- wnlst41tg5CMmo8P+AoPC+KXCdN7TfOemlEsEYJsjh219QZPU4rhHOx3nes+/BXf7roL
- i11hmzcx15tnnDFwwvktOGexryvBtbuWLGyh9YKoUC5iivRQGOs2DtZ3lu6GKJACv5nk
- +ZXI30y8k7gLmXS5VzGiptjCKXnfhwAbSaNCuXRUb9JuBBrtArS64tGehuDA7CnfFYu+
- uCZg==
-X-Gm-Message-State: AOAM533aEIUoEIZIDjW5EhhLqsIdB6QHDgz51zmUIYnhKkz/PfQn5ybT
- 6gbfojr9z7qEPLFCOrrxV82Chra4i27fyD4OSp5TJmQPlP1bDXhb
-X-Google-Smtp-Source: ABdhPJx1QS/ECNJkYx3/+JmNjarIXVsdvwXbPJ10/P+W4Wz5ynkIK/OMANI9Z7Pg517mXkPPv7xQfRSoR9PRcpd8/jM=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr13979847edt.36.1615554774513; 
- Fri, 12 Mar 2021 05:12:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKhhj-0004BP-EO
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:19:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lKhhb-0007s1-0a
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:19:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615555177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NiVh9a+s5xJmZwKdaW1j2o8lJQu15+edSMc644xjHto=;
+ b=QHrb2v9bVHvHbubpIL9ShFw/UPyZoQyEbr43IoZqYkMC+1aEeBqVIcRJw3irUEvcKfqs39
+ 1k2SeXfqsivjwffS+UiNe4CiexIPFMyLuOUkLRGkRxgtjKtXIWy6MWLvimklp2945SLIYX
+ xUa6q0fdN4ggzCWRsalURcdIp+egl+M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-m0MLrCUhOxeZRT4HxOgKaA-1; Fri, 12 Mar 2021 08:19:33 -0500
+X-MC-Unique: m0MLrCUhOxeZRT4HxOgKaA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 536B419057A0
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 13:19:32 +0000 (UTC)
+Received: from merkur.redhat.com (ovpn-114-110.ams2.redhat.com [10.36.114.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 349345D6CF;
+ Fri, 12 Mar 2021 13:19:30 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qom: Support JSON in user_creatable_parse_str()
+Date: Fri, 12 Mar 2021 14:19:21 +0100
+Message-Id: <20210312131921.421023-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20210309114512.536489-1-its@irrelevant.dk>
- <20210309114512.536489-37-its@irrelevant.dk>
-In-Reply-To: <20210309114512.536489-37-its@irrelevant.dk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Mar 2021 13:12:35 +0000
-Message-ID: <CAFEAcA8TiJQJaamiVZbzbnxtzmfYTkVd3HEJUU6mrd8dyWnSug@mail.gmail.com>
-Subject: Re: [PULL v2 36/38] hw/block/nvme: support namespace attachment
- command
-To: Klaus Jensen <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,53 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: kwolf@redhat.com, pbonzini@redhat.com, pkrempa@redhat.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 at 11:46, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Minwoo Im <minwoo.im.dev@gmail.com>
->
-> This patch supports Namespace Attachment command for the pre-defined
-> nvme-ns device nodes.  Of course, attach/detach namespace should only be
-> supported in case 'subsys' is given.  This is because if we detach a
-> namespace from a controller, somebody needs to manage the detached, but
-> allocated namespace in the NVMe subsystem.
->
-> As command effect for the namespace attachment command is registered,
-> the host will be notified that namespace inventory is changed so that
-> host will rescan the namespace inventory after this command.  For
-> example, kernel driver manages this command effect via passthru IOCTL.
+Support JSON for --object in all tools and in HMP object_add in the same
+way as it is supported in qobject_input_visitor_new_str().
 
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 85a7b5a14f4e..1287bc2cd17a 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -235,6 +235,11 @@ static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
->      n->namespaces[nvme_nsid(ns) - 1] = ns;
->  }
->
-> +static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
-> +{
-> +    n->namespaces[nvme_nsid(ns) - 1] = NULL;
-> +}
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+Based-on: <20210311144811.313451-1-kwolf@redhat.com>
 
-Hi; Coverity complains about a possible array overflow both here
-in nvme_ns_detach() (CID 1450757) and in nvme_ns_attach() (CID 1450758):
-nvme_nsid() can return -1, but this code does not check for that.
+ qom/object_interfaces.c | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
-If these functions both assume that their ns argument is non-NULL,
-then adding an "assert(ns)" would probably placate Coverity and also
-would mean that any bugs elsewhere resulting in accidentally passing
-a NULL pointer would result in a clean assertion failure rather than
-memory corruption. (Or you could directly assert that the array index
-is in-bounds, I guess.)
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index 62d7db7629..f5ea84b6c4 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -295,25 +295,35 @@ static void user_creatable_print_help_from_qdict(QDict *args)
+ ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp)
+ {
+     ERRP_GUARD();
+-    QDict *args;
++    QObject *obj;
+     bool help;
+     Visitor *v;
+     ObjectOptions *options;
+ 
+-    args = keyval_parse(optarg, "qom-type", &help, errp);
+-    if (*errp) {
+-        return NULL;
+-    }
+-    if (help) {
+-        user_creatable_print_help_from_qdict(args);
+-        qobject_unref(args);
+-        return NULL;
++    if (optarg[0] == '{') {
++        obj = qobject_from_json(optarg, errp);
++        if (!obj) {
++            return NULL;
++        }
++        v = qobject_input_visitor_new(obj);
++    } else {
++        QDict *args = keyval_parse(optarg, "qom-type", &help, errp);
++        if (*errp) {
++            return NULL;
++        }
++        if (help) {
++            user_creatable_print_help_from_qdict(args);
++            qobject_unref(args);
++            return NULL;
++        }
++
++        obj = QOBJECT(args);
++        v = qobject_input_visitor_new_keyval(obj);
+     }
+ 
+-    v = qobject_input_visitor_new_keyval(QOBJECT(args));
+     visit_type_ObjectOptions(v, NULL, &options, errp);
+     visit_free(v);
+-    qobject_unref(args);
++    qobject_unref(obj);
+ 
+     return options;
+ }
+-- 
+2.30.2
 
-thanks
--- PMM
 
