@@ -2,84 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9FA3396D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:44:13 +0100 (CET)
-Received: from localhost ([::1]:52336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73FE3396F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:54:58 +0100 (CET)
+Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmlg-0006DM-LY
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:44:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
+	id 1lKmw5-0003dF-BK
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:54:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKlrm-00036J-3f
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:46:31 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKlrj-0001XT-Ie
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:46:25 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l12so5274247wry.2
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:46:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O07H1tkVzE9ZRC9p8iDjqXN+hzU/NccJCQXD1a88EII=;
- b=nMJfJWwWaZ4CbH+3lKunmbrnl3hETuR0bCt7kyJMEpFPssGCtOn0oUtsV+yiR82a4b
- ZujYxwLfJ+h6NGnNaRrcddzek/Ff6lzzq8xy3O5Mxx7tJ/IRN8/q4a8fquugoEM7yx83
- JONgOwFyhwFwvQt2ODDIqzv0BQsD7RSzz2uHIgcdp7R+gPo+EtodaDIu8NsKILBTPY+f
- iXfaWKlo311x4dBfRZZcH6BZ4vi/ww+h2D7dMJBrPbVQ6y2vhDOkAmBCtGYSb3wmhu4y
- tHeESYMe4OUSpqvTtcIWeHy0IMQL9YtUHqAvyLn9Ej9plmrcR8xIAeTwJllVeImpSuZh
- xsOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O07H1tkVzE9ZRC9p8iDjqXN+hzU/NccJCQXD1a88EII=;
- b=qvwP09bDmIYmDN5ryCwBA51a64+/jZVKa9XEWUV/WnC0tWtupuug8HZNiQ60YAFFwv
- XmAAT+tR4nf6oBA9t44yKLvv/75ddmlIEd1lU5VpnZGvcdfUSLYhKYSxAzIf0P98aRI4
- q0m7Qfn8eBLImHZe0YNybqTR7t1aIc1JeYWClooLtwgHIsnSjRrIUrIekinZgwM+xCWr
- oppLci01z4dYhBhC6TSdJMyUw1JfTYMWvFPwclUh93wBR/9R3ZuJTr5X8w+m1vEUE6Qv
- SiznztAYz7Z5woY1qj9OHPutfjHqbbkiX6u6rgl8Aj80+ajHPt4mqUoC4DIseA1Ssur3
- 39vA==
-X-Gm-Message-State: AOAM530oncGO3xCacCpdvE4Rwx9vPTGdgvlcKE4kNrzmKFT9RvYNvcg9
- 51aykK4zwN/DUrCxT/EsrVY=
-X-Google-Smtp-Source: ABdhPJxLXswKujGREmrrTHeSp1ePSuDbrlq5ulugF/bcJ2peugfLW1II0sGqcMEZx3/8pyrF3HhAdQ==
-X-Received: by 2002:adf:80e7:: with SMTP id 94mr15224350wrl.5.1615571181789;
- Fri, 12 Mar 2021 09:46:21 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id i4sm2847456wmq.12.2021.03.12.09.46.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 09:46:21 -0800 (PST)
-Subject: Re: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-33-f4bug@amsat.org>
- <20210215115957.GG1542881@redhat.com> <YCp7Ce6ELbLFvRXZ@sx9>
- <ebbdecd9-e599-1a4b-60e8-3464afa4a20e@amsat.org>
- <21217ef4-91d8-6877-5d78-bb78e00773d8@amsat.org>
- <alpine.DEB.2.21.2103121741460.33195@angie.orcam.me.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d0401476-0b3c-d7ce-8d0f-aa9b348da4fe@amsat.org>
-Date: Fri, 12 Mar 2021 18:46:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2103121741460.33195@angie.orcam.me.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lKmcw-0005TD-60
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:35:10 -0500
+Received: from mail-co1nam11on2131.outbound.protection.outlook.com
+ ([40.107.220.131]:57697 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lKmcu-0008QB-Iv
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:35:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T0FyN9OlijNk1segZkXJtsC+2x8d9zlK44vDoNXz1VKc+at01fQX/Lr3vD20Yz1T0aC1XPY7xVDwtptKDv93L8+0PKnl//NLv6scEM+mrq3jiQHUIVYsoxGDH8NkBbqWNgbj3l2IRAeIU6cwVRki59l8DKtaTpkTpeLtKer/sEP5EgE7ilhf91A7qlP+wdzWou+odLPzgW61tj4MVsCNhgoas27AdsC0BjG+g/k2hNRRj8rO6M6sIamL2GLI2sY6kuJm2jP8veH7unKAoc6uPeskbM7yLk3m7sizYBBYnGfFepsXEue1lorSFEImoHJpQqVdnAK9SGtt7IfdVLRftA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c86bWzA3RcOzF0Z18cygNBnFbB9mkuSbd2faRuXKxCE=;
+ b=NG6RvT7FE3YiYGXGH5GxOQHfroQQmnaVsvPcvS4o89hnJz0gtWhAM85/riW96NkfB4S9to4K7vX52I1vFTULCFXwak9DYVSWlA+zJIlcLhRmrM0hB2FU7XXdin8ahHuXzj1gJBDvuEvTAV1FpTXMFRUWcGSyzJ5Z3xDFc/eQl6G1N32YVkAxfBErknMPK7sr5NOYAJJKbmX0LbDecACXEc7iK75O8Na8Kou+9AMShCc7umUjiL51CDBAgjxybs9wc3eoFWLYC196SmHK90E4twkzkTgWm1n5t6Y5fGCXpLeJv00itEX0pSfP3EMn0Y+LTu+Jc6Q1TJvgkwKNV1/EXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c86bWzA3RcOzF0Z18cygNBnFbB9mkuSbd2faRuXKxCE=;
+ b=TctyeI/8V2x636J2rFuN8Fro9YjAftTMnM+oXkw+cyGHncd7ZVuLVorKLyLYADXhD+eUhHDOIZuknxLW73L0ymLGjcL6L7Sm/tf6vq5IunoDQSZakJagXEqMPzMBheNNnJXkLBT0qudDY03xMzELMMAruOoolKnGr1IKSc+jBeo=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB4895.prod.exchangelabs.com (2603:10b6:805:c7::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.27; Fri, 12 Mar 2021 18:20:02 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403%7]) with mapi id 15.20.3933.031; Fri, 12 Mar 2021
+ 18:20:02 +0000
+Date: Fri, 12 Mar 2021 13:19:58 -0500
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, cota@braap.org, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com
+Subject: Re: [PATCH v1 03/14] docs/devel: include the plugin API information
+ from the headers
+Message-ID: <YEuwzuPskPPj+vs4@strawberry.localdomain>
+References: <20210312172821.31647-1-alex.bennee@linaro.org>
+ <20210312172821.31647-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+In-Reply-To: <20210312172821.31647-4-alex.bennee@linaro.org>
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: MN2PR07CA0015.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::25) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ MN2PR07CA0015.namprd07.prod.outlook.com (2603:10b6:208:1a0::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Fri, 12 Mar 2021 18:20:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75f119f8-e140-4819-ca67-08d8e583739e
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4895:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB48958A35BFAB3D305DECEDF48A6F9@SN6PR01MB4895.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7vthytJAdaUSsay8YC5DNu7QVn2fg7JoWsCzSy0buVuk14uWl0Q9KQyTaEyin2y3UDPRs5JTLAeYhHkv18OtbmThnkqpxLytWLMpexM+jxtFv1Pdv7deZ6b+9rVE95fFgl3hSkLzEAFuK68I+6nqIyyE5Anjmly1sPVXJsFW6ls/ynGitYGQkQJZK8fJKfavZcgI0epC0Ivf942LkRjV85Z27mIhptGYcsLFqPT8PuOQhJsK8QClwSjjBwS9V3/Pt1lO0dmY0VJKJi9GGYFPR/lRiIAxQSI0B+KU4X+xJgDdllcd4PImVeD7APIC+m1XyDn3OPmEIXeT5yNWUeG9bpybgTqaBEGIn7+967I9HXU1EBi+kzOsJPVS8chl39YWwBZrh9z56mrZBjzSGhZY6c415OkeR3H3z0pO9pRcCAiBebKfiXb4t5GjWWE5Z5noBAu9QI5efOJhX+nTVmm9wumOh/aBD5FPzbW9i1hFf5dvDfvhSnFEAqp6AAn6omE1hyQaN9QJIpDsnCTKkHy9jlu5jzRYP5Lo8q2tgkgKKw2s4VSc784krTzypO9OfF0mQBuV85g8ZgtQBKRlh5Jt7A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(366004)(396003)(39850400004)(86362001)(26005)(5660300002)(6666004)(7696005)(478600001)(316002)(186003)(8936002)(16526019)(66556008)(66946007)(66476007)(8676002)(956004)(2906002)(34580700001)(4326008)(52116002)(6506007)(6916009)(4744005)(9686003)(66574015)(55016002)(67856001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?SpNk17q7PzPJdeHi3IRnPSzxq3+hj0WIVWgaL4hMoNenIEk4t47WuC0+YQ?=
+ =?iso-8859-1?Q?9YukmkAOXllCZOlZCvFCes2J3BZj9Qmu9S7TkPzZeLd7vlQCNQPBjB0VX/?=
+ =?iso-8859-1?Q?WT3nuT1et5V0s3ljBTV1uq+HKs5GoJKqTfrUV7TsNXONvdlvgNsZTpr/BH?=
+ =?iso-8859-1?Q?SvTOX2mPtAyBSRlXkq+ENeCqqKj+av4kJIl1NZMmmU5RDiDKUfD3qAWSoK?=
+ =?iso-8859-1?Q?UzzdaXzaKwXMoD8CQJsuZO/3FxaOtxyqERCPQWoGp5/PAofCpNNKtwxPU8?=
+ =?iso-8859-1?Q?r3moI9abog1wdBxxajc+vaqve/DX/GJa54dFgv335x8j0IO9xo2PXjhKbl?=
+ =?iso-8859-1?Q?Vmu9n2YbYLSEr5LqE+VJxhwOfWsCHkby2KEO5yMXnN1MXdr0/NfMxr5oNY?=
+ =?iso-8859-1?Q?ITNoCriQX+NU0wxKbQofHR0oYVu+owU7PlxbWO7/WNdU1XPZaGjPMO67sU?=
+ =?iso-8859-1?Q?KDzmJfSwSwaDRGkLF5u9XvZFS01tkds6uhiYzKfufPbRerT2Us0jHFMpUq?=
+ =?iso-8859-1?Q?x7+4X6z97pt0Ytd1ycoNHqPdI7ruiju3VamI7mVrdFiOzmNuYyE1AHuwJh?=
+ =?iso-8859-1?Q?yugPLLn7bcwjkLr0brn26ywZoXRqgnwfezCyzykfkXP73w5LPJEhYHH3i7?=
+ =?iso-8859-1?Q?42GjAcKS8LM38cYveBft2A4gPjZ3iAC4xftH1J1mFoUzLL4Rf6PmHBP7Fs?=
+ =?iso-8859-1?Q?dS8lY+g1deV0L6DQgakd1M4+k1WNQRhiB8+0FajmAtaIFhws4UrLbkDHE9?=
+ =?iso-8859-1?Q?+wSXV6tRL5dZx4yqWqMz5ekzsqW4rTitWwcIt8I/D1iYI4lOeM9KQXCm0X?=
+ =?iso-8859-1?Q?4t9HL63rwjd+ykftEa60IHnZojrtO6SqAeOJYkfHefr977WuzgwHaguDJg?=
+ =?iso-8859-1?Q?lzlO5izaNznhGSyuC/rU/uF7+yThEbrYHSaOBw55oPDXHqOWPhE4Ax25oT?=
+ =?iso-8859-1?Q?Da0kDYtZPcLBfDgfMhhug9lANMRg3Mdw6vkcvMLXiM7ZuQYB/1HvIQb/Wl?=
+ =?iso-8859-1?Q?RcSqkK1vGz42H5XXcrBwbFYCucEJocOiTROlB9zQRJr/MnrHRnmqaK7PqE?=
+ =?iso-8859-1?Q?+7lId1g7XfgY74p2uTUMmOLK1BjatD75FgC2OMHCo53khyD3lQQGujmzEE?=
+ =?iso-8859-1?Q?TuhluBb7+v96kdTFYJgB/MypT1Eh6KfSIUoFk4SuN1k0w3gXMwgE+DO0Dj?=
+ =?iso-8859-1?Q?ca7lREZrjcaEZRVeFhCneTbgym/A4+BkBtQPmoX3RPVeyvvtNKBYXksMua?=
+ =?iso-8859-1?Q?yD3rn/heNSiTSq4rhTGtQm57kCFD3sGkCFX/Q0tOIQ+uH32ltei6Jl/EDw?=
+ =?iso-8859-1?Q?NRHJOQODItYankm5vyqiX6AORv4TsNVgLNPXEdwDaCPUxfjRoo0JRxU1Ks?=
+ =?iso-8859-1?Q?F73JK3fBMt?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75f119f8-e140-4819-ca67-08d8e583739e
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 18:20:01.9146 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uz1zn3HJEY6wu6sCdcEsYv6n01La39KKJJP3Ghd4NHAWPsep3PdNY6wN6V7ZHzrCK80yK8KkEu9/pL+D/virlhbs7I0N3B+NJXQ3DpaERDg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4895
+Received-SPF: pass client-ip=40.107.220.131;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,94 +139,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Fredrik Noring <noring@nocrew.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
+From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-Hi Maciej,
-
-On 3/12/21 6:05 PM, Maciej W. Rozycki wrote:
-> On Fri, 12 Mar 2021, Philippe Mathieu-DaudÃ© wrote:
+On Mar 12 17:28, Alex Bennée wrote:
+> We have kerneldoc tags for the headers so we might as well extract
+> them into our developer documentation whilst we are at it.
 > 
->>>>> Is there any way we can do this with a distro that isn't Gentoo
->>>>> so that we can get a container build that is fast enough to be
->>>>> useful for CI ?
->>
->> Using the Debian cross image I get:
->>
->> /home/phil/source/qemu/tests/docker/docker.py --engine auto cc --cc
->> mips64el-linux-gnuabi64-gcc -i qemu/debian-mips64el-cross -s
->> /home/phil/source/qemu --   -Wall -Werror -O0 -g -fno-strict-aliasing
->> -mabi=n32 -march=r5900
->> /home/phil/source/qemu/tests/tcg/mips/test-r5900-dmult.c -o
->> test-r5900-dmult  -static
->> cc1: error: unsupported combination: -march=r5900 -mhard-float
->> -mdouble-float
->>
->> No clue what is setting '-mhard-float -mdouble-float' yet.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
+Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+
+> ---
+>  docs/devel/tcg-plugins.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
->  The R5900 has an FPU that only supports the single floating-point format.  
-> It's also not an IEEE 754 format.  The Linux kernel ABI does support the 
-> double and also the single floating-point format, both compliant with IEEE 
-> 754.
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index 39ce86ed96..18c6581d85 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -63,6 +63,11 @@ valid during the lifetime of the callback so it is important that any
+>  information that is needed is extracted during the callback and saved
+>  by the plugin.
+>  
+> +API
+> +===
+> +
+> +.. kernel-doc:: include/qemu/qemu-plugin.h
+> +
+>  Usage
+>  =====
+>  
+> -- 
+> 2.20.1
 > 
->  In the absence of a suitable FPU emulation code included with the kernel 
-> will handle the missing instructions (you can use the `nofpu' kernel 
-> parameter to force that in the presence of an FPU too).  Beware however 
-> that a recent change to the Linux kernel made FPU emulation code optional 
-> to suit some deeply embedded applications known never to use FPU machine 
-> instructions.
-> 
->  NB the presence of emulation is always required for MIPS ISA compliance 
-> if FPU machine instructions are ever to be used in a given application, 
-> because operations are allowed to trap regardless and rely on emulation.
-> 
->  I don't know what you are trying to achieve,
-
-The previous maintainer let the QEMU MIPS codebase with the R5900 code
-unreachable. I'm trying to see if I can get a closure on Fredrik work
-before removing it, because there is no point in maintaining unreachable
-code.
-
-QEMU uses Docker images of distributions to cross-compile its tests.
-
-Currently all Linux cross-tests are built using Debian based images.
-Daniel asked me to see if I can use our current Debian based image
-to build the r5900 tests, instead of adding yet another one (based
-on Gentoo).
-
-> but your two options to 
-> choose from are:
-> 
-> 1. Build for the soft-float ABI (`-msoft-float') where any FP calculations 
->    are compiled such as to be made by the CPU using integer arithmetic.
-
-With the Debian toolchain I get:
-
-/usr/include/stdio.h:27:10: fatal error: bits/libc-header-start.h: No
-such file or directory
- #include <bits/libc-header-start.h>
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-> 2. Build for a generic MIPS ISA, for the R5900/n32 that would be MIPS III
->    (`-march=mips3'), and rely on the kernel FPU emulation.
-
-Shouldn't -march=r5900 imply -march=mips3?
-
->  Note that some 
->    integer MIPS III operations are missing too from the R5900 and have to 
->    be emulated by the kernel for MIPS/Linux n32 psABI compliance (an 
->    implementation can be pinched from an old libgcc version that was still 
->    under GNU GPLv2 or another algorithm reused, e.g. my `__div64_32' piece
->    easily adapted).
-
-Regards,
-
-Phil.
 
