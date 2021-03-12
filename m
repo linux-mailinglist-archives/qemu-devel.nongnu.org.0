@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A8133887B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:21:57 +0100 (CET)
-Received: from localhost ([::1]:52826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B671338886
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 10:24:15 +0100 (CET)
+Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKdzY-000799-5S
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:21:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50996)
+	id 1lKe1m-0001oI-Aj
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 04:24:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lKdxf-0004wt-GV
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:20:00 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:50137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lKdxY-000280-Dl
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:19:59 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07831848|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.272087-0.00506523-0.722848;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.Jk-FZq8_1615540784; 
-Received: from 30.225.208.86(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Jk-FZq8_1615540784)
- by smtp.aliyun-inc.com(10.147.41.187);
- Fri, 12 Mar 2021 17:19:44 +0800
-Subject: Re: Question about edge-triggered interrupt
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <b9b0e381-c045-bab1-eea7-b8112526e5e8@c-sky.com>
- <CAFEAcA_jnLzZN-nA+Cf_HwGjxvOaxUzZ44LYxqpcmw=3eAU6qg@mail.gmail.com>
- <3edf7903-94a7-c16e-2b9e-644e1a41a77d@c-sky.com>
- <CAFEAcA8UqE65Qxy=c53CCPdYnVrwvBZGxU9SH9qk7Q6vGKDgyg@mail.gmail.com>
- <50fb9541-095d-18e8-1145-662f594600b6@c-sky.com>
- <CAFEAcA-zRB8t4h7eLsw5FbFtyBp6Ow16P4vvk2eA9t7Jcr42TQ@mail.gmail.com>
- <854d74fd-ef10-af51-93c0-2d66792e604c@c-sky.com>
- <CAFEAcA9i+9=a7DvQW+4W3jLzocLvKU3+8RioMDJyvLGLaemr=g@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <fbb65e1c-c4a7-1367-6648-5fdc09750169@c-sky.com>
-Date: Fri, 12 Mar 2021 17:19:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0E-00007E-Oy
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:22:38 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:24241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKe0C-0003xV-Oe
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 04:22:38 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-WloVzSO6NmuNRIa17LPhfQ-1; Fri, 12 Mar 2021 04:22:24 -0500
+X-MC-Unique: WloVzSO6NmuNRIa17LPhfQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE8151898286;
+ Fri, 12 Mar 2021 09:22:23 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 805F260C9B;
+ Fri, 12 Mar 2021 09:22:13 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] virtiofsd: Avoid potential deadlocks
+Date: Fri, 12 Mar 2021 10:22:05 +0100
+Message-Id: <20210312092212.782255-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9i+9=a7DvQW+4W3jLzocLvKU3+8RioMDJyvLGLaemr=g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,68 +62,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2021/3/12 0:50, Peter Maydell wrote:
-> On Thu, 11 Mar 2021 at 16:40, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->>
->>
->> On 2021/3/12 0:07, Peter Maydell wrote:
->>> On Thu, 11 Mar 2021 at 16:01, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->>> I'm pretty sure that there is some interaction between the CPU and the
->>> interrupt controller on a return-from-interrupt that you are
->>> missing.
->> I have asked my CPU design workmates. They said, "you have to pull a
->> pending interrupt at the interrupt return instruction".
->>
->> But I don't want to do this way, because it influences the interrupt
->> return instruction's behavior. The specification doesn't
->> point that explicitly. It's just our CPU implementation.
-> If the hardware does it like that, your model of the hardware
-> should do it like that. Don't invent QEMU-specific weirdness
-> if you can avoid it.
->
-> More generally, if the specification says that something has to
-> happen when the CPU does an interrupt-return instruction, then the
-> obvious implementation is to put suitable code in the helper function
-> for the interrupt return instruction.
-Good principle. Get it, thanks.
->> If I lock the iothread in interrupt return instruction helper function,
->> and pull a pending interrupt. It really works, but I don't think
->> it will be appropriate for other CPU implementation.
->>> There are several ways to do it in principle;
->> I am curious about the ways. If you like, a simple list please.
-> So for instance:
-> You can have an interrupt controller which holds a signal line
-> to the CPU high while it has any pending interrupt. When the
-> CPU executes return-from-interrupt this involves unblocking interrupts,
-> and so if there's still another pending interrupt the CPU will just
-> immediately take it, because the signal line is still high. Arm FIQ/IRQ
-> with a GICv2 works like this. (It's also how QEMU handles the GICv3,
-> which is not exactly the same as the typical h/w implementation.)
->
-> You can have a more complicated scheme where the interrupt
-> controller and the CPU are very tightly integrated, and so
-> 'return from interrupt' executed by the CPU means "look at whatever
-> is next up as the next highest priority interrupt and do that,
-> possibly avoiding a bunch of stack frame unstack/stack actions".
-> The Arm M-profile NVIC is like that.
-Both work for me.  I think the CLIC is more similar to NVIC and the 
-solution in GICv2
-is more general. I will firstly add an implementation according to the 
-NVIC solution.
-
-Thanks very much. By the way, in my opinion, the signal line in GICv2 
-solution is
-something like "QEMU-specific weirdness" 😁.
-
-Zhiwei
->
-> thanks
-> -- PMM
+A deadlock condition potentially exists if a vhost-user process needs=0D
+to request something to QEMU on the slave channel while processing a=0D
+vhost-user message.=0D
+=0D
+This doesn't seem to affect any vhost-user implementation so far, but=0D
+this is currently biting the upcoming enablement of DAX with virtio-fs.=0D
+The issue is being observed when the guest does an emergency reboot while=
+=0D
+a mapping still exits in the DAX window, which is very easy to get with=0D
+a busy enough workload (e.g. as simulated by blogbench [1]) :=0D
+=0D
+- QEMU sends VHOST_USER_GET_VRING_BASE to virtiofsd.=0D
+=0D
+- In order to complete the request, virtiofsd then asks QEMU to remove=0D
+  the mapping on the slave channel.=0D
+=0D
+All these dialogs are synchronous, hence the deadlock.=0D
+=0D
+Another deadlock condition exists in the virtiofsd code itself, related=0D
+to the use of the vu_dispatch rwlock.=0D
+=0D
+This series supercedes Vivek's previous tentative [1] to fix the deadlocks.=
+=0D
+Basically, instead of introducing new vhost-user protocol message to=0D
+specifically shutdown the slave channel, this series introduces a nested=0D
+event loop in vhost_user_read() as suggested by Stefan Hajnoczi. This=0D
+allows to monitor and service requests on the slave channel while=0D
+waiting for virtiofsd to answer to a vhost-user request.=0D
+=0D
+This was tested with the latest DAX patchset posted to the virtio-fs=0D
+list [2], rebased on top of the present series [3]. Testing scenario=0D
+is:=0D
+1) start VM with DAX capable vhost-user-fs device=0D
+2) mount -o dax in the guest=0D
+3) run Blogbench [4] in virtiofs mount=0D
+4) wait 10s, which is enough to have active mappings=0D
+5) echo b > /proc/sysrq-trigger=0D
+6) wait for the guest to reboot and start over from step 2=0D
+=0D
+Without this series, only a couple of reboots ( < 5) are needed to=0D
+hit a deadlock. With this series applied, an overnight test could=0D
+reboot the guest 1500+ times without any issues.=0D
+=0D
+[1] https://listman.redhat.com/archives/virtio-fs/2021-January/msg00073.htm=
+l=0D
+=0D
+[2] https://listman.redhat.com/archives/virtio-fs/2021-February/msg00058.ht=
+ml=0D
+=0D
+[3] Tree with this series + DAX available at:=0D
+=0D
+    https://gitlab.com/gkurz/qemu/-/commits/virtio-fs-dax-no-deadlock=0D
+=0D
+[4] https://github.com/jedisct1/Blogbench=0D
+=0D
+Changes since v2:=0D
+ - added some preliminary fixes and cleanups for the slave channel code=0D
+ - re-factored some code and addressed comments (see individual patches)=0D
+ - more testing=0D
+=0D
+Greg Kurz (7):=0D
+  vhost-user: Drop misleading EAGAIN checks in slave_read()=0D
+  vhost-user: Fix double-close on slave_read() error path=0D
+  vhost-user: Factor out duplicated slave_fd teardown code=0D
+  vhost-user: Convert slave channel to QIOChannelSocket=0D
+  vhost-user: Introduce nested event loop in vhost_user_read()=0D
+  vhost-user: Monitor slave channel in vhost_user_read()=0D
+  virtiofsd: Release vu_dispatch_lock when stopping queue=0D
+=0D
+ hw/virtio/vhost-user.c        | 217 +++++++++++++++++++++-------------=0D
+ tools/virtiofsd/fuse_virtio.c |   6 +=0D
+ 2 files changed, 144 insertions(+), 79 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
