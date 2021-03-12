@@ -2,91 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F89338C49
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:03:02 +0100 (CET)
-Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C413338C59
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 13:05:09 +0100 (CET)
+Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKgVQ-0007ks-MV
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:03:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41786)
+	id 1lKgXU-0000o3-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 07:05:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lKgSo-00076D-0e
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:00:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50710)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKgUt-0007wA-LS
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:02:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lKgSi-00021a-Bg
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:00:17 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lKgUr-0003Os-7O
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 07:02:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615550409;
+ s=mimecast20190719; t=1615550543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DmX/MCgkHQ6G3GzXLClfqfN2EwqlvPGD6o7DHzxBWpk=;
- b=UohdjHoIMhnwemm5DDA6Q78baGZMmfiaCQonki+PaBtY08vs71+TMPvjDrB3SrrxHNTOr+
- WeIf4jRvzfaZY6+Umt81OnG1iab5mqZgA4yLeUr6kVYle2iugfxXhyvMHBv3lFPoRuJY/K
- nBA9/PE7D+E6CWAOUrukro/qDBTS4uk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-2VNHHug5MrqBraQJbSf9Kw-1; Fri, 12 Mar 2021 06:59:56 -0500
-X-MC-Unique: 2VNHHug5MrqBraQJbSf9Kw-1
-Received: by mail-wm1-f69.google.com with SMTP id n17so1993485wmi.2
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 03:59:55 -0800 (PST)
+ bh=W5fL5eauZGWBEG4POnH3pFWIClfxU3Zs0wrMQqyBMaY=;
+ b=ENZVZLL+fuHP4K0CqyAe+Fnh4w5fQrlEArbx/6TtY1OIrnHsiE80D97T4LNMfgRWk0Ph8o
+ M+U04GHbokqid02qylm6N0dd1SaTTk1NBh7iI/aCl9niflp4pehnOwXauTGjthR2KBdwGZ
+ IyaTr7XqIW8uP73uv9N3S7h6/y+G2EI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-18NAu45MP3e_K9T74O1fyg-1; Fri, 12 Mar 2021 07:02:22 -0500
+X-MC-Unique: 18NAu45MP3e_K9T74O1fyg-1
+Received: by mail-wr1-f72.google.com with SMTP id h30so11083452wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 04:02:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DmX/MCgkHQ6G3GzXLClfqfN2EwqlvPGD6o7DHzxBWpk=;
- b=mcsqT5Pd5lrJslg8jnHsmaWaffo+Q0XbMLPRTfDoOR3jxTy49z6tm9Z2NwcjvVilUp
- Os8Jml4hoAE/R1hWlqBx/KBynCJwAxE/MS7CBFayTQKXQUSAT/B57DWdazRGkU3xYISC
- rWaZZxr1X6HCICBbSolU62NLR8s54VOBjsnHIL3KTihx548u+UChU4HgB+PDNCQjYucV
- eAcjVzywMyQ2JSXnBEEN0PwuHM/svlFf/WyN9J+BDhRXDKoE8zyU0Jz3iAPZBGfCbQCK
- R/yE2wuzw4cqXiE+4XDgR2zL+rRdaUJIn6mzNuZR6VKN1iVlsSoz9i/Sk9322UM5lWpW
- +jcQ==
-X-Gm-Message-State: AOAM533Cwl5W1oKtNayUdzQE/uDk/l4XXnK2NfX//RDrLTBRStoO87o0
- JvzUvi6qcNLTP+6TZPUdLX44T0mBEKmT9dfaKajQDUZ8fdsNrso+ewBw6F8hhcT7/4e9FSjzdUM
- Tbp1gf7BeIdECttQ=
-X-Received: by 2002:a1c:7513:: with SMTP id o19mr12584160wmc.94.1615550394874; 
- Fri, 12 Mar 2021 03:59:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnL0lHkE6R1VY4Z9+M4ss1Bb8+In4ZdHytAf1AQwDXs4p3dQTM2xH2JSl2fG39yGyA2Nr3BA==
-X-Received: by 2002:a1c:7513:: with SMTP id o19mr12584145wmc.94.1615550394596; 
- Fri, 12 Mar 2021 03:59:54 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id v13sm8521616wrt.45.2021.03.12.03.59.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 03:59:54 -0800 (PST)
-Date: Fri, 12 Mar 2021 12:59:52 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH] KVM: x86: do not fail if software breakpoint has already
- been removed
-Message-ID: <20210312115952.2gw4vhiaamxeaxo5@steredhat>
-References: <20210301111725.18434-1-pbonzini@redhat.com>
- <dd9b1ebe28be1df2a4b1715f60d451c0c6fb915f.camel@redhat.com>
- <20210302145211.lha24tib3dtg6qig@steredhat>
- <f15720be8e4982b21c4604db180a25cd41bcf824.camel@redhat.com>
- <20210304101551.dfwakttdq5zgt52h@steredhat>
- <d273d65ddff3ef75fa643c0270bb172056f4d8d8.camel@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W5fL5eauZGWBEG4POnH3pFWIClfxU3Zs0wrMQqyBMaY=;
+ b=rNSZlxwzLxdiLEywHQ4sxhdcSIR5opuHPplRMxcpNHRBEM4LiY6nPSvJPz55Oknbu+
+ fIDrgomv1IPOZBw0MDzCTRtT4qJoVDQmQmwl05gyw821op7YkudaHAj8yXa+01KVXiL/
+ +A/F+/CmMh6ec6egHyWLLYqcrMkKFt9qjPRyvuMwyM0JzKBR6+6IRPFF9Rkev0y6DUw9
+ RiUUnAP0+9zhoCsfqRWl8LC2qaWK9swXyLWiPbUV6eua4JEI+88AbfB+sV8gAhi8spCu
+ Pu+zuz4yX4S2d4IMphc85ZxA0tFHEZHAORdZ4nk/sAorqd7vjBqoF5P5ma78ukN9jk5i
+ wJOQ==
+X-Gm-Message-State: AOAM532MBMx/Yu4GGbHRfF/yMQWz2KlOC+uIB0FrqQVcfEeJJ1lIYBGL
+ f172Qq9sImBCJ2JU+T9bOhZffjRfGvI+nhB3p+u2Out8eIlq+++59WKLhjFixCdlexpeNXG8Sgg
+ iMHdu3v8okwYzYCYvyBNBbuayCTTlSqLeZEHp5S933M6KZe/ZUS4qSzmWoKsWieDo7i8=
+X-Received: by 2002:adf:fb49:: with SMTP id c9mr13926214wrs.72.1615550540631; 
+ Fri, 12 Mar 2021 04:02:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/7+1+aq6RJyXGzcHx8fovO8td611jwCpSQnlIGlZ75EKx+3CQhx2BE+LYnvFQ/lfx5Nr1QQ==
+X-Received: by 2002:adf:fb49:: with SMTP id c9mr13926189wrs.72.1615550540377; 
+ Fri, 12 Mar 2021 04:02:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id c16sm9053934wrs.81.2021.03.12.04.02.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 04:02:19 -0800 (PST)
+Subject: Re: all class init functions for all types in QEMU are called in
+ select_machine(). Expected?
+To: Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <bdc8dbaf-8d63-833a-3e57-7e823a321486@suse.de>
+ <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
+ <ec7f83ae-8529-3a0e-4b00-73c856b28a3e@suse.de>
+ <be88d88a-dd9d-547d-9f3d-7444f0f8bbc6@redhat.com>
+ <3b7c6a4e-c191-063c-affa-0e179227a633@suse.de>
+ <26c2b88b-4c9e-09a0-a1c0-350a01e9a697@redhat.com>
+ <d66078f1-9fa0-c3ed-d54c-3d3ada2027e5@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <683d1ccc-503d-3218-2539-a3ed48fee5fb@redhat.com>
+Date: Fri, 12 Mar 2021 13:02:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <d273d65ddff3ef75fa643c0270bb172056f4d8d8.camel@redhat.com>
+In-Reply-To: <d66078f1-9fa0-c3ed-d54c-3d3ada2027e5@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,265 +107,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 02:53:15PM +0200, Maxim Levitsky wrote:
->On Thu, 2021-03-04 at 11:15 +0100, Stefano Garzarella wrote:
->> On Wed, Mar 03, 2021 at 02:07:24PM +0200, Maxim Levitsky wrote:
->> > On Tue, 2021-03-02 at 15:52 +0100, Stefano Garzarella wrote:
->> > > On Mon, Mar 01, 2021 at 02:56:40PM +0200, Maxim Levitsky wrote:
->> > > > On Mon, 2021-03-01 at 12:17 +0100, Paolo Bonzini wrote:
->> > > > > If kvm_arch_remove_sw_breakpoint finds that a software breakpoint does not
->> > > > > have an INT3 instruction, it fails.  This can happen if one sets a
->> > > > > software breakpoint in a kernel module and then reloads it.  gdb then
->> > > > > thinks the breakpoint cannot be deleted and there is no way to add it
->> > > > > back.
->> > > > >
->> > > > > Suggested-by: Maxim Levitsky <mlevitsk@redhat.com>
->> > > > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> > > > > ---
->> > > > >  target/i386/kvm/kvm.c | 9 +++++++--
->> > > > >  1 file changed, 7 insertions(+), 2 deletions(-)
->> > > > >
->> > > > > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> > > > > index 0b5755e42b..c8d61daf68 100644
->> > > > > --- a/target/i386/kvm/kvm.c
->> > > > > +++ b/target/i386/kvm/kvm.c
->> > > > > @@ -4352,8 +4352,13 @@ int kvm_arch_remove_sw_breakpoint(CPUState *cs, struct kvm_sw_breakpoint *bp)
->> > > > >  {
->> > > > >      uint8_t int3;
->> > > > >
->> > > > > -    if (cpu_memory_rw_debug(cs, bp->pc, &int3, 1, 0) || int3 != 0xcc ||
->> > > > > -        cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&bp->saved_insn, 1, 1)) {
->> > > > > +    if (cpu_memory_rw_debug(cs, bp->pc, &int3, 1, 0)) {
->> > > > > +        return -EINVAL;
->> > > > > +    }
->> > > > > +    if (int3 != 0xcc) {
->> > > > > +        return 0;
->> > > > > +    }
->> > > > > +    if (cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&bp->saved_insn, 1, 1)) {
->> > > > >          return -EINVAL;
->> > > > >      }
->> > > > >      return 0;
->> > > >
->> > > > There still remains a philosopical question if kvm_arch_remove_sw_breakpoint
->> > > > should always return 0, since for the usual case of kernel 
->> > > > debugging where
->> > > > a breakpoint is in unloaded module, the above will probably still fail
->> > > > as paging for this module is removed as well by the kernel.
->> > > > It is still better though so:
->> > > >
->> > > > Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
->> > > >
->> > > > Note that I managed to make lx-symbols to work in a very stable way
->> > > > with attached WIP patch I hacked on this Sunday.
->> > > > I will send a cleaned up version of it to upstream when I have time.
->> > > >
->> > > > Since I make gdb unload the symbols, it works even without this patch.
->> > > >
->> > > > Added Stefano Garzarella to CC as I know that he tried to make this work as well.
->> > > > https://lkml.org/lkml/2020/10/5/514
->> > >
->> > > Thanks Maxim for CCing me!
->> > >
->> > > Just a report when I tried these patches, but I'm not sure they are
->> > > related.
->> > >
->> > > I found that gdb 10 has some problem with QEMU:
->> > >
->> > >      $ gdb --version
->> > >      GNU gdb (GDB) Fedora 10.1-2.fc33
->> > >
->> > >      (gdb) lx-symbols
->> > >      loading vmlinux
->> > >      scanning for modules in linux/build
->> > >      ../../gdb/dwarf2/frame.c:1085: internal-error: Unknown CFA rule.
->> > >
->> > > With gdb 9 'lx-symbols' works well, but I still have some issue when I
->> > > put a breakpoint to a symbol not yet loaded (vsock_core_register in this
->> > > example), then I load the module (vsock_loopback in this example) in the
->> > > guest.
->> > >
->> > > Whit your patch gdb stuck after loading the symbols of the first new
->> > > module:
->> > >      (gdb) b vsock_core_register
->> > >      Function "vsock_core_register" not defined.
->> > >      Make breakpoint pending on future shared library load? (y or [n]) y
->> > >      Breakpoint 1 (vsock_core_register) pending.
->> > >      (gdb) c
->> > >      Continuing.
->> > >      loading @0xffffffffc00a1000: linux/build/net/vmw_vsock/vsock.ko
->> > >
->> > > Without your patch, gdb loops infinitely reloading the new module:
->> > >      refreshing all symbols to reload module 'vsock'
->> > >      loading vmlinux
->> > >      loading @0xffffffffc00a1000: linux/build/net/vmw_vsock/vsock.ko
->> > >      loading @0xffffffffc00ad000: linux/build/drivers/net/tun.ko
->> > >      loading @0xffffffffc007e000: linux/build/net/bridge/bridge.ko
->> > >      loading @0xffffffffc0077000: linux/build/net/802/stp.ko
->> > >      loading @0xffffffffc0007000: linux/build/net/llc/llc.ko
->> > >      loading @0xffffffffc0013000: linux/build/net/sunrpc/sunrpc.ko
->> > >      loading @0xffffffffc000d000: linux/build/net/ipv4/netfilter/ip_tables.ko
->> > >      loading @0xffffffffc0000000: linux/build/net/netfilter/x_tables.ko
->> > >      refreshing all symbols to reload module 'vsock'
->> > >      loading vmlinux
->> > >      loading @0xffffffffc00a1000: linux/build/net/vmw_vsock/vsock.ko
->> > >      loading @0xffffffffc00ad000: linux/build/drivers/net/tun.ko
->> > >      ...
->> > >
->> > > I'll try to get a better look at what's going on.
->> >
->> > Let me then explain what I found:
->> >
->> > First of all initial execution of lx-symbols works and always worked for me
->> > (I use gdb 9 though from fedora 32 (9.1-7.fc32))
->> >
->> >
->> > Then a special breakpoint is placed on do_init_module
->> > (it is hidden from the user)
->> >
->> > Once it is hit two things can happen:
->> >
->> > 1. if a not yet seen module is loaded,
->> >   (module that wasn't loaded last time all symbols were reloaded)
->> >   its symbols are loaded to gdb with 'add-symbol-file' command.
->> >
->> > 2. if module that was already loaded to gdb, is loaded (see above),
->> > then 'big hammer' is used:
->> >
->> > a. all existing breakpoints (including the hidden one)
->> >    are disabled since reloading everything
->> >    indeed messes up the gdb state
->> >
->> > b. the executable's symbols (the kernel) are reloaded,
->> >    which makes gdb unload all symbols, and then all symbols are loaded
->> >    again (in the same way as lx-symbols works),
->> >    including the symbols of currently loading module.
->> >
->> > c. all breakpoints are enabled again
->> >
->> >
->> > Now the issue that you originally reported on LKML is because the (1)
->> > apparently also messes up the software breakpoints state in gdb,
->> > and that makes gdb to not to temporary remove the breakpoint
->> > in do_init_module once the execution is resumed, and then
->> > the guest starts executing garbage (bytes after 'int3' instruction).
->> >
->> > The second issue is that (2), aka the big hammer isn't really 
->> > needed.
->> > GDB does have (maybe this is recent command?) a 'remove-symbol-file'
->> > command.
->> >
->> > So it is possible to do remove-symbol-file/add-symbol-file'
->> > on known module reload instead of reloading everything.
->> >
->> > But this has a small issue. The issue is that such known module
->> > was already reloaded, so all int3 instructions that gdb placed into
->> > it are already gone, so sofware breakpoints placed to it won't work
->> > This is what the patch that Paulo sent fixes.
->> >
->> > However it is even better to create another hidden breakpoint on module removal
->> > path (I used free_module for that) and unload the symbols there.
->> > This allows the gdb to cleanly remove all software breakpoints
->> > in that module, show them again as pending, and even re-install
->> > them again once the module is loaded again.
->> >
->> > So those are the two changes I made:
->> >
->> > 1. I added a breakpoint on module removal which also does
->> >  a. disable all breakpoints
->> >  b. unload the module's symbols
->> >  c. enable all breakpoints
->> >
->> > 2. On module load I also do
->> >  a. disable all breakpoints
->> >  b. load the module's symbols
->> >  c. enable all breakpoints
->> >
->> >
->> > There is still an issue that both 'load' and 'unload' breakpoint
->> > can hit more that once.
->> > This happens because these are software breakpoints and
->> > load/unload code in the kernel is executed with interrupts enabled.
->> >
->> > So what is happening is that once the hidden breakpoint is hit, gdb script
->> > attached to it is done, and VM is resumed, gdb does more or less this:
->> >
->> > a. remove the breakpoint
->> > b. do a single step
->> > c. re-install the breakpoint.
->> >
->> > However the single step more often than not, lands us into an interrupt
->> > handler, and so once the handler is finished we end up re-executing the
->> > instruction on which breakpoint was set.
->> > On a single vCPU it works more or less (with several tries) on my machine,
->> > but with many vCPUs, I can end up in live lock like state
->> > when the above prevents the VM from progressing.
->> >
->> > I think we can fix this on kvm side by not injecting interrupts
->> > when single step is done.
->>
->> Thank you so much for this detailed description, very much appreciated!
->>
->> > In fact the below patch works for me,
->> > Not only it fixes the live lock but makes these hidden breakpoints
->> > hit only once in my testing.
->> >
->> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->> > index eec62c0dafc36..8b7a4e27bcf66 100644
->> > --- a/arch/x86/kvm/x86.c
->> > +++ b/arch/x86/kvm/x86.c
->> > @@ -8501,6 +8501,12 @@ static void inject_pending_event(struct 
->> > kvm_vcpu *vcpu, bool *req_immediate_exit
->> >                        goto busy;
->> >        }
->> >
->> > +       /*
->> > +        * Don't inject interrupts while single stepping to make guest debug easier
->> > +        */
->> > +       if (vcpu->guest_debug & KVM_GUESTDBG_SINGLESTEP)
->> > +               can_inject = false;
->> > +
->> >
->> > With this patch lx-symbols works almost perfectly for me (on AMD).
->>
->> I'll try this patch!
->
->Note that the patch to disable interrupt injection while single
->stepping is wrong, due to some whatever mistake I made while rebasing things.
->I attached an updated version.
->
->With it (and the patch to lx-symbols itself which should be applied to the guest kernel),
->I was able to run lx-symbols very well on both intel and AMD.
->
->Note that I compile the guest kernel in the guest and install, but then I copy it
->to the host, and I run the gdb from there. This is my debug.sh script:
->
->
->vm adm hmp "gdbserver tcp::2345"
->gdb ~/Kernel/vm-fedora/src/vmlinux \
->	-ex "target remote :2345" \
->	-ex "cd /home/mlevitsk/Kernel/vm-fedora/src" \
->	-ex "lx-symbols" \
->	-ex "cont"
->
->Note that the debug must start after guest kernel was loaded.
->
+On 12/03/21 12:51, Claudio Fontana wrote:
+> seems to me we already have, as the accel class init, fe, for x86/tcg:
+> 
+> static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
+> {
+>      AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
+> 
+> #ifndef CONFIG_USER_ONLY
+>      acc->cpu_realizefn = tcg_cpu_realizefn;
+> #endif /* CONFIG_USER_ONLY */
+> 
+>      acc->cpu_class_init = tcg_cpu_class_init;
+>      acc->cpu_instance_init = tcg_cpu_instance_init;
+> }
+> 
+> acc->cpu_class_init() call would then be the acc->init_cpu call you mention.
+> 
+> The only thing we seem to be missing is the cc->init_tcg_ops(cc)..
 
-Yeah! The patches fix my issues on Intel cpu!
+Yes, called by tcg_cpu_class_init or tcg_cpu_instance_init.
 
-I applied the kvm patch to my 5.10.21-200.fc33.x86_64 (just to rebuild 
-only the kvm module) and the gdb-script patch to the source of my guest 
-kernel (v5.12-rc2) and I can set a breakpoint to a symbol of a module 
-not yet loaded, then when I load the module the execution stop on it.
-
-Thank you very much for that!
-
-Feel free to add my Tested-by tag when you send them.
-
-Thanks,
-Stefano
+Paolo
 
 
