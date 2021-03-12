@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58C4339362
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:29:11 +0100 (CET)
-Received: from localhost ([::1]:37586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC0A339353
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:28:01 +0100 (CET)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkf0-00016C-Mu
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:29:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33038)
+	id 1lKkdq-0008QK-Ut
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:27:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKkaf-0005rI-52
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:44 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52111)
+ id 1lKkay-000686-N4
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:25:00 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKkad-00053A-HC
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:24:40 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id l19so4151398wmh.1
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:24:38 -0800 (PST)
+ id 1lKkax-0005Ar-0V
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:25:00 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id k8so2095084wrc.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 08:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QfMWHYEE2mBNNhjNUaW8YRhjOJTj8OsnuYK4a3Lc2Rw=;
- b=JSWLgxpDD7tFO4Ixc7eJ8zhmbjT54WcX4ieElh5+NgwS15l1yZfcZRrHCKHLWQ6FCD
- B5uelaUMy4+wIcLF82SYVzPpQMH4yRPoWJYaogVFapq8aeYcW9TMXAIUnDOWSczhq039
- 5B1io3f6AajPvVooZhADwNLYKHt32jGo6d8rkZaTPSA2wkLrQCLqYSANe1S4SCqS5NhW
- Ui7Kef7ED5XNSctBTJ+P+SWI6Ioxk2Hv4ov9G31vlMTe4fYfQi9a+Ed3y3dEg1c3IvRR
- Cpue8OXjCouU/pmE8hIcaAPVl60W3ptv9XMwmFKe8ll/Rs6oLv0ldnMP36WnybLmIQRL
- vt0Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
+ b=cTsjpcxf7ptX2TY3ebaXZxKb99PjUv6IfrZbzgJxwqZKompZSgIopeojudCirGNu5U
+ 28O/GmmCBdvqrwpkNTWDvif6XUA9P4aTtEIdN0Vc/5HX2bSnFRRp7vGXCLVfdZ/zXF6P
+ VCBuMUyyqWDX4nM2Oo0NyWDDbqUL6C3ibD3ujdCuLqke3oj/q3e8J/5FlrJACtKJRdXb
+ vrjgY2LkkJoued2fMXrSqMx+Y+VNp1hGkOzqSjRdoGBnfwLWpLjhgO0/X1q+OfStD9eT
+ T/b1hEjSSrjCH37aWqv8STaFwCw0NwLpVqzlbIOL5vs3PeJxau2Eclj5O7wvFNibzbzC
+ JP0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=QfMWHYEE2mBNNhjNUaW8YRhjOJTj8OsnuYK4a3Lc2Rw=;
- b=EqfEfrXU1B65GIdoMX13PFO262nSjW+iVfUq4c3ae05sO1FsPVsCGi+X1eWf3aEET3
- zXvl+RbhlXRhGzw4A8ldiPLiQmDcKxroKX8ax28uL7xZxrHdfoEyuJXi7RE3V4eJa/kt
- z2ooIGB6DPRZRAIs9b8WW21n3h0AMjs/wNB+h2WLdsrte/QAxX2WEkGsNdxu/OmSpL5F
- WeQXeCalhrKhyEgy0SD1Xk2UshJedZp6syc6zTaMdx7+7Lcy5ekCjKFW6CBBvW5b8X8l
- pt0QFw+5MepShOKKD2EDVXFTAAxvyzV+tl8zuXrNwbr7XJpV/VngQhZYaM/Mz2N8++3U
- aYUw==
-X-Gm-Message-State: AOAM532skTxxDeB0xlJx7QN7jRifHTou8MPaskMPqNQk/0huyzHfV6xV
- mngkhiVHWbvbxzW3YuBU6UQBaGd1EjU=
-X-Google-Smtp-Source: ABdhPJyapQ+C6Ahsaq2Vm06yE25ECCEa6qxmwrkCz7xRezOLZ9qpWLofCiaqprB6tiJvF2ZmbZ7yJw==
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr13895900wmj.76.1615566276955; 
- Fri, 12 Mar 2021 08:24:36 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=3h2ByVuiQYLkvSCliAgbNV57VpJyk3eWoocPDwDsdg8=;
+ b=DNHXO9cl6+TgI4iMqnVWj/7nLu1FEZKrJv+43a+8ga3CIdoV9ZRyhujh7oiiwjS7/m
+ SF2brgDMOFYgv7+T8uTWRRm67jcendDlfLVO/P3cXW0Kigz2ydzLP3Pin3eqFu+jgjxP
+ qPLEocOdrrgBSOGe+wRDi4xhEvtOkhh1ehXw2lZZUUHqxBa9t+bJ3OHAlk/iPHBUHk34
+ voqJ+faLfcRZtoUqHEoh3ZpfaEbSZ3Eq1cgguVPKQdFbUCZYpMksOJ886NiAOt79+VCA
+ RNvERUHfRXFYumOyX80bR4k1yy7ucDpzLQpkxwrxiP1ahwllNVe9qBhJeozitEo8SUxc
+ zqcg==
+X-Gm-Message-State: AOAM5321WLCl1vwTEl4Z1KtIz4sqlcaUgxSrf3FIPlFCzbhXyA8pp/Gt
+ cjFBf1+rGNlkd5cp2XkKDUXKXzIAeyA=
+X-Google-Smtp-Source: ABdhPJw87WxNPpl+bu7+9qZlkT/hBDs7x5sMqSIHxQAjazH2omtJjdKygBVFNfjdcXcEytnSlbUh9Q==
+X-Received: by 2002:adf:a418:: with SMTP id d24mr14716942wra.187.1615566297291; 
+ Fri, 12 Mar 2021 08:24:57 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id h20sm2501681wmp.38.2021.03.12.08.24.35
+ by smtp.gmail.com with ESMTPSA id y18sm7934661wrq.61.2021.03.12.08.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 08:24:36 -0800 (PST)
+ Fri, 12 Mar 2021 08:24:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] target/mips: Reintroduce the R5900 CPU
-Date: Fri, 12 Mar 2021 17:24:29 +0100
-Message-Id: <20210312162434.1869129-1-f4bug@amsat.org>
+Subject: [PATCH v3 4/5] target/mips: Reintroduce the R5900 CPU
+Date: Fri, 12 Mar 2021 17:24:33 +0100
+Message-Id: <20210312162434.1869129-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210312162434.1869129-1-f4bug@amsat.org>
+References: <20210312162434.1869129-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,35 +94,94 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm running out of time to address Richard's comments on the new=0D
-opcodes, so let's KISS and only fix RDHWR (after adding LQ/SQ).=0D
-=0D
-Missing review: 3 & 5=0D
-- target/mips/tx79: Move RDHWR usermode kludge to trans_SQ()=0D
-- tests/tcg/mips: Test user mode DMULT for the R5900=0D
-=0D
-Based-on: mips-next=0D
-Supersedes: <20210309145653.743937-1-f4bug@amsat.org>=0D
-=0D
-Fredrik Noring (1):=0D
-  tests/tcg/mips: Test user mode DMULT for the R5900=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  target/mips/tx79: Introduce LQ opcode (Load Quadword)=0D
-  target/mips/tx79: Introduce SQ opcode (Store Quadword)=0D
-  target/mips/tx79: Move RDHWR usermode kludge to trans_SQ()=0D
-  target/mips: Reintroduce the R5900 CPU=0D
-=0D
- target/mips/tx79.decode           | 12 ++++=0D
- target/mips/translate.c           | 72 +-----------------------=0D
- target/mips/tx79_translate.c      | 93 +++++++++++++++++++++++++++++++=0D
- tests/tcg/mips/test-r5900-dmult.c | 40 +++++++++++++=0D
- target/mips/cpu-defs.c.inc        | 59 ++++++++++++++++++++=0D
- tests/tcg/mips/Makefile.target    | 11 +++-=0D
- 6 files changed, 214 insertions(+), 73 deletions(-)=0D
- create mode 100644 tests/tcg/mips/test-r5900-dmult.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Now that we have the minimum prerequisites to support the
+R5900 CPU, we can reintroduce it.
+
+While we are reverting commit 823f2897bdd ("Disable R5900
+support"), we effectively cherry-pick commit ed4f49ba9bb
+("target/mips: Define the R5900 CPU").
+
+This reverts commit 823f2897bdd78185f3ba33292a25105ba8bad1b5.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210214175912.732946-31-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/cpu-defs.c.inc | 59 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+
+diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+index e03b2a998cd..1a73b5409f0 100644
+--- a/target/mips/cpu-defs.c.inc
++++ b/target/mips/cpu-defs.c.inc
+@@ -411,6 +411,65 @@ const mips_def_t mips_defs[] =
+         .insn_flags = CPU_MIPS32R5,
+         .mmu_type = MMU_TYPE_R4000,
+     },
++    {
++        /*
++         * The Toshiba TX System RISC TX79 Core Architecture manual
++         *
++         * https://wiki.qemu.org/File:C790.pdf
++         *
++         * describes the C790 processor that is a follow-up to the R5900.
++         * There are a few notable differences in that the R5900 FPU
++         *
++         * - is not IEEE 754-1985 compliant,
++         * - does not implement double format, and
++         * - its machine code is nonstandard.
++         */
++        .name = "R5900",
++        .CP0_PRid = 0x00002E00,
++        /* No L2 cache, icache size 32k, dcache size 32k, uncached coherency. */
++        .CP0_Config0 = (0x3 << 9) | (0x3 << 6) | (0x2 << CP0C0_K0),
++        .CP0_Status_rw_bitmask = 0xF4C79C1F,
++#ifdef CONFIG_USER_ONLY
++        /*
++         * R5900 hardware traps to the Linux kernel for IEEE 754-1985 and LL/SC
++         * emulation. For user only, QEMU is the kernel, so we emulate the traps
++         * by simply emulating the instructions directly.
++         *
++         * Note: Config1 is only used internally, the R5900 has only Config0.
++         */
++        .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
++        .CP0_LLAddr_rw_bitmask = 0xFFFFFFFF,
++        .CP0_LLAddr_shift = 4,
++        .CP1_fcr0 = (0x38 << FCR0_PRID) | (0x0 << FCR0_REV),
++        .CP1_fcr31 = 0,
++        .CP1_fcr31_rw_bitmask = 0x0183FFFF,
++#else
++        /*
++         * The R5900 COP1 FPU implements single-precision floating-point
++         * operations but is not entirely IEEE 754-1985 compatible. In
++         * particular,
++         *
++         * - NaN (not a number) and +/- infinities are not supported;
++         * - exception mechanisms are not fully supported;
++         * - denormalized numbers are not supported;
++         * - rounding towards nearest and +/- infinities are not supported;
++         * - computed results usually differs in the least significant bit;
++         * - saturations can differ more than the least significant bit.
++         *
++         * Since only rounding towards zero is supported, the two least
++         * significant bits of FCR31 are hardwired to 01.
++         *
++         * FPU emulation is disabled here until it is implemented.
++         *
++         * Note: Config1 is only used internally, the R5900 has only Config0.
++         */
++        .CP0_Config1 = (47 << CP0C1_MMU),
++#endif /* !CONFIG_USER_ONLY */
++        .SEGBITS = 32,
++        .PABITS = 32,
++        .insn_flags = CPU_MIPS3 | INSN_R5900 | ASE_MMI,
++        .mmu_type = MMU_TYPE_R4000,
++    },
+     {
+         /* A generic CPU supporting MIPS32 Release 6 ISA.
+            FIXME: Support IEEE 754-2008 FP.
+-- 
+2.26.2
+
 
