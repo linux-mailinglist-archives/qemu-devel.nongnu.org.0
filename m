@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58913392A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:05:05 +0100 (CET)
-Received: from localhost ([::1]:48276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7D6339364
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:30:05 +0100 (CET)
+Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkHg-000241-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:05:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
+	id 1lKkfs-0003Vk-NU
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:30:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKk8P-00086o-7E
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:30 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKk8N-0007Gb-Ng
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:28 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id x16so2052480wrn.4
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:55:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Tcxu4RysNIGJ7eHY8sfNHUztIwfmDxyi76Oab9FOw1o=;
- b=KNv2ZXGS82RZiTvu5hei9/a7Lp1BGy47/3H4ouhumeBNTfO8aVh/oAXgPeNKmsB5dC
- hZhqX+CccpCuko06hGImwhlhBGGgR9LyRIl5JhwThdLtWTWeVJ83Z7ax+PtkXygIocFz
- CBO3dAiT8D0cgyZe2XAkZXJfUaOcL1GOawYzbMxldh7d3KkibSzbB3v9+w2ZdDvfP8yG
- IAnzZ7gN4wzILtC9jJNwMWFEQB/g0fLtLe33D5g4CgM9C7BrSU/MPjt4uNSKjVvDJg2r
- l5lsPRDGSH7+vw2/0QTfMTsxulqwik+ASBI5Az38Yaw6YH7XPeObVOL4gfGNEctFbEcC
- pRDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Tcxu4RysNIGJ7eHY8sfNHUztIwfmDxyi76Oab9FOw1o=;
- b=GNITgz/KY0+hQ8vdqEX01Kcjubh6mRndm/3giOHn1tIYYuCrQARt4SNThEwLYU8QSN
- C+EQO7TMBKy0OvPu1Y4J++88373Zek5noQeZXrv7jT1cTNyF3e6rDmhw9Vd44FAfdPaw
- SY2o2BBdUQaAbwZIfknEP6sUxKWASgepa2UIopjeKyqLRvcKacwhVUv3NyJlw1bA0vSe
- fLSJbZwDvmxlvcudzMUHxIghOEOq7RSckENyjOQE3aUzcsGCQERQQ3pH/Sr0p/kuSuVm
- YSPon/+uJP75I1Gg/8BMAJJ1k+xdBxusFjMHJTN17YXdqSLJcUaOOkbL9LIlEQRlhJwm
- asVw==
-X-Gm-Message-State: AOAM530urLTnOvBV25Be2sQaIKdUwuhZ4NojTARP5/C7K8DkSSusfppW
- DUgYGGNgSv13wdamEtJx/J1U4vDHv0w=
-X-Google-Smtp-Source: ABdhPJyYR+5a6jBxGBHAGGrUzEsj1egSFYZ6kwX8ZLUQyMDTYJs+JltCWyDJl5ZEHs7sekL3UqzV3g==
-X-Received: by 2002:adf:ed12:: with SMTP id a18mr14821158wro.249.1615564526097; 
- Fri, 12 Mar 2021 07:55:26 -0800 (PST)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id d29sm8090414wra.51.2021.03.12.07.55.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 07:55:25 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] MAINTAINERS: Mark SH-4 hardware emulation orphan
-Date: Fri, 12 Mar 2021 16:55:13 +0100
-Message-Id: <20210312155513.1849109-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210312155513.1849109-1-f4bug@amsat.org>
-References: <20210312155513.1849109-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKkEc-0008RN-0b
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:01:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKkEV-0002dr-2n
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 11:01:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615564904;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H6fVi8+FEWkRZwlnmtJh4EqD+E/hf0TIRWZVL5SlaCg=;
+ b=gh+1PsxIVZq+Nd4BRZyj4WlvBiqCMwVhU/Me90SSKxTDql9AGRuQ835JMb7cqmvOvRtTDi
+ W1thG6bAOkJEv9yJDfMPwj5RTgD+kWx5+21QZDms7oEXMO8PUT9bRDEkEpEpq3dAvZ2qmT
+ kJnGeQgE5vto1DgiltFT6z8v1tOR9Ms=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-BhFrC3JnPi6tVlKgT_kP6Q-1; Fri, 12 Mar 2021 11:01:41 -0500
+X-MC-Unique: BhFrC3JnPi6tVlKgT_kP6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F4D494DD0
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 16:01:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2B9A19744;
+ Fri, 12 Mar 2021 16:01:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5C47C1132C12; Fri, 12 Mar 2021 17:01:39 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qom: Support JSON in user_creatable_parse_str()
+References: <20210312131921.421023-1-kwolf@redhat.com>
+Date: Fri, 12 Mar 2021 17:01:39 +0100
+In-Reply-To: <20210312131921.421023-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Fri, 12 Mar 2021 14:19:21 +0100")
+Message-ID: <87h7lg1huk.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,71 +79,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pbonzini@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yoshinori Sato doesn't have time to manage QEMU reviews.
-
-The code is in good shape and hasn't started to bitrot,
-so mark the SH-4 hardware as orphan to give the possibility
-to any contributor to step in and fill the gap.
-
-CC: Magnus Damm <magnus.damm@gmail.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 95abfd6b818..3ba7b47f8e7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -321,8 +321,8 @@ F: tests/tcg/s390x/
- L: qemu-s390x@nongnu.org
- 
- SH4 TCG CPUs
--M: Yoshinori Sato <ysato@users.sourceforge.jp>
--S: Odd Fixes
-+R: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Orphan
- F: target/sh4/
- F: hw/sh4/
- F: disas/sh4.c
-@@ -1401,7 +1401,7 @@ F: tests/acceptance/machine_rx_gdbsim.py
- SH4 Machines
- ------------
- R2D
--M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+R: Yoshinori Sato <ysato@users.sourceforge.jp>
- R: Magnus Damm <magnus.damm@gmail.com>
- S: Odd Fixes
- F: hw/char/sh_serial.c
-@@ -1412,7 +1412,7 @@ F: hw/timer/sh_timer.c
- F: include/hw/sh4/sh_intc.h
- 
- Shix
--M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+R: Yoshinori Sato <ysato@users.sourceforge.jp>
- R: Magnus Damm <magnus.damm@gmail.com>
- S: Odd Fixes
- F: hw/block/tc58128.c
-@@ -2163,7 +2163,7 @@ F: include/hw/*/*xive*
- F: docs/*/*xive*
- 
- Renesas peripherals
--M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+R: Yoshinori Sato <ysato@users.sourceforge.jp>
- R: Magnus Damm <magnus.damm@gmail.com>
- S: Odd Fixes
- F: hw/char/renesas_sci.c
--- 
-2.26.2
+Is this an alternative to Paolo's "[PATCH 0/3] vl: QAPIfy -object", and
+if not, how do the two play together?
 
 
