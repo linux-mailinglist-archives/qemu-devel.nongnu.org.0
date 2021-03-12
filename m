@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C96B339161
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:34:26 +0100 (CET)
-Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E41339152
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 16:32:38 +0100 (CET)
+Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKjo1-0002Sf-8z
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:34:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
+	id 1lKjmH-0000yB-67
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 10:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lKjZW-0004f0-Mm
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:26 -0500
-Received: from foss.arm.com ([217.140.110.172]:48134)
+ id 1lKjZd-0004ro-9m
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:33 -0500
+Received: from foss.arm.com ([217.140.110.172]:48176)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lKjZU-0003nj-TJ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:26 -0500
+ (envelope-from <steven.price@arm.com>) id 1lKjZb-0003rR-0r
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:19:33 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03C0F1FB;
- Fri, 12 Mar 2021 07:19:24 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C1531FB;
+ Fri, 12 Mar 2021 07:19:30 -0800 (PST)
 Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C2953F7D7;
- Fri, 12 Mar 2021 07:19:21 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56CCE3F7D7;
+ Fri, 12 Mar 2021 07:19:27 -0800 (PST)
 From: Steven Price <steven.price@arm.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  Will Deacon <will@kernel.org>
-Subject: [PATCH v10 4/6] arm64: kvm: Expose KVM_ARM_CAP_MTE
-Date: Fri, 12 Mar 2021 15:19:00 +0000
-Message-Id: <20210312151902.17853-5-steven.price@arm.com>
+Subject: [PATCH v10 6/6] KVM: arm64: Document MTE capability and ioctl
+Date: Fri, 12 Mar 2021 15:19:02 +0000
+Message-Id: <20210312151902.17853-7-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312151902.17853-1-steven.price@arm.com>
 References: <20210312151902.17853-1-steven.price@arm.com>
@@ -68,55 +68,89 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's now safe for the VMM to enable MTE in a guest, so expose the
-capability to user space.
+A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
+granting a guest access to the tags, and provides a mechanism for the
+VMM to enable it.
+
+A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
+access the tags of a guest without having to maintain a PROT_MTE mapping
+in userspace. The above capability gates access to the ioctl.
 
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- arch/arm64/kvm/arm.c      | 9 +++++++++
- arch/arm64/kvm/sys_regs.c | 3 +++
- 2 files changed, 12 insertions(+)
+ Documentation/virt/kvm/api.rst | 53 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index fc4c95dd2d26..46bf319f6cb7 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -93,6 +93,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		r = 0;
- 		kvm->arch.return_nisv_io_abort_to_user = true;
- 		break;
-+	case KVM_CAP_ARM_MTE:
-+		if (!system_supports_mte() || kvm->created_vcpus)
-+			return -EINVAL;
-+		r = 0;
-+		kvm->arch.mte_enabled = true;
-+		break;
- 	default:
- 		r = -EINVAL;
- 		break;
-@@ -234,6 +240,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		 */
- 		r = 1;
- 		break;
-+	case KVM_CAP_ARM_MTE:
-+		r = system_supports_mte();
-+		break;
- 	case KVM_CAP_STEAL_TIME:
- 		r = kvm_arm_pvtime_supported();
- 		break;
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index 377ae6efb0ef..46937bfaac8a 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1306,6 +1306,9 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
- 				   const struct sys_reg_desc *rd)
- {
-+	if (kvm_has_mte(vcpu->kvm))
-+		return 0;
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 1a2b5210cdbf..ccc84f21ba5e 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -4938,6 +4938,40 @@ see KVM_XEN_VCPU_SET_ATTR above.
+ The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
+ with the KVM_XEN_VCPU_GET_ATTR ioctl.
+ 
++4.131 KVM_ARM_MTE_COPY_TAGS
++---------------------------
 +
- 	return REG_HIDDEN;
- }
++:Capability: KVM_CAP_ARM_MTE
++:Architectures: arm64
++:Type: vm ioctl
++:Parameters: struct kvm_arm_copy_mte_tags
++:Returns: 0 on success, < 0 on error
++
++::
++
++  struct kvm_arm_copy_mte_tags {
++	__u64 guest_ipa;
++	__u64 length;
++	union {
++		void __user *addr;
++		__u64 padding;
++	};
++	__u64 flags;
++	__u64 reserved[2];
++  };
++
++Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
++``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
++fieldmust point to a buffer which the tags will be copied to or from.
++
++``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
++``KVM_ARM_TAGS_FROM_GUEST``.
++
++The size of the buffer to store the tags is ``(length / MTE_GRANULE_SIZE)``
++bytes (i.e. 1/16th of the corresponding size). Each byte contains a single tag
++value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
++``PTRACE_POKEMTETAGS``.
++
+ 5. The kvm_run structure
+ ========================
+ 
+@@ -6227,6 +6261,25 @@ KVM_RUN_BUS_LOCK flag is used to distinguish between them.
+ This capability can be used to check / enable 2nd DAWR feature provided
+ by POWER10 processor.
+ 
++7.23 KVM_CAP_ARM_MTE
++--------------------
++
++:Architectures: arm64
++:Parameters: none
++
++This capability indicates that KVM (and the hardware) supports exposing the
++Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
++VMM before the guest will be granted access.
++
++When enabled the guest is able to access tags associated with any memory given
++to the guest. KVM will ensure that the pages are flagged ``PG_mte_tagged`` so
++that the tags are maintained during swap or hibernation of the host; however
++the VMM needs to manually save/restore the tags as appropriate if the VM is
++migrated.
++
++When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
++perform a bulk copy of tags to/from the guest.
++
+ 8. Other capabilities.
+ ======================
  
 -- 
 2.20.1
