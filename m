@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273D338A90
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:50:43 +0100 (CET)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E52C338A5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:38:18 +0100 (CET)
+Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKfNS-0001uB-I1
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:50:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42482)
+	id 1lKfBR-0001UM-3L
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:38:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKf4y-0000lI-NL
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:36 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:4053)
+ id 1lKf50-0000qa-RV
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:38 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:4055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKf4v-0003YM-Sw
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:36 -0500
+ id 1lKf4y-0003YN-N2
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:38 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dxhs42xQDzkY7V;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dxhs43RcyzkY8P;
  Fri, 12 Mar 2021 18:30:00 +0800 (CST)
 Received: from DESKTOP-F1615D3.china.huawei.com (10.174.186.85) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 12 Mar 2021 18:31:18 +0800
+ 14.3.498.0; Fri, 12 Mar 2021 18:31:22 +0800
 From: Zihao Chang <changzihao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v6 0/3] vnc: support reload x509 certificates
-Date: Fri, 12 Mar 2021 18:31:03 +0800
-Message-ID: <20210312103106.1368-1-changzihao1@huawei.com>
+Subject: [PATCH v6 1/3] crypto: add reload for QCryptoTLSCredsClass
+Date: Fri, 12 Mar 2021 18:31:04 +0800
+Message-ID: <20210312103106.1368-2-changzihao1@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
+In-Reply-To: <20210312103106.1368-1-changzihao1@huawei.com>
+References: <20210312103106.1368-1-changzihao1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -62,28 +64,112 @@ Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, changzihao1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series supports reload x509 certificates for vnc
-1. Support reload x509 certificates.
-2. Support reload vnc certificates.
-3. Add new qmp display-reload and implement reload x509 certificates
-for vnc.
+This patch adds reload interface for QCryptoTLSCredsClass and implements
+the interface for QCryptoTLSCredsX509.
 
-Example:
-{"execute": "display-reload", "arguments":{"type": "vnc", "tls-certs": true}}
+Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+---
+ crypto/tlscredsx509.c     | 48 +++++++++++++++++++++++++++++++++++++++
+ include/crypto/tlscreds.h |  8 ++++---
+ 2 files changed, 53 insertions(+), 3 deletions(-)
 
-Zihao Chang (3):
-  crypto: add reload for QCryptoTLSCredsClass
-  vnc: support reload x509 certificates for vnc
-  qmp: add new qmp display-reload
-
- crypto/tlscredsx509.c     | 49 +++++++++++++++++++++++++++++++
- include/crypto/tlscreds.h |  8 +++--
- include/ui/console.h      |  1 +
- monitor/qmp-cmds.c        | 15 ++++++++++
- qapi/ui.json              | 62 +++++++++++++++++++++++++++++++++++++++
- ui/vnc.c                  | 28 ++++++++++++++++++
- 6 files changed, 160 insertions(+), 3 deletions(-)
-
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index dbadad4df28e..216d1ef09fe5 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -770,6 +770,51 @@ qcrypto_tls_creds_x509_prop_get_sanity(Object *obj,
+ }
+ 
+ 
++#ifdef CONFIG_GNUTLS
++
++
++static bool
++qcrypto_tls_creds_x509_reload(QCryptoTLSCreds *creds, Error **errp)
++{
++    QCryptoTLSCredsX509 *x509_creds = QCRYPTO_TLS_CREDS_X509(creds);
++    Error *local_err = NULL;
++    gnutls_certificate_credentials_t old_data = x509_creds->data;
++    gnutls_dh_params_t old_dh_params = x509_creds->parent_obj.dh_params;
++
++    x509_creds->data = NULL;
++    x509_creds->parent_obj.dh_params = NULL;
++    qcrypto_tls_creds_x509_load(x509_creds, &local_err);
++    if (local_err) {
++        qcrypto_tls_creds_x509_unload(x509_creds);
++        x509_creds->data = old_data;
++        x509_creds->parent_obj.dh_params = old_dh_params;
++        error_propagate(errp, local_err);
++        return false;
++    }
++
++    if (old_data) {
++        gnutls_certificate_free_credentials(old_data);
++    }
++    if (old_dh_params) {
++        gnutls_dh_params_deinit(old_dh_params);
++    }
++    return true;
++}
++
++
++#else /* ! CONFIG_GNUTLS */
++
++
++static bool
++qcrypto_tls_creds_x509_reload(QCryptoTLSCreds *creds, Error **errp)
++{
++    return false;
++}
++
++
++#endif /* ! CONFIG_GNUTLS */
++
++
+ static void
+ qcrypto_tls_creds_x509_complete(UserCreatable *uc, Error **errp)
+ {
+@@ -800,6 +845,9 @@ static void
+ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++    QCryptoTLSCredsClass *ctcc = QCRYPTO_TLS_CREDS_CLASS(oc);
++
++    ctcc->reload = qcrypto_tls_creds_x509_reload;
+ 
+     ucc->complete = qcrypto_tls_creds_x509_complete;
+ 
+diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
+index 079e37604784..d0808e391e91 100644
+--- a/include/crypto/tlscreds.h
++++ b/include/crypto/tlscreds.h
+@@ -30,14 +30,15 @@
+ 
+ #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
+ typedef struct QCryptoTLSCreds QCryptoTLSCreds;
+-DECLARE_INSTANCE_CHECKER(QCryptoTLSCreds, QCRYPTO_TLS_CREDS,
+-                         TYPE_QCRYPTO_TLS_CREDS)
+-
+ typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
++DECLARE_OBJ_CHECKERS(QCryptoTLSCreds, QCryptoTLSCredsClass, QCRYPTO_TLS_CREDS,
++                     TYPE_QCRYPTO_TLS_CREDS)
++
+ 
+ #define QCRYPTO_TLS_CREDS_DH_PARAMS "dh-params.pem"
+ 
+ 
++typedef bool (*CryptoTLSCredsReload)(QCryptoTLSCreds *, Error **);
+ /**
+  * QCryptoTLSCreds:
+  *
+@@ -61,6 +62,7 @@ struct QCryptoTLSCreds {
+ 
+ struct QCryptoTLSCredsClass {
+     ObjectClass parent_class;
++    CryptoTLSCredsReload reload;
+ };
+ 
+ 
 -- 
 2.28.0
 
