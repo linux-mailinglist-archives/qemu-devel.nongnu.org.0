@@ -2,75 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23E5339772
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:34:08 +0100 (CET)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0E2339775
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 20:36:30 +0100 (CET)
+Received: from localhost ([::1]:34876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKnXz-0006co-E6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:34:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
+	id 1lKnaH-0008B5-G0
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 14:36:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKmX6-0005Ys-SD; Fri, 12 Mar 2021 13:29:08 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKmX5-0004xd-8q; Fri, 12 Mar 2021 13:29:08 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l12so5342000wry.2;
- Fri, 12 Mar 2021 10:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9tJp0u8EkF/DAA9zO9gGqV8fJY+V8VUWnyEVu07oRsU=;
- b=D4vLJqQyOFpCuz45zqLrkOqIezWkBmmZA6sCZs5wd+E9a+q76yyxoMXjTQLKk8DLTF
- T7cDt9CiZuIt0duYmAOcS7DA2UXzHms3jgYxPyQpapTwKPsfe3uX+GFv/YdI2EyxQ4qp
- iOSWDpVm7iVc9SpyvGB1putYGOoSx31MjZ/W+lGamX7B80noAS6waTeIkJrtreCvhA66
- q1M1Yx6+4Uph4BXgZQ/77tGYFQ32M3ztmxBtvwYP49mACpmSZrQdw7gEnVzNSODDFKV8
- PMlUCxxAWHi6Kc0Mct3lpzWDlXh7TFddBWu3l39t4jsQecqMXvDRtcoMaOQjnfhpMoFE
- kmRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9tJp0u8EkF/DAA9zO9gGqV8fJY+V8VUWnyEVu07oRsU=;
- b=nvbIR8KjV8nADRW0x9zAQeglA8kDQ3X+NPXBxY5+DzMRA4/0+KIrJxGcWO8AOBpzVo
- xOkxBxJG8eTQTNj07UbmB3Tby6hIE6dD7JyQLmAaxpctYPS3CA6wln0SFWjAsSev6/vF
- yowB7e9kCT9KonMjxNqAK2TdyOqQsbGJ2jMNY0R9GvMIVXI/4CKtk1e+ly1vJkmvzMgs
- bJ74K8lxo9VLh3yDCv7aL63CtP2jFwdSVXoIFANOR7j65ZuVLrjkaUBCX/6ilqf7sLB7
- +/cH8tTfgba6nhrG779FEam2f4dD1A7TiB0MTvr7fK14Ga5jaKFGKDqFJN08DaqvogFC
- 7KNA==
-X-Gm-Message-State: AOAM531T72afsO9qfZh4mwnPWF1w0lH7CQSBN764+XPc3rJJHBg1/ju4
- 5rN1ZBV7Ksaotz7YUPEuH7d6qBbdbso=
-X-Google-Smtp-Source: ABdhPJw0X6cG3IBekwtztTFo0R627GOg0kkqW4JcehgXqIdlD+gObeIqPhRoRmb1VvX6ZKy1yNn/hA==
-X-Received: by 2002:adf:e84f:: with SMTP id d15mr15382841wrn.394.1615573744919; 
- Fri, 12 Mar 2021 10:29:04 -0800 (PST)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j11sm8494397wrm.13.2021.03.12.10.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 10:29:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
- directly, use alias
-Date: Fri, 12 Mar 2021 19:28:48 +0100
-Message-Id: <20210312182851.1922972-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210312182851.1922972-1-f4bug@amsat.org>
-References: <20210312182851.1922972-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lKmXX-0006fw-SZ
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:29:35 -0500
+Received: from mail-dm6nam12on2116.outbound.protection.outlook.com
+ ([40.107.243.116]:5760 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lKmXW-0005KM-FC
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 13:29:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lkcLa8KfLUtTPdI9rfap0xRdUQd955V26EjkifCIXlDM0WWZO3keWfBNeD2qMgdGekZoyjCtZjw4dGDa7LZN6HYZPf/Q0xWsbeBNXtFiLUUbJDDdoRFwt2WZRVtJLEhtmHaSQmL9Mt11T7CsG8l9XgN2AWAsIXnSFrfNR7EWUh/z2pmTpSTBz6VsPnnCogA5UfPAP9AwPa5Hcd+kgWwUjzmjDjn/eWUpyXmwuM1LLB95Wams776h9F39rxxF6fElb06nSxm4q4MQ3PBghWqUVnxfQpiP9hySwnDJX52t8Y9AeZ62s4+HiaNP/rXsp6naloPSKMbeh2N9fJNy/vZODw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uOSA55wJ3WBZ+mCbEsbiYyxD0zCMUBR+QxpAAFZx0xA=;
+ b=nXeWaJxoC8cRrXzYcs9s46mDIwXbjJeOZBCKkUg/rrlpqtepkVxbFHgBNf8eNihzPxrL6kgH1XQlptiBe2GOL2IRaw0V07di6T3928rSXIUJP0i4AybLHYbmdeTnwz/LXuDfhbRuLRjtE1GYOBxDlgPpSVGQLX+WvwHKjT7L6YMWPVjppfjtdv8xuqze+LqcOdNM6NWsVB78KaZAEMMbgQVjH2ihYFa4h1bBAHMH6Kjw3+56pZJCy5d38XmzJdoKjtnhPSmiIkeMoqJp3PXcl3c9cF5gZYSoAQstpZ1jGySU7tMebQZPi9hit7nZn2bZ47isOIrA7U92uH3OkgcSRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uOSA55wJ3WBZ+mCbEsbiYyxD0zCMUBR+QxpAAFZx0xA=;
+ b=n8oMLZ76OIoa80tRsESbEXDeGc4dt+e7icGssw/o+6bBdQqC6AUx8d9tsvLoYxfzXKIfnyGn4JU4nIFbYtSKynARc7Y5UYq5vUCMuOTkABTKm8LFa1zCG/4Jd6VtI4JHZpkTJZhc8Qw+CCYDMir3T9zWpgRIH8n313MtwuF/xEc=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB4048.prod.exchangelabs.com (2603:10b6:805:b3::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.19; Fri, 12 Mar 2021 18:29:30 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403%7]) with mapi id 15.20.3933.031; Fri, 12 Mar 2021
+ 18:29:30 +0000
+Date: Fri, 12 Mar 2021 13:29:31 -0500
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, cota@braap.org, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com
+Subject: Re: [PATCH v1 08/14] plugins: add qemu_plugin_cb_flags to kernel-doc
+Message-ID: <YEuzC5GYBwpef05D@strawberry.localdomain>
+References: <20210312172821.31647-1-alex.bennee@linaro.org>
+ <20210312172821.31647-9-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+In-Reply-To: <20210312172821.31647-9-alex.bennee@linaro.org>
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: BLAPR03CA0118.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::33) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ BLAPR03CA0118.namprd03.prod.outlook.com (2603:10b6:208:32a::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Fri, 12 Mar 2021 18:29:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 784666c1-60b3-48ca-b619-08d8e584c68b
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4048:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB40480F86843863E093C0C3198A6F9@SN6PR01MB4048.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z+kcKzUT6BAr9hhKMt+BaQ8Cd0nj78OaybxtumZQHgrHALyDsTOesAIOb7rIdBw/KqQIiHo4k2HWyzbDUY4Ywo0A5QbufUjhKJW/8U233jK5v/moXu9eXOsfylnQebL5Fv8YBftA2mXBxJSJxawJWARtcsoGYJSbc4kD6MslvkarZ6GAqvPbzNwdPIvwjezkVKzZrwkrmbYCu/ftbNkbFW2cRrOicnsbLO2EIO7PxrnjiDreOjXRaPKPF/w2ewEFczff0IQS3M4KVG056WZXOXSELSFfSc95j3UHQhbVg+rgobIUgrMT5DVvI82Ju+m2rilbJYd8iMKvxksmq7sbaCgC9e/+2InYsKLp2MtJUqLIczimkBroz12i7Zk7BsWwZ8dxw5caUbVEQFdj4YDN5JFwOsVV0Ux7zrMtPdXb+zviU0qSCEI5LpTicubhvyXFn+vSYG5NboLEslCnnt8mTcVsMT+9iIXxZNFw0Q/gMdMkWRyax+lmewA9oyTo65VKk5qe1ZO9XUyMbfgGCX+6C4rf52CBliNUQJe46d2qxYVX/MBGk3dSoUxr5JMydWwJN6CbvS39GTsXIliXwP9QEQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(39850400004)(136003)(478600001)(6506007)(5660300002)(66556008)(7696005)(52116002)(83380400001)(66476007)(6666004)(186003)(9686003)(86362001)(8676002)(26005)(6916009)(34580700001)(16526019)(66946007)(55016002)(4326008)(66574015)(956004)(316002)(2906002)(8936002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?tNgSA+huLfGCcoyB1Wmp12lbCxzpHX7kCLrKy7T4GcKlzZ2+/iWuh+1u6a?=
+ =?iso-8859-1?Q?UOPtsEF2nObXltiPQtz/EKzUw+l+qj89L6RAVtF2mtPcIaO3qvhM/61hZ3?=
+ =?iso-8859-1?Q?BSUWcZ9px2xDD1YDanUz8KWJaz02jR2MNAWU+4QWv7W70x7fAKpwQByp3f?=
+ =?iso-8859-1?Q?cLRebbUh+kG70kYmFHcwenuHeOtScjRe8Nit0jtyQK3xZppIZzwrfWCpqV?=
+ =?iso-8859-1?Q?vehEzF57qXxDe2cA3uuMHG/oNo+nuZvVp1q8/vAsga5FDCws/MRMEbgh7I?=
+ =?iso-8859-1?Q?SWXrj3mV6RmnmW1O29EtREkFLTqaoRb88Q+vrBBERP9bssfFmH7zQ7J+Hw?=
+ =?iso-8859-1?Q?7ForqfODYpDsu1/6wLcsL6i/6peUftQaxH+BUv8Msd8LLOEJ3Bjxs07lcJ?=
+ =?iso-8859-1?Q?78NZ7JG+Di2MHszxRWDudhfLPAmQK6ZYdQAGkUavW+M9lOHPub/pRP54fQ?=
+ =?iso-8859-1?Q?BE+kiyRp6pw5vcJq8X9PREQ5GgtFNkHrv4Pkrl8myE4TaHC3f+jiYWi835?=
+ =?iso-8859-1?Q?Z1E0eq/2UX9qSowNEWcNJetbd9yg9WBrqlnK95bXTb283Dwmuq9Nj1SqxI?=
+ =?iso-8859-1?Q?t9gTrODG/7LljU3F55Swh9z74A+nBm3u+BFjcWbxbQxGkSiuWad8lfXOmf?=
+ =?iso-8859-1?Q?n0GJvoCYdlyDGYJ72UUPS6Dl8G12ZAl5nrIo2lzYHpiz1gtch0Yo+SJEA7?=
+ =?iso-8859-1?Q?SxGhADneFmFt/2jiK3gMIrFycZUT8FHnVvwT6OkuUG2xGrq0Ko8cPdqdjG?=
+ =?iso-8859-1?Q?Ixqr2DIsNffk/fdZcwRybXGpaTjVh0RNepB7y3flOe1uOGwcawqT1MKjf8?=
+ =?iso-8859-1?Q?UowzFy7/MEVZvCqkBIMZLU1z/KvXedO3OH2LIGeYWIVn3+mfcQ2smKtX6u?=
+ =?iso-8859-1?Q?ndziub3nH6JePu1yilSmWQCZAHNcMqQvR8TSxY60Yvs3h5YxvqK0h1U+KF?=
+ =?iso-8859-1?Q?zE5xeZAKzymxiBUbZkwMgw6ZPTeFbuTvfqyhmjqC5lSCr13huQ5rEJKLNk?=
+ =?iso-8859-1?Q?CA5FT3p5SL0chlTOWAHelDtBfKEeEXmiBHvOAg8U5Rp/4TMQ1gL5gDYOCB?=
+ =?iso-8859-1?Q?tsT+9NjSwEicwhx4A5vsFzTMTh36fxCBr0h+SkKbSBIl6YmGtu022nYLVc?=
+ =?iso-8859-1?Q?bwMZAp/ee76bgrQ03g0/2nHpRlIAEe8rSN9HWVNGXavc3OOglrCSOmrlGE?=
+ =?iso-8859-1?Q?XP+Ae/fdFqkEyh9QIs7OdAnhF4LODvdj1jx2gDn5Ve4GDoVR0SdjxSk5HF?=
+ =?iso-8859-1?Q?373Gma6/9YxVZvicsOrTZzjFIkAI4izruYd/u9jt92IVtwBz6hXJIU1r3t?=
+ =?iso-8859-1?Q?PAaUfNxQsx/Quw/c6FSn2CFycsqRQGMioIakIQXQ6Sb3YIN1mwD0ZuZFOn?=
+ =?iso-8859-1?Q?4K6SLjfgV6?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 784666c1-60b3-48ca-b619-08d8e584c68b
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 18:29:30.5212 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A8rWCgJ7r9w6OvCxHmfeSL0bIdMKDLdkxWQAcmIyj+b3RWYspJhfwWiqP9q5HlOo1VIv/Yw8/cZGQJnxM1rYjkEK0QKEAF9sgH20Cef2VO8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4048
+Received-SPF: pass client-ip=40.107.243.116;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,56 +138,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
- Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
+From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-The flash mmio region is exposed as an AddressSpace.
-AddressSpaces must not be sysbus-mapped, therefore map
-the region using an alias.
+On Mar 12 17:28, Alex Bennée wrote:
+> Also add a note to explain currently they are unused.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
----
- include/hw/ssi/aspeed_smc.h | 1 +
- hw/ssi/aspeed_smc.c         | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+I'm personally interested in one clarification below, but don't think
+that affects my:
 
-diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 16c03fe64f3..e3c96cecbd8 100644
---- a/include/hw/ssi/aspeed_smc.h
-+++ b/include/hw/ssi/aspeed_smc.h
-@@ -84,6 +84,7 @@ struct AspeedSMCState {
- 
-     MemoryRegion mmio;
-     MemoryRegion mmio_flash;
-+    MemoryRegion mmio_flash_alias;
- 
-     qemu_irq irq;
-     int irqline;
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 16addee4dc8..aa26578bdac 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -1386,7 +1386,9 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&s->mmio_flash, OBJECT(s),
-                           &aspeed_smc_flash_default_ops, s, name,
-                           s->ctrl->flash_window_size);
--    sysbus_init_mmio(sbd, &s->mmio_flash);
-+    memory_region_init_alias(&s->mmio_flash_alias, OBJECT(s), name,
-+                             &s->mmio_flash, 0, s->ctrl->flash_window_size);
-+    sysbus_init_mmio(sbd, &s->mmio_flash_alias);
- 
-     s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_peripherals);
- 
--- 
-2.26.2
+Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 
+> ---
+>  include/qemu/qemu-plugin.h | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+> index 9ae3940d89..c98866a637 100644
+> --- a/include/qemu/qemu-plugin.h
+> +++ b/include/qemu/qemu-plugin.h
+> @@ -207,10 +207,20 @@ struct qemu_plugin_tb;
+>  /** struct qemu_plugin_insn - Opaque handle for a translated instruction */
+>  struct qemu_plugin_insn;
+>  
+> +/**
+> + * enum qemu_plugin_cb_flags - type of callback
+> + *
+> + * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
+> + * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
+> + * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
+> + *
+> + * Note: currently unused, plugins cannot read or change system
+> + * register state.
+
+They are unused in the sense that the current plugin interface does not
+provide a way to make use of them. But are they completely free from
+side effects?
+
+-Aaron
 
