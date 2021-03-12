@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1AF338E24
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:03:18 +0100 (CET)
-Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B93D338E43
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 14:05:34 +0100 (CET)
+Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKhRl-0001wY-5L
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:03:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1lKhTx-0003Pi-LH
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 08:05:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lKhPL-00019p-HI
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:00:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lKhPD-0005Xz-Ms
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:00:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615554037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ofAYuwQuEviztNkxoBW+URNo1GfW6VA1VXPGwjmnoUo=;
- b=aVgsOtNlixmRNmsRkznhv69oHRNGupQPyhUUZfQOppIheeBcfiQYv7fih+tQkFSYCG6xMn
- 9nvGSeSPfoDbBDleKHPSnPw/KP+JhIkbMpBmZMs3yhonAh5fwVRzKfBjqZgSsNhbcGjhro
- q0nLdMvRGNQFfl+2YPr/Zl9KSlNZcUg=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-gs1Oo-IVN9ObSl4wRbbAvg-1; Fri, 12 Mar 2021 08:00:34 -0500
-X-MC-Unique: gs1Oo-IVN9ObSl4wRbbAvg-1
-Received: by mail-il1-f200.google.com with SMTP id o7so17995407ilt.5
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 05:00:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ofAYuwQuEviztNkxoBW+URNo1GfW6VA1VXPGwjmnoUo=;
- b=kSxOO10w9/CI7pIXWECSHrpPoWg0x2BdhVJDWl1vDf8OSBFTkhTQ0aUAAkxB7bK7gu
- VodyLj3UD7wQrYpioHcD9Mh583IXZvTduPg63175slCmSCHdcn/tsqC61kDdoqjRJ+cw
- FmA7JuQSegV24ATyNl9662ZDmjFD5ncdmeJyz1IqUxCqMgoV7ODn/A/VX6LAH3XUczO7
- nS+cpUOwn2vv0qQ51H7YhsDXIpKkqX10k0xBMEX8Mlnsm03VQrhhEiOfenzFe+Eh4dNO
- AJh04QvBf3L/V4z583bXUyqsdI0DXsg/AW/B2KxV6lyn3dSbaCMc6W0xeGqYSWWW7S2F
- 3Gxg==
-X-Gm-Message-State: AOAM530fweZkgi2aYFX2H+0gPDFKEHhRrecsgmPc0DNqc+9oEtVsqvZg
- Siu5vf0mfF617KATUMMlH4W0AcVq5C+C9SncMkyWPgKi349edpBE+tAKMHTPS7b5HKV8+sE1dcN
- Xq74t0odiy5hfy3+zhDrAqyM0NqBLKSU=
-X-Received: by 2002:a92:d4c9:: with SMTP id o9mr1681866ilm.165.1615554033573; 
- Fri, 12 Mar 2021 05:00:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwmqKZbQ521ih4wsE+8V4U2NAK92uXsOy+mAQHVdJ8QRj/o0aA4tPnHrb1OolJqwq5giGDVx+jhNdNXaBJGz00=
-X-Received: by 2002:a92:d4c9:: with SMTP id o9mr1681851ilm.165.1615554033376; 
- Fri, 12 Mar 2021 05:00:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKhRu-0002hq-T9
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:03:26 -0500
+Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:35022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKhRs-0007D6-6f
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:03:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 710BB264F1B;
+ Fri, 12 Mar 2021 14:03:20 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 12 Mar
+ 2021 14:03:19 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00698af64ac-d8be-4f4e-8e01-4f76ff4de6e3,
+ 691A38DB5CB01A665C0D074ECDE31926393917AC) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 12 Mar 2021 14:03:17 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+Subject: Re: [PATCH v2 1/8] powerpc/xive: Use cpu_to_node() instead of
+ ibm,chip-id property
+Message-ID: <20210312140317.1db4eac9@bahia.lan>
+In-Reply-To: <0f27271d-cb4d-986c-95c6-3173b43f70e5@linux.ibm.com>
+References: <20210303174857.1760393-1-clg@kaod.org>
+ <20210303174857.1760393-2-clg@kaod.org>
+ <20210308181359.789c143b@bahia.lan>
+ <8dd98e22-1f10-e87b-3fe3-e786bc9a8d71@kaod.org>
+ <3180b5c6-e61f-9c5f-3c80-f10e69dc5785@linux.ibm.com>
+ <92edbc26-4cb5-6e2f-00ff-43a3dca43759@kaod.org>
+ <20210312125527.61bc269c@yekko.fritz.box>
+ <4effbb5e-6f08-03bf-cea0-60c986175668@kaod.org>
+ <0f27271d-cb4d-986c-95c6-3173b43f70e5@linux.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
- <20200110153039.1379601-25-marcandre.lureau@redhat.com>
- <c3bbad37-410a-6f6a-c0e0-f0c1ea10e0a4@redhat.com>
-In-Reply-To: <c3bbad37-410a-6f6a-c0e0-f0c1ea10e0a4@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 12 Mar 2021 17:00:22 +0400
-Message-ID: <CAMxuvaysR6kGPd0DAY-ObTiqYHy-+Pu9abqRSDnBuP39o3jSYw@mail.gmail.com>
-Subject: Re: [PATCH 24/26] qom: introduce object_property_help()
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000467ba305bd567c73"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 3f60a2cd-d1d7-4283-8a9d-50cc8fdcf588
+X-Ovh-Tracer-Id: 7392658791295916393
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvvddggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevtdekteeijedvheefgfdutddtkeelleejudekjeelvefgffehkeetieefjedvfeenucffohhmrghinheprhgvughhrghtrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
+ helo=10.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,259 +76,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ David Gibson <dgibson@redhat.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000467ba305bd567c73
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 12 Mar 2021 09:18:39 -0300
+Daniel Henrique Barboza <danielhb@linux.ibm.com> wrote:
 
-Hi
+>=20
+>=20
+> On 3/12/21 6:53 AM, C=C3=A9dric Le Goater wrote:
+> > On 3/12/21 2:55 AM, David Gibson wrote:
+> >> On Tue, 9 Mar 2021 18:26:35 +0100
+> >> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> >>
+> >>> On 3/9/21 6:08 PM, Daniel Henrique Barboza wrote:
+> >>>>
+> >>>>
+> >>>> On 3/9/21 12:33 PM, C=C3=A9dric Le Goater wrote:
+> >>>>> On 3/8/21 6:13 PM, Greg Kurz wrote:
+> >>>>>> On Wed, 3 Mar 2021 18:48:50 +0100
+> >>>>>> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> >>>>>>  =20
+> >>>>>>> The 'chip_id' field of the XIVE CPU structure is used to choose a
+> >>>>>>> target for a source located on the same chip when possible. This =
+field
+> >>>>>>> is assigned on the PowerNV platform using the "ibm,chip-id" prope=
+rty
+> >>>>>>> on pSeries under KVM when NUMA nodes are defined but it is undefi=
+ned
+> >>>>>>
+> >>>>>> This sentence seems to have a syntax problem... like it is missing=
+ an
+> >>>>>> 'and' before 'on pSeries'.
+> >>>>>
+> >>>>> ah yes, or simply a comma.
+> >>>>>  =20
+> >>>>>>> under PowerVM. The XIVE source structure has a similar field
+> >>>>>>> 'src_chip' which is only assigned on the PowerNV platform.
+> >>>>>>>
+> >>>>>>> cpu_to_node() returns a compatible value on all platforms, 0 bein=
+g the
+> >>>>>>> default node. It will also give us the opportunity to set the aff=
+inity
+> >>>>>>> of a source on pSeries when we can localize them.
+> >>>>>>>  =20
+> >>>>>>
+> >>>>>> IIUC this relies on the fact that the NUMA node id is =3D=3D to ch=
+ip id
+> >>>>>> on PowerNV, i.e. xc->chip_id which is passed to OPAL remain stable
+> >>>>>> with this change.
+> >>>>>
+> >>>>> Linux sets the NUMA node in numa_setup_cpu(). On pseries, the hcall
+> >>>>> H_HOME_NODE_ASSOCIATIVITY returns the node id if I am correct (Dani=
+el
+> >>>>> in Cc:)
+> >>>   [...]
+> >>>>>
+> >>>>> On PowerNV, Linux uses "ibm,associativity" property of the CPU to f=
+ind
+> >>>>> the node id. This value is built from the chip id in OPAL, so the
+> >>>>> value returned by cpu_to_node(cpu) and the value of the "ibm,chip-i=
+d"
+> >>>>> property are unlikely to be different.
+> >>>>>
+> >>>>> cpu_to_node(cpu) is used in many places to allocate the structures
+> >>>>> locally to the owning node. XIVE is not an exception (see below in =
+the
+> >>>>> same patch), it is better to be consistent and get the same informa=
+tion
+> >>>>> (node id) using the same routine.
+> >>>>>
+> >>>>>
+> >>>>> In Linux, "ibm,chip-id" is only used in low level PowerNV drivers :
+> >>>>> LPC, XSCOM, RNG, VAS, NX. XIVE should be in that list also but skib=
+oot
+> >>>>> unifies the controllers of the system to only expose one the OS. Th=
+is
+> >>>>> is problematic and should be changed but it's another topic.
+> >>>>>
+> >>>>>  =20
+> >>>>>> On the other hand, you have the pSeries case under PowerVM that
+> >>>>>> doesn't xc->chip_id, which isn't passed to any hcall AFAICT.
+> >>>>>
+> >>>>> yes "ibm,chip-id" is an OPAL concept unfortunately and it has no me=
+aning
+> >>>>> under PAPR. xc->chip_id on pseries (PowerVM) will contains an inval=
+id
+> >>>>> chip id.
+> >>>>>
+> >>>>> QEMU/KVM exposes "ibm,chip-id" but it's not used. (its value is not
+> >>>>> always correct btw)
+> >>>>
+> >>>>
+> >>>> If you have a way to reliably reproduce this, let me know and I'll f=
+ix it
+> >>>> up in QEMU.
+> >>>
+> >>> with :
+> >>>
+> >>>     -smp 4,cores=3D1,maxcpus=3D8 -object memory-backend-ram,id=3Dram-=
+node0,size=3D2G -numa node,nodeid=3D0,cpus=3D0-1,cpus=3D4-5,memdev=3Dram-no=
+de0 -object memory-backend-ram,id=3Dram-node1,size=3D2G -numa node,nodeid=
+=3D1,cpus=3D2-3,cpus=3D6-7,memdev=3Dram-node1
+> >>>
+> >>> # dmesg | grep numa
+> >>> [    0.013106] numa: Node 0 CPUs: 0-1
+> >>> [    0.013136] numa: Node 1 CPUs: 2-3
+> >>>
+> >>> # dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
+> >>> 		ibm,chip-id =3D <0x01>;
+> >>> 		ibm,chip-id =3D <0x02>;
+> >>> 		ibm,chip-id =3D <0x00>;
+> >>> 		ibm,chip-id =3D <0x03>;
+> >>>
+> >>> with :
+> >>>
+> >>>    -smp 4,cores=3D4,maxcpus=3D8,threads=3D1 -object memory-backend-ra=
+m,id=3Dram-node0,size=3D2G -numa node,nodeid=3D0,cpus=3D0-1,cpus=3D4-5,memd=
+ev=3Dram-node0 -object memory-backend-ram,id=3Dram-node1,size=3D2G -numa no=
+de,nodeid=3D1,cpus=3D2-3,cpus=3D6-7,memdev=3Dram-node1
+> >>>
+> >>> # dmesg | grep numa
+> >>> [    0.013106] numa: Node 0 CPUs: 0-1
+> >>> [    0.013136] numa: Node 1 CPUs: 2-3
+> >>>
+> >>> # dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
+> >>> 		ibm,chip-id =3D <0x00>;
+> >>> 		ibm,chip-id =3D <0x00>;
+> >>> 		ibm,chip-id =3D <0x00>;
+> >>> 		ibm,chip-id =3D <0x00>;
+> >>>
+> >>> I think we should simply remove "ibm,chip-id" since it's not used and
+> >>> not in the PAPR spec.
+> >>
+> >> As I mentioned to Daniel on our call this morning, oddly it *does*
+> >> appear to be used in the RHEL kernel, even though that's 4.18 based.
+> >> This patch seems to have caused a minor regression; not in the
+> >> identification of NUMA nodes, but in the number of sockets shown be
+> >> lscpu, etc.  See https://bugzilla.redhat.com/show_bug.cgi?id=3D1934421
+> >> for more information.
+> >=20
+> > Yes. The property "ibm,chip-id" is wrongly calculated in QEMU. If we
+> > remove it, we get with 4.18.0-295.el8.ppc64le or 5.12.0-rc2 :
+> >=20
+> >     [root@localhost ~]# lscpu
+> >     Architecture:        ppc64le
+> >     Byte Order:          Little Endian
+> >     CPU(s):              128
+> >     On-line CPU(s) list: 0-127
+> >     Thread(s) per core:  4
+> >     Core(s) per socket:  16
+> >     Socket(s):           2
+> >     NUMA node(s):        2
+> >     Model:               2.2 (pvr 004e 1202)
+> >     Model name:          POWER9 (architected), altivec supported
+> >     Hypervisor vendor:   KVM
+> >     Virtualization type: para
+> >     L1d cache:           32K
+> >     L1i cache:           32K
+> >     NUMA node0 CPU(s):   0-63
+> >     NUMA node1 CPU(s):   64-127
+> >=20
+> >     [root@localhost ~]# grep . /sys/devices/system/cpu/*/topology/physi=
+cal_package_id
+> >     /sys/devices/system/cpu/cpu0/topology/physical_package_id:-1
+> >     /sys/devices/system/cpu/cpu100/topology/physical_package_id:-1
+> >     /sys/devices/system/cpu/cpu101/topology/physical_package_id:-1
+> >     /sys/devices/system/cpu/cpu102/topology/physical_package_id:-1
+> >     /sys/devices/system/cpu/cpu103/topology/physical_package_id:-1
+> >     ....
+> >=20
+> > "ibm,chip-id" is still being used on some occasion on pSeries machines.
+> > This is wrong :/ The problem is :
+> >=20
+> >    #define topology_physical_package_id(cpu)      (cpu_to_chip_id(cpu))
+> >=20
+> > We should be using cpu_to_node().
+>=20
+>=20
+> IIUC the "real fix" then is this change you mentioned above, together with
+> this xive patch as well, to stop using ibm,chip-id for good in the pserie
+>   kernel. With these changes QEMU can remove 'ibm,chip-id' from the pseri=
+es
+> machine without impact. Is this correct?
+>=20
+> If that's the case, then I believe it's ok to go forward with the QEMU si=
+de
+> change (just for 6.0.0 and newer machines). Or should I wait for the kern=
+el
+> changes to be merged upstream first?
+>=20
 
-On Fri, Mar 12, 2021 at 4:54 PM Thomas Huth <thuth@redhat.com> wrote:
+I'd say the latter since this is a breaking change and people will want
+to identify the upstream commits they have to backport to their kernel
+in order to support the disappearance of "ibm,chip-id".
 
-> On 10/01/2020 16.30, Marc-Andr=C3=A9 Lureau wrote:
-> > Let's factor out the code to format a help string for a property. We
-> > are going to reuse it in qdev next, which will bring some consistency.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   include/qom/object.h    | 13 +++++++++++++
-> >   qom/object_interfaces.c | 39 +++++++++++++++++++++++----------------
-> >   2 files changed, 36 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/include/qom/object.h b/include/qom/object.h
-> > index 933e5c6cb9..a28e37a648 100644
-> > --- a/include/qom/object.h
-> > +++ b/include/qom/object.h
-> > @@ -1854,6 +1854,19 @@ Object *container_get(Object *root, const char
-> *path);
-> >    */
-> >   size_t object_type_get_instance_size(const char *typename);
-> >
-> > +/**
-> > + * object_property_help:
-> > + * @name: the name of the property
-> > + * @type: the type of the property
-> > + * @defval: the default value
-> > + * @description: description of the property
-> > + *
-> > + * Returns: a user-friendly formatted string describing the property
-> > + * for help purposes.
-> > + */
-> > +char *object_property_help(const char *name, const char *type,
-> > +                           const char *defval, const char *description=
-);
-> > +
-> >   G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)
-> >
-> >   #endif
-> > diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-> > index edb4cc4a3d..b7157d6ab0 100644
-> > --- a/qom/object_interfaces.c
-> > +++ b/qom/object_interfaces.c
-> > @@ -158,6 +158,25 @@ int user_creatable_add_opts_foreach(void *opaque,
-> QemuOpts *opts, Error **errp)
-> >       return 0;
-> >   }
-> >
-> > +char *object_property_help(const char *name, const char *type,
-> > +                           const char *defval, const char *description=
-)
-> > +{
-> > +    GString *str =3D g_string_new(NULL);
-> > +
-> > +    g_string_append_printf(str, "  %s=3D<%s>", name, type);
-> > +    if (defval) {
-> > +        g_string_append_printf(str, " (default: %s)", defval);
-> > +    }
->
->   Hi!
->
-> There is something weird going on wit the default value text...
->
-> When I run:
->
-> $ qemu-system-x86_64 -device isa-fdc,help
->
-> I get:
->
-> isa-fdc options:
->    bootindexA=3D<int32>
->    bootindexB=3D<int32>
->    dma=3D<uint32>           -  (default: (null))
->    driveA=3D<str>           - Node name or ID of a block device to use as=
- a
-> backend
->    driveB=3D<str>           - Node name or ID of a block device to use as=
- a
-> backend
->    fallback=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto
-> (default: (null))
->    fdtypeA=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto
-> (default: (null))
->    fdtypeB=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto
-> (default: (null))
->    iobase=3D<uint32>        -  (default: (null))
->    irq=3D<uint32>           -  (default: (null))
->
-> Why is it showing "(null)" as default values?
->
+Cheers,
 
-Congratulations, you found a regression! :)
+--
+Greg
 
-QEMU emulator version 5.2.0 (qemu-5.2.0-6.fc33.1)
-qemu-system-x86_64 -device isa-fdc,help
-isa-fdc options:
-  bootindexA=3D<int32>
-  bootindexB=3D<int32>
-  check_media_rate=3D<bool> - on/off (default: true)
-  dma=3D<uint32>           -  (default: 2)
-  driveA=3D<str>           - Node name or ID of a block device to use as a
-backend
-  driveB=3D<str>           - Node name or ID of a block device to use as a
-backend
-  fallback=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto (defaul=
-t:
-"288")
-  fdtypeA=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto (default=
-:
-"auto")
-  fdtypeB=3D<FdcDriveType> - FDC drive type, 144/288/120/none/auto (default=
-:
-"auto")
-  iobase=3D<uint32>        -  (default: 1008)
-  irq=3D<uint32>           -  (default: 6)
-
---000000000000467ba305bd567c73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 12, 2021 at 4:54 PM Tho=
-mas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 10/01/2=
-020 16.30, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Let&#39;s factor out the code to format a help string for a property. =
-We<br>
-&gt; are going to reuse it in qdev next, which will bring some consistency.=
-<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0include/qom/object.h=C2=A0 =C2=A0 | 13 +++++++++++++<br>
-&gt;=C2=A0 =C2=A0qom/object_interfaces.c | 39 +++++++++++++++++++++++------=
-----------<br>
-&gt;=C2=A0 =C2=A02 files changed, 36 insertions(+), 16 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/include/qom/object.h b/include/qom/object.h<br>
-&gt; index 933e5c6cb9..a28e37a648 100644<br>
-&gt; --- a/include/qom/object.h<br>
-&gt; +++ b/include/qom/object.h<br>
-&gt; @@ -1854,6 +1854,19 @@ Object *container_get(Object *root, const char =
-*path);<br>
-&gt;=C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0size_t object_type_get_instance_size(const char *typename)=
-;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +/**<br>
-&gt; + * object_property_help:<br>
-&gt; + * @name: the name of the property<br>
-&gt; + * @type: the type of the property<br>
-&gt; + * @defval: the default value<br>
-&gt; + * @description: description of the property<br>
-&gt; + *<br>
-&gt; + * Returns: a user-friendly formatted string describing the property<=
-br>
-&gt; + * for help purposes.<br>
-&gt; + */<br>
-&gt; +char *object_property_help(const char *name, const char *type,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *defval, const char *description);<b=
-r>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#endif<br>
-&gt; diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c<br>
-&gt; index edb4cc4a3d..b7157d6ab0 100644<br>
-&gt; --- a/qom/object_interfaces.c<br>
-&gt; +++ b/qom/object_interfaces.c<br>
-&gt; @@ -158,6 +158,25 @@ int user_creatable_add_opts_foreach(void *opaque,=
- QemuOpts *opts, Error **errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +char *object_property_help(const char *name, const char *type,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *defval, const char *description)<br=
->
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 GString *str =3D g_string_new(NULL);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 g_string_append_printf(str, &quot;=C2=A0 %s=3D&lt;%s&gt=
-;&quot;, name, type);<br>
-&gt; +=C2=A0 =C2=A0 if (defval) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_string_append_printf(str, &quot; (defau=
-lt: %s)&quot;, defval);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 Hi!<br>
-<br>
-There is something weird going on wit the default value text...<br>
-<br>
-When I run:<br>
-<br>
-$ qemu-system-x86_64 -device isa-fdc,help<br>
-<br>
-I get:<br>
-<br>
-isa-fdc options:<br>
-=C2=A0 =C2=A0bootindexA=3D&lt;int32&gt;<br>
-=C2=A0 =C2=A0bootindexB=3D&lt;int32&gt;<br>
-=C2=A0 =C2=A0dma=3D&lt;uint32&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-=
-=C2=A0 (default: (null))<br>
-=C2=A0 =C2=A0driveA=3D&lt;str&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-=
- Node name or ID of a block device to use as a backend<br>
-=C2=A0 =C2=A0driveB=3D&lt;str&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-=
- Node name or ID of a block device to use as a backend<br>
-=C2=A0 =C2=A0fallback=3D&lt;FdcDriveType&gt; - FDC drive type, 144/288/120/=
-none/auto (default: (null))<br>
-=C2=A0 =C2=A0fdtypeA=3D&lt;FdcDriveType&gt; - FDC drive type, 144/288/120/n=
-one/auto (default: (null))<br>
-=C2=A0 =C2=A0fdtypeB=3D&lt;FdcDriveType&gt; - FDC drive type, 144/288/120/n=
-one/auto (default: (null))<br>
-=C2=A0 =C2=A0iobase=3D&lt;uint32&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 -=C2=A0 (de=
-fault: (null))<br>
-=C2=A0 =C2=A0irq=3D&lt;uint32&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-=
-=C2=A0 (default: (null))<br>
-<br>
-Why is it showing &quot;(null)&quot; as default values?<br></blockquote><di=
-v><br></div><div>Congratulations, you found a regression! :)</div><div><br>=
-</div><div>QEMU emulator version 5.2.0 (qemu-5.2.0-6.fc33.1)<br></div><div>=
-qemu-system-x86_64 -device isa-fdc,help <br>isa-fdc options:<br>=C2=A0 boot=
-indexA=3D&lt;int32&gt;<br>=C2=A0 bootindexB=3D&lt;int32&gt;<br>=C2=A0 check=
-_media_rate=3D&lt;bool&gt; - on/off (default: true)<br>=C2=A0 dma=3D&lt;uin=
-t32&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - =C2=A0(default: 2)<br>=C2=A0 d=
-riveA=3D&lt;str&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Node name or ID of=
- a block device to use as a backend<br>=C2=A0 driveB=3D&lt;str&gt; =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 - Node name or ID of a block device to use as a=
- backend<br>=C2=A0 fallback=3D&lt;FdcDriveType&gt; - FDC drive type, 144/28=
-8/120/none/auto (default: &quot;288&quot;)<br>=C2=A0 fdtypeA=3D&lt;FdcDrive=
-Type&gt; - FDC drive type, 144/288/120/none/auto (default: &quot;auto&quot;=
-)<br>=C2=A0 fdtypeB=3D&lt;FdcDriveType&gt; - FDC drive type, 144/288/120/no=
-ne/auto (default: &quot;auto&quot;)<br>=C2=A0 iobase=3D&lt;uint32&gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0- =C2=A0(default: 1008)<br>=C2=A0 irq=3D&lt;uint32&=
-gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - =C2=A0(default: 6)<br></div><div><=
-/div></div></div>
-
---000000000000467ba305bd567c73--
+>=20
+> Thanks,
+>=20
+>=20
+> DHB
+>=20
+>=20
+> >=20
+> > C.
+> >=20
+> >>
+> >> Since the value was used by some PAPR kernels - even if they shouldn't
+> >> have - I think we should only remove this for newer machine types.  We
+> >> also need to check what we're not supplying that the guest kernel is
+> >> showing a different number of sockets than specified on the qemu
+> >> command line.
+> >>
+> >>>
+> >>> Thanks,
+> >>>
+> >>> C.
+> >>>
+> >>>  =20
+> >>>
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>   [...]
+> >>>
+> >>
+> >>
+> >=20
 
 
