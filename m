@@ -2,89 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581DE338A15
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:29:26 +0100 (CET)
-Received: from localhost ([::1]:52492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7436C3389FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:23:42 +0100 (CET)
+Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKf2r-0004e4-D0
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:29:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37028)
+	id 1lKexJ-000389-Dt
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKemC-0005oJ-PF
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:12:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lKem7-00008B-2c
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:12:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615543926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t0FySqn/PqBJvLJASvAHX7qN4HZRLrcRj+YFKA54TOY=;
- b=eOkAHHMluXZCORYgER0p81nb/6erytYFkAvv8zNnq6ZeBJBi2oxHPBXEyDOhlwbMgxtGYt
- bpeyAGqlRCMO5dp5OJV6rdBkZ6nmXNW+ohAOB1Ub5UrLZ3AtdmHupyFR3GLs6ggGRq+6Tv
- fUtlslywbhsaxb5QJgGkuico70R/z4s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-JlQScRtdPu29P92aqYdnlQ-1; Fri, 12 Mar 2021 05:12:04 -0500
-X-MC-Unique: JlQScRtdPu29P92aqYdnlQ-1
-Received: by mail-wm1-f72.google.com with SMTP id l16so2998914wmc.0
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 02:12:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=t0FySqn/PqBJvLJASvAHX7qN4HZRLrcRj+YFKA54TOY=;
- b=pgwgnniT55xibCJjTSJcN5wZWeFYFVr8TrAxU+O2G8H36qIpZR/N6SFdUM6UdesDa/
- 9AQa/hYwn4/GYyIUOoPu4UKG9kf440EhSDJM94fwIW5wJI0rV8PL0NVFf5GF4Km7R9bn
- qovkJ8EYwvm2NZOfDx1LEL8xNdcH+yxrmS27SasDkDa8yLArMuFjjy/gz4C9pkF2RJjp
- c9RCFQs3lygtXBccXNFVfKxW1Zt1DPf6KNQL3Hr/gshnKkKFGcRchhRuGGRuqmin+J3c
- cZwTOoIlMIwbUjGLb7+7FV1Fz7WlECkJ47oCOL82tGlvR3ta+1/67AhDXWnFt0iW0x5Q
- H6VQ==
-X-Gm-Message-State: AOAM530xC7/wE5Z5XwUmGNjexn58NC4iQFDBmK6adaGfoIVP2f8RW8AG
- DKXl3hUu7vALGovpAXn4J44W2KCXcghDGj8jXZX0sYfuylvtugh4Fdc6m92w3Jkx05L6lHoOHDw
- ovqcrWuQ+2PmrMss=
-X-Received: by 2002:a5d:4341:: with SMTP id u1mr13309517wrr.88.1615543923624; 
- Fri, 12 Mar 2021 02:12:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzSQrNtLgHOHaFPj0aFMvs8KF4snSHoicLpEVuz/VXYQX0S29vWGu7TFzhItJ7h+1xEDXUbCQ==
-X-Received: by 2002:a5d:4341:: with SMTP id u1mr13309498wrr.88.1615543923453; 
- Fri, 12 Mar 2021 02:12:03 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id n6sm8343695wrw.63.2021.03.12.02.12.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 02:12:03 -0800 (PST)
-Subject: Re: [PATCH 07/27] ui: make gl_block use a counter
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210312100108.2706195-1-marcandre.lureau@redhat.com>
- <20210312100108.2706195-8-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e5fced43-4f2f-554a-986c-115b6b909e85@redhat.com>
-Date: Fri, 12 Mar 2021 11:12:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210312100108.2706195-8-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKemY-0005wq-Un
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:12:34 -0500
+Received: from mga07.intel.com ([134.134.136.100]:1916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lKemU-0000G1-OQ
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:12:34 -0500
+IronPort-SDR: DXYA6D6BDuIbAQx2TUtk7riX8Fc8ykCRoqouAwkk9ZoJUwq+ZOTo809T3BuO8tOQIhem0Hr1A/
+ d5Xj/XcdKtVg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="252828950"
+X-IronPort-AV: E=Sophos;i="5.81,243,1610438400"; d="scan'208";a="252828950"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2021 02:12:22 -0800
+IronPort-SDR: H2DpsZSx3dkWpzBTXQrTVSA1ueE6WZWU6giBPZRHLjhXCO5hQN9KLtSeR/9HpPTXfZJr59hJcz
+ 3Ll4DMILFYwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,243,1610438400"; d="scan'208";a="448582054"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga001.jf.intel.com with ESMTP; 12 Mar 2021 02:12:22 -0800
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 12 Mar 2021 02:12:21 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Fri, 12 Mar 2021 02:12:21 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Fri, 12 Mar 2021 02:12:20 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M6RnWNhIySUQG+ELsmmcUpHf/QqFPxAUQy747w2g4XiD1EygoWUd32ehPrF/zDhLt9sQr9u08pXdlzF03fUhneEVbsJxucpXMxpbpeBEbozzl8G80yo8LoxzU367Feeenc+8cKgf2gq4DRrqw5Zy013V/x5ovfWpHY/qdtONgTxcUDeHkuiCku4YCv3zY7zOsNLhREPy8lbtTHGL33VPecD9gLxuGpCctfDHBs28Un56LqPVPvMgFnPjJ1zPdbMAPIQTnugJ0/z+6ceJuZ5BBzDkmeHvvfiZwL0YilDCA4u2QJFPIUrPaYT0CdYFXq7ypSy+5Ebjbb+yGULmKoeQhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mCkrJl4fhr4gUeTgHp1Ed6SrMM0nEUldOu/uxPzyv1c=;
+ b=Yac5fkJ2plBtb9sHTzLJuYbHVO0pVab0SqpiwZymZ0vR4ch660KrCjq/3mxkRa9ossp/OGyYKvEkQbGvbzFPqeV6SVIIK8mpGknLH4SSsELFT4pvnxqqSeLCLtglYLMjeOCMRI9VeONpcWQ4H7iNynABwZ6LDi3A2biOzhrVrhiQFhTOLEtkKdGOQqLLGIw/R/zB1yBOQSwmDKD2BpdE0JKYX+qmtayUYAcZWnS4J2hsh5p5gndZSr3ZTAW/3l1XqJh+1/0OLSw/r+aOKAxrYnW7XaZGBXA7WVGmV0+qB6SygsbfJJ6QSxn4KiE6zC4QgLNeKM+5EgFMnL1/NZ7YNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mCkrJl4fhr4gUeTgHp1Ed6SrMM0nEUldOu/uxPzyv1c=;
+ b=AA6PfZy0mzW2cnSe/pnNuOsdt32Fbu75gAA9wmtdJoTjL4+OiKFOyN30mre3xhN4fvQg9ua7B8lPpzJ769XXb/DKm+TnzDNENtkUJk3ZMr6ki+TYFf0ZqkDC1YfyE8ZOUJ2cF+B53++Hhchw+9R3sMEEuh+dOi8138e8luDTB1w=
+Received: from SN6PR11MB3103.namprd11.prod.outlook.com (2603:10b6:805:d7::13)
+ by SN6PR11MB2831.namprd11.prod.outlook.com (2603:10b6:805:56::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.30; Fri, 12 Mar
+ 2021 10:12:13 +0000
+Received: from SN6PR11MB3103.namprd11.prod.outlook.com
+ ([fe80::c9c2:8157:5bef:9b2]) by SN6PR11MB3103.namprd11.prod.outlook.com
+ ([fe80::c9c2:8157:5bef:9b2%6]) with mapi id 15.20.3912.030; Fri, 12 Mar 2021
+ 10:12:13 +0000
+From: "Rao, Lei" <lei.rao@intel.com>
+To: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>, "Zhang, Chen"
+ <chen.zhang@intel.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "dgilbert@redhat.com"
+ <dgilbert@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "lukasstraub2@web.de" <lukasstraub2@web.de>
+Subject: RE: [PATCH v2 08/10] Reduce the PVM stop time during Checkpoint
+Thread-Topic: [PATCH v2 08/10] Reduce the PVM stop time during Checkpoint
+Thread-Index: AQHXFwAt39LtZ3Qgo0+NHBTlJ8r8Jqp/+8AAgAAiLoA=
+Date: Fri, 12 Mar 2021 10:12:13 +0000
+Message-ID: <SN6PR11MB3103AFBA3589DE71590E6D3CFD6F9@SN6PR11MB3103.namprd11.prod.outlook.com>
+References: <1615525383-59071-1-git-send-email-lei.rao@intel.com>
+ <1615525383-59071-9-git-send-email-lei.rao@intel.com>
+ <fdcd27dd-3a11-8584-e7da-5d703de0dceb@fujitsu.com>
+In-Reply-To: <fdcd27dd-3a11-8584-e7da-5d703de0dceb@fujitsu.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: fujitsu.com; dkim=none (message not signed)
+ header.d=none;fujitsu.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.55.46.39]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 511a0175-10be-431b-1385-08d8e53f4e7a
+x-ms-traffictypediagnostic: SN6PR11MB2831:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR11MB2831DB46B2C676FA8A66D983FD6F9@SN6PR11MB2831.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5u5GuS/eIlbUZCDDcIxz1dFaJt+jni1209O5niiwqwpechu+/WIkYJv+or0zcPx8XdhWp/rcefACu6WYtyld0UHVDuQKT5F+4Q1YvC4QP7nMeicxOn28A2Or86wd6gmBklA4N+mgxd2IySJlCNNKBELQQAXVPQFrmb7nMQoEtWcHM0ib1pb984CQclVeH3+Axk8C/4MgMw/53PxoJ4/JvaGOolGnk17Bdwm/ngxcEHx25ID1hh3PxpHm6a2PFb0HGDXWgjK4nhyVfTb/5S+enwaMY3bF9TvB5B0Z1XvyDgEon0n5Ia0k5qeen0cS4WtXsGNynsugOWReX9cDkmyxDPVXXZrVNNSbHU8kId+r/GzZAMS4rvFJNo52UzOCCRnC5nRH6ECvZGBcG/cqGpJTuTHBBQ0M0G7p8QP4h0SL7gWGstyeA9zZ/Vok159cBet8gOdjPo+vrh4qO49U92cBq99MXe9lM8sTtKYDR/cSRJSvXpgWFHyIip2/7lLr4uoxxjwWSfZNpoj/oGYwWuCQpA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR11MB3103.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(396003)(376002)(136003)(366004)(39860400002)(110136005)(186003)(53546011)(86362001)(76116006)(4326008)(8676002)(6506007)(26005)(8936002)(316002)(2906002)(5660300002)(66556008)(55016002)(33656002)(52536014)(66946007)(66476007)(83380400001)(64756008)(7696005)(71200400001)(66446008)(478600001)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?0IVylHmQpHo7VoVdLLNUVllpSTRMUeM73dvLNd9PESz5b4L4TFyL56BusjNu?=
+ =?us-ascii?Q?ilMP6BxhvdgVi+RuX86mTB4Tkv37NaVYDtb91GYWdNkTSuPZRu7SiQzWr8yZ?=
+ =?us-ascii?Q?knce6zvIur2Y3GDFgqwzT+0HVtrzXkUoP9BZkJfSrUQsQR4hca6BtIRPoqBK?=
+ =?us-ascii?Q?oFmJOEpigDXhb/CwEwqGP52yaPeOtGjMRqlwxyr3mnuKNOzf2sZ3Z590hYQJ?=
+ =?us-ascii?Q?Re+jEs+CeRTO6Tyqt9I0FV54noyvjpa/0M87vw3boWYr8eI/PSEUvtrmDBo3?=
+ =?us-ascii?Q?e66FH6gOpfYopETwMOHV27jbdPq908sfhkpEUNv7+oEqn9c/Gtd1yRiuYaJH?=
+ =?us-ascii?Q?6NrhlSQCixz5okL3IXO3amKJtksmvJ10hCN3ShcbK1w9VfYJNAQ/KIh0M+rU?=
+ =?us-ascii?Q?ozo4V2vrTyrSkc3cMDmceIOYWpNgIjQhUZ34Az3dV6xGV1oWtRyrqbnc739Q?=
+ =?us-ascii?Q?mEprEFaUu0npy9pcVfcsCe/g1nV3fiWTl3+xKnbI5T41Mj1ZCFVdAXxS3Dk7?=
+ =?us-ascii?Q?HDnIRbfwX9+sipwoDStjT9him8nnmqbg7nxIpNN5aCDOQY1W3PEpkW5HrdKv?=
+ =?us-ascii?Q?IRSNx+cnADVRdQfgttFY6Wr/Pny29wL9AfvdwPsa00xburc3PJoGeaz9Xmcj?=
+ =?us-ascii?Q?tFP+INJFNJFWu5zKsGkDub6vmTIaoakt2UzSxSx9E3NuvxJzpISsQa5LwjlF?=
+ =?us-ascii?Q?vr0vYD7RdvKzKYZQEIP/J4whPjSthA7tisEWaOvS74T4QPWXuMMTH1QMBHO+?=
+ =?us-ascii?Q?gb4VonoBD+rh8jYCIACZQPX9KBRFfFuawIr3ftnQNiNW+U1QBgsMbKM62JTU?=
+ =?us-ascii?Q?xjZltQtTr1Yu/xDk1w9da6am7857GnuUyqm2gdpH1aC3SPfq2tHv7LOWosKu?=
+ =?us-ascii?Q?V9Jyf5Uv9xJWcCFKqwflJ4cLUALRs/1FkFQVn1LNik+liTVX+6DFDcdAXe2Z?=
+ =?us-ascii?Q?InvKcpaqHZe0K1LmQ9Ss0NJV+ofSA6jD4WiUkQPycrCre/+Imbeeq4xQbYw6?=
+ =?us-ascii?Q?3bsy6fZkPMjgWNMqZ0r+i3r1V+5mjvwFZ+RWnCYR4LbU+1NZg4kxXF533Af4?=
+ =?us-ascii?Q?WgFKU6K6AT+nZG7SJmEaEm5cvMNzUdpyHlw1rfXvkGBNI4uqQH/tmnTOYmoU?=
+ =?us-ascii?Q?wSkW37FkipzTau1dlpPLFZ/HK56qfWzjS6D6uFdR4ThsskosajcBUIlCbyUL?=
+ =?us-ascii?Q?myh4CAxkmZ3fIy9gChfVQ/do1ajf+Jhf4UZl4DsEwUNz8Ki47Dp0sIa0NEpc?=
+ =?us-ascii?Q?W/s+VY44cbUwJ95BRV5dSyfpZPvuakCf2nNGQhBzjbxXjIdPdv+d8b6tecUV?=
+ =?us-ascii?Q?roc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3103.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 511a0175-10be-431b-1385-08d8e53f4e7a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2021 10:12:13.3729 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fuU1WIEQYbfuo4/YTma7N7BXkXFWxIkSOnQ7dBHRgizp15p8VIGQz5bfEnEBK+cR9Zlp04QYpRU8vOVpXqjR4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2831
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.100; envelope-from=lei.rao@intel.com;
+ helo=mga07.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,59 +161,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 11:00 AM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Track multiple callers blocking requests.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+I think it's enough to know the start and the number of dirty pages in the =
+bitmap.
+Because the size of consecutive dirty pages can be calculated. By the way, =
+no problems were found in our automated testing.
+
+Thanks,
+Lei.
+
+-----Original Message-----
+From: lizhijian@fujitsu.com <lizhijian@fujitsu.com>=20
+Sent: Friday, March 12, 2021 3:54 PM
+To: Rao, Lei <lei.rao@intel.com>; Zhang, Chen <chen.zhang@intel.com>; jasow=
+ang@redhat.com; quintela@redhat.com; dgilbert@redhat.com; pbonzini@redhat.c=
+om; lukasstraub2@web.de
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 08/10] Reduce the PVM stop time during Checkpoint
+
+
+
+On 3/12/21 1:03 PM, leirao wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
+>
+> When flushing memory from ram cache to ram during every checkpoint on=20
+> secondary VM, we can copy continuous chunks of memory instead of
+> 4096 bytes per time to reduce the time of VM stop during checkpoint.
+>
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
 > ---
->  ui/console.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/ui/console.c b/ui/console.c
-> index 53eba2019e..fedb9d8b13 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -128,7 +128,7 @@ struct QemuConsole {
->      DisplaySurface *surface;
->      int dcls;
->      DisplayChangeListener *gl;
-> -    bool gl_block;
-> +    int gl_block;
->      int window_id;
->  
->      /* Graphic console state.  */
-> @@ -288,10 +288,19 @@ void graphic_hw_gl_block(QemuConsole *con, bool block)
->  {
->      assert(con != NULL);
->  
-> -    con->gl_block = block;
-> -    if (con->hw_ops->gl_block) {
-> -        con->hw_ops->gl_block(con->hw, block);
-> +    if (block) {
-> +        con->gl_block++;
-> +    } else {
-> +        con->gl_block--;
+>   migration/ram.c | 44 +++++++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 41 insertions(+), 3 deletions(-)
+>
+> diff --git a/migration/ram.c b/migration/ram.c index e795a8d..b269637=20
+> 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -823,6 +823,39 @@ unsigned long migration_bitmap_find_dirty(RAMState *=
+rs, RAMBlock *rb,
+>       return next;
+>   }
+>  =20
+> +/*
+> + * colo_bitmap_find_diry:find contiguous dirty pages from start
+> + *
+> + * Returns the page offset within memory region of the start of the=20
+> +contiguout
+> + * dirty page
+> + *
+> + * @rs: current RAM state
+> + * @rb: RAMBlock where to search for dirty pages
+> + * @start: page where we start the search
+> + * @num: the number of contiguous dirty pages  */ static inline=20
+> +unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+> +                                     unsigned long start, unsigned=20
+> +long *num) {
+> +    unsigned long size =3D rb->used_length >> TARGET_PAGE_BITS;
+> +    unsigned long *bitmap =3D rb->bmap;
+> +    unsigned long first, next;
+> +
+> +    if (ramblock_is_ignored(rb)) {
+> +        return size;
 > +    }
-> +    assert(con->gl_block >= 0);
-> +    if (!con->hw_ops->gl_block) {
-> +        return;
+> +
+> +    first =3D find_next_bit(bitmap, size, start);
+> +    if (first >=3D size) {
+> +        return first;
 > +    }
-> +    if ((block && con->gl_block != 1) || (!block && con->gl_block != 0)) {
+> +    next =3D find_next_zero_bit(bitmap, size, first + 1);
+> +    assert(next >=3D first);
+> +    *num =3D next - first;
+> +    return first;
 
-Dubious condition check... Could you rewrite it KISS for review?
+The idea is outstanding
 
-> +        return;
->      }
-> +    con->hw_ops->gl_block(con->hw, block);
->  }
->  
->  void graphic_hw_gl_flushed(QemuConsole *con)
-> 
+i wonder it should return (next - 1) ?
 
+Thanks
+Zhijian
+
+
+> +}
+> +
+>   static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+>                                                   RAMBlock *rb,
+>                                                   unsigned long page)=20
+> @@ -3669,6 +3702,8 @@ void colo_flush_ram_cache(void)
+>       void *dst_host;
+>       void *src_host;
+>       unsigned long offset =3D 0;
+> +    unsigned long num =3D 0;
+> +    unsigned long i =3D 0;
+>  =20
+>       memory_global_dirty_log_sync();
+>       WITH_RCU_READ_LOCK_GUARD() {
+> @@ -3682,19 +3717,22 @@ void colo_flush_ram_cache(void)
+>           block =3D QLIST_FIRST_RCU(&ram_list.blocks);
+>  =20
+>           while (block) {
+> -            offset =3D migration_bitmap_find_dirty(ram_state, block, off=
+set);
+> +            offset =3D colo_bitmap_find_dirty(ram_state, block, offset,=
+=20
+> + &num);
+>  =20
+>               if (((ram_addr_t)offset) << TARGET_PAGE_BITS
+>                   >=3D block->used_length) {
+>                   offset =3D 0;
+> +                num =3D 0;
+>                   block =3D QLIST_NEXT_RCU(block, next);
+>               } else {
+> -                migration_bitmap_clear_dirty(ram_state, block, offset);
+> +                for (i =3D 0; i < num; i++) {
+> +                    migration_bitmap_clear_dirty(ram_state, block, offse=
+t + i);
+> +                }
+>                   dst_host =3D block->host
+>                            + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+>                   src_host =3D block->colo_cache
+>                            + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+> -                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
+> +                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
+>               }
+>           }
+>       }
 
