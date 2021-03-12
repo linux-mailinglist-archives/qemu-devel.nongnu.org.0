@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2197133901B
+	by mail.lfdr.de (Postfix) with ESMTPS id B287433901C
 	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:35:35 +0100 (CET)
-Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKit3-0000Q7-TI
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:35:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44702)
+	id 1lKit4-0000XY-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:35:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lKiGI-0007NC-L8
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:55:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lKiGG-0003zr-G1
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 08:55:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615557327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W7yfDTp+20tHMI7sZqJLmuEmzUa0qo67STQrMlepndw=;
- b=fsAaMRDyDPdzvSWW8ts+O5vkTdS2qOSgmfOCuyw+I3jhY1rvOwGvnZI9Vzp5brSK8wDboo
- vRM+wqVW3QdQ2vFibuUPArBVcTdSV1/7lEkKuPSupizWhpOhHFZlaVhwmoGfn4419g0c+S
- dnvLB7HqurucmN4Ngd4QBlSL9MRNA1w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-44ihymx-OHK5guMH0TM0VA-1; Fri, 12 Mar 2021 08:55:26 -0500
-X-MC-Unique: 44ihymx-OHK5guMH0TM0VA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8D8839A42;
- Fri, 12 Mar 2021 13:55:24 +0000 (UTC)
-Received: from gondolin (ovpn-113-3.ams2.redhat.com [10.36.113.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95D865C1D1;
- Fri, 12 Mar 2021 13:55:19 +0000 (UTC)
-Date: Fri, 12 Mar 2021 14:55:16 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH] s390x/cpu_model: use official name for 8562
-Message-ID: <20210312145516.6d7a9a63.cohuck@redhat.com>
-In-Reply-To: <2dd31caa-0263-191d-f7ed-8471282403b2@de.ibm.com>
-References: <20210311132746.1777754-1-cohuck@redhat.com>
- <2dd31caa-0263-191d-f7ed-8471282403b2@de.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKiL6-0006oK-2y
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:00:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lKiKz-0006gX-MA
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:00:27 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E8222B12C;
+ Fri, 12 Mar 2021 14:00:18 +0000 (UTC)
+Subject: Re: all class init functions for all types in QEMU are called in
+ select_machine(). Expected?
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <bdc8dbaf-8d63-833a-3e57-7e823a321486@suse.de>
+ <a81c0a8d-af3c-4b40-bcb4-9b120b5eee93@redhat.com>
+ <ec7f83ae-8529-3a0e-4b00-73c856b28a3e@suse.de>
+ <be88d88a-dd9d-547d-9f3d-7444f0f8bbc6@redhat.com>
+ <3b7c6a4e-c191-063c-affa-0e179227a633@suse.de>
+ <26c2b88b-4c9e-09a0-a1c0-350a01e9a697@redhat.com>
+ <d66078f1-9fa0-c3ed-d54c-3d3ada2027e5@suse.de>
+ <683d1ccc-503d-3218-2539-a3ed48fee5fb@redhat.com>
+ <8ca3a983-05ad-a0de-31e9-65b6c41a2b4c@suse.de>
+Message-ID: <14103764-c4d9-e712-47d0-ff8123eef9d4@suse.de>
+Date: Fri, 12 Mar 2021 15:00:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <8ca3a983-05ad-a0de-31e9-65b6c41a2b4c@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,72 +64,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Mar 2021 14:48:17 +0100
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-
-> On 11.03.21 14:27, Cornelia Huck wrote:
-> > The single-frame z15 is called "z15 T02".
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
+On 3/12/21 2:40 PM, Claudio Fontana wrote:
+> On 3/12/21 1:02 PM, Paolo Bonzini wrote:
+>> On 12/03/21 12:51, Claudio Fontana wrote:
+>>> seems to me we already have, as the accel class init, fe, for x86/tcg:
+>>>
+>>> static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
+>>> {
+>>>      AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
+>>>
+>>> #ifndef CONFIG_USER_ONLY
+>>>      acc->cpu_realizefn = tcg_cpu_realizefn;
+>>> #endif /* CONFIG_USER_ONLY */
+>>>
+>>>      acc->cpu_class_init = tcg_cpu_class_init;
+>>>      acc->cpu_instance_init = tcg_cpu_instance_init;
+>>> }
+>>>
+>>> acc->cpu_class_init() call would then be the acc->init_cpu call you mention.
+>>>
+>>> The only thing we seem to be missing is the cc->init_tcg_ops(cc)..
+>>
+>> Yes, called by tcg_cpu_class_init or tcg_cpu_instance_init.
+>>
+>> Paolo
+>>
+>>
 > 
-> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> > ---
-> >   target/s390x/cpu_models.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-> > index dd474c5e9ad1..b59ed4135615 100644
-> > --- a/target/s390x/cpu_models.c
-> > +++ b/target/s390x/cpu_models.c
-> > @@ -87,7 +87,7 @@ static S390CPUDef s390_cpu_defs[] = {
-> >       CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
-> >       CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
-> >       CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),  
+> .. I wonder if we should make it a bit more general like:
 > 
-> you could also change that formn "z15" to "z15 T01"
-> > -    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
-> > +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
-> >   };
-> >   
-> >   #define QEMU_MAX_CPU_TYPE 0x2964
-> >   
+> static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
+> {
+>     CPUClass *cc = CPU_CLASS(klass);
+>     AccelCPUClass *accel_cpu = opaque;
+> 
+>     /*                                                                                                                                      
+>      * double dispatch. The first callback allows the accel cpu                                                                             
+>      * to run initializations for the CPU,                                                                                                  
+>      * the second one allows the CPU to customize the accel cpu                                                                             
+>      * behavior according to the CPU.                                                                                                       
+>      *                                                                                                                                      
+>      * The second is currently only used by TCG, to specialize the                                                                          
+>      * TCGCPUOps depending on the CPU type.                                                                                                 
+>      */
+>     cc->accel_cpu = accel_cpu;
+>     if (accel_cpu->cpu_class_init) {
+>         accel_cpu->cpu_class_init(cc);
+>     }
+>     if (cc->init_accel_cpu) {
+>         cc->init_accel_cpu(accel_cpu, cc);
+>     }
+> }
+> 
+> .. but maybe this is premature, and should wait for actual users of this beyond TCG on ARM?
+> 
+> Ciao,
+> 
+> C
 > 
 
-I now have:
+I'll put my experiment in the ARM cleanup series.
 
-Author: Cornelia Huck <cohuck@redhat.com>
-Date:   Thu Mar 11 14:27:46 2021 +0100
+Ciao and thanks,
 
-    s390x/cpu_model: use official name for 8562
-    
-    The single-frame z15 is called "z15 T02" (and the multi-frame z15
-    "z15 T01").
-    
-    Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-    Reviewed-by: David Hildenbrand <david@redhat.com>
-    Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-    Message-Id: <20210311132746.1777754-1-cohuck@redhat.com>
-
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index dd474c5e9ad1..050dcf2d42d2 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -86,8 +86,8 @@ static S390CPUDef s390_cpu_defs[] = {
-     CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
-     CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
-     CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
--    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 GA1"),
--    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
-+    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM z15 T01 GA1"),
-+    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
- };
- 
- #define QEMU_MAX_CPU_TYPE 0x2964
+Claudio
 
 
