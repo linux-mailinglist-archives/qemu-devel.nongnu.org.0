@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1298D339028
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:38:27 +0100 (CET)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAA1339034
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 15:42:19 +0100 (CET)
+Received: from localhost ([::1]:32770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKivq-000372-20
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48148)
+	id 1lKiza-0006k3-4s
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 09:42:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUh-0002ge-TW
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:23 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:46968)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUi-0002hy-Gs
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:24 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:58326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUf-0003uV-H4
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:23 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKiUg-0003wq-TA
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 09:10:24 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-MO7gm_TUOemda3JyKN8QPA-1; Fri, 12 Mar 2021 09:10:16 -0500
-X-MC-Unique: MO7gm_TUOemda3JyKN8QPA-1
+ us-mta-317-2MY1dohRM4-VGnZJoCtmeQ-1; Fri, 12 Mar 2021 09:10:18 -0500
+X-MC-Unique: 2MY1dohRM4-VGnZJoCtmeQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB2C4107ACCA;
- Fri, 12 Mar 2021 14:10:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB07EC1A2;
+ Fri, 12 Mar 2021 14:10:17 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 765DA5D6D7;
- Fri, 12 Mar 2021 14:10:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B4AF5D6D7;
+ Fri, 12 Mar 2021 14:10:15 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] virtiofsd: Don't allow empty paths in lookup_name()
-Date: Fri, 12 Mar 2021 15:10:01 +0100
-Message-Id: <20210312141003.819108-2-groug@kaod.org>
+Subject: [PATCH 2/3] virtiofsd: Convert some functions to return bool
+Date: Fri, 12 Mar 2021 15:10:02 +0100
+Message-Id: <20210312141003.819108-3-groug@kaod.org>
 In-Reply-To: <20210312141003.819108-1-groug@kaod.org>
 References: <20210312141003.819108-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -43,7 +43,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,42 +68,42 @@ Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When passed an empty filename, lookup_name() returns the inode of
-the parent directory, unless the parent is the root in which case
-the st_dev doesn't match and lo_find() returns NULL. This is
-because lookup_name() passes AT_EMPTY_PATH down to fstatat() or
-statx().
-
-This behavior doesn't quite make sense because users of lookup_name()
-then pass the name to unlinkat(), renameat() or renameat2(), all of
-which will always fail on empty names.
-
-Drop AT_EMPTY_PATH from the flags in lookup_name() so that it has
-the consistent behavior of "returning an existing child inode or
-NULL" for all directories.
+Both currently only return 0 or 1.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- tools/virtiofsd/passthrough_ll.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index fc7e1b1e8e2b..27a6c636dcaf 100644
+index 27a6c636dcaf..f63016d35626 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1308,8 +1308,7 @@ static struct lo_inode *lookup_name(fuse_req_t req, f=
-use_ino_t parent,
-         return NULL;
+@@ -221,17 +221,17 @@ static struct lo_inode *lo_find(struct lo_data *lo, s=
+truct stat *st,
+ static int xattr_map_client(const struct lo_data *lo, const char *client_n=
+ame,
+                             char **out_name);
+=20
+-static int is_dot_or_dotdot(const char *name)
++static bool is_dot_or_dotdot(const char *name)
+ {
+     return name[0] =3D=3D '.' &&
+            (name[1] =3D=3D '\0' || (name[1] =3D=3D '.' && name[2] =3D=3D '=
+\0'));
+ }
+=20
+ /* Is `path` a single path component that is not "." or ".."? */
+-static int is_safe_path_component(const char *path)
++static bool is_safe_path_component(const char *path)
+ {
+     if (strchr(path, '/')) {
+-        return 0;
++        return false;
      }
 =20
--    res =3D do_statx(lo, dir->fd, name, &attr,
--                   AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW, &mnt_id);
-+    res =3D do_statx(lo, dir->fd, name, &attr, AT_SYMLINK_NOFOLLOW, &mnt_i=
-d);
-     lo_inode_put(lo, &dir);
-     if (res =3D=3D -1) {
-         return NULL;
+     return !is_dot_or_dotdot(path);
 --=20
 2.26.2
 
