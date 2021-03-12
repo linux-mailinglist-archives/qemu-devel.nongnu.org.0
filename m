@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E20F3395FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:16:16 +0100 (CET)
-Received: from localhost ([::1]:36172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE5F3395FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:16:31 +0100 (CET)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmKd-00039o-9N
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:16:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
+	id 1lKmKs-0003Ml-FR
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:16:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWF-0007Mo-1p
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWF-0007PH-UQ
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35551)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWC-0000eS-U2
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lKlWE-0000el-5R
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:24:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615569848;
+ s=mimecast20190719; t=1615569849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l2bWP9aI2Klknc3gKnUmWw+Ss+qoM5cSP7xG5mri9H4=;
- b=h5oz81/EaFzRPMEijohSV7cITC2kz7o4nxROEChQqmCv8Cted7RxgzS+nOmjxNsqAzKP0G
- WmujAGtn7QEWId6slOuB0S6eO9CG3RGKjyzqdxFNa1RLKG/7AZGNmVN5MM6xDAusVuxXqO
- nZFz/CcHYN/RN1OMBnm412iHjT72y0E=
+ bh=LI3EYlAVDfFNpaO5JjLNuRxJcyz1W2/SQ1KKdE+U64k=;
+ b=KGNjdEyxyhZVMq2puye7iKeREiINX2CLzROcGxHp5xgroIkwbZBGq4mM8DjXkYqegpV7xy
+ xH9KUNH3GPz9lCq0rOiUjgVl5cBvBKWz4r+BhkAWju5oPa8l2f737OjR4DhDrfqF5VdCWp
+ p5Wn+Zc7YB6/uW3oI2Q5LvvdjRh11eo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-nIs7G4XFPIytWpVqkVnezA-1; Fri, 12 Mar 2021 12:24:05 -0500
-X-MC-Unique: nIs7G4XFPIytWpVqkVnezA-1
+ us-mta-377-J3_uUCQ2P46syJVP-CvjnQ-1; Fri, 12 Mar 2021 12:24:07 -0500
+X-MC-Unique: J3_uUCQ2P46syJVP-CvjnQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B06C100C661;
- Fri, 12 Mar 2021 17:24:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6EFA1084C8C;
+ Fri, 12 Mar 2021 17:24:05 +0000 (UTC)
 Received: from thuth.com (ovpn-112-83.ams2.redhat.com [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B51319744;
- Fri, 12 Mar 2021 17:24:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C63F519744;
+ Fri, 12 Mar 2021 17:24:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/9] gitlab-ci.yml: Move build-tools-and-docs-debian to a
- better place
-Date: Fri, 12 Mar 2021 18:23:50 +0100
-Message-Id: <20210312172356.968219-4-thuth@redhat.com>
+Subject: [PULL 4/9] gitlab-ci.yml: Add some missing dependencies to the jobs
+Date: Fri, 12 Mar 2021 18:23:51 +0100
+Message-Id: <20210312172356.968219-5-thuth@redhat.com>
 In-Reply-To: <20210312172356.968219-1-thuth@redhat.com>
 References: <20210312172356.968219-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -82,67 +81,57 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "build-tools-and-docs-debian" job had been added in between
-the "check-system-debian" and the "accepance-system-debian" jobs
-and thus separates the jobs that belong together. Move it away,
-to the end of the file, next to the "pages" job that depends on it.
-And while we're at it, also add a proper "needs:" line to the
-job so that it can be started as soon as possible instead of always
-waiting for the previous stage to finish.
+Let's make sure that all jobs have proper "needs:" statements so that
+they can start as soon as possible, without having to wait for the
+previous pipeline stage to finish.
 
-Message-Id: <20210311142211.1547864-2-thuth@redhat.com>
+Message-Id: <20210311142211.1547864-3-thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ .gitlab-ci.yml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 07202f6ffb..871ea45a5f 100644
+index 871ea45a5f..a98f5674d6 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -167,19 +167,6 @@ check-system-debian:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check
+@@ -432,6 +432,8 @@ build-user-plugins:
  
--# No targets are built here, just tools, docs, and unit tests. This
--# also feeds into the eventual documentation deployment steps later
--build-tools-and-docs-debian:
--  <<: *native_build_job_definition
--  variables:
--    IMAGE: debian-amd64
--    MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
--    CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
--  artifacts:
--    expire_in: 2 days
--    paths:
--      - build
--
- acceptance-system-debian:
-   <<: *native_test_job_definition
-   needs:
-@@ -746,6 +733,21 @@ build-libvhost-user:
-     - meson
-     - ninja
- 
-+# No targets are built here, just tools, docs, and unit tests. This
-+# also feeds into the eventual documentation deployment steps later
-+build-tools-and-docs-debian:
-+  <<: *native_build_job_definition
+ build-user-centos7:
+   <<: *native_build_job_definition
 +  needs:
-+    job: amd64-debian-container
-+  variables:
-+    IMAGE: debian-amd64
-+    MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
-+    CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
- # Prepare for GitLab pages deployment. Anything copied into the
- # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
- pages:
++    job: amd64-centos7-container
+   variables:
+     IMAGE: centos7
+     CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
+@@ -461,6 +463,8 @@ clang-system:
+ 
+ clang-user:
+   <<: *native_build_job_definition
++  needs:
++    job: amd64-debian-user-cross-container
+   variables:
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
+@@ -470,6 +474,8 @@ clang-user:
+ 
+ tsan-build:
+   <<: *native_build_job_definition
++  needs:
++    job: amd64-ubuntu2004-container
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10 --disable-docs
+@@ -507,6 +513,8 @@ check-deprecated:
+ # gprof/gcov are GCC features
+ gprof-gcov:
+   <<: *native_build_job_definition
++  needs:
++    job: amd64-ubuntu2004-container
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-gprof --enable-gcov
 -- 
 2.27.0
 
