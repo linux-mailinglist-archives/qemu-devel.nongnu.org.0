@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22AD339817
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 21:16:54 +0100 (CET)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFA433981F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 21:20:15 +0100 (CET)
+Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKoDO-0006xo-1S
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 15:16:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47650)
+	id 1lKoGc-0001lB-I8
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 15:20:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lKo4u-0007xq-87; Fri, 12 Mar 2021 15:08:08 -0500
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:45925)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKo6D-0002Fl-6L; Fri, 12 Mar 2021 15:09:29 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lKo4s-0005fU-O7; Fri, 12 Mar 2021 15:08:07 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id u7so4789326qtq.12;
- Fri, 12 Mar 2021 12:08:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lKo6B-0006SN-Si; Fri, 12 Mar 2021 15:09:28 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id o26so4513953wmc.5;
+ Fri, 12 Mar 2021 12:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=h4euZu88pDlQtkYGkvefUZ+xefeYqAFQh4NY7T6v41s=;
- b=sEXivPAcl1QSD7o2FO9BcXM+S9cj65JbWMeUgGSYryZCKEXRP8Q6jR60gmATflQ4OL
- CpApPDGfCXkIuLYe03GGApU+s8Kw4ukBfdLvj/x2eBgxGE6SweX36jSZYosyWQo4JLe7
- rRHyDWlLXKPtJAEoaCPgEEaFOjOjpM79PUUgSartIT77uWqVoHYFgp47wak43XoL6lGO
- rl9HXdynCZXCxFI7t67i+kRqJtaEs4CGHIypfkxEr0GPV95uqZ99f9+7WRtESCTIN3H6
- o0W58vVUfpRpz4L7O4rzCnezWu6adY/VmEVHDOew3/Gdmvlb/lWYOx9un/nhT0R7UV/U
- mjxg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=S6UhTXUZeHjCGSW7IN9vyAan2ZLwa4c3ZUPieDtdYME=;
+ b=ub5s7Su4r/4xI6RPQKAA1zVfEdj0zA1FRn5HUx204QIgPR6BjjX7EMTKA1IYvK4a9D
+ tbvMzjNkEzC4A4JIJndgOdsvdj/hB2m6lB88EtfG5lxqDn2BVF8AJ6MFxtmykl/gcbad
+ jgp+kQUKkLb6A0MBP+LhlQNs6MWfWAHI6ElEGGZZPC5iFUyVo8Dr2vSbpvtEfmDQq2rS
+ ORhR7p3WfyvwuMVRNQrgg9r2UIcXiNS0Emhws8o48CneZe3jc+9Hhx4q4wVwPgvagAzq
+ Uc9+IA1dMiThJIA+rLLlzBOJn4dE2B+Uhdg7WqEogetmCYUV8TuRxGTOpvrs7vUh7wuE
+ QS6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=h4euZu88pDlQtkYGkvefUZ+xefeYqAFQh4NY7T6v41s=;
- b=i96+SJNYSEMaIO0ouxkZ7QQhLSEOluZUfWD9LB5rj2+KgT6AsK/8JZ0gq40w+1zqbE
- StSRjHSfc9X9IlLMZMCbG9C5jU0aZbFhYvB3x6IsaFEyd/YGFQIs4hATllWNEntJZuN3
- Kex+Vxp8mJbNcW/Iwvz6toyVTs2S3dPSqREqbRfRapbV4bOxKBlOEUy/eAEmbqr8eCtf
- hkhWNOBz3/3pHDbgsnb8z09DDJb0LAqquidLzm+jCIY0KfljTNIRkZIzU3kNx13aqdHR
- rj6eqE1PwV/o0Yjmd5bgiN7AjZuoQoMpvaO1fULku1PoEbKS4jE2ltbat7gGbfdYY9Ab
- jk5g==
-X-Gm-Message-State: AOAM531Zy3wtsHd0xFO95AF1ApAfgg54dcfNz5saI1Y6m9LTlYwNSp26
- dy6NUxvoc7bCsUwn3XUnhT0++QEI5Hc=
-X-Google-Smtp-Source: ABdhPJxZs01HVwY431kn4/7Y1SyGC3WWz01VUiKTojG3bQKs75G+uUzDM4KcKVUWPTrZhxOo96zGaw==
-X-Received: by 2002:aed:2f65:: with SMTP id l92mr1224927qtd.193.1615579685302; 
- Fri, 12 Mar 2021 12:08:05 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:cc80:21a:fa87:b9b8:5376])
- by smtp.gmail.com with ESMTPSA id j24sm5074126qka.67.2021.03.12.12.08.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 12:08:05 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] spapr.c: use DEVICE_UNPLUG_ERROR event in
- spapr_memory_unplug_rollback()
-Date: Fri, 12 Mar 2021 17:07:40 -0300
-Message-Id: <20210312200740.815014-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210312200740.815014-1-danielhb413@gmail.com>
-References: <20210312200740.815014-1-danielhb413@gmail.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=S6UhTXUZeHjCGSW7IN9vyAan2ZLwa4c3ZUPieDtdYME=;
+ b=WbKPTQ+S7dzPhB3W0YAhdwGkTFqQZ/4fKUC/2UMQopFa9VtiKcvgxwrGteyeZsrElo
+ xGz8/dBhXIXfp3yZBWJAx+j4t6I6KUE8pagKJXEhsOjraAuCThBtHP+wbV57/vjGmdyt
+ 41vb+shDET9QOZff4QJz7MSDtUt4TLWbKBLfmpPmAf73r8j2GpkDl3Dy+WAIaMK4cTMz
+ OLoILQSZFzqH2uwlhThow6S0UPm0l9kFmcSGICRIDnqZk8WiXB28E5TG1LIIZHWoDQxa
+ lacQNi2DNKt85y4fSHAOoYmo6DgjjwMVaQCuAIbyDwiJ3AbpJDAkm8GuuTmllyOF40nO
+ rGpQ==
+X-Gm-Message-State: AOAM533GmVDc1e1SWysSCkEuf5j2f0OVeX8lnNUHB7haOsfgk00qyga5
+ xQ1RGPmy/c4TCEIWrsbB4vU=
+X-Google-Smtp-Source: ABdhPJzSQZuNQ1VuC47Kj9fZn+vO6QUMclss8NMWkviwqlHTDP9OsqrKeZyviYPFss2HCs0mqlOK2Q==
+X-Received: by 2002:a7b:c35a:: with SMTP id l26mr14609189wmj.104.1615579766268; 
+ Fri, 12 Mar 2021 12:09:26 -0800 (PST)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id r10sm3857336wmh.45.2021.03.12.12.09.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 12:09:25 -0800 (PST)
+Subject: Re: [PATCH for-6.0 1/2] memory: Add offset_in_region to flatview_cb
+ arguments
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210312172939.695-1-peter.maydell@linaro.org>
+ <20210312172939.695-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4d6d72b5-e2e2-6879-490e-4bdecf8122a1@amsat.org>
+Date: Fri, 12 Mar 2021 21:09:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210312172939.695-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,34 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Kumar Gala <kumar.gala@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Other device types in the pseries machine will use DEVICE_UNPLUG_ERROR
-to report hotunplug errors. Use it to report the memory hotunplug error
-in spapr_memory_unplug_rollback() as well.
+On 3/12/21 6:29 PM, Peter Maydell wrote:
+> The function flatview_for_each_range() calls a callback for each
+> range in a FlatView.  Currently the callback gets the start and
+> length of the range and the MemoryRegion involved, but not the offset
+> within the MemoryRegion.  Add this to the callback's arguments; we're
+> going to want it for a new use in the next commit.
+> 
+> While we're editing the flatview_cb typedef, add names for the
+> arguments that were missing names.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/exec/memory.h           | 4 +++-
+>  softmmu/memory.c                | 3 ++-
+>  tests/qtest/fuzz/generic_fuzz.c | 4 +++-
+>  3 files changed, 8 insertions(+), 3 deletions(-)
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index d56418ca29..697664e72f 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3624,7 +3624,7 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
-      */
-     qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
-                                  "for device %s", dev->id);
--    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
-+    qapi_event_send_device_unplug_error(dev->id, qapi_error);
- }
- 
- /* Callback to be called during DRC release. */
--- 
-2.29.2
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
