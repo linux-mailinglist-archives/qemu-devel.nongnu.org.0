@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ACE3392B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:07:34 +0100 (CET)
-Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0546833929D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 17:01:06 +0100 (CET)
+Received: from localhost ([::1]:41012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKkK5-0005Je-UK
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:07:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1lKkDo-0004ze-LH
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 11:01:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKk8I-0007vZ-Dg
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:22 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38795)
+ id 1lKk8K-0007xk-Sn
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:24 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lKk8F-000774-VF
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:22 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id z2so2052030wrl.5
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:55:17 -0800 (PST)
+ id 1lKk8J-0007Bh-D3
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 10:55:24 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m20-20020a7bcb940000b029010cab7e5a9fso16084795wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 07:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2E59w2rPYa9Wi4/3MeopBpeqlsRLPnmVSy6mfQnrimE=;
- b=dw/mGZ8o3+Fg3AkCfoEa62oPh8GT0Ju5eSd0x+VLCBu1Z7yUguYqa5z3H+eMfGiM/M
- rHoVLjIaaSGpaWeoieAW+N7tB/rpMo/0xLBvtK+Bsh9O9hRVUHeXptMQNVoBKOyN+FRy
- qdfHFirFkeCq39/dOW7gi2xlGEb63TffKxr+BPW2J/RFPnySYWHS43n1i2IAMJeVXD1L
- QmYqw0/jh0C+dLyTU1TaHevtXL2s2iNH5Wq8e3zPfLXfzcTmvRKLEvHTSj8rHIwD8R67
- Z7rzz1a6sr+26vHp+T6Fd9+wNRklrakTXH+2mA7rGrKiCFcAv3PtwqwKVM2bas9uawxS
- Fj+A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=i2YoBdgL8d+/sRqreYsZTW/xJCtI/BMVgkx4/q/BJ7c=;
+ b=FOj+Cus3etEd3qHgbB7KkPdFij+/l91YLvCbdOq1lTQhrc68U99vbMqG7N99VAQiVy
+ Uaj6t1x3HpGESD42br/XsR/EgyC45jubNDRs/VUE7pxtqu3ZMjjwudgi7MX/oJDM4Ki2
+ OoukaZSBL8Nw4tnx1XRq5X5k1lKxIg/sF3AcXZlahMFfNtDROvAs+myHECswLpzq4eU0
+ RkViNgjypJsp2K7BiipmjKhX4q+T057GD343xb+sMhmuD9iMt0Gb2ZCCHXxyjUJZxpdx
+ cTXoQPBKJzo4KM1I4ln0WoNfUU65qOT2r8QFg7+9+9iVtqtyzZhZAyQRKCei2Ruq1yIY
+ gqvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=2E59w2rPYa9Wi4/3MeopBpeqlsRLPnmVSy6mfQnrimE=;
- b=V53UWaEQBg7UOZ7duoNjRDV2LRhhlkJPIAmOWmdl6Ma9DALTnuQ5tB3/TGorNUV+08
- N8TOzjqOtbXR4Uu+pefEyuKDInQ/915p5mXlYwdcnGn1afahX1XPBV0B2y+rYy03erds
- EMc744dqNU8TzNmGzY/RoJWXO2r/AjwdaxO/TNtgzOl+21dcO11oAexRhWoVvXY4NqBE
- obiLFev42ocOKuW5EOq4FNfYb9WJfGkX61zFpPQ2qSTVMeUctYXqv0Y8Kar+OwFMgEV9
- nK0M+xXcaRzmdb9+LGR4ffcFvw1FQVzg5XC+13OHvl7SJyh7DaMSx4cShYmtiNCZTgO2
- 1DEg==
-X-Gm-Message-State: AOAM533S0j2Sl3MCQwYYZgh0slzqj9Rfb7GnEdEY8kovlTj4h+9GuRbp
- N7jJd/P43okMdD9OZAkb3Mn1TzvuytM=
-X-Google-Smtp-Source: ABdhPJw1xlKPvLv6cui2V8BVQzuMRUlFXLTo+z1eJR4EYOtjkdgGbpRI6gxQ4/ZSnA2TvN1sKYZ1BQ==
-X-Received: by 2002:adf:e809:: with SMTP id o9mr15018770wrm.110.1615564516040; 
- Fri, 12 Mar 2021 07:55:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=i2YoBdgL8d+/sRqreYsZTW/xJCtI/BMVgkx4/q/BJ7c=;
+ b=JMJBel9f0SRyC2puELsP1WaceuqC5d+37hHnYkbjDdHCDq+O1DLe1MS2+TN3bHeovr
+ bhA/nP32Zpr43jiVLXnzMApIXPVt55PBLDhyiHw/rahBqdW8lsZvkcTe9VnoOinm4qvW
+ pXQXJ9ajDIOHupWroHFahI0ysWTRhnKIrOh7vbcoRWaWJl3cCQyHhL4MryKGTylO6zee
+ Hk3TBJ19dn9Udznn7ivEOYXEuBbzaNWEd2omZ8hk2111w6nro1o/ux2VAV/w+sTr/vXB
+ QqiQtvCDW2+w08k9bUWAqTM1+T+r15pXny0tn8TviynTQG0F/2CXseHcRHEQ9QxsndFx
+ t6Ug==
+X-Gm-Message-State: AOAM530jY+Rqm6MMMqOYwQZpvNDrrnv1j3W15ZJuS23EUhWYqM5RpCZ5
+ hMY1/n2u46hIbZ507mDdSmkF5ODM2gU=
+X-Google-Smtp-Source: ABdhPJzJ27Irhc+w/gNbI3il3EsosEJQUHDaNNtK0pVl3Cctn1t+hS8M15lzwf5UJCmVHJ/NB+DOdw==
+X-Received: by 2002:a1c:bb89:: with SMTP id l131mr14149305wmf.47.1615564521052; 
+ Fri, 12 Mar 2021 07:55:21 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s83sm2565435wmf.26.2021.03.12.07.55.14
+ by smtp.gmail.com with ESMTPSA id s20sm2520229wmj.36.2021.03.12.07.55.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 07:55:15 -0800 (PST)
+ Fri, 12 Mar 2021 07:55:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] MAINTAINERS: Mark Renesas hardware emulation orphan
-Date: Fri, 12 Mar 2021 16:55:11 +0100
-Message-Id: <20210312155513.1849109-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] MAINTAINERS: Mark RX hardware emulation orphan
+Date: Fri, 12 Mar 2021 16:55:12 +0100
+Message-Id: <20210312155513.1849109-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210312155513.1849109-1-f4bug@amsat.org>
+References: <20210312155513.1849109-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,20 +93,56 @@ Cc: Magnus Damm <magnus.damm@gmail.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yoshinori Sato doesn't have time to manage QEMU reviews.=0D
-=0D
-The code is in good shape and hasn't started to bitrot,=0D
-so mark the corresponding sections as orphan to give the=0D
-possibility to any contributor to step in and fill the gap.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  MAINTAINERS: Mark RX hardware emulation orphan=0D
-  MAINTAINERS: Mark SH-4 hardware emulation orphan=0D
-=0D
- MAINTAINERS | 22 +++++++++++-----------=0D
- 1 file changed, 11 insertions(+), 11 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Yoshinori Sato doesn't have time to manage QEMU reviews.
+
+The code is in good shape and hasn't started to bitrot,
+so mark the RX target and hardware as orphan to give the
+possibility to any contributor to step in and fill the gap.
+
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8e9f0d591ee..95abfd6b818 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -306,8 +306,8 @@ F: linux-user/host/riscv32/
+ F: linux-user/host/riscv64/
+ 
+ RENESAS RX CPUs
+-M: Yoshinori Sato <ysato@users.sourceforge.jp>
+-S: Odd Fixes
++R: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Orphan
+ F: target/rx/
+ 
+ S390 TCG CPUs
+@@ -1392,8 +1392,8 @@ F: include/hw/*/*sifive*.h
+ RX Machines
+ -----------
+ rx-gdbsim
+-M: Yoshinori Sato <ysato@users.sourceforge.jp>
+-S: Odd Fixes
++R: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Orphan
+ F: docs/system/target-rx.rst
+ F: hw/rx/rx-gdbsim.c
+ F: tests/acceptance/machine_rx_gdbsim.py
+@@ -2175,8 +2175,8 @@ F: include/hw/sh4/sh.h
+ F: include/hw/timer/renesas_*.h
+ 
+ Renesas RX peripherals
+-M: Yoshinori Sato <ysato@users.sourceforge.jp>
+-S: Odd Fixes
++R: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Orphan
+ F: hw/intc/rx_icu.c
+ F: hw/rx/
+ F: include/hw/intc/rx_icu.h
+-- 
+2.26.2
+
 
