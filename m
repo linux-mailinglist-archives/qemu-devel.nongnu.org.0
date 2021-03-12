@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38906338A4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:37:10 +0100 (CET)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3DB338A5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 11:39:07 +0100 (CET)
+Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKfAL-00081j-5N
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:37:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42484)
+	id 1lKfCE-0003K9-OG
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 05:39:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKf4y-0000lS-TY
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:36 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:4054)
+ id 1lKf53-0000xf-N8
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:41 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lKf4v-0003YO-Vt
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:36 -0500
+ id 1lKf50-0003bn-WD
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 05:31:41 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dxhs43hMrzkYBL;
- Fri, 12 Mar 2021 18:30:00 +0800 (CST)
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DxhrD2TlHzNlpD;
+ Fri, 12 Mar 2021 18:29:16 +0800 (CST)
 Received: from DESKTOP-F1615D3.china.huawei.com (10.174.186.85) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 12 Mar 2021 18:31:23 +0800
+ 14.3.498.0; Fri, 12 Mar 2021 18:31:24 +0800
 From: Zihao Chang <changzihao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v6 2/3] vnc: support reload x509 certificates for vnc
-Date: Fri, 12 Mar 2021 18:31:05 +0800
-Message-ID: <20210312103106.1368-3-changzihao1@huawei.com>
+Subject: [PATCH v6 3/3] qmp: add new qmp display-reload
+Date: Fri, 12 Mar 2021 18:31:06 +0800
+Message-ID: <20210312103106.1368-4-changzihao1@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 In-Reply-To: <20210312103106.1368-1-changzihao1@huawei.com>
 References: <20210312103106.1368-1-changzihao1@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.174.186.85]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=changzihao1@huawei.com; helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=changzihao1@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,67 +64,111 @@ Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, changzihao1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add vnc_display_reload_certs() to support
-update x509 certificates.
+This patch provides a new qmp to reload display configuration
+without restart VM, but only reloading the vnc tls certificates
+is implemented.
+Example:
+{"execute": "display-reload", "arguments":{"type": "vnc", "tls-certs": true}}
 
 Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/ui/console.h |  1 +
- ui/vnc.c             | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ monitor/qmp-cmds.c | 15 +++++++++++
+ qapi/ui.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 77 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index c960b7066ccd..2714038a0fae 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -476,6 +476,7 @@ int vnc_display_password(const char *id, const char *password);
- int vnc_display_pw_expire(const char *id, time_t expires);
- void vnc_parse(const char *str);
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-+bool vnc_display_reload_certs(const char *id,  Error **errp);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index c7df8c0ee268..cd5bc477345e 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -334,3 +334,18 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
  
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 310abc937812..381e21a87563 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -584,6 +584,34 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-     return prev;
+     return mem_info;
  }
- 
-+bool vnc_display_reload_certs(const char *id, Error **errp)
++
++void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
 +{
-+    VncDisplay *vd = vnc_display_find(id);
-+    QCryptoTLSCredsClass *creds = NULL;
++    switch (arg->type) {
++    case DISPLAY_RELOAD_TYPE_VNC:
++        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
++            vnc_display_reload_certs(NULL, errp);
++        }
++        break;
 +
-+    if (!vd) {
-+        error_setg(errp, "Can not find vnc display");
-+        return false;
-+    }
++    default:
++        error_setg(errp, "unsupported DisplayReloadType");
 +
-+    if (!vd->tlscreds) {
-+        error_setg(errp, "vnc tls is not enable");
-+        return false;
 +    }
-+
-+    creds = QCRYPTO_TLS_CREDS_GET_CLASS(OBJECT(vd->tlscreds));
-+    if (creds->reload == NULL) {
-+        error_setg(errp, "%s doesn't support to reload TLS credential",
-+                   object_get_typename(OBJECT(vd->tlscreds)));
-+        return false;
-+    }
-+    if (!creds->reload(vd->tlscreds, errp)) {
-+        return false;
-+    }
-+
-+    return true;
 +}
+diff --git a/qapi/ui.json b/qapi/ui.json
+index d08d72b43923..298267bf96d2 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1179,3 +1179,65 @@
+ ##
+ { 'command': 'query-display-options',
+   'returns': 'DisplayOptions' }
 +
- /* TODO
-    1) Get the queue working for IO.
-    2) there is some weirdness when using the -S option (the screen is grey
++##
++# @DisplayReloadType:
++#
++# Available DisplayReload types.
++#
++# @vnc: VNC display
++#
++# Since: 6.0
++#
++##
++{ 'enum': 'DisplayReloadType',
++  'data': ['vnc'] }
++
++##
++# @DisplayReloadOptionsVNC:
++#
++# Specify the VNC reload options.
++#
++# @tls-certs: reload tls certs or not.
++#
++# Since: 6.0
++#
++##
++{ 'struct': 'DisplayReloadOptionsVNC',
++  'data': { '*tls-certs': 'bool' } }
++
++##
++# @DisplayReloadOptions:
++#
++# Options of the display configuration reload.
++#
++# @type: Specify the display type.
++#
++# Since: 6.0
++#
++##
++{ 'union': 'DisplayReloadOptions',
++  'base': {'type': 'DisplayReloadType'},
++  'discriminator': 'type',
++  'data': { 'vnc': 'DisplayReloadOptionsVNC' }}
++
++##
++# @display-reload:
++#
++# Reload display configuration.
++#
++# Returns: Nothing on success.
++#
++# Since: 6.0
++#
++# Example:
++#
++# -> { "execute": "display-reload",
++#      "arguments": { "type": "vnc", "tls-certs": true  } }
++# <- { "return": {}  }
++#
++##
++{ 'command': 'display-reload',
++  'data': 'DisplayReloadOptions',
++  'boxed' : true }
++
 -- 
 2.28.0
 
