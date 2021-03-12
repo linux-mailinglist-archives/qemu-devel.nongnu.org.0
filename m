@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB47338352
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:56:01 +0100 (CET)
-Received: from localhost ([::1]:43898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DC633834D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 02:53:06 +0100 (CET)
+Received: from localhost ([::1]:35060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKX21-0004JV-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:56:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
+	id 1lKWzB-0000Lf-0K
+	for lists+qemu-devel@lfdr.de; Thu, 11 Mar 2021 20:53:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lKWx4-0006jU-HZ
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:54 -0500
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43140)
+ id 1lKWxV-0007Ri-Gq
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:51:21 -0500
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:45085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lKWx2-0004sT-Ts
- for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:50:54 -0500
-Received: by mail-io1-xd33.google.com with SMTP id f20so24065153ioo.10
- for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 17:50:52 -0800 (PST)
+ id 1lKWxT-000553-Qw
+ for qemu-devel@nongnu.org; Thu, 11 Mar 2021 20:51:21 -0500
+Received: by mail-il1-x12b.google.com with SMTP id s1so1144686ilh.12
+ for <qemu-devel@nongnu.org>; Thu, 11 Mar 2021 17:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ys9tyKqq+EAULptKrtt9gwkDywWx+osLDvjO5MVWHEE=;
- b=o//6fq5erUEBkljgmsJJ+ZyZiY7jD6nXoROIPUtOomUgsFlIeYcnF37Hj1/lXcUFWx
- eWyVxOz17K3kux5SDmzOs0VdzC8n5l50ThILcpHqFcMdVR1T3MOEbfwRHdWTt8DwK8Qi
- XR/+Q9PN5/j8tp9ZsxAA6t+PP6cGxThtjNpuwVdjqFRLOMA+N35wvhFoSXfzPo2GODG1
- StxZFOLuDDLfgVIRrOz0l1qEECOCL1W9v4TsViS8iXj/hyu7VYoW/EC9QNPMziipDCmc
- x6VLV4IEShqkVN3NC4yHdf6YUbpG63asGO7XdQi9Zp70nWMYNp9O2PXJdZasj7Sdoav9
- r1dQ==
+ :cc; bh=SK3L0XYlTVMAwGAOD07tBndXQUYZnquWpSvai5RWD9Y=;
+ b=xQVUSLSPfNntT5pl+8O/9FytYstQe8bXKtWdu9AHYCJDDAWv8fiqUFBK8UnbLYATqJ
+ GIBJLGIL5/UjO0iFkdNV9gkLJ+r4aub9ojdwbVbyUunHxZypuevYXhUjBbRewXu8D89f
+ ztgMA/grJdGvYb7V43goHfwvabhDnSiFr5DLcAJr/hMpugRAfdpuAsQdBLTdoGQO9li2
+ EnUz39Or1li7opzljgvRLXVK1p2ehEJQ9DcWwHD/WgV3UH6w5GxtNLiVKNdFt0OCcSiI
+ JH6v+mWtWfL5/3/UwYpipmZ1Gq9iUtrXneh5rOwAfUPmqtGfXHMkosWycJLaHrS4Q615
+ +18Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ys9tyKqq+EAULptKrtt9gwkDywWx+osLDvjO5MVWHEE=;
- b=d0sHkW+lk7HxVO7c2AZEm5Hts6m9Fwhm+kpIQbLC3A6LHDT+HsILMjk+HFJ6q+mwvb
- RI/QN1VtS4DMOlQjmWebOofOkOuC1qolBOWkVBKNHmCl/taYE5Ouixu5rjK0Ucl/Np3T
- ETe+o6VwKjeCDHQ0RjCAZGiQ5yoa6bsF3dwVFqd/+GkpNCT2wUjxk9pFdPggRRD9o71z
- c2nbFlvJy7NqINwv0vO2fy2pd0VHnCG3TnaMOLC5j6OJHP5HsnU5uaOHTrNHeB+LfHNZ
- oagDx8wlImYb4gNBwcWSNJAncvGFwCDEEEHt1vrdX2M/H0vACoS3z2QAni01gdqV4ft4
- QlIg==
-X-Gm-Message-State: AOAM533mbkYCY2whXtSGzpxZj6G56vIFJq+tuoYN8FredHaJPRr4NInO
- uGiQlgnBKscgithNjttc0MCISN3MOjGA3h0/VQYE
-X-Google-Smtp-Source: ABdhPJx4mI5ulYvN/lZkjAZF8GxV/XFIsd140NrxrEu/YuMJVBAzO8jVsiD9glouz5OUYXY3B6rmJGgV0s9L+JPRmek=
-X-Received: by 2002:a02:a303:: with SMTP id q3mr6518372jai.32.1615513851737;
- Thu, 11 Mar 2021 17:50:51 -0800 (PST)
+ bh=SK3L0XYlTVMAwGAOD07tBndXQUYZnquWpSvai5RWD9Y=;
+ b=D0R1y0NOUOgAtD5HNhNkrWd6axT+bNK4DX+IpV6RZXsdlSvrw5ewhe1MmhzSEMqF9G
+ ssgVSyaJKTz5nG0EzZ6zn2WqXMBEgXG7GEnqtZI4Wa4ExeUhpiBPXiekue6DVmAxBncW
+ XbMhyrQc1FHRsjDO10JqUSuqnG5NrEOTMY4gihlihoocOpmQiBfcqR7FXNJtgy4HNaAa
+ jsibdmU2U7qaQAYjEAu8YvMSZOXZtJpfPyxfbjwanS1CTNPDk3ZUoWx0wdysFlA3SM3s
+ eKS/irNCt8raaXDwdOCdKRP2ZYvsjuGIQWjXVNzxaTGACxru34Er3xiHe5GG9s7LcLpw
+ CT4w==
+X-Gm-Message-State: AOAM531xCvefokMmnaDiZUShjySpTw0d2SVS5zDmIq3WrE2tivVg71h9
+ WKPikUOz5mkMOFOvnHSKG/MTok/eLZlGWvT9iWsW
+X-Google-Smtp-Source: ABdhPJw/A/wZJcmffz2Wg4PwBTdCD15Eo/JKIG4jtArQJ1jgFk0cQxxt63qVfDqo50+ZZTjgcGUbbqolpIgIb/vI6BE=
+X-Received: by 2002:a92:b70a:: with SMTP id k10mr1068671ili.23.1615513878765; 
+ Thu, 11 Mar 2021 17:51:18 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1612747873.git.haibo.xu@linaro.org>
- <25a922038d256e47f3eb99683c5e3bd9c34753ac.1612747873.git.haibo.xu@linaro.org>
- <ae0326e2-8766-803a-ef89-1155d45fdd2a@linaro.org>
- <CAJc+Z1EERnkp1QhZu0Xkrxuw3u8bFM02x0=QVfXYxCRSbXiZeA@mail.gmail.com>
- <eaa33646-f25b-a5df-a5f7-0c0ed9fd847b@linaro.org>
-In-Reply-To: <eaa33646-f25b-a5df-a5f7-0c0ed9fd847b@linaro.org>
+ <a42721fa503d6d26995f451a8ca6d59ae7f3b138.1612747873.git.haibo.xu@linaro.org>
+In-Reply-To: <a42721fa503d6d26995f451a8ca6d59ae7f3b138.1612747873.git.haibo.xu@linaro.org>
 From: Haibo Xu <haibo.xu@linaro.org>
-Date: Fri, 12 Mar 2021 09:50:40 +0800
-Message-ID: <CAJc+Z1FZAuf6=JiDSW4A0kXZ0kvBOS0qKNaonZTK2kQorFXmBA@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/5] Add migration support for KVM guest with MTE
-To: Richard Henderson <richard.henderson@linaro.org>, 
+Date: Fri, 12 Mar 2021 09:51:06 +0800
+Message-ID: <CAJc+Z1Hp8Hs7hBVgK3k=E58vFoT1Hz-sdwnYxfB1KshyQ+sEVw@mail.gmail.com>
+Subject: Re: [RFC PATCH 5/5] Enable the MTE support for KVM guest
+To: Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,8 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -91,37 +88,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ++ more migration experts!
 
-On Tue, 23 Feb 2021 at 06:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 8 Feb 2021 at 11:20, Haibo Xu <haibo.xu@linaro.org> wrote:
 >
-> On 2/22/21 1:46 AM, Haibo Xu wrote:
-> > As I mentioned in the cover later, the reason to let the tag go with the
-> > memory data together is to make it easier to sync with each other. I think
-> > if we migratie them separately, it would be hard to keep the tags to sync
-> > with the data.
-> Well, maybe, maybe not.  See below.
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  hw/arm/virt.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
 >
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 623d5e9397..c2358cf4c5 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -79,6 +79,7 @@
+>  #include "hw/virtio/virtio-iommu.h"
+>  #include "hw/char/pl011.h"
+>  #include "qemu/guest-random.h"
+> +#include "migration/misc.h"
 >
-> > Saying if we migration all the data first, then the tags. If the data got
-> > dirty during the migration of the tag memory, we may need to send the data
-> > again, or freeze the source VM after data migration? What's more, the
-> > KVM_GET_DIRTY_LOG API may not be able to differentiate between a tag and
-> > data changes.
-> I would certainly expect KVM_GET_DIRTY_LOG to only care about the normal
-> memory.  That is, pages as viewed by the guest.
+>  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+> @@ -821,6 +822,21 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+>      }
+>  }
 >
-> I would expect the separate tag_memory block to be private to the host.  If a
-> normal page is dirty, then we would read the tags into the tag_memory and
-> manually mark that dirty.  Migration would continue as normal, and eventually
-> both normal and tag memory would all be clean and migrated.
+> +static int virt_precopy_notify(NotifierWithReturn *n, void *data)
+> +{
+> +    PrecopyNotifyData *pnd = data;
+> +
+> +    switch (pnd->reason) {
+> +    case PRECOPY_NOTIFY_SETUP:
+> +        precopy_enable_metadata_migration();
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static void create_gpio_keys(const VirtMachineState *vms,
+>                               DeviceState *pl061_dev,
+>                               uint32_t phandle)
+> @@ -1898,9 +1914,9 @@ static void machvirt_init(MachineState *machine)
+>      }
 >
-> But I'll admit that it does require that we retain a buffer 1/16 the size of
-> main memory, which is otherwise unused, and thus this is less than ideal.  So
-> if we do it your way, we should arrange for tcg to migrate the tag data in the
-> same way.
+>      if (vms->mte && kvm_enabled()) {
+> -        error_report("mach-virt: KVM does not support providing "
+> -                     "MTE to the guest CPU");
+> -        exit(1);
+> +        /* connect migration precopy request */
+> +        vms->precopy_notifier.notify = virt_precopy_notify;
+> +        precopy_add_notifier(&vms->precopy_notifier);
+>      }
 >
-> I'll still wait for migration experts, of which I am not one.
+>      create_fdt(vms);
+> --
+> 2.17.1
 >
->
-> r~
 
