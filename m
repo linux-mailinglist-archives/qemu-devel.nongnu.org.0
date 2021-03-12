@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA43D339630
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:22:17 +0100 (CET)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05556339684
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:30:18 +0100 (CET)
+Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmQS-00026i-RP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:22:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59368)
+	id 1lKmYC-0006od-Ux
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:30:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlae-00042K-FT
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:44 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36892)
+ id 1lKlaf-00045p-W4
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:46 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaN-0002C7-PJ
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:44 -0500
-Received: by mail-ej1-x632.google.com with SMTP id bm21so54815017ejb.4
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:27 -0800 (PST)
+ id 1lKlaR-0002Cq-42
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:45 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id r17so54796452ejy.13
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Tgg01WFzYZWxtwMF3RzuONdmzCofqm4lYuJbp66nklY=;
- b=e9U5fnctqAaxTymmQbwTZNVKbCIAQrVQxTID9Ip8sWTCNHES88Sea+6VcDWvDJEsR3
- UZYgek/HGQkqDDznOn5mHiHFGWO5d9wJfBaI8ZApBhwbSRRDlkuDML9tlRLC9x+wUlbn
- p/DtguzS2vnjtIyOIkRlCjJr6mNvQJE8sTwJYRKMvAePIPpKMpziIrUGo3V/GH9r30pw
- glfUQAXLHByXsIdN974w12G+luUCrcxzYH89uGvL6om5CV3hNQEYZ608ZLGMq7FuB2Gv
- 06TuIZQWo4CY70EES/udU9AkziZgISgyOam4F3BNtGKf7QknEqi4wX/aNve73n3U5bbt
- bZrQ==
+ bh=JlkkTcluzTbtq/zjZUoz2AwI7NG2npDobHU+H6XFiEM=;
+ b=oxX0OTdmFfrpINhW2urx0EPuu+G/u7rN2H9A2ORXDRLO+yUbasiiItTY9Jj2C4wKa+
+ SX3znl0hG0vJRJGovpjDB6PzASKQgBpZ8WKZWvvpXz70NxlSl5PmYMod0owQSQXngyJ5
+ AAb3wropu/WKEQq2HXyjsz88ZOmAZKIQJtC/kPK4upiEZ4Xm86hvaJY9CH19hQRobXS2
+ Pak6ZLE7WOIEo0/eB1KYrPXO/2dPqwtjmO4VmALockPYekeVz0zRJXNa+jZuX1x7xQWQ
+ ES2rSFDf3L0bm+aQRTPVl959wRtubyCDO2mWLiXqjfPdt4lWujOCAXlvXQyByS/wc+YQ
+ mTHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Tgg01WFzYZWxtwMF3RzuONdmzCofqm4lYuJbp66nklY=;
- b=GjuAIoB8Hqet/pog0EDuCE7Sqmz1hxmtktVFbHrCk9Xwj/T+mIwcwoq6VKmP5P6S7d
- 34kBV9G9hzpmy9MGpqlKfVWiikNY7nGUez3tmPz+PgQ39QAlBHgK8E/HtRazm2kNfe9e
- kuVGvZRTlUyDEVZ4L2WPsYBt5WQHHlIHaedCOUJWv7eWw6q0m1/T7K3IoJT0SIMKlISr
- TYbMPhTgALLYvnPNj3w+3xd5xdC1h7M1U8+5NKcujIhKo3BPEYzC3NkFDO9mR2LBjIVx
- usDV2IumRYDsaC2lXZimPngmPt0Zh/iOppcXmMHaPnoyUnP+AsMME5jDbisko8kOjrey
- PdPQ==
-X-Gm-Message-State: AOAM531psw29jMDdpsN5kA8xA506E9DQkuIPTtHj6kCnunBTwOlViaWV
- G0euiBP1loeQwBB6WxzzcssAUQ==
-X-Google-Smtp-Source: ABdhPJzAZLhBnEXET17Ag+qIErmus0UvOM6NFlY/0Q+jxghxQrm5/VPwFYvhQKt+qAk/oLqhK5AtwQ==
-X-Received: by 2002:a17:907:d8a:: with SMTP id
- go10mr9892867ejc.46.1615570106553; 
- Fri, 12 Mar 2021 09:28:26 -0800 (PST)
+ bh=JlkkTcluzTbtq/zjZUoz2AwI7NG2npDobHU+H6XFiEM=;
+ b=FfwOHPIjGw5XUWwBy8lJ/Qq0ave9kGHpDbD9ztqI0Me8QyNC9K1b1AevOk/DucYADf
+ AFu5EosD6+HxbDpfuWVwsh8K6lsM9pe5QW3FFSptoG/Cxvr6mNNwmQ3ljKUYu0T7kkER
+ UH6oLTHSMsHXXVUEk4ZTpDMMALgseUqK1/wLuLQXRlcnEX2etCrV2QXQICKpap/Y6Nc2
+ kCFqqccqvLo1HP3oDCb0+fiHCm9Tc403FhUYp6fV9+tWBByZ4FPUqsmPujQxsIgZi9rp
+ SRma2U4H2GyBX2S9wOKDFHzfER7qm3iS3wQY5TlvCtUhRA22Xz2pPtaqEVdtsa5G+qrJ
+ /PQw==
+X-Gm-Message-State: AOAM530lN3PN8I0ThdLTHK/+rg1UVwib9lIVAdykFjTqwoQYwTanWP0s
+ DRORxJQ04p5LNLtezUnFEya5ww==
+X-Google-Smtp-Source: ABdhPJwg9SR+psoThgU9QOviX0TfivB/Yc2GzwHTmnTyXFV9mZywJXPuWtSKs1OeG+TZF8jBeavcLQ==
+X-Received: by 2002:a17:906:3488:: with SMTP id
+ g8mr9507564ejb.282.1615570109812; 
+ Fri, 12 Mar 2021 09:28:29 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id rs24sm3108929ejb.75.2021.03.12.09.28.22
+ by smtp.gmail.com with ESMTPSA id w24sm3393605edt.44.2021.03.12.09.28.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 09:28:23 -0800 (PST)
+ Fri, 12 Mar 2021 09:28:27 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0155C1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 32C031FF91;
  Fri, 12 Mar 2021 17:28:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 03/14] docs/devel: include the plugin API information from
- the headers
-Date: Fri, 12 Mar 2021 17:28:10 +0000
-Message-Id: <20210312172821.31647-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 05/14] plugins: cleanup kernel-doc for qemu_plugin_install
+Date: Fri, 12 Mar 2021 17:28:12 +0000
+Message-Id: <20210312172821.31647-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312172821.31647-1-alex.bennee@linaro.org>
 References: <20210312172821.31647-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,30 +93,40 @@ Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have kerneldoc tags for the headers so we might as well extract
-them into our developer documentation whilst we are at it.
+kernel-doc doesn't like multiple Note sections. Also add an explicit
+Return.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/tcg-plugins.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/qemu/qemu-plugin.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 39ce86ed96..18c6581d85 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -63,6 +63,11 @@ valid during the lifetime of the callback so it is important that any
- information that is needed is extracted during the callback and saved
- by the plugin.
- 
-+API
-+===
-+
-+.. kernel-doc:: include/qemu/qemu-plugin.h
-+
- Usage
- =====
- 
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 4b84c6c293..ac1bb318da 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -85,15 +85,15 @@ typedef struct qemu_info_t {
+  * @argc: number of arguments
+  * @argv: array of arguments (@argc elements)
+  *
+- * All plugins must export this symbol.
+- *
+- * Note: Calling qemu_plugin_uninstall() from this function is a bug. To raise
+- * an error during install, return !0.
++ * All plugins must export this symbol which is called when the plugin
++ * is first loaded. Calling qemu_plugin_uninstall() from this function
++ * is a bug.
+  *
+  * Note: @info is only live during the call. Copy any information we
+- * want to keep.
++ * want to keep. @argv remains valid throughout the lifetime of the
++ * loaded plugin.
+  *
+- * Note: @argv remains valid throughout the lifetime of the loaded plugin.
++ * Return: 0 on successful loading, !0 for an error.
+  */
+ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
 -- 
 2.20.1
 
