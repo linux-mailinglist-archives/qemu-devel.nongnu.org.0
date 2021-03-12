@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C31338ADF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 12:03:16 +0100 (CET)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB68338ADC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 12:02:49 +0100 (CET)
+Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKfZc-0004Qo-0Q
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 06:03:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51320)
+	id 1lKfZ8-0003HG-E9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 06:02:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKfXJ-0003cp-F1
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:00:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46868)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lKfTv-00006k-Im; Fri, 12 Mar 2021 05:57:23 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lKfXG-0005kj-Us
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 06:00:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lKfXE-00075P-Tp
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 11:00:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AF75E2E815F
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 11:00:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lKfTt-0003Ri-U3; Fri, 12 Mar 2021 05:57:23 -0500
+Received: by mail-pl1-x635.google.com with SMTP id 30so7198680ple.4;
+ Fri, 12 Mar 2021 02:57:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y+fKGGovJ9FG6a9zvi8BipQosXAzQRGMJN4oObyTjTo=;
+ b=UMXUvhzcadOw20vLlTdP1cin/tMB268LJL6OhoFYs3QIlmR3PViw6WDgCRxtlLZ13w
+ +tiY2nK4wu19NMuawPyjKbBrWatQ+Ee5qUrp0Q06Czw9wV0U00qTMIU+zZy1czKWHXRg
+ v7c2aLA74rb5sKYFTmO7zJ/6d/a01GFef2uM9UmWGhA3kBAoO38uq/38yMZtMLuPW6ij
+ IOW1hZY/9zP33oHn0qWsZppLpMkHFxvzcW/VMmAqvxsYmuy73lfWma9KTSMV26/WGDMF
+ UezPniitxHaeVwtAL2YcR3cZx58aux4CVdqqpuAmt+8MdI1+3T0ySojNd2Quv72XtqY6
+ CuRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=y+fKGGovJ9FG6a9zvi8BipQosXAzQRGMJN4oObyTjTo=;
+ b=bp5mgri1/srawcjwmm5qFEAciYprK4IZ9fgx2Noj2KK0ns7bDxU5hks8y6EYRQUAfG
+ buyiq2VxWBOw0QmnSzc3J53CKW6uOmEzb//9MyIaHYMA18N53iBYLVMVoQbpg/4OqH6k
+ AT7jQEQl94LQ5oZ9T/Q/aJFQUXmzU8j6qqDSC6YLCyBeSywTPzdYhFPlAWZrCBM7xbIG
+ XKP8+nPo7WKfHWvEjxRmSIrwoLUdqSXygHdEvgOqnbdhQ0urX14VGfpJhN7rmtj0+FY4
+ 0O/7nESWf3/0gwsgCouCnQG+FyRZkDHCxN2eudbKCJEZyZh7CO2nPtz2Cr1ljf4g9Dw8
+ gAEw==
+X-Gm-Message-State: AOAM532+rVxdmZUAtOHZYQnVABh7Q2HTJZ0n00Bh0v1WMpHJaqnQx+AI
+ qxq49tTKDFxmgd/W/xLmAsQ=
+X-Google-Smtp-Source: ABdhPJwrgq6xCf4lXSdEkgVWwgaLi+nOS34PYvF6PfMIa6R+YxpkLmSHmX/7dsiz0CRiMCk0maa6bg==
+X-Received: by 2002:a17:903:4093:b029:e5:b933:fab7 with SMTP id
+ z19-20020a1709034093b02900e5b933fab7mr12693642plc.11.1615546640132; 
+ Fri, 12 Mar 2021 02:57:20 -0800 (PST)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id p25sm5326793pfe.100.2021.03.12.02.57.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 02:57:19 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH v3 0/3] hw/misc: Model ASPEED hash and crypto engine
+Date: Fri, 12 Mar 2021 21:27:08 +1030
+Message-Id: <20210312105711.551423-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 12 Mar 2021 10:51:50 -0000
-From: Arnd Bergmann <1918917@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnd-arndb dvyukov
-X-Launchpad-Bug-Reporter: Dmitry Vyukov (dvyukov)
-X-Launchpad-Bug-Modifier: Arnd Bergmann (arnd-arndb)
-References: <161554541665.16519.7546318758364401915.malonedeb@wampee.canonical.com>
-Message-Id: <161554631045.3318.170295764906826749.malone@chaenomeles.canonical.com>
-Subject: [Bug 1918917] Re: synchronous about on accessing unused I/O ports on
- aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: c6a425c08c5662894236b41940b83776e6ee45a1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=joel.stan@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,129 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918917 <1918917@bugs.launchpad.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My best guess is that the PCI I/O port handling in qemu only returns
-data for ports that are connected to an actual device.
+v3: Rework qtest to not use libqtest-single.h, rebase to avoid LPC
+conflicts.
+v2: Address review from Andrew and Philippe. Adds a qtest.
 
-In this case, the kernel attempts to access a 8250 serial port at an
-address where none exists. While this is also a bug in the kernel, a
-real PCI implementation would not cause an external abort but simply
-return 'all-ones' (0xff, 0xffff, 0xffffffff) for a read request and
-ignore writes. This is something that the kernel relies on for probing
-unknown ISA style devices.
+This adds a model for the ASPEED hash and crypto engine (HACE) found on
+all supported ASPEED SoCs.
 
--- =
+The model uses Qemu's gcrypto API to perform the SHA and MD5 hashing
+directly in the machine's emulated memory space, which I found a neat
+use of Qemu's features.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918917
+It has been tested using u-boot and from Linux userspace, and v2 adds a
+qtest for the model running as part of the ast2600-evb machine.
 
-Title:
-  synchronous about on accessing unused I/O ports on aarch64
+Joel Stanley (3):
+  hw: Model ASPEED's Hash and Crypto Engine
+  aspeed: Integrate HACE
+  tests/qtest: Add test for Aspeed HACE
 
-Status in QEMU:
-  New
+ docs/system/arm/aspeed.rst     |   2 +-
+ include/hw/arm/aspeed_soc.h    |   3 +
+ include/hw/misc/aspeed_hace.h  |  33 ++++
+ hw/arm/aspeed_ast2600.c        |  14 ++
+ hw/arm/aspeed_soc.c            |  15 ++
+ hw/misc/aspeed_hace.c          | 312 +++++++++++++++++++++++++++++++++
+ tests/qtest/aspeed_hace-test.c | 214 ++++++++++++++++++++++
+ MAINTAINERS                    |   1 +
+ hw/misc/meson.build            |   1 +
+ tests/qtest/meson.build        |   3 +
+ 10 files changed, 597 insertions(+), 1 deletion(-)
+ create mode 100644 include/hw/misc/aspeed_hace.h
+ create mode 100644 hw/misc/aspeed_hace.c
+ create mode 100644 tests/qtest/aspeed_hace-test.c
 
-Bug description:
-  version: QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-6)
-  command line: qemu-system-aarch64 \
-  	-machine virt,virtualization=3Don,graphics=3Don,usb=3Don -cpu cortex-a57=
- -smp 2 -m 2G \
-  	-device virtio-blk-device,drive=3Dhd0 \
-  	-drive if=3Dnone,format=3Draw,id=3Dhd0,file=3Dbuildroot \
-  	-kernel arch/arm64/boot/Image \
-  	-nographic \
-  	-device virtio-rng-pci \
-  	-net user,host=3D10.0.2.10,hostfwd=3Dtcp::10022-:22 -net nic,model=3Dvir=
-tio-net-pci \
-  	-append "root=3D/dev/vda earlyprintk=3Dserial console=3DttyAMA0 earlycon"
+-- 
+2.30.1
 
-  I am observing "synchronous external abort" when kernel tries to
-  access unused I/O ports (see below), while hardware/qemu should return
-  0xffffffff in this case.
-
-  This is factored out of this LKML thread where Arnd describes it in more =
-details:
-  https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=3Db=
-xFgv5Y3mA@mail.gmail.com/
-
-  Internal error: synchronous external abort: 96000050 [#1] PREEMPT SMP
-  Dumping ftrace buffer:
-     (ftrace buffer empty)
-  Modules linked in:
-  CPU: 0 PID: 11231 Comm: syz-executor.1 Not tainted 5.12.0-rc2-syzkaller-0=
-0302-g28806e4d9b97 #0
-  Hardware name: linux,dummy-virt (DT)
-  pstate: 80000085 (Nzcv daIf -PAN -UAO -TCO BTYPE=3D--)
-  pc : __raw_writeb arch/arm64/include/asm/io.h:27 [inline]
-  pc : _outb include/asm-generic/io.h:501 [inline]
-  pc : logic_outb+0x3c/0x114 lib/logic_pio.c:302
-  lr : io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-  sp : ffff000015f0f980
-  x29: ffff000015f0f980 x28: ffff80001de0005d =
-
-  x27: ffff80001601df00 x26: ffff000015f0fc90 =
-
-  x25: ffff80001de00000 x24: ffff80001de00000 =
-
-  x23: ffff00000e27f600 x22: 0000000000000000 =
-
-  x21: 0000000000000002 x20: 0000000000000002 =
-
-  x19: fffffbfffe800001 x18: ffff00006a678b48 =
-
-  x17: 0000000000000000 x16: 0000000000000000 =
-
-  x15: ffff8000197be810 x14: 1fffe00002be1f0e =
-
-  x13: 1fffe00002be1e90 x12: ffff600002be1f39 =
-
-  x11: 1fffe00002be1f38 x10: ffff600002be1f38 =
-
-  x9 : dfff800000000000 x8 : 0000000000000003 =
-
-  x7 : 0000000000000001 x6 : 0000000000000004 =
-
-  x5 : ffff000015f0f9c0 x4 : dfff800000000000 =
-
-  x3 : 0000000000000001 x2 : 1ffff00003494e6b =
-
-  x1 : fffffbfffe800000 x0 : 0000000000ffbffe =
-
-  Call trace:
-   _outb include/asm-generic/io.h:501 [inline]
-   logic_outb+0x3c/0x114 lib/logic_pio.c:302
-   io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-   serial_out drivers/tty/serial/8250/8250.h:118 [inline]
-   serial8250_set_THRI drivers/tty/serial/8250/8250.h:138 [inline]
-   __start_tx drivers/tty/serial/8250/8250_port.c:1566 [inline]
-   serial8250_start_tx+0x338/0x6c0 drivers/tty/serial/8250/8250_port.c:1666
-   __uart_start.isra.0+0x10c/0x154 drivers/tty/serial/serial_core.c:127
-   uart_start+0xe0/0x210 drivers/tty/serial/serial_core.c:137
-   uart_flush_chars+0x10/0x20 drivers/tty/serial/serial_core.c:573
-   __receive_buf drivers/tty/n_tty.c:1646 [inline]
-   n_tty_receive_buf_common+0x588/0x22c0 drivers/tty/n_tty.c:1739
-   n_tty_receive_buf+0x14/0x20 drivers/tty/n_tty.c:1768
-   tiocsti drivers/tty/tty_io.c:2317 [inline]
-   tty_ioctl+0xed0/0x1aec drivers/tty/tty_io.c:2718
-   vfs_ioctl fs/ioctl.c:48 [inline]
-   __do_sys_ioctl fs/ioctl.c:753 [inline]
-   __se_sys_ioctl fs/ioctl.c:739 [inline]
-   __arm64_sys_ioctl+0x120/0x18c fs/ioctl.c:739
-   __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
-   invoke_syscall arch/arm64/kernel/syscall.c:49 [inline]
-   el0_svc_common.constprop.0+0xf0/0x2c0 arch/arm64/kernel/syscall.c:129
-   do_el0_svc+0xa4/0xd0 arch/arm64/kernel/syscall.c:168
-   el0_svc+0x24/0x34 arch/arm64/kernel/entry-common.c:416
-   el0_sync_handler+0x1a4/0x1b0 arch/arm64/kernel/entry-common.c:432
-   el0_sync+0x170/0x180 arch/arm64/kernel/entry.S:699
-  Code: d2bfd001 f2df7fe1 f2ffffe1 8b010273 (39000274) =
-
-  ---[ end trace 79cb47219936c254 ]---
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918917/+subscriptions
 
