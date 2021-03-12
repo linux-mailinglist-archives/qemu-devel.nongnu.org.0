@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05548339661
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:26:28 +0100 (CET)
-Received: from localhost ([::1]:37112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F20E33967C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Mar 2021 19:29:12 +0100 (CET)
+Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKmUU-0008E0-Su
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:26:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59462)
+	id 1lKmX9-0003Zo-7b
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 13:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaj-0004DW-1X
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:49 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:43863)
+ id 1lKlan-0004NY-0j
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:53 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:36050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lKlaV-0002DI-Vk
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:48 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id e7so9045817edu.10
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:35 -0800 (PST)
+ id 1lKlaa-0002F1-7b
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 12:28:52 -0500
+Received: by mail-ej1-x629.google.com with SMTP id e19so54916422ejt.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 09:28:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Boqd6rm1XLHC3hQw2GCvlbMa6t0NNTObqUIRDgqZrqA=;
- b=RSMR/6TkmfpReaT+2BBEz+JVrGhE96if+cscvhYoHYmKONVj/zl4trqMYhrkNaTLs9
- yeMgMB6JG46j2k9ZSBEG9Bhd5FQtQ3XZ1UqkzFA4rEJFgPpwDZhdTH8oS00EkouT1qkd
- hk3cop37Wi87dIlsJaDfdoCqzTGxi2E5MqZPvod8JYEdTNSZRVTSSy3G8wWrfsGAFVvC
- dZAlBGtl/ka7fwiGiFSobpQxCQOqTrNBMjsN5Qx10kSQqZITZKROXNIzN8GDF7/xZeqK
- +U2rfbTPi70cW0WNX2Zgp1Dz+Wk213tP5YxTV/2uUwbUg2UYJlpSki5+LFMo17IcqKbj
- 6CeQ==
+ bh=rQlXVzvhTGn5oQRAxN3PtvRgZpaSyD2V/Kc/eZauuUk=;
+ b=I3ZTiDXdf9gf0/tsKPfA8sySqIxY/H25ASyNxiLPGyxYehT4n5naIkqCBdHymfSYn5
+ pmCb9pcRTXMh0UXfBbHm7UCNikcF6NGrefjG0p/uByeiLHJqjJl+KcUAdxgb7mCGTa+W
+ yHa42M2mXzYjKGd7o1mUGyyh2puVwr23ETeHVXydDVpmcyzJKD+RbvPojjxtgQotDu2y
+ cxVtUwDPlCqr+DZATWMSwE42stXJ80WD4CXAkJHV4qZzUNUAOn68IM0oo7LdybPDr56m
+ 9iDvSC0qQMRlerJcd0faqQpD6jkpGjCPE5FZ5sS+F9pUBrkcCP/ws8Qx8TRI6BPcw1jc
+ ubKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Boqd6rm1XLHC3hQw2GCvlbMa6t0NNTObqUIRDgqZrqA=;
- b=rQvdPbhC1PxB49beMInlihJyQU2RZTxb8Pj598aYrA5L/gBSH1Hfn8jEANmmwFWu2Q
- 7uEIWl8OleDx+a6yqZclkhaejH0Lqvr7Ps6hBK70zE+RNRrIW6kCDDuJHvDUal9e1F34
- MRxyoXqjSy6beYKLYiQNY+geNhRhT3Jk0y5c2OBOjs98wl+97FsO5ghVkk3POq3IC4hn
- Hc1zKjOOoiyhkda/7dNzN+VQutQ/SPOiTcv94MyjUdAR/dP2lITMCt2qcYcr3uAIvPkG
- nezehgjfoYsMM3bLiAmDj5T2Dk+PG/AM1VdO5T56jbDFiLxzpEbHu+UWbmVSXAhQT1MT
- WlPA==
-X-Gm-Message-State: AOAM533o5+k2gdWzbGUUY2rji9U7zRcrGHihoUxdeNZdDXCe8TcGb7r8
- aKMbynM3ECc9lNgGabqmtAfv1A==
-X-Google-Smtp-Source: ABdhPJzUOJUjtjHyp9pF/cpIlsMDUltABIefD9fWdb6k6xDb7M8tVN8zE/OhZyqDWMEt7MGbW1mAOg==
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr15832640edr.146.1615570114705; 
- Fri, 12 Mar 2021 09:28:34 -0800 (PST)
+ bh=rQlXVzvhTGn5oQRAxN3PtvRgZpaSyD2V/Kc/eZauuUk=;
+ b=JWh030yb07eSyveR0llQ+b/sN5FNGiFj6Ktu/7WGISngQqapNRfTYpikQfYxam3X3i
+ 77ByK6MyqsZS7+Z3abJdrhEK964wj+B7J+g5+1Ftg1jYuUVfO6Xqk6/mQA4wgdEiDh2r
+ 0aJFFiuAC5yV7GO4MIR+rzme71zQckbxO0Afj9Hh9bMz50Aq5qwg4CyXcTdye2WHYmGF
+ B/v0lajgqZrqLaXxa65Zybtb2cFe3No+thkonaXDnPMsxNtOBDTBt4KUNJ0yz8Wq/xwp
+ 8SPSjHCtw8uOcSc3b0kkRFcgxfUKJXGCoJc/f/Ill03lJWAEKWFOglaLc/NndBMvpUEZ
+ phFg==
+X-Gm-Message-State: AOAM531SbsE9aETYuMPNlrrpwKpxgx8Zh0bgTXJwonoYbBVox84xpr6K
+ JbxvZ1acI/vxsTm9ivR6/gLGymI5XgyLXQ==
+X-Google-Smtp-Source: ABdhPJxO9acPOaagelidzELS+cHxP2oqeBG/jNDyxVo/Ch4SpNkp0aS4ZVd0FqfT2odn6joex/FkgA==
+X-Received: by 2002:a17:906:8147:: with SMTP id
+ z7mr9291380ejw.436.1615570118876; 
+ Fri, 12 Mar 2021 09:28:38 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h15sm3182719edb.74.2021.03.12.09.28.27
+ by smtp.gmail.com with ESMTPSA id sb4sm3038732ejb.71.2021.03.12.09.28.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 09:28:28 -0800 (PST)
+ Fri, 12 Mar 2021 09:28:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CCD0D1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id E28701FF9C;
  Fri, 12 Mar 2021 17:28:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/14] plugins: expand kernel-doc for memory query and
- instrumentation
-Date: Fri, 12 Mar 2021 17:28:19 +0000
-Message-Id: <20210312172821.31647-13-alex.bennee@linaro.org>
+Subject: [PATCH v1 13/14] plugins: getting qemu_plugin_get_hwaddr only expose
+ one function prototype
+Date: Fri, 12 Mar 2021 17:28:20 +0000
+Message-Id: <20210312172821.31647-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312172821.31647-1-alex.bennee@linaro.org>
 References: <20210312172821.31647-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,74 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+Cc: Yonggang Luo <luoyonggang@gmail.com>, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/qemu/qemu-plugin.h | 35 ++++++++++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 7 deletions(-)
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index d4adce730a..aed868d42a 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -392,24 +392,45 @@ uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
-  */
- void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
+This is used for counting how much function are export to qemu plugin.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201013002806.1447-2-luoyonggang@gmail.com>
+---
+ plugins/api.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/plugins/api.c b/plugins/api.c
+index 3c7dc406e3..b22998cd7c 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -266,10 +266,12 @@ bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info)
  
--/*
-- * Memory Instrumentation
-- *
-- * The anonymous qemu_plugin_meminfo_t and qemu_plugin_hwaddr types
-- * can be used in queries to QEMU to get more information about a
-- * given memory access.
-+/**
-+ * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-  */
- typedef uint32_t qemu_plugin_meminfo_t;
-+/** struct qemu_plugin_hwaddr - opaque hw address handle */
- struct qemu_plugin_hwaddr;
+ #ifdef CONFIG_SOFTMMU
+ static __thread struct qemu_plugin_hwaddr hwaddr_info;
++#endif
  
--/* meminfo queries */
-+/**
-+ * qemu_plugin_mem_size_shift() - get size of access
-+ * @info: opaque memory transaction handle
-+ *
-+ * Returns: size of access in ^2 (0=byte, 1=16bit, 2=32bit etc...)
-+ */
- unsigned int qemu_plugin_mem_size_shift(qemu_plugin_meminfo_t info);
-+/**
-+ * qemu_plugin_mem_is_sign_extended() - was the access sign extended
-+ * @info: opaque memory transaction handle
-+ *
-+ * Returns: true if it was, otherwise false
-+ */
- bool qemu_plugin_mem_is_sign_extended(qemu_plugin_meminfo_t info);
-+/**
-+ * qemu_plugin_mem_is_big_endian() - was the access big endian
-+ * @info: opaque memory transaction handle
-+ *
-+ * Returns: true if it was, otherwise false
-+ */
- bool qemu_plugin_mem_is_big_endian(qemu_plugin_meminfo_t info);
-+/**
-+ * qemu_plugin_mem_is_store() - was the access a store
-+ * @info: opaque memory transaction handle
-+ *
-+ * Returns: true if it was, otherwise false
-+ */
- bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info);
+ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+                                                   uint64_t vaddr)
+ {
++#ifdef CONFIG_SOFTMMU
+     CPUState *cpu = current_cpu;
+     unsigned int mmu_idx = info >> TRACE_MEM_MMU_SHIFT;
+     hwaddr_info.is_store = info & TRACE_MEM_ST;
+@@ -281,14 +283,10 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+     }
  
- /**
-  * qemu_plugin_get_hwaddr() - return handle for memory operation
-+ * @info: opaque memory info structure
-  * @vaddr: the virtual address of the memory operation
-  *
-  * For system emulation returns a qemu_plugin_hwaddr handle to query
+     return &hwaddr_info;
+-}
+ #else
+-struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+-                                                  uint64_t vaddr)
+-{
+     return NULL;
+-}
+ #endif
++}
+ 
+ bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr)
+ {
 -- 
 2.20.1
 
