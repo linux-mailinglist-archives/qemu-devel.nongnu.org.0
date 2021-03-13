@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F50339F4B
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:58:59 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2959C339F53
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:03:37 +0100 (CET)
+Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7bO-0000qe-OK
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:58:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48116)
+	id 1lL7fq-0003nA-LP
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:03:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lL7Xd-0005Ml-Ag
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:05 -0500
-Resent-Date: Sat, 13 Mar 2021 11:55:05 -0500
-Resent-Message-Id: <E1lL7Xd-0005Ml-Ag@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lL7XV-0000mk-GI
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:01 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1615654490; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Q8RBLMgcDTVXMeJ4gPFPFu5ZD4yhuXALsjkjSA+ZsQ7W4ZdpCpF/Wdl5KqGfUh8Jtr+yQUqabJfyVE9rJ8SWxR+uQOglfolwFCET9wNQirsnzkeZ9WBPNhKqqySCaEd3gYqOtyqMP/vhALrAa/jYmnWBYho59mHy71lNIaTIhVE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615654490;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Cmm3RqwOlbYdELAYPPT/Vv1jghyGkVyNOnOhn3XgfpQ=; 
- b=Iug1a8arJsnp2qDKtyZpzoUfcHTQg0BQE+JVPYF3en2SqYYoDreT1vAvadCdgy5hdLaQ4+Jz5wX3rzbqaPHXF5/iknMnIhlKvsBTpqrTShRa9kLSs3qo4A9X3KOf6tZ9P/JF30gOg/OTlA4hT/Ye5VECYTJPdhAJfcYNc0VN3io=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615654487834632.1329742180117;
- Sat, 13 Mar 2021 08:54:47 -0800 (PST)
-In-Reply-To: <20210313163653.37089-1-ma.mandourr@gmail.com>
-Subject: Re: [PATCH 0/9] Replacing malloc and the like with GLib's variants 
-Message-ID: <161565448678.27725.8179336763767313854@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lL7Xh-0005NY-5Y
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:10 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lL7Xd-0000sN-Tj
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:07 -0500
+Received: by mail-wr1-x429.google.com with SMTP id v4so3450403wrp.13
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yombwIBSirB9Dvx7ueAT1/MVmSKZPvZJuo5qcrvkekE=;
+ b=XdzG0Luafe8P6M5uLPKfwDnvRQuf8Of2U43FTedf7iBw1tZWtQIypZtlh47w0ONf8X
+ nF2YjHc8rD9sWMIeiWrKg1RoTIXiE6rJobM2j4Zp9lc/s8UomLOR/VbGyAVhMIeWKWYB
+ RclG9M6T+ufyAanRoHxzeXhBts00vKbhu2GKq6w6d2sasoFGzpTcx9npSicwhiHUkbds
+ 8piT8FFVce8zuAiF5HuogNbzo3XLE4Vfvm8Bd27mkn2ICiQzD6TwDtjVm9GeatLKimyX
+ gCmmLMRJVhzHpwDobv8ixpht7lT0WN+wnBovk3l4cSIz6thrKPjaBrl/H1DrsiuT1ykC
+ 7k8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=yombwIBSirB9Dvx7ueAT1/MVmSKZPvZJuo5qcrvkekE=;
+ b=nxj4MuGg1ZbiP9YQ4F/1+XbW0HTTgbnqEJPyA7qxPSO5GnSCMmnr9dnCSVOYL9tw4e
+ ID6steUcDmb3cgKm0BU/YHYx+rUXWjV7Y9zAlsqtdOu6Gvir1kVZB/t8a39RJ03zCw1k
+ PcJkwcJdnq8RXrKIKWH616Kvc9tjac2VGiHGc2s8wDf3oahc/fp5KCQJS0ez8mFWRqSh
+ K9j3X4MvopKApf/bNeLy7Dzvq9Bjpnw3yQhBRYOyJXKIC1wGMEy3vqsKD5ew91mFaAPq
+ w5z8Mu3inNdqhygKt/VKNRymRTzEpPT2QJgipBAyB6I8N/DDHZEhy2KWAb0YC+9CcBqt
+ QSgA==
+X-Gm-Message-State: AOAM530BWuyo4LeKFW7FGvWYLOgd6IkPkx9EqBHcOZvFEY7yODvT8f6/
+ sfhxtPToO6ZiP2/wg3E8u2KwwKCGTHcm2Q==
+X-Google-Smtp-Source: ABdhPJwk2qi5I92iEoTxqo39pQUVhxe2iDy8OKZPCqYKeZyJdHbhTFl0fKBgiLta2XTW1DLTJJ9b/A==
+X-Received: by 2002:adf:dc4e:: with SMTP id m14mr20482589wrj.248.1615654504236; 
+ Sat, 13 Mar 2021 08:55:04 -0800 (PST)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m14sm6911161wmi.27.2021.03.13.08.55.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Mar 2021 08:55:03 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 03/11] hw/avr: Add limited support for avr gpio registers
+Date: Sat, 13 Mar 2021 17:54:37 +0100
+Message-Id: <20210313165445.2113938-4-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
+References: <20210313165445.2113938-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ma.mandourr@gmail.com
-Date: Sat, 13 Mar 2021 08:54:47 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,162 +85,315 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ma.mandourr@gmail.com, qemu-devel@nongnu.org
+Cc: Thomas Huth <huth@tuxfamily.org>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Heecheol Yang <heecheol.yang@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxMzE2MzY1My4zNzA4
-OS0xLW1hLm1hbmRvdXJyQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzEzMTYzNjUzLjM3
-MDg5LTEtbWEubWFuZG91cnJAZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSCAwLzldIFJlcGxhY2lu
-ZyBtYWxsb2MgYW5kIHRoZSBsaWtlIHdpdGggR0xpYidzIHZhcmlhbnRzIAoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
-fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
-aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
-PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
-ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
-L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMxMzA5NDc0Ny4yOTY2OTQ4
-LTEtbGF1cmVudEB2aXZpZXIuZXUgLT4gcGF0Y2hldy8yMDIxMDMxMzA5NDc0Ny4yOTY2OTQ4LTEt
-bGF1cmVudEB2aXZpZXIuZXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxMzE2
-MzY1My4zNzA4OS0xLW1hLm1hbmRvdXJyQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjEwMzEzMTYz
-NjUzLjM3MDg5LTEtbWEubWFuZG91cnJAZ21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
-aCAndGVzdCcKYTZhM2ExMiB0b29scy92aXJ0aW9mc2Q6IFJlcGxhY2luZyBtYWxsb2MtbGlrZSBj
-YWxscyB3aXRoIEdMaWIncyB2YXJpYW50cwoxNTlmNzUxIHRvb2xzL3ZpcnRpb2ZzZC9mdXNlX29w
-dC5jOiBSZXBsYWNlZCBhIG1hbGxvYyB3aXRoIEdMaWIncyBnX3RyeV9tYWxsb2MKYjJjZjhkYSB0
-b29scy92aXJ0aW9mc2QvYnVmZmVyLmM6IHJlcGxhY2VkIGEgY2FsbG9jIGNhbGwgd2l0aCBHTGli
-J3MgZ190cnlfbmV3MAo1ZDIwODYyIHV0aWwvY29tcGF0ZmQuYzogUmVwbGFjZWQgYSBtYWxsb2Mg
-d2l0aCBHTGliJ3MgZ190cnlfbWFsbG9jCjZhMTFmNzkgdGFyZ2V0L3h0ZW5zYTogUmVwbGFjZWQg
-bWFsbG9jL2ZyZWUgd2l0aCBHTGliJ3MgdmFyaWFudHMuCjcxNjlmMjcgcGMtYmlvcy9zMzkwLWNj
-dy9uZXRtYWluLmM6IENoYW5nZWQgYSBtYWxsb2MvZnJlZSB0byBHTGliJ3MgdmFyaWFudHMKODM2
-YmVmZSBody9hdWRpby9mbW9wbC5jOiBSZXBsYWNlZCBjYWxscyB0byBtYWxsb2Mgd2l0aCBHTGli
-J3MgdmFyaWFudHMKZmI2NmI3OCBody9hdWRpby9mbW9wbC5jOiBGaXhpbmcgc29tZSBzdHlsZSBl
-cnJvcnMuCmRlZDNmODEgYnNkLXVzZXIvZWxmbG9hZC5jOiBSZXBsYWNlZCBjYWxscyB0byBtYWxs
-b2MvZnJlZSB3aXRoIEdMaWIgdmFyaWFudHMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVj
-a2luZyBjb21taXQgZGVkM2Y4MWZkNzFiIChic2QtdXNlci9lbGZsb2FkLmM6IFJlcGxhY2VkIGNh
-bGxzIHRvIG1hbGxvYy9mcmVlIHdpdGggR0xpYiB2YXJpYW50cykKMi85IENoZWNraW5nIGNvbW1p
-dCBmYjY2Yjc4NWY1OTcgKGh3L2F1ZGlvL2Ztb3BsLmM6IEZpeGluZyBzb21lIHN0eWxlIGVycm9y
-cy4pCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygn
-CiM0NDogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTA6CisgICAgaWYoKFRMX1RBQkxFID0gbWFs
-bG9jKFRMX01BWCAqIDIgKiBzaXplb2YoaW50MzJfdCkpKSA9PSBOVUxMKQoKRVJST1I6IGRvIG5v
-dCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzQ0OiBGSUxFOiBody9hdWRpby9mbW9w
-bC5jOjYxMDoKKyAgICBpZigoVExfVEFCTEUgPSBtYWxsb2MoVExfTUFYICogMiAqIHNpemVvZihp
-bnQzMl90KSkpID09IE5VTEwpCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFs
-bCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0NDogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTA6
-CisgICAgaWYoKFRMX1RBQkxFID0gbWFsbG9jKFRMX01BWCAqIDIgKiBzaXplb2YoaW50MzJfdCkp
-KSA9PSBOVUxMKQpbLi4uXQoKRVJST1I6IHRoYXQgb3BlbiBicmFjZSB7IHNob3VsZCBiZSBvbiB0
-aGUgcHJldmlvdXMgbGluZQojNDY6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6NjEyOgorICAgIGlm
-KChTSU5fVEFCTEUgPSBtYWxsb2MoU0lOX0VOVCAqIDQgKnNpemVvZihpbnQzMl90ICopKSkgPT0g
-TlVMTCkKKyAgICB7CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4
-Old4VikKIzQ2OiBGSUxFOiBody9hdWRpby9mbW9wbC5jOjYxMjoKKyAgICBpZigoU0lOX1RBQkxF
-ID0gbWFsbG9jKFNJTl9FTlQgKiA0ICpzaXplb2YoaW50MzJfdCAqKSkpID09IE5VTEwpCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWly
-ZWQgYmVmb3JlIHRoZSBvcGVuIHBhcmVudGhlc2lzICcoJwojNDY6IEZJTEU6IGh3L2F1ZGlvL2Zt
-b3BsLmM6NjEyOgorICAgIGlmKChTSU5fVEFCTEUgPSBtYWxsb2MoU0lOX0VOVCAqIDQgKnNpemVv
-ZihpbnQzMl90ICopKSkgPT0gTlVMTCkKCkVSUk9SOiBkbyBub3QgdXNlIGFzc2lnbm1lbnQgaW4g
-aWYgY29uZGl0aW9uCiM0NjogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTI6CisgICAgaWYoKFNJ
-Tl9UQUJMRSA9IG1hbGxvYyhTSU5fRU5UICogNCAqc2l6ZW9mKGludDMyX3QgKikpKSA9PSBOVUxM
-KQoKRVJST1I6IHRoYXQgb3BlbiBicmFjZSB7IHNob3VsZCBiZSBvbiB0aGUgcHJldmlvdXMgbGlu
-ZQojNTE6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6NjE3OgorICAgIGlmKChBTVNfVEFCTEUgPSBt
-YWxsb2MoQU1TX0VOVCAqIDIgKiBzaXplb2YoaW50MzJfdCkpKSA9PSBOVUxMKQorICAgIHsKCkVS
-Uk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiM1MTog
-RklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTc6CisgICAgaWYoKEFNU19UQUJMRSA9IG1hbGxvYyhB
-TVNfRU5UICogMiAqIHNpemVvZihpbnQzMl90KSkpID09IE5VTEwpCgpFUlJPUjogZG8gbm90IHVz
-ZSBhc3NpZ25tZW50IGluIGlmIGNvbmRpdGlvbgojNTE6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6
-NjE3OgorICAgIGlmKChBTVNfVEFCTEUgPSBtYWxsb2MoQU1TX0VOVCAqIDIgKiBzaXplb2YoaW50
-MzJfdCkpKSA9PSBOVUxMKQoKRVJST1I6IHRoYXQgb3BlbiBicmFjZSB7IHNob3VsZCBiZSBvbiB0
-aGUgcHJldmlvdXMgbGluZQojNTc6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6NjIzOgorICAgIGlm
-KChWSUJfVEFCTEUgPSBtYWxsb2MoVklCX0VOVCAqMiAqIHNpemVvZihpbnQzMl90KSkpID09IE5V
-TEwpCisgICAgewoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpX
-eFYpCiM1NzogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MjM6CisgICAgaWYoKFZJQl9UQUJMRSA9
-IG1hbGxvYyhWSUJfRU5UICoyICogc2l6ZW9mKGludDMyX3QpKSkgPT0gTlVMTCkKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9y
-ZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzU3OiBGSUxFOiBody9hdWRpby9mbW9wbC5jOjYy
-MzoKKyAgICBpZigoVklCX1RBQkxFID0gbWFsbG9jKFZJQl9FTlQgKjIgKiBzaXplb2YoaW50MzJf
-dCkpKSA9PSBOVUxMKQoKRVJST1I6IGRvIG5vdCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRp
-b24KIzU3OiBGSUxFOiBody9hdWRpby9mbW9wbC5jOjYyMzoKKyAgICBpZigoVklCX1RBQkxFID0g
-bWFsbG9jKFZJQl9FTlQgKjIgKiBzaXplb2YoaW50MzJfdCkpKSA9PSBOVUxMKQoKdG90YWw6IDE0
-IGVycm9ycywgMCB3YXJuaW5ncywgNzYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi85IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCgozLzkgQ2hlY2tpbmcgY29tbWl0IDgzNmJlZmU5ZjA1NyAoaHcv
-YXVkaW8vZm1vcGwuYzogUmVwbGFjZWQgY2FsbHMgdG8gbWFsbG9jIHdpdGggR0xpYidzIHZhcmlh
-bnRzKQpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoZSBvcGVuIHBhcmVudGhlc2lzICco
-JwojMjk6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6NjEwOgorICAgIGlmKChUTF9UQUJMRSA9IGdf
-dHJ5X25ldyhpbnQzMl90LCBUTF9NQVggKiAyKSkgPT0gTlVMTCkKCkVSUk9SOiBkbyBub3QgdXNl
-IGFzc2lnbm1lbnQgaW4gaWYgY29uZGl0aW9uCiMyOTogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2
-MTA6CisgICAgaWYoKFRMX1RBQkxFID0gZ190cnlfbmV3KGludDMyX3QsIFRMX01BWCAqIDIpKSA9
-PSBOVUxMKQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0
-aGlzIHN0YXRlbWVudAojMjk6IEZJTEU6IGh3L2F1ZGlvL2Ztb3BsLmM6NjEwOgorICAgIGlmKChU
-TF9UQUJMRSA9IGdfdHJ5X25ldyhpbnQzMl90LCBUTF9NQVggKiAyKSkgPT0gTlVMTCkKWy4uLl0K
-CkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiMz
-MjogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTI6CisgICAgaWYoKFNJTl9UQUJMRSA9IGdfdHJ5
-X25ldyhpbnQzMl90ICosIFNJTl9FTlQgKiA0KSkgPT0gTlVMTCkKCkVSUk9SOiBkbyBub3QgdXNl
-IGFzc2lnbm1lbnQgaW4gaWYgY29uZGl0aW9uCiMzMjogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2
-MTI6CisgICAgaWYoKFNJTl9UQUJMRSA9IGdfdHJ5X25ldyhpbnQzMl90ICosIFNJTl9FTlQgKiA0
-KSkgPT0gTlVMTCkKCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50
-aGVzaXMgJygnCiMzOTogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2MTc6CisgICAgaWYoKEFNU19U
-QUJMRSA9IGdfdHJ5X25ldyhpbnQzMl90LCBBTVNfRU5UICogMikpID09IE5VTEwpCgpFUlJPUjog
-ZG8gbm90IHVzZSBhc3NpZ25tZW50IGluIGlmIGNvbmRpdGlvbgojMzk6IEZJTEU6IGh3L2F1ZGlv
-L2Ztb3BsLmM6NjE3OgorICAgIGlmKChBTVNfVEFCTEUgPSBnX3RyeV9uZXcoaW50MzJfdCwgQU1T
-X0VOVCAqIDIpKSA9PSBOVUxMKQoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3Bl
-biBwYXJlbnRoZXNpcyAnKCcKIzQ4OiBGSUxFOiBody9hdWRpby9mbW9wbC5jOjYyMzoKKyAgICBp
-ZigoVklCX1RBQkxFID0gZ190cnlfbmV3KGludDMyX3QsIFZJQl9FTlQgKiAyKSkgPT0gTlVMTCkK
-CkVSUk9SOiBkbyBub3QgdXNlIGFzc2lnbm1lbnQgaW4gaWYgY29uZGl0aW9uCiM0ODogRklMRTog
-aHcvYXVkaW8vZm1vcGwuYzo2MjM6CisgICAgaWYoKFZJQl9UQUJMRSA9IGdfdHJ5X25ldyhpbnQz
-Ml90LCBWSUJfRU5UICogMikpID09IE5VTEwpCgpFUlJPUjogdGhhdCBvcGVuIGJyYWNlIHsgc2hv
-dWxkIGJlIG9uIHRoZSBwcmV2aW91cyBsaW5lCiM1ODogRklMRTogaHcvYXVkaW8vZm1vcGwuYzo2
-MzA6CisgICAgaWYoKEVOVl9DVVJWRSA9IGdfdHJ5X25ldyhpbnQzMl90LCAyICogRUdfRU5UICsg
-MSkpID09IE5VTEwpCisgICAgewoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3Bl
-biBwYXJlbnRoZXNpcyAnKCcKIzU4OiBGSUxFOiBody9hdWRpby9mbW9wbC5jOjYzMDoKKyAgICBp
-ZigoRU5WX0NVUlZFID0gZ190cnlfbmV3KGludDMyX3QsIDIgKiBFR19FTlQgKyAxKSkgPT0gTlVM
-TCkKCkVSUk9SOiBkbyBub3QgdXNlIGFzc2lnbm1lbnQgaW4gaWYgY29uZGl0aW9uCiM1ODogRklM
-RTogaHcvYXVkaW8vZm1vcGwuYzo2MzA6CisgICAgaWYoKEVOVl9DVVJWRSA9IGdfdHJ5X25ldyhp
-bnQzMl90LCAyICogRUdfRU5UICsgMSkpID09IE5VTEwpCgp0b3RhbDogMTIgZXJyb3JzLCAwIHdh
-cm5pbmdzLCA3NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzkgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjQvOSBDaGVja2luZyBjb21taXQgNzE2OWYyNzdhNzZhIChwYy1iaW9zL3MzOTAtY2N3
-L25ldG1haW4uYzogQ2hhbmdlZCBhIG1hbGxvYy9mcmVlIHRvIEdMaWIncyB2YXJpYW50cykKNS85
-IENoZWNraW5nIGNvbW1pdCA2YTExZjc5ZWJiYTYgKHRhcmdldC94dGVuc2E6IFJlcGxhY2VkIG1h
-bGxvYy9mcmVlIHdpdGggR0xpYidzIHZhcmlhbnRzLikKRVJST1I6IGdfZnJlZShOVUxMKSBpcyBz
-YWZlIHRoaXMgY2hlY2sgaXMgcHJvYmFibHkgbm90IHJlcXVpcmVkCiM5NzogRklMRTogdGFyZ2V0
-L3h0ZW5zYS94dGVuc2EtaXNhLmM6MzM2OgogICAgIGlmIChpbnRpc2EtPm9wbmFtZV9sb29rdXBf
-dGFibGUpIHsKKyAgICAgICAgZ19mcmVlKGludGlzYS0+b3BuYW1lX2xvb2t1cF90YWJsZSk7CgpF
-UlJPUjogZ19mcmVlKE5VTEwpIGlzIHNhZmUgdGhpcyBjaGVjayBpcyBwcm9iYWJseSBub3QgcmVx
-dWlyZWQKIzEwMzogRklMRTogdGFyZ2V0L3h0ZW5zYS94dGVuc2EtaXNhLmM6MzQxOgogICAgIGlm
-IChpbnRpc2EtPnN0YXRlX2xvb2t1cF90YWJsZSkgeworICAgICAgICBnX2ZyZWUoaW50aXNhLT5z
-dGF0ZV9sb29rdXBfdGFibGUpOwoKRVJST1I6IGdfZnJlZShOVUxMKSBpcyBzYWZlIHRoaXMgY2hl
-Y2sgaXMgcHJvYmFibHkgbm90IHJlcXVpcmVkCiMxMDk6IEZJTEU6IHRhcmdldC94dGVuc2EveHRl
-bnNhLWlzYS5jOjM0NjoKICAgICBpZiAoaW50aXNhLT5zeXNyZWdfbG9va3VwX3RhYmxlKSB7Cisg
-ICAgICAgIGdfZnJlZShpbnRpc2EtPnN5c3JlZ19sb29rdXBfdGFibGUpOwoKRVJST1I6IGdfZnJl
-ZShOVUxMKSBpcyBzYWZlIHRoaXMgY2hlY2sgaXMgcHJvYmFibHkgbm90IHJlcXVpcmVkCiMxMTU6
-IEZJTEU6IHRhcmdldC94dGVuc2EveHRlbnNhLWlzYS5jOjM1MToKICAgICAgICAgaWYgKGludGlz
-YS0+c3lzcmVnX3RhYmxlW25dKSB7CisgICAgICAgICAgICBnX2ZyZWUoaW50aXNhLT5zeXNyZWdf
-dGFibGVbbl0pOwoKRVJST1I6IGdfZnJlZShOVUxMKSBpcyBzYWZlIHRoaXMgY2hlY2sgaXMgcHJv
-YmFibHkgbm90IHJlcXVpcmVkCiMxMjI6IEZJTEU6IHRhcmdldC94dGVuc2EveHRlbnNhLWlzYS5j
-OjM1NzoKICAgICBpZiAoaW50aXNhLT5pbnRlcmZhY2VfbG9va3VwX3RhYmxlKSB7CisgICAgICAg
-IGdfZnJlZShpbnRpc2EtPmludGVyZmFjZV9sb29rdXBfdGFibGUpOwoKRVJST1I6IGdfZnJlZShO
-VUxMKSBpcyBzYWZlIHRoaXMgY2hlY2sgaXMgcHJvYmFibHkgbm90IHJlcXVpcmVkCiMxMjg6IEZJ
-TEU6IHRhcmdldC94dGVuc2EveHRlbnNhLWlzYS5jOjM2MjoKICAgICBpZiAoaW50aXNhLT5mdW5j
-VW5pdF9sb29rdXBfdGFibGUpIHsKKyAgICAgICAgZ19mcmVlKGludGlzYS0+ZnVuY1VuaXRfbG9v
-a3VwX3RhYmxlKTsKCnRvdGFsOiA2IGVycm9ycywgMCB3YXJuaW5ncywgMTAzIGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDUvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi85IENoZWNraW5nIGNv
-bW1pdCA1ZDIwODYyODEwNWIgKHV0aWwvY29tcGF0ZmQuYzogUmVwbGFjZWQgYSBtYWxsb2Mgd2l0
-aCBHTGliJ3MgZ190cnlfbWFsbG9jKQo3LzkgQ2hlY2tpbmcgY29tbWl0IGIyY2Y4ZGEzN2YwZSAo
-dG9vbHMvdmlydGlvZnNkL2J1ZmZlci5jOiByZXBsYWNlZCBhIGNhbGxvYyBjYWxsIHdpdGggR0xp
-YidzIGdfdHJ5X25ldzApCjgvOSBDaGVja2luZyBjb21taXQgMTU5Zjc1MWFjNTQ5ICh0b29scy92
-aXJ0aW9mc2QvZnVzZV9vcHQuYzogUmVwbGFjZWQgYSBtYWxsb2Mgd2l0aCBHTGliJ3MgZ190cnlf
-bWFsbG9jKQo5LzkgQ2hlY2tpbmcgY29tbWl0IGE2YTNhMTIzNzNhMyAodG9vbHMvdmlydGlvZnNk
-OiBSZXBsYWNpbmcgbWFsbG9jLWxpa2UgY2FsbHMgd2l0aCBHTGliJ3MgdmFyaWFudHMpCj09PSBP
-VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
-bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzEzMTYz
-NjUzLjM3MDg5LTEtbWEubWFuZG91cnJAZ21haWwuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: Heecheol Yang <heecheol.yang@outlook.com>
+
+Add some of these features for AVR GPIO:
+
+  - GPIO I/O : PORTx registers
+  - Data Direction : DDRx registers
+  - DDRx toggling : PINx registers
+
+Following things are not supported yet:
+  - MCUR registers
+
+Signed-off-by: Heecheol Yang <heecheol.yang@outlook.com>
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+Message-Id: <DM6PR16MB247368DBD3447ABECDD795D7E6090@DM6PR16MB2473.namprd16.prod.outlook.com>
+[PMD: Use AVR_GPIO_COUNT]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/avr/atmega.h            |   2 +
+ include/hw/gpio/avr_gpio.h |  53 ++++++++++++++
+ hw/avr/atmega.c            |   7 +-
+ hw/gpio/avr_gpio.c         | 138 +++++++++++++++++++++++++++++++++++++
+ hw/avr/Kconfig             |   1 +
+ hw/gpio/Kconfig            |   3 +
+ hw/gpio/meson.build        |   1 +
+ 7 files changed, 203 insertions(+), 2 deletions(-)
+ create mode 100644 include/hw/gpio/avr_gpio.h
+ create mode 100644 hw/gpio/avr_gpio.c
+
+diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+index a99ee15c7e1..e2289d5744e 100644
+--- a/hw/avr/atmega.h
++++ b/hw/avr/atmega.h
+@@ -13,6 +13,7 @@
+ 
+ #include "hw/char/avr_usart.h"
+ #include "hw/timer/avr_timer16.h"
++#include "hw/gpio/avr_gpio.h"
+ #include "hw/misc/avr_power.h"
+ #include "target/avr/cpu.h"
+ #include "qom/object.h"
+@@ -44,6 +45,7 @@ struct AtmegaMcuState {
+     DeviceState *io;
+     AVRMaskState pwr[POWER_MAX];
+     AVRUsartState usart[USART_MAX];
++    AVRGPIOState gpio[GPIO_MAX];
+     AVRTimer16State timer[TIMER_MAX];
+     uint64_t xtal_freq_hz;
+ };
+diff --git a/include/hw/gpio/avr_gpio.h b/include/hw/gpio/avr_gpio.h
+new file mode 100644
+index 00000000000..498a7275f05
+--- /dev/null
++++ b/include/hw/gpio/avr_gpio.h
+@@ -0,0 +1,53 @@
++/*
++ * AVR processors GPIO registers definition.
++ *
++ * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef AVR_GPIO_H
++#define AVR_GPIO_H
++
++#include "hw/sysbus.h"
++#include "qom/object.h"
++
++/* Offsets of registers. */
++#define GPIO_PIN   0x00
++#define GPIO_DDR   0x01
++#define GPIO_PORT  0x02
++
++#define TYPE_AVR_GPIO "avr-gpio"
++OBJECT_DECLARE_SIMPLE_TYPE(AVRGPIOState, AVR_GPIO)
++#define AVR_GPIO_COUNT 8
++
++struct AVRGPIOState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion mmio;
++
++    struct {
++        uint8_t pin;
++        uint8_t ddr;
++        uint8_t port;
++    } reg;
++
++    /* PORTx data changed IRQs */
++    qemu_irq out[8u];
++
++};
++
++#endif /* AVR_GPIO_H */
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index 44c6afebbb6..19c3122189f 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -283,8 +283,11 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+             continue;
+         }
+         devname = g_strdup_printf("atmega-gpio-%c", 'a' + (char)i);
+-        create_unimplemented_device(devname,
+-                                    OFFSET_DATA + mc->dev[idx].addr, 3);
++        object_initialize_child(OBJECT(dev), devname, &s->gpio[i],
++                                TYPE_AVR_GPIO);
++        sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
++                        OFFSET_DATA + mc->dev[idx].addr);
+         g_free(devname);
+     }
+ 
+diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
+new file mode 100644
+index 00000000000..cdb574ef0d8
+--- /dev/null
++++ b/hw/gpio/avr_gpio.c
+@@ -0,0 +1,138 @@
++/*
++ * AVR processors GPIO registers emulation.
++ *
++ * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/sysbus.h"
++#include "hw/irq.h"
++#include "hw/gpio/avr_gpio.h"
++#include "hw/qdev-properties.h"
++
++static void avr_gpio_reset(DeviceState *dev)
++{
++    AVRGPIOState *gpio = AVR_GPIO(dev);
++
++    gpio->reg.pin = 0u;
++    gpio->reg.ddr = 0u;
++    gpio->reg.port = 0u;
++}
++
++static void avr_gpio_write_port(AVRGPIOState *s, uint64_t value)
++{
++    uint8_t pin;
++    uint8_t cur_port_val = s->reg.port;
++    uint8_t cur_ddr_val = s->reg.ddr;
++
++    for (pin = 0u; pin < AVR_GPIO_COUNT ; pin++) {
++        uint8_t cur_port_pin_val = cur_port_val & 0x01u;
++        uint8_t cur_ddr_pin_val = cur_ddr_val & 0x01u;
++        uint8_t new_port_pin_val = value & 0x01u;
++
++        if (cur_ddr_pin_val && (cur_port_pin_val != new_port_pin_val)) {
++            qemu_set_irq(s->out[pin], new_port_pin_val);
++        }
++        cur_port_val >>= 1u;
++        cur_ddr_val >>= 1u;
++        value >>= 1u;
++    }
++    s->reg.port = value & s->reg.ddr;
++}
++static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int size)
++{
++    AVRGPIOState *s = (AVRGPIOState *)opaque;
++    switch (offset) {
++    case GPIO_PIN:
++        return s->reg.pin;
++    case GPIO_DDR:
++        return s->reg.ddr;
++    case GPIO_PORT:
++        return s->reg.port;
++    default:
++        g_assert_not_reached();
++        break;
++    }
++    return 0;
++}
++
++static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
++                                unsigned int size)
++{
++    AVRGPIOState *s = (AVRGPIOState *)opaque;
++    value = value & 0xF;
++    switch (offset) {
++    case GPIO_PIN:
++        s->reg.pin = value;
++        s->reg.port ^= s->reg.pin;
++        break;
++    case GPIO_DDR:
++        s->reg.ddr = value;
++        break;
++    case GPIO_PORT:
++        avr_gpio_write_port(s, value);
++        break;
++    default:
++        g_assert_not_reached();
++        break;
++    }
++}
++
++static const MemoryRegionOps avr_gpio_ops = {
++    .read = avr_gpio_read,
++    .write = avr_gpio_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void avr_gpio_init(Object *obj)
++{
++    AVRGPIOState *s = AVR_GPIO(obj);
++
++    qdev_init_gpio_out(DEVICE(obj), s->out, ARRAY_SIZE(s->out));
++    memory_region_init_io(&s->mmio, obj, &avr_gpio_ops, s, TYPE_AVR_GPIO, 3);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++}
++static void avr_gpio_realize(DeviceState *dev, Error **errp)
++{
++    /* Do nothing currently */
++}
++
++
++static void avr_gpio_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = avr_gpio_reset;
++    dc->realize = avr_gpio_realize;
++}
++
++static const TypeInfo avr_gpio_info = {
++    .name          = TYPE_AVR_GPIO,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AVRGPIOState),
++    .instance_init = avr_gpio_init,
++    .class_init    = avr_gpio_class_init,
++};
++
++static void avr_gpio_register_types(void)
++{
++    type_register_static(&avr_gpio_info);
++}
++
++type_init(avr_gpio_register_types)
+diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+index d31298c3cce..16a57ced11f 100644
+--- a/hw/avr/Kconfig
++++ b/hw/avr/Kconfig
+@@ -3,6 +3,7 @@ config AVR_ATMEGA_MCU
+     select AVR_TIMER16
+     select AVR_USART
+     select AVR_POWER
++    select AVR_GPIO
+ 
+ config ARDUINO
+     select AVR_ATMEGA_MCU
+diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+index f0e7405f6e6..fde7019b2ba 100644
+--- a/hw/gpio/Kconfig
++++ b/hw/gpio/Kconfig
+@@ -13,3 +13,6 @@ config GPIO_PWR
+ 
+ config SIFIVE_GPIO
+     bool
++
++config AVR_GPIO
++    bool
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+index 79568f00ce3..366aca52ca2 100644
+--- a/hw/gpio/meson.build
++++ b/hw/gpio/meson.build
+@@ -13,3 +13,4 @@
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
+ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_GPIO', if_true: files('sifive_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_AVR_GPIO', if_true: files('avr_gpio.c'))
+-- 
+2.26.2
+
 
