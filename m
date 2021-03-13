@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87BA339AB8
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:10:00 +0100 (CET)
-Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3903F339ABF
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:15:53 +0100 (CET)
+Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKsn1-0001st-RZ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56350)
+	id 1lKssh-0007lN-NY
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:15:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKse6-0007OW-0j
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:46 -0500
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:37426)
+ id 1lKse8-0007St-0t
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:48 -0500
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:43909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKsdz-0003Vn-Cv
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:45 -0500
-Received: by mail-qt1-x834.google.com with SMTP id f12so5300641qtq.4
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:38 -0800 (PST)
+ id 1lKse0-0003W7-Q3
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:47 -0500
+Received: by mail-qk1-x72e.google.com with SMTP id b130so26277412qkc.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vELE3YSpOk5r/uHFU87DvdYSf1TzMJkyUqmnTwvrjhM=;
- b=JhEEnnwLoeKGZdHB2F+Jb5u1CdemRhjFBtaAiqdY99guFJiwWz9vL2nv1bhSZFk/qA
- S7TaD/XSJWH79UdxkGwjjociw9CPhcIw/WWaU3JB90u2Gsq2I0X9g0GdYn5C/JeLE4pA
- aAeCbJ/zpp4u7i0mifZJXhqWV7JpYYxQJj5ud+jThAl3TPnciIvor9/sjSnUqCmbj5cN
- 6sY96/wyIANvhoeWuvzlGUI9uzyhc95AuNTPtL0AKxsX6Bnpf9zn8XyOhuHrW/dlgVHr
- VDYargJJ0tMy7e//WEFD0ne6psRex0jzjx3iakmyFt5AwWzs1WLWBqGFuk4sz41h6LhZ
- zqDw==
+ bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
+ b=OE4VoXoTlJ+QCJtywr+QwMnlrg3ZkLDbfEve1JlrEeWenJ6gO/gAKJuHT6EXgUZDTk
+ Sdz3+zCcrMjKxHlTHetb3pyxoZXQOpJCvDoDThVljhBDY+TlrQpoLzvZ43NxXbL+lIXi
+ BpVipYU0NqBWGZWZjJcDk1GAY0ru+a1QTfJbGATOp70abxB04ru0OZfB2yIaqQ7LGf2R
+ y/eaiDF286hp/daiwjPGOSGh7vrmWfOHrvCs4cBV3TC7CBsSxMc4/43A7XEpmXaVOksI
+ azMlLVKWdf3mI0Kd+vRfNm8KJAyp5uRj+FkS3nwrYQDq+dW3EmwavZbuPhaEcWaSfq5s
+ 6K/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vELE3YSpOk5r/uHFU87DvdYSf1TzMJkyUqmnTwvrjhM=;
- b=eYDgWRNk7DXdktwM4hLJSlAq6RlvO3ZpLm/HrV9+MkaleMZHMN1MzkjQ4LR2+H9eze
- MNEUEw/XlJiL60wJJHLhmpz1apzBsZeu2aSU/GpQ5eFMSMxDAedmFOoIYiqFmr7kXFkx
- MVD5HYFpKu/8Xo03QUPTFBsUMnbOQGM1a0SeezjZZu7V9fcqMqln7+Hj/0Jl1VJlR5e/
- WTv23bGS1MIzDdkIFIWxk/70KI/lFm/makDaxixjpKKnKD2xUNRYZQrdiAabqI3d+pTI
- NLgO/28Oqbr0QNDojSwpixsrhgDv3ucoBmCeplh7uFYRMCTDkVrOyTNbFyhn7Jw4RyYt
- 5Smg==
-X-Gm-Message-State: AOAM530hMngZoemLG+4QZT9ZZUXkm6/XkQKb1in2ynw3aN8m2meYK4Lj
- 7mQndu/LHaIffQ8hIgv7R1PlMCKqeBUVjui6
-X-Google-Smtp-Source: ABdhPJy9td0gcUC9Dfz3S4/vh2TSGugwD5jueaNylriAx6Rz9Ps8y6kYN5zZ7C4rV5Z5gM69dureeQ==
-X-Received: by 2002:ac8:4755:: with SMTP id k21mr14415395qtp.102.1615597238310; 
- Fri, 12 Mar 2021 17:00:38 -0800 (PST)
+ bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
+ b=tycMt9l0vVIE09yviJy7ll0A6R060nqgcXJt7BVY6YSff9f1h5XjtxO9+p/3SIkXl3
+ rqnwOTajh1CmMANFSCBhcNXq+aTlm9i5BYwX43E6AUilaPXUCwRytzry7lvxvALhKsnI
+ /5mMmt/TsVQUPZ5mrypBLrvJaRPnuEY26jLRFoJ3eF+SBVUSPrBPMdmgjF+h7UHmLrFK
+ pNU/egriKbol0OsIRuBmOuYx7/5C2xoG+/LLN7Erfu47W9r62ABb05HJo4D1FRiCBgrM
+ ClI8h8Pwr7pSyJjLMOiBU5cCL/P/NSydDfJFJeq3hy95M+6xH5HUNWdvz7J8M2GQWw+Q
+ up4g==
+X-Gm-Message-State: AOAM530r4rZHbj88/VB/v+HUoE2RFypbfrJfl1wrUFIb5WQg86zFdq3Y
+ TZHthDAa28yCNf461892bSxI0XXR/Ckp1AyQ
+X-Google-Smtp-Source: ABdhPJylvDABJkWJ67kUOfzN8jq4uJGposil8XRnlWoDP8JtMPWmHEbbIXOsH8esQc+S+XQTi1dtRQ==
+X-Received: by 2002:a37:6888:: with SMTP id
+ d130mr15136116qkc.368.1615597239400; 
+ Fri, 12 Mar 2021 17:00:39 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.37
+ by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 17:00:37 -0800 (PST)
+ Fri, 12 Mar 2021 17:00:39 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] hw/ppc: Use hreg_store_msr for msr updates
-Date: Fri, 12 Mar 2021 19:00:17 -0600
-Message-Id: <20210313010018.819153-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/15] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
+Date: Fri, 12 Mar 2021 19:00:18 -0600
+Message-Id: <20210313010018.819153-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210313010018.819153-1-richard.henderson@linaro.org>
 References: <20210313010018.819153-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,82 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ivan@vmfacility.fr, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- david@gibson.dropbear.id.au
+Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only one of the three places in hw/ppc that modify msr updated
-hflags.  Even in that case, use the official interface instead
-of a direct call to hreg_compute_hflags.
+Verify that hflags was updated correctly whenever we change
+cpu state that is used by hflags.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: Cédric Le Goater <clg@kaod.org>
-Cc: Greg Kurz <groug@kaod.org>
----
- hw/ppc/pnv_core.c    | 3 ++-
- hw/ppc/spapr_hcall.c | 3 +--
- hw/ppc/spapr_rtas.c  | 3 ++-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h         |  5 +++++
+ target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
+ 2 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index bd2bf2e044..31f041b9c7 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -29,6 +29,7 @@
- #include "hw/ppc/pnv_xscom.h"
- #include "hw/ppc/xics.h"
- #include "hw/qdev-properties.h"
-+#include "helper_regs.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 2f8d7fa13c..7ee5c9a66e 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2424,6 +2424,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong xer);
+  */
+ #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
  
- static const char *pnv_core_cpu_typename(PnvCore *pc)
++#ifdef CONFIG_DEBUG_TCG
++void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *flags);
++#else
+ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
  {
-@@ -54,7 +55,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
-      */
-     env->gpr[3] = PNV_FDT_ADDR;
-     env->nip = 0x10;
--    env->msr |= MSR_HVB; /* Hypervisor mode */
-+    hreg_store_msr(env, env->msr | MSR_HVB, true); /* Hypervisor mode */
+@@ -2431,6 +2435,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+     *cs_base = 0;
+     *flags = env->hflags;
+ }
++#endif
  
-     env->spr[SPR_HRMOR] = pc->hrmor;
+ void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
+ void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t exception,
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index b28037ca24..9df1098fec 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
+     env->tgpr[3] = tmp;
+ }
  
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 7b5cd3553c..a4f7a09ba8 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1055,8 +1055,7 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     CPUState *cs = CPU(cpu);
-     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+-void hreg_compute_hflags(CPUPPCState *env)
++static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+ {
+     target_ulong msr = env->msr;
+     uint32_t ppc_flags = env->flags;
+@@ -147,9 +147,34 @@ void hreg_compute_hflags(CPUPPCState *env)
+     hflags |= dmmu_idx << HFLAGS_DMMU_IDX;
+ #endif
  
--    env->msr |= (1ULL << MSR_EE);
--    hreg_compute_hflags(env);
-+    hreg_store_msr(env, env->msr | (1ULL << MSR_EE), false);
+-    env->hflags = hflags | (msr & msr_mask);
++    return hflags | (msr & msr_mask);
+ }
  
-     if (spapr_cpu->prod) {
-         spapr_cpu->prod = false;
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 8a79f9c628..b9a6b7ef30 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -51,6 +51,7 @@
- #include "target/ppc/mmu-hash64.h"
- #include "target/ppc/mmu-book3s-v3.h"
- #include "migration/blocker.h"
-+#include "helper_regs.h"
- 
- static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                    uint32_t token, uint32_t nargs,
-@@ -162,7 +163,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
- 
-     cpu_synchronize_state(CPU(newcpu));
- 
--    env->msr = (1ULL << MSR_SF) | (1ULL << MSR_ME);
-+    hreg_store_msr(env, (1ULL << MSR_SF) | (1ULL << MSR_ME), true);
- 
-     /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
-     lpcr = env->spr[SPR_LPCR];
++void hreg_compute_hflags(CPUPPCState *env)
++{
++    env->hflags = hreg_compute_hflags_value(env);
++}
++
++#ifdef CONFIG_DEBUG_TCG
++void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *flags)
++{
++    uint32_t hflags_current = env->hflags;
++    uint32_t hflags_rebuilt;
++
++    *pc = env->nip;
++    *cs_base = 0;
++    *flags = hflags_current;
++
++    hflags_rebuilt = hreg_compute_hflags_value(env);
++    if (unlikely(hflags_current != hflags_rebuilt)) {
++        cpu_abort(env_cpu(env),
++                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n",
++                  hflags_current, hflags_rebuilt);
++    }
++}
++#endif
++
+ void cpu_interrupt_exittb(CPUState *cs)
+ {
+     if (!kvm_enabled()) {
 -- 
 2.25.1
 
