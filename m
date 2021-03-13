@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F0C33A0D6
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 21:01:33 +0100 (CET)
-Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1259E33A0DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 21:04:14 +0100 (CET)
+Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLAS4-0003Oi-9X
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 15:01:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
+	id 1lLAUf-0006xH-2m
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 15:04:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAG5-0006sY-J3
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:49:09 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39907)
+ id 1lLAGA-00074g-AX
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:49:14 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAG4-00070E-4v
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:49:09 -0500
-Received: by mail-wr1-x431.google.com with SMTP id e18so3612185wrt.6
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:49:07 -0800 (PST)
+ id 1lLAG8-000729-Vk
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:49:14 -0500
+Received: by mail-wr1-x431.google.com with SMTP id u16so6626185wrt.1
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=moYUnA443ZNCun6tItxZiGo6Z2/jYTaF1F6gDoL/yFY=;
- b=Nod/YtpbQgu+foFOgTk7lBE9RhDfhwsvUVlAGmZEn7kuf6sfLQM2DZGsDZlElCJBpL
- Ymb4p8wCU8FXS+IUpDXiOUiP2o3UntsnVmOZd7I1mYGDo5IFM/0kgueNvL+a03OcdXUQ
- bJ84t8BaCJGh6J3TH3r2KuZCL0Kn/N39Z70EDEmScHgP4vQUG/DCoiv9ZH5Jr2r0YSpP
- wRTrWgN1bkSeSo6fXAtWhQPBip2DVaAJuohfaEyfI7Nh5NzthOOy0WAziCMsXbXzsZnm
- XsUUtlH3xqX1SJgK6riBnTzCTmzK6AmLZ6bjfJaZ21MlAW0yfpcKCDEDSfj75rwYDJJZ
- hsoA==
+ bh=QT135G9+ZflxNaE9JXFsl2Girh95rzMzYvPq1Qqa2Qk=;
+ b=MmuGRmy8UhezppiyA4ChcDyh8ZlcDuabjxgQ5ugaWA3gBqJAUIrYBNFpgF2zCvYW8I
+ ERM8xhsF2SA4cysQQETsNhBgfnKcrqqUCo4u13EQXxq0Da0Xf3bq/CXBhGEiO5iBYguG
+ hrvrROm/qQYsNQzqueDmhC2okfj4nBve6uKz7PyKN37t/jX3IWIB8vW9FodOdxhJyNad
+ T9nD88cpnAIl66cE8dF7YQ7xoho4KL1q40RVUWk1ezWB1CvKjwRmo90/YaSXAVBXRmcH
+ AflXAGQqid+KmOkDINo5HFOLtsskNsbg/v9sNcwhihPd7NcPJU5SC5rQziIDrCGe64Uj
+ QBFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=moYUnA443ZNCun6tItxZiGo6Z2/jYTaF1F6gDoL/yFY=;
- b=aZ1H+duh4vRZ/dDqwS0Y41xzBwM4WoZPywNCp5jJ5Ya9TH9uc7HYdJj30Vyv+i2pWG
- GQKopB2y8t1QRZuCh3KF9NpXNLpEWLh689LOAlMay+scYDX/U3AjlzMxa5BTsyKQuFUd
- XAgVJryv4rEUA47KhPFzj/lLdWlqO3H0Wrc5CdQWzhwsisbrVQonhWhRh86W1YF5u1pA
- uHn/vUgQ71viDq5IUpVDjyGkJfIQEDeh7GdWyvYcp7iR3/cTaH8TqzPslXq0KC1Tqhw+
- VmPCA9nU8XvbGkJJUlRhOH0mBzp9Yxh0c2/SIa2tLhcVYU2oVxPdRyBayPGQ4Fk4DsRM
- QGYA==
-X-Gm-Message-State: AOAM5323ap1UgLbfLXz+5/p7N86WtKzn1A0+J4hp7df0KhzIYYkQHtkS
- PKkggHXN7wnNR2S+pj+3B0iVNI9xRd5kqA==
-X-Google-Smtp-Source: ABdhPJy5Qw4u13qlDQgYECb2wC0AGYi4zMGUjrb8whmCebbufRG9enPN/mOL26/Yu4kyYcccDRUrZA==
-X-Received: by 2002:adf:f587:: with SMTP id f7mr20196758wro.147.1615664946594; 
- Sat, 13 Mar 2021 11:49:06 -0800 (PST)
+ bh=QT135G9+ZflxNaE9JXFsl2Girh95rzMzYvPq1Qqa2Qk=;
+ b=B+WRWyoNyrzifzBYYmygAcV+2Yx6n4qrum86+5qgUb2GFL+WFBCMMU1Uy7jhezzuOE
+ 7+iCl90qLITZm6nKQjDr4Gp6iq353XfHjMq3PbyHkd/FGFV0EDn8rq5TrY8ClEuz3G3u
+ /zvavUZ04WCedlplrDLWcU65NIlPyiIiEv0WMbpoY4lJebFCW+mcfXH8clQDwGgF3vg1
+ h0uTRSi5Sx7Sn+FW0/PjE8q7girpQsZxh7MMRR6aISN7E8G6MpttoDn+ib4jvYsYACeB
+ +JRy/wa5glZNSoBzChd2ELRKBJmS+rGiyZ6ANFS39AYb14TORP1elO7FfBuVWCIh6WP6
+ cZIA==
+X-Gm-Message-State: AOAM5335MOGz6MwC7BLXCaKyJMZ9MNgj/S336j0xMUroXOKIyqj6mGkr
+ cqouyM8pTOvFRAgf8pcmovrKvaoCGm5cpg==
+X-Google-Smtp-Source: ABdhPJx6cfM6335gPZTv6t+xPo0V2/oMCq6Ub2BmeIqV1vo6y/LXbm7j5FFmQ82sTp8Qyt7CvmY9jw==
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr19987184wrd.126.1615664951444; 
+ Sat, 13 Mar 2021 11:49:11 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id x11sm8409427wme.9.2021.03.13.11.49.05
+ by smtp.gmail.com with ESMTPSA id x11sm8409619wme.9.2021.03.13.11.49.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 11:49:06 -0800 (PST)
+ Sat, 13 Mar 2021 11:49:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/27] target/mips/meson: Restrict mips-semi.c to TCG
-Date: Sat, 13 Mar 2021 20:48:09 +0100
-Message-Id: <20210313194829.2193621-8-f4bug@amsat.org>
+Subject: [PULL 08/27] target/mips: Rewrite complex ifdef'ry
+Date: Sat, 13 Mar 2021 20:48:10 +0100
+Message-Id: <20210313194829.2193621-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313194829.2193621-1-f4bug@amsat.org>
 References: <20210313194829.2193621-1-f4bug@amsat.org>
@@ -92,28 +92,39 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+No need for this obfuscated ifdef'ry, KISS.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/translate.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 75c16524606..53580633ce0 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -31,10 +31,10 @@
-   'addr.c',
-   'cp0_timer.c',
-   'machine.c',
--  'mips-semi.c',
- ))
- mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cp0_helper.c',
-+  'mips-semi.c',
- ))
- 
- mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 0b6d82d228e..ceb77a3a7ca 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28276,13 +28276,16 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+ #if defined(TARGET_MIPS64)
+         if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
+             decode_mmi(env, ctx);
+-#else
++            break;
++        }
++#endif
++#if !defined(TARGET_MIPS64)
+         if (ctx->insn_flags & ASE_MXU) {
+             decode_opc_mxu(env, ctx);
+-#endif
+-        } else {
+-            decode_opc_special2_legacy(env, ctx);
++            break;
+         }
++#endif
++        decode_opc_special2_legacy(env, ctx);
+         break;
+     case OPC_SPECIAL3:
+ #if defined(TARGET_MIPS64)
 -- 
 2.26.2
 
