@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41BC339DFB
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 13:05:12 +0100 (CET)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4120339DFD
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 13:07:37 +0100 (CET)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL315-0004HO-MC
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 07:05:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49990)
+	id 1lL33Q-0005uu-NS
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 07:07:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lL2zU-0003hf-9H
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 07:03:32 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42180)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lL31j-0004zK-Em; Sat, 13 Mar 2021 07:05:51 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lL2zS-0005t2-Qd
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 07:03:32 -0500
-Received: by mail-wr1-x435.google.com with SMTP id j2so6203145wrx.9
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 04:03:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lL31i-00076z-0J; Sat, 13 Mar 2021 07:05:51 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id a18so6192411wrc.13;
+ Sat, 13 Mar 2021 04:05:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qmm08d3mm4mKG5dozEasWWtVWpTNYS5BnYo2b8fxEjw=;
- b=fV8EX8Reyh2CI++vyXyYr2PYI5rmgdi8vGNtAgD1vwcBlrkXnghZ6o4XqB5nA/Pb/n
- cWlLw++JGiRSW4XaUNfuv2U+yb/7gxGP/S/ZfiKyXCfyFaWAFSNpA9Ip4pYzj6QQbJIq
- qRn563wY29Wikdfoc3dFsFpIXKqGJIlGGXh/HZG4Lvp8ZuYAhSOlQ6CbbU5EThBNqgar
- +5wOhALjZ3cDt71j687YfAeRlGRWENch6PzOfgB6ZSxbwFhDQMgmhgX7juMGBu9LCNvv
- RKIYueSOXhYyg0vbCoMqHWfzPlgF/oBwz0m+ZOoCo/sl4Hv6B2wNuo0LPS0sfhfBtauK
- fgEw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d2nGmJdMKrwUglykE9F7Do6A+XD+fVg3xp8oTIR6Q9Q=;
+ b=Mh1s5doP1loOJYQQsNZd/+YjyYk9/5MvRFI5/TqCgnLTQVKWaVl4+OGNHatEn3EzTW
+ WTYrQiWujBNO3A7lns0EYdB1a1yBmMI8sZa8vdQz9iOVfL1gGAdHYLdgbnZ5/MQWY0Z3
+ aoT4sTnczyIQ0djBig3ERs6XyHJxdQQcEbTlL+3Ud64Mn9sD9M5NMwcyWA/SWeJveOJW
+ OLU2zl+Tn5gG+Mu/7C3tXuSGIvIQAoZR4fecILgaXIh1n5S2rU0GoHvHZwtzyKV1r+mP
+ /GqKpb56WhgUZKhBmaBZgkeg/o0ZKDXVM4Fzm0h6lMJ5X2bV0ePT/zWq+i+BOkjjtAPH
+ SUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qmm08d3mm4mKG5dozEasWWtVWpTNYS5BnYo2b8fxEjw=;
- b=AA6GQOH3XeNaY2O2v2f7LIs79guam5Km9U5G56KhYKilujFPb0yJGKrBPzr1QVpfkE
- Hkp2FQRQ6CLTpWW4rIDbBebJd4xF5NgcyJmq6pAeLu6X8Xu/EHGNofM+keSVfdlbNZDs
- eRDF38cZp6HsDF3O63IlILO+3hsgzUyxQ6apSRkn2jKtNEFVBxNm/fktQ5wtzXCfkEXG
- CthCgc9f9D5l8DBtdMyElfUC2uedPMVTSDDvym4esv62VB0kjqoHrSQnvMvRT662CG/4
- g4J2M3fmk2wY+M2nxCD72gGKIw91QWH6cUlyIGuPdCkBRcXQ5HLp293dgLeKUAgNd3Je
- RVEA==
-X-Gm-Message-State: AOAM531VqiTMT+DrRqH5hea9DlapeA+zH1Ot0Bj+bbd2R/pKCK7OPh9G
- XE8GDTNhkVJzmiDRm6G7fkEDgy7LGyn5hbRUjv8=
-X-Google-Smtp-Source: ABdhPJwynA2v3hD8FAs5TxZ0/B5ucrWLAtL9Ipvoh7wcuLeHg7cPl9sYmZC5+B+cg7998zrADXt7PXx192ErWRTa43E=
-X-Received: by 2002:adf:ef08:: with SMTP id e8mr19549955wro.200.1615637008897; 
- Sat, 13 Mar 2021 04:03:28 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d2nGmJdMKrwUglykE9F7Do6A+XD+fVg3xp8oTIR6Q9Q=;
+ b=gc7xoYbQfADynjjyGFzAYjRtQ9xpCaBIaj6mFPKVbl/qNoxwcCKCsGYt/OMCCSuRF+
+ qUxtkn0YyT08ctv5LGSxGDTPsiW6DYSZbe2OKS1AgbMjZplCN4opDN2FGr6AfOtsV5k8
+ pNTBpGtmwYpgfLZ8hp+hruoqjnw3/bnHyzyajnp5RAJkt6Utm9qWRVngNCxmkfEcdSdk
+ FwHJNcqU1ywxb1JD4p3SlKJxun4xsLor4v2siNa0iOv4oX3wtLdose1pOkRju6/AQ/Aq
+ 0COEChYwDlEHf7twBb/OsaZfE6V5Fm5Bdsz6EFQbhqgm2Y2nuxK1CyErPKkpK4meE61u
+ ZkGw==
+X-Gm-Message-State: AOAM532rnHKfGyGRrQxRkzvxuyD5ClYEMYZlapND7ZgzkqQmOMNVCB4K
+ iXKMiqgenTle//aB8Dy2NIBnBXGJYrK/UQ==
+X-Google-Smtp-Source: ABdhPJxpBrpUHAF0Key4lcw7x1ddxx1RAXmeCEVjPjqmPmUqbnNGNG2UZIM1IQIc/d+Y9e61IQnBKA==
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr18297691wrp.383.1615637147878; 
+ Sat, 13 Mar 2021 04:05:47 -0800 (PST)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id o13sm14420327wro.15.2021.03.13.04.05.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 Mar 2021 04:05:47 -0800 (PST)
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
+ directly, use alias
+To: qemu-devel@nongnu.org
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-3-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4a812dc9-b448-0b8f-6a66-95cb96acdc17@amsat.org>
+Date: Sat, 13 Mar 2021 13:05:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210313104432.3591-1-mail@knazarov.com>
-In-Reply-To: <20210313104432.3591-1-mail@knazarov.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Sat, 13 Mar 2021 21:03:18 +0900
-Message-ID: <CAMVc7JUDnhbb+uK5=LZAT35HnWB6gfQ-11+pxGp_bCKtOSAW1A@mail.gmail.com>
-Subject: Re: [PATCH] edid: add support for DisplayID extension (5k resolution)
-To: Konstantin Nazarov <mail@knazarov.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <20210312182851.1922972-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,61 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The logic looks good to me. I have a few style nitpicks.
+Incorrect subject prefix, should be "hw/ssi/aspeed_smc"
 
-2021=E5=B9=B43=E6=9C=8813=E6=97=A5(=E5=9C=9F) 19:45 Konstantin Nazarov <mai=
-l@knazarov.com>:
-> +struct timings {
-> +    uint32_t xfront;
-> +    uint32_t xsync;
-> +    uint32_t xblank;
-> +
-> +    uint32_t yfront;
-> +    uint32_t ysync;
-> +    uint32_t yblank;
-> +
-> +    uint64_t clock;
-> +};
-
-doc/devel/style.rst says:
-> Typedefs are used to eliminate the redundant 'struct' keyword, since type
-> names have a different style than other identifiers ("CamelCase" versus
-> "snake_case").  Each named struct type should have a CamelCase name and a
-> corresponding typedef.
-
->  void qemu_edid_generate(uint8_t *edid, size_t size,
->                          qemu_edid_info *info)
->  {
->      uint32_t desc =3D 54;
->      uint8_t *xtra3 =3D NULL;
->      uint8_t *dta =3D NULL;
-> +    uint8_t *did =3D NULL;
->      uint32_t width_mm, height_mm;
->      uint32_t refresh_rate =3D info->refresh_rate ? info->refresh_rate : =
-75000;
->      uint32_t dpi =3D 100; /* if no width_mm/height_mm */
-> +    uint32_t large_screen =3D 0;
-> +
->
-
-The added empty line is redundant.
-
->      if (dta) {
-> -        edid_checksum(dta);
-> +        edid_checksum(dta, 127);
->      }
-> +    if (did) {
-> +        edid_checksum(did, 127);
-> +    }
-> +
->  }
-
-This function didn't have an empty line at its end. Please remove it.
-
-Regards,
-Akihiko Odaki
+On 3/12/21 7:28 PM, Philippe Mathieu-Daudé wrote:
+> The flash mmio region is exposed as an AddressSpace.
+> AddressSpaces must not be sysbus-mapped, therefore map
+> the region using an alias.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/hw/ssi/aspeed_smc.h | 1 +
+>  hw/ssi/aspeed_smc.c         | 4 +++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+> index 16c03fe64f3..e3c96cecbd8 100644
+> --- a/include/hw/ssi/aspeed_smc.h
+> +++ b/include/hw/ssi/aspeed_smc.h
+> @@ -84,6 +84,7 @@ struct AspeedSMCState {
+>  
+>      MemoryRegion mmio;
+>      MemoryRegion mmio_flash;
+> +    MemoryRegion mmio_flash_alias;
+>  
+>      qemu_irq irq;
+>      int irqline;
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index 16addee4dc8..aa26578bdac 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -1386,7 +1386,9 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+>      memory_region_init_io(&s->mmio_flash, OBJECT(s),
+>                            &aspeed_smc_flash_default_ops, s, name,
+>                            s->ctrl->flash_window_size);
+> -    sysbus_init_mmio(sbd, &s->mmio_flash);
+> +    memory_region_init_alias(&s->mmio_flash_alias, OBJECT(s), name,
+> +                             &s->mmio_flash, 0, s->ctrl->flash_window_size);
+> +    sysbus_init_mmio(sbd, &s->mmio_flash_alias);
+>  
+>      s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_peripherals);
 
