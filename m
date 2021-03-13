@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35699339E74
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:14:49 +0100 (CET)
-Received: from localhost ([::1]:53058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F428339E75
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:16:04 +0100 (CET)
+Received: from localhost ([::1]:56092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL52W-0002EF-7o
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:14:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
+	id 1lL53j-0003V2-Af
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:16:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL4zs-0000YJ-E5
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:12:04 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:42550)
+ id 1lL51f-00028v-TI
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:13:55 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:41684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL4zq-000801-Tr
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:12:04 -0500
-Received: by mail-oi1-x234.google.com with SMTP id x135so25415375oia.9
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:12:02 -0800 (PST)
+ id 1lL51e-0000d1-AN
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:13:55 -0500
+Received: by mail-ot1-x332.google.com with SMTP id
+ l23-20020a05683004b7b02901b529d1a2fdso2893910otd.8
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:13:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rYJABfEdBLIPJLLQ42A3bUXA2yWMKeeb3tyLGTrVZU4=;
- b=piDQL3FzwEcjgceo6DBxaXRtxCXQtJmxILFliFW2Nf9JEcDo4W2o+1YXPx+dYRFr+X
- IZeLEM7Z16gBxwa6TTGp/cSrH863xX3XEYX+imOApvLAIhBYWugfizlM5rsbiHsdRoAf
- 7UbDLlPULqAR+emtgqqowLc4z0eR2yaa4YDGCCgKZW7Qc8GEBWRTO9xx2l3lkLDTo/P7
- Gef/mp6zKnnB8KDEeAzen0gNdv7373utsaA4ICmk0HaYaA1pfms30bEZSREJPdnXmlxD
- AA3Cue0mix7yxOlCZ9y+tW9jy6ZGO3UczlUYVRelzUodew1zW8hNr3RAbUguEyh096f4
- luYw==
+ bh=ZBcPlv9EosEmbyl/xi5+e6ckykzyCQaviF387FI/xls=;
+ b=aCzY4duvt+8udq60ML+arBuDBoVjOrsIl378YUXIaYZMzgbjjNtmwHRgCzQPxqhCu0
+ y56ly5iH1wRz22pgnIXSHjhoLRo6PUtQOtNuWUh7+iuk0g5rXUuAY1hBH/DeE14hv2gJ
+ 26ajfumrJmIHg9Ng5Ch78kNpJBupefSbVsGHJJzCJRgamOGKJSofCTS/48BW78z40XE4
+ 6nypPurjqGo0vP5EiSCgrEafmhl5clQg99LtmIIdBwOPxOfL6HR7YcR6OxZ4TpgK7Q6I
+ cY4IFskifIz6PREoGToJL9os/rnO83Pg4Ml8Lg4K/EoktwmW4kOFwbZY+FfQEgjKWPYj
+ H8mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rYJABfEdBLIPJLLQ42A3bUXA2yWMKeeb3tyLGTrVZU4=;
- b=c6DNq3+FUGJUl39REyVn8T+rcSXQVpPEg7jWgg7c9ozFdpEktu84txVP9J+zG1ipg2
- kSZn86MmLv2qAgZRiDlAQ3zISZbINcVXj7A8sHT2DtZTwBHEkk0wNusIU9PrmDSKHhHL
- NVr4vql+JteEoN7xJSPnc1hZaRxsrU+NCSZbRbOpRdb+NuWpn7XyOOYgZ0VdkNxjwEnn
- hUvlzRfxbfd+X/MUejCPYpLnQisIZfT1RvxPS30OKCDAQYEXVOYkU7r6RDv0sy9/Qf5G
- +JLbsotbewrCroSKrjWNDoIjjyDEpYULLn4dY7cvv+y7kuQBUeX6Z5zKSn5chYNksnio
- /7Ng==
-X-Gm-Message-State: AOAM5323KxlJVR2v6QtFKSITHbRneNeI9Fx6J85tAK62Dqm4fpS1wgn8
- jTmAnSsSLsyidvimvHlfriAmDg==
-X-Google-Smtp-Source: ABdhPJztBQ1x9JfiEJW1gk0I75Ntc4etpiRW0JeL6xiaNGxITD3tf9ss3aQExIodjp8uD6GBfB2ffQ==
-X-Received: by 2002:a05:6808:1a:: with SMTP id
- u26mr13001465oic.37.1615644721711; 
- Sat, 13 Mar 2021 06:12:01 -0800 (PST)
+ bh=ZBcPlv9EosEmbyl/xi5+e6ckykzyCQaviF387FI/xls=;
+ b=fnhxygwxN29wnH5EbDLyfu5BCvY1IhS3U+NwfJwQK76rqKXdyOJKF0iCBnFVZp5WmG
+ ABVAavtFS010l9xzwuQMJCFfbuTkRDHCLxNrq/ctAalJZV5B41Q5WaF7FGcV2Teue/KP
+ AUZsxs4YU8pyy58seT5F6yJxYRT+sF/z41SFaOGEwIcul3JxxctpCjWu8Q+3bvP/IuN4
+ 4tgFxLPvgEC4Fw0mRLQcdNuVtPfoMXNeE/rASzouJOwj+ZLKc7G5+sqoN0I8usnK8Qd2
+ hQijXm+EEi+O34f+9Mhovs3l+JPYyZNkf5SBXZW1vc+n2yzc6+KucZN0+Zdjw8hvz/MW
+ ClnQ==
+X-Gm-Message-State: AOAM5317QryAiUQR/LqqhwPdSDB9l/xVZyePNuGYTzuSkBqSZ3xGQ7PU
+ 50R1wU6jrH30P4l05HjY83LXkA==
+X-Google-Smtp-Source: ABdhPJxClGBE8L10ssLsJ04nGCqI00nDUpMRB4/AbCaEYPpbJMkwlDvkE3qtFLJlBZPdPt4k95dbiQ==
+X-Received: by 2002:a9d:17e7:: with SMTP id j94mr3212279otj.41.1615644833045; 
+ Sat, 13 Mar 2021 06:13:53 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u8sm3374857oot.24.2021.03.13.06.12.00
+ by smtp.gmail.com with ESMTPSA id v6sm3406617ook.40.2021.03.13.06.13.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 06:12:01 -0800 (PST)
-Subject: Re: [RFC PATCH v2 16/22] target/mips/tx79: Introduce PINTEH (Parallel
- Interleave Even Halfword)
+ Sat, 13 Mar 2021 06:13:52 -0800 (PST)
+Subject: Re: [RFC PATCH v2 17/22] target/mips/tx79: Introduce PEXE[HW] opcodes
+ (Parallel Exchange Even)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210309145653.743937-1-f4bug@amsat.org>
- <20210309145653.743937-17-f4bug@amsat.org>
+ <20210309145653.743937-18-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <22e1db1c-24ff-557f-e3e4-4d3c19183bd1@linaro.org>
-Date: Sat, 13 Mar 2021 08:11:58 -0600
+Message-ID: <62040b8a-5313-cb8f-6c2e-d12dd4e64956@linaro.org>
+Date: Sat, 13 Mar 2021 08:13:50 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210309145653.743937-17-f4bug@amsat.org>
+In-Reply-To: <20210309145653.743937-18-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,13 +97,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/21 8:56 AM, Philippe Mathieu-Daudé wrote:
-> +    tcg_gen_shli_i64(x, a, 8);
-> +    tcg_gen_and_i64(x, x, mask);
+> +    tcg_gen_mov_i64(ax, cpu_gpr[a->rt]);
+> +    if (a->rd != a->rt) {
+> +        tcg_gen_mov_i64(cpu_gpr[a->rd], cpu_gpr[a->rt]);
+> +    }
 
-I think these two lines need switching?
+tcg_gen_mov will perform this test.
 
-> +    tcg_gen_and_i64(y, b, mask);
-> +    tcg_gen_or_i64(d, x, y);
+
+> +    if (a->rt == 0) {
+> +        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
+> +        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
+> +        return true;
+> +    }
+
+Why not let gen_load_gpr handle this?
+It'll all fold away...
 
 
 r~
