@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0B4339CA2
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 08:52:58 +0100 (CET)
-Received: from localhost ([::1]:36062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164CC339CBB
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 09:02:55 +0100 (CET)
+Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKz4z-0004V7-9K
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 02:52:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
+	id 1lKzEb-0006XD-U1
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 03:02:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKz3k-0003hR-Af
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:51:41 -0500
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:40548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKz3W-0005c3-FG
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:51:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 0B57324EAF8;
- Sat, 13 Mar 2021 08:51:23 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Sat, 13 Mar
- 2021 08:51:22 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R00493fe079e-39b9-4635-8326-f78e7b89c71c,
- 9E37A514F06DCB590C72484BFCF591CDCEC69E3E) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Sat, 13 Mar 2021 08:51:21 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
- QEMU_LOCK_GUARD
-Message-ID: <20210313085121.625fe50e@bahia.lan>
-In-Reply-To: <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
-References: <20210311031538.5325-1-ma.mandourr@gmail.com>
- <2248579.lIZarMFqrv@silver> <20210311125245.5127cd6d@bahia.lan>
- <2070220.8au7kWUZml@silver>
- <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKzDJ-00066t-UH
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 03:01:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lKzDE-0002dh-QD
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 03:01:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615622461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8BZQShy0niU3IOXD+Fe5FnVVrswFkTcKLHKu8q+dkxA=;
+ b=NwtBQj7TnQSa8aDovKlbIndXNRxI0VIYL6XNZbBdMxO54XVIjB7tDLJIXyCjeqqNFecLZu
+ QHSPbepmX7N/XLAri+rKdRFz73PgrVQlhNLwUYcoQz3oHoT2Co1IfLjmv5QnVQ0xU6IN6I
+ dLBjThdJYsY6Y1GghRWEHkVSJFpnfSI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-RmQvXJs-Nw6hs1iGX5L34A-1; Sat, 13 Mar 2021 03:00:59 -0500
+X-MC-Unique: RmQvXJs-Nw6hs1iGX5L34A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58E0E81744F
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:00:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2383219704;
+ Sat, 13 Mar 2021 08:00:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8AA101132C12; Sat, 13 Mar 2021 09:00:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qom: Support JSON in user_creatable_parse_str()
+References: <20210312131921.421023-1-kwolf@redhat.com>
+Date: Sat, 13 Mar 2021 09:00:56 +0100
+In-Reply-To: <20210312131921.421023-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Fri, 12 Mar 2021 14:19:21 +0100")
+Message-ID: <87blbnxz2f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 44ca5e67-2a1c-419c-a7b0-fbfde03df270
-X-Ovh-Tracer-Id: 7996704090710645213
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvfedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=groug@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,142 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 13 Mar 2021 07:43:38 +0200
-Mahmoud Mandour <ma.mandourr@gmail.com> wrote:
+Recommend
 
-> Thanks for the fast review. I asked on the QEMU IRC channel
-> before committing whether to put all the changes into one patch
-> or split them and was instructed that it was better to split them up.
-> But in any case I was open to both ways and you can decide
-> on the best way to go.
->=20
+    qom: Support JSON in HMP object_add and tools --object
 
-People only do inline replies here. Please don't top-post for the
-sake of clarity.
+to put the most interesting bit right in "git-log --oneline".
 
-So, the instructions to split the patches is obviously the way to go. The
-question here is rather : will each subsystem maintainer pick up patches
-from this series or will only one maintainer pick up all the patches after
-they have been acked by the other maintainers ?
+Kevin Wolf <kwolf@redhat.com> writes:
 
-> On Thu, Mar 11, 2021 at 1:59 PM Christian Schoenebeck <
-> qemu_oss@crudebyte.com> wrote:
->=20
-> > On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:
-> > > On Thu, 11 Mar 2021 11:49:06 +0100
-> > >
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour wrot=
-e:
-> > > > > Replaced a call to qemu_mutex_lock and its respective call to
-> > > > > qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their place.
-> > > > > This simplifies the code by removing the call required to unlock
-> > > > > and also eliminates goto paths.
-> > > > >
-> > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> > > > > ---
-> > > > >
-> > > > >  hw/9pfs/9p-synth.c | 12 ++++--------
-> > > > >  1 file changed, 4 insertions(+), 8 deletions(-)
-> > > > >
-> > > > > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> > > > > index 7eb210ffa8..473ef914b0 100644
-> > > > > --- a/hw/9pfs/9p-synth.c
-> > > > > +++ b/hw/9pfs/9p-synth.c
-> > > > > @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *pare=
-nt,
-> > int
-> > > > > mode, if (!parent) {
-> > > > >
-> > > > >          parent =3D &synth_root;
-> > > > >
-> > > > >      }
-> > > > >
-> > > > > -    qemu_mutex_lock(&synth_mutex);
-> > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
-> > > > >
-> > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
-> > > > >
-> > > > >          if (!strcmp(tmp->name, name)) {
-> > > > >
-> > > > >              ret =3D EEXIST;
-> > > > >
-> > > > > -            goto err_out;
-> > > > > +            return ret;
-> > > > >
-> > > > >          }
-> > > > >
-> > > > >      }
-> > > > >      /* Add the name */
-> > > > >
-> > > > > @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent,
-> > int
-> > > > > mode, node->attr, node->attr->inode);
-> > > > >
-> > > > >      *result =3D node;
-> > > > >      ret =3D 0;
-> > > > >
-> > > > > -err_out:
-> > > > > -    qemu_mutex_unlock(&synth_mutex);
-> > > > >
-> > > > >      return ret;
-> > > > >
-> > > > >  }
-> > > > >
-> > > > > @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
-> > > > > *parent,
-> > > > > int mode, parent =3D &synth_root;
-> > > > >
-> > > > >      }
-> > > > >
-> > > > > -    qemu_mutex_lock(&synth_mutex);
-> > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
-> > > > >
-> > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
-> > > > >
-> > > > >          if (!strcmp(tmp->name, name)) {
-> > > > >
-> > > > >              ret =3D EEXIST;
-> > > > >
-> > > > > -            goto err_out;
-> > > > > +            return ret;
-> > > > >
-> > > > >          }
-> > > > >
-> > > > >      }
-> > > > >      /* Add file type and remove write bits */
-> > > > >
-> > > > > @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
-> > *parent,
-> > > > > int
-> > > > > mode, pstrcpy(node->name, sizeof(node->name), name);
-> > > > >
-> > > > >      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
-> > > > >      ret =3D 0;
-> > > > >
-> > > > > -err_out:
-> > > > > -    qemu_mutex_unlock(&synth_mutex);
-> > > > >
-> > > > >      return ret;
-> > > > >
-> > > > >  }
-> > > >
-> > > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > >
-> > > > Greg, I suggest I'll push this onto my queue as you seem to be busy.
-> > >
-> > > This cleanup spans over multiple subsystems but I think it makes more
-> > > sense to keep all these patches together. Let's wait for everyone to
-> > > ack/review and then we'll decide how to merge the patches.
-> >
-> > Sure, makes sense.
-> >
-> >
-> >
-> >
+> Support JSON for --object in all tools and in HMP object_add in the same
+> way as it is supported in qobject_input_visitor_new_str().
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+> Based-on: <20210311144811.313451-1-kwolf@redhat.com>
+>
+>  qom/object_interfaces.c | 32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
+>
+> diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+> index 62d7db7629..f5ea84b6c4 100644
+> --- a/qom/object_interfaces.c
+> +++ b/qom/object_interfaces.c
+> @@ -295,25 +295,35 @@ static void user_creatable_print_help_from_qdict(QDict *args)
+>  ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp)
+>  {
+>      ERRP_GUARD();
+> -    QDict *args;
+> +    QObject *obj;
+>      bool help;
+>      Visitor *v;
+>      ObjectOptions *options;
+>  
+> -    args = keyval_parse(optarg, "qom-type", &help, errp);
+> -    if (*errp) {
+> -        return NULL;
+> -    }
+> -    if (help) {
+> -        user_creatable_print_help_from_qdict(args);
+> -        qobject_unref(args);
+> -        return NULL;
+> +    if (optarg[0] == '{') {
+> +        obj = qobject_from_json(optarg, errp);
+> +        if (!obj) {
+> +            return NULL;
+> +        }
+> +        v = qobject_input_visitor_new(obj);
+> +    } else {
+> +        QDict *args = keyval_parse(optarg, "qom-type", &help, errp);
+> +        if (*errp) {
+> +            return NULL;
+> +        }
+> +        if (help) {
+> +            user_creatable_print_help_from_qdict(args);
+> +            qobject_unref(args);
+> +            return NULL;
+> +        }
+> +
+> +        obj = QOBJECT(args);
+> +        v = qobject_input_visitor_new_keyval(obj);
+>      }
+>  
+> -    v = qobject_input_visitor_new_keyval(QOBJECT(args));
+>      visit_type_ObjectOptions(v, NULL, &options, errp);
+>      visit_free(v);
+> -    qobject_unref(args);
+> +    qobject_unref(obj);
+>  
+>      return options;
+>  }
+
+Best viewed with whitespace change ignored:
+
+   diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+   index 2e50698075..93b8878127 100644
+   --- a/qom/object_interfaces.c
+   +++ b/qom/object_interfaces.c
+   @@ -242,12 +242,19 @@ static void user_creatable_print_help_from_qdict(QDict *args)
+    ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp)
+    {
+        ERRP_GUARD();
+   -    QDict *args;
+   +    QObject *obj;
+        bool help;
+        Visitor *v;
+        ObjectOptions *options;
+
+   -    args = keyval_parse(optarg, "qom-type", &help, errp);
+   +    if (optarg[0] == '{') {
+   +        obj = qobject_from_json(optarg, errp);
+   +        if (!obj) {
+   +            return NULL;
+   +        }
+   +        v = qobject_input_visitor_new(obj);
+   +    } else {
+   +        QDict *args = keyval_parse(optarg, "qom-type", &help, errp);
+            if (*errp) {
+                return NULL;
+            }
+   @@ -257,10 +264,13 @@ ObjectOptions *user_creatable_parse_str(const char *optarg, Error **errp)
+                return NULL;
+            }
+
+   -    v = qobject_input_visitor_new_keyval(QOBJECT(args));
+   +        obj = QOBJECT(args);
+   +        v = qobject_input_visitor_new_keyval(obj);
+   +    }
+   +
+        visit_type_ObjectOptions(v, NULL, &options, errp);
+        visit_free(v);
+   -    qobject_unref(args);
+   +    qobject_unref(obj);
+
+        return options;
+    }
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
