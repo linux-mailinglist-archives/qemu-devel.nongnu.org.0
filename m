@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86269339D78
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:59:33 +0100 (CET)
-Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E65B339D7A
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:59:42 +0100 (CET)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL13U-000081-JG
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:59:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
+	id 1lL13d-0000RB-C5
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:59:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL11l-0007c9-ED
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:57:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL11i-0004Kd-9E
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:57:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615629460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MK3iTDkSGQgZw6ytFKxl257evWIqXVexrbS4igeknus=;
- b=hY074piwbmYoBPE+DuuwGtxGcSyFNnN7mq5EUAhzoLFzx7npoMQ8eZwCnShMt3nV0K+jMn
- TMq+qlADxyI7syTZ8+slm5EVQlZc2URSEuz4GwG3fOnZenfs3oremDRS2/8vb0XN35ulTu
- Nx3o2ehlQnbp3Ysk1PYCU1PeuiGFVFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-aaLRfpChOeGv4UgctLpbrg-1; Sat, 13 Mar 2021 04:57:37 -0500
-X-MC-Unique: aaLRfpChOeGv4UgctLpbrg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A69A1846098
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:57:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1FD661F59;
- Sat, 13 Mar 2021 09:57:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 571F91132C12; Sat, 13 Mar 2021 10:57:35 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/3] qom: move user_creatable_add_opts logic to vl.c and
- QAPIfy it
-References: <20210311172459.990281-1-pbonzini@redhat.com>
- <20210311172459.990281-3-pbonzini@redhat.com>
-Date: Sat, 13 Mar 2021 10:57:35 +0100
-In-Reply-To: <20210311172459.990281-3-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Thu, 11 Mar 2021 12:24:58 -0500")
-Message-ID: <87im5vv0j4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lL122-0007ko-SV
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:58:03 -0500
+Resent-Date: Sat, 13 Mar 2021 04:58:02 -0500
+Resent-Message-Id: <E1lL122-0007ko-SV@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lL11x-0004Tz-Vb
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:58:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1615629468; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=VNzHcqmFBBxBZq42hxFa4GOAhnSQPGvQ8PS9j78M0x4xVYcWEyndIv5oI1uNsLMHHhhM1E/eWA9VMr2JKDBsT8H0qSSkN93RgFs5xLntbN+ttzKt37vqVbFKwES5T6ThBKWtiAbWzfIrVIN7xpOXzyU+VvNSijDS+yUp3lSBsXU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615629468;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=qGo8ROKcOYI2Q9gxQ+gxZOgo3Cs9D7rp0xhEsRfOseo=; 
+ b=cCD32TjrNYpj45TUjfGWIUrXUoCHCh4QNlwlF816ffG3QETqzTsrTCg3r7sCNrhwbr9wOXiMT3NuP4qCjS73r9Ju2sZMxrSAmQtF0gnUqnKJkSYNi5zncVx9eI5RyGR655CH2uepcEgGe75ehXGNncqMfMy7cII14ESzuHLRLaM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615629465445549.6840769124166;
+ Sat, 13 Mar 2021 01:57:45 -0800 (PST)
+In-Reply-To: <20210313094747.2966948-1-laurent@vivier.eu>
+Subject: Re: [PULL 0/5] Linux user for 6.0 patches
+Message-ID: <161562946420.22588.3105267720570774622@c9d4d6fbb2f1>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Sat, 13 Mar 2021 01:57:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +67,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One more little thing...
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
-> to parse the -object command line option.  This has one extra feature,
-> compared to keyval, which is automatic conversion of integers to lists
-> as well as support for lists as repeated options:
->
->   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
->
-> So we cannot replace OptsVisitor with keyval right now.  Still, this
-> patch moves the user_creatable_add_opts logic to vl.c since it is
-> not needed anywhere else, and makes it go through user_creatable_add_qapi.
->
-> In order to minimize code changes, the predicate still takes a string.
-> This can be changed later to use the ObjectType QAPI enum directly.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-[...]
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ff488ea3e7..b245e912e5 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -117,6 +117,7 @@
->  #include "qapi/qapi-commands-block-core.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-visit-qom.h"
->  #include "qapi/qapi-commands-ui.h"
->  #include "qapi/qmp/qerror.h"
->  #include "sysemu/iothread.h"
-> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
->  
->  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
->  
-> +typedef struct ObjectOption {
-> +    ObjectOptions *opts;
-> +    QTAILQ_ENTRY(ObjectOption) next;
-> +} ObjectOption;
-> +
-
-The names feel awkward.
-
-ObjectOption represents a -object option.  Fair enough.
-
-ObjectOptions represents the "options" in its option argument.
-
-Confusing.  Calling the whole thing and one of its parts the same is a
-bad idea.
-
-I never liked calling the key=value things in option arguments
-"options".  They aren't CLI options, they are optional CLI option
-parameters.
-
-I also don't like calling so many different things "object" (QObject,
-Object, ObjectOption, ObjectOptions), but that feels out of scope here.
-
-Can we please rename ObjectOptions?
-
-A naming convention for CLI option argument types and boxed QMP command
-argument types would be nice.
-
-[...]
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxMzA5NDc0Ny4yOTY2
+OTQ4LTEtbGF1cmVudEB2aXZpZXIuZXUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxMzA5NDc0Ny4yOTY2
+OTQ4LTEtbGF1cmVudEB2aXZpZXIuZXUKU3ViamVjdDogW1BVTEwgMC81XSBMaW51eCB1c2VyIGZv
+ciA2LjAgcGF0Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
+cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
+cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
+aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczov
+L2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0
+Y2hldy8yMDIxMDMxMTE3MjQ1OS45OTAyODEtMS1wYm9uemluaUByZWRoYXQuY29tIC0+IHBhdGNo
+ZXcvMjAyMTAzMTExNzI0NTkuOTkwMjgxLTEtcGJvbnppbmlAcmVkaGF0LmNvbQogLSBbdGFnIHVw
+ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzEyMTMxOTIxLjQyMTAyMy0xLWt3b2xmQHJlZGhhdC5j
+b20gLT4gcGF0Y2hldy8yMDIxMDMxMjEzMTkyMS40MjEwMjMtMS1rd29sZkByZWRoYXQuY29tCiAq
+IFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMTMwOTQ3NDcuMjk2Njk0OC0xLWxhdXJl
+bnRAdml2aWVyLmV1IC0+IHBhdGNoZXcvMjAyMTAzMTMwOTQ3NDcuMjk2Njk0OC0xLWxhdXJlbnRA
+dml2aWVyLmV1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKM2UzMDM0ZiBsaW51eC11
+c2VyL2VsZmxvYWQ6IGZpeCBhZGRyZXNzIGNhbGN1bGF0aW9uIGluIGZhbGxiYWNrIHNjZW5hcmlv
+CjRhNTdkZmMgbGludXgtdXNlci9lbGZsb2FkOiBkbyBub3QgYXNzdW1lIE1BUF9GSVhFRF9OT1JF
+UExBQ0Uga2VybmVsIHN1cHBvcnQKZjFmNTlhMiBsaW51eC11c2VyL2VsZmxvYWQ6IG11bm1hcCBw
+cm9wZXIgYWRkcmVzcyBpbiBwZ2RfZmluZF9ob2xlX2ZhbGxiYWNrCmUwNDJlNzcgbGludXgtdXNl
+cjogbWFuYWdlIGJpbmZtdC1taXNjIHByZXNlcnZlLWFyZ1swXSBmbGFnCjhhNjIyYzUgbGludXgt
+dXNlcjogRml4IGV4ZWN1dGFibGUgcGFnZSBvZiAvcHJvYy9zZWxmL21hcHMKCj09PSBPVVRQVVQg
+QkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgOGE2MjJjNTdiYTBiIChsaW51eC11c2VyOiBG
+aXggZXhlY3V0YWJsZSBwYWdlIG9mIC9wcm9jL3NlbGYvbWFwcykKMi81IENoZWNraW5nIGNvbW1p
+dCBlMDQyZTc3Zjc5ZjQgKGxpbnV4LXVzZXI6IG1hbmFnZSBiaW5mbXQtbWlzYyBwcmVzZXJ2ZS1h
+cmdbMF0gZmxhZykKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxOTY6IEZJTEU6IHNj
+cmlwdHMvcWVtdS1iaW5mbXQtY29uZi5zaDozNDE6CitvcHRpb25zPSQoZ2V0b3B0IC1vIGRzOlE6
+UzplOmhjOnA6ZzogLWwgZGViaWFuLHN5c3RlbWQ6LHFlbXUtcGF0aDoscWVtdS1zdWZmaXg6LGV4
+cG9ydGRpcjosaGVscCxjcmVkZW50aWFsOixwZXJzaXN0ZW50OixwcmVzZXJ2ZS1hcmd2MDogLS0g
+IiRAIikKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTI3IGxpbmVzIGNoZWNrZWQKClBh
+dGNoIDIvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy81IENoZWNraW5nIGNvbW1pdCBm
+MWY1OWEyZGEwYzYgKGxpbnV4LXVzZXIvZWxmbG9hZDogbXVubWFwIHByb3BlciBhZGRyZXNzIGlu
+IHBnZF9maW5kX2hvbGVfZmFsbGJhY2spCjQvNSBDaGVja2luZyBjb21taXQgNGE1N2RmYzk4NDll
+IChsaW51eC11c2VyL2VsZmxvYWQ6IGRvIG5vdCBhc3N1bWUgTUFQX0ZJWEVEX05PUkVQTEFDRSBr
+ZXJuZWwgc3VwcG9ydCkKNS81IENoZWNraW5nIGNvbW1pdCAzZTMwMzRmZjIxMDEgKGxpbnV4LXVz
+ZXIvZWxmbG9hZDogZml4IGFkZHJlc3MgY2FsY3VsYXRpb24gaW4gZmFsbGJhY2sgc2NlbmFyaW8p
+Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
+aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEw
+MzEzMDk0NzQ3LjI5NjY5NDgtMS1sYXVyZW50QHZpdmllci5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gv
+P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
+ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
+YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
