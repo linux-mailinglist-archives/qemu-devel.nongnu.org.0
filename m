@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3903F339ABF
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:15:53 +0100 (CET)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F96339AD5
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:28:55 +0100 (CET)
+Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKssh-0007lN-NY
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:15:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
+	id 1lKt5K-00078X-D3
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:28:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKse8-0007St-0t
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:48 -0500
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:43909)
+ id 1lKt3v-0006en-Ln
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:27:27 -0500
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:42913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKse0-0003W7-Q3
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:47 -0500
-Received: by mail-qk1-x72e.google.com with SMTP id b130so26277412qkc.10
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:39 -0800 (PST)
+ id 1lKt3u-0007fk-4S
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:27:27 -0500
+Received: by mail-qk1-x735.google.com with SMTP id z190so26318352qka.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:27:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
- b=OE4VoXoTlJ+QCJtywr+QwMnlrg3ZkLDbfEve1JlrEeWenJ6gO/gAKJuHT6EXgUZDTk
- Sdz3+zCcrMjKxHlTHetb3pyxoZXQOpJCvDoDThVljhBDY+TlrQpoLzvZ43NxXbL+lIXi
- BpVipYU0NqBWGZWZjJcDk1GAY0ru+a1QTfJbGATOp70abxB04ru0OZfB2yIaqQ7LGf2R
- y/eaiDF286hp/daiwjPGOSGh7vrmWfOHrvCs4cBV3TC7CBsSxMc4/43A7XEpmXaVOksI
- azMlLVKWdf3mI0Kd+vRfNm8KJAyp5uRj+FkS3nwrYQDq+dW3EmwavZbuPhaEcWaSfq5s
- 6K/g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zeKQx7qsPhVEqTtB7/gkAiVeo9DLB7psjrKKewhaXyM=;
+ b=Cy3reNB+ij1qFSCbI1L9UGwuXsCxEIyu1bE2zFsfOS/M84DgeW+oz/tPrOPvK+kJ9s
+ K87siDHs9PKImxqWpp3cbJxlFZxkyD+LmOZJnTlSrR3fQUpybvYZ5YXfTyjTfCOojckk
+ yhLDRQ8w7mexLzufx7LOhQxiXn1C40nt+oEwYf5RYIOyIVaAuUbTXliTzPc9+MsXN6P7
+ thDAK67iQhX2MjYj6DdNkmksewku2U/dXcv3KcvghAnDGgKXF+fPGUaly/rmbLG3H2wU
+ VCTVye1D3W03VZEhatUbsOnFMXJy4TOu73jKafdujn55u7cRVFG7CgywkrxR+ny1rgse
+ iPmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
- b=tycMt9l0vVIE09yviJy7ll0A6R060nqgcXJt7BVY6YSff9f1h5XjtxO9+p/3SIkXl3
- rqnwOTajh1CmMANFSCBhcNXq+aTlm9i5BYwX43E6AUilaPXUCwRytzry7lvxvALhKsnI
- /5mMmt/TsVQUPZ5mrypBLrvJaRPnuEY26jLRFoJ3eF+SBVUSPrBPMdmgjF+h7UHmLrFK
- pNU/egriKbol0OsIRuBmOuYx7/5C2xoG+/LLN7Erfu47W9r62ABb05HJo4D1FRiCBgrM
- ClI8h8Pwr7pSyJjLMOiBU5cCL/P/NSydDfJFJeq3hy95M+6xH5HUNWdvz7J8M2GQWw+Q
- up4g==
-X-Gm-Message-State: AOAM530r4rZHbj88/VB/v+HUoE2RFypbfrJfl1wrUFIb5WQg86zFdq3Y
- TZHthDAa28yCNf461892bSxI0XXR/Ckp1AyQ
-X-Google-Smtp-Source: ABdhPJylvDABJkWJ67kUOfzN8jq4uJGposil8XRnlWoDP8JtMPWmHEbbIXOsH8esQc+S+XQTi1dtRQ==
-X-Received: by 2002:a37:6888:: with SMTP id
- d130mr15136116qkc.368.1615597239400; 
- Fri, 12 Mar 2021 17:00:39 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zeKQx7qsPhVEqTtB7/gkAiVeo9DLB7psjrKKewhaXyM=;
+ b=rkr7SAdWx2uZryjEDW396U6IJlXjaM6WXTsRTSgmEb5L6ne4wEMmB029WI58lP70s8
+ iq38a3ADn+GuOVPj0beUpKKfRvJJ/VGm8bQj6XVpBy6BfOUdGjTxVVK9WVr4vR/4lj4t
+ DeDlI5JUw7q1OIOh42C22p7QCUrOgIMYTqFdO3PecNoUdwwG8Bnj4LDmjOEK9L5DRxuV
+ 89Bdg3e1emPY7cGay1V37ptX3ggAnqBX60+kwqvFsHc8XyR6d5l62MMC+Iw/ppAEzFyn
+ gZEWnOxC/vYCTwhDh5xXBW1ZEUKsVGzaPXIo5NZzN39lLgfBONvX4BLbE93wPGZScCF3
+ HUqA==
+X-Gm-Message-State: AOAM531NiZNf4lmpGd6gnG3hbc6pQOPyEkAiemNjc7WeHL11daBZmcFt
+ qhwDrO9HfHKe7sQRDv1v2BOZrg==
+X-Google-Smtp-Source: ABdhPJyLBcue2IuqVPNziNLe5dyQp2np6eYoRIe2Lim2TXVnW0X53qvjBfUrk9TRgJom5/8ylWJ/+Q==
+X-Received: by 2002:ae9:f706:: with SMTP id s6mr15804997qkg.163.1615598844812; 
+ Fri, 12 Mar 2021 17:27:24 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 17:00:39 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id v2sm5186078qti.94.2021.03.12.17.27.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Mar 2021 17:27:24 -0800 (PST)
+Subject: Re: [PATCH v6 1/2] target/s390x: Implement the MVPG
+ condition-code-option bit
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210311194426.149044-1-david@redhat.com>
+ <20210311194426.149044-2-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/15] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
-Date: Fri, 12 Mar 2021 19:00:18 -0600
-Message-Id: <20210313010018.819153-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210313010018.819153-1-richard.henderson@linaro.org>
-References: <20210313010018.819153-1-richard.henderson@linaro.org>
+Message-ID: <580976ca-ed71-f9ba-c384-1d3f223249ca@linaro.org>
+Date: Fri, 12 Mar 2021 19:27:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+In-Reply-To: <20210311194426.149044-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,92 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that hflags was updated correctly whenever we change
-cpu state that is used by hflags.
+On 3/11/21 1:44 PM, David Hildenbrand wrote:
+> +    if (exc) {
+> +#if !defined(CONFIG_USER_ONLY)
+> +        if (exc == PGM_PROTECTION) {
+> +            stq_phys(env_cpu(env)->as,
+> +                     env->psa + offsetof(LowCore, trans_exc_code),
+> +                     env->tlb_fill_tec);
+> +            tcg_s390_program_interrupt(env, PGM_PROTECTION, ra);
+> +        }
+> +#endif
+> +        return 1;
+> +    }
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/cpu.h         |  5 +++++
- target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+Only the lo-core store should be within the ifdef.
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2f8d7fa13c..7ee5c9a66e 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2424,6 +2424,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong xer);
-  */
- #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
- 
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags);
-+#else
- static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-@@ -2431,6 +2435,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-     *cs_base = 0;
-     *flags = env->hflags;
- }
-+#endif
- 
- void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
- void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t exception,
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index b28037ca24..9df1098fec 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
-     env->tgpr[3] = tmp;
- }
- 
--void hreg_compute_hflags(CPUPPCState *env)
-+static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
- {
-     target_ulong msr = env->msr;
-     uint32_t ppc_flags = env->flags;
-@@ -147,9 +147,34 @@ void hreg_compute_hflags(CPUPPCState *env)
-     hflags |= dmmu_idx << HFLAGS_DMMU_IDX;
- #endif
- 
--    env->hflags = hflags | (msr & msr_mask);
-+    return hflags | (msr & msr_mask);
- }
- 
-+void hreg_compute_hflags(CPUPPCState *env)
-+{
-+    env->hflags = hreg_compute_hflags_value(env);
-+}
-+
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags)
-+{
-+    uint32_t hflags_current = env->hflags;
-+    uint32_t hflags_rebuilt;
-+
-+    *pc = env->nip;
-+    *cs_base = 0;
-+    *flags = hflags_current;
-+
-+    hflags_rebuilt = hreg_compute_hflags_value(env);
-+    if (unlikely(hflags_current != hflags_rebuilt)) {
-+        cpu_abort(env_cpu(env),
-+                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n",
-+                  hflags_current, hflags_rebuilt);
-+    }
-+}
-+#endif
-+
- void cpu_interrupt_exittb(CPUState *cs)
- {
-     if (!kvm_enabled()) {
--- 
-2.25.1
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
