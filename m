@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3795339D4F
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:30:05 +0100 (CET)
-Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12DD339D60
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:37:00 +0100 (CET)
+Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL0ay-0000ED-9l
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:30:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59954)
+	id 1lL0hg-0001r8-0D
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:37:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lL0Zo-00089p-RW
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:28:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lL0Zl-0004CY-Or
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:28:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL0g8-0001MI-6t
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:35:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL0g5-0007zp-Vn
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:35:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615627728;
+ s=mimecast20190719; t=1615628120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YVUtRbkHg6/nUlt1SQUZfVwOU+T337lqHRK8z3I28k4=;
- b=bs1AgvBA0T8xQ1pxyxNe8sBezn6RU4ILtDjhBvWwOej1SuXYa7fUv5twOrg8ZMD6TU/wqo
- 78QV7+fFY/hv2xWU0+kU9XLW91vE0f2vcRjW+yt7m6v1M0+KkR+j6f8oZQwnklyGT8aGDx
- CYncmg3YuT946IBy8UnvyqGtLadWFy4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-ogQ12Q81On6xNHT0bX0BVA-1; Sat, 13 Mar 2021 04:28:44 -0500
-X-MC-Unique: ogQ12Q81On6xNHT0bX0BVA-1
-Received: by mail-wr1-f70.google.com with SMTP id h21so12251781wrc.19
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 01:28:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YVUtRbkHg6/nUlt1SQUZfVwOU+T337lqHRK8z3I28k4=;
- b=H6uaRaHNZlulZc18eWYNMZ48nTigd87v8GEs15obspo75/xiG6pj1aYbIM9iF/DNJV
- r4YuSyzTj5YhEiG/Smf9ZPuQ11eCQ1H0iC5bzveVUHo0bATZdKLYOq/Z2W9Q9NrBt+qz
- CmnIzlN4r5w6Kmgr6UqXogd9mmSzQA85XDp2dneTGj14jzHTq9xyeIDhOIFNij5i1olx
- V/LboCgX/tqxqGTH7i7c51+Ac6caZc23OLxERJAuCRlwSmmB/HXXqA6CpRLtkGzocHpX
- jnz2kNQG+ulBLJJ27gWEcldJSlLNC1eiU89DWd0YW0gjP/K7iQD29bP1bjAIivRKsudL
- 0Kow==
-X-Gm-Message-State: AOAM53021hxU7oOuKaFqXLKeB/DDFZVTHjiBv9h3KK8c4UVu6kSzl6jM
- CA/v7zq235ZH96DGMzAwz8lZAsVAEiOVDoV1+7cah227WszcsCx5BQuQKUIEaPKiJlXRMOyWtm2
- rh3tcrzeIV3r+oas=
-X-Received: by 2002:adf:e84f:: with SMTP id d15mr18146463wrn.394.1615627723392; 
- Sat, 13 Mar 2021 01:28:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwcVJXtdHZFd4syD93sMbEZdwxr3VGMvFxSv6fq2LobIlWyENXkPjHyvERrgal5KLfzfuKYwA==
-X-Received: by 2002:adf:e84f:: with SMTP id d15mr18146435wrn.394.1615627723215; 
- Sat, 13 Mar 2021 01:28:43 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id v13sm13159492wrt.45.2021.03.13.01.28.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 01:28:42 -0800 (PST)
-Subject: Re: [PATCH v3 22/30] qom: Factor out user_creatable_process_cmdline()
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20210308165440.386489-1-kwolf@redhat.com>
- <20210308165440.386489-23-kwolf@redhat.com>
- <87h7lfwim1.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d6ebd22d-a284-3c86-ae04-9cf0651c5141@redhat.com>
-Date: Sat, 13 Mar 2021 10:28:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=Uy98qZvpA4ZVhtRWvRcuBmj4KYzDk8+H7VaV08O7OD4=;
+ b=hFOQNt5eobHN45HFudldNIpWQaGzKGculvpD7fU0Hn937x9UggelJiEJfhrywcxeOpllDi
+ ADF3GKLAZsbp8N3NwyjBaqRGuQRBBGaLlmrstnBNzPJPq7o1z+mKVR83pKKyrva9ubcR8b
+ Xduz4o9TnaQiPKyD7Zkn8jn5SyGNu+c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-Shx5Ic3POj-BKoA89OuSdA-1; Sat, 13 Mar 2021 04:35:19 -0500
+X-MC-Unique: Shx5Ic3POj-BKoA89OuSdA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 373128015BD
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:35:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D44B362463;
+ Sat, 13 Mar 2021 09:35:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 49B611132C12; Sat, 13 Mar 2021 10:35:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] qom: move user_creatable_add_opts logic to vl.c and
+ QAPIfy it
+References: <20210311172459.990281-1-pbonzini@redhat.com>
+ <20210311172459.990281-3-pbonzini@redhat.com>
+Date: Sat, 13 Mar 2021 10:35:16 +0100
+In-Reply-To: <20210311172459.990281-3-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Thu, 11 Mar 2021 12:24:58 -0500")
+Message-ID: <87czw3wg4r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87h7lfwim1.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,44 +81,336 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, dgilbert@redhat.com
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/03/21 09:41, Markus Armbruster wrote:
-> Observation, not objection:
-> 
-> 1. QMP core parses JSON text into QObject, passes to generated
->     marshaller.
-> 
-> 2. Marshaller converts QObject to ObjectOptions with the QObject input
->     visitor, passes to qmp_object_add().
-> 
-> 3. qmp_object_add() wraps around user_creatable_add_qapi().
-> 
-> 4. user_creatable_add_qapi() converts right back to QObject with the
->     QObject output visitor.  It splits the result into qom_type, id and
->     the rest, and passes all three to user_creatable_add_type().
-> 
-> 5. user_creatable_add_type() performs a virtual visit with the QObject
->     input visitor.  The outermost object it visits itself, its children
->     it visits by calling object_property_set().
-> 
-> I sure hope we wouldn't write it this way from scratch:)
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-All problems in computer science ca be solved by adding another level of 
-indirection, except those that can be solved by adding two more levels 
-of indirection.
+> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
+> to parse the -object command line option.  This has one extra feature,
+> compared to keyval, which is automatic conversion of integers to lists
+> as well as support for lists as repeated options:
+>
+>   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
+>
+> So we cannot replace OptsVisitor with keyval right now.  Still, this
+> patch moves the user_creatable_add_opts logic to vl.c since it is
+> not needed anywhere else,
 
-> I think your patch is a reasonable step towards a QOM that is at peace
-> with QAPI.  But there's plenty of work left.
+and new uses would be quite unwelcome :)
 
-Absolutely, see https://wiki.qemu.org/Features/QOM-QAPI_integration for 
-some brainstorming about it.
+>                           and makes it go through user_creatable_add_qapi.
+>
+> In order to minimize code changes, the predicate still takes a string.
+> This can be changed later to use the ObjectType QAPI enum directly.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/qom/object_interfaces.h | 50 ++--------------------
+>  qom/object_interfaces.c         | 57 +------------------------
+>  softmmu/vl.c                    | 73 +++++++++++++++++++++++++--------
+>  3 files changed, 60 insertions(+), 120 deletions(-)
 
-Paolo
+Nice diffstat.
+
+>
+> diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
+> index fb32330901..454fe4435b 100644
+> --- a/include/qom/object_interfaces.h
+> +++ b/include/qom/object_interfaces.h
+> @@ -95,54 +95,10 @@ Object *user_creatable_add_type(const char *type, const char *id,
+>   * Create an instance of the user creatable object according to the
+>   * options passed in @opts as described in the QAPI schema documentation.
+>   *
+> - * Returns: the newly created object or NULL on error
+> - */
+> -void user_creatable_add_qapi(ObjectOptions *options, Error **errp);
+> -
+> -/**
+> - * user_creatable_add_opts:
+> - * @opts: the object definition
+> - * @errp: if an error occurs, a pointer to an area to store the error
+> - *
+> - * Create an instance of the user creatable object whose type
+> - * is defined in @opts by the 'qom-type' option, placing it
+> - * in the object composition tree with name provided by the
+> - * 'id' field. The remaining options in @opts are used to
+> - * initialize the object properties.
+> - *
+> - * Returns: the newly created object or NULL on error
+> - */
+> -Object *user_creatable_add_opts(QemuOpts *opts, Error **errp);
+> -
+> -
+> -/**
+> - * user_creatable_add_opts_predicate:
+> - * @type: the QOM type to be added
+> - *
+> - * A callback function to determine whether an object
+> - * of type @type should be created. Instances of this
+> - * callback should be passed to user_creatable_add_opts_foreach
+> - */
+> -typedef bool (*user_creatable_add_opts_predicate)(const char *type);
+> -
+> -/**
+> - * user_creatable_add_opts_foreach:
+> - * @opaque: a user_creatable_add_opts_predicate callback or NULL
+> - * @opts: options to create
+> - * @errp: unused
+> - *
+> - * An iterator callback to be used in conjunction with
+> - * the qemu_opts_foreach() method for creating a list of
+> - * objects from a set of QemuOpts
+> - *
+> - * The @opaque parameter can be passed a user_creatable_add_opts_predicate
+> - * callback to filter which types of object are created during iteration.
+> - * When it fails, report the error.
+> - *
+> - * Returns: 0 on success, -1 when an error was reported.
+> + * Returns: true when an object was successfully created, false when an error
+> + * occurred
+>   */
+> -int user_creatable_add_opts_foreach(void *opaque,
+> -                                    QemuOpts *opts, Error **errp);
+> +bool user_creatable_add_qapi(ObjectOptions *options, Error **errp);
+>  
+>  /**
+>   * user_creatable_parse_str:
+> diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+> index 62d7db7629..2e50698075 100644
+> --- a/qom/object_interfaces.c
+> +++ b/qom/object_interfaces.c
+> @@ -117,7 +117,7 @@ out:
+>      return obj;
+>  }
+>  
+> -void user_creatable_add_qapi(ObjectOptions *options, Error **errp)
+> +bool user_creatable_add_qapi(ObjectOptions *options, Error **errp)
+>  {
+>      Visitor *v;
+>      QObject *qobj;
+> @@ -138,60 +138,7 @@ void user_creatable_add_qapi(ObjectOptions *options, Error **errp)
+>                                    options->id, props, v, errp);
+>      object_unref(obj);
+>      visit_free(v);
+> -}
+> -
+> -Object *user_creatable_add_opts(QemuOpts *opts, Error **errp)
+> -{
+> -    Visitor *v;
+> -    QDict *pdict;
+> -    Object *obj;
+> -    const char *id = qemu_opts_id(opts);
+> -    char *type = qemu_opt_get_del(opts, "qom-type");
+> -
+> -    if (!type) {
+> -        error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
+> -        return NULL;
+> -    }
+> -    if (!id) {
+> -        error_setg(errp, QERR_MISSING_PARAMETER, "id");
+> -        qemu_opt_set(opts, "qom-type", type, &error_abort);
+> -        g_free(type);
+> -        return NULL;
+> -    }
+> -
+> -    qemu_opts_set_id(opts, NULL);
+
+These things are now checked by visit_type_ObjectOptions() below.
+
+> -    pdict = qemu_opts_to_qdict(opts, NULL);
+> -
+> -    v = opts_visitor_new(opts);
+> -    obj = user_creatable_add_type(type, id, pdict, v, errp);
+> -    visit_free(v);
+> -
+> -    qemu_opts_set_id(opts, (char *) id);
+> -    qemu_opt_set(opts, "qom-type", type, &error_abort);
+> -    g_free(type);
+> -    qobject_unref(pdict);
+> -    return obj;
+> -}
+> -
+> -
+> -int user_creatable_add_opts_foreach(void *opaque, QemuOpts *opts, Error **errp)
+> -{
+> -    bool (*type_opt_predicate)(const char *, QemuOpts *) = opaque;
+> -    Object *obj = NULL;
+> -    const char *type;
+> -
+> -    type = qemu_opt_get(opts, "qom-type");
+> -    if (type && type_opt_predicate &&
+> -        !type_opt_predicate(type, opts)) {
+> -        return 0;
+> -    }
+> -
+> -    obj = user_creatable_add_opts(opts, errp);
+> -    if (!obj) {
+> -        return -1;
+> -    }
+> -    object_unref(obj);
+> -    return 0;
+> +    return obj != NULL;
+>  }
+>  
+>  char *object_property_help(const char *name, const char *type,
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7..b245e912e5 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -117,6 +117,7 @@
+>  #include "qapi/qapi-commands-block-core.h"
+>  #include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qapi-commands-misc.h"
+> +#include "qapi/qapi-visit-qom.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "sysemu/iothread.h"
+> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
+>  
+>  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
+>  
+> +typedef struct ObjectOption {
+> +    ObjectOptions *opts;
+> +    QTAILQ_ENTRY(ObjectOption) next;
+> +} ObjectOption;
+> +
+>  static const char *cpu_option;
+>  static const char *mem_path;
+>  static const char *incoming;
+>  static const char *loadvm;
+> +static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
+>  static ram_addr_t maxram_size;
+>  static uint64_t ram_slots;
+>  static int display_remote;
+> @@ -1684,6 +1691,48 @@ static int machine_set_property(void *opaque,
+>      return object_parse_property_opt(opaque, name, value, "type", errp);
+>  }
+>  
+> +static void object_option_foreach_add(bool (*type_opt_predicate)(const char *), Error **errp)
+> +{
+> +    ObjectOption *opt, *next;
+> +
+> +    QTAILQ_FOREACH_SAFE(opt, &object_opts, next, next) {
+> +        const char *type = ObjectType_str(opt->opts->qom_type);
+> +        if (type_opt_predicate(type)) {
+> +            if (!user_creatable_add_qapi(opt->opts, errp)) {
+> +                return;
+> +            }
+> +            qapi_free_ObjectOptions(opt->opts);
+> +            QTAILQ_REMOVE(&object_opts, opt, next);
+> +        }
+> +    }
+> +}
+> +
+> +static void object_option_parse(const char *optarg)
+> +{
+> +    ObjectOption *opt;
+> +    QemuOpts *opts;
+> +    const char *type;
+> +    Visitor *v;
+> +
+> +    opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+> +                                   optarg, true);
+> +    if (!opts) {
+> +        exit(1);
+> +    }
+> +
+> +    type = qemu_opt_get(opts, "qom-type");
+> +    if (user_creatable_print_help(type, opts)) {
+> +        exit(0);
+> +    }
+
+You move help printing from creation to parse time.  Makes sense, but
+I'd make it a separate patch, or mention it in the commit message.
+
+> +
+> +    opt = g_new0(ObjectOption, 1);
+> +    v = opts_visitor_new(opts);
+> +    visit_type_ObjectOptions(v, NULL, &opt->opts, &error_fatal);
+> +    visit_free(v);
+> +
+> +    QTAILQ_INSERT_TAIL(&object_opts, opt, next);
+> +}
+> +
+>  /*
+>   * Initial object creation happens before all other
+>   * QEMU data types are created. The majority of objects
+> @@ -1691,12 +1740,8 @@ static int machine_set_property(void *opaque,
+>   * cannot be created here, as it depends on the chardev
+>   * already existing.
+>   */
+> -static bool object_create_early(const char *type, QemuOpts *opts)
+> +static bool object_create_early(const char *type)
+>  {
+> -    if (user_creatable_print_help(type, opts)) {
+> -        exit(0);
+> -    }
+> -
+>      /*
+>       * Objects should not be made "delayed" without a reason.  If you
+>       * add one, state the reason in a comment!
+> @@ -1815,9 +1860,7 @@ static void qemu_create_early_backends(void)
+>          exit(1);
+>      }
+>  
+> -    qemu_opts_foreach(qemu_find_opts("object"),
+> -                      user_creatable_add_opts_foreach,
+> -                      object_create_early, &error_fatal);
+> +    object_option_foreach_add(object_create_early, &error_fatal);
+
+Unlike the old code, the new code removes the entries where
+object_create_early() is true from the set of stored -object options.
+
+>  
+>      /* spice needs the timers to be initialized by this point */
+>      /* spice must initialize before audio as it changes the default auiodev */
+> @@ -1846,9 +1889,9 @@ static void qemu_create_early_backends(void)
+>   * The remainder of object creation happens after the
+>   * creation of chardev, fsdev, net clients and device data types.
+>   */
+> -static bool object_create_late(const char *type, QemuOpts *opts)
+> +static bool object_create_late(const char *type)
+>  {
+> -    return !object_create_early(type, opts);
+> +    return !object_create_early(type);
+>  }
+>  
+>  static void qemu_create_late_backends(void)
+> @@ -1859,9 +1902,7 @@ static void qemu_create_late_backends(void)
+>  
+>      net_init_clients(&error_fatal);
+>  
+> -    qemu_opts_foreach(qemu_find_opts("object"),
+> -                      user_creatable_add_opts_foreach,
+> -                      object_create_late, &error_fatal);
+> +    object_option_foreach_add(object_create_late, &error_fatal);
+
+Likewise.
+
+Before and after the patch, object_create_late(opt) ==
+!object_create_early(opt).  Your patch provides us with an opportunity
+to assert this: object_opts must be empty now.  Suggestion, not demand.
+
+>  
+>      if (tpm_init() < 0) {
+>          exit(1);
+> @@ -3398,11 +3439,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>  #endif
+>                  break;
+>              case QEMU_OPTION_object:
+> -                opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+> -                                               optarg, true);
+> -                if (!opts) {
+> -                    exit(1);
+> -                }
+> +                object_option_parse(optarg);
+>                  break;
+>              case QEMU_OPTION_overcommit:
+>                  opts = qemu_opts_parse_noisily(qemu_find_opts("overcommit"),
+
+Only suggestions, so:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
