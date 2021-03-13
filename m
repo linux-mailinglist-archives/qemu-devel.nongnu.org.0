@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C86033A09A
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:49:02 +0100 (CET)
-Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D2233A097
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:42:48 +0100 (CET)
+Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLAFw-0005W9-SZ
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:49:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
+	id 1lLA9l-0002EI-62
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:42:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLAEb-0004bH-KQ
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:47:37 -0500
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:38441)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLA8i-0001Xn-OS
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:41:33 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:46770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLAEZ-0006Ma-Sh
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:47:37 -0500
-Received: by mail-qv1-xf2f.google.com with SMTP id t5so5945051qvs.5
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:47:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLA8f-0003Mw-6I
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:41:32 -0500
+Received: by mail-ej1-x631.google.com with SMTP id r17so59731495ejy.13
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:41:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YcP03JwLIdhHiKjIb43zm3DEPRgyzD7Lvg4QH35omPQ=;
- b=pVsDgw2qAi9Z2FG6qMDw709m7udcdTvPawZkOrT8okLt088FRzHSo+97mD45mmzS2h
- HF5TH+0UEDFw+x7IShH/JGS9nsPi1Lh9vSzTrHHbJTqzQJgmJQ3ryV2iLQ8CWGiIhZal
- POZdYetN07lndCp3l91OzefQC5eNP1xVBxK48XydPl2bRpJf2IX1WTWHmhcupa+endWn
- A/bVVBJghM6XOizQYgHcsAuqCTRFgyodyURs2YjNHl4lCrqFalApTnybLXCuO0GCr3bt
- mTpPVpTfo3QuSu/iRxPxSZ1BX/riHnfeVAMuUsMX/W0U/8NKahLt9FC0GsYP9UwCTtaL
- Uamg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ggpIh+2lIg+KmVYmJL/X1nMsG4jQjjGgYqrMWoqo8Vo=;
+ b=K/qRFpqYdx4ULJsjg2T1xv/LVLqFqcb1s6MMl1R3hOnz8vZypLHnALCHk+PvolgfOA
+ pdEhfkkx2v3KG5dMJD4Zgw6lvSMPjv6PuoiORGFir1m8psHwykKFhZFkJVJqqAyVdWDB
+ 6CVOclUlrQg04v8RJDKYM6M27InwwmpQ99SQ4LeW4IA0nxR+NGTUJfQjIsr5WgcVzIOc
+ YkvcHK1zNhgN3b1zJFommsJ3wQfJKhB7QG80gWTy+sLwIKByQUUjUAwt/+58nl3xeoQi
+ +gib0Ve6DMFsUGjJUL3e3y3PxJXqv0max3H4Hm02i9qAOa0I5Ts7yIgXG5spDlNpgV6e
+ RRIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YcP03JwLIdhHiKjIb43zm3DEPRgyzD7Lvg4QH35omPQ=;
- b=Cbkx4KR9BldLZ2ce336NT2L9KZd2Xp+c3R/OxeC6ARpvDhrxL5cdCKnevTBU8D1d7+
- z+QX42/aAM/ryFGSrRUBMJ7qwrhwQEPAoFXrmwrMSHoOe+DDwGULzwnmvohccXx33mgS
- dI80vwhIpYs6uxcleZzJKkiKD66IGv8WFCp0Dxk7nT1BlOXtGX5rcL5bI/yfX56kX7OB
- mqeXGaywKK8neBLYW2d4npcqFu0Cgk71hsZf+fIafS5iqSC5s0mCCCG64JI4R4Ke73VW
- wLMdjRu/4Whz1+WTtTH3wq+LVDFJrv1M0UbO2ifzYEO+b2r6Niaiz85vY72HAlnjwsVL
- uT2w==
-X-Gm-Message-State: AOAM530Cl+mFAYrLELtC3eWE27KqToEPMFT3Zeh+rRfNIF8gOBODuw9P
- yWTd1OBisVSgIoKpsXWKJkwM7g==
-X-Google-Smtp-Source: ABdhPJw6yX/C2Q+TJrCS6j6rWaZpj50VEaSPEx1EmZIxwpnX8QFFPFqRMtOw2gAALidGHDSTIShIQA==
-X-Received: by 2002:ad4:58cf:: with SMTP id dh15mr3781399qvb.26.1615664854897; 
- Sat, 13 Mar 2021 11:47:34 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u63sm3789606qtd.40.2021.03.13.11.47.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 11:47:34 -0800 (PST)
-Subject: Re: [PATCH 12/26] tcg: Create tcg_init
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210311002156.253711-1-richard.henderson@linaro.org>
- <20210311002156.253711-13-richard.henderson@linaro.org>
- <8a27a7b2-cc9a-3cf6-e89d-6688d9d41c0c@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c48789c9-2fca-ee04-1ca8-b2947169c34c@linaro.org>
-Date: Sat, 13 Mar 2021 13:28:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ggpIh+2lIg+KmVYmJL/X1nMsG4jQjjGgYqrMWoqo8Vo=;
+ b=rznJ1bN7oVtJY6gEV7X6NKD7Ww9N3sjQ0nSv7mJe9APAsXJpprYrB23n2ZElCOt8bt
+ 1itSXF9UpxJQbGUubfvEcH2y8BNh8cpAiNghyG1kIWPLnMK8Wt7egZcZFMTOFALZcFtG
+ cbMeniWXtrYFhWbA2mRF2VbFtb+zG5w7hZNFFkVGZmYlKoODXKLsuhL6ZZigVAUnwhf8
+ UlGrSvfq77i09DYVwRNx5YpZhpCJDUAbyoS7FinJPomfsLHdIInvSW99/5BywaBvDpEd
+ FvsekpnkaZBL0c+mDmsHXF20UdUUVpXBMqFb+nA7dNBeOl3dSLUsh+pP40QgbdD9vuE2
+ GnTw==
+X-Gm-Message-State: AOAM532DQLtTF2jXJS2F2+GiWKJm+SNrPsubmy4Dvn8DbYgITbOlLhFj
+ RAnrb2cim1jZam0F0oumn3nB+2mqDtuHLRbFPRPVTA==
+X-Google-Smtp-Source: ABdhPJx2t3Gxh9yp1Tu26HPLWAj9dmrPiWMXPHW6eLB0mbyXGLQCjkLfnrh2PTQ73+9edPkBzsxgXkT0Flyjr8RDdMg=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr15622174ejd.85.1615664484284; 
+ Sat, 13 Mar 2021 11:41:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <8a27a7b2-cc9a-3cf6-e89d-6688d9d41c0c@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+References: <20210312172939.695-1-peter.maydell@linaro.org>
+ <CAFEAcA8PN3EQN_E8zo0qUP=F7cAg=XvuUc2V6iop8YOOYxMGxQ@mail.gmail.com>
+ <657618fc-9e62-6c24-c65d-ccc7375c7fcc@linaro.org>
+In-Reply-To: <657618fc-9e62-6c24-c65d-ccc7375c7fcc@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 13 Mar 2021 19:41:13 +0000
+Message-ID: <CAFEAcA88EPzz2kh3gwL99nv=JxYcDQdBJxCDzOO5FfZ1NkQT9Q@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 0/2] arm: Make M-profile VTOR loads on reset
+ handle memory aliasing
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Cc: Kumar Gala <kumar.gala@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/13/21 1:27 PM, Philippe Mathieu-Daudé wrote:
-> On 3/11/21 1:21 AM, Richard Henderson wrote:
->> Perform both tcg_context_init and tcg_region_init.
->> Do not leave this split to the caller.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   include/tcg/tcg.h         | 3 +--
->>   tcg/internal.h            | 1 +
->>   accel/tcg/translate-all.c | 3 +--
->>   tcg/tcg.c                 | 9 ++++++++-
->>   4 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> What about uninlining in_code_gen_buffer() and restricting
-> tcg_init_ctx to tcg/tcg.c?
-> 
+On Sat, 13 Mar 2021 at 19:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 3/12/21 12:59 PM, Peter Maydell wrote:
+> > On Fri, 12 Mar 2021 at 17:29, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> This series handles the possibility of aliasing by iterating through
+> >> the whole FlatView of the CPU's address space checking for other
+> >> mappings of the MemoryRegion corresponding to the location of the
+> >> vector table.  If we find any aliases we use rom_ptr() to see if the
+> >> ROM blob loader has any data there.
+> >
+> > The other possible place we could put this code would be
+> > to put it into rom_ptr() itself. You'd have to change the
+> > callsites to pass an AddressSpace to rom_ptr(), but really
+> > we ought to do that anyway, because a Rom has an AddressSpace
+> > that we should be checking as well as the address.
+>
+> I like this as the solution.
 
-I have already uninlined in_code_gen_buffer for v2.
+I realized that checking against the Rom's AddressSpace
+is likely to be a bad plan, though -- in some cases the AS is
+used to allow the loader to say "load this image to AS
+such-and-such", and we don't want to fail to find the ROM
+blob because the rom_ptr() code is reading it from a different
+AS that is an alternate view onto the same actual MemoryRegions
+(eg Secure vs NonSecure and the RAM is in the same place.)
 
-I hadn't gotten around to making tcg_init_ctx static yet.  But it was in the 
-back of my mind to do so.
-
-
-r~
+thanks
+-- PMM
 
