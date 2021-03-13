@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098CC339D74
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:50:33 +0100 (CET)
-Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86269339D78
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:59:33 +0100 (CET)
+Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL0um-0000yA-3E
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
+	id 1lL13U-000081-JG
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sS-0007Ak-5h
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:09 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:39879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sG-00075v-Ct
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:07 -0500
-Received: from localhost.localdomain ([82.142.6.26]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MadC8-1lsPgJ0oBO-00c5bI; Sat, 13 Mar 2021 10:47:53 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] linux-user/elfload: fix address calculation in fallback
- scenario
-Date: Sat, 13 Mar 2021 10:47:47 +0100
-Message-Id: <20210313094747.2966948-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210313094747.2966948-1-laurent@vivier.eu>
-References: <20210313094747.2966948-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL11l-0007c9-ED
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:57:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lL11i-0004Kd-9E
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:57:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615629460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MK3iTDkSGQgZw6ytFKxl257evWIqXVexrbS4igeknus=;
+ b=hY074piwbmYoBPE+DuuwGtxGcSyFNnN7mq5EUAhzoLFzx7npoMQ8eZwCnShMt3nV0K+jMn
+ TMq+qlADxyI7syTZ8+slm5EVQlZc2URSEuz4GwG3fOnZenfs3oremDRS2/8vb0XN35ulTu
+ Nx3o2ehlQnbp3Ysk1PYCU1PeuiGFVFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-aaLRfpChOeGv4UgctLpbrg-1; Sat, 13 Mar 2021 04:57:37 -0500
+X-MC-Unique: aaLRfpChOeGv4UgctLpbrg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A69A1846098
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:57:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1FD661F59;
+ Sat, 13 Mar 2021 09:57:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 571F91132C12; Sat, 13 Mar 2021 10:57:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] qom: move user_creatable_add_opts logic to vl.c and
+ QAPIfy it
+References: <20210311172459.990281-1-pbonzini@redhat.com>
+ <20210311172459.990281-3-pbonzini@redhat.com>
+Date: Sat, 13 Mar 2021 10:57:35 +0100
+In-Reply-To: <20210311172459.990281-3-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Thu, 11 Mar 2021 12:24:58 -0500")
+Message-ID: <87im5vv0j4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ypx7//kkwQSt+PxxQ9JhdJGaZSLCEiDiUl2WnxSxR+hLLc33gA+
- 0RLQam29jJrx5LLlSjoRaTBYpcb4Xdf+spy7KbIqFlGH6ZbttBo2le2duDrwG9c6/BtriDx
- cp6VwlpnNDKR9525BQffmBh90+uZ1ajyUa5T6b7aVa9J1+bfamyK1b/v1ynh22HGe0J46aW
- ZmhpACJKA2QRzHtxlaadg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l5AvciM7xMA=:/kvJsT7CY/2u4c0Apr5L7a
- wmgfwXKXkGEzcIZe4Nh9/vAv3Ffyg7Q4i2al5RlPqehai3CSNy/Enhv9phxrtf+hIe9HuAKXk
- +rKVlH9TPjHGJ637BzPf6ODRVeJxFWoiChvNmt91xljtvMZw5SOUJFSkSmkqGX5M105xUTLnQ
- Hx/ptlPj80eKiraewcfbBw5p5XjC7TYQrw6y9fVSRfUQAAnYMZz0Tsqi7CsmzsAUuvaCEtNbR
- wMqX/bza6V0RASCcN0iWg+rAoooxwmDIRoNdL64VjvxjmT/LgHAx+2OMpMHFcQVSyNrGcQYHA
- VpcAbQEyavA+MsfWhmzp3kAl3GeMFlH6BQ85q/FAlsaT3mcoIJJkWdBGTNj92GOo8cfT0y1Uw
- t66h7CqVUnpWVw6Q8M5ulC6mqxV4VxRZxhaSjVSUlqPcixKgDfx/RN2GHBRsV0fgDjxWWDV0m
- CUgbFDJQWA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,54 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Vincent Fazio <vfazio@gmail.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vincent Fazio <vfazio@gmail.com>
+One more little thing...
 
-Previously, guest_loaddr was not taken into account when returning an
-address from pgb_find_hole when /proc/self/maps was unavailable which
-caused an improper guest_base address to be calculated.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-This could cause a SIGSEGV later in load_elf_image -> target_mmap for
-ET_EXEC type images since the mmap MAP_FIXED flag is specified which
-could clobber existing mappings at the address returnd by g2h().
+> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
+> to parse the -object command line option.  This has one extra feature,
+> compared to keyval, which is automatic conversion of integers to lists
+> as well as support for lists as repeated options:
+>
+>   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
+>
+> So we cannot replace OptsVisitor with keyval right now.  Still, this
+> patch moves the user_creatable_add_opts logic to vl.c since it is
+> not needed anywhere else, and makes it go through user_creatable_add_qapi.
+>
+> In order to minimize code changes, the predicate still takes a string.
+> This can be changed later to use the ObjectType QAPI enum directly.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+[...]
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7..b245e912e5 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -117,6 +117,7 @@
+>  #include "qapi/qapi-commands-block-core.h"
+>  #include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qapi-commands-misc.h"
+> +#include "qapi/qapi-visit-qom.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "sysemu/iothread.h"
+> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
+>  
+>  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
+>  
+> +typedef struct ObjectOption {
+> +    ObjectOptions *opts;
+> +    QTAILQ_ENTRY(ObjectOption) next;
+> +} ObjectOption;
+> +
 
-  mmap(0xd87000, 16846912, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE|0x100000, -1, 0) = 0xd87000
-  munmap(0xd87000, 16846912)              = 0
-  write(2, "Locating guest address space @ 0"..., 40Locating guest address space @ 0xd87000) = 40
-  mmap(0x1187000, 16850944, PROT_NONE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x1187000
-  --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_ACCERR, si_addr=0x2188310} ---
-  +++ killed by SIGSEGV +++
+The names feel awkward.
 
-Now, pgd_find_hole accounts for guest_loaddr in this scenario.
+ObjectOption represents a -object option.  Fair enough.
 
-Fixes: ad592e37dfcc ("linux-user: provide fallback pgd_find_hole for bare chroots")
-Signed-off-by: Vincent Fazio <vfazio@gmail.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210131061948.15990-1-vfazio@xes-inc.com>
-[lv: updated it to check if ret == -1]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ObjectOptions represents the "options" in its option argument.
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index e525901659d4..c6731013fde2 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2235,7 +2235,8 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
-     brk = (uintptr_t)sbrk(0);
- 
-     if (!maps) {
--        return pgd_find_hole_fallback(guest_size, brk, align, offset);
-+        ret = pgd_find_hole_fallback(guest_size, brk, align, offset);
-+        return ret == -1 ? -1 : ret - guest_loaddr;
-     }
- 
-     /* The first hole is before the first map entry. */
--- 
-2.29.2
+Confusing.  Calling the whole thing and one of its parts the same is a
+bad idea.
+
+I never liked calling the key=value things in option arguments
+"options".  They aren't CLI options, they are optional CLI option
+parameters.
+
+I also don't like calling so many different things "object" (QObject,
+Object, ObjectOption, ObjectOptions), but that feels out of scope here.
+
+Can we please rename ObjectOptions?
+
+A naming convention for CLI option argument types and boxed QMP command
+argument types would be nice.
+
+[...]
 
 
