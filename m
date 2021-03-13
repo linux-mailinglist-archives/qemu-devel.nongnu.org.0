@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FBB339AB0
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:05:24 +0100 (CET)
-Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220A8339AB1
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:05:31 +0100 (CET)
+Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKsiZ-0004YK-24
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:05:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
+	id 1lKsig-0004e5-1V
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:05:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKsds-00073N-3k
+ id 1lKsds-000746-Cx
  for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:32 -0500
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:39562)
+Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:45053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKsdn-0003PK-AH
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:31 -0500
-Received: by mail-qv1-xf36.google.com with SMTP id h13so5177986qvu.6
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:26 -0800 (PST)
+ id 1lKsdo-0003PZ-4O
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:32 -0500
+Received: by mail-qv1-xf29.google.com with SMTP id by2so5181219qvb.11
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+NXtQw9hpPp+VCgrduDja0oQSnznjQ9crwR/vZ//mYY=;
- b=yrpCeqk1VagXafGqk024ELWirMpf9poxbx+QtYlGtjPsmfzQv0BYNiSNLT6U+kaKxa
- rEFAs6rqMMvF2Oqrk02Whl6mYH9WPZ2wtd2v5nzra9aPX86wsrH2yah4WeqoW/eR9NFs
- C5u4hBElSaZD+xPvvathLX0/x/1cNkIDFJQ2xQn+4lB1GF01t7SZJnuR1SdBMkkVglyQ
- 6sjLNRfP3HJcMvDhN1xNRX+9qRzJTgHXu/vOsBA341GISMoMCha3aWIRQfCAEEFXQeSX
- 3xrqgv7wuWdTTBPG8rSuBYuZoyLIsmK60x4iExPVi4lBZuYuMU39NNxhBZcxCHJO0K1y
- lx3Q==
+ bh=rHSsmMGgFTbVP+9XKxjAVaBht/aShtydPxFkUYIpqOM=;
+ b=TXnzeBGdkKUNYlTpxXNPt2I5vQLvQe2mSWx1sgYiWl6tWJUQyZv49ag4Rq7hG84n0/
+ 6uhFsE5uoUiyFxlU2Dv9mLpTXEmrHYFQpld0eatS2L3aCyXPfGOSgYb6lOCJHSJRBjGC
+ yciCF4ASsHn0Jn6JOXWJrU/YOZ2iXPhXL04nikrk8Yh4KA5RzUJ10gUwju1HXK3HcSzz
+ LVlIpM5ePK3yU8Oq1HrpkOtYf2Q2n3e2h9yS1pvdSPrp2HA6BabG+e/EmxPx4+bGXszE
+ tliBuuovIJtTx0byqk4/ZetGMu85Qupx2PbV8CwerflQgj3AunlG+mFM7uymlQoVPSEU
+ pc9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+NXtQw9hpPp+VCgrduDja0oQSnznjQ9crwR/vZ//mYY=;
- b=WEUOjPM2Rd+0TGDo9NDINtVOK5g71sqbAmB1Xni9jFA3aaj7KMSGgKhYAGoxSly2UQ
- +rL7r5PjgdbeSYFPFreUu6ytUuMTqvwmIMLh2rIqh9HIAOUA+Dat40HekE0EmACNrbIJ
- 4SErwzL9nP52MPm25GlXx2qbaOhm8ldiXYL5K+b3WTuT44YOOu06y+8OMl2kD1gbjoo7
- Crx3wNpva/f0e4UPL8arS8YVkBLQAMxt9itHXe99HQk2JWMGRvrhWgZaWvTMnFc4FS8y
- Tra6GCEQEFXZHli+osrRIqgXYRnQfpJqnONnGfdk4xPorOLUADsz8Xa6Zba3s3zkHKX7
- EaAg==
-X-Gm-Message-State: AOAM5331FDupOkfkr9yTjdx5rB1vQnVwWEF1XBcJD8LHtcadL4qhzS1h
- UQEmETunsJSmmuyLLKXk5bsCnXp6pjRMABoK
-X-Google-Smtp-Source: ABdhPJwnGs8ryhN9a7YxhrJj4mG03AmiwNV7EDrhn/FOJ7YCO4WJiXLowybyOPhYUX7vNEtRjMEwTw==
-X-Received: by 2002:ad4:496b:: with SMTP id p11mr14777921qvy.33.1615597225981; 
- Fri, 12 Mar 2021 17:00:25 -0800 (PST)
+ bh=rHSsmMGgFTbVP+9XKxjAVaBht/aShtydPxFkUYIpqOM=;
+ b=KDNPWha6P50v3l3Rc8DNhEUCiynUO6p/q9leDeRiI5UC6Gr4ocrwFw51EL0A8+jDYJ
+ P7G1PkQlAaBwaDMuqV6VLPifWg62Ses3reb37RDQri7oHLQjrZOVNR8rbdwxfidxJzEs
+ psZyx8oasx/jqEt752C0gR9gRFjE2DjtSaqxfoioQxy5bvayj/c0thNfXLpBiVGAsUxw
+ m1FLLx/w81Sj6po1XVW6pKX1LLTPZAGDK7kKFyOsuYHYrERgzWMiTNiTF2seYLnZAzRT
+ UG6/8WKIme3Av5OadvH2EfX3Lfplz4fckempUFmw/2n+zWIw1/RJ5G6XOqqBSsilzQmb
+ yymg==
+X-Gm-Message-State: AOAM531JJGSMQ7xjk1VUOBNXv2nsqsG22Y7kQ932U/gxQGt1aYGreKcM
+ WLm/GPjOuSnMveH1TLA4IMpOAhwsb9poBwtJ
+X-Google-Smtp-Source: ABdhPJxaQyZJQRQQcpu8YFEgM7ymGkzzWSjsky0ip5CBBwCPM1wuWUgWszrKBno1FjFbZkFkVmzVFQ==
+X-Received: by 2002:a05:6214:1909:: with SMTP id
+ er9mr873722qvb.5.1615597227114; 
+ Fri, 12 Mar 2021 17:00:27 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.25
+ by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 17:00:25 -0800 (PST)
+ Fri, 12 Mar 2021 17:00:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/15] target/ppc: Do not call hreg_compute_mem_idx after
- ppc_store_msr
-Date: Fri, 12 Mar 2021 19:00:07 -0600
-Message-Id: <20210313010018.819153-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 05/15] target/ppc: Retain hflags_nmsr only for migration
+Date: Fri, 12 Mar 2021 19:00:08 -0600
+Message-Id: <20210313010018.819153-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210313010018.819153-1-richard.henderson@linaro.org>
 References: <20210313010018.819153-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,45 +88,76 @@ Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ppc_store_msr we call hreg_compute_hflags, which itself
-calls hreg_compute_mem_idx.  Rely on ppc_store_msr to update
-everything required by the msr update.
+We have eliminated all normal uses of hflags_nmsr.  We need
+not even compute it except when we want to migrate.  Rename
+the field to emphasize this.
+
+Remove the fixme comment for migrating access_type.  This value
+is only ever used with the current executing instruction, and
+is never live when the cpu is halted for migration.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/machine.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ target/ppc/cpu.h         | 4 ++--
+ target/ppc/helper_regs.c | 2 --
+ target/ppc/machine.c     | 9 ++++++---
+ 3 files changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 061d2eed1b..79c4033a42 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1105,8 +1105,8 @@ struct CPUPPCState {
+ #endif
+ 
+     /* These resources are used only in QEMU core */
+-    target_ulong hflags;      /* hflags is MSR & HFLAGS_MASK */
+-    target_ulong hflags_nmsr; /* specific hflags, not coming from MSR */
++    target_ulong hflags;
++    target_ulong hflags_compat_nmsr; /* for migration compatibility */
+     int immu_idx;     /* precomputed MMU index to speed up insn accesses */
+     int dmmu_idx;     /* precomputed MMU index to speed up data accesses */
+ 
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 95b9aca61f..a87e354ca2 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -104,8 +104,6 @@ void hreg_compute_hflags(CPUPPCState *env)
+          */
+         uint32_t le = extract32(env->spr[SPR_HID0], 3, 1);
+         env->hflags |= le << MSR_LE;
+-        /* Retain for backward compatibility with migration. */
+-        env->hflags_nmsr = le << MSR_LE;
+     }
+ }
+ 
 diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 87d7bffb86..f6eeda9642 100644
+index f6eeda9642..1f7a353c78 100644
 --- a/target/ppc/machine.c
 +++ b/target/ppc/machine.c
-@@ -125,9 +125,6 @@ static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
-     env->msr ^= env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
-     ppc_store_msr(env, msr);
+@@ -310,6 +310,10 @@ static int cpu_pre_save(void *opaque)
+         }
+     }
  
--    /* Recompute mmu indices */
--    hreg_compute_mem_idx(env);
--
++    /* Retain migration compatibility for pre 6.0 for 601 machines. */
++    env->hflags_compat_nmsr = (env->flags & POWERPC_FLAG_HID0_LE
++                               ? env->hflags & MSR_LE : 0);
++
      return 0;
  }
  
-@@ -418,14 +415,12 @@ static int cpu_post_load(void *opaque, int version_id)
+@@ -829,9 +833,8 @@ const VMStateDescription vmstate_ppc_cpu = {
+         /* Supervisor mode architected state */
+         VMSTATE_UINTTL(env.msr, PowerPCCPU),
  
-     /*
-      * Invalidate all supported msr bits except MSR_TGPR/MSR_HVB
--     * before restoring
-+     * before restoring.  Note that this recomputes hflags and mem_idx.
-      */
-     msr = env->msr;
-     env->msr ^= env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
-     ppc_store_msr(env, msr);
+-        /* Internal state */
+-        VMSTATE_UINTTL(env.hflags_nmsr, PowerPCCPU),
+-        /* FIXME: access_type? */
++        /* Backward compatible internal state */
++        VMSTATE_UINTTL(env.hflags_compat_nmsr, PowerPCCPU),
  
--    hreg_compute_mem_idx(env);
--
-     return 0;
- }
- 
+         /* Sanity checking */
+         VMSTATE_UINTTL_TEST(mig_msr_mask, PowerPCCPU, cpu_pre_2_8_migration),
 -- 
 2.25.1
 
