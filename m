@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4878E339F26
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:40:19 +0100 (CET)
-Received: from localhost ([::1]:56474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A00339F2B
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:42:27 +0100 (CET)
+Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7JK-0003eu-8U
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:40:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42348)
+	id 1lL7LO-0005b3-Kk
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:42:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lL7Gz-0002Bg-7l
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:37:53 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45302)
+ id 1lL7HL-0002Rv-Q6
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:38:15 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lL7Gx-00078t-D0
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:37:53 -0500
-Received: by mail-wr1-x435.google.com with SMTP id e10so6433813wro.12
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:37:50 -0800 (PST)
+ id 1lL7HD-0007Ih-Hl
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:38:15 -0500
+Received: by mail-wr1-x435.google.com with SMTP id 7so6456525wrz.0
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:38:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2rnIQur47bUqEW0oQ7uZPNdfpmlBj++ZpXvn5yiPVOw=;
- b=Jj0Ws3ZmjTnUnaoS6kEuwxVtN7cLiHKUISvPltNZfERuZKsC1f6MKe7fcH2fU8nDiR
- o67/SsykaPONvIRs2CGD6GEAPxqaLQ4KUUzlwCv+QrEGSPYTqrZxRKajMjh3WisDcAaN
- FyGB/+R30NL/3nQ7c1zn/Eb22CR1CMaqOqYbVji6SkBrs/HvZlAqOCUbmuz7VsbWqBKZ
- aFn7p3wU1HqvEkiIhggKYjseX7OFWaLPBJG3RZSrSfL8EUiFGrNyd2W+JNDKef/qcOvC
- QSyk94OERGbnBAKPye6LHYeyr2R8boPo4ZYAhqV2voQbl2hV+fWq4q8kxmAunj1lKzxb
- Hx+w==
+ bh=iHt/kKgnn7OMCOswaApfoEE2IOMfcSBQxaUlkBfROq4=;
+ b=Vne8VT16lc9LjWIxaeOA3fR2gy71F5DGrOOQ+Q31uW9CAZlcR2KEVICOD9c9/EpWb5
+ wcbZvObaimEtKvz4YnwXnMjAoGWF3XLDY31jIaZn7DABothdzMSCNaD6KRJoUPWXT5/0
+ OfYzUSix8zzbuXB6wblCPMp6tYjG8gd9SlOdLtXP+57UlI6tw77rAwX57RIFyDawXoa2
+ UqgyZC26WbW8lZqCWIGgknQW+6VWiqWW2X2MJSGIXuHwAyD8IHdTK4fWkZBp34fp/+yx
+ fOVLihIXf4xrx2S4yVTCssewjRkadsObZ2Evusd9CxRutXqwksRr4B1PJVwaG+ESENW4
+ Yvcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2rnIQur47bUqEW0oQ7uZPNdfpmlBj++ZpXvn5yiPVOw=;
- b=Tk9nOiYXkdy7jdHZE/7HAcG4aVJ1QgDCK6mnmqDyoTsHRrBQtVAA4yKRGOluyUVlAy
- rDy3PsC7e9nwftDjwNlsVYtHjji06Dq4q5EX+ykALviA+s/vIRj0S88PK24dVuIrORkE
- B3PKfoTapEdi5FEu/V/osaon/T3VHoRI216/NLaxC9052vssaoJawc3iergEg+ieCsDA
- 39tnpqZvcq5gBel2BOS945P4TwW+kYaoYNphebqth3IlIvhHlBIQAsloPQ1/oQJUYu57
- ZG2L0v571uaHt/i1BBXrD0c6WV9v8u3pnkACDx2wx/WAkfnF7xWbwwEzii7XPQzaU8px
- 6Wjw==
-X-Gm-Message-State: AOAM530izBPxnmugRHVOndhCVP64Tp9h0I6qMmGDiIjlg6Obu6C/elXO
- 9mPjBMHLBS4ipI4eBOUc6lqWo0eLd/A=
-X-Google-Smtp-Source: ABdhPJwTOjWprdyD+7yxQjG1OA2o4z1dtWCQTMx6G/tsgRlgD48Fmz6LJWqYveYW76e1RZN10gegUg==
-X-Received: by 2002:a5d:5051:: with SMTP id h17mr19253455wrt.80.1615653469668; 
- Sat, 13 Mar 2021 08:37:49 -0800 (PST)
+ bh=iHt/kKgnn7OMCOswaApfoEE2IOMfcSBQxaUlkBfROq4=;
+ b=f7tkHrApa4ZZbNRAsc/uhwDYMYNiDefW4ySpj6FbYD3VNX4TKsLpRJw+RkSepkwoSS
+ tNZLZVMeA68dgyGkX3O6PRAAnDSc9HNsBv2Ep3l0XxNZnaIXHi40Y/2Iz5D3JyuIMLJA
+ j9Re/BYtcjWG7YJSucPqhDcpS0OTYX6CQPgD3ttwb2B3kDYkkQxRqkMpY+gvGELl5sFd
+ BEm64gHKY3XKDbOetfirTy2+CymlFgC+k+dk6A4iyCPsfegMYeCHFLjEOpuh31pnqCCh
+ xEiB7XcXEbZFJWYsVV5uChzMqFHqRIP7IbfDh024JA1r+3ujYV27Df3wKt2Prr6wZvOt
+ 8+Dw==
+X-Gm-Message-State: AOAM533kILOAQwm3Vj6nvn7QBqBaVPCf96VK+oHwAQwV1Y1rGGSqIk9j
+ yyXs9wfdnoZKGcOxIEYJhEqomxpeRlo=
+X-Google-Smtp-Source: ABdhPJw0wsi7z9utCj2pHYGtpprrXk770490KvyQHEbDjtrUDa7pnkLacfKcW9Gqa4KVDx491xDE7w==
+X-Received: by 2002:a05:6000:245:: with SMTP id
+ m5mr20050311wrz.284.1615653486101; 
+ Sat, 13 Mar 2021 08:38:06 -0800 (PST)
 Received: from localhost.localdomain ([197.61.164.30])
- by smtp.googlemail.com with ESMTPSA id n6sm13173441wrt.1.2021.03.13.08.37.48
+ by smtp.googlemail.com with ESMTPSA id n6sm13173441wrt.1.2021.03.13.08.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:37:49 -0800 (PST)
+ Sat, 13 Mar 2021 08:38:05 -0800 (PST)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] bsd-user/elfload.c: Replaced calls to malloc/free with
- GLib variants
-Date: Sat, 13 Mar 2021 18:36:45 +0200
-Message-Id: <20210313163653.37089-2-ma.mandourr@gmail.com>
+Subject: [PATCH 2/9] hw/audio/fmopl.c: Fixing some style errors.
+Date: Sat, 13 Mar 2021 18:36:46 +0200
+Message-Id: <20210313163653.37089-3-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210313163653.37089-1-ma.mandourr@gmail.com>
 References: <20210313163653.37089-1-ma.mandourr@gmail.com>
@@ -83,228 +83,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replaced the calls to malloc(), realloc(), and free() to their
-equivalents in GLib's allocation functions in various places.
+Fixed style errors on the relevant lines in which
+I will introduce changes.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- bsd-user/elfload.c | 74 +++++++++++++++++++++++-----------------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
+ hw/audio/fmopl.c | 52 ++++++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 5f4d824d78..7b0793693b 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -867,8 +867,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-         if (sizeof(struct elf_phdr) * interp_elf_ex->e_phnum > TARGET_PAGE_SIZE)
-             return ~(abi_ulong)0UL;
+diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
+index 8a71a569fa..45f15c53b3 100644
+--- a/hw/audio/fmopl.c
++++ b/hw/audio/fmopl.c
+@@ -607,26 +607,26 @@ static int OPLOpenTable( void )
+ 	double pom;
  
--        elf_phdata =  (struct elf_phdr *)
--                malloc(sizeof(struct elf_phdr) * interp_elf_ex->e_phnum);
-+        elf_phdata = g_try_new(struct elf_phdr, interp_elf_ex->ephnum)
+ 	/* allocate dynamic tables */
+-	if( (TL_TABLE = malloc(TL_MAX*2*sizeof(int32_t))) == NULL)
+-		return 0;
+-	if( (SIN_TABLE = malloc(SIN_ENT*4 *sizeof(int32_t *))) == NULL)
+-	{
+-		free(TL_TABLE);
+-		return 0;
+-	}
+-	if( (AMS_TABLE = malloc(AMS_ENT*2 *sizeof(int32_t))) == NULL)
+-	{
+-		free(TL_TABLE);
+-		free(SIN_TABLE);
+-		return 0;
+-	}
+-	if( (VIB_TABLE = malloc(VIB_ENT*2 *sizeof(int32_t))) == NULL)
+-	{
+-		free(TL_TABLE);
+-		free(SIN_TABLE);
+-		free(AMS_TABLE);
+-		return 0;
+-	}
++    if((TL_TABLE = malloc(TL_MAX * 2 * sizeof(int32_t))) == NULL)
++        return 0;
++    if((SIN_TABLE = malloc(SIN_ENT * 4 *sizeof(int32_t *))) == NULL)
++    {
++        free(TL_TABLE);
++        return 0;
++    }
++    if((AMS_TABLE = malloc(AMS_ENT * 2 * sizeof(int32_t))) == NULL)
++    {
++        free(TL_TABLE);
++        free(SIN_TABLE);
++        return 0;
++    }
++    if((VIB_TABLE = malloc(VIB_ENT *2 * sizeof(int32_t))) == NULL)
++    {
++        free(TL_TABLE);
++        free(SIN_TABLE);
++        free(AMS_TABLE);
++        return 0;
++    }
+     ENV_CURVE = g_new(int32_t, 2 * EG_ENT + 1);
+ 	/* make total level table */
+ 	for (t = 0;t < EG_ENT-1 ;t++){
+@@ -696,10 +696,10 @@ static int OPLOpenTable( void )
+ static void OPLCloseTable( void )
+ {
+     g_free(ENV_CURVE);
+-	free(TL_TABLE);
+-	free(SIN_TABLE);
+-	free(AMS_TABLE);
+-	free(VIB_TABLE);
++    free(TL_TABLE);
++    free(SIN_TABLE);
++    free(AMS_TABLE);
++    free(VIB_TABLE);
+ }
  
-         if (!elf_phdata)
-           return ~((abi_ulong)0UL);
-@@ -878,7 +877,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-          * we will be doing the wrong thing.
-          */
-         if (interp_elf_ex->e_phentsize != sizeof(struct elf_phdr)) {
--            free(elf_phdata);
-+            g_free(elf_phdata);
-             return ~((abi_ulong)0UL);
-         }
+ /* CSM Key Control */
+@@ -1082,7 +1082,7 @@ FM_OPL *OPLCreate(int clock, int rate)
+ 	state_size  = sizeof(FM_OPL);
+ 	state_size += sizeof(OPL_CH)*max_ch;
+ 	/* allocate memory block */
+-	ptr = malloc(state_size);
++    ptr = malloc(state_size);
+ 	if(ptr==NULL) return NULL;
+ 	/* clear */
+ 	memset(ptr,0,state_size);
+@@ -1128,7 +1128,7 @@ void OPLDestroy(FM_OPL *OPL)
+ 	}
+ #endif
+ 	OPL_UnLockTable();
+-	free(OPL);
++    free(OPL);
+ }
  
-@@ -891,7 +890,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-         if (retval < 0) {
-                 perror("load_elf_interp");
-                 exit(-1);
--                free (elf_phdata);
-+                g_free(elf_phdata);
-                 return retval;
-         }
- #ifdef BSWAP_NEEDED
-@@ -940,7 +939,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-             if (error == -1) {
-               /* Real error */
-               close(interpreter_fd);
--              free(elf_phdata);
-+              g_free(elf_phdata);
-               return ~((abi_ulong)0UL);
-             }
- 
-@@ -983,7 +982,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-                         PROT_READ|PROT_WRITE|PROT_EXEC,
-                         MAP_FIXED|MAP_PRIVATE|MAP_ANON, -1, 0);
-         }
--        free(elf_phdata);
-+        g_free(elf_phdata);
- 
-         *interp_load_addr = load_addr;
-         return ((abi_ulong) interp_elf_ex->e_entry) + load_addr;
-@@ -1064,24 +1063,24 @@ static void load_symbols(struct elfhdr *hdr, int fd)
- 
-  found:
-     /* Now know where the strtab and symtab are.  Snarf them. */
--    s = malloc(sizeof(*s));
--    syms = malloc(symtab.sh_size);
-+    s = g_try_malloc(sizeof(*s));
-+    syms = g_try_malloc(symtab.sh_size);
-     if (!syms) {
--        free(s);
-+        g_free(s);
-         return;
-     }
--    s->disas_strtab = strings = malloc(strtab.sh_size);
-+    s->disas_strtab = strings = g_malloc(strtab.sh_size);
-     if (!s->disas_strtab) {
--        free(s);
--        free(syms);
-+        g_free(s);
-+        g_free(syms);
-         return;
-     }
- 
-     lseek(fd, symtab.sh_offset, SEEK_SET);
-     if (read(fd, syms, symtab.sh_size) != symtab.sh_size) {
--        free(s);
--        free(syms);
--        free(strings);
-+        g_free(s);
-+        g_free(syms);
-+        g_free(strings);
-         return;
-     }
- 
-@@ -1113,11 +1112,11 @@ static void load_symbols(struct elfhdr *hdr, int fd)
-         that we threw away.  Whether or not this has any effect on the
-         memory allocation depends on the malloc implementation and how
-         many symbols we managed to discard. */
--    new_syms = realloc(syms, nsyms * sizeof(*syms));
-+    new_syms = g_try_realloc(syms, nsyms * sizeof(*syms));
-     if (new_syms == NULL) {
--        free(s);
--        free(syms);
--        free(strings);
-+        g_free(s);
-+        g_free(syms);
-+        g_free(strings);
-         return;
-     }
-     syms = new_syms;
-@@ -1126,9 +1125,9 @@ static void load_symbols(struct elfhdr *hdr, int fd)
- 
-     lseek(fd, strtab.sh_offset, SEEK_SET);
-     if (read(fd, strings, strtab.sh_size) != strtab.sh_size) {
--        free(s);
--        free(syms);
--        free(strings);
-+        g_free(s);
-+        g_free(syms);
-+        g_free(strings);
-         return;
-     }
-     s->disas_num_syms = nsyms;
-@@ -1190,7 +1189,8 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-     }
- 
-     /* Now read in all of the header information */
--    elf_phdata = (struct elf_phdr *)malloc(elf_ex.e_phentsize*elf_ex.e_phnum);
-+    elf_phdata =
-+        (struct elf_phdr *)g_try_malloc(elf_ex.e_phentsizei * elf_ex.e_phnum);
-     if (elf_phdata == NULL) {
-         return -ENOMEM;
-     }
-@@ -1204,7 +1204,7 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-     if (retval < 0) {
-         perror("load_elf_binary");
-         exit(-1);
--        free (elf_phdata);
-+        g_free(elf_phdata);
-         return -errno;
-     }
- 
-@@ -1231,8 +1231,8 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-         if (elf_ppnt->p_type == PT_INTERP) {
-             if ( elf_interpreter != NULL )
-             {
--                free (elf_phdata);
--                free(elf_interpreter);
-+                g_free(elf_phdata);
-+                g_free(elf_interpreter);
-                 close(bprm->fd);
-                 return -EINVAL;
-             }
-@@ -1242,10 +1242,10 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-              * is an a.out format binary
-              */
- 
--            elf_interpreter = (char *)malloc(elf_ppnt->p_filesz);
-+            elf_interpreter = (char *)g_try_malloc(elf_ppnt->p_filesz);
- 
-             if (elf_interpreter == NULL) {
--                free (elf_phdata);
-+                g_free(elf_phdata);
-                 close(bprm->fd);
-                 return -ENOMEM;
-             }
-@@ -1298,8 +1298,8 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-             if (retval < 0) {
-                 perror("load_elf_binary3");
-                 exit(-1);
--                free (elf_phdata);
--                free(elf_interpreter);
-+                g_free(elf_phdata);
-+                g_free(elf_interpreter);
-                 close(bprm->fd);
-                 return retval;
-             }
-@@ -1323,8 +1323,8 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-         }
- 
-         if (!interpreter_type) {
--            free(elf_interpreter);
--            free(elf_phdata);
-+            g_free(elf_interpreter);
-+            g_free(elf_phdata);
-             close(bprm->fd);
-             return -ELIBBAD;
-         }
-@@ -1346,8 +1346,8 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-             }
-         }
-         if (!bprm->p) {
--            free(elf_interpreter);
--            free (elf_phdata);
-+            g_free(elf_interpreter);
-+            g_free(elf_phdata);
-             close(bprm->fd);
-             return -E2BIG;
-         }
-@@ -1486,17 +1486,17 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-         reloc_func_desc = interp_load_addr;
- 
-         close(interpreter_fd);
--        free(elf_interpreter);
-+        g_free(elf_interpreter);
- 
-         if (elf_entry == ~((abi_ulong)0UL)) {
-             printf("Unable to load interpreter\n");
--            free(elf_phdata);
-+            g_free(elf_phdata);
-             exit(-1);
-             return 0;
-         }
-     }
- 
--    free(elf_phdata);
-+    g_free(elf_phdata);
- 
-     if (qemu_log_enabled())
-         load_symbols(&elf_ex, bprm->fd);
+ /* ----------  Option handlers ----------       */
 -- 
 2.25.1
 
