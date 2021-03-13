@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220A8339AB1
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:05:31 +0100 (CET)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF9E339AB6
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 02:07:53 +0100 (CET)
+Received: from localhost ([::1]:55624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKsig-0004e5-1V
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:05:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
+	id 1lKsky-0008Ib-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 20:07:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKsds-000746-Cx
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:32 -0500
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:45053)
+ id 1lKsdt-00077j-RI
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:33 -0500
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:45683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lKsdo-0003PZ-4O
- for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:32 -0500
-Received: by mail-qv1-xf29.google.com with SMTP id by2so5181219qvb.11
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:27 -0800 (PST)
+ id 1lKsdq-0003Qe-8o
+ for qemu-devel@nongnu.org; Fri, 12 Mar 2021 20:00:33 -0500
+Received: by mail-qv1-xf33.google.com with SMTP id t16so5173829qvr.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 17:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rHSsmMGgFTbVP+9XKxjAVaBht/aShtydPxFkUYIpqOM=;
- b=TXnzeBGdkKUNYlTpxXNPt2I5vQLvQe2mSWx1sgYiWl6tWJUQyZv49ag4Rq7hG84n0/
- 6uhFsE5uoUiyFxlU2Dv9mLpTXEmrHYFQpld0eatS2L3aCyXPfGOSgYb6lOCJHSJRBjGC
- yciCF4ASsHn0Jn6JOXWJrU/YOZ2iXPhXL04nikrk8Yh4KA5RzUJ10gUwju1HXK3HcSzz
- LVlIpM5ePK3yU8Oq1HrpkOtYf2Q2n3e2h9yS1pvdSPrp2HA6BabG+e/EmxPx4+bGXszE
- tliBuuovIJtTx0byqk4/ZetGMu85Qupx2PbV8CwerflQgj3AunlG+mFM7uymlQoVPSEU
- pc9Q==
+ bh=pYpOKcKLH+90rQBuRerzfXX/ETf/I2egL2u0VDsDgAk=;
+ b=hfjDgjjaDLXoXCxxzKHpf0bhefHgOCjX7UdQX7LOT7c84WpKqcJrJg3luAo89L2Dzv
+ FRQXYbNPrPbUAcsP0y3uBRPKubG0atXBfgnaEsfnuXq2oPCAoSBAH4+iEr1LMfZz+/JZ
+ WU0ldf1szvQbkry0eJE1Am1iuHLCvltGD2Zpn0zjFLax//EUFLfbitayZsuj9dHr5dyI
+ bzkeROQtIZ7JtJIksS4SiOogFnYfTNhmQomzNM77r4YrgtKTP8tG7mcQ6s4uh6WHvi/I
+ inb+sMtG5SxeMR7C7P7FAgObCZBoCRvUZCiKuwQIaRw9lahsqg3RSLhamjmkoayzCV14
+ ODLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rHSsmMGgFTbVP+9XKxjAVaBht/aShtydPxFkUYIpqOM=;
- b=KDNPWha6P50v3l3Rc8DNhEUCiynUO6p/q9leDeRiI5UC6Gr4ocrwFw51EL0A8+jDYJ
- P7G1PkQlAaBwaDMuqV6VLPifWg62Ses3reb37RDQri7oHLQjrZOVNR8rbdwxfidxJzEs
- psZyx8oasx/jqEt752C0gR9gRFjE2DjtSaqxfoioQxy5bvayj/c0thNfXLpBiVGAsUxw
- m1FLLx/w81Sj6po1XVW6pKX1LLTPZAGDK7kKFyOsuYHYrERgzWMiTNiTF2seYLnZAzRT
- UG6/8WKIme3Av5OadvH2EfX3Lfplz4fckempUFmw/2n+zWIw1/RJ5G6XOqqBSsilzQmb
- yymg==
-X-Gm-Message-State: AOAM531JJGSMQ7xjk1VUOBNXv2nsqsG22Y7kQ932U/gxQGt1aYGreKcM
- WLm/GPjOuSnMveH1TLA4IMpOAhwsb9poBwtJ
-X-Google-Smtp-Source: ABdhPJxaQyZJQRQQcpu8YFEgM7ymGkzzWSjsky0ip5CBBwCPM1wuWUgWszrKBno1FjFbZkFkVmzVFQ==
-X-Received: by 2002:a05:6214:1909:: with SMTP id
- er9mr873722qvb.5.1615597227114; 
- Fri, 12 Mar 2021 17:00:27 -0800 (PST)
+ bh=pYpOKcKLH+90rQBuRerzfXX/ETf/I2egL2u0VDsDgAk=;
+ b=HxAFIQC/GEKC0HzM3TTIu8dTFB+EJORSfLw+QQmbi9zbj5sTOsYqeINI12YL+k1e1N
+ 2C794uC8Nh95j/Q/mpVma4n/r5l3nDTK3eJBBCE/kGj3n/vD/TvEjuXcU7uFsK0YBh4G
+ wKWP0M4Eo6+Ueob1ECwWEjZPwPtyMc8jOyvhVAmTmLedgLoTdPasC1AKiHFlbuBk9MBV
+ G1FSZycnrIvSwuwVJFVR3uYRt7klb1c4NSwvi+WuOH5o0ZGRN0MZabLeSJUWd6kd9X1o
+ p58+VwydfbDMDuM8qxE9chYz3NeO4Ql+Utgbp1P1TrqaD6S2399N2d40lr6XWEAcLqsZ
+ bIHQ==
+X-Gm-Message-State: AOAM533e0h6YUOrIQasx67sBbY/odnzQ7wcvkcDWXa12ej0+gQw4PeD0
+ GeZoCGCcMy8kjoWq+bONyYMp8+CzvNQyMLEY
+X-Google-Smtp-Source: ABdhPJzoBIQEC6gKSUWjMRRr5K3jUT7nbH8b1SGNtqNSphpL7hq5tNWCG/pvXRpqb+/a58c5+s2L6A==
+X-Received: by 2002:a0c:a692:: with SMTP id t18mr898225qva.18.1615597228743;
+ Fri, 12 Mar 2021 17:00:28 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.26
+ by smtp.gmail.com with ESMTPSA id l129sm5602078qkd.76.2021.03.12.17.00.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 17:00:26 -0800 (PST)
+ Fri, 12 Mar 2021 17:00:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/15] target/ppc: Retain hflags_nmsr only for migration
-Date: Fri, 12 Mar 2021 19:00:08 -0600
-Message-Id: <20210313010018.819153-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 06/15] target/ppc: Fix comment for MSR_FE{0,1}
+Date: Fri, 12 Mar 2021 19:00:09 -0600
+Message-Id: <20210313010018.819153-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210313010018.819153-1-richard.henderson@linaro.org>
 References: <20210313010018.819153-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,76 +87,37 @@ Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have eliminated all normal uses of hflags_nmsr.  We need
-not even compute it except when we want to migrate.  Rename
-the field to emphasize this.
+As per hreg_compute_hflags:
 
-Remove the fixme comment for migrating access_type.  This value
-is only ever used with the current executing instruction, and
-is never live when the cpu is halted for migration.
+  We 'forget' FE0 & FE1: we'll never generate imprecise exceptions
+
+remove the hflags marker from the respective comments.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h         | 4 ++--
- target/ppc/helper_regs.c | 2 --
- target/ppc/machine.c     | 9 ++++++---
- 3 files changed, 8 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 061d2eed1b..79c4033a42 100644
+index 79c4033a42..fd13489dce 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1105,8 +1105,8 @@ struct CPUPPCState {
- #endif
- 
-     /* These resources are used only in QEMU core */
--    target_ulong hflags;      /* hflags is MSR & HFLAGS_MASK */
--    target_ulong hflags_nmsr; /* specific hflags, not coming from MSR */
-+    target_ulong hflags;
-+    target_ulong hflags_compat_nmsr; /* for migration compatibility */
-     int immu_idx;     /* precomputed MMU index to speed up insn accesses */
-     int dmmu_idx;     /* precomputed MMU index to speed up data accesses */
- 
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 95b9aca61f..a87e354ca2 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -104,8 +104,6 @@ void hreg_compute_hflags(CPUPPCState *env)
-          */
-         uint32_t le = extract32(env->spr[SPR_HID0], 3, 1);
-         env->hflags |= le << MSR_LE;
--        /* Retain for backward compatibility with migration. */
--        env->hflags_nmsr = le << MSR_LE;
-     }
- }
- 
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index f6eeda9642..1f7a353c78 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -310,6 +310,10 @@ static int cpu_pre_save(void *opaque)
-         }
-     }
- 
-+    /* Retain migration compatibility for pre 6.0 for 601 machines. */
-+    env->hflags_compat_nmsr = (env->flags & POWERPC_FLAG_HID0_LE
-+                               ? env->hflags & MSR_LE : 0);
-+
-     return 0;
- }
- 
-@@ -829,9 +833,8 @@ const VMStateDescription vmstate_ppc_cpu = {
-         /* Supervisor mode architected state */
-         VMSTATE_UINTTL(env.msr, PowerPCCPU),
- 
--        /* Internal state */
--        VMSTATE_UINTTL(env.hflags_nmsr, PowerPCCPU),
--        /* FIXME: access_type? */
-+        /* Backward compatible internal state */
-+        VMSTATE_UINTTL(env.hflags_compat_nmsr, PowerPCCPU),
- 
-         /* Sanity checking */
-         VMSTATE_UINTTL_TEST(mig_msr_mask, PowerPCCPU, cpu_pre_2_8_migration),
+@@ -322,13 +322,13 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_PR   14 /* Problem state                                  hflags */
+ #define MSR_FP   13 /* Floating point available                       hflags */
+ #define MSR_ME   12 /* Machine check interrupt enable                        */
+-#define MSR_FE0  11 /* Floating point exception mode 0                hflags */
++#define MSR_FE0  11 /* Floating point exception mode 0                       */
+ #define MSR_SE   10 /* Single-step trace enable                     x hflags */
+ #define MSR_DWE  10 /* Debug wait enable on 405                     x        */
+ #define MSR_UBLE 10 /* User BTB lock enable on e500                 x        */
+ #define MSR_BE   9  /* Branch trace enable                          x hflags */
+ #define MSR_DE   9  /* Debug interrupts enable on embedded PowerPC  x        */
+-#define MSR_FE1  8  /* Floating point exception mode 1                hflags */
++#define MSR_FE1  8  /* Floating point exception mode 1                       */
+ #define MSR_AL   7  /* AL bit on POWER                                       */
+ #define MSR_EP   6  /* Exception prefix on 601                               */
+ #define MSR_IR   5  /* Instruction relocate                                  */
 -- 
 2.25.1
 
