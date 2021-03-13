@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C3B339FA4
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:52:31 +0100 (CET)
-Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0B3339FCD
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 19:17:14 +0100 (CET)
+Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL8RC-0005zU-Ee
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:52:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
+	id 1lL8p7-00046J-6l
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 13:17:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL8Q4-0005Sg-J5
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:51:20 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51868)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lL8nc-0003eD-2W
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 13:15:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL8Q3-00014q-AY
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:51:20 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id l19so5626866wmh.1
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:51:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mKbspbZZBFcmWj0knqY/0xMWRB8kyBX83+2hxs+nfgg=;
- b=US/Rhj9+VspcL5OWKEmzsyRKIdDFDS8h+KyHv5r4lbevFub/8+U1JtfQZrk89F9BQq
- mHXgI0zynbypvKTl6GGIsVnsIxfkycoos858EVdAPX6yZC5K21jhVPOXRAdfvbTq0EcA
- 74A6qY77aIHMdqJUBeZACb+edzlfl7b0A9MuXZQhoIeW5YUkNplw2FPKMQn9iGQeNvJz
- iGNgQZ4ehpzerHP6C4r4kQBN4DMCorz7TfbanGXFi7j/JWEQTzMehueUXyQ5slwGkZjR
- cauJRz6q6ByGCsSWgxABD2zpUrU6dxVsFmJs4S1VlSipgWrNy6CohcorOmE371IFOkV8
- fjoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mKbspbZZBFcmWj0knqY/0xMWRB8kyBX83+2hxs+nfgg=;
- b=Y2jhPE4Wt/gFNmYl+8ochEXioZIFMnfkUZx3U3DzBoo46R4Jy6TL5pnk0Vhjyvkj6h
- TjeZzTmTuU9n/vQl5nhyAWxcUO0CvY7EK86O+Tv5IEt0y9ao2uIDH+md9jky6VBUEeZ8
- /UGP4s4DrK7zgVfSJ4eK9q1g5BywHrwcAKfgDei3PcybbE5PIt4IAM/Poyhsw1kIfJ1u
- wwde85J2jfSQ95z76/XksPn3DFK8uaPjbGKTyjHrE5SrFnuBPHNNB/2ovBlB/D8fXep9
- RRpJf9SxOfjeY+rfKHVBDsadU4QM7SAExUkosrp2vOwUBPEgb9DxZg7Jh2cYApvHE3B4
- uSRg==
-X-Gm-Message-State: AOAM530i2pEYWPgsuOKHrtmk7ZOVP9W48owdr/P8ahwTUykHR/iCspnp
- 7AF1kEn0YIhuEEBsVRHyT3c=
-X-Google-Smtp-Source: ABdhPJzoPAPh2ZmLskQPNH581nMX5CvLpqiLynk7lHuXqTZIVlsPz8ePtfrD5CsyJteh7xLeapHsJA==
-X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr18663699wmk.101.1615657877834; 
- Sat, 13 Mar 2021 09:51:17 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id k4sm17059294wrd.9.2021.03.13.09.51.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 09:51:17 -0800 (PST)
-Subject: Re: [PATCH 24/26] util/osdep: Add qemu_mprotect_rw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210311002156.253711-1-richard.henderson@linaro.org>
- <20210311002156.253711-25-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <24bdca41-e6f1-d552-556a-376b7afac323@amsat.org>
-Date: Sat, 13 Mar 2021 18:51:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lL8nZ-0004AT-4C
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 13:15:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lL8nX-0000rt-9b
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 18:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3B2852E815D
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 18:15:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210311002156.253711-25-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 13 Mar 2021 18:06:49 -0000
+From: Chin <1846816@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aix ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chin21 gkurz leohori philmd th-huth
+X-Launchpad-Bug-Reporter: Leonardo (leohori)
+X-Launchpad-Bug-Modifier: Chin (chin21)
+References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161565880929.15147.4241331100299426430.malone@gac.canonical.com>
+Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
+ Interrupt in Kernel""
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: bc3cffaaeda15018f2cc15c2d33027b4d6b00dcd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,18 +71,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 1:21 AM, Richard Henderson wrote:
-> For --enable-tcg-interpreter on Windows, we will need this.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/qemu/osdep.h | 1 +
->  util/osdep.c         | 9 +++++++++
->  2 files changed, 10 insertions(+)
+I saw comments about support for virtio devices on AIX 7.2, was it not avai=
+lable on AIX 7.1?
+With AIX 7.1 also, I am getting similar issue as faced by other users with =
+AIX 6.1.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+qemu-system-ppc64 -cpu POWER8 -machine pseries -m 2048 -d unimp -serial std=
+io -drive file=3Ddisk.img,if=3Dnone,id=3Ddrive-virtio-disk0 -device virtio-=
+scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-disk0 -cdrom AIX_7.=
+1.iso -prom-env "boot-command=3Dboot cdrom:"
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cfpc=
+=3Dworkaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-sbbc=
+=3Dworkaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ibs=
+=3Dworkaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ccf-=
+assist=3Don
+VNC server running on 127.0.0.1:5900
+
+
+SLOF **********************************************************************
+QEMU Starting
+ Build Date =3D Jul 17 2020 11:15:24
+ FW Version =3D git-e18ddad8516ff2cf
+ Press "s" to enter Open Firmware.
+
+Populating /vdevice methods
+Populating /vdevice/vty@71000000
+Populating /vdevice/nvram@71000001
+Populating /vdevice/l-lan@71000002
+Populating /vdevice/v-scsi@71000003
+       SCSI: Looking for devices
+          8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+Populating /pci@800000020000000
+                     00 0000 (D) : 1234 1111    qemu vga
+                     00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
+                     00 1000 (D) : 1af4 1004    virtio [ scsi ]
+Populating /pci@800000020000000/scsi@2
+       SCSI: Looking for devices
+          100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+Installing QEMU fb
+
+
+Scanning USB =
+
+  XHCI: Initializing
+    USB Keyboard =
+
+    USB mouse =
+
+No console specified using screen & keyboard
+     =
+
+  Welcome to Open Firmware
+
+  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  This program and the accompanying materials are made available
+  under the terms of the BSD License available at
+  http://www.opensource.org/licenses/bsd-license.php
+
+
+Trying to load:  from: /vdevice/v-scsi@71000003/disk@8200000000000000: ... =
+  Successfully loaded
+
+AIX =
+
+    StarUnimplemented SPAPR hcall 0x00000000000000ec
+
+AIX Version 7.1
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Unimplemented SPAPR hcall 0x00000000000002b8
+Illegal Trap Instruction Interrupt in Kernel
+05861AAC      tweqi    r0,0                r0=3D0
+KDB(0)>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846816
+
+Title:
+  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
+  Kernel""
+
+Status in QEMU:
+  New
+
+Bug description:
+  # ls -ltr
+  total 8750584
+  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
+  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
+  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
+  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
+
+  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
+-serial mon:stdio \
+  > -drive file=3D/qemu/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
+disk0 \
+  > -cdrom /qemu/AIX.vol1.iso \
+  > -prom-env boot-command=3D'boot cdrom: -s verbose'
+
+  VNC server running on ::1:5900
+  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
+s=3Dworkaround
+
+  SLOF ********************************************************************=
+**
+  QEMU Starting
+  =C2=A0Build Date =3D Jul  3 2019 12:26:14
+  =C2=A0FW Version =3D git-ba1ab360eebe6338
+  =C2=A0Press "s" to enter Open Firmware.
+
+  Populating /vdevice methods
+  Populating /vdevice/vty@71000000
+  Populating /vdevice/nvram@71000001
+  Populating /vdevice/l-lan@71000002
+  Populating /vdevice/v-scsi@71000003
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A08200000000000=
+000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+  Populating /pci@800000020000000
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0000 (D) : 1234 11=
+11    qemu vga
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0800 (D) : 1033 01=
+94    serial bus [ usb-xhci ]
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 1000 (D) : 1af4 10=
+04    virtio [ scsi ]
+  Populating /pci@800000020000000/scsi@2
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01000000000000=
+00 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+  Installing QEMU fb
+
+  Scanning USB
+  =C2=A0=C2=A0XHCI: Initializing
+  =C2=A0=C2=A0=C2=A0=C2=A0USB Keyboard
+  =C2=A0=C2=A0=C2=A0=C2=A0USB mouse
+  No console specified using screen & keyboard
+
+  =C2=A0=C2=A0Welcome to Open Firmware
+
+  =C2=A0=C2=A0Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  =C2=A0=C2=A0This program and the accompanying materials are made available
+  =C2=A0=C2=A0under the terms of the BSD License available at
+  =C2=A0=C2=A0http://www.opensource.org/licenses/bsd-license.php
+
+  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
+000000: ...   Successfully loaded
+  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+  AIX
+  StarLED{814}
+
+  AIX Version 6.1
+  exec(/etc/init){1,0}
+
+  INIT: EXECUTING /sbin/rc.boot 1
+  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
+  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
+  + PHASE=3D1
+  + + bootinfo -p
+  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
+  PLATFORM=3Dchrp
+  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
+  + [ 1 -eq 1 ]
+  + 1> /usr/lib/libc.a
+  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
+  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
+  + chramfs -t
+  exec(/usr/sbin/chramfs,-t){1179688,1114146}
+  + init -c unlink /usr/sbin/chramfs
+  + 1> /dev/null
+  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
+  + + bootinfo -t
+  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
+  BOOTYPE=3D3
+  + [ 0 -ne 0 ]
+  + [ -z 3 ]
+  + unset pdev_to_ldev undolt native_netboot_cfg
+  + unset disknet_odm_init config_ATM
+  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
+  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
+  + cfgmgr -f -v
+  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
+  cfgmgr is running in phase 1
+  ----------------
+  Time: 0 LEDS: 0x538
+  Invoking top level program -- "/etc/methods/defsys"
+  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
+  exec(/etc/methods/defsys){1245222,1179696}
+  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
+310760,1245222}
+  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
+222}
+  Time: 0 LEDS: 0x539
+  Return code =3D 0
+  ***** stdout *****
+  sys0
+
+  *** no stderr ****
+  ----------------
+  Attempting to configure device 'sys0'
+  Time: 0 LEDS: 0x811
+  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
+  Number of running methods: 1
+  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
+  LED{A20}
+  Illegal Trap Instruction Interrupt in Kernel
+  04151A74      tweqi    r0,0                r0=3D0
+  KDB(0)>
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
