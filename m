@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697D2339F5D
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:10:58 +0100 (CET)
-Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC3339F67
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:14:22 +0100 (CET)
+Received: from localhost ([::1]:60454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7mz-00031g-EY
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:10:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
+	id 1lL7q8-0006IM-D5
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:14:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Xq-0005PG-Jq
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:19 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35639)
+ id 1lL7Xw-0005UR-DL
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:24 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Xn-0000zl-Rt
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:17 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- c76-20020a1c9a4f0000b029010c94499aedso17622889wme.0
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:15 -0800 (PST)
+ id 1lL7Xu-00016T-5x
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:23 -0500
+Received: by mail-wr1-x433.google.com with SMTP id v11so3453318wro.7
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hihCC5FBsAyENbINhxZtkFSu+BW/8DygZUmLRAPJkU4=;
- b=MwwtSuA44Gk9F22pvsonQrAWXMUSDXWXxIatWgWwj5F5fUTO8SuYm+QUU1LMDXdIDl
- /7umfknISv4pEtqSboCws68+Gg3kozxb3Lwacp4YQg0HSahbuoMLqJV6vG/6vu+rBqd9
- IwikClYXBO1PJsT3Jx8D+hdniZsa8jCxgDaSAgPJtfHJp8jtVyDJucPCdPT1djJAu61A
- NZvzNGEHzS9ffSglxTbgnk6SjBwLKodDzB5oyLG49bVnC7bxWYBrChn9fnh+O67Jth6x
- fksx5iI2h6/SYNLbhULlQz8h2yJLAlF+6aqlpAWjBw0ICzSnd2u7fyGhSMnmRSDGuNxi
- DBbQ==
+ bh=p8kHAMKTSMM1CGT+akUwZjEeXDL24OQm1KW3vQNoEJk=;
+ b=WQ2wVFvhCDwMFRKCNYHjor7KH/1RubNYJ4McUmMA9KwlRJQb6mCuFwsQDKV4AEmhPP
+ XhsSlzpzP30ALgCNxD8SCO1NLK9TuIWm8oqxV2b0t0KfBhkE8Ae1+ieY1DfQMX+Q18t+
+ MOjHAyMtA54Ys68MxGHppQTJ2HK02uwTpWg4d13HowKOmOivR4/NTLhZZT697wHaKpNt
+ wh2rGb7ADYzpMNZ5KUvgFM7f/F0F0EHTuZ8QPy3AOLMNf4h3UvEgwmqsr1lZrtiiIupj
+ Ak3QGjxxreeL3+h6kUcoduLDTEa+z0nAjl7TUI6b2jgn10czkIEzjN5vqRUMGZUWswUo
+ 6kJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hihCC5FBsAyENbINhxZtkFSu+BW/8DygZUmLRAPJkU4=;
- b=XoSSCGm365PUNNs+RTh/sTRLWx+mMKtQO/3pONhpCOn5LkenOqxkWtUc2VHCS8SEtF
- MasOO/fZNPQaNVCYG6HLU0BF3Sojk3goVSjcR0Oq9HaUOvBwkIdN23ZEqWU5cuNmBjq4
- GiMGKX5U+6R4XqCrE6FOJ3qY86YrNgxzE6QuVDWMZecaq+iT0rFUAK5pVbOa6rOMOT9d
- ZzWXMO2EbrcHNqLc02Nb8cGGAV9zZj8LtkqQC+OtMQ1kJJrBBNfSWs/0qDjlVT0LGy6H
- VG7Grr0/Q7Y48/GnwOBgS2rlchejGs/UDUyVl+KPdisF50kTGbgTp7sZHuwW13qOHLhu
- O0Jw==
-X-Gm-Message-State: AOAM530ChGgJ2HnPeqT7b7eOjFNDEKhBRETSFf0InFEmieMGxDTC8QL0
- WwnVPG4saqPSN3AOizkbVnvd9qwflPz8UA==
-X-Google-Smtp-Source: ABdhPJw8ienjOj3cpo0Loht0ydfjcMucsbTNVXLRZdIofRRGl+hZ3hSykgQyWU75T+Txp4F93jKF/g==
-X-Received: by 2002:a1c:a74b:: with SMTP id q72mr18244373wme.158.1615654514380; 
- Sat, 13 Mar 2021 08:55:14 -0800 (PST)
+ bh=p8kHAMKTSMM1CGT+akUwZjEeXDL24OQm1KW3vQNoEJk=;
+ b=ADqJNMv2taJo7xzCR+YmGrTI9NUmxjwjhKoMYwFZhITfLUwtzHjT1FCmGm5ol7axhT
+ +6OoH2XLzhw2yc6PrulRr7WPmzb9RP44O08oxsl3JRZ9aueinZcuzSQtH4+8v6TKH1Lr
+ 5PV0oulTtryFwVjMwdbZy0It2sH6tryM7kZRXn9Vcs4FeZl5O3yKbTk9oMTWE2GRXTbB
+ RAGIIUw7lkGJusXowJK/4wzI6568H6sklZvwWTeFZ9jjaFaVwqBndvhl1ksN8H5vmXS0
+ 3P50LqJ2X/GVB/7iMeIL81TQOPgz1obeD86Gt0L7CRYnhDH4sbuPUYN8hqxBo1BV7N1U
+ Hf1g==
+X-Gm-Message-State: AOAM530r3UWwh4ev7yahxAib0Lb+k9vrs70ltpfqkfqJ88Gc3iKCYks2
+ diRADBC9BY08i7vbZm/FVIeE3sOnTrpSpA==
+X-Google-Smtp-Source: ABdhPJxuTQ4QIY8gqCbYm73GI+f85wgxSjiWkfQ7e2YJ/wKkNovOrQK/lkXNQtmcDsnIbdUxLO4eEA==
+X-Received: by 2002:a5d:4ac4:: with SMTP id y4mr19391582wrs.86.1615654519250; 
+ Sat, 13 Mar 2021 08:55:19 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id z2sm12707485wrv.47.2021.03.13.08.55.13
+ by smtp.gmail.com with ESMTPSA id n66sm6895423wmn.25.2021.03.13.08.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:55:14 -0800 (PST)
+ Sat, 13 Mar 2021 08:55:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] hw/gpio/avr_gpio: Add 'id' field in AVRGPIOState
-Date: Sat, 13 Mar 2021 17:54:39 +0100
-Message-Id: <20210313165445.2113938-6-f4bug@amsat.org>
+Subject: [PATCH 06/11] hw/gpio/avr_gpio: Simplify avr_gpio_write_port using
+ extract32()
+Date: Sat, 13 Mar 2021 17:54:40 +0100
+Message-Id: <20210313165445.2113938-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
 References: <20210313165445.2113938-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,80 +92,39 @@ Cc: Thomas Huth <huth@tuxfamily.org>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AVR MCU have various GPIO ports. Add an 'id' property to distinct
-all instances.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/gpio/avr_gpio.h |  1 +
- hw/avr/atmega.c            |  1 +
- hw/gpio/avr_gpio.c         | 14 ++++++++++++--
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ hw/gpio/avr_gpio.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/gpio/avr_gpio.h b/include/hw/gpio/avr_gpio.h
-index 498a7275f05..e982f627ea3 100644
---- a/include/hw/gpio/avr_gpio.h
-+++ b/include/hw/gpio/avr_gpio.h
-@@ -48,6 +48,7 @@ struct AVRGPIOState {
-     /* PORTx data changed IRQs */
-     qemu_irq out[8u];
- 
-+    uint8_t id;
- };
- 
- #endif /* AVR_GPIO_H */
-diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-index 19c3122189f..a19e3035022 100644
---- a/hw/avr/atmega.c
-+++ b/hw/avr/atmega.c
-@@ -285,6 +285,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
-         devname = g_strdup_printf("atmega-gpio-%c", 'a' + (char)i);
-         object_initialize_child(OBJECT(dev), devname, &s->gpio[i],
-                                 TYPE_AVR_GPIO);
-+        qdev_prop_set_uint8(DEVICE(&s->gpio[i]), "id", i);
-         sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
-                         OFFSET_DATA + mc->dev[idx].addr);
 diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
-index da34009daea..3db55bfa77f 100644
+index 3db55bfa77f..e4c7122e62c 100644
 --- a/hw/gpio/avr_gpio.c
 +++ b/hw/gpio/avr_gpio.c
-@@ -113,6 +113,11 @@ static const VMStateDescription avr_gpio_vmstate = {
-     },
- };
- 
-+static Property avr_gpio_properties[] = {
-+    DEFINE_PROP_UINT8("id", AVRGPIOState, id, UINT8_MAX),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void avr_gpio_init(Object *obj)
+@@ -39,20 +39,15 @@ static void avr_gpio_reset(DeviceState *dev)
+ static void avr_gpio_write_port(AVRGPIOState *s, uint64_t value)
  {
-     AVRGPIOState *s = AVR_GPIO(obj);
-@@ -123,9 +128,13 @@ static void avr_gpio_init(Object *obj)
+     uint8_t pin;
+-    uint8_t cur_port_val = s->reg.port;
+-    uint8_t cur_ddr_val = s->reg.ddr;
+ 
+     for (pin = 0u; pin < AVR_GPIO_COUNT ; pin++) {
+-        uint8_t cur_port_pin_val = cur_port_val & 0x01u;
+-        uint8_t cur_ddr_pin_val = cur_ddr_val & 0x01u;
+-        uint8_t new_port_pin_val = value & 0x01u;
++        uint8_t cur_port_pin_val = extract32(s->reg.port, pin, 1);
++        uint8_t cur_ddr_pin_val = extract32(s->reg.ddr, pin, 1);
++        uint8_t new_port_pin_val = extract32(value, pin, 1);
+ 
+         if (cur_ddr_pin_val && (cur_port_pin_val != new_port_pin_val)) {
+             qemu_set_irq(s->out[pin], new_port_pin_val);
+         }
+-        cur_port_val >>= 1u;
+-        cur_ddr_val >>= 1u;
+-        value >>= 1u;
+     }
+     s->reg.port = value & s->reg.ddr;
  }
- static void avr_gpio_realize(DeviceState *dev, Error **errp)
- {
--    /* Do nothing currently */
--}
-+    AVRGPIOState *s = AVR_GPIO(dev);
- 
-+    if (s->id == UINT8_MAX) {
-+        error_setg(errp, "property 'id' not set");
-+        return;
-+    }
-+}
- 
- static void avr_gpio_class_init(ObjectClass *klass, void *data)
- {
-@@ -134,6 +143,7 @@ static void avr_gpio_class_init(ObjectClass *klass, void *data)
-     dc->reset = avr_gpio_reset;
-     dc->realize = avr_gpio_realize;
-     dc->vmsd = &avr_gpio_vmstate;
-+    device_class_set_props(dc, avr_gpio_properties);
- }
- 
- static const TypeInfo avr_gpio_info = {
 -- 
 2.26.2
 
