@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286AC33A0BE
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:52:06 +0100 (CET)
-Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E16433A0BF
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:52:17 +0100 (CET)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLAIv-0000ZP-35
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:52:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1lLAJ6-0000wx-F4
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAFc-0005kY-D8
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:40 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40022)
+ id 1lLAFg-0005uL-Va
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:44 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAFa-0006nB-Ut
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:40 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id l11so6618910wrp.7
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:48:38 -0800 (PST)
+ id 1lLAFf-0006oh-Hf
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:44 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id g20so5761597wmk.3
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:48:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NdWkTYFq4CcNFJEVWCc6s/+3/xKpysVoHg6G3a/oBtM=;
- b=dFvUMEYf1j1/Wrw/e6nUs3LozpmXPldk8DDVFe93AoggoMniod8Z1lopJ87uSQShxv
- UnQtExh650xd7SEiPX1Cn3AKRFkBR0lBTxPdZfnFbh0onty6v99Afm6Izz9yuTBMnFn+
- KiszKVqoNYSg5qPsiCDSfgPI8HOSBCH0iOefSHGx+rX0oja10Jgz0jRMeqAqGAYDmMte
- TKADyjfjTlZqxqwATQUHNfT8Hrc//vPFnXODKFNqfizeNFse5HMObVWE2Z8+gQbBe2p7
- uoehjXx486IdFM3PFsHevtelwV5UM72vN2fB23CxGPJ/p5xyQUGmhQwcvNSnKPzxkjQh
- k7+A==
+ bh=1fsEr4CTL/3Iyvv1LF8p7dPgqU+b0Kxc61FnxzTyzZo=;
+ b=EZ7GmQY7U/HQ9eDiGIVMIbZLPERrpkhPBckiZsoThCoKhEm66iPx/8mYPqJdWdU43K
+ voDl0EMLElunDWoEiIOA8ulGfqadf8uJdd6d+Ze1+CugdwveYs37Iw+mlOoqdQG7l35U
+ K9PFFMrZLJnc1j0CCd7TXpljcgMW9XZViDt1u6ufMEkcjPSjqU16v1JjQb62Dzdg/bVx
+ QMa0IzdtsEds+dyrbsBYQHuUZkQWfT2r7cIo8Ri8o7ymuik7o4/OWa694mHGAOqlPhXu
+ HNiZqVUFDdj8N2uCuRjlpanZ6hZ3LO/IhbH2xuU5O/HEqZYHa/c1puabPHMaeEc2BVTC
+ ENyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NdWkTYFq4CcNFJEVWCc6s/+3/xKpysVoHg6G3a/oBtM=;
- b=tBLVOvDhvZkalXy9n5OOlMs0nw3QbQn3BdGhPfRFevIsnUCIZdnYLTlfCxfx+LID6V
- maCzqa9IAWzX6Wjy8slaC/68YM2bUKHfsJJ0WlwgZN5TsmRLVAMCUg94WTJmhPuSSUWh
- /UuRHgQBcvoIk8jPf67/8HAqTdALnEA+khHfi2WzCOBgcyFPQfk5ebOrgvAEu9TjXs7I
- l5nipTwbp9YHUJ9TSulPeV1smFcTbNQ50DAySHxHOTB+tyDfRQu3CSmga2wz+ji6yq4V
- lGPlxhNtBnbPRzX2yQGQtOMI5NCSLdydxJr/vQolJ1o2NLLzkcwdP0n4aF+MicwSkjri
- hY4g==
-X-Gm-Message-State: AOAM532c3n8dVH3EkLGZJMPlKOVkYLWOXzIlv7cVJ6hWJPIDnLGLm8wV
- sFhb/kCZNEQg93RCtkMXJOCB7Q4TJG+e0g==
-X-Google-Smtp-Source: ABdhPJxQAeIvP1o92Kti5erMo9ukbM96BO1lIRiTQLdJLcWjWuYzb//x0xKRFFI6cE+zyrLaubzSCQ==
-X-Received: by 2002:a5d:5256:: with SMTP id k22mr20684883wrc.162.1615664916929; 
- Sat, 13 Mar 2021 11:48:36 -0800 (PST)
+ bh=1fsEr4CTL/3Iyvv1LF8p7dPgqU+b0Kxc61FnxzTyzZo=;
+ b=eXIEZSk9g/EDQIc0xr5YCH2bU/mbbWEjiJGjXfSy9bELLM940TF8S7bJkLRSDbqIzM
+ koYVeoEkUsjFRfC04SbmgcGAHQUFOOUYKR66zQVDGn7fa8nHnDrsydICANp3wwMnIYrI
+ j/oMXT3HyFGYMDlgqfcCJhxhnOInSzBGiF9hUOzCGCWYppADMlzLG3aeU1pX1Ix4QeMH
+ dnVryL5+1Ny06C5QdwwqiPSsLCkwYBX2HWdlXWfYes8pKIKKRm8l/6o95a/hapz1gvqe
+ ZzDsr+TkgXi7DvNSCT4qKX0eYL73boTY1r1VUaD0+BQTWGjGzCEklE8cwpcHW/yhw4gl
+ kIxA==
+X-Gm-Message-State: AOAM533SbIJ+LWoSRwUje8r9oQqOWypmTd+qK3KFZXoyUY5lzisdsLit
+ MxRAD0pfagTXAAJ67n00lUHojv+JEEQiUw==
+X-Google-Smtp-Source: ABdhPJyyaxqxk3q9+A1Yfht+mO2oHYqMOYMtAExibwW7qG3mxMLuO4IiNgcUHMtehKJVZIsDuzvZnQ==
+X-Received: by 2002:a05:600c:4f4f:: with SMTP id
+ m15mr18877187wmq.29.1615664921904; 
+ Sat, 13 Mar 2021 11:48:41 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v18sm14511057wrf.41.2021.03.13.11.48.35
+ by smtp.gmail.com with ESMTPSA id k4sm17401976wrd.9.2021.03.13.11.48.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 11:48:36 -0800 (PST)
+ Sat, 13 Mar 2021 11:48:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/27] hw/mips/gt64xxx: Initialize ISD I/O memory region in
- DeviceRealize()
-Date: Sat, 13 Mar 2021 20:48:03 +0100
-Message-Id: <20210313194829.2193621-2-f4bug@amsat.org>
+Subject: [PULL 02/27] hw/mips/gt64xxx: Simplify ISD MemoryRegion read/write
+ handlers
+Date: Sat, 13 Mar 2021 20:48:04 +0100
+Message-Id: <20210313194829.2193621-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313194829.2193621-1-f4bug@amsat.org>
 References: <20210313194829.2193621-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,54 +93,61 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ISD I/O region belongs to the TYPE_GT64120_PCI_HOST_BRIDGE,
-so initialize it before it is realized, not after.
-Rename the region as 'gt64120-isd' so it is clearer to realize
-it belongs to the GT64120 in the memory tree view.
+The ISD MemoryRegion is implemented for 32-bit accesses.
+Simplify it by setting the MemoryRegionOps::impl min/max
+access size fields.
+
+Since the region is registered with a size of 0x1000 bytes,
+we can remove the hwaddr mask.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <20210309142630.728014-2-f4bug@amsat.org>
+Message-Id: <20210309142630.728014-3-f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/mips/gt64xxx_pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 588e6f99301..6eb73e77057 100644
+index 6eb73e77057..99b1690af19 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -1196,6 +1196,14 @@ static void gt64120_reset(DeviceState *dev)
-     gt64120_pci_mapping(s);
- }
- 
-+static void gt64120_realize(DeviceState *dev, Error **errp)
-+{
-+    GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-+
-+    memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
-+                          "gt64120-isd", 0x1000);
-+}
-+
- PCIBus *gt64120_register(qemu_irq *pic)
+@@ -385,13 +385,12 @@ static void gt64120_writel(void *opaque, hwaddr addr,
  {
-     GT64120State *d;
-@@ -1214,8 +1222,6 @@ PCIBus *gt64120_register(qemu_irq *pic)
-                                      get_system_io(),
-                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
--                          "isd-mem", 0x1000);
+     GT64120State *s = opaque;
+     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+-    uint32_t saddr;
++    uint32_t saddr = addr >> 2;
  
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-     return phb->bus;
-@@ -1270,6 +1276,7 @@ static void gt64120_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
+     if (!(s->regs[GT_CPU] & 0x00001000)) {
+         val = bswap32(val);
+     }
  
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->realize = gt64120_realize;
-     dc->reset = gt64120_reset;
-     dc->vmsd = &vmstate_gt64120;
- }
+-    saddr = (addr & 0xfff) >> 2;
+     switch (saddr) {
+ 
+     /* CPU Configuration */
+@@ -695,9 +694,8 @@ static uint64_t gt64120_readl(void *opaque,
+     GT64120State *s = opaque;
+     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+     uint32_t val;
+-    uint32_t saddr;
++    uint32_t saddr = addr >> 2;
+ 
+-    saddr = (addr & 0xfff) >> 2;
+     switch (saddr) {
+ 
+     /* CPU Configuration */
+@@ -976,6 +974,10 @@ static const MemoryRegionOps isd_mem_ops = {
+     .read = gt64120_readl,
+     .write = gt64120_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
+ };
+ 
+ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
 -- 
 2.26.2
 
