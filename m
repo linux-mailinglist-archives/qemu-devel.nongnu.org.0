@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19D4339E6E
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:07:44 +0100 (CET)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFD5339E6F
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:10:22 +0100 (CET)
+Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL4vf-0004zv-PJ
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:07:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39266)
+	id 1lL4yD-0006SH-IQ
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:10:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL4uM-0003vH-Nc
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:06:22 -0500
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:39142)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lL4wU-0005wa-IY
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:08:34 -0500
+Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:41713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL4uK-0004R5-SU
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:06:22 -0500
-Received: by mail-ot1-f52.google.com with SMTP id x28so4931258otr.6
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:06:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lL4wS-0005tR-TA
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:08:34 -0500
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ q127-20020a4a33850000b02901b646aa81b1so2269883ooq.8
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:08:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kx/yonemCADf09MVKMZr3K3FryTY+iSh7taa412Ccjc=;
+ b=UDlr8ebJWD78ODIV7ixUbIsdjzZypdtL67iDAdXEZNyPKAkRb0xXCuYMM6bxfG/E75
+ 3AGh8uXmeK3X0SgZsxZwSELPKzLxGMgEVhyWRSkymCNBm3e03Do/HlU8x4qYp43yqVtH
+ +uzIFu997Csx+CC0IDzMkM+o1SnZLr6r30Rddl3sgCzKB7VVxp9WshJ74dP2hy0XGwIx
+ feq4lt2IRIUIi1gJGMryp00srCnNA4eFQcS1vTOJ8XXuo8GKNSFW0QmJ3KUkX8v5GwP2
+ mvRYGfZOJKNAUcSpSNEgBcU7fTR1229OOUTIvKlMlIScPKuEDKDiG239qpDo+bfcvCYS
+ 4jSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QPC0oMTcmAg0FWxQRfVCkhe5QaYBzPEMMlsqCKoOPmw=;
- b=s+/PiEMAx1S8gosPIQOuwF15aVjPQJjljIQjJiCQgmTVpBsWW+8WAzfQLNqVy3FzmT
- Qsrue2GP6bEXms8PIlhCNcKhIAXs/Wfeym30lYSRtYakp8irPcS95lmNkhGb5Yv3i05a
- Dadt7ubQRwN75Ipwqw9ITAMZCYtQFt6SYs+hUX3KHOwehKIe0Zs79Ad86WVfI9FT282V
- bya+6qj/RHM2RhbpW2q5MBrFY576I4FzezDVeTc5jgUw/OHv6kBohAzH8Qrz3LlU4doR
- u7q6LXUI7Nd18JKZbDZpD5Q01AzxLDkHBfZbyfvl9RLZ28nS0hmHve9YRheBygaIrzOA
- ltig==
-X-Gm-Message-State: AOAM533skQtIIQUu2lkWG9VA1p8VIKC12YFzqblSL3BIm+xgmpgINn5J
- W8BnGkyXBIGbMUuISksb9vFzTbZiLY+ahRO4Lbs=
-X-Google-Smtp-Source: ABdhPJw2qhMqTGArtKS0jHgi4yZXtRGO+h+YDfFzxyqzVaLhzdK8ipnZ8Yd3A3kEdc3kJOAMi/Gc5JSD64WTnuvKSvk=
-X-Received: by 2002:a05:6830:15cb:: with SMTP id
- j11mr7057133otr.126.1615644378560; 
- Sat, 13 Mar 2021 06:06:18 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kx/yonemCADf09MVKMZr3K3FryTY+iSh7taa412Ccjc=;
+ b=SHKNcUW6ahjURzvuHnn4RotsxmWg3YVOSMkN1w4KBadAjV1/m0U+Z1EF227s0ACJzP
+ 8lA+MwXWPaQKNnSNGUT9/NnB3ZgI8VhPo37VZ1YTAn8tfodUJgPrhyQtZivxUU8L5Z7Q
+ zXt/apBw2vIny3DLwH7J9sMlMkgKyYOmG8x+DxF4yT6PSANrccCeST0XigGxPO6B8SuE
+ 0erUv1oFQ4VU84AufYkPnmgqjk2LEvnFfhouogAZxQJp9hjcFqIJmZ/x884iIbT0L0aJ
+ oYjqmuiw6Zq9IRnDKtcaAJDz4XjmCRhbt6b0F7adS0+/HbFsOFNCPt8/qPxxCVI/C3E4
+ irpg==
+X-Gm-Message-State: AOAM5332OIu+pb544t6+xze8eBzhG/cvnLXMdZ6fQcsHOvfV0CuIH1or
+ iRdr1hxMaOV8hJIc7213btT2FQ==
+X-Google-Smtp-Source: ABdhPJwueT+8SQbVMz6mrUub+7cPaMlE5YUgN1Yzly+YBFgbTkI72XOGdvDfita/ivvbprKGn+nLMw==
+X-Received: by 2002:a4a:9671:: with SMTP id r46mr7219005ooi.69.1615644511614; 
+ Sat, 13 Mar 2021 06:08:31 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id v23sm3740838ots.63.2021.03.13.06.08.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 Mar 2021 06:08:31 -0800 (PST)
+Subject: Re: [RFC PATCH v2 12/22] target/mips/tx79: Introduce PEXTL[BHW]
+ opcodes (Parallel Extend Lower)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210309145653.743937-1-f4bug@amsat.org>
+ <20210309145653.743937-13-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <67215bbc-a83b-aa03-21d1-6a791e74684f@linaro.org>
+Date: Sat, 13 Mar 2021 08:08:28 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <1535031462-15030-1-git-send-email-ivanovrkasha@gmail.com>
- <CAFgFBfA=DmL318WTO7Lw_UNDiOME016tsXNCB2_qfQJFD5QWpw@mail.gmail.com>
-In-Reply-To: <CAFgFBfA=DmL318WTO7Lw_UNDiOME016tsXNCB2_qfQJFD5QWpw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Sat, 13 Mar 2021 15:06:07 +0100
-Message-ID: <CAAdtpL7XP=PzivtcTU9F9=+gesr-wOG+gFAw-puUQt-1essqsg@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH V2] block: increased maximum size of vvfat
- devices
-To: =?UTF-8?B?0LDRgNC60LDQtNC40Lkg0LjQstCw0L3QvtCy?= <ivanovrkasha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.52;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f52.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210309145653.743937-13-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,216 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Max Reitz <mreitz@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Fredrik Noring <noring@nocrew.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 11, 2018 at 7:22 PM =D0=B0=D1=80=D0=BA=D0=B0=D0=B4=D0=B8=D0=B9 =
-=D0=B8=D0=B2=D0=B0=D0=BD=D0=BE=D0=B2 <ivanovrkasha@gmail.com> wrote:
->
-> Ping?
+On 3/9/21 8:56 AM, Philippe Mathieu-Daudé wrote:
+> Introduce the 'Parallel Extend Lower' opcodes:
+> 
+>   - PEXTLB (Parallel Extend Upper from Byte)
+>   - PEXTLH (Parallel Extend Upper from Halfword)
+>   - PEXTLW (Parallel Extend Upper from Word)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
 
-I'm afraid your patch has fallen through the cracks... Can you rebase
-and repost?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->
-> Thu, 23 Aug. 2018 at 16:37, Arkasha <ivanovrkasha@gmail.com>:
->
-> > This fixes the problem of the impossibility to create
-> > FAT16 disks larger than 504 mb:
-> > The change CHS made it possible to obtain a larger disk.
-> > Also, auto-detection of disk parameters was added depending
-> > on the volume of the connected files:
-> > The size of all folders and files on the created disk is calculated
-> > and the size of the FAT table is added.
-> > This size allows to choose the future size of the FAT drive
-> > from the standard limitations.
-> >
-> > Signed-off-by: Arkasha <ivanovrkasha@gmail.com>
-> > ---
-> >  block/vvfat.c | 96
-> > ++++++++++++++++++++++++++++++++++++++++++++++++++++-------
-> >  1 file changed, 86 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/block/vvfat.c b/block/vvfat.c
-> > index fc41841..4409233 100644
-> > --- a/block/vvfat.c
-> > +++ b/block/vvfat.c
-> > @@ -77,6 +77,47 @@ static void checkpoint(void);
-> >  #define DIR_KANJI_FAKE 0x05
-> >  #define DIR_FREE 0x00
-> >
-> > +static bool check_size(uint32_t offset_to_bootsector, int cyls, int he=
-ads,
-> > +                      int secs, uint8_t sectors_per_cluster, int fat_t=
-ype,
-> > +                      long int sum, long int size_disk)
-> > +{
-> > +    uint32_t sector_count =3D cyls * heads * secs - offset_to_bootsect=
-or;
-> > +    int i =3D 1 + sectors_per_cluster * 0x200 * 8 / fat_type;
-> > +    uint16_t sectors_per_fat =3D (sector_count + i) / i;
-> > +    /*size + FAT1 and FAT2 table size*/
-> > +    if ((sum + sectors_per_fat * 512 * 2) < size_disk) {
-> > +        return true;
-> > +    }
-> > +    return false;
-> > +}
-> > +
-> > +static long int find_size(const char *dirname, unsigned int cluster)
-> > +{
-> > +    long int sum =3D 0;
-> > +    DIR *dir =3D opendir(dirname);
-> > +    struct dirent *entry;
-> > +    while ((entry =3D readdir(dir))) {
-> > +        unsigned int length =3D strlen(dirname) + 2 + strlen(entry->d_=
-name);
-> > +        char *buffer;
-> > +        struct stat st;
-> > +        buffer =3D g_malloc(length);
-> > +        snprintf(buffer, length, "%s/%s", dirname, entry->d_name);
-> > +        if (stat(buffer, &st) < 0) {
-> > +            g_free(buffer);
-> > +            continue;
-> > +        }
-> > +        if (strcmp(entry->d_name, ".") && strcmp(entry->d_name, "..")
-> > +                                            && S_ISDIR(st.st_mode)) {
-> > +            sum +=3D find_size(buffer, cluster);
-> > +        }
-> > +        g_free(buffer);
-> > +        sum +=3D (st.st_size + cluster - 1) / (cluster) * (cluster);
-> > +    }
-> > +    closedir(dir);
-> > +    return sum;
-> > +}
-> > +
-> > +
-> >  /* dynamic array functions */
-> >  typedef struct array_t {
-> >      char* pointer;
-> > @@ -948,8 +988,6 @@ static int init_directories(BDRVVVFATState* s,
-> >      /* Now build FAT, and write back information into directory */
-> >      init_fat(s);
-> >
-> > -    /* TODO: if there are more entries, bootsector has to be adjusted!=
- */
-> > -    s->root_entries =3D 0x02 * 0x10 * s->sectors_per_cluster;
-> >      s->cluster_count=3Dsector2cluster(s, s->sector_count);
-> >
-> >      mapping =3D array_get_next(&(s->mapping));
-> > @@ -1154,12 +1192,12 @@ static int vvfat_open(BlockDriverState *bs, QDi=
-ct
-> > *options, int flags,
-> >  {
-> >      BDRVVVFATState *s =3D bs->opaque;
-> >      int cyls, heads, secs;
-> > +    long int size_disk;
-> >      bool floppy;
-> >      const char *dirname, *label;
-> >      QemuOpts *opts;
-> >      Error *local_err =3D NULL;
-> >      int ret;
-> > -
-> >  #ifdef DEBUG
-> >      vvv =3D s;
-> >  #endif
-> > @@ -1181,6 +1219,29 @@ static int vvfat_open(BlockDriverState *bs, QDic=
-t
-> > *options, int flags,
-> >
-> >      s->fat_type =3D qemu_opt_get_number(opts, "fat-type", 0);
-> >      floppy =3D qemu_opt_get_bool(opts, "floppy", false);
-> > +    unsigned int cluster;
-> > +    long int sum =3D 0;
-> > +    if (floppy) {
-> > +        if (!s->fat_type) {
-> > +            s->sectors_per_cluster =3D 2;
-> > +        } else {
-> > +            s->sectors_per_cluster =3D 1;
-> > +        }
-> > +    } else if (s->fat_type =3D=3D 12) {
-> > +        s->offset_to_bootsector =3D 0x3f;
-> > +        s->sectors_per_cluster =3D 0x10;
-> > +    } else {
-> > +        s->offset_to_bootsector =3D 0x3f;
-> > +        /* LATER TODO: if FAT32, adjust */
-> > +        s->sectors_per_cluster =3D 0x80;
-> > +    }
-> > +
-> > +    cluster =3D s->sectors_per_cluster * 0x200;
-> > +    sum +=3D find_size(dirname, cluster);
-> > +    /* TODO: if there are more entries, bootsector has to be adjusted!=
- */
-> > +    s->root_entries =3D 0x02 * 0x10 * s->sectors_per_cluster;
-> > +    /*File size + boot sector size + root directory size*/
-> > +    sum +=3D 512 + s->root_entries * 32;
-> >
-> >      memset(s->volume_label, ' ', sizeof(s->volume_label));
-> >      label =3D qemu_opt_get(opts, "label");
-> > @@ -1201,24 +1262,41 @@ static int vvfat_open(BlockDriverState *bs, QDi=
-ct
-> > *options, int flags,
-> >          if (!s->fat_type) {
-> >              s->fat_type =3D 12;
-> >              secs =3D 36;
-> > -            s->sectors_per_cluster =3D 2;
-> >          } else {
-> >              secs =3D s->fat_type =3D=3D 12 ? 18 : 36;
-> > -            s->sectors_per_cluster =3D 1;
-> >          }
-> >          cyls =3D 80;
-> >          heads =3D 2;
-> >      } else {
-> > -        /* 32MB or 504MB disk*/
-> >          if (!s->fat_type) {
-> >              s->fat_type =3D 16;
-> >          }
-> > -        s->offset_to_bootsector =3D 0x3f;
-> > +        size_disk =3D 528482304;
-> >          cyls =3D s->fat_type =3D=3D 12 ? 64 : 1024;
-> >          heads =3D 16;
-> >          secs =3D 63;
-> > -    }
-> > +        if (!check_size(s->offset_to_bootsector, cyls, heads,
-> > +                               secs, s->sectors_per_cluster,
-> > +                               s->fat_type, sum, size_disk)) {
-> > +            if (s->fat_type > 12) {
-> > +                size_disk =3D 4294950912;
-> > +                cyls =3D 8322;
-> > +                heads =3D 16;
-> > +                secs =3D 63;
-> >
-> > +            } else {
-> > +                fprintf(stderr, "Requires Fat16 or Fat32\n");
-> > +                return -2;
-> > +            }
-> > +            if (!check_size(s->offset_to_bootsector, cyls, heads,
-> > +                                   secs, s->sectors_per_cluster,
-> > +                                   s->fat_type, sum, size_disk)) {
-> > +                fprintf(stderr, "Folder is larger than %f GB\n",
-> > +                                (float)size_disk / 1073741824);
-> > +                return -2;
-> > +            }
-> > +        }
-> > +    }
-> >      switch (s->fat_type) {
-> >      case 32:
-> >          warn_report("FAT32 has not been tested. You are welcome to do
-> > so!");
-> > @@ -1235,8 +1313,6 @@ static int vvfat_open(BlockDriverState *bs, QDict
-> > *options, int flags,
-> >
-> >      s->bs =3D bs;
-> >
-> > -    /* LATER TODO: if FAT32, adjust */
-> > -    s->sectors_per_cluster=3D0x10;
-> >
-> >      s->current_cluster=3D0xffffffff;
-> >
-> > --
-> > 2.7.4
-> >
-> >
+r~
+
 
