@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F7833A0A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:49:58 +0100 (CET)
-Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286AC33A0BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:52:06 +0100 (CET)
+Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLAGr-00077H-Nq
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:49:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57018)
+	id 1lLAIv-0000ZP-35
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:52:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAFX-0005bB-UK
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:35 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42092)
+ id 1lLAFc-0005kY-D8
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:40 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLAFV-0006kh-OZ
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:35 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id j2so6603885wrx.9
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:48:33 -0800 (PST)
+ id 1lLAFa-0006nB-Ut
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:48:40 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l11so6618910wrp.7
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:48:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ShWtYev9jtvvhTbgfYjDaKY90VT6j9nSQKf5ecQIcuw=;
- b=uCJ/WLImdp56uG2HuneqjcPcpF3xxm/YGzmYkmiXVhcaA9CfPKf7I439G83MratBdg
- 9woHHDH3fyRmVnpERWeK/bgzKHCwCtywfB4A1MW49cefdJcJJDyjtCaoBQKs3dQDVsGQ
- R5L+w1m2ZrsbK5raOrgtWpBaXq6q4bPnQvAjC1jHKxGTXSSj8g740CtdUV0hHqiRv1zD
- 58YXDo4FKZBuxCgEgNxBYE0WvphL1QaqtDnoF7HB6JlPuyaKEYQTiA0rSiZbvHAtqxLR
- CoPT732xO0JadW3WU+sWUuHJ+ysKmgsn+c+vWTb6ITHIa719lL+rUqOJGg6jQ9PSVrbk
- fB7w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NdWkTYFq4CcNFJEVWCc6s/+3/xKpysVoHg6G3a/oBtM=;
+ b=dFvUMEYf1j1/Wrw/e6nUs3LozpmXPldk8DDVFe93AoggoMniod8Z1lopJ87uSQShxv
+ UnQtExh650xd7SEiPX1Cn3AKRFkBR0lBTxPdZfnFbh0onty6v99Afm6Izz9yuTBMnFn+
+ KiszKVqoNYSg5qPsiCDSfgPI8HOSBCH0iOefSHGx+rX0oja10Jgz0jRMeqAqGAYDmMte
+ TKADyjfjTlZqxqwATQUHNfT8Hrc//vPFnXODKFNqfizeNFse5HMObVWE2Z8+gQbBe2p7
+ uoehjXx486IdFM3PFsHevtelwV5UM72vN2fB23CxGPJ/p5xyQUGmhQwcvNSnKPzxkjQh
+ k7+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ShWtYev9jtvvhTbgfYjDaKY90VT6j9nSQKf5ecQIcuw=;
- b=PehSKEiMbKizDj4wXXUUNbmjsiQTzAhSyS9dp88Ul1aoNWkzaNMnswPM94rvnP5MMV
- Ez96PkmQMZSUD5PzTwE+UCRzvqlnHu6UhiOEytKsFBszidzt6qBfueE9JOPAAvVWAi90
- 8tZieKhX2jlhaX/zEWs2Q1MFlO+XMXHzI4RMzhow0a1S9jcX78mwe+g3LyMKVTh0upWM
- by/e0yBPSalImGli+u7bv/MgeNnSgO0XIGgI47wOwo9CBqlOVKaDPf3nkoKHBKn5OxwO
- p0llhoP36j5z8drmmh0ir1wDOmfgsgNM66Kvhmr8CZxWbQtkfn1DZ2xGngalKdSQ78Vm
- RIYg==
-X-Gm-Message-State: AOAM531SZKeNbhqVnMycD2I0afQ3UBqKYOpc98B9fcA0K93USD8n0/sR
- 7bqhjJhetGdgj61s1aCWO6eq7cfiFAgISw==
-X-Google-Smtp-Source: ABdhPJwD0iYpsez4Bic0yt8wjGb8C1xeCgOOiOiAXBllrgugSjFpmikXUidOAO9bORBvPV+lOxqLlg==
-X-Received: by 2002:adf:ea82:: with SMTP id s2mr20616413wrm.1.1615664911935;
- Sat, 13 Mar 2021 11:48:31 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=NdWkTYFq4CcNFJEVWCc6s/+3/xKpysVoHg6G3a/oBtM=;
+ b=tBLVOvDhvZkalXy9n5OOlMs0nw3QbQn3BdGhPfRFevIsnUCIZdnYLTlfCxfx+LID6V
+ maCzqa9IAWzX6Wjy8slaC/68YM2bUKHfsJJ0WlwgZN5TsmRLVAMCUg94WTJmhPuSSUWh
+ /UuRHgQBcvoIk8jPf67/8HAqTdALnEA+khHfi2WzCOBgcyFPQfk5ebOrgvAEu9TjXs7I
+ l5nipTwbp9YHUJ9TSulPeV1smFcTbNQ50DAySHxHOTB+tyDfRQu3CSmga2wz+ji6yq4V
+ lGPlxhNtBnbPRzX2yQGQtOMI5NCSLdydxJr/vQolJ1o2NLLzkcwdP0n4aF+MicwSkjri
+ hY4g==
+X-Gm-Message-State: AOAM532c3n8dVH3EkLGZJMPlKOVkYLWOXzIlv7cVJ6hWJPIDnLGLm8wV
+ sFhb/kCZNEQg93RCtkMXJOCB7Q4TJG+e0g==
+X-Google-Smtp-Source: ABdhPJxQAeIvP1o92Kti5erMo9ukbM96BO1lIRiTQLdJLcWjWuYzb//x0xKRFFI6cE+zyrLaubzSCQ==
+X-Received: by 2002:a5d:5256:: with SMTP id k22mr20684883wrc.162.1615664916929; 
+ Sat, 13 Mar 2021 11:48:36 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id x23sm7336290wmi.33.2021.03.13.11.48.30
+ by smtp.gmail.com with ESMTPSA id v18sm14511057wrf.41.2021.03.13.11.48.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 11:48:31 -0800 (PST)
+ Sat, 13 Mar 2021 11:48:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/27] MIPS patches for 2021-03-13
-Date: Sat, 13 Mar 2021 20:48:02 +0100
-Message-Id: <20210313194829.2193621-1-f4bug@amsat.org>
+Subject: [PULL 01/27] hw/mips/gt64xxx: Initialize ISD I/O memory region in
+ DeviceRealize()
+Date: Sat, 13 Mar 2021 20:48:03 +0100
+Message-Id: <20210313194829.2193621-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210313194829.2193621-1-f4bug@amsat.org>
+References: <20210313194829.2193621-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,77 +92,55 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3f8d1885e48e4d72eab0688f604de62e0aea7a38=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20210311-pull-reques=
-t' into staging (2021-03-12 13:53:44 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/mips-20210313=0D
-=0D
-for you to fetch changes up to 4a86bf271eed1a8ed56e2556d7b8eb4f0fddae7a:=0D
-=0D
-  target/mips/tx79: Salvage instructions description comment (2021-03-13 20=
-:29:36 +0100)=0D
-=0D
-Nothing particularly exciting, but good diffstat.=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-- Tidy up the GT64120 north bridge=0D
-- Move XBurst Media eXtension Unit code to mxu_translate.c=0D
-- Convert TX79 to decodetree=0D
-----------------------------------------------------------------=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (27):=0D
-  hw/mips/gt64xxx: Initialize ISD I/O memory region in DeviceRealize()=0D
-  hw/mips/gt64xxx: Simplify ISD MemoryRegion read/write handlers=0D
-  hw/mips/gt64xxx: Fix typos in qemu_log_mask() formats=0D
-  hw/mips/gt64xxx: Rename trace events related to interrupt registers=0D
-  hw/mips/gt64xxx: Trace accesses to ISD registers=0D
-  target/mips/meson: Introduce mips_tcg source set=0D
-  target/mips/meson: Restrict mips-semi.c to TCG=0D
-  target/mips: Rewrite complex ifdef'ry=0D
-  target/mips: Remove XBurst Media eXtension Unit dead code=0D
-  target/mips: Remove unused CPUMIPSState* from MXU functions=0D
-  target/mips: Pass instruction opcode to decode_opc_mxu()=0D
-  target/mips: Use OPC_MUL instead of OPC__MXU_MUL=0D
-  target/mips: Move MUL opcode check from decode_mxu() to=0D
-    decode_legacy()=0D
-  target/mips: Rename decode_opc_mxu() as decode_ase_mxu()=0D
-  target/mips: Convert decode_ase_mxu() to decodetree prototype=0D
-  target/mips: Simplify decode_opc_mxu() ifdef'ry=0D
-  target/mips: Introduce mxu_translate_init() helper=0D
-  target/mips: Extract MXU code to new mxu_translate.c file=0D
-  target/mips: Use gen_load_gpr[_hi]() when possible=0D
-  target/mips/tx79: Move MFHI1 / MFLO1 opcodes to decodetree=0D
-  target/mips/tx79: Move MTHI1 / MTLO1 opcodes to decodetree=0D
-  target/mips/translate: Make gen_rdhwr() public=0D
-  target/mips/translate: Simplify PCPYH using deposit_i64()=0D
-  target/mips/tx79: Move PCPYH opcode to decodetree=0D
-  target/mips/tx79: Move PCPYLD / PCPYUD opcodes to decodetree=0D
-  target/mips: Remove 'C790 Multimedia Instructions' dead code=0D
-  target/mips/tx79: Salvage instructions description comment=0D
-=0D
- target/mips/translate.h      |   10 +=0D
- target/mips/tx79.decode      |   39 +=0D
- hw/mips/gt64xxx_pci.c        |   59 +-=0D
- target/mips/mxu_translate.c  | 1609 +++++++++++++++=0D
- target/mips/translate.c      | 3665 +---------------------------------=0D
- target/mips/tx79_translate.c |  303 +++=0D
- target/mips/txx9_translate.c |   20 +=0D
- hw/mips/trace-events         |    6 +-=0D
- target/mips/meson.build      |   18 +-=0D
- 9 files changed, 2057 insertions(+), 3672 deletions(-)=0D
- create mode 100644 target/mips/tx79.decode=0D
- create mode 100644 target/mips/mxu_translate.c=0D
- create mode 100644 target/mips/tx79_translate.c=0D
- create mode 100644 target/mips/txx9_translate.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The ISD I/O region belongs to the TYPE_GT64120_PCI_HOST_BRIDGE,
+so initialize it before it is realized, not after.
+Rename the region as 'gt64120-isd' so it is clearer to realize
+it belongs to the GT64120 in the memory tree view.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <20210309142630.728014-2-f4bug@amsat.org>
+---
+ hw/mips/gt64xxx_pci.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index 588e6f99301..6eb73e77057 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -1196,6 +1196,14 @@ static void gt64120_reset(DeviceState *dev)
+     gt64120_pci_mapping(s);
+ }
+ 
++static void gt64120_realize(DeviceState *dev, Error **errp)
++{
++    GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
++
++    memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
++                          "gt64120-isd", 0x1000);
++}
++
+ PCIBus *gt64120_register(qemu_irq *pic)
+ {
+     GT64120State *d;
+@@ -1214,8 +1222,6 @@ PCIBus *gt64120_register(qemu_irq *pic)
+                                      get_system_io(),
+                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
+-                          "isd-mem", 0x1000);
+ 
+     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+     return phb->bus;
+@@ -1270,6 +1276,7 @@ static void gt64120_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->realize = gt64120_realize;
+     dc->reset = gt64120_reset;
+     dc->vmsd = &vmstate_gt64120;
+ }
+-- 
+2.26.2
+
 
