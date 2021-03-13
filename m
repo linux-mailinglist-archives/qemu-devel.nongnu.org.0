@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343AC339F4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:58:59 +0100 (CET)
-Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC433339F49
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:57:41 +0100 (CET)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7bO-0000k7-73
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:58:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
+	id 1lL7a8-0006w8-VB
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:57:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Xd-0005Mk-9t
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:05 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33476)
+ id 1lL7YE-0005dn-I6
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:42 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7XY-0000qH-JO
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:02 -0500
-Received: by mail-wr1-x434.google.com with SMTP id o16so3449712wrn.0
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:00 -0800 (PST)
+ id 1lL7Y8-0001F8-Qy
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:38 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z2so3461609wrl.5
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J7gMHqZIErk5rCH25dzzn6NDSzVyceUq6CbtaCA8wLk=;
- b=vBAgavVjSYHvgI0+0El4932LzCDSiTAgfKpoqzHXE/r/HSQiLXIHnMw2iUMH00tFVh
- Zfi6iBslOuunGvLDgmrF7z8K/AiXw+9n2dcUforP+G44ld50nxeyHPXAUIDwenJYH0Qg
- kqNi3EVecPZJT9AV55WqioEoSGCquQ1cjJaSMy1JVyR4vfVzHIoztD3x4Q8mferFMhoJ
- x5Q36D8MSK/iG3GIluBCRUjZc74yAXn/MqGWNiY0Mcl6YXoTojolRLTITqnkb+s0/FXQ
- ei/ENB6PS1StQwX4Dy2UFRggMu1WC5mY4hmiaoB9R+GY9CVPdccuhb6FpQrl76PnNNpn
- ohBw==
+ bh=0BqwEDz4b6b8tJdYYE+yXeBUdnYk9J8p8YYQcsDJqW0=;
+ b=BgpoEHfIdo2X5XIwVkhI0fkq9z6hHo0v3bK5L5JVA/ba1MXqfajAMtPGxJt7+c4owE
+ RLtbirDA4m5pJXd6vrDhSOGC9agg2xooH4sLgRmdsLyzVDIU/8EakDjLAFtfQrrcV8dv
+ NC0Y63QRLGooHgsHuFOiILx2XzFzFikkA2AlsJ96UITPRCoU5VUFJSYRzIaExYl8cM47
+ 104QrVBnMwZUA1hroL/5vQPyqYqWz7Y/LDPlUg7WlUln0cve9fs/4ooVw+LphcQfFE5K
+ 8P0n4isI23Z5RX39YHtYHZaGibRvBTmQusOm6VXEvpuqHGx5WXU1zWQIbbcntEulwFRP
+ 1rRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J7gMHqZIErk5rCH25dzzn6NDSzVyceUq6CbtaCA8wLk=;
- b=kECW01H6+IgcoYABOgX0QCaZxtMIFzpWMJoPlPOOK0zDBI3+DTEcSZ0ioYu+eOVB/X
- TcGVbVmGR7XCIRIRQPbQoqix3EX15WEHbigMwKEN4e+LwO0le6MUfDRfhtQILb9LaX3q
- t50Fz+YtqsTJxe6uASgsoefgFu+rx0KCXF97r/JOgAwpq+YBEVNd7s+aASDunOtizfxK
- 2zzgsw5rKyaSq8CqDaLEMpwoC5ol3GyX5aNIvlyguoIhHcMd58Wh4H57A4NB4kt0nLkp
- 3SO2hSot85VMdeK5IVVx2oV3ZqCs8nsmZSGeWCtmsEScRZVhse9T5V03sa1u0cDGKaFw
- esuA==
-X-Gm-Message-State: AOAM530IzLPdhVk2QQQ2ZKNBMoKKy9tvo+FOaDkIfdDK+AzdC//5om7y
- DfrPaWt48ht9HxkRQtLskKlBY0m7PW53vw==
-X-Google-Smtp-Source: ABdhPJy682kfbg0w8Oa1TZLb5kAIzzOv3TB2z/+y5T5Qm0zMPFB/1p8GZytJkVyem46sZy08TcaETw==
-X-Received: by 2002:a5d:4f0e:: with SMTP id c14mr19141486wru.78.1615654498937; 
- Sat, 13 Mar 2021 08:54:58 -0800 (PST)
+ bh=0BqwEDz4b6b8tJdYYE+yXeBUdnYk9J8p8YYQcsDJqW0=;
+ b=tZPA/XTAggBXwKubvWFBHjxY0oNBab9AIF5Rkye1JW8dXfUN/EE91Sf2rK+zsA1r5l
+ pmsjCx9e57b9KOkDiSU4uPJBEIu3LDntFRPZ4Svdb6vRJBblROKJ9cqtvPeDL2XU11cw
+ bkRrawBQDQHoAMwlxHGBCXGgeaRs7v3O5QSZbk85BQ6HY1KWsfSI8xvB1wOixBLJUr2r
+ wtt+UqnGuI/AGfjJOXCVzIPN8BZkeG5HXqDQvGvb92xiu7O9TwNwjjlhn20yTCMDnL4W
+ Xdteyq83CSJgdLKfjGdmbnsrrAVEyuHzC3HtI0r2/AQwTKSdDHt/0yWhElYlJHblsVGj
+ 7JYg==
+X-Gm-Message-State: AOAM531NN1p83eGEk9hNEBYmTTI8GjPHkx1Ja5o0eHvB+PEIwME7W93O
+ QdVUL6lddhvlAbAxZAKy0qK0/URjAFEpYA==
+X-Google-Smtp-Source: ABdhPJwqs+fLPyloqslG3J+/g7eIi7wb1FieoniswFeZtmaemx2pYvXh92IaVRbmF7Zi7VHJdzhUFA==
+X-Received: by 2002:a5d:67c8:: with SMTP id n8mr19612070wrw.351.1615654534838; 
+ Sat, 13 Mar 2021 08:55:34 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j6sm6629154wmq.16.2021.03.13.08.54.57
+ by smtp.gmail.com with ESMTPSA id a3sm12473824wrt.68.2021.03.13.08.55.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:54:58 -0800 (PST)
+ Sat, 13 Mar 2021 08:55:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] hw/avr/arduino: List board schematic links
-Date: Sat, 13 Mar 2021 17:54:36 +0100
-Message-Id: <20210313165445.2113938-3-f4bug@amsat.org>
+Subject: [PATCH 09/11] hw/avr/arduino: Replace magic number by
+ gpio_port_index() call
+Date: Sat, 13 Mar 2021 17:54:43 +0100
+Message-Id: <20210313165445.2113938-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
 References: <20210313165445.2113938-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,63 +92,40 @@ Cc: Thomas Huth <huth@tuxfamily.org>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The '1' magic value means 'Port B'. Introduce and use the
+gpio_port_index() helper to explicit the port name.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/avr/arduino.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ hw/avr/arduino.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
-index 3c8388490d6..3ff31492fa6 100644
+index 73563a35d0d..87124d17f18 100644
 --- a/hw/avr/arduino.c
 +++ b/hw/avr/arduino.c
-@@ -75,7 +75,10 @@ static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
+@@ -43,6 +43,12 @@ typedef struct ArduinoMachineClass ArduinoMachineClass;
+ DECLARE_OBJ_CHECKERS(ArduinoMachineState, ArduinoMachineClass,
+                      ARDUINO_MACHINE, TYPE_ARDUINO_MACHINE)
  
--    /* https://www.arduino.cc/en/Main/ArduinoBoardDuemilanove */
-+    /*
-+     * https://www.arduino.cc/en/Main/ArduinoBoardDuemilanove
-+     * https://www.arduino.cc/en/uploads/Main/arduino-duemilanove-schematic.pdf
-+     */
-     mc->desc        = "Arduino Duemilanove (ATmega168)",
-     mc->alias       = "2009";
-     amc->mcu_type   = TYPE_ATMEGA168_MCU;
-@@ -87,7 +90,10 @@ static void arduino_uno_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
++static unsigned gpio_port_index(char c)
++{
++    assert(c >= 'A' && c < 'A' + GPIO_MAX);
++    return c - 'A';
++}
++
+ static void arduino_machine_init(MachineState *machine)
+ {
+     ArduinoMachineClass *amc = ARDUINO_MACHINE_GET_CLASS(machine);
+@@ -59,7 +65,7 @@ static void arduino_machine_init(MachineState *machine)
+                                          LED_COLOR_YELLOW,
+                                          "D13 LED");
  
--    /* https://store.arduino.cc/arduino-uno-rev3 */
-+    /*
-+     * https://store.arduino.cc/arduino-uno-rev3
-+     * https://www.arduino.cc/en/uploads/Main/arduino-uno-schematic.pdf
-+     */
-     mc->desc        = "Arduino UNO (ATmega328P)";
-     mc->alias       = "uno";
-     amc->mcu_type   = TYPE_ATMEGA328_MCU;
-@@ -99,7 +105,10 @@ static void arduino_mega_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
+-    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[1]),
++    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[gpio_port_index('B')]),
+                           amc->d13_led_portb_bit,
+                           qdev_get_gpio_in(DEVICE(ams->onboard_led), 0));
  
--    /* https://www.arduino.cc/en/Main/ArduinoBoardMega */
-+    /*
-+     * https://www.arduino.cc/en/Main/ArduinoBoardMega
-+     * https://www.arduino.cc/en/uploads/Main/arduino-mega2560-schematic.pdf
-+     */
-     mc->desc        = "Arduino Mega (ATmega1280)";
-     mc->alias       = "mega";
-     amc->mcu_type   = TYPE_ATMEGA1280_MCU;
-@@ -111,7 +120,10 @@ static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
- 
--    /* https://store.arduino.cc/arduino-mega-2560-rev3 */
-+    /*
-+     * https://store.arduino.cc/arduino-mega-2560-rev3
-+     * https://www.arduino.cc/en/uploads/Main/arduino-mega2560_R3-sch.pdf
-+     */
-     mc->desc        = "Arduino Mega 2560 (ATmega2560)";
-     mc->alias       = "mega2560";
-     amc->mcu_type   = TYPE_ATMEGA2560_MCU;
 -- 
 2.26.2
 
