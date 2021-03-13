@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E633A029
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:04:46 +0100 (CET)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB85933A02D
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 20:07:05 +0100 (CET)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL9Z6-0000tn-QU
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:04:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50700)
+	id 1lL9bM-00028V-Qf
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 14:07:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL9Xy-0000F4-6O
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:03:34 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:41958)
+ id 1lL9Zu-0001RZ-S8
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:05:34 -0500
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:43564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL9Xv-0001dP-Ft
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:03:33 -0500
-Received: by mail-qt1-x831.google.com with SMTP id x9so6451313qto.8
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:03:31 -0800 (PST)
+ id 1lL9Zp-0001s5-NX
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:05:34 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id s2so6441594qtx.10
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:05:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BtrUSNey5yYk32ASsnH8jpLrBGqw39LoEt+S5CSmbuE=;
- b=XQaMXc9U1SxHWTYgMxms02j8GHmUnSj18UDOtGwcbCBvQAlBxYn0nmi7skV7FilGMd
- fnchIE2kuekx8uWAI8S8MA25Hp7kKH+oNObraY0WslfLEzQo4eb2nxYp7rEzNw2BzfTv
- T5WP09WWmDssN6CRC9IWi++5E8tjexIzYaIApSr/2dW+fb0gkuvWuxIi60/XAioUj0mH
- 9JKkgTM90wBroNQvtl5XuxWAk4zcXP7y5HdW7BgFb+Ms5tZwH3A1/Tb2EFcgK1nUiRuU
- AWUUallAT5qKDV65qdgDkJRpZf/r8aVNRKfm3IJFhluYfYZODl9I9weW7agepWmO8I09
- rlEw==
+ bh=VUfcgdKlJBbU+E3hRAyOQSbGUpRVGF0tqqZgDIXXeVo=;
+ b=gXPYNj8cH/eYSMKkICQmrLscKw5PHz3Li1TYmIgmnA9QAH41PaSwvt5e6fvfumHNyi
+ oZ/HEbpSMfMN+1llLishboOtA6zu+wk6wB+RGMKur4qWmEBRqR0odPem86F5FkNk0H9E
+ Qihd8ehfOANnG2G8r7whDhD98ph9NzL+lXkcrMYkHl9G4bwSHGApiMEpXv1uNAAdURqm
+ TZgTc5DesDldKhXqA/zN3VTtgS+QXCz5s8tGDFRZkkX7ShQDjQh2B5oFMFcs/k4teCWK
+ IokfZftefvzHWX/ZdDDCA5ntHWg6Em8iIjf9Dt34nHs+raX/a9HEWuBPtoX0P/De3H8Q
+ zkyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BtrUSNey5yYk32ASsnH8jpLrBGqw39LoEt+S5CSmbuE=;
- b=QegGFVqqixC0R37R2Ld6S9WwGuAtTFUgLcElDUJOHFvgGpYeaRWmAVvLQxzL1GZ2fb
- VdO/fXOqt7kOSO1Jvu0jrOF0FJRG0k2a5OcnFcY9HDCyiOL7+VPFknbUT9gu6xIlTxRC
- e8PCCJpmUNE989foYOaG/efjbfw3ujnuxM6hupUPmGimD1uiBeErHKby3GIDtMRL44zZ
- wl/+MA9sYIwNjJ8d9u6f3g03HS2OcHC1YOS5QB3xtoL98xMHGbi4DBKakvkiWUkrMSxn
- /q9dbUwL9qOOA69THWtYE8WbT+Qs0xwJwum9fF7HD2s2+x04sBQ6QLHJVlIYKhiqF65C
- /eAQ==
-X-Gm-Message-State: AOAM530vmAdMjvqd+LKfYkRAXcd9KG3DZKVAMQAXIlVyQQHwNBLcviMR
- KNHqdK8N1e8ayD5QLBl5D0GLJA==
-X-Google-Smtp-Source: ABdhPJyVgjETPmV40ezDlP40QMALnUcnYkCxTqXiHm2FZRC8Q5Q7JIDM5+FWooMw8rL+GpL2uTcutw==
-X-Received: by 2002:ac8:6b85:: with SMTP id z5mr15521280qts.296.1615662210395; 
- Sat, 13 Mar 2021 11:03:30 -0800 (PST)
+ bh=VUfcgdKlJBbU+E3hRAyOQSbGUpRVGF0tqqZgDIXXeVo=;
+ b=kepJL6HH4lM04452AAemVWPSuMFwr0PTzDEx7+UfxAc1rdX4F32338iP2I9QA1VGBd
+ FIPCp8ZVE8tRTvZnaUMcK3OhMX6bXfM2IxlpXzbCbpJEzB3MMcy7nyj5isXDK/IeUxp2
+ o26zeOPW/RuszlqoGUSbVBZt2VbrQbKshlgJAq8GqXd62f7fEo5HZILbBJScyff867zl
+ tSWjnrdO893yfRuhtX4mAxCUkYkbLM/u43cml7I0nHFxgUExGXqTc+I6xwKNVk7/85XI
+ 0DVkfNMdJQS6Lk8JStmibpjWNUFrs7ZupNPiERI85GVlDfw/ZPmPI4jxRoD30Esms4Pb
+ Q/rg==
+X-Gm-Message-State: AOAM533dLLlLJ/2CNX87MBubTEXkUTjOrxMGUWhjj3G9hHNOS7ryCNgS
+ T2FNpp03c0dT5pwx2hW4i9ffqg==
+X-Google-Smtp-Source: ABdhPJx7hcW7n3rDwUxp7NiW2cArmAAq7+Dd2m8PhyP2RNAwmHQQkN6ehVd1TmxOpzPJ5b1MBZhH3w==
+X-Received: by 2002:ac8:47cc:: with SMTP id d12mr16749385qtr.147.1615662328465; 
+ Sat, 13 Mar 2021 11:05:28 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id e2sm6526486qto.50.2021.03.13.11.03.29
+ by smtp.gmail.com with ESMTPSA id y13sm6330784qto.39.2021.03.13.11.05.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 11:03:29 -0800 (PST)
-Subject: Re: [PATCH for-6.0 2/2] target/arm: Make M-profile VTOR loads on
- reset handle memory aliasing
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+ Sat, 13 Mar 2021 11:05:27 -0800 (PST)
+Subject: Re: [PATCH for-6.0 0/2] arm: Make M-profile VTOR loads on reset
+ handle memory aliasing
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
 References: <20210312172939.695-1-peter.maydell@linaro.org>
- <20210312172939.695-3-peter.maydell@linaro.org>
- <f9bbdc90-51ca-8ba6-26d8-3db820193a15@amsat.org>
+ <CAFEAcA8PN3EQN_E8zo0qUP=F7cAg=XvuUc2V6iop8YOOYxMGxQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <92fc3ab0-5897-0c96-eebd-8b27951265c7@linaro.org>
-Date: Sat, 13 Mar 2021 13:03:27 -0600
+Message-ID: <657618fc-9e62-6c24-c65d-ccc7375c7fcc@linaro.org>
+Date: Sat, 13 Mar 2021 13:05:25 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <f9bbdc90-51ca-8ba6-26d8-3db820193a15@amsat.org>
+In-Reply-To: <CAFEAcA8PN3EQN_E8zo0qUP=F7cAg=XvuUc2V6iop8YOOYxMGxQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,16 +94,21 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Kumar Gala <kumar.gala@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 2:17 PM, Philippe Mathieu-Daudé wrote:
->> +static int find_rom_cb(Int128 start, Int128 len, const MemoryRegion *mr,
->> +                       hwaddr offset_in_region, void *opaque)
-> Return bool maybe?
+On 3/12/21 12:59 PM, Peter Maydell wrote:
+> On Fri, 12 Mar 2021 at 17:29, Peter Maydell <peter.maydell@linaro.org> wrote:
+>> This series handles the possibility of aliasing by iterating through
+>> the whole FlatView of the CPU's address space checking for other
+>> mappings of the MemoryRegion corresponding to the location of the
+>> vector table.  If we find any aliases we use rom_ptr() to see if the
+>> ROM blob loader has any data there.
 > 
+> The other possible place we could put this code would be
+> to put it into rom_ptr() itself. You'd have to change the
+> callsites to pass an AddressSpace to rom_ptr(), but really
+> we ought to do that anyway, because a Rom has an AddressSpace
+> that we should be checking as well as the address.
 
-Yes, it might be worth changing with the first patch, while we're changing all 
-(one) user of flatview_for_each_range().
-
-But he can't simply change it here -- must match flatview_cb type.
+I like this as the solution.
 
 
 r~
