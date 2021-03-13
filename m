@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB465339E6B
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:06:31 +0100 (CET)
-Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4342D339E6D
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 15:07:15 +0100 (CET)
+Received: from localhost ([::1]:37402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL4uU-0003Ok-G8
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:06:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39008)
+	id 1lL4vC-000405-AR
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 09:07:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL4sd-0002mp-GB
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:04:35 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:36372)
+ id 1lL4tA-00031y-Sv
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:05:08 -0500
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:39632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lL4sb-0003Py-SZ
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:04:35 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- g8-20020a9d6c480000b02901b65ca2432cso2889642otq.3
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:04:33 -0800 (PST)
+ id 1lL4t4-0003iP-3U
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 09:05:08 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id u62so14092528oib.6
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 06:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TncOW+yGMVuN5ohxHCFtEv9i/18sNjKn+l2pMLaURfk=;
- b=SFM7LB7CJf/tuXzwVm5/5owABLXjtO8Vy68+tmIydulQE/JkPTVv66z+hUOWy7oxe6
- QEwleD/P691U2ouluFEfIKN61N/J28z+ryH6ehvziJmujKo4OmwcXblfnJ5g4gjkWI6u
- 72sPExRNHJdwupOPQaw9TmQcjJ/wEp1oGpVfa95N3hm5+5LbTUHlHv4qxjo9MwpYQ+Ti
- wC6ldgr2E4zFjBeGTrc8rCft5F7cqZE8zVLs8amycZlr62CFG7ufx1miERPvwHHb1FRZ
- TLfLD94MD5r9sLWO2u5FMC7rMw5+1FOFHdWqHlWkfGvo9N9l1Mcj7EiPMuJGJucWCwuM
- tLoQ==
+ bh=ryV1eJM1ezb2jzbb0Zh8DhWuSTU6E/mFMwdCn75N0tA=;
+ b=KDWJj9R+Ms31Pwry7T+dBk2sY57le9AtVQP/kDVSejVOA7bl4lA8yEDiydce/JhEqv
+ gYnLrm8g9p47D1ssKEMUYLa9Q9wpIQZ0ie3i0mH8CfgEDvxRx39Ycep3PCZ3AICc/V6K
+ YzNKiP83mrv0dzqNpFRN9XOCZO0YCBXnMJFgh+XKiCu0uZH7/dhCcsndObe0TbyZTDtI
+ oBPyoAC0LboiwKWkSCElwelRaDv6XGTPI8HQx/Asq5SGS6JofjD+qE1t7e7NBZhpA5iv
+ 6nubqel3vO44FuHje7uSLNmcsnxBQWDb1zBgbEr3VO/0JNE/AtUov0dVIoKTYacXATTp
+ 5/lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TncOW+yGMVuN5ohxHCFtEv9i/18sNjKn+l2pMLaURfk=;
- b=BVM+O6QgtcyUmQNu8+qlJK5BhDWNNolAyucnc4+PE4iT7oMH7loBj0sMttG70Wi4bK
- Ox8clPSKNhNZN6z3kauB/HJZSbo92eeutzkSqmVdkaT8ssoOD955g5JypFE6ON/mZ9g3
- gxScrgunjfTRN8L8tFT2VkvxJC//Sh9+FyfEe9WNwM/DYNVjVQYeHwH+nbQYOa4T22zG
- 8cirx1QQP9bhWTrHf/dhJFrRw1yqijGnvXZpTxM7JWdq+SkB8nYy0/WqhdB/qcV+6nQm
- udElSiPT+MnnBxRrOAX1NQhrqa0i6Ykj96XctVkn4zJbIaS50aHJr6xGo1CkoyUEO7WV
- ctww==
-X-Gm-Message-State: AOAM533k+tPd1KeAHxXJvPdmkYgHZMK1BJTFmdMSX82747N2uNIyvd4V
- k0+5wQ+ZeEs/hZQLJVCwL0Yapw==
-X-Google-Smtp-Source: ABdhPJzEnwpN/O75gT8/FOw5aT7pXgWofQRxfrrZvS54qJiXEaHT96Yk72FJp+JOAhy3EcL0BnVODg==
-X-Received: by 2002:a9d:3c1:: with SMTP id f59mr7192312otf.330.1615644272507; 
- Sat, 13 Mar 2021 06:04:32 -0800 (PST)
+ bh=ryV1eJM1ezb2jzbb0Zh8DhWuSTU6E/mFMwdCn75N0tA=;
+ b=tw82iU95faEwn9R4QYnYjJ5t6zYr1AbioGmkmoMt9pOdiIhQJy3/vim6LyQ6eHNlFu
+ dV0y18v2Tc4B2wC2JG8GziiRzyFr4hbmgdI+SpudhbDEviLRMGHjfso8VXzyiZsWBJR0
+ W59xfsHDae+VO7KcmLzBFk2nFB8wSJHo9+ZMKNhzr/4KmBRdjHko5cgoMLob/vdrtA5L
+ fIUr5CkXWzURE0KDOgxLbyQYkYXIyjMzQM3mU55LFMOGmaS7MnQ+XUlClGwjPt+CVc0E
+ SSTg5lOHaD72JN17iteSAlBPXsqeJ6HyAp+p7svs+Ljvz02VRaHr+XA7n7eXBmvcpT4r
+ F5SA==
+X-Gm-Message-State: AOAM533xJcadWQeFmxokOs8uhIARq6wL1q51ha9DnGO3A/yM54Bpvvs/
+ VWQO139qREqO2ifoVy4q5Q3XtHhr75Ka/dw3
+X-Google-Smtp-Source: ABdhPJxYPn6su9rWZiLg9JKinJ2Q/IFvD6/wIXxKaEYqQulI2rs+si5EFcl8ipDJxz0M0tZMYSqK3Q==
+X-Received: by 2002:a05:6808:1448:: with SMTP id
+ x8mr2305185oiv.99.1615644300604; 
+ Sat, 13 Mar 2021 06:05:00 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id o23sm3581358otp.45.2021.03.13.06.04.31
+ by smtp.gmail.com with ESMTPSA id f197sm3816522oob.38.2021.03.13.06.04.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 06:04:32 -0800 (PST)
-Subject: Re: [RFC PATCH v2 10/22] target/mips/tx79: Introduce PSUB* opcodes
- (Parallel Subtract)
+ Sat, 13 Mar 2021 06:05:00 -0800 (PST)
+Subject: Re: [RFC PATCH v2 11/22] target/mips/tx79: Introduce PEXTUW (Parallel
+ Extend Upper from Word)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210309145653.743937-1-f4bug@amsat.org>
- <20210309145653.743937-11-f4bug@amsat.org>
+ <20210309145653.743937-12-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8c445baa-4552-bedf-1c5f-880e24f9c05d@linaro.org>
-Date: Sat, 13 Mar 2021 08:04:29 -0600
+Message-ID: <be72351f-9763-5ce0-cba9-08d10d480c4b@linaro.org>
+Date: Sat, 13 Mar 2021 08:04:57 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210309145653.743937-11-f4bug@amsat.org>
+In-Reply-To: <20210309145653.743937-12-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,18 +97,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/21 8:56 AM, Philippe Mathieu-Daudé wrote:
-> Introduce the 'Parallel Subtract' opcodes:
-> 
->   - PSUBB (Parallel Subtract Byte)
->   - PSUBH (Parallel Subtract Halfword)
->   - PSUBW (Parallel Subtract Word)
+> Introduce the PEXTUW opcode (Parallel Extend Upper from Word).
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
-> v2: Uses tcg_gen_vec_sub{8,16,32}_i64 from tcg/tcg-op-gvec.h (rth)
 > ---
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
