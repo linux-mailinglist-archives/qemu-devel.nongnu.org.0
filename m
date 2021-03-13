@@ -2,101 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683C1339B0A
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 03:11:17 +0100 (CET)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961D5339C37
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 06:44:47 +0100 (CET)
+Received: from localhost ([::1]:45034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKtkI-0007Xt-F6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Mar 2021 21:11:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52192)
+	id 1lKx4v-0000lX-P9
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 00:44:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lKtiu-0006vv-Uj; Fri, 12 Mar 2021 21:09:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lKtit-0003Vw-0m; Fri, 12 Mar 2021 21:09:48 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12D25dgW104278; Fri, 12 Mar 2021 21:09:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=rQSVjN/zf+GXAq2Oq5w0NBL9a6IVAXo/himTbccAAdg=;
- b=oMEQx/JTOr92UE5NVG+TaZuGYtavw8XIRBrExz04AG4TuC4aR6HKYBo5Fcpzj4ETQIF+
- pEG6lqnG4stB44QpkX1MTS56w+Brk0ai/nnZL2EgTrc7lLU1Kh0R0Yb80Phu+GgLxcqz
- Tr2KyCaezztEuCTjri3I95a0LEdMnIuUQ/zMdHoyFQLQQNwHDphue8AdXxlwgaARAQx0
- DRT9wA54vMXD2LFP0mojwGYEOUdphZHRKVrlfRTywyeHLcu45d0/WSsq0SraZ7UocO8H
- +VT1cYunbMfhyTcGF4tOJVM7abiWCrkXnOuKd1mZZSEgNit21nvvbpCtMqzwekaaCceW DA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 378a33pyef-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Mar 2021 21:09:42 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12D26B8h109503;
- Fri, 12 Mar 2021 21:09:41 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 378a33pyd8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Mar 2021 21:09:41 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12D28Ar7026461;
- Sat, 13 Mar 2021 02:09:39 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 378gka84c7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 13 Mar 2021 02:09:39 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12D29aPr37093644
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 13 Mar 2021 02:09:36 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0224642041;
- Sat, 13 Mar 2021 02:09:36 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05A1C42047;
- Sat, 13 Mar 2021 02:09:35 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.44.135])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Sat, 13 Mar 2021 02:09:34 +0000 (GMT)
-Date: Sat, 13 Mar 2021 03:09:33 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH v3 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210313030933.7f89b7e5.pasic@linux.ibm.com>
-In-Reply-To: <YEd2SnQkdtfhI4dL@redhat.com>
-References: <20210302173544.3704179-1-pasic@linux.ibm.com>
- <20210305214603.GF3139005@habkost.net>
- <20210309124512.6goag5jblcje3umk@sirius.home.kraxel.org>
- <YEd2SnQkdtfhI4dL@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lKx47-00007u-07
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 00:43:55 -0500
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:44273)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lKx45-0001Fd-1u
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 00:43:54 -0500
+Received: by mail-il1-x12a.google.com with SMTP id v14so4571496ilj.11
+ for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 21:43:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FOjpHAJJGo3QMIfvvLBoI/JaB/vhp37rDik9SfSrb58=;
+ b=f73u9Ec53WZdJokRI+P3JnoD2SPdgp0i2PEvS8eDZzuskTYxNL7BpGHuXxDP+xXkvC
+ Sra7aPzYwITqYL22GRAeFJXcD6jFptguAQFqeMurV+WaArS24q9oh18znsw4f04WY675
+ duqoCulrDnV9AInisQablirURe6Hx6user7hK7ugU/a5PW43ZF9A6N/9k98cGkAgyGJr
+ ExN4aRTKiGqrwi9ZIqw47fy7fYlW9uou1RrgqJjqWa3HuqeqXwNxmQNbaarEZXDTyJIZ
+ br5ESyAZrSqpXtQgcu9t1aGVQBkEawLnOcLoE8TEXdZyYyeB8TlFsKqrkJjFo2SJDoAe
+ AZQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FOjpHAJJGo3QMIfvvLBoI/JaB/vhp37rDik9SfSrb58=;
+ b=aO0y8LKCaBsp+7Lj2dx6THUoxEHiogzxirQ6ptbQw4I59sr2bQT+zUlYilP06+bybH
+ PErvNUFMTZSWSwAXDwt+zzIB+KtWs4meMI8Z2lt9aaxzlrgqJDpcyBUAt+2AoQrgZ3/+
+ i+c4KdDWUlo0OrvD4iVsdCEWJhl2qoJCnqx1k2ofGXsFiH6REPa12hVV6ELy/EQlKfmh
+ g/5iRH7P4S2h6+5qxF02yhMjO2/GPfoVZObNw6UwjPJ5C1gaSYdXhC03nCAE5ByKl8qJ
+ CUAxDlwczhkFqGlwOSzcB5qExBicHHg36/cCnyQjeshIJrYvidFQi8/VosAGCraUolU8
+ HoIw==
+X-Gm-Message-State: AOAM531aid0Ydwk52ehxN18/MdOmZFMWFCT44pY/LMghOeNH+oE83M9n
+ YjBGPi6ce3njMBc5lOzkkOhpvlIcQ3Kee9siAX0tSaCiFqI=
+X-Google-Smtp-Source: ABdhPJy1bBiKigG9C4zP37J7gsYoRuM2U7J1jwGqaUjlamEDoyfCSDutvrF0rupBNtN0arZzwM+J4Yv/TxqK9MraMvM=
+X-Received: by 2002:a05:6e02:2:: with SMTP id h2mr4301992ilr.81.1615614231102; 
+ Fri, 12 Mar 2021 21:43:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-12_13:2021-03-12,
- 2021-03-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103130011
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
+ <2248579.lIZarMFqrv@silver>
+ <20210311125245.5127cd6d@bahia.lan> <2070220.8au7kWUZml@silver>
+In-Reply-To: <2070220.8au7kWUZml@silver>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Sat, 13 Mar 2021 07:43:38 +0200
+Message-ID: <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
+Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
+ QEMU_LOCK_GUARD
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="00000000000056c98005bd648055"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,54 +79,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?TWFyYy1B?= =?UTF-8?B?bmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Mar 2021 13:21:14 +0000
-Daniel P. Berrangé <berrange@redhat.com> wrote:
+--00000000000056c98005bd648055
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > Well, yes, in a non-modular world this will work perfectly fine.  We
-> > only compile objects actually supported into the system emulator.
-> > 
-> > With modular builds we have the situation that we have shared modules
-> > which may or may not work in specific system emulators, for example
-> > hw-display-virtio-gpu-pci.so or the ccw module added by this patch,
-> > because the given system emulator doesn't provide the needed support.
-> > We have some which don't support pci (avr for example).  Likewise ccw
-> > is supported by s390x only.  
-> 
-> We could solve this by having a different location for loading modules
-> for each target.
-> 
->   *  /usr/$LIB/qemu/
-> 
->     All the real .so's go in here as today
-> 
->   *  /usr/$LIB/qemu/$TARGET
-> 
->     Populated with symlinks to the .so's in the parent dir,
->     but /only/ those which are valid for this $TARGET
-> 
-> Then change QEMU  to load from the second dir.
+Thanks for the fast review. I asked on the QEMU IRC channel
+before committing whether to put all the changes into one patch
+or split them and was instructed that it was better to split them up.
+But in any case I was open to both ways and you can decide
+on the best way to go.
 
-I like the idea. I also prefer not trying to load a module X
-that we know is not supported with, and ain't going to work with
-target Y, over doing the load and making something fail afterwards.
+On Thu, Mar 11, 2021 at 1:59 PM Christian Schoenebeck <
+qemu_oss@crudebyte.com> wrote:
 
-I've not only started working on this, but I already have something
-kind of works. But I'm not quite satisfied with it. I will spend some
-more cycles before sending it out, but I doubt I will be able to get it
-in a 'looks nice' shape. Thanks you!
+> On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:
+> > On Thu, 11 Mar 2021 11:49:06 +0100
+> >
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour wrote:
+> > > > Replaced a call to qemu_mutex_lock and its respective call to
+> > > > qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their place.
+> > > > This simplifies the code by removing the call required to unlock
+> > > > and also eliminates goto paths.
+> > > >
+> > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> > > > ---
+> > > >
+> > > >  hw/9pfs/9p-synth.c | 12 ++++--------
+> > > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > > >
+> > > > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> > > > index 7eb210ffa8..473ef914b0 100644
+> > > > --- a/hw/9pfs/9p-synth.c
+> > > > +++ b/hw/9pfs/9p-synth.c
+> > > > @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent=
+,
+> int
+> > > > mode, if (!parent) {
+> > > >
+> > > >          parent =3D &synth_root;
+> > > >
+> > > >      }
+> > > >
+> > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > >
+> > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > >
+> > > >          if (!strcmp(tmp->name, name)) {
+> > > >
+> > > >              ret =3D EEXIST;
+> > > >
+> > > > -            goto err_out;
+> > > > +            return ret;
+> > > >
+> > > >          }
+> > > >
+> > > >      }
+> > > >      /* Add the name */
+> > > >
+> > > > @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent,
+> int
+> > > > mode, node->attr, node->attr->inode);
+> > > >
+> > > >      *result =3D node;
+> > > >      ret =3D 0;
+> > > >
+> > > > -err_out:
+> > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > >
+> > > >      return ret;
+> > > >
+> > > >  }
+> > > >
+> > > > @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
+> > > > *parent,
+> > > > int mode, parent =3D &synth_root;
+> > > >
+> > > >      }
+> > > >
+> > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > >
+> > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > >
+> > > >          if (!strcmp(tmp->name, name)) {
+> > > >
+> > > >              ret =3D EEXIST;
+> > > >
+> > > > -            goto err_out;
+> > > > +            return ret;
+> > > >
+> > > >          }
+> > > >
+> > > >      }
+> > > >      /* Add file type and remove write bits */
+> > > >
+> > > > @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
+> *parent,
+> > > > int
+> > > > mode, pstrcpy(node->name, sizeof(node->name), name);
+> > > >
+> > > >      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
+> > > >      ret =3D 0;
+> > > >
+> > > > -err_out:
+> > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > >
+> > > >      return ret;
+> > > >
+> > > >  }
+> > >
+> > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > >
+> > > Greg, I suggest I'll push this onto my queue as you seem to be busy.
+> >
+> > This cleanup spans over multiple subsystems but I think it makes more
+> > sense to keep all these patches together. Let's wait for everyone to
+> > ack/review and then we'll decide how to merge the patches.
+>
+> Sure, makes sense.
+>
+>
+>
+>
 
-Regards,
-Halil
+--00000000000056c98005bd648055
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Thanks for the fast review. I asked on th=
+e QEMU IRC channel=C2=A0</div><div dir=3D"ltr">before committing whether to=
+ put all the changes into one patch=C2=A0</div><div dir=3D"ltr">or split th=
+em and was instructed=C2=A0that it was better to split them up.=C2=A0</div>=
+<div>But in any case I was open to both ways and you can decide</div><div>o=
+n the best way to go.=C2=A0</div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 11, 2021 at 1:59 PM Christian =
+Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyt=
+e.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:<br>
+&gt; On Thu, 11 Mar 2021 11:49:06 +0100<br>
+&gt; <br>
+&gt; Christian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com" ta=
+rget=3D"_blank">qemu_oss@crudebyte.com</a>&gt; wrote:<br>
+&gt; &gt; On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour wr=
+ote:<br>
+&gt; &gt; &gt; Replaced a call to qemu_mutex_lock and its respective call t=
+o<br>
+&gt; &gt; &gt; qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their pl=
+ace.<br>
+&gt; &gt; &gt; This simplifies the code by removing the call required to un=
+lock<br>
+&gt; &gt; &gt; and also eliminates goto paths.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mand=
+ourr@gmail.com" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 hw/9pfs/9p-synth.c | 12 ++++--------<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 4 insertions(+), 8 deletions(-)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c<br>
+&gt; &gt; &gt; index 7eb210ffa8..473ef914b0 100644<br>
+&gt; &gt; &gt; --- a/hw/9pfs/9p-synth.c<br>
+&gt; &gt; &gt; +++ b/hw/9pfs/9p-synth.c<br>
+&gt; &gt; &gt; @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode =
+*parent, int<br>
+&gt; &gt; &gt; mode, if (!parent) {<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parent =3D &amp;synth_root=
+;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 qemu_mutex_lock(&amp;synth_mutex);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 QEMU_LOCK_GUARD(&amp;synth_mutex);<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 QLIST_FOREACH(tmp, &amp;parent-&gt;child=
+, sibling) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!strcmp(tmp-&gt;name, =
+name)) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D EEXI=
+ST;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err_out;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 /* Add the name */<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *p=
+arent, int<br>
+&gt; &gt; &gt; mode, node-&gt;attr, node-&gt;attr-&gt;inode);<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 *result =3D node;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 ret =3D 0;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -err_out:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 qemu_mutex_unlock(&amp;synth_mutex);<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt; &gt; &gt;=C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 }<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynth=
+Node<br>
+&gt; &gt; &gt; *parent,<br>
+&gt; &gt; &gt; int mode, parent =3D &amp;synth_root;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 qemu_mutex_lock(&amp;synth_mutex);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 QEMU_LOCK_GUARD(&amp;synth_mutex);<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 QLIST_FOREACH(tmp, &amp;parent-&gt;child=
+, sibling) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!strcmp(tmp-&gt;name, =
+name)) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D EEXI=
+ST;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err_out;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 /* Add file type and remove write bits *=
+/<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNo=
+de *parent,<br>
+&gt; &gt; &gt; int<br>
+&gt; &gt; &gt; mode, pstrcpy(node-&gt;name, sizeof(node-&gt;name), name);<b=
+r>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 QLIST_INSERT_HEAD_RCU(&amp;parent-&gt;ch=
+ild, node, sibling);<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 ret =3D 0;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -err_out:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 qemu_mutex_unlock(&amp;synth_mutex);<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt; &gt; &gt;=C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 }<br>
+&gt; &gt; <br>
+&gt; &gt; Reviewed-by: Christian Schoenebeck &lt;<a href=3D"mailto:qemu_oss=
+@crudebyte.com" target=3D"_blank">qemu_oss@crudebyte.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; Greg, I suggest I&#39;ll push this onto my queue as you seem to b=
+e busy.<br>
+&gt; <br>
+&gt; This cleanup spans over multiple subsystems but I think it makes more<=
+br>
+&gt; sense to keep all these patches together. Let&#39;s wait for everyone =
+to<br>
+&gt; ack/review and then we&#39;ll decide how to merge the patches.<br>
+<br>
+Sure, makes sense.<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000056c98005bd648055--
 
