@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CB8339DBC
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 12:20:45 +0100 (CET)
-Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65890339DEF
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 12:42:05 +0100 (CET)
+Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL2K4-0002Ii-CJ
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 06:20:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
+	id 1lL2ei-0007VV-FO
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 06:42:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL2J7-0001tm-6o
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 06:19:45 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56246)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lL2da-00070O-VO
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 06:40:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL2J5-00043w-Hr
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 06:19:44 -0500
-Received: by mail-wm1-x334.google.com with SMTP id 12so252868wmf.5
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 03:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bbgth++vJ8l04DOT5z3sbn1vpIxwEq1nsKeu6PCElrw=;
- b=SHfkWy4pyryOvyDLsTBo3RJvo8I9hUDY+hwz6dJthGmpAe6sLL+Cbo+Gn1w/tzCbvf
- x2roU7uO3x5qfLE/Z7vwWuzAf5XUKez/D+cIzQPLJYFXGNNIf2TxeLP2PZhRzGfhcV9P
- PBu5fgfjlZBt0D/a2h4sjv3ZFewsRH/ak3GFOT5WEf9GvDnVqWkgARsEeARVwIGGcQW+
- MlgczksEssLsVK0NMvayClQk1E76eg8GWdUr3RYBng253suKdUmeeLNaQNh4qTUcIMp+
- 70fXBTqbQlMiGg0aKV0XjoTd3BjX1bCb373C9y9APMRbDzixWWjJ++ascah2NZD08pJS
- 4ROg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bbgth++vJ8l04DOT5z3sbn1vpIxwEq1nsKeu6PCElrw=;
- b=Cl+nK+AgO2se4IIFXlE9MbsiEbPVIxapNetAgQrqGm5dWgVVkanokyi7aprfwV3h+h
- 79P9CH4L17TikRqnmw7/O+3SQb35tehleiNnOERk+GzyaOj9335zQ/p/RydfIBYVJRU+
- XoqR/kEXFTNu5Bpml+GAvBLvVwlpm2CmlnhLBHdgmcP+TUDk9EMAEDYAsf7PIFnwm3II
- No89vwqn1hCFK9AAmu+yba3N+AO8bfUuTDCz683KHq0MbfjuyDcjrUZoNqQG06z8lvzb
- 7ZjyxukNH1+Zgr29wazzEzOPsA/0XXgZ9Z/YhstYYtfKOhzFWUoV8QdEHMSRt9ifzB86
- QhQQ==
-X-Gm-Message-State: AOAM532Acs/OgZocDnYzbxWnZtnBEdq9PXz8l3WWk92acs2UAomuM6sG
- Y2uFI35UCJFf28SKOjsTpVI=
-X-Google-Smtp-Source: ABdhPJwfdBd5deAfvisEPJfT5JBT5exF9tE3iFw3ymc8Ugfpjq6iYXHAbUdVvmBb/vzg2qyOge9wAA==
-X-Received: by 2002:a7b:c195:: with SMTP id y21mr17325998wmi.178.1615634366000; 
- Sat, 13 Mar 2021 03:19:26 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id n186sm6012222wmn.22.2021.03.13.03.19.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 03:19:25 -0800 (PST)
-Subject: Re: gitlab outage?
-To: Brian Cain <bcain@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <SN6PR02MB4205EC1BAA236F9A8E34E605B86F9@SN6PR02MB4205.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <216b5cca-e599-a7cb-aca5-1595e644477d@amsat.org>
-Date: Sat, 13 Mar 2021 12:19:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lL2dY-0000Ea-Q1
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 06:40:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lL2dW-000298-Qd
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BDC172E80F9
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:40:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <SN6PR02MB4205EC1BAA236F9A8E34E605B86F9@SN6PR02MB4205.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 13 Mar 2021 11:33:50 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1919021@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <161563523046.3696.11429963652867797291.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1919021] [NEW] Confuse error message in
+ virtio_init_region_cache()
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: db12d6fbb64f010c2cdaca65b40ee91841effe64
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,27 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1919021 <1919021@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/13/21 12:59 AM, Brian Cain wrote:
-> https://gitlab.com/qemu-project/ <https://gitlab.com/qemu-project/> asks
-> for sign in and if I do sign in, I get a 404.  Is this expected?
+Public bug reported:
 
-Confirmed:
+The error message added in commit e45da653223 to virtio_init_region_cache()
+are somehow confuse:
 
-$ git clone https://gitlab.com/qemu-project/qemu.git
-Cloning into 'qemu'...
-Username for 'https://gitlab.com':
+  qemu-system-i386: Cannot map used
 
-Certainly not expected.
+It would be helpful to more explicit string, including "virtio" prefix.
 
-> https://status.gitlab.com/ <https://status.gitlab.com/> describes
-> “shared runner degradation” but that doesn’t sound like this problem.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Indeed.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1919021
+
+Title:
+  Confuse error message in virtio_init_region_cache()
+
+Status in QEMU:
+  New
+
+Bug description:
+  The error message added in commit e45da653223 to virtio_init_region_cache=
+()
+  are somehow confuse:
+
+    qemu-system-i386: Cannot map used
+
+  It would be helpful to more explicit string, including "virtio"
+  prefix.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1919021/+subscriptions
 
